@@ -7,11 +7,7 @@
 // you can change easings here
 // visit https://easings.net/ for more info
 // you may need to understand built in Math function
-function colorEasing(x) {
-    return x; // linear
-    // return 1 - Math.pow(1 - x, 3); // easeOutCubic
-    // return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; // easeInOutCubic
-}
+const colorEasing = (x) => x;
 
 function normalize(x, min, max) {
     return (x - min) / (max - min);

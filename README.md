@@ -4,9 +4,14 @@ This is just a compilation of my scripts for ChroMapper Error Checker plugin. It
 
 ## Note
 
-Some of the scripts may not be up to date with recent ChroMapper and Error Checker plugin. If one of the scripts is not working, you may fix it yourself or let me know regarding it to fix depending on priority.
+Some of the scripts may not be up to date with recent ChroMapper and Error Checker plugin. If one of the scripts is not working, let me know regarding it to fix depending on priority OR you may fix it yourself.
 
-Version I used to make the script:
+### Version I used to make the script:
 
 -   ChroMapper v0.7.419
 -   Error Checker v0.4.7.0
+
+## Credit
+
+-   [HSV conversion](https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c)
+-   [Lolighter](https://github.com/Loloppe/Lolighter)

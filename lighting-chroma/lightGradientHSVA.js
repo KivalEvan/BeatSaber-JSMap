@@ -22,20 +22,9 @@
 // you can change easings here
 // visit https://easings.net/ for more info
 // you may need to understand built in Math function
-function durationStepEasing(x) {
-    return x; // linear
-    // return 1 - Math.pow(1 - x, 3); // easeOutCubic
-    // return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; // easeInOutCubic
-}
-// colorStepEasing affects colorEasing, if you wish the colorEasing to not be affected, change the 'currentHSVA' assignment to
-// interpolateColor(startHSVA, endHSVA, colorEasing(normalize(lerp(0, length, colorStepEasing(normalize(itColorStep, 0, maxColorStep))), 0, length)));
-// dirty one liner
-function colorStepEasing(x) {
-    return x;
-}
-function colorEasing(x) {
-    return x;
-}
+const durationStepEasing = (x) => x;
+const colorStepEasing = (x) => x;
+const colorEasing = (x) => x;
 
 function normalize(x, min, max) {
     return max - min > 0 ? (x - min) / (max - min) : 0;
@@ -164,7 +153,17 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
                 const currentHSVA = interpolateColor(
                     startHSVA,
                     endHSVA,
-                    colorEasing(normalize(colorStepTime, 0, length))
+                    colorEasing(
+                        normalize(
+                            lerp(
+                                0,
+                                length,
+                                colorStepEasing(normalize(itColorStep, 0, maxColorStep))
+                            ),
+                            0,
+                            length
+                        )
+                    )
                 );
                 events.push({
                     _time: currentTime,
