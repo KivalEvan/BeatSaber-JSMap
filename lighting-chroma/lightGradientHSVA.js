@@ -1,3 +1,5 @@
+// script params is chonky, use this on windowed 4:3 reso
+
 // hue: [0-inf] => set color hue (0 -> red, 120 -> green, 240 -> blue, 360 -> red, ...)
 // saturation: [0-1] => color saturation
 // value: [any range] => color value (higher is brighter)
@@ -6,6 +8,7 @@
 // length: [0-inf] => duration for color gradient
 // step: [0-inf] => how many step should color gradient take
 // light off: [>0 to enable] => replace to off event at the end of step
+// off strobe: [>0 to enable] => place off event in between color step
 // invert: [>0 to enable] => start from endID to startID
 // idStart: [1-inf] => set startID (see prop event)
 // idEnd: [1-inf] => set endID
@@ -17,7 +20,6 @@
 // repeatOffset: [any range] => offset repeat placement time
 // fillStart: [>0 to enable] => fill the light from startID to endID
 // deleteLast: [>0 to enable] => delete the very last event (useful if you don't want overlap side effect)
-// dummy: [any range] => only purpose is so that run is visible from overlapping on playback
 
 // you can change easings here
 // visit https://easings.net/ for more info
@@ -83,17 +85,18 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
     const length = Math.abs(global.params[9]);
     const maxColorStep = Math.abs(global.params[10]);
     const lightOff = global.params[11] > 0;
-    const invert = global.params[12] > 0;
-    const idStart = Math.abs(global.params[13]);
-    const idEnd = Math.abs(global.params[14]);
-    const idLightCount = Math.abs(global.params[15]);
-    const idIgnore = global.params[16].toString();
-    const eventType = Math.abs(global.params[17]);
-    const eventColor = global.params[18] === 0 ? 5 : 1;
-    const maxRepeat = Math.abs(global.params[19]);
-    const repeatOffset = global.params[20];
-    const fillStart = global.params[21] > 0;
-    const deleteLast = global.params[22] > 0;
+    const offStrobe = global.params[12] > 0;
+    const invert = global.params[13] > 0;
+    const idStart = Math.abs(global.params[14]);
+    const idEnd = Math.abs(global.params[15]);
+    const idLightCount = Math.abs(global.params[16]);
+    const idIgnore = global.params[17].toString();
+    const eventType = Math.abs(global.params[18]);
+    const eventColor = global.params[19] === 0 ? 5 : 1;
+    const maxRepeat = Math.abs(global.params[20]);
+    const repeatOffset = global.params[21];
+    const fillStart = global.params[22] > 0;
+    const deleteLast = global.params[23] > 0;
 
     const lightID = [];
     const lightIDAll = [];
@@ -124,6 +127,9 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
                 durationStepEasing(normalize(itIdStep, 0, maxIdStep))
             );
             for (let itColorStep = 0; itColorStep <= maxColorStep; itColorStep++) {
+                if (offStrobe && lightOff && itColorStep === maxColorStep) {
+                    break;
+                }
                 if (deleteLast && itIdStep === maxIdStep && itColorStep === maxColorStep) {
                     continue;
                 }
@@ -174,6 +180,23 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
                         _lightID: fillStart && itColorStep === 0 ? lightIDAll : currentLightID,
                     },
                 });
+                if (offStrobe && itColorStep !== maxColorStep) {
+                    events.push({
+                        _time:
+                            currentTime -
+                            colorStepTime +
+                            lerp(
+                                0,
+                                length,
+                                colorStepEasing(normalize(itColorStep * 2 + 1, 0, maxColorStep * 2))
+                            ),
+                        _type: eventType,
+                        _value: 0,
+                        _customData: {
+                            _lightID: currentLightID,
+                        },
+                    });
+                }
             }
         }
     }
@@ -194,6 +217,7 @@ module.exports = {
         length: 1,
         step: 8,
         'light off': 0,
+        'off strobe': 0,
         invert: 0,
         idStart: 1,
         idEnd: 15,
@@ -205,7 +229,6 @@ module.exports = {
         repeatOffset: 0,
         fillStart: 0,
         deleteLast: 0,
-        dummy: 0,
     },
     run: light,
 };

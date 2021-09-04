@@ -10,7 +10,7 @@
 // idIgnore: [01234...] => ignore specific lightID in prop; '0' is disabled (if lightCount is 4, set 24 to ignore 2 and 4)
 // eventType: [valid type] => set event type (0 -> backtop, 1 -> ring, ...)
 // eventColor: [0,1] => set event value (0 -> red, 1 -> blue)
-// repeat: [0-inf] => repeat placement for every length + duration
+// repeat: [0-inf] => repeat placement for every duration
 // repeatOffset: [any range] => offset repeat placement time
 
 // you can change easings here
@@ -110,7 +110,7 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
             const currentHSVA = interpolateColor(
                 startHSVA,
                 endHSVA,
-                colorEasing(normalize(colorStepTime, 0, length))
+                colorEasing(normalize(itIdStep, 0, maxIdStep))
             );
             events.push({
                 _time: currentTime,
