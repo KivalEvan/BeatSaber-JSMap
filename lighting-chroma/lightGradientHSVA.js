@@ -13,6 +13,7 @@
 // idStart: [1-inf] => set startID (see prop event)
 // idEnd: [1-inf] => set endID
 // idLightCount: [1-inf] => how many lightID in single prop
+// idOffset: [any range] => offset by lightID (useful for case like Skrillex)
 // idIgnore: [01234...] => ignore specific lightID in prop; '0' is disabled (if lightCount is 4, set 24 to ignore 2 and 4)
 // eventType: [valid type] => set event type (0 -> backtop, 1 -> ring, ...)
 // eventColor: [0,1] => set event value (0 -> red, 1 -> blue)
@@ -67,7 +68,17 @@ function interpolateColor(hsvaStart, hsvaEnd, norm) {
     return HSVAtoRGBA(...hsvaStart.map((hsva, i) => lerp(hsva, hsvaEnd[i], norm)));
 }
 
-function light(cursor, notes, events, walls, _, global, data, customEvents, bpmChanges) {
+function light(
+    cursor,
+    notes,
+    events,
+    walls,
+    _,
+    global,
+    data,
+    customEvents,
+    bpmChanges
+) {
     const startHSVA = [
         Math.floor(global.params[0] / 360) + ((global.params[0] / 360) % 1),
         Math.min(Math.max(0, global.params[1]), 1),
@@ -90,25 +101,26 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
     const idStart = Math.abs(global.params[14]);
     const idEnd = Math.abs(global.params[15]);
     const idLightCount = Math.abs(global.params[16]);
-    const idIgnore = global.params[17].toString();
-    const eventType = Math.abs(global.params[18]);
-    const eventColor = global.params[19] === 0 ? 5 : 1;
-    const maxRepeat = Math.abs(global.params[20]);
-    const repeatOffset = global.params[21];
-    const fillStart = global.params[22] > 0;
-    const deleteLast = global.params[23] > 0;
+    const idOffset = Math.floor(global.params[17]);
+    const idIgnore = global.params[18].toString();
+    const eventType = Math.abs(global.params[19]);
+    const eventColor = global.params[20] === 0 ? 5 : 1;
+    const maxRepeat = Math.abs(global.params[21]);
+    const repeatOffset = global.params[22];
+    const fillStart = global.params[23] > 0;
+    const deleteLast = global.params[24] > 0;
 
     const lightID = [];
     const lightIDAll = [];
     for (let i = 1; i <= idLightCount; i++) {
         if (!idIgnore.includes(i.toString())) {
-            lightID.push(i);
+            lightID.push(i + idOffset);
         }
     }
     for (let i = idStart - 1; i < idEnd; i++) {
         for (let j = 1; j <= idLightCount; j++) {
             if (!idIgnore.includes(j.toString())) {
-                lightIDAll.push(i * idLightCount + j);
+                lightIDAll.push(i * idLightCount + j + idOffset);
             }
         }
     }
@@ -119,7 +131,10 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
         const repeatTime = (duration + length + repeatOffset) * itRepeat;
         for (let itIdStep = 0; itIdStep <= maxIdStep; itIdStep++) {
             const currentLightID = lightID.map(
-                (id) => id + (invert ? idEnd - itIdStep - 1 : itIdStep + idStart - 1) * idLightCount
+                (id) =>
+                    id +
+                    (invert ? idEnd - itIdStep - 1 : itIdStep + idStart - 1) *
+                        idLightCount
             );
             const idStepTime = lerp(
                 0,
@@ -130,7 +145,11 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
                 if (offStrobe && lightOff && itColorStep === maxColorStep) {
                     break;
                 }
-                if (deleteLast && itIdStep === maxIdStep && itColorStep === maxColorStep) {
+                if (
+                    deleteLast &&
+                    itIdStep === maxIdStep &&
+                    itColorStep === maxColorStep
+                ) {
                     continue;
                 }
                 if (fillStart && itIdStep > idStart && itColorStep === 0) {
@@ -151,7 +170,10 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
                         _type: eventType,
                         _value: 0,
                         _customData: {
-                            _lightID: fillStart && itColorStep === 0 ? lightIDAll : currentLightID,
+                            _lightID:
+                                fillStart && itColorStep === 0
+                                    ? lightIDAll
+                                    : currentLightID,
                         },
                     });
                     break;
@@ -177,7 +199,10 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
                     _value: eventColor,
                     _customData: {
                         _color: currentHSVA,
-                        _lightID: fillStart && itColorStep === 0 ? lightIDAll : currentLightID,
+                        _lightID:
+                            fillStart && itColorStep === 0
+                                ? lightIDAll
+                                : currentLightID,
                     },
                 });
                 if (offStrobe && itColorStep !== maxColorStep) {
@@ -188,7 +213,9 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
                             lerp(
                                 0,
                                 length,
-                                colorStepEasing(normalize(itColorStep * 2 + 1, 0, maxColorStep * 2))
+                                colorStepEasing(
+                                    normalize(itColorStep * 2 + 1, 0, maxColorStep * 2)
+                                )
                             ),
                         _type: eventType,
                         _value: 0,
@@ -222,6 +249,7 @@ module.exports = {
         idStart: 1,
         idEnd: 15,
         idLightCount: 4,
+        idOffset: 0,
         idIgnore: 0,
         eventType: 1,
         eventColor: 0,

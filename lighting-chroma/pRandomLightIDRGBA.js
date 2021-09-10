@@ -12,6 +12,12 @@
 // eventType: [valid type] => set event type (0 -> backtop, 1 -> ring, ...)
 // eventColor: [0,1] => set event value (0 -> red, 1 -> blue)
 
+// you can change easings here
+// visit https://easings.net/ for more info
+// you may need to understand built in Math function
+const colorStepEasing = (x) => x;
+const colorEasing = (x) => x;
+
 function normalize(x, min, max) {
     return (x - min) / (max - min);
 }
@@ -33,7 +39,17 @@ function shuffle(array) {
     }
 }
 
-function light(cursor, notes, events, walls, _, global, data, customEvents, bpmChanges) {
+function light(
+    cursor,
+    notes,
+    events,
+    walls,
+    _,
+    global,
+    data,
+    customEvents,
+    bpmChanges
+) {
     const startRGBA = [
         global.params[0],
         global.params[1],
@@ -109,8 +125,21 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
                 });
                 break;
             }
-            const normColor = normalize(colorStepTime, 0, length);
-            const currentRGBA = interpolateColor(startRGBA, endRGBA, normColor);
+            const currentRGBA = interpolateColor(
+                startRGBA,
+                endRGBA,
+                colorEasing(
+                    normalize(
+                        lerp(
+                            0,
+                            length,
+                            colorStepEasing(normalize(itColorStep, 0, maxColorStep))
+                        ),
+                        0,
+                        length
+                    )
+                )
+            );
             events.push({
                 _time: currentTime,
                 _type: eventType,
@@ -123,11 +152,14 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
             if (offStrobe && itColorStep !== maxColorStep) {
                 events.push({
                     _time:
-                        currentTime +
+                        currentTime -
+                        colorStepTime +
                         lerp(
                             0,
-                            length * 2,
-                            normalize(itColorStep * 2 + 1, 0, maxColorStep * 2)
+                            length,
+                            colorStepEasing(
+                                normalize(itColorStep * 2 + 1, 0, maxColorStep * 2)
+                            )
                         ),
                     _type: eventType,
                     _value: 0,
