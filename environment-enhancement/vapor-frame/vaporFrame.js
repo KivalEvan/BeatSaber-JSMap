@@ -10,12 +10,12 @@ const INPUT_FILE = 'DIFFICULTY_FILE_INPUT.dat';
 const OUTPUT_FILE = 'DIFFICULTY_FILE_OUTPUT.dat';
 
 // environment related
-const ringGap = 6; // how far between each gap of road
+const ringGap = 8; // how far between each gap of road
 const ringCount = 5; // DO NOT CHANGE IF YOU'VE ALREADY SET LIGHTSHOW FOR THIS WITH PROPS
 const ringRepeat = 2; // same as above
 
-const scaleSizeMult = 0.6875;
-const posOffset = [0, 1.5, 16];
+const scaleSizeMult = 0.875;
+const posOffset = [0, 2, 12];
 
 // beyond you're on your own
 const ENVIRONMENT_PREFIX = 'BigMirrorEnvironment'; // shouldnt be touched, also set env to bigmirror if not
@@ -51,11 +51,6 @@ const posMirrorX = (posArr) => {
 const posMirrorY = (posArr) => {
     let arr = [...posArr];
     arr[1] = -arr[1];
-    return arr;
-};
-const posMirrorZ = (posArr) => {
-    let arr = [...posArr];
-    arr[2] = -arr[2];
     return arr;
 };
 const translatePos = (posArr, translate = [0, 0, 0]) => {
@@ -180,27 +175,27 @@ _environment.push(
     {
         _id: `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights$`,
         _lookupMethod: 'Regex',
-        _position: translatePos([0, 0, -16], posOffset),
+        _position: translatePos([0, 0, 0 - posOffset[2]], posOffset),
     },
     {
         _id: `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights$`,
         _lookupMethod: 'Regex',
         _duplicate: 1,
         _rotation: [180, 180, 0],
-        _position: translatePos([0, 0, -16], posOffset),
+        _position: translatePos([0, 0, 0 - posOffset[2]], posOffset),
     },
     {
         _id: `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights$`,
         _lookupMethod: 'Regex',
         _duplicate: 1,
-        _position: translatePos([0, 0, 64], posOffset),
+        _position: translatePos([0, 0, 64 - posOffset[2]], posOffset),
     },
     {
         _id: `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights$`,
         _lookupMethod: 'Regex',
         _duplicate: 1,
         _rotation: [180, 180, 0],
-        _position: translatePos([0, 0, 64], posOffset),
+        _position: translatePos([0, 0, 64 - posOffset[2]], posOffset),
     }
 );
 _environment.push(
@@ -321,7 +316,7 @@ _environment.push(
 );
 //#endregion
 //#region static ring
-const ringPos = scaleArray([4.375, 7, -0.125], scaleSizeMult);
+const ringPos = scaleArray([4.125, 7, -0.125], scaleSizeMult);
 const ringScale = scaleArray([1, 1, 1], scaleSizeMult);
 const outerRingPos = scaleArray([-0.109375, 11.6875, 0], scaleSizeMult);
 const outerRingScale = scaleArray([1, 4, 1], scaleSizeMult);
@@ -428,7 +423,7 @@ _environment.push({
 });
 //#endregion
 //#region replace with chad backtop thing
-const backTopFarPos = [3.5, 8.25, ringCount * ringGap * ringRepeat + 20];
+const backTopFarPos = [3.5, 8.25, ringCount * ringGap + ringGap / 1.35];
 for (let i = 0; i < 5; i++) {
     _environment.push(
         {
@@ -441,11 +436,11 @@ for (let i = 0; i < 5; i++) {
                     translatePos(posMirrorX(backTopFarPos), [
                         -i * 1.625,
                         -i * 1.625,
-                        i / 4,
+                        0,
                     ]),
                     scaleSizeMult
                 ),
-                posOffset
+                translatePos(posOffset, [0, 0, i * ringGap])
             ),
             _rotation: [12 - i * 8, 180, 348 - i * 8],
         },
@@ -456,10 +451,10 @@ for (let i = 0; i < 5; i++) {
             _lookupMethod: 'Regex',
             _position: translatePos(
                 scaleArray(
-                    translatePos(backTopFarPos, [i * 1.625, -i * 1.625, i / 4]),
+                    translatePos(backTopFarPos, [i * 1.625, -i * 1.625, 0]),
                     scaleSizeMult
                 ),
-                posOffset
+                translatePos(posOffset, [0, 0, i * ringGap])
             ),
             _rotation: [12 - i * 8, 180, 12 + i * 8],
         }
@@ -476,11 +471,11 @@ for (let i = 0; i < 5; i++) {
                     translatePos(posMirrorX(posMirrorY(backTopFarPos)), [
                         -i * 1.625,
                         i * 1.625,
-                        i / 4,
+                        0,
                     ]),
                     scaleSizeMult
                 ),
-                posOffset
+                translatePos(posOffset, [0, 0, i * ringGap])
             ),
             _rotation: [12 - i * 8, 0, 168 - i * 8],
         },
@@ -490,14 +485,10 @@ for (let i = 0; i < 5; i++) {
             _duplicate: 1,
             _position: translatePos(
                 scaleArray(
-                    translatePos(posMirrorY(backTopFarPos), [
-                        i * 1.625,
-                        i * 1.625,
-                        i / 4,
-                    ]),
+                    translatePos(posMirrorY(backTopFarPos), [i * 1.625, i * 1.625, 0]),
                     scaleSizeMult
                 ),
-                posOffset
+                translatePos(posOffset, [0, 0, i * ringGap])
             ),
             _rotation: [12 - i * 8, 0, 192 + i * 8],
         }

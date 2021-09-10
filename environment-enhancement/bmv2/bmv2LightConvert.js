@@ -14,7 +14,7 @@ const BPM = 128; // set accordingly for proper fade timing
 const fadeTimeSecond = 3; // how long it takes till fade out completely
 const fadePrecision = 16; // use lower precision for less bloat; higher for better smoothing and response
 const flashBrightness = 1.12; // this is alpha value; set at least 1 value
-const fadeEasing = (x) => 1 - Math.pow(1 - x, 3); // easeOutCubic
+const fadeEasing = (x) => 1 - Math.pow(1 - x, 4); // easeOutCubic
 
 // default color (for no chroma)
 const defaultLeftLight = [0.85, 0.08499997, 0.08499997];
@@ -453,6 +453,7 @@ for (let type = 0; type < 16; type++) {
 }
 
 difficulty._events = newerEvents;
+console.log('event count:', newerEvents.length);
 //#endregion
 
 // save file
