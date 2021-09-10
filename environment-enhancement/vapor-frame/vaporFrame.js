@@ -113,8 +113,8 @@ const centerLightScale = [2, 4, 2];
 const rightCenterLightPos = scaleArray([11.5, 2, -255], scaleSizeMult);
 const topCenterLightPos = scaleArray([2, 11.5, -255], scaleSizeMult);
 const bigStuffScale = [4, 4, 4];
-const rightBigStuffPos = scaleArray([11.375, 0, -255], scaleSizeMult);
-const topBigStuffPos = scaleArray([0, 11.375, -255], scaleSizeMult);
+const rightBigStuffPos = scaleArray([11.5, 0, -255], scaleSizeMult);
+const topBigStuffPos = scaleArray([0, 11.5, -255], scaleSizeMult);
 _environment.push(
     {
         _id: `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]NeonTubeDirectionalL$`,
@@ -205,7 +205,7 @@ _environment.push(
         _duplicate: 1,
         _scale: bigStuffScale,
         _position: translatePos(
-            translatePos(posMirrorX(rightBigStuffPos), [0, 2.25 * scaleSizeMult, 0]),
+            translatePos(posMirrorX(rightBigStuffPos), [0, 2.21875 * scaleSizeMult, 0]),
             posOffset
         ),
     },
@@ -222,7 +222,11 @@ _environment.push(
         _duplicate: 1,
         _scale: bigStuffScale,
         _position: translatePos(
-            translatePos(posMirrorX(rightBigStuffPos), [0, -2.25 * scaleSizeMult, 0]),
+            translatePos(posMirrorX(rightBigStuffPos), [
+                0,
+                -2.21875 * scaleSizeMult,
+                0,
+            ]),
             posOffset
         ),
     }
@@ -234,7 +238,7 @@ _environment.push(
         _duplicate: 1,
         _scale: bigStuffScale,
         _position: translatePos(
-            translatePos(rightBigStuffPos, [0, 2.25 * scaleSizeMult, 0]),
+            translatePos(rightBigStuffPos, [0, 2.21875 * scaleSizeMult, 0]),
             posOffset
         ),
     },
@@ -251,7 +255,7 @@ _environment.push(
         _duplicate: 1,
         _scale: bigStuffScale,
         _position: translatePos(
-            translatePos(rightBigStuffPos, [0, -2.25 * scaleSizeMult, 0]),
+            translatePos(rightBigStuffPos, [0, -2.21875 * scaleSizeMult, 0]),
             posOffset
         ),
     }
@@ -263,7 +267,7 @@ _environment.push(
         _duplicate: 1,
         _scale: bigStuffScale,
         _position: translatePos(
-            translatePos(topBigStuffPos, [2.25 * scaleSizeMult, 0, 0]),
+            translatePos(topBigStuffPos, [2.21875 * scaleSizeMult, 0, 0]),
             posOffset
         ),
     },
@@ -280,7 +284,7 @@ _environment.push(
         _duplicate: 1,
         _scale: bigStuffScale,
         _position: translatePos(
-            translatePos(topBigStuffPos, [-2.25 * scaleSizeMult, 0, 0]),
+            translatePos(topBigStuffPos, [-2.21875 * scaleSizeMult, 0, 0]),
             posOffset
         ),
     }
@@ -292,7 +296,7 @@ _environment.push(
         _duplicate: 1,
         _scale: bigStuffScale,
         _position: translatePos(
-            translatePos(posMirrorY(topBigStuffPos), [2.25 * scaleSizeMult, 0, 0]),
+            translatePos(posMirrorY(topBigStuffPos), [2.21875 * scaleSizeMult, 0, 0]),
             posOffset
         ),
     },
@@ -309,14 +313,14 @@ _environment.push(
         _duplicate: 1,
         _scale: bigStuffScale,
         _position: translatePos(
-            translatePos(posMirrorY(topBigStuffPos), [-2.25 * scaleSizeMult, 0, 0]),
+            translatePos(posMirrorY(topBigStuffPos), [-2.21875 * scaleSizeMult, 0, 0]),
             posOffset
         ),
     }
 );
 //#endregion
 //#region static ring
-const ringPos = scaleArray([4.125, 7, -0.125], scaleSizeMult);
+const ringPos = scaleArray([4.1875, 7, -0.125], scaleSizeMult);
 const ringScale = scaleArray([1, 1, 1], scaleSizeMult);
 const outerRingPos = scaleArray([-0.109375, 11.6875, 0], scaleSizeMult);
 const outerRingScale = scaleArray([1, 4, 1], scaleSizeMult);
