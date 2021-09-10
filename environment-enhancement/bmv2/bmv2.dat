@@ -1,0 +1,842 @@
+{
+    "_environment": [{
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.(\\[\\d+\\]Spectrogram(s|\\.|\\d)?)+$",
+            "_lookupMethod": "Regex",
+            "_active": false
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]Floor(\\.\\[\\d+\\]FloorSetDepth)?$",
+            "_lookupMethod": "Regex",
+            "_active": false
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]Construction$",
+            "_lookupMethod": "Regex",
+            "_position": [0, -1.25, -10]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]NearBuilding(Left|Right)$",
+            "_lookupMethod": "Regex",
+            "_active": false
+        }, {
+            "_id": "^GameCore\\.\\[\\d+\\]BigTrackLaneRing\\(Clone\\)\\.\\[\\d+\\]NeonTubeBothSidesDirectional(.?\\(\\d+\\))?$",
+            "_lookupMethod": "Regex",
+            "_scale": [1, 2, 1]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 8],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 8],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 12],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 12],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 16],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 16],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 20],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 20],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 24],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 24],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 28],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 28],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 32],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 32],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 36],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 36],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 40],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 40],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 44],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 44],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 48],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 48],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 52],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 52],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 56],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 56],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 60],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 60],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 64],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 64],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 68],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 68],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 72],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 72],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 76],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 76],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 80],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 80],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [-1.125, -2.8906, 84],
+            "_rotation": [0, 0, -75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.4375, 0.4375, 0.4375],
+            "_position": [1.125, -2.8906, 84],
+            "_rotation": [0, 0, 75]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 8],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 8],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 12],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 12],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 16],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 16],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 20],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 20],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 24],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 24],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 28],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 28],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 32],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 32],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 36],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 36],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 40],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 40],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 44],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 44],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 48],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 48],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 52],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 52],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 56],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 56],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 60],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 60],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 64],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 64],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 68],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 68],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 72],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 72],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 76],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 76],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 80],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 80],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [-3.5625, -2.25, 84],
+            "_rotation": [0, 0, -120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]FrontLights.\\[0\\]NeonTube$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.2656, 0.5],
+            "_position": [3.5625, -2.25, 84],
+            "_rotation": [0, 0, 120]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]NeonTubeDirectionalL$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [2, 4, 2],
+            "_position": [-2.875, -3.2937, -255]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]NeonTubeDirectionalR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [2, 4, 2],
+            "_position": [2.875, -3.2937, -255]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]NeonTubeDirectionalL$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [2.5, 4, 2.5],
+            "_position": [-1.125, -2.8437, -255]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]NeonTubeDirectionalR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [2.5, 4, 2.5],
+            "_position": [1.125, -2.8437, -255]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]NeonTubeDirectionalL$",
+            "_lookupMethod": "Regex",
+            "_scale": [2.5, 4, 2.5],
+            "_position": [-3.5, -2.2187, -255]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]NeonTubeDirectionalR$",
+            "_lookupMethod": "Regex",
+            "_scale": [2.5, 4, 2.5],
+            "_position": [3.5, -2.2187, -255]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]NeonTubeDirectionalFL$",
+            "_lookupMethod": "Regex",
+            "_scale": [2, 1, 2],
+            "_position": [-4.4375, -1.625, 0]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]NeonTubeDirectionalFR$",
+            "_lookupMethod": "Regex",
+            "_scale": [2, 1, 2],
+            "_position": [4.4375, -1.625, 0]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser(.?\\(\\d+\\))?.\\[\\d+\\](BottomBoxLight|BottomBakedBloom)$",
+            "_lookupMethod": "Regex",
+            "_active": false
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [1.5, 1, 1.5],
+            "_position": [-2.9062, -3.3125, 96],
+            "_rotation": [60, 0, 195]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [1.5, 1, 1.5],
+            "_position": [2.9063, -3.3125, 96],
+            "_rotation": [60, 0, 165]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [1.5, 1, 1.5],
+            "_position": [-2.9062, -3.3125, 112],
+            "_rotation": [55, 0, 201]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [1.5, 1, 1.5],
+            "_position": [2.9063, -3.3125, 112],
+            "_rotation": [55, 0, 159]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [1.5, 1, 1.5],
+            "_position": [-2.9062, -3.3125, 128],
+            "_rotation": [50, 0, 207]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [1.5, 1, 1.5],
+            "_position": [2.9063, -3.3125, 128],
+            "_rotation": [50, 0, 153]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [1.5, 1, 1.5],
+            "_position": [-2.9062, -3.3125, 144],
+            "_rotation": [45, 0, 213]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [1.5, 1, 1.5],
+            "_position": [2.9063, -3.3125, 144],
+            "_rotation": [45, 0, 147]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [1.5, 1, 1.5],
+            "_position": [-2.9062, -3.3125, 160],
+            "_rotation": [40, 0, 219]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [1.5, 1, 1.5],
+            "_position": [2.9063, -3.3125, 160],
+            "_rotation": [40, 0, 141]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [-6.625, -1.625, 16],
+            "_rotation": [5, 0, 330]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [-6.625, -3.625, 16],
+            "_rotation": [-5, 0, 210]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [6.625, -3.625, 16],
+            "_rotation": [-5, 0, 150]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [6.625, -1.625, 16],
+            "_rotation": [5, 0, 30]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [-6.625, -1.625, 20],
+            "_rotation": [6, 0, 340]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [-6.625, -3.625, 20],
+            "_rotation": [-6, 0, 200]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [6.625, -3.625, 20],
+            "_rotation": [-6, 0, 160]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [6.625, -1.625, 20],
+            "_rotation": [6, 0, 20]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [-6.625, -1.625, 24],
+            "_rotation": [7, 0, 350]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [-6.625, -3.625, 24],
+            "_rotation": [-7, 0, 190]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [6.625, -3.625, 24],
+            "_rotation": [-7, 0, 170]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [6.625, -1.625, 24],
+            "_rotation": [7, 0, 10]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [-6.625, -1.625, 28],
+            "_rotation": [8, 0, 360]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [-6.625, -3.625, 28],
+            "_rotation": [-8, 0, 180]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [6.625, -3.625, 28],
+            "_rotation": [-8, 0, 180]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [6.625, -1.625, 28],
+            "_rotation": [8, 0, 0]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [-6.625, -1.625, 32],
+            "_rotation": [9, 0, 370]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [-6.625, -3.625, 32],
+            "_rotation": [-9, 0, 170]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [6.625, -3.625, 32],
+            "_rotation": [-9, 0, 190]
+        }, {
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_scale": [0.5, 0.5, 0.5],
+            "_position": [6.625, -1.625, 32],
+            "_rotation": [9, 0, -10]
+        }
+    ]
+}
