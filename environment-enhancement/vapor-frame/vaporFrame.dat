@@ -20,10 +20,6 @@
             "_lookupMethod": "Regex",
             "_active": false
         }, {
-            "_id": "^GameCore\\.\\[\\d+\\]SmallTrackLaneRing\\(Clone\\)$",
-            "_lookupMethod": "Regex",
-            "_active": false
-        }, {
             "_id": "^GameCore\\.\\[\\d+\\]BigTrackLaneRing\\(Clone\\)\\.\\[\\d+\\]NeonTubeBothSidesDirectional(.?\\(\\d+\\))?$",
             "_lookupMethod": "Regex",
             "_scale": [1, 2, 1]
@@ -727,7 +723,7 @@
             "_position": [-0.0957, -8.2266, 84],
             "_rotation": [0, 0, 135]
         }, {
-            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser(R|L)(.?\\(\\d+\\))?.\\[\\d+\\](BottomBoxLight|BottomBakedBloom)$",
+            "_id": "^BigMirrorEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]DoubleColorLaser(.?\\(\\d+\\))?.\\[\\d+\\](BottomBoxLight|BottomBakedBloom)$",
             "_lookupMethod": "Regex",
             "_active": false
         }, {
@@ -842,3 +838,4 @@
             "_rotation": [-20, 0, 224]
         }
     ]
+}

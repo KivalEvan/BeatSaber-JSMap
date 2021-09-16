@@ -1,4 +1,4 @@
-// script params is chonky, use this on windowed 4:3 reso
+// script params is chonky, use this on windowed 4:3 reso or start mapping in portrait mode
 
 // hue: [0-inf] => set color hue (0 -> red, 120 -> green, 240 -> blue, 360 -> red, ...)
 // saturation: [0-1] => color saturation
@@ -65,7 +65,7 @@ function HSVAtoRGBA(hue, saturation, value, alpha) {
     return [r, g, b, alpha];
 }
 function interpolateColor(hsvaStart, hsvaEnd, norm) {
-    return HSVAtoRGBA(...hsvaStart.map((hsva, i) => lerp(hsva, hsvaEnd[i], norm)));
+    return hsvaStart.map((hsva, i) => lerp(hsva, hsvaEnd[i], norm));
 }
 
 function light(
@@ -107,8 +107,18 @@ function light(
     const eventColor = global.params[20] === 0 ? 5 : 1;
     const maxRepeat = Math.abs(global.params[21]);
     const repeatOffset = global.params[22];
-    const fillStart = global.params[23] > 0;
-    const deleteLast = global.params[24] > 0;
+    const repeatShiftHue =
+        Math.floor(global.params[23] / 360) + ((global.params[23] / 360) % 1);
+    const fillStart = global.params[24] > 0;
+    const deleteLast = global.params[25] > 0;
+    const flickerMode = global.params[26] > 0;
+    const flickerStrength = Math.abs(global.params[27]);
+    const flickerCoverage = Math.abs(global.params[28] / 100);
+    const flickerInvert = global.params[29] > 0;
+    const noiseMode = global.params[30] > 0;
+    const noiseIntensity = Math.abs(global.params[31] / 100);
+    const noiseSaturation = Math.abs(global.params[32] / 100);
+    const noiseCoverage = Math.abs(global.params[33] / 100);
 
     const lightID = [];
     const lightIDAll = [];
@@ -142,7 +152,12 @@ function light(
                 durationStepEasing(normalize(itIdStep, 0, maxIdStep))
             );
             for (let itColorStep = 0; itColorStep <= maxColorStep; itColorStep++) {
-                if (offStrobe && lightOff && itColorStep === maxColorStep) {
+                if (
+                    !flickerMode &&
+                    offStrobe &&
+                    lightOff &&
+                    itColorStep === maxColorStep
+                ) {
                     break;
                 }
                 if (
@@ -193,39 +208,90 @@ function light(
                         )
                     )
                 );
+                if (noiseMode && Math.random() < noiseCoverage) {
+                    currentHSVA[0] += Math.random() * noiseSaturation;
+                    currentHSVA[1] = Math.max(
+                        Math.min(
+                            currentHSVA[1] + (-0.5 + Math.random()) * noiseSaturation,
+                            1
+                        ),
+                        0
+                    );
+                    currentHSVA[2] = Math.max(
+                        currentHSVA[2] + (-0.5 + Math.random()) * noiseIntensity,
+                        0
+                    );
+                }
                 events.push({
                     _time: currentTime,
                     _type: eventType,
                     _value: eventColor,
                     _customData: {
-                        _color: currentHSVA,
+                        _color: HSVAtoRGBA(...currentHSVA),
                         _lightID:
                             fillStart && itColorStep === 0
                                 ? lightIDAll
                                 : currentLightID,
                     },
                 });
-                if (offStrobe && itColorStep !== maxColorStep) {
-                    events.push({
-                        _time:
-                            currentTime -
-                            colorStepTime +
-                            lerp(
-                                0,
-                                length,
-                                colorStepEasing(
-                                    normalize(itColorStep * 2 + 1, 0, maxColorStep * 2)
-                                )
-                            ),
-                        _type: eventType,
-                        _value: 0,
-                        _customData: {
-                            _lightID: currentLightID,
-                        },
-                    });
+                if (!flickerMode && offStrobe && itColorStep !== maxColorStep) {
+                    const isFlicker = Math.random() < flickerStrength;
+                    if (isFlicker && flickerCoverage > itColorStep / maxColorStep) {
+                        events.push({
+                            _time:
+                                currentTime -
+                                colorStepTime +
+                                lerp(
+                                    0,
+                                    length,
+                                    colorStepEasing(
+                                        normalize(
+                                            itColorStep * 2 + 1,
+                                            0,
+                                            maxColorStep * 2
+                                        )
+                                    )
+                                ),
+                            _type: eventType,
+                            _value: 0,
+                            _customData: {
+                                _lightID: currentLightID,
+                            },
+                        });
+                    }
+                }
+                if (flickerMode && offStrobe && itColorStep !== maxColorStep) {
+                    const isFlicker = flickerInvert
+                        ? Math.random() * flickerStrength > itColorStep / maxColorStep
+                        : Math.random() * flickerStrength < itColorStep / maxColorStep;
+                    if (isFlicker && flickerCoverage > itColorStep / maxColorStep) {
+                        events.push({
+                            _time:
+                                currentTime -
+                                colorStepTime +
+                                lerp(
+                                    0,
+                                    length,
+                                    colorStepEasing(
+                                        normalize(
+                                            itColorStep * 2 + 1,
+                                            0,
+                                            maxColorStep * 2
+                                        )
+                                    )
+                                ),
+                            _type: eventType,
+                            _value: 0,
+                            _customData: {
+                                _lightID: currentLightID,
+                            },
+                        });
+                    }
                 }
             }
         }
+        startHSVA[0] += repeatShiftHue;
+        endHSVA[0] += repeatShiftHue;
     }
 }
 
@@ -255,8 +321,17 @@ module.exports = {
         eventColor: 0,
         repeat: 0,
         repeatOffset: 0,
+        repeatShiftHue: 0,
         fillStart: 0,
         deleteLast: 0,
+        flickerMode: 0,
+        flickerStrength: 1,
+        flickerCoverage: 100,
+        flickerInvert: 0,
+        noiseMode: 0,
+        noiseIntensity: 64,
+        noiseSaturation: 100,
+        noiseCoverage: 100,
     },
     run: light,
 };

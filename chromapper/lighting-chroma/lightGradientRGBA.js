@@ -1,4 +1,4 @@
-// script params is chonky, use this on windowed 4:3 reso
+// script params is chonky, use this on windowed 4:3 reso or start mapping in portrait mode
 
 // rgba: [any range] => set color RGBA
 // duration: [0-inf] => duration from startID to endID
@@ -81,6 +81,14 @@ function light(
     const repeatOffset = global.params[22];
     const fillStart = global.params[23] > 0;
     const deleteLast = global.params[24] > 0;
+    const flickerMode = global.params[25] > 0;
+    const flickerStrength = Math.abs(global.params[26]);
+    const flickerCoverage = Math.abs(global.params[27] / 100);
+    const flickerInvert = global.params[28] > 0;
+    const noiseMode = global.params[29] > 0;
+    const noiseIntensity = Math.abs(global.params[30] / 100);
+    const noiseSaturation = Math.abs(global.params[31] / 100);
+    const noiseCoverage = Math.abs(global.params[32] / 100);
 
     const lightID = [];
     const lightIDAll = [];
@@ -165,6 +173,18 @@ function light(
                         )
                     )
                 );
+                if (noiseMode && Math.random() < noiseCoverage) {
+                    for (let c = 0; c < 3; c++) {
+                        currentRGBA[c] = Math.max(
+                            (currentRGBA[c] +
+                                (-0.5 + Math.random()) *
+                                    noiseSaturation *
+                                    noiseIntensity) *
+                                ((-0.5 + Math.random()) * noiseIntensity),
+                            0
+                        );
+                    }
+                }
                 events.push({
                     _time: currentTime,
                     _type: eventType,
@@ -177,24 +197,59 @@ function light(
                                 : currentLightID,
                     },
                 });
-                if (offStrobe && itColorStep !== maxColorStep) {
-                    events.push({
-                        _time:
-                            currentTime -
-                            colorStepTime +
-                            lerp(
-                                0,
-                                length,
-                                colorStepEasing(
-                                    normalize(itColorStep * 2 + 1, 0, maxColorStep * 2)
-                                )
-                            ),
-                        _type: eventType,
-                        _value: 0,
-                        _customData: {
-                            _lightID: currentLightID,
-                        },
-                    });
+                if (!flickerMode && offStrobe && itColorStep !== maxColorStep) {
+                    const isFlicker = Math.random() < flickerStrength;
+                    if (isFlicker && flickerCoverage > itColorStep / maxColorStep) {
+                        events.push({
+                            _time:
+                                currentTime -
+                                colorStepTime +
+                                lerp(
+                                    0,
+                                    length,
+                                    colorStepEasing(
+                                        normalize(
+                                            itColorStep * 2 + 1,
+                                            0,
+                                            maxColorStep * 2
+                                        )
+                                    )
+                                ),
+                            _type: eventType,
+                            _value: 0,
+                            _customData: {
+                                _lightID: currentLightID,
+                            },
+                        });
+                    }
+                }
+                if (flickerMode && offStrobe && itColorStep !== maxColorStep) {
+                    const isFlicker = flickerInvert
+                        ? Math.random() * flickerStrength > itColorStep / maxColorStep
+                        : Math.random() * flickerStrength < itColorStep / maxColorStep;
+                    if (isFlicker && flickerCoverage > itColorStep / maxColorStep) {
+                        events.push({
+                            _time:
+                                currentTime -
+                                colorStepTime +
+                                lerp(
+                                    0,
+                                    length,
+                                    colorStepEasing(
+                                        normalize(
+                                            itColorStep * 2 + 1,
+                                            0,
+                                            maxColorStep * 2
+                                        )
+                                    )
+                                ),
+                            _type: eventType,
+                            _value: 0,
+                            _customData: {
+                                _lightID: currentLightID,
+                            },
+                        });
+                    }
                 }
             }
         }
@@ -229,6 +284,14 @@ module.exports = {
         repeatOffset: 0,
         fillStart: 0,
         deleteLast: 0,
+        flickerMode: 0,
+        flickerStrength: 1,
+        flickerCoverage: 100,
+        flickerInvert: 0,
+        noiseMode: 0,
+        noiseIntensity: 64,
+        noiseSaturation: 100,
+        noiseCoverage: 100,
     },
     run: light,
 };
