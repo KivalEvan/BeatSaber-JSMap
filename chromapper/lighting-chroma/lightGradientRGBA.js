@@ -1,4 +1,7 @@
 // script params is chonky, use this on windowed 4:3 reso or start mapping in portrait mode
+// if u still want to use this script but dont want to scale reso, remove the last 8 params in module.exports
+
+// require _easings.js
 
 // rgba: [any range] => set color RGBA
 // duration: [0-inf] => duration from startID to endID
@@ -19,12 +22,7 @@
 // fillStart: [>0 to enable] => fill the light from startID to endID
 // deleteLast: [>0 to enable] => delete the very last event (useful if you don't want overlap side effect)
 
-// you can change easings here
-// visit https://easings.net/ for more info
-// you may need to understand built in Math function
-const durationStepEasing = (x) => x;
-const colorStepEasing = (x) => x;
-const colorEasing = (x) => x;
+const Easings = require('./_easings.js');
 
 function normalize(x, min, max) {
     return max - min > 0 ? (x - min) / (max - min) : 0;
@@ -40,6 +38,33 @@ function interpolateColor(colorStart, colorEnd, norm) {
     });
 }
 
+const parseRGBA = (rgba) => {
+    rgba = rgba.split(',').map((el) => parseFloat(el));
+    if (rgba.length > 2) {
+        if (rgba.length === 3) {
+            rgba.push(1);
+        }
+    } else {
+        return null;
+    }
+    return rgba;
+};
+
+const eventTypeEnum = {
+    'Ring Light': 1,
+    Backtop: 0,
+    'L Laser': 2,
+    'R Laser': 3,
+    Center: 4,
+    'XL Laser': 6,
+    'XR Laser': 7,
+};
+
+const eventColorEnum = {
+    Red: 1,
+    Blue: 5,
+};
+
 function light(
     cursor,
     notes,
@@ -51,44 +76,68 @@ function light(
     customEvents,
     bpmChanges
 ) {
-    const startRGBA = [
-        global.params[0],
-        global.params[1],
-        global.params[2],
-        global.params[3],
-    ];
-    const endRGBA = [
-        global.params[4],
-        global.params[5],
-        global.params[6],
-        global.params[7],
-    ];
+    // event type and color
+    const eventType = eventTypeEnum[global.params[0]];
+    const eventColor = eventColorEnum[global.params[1]];
+
+    // chroma color
+    const startRGBA = parseRGBA(global.params[2]);
+    const endRGBA = parseRGBA(global.params[3]);
+    if (!startRGBA || !endRGBA) {
+        alert('invalid RGBA');
+        return;
+    }
+
+    // time
     const cursorTime = cursor;
-    const duration = Math.abs(global.params[8]);
-    const length = Math.abs(global.params[9]);
-    const maxColorStep = Math.abs(global.params[10]);
-    const lightOff = global.params[11] > 0;
-    const offStrobe = global.params[12] > 0;
-    const invert = global.params[13] > 0;
-    const idStart = Math.abs(global.params[14]);
-    const idEnd = Math.abs(global.params[15]);
-    const idLightCount = Math.abs(global.params[16]);
-    const idOffset = Math.floor(global.params[17]);
-    const idIgnore = global.params[18].toString();
-    const eventType = Math.abs(global.params[19]);
-    const eventColor = global.params[20] === 0 ? 5 : 1;
-    const maxRepeat = Math.abs(global.params[21]);
-    const repeatOffset = global.params[22];
-    const fillStart = global.params[23] > 0;
-    const deleteLast = global.params[24] > 0;
-    const flickerMode = global.params[25] > 0;
-    const flickerStrength = Math.abs(global.params[26]);
-    const flickerCoverage = Math.abs(global.params[27] / 100);
-    const flickerInvert = global.params[28] > 0;
-    const noiseMode = global.params[29] > 0;
-    const noiseIntensity = Math.abs(global.params[30] / 100);
-    const noiseSaturation = Math.abs(global.params[31] / 100);
-    const noiseCoverage = Math.abs(global.params[32] / 100);
+    const duration = Math.abs(global.params[4]);
+    const length = Math.abs(global.params[5]);
+
+    // light settings
+    const maxColorStep = Math.abs(global.params[6]);
+    const lightOff = global.params[7];
+    const offStrobe = global.params[8];
+    const invert = global.params[9];
+    const fillStart = global.params[10];
+    const deleteLast = global.params[11];
+
+    // light id
+    const idStart = parseInt(global.params[12].split('-')[0]);
+    const idEnd = parseInt(global.params[12].split('-')[1]);
+    const idLightCount = Math.abs(global.params[13]);
+    const idOffset = Math.floor(global.params[14]);
+    const idIgnore = global.params[15].split(',').map((el) => parseInt(el));
+
+    // easing
+    const durationEasing = Easings.func[global.params[16]];
+    const colorEasing = Easings.func[global.params[17]];
+    const stepEasing = Easings.func[global.params[18]];
+
+    // repeat
+    const maxRepeat = Math.abs(global.params[19]);
+    const repeatOffset = global.params[20];
+
+    // flicker
+    const flickerMode =
+        typeof global.params[21] === 'boolean' ? global.params[21] : false;
+    const flickerInvert =
+        typeof global.params[22] === 'boolean' ? global.params[22] : false;
+    const flickerStrength =
+        typeof global.params[23] === 'number' ? Math.abs(global.params[23]) : 1;
+    const flickerCoverage =
+        typeof global.params[24] === 'number' ? Math.abs(global.params[24] / 100) : 1;
+
+    // noise
+    const noiseMode =
+        typeof global.params[25] === 'boolean' ? global.params[25] : false;
+    const noiseIntensity =
+        typeof global.params[26] === 'number'
+            ? Math.abs(global.params[26] / 100)
+            : 64 / 100;
+    const noiseSaturation =
+        typeof global.params[27] === 'number' ? Math.abs(global.params[27] / 100) : 1;
+    const noiseCoverage =
+        typeof global.params[28] === 'number' ? Math.abs(global.params[28] / 100) : 1;
 
     const lightID = [];
     const lightIDAll = [];
@@ -119,7 +168,7 @@ function light(
             const idStepTime = lerp(
                 0,
                 duration,
-                durationStepEasing(normalize(itIdStep, 0, maxIdStep))
+                durationEasing(normalize(itIdStep, 0, maxIdStep))
             );
             for (let itColorStep = 0; itColorStep <= maxColorStep; itColorStep++) {
                 if (offStrobe && lightOff && itColorStep === maxColorStep) {
@@ -138,7 +187,7 @@ function light(
                 const colorStepTime = lerp(
                     0,
                     length,
-                    colorStepEasing(normalize(itColorStep, 0, maxColorStep))
+                    colorEasing(normalize(itColorStep, 0, maxColorStep))
                 );
                 const currentTime =
                     cursorTime +
@@ -166,7 +215,7 @@ function light(
                             lerp(
                                 0,
                                 length,
-                                colorStepEasing(normalize(itColorStep, 0, maxColorStep))
+                                stepEasing(normalize(itColorStep, 0, maxColorStep))
                             ),
                             0,
                             length
@@ -207,7 +256,7 @@ function light(
                                 lerp(
                                     0,
                                     length,
-                                    colorStepEasing(
+                                    stepEasing(
                                         normalize(
                                             itColorStep * 2 + 1,
                                             0,
@@ -235,7 +284,7 @@ function light(
                                 lerp(
                                     0,
                                     length,
-                                    colorStepEasing(
+                                    stepEasing(
                                         normalize(
                                             itColorStep * 2 + 1,
                                             0,
@@ -259,39 +308,35 @@ function light(
 module.exports = {
     name: 'Light Gradient RGBA',
     params: {
-        'start R': 1,
-        'start G': 0,
-        'start B': 0,
-        'start A': 1,
-        'end R': 0,
-        'end G': 0,
-        'end B': 1,
-        'end A': 1,
-        duration: 1,
-        length: 1,
-        step: 8,
-        'light off': 0,
-        'off strobe': 0,
-        invert: 0,
-        idStart: 1,
-        idEnd: 15,
-        idLightCount: 4,
-        idOffset: 0,
-        idIgnore: 0,
-        eventType: 1,
-        eventColor: 0,
-        repeat: 0,
-        repeatOffset: 0,
-        fillStart: 0,
-        deleteLast: 0,
-        flickerMode: 0,
-        flickerStrength: 1,
-        flickerCoverage: 100,
-        flickerInvert: 0,
-        noiseMode: 0,
-        noiseIntensity: 64,
-        noiseSaturation: 100,
-        noiseCoverage: 100,
+        'Event Type': Object.keys(eventTypeEnum),
+        'Event Color': Object.keys(eventColorEnum),
+        'RGBA Start': '1,0,0,1',
+        'RGBA End': '0,0,1,1',
+        Duration: 1,
+        Length: 1,
+        Step: 8,
+        'Light Off': false,
+        'Off-strobe': false,
+        Invert: false,
+        'Fill Start': false,
+        'Delete Last': false,
+        'ID Start-End': '1-15',
+        'ID Light Count': 4,
+        'ID Offset': 0,
+        'ID Ignore': '0',
+        'Easing Duration': Easings.list,
+        'Easing Color': Easings.list,
+        'Easing Step': Easings.list,
+        Repeat: 0,
+        'Repeat Offset': 0,
+        'Flicker Slide': false,
+        'Flicker Invert': false,
+        'Flicker Strength': 1,
+        'Flicker Coverage': 100,
+        Noise: false,
+        'Noise Intensity': 64,
+        'Noise Saturation': 100,
+        'Noise Coverage': 100,
     },
     run: light,
 };

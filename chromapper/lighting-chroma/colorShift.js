@@ -3,8 +3,8 @@
 // saturation: [0-inf] => saturation percentage
 // value: [any range] => add value
 // alpha: [any range] => add alpha
-// fixed value: [>0 to enable] => set value instead of add
-// fixed alpha: [>0 to enable] => set alpha instead of add
+// fixed value => set value instead of add
+// fixed alpha => set alpha instead of add
 
 // modified version of https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
 function RGBAtoHSVA(r, g, b, a = 1) {
@@ -80,7 +80,17 @@ function shiftColor(currentColor, shiftHSVA, settings) {
     );
 }
 
-function shift(cursor, notes, events, walls, _, global, data, customEvents, bpmChanges) {
+function shift(
+    cursor,
+    notes,
+    events,
+    walls,
+    _,
+    global,
+    data,
+    customEvents,
+    bpmChanges
+) {
     const hsvaShift = [
         global.params[0] >= 0
             ? (global.params[0] / 360) % 1
@@ -104,7 +114,11 @@ function shift(cursor, notes, events, walls, _, global, data, customEvents, bpmC
     }
     objectSelected.forEach((obj) => {
         if (obj._customData && obj._customData._color) {
-            obj._customData._color = shiftColor(obj._customData._color, hsvaShift, settings);
+            obj._customData._color = shiftColor(
+                obj._customData._color,
+                hsvaShift,
+                settings
+            );
         }
         if (obj._customData && obj._customData._lightGradient) {
             obj._customData._lightGradient._startColor = shiftColor(
@@ -124,12 +138,13 @@ function shift(cursor, notes, events, walls, _, global, data, customEvents, bpmC
 module.exports = {
     name: 'Colour Shift',
     params: {
-        hue: 0,
-        saturation: 100,
-        value: 0,
-        alpha: 0,
-        'fixed value': 0,
-        'fixed alpha': 0,
+        Hue: 0,
+        Saturation: 100,
+        Value: 0,
+        Alpha: 0,
+        'Fixed Value': false,
+        'Fixed Alpha': false,
     },
     run: shift,
+    errorCheck: false,
 };

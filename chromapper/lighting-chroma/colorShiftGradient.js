@@ -3,16 +3,18 @@
 // saturation: [0-inf] => saturation percentage
 // value: [any range] => add value
 // alpha: [any range] => add alpha
-// fixed value: [>0 to enable] => set value instead of add
-// fixed alpha: [>0 to enable] => set alpha instead of add
+// easing: => self-explanatory
 
-// modified version of https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+const Easings = require('./_easings.js');
+
 function normalize(x, min, max) {
     return (x - min) / (max - min);
 }
 function lerp(x, y, a) {
     return x + (y - x) * a;
 }
+
+// modified version of https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
 function RGBAtoHSVA(r, g, b, a = 1) {
     let max, min, d, h, s, v;
     max = Math.max(r, g, b);
@@ -102,6 +104,7 @@ function shift(
         global.params[2],
         global.params[3],
     ];
+    const colorEasing = Easings.func[global.params[4]];
     const objectSelected = []
         .concat(
             notes.filter((n) => n.selected),
@@ -117,7 +120,7 @@ function shift(
     const endTime = objectSelected[objectSelected.length - 1]._time;
 
     objectSelected.forEach((obj) => {
-        const norm = normalize(obj._time, startTime, endTime);
+        const norm = colorEasing(normalize(obj._time, startTime, endTime));
         if (obj._customData && obj._customData._color) {
             obj._customData._color = interpolateColor(
                 obj._customData._color,
@@ -143,10 +146,12 @@ function shift(
 module.exports = {
     name: 'Colour Shift Gradient',
     params: {
-        hue: 0,
-        saturation: 100,
-        value: 0,
-        alpha: 0,
+        Hue: 0,
+        Saturation: 100,
+        Value: 0,
+        Alpha: 0,
+        Easing: Easings.list,
     },
     run: shift,
+    errorCheck: false,
 };

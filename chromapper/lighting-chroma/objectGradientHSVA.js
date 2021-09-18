@@ -1,13 +1,11 @@
-// hue: [0-inf] => set color hue (0 -> red, 120 -> green, 240 -> blue, 360 -> red, ...)
-// saturation: [0-1] => color saturation
-// value: [any range] => color value (higher is brighter)
-// alpha: [any range] => color alpha
-// select type: [any range] => -1 to select all type
+// require _easings.js
 
-// you can change easings here
-// visit https://easings.net/ for more info
-// you may need to understand built in Math function
-const colorEasing = (x) => x;
+// HSVA Start => [hue,saturation,value,alpha?]
+// HSVA End => see how HSV work
+// Type: [any range] => -1 to select all type
+// Easing
+
+const Easings = require('./_easings.js');
 
 function normalize(x, min, max) {
     return (x - min) / (max - min);
@@ -48,28 +46,54 @@ function interpolateColor(hsvaStart, hsvaEnd, norm) {
     return HSVAtoRGBA(...hsvaStart.map((hsva, i) => lerp(hsva, hsvaEnd[i], norm)));
 }
 
-function color(cursor, notes, events, walls, _, global, data, customEvents, bpmChanges) {
-    const startHSVA = [
-        Math.floor(global.params[0] / 360) + ((global.params[0] / 360) % 1),
-        Math.min(Math.max(0, global.params[1]), 1),
-        global.params[2],
-        global.params[3],
-    ];
-    const endHSVA = [
-        Math.floor(global.params[4] / 360) + ((global.params[4] / 360) % 1),
-        Math.min(Math.max(0, global.params[5]), 1),
-        global.params[6],
-        global.params[7],
-    ];
-    const selectedType = global.params[8];
+const parseHSVA = (hsva) => {
+    hsva = hsva.split(',').map((el) => parseFloat(el));
+    if (hsva.length > 2) {
+        hsva[0] = Math.floor(hsva[0] / 360) + ((hsva[0] / 360) % 1);
+        hsva[1] = Math.min(Math.max(0, hsva[1]), 1);
+        if (hsva.length === 3) {
+            hsva.push(1);
+        }
+    } else {
+        return null;
+    }
+    return hsva;
+};
+// because hue cannot be negative
+const fixHSVA = (hsva1, hsva2) => {};
+
+function color(
+    cursor,
+    notes,
+    events,
+    walls,
+    _,
+    global,
+    data,
+    customEvents,
+    bpmChanges
+) {
+    const startHSVA = parseHSVA(global.params[0]);
+    const endHSVA = parseHSVA(global.params[1]);
+    if (!startHSVA || !endHSVA) {
+        alert('invalid HSVA');
+        return;
+    }
+    const selectedType = global.params[2];
+    const colorEasing = Easings.func[global.params[3]];
 
     const objectSelected = []
         .concat(
-            notes.filter((n) => n.selected && (selectedType === -1 || n._type === selectedType)),
-            events.filter(
-                (ev) => ev.selected && (selectedType === -1 || ev._type === selectedType)
+            notes.filter(
+                (n) => n.selected && (selectedType === -1 || n._type === selectedType)
             ),
-            walls.filter((w) => w.selected && (selectedType === -1 || w._type === selectedType))
+            events.filter(
+                (ev) =>
+                    ev.selected && (selectedType === -1 || ev._type === selectedType)
+            ),
+            walls.filter(
+                (w) => w.selected && (selectedType === -1 || w._type === selectedType)
+            )
         )
         .sort((a, b) => a._time - b._time);
     if (!objectSelected.length) {
@@ -98,15 +122,11 @@ function color(cursor, notes, events, walls, _, global, data, customEvents, bpmC
 module.exports = {
     name: 'Object Gradient HSVA',
     params: {
-        'start H': 360,
-        'start S': 1,
-        'start V': 1,
-        'start A': 1,
-        'end H': 240,
-        'end S': 1,
-        'end V': 1,
-        'end A': 1,
-        'select type': 0,
+        'HSVA Start': '360,1,1,1',
+        'HSVA End': '240,1,1,1',
+        Type: -1,
+        Easing: Easings.list,
     },
     run: color,
+    errorCheck: false,
 };

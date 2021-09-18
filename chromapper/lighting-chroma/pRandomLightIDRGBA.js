@@ -12,11 +12,7 @@
 // eventType: [valid type] => set event type (0 -> backtop, 1 -> ring, ...)
 // eventColor: [0,1] => set event value (0 -> red, 1 -> blue)
 
-// you can change easings here
-// visit https://easings.net/ for more info
-// you may need to understand built in Math function
-const colorStepEasing = (x) => x;
-const colorEasing = (x) => x;
+const Easings = require('./_easings.js');
 
 function normalize(x, min, max) {
     return (x - min) / (max - min);
@@ -39,6 +35,33 @@ function shuffle(array) {
     }
 }
 
+const parseRGBA = (rgba) => {
+    rgba = rgba.split(',').map((el) => parseFloat(el));
+    if (rgba.length > 2) {
+        if (rgba.length === 3) {
+            rgba.push(1);
+        }
+    } else {
+        return null;
+    }
+    return rgba;
+};
+
+const eventTypeEnum = {
+    'Ring Light': 1,
+    Backtop: 0,
+    'L Laser': 2,
+    'R Laser': 3,
+    Center: 4,
+    'XL Laser': 6,
+    'XR Laser': 7,
+};
+
+const eventColorEnum = {
+    Red: 1,
+    Blue: 5,
+};
+
 function light(
     cursor,
     notes,
@@ -50,30 +73,37 @@ function light(
     customEvents,
     bpmChanges
 ) {
-    const startRGBA = [
-        global.params[0],
-        global.params[1],
-        global.params[2],
-        global.params[3],
-    ];
-    const endRGBA = [
-        global.params[4],
-        global.params[5],
-        global.params[6],
-        global.params[7],
-    ];
+    // event type and color
+    const eventType = eventTypeEnum[global.params[0]];
+    const eventColor = eventColorEnum[global.params[1]];
+
+    // chroma color
+    const startRGBA = parseRGBA(global.params[2]);
+    const endRGBA = parseRGBA(global.params[3]);
+    if (!startRGBA || !endRGBA) {
+        alert('invalid RGBA');
+        return;
+    }
+
+    // time
     const cursorTime = cursor;
-    const duration = Math.abs(global.params[8]);
-    const length = Math.abs(global.params[9]);
-    const precision = Math.abs(global.params[10]);
-    const maxColorStep = Math.abs(global.params[11]);
-    const lightOff = global.params[12] > 0;
-    const offStrobe = global.params[13] > 0;
-    const idStart = Math.abs(global.params[14]);
-    const idEnd = Math.abs(global.params[15]);
-    const idIgnore = global.params[16].toString();
-    const eventType = Math.abs(global.params[18]);
-    const eventValue = global.params[19] === 0 ? 5 : 1;
+    const duration = Math.abs(global.params[4]);
+    const length = Math.abs(global.params[5]);
+    const precision = Math.abs(global.params[6]);
+
+    // color
+    const maxColorStep = Math.abs(global.params[7]);
+    const lightOff = global.params[8];
+    const offStrobe = global.params[9];
+
+    // lightID
+    const idStart = parseInt(global.params[10].split('-')[0]);
+    const idEnd = parseInt(global.params[10].split('-')[1]);
+    const idIgnore = global.params[11].split(',').map((el) => parseInt(el));
+
+    // easing
+    const colorEasing = Easings.func[global.params[13]];
+    const stepEasing = Easings.func[global.params[14]];
 
     const arrayLightID = [];
     for (let i = idStart; i <= idEnd; i++) {
@@ -81,7 +111,7 @@ function light(
             arrayLightID.push(i);
         }
     }
-    const idMultiple = Math.min(Math.abs(global.params[17], arrayLightID.length));
+    const idMultiple = Math.min(Math.abs(global.params[12], arrayLightID.length));
     shuffle(arrayLightID);
     const lightIDLength = arrayLightID.length;
     const maxLightCount = Math.floor(duration * precision);
@@ -133,7 +163,7 @@ function light(
                         lerp(
                             0,
                             length,
-                            colorStepEasing(normalize(itColorStep, 0, maxColorStep))
+                            stepEasing(normalize(itColorStep, 0, maxColorStep))
                         ),
                         0,
                         length
@@ -143,7 +173,7 @@ function light(
             events.push({
                 _time: currentTime,
                 _type: eventType,
-                _value: eventValue,
+                _value: eventColor,
                 _customData: {
                     _color: currentRGBA,
                     _lightID: currentLightID,
@@ -157,7 +187,7 @@ function light(
                         lerp(
                             0,
                             length,
-                            colorStepEasing(
+                            stepEasing(
                                 normalize(itColorStep * 2 + 1, 0, maxColorStep * 2)
                             )
                         ),
@@ -175,26 +205,21 @@ function light(
 module.exports = {
     name: 'Pseudorandom LightID RGBA',
     params: {
-        'start R': 1,
-        'start G': 0,
-        'start B': 0,
-        'start A': 1,
-        'end R': 0,
-        'end G': 0,
-        'end B': 1,
-        'end A': 1,
-        duration: 1,
-        length: 1,
-        precision: 4,
-        step: 8,
-        'light off': 0,
-        'off strobe': 0,
-        idStart: 1,
-        idEnd: 5,
-        idIgnore: 0,
-        idMultiple: 1,
-        eventType: 3,
-        eventColor: 0,
+        'Event Type': Object.keys(eventTypeEnum),
+        'Event Color': Object.keys(eventColorEnum),
+        'RGBA Start': '1,0,0,1',
+        'RGBA End': '0,0,1,1',
+        Duration: 2,
+        Length: 1,
+        Precision: 4,
+        Step: 8,
+        'Light Off': false,
+        'Off-strobe': false,
+        'ID Start-End': '1-15',
+        'ID Ignore': '0',
+        'ID Multiple': 1,
+        'Easing Color': Easings.list,
+        'Easing Step': Easings.list,
     },
     run: light,
 };

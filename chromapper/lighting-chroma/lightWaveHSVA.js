@@ -1,3 +1,5 @@
+// require _easings.js
+
 // hue: [0-inf] => set color hue (0 -> red, 120 -> green, 240 -> blue, 360 -> red, ...)
 // saturation: [0-1] => color saturation
 // value: [any range] => color value (higher is brighter)
@@ -13,11 +15,7 @@
 // repeat: [0-inf] => repeat placement for every duration
 // repeatOffset: [any range] => offset repeat placement time
 
-// you can change easings here
-// visit https://easings.net/ for more info
-// you may need to understand built in Math function
-const durationStepEasing = (x) => x;
-const colorEasing = (x) => x;
+const Easings = require('./_easings.js');
 
 function normalize(x, min, max) {
     return max - min > 0 ? (x - min) / (max - min) : 0;
@@ -58,35 +56,88 @@ function interpolateColor(hsvaStart, hsvaEnd, norm) {
     return HSVAtoRGBA(...hsvaStart.map((hsva, i) => lerp(hsva, hsvaEnd[i], norm)));
 }
 
-function light(cursor, notes, events, walls, _, global, data, customEvents, bpmChanges) {
-    const startHSVA = [
-        Math.floor(global.params[0] / 360) + ((global.params[0] / 360) % 1),
-        Math.min(Math.max(0, global.params[1]), 1),
-        global.params[2],
-        global.params[3],
-    ];
-    const endHSVA = [
-        Math.floor(global.params[4] / 360) + ((global.params[4] / 360) % 1),
-        Math.min(Math.max(0, global.params[5]), 1),
-        global.params[6],
-        global.params[7],
-    ];
+const parseHSVA = (hsva) => {
+    hsva = hsva.split(',').map((el) => parseFloat(el));
+    if (hsva.length > 2) {
+        hsva[0] = Math.floor(hsva[0] / 360) + ((hsva[0] / 360) % 1);
+        hsva[1] = Math.min(Math.max(0, hsva[1]), 1);
+        if (hsva.length === 3) {
+            hsva.push(1);
+        }
+    } else {
+        return null;
+    }
+    return hsva;
+};
+// because hue cannot be negative
+const fixHSVA = (hsva1, hsva2) => {};
+
+const eventTypeEnum = {
+    'Ring Light': 1,
+    Backtop: 0,
+    'L Laser': 2,
+    'R Laser': 3,
+    Center: 4,
+    'XL Laser': 6,
+    'XR Laser': 7,
+};
+
+const eventColorEnum = {
+    Red: 1,
+    Blue: 5,
+};
+
+function light(
+    cursor,
+    notes,
+    events,
+    walls,
+    _,
+    global,
+    data,
+    customEvents,
+    bpmChanges
+) {
+    // event type and color
+    const eventType = eventTypeEnum[global.params[0]];
+    const eventColor = eventColorEnum[global.params[1]];
+
+    // chroma color
+    const startHSVA = parseHSVA(global.params[2]);
+    const endHSVA = parseHSVA(global.params[3]);
+    if (!startHSVA || !endHSVA) {
+        alert('invalid HSVA');
+        return;
+    }
+
+    // time
     const cursorTime = cursor;
-    const duration = Math.abs(global.params[8]);
-    const invert = global.params[9] > 0;
-    const idStart = Math.abs(global.params[10]);
-    const idEnd = Math.abs(global.params[11]);
-    const idLightCount = Math.abs(global.params[12]);
-    const idIgnore = global.params[13].toString();
-    const eventType = Math.abs(global.params[14]);
-    const eventColor = global.params[15] === 0 ? 5 : 1;
-    const maxRepeat = Math.abs(global.params[16]);
-    const repeatOffset = global.params[17];
+    const duration = Math.abs(global.params[4]);
+    const invert = global.params[5];
+
+    // lightID
+    const idStart = parseInt(global.params[6].split('-')[0]);
+    const idEnd = parseInt(global.params[6].split('-')[1]);
+    const idLightCount = Math.abs(global.params[7]);
+    const idOffset = Math.floor(global.params[8]);
+    const idIgnore = global.params[9].split(',').map((el) => parseInt(el));
+
+    // easing
+    const durationEasing = Easings.func[global.params[10]];
+    const colorEasing = Easings.func[global.params[11]];
+
+    // repeat
+    const maxRepeat = Math.abs(global.params[12]);
+    const repeatOffset = global.params[13];
+    const repeatShiftHue =
+        global.params[14] >= 0
+            ? (global.params[14] / 360) % 1
+            : (((global.params[14] % 360) + 360) / 360) % 1;
 
     const lightID = [];
     for (let i = 1; i <= idLightCount; i++) {
         if (!idIgnore.includes(i.toString())) {
-            lightID.push(i);
+            lightID.push(i + idOffset);
         }
     }
 
@@ -97,13 +148,15 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
         for (let itIdStep = 0; itIdStep <= maxIdStep; itIdStep++) {
             lightID.forEach((id) =>
                 currentLightID.push(
-                    id + (invert ? idEnd - itIdStep - 1 : itIdStep + idStart - 1) * idLightCount
+                    id +
+                        (invert ? idEnd - itIdStep - 1 : itIdStep + idStart - 1) *
+                            idLightCount
                 )
             );
             const idStepTime = lerp(
                 0,
                 duration,
-                durationStepEasing(normalize(itIdStep, 0, maxIdStep))
+                durationEasing(normalize(itIdStep, 0, maxIdStep))
             );
             const tempLightID = [...currentLightID];
             const currentTime = cursorTime + repeatTime + idStepTime;
@@ -122,30 +175,30 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
                 },
             });
         }
+        startHSVA[0] += repeatShiftHue;
+        endHSVA[0] += repeatShiftHue;
     }
 }
 
 module.exports = {
     name: 'Light Wave HSVA',
     params: {
-        'start H': 360,
-        'start S': 1,
-        'start V': 1,
-        'start A': 1,
-        'end H': 240,
-        'end S': 1,
-        'end V': 1,
-        'end A': 1,
-        duration: 2,
-        invert: 0,
-        idStart: 1,
-        idEnd: 15,
-        idLightCount: 4,
-        idIgnore: 0,
-        eventType: 1,
-        eventColor: 0,
-        repeat: 0,
-        repeatOffset: 0,
+        'Event Type': Object.keys(eventTypeEnum),
+        'Event Color': Object.keys(eventColorEnum),
+        'HSVA Start': '360,1,1,1',
+        'HSVA End': '240,1,1,1',
+        Duration: 2,
+        Invert: false,
+        'ID Start-End': '1-15',
+        'ID Light Count': 4,
+        'ID Offset': 0,
+        'ID Ignore': '0',
+        'Easing Duration': Easings.list,
+        'Easing Color': Easings.list,
+        Repeat: 0,
+        'Repeat Offset': 0,
+        'Repeat Shift Hue': 0,
     },
     run: light,
+    errorCheck: false,
 };

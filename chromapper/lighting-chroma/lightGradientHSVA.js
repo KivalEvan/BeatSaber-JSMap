@@ -1,41 +1,48 @@
 // script params is chonky, use this on windowed 4:3 reso or start mapping in portrait mode
+// if u still want to use this script but dont want to scale reso, remove the last 8 params in module.exports
 
-// hue: [0-inf] => set color hue (0 -> red, 120 -> green, 240 -> blue, 360 -> red, ...)
-// saturation: [0-1] => color saturation
-// value: [any range] => color value (higher is brighter)
-// alpha: [any range] => color alpha
-// duration: [0-inf] => duration from startID to endID
-// length: [0-inf] => duration for color gradient
-// step: [0-inf] => how many step should color gradient take
-// light off: [>0 to enable] => replace to off event at the end of step
-// off strobe: [>0 to enable] => place off event in between color step
-// invert: [>0 to enable] => start from endID to startID
-// idStart: [1-inf] => set startID (see prop event)
-// idEnd: [1-inf] => set endID
-// idLightCount: [1-inf] => how many lightID in single prop
-// idOffset: [any range] => offset by lightID (useful for case like Skrillex)
-// idIgnore: [01234...] => ignore specific lightID in prop; '0' is disabled (if lightCount is 4, set 24 to ignore 2 and 4)
-// eventType: [valid type] => set event type (0 -> backtop, 1 -> ring, ...)
-// eventColor: [0,1] => set event value (0 -> red, 1 -> blue)
-// repeat: [0-inf] => repeat placement for every length + duration
-// repeatOffset: [any range] => offset repeat placement time
-// fillStart: [>0 to enable] => fill the light from startID to endID
-// deleteLast: [>0 to enable] => delete the very last event (useful if you don't want overlap side effect)
+// require _easings.js
 
-// you can change easings here
-// visit https://easings.net/ for more info
-// you may need to understand built in Math function
-const durationStepEasing = (x) => x;
-const colorStepEasing = (x) => x;
-const colorEasing = (x) => x;
+// Event Type => self-explanatory
+// Event Color => default fallback color if Chroma not exist
+// HSVA Start => [hue,saturation,value,alpha?]
+// HSVA End => see how HSV work
+// Duration => duration from startID to endID
+// Length => duration for color gradient
+// Step => how many step should color gradient take
+// Light Off => replace to off event at the end of step
+// Off-strobe => place off event in between color step
+// Invert => start from endID to startID
+// Fill Start => fill the light from startID to endID
+// Delete Last => delete the very last event (useful if you don't want overlap side effect)
+// ID Start-End => set startID (see prop event)
+// ID Light Count => how many lightID in single prop
+// ID Offset => offset by lightID (useful for case like Skrillex)
+// ID Ignore => ignore specific lightID (only '0' is disable, use ',' to separate (if light count is 4, set 2,4 to ignore 2 and 4))
+// Easing Duration => self-explanatory
+// Easing Color => see easings.net
+// Easing Step => for more detail
+// Repeat => repeat placement for every length + duration
+// Repeat Offset => offset repeat placement time
+// Repeat Shift Hue => shift hue for each repeated
+// Flicker Slide => make off-strobe to do flickery/butterfly effect towards end
+// Flicker Invert => start from start
+// Flicker Strength => determine how often should off-strobe
+// Flicker Coverage => how much to cover
+// Noise => enable noise (random color)
+// Noise Intensity => how intense is the color change (value)
+// Noise Saturation => how much should saturation get affected
+// Noise Coverage => how much does it cover
 
-function normalize(x, min, max) {
+const Easings = require('./_easings.js');
+
+const normalize = (x, min, max) => {
     return max - min > 0 ? (x - min) / (max - min) : 0;
-}
-function lerp(x, y, a) {
+};
+const lerp = (x, y, a) => {
     return x + (y - x) * a;
-}
-function HSVAtoRGBA(hue, saturation, value, alpha) {
+};
+const HSVAtoRGBA = (hue, saturation, value, alpha) => {
     let r, g, b, i, f, p, q, t;
     i = Math.floor(hue * 6);
     f = hue * 6 - i;
@@ -63,10 +70,41 @@ function HSVAtoRGBA(hue, saturation, value, alpha) {
             break;
     }
     return [r, g, b, alpha];
-}
-function interpolateColor(hsvaStart, hsvaEnd, norm) {
+};
+const interpolateColor = (hsvaStart, hsvaEnd, norm) => {
     return hsvaStart.map((hsva, i) => lerp(hsva, hsvaEnd[i], norm));
-}
+};
+
+const parseHSVA = (hsva) => {
+    hsva = hsva.split(',').map((el) => parseFloat(el));
+    if (hsva.length > 2) {
+        hsva[0] = Math.floor(hsva[0] / 360) + ((hsva[0] / 360) % 1);
+        hsva[1] = Math.min(Math.max(0, hsva[1]), 1);
+        if (hsva.length === 3) {
+            hsva.push(1);
+        }
+    } else {
+        return null;
+    }
+    return hsva;
+};
+// because hue cannot be negative
+const fixHSVA = (hsva1, hsva2) => {};
+
+const eventTypeEnum = {
+    'Ring Light': 1,
+    Backtop: 0,
+    'L Laser': 2,
+    'R Laser': 3,
+    Center: 4,
+    'XL Laser': 6,
+    'XR Laser': 7,
+};
+
+const eventColorEnum = {
+    Red: 1,
+    Blue: 5,
+};
 
 function light(
     cursor,
@@ -79,47 +117,74 @@ function light(
     customEvents,
     bpmChanges
 ) {
-    const startHSVA = [
-        Math.floor(global.params[0] / 360) + ((global.params[0] / 360) % 1),
-        Math.min(Math.max(0, global.params[1]), 1),
-        global.params[2],
-        global.params[3],
-    ];
-    const endHSVA = [
-        Math.floor(global.params[4] / 360) + ((global.params[4] / 360) % 1),
-        Math.min(Math.max(0, global.params[5]), 1),
-        global.params[6],
-        global.params[7],
-    ];
-    const cursorTime = cursor;
-    const duration = Math.abs(global.params[8]);
-    const length = Math.abs(global.params[9]);
-    const maxColorStep = Math.abs(global.params[10]);
-    const lightOff = global.params[11] > 0;
-    const offStrobe = global.params[12] > 0;
-    const invert = global.params[13] > 0;
-    const idStart = Math.abs(global.params[14]);
-    const idEnd = Math.abs(global.params[15]);
-    const idLightCount = Math.abs(global.params[16]);
-    const idOffset = Math.floor(global.params[17]);
-    const idIgnore = global.params[18].toString();
-    const eventType = Math.abs(global.params[19]);
-    const eventColor = global.params[20] === 0 ? 5 : 1;
-    const maxRepeat = Math.abs(global.params[21]);
-    const repeatOffset = global.params[22];
-    const repeatShiftHue =
-        Math.floor(global.params[23] / 360) + ((global.params[23] / 360) % 1);
-    const fillStart = global.params[24] > 0;
-    const deleteLast = global.params[25] > 0;
-    const flickerMode = global.params[26] > 0;
-    const flickerStrength = Math.abs(global.params[27]);
-    const flickerCoverage = Math.abs(global.params[28] / 100);
-    const flickerInvert = global.params[29] > 0;
-    const noiseMode = global.params[30] > 0;
-    const noiseIntensity = Math.abs(global.params[31] / 100);
-    const noiseSaturation = Math.abs(global.params[32] / 100);
-    const noiseCoverage = Math.abs(global.params[33] / 100);
+    // event type and color
+    const eventType = eventTypeEnum[global.params[0]];
+    const eventColor = eventColorEnum[global.params[1]];
 
+    // chroma color
+    const startHSVA = parseHSVA(global.params[2]);
+    const endHSVA = parseHSVA(global.params[3]);
+    if (!startHSVA || !endHSVA) {
+        alert('invalid HSVA');
+        return;
+    }
+
+    // time
+    const cursorTime = cursor;
+    const duration = Math.abs(global.params[4]);
+    const length = Math.abs(global.params[5]);
+
+    // light settings
+    const maxColorStep = Math.abs(global.params[6]);
+    const lightOff = global.params[7];
+    const offStrobe = global.params[8];
+    const invert = global.params[9];
+    const fillStart = global.params[10];
+    const deleteLast = global.params[11];
+
+    // light id
+    const idStart = parseInt(global.params[12].split('-')[0]);
+    const idEnd = parseInt(global.params[12].split('-')[1]);
+    const idLightCount = Math.abs(global.params[13]);
+    const idOffset = Math.floor(global.params[14]);
+    const idIgnore = global.params[15].split(',').map((el) => parseInt(el));
+
+    // easing
+    const durationEasing = Easings.func[global.params[16]];
+    const colorEasing = Easings.func[global.params[17]];
+    const stepEasing = Easings.func[global.params[18]];
+
+    // repeat
+    const maxRepeat = Math.abs(global.params[19]);
+    const repeatOffset = global.params[20];
+    const repeatShiftHue =
+        global.params[21] >= 0
+            ? (global.params[21] / 360) % 1
+            : (((global.params[21] % 360) + 360) / 360) % 1;
+
+    // flicker
+    const flickerMode =
+        typeof global.params[22] === 'boolean' ? global.params[22] : false;
+    const flickerInvert =
+        typeof global.params[23] === 'boolean' ? global.params[23] : false;
+    const flickerStrength =
+        typeof global.params[24] === 'number' ? Math.abs(global.params[24]) : 1;
+    const flickerCoverage =
+        typeof global.params[25] === 'number' ? Math.abs(global.params[25] / 100) : 1;
+
+    // noise
+    const noiseMode =
+        typeof global.params[26] === 'boolean' ? global.params[26] : false;
+    const noiseIntensity =
+        typeof global.params[27] === 'number'
+            ? Math.abs(global.params[27] / 100)
+            : 64 / 100;
+    const noiseSaturation =
+        typeof global.params[28] === 'number' ? Math.abs(global.params[28] / 100) : 1;
+    const noiseCoverage =
+        typeof global.params[29] === 'number' ? Math.abs(global.params[29] / 100) : 1;
+
+    // generate lightID
     const lightID = [];
     const lightIDAll = [];
     for (let i = 1; i <= idLightCount; i++) {
@@ -149,7 +214,7 @@ function light(
             const idStepTime = lerp(
                 0,
                 duration,
-                durationStepEasing(normalize(itIdStep, 0, maxIdStep))
+                durationEasing(normalize(itIdStep, 0, maxIdStep))
             );
             for (let itColorStep = 0; itColorStep <= maxColorStep; itColorStep++) {
                 if (
@@ -173,7 +238,7 @@ function light(
                 const colorStepTime = lerp(
                     0,
                     length,
-                    colorStepEasing(normalize(itColorStep, 0, maxColorStep))
+                    stepEasing(normalize(itColorStep, 0, maxColorStep))
                 );
                 const currentTime =
                     cursorTime +
@@ -201,7 +266,7 @@ function light(
                             lerp(
                                 0,
                                 length,
-                                colorStepEasing(normalize(itColorStep, 0, maxColorStep))
+                                stepEasing(normalize(itColorStep, 0, maxColorStep))
                             ),
                             0,
                             length
@@ -244,7 +309,7 @@ function light(
                                 lerp(
                                     0,
                                     length,
-                                    colorStepEasing(
+                                    stepEasing(
                                         normalize(
                                             itColorStep * 2 + 1,
                                             0,
@@ -272,7 +337,7 @@ function light(
                                 lerp(
                                     0,
                                     length,
-                                    colorStepEasing(
+                                    stepEasing(
                                         normalize(
                                             itColorStep * 2 + 1,
                                             0,
@@ -298,40 +363,37 @@ function light(
 module.exports = {
     name: 'Light Gradient HSVA',
     params: {
-        'start H': 360,
-        'start S': 1,
-        'start V': 1,
-        'start A': 1,
-        'end H': 240,
-        'end S': 1,
-        'end V': 1,
-        'end A': 1,
-        duration: 1,
-        length: 1,
-        step: 8,
-        'light off': 0,
-        'off strobe': 0,
-        invert: 0,
-        idStart: 1,
-        idEnd: 15,
-        idLightCount: 4,
-        idOffset: 0,
-        idIgnore: 0,
-        eventType: 1,
-        eventColor: 0,
-        repeat: 0,
-        repeatOffset: 0,
-        repeatShiftHue: 0,
-        fillStart: 0,
-        deleteLast: 0,
-        flickerMode: 0,
-        flickerStrength: 1,
-        flickerCoverage: 100,
-        flickerInvert: 0,
-        noiseMode: 0,
-        noiseIntensity: 64,
-        noiseSaturation: 100,
-        noiseCoverage: 100,
+        'Event Type': Object.keys(eventTypeEnum),
+        'Event Color': Object.keys(eventColorEnum),
+        'HSVA Start': '360,1,1,1',
+        'HSVA End': '240,1,1,1',
+        Duration: 1,
+        Length: 1,
+        Step: 8,
+        'Light Off': false,
+        'Off-strobe': false,
+        Invert: false,
+        'Fill Start': false,
+        'Delete Last': false,
+        'ID Start-End': '1-15',
+        'ID Light Count': 4,
+        'ID Offset': 0,
+        'ID Ignore': '0',
+        'Easing Duration': Easings.list,
+        'Easing Color': Easings.list,
+        'Easing Step': Easings.list,
+        Repeat: 0,
+        'Repeat Offset': 0,
+        'Repeat Shift Hue': 0,
+        'Flicker Slide': false,
+        'Flicker Invert': false,
+        'Flicker Strength': 1,
+        'Flicker Coverage': 100,
+        Noise: false,
+        'Noise Intensity': 64,
+        'Noise Saturation': 100,
+        'Noise Coverage': 100,
     },
     run: light,
+    errorCheck: false,
 };

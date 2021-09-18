@@ -1,14 +1,4 @@
-function light(
-    cursor,
-    notes,
-    events,
-    walls,
-    _,
-    global,
-    data,
-    customEvents,
-    bpmChanges
-) {
+function spin(cursor, notes, events, walls, _, global, data, customEvents, bpmChanges) {
     const rotation = global.params[0];
     const step = global.params[1];
     const prop = global.params[2];
@@ -63,15 +53,16 @@ function light(
 module.exports = {
     name: 'Ring Spin Creator',
     params: {
-        rotation: 90,
-        step: 7.5,
-        prop: 1,
-        speed: 1,
-        direction: -1,
-        counterSpin: 0,
-        reset: 0,
-        snapImmediately: 0,
-        snapOffset: 0.0625,
+        Rotation: 90,
+        Step: 7.5,
+        Prop: 1,
+        Speed: 1,
+        Direction: -1,
+        CounterSpin: false,
+        Reset: false,
+        'Snap Immediately': false,
+        'Snap Offset': 0.0625,
     },
-    run: light,
+    run: spin,
+    errorCheck: false,
 };

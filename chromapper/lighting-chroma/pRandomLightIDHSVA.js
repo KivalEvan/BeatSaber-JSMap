@@ -1,3 +1,5 @@
+// require _easings.js
+
 // hue: [0-inf] => set color hue (0 -> red, 120 -> green, 240 -> blue, 360 -> red, ...)
 // saturation: [0-1] => color saturation
 // value: [any range] => color value (higher is brighter)
@@ -15,10 +17,9 @@
 // eventType: [valid type] => set event type (0 -> backtop, 1 -> ring, ...)
 // eventColor: [0,1] => set event value (0 -> red, 1 -> blue)
 
-// you can change easings here
-// visit https://easings.net/ for more info
-// you may need to understand built in Math function
-const colorStepEasing = (x) => x;
+const Easings = require('./_easings.js');
+
+const stepEasing = (x) => x;
 const colorEasing = (x) => x;
 
 function normalize(x, min, max) {
@@ -67,6 +68,37 @@ function shuffle(array) {
     }
 }
 
+const parseHSVA = (hsva) => {
+    hsva = hsva.split(',').map((el) => parseFloat(el));
+    if (hsva.length > 2) {
+        hsva[0] = Math.floor(hsva[0] / 360) + ((hsva[0] / 360) % 1);
+        hsva[1] = Math.min(Math.max(0, hsva[1]), 1);
+        if (hsva.length === 3) {
+            hsva.push(1);
+        }
+    } else {
+        return null;
+    }
+    return hsva;
+};
+// because hue cannot be negative
+const fixHSVA = (hsva1, hsva2) => {};
+
+const eventTypeEnum = {
+    'Ring Light': 1,
+    Backtop: 0,
+    'L Laser': 2,
+    'R Laser': 3,
+    Center: 4,
+    'XL Laser': 6,
+    'XR Laser': 7,
+};
+
+const eventColorEnum = {
+    Red: 1,
+    Blue: 5,
+};
+
 function light(
     cursor,
     notes,
@@ -78,30 +110,37 @@ function light(
     customEvents,
     bpmChanges
 ) {
-    const startHSVA = [
-        Math.floor(global.params[0] / 360) + ((global.params[0] / 360) % 1),
-        Math.min(Math.max(0, global.params[1]), 1),
-        global.params[2],
-        global.params[3],
-    ];
-    const endHSVA = [
-        Math.floor(global.params[4] / 360) + ((global.params[4] / 360) % 1),
-        Math.min(Math.max(0, global.params[5]), 1),
-        global.params[6],
-        global.params[7],
-    ];
+    // event type and color
+    const eventType = eventTypeEnum[global.params[0]];
+    const eventColor = eventColorEnum[global.params[1]];
+
+    // chroma color
+    const startHSVA = parseHSVA(global.params[2]);
+    const endHSVA = parseHSVA(global.params[3]);
+    if (!startHSVA || !endHSVA) {
+        alert('invalid HSVA');
+        return;
+    }
+
+    // time
     const cursorTime = cursor;
-    const duration = Math.abs(global.params[8]);
-    const length = Math.abs(global.params[9]);
-    const precision = Math.abs(global.params[10]);
-    const maxColorStep = Math.abs(global.params[11]);
-    const lightOff = global.params[12] > 0;
-    const offStrobe = global.params[13] > 0;
-    const idStart = Math.abs(global.params[14]);
-    const idEnd = Math.abs(global.params[15]);
-    const idIgnore = global.params[16].toString();
-    const eventType = Math.abs(global.params[18]);
-    const eventValue = global.params[19] === 0 ? 5 : 1;
+    const duration = Math.abs(global.params[4]);
+    const length = Math.abs(global.params[5]);
+    const precision = Math.abs(global.params[6]);
+
+    // color
+    const maxColorStep = Math.abs(global.params[7]);
+    const lightOff = global.params[8];
+    const offStrobe = global.params[9];
+
+    // lightID
+    const idStart = parseInt(global.params[10].split('-')[0]);
+    const idEnd = parseInt(global.params[10].split('-')[1]);
+    const idIgnore = global.params[11].split(',').map((el) => parseInt(el));
+
+    // easing
+    const colorEasing = Easings.func[global.params[13]];
+    const stepEasing = Easings.func[global.params[14]];
 
     const arrayLightID = [];
     for (let i = idStart; i <= idEnd; i++) {
@@ -109,7 +148,7 @@ function light(
             arrayLightID.push(i);
         }
     }
-    const itMultiple = Math.min(Math.abs(global.params[17], arrayLightID.length));
+    const itMultiple = Math.min(Math.abs(global.params[12], arrayLightID.length));
     shuffle(arrayLightID);
     const lightIDLength = arrayLightID.length;
     const maxLightCount = Math.floor(duration * precision);
@@ -161,7 +200,7 @@ function light(
                         lerp(
                             0,
                             length,
-                            colorStepEasing(normalize(itColorStep, 0, maxColorStep))
+                            stepEasing(normalize(itColorStep, 0, maxColorStep))
                         ),
                         0,
                         length
@@ -171,7 +210,7 @@ function light(
             events.push({
                 _time: currentTime,
                 _type: eventType,
-                _value: eventValue,
+                _value: eventColor,
                 _customData: {
                     _color: currentHSVA,
                     _lightID: currentLightID,
@@ -185,7 +224,7 @@ function light(
                         lerp(
                             0,
                             length,
-                            colorStepEasing(
+                            stepEasing(
                                 normalize(itColorStep * 2 + 1, 0, maxColorStep * 2)
                             )
                         ),
@@ -203,26 +242,22 @@ function light(
 module.exports = {
     name: 'Pseudorandom LightID HSVA',
     params: {
-        'start H': 360,
-        'start S': 1,
-        'start V': 1,
-        'start A': 1,
-        'end H': 240,
-        'end S': 1,
-        'end V': 1,
-        'end A': 1,
-        duration: 1,
-        length: 1,
-        precision: 4,
-        step: 8,
-        'light off': 0,
-        'off strobe': 0,
-        idStart: 1,
-        idEnd: 5,
-        idIgnore: 0,
-        idMultiple: 1,
-        eventType: 3,
-        eventColor: 0,
+        'Event Type': Object.keys(eventTypeEnum),
+        'Event Color': Object.keys(eventColorEnum),
+        'HSVA Start': '360,1,1,1',
+        'HSVA End': '240,1,1,1',
+        Duration: 2,
+        Length: 1,
+        Precision: 4,
+        Step: 8,
+        'Light Off': false,
+        'Off-strobe': false,
+        'ID Start-End': '1-15',
+        'ID Ignore': '0',
+        'ID Multiple': 1,
+        'Easing Color': Easings.list,
+        'Easing Step': Easings.list,
     },
     run: light,
+    errorCheck: false,
 };

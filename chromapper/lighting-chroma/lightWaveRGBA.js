@@ -10,11 +10,7 @@
 // repeat: [0-inf] => repeat placement for every duration
 // repeatOffset: [any range] => offset repeat placement time
 
-// you can change easings here
-// visit https://easings.net/ for more info
-// you may need to understand built in Math function
-const durationStepEasing = (x) => x;
-const colorEasing = (x) => x;
+const Easings = require('./_easings.js');
 
 function normalize(x, min, max) {
     return max - min > 0 ? (x - min) / (max - min) : 0;
@@ -30,25 +26,80 @@ function interpolateColor(colorStart, colorEnd, norm) {
     });
 }
 
-function light(cursor, notes, events, walls, _, global, data, customEvents, bpmChanges) {
-    const startRGBA = [global.params[0], global.params[1], global.params[2], global.params[3]];
-    const endRGBA = [global.params[4], global.params[5], global.params[6], global.params[7]];
+const parseRGBA = (rgba) => {
+    rgba = rgba.split(',').map((el) => parseFloat(el));
+    if (rgba.length > 2) {
+        if (rgba.length === 3) {
+            rgba.push(1);
+        }
+    } else {
+        return null;
+    }
+    return rgba;
+};
+
+const eventTypeEnum = {
+    'Ring Light': 1,
+    Backtop: 0,
+    'L Laser': 2,
+    'R Laser': 3,
+    Center: 4,
+    'XL Laser': 6,
+    'XR Laser': 7,
+};
+
+const eventColorEnum = {
+    Red: 1,
+    Blue: 5,
+};
+
+function light(
+    cursor,
+    notes,
+    events,
+    walls,
+    _,
+    global,
+    data,
+    customEvents,
+    bpmChanges
+) {
+    // event type and color
+    const eventType = eventTypeEnum[global.params[0]];
+    const eventColor = eventColorEnum[global.params[1]];
+
+    // chroma color
+    const startRGBA = parseRGBA(global.params[2]);
+    const endRGBA = parseRGBA(global.params[3]);
+    if (!startRGBA || !endRGBA) {
+        alert('invalid RGBA');
+        return;
+    }
+
+    // time
     const cursorTime = cursor;
     const duration = Math.abs(global.params[8]);
     const invert = global.params[9] > 0;
-    const idStart = Math.abs(global.params[10]);
-    const idEnd = Math.abs(global.params[11]);
-    const idLightCount = Math.abs(global.params[12]);
-    const idIgnore = global.params[13].toString();
-    const eventType = Math.abs(global.params[14]);
-    const eventColor = global.params[15] === 0 ? 5 : 1;
-    const maxRepeat = Math.abs(global.params[16]);
-    const repeatOffset = global.params[17];
+
+    // lightID
+    const idStart = parseInt(global.params[6].split('-')[0]);
+    const idEnd = parseInt(global.params[6].split('-')[1]);
+    const idLightCount = Math.abs(global.params[7]);
+    const idOffset = Math.floor(global.params[8]);
+    const idIgnore = global.params[9].split(',').map((el) => parseInt(el));
+
+    // easing
+    const durationEasing = Easings.func[global.params[10]];
+    const colorEasing = Easings.func[global.params[11]];
+
+    // repeat
+    const maxRepeat = Math.abs(global.params[12]);
+    const repeatOffset = global.params[13];
 
     const lightID = [];
     for (let i = 1; i <= idLightCount; i++) {
         if (!idIgnore.includes(i.toString())) {
-            lightID.push(i);
+            lightID.push(i + idOffset);
         }
     }
 
@@ -59,13 +110,15 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
         for (let itIdStep = 0; itIdStep <= maxIdStep; itIdStep++) {
             lightID.forEach((id) =>
                 currentLightID.push(
-                    id + (invert ? idEnd - itIdStep - 1 : itIdStep + idStart - 1) * idLightCount
+                    id +
+                        (invert ? idEnd - itIdStep - 1 : itIdStep + idStart - 1) *
+                            idLightCount
                 )
             );
             const idStepTime = lerp(
                 0,
                 duration,
-                durationStepEasing(normalize(itIdStep, 0, maxIdStep))
+                durationEasing(normalize(itIdStep, 0, maxIdStep))
             );
             const tempLightID = [...currentLightID];
             const currentTime = cursorTime + repeatTime + idStepTime;
@@ -90,24 +143,20 @@ function light(cursor, notes, events, walls, _, global, data, customEvents, bpmC
 module.exports = {
     name: 'Light Wave RGBA',
     params: {
-        'start R': 1,
-        'start G': 0,
-        'start B': 0,
-        'start A': 1,
-        'end R': 0,
-        'end G': 0,
-        'end B': 1,
-        'end A': 1,
-        duration: 2,
-        invert: 0,
-        idStart: 1,
-        idEnd: 15,
-        idLightCount: 4,
-        idIgnore: 0,
-        eventType: 1,
-        eventColor: 0,
-        repeat: 0,
-        repeatOffset: 0,
+        'Event Type': Object.keys(eventTypeEnum),
+        'Event Color': Object.keys(eventColorEnum),
+        'RGBA Start': '1,0,0,1',
+        'RGBA End': '0,0,1,1',
+        Duration: 2,
+        Invert: false,
+        'ID Start-End': '1-15',
+        'ID Light Count': 4,
+        'ID Offset': 0,
+        'ID Ignore': '0',
+        'Easing Duration': Easings.list,
+        'Easing Color': Easings.list,
+        Repeat: 0,
+        'Repeat Offset': 0,
     },
     run: light,
 };
