@@ -144,7 +144,7 @@ function light(
 
     const arrayLightID = [];
     for (let i = idStart; i <= idEnd; i++) {
-        if (!idIgnore.includes(i.toString())) {
+        if (!idIgnore.includes(i)) {
             arrayLightID.push(i);
         }
     }

@@ -98,7 +98,7 @@ function light(
 
     const lightID = [];
     for (let i = 1; i <= idLightCount; i++) {
-        if (!idIgnore.includes(i.toString())) {
+        if (!idIgnore.includes(i)) {
             lightID.push(i + idOffset);
         }
     }
@@ -159,4 +159,5 @@ module.exports = {
         'Repeat Offset': 0,
     },
     run: light,
+    errorCheck: false,
 };

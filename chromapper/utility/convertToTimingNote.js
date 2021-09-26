@@ -1,7 +1,8 @@
 function convert(cursor, notes, events, walls, _, global, data) {
     let startTime = global.params[0];
     let endTime = global.params[1];
-    const removeStack = global.params[2] > 0;
+    const removeStack = global.params[2];
+    const ignoreBomb = global.params[3];
 
     const noteAtTime = {
         0: [],
@@ -9,7 +10,9 @@ function convert(cursor, notes, events, walls, _, global, data) {
         3: [],
     };
 
-    let noteSelected = notes.filter((n) => n.selected).sort((a, b) => a._time - b._time);
+    let noteSelected = notes
+        .filter((n) => n.selected)
+        .sort((a, b) => a._time - b._time);
     if (!noteSelected.length) {
         noteSelected = notes;
     } else {
@@ -24,6 +27,9 @@ function convert(cursor, notes, events, walls, _, global, data) {
         }
         if (noteSelected[i]._time > endTime) {
             break;
+        }
+        if (noteSelected[i]._type === 3 && ignoreBomb) {
+            continue;
         }
         if (
             noteAtTime[noteSelected[i]._type].length > 0 &&
@@ -55,6 +61,12 @@ function checkNoteAtTime(noteArr, note) {
 
 module.exports = {
     name: 'Convert to Timing Note',
-    params: { 'Start Time': 0, 'End Time': 999, 'Remove Stack': 0 },
+    params: {
+        'Start Time': 0,
+        'End Time': 999,
+        'Remove Stack': false,
+        'Ignore Bomb': false,
+    },
     run: convert,
+    errorCheck: false,
 };

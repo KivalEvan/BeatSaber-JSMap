@@ -188,13 +188,13 @@ function light(
     const lightID = [];
     const lightIDAll = [];
     for (let i = 1; i <= idLightCount; i++) {
-        if (!idIgnore.includes(i.toString())) {
+        if (!idIgnore.includes(i)) {
             lightID.push(i + idOffset);
         }
     }
     for (let i = idStart - 1; i < idEnd; i++) {
         for (let j = 1; j <= idLightCount; j++) {
-            if (!idIgnore.includes(j.toString())) {
+            if (!idIgnore.includes(j)) {
                 lightIDAll.push(i * idLightCount + j + idOffset);
             }
         }
