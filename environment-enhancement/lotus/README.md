@@ -1,4 +1,4 @@
-# Nebula Environment
+# Lotus Environment
 
 <img src="https://raw.githubusercontent.com/KivalEvan/BeatSaber-MappingScript/main/environment-enhancement/lotus/lotus.jpg">
 
