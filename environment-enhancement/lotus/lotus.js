@@ -92,50 +92,50 @@ for (let i = 0; i < 2; i++) {
 }
 //#endregion
 //#region front
-// for (let i = 0; i < 5; i++) {
-//     let posX = 16 + i * 4;
-//     let posY = 0;
-//     let posZ = i * 8 + 24;
-//     _environment.push(
-//         {
-//             _id: regexSideLaser,
-//             _lookupMethod: 'Regex',
-//             _duplicate: 1,
-//             _position: [posX, posY, posZ],
-//             _rotation: [15 + i * 2.5, 0, -16 - i * 8],
-//         },
-//         {
-//             _id: regexSideLaser,
-//             _lookupMethod: 'Regex',
-//             _duplicate: 1,
-//             _position: [-posX, posY, posZ],
-//             _rotation: [15 + i * 2.5, 0, 16 + i * 8],
-//         }
-//     );
-// }
+for (let i = 0; i < 5; i++) {
+    let posX = 16 + i * 4;
+    let posY = 0;
+    let posZ = i * 8 + 24;
+    _environment.push(
+        {
+            _id: regexSideLaser,
+            _lookupMethod: 'Regex',
+            _duplicate: 1,
+            _position: [posX, posY, posZ],
+            _rotation: [15 + i * 2.5, 0, -16 - i * 8],
+        },
+        {
+            _id: regexSideLaser,
+            _lookupMethod: 'Regex',
+            _duplicate: 1,
+            _position: [-posX, posY, posZ],
+            _rotation: [15 + i * 2.5, 0, 16 + i * 8],
+        }
+    );
+}
 //#endregion
 //#region backtop
-// for (let i = 0; i < 5; i++) {
-//     let posX = 54 + i * 4;
-//     let posY = i * 2;
-//     let posZ = i * 4 + 80;
-//     _environment.push(
-//         {
-//             _id: regexSideLaser,
-//             _lookupMethod: 'Regex',
-//             _duplicate: 1,
-//             _position: [posX, posY, posZ],
-//             _rotation: [-15, 0, 60 - i * 2.5],
-//         },
-//         {
-//             _id: regexSideLaser,
-//             _lookupMethod: 'Regex',
-//             _duplicate: 1,
-//             _position: [-posX, posY, posZ],
-//             _rotation: [-15, 0, -60 + i * 2.5],
-//         }
-//     );
-// }
+for (let i = 0; i < 5; i++) {
+    let posX = 54 + i * 4;
+    let posY = i * 2;
+    let posZ = i * 4 + 80;
+    _environment.push(
+        {
+            _id: regexSideLaser,
+            _lookupMethod: 'Regex',
+            _duplicate: 1,
+            _position: [posX, posY, posZ],
+            _rotation: [-15, 0, 60 - i * 2.5],
+        },
+        {
+            _id: regexSideLaser,
+            _lookupMethod: 'Regex',
+            _duplicate: 1,
+            _position: [-posX, posY, posZ],
+            _rotation: [-15, 0, -60 + i * 2.5],
+        }
+    );
+}
 //#endregion
 //#region pillar
 for (let i = 0; i < 5; i++) {
