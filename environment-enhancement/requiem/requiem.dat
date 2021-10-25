@@ -1,0 +1,55 @@
+{
+    "_environment": [{
+            "_id": "^PanicEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]Window$",
+            "_lookupMethod": "Regex",
+            "_active": false
+        }, {
+            "_id": "^PanicEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]TopCones$",
+            "_lookupMethod": "Regex",
+            "_position": [-80, -63.6719, 12],
+            "_rotation": [0, 0, 90]
+        }, {
+            "_id": "^PanicEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]TopCones$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [80, 73, 12],
+            "_rotation": [0, 0, -90]
+        }, {
+            "_id": "^GameCore\\.\\[\\d+\\]Panels4TrackLaneRing\\(Clone\\)$",
+            "_lookupMethod": "Regex",
+            "_scale": [4, 4, 1]
+        }, {
+            "_id": "^PanicEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]ConstructionGlowLine.?\\(5\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-40, 14, 0]
+        }, {
+            "_id": "^PanicEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]ConstructionGlowLine.?\\(5\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-36, 18, 0]
+        }, {
+            "_id": "^PanicEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]ConstructionGlowLine.?\\(5\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [36, 18, 0]
+        }, {
+            "_id": "^PanicEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]ConstructionGlowLine.?\\(5\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [40, 14, 0]
+        }, {
+            "_id": "^PanicEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]ConstructionGlowLine.?\\(7\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-20, -8, 0],
+            "_rotation": [90, 0, 0]
+        }, {
+            "_id": "^PanicEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]ConstructionGlowLine.?\\(7\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [20, -8, 0],
+            "_rotation": [90, 0, 0]
+        }
+    ]
+}

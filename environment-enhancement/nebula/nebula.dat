@@ -1,0 +1,419 @@
+{
+    "_environment": [{
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_position": [64, 48, 128],
+            "_rotation": [90, 0, 45],
+            "_scale": [0.25, 0.25, 1]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_position": [-64, 48, 128],
+            "_rotation": [90, 0, 45],
+            "_scale": [0.25, 0.25, 1]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [36, 22.15749876366955, 152.5714683963015],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-36, -16.365214709539757, 113.20907547982036],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [48, 18.1950581805605, 145.87510387480404],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-48, 9.915424720847618, 112.55628061931773],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [60, 21.36548628628747, 159.73207343422],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-60, -2.96921958181062, 115.4645898653496],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [72, 22.52348216567654, 150.3433300959074],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-72, 8.438356005149792, 129.53547754658453],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [84, 1.87172950358611, 108.34355114209657],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-84, 14.320465400800927, 140.11109250813618],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [96, 29.092669127257082, 130.89901008025555],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-96, 1.8207873561240362, 123.46236595042551],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [108, 10.689502325732228, 108.33753533675112],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-108, 47.06020581625251, 155.1656651553945],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [120, -5.517596606501513, 108.90899735853291],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-120, -4.9077822564411235, 110.96989596483225],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [132, 26.78450242274866, 137.10197197368083],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-132, 21.49376414313933, 148.18705781501626],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [144, 30.125989408088763, 158.48480333116723],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-144, 30.286955888600097, 156.02078287808098],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [156, 31.12676375007399, 142.13236516136647],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-156, 28.487508949508445, 120.28342966203601],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [168, -4.601296771207181, 108.84457820433846],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-168, 22.22529886265204, 137.21258174142451],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [180, 39.18075773689221, 149.6691458012467],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-180, 49.62850320703066, 156.28792782528257],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [192, 3.9992323090650572, 115.2879273410214],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-192, 21.08186438339321, 127.75471609486291],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [204, 51.47865695407446, 154.5618039858984],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-204, 52.699112760125374, 155.3717616638177],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [216, 57.63213722880542, 158.12214296518277],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-216, 40.172057989414, 153.35297798280436],
+            "_rotation": [90, 0, 45]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]GlowLineL$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [4, -0.5, -255],
+            "_rotation": [90, 0, 0],
+            "_scale": [1.5, 1.5, 1.5]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]GlowLineL$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-4, -0.5, -255],
+            "_rotation": [90, 0, 0],
+            "_scale": [1.5, 1.5, 1.5]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]GlowLineL$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [5.5, 0, -255],
+            "_rotation": [90, 0, 0],
+            "_scale": [1.5, 1.5, 1.5]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]GlowLineL$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-5.5, 0, -255],
+            "_rotation": [90, 0, 0],
+            "_scale": [1.5, 1.5, 1.5]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [16, 0, 24],
+            "_rotation": [15, 0, -16]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-16, 0, 24],
+            "_rotation": [15, 0, 16]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [20, 0, 32],
+            "_rotation": [17.5, 0, -24]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-20, 0, 32],
+            "_rotation": [17.5, 0, 24]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [24, 0, 40],
+            "_rotation": [20, 0, -32]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-24, 0, 40],
+            "_rotation": [20, 0, 32]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [28, 0, 48],
+            "_rotation": [22.5, 0, -40]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-28, 0, 48],
+            "_rotation": [22.5, 0, 40]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [32, 0, 56],
+            "_rotation": [25, 0, -48]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-32, 0, 56],
+            "_rotation": [25, 0, 48]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [54, 0, 80],
+            "_rotation": [-15, 0, 60]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-54, 0, 80],
+            "_rotation": [-15, 0, -60]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [58, 2, 84],
+            "_rotation": [-15, 0, 57.5]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-58, 2, 84],
+            "_rotation": [-15, 0, -57.5]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [62, 4, 88],
+            "_rotation": [-15, 0, 55]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-62, 4, 88],
+            "_rotation": [-15, 0, -55]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [66, 6, 92],
+            "_rotation": [-15, 0, 52.5]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-66, 6, 92],
+            "_rotation": [-15, 0, -52.5]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [70, 8, 96],
+            "_rotation": [-15, 0, 50]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_position": [-70, 8, 96],
+            "_rotation": [-15, 0, -50]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair\\.\\[\\d+\\]PillarL$",
+            "_lookupMethod": "Regex",
+            "_rotation": [15, 45, 0],
+            "_position": [-32, 6, 64]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair\\.\\[\\d+\\]PillarR$",
+            "_lookupMethod": "Regex",
+            "_rotation": [15, -45, 0],
+            "_position": [32, 6, 64]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair \\(1\\)\\.\\[\\d+\\]PillarL$",
+            "_lookupMethod": "Regex",
+            "_rotation": [15, 45, -7.5],
+            "_position": [-28, 10, 76]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair \\(1\\)\\.\\[\\d+\\]PillarR$",
+            "_lookupMethod": "Regex",
+            "_rotation": [15, -45, 7.5],
+            "_position": [28, 10, 76]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair \\(2\\)\\.\\[\\d+\\]PillarL$",
+            "_lookupMethod": "Regex",
+            "_rotation": [15, 45, -15],
+            "_position": [-24, 14.5874010519682, 88]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair \\(2\\)\\.\\[\\d+\\]PillarR$",
+            "_lookupMethod": "Regex",
+            "_rotation": [15, -45, 15],
+            "_position": [24, 14.5874010519682, 88]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair \\(3\\)\\.\\[\\d+\\]PillarL$",
+            "_lookupMethod": "Regex",
+            "_rotation": [15, 45, -22.5],
+            "_position": [-20, 20, 100]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair \\(3\\)\\.\\[\\d+\\]PillarR$",
+            "_lookupMethod": "Regex",
+            "_rotation": [15, -45, 22.5],
+            "_position": [20, 20, 100]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair \\(4\\)\\.\\[\\d+\\]PillarL$",
+            "_lookupMethod": "Regex",
+            "_rotation": [15, 45, -30],
+            "_position": [-16, 27.349604207872797, 112]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair \\(4\\)\\.\\[\\d+\\]PillarR$",
+            "_lookupMethod": "Regex",
+            "_rotation": [15, -45, 30],
+            "_position": [16, 27.349604207872797, 112]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]MagicDoorSprite$",
+            "_lookupMethod": "Regex",
+            "_rotation": [0, 0, 60],
+            "_position": [-4.625, 25, 144],
+            "_scale": [1, 1.5, 1]
+        }, {
+            "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]MagicDoorSprite$",
+            "_lookupMethod": "Regex",
+            "_duplicate": 1,
+            "_rotation": [0, 0, -60],
+            "_position": [4.625, 25, 144],
+            "_scale": [1, 1.5, 1]
+        }
+    ]
+}
