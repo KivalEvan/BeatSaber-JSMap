@@ -41,7 +41,7 @@ _environment.push(
     }
 );
 // duplicate this shit everywhere
-for (let i = 0; i < 16; i++) {
+for (let i = 0; i < 15; i++) {
     let posXRight = (i + 1) * 12 + 24;
     let posZRight = 32 + Math.random() * 64;
     let posYRight = -64 + Math.random() * 32 + posXRight / 8 + posZRight / 1.25;
@@ -92,50 +92,50 @@ for (let i = 0; i < 2; i++) {
 }
 //#endregion
 //#region front
-for (let i = 0; i < 5; i++) {
-    let posX = 16 + i * 4;
-    let posY = 0;
-    let posZ = i * 8 + 24;
-    _environment.push(
-        {
-            _id: regexSideLaser,
-            _lookupMethod: 'Regex',
-            _duplicate: 1,
-            _position: [posX, posY, posZ],
-            _rotation: [15 + i * 2.5, 0, -16 - i * 8],
-        },
-        {
-            _id: regexSideLaser,
-            _lookupMethod: 'Regex',
-            _duplicate: 1,
-            _position: [-posX, posY, posZ],
-            _rotation: [15 + i * 2.5, 0, 16 + i * 8],
-        }
-    );
-}
+// for (let i = 0; i < 5; i++) {
+//     let posX = 16 + i * 4;
+//     let posY = 0;
+//     let posZ = i * 8 + 24;
+//     _environment.push(
+//         {
+//             _id: regexSideLaser,
+//             _lookupMethod: 'Regex',
+//             _duplicate: 1,
+//             _position: [posX, posY, posZ],
+//             _rotation: [15 + i * 2.5, 0, -16 - i * 8],
+//         },
+//         {
+//             _id: regexSideLaser,
+//             _lookupMethod: 'Regex',
+//             _duplicate: 1,
+//             _position: [-posX, posY, posZ],
+//             _rotation: [15 + i * 2.5, 0, 16 + i * 8],
+//         }
+//     );
+// }
 //#endregion
 //#region backtop
-for (let i = 0; i < 5; i++) {
-    let posX = 54 + i * 4;
-    let posY = i * 2;
-    let posZ = i * 4 + 80;
-    _environment.push(
-        {
-            _id: regexSideLaser,
-            _lookupMethod: 'Regex',
-            _duplicate: 1,
-            _position: [posX, posY, posZ],
-            _rotation: [-15, 0, 60 - i * 2.5],
-        },
-        {
-            _id: regexSideLaser,
-            _lookupMethod: 'Regex',
-            _duplicate: 1,
-            _position: [-posX, posY, posZ],
-            _rotation: [-15, 0, -60 + i * 2.5],
-        }
-    );
-}
+// for (let i = 0; i < 5; i++) {
+//     let posX = 54 + i * 4;
+//     let posY = i * 2;
+//     let posZ = i * 4 + 80;
+//     _environment.push(
+//         {
+//             _id: regexSideLaser,
+//             _lookupMethod: 'Regex',
+//             _duplicate: 1,
+//             _position: [posX, posY, posZ],
+//             _rotation: [-15, 0, 60 - i * 2.5],
+//         },
+//         {
+//             _id: regexSideLaser,
+//             _lookupMethod: 'Regex',
+//             _duplicate: 1,
+//             _position: [-posX, posY, posZ],
+//             _rotation: [-15, 0, -60 + i * 2.5],
+//         }
+//     );
+// }
 //#endregion
 //#region pillar
 for (let i = 0; i < 5; i++) {
@@ -165,7 +165,7 @@ _environment.push(
         _id: regexDoor,
         _lookupMethod: 'Regex',
         _rotation: [0, 0, 60],
-        _position: [-4.625, 25, 144],
+        _position: [-4.625, 28, 192],
         _scale: [1, 1.5, 1],
     },
     {
@@ -173,7 +173,7 @@ _environment.push(
         _lookupMethod: 'Regex',
         _duplicate: 1,
         _rotation: [0, 0, -60],
-        _position: [4.625, 25, 144],
+        _position: [4.625, 28, 192],
         _scale: [1, 1.5, 1],
     }
 );
