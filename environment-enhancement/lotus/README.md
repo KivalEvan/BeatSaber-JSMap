@@ -8,6 +8,8 @@
 
 ## How To Use
 
+Use BTS Environment
+
 Side Center Light (Center Light) => [6-9]
 
 Backtop Light (Ring Light) => [31-40]

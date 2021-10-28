@@ -15,208 +15,208 @@
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [36, 40.099356243083136, 153.7118223660704],
+            "_position": [48, 15.486051366628374, 137.17929570751858],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-36, -21.911918690444555, 102.92748367214699],
+            "_position": [-48, 2, 124.2879458101607],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [48, 12.434476709237934, 139.86516211389915],
+            "_position": [60, 4.077961602669987, 121.15441239891108],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-48, 14.437275346975355, 117.37090086913784],
+            "_position": [-60, 22.55776353192566, 135.46139191318076],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [60, 35.51473107518949, 157.03677596741107],
+            "_position": [72, 9.331319922788381, 134.1120808927078],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-60, -13.88363181163951, 109.12540662420055],
+            "_position": [-72, 18.627641914217442, 141.9419893725834],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [72, -3.3986245202327297, 98.50225098838554],
+            "_position": [84, 6.861029100352972, 136.6221260885513],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-72, 25.960343433820796, 151.97603160448537],
+            "_position": [-84, 38.20373443826921, 144.16987183083967],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [84, 27.04817979224896, 140.0725573021516],
+            "_position": [96, 2, 117.52847511254107],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-84, 10.385152288163788, 104.76576277230667],
+            "_position": [-96, 9.861842859397377, 116.8541804345048],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [96, 21.768693706380525, 126.91383846402798],
+            "_position": [108, 34.973639884766335, 144.75457038900834],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-96, 35.77277492045834, 147.5426258459061],
+            "_position": [-108, 36.019001752979875, 155.8781855835578],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [108, -16.10240205237695, 97.61554288487496],
+            "_position": [120, 10.505693775348007, 114.79190673031326],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-108, 13.01876712450317, 117.51724566303439],
+            "_position": [-120, 2, 97.90954477944412],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [120, 33.21974582618864, 135.10545682463743],
+            "_position": [132, 15.053741592502405, 109.48245599839011],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-120, 40.41406599651231, 156.19834631845475],
+            "_position": [-132, 54.75717201329394, 156.63646764149593],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [132, -1.410584451501144, 110.95371026242732],
+            "_position": [144, 34.927786721539185, 143.74017087571025],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-132, 21.236365586900504, 129.6831052710711],
+            "_position": [-144, 3.7894869898371795, 105.9002537869269],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [144, 27.803029617237513, 143.41878302619887],
+            "_position": [156, 2, 97.673230262424],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-144, 8.959575841934061, 118.68190542448113],
+            "_position": [-156, 32.032177254615355, 156.30729654702176],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [156, -14.196078180751265, 96.8395691019961],
+            "_position": [168, 39.621268690300205, 128.45307462018752],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-156, -2.1581302956294834, 115.93737353831405],
+            "_position": [-168, 3.697501155492148, 119.26140703960151],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [168, 45.327680961358, 157.83070941929122],
+            "_position": [180, 33.41897654825088, 138.77566450764408],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-168, 19.11942900119174, 111.15313440060694],
+            "_position": [-180, 2, 107.99526966090536],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [180, 32.88582297410799, 143.24687395391493],
+            "_position": [192, 13.237767852901143, 101.74905533668036],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-180, 20.609063062807884, 135.03676960443119],
+            "_position": [-192, 58.74494477915425, 153.2555488259626],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [192, 14.151747002211337, 105.80199102084909],
+            "_position": [204, 45.553954720667654, 152.305876687852],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-192, 49.17209988469273, 142.1135805527844],
+            "_position": [-204, 32.717820006658464, 148.0442684388256],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [204, 24.519428043027766, 142.09934870560073],
+            "_position": [216, 40.14433278004229, 142.4134633040116],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-204, 27.23492913934826, 108.61575741352702],
+            "_position": [-216, 35.31909956210998, 120.84980516319659],
             "_rotation": [90, 0, 45]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]GlowLineL$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [4, -0.5, -255],
+            "_position": [4, -0.5, -511],
             "_rotation": [90, 0, 0],
             "_scale": [1.5, 1.5, 1.5]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]GlowLineL$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-4, -0.5, -255],
+            "_position": [-4, -0.5, -511],
             "_rotation": [90, 0, 0],
             "_scale": [1.5, 1.5, 1.5]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]GlowLineL$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [5.5, 0, -255],
+            "_position": [5.5, 0, -511],
             "_rotation": [90, 0, 0],
             "_scale": [1.5, 1.5, 1.5]
         }, {
             "_id": "^BTSEnvironment\\.\\[\\d+\\]Environment\\.\\[\\d+\\]GlowLineL$",
             "_lookupMethod": "Regex",
             "_duplicate": 1,
-            "_position": [-5.5, 0, -255],
+            "_position": [-5.5, 0, -511],
             "_rotation": [90, 0, 0],
             "_scale": [1.5, 1.5, 1.5]
         }, {

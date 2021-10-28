@@ -2,8 +2,8 @@
 
 const fs = require('fs');
 
-const INPUT_FILE = 'INPUT_DIFFICULTY.dat';
-const OUTPUT_FILE = 'OUTPUT_DIFFICULTY.dat';
+const INPUT_FILE = 'INPUT_FILE.dat';
+const OUTPUT_FILE = 'OUTPUT_FILE.dat';
 
 // environment related
 // regex for environment enhancement
@@ -42,12 +42,18 @@ _environment.push(
 );
 // duplicate this shit everywhere
 for (let i = 0; i < 15; i++) {
-    let posXRight = (i + 1) * 12 + 24;
+    let posXRight = (i + 1) * 12 + 36;
     let posZRight = 32 + Math.random() * 64;
-    let posYRight = -64 + Math.random() * 32 + posXRight / 8 + posZRight / 1.25;
-    let posXLeft = (i + 1) * 12 + 24;
+    let posYRight = Math.max(
+        -64 + Math.random() * 32 + posXRight / 8 + posZRight / 1.25,
+        2
+    );
+    let posXLeft = (i + 1) * 12 + 36;
     let posZLeft = 32 + Math.random() * 64;
-    let posYLeft = -64 + Math.random() * 32 + posXLeft / 8 + posZLeft / 1.25;
+    let posYLeft = Math.max(
+        -64 + Math.random() * 32 + posXLeft / 8 + posZLeft / 1.25,
+        2
+    );
     _environment.push(
         {
             _id: regexRingRight,
@@ -70,7 +76,7 @@ for (let i = 0; i < 15; i++) {
 for (let i = 0; i < 2; i++) {
     let posX = i * 1.5 + 4;
     let posY = i * 0.5 - 0.5;
-    let posZ = -255;
+    let posZ = -511;
     _environment.push(
         {
             _id: regexGlowLine,

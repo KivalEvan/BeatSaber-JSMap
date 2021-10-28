@@ -322,12 +322,14 @@ function check(
     //#region bomb
     setColor(notes, 3, [120, 0, 2], 0, 434);
     randomizeColor(notes, 3, [0, 0, 0.375], [0, 0, 0.75], 33.5, 34);
+    setGradientColor(notes, 3, [60, 0, 1], [60, 0, 0.25], 36.5, 38);
     randomizeColor(notes, 3, [0, 0, 0.375], [0, 0, 0.75], 42.5, 43);
-    randomizeColor(notes, 3, [0, 0, 0.375], [0, 0, 0.75], 64, 65);
-    setGradientColor(notes, 3, [30, 0.75, 1], [0, 0, 1], 121.25, 122.25);
+    randomizeColor(notes, 3, [0, 0, 0.375], [0, 0, 0.75], 64, 67);
+    setGradientColor(notes, 3, [30, 0.875, 1], [45, 0, 0.75], 121.25, 122.25);
     setColor(notes, 3, [0, 0, 0.375], 135, 135);
     setColor(notes, 3, [0, 0, 0.375], 151, 151);
-    setGradientColor(notes, 3, [0, 0, 0.25], [0, 0, 0.5], 146, 146.5);
+    setGradientColor(notes, 3, [0, 0, 0.375], [0, 0, 0.5], 146, 146.5);
+    randomizeColor(notes, 3, [0, 0, 0.375], [30, 0.25, 0.75], 166.5, 170);
     setColor(notes, 3, [0, 0, 0.625], 170, 187);
     setGradientColor(notes, 3, [0, 0, 0.375], [0, 0, 1], 190, 192);
     randomizeColor(notes, 3, [0, 0, 0.375], [0, 0, 0.75], 193, 194);
@@ -336,8 +338,8 @@ function check(
         setGradientColor(
             notes,
             3,
-            [0, 0, 0.25],
             [0, 0, 0.375],
+            [0, 0, 0.5],
             228 + i * 4,
             228.5 + i * 4
         );
@@ -345,13 +347,14 @@ function check(
     randomizeColor(notes, 3, [0, 0, 0.375], [0, 0, 0.75], 257.5, 258);
     setGradientColor(notes, 3, [300, 0, 0.75], [330, 1, 1], 258.5, 259.25);
     setGradientColor(notes, 3, [330, 1, 1], [400, 1, 1], 259.25, 260 - 1 / 8);
+    setGradientColor(notes, 3, [60, 0, 1], [60, 0, 0.25], 260, 263);
     setColor(notes, 3, [0, 0, 0.5], 288, 288);
     setColor(notes, 3, [0, 0, 0.75], 291, 291);
     setColor(notes, 3, [0, 0, 0.5], 322, 324);
     setGradientColor(notes, 3, [0, 0, 0.375], [0, 0, 1], 354, 356);
     setColor(notes, 3, [0, 0, 0.375], 391, 391);
+    setGradientColor(notes, 3, [0, 0, 0.375], [0, 0, 0.5], 402, 402.5);
     setColor(notes, 3, [0, 0, 0.375], 407, 407);
-    setGradientColor(notes, 3, [0, 0, 0.25], [0, 0, 0.5], 402, 402.5);
     //#endregion
     //#region wall
     const centerWalls = walls.filter((w) => w._lineIndex === 1 || w._lineIndex === 2);
@@ -371,6 +374,7 @@ function check(
     setGradientColor(walls, 2, [0, 0, 1], [0, 0, 0.625], 58.5, 60);
     setGradientColor(walls, 2, [0, 0, 1], [0, 0, 0.375], 60, 62);
     setGradientColor(walls, 2, [0, 0, 1], [0, 0, 0.375], 61, 63);
+    setColor(walls, 2, [30, 1, 1], 63, 64);
     setColor(walls, 2, [0, 1, 1], 64, 67);
     setGradientColor(walls, 2, [270, 1, 1], [330, 1, 1], 93, 96);
     setColor(walls, 2, [0, 0, 0.375], 128, 128);
