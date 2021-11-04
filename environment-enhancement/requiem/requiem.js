@@ -7,14 +7,13 @@ const INPUT_FILE = 'DIFFICULTY_FILE_INPUT.dat';
 const OUTPUT_FILE = 'DIFFICULTY_FILE_OUTPUT.dat';
 
 // regex for environment enhancement
-const ENVIRONMENT_PREFIX = 'PanicEnvironment'; // shouldnt be touched, also set env to PanicEnvironment if not
-const regexSpectrogram = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.(\\[\\d+\\]Spectrogram(s|\\.|\\d)?)+$`;
-const regexRing = `^GameCore\\.\\[\\d+\\]Panels4TrackLaneRing\\(Clone\\)$`;
-const regexWindow = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]Window$`;
-const regexTopCone = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]TopCones$`;
-const regexBottomCone = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]BottomCones$`;
-const regexConstGlowLineRing = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]ConstructionGlowLine.?\\(5\\)$`;
-const regexConstGlowLineBacktop = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]ConstructionGlowLine.?\\(7\\)$`;
+const regexSpectrogram = `(\\[\\d+\\]Spectrogram(s|\\.|\\d)?)+$`;
+const regexRing = `\\[\\d+\\]Panels4TrackLaneRing\\(Clone\\)$`;
+const regexWindow = `\\[\\d+\\]Window$`;
+const regexTopCone = `\\[\\d+\\]TopCones$`;
+const regexBottomCone = `\\[\\d+\\]BottomCones$`;
+const regexConstGlowLineRing = `\\[\\d+\\]ConstructionGlowLine.?\\(5\\)$`;
+const regexConstGlowLineBacktop = `\\[\\d+\\]ConstructionGlowLine.?\\(7\\)$`;
 
 // beyond you're on your own
 let difficulty = JSON.parse(fs.readFileSync(INPUT_FILE));

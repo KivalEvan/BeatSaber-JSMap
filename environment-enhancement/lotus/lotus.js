@@ -7,14 +7,13 @@ const OUTPUT_FILE = 'OUTPUT_FILE.dat';
 
 // environment related
 // regex for environment enhancement
-const ENVIRONMENT_PREFIX = 'BTSEnvironment'; // shouldnt be touched, also set env to BTS if not
-const regexRingRight = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR$`;
-const regexRingLeft = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$`;
-const regexSideLaser = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[42\\]SideLaser$`;
-const regexGlowLine = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]GlowLineL$`;
-const regexPillarL = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair\\.\\[\\d+\\]PillarL$`;
-const regexPillarR = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]PillarPair\\.\\[\\d+\\]PillarR$`;
-const regexDoor = `^${ENVIRONMENT_PREFIX}\\.\\[\\d+\\]Environment\\.\\[\\d+\\]MagicDoorSprite$`;
+const regexRingRight = `\\[\\d+\\]PillarTrackLaneRingsR$`;
+const regexRingLeft = `\\[\\d+\\]PillarTrackLaneRingsR.?\\(1\\)$`;
+const regexSideLaser = `\\[42\\]SideLaser$`;
+const regexGlowLine = `\\[\\d+\\]GlowLineL$`;
+const regexPillarL = `\\[\\d+\\]PillarPair\\.\\[\\d+\\]PillarL$`;
+const regexPillarR = `\\[\\d+\\]PillarPair\\.\\[\\d+\\]PillarR$`;
+const regexDoor = `\\[\\d+\\]MagicDoorSprite$`;
 
 // beyond you're on your own
 let difficulty = JSON.parse(fs.readFileSync(INPUT_FILE));
