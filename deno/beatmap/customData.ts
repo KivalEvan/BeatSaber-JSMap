@@ -1,5 +1,8 @@
 import { Bookmark } from './bookmark.ts';
 import { BPMChange } from './bpm.ts';
+import { Contributor } from './contributor.ts';
+import { Editor } from './editor.ts';
+import { ColorScheme } from './environment.ts';
 import {
     CCustomData,
     ChromaEnvironmentOld,
@@ -7,13 +10,26 @@ import {
     ChromaNote,
     ChromaObstacle,
 } from './chroma.ts';
-import { Contributor } from './contributor.ts';
-import { Editor } from './editor.ts';
-import { ColorScheme } from './environment.ts';
 import { NECustomData, NEEvent, NENote, NEObstacle } from './noodleExtensions.ts';
 
-export interface CustomData {}
+/**
+ * Base custom data interface.
+ */
+export interface CustomData {
+    // deno-lint-ignore no-explicit-any
+    [key: string]: any;
+}
 
+/**
+ * Custom Data interface for info.
+ *
+ *     _editors?: Editor,
+ *     _contributors?: Contributor[],
+ *     _customEnvironment?: string,
+ *     _customEnvironmentHash?: string
+ *
+ * @extends CustomData
+ */
 export interface CustomDataInfo extends CustomData {
     _editors?: Editor;
     _contributors?: Contributor[];
@@ -21,6 +37,21 @@ export interface CustomDataInfo extends CustomData {
     _customEnvironmentHash?: string;
 }
 
+/**
+ * Custom Data interface for info difficulty.
+ *
+ *     _difficultyLabel?: string,
+ *     _editorOffset?: int,
+ *     _editorOldOffset?: int,
+ *     _warnings?: string[],
+ *     _information?: string[],
+ *     _suggestions?: string[],
+ *     _requirements?: string[]
+ *
+ * @extends CustomData
+ * @extends ColorScheme
+ * @extends ChromaEnvironmentOld
+ */
 export interface CustomDataInfoDifficulty
     extends CustomData,
         ColorScheme,
@@ -34,6 +65,18 @@ export interface CustomDataInfoDifficulty
     _requirements?: string[];
 }
 
+/**
+ * Custom Data interface for difficulty file.
+ *
+ *     _time?: float,
+ *     _bpmChanges?: BPMChange[];
+ *     _BPMChanges?: BPMChange[];
+ *     _bookmarks?: Bookmark[];
+ *
+ * @extends CustomData
+ * @extends CCustomData
+ * @extends NECustomData
+ */
 export interface CustomDataDifficulty extends CustomData, CCustomData, NECustomData {
     _time?: number;
     _bpmChanges?: BPMChange[];
