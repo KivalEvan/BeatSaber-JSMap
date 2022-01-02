@@ -14,6 +14,8 @@ export * as environment from './beatmap/environment.ts';
 export * as info from './beatmap/info.ts';
 export * as njs from './beatmap/njs.ts';
 export * as noodleExtensions from './beatmap/noodleExtensions.ts';
+export * as keysound from './beatmap/keysound.ts';
+export * as heck from './beatmap/heck.ts';
 export * as parse from './beatmap/parse.ts';
 export * as note from './beatmap/note.ts';
 export * as swing from './beatmap/swing.ts';

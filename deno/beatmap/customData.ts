@@ -3,6 +3,7 @@ import { BPMChange } from './bpm.ts';
 import { Contributor } from './contributor.ts';
 import { Editor } from './editor.ts';
 import { ColorScheme } from './environment.ts';
+import { HeckCustomData } from './heck.ts';
 import {
     CCustomData,
     ChromaEnvironmentOld,
@@ -11,6 +12,7 @@ import {
     ChromaObstacle,
 } from './chroma.ts';
 import { NECustomData, NEEvent, NENote, NEObstacle } from './noodleExtensions.ts';
+import { KeysoundMap, KeysoundNote } from './keysound.ts';
 
 /**
  * Base custom data interface.
@@ -50,11 +52,13 @@ export interface CustomDataInfo extends CustomData {
  *
  * @extends CustomData
  * @extends ColorScheme
+ * @extends HeckCustomData
  * @extends ChromaEnvironmentOld
  */
 export interface CustomDataInfoDifficulty
     extends CustomData,
         ColorScheme,
+        HeckCustomData,
         ChromaEnvironmentOld {
     _difficultyLabel?: string;
     _editorOffset?: number;
@@ -77,13 +81,17 @@ export interface CustomDataInfoDifficulty
  * @extends CCustomData
  * @extends NECustomData
  */
-export interface CustomDataDifficulty extends CustomData, CCustomData, NECustomData {
+export interface CustomDataDifficulty
+    extends CustomData,
+        CCustomData,
+        NECustomData,
+        KeysoundMap {
     _time?: number;
     _bpmChanges?: BPMChange[];
     _BPMChanges?: BPMChange[];
     _bookmarks?: Bookmark[];
 }
 
-export type CustomDataNote = CustomData & ChromaNote & NENote;
+export type CustomDataNote = CustomData & ChromaNote & NENote & KeysoundNote;
 export type CustomDataObstacle = CustomData & ChromaObstacle & NEObstacle;
 export type CustomDataEvent = CustomData & ChromaEvent & NEEvent;

@@ -12,6 +12,8 @@ export * as environment from './environment.ts';
 export * as info from './info.ts';
 export * as njs from './njs.ts';
 export * as noodleExtensions from './noodleExtensions.ts';
+export * as keysound from './keysound.ts';
+export * as heck from './heck.ts';
 export * as parse from './parse.ts';
 export * as note from './note.ts';
 export * as swing from './swing.ts';
