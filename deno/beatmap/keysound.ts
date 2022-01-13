@@ -1,7 +1,7 @@
 export const KeysoundName = 'Keysound';
 
 /**
- * Keysound Map interface for difficulty custom data.
+ * Keysound Map interface for info custom data.
  *
  *     _id: number,
  *     _file: string,
@@ -16,7 +16,7 @@ export interface KeysoundMap {
 }
 
 /**
- * Keysound Map interface for beatmap note custom data.
+ * Keysound Note interface for beatmap note custom data.
  *
  *     _id: number,
  *     _type?: 'hit' | 'bad cut' | 'miss',

@@ -3,15 +3,22 @@ import { BPMChange } from './bpm.ts';
 import { Contributor } from './contributor.ts';
 import { Editor } from './editor.ts';
 import { ColorScheme } from './environment.ts';
-import { HeckCustomData } from './heck.ts';
+import { HeckInfoCustomData, HeckCustomData, HeckCustomEvent } from './heck.ts';
 import {
-    CCustomData,
     ChromaEnvironmentOld,
     ChromaEvent,
     ChromaNote,
     ChromaObstacle,
+    ChromaCustomData,
+    ChromaCustomEvent,
 } from './chroma.ts';
-import { NECustomData, NEEvent, NENote, NEObstacle } from './noodleExtensions.ts';
+import {
+    NECustomData,
+    NECustomEvent,
+    NEEvent,
+    NENote,
+    NEObstacle,
+} from './noodleExtensions.ts';
 import { KeysoundMap, KeysoundNote } from './keysound.ts';
 
 /**
@@ -32,7 +39,7 @@ export interface CustomData {
  *
  * @extends CustomData
  */
-export interface CustomDataInfo extends CustomData {
+export interface CustomDataInfo extends CustomData, KeysoundMap {
     _editors?: Editor;
     _contributors?: Contributor[];
     _customEnvironment?: string;
@@ -52,13 +59,13 @@ export interface CustomDataInfo extends CustomData {
  *
  * @extends CustomData
  * @extends ColorScheme
- * @extends HeckCustomData
+ * @extends HeckInfoCustomData
  * @extends ChromaEnvironmentOld
  */
 export interface CustomDataInfoDifficulty
     extends CustomData,
         ColorScheme,
-        HeckCustomData,
+        HeckInfoCustomData,
         ChromaEnvironmentOld {
     _difficultyLabel?: string;
     _editorOffset?: number;
@@ -81,11 +88,15 @@ export interface CustomDataInfoDifficulty
  * @extends CCustomData
  * @extends NECustomData
  */
+
+export type CustomEvent = HeckCustomEvent | ChromaCustomEvent | NECustomEvent;
+
 export interface CustomDataDifficulty
     extends CustomData,
-        CCustomData,
-        NECustomData,
-        KeysoundMap {
+        Omit<HeckCustomData, '_customEvents'>,
+        Omit<ChromaCustomData, '_customEvents'>,
+        Omit<NECustomData, '_customEvents'> {
+    _customEvents?: CustomEvent[];
     _time?: number;
     _bpmChanges?: BPMChange[];
     _BPMChanges?: BPMChange[];

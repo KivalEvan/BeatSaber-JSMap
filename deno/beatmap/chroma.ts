@@ -1,9 +1,27 @@
 import { Easings } from './easings.ts';
+import {
+    HeckCustomEventDataBase,
+    Array3DPoint,
+    Array2DPointDefinition,
+} from './heck.ts';
 type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
-type Array3DPoint = [number, number, number];
 type ArrayColor = [number, number, number] | [number, number, number, number];
 
 export const ChromaName = 'Chroma';
+
+export enum ChromaDataEnvAbbr {
+    _id = 'Ct',
+    _lookupMethod = 'Lm',
+    _duplicate = 'D',
+    _active = 'A',
+    _scale = 'S',
+    _position = 'P',
+    _localPosition = 'Lp',
+    _rotation = 'R',
+    _localRotation = 'Lr',
+    _lightID = 'Li',
+    _track = 'T',
+}
 
 /**
  * Chroma interface for Environment Enhancement.
@@ -32,15 +50,6 @@ export interface ChromaEnvironment {
     _rotation?: Array3DPoint;
     _localRotation?: Array3DPoint;
     _lightID?: number;
-}
-
-/**
- * Chroma interface for Difficulty Custom Data.
- *
- *     _environment?: ChromaEnvironment
- */
-export interface CCustomData {
-    _environment?: ChromaEnvironment[];
 }
 
 /**
@@ -160,3 +169,43 @@ export type ChromaEvent = ChromaEventLaser &
     ChromaEventLight &
     ChromaEventRotation &
     ChromaEventZoom;
+
+/**
+ * AssignFogTrack interface for Noodle Extensions Custom Event.
+ *
+ *     _attenuation: float | Array2DPointDefinition[];
+ *     _offset: float | Array2DPointDefinition[];
+ *     _startY: float | Array2DPointDefinition[];
+ *     _height: float | Array2DPointDefinition[];
+ */
+export interface ChromaCustomEventDataAssignFogTrack extends HeckCustomEventDataBase {
+    _attenuation?: number | Array2DPointDefinition[];
+    _offset?: number | Array2DPointDefinition[];
+    _startY?: number | Array2DPointDefinition[];
+    _height?: number | Array2DPointDefinition[];
+}
+
+/**
+ * Chroma Custom Event interface for AssignFogTrack.
+ *
+ *     _time: float,
+ *     _type: 'AssignFogTrack',
+ *     _data: NECustomEventDataAssignFogTrack
+ */
+export interface ChromaCustomEventAssignFogTrack {
+    _time: number;
+    _type: 'AssignFogTrack';
+    _data: ChromaCustomEventDataAssignFogTrack;
+}
+
+export type ChromaCustomEvent = ChromaCustomEventAssignFogTrack;
+
+/**
+ * Chroma Custom Data interface for difficulty custom data.
+ *
+ *     _track: string,
+ */
+export interface ChromaCustomData {
+    _customEvents?: ChromaCustomEvent[];
+    _environment?: ChromaEnvironment[];
+}
