@@ -44,11 +44,35 @@ export const readMapSync = (path: string) => {
     return beatmap.parse.difficulty(JSON.parse(Deno.readTextFileSync(path)));
 };
 
-export const saveMap = async (path: string, map: beatmap.difficulty.DifficultyData) => {
+interface SaveOptions {
+    precision: number;
+    optimiseLight: boolean;
+}
+
+export const saveMap = async (
+    path: string,
+    map: beatmap.difficulty.DifficultyData,
+    options?: SaveOptions
+) => {
     await Deno.writeTextFile(path, JSON.stringify(map));
 };
 
-export const saveMapSync = (path: string, map: beatmap.difficulty.DifficultyData) => {
+export const saveMapSync = (
+    path: string,
+    map: beatmap.difficulty.DifficultyData,
+    options?: SaveOptions
+) => {
+    // save file
+    const sortP = Math.pow(10, 2);
+    map._notes.sort(
+        (a, b) =>
+            Math.round((a._time + Number.EPSILON) * sortP) / sortP -
+                Math.round((b._time + Number.EPSILON) * sortP) / sortP ||
+            a._lineIndex - b._lineIndex ||
+            a._lineLayer - b._lineLayer
+    );
+    map._obstacles.sort((a, b) => a._time - b._time);
+    map._events.sort((a, b) => a._time - b._time);
     Deno.writeTextFileSync(path, JSON.stringify(map));
 };
 

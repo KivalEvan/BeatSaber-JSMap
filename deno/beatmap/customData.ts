@@ -6,19 +6,12 @@ import { ColorScheme } from './environment.ts';
 import { HeckInfoCustomData, HeckCustomData, HeckCustomEvent } from './heck.ts';
 import {
     ChromaEnvironmentOld,
-    ChromaEvent,
     ChromaNote,
     ChromaObstacle,
     ChromaCustomData,
     ChromaCustomEvent,
 } from './chroma.ts';
-import {
-    NECustomData,
-    NECustomEvent,
-    NEEvent,
-    NENote,
-    NEObstacle,
-} from './noodleExtensions.ts';
+import { NECustomData, NECustomEvent, NENote, NEObstacle } from './noodleExtensions.ts';
 import { KeysoundMap, KeysoundNote } from './keysound.ts';
 
 /**
@@ -105,4 +98,3 @@ export interface CustomDataDifficulty
 
 export type CustomDataNote = CustomData & ChromaNote & NENote & KeysoundNote;
 export type CustomDataObstacle = CustomData & ChromaObstacle & NEObstacle;
-export type CustomDataEvent = CustomData & ChromaEvent & NEEvent;

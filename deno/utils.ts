@@ -64,3 +64,17 @@ export const median = (numArr: number[]): number => {
 export const isHex = (hex: string): boolean => {
     return /[a-fA-F0-9]*/g.test(hex);
 };
+
+// Fisher–Yates shuffle
+// deno-lint-ignore no-explicit-any
+export const shuffle = (array: any[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+};
+
+export const interleave = ([x, ...xs]: number[], ys: number[] = []): number[] =>
+    x === undefined
+        ? ys // base: no x
+        : [x, ...interleave(ys, xs)]; // inductive: some x

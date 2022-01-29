@@ -9,20 +9,6 @@ type ArrayColor = [number, number, number] | [number, number, number, number];
 
 export const ChromaName = 'Chroma';
 
-export enum ChromaDataEnvAbbr {
-    _id = 'Ct',
-    _lookupMethod = 'Lm',
-    _duplicate = 'D',
-    _active = 'A',
-    _scale = 'S',
-    _position = 'P',
-    _localPosition = 'Lp',
-    _rotation = 'R',
-    _localRotation = 'Lr',
-    _lightID = 'Li',
-    _track = 'T',
-}
-
 /**
  * Chroma interface for Environment Enhancement.
  *
@@ -164,11 +150,6 @@ export interface ChromaEventZoom {
     _step?: number;
     _speed?: number;
 }
-
-export type ChromaEvent = ChromaEventLaser &
-    ChromaEventLight &
-    ChromaEventRotation &
-    ChromaEventZoom;
 
 /**
  * AssignFogTrack interface for Noodle Extensions Custom Event.
