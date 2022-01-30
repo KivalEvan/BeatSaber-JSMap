@@ -1,14 +1,16 @@
 import * as bsmap from '../deno/mod.ts';
 import * as imagescript from 'https://deno.land/x/imagescript@1.2.9/mod.ts';
+import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
 
-const INPUT_FILE =
-    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Bad Apple/EasyLawless.dat';
+const WORKING_DIRECTORY = dirname(Deno.mainModule).replace('file:///', '') + '/'; // for some reason deno doesnt like to deal with file:///
+const MAP_DIRECTORY =
+    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Bad Apple/';
+
+const INPUT_FILE = MAP_DIRECTORY + 'EasyLawless.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
 const difficulty = bsmap.readMapSync(INPUT_FILE);
-const info = bsmap.readInfoSync(
-    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Bad Apple/Info.dat'
-);
+const info = bsmap.readInfoSync(MAP_DIRECTORY + 'Info.dat');
 
 const BPM = bsmap.bpm.create(info._beatsPerMinute);
 
@@ -30,27 +32,29 @@ _environment.push({
 });
 
 let lightID = 100;
+const screenLight: { [key: number]: number } = {};
 const screenX = 48;
 const screenY = 36;
-const posZ = 48;
+const posZ = 32;
 for (let y = 0; y < screenY; y++) {
     for (let x = 0; x < screenX; x++) {
         const posX = -11.5 + x * 0.5;
-        const posY = 10 - y * 0.5;
+        const posY = 12 - y * 0.5;
         _environment.push({
             _id: regexTrackTRLaser,
             _lookupMethod: 'Regex',
             _duplicate: 1,
             _position: [posX, posY, posZ],
             _rotation: [0, 0, 0],
-            _scale: [2, 0.075, 0.125],
+            _scale: [2, 0.075, 0.03125],
             _lightID: ++lightID,
         });
+        screenLight[lightID] = 0;
     }
 }
 
 console.log('loading gif');
-const image = Deno.readFileSync('E:/Downloads/ezgif-6-04f87566a9.gif');
+const image = Deno.readFileSync(WORKING_DIRECTORY + 'badapple.gif');
 console.log('decoding gif');
 const img = await imagescript.GIF.decode(image);
 let i = 0;
@@ -66,11 +70,15 @@ img.forEach((frame) => {
             if (colorAry[3] === 0) {
                 continue;
             }
+            if (screenLight[pos] === colorAry[0]) {
+                continue;
+            }
             if (!colorID[Math.min(...colorAry)]) {
                 colorID[Math.min(...colorAry)] = [pos];
             } else {
                 colorID[Math.min(...colorAry)].push(pos);
             }
+            screenLight[pos] = colorAry[0];
         }
     }
     for (const color in colorID) {
@@ -86,6 +94,6 @@ img.forEach((frame) => {
     }
     i++;
 });
-console.log(_events.length);
+console.log(_events.length, 'events');
 bsmap.saveMapSync(OUTPUT_FILE, difficulty);
 console.log('done');

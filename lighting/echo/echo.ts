@@ -1,5 +1,4 @@
 // holy shit image are so tedious to work with and optimise
-// i forgor to do helper function, oh well
 import * as bsmap from '../../deno/mod.ts';
 import * as imagescript from 'https://deno.land/x/imagescript@1.2.9/mod.ts';
 import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
@@ -40,7 +39,7 @@ const regexGlowTopLine = `\\[\\d+\\]GlowTopLine$`;
 const regexGlowLine = `\\[\\d+\\]GlowLine$`;
 const regexGlowLineL = `\\[\\d+\\]GlowLineLVisible$`;
 const regexGlowLineR = `\\[\\d+\\]GlowLineRVisible$`;
-const regexLaser = `Environment.\\[\\d+\\]Laser$`;
+const regexLaser = `Environment\.\\[\\d+\\]Laser$`;
 const regexRotatingLasersPair = `\\[\\d+\\]RotatingLasersPair$`;
 _environment.push({
     _id: '\\[\\d+\\]FloorMirror$',
@@ -361,6 +360,64 @@ _environment.push(
         _rotation: [0, 210, 45],
     }
 );
+//#endregion
+
+//#region helper
+interface ImageGIFOption {
+    eventTime: number;
+    eventValue?: number;
+    fadeInDuration?: number;
+    animated?: boolean;
+    animationSpeed?: number;
+    xOffset?: number;
+    yOffset?: number;
+}
+
+const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
+    const opt: Required<ImageGIFOption> = {
+        eventTime: options.eventTime,
+        eventValue: options?.eventValue ?? 1,
+        fadeInDuration: options?.fadeInDuration ?? 0,
+        animated: options?.animated ?? false,
+        animationSpeed: options?.animationSpeed ?? 0.125,
+        xOffset: options?.xOffset ?? 0,
+        yOffset: options?.yOffset ?? 0,
+    };
+    const image = Deno.readFileSync(WORKING_DIRECTORY + imagePath);
+    const img = await imagescript.GIF.decode(image, opt.animated);
+    itFrame = 0;
+    img.forEach((frame) => {
+        const colorID: { [key: string]: number[] } = {};
+        for (let y = 0; y < Math.min(img.height, screenY) - opt.yOffset; y++) {
+            for (let x = 0; x < Math.min(img.width, screenX) - opt.xOffset; x++) {
+                const pos =
+                    screenStartID + screenX * (y + opt.yOffset) + x + opt.xOffset;
+                const colorAry = frame.getRGBAAt(x + 1, y + 1);
+                if (screenLight[pos] === colorAry[0]) {
+                    continue;
+                }
+                if (!colorID[colorAry[0]]) {
+                    colorID[colorAry[0]] = [pos];
+                } else {
+                    colorID[colorAry[0]].push(pos);
+                }
+                screenLight[pos] = colorAry[0];
+            }
+        }
+        for (const color in colorID) {
+            _events.push({
+                _type: 4,
+                _time: opt.eventTime + itFrame * opt.animationSpeed,
+                _value: opt.eventValue,
+                _floatValue: parseInt(color) / 255,
+                _customData: {
+                    _lightID: colorID[color],
+                },
+            });
+        }
+        itFrame++;
+    });
+};
 //#endregion
 
 //#region piano intro
@@ -1292,7 +1349,7 @@ for (const ivt of introVocalTiming) {
         for (const color in colorID) {
             _events.push({
                 _type: 4,
-                _time: 37.5,
+                _time: 37.375,
                 _value: 1,
                 _floatValue: parseInt(color) / 255,
                 _customData: {
@@ -1301,7 +1358,7 @@ for (const ivt of introVocalTiming) {
             });
         }
     });
-    screenClear(37.5625);
+    screenClear(37.4375);
 }
 {
     const image = Deno.readFileSync(WORKING_DIRECTORY + 'grip.gif');
@@ -1328,7 +1385,7 @@ for (const ivt of introVocalTiming) {
         for (const color in colorID) {
             _events.push({
                 _type: 4,
-                _time: 37.625,
+                _time: 37.5,
                 _value: 1,
                 _floatValue: parseInt(color) / 255,
                 _customData: {

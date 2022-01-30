@@ -1,29 +1,12 @@
-type Curve =
-    | 'Sine'
-    | 'Quad'
-    | 'Cubic'
-    | 'Quart'
-    | 'Quint'
-    | 'Expo'
-    | 'Circ'
-    | 'Back'
-    | 'Elastic'
-    | 'Bounce';
+import { Easings, EasingsExclude } from './types/easings.ts';
 
-type Transition = 'In' | 'Out' | 'InOut';
-
-export type Easings = `ease${Transition}${Curve}` | 'easeStep' | 'easeLinear';
-export type EasingsExclude =
-    | `ease${Transition}${'Sine' | 'Expo' | 'Circ' | 'Back' | 'Elastic' | 'Bounce'}`
-    | 'easeStep';
-
-// unfortunately, even if i wanted to include all easings algorithm from easings.net, license conflict may not allow it; they can however extend it
 /**
  * Easings function methods, can define own function.
  *
  *     Call: method.name(number) => number
  *     Define: method.name = (x) => x
  */
+// unfortunately, even if i wanted to include all easings algorithm from easings.net, license conflict may not allow it; they can however extend it
 export const method: {
     [easing in Exclude<Easings, EasingsExclude> | string]: (x: number) => number;
 } = {

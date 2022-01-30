@@ -7,8 +7,25 @@ import {
     Array3DPointDefinition,
 } from './heck.ts';
 
-export const NEName = 'Noodle Extensions';
+export const name = 'Noodle Extensions';
 
+export enum NEDataAbbr {
+    _childrenTracks = 'Ct',
+    _color = 'C',
+    _definitePosition = 'Dp',
+    _dissolve = 'D',
+    _dissolveArrow = 'Da',
+    _duration = 'Dur',
+    _easing = 'E',
+    _interactable = 'I',
+    _localRotation = 'Lr',
+    _parentTrack = 'Pt',
+    _position = 'P',
+    _rotation = 'R',
+    _scale = 'S',
+    _time = 'T',
+    _track = 'Tr',
+}
 /**
  * Noodle Extensions Object interface for Beatmap Object.
  *

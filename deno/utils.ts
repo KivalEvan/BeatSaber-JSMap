@@ -29,12 +29,12 @@ export const round = (num: number, d = 0): number => {
     return Math.round(num * Math.pow(10, d)) / Math.pow(10, d);
 };
 
-export const radToDeg = (x: number) => {
-    return x * (180 / Math.PI);
+export const radToDeg = (rad: number) => {
+    return rad * (180 / Math.PI);
 };
 
-export const degToRad = (x: number) => {
-    return x * (Math.PI / 180);
+export const degToRad = (deg: number) => {
+    return deg * (Math.PI / 180);
 };
 
 // thanks Top_Cat#1961
@@ -74,7 +74,8 @@ export const shuffle = (array: any[]) => {
     }
 };
 
-export const interleave = ([x, ...xs]: number[], ys: number[] = []): number[] =>
-    x === undefined
+export const interleave = ([x, ...xs]: number[], ys: number[] = []): number[] => {
+    return x === undefined
         ? ys // base: no x
         : [x, ...interleave(ys, xs)]; // inductive: some x
+};

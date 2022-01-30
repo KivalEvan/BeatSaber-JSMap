@@ -1,44 +1,5 @@
+import { Note, NoteCount } from './types/note.ts';
 import { radToDeg, shortRotDistance } from '../utils.ts';
-import { CustomDataNote } from './customData.ts';
-
-/**
- * Beatmap object interface for Note.
- *
- *     _time: float,
- *     _lineIndex: int,
- *     _lineLayer: int,
- *     _type: int,
- *     _cutDirection: int,
- *     _customData?: JSON
- */
-export interface NoteBase {
-    _time: number;
-    _lineIndex: number;
-    _lineLayer: number;
-    _cutDirection: number;
-    _type: number;
-    _customData?: Record<never, never>;
-}
-
-export interface NoteGeneric extends NoteBase {
-    _type: 0 | 1 | 3;
-    _customData?: CustomDataNote;
-}
-
-export type Note = NoteGeneric;
-
-interface NoteCount {
-    red: NoteCountStats;
-    blue: NoteCountStats;
-    bomb: NoteCountStats;
-}
-
-interface NoteCountStats {
-    total: number;
-    chroma: number;
-    noodleExtensions: number;
-    mappingExtensions: number;
-}
 
 /**
  * Array index mapped to cut angle corresponding to the `_cutDirection`.

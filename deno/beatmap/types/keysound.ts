@@ -1,4 +1,4 @@
-export const KeysoundName = 'Keysound';
+export const name = 'Keysound';
 
 /**
  * Keysound Map interface for info custom data.

@@ -1,11 +1,11 @@
-import { CharacteristicOrder } from './characteristic.ts';
-import { DifficultyRank, DifficultyData } from './difficulty.ts';
-import { InfoData } from './info.ts';
+import { InfoData } from './types/info.ts';
+import { CharacteristicOrder } from './types/characteristic.ts';
+import { DifficultyRank, DifficultyData } from './types/difficulty.ts';
+import { Note } from './types/note.ts';
+import { Obstacle } from './types/obstacle.ts';
+import { Event } from './types/event.ts';
+import { Waypoint } from './types/waypoint.ts';
 import { compare } from './version.ts';
-import { Note } from './note.ts';
-import { Obstacle } from './obstacle.ts';
-import { Event } from './event.ts';
-import { Waypoint } from './waypoint.ts';
 
 // TODO: more error check
 // TODO: contemplate whether to make pure function or keep as is
@@ -33,6 +33,7 @@ export const info = (mapInfo: InfoData): InfoData => {
 };
 
 // FIXME: need more elegant solution
+// FIXME: floatValue is optional to certain condition
 export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
     const { _version, _notes, _obstacles, _events, _waypoints } = difficultyData;
 
