@@ -330,36 +330,58 @@ _environment.push(
 
 //#region helper
 interface ImageGIFOption {
-    eventTime: number;
+    startTime: number;
+    endTime?: number;
     eventValue?: number;
+    floatValue?: number;
     fadeInDuration?: number;
     fadePrevious?: boolean;
     animated?: boolean;
-    animationSpeed?: number;
     xOffset?: number;
     yOffset?: number;
+    invert?: boolean;
+    rotate?: number;
+    saturation?: number;
+    ignoreBlack?: boolean;
+    override?: boolean;
+    easings?: (x: number) => number;
 }
 
 const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
     const opt: Required<ImageGIFOption> = {
-        eventTime: options.eventTime,
-        eventValue: options?.eventValue ?? 1,
-        fadeInDuration: options?.fadeInDuration ?? 0,
-        fadePrevious: options?.fadePrevious ?? false,
-        animated: options?.animated ?? false,
-        animationSpeed: options?.animationSpeed ?? 0.125,
-        xOffset: options?.xOffset ?? 0,
-        yOffset: options?.yOffset ?? 0,
+        startTime: options.startTime,
+        endTime: options.endTime ?? options.startTime,
+        eventValue: options.eventValue ?? 1,
+        floatValue: options.floatValue ?? 1,
+        fadeInDuration: options.fadeInDuration ?? 0,
+        fadePrevious: options.fadePrevious ?? false,
+        animated: options.animated ?? false,
+        xOffset: options.xOffset ?? 0,
+        yOffset: options.yOffset ?? 0,
+        invert: options.invert ?? false,
+        rotate: options.rotate ?? 0,
+        saturation: options.saturation ?? 0,
+        ignoreBlack: options.ignoreBlack ?? false,
+        override: options.override ?? false,
+        easings: options.easings ?? bsmap.easings.method.easeLinear,
     };
-    const image = Deno.readFileSync(WORKING_DIRECTORY + imagePath);
-    const img = await imagescript.GIF.decode(image, opt.animated);
-    itFrame = 0;
-    img.forEach((frame) => {
+    const gifFile = Deno.readFileSync(WORKING_DIRECTORY + imagePath);
+    const gif = await imagescript.GIF.decode(gifFile, !opt.animated);
+    let itFrame = 0;
+    gif.forEach((frame) => {
+        frame.rotate(opt.rotate);
+        frame.saturation(opt.saturation);
+        if (opt.invert) {
+            frame.invert();
+        }
         const colorID: { [key: string]: number[] } = {};
         const prevColor: { [key: string]: number[] } = {};
         for (let y = 0; y < screenY; y++) {
             for (let x = 0; x < screenX; x++) {
                 const pos = screenStartID + screenX * y + x;
+                if (screenLight[pos] === 0) {
+                    continue;
+                }
                 if (!prevColor[screenLight[pos]]) {
                     prevColor[screenLight[pos]] = [pos];
                 } else {
@@ -367,12 +389,15 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
                 }
             }
         }
-        for (let y = 0; y < Math.min(img.height, screenY) - opt.yOffset; y++) {
-            for (let x = 0; x < Math.min(img.width, screenX) - opt.xOffset; x++) {
+        for (let y = 0; y < Math.min(gif.height, screenY); y++) {
+            for (let x = 0; x < Math.min(gif.width, screenX); x++) {
                 const pos =
                     screenStartID + screenX * (y + opt.yOffset) + x + opt.xOffset;
                 const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                if (screenLight[pos] === colorAry[0]) {
+                if (opt.ignoreBlack && colorAry[0] === 0) {
+                    continue;
+                }
+                if (!opt.override && screenLight[pos] === colorAry[0]) {
                     continue;
                 }
                 if (!colorID[colorAry[0]]) {
@@ -383,13 +408,13 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
                 screenLight[pos] = colorAry[0];
             }
         }
-        if (opt.fadeInDuration && opt.eventValue) {
+        if (!itFrame && opt.fadeInDuration && opt.eventValue) {
             for (const color in prevColor) {
                 _events.push({
+                    _time: opt.startTime,
                     _type: 4,
-                    _time: opt.eventTime + itFrame * opt.animationSpeed,
                     _value: opt.eventValue > 4 ? 5 : 1,
-                    _floatValue: parseInt(color) / 255,
+                    _floatValue: (parseInt(color) / 255) * opt.floatValue,
                     _customData: {
                         _lightID: colorID[color],
                     },
@@ -398,11 +423,23 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
         }
         for (const color in colorID) {
             _events.push({
-                _type: 4,
                 _time:
-                    opt.eventTime + itFrame * opt.animationSpeed + opt.fadeInDuration,
-                _value: opt.eventValue,
-                _floatValue: parseInt(color) / 255,
+                    (opt.animated
+                        ? bsmap.utils.lerp(
+                              opt.easings(
+                                  bsmap.utils.normalize(itFrame, 0, gif.length)
+                              ),
+                              opt.startTime,
+                              opt.endTime
+                          )
+                        : opt.startTime) + opt.fadeInDuration,
+                _type: 4,
+                _value: opt.fadeInDuration
+                    ? opt.eventValue > 4
+                        ? 8
+                        : 4
+                    : opt.eventValue,
+                _floatValue: (parseInt(color) / 255) * opt.floatValue,
                 _customData: {
                     _lightID: colorID[color],
                 },
@@ -797,20 +834,33 @@ for (const ivt of introVocalTiming) {
     }
 }
 
-screenDraw('smile.gif', { eventTime: 2, fadeInDuration: 2, xOffset: 11, yOffset: 5 });
+await screenDraw('smile.gif', {
+    startTime: 2,
+    eventValue: 0,
+    floatValue: 0,
+    xOffset: 11,
+    yOffset: 5,
+});
+await screenDraw('smile.gif', {
+    startTime: 4,
+    eventValue: 4,
+    xOffset: 11,
+    yOffset: 5,
+    override: true,
+});
 screenClear(19);
-screenDraw('smileglitch.gif', { eventTime: 19.0625 });
+await screenDraw('smileglitch.gif', { startTime: 19.0625 });
 screenClear(19.125);
-screenDraw('smile.gif', {
-    eventTime: 19.1875,
+await screenDraw('smile.gif', {
+    startTime: 19.1875,
     xOffset: 11,
     yOffset: 5,
 });
 screenClear(19.25);
-screenDraw('clock.gif', { eventTime: 20 });
+await screenDraw('clock.gif', { startTime: 20 });
 for (let i = 0; i < 2; i++) {
     screenClear(22 + i * 0.5);
-    screenDraw('clock.gif', { eventTime: 22.125 + i * 0.5 });
+    await screenDraw('clock.gif', { startTime: 22.125 + i * 0.5 });
 }
 screenClear(23, 0.5);
 {
@@ -1038,64 +1088,67 @@ screenClear(23, 0.5);
     screenClear(34.5, 0.5);
 }
 
-screenDraw('i.gif', { eventTime: 35 });
+await screenDraw('i.gif', { startTime: 35 });
 screenClear(35.75);
 
-screenDraw('iglitch.gif', { eventTime: 35.8125 });
+await screenDraw('iglitch.gif', { startTime: 35.8125 });
 screenClear(35.875);
 
-screenDraw('noentry.gif', { eventTime: 36 });
+await screenDraw('noentry.gif', { startTime: 36 });
 screenClear(36.75);
 
-screenDraw('noentryglitch.gif', { eventTime: 36.8125 });
+await screenDraw('noentryglitch.gif', { startTime: 36.8125 });
 screenClear(36.875);
 
-screenDraw('grip.gif', { eventTime: 37.375 });
+await screenDraw('a.gif', { startTime: 37 });
+screenClear(37.25);
+
+await screenDraw('grip.gif', { startTime: 37.375 });
 screenClear(37.4375);
-screenDraw('grip.gif', { eventTime: 37.5 });
+await screenDraw('grip.gif', { startTime: 37.5 });
 screenClear(38.5);
 
-screenDraw('but.gif', { eventTime: 39 });
+await screenDraw('but.gif', { startTime: 39 });
 screenClear(39.375);
 
-screenDraw('i.gif', { eventTime: 39.5 });
+await screenDraw('i.gif', { startTime: 39.5 });
 screenClear(39.875);
 
-screenDraw('noentry.gif', { eventTime: 40 });
+await screenDraw('noentry.gif', { startTime: 40 });
 screenClear(40.375);
 
-screenDraw('let.gif', { eventTime: 41 });
-screenClear(41.375);
+await screenDraw('let.gif', { startTime: 40.5 });
+screenClear(40.875);
 
-screenDraw('go.gif', { eventTime: 41.5 });
+await screenDraw('go.gif', { startTime: 41.5 });
 screenClear(42, 0.5);
 
-screenDraw('there.gif', { eventTime: 43 });
-screenClear(43.375);
-
-screenDraw('wasnt.gif', { eventTime: 43.5 });
+await screenDraw('there.gif', { startTime: 43.5 });
 screenClear(43.875);
 
-screenDraw('any.gif', { eventTime: 44 });
-screenClear(44.375);
+await screenDraw('wasnt.gif', { startTime: 44 });
+screenClear(44.875);
 
-screenDraw('thing.gif', { eventTime: 44.5 });
-screenClear(44.75, 0.5);
-
-screenDraw('to.gif', { eventTime: 45.5 });
+await screenDraw('any.gif', { startTime: 45 });
 screenClear(45.875);
 
-screenDraw('hold.gif', { eventTime: 41.5 });
-screenClear(42, 0.5);
+await screenDraw('thing.gif', { startTime: 46 });
+screenClear(46.375, 0.5);
 
-screenDraw('on.gif', { eventTime: 41.5 });
-screenClear(42, 0.5);
+await screenDraw('to.gif', { startTime: 47 });
+screenClear(47.375);
 
-screenDraw('to.gif', { eventTime: 41.5 });
-screenClear(42, 0.5);
+await screenDraw('hold.gif', { startTime: 47.5 });
+screenClear(47.875);
 
-screenDraw('tho.gif', { eventTime: 41.5 });
-screenClear(42, 0.5);
+await screenDraw('ons.gif', { startTime: 48 });
+screenClear(48.375);
+
+await screenDraw('to.gif', { startTime: 48.5 });
+screenClear(48.875, 0.5);
+
+await screenDraw('tho.gif', { startTime: 49.5 });
+screenClear(49.875, 0.5);
 
 for (let i = 0; i < 7; i++) {
     if (i === 3) {
@@ -1215,89 +1268,39 @@ for (let i = 0; i < 7; i++) {
         }
     }
     if (i === 0 || i === 1) {
-        screenDraw('why.gif', { eventTime: 52 + i * 4 });
+        await screenDraw('why.gif', { startTime: 52 + i * 4 });
         screenClear(52.75 + i * 4);
-        image = Deno.readFileSync(WORKING_DIRECTORY + 'whyglitch.gif');
-        img = await imagescript.GIF.decode(image, true);
         for (let j = 0; j < 2; j++) {
-            img.forEach((frame) => {
-                if (j) {
-                    frame.invert();
-                    frame.rotate(180);
-                }
-                const colorID: { [key: string]: number[] } = {};
-                for (let y = 0; y < Math.min(img.height, screenY); y++) {
-                    for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                        const pos =
-                            screenStartID + screenX * (y + yOffset) + x + xOffset;
-                        const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                        if (screenLight[pos] === colorAry[0]) {
-                            continue;
-                        }
-                        if (!colorID[colorAry[0]]) {
-                            colorID[colorAry[0]] = [pos];
-                        } else {
-                            colorID[colorAry[0]].push(pos);
-                        }
-                        screenLight[pos] = colorAry[0];
-                    }
-                }
-                for (const color in colorID) {
-                    _events.push({
-                        _type: 4,
-                        _time: 52.8125 + i * 4 + j / 8,
-                        _value: 1,
-                        _floatValue: parseInt(color) / 255,
-                        _customData: {
-                            _lightID: colorID[color],
-                        },
-                    });
-                }
-            });
+            if (j) {
+                await screenDraw('whyglitch.gif', {
+                    startTime: 52.8125 + i * 4 + j / 8,
+                    invert: true,
+                    rotate: 180,
+                });
+            } else {
+                await screenDraw('whyglitch.gif', {
+                    startTime: 52.8125 + i * 4 + j / 8,
+                });
+            }
             screenClear(52.875 + i * 4 + j / 8);
         }
     }
 
     if (i === 4 || i === 5) {
-        screenDraw('please.gif', { eventTime: 52 + i * 4 });
+        await screenDraw('please.gif', { startTime: 52 + i * 4 });
         screenClear(52.75 + i * 4);
-        image = Deno.readFileSync(WORKING_DIRECTORY + 'pleaseglitch.gif');
-        img = await imagescript.GIF.decode(image, true);
         for (let j = 0; j < 2; j++) {
-            img.forEach((frame) => {
-                if (j) {
-                    frame.invert();
-                    frame.rotate(180);
-                }
-                const colorID: { [key: string]: number[] } = {};
-                for (let y = 0; y < Math.min(img.height, screenY); y++) {
-                    for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                        const pos =
-                            screenStartID + screenX * (y + yOffset) + x + xOffset;
-                        const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                        if (screenLight[pos] === colorAry[0]) {
-                            continue;
-                        }
-                        if (!colorID[colorAry[0]]) {
-                            colorID[colorAry[0]] = [pos];
-                        } else {
-                            colorID[colorAry[0]].push(pos);
-                        }
-                        screenLight[pos] = colorAry[0];
-                    }
-                }
-                for (const color in colorID) {
-                    _events.push({
-                        _type: 4,
-                        _time: 52.8125 + i * 4 + j / 8,
-                        _value: 1,
-                        _floatValue: parseInt(color) / 255,
-                        _customData: {
-                            _lightID: colorID[color],
-                        },
-                    });
-                }
-            });
+            if (j) {
+                await screenDraw('pleaseglitch.gif', {
+                    startTime: 52.8125 + i * 4 + j / 8,
+                    invert: true,
+                    rotate: 180,
+                });
+            } else {
+                await screenDraw('pleaseglitch.gif', {
+                    startTime: 52.8125 + i * 4 + j / 8,
+                });
+            }
             screenClear(52.875 + i * 4 + j / 8);
         }
     }
@@ -1358,12 +1361,12 @@ for (let i = 0; i < 7; i++) {
                 },
             });
         }
-        screenClear(54.6875 + (itFrame / (img.length - 1)) * 1);
+        screenClear(54.71875 + (itFrame / (img.length - 1)) * 1);
         itFrame++;
     });
 }
 for (let i = 0; i < 2; i++) {
-    screenDraw('view.gif', { eventTime: 59 + i * 0.25 });
+    await screenDraw('view.gif', { startTime: 59 + i * 0.25 });
     screenClear(59.125 + i * 0.25);
 }
 {
@@ -1426,7 +1429,7 @@ for (let i = 0; i < 2; i++) {
 }
 
 {
-    screenDraw('see.gif', { eventTime: 65, eventValue: 4 });
+    await screenDraw('see.gif', { startTime: 65, eventValue: 4 });
     screenClear(66.5, 0.5);
 }
 
@@ -1827,186 +1830,20 @@ for (let i = 0; i < 2; i++) {
     screenClear(82.375 + i * 0.125);
 }
 
-{
-    const image = Deno.readFileSync(WORKING_DIRECTORY + 'and.gif');
-    const img = await imagescript.GIF.decode(image, true);
-    const xOffset = 0;
-    const yOffset = 0;
-    img.forEach((frame) => {
-        const colorID: { [key: string]: number[] } = {};
-        for (let y = 0; y < Math.min(img.height, screenY); y++) {
-            for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                const pos = screenStartID + screenX * (y + yOffset) + x + xOffset;
-                const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                if (screenLight[pos] === colorAry[0]) {
-                    continue;
-                }
-                if (!colorID[colorAry[0]]) {
-                    colorID[colorAry[0]] = [pos];
-                } else {
-                    colorID[colorAry[0]].push(pos);
-                }
-                screenLight[pos] = colorAry[0];
-            }
-        }
-        for (const color in colorID) {
-            _events.push({
-                _type: 4,
-                _time: 384,
-                _value: 6,
-                _floatValue: parseInt(color) / 255,
-                _customData: {
-                    _lightID: colorID[color],
-                },
-            });
-        }
-    });
-}
+await screenDraw('and.gif', { startTime: 384 });
 screenClear(384.375);
-{
-    const image = Deno.readFileSync(WORKING_DIRECTORY + 'never.gif');
-    const img = await imagescript.GIF.decode(image, true);
-    const xOffset = 0;
-    const yOffset = 0;
-    img.forEach((frame) => {
-        const colorID: { [key: string]: number[] } = {};
-        for (let y = 0; y < Math.min(img.height, screenY); y++) {
-            for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                const pos = screenStartID + screenX * (y + yOffset) + x + xOffset;
-                const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                if (screenLight[pos] === colorAry[0]) {
-                    continue;
-                }
-                if (!colorID[colorAry[0]]) {
-                    colorID[colorAry[0]] = [pos];
-                } else {
-                    colorID[colorAry[0]].push(pos);
-                }
-                screenLight[pos] = colorAry[0];
-            }
-        }
-        for (const color in colorID) {
-            _events.push({
-                _type: 4,
-                _time: 384.5,
-                _value: 6,
-                _floatValue: parseInt(color) / 255,
-                _customData: {
-                    _lightID: colorID[color],
-                },
-            });
-        }
-    });
-    screenClear(384.875);
-}
-{
-    const image = Deno.readFileSync(WORKING_DIRECTORY + 'never.gif');
-    const img = await imagescript.GIF.decode(image, true);
-    const xOffset = 0;
-    const yOffset = 0;
-    img.forEach((frame) => {
-        const colorID: { [key: string]: number[] } = {};
-        for (let y = 0; y < Math.min(img.height, screenY); y++) {
-            for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                const pos = screenStartID + screenX * (y + yOffset) + x + xOffset;
-                const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                if (screenLight[pos] === colorAry[0]) {
-                    continue;
-                }
-                if (!colorID[colorAry[0]]) {
-                    colorID[colorAry[0]] = [pos];
-                } else {
-                    colorID[colorAry[0]].push(pos);
-                }
-                screenLight[pos] = colorAry[0];
-            }
-        }
-        for (const color in colorID) {
-            _events.push({
-                _type: 4,
-                _time: 385,
-                _value: 6,
-                _floatValue: parseInt(color) / 255,
-                _customData: {
-                    _lightID: colorID[color],
-                },
-            });
-        }
-    });
-    screenClear(385.375);
-}
-{
-    const image = Deno.readFileSync(WORKING_DIRECTORY + 'look.gif');
-    const img = await imagescript.GIF.decode(image, true);
-    const xOffset = 0;
-    const yOffset = 0;
-    img.forEach((frame) => {
-        const colorID: { [key: string]: number[] } = {};
-        for (let y = 0; y < Math.min(img.height, screenY); y++) {
-            for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                const pos = screenStartID + screenX * (y + yOffset) + x + xOffset;
-                const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                if (screenLight[pos] === colorAry[0]) {
-                    continue;
-                }
-                if (!colorID[colorAry[0]]) {
-                    colorID[colorAry[0]] = [pos];
-                } else {
-                    colorID[colorAry[0]].push(pos);
-                }
-                screenLight[pos] = colorAry[0];
-            }
-        }
-        for (const color in colorID) {
-            _events.push({
-                _type: 4,
-                _time: 385.5,
-                _value: 6,
-                _floatValue: parseInt(color) / 255,
-                _customData: {
-                    _lightID: colorID[color],
-                },
-            });
-        }
-    });
-    screenClear(385.875);
-}
-{
-    const image = Deno.readFileSync(WORKING_DIRECTORY + 'back.gif');
-    const img = await imagescript.GIF.decode(image, true);
-    const xOffset = 0;
-    const yOffset = 0;
-    img.forEach((frame) => {
-        const colorID: { [key: string]: number[] } = {};
-        for (let y = 0; y < Math.min(img.height, screenY); y++) {
-            for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                const pos = screenStartID + screenX * (y + yOffset) + x + xOffset;
-                const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                if (screenLight[pos] === colorAry[0]) {
-                    continue;
-                }
-                if (!colorID[colorAry[0]]) {
-                    colorID[colorAry[0]] = [pos];
-                } else {
-                    colorID[colorAry[0]].push(pos);
-                }
-                screenLight[pos] = colorAry[0];
-            }
-        }
-        for (const color in colorID) {
-            _events.push({
-                _type: 4,
-                _time: 386,
-                _value: 6,
-                _floatValue: parseInt(color) / 255,
-                _customData: {
-                    _lightID: colorID[color],
-                },
-            });
-        }
-    });
-    screenClear(386.375);
-}
+
+await screenDraw('never.gif', { startTime: 384.5 });
+screenClear(384.875);
+
+await screenDraw('never.gif', { startTime: 385 });
+screenClear(385.375);
+
+await screenDraw('look.gif', { startTime: 385.5 });
+screenClear(385.875);
+
+await screenDraw('back.gif', { startTime: 386 });
+screenClear(386.375);
 
 for (let i = 0; i < 5; i++) {
     for (let j = 0; j < 2; j++)
@@ -2386,26 +2223,61 @@ for (const rkfp of ringKickFlashPeriod) {
 const chorus1Timing = [84, 388, 420];
 const chorus2Timing = [116, 452, 468];
 for (const t of chorus1Timing) {
-    screenDraw('what.gif', { eventTime: t - 1 });
-    screenDraw('the.gif', { eventTime: t - 0.5 });
-    screenDraw('hell.gif', { eventTime: t });
-    screenDraw('hellglitch.gif', { eventTime: t + 0.9375 });
-    screenDraw('going.gif', { eventTime: t + 1 });
-    screenDraw('on.gif', { eventTime: t + 2 });
-    screenDraw('can.gif', { eventTime: t + 3 });
-    screenDraw('someone.gif', { eventTime: t + 4 });
-    screenDraw('tell.gif', { eventTime: t + 5 });
-    screenDraw('me.gif', { eventTime: t + 5.5 });
-    screenDraw('please.gif', { eventTime: t + 6 });
-    screenDraw('why.gif', { eventTime: t + 8 });
-    screenDraw('im.gif', { eventTime: t + 8.5 });
-    screenDraw('switchbase.gif', { eventTime: t + 9 });
-    screenDraw('switchball.gif', { eventTime: t + 9 });
-    screenDraw('faster.gif', { eventTime: t + 10 });
-    screenDraw('than.gif', { eventTime: t + 11 });
-    screenDraw('the.gif', { eventTime: t + 11.5 });
-    screenDraw('testcard.gif', { eventTime: t + 12 });
-    screenDraw('on.gif', { eventTime: t + 13 });
+    await screenDraw('what.gif', { startTime: t - 1 });
+    screenClear(t - 0.625);
+    await screenDraw('the.gif', { startTime: t - 0.5 });
+    screenClear(t - 0.125);
+    await screenDraw('hell.gif', { startTime: t });
+    screenClear(t + 0.5);
+    await screenDraw('hellglitch.gif', { startTime: t + 0.5625 });
+    screenClear(t + 0.625);
+    await screenDraw('going.gif', { startTime: t + 1 });
+    screenClear(t + 1.875);
+    await screenDraw('on.gif', { startTime: t + 2 });
+    screenClear(t + 2.875);
+    await screenDraw('can.gif', { startTime: t + 3 });
+    screenClear(t + 3.875);
+    await screenDraw('someone.gif', { startTime: t + 4 });
+    screenClear(t + 4.875);
+    await screenDraw('tell.gif', { startTime: t + 5 });
+    screenClear(t + 5.375);
+    await screenDraw('me.gif', { startTime: t + 5.5 });
+    screenClear(t + 5.875);
+    await screenDraw('please.gif', { startTime: t + 6 });
+    screenClear(t + 7);
+    await screenDraw('why.gif', { startTime: t + 8 });
+    screenClear(t + 8.375);
+    await screenDraw('im.gif', { startTime: t + 8.5 });
+    screenClear(t + 8.875);
+    await screenDraw('switch.gif', {
+        startTime: t + 9,
+    });
+    await screenDraw('switch.gif', {
+        startTime: t + 9.375,
+        endTime: t + 9.625,
+        easings: bsmap.easings.method.easeInOutCubic,
+        animated: true,
+    });
+    screenClear(t + 9.875);
+    await screenDraw('faster.gif', { startTime: t + 10 });
+    screenClear(t + 10.875);
+    await screenDraw('than.gif', { startTime: t + 11 });
+    screenClear(t + 11.375);
+    await screenDraw('the.gif', { startTime: t + 11.5 });
+    screenClear(t + 11.875);
+    await screenDraw('testcard2.gif', { startTime: t + 12 });
+    await screenDraw('testcard2.gif', { startTime: t + 12.0625, invert: true });
+    screenClear(t + 12.125);
+    await screenDraw('testcard.gif', { startTime: t + 12.1875 });
+    screenClear(t + 12.4375);
+    await screenDraw('testcard.gif', { startTime: t + 12.5 });
+    screenClear(t + 12.6125);
+    await screenDraw('testcard.gif', { startTime: t + 12.6875, invert: true });
+    screenClear(t + 12.75);
+    await screenDraw('testcard.gif', { startTime: t + 12.8125 });
+    screenClear(t + 12.875);
+    await screenDraw('on.gif', { startTime: t + 13 });
+    screenClear(t + 13.375);
     {
         const image = Deno.readFileSync(WORKING_DIRECTORY + 'tv.gif');
         const img = await imagescript.GIF.decode(image, true);
@@ -2616,186 +2488,22 @@ for (const t of chorus1Timing) {
             }
         });
     }
-    {
-        const image = Deno.readFileSync(WORKING_DIRECTORY + 'no.gif');
-        const img = await imagescript.GIF.decode(image, true);
-        const xOffset = 0;
-        const yOffset = 0;
-        img.forEach((frame) => {
-            const colorID: { [key: string]: number[] } = {};
-            for (let y = 0; y < Math.min(img.height, screenY); y++) {
-                for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                    const pos = screenStartID + screenX * (y + yOffset) + x + xOffset;
-                    const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                    if (screenLight[pos] === colorAry[0]) {
-                        continue;
-                    }
-                    if (!colorID[colorAry[0]]) {
-                        colorID[colorAry[0]] = [pos];
-                    } else {
-                        colorID[colorAry[0]].push(pos);
-                    }
-                    screenLight[pos] = colorAry[0];
-                }
-            }
-            for (const color in colorID) {
-                _events.push({
-                    _type: 4,
-                    _time: t + 19,
-                    _value: 1,
-                    _floatValue: parseInt(color) / 255,
-                    _customData: {
-                        _lightID: colorID[color],
-                    },
-                });
-            }
-        });
-        screenClear(t + 19.4375);
-        for (let j = 0; j < 2; j++) {
-            img.forEach((frame) => {
-                const colorID: { [key: string]: number[] } = {};
-                for (let y = 0; y < Math.min(img.height, screenY); y++) {
-                    for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                        const pos =
-                            screenStartID + screenX * (y + yOffset) + x + xOffset;
-                        const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                        if (screenLight[pos] === colorAry[0]) {
-                            continue;
-                        }
-                        if (!colorID[colorAry[0]]) {
-                            colorID[colorAry[0]] = [pos];
-                        } else {
-                            colorID[colorAry[0]].push(pos);
-                        }
-                        screenLight[pos] = colorAry[0];
-                    }
-                }
-                for (const color in colorID) {
-                    _events.push({
-                        _type: 4,
-                        _time: t + 19.5 + j / 8,
-                        _value: 1,
-                        _floatValue: parseInt(color) / 255,
-                        _customData: {
-                            _lightID: colorID[color],
-                        },
-                    });
-                }
-            });
-            screenClear(t + 19.5625 + j / 8);
-        }
-        {
-            const image = Deno.readFileSync(WORKING_DIRECTORY + 'wrong2.gif');
-            const img = await imagescript.GIF.decode(image, true);
-            const xOffset = 0;
-            const yOffset = 0;
-            img.forEach((frame) => {
-                const colorID: { [key: string]: number[] } = {};
-                for (let y = 0; y < Math.min(img.height, screenY); y++) {
-                    for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                        const pos =
-                            screenStartID + screenX * (y + yOffset) + x + xOffset;
-                        const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                        if (screenLight[pos] === colorAry[0]) {
-                            continue;
-                        }
-                        if (!colorID[colorAry[0]]) {
-                            colorID[colorAry[0]] = [pos];
-                        } else {
-                            colorID[colorAry[0]].push(pos);
-                        }
-                        screenLight[pos] = colorAry[0];
-                    }
-                }
-                for (const color in colorID) {
-                    _events.push({
-                        _type: 4,
-                        _time: t + 19.875,
-                        _value: 1,
-                        _floatValue: parseInt(color) / 255,
-                        _customData: {
-                            _lightID: colorID[color],
-                        },
-                    });
-                }
-            });
-            screenClear(t + 20);
-        }
-        {
-            const image = Deno.readFileSync(WORKING_DIRECTORY + 'wrong2glitch.gif');
-            const img = await imagescript.GIF.decode(image, true);
-            const xOffset = 0;
-            const yOffset = 0;
-            img.forEach((frame) => {
-                const colorID: { [key: string]: number[] } = {};
-                for (let y = 0; y < Math.min(img.height, screenY); y++) {
-                    for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                        const pos =
-                            screenStartID + screenX * (y + yOffset) + x + xOffset;
-                        const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                        if (screenLight[pos] === colorAry[0]) {
-                            continue;
-                        }
-                        if (!colorID[colorAry[0]]) {
-                            colorID[colorAry[0]] = [pos];
-                        } else {
-                            colorID[colorAry[0]].push(pos);
-                        }
-                        screenLight[pos] = colorAry[0];
-                    }
-                }
-                for (const color in colorID) {
-                    _events.push({
-                        _type: 4,
-                        _time: t + 20.125,
-                        _value: 1,
-                        _floatValue: parseInt(color) / 255,
-                        _customData: {
-                            _lightID: colorID[color],
-                        },
-                    });
-                }
-            });
-            screenClear(t + 20.1875);
-        }
-        {
-            const image = Deno.readFileSync(WORKING_DIRECTORY + 'wrong.gif');
-            const img = await imagescript.GIF.decode(image, true);
-            const xOffset = 0;
-            const yOffset = 0;
-            img.forEach((frame) => {
-                const colorID: { [key: string]: number[] } = {};
-                for (let y = 0; y < Math.min(img.height, screenY); y++) {
-                    for (let x = 0; x < Math.min(img.width, screenX); x++) {
-                        const pos =
-                            screenStartID + screenX * (y + yOffset) + x + xOffset;
-                        const colorAry = frame.getRGBAAt(x + 1, y + 1);
-                        if (screenLight[pos] === colorAry[0]) {
-                            continue;
-                        }
-                        if (!colorID[colorAry[0]]) {
-                            colorID[colorAry[0]] = [pos];
-                        } else {
-                            colorID[colorAry[0]].push(pos);
-                        }
-                        screenLight[pos] = colorAry[0];
-                    }
-                }
-                for (const color in colorID) {
-                    _events.push({
-                        _type: 4,
-                        _time: t + 20.25,
-                        _value: 1,
-                        _floatValue: parseInt(color) / 255,
-                        _customData: {
-                            _lightID: colorID[color],
-                        },
-                    });
-                }
-            });
-            screenClear(t + 22);
-        }
+
+    await screenDraw('no.gif', { startTime: t + 19 });
+    screenClear(t + 19.4375);
+    for (let j = 0; j < 2; j++) {
+        await screenDraw('no.gif', { startTime: t + 19.5 + j / 8 });
+        screenClear(t + 19.5625 + j / 8);
     }
+
+    await screenDraw('wrong2.gif', { startTime: t + 19.875 });
+    screenClear(t + 20);
+
+    await screenDraw('wrong2glitch.gif', { startTime: t + 20.125 });
+    screenClear(t + 20.1875);
+
+    await screenDraw('wrong.gif', { startTime: t + 20.25 });
+    screenClear(t + 22);
 }
 for (const t of chorus2Timing) {
     for (let i = 0; i < 2; i++) {
@@ -2816,7 +2524,7 @@ const echoTiming = [
     0, 0.5, 1, 1.5, 2, 2.5, 3, 4, 4.5, 5, 5.5, 6, 6.75, 7.5, 8.25, 9, 9.5, 10, 10.5, 11,
     11.5, 12, 12.5, 13, 13.5,
 ];
-screenDraw('echo.gif', { eventTime: 132 });
+await screenDraw('echo.gif', { startTime: 132 });
 _events.push(
     {
         _type: 4,
@@ -3021,12 +2729,12 @@ for (const e of echoTiming) {
             },
         }
     );
-    screenDraw('echo.gif', { eventTime: 134 + e });
+    await screenDraw('echo.gif', { startTime: 134 + e });
     screenClear(134.25 + e);
 }
 
 for (let i = 0; i < 11; i++) {
-    screenDraw('questionmark.gif', { eventTime: 284 + i * 0.75 });
+    await screenDraw('questionmark.gif', { startTime: 284 + i * 0.75 });
     screenClear(284.25 + i * 0.75);
 }
 

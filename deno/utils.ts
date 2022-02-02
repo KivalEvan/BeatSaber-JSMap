@@ -79,3 +79,14 @@ export const interleave = ([x, ...xs]: number[], ys: number[] = []): number[] =>
         ? ys // base: no x
         : [x, ...interleave(ys, xs)]; // inductive: some x
 };
+
+export const normalize = (x: number, min: number, max: number) => {
+    return max - min > 0 ? (x - min) / (max - min) : 0;
+};
+
+/**
+ * Alpha number range 0-1
+ */
+export const lerp = (alpha: number, start: number, end: number) => {
+    return start + (end - start) * alpha;
+};

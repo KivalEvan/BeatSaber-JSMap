@@ -14,8 +14,8 @@ export interface NoteBase {
     _time: number;
     _lineIndex: number;
     _lineLayer: number;
-    _cutDirection: number;
     _type: number;
+    _cutDirection: number;
     _customData?: Record<never, never>;
 }
 
