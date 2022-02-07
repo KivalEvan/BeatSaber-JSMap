@@ -25,7 +25,7 @@ import { EnvironmentName, Environment360Name } from './environment.ts';
  *     _difficultyBeatmapSets: InfoSetData[];
  */
 export interface InfoData {
-    _version: string;
+    _version: `2.${0 | 2}.0`;
     _songName: string;
     _songSubName: string;
     _songAuthorName: string;

@@ -50,7 +50,7 @@ export interface SpecialEventsKeywordFiltersKeywords {
  *     _customData?: CustomDataDifficulty
  */
 export interface DifficultyData {
-    _version: string;
+    _version: `2.${0 | 2 | 5}.0`;
     _notes: Note[];
     _obstacles: Obstacle[];
     _events: Event[];
