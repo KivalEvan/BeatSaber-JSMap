@@ -2,14 +2,13 @@ import { InfoData } from './beatmap/types/info.ts';
 import { DifficultyData } from './beatmap/types/difficulty.ts';
 import { SaveOptionsInfo, SaveOptionsDifficulty } from './types.ts';
 import { performInfo, performDifficulty } from './optimize.ts';
+import settings from './settings.ts';
 
 export const defaultOptionsInfo: Required<SaveOptionsInfo> = {
-    path: '',
     optimise: { enabled: false },
 };
 
 export const defaultOptionsDifficulty: Required<SaveOptionsDifficulty> = {
-    path: '',
     optimise: { enabled: false },
 };
 
@@ -21,7 +20,7 @@ export const info = async (
     if (options.optimise?.enabled) {
         performInfo(info, options.optimise);
     }
-    await Deno.writeTextFile(path, JSON.stringify(info));
+    await Deno.writeTextFile(settings.mapDirectory + path, JSON.stringify(info));
 };
 
 export const infoSync = (
@@ -32,7 +31,7 @@ export const infoSync = (
     if (options.optimise?.enabled) {
         performInfo(info, options.optimise);
     }
-    Deno.writeTextFileSync(path, JSON.stringify(info));
+    Deno.writeTextFileSync(settings.mapDirectory + path, JSON.stringify(info));
 };
 
 export const difficulty = async (
@@ -43,7 +42,7 @@ export const difficulty = async (
     if (options.optimise?.enabled) {
         performDifficulty(difficulty, options.optimise);
     }
-    await Deno.writeTextFile(path, JSON.stringify(difficulty));
+    await Deno.writeTextFile(settings.mapDirectory + path, JSON.stringify(difficulty));
 };
 
 export const difficultySync = (
@@ -54,5 +53,5 @@ export const difficultySync = (
     if (options.optimise?.enabled) {
         performDifficulty(difficulty, options.optimise);
     }
-    Deno.writeTextFileSync(path, JSON.stringify(difficulty));
+    Deno.writeTextFileSync(settings.mapDirectory + path, JSON.stringify(difficulty));
 };
