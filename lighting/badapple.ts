@@ -9,8 +9,8 @@ const MAP_DIRECTORY =
 const INPUT_FILE = MAP_DIRECTORY + 'EasyLawless.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
-const difficulty = bsmap.readMapSync(INPUT_FILE);
-const info = bsmap.readInfoSync(MAP_DIRECTORY + 'Info.dat');
+const difficulty = bsmap.load.difficultySync(INPUT_FILE);
+const info = bsmap.load.infoSync(MAP_DIRECTORY + 'Info.dat');
 
 const BPM = bsmap.bpm.create(info._beatsPerMinute);
 
@@ -95,5 +95,5 @@ img.forEach((frame) => {
     i++;
 });
 console.log(_events.length, 'events');
-bsmap.saveMapSync(OUTPUT_FILE, difficulty);
+bsmap.save.difficultySync(OUTPUT_FILE, difficulty);
 console.log('done');
