@@ -1100,12 +1100,15 @@ screenClear(36.75);
 await screenDraw('noentryglitch.gif', { startTime: 36.8125 });
 screenClear(36.875);
 
-await screenDraw('a.gif', { startTime: 37 });
-screenClear(37.25);
+await screenDraw('get.gif', { startTime: 37 });
+screenClear(37.375);
 
-await screenDraw('grip.gif', { startTime: 37.375 });
-screenClear(37.4375);
-await screenDraw('grip.gif', { startTime: 37.5 });
+await screenDraw('a.gif', { startTime: 37.5 });
+screenClear(37.875);
+
+await screenDraw('grip.gif', { startTime: 38 });
+screenClear(38.0625);
+await screenDraw('grip.gif', { startTime: 38.125 });
 screenClear(38.5);
 
 await screenDraw('but.gif', { startTime: 39 });
@@ -1829,6 +1832,74 @@ for (let i = 0; i < 2; i++) {
     });
     screenClear(82.375 + i * 0.125);
 }
+
+const soloVocalTiming: [number, number?][] = [
+    [-1, 0.75], // im
+    [0], // gon
+    [0.5], // na
+    [1], // burn
+    [1.5], // my
+    [2, 0.75], // house~
+    [3], // down
+    [3.5], // in
+    [4], // to
+    [4.5], // an
+    [5], // ug
+    [5.5], // ly
+    [6, 0.5], //black
+    [7, 0.75], // im
+    [8], // gon
+    [8.5], // na
+    [9], // run
+    [9.5], // a
+    [10, 0.75], // way~
+    [11, 0.75], // now~
+    [12], // and
+    [12.5], // ne
+    [13], // ver
+    [13.5], // look
+    [14, 0.5], // back
+];
+for (let i = 0; i < 4; i++)
+    for (const ivt of soloVocalTiming) {
+        const t = ivt[0];
+        if (!ivt[1]) {
+            _events.push(
+                {
+                    _type: 4,
+                    _time: 308 + i * 16 + t,
+                    _value: 3,
+                    _floatValue: 1,
+                    _customData: { _lightID: [1, 2] },
+                },
+                {
+                    _type: 4,
+                    _time: 308 + i * 16 + 0.25 + t,
+                    _value: 0,
+                    _floatValue: 0,
+                    _customData: { _lightID: [1, 2] },
+                }
+            );
+        } else {
+            for (let j = 0; j < ivt[1]; j += 0.125)
+                _events.push(
+                    {
+                        _type: 4,
+                        _time: 308 + i * 16 + t + j,
+                        _value: 3,
+                        _floatValue: 1,
+                        _customData: { _lightID: [1, 2] },
+                    },
+                    {
+                        _type: 4,
+                        _time: 308 + i * 16 + 0.0625 + t + j,
+                        _value: 0,
+                        _floatValue: 0,
+                        _customData: { _lightID: [1, 2] },
+                    }
+                );
+        }
+    }
 
 await screenDraw('and.gif', { startTime: 384 });
 screenClear(384.375);
