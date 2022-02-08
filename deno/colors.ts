@@ -1,5 +1,113 @@
 import { ColorObject, ColorArray } from './beatmap/types/colors.ts';
 import { round, radToDeg, degToRad } from './utils.ts';
+import { lerp } from './utils.ts';
+import { method as easings } from './beatmap/easings.ts';
+
+export const RGBAtoHSVA = (r: number, g: number, b: number, a = 1): ColorArray => {
+    let h!: number;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const d = max - min;
+    const s = max === 0 ? 0 : d / max;
+    const v = max;
+
+    switch (max) {
+        case min:
+            h = 0;
+            break;
+        case r:
+            h = g - b + d * (g < b ? 6 : 0);
+            h /= 6 * d;
+            break;
+        case g:
+            h = b - r + d * 2;
+            h /= 6 * d;
+            break;
+        case b:
+            h = r - g + d * 4;
+            h /= 6 * d;
+            break;
+    }
+    return [h, s, v, a];
+};
+
+export const HSVAtoRGBA = (
+    hue: number,
+    saturation: number,
+    value: number,
+    alpha = 1
+): ColorArray => {
+    hue = hue / 360;
+    let r!: number, g!: number, b!: number;
+    const i = Math.floor(hue * 6);
+    const f = hue * 6 - i;
+    const p = value * (1 - saturation);
+    const q = value * (1 - f * saturation);
+    const t = value * (1 - (1 - f) * saturation);
+    switch (i % 6) {
+        case 0:
+            (r = value), (g = t), (b = p);
+            break;
+        case 1:
+            (r = q), (g = value), (b = p);
+            break;
+        case 2:
+            (r = p), (g = value), (b = t);
+            break;
+        case 3:
+            (r = p), (g = q), (b = value);
+            break;
+        case 4:
+            (r = t), (g = p), (b = value);
+            break;
+        case 5:
+            (r = value), (g = p), (b = q);
+            break;
+    }
+    return [r, g, b, alpha];
+};
+
+export const interpolateColor = (
+    colorStart: ColorArray,
+    colorEnd: ColorArray,
+    alpha: number,
+    type: 'rgba' | 'long hsva' | 'short hsva' = 'rgba',
+    easing: (x: number) => number = easings.easeLinear
+): ColorArray => {
+    switch (type) {
+        case 'long hsva': {
+            return HSVAtoRGBA(
+                ...(colorStart.map((c, i) => {
+                    if (!c) {
+                        return 1;
+                    }
+                    const cE = colorEnd[i] ?? c;
+                    lerp(easing(alpha), c, cE);
+                }) as ColorArray)
+            );
+        }
+        case 'short hsva': {
+            return HSVAtoRGBA(
+                ...(colorStart.map((c, i) => {
+                    if (!c) {
+                        return 1;
+                    }
+                    const cE = colorEnd[i] ?? c;
+                    lerp(easing(alpha), c, cE);
+                }) as ColorArray)
+            );
+        }
+        default: {
+            return colorStart.map((c, i) => {
+                if (!c) {
+                    return 1;
+                }
+                const cE = colorEnd[i] ?? c;
+                lerp(easing(alpha), c, cE);
+            }) as ColorArray;
+        }
+    }
+};
 
 export const toRGBArray = (c: ColorObject): ColorArray => {
     return [c.r, c.g, c.b];
