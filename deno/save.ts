@@ -5,17 +5,17 @@ import { performInfo, performDifficulty } from './optimize.ts';
 import settings from './settings.ts';
 
 export const defaultOptionsInfo: Required<SaveOptionsInfo> = {
-    optimise: { enabled: false },
+    optimise: { enabled: true },
 };
 
 export const defaultOptionsDifficulty: Required<SaveOptionsDifficulty> = {
-    optimise: { enabled: false },
+    optimise: { enabled: true },
 };
 
 export const info = async (
     path: string,
     info: InfoData,
-    options: SaveOptionsInfo = {}
+    options: SaveOptionsInfo = defaultOptionsInfo
 ) => {
     if (options.optimise?.enabled) {
         performInfo(info, options.optimise);
@@ -26,7 +26,7 @@ export const info = async (
 export const infoSync = (
     path: string,
     info: InfoData,
-    options: SaveOptionsInfo = {}
+    options: SaveOptionsInfo = defaultOptionsInfo
 ) => {
     if (options.optimise?.enabled) {
         performInfo(info, options.optimise);
@@ -37,7 +37,7 @@ export const infoSync = (
 export const difficulty = async (
     path: string,
     difficulty: DifficultyData,
-    options: SaveOptionsDifficulty = {}
+    options: SaveOptionsDifficulty = defaultOptionsDifficulty
 ) => {
     if (options.optimise?.enabled) {
         performDifficulty(difficulty, options.optimise);
@@ -48,7 +48,7 @@ export const difficulty = async (
 export const difficultySync = (
     path: string,
     difficulty: DifficultyData,
-    options: SaveOptionsDifficulty = {}
+    options: SaveOptionsDifficulty = defaultOptionsDifficulty
 ) => {
     if (options.optimise?.enabled) {
         performDifficulty(difficulty, options.optimise);

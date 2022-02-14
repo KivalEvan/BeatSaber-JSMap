@@ -47,8 +47,17 @@ export const deepClean = (
         // recursion
         if ((typeof obj[k] === 'object' || Array.isArray(obj[k])) && obj[k] !== null) {
             deepClean(obj[k], options);
+            // if it's lightID array, sort it
+            if (
+                k === '_lightID' &&
+                Array.isArray(obj[k]) &&
+                // deno-lint-ignore no-explicit-any
+                obj[k].every((x: any) => typeof x === 'number')
+            ) {
+                obj[k] = obj[k].sort((a: number, b: number) => a - b);
+            }
         }
-        // remove empty array
+        // remove empty array property
         if (Array.isArray(obj[k]) && !ignoreRemove.includes(k) && !obj[k].length) {
             delete obj[k];
         }
