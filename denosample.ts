@@ -2,12 +2,11 @@ import * as bsmap from 'https://raw.githubusercontent.com/KivalEvan/BeatSaber-Ma
 import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
 
 // working directory is not necessary unless you're working on importing anything from workspace and different workspace with different folder path
-bsmap.settings.workingDirectory =
-    dirname(Deno.mainModule).replace('file:///', '') + '/'; // for some reason deno doesnt like to deal with file:///
+const workingDirectory = dirname(Deno.mainModule).replace('file:///', '') + '/'; // for some reason deno doesnt like to deal with file:///
 bsmap.settings.mapDirectory =
     'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/testmap/';
 
-const info = bsmap.load.infoSync('Info.dat');
+const info = bsmap.load.infoSync();
 const difficulty = bsmap.load.difficultySync('ExpertPlusStandard.dat');
 
 info._previewDuration = 14;
@@ -30,5 +29,7 @@ difficulty._events.push({
     _floatValue: 1,
 });
 
-bsmap.save.infoSync('Info.dat', info);
-await bsmap.save.difficulty('ExpertPlusStandard.dat', difficulty);
+bsmap.save.infoSync(info);
+await bsmap.save.difficulty(difficulty, {
+    path: 'ExpertPlusStandard.dat',
+});

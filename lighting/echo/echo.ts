@@ -4,13 +4,13 @@ import * as imagescript from 'https://deno.land/x/imagescript@1.2.9/mod.ts';
 import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
 
 const WORKING_DIRECTORY = dirname(Deno.mainModule).replace('file:///', '') + '/'; // for some reason deno doesnt like to deal with file:///
-const MAP_DIRECTORY =
+bsmap.settings.mapDirectory =
     'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/ECHO/';
-const INPUT_FILE = MAP_DIRECTORY + 'EasyLightshow.dat';
+const INPUT_FILE = 'EasyLightshow.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
 const difficulty = await bsmap.load.difficulty(INPUT_FILE);
-// const info = bsmap.readInfoSync(FOLDER_PATH + 'Info.dat');
+// const info = bsmap.load.infoSync();
 // const BPM = bsmap.bpm.create(info._beatsPerMinute);
 
 difficulty._version = '2.5.0';
@@ -2810,5 +2810,7 @@ for (let i = 0; i < 11; i++) {
 }
 
 console.log(_events.length, 'events');
-await bsmap.save.difficulty(OUTPUT_FILE, difficulty);
+await bsmap.save.difficulty(difficulty, {
+    path: OUTPUT_FILE,
+});
 console.log('map saved');

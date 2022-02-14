@@ -14,12 +14,15 @@ export interface OptimizeOptionsDifficulty extends OptimizeOptions {
     orderNote?: boolean;
 }
 
-export interface SaveOptions {}
+export interface SaveOptions {
+    path?: string;
+}
 
 export interface SaveOptionsInfo extends SaveOptions {
     optimise?: OptimizeOptionsInfo;
 }
 
 export interface SaveOptionsDifficulty extends SaveOptions {
+    path: string;
     optimise?: OptimizeOptionsDifficulty;
 }

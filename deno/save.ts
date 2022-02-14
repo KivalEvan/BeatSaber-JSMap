@@ -5,53 +5,73 @@ import { performInfo, performDifficulty } from './optimize.ts';
 import settings from './settings.ts';
 
 export const defaultOptionsInfo: Required<SaveOptionsInfo> = {
+    path: 'Info.dat',
     optimise: { enabled: true },
 };
 
 export const defaultOptionsDifficulty: Required<SaveOptionsDifficulty> = {
+    path: 'UnnamedPath.dat',
     optimise: { enabled: true },
 };
 
 export const info = async (
-    path: string,
     info: InfoData,
     options: SaveOptionsInfo = defaultOptionsInfo
 ) => {
-    if (options.optimise?.enabled) {
-        performInfo(info, options.optimise);
+    const opt: Required<SaveOptionsDifficulty> = {
+        path: options.path ?? 'Info.dat',
+        optimise: options.optimise ?? { enabled: true },
+    };
+    if (opt.optimise.enabled) {
+        performInfo(info, opt.optimise);
     }
-    await Deno.writeTextFile(settings.mapDirectory + path, JSON.stringify(info));
+    await Deno.writeTextFile(settings.mapDirectory + opt.path, JSON.stringify(info));
 };
 
 export const infoSync = (
-    path: string,
     info: InfoData,
     options: SaveOptionsInfo = defaultOptionsInfo
 ) => {
-    if (options.optimise?.enabled) {
-        performInfo(info, options.optimise);
+    const opt: Required<SaveOptionsDifficulty> = {
+        path: options.path ?? 'Info.dat',
+        optimise: options.optimise ?? { enabled: true },
+    };
+    if (opt.optimise.enabled) {
+        performInfo(info, opt.optimise);
     }
-    Deno.writeTextFileSync(settings.mapDirectory + path, JSON.stringify(info));
+    Deno.writeTextFileSync(settings.mapDirectory + opt.path, JSON.stringify(info));
 };
 
 export const difficulty = async (
-    path: string,
     difficulty: DifficultyData,
     options: SaveOptionsDifficulty = defaultOptionsDifficulty
 ) => {
-    if (options.optimise?.enabled) {
-        performDifficulty(difficulty, options.optimise);
+    const opt: Required<SaveOptionsDifficulty> = {
+        path: options.path ?? 'UnnamedPath.dat',
+        optimise: options.optimise ?? { enabled: true },
+    };
+    if (opt.optimise.enabled) {
+        performDifficulty(difficulty, opt.optimise);
     }
-    await Deno.writeTextFile(settings.mapDirectory + path, JSON.stringify(difficulty));
+    await Deno.writeTextFile(
+        settings.mapDirectory + opt.path,
+        JSON.stringify(difficulty)
+    );
 };
 
 export const difficultySync = (
-    path: string,
     difficulty: DifficultyData,
     options: SaveOptionsDifficulty = defaultOptionsDifficulty
 ) => {
-    if (options.optimise?.enabled) {
-        performDifficulty(difficulty, options.optimise);
+    const opt: Required<SaveOptionsDifficulty> = {
+        path: options.path ?? 'UnnamedPath.dat',
+        optimise: options.optimise ?? { enabled: true },
+    };
+    if (opt.optimise.enabled) {
+        performDifficulty(difficulty, opt.optimise);
     }
-    Deno.writeTextFileSync(settings.mapDirectory + path, JSON.stringify(difficulty));
+    Deno.writeTextFileSync(
+        settings.mapDirectory + opt.path,
+        JSON.stringify(difficulty)
+    );
 };

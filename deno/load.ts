@@ -3,7 +3,7 @@ import { DifficultyData } from './beatmap/types/difficulty.ts';
 import { info as parseInfo, difficulty as parseDifficulty } from './beatmap/parse.ts';
 import settings from './settings.ts';
 
-export const info = async (path: string): Promise<InfoData> => {
+export const info = async (path = 'Info.dat'): Promise<InfoData> => {
     return await new Promise((resolve, reject) => {
         try {
             resolve(
@@ -17,7 +17,7 @@ export const info = async (path: string): Promise<InfoData> => {
     });
 };
 
-export const infoSync = (path: string) => {
+export const infoSync = (path = 'Info.dat') => {
     return parseInfo(JSON.parse(Deno.readTextFileSync(settings.mapDirectory + path)));
 };
 

@@ -33,3 +33,20 @@ export interface pRandomLightIDOptions extends SetOptions {
     offsetEnd?: boolean;
     easingColor?: (x: number) => number;
 }
+
+export interface pRandomLightI2DOptions extends SetOptions {
+    startColor: ColorArray;
+    endColor: ColorArray;
+    colorType?: 'rgba' | 'long hsva' | 'short hsva';
+    type: never;
+    duration: number;
+    length: number;
+    precision: number;
+    step: number;
+    lightOff: boolean;
+    offStrobe: boolean;
+    lightID: [EventLight['_type'], number][];
+    lightIDMulti?: number;
+    offsetEnd?: boolean;
+    easingColor?: (x: number) => number;
+}
