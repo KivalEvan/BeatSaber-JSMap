@@ -12,6 +12,16 @@ export const toMMSS = (seconds: number): string => {
     return `${min}:${sec}`;
 };
 
+export const toHHMMSS = (minutes: number): string => {
+    if (!minutes) {
+        return '0:00:00';
+    }
+    const sec = Math.round((minutes * 60) % 60)
+        .toString()
+        .padStart(2, '0');
+    return `${toMMSS(minutes)}:${sec}`;
+};
+
 export const toMMSSMS = (seconds: number): string => {
     if (!seconds) {
         return '0:00.000';
@@ -65,9 +75,13 @@ export const isHex = (hex: string): boolean => {
     return /[a-fA-F0-9]*/g.test(hex);
 };
 
+export const clamp = (value: number, min: number, max: number): number => {
+    return Math.min(Math.max(min, value), max);
+};
+
 // Fisher–Yates shuffle
 // deno-lint-ignore no-explicit-any
-export const shuffle = (array: any[]) => {
+export const shuffle = (array: any[]): void => {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
@@ -80,13 +94,13 @@ export const interleave = ([x, ...xs]: number[], ys: number[] = []): number[] =>
         : [x, ...interleave(ys, xs)]; // inductive: some x
 };
 
-export const normalize = (x: number, min: number, max: number) => {
-    return max - min > 0 ? (x - min) / (max - min) : 0;
+export const normalize = (value: number, min: number, max: number): number => {
+    return max - min > 0 ? (value - min) / (max - min) : 0;
 };
 
 /**
  * Alpha number range 0-1
  */
-export const lerp = (alpha: number, start: number, end: number) => {
+export const lerp = (alpha: number, start: number, end: number): number => {
     return start + (end - start) * alpha;
 };

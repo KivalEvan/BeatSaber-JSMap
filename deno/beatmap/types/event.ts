@@ -40,19 +40,43 @@ export enum Value {
     RED_TRANSITION,
 }
 
-/**
- * Beatmap object interface for Event.
- *
- *     _time: float,
- *     _type: int,
- *     _value: int,
- *     _floatValue: int,
- *     _customData?: JSON
+/** Beatmap object interface for Event.
+ * ```ts
+ * _time: float,
+ * _type: int,
+ * _value: int,
+ * _floatValue: float,
+ * _customData?: JSON
+ * ```
  */
 // it took me long enough to realise Event is a built in JS class/interface, but it has no effect here anyway
 export interface EventBase {
     _time: number;
+    /** Type of event.
+     * ```ts
+     * 0 -> Back Lasers
+     * 1 -> Ring Lights
+     * 2 -> Left Lasers
+     * 3 -> Right Lasers
+     * 4 -> Center Lights
+     * 5 -> Light Boost
+     * 6 -> Extra Left Lights
+     * 7 -> Extra Right Lights
+     * 8 -> Ring Rotation
+     * 9 -> Ring Zoom
+     * 10 -> Extra Left Lasers
+     * 11 -> Extra Right Lasers
+     * 12 -> Left Laser Rotation
+     * 13 -> Right Laser Rotation
+     * 14 -> Early Lane Rotation
+     * 15 -> Late Lane Rotation
+     * 16 -> Lower Hydraulic
+     * 17 -> Raise Hydraulic
+     * 100 -> BPM Change
+     * ```
+     */
     _type: number;
+    /** Value of event. */
     _value: number;
     _floatValue: number;
     _customData?: Record<never, never>;
@@ -60,11 +84,22 @@ export interface EventBase {
 
 export interface EventLight extends EventBase {
     _type: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11;
+    /** State of light event. ( Blue | Red )
+     * ```ts
+     * 0 -> Off
+     * 1 | 5 -> On
+     * 2 | 6 -> Flash
+     * 3 | 7 -> Fade
+     * 4 | 8 -> Transition
+     * ```
+     */
+    _value: number;
     _customData?: ChromaEventLight;
 }
 
 export interface EventBoost extends EventBase {
     _type: 5;
+    /** Toggle between boost event. */
     _value: 0 | 1;
 }
 
@@ -75,16 +110,31 @@ export interface EventRing extends EventBase {
 
 export interface EventZoom extends EventBase {
     _type: 9;
-    _customData?: ChromaEventRotation | ChromaEventZoom;
+    _customData?: ChromaEventRotation & ChromaEventZoom;
 }
 
 export interface EventLaser extends EventBase {
     _type: 12 | 13;
+    /** Laser rotation speed in degree per second multiplied by 20. */
+    _value: number;
     _customData?: ChromaEventLaser;
 }
 
 export interface EventLaneRotation extends EventBase {
     _type: 14 | 15;
+    /** Amount of angle changed clockwise.
+     * ```ts
+     * 0 -> -60 Degree
+     * 1 -> -45 Degree
+     * 2 -> -30 Degree
+     * 3 -> -15 Degree
+     * 4 -> 15 Degree
+     * 5 -> 30 Degree
+     * 6 -> 45 Degree
+     * 7 -> 60 Degree
+     * ```
+     */
+    _value: number;
     _customData?: NEEvent;
 }
 
@@ -106,8 +156,7 @@ export type Event =
     | EventExtra
     | EventBPMChange;
 
-/**
- * Enum for beatmap event type name.
+/** Enum for beatmap event type name.
  * @enum {number} Event type name
  */
 export enum EventRename {

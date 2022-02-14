@@ -1,151 +1,180 @@
-import { Event, EventLight, EventLaser, EventCount } from './types/event.ts';
+import {
+    Event,
+    EventLight,
+    EventLaser,
+    EventCount,
+    EventRing,
+    EventZoom,
+    EventLaneRotation,
+} from './types/event.ts';
 import { EnvironmentAllName } from './types/environment.ts';
 import { eventList } from './environment.ts';
 
-/**
- * Check if light event is an off event.
- * @param {Event} event - Beatmap light event
- * @returns {boolean} If light event is an off event
+/** Check if light event is an off event.
+ * ```ts
+ * if (isOff(event)) {}
+ * ```
+ * This may check non-light event too.
  */
 export const isOff = (event: Event): boolean => {
     return event._value === 0;
 };
 
-/**
- * Check if light event is an on event.
- * @param {Event} event - Beatmap light event
- * @returns {boolean} If light event is an on event
+/** Check if light event is an on event.
+ * ```ts
+ * if (isOn(event)) {}
+ * ```
+ * This may check non-light event too.
  */
 export const isOn = (event: Event): boolean => {
     return event._value === 1 || event._value === 5;
 };
 
-/**
- * Check if light event is a flash event.
- * @param {Event} event - Beatmap light event
- * @returns {boolean} If light event is a flash event
+/** Check if light event is a flash event.
+ * ```ts
+ * if (isFlash(event)) {}
+ * ```
+ * This may check non-light event too.
  */
 export const isFlash = (event: Event): boolean => {
     return event._value === 2 || event._value === 6;
 };
 
-/**
- * Check if light event is a fade event.
- * @param {Event} event - Beatmap light event
- * @returns {boolean} If light event is a fade event
+/** Check if light event is a fade event.
+ * ```ts
+ * if (isFade(event)) {}
+ * ```
+ * This may check non-light event too.
  */
 export const isFade = (event: Event): boolean => {
     return event._value === 3 || event._value === 7;
 };
 
-/**
- * Check if light event is a transition event.
- * @param {Event} event - Beatmap light event
- * @returns {boolean} If light event is a transition event
+/** Check if light event is a transition event.
+ * ```ts
+ * if (isTransition(event)) {}
+ * ```
+ * This may check non-light event too.
  */
 export const isTransition = (event: Event): boolean => {
     return event._value === 4 || event._value === 8;
 };
 
-/**
- * Check if event is a valid type.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event is a valid type
+/** Check if event is a valid type.
+ * ```ts
+ * if (isValidType(event)) {}
+ * ```
  */
 export const isValidType = (event: Event): boolean => {
     return (event._type >= 0 && event._type <= 17) || event._type === 100;
 };
 
-/**
- * Check if event is a light event.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event is a light event
+/** Check if event is a light event.
+ * ```ts
+ * if (isLightEvent(event)) {}
+ * ```
  */
-export const isLightEvent = (event: Event): boolean => {
+export const isLightEvent = (event: Event): event is EventLight => {
     return (
-        event._type >= 0 &&
-        event._type <= 11 &&
-        !isRingEvent(event) &&
-        !isColorBoost(event)
+        event._type === 0 ||
+        event._type === 1 ||
+        event._type === 2 ||
+        event._type === 3 ||
+        event._type === 4 ||
+        event._type === 6 ||
+        event._type === 7 ||
+        event._type === 10 ||
+        event._type === 11
     );
 };
 
-/**
- * Check if event is a boost event.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event is a boost event
+/** Check if event is a boost event.
+ * ```ts
+ * if (isColorBoost(event)) {}
+ * ```
  */
 export const isColorBoost = (event: Event): boolean => {
     return event._type === 5;
 };
 
-/**
- * Check if event is a ring event.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event is a ring event
+/** Check if event is a ring event.
+ * ```ts
+ * if (isRingEvent(event)) {}
+ * ```
+ * This does not check for ring zoom.
  */
-export const isRingEvent = (event: Event): boolean => {
-    return event._type === 8 || event._type === 9;
+export const isRingEvent = (event: Event): event is EventRing => {
+    return event._type === 8;
 };
 
-/**
- * Check if event is a laser rotation event.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event is a laser rotation event
+/** Check if event is a ring zoom event.
+ * ```ts
+ * if (isZoomEvent(event)) {}
+ * ```
  */
-export const isLaserRotationEvent = (event: Event): boolean => {
+export const isZoomEvent = (event: Event): event is EventZoom => {
+    return event._type === 9;
+};
+
+/** Check if event is a laser rotation event.
+ * ```ts
+ * if (isLaserRotationEvent(event)) {}
+ * ```
+ */
+export const isLaserRotationEvent = (event: Event): event is EventLaser => {
     return event._type === 12 || event._type === 13;
 };
 
-/**
- * Check if event is a lane rotation event.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event is a lane rotation event
+/** Check if event is a lane rotation event.
+ * ```ts
+ * if (isLaneRotationEvent(event)) {}
+ * ```
  */
-export const isLaneRotationEvent = (event: Event): boolean => {
+export const isLaneRotationEvent = (event: Event): event is EventLaneRotation => {
     return event._type === 14 || event._type === 15;
 };
 
-/**
- * Check if event is a hydraulic event.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event is a hydraulic event
+/** Check if event is a hydraulic event.
+ * ```ts
+ * if (isExtraEvent(event)) {}
+ * ```
  */
 export const isExtraEvent = (event: Event): boolean => {
     return event._type === 16 || event._type === 17;
 };
 
-/**
- * Check if event is a BPM change event.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event is a BPM change event
+/** Check if event is a BPM change event.
+ * ```ts
+ * if (isBPMChangeEvent(event)) {}
+ * ```
  */
 export const isBPMChangeEvent = (event: Event): boolean => {
     return event._type === 100;
 };
 
-/**
- * Not to be confused with isLightEvent, this checks for event that affects the environment/lighting.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event is a BPM change event
+/** Not to be confused with isLightEvent, this checks for event that affects the environment/lighting.
+ * ```ts
+ * if (isLightingEvent(event)) {}
+ * ```
  */
 export const isLightingEvent = (event: Event): boolean => {
     return (
         isLightEvent(event) ||
         isRingEvent(event) ||
+        isZoomEvent(event) ||
         isLaserRotationEvent(event) ||
         isExtraEvent(event)
     );
 };
 
-/**
- * Check if event has Chroma properties.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event has Chroma properties
+/** Check if event has Chroma properties.
+ * ```ts
+ * if (hasChroma(event)) {}
+ * ```
  */
+// holy shit i hate type guard
 export const hasChroma = (event: Event): boolean => {
     if (isLightEvent(event)) {
-        event = event as EventLight;
         return (
             Array.isArray(event._customData?._color) ||
             typeof event._customData?._lightID === 'number' ||
@@ -154,7 +183,8 @@ export const hasChroma = (event: Event): boolean => {
             typeof event._customData?._lightGradient === 'object'
         );
     }
-    if (event._type === 8) {
+    event = event as Event;
+    if (isRingEvent(event)) {
         return (
             typeof event._customData?._nameFilter === 'string' ||
             typeof event._customData?._reset === 'boolean' ||
@@ -169,11 +199,24 @@ export const hasChroma = (event: Event): boolean => {
             typeof event._customData?._speedMult === 'number'
         );
     }
-    if (event._type === 9) {
-        return typeof event._customData?._step === 'number';
+    event = event as Event;
+    if (isZoomEvent(event)) {
+        return (
+            typeof event._customData?._nameFilter === 'string' ||
+            typeof event._customData?._reset === 'boolean' ||
+            typeof event._customData?._rotation === 'number' ||
+            typeof event._customData?._step === 'number' ||
+            typeof event._customData?._prop === 'number' ||
+            typeof event._customData?._speed === 'number' ||
+            typeof event._customData?._direction === 'number' ||
+            typeof event._customData?._counterSpin === 'boolean' ||
+            typeof event._customData?._stepMult === 'number' ||
+            typeof event._customData?._propMult === 'number' ||
+            typeof event._customData?._speedMult === 'number'
+        );
     }
+    event = event as Event;
     if (isLaserRotationEvent(event)) {
-        event = event as EventLaser;
         return (
             typeof event._customData?._lockPosition === 'boolean' ||
             typeof event._customData?._speed === 'number' ||
@@ -184,22 +227,22 @@ export const hasChroma = (event: Event): boolean => {
     return false;
 };
 
-/**
- * Check if event has old Chroma properties.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event has old Chroma properties
+/** Check if event has old Chroma properties.
+ * ```ts
+ * if (hasOldChroma(event)) {}
+ * ```
  */
 export const hasOldChroma = (event: Event): boolean => {
     return event._value >= 2000000000;
 };
 
-/**
- * Check if event has Noodle Extensions properties.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event has Noodle Extensions properties
+/** Check if event has Noodle Extensions properties.
+ * ```ts
+ * if (hasNoodleExtensions(event)) {}
+ * ```
  */
 export const hasNoodleExtensions = (event: Event): boolean => {
-    if (event._type === 14 || event._type === 15) {
+    if (isLaneRotationEvent(event)) {
         if (typeof event._customData?._rotation === 'number') {
             return true;
         }
@@ -207,37 +250,37 @@ export const hasNoodleExtensions = (event: Event): boolean => {
     return false;
 };
 
-/**
- * Check if event has Mapping Extensions properties.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event has Mapping Extensions properties
+/** Check if event has Mapping Extensions properties.
+ * ```ts
+ * if (hasMappingExtensions(event)) {}
+ * ```
  */
 export const hasMappingExtensions = (event: Event): boolean => {
-    return (
-        (event._type === 14 || event._type === 15) &&
-        event._value >= 1000 &&
-        event._value <= 1720
-    );
+    return isLaneRotationEvent(event) && event._value >= 1000 && event._value <= 1720;
 };
 
-/**
- * Check if event is a valid, vanilla event.
- * @param {Event} event - Beatmap event
- * @returns {boolean} If event is a valid, vanilla event
+/** Check if event is a valid, vanilla event.
+ * ```ts
+ * if (isValid(event)) {}
+ * ```
  */
 export const isValid = (event: Event): boolean => {
     return (
         isValidType(event) &&
         event._value >= 0 &&
-        !(!isLaserRotationEvent(event) && event._value > 8 && !hasOldChroma(event))
+        !(
+            !isLaserRotationEvent(event) &&
+            (event as Event)._value > 8 &&
+            !hasOldChroma(event)
+        )
     );
 };
 
-/**
- * Count number of type of events with their properties in given array and return a event count object.
- * @param {Event[]} events - Array of beatmap event
- * @param {EnvironmentAllName} [environment] - Environment name
- * @returns {EventCount} Event count object
+/** Count number of type of events with their properties in given array and return a event count object.
+ * ```ts
+ * const list = count(events);
+ * console.log(list);
+ * ```
  */
 export const count = (
     events: Event[],
