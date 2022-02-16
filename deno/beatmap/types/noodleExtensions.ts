@@ -1,10 +1,10 @@
 import {
-    HeckCustomEventDataBase,
     Array2DPoint,
     Array3DPoint,
+    Array3DPointDefinition,
     ArrayColorPointDefinition,
     ArrayPercentPointDefinition,
-    Array3DPointDefinition,
+    HeckCustomEventDataBase,
 } from './heck.ts';
 
 export const name = 'Noodle Extensions';

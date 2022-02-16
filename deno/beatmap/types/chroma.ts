@@ -1,7 +1,7 @@
 import {
-    HeckCustomEventDataBase,
-    Array3DPoint,
     Array2DPointDefinition,
+    Array3DPoint,
+    HeckCustomEventDataBase,
 } from './heck.ts';
 import { Easings } from './easings.ts';
 import { ColorArray } from './colors.ts';

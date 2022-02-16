@@ -4,7 +4,7 @@ import * as imagescript from 'https://deno.land/x/imagescript@1.2.9/mod.ts';
 import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
 
 const WORKING_DIRECTORY = dirname(Deno.mainModule).replace('file:///', '') + '/'; // for some reason deno doesnt like to deal with file:///
-bsmap.settings.mapDirectory =
+bsmap.settings.path =
     'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/ECHO/';
 const INPUT_FILE = 'EasyLightshow.dat';
 const OUTPUT_FILE = INPUT_FILE;
@@ -814,7 +814,7 @@ for (const ivt of introVocalTiming) {
             }
         );
     } else {
-        for (let i = 0; i < ivt[1]; i += 0.125)
+        for (let i = 0; i < ivt[1]; i += 0.125) {
             _events.push(
                 {
                     _type: 4,
@@ -831,6 +831,7 @@ for (const ivt of introVocalTiming) {
                     _customData: { _lightID: [1, 2] },
                 }
             );
+        }
     }
 }
 
@@ -850,14 +851,53 @@ await screenDraw('smile.gif', {
 });
 screenClear(19);
 await screenDraw('smileglitch.gif', { startTime: 19.0625 });
-screenClear(19.125);
+await screenDraw('smileglitch.gif', { startTime: 19.125, invert: true, rotate: 180 });
+screenClear(19.1875);
 await screenDraw('smile.gif', {
-    startTime: 19.1875,
+    startTime: 19.25,
     xOffset: 11,
     yOffset: 5,
 });
-screenClear(19.25);
-await screenDraw('clock.gif', { startTime: 20 });
+screenClear(19.375);
+{
+    const image = Deno.readFileSync(WORKING_DIRECTORY + 'clock.gif');
+    const img = await imagescript.GIF.decode(image, true);
+    const xOffset = 0;
+    const yOffset = 0;
+    img.forEach((frame) => {
+        for (let y = -3; y < Math.min(img.height, screenY); y++) {
+            const colorID: { [key: string]: number[] } = {};
+            for (let x = 0; x < Math.min(img.width, screenX); x++) {
+                const fixedY = x % 2 ? y + 3 : y;
+                if (fixedY < 0 || fixedY >= Math.min(img.height, screenY)) {
+                    continue;
+                }
+                const pos = screenStartID + screenX * (fixedY + yOffset) + x + xOffset;
+                const colorAry = frame.getRGBAAt(x + 1, fixedY + 1);
+                if (screenLight[pos] === colorAry[0]) {
+                    continue;
+                }
+                if (!colorID[colorAry[0]]) {
+                    colorID[colorAry[0]] = [pos];
+                } else {
+                    colorID[colorAry[0]].push(pos);
+                }
+                screenLight[pos] = colorAry[0];
+            }
+            for (const color in colorID) {
+                _events.push({
+                    _type: 4,
+                    _time: 20 + (y + 3) / screenY,
+                    _value: 1,
+                    _floatValue: parseInt(color) / 255,
+                    _customData: {
+                        _lightID: colorID[color],
+                    },
+                });
+            }
+        }
+    });
+}
 for (let i = 0; i < 2; i++) {
     screenClear(22 + i * 0.5);
     await screenDraw('clock.gif', { startTime: 22.125 + i * 0.5 });
@@ -1121,7 +1161,7 @@ await screenDraw('noentry.gif', { startTime: 40 });
 screenClear(40.375);
 
 await screenDraw('let.gif', { startTime: 40.5 });
-screenClear(40.875);
+screenClear(41.25);
 
 await screenDraw('go.gif', { startTime: 41.5 });
 screenClear(42, 0.5);
@@ -1130,15 +1170,21 @@ await screenDraw('there.gif', { startTime: 43.5 });
 screenClear(43.875);
 
 await screenDraw('wasnt.gif', { startTime: 44 });
+screenClear(44.375);
+await screenDraw('wasnt.gif', { startTime: 44.5 });
+await screenDraw('wasntglitch.gif', { startTime: 44.5625 });
 screenClear(44.875);
 
 await screenDraw('any.gif', { startTime: 45 });
+screenClear(45.375);
+await screenDraw('any.gif', { startTime: 45.5 });
 screenClear(45.875);
 
 await screenDraw('thing.gif', { startTime: 46 });
 screenClear(46.375, 0.5);
 
-await screenDraw('to.gif', { startTime: 47 });
+await screenDraw('toglitch.gif', { startTime: 47 });
+await screenDraw('to.gif', { startTime: 47.0625 });
 screenClear(47.375);
 
 await screenDraw('hold.gif', { startTime: 47.5 });
@@ -1150,7 +1196,8 @@ screenClear(48.375);
 await screenDraw('to.gif', { startTime: 48.5 });
 screenClear(48.875, 0.5);
 
-await screenDraw('tho.gif', { startTime: 49.5 });
+await screenDraw('thoglitch.gif', { startTime: 49.5 });
+await screenDraw('tho.gif', { startTime: 49.5625 });
 screenClear(49.875, 0.5);
 
 for (let i = 0; i < 7; i++) {
@@ -1860,7 +1907,7 @@ const soloVocalTiming: [number, number?][] = [
     [13.5], // look
     [14, 0.5], // back
 ];
-for (let i = 0; i < 4; i++)
+for (let i = 0; i < 4; i++) {
     for (const ivt of soloVocalTiming) {
         const t = ivt[0];
         if (!ivt[1]) {
@@ -1881,7 +1928,7 @@ for (let i = 0; i < 4; i++)
                 }
             );
         } else {
-            for (let j = 0; j < ivt[1]; j += 0.125)
+            for (let j = 0; j < ivt[1]; j += 0.125) {
                 _events.push(
                     {
                         _type: 4,
@@ -1898,8 +1945,10 @@ for (let i = 0; i < 4; i++)
                         _customData: { _lightID: [1, 2] },
                     }
                 );
+            }
         }
     }
+}
 
 await screenDraw('and.gif', { startTime: 384 });
 screenClear(384.375);
@@ -1917,7 +1966,7 @@ await screenDraw('back.gif', { startTime: 386 });
 screenClear(386.375);
 
 for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 2; j++)
+    for (let j = 0; j < 2; j++) {
         _events.push(
             {
                 _type: 0,
@@ -1964,6 +2013,7 @@ for (let i = 0; i < 5; i++) {
                 },
             }
         );
+    }
 }
 
 //#region crystal light
@@ -2811,6 +2861,6 @@ for (let i = 0; i < 11; i++) {
 
 console.log(_events.length, 'events');
 await bsmap.save.difficulty(difficulty, {
-    path: OUTPUT_FILE,
+    filePath: OUTPUT_FILE,
 });
 console.log('map saved');

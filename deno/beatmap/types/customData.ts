@@ -3,13 +3,13 @@ import { BPMChange } from './bpm.ts';
 import { Contributor } from './contributor.ts';
 import { Editor } from './editor.ts';
 import { ColorScheme } from './environment.ts';
-import { HeckInfoCustomData, HeckCustomData, HeckCustomEvent } from './heck.ts';
+import { HeckCustomData, HeckCustomEvent, HeckInfoCustomData } from './heck.ts';
 import {
+    ChromaCustomData,
+    ChromaCustomEvent,
     ChromaEnvironmentOld,
     ChromaNote,
     ChromaObstacle,
-    ChromaCustomData,
-    ChromaCustomEvent,
 } from './chroma.ts';
 import { NECustomData, NECustomEvent, NENote, NEObstacle } from './noodleExtensions.ts';
 import { KeysoundMap, KeysoundNote } from './keysound.ts';

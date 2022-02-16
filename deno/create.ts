@@ -1,6 +1,6 @@
 import { InfoData } from './beatmap/types/info.ts';
 import { DifficultyData } from './beatmap/types/difficulty.ts';
-import { info as parseInfo, difficulty as parseDifficulty } from './beatmap/parse.ts';
+import { difficulty as parseDifficulty, info as parseInfo } from './beatmap/parse.ts';
 
 export const info = (data: Partial<InfoData> = {}): InfoData => {
     const infoData: InfoData = {

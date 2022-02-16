@@ -71,10 +71,21 @@ export const interpolateColor = (
     colorStart: ColorArray,
     colorEnd: ColorArray,
     alpha: number,
-    type: 'rgba' | 'long hsva' | 'short hsva' = 'rgba',
+    type: 'rgba' | 'hsva' | 'long hsva' | 'short hsva' = 'rgba',
     easing: (x: number) => number = easings.easeLinear
 ): ColorArray => {
     switch (type) {
+        case 'hsva': {
+            return HSVAtoRGBA(
+                ...(colorStart.map((c, i) => {
+                    if (!c) {
+                        return 1;
+                    }
+                    const cE = colorEnd[i] ?? c;
+                    lerp(easing(alpha), c, cE);
+                }) as ColorArray)
+            );
+        }
         case 'long hsva': {
             return HSVAtoRGBA(
                 ...(colorStart.map((c, i) => {

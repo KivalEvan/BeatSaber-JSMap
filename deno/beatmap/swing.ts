@@ -1,17 +1,17 @@
 import { CharacteristicName } from './types/characteristic.ts';
-import { DifficultyName, DifficultyData } from './types/difficulty.ts';
+import { DifficultyData, DifficultyName } from './types/difficulty.ts';
 import { Note } from './types/note.ts';
 import { BeatPerMinute } from './bpm.ts';
 import { getFirstInteractiveTime, getLastInteractiveTime } from './difficulty.ts';
 import {
-    isNote,
+    checkDirection,
+    distance,
     isDiagonal,
     isHorizontal,
+    isNote,
+    isSlantedWindow,
     isVertical,
     isWindow,
-    isSlantedWindow,
-    distance,
-    checkDirection,
 } from './note.ts';
 import { median } from '../utils.ts';
 

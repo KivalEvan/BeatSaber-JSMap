@@ -1,7 +1,7 @@
 import { CharacteristicName } from './characteristic.ts';
 import { CustomDataInfo, CustomDataInfoDifficulty } from './customData.ts';
 import { DifficultyName, DifficultyRank } from './difficulty.ts';
-import { EnvironmentName, Environment360Name } from './environment.ts';
+import { Environment360Name, EnvironmentName } from './environment.ts';
 
 /** Info interface for info file.
  * ```ts

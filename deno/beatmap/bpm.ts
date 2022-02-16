@@ -77,7 +77,7 @@ export class BeatPerMinute {
         return ((this.toRealTime(beat) - this._offset) * this._bpm) / 60;
     }
 
-    /** Change beat time to real time in second.
+    /** Convert beat time to real time in second.
      * ```ts
      * const realTime = toRealTime(beat);
      * ```
@@ -86,7 +86,7 @@ export class BeatPerMinute {
         return (beat / this._bpm) * 60;
     }
 
-    /** Change real time in second to beat time.
+    /** Convert real-time in second to beat time.
      * ```ts
      * const beatTime = toBeatTime(rt);
      * ```

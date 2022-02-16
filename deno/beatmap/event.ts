@@ -1,11 +1,11 @@
 import {
     Event,
-    EventLight,
-    EventLaser,
     EventCount,
+    EventLaneRotation,
+    EventLaser,
+    EventLight,
     EventRing,
     EventZoom,
-    EventLaneRotation,
 } from './types/event.ts';
 import { EnvironmentAllName } from './types/environment.ts';
 import { eventList } from './environment.ts';

@@ -1,6 +1,6 @@
 import {
-    ChromaEventLight,
     ChromaEventLaser,
+    ChromaEventLight,
     ChromaEventRotation,
     ChromaEventZoom,
 } from './chroma.ts';
@@ -94,6 +94,12 @@ export interface EventLight extends EventBase {
      * ```
      */
     _value: number;
+    /** Controls the brightness of the light.
+     * ```ts
+     * Range: 0-1 // (0% to 100%), can be more than 1.
+     * ```
+     */
+    _floatValue: number;
     _customData?: ChromaEventLight;
 }
 
@@ -144,6 +150,8 @@ export interface EventExtra extends EventBase {
 
 export interface EventBPMChange extends EventBase {
     _type: 100;
+    /** Changes the BPM to this value. */
+    _floatValue: number;
 }
 
 export type Event =

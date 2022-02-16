@@ -2,8 +2,8 @@ import { InfoData } from './beatmap/types/info.ts';
 import { DifficultyData } from './beatmap/types/difficulty.ts';
 import {
     OptimizeOptions,
-    OptimizeOptionsInfo,
     OptimizeOptionsDifficulty,
+    OptimizeOptionsInfo,
 } from './types.ts';
 import { round } from './utils.ts';
 

@@ -1,6 +1,6 @@
 import { InfoData } from './types/info.ts';
 import { CharacteristicOrder } from './types/characteristic.ts';
-import { DifficultyRank, DifficultyData } from './types/difficulty.ts';
+import { DifficultyData, DifficultyRank } from './types/difficulty.ts';
 import { Note } from './types/note.ts';
 import { Obstacle } from './types/obstacle.ts';
 import { Event } from './types/event.ts';

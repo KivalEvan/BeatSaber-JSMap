@@ -12,7 +12,9 @@ enum ParitySwitch {
     'backhand' = 'forehand',
 }
 
-const noteInitParity: { [key: number]: { backhand: number[]; forehand: number[] } } = {
+const noteInitParity: {
+    [key: number]: { backhand: number[]; forehand: number[] };
+} = {
     0: {
         forehand: [1, 3, 6, 7],
         backhand: [0, 2, 4, 5],

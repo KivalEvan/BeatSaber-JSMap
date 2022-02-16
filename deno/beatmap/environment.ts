@@ -1,4 +1,4 @@
-import { EnvironmentScheme, EnvironmentAllName } from './types/environment.ts';
+import { EnvironmentAllName, EnvironmentScheme } from './types/environment.ts';
 import { EventLight } from './types/event.ts';
 
 /** Color scheme definition. */

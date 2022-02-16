@@ -268,5 +268,5 @@ for (let i = 4; i < 16; i++) {
 }
 
 console.log(_events.length, 'events');
-await bsmap.save.difficulty(OUTPUT_FILE, difficulty);
+await bsmap.save.difficulty(difficulty, { path: OUTPUT_FILE });
 console.log('map saved');
