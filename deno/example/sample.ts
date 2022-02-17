@@ -31,5 +31,5 @@ difficulty._events.push({
 
 bsmap.save.infoSync(info);
 await bsmap.save.difficulty(difficulty, {
-    path: 'ExpertPlusStandard.dat',
+    filePath: 'ExpertPlusStandard.dat',
 });

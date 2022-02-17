@@ -14,8 +14,8 @@ const args = parse(Deno.args, {
     boolean: ['e', 'f'],
     alias: { p: 'path', e: 'env', f: 'force' },
 });
-bsmap.settings.mapDirectory = (args.p as string) ?? '';
-console.log(`Map directory: ${bsmap.settings.mapDirectory}`);
+bsmap.settings.path = (args.p as string) ?? '';
+console.log(`Map directory: ${bsmap.settings.path || './'}`);
 if (!args._[0]) {
     throw Error('Unspecified difficulty file to copy light.');
 }
@@ -61,7 +61,7 @@ for (const set of info._difficultyBeatmapSets) {
         }
         difficulty._events = lightshow._events;
         bsmap.save.difficultySync(difficulty, {
-            path: d._beatmapFilename,
+            filePath: d._beatmapFilename,
         });
     }
 }
