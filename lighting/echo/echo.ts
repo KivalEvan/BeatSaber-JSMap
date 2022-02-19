@@ -3,6 +3,8 @@ import * as bsmap from '../../deno/mod.ts';
 import * as imagescript from 'https://deno.land/x/imagescript@1.2.9/mod.ts';
 import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
 
+console.log('Running script...');
+console.time('Runtime');
 const WORKING_DIRECTORY = dirname(Deno.mainModule.replace('file:///', '')) + '/'; // for some reason deno doesnt like to deal with file:///
 bsmap.settings.path =
     'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/ECHO/';
@@ -10,12 +12,12 @@ const INPUT_FILE = 'EasyLightshow.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
 const difficulty = await bsmap.load.difficulty(INPUT_FILE);
-// const info = bsmap.load.infoSync();
-// const BPM = bsmap.bpm.create(info._beatsPerMinute);
 
 difficulty._version = '2.5.0';
 difficulty._customData = difficulty._customData ?? {};
 difficulty._customData._environment = [];
+difficulty._customData._time = difficulty._customData._time ?? 0;
+difficulty._customData._time++;
 difficulty._events = [];
 const _environment = difficulty._customData._environment;
 const _events = difficulty._events;
@@ -330,7 +332,7 @@ _environment.push(
 
 //#region helper
 interface ImageGIFOption {
-    startTime: number;
+    time: number;
     endTime?: number;
     eventValue?: number;
     floatValue?: number;
@@ -343,14 +345,15 @@ interface ImageGIFOption {
     rotate?: number;
     saturation?: number;
     ignoreBlack?: boolean;
+    save?: boolean;
     override?: boolean;
     easings?: (x: number) => number;
 }
 
 const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
     const opt: Required<ImageGIFOption> = {
-        startTime: options.startTime,
-        endTime: options.endTime ?? options.startTime,
+        time: options.time,
+        endTime: options.endTime ?? options.time,
         eventValue: options.eventValue ?? 1,
         floatValue: options.floatValue ?? 1,
         fadeInDuration: options.fadeInDuration ?? 0,
@@ -362,6 +365,7 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
         rotate: options.rotate ?? 0,
         saturation: options.saturation ?? 0,
         ignoreBlack: options.ignoreBlack ?? false,
+        save: options.save ?? true,
         override: options.override ?? false,
         easings: options.easings ?? bsmap.easings.method.easeLinear,
     };
@@ -405,13 +409,15 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
                 } else {
                     colorID[colorAry[0]].push(pos);
                 }
-                screenLight[pos] = colorAry[0];
+                if (opt.save) {
+                    screenLight[pos] = colorAry[0];
+                }
             }
         }
         if (!itFrame && opt.fadeInDuration && opt.eventValue) {
             for (const color in prevColor) {
                 _events.push({
-                    _time: opt.startTime,
+                    _time: opt.time,
                     _type: 4,
                     _value: opt.eventValue > 4 ? 5 : 1,
                     _floatValue: (parseInt(color) / 255) * opt.floatValue,
@@ -429,10 +435,10 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
                               opt.easings(
                                   bsmap.utils.normalize(itFrame, 0, gif.length)
                               ),
-                              opt.startTime,
+                              opt.time,
                               opt.endTime
                           )
-                        : opt.startTime) + opt.fadeInDuration,
+                        : opt.time) + opt.fadeInDuration,
                 _type: 4,
                 _value: opt.fadeInDuration
                     ? opt.eventValue > 4
@@ -836,25 +842,25 @@ for (const ivt of introVocalTiming) {
 }
 
 await screenDraw('smile.gif', {
-    startTime: 2,
+    time: 2,
     eventValue: 0,
     floatValue: 0,
     xOffset: 11,
     yOffset: 5,
 });
 await screenDraw('smile.gif', {
-    startTime: 4,
+    time: 4,
     eventValue: 4,
     xOffset: 11,
     yOffset: 5,
     override: true,
 });
 screenClear(19);
-await screenDraw('smileglitch.gif', { startTime: 19.0625 });
-await screenDraw('smileglitch.gif', { startTime: 19.125, invert: true, rotate: 180 });
+await screenDraw('smileglitch.gif', { time: 19.0625 });
+await screenDraw('smileglitch.gif', { time: 19.125, invert: true, rotate: 180 });
 screenClear(19.1875);
 await screenDraw('smile.gif', {
-    startTime: 19.25,
+    time: 19.25,
     xOffset: 11,
     yOffset: 5,
 });
@@ -911,7 +917,7 @@ for (const x in roadOrder) {
 }
 for (let i = 0; i < 2; i++) {
     screenClear(22 + i * 0.5);
-    await screenDraw('clock.gif', { startTime: 22.125 + i * 0.5 });
+    await screenDraw('clock.gif', { time: 22.125 + i * 0.5 });
 }
 screenClear(23, 0.5);
 {
@@ -1021,7 +1027,7 @@ screenClear(23, 0.5);
             },
         });
     }
-    screenClear(31, 0.5);
+    screenClear(31.25, 0.375);
 }
 {
     const image = Deno.readFileSync(WORKING_DIRECTORY + 'frown.gif');
@@ -1068,90 +1074,102 @@ screenClear(23, 0.5);
             );
         }
     });
-    screenClear(34.25);
-    await screenDraw('frownglitch.gif', { startTime: 34.3125 });
-    screenClear(34.375);
+    await screenDraw('frownglitch.gif', { time: 32.5 });
+    screenClear(32.5625);
     await screenDraw('frown.gif', {
-        startTime: 34.4375,
+        time: 32.625,
         xOffset: 11,
         yOffset: 5,
     });
-    screenClear(34.5, 0.5);
+    screenClear(33.25, 0.25);
+    await screenDraw('frownglitch.gif', {
+        time: 33.5625,
+        invert: true,
+        rotate: 180,
+    });
+    screenClear(33.625);
+    await screenDraw('frown.gif', {
+        time: 33.6875,
+        xOffset: 11,
+        yOffset: 5,
+    });
+    screenClear(34, 0.5);
 }
 
-await screenDraw('i.gif', { startTime: 35 });
+await screenDraw('i.gif', { time: 35 });
 screenClear(35.75);
-await screenDraw('iglitch.gif', { startTime: 35.8125 });
+await screenDraw('iglitch.gif', { time: 35.8125 });
 screenClear(35.875);
 
-await screenDraw('noentry.gif', { startTime: 36 });
+await screenDraw('noentry.gif', { time: 36 });
 screenClear(36.75);
-await screenDraw('noentryglitch.gif', { startTime: 36.8125 });
+await screenDraw('noentryglitch.gif', { time: 36.8125 });
 screenClear(36.875);
 
-await screenDraw('get.gif', { startTime: 37 });
+await screenDraw('get.gif', { time: 37 });
 screenClear(37.375);
 
-await screenDraw('a.gif', { startTime: 37.5 });
+await screenDraw('a.gif', { time: 37.5 });
 screenClear(37.875);
 
-await screenDraw('grip.gif', { startTime: 38 });
+await screenDraw('grip.gif', { time: 38 });
 screenClear(38.0625);
-await screenDraw('grip.gif', { startTime: 38.125 });
-await screenDraw('grip.gif', { startTime: 38.6875, invert: true });
+await screenDraw('grip.gif', { time: 38.125 });
+await screenDraw('grip.gif', { time: 38.6875, invert: true });
 screenClear(38.75);
 
-await screenDraw('butglitch.gif', { startTime: 39 });
-await screenDraw('but.gif', { startTime: 39.0625 });
+await screenDraw('butglitch.gif', { time: 39 });
+await screenDraw('but.gif', { time: 39.0625 });
 screenClear(39.375);
 
-await screenDraw('i.gif', { startTime: 39.5 });
+await screenDraw('i.gif', { time: 39.5 });
 screenClear(39.875);
 
-await screenDraw('noentry.gif', { startTime: 40 });
+await screenDraw('noentry.gif', { time: 40 });
 screenClear(40.375);
 
-await screenDraw('let.gif', { startTime: 40.5, invert: true });
-await screenDraw('let.gif', { startTime: 40.5625 });
+await screenDraw('let.gif', { time: 40.5, invert: true });
+await screenDraw('let.gif', { time: 40.5625 });
 screenClear(41, 0.25);
 
-await screenDraw('goglitch.gif', { startTime: 41.5 });
-await screenDraw('go.gif', { startTime: 41.5625 });
+await screenDraw('goglitch.gif', { time: 41.5 });
+await screenDraw('go.gif', { time: 41.5625 });
 screenClear(42, 0.5);
 
-await screenDraw('there.gif', { startTime: 43.5 });
+await screenDraw('there.gif', { time: 43.5 });
 screenClear(43.875);
 
-await screenDraw('wasnt.gif', { startTime: 44 });
+await screenDraw('wasnt.gif', { time: 44 });
 screenClear(44.4375);
-await screenDraw('wasnt.gif', { startTime: 44.5 });
-await screenDraw('wasntglitch.gif', { startTime: 44.8125 });
+await screenDraw('wasnt.gif', { time: 44.5 });
+await screenDraw('wasntglitch.gif', { time: 44.8125 });
 screenClear(44.875);
 
-await screenDraw('any.gif', { startTime: 45 });
-await screenDraw('any.gif', { startTime: 45.5 });
-await screenDraw('any.gif', { startTime: 45.8125, invert: true });
+await screenDraw('any.gif', { time: 45 });
+screenClear(45.4375);
+await screenDraw('any.gif', { time: 45.5 });
+await screenDraw('anyglitch.gif', { time: 45.8125, invert: true });
 screenClear(45.875);
 
-await screenDraw('thingglitch.gif', { startTime: 46, invert: true });
-await screenDraw('thing.gif', { startTime: 46.0625 });
+await screenDraw('thingglitch.gif', { time: 46, invert: true });
+await screenDraw('thing.gif', { time: 46.0625 });
 screenClear(46.5, 0.375);
 
-await screenDraw('toglitch.gif', { startTime: 47 });
-await screenDraw('to.gif', { startTime: 47.0625 });
+await screenDraw('toglitch.gif', { time: 47 });
+await screenDraw('to.gif', { time: 47.0625 });
 screenClear(47.375);
 
-await screenDraw('hold.gif', { startTime: 47.5 });
+await screenDraw('hold.gif', { time: 47.5 });
 screenClear(47.875);
 
-await screenDraw('ons.gif', { startTime: 48 });
+await screenDraw('ons.gif', { time: 48 });
 screenClear(48.375);
 
-await screenDraw('to.gif', { startTime: 48.5 });
+await screenDraw('to.gif', { time: 48.5 });
 screenClear(48.875, 0.5);
 
-await screenDraw('thoglitch.gif', { startTime: 49.5 });
-await screenDraw('tho.gif', { startTime: 49.5625 });
+await screenDraw('thoglitch.gif', { time: 49.5 });
+await screenDraw('tho.gif', { time: 49.5625 });
 screenClear(49.875, 0.5);
 
 for (let i = 0; i < 7; i++) {
@@ -1272,18 +1290,18 @@ for (let i = 0; i < 7; i++) {
         }
     }
     if (i === 0 || i === 1) {
-        await screenDraw('why.gif', { startTime: 52 + i * 4 });
+        await screenDraw('why.gif', { time: 52 + i * 4 });
         screenClear(52.75 + i * 4);
         for (let j = 0; j < 2; j++) {
             if (j) {
                 await screenDraw('whyglitch.gif', {
-                    startTime: 52.8125 + i * 4 + j / 8,
+                    time: 52.8125 + i * 4 + j / 8,
                     invert: true,
                     rotate: 180,
                 });
             } else {
                 await screenDraw('whyglitch.gif', {
-                    startTime: 52.8125 + i * 4 + j / 8,
+                    time: 52.8125 + i * 4 + j / 8,
                 });
             }
             screenClear(52.875 + i * 4 + j / 8);
@@ -1291,18 +1309,18 @@ for (let i = 0; i < 7; i++) {
     }
 
     if (i === 4 || i === 5) {
-        await screenDraw('please.gif', { startTime: 52 + i * 4 });
+        await screenDraw('please.gif', { time: 52 + i * 4 });
         screenClear(52.75 + i * 4);
         for (let j = 0; j < 2; j++) {
             if (j) {
                 await screenDraw('pleaseglitch.gif', {
-                    startTime: 52.8125 + i * 4 + j / 8,
+                    time: 52.8125 + i * 4 + j / 8,
                     invert: true,
                     rotate: 180,
                 });
             } else {
                 await screenDraw('pleaseglitch.gif', {
-                    startTime: 52.8125 + i * 4 + j / 8,
+                    time: 52.8125 + i * 4 + j / 8,
                 });
             }
             screenClear(52.875 + i * 4 + j / 8);
@@ -1370,7 +1388,7 @@ for (let i = 0; i < 7; i++) {
     });
 }
 for (let i = 0; i < 2; i++) {
-    await screenDraw('view.gif', { startTime: 59 + i * 0.25 });
+    await screenDraw('view.gif', { time: 59 + i * 0.25 });
     screenClear(59.125 + i * 0.25);
 }
 {
@@ -1432,12 +1450,17 @@ for (let i = 0; i < 2; i++) {
     });
 }
 
-await screenDraw('see.gif', { startTime: 64.9375, eventValue: 4 });
-await screenDraw('seeglitch.gif', { startTime: 65 });
-await screenDraw('see.gif', { startTime: 65.0625 });
-await screenDraw('seeglitch.gif', { startTime: 65.5, invert: true });
-await screenDraw('seeglitch.gif', { startTime: 65.5625, rotate: 180 });
-await screenDraw('see.gif', { startTime: 65.625 });
+await screenDraw('see.gif', { time: 64.9375, eventValue: 4 });
+await screenDraw('seeglitch.gif', { time: 65 });
+await screenDraw('see.gif', { time: 65.0625 });
+await screenDraw('seeglitch.gif', { time: 65.1875, rotate: 180 });
+await screenDraw('see.gif', { time: 65.25 });
+screenClear(65.4375);
+await screenDraw('see.gif', { time: 65.5 });
+screenClear(65.9375);
+await screenDraw('seeglitch.gif', { time: 66, invert: true });
+await screenDraw('seeglitch.gif', { time: 66.0625, rotate: 180 });
+await screenDraw('see.gif', { time: 66.125 });
 screenClear(66.75, 0.5);
 
 {
@@ -1463,7 +1486,7 @@ screenClear(66.75, 0.5);
             },
         });
     }
-    await screenDraw('cube.gif', { startTime: 69.5, eventValue: 4 });
+    await screenDraw('cube.gif', { time: 69.5, eventValue: 4 });
     screenClear(71, 0.5);
 }
 {
@@ -1489,14 +1512,14 @@ screenClear(66.75, 0.5);
             },
         });
     }
-    await screenDraw('cube.gif', { startTime: 73.4375, eventValue: 4 });
-    await screenDraw('cubeglitch.gif', { startTime: 73.5 });
+    await screenDraw('cube.gif', { time: 73.4375, eventValue: 4 });
+    await screenDraw('cubeglitch.gif', { time: 73.5 });
     screenClear(73.5625);
-    await screenDraw('cube.gif', { startTime: 73.625 });
+    await screenDraw('cube.gif', { time: 73.625 });
     screenClear(74.6875);
     for (let i = 0; i < 3; i++) {
         await screenDraw('cube.gif', {
-            startTime: 74.75 + i * 0.125,
+            time: 74.75 + i * 0.125,
             invert: i ? true : false,
         });
         screenClear(74.8125 + i * 0.125);
@@ -1562,14 +1585,14 @@ itFrame = 0;
     });
 }
 
-await screenDraw('free.gif', { startTime: 81.5, eventValue: 4 });
-await screenDraw('freeglitch.gif', { startTime: 81.5625 });
+await screenDraw('free.gif', { time: 81.5, eventValue: 4 });
+await screenDraw('freeglitch.gif', { time: 81.5625 });
 screenClear(81.625);
-await screenDraw('free.gif', { startTime: 81.6875 });
+await screenDraw('free.gif', { time: 81.6875 });
 screenClear(82.3125);
 for (let i = 0; i < 2; i++) {
     await screenDraw(i ? 'freeglitch.gif' : 'free.gif', {
-        startTime: 82.375 + i * 0.125,
+        time: 82.375 + i * 0.125,
         floatValue: 1 - i / 3,
         invert: i ? false : true,
     });
@@ -1646,19 +1669,19 @@ for (let i = 0; i < 4; i++) {
     }
 }
 
-await screenDraw('and.gif', { startTime: 384 });
+await screenDraw('and.gif', { time: 384 });
 screenClear(384.375);
 
-await screenDraw('never.gif', { startTime: 384.5 });
+await screenDraw('never.gif', { time: 384.5 });
 screenClear(384.875);
 
-await screenDraw('never.gif', { startTime: 385 });
+await screenDraw('never.gif', { time: 385 });
 screenClear(385.375);
 
-await screenDraw('look.gif', { startTime: 385.5 });
+await screenDraw('look.gif', { time: 385.5 });
 screenClear(385.875);
 
-await screenDraw('back.gif', { startTime: 386 });
+await screenDraw('back.gif', { time: 386 });
 screenClear(386.375);
 
 for (let i = 0; i < 5; i++) {
@@ -1764,14 +1787,14 @@ for (const ctp of crystalTimingPeriod) {
 //#endregion
 
 await screenDraw('smile.gif', {
-    startTime: 212,
+    time: 212,
     eventValue: 5,
     xOffset: 11,
     yOffset: 5,
 });
-await screenDraw('frown.gif', { startTime: 240, xOffset: 11, yOffset: 5 });
+await screenDraw('frown.gif', { time: 240, xOffset: 11, yOffset: 5 });
 await screenDraw('smile.gif', {
-    startTime: 244,
+    time: 244,
     eventValue: 5,
     xOffset: 11,
     yOffset: 5,
@@ -1948,72 +1971,116 @@ for (const rkfp of ringKickFlashPeriod) {
 const chorus1Timing = [84, 388, 420];
 const chorus2Timing = [116, 452, 468];
 for (const t of chorus1Timing) {
-    await screenDraw('what.gif', { startTime: t - 1 });
+    await screenDraw('what.gif', { time: t - 1 });
     screenClear(t - 0.625);
-    await screenDraw('the.gif', { startTime: t - 0.5 });
-    await screenDraw('the.gif', { startTime: t - 0.1875, invert: true });
+
+    await screenDraw('the.gif', { time: t - 0.5 });
+    await screenDraw('the.gif', { time: t - 0.1875, invert: true });
     screenClear(t - 0.125);
-    await screenDraw('hellglitch.gif', { startTime: t, rotate: 180 });
-    await screenDraw('hell.gif', { startTime: t + 0.0625 });
+
+    await screenDraw('hellglitch.gif', { time: t, rotate: 180 });
+    await screenDraw('hell.gif', { time: t + 0.0625 });
     screenClear(t + 0.5);
-    await screenDraw('hellglitch.gif', { startTime: t + 0.5625 });
+
+    await screenDraw('hellglitch.gif', { time: t + 0.5625 });
     screenClear(t + 0.625);
-    await screenDraw('goingglitch.gif', { startTime: t + 1, invert: true });
-    await screenDraw('going.gif', { startTime: t + 1.0625 });
+
+    await screenDraw('goingglitch.gif', { time: t + 1, invert: true });
+    await screenDraw('going.gif', { time: t + 1.0625 });
     screenClear(t + 1.4375);
-    await screenDraw('going.gif', { startTime: t + 1.5 });
-    screenClear(t + 1.875);
-    await screenDraw('on.gif', { startTime: t + 2 });
+    await screenDraw('going.gif', { time: t + 1.5 });
+    await screenDraw('goingglitch.gif', { time: t + 1.875, rotate: 180 });
+    screenClear(t + 1.9375);
+
+    await screenDraw('on.gif', { time: t + 2 });
     screenClear(t + 2.5, 0.375);
-    await screenDraw('can.gif', { startTime: t + 3, invert: true });
-    await screenDraw('can.gif', { startTime: t + 3.0625 });
+
+    await screenDraw('can.gif', { time: t + 3, invert: true });
+    await screenDraw('can.gif', { time: t + 3.0625 });
     screenClear(t + 3.5, 0.375);
-    await screenDraw('someoneglitch.gif', { startTime: t + 4 });
-    await screenDraw('someone.gif', { startTime: t + 4.0625 });
+
+    await screenDraw('someoneglitch.gif', { time: t + 4, rotate: 180 });
+    await screenDraw('someoneglitch.gif', { time: t + 4.0625, invert: true });
+    await screenDraw('someone.gif', { time: t + 4.125 });
     screenClear(t + 4.5);
-    await screenDraw('someone.gif', { startTime: t + 4.5625 });
+    await screenDraw('someone.gif', { time: t + 4.5625 });
     screenClear(t + 4.875);
-    await screenDraw('tell.gif', { startTime: t + 5 });
-    await screenDraw('tellglitch.gif', { startTime: t + 5.375 });
+
+    await screenDraw('tell.gif', { time: t + 5 });
+    await screenDraw('tellglitch.gif', { time: t + 5.375 });
     screenClear(t + 5.4375);
-    await screenDraw('me.gif', { startTime: t + 5.5 });
+
+    await screenDraw('me.gif', { time: t + 5.5 });
     screenClear(t + 5.875);
-    await screenDraw('please.gif', { startTime: t + 6, invert: true });
-    await screenDraw('please.gif', { startTime: t + 6.0625 });
+
+    await screenDraw('please.gif', { time: t + 6, invert: true });
+    await screenDraw('please.gif', { time: t + 6.0625 });
     screenClear(t + 6.5, 0.375);
-    await screenDraw('why.gif', { startTime: t + 8 });
+
+    await screenDraw('why.gif', { time: t + 8 });
     screenClear(t + 8.375);
-    await screenDraw('im.gif', { startTime: t + 8.5 });
+
+    await screenDraw('imglitch.gif', { time: t + 8.5, invert: true });
+    await screenDraw('im.gif', { time: t + 8.5625 });
     screenClear(t + 8.875);
-    await screenDraw('switch.gif', {
-        startTime: t + 9,
+
+    await screenDraw('switchingglitch.gif', {
+        time: t + 9,
     });
-    await screenDraw('switch.gif', {
-        startTime: t + 9.375,
-        endTime: t + 9.625,
-        easings: bsmap.easings.method.easeInOutCubic,
-        animated: true,
+    await screenDraw('switching.gif', {
+        time: t + 9.0625,
+    });
+    screenClear(t + 9.4375);
+    await screenDraw('switching.gif', {
+        time: t + 9.5,
+    });
+    await screenDraw('switchingglitch.gif', {
+        time: t + 9.8175,
+        invert: true,
     });
     screenClear(t + 9.875);
-    await screenDraw('faster.gif', { startTime: t + 10 });
+
+    await screenDraw('faster.gif', {
+        time: t + 10,
+    });
+    await screenDraw('fasterglitch.gif', {
+        time: t + 10.125,
+        invert: true,
+    });
+    await screenDraw('faster.gif', {
+        time: t + 10.1875,
+    });
+    screenClear(t + 10.25);
+    await screenDraw('faster.gif', {
+        time: t + 10.3125,
+        endTime: t + 10.75,
+        animated: true,
+        easings: bsmap.easings.method.easeOutQuad,
+    });
     screenClear(t + 10.875);
-    await screenDraw('than.gif', { startTime: t + 11 });
+
+    await screenDraw('than.gif', { time: t + 11 });
     screenClear(t + 11.375);
-    await screenDraw('the.gif', { startTime: t + 11.5 });
+
+    await screenDraw('the.gif', { time: t + 11.5 });
+    await screenDraw('the.gif', { time: t + 11.5 });
     screenClear(t + 11.875);
-    await screenDraw('testcard2.gif', { startTime: t + 12 });
-    await screenDraw('testcard2.gif', { startTime: t + 12.0625, invert: true });
+
+    await screenDraw('testcard2.gif', { time: t + 12 });
+    await screenDraw('testcard2.gif', { time: t + 12.0625, invert: true });
     screenClear(t + 12.125);
-    await screenDraw('testcard.gif', { startTime: t + 12.1875 });
+    await screenDraw('testcard.gif', { time: t + 12.1875 });
     screenClear(t + 12.4375);
-    await screenDraw('testcard.gif', { startTime: t + 12.5 });
+    await screenDraw('testcard.gif', { time: t + 12.5 });
     screenClear(t + 12.6125);
-    await screenDraw('testcard.gif', { startTime: t + 12.6875, invert: true });
+    await screenDraw('testcard.gif', { time: t + 12.6875, invert: true });
     screenClear(t + 12.75);
-    await screenDraw('testcard.gif', { startTime: t + 12.8125 });
+    await screenDraw('testcard.gif', { time: t + 12.8125 });
     screenClear(t + 12.875);
-    await screenDraw('on.gif', { startTime: t + 13 });
+
+    await screenDraw('on.gif', { time: t + 13 });
     screenClear(t + 13.375);
+
     {
         const image = Deno.readFileSync(WORKING_DIRECTORY + 'tv.gif');
         const img = await imagescript.GIF.decode(image, true);
@@ -2183,6 +2250,17 @@ for (const t of chorus1Timing) {
                 }
             }
         });
+        screenClear(t + 15.9375);
+        await screenDraw('blackglitch.gif', { time: t + 16 });
+        screenClear(t + 16.0625);
+        await screenDraw('black.gif', { time: t + 16.125 });
+        await screenDraw('blackglitch.gif', {
+            time: t + 17,
+            invert: true,
+            rotate: 180,
+        });
+        screenClear(t + 17.0625);
+        await screenDraw('black.gif', { time: t + 17.125 });
     }
     {
         const image = Deno.readFileSync(WORKING_DIRECTORY + 'white.gif');
@@ -2223,23 +2301,154 @@ for (const t of chorus1Timing) {
                 }
             }
         });
+        await screenDraw('whiteglitch.gif', {
+            time: t + 18.875,
+            invert: true,
+        });
+        await screenDraw('whiteglitch.gif', {
+            time: t + 18.9375,
+            rotate: 180,
+        });
     }
 
-    await screenDraw('no.gif', { startTime: t + 19 });
+    await screenDraw('no.gif', { time: t + 19 });
     screenClear(t + 19.4375);
     for (let j = 0; j < 2; j++) {
-        await screenDraw('no.gif', { startTime: t + 19.5 + j / 8 });
+        await screenDraw('no.gif', { time: t + 19.5 + j / 8 });
         screenClear(t + 19.5625 + j / 8);
     }
 
-    await screenDraw('wrong2.gif', { startTime: t + 19.875 });
+    await screenDraw('wrong2.gif', { time: t + 19.875 });
     screenClear(t + 20);
-
-    await screenDraw('wrong2glitch.gif', { startTime: t + 20.125 });
+    await screenDraw('wrong2glitch.gif', { time: t + 20.125 });
     screenClear(t + 20.1875);
-
-    await screenDraw('wrong.gif', { startTime: t + 20.25 });
+    await screenDraw('wrong.gif', { time: t + 20.25 });
+    screenClear(t + 20.875);
+    await screenDraw('wrong.gif', { time: t + 21 });
+    screenClear(t + 21.0625);
+    await screenDraw('wrong.gif', { time: t + 21.125 });
+    await screenDraw('warningglitch.gif', { time: t + 21.9375 });
     screenClear(t + 22);
+    await screenDraw('warning.gif', { time: t + 22.0625 });
+    screenClear(t + 22.25);
+    await screenDraw('warning.gif', { time: t + 22.3125 });
+    screenClear(t + 22.5);
+    for (let i = 0; i < 4; i++) {
+        await screenDraw('my.gif', { time: t + 23.0625 + i * 0.125 });
+        screenClear(t + 23.125 + i * 0.125);
+    }
+    {
+        await screenDraw('myglitch.gif', { time: t + 23.875 });
+        screenClear(t + 23.9375);
+        const image = Deno.readFileSync(WORKING_DIRECTORY + 'enemy.gif');
+        const img = await imagescript.GIF.decode(image, true);
+        const xOffset = 0;
+        const yOffset = 0;
+        img.forEach((frame) => {
+            for (let y = -3; y < Math.min(img.height, screenY); y++) {
+                const colorID: { [key: string]: number[] } = {};
+                for (let x = 0; x < Math.min(img.width, screenX); x++) {
+                    const fixedY = x % 2 ? y + 3 : y;
+                    if (fixedY < 0 || fixedY >= Math.min(img.height, screenY)) {
+                        continue;
+                    }
+                    const pos =
+                        screenStartID + screenX * (fixedY + yOffset) + x + xOffset;
+                    const colorAry = frame.getRGBAAt(x + 1, fixedY + 1);
+                    if (screenLight[pos] === colorAry[0]) {
+                        continue;
+                    }
+                    if (!colorID[colorAry[0]]) {
+                        colorID[colorAry[0]] = [pos];
+                    } else {
+                        colorID[colorAry[0]].push(pos);
+                    }
+                    screenLight[pos] = colorAry[0];
+                }
+                for (const color in colorID) {
+                    _events.push({
+                        _type: 4,
+                        _time: t + 24.125 + ((y + 3) / screenY) * 0.75,
+                        _value: 1,
+                        _floatValue: parseInt(color) / 255,
+                        _customData: {
+                            _lightID: colorID[color],
+                        },
+                    });
+                }
+            }
+        });
+        await screenDraw('enemyglitch.gif', { time: t + 25.25 });
+        screenClear(t + 25.3125);
+        await screenDraw('enemy.gif', { time: t + 25.375, invert: true });
+        screenClear(t + 25.4375);
+        await screenDraw('enemy.gif', { time: t + 25.5 });
+    }
+    {
+        const image = Deno.readFileSync(WORKING_DIRECTORY + 'enemyinvisible.gif');
+        const img = await imagescript.GIF.decode(image, true);
+        const xOffset = 0;
+        const yOffset = 0;
+        img.forEach((frame) => {
+            for (let y = -3; y < Math.min(img.height, screenY); y++) {
+                const colorID: { [key: string]: number[] } = {};
+                for (let x = 0; x < Math.min(img.width, screenX); x++) {
+                    const fixedY = x % 2 ? y + 3 : y;
+                    if (fixedY < 0 || fixedY >= Math.min(img.height, screenY)) {
+                        continue;
+                    }
+                    const pos =
+                        screenStartID + screenX * (fixedY + yOffset) + x + xOffset;
+                    const colorAry = frame.getRGBAAt(x + 1, fixedY + 1);
+                    if (screenLight[pos] === colorAry[0]) {
+                        continue;
+                    }
+                    if (!colorID[colorAry[0]]) {
+                        colorID[colorAry[0]] = [pos];
+                    } else {
+                        colorID[colorAry[0]].push(pos);
+                    }
+                    screenLight[pos] = colorAry[0];
+                }
+                for (const color in colorID) {
+                    _events.push({
+                        _type: 4,
+                        _time: t + 26 + ((y + 3) / screenY) * 0.5,
+                        _value: 1,
+                        _floatValue: parseInt(color) / 255,
+                        _customData: {
+                            _lightID: colorID[color],
+                        },
+                    });
+                }
+            }
+        });
+        await screenDraw('enemyinvisibleglitch.gif', {
+            time: t + 26.5,
+            invert: true,
+        });
+        screenClear(t + 26.5625);
+        await screenDraw('enemy.gif', { time: t + 26.625 });
+        screenClear(t + 26.6875);
+        await screenDraw('enemyinvisible.gif', { time: t + 26.75 });
+    }
+    screenClear(t + 27);
+    await screenDraw('qma.gif', {
+        time: t + 27.75,
+        endTime: t + 28.5,
+        animated: true,
+    });
+    screenClear(t + 28.75);
+    await screenDraw('howglitch.gif', { time: t + 28.8125 });
+    await screenDraw('how.gif', { time: t + 28.875, invert: true });
+    screenClear(t + 28.9375);
+    await screenDraw('how.gif', { time: t + 29 });
+    screenClear(t + 29.4375);
+    await screenDraw('to.gif', { time: t + 29.5 });
+    screenClear(t + 29.9375);
+    await screenDraw('swordglitch.gif', { time: t + 30 });
+    await screenDraw('sword.gif', { time: t + 30.0625 });
+    screenClear(t + 30.375);
 }
 for (const t of chorus2Timing) {
     for (let i = 0; i < 2; i++) {
@@ -2247,26 +2456,101 @@ for (const t of chorus2Timing) {
         for (const x in roadShuffle) {
             _events.push({
                 _type: 4,
-                _time: t + i * 4 + (parseInt(x) / roadShuffle.length) * 1.5,
+                _time: t + i * 4 + (parseInt(x) / roadShuffle.length) * 1.25,
                 _value: 7,
                 _floatValue: 1,
                 _customData: { _lightID: roadShuffle[x] },
             });
         }
     }
+    await screenDraw('the.gif', { time: t - 0.5 });
+    screenClear(t - 0.125);
+    await screenDraw('theglitch.gif', { time: t, invert: true });
+    screenClear(t + 0.125);
+    await screenDraw('fearglitch.gif', { time: t + 0.1875 });
+    await screenDraw('fear.gif', { time: t + 0.3125 });
+    screenClear(t + 0.375);
+    await screenDraw('fearglitch.gif', {
+        time: t + 0.5,
+        invert: true,
+        rotate: 180,
+    });
+    await screenDraw('fear.gif', { time: t + 0.625 });
+    screenClear(t + 1.375);
+    await screenDraw('fear.gif', { time: t + 1.5 });
+    await screenDraw('fearglitch.gif', { time: t + 1.5625, rotate: 180 });
+    await screenDraw('fear.gif', { time: t + 1.625 });
+    screenClear(t + 2.375);
+    await screenDraw('fearglitch.gif', { time: t + 2.5, rotate: 180, invert: true });
+    await screenDraw('fearglitch.gif', { time: t + 2.5625 });
+    await screenDraw('fear.gif', { time: t + 2.625 });
+    screenClear(t + 3.25);
+
+    await screenDraw('isglitch.gif', { time: t + 3.5 });
+    await screenDraw('is.gif', { time: t + 3.5625 });
+    screenClear(t + 3.875);
+
+    await screenDraw('more.gif', { time: t + 4, invert: true });
+    await screenDraw('more.gif', { time: t + 4.0625 });
+    screenClear(t + 4.375);
+
+    await screenDraw('than.gif', { time: t + 4.5 });
+    screenClear(t + 4.875);
+
+    await screenDraw('i.gif', { time: t + 5 });
+    screenClear(t + 5.375);
+
+    await screenDraw('can.gif', { time: t + 5.5 });
+    screenClear(t + 6.375);
+
+    await screenDraw('take.gif', { time: t + 6.5 });
+    screenClear(t + 7.375);
+
+    await screenDraw('when.gif', { time: t + 8 });
+    screenClear(t + 8.375);
+
+    await screenDraw('ims.gif', { time: t + 8.5 });
+    screenClear(t + 8.875);
+
+    await screenDraw('up.gif', { time: t + 9 });
+    screenClear(t + 9.375);
+
+    await screenDraw('against.gif', { time: t + 9.5 });
+    screenClear(t + 9.875);
+    await screenDraw('against.gif', { time: t + 10 });
+    screenClear(t + 10.375);
+
+    await screenDraw('echoglitch.gif', { time: t + 11.5 });
+    await screenDraw('echo.gif', { time: t + 11.625 });
+    screenClear(t + 12.25);
+    await screenDraw('echoglitch.gif', { time: t + 12.5, rotate: 180 });
+    await screenDraw('echo.gif', { time: t + 12.5625, invert: true });
+    await screenDraw('echo.gif', { time: t + 12.625 });
+    screenClear(t + 12.875);
+
+    await screenDraw('in.gif', { time: t + 13 });
+    screenClear(t + 13.375);
+
+    await screenDraw('the.gif', { time: t + 13.5 });
+    screenClear(t + 13.875);
+
+    await screenDraw('mirror.gif', { time: t + 14 });
+    screenClear(t + 14.375);
+    await screenDraw('mirror.gif', { time: t + 14.5 });
+    screenClear(t + 14.875);
 }
 
 const echoTiming = [
     0, 0.5, 1, 1.5, 2, 2.5, 3, 4, 4.5, 5, 5.5, 6, 6.75, 7.5, 8.25, 9, 9.5, 10, 10.5, 11,
     11.5, 12, 12.5, 13, 13.5,
 ];
-await screenDraw('echoglitch.gif', { startTime: 132, invert: true });
-await screenDraw('echoglitch.gif', { startTime: 132.0625, rotate: 180 });
-await screenDraw('echo.gif', { startTime: 132.125 });
+await screenDraw('echoglitch.gif', { time: 132, invert: true });
+await screenDraw('echoglitch.gif', { time: 132.0625, rotate: 180 });
+await screenDraw('echo.gif', { time: 132.125 });
 screenClear(132.875);
-await screenDraw('echoglitch.gif', { startTime: 133 });
-await screenDraw('echo.gif', { startTime: 133.0625 });
-await screenDraw('echo.gif', { startTime: 133.6875, invert: true });
+await screenDraw('echoglitch.gif', { time: 133 });
+await screenDraw('echo.gif', { time: 133.0625 });
+await screenDraw('echo.gif', { time: 133.6875, invert: true });
 screenClear(133.75);
 _events.push(
     {
@@ -2471,17 +2755,20 @@ for (const e of echoTiming) {
             },
         }
     );
-    await screenDraw('echo.gif', { startTime: 134 + e });
+    await screenDraw('echo.gif', { time: 134 + e });
     screenClear(134.25 + e);
 }
 
 for (let i = 0; i < 11; i++) {
-    await screenDraw('questionmark.gif', { startTime: 284 + i * 0.75 });
+    await screenDraw('questionmark.gif', { time: 284 + i * 0.75 });
     screenClear(284.25 + i * 0.75);
 }
 
-console.log(_events.length, 'events');
 await bsmap.save.difficulty(difficulty, {
     filePath: OUTPUT_FILE,
 });
-console.log('map saved');
+console.timeEnd('Runtime');
+console.log(_events.length, 'events');
+// const info = bsmap.load.infoSync();
+// const BPM = bsmap.bpm.create(info._beatsPerMinute);
+console.log('Map saved');

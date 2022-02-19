@@ -3,6 +3,7 @@
  * -p | --path : map folder path.
  * -e | --env : copy environment enhancement.
  * -f | --force : force copy to same file.
+ * -m | --merge : merge instead of overriding the event property
  * example run command:
  * deno run --allow-read --allow-write lightCopy.ts -p "FolderPath" CopyFile.dat
  */
@@ -11,8 +12,8 @@ import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
 
 const args = parse(Deno.args, {
     string: ['p'],
-    boolean: ['e', 'f'],
-    alias: { p: 'path', e: 'env', f: 'force' },
+    boolean: ['e', 'f', 'm'],
+    alias: { p: 'path', e: 'env', f: 'force', m: 'merge' },
 });
 bsmap.settings.path = (args.p as string) ?? '';
 console.log(`Map directory: ${bsmap.settings.path || './'}`);
@@ -59,7 +60,11 @@ for (const set of info._difficultyBeatmapSets) {
                 };
             }
         }
-        difficulty._events = lightshow._events;
+        if (args.m) {
+            difficulty._events.push(...lightshow._events);
+        } else {
+            difficulty._events = lightshow._events;
+        }
         bsmap.save.difficultySync(difficulty, {
             filePath: d._beatmapFilename,
         });

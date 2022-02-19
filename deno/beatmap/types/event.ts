@@ -23,8 +23,10 @@ export enum Type {
     RIGHT_LASER_ROTATION,
     EARLY_LANE_ROTATION,
     LATE_LANE_ROTATION,
-    LOWER_HYDRAULIC,
-    RAISE_HYDRAULIC,
+    UTILITY_EVENT_1,
+    UTILITY_EVENT_2,
+    UTILITY_EVENT_3,
+    UTILITY_EVENT_4,
     BPM_CHANGE = 100,
 }
 
@@ -145,7 +147,7 @@ export interface EventLaneRotation extends EventBase {
 }
 
 export interface EventExtra extends EventBase {
-    _type: 16 | 17;
+    _type: 16 | 17 | 18 | 19;
 }
 
 export interface EventBPMChange extends EventBase {
@@ -184,8 +186,10 @@ export enum EventRename {
     'Right Laser Rotation',
     'Early Lane Rotation',
     'Late Lane Rotation',
-    'Lower Hydraulic',
-    'Raise Hydraulic',
+    'Utility Event 1',
+    'Utility Event 2',
+    'Utility Event 3',
+    'Utility Event 4',
     'BPM Change' = 100,
 }
 

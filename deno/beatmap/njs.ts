@@ -62,7 +62,7 @@ export class NoteJumpSpeed {
      * ```
      */
     public calcHalfJumpDurationRaw(): number {
-        const maxHalfJump = 18;
+        const maxHalfJump = 17.999; // Beat Games, this is not how you fix float inconsistencies
         const noteJumpMovementSpeed = (this._njs * this._njs) / this._njs;
         const num = 60 / this._bpm.value;
         let hjd = NoteJumpSpeed.HJD_START;

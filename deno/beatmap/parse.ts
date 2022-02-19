@@ -19,14 +19,14 @@ export const info = (mapInfo: InfoData): InfoData => {
         let num = 0;
         mode._difficultyBeatmaps.forEach((a) => {
             if (a._difficultyRank - num <= 0) {
-                console.error(a._difficulty + ' may be unordered');
+                console.error(a._difficulty + ' is unordered');
             }
             if (DifficultyRank[a._difficulty] !== a._difficultyRank) {
                 console.error(a._difficulty + ' has invalid rank');
             }
             num = a._difficultyRank;
         });
-        mode._difficultyBeatmaps.sort((a, b) => b._difficultyRank - a._difficultyRank);
+        mode._difficultyBeatmaps.sort((a, b) => a._difficultyRank - b._difficultyRank);
     });
 
     return mapInfo;
@@ -35,11 +35,13 @@ export const info = (mapInfo: InfoData): InfoData => {
 // FIXME: need more elegant solution
 // FIXME: floatValue is optional to certain condition
 export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
-    const { _version, _notes, _obstacles, _events, _waypoints } = difficultyData;
+    const { _notes, _obstacles, _events, _waypoints } = difficultyData;
 
-    if (!_version) {
+    let versionBypass = false;
+    if (!difficultyData._version) {
         console.error('missing version, applying 2.5.0');
         difficultyData._version = '2.5.0';
+        versionBypass = true;
     }
     _notes.forEach((obj) => {
         for (const key in obj) {
@@ -148,7 +150,7 @@ export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
         if (typeof obj._value !== 'number') {
             throw new Error(`invalid type _value at ${obj._time} in _events object`);
         }
-        if (compare(_version, 'difficulty') === 'old') {
+        if (versionBypass || compare(difficultyData._version, 'difficulty') === 'old') {
             obj._floatValue = 1;
         } else {
             if (typeof obj._floatValue === 'undefined') {
