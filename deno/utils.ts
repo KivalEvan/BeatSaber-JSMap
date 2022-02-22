@@ -143,3 +143,14 @@ export const lerp = (
     logger.verbose(tag(lerp), `Obtained ${result}`);
     return result;
 };
+
+/** Simple deep copy JSON object or JSON array.
+ * Works best with only primitive objects.
+ */
+
+export const deepCopy = <T>(object: T): T => {
+    if (typeof object !== 'object') {
+        logger.error(tag(deepCopy), 'Received non-object type');
+    }
+    return JSON.parse(JSON.stringify(object));
+};

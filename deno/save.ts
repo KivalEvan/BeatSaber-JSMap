@@ -16,19 +16,19 @@ const tag = (func: Function) => {
 };
 
 export const defaultOptionsInfo: Required<SaveOptionsInfo> = {
-    path: globals.path,
+    path: '',
     filePath: 'Info.dat',
     optimise: { enabled: true },
 };
 
 export const defaultOptionsDifficulty: Required<SaveOptionsDifficulty> = {
-    path: globals.path,
+    path: '',
     filePath: 'UnnamedPath.dat',
     optimise: { enabled: true },
 };
 
 export const defaultOptionsDifficultyList: Required<SaveOptionsDifficultyList> = {
-    path: globals.path,
+    path: '',
     optimise: { enabled: true },
 };
 
@@ -42,7 +42,7 @@ export const info = async (
     options: SaveOptionsInfo = defaultOptionsInfo
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
-        path: options.path ?? (defaultOptionsInfo.path || ''),
+        path: options.path ?? (globals.path || defaultOptionsInfo.path),
         filePath: options.filePath ?? 'Info.dat',
         optimise: options.optimise ?? { enabled: true },
     };
@@ -65,7 +65,7 @@ export const infoSync = (
     options: SaveOptionsInfo = defaultOptionsInfo
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
-        path: options.path ?? (defaultOptionsInfo.path || ''),
+        path: options.path ?? (globals.path || defaultOptionsInfo.path),
         filePath: options.filePath ?? 'Info.dat',
         optimise: options.optimise ?? { enabled: true },
     };
@@ -88,7 +88,7 @@ export const difficulty = async (
     options: SaveOptionsDifficulty = defaultOptionsDifficulty
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
-        path: options.path ?? (defaultOptionsDifficulty.path || ''),
+        path: options.path ?? (globals.path || defaultOptionsDifficulty.path),
         filePath: options.filePath ?? 'UnnamedPath.dat',
         optimise: options.optimise ?? { enabled: true },
     };
@@ -110,7 +110,7 @@ export const difficultySync = (
     options: SaveOptionsDifficulty = defaultOptionsDifficulty
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
-        path: options.path ?? (defaultOptionsDifficulty.path || ''),
+        path: options.path ?? (globals.path || defaultOptionsDifficulty.path),
         filePath: options.filePath ?? 'UnnamedPath.dat',
         optimise: options.optimise ?? { enabled: true },
     };
@@ -134,7 +134,7 @@ export const difficultyList = (
     logger.info(tag(difficultyList), `Async saving list of difficulty`);
     difficulties.forEach(async (dl) => {
         const opt: Required<SaveOptionsDifficultyList> = {
-            path: options.path ?? (defaultOptionsDifficultyList.path || ''),
+            path: options.path ?? (globals.path || defaultOptionsDifficultyList.path),
             optimise: options.optimise ?? { enabled: true },
         };
         logger.info(
@@ -161,7 +161,7 @@ export const difficultyListSync = (
     logger.info(tag(difficultyListSync), `Sync saving list of difficulty`);
     difficulties.forEach((dl) => {
         const opt: Required<SaveOptionsDifficultyList> = {
-            path: options.path ?? (defaultOptionsDifficultyList.path || ''),
+            path: options.path ?? (globals.path || defaultOptionsDifficultyList.path),
             optimise: options.optimise ?? { enabled: true },
         };
         logger.info(

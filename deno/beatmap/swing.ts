@@ -13,7 +13,7 @@ import {
     isVertical,
     isWindow,
 } from './note.ts';
-import { median } from '../utils.ts';
+import { deepCopy, median } from '../utils.ts';
 
 interface SwingCount {
     left: number[];
@@ -105,7 +105,7 @@ export const getEffectiveBPMNote = (notes: Note[], bpm: BeatPerMinute): NoteEBPM
         if (!isNote(notes[i])) {
             continue;
         }
-        const note: NoteEBPM = JSON.parse(JSON.stringify(notes[i]));
+        const note: NoteEBPM = deepCopy(notes[i]) as NoteEBPM;
         if (lastNote[note._type]) {
             if (next(note, lastNote[note._type], bpm, swingNoteArray[note._type])) {
                 note._ebpm = calcEBPMBetweenNote(note, lastNote[note._type], bpm.value);
@@ -133,7 +133,7 @@ export const getEffectiveBPMSwingNote = (
         if (!isNote(notes[i])) {
             continue;
         }
-        const note: NoteEBPM = JSON.parse(JSON.stringify(notes[i]));
+        const note: NoteEBPM = deepCopy(notes[i]) as NoteEBPM;
         if (lastNote[note._type]) {
             if (next(note, lastNote[note._type], bpm, swingNoteArray[note._type])) {
                 note._ebpm = calcEBPMBetweenNote(note, lastNote[note._type], bpm.value);
@@ -242,7 +242,7 @@ export const getSliderNote = (notes: Note[], bpm: BeatPerMinute): NoteSlider[] =
         if (!isNote(notes[i])) {
             continue;
         }
-        const note: NoteSlider = JSON.parse(JSON.stringify(notes[i]));
+        const note: NoteSlider = deepCopy(notes[i]) as NoteSlider;
         note._minSpeed = 0;
         note._maxSpeed = Number.MAX_SAFE_INTEGER;
         if (lastNote[note._type]) {

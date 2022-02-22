@@ -1,6 +1,7 @@
 import { InfoData } from './beatmap/types/info.ts';
 import { DifficultyData } from './beatmap/types/difficulty.ts';
 import { difficulty as parseDifficulty, info as parseInfo } from './beatmap/parse.ts';
+import { deepCopy } from './utils.ts';
 
 export const info = (data: Partial<InfoData> = {}): InfoData => {
     const infoData: InfoData = {
@@ -20,15 +21,12 @@ export const info = (data: Partial<InfoData> = {}): InfoData => {
         _allDirectionsEnvironmentName:
             data._allDirectionsEnvironmentName ?? 'GlassDesertEnvironment',
         _songTimeOffset: data._songTimeOffset ?? 0,
-        _difficultyBeatmapSets: [],
+        _difficultyBeatmapSets: data._difficultyBeatmapSets
+            ? deepCopy(data._difficultyBeatmapSets)
+            : [],
     };
     if (data._customData) {
-        infoData._customData = JSON.parse(JSON.stringify(data._customData));
-    }
-    if (data._difficultyBeatmapSets) {
-        for (const set of data._difficultyBeatmapSets) {
-            infoData._difficultyBeatmapSets.push(JSON.parse(JSON.stringify(set)));
-        }
+        infoData._customData = deepCopy(data._customData);
     }
     return parseInfo(infoData);
 };
@@ -36,13 +34,13 @@ export const info = (data: Partial<InfoData> = {}): InfoData => {
 export const difficulty = (data: Partial<DifficultyData> = {}): DifficultyData => {
     const difficultyData: DifficultyData = {
         _version: data._version ?? '2.5.0',
-        _notes: data._notes ?? [],
-        _obstacles: data._obstacles ?? [],
-        _events: data._events ?? [],
-        _waypoints: data._waypoints ?? [],
+        _notes: data._notes ? deepCopy(data._notes) : [],
+        _obstacles: data._obstacles ? deepCopy(data._obstacles) : [],
+        _events: data._events ? deepCopy(data._events) : [],
+        _waypoints: data._waypoints ? deepCopy(data._waypoints) : [],
     };
     if (data._customData) {
-        difficultyData._customData = JSON.parse(JSON.stringify(data._customData));
+        difficultyData._customData = deepCopy(data._customData);
     }
     if (data._specialEventsKeywordFilters) {
         difficultyData._specialEventsKeywordFilters = data._specialEventsKeywordFilters;

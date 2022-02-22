@@ -14,7 +14,7 @@ const logPrefixes = new Map<LogLevels, string>([
     [LogLevels.DEBUG, 'DEBUG'],
     [LogLevels.INFO, 'INFO'],
     [LogLevels.WARN, 'WARN'],
-    [LogLevels.ERROR, 'ERROR'],
+    [LogLevels.ERROR, '!!ERROR!!'],
 ]);
 
 class Logger {
@@ -44,11 +44,12 @@ class Logger {
 
     /** Set logging level to filter various information.
      * ```ts
-     * 0 -> Debug
-     * 1 -> Info
-     * 2 -> Warn
-     * 3 -> Error
-     * 4 -> None
+     * 0 -> Verbose
+     * 1 -> Debug
+     * 2 -> Info
+     * 3 -> Warn
+     * 4 -> Error
+     * 5 -> None
      * ```
      */
     public setLevel(level: LogLevels) {
