@@ -95,5 +95,5 @@ img.forEach((frame) => {
     i++;
 });
 console.log(_events.length, 'events');
-bsmap.save.difficultySync(difficulty, { path: OUTPUT_FILE });
+bsmap.save.difficultySync(difficulty, { filePath: OUTPUT_FILE });
 console.log('done');

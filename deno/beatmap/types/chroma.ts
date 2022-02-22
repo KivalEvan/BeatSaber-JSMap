@@ -1,6 +1,7 @@
 import {
-    Array2DPointDefinition,
+    ArrayPercentPointDefinition,
     Array3DPoint,
+    ArrayColorPointDefinition,
     HeckCustomEventDataBase,
 } from './heck.ts';
 import { Easings } from './easings.ts';
@@ -39,9 +40,22 @@ export enum ChromaDataEnvAbbr {
  * ```
  */
 export interface ChromaEnvironment {
+    /** Look up environment object name.
+     * This grabs every environment objects that match the string.
+     * ```ts
+     * _id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
+     * ```
+     */
     _id: string;
+    /** Look-up method to grab the object name.
+     * Regex is considered an advanced method and more powerful than other methods.
+     */
     _lookupMethod: LookupMethod;
+    /** Assign track to the object for animation use. */
     _track?: string;
+    /** Duplicate the object by set amount.
+     * **WARNING:** You should always duplicate only one at a time unless you know what you are doing.
+     */
     _duplicate?: number;
     _active?: boolean;
     _scale?: Array3DPoint;
@@ -49,6 +63,7 @@ export interface ChromaEnvironment {
     _localPosition?: Array3DPoint;
     _rotation?: Array3DPoint;
     _localRotation?: Array3DPoint;
+    /** Assign light ID for duplicated object. */
     _lightID?: number;
 }
 
@@ -59,6 +74,15 @@ export interface ChromaEnvironment {
  */
 export interface ChromaEnvironmentOld {
     _environmentalRemoval?: string[];
+}
+
+/** Chroma interface for Beatmap Note Custom Data.
+ * ```ts
+    _color?: string | ArrayColorPointDefinition[]
+ * ```
+ */
+export interface ChromaAnimation {
+    _color?: string | ArrayColorPointDefinition[];
 }
 
 /** Chroma interface for Beatmap Note Custom Data.
@@ -167,17 +191,18 @@ export interface ChromaEventZoom {
 
 /** AssignFogTrack interface for Noodle Extensions Custom Event.
  * ```ts
- * _attenuation: float | Array2DPointDefinition[];
- * _offset: float | Array2DPointDefinition[];
- * _startY: float | Array2DPointDefinition[];
- * _height: float | Array2DPointDefinition[];
+ * _attenuation: float | ArrayPercentPointDefinition[];
+ * _offset: float | ArrayPercentPointDefinition[];
+ * _startY: float | ArrayPercentPointDefinition[];
+ * _height: float | ArrayPercentPointDefinition[];
  * ```
  */
 export interface ChromaCustomEventDataAssignFogTrack extends HeckCustomEventDataBase {
-    _attenuation?: number | Array2DPointDefinition[];
-    _offset?: number | Array2DPointDefinition[];
-    _startY?: number | Array2DPointDefinition[];
-    _height?: number | Array2DPointDefinition[];
+    _track: string;
+    _attenuation?: number | ArrayPercentPointDefinition[];
+    _offset?: number | ArrayPercentPointDefinition[];
+    _startY?: number | ArrayPercentPointDefinition[];
+    _height?: number | ArrayPercentPointDefinition[];
 }
 
 /** Chroma Custom Event interface for AssignFogTrack.

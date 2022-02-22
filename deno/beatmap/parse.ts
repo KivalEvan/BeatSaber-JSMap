@@ -34,6 +34,7 @@ export const info = (mapInfo: InfoData): InfoData => {
 
 // FIXME: need more elegant solution
 // FIXME: floatValue is optional to certain condition
+// FIXME: handle floatvalue
 export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
     const { _notes, _obstacles, _events, _waypoints } = difficultyData;
 
@@ -125,6 +126,14 @@ export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
             throw new Error(`invalid type _width at ${obj._time} in _obstacles object`);
         }
     });
+    if (
+        !(versionBypass || compare(difficultyData._version, 'difficulty') === 'old') &&
+        _events.some((ev) => typeof ev._floatValue === 'undefined')
+    ) {
+        console.error(
+            'Some events missing _floatValue property, adding with default value of 1'
+        );
+    }
     _events.forEach((obj) => {
         for (const key in obj) {
             const k = key as keyof Event;
@@ -153,6 +162,7 @@ export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
         if (versionBypass || compare(difficultyData._version, 'difficulty') === 'old') {
             obj._floatValue = 1;
         } else {
+            obj._floatValue = 1;
             if (typeof obj._floatValue === 'undefined') {
                 throw new Error(
                     `missing _floatValue at ${obj._time} in _events object`

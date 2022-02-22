@@ -1,6 +1,6 @@
 import * as bsmap from '../mod.ts';
 
-bsmap.settings.path =
+bsmap.globals.path =
     'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/6a37 (Villain Virus - fraies & Oddloop)';
 console.log(`Map directory: ${bsmap.settings.path || './'}`);
 

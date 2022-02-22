@@ -6,21 +6,27 @@ import {
     OptimizeOptionsInfo,
 } from './types.ts';
 import { round } from './utils.ts';
+import logger from './logger.ts';
+
+// deno-lint-ignore ban-types
+const tag = (func: Function) => {
+    return `[optimize::${func.name}]`;
+};
 
 export const defaultOptionsInfo: Required<OptimizeOptionsInfo> = {
     enabled: true,
-    floatTrim: 3,
+    floatTrim: 4,
     stringTrim: true,
     throwError: true,
     removeDuplicate: true,
 };
 export const defaultOptionsDifficulty: Required<OptimizeOptionsDifficulty> = {
     enabled: true,
-    floatTrim: 3,
+    floatTrim: 4,
     stringTrim: true,
     throwError: true,
     optimiseLight: false,
-    orderNote: true,
+    sort: true,
 };
 
 const ignoreRemove = [
@@ -67,12 +73,14 @@ export const deepClean = (
                 throw new Error(`null value found in object key ${obj} ${k}.`);
             } else {
                 if (Array.isArray(obj)) {
-                    console.error(
+                    logger.error(
+                        tag(deepClean),
                         `null value found in array index ${obj} ${k}, defaulting to 0...`
                     );
                     obj[k] = 0;
                 } else {
-                    console.error(
+                    logger.error(
+                        tag(deepClean),
                         `null value found in object key ${obj} ${k}, deleting property...`
                     );
                     delete obj[k];
@@ -93,9 +101,13 @@ export const performInfo = (
         throwError: options.throwError ?? defaultOptionsInfo.throwError,
         removeDuplicate: options.removeDuplicate ?? defaultOptionsInfo.removeDuplicate,
     };
+
     if (!opt.enabled) {
         return info;
     }
+    logger.info(tag(performInfo), `Optimising difficulty data`);
+
+    logger.debug(tag(performInfo), 'Applying deep clean');
     deepClean(info, opt);
     return info;
 };
@@ -110,21 +122,30 @@ export const performDifficulty = (
         stringTrim: options.stringTrim ?? defaultOptionsDifficulty.stringTrim,
         throwError: options.throwError ?? defaultOptionsDifficulty.throwError,
         optimiseLight: options.optimiseLight ?? defaultOptionsDifficulty.optimiseLight,
-        orderNote: options.orderNote ?? defaultOptionsDifficulty.orderNote,
+        sort: options.sort ?? defaultOptionsDifficulty.sort,
     };
+
     if (!opt.enabled) {
         return difficulty;
     }
+    logger.info(tag(performDifficulty), `Optimising difficulty data`);
+
+    logger.debug(tag(performDifficulty), 'Applying deep clean');
     deepClean(difficulty, opt);
-    const sortPrec = Math.pow(10, opt.floatTrim);
-    difficulty._notes.sort(
-        (a, b) =>
-            Math.round((a._time + Number.EPSILON) * sortPrec) / sortPrec -
-                Math.round((b._time + Number.EPSILON) * sortPrec) / sortPrec ||
-            a._lineIndex - b._lineIndex ||
-            a._lineLayer - b._lineLayer
-    );
-    difficulty._obstacles.sort((a, b) => a._time - b._time);
-    difficulty._events.sort((a, b) => a._time - b._time);
+
+    if (opt.sort) {
+        logger.debug(tag(performDifficulty), 'Sorting objects');
+        const sortPrec = Math.pow(10, opt.floatTrim);
+        difficulty._notes.sort(
+            (a, b) =>
+                Math.round((a._time + Number.EPSILON) * sortPrec) / sortPrec -
+                    Math.round((b._time + Number.EPSILON) * sortPrec) / sortPrec ||
+                a._lineIndex - b._lineIndex ||
+                a._lineLayer - b._lineLayer
+        );
+        difficulty._obstacles.sort((a, b) => a._time - b._time);
+        difficulty._events.sort((a, b) => a._time - b._time);
+    }
+
     return difficulty;
 };

@@ -91,11 +91,11 @@ export interface HeckInfoCustomData {
 
 /** Heck Base Custom Event interface.
  * ```ts
- * _track: string,
+ * _track: string | string[]
  * ```
  */
 export interface HeckCustomEventDataBase {
-    _track: string;
+    _track: string | string[];
 }
 
 /** AnimateTrack interface for Heck Custom Event.

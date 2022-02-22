@@ -15,8 +15,8 @@ const args = parse(Deno.args, {
     boolean: ['e', 'f', 'm'],
     alias: { p: 'path', e: 'env', f: 'force', m: 'merge' },
 });
-bsmap.settings.path = (args.p as string) ?? '';
-console.log(`Map directory: ${bsmap.settings.path || './'}`);
+bsmap.globals.path = (args.p as string) ?? './';
+console.log(`Map directory: ${bsmap.globals.path}`);
 if (!args._[0]) {
     throw Error('Unspecified difficulty file to copy light.');
 }

@@ -21,7 +21,7 @@ export interface OptimizeOptionsInfo extends OptimizeOptions {
 
 export interface OptimizeOptionsDifficulty extends OptimizeOptions {
     optimiseLight?: boolean;
-    orderNote?: boolean;
+    sort?: boolean;
 }
 
 export interface SaveOptions {

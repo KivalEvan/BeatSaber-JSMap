@@ -25,6 +25,7 @@ export enum NEDataAbbr {
     _scale = 'S',
     _time = 'T',
     _track = 'Tr',
+    _worldPositionStays = 'Wps',
 }
 /** Noodle Extensions Object interface for Beatmap Object.
  * ```ts
@@ -91,17 +92,21 @@ export interface NEEvent {
  * ```ts
  * _childrenTracks: string[];
  * _parentTrack: string;
+ * _worldPositionStays?: boolean;
  * ```
  */
 export interface NECustomEventDataAssignTrackParent {
     _childrenTracks: string[];
     _parentTrack: string;
+    _worldPositionStays?: boolean;
 }
 
 /** AssignPlayerToTrack interface for Noodle Extensions Custom Event.
  * @extends NECustomEventDataBase
  */
-export interface NECustomEventDataAssignPlayerToTrack extends HeckCustomEventDataBase {}
+export interface NECustomEventDataAssignPlayerToTrack extends HeckCustomEventDataBase {
+    _track: string;
+}
 
 /** Noodle Extensions Animation interface for Noodle Extensions Object.
  * ```ts

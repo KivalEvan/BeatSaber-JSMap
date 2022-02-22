@@ -3,7 +3,7 @@ import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
 
 // working directory is not necessary unless you're working on importing anything from workspace root and in different folder path
 const workingDirectory = dirname(Deno.mainModule).replace('file:///', '') + '/'; // for some reason deno doesnt like to deal with file:///
-bsmap.settings.path =
+bsmap.globals.path =
     'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/testmap/';
 
 const info = bsmap.load.infoSync();

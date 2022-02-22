@@ -17,3 +17,5 @@ export type Easings = `ease${Transition}${Curve}` | 'easeStep' | 'easeLinear';
 export type EasingsExclude =
     | `ease${Transition}${'Sine' | 'Expo' | 'Circ' | 'Back' | 'Elastic' | 'Bounce'}`
     | 'easeStep';
+
+export type EasingFunction = (x: number) => number;

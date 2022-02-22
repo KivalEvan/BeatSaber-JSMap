@@ -1,3 +1,10 @@
+import logger from './logger.ts';
+
+// deno-lint-ignore ban-types
+const tag = (func: Function) => {
+    return `[utils::${func.name}]`;
+};
+
 export const toMMSS = (seconds: number): string => {
     if (!seconds) {
         return '0:00';
@@ -79,7 +86,7 @@ export const clamp = (value: number, min: number, max: number): number => {
     return Math.min(Math.max(min, value), max);
 };
 
-// Fisher–Yates shuffle
+/** Fisher–Yates shuffle algorithm. */
 // deno-lint-ignore no-explicit-any
 export const shuffle = (array: any[]): void => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -94,13 +101,45 @@ export const interleave = ([x, ...xs]: number[], ys: number[] = []): number[] =>
         : [x, ...interleave(ys, xs)]; // inductive: some x
 };
 
+/** Normalize value to 0-1 from given min and max value. */
 export const normalize = (value: number, min: number, max: number): number => {
-    return max - min > 0 ? (value - min) / (max - min) : 0;
+    if (min >= max) {
+        logger.warn(
+            tag(normalize),
+            'Min value is equal or more than max value, returning 1'
+        );
+        return 1;
+    }
+    const result = (value - min) / (max - min);
+    logger.verbose(tag(normalize), `Obtained ${result}`);
+    return result;
 };
 
-/**
- * Alpha number range 0-1
+/** Linear interpolate between start to end time given alpha value.
+ * Alpha value must be around 0-1.
  */
-export const lerp = (alpha: number, start: number, end: number): number => {
-    return start + (end - start) * alpha;
+export const lerp = (
+    alpha: number,
+    start: number,
+    end: number,
+    easing?: (x: number) => number
+): number => {
+    if (!easing) {
+        easing = (x) => x;
+    }
+    if (alpha > 1) {
+        logger.warn(
+            tag(lerp),
+            'Alpha value is larger than 1, may have unintended result'
+        );
+    }
+    if (alpha < 0) {
+        logger.warn(
+            tag(lerp),
+            'Alpha value is smaller than 0, may have unintended result'
+        );
+    }
+    const result = start + (end - start) * easing(alpha);
+    logger.verbose(tag(lerp), `Obtained ${result}`);
+    return result;
 };
