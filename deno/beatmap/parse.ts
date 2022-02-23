@@ -6,30 +6,37 @@ import { Obstacle } from './types/obstacle.ts';
 import { Event } from './types/event.ts';
 import { Waypoint } from './types/waypoint.ts';
 import { compare } from './version.ts';
+import logger from '../logger.ts';
+
+// deno-lint-ignore ban-types
+const tag = (func: Function) => {
+    return `[parse::${func.name}]`;
+};
 
 // TODO: more error check
 // TODO: contemplate whether to make pure function or keep as is
-export const info = (mapInfo: InfoData): InfoData => {
-    mapInfo._difficultyBeatmapSets.sort(
+export const info = (infoData: InfoData): InfoData => {
+    logger.info(tag(info), 'Parsing info');
+    infoData._difficultyBeatmapSets.sort(
         (a, b) =>
             CharacteristicOrder[a._beatmapCharacteristicName] -
             CharacteristicOrder[b._beatmapCharacteristicName]
     );
-    mapInfo._difficultyBeatmapSets.forEach((mode) => {
+    infoData._difficultyBeatmapSets.forEach((set) => {
         let num = 0;
-        mode._difficultyBeatmaps.forEach((a) => {
+        set._difficultyBeatmaps.forEach((a) => {
             if (a._difficultyRank - num <= 0) {
-                console.error(a._difficulty + ' is unordered');
+                logger.warn(tag(info), a._difficulty + ' is unordered');
             }
             if (DifficultyRank[a._difficulty] !== a._difficultyRank) {
-                console.error(a._difficulty + ' has invalid rank');
+                logger.error(tag(info), a._difficulty + ' has invalid rank');
             }
             num = a._difficultyRank;
         });
-        mode._difficultyBeatmaps.sort((a, b) => a._difficultyRank - b._difficultyRank);
+        set._difficultyBeatmaps.sort((a, b) => a._difficultyRank - b._difficultyRank);
     });
 
-    return mapInfo;
+    return infoData;
 };
 
 // FIXME: need more elegant solution
@@ -37,10 +44,11 @@ export const info = (mapInfo: InfoData): InfoData => {
 // FIXME: handle floatvalue
 export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
     const { _notes, _obstacles, _events, _waypoints } = difficultyData;
+    logger.info(tag(difficulty), 'Parsing difficulty');
 
     let versionBypass = false;
     if (!difficultyData._version) {
-        console.error('missing version, applying 2.5.0');
+        logger.warn(tag(difficulty), 'missing version, applying 2.5.0');
         difficultyData._version = '2.5.0';
         versionBypass = true;
     }
@@ -130,7 +138,8 @@ export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
         !(versionBypass || compare(difficultyData._version, 'difficulty') === 'old') &&
         _events.some((ev) => typeof ev._floatValue === 'undefined')
     ) {
-        console.error(
+        logger.warn(
+            tag(difficulty),
             'Some events missing _floatValue property, adding with default value of 1'
         );
     }

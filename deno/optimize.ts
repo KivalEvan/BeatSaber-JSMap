@@ -105,7 +105,7 @@ export const performInfo = (
     if (!opt.enabled) {
         return info;
     }
-    logger.info(tag(performInfo), `Optimising difficulty data`);
+    logger.info(tag(performInfo), `Optimising info data`);
 
     logger.debug(tag(performInfo), 'Applying deep clean');
     deepClean(info, opt);

@@ -9,13 +9,18 @@ const INPUT_FILE = 'ExpertPlusStandard.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
 const difficulty = await bsmap.load.difficulty(INPUT_FILE);
+const info = await bsmap.load.info();
+info._difficultyBeatmapSets.forEach((set) =>
+    set._difficultyBeatmaps.forEach((d) => {
+        if (d._customData?._requirements) delete d._customData?._requirements;
+    })
+);
 
 difficulty._version = '2.5.0';
 difficulty._customData = difficulty._customData ?? {};
 difficulty._customData._environment = [];
 difficulty._customData._time = difficulty._customData._time ?? 0;
 difficulty._customData._time++;
-difficulty._events = [];
 const _environment = difficulty._customData._environment;
 const _events = difficulty._events;
 
@@ -32,11 +37,6 @@ const regexLaser = `Environment\.\\[\\d+\\]Laser$`;
 const regexRotatingLasersPair = `\\[\\d+\\]RotatingLasersPair$`;
 _environment.push(
     {
-        _id: 'Environment$',
-        _lookupMethod: 'Regex',
-        _track: 'everythinglmao',
-    },
-    {
         _id: '\\[\\d+\\]FloorMirror$',
         _lookupMethod: 'Regex',
         _active: false,
@@ -51,16 +51,6 @@ _environment.push(
         _lookupMethod: 'Regex',
         _position: [10, 7, 48],
     }
-);
-
-_events.push(
-    { _time: 0, _type: 0, _value: 1, _floatValue: 1 },
-    { _time: 0, _type: 1, _value: 5, _floatValue: 1 },
-    { _time: 0, _type: 2, _value: 1, _floatValue: 1 },
-    { _time: 0, _type: 3, _value: 1, _floatValue: 1 },
-    { _time: 0, _type: 4, _value: 5, _floatValue: 1 },
-    { _time: 0, _type: 12, _value: 1, _floatValue: 1 },
-    { _time: 0, _type: 13, _value: 1, _floatValue: 1 }
 );
 
 let offsetLightID = 100;
@@ -293,6 +283,20 @@ _environment.push(
 );
 //#endregion
 
+_environment.push(
+    {
+        _id: 'Environment$',
+        _lookupMethod: 'Regex',
+        _track: 'everythinglmao',
+    },
+    {
+        _id: 'Environment$',
+        _lookupMethod: 'Regex',
+        _track: 'mirrorstuff',
+        _duplicate: 1,
+        _position: [0, 0, -9999],
+    }
+);
 difficulty._customData._customEvents = [
     {
         _time: 380,
@@ -302,13 +306,25 @@ difficulty._customData._customEvents = [
             _duration: 6,
             _position: [
                 [0, 0, 0, 0],
-                [0, 0, -512, 0.7499, 'easeInQuint'],
-                [0, 0, 512, 0.75, 'easeStep'],
+                [0, 0, -1024, 0.7499, 'easeInQuint'],
+                [0, 0, 1024, 0.75, 'easeStep'],
                 [0, 0, 96, 1, 'easeOutQuint'],
             ],
             _rotation: [
                 [0, 0, 0, 0],
                 [0, 180, 0, 0.75, 'easeStep'],
+            ],
+        },
+    },
+    {
+        _time: 384.5,
+        _type: 'AnimateTrack',
+        _data: {
+            _track: 'mirrorstuff',
+            _duration: 1.5,
+            _position: [
+                [0, 0, 1024, 0],
+                [0, 0, 104, 1, 'easeInCubic'],
             ],
         },
     },
@@ -320,7 +336,19 @@ difficulty._customData._customEvents = [
             _duration: 30,
             _position: [
                 [0, 0, 96, 0],
-                [0, 0, 16, 1, 'easeInOutSine'],
+                [0, 0, 8, 1],
+            ],
+        },
+    },
+    {
+        _time: 386,
+        _type: 'AnimateTrack',
+        _data: {
+            _track: 'mirrorstuff',
+            _duration: 30,
+            _position: [
+                [0, 0, 104, 0],
+                [0, 0, 16, 1],
             ],
         },
     },
@@ -343,6 +371,24 @@ difficulty._customData._customEvents = [
         },
     },
     {
+        _time: 416,
+        _type: 'AnimateTrack',
+        _data: {
+            _track: 'mirrorstuff',
+            _duration: 2,
+            _position: [
+                [0, 0, 24, 0],
+                [0, 0, 520, 0.7499, 'easeInQuint'],
+                [0, 8, -512, 0.75, 'easeStep'],
+                [0, 8, 0, 1, 'easeOutQuint'],
+            ],
+            _rotation: [
+                [0, 0, 0, 0],
+                [0, 0, 180, 0.75, 'easeStep'],
+            ],
+        },
+    },
+    {
         _time: 448,
         _type: 'AnimateTrack',
         _data: {
@@ -357,6 +403,19 @@ difficulty._customData._customEvents = [
             _rotation: [
                 [0, 0, 0, 0],
                 [90, 0, 0, 0.75, 'easeStep'],
+            ],
+        },
+    },
+    {
+        _time: 448,
+        _type: 'AnimateTrack',
+        _data: {
+            _track: 'mirrorstuff',
+            _duration: 1.5,
+            _position: [
+                [0, 8, 0, 0],
+                [0, 8, 512, 0.9999, 'easeInQuint'],
+                [0, 0, -9999, 1, 'easeStep'],
             ],
         },
     },
@@ -387,8 +446,8 @@ difficulty._customData._customEvents = [
             _position: [
                 [0, 6, 0, 0],
                 [0, 6, 512, 0.7499, 'easeInQuint'],
-                [0, 24, 512, 0.75, 'easeStep'],
-                [0, 24, 48, 1, 'easeOutQuint'],
+                [0, 16, 512, 0.75, 'easeStep'],
+                [0, 16, 48, 1, 'easeOutQuint'],
             ],
             _rotation: [
                 [0, 0, 180, 0],
@@ -403,8 +462,8 @@ difficulty._customData._customEvents = [
             _track: 'everythinglmao',
             _duration: 0.5,
             _position: [
-                [0, 24, 48, 0],
-                [0, 24, 512, 0.7499, 'easeInQuint'],
+                [0, 16, 48, 0],
+                [0, 16, 512, 0.7499, 'easeInQuint'],
                 [0, 6, -512, 0.75, 'easeStep'],
                 [0, 6, 96, 1, 'easeOutQuint'],
             ],
@@ -493,7 +552,7 @@ difficulty._customData._customEvents = [
             _track: 'everythinglmao',
             _duration: 0.5,
             _position: [
-                [0, -24, 0, 0],
+                [0, -24, -8, 0],
                 [0, -24, 512, 0.7499, 'easeInQuint'],
                 [0, 0, -512, 0.75, 'easeStep'],
                 [0, 0, -96, 1, 'easeOutQuint'],
@@ -512,7 +571,7 @@ difficulty._customData._customEvents = [
             _duration: 31.5,
             _position: [
                 [0, 0, -96, 0],
-                [0, 0, 0, 1, 'easeOutSine'],
+                [0, 0, 0, 1],
             ],
         },
     },
@@ -524,16 +583,17 @@ difficulty._customData._customEvents = [
             _duration: 1,
             _position: [
                 [0, 6, 64, 0, 'easeStep'],
-                [0, 0, -999, 0.125, 'easeStep'],
+                [0, 0, -9999, 0.125, 'easeStep'],
             ],
             _rotation: [[0, 0, 180, 0, 'easeStep']],
         },
     },
 ];
 
-await bsmap.save.difficulty(difficulty, {
+bsmap.save.difficultySync(difficulty, {
     filePath: OUTPUT_FILE,
 });
+bsmap.save.infoSync(info);
 console.timeEnd('Runtime');
 console.log(_events.length, 'events');
 // const info = bsmap.load.infoSync();

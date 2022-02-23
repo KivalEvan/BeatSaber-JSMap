@@ -411,7 +411,7 @@ _environment.push(
         _id: regexCube,
         _lookupMethod: 'Regex',
         _duplicate: 1,
-        _position: [-18.21875, 0, 48],
+        _position: [-18.2, 0, 48],
         _scale: [4.75, 0.00075, 22],
         _rotation: [0, 0, 0],
     },
@@ -419,7 +419,7 @@ _environment.push(
         _id: regexCube,
         _lookupMethod: 'Regex',
         _duplicate: 1,
-        _position: [18.21875, 0, 48],
+        _position: [18.2, 0, 48],
         _scale: [4.75, 0.00075, 22],
         _rotation: [0, 0, 0],
     }

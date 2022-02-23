@@ -39,7 +39,7 @@ export const defaultOptionsDifficultyList: Required<SaveOptionsDifficultyList> =
  */
 export const info = async (
     infoData: InfoData,
-    options: SaveOptionsInfo = defaultOptionsInfo
+    options: Partial<SaveOptionsInfo> = {}
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
         path: options.path ?? (globals.path || defaultOptionsInfo.path),
@@ -62,7 +62,7 @@ export const info = async (
  */
 export const infoSync = (
     infoData: InfoData,
-    options: SaveOptionsInfo = defaultOptionsInfo
+    options: Partial<SaveOptionsInfo> = {}
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
         path: options.path ?? (globals.path || defaultOptionsInfo.path),
@@ -85,7 +85,7 @@ export const infoSync = (
  */
 export const difficulty = async (
     difficultyData: DifficultyData,
-    options: SaveOptionsDifficulty = defaultOptionsDifficulty
+    options: Partial<SaveOptionsDifficulty> = {}
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
         path: options.path ?? (globals.path || defaultOptionsDifficulty.path),
@@ -107,7 +107,7 @@ export const difficulty = async (
  */
 export const difficultySync = (
     difficultyData: DifficultyData,
-    options: SaveOptionsDifficulty = defaultOptionsDifficulty
+    options: Partial<SaveOptionsDifficulty> = {}
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
         path: options.path ?? (globals.path || defaultOptionsDifficulty.path),
@@ -129,7 +129,7 @@ export const difficultySync = (
  */
 export const difficultyList = (
     difficulties: DifficultyList,
-    options: SaveOptionsDifficultyList = defaultOptionsDifficultyList
+    options: Partial<SaveOptionsDifficultyList> = {}
 ) => {
     logger.info(tag(difficultyList), `Async saving list of difficulty`);
     difficulties.forEach(async (dl) => {
@@ -156,7 +156,7 @@ export const difficultyList = (
  */
 export const difficultyListSync = (
     difficulties: DifficultyList,
-    options: SaveOptionsDifficultyList = defaultOptionsDifficultyList
+    options: Partial<SaveOptionsDifficultyList> = {}
 ) => {
     logger.info(tag(difficultyListSync), `Sync saving list of difficulty`);
     difficulties.forEach((dl) => {
