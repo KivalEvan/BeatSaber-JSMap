@@ -69,7 +69,7 @@ export const difficulty = async (
  * console.log(difficulty);
  * ```
  */
-export const difficultySync = (filePath: string, path?: string) => {
+export const difficultySync = (filePath: string, path = globals.path) => {
     logger.info(tag(difficultySync), `Sync loading difficulty from ${path + filePath}`);
     return parseDifficulty(JSON.parse(Deno.readTextFileSync(path + filePath)));
 };
