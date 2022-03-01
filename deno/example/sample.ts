@@ -7,7 +7,7 @@ bsmap.globals.path =
     'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/testmap/';
 
 const info = bsmap.load.infoSync();
-const difficulty = bsmap.load.difficultySync('ExpertPlusStandard.dat');
+const difficulty = bsmap.load.difficultyLegacySync('ExpertPlusStandard.dat');
 
 info._previewDuration = 14;
 info._difficultyBeatmapSets.forEach((set) =>

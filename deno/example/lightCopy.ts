@@ -24,7 +24,7 @@ if (typeof args._[0] === 'number') {
     throw Error('Number is not accepted value.');
 }
 const lightToCopy = args._[0];
-const lightshow = bsmap.load.difficultySync(lightToCopy);
+const lightshow = bsmap.load.difficultyLegacySync(lightToCopy);
 if (args.e && !lightshow._customData?._environment) {
     throw Error('Selected lightshow has no environment enhancement.');
 }
@@ -48,7 +48,7 @@ for (const set of info._difficultyBeatmapSets) {
         console.log(
             `Copying lightshow to ${set._beatmapCharacteristicName} ${d._difficulty}`
         );
-        const difficulty = bsmap.load.difficultySync(d._beatmapFilename);
+        const difficulty = bsmap.load.difficultyLegacySync(d._beatmapFilename);
         difficulty._version = lightshow._version;
         if (args.e) {
             if (difficulty._customData) {

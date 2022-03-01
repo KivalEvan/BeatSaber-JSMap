@@ -1,4 +1,4 @@
-import * as bsmap from '../mod.ts';
+import * as bsmap from 'https://raw.githubusercontent.com/KivalEvan/BeatSaber-MappingScript/main/deno/mod.ts';
 
 bsmap.globals.path =
     'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/6a37 (Villain Virus - fraies & Oddloop)';
@@ -23,7 +23,7 @@ for (const set of info._difficultyBeatmapSets) {
         console.log(
             `Converting NJS to ${set._beatmapCharacteristicName} ${d._difficulty}`
         );
-        const difficulty = bsmap.load.difficultySync(d._beatmapFilename);
+        const difficulty = bsmap.load.difficultyLegacySync(d._beatmapFilename);
         const notes = JSON.parse(
             JSON.stringify(difficulty._notes)
         ) as typeof difficulty._notes;
