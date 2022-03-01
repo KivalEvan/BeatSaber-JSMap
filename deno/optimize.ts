@@ -1,11 +1,12 @@
-import { InfoData } from './beatmap/types/info.ts';
-import { DifficultyData } from './beatmap/types/difficulty.ts';
+import { InfoData } from './beatmap/shared/types/info.ts';
+import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
+import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
 import {
     OptimizeOptions,
     OptimizeOptionsDifficulty,
     OptimizeOptionsInfo,
 } from './types.ts';
-import { round } from './utils.ts';
+import { round, Either } from './utils.ts';
 import logger from './logger.ts';
 
 // deno-lint-ignore ban-types
@@ -31,6 +32,7 @@ export const defaultOptionsDifficulty: Required<OptimizeOptionsDifficulty> = {
 
 const ignoreRemove = [
     '_notes',
+    '_sliders',
     '_events',
     '_obstacles',
     '_waypoints',
@@ -65,7 +67,8 @@ export const deepClean = (
         }
         // remove empty array property
         if (Array.isArray(obj[k]) && !ignoreRemove.includes(k) && !obj[k].length) {
-            delete obj[k];
+            // delete obj[k];
+            // continue;
         }
         // throw or remove null
         if (obj[k] === null) {
@@ -113,7 +116,7 @@ export const performInfo = (
 };
 
 export const performDifficulty = (
-    difficulty: DifficultyData,
+    difficulty: Either<DifficultyDataV2, DifficultyDataV3>,
     options: OptimizeOptionsDifficulty = { enabled: true }
 ) => {
     const opt: Required<OptimizeOptionsDifficulty> = {
@@ -136,15 +139,15 @@ export const performDifficulty = (
     if (opt.sort) {
         logger.debug(tag(performDifficulty), 'Sorting objects');
         const sortPrec = Math.pow(10, opt.floatTrim);
-        difficulty._notes.sort(
+        difficulty.colorNotes?.sort(
             (a, b) =>
-                Math.round((a._time + Number.EPSILON) * sortPrec) / sortPrec -
-                    Math.round((b._time + Number.EPSILON) * sortPrec) / sortPrec ||
-                a._lineIndex - b._lineIndex ||
-                a._lineLayer - b._lineLayer
+                Math.round((a.b + Number.EPSILON) * sortPrec) / sortPrec -
+                    Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||
+                a.x - b.x ||
+                a.y - b.y
         );
-        difficulty._obstacles.sort((a, b) => a._time - b._time);
-        difficulty._events.sort((a, b) => a._time - b._time);
+        difficulty.obstacles?.sort((a, b) => a.b - b.b);
+        difficulty.bpmEvents?.sort((a, b) => a.b - b.b);
     }
 
     return difficulty;

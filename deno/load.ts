@@ -1,7 +1,10 @@
-import { DifficultyList } from './types.ts';
-import { InfoData } from './beatmap/types/info.ts';
-import { DifficultyData } from './beatmap/types/difficulty.ts';
-import { difficulty as parseDifficulty, info as parseInfo } from './beatmap/parse.ts';
+import { DifficultyList, DifficultyLegacyList } from './types.ts';
+import { InfoData } from './beatmap/shared/types/info.ts';
+import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
+import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
+import { info as parseInfo } from './beatmap/shared/parse.ts';
+import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
+import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 
@@ -41,21 +44,60 @@ export const infoSync = (filePath = 'Info.dat', path = globals.path) => {
     return parseInfo(JSON.parse(Deno.readTextFileSync(path + filePath)));
 };
 
+/** Asynchronously load legacy beatmap difficulty file.
+ * ```ts
+ * const difficultyLegacy = await load.difficultyLegacy('ExpertPlusStandard.dat');
+ * console.log(difficultyLegacy);
+ * ```
+ */
+export const difficultyLegacy = async (
+    filePath: string,
+    path = globals.path
+): Promise<DifficultyDataV2> => {
+    logger.info(
+        tag(difficultyLegacy),
+        `Async loading difficulty from ${path + filePath}`
+    );
+    return await new Promise((resolve, reject) => {
+        try {
+            resolve(
+                parseDifficultyV2(JSON.parse(Deno.readTextFileSync(path + filePath)))
+            );
+        } catch (e) {
+            reject(new Error(e));
+        }
+    });
+};
+
+/** Synchronously load legacy beatmap difficulty file.
+ * ```ts
+ * const difficultyLegacy = load.difficultyLegacySync('ExpertPlusStandard.dat');
+ * console.log(difficultyLegacy);
+ * ```
+ */
+export const difficultyLegacySync = (filePath: string, path = globals.path) => {
+    logger.info(
+        tag(difficultyLegacySync),
+        `Sync loading difficulty from ${path + filePath}`
+    );
+    return parseDifficultyV2(JSON.parse(Deno.readTextFileSync(path + filePath)));
+};
+
 /** Asynchronously load beatmap difficulty file.
  * ```ts
- * const difficulty = await load.difficulty('ExpertPlusStandard.dat');
- * console.log(difficulty);
+ * const difficultyLegacy = await load.difficultyLegacy('ExpertPlusStandard.dat');
+ * console.log(difficultyLegacy);
  * ```
  */
 export const difficulty = async (
     filePath: string,
     path = globals.path
-): Promise<DifficultyData> => {
+): Promise<DifficultyDataV3> => {
     logger.info(tag(difficulty), `Async loading difficulty from ${path + filePath}`);
     return await new Promise((resolve, reject) => {
         try {
             resolve(
-                parseDifficulty(JSON.parse(Deno.readTextFileSync(path + filePath)))
+                parseDifficultyV3(JSON.parse(Deno.readTextFileSync(path + filePath)))
             );
         } catch (e) {
             reject(new Error(e));
@@ -71,7 +113,79 @@ export const difficulty = async (
  */
 export const difficultySync = (filePath: string, path = globals.path) => {
     logger.info(tag(difficultySync), `Sync loading difficulty from ${path + filePath}`);
-    return parseDifficulty(JSON.parse(Deno.readTextFileSync(path + filePath)));
+    return parseDifficultyV3(JSON.parse(Deno.readTextFileSync(path + filePath)));
+};
+
+/** Asynchronously load multiple legacy beatmap difficulties given beatmap info.
+ * ```ts
+ * const difficultyLegacyList = await load.difficultyLegacyFromInfo();
+ * difficultyLegacyList.forEach((d) => { console.log(d) })
+ * ```
+ */
+export const difficultyLegacyFromInfo = async (
+    info: InfoData,
+    path = globals.path
+): Promise<DifficultyLegacyList> => {
+    logger.info(
+        tag(difficultyLegacyFromInfo),
+        'Async loading difficulty from map Info...'
+    );
+    return await new Promise((resolve, reject) => {
+        const difficulties: DifficultyLegacyList = [];
+        try {
+            for (const set of info._difficultyBeatmapSets) {
+                for (const d of set._difficultyBeatmaps) {
+                    logger.debug(
+                        tag(difficultyFromInfo),
+                        `Loading difficulty from ${path + d._beatmapFilename}`
+                    );
+                    const difficulty = difficultyLegacySync(path + d._beatmapFilename);
+                    difficulties.push({
+                        characteristic: set._beatmapCharacteristicName,
+                        difficulty: d._difficulty,
+                        fileName: d._beatmapFilename,
+                        data: difficulty,
+                    });
+                }
+            }
+            resolve(difficulties);
+        } catch (e) {
+            reject(new Error(e));
+        }
+    });
+};
+
+/** Asynchronously load multiple legacy beatmap difficulties given beatmap info.
+ * ```ts
+ * const difficultyLegacyList = load.difficultyLegacyFromInfoSync();
+ * difficultyLegacyList.forEach((d) => { console.log(d) })
+ * ```
+ */
+export const difficultyLegacyFromInfoSync = (
+    info: InfoData,
+    path = globals.path
+): DifficultyLegacyList => {
+    logger.info(
+        tag(difficultyLegacyFromInfoSync),
+        'Sync loading difficulty from map Info...'
+    );
+    const difficulties: DifficultyLegacyList = [];
+    for (const set of info._difficultyBeatmapSets) {
+        for (const d of set._difficultyBeatmaps) {
+            logger.debug(
+                tag(difficultyLegacyFromInfoSync),
+                `Loading difficulty from ${path + d._beatmapFilename}`
+            );
+            const difficulty = difficultyLegacySync(path + d._beatmapFilename);
+            difficulties.push({
+                characteristic: set._beatmapCharacteristicName,
+                difficulty: d._difficulty,
+                fileName: d._beatmapFilename,
+                data: difficulty,
+            });
+        }
+    }
+    return difficulties;
 };
 
 /** Asynchronously load multiple beatmap difficulties given beatmap info.

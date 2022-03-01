@@ -1,11 +1,20 @@
-import { CharacteristicName } from './beatmap/types/characteristic.ts';
-import { DifficultyData, DifficultyName } from './beatmap/types/difficulty.ts';
+import { CharacteristicName } from './beatmap/shared/types/characteristic.ts';
+import { DifficultyName } from './beatmap/shared/types/difficulty.ts';
+import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
+import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
 
 export type DifficultyList = {
     characteristic: CharacteristicName;
     difficulty: DifficultyName;
     fileName: string;
-    data: DifficultyData;
+    data: DifficultyDataV3;
+}[];
+
+export type DifficultyLegacyList = {
+    characteristic: CharacteristicName;
+    difficulty: DifficultyName;
+    fileName: string;
+    data: DifficultyDataV2;
 }[];
 
 export interface OptimizeOptions {

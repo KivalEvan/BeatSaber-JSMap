@@ -1,6 +1,9 @@
-import { InfoData } from './beatmap/types/info.ts';
-import { DifficultyData } from './beatmap/types/difficulty.ts';
-import { difficulty as parseDifficulty, info as parseInfo } from './beatmap/parse.ts';
+import { InfoData } from './beatmap/shared/types/info.ts';
+import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
+import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
+import { info as parseInfo } from './beatmap/shared/parse.ts';
+import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
+import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
 import { deepCopy } from './utils.ts';
 
 export const info = (data: Partial<InfoData> = {}): InfoData => {
@@ -31,10 +34,13 @@ export const info = (data: Partial<InfoData> = {}): InfoData => {
     return parseInfo(infoData);
 };
 
-export const difficulty = (data: Partial<DifficultyData> = {}): DifficultyData => {
-    const difficultyData: DifficultyData = {
-        _version: data._version ?? '2.5.0',
+export const difficultyLegacy = (
+    data: Partial<DifficultyDataV2> = {}
+): DifficultyDataV2 => {
+    const difficultyData: DifficultyDataV2 = {
+        _version: '2.6.0',
         _notes: data._notes ? deepCopy(data._notes) : [],
+        _sliders: data._sliders ? deepCopy(data._sliders) : [],
         _obstacles: data._obstacles ? deepCopy(data._obstacles) : [],
         _events: data._events ? deepCopy(data._events) : [],
         _waypoints: data._waypoints ? deepCopy(data._waypoints) : [],
@@ -45,5 +51,37 @@ export const difficulty = (data: Partial<DifficultyData> = {}): DifficultyData =
     if (data._specialEventsKeywordFilters) {
         difficultyData._specialEventsKeywordFilters = data._specialEventsKeywordFilters;
     }
-    return parseDifficulty(difficultyData);
+    return parseDifficultyV2(difficultyData);
+};
+
+export const difficulty = (data: Partial<DifficultyDataV3> = {}): DifficultyDataV3 => {
+    const difficultyData: DifficultyDataV3 = {
+        version: '3.0.0',
+        bpmEvents: data.bpmEvents ? deepCopy(data.bpmEvents) : [],
+        rotationEvents: data.rotationEvents ? deepCopy(data.rotationEvents) : [],
+        colorNotes: data.colorNotes ? deepCopy(data.colorNotes) : [],
+        bombNotes: data.bombNotes ? deepCopy(data.bombNotes) : [],
+        obstacles: data.obstacles ? deepCopy(data.obstacles) : [],
+        sliders: data.sliders ? deepCopy(data.sliders) : [],
+        burstSliders: data.burstSliders ? deepCopy(data.burstSliders) : [],
+        waypoints: data.waypoints ? deepCopy(data.waypoints) : [],
+        basicBeatmapEvents: data.basicBeatmapEvents
+            ? deepCopy(data.basicBeatmapEvents)
+            : [],
+        colorBoostBeatmapEvents: data.colorBoostBeatmapEvents
+            ? deepCopy(data.colorBoostBeatmapEvents)
+            : [],
+        lightColorEventBoxGroups: data.lightColorEventBoxGroups
+            ? deepCopy(data.lightColorEventBoxGroups)
+            : [],
+        lightRotationEventBoxGroups: data.lightRotationEventBoxGroups
+            ? deepCopy(data.lightRotationEventBoxGroups)
+            : [],
+        basicEventTypesWithKeywords: data.basicEventTypesWithKeywords
+            ? deepCopy(data.basicEventTypesWithKeywords)
+            : { d: [] },
+        useNormalEventsAsCompatibleEvents:
+            data.useNormalEventsAsCompatibleEvents ?? false,
+    };
+    return parseDifficultyV3(difficultyData);
 };

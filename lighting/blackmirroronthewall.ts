@@ -8,14 +8,14 @@ bsmap.globals.path =
 const INPUT_FILE = 'ExpertPlusStandard.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
-const difficulty = await bsmap.load.difficulty(INPUT_FILE);
-const info = await bsmap.load.info();
+const info = bsmap.load.infoSync();
 info._difficultyBeatmapSets.forEach((set) =>
     set._difficultyBeatmaps.forEach((d) => {
         if (d._customData?._requirements) delete d._customData?._requirements;
     })
 );
 
+const difficulty = bsmap.load.difficultyLegacySync(INPUT_FILE);
 difficulty._version = '2.5.0';
 difficulty._customData = difficulty._customData ?? {};
 difficulty._customData._environment = [];
@@ -359,7 +359,7 @@ difficulty._customData._customEvents = [
             _track: 'everythinglmao',
             _duration: 2,
             _position: [
-                [0, 0, 16, 0],
+                [0, 0, 8, 0],
                 [0, 0, 512, 0.7499, 'easeInQuint'],
                 [0, 0, -512, 0.75, 'easeStep'],
                 [0, 0, 0, 1, 'easeOutQuint'],
@@ -377,7 +377,7 @@ difficulty._customData._customEvents = [
             _track: 'mirrorstuff',
             _duration: 2,
             _position: [
-                [0, 0, 24, 0],
+                [0, 0, 16, 0],
                 [0, 0, 520, 0.7499, 'easeInQuint'],
                 [0, 8, -512, 0.75, 'easeStep'],
                 [0, 8, 0, 1, 'easeOutQuint'],

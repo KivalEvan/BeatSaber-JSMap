@@ -1,7 +1,7 @@
-import { ColorObject, ColorArray } from './beatmap/types/colors.ts';
+// deno-lint-ignore-file prefer-const
+import { ColorObject, ColorArray } from './beatmap/shared/types/colors.ts';
 import { round, radToDeg, degToRad } from './utils.ts';
 import { lerp } from './utils.ts';
-import { method as easings } from './beatmap/easings.ts';
 
 export const RGBAtoHSVA = (r: number, g: number, b: number, a = 1): ColorArray => {
     let h!: number;
@@ -72,8 +72,13 @@ export const interpolateColor = (
     colorEnd: ColorArray,
     alpha: number,
     type: 'rgba' | 'hsva' | 'long hsva' | 'short hsva' = 'rgba',
-    easing: (x: number) => number = easings.easeLinear
+    easing?: (x: number) => number
 ): ColorArray => {
+    if (!easing) {
+        easing = function (x: number) {
+            return x;
+        };
+    }
     switch (type) {
         case 'hsva': {
             return HSVAtoRGBA(
@@ -82,7 +87,7 @@ export const interpolateColor = (
                         return 1;
                     }
                     const cE = colorEnd[i] ?? c;
-                    lerp(easing(alpha), c, cE);
+                    lerp(easing!(alpha), c, cE);
                 }) as ColorArray)
             );
         }
@@ -93,7 +98,7 @@ export const interpolateColor = (
                         return 1;
                     }
                     const cE = colorEnd[i] ?? c;
-                    lerp(easing(alpha), c, cE);
+                    lerp(easing!(alpha), c, cE);
                 }) as ColorArray)
             );
         }
@@ -104,7 +109,7 @@ export const interpolateColor = (
                         return 1;
                     }
                     const cE = colorEnd[i] ?? c;
-                    lerp(easing(alpha), c, cE);
+                    lerp(easing!(alpha), c, cE);
                 }) as ColorArray)
             );
         }
@@ -114,7 +119,7 @@ export const interpolateColor = (
                     return 1;
                 }
                 const cE = colorEnd[i] ?? c;
-                lerp(easing(alpha), c, cE);
+                lerp(easing!(alpha), c, cE);
             }) as ColorArray;
         }
     }

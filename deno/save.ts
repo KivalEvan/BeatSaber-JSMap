@@ -1,5 +1,6 @@
-import { InfoData } from './beatmap/types/info.ts';
-import { DifficultyData } from './beatmap/types/difficulty.ts';
+import { InfoData } from './beatmap/shared/types/info.ts';
+import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
+import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
 import {
     SaveOptionsDifficulty,
     SaveOptionsDifficultyList,
@@ -7,6 +8,7 @@ import {
     DifficultyList,
 } from './types.ts';
 import { performDifficulty, performInfo } from './optimize.ts';
+import { Either } from './utils.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 
@@ -84,7 +86,7 @@ export const infoSync = (
  * ```
  */
 export const difficulty = async (
-    difficultyData: DifficultyData,
+    difficultyData: Either<DifficultyDataV2, DifficultyDataV3>,
     options: Partial<SaveOptionsDifficulty> = {}
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
@@ -106,7 +108,7 @@ export const difficulty = async (
  * ```
  */
 export const difficultySync = (
-    difficultyData: DifficultyData,
+    difficultyData: Either<DifficultyDataV2, DifficultyDataV3>,
     options: Partial<SaveOptionsDifficulty> = {}
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
