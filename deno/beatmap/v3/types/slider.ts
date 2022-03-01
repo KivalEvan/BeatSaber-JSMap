@@ -1,16 +1,29 @@
 import { BaseSlider } from './baseSlider.ts';
 
+/** Slider beatmap object. */
 export interface Slider extends BaseSlider {
-    /** headControlPointLengthMultiplier
+    /** Head control point length multiplier `<float>` of slider.
      * int */
     mu: number;
-    /** tailControlPointLengthMultiplier
+    /** Tail control point length multiplier `<float>` of slider.
      * float */
     tmu: number;
-    /** Tail Cut Direction
-     * int */
+    /** Tail cut direction `<int>` of slider.
+     * ```ts
+     * 6 | 1 | 7
+     * 2 | 8 | 3
+     * 4 | 0 | 5
+     * ```
+     * ---
+     * Grid represents cut direction from center.
+     */
     tc: number;
-    /** Slider Mid Anchor Mode
-     * int */
+    /** Mid anchor mode `<int>` of slider.
+     * ```ts
+     * 0 -> Straight
+     * 1 -> Clockwise
+     * 2 -> Counter-Clockwise
+     * ```
+     */
     m: 0 | 1 | 2;
 }

@@ -1,6 +1,7 @@
 import * as v2 from './v2/mod.ts';
 import * as v3 from './v3/mod.ts';
 import logger from '../logger.ts';
+import { clamp } from '../utils.ts';
 
 // deno-lint-ignore ban-types
 const tag = (func: Function) => {
@@ -13,14 +14,14 @@ export const toV3 = (
     skipPrompt?: boolean
 ): v3.types.DifficultyData => {
     if (!skipPrompt) {
-        console.warn(`Converting to v3 may lose custom data`);
-        const confirmation = prompt('Proceed with conversion? (y/N): ', 'n');
-        if (confirmation![0].toLowerCase() === 'n') {
+        console.warn(`Converting to v3 may lose certain data...`);
+        const confirmation = prompt('Proceed with conversion? (Y/N):', 'n');
+        if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v3 denied.');
         }
         logger.info(tag(toV3), 'Converting beatmap v2 to v3');
     } else {
-        logger.warn(tag(toV3), 'Conversion to v3 may lose custom data');
+        logger.warn(tag(toV3), 'Conversion to v3 may lose certain data');
     }
     const template = v3.template.difficulty();
 
@@ -38,7 +39,7 @@ export const toV3 = (
                 c: n._type as 0 | 1,
                 x: n._lineIndex,
                 y: n._lineLayer,
-                d: Math.max(n._cutDirection, 8) as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8,
+                d: clamp(n._cutDirection, 0, 8) as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8,
                 a: 0,
             });
         }
@@ -55,14 +56,16 @@ export const toV3 = (
         })
     );
 
-    difficultyData._events.forEach((e) =>
+    difficultyData._events.forEach((e) => {
         template.basicBeatmapEvents.push({
             b: e._time,
             et: e._type,
             i: e._value,
             f: e._floatValue,
-        })
-    );
+        });
+    });
+
+    template.useNormalEventsAsCompatibleEvents = true;
 
     return template;
 };

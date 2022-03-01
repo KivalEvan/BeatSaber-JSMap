@@ -1,5 +1,5 @@
 /** Basic building block of beatmap. */
-export interface BeatmapObject {
+export interface BaseObject {
     /** Beat time `<float>` of beatmap object. */
     b: number;
 }

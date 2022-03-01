@@ -44,7 +44,7 @@ export const infoSync = (filePath = 'Info.dat', path = globals.path) => {
     return parseInfo(JSON.parse(Deno.readTextFileSync(path + filePath)));
 };
 
-/** Asynchronously load legacy beatmap difficulty file.
+/** Asynchronously load legacy v2 beatmap difficulty file.
  * ```ts
  * const difficultyLegacy = await load.difficultyLegacy('ExpertPlusStandard.dat');
  * console.log(difficultyLegacy);
@@ -69,7 +69,7 @@ export const difficultyLegacy = async (
     });
 };
 
-/** Synchronously load legacy beatmap difficulty file.
+/** Synchronously load legacy v2 beatmap difficulty file.
  * ```ts
  * const difficultyLegacy = load.difficultyLegacySync('ExpertPlusStandard.dat');
  * console.log(difficultyLegacy);
@@ -83,7 +83,7 @@ export const difficultyLegacySync = (filePath: string, path = globals.path) => {
     return parseDifficultyV2(JSON.parse(Deno.readTextFileSync(path + filePath)));
 };
 
-/** Asynchronously load beatmap difficulty file.
+/** Asynchronously load v3 beatmap difficulty file.
  * ```ts
  * const difficultyLegacy = await load.difficultyLegacy('ExpertPlusStandard.dat');
  * console.log(difficultyLegacy);
@@ -105,7 +105,7 @@ export const difficulty = async (
     });
 };
 
-/** Synchronously load beatmap difficulty file.
+/** Synchronously load v3 beatmap difficulty file.
  * ```ts
  * const difficulty = load.difficultySync('ExpertPlusStandard.dat');
  * console.log(difficulty);
@@ -116,7 +116,7 @@ export const difficultySync = (filePath: string, path = globals.path) => {
     return parseDifficultyV3(JSON.parse(Deno.readTextFileSync(path + filePath)));
 };
 
-/** Asynchronously load multiple legacy beatmap difficulties given beatmap info.
+/** Asynchronously load multiple legacy v2 beatmap difficulties given beatmap info.
  * ```ts
  * const difficultyLegacyList = await load.difficultyLegacyFromInfo();
  * difficultyLegacyList.forEach((d) => { console.log(d) })
@@ -155,7 +155,7 @@ export const difficultyLegacyFromInfo = async (
     });
 };
 
-/** Asynchronously load multiple legacy beatmap difficulties given beatmap info.
+/** Asynchronously load multiple legacy v2 beatmap difficulties given beatmap info.
  * ```ts
  * const difficultyLegacyList = load.difficultyLegacyFromInfoSync();
  * difficultyLegacyList.forEach((d) => { console.log(d) })
@@ -188,7 +188,7 @@ export const difficultyLegacyFromInfoSync = (
     return difficulties;
 };
 
-/** Asynchronously load multiple beatmap difficulties given beatmap info.
+/** Asynchronously load multiple v3 beatmap difficulties given beatmap info.
  * ```ts
  * const difficultyList = await load.difficultyFromInfo();
  * difficultyList.forEach((d) => { console.log(d) })
@@ -224,7 +224,7 @@ export const difficultyFromInfo = async (
     });
 };
 
-/** Asynchronously load multiple beatmap difficulties given beatmap info.
+/** Asynchronously load multiple v3 beatmap difficulties given beatmap info.
  * ```ts
  * const difficultyList = load.difficultyFromInfoSync();
  * difficultyList.forEach((d) => { console.log(d) })

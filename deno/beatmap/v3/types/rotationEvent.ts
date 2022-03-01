@@ -1,10 +1,14 @@
-import { BeatmapObject } from './baseObject.ts';
+import { BaseObject } from './baseObject.ts';
 
-export interface RotationEvent extends BeatmapObject {
-    /** Execution Time
-     * unknown */
-    e: unknown;
-    /** Rotation
-     * float */
+/** Rotation event beatmap object. */
+export interface RotationEvent extends BaseObject {
+    /** Execution time `<int>` of rotation event.
+     * ```ts
+     * 0 -> Early
+     * 1 -> Late
+     * ```
+     */
+    e: 0 | 1;
+    /** Rotation value `<float>` of rotation event. */
     r: number;
 }

@@ -37,6 +37,19 @@ const ignoreRemove = [
     '_obstacles',
     '_waypoints',
     '_difficultyBeatmapSets',
+    'bpmEvents',
+    'rotationEvents',
+    'colorNotes',
+    'bombNotes',
+    'obstacles',
+    'sliders',
+    'burstSliders',
+    'waypoints',
+    'basicBeatmapEvents',
+    'colorBoostBeatmapEvents',
+    'lightColorEventBoxGroups',
+    'lightRotationEventBoxGroups',
+    'basicEventTypesWithKeywords',
 ];
 export const deepClean = (
     // deno-lint-ignore no-explicit-any
@@ -67,8 +80,8 @@ export const deepClean = (
         }
         // remove empty array property
         if (Array.isArray(obj[k]) && !ignoreRemove.includes(k) && !obj[k].length) {
-            // delete obj[k];
-            // continue;
+            delete obj[k];
+            continue;
         }
         // throw or remove null
         if (obj[k] === null) {

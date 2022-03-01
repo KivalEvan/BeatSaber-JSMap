@@ -1,7 +1,7 @@
-import { BeatmapObject } from './baseObject.ts';
+import { BaseObject } from './baseObject.ts';
 
-/** Beatmap base slider interface. */
-export interface BaseSlider extends BeatmapObject {
+/** Base slider beatmap object. */
+export interface BaseSlider extends BaseObject {
     /** Color type `<int>` of base slider.
      * ```ts
      * 0 -> Red

@@ -1,6 +1,7 @@
-import { BeatmapObject } from './baseObject.ts';
+import { BaseObject } from './baseObject.ts';
 
-export interface BPMChangeEvent extends BeatmapObject {
-    /** float */
+/** BPM change event beatmap object. */
+export interface BPMChangeEvent extends BaseObject {
+    /** Value `<float>` of BPM change event. */
     m: number;
 }

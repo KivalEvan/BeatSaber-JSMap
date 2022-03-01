@@ -74,6 +74,8 @@ export interface EventBase {
      * 15 -> Late Lane Rotation
      * 16 -> Lower Hydraulic
      * 17 -> Raise Hydraulic
+     * 18 -> Utility Event
+     * 19 -> Utility Event
      * 100 -> BPM Change
      * ```
      */

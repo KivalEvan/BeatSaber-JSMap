@@ -20,10 +20,11 @@ export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
 
     let versionBypass = false;
     if (!difficultyData._version) {
-        logger.warn(tag(difficulty), 'missing version, applying 2.5.0');
-        difficultyData._version = '2.5.0';
+        logger.warn(tag(difficulty), 'missing version, applying 2.6.0');
+        difficultyData._version = '2.6.0';
         versionBypass = true;
     }
+    difficultyData._sliders = difficultyData._sliders ?? [];
     _notes.forEach((obj) => {
         for (const key in obj) {
             const k = key as keyof Note;

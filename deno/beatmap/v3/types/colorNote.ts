@@ -1,7 +1,7 @@
-import { BeatmapObject } from './baseObject.ts';
+import { BaseObject } from './baseObject.ts';
 
-/** Beatmap color note interface. */
-export interface ColorNote extends BeatmapObject {
+/** Color note beatmap object. */
+export interface ColorNote extends BaseObject {
     /** Position x `<int>` of note.
      * ```ts
      * 0 -> Outer Left

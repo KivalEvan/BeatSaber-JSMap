@@ -8,8 +8,8 @@ import { BurstSlider } from './burstSlider.ts';
 import { Waypoint } from './waypoint.ts';
 import { BasicEvent } from './basicEvent.ts';
 import { BoostEvent } from './boostEvent.ts';
-import { BaseLightColor } from './baseLightColor.ts';
-import { BaseLightRotation } from './baseLightRotation.ts';
+import { LightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
+import { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { BasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 
 export interface DifficultyData {
@@ -24,8 +24,8 @@ export interface DifficultyData {
     waypoints: Waypoint[];
     basicBeatmapEvents: BasicEvent[];
     colorBoostBeatmapEvents: BoostEvent[];
-    lightColorEventBoxGroups: BaseLightColor[];
-    lightRotationEventBoxGroups: BaseLightRotation[];
+    lightColorEventBoxGroups: LightColorEventBoxGroup[];
+    lightRotationEventBoxGroups: LightRotationEventBoxGroup[];
     basicEventTypesWithKeywords: BasicEventTypesWithKeywords;
     useNormalEventsAsCompatibleEvents: boolean;
 }

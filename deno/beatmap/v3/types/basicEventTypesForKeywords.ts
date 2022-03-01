@@ -1,4 +1,9 @@
+/** Basic event types for keywords.
+ * Used in basic event types with keywords.
+ */
 export interface BasicEventTypesForKeywords {
+    /** Keyword `<string>` of basic event types for keywords. */
     k: string;
-    e: unknown;
+    /** Event type `<int>` of basic event types for keywords. */
+    e: number;
 }
