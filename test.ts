@@ -8,13 +8,15 @@ bsmap.globals.path =
 const INPUT_FILE = 'ExpertPlusStandard.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
-const difficulty = bsmap.convert.toV3(bsmap.load.difficultyLegacySync(INPUT_FILE));
+const difficulty = bsmap.load.difficultySync(INPUT_FILE);
 
 difficulty.colorNotes.forEach((n) => {
     if (n.d === 8) {
         n.a = Math.random() * 90;
     }
 });
+
+difficulty.rotationEvents = [];
 
 bsmap.save.difficultySync(difficulty, {
     filePath: OUTPUT_FILE,

@@ -92,7 +92,7 @@ export type EnvironmentScheme = {
 };
 
 /** Environment rename to human readable. */
-export const rename: Readonly<Record<EnvironmentAllName, string>> = {
+export const environmentRename: Readonly<Record<EnvironmentAllName, string>> = {
     DefaultEnvironment: 'The First',
     OriginsEnvironment: 'Origins',
     Origins: 'Origins (Triangle)', // because beat games
@@ -121,30 +121,31 @@ export const rename: Readonly<Record<EnvironmentAllName, string>> = {
 };
 
 /** Record of Environment Color to Color Scheme. */
-export const scheme: Readonly<Record<EnvironmentAllName, ColorSchemeList>> = {
-    DefaultEnvironment: 'The First',
-    OriginsEnvironment: 'Origins',
-    Origins: 'The First', // because beat games
-    TriangleEnvironment: 'The First',
-    NiceEnvironment: 'The First',
-    BigMirrorEnvironment: 'The First',
-    DragonsEnvironment: 'The First',
-    KDAEnvironment: 'KDA',
-    MonstercatEnvironment: 'The First',
-    CrabRaveEnvironment: 'Crab Rave',
-    PanicEnvironment: 'The First',
-    RocketEnvironment: 'Rocket',
-    GreenDayEnvironment: 'Green Day',
-    GreenDayGrenadeEnvironment: 'Green Day',
-    TimbalandEnvironment: 'Timbaland',
-    FitBeatEnvironment: 'FitBeat',
-    LinkinParkEnvironment: 'Linkin Park',
-    BTSEnvironment: 'BTS',
-    KaleidoscopeEnvironment: 'Kaleidoscope',
-    InterscopeEnvironment: 'Interscope',
-    SkrillexEnvironment: 'Skrillex',
-    BillieEnvironment: 'Billie Eilish',
-    HalloweenEnvironment: 'Spooky',
-    GagaEnvironment: 'Gaga',
-    GlassDesertEnvironment: 'Glass Desert',
-};
+export const environmentScheme: Readonly<Record<EnvironmentAllName, ColorSchemeList>> =
+    {
+        DefaultEnvironment: 'The First',
+        OriginsEnvironment: 'Origins',
+        Origins: 'The First', // because beat games
+        TriangleEnvironment: 'The First',
+        NiceEnvironment: 'The First',
+        BigMirrorEnvironment: 'The First',
+        DragonsEnvironment: 'The First',
+        KDAEnvironment: 'KDA',
+        MonstercatEnvironment: 'The First',
+        CrabRaveEnvironment: 'Crab Rave',
+        PanicEnvironment: 'The First',
+        RocketEnvironment: 'Rocket',
+        GreenDayEnvironment: 'Green Day',
+        GreenDayGrenadeEnvironment: 'Green Day',
+        TimbalandEnvironment: 'Timbaland',
+        FitBeatEnvironment: 'FitBeat',
+        LinkinParkEnvironment: 'Linkin Park',
+        BTSEnvironment: 'BTS',
+        KaleidoscopeEnvironment: 'Kaleidoscope',
+        InterscopeEnvironment: 'Interscope',
+        SkrillexEnvironment: 'Skrillex',
+        BillieEnvironment: 'Billie Eilish',
+        HalloweenEnvironment: 'Spooky',
+        GagaEnvironment: 'Gaga',
+        GlassDesertEnvironment: 'Glass Desert',
+    };

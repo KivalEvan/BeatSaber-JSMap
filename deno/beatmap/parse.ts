@@ -1,3 +1,3 @@
-export { info as parseInfo } from './shared/parse.ts';
-export { difficulty as parseDifficultyLegacy } from './v2/parse.ts';
-export { difficulty as parseDifficulty } from './v3/parse.ts';
+export { info as info } from './shared/parse.ts';
+export { difficulty as difficultyLegacy } from './v2/parse.ts';
+export { difficulty as difficulty } from './v3/parse.ts';
