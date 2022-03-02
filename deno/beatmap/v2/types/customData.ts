@@ -1,13 +1,9 @@
 import { Bookmark } from './bookmark.ts';
 import { BPMChange } from '../../shared/types/bpm.ts';
-import { Contributor } from './contributor.ts';
-import { Editor } from './editor.ts';
-import { ColorScheme } from '../../shared/types/environment.ts';
-import { HeckCustomData, HeckCustomEvent, HeckInfoCustomData } from './heck.ts';
+import { HeckCustomData, HeckCustomEvent } from './heck.ts';
 import {
     ChromaCustomData,
     ChromaCustomEvent,
-    ChromaEnvironmentOld,
     ChromaNote,
     ChromaObstacle,
 } from './chroma.ts';
@@ -17,51 +13,6 @@ import { NECustomData, NECustomEvent, NENote, NEObstacle } from './noodleExtensi
 export interface CustomData {
     // deno-lint-ignore no-explicit-any
     [key: string]: any;
-}
-
-/** Custom Data interface for info.
- * ```ts
- * _editors?: Editor,
- * _contributors?: Contributor[],
- * _customEnvironment?: string,
- * _customEnvironmentHash?: string
- * ```
- * @extends CustomData
- */
-export interface CustomDataInfo extends CustomData {
-    _editors?: Editor;
-    _contributors?: Contributor[];
-    _customEnvironment?: string;
-    _customEnvironmentHash?: string;
-}
-
-/** Custom Data interface for info difficulty.
- * ```ts
- * _difficultyLabel?: string,
- * _editorOffset?: int,
- * _editorOldOffset?: int,
- * _warnings?: string[],
- * _information?: string[],
- * _suggestions?: string[],
- * _requirements?: string[]
- * ```
- * @extends CustomData
- * @extends ColorScheme
- * @extends HeckInfoCustomData
- * @extends ChromaEnvironmentOld
- */
-export interface CustomDataInfoDifficulty
-    extends CustomData,
-        ColorScheme,
-        HeckInfoCustomData,
-        ChromaEnvironmentOld {
-    _difficultyLabel?: string;
-    _editorOffset?: number;
-    _editorOldOffset?: number;
-    _warnings?: string[];
-    _information?: string[];
-    _suggestions?: string[];
-    _requirements?: string[];
 }
 
 export type CustomEvent = HeckCustomEvent | ChromaCustomEvent | NECustomEvent;

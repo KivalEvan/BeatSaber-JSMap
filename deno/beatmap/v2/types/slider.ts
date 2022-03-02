@@ -1,12 +1,47 @@
 export interface Slider {
-    _colorType: number;
+    /** Color type `<int>` of base slider.
+     * ```ts
+     * 0 -> Red
+     * 1 -> Blue
+     * ```
+     */
+    _colorType: 0 | 1;
     _headTime: number;
     _headLineIndex: number;
     _headLineLayer: number;
+    /** Head control point length multiplier `<float>` of slider. */
     _headControlPointlengthMultiplier: number;
-    _headCutDirection: number;
+    /** Head cut direction `<int>` of slider.
+     * ```ts
+     * 6 | 1 | 7
+     * 2 | 8 | 3
+     * 4 | 0 | 5
+     * ```
+     * ---
+     * Grid represents cut direction from center.
+     */
+    _headCutDirection: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
     _tailTime: number;
     _tailLineIndex: number;
     _tailLineLayer: number;
-    _sliderMidAnchorMode: number;
+    /** Tail control point length multiplier `<float>` of slider. */
+    _tailControlPointLengthMultiplier: number;
+    /** Tail cut direction `<int>` of slider.
+     * ```ts
+     * 6 | 1 | 7
+     * 2 | 8 | 3
+     * 4 | 0 | 5
+     * ```
+     * ---
+     * Grid represents cut direction from center.
+     */
+    _tailCutDirection: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+    /** Mid anchor mode `<int>` of slider.
+     * ```ts
+     * 0 -> Straight
+     * 1 -> Clockwise
+     * 2 -> Counter-Clockwise
+     * ```
+     */
+    _sliderMidAnchorMode: 0 | 1 | 2;
 }

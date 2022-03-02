@@ -1,6 +1,6 @@
 import { BaseObject } from './baseObject.ts';
 
-export enum EventType {
+export enum BasicEventType {
     BACK_LASERS,
     RING_LIGHTS,
     LEFT_LASERS,

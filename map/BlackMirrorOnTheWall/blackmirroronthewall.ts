@@ -1,5 +1,5 @@
 // holy shit image are so tedious to work with and optimise
-import * as bsmap from '../deno/mod.ts';
+import * as bsmap from '../../deno/mod.ts';
 
 console.log('Running script...');
 console.time('Runtime');

@@ -32,12 +32,14 @@ export interface BaseSlider extends BaseObject {
     y: number;
     /** Head cut direction `<int>` of base slider.
      * ```ts
-     * 0 -> Vertical
-     * 1 -> Horizontal
-     * 2 -> Diagonal
+     * 6 | 1 | 7
+     * 2 | 8 | 3
+     * 4 | 0 | 5
      * ```
+     * ---
+     * Grid represents cut direction from center.
      */
-    d: 0 | 1 | 2;
+    d: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
     /** Tail beat time `<float>` of base slider. */
     tb: number;
     /** Tail position x `<int>` of base slider.

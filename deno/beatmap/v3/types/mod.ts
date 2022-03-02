@@ -8,6 +8,7 @@ export * from './boostEvent.ts';
 export * from './bpmChange.ts';
 export * from './burstSlider.ts';
 export * from './colorNote.ts';
+export * from './constants.ts';
 export * from './difficulty.ts';
 export * from './eventBox.ts';
 export * from './eventBoxGroup.ts';

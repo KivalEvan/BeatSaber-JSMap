@@ -8,4 +8,5 @@ export * as parity from './parity.ts';
 export * as obstacle from './obstacle.ts';
 export * as score from './score.ts';
 export * as swing from './swing.ts';
+export * as template from './template.ts';
 export * as version from './version.ts';

@@ -6,6 +6,7 @@ const tag = (func: Function) => {
     return `[v3::parse::${func.name}]`;
 };
 
+/** **WARNING:** does not do anything other than just passing it. */
 export const difficulty = (
     difficultyData: types.DifficultyData
 ): types.DifficultyData => {

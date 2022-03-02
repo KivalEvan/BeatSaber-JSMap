@@ -67,15 +67,6 @@ export interface ChromaEnvironment {
     _lightID?: number;
 }
 
-/** Chroma interface for Difficulty Info Custom Data.
- * ```ts
- * _environmentalRemoval?: string[]
- * ```
- */
-export interface ChromaEnvironmentOld {
-    _environmentalRemoval?: string[];
-}
-
 /** Chroma interface for Beatmap Note Custom Data.
  * ```ts
     _color?: string | ArrayColorPointDefinition[]

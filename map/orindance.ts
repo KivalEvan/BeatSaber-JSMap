@@ -9,11 +9,10 @@ const MAP_DIRECTORY =
 const INPUT_FILE = MAP_DIRECTORY + 'NormalLightshow.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
-const difficulty = await bsmap.load.difficulty(INPUT_FILE);
+const difficulty = await bsmap.load.difficultyLegacy(INPUT_FILE);
 // const info = bsmap.readInfoSync(FOLDER_PATH + 'Info.dat');
 // const BPM = bsmap.bpm.create(info._beatsPerMinute);
 
-difficulty._version = '2.5.0';
 difficulty._customData = difficulty._customData ?? {};
 difficulty._customData._environment = [];
 difficulty._events = [];
@@ -209,7 +208,7 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
                 _customData: {
                     _color: color
                         .split(',')
-                        .map((n) => parseInt(n) / 255) as bsmap.types.colors.ColorArray,
+                        .map((n) => parseInt(n) / 255) as bsmap.types.ColorArray,
                     _lightID: colorID[color],
                 },
             });

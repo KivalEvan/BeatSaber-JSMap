@@ -11,6 +11,7 @@ import { BoostEvent } from './boostEvent.ts';
 import { LightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { BasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
+import { CustomDataDifficulty } from './customData.ts';
 
 export interface DifficultyData {
     version: '3.0.0';
@@ -28,4 +29,5 @@ export interface DifficultyData {
     lightRotationEventBoxGroups: LightRotationEventBoxGroup[];
     basicEventTypesWithKeywords: BasicEventTypesWithKeywords;
     useNormalEventsAsCompatibleEvents: boolean;
+    customData?: CustomDataDifficulty;
 }

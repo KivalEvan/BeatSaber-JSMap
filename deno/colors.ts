@@ -1,7 +1,6 @@
 // deno-lint-ignore-file prefer-const
 import { ColorObject, ColorArray } from './beatmap/shared/types/colors.ts';
-import { round, radToDeg, degToRad } from './utils.ts';
-import { lerp } from './utils.ts';
+import { round, radToDeg, degToRad, lerp } from './utils.ts';
 
 export const RGBAtoHSVA = (r: number, g: number, b: number, a = 1): ColorArray => {
     let h!: number;

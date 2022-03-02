@@ -9,9 +9,8 @@ bsmap.globals.path =
 const INPUT_FILE = 'Lightshow.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
-const difficulty = await bsmap.load.difficulty(INPUT_FILE);
+const difficulty = bsmap.load.difficultyLegacySync(INPUT_FILE);
 
-difficulty._version = '2.5.0';
 difficulty._customData = difficulty._customData ?? {};
 difficulty._customData._environment = [];
 difficulty._customData._time = difficulty._customData._time ?? 0;

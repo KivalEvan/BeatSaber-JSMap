@@ -1,4 +1,4 @@
-import * as bsmap from '../deno/mod.ts';
+import * as bsmap from '../../deno/mod.ts';
 import * as imagescript from 'https://deno.land/x/imagescript@1.2.9/mod.ts';
 import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
 
@@ -9,12 +9,11 @@ const MAP_DIRECTORY =
 const INPUT_FILE = MAP_DIRECTORY + 'EasyLawless.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
-const difficulty = bsmap.load.difficultySync(INPUT_FILE);
+const difficulty = bsmap.load.difficultyLegacySync(INPUT_FILE);
 const info = bsmap.load.infoSync(MAP_DIRECTORY + 'Info.dat');
 
 const BPM = bsmap.bpm.create(info._beatsPerMinute);
 
-difficulty._version = '2.5.0';
 difficulty._customData = {};
 difficulty._customData._environment = [];
 difficulty._events = [];

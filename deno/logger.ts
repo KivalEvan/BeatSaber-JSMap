@@ -1,5 +1,4 @@
 // really simple logger
-
 enum LogLevels {
     VERBOSE,
     DEBUG,

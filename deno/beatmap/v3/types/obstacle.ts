@@ -32,11 +32,11 @@ export interface Obstacle extends BaseObject {
     w: number;
     /** Height `<int>` of obstacle.
      * ```ts
-     * 1 -> Square
-     * 2 -> 1x2
-     * 3 -> 1x3
-     * 4 -> 1x4
-     * 5 -> 1x5
+     * 1 -> Short
+     * 2 -> Moderate
+     * 3 -> Crouch
+     * 4 -> Tall
+     * 5 -> Full
      * ```
      * ---
      * Range: `1-5`

@@ -6,7 +6,7 @@ import {
 } from './chroma.ts';
 import { NEEvent } from './noodleExtensions.ts';
 
-export enum Type {
+export enum EventType {
     BACK_LASERS,
     RING_LIGHTS,
     LEFT_LASERS,
@@ -30,7 +30,7 @@ export enum Type {
     BPM_CHANGE = 100,
 }
 
-export enum Value {
+export enum EventValue {
     OFF,
     BLUE_ON,
     BLUE_FLASH,
@@ -72,10 +72,14 @@ export interface EventBase {
      * 13 -> Right Laser Rotation
      * 14 -> Early Lane Rotation
      * 15 -> Late Lane Rotation
-     * 16 -> Lower Hydraulic
-     * 17 -> Raise Hydraulic
-     * 18 -> Utility Event
-     * 19 -> Utility Event
+     * 16 -> Utility Event 0
+     * 17 -> Utility Event 1
+     * 18 -> Utility Event 2
+     * 19 -> Utility Event 3
+     * 40 -> Special Event 0
+     * 41 -> Special Event 1
+     * 42 -> Special Event 2
+     * 43 -> Special Event 3
      * 100 -> BPM Change
      * ```
      */
@@ -159,6 +163,7 @@ export interface EventBPMChange extends EventBase {
 }
 
 export type Event =
+    | EventBase
     | EventLight
     | EventBoost
     | EventRing

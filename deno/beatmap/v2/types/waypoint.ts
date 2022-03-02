@@ -12,5 +12,5 @@ export interface Waypoint {
     _time: number;
     _lineIndex: number;
     _lineLayer: number;
-    _offsetDirection: number;
+    _offsetDirection: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9;
 }

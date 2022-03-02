@@ -6,14 +6,13 @@ import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
 console.log('Running script...');
 console.time('Runtime');
 const WORKING_DIRECTORY = dirname(Deno.mainModule.replace('file:///', '')) + '/'; // for some reason deno doesnt like to deal with file:///
-bsmap.settings.path =
+bsmap.globals.path =
     'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/ECHO/';
 const INPUT_FILE = 'EasyLightshow.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
-const difficulty = await bsmap.load.difficulty(INPUT_FILE);
+const difficulty = bsmap.load.difficultyLegacySync(INPUT_FILE);
 
-difficulty._version = '2.5.0';
 difficulty._customData = difficulty._customData ?? {};
 difficulty._customData._environment = [];
 difficulty._customData._time = difficulty._customData._time ?? 0;

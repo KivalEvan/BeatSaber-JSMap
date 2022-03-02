@@ -1,5 +1,5 @@
 import { CharacteristicName } from './characteristic.ts';
-import { CustomDataInfo, CustomDataInfoDifficulty } from '../../v2/types/customData.ts';
+import { CustomDataInfo, CustomDataInfoDifficulty } from './customData.ts';
 import { DifficultyName, DifficultyRank } from './difficulty.ts';
 import { Environment360Name, EnvironmentName } from './environment.ts';
 

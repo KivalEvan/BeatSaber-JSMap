@@ -45,6 +45,10 @@ For further explanation over on [Deno Manual](https://deno.land/manual).
 
 Deno related: if you're having issue of not being able to retrieve module on import, reload or cache the module to fix it. To reload or cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno server if necessary. If it still does not work, change to a different workspace.
 
+## Note
+
+Beatmap v2 (legacy) is deprecated, this will be around until it end of support officially by Beat Games. Convert the map with `convert.V2toV3(difficultyData)` after fetching the difficulty data with `load.difficultyLegacy('difficulty.dat')`.
+
 ## Beginner Tips
 
 -   You can find all properties from an object with autocomplete suggestions `CTRL+Space`.

@@ -23,6 +23,14 @@ export interface Waypoint extends BaseObject {
      * Range: `unknown`
      */
     y: number;
-    /** Offset direction `<int>` of waypoint. */
-    d: number;
+    /** Offset direction `<int>` of waypoint.
+     * ```ts
+     * 6 | 1 | 7
+     * 2 | 9 | 3
+     * 4 | 0 | 5
+     * ```
+     * ---
+     * Grid represents cut direction from center.
+     */
+    d: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9;
 }

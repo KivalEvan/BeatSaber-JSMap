@@ -27,7 +27,7 @@ export interface SpecialEventsKeywordFiltersKeywords {
  * ```
  */
 export interface DifficultyData {
-    _version: `2.${0 | 2 | 5 | 6}.0`;
+    _version: `2.${0 | 2 | 4 | 5 | 6}.0`;
     _notes: Note[];
     _sliders: Slider[];
     _obstacles: Obstacle[];
