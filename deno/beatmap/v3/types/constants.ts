@@ -1,3 +1,4 @@
+/** Also known as lane count. */
 export const LINE_COUNT = 4;
 
 export enum NoteCutDirection {
@@ -32,7 +33,7 @@ export enum TransitionType {
     EXTEND,
 }
 
-/** Used for light rotation event */
+/** Used for light rotation event. */
 export enum Axis {
     X,
     Y,
@@ -45,7 +46,7 @@ export enum LightRotationDirection {
 }
 
 export enum SliderMidAnchorMode {
-    Straight,
-    Clockwise,
-    CounterClockwise,
+    STRAIGHT,
+    CLOCKWISE,
+    COUNTER_CLOCKWISE,
 }

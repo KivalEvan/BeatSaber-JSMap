@@ -22,6 +22,23 @@ class Globals {
         this.#path = value;
         logger.info(tag('path'), `Global map directory path is set to ${this.#path}`);
     }
+
+    /** Set logging level to filter various information.
+     * ```ts
+     * 0 -> Verbose
+     * 1 -> Debug
+     * 2 -> Info
+     * 3 -> Warn
+     * 4 -> Error
+     * 5 -> None
+     * ```
+     */
+    get logLevel() {
+        return logger.logLevel;
+    }
+    set logLevel(value: number) {
+        logger.setLevel(value);
+    }
 }
 
 export default new Globals();

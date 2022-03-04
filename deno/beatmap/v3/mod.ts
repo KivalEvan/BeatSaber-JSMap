@@ -1,2 +1,11 @@
 export * as types from './types/mod.ts';
+export * as basicEvent from './basicEvent.ts';
+export * as bomb from './bomb.ts';
+export * as burstSlider from './burstSlider.ts';
+export * as colorNote from './colorNote.ts';
+export * as container from './container.ts';
+export * as difficulty from './difficulty.ts';
+export * as obstacle from './obstacle.ts';
+export * as slider from './slider.ts';
 export * as template from './template.ts';
+export * as waypoint from './waypoint.ts';

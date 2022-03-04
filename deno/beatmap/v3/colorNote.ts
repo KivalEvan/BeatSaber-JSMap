@@ -1,10 +1,5 @@
 import { ColorNote } from './types/colorNote.ts';
-import { BeatPerMinute } from '../shared/bpm.ts';
 import { radToDeg, shortRotDistance } from '../../utils.ts';
-import { BaseSlider } from './types/baseSlider.ts';
-import { DifficultyData } from './types/difficulty.ts';
-import { Slider } from './types/slider.ts';
-import { BurstSlider } from './types/burstSlider.ts';
 import { LINE_COUNT } from './types/constants.ts';
 
 /** Array index mapped to cut angle corresponding to the `_cutDirection`.
@@ -49,22 +44,17 @@ export const cutDirectionSpace: { [key: number]: readonly [number, number] } = {
     8: [0, 0],
 };
 
-/** Get container of color notes, sliders, and burst sliders.
+/** Mirror color note.
  * ```ts
- * const noteCountainer = getNoteContainer(difficultyData);
+ * colorNote.mirror(note);
+ * colorNote.mirror(noteAry);
  * ```
  */
-export const getNoteContainer = (
-    difficultyData: DifficultyData
-): (ColorNote | Slider | BurstSlider)[] => {
-    return [
-        ...difficultyData.colorNotes,
-        ...difficultyData.sliders,
-        ...difficultyData.burstSliders,
-    ].sort((a, b) => a.b - b.b);
-};
-
-export const mirror = (note: ColorNote, flipColor = true) => {
+export const mirror = (note: ColorNote | ColorNote[], flipColor = true) => {
+    if (Array.isArray(note)) {
+        note.forEach((n) => mirror(n));
+        return;
+    }
     note.x = LINE_COUNT - 1 - note.x;
     if (flipColor) {
         note.c = ((1 + note.c) % 2) as typeof note.c;
@@ -91,9 +81,10 @@ export const mirror = (note: ColorNote, flipColor = true) => {
             break;
     }
 };
+
 /** Get note and return the Beatwalls' position x and y value in tuple.
  * ```ts
- * const notePos = getPosition(note);
+ * const notePos = colorNote.getPosition(note);
  * ```
  */
 export const getPosition = (note: ColorNote): [number, number] => {
@@ -108,7 +99,7 @@ export const getPosition = (note: ColorNote): [number, number] => {
 
 /** Get note and return standardised note angle.
  * ```ts
- * const noteAngle = getAngle(note);
+ * const noteAngle = colorNote.getAngle(note);
  * ```
  */
 export const getAngle = (note: ColorNote): number => {
@@ -117,7 +108,7 @@ export const getAngle = (note: ColorNote): number => {
 
 /** Get two notes and return the distance between two notes.
  * ```ts
- * const noteDistance = distance(note1, note2);
+ * const noteDistance = colorNote.distance(note1, note2);
  * ```
  */
 export const distance = (n1: ColorNote, n2: ColorNote): number => {
@@ -128,7 +119,7 @@ export const distance = (n1: ColorNote, n2: ColorNote): number => {
 
 /** Compare two notes and return if the notes is in vertical alignment.
  * ```ts
- * if (isVertical(note1, note2)) {}
+ * if (colorNote.isVertical(note1, note2)) {}
  * ```
  */
 export const isVertical = (n1: ColorNote, n2: ColorNote): boolean => {
@@ -140,7 +131,7 @@ export const isVertical = (n1: ColorNote, n2: ColorNote): boolean => {
 
 /** Compare two notes and return if the notes is in horizontal alignment.
  * ```ts
- * if (isHorizontal(note1, note2)) {}
+ * if (colorNote.isHorizontal(note1, note2)) {}
  * ```
  */
 export const isHorizontal = (n1: ColorNote, n2: ColorNote): boolean => {
@@ -152,7 +143,7 @@ export const isHorizontal = (n1: ColorNote, n2: ColorNote): boolean => {
 
 /** Compare two notes and return if the notes is in diagonal alignment.
  * ```ts
- * if (isDiagonal(note1, note2)) {}
+ * if (colorNote.isDiagonal(note1, note2)) {}
  * ```
  */
 export const isDiagonal = (n1: ColorNote, n2: ColorNote): boolean => {
@@ -165,7 +156,7 @@ export const isDiagonal = (n1: ColorNote, n2: ColorNote): boolean => {
 
 /** Compare two notes and return if the notes is an inline.
  * ```ts
- * if (isInline(note1, note2)) {}
+ * if (colorNote.isInline(note1, note2)) {}
  * ```
  */
 export const isInline = (n1: ColorNote, n2: ColorNote, lapping = 0.5): boolean => {
@@ -174,7 +165,7 @@ export const isInline = (n1: ColorNote, n2: ColorNote, lapping = 0.5): boolean =
 
 /** Compare current note with the note ahead of it and return if the notes is a double.
  * ```ts
- * if (isDouble(note, notes, index)) {}
+ * if (colorNote.isDouble(note, notes, index)) {}
  * ```
  */
 export const isDouble = (
@@ -195,7 +186,7 @@ export const isDouble = (
 
 /** Compare two notes and return if the notes is adjacent.
  * ```ts
- * if (isAdjacent(note1, note2)) {}
+ * if (colorNote.isAdjacent(note1, note2)) {}
  * ```
  */
 export const isAdjacent = (n1: ColorNote, n2: ColorNote): boolean => {
@@ -205,7 +196,7 @@ export const isAdjacent = (n1: ColorNote, n2: ColorNote): boolean => {
 
 /** Compare two notes and return if the notes is a window.
  * ```ts
- * if (isWindow(note1, note2)) {}
+ * if (colorNote.isWindow(note1, note2)) {}
  * ```
  */
 export const isWindow = (n1: ColorNote, n2: ColorNote): boolean => {
@@ -214,7 +205,7 @@ export const isWindow = (n1: ColorNote, n2: ColorNote): boolean => {
 
 /** Compare two notes and return if the notes is a slanted window.
  * ```ts
- * if (isSlantedWindow(note1, note2)) {}
+ * if (colorNote.isSlantedWindow(note1, note2)) {}
  * ```
  */
 export const isSlantedWindow = (n1: ColorNote, n2: ColorNote): boolean => {
@@ -228,7 +219,7 @@ export const isSlantedWindow = (n1: ColorNote, n2: ColorNote): boolean => {
 
 /** Check if the note intersect on swing path by angle and distance.
  * ```ts
- * if (isIntersect(note1, note2, [[20, 1.5]])) {}
+ * if (colorNote.isIntersect(note1, note2, [[20, 1.5]])) {}
  * ```
  */
 // a fkin abomination that's what this is
@@ -419,7 +410,7 @@ export const predictDirection = (currNote: ColorNote, prevNote: ColorNote): numb
 
 /** Check if note has Mapping Extensions properties.
  * ```ts
- * if (hasMappingExtensions(note)) {}
+ * if (colorNote.hasMappingExtensions(note)) {}
  * ```
  */
 export const hasMappingExtensions = (note: ColorNote): boolean => {
@@ -428,7 +419,7 @@ export const hasMappingExtensions = (note: ColorNote): boolean => {
 
 /** Check if note has a valid cut direction.
  * ```ts
- * if (isValidDirection(note)) {}
+ * if (colorNote.isValidDirection(note)) {}
  * ```
  */
 export const isValidDirection = (note: ColorNote): boolean => {
@@ -437,7 +428,7 @@ export const isValidDirection = (note: ColorNote): boolean => {
 
 /** Check if note is a valid, vanilla note.
  * ```ts
- * if (isValid(note)) {}
+ * if (colorNote.isValid(note)) {}
  * ```
  */
 export const isValid = (note: ColorNote): boolean => {
@@ -446,34 +437,34 @@ export const isValid = (note: ColorNote): boolean => {
 
 /** Count number of specified line index in a given array and return a counted number of line index.
  * ```ts
- * const indexCount = countIndex(notes, 0);
+ * const indexCount = colorNote.countX(notes, 0);
  * ```
  */
-export const countIndex = (notes: ColorNote[], i: number): number => {
+export const countX = (notes: ColorNote[], i: number): number => {
     return notes.filter((n) => n.x === i).length;
 };
 
 /** Count number of specified line layer in a given array and return a counted number of line layer.
  * ```ts
- * const layerCount = countLayer(notes, 0);
+ * const layerCount = colorNote.countY(notes, 0);
  * ```
  */
-export const countLayer = (notes: ColorNote[], l: number): number => {
+export const countY = (notes: ColorNote[], l: number): number => {
     return notes.filter((n) => n.y === l).length;
 };
 
 /** Count number of specified line index and line layer in a given array and return a counted number of line index and line layer.
  * ```ts
- * const indexLayerCount = countIndexLayer(notes, 0, 0);
+ * const indexLayerCount = colorNote.countXY(notes, 0, 0);
  * ```
  */
-export const countIndexLayer = (notes: ColorNote[], i: number, l: number): number => {
+export const countXY = (notes: ColorNote[], i: number, l: number): number => {
     return notes.filter((n) => n.x === i && n.y === l).length;
 };
 
 /** Count number of specified `_cutDirection` in a given array and return a counted number of `_cutDirection`.
  * ```ts
- * const cdCount = countDirection(notes, 0);
+ * const cdCount = colorNote.countDirection(notes, 0);
  * ```
  */
 export const countDirection = (notes: ColorNote[], cd: number): number => {
@@ -482,47 +473,11 @@ export const countDirection = (notes: ColorNote[], cd: number): number => {
 
 /** Count number of specified angle in a given array and return a counted number of angle.
  * ```ts
- * const angleCount = countAngle(notes, 0);
+ * const angleCount = colorNote.countAngle(notes, 0);
  * ```
  */
 export const countAngle = (notes: ColorNote[], angle: number): number => {
     return notes.filter((n) => getAngle(n) === angle).length;
-};
-
-/** Calculate note per second.
- * ```ts
- * const nps = nps(notes, 10);
- * ```
- */
-export const nps = (notes: (ColorNote | BaseSlider)[], duration: number): number => {
-    return duration ? notes.length / duration : 0;
-};
-
-/** Calculate the peak by rolling average.
- * ```ts
- * const peakNPS = peak(notes, 10, BPM ?? 128);
- * ```
- */
-export const peak = (
-    notes: (ColorNote | BaseSlider)[],
-    beat: number,
-    bpm: BeatPerMinute | number
-): number => {
-    let peakNPS = 0;
-    let currentSectionStart = 0;
-    const bpmV = typeof bpm === 'number' ? bpm : bpm.value;
-
-    for (let i = 0; i < notes.length; i++) {
-        while (notes[i].b - notes[currentSectionStart].b > beat) {
-            currentSectionStart++;
-        }
-        peakNPS = Math.max(
-            peakNPS,
-            (i - currentSectionStart + 1) / ((beat / bpmV) * 60)
-        );
-    }
-
-    return peakNPS;
 };
 
 /** Check the angle equality of the two notes.

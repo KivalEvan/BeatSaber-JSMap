@@ -11,7 +11,7 @@ const tag = (func: Function) => {
 // TODO: more error check
 // TODO: contemplate whether to make pure function or keep as is
 export const info = (infoData: InfoData): InfoData => {
-    logger.info(tag(info), 'Parsing info');
+    logger.info(tag(info), 'Parsing beatmap info v2.x.x');
     infoData._difficultyBeatmapSets.sort(
         (a, b) =>
             CharacteristicOrder[a._beatmapCharacteristicName] -

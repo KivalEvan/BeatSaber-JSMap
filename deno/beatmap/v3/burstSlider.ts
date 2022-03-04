@@ -1,13 +1,13 @@
+import { BurstSlider } from './types/burstSlider.ts';
 import { LINE_COUNT } from './types/constants.ts';
-import { Slider } from './types/slider.ts';
 
-/** Mirror slider.
+/** Mirror burst slider.
  * ```ts
- * slider.mirror(slider);
- * slider.mirror(sliderAry);
+ * burstSlider.mirror(burstSlider);
+ * burstSlider.mirror(burstSliderAry);
  * ```
  */
-export const mirror = (slider: Slider | Slider[], flipColor = true) => {
+export const mirror = (slider: BurstSlider | BurstSlider[], flipColor = true) => {
     if (Array.isArray(slider)) {
         slider.forEach((s) => mirror(s));
         return;
@@ -37,28 +37,8 @@ export const mirror = (slider: Slider | Slider[], flipColor = true) => {
             slider.d = 4;
             break;
     }
-    switch (slider.tc) {
-        case 2:
-            slider.tc = 3;
-            break;
-        case 3:
-            slider.tc = 2;
-            break;
-        case 6:
-            slider.tc = 7;
-            break;
-        case 7:
-            slider.tc = 6;
-            break;
-        case 4:
-            slider.tc = 5;
-            break;
-        case 5:
-            slider.tc = 4;
-            break;
-    }
 };
 
-export const isInverse = (slider: Slider) => {
+export const isInverse = (slider: BurstSlider) => {
     return slider.b < slider.tb;
 };

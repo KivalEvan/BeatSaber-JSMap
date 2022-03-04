@@ -17,13 +17,13 @@ const logPrefixes = new Map<LogLevels, string>([
 ]);
 
 class Logger {
-    #logLevel = LogLevels.INFO;
+    logLevel = LogLevels.INFO;
 
     readonly logLevels = LogLevels;
 
     // deno-lint-ignore no-explicit-any
     private log(level: LogLevels, ...args: any[]) {
-        if (level < this.#logLevel) return;
+        if (level < this.logLevel) return;
 
         const log = [logPrefixes.get(level), '>', ...args];
 
@@ -52,7 +52,7 @@ class Logger {
      * ```
      */
     public setLevel(level: LogLevels) {
-        this.#logLevel = level;
+        this.logLevel = level;
     }
 
     // deno-lint-ignore no-explicit-any

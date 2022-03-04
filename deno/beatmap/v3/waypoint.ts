@@ -1,7 +1,17 @@
 import { LINE_COUNT } from './types/constants.ts';
 import { Waypoint } from './types/waypoint.ts';
 
-export const mirror = (waypoint: Waypoint) => {
+/** Mirror waypoint.
+ * ```ts
+ * waypoint.mirror(waypoint);
+ * waypoint.mirror(waypointAry);
+ * ```
+ */
+export const mirror = (waypoint: Waypoint | Waypoint[]) => {
+    if (Array.isArray(waypoint)) {
+        waypoint.forEach((w) => mirror(w));
+        return;
+    }
     waypoint.x = LINE_COUNT - 1 - waypoint.x;
     switch (waypoint.d) {
         case 2:

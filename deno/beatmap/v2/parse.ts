@@ -5,26 +5,18 @@ import { Event } from './types/event.ts';
 import { Waypoint } from './types/waypoint.ts';
 import { compare } from './version.ts';
 import logger from '../../logger.ts';
+import { Slider } from './types/slider.ts';
 
 // deno-lint-ignore ban-types
 const tag = (func: Function) => {
     return `[v2::parse::${func.name}]`;
 };
 
-// FIXME: need more elegant solution
-// FIXME: floatValue is optional to certain condition
-// FIXME: handle floatvalue
-export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
-    const { _notes, _obstacles, _events, _waypoints } = difficultyData;
-    logger.info(tag(difficulty), 'Parsing difficulty');
+// FIXME: this is a mess but i dont want to fix it anyway
+export const difficulty = (data: DifficultyData): DifficultyData => {
+    const { _notes, _obstacles, _events, _waypoints } = data;
+    logger.info(tag(difficulty), 'Parsing beatmap difficulty v2.x.x');
 
-    let versionBypass = false;
-    if (!difficultyData._version) {
-        logger.warn(tag(difficulty), 'missing version, applying 2.6.0');
-        difficultyData._version = '2.6.0';
-        versionBypass = true;
-    }
-    difficultyData._sliders = difficultyData._sliders ?? [];
     _notes.forEach((obj) => {
         for (const key in obj) {
             const k = key as keyof Note;
@@ -65,6 +57,131 @@ export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
             throw new Error(`invalid type _lineLayer at ${obj._time} in _notes object`);
         }
     });
+
+    data._sliders = data._sliders ?? [];
+    data._sliders.forEach((obj) => {
+        for (const key in obj) {
+            const k = key as keyof Slider;
+            if (obj[k] === null) {
+                throw new Error('contain null value in _sliders object');
+            }
+        }
+        if (typeof obj._headTime === 'undefined') {
+            throw new Error('missing _headTime in _sliders object');
+        }
+        if (typeof obj._headTime !== 'number') {
+            throw new Error('invalid type _headTime in _sliders object');
+        }
+        if (typeof obj._colorType === 'undefined') {
+            throw new Error(
+                `missing _colorType at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._colorType !== 'number') {
+            throw new Error(
+                `invalid type _colorType at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._headLineIndex === 'undefined') {
+            throw new Error(
+                `missing _cutDirection at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._headLineIndex !== 'number') {
+            throw new Error(
+                `invalid type _headLineIndex at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._headLineLayer === 'undefined') {
+            throw new Error(
+                `missing _headLineLayer at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._headLineLayer !== 'number') {
+            throw new Error(
+                `invalid type _headLineLayer at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._headControlPointlengthMultiplier === 'undefined') {
+            throw new Error(
+                `missing _headControlPointlengthMultiplier at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._headControlPointlengthMultiplier !== 'number') {
+            throw new Error(
+                `invalid type _headControlPointlengthMultiplier at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._headCutDirection === 'undefined') {
+            throw new Error(
+                `missing _headCutDirection at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._headCutDirection !== 'number') {
+            throw new Error(
+                `invalid type _headCutDirection at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._tailTime === 'undefined') {
+            throw new Error(`missing _tailTime at ${obj._headTime} in _sliders object`);
+        }
+        if (typeof obj._tailTime !== 'number') {
+            throw new Error(
+                `invalid type _tailTime at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._tailLineIndex === 'undefined') {
+            throw new Error(
+                `missing _tailLineIndex at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._tailLineIndex !== 'number') {
+            throw new Error(
+                `invalid type _tailLineIndex at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._tailLineLayer === 'undefined') {
+            throw new Error(
+                `missing _tailLineLayer at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._tailLineLayer !== 'number') {
+            throw new Error(
+                `invalid type _tailLineLayer at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._tailControlPointLengthMultiplier === 'undefined') {
+            throw new Error(
+                `missing _tailControlPointLengthMultiplier at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._tailControlPointLengthMultiplier !== 'number') {
+            throw new Error(
+                `invalid type _tailControlPointLengthMultiplier at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._tailCutDirection === 'undefined') {
+            throw new Error(
+                `missing _tailCutDirection at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._tailCutDirection !== 'number') {
+            throw new Error(
+                `invalid type _tailCutDirection at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._sliderMidAnchorMode === 'undefined') {
+            throw new Error(
+                `missing _sliderMidAnchorMode at ${obj._headTime} in _sliders object`
+            );
+        }
+        if (typeof obj._sliderMidAnchorMode !== 'number') {
+            throw new Error(
+                `invalid type _sliderMidAnchorMode at ${obj._headTime} in _sliders object`
+            );
+        }
+    });
+
     _obstacles.forEach((obj) => {
         for (const key in obj) {
             const k = key as keyof Obstacle;
@@ -106,9 +223,38 @@ export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
         if (typeof obj._width !== 'number') {
             throw new Error(`invalid type _width at ${obj._time} in _obstacles object`);
         }
+        if (data._version !== '2.6.0') {
+            obj._height = obj._height ?? 5;
+            obj._lineLayer = obj._lineLayer ?? 0;
+        } else {
+            if (typeof obj._height === 'undefined') {
+                throw new Error(`missing _height at ${obj._time} in _obstacles object`);
+            }
+            if (typeof obj._height !== 'number') {
+                throw new Error(
+                    `invalid type _height at ${obj._time} in _obstacles object`
+                );
+            }
+            if (typeof obj._lineLayer === 'undefined') {
+                throw new Error(
+                    `missing _lineLayer at ${obj._time} in _obstacles object`
+                );
+            }
+            if (typeof obj._lineLayer !== 'number') {
+                throw new Error(
+                    `invalid type _lineLayer at ${obj._time} in _obstacles object`
+                );
+            }
+        }
     });
+    let versionBypass = false;
+    if (!data._version) {
+        logger.warn(tag(difficulty), 'missing version, applying 2.6.0');
+        data._version = '2.6.0';
+        versionBypass = true;
+    }
     if (
-        !(versionBypass || compare(difficultyData._version, 'difficulty') === 'old') &&
+        !(versionBypass || compare(data._version, 'difficulty') === 'old') &&
         _events.some((ev) => typeof ev._floatValue === 'undefined')
     ) {
         logger.warn(
@@ -141,7 +287,7 @@ export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
         if (typeof obj._value !== 'number') {
             throw new Error(`invalid type _value at ${obj._time} in _events object`);
         }
-        if (versionBypass || compare(difficultyData._version, 'difficulty') === 'old') {
+        if (versionBypass || compare(data._version, 'difficulty') === 'old') {
             obj._floatValue = 1;
         } else {
             obj._floatValue = 1;
@@ -166,9 +312,10 @@ export const difficulty = (difficultyData: DifficultyData): DifficultyData => {
         }
     });
     _notes.sort((a, b) => a._time - b._time);
+    data._sliders.sort((a, b) => a._headTime - b._headTime);
     _obstacles.sort((a, b) => a._time - b._time);
     _events.sort((a, b) => a._time - b._time);
     _waypoints?.sort((a, b) => a._time - b._time);
 
-    return difficultyData;
+    return data;
 };

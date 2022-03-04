@@ -1,3 +1,4 @@
+/** not a burst slider. */
 export interface Slider {
     /** Color type `<int>` of base slider.
      * ```ts

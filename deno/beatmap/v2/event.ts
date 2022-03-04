@@ -1,11 +1,15 @@
 import {
     Event,
+    EventBoost,
     EventCount,
     EventLaneRotation,
     EventLaser,
     EventLight,
     EventRing,
     EventZoom,
+    EventExtra,
+    EventSpecial,
+    EventBPMChange,
 } from './types/event.ts';
 import { EnvironmentAllName } from '../shared/types/environment.ts';
 import { eventList } from '../shared/environment.ts';
@@ -14,6 +18,7 @@ import { eventList } from '../shared/environment.ts';
  * ```ts
  * if (isOff(event)) {}
  * ```
+ * ---
  * This may check non-light event too.
  */
 export const isOff = (event: Event): boolean => {
@@ -24,6 +29,7 @@ export const isOff = (event: Event): boolean => {
  * ```ts
  * if (isOn(event)) {}
  * ```
+ * ---
  * This may check non-light event too.
  */
 export const isOn = (event: Event): boolean => {
@@ -34,6 +40,7 @@ export const isOn = (event: Event): boolean => {
  * ```ts
  * if (isFlash(event)) {}
  * ```
+ * ---
  * This may check non-light event too.
  */
 export const isFlash = (event: Event): boolean => {
@@ -44,6 +51,7 @@ export const isFlash = (event: Event): boolean => {
  * ```ts
  * if (isFade(event)) {}
  * ```
+ * ---
  * This may check non-light event too.
  */
 export const isFade = (event: Event): boolean => {
@@ -93,7 +101,7 @@ export const isLightEvent = (event: Event): event is EventLight => {
  * if (isColorBoost(event)) {}
  * ```
  */
-export const isColorBoost = (event: Event): boolean => {
+export const isColorBoost = (event: Event): event is EventBoost => {
     return event._type === 5;
 };
 
@@ -101,6 +109,7 @@ export const isColorBoost = (event: Event): boolean => {
  * ```ts
  * if (isRingEvent(event)) {}
  * ```
+ * ---
  * This does not check for ring zoom.
  */
 export const isRingEvent = (event: Event): event is EventRing => {
@@ -134,13 +143,32 @@ export const isLaneRotationEvent = (event: Event): event is EventLaneRotation =>
     return event._type === 14 || event._type === 15;
 };
 
-/** Check if event is a hydraulic event.
+/** Check if event is a extra event.
  * ```ts
  * if (isExtraEvent(event)) {}
  * ```
  */
-export const isExtraEvent = (event: Event): boolean => {
-    return event._type === 16 || event._type === 17;
+export const isExtraEvent = (event: Event): event is EventExtra => {
+    return (
+        event._type === 16 ||
+        event._type === 17 ||
+        event._type === 18 ||
+        event._type === 19
+    );
+};
+
+/** Check if event is a special event.
+ * ```ts
+ * if (isSpecialEvent(event)) {}
+ * ```
+ */
+export const isSpecialEvent = (event: Event): event is EventSpecial => {
+    return (
+        event._type === 40 ||
+        event._type === 41 ||
+        event._type === 42 ||
+        event._type === 43
+    );
 };
 
 /** Check if event is a BPM change event.
@@ -148,7 +176,7 @@ export const isExtraEvent = (event: Event): boolean => {
  * if (isBPMChangeEvent(event)) {}
  * ```
  */
-export const isBPMChangeEvent = (event: Event): boolean => {
+export const isBPMChangeEvent = (event: Event): event is EventBPMChange => {
     return event._type === 100;
 };
 

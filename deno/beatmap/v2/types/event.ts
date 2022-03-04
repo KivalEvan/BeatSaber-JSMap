@@ -42,6 +42,17 @@ export enum EventValue {
     RED_TRANSITION,
 }
 
+export const EventLaneRotation: { [key: number]: number } = {
+    0: -60,
+    1: -45,
+    2: -30,
+    3: -15,
+    4: 15,
+    5: 30,
+    6: 45,
+    7: 60,
+};
+
 /** Beatmap object interface for Event.
  * ```ts
  * _time: float,
@@ -156,6 +167,10 @@ export interface EventExtra extends EventBase {
     _type: 16 | 17 | 18 | 19;
 }
 
+export interface EventSpecial extends EventBase {
+    _type: 40 | 41 | 42 | 43;
+}
+
 export interface EventBPMChange extends EventBase {
     _type: 100;
     /** Changes the BPM to this value. */
@@ -163,7 +178,6 @@ export interface EventBPMChange extends EventBase {
 }
 
 export type Event =
-    | EventBase
     | EventLight
     | EventBoost
     | EventRing
@@ -171,6 +185,7 @@ export type Event =
     | EventLaser
     | EventLaneRotation
     | EventExtra
+    | EventSpecial
     | EventBPMChange;
 
 /** Enum for beatmap event type name.
