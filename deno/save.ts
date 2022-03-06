@@ -39,10 +39,7 @@ export const defaultOptionsDifficultyList: Required<SaveOptionsDifficultyList> =
  * await save.info(info);
  * ```
  */
-export const info = async (
-    infoData: InfoData,
-    options: Partial<SaveOptionsInfo> = {}
-) => {
+export const info = async (data: InfoData, options: Partial<SaveOptionsInfo> = {}) => {
     const opt: Required<SaveOptionsDifficulty> = {
         path: options.path ?? (globals.path || defaultOptionsInfo.path),
         filePath: options.filePath ?? 'Info.dat',
@@ -51,10 +48,10 @@ export const info = async (
     logger.info(tag(info), `Async saving info`);
     if (opt.optimise.enabled) {
         logger.info(tag(info), `Optimising info data`);
-        performInfo(infoData, opt.optimise);
+        performInfo(data, opt.optimise);
     }
     logger.info(tag(info), tag(difficulty), `Writing to ${opt.path + opt.filePath}`);
-    await Deno.writeTextFile(opt.path + opt.filePath, JSON.stringify(infoData));
+    await Deno.writeTextFile(opt.path + opt.filePath, JSON.stringify(data));
 };
 
 /** Synchronously save beatmap info.
@@ -62,10 +59,7 @@ export const info = async (
  * save.infoSync(info);
  * ```
  */
-export const infoSync = (
-    infoData: InfoData,
-    options: Partial<SaveOptionsInfo> = {}
-) => {
+export const infoSync = (data: InfoData, options: Partial<SaveOptionsInfo> = {}) => {
     const opt: Required<SaveOptionsDifficulty> = {
         path: options.path ?? (globals.path || defaultOptionsInfo.path),
         filePath: options.filePath ?? 'Info.dat',
@@ -74,10 +68,10 @@ export const infoSync = (
     logger.info(tag(infoSync), `Sync saving info`);
     if (opt.optimise.enabled) {
         logger.info(tag(infoSync), `Optimising info data`);
-        performInfo(infoData, opt.optimise);
+        performInfo(data, opt.optimise);
     }
     logger.info(tag(infoSync), `Writing to ${opt.path + opt.filePath}`);
-    Deno.writeTextFileSync(opt.path + opt.filePath, JSON.stringify(infoData));
+    Deno.writeTextFileSync(opt.path + opt.filePath, JSON.stringify(data));
 };
 
 /** Asynchronously save beatmap difficulty.
@@ -86,7 +80,7 @@ export const infoSync = (
  * ```
  */
 export const difficulty = async (
-    difficultyData: Either<DifficultyDataV2, DifficultyDataV3>,
+    data: Either<DifficultyDataV2, DifficultyDataV3>,
     options: Partial<SaveOptionsDifficulty> = {}
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
@@ -96,10 +90,10 @@ export const difficulty = async (
     };
     logger.info(tag(difficulty), `Async saving difficulty`);
     if (opt.optimise.enabled) {
-        performDifficulty(difficultyData, opt.optimise);
+        performDifficulty(data, opt.optimise);
     }
     logger.info(tag(difficulty), `Writing to ${opt.path + opt.filePath}`);
-    await Deno.writeTextFile(opt.path + opt.filePath, JSON.stringify(difficultyData));
+    await Deno.writeTextFile(opt.path + opt.filePath, JSON.stringify(data));
 };
 
 /** Synchronously save beatmap difficulty.
@@ -108,7 +102,7 @@ export const difficulty = async (
  * ```
  */
 export const difficultySync = (
-    difficultyData: Either<DifficultyDataV2, DifficultyDataV3>,
+    data: Either<DifficultyDataV2, DifficultyDataV3>,
     options: Partial<SaveOptionsDifficulty> = {}
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
@@ -118,10 +112,10 @@ export const difficultySync = (
     };
     logger.info(tag(difficultySync), `Sync saving difficulty`);
     if (opt.optimise.enabled) {
-        performDifficulty(difficultyData, opt.optimise);
+        performDifficulty(data, opt.optimise);
     }
     logger.info(tag(difficultySync), `Writing to ${opt.path + opt.filePath}`);
-    Deno.writeTextFileSync(opt.path + opt.filePath, JSON.stringify(difficultyData));
+    Deno.writeTextFileSync(opt.path + opt.filePath, JSON.stringify(data));
 };
 
 /** Asynchronously save multiple beatmap difficulties.
@@ -147,7 +141,7 @@ export const difficultyList = (
             performDifficulty(dl.data, opt.optimise);
         }
         logger.info(tag(difficultyList), `Writing to ${opt.path + dl.fileName}`);
-        await Deno.writeTextFile(opt.path + dl.fileName, JSON.stringify(difficulty));
+        await Deno.writeTextFile(opt.path + dl.fileName, JSON.stringify(dl.data));
     });
 };
 
@@ -174,6 +168,6 @@ export const difficultyListSync = (
             performDifficulty(dl.data, opt.optimise);
         }
         logger.info(tag(difficultyListSync), `Writing to ${opt.path + dl.fileName}`);
-        Deno.writeTextFileSync(opt.path + dl.fileName, JSON.stringify(difficulty));
+        Deno.writeTextFileSync(opt.path + dl.fileName, JSON.stringify(dl.data));
     });
 };

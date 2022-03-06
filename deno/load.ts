@@ -1,4 +1,4 @@
-import { DifficultyList, DifficultyLegacyList } from './types.ts';
+import { DifficultyList } from './types.ts';
 import { InfoData } from './beatmap/shared/types/info.ts';
 import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
@@ -7,6 +7,7 @@ import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
 import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
+import { isV2, isV3 } from './beatmap/version.ts';
 
 // deno-lint-ignore ban-types
 const tag = (func: Function) => {
@@ -116,83 +117,13 @@ export const difficultySync = (filePath: string, path = globals.path) => {
     return parseDifficultyV3(JSON.parse(Deno.readTextFileSync(path + filePath)));
 };
 
-/** Asynchronously load multiple legacy v2 beatmap difficulties given beatmap info.
- * ```ts
- * const difficultyLegacyList = await load.difficultyLegacyFromInfo();
- * difficultyLegacyList.forEach((d) => { console.log(d) })
- * ```
- */
-export const difficultyLegacyFromInfo = async (
-    info: InfoData,
-    path = globals.path
-): Promise<DifficultyLegacyList> => {
-    logger.info(
-        tag(difficultyLegacyFromInfo),
-        'Async loading difficulty from map Info...'
-    );
-    return await new Promise((resolve, reject) => {
-        const difficulties: DifficultyLegacyList = [];
-        try {
-            for (const set of info._difficultyBeatmapSets) {
-                for (const d of set._difficultyBeatmaps) {
-                    logger.debug(
-                        tag(difficultyFromInfo),
-                        `Loading difficulty from ${path + d._beatmapFilename}`
-                    );
-                    const difficulty = difficultyLegacySync(path + d._beatmapFilename);
-                    difficulties.push({
-                        characteristic: set._beatmapCharacteristicName,
-                        difficulty: d._difficulty,
-                        fileName: d._beatmapFilename,
-                        data: difficulty,
-                    });
-                }
-            }
-            resolve(difficulties);
-        } catch (e) {
-            reject(new Error(e));
-        }
-    });
-};
-
-/** Asynchronously load multiple legacy v2 beatmap difficulties given beatmap info.
- * ```ts
- * const difficultyLegacyList = load.difficultyLegacyFromInfoSync();
- * difficultyLegacyList.forEach((d) => { console.log(d) })
- * ```
- */
-export const difficultyLegacyFromInfoSync = (
-    info: InfoData,
-    path = globals.path
-): DifficultyLegacyList => {
-    logger.info(
-        tag(difficultyLegacyFromInfoSync),
-        'Sync loading difficulty from map Info...'
-    );
-    const difficulties: DifficultyLegacyList = [];
-    for (const set of info._difficultyBeatmapSets) {
-        for (const d of set._difficultyBeatmaps) {
-            logger.debug(
-                tag(difficultyLegacyFromInfoSync),
-                `Loading difficulty from ${path + d._beatmapFilename}`
-            );
-            const difficulty = difficultyLegacySync(path + d._beatmapFilename);
-            difficulties.push({
-                characteristic: set._beatmapCharacteristicName,
-                difficulty: d._difficulty,
-                fileName: d._beatmapFilename,
-                data: difficulty,
-            });
-        }
-    }
-    return difficulties;
-};
-
 /** Asynchronously load multiple v3 beatmap difficulties given beatmap info.
  * ```ts
  * const difficultyList = await load.difficultyFromInfo();
  * difficultyList.forEach((d) => { console.log(d) })
  * ```
+ * ---
+ * Info difficulty reference is also given to allow further control.
  */
 export const difficultyFromInfo = async (
     info: InfoData,
@@ -204,15 +135,26 @@ export const difficultyFromInfo = async (
         try {
             for (const set of info._difficultyBeatmapSets) {
                 for (const d of set._difficultyBeatmaps) {
-                    logger.debug(
+                    logger.info(
                         tag(difficultyFromInfo),
                         `Loading difficulty from ${path + d._beatmapFilename}`
                     );
-                    const difficulty = difficultySync(path + d._beatmapFilename);
+                    const diffJSON = JSON.parse(
+                        Deno.readTextFileSync(path + d._beatmapFilename)
+                    ) as DifficultyDataV2 | DifficultyDataV3;
+                    let difficulty;
+                    if (isV2(diffJSON)) {
+                        difficulty = parseDifficultyV2(diffJSON);
+                    } else if (isV3(diffJSON)) {
+                        difficulty = parseDifficultyV3(diffJSON);
+                    } else {
+                        difficulty = parseDifficultyV2(diffJSON);
+                    }
                     difficulties.push({
                         characteristic: set._beatmapCharacteristicName,
                         difficulty: d._difficulty,
                         fileName: d._beatmapFilename,
+                        settings: d,
                         data: difficulty,
                     });
                 }
@@ -229,6 +171,8 @@ export const difficultyFromInfo = async (
  * const difficultyList = load.difficultyFromInfoSync();
  * difficultyList.forEach((d) => { console.log(d) })
  * ```
+ * ---
+ * Info difficulty reference is also given to allow further control.
  */
 export const difficultyFromInfoSync = (
     info: InfoData,
@@ -241,15 +185,26 @@ export const difficultyFromInfoSync = (
     const difficulties: DifficultyList = [];
     for (const set of info._difficultyBeatmapSets) {
         for (const d of set._difficultyBeatmaps) {
-            logger.debug(
+            logger.info(
                 tag(difficultyFromInfoSync),
                 `Loading difficulty from ${path + d._beatmapFilename}`
             );
-            const difficulty = difficultySync(path + d._beatmapFilename);
+            const diffJSON = JSON.parse(
+                Deno.readTextFileSync(path + d._beatmapFilename)
+            ) as DifficultyDataV2 | DifficultyDataV3;
+            let difficulty;
+            if (isV2(diffJSON)) {
+                difficulty = parseDifficultyV2(diffJSON);
+            } else if (isV3(diffJSON)) {
+                difficulty = parseDifficultyV3(diffJSON);
+            } else {
+                difficulty = parseDifficultyV2(diffJSON);
+            }
             difficulties.push({
                 characteristic: set._beatmapCharacteristicName,
                 difficulty: d._difficulty,
                 fileName: d._beatmapFilename,
+                settings: d,
                 data: difficulty,
             });
         }

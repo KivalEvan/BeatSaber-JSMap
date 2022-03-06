@@ -19,6 +19,15 @@ const deepCheck = (
         data.forEach((d, i) => deepCheck(d, check, name + i));
         return;
     }
+    const dataCheckKey = Object.keys(check);
+    for (const key in data) {
+        if (!dataCheckKey.length) {
+            break;
+        }
+        if (!dataCheckKey.includes(key)) {
+            logger.warn(tag(deepCheck), `Foreign property ${key} found in ${name}`);
+        }
+    }
     for (const key in check) {
         if (typeof data[key] === 'undefined') {
             if (check[key].optional) {
@@ -33,13 +42,21 @@ const deepCheck = (
             if (!Array.isArray(data[key])) {
                 throw Error(`${key} is not an array in property ${name}!`);
             }
-            deepCheck(data[key], (check[key] as DataCheckObject).check, key);
+            deepCheck(
+                data[key],
+                (check[key] as DataCheckObject).check,
+                `${name} ${key}`
+            );
         }
         if (check[key].type === 'object') {
             if (!Array.isArray(data[key]) && !(typeof data[key] === 'object')) {
                 throw Error(`${key} is not an object in property ${name}!`);
             } else {
-                deepCheck(data[key], (check[key] as DataCheckObject).check, key);
+                deepCheck(
+                    data[key],
+                    (check[key] as DataCheckObject).check,
+                    `${name} ${key}`
+                );
             }
         }
         if (check[key].type !== 'array' && typeof data[key] !== check[key].type) {
@@ -52,7 +69,7 @@ const sortObjectTime = (a: BaseObject, b: BaseObject) => a.b - b.b;
 
 export const difficulty = (data: DifficultyData): DifficultyData => {
     logger.info(tag(difficulty), 'Parsing beatmap difficulty v3.x.x');
-    deepCheck(data, DifficultyDataCheck, 'difficulty file');
+    deepCheck(data, DifficultyDataCheck, 'difficulty');
     if (data.version !== '3.0.0') {
         logger.warn(tag(difficulty), 'Unidentified beatmap version');
     }
