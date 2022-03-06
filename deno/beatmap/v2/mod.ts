@@ -1,4 +1,3 @@
-export * as types from './types/mod.ts';
 export * as chroma from './chroma/mod.ts';
 export * as difficulty from './difficulty.ts';
 export * as event from './event.ts';

@@ -14,10 +14,12 @@ const tag = (func: Function) => {
 
 // FIXME: this is a mess but i dont want to fix it anyway
 export const difficulty = (data: DifficultyData): DifficultyData => {
-    const { _notes, _obstacles, _events, _waypoints } = data;
     logger.info(tag(difficulty), 'Parsing beatmap difficulty v2.x.x');
 
-    _notes.forEach((obj) => {
+    if (!data._waypoints) {
+        data._waypoints = [];
+    }
+    data._notes.forEach((obj) => {
         for (const key in obj) {
             const k = key as keyof Note;
             if (obj[k] === null) {
@@ -182,7 +184,7 @@ export const difficulty = (data: DifficultyData): DifficultyData => {
         }
     });
 
-    _obstacles.forEach((obj) => {
+    data._obstacles.forEach((obj) => {
         for (const key in obj) {
             const k = key as keyof Obstacle;
             if (obj[k] === null) {
@@ -255,14 +257,14 @@ export const difficulty = (data: DifficultyData): DifficultyData => {
     }
     if (
         !(versionBypass || compare(data._version, 'difficulty') === 'old') &&
-        _events.some((ev) => typeof ev._floatValue === 'undefined')
+        data._events.some((ev) => typeof ev._floatValue === 'undefined')
     ) {
         logger.warn(
             tag(difficulty),
             'Some events missing _floatValue property, adding with default value of 1'
         );
     }
-    _events.forEach((obj) => {
+    data._events.forEach((obj) => {
         for (const key in obj) {
             const k = key as keyof Event;
             if (obj[k] === null) {
@@ -303,7 +305,7 @@ export const difficulty = (data: DifficultyData): DifficultyData => {
             }
         }
     });
-    _waypoints?.forEach((obj) => {
+    data._waypoints.forEach((obj) => {
         for (const key in obj) {
             const k = key as keyof Waypoint;
             if (obj[k] === null) {
@@ -311,11 +313,11 @@ export const difficulty = (data: DifficultyData): DifficultyData => {
             }
         }
     });
-    _notes.sort((a, b) => a._time - b._time);
+    data._notes.sort((a, b) => a._time - b._time);
     data._sliders.sort((a, b) => a._headTime - b._headTime);
-    _obstacles.sort((a, b) => a._time - b._time);
-    _events.sort((a, b) => a._time - b._time);
-    _waypoints?.sort((a, b) => a._time - b._time);
+    data._obstacles.sort((a, b) => a._time - b._time);
+    data._events.sort((a, b) => a._time - b._time);
+    data._waypoints.sort((a, b) => a._time - b._time);
 
     return data;
 };

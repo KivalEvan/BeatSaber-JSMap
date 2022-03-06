@@ -1,4 +1,3 @@
-export * as types from './types/mod.ts';
 export * as basicEvent from './basicEvent.ts';
 export * as bomb from './bomb.ts';
 export * as burstSlider from './burstSlider.ts';

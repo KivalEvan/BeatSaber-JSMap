@@ -1,4 +1,5 @@
 import { BaseObject } from './baseObject.ts';
+import { CustomData } from './customData.ts';
 
 /** Color note beatmap object. */
 export interface ColorNote extends BaseObject {
@@ -40,6 +41,7 @@ export interface ColorNote extends BaseObject {
      * Grid represents cut direction from center.
      */
     d: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-    /** Angle offset `<int>` of note.*/
+    /** Angle offset in degree counter-clockwise `<int>` of note.*/
     a: number;
+    cd?: CustomData;
 }

@@ -4,16 +4,13 @@ import { InfoSetDifficultyData } from './beatmap/shared/types/info.ts';
 import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
 
-interface DifficultyListBase {
+export type DifficultyList = {
     characteristic: CharacteristicName;
     difficulty: DifficultyName;
     settings: InfoSetDifficultyData;
     fileName: string;
-}
-
-export type DifficultyList = (DifficultyListBase & {
     data: DifficultyDataV2 | DifficultyDataV3;
-})[];
+}[];
 
 export interface OptimizeOptions {
     enabled: boolean;

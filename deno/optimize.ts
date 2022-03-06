@@ -78,8 +78,14 @@ export const deepClean = (
                 obj[k] = obj[k].sort((a: number, b: number) => a - b);
             }
         }
-        // remove empty array property
-        if (Array.isArray(obj[k]) && !ignoreRemove.includes(k) && !obj[k].length) {
+        // remove empty array/object property
+        if (
+            !ignoreRemove.includes(k) &&
+            ((Array.isArray(obj[k]) && !obj[k].length) ||
+                (typeof obj[k] === 'object' &&
+                    !Array.isArray(obj[k]) &&
+                    JSON.stringify(obj[k]) === '{}'))
+        ) {
             delete obj[k];
             continue;
         }

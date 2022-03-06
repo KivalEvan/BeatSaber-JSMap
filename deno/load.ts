@@ -7,7 +7,8 @@ import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
 import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
-import { isV2, isV3 } from './beatmap/version.ts';
+import { isV3 } from './beatmap/version.ts';
+import { Either } from './utils.ts';
 
 // deno-lint-ignore ban-types
 const tag = (func: Function) => {
@@ -141,21 +142,15 @@ export const difficultyFromInfo = async (
                     );
                     const diffJSON = JSON.parse(
                         Deno.readTextFileSync(path + d._beatmapFilename)
-                    ) as DifficultyDataV2 | DifficultyDataV3;
-                    let difficulty;
-                    if (isV2(diffJSON)) {
-                        difficulty = parseDifficultyV2(diffJSON);
-                    } else if (isV3(diffJSON)) {
-                        difficulty = parseDifficultyV3(diffJSON);
-                    } else {
-                        difficulty = parseDifficultyV2(diffJSON);
-                    }
+                    ) as Either<DifficultyDataV2, DifficultyDataV3>;
                     difficulties.push({
                         characteristic: set._beatmapCharacteristicName,
                         difficulty: d._difficulty,
                         fileName: d._beatmapFilename,
                         settings: d,
-                        data: difficulty,
+                        data: isV3(diffJSON)
+                            ? parseDifficultyV3(diffJSON)
+                            : parseDifficultyV2(diffJSON),
                     });
                 }
             }
@@ -191,21 +186,15 @@ export const difficultyFromInfoSync = (
             );
             const diffJSON = JSON.parse(
                 Deno.readTextFileSync(path + d._beatmapFilename)
-            ) as DifficultyDataV2 | DifficultyDataV3;
-            let difficulty;
-            if (isV2(diffJSON)) {
-                difficulty = parseDifficultyV2(diffJSON);
-            } else if (isV3(diffJSON)) {
-                difficulty = parseDifficultyV3(diffJSON);
-            } else {
-                difficulty = parseDifficultyV2(diffJSON);
-            }
+            ) as Either<DifficultyDataV2, DifficultyDataV3>;
             difficulties.push({
                 characteristic: set._beatmapCharacteristicName,
                 difficulty: d._difficulty,
                 fileName: d._beatmapFilename,
                 settings: d,
-                data: difficulty,
+                data: isV3(diffJSON)
+                    ? parseDifficultyV3(diffJSON)
+                    : parseDifficultyV2(diffJSON),
             });
         }
     }

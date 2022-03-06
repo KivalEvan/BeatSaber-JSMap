@@ -1,5 +1,6 @@
 import * as v2 from './v2/mod.ts';
 import * as v3 from './v3/mod.ts';
+import * as types from './types.ts';
 import logger from '../logger.ts';
 import { clamp } from '../utils.ts';
 import { difficulty as parseDifficultyV3 } from './v3/parse.ts';
@@ -18,9 +19,9 @@ const tag = (func: Function) => {
  * **WARNING:** Custom data will be lost on conversion, as well as other incompatible property.
  */
 export const V2toV3 = (
-    difficultyData: v2.types.DifficultyData,
+    difficultyData: types.v2.DifficultyData,
     skipPrompt?: boolean
-): v3.types.DifficultyData => {
+): types.v3.DifficultyData => {
     if (!skipPrompt) {
         console.warn('Converting beatmap v2 to v3 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (Y/N):', 'n');
@@ -69,6 +70,7 @@ export const V2toV3 = (
                               8
                           ) as typeof template.colorNotes[number]['d']),
                 a: a,
+                cd: n._customData ?? {},
             });
         }
     });
@@ -127,7 +129,7 @@ export const V2toV3 = (
                         ? e._customData._rotation
                         : e._value >= 1000
                         ? (e._value - 1360) % 360
-                        : v2.types.EventLaneRotation[e._value] ?? 0,
+                        : types.v2.EventLaneRotation[e._value] ?? 0,
             });
         } else if (v2.event.isBPMChangeEvent(e)) {
             template.bpmEvents.push({
@@ -135,7 +137,7 @@ export const V2toV3 = (
                 m: e._floatValue,
             });
         } else {
-            e = e as v2.types.EventLaser; // hackish way to just accept any other event
+            e = e as types.v2.EventLaser; // hackish way to just accept any other event
             template.basicBeatmapEvents.push({
                 b: e._time,
                 et: e._type,
@@ -192,9 +194,9 @@ export const V2toV3 = (
  * This feature won't be supported in the near future.
  */
 export const V3toV2 = (
-    difficultyData: v3.types.DifficultyData,
+    difficultyData: types.v3.DifficultyData,
     skipPrompt?: boolean
-): v2.types.DifficultyData => {
+): types.v2.DifficultyData => {
     if (!skipPrompt) {
         console.warn('Converting beatmap v3 to v2 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (Y/N):', 'n');
@@ -312,7 +314,7 @@ export const V3toV2 = (
                 _floatValue: be.f,
             });
         } else {
-            be = be as v3.types.BasicEventLaserRotation; // hackish way to just accept any other event
+            be = be as types.v3.BasicEventLaserRotation; // hackish way to just accept any other event
             template._events.push({
                 _time: be.b,
                 _type: be.et,
