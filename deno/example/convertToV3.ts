@@ -12,7 +12,6 @@ const args = parse(Deno.args, {
     alias: { p: 'path' },
 });
 bsmap.globals.path = (args.p as string) ?? './';
-console.log(`Map directory: ${bsmap.globals.path}`);
 
 let info: ReturnType<typeof bsmap.load.infoSync>;
 try {
