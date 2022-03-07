@@ -15,9 +15,29 @@ import { LINE_COUNT } from './types/constants.ts';
  * 8 -> 0
  * ```
  */
-export const cutAngle: Readonly<number[]> = [180, 0, 270, 90, 225, 135, 315, 45, 0];
+export const cutAngle: Readonly<Record<ColorNote['d'], number>> = {
+    0: 180,
+    1: 0,
+    2: 270,
+    3: 90,
+    4: 225,
+    5: 135,
+    6: 315,
+    7: 45,
+    8: 0,
+};
 
-export const flipDirection: Readonly<number[]> = [1, 0, 3, 2, 7, 6, 5, 4, 8];
+export const flipDirection: Readonly<Record<ColorNote['d'], ColorNote['d']>> = {
+    0: 1,
+    1: 0,
+    2: 3,
+    3: 2,
+    4: 7,
+    5: 6,
+    6: 5,
+    7: 4,
+    8: 8,
+};
 
 /** Array index mapped to tuple of `_lineIndex` and `_lineLayer` corresponding to the `_cutDirection`.
  * ```ts
@@ -32,7 +52,7 @@ export const flipDirection: Readonly<number[]> = [1, 0, 3, 2, 7, 6, 5, 4, 8];
  * 8 -> [0, 0]
  * ```
  */
-export const cutDirectionSpace: { [key: number]: readonly [number, number] } = {
+export const cutDirectionSpace: Readonly<Record<ColorNote['d'], [number, number]>> = {
     0: [0, 1],
     1: [0, -1],
     2: [-1, 0],

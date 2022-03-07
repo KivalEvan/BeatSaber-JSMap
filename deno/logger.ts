@@ -14,6 +14,7 @@ const logPrefixes = new Map<LogLevels, string>([
     [LogLevels.INFO, 'INFO'],
     [LogLevels.WARN, 'WARN'],
     [LogLevels.ERROR, '!!ERROR!!'],
+    [LogLevels.NONE, 'NONE'],
 ]);
 
 class Logger {
@@ -52,7 +53,9 @@ class Logger {
      * ```
      */
     public setLevel(level: LogLevels) {
+        level = Math.min(level, 5);
         this.logLevel = level;
+        this.info('[logger::setLevel]', `Log level set to ${logPrefixes.get(level)}`);
     }
 
     // deno-lint-ignore no-explicit-any

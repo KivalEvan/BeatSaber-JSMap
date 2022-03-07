@@ -504,61 +504,73 @@ export const DifficultyDataCheck: Readonly<Record<keyof DifficultyData, DataChec
         type: 'array',
         version: '3.0.0',
         check: BPMChangeEventDataCheck,
+        optional: true,
     },
     rotationEvents: {
         type: 'array',
         version: '3.0.0',
         check: RotationEventDataCheck,
+        optional: true,
     },
     colorNotes: {
         type: 'array',
         version: '3.0.0',
         check: ColorNoteDataCheck,
+        optional: true,
     },
     bombNotes: {
         type: 'array',
         version: '3.0.0',
         check: BombDataCheck,
+        optional: true,
     },
     obstacles: {
         type: 'array',
         version: '3.0.0',
         check: ObstacleDataCheck,
+        optional: true,
     },
     sliders: {
         type: 'array',
         version: '3.0.0',
         check: SliderDataCheck,
+        optional: true,
     },
     burstSliders: {
         type: 'array',
         version: '3.0.0',
         check: BurstSliderDataCheck,
+        optional: true,
     },
     waypoints: {
         type: 'array',
         version: '3.0.0',
         check: WaypointDataCheck,
+        optional: true,
     },
     basicBeatmapEvents: {
         type: 'array',
         version: '3.0.0',
         check: BasicEventDataCheck,
+        optional: true,
     },
     colorBoostBeatmapEvents: {
         type: 'array',
         version: '3.0.0',
         check: BoostEventDataCheck,
+        optional: true,
     },
     lightColorEventBoxGroups: {
         type: 'array',
         version: '3.0.0',
         check: LightColorEventBoxGroupDataCheck,
+        optional: true,
     },
     lightRotationEventBoxGroups: {
         type: 'array',
         version: '3.0.0',
         check: LightRotationEventBoxGroupDataCheck,
+        optional: true,
     },
     basicEventTypesWithKeywords: {
         type: 'object',
@@ -568,11 +580,12 @@ export const DifficultyDataCheck: Readonly<Record<keyof DifficultyData, DataChec
     useNormalEventsAsCompatibleEvents: {
         type: 'boolean',
         version: '3.0.0',
+        optional: true,
     },
     customData: {
         type: 'object',
         version: '3.0.0',
-        optional: true,
         check: {},
+        optional: true,
     },
 };

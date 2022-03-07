@@ -37,18 +37,6 @@ const ignoreRemove = [
     '_obstacles',
     '_waypoints',
     '_difficultyBeatmapSets',
-    'bpmEvents',
-    'rotationEvents',
-    'colorNotes',
-    'bombNotes',
-    'obstacles',
-    'sliders',
-    'burstSliders',
-    'waypoints',
-    'basicBeatmapEvents',
-    'colorBoostBeatmapEvents',
-    'lightColorEventBoxGroups',
-    'lightRotationEventBoxGroups',
     'basicEventTypesWithKeywords',
 ];
 export const deepClean = (

@@ -14,7 +14,7 @@ const deepCheck = (
     check: { [key: string]: DataCheck },
     name: string
 ) => {
-    logger.debug(tag(deepCheck), `Looking up ${name}`);
+    logger.verbose(tag(deepCheck), `Looking up ${name}`);
     if (Array.isArray(data)) {
         data.forEach((d, i) => deepCheck(d, check, name + i));
         return;
@@ -73,6 +73,20 @@ export const difficulty = (data: DifficultyData): DifficultyData => {
     if (data.version !== '3.0.0') {
         logger.warn(tag(difficulty), 'Unidentified beatmap version');
     }
+
+    // haha why do i have to do this, beat games
+    data.bpmEvents = data.bpmEvents ?? [];
+    data.rotationEvents = data.rotationEvents ?? [];
+    data.colorNotes = data.colorNotes ?? [];
+    data.bombNotes = data.bombNotes ?? [];
+    data.obstacles = data.obstacles ?? [];
+    data.sliders = data.sliders ?? [];
+    data.burstSliders = data.burstSliders ?? [];
+    data.waypoints = data.waypoints ?? [];
+    data.basicBeatmapEvents = data.basicBeatmapEvents ?? [];
+    data.colorBoostBeatmapEvents = data.colorBoostBeatmapEvents ?? [];
+    data.lightColorEventBoxGroups = data.lightColorEventBoxGroups ?? [];
+    data.lightRotationEventBoxGroups = data.lightRotationEventBoxGroups ?? [];
 
     data.bpmEvents.sort(sortObjectTime);
     data.rotationEvents.sort(sortObjectTime);
