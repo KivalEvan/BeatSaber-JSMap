@@ -2,7 +2,7 @@ import { BaseObject } from './baseObject.ts';
 
 /** Bomb note beatmap object. */
 export interface BombNote extends BaseObject {
-    /** Position x `<int>` of note.
+    /** Position x `<int>` of bomb.
      * ```ts
      * 0 -> Outer Left
      * 1 -> Middle Left
@@ -13,7 +13,7 @@ export interface BombNote extends BaseObject {
      * Range: `0-3`
      */
     x: number;
-    /** Position y `<int>` of note.
+    /** Position y `<int>` of bomb.
      * ```ts
      * 0 -> Bottom row
      * 1 -> Middle row

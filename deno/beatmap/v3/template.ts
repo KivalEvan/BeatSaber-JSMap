@@ -205,8 +205,8 @@ export const lightRotationEventBoxGroup = (): LightRotationEventBoxGroup => {
 export const waypoint = (): Waypoint => {
     return {
         b: 0,
-        d: 0,
         x: 0,
         y: 0,
+        d: 0,
     };
 };

@@ -77,9 +77,11 @@ export const hasZero = (obstacle: Obstacle): boolean => {
 export const isLonger = (
     currObstacle: Obstacle,
     prevObstacle: Obstacle,
-    offset = 0
+    prevOffset = 0
 ): boolean => {
-    return currObstacle.b + currObstacle.d > prevObstacle.b + prevObstacle.d + offset;
+    return (
+        currObstacle.b + currObstacle.d > prevObstacle.b + prevObstacle.d + prevOffset
+    );
 };
 
 /** Check if obstacle has Mapping Extensions properties.

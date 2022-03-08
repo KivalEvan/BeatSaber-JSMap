@@ -12,13 +12,13 @@ import { ColorObject } from './colors.ts';
  * ```
  */
 export interface ColorScheme {
-    _colorLeft?: ColorObject;
-    _colorRight?: ColorObject;
-    _envColorLeft?: ColorObject;
-    _envColorRight?: ColorObject;
-    _envColorLeftBoost?: ColorObject;
-    _envColorRightBoost?: ColorObject;
-    _obstacleColor?: ColorObject;
+    _colorLeft?: Omit<ColorObject, 'a'>;
+    _colorRight?: Omit<ColorObject, 'a'>;
+    _envColorLeft?: Omit<ColorObject, 'a'>;
+    _envColorRight?: Omit<ColorObject, 'a'>;
+    _envColorLeftBoost?: Omit<ColorObject, 'a'>;
+    _envColorRightBoost?: Omit<ColorObject, 'a'>;
+    _obstacleColor?: Omit<ColorObject, 'a'>;
 }
 
 /** Color Scheme property rename to human readable. */

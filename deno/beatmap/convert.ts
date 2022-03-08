@@ -19,7 +19,7 @@ const tag = (func: Function) => {
  * **WARNING:** Custom data will be lost on conversion, as well as other incompatible property.
  */
 export const V2toV3 = (
-    difficultyData: types.v2.DifficultyData,
+    data: types.v2.DifficultyData,
     skipPrompt?: boolean
 ): types.v3.DifficultyData => {
     if (!skipPrompt) {
@@ -34,7 +34,7 @@ export const V2toV3 = (
     }
     const template = v3.template.difficulty();
 
-    difficultyData._notes.forEach((n) => {
+    data._notes.forEach((n) => {
         if (v2.note.isBomb(n)) {
             template.bombNotes.push({
                 b: n._time,
@@ -75,7 +75,7 @@ export const V2toV3 = (
         }
     });
 
-    difficultyData._obstacles.forEach((o) =>
+    data._obstacles.forEach((o) =>
         template.obstacles.push({
             b: o._time,
             x: o._lineIndex,
@@ -86,7 +86,7 @@ export const V2toV3 = (
         })
     );
 
-    difficultyData._events.forEach((e) => {
+    data._events.forEach((e) => {
         if (v2.event.isLightEvent(e)) {
             template.basicBeatmapEvents.push({
                 b: e._time,
@@ -147,7 +147,7 @@ export const V2toV3 = (
         }
     });
 
-    difficultyData._waypoints.forEach((w) => {
+    data._waypoints.forEach((w) => {
         template.waypoints.push({
             b: w._time,
             x: w._lineIndex,
@@ -156,7 +156,7 @@ export const V2toV3 = (
         });
     });
 
-    difficultyData._sliders.forEach((s) =>
+    data._sliders.forEach((s) =>
         template.sliders.push({
             c: s._colorType,
             b: s._headTime,
@@ -173,10 +173,17 @@ export const V2toV3 = (
         })
     );
 
-    if (difficultyData._customData) {
+    template.basicEventTypesWithKeywords = {
+        d:
+            data._specialEventsKeywordFilters?._keywords?.map((k) => {
+                return { k: k._keyword, e: k._specialEvents };
+            }) ?? [],
+    };
+
+    if (data._customData) {
         template.customData = {
-            t: difficultyData._customData?._time,
-            bm: difficultyData._customData?._bookmarks?.map((bm) => {
+            t: data._customData?._time,
+            bm: data._customData?._bookmarks?.map((bm) => {
                 return { b: bm._time, n: bm._name, c: bm._color };
             }),
         };
@@ -194,7 +201,7 @@ export const V2toV3 = (
  * This feature won't be supported in the near future.
  */
 export const V3toV2 = (
-    difficultyData: types.v3.DifficultyData,
+    data: types.v3.DifficultyData,
     skipPrompt?: boolean
 ): types.v2.DifficultyData => {
     if (!skipPrompt) {
@@ -209,7 +216,7 @@ export const V3toV2 = (
     }
     const template = v2.template.difficulty();
 
-    difficultyData.colorNotes.forEach((n) =>
+    data.colorNotes.forEach((n) =>
         template._notes.push({
             _time: n.b,
             _lineIndex: n.x,
@@ -219,7 +226,7 @@ export const V3toV2 = (
         })
     );
 
-    difficultyData.bombNotes.forEach((n) =>
+    data.bombNotes.forEach((n) =>
         template._notes.push({
             _time: n.b,
             _lineIndex: n.x,
@@ -229,7 +236,7 @@ export const V3toV2 = (
         })
     );
 
-    difficultyData.obstacles.forEach((o) => {
+    data.obstacles.forEach((o) => {
         if (o.y === 0 && o.h === 5) {
             template._obstacles.push({
                 _time: o.b,
@@ -263,7 +270,7 @@ export const V3toV2 = (
         }
     });
 
-    difficultyData.basicBeatmapEvents.forEach((be) => {
+    data.basicBeatmapEvents.forEach((be) => {
         if (v3.basicEvent.isLightEvent(be)) {
             template._events.push({
                 _time: be.b,
@@ -324,7 +331,7 @@ export const V3toV2 = (
         }
     });
 
-    difficultyData.colorBoostBeatmapEvents.forEach((b) =>
+    data.colorBoostBeatmapEvents.forEach((b) =>
         template._events.push({
             _time: b.b,
             _type: 5,
@@ -333,7 +340,7 @@ export const V3toV2 = (
         })
     );
 
-    difficultyData.rotationEvents.forEach((lr) =>
+    data.rotationEvents.forEach((lr) =>
         template._events.push({
             _time: lr.b,
             _type: lr.e ? 14 : 15,
@@ -345,7 +352,7 @@ export const V3toV2 = (
         })
     );
 
-    difficultyData.bpmEvents.forEach((bpm) =>
+    data.bpmEvents.forEach((bpm) =>
         template._events.push({
             _time: bpm.b,
             _type: 100,
@@ -354,7 +361,7 @@ export const V3toV2 = (
         })
     );
 
-    difficultyData.sliders.forEach((s) =>
+    data.sliders.forEach((s) =>
         template._sliders.push({
             _colorType: s.c,
             _headTime: s.b,
@@ -370,6 +377,22 @@ export const V3toV2 = (
             _sliderMidAnchorMode: s.m,
         })
     );
+
+    data.waypoints.forEach((w) =>
+        template._waypoints.push({
+            _time: w.b,
+            _lineIndex: w.x,
+            _lineLayer: w.y,
+            _offsetDirection: w.d,
+        })
+    );
+
+    template._specialEventsKeywordFilters = {
+        _keywords:
+            data.basicEventTypesWithKeywords.d?.map((d) => {
+                return { _keyword: d.k, _specialEvents: d.e };
+            }) ?? [],
+    };
 
     return parseDifficultyV2(template);
 };
