@@ -2,15 +2,29 @@ import { BaseSlider } from './baseSlider.ts';
 
 /** Slider beatmap object. */
 export interface Slider extends BaseSlider {
-    /** Head control point length multiplier `<float>` of slider. */
+    /** Head control point length multiplier `<float>` of slider.
+     * ```ts
+     * 0 -> Flat Start
+     * 1 -> Curved Start
+     * ```
+     * ---
+     * Range: `0-1`
+     */
     mu: number;
-    /** Tail control point length multiplier `<float>` of slider. */
+    /** Tail control point length multiplier `<float>` of slider.
+     * ```ts
+     * 0 -> Flat End
+     * 1 -> Curved End
+     * ```
+     * ---
+     * Range: `0-1`
+     */
     tmu: number;
     /** Tail cut direction `<int>` of slider.
      * ```ts
-     * 6 | 1 | 7
-     * 2 | 8 | 3
      * 4 | 0 | 5
+     * 2 | 8 | 3
+     * 6 | 1 | 7
      * ```
      * ---
      * Grid represents cut direction from center.

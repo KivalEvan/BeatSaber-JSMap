@@ -39,9 +39,9 @@ export interface NoteBase {
     _type: number;
     /** Cut direction of note.
      * ```ts
-     * 6 | 1 | 7
-     * 2 | 8 | 3
      * 4 | 0 | 5
+     * 2 | 8 | 3
+     * 6 | 1 | 7
      * ```
      */
     _cutDirection: number;

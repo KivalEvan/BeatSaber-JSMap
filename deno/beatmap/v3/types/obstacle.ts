@@ -10,7 +10,7 @@ export interface Obstacle extends BaseObject {
      * 3 -> Outer Right
      * ```
      * ---
-     * Range: `no limit`
+     * Range: `nonet`
      */
     x: number;
     /** Position y `<int>` of obstacle.
@@ -27,7 +27,7 @@ export interface Obstacle extends BaseObject {
     d: number;
     /** Width `<int>` of obstacle.
      * ---
-     * Range: `no limit`
+     * Range: `none`
      */
     w: number;
     /** Height `<int>` of obstacle.

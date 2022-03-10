@@ -14,9 +14,9 @@ export interface Slider {
     _headControlPointlengthMultiplier: number;
     /** Head cut direction `<int>` of slider.
      * ```ts
-     * 6 | 1 | 7
-     * 2 | 8 | 3
      * 4 | 0 | 5
+     * 2 | 8 | 3
+     * 6 | 1 | 7
      * ```
      * ---
      * Grid represents cut direction from center.
@@ -29,9 +29,9 @@ export interface Slider {
     _tailControlPointLengthMultiplier: number;
     /** Tail cut direction `<int>` of slider.
      * ```ts
-     * 6 | 1 | 7
-     * 2 | 8 | 3
      * 4 | 0 | 5
+     * 2 | 8 | 3
+     * 6 | 1 | 7
      * ```
      * ---
      * Grid represents cut direction from center.

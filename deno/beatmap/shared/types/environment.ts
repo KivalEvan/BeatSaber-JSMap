@@ -59,7 +59,8 @@ export type EnvironmentName =
     | 'SkrillexEnvironment'
     | 'BillieEnvironment'
     | 'HalloweenEnvironment'
-    | 'GagaEnvironment';
+    | 'GagaEnvironment'
+    | 'WeaveEnvironment';
 /** List of available 360 environment in base game. */
 export type Environment360Name = 'GlassDesertEnvironment';
 /** List of all available environment in base game. */
@@ -85,7 +86,8 @@ type ColorSchemeList =
     | 'Billie Eilish'
     | 'Spooky'
     | 'Gaga'
-    | 'Glass Desert';
+    | 'Glass Desert'
+    | 'Weave';
 
 export type EnvironmentScheme = {
     [key in ColorSchemeList]: ColorScheme;
@@ -118,6 +120,7 @@ export const environmentRename: Readonly<Record<EnvironmentAllName, string>> = {
     HalloweenEnvironment: 'Spooky',
     GagaEnvironment: 'Gaga',
     GlassDesertEnvironment: 'Glass Desert',
+    WeaveEnvironment: 'Weave',
 };
 
 /** Record of Environment Color to Color Scheme. */
@@ -148,4 +151,5 @@ export const environmentScheme: Readonly<Record<EnvironmentAllName, ColorSchemeL
         HalloweenEnvironment: 'Spooky',
         GagaEnvironment: 'Gaga',
         GlassDesertEnvironment: 'Glass Desert',
+        WeaveEnvironment: 'Weave',
     };
