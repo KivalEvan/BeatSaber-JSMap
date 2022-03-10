@@ -1,28 +1,14 @@
-import * as bsmap from '../../deno/mod.ts';
+import * as bsmap from '../deno/mod.ts';
 
 console.log('Running script...');
 console.time('Runtime');
 bsmap.globals.path =
-    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Black Eye-Burnt Thumb/';
-const INPUT_FILE = 'ExpertPlusStandard.dat';
-const OUTPUT_FILE = INPUT_FILE;
+    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Poinsettia/';
 
-const old = bsmap.load.difficultyLegacySync(INPUT_FILE);
-old._events.forEach((e) => {
-    e._floatValue = 1;
-    if (bsmap.v2.event.isLightEvent(e)) {
-        e._floatValue = e._value ? 1 : 0;
-    }
-    if (bsmap.v2.event.isLightEvent(e) && e._customData?._color) {
-        if (e._value !== 0) {
-            e._value = e._customData._color[0] ? (e._value <= 4 ? 4 : 8) : e._value;
-        }
-        e._floatValue = e._customData._color[3] ?? 1;
-    }
-    delete e._customData;
-});
-
-const difficulty = bsmap.convert.V2toV3(old, true);
+const difficulty = bsmap.convert.V2toV3(
+    bsmap.load.difficultyLegacySync('ExpertPlusStandard.dat'),
+    true
+);
 
 const prevSlider: {
     [key: number]: bsmap.types.v3.ColorNote;
@@ -32,6 +18,9 @@ const possibleBurst: {
 } = { 0: [], 1: [] };
 for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
     const n = difficulty.colorNotes[i];
+    if (n.d === 8) {
+        n.a = 45;
+    }
     if (n.cd?._color) {
         if (n.cd._color[0] === 0) {
             if (possibleBurst[n.c].length) {
@@ -110,94 +99,21 @@ for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
             tb: possibleBurst[n.c][1].b,
             tx: possibleBurst[n.c][1].x,
             ty: possibleBurst[n.c][1].y,
-            sc: possibleBurst[n.c][0].cd!._color[1],
+            sc: possibleBurst[n.c][0].cd!._color[1] / 2,
             s: possibleBurst[n.c][0].cd!._color[2]
                 ? possibleBurst[n.c][0].cd!._color[2]
                 : 1,
         });
         possibleBurst[n.c] = [];
     }
-    if (n.b > 528) {
-        n.a = Math.round(Math.random() * 20 - 10);
-    }
-    if (n.b < 208) {
-        n.a = Math.round(Math.random() * 10 - 5);
-    }
-    if (n.b < 144) {
-        n.a = Math.round(Math.random() * 15 - 7.5);
-    }
-    if (n.b < 70) {
-        n.a = Math.round(Math.random() * 20 - 10);
-    }
 }
 if (possibleBurst[0].length || possibleBurst[1].length) {
     throw Error('what the fuck');
 }
-difficulty.obstacles.forEach((o) => {
-    if (o.b >= 266 && o.b <= 267) {
-        o.h = 2;
-    }
-    if (o.b >= 268 && o.b <= 271) {
-        o.h = 3;
-        if (o.b % 2 === 1) {
-            o.h = 4;
-        }
-    }
-    if (o.b >= 394 && o.b <= 395) {
-        o.h = 2;
-    }
-    if (o.b >= 396 && o.b <= 399) {
-        o.h = 3;
-        if (o.b % 2 === 1) {
-            o.h = 4;
-        }
-    }
-    if (o.b >= 522 && o.b <= 523) {
-        o.h = 2;
-    }
-    if (o.b >= 524 && o.b <= 527) {
-        o.h = 3;
-        if (o.b % 2 === 1) {
-            o.h = 4;
-        }
-    }
-    if (!(o.b >= 80 && o.b < 144)) {
-        return;
-    }
-    if ((o.b - 80) % 8 === 0) {
-        o.y = 0;
-    }
-    if ((o.b - 80) % 8 === 7.5) {
-        o.y = 1;
-    }
-});
-difficulty.obstacles.forEach((o) => {
-    if (o.b >= 63 && o.b < 64) {
-        o.y = 1;
-        o.h = 4;
-    }
-    if (!(o.b >= 3.5 && o.b < 63)) {
-        return;
-    }
-    if (o.x !== 1 && o.x !== 2 && !(o.b >= 13 && o.b <= 20)) {
-        o.h = 2;
-    }
-});
-difficulty.obstacles.forEach((o) => {
-    if (o.b >= 585 && o.b < 586) {
-        o.y = 1;
-        o.h = 4;
-    }
-    if (!(o.b >= 528 && o.b < 585)) {
-        return;
-    }
-    if (o.x !== 1 && o.x !== 2 && !(o.b >= 535 && o.b <= 542)) {
-        o.h = 2;
-    }
-});
 
 bsmap.save.difficultySync(difficulty, {
-    filePath: OUTPUT_FILE,
-    path: 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels/Black Eye-Burnt Thumb/',
+    filePath: 'ExpertPlusStandard.dat',
+    path: 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels/Poinsettia/',
 });
+
 console.timeEnd('Runtime');
