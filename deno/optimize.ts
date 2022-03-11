@@ -30,7 +30,7 @@ export const defaultOptionsDifficulty: Required<OptimizeOptionsDifficulty> = {
     sort: true,
 };
 
-const ignoreRemove = [
+const ignoreObjectRemove = [
     '_notes',
     '_sliders',
     '_events',
@@ -51,6 +51,7 @@ const ignoreRemove = [
     'lightRotationEventBoxGroups',
     'basicEventTypesWithKeywords',
     'useNormalEventsAsCompatibleEvents',
+    'd',
 ];
 export const deepClean = (
     // deno-lint-ignore no-explicit-any
@@ -81,7 +82,7 @@ export const deepClean = (
         }
         // remove empty array/object property
         if (
-            !ignoreRemove.includes(k) &&
+            !ignoreObjectRemove.includes(k) &&
             ((Array.isArray(obj[k]) && !obj[k].length) ||
                 (typeof obj[k] === 'object' &&
                     !Array.isArray(obj[k]) &&
