@@ -37,7 +37,20 @@ const ignoreRemove = [
     '_obstacles',
     '_waypoints',
     '_difficultyBeatmapSets',
+    'bpmEvents',
+    'rotationEvents',
+    'colorNotes',
+    'bombNotes',
+    'obstacles',
+    'sliders',
+    'burstSliders',
+    'waypoints',
+    'basicBeatmapEvents',
+    'colorBoostBeatmapEvents',
+    'lightColorEventBoxGroups',
+    'lightRotationEventBoxGroups',
     'basicEventTypesWithKeywords',
+    'useNormalEventsAsCompatibleEvents',
 ];
 export const deepClean = (
     // deno-lint-ignore no-explicit-any
