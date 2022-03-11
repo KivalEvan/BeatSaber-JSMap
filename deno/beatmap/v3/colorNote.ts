@@ -1,106 +1,6 @@
 import { ColorNote } from './types/colorNote.ts';
 import { radToDeg, shortRotDistance } from '../../utils.ts';
-import { LINE_COUNT } from './types/constants.ts';
-
-/** Array index mapped to cut angle corresponding to the `_cutDirection`.
- * ```ts
- * 0 -> 180,
- * 1 -> 0,
- * 2 -> 270,
- * 3 -> 90,
- * 4 -> 225,
- * 5 -> 135,
- * 6 -> 315,
- * 7 -> 45,
- * 8 -> 0
- * ```
- */
-export const cutAngle: Readonly<Record<ColorNote['d'], number>> = {
-    0: 180,
-    1: 0,
-    2: 270,
-    3: 90,
-    4: 225,
-    5: 135,
-    6: 315,
-    7: 45,
-    8: 0,
-};
-
-export const flipDirection: Readonly<Record<ColorNote['d'], ColorNote['d']>> = {
-    0: 1,
-    1: 0,
-    2: 3,
-    3: 2,
-    4: 7,
-    5: 6,
-    6: 5,
-    7: 4,
-    8: 8,
-};
-
-/** Array index mapped to tuple of `_lineIndex` and `_lineLayer` corresponding to the `_cutDirection`.
- * ```ts
- * 0 -> [0, 1],
- * 1 -> [0, -1],
- * 2 -> [-1, 0],
- * 3 -> [1, 0],
- * 4 -> [-1, 1],
- * 5 -> [1, 1],
- * 6 -> [-1, -1],
- * 7 -> [1, -1],
- * 8 -> [0, 0]
- * ```
- */
-export const cutDirectionSpace: Readonly<Record<ColorNote['d'], [number, number]>> = {
-    0: [0, 1],
-    1: [0, -1],
-    2: [-1, 0],
-    3: [1, 0],
-    4: [-1, 1],
-    5: [1, 1],
-    6: [-1, -1],
-    7: [1, -1],
-    8: [0, 0],
-};
-
-/** Mirror color note.
- * ```ts
- * colorNote.mirror(note);
- * colorNote.mirror(noteAry);
- * ```
- */
-export const mirror = (note: ColorNote | ColorNote[], flipColor = true) => {
-    if (Array.isArray(note)) {
-        note.forEach((n) => mirror(n));
-        return;
-    }
-    note.x = LINE_COUNT - 1 - note.x;
-    if (flipColor) {
-        note.c = ((1 + note.c) % 2) as typeof note.c;
-    }
-    note.a = 0 - note.a;
-    switch (note.d) {
-        case 2:
-            note.d = 3;
-            break;
-        case 3:
-            note.d = 2;
-            break;
-        case 6:
-            note.d = 7;
-            break;
-        case 7:
-            note.d = 6;
-            break;
-        case 4:
-            note.d = 5;
-            break;
-        case 5:
-            note.d = 4;
-            break;
-    }
-};
+import { NoteCutAngle } from './types/constants.ts';
 
 /** Get note and return the Beatwalls' position x and y value in tuple.
  * ```ts
@@ -112,8 +12,16 @@ export const getPosition = (note: ColorNote): [number, number] => {
     //     return [note._customData._position[0], note._customData._position[1]];
     // }
     return [
-        (note.x <= -1000 ? note.x / 1000 : note.x >= 1000 ? note.x / 1000 : note.x) - 2,
-        note.y <= -1000 ? note.y / 1000 : note.y >= 1000 ? note.y / 1000 : note.y,
+        (note.posX <= -1000
+            ? note.posX / 1000
+            : note.posX >= 1000
+            ? note.posX / 1000
+            : note.posX) - 2,
+        note.posY <= -1000
+            ? note.posY / 1000
+            : note.posY >= 1000
+            ? note.posY / 1000
+            : note.posY,
     ];
 };
 
@@ -123,7 +31,7 @@ export const getPosition = (note: ColorNote): [number, number] => {
  * ```
  */
 export const getAngle = (note: ColorNote): number => {
-    return (cutAngle[note.d] || 0) + note.a;
+    return (NoteCutAngle[note.direction] || 0) + note.angleOffset;
 };
 
 /** Get two notes and return the distance between two notes.
@@ -194,10 +102,10 @@ export const isDouble = (
     index: number
 ): boolean => {
     for (let i = index, len = notes.length; i < len; i++) {
-        if (notes[i].b < note.b + 0.01 && notes[i].c !== note.c) {
+        if (notes[i].time < note.time + 0.01 && notes[i].color !== note.color) {
             return true;
         }
-        if (notes[i].b > note.b + 0.01) {
+        if (notes[i].time > note.time + 0.01) {
             return false;
         }
     }
@@ -255,7 +163,7 @@ export const isIntersect = (
     const nA2 = getAngle(n2);
     const angle = ahead ? 540 : 360;
     let resultN1 = false;
-    if (n1.d !== 8) {
+    if (n1.direction !== 8) {
         const a = (radToDeg(Math.atan2(nY1 - nY2, nX1 - nX2)) + 450) % 360;
         for (const [angleRange, maxDistance, offsetT] of angleDistances) {
             const offset = offsetT ?? 0;
@@ -273,7 +181,7 @@ export const isIntersect = (
         }
     }
     let resultN2 = false;
-    if (n2.d !== 8) {
+    if (n2.direction !== 8) {
         const a = (radToDeg(Math.atan2(nY2 - nY1, nX2 - nX1)) + 450) % 360;
         for (const [angleRange, maxDistance, offsetT] of angleDistances) {
             const offset = offsetT ?? 0;
@@ -300,78 +208,102 @@ export const isEnd = (
     cd: number
 ): boolean => {
     // fuck u and ur dot note stack
-    if (currNote.d === 8 && prevNote.d === 8 && cd !== 8) {
+    if (currNote.direction === 8 && prevNote.direction === 8 && cd !== 8) {
         // if end note on right side
-        if (currNote.x > prevNote.x) {
+        if (currNote.posX > prevNote.posX) {
             if (cd === 5 || cd === 3 || cd === 7) {
                 return true;
             }
         }
         // if end note on left side
-        if (currNote.x < prevNote.x) {
+        if (currNote.posX < prevNote.posX) {
             if (cd === 6 || cd === 2 || cd === 4) {
                 return true;
             }
         }
         // if end note is above
-        if (currNote.y > prevNote.y) {
+        if (currNote.posY > prevNote.posY) {
             if (cd === 4 || cd === 0 || cd === 5) {
                 return true;
             }
         }
         // if end note is below
-        if (currNote.y < prevNote.y) {
+        if (currNote.posY < prevNote.posY) {
             if (cd === 6 || cd === 1 || cd === 7) {
                 return true;
             }
         }
     }
     // if end note on right side
-    if (currNote.x > prevNote.x) {
+    if (currNote.posX > prevNote.posX) {
         // check if end note is arrowed
-        if (currNote.d === 5 || currNote.d === 3 || currNote.d === 7) {
+        if (
+            currNote.direction === 5 ||
+            currNote.direction === 3 ||
+            currNote.direction === 7
+        ) {
             return true;
         }
         // check if end note is dot and start arrow is pointing to it
         if (
-            (prevNote.d === 5 || prevNote.d === 3 || prevNote.d === 7) &&
-            currNote.d === 8
+            (prevNote.direction === 5 ||
+                prevNote.direction === 3 ||
+                prevNote.direction === 7) &&
+            currNote.direction === 8
         ) {
             return true;
         }
     }
     // if end note on left side
-    if (currNote.x < prevNote.x) {
-        if (currNote.d === 6 || currNote.d === 2 || currNote.d === 4) {
+    if (currNote.posX < prevNote.posX) {
+        if (
+            currNote.direction === 6 ||
+            currNote.direction === 2 ||
+            currNote.direction === 4
+        ) {
             return true;
         }
         if (
-            (prevNote.d === 6 || prevNote.d === 2 || prevNote.d === 4) &&
-            currNote.d === 8
+            (prevNote.direction === 6 ||
+                prevNote.direction === 2 ||
+                prevNote.direction === 4) &&
+            currNote.direction === 8
         ) {
             return true;
         }
     }
     // if end note is above
-    if (currNote.y > prevNote.y) {
-        if (currNote.d === 4 || currNote.d === 0 || currNote.d === 5) {
+    if (currNote.posY > prevNote.posY) {
+        if (
+            currNote.direction === 4 ||
+            currNote.direction === 0 ||
+            currNote.direction === 5
+        ) {
             return true;
         }
         if (
-            (prevNote.d === 4 || prevNote.d === 0 || prevNote.d === 5) &&
-            currNote.d === 8
+            (prevNote.direction === 4 ||
+                prevNote.direction === 0 ||
+                prevNote.direction === 5) &&
+            currNote.direction === 8
         ) {
             return true;
         }
     }
     // if end note is below
-    if (currNote.y < prevNote.y) {
-        if (currNote.d === 6 || currNote.d === 1 || currNote.d === 7) {
+    if (currNote.posY < prevNote.posY) {
+        if (
+            currNote.direction === 6 ||
+            currNote.direction === 1 ||
+            currNote.direction === 7
+        ) {
             return true;
         }
         if (
-            (prevNote.d === 6 || prevNote.d === 1 || prevNote.d === 7) &&
-            currNote.d === 8
+            (prevNote.direction === 6 ||
+                prevNote.direction === 1 ||
+                prevNote.direction === 7) &&
+            currNote.direction === 8
         ) {
             return true;
         }
@@ -382,45 +314,45 @@ export const isEnd = (
 // TODO: update with new position/rotation system
 export const predictDirection = (currNote: ColorNote, prevNote: ColorNote): number => {
     if (isEnd(currNote, prevNote, 8)) {
-        return currNote.d === 8 ? prevNote.d : currNote.d;
+        return currNote.direction === 8 ? prevNote.direction : currNote.direction;
     }
-    if (currNote.d !== 8) {
-        return currNote.d;
+    if (currNote.direction !== 8) {
+        return currNote.direction;
     }
-    if (currNote.b > prevNote.b) {
+    if (currNote.time > prevNote.time) {
         // if end note on right side
-        if (currNote.x > prevNote.x) {
+        if (currNote.posX > prevNote.posX) {
             if (isHorizontal(currNote, prevNote)) {
                 return 3;
             }
         }
         // if end note on left side
-        if (currNote.x < prevNote.x) {
+        if (currNote.posX < prevNote.posX) {
             if (isHorizontal(currNote, prevNote)) {
                 return 2;
             }
         }
         // if end note is above
-        if (currNote.y > prevNote.y) {
+        if (currNote.posY > prevNote.posY) {
             if (isVertical(currNote, prevNote)) {
                 return 0;
             }
-            if (currNote.x > prevNote.x) {
+            if (currNote.posX > prevNote.posX) {
                 return 5;
             }
-            if (currNote.x < prevNote.x) {
+            if (currNote.posX < prevNote.posX) {
                 return 4;
             }
         }
         // if end note is below
-        if (currNote.y < prevNote.y) {
+        if (currNote.posY < prevNote.posY) {
             if (isVertical(currNote, prevNote)) {
                 return 1;
             }
-            if (currNote.x > prevNote.x) {
+            if (currNote.posX > prevNote.posX) {
                 return 7;
             }
-            if (currNote.x < prevNote.x) {
+            if (currNote.posX < prevNote.posX) {
                 return 6;
             }
         }
@@ -434,7 +366,7 @@ export const predictDirection = (currNote: ColorNote, prevNote: ColorNote): numb
  * ```
  */
 export const hasMappingExtensions = (note: ColorNote): boolean => {
-    return note.x > 3 || note.x < 0 || note.y > 2 || note.y < 0;
+    return note.posX > 3 || note.posX < 0 || note.posY > 2 || note.posY < 0;
 };
 
 /** Check if note has a valid cut direction.
@@ -443,7 +375,7 @@ export const hasMappingExtensions = (note: ColorNote): boolean => {
  * ```
  */
 export const isValidDirection = (note: ColorNote): boolean => {
-    return note.d >= 0 && note.d <= 8;
+    return note.direction >= 0 && note.direction <= 8;
 };
 
 /** Check if note is a valid, vanilla note.
@@ -457,43 +389,43 @@ export const isValid = (note: ColorNote): boolean => {
 
 /** Count number of specified line index in a given array and return a counted number of line index.
  * ```ts
- * const indexCount = colorNote.countX(notes, 0);
+ * const indexCount = colorNote.colorountX(notes, 0);
  * ```
  */
 export const countX = (notes: ColorNote[], i: number): number => {
-    return notes.filter((n) => n.x === i).length;
+    return notes.filter((n) => n.posX === i).length;
 };
 
 /** Count number of specified line layer in a given array and return a counted number of line layer.
  * ```ts
- * const layerCount = colorNote.countY(notes, 0);
+ * const layerCount = colorNote.colorountY(notes, 0);
  * ```
  */
 export const countY = (notes: ColorNote[], l: number): number => {
-    return notes.filter((n) => n.y === l).length;
+    return notes.filter((n) => n.posY === l).length;
 };
 
 /** Count number of specified line index and line layer in a given array and return a counted number of line index and line layer.
  * ```ts
- * const indexLayerCount = colorNote.countXY(notes, 0, 0);
+ * const indexLayerCount = colorNote.colorountXY(notes, 0, 0);
  * ```
  */
 export const countXY = (notes: ColorNote[], i: number, l: number): number => {
-    return notes.filter((n) => n.x === i && n.y === l).length;
+    return notes.filter((n) => n.posX === i && n.posY === l).length;
 };
 
 /** Count number of specified `_cutDirection` in a given array and return a counted number of `_cutDirection`.
  * ```ts
- * const cdCount = colorNote.countDirection(notes, 0);
+ * const cdCount = colorNote.colorountDirection(notes, 0);
  * ```
  */
 export const countDirection = (notes: ColorNote[], cd: number): number => {
-    return notes.filter((n) => n.d === cd).length;
+    return notes.filter((n) => n.direction === cd).length;
 };
 
 /** Count number of specified angle in a given array and return a counted number of angle.
  * ```ts
- * const angleCount = colorNote.countAngle(notes, 0);
+ * const angleCount = colorNote.colorountAngle(notes, 0);
  * ```
  */
 export const countAngle = (notes: ColorNote[], angle: number): number => {
@@ -521,7 +453,7 @@ export const checkDirection = (
     if (typeof n1 === 'number') {
         nA1 = n1;
     } else {
-        if (n1.d === 8) {
+        if (n1.direction === 8) {
             return false;
         }
         nA1 = getAngle(n1);
@@ -529,7 +461,7 @@ export const checkDirection = (
     if (typeof n2 === 'number') {
         nA2 = n2;
     } else {
-        if (n2.d === 8) {
+        if (n2.direction === 8) {
             return false;
         }
         nA2 = getAngle(n2);

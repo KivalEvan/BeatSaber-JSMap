@@ -1,5 +1,5 @@
-import { BaseObject } from './types/baseObject.ts';
-import { DifficultyData } from './types/difficulty.ts';
+import { IBaseObject } from './types/baseObject.ts';
+import { DifficultyData, IDifficultyData } from './types/difficulty.ts';
 import { DataCheck, DifficultyDataCheck, DataCheckObject } from './types/dataCheck.ts';
 import logger from '../../logger.ts';
 
@@ -65,9 +65,9 @@ const deepCheck = (
     }
 };
 
-const sortObjectTime = (a: BaseObject, b: BaseObject) => a.b - b.b;
+const sortObjectTime = (a: IBaseObject, b: IBaseObject) => a.b - b.b;
 
-export const difficulty = (data: DifficultyData): DifficultyData => {
+export const difficulty = (data: IDifficultyData): DifficultyData => {
     logger.info(tag(difficulty), 'Parsing beatmap difficulty v3.x.x');
     deepCheck(data, DifficultyDataCheck, 'difficulty');
     if (data.version !== '3.0.0') {
@@ -101,5 +101,5 @@ export const difficulty = (data: DifficultyData): DifficultyData => {
     data.lightColorEventBoxGroups.sort(sortObjectTime);
     data.lightRotationEventBoxGroups.sort(sortObjectTime);
 
-    return data;
+    return new DifficultyData(data);
 };

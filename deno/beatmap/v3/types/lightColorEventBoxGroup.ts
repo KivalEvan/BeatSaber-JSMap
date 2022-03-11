@@ -1,6 +1,21 @@
-import { EventBoxGroupTemplate } from './eventBoxGroupTemplate.ts';
-import { LightColorEventBox } from './lightColorEventBox.ts';
+import {
+    IEventBoxGroupTemplate,
+    EventBoxGroupTemplate,
+} from './eventBoxGroupTemplate.ts';
+import { ILightColorEventBox, LightColorEventBox } from './lightColorEventBox.ts';
 
 // deno-lint-ignore no-empty-interface
-export interface LightColorEventBoxGroup
-    extends EventBoxGroupTemplate<LightColorEventBox> {}
+export interface ILightColorEventBoxGroup
+    extends IEventBoxGroupTemplate<ILightColorEventBox> {}
+
+export class LightColorEventBoxGroup extends EventBoxGroupTemplate<
+    ILightColorEventBox,
+    LightColorEventBox
+> {
+    constructor(eventBoxGroup: ILightColorEventBoxGroup) {
+        super(
+            eventBoxGroup,
+            eventBoxGroup.e.map((e) => new LightColorEventBox(e))
+        );
+    }
+}

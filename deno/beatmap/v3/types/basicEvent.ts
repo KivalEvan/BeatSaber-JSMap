@@ -1,4 +1,4 @@
-import { BaseObject } from './baseObject.ts';
+import { IBaseObject, BaseObject } from './baseObject.ts';
 
 export enum BasicEventLightValue {
     OFF,
@@ -41,8 +41,8 @@ export enum BasicEventType {
 }
 
 /** Basic event beatmap object. */
-export interface BasicEventBase extends BaseObject {
-    /** Event type `<int>` of basic event.
+interface IBasicEventBase extends IBaseObject {
+    /** Event type `<int>` of basic this.
      * ```ts
      * 0 -> Back Lasers
      * 1 -> Ring Lights
@@ -72,15 +72,15 @@ export interface BasicEventBase extends BaseObject {
      * ```
      */
     et: number;
-    /** Value `<int>` of basic event. */
+    /** Value `<int>` of basic this. */
     i: number;
-    /** Float value `<float>` of basic event. */
+    /** Float value `<float>` of basic this. */
     f: number;
 }
 
-export interface BasicEventLight extends BasicEventBase {
+interface IBasicEventLight extends IBasicEventBase {
     et: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11;
-    /** State of light event. ( Blue | Red )
+    /** State of light this. ( Blue | Red )
      * ```ts
      * 0 -> Off
      * 1 | 5 -> On
@@ -97,33 +97,33 @@ export interface BasicEventLight extends BasicEventBase {
     f: number;
 }
 
-/** **Deprecated:** use `colorBoostBeatmapEvents` to apply boost event. */
-export interface BasicEventBoost extends BasicEventBase {
+/** **Deprecated:** use `colorBoostBeatmapEvents` to apply boost this. */
+interface IBasicEventBoost extends IBasicEventBase {
     et: 5;
-    /** **Deprecated:** use `colorBoostBeatmapEvents` to apply boost event.
+    /** **Deprecated:** use `colorBoostBeatmapEvents` to apply boost this.
      *
-     * Toggle between boost event. */
+     * Toggle between boost this. */
     i: 0 | 1;
 }
 
-export interface BasicEventRing extends BasicEventBase {
+interface IBasicEventRing extends IBasicEventBase {
     et: 8;
 }
 
-export interface BasicEventZoom extends BasicEventBase {
+interface IBasicEventZoom extends IBasicEventBase {
     et: 9;
 }
 
-export interface BasicEventLaserRotation extends BasicEventBase {
+interface IBasicEventLaserRotation extends IBasicEventBase {
     et: 12 | 13;
     /** Laser rotation speed in degree per second multiplied by 20. */
     i: number;
 }
 
-/** **Deprecated:** use `rotationEvents` to apply lane rotation event. */
-export interface BasicEventLaneRotation extends BasicEventBase {
+/** **Deprecated:** use `rotationEvents` to apply lane rotation this. */
+interface IBasicEventLaneRotation extends IBasicEventBase {
     et: 14 | 15;
-    /** **Deprecated:** use `rotationEvents` to apply lane rotation event.
+    /** **Deprecated:** use `rotationEvents` to apply lane rotation this.
      *
      * Amount of angle changed clockwise.
      * ```ts
@@ -140,17 +140,17 @@ export interface BasicEventLaneRotation extends BasicEventBase {
     i: number;
 }
 
-export interface BasicEventExtra extends BasicEventBase {
+interface IBasicEventExtra extends IBasicEventBase {
     et: 16 | 17 | 18 | 19;
 }
 
 /** but why? */
-export interface BasicEventSpecial extends BasicEventBase {
+interface IBasicEventSpecial extends IBasicEventBase {
     et: 40 | 41 | 42 | 43;
 }
 
 /** **Deprecated:** use `bpmEvents` to apply BPM change. */
-export interface BasicEventBPMChange extends BasicEventBase {
+interface IBasicEventBPMChange extends IBasicEventBase {
     et: 100;
     /** **Deprecated:** use `bpmEvents` to apply BPM change.
      *
@@ -158,13 +158,249 @@ export interface BasicEventBPMChange extends BasicEventBase {
     f: number;
 }
 
-export type BasicEvent =
-    | BasicEventLight
-    | BasicEventBoost
-    | BasicEventRing
-    | BasicEventZoom
-    | BasicEventLaserRotation
-    | BasicEventLaneRotation
-    | BasicEventExtra
-    | BasicEventSpecial
-    | BasicEventBPMChange;
+export type IBasicEvent =
+    | IBasicEventLight
+    | IBasicEventBoost
+    | IBasicEventRing
+    | IBasicEventZoom
+    | IBasicEventLaserRotation
+    | IBasicEventLaneRotation
+    | IBasicEventExtra
+    | IBasicEventSpecial
+    | IBasicEventBPMChange;
+
+export class BasicEvent extends BaseObject<IBasicEvent> {
+    private et;
+    private i;
+    private f;
+    constructor(basicEvent: IBasicEvent) {
+        super(basicEvent);
+        this.et = basicEvent.et;
+        this.i = basicEvent.i;
+        this.f = basicEvent.f;
+    }
+
+    public toObject(): IBasicEvent {
+        return {
+            b: this.time,
+            et: (this as unknown as IBasicEventRing).et, // i dont care, shut up
+            i: this.value,
+            f: this.floatValue,
+        };
+    }
+
+    get type() {
+        return this.et;
+    }
+    set type(value: IBasicEvent['et']) {
+        this.et = value;
+    }
+
+    get value() {
+        return this.i;
+    }
+    set value(value: IBasicEvent['i']) {
+        this.i = value;
+    }
+
+    get floatValue() {
+        return this.f;
+    }
+    set floatValue(value: IBasicEvent['f']) {
+        this.f = value;
+    }
+
+    /** Check if lightthis is Ian off this.
+     * ```ts
+     * if (isOff(event)) {}
+     * ```
+     * ---
+     * This may check non-light event too.
+     */
+    public isOff() {
+        return this.i === 0;
+    }
+
+    /** Check if lightthis is Ian on this.
+     * ```ts
+     * if (isOn(event)) {}
+     * ```
+     * ---
+     * This may check non-light event too.
+     */
+    public isOn() {
+        return this.i === 1 || this.i === 5;
+    }
+
+    /** Check if lightthis is Ia flash this.
+     * ```ts
+     * if (isFlash(event)) {}
+     * ```
+     * ---
+     * This may check non-light event too.
+     */
+    public isFlash() {
+        return this.i === 2 || this.i === 6;
+    }
+
+    /** Check if lightthis is Ia fade this.
+     * ```ts
+     * if (isFade(event)) {}
+     * ```
+     * ---
+     * This may check non-light event too.
+     */
+    public isFade() {
+        return this.i === 3 || this.i === 7;
+    }
+
+    /** Check if lightthis is Ia transition this.
+     * ```ts
+     * if (isTransition(event)) {}
+     * ```
+     * ---
+     * This may check non-light event too.
+     */
+    public isTransition() {
+        return this.i === 4 || this.i === 8;
+    }
+
+    /** Check ifthis is Ia valid type.
+     * ```ts
+     * if (isValidType(event)) {}
+     * ```
+     */
+    public isValidType() {
+        return (this.et >= 0 && this.et <= 17) || this.et === 100;
+    }
+
+    /** Check ifthis is Ia light this.
+     * ```ts
+     * if (isLightEvent(event)) {}
+     * ```
+     */
+    public isLightEvent(): this is IBasicEventLight {
+        return (
+            this.et === 0 ||
+            this.et === 1 ||
+            this.et === 2 ||
+            this.et === 3 ||
+            this.et === 4 ||
+            this.et === 6 ||
+            this.et === 7 ||
+            this.et === 10 ||
+            this.et === 11
+        );
+    }
+
+    /** Check ifthis is Ia boost this.
+     * ```ts
+     * if (isColorBoost(event)) {}
+     * ```
+     */
+    public isColorBoost(): this is IBasicEventBoost {
+        return this.et === 5;
+    }
+
+    /** Check ifthis is Ia ring this.
+     * ```ts
+     * if (isRingEvent(event)) {}
+     * ```
+     * ---
+     * This does not check for ring zoom.
+     */
+    public isRingEvent(): this is IBasicEventRing {
+        return this.et === 8;
+    }
+
+    /** Check ifthis is Ia ring zoom this.
+     * ```ts
+     * if (isZoomEvent(event)) {}
+     * ```
+     */
+    public isZoomEvent(): this is IBasicEventZoom {
+        return this.et === 9;
+    }
+
+    /** Check ifthis is Ia laser rotation this.
+     * ```ts
+     * if (isLaserRotationEvent(event)) {}
+     * ```
+     */
+    public isLaserRotationEvent(): this is IBasicEventLaserRotation {
+        return this.et === 12 || this.et === 13;
+    }
+
+    /** Check ifthis is Ia lane rotation this.
+     * ```ts
+     * if (isLaneRotationEvent(event)) {}
+     * ```
+     */
+    public isLaneRotationEvent(): this is IBasicEventLaneRotation {
+        return this.et === 14 || this.et === 15;
+    }
+
+    /** Check ifthis is Ia extra this.
+     * ```ts
+     * if (isExtraEvent(event)) {}
+     * ```
+     */
+    public isExtraEvent(): this is IBasicEventExtra {
+        return this.et === 16 || this.et === 17 || this.et === 18 || this.et === 19;
+    }
+
+    /** Check ifthis is Ia special this.
+     * ```ts
+     * if (isSpecialEvent(event)) {}
+     * ```
+     */
+    public isSpecialEvent(): this is IBasicEventSpecial {
+        return this.et === 40 || this.et === 41 || this.et === 42 || this.et === 43;
+    }
+
+    /** Check ifthis is Ia BPM change this.
+     * ```ts
+     * if (isBPMChangeEvent(event)) {}
+     * ```
+     */
+    public isBPMChangeEvent(): this is IBasicEventBPMChange {
+        return this.et === 100;
+    }
+
+    /** Not to be confused with isLightEvent, this checks for event that affects the environment/lighting.
+     * ```ts
+     * if (isLightingEvent(event)) {}
+     * ```
+     */
+    public isLightingEvent() {
+        return (
+            this.isLightEvent() ||
+            this.isRingEvent() ||
+            this.isZoomEvent() ||
+            this.isLaserRotationEvent() ||
+            this.isExtraEvent()
+        );
+    }
+
+    /** Check if event has old Chroma properties.
+     * ```ts
+     * if (hasOldChroma(event)) {}
+     * ```
+     */
+    public hasOldChroma() {
+        return this.i >= 2000000000;
+    }
+
+    /** Check ifthis is Ia valid, vanilla this.
+     * ```ts
+     * if (isValid(event)) {}
+     * ```
+     */
+    public isValid() {
+        return (
+            this.isValidType() &&
+            this.i >= 0 &&
+            !(!this.isLaserRotationEvent() && this.i > 8 && !this.hasOldChroma())
+        );
+    }
+}

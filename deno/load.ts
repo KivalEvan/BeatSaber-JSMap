@@ -1,7 +1,7 @@
 import { DifficultyList } from './types.ts';
 import { InfoData } from './beatmap/shared/types/info.ts';
 import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
-import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
+import { IDifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
 import { info as parseInfo } from './beatmap/shared/parse.ts';
 import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
 import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
@@ -94,7 +94,7 @@ export const difficultyLegacySync = (filePath: string, path = globals.path) => {
 export const difficulty = async (
     filePath: string,
     path = globals.path
-): Promise<DifficultyDataV3> => {
+): Promise<ReturnType<typeof parseDifficultyV3>> => {
     logger.info(tag(difficulty), `Async loading difficulty from ${path + filePath}`);
     return await new Promise((resolve, reject) => {
         try {

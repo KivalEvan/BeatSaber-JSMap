@@ -1,6 +1,5 @@
 import { BeatPerMinute } from '../shared/bpm.ts';
 import { getNoteContainer } from './container.ts';
-import { isInteractive } from './obstacle.ts';
 import { DifficultyData } from './types/difficulty.ts';
 import { Obstacle } from './types/obstacle.ts';
 
@@ -32,7 +31,7 @@ export const peak = (
     const notes = getNoteContainer(data).filter((n) => n.type !== 'bomb');
 
     for (let i = 0; i < notes.length; i++) {
-        while (notes[i].data.b - notes[currentSectionStart].data.b > beat) {
+        while (notes[i].data.time - notes[currentSectionStart].data.time > beat) {
             currentSectionStart++;
         }
         peakNPS = Math.max(
@@ -53,7 +52,7 @@ export const getFirstInteractiveTime = (data: DifficultyData): number => {
     const notes = getNoteContainer(data).filter((n) => n.type !== 'bomb');
     let firstNoteTime = Number.MAX_VALUE;
     if (notes.length > 0) {
-        firstNoteTime = notes[0].data.b;
+        firstNoteTime = notes[0].data.time;
     }
     const firstInteractiveObstacleTime = findFirstInteractiveObstacleTime(
         data.obstacles
@@ -70,7 +69,7 @@ export const getLastInteractiveTime = (data: DifficultyData): number => {
     const notes = getNoteContainer(data).filter((n) => n.type !== 'bomb');
     let lastNoteTime = 0;
     if (notes.length > 0) {
-        lastNoteTime = notes[notes.length - 1].data.b;
+        lastNoteTime = notes[notes.length - 1].data.time;
     }
     const lastInteractiveObstacleTime = findLastInteractiveObstacleTime(data.obstacles);
     return Math.max(lastNoteTime, lastInteractiveObstacleTime);
@@ -83,8 +82,8 @@ export const getLastInteractiveTime = (data: DifficultyData): number => {
  */
 export const findFirstInteractiveObstacleTime = (obstacles: Obstacle[]): number => {
     for (let i = 0, len = obstacles.length; i < len; i++) {
-        if (isInteractive(obstacles[i])) {
-            return obstacles[i].b;
+        if (obstacles[i].isInteractive()) {
+            return obstacles[i].time;
         }
     }
     return Number.MAX_VALUE;
@@ -98,8 +97,11 @@ export const findFirstInteractiveObstacleTime = (obstacles: Obstacle[]): number 
 export const findLastInteractiveObstacleTime = (obstacles: Obstacle[]): number => {
     let obstacleEnd = 0;
     for (let i = obstacles.length - 1; i >= 0; i--) {
-        if (isInteractive(obstacles[i])) {
-            obstacleEnd = Math.max(obstacleEnd, obstacles[i].b + obstacles[i].d);
+        if (obstacles[i].isInteractive()) {
+            obstacleEnd = Math.max(
+                obstacleEnd,
+                obstacles[i].time + obstacles[i].duration
+            );
         }
     }
     return obstacleEnd;

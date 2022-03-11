@@ -1,7 +1,8 @@
-import { BaseObject } from './baseObject.ts';
+import { IBaseObject, BaseObject } from './baseObject.ts';
+import { LINE_COUNT } from './constants.ts';
 
 /** Bomb note beatmap object. */
-export interface BombNote extends BaseObject {
+export interface IBombNote extends IBaseObject {
     /** Position x `<int>` of bomb.
      * ```ts
      * 0 -> Outer Left
@@ -23,4 +24,40 @@ export interface BombNote extends BaseObject {
      * Range: `0-2`
      */
     y: number;
+}
+
+export class BombNote extends BaseObject<IBombNote> {
+    private x;
+    private y;
+    constructor(bombNote: IBombNote) {
+        super(bombNote);
+        this.x = bombNote.x;
+        this.y = bombNote.y;
+    }
+
+    public toObject(): IBombNote {
+        return {
+            b: this.time,
+            x: this.posX,
+            y: this.posY,
+        };
+    }
+
+    get posX() {
+        return this.x;
+    }
+    set posX(value: IBombNote['x']) {
+        this.x = value;
+    }
+
+    get posY() {
+        return this.y;
+    }
+    set posY(value: IBombNote['y']) {
+        this.y = value;
+    }
+
+    public mirror() {
+        this.x = LINE_COUNT - 1 - this.x;
+    }
 }

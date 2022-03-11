@@ -218,179 +218,127 @@ export const V3toV2 = (
 
     data.colorNotes.forEach((n) =>
         template._notes.push({
-            _time: n.b,
-            _lineIndex: n.x,
-            _lineLayer: n.y,
-            _type: n.c,
-            _cutDirection: n.d,
+            _time: n.time,
+            _lineIndex: n.posX,
+            _lineLayer: n.posY,
+            _type: n.color,
+            _cutDirection: n.direction,
         })
     );
 
     data.bombNotes.forEach((n) =>
         template._notes.push({
-            _time: n.b,
-            _lineIndex: n.x,
-            _lineLayer: n.y,
+            _time: n.time,
+            _lineIndex: n.posX,
+            _lineLayer: n.posY,
             _type: 3,
             _cutDirection: 0,
         })
     );
 
     data.obstacles.forEach((o) => {
-        if (o.y === 0 && o.h === 5) {
+        if (o.posY === 0 && o.height === 5) {
             template._obstacles.push({
-                _time: o.b,
-                _lineIndex: o.x,
+                _time: o.time,
+                _lineIndex: o.posX,
                 _lineLayer: 0,
                 _type: 0,
-                _duration: o.d,
-                _width: o.w,
-                _height: o.h,
+                _duration: o.duration,
+                _width: o.width,
+                _height: o.height,
             });
-        } else if (o.y === 2 && o.h === 3) {
+        } else if (o.posY === 2 && o.height === 3) {
             template._obstacles.push({
-                _time: o.b,
-                _lineIndex: o.x,
+                _time: o.time,
+                _lineIndex: o.posX,
                 _lineLayer: 0,
                 _type: 1,
-                _duration: o.d,
-                _width: o.w,
-                _height: o.h,
+                _duration: o.duration,
+                _width: o.width,
+                _height: o.height,
             });
         } else {
             template._obstacles.push({
-                _time: o.b,
-                _lineIndex: o.x,
-                _lineLayer: o.y,
+                _time: o.time,
+                _lineIndex: o.posX,
+                _lineLayer: o.posY,
                 _type: 2,
-                _duration: o.d,
-                _width: o.w,
-                _height: o.h,
+                _duration: o.duration,
+                _width: o.width,
+                _height: o.height,
             });
         }
     });
 
     data.basicBeatmapEvents.forEach((be) => {
-        if (v3.basicEvent.isLightEvent(be)) {
-            template._events.push({
-                _time: be.b,
-                _type: be.et,
-                _value: be.i,
-                _floatValue: be.f,
-            });
-        } else if (v3.basicEvent.isRingEvent(be) || v3.basicEvent.isZoomEvent(be)) {
-            template._events.push({
-                _time: be.b,
-                _type: be.et,
-                _value: be.i,
-                _floatValue: be.f,
-            });
-        } else if (v3.basicEvent.isLaserRotationEvent(be)) {
-            template._events.push({
-                _time: be.b,
-                _type: be.et,
-                _value: be.i,
-                _floatValue: be.f,
-            });
-        } else if (v3.basicEvent.isExtraEvent(be) || v3.basicEvent.isSpecialEvent(be)) {
-            template._events.push({
-                _time: be.b,
-                _type: be.et,
-                _value: be.i,
-                _floatValue: be.f,
-            });
-        } else if (v3.basicEvent.isColorBoost(be)) {
-            template._events.push({
-                _time: be.b,
-                _type: be.et,
-                _value: be.i,
-                _floatValue: be.f,
-            });
-        } else if (v3.basicEvent.isLaneRotationEvent(be)) {
-            template._events.push({
-                _time: be.b,
-                _type: be.et,
-                _value: be.i,
-                _floatValue: be.f,
-            });
-        } else if (v3.basicEvent.isBPMChangeEvent(be)) {
-            template._events.push({
-                _time: be.b,
-                _type: be.et,
-                _value: be.i,
-                _floatValue: be.f,
-            });
-        } else {
-            be = be as types.v3.BasicEventLaserRotation; // hackish way to just accept any other event
-            template._events.push({
-                _time: be.b,
-                _type: be.et,
-                _value: be.i,
-                _floatValue: be.f,
-            });
-        }
+        template._events.push({
+            _time: be.time,
+            _type: be.type as 8, // hackish way to just accept any other event
+            _value: be.value,
+            _floatValue: be.floatValue,
+        });
     });
 
     data.colorBoostBeatmapEvents.forEach((b) =>
         template._events.push({
-            _time: b.b,
+            _time: b.time,
             _type: 5,
-            _value: b.o ? 1 : 0,
+            _value: b.toggle ? 1 : 0,
             _floatValue: 1,
         })
     );
 
     data.rotationEvents.forEach((lr) =>
         template._events.push({
-            _time: lr.b,
-            _type: lr.e ? 14 : 15,
+            _time: lr.time,
+            _type: lr.executionTime ? 14 : 15,
             _value:
-                Math.floor((clamp(lr.r, -60, 60) + 60) / 15) < 6
-                    ? Math.max(Math.floor((clamp(lr.r, -60, 60) + 60) / 15), 3)
-                    : Math.floor((clamp(lr.r, -60, 60) + 60) / 15) - 2,
+                Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
+                    ? Math.max(Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15), 3)
+                    : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
             _floatValue: 1,
         })
     );
 
     data.bpmEvents.forEach((bpm) =>
         template._events.push({
-            _time: bpm.b,
+            _time: bpm.time,
             _type: 100,
             _value: 1,
-            _floatValue: bpm.m,
+            _floatValue: bpm.bpm,
         })
     );
 
     data.sliders.forEach((s) =>
         template._sliders.push({
-            _colorType: s.c,
-            _headTime: s.b,
-            _headLineIndex: s.x,
-            _headLineLayer: s.y,
-            _headControlPointlengthMultiplier: s.mu,
-            _headCutDirection: s.c,
-            _tailTime: s.tb,
-            _tailLineIndex: s.tx,
-            _tailLineLayer: s.ty,
-            _tailControlPointLengthMultiplier: s.tmu,
-            _tailCutDirection: s.c,
-            _sliderMidAnchorMode: s.m,
+            _colorType: s.color,
+            _headTime: s.time,
+            _headLineIndex: s.posX,
+            _headLineLayer: s.posY,
+            _headControlPointlengthMultiplier: s.lengthMultiplier,
+            _headCutDirection: s.color,
+            _tailTime: s.tailTime,
+            _tailLineIndex: s.tailPosX,
+            _tailLineLayer: s.tailPosY,
+            _tailControlPointLengthMultiplier: s.tailLengthMultiplier,
+            _tailCutDirection: s.color,
+            _sliderMidAnchorMode: s.midAnchor,
         })
     );
 
     data.waypoints.forEach((w) =>
         template._waypoints.push({
-            _time: w.b,
-            _lineIndex: w.x,
-            _lineLayer: w.y,
-            _offsetDirection: w.d,
+            _time: w.time,
+            _lineIndex: w.posX,
+            _lineLayer: w.posY,
+            _offsetDirection: w.direction,
         })
     );
 
     template._specialEventsKeywordFilters = {
         _keywords:
-            data.basicEventTypesWithKeywords.d?.map((d) => {
-                return { _keyword: d.k, _specialEvents: d.e };
+            data.basicEventTypesWithKeywords.data.map((d) => {
+                return { _keyword: d.keyword, _specialEvents: d.events };
             }) ?? [],
     };
 

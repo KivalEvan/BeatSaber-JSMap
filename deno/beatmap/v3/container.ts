@@ -14,7 +14,7 @@ export const getNoteContainer = (difficultyData: DifficultyData): NoteContainer 
         nc.push({ type: 'burstSlider', data: bs })
     );
     difficultyData.bombNotes.forEach((b) => nc.push({ type: 'bomb', data: b }));
-    return nc.sort((a, b) => a.data.b - b.data.b);
+    return nc.sort((a, b) => a.data.time - b.data.time);
 };
 
 /** Get container of basic events and boost events.
@@ -30,5 +30,5 @@ export const getEventContainer = (difficultyData: DifficultyData): EventContaine
     difficultyData.colorBoostBeatmapEvents.forEach((b) =>
         ec.push({ type: 'boost', data: b })
     );
-    return ec.sort((a, b) => a.data.b - b.data.b);
+    return ec.sort((a, b) => a.data.time - b.data.time);
 };

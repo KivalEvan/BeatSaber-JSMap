@@ -5,7 +5,7 @@ export * from './basicEventTypesForKeywords.ts';
 export * from './basicEventTypesWithKeywords.ts';
 export * from './bombNote.ts';
 export * from './boostEvent.ts';
-export * from './bpmChange.ts';
+export * from './bpmEvent.ts';
 export * from './burstSlider.ts';
 export * from './colorNote.ts';
 export * from './constants.ts';

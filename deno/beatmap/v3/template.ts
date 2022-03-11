@@ -1,22 +1,23 @@
-import { BasicEvent } from './types/basicEvent.ts';
-import { BombNote } from './types/bombNote.ts';
-import { BoostEvent } from './types/boostEvent.ts';
-import { BPMChangeEvent } from './types/bpmChange.ts';
-import { BurstSlider } from './types/burstSlider.ts';
-import { ColorNote } from './types/colorNote.ts';
-import { DifficultyData } from './types/difficulty.ts';
-import { LightColorBase } from './types/lightColorBase.ts';
-import { LightColorEventBox } from './types/lightColorEventBox.ts';
-import { LightColorEventBoxGroup } from './types/lightColorEventBoxGroup.ts';
-import { LightRotationBase } from './types/lightRotationBase.ts';
-import { LightRotationEventBox } from './types/lightRotationEventBox.ts';
-import { LightRotationEventBoxGroup } from './types/lightRotationEventBoxGroup.ts';
-import { Obstacle } from './types/obstacle.ts';
-import { RotationEvent } from './types/rotationEvent.ts';
-import { Slider } from './types/slider.ts';
-import { Waypoint } from './types/waypoint.ts';
+import { IBasicEvent } from './types/basicEvent.ts';
+import { BasicEventTypesWithKeywords } from './types/basicEventTypesWithKeywords.ts';
+import { IBombNote } from './types/bombNote.ts';
+import { IBoostEvent } from './types/boostEvent.ts';
+import { IBPMEvent } from './types/bpmEvent.ts';
+import { IBurstSlider } from './types/burstSlider.ts';
+import { IColorNote } from './types/colorNote.ts';
+import { IDifficultyData } from './types/difficulty.ts';
+import { ILightColorBase } from './types/lightColorBase.ts';
+import { ILightColorEventBox } from './types/lightColorEventBox.ts';
+import { ILightColorEventBoxGroup } from './types/lightColorEventBoxGroup.ts';
+import { ILightRotationBase } from './types/lightRotationBase.ts';
+import { ILightRotationEventBox } from './types/lightRotationEventBox.ts';
+import { ILightRotationEventBoxGroup } from './types/lightRotationEventBoxGroup.ts';
+import { IObstacle } from './types/obstacle.ts';
+import { IRotationEvent } from './types/rotationEvent.ts';
+import { ISlider } from './types/slider.ts';
+import { IWaypoint } from './types/waypoint.ts';
 
-export const difficulty = (): DifficultyData => {
+export const difficulty = (): IDifficultyData => {
     return {
         version: '3.0.0',
         bpmEvents: [],
@@ -36,7 +37,7 @@ export const difficulty = (): DifficultyData => {
     };
 };
 
-export const colorNote = (): ColorNote => {
+export const colorNote = (): IColorNote => {
     return {
         b: 0,
         c: 0,
@@ -47,7 +48,7 @@ export const colorNote = (): ColorNote => {
     };
 };
 
-export const bomb = (): BombNote => {
+export const bomb = (): IBombNote => {
     return {
         b: 0,
         x: 0,
@@ -55,7 +56,7 @@ export const bomb = (): BombNote => {
     };
 };
 
-export const sliders = (): Slider => {
+export const sliders = (): ISlider => {
     return {
         b: 0,
         c: 0,
@@ -72,7 +73,7 @@ export const sliders = (): Slider => {
     };
 };
 
-export const burstSliders = (): BurstSlider => {
+export const burstSliders = (): IBurstSlider => {
     return {
         b: 0,
         c: 0,
@@ -87,7 +88,7 @@ export const burstSliders = (): BurstSlider => {
     };
 };
 
-export const obstacle = (): Obstacle => {
+export const obstacle = (): IObstacle => {
     return {
         b: 0,
         x: 0,
@@ -98,7 +99,7 @@ export const obstacle = (): Obstacle => {
     };
 };
 
-export const basicEvent = (): BasicEvent => {
+export const basicEvent = (): IBasicEvent => {
     return {
         b: 0,
         et: 0,
@@ -107,14 +108,14 @@ export const basicEvent = (): BasicEvent => {
     };
 };
 
-export const bpmEvent = (): BPMChangeEvent => {
+export const bpmEvent = (): IBPMEvent => {
     return {
         b: 0,
         m: 120,
     };
 };
 
-export const rotationEvent = (): RotationEvent => {
+export const rotationEvent = (): IRotationEvent => {
     return {
         b: 0,
         e: 0,
@@ -122,41 +123,41 @@ export const rotationEvent = (): RotationEvent => {
     };
 };
 
-export const boostEvent = (): BoostEvent => {
+export const boostEvent = (): IBoostEvent => {
     return {
         b: 0,
         o: false,
     };
 };
 
-export const lightColor = (): LightColorBase => {
+export const lightColor = (): ILightColorBase => {
     return {
         b: 0,
         i: 0,
         c: 0,
-        s: 0,
+        s: 1,
         f: 0,
     };
 };
 
-export const lightColorEventBox = (): LightColorEventBox => {
+export const lightColorEventBox = (): ILightColorEventBox => {
     return {
         f: {
             f: 1,
-            p: 0,
-            t: 0,
+            p: 1,
+            t: 1,
             r: 0,
         },
         w: 0,
         d: 1,
-        r: 0,
+        r: 1,
         t: 1,
-        e: [],
         b: 0,
+        e: [],
     };
 };
 
-export const lightColorEventBoxGroup = (): LightColorEventBoxGroup => {
+export const lightColorEventBoxGroup = (): ILightColorEventBoxGroup => {
     return {
         b: 0,
         g: 0,
@@ -164,7 +165,7 @@ export const lightColorEventBoxGroup = (): LightColorEventBoxGroup => {
     };
 };
 
-export const lightRotation = (): LightRotationBase => {
+export const lightRotation = (): ILightRotationBase => {
     return {
         b: 0,
         p: 0,
@@ -175,12 +176,12 @@ export const lightRotation = (): LightRotationBase => {
     };
 };
 
-export const lightRotationEventBox = (): LightRotationEventBox => {
+export const lightRotationEventBox = (): ILightRotationEventBox => {
     return {
         f: {
             f: 1,
-            p: 0,
-            t: 0,
+            p: 1,
+            t: 1,
             r: 0,
         },
         w: 0,
@@ -188,13 +189,13 @@ export const lightRotationEventBox = (): LightRotationEventBox => {
         s: 0,
         t: 1,
         a: 0,
-        l: [],
         r: 0,
         b: 0,
+        l: [],
     };
 };
 
-export const lightRotationEventBoxGroup = (): LightRotationEventBoxGroup => {
+export const lightRotationEventBoxGroup = (): ILightRotationEventBoxGroup => {
     return {
         b: 0,
         g: 0,
@@ -202,7 +203,7 @@ export const lightRotationEventBoxGroup = (): LightRotationEventBoxGroup => {
     };
 };
 
-export const waypoint = (): Waypoint => {
+export const waypoint = (): IWaypoint => {
     return {
         b: 0,
         x: 0,

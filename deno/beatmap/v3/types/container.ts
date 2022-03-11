@@ -1,4 +1,3 @@
-import { BaseObject } from './baseObject.ts';
 import { BasicEvent } from './basicEvent.ts';
 import { BombNote } from './bombNote.ts';
 import { BoostEvent } from './boostEvent.ts';
@@ -8,7 +7,6 @@ import { Slider } from './slider.ts';
 
 interface ContainerBase {
     type: string;
-    data: BaseObject;
 }
 
 interface NoteContainerNote extends ContainerBase {
