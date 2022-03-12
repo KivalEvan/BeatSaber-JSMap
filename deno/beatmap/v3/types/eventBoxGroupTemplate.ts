@@ -11,7 +11,7 @@ export abstract class EventBoxGroupTemplate<
 > extends EventBoxGroup {
     private e: U[];
 
-    constructor(eventBoxGroup: IEventBoxGroupTemplate<T>, objects: U[]) {
+    constructor(eventBoxGroup: Required<IEventBoxGroupTemplate<T>>, objects: U[]) {
         super(eventBoxGroup);
         this.e = objects;
     }

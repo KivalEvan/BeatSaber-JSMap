@@ -19,7 +19,7 @@ export abstract class EventBox extends Serializable<IEventBox> {
     private f: IndexFilter;
     private w;
     private d;
-    constructor(eventBox: IEventBox) {
+    constructor(eventBox: Required<IEventBox>) {
         super();
         this.f = new IndexFilter(eventBox.f);
         this.w = eventBox.w;

@@ -1,6 +1,6 @@
 import { BasicEvent } from './basicEvent.ts';
 import { BombNote } from './bombNote.ts';
-import { BoostEvent } from './boostEvent.ts';
+import { ColorBoostEvent } from './colorBoostEvent.ts';
 import { BurstSlider } from './burstSlider.ts';
 import { ColorNote } from './colorNote.ts';
 import { Slider } from './slider.ts';
@@ -43,7 +43,7 @@ interface EventContainerBasic {
 
 interface EventContainerBoost {
     type: 'boost';
-    data: BoostEvent;
+    data: ColorBoostEvent;
 }
 
 export type EventContainer = (EventContainerBasic | EventContainerBoost)[];

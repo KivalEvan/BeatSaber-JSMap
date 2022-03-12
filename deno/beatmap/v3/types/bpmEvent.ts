@@ -9,9 +9,34 @@ export interface IBPMEvent extends IBaseObject {
 /** BPM change event beatmap object. */
 export class BPMEvent extends BaseObject<IBPMEvent> {
     private m;
-    constructor(bpmEvent: IBPMEvent) {
+    constructor(bpmEvent: Required<IBPMEvent>) {
         super(bpmEvent);
         this.m = bpmEvent.m;
+    }
+
+    static create(): BPMEvent;
+    static create(bpmEvents: Partial<IBPMEvent>): BPMEvent;
+    static create(...bpmEvents: Partial<IBPMEvent>[]): BPMEvent[];
+    static create(...bpmEvents: Partial<IBPMEvent>[]): BPMEvent | BPMEvent[] {
+        const result: BPMEvent[] = [];
+        bpmEvents?.forEach((be) =>
+            result.push(
+                new BPMEvent({
+                    b: be.b ?? 0,
+                    m: be.m ?? 120,
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new BPMEvent({
+            b: 0,
+            m: 120,
+        });
     }
 
     public toObject(): IBPMEvent {

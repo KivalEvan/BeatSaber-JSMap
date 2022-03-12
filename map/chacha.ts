@@ -13,47 +13,51 @@ const difficulty = bsmap.convert.V2toV3(
 );
 
 difficulty.obstacles.forEach((o) => {
-    if (o.b === 298) {
-        o.h = 4;
-        o.y = 1;
+    if (o.time === 298) {
+        o.height = 4;
+        o.posY = 1;
     }
 });
 
 for (let i = 0; i < 32; i++) {
-    difficulty.obstacles.push({
-        b: 289 + i,
-        x: i % 2 ? -2 : 5,
-        y: Math.floor(Math.random() * 3),
-        d: 0.25,
-        w: 1,
-        h: 1,
-    });
+    difficulty.obstacles.push(
+        bsmap.v3.Obstacle.create({
+            b: 289 + i,
+            x: i % 2 ? -2 : 5,
+            y: Math.floor(Math.random() * 3),
+            d: 0.25,
+            w: 1,
+            h: 1,
+        })
+    );
 }
 difficulty.obstacles.push(
-    {
-        b: 316,
-        x: 0,
-        y: 1,
-        d: 0.03125,
-        w: 4,
-        h: 1,
-    },
-    {
-        b: 316,
-        x: -1,
-        y: 0,
-        d: 0.03125,
-        w: 1,
-        h: 3,
-    },
-    {
-        b: 316,
-        x: 4,
-        y: 0,
-        d: 0.03125,
-        w: 1,
-        h: 3,
-    }
+    ...bsmap.v3.Obstacle.create(
+        {
+            b: 316,
+            x: 0,
+            y: 1,
+            d: 0.03125,
+            w: 4,
+            h: 1,
+        },
+        {
+            b: 316,
+            x: -1,
+            y: 0,
+            d: 0.03125,
+            w: 1,
+            h: 3,
+        },
+        {
+            b: 316,
+            x: 4,
+            y: 0,
+            d: 0.03125,
+            w: 1,
+            h: 3,
+        }
+    )
 );
 
 bsmap.save.difficultySync(difficulty, {

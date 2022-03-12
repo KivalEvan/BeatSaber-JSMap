@@ -16,10 +16,41 @@ export interface IBasicEventTypesForKeywords {
 export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesForKeywords> {
     private k;
     private e;
-    constructor(basicEventTypesForKeywords: IBasicEventTypesForKeywords) {
+    constructor(basicEventTypesForKeywords: Required<IBasicEventTypesForKeywords>) {
         super();
         this.k = basicEventTypesForKeywords.k;
         this.e = basicEventTypesForKeywords.e;
+    }
+
+    static create(): BasicEventTypesForKeywords;
+    static create(
+        basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>
+    ): BasicEventTypesForKeywords;
+    static create(
+        ...basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>[]
+    ): BasicEventTypesForKeywords[];
+    static create(
+        ...basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>[]
+    ): BasicEventTypesForKeywords | BasicEventTypesForKeywords[] {
+        const result: BasicEventTypesForKeywords[] = [];
+        basicEventTypesForKeywords?.forEach((betfk) =>
+            result.push(
+                new BasicEventTypesForKeywords({
+                    k: betfk.k ?? '',
+                    e: betfk.e ?? [],
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new BasicEventTypesForKeywords({
+            k: '',
+            e: [],
+        });
     }
 
     public toObject(): IBasicEventTypesForKeywords {

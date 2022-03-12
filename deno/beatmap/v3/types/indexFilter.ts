@@ -47,11 +47,20 @@ export class IndexFilter extends Serializable<IIndexFilter> {
         this.r = indexFilter.r;
     }
 
+    static create(indexFilter: Partial<IIndexFilter> = {}): IndexFilter {
+        return new IndexFilter({
+            f: indexFilter.f ?? 1,
+            p: indexFilter.p ?? 1,
+            t: indexFilter.t ?? 1,
+            r: indexFilter.r ?? 0,
+        });
+    }
+
     public toObject(): IIndexFilter {
         return {
             f: this.type,
-            p: this.param0,
-            t: this.param1,
+            p: this.p0,
+            t: this.p1,
             r: this.reverse,
         };
     }
@@ -63,17 +72,17 @@ export class IndexFilter extends Serializable<IIndexFilter> {
         this.f = value;
     }
 
-    get param0() {
+    get p0() {
         return this.p;
     }
-    set param0(value: IIndexFilter['p']) {
+    set p0(value: IIndexFilter['p']) {
         this.p = value;
     }
 
-    get param1() {
+    get p1() {
         return this.t;
     }
-    set param1(value: IIndexFilter['t']) {
+    set p1(value: IIndexFilter['t']) {
         this.t = value;
     }
 

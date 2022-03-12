@@ -29,10 +29,37 @@ export interface IBombNote extends IBaseObject {
 export class BombNote extends BaseObject<IBombNote> {
     private x;
     private y;
-    constructor(bombNote: IBombNote) {
+    constructor(bombNote: Required<IBombNote>) {
         super(bombNote);
         this.x = bombNote.x;
         this.y = bombNote.y;
+    }
+
+    static create(): BombNote;
+    static create(bombNotes: Partial<IBombNote>): BombNote;
+    static create(...bombNotes: Partial<IBombNote>[]): BombNote[];
+    static create(...bombNotes: Partial<IBombNote>[]): BombNote | BombNote[] {
+        const result: BombNote[] = [];
+        bombNotes?.forEach((bn) =>
+            result.push(
+                new BombNote({
+                    b: bn.b ?? 0,
+                    x: bn.x ?? 0,
+                    y: bn.y ?? 0,
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new BombNote({
+            b: 0,
+            x: 0,
+            y: 0,
+        });
     }
 
     public toObject(): IBombNote {

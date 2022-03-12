@@ -2,7 +2,7 @@ import { IBasicEvent } from './basicEvent.ts';
 import { IBasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
 import { IBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 import { IBombNote } from './bombNote.ts';
-import { IBoostEvent } from './boostEvent.ts';
+import { IColorBoostEvent } from './colorBoostEvent.ts';
 import { IBPMEvent } from './bpmEvent.ts';
 import { IBurstSlider } from './burstSlider.ts';
 import { IColorNote } from './colorNote.ts';
@@ -252,7 +252,9 @@ export const RotationEventDataCheck: Readonly<Record<keyof IRotationEvent, DataC
         },
     };
 
-export const BoostEventDataCheck: Readonly<Record<keyof IBoostEvent, DataCheck>> = {
+export const ColorBoostEventDataCheck: Readonly<
+    Record<keyof IColorBoostEvent, DataCheck>
+> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -555,7 +557,7 @@ export const DifficultyDataCheck: Readonly<Record<keyof IDifficultyData, DataChe
     colorBoostBeatmapEvents: {
         type: 'array',
         version: '3.0.0',
-        check: BoostEventDataCheck,
+        check: ColorBoostEventDataCheck,
         optional: true,
     },
     lightColorEventBoxGroups: {

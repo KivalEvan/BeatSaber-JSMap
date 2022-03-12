@@ -42,7 +42,7 @@ export enum BasicEventType {
 
 /** Basic event beatmap object. */
 interface IBasicEventBase extends IBaseObject {
-    /** Event type `<int>` of basic this.
+    /** Event type `<int>` of basic event.
      * ```ts
      * 0 -> Back Lasers
      * 1 -> Ring Lights
@@ -72,10 +72,14 @@ interface IBasicEventBase extends IBaseObject {
      * ```
      */
     et: number;
-    /** Value `<int>` of basic this. */
+    /** Value `<int>` of basic event. */
     i: number;
-    /** Float value `<float>` of basic this. */
+    /** Float value `<float>` of basic event. */
     f: number;
+}
+
+interface IBasicEventGeneric extends IBasicEventBase {
+    et: number;
 }
 
 interface IBasicEventLight extends IBasicEventBase {
@@ -107,11 +111,7 @@ interface IBasicEventBoost extends IBasicEventBase {
 }
 
 interface IBasicEventRing extends IBasicEventBase {
-    et: 8;
-}
-
-interface IBasicEventZoom extends IBasicEventBase {
-    et: 9;
+    et: 8 | 9;
 }
 
 interface IBasicEventLaserRotation extends IBasicEventBase {
@@ -159,10 +159,10 @@ interface IBasicEventBPMChange extends IBasicEventBase {
 }
 
 export type IBasicEvent =
+    | IBasicEventGeneric
     | IBasicEventLight
     | IBasicEventBoost
     | IBasicEventRing
-    | IBasicEventZoom
     | IBasicEventLaserRotation
     | IBasicEventLaneRotation
     | IBasicEventExtra
@@ -173,17 +173,46 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
     private et;
     private i;
     private f;
-    constructor(basicEvent: IBasicEvent) {
+    constructor(basicEvent: Required<IBasicEvent>) {
         super(basicEvent);
         this.et = basicEvent.et;
         this.i = basicEvent.i;
         this.f = basicEvent.f;
     }
 
+    static create(): BasicEvent;
+    static create(basicEvents: Partial<IBasicEvent>): BasicEvent;
+    static create(...basicEvents: Partial<IBasicEvent>[]): BasicEvent[];
+    static create(...basicEvents: Partial<IBasicEvent>[]): BasicEvent | BasicEvent[] {
+        const result: BasicEvent[] = [];
+        basicEvents?.forEach((be) =>
+            result.push(
+                new BasicEvent({
+                    b: be.b ?? 0,
+                    et: be.et ?? 0,
+                    i: be.i ?? 0,
+                    f: be.f ?? 1,
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new BasicEvent({
+            b: 0,
+            et: 0,
+            i: 0,
+            f: 1,
+        });
+    }
+
     public toObject(): IBasicEvent {
         return {
             b: this.time,
-            et: (this as unknown as IBasicEventRing).et, // i dont care, shut up
+            et: this.et,
             i: this.value,
             f: this.floatValue,
         };
@@ -309,7 +338,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
      * ---
      * This does not check for ring zoom.
      */
-    public isRingEvent(): this is IBasicEventRing {
+    public isRingEvent() {
         return this.et === 8;
     }
 
@@ -318,7 +347,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
      * if (isZoomEvent(event)) {}
      * ```
      */
-    public isZoomEvent(): this is IBasicEventZoom {
+    public isZoomEvent() {
         return this.et === 9;
     }
 

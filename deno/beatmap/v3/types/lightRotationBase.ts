@@ -34,14 +34,25 @@ export class LightRotationBase extends Serializable<ILightRotationBase> {
     private l;
     private r;
     private o;
-    constructor(lightColorBase: ILightRotationBase) {
+    constructor(lightRotationBase: Required<ILightRotationBase>) {
         super();
-        this.b = lightColorBase.b;
-        this.p = lightColorBase.p;
-        this.e = lightColorBase.e;
-        this.l = lightColorBase.l;
-        this.r = lightColorBase.r;
-        this.o = lightColorBase.o;
+        this.b = lightRotationBase.b;
+        this.p = lightRotationBase.p;
+        this.e = lightRotationBase.e;
+        this.l = lightRotationBase.l;
+        this.r = lightRotationBase.r;
+        this.o = lightRotationBase.o;
+    }
+
+    static create(lightColor: Partial<ILightRotationBase> = {}): LightRotationBase {
+        return new LightRotationBase({
+            b: lightColor.b ?? 0,
+            p: lightColor.p ?? 0,
+            e: lightColor.e ?? 0,
+            l: lightColor.l ?? 0,
+            r: lightColor.r ?? 0,
+            o: lightColor.o ?? 0,
+        });
     }
 
     public toObject(): ILightRotationBase {

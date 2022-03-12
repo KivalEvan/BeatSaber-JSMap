@@ -51,12 +51,57 @@ export class Slider extends BaseSlider {
     private tmu;
     private tc;
     private m;
-    constructor(slider: ISlider) {
+    constructor(slider: Required<ISlider>) {
         super(slider);
         this.mu = slider.mu;
         this.tmu = slider.tmu;
         this.tc = slider.tc;
         this.m = slider.m;
+    }
+
+    static create(): Slider;
+    static create(sliders: Partial<ISlider>): Slider;
+    static create(...sliders: Partial<ISlider>[]): Slider[];
+    static create(...sliders: Partial<ISlider>[]): Slider | Slider[] {
+        const result: Slider[] = [];
+        sliders?.forEach((s) =>
+            result.push(
+                new Slider({
+                    b: s.b ?? 0,
+                    c: s.c ?? 0,
+                    x: s.x ?? 0,
+                    y: s.y ?? 0,
+                    d: s.d ?? 0,
+                    mu: s.mu ?? 0.5,
+                    tb: s.tb ?? 0,
+                    tx: s.tx ?? 0,
+                    ty: s.ty ?? 0,
+                    tc: s.tc ?? 0,
+                    tmu: s.tmu ?? 0.5,
+                    m: s.m ?? 1,
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new Slider({
+            b: 0,
+            c: 0,
+            x: 0,
+            y: 0,
+            d: 0,
+            mu: 0.5,
+            tb: 0,
+            tx: 0,
+            ty: 0,
+            tc: 0,
+            tmu: 0.5,
+            m: 1,
+        });
     }
 
     public toObject(): ISlider {

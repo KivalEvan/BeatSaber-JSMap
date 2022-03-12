@@ -3,7 +3,6 @@ import * as v3 from './v3/mod.ts';
 import * as types from './types.ts';
 import logger from '../logger.ts';
 import { clamp } from '../utils.ts';
-import { difficulty as parseDifficultyV3 } from './v3/parse.ts';
 import { difficulty as parseDifficultyV2 } from './v2/parse.ts';
 
 // deno-lint-ignore ban-types
@@ -32,15 +31,17 @@ export const V2toV3 = (
     } else {
         logger.warn(tag(V2toV3), 'Converting beatmap v2 to v3 may lose certain data!');
     }
-    const template = v3.template.difficulty();
+    const template = v3.DifficultyData.create();
 
     data._notes.forEach((n) => {
         if (v2.note.isBomb(n)) {
-            template.bombNotes.push({
-                b: n._time,
-                x: n._lineIndex,
-                y: n._lineLayer,
-            });
+            template.bombNotes.push(
+                v3.BombNote.create({
+                    b: n._time,
+                    x: n._lineIndex,
+                    y: n._lineLayer,
+                })
+            );
         }
         if (v2.note.isNote(n)) {
             let a = 0;
@@ -53,132 +54,119 @@ export const V2toV3 = (
             if (n._cutDirection >= 1000) {
                 a = Math.abs(((n._cutDirection % 1000) % 360) - 360);
             }
-            template.colorNotes.push({
-                b: n._time,
-                c: n._type as 0 | 1,
-                x: n._lineIndex,
-                y: n._lineLayer,
-                d:
-                    n._cutDirection >= 1000 ||
-                    typeof n._customData?._cutDirection === 'number'
-                        ? n._cutDirection === 8
-                            ? 8
-                            : 1
-                        : (clamp(
-                              n._cutDirection,
-                              0,
-                              8
-                          ) as typeof template.colorNotes[number]['d']),
-                a: a,
-                cd: n._customData ?? {},
-            });
+            template.colorNotes.push(
+                v3.ColorNote.create({
+                    b: n._time,
+                    c: n._type as 0 | 1,
+                    x: n._lineIndex,
+                    y: n._lineLayer,
+                    d:
+                        n._cutDirection >= 1000 ||
+                        typeof n._customData?._cutDirection === 'number'
+                            ? n._cutDirection === 8
+                                ? 8
+                                : 1
+                            : (clamp(
+                                  n._cutDirection,
+                                  0,
+                                  8
+                              ) as typeof template.colorNotes[number]['d']),
+                    a: a,
+                    cd: n._customData ?? {},
+                })
+            );
         }
     });
 
     data._obstacles.forEach((o) =>
-        template.obstacles.push({
-            b: o._time,
-            x: o._lineIndex,
-            y: o._type === 2 ? o._lineLayer : o._type ? 2 : 0,
-            d: o._duration,
-            w: o._width,
-            h: o._type === 2 ? o._height : o._type ? 3 : 5,
-        })
+        template.obstacles.push(
+            v3.Obstacle.create({
+                b: o._time,
+                x: o._lineIndex,
+                y: o._type === 2 ? o._lineLayer : o._type ? 2 : 0,
+                d: o._duration,
+                w: o._width,
+                h: o._type === 2 ? o._height : o._type ? 3 : 5,
+            })
+        )
     );
 
     data._events.forEach((e) => {
-        if (v2.event.isLightEvent(e)) {
-            template.basicBeatmapEvents.push({
-                b: e._time,
-                et: e._type,
-                i: e._value,
-                f: e._floatValue,
-            });
-        } else if (v2.event.isRingEvent(e) || v2.event.isZoomEvent(e)) {
-            template.basicBeatmapEvents.push({
-                b: e._time,
-                et: e._type,
-                i: e._value,
-                f: e._floatValue,
-            });
-        } else if (v2.event.isLaserRotationEvent(e)) {
-            template.basicBeatmapEvents.push({
-                b: e._time,
-                et: e._type,
-                i: e._value,
-                f: e._floatValue,
-            });
-        } else if (v2.event.isExtraEvent(e) || v2.event.isSpecialEvent(e)) {
-            template.basicBeatmapEvents.push({
-                b: e._time,
-                et: e._type,
-                i: e._value,
-                f: e._floatValue,
-            });
-        } else if (v2.event.isColorBoost(e)) {
-            template.colorBoostBeatmapEvents.push({
-                b: e._time,
-                o: e._value ? true : false,
-            });
+        if (v2.event.isColorBoost(e)) {
+            template.colorBoostBeatmapEvents.push(
+                v3.ColorBoostEvent.create({
+                    b: e._time,
+                    o: e._value ? true : false,
+                })
+            );
         } else if (v2.event.isLaneRotationEvent(e)) {
-            template.rotationEvents.push({
-                b: e._time,
-                e: e._type === 14 ? 0 : 1,
-                r:
-                    typeof e._customData?._rotation === 'number'
-                        ? e._customData._rotation
-                        : e._value >= 1000
-                        ? (e._value - 1360) % 360
-                        : types.v2.EventLaneRotation[e._value] ?? 0,
-            });
+            template.rotationEvents.push(
+                v3.RotationEvent.create({
+                    b: e._time,
+                    e: e._type === 14 ? 0 : 1,
+                    r:
+                        typeof e._customData?._rotation === 'number'
+                            ? e._customData._rotation
+                            : e._value >= 1000
+                            ? (e._value - 1360) % 360
+                            : types.v2.EventLaneRotation[e._value] ?? 0,
+                })
+            );
         } else if (v2.event.isBPMChangeEvent(e)) {
-            template.bpmEvents.push({
-                b: e._time,
-                m: e._floatValue,
-            });
+            template.bpmEvents.push(
+                v3.BPMEvent.create({
+                    b: e._time,
+                    m: e._floatValue,
+                })
+            );
         } else {
-            e = e as types.v2.EventLaser; // hackish way to just accept any other event
-            template.basicBeatmapEvents.push({
-                b: e._time,
-                et: e._type,
-                i: e._value,
-                f: e._floatValue,
-            });
+            template.basicBeatmapEvents.push(
+                v3.BasicEvent.create({
+                    b: e._time,
+                    et: e._type,
+                    i: e._value,
+                    f: e._floatValue,
+                })
+            );
         }
     });
 
     data._waypoints.forEach((w) => {
-        template.waypoints.push({
-            b: w._time,
-            x: w._lineIndex,
-            y: w._lineLayer,
-            d: w._offsetDirection,
-        });
+        template.waypoints.push(
+            v3.Waypoint.create({
+                b: w._time,
+                x: w._lineIndex,
+                y: w._lineLayer,
+                d: w._offsetDirection,
+            })
+        );
     });
 
     data._sliders.forEach((s) =>
-        template.sliders.push({
-            c: s._colorType,
-            b: s._headTime,
-            x: s._headLineIndex,
-            y: s._headLineLayer,
-            d: s._headCutDirection,
-            mu: s._headControlPointlengthMultiplier,
-            tb: s._tailTime,
-            tx: s._tailLineIndex,
-            ty: s._tailLineLayer,
-            tc: s._tailCutDirection,
-            tmu: s._tailControlPointLengthMultiplier,
-            m: s._sliderMidAnchorMode,
-        })
+        template.sliders.push(
+            v3.Slider.create({
+                c: s._colorType,
+                b: s._headTime,
+                x: s._headLineIndex,
+                y: s._headLineLayer,
+                d: s._headCutDirection,
+                mu: s._headControlPointlengthMultiplier,
+                tb: s._tailTime,
+                tx: s._tailLineIndex,
+                ty: s._tailLineLayer,
+                tc: s._tailCutDirection,
+                tmu: s._tailControlPointLengthMultiplier,
+                m: s._sliderMidAnchorMode,
+            })
+        )
     );
 
-    template.basicEventTypesWithKeywords = {
+    template.basicEventTypesWithKeywords = v3.BasicEventTypesWithKeywords.create({
         d:
             data._specialEventsKeywordFilters?._keywords?.map((k) => {
                 return { k: k._keyword, e: k._specialEvents };
             }) ?? [],
-    };
+    });
 
     if (data._customData) {
         template.customData = {
@@ -189,7 +177,7 @@ export const V2toV3 = (
         };
     }
 
-    return parseDifficultyV3(template);
+    return template;
 };
 
 /** In case you need to go back, who knows why.

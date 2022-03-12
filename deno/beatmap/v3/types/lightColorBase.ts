@@ -37,13 +37,46 @@ export class LightColorBase extends Serializable<ILightColorBase> {
     private c;
     private s;
     private f;
-    constructor(lightColorBase: ILightColorBase) {
+    constructor(lightColorBase: Required<ILightColorBase>) {
         super();
         this.b = lightColorBase.b;
         this.i = lightColorBase.i;
         this.c = lightColorBase.c;
         this.s = lightColorBase.s;
         this.f = lightColorBase.f;
+    }
+
+    static create(): LightColorBase;
+    static create(lightColors: Partial<ILightColorBase>): LightColorBase;
+    static create(...lightColors: Partial<ILightColorBase>[]): LightColorBase[];
+    static create(
+        ...lightColors: Partial<ILightColorBase>[]
+    ): LightColorBase | LightColorBase[] {
+        const result: LightColorBase[] = [];
+        lightColors?.forEach((lc) =>
+            result.push(
+                new LightColorBase({
+                    b: lc.b ?? 0,
+                    i: lc.i ?? 0,
+                    c: lc.c ?? 0,
+                    s: lc.s ?? 1,
+                    f: lc.f ?? 0,
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new LightColorBase({
+            b: 0,
+            i: 0,
+            c: 0,
+            s: 1,
+            f: 0,
+        });
     }
 
     public toObject(): ILightColorBase {

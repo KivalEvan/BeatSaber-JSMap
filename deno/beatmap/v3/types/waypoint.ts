@@ -41,7 +41,7 @@ export class Waypoint extends BaseObject<IWaypoint> {
     private x;
     private y;
     private d;
-    constructor(waypoint: IWaypoint) {
+    constructor(waypoint: Required<IWaypoint>) {
         super(waypoint);
         this.x = waypoint.x;
         this.y = waypoint.y;
@@ -55,6 +55,35 @@ export class Waypoint extends BaseObject<IWaypoint> {
             y: this.posY,
             d: this.direction,
         };
+    }
+
+    static create(): Waypoint;
+    static create(waypoints: Partial<IWaypoint>): Waypoint;
+    static create(...waypoints: Partial<IWaypoint>[]): Waypoint[];
+    static create(...waypoints: Partial<IWaypoint>[]): Waypoint | Waypoint[] {
+        const result: Waypoint[] = [];
+        waypoints?.forEach((w) =>
+            result.push(
+                new Waypoint({
+                    b: w.b ?? 0,
+                    x: w.x ?? 0,
+                    y: w.y ?? 0,
+                    d: w.d ?? 1,
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new Waypoint({
+            b: 0,
+            x: 0,
+            y: 0,
+            d: 1,
+        });
     }
 
     get posX() {

@@ -25,10 +25,53 @@ export interface IBurstSlider extends IBaseSlider {
 export class BurstSlider extends BaseSlider {
     private sc;
     private s;
-    constructor(burstSlider: IBurstSlider) {
+    constructor(burstSlider: Required<IBurstSlider>) {
         super(burstSlider);
         this.sc = burstSlider.sc;
         this.s = burstSlider.s;
+    }
+
+    static create(): BurstSlider;
+    static create(burstSliders: Partial<IBurstSlider>): BurstSlider;
+    static create(...burstSliders: Partial<IBurstSlider>[]): BurstSlider[];
+    static create(
+        ...burstSliders: Partial<IBurstSlider>[]
+    ): BurstSlider | BurstSlider[] {
+        const result: BurstSlider[] = [];
+        burstSliders?.forEach((bs) =>
+            result.push(
+                new BurstSlider({
+                    b: bs.b ?? 0,
+                    c: bs.c ?? 0,
+                    x: bs.x ?? 0,
+                    y: bs.y ?? 0,
+                    d: bs.d ?? 0,
+                    tb: bs.tb ?? 0,
+                    tx: bs.tx ?? 0,
+                    ty: bs.ty ?? 0,
+                    sc: bs.sc ?? 1,
+                    s: bs.s ?? 1,
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new BurstSlider({
+            b: 0,
+            c: 0,
+            x: 0,
+            y: 0,
+            d: 0,
+            tb: 0,
+            tx: 0,
+            ty: 0,
+            sc: 1,
+            s: 1,
+        });
     }
 
     public toObject(): IBurstSlider {

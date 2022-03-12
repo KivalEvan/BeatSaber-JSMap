@@ -75,7 +75,7 @@ export abstract class BaseSlider extends BaseObject<IBaseSlider> {
     private tb;
     private tx;
     private ty;
-    constructor(baseSlider: IBaseSlider) {
+    constructor(baseSlider: Required<IBaseSlider>) {
         super(baseSlider);
         this.c = baseSlider.c;
         this.x = baseSlider.x;

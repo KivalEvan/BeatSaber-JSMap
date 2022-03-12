@@ -25,12 +25,59 @@ export class LightColorEventBox extends EventBox {
     private t;
     private b;
     private e: LightColorBase[];
-    constructor(lightColorEventBox: ILightColorEventBox) {
+    constructor(lightColorEventBox: Required<ILightColorEventBox>) {
         super(lightColorEventBox);
         this.r = lightColorEventBox.r;
         this.t = lightColorEventBox.t;
         this.b = lightColorEventBox.b;
         this.e = lightColorEventBox.e.map((e) => new LightColorBase(e));
+    }
+
+    static create(): LightColorEventBox;
+    static create(eventBoxes: Partial<ILightColorEventBox>): LightColorEventBox;
+    static create(...eventBoxes: Partial<ILightColorEventBox>[]): LightColorEventBox[];
+    static create(
+        ...eventBoxes: Partial<ILightColorEventBox>[]
+    ): LightColorEventBox | LightColorEventBox[] {
+        const result: LightColorEventBox[] = [];
+        eventBoxes?.forEach((eb) =>
+            result.push(
+                new LightColorEventBox({
+                    f: eb.f ?? {
+                        f: 1,
+                        p: 1,
+                        t: 1,
+                        r: 0,
+                    },
+                    w: eb.w ?? 0,
+                    d: eb.d ?? 1,
+                    r: eb.r ?? 0,
+                    t: eb.t ?? 1,
+                    b: eb.b ?? 0,
+                    e: eb.e ?? [],
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new LightColorEventBox({
+            f: {
+                f: 1,
+                p: 1,
+                t: 1,
+                r: 0,
+            },
+            w: 0,
+            d: 1,
+            r: 0,
+            t: 1,
+            b: 0,
+            e: [],
+        });
     }
 
     public toObject(): ILightColorEventBox {

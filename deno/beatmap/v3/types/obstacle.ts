@@ -51,13 +51,46 @@ export class Obstacle extends BaseObject<IObstacle> {
     private d;
     private w;
     private h;
-    constructor(bombNote: IObstacle) {
-        super(bombNote);
-        this.x = bombNote.x;
-        this.y = bombNote.y;
-        this.d = bombNote.d;
-        this.w = bombNote.w;
-        this.h = bombNote.h;
+    constructor(obstacle: Required<IObstacle>) {
+        super(obstacle);
+        this.x = obstacle.x;
+        this.y = obstacle.y;
+        this.d = obstacle.d;
+        this.w = obstacle.w;
+        this.h = obstacle.h;
+    }
+
+    static create(): Obstacle;
+    static create(obstacles: Partial<IObstacle>): Obstacle;
+    static create(...obstacles: Partial<IObstacle>[]): Obstacle[];
+    static create(...obstacles: Partial<IObstacle>[]): Obstacle | Obstacle[] {
+        const result: Obstacle[] = [];
+        obstacles?.forEach((o) =>
+            result.push(
+                new Obstacle({
+                    b: o.b ?? 0,
+                    x: o.x ?? 0,
+                    y: o.y ?? 0,
+                    d: o.d ?? 1,
+                    w: o.w ?? 1,
+                    h: o.h ?? 1,
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new Obstacle({
+            b: 0,
+            x: 0,
+            y: 0,
+            d: 1,
+            w: 1,
+            h: 1,
+        });
     }
 
     public toObject(): IObstacle {

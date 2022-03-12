@@ -13,11 +13,19 @@ export interface IBasicEventTypesWithKeywords {
 /** Basic event types with keywords. */
 export class BasicEventTypesWithKeywords extends Serializable<IBasicEventTypesWithKeywords> {
     private d: BasicEventTypesForKeywords[];
-    constructor(basicEventTypesWithKeywords: IBasicEventTypesWithKeywords) {
+    constructor(basicEventTypesWithKeywords: Required<IBasicEventTypesWithKeywords>) {
         super();
         this.d = basicEventTypesWithKeywords.d.map(
             (d) => new BasicEventTypesForKeywords({ e: d.e, k: d.k })
         );
+    }
+
+    static create(
+        basicEventTypesWithKeywords: Partial<IBasicEventTypesWithKeywords> = {}
+    ): BasicEventTypesWithKeywords {
+        return new BasicEventTypesWithKeywords({
+            d: basicEventTypesWithKeywords.d ?? [],
+        });
     }
 
     public toObject(): IBasicEventTypesWithKeywords {

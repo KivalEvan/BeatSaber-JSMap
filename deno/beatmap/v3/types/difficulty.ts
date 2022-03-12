@@ -8,7 +8,7 @@ import { ISlider, Slider } from './slider.ts';
 import { IBurstSlider, BurstSlider } from './burstSlider.ts';
 import { IWaypoint, Waypoint } from './waypoint.ts';
 import { IBasicEvent, BasicEvent } from './basicEvent.ts';
-import { IBoostEvent, BoostEvent } from './boostEvent.ts';
+import { IColorBoostEvent, ColorBoostEvent } from './colorBoostEvent.ts';
 import {
     ILightColorEventBoxGroup,
     LightColorEventBoxGroup,
@@ -34,7 +34,7 @@ export interface IDifficultyData {
     burstSliders: IBurstSlider[];
     waypoints: IWaypoint[];
     basicBeatmapEvents: IBasicEvent[];
-    colorBoostBeatmapEvents: IBoostEvent[];
+    colorBoostBeatmapEvents: IColorBoostEvent[];
     lightColorEventBoxGroups: ILightColorEventBoxGroup[];
     lightRotationEventBoxGroups: ILightRotationEventBoxGroup[];
     basicEventTypesWithKeywords: IBasicEventTypesWithKeywords;
@@ -53,49 +53,77 @@ export class DifficultyData extends Serializable<IDifficultyData> {
     burstSliders: BurstSlider[];
     waypoints: Waypoint[];
     basicBeatmapEvents: BasicEvent[];
-    colorBoostBeatmapEvents: BoostEvent[];
+    colorBoostBeatmapEvents: ColorBoostEvent[];
     lightColorEventBoxGroups: LightColorEventBoxGroup[];
     lightRotationEventBoxGroups: LightRotationEventBoxGroup[];
     basicEventTypesWithKeywords: BasicEventTypesWithKeywords;
     useNormalEventsAsCompatibleEvents;
     customData;
-    constructor(difficultyData: IDifficultyData) {
+    constructor(difficultyData: Required<IDifficultyData>) {
         super();
         this.version = difficultyData.version ?? '3.0.0';
         this.bpmEvents =
-            difficultyData.bpmEvents?.map((obj) => new BPMEvent(obj)) ?? [];
+            difficultyData.bpmEvents?.map((obj) => BPMEvent.create(obj)) ?? [];
         this.rotationEvents =
-            difficultyData.rotationEvents?.map((obj) => new RotationEvent(obj)) ?? [];
-        this.colorNotes =
-            difficultyData.colorNotes?.map((obj) => new ColorNote(obj)) ?? [];
-        this.bombNotes =
-            difficultyData.bombNotes?.map((obj) => new BombNote(obj)) ?? [];
-        this.obstacles =
-            difficultyData.obstacles?.map((obj) => new Obstacle(obj)) ?? [];
-        this.sliders = difficultyData.sliders?.map((obj) => new Slider(obj)) ?? [];
-        this.burstSliders =
-            difficultyData.burstSliders?.map((obj) => new BurstSlider(obj)) ?? [];
-        this.waypoints =
-            difficultyData.waypoints?.map((obj) => new Waypoint(obj)) ?? [];
-        this.basicBeatmapEvents =
-            difficultyData.basicBeatmapEvents?.map((obj) => new BasicEvent(obj)) ?? [];
-        this.colorBoostBeatmapEvents =
-            difficultyData.colorBoostBeatmapEvents?.map((obj) => new BoostEvent(obj)) ??
+            difficultyData.rotationEvents?.map((obj) => RotationEvent.create(obj)) ??
             [];
+        this.colorNotes =
+            difficultyData.colorNotes?.map((obj) => ColorNote.create(obj)) ?? [];
+        this.bombNotes =
+            difficultyData.bombNotes?.map((obj) => BombNote.create(obj)) ?? [];
+        this.obstacles =
+            difficultyData.obstacles?.map((obj) => Obstacle.create(obj)) ?? [];
+        this.sliders = difficultyData.sliders?.map((obj) => Slider.create(obj)) ?? [];
+        this.burstSliders =
+            difficultyData.burstSliders?.map((obj) => BurstSlider.create(obj)) ?? [];
+        this.waypoints =
+            difficultyData.waypoints?.map((obj) => Waypoint.create(obj)) ?? [];
+        this.basicBeatmapEvents =
+            difficultyData.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)) ??
+            [];
+        this.colorBoostBeatmapEvents =
+            difficultyData.colorBoostBeatmapEvents?.map((obj) =>
+                ColorBoostEvent.create(obj)
+            ) ?? [];
         this.lightColorEventBoxGroups =
-            difficultyData.lightColorEventBoxGroups?.map(
-                (obj) => new LightColorEventBoxGroup(obj)
+            difficultyData.lightColorEventBoxGroups?.map((obj) =>
+                LightColorEventBoxGroup.create(obj)
             ) ?? [];
         this.lightRotationEventBoxGroups =
-            difficultyData.lightRotationEventBoxGroups?.map(
-                (obj) => new LightRotationEventBoxGroup(obj)
+            difficultyData.lightRotationEventBoxGroups?.map((obj) =>
+                LightRotationEventBoxGroup.create(obj)
             ) ?? [];
-        this.basicEventTypesWithKeywords = new BasicEventTypesWithKeywords(
+        this.basicEventTypesWithKeywords = BasicEventTypesWithKeywords.create(
             difficultyData.basicEventTypesWithKeywords
         ) ?? { d: [] };
         this.useNormalEventsAsCompatibleEvents =
             difficultyData.useNormalEventsAsCompatibleEvents ?? false;
         this.customData = difficultyData.customData ?? {};
+    }
+
+    static create(difficultyData: Partial<IDifficultyData> = {}): DifficultyData {
+        return new DifficultyData({
+            version: difficultyData.version || '3.0.0',
+            bpmEvents: difficultyData.bpmEvents ?? [],
+            rotationEvents: difficultyData.rotationEvents ?? [],
+            colorNotes: difficultyData.colorNotes ?? [],
+            bombNotes: difficultyData.bombNotes ?? [],
+            obstacles: difficultyData.obstacles ?? [],
+            sliders: difficultyData.sliders ?? [],
+            burstSliders: difficultyData.burstSliders ?? [],
+            waypoints: difficultyData.waypoints ?? [],
+            basicBeatmapEvents: difficultyData.basicBeatmapEvents ?? [],
+            colorBoostBeatmapEvents: difficultyData.colorBoostBeatmapEvents ?? [],
+            lightColorEventBoxGroups: difficultyData.lightColorEventBoxGroups ?? [],
+            lightRotationEventBoxGroups:
+                difficultyData.lightRotationEventBoxGroups ?? [],
+            basicEventTypesWithKeywords: difficultyData.basicEventTypesWithKeywords ?? {
+                d: [],
+            },
+            useNormalEventsAsCompatibleEvents:
+                difficultyData.useNormalEventsAsCompatibleEvents ?? false,
+            customData: difficultyData.customData ?? {},
+        });
     }
 
     public toObject(): IDifficultyData {

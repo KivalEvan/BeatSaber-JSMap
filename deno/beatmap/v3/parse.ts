@@ -101,5 +101,5 @@ export const difficulty = (data: IDifficultyData): DifficultyData => {
     data.lightColorEventBoxGroups.sort(sortObjectTime);
     data.lightRotationEventBoxGroups.sort(sortObjectTime);
 
-    return new DifficultyData(data);
+    return DifficultyData.create(data);
 };

@@ -16,10 +16,39 @@ export interface IRotationEvent extends IBaseObject {
 export class RotationEvent extends BaseObject<IRotationEvent> {
     private e;
     private r;
-    constructor(rotationEvent: IRotationEvent) {
+    constructor(rotationEvent: Required<IRotationEvent>) {
         super(rotationEvent);
         this.e = rotationEvent.e;
         this.r = rotationEvent.r;
+    }
+
+    static create(): RotationEvent;
+    static create(rotationEvents: Partial<IRotationEvent>): RotationEvent;
+    static create(...rotationEvents: Partial<IRotationEvent>[]): RotationEvent[];
+    static create(
+        ...rotationEvents: Partial<IRotationEvent>[]
+    ): RotationEvent | RotationEvent[] {
+        const result: RotationEvent[] = [];
+        rotationEvents?.forEach((re) =>
+            result.push(
+                new RotationEvent({
+                    b: re.b ?? 0,
+                    e: re.e ?? 0,
+                    r: re.r ?? 0,
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new RotationEvent({
+            b: 0,
+            e: 0,
+            r: 0,
+        });
     }
 
     public toObject(): IRotationEvent {

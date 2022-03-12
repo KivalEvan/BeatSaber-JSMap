@@ -33,7 +33,7 @@ export class LightRotationEventBox extends EventBox {
     private r;
     private b;
     private l: LightRotationBase[];
-    constructor(lightRotationEventBox: ILightRotationEventBox) {
+    constructor(lightRotationEventBox: Required<ILightRotationEventBox>) {
         super(lightRotationEventBox);
         this.s = lightRotationEventBox.s;
         this.t = lightRotationEventBox.t;
@@ -41,6 +41,59 @@ export class LightRotationEventBox extends EventBox {
         this.r = lightRotationEventBox.r;
         this.b = lightRotationEventBox.b;
         this.l = lightRotationEventBox.l.map((l) => new LightRotationBase(l));
+    }
+
+    static create(): LightRotationEventBox;
+    static create(eventBoxes: Partial<ILightRotationEventBox>): LightRotationEventBox;
+    static create(
+        ...eventBoxes: Partial<ILightRotationEventBox>[]
+    ): LightRotationEventBox[];
+    static create(
+        ...eventBoxes: Partial<ILightRotationEventBox>[]
+    ): LightRotationEventBox | LightRotationEventBox[] {
+        const result: LightRotationEventBox[] = [];
+        eventBoxes?.forEach((eb) =>
+            result.push(
+                new LightRotationEventBox({
+                    f: eb.f ?? {
+                        f: 1,
+                        p: 1,
+                        t: 1,
+                        r: 0,
+                    },
+                    w: eb.w ?? 0,
+                    d: eb.d ?? 1,
+                    s: eb.s ?? 0,
+                    t: eb.t ?? 1,
+                    a: eb.a ?? 0,
+                    r: eb.r ?? 0,
+                    b: eb.b ?? 0,
+                    l: eb.l ?? [],
+                })
+            )
+        );
+        if (result.length === 1) {
+            return result[0];
+        }
+        if (result.length) {
+            return result;
+        }
+        return new LightRotationEventBox({
+            f: {
+                f: 1,
+                p: 1,
+                t: 1,
+                r: 0,
+            },
+            w: 0,
+            d: 1,
+            s: 0,
+            t: 1,
+            a: 0,
+            r: 0,
+            b: 0,
+            l: [],
+        });
     }
 
     public toObject(): ILightRotationEventBox {

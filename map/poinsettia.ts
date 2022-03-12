@@ -18,70 +18,74 @@ const possibleBurst: {
 } = { 0: [], 1: [] };
 for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
     const n = difficulty.colorNotes[i];
-    if (n.d === 8) {
-        n.a = 45;
+    if (n.direction === 8) {
+        n.angleOffset = 45;
     }
-    if (n.cd?._color) {
-        if (n.cd._color[0] === 0) {
-            if (possibleBurst[n.c].length) {
+    if (n.customData?._color) {
+        if (n.customData._color[0] === 0) {
+            if (possibleBurst[n.color].length) {
                 difficulty.colorNotes.splice(i, 1);
                 i--;
                 len--;
             }
-            possibleBurst[n.c].push(n);
+            possibleBurst[n.color].push(n);
         }
-        if (n.cd._color[0] === 1) {
-            if (prevSlider[n.c]) {
-                difficulty.sliders.push({
-                    b: prevSlider[n.c].b,
-                    c: prevSlider[n.c].c,
-                    x: prevSlider[n.c].x,
-                    y: prevSlider[n.c].y,
-                    d: prevSlider[n.c].d,
-                    mu: prevSlider[n.c].cd!._disableSpawnEffect
-                        ? 0
-                        : prevSlider[n.c].cd!._color[2],
-                    tb: n.b,
-                    tx: n.x,
-                    ty: n.y,
-                    tc: prevSlider[n.c].cd!._disableSpawnEffect
-                        ? prevSlider[n.c].d
-                        : n.d,
-                    tmu: prevSlider[n.c].cd!._disableSpawnEffect
-                        ? 0
-                        : prevSlider[n.c].cd!._color[3],
-                    m: prevSlider[n.c].cd!._color[1],
-                });
+        if (n.customData._color[0] === 1) {
+            if (prevSlider[n.color]) {
+                difficulty.sliders.push(
+                    bsmap.v3.Slider.create({
+                        b: prevSlider[n.color].time,
+                        c: prevSlider[n.color].color,
+                        x: prevSlider[n.color].posX,
+                        y: prevSlider[n.color].posY,
+                        d: prevSlider[n.color].direction,
+                        mu: prevSlider[n.color].customData!._disableSpawnEffect
+                            ? 0
+                            : prevSlider[n.color].customData!._color[2],
+                        tb: n.time,
+                        tx: n.posX,
+                        ty: n.posY,
+                        tc: prevSlider[n.color].customData!._disableSpawnEffect
+                            ? prevSlider[n.color].direction
+                            : n.direction,
+                        tmu: prevSlider[n.color].customData!._disableSpawnEffect
+                            ? 0
+                            : prevSlider[n.color].customData!._color[3],
+                        m: prevSlider[n.color].customData!._color[1],
+                    })
+                );
             }
-            delete prevSlider[n.c];
-            if (n.cd._color[3] !== 0) {
-                prevSlider[n.c] = n;
+            delete prevSlider[n.color];
+            if (n.customData._color[3] !== 0) {
+                prevSlider[n.color] = n;
             } else {
-                if (n.cd._color[2] !== 0) {
-                    let x = n.x;
-                    let y = n.y;
+                if (n.customData._color[2] !== 0) {
+                    let x = n.posX;
+                    let y = n.posY;
                     while (x >= 0 && x <= 3 && y >= 0 && y <= 2) {
-                        x += bsmap.v3.colorNote.cutDirectionSpace[n.d][0];
-                        y += bsmap.v3.colorNote.cutDirectionSpace[n.d][1];
+                        x += bsmap.v3.NoteCutDirectionSpace[n.direction][0];
+                        y += bsmap.v3.NoteCutDirectionSpace[n.direction][1];
                     }
                     x = bsmap.utils.clamp(x, 0, 3);
                     y = bsmap.utils.clamp(y, 0, 2);
-                    difficulty.sliders.push({
-                        b: n.b,
-                        c: n.c,
-                        x: n.x,
-                        y: n.y,
-                        d: n.d,
-                        mu: 0.5,
-                        tb: n.b + n.cd._color[2],
-                        tx: x,
-                        ty: y,
-                        tc: n.d,
-                        tmu: 0,
-                        m: 0,
-                    });
+                    difficulty.sliders.push(
+                        bsmap.v3.Slider.create({
+                            b: n.time,
+                            c: n.color,
+                            x: n.posX,
+                            y: n.posY,
+                            d: n.direction,
+                            mu: 0.5,
+                            tb: n.time + n.customData._color[2],
+                            tx: x,
+                            ty: y,
+                            tc: n.direction,
+                            tmu: 0,
+                            m: 0,
+                        })
+                    );
                 }
-                if (n.cd!._disableSpawnEffect) {
+                if (n.customData!._disableSpawnEffect) {
                     difficulty.colorNotes.splice(i, 1);
                     i--;
                     len--;
@@ -89,22 +93,24 @@ for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
             }
         }
     }
-    if (possibleBurst[n.c].length === 2) {
-        difficulty.burstSliders.push({
-            b: possibleBurst[n.c][0].b,
-            c: possibleBurst[n.c][0].c,
-            x: possibleBurst[n.c][0].x,
-            y: possibleBurst[n.c][0].y,
-            d: possibleBurst[n.c][0].d,
-            tb: possibleBurst[n.c][1].b,
-            tx: possibleBurst[n.c][1].x,
-            ty: possibleBurst[n.c][1].y,
-            sc: possibleBurst[n.c][0].cd!._color[1] / 2,
-            s: possibleBurst[n.c][0].cd!._color[2]
-                ? possibleBurst[n.c][0].cd!._color[2]
-                : 1,
-        });
-        possibleBurst[n.c] = [];
+    if (possibleBurst[n.color].length === 2) {
+        difficulty.burstSliders.push(
+            bsmap.v3.BurstSlider.create({
+                b: possibleBurst[n.color][0].time,
+                c: possibleBurst[n.color][0].color,
+                x: possibleBurst[n.color][0].posX,
+                y: possibleBurst[n.color][0].posY,
+                d: possibleBurst[n.color][0].direction,
+                tb: possibleBurst[n.color][1].time,
+                tx: possibleBurst[n.color][1].posX,
+                ty: possibleBurst[n.color][1].posY,
+                sc: possibleBurst[n.color][0].customData!._color[1] / 2,
+                s: possibleBurst[n.color][0].customData!._color[2]
+                    ? possibleBurst[n.color][0].customData!._color[2]
+                    : 1,
+            })
+        );
+        possibleBurst[n.color] = [];
     }
 }
 if (possibleBurst[0].length || possibleBurst[1].length) {
