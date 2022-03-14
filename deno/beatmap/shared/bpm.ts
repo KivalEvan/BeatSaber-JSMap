@@ -111,7 +111,7 @@ export class BeatPerMinute {
                 );
             }
         }
-        return this.offsetBegone(beat);
+        return ((this.toRealTime(beat) + this._offset) * this._bpm) / 60;
     }
 
     /** Adjust beat time from BPM changes and offset.
