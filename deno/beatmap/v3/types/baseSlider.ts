@@ -1,6 +1,5 @@
 import { IBaseObject, BaseObject } from './baseObject.ts';
 
-/** Base slider beatmap object. */
 export interface IBaseSlider extends IBaseObject {
     /** Color type `<int>` of base slider.
      * ```ts
@@ -67,6 +66,7 @@ export interface IBaseSlider extends IBaseObject {
     ty: number;
 }
 
+/** Base slider beatmap object. */
 export abstract class BaseSlider extends BaseObject<IBaseSlider> {
     private c;
     private x;
@@ -86,6 +86,12 @@ export abstract class BaseSlider extends BaseObject<IBaseSlider> {
         this.ty = baseSlider.ty;
     }
 
+    /** Color type `<int>` of base slider.
+     * ```ts
+     * 0 -> Red
+     * 1 -> Blue
+     * ```
+     */
     get color() {
         return this.c;
     }
@@ -93,6 +99,16 @@ export abstract class BaseSlider extends BaseObject<IBaseSlider> {
         this.c = value;
     }
 
+    /** Head position x `<int>` of base slider.
+     * ```ts
+     * 0 -> Outer Left
+     * 1 -> Middle Left
+     * 2 -> Middle Right
+     * 3 -> Outer Right
+     * ```
+     * ---
+     * Range: `0-3`
+     */
     get posX() {
         return this.x;
     }
@@ -100,6 +116,15 @@ export abstract class BaseSlider extends BaseObject<IBaseSlider> {
         this.x = value;
     }
 
+    /** Head position y `<int>` of base slider.
+     * ```ts
+     * 0 -> Bottom row
+     * 1 -> Middle row
+     * 2 -> Top row
+     * ```
+     * ---
+     * Range: `0-2`
+     */
     get posY() {
         return this.y;
     }
@@ -107,6 +132,17 @@ export abstract class BaseSlider extends BaseObject<IBaseSlider> {
         this.y = value;
     }
 
+    /** Head cut direction `<int>` of base slider.
+     * ```ts
+     * 4 | 0 | 5
+     * 2 | 8 | 3
+     * 6 | 1 | 7
+     * ```
+     * ---
+     * Grid represents cut direction from center.
+     *
+     * **WARNING:** Dot-directional is not recommended, assumes down-directional.
+     */
     get direction() {
         return this.d;
     }
@@ -122,6 +158,16 @@ export abstract class BaseSlider extends BaseObject<IBaseSlider> {
         this.tb = value;
     }
 
+    /** Tail position x `<int>` of base slider.
+     * ```ts
+     * 0 -> Outer Left
+     * 1 -> Middle Left
+     * 2 -> Middle Right
+     * 3 -> Outer Right
+     * ```
+     * ---
+     * Range: `none`
+     */
     get tailPosX() {
         return this.tx;
     }
@@ -129,6 +175,15 @@ export abstract class BaseSlider extends BaseObject<IBaseSlider> {
         this.tx = value;
     }
 
+    /** Tail position y `<int>` of base slider.
+     * ```ts
+     * 0 -> Bottom row
+     * 1 -> Middle row
+     * 2 -> Top row
+     * ```
+     * ---
+     * Range: `0-2`
+     */
     get tailPosY() {
         return this.ty;
     }
@@ -136,11 +191,40 @@ export abstract class BaseSlider extends BaseObject<IBaseSlider> {
         this.ty = value;
     }
 
-    public isInverse() {
+    setColor(value: IBaseSlider['c']) {
+        this.color = value;
+        return this;
+    }
+    setPosX(value: IBaseSlider['x']) {
+        this.posX = value;
+        return this;
+    }
+    setPosY(value: IBaseSlider['y']) {
+        this.posY = value;
+        return this;
+    }
+    setDirection(value: IBaseSlider['d']) {
+        this.direction = value;
+        return this;
+    }
+    setTailTime(value: number) {
+        this.tailTime = value;
+        return this;
+    }
+    setTailPosX(value: IBaseSlider['tx']) {
+        this.tailPosX = value;
+        return this;
+    }
+    setTailPosY(value: IBaseSlider['ty']) {
+        this.tailPosY = value;
+        return this;
+    }
+
+    isInverse() {
         return this.time < this.tailTime;
     }
 
-    public hasDot() {
+    hasDot() {
         return this.direction === 8;
     }
 

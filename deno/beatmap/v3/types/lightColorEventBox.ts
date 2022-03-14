@@ -1,3 +1,4 @@
+import { DeepPartial, ObjectToReturn } from '../../../utils.ts';
 import { IEventBox, EventBox } from './eventBox.ts';
 import { ILightColorBase, LightColorBase } from './lightColorBase.ts';
 
@@ -20,6 +21,23 @@ export interface ILightColorEventBox extends IEventBox {
     e: ILightColorBase[];
 }
 
+const defaultValue: ObjectToReturn<ILightColorEventBox> = {
+    f: () => {
+        return {
+            f: 1,
+            p: 1,
+            t: 1,
+            r: 0,
+        };
+    },
+    w: 0,
+    d: 1,
+    r: 0,
+    t: 1,
+    b: 0,
+    e: () => [],
+};
+
 export class LightColorEventBox extends EventBox {
     private r;
     private t;
@@ -30,31 +48,28 @@ export class LightColorEventBox extends EventBox {
         this.r = lightColorEventBox.r;
         this.t = lightColorEventBox.t;
         this.b = lightColorEventBox.b;
-        this.e = lightColorEventBox.e.map((e) => new LightColorBase(e));
+        this.e = lightColorEventBox.e.map((e) => LightColorBase.create(e));
     }
 
     static create(): LightColorEventBox;
-    static create(eventBoxes: Partial<ILightColorEventBox>): LightColorEventBox;
-    static create(...eventBoxes: Partial<ILightColorEventBox>[]): LightColorEventBox[];
+    static create(eventBoxes: DeepPartial<ILightColorEventBox>): LightColorEventBox;
     static create(
-        ...eventBoxes: Partial<ILightColorEventBox>[]
+        ...eventBoxes: DeepPartial<ILightColorEventBox>[]
+    ): LightColorEventBox[];
+    static create(
+        ...eventBoxes: DeepPartial<ILightColorEventBox>[]
     ): LightColorEventBox | LightColorEventBox[] {
         const result: LightColorEventBox[] = [];
         eventBoxes?.forEach((eb) =>
             result.push(
                 new LightColorEventBox({
-                    f: eb.f ?? {
-                        f: 1,
-                        p: 1,
-                        t: 1,
-                        r: 0,
-                    },
-                    w: eb.w ?? 0,
-                    d: eb.d ?? 1,
-                    r: eb.r ?? 0,
-                    t: eb.t ?? 1,
-                    b: eb.b ?? 0,
-                    e: eb.e ?? [],
+                    f: (eb as Required<ILightColorEventBox>).f ?? defaultValue.f(),
+                    w: eb.w ?? defaultValue.w,
+                    d: eb.d ?? defaultValue.d,
+                    r: eb.r ?? defaultValue.r,
+                    t: eb.t ?? defaultValue.t,
+                    b: eb.b ?? defaultValue.b,
+                    e: (eb as Required<ILightColorEventBox>).e ?? defaultValue.e(),
                 })
             )
         );
@@ -65,22 +80,17 @@ export class LightColorEventBox extends EventBox {
             return result;
         }
         return new LightColorEventBox({
-            f: {
-                f: 1,
-                p: 1,
-                t: 1,
-                r: 0,
-            },
-            w: 0,
-            d: 1,
-            r: 0,
-            t: 1,
-            b: 0,
-            e: [],
+            f: defaultValue.f(),
+            w: defaultValue.w,
+            d: defaultValue.d,
+            r: defaultValue.r,
+            t: defaultValue.t,
+            b: defaultValue.b,
+            e: defaultValue.e(),
         });
     }
 
-    public toObject(): ILightColorEventBox {
+    toObject(): ILightColorEventBox {
         return {
             f: this.filter.toObject(),
             w: this.beatDistribution,
@@ -92,6 +102,10 @@ export class LightColorEventBox extends EventBox {
         };
     }
 
+    /** Brightness distribution `<float>` of light color event box.
+     *
+     * Range: `0-1` (0% to 100%), can be more than 1.
+     */
     get brightnessDistribution() {
         return this.r;
     }
@@ -99,6 +113,12 @@ export class LightColorEventBox extends EventBox {
         this.r = value;
     }
 
+    /** Brightness distribution type `<int>` of light color event box.
+     * ```ts
+     * 1 -> Wave // adds up to last ID.
+     * 2 -> Step // adds to consequent ID.
+     * ```
+     */
     get brightnessDistributionType() {
         return this.t;
     }
@@ -106,13 +126,15 @@ export class LightColorEventBox extends EventBox {
         this.t = value;
     }
 
-    get affectFirst() {
+    /** Brigthness distribution should affect first event `<int>` of light color event box. */
+    get affectFirst(): ILightColorEventBox['b'] {
         return this.b;
     }
-    set affectFirst(value: ILightColorEventBox['b']) {
-        this.b = value;
+    set affectFirst(value: ILightColorEventBox['b'] | boolean) {
+        this.b = value ? 1 : 0;
     }
 
+    /** Light color base data list. */
     get events() {
         return this.e;
     }

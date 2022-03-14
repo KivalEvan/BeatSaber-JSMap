@@ -6,7 +6,6 @@ export interface IEventBoxGroup extends IBaseObject {
 }
 
 export abstract class EventBoxGroup extends BaseObject<IEventBoxGroup> {
-    /** Group ID `<int>` of event box group */
     private g;
     constructor(eventBoxGroup: Required<IEventBoxGroup>) {
         super(eventBoxGroup);

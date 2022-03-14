@@ -1,7 +1,6 @@
 import { IBaseObject, BaseObject } from './baseObject.ts';
 import { LINE_COUNT } from './constants.ts';
 
-/** Bomb note beatmap object. */
 export interface IBombNote extends IBaseObject {
     /** Position x `<int>` of bomb.
      * ```ts
@@ -26,6 +25,13 @@ export interface IBombNote extends IBaseObject {
     y: number;
 }
 
+const defaultValue: Required<IBombNote> = {
+    b: 0,
+    x: 0,
+    y: 0,
+};
+
+/** Bomb note beatmap object. */
 export class BombNote extends BaseObject<IBombNote> {
     private x;
     private y;
@@ -43,9 +49,9 @@ export class BombNote extends BaseObject<IBombNote> {
         bombNotes?.forEach((bn) =>
             result.push(
                 new BombNote({
-                    b: bn.b ?? 0,
-                    x: bn.x ?? 0,
-                    y: bn.y ?? 0,
+                    b: bn.b ?? defaultValue.b,
+                    x: bn.x ?? defaultValue.x,
+                    y: bn.y ?? defaultValue.y,
                 })
             )
         );
@@ -56,13 +62,13 @@ export class BombNote extends BaseObject<IBombNote> {
             return result;
         }
         return new BombNote({
-            b: 0,
-            x: 0,
-            y: 0,
+            b: defaultValue.b,
+            x: defaultValue.x,
+            y: defaultValue.y,
         });
     }
 
-    public toObject(): IBombNote {
+    toObject(): IBombNote {
         return {
             b: this.time,
             x: this.posX,
@@ -70,6 +76,16 @@ export class BombNote extends BaseObject<IBombNote> {
         };
     }
 
+    /** Position x `<int>` of bomb.
+     * ```ts
+     * 0 -> Outer Left
+     * 1 -> Middle Left
+     * 2 -> Middle Right
+     * 3 -> Outer Right
+     * ```
+     * ---
+     * Range: `0-3`
+     */
     get posX() {
         return this.x;
     }
@@ -77,6 +93,15 @@ export class BombNote extends BaseObject<IBombNote> {
         this.x = value;
     }
 
+    /** Position y `<int>` of bomb.
+     * ```ts
+     * 0 -> Bottom row
+     * 1 -> Middle row
+     * 2 -> Top row
+     * ```
+     * ---
+     * Range: `0-2`
+     */
     get posY() {
         return this.y;
     }
@@ -84,7 +109,16 @@ export class BombNote extends BaseObject<IBombNote> {
         this.y = value;
     }
 
-    public mirror() {
+    setPosX(value: IBombNote['x']) {
+        this.posX = value;
+        return this;
+    }
+    setPosY(value: IBombNote['y']) {
+        this.posY = value;
+        return this;
+    }
+
+    mirror() {
         this.x = LINE_COUNT - 1 - this.x;
     }
 }

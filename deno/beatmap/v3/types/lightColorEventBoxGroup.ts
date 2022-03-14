@@ -1,3 +1,4 @@
+import { DeepPartial, ObjectToReturn } from '../../../utils.ts';
 import {
     IEventBoxGroupTemplate,
     EventBoxGroupTemplate,
@@ -8,6 +9,12 @@ import { ILightColorEventBox, LightColorEventBox } from './lightColorEventBox.ts
 export interface ILightColorEventBoxGroup
     extends IEventBoxGroupTemplate<ILightColorEventBox> {}
 
+const defaultValue: ObjectToReturn<ILightColorEventBoxGroup> = {
+    b: 0,
+    g: 0,
+    e: () => [],
+};
+
 export class LightColorEventBoxGroup extends EventBoxGroupTemplate<
     ILightColorEventBox,
     LightColorEventBox
@@ -15,27 +22,29 @@ export class LightColorEventBoxGroup extends EventBoxGroupTemplate<
     constructor(eventBoxGroup: Required<ILightColorEventBoxGroup>) {
         super(
             eventBoxGroup,
-            eventBoxGroup.e.map((e) => new LightColorEventBox(e))
+            eventBoxGroup.e.map((e) => LightColorEventBox.create(e))
         );
     }
 
     static create(): LightColorEventBoxGroup;
     static create(
-        eventBoxGroups: Partial<ILightColorEventBoxGroup>
+        eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>
     ): LightColorEventBoxGroup;
     static create(
-        ...eventBoxGroups: Partial<ILightColorEventBoxGroup>[]
+        ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
     ): LightColorEventBoxGroup[];
     static create(
-        ...eventBoxGroups: Partial<ILightColorEventBoxGroup>[]
+        ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
     ): LightColorEventBoxGroup | LightColorEventBoxGroup[] {
         const result: LightColorEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
             result.push(
                 new LightColorEventBoxGroup({
-                    b: ebg.b ?? 0,
-                    g: ebg.g ?? 0,
-                    e: ebg.e ?? [],
+                    b: ebg.b ?? defaultValue.b,
+                    g: ebg.g ?? defaultValue.g,
+                    e:
+                        (ebg as Required<ILightColorEventBoxGroup>).e ??
+                        defaultValue.e(),
                 })
             )
         );
@@ -46,9 +55,9 @@ export class LightColorEventBoxGroup extends EventBoxGroupTemplate<
             return result;
         }
         return new LightColorEventBoxGroup({
-            b: 0,
-            g: 0,
-            e: [],
+            b: defaultValue.b,
+            g: defaultValue.g,
+            e: defaultValue.e(),
         });
     }
 }

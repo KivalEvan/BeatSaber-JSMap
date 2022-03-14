@@ -126,7 +126,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         });
     }
 
-    public toObject(): IDifficultyData {
+    toObject(): IDifficultyData {
         return {
             version: this.version || '3.0.0',
             bpmEvents: this.bpmEvents.map((obj) => obj.toObject()),

@@ -19,6 +19,7 @@ import { IRotationEvent } from './rotationEvent.ts';
 import { ISlider } from './slider.ts';
 import { IWaypoint } from './waypoint.ts';
 
+// FIXME: ALMOST EVERYTHING IS HERE IFUCKIN OPTIONAL REE
 type Version = `3.${number}.0`;
 interface DataCheckBase {
     type: string | string[]; // string array because there'll soon be having to check both
@@ -62,7 +63,7 @@ export const ColorNoteDataCheck: Readonly<Record<keyof IColorNote, DataCheck>> =
         type: 'number',
         version: '3.0.0',
     },
-    cd: {
+    cData: {
         type: 'object',
         version: '3.0.0',
         check: {},

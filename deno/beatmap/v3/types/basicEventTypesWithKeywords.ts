@@ -1,14 +1,18 @@
+import { ObjectToReturn } from '../../../utils.ts';
 import { Serializable } from '../../shared/types/serializable.ts';
 import {
     IBasicEventTypesForKeywords,
     BasicEventTypesForKeywords,
 } from './basicEventTypesForKeywords.ts';
 
-/** Basic event types with keywords. */
 export interface IBasicEventTypesWithKeywords {
     /** Data list of basic event types with keywords. */
     d: IBasicEventTypesForKeywords[];
 }
+
+const defaultValue: ObjectToReturn<IBasicEventTypesWithKeywords> = {
+    d: () => [],
+};
 
 /** Basic event types with keywords. */
 export class BasicEventTypesWithKeywords extends Serializable<IBasicEventTypesWithKeywords> {
@@ -24,11 +28,11 @@ export class BasicEventTypesWithKeywords extends Serializable<IBasicEventTypesWi
         basicEventTypesWithKeywords: Partial<IBasicEventTypesWithKeywords> = {}
     ): BasicEventTypesWithKeywords {
         return new BasicEventTypesWithKeywords({
-            d: basicEventTypesWithKeywords.d ?? [],
+            d: basicEventTypesWithKeywords.d ?? defaultValue.d(),
         });
     }
 
-    public toObject(): IBasicEventTypesWithKeywords {
+    toObject(): IBasicEventTypesWithKeywords {
         return {
             d: this.data.map((d) => d.toObject()),
         };
@@ -40,5 +44,18 @@ export class BasicEventTypesWithKeywords extends Serializable<IBasicEventTypesWi
     }
     set data(value: BasicEventTypesWithKeywords['d']) {
         this.d = value;
+    }
+
+    setData(value: BasicEventTypesWithKeywords['d']) {
+        this.data = value;
+        return this;
+    }
+    addData(value: IBasicEventTypesForKeywords) {
+        this.data.push(new BasicEventTypesForKeywords(value));
+        return this;
+    }
+    removeData(value: string) {
+        this.data = this.data.filter((d) => d.keyword !== value);
+        return this;
     }
 }

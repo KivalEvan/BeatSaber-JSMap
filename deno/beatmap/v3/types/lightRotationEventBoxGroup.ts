@@ -1,3 +1,4 @@
+import { DeepPartial, ObjectToReturn } from '../../../utils.ts';
 import {
     EventBoxGroupTemplate,
     IEventBoxGroupTemplate,
@@ -11,6 +12,12 @@ import {
 export interface ILightRotationEventBoxGroup
     extends IEventBoxGroupTemplate<ILightRotationEventBox> {}
 
+const defaultValue: ObjectToReturn<ILightRotationEventBoxGroup> = {
+    b: 0,
+    g: 0,
+    e: () => [],
+};
+
 export class LightRotationEventBoxGroup extends EventBoxGroupTemplate<
     ILightRotationEventBox,
     LightRotationEventBox
@@ -18,27 +25,29 @@ export class LightRotationEventBoxGroup extends EventBoxGroupTemplate<
     constructor(eventBoxGroup: Required<ILightRotationEventBoxGroup>) {
         super(
             eventBoxGroup,
-            eventBoxGroup.e.map((e) => new LightRotationEventBox(e))
+            eventBoxGroup.e.map((e) => LightRotationEventBox.create(e))
         );
     }
 
     static create(): LightRotationEventBoxGroup;
     static create(
-        eventBoxGroups: Partial<ILightRotationEventBoxGroup>
+        eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>
     ): LightRotationEventBoxGroup;
     static create(
-        ...eventBoxGroups: Partial<ILightRotationEventBoxGroup>[]
+        ...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]
     ): LightRotationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: Partial<ILightRotationEventBoxGroup>[]
+        ...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]
     ): LightRotationEventBoxGroup | LightRotationEventBoxGroup[] {
         const result: LightRotationEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
             result.push(
                 new LightRotationEventBoxGroup({
-                    b: ebg.b ?? 0,
-                    g: ebg.g ?? 0,
-                    e: ebg.e ?? [],
+                    b: ebg.b ?? defaultValue.b,
+                    g: ebg.g ?? defaultValue.g,
+                    e:
+                        (ebg as Required<ILightRotationEventBoxGroup>).e ??
+                        defaultValue.e(),
                 })
             )
         );
@@ -49,9 +58,9 @@ export class LightRotationEventBoxGroup extends EventBoxGroupTemplate<
             return result;
         }
         return new LightRotationEventBoxGroup({
-            b: 0,
-            g: 0,
-            e: [],
+            b: defaultValue.b,
+            g: defaultValue.g,
+            e: defaultValue.e(),
         });
     }
 }

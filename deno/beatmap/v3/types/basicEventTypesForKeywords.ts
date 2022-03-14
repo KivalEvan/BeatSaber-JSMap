@@ -1,14 +1,17 @@
+import { ObjectToReturn } from '../../../utils.ts';
 import { Serializable } from '../../shared/types/serializable.ts';
 
-/** Basic event types for keywords.
- * Used in basic event types with keywords.
- */
 export interface IBasicEventTypesForKeywords {
     /** Keyword `<string>` of basic event types for keywords. */
     k: string;
     /** Event type `<int[]>` of basic event types for keywords. */
     e: number[];
 }
+
+const defaultValue: ObjectToReturn<IBasicEventTypesForKeywords> = {
+    k: '',
+    e: () => [],
+};
 
 /** Basic event types for keywords.
  * Used in basic event types with keywords.
@@ -36,8 +39,8 @@ export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesFor
         basicEventTypesForKeywords?.forEach((betfk) =>
             result.push(
                 new BasicEventTypesForKeywords({
-                    k: betfk.k ?? '',
-                    e: betfk.e ?? [],
+                    k: betfk.k ?? defaultValue.k,
+                    e: betfk.e ?? defaultValue.e(),
                 })
             )
         );
@@ -48,12 +51,12 @@ export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesFor
             return result;
         }
         return new BasicEventTypesForKeywords({
-            k: '',
-            e: [],
+            k: defaultValue.k,
+            e: defaultValue.e(),
         });
     }
 
-    public toObject(): IBasicEventTypesForKeywords {
+    toObject(): IBasicEventTypesForKeywords {
         return {
             k: this.keyword,
             e: this.events,
@@ -74,5 +77,25 @@ export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesFor
     }
     set events(value: IBasicEventTypesForKeywords['e']) {
         this.e = value;
+    }
+
+    setKeyword(value: IBasicEventTypesForKeywords['k']) {
+        this.keyword = value;
+        return this;
+    }
+    setEvents(value: IBasicEventTypesForKeywords['e']) {
+        this.events = value;
+        return this;
+    }
+    addEvent(value: number) {
+        this.events.push(value);
+        return this;
+    }
+    removeEvent(value: number) {
+        const index = this.events.indexOf(value, 0);
+        if (index > -1) {
+            this.events.splice(index, 1);
+        }
+        return this;
     }
 }

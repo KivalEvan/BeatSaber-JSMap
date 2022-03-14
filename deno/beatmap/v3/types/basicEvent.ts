@@ -40,7 +40,6 @@ export enum BasicEventType {
     BPM_CHANGE = 100,
 }
 
-/** Basic event beatmap object. */
 interface IBasicEventBase extends IBaseObject {
     /** Event type `<int>` of basic event.
      * ```ts
@@ -169,6 +168,14 @@ export type IBasicEvent =
     | IBasicEventSpecial
     | IBasicEventBPMChange;
 
+const defaultValue: Required<IBasicEvent> = {
+    b: 0,
+    et: 0,
+    i: 0,
+    f: 1,
+};
+
+/** Basic event beatmap object. */
 export class BasicEvent extends BaseObject<IBasicEvent> {
     private et;
     private i;
@@ -188,10 +195,10 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
         basicEvents?.forEach((be) =>
             result.push(
                 new BasicEvent({
-                    b: be.b ?? 0,
-                    et: be.et ?? 0,
-                    i: be.i ?? 0,
-                    f: be.f ?? 1,
+                    b: be.b ?? defaultValue.b,
+                    et: be.et ?? defaultValue.et,
+                    i: be.i ?? defaultValue.i,
+                    f: be.f ?? defaultValue.f,
                 })
             )
         );
@@ -202,14 +209,14 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
             return result;
         }
         return new BasicEvent({
-            b: 0,
-            et: 0,
-            i: 0,
-            f: 1,
+            b: defaultValue.b,
+            et: defaultValue.et,
+            i: defaultValue.i,
+            f: defaultValue.f,
         });
     }
 
-    public toObject(): IBasicEvent {
+    toObject(): IBasicEvent {
         return {
             b: this.time,
             et: this.et,
@@ -218,6 +225,35 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
         };
     }
 
+    /** Event type `<int>` of basic event.
+     * ```ts
+     * 0 -> Back Lasers
+     * 1 -> Ring Lights
+     * 2 -> Left Lasers
+     * 3 -> Right Lasers
+     * 4 -> Center Lights
+     * 5 -> Light Boost
+     * 6 -> Extra Left Lights
+     * 7 -> Extra Right Lights
+     * 8 -> Ring Rotation
+     * 9 -> Ring Zoom
+     * 10 -> Extra Left Lasers
+     * 11 -> Extra Right Lasers
+     * 12 -> Left Laser Rotation
+     * 13 -> Right Laser Rotation
+     * 14 -> Early Lane Rotation
+     * 15 -> Late Lane Rotation
+     * 16 -> Utility Event 0
+     * 17 -> Utility Event 1
+     * 18 -> Utility Event 2
+     * 19 -> Utility Event 3
+     * 40 -> Special Event 0
+     * 41 -> Special Event 1
+     * 42 -> Special Event 2
+     * 43 -> Special Event 3
+     * 100 -> BPM Change
+     * ```
+     */
     get type() {
         return this.et;
     }
@@ -225,6 +261,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
         this.et = value;
     }
 
+    /** Value `<int>` of basic event. */
     get value() {
         return this.i;
     }
@@ -232,6 +269,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
         this.i = value;
     }
 
+    /** Float value `<float>` of basic event. */
     get floatValue() {
         return this.f;
     }
@@ -239,169 +277,186 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
         this.f = value;
     }
 
-    /** Check if lightthis is Ian off this.
+    setType(value: IBasicEvent['et']) {
+        this.type = value;
+        return this;
+    }
+    setValue(value: IBasicEvent['i']) {
+        this.value = value;
+        return this;
+    }
+    setFloatValue(value: IBasicEvent['f']) {
+        this.floatValue = value;
+        return this;
+    }
+
+    /** Check if light event is an off event.
      * ```ts
-     * if (isOff(event)) {}
+     * if (basicEvent.isOff()) {}
      * ```
      * ---
      * This may check non-light event too.
      */
-    public isOff() {
-        return this.i === 0;
+    isOff() {
+        return this.value === 0;
     }
 
-    /** Check if lightthis is Ian on this.
+    /** Check if light event is an on event.
      * ```ts
-     * if (isOn(event)) {}
+     * if (basicEvent.isOn()) {}
      * ```
      * ---
      * This may check non-light event too.
      */
-    public isOn() {
-        return this.i === 1 || this.i === 5;
+    isOn() {
+        return this.value === 1 || this.value === 5;
     }
 
-    /** Check if lightthis is Ia flash this.
+    /** Check if light event is a flash event.
      * ```ts
-     * if (isFlash(event)) {}
+     * if (basicEvent.isFlash()) {}
      * ```
      * ---
      * This may check non-light event too.
      */
-    public isFlash() {
-        return this.i === 2 || this.i === 6;
+    isFlash() {
+        return this.value === 2 || this.value === 6;
     }
 
-    /** Check if lightthis is Ia fade this.
+    /** Check if light event is a fade event.
      * ```ts
-     * if (isFade(event)) {}
+     * if (basicEvent.isFade()) {}
      * ```
      * ---
      * This may check non-light event too.
      */
-    public isFade() {
-        return this.i === 3 || this.i === 7;
+    isFade() {
+        return this.value === 3 || this.value === 7;
     }
 
-    /** Check if lightthis is Ia transition this.
+    /** Check if light event is a transition event.
      * ```ts
-     * if (isTransition(event)) {}
+     * if (basicEvent.isTransition()) {}
      * ```
      * ---
      * This may check non-light event too.
      */
-    public isTransition() {
-        return this.i === 4 || this.i === 8;
+    isTransition() {
+        return this.value === 4 || this.value === 8;
     }
 
-    /** Check ifthis is Ia valid type.
+    /** Check if event is a valid type.
      * ```ts
-     * if (isValidType(event)) {}
+     * if (basicEvent.isValidType()) {}
      * ```
      */
-    public isValidType() {
-        return (this.et >= 0 && this.et <= 17) || this.et === 100;
+    isValidType() {
+        return (this.type >= 0 && this.type <= 17) || this.type === 100;
     }
 
-    /** Check ifthis is Ia light this.
+    /** Check if event is a light event.
      * ```ts
-     * if (isLightEvent(event)) {}
+     * if (basicEvent.isLightEvent()) {}
      * ```
      */
-    public isLightEvent(): this is IBasicEventLight {
+    isLightEvent(): this is IBasicEventLight {
         return (
-            this.et === 0 ||
-            this.et === 1 ||
-            this.et === 2 ||
-            this.et === 3 ||
-            this.et === 4 ||
-            this.et === 6 ||
-            this.et === 7 ||
-            this.et === 10 ||
-            this.et === 11
+            this.type === 0 ||
+            this.type === 1 ||
+            this.type === 2 ||
+            this.type === 3 ||
+            this.type === 4 ||
+            this.type === 6 ||
+            this.type === 7 ||
+            this.type === 10 ||
+            this.type === 11
         );
     }
 
-    /** Check ifthis is Ia boost this.
+    /** Check if event is a boost event.
      * ```ts
-     * if (isColorBoost(event)) {}
+     * if (basicEvent.isColorBoost()) {}
      * ```
      */
-    public isColorBoost(): this is IBasicEventBoost {
-        return this.et === 5;
+    isColorBoost(): this is IBasicEventBoost {
+        return this.type === 5;
     }
 
-    /** Check ifthis is Ia ring this.
+    /** Check if event is a ring event.
      * ```ts
-     * if (isRingEvent(event)) {}
+     * if (basicEvent.isRingEvent()) {}
      * ```
      * ---
      * This does not check for ring zoom.
      */
-    public isRingEvent() {
-        return this.et === 8;
+    isRingEvent() {
+        return this.type === 8;
     }
 
-    /** Check ifthis is Ia ring zoom this.
+    /** Check if event is a ring zoom event.
      * ```ts
-     * if (isZoomEvent(event)) {}
+     * if (basicEvent.isZoomEvent()) {}
      * ```
      */
-    public isZoomEvent() {
-        return this.et === 9;
+    isZoomEvent() {
+        return this.type === 9;
     }
 
-    /** Check ifthis is Ia laser rotation this.
+    /** Check if event is a laser rotation event.
      * ```ts
-     * if (isLaserRotationEvent(event)) {}
+     * if (basicEvent.isLaserRotationEvent()) {}
      * ```
      */
-    public isLaserRotationEvent(): this is IBasicEventLaserRotation {
-        return this.et === 12 || this.et === 13;
+    isLaserRotationEvent(): this is IBasicEventLaserRotation {
+        return this.type === 12 || this.type === 13;
     }
 
-    /** Check ifthis is Ia lane rotation this.
+    /** Check if event is a lane rotation event.
      * ```ts
-     * if (isLaneRotationEvent(event)) {}
+     * if (basicEvent.isLaneRotationEvent()) {}
      * ```
      */
-    public isLaneRotationEvent(): this is IBasicEventLaneRotation {
-        return this.et === 14 || this.et === 15;
+    isLaneRotationEvent(): this is IBasicEventLaneRotation {
+        return this.type === 14 || this.type === 15;
     }
 
-    /** Check ifthis is Ia extra this.
+    /** Check if event is a extra event.
      * ```ts
-     * if (isExtraEvent(event)) {}
+     * if (basicEvent.isExtraEvent()) {}
      * ```
      */
-    public isExtraEvent(): this is IBasicEventExtra {
-        return this.et === 16 || this.et === 17 || this.et === 18 || this.et === 19;
+    isExtraEvent(): this is IBasicEventExtra {
+        return (
+            this.type === 16 || this.type === 17 || this.type === 18 || this.type === 19
+        );
     }
 
-    /** Check ifthis is Ia special this.
+    /** Check if event is a special event.
      * ```ts
-     * if (isSpecialEvent(event)) {}
+     * if (basicEvent.isSpecialEvent()) {}
      * ```
      */
-    public isSpecialEvent(): this is IBasicEventSpecial {
-        return this.et === 40 || this.et === 41 || this.et === 42 || this.et === 43;
+    isSpecialEvent(): this is IBasicEventSpecial {
+        return (
+            this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43
+        );
     }
 
-    /** Check ifthis is Ia BPM change this.
+    /** Check if event is a BPM change event.
      * ```ts
-     * if (isBPMChangeEvent(event)) {}
+     * if (basicEvent.isBPMChangeEvent()) {}
      * ```
      */
-    public isBPMChangeEvent(): this is IBasicEventBPMChange {
-        return this.et === 100;
+    isBPMChangeEvent(): this is IBasicEventBPMChange {
+        return this.type === 100;
     }
 
     /** Not to be confused with isLightEvent, this checks for event that affects the environment/lighting.
      * ```ts
-     * if (isLightingEvent(event)) {}
+     * if (basicEvent.isLightingEvent()) {}
      * ```
      */
-    public isLightingEvent() {
+    isLightingEvent() {
         return (
             this.isLightEvent() ||
             this.isRingEvent() ||
@@ -413,23 +468,23 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
 
     /** Check if event has old Chroma properties.
      * ```ts
-     * if (hasOldChroma(event)) {}
+     * if (basicEvent.hasOldChroma()) {}
      * ```
      */
-    public hasOldChroma() {
-        return this.i >= 2000000000;
+    hasOldChroma() {
+        return this.value >= 2000000000;
     }
 
-    /** Check ifthis is Ia valid, vanilla this.
+    /** Check if event is a valid, vanilla event.
      * ```ts
-     * if (isValid(event)) {}
+     * if (basicEvent.isValid()) {}
      * ```
      */
-    public isValid() {
+    isValid() {
         return (
             this.isValidType() &&
-            this.i >= 0 &&
-            !(!this.isLaserRotationEvent() && this.i > 8 && !this.hasOldChroma())
+            this.value >= 0 &&
+            !(!this.isLaserRotationEvent() && this.value > 8 && !this.hasOldChroma())
         );
     }
 }

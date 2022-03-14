@@ -21,7 +21,7 @@ export abstract class EventBox extends Serializable<IEventBox> {
     private d;
     constructor(eventBox: Required<IEventBox>) {
         super();
-        this.f = new IndexFilter(eventBox.f);
+        this.f = IndexFilter.create(eventBox.f);
         this.w = eventBox.w;
         this.d = eventBox.d;
     }
@@ -53,5 +53,18 @@ export abstract class EventBox extends Serializable<IEventBox> {
     }
     set beatDistributionType(value: IEventBox['d']) {
         this.d = value;
+    }
+
+    setFilter(value: IndexFilter) {
+        this.filter = value;
+        return this;
+    }
+    setBeatDistribution(value: IEventBox['w']) {
+        this.beatDistribution = value;
+        return this;
+    }
+    setBeatDistributionType(value: IEventBox['d']) {
+        this.beatDistributionType = value;
+        return this;
     }
 }

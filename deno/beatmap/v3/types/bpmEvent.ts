@@ -1,10 +1,14 @@
 import { IBaseObject, BaseObject } from './baseObject.ts';
 
-/** BPM change event beatmap object. */
 export interface IBPMEvent extends IBaseObject {
     /** Value `<float>` of BPM change event. */
     m: number;
 }
+
+const defaultValue: Required<IBPMEvent> = {
+    b: 0,
+    m: 0,
+};
 
 /** BPM change event beatmap object. */
 export class BPMEvent extends BaseObject<IBPMEvent> {
@@ -22,8 +26,8 @@ export class BPMEvent extends BaseObject<IBPMEvent> {
         bpmEvents?.forEach((be) =>
             result.push(
                 new BPMEvent({
-                    b: be.b ?? 0,
-                    m: be.m ?? 120,
+                    b: be.b ?? defaultValue.b,
+                    m: be.m ?? defaultValue.m,
                 })
             )
         );
@@ -34,12 +38,12 @@ export class BPMEvent extends BaseObject<IBPMEvent> {
             return result;
         }
         return new BPMEvent({
-            b: 0,
-            m: 120,
+            b: defaultValue.b,
+            m: defaultValue.m,
         });
     }
 
-    public toObject(): IBPMEvent {
+    toObject(): IBPMEvent {
         return {
             b: this.time,
             m: this.bpm,
@@ -52,5 +56,10 @@ export class BPMEvent extends BaseObject<IBPMEvent> {
     }
     set bpm(value: IBPMEvent['m']) {
         this.m = value;
+    }
+
+    setBPM(value: IBPMEvent['m']) {
+        this.bpm = value;
+        return this;
     }
 }

@@ -34,6 +34,13 @@ interface IIndexFilterStepOffset extends IIndexFilterBase {
 
 export type IIndexFilter = IIndexFilterSection | IIndexFilterStepOffset;
 
+const defaultValue: Required<IIndexFilter> = {
+    f: 1,
+    p: 1,
+    t: 1,
+    r: 0,
+};
+
 export class IndexFilter extends Serializable<IIndexFilter> {
     private f;
     private p;
@@ -49,14 +56,14 @@ export class IndexFilter extends Serializable<IIndexFilter> {
 
     static create(indexFilter: Partial<IIndexFilter> = {}): IndexFilter {
         return new IndexFilter({
-            f: indexFilter.f ?? 1,
-            p: indexFilter.p ?? 1,
-            t: indexFilter.t ?? 1,
-            r: indexFilter.r ?? 0,
+            f: indexFilter.f ?? defaultValue.f,
+            p: indexFilter.p ?? defaultValue.p,
+            t: indexFilter.t ?? defaultValue.t,
+            r: indexFilter.r ?? defaultValue.r,
         });
     }
 
-    public toObject(): IIndexFilter {
+    toObject(): IIndexFilter {
         return {
             f: this.type,
             p: this.p0,

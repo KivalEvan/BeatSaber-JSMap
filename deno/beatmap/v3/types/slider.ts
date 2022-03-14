@@ -1,10 +1,6 @@
 import { IBaseSlider, BaseSlider } from './baseSlider.ts';
 import { LINE_COUNT } from './constants.ts';
 
-/** Slider beatmap object.
- *
- * Also known as arc.
- */
 export interface ISlider extends IBaseSlider {
     /** Head control point length multiplier `<float>` of slider.
      * ```ts
@@ -46,6 +42,25 @@ export interface ISlider extends IBaseSlider {
     m: 0 | 1 | 2;
 }
 
+const defaultValue: Required<ISlider> = {
+    b: 0,
+    c: 0,
+    x: 0,
+    y: 0,
+    d: 0,
+    mu: 0.5,
+    tb: 0,
+    tx: 0,
+    ty: 0,
+    tc: 0,
+    tmu: 0.5,
+    m: 1,
+};
+
+/** Slider beatmap object.
+ *
+ * Also known as arc.
+ */
 export class Slider extends BaseSlider {
     private mu;
     private tmu;
@@ -67,18 +82,18 @@ export class Slider extends BaseSlider {
         sliders?.forEach((s) =>
             result.push(
                 new Slider({
-                    b: s.b ?? 0,
-                    c: s.c ?? 0,
-                    x: s.x ?? 0,
-                    y: s.y ?? 0,
-                    d: s.d ?? 0,
-                    mu: s.mu ?? 0.5,
-                    tb: s.tb ?? 0,
-                    tx: s.tx ?? 0,
-                    ty: s.ty ?? 0,
-                    tc: s.tc ?? 0,
-                    tmu: s.tmu ?? 0.5,
-                    m: s.m ?? 1,
+                    b: s.b ?? defaultValue.b,
+                    c: s.c ?? defaultValue.c,
+                    x: s.x ?? defaultValue.x,
+                    y: s.y ?? defaultValue.y,
+                    d: s.d ?? defaultValue.d,
+                    mu: s.mu ?? defaultValue.mu,
+                    tb: s.tb ?? defaultValue.tb,
+                    tx: s.tx ?? defaultValue.tx,
+                    ty: s.ty ?? defaultValue.ty,
+                    tc: s.tc ?? defaultValue.tc,
+                    tmu: s.tmu ?? defaultValue.tmu,
+                    m: s.m ?? defaultValue.m,
                 })
             )
         );
@@ -89,22 +104,22 @@ export class Slider extends BaseSlider {
             return result;
         }
         return new Slider({
-            b: 0,
-            c: 0,
-            x: 0,
-            y: 0,
-            d: 0,
-            mu: 0.5,
-            tb: 0,
-            tx: 0,
-            ty: 0,
-            tc: 0,
-            tmu: 0.5,
-            m: 1,
+            b: defaultValue.b,
+            c: defaultValue.c,
+            x: defaultValue.x,
+            y: defaultValue.y,
+            d: defaultValue.d,
+            mu: defaultValue.mu,
+            tb: defaultValue.tb,
+            tx: defaultValue.tx,
+            ty: defaultValue.ty,
+            tc: defaultValue.tc,
+            tmu: defaultValue.tmu,
+            m: defaultValue.m,
         });
     }
 
-    public toObject(): ISlider {
+    toObject(): ISlider {
         return {
             b: this.time,
             c: this.color,
@@ -121,6 +136,14 @@ export class Slider extends BaseSlider {
         };
     }
 
+    /** Head control point length multiplier `<float>` of slider.
+     * ```ts
+     * 0 -> Flat Start
+     * 1 -> Curved Start
+     * ```
+     * ---
+     * Range: `0-1`
+     */
     get lengthMultiplier() {
         return this.mu;
     }
@@ -128,6 +151,14 @@ export class Slider extends BaseSlider {
         this.mu = value;
     }
 
+    /** Tail control point length multiplier `<float>` of slider.
+     * ```ts
+     * 0 -> Flat End
+     * 1 -> Curved End
+     * ```
+     * ---
+     * Range: `0-1`
+     */
     get tailLengthMultiplier() {
         return this.tmu;
     }
@@ -135,6 +166,17 @@ export class Slider extends BaseSlider {
         this.tmu = value;
     }
 
+    /** Tail cut direction `<int>` of slider.
+     * ```ts
+     * 4 | 0 | 5
+     * 2 | 8 | 3
+     * 6 | 1 | 7
+     * ```
+     * ---
+     * Grid represents cut direction from center.
+     *
+     * **WARNING:** Dot-directional is not recommended, assumes down-directional.
+     */
     get tailDirection() {
         return this.tc;
     }
@@ -142,6 +184,13 @@ export class Slider extends BaseSlider {
         this.tc = value;
     }
 
+    /** Mid anchor mode `<int>` of slider.
+     * ```ts
+     * 0 -> Straight
+     * 1 -> Clockwise
+     * 2 -> Counter-Clockwise
+     * ```
+     */
     get midAnchor() {
         return this.m;
     }
@@ -149,7 +198,24 @@ export class Slider extends BaseSlider {
         this.m = value;
     }
 
-    public mirror(flipColor = true) {
+    setLengthMultiplier(value: ISlider['mu']) {
+        this.lengthMultiplier = value;
+        return this;
+    }
+    setTailLengthMultiplier(value: ISlider['tmu']) {
+        this.tailLengthMultiplier = value;
+        return this;
+    }
+    setTailDirection(value: ISlider['tc']) {
+        this.tailDirection = value;
+        return this;
+    }
+    setMidAnchor(value: ISlider['m']) {
+        this.midAnchor = value;
+        return this;
+    }
+
+    mirror(flipColor = true) {
         this.posX = LINE_COUNT - 1 - this.posX;
         this.tailPosX = LINE_COUNT - 1 - this.tailPosX;
         if (flipColor) {

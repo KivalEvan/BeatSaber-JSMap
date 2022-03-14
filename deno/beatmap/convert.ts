@@ -72,7 +72,7 @@ export const V2toV3 = (
                                   8
                               ) as typeof template.colorNotes[number]['d']),
                     a: a,
-                    cd: n._customData ?? {},
+                    cData: n._customData ?? {},
                 })
             );
         }

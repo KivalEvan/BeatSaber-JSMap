@@ -103,7 +103,6 @@ export class BeatPerMinute {
     public toJSONTime(beat: number): number {
         for (let i = this._bpmChange.length - 1; i >= 0; i--) {
             if (beat > this._bpmChange[i]._newTime) {
-                console.log(beat, this._bpmChange[i]._newTime);
                 return (
                     ((beat - this._bpmChange[i]._newTime) / this._bpmChange[i]._BPM) *
                         this._bpm +

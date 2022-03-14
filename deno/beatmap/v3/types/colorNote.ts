@@ -3,7 +3,6 @@ import { IBaseObject, BaseObject } from './baseObject.ts';
 import { LINE_COUNT, NoteCutAngle } from './constants.ts';
 import { CustomData } from './customData.ts';
 
-/** Color note beatmap object. */
 export interface IColorNote extends IBaseObject {
     /** Position x `<int>` of note.
      * ```ts
@@ -47,9 +46,20 @@ export interface IColorNote extends IBaseObject {
     d: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
     /** Angle offset in degree counter-clockwise `<int>` of note.*/
     a: number;
-    cd?: CustomData;
+    cData?: CustomData;
 }
 
+const defaultValue: Required<IColorNote> = {
+    b: 0,
+    c: 0,
+    x: 0,
+    y: 0,
+    d: 0,
+    a: 0,
+    cData: {},
+};
+
+/** Color note beatmap object. */
 export class ColorNote extends BaseObject<IColorNote> {
     private c;
     private x;
@@ -64,7 +74,7 @@ export class ColorNote extends BaseObject<IColorNote> {
         this.y = colorNote.y;
         this.d = colorNote.d;
         this.a = colorNote.a;
-        this.cd = colorNote.cd;
+        this.cd = colorNote.cData;
     }
 
     static create(): ColorNote;
@@ -75,13 +85,13 @@ export class ColorNote extends BaseObject<IColorNote> {
         colorNotes?.forEach((n) =>
             result.push(
                 new ColorNote({
-                    b: n.b ?? 0,
-                    c: n.c ?? 0,
-                    x: n.x ?? 0,
-                    y: n.y ?? 0,
-                    d: n.d ?? 0,
-                    a: n.a ?? 0,
-                    cd: n.cd ?? {},
+                    b: n.b ?? defaultValue.b,
+                    x: n.x ?? defaultValue.x,
+                    y: n.y ?? defaultValue.y,
+                    c: n.c ?? defaultValue.c,
+                    d: n.d ?? defaultValue.d,
+                    a: n.a ?? defaultValue.a,
+                    cData: n.cData ?? defaultValue.cData,
                 })
             )
         );
@@ -92,17 +102,17 @@ export class ColorNote extends BaseObject<IColorNote> {
             return result;
         }
         return new ColorNote({
-            b: 0,
-            c: 0,
-            x: 0,
-            y: 0,
-            d: 0,
-            a: 0,
-            cd: {},
+            b: defaultValue.b,
+            x: defaultValue.x,
+            y: defaultValue.y,
+            c: defaultValue.c,
+            d: defaultValue.d,
+            a: defaultValue.a,
+            cData: defaultValue.cData,
         });
     }
 
-    public toObject(): IColorNote {
+    toObject(): IColorNote {
         return {
             b: this.time,
             c: this.color,
@@ -113,13 +123,16 @@ export class ColorNote extends BaseObject<IColorNote> {
         };
     }
 
-    get color() {
-        return this.c;
-    }
-    set color(value: IColorNote['c']) {
-        this.c = value;
-    }
-
+    /** Position x `<int>` of note.
+     * ```ts
+     * 0 -> Outer Left
+     * 1 -> Middle Left
+     * 2 -> Middle Right
+     * 3 -> Outer Right
+     * ```
+     * ---
+     * Range: `0-3`
+     */
     get posX() {
         return this.x;
     }
@@ -127,6 +140,15 @@ export class ColorNote extends BaseObject<IColorNote> {
         this.x = value;
     }
 
+    /** Position y `<int>` of note.
+     * ```ts
+     * 0 -> Bottom row
+     * 1 -> Middle row
+     * 2 -> Top row
+     * ```
+     * ---
+     * Range: `0-2`
+     */
     get posY() {
         return this.y;
     }
@@ -134,6 +156,30 @@ export class ColorNote extends BaseObject<IColorNote> {
         this.y = value;
     }
 
+    /** Color type `<int>` of note.
+     * ```ts
+     * 0 -> Red
+     * 1 -> Blue
+     * ```
+     */
+    get color() {
+        return this.c;
+    }
+    set color(value: IColorNote['c']) {
+        this.c = value;
+    }
+
+    /** Cut direction `<int>` of note.
+     * ```ts
+     * 4 | 0 | 5
+     * 2 | 8 | 3
+     * 6 | 1 | 7
+     * ```
+     * ---
+     * Grid represents cut direction from center.
+     *
+     * **WARNING:** Dot-directional is not recommended with sliders, assumes down-directional.
+     */
     get direction() {
         return this.d;
     }
@@ -141,6 +187,7 @@ export class ColorNote extends BaseObject<IColorNote> {
         this.d = value;
     }
 
+    /** Angle offset in degree counter-clockwise `<int>` of note.*/
     get angleOffset() {
         return this.a;
     }
@@ -155,12 +202,50 @@ export class ColorNote extends BaseObject<IColorNote> {
         this.cd = value;
     }
 
+    setColor(value: IColorNote['c']) {
+        this.color = value;
+        return this;
+    }
+    setPosX(value: IColorNote['x']) {
+        this.posX = value;
+        return this;
+    }
+    setPosY(value: IColorNote['y']) {
+        this.posY = value;
+        return this;
+    }
+    setDirection(value: IColorNote['d']) {
+        this.direction = value;
+        return this;
+    }
+    setAngleOffset(value: IColorNote['a']) {
+        this.angleOffset = value;
+        return this;
+    }
+    setCustomData(value: typeof this.cd) {
+        this.customData = value;
+        return this;
+    }
+    deleteCustomData() {
+        this.customData = {};
+        return this;
+    }
+    removeCustomData(key: string) {
+        delete this.customData[key];
+        return this;
+    }
+    // FIXME: deal with customdata later
+    addCustomData(object: Object) {
+        this.cd = { ...this.cd, object };
+        return this;
+    }
+
     /** Horizontally mirror note position and optional colour swap.
      * ```ts
      * note.mirror();
      * ```
      */
-    public mirror(flipColor = true) {
+    mirror(flipColor = true) {
         this.posX = LINE_COUNT - 1 - this.posX;
         if (flipColor) {
             this.color = ((1 + this.c) % 2) as typeof this.color;
@@ -194,7 +279,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * note.swapPosition(noteSwap);
      * ```
      */
-    public swapPosition(toSwap: ColorNote) {
+    swapPosition(toSwap: ColorNote) {
         const tempX = toSwap.posX;
         toSwap.posX = this.posX;
         this.posX = tempX;
@@ -209,7 +294,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * note.swapPosition(noteSwap);
      * ```
      */
-    public swapRotation(toSwap: ColorNote, mirrorAngle = true) {
+    swapRotation(toSwap: ColorNote, mirrorAngle = true) {
         const tempD = toSwap.direction;
         toSwap.direction = this.direction;
         this.direction = tempD;
@@ -228,7 +313,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * const notePos = note.getPosition();
      * ```
      */
-    public getPosition(): [number, number] {
+    getPosition(): [number, number] {
         // if (note._customData?._position) {
         //     return [note._customData._position[0], note._customData._position[1]];
         // }
@@ -251,7 +336,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * const noteAngle = note.getAngle(noteCompare);
      * ```
      */
-    public getAngle(): number {
+    getAngle(): number {
         return (NoteCutAngle[this.direction] || 0) + this.angleOffset;
     }
 
@@ -260,10 +345,28 @@ export class ColorNote extends BaseObject<IColorNote> {
      * const noteDistance = note.distance(noteCompare);
      * ```
      */
-    public distance(compareTo: ColorNote): number {
+    distance(compareTo: ColorNote): number {
         const [nX1, nY1] = this.getPosition();
         const [nX2, nY2] = compareTo.getPosition();
         return Math.sqrt(Math.pow(nX2 - nX1, 2) + Math.pow(nY2 - nY1, 2));
+    }
+
+    /** Check if note is red note.
+     * ```ts
+     * if (note.isRed()) {}
+     * ```
+     */
+    isRed() {
+        return this.color === 0;
+    }
+
+    /** Check if note is blue note.
+     * ```ts
+     * if (note.isBlue()) {}
+     * ```
+     */
+    isBlue() {
+        return this.color === 1;
     }
 
     /** Compare two notes and return if the notes is in vertical alignment.
@@ -271,7 +374,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isVertical(noteCompare)) {}
      * ```
      */
-    public isVertical(compareTo: ColorNote) {
+    isVertical(compareTo: ColorNote) {
         const [nX1] = this.getPosition();
         const [nX2] = compareTo.getPosition();
         const d = nX1 - nX2;
@@ -283,7 +386,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isHorizontal(noteCompare)) {}
      * ```
      */
-    public isHorizontal(compareTo: ColorNote) {
+    isHorizontal(compareTo: ColorNote) {
         const [_, nY1] = this.getPosition();
         const [_2, nY2] = compareTo.getPosition();
         const d = nY1 - nY2;
@@ -295,7 +398,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isDiagonal(noteCompare)) {}
      * ```
      */
-    public isDiagonal(compareTo: ColorNote) {
+    isDiagonal(compareTo: ColorNote) {
         const [nX1, nY1] = this.getPosition();
         const [nX2, nY2] = compareTo.getPosition();
         const dX = Math.abs(nX1 - nX2);
@@ -308,7 +411,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isInline(noteCompare)) {}
      * ```
      */
-    public isInline(compareTo: ColorNote, lapping = 0.5) {
+    isInline(compareTo: ColorNote, lapping = 0.5) {
         return this.distance(compareTo) <= lapping;
     }
 
@@ -317,7 +420,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isDouble(notes, index)) {}
      * ```
      */
-    public isDouble(compareTo: ColorNote[], index: number, tolerance = 0.01) {
+    isDouble(compareTo: ColorNote[], index: number, tolerance = 0.01) {
         for (let i = index, len = compareTo.length; i < len; i++) {
             if (
                 compareTo[i].time < this.time + tolerance &&
@@ -337,7 +440,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isAdjacent(noteCompare)) {}
      * ```
      */
-    public isAdjacent(compareTo: ColorNote) {
+    isAdjacent(compareTo: ColorNote) {
         const d = this.distance(compareTo);
         return d > 0.499 && d < 1.001;
     }
@@ -347,7 +450,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isWindow(noteCompare)) {}
      * ```
      */
-    public isWindow(compareTo: ColorNote, distance = 1.8) {
+    isWindow(compareTo: ColorNote, distance = 1.8) {
         return this.distance(compareTo) > distance;
     }
 
@@ -356,7 +459,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isSlantedWindow(noteCompare)) {}
      * ```
      */
-    public isSlantedWindow(compareTo: ColorNote) {
+    isSlantedWindow(compareTo: ColorNote) {
         return (
             this.isWindow(compareTo) &&
             !this.isDiagonal(compareTo) &&
@@ -371,7 +474,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * ```
      */
     // a fkin abomination that's what this is
-    public isIntersect(
+    isIntersect(
         compareTo: ColorNote,
         angleDistances: [number, number, number?][],
         ahead = false
@@ -421,7 +524,7 @@ export class ColorNote extends BaseObject<IColorNote> {
     }
 
     // TODO: update with new position/rotation system
-    public isEnd(prevNote: ColorNote, cd: number) {
+    isEnd(prevNote: ColorNote, cd: number) {
         // fuck u and ur dot note stack
         if (this.direction === 8 && prevNote.direction === 8 && cd !== 8) {
             // if end note on right side
@@ -511,7 +614,7 @@ export class ColorNote extends BaseObject<IColorNote> {
     }
 
     // TODO: update with new position/rotation system
-    public predictDirection(comparePrev: ColorNote): number {
+    predictDirection(comparePrev: ColorNote): number {
         if (this.isEnd(comparePrev, 8)) {
             return this.direction === 8 ? comparePrev.direction : this.direction;
         }
@@ -564,7 +667,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.hasMappingExtensions()) {}
      * ```
      */
-    public hasMappingExtensions() {
+    hasMappingExtensions() {
         return this.posX > 3 || this.posX < 0 || this.posY > 2 || this.posY < 0;
     }
 
@@ -573,7 +676,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isValidDirection()) {}
      * ```
      */
-    public isValidDirection() {
+    isValidDirection() {
         return this.direction >= 0 && this.direction <= 8;
     }
 
@@ -582,7 +685,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isValid()) {}
      * ```
      */
-    public isValid() {
+    isValid() {
         return !this.hasMappingExtensions() && this.isValidDirection();
     }
 

@@ -1,10 +1,14 @@
 import { IBaseObject, BaseObject } from './baseObject.ts';
 
-/** Boost event beatmap object. */
 export interface IColorBoostEvent extends IBaseObject {
     /** Toggle `<boolean>` of boost event. */
     o: boolean;
 }
+
+const defaultValue: Required<IColorBoostEvent> = {
+    b: 0,
+    o: false,
+};
 
 /** Boost event beatmap object. */
 export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
@@ -24,8 +28,8 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
         colorBoostEvents?.forEach((be) =>
             result.push(
                 new ColorBoostEvent({
-                    b: be.b ?? 0,
-                    o: be.o ?? false,
+                    b: be.b ?? defaultValue.b,
+                    o: be.o ?? defaultValue.o,
                 })
             )
         );
@@ -36,12 +40,12 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
             return result;
         }
         return new ColorBoostEvent({
-            b: 0,
-            o: false,
+            b: defaultValue.b,
+            o: defaultValue.o,
         });
     }
 
-    public toObject(): IColorBoostEvent {
+    toObject(): IColorBoostEvent {
         return {
             b: this.time,
             o: this.toggle,

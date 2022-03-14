@@ -1,3 +1,4 @@
+import { ObjectToReturn } from '../../../utils.ts';
 import { IEventBox, EventBox } from './eventBox.ts';
 import { ILightRotationBase, LightRotationBase } from './lightRotationBase.ts';
 
@@ -25,6 +26,25 @@ export interface ILightRotationEventBox extends IEventBox {
     /** Light rotation base data list. */
     l: ILightRotationBase[];
 }
+
+const defaultValue: ObjectToReturn<ILightRotationEventBox> = {
+    f: () => {
+        return {
+            f: 1,
+            p: 1,
+            t: 1,
+            r: 0,
+        };
+    },
+    w: 0,
+    d: 1,
+    s: 0,
+    t: 1,
+    a: 0,
+    r: 0,
+    b: 0,
+    l: () => [],
+};
 
 export class LightRotationEventBox extends EventBox {
     private s;
@@ -55,20 +75,15 @@ export class LightRotationEventBox extends EventBox {
         eventBoxes?.forEach((eb) =>
             result.push(
                 new LightRotationEventBox({
-                    f: eb.f ?? {
-                        f: 1,
-                        p: 1,
-                        t: 1,
-                        r: 0,
-                    },
-                    w: eb.w ?? 0,
-                    d: eb.d ?? 1,
-                    s: eb.s ?? 0,
-                    t: eb.t ?? 1,
-                    a: eb.a ?? 0,
-                    r: eb.r ?? 0,
-                    b: eb.b ?? 0,
-                    l: eb.l ?? [],
+                    f: eb.f ?? defaultValue.f(),
+                    w: eb.w ?? defaultValue.w,
+                    d: eb.d ?? defaultValue.d,
+                    s: eb.s ?? defaultValue.s,
+                    t: eb.t ?? defaultValue.t,
+                    a: eb.a ?? defaultValue.a,
+                    r: eb.r ?? defaultValue.r,
+                    b: eb.b ?? defaultValue.b,
+                    l: eb.l ?? defaultValue.l(),
                 })
             )
         );
@@ -79,24 +94,19 @@ export class LightRotationEventBox extends EventBox {
             return result;
         }
         return new LightRotationEventBox({
-            f: {
-                f: 1,
-                p: 1,
-                t: 1,
-                r: 0,
-            },
-            w: 0,
-            d: 1,
-            s: 0,
-            t: 1,
-            a: 0,
-            r: 0,
-            b: 0,
-            l: [],
+            f: defaultValue.f(),
+            w: defaultValue.w,
+            d: defaultValue.d,
+            s: defaultValue.s,
+            t: defaultValue.t,
+            a: defaultValue.a,
+            r: defaultValue.r,
+            b: defaultValue.b,
+            l: defaultValue.l(),
         });
     }
 
-    public toObject(): ILightRotationEventBox {
+    toObject(): ILightRotationEventBox {
         return {
             f: this.filter.toObject(),
             w: this.beatDistribution,
@@ -110,6 +120,7 @@ export class LightRotationEventBox extends EventBox {
         };
     }
 
+    /** Rotation distribution `<float>` of light rotation event box. */
     get rotationDistribution() {
         return this.s;
     }
@@ -117,6 +128,12 @@ export class LightRotationEventBox extends EventBox {
         this.s = value;
     }
 
+    /** Rotation distribution type `<int>` of light rotation event box.
+     * ```ts
+     * 1 -> Wave // adds up to last ID.
+     * 2 -> Step // adds to consequent ID.
+     * ```
+     */
     get rotationDistributionType() {
         return this.t;
     }
@@ -124,6 +141,12 @@ export class LightRotationEventBox extends EventBox {
         this.t = value;
     }
 
+    /** Axis `<int>` of light rotation event box.
+     * ```ts
+     * 0 -> X
+     * 1 -> Y
+     * ```
+     */
     get axis() {
         return this.a;
     }
@@ -131,20 +154,23 @@ export class LightRotationEventBox extends EventBox {
         this.a = value;
     }
 
-    get flip() {
+    /** Flip rotation `<int>` in light rotation event box. */
+    get flip(): ILightRotationEventBox['r'] {
         return this.r;
     }
-    set flip(value: ILightRotationEventBox['r']) {
-        this.r = value;
+    set flip(value: ILightRotationEventBox['r'] | boolean) {
+        this.r = value ? 1 : 0;
     }
 
-    get affectFirst() {
+    /** Rotation distribution should affect first event `<int>` of light rotation event box. */
+    get affectFirst(): ILightRotationEventBox['b'] {
         return this.b;
     }
-    set affectFirst(value: ILightRotationEventBox['b']) {
-        this.b = value;
+    set affectFirst(value: ILightRotationEventBox['b'] | boolean) {
+        this.b = value ? 1 : 0;
     }
 
+    /** Light rotation base data list. */
     get events() {
         return this.l;
     }

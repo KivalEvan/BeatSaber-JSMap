@@ -1,6 +1,5 @@
 import { Serializable } from '../../shared/types/serializable.ts';
 
-/** Basic building block of beatmap light. */
 export interface ILightColorBase {
     /** Add beat time `<float>` to event box group. */
     b: number;
@@ -31,6 +30,15 @@ export interface ILightColorBase {
     f: number;
 }
 
+const defaultValue: Required<ILightColorBase> = {
+    b: 0,
+    i: 0,
+    c: 0,
+    s: 1,
+    f: 0,
+};
+
+/** Light color for new lighting system. */
 export class LightColorBase extends Serializable<ILightColorBase> {
     private b;
     private i;
@@ -56,11 +64,11 @@ export class LightColorBase extends Serializable<ILightColorBase> {
         lightColors?.forEach((lc) =>
             result.push(
                 new LightColorBase({
-                    b: lc.b ?? 0,
-                    i: lc.i ?? 0,
-                    c: lc.c ?? 0,
-                    s: lc.s ?? 1,
-                    f: lc.f ?? 0,
+                    b: lc.b ?? defaultValue.b,
+                    i: lc.i ?? defaultValue.i,
+                    c: lc.c ?? defaultValue.c,
+                    s: lc.s ?? defaultValue.s,
+                    f: lc.f ?? defaultValue.f,
                 })
             )
         );
@@ -71,15 +79,15 @@ export class LightColorBase extends Serializable<ILightColorBase> {
             return result;
         }
         return new LightColorBase({
-            b: 0,
-            i: 0,
-            c: 0,
-            s: 1,
-            f: 0,
+            b: defaultValue.b,
+            i: defaultValue.i,
+            c: defaultValue.c,
+            s: defaultValue.s,
+            f: defaultValue.f,
         });
     }
 
-    public toObject(): ILightColorBase {
+    toObject(): ILightColorBase {
         return {
             b: this.time,
             i: this.transition,
@@ -89,6 +97,7 @@ export class LightColorBase extends Serializable<ILightColorBase> {
         };
     }
 
+    /** Add beat time `<float>` to event box group. */
     get time() {
         return this.b;
     }
@@ -96,6 +105,13 @@ export class LightColorBase extends Serializable<ILightColorBase> {
         this.b = value;
     }
 
+    /** Transition type `<int>` of base light color.
+     * ```ts
+     * 0 -> Instant
+     * 1 -> Interpolate
+     * 2 -> Extend
+     * ```
+     */
     get transition() {
         return this.i;
     }
@@ -103,6 +119,12 @@ export class LightColorBase extends Serializable<ILightColorBase> {
         this.i = value;
     }
 
+    /** Color `<int>` of base light color.
+     * ```ts
+     * 0 -> Red
+     * 1 -> Blue
+     * ```
+     */
     get color() {
         return this.c;
     }
@@ -110,6 +132,10 @@ export class LightColorBase extends Serializable<ILightColorBase> {
         this.c = value;
     }
 
+    /** Brightness `<float>` of base light color.
+     *
+     * Range: `0-1` (0% to 100%), can be more than 1.
+     */
     get brightness() {
         return this.s;
     }
@@ -117,6 +143,10 @@ export class LightColorBase extends Serializable<ILightColorBase> {
         this.s = value;
     }
 
+    /** Frequency `<int>` of base light color.
+     *
+     * Blinking frequency in beat time of the event, `0` is static.
+     */
     get frequency() {
         return this.f;
     }

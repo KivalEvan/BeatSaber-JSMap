@@ -9,17 +9,21 @@ bsmap.globals.path =
 const info = bsmap.load.infoSync();
 const difficulty = bsmap.load.difficultyLegacySync('ExpertPlusStandard.dat');
 
-info._previewDuration = 14;
+// info._previewDuration = 14;
 info._difficultyBeatmapSets.forEach((set) =>
     console.log(set._beatmapCharacteristicName, set._difficultyBeatmaps.length)
 );
 
-const BPM = bsmap.bpm.create(info._beatsPerMinute);
-const NJS = bsmap.njs.create(BPM, 16);
-NJS.offset = 0;
-
+const BPM = bsmap.bpm.create(
+    info._beatsPerMinute,
+    difficulty._customData?._BPMChanges ?? difficulty._customData?._bpmChanges
+);
 console.log('Beat in real-time second:', BPM.toRealTime(42));
 console.log('Real-time second in beat:', BPM.toBeatTime(6.9));
+console.log('Beat in JSON time:', BPM.toJSONTime(85));
+
+const NJS = bsmap.njs.create(BPM, 16);
+NJS.offset = 0;
 console.log(NJS.calcHalfJumpDuration(), NJS.calcHalfJumpDuration(0.5));
 
 difficulty._events.push({

@@ -1,6 +1,5 @@
 import { IBaseObject, BaseObject } from './baseObject.ts';
 
-/** Rotation event beatmap object. */
 export interface IRotationEvent extends IBaseObject {
     /** Execution time `<int>` of rotation event.
      * ```ts
@@ -13,6 +12,13 @@ export interface IRotationEvent extends IBaseObject {
     r: number;
 }
 
+const defaultValue: Required<IRotationEvent> = {
+    b: 0,
+    e: 0,
+    r: 0,
+};
+
+/** Rotation event beatmap object. */
 export class RotationEvent extends BaseObject<IRotationEvent> {
     private e;
     private r;
@@ -32,9 +38,9 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
         rotationEvents?.forEach((re) =>
             result.push(
                 new RotationEvent({
-                    b: re.b ?? 0,
-                    e: re.e ?? 0,
-                    r: re.r ?? 0,
+                    b: re.b ?? defaultValue.b,
+                    e: re.e ?? defaultValue.e,
+                    r: re.r ?? defaultValue.r,
                 })
             )
         );
@@ -45,13 +51,13 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
             return result;
         }
         return new RotationEvent({
-            b: 0,
-            e: 0,
-            r: 0,
+            b: defaultValue.b,
+            e: defaultValue.e,
+            r: defaultValue.r,
         });
     }
 
-    public toObject(): IRotationEvent {
+    toObject(): IRotationEvent {
         return {
             b: this.time,
             e: this.executionTime,
@@ -59,6 +65,12 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
         };
     }
 
+    /** Execution time `<int>` of rotation event.
+     * ```ts
+     * 0 -> Early
+     * 1 -> Late
+     * ```
+     */
     get executionTime() {
         return this.e;
     }
@@ -66,10 +78,20 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
         this.e = value;
     }
 
+    /** Clockwise rotation value `<float>` of rotation event. */
     get rotation() {
         return this.r;
     }
     set rotation(value: IRotationEvent['r']) {
         this.r = value;
+    }
+
+    setExecutionTime(value: IRotationEvent['e']) {
+        this.executionTime = value;
+        return this;
+    }
+    setRotation(value: IRotationEvent['r']) {
+        this.rotation = value;
+        return this;
     }
 }

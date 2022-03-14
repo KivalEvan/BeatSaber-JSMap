@@ -1,6 +1,5 @@
 import { Serializable } from '../../shared/types/serializable.ts';
 
-/** Basic building block of beatmap. */
 export interface IBaseObject {
     /** Beat time `<float>` of beatmap object. */
     b: number;
@@ -21,4 +20,12 @@ export abstract class BaseObject<T> extends Serializable<T> {
     set time(value: number) {
         this.b = value;
     }
+
+    setTime(value: number) {
+        this.time = value;
+        return this;
+    }
+
+    // abstract isValid(): boolean;
+    // abstract mirror(): boolean;
 }

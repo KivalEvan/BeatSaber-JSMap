@@ -1,10 +1,6 @@
 import { IBaseSlider, BaseSlider } from './baseSlider.ts';
 import { LINE_COUNT } from './constants.ts';
 
-/** Burst slider beatmap object.
- *
- * Also known as chain.
- */
 export interface IBurstSlider extends IBaseSlider {
     /** Slice count or element `<int>` in burst slider.
      *
@@ -22,6 +18,23 @@ export interface IBurstSlider extends IBaseSlider {
     s: number;
 }
 
+const defaultValue: Required<IBurstSlider> = {
+    b: 0,
+    c: 0,
+    x: 0,
+    y: 0,
+    d: 0,
+    tb: 0,
+    tx: 0,
+    ty: 0,
+    sc: 1,
+    s: 1,
+};
+
+/** Burst slider beatmap object.
+ *
+ * Also known as chain.
+ */
 export class BurstSlider extends BaseSlider {
     private sc;
     private s;
@@ -41,16 +54,16 @@ export class BurstSlider extends BaseSlider {
         burstSliders?.forEach((bs) =>
             result.push(
                 new BurstSlider({
-                    b: bs.b ?? 0,
-                    c: bs.c ?? 0,
-                    x: bs.x ?? 0,
-                    y: bs.y ?? 0,
-                    d: bs.d ?? 0,
-                    tb: bs.tb ?? 0,
-                    tx: bs.tx ?? 0,
-                    ty: bs.ty ?? 0,
-                    sc: bs.sc ?? 1,
-                    s: bs.s ?? 1,
+                    b: bs.b ?? bs.tb ?? defaultValue.b,
+                    c: bs.c ?? defaultValue.c,
+                    x: bs.x ?? defaultValue.x,
+                    y: bs.y ?? defaultValue.y,
+                    d: bs.d ?? defaultValue.d,
+                    tb: bs.tb ?? bs.b ?? defaultValue.tb,
+                    tx: bs.tx ?? defaultValue.tx,
+                    ty: bs.ty ?? defaultValue.ty,
+                    sc: bs.sc ?? defaultValue.sc,
+                    s: bs.s ?? defaultValue.s,
                 })
             )
         );
@@ -61,20 +74,20 @@ export class BurstSlider extends BaseSlider {
             return result;
         }
         return new BurstSlider({
-            b: 0,
-            c: 0,
-            x: 0,
-            y: 0,
-            d: 0,
-            tb: 0,
-            tx: 0,
-            ty: 0,
-            sc: 1,
-            s: 1,
+            b: defaultValue.b,
+            c: defaultValue.c,
+            x: defaultValue.x,
+            y: defaultValue.y,
+            d: defaultValue.d,
+            tb: defaultValue.tb,
+            tx: defaultValue.tx,
+            ty: defaultValue.ty,
+            sc: defaultValue.sc,
+            s: defaultValue.s,
         });
     }
 
-    public toObject(): IBurstSlider {
+    toObject(): IBurstSlider {
         return {
             b: this.time,
             c: this.color,
@@ -115,7 +128,16 @@ export class BurstSlider extends BaseSlider {
         this.s = value;
     }
 
-    public mirror(flipColor = true) {
+    setSliceCount(value: IBurstSlider['sc']) {
+        this.sliceCount = value;
+        return this;
+    }
+    setSquish(value: IBurstSlider['s']) {
+        this.squish = value;
+        return this;
+    }
+
+    mirror(flipColor = true) {
         this.posX = LINE_COUNT - 1 - this.posX;
         this.tailPosX = LINE_COUNT - 1 - this.tailPosX;
         if (flipColor) {

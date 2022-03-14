@@ -3,6 +3,7 @@ import { Editor } from './editor.ts';
 import { ColorScheme } from './environment.ts';
 import { HeckInfoCustomData } from './heck.ts';
 import { ChromaEnvironmentOld } from './chroma.ts';
+
 /** Base custom data interface. */
 export interface CustomData {
     // deno-lint-ignore no-explicit-any

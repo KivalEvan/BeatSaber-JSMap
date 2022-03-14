@@ -1,7 +1,6 @@
 import { IBaseObject, BaseObject } from './baseObject.ts';
 import { LINE_COUNT } from './constants.ts';
 
-/** Waypoint beatmap object. */
 export interface IWaypoint extends IBaseObject {
     /** Position x `<int>` of waypoint.
      * ```ts
@@ -36,7 +35,14 @@ export interface IWaypoint extends IBaseObject {
     d: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9;
 }
 
-/** Boost event beatmap object. */
+const defaultValue: Required<IWaypoint> = {
+    b: 0,
+    x: 0,
+    y: 0,
+    d: 1,
+};
+
+/** Waypoint beatmap object. */
 export class Waypoint extends BaseObject<IWaypoint> {
     private x;
     private y;
@@ -48,7 +54,7 @@ export class Waypoint extends BaseObject<IWaypoint> {
         this.d = waypoint.d;
     }
 
-    public toObject(): IWaypoint {
+    toObject(): IWaypoint {
         return {
             b: this.time,
             x: this.posX,
@@ -65,10 +71,10 @@ export class Waypoint extends BaseObject<IWaypoint> {
         waypoints?.forEach((w) =>
             result.push(
                 new Waypoint({
-                    b: w.b ?? 0,
-                    x: w.x ?? 0,
-                    y: w.y ?? 0,
-                    d: w.d ?? 1,
+                    b: w.b ?? defaultValue.b,
+                    x: w.x ?? defaultValue.x,
+                    y: w.y ?? defaultValue.y,
+                    d: w.d ?? defaultValue.d,
                 })
             )
         );
@@ -79,13 +85,23 @@ export class Waypoint extends BaseObject<IWaypoint> {
             return result;
         }
         return new Waypoint({
-            b: 0,
-            x: 0,
-            y: 0,
-            d: 1,
+            b: defaultValue.b,
+            x: defaultValue.x,
+            y: defaultValue.y,
+            d: defaultValue.d,
         });
     }
 
+    /** Position x `<int>` of waypoint.
+     * ```ts
+     * 0 -> Outer Left
+     * 1 -> Middle Left
+     * 2 -> Middle Right
+     * 3 -> Outer Right
+     * ```
+     * ---
+     * Range: `unknown`
+     */
     get posX() {
         return this.x;
     }
@@ -93,6 +109,15 @@ export class Waypoint extends BaseObject<IWaypoint> {
         this.x = value;
     }
 
+    /** Position y `<int>` of waypoint.
+     * ```ts
+     * 0 -> Bottom row
+     * 1 -> Middle row
+     * 2 -> Top row
+     * ```
+     * ---
+     * Range: `unknown`
+     */
     get posY() {
         return this.y;
     }
@@ -100,6 +125,15 @@ export class Waypoint extends BaseObject<IWaypoint> {
         this.y = value;
     }
 
+    /** Offset direction `<int>` of waypoint.
+     * ```ts
+     * 4 | 0 | 5
+     * 2 | 8 | 3
+     * 6 | 1 | 7
+     * ```
+     * ---
+     * Grid represents cut direction from center.
+     */
     get direction() {
         return this.d;
     }
@@ -107,7 +141,20 @@ export class Waypoint extends BaseObject<IWaypoint> {
         this.d = value;
     }
 
-    public mirror() {
+    setPosX(value: IWaypoint['x']) {
+        this.posX = value;
+        return this;
+    }
+    setPosY(value: IWaypoint['y']) {
+        this.posY = value;
+        return this;
+    }
+    setDirection(value: IWaypoint['d']) {
+        this.d = value;
+        return this;
+    }
+
+    mirror() {
         this.posX = LINE_COUNT - 1 - this.posX;
         switch (this.direction) {
             case 2:

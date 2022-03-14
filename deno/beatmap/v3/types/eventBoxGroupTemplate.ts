@@ -16,7 +16,7 @@ export abstract class EventBoxGroupTemplate<
         this.e = objects;
     }
 
-    public toObject(): IEventBoxGroupTemplate<T> {
+    toObject(): IEventBoxGroupTemplate<T> {
         return {
             b: this.time,
             g: this.groupID,
