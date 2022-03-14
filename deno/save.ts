@@ -96,12 +96,14 @@ export const difficulty = async (
     let newData = data as Either<DifficultyDataV2, IDifficultyDataV3>;
     if (isV3(data)) {
         newData = data.toObject();
+    } else {
+        newData = data;
     }
     if (opt.optimise.enabled) {
         performDifficulty(newData, opt.optimise);
     }
     logger.info(tag(difficulty), `Writing to ${opt.path + opt.filePath}`);
-    await Deno.writeTextFile(opt.path + opt.filePath, JSON.stringify(data));
+    await Deno.writeTextFile(opt.path + opt.filePath, JSON.stringify(newData));
 };
 
 /** Synchronously save beatmap difficulty.
@@ -122,12 +124,14 @@ export const difficultySync = (
     let newData = data as Either<DifficultyDataV2, IDifficultyDataV3>;
     if (isV3(data)) {
         newData = data.toObject();
+    } else {
+        newData = data;
     }
     if (opt.optimise.enabled) {
         performDifficulty(newData, opt.optimise);
     }
     logger.info(tag(difficultySync), `Writing to ${opt.path + opt.filePath}`);
-    Deno.writeTextFileSync(opt.path + opt.filePath, JSON.stringify(data));
+    Deno.writeTextFileSync(opt.path + opt.filePath, JSON.stringify(newData));
 };
 
 /** Asynchronously save multiple beatmap difficulties.
