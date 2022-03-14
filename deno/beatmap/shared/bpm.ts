@@ -95,6 +95,25 @@ export class BeatPerMinute {
         return (seconds * this._bpm) / 60;
     }
 
+    /** Convert beat time to actual JSON time.
+     * ```ts
+     * const JSONTime = toJSONTime(beat);
+     * ```
+     */
+    public toJSONTime(beat: number): number {
+        for (let i = this._bpmChange.length - 1; i >= 0; i--) {
+            if (beat > this._bpmChange[i]._newTime) {
+                console.log(beat, this._bpmChange[i]._newTime);
+                return (
+                    ((beat - this._bpmChange[i]._newTime) / this._bpmChange[i]._BPM) *
+                        this._bpm +
+                    this._bpmChange[i]._time
+                );
+            }
+        }
+        return this.offsetBegone(beat);
+    }
+
     /** Adjust beat time from BPM changes and offset.
      * ```ts
      * const adjustedBeat = adjustTime(beat);
