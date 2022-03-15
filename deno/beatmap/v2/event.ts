@@ -12,7 +12,7 @@ import {
     EventBPMChange,
 } from './types/event.ts';
 import { EnvironmentAllName } from '../shared/types/environment.ts';
-import { eventList } from '../shared/environment.ts';
+import { EventList } from '../shared/environment.ts';
 
 /** Check if light event is an off event.
  * ```ts
@@ -314,7 +314,7 @@ export const count = (
     events: Event[],
     environment: EnvironmentAllName = 'DefaultEnvironment'
 ): EventCount => {
-    const commonEvent = eventList[environment] ?? [0, 1, 2, 3, 4, 8, 9, 12, 13];
+    const commonEvent = EventList[environment] ?? [0, 1, 2, 3, 4, 8, 9, 12, 13];
     const eventCount: EventCount = {};
     for (let i = commonEvent.length - 1; i >= 0; i--) {
         eventCount[commonEvent[i]] = {

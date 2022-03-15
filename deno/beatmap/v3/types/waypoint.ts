@@ -176,5 +176,6 @@ export class Waypoint extends BaseObject<IWaypoint> {
                 this.direction = 4;
                 break;
         }
+        return this;
     }
 }

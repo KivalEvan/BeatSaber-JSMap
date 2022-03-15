@@ -94,7 +94,7 @@ export type EnvironmentScheme = {
 };
 
 /** Environment rename to human readable. */
-export const environmentRename: Readonly<Record<EnvironmentAllName, string>> = {
+export const EnvironmentRename: Readonly<Record<EnvironmentAllName, string>> = {
     DefaultEnvironment: 'The First',
     OriginsEnvironment: 'Origins',
     Origins: 'Origins (Triangle)', // because beat games
@@ -124,7 +124,7 @@ export const environmentRename: Readonly<Record<EnvironmentAllName, string>> = {
 };
 
 /** Record of Environment Color to Color Scheme. */
-export const environmentScheme: Readonly<Record<EnvironmentAllName, ColorSchemeList>> =
+export const EnvironmentScheme: Readonly<Record<EnvironmentAllName, ColorSchemeList>> =
     {
         DefaultEnvironment: 'The First',
         OriginsEnvironment: 'Origins',

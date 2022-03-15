@@ -40,7 +40,7 @@ export interface IBaseSlider extends IBaseObject {
      *
      * **WARNING:** Dot-directional is not recommended, assumes down-directional.
      */
-    d: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+    d: number;
     /** Tail beat time `<float>` of base slider. */
     tb: number;
     /** Tail position x `<int>` of base slider.
@@ -228,5 +228,5 @@ export abstract class BaseSlider extends BaseObject<IBaseSlider> {
         return this.direction === 8;
     }
 
-    abstract mirror(): void;
+    abstract mirror(): this;
 }

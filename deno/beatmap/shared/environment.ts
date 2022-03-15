@@ -1,7 +1,7 @@
 import { EnvironmentAllName, EnvironmentScheme } from './types/environment.ts';
 
 /** Color scheme definition. */
-export const colorScheme: Readonly<EnvironmentScheme> = {
+export const ColorScheme: Readonly<EnvironmentScheme> = {
     'Default Custom': {
         _colorLeft: {
             r: 0.7529412,
@@ -636,7 +636,7 @@ export const colorScheme: Readonly<EnvironmentScheme> = {
 };
 
 /** List of available event type in environment. */
-export const eventList: Readonly<Record<EnvironmentAllName, number[]>> = {
+export const EventList: Readonly<Record<EnvironmentAllName, number[]>> = {
     DefaultEnvironment: [0, 1, 2, 3, 4, 5, 8, 9, 12, 13],
     OriginsEnvironment: [0, 1, 2, 3, 4, 5, 8, 9, 12, 13],
     Origins: [0, 1, 2, 3, 4, 5, 8, 9, 12, 13],
@@ -667,7 +667,7 @@ export const eventList: Readonly<Record<EnvironmentAllName, number[]>> = {
 
 // very readable code :+1:
 // should predefine it for performance but it might be longer and hard to trace
-export const lightIDList: Readonly<
+export const LightIDList: Readonly<
     Record<EnvironmentAllName, Partial<{ [key: number]: number[] }>>
 > = {
     DefaultEnvironment: {

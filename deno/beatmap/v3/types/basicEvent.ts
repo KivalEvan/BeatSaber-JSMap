@@ -1,4 +1,5 @@
 import { IBaseObject, BaseObject } from './baseObject.ts';
+import { CustomData } from './customData.ts';
 
 export enum BasicEventLightValue {
     OFF,
@@ -75,6 +76,7 @@ interface IBasicEventBase extends IBaseObject {
     i: number;
     /** Float value `<float>` of basic event. */
     f: number;
+    cd?: CustomData;
 }
 
 interface IBasicEventGeneric extends IBasicEventBase {
@@ -173,6 +175,7 @@ const defaultValue: Required<IBasicEvent> = {
     et: 0,
     i: 0,
     f: 1,
+    cd: () => {},
 };
 
 /** Basic event beatmap object. */
@@ -180,11 +183,13 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
     private et;
     private i;
     private f;
+    private cdata;
     constructor(basicEvent: Required<IBasicEvent>) {
         super(basicEvent);
         this.et = basicEvent.et;
         this.i = basicEvent.i;
         this.f = basicEvent.f;
+        this.cdata = basicEvent.cd;
     }
 
     static create(): BasicEvent;
@@ -199,6 +204,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
                     et: be.et ?? defaultValue.et,
                     i: be.i ?? defaultValue.i,
                     f: be.f ?? defaultValue.f,
+                    cd: be.cd ?? defaultValue.cd,
                 })
             )
         );
@@ -213,6 +219,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
             et: defaultValue.et,
             i: defaultValue.i,
             f: defaultValue.f,
+            cd: defaultValue.cd,
         });
     }
 
@@ -222,6 +229,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
             et: this.et,
             i: this.value,
             f: this.floatValue,
+            cd: this.cdata,
         };
     }
 

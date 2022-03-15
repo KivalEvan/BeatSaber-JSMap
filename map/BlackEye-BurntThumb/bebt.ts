@@ -52,7 +52,7 @@ for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
                         d: prevSlider[n.color].direction,
                         mu: prevSlider[n.color].customData!._disableSpawnEffect
                             ? 0
-                            : prevSlider[n.color].customData!._color[2],
+                            : prevSlider[n.color].customData!._color[2] * 0.75,
                         tb: n.time,
                         tx: n.posX,
                         ty: n.posY,
@@ -61,7 +61,7 @@ for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
                             : n.direction,
                         tmu: prevSlider[n.color].customData!._disableSpawnEffect
                             ? 0
-                            : prevSlider[n.color].customData!._color[3],
+                            : prevSlider[n.color].customData!._color[3] * 0.75,
                         m: prevSlider[n.color].customData!._color[1],
                     })
                 );
@@ -201,6 +201,8 @@ difficulty.obstacles.forEach((o) => {
         o.height = 2;
     }
 });
+
+difficulty.colorNotes.forEach((n) => n.deleteCustomData());
 
 bsmap.save.difficultySync(difficulty, {
     filePath: OUTPUT_FILE,

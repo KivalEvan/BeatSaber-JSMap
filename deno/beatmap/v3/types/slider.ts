@@ -31,7 +31,7 @@ export interface ISlider extends IBaseSlider {
      *
      * **WARNING:** Dot-directional is not recommended, assumes down-directional.
      */
-    tc: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+    tc: number;
     /** Mid anchor mode `<int>` of slider.
      * ```ts
      * 0 -> Straight
@@ -264,5 +264,22 @@ export class Slider extends BaseSlider {
         if (this.midAnchor) {
             this.midAnchor = this.midAnchor === 1 ? 2 : 1;
         }
+        return this;
+    }
+
+    /** Check if slider has Mapping Extensions properties.
+     * ```ts
+     * if (slider.hasMappingExtensions()) {}
+     * ```
+     */
+    hasMappingExtensions() {
+        return (
+            this.posY > 2 ||
+            this.posY < 0 ||
+            this.posX <= -1000 ||
+            this.posX >= 1000 ||
+            (this.direction >= 1000 && this.direction <= 1360) ||
+            (this.tailDirection >= 1000 && this.tailDirection <= 1360)
+        );
     }
 }

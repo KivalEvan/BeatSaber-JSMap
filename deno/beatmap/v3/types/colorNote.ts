@@ -43,10 +43,10 @@ export interface IColorNote extends IBaseObject {
      *
      * **WARNING:** Dot-directional is not recommended with sliders, assumes down-directional.
      */
-    d: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+    d: number;
     /** Angle offset in degree counter-clockwise `<int>` of note.*/
     a: number;
-    cData?: CustomData;
+    cd?: CustomData;
 }
 
 const defaultValue: Required<IColorNote> = {
@@ -56,7 +56,7 @@ const defaultValue: Required<IColorNote> = {
     y: 0,
     d: 0,
     a: 0,
-    cData: {},
+    cd: {},
 };
 
 /** Color note beatmap object. */
@@ -74,7 +74,7 @@ export class ColorNote extends BaseObject<IColorNote> {
         this.y = colorNote.y;
         this.d = colorNote.d;
         this.a = colorNote.a;
-        this.cd = colorNote.cData;
+        this.cd = colorNote.cd;
     }
 
     static create(): ColorNote;
@@ -91,7 +91,7 @@ export class ColorNote extends BaseObject<IColorNote> {
                     c: n.c ?? defaultValue.c,
                     d: n.d ?? defaultValue.d,
                     a: n.a ?? defaultValue.a,
-                    cData: n.cData ?? defaultValue.cData,
+                    cd: n.cd ?? defaultValue.cd,
                 })
             )
         );
@@ -108,7 +108,7 @@ export class ColorNote extends BaseObject<IColorNote> {
             c: defaultValue.c,
             d: defaultValue.d,
             a: defaultValue.a,
-            cData: defaultValue.cData,
+            cd: defaultValue.cd,
         });
     }
 
@@ -337,7 +337,18 @@ export class ColorNote extends BaseObject<IColorNote> {
      * ```
      */
     getAngle(): number {
-        return (NoteCutAngle[this.direction] || 0) + this.angleOffset;
+        // if (this.customData?._cutDirection) {
+        //     return this.customData._cutDirection > 0
+        //         ? this.customData._cutDirection % 360
+        //         : 360 + (this.customData._cutDirection % 360);
+        // }
+        if (this.direction >= 1000) {
+            return Math.abs(((this.direction % 1000) % 360) - 360);
+        }
+        return (
+            (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) +
+            this.angleOffset
+        );
     }
 
     /** Get two notes and return the distance between two notes.
@@ -374,11 +385,13 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isVertical(noteCompare)) {}
      * ```
      */
-    isVertical(compareTo: ColorNote) {
-        const [nX1] = this.getPosition();
-        const [nX2] = compareTo.getPosition();
-        const d = nX1 - nX2;
-        return d > -0.001 && d < 0.001;
+    isVertical(compareTo?: ColorNote) {
+        if (compareTo) {
+            const [nX1] = this.getPosition();
+            const [nX2] = compareTo.getPosition();
+            const d = nX1 - nX2;
+            return d > -0.001 && d < 0.001;
+        }
     }
 
     /** Compare two notes and return if the notes is in horizontal alignment.
@@ -386,11 +399,17 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isHorizontal(noteCompare)) {}
      * ```
      */
-    isHorizontal(compareTo: ColorNote) {
-        const [_, nY1] = this.getPosition();
-        const [_2, nY2] = compareTo.getPosition();
-        const d = nY1 - nY2;
-        return d > -0.001 && d < 0.001;
+    isHorizontal(compareTo?: ColorNote) {
+        if (compareTo) {
+            const [_, nY1] = this.getPosition();
+            const [_2, nY2] = compareTo.getPosition();
+            const d = nY1 - nY2;
+            return d > -0.001 && d < 0.001;
+        }
+        return (
+            22.5 <= (Math.abs(this.getAngle()) % 180) + 90 &&
+            (Math.abs(this.getAngle()) % 180) + 90 <= 67.5
+        );
     }
 
     /** Compare two notes and return if the notes is in diagonal alignment.
@@ -398,12 +417,18 @@ export class ColorNote extends BaseObject<IColorNote> {
      * if (note.isDiagonal(noteCompare)) {}
      * ```
      */
-    isDiagonal(compareTo: ColorNote) {
-        const [nX1, nY1] = this.getPosition();
-        const [nX2, nY2] = compareTo.getPosition();
-        const dX = Math.abs(nX1 - nX2);
-        const dY = Math.abs(nY1 - nY2);
-        return dX === dY;
+    isDiagonal(compareTo?: ColorNote) {
+        if (compareTo) {
+            const [nX1, nY1] = this.getPosition();
+            const [nX2, nY2] = compareTo.getPosition();
+            const dX = Math.abs(nX1 - nX2);
+            const dY = Math.abs(nY1 - nY2);
+            return dX === dY;
+        }
+        return (
+            22.5 <= Math.abs(this.getAngle()) % 90 &&
+            Math.abs(this.getAngle()) % 90 <= 67.5
+        );
     }
 
     /** Compare two notes and return if the notes is an inline.
@@ -668,7 +693,14 @@ export class ColorNote extends BaseObject<IColorNote> {
      * ```
      */
     hasMappingExtensions() {
-        return this.posX > 3 || this.posX < 0 || this.posY > 2 || this.posY < 0;
+        return (
+            this.posX > 3 ||
+            this.posX < 0 ||
+            this.posY > 2 ||
+            this.posY < 0 ||
+            (this.direction >= 1000 && this.direction <= 1360) ||
+            (this.direction === 8 && this.direction >= 2000 && this.direction <= 2360)
+        );
     }
 
     /** Check if note has a valid cut direction.

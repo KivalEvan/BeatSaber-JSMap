@@ -204,6 +204,11 @@ export class Obstacle extends BaseObject<IObstacle> {
         return this;
     }
 
+    mirror() {
+        this.x = LINE_COUNT - 1 - this.x;
+        return this;
+    }
+
     /** Check if obstacle is interactive.
      * ```ts
      * if (wall.isInteractive()) {}
@@ -233,8 +238,13 @@ export class Obstacle extends BaseObject<IObstacle> {
         return this.d === 0 || this.w === 0 || this.h === 0;
     }
 
-    mirror() {
-        this.x = LINE_COUNT - 1 - this.x;
+    /** Check if obstacle is crouch.
+     * ```ts
+     * if (wall.hasNegative()) {}
+     * ```
+     */
+    hasNegative() {
+        return this.y < 0 || this.duration < 0 || this.width < 0 || this.height < 0;
     }
 
     /** Get obstacle and return the Beatwalls' position x and y value in tuple.
@@ -277,7 +287,7 @@ export class Obstacle extends BaseObject<IObstacle> {
      * ```
      */
     hasMappingExtensions(): boolean {
-        return this.posY < 0 || this.posY > 2;
+        return this.posY > 2 || this.posX <= -1000 || this.posX >= 1000;
     }
 
     /** Check if obstacle is a valid, vanilla obstacle.
@@ -286,6 +296,6 @@ export class Obstacle extends BaseObject<IObstacle> {
      * ```
      */
     isValid(): boolean {
-        return !this.hasMappingExtensions() && !this.hasZero();
+        return !this.hasMappingExtensions() && !this.hasZero() && !this.hasNegative();
     }
 }

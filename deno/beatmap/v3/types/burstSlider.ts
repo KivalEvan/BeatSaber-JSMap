@@ -163,5 +163,21 @@ export class BurstSlider extends BaseSlider {
                 this.direction = 4;
                 break;
         }
+        return this;
+    }
+
+    /** Check if burst slider has Mapping Extensions properties.
+     * ```ts
+     * if (burstSlider.hasMappingExtensions()) {}
+     * ```
+     */
+    hasMappingExtensions() {
+        return (
+            this.posY > 2 ||
+            this.posY < 0 ||
+            this.posX <= -1000 ||
+            this.posX >= 1000 ||
+            (this.direction >= 1000 && this.direction <= 1360)
+        );
     }
 }

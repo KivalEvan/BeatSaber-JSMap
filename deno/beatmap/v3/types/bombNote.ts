@@ -118,7 +118,17 @@ export class BombNote extends BaseObject<IBombNote> {
         return this;
     }
 
+    /** Check if bomb has Mapping Extensions properties.
+     * ```ts
+     * if (bomb.hasMappingExtensions()) {}
+     * ```
+     */
+    hasMappingExtensions() {
+        return this.posX > 3 || this.posX < 0 || this.posY > 2 || this.posY < 0;
+    }
+
     mirror() {
         this.x = LINE_COUNT - 1 - this.x;
+        return this;
     }
 }

@@ -72,7 +72,7 @@ export const V2toV3 = (
                                   8
                               ) as typeof template.colorNotes[number]['d']),
                     a: a,
-                    cData: n._customData ?? {},
+                    cd: n._customData ?? {},
                 })
             );
         }
@@ -126,6 +126,21 @@ export const V2toV3 = (
                     et: e._type,
                     i: e._value,
                     f: e._floatValue,
+                    cd: {
+                        c: (e as types.v2.EventLight)._customData?._color,
+                        lid: (e as types.v2.EventLight)._customData?._lightID,
+                        pid: (e as types.v2.EventLight)._customData?._propID,
+                        lg: {
+                            sc: (e as types.v2.EventLight)._customData?._lightGradient
+                                ?._startColor,
+                            ec: (e as types.v2.EventLight)._customData?._lightGradient
+                                ?._endColor,
+                            d: (e as types.v2.EventLight)._customData?._lightGradient
+                                ?._duration,
+                            e: (e as types.v2.EventLight)._customData?._lightGradient
+                                ?._easing,
+                        },
+                    },
                 })
             );
         }

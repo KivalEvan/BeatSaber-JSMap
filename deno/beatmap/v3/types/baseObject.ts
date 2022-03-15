@@ -27,5 +27,4 @@ export abstract class BaseObject<T> extends Serializable<T> {
     }
 
     // abstract isValid(): boolean;
-    // abstract mirror(): boolean;
 }

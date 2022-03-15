@@ -63,7 +63,7 @@ export const ColorNoteDataCheck: Readonly<Record<keyof IColorNote, DataCheck>> =
         type: 'number',
         version: '3.0.0',
     },
-    cData: {
+    cd: {
         type: 'object',
         version: '3.0.0',
         check: {},
@@ -223,6 +223,12 @@ export const BasicEventDataCheck: Readonly<Record<keyof IBasicEvent, DataCheck>>
     f: {
         type: 'number',
         version: '3.0.0',
+    },
+    cd: {
+        type: 'object',
+        version: '3.0.0',
+        check: {},
+        optional: true,
     },
 };
 

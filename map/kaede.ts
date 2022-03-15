@@ -118,6 +118,8 @@ if (possibleBurst[0].length || possibleBurst[1].length) {
     throw Error('what the fuck');
 }
 
+difficulty.colorNotes.forEach((n) => n.deleteCustomData());
+
 difficulty.sliders.push(
     ...bsmap.v3.Slider.create(
         {
@@ -562,6 +564,34 @@ difficulty.sliders.push(
             d: 2,
             mu: 1,
             tb: 582,
+            tx: 1,
+            ty: 1,
+            tc: 3,
+            tmu: 1,
+            m: 0,
+        },
+        {
+            b: 270,
+            c: 0,
+            x: 1,
+            y: 0,
+            d: 3,
+            mu: 1,
+            tb: 272,
+            tx: 2,
+            ty: 1,
+            tc: 2,
+            tmu: 1,
+            m: 0,
+        },
+        {
+            b: 558,
+            c: 1,
+            x: 2,
+            y: 0,
+            d: 2,
+            mu: 1,
+            tb: 560,
             tx: 1,
             ty: 1,
             tc: 3,
