@@ -1,12 +1,13 @@
-import { InfoData } from './beatmap/shared/types/info.ts';
-import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
-import { IDifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
+import { InfoData } from './types/beatmap/shared/info.ts';
+import { DifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
+import { IDifficultyData as DifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
 import {
     OptimizeOptions,
     OptimizeOptionsDifficulty,
     OptimizeOptionsInfo,
-} from './types.ts';
-import { round, Either } from './utils.ts';
+} from './types/bsmap/optimize.ts';
+import { Either } from './types/utils.ts';
+import { round } from './utils/math.ts';
 import logger from './logger.ts';
 
 // deno-lint-ignore ban-types

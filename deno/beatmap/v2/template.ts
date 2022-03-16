@@ -1,4 +1,4 @@
-import { DifficultyData } from './types/difficulty.ts';
+import { DifficultyData } from '../../types/beatmap/v2/difficulty.ts';
 
 export const difficulty = (): DifficultyData => {
     return {

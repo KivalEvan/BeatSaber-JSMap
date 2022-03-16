@@ -1,5 +1,6 @@
 import { InfoData } from './beatmap/shared/types/info.ts';
 import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
+import { IDifficultyData as IDifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
 import { info as parseInfo } from './beatmap/shared/parse.ts';
 import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
@@ -54,8 +55,8 @@ export const difficultyLegacy = (
     return parseDifficultyV2(difficultyData);
 };
 
-export const difficulty = (data: Partial<DifficultyDataV3> = {}): DifficultyDataV3 => {
-    const difficultyData: DifficultyDataV3 = {
+export const difficulty = (data: Partial<IDifficultyDataV3> = {}): DifficultyDataV3 => {
+    const difficultyData: IDifficultyDataV3 = {
         version: '3.0.0',
         bpmEvents: data.bpmEvents ? deepCopy(data.bpmEvents) : [],
         rotationEvents: data.rotationEvents ? deepCopy(data.rotationEvents) : [],

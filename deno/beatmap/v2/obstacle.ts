@@ -1,4 +1,4 @@
-import { Obstacle, ObstacleCount } from './types/obstacle.ts';
+import { Obstacle, ObstacleCount } from '../../types/beatmap/v2/obstacle.ts';
 
 /** Get obstacle and return the Beatwalls' position x and y value in tuple.
  * ```ts

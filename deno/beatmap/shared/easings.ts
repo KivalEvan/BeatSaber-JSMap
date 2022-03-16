@@ -1,4 +1,4 @@
-import { Easings, EasingsExclude } from './types/easings.ts';
+import { Easings, EasingsExclude } from '../../types/beatmap/shared/easings.ts';
 
 /** Easings function methods, able to define own function.
  * ```

@@ -1,6 +1,4 @@
-import { InfoData } from './types/info.ts';
-import { CharacteristicOrder } from './types/characteristic.ts';
-import { DifficultyRank } from './types/difficulty.ts';
+import { InfoData, CharacteristicOrder, DifficultyRank } from '../../types/mod.ts';
 import logger from '../../logger.ts';
 
 // deno-lint-ignore ban-types

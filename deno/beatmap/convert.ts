@@ -1,9 +1,11 @@
 import * as v2 from './v2/mod.ts';
 import * as v3 from './v3/mod.ts';
-import * as types from './types.ts';
 import logger from '../logger.ts';
-import { clamp } from '../utils.ts';
+import { DifficultyData as DifficultyDataV2 } from '../types/beatmap/v2/difficulty.ts';
+import { DifficultyData as DifficultyDataV3 } from './v3/difficulty.ts';
+import { clamp } from '../utils/math.ts';
 import { difficulty as parseDifficultyV2 } from './v2/parse.ts';
+import { EventLaneRotation } from '../types/beatmap/v2/event.ts';
 
 // deno-lint-ignore ban-types
 const tag = (func: Function) => {
@@ -18,9 +20,9 @@ const tag = (func: Function) => {
  * **WARNING:** Custom data will be lost on conversion, as well as other incompatible property.
  */
 export const V2toV3 = (
-    data: types.v2.DifficultyData,
+    data: DifficultyDataV2,
     skipPrompt?: boolean
-): types.v3.DifficultyData => {
+): DifficultyDataV3 => {
     if (!skipPrompt) {
         console.warn('Converting beatmap v2 to v3 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (Y/N):', 'n');
@@ -66,11 +68,7 @@ export const V2toV3 = (
                             ? n._cutDirection === 8
                                 ? 8
                                 : 1
-                            : (clamp(
-                                  n._cutDirection,
-                                  0,
-                                  8
-                              ) as typeof template.colorNotes[number]['d']),
+                            : clamp(n._cutDirection, 0, 8),
                     a: a,
                     cd: n._customData ?? {},
                 })
@@ -109,7 +107,7 @@ export const V2toV3 = (
                             ? e._customData._rotation
                             : e._value >= 1000
                             ? (e._value - 1360) % 360
-                            : types.v2.EventLaneRotation[e._value] ?? 0,
+                            : EventLaneRotation[e._value] ?? 0,
                 })
             );
         } else if (v2.event.isBPMChangeEvent(e)) {
@@ -126,21 +124,6 @@ export const V2toV3 = (
                     et: e._type,
                     i: e._value,
                     f: e._floatValue,
-                    cd: {
-                        c: (e as types.v2.EventLight)._customData?._color,
-                        lid: (e as types.v2.EventLight)._customData?._lightID,
-                        pid: (e as types.v2.EventLight)._customData?._propID,
-                        lg: {
-                            sc: (e as types.v2.EventLight)._customData?._lightGradient
-                                ?._startColor,
-                            ec: (e as types.v2.EventLight)._customData?._lightGradient
-                                ?._endColor,
-                            d: (e as types.v2.EventLight)._customData?._lightGradient
-                                ?._duration,
-                            e: (e as types.v2.EventLight)._customData?._lightGradient
-                                ?._easing,
-                        },
-                    },
                 })
             );
         }
@@ -204,9 +187,9 @@ export const V2toV3 = (
  * This feature won't be supported in the near future.
  */
 export const V3toV2 = (
-    data: types.v3.DifficultyData,
+    data: DifficultyDataV3,
     skipPrompt?: boolean
-): types.v2.DifficultyData => {
+): DifficultyDataV2 => {
     if (!skipPrompt) {
         console.warn('Converting beatmap v3 to v2 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (Y/N):', 'n');
@@ -340,7 +323,7 @@ export const V3toV2 = (
 
     template._specialEventsKeywordFilters = {
         _keywords:
-            data.basicEventTypesWithKeywords.data.map((d) => {
+            data.basicEventTypesWithKeywords.list.map((d) => {
                 return { _keyword: d.keyword, _specialEvents: d.events };
             }) ?? [],
     };

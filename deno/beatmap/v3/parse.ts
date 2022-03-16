@@ -1,6 +1,7 @@
-import { IBaseObject } from './types/baseObject.ts';
-import { DifficultyData, IDifficultyData } from './types/difficulty.ts';
-import { DataCheck, DifficultyDataCheck, DataCheckObject } from './types/dataCheck.ts';
+import { IBaseObject } from '../../types/beatmap/v3/baseObject.ts';
+import { IDifficultyData } from '../../types/beatmap/v3/difficulty.ts';
+import { DifficultyData } from './difficulty.ts';
+import { DataCheck, DifficultyDataCheck, DataCheckObject } from './dataCheck.ts';
 import logger from '../../logger.ts';
 
 // deno-lint-ignore ban-types

@@ -1,17 +1,15 @@
-import { InfoData } from './beatmap/shared/types/info.ts';
-import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
-import {
-    IDifficultyData as IDifficultyDataV3,
-    DifficultyData as DifficultyDataV3,
-} from './beatmap/v3/types/difficulty.ts';
+import { InfoData } from './types/beatmap/shared/info.ts';
+import { DifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
+import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/difficulty.ts';
+import { IDifficultyData as IDifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
 import {
     SaveOptionsDifficulty,
     SaveOptionsDifficultyList,
     SaveOptionsInfo,
-    DifficultyList,
-} from './types.ts';
+} from './types/bsmap/save.ts';
+import { DifficultyList } from './types/bsmap/list.ts';
 import { performDifficulty, performInfo } from './optimize.ts';
-import { Either } from './utils.ts';
+import { Either } from './types/utils.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 import { isV3 } from './beatmap/version.ts';
@@ -94,7 +92,7 @@ export const difficulty = async (
     };
     logger.info(tag(difficulty), `Async saving difficulty`);
     let newData = data as Either<DifficultyDataV2, IDifficultyDataV3>;
-    if (isV3(data)) {
+    if (data.version) {
         newData = data.toObject();
     } else {
         newData = data;
@@ -122,7 +120,7 @@ export const difficultySync = (
     };
     logger.info(tag(difficultySync), `Sync saving difficulty`);
     let newData = data as Either<DifficultyDataV2, IDifficultyDataV3>;
-    if (isV3(data)) {
+    if (data.version) {
         newData = data.toObject();
     } else {
         newData = data;

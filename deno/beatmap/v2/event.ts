@@ -10,8 +10,8 @@ import {
     EventExtra,
     EventSpecial,
     EventBPMChange,
-} from './types/event.ts';
-import { EnvironmentAllName } from '../shared/types/environment.ts';
+} from '../../types/beatmap/v2/event.ts';
+import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { EventList } from '../shared/environment.ts';
 
 /** Check if light event is an off event.

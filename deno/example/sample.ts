@@ -14,7 +14,7 @@ info._difficultyBeatmapSets.forEach((set) =>
     console.log(set._beatmapCharacteristicName, set._difficultyBeatmaps.length)
 );
 
-const BPM = bsmap.bpm.create(
+const BPM = bsmap.BeatPerMinute.create(
     info._beatsPerMinute,
     difficulty._customData?._BPMChanges ?? difficulty._customData?._bpmChanges
 );
@@ -22,7 +22,7 @@ console.log('Beat in real-time second:', BPM.toRealTime(42));
 console.log('Real-time second in beat:', BPM.toBeatTime(6.9));
 console.log('Beat in JSON time:', BPM.toJSONTime(85));
 
-const NJS = bsmap.njs.create(BPM, 16);
+const NJS = bsmap.NoteJumpSpeed.create(BPM, 16);
 NJS.offset = 0;
 console.log(NJS.calcHalfJumpDuration(), NJS.calcHalfJumpDuration(0.5));
 

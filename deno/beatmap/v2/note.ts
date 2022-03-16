@@ -1,6 +1,6 @@
-import { Note, NoteCount } from './types/note.ts';
+import { Note, NoteCount } from '../../types/beatmap/v2/note.ts';
 import { BeatPerMinute } from '../shared/bpm.ts';
-import { radToDeg, shortRotDistance } from '../../utils.ts';
+import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 
 /** Array index mapped to cut angle corresponding to the `_cutDirection`.
  * ```ts

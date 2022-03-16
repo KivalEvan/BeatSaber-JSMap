@@ -15,10 +15,10 @@ difficultyList.forEach((d) => {
 
     d.data.basicBeatmapEvents = [];
     const prevSlider: {
-        [key: number]: bsmap.types.v3.ColorNote;
+        [key: number]: bsmap.v3.ColorNote;
     } = {};
     const possibleBurst: {
-        [key: number]: bsmap.types.v3.ColorNote[];
+        [key: number]: bsmap.v3.ColorNote[];
     } = { 0: [], 1: [] };
     for (let i = 0, j = 0, len = d.data.colorNotes.length; i < len; i++) {
         const n = d.data.colorNotes[i];
@@ -96,8 +96,8 @@ difficultyList.forEach((d) => {
                         let x = n.posX;
                         let y = n.posY;
                         while (x >= 0 && x <= 3 && y >= 0 && y <= 2) {
-                            x += bsmap.v3.NoteCutDirectionSpace[n.direction][0];
-                            y += bsmap.v3.NoteCutDirectionSpace[n.direction][1];
+                            x += bsmap.NoteCutDirectionSpace[n.direction][0];
+                            y += bsmap.NoteCutDirectionSpace[n.direction][1];
                         }
                         x = bsmap.utils.clamp(x, 0, 3);
                         y = bsmap.utils.clamp(y, 0, 2);

@@ -1,9 +1,7 @@
-import { InfoData } from './shared/types/info.ts';
-import { DifficultyData as DifficultyDataV2 } from './v2/types/difficulty.ts';
-import {
-    IDifficultyData as IDifficultyDataV3,
-    DifficultyData as DifficultyDataV3,
-} from './v3/types/difficulty.ts';
+import { InfoData } from '../types/beatmap/shared/info.ts';
+import { DifficultyData as DifficultyDataV2 } from '../types/beatmap/v2/difficulty.ts';
+import { IDifficultyData as IDifficultyDataV3 } from '../types/beatmap/v3/difficulty.ts';
+import { DifficultyData as DifficultyDataV3 } from './v3/difficulty.ts';
 
 export const isV2 = (
     data: InfoData | DifficultyDataV2 | DifficultyDataV3 | IDifficultyDataV3

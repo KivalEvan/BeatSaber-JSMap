@@ -1,14 +1,14 @@
-import { DifficultyList } from './types.ts';
-import { InfoData } from './beatmap/shared/types/info.ts';
-import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/types/difficulty.ts';
-import { IDifficultyData as DifficultyDataV3 } from './beatmap/v3/types/difficulty.ts';
+import { DifficultyList } from './types/bsmap/list.ts';
+import { InfoData } from './types/beatmap/shared/info.ts';
+import { DifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
+import { IDifficultyData as DifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
 import { info as parseInfo } from './beatmap/shared/parse.ts';
 import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
 import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 import { isV3 } from './beatmap/version.ts';
-import { Either } from './utils.ts';
+import { Either } from './types/utils.ts';
 
 // deno-lint-ignore ban-types
 const tag = (func: Function) => {

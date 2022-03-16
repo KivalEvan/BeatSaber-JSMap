@@ -1,7 +1,7 @@
 import { ChromaObject, SetOptions } from './types.ts';
-import { ColorArray } from '../../shared/types/colors.ts';
-import { HSVAtoRGBA, interpolateColor } from '../../../colors.ts';
-import { normalize } from '../../../utils.ts';
+import { HSVAtoRGBA, interpolateColor } from '../../../utils/colors.ts';
+import { ColorArray } from '../../../types/beatmap/shared/colors.ts';
+import { normalize } from '../../../utils/math.ts';
 
 interface SetColorOptions extends SetOptions {
     color: ColorArray;

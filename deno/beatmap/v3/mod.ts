@@ -1,39 +1,22 @@
-export * as container from './container.ts';
-export * as difficulty from './difficulty.ts';
-export {
-    Axis,
-    BPMEvent,
-    BaseObject,
-    BaseSlider,
-    BasicEvent,
-    BasicEventLightValue,
-    BasicEventType,
-    BasicEventTypesForKeywords,
-    BasicEventTypesWithKeywords,
-    BombNote,
-    BurstSlider,
-    ColorBoostEvent,
-    ColorNote,
-    CurrentVersion,
-    DifficultyData,
-    EaseType,
-    ExecutionTime,
-    IndexFilter,
-    LightColorBase,
-    LightColorEventBox,
-    LightColorEventBoxGroup,
-    LightRotationBase,
-    LightRotationDirection,
-    LightRotationEventBox,
-    LightRotationEventBoxGroup,
-    NoteCutAngle,
-    NoteCutDirection,
-    NoteCutDirectionSpace,
-    NoteFlipDirection,
-    Obstacle,
-    RotationEvent,
-    Slider,
-    SliderMidAnchorMode,
-    TransitionType,
-    Waypoint,
-} from './types/mod.ts';
+export * from './basicEvent.ts';
+export * from './basicEventTypesForKeywords.ts';
+export * from './basicEventTypesWithKeywords.ts';
+export * from './bombNote.ts';
+export * from './bpmEvent.ts';
+export * from './burstSlider.ts';
+export * from './colorBoostEvent.ts';
+export * from './colorNote.ts';
+export * from './container.ts';
+export * from './difficulty.ts';
+export * from './indexFilter.ts';
+export * from './lightColorBase.ts';
+export * from './lightColorEventBox.ts';
+export * from './lightColorEventBoxGroup.ts';
+export * from './lightRotationBase.ts';
+export * from './lightRotationEventBox.ts';
+export * from './lightRotationEventBoxGroup.ts';
+export * from './obstacle.ts';
+export * from './rotationEvent.ts';
+export * from './slider.ts';
+export * from './version.ts';
+export * from './waypoint.ts';

@@ -1,8 +1,8 @@
-import { Note } from '../types/note.ts';
-import { EventLight } from '../types/event.ts';
-import { Obstacle } from '../types/obstacle.ts';
-import { Easings } from '../../shared/types/easings.ts';
-import { ColorArray } from '../../shared/types/colors.ts';
+import { Note } from '../../../types/beatmap/v2/note.ts';
+import { EventLight } from '../../../types/beatmap/v2//event.ts';
+import { Obstacle } from '../../../types/beatmap/v2/obstacle.ts';
+import { Easings } from '../../../types/beatmap/shared/easings.ts';
+import { ColorArray } from '../../../types/beatmap/shared/colors.ts';
 
 export type ChromaObject = Note | EventLight | Obstacle;
 

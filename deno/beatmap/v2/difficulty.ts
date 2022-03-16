@@ -1,5 +1,5 @@
-import { DifficultyData } from './types/difficulty.ts';
-import { Obstacle } from './types/obstacle.ts';
+import { DifficultyData } from '../../types/beatmap/v2/difficulty.ts';
+import { Obstacle } from '../../types/beatmap/v2/obstacle.ts';
 import { isInteractive } from './obstacle.ts';
 
 export const getFirstInteractiveTime = (mapData: DifficultyData): number => {

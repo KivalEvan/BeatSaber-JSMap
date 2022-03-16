@@ -1,11 +1,11 @@
-import { DifficultyData } from './types/difficulty.ts';
-import { Note } from './types/note.ts';
-import { Obstacle } from './types/obstacle.ts';
-import { Event } from './types/event.ts';
-import { Waypoint } from './types/waypoint.ts';
+import { DifficultyData } from '../../types/beatmap/v2/difficulty.ts';
+import { Note } from '../../types/beatmap/v2/note.ts';
+import { Obstacle } from '../../types/beatmap/v2/obstacle.ts';
+import { Event } from '../../types/beatmap/v2/event.ts';
+import { Slider } from '../../types/beatmap/v2/slider.ts';
+import { Waypoint } from '../../types/beatmap/v2/waypoint.ts';
 import { compare } from './version.ts';
 import logger from '../../logger.ts';
-import { Slider } from './types/slider.ts';
 
 // deno-lint-ignore ban-types
 const tag = (func: Function) => {

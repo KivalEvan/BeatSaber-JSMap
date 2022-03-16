@@ -1,4 +1,8 @@
-import { BPMChange, BPMChangeOld, BPMChangeTime } from './types/bpm.ts';
+import {
+    BPMChange,
+    BPMChangeOld,
+    BPMChangeTime,
+} from '../../types/beatmap/shared/bpm.ts';
 
 /** Class to store beat per minute value, BPM changes, and other properties affecting BPM. */
 export class BeatPerMinute {

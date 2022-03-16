@@ -1,12 +1,7 @@
 import { SetOptions } from './types.ts';
-import { Event, EventLight } from '../types/event.ts';
-import { Easings } from '../../shared/types/easings.ts';
-import { isTransition } from '../event.ts';
-import { isLightEvent } from '../event.ts';
-
-export * from './setColor.ts';
-export * from './shiftColor.ts';
-export * from './removeColor.ts';
+import { isTransition, isLightEvent } from '../event.ts';
+import { Easings } from '../../../types/beatmap/shared/easings.ts';
+import { Event, EventLight } from '../../../types/beatmap/v2/event.ts';
 
 export interface ApplyEasingsOptions extends SetOptions {
     easing: Easings;
@@ -35,3 +30,7 @@ export const applyEasingsTransition = (
         }
     });
 };
+
+export * from './setColor.ts';
+export * from './shiftColor.ts';
+export * from './removeColor.ts';

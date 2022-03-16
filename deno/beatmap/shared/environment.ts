@@ -1,4 +1,7 @@
-import { EnvironmentAllName, EnvironmentScheme } from './types/environment.ts';
+import {
+    EnvironmentAllName,
+    EnvironmentScheme,
+} from '../../types/beatmap/shared/environment.ts';
 
 /** Color scheme definition. */
 export const ColorScheme: Readonly<EnvironmentScheme> = {

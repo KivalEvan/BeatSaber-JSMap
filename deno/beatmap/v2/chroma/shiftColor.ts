@@ -1,7 +1,7 @@
 import { ChromaObject, SetOptions } from './types.ts';
-import { ColorArray } from '../../shared/types/colors.ts';
-import { HSVAtoRGBA, RGBAtoHSVA } from '../../../colors.ts';
-import { clamp } from '../../../utils.ts';
+import { HSVAtoRGBA, RGBAtoHSVA } from '../../../utils/colors.ts';
+import { ColorArray } from '../../../types/beatmap/shared/colors.ts';
+import { clamp } from '../../../utils/math.ts';
 
 interface ShiftColorBaseOptions extends SetOptions {
     hue?: number;

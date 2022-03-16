@@ -1,5 +1,5 @@
+import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { BeatPerMinute } from './bpm.ts';
-import { DifficultyName } from './types/difficulty.ts';
 
 /** Class to store NJS value, BPM, and other properties affecting NJS. */
 export class NoteJumpSpeed {
