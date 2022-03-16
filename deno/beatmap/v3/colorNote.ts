@@ -2,17 +2,20 @@ import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { BaseObject } from './baseObject.ts';
 import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
 import { radToDeg, shortRotDistance } from '../../utils/mod.ts';
+import { ObjectToReturn } from '../../types/utils.ts';
 
 /** Color note beatmap object. */
 export class ColorNote extends BaseObject<IColorNote> {
-    static default: Required<IColorNote> = {
+    static default: ObjectToReturn<Required<IColorNote>> = {
         b: 0,
         c: 0,
         x: 0,
         y: 0,
         d: 0,
         a: 0,
-        cd: {},
+        cd: () => {
+            return {};
+        },
     };
 
     private constructor(colorNote: Required<IColorNote>) {
@@ -33,7 +36,7 @@ export class ColorNote extends BaseObject<IColorNote> {
                     c: n.c ?? ColorNote.default.c,
                     d: n.d ?? ColorNote.default.d,
                     a: n.a ?? ColorNote.default.a,
-                    cd: n.cd ?? ColorNote.default.cd,
+                    cd: n.cd ?? ColorNote.default.cd(),
                 })
             )
         );
@@ -50,7 +53,7 @@ export class ColorNote extends BaseObject<IColorNote> {
             c: ColorNote.default.c,
             d: ColorNote.default.d,
             a: ColorNote.default.a,
-            cd: ColorNote.default.cd,
+            cd: ColorNote.default.cd(),
         });
     }
 

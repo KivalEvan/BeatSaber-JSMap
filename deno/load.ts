@@ -1,13 +1,12 @@
 import { DifficultyList } from './types/bsmap/list.ts';
 import { InfoData } from './types/beatmap/shared/info.ts';
-import { DifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
-import { IDifficultyData as DifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
+import { IDifficultyData as IDifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
+import { IDifficultyData as IDifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
 import { info as parseInfo } from './beatmap/shared/parse.ts';
 import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
 import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
-import { isV3 } from './beatmap/version.ts';
 import { Either } from './types/utils.ts';
 
 // deno-lint-ignore ban-types
@@ -55,7 +54,7 @@ export const infoSync = (filePath = 'Info.dat', path = globals.path) => {
 export const difficultyLegacy = async (
     filePath: string,
     path = globals.path
-): Promise<DifficultyDataV2> => {
+): Promise<ReturnType<typeof parseDifficultyV2>> => {
     logger.info(
         tag(difficultyLegacy),
         `Async loading difficulty from ${path + filePath}`
@@ -142,16 +141,26 @@ export const difficultyFromInfo = async (
                     );
                     const diffJSON = JSON.parse(
                         Deno.readTextFileSync(path + d._beatmapFilename)
-                    ) as Either<DifficultyDataV2, DifficultyDataV3>;
-                    difficulties.push({
-                        characteristic: set._beatmapCharacteristicName,
-                        difficulty: d._difficulty,
-                        fileName: d._beatmapFilename,
-                        settings: d,
-                        data: isV3(diffJSON)
-                            ? parseDifficultyV3(diffJSON)
-                            : parseDifficultyV2(diffJSON),
-                    });
+                    ) as Either<IDifficultyDataV2, IDifficultyDataV3>;
+                    if (diffJSON._version) {
+                        difficulties.push({
+                            characteristic: set._beatmapCharacteristicName,
+                            difficulty: d._difficulty,
+                            fileName: d._beatmapFilename,
+                            settings: d,
+                            version: 2,
+                            data: parseDifficultyV2(diffJSON),
+                        });
+                    } else {
+                        difficulties.push({
+                            characteristic: set._beatmapCharacteristicName,
+                            difficulty: d._difficulty,
+                            fileName: d._beatmapFilename,
+                            settings: d,
+                            version: 3,
+                            data: parseDifficultyV3(diffJSON),
+                        });
+                    }
                 }
             }
             resolve(difficulties);
@@ -186,16 +195,26 @@ export const difficultyFromInfoSync = (
             );
             const diffJSON = JSON.parse(
                 Deno.readTextFileSync(path + d._beatmapFilename)
-            ) as Either<DifficultyDataV2, DifficultyDataV3>;
-            difficulties.push({
-                characteristic: set._beatmapCharacteristicName,
-                difficulty: d._difficulty,
-                fileName: d._beatmapFilename,
-                settings: d,
-                data: isV3(diffJSON)
-                    ? parseDifficultyV3(diffJSON)
-                    : parseDifficultyV2(diffJSON),
-            });
+            ) as Either<IDifficultyDataV2, IDifficultyDataV3>;
+            if (diffJSON._version) {
+                difficulties.push({
+                    characteristic: set._beatmapCharacteristicName,
+                    difficulty: d._difficulty,
+                    fileName: d._beatmapFilename,
+                    settings: d,
+                    version: 2,
+                    data: parseDifficultyV2(diffJSON),
+                });
+            } else {
+                difficulties.push({
+                    characteristic: set._beatmapCharacteristicName,
+                    difficulty: d._difficulty,
+                    fileName: d._beatmapFilename,
+                    settings: d,
+                    version: 3,
+                    data: parseDifficultyV3(diffJSON),
+                });
+            }
         }
     }
     return difficulties;

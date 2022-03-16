@@ -1,5 +1,5 @@
 /** not a burst slider. */
-export interface Slider {
+export interface ISlider {
     /** Color type `<int>` of base slider.
      * ```ts
      * 0 -> Red

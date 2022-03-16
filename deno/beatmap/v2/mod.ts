@@ -1,7 +1,9 @@
 // export * as chroma from './chroma/mod.ts';
-export * as difficulty from './difficulty.ts';
-export * as event from './event.ts';
-export * as note from './note.ts';
-export * as obstacle from './obstacle.ts';
-export * as template from './template.ts';
-export * as version from './version.ts';
+export * from './difficulty.ts';
+export * from './event.ts';
+export * from './note.ts';
+export * from './specialEventsKeywordFilters.ts';
+export * from './specialEventsKeywordFiltersKeywords.ts';
+export * from './obstacle.ts';
+export * from './slider.ts';
+export * from './waypoint.ts';

@@ -25,23 +25,23 @@ for (const set of info._difficultyBeatmapSets) {
         );
         const difficulty = bsmap.load.difficultyLegacySync(d._beatmapFilename);
         const notes = JSON.parse(
-            JSON.stringify(difficulty._notes)
-        ) as typeof difficulty._notes;
+            JSON.stringify(difficulty.notes)
+        ) as typeof difficulty.notes;
         notes.forEach((n) => {
-            n._customData = {};
-            n._customData._disableNoteGravity = true;
-            n._customData._disableSpawnEffect = true;
-            n._customData._noteJumpMovementSpeed = 10;
-            n._customData._animation = {};
-            n._customData._animation._dissolve = [[0, 0]];
-            n._customData._animation._dissolveArrow = [[0, 0]];
+            n.customData = {};
+            n.customData._disableNoteGravity = true;
+            n.customData._disableSpawnEffect = true;
+            n.customData._noteJumpMovementSpeed = 10;
+            n.customData._animation = {};
+            n.customData._animation._dissolve = [[0, 0]];
+            n.customData._animation._dissolveArrow = [[0, 0]];
         });
-        difficulty._notes.forEach((n) => {
-            n._time += 0.01;
-            n._customData = {};
-            n._customData._fake = true;
+        difficulty.notes.forEach((n) => {
+            n.time += 0.01;
+            n.customData = {};
+            n.customData._fake = true;
         });
-        notes.forEach((n) => difficulty._notes.push(n));
+        notes.forEach((n) => difficulty.notes.push(n));
         bsmap.save.difficultySync(difficulty, {
             filePath: d._beatmapFilename,
         });

@@ -4,54 +4,9 @@ import {
     ChromaEventRotation,
     ChromaEventZoom,
 } from './chroma.ts';
+import { CustomData } from './customData.ts';
 import { NEEvent } from './noodleExtensions.ts';
-
-export enum EventType {
-    BACK_LASERS,
-    RING_LIGHTS,
-    LEFT_LASERS,
-    RIGHT_LASERS,
-    CENTER_LIGHTS,
-    LIGHT_BOOST,
-    EXTRA_LEFT_LIGHTS,
-    EXTRA_RIGHT_LIGHTS,
-    RING_ROTATION,
-    RING_ZOOM,
-    EXTRA_LEFT_LASERS,
-    EXTRA_RIGHT_LASERS,
-    LEFT_LASER_ROTATION,
-    RIGHT_LASER_ROTATION,
-    EARLY_LANE_ROTATION,
-    LATE_LANE_ROTATION,
-    UTILITY_EVENT_1,
-    UTILITY_EVENT_2,
-    UTILITY_EVENT_3,
-    UTILITY_EVENT_4,
-    BPM_CHANGE = 100,
-}
-
-export enum EventValue {
-    OFF,
-    BLUE_ON,
-    BLUE_FLASH,
-    BLUE_FADE,
-    BLUE_TRANSITION,
-    RED_ON,
-    RED_FLASH,
-    RED_FADE,
-    RED_TRANSITION,
-}
-
-export const EventLaneRotation: { [key: number]: number } = {
-    0: -60,
-    1: -45,
-    2: -30,
-    3: -15,
-    4: 15,
-    5: 30,
-    6: 45,
-    7: 60,
-};
+import { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Event.
  * ```ts
@@ -63,8 +18,7 @@ export const EventLaneRotation: { [key: number]: number } = {
  * ```
  */
 // it took me long enough to realise Event is a built in JS class/interface, but it has no effect here anyway
-export interface EventBase {
-    _time: number;
+export interface EventBase extends IBaseObject {
     /** Type of event.
      * ```ts
      * 0 -> Back Lasers
@@ -98,7 +52,7 @@ export interface EventBase {
     /** Value of event. */
     _value: number;
     _floatValue: number;
-    _customData?: Record<never, never>;
+    _customData?: CustomData;
 }
 
 export interface EventLight extends EventBase {
@@ -120,6 +74,10 @@ export interface EventLight extends EventBase {
      */
     _floatValue: number;
     _customData?: ChromaEventLight;
+}
+
+export interface EventGeneric extends EventBase {
+    _type: number;
 }
 
 export interface EventBoost extends EventBase {
@@ -177,7 +135,8 @@ export interface EventBPMChange extends EventBase {
     _floatValue: number;
 }
 
-export type Event =
+export type IEvent =
+    | EventGeneric
     | EventLight
     | EventBoost
     | EventRing

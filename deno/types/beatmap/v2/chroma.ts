@@ -6,6 +6,7 @@ import {
 } from './heck.ts';
 import { Easings } from '../shared/easings.ts';
 import { ColorArray } from '../shared/colors.ts';
+import { CustomData } from './customData.ts';
 type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
 
 export const chromaName = 'Chroma';
@@ -111,7 +112,7 @@ export interface ChromaObstacle {
  * _easing?: Easings
  * ```
  */
-export interface ChromaEventLight {
+export interface ChromaEventLight extends CustomData {
     _color?: ColorArray;
     _lightID?: number | number[];
     _propID?: number;
@@ -133,7 +134,7 @@ export interface ChromaEventLight {
  * _direction?: int
  * ```
  */
-export interface ChromaEventLaser {
+export interface ChromaEventLaser extends CustomData {
     _lockPosition?: boolean;
     _speed?: number;
     _preciseSpeed?: number;
@@ -155,7 +156,7 @@ export interface ChromaEventLaser {
  * _speedMult?: float
  * ```
  */
-export interface ChromaEventRotation {
+export interface ChromaEventRotation extends CustomData {
     _nameFilter?: string;
     _reset?: boolean;
     _rotation?: number;
@@ -175,7 +176,7 @@ export interface ChromaEventRotation {
  * _speed?: float
  * ```
  */
-export interface ChromaEventZoom {
+export interface ChromaEventZoom extends CustomData {
     _step?: number;
     _speed?: number;
 }

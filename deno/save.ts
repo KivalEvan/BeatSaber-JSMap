@@ -1,7 +1,6 @@
 import { InfoData } from './types/beatmap/shared/info.ts';
-import { DifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
+import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/difficulty.ts';
-import { IDifficultyData as IDifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
 import {
     SaveOptionsDifficulty,
     SaveOptionsDifficultyList,
@@ -9,10 +8,8 @@ import {
 } from './types/bsmap/save.ts';
 import { DifficultyList } from './types/bsmap/list.ts';
 import { performDifficulty, performInfo } from './optimize.ts';
-import { Either } from './types/utils.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
-import { isV3 } from './beatmap/version.ts';
 
 // deno-lint-ignore ban-types
 const tag = (func: Function) => {
@@ -82,7 +79,7 @@ export const infoSync = (data: InfoData, options: Partial<SaveOptionsInfo> = {})
  * ```
  */
 export const difficulty = async (
-    data: Either<DifficultyDataV2, DifficultyDataV3>,
+    data: DifficultyDataV2 | DifficultyDataV3,
     options: Partial<SaveOptionsDifficulty> = {}
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
@@ -91,17 +88,12 @@ export const difficulty = async (
         optimise: options.optimise ?? { enabled: true },
     };
     logger.info(tag(difficulty), `Async saving difficulty`);
-    let newData = data as Either<DifficultyDataV2, IDifficultyDataV3>;
-    if (data.version) {
-        newData = data.toObject();
-    } else {
-        newData = data;
-    }
+    const objectData = data.toObject();
     if (opt.optimise.enabled) {
-        performDifficulty(newData, opt.optimise);
+        performDifficulty(objectData, opt.optimise);
     }
     logger.info(tag(difficulty), `Writing to ${opt.path + opt.filePath}`);
-    await Deno.writeTextFile(opt.path + opt.filePath, JSON.stringify(newData));
+    await Deno.writeTextFile(opt.path + opt.filePath, JSON.stringify(objectData));
 };
 
 /** Synchronously save beatmap difficulty.
@@ -110,7 +102,7 @@ export const difficulty = async (
  * ```
  */
 export const difficultySync = (
-    data: Either<DifficultyDataV2, DifficultyDataV3>,
+    data: DifficultyDataV2 | DifficultyDataV3,
     options: Partial<SaveOptionsDifficulty> = {}
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
@@ -119,17 +111,12 @@ export const difficultySync = (
         optimise: options.optimise ?? { enabled: true },
     };
     logger.info(tag(difficultySync), `Sync saving difficulty`);
-    let newData = data as Either<DifficultyDataV2, IDifficultyDataV3>;
-    if (data.version) {
-        newData = data.toObject();
-    } else {
-        newData = data;
-    }
+    const objectData = data.toObject();
     if (opt.optimise.enabled) {
-        performDifficulty(newData, opt.optimise);
+        performDifficulty(objectData, opt.optimise);
     }
     logger.info(tag(difficultySync), `Writing to ${opt.path + opt.filePath}`);
-    Deno.writeTextFileSync(opt.path + opt.filePath, JSON.stringify(newData));
+    Deno.writeTextFileSync(opt.path + opt.filePath, JSON.stringify(objectData));
 };
 
 /** Asynchronously save multiple beatmap difficulties.
@@ -151,18 +138,12 @@ export const difficultyList = (
             tag(difficultyListSync),
             `Saving ${dl.characteristic} ${dl.difficulty}`
         );
-        let data;
+        const objectData = dl.data.toObject();
         if (opt.optimise.enabled) {
-            if (isV3(dl.data)) {
-                data = dl.data.toObject();
-                performDifficulty(data, opt.optimise);
-            } else {
-                data = dl.data;
-                performDifficulty(dl.data, opt.optimise);
-            }
+            performDifficulty(objectData, opt.optimise);
         }
         logger.info(tag(difficultyList), `Writing to ${opt.path + dl.fileName}`);
-        await Deno.writeTextFile(opt.path + dl.fileName, JSON.stringify(data));
+        await Deno.writeTextFile(opt.path + dl.fileName, JSON.stringify(objectData));
     });
 };
 
@@ -185,17 +166,11 @@ export const difficultyListSync = (
             tag(difficultyListSync),
             `Saving ${dl.characteristic} ${dl.difficulty}`
         );
-        let data;
+        const objectData = dl.data.toObject();
         if (opt.optimise.enabled) {
-            if (isV3(dl.data)) {
-                data = dl.data.toObject();
-                performDifficulty(data, opt.optimise);
-            } else {
-                data = dl.data;
-                performDifficulty(dl.data, opt.optimise);
-            }
+            performDifficulty(objectData, opt.optimise);
         }
         logger.info(tag(difficultyList), `Writing to ${opt.path + dl.fileName}`);
-        Deno.writeTextFileSync(opt.path + dl.fileName, JSON.stringify(data));
+        Deno.writeTextFileSync(opt.path + dl.fileName, JSON.stringify(objectData));
     });
 };

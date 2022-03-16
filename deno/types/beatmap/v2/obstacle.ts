@@ -1,4 +1,5 @@
 import { CustomDataObstacle } from './customData.ts';
+import { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Obstacle.
  * ```ts
@@ -10,8 +11,7 @@ import { CustomDataObstacle } from './customData.ts';
  * _customData?: JSON
  * ```
  */
-export interface ObstacleBase {
-    _time: number;
+export interface IObstacle extends IBaseObject {
     /** Obstacle placement on column.
      * ```ts
      * 0 -> Outer Left
@@ -34,8 +34,6 @@ export interface ObstacleBase {
     _height: number;
     _customData?: CustomDataObstacle;
 }
-
-export type Obstacle = ObstacleBase;
 
 export interface ObstacleCount {
     total: number;

@@ -1,3 +1,4 @@
+import { CustomData } from './customData.ts';
 import {
     Array2DPoint,
     Array3DPoint,
@@ -83,7 +84,7 @@ export interface NEObstacle extends NEObject {
  * _rotation?: int
  * ```
  */
-export interface NEEvent {
+export interface NEEvent extends CustomData {
     _rotation?: number;
 }
 

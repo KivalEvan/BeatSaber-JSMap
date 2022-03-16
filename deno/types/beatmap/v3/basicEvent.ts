@@ -1,5 +1,5 @@
 import { IBaseObject } from './baseObject.ts';
-import { CustomData } from './customData.ts';
+import { CustomDataBase } from './customData.ts';
 
 interface IBasicEventBase extends IBaseObject {
     /** Event type `<int>` of basic event.
@@ -36,7 +36,7 @@ interface IBasicEventBase extends IBaseObject {
     i: number;
     /** Float value `<float>` of basic event. */
     f: number;
-    cd?: CustomData;
+    cd?: CustomDataBase;
 }
 
 interface IBasicEventGeneric extends IBasicEventBase {

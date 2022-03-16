@@ -1,4 +1,5 @@
 import { CustomDataNote } from './customData.ts';
+import { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Note.
  * ```ts
@@ -10,8 +11,7 @@ import { CustomDataNote } from './customData.ts';
  * _customData?: JSON
  * ```
  */
-export interface NoteBase {
-    _time: number;
+export interface INote extends IBaseObject {
     /** Note placement on column.
      * ```ts
      * 0 -> Outer Left
@@ -36,7 +36,7 @@ export interface NoteBase {
      * 3 -> Bomb
      * ```
      */
-    _type: number;
+    _type: 0 | 1 | 3;
     /** Cut direction of note.
      * ```ts
      * 4 | 0 | 5
@@ -45,15 +45,8 @@ export interface NoteBase {
      * ```
      */
     _cutDirection: number;
-    _customData?: Record<never, never>;
-}
-
-export interface NoteGeneric extends NoteBase {
-    _type: 0 | 1 | 3;
     _customData?: CustomDataNote;
 }
-
-export type Note = NoteGeneric;
 
 interface NoteCountStats {
     total: number;

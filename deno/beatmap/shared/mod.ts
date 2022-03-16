@@ -3,3 +3,4 @@ export * from './constants.ts';
 export * as easings from './easings.ts';
 export * from './environment.ts';
 export * from './njs.ts';
+export * from './version.ts';

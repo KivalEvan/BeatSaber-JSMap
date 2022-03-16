@@ -25,7 +25,7 @@ if (typeof args._[0] === 'number') {
 }
 const lightToCopy = args._[0];
 const lightshow = bsmap.load.difficultyLegacySync(lightToCopy);
-if (args.e && !lightshow._customData?._environment) {
+if (args.e && !lightshow.customData?._environment) {
     throw Error('Selected lightshow has no environment enhancement.');
 }
 
@@ -49,21 +49,20 @@ for (const set of info._difficultyBeatmapSets) {
             `Copying lightshow to ${set._beatmapCharacteristicName} ${d._difficulty}`
         );
         const difficulty = bsmap.load.difficultyLegacySync(d._beatmapFilename);
-        difficulty._version = lightshow._version;
+        difficulty.version = lightshow.version;
         if (args.e) {
-            if (difficulty._customData) {
-                difficulty._customData._environment =
-                    lightshow._customData!._environment;
+            if (difficulty.customData) {
+                difficulty.customData._environment = lightshow.customData!._environment;
             } else {
-                difficulty._customData = {
-                    _environment: lightshow._customData!._environment,
+                difficulty.customData = {
+                    _environment: lightshow.customData!._environment,
                 };
             }
         }
         if (args.m) {
-            difficulty._events.push(...lightshow._events);
+            difficulty.events.push(...lightshow.events);
         } else {
-            difficulty._events = lightshow._events;
+            difficulty.events = lightshow.events;
         }
         bsmap.save.difficultySync(difficulty, {
             filePath: d._beatmapFilename,

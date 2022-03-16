@@ -135,7 +135,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * ---
      * **Note:** Duration can be either in any time type.
      */
-    public nps = (data: DifficultyData, duration: number): number => {
+    nps = (data: DifficultyData, duration: number): number => {
         const notes = getNoteContainer(data).filter((n) => n.type !== 'bomb');
         return duration ? notes.length / duration : 0;
     };
@@ -145,7 +145,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * const peakNPS = difficulty.peak(difficultyData, 10, BPM ?? 128);
      * ```
      */
-    public peak = (
+    peak = (
         data: DifficultyData,
         beat: number,
         bpm: BeatPerMinute | number
@@ -173,7 +173,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * const firstInteractiveTime = difficulty.getFirstInteractiveTime(difficultyData);
      * ```
      */
-    public getFirstInteractiveTime = (data: DifficultyData): number => {
+    getFirstInteractiveTime = (data: DifficultyData): number => {
         const notes = getNoteContainer(data).filter((n) => n.type !== 'bomb');
         let firstNoteTime = Number.MAX_VALUE;
         if (notes.length > 0) {
@@ -190,7 +190,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * const lastInteractiveTime = difficulty.getLastInteractiveTime(difficultyData);
      * ```
      */
-    public getLastInteractiveTime = (data: DifficultyData): number => {
+    getLastInteractiveTime = (data: DifficultyData): number => {
         const notes = getNoteContainer(data).filter((n) => n.type !== 'bomb');
         let lastNoteTime = 0;
         if (notes.length > 0) {
@@ -207,7 +207,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * const firstInteractiveObstacleTime = difficulty.findFirstInteractiveObstacleTime(obstacles);
      * ```
      */
-    public findFirstInteractiveObstacleTime = (obstacles: Obstacle[]): number => {
+    findFirstInteractiveObstacleTime = (obstacles: Obstacle[]): number => {
         for (let i = 0, len = obstacles.length; i < len; i++) {
             if (obstacles[i].isInteractive()) {
                 return obstacles[i].time;
@@ -221,7 +221,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * const lastInteractiveObstacleTime = difficulty.findLastInteractiveObstacleTime(obstacles);
      * ```
      */
-    public findLastInteractiveObstacleTime = (obstacles: Obstacle[]): number => {
+    findLastInteractiveObstacleTime = (obstacles: Obstacle[]): number => {
         let obstacleEnd = 0;
         for (let i = obstacles.length - 1; i >= 0; i--) {
             if (obstacles[i].isInteractive()) {

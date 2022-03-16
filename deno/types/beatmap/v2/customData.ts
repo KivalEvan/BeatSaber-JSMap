@@ -1,5 +1,5 @@
 import { Bookmark } from './bookmark.ts';
-import { BPMChange } from '../shared/bpm.ts';
+import { BPMChange, BPMChangeOld } from '../shared/bpm.ts';
 import { HeckCustomData, HeckCustomEvent } from './heck.ts';
 import {
     ChromaCustomData,
@@ -35,7 +35,7 @@ export interface CustomDataDifficulty
         Omit<NECustomData, '_customEvents'> {
     _customEvents?: CustomEvent[];
     _time?: number;
-    _bpmChanges?: BPMChange[];
+    _bpmChanges?: BPMChangeOld[];
     _BPMChanges?: BPMChange[];
     _bookmarks?: Bookmark[];
 }

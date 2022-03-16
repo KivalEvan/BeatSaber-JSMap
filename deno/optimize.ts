@@ -1,5 +1,5 @@
 import { InfoData } from './types/beatmap/shared/info.ts';
-import { DifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
+import { IDifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficultyData as DifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
 import {
     OptimizeOptions,

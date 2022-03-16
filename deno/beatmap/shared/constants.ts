@@ -115,6 +115,17 @@ export enum BasicEventType {
     BPM_CHANGE = 100,
 }
 
+export const EventLaneRotation: { [key: number]: number } = {
+    0: -60,
+    1: -45,
+    2: -30,
+    3: -15,
+    4: 15,
+    5: 30,
+    6: 45,
+    7: 60,
+};
+
 export enum EaseType {
     NONE = -1,
     LINEAR,

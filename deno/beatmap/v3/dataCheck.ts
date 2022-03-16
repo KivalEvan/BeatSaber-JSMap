@@ -1,3 +1,4 @@
+import { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
 import {
     IBasicEvent,
     IBasicEventTypesForKeywords,
@@ -22,24 +23,6 @@ import {
 } from '../../types/beatmap/v3/mod.ts';
 
 // FIXME: ALMOST EVERYTHING IS HERE IFUCKIN OPTIONAL REE
-type Version = `3.${number}.0`;
-interface DataCheckBase {
-    type: string | string[]; // string array because there'll soon be having to check both
-    version: Version;
-    optional?: boolean;
-}
-
-export interface DataCheckPrimitive extends DataCheckBase {
-    type: 'string' | 'number' | 'boolean';
-}
-
-export interface DataCheckObject extends DataCheckBase {
-    type: 'object' | 'array';
-    check: { [key: string]: DataCheck };
-}
-
-export type DataCheck = DataCheckPrimitive | DataCheckObject;
-
 export const ColorNoteDataCheck: Readonly<Record<keyof IColorNote, DataCheck>> = {
     b: {
         type: 'number',
