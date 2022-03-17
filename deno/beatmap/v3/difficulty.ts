@@ -135,8 +135,8 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * ---
      * **Note:** Duration can be either in any time type.
      */
-    nps = (data: DifficultyData, duration: number): number => {
-        const notes = getNoteContainer(data).filter((n) => n.type !== 'bomb');
+    nps = (duration: number): number => {
+        const notes = getNoteContainer(this).filter((n) => n.type !== 'bomb');
         return duration ? notes.length / duration : 0;
     };
 
@@ -145,15 +145,11 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * const peakNPS = difficulty.peak(difficultyData, 10, BPM ?? 128);
      * ```
      */
-    peak = (
-        data: DifficultyData,
-        beat: number,
-        bpm: BeatPerMinute | number
-    ): number => {
+    peak = (beat: number, bpm: BeatPerMinute | number): number => {
         let peakNPS = 0;
         let currentSectionStart = 0;
         const bpmV = typeof bpm === 'number' ? bpm : bpm.value;
-        const notes = getNoteContainer(data).filter((n) => n.type !== 'bomb');
+        const notes = getNoteContainer(this).filter((n) => n.type !== 'bomb');
 
         for (let i = 0; i < notes.length; i++) {
             while (notes[i].data.time - notes[currentSectionStart].data.time > beat) {
@@ -173,15 +169,13 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * const firstInteractiveTime = difficulty.getFirstInteractiveTime(difficultyData);
      * ```
      */
-    getFirstInteractiveTime = (data: DifficultyData): number => {
-        const notes = getNoteContainer(data).filter((n) => n.type !== 'bomb');
+    getFirstInteractiveTime = (): number => {
+        const notes = getNoteContainer(this).filter((n) => n.type !== 'bomb');
         let firstNoteTime = Number.MAX_VALUE;
         if (notes.length > 0) {
             firstNoteTime = notes[0].data.time;
         }
-        const firstInteractiveObstacleTime = this.findFirstInteractiveObstacleTime(
-            data.obstacles
-        );
+        const firstInteractiveObstacleTime = this.findFirstInteractiveObstacleTime();
         return Math.min(firstNoteTime, firstInteractiveObstacleTime);
     };
 
@@ -190,15 +184,13 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * const lastInteractiveTime = difficulty.getLastInteractiveTime(difficultyData);
      * ```
      */
-    getLastInteractiveTime = (data: DifficultyData): number => {
-        const notes = getNoteContainer(data).filter((n) => n.type !== 'bomb');
+    getLastInteractiveTime = (): number => {
+        const notes = getNoteContainer(this).filter((n) => n.type !== 'bomb');
         let lastNoteTime = 0;
         if (notes.length > 0) {
             lastNoteTime = notes[notes.length - 1].data.time;
         }
-        const lastInteractiveObstacleTime = this.findLastInteractiveObstacleTime(
-            data.obstacles
-        );
+        const lastInteractiveObstacleTime = this.findLastInteractiveObstacleTime();
         return Math.max(lastNoteTime, lastInteractiveObstacleTime);
     };
 
@@ -207,10 +199,10 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * const firstInteractiveObstacleTime = difficulty.findFirstInteractiveObstacleTime(obstacles);
      * ```
      */
-    findFirstInteractiveObstacleTime = (obstacles: Obstacle[]): number => {
-        for (let i = 0, len = obstacles.length; i < len; i++) {
-            if (obstacles[i].isInteractive()) {
-                return obstacles[i].time;
+    findFirstInteractiveObstacleTime = (): number => {
+        for (let i = 0, len = this.obstacles.length; i < len; i++) {
+            if (this.obstacles[i].isInteractive()) {
+                return this.obstacles[i].time;
             }
         }
         return Number.MAX_VALUE;
@@ -221,13 +213,13 @@ export class DifficultyData extends Serializable<IDifficultyData> {
      * const lastInteractiveObstacleTime = difficulty.findLastInteractiveObstacleTime(obstacles);
      * ```
      */
-    findLastInteractiveObstacleTime = (obstacles: Obstacle[]): number => {
+    findLastInteractiveObstacleTime = (): number => {
         let obstacleEnd = 0;
-        for (let i = obstacles.length - 1; i >= 0; i--) {
-            if (obstacles[i].isInteractive()) {
+        for (let i = this.obstacles.length - 1; i >= 0; i--) {
+            if (this.obstacles[i].isInteractive()) {
                 obstacleEnd = Math.max(
                     obstacleEnd,
-                    obstacles[i].time + obstacles[i].duration
+                    this.obstacles[i].time + this.obstacles[i].duration
                 );
             }
         }
