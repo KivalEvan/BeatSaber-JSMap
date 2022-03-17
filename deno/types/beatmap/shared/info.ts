@@ -1,5 +1,5 @@
 import { CharacteristicName } from './characteristic.ts';
-import { CustomDataInfo, CustomDataInfoDifficulty } from './customData.ts';
+import { ICustomDataInfo, ICustomDataInfoDifficulty } from './customData.ts';
 import { DifficultyName, DifficultyRank } from './difficulty.ts';
 import { Environment360Name, EnvironmentName } from './environment.ts';
 
@@ -24,7 +24,7 @@ import { Environment360Name, EnvironmentName } from './environment.ts';
  * _difficultyBeatmapSets: InfoSetData[];
  * ```
  */
-export interface InfoData {
+export interface IInfoData {
     _version: `2.${0 | 2}.0`;
     _songName: string;
     _songSubName: string;
@@ -40,8 +40,8 @@ export interface InfoData {
     _environmentName: EnvironmentName;
     _allDirectionsEnvironmentName: Environment360Name;
     _songTimeOffset: number;
-    _customData?: CustomDataInfo;
-    _difficultyBeatmapSets: InfoSetData[];
+    _customData?: ICustomDataInfo;
+    _difficultyBeatmapSets: IInfoSetData[];
 }
 /** Info Set interface for info.
  * ```ts
@@ -49,9 +49,9 @@ export interface InfoData {
  * _difficultyBeatmaps: InfoSetDifficultyData[]
  * ```
  */
-export interface InfoSetData {
+export interface IInfoSetData {
     _beatmapCharacteristicName: CharacteristicName;
-    _difficultyBeatmaps: InfoSetDifficultyData[];
+    _difficultyBeatmaps: IInfoSetDifficultyData[];
 }
 /** Info Set interface for info.
  * ```ts
@@ -63,11 +63,11 @@ export interface InfoSetData {
  * _customData?: CustomDataInfoDifficulty
  * ```
  */
-export interface InfoSetDifficultyData {
+export interface IInfoSetDifficultyData {
     _difficulty: DifficultyName;
     _difficultyRank: DifficultyRank;
     _beatmapFilename: string;
     _noteJumpMovementSpeed: number;
     _noteJumpStartBeatOffset: number;
-    _customData?: CustomDataInfoDifficulty;
+    _customData?: ICustomDataInfoDifficulty;
 }

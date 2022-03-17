@@ -1,4 +1,4 @@
-import { InfoData } from './types/beatmap/shared/info.ts';
+import { IInfoData } from './types/beatmap/shared/info.ts';
 import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/difficulty.ts';
 import {
@@ -38,7 +38,7 @@ export const defaultOptionsDifficultyList: Required<SaveOptionsDifficultyList> =
  * await save.info(info);
  * ```
  */
-export const info = async (data: InfoData, options: Partial<SaveOptionsInfo> = {}) => {
+export const info = async (data: IInfoData, options: Partial<SaveOptionsInfo> = {}) => {
     const opt: Required<SaveOptionsDifficulty> = {
         path: options.path ?? (globals.path || defaultOptionsInfo.path),
         filePath: options.filePath ?? 'Info.dat',
@@ -58,7 +58,7 @@ export const info = async (data: InfoData, options: Partial<SaveOptionsInfo> = {
  * save.infoSync(info);
  * ```
  */
-export const infoSync = (data: InfoData, options: Partial<SaveOptionsInfo> = {}) => {
+export const infoSync = (data: IInfoData, options: Partial<SaveOptionsInfo> = {}) => {
     const opt: Required<SaveOptionsDifficulty> = {
         path: options.path ?? (globals.path || defaultOptionsInfo.path),
         filePath: options.filePath ?? 'Info.dat',

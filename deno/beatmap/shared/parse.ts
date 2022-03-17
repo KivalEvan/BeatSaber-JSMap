@@ -1,4 +1,5 @@
-import { InfoData, CharacteristicOrder, DifficultyRank } from '../../types/mod.ts';
+import { IInfoData, DifficultyRank } from '../../types/mod.ts';
+import { CharacteristicOrder } from './characteristic.ts';
 import logger from '../../logger.ts';
 
 // deno-lint-ignore ban-types
@@ -8,7 +9,7 @@ const tag = (func: Function) => {
 
 // TODO: more error check
 // TODO: contemplate whether to make pure function or keep as is
-export const info = (infoData: InfoData): InfoData => {
+export const info = (infoData: IInfoData): IInfoData => {
     logger.info(tag(info), 'Parsing beatmap info v2.x.x');
     infoData._difficultyBeatmapSets.sort(
         (a, b) =>

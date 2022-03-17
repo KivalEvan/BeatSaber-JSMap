@@ -1,11 +1,11 @@
 import {
-    ChromaEventLaser,
-    ChromaEventLight,
-    ChromaEventRotation,
-    ChromaEventZoom,
+    IChromaEventLaser,
+    IChromaEventLight,
+    IChromaEventRotation,
+    IChromaEventZoom,
 } from './chroma.ts';
 import { CustomData } from './customData.ts';
-import { NEEvent } from './noodleExtensions.ts';
+import { INEEvent } from './noodleExtensions.ts';
 import { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Event.
@@ -18,7 +18,7 @@ import { IBaseObject } from './object.ts';
  * ```
  */
 // it took me long enough to realise Event is a built in JS class/interface, but it has no effect here anyway
-export interface EventBase extends IBaseObject {
+export interface IEventBase extends IBaseObject {
     /** Type of event.
      * ```ts
      * 0 -> Back Lasers
@@ -55,7 +55,7 @@ export interface EventBase extends IBaseObject {
     _customData?: CustomData;
 }
 
-export interface EventLight extends EventBase {
+export interface IEventLight extends IEventBase {
     _type: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11;
     /** State of light event. ( Blue | Red )
      * ```ts
@@ -73,37 +73,37 @@ export interface EventLight extends EventBase {
      * ```
      */
     _floatValue: number;
-    _customData?: ChromaEventLight;
+    _customData?: IChromaEventLight;
 }
 
-export interface EventGeneric extends EventBase {
+export interface IEventGeneric extends IEventBase {
     _type: number;
 }
 
-export interface EventBoost extends EventBase {
+export interface IEventBoost extends IEventBase {
     _type: 5;
     /** Toggle between boost event. */
     _value: 0 | 1;
 }
 
-export interface EventRing extends EventBase {
+export interface IEventRing extends IEventBase {
     _type: 8;
-    _customData?: ChromaEventRotation;
+    _customData?: IChromaEventRotation;
 }
 
-export interface EventZoom extends EventBase {
+export interface IEventZoom extends IEventBase {
     _type: 9;
-    _customData?: ChromaEventRotation & ChromaEventZoom;
+    _customData?: IChromaEventRotation & IChromaEventZoom;
 }
 
-export interface EventLaser extends EventBase {
+export interface IEventLaser extends IEventBase {
     _type: 12 | 13;
     /** Laser rotation speed in degree per second multiplied by 20. */
     _value: number;
-    _customData?: ChromaEventLaser;
+    _customData?: IChromaEventLaser;
 }
 
-export interface EventLaneRotation extends EventBase {
+export interface IEventLaneRotation extends IEventBase {
     _type: 14 | 15;
     /** Amount of angle changed clockwise.
      * ```ts
@@ -118,34 +118,34 @@ export interface EventLaneRotation extends EventBase {
      * ```
      */
     _value: number;
-    _customData?: NEEvent;
+    _customData?: INEEvent;
 }
 
-export interface EventExtra extends EventBase {
+export interface IEventExtra extends IEventBase {
     _type: 16 | 17 | 18 | 19;
 }
 
-export interface EventSpecial extends EventBase {
+export interface IEventSpecial extends IEventBase {
     _type: 40 | 41 | 42 | 43;
 }
 
-export interface EventBPMChange extends EventBase {
+export interface IEventBPMChange extends IEventBase {
     _type: 100;
     /** Changes the BPM to this value. */
     _floatValue: number;
 }
 
 export type IEvent =
-    | EventGeneric
-    | EventLight
-    | EventBoost
-    | EventRing
-    | EventZoom
-    | EventLaser
-    | EventLaneRotation
-    | EventExtra
-    | EventSpecial
-    | EventBPMChange;
+    | IEventGeneric
+    | IEventLight
+    | IEventBoost
+    | IEventRing
+    | IEventZoom
+    | IEventLaser
+    | IEventLaneRotation
+    | IEventExtra
+    | IEventSpecial
+    | IEventBPMChange;
 
 /** Enum for beatmap event type name.
  * @enum {number} Event type name
@@ -174,7 +174,7 @@ export enum EventRename {
     'BPM Change' = 100,
 }
 
-interface EventCountStats {
+interface IEventCountStats {
     total: number;
     chroma: number;
     chromaOld: number;
@@ -182,6 +182,6 @@ interface EventCountStats {
     mappingExtensions: number;
 }
 
-export interface EventCount {
-    [key: number]: EventCountStats;
+export interface IEventCount {
+    [key: number]: IEventCountStats;
 }

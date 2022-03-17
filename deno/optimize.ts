@@ -1,4 +1,4 @@
-import { InfoData } from './types/beatmap/shared/info.ts';
+import { IInfoData } from './types/beatmap/shared/info.ts';
 import { IDifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficultyData as DifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
 import {
@@ -116,7 +116,7 @@ export const deepClean = (
 };
 
 export const performInfo = (
-    info: InfoData,
+    info: IInfoData,
     options: OptimizeOptionsInfo = { enabled: true }
 ) => {
     const opt: Required<OptimizeOptionsInfo> = {

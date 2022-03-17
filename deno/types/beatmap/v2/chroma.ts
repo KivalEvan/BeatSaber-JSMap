@@ -2,7 +2,7 @@ import {
     ArrayPercentPointDefinition,
     Array3DPoint,
     ArrayColorPointDefinition,
-    HeckCustomEventDataBase,
+    IHeckCustomEventDataBase,
 } from './heck.ts';
 import { Easings } from '../shared/easings.ts';
 import { ColorArray } from '../shared/colors.ts';
@@ -40,7 +40,7 @@ export enum ChromaDataEnvAbbr {
  * _lightID?: int
  * ```
  */
-export interface ChromaEnvironment {
+export interface IChromaEnvironment {
     /** Look up environment object name.
      * This grabs every environment objects that match the string.
      * ```ts
@@ -73,7 +73,7 @@ export interface ChromaEnvironment {
     _color?: string | ArrayColorPointDefinition[]
  * ```
  */
-export interface ChromaAnimation {
+export interface IChromaAnimation {
     _color?: string | ArrayColorPointDefinition[];
 }
 
@@ -83,7 +83,7 @@ export interface ChromaAnimation {
  * _disableSpawnEffect?: boolean
  * ```
  */
-export interface ChromaNote {
+export interface IChromaNote {
     _color?: ColorArray;
     _disableSpawnEffect?: boolean;
 }
@@ -93,7 +93,7 @@ export interface ChromaNote {
  * _color?: [float, float, float, float?]
  * ```
  */
-export interface ChromaObstacle {
+export interface IChromaObstacle {
     _color?: ColorArray;
 }
 
@@ -112,7 +112,7 @@ export interface ChromaObstacle {
  * _easing?: Easings
  * ```
  */
-export interface ChromaEventLight extends CustomData {
+export interface IChromaEventLight extends CustomData {
     _color?: ColorArray;
     _lightID?: number | number[];
     _propID?: number;
@@ -134,7 +134,7 @@ export interface ChromaEventLight extends CustomData {
  * _direction?: int
  * ```
  */
-export interface ChromaEventLaser extends CustomData {
+export interface IChromaEventLaser extends CustomData {
     _lockPosition?: boolean;
     _speed?: number;
     _preciseSpeed?: number;
@@ -156,7 +156,7 @@ export interface ChromaEventLaser extends CustomData {
  * _speedMult?: float
  * ```
  */
-export interface ChromaEventRotation extends CustomData {
+export interface IChromaEventRotation extends CustomData {
     _nameFilter?: string;
     _reset?: boolean;
     _rotation?: number;
@@ -176,7 +176,7 @@ export interface ChromaEventRotation extends CustomData {
  * _speed?: float
  * ```
  */
-export interface ChromaEventZoom extends CustomData {
+export interface IChromaEventZoom extends CustomData {
     _step?: number;
     _speed?: number;
 }
@@ -189,7 +189,7 @@ export interface ChromaEventZoom extends CustomData {
  * _height: float | ArrayPercentPointDefinition[];
  * ```
  */
-export interface ChromaCustomEventDataAssignFogTrack extends HeckCustomEventDataBase {
+export interface IChromaCustomEventDataAssignFogTrack extends IHeckCustomEventDataBase {
     _track: string;
     _attenuation?: number | ArrayPercentPointDefinition[];
     _offset?: number | ArrayPercentPointDefinition[];
@@ -204,13 +204,13 @@ export interface ChromaCustomEventDataAssignFogTrack extends HeckCustomEventData
  * _data: NECustomEventDataAssignFogTrack
  * ```
  */
-export interface ChromaCustomEventAssignFogTrack {
+export interface IChromaCustomEventAssignFogTrack {
     _time: number;
     _type: 'AssignFogTrack';
-    _data: ChromaCustomEventDataAssignFogTrack;
+    _data: IChromaCustomEventDataAssignFogTrack;
 }
 
-export type ChromaCustomEvent = ChromaCustomEventAssignFogTrack;
+export type IChromaCustomEvent = IChromaCustomEventAssignFogTrack;
 
 /** Chroma Custom Data interface for difficulty custom data.
  * ```ts
@@ -218,7 +218,7 @@ export type ChromaCustomEvent = ChromaCustomEventAssignFogTrack;
  * _environment?: ChromaEnvironment[];
  * ```
  */
-export interface ChromaCustomData {
-    _customEvents?: ChromaCustomEvent[];
-    _environment?: ChromaEnvironment[];
+export interface IChromaCustomData {
+    _customEvents?: IChromaCustomEvent[];
+    _environment?: IChromaEnvironment[];
 }

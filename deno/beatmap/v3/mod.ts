@@ -18,5 +18,4 @@ export * from './lightRotationEventBoxGroup.ts';
 export * from './obstacle.ts';
 export * from './rotationEvent.ts';
 export * from './slider.ts';
-export * from './version.ts';
 export * from './waypoint.ts';

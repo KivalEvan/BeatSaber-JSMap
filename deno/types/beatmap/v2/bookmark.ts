@@ -7,7 +7,7 @@ import { ColorArray } from '../shared/colors.ts';
  * _color: ColorArray
  * ```
  */
-export interface Bookmark {
+export interface IBookmark {
     _time: number;
     _name: string;
     _color?: ColorArray;

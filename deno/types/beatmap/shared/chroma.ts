@@ -3,6 +3,6 @@
  * _environmentalRemoval?: string[]
  * ```
  */
-export interface ChromaEnvironmentOld {
+export interface IChromaEnvironmentOld {
     _environmentalRemoval?: string[];
 }

@@ -1,18 +1,18 @@
 import {
-    BPMChange,
-    BPMChangeOld,
-    BPMChangeTime,
+    IBPMChange,
+    IBPMChangeOld,
+    IBPMChangeTime,
 } from '../../types/beatmap/shared/bpm.ts';
 
 /** Class to store beat per minute value, BPM changes, and other properties affecting BPM. */
 export class BeatPerMinute {
     private _bpm: number;
-    private _bpmChange: BPMChangeTime[];
+    private _bpmChange: IBPMChangeTime[];
     private _offset: number;
 
     private constructor(
         bpm: number,
-        bpmChange: (BPMChange | BPMChangeOld)[] = [],
+        bpmChange: (IBPMChange | IBPMChangeOld)[] = [],
         offset: number = 0
     ) {
         this._bpm = bpm;
@@ -27,7 +27,7 @@ export class BeatPerMinute {
      */
     static create = (
         bpm: number,
-        bpmChange?: (BPMChange | BPMChangeOld)[],
+        bpmChange?: (IBPMChange | IBPMChangeOld)[],
         offset?: number
     ): BeatPerMinute => {
         return new BeatPerMinute(bpm, bpmChange, offset);
@@ -39,10 +39,10 @@ export class BeatPerMinute {
     set value(val: number) {
         this._bpm = val;
     }
-    get change(): BPMChangeTime[] {
+    get change(): IBPMChangeTime[] {
         return this._bpmChange;
     }
-    set change(val: BPMChangeTime[]) {
+    set change(val: IBPMChangeTime[]) {
         this._bpmChange = this.getBPMChangeTime([...val]);
     }
     get offset(): number {
@@ -57,11 +57,13 @@ export class BeatPerMinute {
      * const newBPMChange = BPM.getBPMChangeTime(bpmc);
      * ```
      */
-    private getBPMChangeTime(bpmc: (BPMChange | BPMChangeOld)[] = []): BPMChangeTime[] {
-        let temp!: BPMChangeTime;
-        const bpmChange: BPMChangeTime[] = [];
+    private getBPMChangeTime(
+        bpmc: (IBPMChange | IBPMChangeOld)[] = []
+    ): IBPMChangeTime[] {
+        let temp!: IBPMChangeTime;
+        const bpmChange: IBPMChangeTime[] = [];
         for (let i = 0; i < bpmc.length; i++) {
-            const curBPMC: BPMChangeTime = {
+            const curBPMC: IBPMChangeTime = {
                 _BPM: bpmc[i]._BPM ?? bpmc[i]._bpm,
                 _time: bpmc[i]._time,
                 _beatsPerBar: bpmc[i]._beatsPerBar,

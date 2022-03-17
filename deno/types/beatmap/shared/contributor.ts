@@ -5,7 +5,7 @@
  * _iconPath: string
  * ```
  */
-export interface Contributor {
+export interface IContributor {
     _role: string;
     _name: string;
     _iconPath: string;

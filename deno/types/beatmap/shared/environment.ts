@@ -11,7 +11,7 @@ import { ColorObject } from './colors.ts';
  * _obstacleColor?: { r: float, g: float, b: float }
  * ```
  */
-export interface ColorScheme {
+export interface IColorScheme {
     _colorLeft?: Omit<ColorObject, 'a'>;
     _colorRight?: Omit<ColorObject, 'a'>;
     _envColorLeft?: Omit<ColorObject, 'a'>;
@@ -22,8 +22,8 @@ export interface ColorScheme {
 }
 
 /** Color Scheme property rename to human readable. */
-export const colorSchemeRename: Readonly<{
-    [k in keyof Required<ColorScheme>]: string;
+export const ColorSchemeRename: Readonly<{
+    [k in keyof Required<IColorScheme>]: string;
 }> = {
     _colorLeft: 'Left Note Color',
     _colorRight: 'Right Note Color',
@@ -90,7 +90,7 @@ type ColorSchemeList =
     | 'Weave';
 
 export type EnvironmentScheme = {
-    [key in ColorSchemeList]: ColorScheme;
+    [key in ColorSchemeList]: IColorScheme;
 };
 
 /** Environment rename to human readable. */

@@ -1,7 +1,7 @@
 /** Heck interface for difficulty info custom data.
  * Honestly, just look at heck wiki for this, it's too many.
  */
-export interface HeckInfoCustomData {
+export interface IHeckInfoCustomData {
     _playerOptions?: {
         _leftHanded?: boolean;
         _playerHeight?: number;

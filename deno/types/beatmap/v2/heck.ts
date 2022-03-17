@@ -28,7 +28,7 @@ export const heckName = 'Heck';
  * _track: string | string[]
  * ```
  */
-export interface HeckCustomEventDataBase {
+export interface IHeckCustomEventDataBase {
     _track: string | string[];
 }
 
@@ -46,9 +46,9 @@ export interface HeckCustomEventDataBase {
  * _interactable?: string | ArrayPercentPointDefinition[],
  * _time?: string | ArrayPercentPointDefinition[]
  * ```
- * @extends HeckCustomEventDataBase
+ * @extends IHeckCustomEventDataBase
  */
-export interface HeckCustomEventDataAnimateTrack extends HeckCustomEventDataBase {
+export interface IHeckCustomEventDataAnimateTrack extends IHeckCustomEventDataBase {
     _duration: number;
     _easing?: Easings;
     _position?: string | Array3DPointDefinition[];
@@ -76,10 +76,10 @@ export interface HeckCustomEventDataAnimateTrack extends HeckCustomEventDataBase
  * _interactable?: string | ArrayPercentPointDefinition[],
  * _definitePosition?: string | Array3DPointDefinition[]
  * ```
- * @extends HeckCustomEventDataBase
+ * @extends IHeckCustomEventDataBase
  */
-export interface HeckCustomEventDataAssignPathAnimation
-    extends HeckCustomEventDataBase {
+export interface IHeckCustomEventDataAssignPathAnimation
+    extends IHeckCustomEventDataBase {
     _duration: number;
     _easing?: Easings;
     _position?: string | Array3DPointDefinition[];
@@ -100,10 +100,10 @@ export interface HeckCustomEventDataAssignPathAnimation
  * _data: NECustomEventDataAnimateTrack
  * ```
  */
-export interface HeckCustomEventAnimateTrack {
+export interface IHeckCustomEventAnimateTrack {
     _time: number;
     _type: 'AnimateTrack';
-    _data: HeckCustomEventDataAnimateTrack;
+    _data: IHeckCustomEventDataAnimateTrack;
 }
 
 /** Heck Custom Event interface for AssignPathAnimation.
@@ -113,15 +113,15 @@ export interface HeckCustomEventAnimateTrack {
  * _data: NECustomEventDataAssignPathAnimation
  * ```
  */
-export interface HeckCustomEventAssignPathAnimation {
+export interface IHeckCustomEventAssignPathAnimation {
     _time: number;
     _type: 'AssignPathAnimation';
-    _data: HeckCustomEventDataAssignPathAnimation;
+    _data: IHeckCustomEventDataAssignPathAnimation;
 }
 
-export type HeckCustomEvent =
-    | HeckCustomEventAnimateTrack
-    | HeckCustomEventAssignPathAnimation;
+export type IHeckCustomEvent =
+    | IHeckCustomEventAnimateTrack
+    | IHeckCustomEventAssignPathAnimation;
 
 /** Heck Point Definition interface.
  * ```ts
@@ -129,7 +129,7 @@ export type HeckCustomEvent =
  * _points: ArrayPointDefinition[];
  * ```
  */
-export interface HeckPointDefinition {
+export interface IHeckPointDefinition {
     _name: string;
     _points: ArrayPointDefinition[];
 }
@@ -139,7 +139,7 @@ export interface HeckPointDefinition {
  * _track: string,
  * ```
  */
-export interface HeckCustomData {
-    _customEvents?: HeckCustomEvent[];
-    _pointDefinitions?: HeckPointDefinition[];
+export interface IHeckCustomData {
+    _customEvents?: IHeckCustomEvent[];
+    _pointDefinitions?: IHeckPointDefinition[];
 }

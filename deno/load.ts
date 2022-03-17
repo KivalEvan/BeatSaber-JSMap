@@ -1,5 +1,5 @@
 import { DifficultyList } from './types/bsmap/list.ts';
-import { InfoData } from './types/beatmap/shared/info.ts';
+import { IInfoData } from './types/beatmap/shared/info.ts';
 import { IDifficultyData as IDifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficultyData as IDifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
 import { info as parseInfo } from './beatmap/shared/parse.ts';
@@ -23,7 +23,7 @@ const tag = (func: Function) => {
 export const info = async (
     filePath = 'Info.dat',
     path = globals.path
-): Promise<InfoData> => {
+): Promise<IInfoData> => {
     logger.info(tag(info), `Async loading info from ${path + filePath}`);
     return await new Promise((resolve, reject) => {
         try {
@@ -126,7 +126,7 @@ export const difficultySync = (filePath: string, path = globals.path) => {
  * Info difficulty reference is also given to allow further control.
  */
 export const difficultyFromInfo = async (
-    info: InfoData,
+    info: IInfoData,
     path = globals.path
 ): Promise<DifficultyList> => {
     logger.info(tag(difficultyFromInfo), 'Async loading difficulty from map Info...');
@@ -179,7 +179,7 @@ export const difficultyFromInfo = async (
  * Info difficulty reference is also given to allow further control.
  */
 export const difficultyFromInfoSync = (
-    info: InfoData,
+    info: IInfoData,
     path = globals.path
 ): DifficultyList => {
     logger.info(

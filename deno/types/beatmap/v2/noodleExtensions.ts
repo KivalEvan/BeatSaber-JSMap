@@ -5,7 +5,7 @@ import {
     Array3DPointDefinition,
     ArrayColorPointDefinition,
     ArrayPercentPointDefinition,
-    HeckCustomEventDataBase,
+    IHeckCustomEventDataBase,
 } from './heck.ts';
 
 export const NEName = 'Noodle Extensions';
@@ -41,7 +41,7 @@ export enum NEDataAbbr {
  * _animation?: NEAnimation
  * ```
  */
-interface NEObject {
+interface INEObject {
     _position?: Array2DPoint;
     _rotation?: number | Array3DPoint;
     _localRotation?: Array3DPoint;
@@ -50,7 +50,7 @@ interface NEObject {
     _fake?: boolean;
     _interactable?: boolean;
     _track?: string;
-    _animation?: NEAnimation;
+    _animation?: INEAnimation;
 }
 
 /** Noodle Extensions Note interface for Beatmap Note.
@@ -60,9 +60,9 @@ interface NEObject {
  * _disableNoteGravity?: boolean,
  * _disableNoteLook?: boolean
  * ```
- * @extends NEObject
+ * @extends INEObject
  */
-export interface NENote extends NEObject {
+export interface INENote extends INEObject {
     _cutDirection?: number;
     _flip?: Array2DPoint;
     _disableNoteGravity?: boolean;
@@ -73,9 +73,9 @@ export interface NENote extends NEObject {
  * ```ts
  * _scale?: [float, float, float]
  * ```
- * @extends NEObject
+ * @extends INEObject
  */
-export interface NEObstacle extends NEObject {
+export interface INEObstacle extends INEObject {
     _scale?: Array3DPoint;
 }
 
@@ -84,7 +84,7 @@ export interface NEObstacle extends NEObject {
  * _rotation?: int
  * ```
  */
-export interface NEEvent extends CustomData {
+export interface INEEvent extends CustomData {
     _rotation?: number;
 }
 
@@ -96,16 +96,17 @@ export interface NEEvent extends CustomData {
  * _worldPositionStays?: boolean;
  * ```
  */
-export interface NECustomEventDataAssignTrackParent {
+export interface INECustomEventDataAssignTrackParent {
     _childrenTracks: string[];
     _parentTrack: string;
     _worldPositionStays?: boolean;
 }
 
 /** AssignPlayerToTrack interface for Noodle Extensions Custom Event.
- * @extends NECustomEventDataBase
+ * @extends INECustomEventDataBase
  */
-export interface NECustomEventDataAssignPlayerToTrack extends HeckCustomEventDataBase {
+export interface INECustomEventDataAssignPlayerToTrack
+    extends IHeckCustomEventDataBase {
     _track: string;
 }
 
@@ -123,7 +124,7 @@ export interface NECustomEventDataAssignPlayerToTrack extends HeckCustomEventDat
  * _time?: string | ArrayPercentPointDefinition[]
  * ```
  */
-export interface NEAnimation {
+export interface INEAnimation {
     _position?: string | Array3DPointDefinition[];
     _rotation?: string | Array3DPointDefinition[];
     _localRotation?: string | Array3DPointDefinition[];
@@ -143,10 +144,10 @@ export interface NEAnimation {
  * _data: NECustomEventDataAssignTrackParent
  * ```
  */
-export interface NECustomEventAssignTrackParent {
+export interface INECustomEventAssignTrackParent {
     _time: number;
     _type: 'AssignTrackParent';
-    _data: NECustomEventDataAssignTrackParent;
+    _data: INECustomEventDataAssignTrackParent;
 }
 
 /** Noodle Extensions Custom Event interface for AssignPlayerToTrack.
@@ -156,21 +157,21 @@ export interface NECustomEventAssignTrackParent {
  * _data: NECustomEventDataAssignPlayerToTrack
  * ```
  */
-export interface NECustomEventAssignPlayerToTrack {
+export interface INECustomEventAssignPlayerToTrack {
     _time: number;
     _type: 'AssignPlayerToTrack';
-    _data: NECustomEventDataAssignPlayerToTrack;
+    _data: INECustomEventDataAssignPlayerToTrack;
 }
 
-export type NECustomEvent =
-    | NECustomEventAssignTrackParent
-    | NECustomEventAssignPlayerToTrack;
+export type INECustomEvent =
+    | INECustomEventAssignTrackParent
+    | INECustomEventAssignPlayerToTrack;
 
 /** Noodle Extensions Custom Data interface for difficulty custom data.
  * ```ts
  * _customEvents?: NECustomEvent[]
  * ```
  */
-export interface NECustomData {
-    _customEvents?: NECustomEvent[];
+export interface INECustomData {
+    _customEvents?: INECustomEvent[];
 }

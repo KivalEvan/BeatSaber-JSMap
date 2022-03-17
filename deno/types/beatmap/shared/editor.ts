@@ -3,7 +3,7 @@
  * version?: string
  * ```
  */
-export interface EditorInfo {
+export interface IEditorInfo {
     version?: string;
 }
 
@@ -13,7 +13,7 @@ export interface EditorInfo {
  * _editorName?: EditorInfo
  * ```
  */
-export interface Editor {
+export interface IEditor {
     _lastEditedBy?: string;
-    [key: string]: EditorInfo | string | undefined;
+    [key: string]: IEditorInfo | string | undefined;
 }

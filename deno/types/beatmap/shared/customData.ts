@@ -1,11 +1,11 @@
-import { Contributor } from './contributor.ts';
-import { Editor } from './editor.ts';
-import { ColorScheme } from './environment.ts';
-import { HeckInfoCustomData } from './heck.ts';
-import { ChromaEnvironmentOld } from './chroma.ts';
+import { IContributor } from './contributor.ts';
+import { IEditor } from './editor.ts';
+import { IColorScheme } from './environment.ts';
+import { IHeckInfoCustomData } from './heck.ts';
+import { IChromaEnvironmentOld } from './chroma.ts';
 
 /** Base custom data interface. */
-export interface CustomData {
+export interface ICustomData {
     // deno-lint-ignore no-explicit-any
     [key: string]: any;
 }
@@ -17,11 +17,11 @@ export interface CustomData {
  * _customEnvironment?: string,
  * _customEnvironmentHash?: string
  * ```
- * @extends CustomData
+ * @extends ICustomData
  */
-export interface CustomDataInfo extends CustomData {
-    _editors?: Editor;
-    _contributors?: Contributor[];
+export interface ICustomDataInfo extends ICustomData {
+    _editors?: IEditor;
+    _contributors?: IContributor[];
     _customEnvironment?: string;
     _customEnvironmentHash?: string;
 }
@@ -36,16 +36,16 @@ export interface CustomDataInfo extends CustomData {
  * _suggestions?: string[],
  * _requirements?: string[]
  * ```
- * @extends CustomData
- * @extends ColorScheme
- * @extends HeckInfoCustomData
- * @extends ChromaEnvironmentOld
+ * @extends ICustomData
+ * @extends IColorScheme
+ * @extends IHeckInfoCustomData
+ * @extends IChromaEnvironmentOld
  */
-export interface CustomDataInfoDifficulty
-    extends CustomData,
-        ColorScheme,
-        HeckInfoCustomData,
-        ChromaEnvironmentOld {
+export interface ICustomDataInfoDifficulty
+    extends ICustomData,
+        IColorScheme,
+        IHeckInfoCustomData,
+        IChromaEnvironmentOld {
     _difficultyLabel?: string;
     _editorOffset?: number;
     _editorOldOffset?: number;

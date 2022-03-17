@@ -3,7 +3,7 @@ import { ISlider } from './slider.ts';
 import { IObstacle } from './obstacle.ts';
 import { IEvent } from './event.ts';
 import { IWaypoint } from './waypoint.ts';
-import { CustomDataDifficulty } from './customData.ts';
+import { ICustomDataDifficulty } from './customData.ts';
 import { ISpecialEventsKeywordFilters } from './specialEventsKeywordFilters.ts';
 
 /** Difficulty interface for difficulty file.
@@ -25,5 +25,5 @@ export interface IDifficultyData {
     _events: IEvent[];
     _waypoints: IWaypoint[];
     _specialEventsKeywordFilters?: ISpecialEventsKeywordFilters;
-    _customData?: CustomDataDifficulty;
+    _customData?: ICustomDataDifficulty;
 }

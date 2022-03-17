@@ -6,7 +6,7 @@
  * _metronomeOffset: float
  * ```
  */
-export interface BPMChange {
+export interface IBPMChange {
     _time: number;
     _bpm?: never;
     _BPM: number;
@@ -22,7 +22,7 @@ export interface BPMChange {
  * _metronomeOffset: float
  * ```
  */
-export interface BPMChangeOld {
+export interface IBPMChangeOld {
     _time: number;
     _bpm: number;
     _BPM: never;
@@ -34,8 +34,8 @@ export interface BPMChangeOld {
  * ```ts
  * _newTime: float
  * ```
- * @extends BPMChange
+ * @extends IBPMChange
  */
-export interface BPMChangeTime extends BPMChange {
+export interface IBPMChangeTime extends IBPMChange {
     _newTime: number;
 }

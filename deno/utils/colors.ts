@@ -86,7 +86,7 @@ export const interpolateColor = (
                         return 1;
                     }
                     const cE = colorEnd[i] ?? c;
-                    lerp(easing!(alpha), c, cE);
+                    return lerp(easing!(alpha), c, cE);
                 }) as ColorArray)
             );
         }
@@ -97,7 +97,7 @@ export const interpolateColor = (
                         return 1;
                     }
                     const cE = colorEnd[i] ?? c;
-                    lerp(easing!(alpha), c, cE);
+                    return lerp(easing!(alpha), c, cE);
                 }) as ColorArray)
             );
         }
@@ -108,7 +108,7 @@ export const interpolateColor = (
                         return 1;
                     }
                     const cE = colorEnd[i] ?? c;
-                    lerp(easing!(alpha), c, cE);
+                    return lerp(easing!(alpha), c, cE);
                 }) as ColorArray)
             );
         }
@@ -118,7 +118,7 @@ export const interpolateColor = (
                     return 1;
                 }
                 const cE = colorEnd[i] ?? c;
-                lerp(easing!(alpha), c, cE);
+                return lerp(easing!(alpha), c, cE);
             }) as ColorArray;
         }
     }

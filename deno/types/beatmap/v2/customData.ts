@@ -1,13 +1,18 @@
-import { Bookmark } from './bookmark.ts';
-import { BPMChange, BPMChangeOld } from '../shared/bpm.ts';
-import { HeckCustomData, HeckCustomEvent } from './heck.ts';
+import { IBookmark } from './bookmark.ts';
+import { IBPMChange, IBPMChangeOld } from '../shared/bpm.ts';
+import { IHeckCustomData, IHeckCustomEvent } from './heck.ts';
 import {
-    ChromaCustomData,
-    ChromaCustomEvent,
-    ChromaNote,
-    ChromaObstacle,
+    IChromaCustomData,
+    IChromaCustomEvent,
+    IChromaNote,
+    IChromaObstacle,
 } from './chroma.ts';
-import { NECustomData, NECustomEvent, NENote, NEObstacle } from './noodleExtensions.ts';
+import {
+    INECustomData,
+    INECustomEvent,
+    INENote,
+    INEObstacle,
+} from './noodleExtensions.ts';
 
 /** Base custom data interface. */
 export interface CustomData {
@@ -15,7 +20,7 @@ export interface CustomData {
     [key: string]: any;
 }
 
-export type CustomEvent = HeckCustomEvent | ChromaCustomEvent | NECustomEvent;
+export type ICustomEvent = IHeckCustomEvent | IChromaCustomEvent | INECustomEvent;
 
 /** Custom Data interface for difficulty file.
  * ```ts
@@ -26,19 +31,19 @@ export type CustomEvent = HeckCustomEvent | ChromaCustomEvent | NECustomEvent;
  * ```
  * @extends CustomData
  * @extends CCustomData
- * @extends NECustomData
+ * @extends INECustomData
  */
-export interface CustomDataDifficulty
+export interface ICustomDataDifficulty
     extends CustomData,
-        Omit<HeckCustomData, '_customEvents'>,
-        Omit<ChromaCustomData, '_customEvents'>,
-        Omit<NECustomData, '_customEvents'> {
-    _customEvents?: CustomEvent[];
+        Omit<IHeckCustomData, '_customEvents'>,
+        Omit<IChromaCustomData, '_customEvents'>,
+        Omit<INECustomData, '_customEvents'> {
+    _customEvents?: ICustomEvent[];
     _time?: number;
-    _bpmChanges?: BPMChangeOld[];
-    _BPMChanges?: BPMChange[];
-    _bookmarks?: Bookmark[];
+    _bpmChanges?: IBPMChangeOld[];
+    _BPMChanges?: IBPMChange[];
+    _bookmarks?: IBookmark[];
 }
 
-export type CustomDataNote = CustomData & ChromaNote & NENote;
-export type CustomDataObstacle = CustomData & ChromaObstacle & NEObstacle;
+export type ICustomDataNote = CustomData & IChromaNote & INENote;
+export type ICustomDataObstacle = CustomData & IChromaObstacle & INEObstacle;

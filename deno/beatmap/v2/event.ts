@@ -1,15 +1,15 @@
 import {
     IEvent,
-    EventBoost,
-    EventCount,
-    EventLaneRotation,
-    EventLaser,
-    EventLight,
-    EventRing,
-    EventZoom,
-    EventExtra,
-    EventSpecial,
-    EventBPMChange,
+    IEventBoost,
+    IEventCount,
+    IEventLaneRotation,
+    IEventLaser,
+    IEventLight,
+    IEventRing,
+    IEventZoom,
+    IEventExtra,
+    IEventSpecial,
+    IEventBPMChange,
 } from '../../types/beatmap/v2/event.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { EventList } from '../shared/environment.ts';
@@ -230,7 +230,7 @@ export class Event extends BeatmapObject<IEvent> {
      * if (isLightEvent(event)) {}
      * ```
      */
-    isLightEvent = (): this is EventLight => {
+    isLightEvent = (): this is IEventLight => {
         return (
             this.type === 0 ||
             this.type === 1 ||
@@ -249,7 +249,7 @@ export class Event extends BeatmapObject<IEvent> {
      * if (isColorBoost(event)) {}
      * ```
      */
-    isColorBoost = (): this is EventBoost => {
+    isColorBoost = (): this is IEventBoost => {
         return this.type === 5;
     };
 
@@ -260,7 +260,7 @@ export class Event extends BeatmapObject<IEvent> {
      * ---
      * This does not check for ring zoom.
      */
-    isRingEvent = (): this is EventRing => {
+    isRingEvent = (): this is IEventRing => {
         return this.type === 8;
     };
 
@@ -269,7 +269,7 @@ export class Event extends BeatmapObject<IEvent> {
      * if (isZoomEvent(event)) {}
      * ```
      */
-    isZoomEvent = (): this is EventZoom => {
+    isZoomEvent = (): this is IEventZoom => {
         return this.type === 9;
     };
 
@@ -278,7 +278,7 @@ export class Event extends BeatmapObject<IEvent> {
      * if (isLaserRotationEvent(event)) {}
      * ```
      */
-    isLaserRotationEvent = (): this is EventLaser => {
+    isLaserRotationEvent = (): this is IEventLaser => {
         return this.type === 12 || this.type === 13;
     };
 
@@ -287,7 +287,7 @@ export class Event extends BeatmapObject<IEvent> {
      * if (isLaneRotationEvent(event)) {}
      * ```
      */
-    isLaneRotationEvent = (): this is EventLaneRotation => {
+    isLaneRotationEvent = (): this is IEventLaneRotation => {
         return this.type === 14 || this.type === 15;
     };
 
@@ -296,7 +296,7 @@ export class Event extends BeatmapObject<IEvent> {
      * if (isExtraEvent(event)) {}
      * ```
      */
-    isExtraEvent = (): this is EventExtra => {
+    isExtraEvent = (): this is IEventExtra => {
         return (
             this.type === 16 || this.type === 17 || this.type === 18 || this.type === 19
         );
@@ -307,7 +307,7 @@ export class Event extends BeatmapObject<IEvent> {
      * if (isSpecialEvent(event)) {}
      * ```
      */
-    isSpecialEvent = (): this is EventSpecial => {
+    isSpecialEvent = (): this is IEventSpecial => {
         return (
             this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43
         );
@@ -318,7 +318,7 @@ export class Event extends BeatmapObject<IEvent> {
      * if (isBPMChangeEvent(event)) {}
      * ```
      */
-    isBPMChangeEvent = (): this is EventBPMChange => {
+    isBPMChangeEvent = (): this is IEventBPMChange => {
         return this.type === 100;
     };
 
@@ -448,9 +448,9 @@ export class Event extends BeatmapObject<IEvent> {
     count = (
         events: Event[],
         environment: EnvironmentAllName = 'DefaultEnvironment'
-    ): EventCount => {
+    ): IEventCount => {
         const commonEvent = EventList[environment] ?? [0, 1, 2, 3, 4, 8, 9, 12, 13];
-        const eventCount: EventCount = {};
+        const eventCount: IEventCount = {};
         for (let i = commonEvent.length - 1; i >= 0; i--) {
             eventCount[commonEvent[i]] = {
                 total: 0,

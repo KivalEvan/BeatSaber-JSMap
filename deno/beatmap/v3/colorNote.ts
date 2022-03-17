@@ -644,7 +644,7 @@ export class ColorNote extends BaseObject<IColorNote> {
             this.posY > 2 ||
             this.posY < 0 ||
             (this.direction >= 1000 && this.direction <= 1360) ||
-            (this.direction === 8 && this.direction >= 2000 && this.direction <= 2360)
+            (this.direction >= 2000 && this.direction <= 2360)
         );
     }
 
