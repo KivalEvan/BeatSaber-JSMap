@@ -35,7 +35,6 @@ export class DifficultyData extends Serializable<IDifficultyData> {
     customData;
     private constructor(difficultyData: Required<IDifficultyData>) {
         super(difficultyData);
-        this.data = difficultyData;
         this.version = difficultyData.version ?? '3.0.0';
         this.bpmEvents =
             difficultyData.bpmEvents?.map((obj) => BPMEvent.create(obj)) ?? [];

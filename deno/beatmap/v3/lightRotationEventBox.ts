@@ -1,16 +1,17 @@
 import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { EventBox } from './eventBox.ts';
+import { IndexFilter } from './indexFilter.ts';
 import { LightRotationBase } from './lightRotationBase.ts';
 
 export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
     static default: ObjectToReturn<ILightRotationEventBox> = {
         f: () => {
             return {
-                f: 1,
-                p: 1,
-                t: 1,
-                r: 0,
+                f: IndexFilter.default.f,
+                p: IndexFilter.default.p,
+                t: IndexFilter.default.t,
+                r: IndexFilter.default.r,
             };
         },
         w: 0,
@@ -27,6 +28,9 @@ export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
     private constructor(lightRotationEventBox: Required<ILightRotationEventBox>) {
         super(lightRotationEventBox);
         this.l = lightRotationEventBox.l.map((l) => LightRotationBase.create(l));
+        const lastTime = Math.max(...this.l.map((l) => l.time));
+        this.beatDistribution =
+            this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
     }
 
     static create(): LightRotationEventBox;
