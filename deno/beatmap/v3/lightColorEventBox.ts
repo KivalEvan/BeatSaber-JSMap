@@ -27,8 +27,10 @@ export class LightColorEventBox extends EventBox<ILightColorEventBox> {
         super(lightColorEventBox);
         this.e = lightColorEventBox.e.map((e) => LightColorBase.create(e));
         const lastTime = Math.max(...this.e.map((e) => e.time));
-        this.beatDistribution =
-            this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
+        if (this.beatDistributionType === 2) {
+            this.beatDistribution =
+                this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
+        }
     }
 
     static create(): LightColorEventBox;
