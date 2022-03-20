@@ -21,21 +21,21 @@ export class Obstacle extends BeatmapObject<IObstacle> {
     }
 
     static create(): Obstacle;
-    static create(notes: Partial<IObstacle>): Obstacle;
-    static create(...notes: Partial<IObstacle>[]): Obstacle[];
-    static create(...notes: Partial<IObstacle>[]): Obstacle | Obstacle[] {
+    static create(obstacles: Partial<IObstacle>): Obstacle;
+    static create(...obstacles: Partial<IObstacle>[]): Obstacle[];
+    static create(...obstacles: Partial<IObstacle>[]): Obstacle | Obstacle[] {
         const result: Obstacle[] = [];
-        notes?.forEach((n) =>
+        obstacles?.forEach((o) =>
             result.push(
                 new Obstacle({
-                    _time: n._time ?? Obstacle.default._time,
-                    _type: n._type ?? Obstacle.default._type,
-                    _lineIndex: n._lineIndex ?? Obstacle.default._lineIndex,
-                    _lineLayer: n._lineLayer ?? Obstacle.default._lineLayer,
-                    _duration: n._width ?? Obstacle.default._duration,
-                    _width: n._width ?? Obstacle.default._width,
-                    _height: n._height ?? Obstacle.default._height,
-                    _customData: n._customData ?? Obstacle.default._customData(),
+                    _time: o._time ?? Obstacle.default._time,
+                    _type: o._type ?? Obstacle.default._type,
+                    _lineIndex: o._lineIndex ?? Obstacle.default._lineIndex,
+                    _lineLayer: o._lineLayer ?? Obstacle.default._lineLayer,
+                    _duration: o._duration ?? Obstacle.default._duration,
+                    _width: o._width ?? Obstacle.default._width,
+                    _height: o._height ?? Obstacle.default._height,
+                    _customData: o._customData ?? Obstacle.default._customData(),
                 })
             )
         );
