@@ -3,9 +3,13 @@ import { BaseObject } from './baseObject.ts';
 import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
 import { radToDeg, shortRotDistance } from '../../utils/mod.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
+import { ICoordinateNote } from '../../types/beatmap/shared/coordinate.ts';
 
 /** Color note beatmap object. */
-export class ColorNote extends BaseObject<IColorNote> {
+export class ColorNote
+    extends BaseObject<IColorNote>
+    implements ICoordinateNote<ColorNote>
+{
     static default: ObjectToReturn<Required<IColorNote>> = {
         b: 0,
         c: 0,
@@ -281,7 +285,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * const noteAngle = note.getAngle(noteCompare);
      * ```
      */
-    getAngle(): number {
+    getAngle() {
         // if (this.customData?._cutDirection) {
         //     return this.customData._cutDirection > 0
         //         ? this.customData._cutDirection % 360
@@ -301,7 +305,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * const noteDistance = note.distance(noteCompare);
      * ```
      */
-    distance(compareTo: ColorNote): number {
+    getDistance(compareTo: ColorNote) {
         const [nX1, nY1] = this.getPosition();
         const [nX2, nY2] = compareTo.getPosition();
         return Math.sqrt(Math.pow(nX2 - nX1, 2) + Math.pow(nY2 - nY1, 2));
@@ -337,6 +341,10 @@ export class ColorNote extends BaseObject<IColorNote> {
             const d = nX1 - nX2;
             return d > -0.001 && d < 0.001;
         }
+        return (
+            22.5 <= (Math.abs(this.getAngle()) % 180) + 90 &&
+            (Math.abs(this.getAngle()) % 180) + 90 <= 67.5
+        );
     }
 
     /** Compare two notes and return if the notes is in horizontal alignment.
@@ -382,7 +390,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * ```
      */
     isInline(compareTo: ColorNote, lapping = 0.5) {
-        return this.distance(compareTo) <= lapping;
+        return this.getDistance(compareTo) <= lapping;
     }
 
     /** Compare current note with the note ahead of it and return if the notes is a double.
@@ -411,7 +419,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * ```
      */
     isAdjacent(compareTo: ColorNote) {
-        const d = this.distance(compareTo);
+        const d = this.getDistance(compareTo);
         return d > 0.499 && d < 1.001;
     }
 
@@ -421,7 +429,7 @@ export class ColorNote extends BaseObject<IColorNote> {
      * ```
      */
     isWindow(compareTo: ColorNote, distance = 1.8) {
-        return this.distance(compareTo) > distance;
+        return this.getDistance(compareTo) > distance;
     }
 
     /** Compare two notes and return if the notes is a slanted window.
@@ -665,51 +673,6 @@ export class ColorNote extends BaseObject<IColorNote> {
     isValid() {
         return !this.hasMappingExtensions() && this.isValidDirection();
     }
-
-    /** Count number of specified line index in a given array and return a counted number of line index.
-     * ```ts
-     * const XCount = ColorNote.countX(notes, 0);
-     * ```
-     */
-    static countX = (notes: ColorNote[], x: number) => {
-        return notes.filter((n) => n.posX === x).length;
-    };
-
-    /** Count number of specified line layer in a given array and return a counted number of line layer.
-     * ```ts
-     * const YCount = ColorNote.countY(notes, 0);
-     * ```
-     */
-    static countY = (notes: ColorNote[], y: number) => {
-        return notes.filter((n) => n.posY === y).length;
-    };
-
-    /** Count number of specified line index and line layer in a given array and return a counted number of line index and line layer.
-     * ```ts
-     * const XYCount = ColorNote.countXY(notes, 0, 0);
-     * ```
-     */
-    static countXY = (notes: ColorNote[], x: number, y: number) => {
-        return notes.filter((n) => n.posX === x && n.posY === y).length;
-    };
-
-    /** Count number of specified `_cutDirection` in a given array and return a counted number of `_cutDirection`.
-     * ```ts
-     * const cdCount = ColorNote.countDirection(notes, 0);
-     * ```
-     */
-    static countDirection = (notes: ColorNote[], direction: number) => {
-        return notes.filter((n) => n.direction === direction).length;
-    };
-
-    /** Count number of specified angle in a given array and return a counted number of angle.
-     * ```ts
-     * const angleCount = ColorNote.countAngle(notes, 0);
-     * ```
-     */
-    static countAngle = (notes: ColorNote[], angle: number) => {
-        return notes.filter((n) => n.getAngle() === angle).length;
-    };
 
     /** Check the angle equality of the two notes.
      * ```ts

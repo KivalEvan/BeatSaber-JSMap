@@ -174,6 +174,8 @@ export const V2toV3 = (
         };
     }
 
+    template.useNormalEventsAsCompatibleEvents = true;
+
     return template;
 };
 

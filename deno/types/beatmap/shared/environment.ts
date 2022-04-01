@@ -21,19 +21,6 @@ export interface IColorScheme {
     _obstacleColor?: Omit<ColorObject, 'a'>;
 }
 
-/** Color Scheme property rename to human readable. */
-export const ColorSchemeRename: Readonly<{
-    [k in keyof Required<IColorScheme>]: string;
-}> = {
-    _colorLeft: 'Left Note Color',
-    _colorRight: 'Right Note Color',
-    _envColorLeft: 'Left Environment Color',
-    _envColorRight: 'Right Environment Color',
-    _envColorLeftBoost: 'Left Environment Boost Color',
-    _envColorRightBoost: 'Right Environment Boost Color',
-    _obstacleColor: 'Obstacle Color',
-};
-
 /** List of available environment in base game. */
 export type EnvironmentName =
     | 'DefaultEnvironment'
@@ -60,14 +47,15 @@ export type EnvironmentName =
     | 'BillieEnvironment'
     | 'HalloweenEnvironment'
     | 'GagaEnvironment'
-    | 'WeaveEnvironment';
+    | 'WeaveEnvironment'
+    | 'PyroEnvironment';
 /** List of available 360 environment in base game. */
 export type Environment360Name = 'GlassDesertEnvironment';
 /** List of all available environment in base game. */
 export type EnvironmentAllName = EnvironmentName | Environment360Name;
 
 /** List of available color scheme in base game. */
-type ColorSchemeList =
+export type ColorSchemeList =
     | 'Default Custom'
     | 'The First'
     | 'Origins'
@@ -87,69 +75,9 @@ type ColorSchemeList =
     | 'Spooky'
     | 'Gaga'
     | 'Glass Desert'
-    | 'Weave';
+    | 'Weave'
+    | 'Pyro';
 
-export type EnvironmentScheme = {
+export type IEnvironmentScheme = {
     [key in ColorSchemeList]: IColorScheme;
 };
-
-/** Environment rename to human readable. */
-export const EnvironmentRename: Readonly<Record<EnvironmentAllName, string>> = {
-    DefaultEnvironment: 'The First',
-    OriginsEnvironment: 'Origins',
-    Origins: 'Origins (Triangle)', // because beat games
-    TriangleEnvironment: 'Triangle',
-    NiceEnvironment: 'Nice',
-    BigMirrorEnvironment: 'Big Mirror',
-    DragonsEnvironment: 'Dragons',
-    KDAEnvironment: 'K/DA',
-    MonstercatEnvironment: 'Monstercat',
-    CrabRaveEnvironment: 'Crab Rave',
-    PanicEnvironment: 'Panic',
-    RocketEnvironment: 'Rocket',
-    GreenDayEnvironment: 'Green Day',
-    GreenDayGrenadeEnvironment: 'Green Day Grenade',
-    TimbalandEnvironment: 'Timbaland',
-    FitBeatEnvironment: 'FitBeat',
-    LinkinParkEnvironment: 'Linkin Park',
-    BTSEnvironment: 'BTS',
-    KaleidoscopeEnvironment: 'Kaleidoscope',
-    InterscopeEnvironment: 'Interscope',
-    SkrillexEnvironment: 'Skrillex',
-    BillieEnvironment: 'Billie',
-    HalloweenEnvironment: 'Spooky',
-    GagaEnvironment: 'Gaga',
-    GlassDesertEnvironment: 'Glass Desert',
-    WeaveEnvironment: 'Weave',
-};
-
-/** Record of Environment Color to Color Scheme. */
-export const EnvironmentScheme: Readonly<Record<EnvironmentAllName, ColorSchemeList>> =
-    {
-        DefaultEnvironment: 'The First',
-        OriginsEnvironment: 'Origins',
-        Origins: 'The First', // because beat games
-        TriangleEnvironment: 'The First',
-        NiceEnvironment: 'The First',
-        BigMirrorEnvironment: 'The First',
-        DragonsEnvironment: 'The First',
-        KDAEnvironment: 'KDA',
-        MonstercatEnvironment: 'The First',
-        CrabRaveEnvironment: 'Crab Rave',
-        PanicEnvironment: 'The First',
-        RocketEnvironment: 'Rocket',
-        GreenDayEnvironment: 'Green Day',
-        GreenDayGrenadeEnvironment: 'Green Day',
-        TimbalandEnvironment: 'Timbaland',
-        FitBeatEnvironment: 'FitBeat',
-        LinkinParkEnvironment: 'Linkin Park',
-        BTSEnvironment: 'BTS',
-        KaleidoscopeEnvironment: 'Kaleidoscope',
-        InterscopeEnvironment: 'Interscope',
-        SkrillexEnvironment: 'Skrillex',
-        BillieEnvironment: 'Billie Eilish',
-        HalloweenEnvironment: 'Spooky',
-        GagaEnvironment: 'Gaga',
-        GlassDesertEnvironment: 'Glass Desert',
-        WeaveEnvironment: 'Weave',
-    };

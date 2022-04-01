@@ -23,10 +23,13 @@ export const interleave = ([x, ...xs]: number[], ys: number[] = []): number[] =>
 /** Simple deep copy JSON object or JSON array.
  * Works best with only primitive objects.
  */
-
 export const deepCopy = <T>(object: T): T => {
     if (typeof object !== 'object') {
         logger.error(tag(deepCopy), 'Received non-object type');
     }
     return JSON.parse(JSON.stringify(object));
+};
+
+export const isHex = (hex: string): boolean => {
+    return /[a-fA-F0-9]*/g.test(hex);
 };

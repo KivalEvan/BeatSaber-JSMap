@@ -289,302 +289,7 @@ difficultyList.forEach((d) => {
                 )
             );
         }
-        d.data.lightColorEventBoxGroups.push(
-            ...bsmap.v3.LightColorEventBoxGroup.create(
-                {
-                    b: 2 + i * 4,
-                    g: 4,
-                    e: [
-                        {
-                            f: {
-                                f: 2,
-                                p: 1,
-                                t: 1,
-                            },
-                            w: 3,
-                            d: 1,
-                            r: 0,
-                            t: 2,
-                            e: [
-                                {
-                                    b: 0,
-                                    i: 1,
-                                    c: 0,
-                                    s: 0,
-                                    f: 0,
-                                },
-                                {
-                                    b: 0.5,
-                                    i: 1,
-                                    c: 1,
-                                    s: 1,
-                                    f: 0,
-                                },
-                                {
-                                    b: 2,
-                                    i: 1,
-                                    c: 1,
-                                    s: 1.25,
-                                    f: 0,
-                                },
-                                {
-                                    b: 2.5,
-                                    i: 0,
-                                    c: 0,
-                                    s: 1.5,
-                                    f: 0,
-                                },
-                                {
-                                    b: 2.5625,
-                                    i: 0,
-                                    c: 0,
-                                    s: 0.375,
-                                    f: 0,
-                                },
-                                {
-                                    b: 2.625,
-                                    i: 2,
-                                    c: 0,
-                                    s: 0,
-                                    f: 0,
-                                },
-                            ],
-                            b: 0,
-                        },
-                    ],
-                },
-                {
-                    b: 2 + i * 4,
-                    g: 5,
-                    e: [
-                        {
-                            f: {
-                                f: 2,
-                                p: 1,
-                                t: 1,
-                                r: 0,
-                            },
-                            w: 3,
-                            d: 1,
-                            r: 0,
-                            t: 2,
-                            e: [
-                                {
-                                    b: 0,
-                                    i: 1,
-                                    c: 0,
-                                    s: 0,
-                                    f: 0,
-                                },
-                                {
-                                    b: 0.5,
-                                    i: 1,
-                                    c: 1,
-                                    s: 1,
-                                    f: 0,
-                                },
-                                {
-                                    b: 2,
-                                    i: 1,
-                                    c: 1,
-                                    s: 1.25,
-                                    f: 0,
-                                },
-                                {
-                                    b: 2.5,
-                                    i: 0,
-                                    c: 0,
-                                    s: 1.5,
-                                    f: 0,
-                                },
-                                {
-                                    b: 2.5625,
-                                    i: 0,
-                                    c: 0,
-                                    s: 0.375,
-                                    f: 0,
-                                },
-                                {
-                                    b: 2.625,
-                                    i: 2,
-                                    c: 0,
-                                    s: 0,
-                                    f: 0,
-                                },
-                            ],
-                            b: 0,
-                        },
-                    ],
-                }
-            )
-        );
     }
-
-    for (let i = 0; i < 2; i++) {
-        for (let t = 0; t < 2; t++)
-            d.data.lightColorEventBoxGroups.push(
-                bsmap.v3.LightColorEventBoxGroup.create({
-                    b: 32 + i,
-                    g: 0 + t,
-                    e: [
-                        {
-                            f: {
-                                f: 1,
-                                p: 4,
-                                t: 1,
-                                r: 0,
-                            },
-                            w: 0,
-                            d: 1,
-                            r: 0,
-                            t: 1,
-                            e: [
-                                {
-                                    b: 0.25,
-                                    i: 0,
-                                    c: 1,
-                                    s: 1,
-                                    f: 0,
-                                },
-                                {
-                                    b: 0.5,
-                                    i: 0,
-                                    c: 0,
-                                    s: 0,
-                                    f: 0,
-                                },
-                            ],
-                            b: 0,
-                        },
-                        {
-                            f: {
-                                f: 1,
-                                p: 4,
-                                t: 2,
-                                r: 0,
-                            },
-                            w: 0,
-                            d: 1,
-                            r: 0,
-                            t: 1,
-                            e: [
-                                {
-                                    b: 0.5,
-                                    i: 0,
-                                    c: 1,
-                                    s: 1,
-                                    f: 0,
-                                },
-                                {
-                                    b: 0.75,
-                                    i: 0,
-                                    c: 0,
-                                    s: 0,
-                                    f: 0,
-                                },
-                            ],
-                            b: 0,
-                        },
-                        {
-                            f: {
-                                f: 1,
-                                p: 4,
-                                t: 3,
-                                r: 0,
-                            },
-                            w: 0,
-                            d: 1,
-                            r: 0,
-                            t: 1,
-                            e: [
-                                {
-                                    b: 0.75,
-                                    i: 0,
-                                    c: 1,
-                                    s: 1,
-                                    f: 0,
-                                },
-                                {
-                                    b: 1,
-                                    i: 0,
-                                    c: 0,
-                                    s: 0,
-                                    f: 0,
-                                },
-                            ],
-                            b: 0,
-                        },
-                    ],
-                })
-            );
-    }
-
-    d.data.lightRotationEventBoxGroups.push(
-        ...bsmap.v3.LightRotationEventBoxGroup.create(
-            {
-                b: 2,
-                g: 4,
-                e: [
-                    {
-                        f: {
-                            f: 2,
-                            p: 1,
-                            t: 1,
-                            r: 0,
-                        },
-                        w: 0,
-                        d: 1,
-                        s: -5,
-                        t: 2,
-                        a: 0,
-                        l: [
-                            {
-                                b: 0,
-                                p: 0,
-                                e: 0,
-                                l: 0,
-                                r: 100,
-                                o: 1,
-                            },
-                        ],
-                        r: 0,
-                        b: 1,
-                    },
-                ],
-            },
-            {
-                b: 2,
-                g: 5,
-                e: [
-                    {
-                        f: {
-                            f: 2,
-                            p: 1,
-                            t: 1,
-                            r: 0,
-                        },
-                        w: 0,
-                        d: 1,
-                        s: -5,
-                        t: 2,
-                        a: 0,
-                        l: [
-                            {
-                                b: 0,
-                                p: 0,
-                                e: 0,
-                                l: 0,
-                                r: 100,
-                                o: 1,
-                            },
-                        ],
-                        r: 0,
-                        b: 1,
-                    },
-                ],
-            }
-        )
-    );
     for (let i = 0; i < 3; i++) {
         d.data.obstacles.push(
             ...bsmap.v3.Obstacle.create(
@@ -632,6 +337,314 @@ difficultyList.forEach((d) => {
             );
         }
     }
+    d.data.colorBoostBeatmapEvents.push(
+        bsmap.v3.ColorBoostEvent.create({ b: 0, o: true })
+    );
+    for (let i = 0; i < 8; i++) {
+        const lightColor: Partial<bsmap.types.v3.ILightColorBase>[] = [
+            {
+                b: 0,
+                c: 1,
+                s: 1,
+            },
+            {
+                b: 0.0625,
+                i: 2,
+                c: 1,
+                s: 0,
+            },
+            {
+                b: 0.5,
+                i: 1,
+                c: 0,
+                s: 1,
+            },
+            {
+                b: 2,
+                i: 1,
+                c: 0,
+                s: 1.25,
+            },
+            {
+                b: 2.5,
+                i: 0,
+                c: 1,
+                s: 1.5,
+            },
+            {
+                b: 2.5625,
+                i: 0,
+                c: 1,
+                s: 0.375,
+            },
+            {
+                b: 2.75,
+                i: 1,
+                c: 1,
+                s: 0,
+            },
+        ];
+        d.data.lightColorEventBoxGroups.push(
+            ...bsmap.v3.LightColorEventBoxGroup.create(
+                {
+                    b: 2 + i * 4,
+                    g: 4,
+                    e: [
+                        {
+                            w: 3,
+                            e: [...lightColor],
+                        },
+                    ],
+                },
+                {
+                    b: 2 + i * 4,
+                    g: 5,
+                    e: [
+                        {
+                            w: 3,
+                            e: [...lightColor],
+                        },
+                    ],
+                }
+            )
+        );
+    }
+
+    for (let i = 0; i < 2; i++) {
+        for (let t = 0; t < 4; t++)
+            d.data.lightColorEventBoxGroups.push(
+                ...bsmap.v3.LightColorEventBoxGroup.create(
+                    {
+                        b: 32 + i,
+                        g: 8 + t,
+                        e: [
+                            {
+                                f: { r: i ? 0 : 1 },
+                                w: 0.375,
+                                e: [
+                                    {
+                                        b: 0,
+                                        c: i ? 1 : 0,
+                                        s: i ? 1.25 : 0.75,
+                                    },
+                                    {
+                                        b: 0.125,
+                                        c: i ? 1 : 0,
+                                        s: i ? 1.25 : 0.75,
+                                    },
+                                    {
+                                        b: 0.25,
+                                        i: 1,
+                                        c: i ? 1 : 0,
+                                        s: 0,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        b: 32.25 + i,
+                        g: 0 + t,
+                        e: [
+                            {
+                                f: {
+                                    p: 4,
+                                    t: i,
+                                },
+                                e: [
+                                    {
+                                        b: 0,
+                                        c: 1,
+                                        s: 1,
+                                    },
+                                    {
+                                        b: 0.25,
+                                        c: 0,
+                                        s: 0,
+                                    },
+                                ],
+                            },
+                            {
+                                f: {
+                                    p: 4,
+                                    t: 1 + i,
+                                },
+                                e: [
+                                    {
+                                        b: 0.25,
+                                        c: 1,
+                                        s: 1,
+                                    },
+                                    {
+                                        b: 0.5,
+                                        c: 0,
+                                        s: 0,
+                                    },
+                                ],
+                            },
+                            {
+                                f: {
+                                    p: 4,
+                                    t: 2 + i,
+                                },
+                                e: [
+                                    {
+                                        b: 0.5,
+                                        c: 1,
+                                        s: 1,
+                                    },
+                                    {
+                                        b: 0.75,
+                                        c: 0,
+                                        s: 0,
+                                    },
+                                ],
+                            },
+                        ],
+                    }
+                )
+            );
+    }
+
+    for (let t = 0; t < 4; t++) {
+        d.data.lightColorEventBoxGroups.push(
+            bsmap.v3.LightColorEventBoxGroup.create({
+                b: 30,
+                g: 12 + t,
+                e: [
+                    {
+                        e: [
+                            {
+                                s: 0,
+                            },
+                            {
+                                b: 4,
+                                i: 1,
+                                c: 1,
+                                f: 16,
+                            },
+                        ],
+                    },
+                ],
+            })
+        );
+    }
+
+    d.data.lightRotationEventBoxGroups.push(
+        ...bsmap.v3.LightRotationEventBoxGroup.create(
+            {
+                b: 33,
+                g: 8,
+                e: [
+                    {
+                        s: -15,
+                        l: [
+                            {
+                                b: 0,
+                                p: 0,
+                                e: 0,
+                                l: 0,
+                                r: 45,
+                            },
+                        ],
+                        b: 1,
+                    },
+                ],
+            },
+            {
+                b: 33,
+                g: 9,
+                e: [
+                    {
+                        s: -15,
+                        l: [
+                            {
+                                b: 0,
+                                p: 0,
+                                e: 0,
+                                l: 0,
+                                r: 45,
+                            },
+                        ],
+                        b: 1,
+                    },
+                ],
+            },
+            {
+                b: 33,
+                g: 10,
+                e: [
+                    {
+                        s: -15,
+                        l: [
+                            {
+                                b: 0,
+                                p: 0,
+                                e: 0,
+                                l: 0,
+                                r: 45,
+                            },
+                        ],
+                        b: 1,
+                    },
+                ],
+            },
+            {
+                b: 33,
+                g: 11,
+                e: [
+                    {
+                        s: -15,
+                        l: [
+                            {
+                                b: 0,
+                                p: 0,
+                                e: 0,
+                                l: 0,
+                                r: 45,
+                            },
+                        ],
+                        b: 1,
+                    },
+                ],
+            },
+            {
+                b: 2,
+                g: 4,
+                e: [
+                    {
+                        s: -15,
+                        l: [
+                            {
+                                b: 0,
+                                p: 0,
+                                e: 0,
+                                l: 0,
+                                r: 90,
+                            },
+                        ],
+                        b: 1,
+                    },
+                ],
+            },
+            {
+                b: 2,
+                g: 5,
+                e: [
+                    {
+                        s: -15,
+                        t: 1,
+                        l: [
+                            {
+                                r: 90,
+                            },
+                        ],
+                        b: 1,
+                    },
+                ],
+            }
+        )
+    );
 });
 
 bsmap.save.difficultyListSync(difficultyList, {

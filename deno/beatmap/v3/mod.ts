@@ -6,7 +6,6 @@ export * from './bpmEvent.ts';
 export * from './burstSlider.ts';
 export * from './colorBoostEvent.ts';
 export * from './colorNote.ts';
-export * from './container.ts';
 export * from './difficulty.ts';
 export * from './indexFilter.ts';
 export * from './lightColorBase.ts';
