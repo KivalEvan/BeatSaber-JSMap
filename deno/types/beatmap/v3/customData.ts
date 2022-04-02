@@ -8,7 +8,7 @@ export interface CustomDataBase {
 /** Currently unused and not certain. */
 export interface CustomDataDifficulty extends CustomDataBase {
     /** Time spent in editor. */
-    t?: number;
+    time?: number;
     /** Bookmark. */
-    bm?: IBookmark[];
+    bookmarks?: IBookmark[];
 }

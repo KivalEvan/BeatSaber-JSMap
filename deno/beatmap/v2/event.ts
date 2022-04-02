@@ -449,7 +449,7 @@ export class Event extends BeatmapObject<IEvent> {
         events: Event[],
         environment: EnvironmentAllName = 'DefaultEnvironment'
     ): IEventCount => {
-        const commonEvent = EventList[environment] ?? [0, 1, 2, 3, 4, 8, 9, 12, 13];
+        const commonEvent = EventList[environment][0] ?? [0, 1, 2, 3, 4, 8, 9, 12, 13];
         const eventCount: IEventCount = {};
         for (let i = commonEvent.length - 1; i >= 0; i--) {
             eventCount[commonEvent[i]] = {

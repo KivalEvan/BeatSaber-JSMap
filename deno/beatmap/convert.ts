@@ -167,8 +167,8 @@ export const V2toV3 = (
 
     if (data.customData) {
         template.customData = {
-            t: data.customData?._time,
-            bm: data.customData?._bookmarks?.map((bm) => {
+            time: data.customData?._time,
+            bookmarks: data.customData?._bookmarks?.map((bm) => {
                 return { b: bm._time, n: bm._name, c: bm._color };
             }),
         };
