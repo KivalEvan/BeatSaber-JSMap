@@ -1,4 +1,5 @@
 import { IBaseObject } from './baseObject.ts';
+import { CustomDataBase } from './customData.ts';
 
 export interface IObstacle extends IBaseObject {
     /** Position x `<int>` of obstacle.
@@ -41,4 +42,5 @@ export interface IObstacle extends IBaseObject {
      * Range: `1-5`
      */
     h: number;
+    customData?: CustomDataBase;
 }

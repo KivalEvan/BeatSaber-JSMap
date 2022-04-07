@@ -4,7 +4,7 @@ export interface ISwingCount {
 }
 
 export interface ISwingPerSecond {
-    overall: number;
+    count: number;
     total: number;
     peak: number;
     median: number;

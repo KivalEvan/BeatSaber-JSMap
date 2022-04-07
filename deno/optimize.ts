@@ -168,8 +168,17 @@ export const performDifficulty = (
                 a.x - b.x ||
                 a.y - b.y
         );
+        difficulty.bombNotes?.sort((a, b) => a.b - b.b);
         difficulty.obstacles?.sort((a, b) => a.b - b.b);
         difficulty.bpmEvents?.sort((a, b) => a.b - b.b);
+        difficulty.rotationEvents?.sort((a, b) => a.b - b.b);
+        difficulty.colorBoostBeatmapEvents?.sort((a, b) => a.b - b.b);
+        difficulty.basicBeatmapEvents?.sort((a, b) => a.b - b.b);
+        difficulty.sliders?.sort((a, b) => a.b - b.b);
+        difficulty.burstSliders?.sort((a, b) => a.b - b.b);
+        difficulty.lightColorEventBoxGroups?.sort((a, b) => a.b - b.b);
+        difficulty.lightRotationEventBoxGroups?.sort((a, b) => a.b - b.b);
+        difficulty.waypoints?.sort((a, b) => a.b - b.b);
     }
 
     return difficulty;
