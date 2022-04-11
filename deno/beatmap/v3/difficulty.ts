@@ -16,6 +16,7 @@ import { Waypoint } from './waypoint.ts';
 import { BeatPerMinute } from '../shared/bpm.ts';
 import { EventContainer, NoteContainer } from '../../types/beatmap/v3/container.ts';
 import { DeepPartial } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 export class DifficultyData extends Serializable<IDifficultyData> {
     version;
@@ -124,7 +125,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             ),
             basicEventTypesWithKeywords: this.basicEventTypesWithKeywords.toObject(),
             useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
-            customData: this.customData ?? {},
+            customData: deepCopy(this.customData),
         };
     }
 

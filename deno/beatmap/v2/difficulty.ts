@@ -1,4 +1,4 @@
-import { ICustomDataDifficulty } from '../../types/beatmap/v2/customData.ts';
+import { ICustomDataDifficultyV2 } from '../../types/beatmap/shared/customData.ts';
 import { IDifficultyData } from '../../types/beatmap/v2/difficulty.ts';
 import { Serializable } from '../shared/serializable.ts';
 import { Note } from './note.ts';
@@ -7,6 +7,7 @@ import { Obstacle } from './obstacle.ts';
 import { Event } from './event.ts';
 import { Waypoint } from './waypoint.ts';
 import { SpecialEventsKeywordFilters } from './specialEventsKeywordFilters.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 export class DifficultyData extends Serializable<IDifficultyData> {
     version: `2.${0 | 2 | 4 | 5 | 6}.0`;
@@ -16,7 +17,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
     events: Event[];
     waypoints: Waypoint[];
     specialEventsKeywordFilters?: SpecialEventsKeywordFilters;
-    customData?: ICustomDataDifficulty;
+    customData: ICustomDataDifficultyV2;
     private constructor(data: Required<IDifficultyData>) {
         super(data);
         this.version = '2.6.0';
@@ -55,7 +56,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             _events: this.events.map((obj) => obj.toObject()),
             _waypoints: this.waypoints.map((obj) => obj.toObject()),
             _specialEventsKeywordFilters: this.specialEventsKeywordFilters?.toObject(),
-            _customData: this.customData,
+            _customData: deepCopy(this.customData),
         };
     }
 

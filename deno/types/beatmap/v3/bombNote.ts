@@ -1,5 +1,5 @@
 import { IBaseObject } from './baseObject.ts';
-import { CustomDataBase } from './customData.ts';
+import { ICustomDataNote } from '../shared/customData.ts';
 
 export interface IBombNote extends IBaseObject {
     /** Position x `<int>` of bomb.
@@ -23,5 +23,5 @@ export interface IBombNote extends IBaseObject {
      * Range: `0-2`
      */
     y: number;
-    customData?: CustomDataBase;
+    customData?: ICustomDataNote;
 }

@@ -1,13 +1,15 @@
 import { BaseSlider } from './baseSlider.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { ISlider } from '../../types/beatmap/v3/slider.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { ObjectToReturn } from '../../types/utils.ts';
 
 /** Slider beatmap object.
  *
  * Also known as arc.
  */
 export class Slider extends BaseSlider<ISlider> {
-    static default: Required<ISlider> = {
+    static default: ObjectToReturn<Required<ISlider>> = {
         b: 0,
         c: 0,
         x: 0,
@@ -20,6 +22,9 @@ export class Slider extends BaseSlider<ISlider> {
         tc: 0,
         tmu: 0.5,
         m: 1,
+        customData: () => {
+            return {};
+        },
     };
 
     private constructor(slider: Required<ISlider>) {
@@ -46,6 +51,7 @@ export class Slider extends BaseSlider<ISlider> {
                     tc: s.tc ?? Slider.default.tc,
                     tmu: s.tmu ?? Slider.default.tmu,
                     m: s.m ?? Slider.default.m,
+                    customData: s.customData ?? Slider.default.customData(),
                 })
             )
         );
@@ -68,6 +74,7 @@ export class Slider extends BaseSlider<ISlider> {
             tc: Slider.default.tc,
             tmu: Slider.default.tmu,
             m: Slider.default.m,
+            customData: Slider.default.customData(),
         });
     }
 
@@ -85,6 +92,7 @@ export class Slider extends BaseSlider<ISlider> {
             tc: this.tailDirection,
             tmu: this.tailLengthMultiplier,
             m: this.midAnchor,
+            customData: deepCopy(this.customData),
         };
     }
 

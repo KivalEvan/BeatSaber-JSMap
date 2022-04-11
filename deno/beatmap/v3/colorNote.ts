@@ -1,7 +1,7 @@
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { BaseObject } from './baseObject.ts';
 import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
-import { radToDeg, shortRotDistance } from '../../utils/mod.ts';
+import { deepCopy, radToDeg, shortRotDistance } from '../../utils/mod.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { ICoordinateNote } from '../../types/beatmap/shared/coordinate.ts';
 
@@ -69,6 +69,7 @@ export class ColorNote
             y: this.posY,
             d: this.direction,
             a: this.angleOffset,
+            customData: deepCopy(this.customData),
         };
     }
 
@@ -144,13 +145,6 @@ export class ColorNote
         this.data.a = value;
     }
 
-    get customData() {
-        return this.data.customData;
-    }
-    set customData(value: typeof this.data.customData) {
-        this.data.customData = value;
-    }
-
     setColor(value: IColorNote['c']) {
         this.color = value;
         return this;
@@ -169,23 +163,6 @@ export class ColorNote
     }
     setAngleOffset(value: IColorNote['a']) {
         this.angleOffset = value;
-        return this;
-    }
-    setCustomData(value: typeof this.data.customData) {
-        this.customData = value;
-        return this;
-    }
-    deleteCustomData() {
-        this.customData = {};
-        return this;
-    }
-    removeCustomData(key: string) {
-        delete this.customData[key];
-        return this;
-    }
-    // FIXME: deal with customdata later
-    addCustomData(object: Record<string, unknown>) {
-        this.customData = { ...this.customData, object };
         return this;
     }
 
@@ -398,19 +375,12 @@ export class ColorNote
      * if (note.isDouble(notes, index)) {}
      * ```
      */
-    isDouble(compareTo: ColorNote[], index: number, tolerance = 0.01) {
-        for (let i = index, len = compareTo.length; i < len; i++) {
-            if (
-                compareTo[i].time < this.time + tolerance &&
-                compareTo[i].color !== this.color
-            ) {
-                return true;
-            }
-            if (compareTo[i].time > this.time + tolerance) {
-                return false;
-            }
-        }
-        return false;
+    isDouble(compareTo: ColorNote, tolerance = 0.01) {
+        return (
+            compareTo.time > this.time - tolerance &&
+            compareTo.time < this.time + tolerance &&
+            this.color !== compareTo.color
+        );
     }
 
     /** Compare two notes and return if the notes is adjacent.

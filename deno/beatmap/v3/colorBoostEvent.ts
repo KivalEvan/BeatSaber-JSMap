@@ -1,11 +1,16 @@
 import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
+import { ObjectToReturn } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './baseObject.ts';
 
 /** Boost event beatmap object. */
 export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
-    static default: Required<IColorBoostEvent> = {
+    static default: ObjectToReturn<Required<IColorBoostEvent>> = {
         b: 0,
         o: false,
+        customData: () => {
+            return {};
+        },
     };
 
     private constructor(boostEvent: Required<IColorBoostEvent>) {
@@ -24,6 +29,7 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
                 new ColorBoostEvent({
                     b: be.b ?? ColorBoostEvent.default.b,
                     o: be.o ?? ColorBoostEvent.default.o,
+                    customData: be.customData ?? ColorBoostEvent.default.customData(),
                 })
             )
         );
@@ -36,6 +42,7 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
         return new ColorBoostEvent({
             b: ColorBoostEvent.default.b,
             o: ColorBoostEvent.default.o,
+            customData: ColorBoostEvent.default.customData(),
         });
     }
 
@@ -43,6 +50,7 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
         return {
             b: this.time,
             o: this.toggle,
+            customData: deepCopy(this.customData),
         };
     }
 

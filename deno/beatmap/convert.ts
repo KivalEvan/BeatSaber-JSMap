@@ -169,7 +169,16 @@ export const V2toV3 = (
     });
 
     if (data.customData) {
-        template.customData = data.customData;
+        for (const k in data.customData) {
+            if (k === '_customEvents') {
+                template.customData[k as string] =
+                    data.customData._customEvents?.map((ce) => {
+                        return { b: ce._time, t: ce._type, d: ce._data };
+                    }) ?? [];
+                continue;
+            }
+            template.customData[k] = data.customData[k];
+        }
     }
 
     return template;
@@ -357,7 +366,16 @@ export const V3toV2 = (
     });
 
     if (data.customData) {
-        template.customData = data.customData;
+        for (const k in data.customData) {
+            if (k === '_customEvents') {
+                template.customData[k as string] =
+                    data.customData._customEvents?.map((ce) => {
+                        return { _time: ce.b, _type: ce.t, _data: ce.d };
+                    }) ?? [];
+                continue;
+            }
+            template.customData[k] = data.customData[k];
+        }
     }
 
     return template;

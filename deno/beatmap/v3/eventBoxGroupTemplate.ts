@@ -1,4 +1,5 @@
 import { IEventBoxGroupTemplate } from '../../types/beatmap/v3/eventBoxGroupTemplate.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { Serializable } from '../shared/serializable.ts';
 import { EventBoxGroup } from './eventBoxGroup.ts';
 
@@ -21,6 +22,7 @@ export abstract class EventBoxGroupTemplate<
             b: this.time,
             g: this.groupID,
             e: this.events.map((e) => e.toObject()),
+            customData: deepCopy(this.customData),
         };
     }
 

@@ -1,11 +1,11 @@
 import {
     IChromaEventLaser,
     IChromaEventLight,
-    IChromaEventRotation,
+    IChromaEventRing,
     IChromaEventZoom,
-} from './chroma.ts';
-import { CustomData } from './customData.ts';
-import { INEEvent } from './noodleExtensions.ts';
+} from '../shared/chroma.ts';
+import { ICustomDataBase } from '../shared/customData.ts';
+import { INEEvent } from '../shared/noodleExtensions.ts';
 import { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Event.
@@ -52,7 +52,7 @@ export interface IEventBase extends IBaseObject {
     /** Value of event. */
     _value: number;
     _floatValue: number;
-    _customData?: CustomData;
+    _customData?: ICustomDataBase;
 }
 
 export interface IEventLight extends IEventBase {
@@ -88,12 +88,12 @@ export interface IEventBoost extends IEventBase {
 
 export interface IEventRing extends IEventBase {
     _type: 8;
-    _customData?: IChromaEventRotation;
+    _customData?: IChromaEventRing;
 }
 
 export interface IEventZoom extends IEventBase {
     _type: 9;
-    _customData?: IChromaEventRotation & IChromaEventZoom;
+    _customData?: IChromaEventRing & IChromaEventZoom;
 }
 
 export interface IEventLaser extends IEventBase {
