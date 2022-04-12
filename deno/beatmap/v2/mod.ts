@@ -1,4 +1,3 @@
-// export * as chroma from './chroma/mod.ts';
 export * from './difficulty.ts';
 export * from './event.ts';
 export * from './note.ts';

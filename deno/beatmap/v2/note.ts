@@ -4,6 +4,7 @@ import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 import { BeatmapObject } from './object.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { NoteCutAngle } from '../shared/constants.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 export class Note extends BeatmapObject<INote> {
     static default: ObjectToReturn<Required<INote>> = {
@@ -61,7 +62,7 @@ export class Note extends BeatmapObject<INote> {
             _lineIndex: this.lineIndex,
             _lineLayer: this.lineLayer,
             _cutDirection: this.cutDirection,
-            _customData: this.customData,
+            _customData: deepCopy(this.customData),
         };
     }
 
@@ -130,13 +131,6 @@ export class Note extends BeatmapObject<INote> {
         this.data._cutDirection = value;
     }
 
-    get customData() {
-        return this.data._customData;
-    }
-    set customData(value: typeof this.data._customData) {
-        this.data._customData = value;
-    }
-
     setLineIndex(value: INote['_lineIndex']) {
         this.lineIndex = value;
         return this;
@@ -151,23 +145,6 @@ export class Note extends BeatmapObject<INote> {
     }
     setCutDirection(value: INote['_cutDirection']) {
         this.cutDirection = value;
-        return this;
-    }
-    setCustomData(value: typeof this.data._customData) {
-        this.customData = value;
-        return this;
-    }
-    deleteCustomData() {
-        this.customData = {};
-        return this;
-    }
-    removeCustomData(key: string) {
-        delete this.customData[key];
-        return this;
-    }
-    // FIXME: deal with customdata later
-    addCustomData(object: Record<string, unknown>) {
-        this.customData = { ...this.customData, object };
         return this;
     }
 

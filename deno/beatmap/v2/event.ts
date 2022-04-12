@@ -15,6 +15,7 @@ import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { EventList } from '../shared/environment.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { BeatmapObject } from './object.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Basic event beatmap object. */
 export class Event extends BeatmapObject<IEvent> {
@@ -69,7 +70,7 @@ export class Event extends BeatmapObject<IEvent> {
             _type: this.type,
             _value: this.value,
             _floatValue: this.floatValue,
-            _customData: this.customData,
+            _customData: deepCopy(this.customData),
         };
     }
 
@@ -125,13 +126,6 @@ export class Event extends BeatmapObject<IEvent> {
         this.data._floatValue = value;
     }
 
-    get customData() {
-        return this.data._customData;
-    }
-    set customData(value: typeof this.data._customData) {
-        this.data._customData = value;
-    }
-
     setType(value: IEvent['_type']) {
         this.type = value;
         return this;
@@ -142,23 +136,6 @@ export class Event extends BeatmapObject<IEvent> {
     }
     setFloatValue(value: IEvent['_floatValue']) {
         this.floatValue = value;
-        return this;
-    }
-    setCustomData(value: typeof this.data._customData) {
-        this.customData = value;
-        return this;
-    }
-    deleteCustomData() {
-        this.customData = {};
-        return this;
-    }
-    removeCustomData(key: string) {
-        delete this.customData[key];
-        return this;
-    }
-    // FIXME: deal with customdata later
-    addCustomData(object: Record<string, unknown>) {
-        this.customData = { ...this.customData, object };
         return this;
     }
 

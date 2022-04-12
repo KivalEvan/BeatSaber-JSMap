@@ -43,7 +43,7 @@ difficultyList.forEach((d) => {
                         d: prevSlider[n.color].direction,
                         mu: prevSlider[n.color].customData!._disableSpawnEffect
                             ? 0
-                            : prevSlider[n.color].customData!._color[2],
+                            : prevSlider[n.color].customData!._color![2],
                         tb: n.time,
                         tx: n.posX,
                         ty: n.posY,
@@ -52,8 +52,8 @@ difficultyList.forEach((d) => {
                             : n.direction,
                         tmu: prevSlider[n.color].customData!._disableSpawnEffect
                             ? 0
-                            : prevSlider[n.color].customData!._color[3],
-                        m: prevSlider[n.color].customData!._color[1],
+                            : prevSlider[n.color].customData!._color![3],
+                        m: prevSlider[n.color].customData!._color![1] as 0,
                     });
                 }
                 delete prevSlider[n.color];
@@ -102,9 +102,9 @@ difficultyList.forEach((d) => {
                 tb: possibleBurst[n.color][1].time,
                 tx: possibleBurst[n.color][1].posX,
                 ty: possibleBurst[n.color][1].posY,
-                sc: possibleBurst[n.color][0].customData!._color[1],
-                s: possibleBurst[n.color][0].customData!._color[2]
-                    ? possibleBurst[n.color][0].customData!._color[2]
+                sc: possibleBurst[n.color][0].customData!._color![1],
+                s: possibleBurst[n.color][0].customData!._color![2]
+                    ? possibleBurst[n.color][0].customData!._color![2]
                     : 1,
             });
             possibleBurst[n.color] = [];

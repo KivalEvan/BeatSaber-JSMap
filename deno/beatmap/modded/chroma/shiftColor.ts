@@ -1,28 +1,12 @@
-import { ChromaObject, SetOptions } from './types.ts';
 import { HSVAtoRGBA, RGBAtoHSVA } from '../../../utils/colors.ts';
 import { ColorArray } from '../../../types/beatmap/shared/colors.ts';
 import { clamp } from '../../../utils/math.ts';
+import {
+    IChromaObject,
+    ShiftColorOptions,
+} from '../../../types/beatmap/modded/chroma/color.ts';
 
-interface ShiftColorBaseOptions extends SetOptions {
-    hue?: number;
-    saturation?: number;
-    value?: number;
-    alpha?: number;
-}
-
-interface ShiftColorOptions extends ShiftColorBaseOptions {
-    fixedHue?: boolean;
-    fixedSaturation?: boolean;
-    fixedValue?: boolean;
-    fixedAlpha?: boolean;
-}
-
-interface ShiftColorGradientOptions extends ShiftColorBaseOptions {
-    reverse?: boolean;
-    easing?: (x: number) => number;
-}
-
-export const shiftColor = (objects: ChromaObject[], options: ShiftColorOptions) => {
+export const shiftColor = (objects: IChromaObject[], options: ShiftColorOptions) => {
     const opt: Omit<Required<ShiftColorOptions>, 'type'> = {
         startTime: options.startTime,
         endTime: options.endTime,
@@ -41,9 +25,6 @@ export const shiftColor = (objects: ChromaObject[], options: ShiftColorOptions) 
         opt.value,
         opt.alpha,
     ];
-    if (options.type != null) {
-        objects = objects.filter((ev) => ev._type === options.type);
-    }
     const shift = (
         currentColor: ColorArray,
         shiftHSVA: ColorArray,
@@ -87,17 +68,17 @@ export const shiftColor = (objects: ChromaObject[], options: ShiftColorOptions) 
         ) as ColorArray;
     };
     objects.forEach((obj) => {
-        if (obj._customData?._color) {
-            obj._customData._color = shift(obj._customData._color, hsvaShift, opt);
+        if (obj.customData?._color) {
+            obj.customData._color = shift(obj.customData._color, hsvaShift, opt);
         }
-        if (obj._customData?._lightGradient) {
-            obj._customData._lightGradient._startColor = shift(
-                obj._customData._lightGradient._startColor,
+        if (obj.customData?._lightGradient) {
+            obj.customData._lightGradient._startColor = shift(
+                obj.customData._lightGradient._startColor,
                 hsvaShift,
                 opt
             );
-            obj._customData._lightGradient._endColor = shift(
-                obj._customData._lightGradient._endColor,
+            obj.customData._lightGradient._endColor = shift(
+                obj.customData._lightGradient._endColor,
                 hsvaShift,
                 opt
             );

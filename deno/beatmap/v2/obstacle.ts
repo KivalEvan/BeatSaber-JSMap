@@ -1,5 +1,6 @@
 import { IObstacle, ObstacleCount } from '../../types/beatmap/v2/obstacle.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { BeatmapObject } from './object.ts';
 
 export class Obstacle extends BeatmapObject<IObstacle> {
@@ -66,7 +67,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
             _duration: this.duration,
             _width: this.width,
             _height: this.height,
-            _customData: this.customData,
+            _customData: deepCopy(this.customData),
         };
     }
 
@@ -154,13 +155,6 @@ export class Obstacle extends BeatmapObject<IObstacle> {
         this.data._height = value;
     }
 
-    get customData() {
-        return this.data._customData;
-    }
-    set customData(value: typeof this.data._customData) {
-        this.data._customData = value;
-    }
-
     setType(value: IObstacle['_type']) {
         this.type = value;
         return this;
@@ -183,23 +177,6 @@ export class Obstacle extends BeatmapObject<IObstacle> {
     }
     setHeight(value: IObstacle['_height']) {
         this.height = value;
-        return this;
-    }
-    setCustomData(value: typeof this.data._customData) {
-        this.customData = value;
-        return this;
-    }
-    deleteCustomData() {
-        this.customData = {};
-        return this;
-    }
-    removeCustomData(key: string) {
-        delete this.customData[key];
-        return this;
-    }
-    // FIXME: deal with customdata later
-    addCustomData(object: Record<string, unknown>) {
-        this.customData = { ...this.customData, object };
         return this;
     }
 
