@@ -1,7 +1,7 @@
 // holy shit image are so tedious to work with and optimise
 import * as bsmap from '../../deno/mod.ts';
-import * as imagescript from 'https://deno.land/x/imagescript@1.2.9/mod.ts';
-import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
+import * as imagescript from 'https://deno.land/x/imagescript@v1.2.12/mod.ts';
+import { dirname } from 'https://deno.land/std@0.135.0/path/mod.ts';
 
 console.log('Running script...');
 console.time('Runtime');
@@ -13,13 +13,12 @@ const OUTPUT_FILE = INPUT_FILE;
 
 const difficulty = bsmap.load.difficultyLegacySync(INPUT_FILE);
 
-difficulty._customData = difficulty._customData ?? {};
-difficulty._customData._environment = [];
-difficulty._customData._time = difficulty._customData._time ?? 0;
-difficulty._customData._time++;
-difficulty._events = [];
-const _environment = difficulty._customData._environment;
-const _events = difficulty._events;
+difficulty.customData._environment = [];
+difficulty.customData._time = difficulty.customData._time ?? 0;
+difficulty.customData._time++;
+difficulty.events = [];
+const envEnh = difficulty.customData._environment;
+const { addEvents } = difficulty;
 
 //#region environment and events order declaration stuff
 let itFrame = 0;
@@ -42,17 +41,17 @@ const regexGlowLineL = `\\[\\d+\\]GlowLineLVisible$`;
 const regexGlowLineR = `\\[\\d+\\]GlowLineRVisible$`;
 const regexLaser = `Environment\.\\[\\d+\\]Laser$`;
 const regexRotatingLasersPair = `\\[\\d+\\]RotatingLasersPair$`;
-_environment.push({
+envEnh.push({
     _id: '\\[\\d+\\]FloorMirror$',
     _lookupMethod: 'Regex',
     _active: false,
 });
-_environment.push({
+envEnh.push({
     _id: regexTentacleLeft,
     _lookupMethod: 'Regex',
     _position: [-10, 7, 48],
 });
-_environment.push({
+envEnh.push({
     _id: regexTentacleRight,
     _lookupMethod: 'Regex',
     _position: [10, 7, 48],
@@ -79,7 +78,7 @@ for (let y = 0; y < screenY; y++) {
             -((screenY / 2) * screenSize) -
             y * (screenSize + screenGap);
         const posZ = 32 - Math.tan(345 * (Math.PI / 180)) * screenSize * y;
-        _environment.push({
+        envEnh.push({
             _id: regexGlowLine,
             _lookupMethod: 'Regex',
             _duplicate: 1,
@@ -107,7 +106,7 @@ for (let i = 0, offset = 0; i < 77; i++) {
         continue;
     }
     const posZ = 1.75 + (i - offset) * 1.25 + Math.random() * 0.5;
-    _environment.push({
+    envEnh.push({
         _id: i ? regexGlowLine.replace('$', ` \\(${i}\\)$`) : regexGlowLine,
         _lookupMethod: 'Regex',
         _position: [
@@ -122,7 +121,7 @@ for (let i = 0, offset = 0; i < 77; i++) {
     });
 }
 for (let i = 0; i < 5; i++) {
-    _environment.push({
+    envEnh.push({
         _id: i ? regexGlowTopLine.replace('$', ` \\(${i}\\)$`) : regexGlowTopLine,
         _lookupMethod: 'Regex',
         _position: [-20 + i * 10, i % 2 ? 16 : 20, 7.5],
@@ -132,7 +131,7 @@ for (let i = 0; i < 7; i++) {
     const id = i
         ? regexRotatingLasersPair.replace('$', ` \\(${i}\\)$`)
         : regexRotatingLasersPair;
-    _environment.push(
+    envEnh.push(
         {
             _id: id.replace('$', '\\.\\[\\d+\\]BaseL$'),
             _lookupMethod: 'Regex',
@@ -157,7 +156,7 @@ for (let i = 0; i < 7; i++) {
 }
 for (let i = 0; i < 6; i++) {
     const fixed = i <= 2 ? i + 2 : i + 4;
-    _environment.push({
+    envEnh.push({
         _id: fixed ? regexLaser.replace('$', ` \\(${fixed}\\)$`) : regexLaser,
         _lookupMethod: 'Regex',
         _position: [
@@ -168,7 +167,7 @@ for (let i = 0; i < 6; i++) {
         _rotation: [0, 0, 0],
     });
 }
-_environment.push(
+envEnh.push(
     {
         _id: regexConstruction,
         _lookupMethod: 'Regex',
@@ -415,7 +414,7 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
         }
         if (!itFrame && opt.fadeInDuration && opt.eventValue) {
             for (const color in prevColor) {
-                _events.push({
+                addEvents({
                     _time: opt.time,
                     _type: 4,
                     _value: opt.eventValue > 4 ? 5 : 1,
@@ -427,7 +426,7 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
             }
         }
         for (const color in colorID) {
-            _events.push({
+            addEvents({
                 _time:
                     (opt.animated
                         ? bsmap.utils.lerp(
@@ -469,7 +468,7 @@ const screenClear = (time: number, fade = 0) => {
     }
     if (fade) {
         for (const color in colorID) {
-            _events.push({
+            addEvents({
                 _time: time,
                 _type: 4,
                 _value: 1,
@@ -480,7 +479,7 @@ const screenClear = (time: number, fade = 0) => {
             });
         }
     }
-    _events.push({
+    addEvents({
         _time: time + fade,
         _type: 4,
         _value: fade ? 4 : 0,
@@ -491,7 +490,7 @@ const screenClear = (time: number, fade = 0) => {
 //#endregion
 
 //#region piano intro
-_events.push(
+addEvents(
     {
         _type: 12,
         _time: 4,
@@ -509,7 +508,7 @@ const introPianoOrder = [3, 6, 5, 3, 5, 7, 6, 3, 1, 2, 3, 6, 4, 6, 4, 6];
 for (let i = 0, paino = 0, painoFlip = false; i < 2; i++) {
     for (const ipo of introPianoOrder) {
         if (ipo < 4) {
-            _events.push({
+            addEvents({
                 _time: 4 + paino * 0.5 + i * 8,
                 _type: painoFlip ? 2 : 3,
                 _value: 7,
@@ -517,7 +516,7 @@ for (let i = 0, paino = 0, painoFlip = false; i < 2; i++) {
                 _customData: { _lightID: [(4 - ipo) * 2, (4 - ipo) * 2 + 1] },
             });
         } else if (ipo === 4) {
-            _events.push(
+            addEvents(
                 {
                     _time: 4 + paino * 0.5 + i * 8,
                     _type: painoFlip ? 2 : 3,
@@ -534,7 +533,7 @@ for (let i = 0, paino = 0, painoFlip = false; i < 2; i++) {
                 }
             );
         } else {
-            _events.push({
+            addEvents({
                 _time: 4 + paino * 0.5 + i * 8,
                 _type: painoFlip ? 3 : 2,
                 _value: 7,
@@ -547,7 +546,7 @@ for (let i = 0, paino = 0, painoFlip = false; i < 2; i++) {
     paino = 0;
     painoFlip = !painoFlip;
 }
-_events.push(
+addEvents(
     {
         _type: 12,
         _time: 19,
@@ -574,7 +573,7 @@ _events.push(
     }
 );
 for (let i = 1; i <= 7; i++) {
-    _events.push(
+    addEvents(
         {
             _type: 2,
             _time: 19 + i / 10,
@@ -597,7 +596,7 @@ const piano2Notething = [5, 21, 37, 53, 69, 325, 341, 357, 373, 517];
 for (const pnt of piano2Notething) {
     for (let i = 0; i < (pnt === 517 ? 4 : pnt === 373 ? 6 : 7); i++) {
         for (let j = 0; j < 3; j++) {
-            _events.push(
+            addEvents(
                 {
                     _time: pnt + j * 0.125 + i * 2,
                     _type: 0,
@@ -617,7 +616,7 @@ for (const pnt of piano2Notething) {
             );
         }
         if (pnt >= 325) {
-            _events.push(
+            addEvents(
                 {
                     _time: pnt - 1 + i * 2,
                     _type: 2,
@@ -653,7 +652,7 @@ for (const pnt of piano2Notething) {
             );
             if (i >= 6) {
                 for (let j = 0; j < 2; j++) {
-                    _events.push(
+                    addEvents(
                         {
                             _time: pnt + 1 + i * 2 + j,
                             _type: 2,
@@ -730,7 +729,7 @@ const introSynthOrder = [
 for (let i = 0; i < 4; i++) {
     let t = 0;
     for (const iso of introSynthOrder) {
-        _events.push(
+        addEvents(
             {
                 _type: 2,
                 _time: 20 + t * 0.5 + i * 16,
@@ -802,7 +801,7 @@ const introVocalTiming: [number, number?][] = [
 for (const ivt of introVocalTiming) {
     const t = ivt[0];
     if (!ivt[1]) {
-        _events.push(
+        addEvents(
             {
                 _type: 4,
                 _time: 19 + t,
@@ -820,7 +819,7 @@ for (const ivt of introVocalTiming) {
         );
     } else {
         for (let i = 0; i < ivt[1]; i += 0.125) {
-            _events.push(
+            addEvents(
                 {
                     _type: 4,
                     _time: 19 + t + i,
@@ -866,7 +865,7 @@ await screenDraw('smile.gif', {
 screenClear(19.375);
 
 for (const x in roadOrder) {
-    _events.push({
+    addEvents({
         _time: 19.75 - (parseInt(x) / roadOrder.length) * 1,
         _type: 4,
         _value: 3,
@@ -901,7 +900,7 @@ for (const x in roadOrder) {
                 screenLight[pos] = colorAry[0];
             }
             for (const color in colorID) {
-                _events.push({
+                addEvents({
                     _type: 4,
                     _time: 20 + (y + 3) / screenY,
                     _value: 1,
@@ -943,7 +942,7 @@ screenClear(23, 0.5);
             }
         }
         for (const color in colorID) {
-            _events.push(
+            addEvents(
                 {
                     _type: 4,
                     _time: 23.5 + (itFrame / (img.length - 1)) * 1.5,
@@ -1003,7 +1002,7 @@ screenClear(23, 0.5);
                 screenLight[pos] = colorAry[0];
             }
             for (const color in colorID) {
-                _events.push({
+                addEvents({
                     _type: 4,
                     _time: 29 - (y + 3) / screenY,
                     _value: 1,
@@ -1016,7 +1015,7 @@ screenClear(23, 0.5);
         }
     });
     for (let i = 0; i < 4; i++) {
-        _events.push({
+        addEvents({
             _type: 4,
             _time: 29.25 + i * 0.375,
             _value: 3,
@@ -1051,12 +1050,12 @@ screenClear(23, 0.5);
             }
         }
         for (const color in colorID) {
-            _events.push(
+            addEvents(
                 {
                     _type: 4,
                     _time: 31.875,
                     _value: 0,
-                    _floatValue: parseInt(color) / 255,
+                    _floatValue: 0,
                     _customData: {
                         _lightID: colorID[color],
                     },
@@ -1173,7 +1172,7 @@ screenClear(49.875, 0.5);
 
 for (let i = 0; i < 7; i++) {
     if (i === 3) {
-        _events.push(
+        addEvents(
             {
                 _time: 52 + i * 4,
                 _type: 4,
@@ -1190,7 +1189,7 @@ for (let i = 0; i < 7; i++) {
             }
         );
         for (let j = 0; j < 5; j++) {
-            _events.push(
+            addEvents(
                 {
                     _time: 54 + i * 4 + j * 0.125,
                     _type: 4,
@@ -1209,7 +1208,7 @@ for (let i = 0; i < 7; i++) {
         }
         continue;
     }
-    _events.push(
+    addEvents(
         {
             _time: 53 + i * 4,
             _type: 4,
@@ -1226,7 +1225,7 @@ for (let i = 0; i < 7; i++) {
         }
     );
     for (let j = 0; j < 5; j++) {
-        _events.push(
+        addEvents(
             {
                 _time: 53.5 + i * 4 + j * 0.125,
                 _type: 4,
@@ -1259,7 +1258,7 @@ for (let i = 0; i < 7; i++) {
     }
     if (i === 6) {
         for (let j = 0; j < 16; j++) {
-            _events.push(
+            addEvents(
                 {
                     _time: 56 + i * 4 + j * 0.125,
                     _type: 4,
@@ -1279,7 +1278,7 @@ for (let i = 0; i < 7; i++) {
     }
     if (i === 0 || i === 1 || i === 4 || i === 5) {
         for (const x in roadOrder) {
-            _events.push({
+            addEvents({
                 _time: 52 + (parseInt(x) / roadOrder.length) * 0.75 + i * 4,
                 _type: 4,
                 _value: 7,
@@ -1287,6 +1286,30 @@ for (let i = 0; i < 7; i++) {
                 _customData: { _lightID: roadOrder[x] },
             });
         }
+
+        addEvents(
+            {
+                _time: 52 + i * 4,
+                _type: 4,
+                _value: 5,
+                _floatValue: 0,
+                _customData: { _lightID: [3, 4] },
+            },
+            {
+                _time: 52.75 + i * 4,
+                _type: 4,
+                _value: 4,
+                _floatValue: 1,
+                _customData: { _lightID: [3, 4] },
+            },
+            {
+                _time: 53 + i * 4,
+                _type: 4,
+                _value: 4,
+                _floatValue: 0,
+                _customData: { _lightID: [3, 4], _easing: 'easeInQuad' },
+            }
+        );
     }
     if (i === 0 || i === 1) {
         await screenDraw('why.gif', { time: 52 + i * 4 });
@@ -1328,17 +1351,68 @@ for (let i = 0; i < 7; i++) {
     if (i === 2 || i === 6) {
         bsmap.utils.shuffle(roadShuffle);
         for (const x in roadShuffle) {
-            _events.push({
-                _time: 52 + (parseInt(x) / roadShuffle.length) * 1 + i * 4,
-                _type: 4,
-                _value: 7,
-                _floatValue: 1,
-                _customData: { _lightID: roadShuffle[x] },
-            });
+            addEvents(
+                {
+                    _time: 52 + (parseInt(x) / roadShuffle.length) * 1 + i * 4,
+                    _type: 4,
+                    _value: 8,
+                    _floatValue: 0,
+                    _customData: { _lightID: roadShuffle[x] },
+                },
+                {
+                    _time: 54.75 + (parseInt(x) / roadShuffle.length) * 1 + i * 4,
+                    _type: 4,
+                    _value: 4,
+                    _floatValue: 1,
+                    _customData: { _lightID: roadShuffle[x] },
+                }
+            );
         }
+        bsmap.utils.shuffle(roadShuffle);
+        for (const x in roadShuffle) {
+            addEvents(
+                {
+                    _time: 56 + (parseInt(x) / roadShuffle.length) * 1 + i * 4,
+                    _type: 4,
+                    _value: 4,
+                    _floatValue: 1,
+                    _customData: { _lightID: roadShuffle[x] },
+                },
+                {
+                    _time: 57 + (parseInt(x) / roadShuffle.length) * 1 + i * 4,
+                    _type: 4,
+                    _value: 4,
+                    _floatValue: 0,
+                    _customData: { _lightID: roadShuffle[x] },
+                }
+            );
+        }
+        addEvents(
+            {
+                _time: 52 + i * 4,
+                _type: 4,
+                _value: 5,
+                _floatValue: 0,
+                _customData: { _lightID: [3, 4] },
+            },
+            {
+                _time: 56 + i * 4,
+                _type: 4,
+                _value: 4,
+                _floatValue: 1,
+                _customData: { _lightID: [3, 4], _easing: 'easeOutQuad' },
+            },
+            {
+                _time: 58 + i * 4,
+                _type: 4,
+                _value: 4,
+                _floatValue: 0,
+                _customData: { _lightID: [3, 4], _easing: 'easeInQuad' },
+            }
+        );
     }
     for (let j = 0; j < 3; j++) {
-        _events.push({
+        addEvents({
             _time: 52 + i * 4 + j * 0.25,
             _type: 4,
             _value: 7,
@@ -1372,7 +1446,7 @@ for (let i = 0; i < 7; i++) {
             }
         }
         for (const color in colorID) {
-            _events.push({
+            addEvents({
                 _type: 4,
                 _time: 54.5 + (itFrame / (img.length - 1)) * 0.75,
                 _value: 1,
@@ -1403,7 +1477,7 @@ for (let i = 0; i < 2; i++) {
         }
     }
     for (const color in prevColor) {
-        _events.push({
+        addEvents({
             _type: 4,
             _time: 60,
             _value: 1,
@@ -1435,7 +1509,7 @@ for (let i = 0; i < 2; i++) {
             }
         }
         for (const color in colorID) {
-            _events.push({
+            addEvents({
                 _type: 4,
                 _time: 60.25 + itFrame * 0.25,
                 _value: 4,
@@ -1475,7 +1549,7 @@ screenClear(66.75, 0.5);
         }
     }
     for (const color in prevColor) {
-        _events.push({
+        addEvents({
             _type: 4,
             _time: 69,
             _value: 1,
@@ -1501,7 +1575,7 @@ screenClear(66.75, 0.5);
         }
     }
     for (const color in prevColor) {
-        _events.push({
+        addEvents({
             _type: 4,
             _time: 73,
             _value: 1,
@@ -1538,7 +1612,7 @@ screenClear(66.75, 0.5);
         }
     }
     for (const color in prevColor) {
-        _events.push({
+        addEvents({
             _type: 4,
             _time: 76,
             _value: 1,
@@ -1570,7 +1644,7 @@ itFrame = 0;
             }
         }
         for (const color in colorID) {
-            _events.push({
+            addEvents({
                 _type: 4,
                 _time: 76.25 + itFrame * 0.25,
                 _value: 4,
@@ -1625,11 +1699,14 @@ const soloVocalTiming: [number, number?][] = [
     [13.5], // look
     [14, 0.5], // back
 ];
-for (let i = 0; i < 4; i++) {
+for (let i = 0; i < 5; i++) {
     for (const ivt of soloVocalTiming) {
         const t = ivt[0];
+        if (308 + i * 16 + t >= 376) {
+            break;
+        }
         if (!ivt[1]) {
-            _events.push(
+            addEvents(
                 {
                     _type: 4,
                     _time: 308 + i * 16 + t,
@@ -1647,7 +1724,7 @@ for (let i = 0; i < 4; i++) {
             );
         } else {
             for (let j = 0; j < ivt[1]; j += 0.125) {
-                _events.push(
+                addEvents(
                     {
                         _type: 4,
                         _time: 308 + i * 16 + t + j,
@@ -1661,6 +1738,182 @@ for (let i = 0; i < 4; i++) {
                         _value: 0,
                         _floatValue: 0,
                         _customData: { _lightID: [1, 2] },
+                    }
+                );
+            }
+        }
+        if (i === 2 || i == 3) {
+            if (312 + i * 16 + t < 374) {
+                if (!ivt[1]) {
+                    addEvents(
+                        {
+                            _type: 4,
+                            _time: 312 + i * 16 + t,
+                            _value: 3,
+                            _floatValue: 1,
+                            _customData: {
+                                _lightID: [screenEndID + 1, screenEndID + 2],
+                            },
+                        },
+                        {
+                            _type: 4,
+                            _time: 312 + i * 16 + 0.25 + t,
+                            _value: 0,
+                            _floatValue: 0,
+                            _customData: {
+                                _lightID: [screenEndID + 1, screenEndID + 2],
+                            },
+                        }
+                    );
+                } else {
+                    for (let j = 0; j < ivt[1]; j += 0.125) {
+                        addEvents(
+                            {
+                                _type: 4,
+                                _time: 312 + i * 16 + t + j,
+                                _value: 3,
+                                _floatValue: 1,
+                                _customData: {
+                                    _lightID: [screenEndID + 1, screenEndID + 2],
+                                },
+                            },
+                            {
+                                _type: 4,
+                                _time: 312 + i * 16 + 0.0625 + t + j,
+                                _value: 0,
+                                _floatValue: 0,
+                                _customData: {
+                                    _lightID: [screenEndID + 1, screenEndID + 2],
+                                },
+                            }
+                        );
+                    }
+                }
+            }
+            if (314 + i * 16 + t < 374) {
+                if (!ivt[1]) {
+                    addEvents(
+                        {
+                            _type: 4,
+                            _time: 314 + i * 16 + t,
+                            _value: 3,
+                            _floatValue: 1,
+                            _customData: {
+                                _lightID: [screenEndID + 3, screenEndID + 4],
+                            },
+                        },
+                        {
+                            _type: 4,
+                            _time: 314 + i * 16 + 0.25 + t,
+                            _value: 0,
+                            _floatValue: 0,
+                            _customData: {
+                                _lightID: [screenEndID + 3, screenEndID + 4],
+                            },
+                        }
+                    );
+                } else {
+                    for (let j = 0; j < ivt[1]; j += 0.125) {
+                        addEvents(
+                            {
+                                _type: 4,
+                                _time: 314 + i * 16 + t + j,
+                                _value: 3,
+                                _floatValue: 1,
+                                _customData: {
+                                    _lightID: [screenEndID + 3, screenEndID + 4],
+                                },
+                            },
+                            {
+                                _type: 4,
+                                _time: 314 + i * 16 + 0.0625 + t + j,
+                                _value: 0,
+                                _floatValue: 0,
+                                _customData: {
+                                    _lightID: [screenEndID + 3, screenEndID + 4],
+                                },
+                            }
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+const andNeverLookBack: [number, number?][] = [
+    [0], // and
+    [0.5], // ne
+    [1], // ver
+    [1.5], // look
+    [2, 0.5], // back
+];
+for (let i = 0; i < 4; i++) {
+    for (const anlb of andNeverLookBack) {
+        const t = anlb[0];
+        if (376 + i * 2 + t >= 384) {
+            break;
+        }
+        if (!anlb[1]) {
+            addEvents(
+                {
+                    _type: 4,
+                    _time: 376 + i * 2 + t,
+                    _value: 3,
+                    _floatValue: 1,
+                    _customData: {
+                        _lightID:
+                            i === 1
+                                ? [screenEndID + 1, screenEndID + 2]
+                                : i === 3
+                                ? [screenEndID + 3, screenEndID + 4]
+                                : [1, 2],
+                    },
+                },
+                {
+                    _type: 4,
+                    _time: 376 + i * 2 + 0.25 + t,
+                    _value: 0,
+                    _floatValue: 0,
+                    _customData: {
+                        _lightID:
+                            i === 1
+                                ? [screenEndID + 1, screenEndID + 2]
+                                : i === 3
+                                ? [screenEndID + 3, screenEndID + 4]
+                                : [1, 2],
+                    },
+                }
+            );
+        } else {
+            for (let j = 0; j < anlb[1]; j += 0.125) {
+                addEvents(
+                    {
+                        _type: 4,
+                        _time: 376 + i * 2 + t + j,
+                        _value: 3,
+                        _floatValue: 1,
+                        _customData: {
+                            _lightID:
+                                i === 1
+                                    ? [screenEndID + 1, screenEndID + 2]
+                                    : i === 3
+                                    ? [screenEndID + 3, screenEndID + 4]
+                                    : [1, 2],
+                        },
+                    },
+                    {
+                        _type: 4,
+                        _time: 376 + i * 2 + 0.0625 + t + j,
+                        _value: 0,
+                        _floatValue: 0,
+                        _customData: {
+                            _lightID:
+                                i === 1
+                                    ? [screenEndID + 1, screenEndID + 2]
+                                    : i === 3
+                                    ? [screenEndID + 3, screenEndID + 4]
+                                    : [1, 2],
+                        },
                     }
                 );
             }
@@ -1683,9 +1936,47 @@ screenClear(385.875);
 await screenDraw('back.gif', { time: 386 });
 screenClear(386.375);
 
+envEnh.push({
+    _id: 'Environment$',
+    _lookupMethod: 'Regex',
+    _track: 'everythinglmao',
+});
+
+difficulty.customData._customEvents = [
+    {
+        _time: 384,
+        _type: 'AnimateTrack',
+        _data: {
+            _track: 'everythinglmao',
+            _duration: 2,
+            _position: [
+                [0, 0, 16, 0],
+                [0, 0, 32, 0.25, 'easeStep'],
+                [0, 0, 48, 0.5, 'easeStep'],
+                [0, 0, 64, 0.75, 'easeStep'],
+                [0, 0, 128, 1, 'easeStep'],
+            ],
+        },
+    },
+    {
+        _time: 386.5,
+        _type: 'AnimateTrack',
+        _data: {
+            _track: 'everythinglmao',
+            _duration: 1,
+            _position: [
+                [0, 0, 128, 0],
+                [0, 0, 1024, 0.499, 'easeInQuint'],
+                [0, 0, -1024, 0.5, 'easeStep'],
+                [0, 0, 0, 1, 'easeOutQuint'],
+            ],
+        },
+    },
+];
+
 for (let i = 0; i < 5; i++) {
     for (let j = 0; j < 2; j++) {
-        _events.push(
+        addEvents(
             {
                 _type: 0,
                 _time: 384 + i * 0.5 + j / 6,
@@ -1752,7 +2043,7 @@ for (const ctp of crystalTimingPeriod) {
     const [start, end] = ctp;
     for (let i = start; i <= end; i++) {
         for (let j = 0; j < (i === 147 || i === 275 || i === 479 ? 3 : 4); j++) {
-            _events.push({
+            addEvents({
                 _type: 3,
                 _time: i + j / 4,
                 _value: 7,
@@ -1791,16 +2082,17 @@ await screenDraw('smile.gif', {
     xOffset: 11,
     yOffset: 5,
 });
-await screenDraw('frown.gif', { time: 240, xOffset: 11, yOffset: 5 });
+await screenDraw('frown.gif', { time: 240, xOffset: 11, yOffset: 5, override: true });
 await screenDraw('smile.gif', {
     time: 244,
     eventValue: 5,
     xOffset: 11,
     yOffset: 5,
+    override: true,
 });
 screenClear(276);
 
-_events.push(
+addEvents(
     {
         _type: 4,
         _time: 83,
@@ -1862,7 +2154,7 @@ for (const bbfp of backtopBassFlashPeriod) {
         const ringID =
             b < 4 ? [3, 5] : b < 8 ? [1, 2] : b < 12 ? [3, 4, 5] : [1, 2, 3, 4, 5];
         const add = b < 4 ? 0 : b < 8 ? 0.0625 : b < 12 ? 0.125 : 0.25;
-        _events.push(
+        addEvents(
             {
                 _type: 4,
                 _time: i,
@@ -1879,20 +2171,29 @@ for (const bbfp of backtopBassFlashPeriod) {
             }
         );
         for (let j = 0; j < 3; j++) {
-            _events.push(
+            addEvents(
                 {
                     _time: i + 0.0625 + j * 0.0625,
                     _type: 0,
-                    _value: 7,
+                    _value: 1,
                     _floatValue: 1,
                     _customData: {
                         _lightID: [backtopOrder[2 - j], backtopOrder[j + 3]],
                     },
                 },
                 {
-                    _time: i + 0.3125 + j * 0.0625,
+                    _time: i + 0.25 + j * 0.0625,
                     _type: 0,
-                    _value: 0,
+                    _value: 1,
+                    _floatValue: 0.5,
+                    _customData: {
+                        _lightID: [backtopOrder[2 - j], backtopOrder[j + 3]],
+                    },
+                },
+                {
+                    _time: i + 0.625 + j * 0.0625,
+                    _type: 0,
+                    _value: 8,
                     _floatValue: 0,
                     _customData: {
                         _lightID: [backtopOrder[2 - j], backtopOrder[j + 3]],
@@ -1901,14 +2202,14 @@ for (const bbfp of backtopBassFlashPeriod) {
             );
         }
         for (let j = 0; j < 4; j++) {
-            _events.push({
+            addEvents({
                 _type: 1,
                 _time: i + 0.5 + j / 8,
                 _value: 7,
                 _floatValue: 0.125 + j / 8 + add,
                 _customData: { _lightID: ringID },
             });
-            _events.push({
+            addEvents({
                 _type: 1,
                 _time: i + 0.5 + j / 8 + 1 / 16,
                 _value: 0,
@@ -1932,13 +2233,13 @@ for (const rkfp of ringKickFlashPeriod) {
     const [t, p] = rkfp;
     for (let i = 0; i < p; i++) {
         for (let j = 0; j < 3; j++) {
-            _events.push({
+            addEvents({
                 _type: 1,
                 _time: t + i * 2 + j / 6,
                 _value: 3,
                 _floatValue: 1.5 - j / 3,
             });
-            _events.push({
+            addEvents({
                 _type: 1,
                 _time: t + i * 2 + j / 6 + 1 / 12,
                 _value: 0,
@@ -1958,7 +2259,7 @@ for (const rkfp of ringKickFlashPeriod) {
 //         }
 //         lightArray.push(101 + screenX * y + x);
 //     }
-//     _events.push({
+//     _addEvents({
 //         _type: 4,
 //         _time: 4 + x / 32,
 //         _value: 1,
@@ -1968,15 +2269,250 @@ for (const rkfp of ringKickFlashPeriod) {
 // }
 
 const chorus1Timing = [84, 388, 420];
+const chorus1Vocal: [number, number?][] = [
+    [-1],
+    [-0.5],
+    [0, 0.5],
+    [1],
+    [1.5],
+    [2],
+    [3, 0.5],
+    [4],
+    [4.5],
+    [5],
+    [5.5],
+    [6, 0.75],
+    [8],
+    [8.5],
+    [9],
+    [9.5],
+    [10],
+    [10.5],
+    [11],
+    [11.5],
+    [12],
+    [12.5],
+    [13],
+    [13.5],
+    [14],
+    [15, 0.5],
+    [16],
+    [17],
+    [17.5],
+    [18],
+    [19, 0.75],
+    [20],
+    [20.5],
+    [21],
+    [21.5],
+    [22],
+    [23, 0.75],
+    [24],
+    [24.5],
+    [25],
+    [25.5],
+    [26],
+    [26.5],
+    [27],
+    [27.5],
+    [28],
+    [28.5],
+    [29],
+    [29.5],
+    [30],
+];
 const chorus2Timing = [116, 452, 468];
+const chorus2Vocal: [number, number?][] = [
+    [-0.5],
+    [0, 0.25],
+    [0.5, 0.75],
+    [1.5, 0.5],
+    [2.5, 0.75],
+    [3.5],
+    [4, 0.25],
+    [4.5],
+    [5],
+    [5.5, 0.75],
+    [6.5, 1],
+    [8],
+    [8.5],
+    [9],
+    [9.5],
+    [10, 0.5],
+    [11.5, 0.25],
+    [12.5],
+    [13],
+    [13.5],
+    [14, 0.25],
+    [14.5, 0.25],
+];
+
 for (const t of chorus1Timing) {
+    for (const ivt of chorus1Vocal) {
+        const e = ivt[0];
+        if (!ivt[1]) {
+            addEvents(
+                {
+                    _type: 4,
+                    _time: t + e,
+                    _value: 3,
+                    _floatValue: 1,
+                    _customData: { _lightID: [1, 2] },
+                },
+                {
+                    _type: 4,
+                    _time: 0.25 + t + e,
+                    _value: 0,
+                    _floatValue: 0,
+                    _customData: { _lightID: [1, 2] },
+                }
+            );
+        } else {
+            for (let i = 0; i < ivt[1]; i += 0.125) {
+                addEvents(
+                    {
+                        _type: 4,
+                        _time: t + i + e,
+                        _value: 3,
+                        _floatValue: 1,
+                        _customData: { _lightID: [1, 2] },
+                    },
+                    {
+                        _type: 4,
+                        _time: 0.0625 + t + i + e,
+                        _value: 0,
+                        _floatValue: 0,
+                        _customData: { _lightID: [1, 2] },
+                    }
+                );
+            }
+        }
+    }
+    addEvents(
+        {
+            _time: t - 1,
+            _type: 12,
+            _value: 0,
+            _floatValue: 1,
+        },
+        {
+            _time: t - 1,
+            _type: 13,
+            _value: 0,
+            _floatValue: 1,
+        },
+        {
+            _time: t - 1,
+            _type: 2,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t - 0.75,
+            _type: 2,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t - 1,
+            _type: 3,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t - 0.75,
+            _type: 3,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [2, 3] },
+        }
+    );
     await screenDraw('what.gif', { time: t - 1 });
     screenClear(t - 0.625);
 
+    addEvents(
+        {
+            _time: t - 0.5,
+            _type: 2,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [5, 6] },
+        },
+        {
+            _time: t - 0.25,
+            _type: 2,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [5, 6] },
+        },
+        {
+            _time: t - 0.5,
+            _type: 3,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [5, 6] },
+        },
+        {
+            _time: t - 0.25,
+            _type: 3,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [5, 6] },
+        }
+    );
     await screenDraw('the.gif', { time: t - 0.5 });
     await screenDraw('the.gif', { time: t - 0.1875, invert: true });
     screenClear(t - 0.125);
 
+    for (let i = 1; i <= 7; i++) {
+        addEvents(
+            {
+                _time: t + ((i - 1) / 7) * 0.5,
+                _type: 2,
+                _value: 3,
+                _floatValue: 1,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + ((i - 1) / 7) * 0.5,
+                _type: 3,
+                _value: 3,
+                _floatValue: 1,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + 0.375 + ((i - 1) / 7) * 0.5,
+                _type: 2,
+                _value: 0,
+                _floatValue: 0,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + 0.375 + ((i - 1) / 7) * 0.5,
+                _type: 3,
+                _value: 0,
+                _floatValue: 0,
+                _customData: { _lightID: i },
+            }
+        );
+    }
+    addEvents(
+        {
+            _time: t - 0.001,
+            _type: 12,
+            _value: 3,
+            _floatValue: 1,
+        },
+        {
+            _time: t,
+            _type: 13,
+            _value: 3,
+            _floatValue: 1,
+        }
+    );
     await screenDraw('hellglitch.gif', { time: t, rotate: 180 });
     await screenDraw('hell.gif', { time: t + 0.0625 });
     screenClear(t + 0.5);
@@ -1984,6 +2520,66 @@ for (const t of chorus1Timing) {
     await screenDraw('hellglitch.gif', { time: t + 0.5625 });
     screenClear(t + 0.625);
 
+    addEvents(
+        {
+            _time: t + 1,
+            _type: 12,
+            _value: 0,
+            _floatValue: 1,
+        },
+        {
+            _time: t + 1,
+            _type: 13,
+            _value: 0,
+            _floatValue: 1,
+        }
+    );
+    for (let i = 0; i < 2; i++) {
+        addEvents(
+            {
+                _time: t + 1,
+                _type: 2 + i,
+                _value: 2,
+                _floatValue: 1,
+                _customData: { _lightID: [3, 4] },
+            },
+            {
+                _time: t + 1.25,
+                _type: 2 + i,
+                _value: 0,
+                _floatValue: 1,
+                _customData: { _lightID: [3, 4] },
+            },
+            {
+                _time: t + 1.5,
+                _type: 2 + i,
+                _value: 2,
+                _floatValue: 1,
+                _customData: { _lightID: [6, 7] },
+            },
+            {
+                _time: t + 1.75,
+                _type: 2 + i,
+                _value: 0,
+                _floatValue: 1,
+                _customData: { _lightID: [6, 7] },
+            },
+            {
+                _time: t + 2,
+                _type: 2 + i,
+                _value: 2,
+                _floatValue: 1,
+                _customData: { _lightID: [2, 3, 4] },
+            },
+            {
+                _time: t + 2.25,
+                _type: 2 + i,
+                _value: 0,
+                _floatValue: 1,
+                _customData: { _lightID: [2, 3, 4] },
+            }
+        );
+    }
     await screenDraw('goingglitch.gif', { time: t + 1, invert: true });
     await screenDraw('going.gif', { time: t + 1.0625 });
     screenClear(t + 1.4375);
@@ -1994,6 +2590,52 @@ for (const t of chorus1Timing) {
     await screenDraw('on.gif', { time: t + 2 });
     screenClear(t + 2.5, 0.375);
 
+    for (let i = 1; i <= 7; i++) {
+        addEvents(
+            {
+                _time: t + 2 + ((i - 1) / 7) * 0.5,
+                _type: 2,
+                _value: 2,
+                _floatValue: 1,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + 2 + ((i - 1) / 7) * 0.5,
+                _type: 3,
+                _value: 2,
+                _floatValue: 1,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + 2.125 + ((i - 1) / 7) * 0.5,
+                _type: 2,
+                _value: 1,
+                _floatValue: 0.5,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + 2.125 + ((i - 1) / 7) * 0.5,
+                _type: 3,
+                _value: 1,
+                _floatValue: 0.5,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + 2.375 + ((i - 1) / 7) * 0.5,
+                _type: 2,
+                _value: 8,
+                _floatValue: 0,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + 2.375 + ((i - 1) / 7) * 0.5,
+                _type: 3,
+                _value: 8,
+                _floatValue: 0,
+                _customData: { _lightID: i },
+            }
+        );
+    }
     await screenDraw('can.gif', { time: t + 3, invert: true });
     await screenDraw('can.gif', { time: t + 3.0625 });
     screenClear(t + 3.5, 0.375);
@@ -2039,14 +2681,18 @@ for (const t of chorus1Timing) {
     });
     screenClear(t + 9.875);
 
-    await screenDraw('faster.gif', {
+    await screenDraw('fire.gif', {
         time: t + 10,
+    });
+    await screenDraw('fireflip.gif', {
+        time: t + 10.0625,
+        invert: true,
     });
     await screenDraw('fasterglitch.gif', {
         time: t + 10.125,
         invert: true,
     });
-    await screenDraw('faster.gif', {
+    await screenDraw('fire.gif', {
         time: t + 10.1875,
     });
     screenClear(t + 10.25);
@@ -2102,7 +2748,7 @@ for (const t of chorus1Timing) {
                     screenLight[pos] = colorAry[0];
                 }
                 for (const color in colorID) {
-                    _events.push({
+                    addEvents({
                         _type: 4,
                         _time: t + 13.5 + y / screenY / 6,
                         _value: 1,
@@ -2137,7 +2783,7 @@ for (const t of chorus1Timing) {
                 }
             }
             for (const color in colorID) {
-                _events.push(
+                addEvents(
                     {
                         _type: 4,
                         _time: t + 14.0625,
@@ -2237,7 +2883,7 @@ for (const t of chorus1Timing) {
                     screenLight[pos] = colorAry[0];
                 }
                 for (const color in colorID) {
-                    _events.push({
+                    addEvents({
                         _type: 4,
                         _time: t + 15.5 + (x + 4) / screenX / 6,
                         _value: 1,
@@ -2288,7 +2934,7 @@ for (const t of chorus1Timing) {
                     screenLight[pos] = colorAry[0];
                 }
                 for (const color in colorID) {
-                    _events.push({
+                    addEvents({
                         _type: 4,
                         _time: t + 17.5 + (screenX - x + 4) / screenX / 6,
                         _value: 1,
@@ -2333,12 +2979,12 @@ for (const t of chorus1Timing) {
     await screenDraw('warning.gif', { time: t + 22.3125 });
     screenClear(t + 22.5);
     for (let i = 0; i < 4; i++) {
-        await screenDraw('my.gif', { time: t + 23.0625 + i * 0.125 });
+        await screenDraw('my.gif', { time: t + 23.0625 + i * 0.125, invert: i === 3 });
         screenClear(t + 23.125 + i * 0.125);
     }
+    await screenDraw('myglitch.gif', { time: t + 23.875, invert: true });
+    screenClear(t + 23.9375);
     {
-        await screenDraw('myglitch.gif', { time: t + 23.875 });
-        screenClear(t + 23.9375);
         const image = Deno.readFileSync(WORKING_DIRECTORY + 'enemy.gif');
         const img = await imagescript.GIF.decode(image, true);
         const xOffset = 0;
@@ -2365,7 +3011,7 @@ for (const t of chorus1Timing) {
                     screenLight[pos] = colorAry[0];
                 }
                 for (const color in colorID) {
-                    _events.push({
+                    addEvents({
                         _type: 4,
                         _time: t + 24.125 + ((y + 3) / screenY) * 0.75,
                         _value: 1,
@@ -2410,7 +3056,7 @@ for (const t of chorus1Timing) {
                     screenLight[pos] = colorAry[0];
                 }
                 for (const color in colorID) {
-                    _events.push({
+                    addEvents({
                         _type: 4,
                         _time: t + 26 + ((y + 3) / screenY) * 0.5,
                         _value: 1,
@@ -2449,11 +3095,143 @@ for (const t of chorus1Timing) {
     await screenDraw('sword.gif', { time: t + 30.0625 });
     screenClear(t + 30.375);
 }
+let chorus2flipFlop = false;
 for (const t of chorus2Timing) {
+    for (const ivt of chorus2Vocal) {
+        const e = ivt[0];
+        if (!ivt[1]) {
+            addEvents(
+                {
+                    _type: 4,
+                    _time: t + e,
+                    _value: 3,
+                    _floatValue: 1,
+                    _customData: { _lightID: [1, 2] },
+                },
+                {
+                    _type: 4,
+                    _time: 0.25 + t + e,
+                    _value: 0,
+                    _floatValue: 0,
+                    _customData: { _lightID: [1, 2] },
+                }
+            );
+        } else {
+            for (let i = 0; i < ivt[1]; i += 0.125) {
+                addEvents(
+                    {
+                        _type: 4,
+                        _time: t + i + e,
+                        _value: 3,
+                        _floatValue: 1,
+                        _customData: { _lightID: [1, 2] },
+                    },
+                    {
+                        _type: 4,
+                        _time: 0.0625 + t + i + e,
+                        _value: 0,
+                        _floatValue: 0,
+                        _customData: { _lightID: [1, 2] },
+                    }
+                );
+            }
+        }
+    }
+    for (let i = 1; i <= 7; i++) {
+        addEvents(
+            {
+                _time: t + ((i - 1) / 7) * 0.375 - 0.5,
+                _type: 2,
+                _value: 3,
+                _floatValue: 1,
+                _customData: { _lightID: 8 - i },
+            },
+            {
+                _time: t + ((i - 1) / 7) * 0.375 - 0.5,
+                _type: 3,
+                _value: 3,
+                _floatValue: 1,
+                _customData: { _lightID: 8 - i },
+            }
+        );
+    }
+
+    addEvents(
+        {
+            _time: t - 0.5,
+            _type: 12,
+            _value: 0,
+        },
+        {
+            _time: t - 0.5,
+            _type: 13,
+            _value: 0,
+        }
+    );
+    for (let j = 0; j < 3; j++) {
+        for (let i = 1; i <= 7; i++) {
+            addEvents(
+                {
+                    _time: t + (i - 1) / 7 + j * 0.25,
+                    _type: 2,
+                    _value: 2,
+                    _floatValue: 1.25,
+                    _customData: { _lightID: i },
+                },
+                {
+                    _time: t + (i - 1) / 7 + j * 0.25,
+                    _type: 3,
+                    _value: 2,
+                    _floatValue: 1.25,
+                    _customData: { _lightID: i },
+                },
+                {
+                    _time: t + 0.125 + (i - 1) / 7 + j * 0.25,
+                    _type: 2,
+                    _value: 1,
+                    _floatValue: 0.5,
+                    _customData: { _lightID: i },
+                },
+                {
+                    _time: t + 0.125 + (i - 1) / 7 + j * 0.25,
+                    _type: 3,
+                    _value: 1,
+                    _floatValue: 0.5,
+                    _customData: { _lightID: i },
+                },
+                {
+                    _time: t + 0.375 + (i - 1) / 7 + j * 0.25,
+                    _type: 2,
+                    _value: 8,
+                    _floatValue: 0,
+                    _customData: { _lightID: i },
+                },
+                {
+                    _time: t + 0.375 + (i - 1) / 7 + j * 0.25,
+                    _type: 3,
+                    _value: 8,
+                    _floatValue: 0,
+                    _customData: { _lightID: i },
+                }
+            );
+        }
+    }
+    addEvents(
+        {
+            _time: t,
+            _type: 12,
+            _value: 1,
+        },
+        {
+            _time: t - 0.001,
+            _type: 13,
+            _value: 1,
+        }
+    );
     for (let i = 0; i < 2; i++) {
         bsmap.utils.shuffle(roadShuffle);
         for (const x in roadShuffle) {
-            _events.push({
+            addEvents({
                 _type: 4,
                 _time: t + i * 4 + (parseInt(x) / roadShuffle.length) * 1.25,
                 _value: 7,
@@ -2480,15 +3258,150 @@ for (const t of chorus2Timing) {
     await screenDraw('fearglitch.gif', { time: t + 1.5625, rotate: 180 });
     await screenDraw('fear.gif', { time: t + 1.625 });
     screenClear(t + 2.375);
+
+    for (let i = 1; i <= 7; i++) {
+        addEvents(
+            {
+                _time: t + 2.25 + ((i - 1) / 7) * 0.75,
+                _type: 2,
+                _value: 0,
+                _floatValue: 0,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + 2.25 + ((i - 1) / 7) * 0.75,
+                _type: 3,
+                _value: 0,
+                _floatValue: 0,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + 2.5 + ((i - 1) / 7) * 0.75,
+                _type: 2,
+                _value: 4,
+                _floatValue: 1,
+                _customData: { _lightID: i, _easing: 'easeInQuad' },
+            },
+            {
+                _time: t + 2.5 + ((i - 1) / 7) * 0.75,
+                _type: 3,
+                _value: 4,
+                _floatValue: 1,
+                _customData: { _lightID: i, _easing: 'easeInQuad' },
+            },
+            {
+                _time: t + 2.75 + ((i - 1) / 7) * 0.75,
+                _type: 2,
+                _value: 4,
+                _floatValue: 0,
+                _customData: { _lightID: i, _easing: 'easeOutQuad' },
+            },
+            {
+                _time: t + 2.75 + ((i - 1) / 7) * 0.75,
+                _type: 3,
+                _value: 4,
+                _floatValue: 0,
+                _customData: { _lightID: i, _easing: 'easeOutQuad' },
+            }
+        );
+    }
+    addEvents(
+        {
+            _time: t + 2.25,
+            _type: 12,
+            _value: 0,
+        },
+        {
+            _time: t + 2.25,
+            _type: 13,
+            _value: 0,
+        }
+    );
     await screenDraw('fearglitch.gif', { time: t + 2.5, rotate: 180, invert: true });
     await screenDraw('fearglitch.gif', { time: t + 2.5625 });
     await screenDraw('fear.gif', { time: t + 2.625 });
     screenClear(t + 3.25);
 
+    addEvents(
+        {
+            _time: t + 3.5,
+            _type: chorus2flipFlop ? 3 : 2,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [3, 4, 5] },
+        },
+        {
+            _time: t + 3.75,
+            _type: chorus2flipFlop ? 3 : 2,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [3, 4, 5] },
+        }
+    );
     await screenDraw('isglitch.gif', { time: t + 3.5 });
     await screenDraw('is.gif', { time: t + 3.5625 });
     screenClear(t + 3.875);
 
+    for (let j = 0; j < 3; j++) {
+        for (let i = 1; i <= 7; i++) {
+            addEvents(
+                {
+                    _time: t + 4 + ((i - 1) / 7) * 0.75 + j * 0.25,
+                    _type: chorus2flipFlop ? 3 : 2,
+                    _value: 0,
+                    _floatValue: 0,
+                    _customData: { _lightID: 8 - i },
+                },
+                {
+                    _time: t + 4.5 + ((i - 1) / 7) * 0.75 + j * 0.25,
+                    _type: chorus2flipFlop ? 2 : 3,
+                    _value: 0,
+                    _floatValue: 0,
+                    _customData: { _lightID: i },
+                },
+                {
+                    _time: t + 4.25 + ((i - 1) / 7) * 0.75 + j * 0.25,
+                    _type: chorus2flipFlop ? 3 : 2,
+                    _value: 4,
+                    _floatValue: 1.25,
+                    _customData: { _lightID: 8 - i, _easing: 'easeInQuad' },
+                },
+                {
+                    _time: t + 4.75 + ((i - 1) / 7) * 0.75 + j * 0.25,
+                    _type: chorus2flipFlop ? 2 : 3,
+                    _value: 4,
+                    _floatValue: 1.25,
+                    _customData: { _lightID: i, _easing: 'easeInQuad' },
+                },
+                {
+                    _time: t + 4.5 + ((i - 1) / 7) * 0.75 + j * 0.25,
+                    _type: chorus2flipFlop ? 3 : 2,
+                    _value: 4,
+                    _floatValue: 0,
+                    _customData: { _lightID: 8 - i, _easing: 'easeOutQuad' },
+                },
+                {
+                    _time: t + 5 + ((i - 1) / 7) * 0.75 + j * 0.25,
+                    _type: chorus2flipFlop ? 2 : 3,
+                    _value: 4,
+                    _floatValue: 0,
+                    _customData: { _lightID: i, _easing: 'easeOutQuad' },
+                }
+            );
+        }
+    }
+    addEvents(
+        {
+            _time: t + 3.999,
+            _type: 12,
+            _value: 1,
+        },
+        {
+            _time: t + 4,
+            _type: 13,
+            _value: 1,
+        }
+    );
     await screenDraw('more.gif', { time: t + 4, invert: true });
     await screenDraw('more.gif', { time: t + 4.0625 });
     screenClear(t + 4.375);
@@ -2499,12 +3412,146 @@ for (const t of chorus2Timing) {
     await screenDraw('i.gif', { time: t + 5 });
     screenClear(t + 5.375);
 
-    await screenDraw('can.gif', { time: t + 5.5 });
-    screenClear(t + 6.375);
+    await screenDraw('canglitch.gif', { time: t + 5.5, invert: true });
+    await screenDraw('canglitch.gif', { time: t + 5.5625, rotate: 180 });
+    screenClear(t + 5.625);
+    await screenDraw('can.gif', { time: t + 5.6875 });
+    screenClear(t + 6, 0.375);
 
-    await screenDraw('take.gif', { time: t + 6.5 });
-    screenClear(t + 7.375);
+    for (let i = 1; i <= 7; i++) {
+        addEvents(
+            {
+                _time: t + 6.25 + ((i - 1) / 7) * 0.5,
+                _type: chorus2flipFlop ? 3 : 2,
+                _value: 0,
+                _floatValue: 0,
+                _customData: { _lightID: 8 - i },
+            },
+            {
+                _time: t + 6.75 + ((i - 1) / 7) * 0.5,
+                _type: chorus2flipFlop ? 2 : 3,
+                _value: 0,
+                _floatValue: 0,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + 6.5 + ((i - 1) / 7) * 0.5,
+                _type: chorus2flipFlop ? 3 : 2,
+                _value: 4,
+                _floatValue: 1.25,
+                _customData: { _lightID: 8 - i, _easing: 'easeInQuad' },
+            },
+            {
+                _time: t + 7 + ((i - 1) / 7) * 0.5,
+                _type: chorus2flipFlop ? 2 : 3,
+                _value: 4,
+                _floatValue: 1.25,
+                _customData: { _lightID: i, _easing: 'easeInQuad' },
+            },
+            {
+                _time: t + 6.75 + ((i - 1) / 7) * 0.5,
+                _type: chorus2flipFlop ? 3 : 2,
+                _value: 4,
+                _floatValue: 0,
+                _customData: { _lightID: 8 - i, _easing: 'easeOutQuad' },
+            },
+            {
+                _time: t + 7.25 + ((i - 1) / 7) * 0.5,
+                _type: chorus2flipFlop ? 2 : 3,
+                _value: 4,
+                _floatValue: 0,
+                _customData: { _lightID: i, _easing: 'easeOutQuad' },
+            },
+            {
+                _time: t + 6.875 + ((i - 1) / 7) * 0.5,
+                _type: chorus2flipFlop ? 3 : 2,
+                _value: 0,
+                _floatValue: 0,
+                _customData: { _lightID: 8 - i, _easing: 'easeOutQuad' },
+            },
+            {
+                _time: t + 7.375 + ((i - 1) / 7) * 0.5,
+                _type: chorus2flipFlop ? 2 : 3,
+                _value: 0,
+                _floatValue: 0,
+                _customData: { _lightID: i, _easing: 'easeOutQuad' },
+            }
+        );
+    }
+    addEvents(
+        {
+            _time: t + 6.25,
+            _type: 12,
+            _value: 0,
+        },
+        {
+            _time: t + 6.25,
+            _type: 13,
+            _value: 0,
+        }
+    );
+    await screenDraw('takeglitch.gif', { time: t + 6.5 });
+    await screenDraw('take.gif', { time: t + 6.5625 });
+    screenClear(t + 7, 0.5);
 
+    addEvents(
+        {
+            _time: t + 8,
+            _type: chorus2flipFlop ? 2 : 3,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [5, 6] },
+        },
+        {
+            _time: t + 8.25,
+            _type: chorus2flipFlop ? 2 : 3,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [5, 6] },
+        },
+        {
+            _time: t + 8.5,
+            _type: chorus2flipFlop ? 2 : 3,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t + 8.75,
+            _type: chorus2flipFlop ? 2 : 3,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t + 9,
+            _type: chorus2flipFlop ? 3 : 2,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t + 9.25,
+            _type: chorus2flipFlop ? 3 : 2,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t + 9.5,
+            _type: chorus2flipFlop ? 3 : 2,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [5, 6] },
+        },
+        {
+            _time: t + 9.75,
+            _type: chorus2flipFlop ? 3 : 2,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [5, 6] },
+        }
+    );
     await screenDraw('when.gif', { time: t + 8 });
     screenClear(t + 8.375);
 
@@ -2515,9 +3562,11 @@ for (const t of chorus2Timing) {
     screenClear(t + 9.375);
 
     await screenDraw('against.gif', { time: t + 9.5 });
-    screenClear(t + 9.875);
-    await screenDraw('against.gif', { time: t + 10 });
-    screenClear(t + 10.375);
+    await screenDraw('againstglitch.gif', { time: t + 9.875 });
+    screenClear(t + 9.9375);
+    await screenDraw('against.gif', { time: t + 10, invert: true });
+    await screenDraw('against.gif', { time: t + 10.0625 });
+    screenClear(t + 10.375, 0.5);
 
     await screenDraw('echoglitch.gif', { time: t + 11.5 });
     await screenDraw('echo.gif', { time: t + 11.625 });
@@ -2533,10 +3582,12 @@ for (const t of chorus2Timing) {
     await screenDraw('the.gif', { time: t + 13.5 });
     screenClear(t + 13.875);
 
-    await screenDraw('mirror.gif', { time: t + 14 });
-    screenClear(t + 14.375);
-    await screenDraw('mirror.gif', { time: t + 14.5 });
+    await screenDraw('mirrorglitch.gif', { time: t + 14, rotate: 180 });
+    await screenDraw('mirror.gif', { time: t + 14.125 });
+    await screenDraw('mirrorglitchflip.gif', { time: t + 14.375 });
+    await screenDraw('mirrorflip.gif', { time: t + 14.5 });
     screenClear(t + 14.875);
+    chorus2flipFlop = !chorus2flipFlop;
 }
 
 const echoTiming = [
@@ -2551,7 +3602,135 @@ await screenDraw('echoglitch.gif', { time: 133 });
 await screenDraw('echo.gif', { time: 133.0625 });
 await screenDraw('echo.gif', { time: 133.6875, invert: true });
 screenClear(133.75);
-_events.push(
+for (let i = 1; i <= 7; i++) {
+    addEvents(
+        {
+            _time: 132 + ((i - 1) / 7) * 0.5,
+            _type: 2,
+            _value: 2,
+            _floatValue: 1.25,
+            _customData: { _lightID: i },
+        },
+        {
+            _time: 132 + ((i - 1) / 7) * 0.5,
+            _type: 3,
+            _value: 2,
+            _floatValue: 1.25,
+            _customData: { _lightID: i },
+        },
+        {
+            _time: 132.125 + ((i - 1) / 7) * 0.5,
+            _type: 2,
+            _value: 1,
+            _floatValue: 0.5,
+            _customData: { _lightID: i },
+        },
+        {
+            _time: 132.125 + ((i - 1) / 7) * 0.5,
+            _type: 3,
+            _value: 1,
+            _floatValue: 0.5,
+            _customData: { _lightID: i },
+        },
+        {
+            _time: 132.375 + ((i - 1) / 7) * 0.5,
+            _type: 2,
+            _value: 8,
+            _floatValue: 0,
+            _customData: { _lightID: i },
+        },
+        {
+            _time: 132.375 + ((i - 1) / 7) * 0.5,
+            _type: 3,
+            _value: 8,
+            _floatValue: 0,
+            _customData: { _lightID: i },
+        },
+        {
+            _time: 133 + ((i - 1) / 7) * 0.5,
+            _type: 2,
+            _value: 2,
+            _floatValue: 1.25,
+            _customData: { _lightID: 8 - i },
+        },
+        {
+            _time: 133 + ((i - 1) / 7) * 0.5,
+            _type: 3,
+            _value: 2,
+            _floatValue: 1.25,
+            _customData: { _lightID: 8 - i },
+        },
+        {
+            _time: 133.125 + ((i - 1) / 7) * 0.5,
+            _type: 2,
+            _value: 1,
+            _floatValue: 0.5,
+            _customData: { _lightID: 8 - i },
+        },
+        {
+            _time: 133.125 + ((i - 1) / 7) * 0.5,
+            _type: 3,
+            _value: 1,
+            _floatValue: 0.5,
+            _customData: { _lightID: 8 - i },
+        },
+        {
+            _time: 133.375 + ((i - 1) / 7) * 0.5,
+            _type: 2,
+            _value: 8,
+            _floatValue: 0,
+            _customData: { _lightID: 8 - i },
+        },
+        {
+            _time: 133.375 + ((i - 1) / 7) * 0.5,
+            _type: 3,
+            _value: 8,
+            _floatValue: 0,
+            _customData: { _lightID: 8 - i },
+        },
+        {
+            _time: 132 + ((i - 1) / 7) * 0.5,
+            _type: 12,
+            _value: 1,
+            _customData: {
+                _lockPosition: true,
+                _preciseSpeed: (i / 7) * 4,
+                _direction: 0,
+            },
+        },
+        {
+            _time: 132 + ((i - 1) / 7) * 0.5,
+            _type: 13,
+            _value: 1,
+            _customData: {
+                _lockPosition: true,
+                _preciseSpeed: (i / 7) * 4,
+                _direction: 0,
+            },
+        }
+    );
+}
+addEvents(
+    {
+        _time: 131.999,
+        _type: 12,
+        _value: 0,
+    },
+    {
+        _time: 131.999,
+        _type: 13,
+        _value: 0,
+    },
+    {
+        _time: 133,
+        _type: 12,
+        _value: 1,
+    },
+    {
+        _time: 133,
+        _type: 13,
+        _value: 1,
+    },
     {
         _type: 4,
         _time: 132,
@@ -2662,7 +3841,7 @@ _events.push(
     }
 );
 for (const x in roadOrder) {
-    _events.push(
+    addEvents(
         {
             _type: 4,
             _time: 132 + (parseInt(x) / roadOrder.length) * 0.875,
@@ -2674,31 +3853,120 @@ for (const x in roadOrder) {
             _type: 4,
             _time: 133.75 - (parseInt(x) / roadOrder.length) * 0.75,
             _value: 3,
-            _floatValue: 1,
+            _floatValue: 0.75,
             _customData: { _lightID: roadOrder[x] },
         }
     );
 }
 for (const e of echoTiming) {
+    if (e === 2 || e === 6 || e === 11) {
+        await screenDraw('echoglitch.gif', { time: 134 + e });
+        await screenDraw('echo.gif', { time: 134.125 + e });
+        screenClear(134.25 + e);
+    } else if (e === 2.5 || e === 5 || e === 10) {
+        await screenDraw('echo.gif', { time: 134 + e, invert: true });
+        await screenDraw('echoglitch.gif', {
+            time: 134.0625 + e,
+            invert: true,
+            rotate: 180,
+        });
+        await screenDraw('echo.gif', { time: 134.125 + e });
+        screenClear(134.25 + e);
+    } else if (e === 3 || e === 6.75 || e === 7.5 || e === 8.25) {
+        await screenDraw('echo.gif', { time: 134 + e });
+        screenClear(134.125 + e, 0.25);
+    } else if (e === 4 || e === 12) {
+        await screenDraw('echo.gif', { time: 134 + e, invert: true });
+        await screenDraw('echoglitch.gif', { time: 134.125 + e });
+        screenClear(134.25 + e);
+    } else if (e === 9 || e == 13) {
+        await screenDraw('echo.gif', { time: 134 + e });
+        await screenDraw('echoglitch.gif', { time: 134.125 + e });
+        screenClear(134.25 + e);
+    } else {
+        await screenDraw('echo.gif', { time: 134 + e });
+        screenClear(134.25 + e);
+    }
     for (const x in roadOrder) {
-        _events.push(
+        addEvents(
             {
                 _type: 4,
                 _time: e + 134.5 - (parseInt(x) / roadOrder.length) * 0.5,
-                _value: 3,
+                _value: 1,
                 _floatValue: 1,
                 _customData: { _lightID: roadOrder[x] },
             },
             {
                 _type: 4,
+                _time: e + 134.5625 - (parseInt(x) / roadOrder.length) * 0.5,
+                _value: 1,
+                _floatValue: 0.75,
+                _customData: { _lightID: roadOrder[x] },
+            },
+            {
+                _type: 4,
                 _time: e + 134.625 - (parseInt(x) / roadOrder.length) * 0.5,
-                _value: 0,
+                _value: 4,
                 _floatValue: 0,
                 _customData: { _lightID: roadOrder[x] },
             }
         );
     }
-    _events.push(
+    const random = Math.floor(bsmap.utils.random(1, 7));
+    const lightIDrand = [random];
+    const random2 = Math.floor(bsmap.utils.random(1, 7));
+    const lightIDrand2 = [random2];
+    if (random < 7) {
+        lightIDrand.push(random + 1);
+    }
+    if (random2 < 7) {
+        lightIDrand2.push(random2 + 1);
+    }
+    addEvents(
+        {
+            _time: 134 + e,
+            _type: 12,
+            _value: 1,
+            _floatValue: 1,
+            _customData: { _lightID: lightIDrand },
+        },
+        {
+            _time: 134 + e,
+            _type: 13,
+            _value: 1,
+            _floatValue: 1,
+            _customData: { _lightID: lightIDrand },
+        },
+        {
+            _time: 134 + e,
+            _type: 2,
+            _value: 3,
+            _floatValue: 1,
+            _customData: { _lightID: lightIDrand },
+        },
+        {
+            _time: 134.25 + e,
+            _type: 2,
+            _value: 0,
+            _floatValue: 1,
+            _customData: { _lightID: lightIDrand },
+        },
+        {
+            _time: 134 + e,
+            _type: 3,
+            _value: 3,
+            _floatValue: 1,
+            _customData: { _lightID: lightIDrand2 },
+        },
+        {
+            _time: 134.25 + e,
+            _type: 3,
+            _value: 0,
+            _floatValue: 1,
+            _customData: { _lightID: lightIDrand2 },
+        }
+    );
+    addEvents(
         {
             _type: 4,
             _time: 133.875 + e,
@@ -2754,8 +4022,6 @@ for (const e of echoTiming) {
             },
         }
     );
-    await screenDraw('echo.gif', { time: 134 + e });
-    screenClear(134.25 + e);
 }
 
 for (let i = 0; i < 11; i++) {
@@ -2767,7 +4033,5 @@ await bsmap.save.difficulty(difficulty, {
     filePath: OUTPUT_FILE,
 });
 console.timeEnd('Runtime');
-console.log(_events.length, 'events');
-// const info = bsmap.load.infoSync();
-// const BPM = bsmap.bpm.create(info._beatsPerMinute);
+console.log(difficulty.events.length, 'events');
 console.log('Map saved');

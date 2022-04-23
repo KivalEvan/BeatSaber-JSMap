@@ -99,4 +99,30 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         }
         return obstacleEnd;
     };
+
+    addNotes = (...notes: Partial<IDifficultyData['_notes'][number]>[]) => {
+        notes.forEach((n) => {
+            this.notes.push(Note.create(n));
+        });
+    };
+    addObstacles = (...obstacles: Partial<IDifficultyData['_obstacles'][number]>[]) => {
+        obstacles.forEach((o) => {
+            this.obstacles.push(Obstacle.create(o));
+        });
+    };
+    addEvents = (...events: Partial<IDifficultyData['_events'][number]>[]) => {
+        events.forEach((e) => {
+            this.events.push(Event.create(e));
+        });
+    };
+    addWaypoints = (...waypoints: Partial<IDifficultyData['_waypoints'][number]>[]) => {
+        waypoints.forEach((w) => {
+            this.waypoints.push(Waypoint.create(w));
+        });
+    };
+    addSliders = (...sliders: Partial<IDifficultyData['_sliders'][number]>[]) => {
+        sliders.forEach((s) => {
+            this.sliders.push(Slider.create(s));
+        });
+    };
 }

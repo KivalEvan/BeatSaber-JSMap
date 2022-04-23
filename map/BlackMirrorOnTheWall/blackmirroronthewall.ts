@@ -16,13 +16,10 @@ info._difficultyBeatmapSets.forEach((set) =>
 );
 
 const difficulty = bsmap.load.difficultyLegacySync(INPUT_FILE);
-difficulty._version = '2.5.0';
-difficulty._customData = difficulty._customData ?? {};
-difficulty._customData._environment = [];
-difficulty._customData._time = difficulty._customData._time ?? 0;
-difficulty._customData._time++;
-const _environment = difficulty._customData._environment;
-const _events = difficulty._events;
+difficulty.version = '2.5.0';
+difficulty.customData._environment = [];
+const _environment = difficulty.customData._environment;
+const _events = difficulty.events;
 
 //#region environment and events order declaration stuff
 // regex for environment enhancement
@@ -297,7 +294,7 @@ _environment.push(
         _position: [0, 0, -9999],
     }
 );
-difficulty._customData._customEvents = [
+difficulty.customData._customEvents = [
     {
         _time: 380,
         _type: 'AnimateTrack',
