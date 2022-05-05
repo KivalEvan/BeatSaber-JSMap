@@ -17,6 +17,18 @@ import { BeatPerMinute } from '../shared/bpm.ts';
 import { EventContainer, NoteContainer } from '../../types/beatmap/v3/container.ts';
 import { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
+import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
+import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
+import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
+import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
+import { ISlider } from '../../types/beatmap/v3/slider.ts';
+import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
+import { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
+import { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
+import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
+import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
+import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
 
 export class DifficultyData extends Serializable<IDifficultyData> {
     version;
@@ -257,81 +269,65 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         return ec.sort((a, b) => a.data.time - b.data.time);
     };
 
-    addBPMEvents = (...bpmEvents: Partial<IDifficultyData['bpmEvents'][number]>[]) => {
+    addBPMEvents = (...bpmEvents: Partial<IBPMEvent>[]) => {
         bpmEvents.forEach((bpme) => {
             this.bpmEvents.push(BPMEvent.create(bpme));
         });
     };
-    addRotationEvents = (
-        ...rotationEvents: Partial<IDifficultyData['rotationEvents'][number]>[]
-    ) => {
+    addRotationEvents = (...rotationEvents: Partial<IRotationEvent>[]) => {
         rotationEvents.forEach((re) => {
             this.rotationEvents.push(RotationEvent.create(re));
         });
     };
-    addColorNotes = (
-        ...colorNotes: Partial<IDifficultyData['colorNotes'][number]>[]
-    ) => {
+    addColorNotes = (...colorNotes: Partial<IColorNote>[]) => {
         colorNotes.forEach((cn) => {
             this.colorNotes.push(ColorNote.create(cn));
         });
     };
-    addBombNotes = (...bombNotes: Partial<IDifficultyData['bombNotes'][number]>[]) => {
+    addBombNotes = (...bombNotes: Partial<IBombNote>[]) => {
         bombNotes.forEach((bn) => {
             this.bombNotes.push(BombNote.create(bn));
         });
     };
-    addObstacles = (...obstacles: Partial<IDifficultyData['obstacles'][number]>[]) => {
+    addObstacles = (...obstacles: Partial<IObstacle>[]) => {
         obstacles.forEach((o) => {
             this.obstacles.push(Obstacle.create(o));
         });
     };
-    addSliders = (...sliders: Partial<IDifficultyData['sliders'][number]>[]) => {
+    addSliders = (...sliders: Partial<ISlider>[]) => {
         sliders.forEach((s) => {
             this.sliders.push(Slider.create(s));
         });
     };
-    addBurstSliders = (
-        ...burstSliders: Partial<IDifficultyData['burstSliders'][number]>[]
-    ) => {
+    addBurstSliders = (...burstSliders: Partial<IBurstSlider>[]) => {
         burstSliders.forEach((bs) => {
             this.burstSliders.push(BurstSlider.create(bs));
         });
     };
-    addWaypoints = (...waypoints: Partial<IDifficultyData['waypoints'][number]>[]) => {
+    addWaypoints = (...waypoints: Partial<IWaypoint>[]) => {
         waypoints.forEach((w) => {
             this.waypoints.push(Waypoint.create(w));
         });
     };
-    addBasicBeatmapEvents = (
-        ...basicEvents: Partial<IDifficultyData['basicBeatmapEvents'][number]>[]
-    ) => {
+    addBasicBeatmapEvents = (...basicEvents: Partial<IBasicEvent>[]) => {
         basicEvents.forEach((be) => {
             this.basicBeatmapEvents.push(BasicEvent.create(be));
         });
     };
-    addColorBoostBeatmapEvents = (
-        ...colorBoostEvents: Partial<
-            IDifficultyData['colorBoostBeatmapEvents'][number]
-        >[]
-    ) => {
+    addColorBoostBeatmapEvents = (...colorBoostEvents: Partial<IColorBoostEvent>[]) => {
         colorBoostEvents.forEach((cbe) => {
             this.colorBoostBeatmapEvents.push(ColorBoostEvent.create(cbe));
         });
     };
     addLightColorEventBoxGroups = (
-        ...lightColorEBGs: DeepPartial<
-            IDifficultyData['lightColorEventBoxGroups'][number]
-        >[]
+        ...lightColorEBGs: DeepPartial<ILightColorEventBoxGroup>[]
     ) => {
         lightColorEBGs.forEach((lcebg) => {
             this.lightColorEventBoxGroups.push(LightColorEventBoxGroup.create(lcebg));
         });
     };
     addLightRotationEventBoxGroups = (
-        ...lightRotationEBGs: DeepPartial<
-            IDifficultyData['lightRotationEventBoxGroups'][number]
-        >[]
+        ...lightRotationEBGs: DeepPartial<ILightRotationEventBoxGroup>[]
     ) => {
         lightRotationEBGs.forEach((lrebg) => {
             this.lightRotationEventBoxGroups.push(

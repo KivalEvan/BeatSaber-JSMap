@@ -9,9 +9,10 @@ export const formatNumber = (num: number): string => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
-export const random = (min: number, max: number) => {
+export const random = (min: number, max: number, round = false) => {
     [min, max] = fixRange(min, max);
-    return Math.random() * (max - min) + min;
+    const result = Math.random() * (max - min) + min;
+    return round ? Math.round(result) : result;
 };
 
 export const fixRange = (
