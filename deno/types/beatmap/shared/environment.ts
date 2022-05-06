@@ -48,7 +48,8 @@ export type EnvironmentName =
     | 'HalloweenEnvironment'
     | 'GagaEnvironment'
     | 'WeaveEnvironment'
-    | 'PyroEnvironment';
+    | 'PyroEnvironment'
+    | 'EDMEnvironment';
 /** List of available 360 environment in base game. */
 export type Environment360Name = 'GlassDesertEnvironment';
 /** List of all available environment in base game. */
@@ -76,7 +77,8 @@ export type ColorSchemeList =
     | 'Gaga'
     | 'Glass Desert'
     | 'Weave'
-    | 'Pyro';
+    | 'Pyro'
+    | 'EDM';
 
 export type IEnvironmentScheme = {
     [key in ColorSchemeList]: IColorScheme;
