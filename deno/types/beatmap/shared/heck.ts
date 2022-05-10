@@ -216,9 +216,7 @@ export interface IHeckInfoCustomData {
         _screenDisplacementEffectsEnabled?: boolean;
         _maxShockwaveParticles?: 0 | 1 | 2;
     };
-    _chroma?: {
-        _disableChromaEvents?: boolean;
-        _disableEnvironmentEnhancements?: boolean;
-        _forceZenModeWall?: boolean;
+    _noteJumpDurationTypeSettings?: {
+        _noteJumpFixedDuration?: number;
     };
 }

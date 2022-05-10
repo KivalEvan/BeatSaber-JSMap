@@ -15,7 +15,7 @@ import {
     IChromaCustomEventV3,
     IChromaNote,
     IChromaObstacle,
-    IChromaEnvironmentOld,
+    IChromaInfoCustomData,
 } from './chroma.ts';
 import {
     INECustomData,
@@ -107,13 +107,13 @@ export interface ICustomDataInfo extends ICustomDataBase {
  * @extends ICustomDataBase
  * @extends IColorScheme
  * @extends IHeckInfoCustomData
- * @extends IChromaEnvironmentOld
+ * @extends IChromaInfoCustomData
  */
 export interface ICustomDataInfoDifficulty
     extends ICustomDataBase,
         IColorScheme,
         IHeckInfoCustomData,
-        IChromaEnvironmentOld {
+        IChromaInfoCustomData {
     _difficultyLabel?: string;
     _editorOffset?: number;
     _editorOldOffset?: number;

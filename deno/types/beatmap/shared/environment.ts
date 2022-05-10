@@ -75,10 +75,10 @@ export type ColorSchemeList =
     | 'Billie Eilish'
     | 'Spooky'
     | 'Gaga'
-    | 'Glass Desert'
     | 'Weave'
     | 'Pyro'
-    | 'EDM';
+    | 'EDM'
+    | 'Glass Desert';
 
 export type IEnvironmentScheme = {
     [key in ColorSchemeList]: IColorScheme;

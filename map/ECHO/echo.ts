@@ -57,7 +57,7 @@ envEnh.push({
     _position: [10, 7, 48],
 });
 
-let offsetLightID = 100;
+let offsetLightID = 200;
 const screenLight: { [key: number]: number } = {};
 const screenX = 32;
 const screenY = 18;
@@ -1278,13 +1278,22 @@ for (let i = 0; i < 7; i++) {
     }
     if (i === 0 || i === 1 || i === 4 || i === 5) {
         for (const x in roadOrder) {
-            addEvents({
-                _time: 52 + (parseInt(x) / roadOrder.length) * 0.75 + i * 4,
-                _type: 4,
-                _value: 7,
-                _floatValue: 1,
-                _customData: { _lightID: roadOrder[x] },
-            });
+            addEvents(
+                {
+                    _time: 52 + (parseInt(x) / roadOrder.length) * 0.75 + i * 4,
+                    _type: 4,
+                    _value: 2,
+                    _floatValue: 1.25,
+                    _customData: { _lightID: roadOrder[x] },
+                },
+                {
+                    _time: 52.0625 + (parseInt(x) / roadOrder.length) * 0.75 + i * 4,
+                    _type: 4,
+                    _value: 7,
+                    _floatValue: 1,
+                    _customData: { _lightID: roadOrder[x] },
+                }
+            );
         }
 
         addEvents(
@@ -1921,27 +1930,125 @@ for (let i = 0; i < 4; i++) {
     }
 }
 
-await screenDraw('and.gif', { time: 384 });
+await screenDraw('and.gif', { time: 384, eventValue: 5, floatValue: 1.5 });
 screenClear(384.375);
 
-await screenDraw('never.gif', { time: 384.5 });
+await screenDraw('never.gif', { time: 384.5, eventValue: 5, floatValue: 1.5 });
 screenClear(384.875);
 
-await screenDraw('never.gif', { time: 385 });
+await screenDraw('never.gif', { time: 385, eventValue: 5, floatValue: 1.5 });
 screenClear(385.375);
 
-await screenDraw('look.gif', { time: 385.5 });
+await screenDraw('look.gif', { time: 385.5, eventValue: 5, floatValue: 1.5 });
 screenClear(385.875);
 
-await screenDraw('back.gif', { time: 386 });
+await screenDraw('back.gif', { time: 386, eventValue: 5, floatValue: 1.5 });
 screenClear(386.375);
+
+for (let i = 0; i < 5; i++) {
+    addEvents(
+        {
+            _type: 12,
+            _time: 384 + i * 0.5 - 0.001,
+            _value: 1,
+        },
+        {
+            _type: 13,
+            _time: 384 + i * 0.5 - 0.001,
+            _value: 1,
+        },
+        {
+            _type: 12,
+            _time: 384 + i * 0.5,
+            _value: 1,
+            _customData: { _lockPosition: true },
+        },
+        {
+            _type: 13,
+            _time: 384 + i * 0.5,
+            _value: 1,
+            _customData: { _lockPosition: true },
+        }
+    );
+    for (let j = 0; j < 2; j++) {
+        addEvents(
+            {
+                _type: 0,
+                _time: 384 + i * 0.5 + j / 6,
+                _value: 6,
+                _floatValue: 4,
+            },
+            {
+                _type: 4,
+                _time: 384 + i * 0.5 + j / 6,
+                _value: 6,
+                _floatValue: 4,
+                _customData: {
+                    _lightID: [
+                        1,
+                        2,
+                        screenEndID + 1,
+                        screenEndID + 2,
+                        screenEndID + 3,
+                        screenEndID + 4,
+                    ],
+                },
+            },
+            {
+                _type: 2,
+                _time: 384 + i * 0.5 + j / 6,
+                _value: 6,
+                _floatValue: 4,
+            },
+            {
+                _type: 3,
+                _time: 384 + i * 0.5 + j / 6,
+                _value: 6,
+                _floatValue: 4,
+            },
+            {
+                _type: 0,
+                _time: 384 + 1 / 12 + i * 0.5 + j / 6,
+                _value: 0,
+                _floatValue: 0,
+            },
+            {
+                _type: 4,
+                _time: 384 + 1 / 12 + i * 0.5 + j / 6,
+                _value: 0,
+                _floatValue: 0,
+                _customData: {
+                    _lightID: [
+                        1,
+                        2,
+                        screenEndID + 1,
+                        screenEndID + 2,
+                        screenEndID + 3,
+                        screenEndID + 4,
+                    ],
+                },
+            },
+            {
+                _type: 2,
+                _time: 384 + 1 / 12 + i * 0.5 + j / 6,
+                _value: 0,
+                _floatValue: 0,
+            },
+            {
+                _type: 3,
+                _time: 384 + 1 / 12 + i * 0.5 + j / 6,
+                _value: 0,
+                _floatValue: 0,
+            }
+        );
+    }
+}
 
 envEnh.push({
     _id: 'Environment$',
     _lookupMethod: 'Regex',
     _track: 'everythinglmao',
 });
-
 difficulty.customData._customEvents = [
     {
         _time: 384,
@@ -1974,57 +2081,6 @@ difficulty.customData._customEvents = [
     },
 ];
 
-for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 2; j++) {
-        addEvents(
-            {
-                _type: 0,
-                _time: 384 + i * 0.5 + j / 6,
-                _value: 6,
-                _floatValue: 5,
-            },
-            {
-                _type: 4,
-                _time: 384 + i * 0.5 + j / 6,
-                _value: 6,
-                _floatValue: 5,
-                _customData: {
-                    _lightID: [
-                        1,
-                        2,
-                        screenEndID + 1,
-                        screenEndID + 2,
-                        screenEndID + 3,
-                        screenEndID + 4,
-                    ],
-                },
-            },
-            {
-                _type: 0,
-                _time: 384 + 1 / 12 + i * 0.5 + j / 6,
-                _value: 0,
-                _floatValue: 0,
-            },
-            {
-                _type: 4,
-                _time: 384 + 1 / 12 + i * 0.5 + j / 6,
-                _value: 0,
-                _floatValue: 0,
-                _customData: {
-                    _lightID: [
-                        1,
-                        2,
-                        screenEndID + 1,
-                        screenEndID + 2,
-                        screenEndID + 3,
-                        screenEndID + 4,
-                    ],
-                },
-            }
-        );
-    }
-}
-
 //#region crystal light
 const crystalTimingPeriod = [
     [52, 82],
@@ -2033,8 +2089,8 @@ const crystalTimingPeriod = [
     [292, 383],
     [404, 479],
 ];
-const crystalShuffleLeft = [8, 10, 14, 18, 22, 26];
-const crystalShuffleRight = [9, 12, 16, 20, 24, 28];
+const crystalShuffleLeft = [8, 10, 12, 14, 16, 18];
+const crystalShuffleRight = [9, 11, 13, 15, 17, 19];
 bsmap.utils.shuffle(crystalShuffleLeft);
 bsmap.utils.shuffle(crystalShuffleRight);
 let crystalShuffle = bsmap.utils.interleave(crystalShuffleLeft, crystalShuffleRight);
@@ -2590,45 +2646,59 @@ for (const t of chorus1Timing) {
     await screenDraw('on.gif', { time: t + 2 });
     screenClear(t + 2.5, 0.375);
 
+    addEvents(
+        {
+            _time: t + 2.999,
+            _type: 12,
+            _value: 2,
+            _floatValue: 1,
+        },
+        {
+            _time: t + 3,
+            _type: 13,
+            _value: 2,
+            _floatValue: 1,
+        }
+    );
     for (let i = 1; i <= 7; i++) {
         addEvents(
             {
-                _time: t + 2 + ((i - 1) / 7) * 0.5,
+                _time: t + 3 + ((i - 1) / 7) * 0.5,
                 _type: 2,
                 _value: 2,
                 _floatValue: 1,
                 _customData: { _lightID: i },
             },
             {
-                _time: t + 2 + ((i - 1) / 7) * 0.5,
+                _time: t + 3 + ((i - 1) / 7) * 0.5,
                 _type: 3,
                 _value: 2,
                 _floatValue: 1,
                 _customData: { _lightID: i },
             },
             {
-                _time: t + 2.125 + ((i - 1) / 7) * 0.5,
+                _time: t + 3.125 + ((i - 1) / 7) * 0.5,
                 _type: 2,
-                _value: 1,
+                _value: 5,
                 _floatValue: 0.5,
                 _customData: { _lightID: i },
             },
             {
-                _time: t + 2.125 + ((i - 1) / 7) * 0.5,
+                _time: t + 3.125 + ((i - 1) / 7) * 0.5,
                 _type: 3,
-                _value: 1,
+                _value: 5,
                 _floatValue: 0.5,
                 _customData: { _lightID: i },
             },
             {
-                _time: t + 2.375 + ((i - 1) / 7) * 0.5,
+                _time: t + 3.375 + ((i - 1) / 7) * 0.5,
                 _type: 2,
                 _value: 8,
                 _floatValue: 0,
                 _customData: { _lightID: i },
             },
             {
-                _time: t + 2.375 + ((i - 1) / 7) * 0.5,
+                _time: t + 3.375 + ((i - 1) / 7) * 0.5,
                 _type: 3,
                 _value: 8,
                 _floatValue: 0,
@@ -3229,15 +3299,35 @@ for (const t of chorus2Timing) {
         }
     );
     for (let i = 0; i < 2; i++) {
-        bsmap.utils.shuffle(roadShuffle);
-        for (const x in roadShuffle) {
-            addEvents({
-                _type: 4,
-                _time: t + i * 4 + (parseInt(x) / roadShuffle.length) * 1.25,
-                _value: 7,
-                _floatValue: 1,
-                _customData: { _lightID: roadShuffle[x] },
-            });
+        for (let j = 0; j < 3; j++) {
+            bsmap.utils.shuffle(roadShuffle);
+            for (const x in roadShuffle) {
+                addEvents(
+                    {
+                        _type: 4,
+                        _time:
+                            t +
+                            i * 4 +
+                            (parseInt(x) / roadShuffle.length) * 1.25 +
+                            j * 0.25,
+                        _value: 7,
+                        _floatValue: 1,
+                        _customData: { _lightID: roadShuffle[x] },
+                    },
+                    {
+                        _type: 4,
+                        _time:
+                            0.25 +
+                            t +
+                            i * 4 +
+                            (parseInt(x) / roadShuffle.length) * 1.25 +
+                            j * 0.25,
+                        _value: 0,
+                        _floatValue: 0,
+                        _customData: { _lightID: roadShuffle[x] },
+                    }
+                );
+            }
         }
     }
     await screenDraw('the.gif', { time: t - 0.5 });
@@ -3564,18 +3654,158 @@ for (const t of chorus2Timing) {
     await screenDraw('against.gif', { time: t + 9.5 });
     await screenDraw('againstglitch.gif', { time: t + 9.875 });
     screenClear(t + 9.9375);
+    for (let i = 1; i <= 7; i++) {
+        addEvents(
+            {
+                _time: t + ((i - 1) / 7) * 0.375 + 10,
+                _type: 2,
+                _value: 3,
+                _floatValue: 1,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + ((i - 1) / 7) * 0.375 + 10,
+                _type: 3,
+                _value: 3,
+                _floatValue: 1,
+                _customData: { _lightID: i },
+            }
+        );
+    }
     await screenDraw('against.gif', { time: t + 10, invert: true });
     await screenDraw('against.gif', { time: t + 10.0625 });
     screenClear(t + 10.375, 0.5);
 
+    for (let i = 3; i <= 5; i++) {
+        addEvents(
+            {
+                _time: t + ((i - 1) / 7) * 0.25 + 11.5,
+                _type: 2,
+                _value: 1,
+                _floatValue: 1,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + ((i - 1) / 7) * 0.25 + 11.5,
+                _type: 3,
+                _value: 1,
+                _floatValue: 1,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + ((i - 1) / 7) * 0.25 + 12,
+                _type: 2,
+                _value: 4,
+                _floatValue: 0,
+                _customData: { _lightID: i },
+            },
+            {
+                _time: t + ((i - 1) / 7) * 0.25 + 12,
+                _type: 3,
+                _value: 4,
+                _floatValue: 0,
+                _customData: { _lightID: i },
+            }
+        );
+    }
     await screenDraw('echoglitch.gif', { time: t + 11.5 });
     await screenDraw('echo.gif', { time: t + 11.625 });
     screenClear(t + 12.25);
+    for (let i = 1; i <= 3; i++) {
+        addEvents(
+            {
+                _time: t + ((i - 1) / 7) * 0.25 + 12.5,
+                _type: 2,
+                _value: 1,
+                _floatValue: 1,
+                _customData: { _lightID: 8 - i },
+            },
+            {
+                _time: t + ((i - 1) / 7) * 0.25 + 12.5,
+                _type: 3,
+                _value: 1,
+                _floatValue: 1,
+                _customData: { _lightID: 8 - i },
+            },
+            {
+                _time: t + ((i - 1) / 7) * 0.25 + 13,
+                _type: 2,
+                _value: 4,
+                _floatValue: 0,
+                _customData: { _lightID: 8 - i },
+            },
+            {
+                _time: t + ((i - 1) / 7) * 0.25 + 13,
+                _type: 3,
+                _value: 4,
+                _floatValue: 0,
+                _customData: { _lightID: 8 - i },
+            }
+        );
+    }
     await screenDraw('echoglitch.gif', { time: t + 12.5, rotate: 180 });
     await screenDraw('echo.gif', { time: t + 12.5625, invert: true });
     await screenDraw('echo.gif', { time: t + 12.625 });
     screenClear(t + 12.875);
 
+    addEvents(
+        {
+            _time: t + 13,
+            _type: chorus2flipFlop ? 2 : 3,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t + 13.25,
+            _type: chorus2flipFlop ? 2 : 3,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t + 13.5,
+            _type: chorus2flipFlop ? 3 : 2,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t + 13.75,
+            _type: chorus2flipFlop ? 3 : 2,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [2, 3] },
+        },
+        {
+            _time: t + 14,
+            _type: chorus2flipFlop ? 2 : 3,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [5, 6] },
+        },
+        {
+            _time: t + 14.25,
+            _type: chorus2flipFlop ? 2 : 3,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [5, 6] },
+        },
+        {
+            _time: t + 14.5,
+            _type: chorus2flipFlop ? 3 : 2,
+            _value: 2,
+            _floatValue: 1,
+            _customData: { _lightID: [5, 6] },
+        },
+        {
+            _time: t + 14.75,
+            _type: chorus2flipFlop ? 3 : 2,
+            _value: 0,
+            _floatValue: 0,
+            _customData: { _lightID: [5, 6] },
+        }
+    );
     await screenDraw('in.gif', { time: t + 13 });
     screenClear(t + 13.375);
 
@@ -3926,21 +4156,19 @@ for (const e of echoTiming) {
         {
             _time: 134 + e,
             _type: 12,
-            _value: 1,
+            _value: bsmap.utils.random(1, 5, true),
             _floatValue: 1,
-            _customData: { _lightID: lightIDrand },
         },
         {
             _time: 134 + e,
             _type: 13,
-            _value: 1,
+            _value: bsmap.utils.random(1, 5, true),
             _floatValue: 1,
-            _customData: { _lightID: lightIDrand },
         },
         {
             _time: 134 + e,
             _type: 2,
-            _value: 3,
+            _value: 2,
             _floatValue: 1,
             _customData: { _lightID: lightIDrand },
         },
@@ -3948,13 +4176,13 @@ for (const e of echoTiming) {
             _time: 134.25 + e,
             _type: 2,
             _value: 0,
-            _floatValue: 1,
+            _floatValue: 0,
             _customData: { _lightID: lightIDrand },
         },
         {
             _time: 134 + e,
             _type: 3,
-            _value: 3,
+            _value: 2,
             _floatValue: 1,
             _customData: { _lightID: lightIDrand2 },
         },
@@ -3962,7 +4190,7 @@ for (const e of echoTiming) {
             _time: 134.25 + e,
             _type: 3,
             _value: 0,
-            _floatValue: 1,
+            _floatValue: 0,
             _customData: { _lightID: lightIDrand2 },
         }
     );
