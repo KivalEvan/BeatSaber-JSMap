@@ -231,9 +231,15 @@ export interface IChromaCustomData {
 
 /** Chroma interface for Difficulty Info Custom Data.
  * ```ts
+ * _chroma?: {}
  * _environmentalRemoval?: string[]
  * ```
  */
-export interface IChromaEnvironmentOld {
+export interface IChromaInfoCustomData {
+    _chroma?: {
+        _disableChromaEvents?: boolean;
+        _disableEnvironmentEnhancements?: boolean;
+        _forceZenModeWall?: boolean;
+    };
     _environmentalRemoval?: string[];
 }
