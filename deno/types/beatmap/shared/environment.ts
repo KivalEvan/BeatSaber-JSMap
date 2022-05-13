@@ -16,8 +16,10 @@ export interface IColorScheme {
     _colorRight?: Omit<ColorObject, 'a'>;
     _envColorLeft?: Omit<ColorObject, 'a'>;
     _envColorRight?: Omit<ColorObject, 'a'>;
+    _envColorWhite?: Omit<ColorObject, 'a'>;
     _envColorLeftBoost?: Omit<ColorObject, 'a'>;
     _envColorRightBoost?: Omit<ColorObject, 'a'>;
+    _envColorWhiteBoost?: Omit<ColorObject, 'a'>;
     _obstacleColor?: Omit<ColorObject, 'a'>;
 }
 

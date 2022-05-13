@@ -2,6 +2,7 @@ import * as bsmap from '../deno/mod.ts';
 
 /**
  * Convert chroma note to arc and chain.
+ * Scuffed but works
  */
 export default (d: bsmap.v3.DifficultyData) => {
     const prevSlider: {

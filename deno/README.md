@@ -52,3 +52,10 @@ Beatmap v2 (legacy) is deprecated, this will be around until it end of support o
 ## Beginner Tips
 
 -   You can find all properties from an object with autocomplete suggestions `CTRL+Space`.
+
+## Planned
+
+-   Strip some of the features as plugin/extension allowing for modular and lightweight system
+-   Add more helper for Chroma and Noodle Extensions
+-   Overload function for less function clutter (but more complex)
+-   Bundle script

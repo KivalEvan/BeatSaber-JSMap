@@ -75,7 +75,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                 g: 4,
                 e: [
                     {
-                        s: i % 4 > 1 ? 30 : 30,
+                        s: i % 4 > 1 ? 25 : 30,
                         w: 1,
                         l: [
                             {
@@ -96,7 +96,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                 g: 5,
                 e: [
                     {
-                        s: i % 4 > 1 ? 30 : 30,
+                        s: i % 4 > 1 ? 25 : 30,
                         w: 1,
                         l: [
                             {
@@ -217,22 +217,22 @@ export default (d: bsmap.v3.DifficultyData) => {
                     e: [
                         {
                             f: { r: i ? 0 : 1, f: 2, t: 2, p: 1 },
-                            w: 0.5,
+                            w: 0.375,
                             e: [
                                 {
                                     b: 0,
-                                    c: i ? 1 : 0,
+                                    c: 2,
                                     s: i ? 1.25 : 0.75,
                                 },
                                 {
                                     b: 0.1875,
-                                    c: i ? 1 : 0,
+                                    c: 2,
                                     s: i ? 1.25 : 0.75,
                                 },
                                 {
                                     b: 0.25,
                                     i: 1,
-                                    c: i ? 1 : 0,
+                                    c: 2,
                                     s: 0,
                                 },
                             ],
@@ -370,11 +370,11 @@ export default (d: bsmap.v3.DifficultyData) => {
             e: [
                 {
                     f: { r: 1, f: 2, p: 0, t: 2 },
-                    w: 1.25,
+                    w: 1.75,
                     e: [
-                        { c: 2, s: 1.25 },
-                        { c: 2, b: 0.125, i: 2, s: 1 },
-                        { i: 1, b: 1, s: 0 },
+                        { c: 2, s: 1.5 },
+                        { c: 2, b: 0.25, i: 2, s: 1 },
+                        { i: 1, b: 1.5, s: 0 },
                     ],
                 },
             ],
@@ -385,11 +385,11 @@ export default (d: bsmap.v3.DifficultyData) => {
             e: [
                 {
                     f: { r: 1, f: 2, p: 0, t: 2 },
-                    w: 1.25,
+                    w: 1.75,
                     e: [
-                        { c: 2, s: 1.25 },
-                        { c: 2, b: 0.125, i: 2, s: 1 },
-                        { i: 1, b: 1, s: 0 },
+                        { c: 2, s: 1.5 },
+                        { c: 2, b: 0.25, i: 2, s: 1 },
+                        { i: 1, b: 1.5, s: 0 },
                     ],
                 },
             ],
@@ -400,11 +400,11 @@ export default (d: bsmap.v3.DifficultyData) => {
             e: [
                 {
                     f: { r: 1, f: 2, p: 0, t: 2 },
-                    w: 1.25,
+                    w: 1.75,
                     e: [
-                        { c: 2, s: 1.25 },
-                        { c: 2, b: 0.125, i: 2, s: 1 },
-                        { i: 1, b: 1, s: 0 },
+                        { c: 2, s: 1.5 },
+                        { c: 2, b: 0.25, i: 2, s: 1 },
+                        { i: 1, b: 1.5, s: 0 },
                     ],
                 },
             ],
@@ -415,11 +415,11 @@ export default (d: bsmap.v3.DifficultyData) => {
             e: [
                 {
                     f: { r: 1, f: 2, p: 0, t: 2 },
-                    w: 1.25,
+                    w: 1.75,
                     e: [
-                        { c: 2, s: 1.25 },
-                        { c: 2, b: 0.125, i: 2, s: 1 },
-                        { i: 1, b: 1, s: 0 },
+                        { c: 2, s: 1.5 },
+                        { c: 2, b: 0.25, i: 2, s: 1 },
+                        { i: 1, b: 1.5, s: 0 },
                     ],
                 },
             ],
@@ -432,7 +432,11 @@ export default (d: bsmap.v3.DifficultyData) => {
             e: [
                 {
                     f: { r: 1, f: 2, p: 0, t: 2 },
-                    l: [{ e: -1, r: 225 }],
+                    s: 22.5,
+                    l: [
+                        { e: -1, r: 270 },
+                        { b: 1.5, e: 2, r: 225 + 22.5 },
+                    ],
                 },
             ],
         },
@@ -442,7 +446,11 @@ export default (d: bsmap.v3.DifficultyData) => {
             e: [
                 {
                     f: { r: 1, f: 2, p: 0, t: 2 },
-                    l: [{ e: -1, r: 225 }],
+                    s: 22.5,
+                    l: [
+                        { e: -1, r: 270 },
+                        { b: 1.5, e: 2, r: 225 + 22.5 },
+                    ],
                 },
             ],
         },
@@ -452,7 +460,11 @@ export default (d: bsmap.v3.DifficultyData) => {
             e: [
                 {
                     f: { r: 1, f: 2, p: 0, t: 2 },
-                    l: [{ e: -1, r: 135 }],
+                    s: 22.5,
+                    l: [
+                        { e: -1, r: 180 },
+                        { b: 1.5, e: 2, r: 135 + 22.5 },
+                    ],
                 },
             ],
         },
@@ -462,7 +474,11 @@ export default (d: bsmap.v3.DifficultyData) => {
             e: [
                 {
                     f: { r: 1, f: 2, p: 0, t: 2 },
-                    l: [{ e: -1, r: 135 }],
+                    s: 22.5,
+                    l: [
+                        { e: -1, r: 180 },
+                        { b: 1.5, e: 2, r: 135 + 22.5 },
+                    ],
                 },
             ],
         }

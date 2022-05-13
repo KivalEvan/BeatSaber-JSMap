@@ -79,8 +79,10 @@ export const ColorSchemeRename: Readonly<{
     _colorRight: 'Right Note Color',
     _envColorLeft: 'Left Environment Color',
     _envColorRight: 'Right Environment Color',
+    _envColorWhite: 'White Environment Color',
     _envColorLeftBoost: 'Left Environment Boost Color',
     _envColorRightBoost: 'Right Environment Boost Color',
+    _envColorWhiteBoost: 'White Environment Boost Color',
     _obstacleColor: 'Obstacle Color',
 };
 
