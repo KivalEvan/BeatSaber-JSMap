@@ -8,17 +8,14 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - name: Copying
-              env:
-                  SRC_FOLDER_PATH: 'deno'
-                  TARGET_BRANCH: 'deno'
-              run: |
-                  files=$(find $SRC_FOLDER_PATH -type f)
-                  git config --global user.name 'GitHub Action'
-                  git config --global user.email 'action@github.com'
-                  git fetch
-                  git checkout $TARGET_BRANCH --
-                  git checkout ${GITHUB_REF##*/} -- $files
-                  git add -A
-                  git diff-index --quiet HEAD ||  git commit -am "deploy files"
-                  git push origin $TARGET_BRANCH
+            - name: Deploy
+              uses: JamesIves/github-pages-deploy-action@4.1.0
+              with:
+                  branch: deno
+                  folder: deno
+
+            - name: Publish
+              uses: actions/upload-artifact@v2
+              with:
+                  name: published
+                  path: deno
