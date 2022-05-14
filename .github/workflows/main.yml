@@ -1,4 +1,4 @@
-name: Copy Deno to Deno branch
+name: Copy Deno to another branch
 on:
     push:
         branches: [main]
@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - name: copy
+            - name: Copying
               env:
                   SRC_FOLDER_PATH: 'deno'
                   TARGET_BRANCH: 'deno'
