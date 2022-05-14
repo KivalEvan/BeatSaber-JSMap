@@ -1,6 +1,6 @@
-import { ApplyEasingsOptions } from '../../../types/beatmap/modded/chroma/color.ts';
-import { Event } from '../../v2/event.ts';
-import { BasicEvent } from '../../v3/basicEvent.ts';
+import { ApplyEasingsOptions } from './types/color.ts';
+import { Event } from '../../beatmap/v2/event.ts';
+import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
 
 export const applyEasingsTransition = (
     events: (Event | BasicEvent)[],

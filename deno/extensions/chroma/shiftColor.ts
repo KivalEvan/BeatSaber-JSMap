@@ -1,10 +1,7 @@
-import { HSVAtoRGBA, RGBAtoHSVA } from '../../../utils/colors.ts';
-import { ColorArray } from '../../../types/beatmap/shared/colors.ts';
-import { clamp } from '../../../utils/math.ts';
-import {
-    IChromaObject,
-    ShiftColorOptions,
-} from '../../../types/beatmap/modded/chroma/color.ts';
+import { HSVAtoRGBA, RGBAtoHSVA } from '../../utils/colors.ts';
+import { ColorArray } from '../../types/beatmap/shared/colors.ts';
+import { clamp } from '../../utils/math.ts';
+import { IChromaObject, ShiftColorOptions } from './types/color.ts';
 
 export const shiftColor = (objects: IChromaObject[], options: ShiftColorOptions) => {
     const opt: Omit<Required<ShiftColorOptions>, 'type'> = {

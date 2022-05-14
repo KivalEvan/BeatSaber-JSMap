@@ -1,5 +1,5 @@
-import { IChromaObject } from '../../../types/beatmap/modded/chroma/color.ts';
-import { SetOptions } from '../../../types/beatmap/modded/chroma/options.ts';
+import { IChromaObject } from './types/color.ts';
+import { SetOptions } from './types/options.ts';
 
 export const removeColor = (objects: IChromaObject[], options: SetOptions) => {
     objects = objects.filter(

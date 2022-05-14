@@ -1,8 +1,8 @@
-import { BeatPerMinute } from '../shared/bpm';
-import { deepCopy, median } from '../../utils';
-import { ISwingAnalysis, ISwingCount } from '../../types/beatmap/analyser/swing';
-import { ColorNote } from '../v3/colorNote';
-import { DifficultyData } from '../v3/difficulty';
+import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import { deepCopy, median } from '../../utils/mod.ts';
+import { ISwingAnalysis, ISwingCount } from './types/swing.ts';
+import { ColorNote } from '../../beatmap/v3/colorNote.ts';
+import { DifficultyData } from '../../beatmap/v3/difficulty.ts';
 
 // Thanks Qwasyx#3000 for improved swing detection
 export const next = (

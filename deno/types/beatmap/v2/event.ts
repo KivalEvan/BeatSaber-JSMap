@@ -173,15 +173,3 @@ export enum EventRename {
     'Utility Event 4',
     'BPM Change' = 100,
 }
-
-interface IEventCountStats {
-    total: number;
-    chroma: number;
-    chromaOld: number;
-    noodleExtensions: number;
-    mappingExtensions: number;
-}
-
-export interface IEventCount {
-    [key: number]: IEventCountStats;
-}

@@ -2,9 +2,9 @@ import {
     IChromaObject,
     SetColorGradientOptions,
     SetColorOptions,
-} from '../../../types/beatmap/modded/chroma/color.ts';
-import { HSVAtoRGBA, interpolateColor } from '../../../utils/colors.ts';
-import { normalize } from '../../../utils/math.ts';
+} from './types/color.ts';
+import { HSVAtoRGBA, interpolateColor } from '../../utils/colors.ts';
+import { normalize } from '../../utils/math.ts';
 
 export const setColor = (objects: IChromaObject[], options: SetColorOptions) => {
     objects = objects.filter(

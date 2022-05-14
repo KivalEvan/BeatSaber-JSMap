@@ -34,12 +34,3 @@ export interface IObstacle extends IBaseObject {
     _height: number;
     _customData?: ICustomDataObstacle;
 }
-
-export interface ObstacleCount {
-    total: number;
-    interactive: number;
-    crouch: number;
-    chroma: number;
-    noodleExtensions: number;
-    mappingExtensions: number;
-}

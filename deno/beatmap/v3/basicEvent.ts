@@ -310,7 +310,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
         return this.value >= 2000000000;
     }
 
-    /** Check if event is a valid, vanilla event.
+    /** Check if event is a valid & vanilla.
      * ```ts
      * if (basicEvent.isValid()) {}
      * ```

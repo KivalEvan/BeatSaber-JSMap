@@ -47,16 +47,3 @@ export interface INote extends IBaseObject {
     _cutDirection: number;
     _customData?: ICustomDataNote;
 }
-
-interface NoteCountStats {
-    total: number;
-    chroma: number;
-    noodleExtensions: number;
-    mappingExtensions: number;
-}
-
-export interface NoteCount {
-    red: NoteCountStats;
-    blue: NoteCountStats;
-    bomb: NoteCountStats;
-}

@@ -1,8 +1,5 @@
-import {
-    IChromaObject,
-    SetColorRangeOptions,
-} from '../../../types/beatmap/modded/chroma/color.ts';
-import { HSVAtoRGBA, interpolateColor } from '../../../utils/colors.ts';
+import { IChromaObject, SetColorRangeOptions } from './types/color.ts';
+import { HSVAtoRGBA, interpolateColor } from '../../utils/colors.ts';
 
 export const randomizeColor = (
     objects: IChromaObject[],

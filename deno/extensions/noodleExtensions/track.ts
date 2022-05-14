@@ -1,7 +1,4 @@
-import {
-    INETrackObject,
-    INETrackOverload,
-} from '../../../types/beatmap/modded/noodleExtensions/track.ts';
+import { INETrackObject, INETrackOverload } from './types/track.ts';
 
 export const addTrack: INETrackOverload = (
     objects: INETrackObject | INETrackObject[],

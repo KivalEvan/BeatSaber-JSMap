@@ -41,6 +41,4 @@ export abstract class BaseObject<T extends IBaseObject> extends Serializable<T> 
         this.customData = { ...this.customData, object };
         return this;
     }
-
-    // abstract isValid(): boolean;
 }

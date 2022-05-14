@@ -1,7 +1,6 @@
 import {
     IEvent,
     IEventBoost,
-    IEventCount,
     IEventLaneRotation,
     IEventLaser,
     IEventLight,
@@ -11,8 +10,6 @@ import {
     IEventSpecial,
     IEventBPMChange,
 } from '../../types/beatmap/v2/event.ts';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import { EventList } from '../shared/environment.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { BeatmapObject } from './object.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -414,56 +411,5 @@ export class Event extends BeatmapObject<IEvent> {
             this.value >= 0 &&
             !(!this.isLaserRotationEvent() && this.value > 12 && !this.hasOldChroma())
         );
-    };
-
-    /** Count number of type of events with their properties in given array and return a event count object.
-     * ```ts
-     * const list = count(events);
-     * console.log(list);
-     * ```
-     */
-    count = (
-        events: Event[],
-        environment: EnvironmentAllName = 'DefaultEnvironment'
-    ): IEventCount => {
-        const commonEvent = EventList[environment][0] ?? [0, 1, 2, 3, 4, 8, 9, 12, 13];
-        const eventCount: IEventCount = {};
-        for (let i = commonEvent.length - 1; i >= 0; i--) {
-            eventCount[commonEvent[i]] = {
-                total: 0,
-                chroma: 0,
-                chromaOld: 0,
-                noodleExtensions: 0,
-                mappingExtensions: 0,
-            };
-        }
-
-        for (let i = events.length - 1; i >= 0; i--) {
-            if (this.isValidType()) {
-                if (!eventCount[events[i].type]) {
-                    eventCount[events[i].type] = {
-                        total: 0,
-                        chroma: 0,
-                        chromaOld: 0,
-                        noodleExtensions: 0,
-                        mappingExtensions: 0,
-                    };
-                }
-                eventCount[events[i].type].total++;
-                if (this.hasChroma()) {
-                    eventCount[events[i].type].chroma++;
-                }
-                if (this.hasOldChroma()) {
-                    eventCount[events[i].type].chromaOld++;
-                }
-                if (this.hasNoodleExtensions()) {
-                    eventCount[events[i].type].noodleExtensions++;
-                }
-                if (this.hasMappingExtensions()) {
-                    eventCount[events[i].type].mappingExtensions++;
-                }
-            }
-        }
-        return eventCount;
     };
 }

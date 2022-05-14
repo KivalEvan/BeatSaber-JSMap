@@ -1,11 +1,11 @@
-import { Note } from '../../../../beatmap/v2/note.ts';
-import { Obstacle } from '../../../../beatmap/v2/obstacle.ts';
-import { Event } from '../../../../beatmap/v2/event.ts';
-import { ColorNote } from '../../../../beatmap/v3/colorNote.ts';
-import { Obstacle as ObstacleV3 } from '../../../../beatmap/v3/obstacle.ts';
-import { BasicEvent } from '../../../../beatmap/v3/basicEvent.ts';
-import { Easings } from '../../shared/easings.ts';
-import { ColorArray } from '../../shared/colors.ts';
+import { Note } from '../../../beatmap/v2/note.ts';
+import { Obstacle } from '../../../beatmap/v2/obstacle.ts';
+import { Event } from '../../../beatmap/v2/event.ts';
+import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
+import { Obstacle as ObstacleV3 } from '../../../beatmap/v3/obstacle.ts';
+import { BasicEvent } from '../../../beatmap/v3/basicEvent.ts';
+import { Easings } from '../../../types/beatmap/shared/easings.ts';
+import { ColorArray } from '../../../types/beatmap/shared/colors.ts';
 import { SetOptions } from './options.ts';
 
 export type IChromaObject =
