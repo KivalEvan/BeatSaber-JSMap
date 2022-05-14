@@ -1,7 +1,10 @@
 name: Copy Deno to another branch
 on:
     push:
-        branches: [main]
+        branches:
+            - main
+        paths:
+            - deno/**
 jobs:
     copy:
         name: Copy Deno folder
