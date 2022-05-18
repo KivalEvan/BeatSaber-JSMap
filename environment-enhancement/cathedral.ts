@@ -3,7 +3,10 @@ import * as bsmap from '../deno/mod.ts';
 console.log('Running script...');
 console.time('Runtime');
 
-export default (difficulty: bsmap.v3.DifficultyData) => {
+export default (difficulty: bsmap.v2.DifficultyData) => {
+    if (difficulty.customData._environment?.length) {
+        bsmap.logger.warn('Environment exist, replacing');
+    }
     difficulty.customData._environment = [];
     const envEnh = difficulty.customData._environment;
 
@@ -27,12 +30,12 @@ export default (difficulty: bsmap.v3.DifficultyData) => {
             _id: regexCloudGeometry,
             _lookupMethod: 'Regex',
             _duplicate: 1,
-            _position: [0, 16, -128 + i * 24],
+            _position: [0, 16, -112 + i * 24],
             _rotation: [i % 2 ? 270 : 90, 0, 0],
             _scale: [
-                0.125 + 0.5 * Math.cos(bsmap.utils.degToRad(i * 8)),
-                0.25 + Math.random() * 0.5,
-                0.125 + 0.5 * Math.cos(bsmap.utils.degToRad(i * 8)),
+                0.125 + 0.375 * Math.cos(bsmap.utils.degToRad(i * 8)),
+                0.25 + Math.random() * 0.375,
+                0.125 + 0.375 * Math.cos(bsmap.utils.degToRad(i * 8)),
             ],
         });
     }
@@ -56,6 +59,34 @@ export default (difficulty: bsmap.v3.DifficultyData) => {
             _id: regexRingLeft,
             _lookupMethod: 'Regex',
             _position: [96, 0, 128],
+            _scale: [1, 1, 1],
+        },
+        {
+            _id: regexRingRight,
+            _lookupMethod: 'Regex',
+            _duplicate: 1,
+            _position: [-128, 0, 64],
+            _scale: [1, 1, 1],
+        },
+        {
+            _id: regexRingLeft,
+            _lookupMethod: 'Regex',
+            _duplicate: 1,
+            _position: [128, 0, 64],
+            _scale: [1, 1, 1],
+        },
+        {
+            _id: regexRingRight,
+            _lookupMethod: 'Regex',
+            _duplicate: 1,
+            _position: [-48, 0, 192],
+            _scale: [1, 1, 1],
+        },
+        {
+            _id: regexRingLeft,
+            _lookupMethod: 'Regex',
+            _duplicate: 1,
+            _position: [48, 0, 192],
             _scale: [1, 1, 1],
         },
         {
@@ -1093,11 +1124,11 @@ export default (difficulty: bsmap.v3.DifficultyData) => {
     createPillar(32, 112);
     createPillar(-32, 112);
 
-    for (let z = 0; z < 16; z++) {
-        createChair(-11, 2 + z * 4);
-        createChair(-6.5, 2 + z * 4);
-        createChair(6.5, 2 + z * 4);
-        createChair(11, 2 + z * 4);
+    for (let z = 0; z < 12; z++) {
+        createChair(-11, 2 + z * 5);
+        createChair(-6.5, 2 + z * 5);
+        createChair(6.5, 2 + z * 5);
+        createChair(11, 2 + z * 5);
     }
     //#endregion
     console.log(envEnh.length, 'environment enhancements');
