@@ -241,6 +241,34 @@ export class Obstacle extends BaseObject<IObstacle> {
         );
     }
 
+    /** Check if obstacle has Chroma properties.
+     * ```ts
+     * if (wall.hasChroma()) {}
+     * ```
+     */
+    hasChroma = (): boolean => {
+        return Array.isArray(this.customData?.color);
+    };
+
+    /** Check if obstacle has Noodle Extensions properties.
+     * ```ts
+     * if (wall.hasNoodleExtensions()) {}
+     * ```
+     */
+    hasNoodleExtensions = (): boolean => {
+        return (
+            Array.isArray(this.customData?.animation) ||
+            typeof this.customData?.uninteractable === 'boolean' ||
+            Array.isArray(this.customData?.localRotation) ||
+            typeof this.customData?.noteJumpMovementSpeed === 'number' ||
+            typeof this.customData?.noteJumpStartBeatOffset === 'number' ||
+            Array.isArray(this.customData?.coordinates) ||
+            Array.isArray(this.customData?.worldRotation) ||
+            Array.isArray(this.customData?.size) ||
+            typeof this.customData?.track === 'string'
+        );
+    };
+
     /** Check if obstacle has Mapping Extensions properties.
      * ```ts
      * if (wall.hasMappingExtensions()) {}

@@ -3,6 +3,7 @@ export * from './bpm.ts';
 export * from './characteristic.ts';
 export * from './chroma.ts';
 export * from './colors.ts';
+export * from './colorScheme.ts';
 export * from './coordinate.ts';
 export * from './customData.ts';
 export * from './dataCheck.ts';

@@ -1,6 +1,6 @@
 import { IContributor } from './contributor.ts';
 import { IEditor } from './editor.ts';
-import { IColorScheme } from './environment.ts';
+import { IColorScheme } from './colorScheme.ts';
 import { IHeckInfoCustomData } from './heck.ts';
 import { IChromaInfoCustomData } from './chroma.ts';
 
