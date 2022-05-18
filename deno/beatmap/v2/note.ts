@@ -170,8 +170,8 @@ export class Note extends BeatmapObject<INote> {
      * ```
      */
     getPosition = (): [number, number] => {
-        if (this.customData?.position) {
-            return [this.customData.position[0], this.customData.position[1]];
+        if (this.customData?._position) {
+            return [this.customData._position[0], this.customData._position[1]];
         }
         return [
             (this.lineIndex <= -1000
@@ -193,10 +193,10 @@ export class Note extends BeatmapObject<INote> {
      * ```
      */
     getAngle = (): number => {
-        if (this.customData?.cutDirection) {
-            return this.customData.cutDirection > 0
-                ? this.customData.cutDirection % 360
-                : 360 + (this.customData.cutDirection % 360);
+        if (this.customData?._cutDirection) {
+            return this.customData._cutDirection > 0
+                ? this.customData._cutDirection % 360
+                : 360 + (this.customData._cutDirection % 360);
         }
         if (this.cutDirection >= 1000) {
             return Math.abs(((this.cutDirection % 1000) % 360) - 360);
@@ -318,8 +318,8 @@ export class Note extends BeatmapObject<INote> {
      */
     hasChroma = (): boolean => {
         return (
-            Array.isArray(this.customData?.color) ||
-            typeof this.customData?.disableSpawnEffect === 'boolean'
+            Array.isArray(this.customData?._color) ||
+            typeof this.customData?._disableSpawnEffect === 'boolean'
         );
     };
 
@@ -331,19 +331,19 @@ export class Note extends BeatmapObject<INote> {
     // god i hate these
     hasNoodleExtensions = (): boolean => {
         return (
-            Array.isArray(this.customData?.animation) ||
-            typeof this.customData?.cutDirection === 'number' ||
-            typeof this.customData?.disableNoteGravity === 'boolean' ||
-            typeof this.customData?.disableNoteLook === 'boolean' ||
-            typeof this.customData?.fake === 'boolean' ||
-            Array.isArray(this.customData?.flip) ||
-            typeof this.customData?.interactable === 'boolean' ||
-            Array.isArray(this.customData?.localRotation) ||
-            typeof this.customData?.noteJumpMovementSpeed === 'number' ||
-            typeof this.customData?.noteJumpStartBeatOffset === 'number' ||
-            Array.isArray(this.customData?.position) ||
-            Array.isArray(this.customData?.rotation) ||
-            typeof this.customData?.track === 'string'
+            Array.isArray(this.customData?._animation) ||
+            typeof this.customData?._cutDirection === 'number' ||
+            typeof this.customData?._disableNoteGravity === 'boolean' ||
+            typeof this.customData?._disableNoteLook === 'boolean' ||
+            typeof this.customData?._fake === 'boolean' ||
+            Array.isArray(this.customData?._flip) ||
+            typeof this.customData?._interactable === 'boolean' ||
+            Array.isArray(this.customData?._localRotation) ||
+            typeof this.customData?._noteJumpMovementSpeed === 'number' ||
+            typeof this.customData?._noteJumpStartBeatOffset === 'number' ||
+            Array.isArray(this.customData?._position) ||
+            Array.isArray(this.customData?._rotation) ||
+            typeof this.customData?._track === 'string'
         );
     };
 

@@ -1,5 +1,5 @@
 import { IBaseObject } from './baseObject.ts';
-import { ICustomDataNote } from '../shared/customData.ts';
+import { ICustomDataNote } from './customData.ts';
 
 export interface IBombNote extends IBaseObject {
     /** Position x `<int>` of bomb.

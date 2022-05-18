@@ -1,4 +1,4 @@
-import * as bsmap from 'https://raw.githubusercontent.com/KivalEvan/BeatSaber-MappingScript/main/deno/mod.ts';
+import * as bsmap from 'https://raw.githubusercontent.com/KivalEvan/BeatSaber-MappingScript/deno/mod.ts';
 import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
 
 // working directory is not necessary unless you're working on importing anything from workspace root and in different folder path

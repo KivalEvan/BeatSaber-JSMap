@@ -14,13 +14,13 @@ General-purpose Beat Saber scripting library, complete with type-check, auto-com
 
 ## Getting Started
 
-To get started, check out the [example folder](https://github.com/KivalEvan/BeatSaber-MappingScript/tree/main/deno/example) for templates you can use.
+To get started, check out the [example folder](https://github.com/KivalEvan/BeatSaber-MappingScript/tree/deno/example) for templates you can use.
 Deno by nature caches the module upon first execution, and will never be updated after. This mean you can continue working on the script regardless of connection and will not break the existing code regardless of newly released update until explicitly updating it via `--reload` flag.
 
 The bare minimum example:
 
 ```ts
-import * as bsmap from 'https://raw.githubusercontent.com/KivalEvan/BeatSaber-MappingScript/main/deno/mod.ts';
+import * as bsmap from 'https://raw.githubusercontent.com/KivalEvan/BeatSaber-MappingScript/deno/mod.ts';
 
 const data = bsmap.load.difficultySync('ExpertPlusStandard.dat');
 bsmap.save.difficultySync(data, 'ExpertPlusStandard.dat');

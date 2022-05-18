@@ -3,9 +3,9 @@ import {
     IChromaEventLight,
     IChromaEventRing,
     IChromaEventZoom,
-} from '../shared/chroma.ts';
+} from './chroma.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
-import { INEEvent } from '../shared/noodleExtensions.ts';
+import { INEEvent } from './noodleExtensions.ts';
 import { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Event.

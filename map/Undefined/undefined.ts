@@ -56,8 +56,8 @@ difficultyList.forEach((d) => {
                 j++;
             }
         }
-        if (n.customData?._color) {
-            if (n.customData._color[0] === 0) {
+        if (n.customData?.color) {
+            if (n.customData.color[0] === 0) {
                 if (possibleBurst[n.color].length) {
                     d.data.colorNotes.splice(i, 1);
                     i--;
@@ -65,7 +65,7 @@ difficultyList.forEach((d) => {
                 }
                 possibleBurst[n.color].push(n);
             }
-            if (n.customData._color[0] === 1) {
+            if (n.customData.color[0] === 1) {
                 if (prevSlider[n.color]) {
                     d.data.addSliders({
                         b: prevSlider[n.color].time,
@@ -73,26 +73,26 @@ difficultyList.forEach((d) => {
                         x: prevSlider[n.color].posX,
                         y: prevSlider[n.color].posY,
                         d: prevSlider[n.color].direction,
-                        mu: prevSlider[n.color].customData!._disableSpawnEffect
+                        mu: !prevSlider[n.color].customData!.spawnEffect
                             ? 0
-                            : prevSlider[n.color].customData!._color![2],
+                            : prevSlider[n.color].customData!.color![2],
                         tb: n.time,
                         tx: n.posX,
                         ty: n.posY,
-                        tc: prevSlider[n.color].customData!._disableSpawnEffect
+                        tc: !prevSlider[n.color].customData!.spawnEffect
                             ? prevSlider[n.color].direction
                             : n.direction,
-                        tmu: prevSlider[n.color].customData!._disableSpawnEffect
+                        tmu: !prevSlider[n.color].customData!.spawnEffect
                             ? 0
-                            : prevSlider[n.color].customData!._color![3],
-                        m: prevSlider[n.color].customData!._color![1] as 0,
+                            : prevSlider[n.color].customData!.color![3],
+                        m: prevSlider[n.color].customData!.color![1] as 0,
                     });
                 }
                 delete prevSlider[n.color];
-                if (n.customData._color[3] !== 0) {
+                if (n.customData.color[3] !== 0) {
                     prevSlider[n.color] = n;
                 } else {
-                    if (n.customData._color[2] !== 0) {
+                    if (n.customData.color[2] !== 0) {
                         let x = n.posX;
                         let y = n.posY;
                         while (x >= 0 && x <= 3 && y >= 0 && y <= 2) {
@@ -109,7 +109,7 @@ difficultyList.forEach((d) => {
                                 y: n.posY,
                                 d: n.direction,
                                 mu: 0.5,
-                                tb: n.time + n.customData._color[2],
+                                tb: n.time + n.customData.color[2],
                                 tx: x,
                                 ty: y,
                                 tc: n.direction,
@@ -118,7 +118,7 @@ difficultyList.forEach((d) => {
                             })
                         );
                     }
-                    if (n.customData!._disableSpawnEffect) {
+                    if (!n.customData!.spawnEffect) {
                         d.data.colorNotes.splice(i, 1);
                         i--;
                         len--;
@@ -136,9 +136,9 @@ difficultyList.forEach((d) => {
                 tb: possibleBurst[n.color][1].time,
                 tx: possibleBurst[n.color][1].posX,
                 ty: possibleBurst[n.color][1].posY,
-                sc: possibleBurst[n.color][0].customData!._color![1],
-                s: possibleBurst[n.color][0].customData!._color![2]
-                    ? possibleBurst[n.color][0].customData!._color![2]
+                sc: possibleBurst[n.color][0].customData!.color![1],
+                s: possibleBurst[n.color][0].customData!.color![2]
+                    ? possibleBurst[n.color][0].customData!.color![2]
                     : 1,
             });
             possibleBurst[n.color] = [];

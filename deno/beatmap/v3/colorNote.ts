@@ -1,7 +1,7 @@
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { BaseObject } from './baseObject.ts';
 import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
-import { deepCopy } from '../../utils/mod.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { ICoordinateNote } from '../../types/beatmap/shared/coordinate.ts';
 
@@ -415,6 +415,29 @@ export class ColorNote
             !this.isVertical(compareTo)
         );
     }
+
+    /** Check if note has Noodle Extensions properties.
+     * ```ts
+     * if (hasNoodleExtensions(note)) {}
+     * ```
+     */
+    // god i hate these
+    hasNoodleExtensions = (): boolean => {
+        return (
+            Array.isArray(this.customData?.animation) ||
+            typeof this.customData?.disableNoteGravity === 'boolean' ||
+            typeof this.customData?.disableNoteLook === 'boolean' ||
+            Array.isArray(this.customData?.flip) ||
+            typeof this.customData?.uninteractable === 'boolean' ||
+            Array.isArray(this.customData?.localRotation) ||
+            typeof this.customData?.noteJumpMovementSpeed === 'number' ||
+            typeof this.customData?.noteJumpStartBeatOffset === 'number' ||
+            Array.isArray(this.customData?.coordinates) ||
+            Array.isArray(this.customData?.worldRotation) ||
+            typeof this.customData?.worldRotation === 'number' ||
+            typeof this.customData?.track === 'string'
+        );
+    };
 
     /** Check if note has Mapping Extensions properties.
      * ```ts
