@@ -198,7 +198,7 @@ export class Obstacle extends BaseObject<IObstacle> {
         return this.duration === 0 || this.width === 0 || this.height === 0;
     }
 
-    /** Check if obstacle is crouch.
+    /** Check if obstacle has negative value.
      * ```ts
      * if (wall.hasNegative()) {}
      * ```

@@ -54,7 +54,7 @@ export const ColorSchemeRename: Readonly<{
 };
 
 /** Color scheme definition. */
-export const ColorScheme: Readonly<IEnvironmentScheme> = {
+export const ColorScheme: IEnvironmentScheme = {
     'Default Custom': {
         _colorLeft: { r: 0.7529412, g: 0.1882353, b: 0.1882353 },
         _colorRight: { r: 0.1254902, g: 0.3921569, b: 0.6588235 },

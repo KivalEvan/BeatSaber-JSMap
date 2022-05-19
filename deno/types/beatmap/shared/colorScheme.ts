@@ -49,5 +49,5 @@ export type ColorSchemeList =
     | 'Glass Desert';
 
 export type IEnvironmentScheme = {
-    [key in ColorSchemeList]: IColorScheme;
+    readonly [key in ColorSchemeList]: Readonly<IColorScheme>;
 };
