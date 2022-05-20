@@ -363,6 +363,7 @@ export default (d: bsmap.v3.DifficultyData) => {
         }
     }
     //#endregion
+    //#region drop flashes
     d.addLightColorEventBoxGroups(
         {
             b: 34,
@@ -483,6 +484,8 @@ export default (d: bsmap.v3.DifficultyData) => {
             ],
         }
     );
+    //#endregion
+    //#region drum and kick
     for (let t = 34; t < 98; t++) {
         const fltr = { f: 1, p: 2, t: 1, r: 1 } as bsmap.types.v3.IIndexFilter;
         const fltrR = { f: 1, p: 2, t: 1, r: 0 } as bsmap.types.v3.IIndexFilter;
@@ -512,6 +515,36 @@ export default (d: bsmap.v3.DifficultyData) => {
             }
         );
     }
+    for (let t = 98; t < 128; t++) {
+        const fltr = { f: 1, p: 2, t: 1, r: 1 } as bsmap.types.v3.IIndexFilter;
+        const fltrR = { f: 1, p: 2, t: 1, r: 0 } as bsmap.types.v3.IIndexFilter;
+        const e = [
+            { c: 2, s: t % 2 ? 1 : 0.75 },
+            { c: 2, s: t % 2 ? 1 : 0.75, b: 0.125 },
+            { c: t % 2 ? 0 : 1, b: 0.1875, i: 1, s: 0.5 },
+            { c: t % 2 ? 0 : 1, b: 0.25, s: 0 },
+        ] as Partial<bsmap.types.v3.ILightColorBase>[];
+        const w = t % 2 ? 0.375 : 0.5;
+        d.addLightColorEventBoxGroups(
+            {
+                b: t,
+                g: t % 2 ? 14 : 12,
+                e: [
+                    { f: fltr, e, w },
+                    { f: fltrR, e, w },
+                ],
+            },
+            {
+                b: t,
+                g: t % 2 ? 15 : 13,
+                e: [
+                    { f: fltr, e, w },
+                    { f: fltrR, e, w },
+                ],
+            }
+        );
+    }
+    //#endregion
     for (let j = 0; j < 24; j++) {
         const time = 34 + j * 4;
         d.addColorBoostBeatmapEvents({ b: time, o: false }, { b: time + 3, o: true });

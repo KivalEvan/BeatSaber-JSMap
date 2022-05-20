@@ -1,5 +1,6 @@
 export * from './bookmark.ts';
 export * from './bpm.ts';
+export * from './bpmInfo.ts';
 export * from './characteristic.ts';
 export * from './chroma.ts';
 export * from './colors.ts';
