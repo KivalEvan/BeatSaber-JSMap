@@ -1,8 +1,8 @@
-import * as bsmap from '../deno/mod.ts';
+import * as bsmap from '../mod.ts';
 
 /**
  * Convert chroma note to arc and chain.
- * Scuffed but works
+ * Scuffed but works!
  */
 export default (d: bsmap.v3.DifficultyData) => {
     const prevSlider: {
@@ -13,9 +13,6 @@ export default (d: bsmap.v3.DifficultyData) => {
     } = { 0: [], 1: [] };
     for (let i = 0, len = d.colorNotes.length; i < len; i++) {
         const n = d.colorNotes[i];
-        if (n.direction === 8) {
-            n.angleOffset = 45;
-        }
         if (n.customData?.color) {
             if (n.customData.color[0] === 0) {
                 if (possibleBurst[n.color].length) {
@@ -27,24 +24,37 @@ export default (d: bsmap.v3.DifficultyData) => {
             }
             if (n.customData.color[0] === 1) {
                 if (prevSlider[n.color]) {
+                    if (n.time - prevSlider[n.color].time > 2) {
+                        bsmap.logger.warn(
+                            'beat',
+                            prevSlider[n.color].time,
+                            'slider last longer than 2 beat, is this intentional?'
+                        );
+                    }
                     d.addSliders({
                         b: prevSlider[n.color].time,
                         c: prevSlider[n.color].color,
                         x: prevSlider[n.color].posX,
                         y: prevSlider[n.color].posY,
                         d: prevSlider[n.color].direction,
-                        mu: !prevSlider[n.color].customData!.spawnEffect
-                            ? 0
-                            : prevSlider[n.color].customData!.color![2],
+                        mu:
+                            typeof prevSlider[n.color].customData?.spawnEffect ===
+                            'boolean'
+                                ? 0
+                                : prevSlider[n.color].customData!.color![2],
                         tb: n.time,
                         tx: n.posX,
                         ty: n.posY,
-                        tc: !prevSlider[n.color].customData!.spawnEffect
-                            ? prevSlider[n.color].direction
-                            : n.direction,
-                        tmu: !prevSlider[n.color].customData!.spawnEffect
-                            ? 0
-                            : prevSlider[n.color].customData!.color![3],
+                        tc:
+                            typeof prevSlider[n.color].customData?.spawnEffect ===
+                            'boolean'
+                                ? prevSlider[n.color].direction
+                                : n.direction,
+                        tmu:
+                            typeof prevSlider[n.color].customData?.spawnEffect ===
+                            'boolean'
+                                ? 0
+                                : prevSlider[n.color].customData!.color![3],
                         m: prevSlider[n.color].customData!.color![1] as 0,
                     });
                 }
@@ -55,9 +65,11 @@ export default (d: bsmap.v3.DifficultyData) => {
                     if (n.customData.color[2] !== 0) {
                         let x = n.posX;
                         let y = n.posY;
+                        let distance = 0;
                         while (x >= 0 && x <= 3 && y >= 0 && y <= 2) {
                             x += bsmap.NoteCutDirectionSpace[n.direction][0];
                             y += bsmap.NoteCutDirectionSpace[n.direction][1];
+                            distance++;
                         }
                         x = bsmap.utils.clamp(x, 0, 3);
                         y = bsmap.utils.clamp(y, 0, 2);
@@ -67,16 +79,16 @@ export default (d: bsmap.v3.DifficultyData) => {
                             x: n.posX,
                             y: n.posY,
                             d: n.direction,
-                            mu: 0.5,
+                            mu: distance / 2,
                             tb: n.time + n.customData.color[2],
                             tx: x,
                             ty: y,
-                            tc: n.direction,
+                            tc: bsmap.NoteFlipDirection[n.direction] ?? 8,
                             tmu: 0,
                             m: 0,
                         });
                     }
-                    if (!n.customData!.spawnEffect) {
+                    if (typeof n.customData.spawnEffect === 'boolean') {
                         d.colorNotes.splice(i, 1);
                         i--;
                         len--;
@@ -104,5 +116,9 @@ export default (d: bsmap.v3.DifficultyData) => {
     }
     if (possibleBurst[0].length || possibleBurst[1].length) {
         throw Error('what the fuck');
+    }
+    for (let i = 0, len = d.colorNotes.length; i < len; i++) {
+        const n = d.colorNotes[i];
+        n.removeCustomData('color');
     }
 };

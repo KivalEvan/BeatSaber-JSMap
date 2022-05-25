@@ -1,6 +1,6 @@
 # Environment Enhancement Script
 
-Script to deal with environment enhancement
+Script to deal with environment enhancement.
 
 ## How to use
 
@@ -9,6 +9,3 @@ map file, edit the script accordingly, run the script, done.
 
 Alternatively, copy the `_environment` inside `environment.dat` and place it
 into `_customData`.
-
-If you've made lightshow for platform prior to environment enhancement, consider
-using `lightConvert.js` and adjust the settings accordingly.

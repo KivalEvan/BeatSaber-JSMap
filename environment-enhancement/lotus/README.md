@@ -1,10 +1,10 @@
 # Lotus Environment
 
-<img src="https://raw.githubusercontent.com/KivalEvan/BeatSaber-MappingScript/main/environment-enhancement/lotus/lotus.png">
+<img src="./environment.png">
 
 # Vanilla-compatible version
 
-<img src="https://raw.githubusercontent.com/KivalEvan/BeatSaber-MappingScript/main/environment-enhancement/lotus/lotusVanilla.png">
+<img src="./environmentVanilla.png">
 
 ## How To Use
 

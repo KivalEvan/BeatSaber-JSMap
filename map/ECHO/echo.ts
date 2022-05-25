@@ -348,6 +348,7 @@ interface ImageGIFOption {
     easings?: (x: number) => number;
 }
 
+const cacheImage: { [key: string]: imagescript.GIF } = {};
 const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
     const opt: Required<ImageGIFOption> = {
         time: options.time,
@@ -367,8 +368,14 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
         override: options.override ?? false,
         easings: options.easings ?? bsmap.easings.method.easeLinear,
     };
-    const gifFile = Deno.readFileSync(WORKING_DIRECTORY + imagePath);
-    const gif = await imagescript.GIF.decode(gifFile, !opt.animated);
+    let gif: imagescript.GIF;
+    if (cacheImage[imagePath]) {
+        gif = cacheImage[imagePath];
+    } else {
+        let gifFile = Deno.readFileSync(WORKING_DIRECTORY + imagePath);
+        gif = await imagescript.GIF.decode(gifFile, !opt.animated);
+        cacheImage[imagePath] = gif;
+    }
     let itFrame = 0;
     gif.forEach((frame) => {
         frame.rotate(opt.rotate);
@@ -4255,6 +4262,17 @@ for (const e of echoTiming) {
 for (let i = 0; i < 11; i++) {
     await screenDraw('questionmark.gif', { time: 284 + i * 0.75 });
     screenClear(284.25 + i * 0.75);
+}
+
+for (const e of difficulty.events) {
+    if (e.value >= 1 && e.value <= 4) {
+        e.value += 8;
+        e.floatValue *= 0.75;
+    }
+    if (e.value >= 5 && e.value <= 8) {
+        e.value += 4;
+        e.floatValue *= 0.5;
+    }
 }
 
 await bsmap.save.difficulty(difficulty, {

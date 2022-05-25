@@ -1,4 +1,4 @@
-import * as bsmap from 'https://raw.githubusercontent.com/KivalEvan/BeatSaber-MappingScript/deno/mod.ts';
+import * as bsmap from '../mod.ts';
 
 // YOUR BEAT SABER MAP PATH
 bsmap.globals.path =

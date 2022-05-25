@@ -12,15 +12,15 @@ export default (d: bsmap.v3.DifficultyData) => {
             },
             {
                 b: 0.0625,
-                i: 2,
                 c: 1,
                 s: 0,
+                f: 12,
             },
             {
                 b: 0.5,
                 i: 1,
                 c: 0,
-                s: 1,
+                s: 0.75,
             },
             {
                 b: 2,
@@ -50,7 +50,7 @@ export default (d: bsmap.v3.DifficultyData) => {
         d.addLightColorEventBoxGroups(
             {
                 b: 2 + i * 4,
-                g: 4,
+                g: i % 4 === 1 ? 4 + Math.floor(i / 4) * 2 : 6 - Math.floor(i / 4) * 2,
                 e: [
                     {
                         w: 3,
@@ -60,7 +60,7 @@ export default (d: bsmap.v3.DifficultyData) => {
             },
             {
                 b: 2 + i * 4,
-                g: 5,
+                g: i % 4 === 1 ? 5 + Math.floor(i / 4) * 2 : 7 - Math.floor(i / 4) * 2,
                 e: [
                     {
                         w: 3,
@@ -72,11 +72,11 @@ export default (d: bsmap.v3.DifficultyData) => {
         d.addLightRotationEventBoxGroups(
             {
                 b: 2 + i * 4,
-                g: 4,
+                g: i % 4 === 1 ? 4 + Math.floor(i / 4) * 2 : 6 - Math.floor(i / 4) * 2,
                 e: [
                     {
-                        s: i % 4 > 1 ? 25 : 30,
-                        w: 1,
+                        s: i % 4 > 1 ? 20 : 30,
+                        w: 3.25,
                         l: [
                             {
                                 e: -1,
@@ -93,11 +93,11 @@ export default (d: bsmap.v3.DifficultyData) => {
             },
             {
                 b: 2 + i * 4,
-                g: 5,
+                g: i % 4 === 1 ? 5 + Math.floor(i / 4) * 2 : 7 - Math.floor(i / 4) * 2,
                 e: [
                     {
-                        s: i % 4 > 1 ? 25 : 30,
-                        w: 1,
+                        s: i % 4 > 1 ? 20 : 30,
+                        w: 3.25,
                         l: [
                             {
                                 e: -1,
@@ -364,138 +364,142 @@ export default (d: bsmap.v3.DifficultyData) => {
     }
     //#endregion
     //#region drop flashes
-    d.addLightColorEventBoxGroups(
-        {
-            b: 34,
-            g: 2,
-            e: [
-                {
-                    f: { r: 1, f: 2, p: 0, t: 2 },
-                    w: 1.75,
-                    e: [
-                        { c: 2, s: 1.5 },
-                        { c: 2, b: 0.25, i: 2, s: 1 },
-                        { i: 1, b: 1.5, s: 0 },
-                    ],
-                },
-            ],
-        },
-        {
-            b: 34,
-            g: 3,
-            e: [
-                {
-                    f: { r: 1, f: 2, p: 0, t: 2 },
-                    w: 1.75,
-                    e: [
-                        { c: 2, s: 1.5 },
-                        { c: 2, b: 0.25, i: 2, s: 1 },
-                        { i: 1, b: 1.5, s: 0 },
-                    ],
-                },
-            ],
-        },
-        {
-            b: 34,
-            g: 8,
-            e: [
-                {
-                    f: { r: 1, f: 2, p: 0, t: 2 },
-                    w: 1.75,
-                    e: [
-                        { c: 2, s: 1.5 },
-                        { c: 2, b: 0.25, i: 2, s: 1 },
-                        { i: 1, b: 1.5, s: 0 },
-                    ],
-                },
-            ],
-        },
-        {
-            b: 34,
-            g: 9,
-            e: [
-                {
-                    f: { r: 1, f: 2, p: 0, t: 2 },
-                    w: 1.75,
-                    e: [
-                        { c: 2, s: 1.5 },
-                        { c: 2, b: 0.25, i: 2, s: 1 },
-                        { i: 1, b: 1.5, s: 0 },
-                    ],
-                },
-            ],
-        }
-    );
-    d.addLightRotationEventBoxGroups(
-        {
-            b: 34,
-            g: 2,
-            e: [
-                {
-                    f: { r: 1, f: 2, p: 0, t: 2 },
-                    s: 22.5,
-                    l: [
-                        { e: -1, r: 270 },
-                        { b: 1.5, e: 2, r: 225 + 22.5 },
-                    ],
-                },
-            ],
-        },
-        {
-            b: 34,
-            g: 3,
-            e: [
-                {
-                    f: { r: 1, f: 2, p: 0, t: 2 },
-                    s: 22.5,
-                    l: [
-                        { e: -1, r: 270 },
-                        { b: 1.5, e: 2, r: 225 + 22.5 },
-                    ],
-                },
-            ],
-        },
-        {
-            b: 34,
-            g: 8,
-            e: [
-                {
-                    f: { r: 1, f: 2, p: 0, t: 2 },
-                    s: 22.5,
-                    l: [
-                        { e: -1, r: 180 },
-                        { b: 1.5, e: 2, r: 135 + 22.5 },
-                    ],
-                },
-            ],
-        },
-        {
-            b: 34,
-            g: 9,
-            e: [
-                {
-                    f: { r: 1, f: 2, p: 0, t: 2 },
-                    s: 22.5,
-                    l: [
-                        { e: -1, r: 180 },
-                        { b: 1.5, e: 2, r: 135 + 22.5 },
-                    ],
-                },
-            ],
-        }
-    );
+    for (let i = 0; i < 3; i++) {
+        d.addLightColorEventBoxGroups(
+            {
+                b: 34 + i * 32,
+                g: 2,
+                e: [
+                    {
+                        f: { r: 1, f: 2, p: 0, t: 2 },
+                        w: 2.625,
+                        e: [
+                            { c: 2, s: 2.5 },
+                            { c: 2, b: 0.5, i: 1, s: 1 },
+                            { i: 1, b: 2.5, s: 0 },
+                        ],
+                    },
+                ],
+            },
+            {
+                b: 34 + i * 32,
+                g: 3,
+                e: [
+                    {
+                        f: { r: 1, f: 2, p: 0, t: 2 },
+                        w: 2.625,
+                        e: [
+                            { c: 2, s: 2.5 },
+                            { c: 2, b: 0.5, i: 1, s: 1 },
+                            { i: 1, b: 2.5, s: 0 },
+                        ],
+                    },
+                ],
+            },
+            {
+                b: 34 + i * 32,
+                g: 8,
+                e: [
+                    {
+                        f: { r: 1, f: 2, p: 0, t: 2 },
+                        w: 2.625,
+                        e: [
+                            { c: 2, s: 2.5 },
+                            { c: 2, b: 0.5, i: 1, s: 1 },
+                            { i: 1, b: 2.5, s: 0 },
+                        ],
+                    },
+                ],
+            },
+            {
+                b: 34 + i * 32,
+                g: 9,
+                e: [
+                    {
+                        f: { r: 1, f: 2, p: 0, t: 2 },
+                        w: 2.625,
+                        e: [
+                            { c: 2, s: 2.5 },
+                            { c: 2, b: 0.5, i: 1, s: 1 },
+                            { i: 1, b: 2.5, s: 0 },
+                        ],
+                    },
+                ],
+            }
+        );
+        d.addLightRotationEventBoxGroups(
+            {
+                b: 34 + i * 32,
+                g: 2,
+                e: [
+                    {
+                        f: { r: 1, f: 2, p: 0, t: 2 },
+                        s: 22.5,
+                        l: [
+                            { e: -1, r: 270 },
+                            { b: 2.5, e: 2, r: 225 + 22.5 },
+                        ],
+                    },
+                ],
+            },
+            {
+                b: 34 + i * 32,
+                g: 3,
+                e: [
+                    {
+                        f: { r: 1, f: 2, p: 0, t: 2 },
+                        s: 22.5,
+                        l: [
+                            { e: -1, r: 270 },
+                            { b: 2.5, e: 2, r: 225 + 22.5 },
+                        ],
+                    },
+                ],
+            },
+            {
+                b: 34 + i * 32,
+                g: 8,
+                e: [
+                    {
+                        f: { r: 1, f: 2, p: 0, t: 2 },
+                        s: 22.5,
+                        l: [
+                            { e: -1, r: 180 },
+                            { b: 2.5, e: 2, r: 135 + 22.5 },
+                        ],
+                    },
+                ],
+            },
+            {
+                b: 34 + i * 32,
+                g: 9,
+                e: [
+                    {
+                        f: { r: 1, f: 2, p: 0, t: 2 },
+                        s: 22.5,
+                        l: [
+                            { e: -1, r: 180 },
+                            { b: 2.5, e: 2, r: 135 + 22.5 },
+                        ],
+                    },
+                ],
+            }
+        );
+    }
     //#endregion
     //#region drum and kick
     for (let t = 34; t < 98; t++) {
         const fltr = { f: 1, p: 2, t: 1, r: 1 } as bsmap.types.v3.IIndexFilter;
         const fltrR = { f: 1, p: 2, t: 1, r: 0 } as bsmap.types.v3.IIndexFilter;
         const e = [
-            { c: 2, s: t % 2 ? 1 : 0.75 },
-            { c: 2, s: t % 2 ? 1 : 0.75, b: 0.125 },
-            { c: t % 2 ? 0 : 1, b: 0.1875, i: 1, s: 0.5 },
-            { c: t % 2 ? 0 : 1, b: 0.25, s: 0 },
+            { c: 2, s: t % 2 ? 1.25 : 1 },
+            { b: 0.0625 + 0.03125, c: 2, s: t % 2 ? 1 : 0.75, i: 1 },
+            { c: t % 2 ? 0 : 1, b: 0.125, s: 0.75 },
+            { b: 0.25, i: 2 },
+            { c: t % 2 ? 0 : 1, b: 0.3125 + 0.03125, s: 0.25, i: 1 },
+            { c: t % 2 ? 0 : 1, b: 0.375, s: 0 },
         ] as Partial<bsmap.types.v3.ILightColorBase>[];
-        const w = t % 2 ? 0.375 : 0.5;
+        const w = t % 2 ? 0.5 : 0.625;
         d.addLightColorEventBoxGroups(
             {
                 b: t,
@@ -516,19 +520,31 @@ export default (d: bsmap.v3.DifficultyData) => {
         );
     }
     for (let t = 98; t < 128; t++) {
-        const fltr = { f: 1, p: 2, t: 1, r: 1 } as bsmap.types.v3.IIndexFilter;
-        const fltrR = { f: 1, p: 2, t: 1, r: 0 } as bsmap.types.v3.IIndexFilter;
+        const fltr = {
+            f: 1,
+            p: t % 2 ? 2 : 8,
+            t: t % 2 ? 1 : 4 - ((t - 98) % 16 > 7 ? 2 : 0),
+            r: 1,
+        } as bsmap.types.v3.IIndexFilter;
+        const fltrR = {
+            f: 1,
+            p: t % 2 ? 2 : 8,
+            t: t % 2 ? 1 : 4 - ((t - 98) % 16 > 7 ? 2 : 0),
+            r: 0,
+        } as bsmap.types.v3.IIndexFilter;
         const e = [
-            { c: 2, s: t % 2 ? 1 : 0.75 },
-            { c: 2, s: t % 2 ? 1 : 0.75, b: 0.125 },
-            { c: t % 2 ? 0 : 1, b: 0.1875, i: 1, s: 0.5 },
-            { c: t % 2 ? 0 : 1, b: 0.25, s: 0 },
+            { c: 2, s: t % 2 ? 1.25 : 1 },
+            { b: 0.0625 + 0.03125, c: 2, s: t % 2 ? 1 : 0.75, i: 1 },
+            { c: t % 2 ? 0 : 1, b: 0.125, s: 0.75 },
+            { b: 0.25, i: 2 },
+            { c: t % 2 ? 0 : 1, b: 0.3125 + 0.03125, s: 0.25, i: 1 },
+            { c: t % 2 ? 0 : 1, b: 0.375, s: 0 },
         ] as Partial<bsmap.types.v3.ILightColorBase>[];
-        const w = t % 2 ? 0.375 : 0.5;
+        const w = t % 2 ? 0.5 : 0;
         d.addLightColorEventBoxGroups(
             {
                 b: t,
-                g: t % 2 ? 14 : 12,
+                g: t % 4 > 1 ? 12 : 14,
                 e: [
                     { f: fltr, e, w },
                     { f: fltrR, e, w },
@@ -536,7 +552,7 @@ export default (d: bsmap.v3.DifficultyData) => {
             },
             {
                 b: t,
-                g: t % 2 ? 15 : 13,
+                g: t % 4 > 1 ? 13 : 15,
                 e: [
                     { f: fltr, e, w },
                     { f: fltrR, e, w },
@@ -544,8 +560,172 @@ export default (d: bsmap.v3.DifficultyData) => {
             }
         );
     }
+    {
+        const fltr = {
+            f: 1,
+            p: 2,
+            t: 1,
+            r: 1,
+        } as bsmap.types.v3.IIndexFilter;
+        const fltrR = {
+            f: 1,
+            p: 2,
+            t: 1,
+            r: 0,
+        } as bsmap.types.v3.IIndexFilter;
+        d.addLightRotationEventBoxGroups(
+            {
+                b: 98,
+                g: 12,
+                e: [
+                    {
+                        s: 15,
+                        f: fltr,
+                        a: 1,
+                        l: [
+                            { e: -1, r: 90 },
+                            { b: 16, e: 1, r: 180 },
+                            { b: 32, e: 2, r: 90 },
+                        ],
+                    },
+                    {
+                        s: -15,
+                        f: fltrR,
+                        a: 1,
+                        l: [
+                            { e: -1, r: 90 },
+                            { b: 16, e: 1, r: 0 },
+                            { b: 32, e: 2, r: 90 },
+                        ],
+                    },
+                    {
+                        s: -30,
+                        f: fltr,
+                        l: [{ p: 1 }, { b: 16, r: 90, e: 1 }, { b: 32, r: 180, e: 2 }],
+                    },
+                    {
+                        s: -30,
+                        r: 1,
+                        f: fltrR,
+                        l: [{ p: 1 }, { b: 16, r: 90, e: 1 }, { b: 32, r: 180, e: 2 }],
+                    },
+                ],
+            },
+            {
+                b: 98,
+                g: 13,
+                e: [
+                    {
+                        s: 15,
+                        f: fltr,
+                        a: 1,
+                        l: [
+                            { e: -1, r: 90 },
+                            { b: 16, e: 1, r: 180 },
+                            { b: 32, e: 2, r: 90 },
+                        ],
+                    },
+                    {
+                        s: -15,
+                        f: fltrR,
+                        a: 1,
+                        l: [
+                            { e: -1, r: 90 },
+                            { b: 16, e: 1, r: 0 },
+                            { b: 32, e: 2, r: 90 },
+                        ],
+                    },
+                    {
+                        s: -30,
+                        f: fltr,
+                        l: [{ p: 1 }, { b: 16, r: 90, e: 1 }, { b: 32, r: 180, e: 2 }],
+                    },
+                    {
+                        s: -30,
+                        r: 1,
+                        f: fltrR,
+                        l: [{ p: 1 }, { b: 16, r: 90, e: 1 }, { b: 32, r: 180, e: 2 }],
+                    },
+                ],
+            },
+            {
+                b: 98,
+                g: 14,
+                e: [
+                    {
+                        s: 15,
+                        f: fltr,
+                        a: 1,
+                        l: [
+                            { e: -1, r: 90 },
+                            { b: 16, e: 1, r: 180 },
+                            { b: 32, e: 2, r: 90 },
+                        ],
+                    },
+                    {
+                        s: -15,
+                        f: fltrR,
+                        a: 1,
+                        l: [
+                            { e: -1, r: 90 },
+                            { b: 16, e: 1, r: 0 },
+                            { b: 32, e: 2, r: 90 },
+                        ],
+                    },
+                    {
+                        s: -30,
+                        f: fltr,
+                        l: [{ p: 1 }, { b: 16, r: 90, e: 1 }, { b: 32, r: 180, e: 2 }],
+                    },
+                    {
+                        s: -30,
+                        r: 1,
+                        f: fltrR,
+                        l: [{ p: 1 }, { b: 16, r: 90, e: 1 }, { b: 32, r: 180, e: 2 }],
+                    },
+                ],
+            },
+            {
+                b: 98,
+                g: 15,
+                e: [
+                    {
+                        s: 15,
+                        f: fltr,
+                        a: 1,
+                        l: [
+                            { e: -1, r: 90 },
+                            { b: 16, e: 1, r: 180 },
+                            { b: 32, e: 2, r: 90 },
+                        ],
+                    },
+                    {
+                        s: -15,
+                        f: fltrR,
+                        a: 1,
+                        l: [
+                            { e: -1, r: 90 },
+                            { b: 16, e: 1, r: 0 },
+                            { b: 32, e: 2, r: 90 },
+                        ],
+                    },
+                    {
+                        s: -30,
+                        f: fltr,
+                        l: [{ p: 1 }, { b: 16, r: 90, e: 1 }, { b: 32, r: 180, e: 2 }],
+                    },
+                    {
+                        s: -30,
+                        r: 1,
+                        f: fltrR,
+                        l: [{ p: 1 }, { b: 16, r: 90, e: 1 }, { b: 32, r: 180, e: 2 }],
+                    },
+                ],
+            }
+        );
+    }
     //#endregion
-    for (let j = 0; j < 24; j++) {
+    for (let j = 0; j < 16; j++) {
         const time = 34 + j * 4;
         d.addColorBoostBeatmapEvents({ b: time, o: false }, { b: time + 3, o: true });
         for (let i = 0; i < 6; i++) {
@@ -614,4 +794,111 @@ export default (d: bsmap.v3.DifficultyData) => {
             }
         );
     }
+    //#region outro
+    const outroG: number[][] = [
+        [5, 1, 11, 4, 0, 10],
+        [9, 3, 5, 8, 2, 4],
+        [6, 9, 4, 7, 8, 5],
+        [7, 2, 9, 6, 3, 8],
+        [4, 0, 10, 5, 1, 11],
+        [8, 2, 4, 9, 3, 5],
+        [7, 8, 5, 6, 9, 4],
+        [1, 3, 11, 0, 2, 10],
+    ];
+    d.addColorBoostBeatmapEvents({ b: 98, o: false });
+    for (let j = 0; j < 8; j++) {
+        const time = 98 + j * 4;
+        const t = [0.25, 0.5, 0.75, 1.25, 1.5, 1.75];
+        const g = outroG[j];
+        for (let i = 0; i < 6; i++) {
+            const e = [
+                { c: 2 },
+                { c: 2, b: 0.125 },
+                { b: 0.1875, i: 1 },
+                { b: 0.375, c: 1, i: 1, s: 0.75 },
+            ] as Partial<bsmap.types.v3.ILightColorBase>[];
+            d.addLightColorEventBoxGroups({
+                b: time + t[i],
+                g: g[i],
+                e: [{ e, w: 0.5 }],
+            });
+            d.addLightRotationEventBoxGroups({
+                b: time + t[i],
+                g: g[i],
+                e: [
+                    { a: 1, l: [{ r: 90, e: -1 }] },
+                    { f: { f: 2, p: 0, t: 2 }, l: [{ r: 270, e: -1 }] },
+                    { f: { f: 2, p: 1, t: 2 }, l: [{ r: 90, e: -1 }] },
+                ],
+            });
+        }
+        if (j === 7) {
+            d.addLightColorEventBoxGroups(
+                {
+                    b: time + 2,
+                    g: g[0],
+                    e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+                },
+                {
+                    b: time + 2,
+                    g: g[3],
+                    e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+                },
+                {
+                    b: time + 2.25,
+                    g: g[1],
+                    e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+                },
+                {
+                    b: time + 2.25,
+                    g: g[4],
+                    e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+                },
+                {
+                    b: time + 2.5,
+                    g: g[2],
+                    e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+                },
+                {
+                    b: time + 2.5,
+                    g: g[5],
+                    e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+                }
+            );
+            continue;
+        }
+        d.addLightColorEventBoxGroups(
+            {
+                b: time + 2.25,
+                g: g[1],
+                e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+            },
+            {
+                b: time + 2.25,
+                g: g[4],
+                e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+            },
+            {
+                b: time + 2.5,
+                g: g[0],
+                e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+            },
+            {
+                b: time + 2.5,
+                g: g[2],
+                e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+            },
+            {
+                b: time + 2.5,
+                g: g[3],
+                e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+            },
+            {
+                b: time + 2.5,
+                g: g[5],
+                e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
+            }
+        );
+    }
+    //#endregion
 };
