@@ -38,7 +38,7 @@ export class ColorNote extends BaseNote<IColorNote> {
                     d: n.d ?? ColorNote.default.d,
                     a: n.a ?? ColorNote.default.a,
                     customData: n.customData ?? ColorNote.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {
@@ -156,16 +156,8 @@ export class ColorNote extends BaseNote<IColorNote> {
         //     return [note._customData._position[0], note._customData._position[1]];
         // }
         return [
-            (this.posX <= -1000
-                ? this.posX / 1000
-                : this.posX >= 1000
-                ? this.posX / 1000
-                : this.posX) - 2,
-            this.posY <= -1000
-                ? this.posY / 1000
-                : this.posY >= 1000
-                ? this.posY / 1000
-                : this.posY,
+            (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
+            this.posY <= -1000 ? this.posY / 1000 : this.posY >= 1000 ? this.posY / 1000 : this.posY,
         ];
     }
 

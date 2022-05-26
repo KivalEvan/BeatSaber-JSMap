@@ -4,14 +4,14 @@ import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
 
 export const applyEasingsTransition = (
     events: (Event | BasicEvent)[],
-    options: ApplyEasingsOptions
+    options: ApplyEasingsOptions,
 ) => {
     let filteredEvents = events.filter(
         (ev) =>
             ev.time >= options.startTime &&
             ev.time <= options.endTime &&
             ev.isTransition() &&
-            ev.isLightEvent()
+            ev.isLightEvent(),
     );
     if (options.type != null) {
         filteredEvents = filteredEvents.filter((ev) => ev.type === options.type);

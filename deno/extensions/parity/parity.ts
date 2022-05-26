@@ -60,7 +60,7 @@ export class Parity {
         warningThreshold: number,
         errorThreshold: number,
         allowedRotation: number,
-        parity?: ParityState
+        parity?: ParityState,
     ) {
         this._type = type;
         this._warningThreshold = warningThreshold;
@@ -129,13 +129,11 @@ export class Parity {
             return 'none';
         }
 
-        const parityRotation =
-            noteParityRotation[noteType][ParitySwitch[currentState]][expectedDirection];
+        const parityRotation = noteParityRotation[noteType][ParitySwitch[currentState]][expectedDirection];
 
         if (
-            (currentRotation > parityRotation
-                ? currentRotation - parityRotation
-                : parityRotation - currentRotation) > 180
+            (currentRotation > parityRotation ? currentRotation - parityRotation : parityRotation - currentRotation) >
+                180
         ) {
             return 'error';
         }
@@ -156,9 +154,8 @@ export class Parity {
             return 'warning';
         }
         if (
-            (currentRotation > parityRotation
-                ? currentRotation - parityRotation
-                : parityRotation - currentRotation) > this._allowedRotation
+            (currentRotation > parityRotation ? currentRotation - parityRotation : parityRotation - currentRotation) >
+                this._allowedRotation
         ) {
             return 'warning';
         }
@@ -181,7 +178,7 @@ export class Parity {
                         const note = noteContext[i];
                         if (
                             noteInitParity[note._type].forehand.includes(
-                                note._cutDirection
+                                note._cutDirection,
                             )
                         ) {
                             this._state = 'backhand';
@@ -189,7 +186,7 @@ export class Parity {
                         }
                         if (
                             noteInitParity[note._type].backhand.includes(
-                                note._cutDirection
+                                note._cutDirection,
                             )
                         ) {
                             this._state = 'forehand';
@@ -245,8 +242,7 @@ export class Parity {
             prevNote = note;
         }
         if (expectedDirection !== 8) {
-            this._rotation =
-                noteParityRotation[this._type][this._state][expectedDirection];
+            this._rotation = noteParityRotation[this._type][this._state][expectedDirection];
         }
     }
 

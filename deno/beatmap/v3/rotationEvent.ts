@@ -32,7 +32,7 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
                     e: re.e ?? RotationEvent.default.e,
                     r: re.r ?? RotationEvent.default.r,
                     customData: re.customData ?? RotationEvent.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

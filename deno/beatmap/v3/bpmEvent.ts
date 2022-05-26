@@ -28,7 +28,7 @@ export class BPMEvent extends BaseObject<IBPMEvent> {
                     b: be.b ?? BPMEvent.default.b,
                     m: be.m ?? BPMEvent.default.m,
                     customData: be.customData ?? BPMEvent.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

@@ -3,11 +3,7 @@ import { IEvent } from '../../types/beatmap/v2/event.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { BeatmapObject } from './object.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import {
-    IChromaEventLaser,
-    IChromaEventLight,
-    IChromaEventRing,
-} from '../../types/beatmap/v2/chroma.ts';
+import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v2/chroma.ts';
 import { INEEvent } from '../../types/beatmap/v2/noodleExtensions.ts';
 
 /** Basic event beatmap object. */
@@ -39,7 +35,7 @@ export class Event extends BeatmapObject<IEvent> {
                     _value: ev._value ?? Event.default._value,
                     _floatValue: ev._floatValue ?? Event.default._floatValue,
                     _customData: ev._customData ?? Event.default._customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

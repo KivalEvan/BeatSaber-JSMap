@@ -135,7 +135,7 @@ export class NoteJumpSpeed {
      * ```
      */
     public calcHalfJumpDurationFromRT(
-        rt: number = this.calcReactionTimeFromHJD()
+        rt: number = this.calcReactionTimeFromHJD(),
     ): number {
         return rt / (60 / this._bpm.value);
     }

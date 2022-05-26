@@ -1,11 +1,7 @@
 import { IInfoData } from './types/beatmap/shared/info.ts';
 import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/difficulty.ts';
-import {
-    SaveOptionsDifficulty,
-    SaveOptionsDifficultyList,
-    SaveOptionsInfo,
-} from './types/bsmap/save.ts';
+import { SaveOptionsDifficulty, SaveOptionsDifficultyList, SaveOptionsInfo } from './types/bsmap/save.ts';
 import { DifficultyList } from './types/bsmap/list.ts';
 import { performDifficulty, performInfo } from './optimize.ts';
 import globals from './globals.ts';
@@ -80,7 +76,7 @@ export const infoSync = (data: IInfoData, options: Partial<SaveOptionsInfo> = {}
  */
 export const difficulty = async (
     data: DifficultyDataV2 | DifficultyDataV3,
-    options: Partial<SaveOptionsDifficulty> = {}
+    options: Partial<SaveOptionsDifficulty> = {},
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
         path: options.path ?? (globals.path || defaultOptionsDifficulty.path),
@@ -103,7 +99,7 @@ export const difficulty = async (
  */
 export const difficultySync = (
     data: DifficultyDataV2 | DifficultyDataV3,
-    options: Partial<SaveOptionsDifficulty> = {}
+    options: Partial<SaveOptionsDifficulty> = {},
 ) => {
     const opt: Required<SaveOptionsDifficulty> = {
         path: options.path ?? (globals.path || defaultOptionsDifficulty.path),
@@ -126,7 +122,7 @@ export const difficultySync = (
  */
 export const difficultyList = (
     difficulties: DifficultyList,
-    options: Partial<SaveOptionsDifficultyList> = {}
+    options: Partial<SaveOptionsDifficultyList> = {},
 ) => {
     logger.info(tag(difficultyList), `Async saving list of difficulty`);
     difficulties.forEach(async (dl) => {
@@ -136,7 +132,7 @@ export const difficultyList = (
         };
         logger.info(
             tag(difficultyListSync),
-            `Saving ${dl.characteristic} ${dl.difficulty}`
+            `Saving ${dl.characteristic} ${dl.difficulty}`,
         );
         const objectData = dl.data.toObject();
         if (opt.optimise.enabled) {
@@ -154,7 +150,7 @@ export const difficultyList = (
  */
 export const difficultyListSync = (
     difficulties: DifficultyList,
-    options: Partial<SaveOptionsDifficultyList> = {}
+    options: Partial<SaveOptionsDifficultyList> = {},
 ) => {
     logger.info(tag(difficultyListSync), `Sync saving list of difficulty`);
     difficulties.forEach((dl) => {
@@ -164,7 +160,7 @@ export const difficultyListSync = (
         };
         logger.info(
             tag(difficultyListSync),
-            `Saving ${dl.characteristic} ${dl.difficulty}`
+            `Saving ${dl.characteristic} ${dl.difficulty}`,
         );
         const objectData = dl.data.toObject();
         if (opt.optimise.enabled) {

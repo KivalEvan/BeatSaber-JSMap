@@ -1,10 +1,9 @@
 import * as bsmap from '../../deno/mod.ts';
-import * as imagescript from 'https://deno.land/x/imagescript@1.2.9/mod.ts';
-import { dirname } from 'https://deno.land/std@0.122.0/path/mod.ts';
+import * as imagescript from 'https://deno.land/x/imagescript@v1.2.12/mod.ts';
+import { dirname } from 'https://deno.land/std@0.135.0/path/mod.ts';
 
 const WORKING_DIRECTORY = dirname(Deno.mainModule).replace('file:///', '') + '/'; // for some reason deno doesnt like to deal with file:///
-const MAP_DIRECTORY =
-    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Bad Apple/';
+const MAP_DIRECTORY = 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Bad Apple/';
 
 const INPUT_FILE = MAP_DIRECTORY + 'EasyLawless.dat';
 const OUTPUT_FILE = INPUT_FILE;
@@ -12,14 +11,13 @@ const OUTPUT_FILE = INPUT_FILE;
 const difficulty = bsmap.load.difficultyLegacySync(INPUT_FILE);
 const info = bsmap.load.infoSync(MAP_DIRECTORY + 'Info.dat');
 
-const BPM = bsmap.bpm.create(info._beatsPerMinute);
+const BPM = bsmap.BeatPerMinute.create(info._beatsPerMinute);
 
-difficulty._customData = {};
-difficulty._customData._environment = [];
-difficulty._events = [];
-difficulty._notes = [];
-const _environment = difficulty._customData._environment;
-const _events = difficulty._events;
+difficulty.customData._environment = [];
+difficulty.events = [];
+difficulty.notes = [];
+const _environment = difficulty.customData._environment;
+const _events = difficulty.events;
 
 // regex for environment enhancement
 const regexTrackTRLaser = `Environment\.\\[\\d+\\]NeonSide$`;
@@ -81,7 +79,7 @@ img.forEach((frame) => {
         }
     }
     for (const color in colorID) {
-        _events.push({
+        difficulty.addEvents({
             _type: 2,
             _time: 22 + BPM.toBeatTime(i / fps),
             _value: 1,

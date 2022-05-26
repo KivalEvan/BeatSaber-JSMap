@@ -22,7 +22,7 @@ const tag = (func: Function) => {
  */
 export const info = async (
     filePath = 'Info.dat',
-    path = globals.path
+    path = globals.path,
 ): Promise<IInfoData> => {
     logger.info(tag(info), `Async loading info from ${path + filePath}`);
     return await new Promise((resolve, reject) => {
@@ -53,16 +53,16 @@ export const infoSync = (filePath = 'Info.dat', path = globals.path) => {
  */
 export const difficultyLegacy = async (
     filePath: string,
-    path = globals.path
+    path = globals.path,
 ): Promise<ReturnType<typeof parseDifficultyV2>> => {
     logger.info(
         tag(difficultyLegacy),
-        `Async loading difficulty from ${path + filePath}`
+        `Async loading difficulty from ${path + filePath}`,
     );
     return await new Promise((resolve, reject) => {
         try {
             resolve(
-                parseDifficultyV2(JSON.parse(Deno.readTextFileSync(path + filePath)))
+                parseDifficultyV2(JSON.parse(Deno.readTextFileSync(path + filePath))),
             );
         } catch (e) {
             reject(new Error(e));
@@ -79,7 +79,7 @@ export const difficultyLegacy = async (
 export const difficultyLegacySync = (filePath: string, path = globals.path) => {
     logger.info(
         tag(difficultyLegacySync),
-        `Sync loading difficulty from ${path + filePath}`
+        `Sync loading difficulty from ${path + filePath}`,
     );
     return parseDifficultyV2(JSON.parse(Deno.readTextFileSync(path + filePath)));
 };
@@ -92,13 +92,13 @@ export const difficultyLegacySync = (filePath: string, path = globals.path) => {
  */
 export const difficulty = async (
     filePath: string,
-    path = globals.path
+    path = globals.path,
 ): Promise<ReturnType<typeof parseDifficultyV3>> => {
     logger.info(tag(difficulty), `Async loading difficulty from ${path + filePath}`);
     return await new Promise((resolve, reject) => {
         try {
             resolve(
-                parseDifficultyV3(JSON.parse(Deno.readTextFileSync(path + filePath)))
+                parseDifficultyV3(JSON.parse(Deno.readTextFileSync(path + filePath))),
             );
         } catch (e) {
             reject(new Error(e));
@@ -127,7 +127,7 @@ export const difficultySync = (filePath: string, path = globals.path) => {
  */
 export const difficultyFromInfo = async (
     info: IInfoData,
-    path = globals.path
+    path = globals.path,
 ): Promise<DifficultyList> => {
     logger.info(tag(difficultyFromInfo), 'Async loading difficulty from map Info...');
     return await new Promise((resolve, reject) => {
@@ -137,10 +137,10 @@ export const difficultyFromInfo = async (
                 for (const d of set._difficultyBeatmaps) {
                     logger.info(
                         tag(difficultyFromInfo),
-                        `Loading difficulty from ${path + d._beatmapFilename}`
+                        `Loading difficulty from ${path + d._beatmapFilename}`,
                     );
                     const diffJSON = JSON.parse(
-                        Deno.readTextFileSync(path + d._beatmapFilename)
+                        Deno.readTextFileSync(path + d._beatmapFilename),
                     ) as Either<IDifficultyDataV2, IDifficultyDataV3>;
                     if (diffJSON._version) {
                         difficulties.push({
@@ -180,21 +180,21 @@ export const difficultyFromInfo = async (
  */
 export const difficultyFromInfoSync = (
     info: IInfoData,
-    path = globals.path
+    path = globals.path,
 ): DifficultyList => {
     logger.info(
         tag(difficultyFromInfoSync),
-        'Sync loading difficulty from map Info...'
+        'Sync loading difficulty from map Info...',
     );
     const difficulties: DifficultyList = [];
     for (const set of info._difficultyBeatmapSets) {
         for (const d of set._difficultyBeatmaps) {
             logger.info(
                 tag(difficultyFromInfoSync),
-                `Loading difficulty from ${path + d._beatmapFilename}`
+                `Loading difficulty from ${path + d._beatmapFilename}`,
             );
             const diffJSON = JSON.parse(
-                Deno.readTextFileSync(path + d._beatmapFilename)
+                Deno.readTextFileSync(path + d._beatmapFilename),
             ) as Either<IDifficultyDataV2, IDifficultyDataV3>;
             if (diffJSON._version) {
                 difficulties.push({

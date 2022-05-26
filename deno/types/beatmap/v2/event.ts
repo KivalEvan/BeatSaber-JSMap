@@ -1,22 +1,9 @@
-import {
-    IChromaEventLaser,
-    IChromaEventLight,
-    IChromaEventRing,
-    IChromaEventZoom,
-} from './chroma.ts';
+import { IChromaEventLaser, IChromaEventLight, IChromaEventRing, IChromaEventZoom } from './chroma.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
 import { INEEvent } from './noodleExtensions.ts';
 import { IBaseObject } from './object.ts';
 
-/** Beatmap object interface for Event.
- * ```ts
- * _time: float,
- * _type: int,
- * _value: int,
- * _floatValue: float,
- * _customData?: JSON
- * ```
- */
+/** Beatmap object interface for Event. */
 // it took me long enough to realise Event is a built in JS class/interface, but it has no effect here anyway
 export interface IEventBase extends IBaseObject {
     /** Type of event.

@@ -95,7 +95,7 @@ function deeperDaddy(obj) {
                 deeperDaddy(obj[key]);
             } else if (typeof obj[key] === 'number') {
                 obj[key] = parseFloat(
-                    Math.round((obj[key] + Number.EPSILON) * jsonP) / jsonP
+                    Math.round((obj[key] + Number.EPSILON) * jsonP) / jsonP,
                 );
             }
         }
@@ -109,7 +109,7 @@ difficulty._notes.sort(
         parseFloat(Math.round((a._lineIndex + Number.EPSILON) * sortP) / sortP) -
             parseFloat(Math.round((b._lineIndex + Number.EPSILON) * sortP) / sortP) ||
         parseFloat(Math.round((a._lineLayer + Number.EPSILON) * sortP) / sortP) -
-            parseFloat(Math.round((b._lineLayer + Number.EPSILON) * sortP) / sortP)
+            parseFloat(Math.round((b._lineLayer + Number.EPSILON) * sortP) / sortP),
 );
 difficulty._obstacles.sort((a, b) => a._time - b._time);
 difficulty._events.sort((a, b) => a._time - b._time);

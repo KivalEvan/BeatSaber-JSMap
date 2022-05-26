@@ -11,10 +11,10 @@ import { IEventCount } from './types/stats.ts';
  */
 export const countEvent = (
     events: BasicEvent[],
-    environment: EnvironmentAllName = 'DefaultEnvironment'
+    environment: EnvironmentAllName = 'DefaultEnvironment',
 ): IEventCount => {
-    const commonEvent =
-        EventList[environment]?.[0] ?? EventList['DefaultEnvironment'][0];
+    const commonEvent = EventList[environment]?.[0] ??
+        EventList['DefaultEnvironment'][0];
     const eventCount: IEventCount = {};
     for (let i = commonEvent.length - 1; i >= 0; i--) {
         eventCount[commonEvent[i]] = {

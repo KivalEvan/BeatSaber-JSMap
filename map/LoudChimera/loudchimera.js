@@ -96,7 +96,7 @@ function noteSetNonInteractible(t1, t2, type = 2) {
         (n) =>
             n._time >= t1 &&
             n._time <= t2 &&
-            ((type === 2 && (n._type === 0 || n._type === 1)) || n._type === type)
+            ((type === 2 && (n._type === 0 || n._type === 1)) || n._type === type),
     );
     filterednotes.forEach((note) => {
         note._customData._interactable = false;
@@ -108,7 +108,7 @@ function noteReplaceType(t1, t2, type = 2, type2) {
         (n) =>
             n._time >= t1 &&
             n._time <= t2 &&
-            ((type === 2 && (n._type === 0 || n._type === 1)) || n._type === type)
+            ((type === 2 && (n._type === 0 || n._type === 1)) || n._type === type),
     );
     filterednotes.forEach((note) => {
         note._type = type2;
@@ -214,8 +214,7 @@ function setNoteNJS(t1, t2, speed, jd) {
     return filterednotes.forEach((n) => {
         n._customData._noteJumpMovementSpeed = speed;
         if (typeof jd !== 'undefined') {
-            n._customData._noteJumpStartBeatOffset =
-                getHJDfromJD(n._customData._noteJumpMovementSpeed, jd) -
+            n._customData._noteJumpStartBeatOffset = getHJDfromJD(n._customData._noteJumpMovementSpeed, jd) -
                 getHJD(n._customData._noteJumpMovementSpeed) +
                 NJSOFFSET;
         }
@@ -229,8 +228,7 @@ function setWallNJS(t1, t2, speed, jd) {
     return filteredwalls.forEach((w) => {
         w._customData._noteJumpMovementSpeed = speed;
         if (typeof jd !== 'undefined') {
-            w._customData._noteJumpStartBeatOffset =
-                getHJDfromJD(w._customData._noteJumpMovementSpeed, jd) -
+            w._customData._noteJumpStartBeatOffset = getHJDfromJD(w._customData._noteJumpMovementSpeed, jd) -
                 getHJD(w._customData._noteJumpMovementSpeed) +
                 NJSOFFSET;
         }
@@ -243,8 +241,7 @@ function simultaneousNoteSpawn(t1, t2, speed, njsoff = NJSOFFSET) {
     let filterednotes = _notes.filter((n) => n._time >= t1 && n._time <= t2);
     let time = filterednotes[0]._time;
     return filterednotes.forEach((note) => {
-        note._customData._noteJumpStartBeatOffset =
-            njsoff + note._time - time - (note._time - time) / speed;
+        note._customData._noteJumpStartBeatOffset = njsoff + note._time - time - (note._time - time) / speed;
     });
 }
 function simultaneousWallSpawn(t1, t2, speed, njsoff = NJSOFFSET) {
@@ -254,23 +251,19 @@ function simultaneousWallSpawn(t1, t2, speed, njsoff = NJSOFFSET) {
     let filteredwalls = _obstacles.filter((w) => w._time >= t1 && w._time <= t2);
     let time = filteredwalls[0]?._time;
     return filteredwalls.forEach((wall) => {
-        wall._customData._noteJumpStartBeatOffset =
-            njsoff + wall._time - time - (wall._time - time) / speed;
+        wall._customData._noteJumpStartBeatOffset = njsoff + wall._time - time - (wall._time - time) / speed;
     });
 }
 function rampNoteNJS(t1, t2, njsStart, njsEnd, jd, type = 2) {
     let filterednotes = _notes.filter(
-        (n) => n._time >= t1 && n._time <= t2 && (type === 2 || n._type === type)
+        (n) => n._time >= t1 && n._time <= t2 && (type === 2 || n._type === type),
     );
-    const factor =
-        (njsEnd - njsStart) /
+    const factor = (njsEnd - njsStart) /
             (filterednotes[filterednotes.length - 1]?._time - filterednotes[0]?._time) || 1;
     return filterednotes.forEach((n) => {
-        n._customData._noteJumpMovementSpeed =
-            njsStart + (n._time - filterednotes[0]?._time) * factor || njsEnd;
+        n._customData._noteJumpMovementSpeed = njsStart + (n._time - filterednotes[0]?._time) * factor || njsEnd;
         if (typeof jd !== 'undefined') {
-            n._customData._noteJumpStartBeatOffset =
-                getHJDfromJD(n._customData._noteJumpMovementSpeed, jd) -
+            n._customData._noteJumpStartBeatOffset = getHJDfromJD(n._customData._noteJumpMovementSpeed, jd) -
                 getHJD(n._customData._noteJumpMovementSpeed) +
                 NJSOFFSET;
         }
@@ -278,15 +271,12 @@ function rampNoteNJS(t1, t2, njsStart, njsEnd, jd, type = 2) {
 }
 function rampWallNJS(t1, t2, njsStart, njsEnd, jd) {
     let filteredwalls = _obstacles.filter((n) => n._time >= t1 && n._time <= t2);
-    const factor =
-        (njsEnd - njsStart) /
+    const factor = (njsEnd - njsStart) /
             (filteredwalls[filteredwalls.length - 1]?._time - filteredwalls[0]?._time) || 1;
     return filteredwalls.forEach((n) => {
-        n._customData._noteJumpMovementSpeed =
-            njsStart + (n._time - filteredwalls[0]?._time) * factor || njsEnd;
+        n._customData._noteJumpMovementSpeed = njsStart + (n._time - filteredwalls[0]?._time) * factor || njsEnd;
         if (typeof jd !== 'undefined') {
-            n._customData._noteJumpStartBeatOffset =
-                getHJDfromJD(n._customData._noteJumpMovementSpeed, jd) -
+            n._customData._noteJumpStartBeatOffset = getHJDfromJD(n._customData._noteJumpMovementSpeed, jd) -
                 getHJD(n._customData._noteJumpMovementSpeed) +
                 NJSOFFSET;
         }
@@ -313,7 +303,7 @@ function dissolviBoi(t) {
                 _dissolve: 'dissolveOdd',
                 _duration: 6,
             },
-        }
+        },
     );
 }
 function fastPewPewSection(timeArr) {
@@ -325,7 +315,7 @@ function fastPewPewSection(timeArr) {
         {
             _name: 'dissolveEven',
             _points: flickerPoint(6, 2, false, 0, 'easeStep', 'easeOutQuad'),
-        }
+        },
     );
     timeArr.forEach((t) => {
         setNoteNJS(t, t + 6, 17);
@@ -361,7 +351,7 @@ function glitchyDotArrow(t, ease) {
                 _dissolve: 'invisibleBlock',
                 _duration: 3,
             },
-        }
+        },
     );
 }
 function glitchyBeforeFastPewPewSection(timeArr) {
@@ -386,7 +376,7 @@ function glitchyBeforeFastPewPewSection(timeArr) {
                 [0, 0],
                 [0, 1],
             ],
-        }
+        },
     );
     timeArr.forEach((t) => {
         glitchyDotArrow(t, 'easeOutBounce');
@@ -449,7 +439,7 @@ function slapBeforeFastPewPewSection(timeArr) {
                                 _position: [2 + j + i / 32, -1 - i / 64],
                                 _color: [0.875 - i / 32, 0.875 - i / 32, 0.875 - i / 32],
                             },
-                        }
+                        },
                     );
                 }
             }
@@ -486,7 +476,7 @@ function slapBeforeFastPewPewSection(timeArr) {
                                     _position: [2 + j * 1.5 + i / 32, -2 + j * 2 - i / 64],
                                     _color: [0.75 - i / 16, 0.125 + i / 96, 0.375 - i / 48],
                                 },
-                            }
+                            },
                         );
                     }
                 }
@@ -522,7 +512,7 @@ function slapBeforeFastPewPewSection(timeArr) {
                             _position: [2 + i / 32, -1 - i / 64],
                             _color: [0.25 + i / 96, 0.25 + i / 96, 0.25 + i / 96],
                         },
-                    }
+                    },
                 );
             }
             for (let i = 0; i < 2; i++) {
@@ -557,7 +547,7 @@ function slapBeforeFastPewPewSection(timeArr) {
                                 _position: [2.25 + i, -1 + i + j / 8],
                                 _color: [0.625, 0, 0],
                             },
-                        }
+                        },
                     );
                 }
             }
@@ -592,7 +582,7 @@ function slapBeforeFastPewPewSection(timeArr) {
                             _position: [0.5 + i, -0.5],
                             _color: [0.1875, 0.1875 - i / 64, 0.1875],
                         },
-                    }
+                    },
                 );
             }
             for (let i = 0; i < 3; i++) {
@@ -645,7 +635,7 @@ function slapBeforeFastPewPewSection(timeArr) {
                             _position: [2 + i, -1],
                             _color: [0.25 + i / 96, 0.25 + i / 96, 0.25 + i / 96],
                         },
-                    }
+                    },
                 );
             }
             flip2 = !flip2 && flip;
@@ -656,7 +646,7 @@ function slapBeforeFastPewPewSection(timeArr) {
 let slapBeforeFastPewPew = [].concat(
     getRepeatArray(392, 64, 2),
     [584, 1096, 1224, 1288],
-    getRepeatArray(904, 64, 2)
+    getRepeatArray(904, 64, 2),
 );
 slapBeforeFastPewPewSection(slapBeforeFastPewPew);
 
@@ -709,13 +699,13 @@ function slowBuildSection(timeArr) {
             _points: scaleThingy(
                 flickerPoint(112, 1, false, 0, 'easeStep', 'easeOutExpo'),
                 [1.375, 1.125, 1],
-                [1, 1, 1]
+                [1, 1, 1],
             ),
         },
         {
             _name: 'kickSoundDissolve',
             _points: flickerPoint(112, 1, false, 1 / 3, 'easeStep', 'easeOutQuint'),
-        }
+        },
     );
     let flip = false;
     timeArr.forEach((t) => {
@@ -763,7 +753,7 @@ function slowBuildSection(timeArr) {
                             ],
                             _color: [0.25, 0.25, 0.25],
                         },
-                    }
+                    },
                 );
             }
         }
@@ -798,7 +788,7 @@ function slowBuildSection(timeArr) {
                         _position: [0.5 + i, -1],
                         _color: [0.1875, 0.1875 - i / 64, 0.1875],
                     },
-                }
+                },
             );
         }
         for (let i = 0; i < 8; i++) {
@@ -926,7 +916,7 @@ function slowBuildSection(timeArr) {
                         _position: [-3, -1],
                         _color: [0.375, 0.375, 0.375],
                     },
-                }
+                },
             );
         }
         for (let i = 0; i < 32; i++) {
@@ -964,7 +954,7 @@ function slowBuildSection(timeArr) {
                         _position: [2, -1],
                         _color: [0.125, 0.125, 0.125],
                     },
-                }
+                },
             );
         }
         for (let i = 0; i < 16; i++) {
@@ -996,7 +986,7 @@ function slowBuildSection(timeArr) {
                         _position: [2 + i / 12, -1 + i / 24],
                         _color: [0.125 + i / 128, 0.125 + i / 128, 0.125 + i / 128],
                     },
-                }
+                },
             );
         }
         for (let i = 0; i < 16; i++) {
@@ -1030,7 +1020,7 @@ function slowBuildSection(timeArr) {
                         _position: [2 + i / 4, i % 2 === 0 ? -1 + i / 6 : -2 + i / 12],
                         _color: [0.25 + i / 128, 0.25 + i / 128, 0.25 + i / 128],
                     },
-                }
+                },
             );
             if (i < 9 && (i % 2 === 0 || i >= 4)) {
                 _notes.push(
@@ -1153,7 +1143,7 @@ function slowBuildSection(timeArr) {
                             _position: [-2.5 - 1.5 ** i / 8, -1 - i / 16],
                             _color: [0.375, 0.375, 0.375],
                         },
-                    }
+                    },
                 );
             }
         }
@@ -1218,7 +1208,7 @@ function slowBuildSection(timeArr) {
                         _rotation: i / 2,
                         _color: flip ? [0, 0, 0.5 + i / 128] : [0.5 + i / 128, 0, 0],
                     },
-                }
+                },
             );
         }
         flip = !flip;
@@ -1242,7 +1232,7 @@ function fourWideBigSlapSection(timeArr) {
                 [1, 0.45, 'easeStep'],
                 [0, 0.5, 'easeOutQuint'],
             ],
-        }
+        },
     );
     timeArr.forEach((t) => {
         disableNoteGravity(t, t);
@@ -1477,7 +1467,7 @@ function glitchyBurstSection(timeArr) {
                     _position: [2.75, 1.5],
                     _color: flip ? [0, 0, 0.75] : [0.75, 0, 0],
                 },
-            }
+            },
         );
         flip = !flip;
         _notes.push(
@@ -1570,7 +1560,7 @@ function glitchyBurstSection(timeArr) {
                     _position: [4.25, -1.25],
                     _color: flip ? [0, 0, 0.75] : [0.75, 0, 0],
                 },
-            }
+            },
         );
         flip = !flip;
         for (let i = 0; i < 12; i++) {
@@ -1587,9 +1577,7 @@ function glitchyBurstSection(timeArr) {
                         _interactable: false,
                         _rotation: 2,
                         _position: [-2 - i / 4, -6 + 2 ** i / 128],
-                        _color: flip
-                            ? [0.5 + i / 32, 0, 0.25 - i / 64]
-                            : [0.25 - i / 64, 0, 0.5 + i / 32],
+                        _color: flip ? [0.5 + i / 32, 0, 0.25 - i / 64] : [0.25 - i / 64, 0, 0.5 + i / 32],
                     },
                 },
                 {
@@ -1604,11 +1592,9 @@ function glitchyBurstSection(timeArr) {
                         _interactable: false,
                         _rotation: -2,
                         _position: [1 + i / 4, -6 + 2 ** i / 128],
-                        _color: flip
-                            ? [0.25 - i / 64, 0, 0.5 + i / 32]
-                            : [0.5 + i / 32, 0, 0.25 - i / 64],
+                        _color: flip ? [0.25 - i / 64, 0, 0.5 + i / 32] : [0.5 + i / 32, 0, 0.25 - i / 64],
                     },
-                }
+                },
             );
         }
         flip = !flip;
@@ -1653,7 +1639,7 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 [1, 0.75, 0.75, 0],
                 [36, 0, 0, 0.875, 'easeInOutQuad'],
             ],
-        }
+        },
     );
     timeArr.forEach((t) => {
         _customEvents.push({
@@ -1691,7 +1677,7 @@ function nyyoooombeforeglitchyburst(timeArr) {
                         _dissolve: 'invisiblePointStuff',
                         _dissolveArrow: 'goInvisPointStuff',
                     },
-                }
+                },
             );
             trackDuplicateNotes(
                 t + 2 + i * 64,
@@ -1700,7 +1686,8 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 8,
                 'pewpewtrack' + t,
                 -1,
-                false, 180
+                false,
+                180,
             );
             trackDuplicateNotes(
                 t + 8 + i * 64,
@@ -1709,7 +1696,8 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 8,
                 'pewpewtrack' + t,
                 -1,
-                false, 180
+                false,
+                180,
             );
             trackDuplicateNotes(
                 t + 16 + i * 64,
@@ -1718,7 +1706,8 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 8,
                 'pewpewtrack' + t,
                 -1,
-                false, 180
+                false,
+                180,
             );
             trackDuplicateNotes(
                 t + 18 + i * 64,
@@ -1727,7 +1716,8 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 8,
                 'pewpewtrack' + t,
                 -1,
-                false, 180
+                false,
+                180,
             );
             trackDuplicateNotes(
                 t + 24 + i * 64,
@@ -1736,7 +1726,8 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 8,
                 'pewpewtrack' + t,
                 -1,
-                false, 180
+                false,
+                180,
             );
             trackDuplicateNotes(
                 t + 32 + i * 64,
@@ -1745,7 +1736,8 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 8,
                 'pewpewtrack' + t,
                 -1,
-                false, 180
+                false,
+                180,
             );
             trackDuplicateNotes(
                 t + 34 + i * 64,
@@ -1754,7 +1746,8 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 8,
                 'pewpewtrack' + t,
                 -1,
-                false, 180
+                false,
+                180,
             );
             trackDuplicateNotes(
                 t + 40 + i * 64,
@@ -1763,7 +1756,8 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 8,
                 'pewpewtrack' + t,
                 -1,
-                false, 180
+                false,
+                180,
             );
             trackDuplicateNotes(
                 t + 48 + i * 64,
@@ -1772,7 +1766,8 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 8,
                 'pewpewtrack' + t,
                 -1,
-                false, 180
+                false,
+                180,
             );
             trackDuplicateNotes(
                 t + 50 + i * 64,
@@ -1781,7 +1776,8 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 8,
                 'pewpewtrack' + t,
                 -1,
-                false, 180
+                false,
+                180,
             );
             if (i === 1) {
                 trackDuplicateNotes(t + i * 64, t + i * 64, 0.99, 8, 'pewpewtrack' + t, -1, false, 180);
@@ -1790,7 +1786,7 @@ function nyyoooombeforeglitchyburst(timeArr) {
                     t + i * 64,
                     -0.01,
                     8,
-                    'invisibleBlockOnlyTrack' + t
+                    'invisibleBlockOnlyTrack' + t,
                 );
             }
             trackDuplicateNotes(
@@ -1798,21 +1794,21 @@ function nyyoooombeforeglitchyburst(timeArr) {
                 t + 16 + i * 64,
                 -0.01,
                 8,
-                'invisibleBlockOnlyTrack' + t
+                'invisibleBlockOnlyTrack' + t,
             );
             trackDuplicateNotes(
                 t + 32 + i * 64,
                 t + 32 + i * 64,
                 -0.01,
                 8,
-                'invisibleBlockOnlyTrack' + t
+                'invisibleBlockOnlyTrack' + t,
             );
             trackDuplicateNotes(
                 t + 48 + i * 64,
                 t + 48 + i * 64,
                 -0.01,
                 8,
-                'invisibleBlockOnlyTrack' + t
+                'invisibleBlockOnlyTrack' + t,
             );
         });
     }
@@ -1849,7 +1845,7 @@ function nyyoooombeforeglitchyburst(timeArr) {
                             _position: [2 + j * 2, -2 + j],
                             _color: [0.5 - i / 32, 0.5 - i / 32, 0.5 - i / 32],
                         },
-                    }
+                    },
                 );
             }
         }
@@ -1883,7 +1879,7 @@ function nyyoooombeforeglitchyburst(timeArr) {
                             _position: [3 + j * 2, -2 + j],
                             _color: [0.5 - i / 32, 0.5 - i / 32, 0.5 - i / 32],
                         },
-                    }
+                    },
                 );
             }
         }
@@ -1926,7 +1922,7 @@ difficulty._notes.sort(
         parseFloat(Math.round((a._lineIndex + Number.EPSILON) * sortP) / sortP) -
             parseFloat(Math.round((b._lineIndex + Number.EPSILON) * sortP) / sortP) ||
         parseFloat(Math.round((a._lineLayer + Number.EPSILON) * sortP) / sortP) -
-            parseFloat(Math.round((b._lineLayer + Number.EPSILON) * sortP) / sortP)
+            parseFloat(Math.round((b._lineLayer + Number.EPSILON) * sortP) / sortP),
 );
 difficulty._obstacles.sort((a, b) => a._time - b._time);
 difficulty._events.sort((a, b) => a._time - b._time);

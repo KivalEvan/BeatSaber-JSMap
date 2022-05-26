@@ -12,14 +12,14 @@ export class SpecialEventsKeywordFiltersKeywords extends Serializable<ISpecialEv
     };
 
     private constructor(
-        specialEventsForKeywords: Required<ISpecialEventsKeywordFiltersKeywords>
+        specialEventsForKeywords: Required<ISpecialEventsKeywordFiltersKeywords>,
     ) {
         super(specialEventsForKeywords);
     }
 
     static create(): SpecialEventsKeywordFiltersKeywords;
     static create(
-        basicEventTypesForKeywords: Partial<ISpecialEventsKeywordFiltersKeywords>
+        basicEventTypesForKeywords: Partial<ISpecialEventsKeywordFiltersKeywords>,
     ): SpecialEventsKeywordFiltersKeywords;
     static create(
         ...basicEventTypesForKeywords: Partial<ISpecialEventsKeywordFiltersKeywords>[]
@@ -31,13 +31,11 @@ export class SpecialEventsKeywordFiltersKeywords extends Serializable<ISpecialEv
         basicEventTypesForKeywords?.forEach((betfk) =>
             result.push(
                 new SpecialEventsKeywordFiltersKeywords({
-                    _keyword:
-                        betfk._keyword ??
+                    _keyword: betfk._keyword ??
                         SpecialEventsKeywordFiltersKeywords.default._keyword,
-                    _specialEvents:
-                        betfk._specialEvents ??
+                    _specialEvents: betfk._specialEvents ??
                         SpecialEventsKeywordFiltersKeywords.default._specialEvents(),
-                })
+                }),
             )
         );
         if (result.length === 1) {
@@ -48,8 +46,8 @@ export class SpecialEventsKeywordFiltersKeywords extends Serializable<ISpecialEv
         }
         return new SpecialEventsKeywordFiltersKeywords({
             _keyword: SpecialEventsKeywordFiltersKeywords.default._keyword,
-            _specialEvents:
-                SpecialEventsKeywordFiltersKeywords.default._specialEvents(),
+            _specialEvents: SpecialEventsKeywordFiltersKeywords.default
+                ._specialEvents(),
         });
     }
 

@@ -3,8 +3,7 @@ import convertSlider from '../../deno/example/jankySliderConvert.ts';
 
 console.log('Running script...');
 console.time('Runtime');
-bsmap.globals.path =
-    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Deconstruction Star/';
+bsmap.globals.path = 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Deconstruction Star/';
 
 const info = bsmap.load.infoSync();
 const difficultyList = bsmap.load.difficultyFromInfoSync(info);
@@ -64,7 +63,7 @@ difficultyList.forEach((d) => {
                 ty: 2,
                 m: 0,
                 tc: 8,
-            }
+            },
         );
     }
     const endTiming = [308, 476, 756];
@@ -81,7 +80,7 @@ difficultyList.forEach((d) => {
                 d: 3,
                 x: 4,
                 y: 2,
-            }
+            },
         );
     }
 });

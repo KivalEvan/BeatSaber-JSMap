@@ -12,7 +12,7 @@ export class SpecialEventsKeywordFilters extends Serializable<ISpecialEventsKeyw
 
     keywords: SpecialEventsKeywordFiltersKeywords[];
     private constructor(
-        specialEventsWithKeywords: Required<ISpecialEventsKeywordFilters>
+        specialEventsWithKeywords: Required<ISpecialEventsKeywordFilters>,
     ) {
         super(specialEventsWithKeywords);
         this.keywords = specialEventsWithKeywords._keywords.map((d) =>
@@ -24,11 +24,10 @@ export class SpecialEventsKeywordFilters extends Serializable<ISpecialEventsKeyw
     }
 
     static create(
-        specialEventsWithKeywords: Partial<ISpecialEventsKeywordFilters> = {}
+        specialEventsWithKeywords: Partial<ISpecialEventsKeywordFilters> = {},
     ): SpecialEventsKeywordFilters {
         return new SpecialEventsKeywordFilters({
-            _keywords:
-                specialEventsWithKeywords._keywords ??
+            _keywords: specialEventsWithKeywords._keywords ??
                 SpecialEventsKeywordFilters.default._keywords(),
         });
     }

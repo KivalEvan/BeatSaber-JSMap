@@ -5,13 +5,13 @@ import { EventBoxGroup } from './eventBoxGroup.ts';
 
 export abstract class EventBoxGroupTemplate<
     T,
-    U extends Serializable<T>
+    U extends Serializable<T>,
 > extends EventBoxGroup {
     private e: U[];
 
     protected constructor(
         eventBoxGroup: Required<IEventBoxGroupTemplate<T>>,
-        objects: U[]
+        objects: U[],
     ) {
         super(eventBoxGroup);
         this.e = objects;

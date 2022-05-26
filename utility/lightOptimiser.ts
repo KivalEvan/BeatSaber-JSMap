@@ -2,7 +2,7 @@ import * as bsmap from '../deno/mod.ts';
 
 export default (
     d: bsmap.v2.DifficultyData,
-    environment: bsmap.types.EnvironmentAllName
+    environment: bsmap.types.EnvironmentAllName,
 ) => {
     // you can modify these variable as you prefer
     // uses beat time instead of real time
@@ -24,7 +24,7 @@ export default (
 
     const matchColor = (
         c1: bsmap.types.ColorArray | null,
-        c2: bsmap.types.ColorArray | null
+        c2: bsmap.types.ColorArray | null,
     ) => {
         if (c1 == null || c2 == null) {
             return false;
@@ -46,7 +46,7 @@ export default (
         ev: bsmap.v2.Event,
         lightIDList: {
             [key: number]: { value: number; color: bsmap.types.ColorArray | null };
-        }
+        },
     ) => {
         if (Array.isArray(ev.customData?._lightID)) {
             for (const id of ev.customData!._lightID) {
@@ -63,7 +63,7 @@ export default (
                 lightIDList[ev.customData?._lightID].value !== ev.value ||
                 !matchColor(
                     lightIDList[ev.customData?._lightID].color,
-                    ev.customData?._color
+                    ev.customData?._color,
                 )
             ) {
                 return false;
@@ -183,15 +183,13 @@ export default (
                     if (!flagRemove && Array.isArray(events[i].customData!._lightID)) {
                         events[i].customData!._lightID.forEach((id: number) => {
                             eventLightID[evType][id].value = events[i].value;
-                            eventLightID[evType][id].color =
-                                events[i].customData?._color || null;
+                            eventLightID[evType][id].color = events[i].customData?._color || null;
                         });
                     }
                     if (!flagRemove && !isNaN(events[i].customData?._lightID)) {
-                        eventLightID[evType][events[i].customData?._lightID].value =
-                            events[i].value;
-                        eventLightID[evType][events[i].customData?._lightID].color =
-                            events[i].customData?._color || null;
+                        eventLightID[evType][events[i].customData?._lightID].value = events[i].value;
+                        eventLightID[evType][events[i].customData?._lightID].color = events[i].customData?._color ||
+                            null;
                     }
                 }
                 for (let j = 0; j < eventAtTime[evType].length; j++) {
@@ -207,7 +205,7 @@ export default (
                         if (
                             (matchColor(
                                 events[i].customData?._color,
-                                events[lookupIndex].customData?._color
+                                events[lookupIndex].customData?._color,
                             ) &&
                                 events[i].value === events[lookupIndex].value) ||
                             (events[i].value === events[lookupIndex].value &&
@@ -226,9 +224,9 @@ export default (
                             if (
                                 Array.isArray(events[lookupIndex].customData?._lightID)
                             ) {
-                                events[lookupIndex].customData!._lightID =
-                                    events[lookupIndex].customData?._lightID.concat(
-                                        temp
+                                events[lookupIndex].customData!._lightID = events[lookupIndex].customData?._lightID
+                                    .concat(
+                                        temp,
                                     );
                             }
                             if (!isNaN(events[lookupIndex].customData?._lightID)) {
@@ -239,7 +237,7 @@ export default (
 
                             // sort the lightID
                             events[lookupIndex].customData?._lightID.sort(
-                                (a: number, b: number) => a - b
+                                (a: number, b: number) => a - b,
                             );
 
                             // console.log(
@@ -275,7 +273,7 @@ export default (
                         events[i].value === prevEvent[evType].value &&
                         matchColor(
                             events[i].customData?._color,
-                            prevEvent[evType].customData?._color
+                            prevEvent[evType].customData?._color,
                         )
                     ) {
                         flagRemove = true;

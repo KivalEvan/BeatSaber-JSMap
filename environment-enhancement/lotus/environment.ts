@@ -29,22 +29,16 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
             position: [-64, 48, 128],
             rotation: [90, 0, 45],
             scale: [0.25, 0.25, 1],
-        }
+        },
     );
     // duplicate this shit everywhere
     for (let i = 0; i < 15; i++) {
         let posXRight = (i + 1) * 12 + 36;
         let posZRight = 32 + Math.random() * 64;
-        let posYRight = Math.max(
-            -64 + Math.random() * 32 + posXRight / 8 + posZRight / 1.25,
-            2
-        );
+        let posYRight = Math.max(-64 + Math.random() * 32 + posXRight / 8 + posZRight / 1.25, 2);
         let posXLeft = (i + 1) * 12 + 36;
         let posZLeft = 32 + Math.random() * 64;
-        let posYLeft = Math.max(
-            -64 + Math.random() * 32 + posXLeft / 8 + posZLeft / 1.25,
-            2
-        );
+        let posYLeft = Math.max(-64 + Math.random() * 32 + posXLeft / 8 + posZLeft / 1.25, 2);
         environment.push(
             {
                 id: regexRingRight,
@@ -59,7 +53,7 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
                 duplicate: 1,
                 position: [-posXLeft, posYLeft, 64 + posZLeft],
                 rotation: [90, 0, 45],
-            }
+            },
         );
     }
     //#endregion
@@ -84,7 +78,7 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
                 position: [-posX, posY, posZ],
                 rotation: [90, 0, 0],
                 scale: [1.5, 1.5, 1.5],
-            }
+            },
         );
     }
     //#endregion
@@ -107,7 +101,7 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
                 duplicate: 1,
                 position: [-posX, posY, posZ],
                 rotation: [15 + i * 2.5, 0, 16 + i * 8],
-            }
+            },
         );
     }
     //#endregion
@@ -130,7 +124,7 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
                 duplicate: 1,
                 position: [-posX, posY, posZ],
                 rotation: [-15, 0, -60 + i * 2.5],
-            }
+            },
         );
     }
     //#endregion
@@ -138,21 +132,17 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
     for (let i = 0; i < 5; i++) {
         environment.push(
             {
-                id: i
-                    ? regexPillarL.replace('PillarPair', `PillarPair \\(${i}\\)`)
-                    : regexPillarL,
+                id: i ? regexPillarL.replace('PillarPair', `PillarPair \\(${i}\\)`) : regexPillarL,
                 lookupMethod: 'Regex',
                 rotation: [15, 45, 0 - i * 7.5],
                 position: [-32 + i * 4, 5 + i * 4 + Math.pow(i, i / 3), 64 + i * 12],
             },
             {
-                id: i
-                    ? regexPillarR.replace('PillarPair', `PillarPair \\(${i}\\)`)
-                    : regexPillarR,
+                id: i ? regexPillarR.replace('PillarPair', `PillarPair \\(${i}\\)`) : regexPillarR,
                 lookupMethod: 'Regex',
                 rotation: [15, -45, 0 + i * 7.5],
                 position: [32 - i * 4, 5 + i * 4 + Math.pow(i, i / 3), 64 + i * 12],
-            }
+            },
         );
     }
     //#endregion
@@ -172,7 +162,7 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
             rotation: [0, 0, -60],
             position: [4.625, 28, 192],
             scale: [1, 1.5, 1],
-        }
+        },
     );
     //#endregion
 
@@ -182,9 +172,7 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
             e.position = e.position.map((n) => n * 0.6) as typeof e.position;
         }
         if (e.localPosition) {
-            e.localPosition = e.localPosition.map(
-                (n) => n * 0.6
-            ) as typeof e.localPosition;
+            e.localPosition = e.localPosition.map((n) => n * 0.6) as typeof e.localPosition;
         }
         return e;
     });

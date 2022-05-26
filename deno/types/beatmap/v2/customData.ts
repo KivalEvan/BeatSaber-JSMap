@@ -1,35 +1,20 @@
 import { IBookmark } from '../shared/bookmark.ts';
 import { IBPMChange, IBPMChangeOld } from '../shared/bpm.ts';
 import { IHeckCustomData, IHeckCustomEvent } from './heck.ts';
-import {
-    IChromaCustomData,
-    IChromaNote,
-    IChromaObstacle,
-    IChromaCustomEvent,
-} from './chroma.ts';
-import {
-    INECustomData,
-    INECustomEvent,
-    INENote,
-    INEObstacle,
-} from './noodleExtensions.ts';
+import { IChromaCustomData, IChromaCustomEvent, IChromaNote, IChromaObstacle } from './chroma.ts';
+import { INECustomData, INECustomEvent, INENote, INEObstacle } from './noodleExtensions.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
 
 export type ICustomEvent = IHeckCustomEvent | IChromaCustomEvent | INECustomEvent;
 
 /** Custom Data interface for difficulty file.
- * ```ts
- * _time?: float,
- * _bpmChanges?: BPMChange[];
- * _BPMChanges?: BPMChange[];
- * _bookmarks?: Bookmark[];
- * ```
  * @extends CustomData
  * @extends CCustomData
  * @extends INECustomData
  */
 export interface ICustomDataDifficulty
-    extends ICustomDataBase,
+    extends
+        ICustomDataBase,
         Omit<IHeckCustomData, '_customEvents'>,
         Omit<IChromaCustomData, '_customEvents'>,
         Omit<INECustomData, '_customEvents'> {

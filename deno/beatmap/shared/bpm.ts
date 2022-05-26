@@ -1,8 +1,4 @@
-import {
-    IBPMChange,
-    IBPMChangeOld,
-    IBPMChangeTime,
-} from '../../types/beatmap/shared/bpm.ts';
+import { IBPMChange, IBPMChangeOld, IBPMChangeTime } from '../../types/beatmap/shared/bpm.ts';
 
 /** Class to store beat per minute value, BPM changes, and other properties affecting BPM. */
 export class BeatPerMinute {
@@ -13,7 +9,7 @@ export class BeatPerMinute {
     private constructor(
         bpm: number,
         bpmChange: (IBPMChange | IBPMChangeOld)[] = [],
-        offset: number = 0
+        offset: number = 0,
     ) {
         this._bpm = bpm;
         this._offset = offset / 1000;
@@ -28,7 +24,7 @@ export class BeatPerMinute {
     static create = (
         bpm: number,
         bpmChange?: (IBPMChange | IBPMChangeOld)[],
-        offset?: number
+        offset?: number,
     ): BeatPerMinute => {
         return new BeatPerMinute(bpm, bpmChange, offset);
     };
@@ -58,7 +54,7 @@ export class BeatPerMinute {
      * ```
      */
     private getBPMChangeTime(
-        bpmc: (IBPMChange | IBPMChangeOld)[] = []
+        bpmc: (IBPMChange | IBPMChangeOld)[] = [],
     ): IBPMChangeTime[] {
         let temp!: IBPMChangeTime;
         const bpmChange: IBPMChangeTime[] = [];
@@ -74,11 +70,11 @@ export class BeatPerMinute {
                 curBPMC._newTime = Math.ceil(
                     ((curBPMC._time - temp._time) / this._bpm) * temp._BPM +
                         temp._newTime -
-                        0.01
+                        0.01,
                 );
             } else {
                 curBPMC._newTime = Math.ceil(
-                    curBPMC._time - (this._offset * this._bpm) / 60 - 0.01
+                    curBPMC._time - (this._offset * this._bpm) / 60 - 0.01,
                 );
             }
             bpmChange.push(curBPMC);

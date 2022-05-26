@@ -48,26 +48,26 @@ export default class Swing implements ISwingContainer {
                         n,
                         lastNote[n.data.color],
                         bpm,
-                        swingNoteArray[n.data.color]
+                        swingNoteArray[n.data.color],
                     )
                 ) {
                     ebpmSwing = this.calcEBPMBetweenObject(
                         n.data,
                         firstNote[n.data.color].data,
-                        bpm.value
+                        bpm.value,
                     );
                     ebpm = this.calcEBPMBetweenObject(
                         n.data,
                         lastNote[n.data.color].data,
-                        bpm.value
+                        bpm.value,
                     );
                     minSpeed = this.calcMinSliderSpeed(
                         swingNoteArray[n.data.color],
-                        bpm
+                        bpm,
                     );
                     maxSpeed = this.calcMaxSliderSpeed(
                         swingNoteArray[n.data.color],
-                        bpm
+                        bpm,
                     );
                     if (!(minSpeed > 0 && maxSpeed !== Infinity)) {
                         minSpeed = 0;
@@ -75,8 +75,7 @@ export default class Swing implements ISwingContainer {
                     }
                     sc.push({
                         time: firstNote[n.data.color].data.time,
-                        duration:
-                            lastNote[n.data.color].data.time -
+                        duration: lastNote[n.data.color].data.time -
                             firstNote[n.data.color].data.time,
                         data: swingNoteArray[n.data.color],
                         ebpm,
@@ -122,7 +121,7 @@ export default class Swing implements ISwingContainer {
         currNote: NoteContainer,
         prevNote: NoteContainer,
         bpm: BeatPerMinute,
-        context?: NoteContainer[]
+        context?: NoteContainer[],
     ): boolean => {
         if (currNote.type === 'bomb' || prevNote.type === 'bomb') {
             throw new Error('Invalid type');
@@ -162,14 +161,14 @@ export default class Swing implements ISwingContainer {
     static calcEBPMBetweenObject = <T extends IBaseObject, U extends IBaseObject>(
         currObj: BaseObject<T>,
         prevObj: BaseObject<U>,
-        bpm: number
+        bpm: number,
     ): number => {
         return bpm / ((currObj.time - prevObj.time) * 2);
     };
 
     private static calcMinSliderSpeed = (
         notes: NoteContainer[],
-        bpm: BeatPerMinute
+        bpm: BeatPerMinute,
     ): number => {
         let hasStraight = false;
         let hasDiagonal = false;
@@ -186,20 +185,18 @@ export default class Swing implements ISwingContainer {
                         !hasStraight
                     ) {
                         hasStraight = true;
-                        curvedSpeed =
-                            (notes[i].data.time - notes[i - 1].data.time) /
+                        curvedSpeed = (notes[i].data.time - notes[i - 1].data.time) /
                             (notes[i].data.getDistance(notes[i - 1].data) || 1);
                     }
-                    hasDiagonal =
-                        notes[i].data.isDiagonal(notes[i - 1].data) ||
+                    hasDiagonal = notes[i].data.isDiagonal(notes[i - 1].data) ||
                         notes[i].data.isSlantedWindow(notes[i - 1].data) ||
                         hasDiagonal;
                     return (
                         (notes[i].data.time - notes[i - 1].data.time) /
                         (notes[i].data.getDistance(notes[i - 1].data) || 1)
                     );
-                })
-            )
+                }),
+            ),
         );
         if (hasStraight && hasDiagonal) {
             return bpm.toRealTime(curvedSpeed);
@@ -209,7 +206,7 @@ export default class Swing implements ISwingContainer {
 
     private static calcMaxSliderSpeed = (
         notes: NoteContainer[],
-        bpm: BeatPerMinute
+        bpm: BeatPerMinute,
     ): number => {
         let hasStraight = false;
         let hasDiagonal = false;
@@ -226,20 +223,18 @@ export default class Swing implements ISwingContainer {
                         !hasStraight
                     ) {
                         hasStraight = true;
-                        curvedSpeed =
-                            (notes[i].data.time - notes[i - 1].data.time) /
+                        curvedSpeed = (notes[i].data.time - notes[i - 1].data.time) /
                             (notes[i].data.getDistance(notes[i - 1].data) || 1);
                     }
-                    hasDiagonal =
-                        notes[i].data.isDiagonal(notes[i - 1].data) ||
+                    hasDiagonal = notes[i].data.isDiagonal(notes[i - 1].data) ||
                         notes[i].data.isSlantedWindow(notes[i - 1].data) ||
                         hasDiagonal;
                     return (
                         (notes[i].data.time - notes[i - 1].data.time) /
                         (notes[i].data.getDistance(notes[i - 1].data) || 1)
                     );
-                })
-            )
+                }),
+            ),
         );
         if (hasStraight && hasDiagonal) {
             return bpm.toRealTime(curvedSpeed);

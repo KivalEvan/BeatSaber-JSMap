@@ -63,7 +63,7 @@ for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
                             ? 0
                             : prevSlider[n.color].customData!._color[3] * 0.75,
                         m: prevSlider[n.color].customData!._color[1],
-                    })
+                    }),
                 );
             }
             delete prevSlider[n.color];
@@ -93,7 +93,7 @@ for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
                             tc: n.direction,
                             tmu: 0,
                             m: 0,
-                        })
+                        }),
                     );
                 }
                 if (n.customData!._disableSpawnEffect) {
@@ -119,7 +119,7 @@ for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
                 s: possibleBurst[n.color][0].customData!._color[2]
                     ? possibleBurst[n.color][0].customData!._color[2]
                     : 1,
-            })
+            }),
         );
         possibleBurst[n.color] = [];
     }

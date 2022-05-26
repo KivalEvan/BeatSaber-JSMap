@@ -30,8 +30,7 @@ export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
         this.l = lightRotationEventBox.l.map((l) => LightRotationBase.create(l));
         const lastTime = Math.max(...this.l.map((l) => l.time));
         if (this.beatDistributionType === 2) {
-            this.beatDistribution =
-                this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
+            this.beatDistribution = this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
         }
     }
 
@@ -56,7 +55,7 @@ export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
                     r: eb.r ?? LightRotationEventBox.default.r,
                     b: eb.b ?? LightRotationEventBox.default.b,
                     l: eb.l ?? LightRotationEventBox.default.l(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

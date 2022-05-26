@@ -4,7 +4,7 @@ export const addTrack: INETrackOverload = (
     objects: INETrackObject | INETrackObject[],
     track: string,
     startTime?: number,
-    endTime?: number
+    endTime?: number,
 ) => {
     if (!Array.isArray(objects)) {
         if (!objects.customData) {
@@ -45,7 +45,7 @@ export const removeTrack: INETrackOverload = (
     objects: INETrackObject | INETrackObject[],
     track: string,
     startTime?: number,
-    endTime?: number
+    endTime?: number,
 ) => {
     if (!Array.isArray(objects)) {
         if (!objects.customData) {
@@ -57,7 +57,7 @@ export const removeTrack: INETrackOverload = (
         } else if (Array.isArray(objects.customData._track)) {
             if (objects.customData._track.includes(track)) {
                 objects.customData._track = objects.customData._track.filter(
-                    (t) => t !== track
+                    (t) => t !== track,
                 );
                 if (objects.customData._track.length === 1) {
                     objects.customData._track = objects.customData._track[0];

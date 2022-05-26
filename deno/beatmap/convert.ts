@@ -5,10 +5,7 @@ import { DifficultyData as DifficultyDataV2 } from './v2/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from './v3/difficulty.ts';
 import { clamp } from '../utils/math.ts';
 import { EventLaneRotation } from './shared/constants.ts';
-import {
-    ICustomDataNote,
-    ICustomDataObstacle,
-} from '../types/beatmap/v3/customData.ts';
+import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v3/customData.ts';
 import { IBasicEvent } from '../types/beatmap/v3/basicEvent.ts';
 
 // deno-lint-ignore ban-types
@@ -25,7 +22,7 @@ const tag = (func: Function) => {
  */
 export const V2toV3 = (
     data: DifficultyDataV2,
-    skipPrompt?: boolean
+    skipPrompt?: boolean,
 ): DifficultyDataV3 => {
     if (!skipPrompt) {
         console.warn('Converting beatmap v2 to v3 may lose certain data!');
@@ -51,15 +48,13 @@ export const V2toV3 = (
                 localRotation: n.customData._localRotation,
                 noteJumpMovementSpeed: n.customData._noteJumpMovementSpeed,
                 noteJumpStartBeatOffset: n.customData._noteJumpStartBeatOffset,
-                spawnEffect:
-                    typeof n.customData._disableSpawnEffect === 'boolean'
-                        ? !n.customData._disableSpawnEffect
-                        : undefined,
+                spawnEffect: typeof n.customData._disableSpawnEffect === 'boolean'
+                    ? !n.customData._disableSpawnEffect
+                    : undefined,
                 track: n.customData._track,
-                uninteractable:
-                    typeof n.customData._interactable === 'boolean'
-                        ? !n.customData._interactable
-                        : undefined,
+                uninteractable: typeof n.customData._interactable === 'boolean'
+                    ? !n.customData._interactable
+                    : undefined,
                 worldRotation: n.customData._rotation,
             };
             if (n.customData._animation) {
@@ -81,7 +76,7 @@ export const V2toV3 = (
             }
             if (typeof n.customData._cutDirection === 'number') {
                 logger.debug(
-                    `notes${i} at time ${n.time} NE _cutDirection will be converted.`
+                    `notes${i} at time ${n.time} NE _cutDirection will be converted.`,
                 );
             }
         }
@@ -92,16 +87,15 @@ export const V2toV3 = (
                     x: n.lineIndex,
                     y: n.lineLayer,
                     customData,
-                })
+                }),
             );
         }
         if (n.isNote()) {
             let a = 0;
             if (typeof n.customData?._cutDirection === 'number') {
-                a =
-                    n.customData._cutDirection > 0
-                        ? n.customData._cutDirection % 360
-                        : 360 + (n.customData._cutDirection % 360);
+                a = n.customData._cutDirection > 0
+                    ? n.customData._cutDirection % 360
+                    : 360 + (n.customData._cutDirection % 360);
             }
             if (n.cutDirection >= 1000) {
                 a = Math.abs(((n.cutDirection % 1000) % 360) - 360);
@@ -112,16 +106,13 @@ export const V2toV3 = (
                     c: n.type as 0 | 1,
                     x: n.lineIndex,
                     y: n.lineLayer,
-                    d:
-                        n.cutDirection >= 1000 ||
-                        typeof n.customData?._cutDirection === 'number'
-                            ? n.cutDirection === 8
-                                ? 8
-                                : 1
-                            : clamp(n.cutDirection, 0, 8),
+                    d: n.cutDirection >= 1000 ||
+                            typeof n.customData?._cutDirection === 'number'
+                        ? n.cutDirection === 8 ? 8 : 1
+                        : clamp(n.cutDirection, 0, 8),
                     a: a,
                     customData,
-                })
+                }),
             );
         }
     });
@@ -137,10 +128,9 @@ export const V2toV3 = (
                 noteJumpStartBeatOffset: o.customData._noteJumpStartBeatOffset,
                 size: o.customData._scale,
                 track: o.customData._track,
-                uninteractable:
-                    typeof o.customData._interactable === 'boolean'
-                        ? !o.customData._interactable
-                        : undefined,
+                uninteractable: typeof o.customData._interactable === 'boolean'
+                    ? !o.customData._interactable
+                    : undefined,
                 worldRotation: o.customData._rotation,
             };
             if (o.customData._animation) {
@@ -159,7 +149,7 @@ export const V2toV3 = (
             }
             if (typeof o.customData._fake === 'boolean') {
                 logger.warn(
-                    `obstacles${i} at time ${o.time} NE _fake will be removed.`
+                    `obstacles${i} at time ${o.time} NE _fake will be removed.`,
                 );
             }
         }
@@ -172,7 +162,7 @@ export const V2toV3 = (
                 w: o.width,
                 h: o.type === 2 ? o.height : o.type ? 3 : 5,
                 customData,
-            })
+            }),
         );
     });
 
@@ -182,27 +172,26 @@ export const V2toV3 = (
                 v3.ColorBoostEvent.create({
                     b: e.time,
                     o: e.value ? true : false,
-                })
+                }),
             );
         } else if (e.isLaneRotationEvent()) {
             template.rotationEvents.push(
                 v3.RotationEvent.create({
                     b: e.time,
                     e: e.type === 14 ? 0 : 1,
-                    r:
-                        typeof e.customData?._rotation === 'number'
-                            ? e.customData._rotation
-                            : e.value >= 1000
-                            ? (e.value - 1360) % 360
-                            : EventLaneRotation[e.value] ?? 0,
-                })
+                    r: typeof e.customData?._rotation === 'number'
+                        ? e.customData._rotation
+                        : e.value >= 1000
+                        ? (e.value - 1360) % 360
+                        : EventLaneRotation[e.value] ?? 0,
+                }),
             );
         } else if (e.isBPMChangeEvent()) {
             template.bpmEvents.push(
                 v3.BPMEvent.create({
                     b: e.time,
                     m: e.floatValue,
-                })
+                }),
             );
         } else {
             let customData!: IBasicEvent['customData'];
@@ -216,12 +205,12 @@ export const V2toV3 = (
                     };
                     if (e.customData._propID) {
                         logger.warn(
-                            `events${i} at time ${e.time} Chroma _propID will be removed.`
+                            `events${i} at time ${e.time} Chroma _propID will be removed.`,
                         );
                     }
                     if (e.customData._lightGradient) {
                         logger.warn(
-                            `events${i} at time ${e.time} Chroma _lightGradient will be removed.`
+                            `events${i} at time ${e.time} Chroma _lightGradient will be removed.`,
                         );
                     }
                 }
@@ -236,12 +225,12 @@ export const V2toV3 = (
                     };
                     if (e.customData._reset) {
                         logger.warn(
-                            `events${i} at time ${e.time} Chroma _reset will be removed.`
+                            `events${i} at time ${e.time} Chroma _reset will be removed.`,
                         );
                     }
                     if (e.customData._counterSpin) {
                         logger.warn(
-                            `events${i} at time ${e.time} Chroma _counterSpin will be removed.`
+                            `events${i} at time ${e.time} Chroma _counterSpin will be removed.`,
                         );
                     }
                     if (
@@ -250,7 +239,7 @@ export const V2toV3 = (
                         e.customData._speedMult
                     ) {
                         logger.warn(
-                            `events${i} at time ${e.time} Chroma _mult will be removed.`
+                            `events${i} at time ${e.time} Chroma _mult will be removed.`,
                         );
                     }
                 }
@@ -270,7 +259,7 @@ export const V2toV3 = (
                     i: e.value,
                     f: e.floatValue,
                     customData,
-                })
+                }),
             );
         }
     });
@@ -282,7 +271,7 @@ export const V2toV3 = (
                 x: w.lineIndex,
                 y: w.lineLayer,
                 d: w.direction,
-            })
+            }),
         );
     });
 
@@ -301,47 +290,44 @@ export const V2toV3 = (
                 tc: s.tailCutDirection,
                 tmu: s.tailLengthMultiplier,
                 m: s.midAnchor,
-            })
+            }),
         )
     );
 
     template.basicEventTypesWithKeywords = v3.BasicEventTypesWithKeywords.create({
-        d:
-            data.specialEventsKeywordFilters?.keywords?.map((k) => {
-                return { k: k.keyword, e: k.events };
-            }) ?? [],
+        d: data.specialEventsKeywordFilters?.keywords?.map((k) => {
+            return { k: k.keyword, e: k.events };
+        }) ?? [],
     });
 
     if (data.customData) {
         for (const k in data.customData) {
             if (k === '_customEvents') {
-                template.customData.customEvents =
-                    (data.customData._customEvents!.map((ce) => {
-                        return { b: ce._time, t: ce._type, d: ce._data };
-                        // i dont care
-                        // deno-lint-ignore no-explicit-any
-                    }) as any) ?? [];
+                template.customData.customEvents = (data.customData._customEvents!.map((ce) => {
+                    return { b: ce._time, t: ce._type, d: ce._data };
+                    // i dont care
+                    // deno-lint-ignore no-explicit-any
+                }) as any) ?? [];
                 continue;
             }
             if (k === '_environment') {
-                template.customData.environment =
-                    (data.customData._environment!.map((e) => {
-                        return {
-                            id: e._id,
-                            lookupMethod: e._lookupMethod,
-                            track: e._track,
-                            duplicate: e._duplicate,
-                            active: e._active,
-                            scale: e._scale,
-                            position: e._position?.map((n) => n * 0.6),
-                            rotation: e._rotation,
-                            localPosition: e._localPosition?.map((n) => n * 0.6),
-                            localRotation: e._localRotation,
-                            lightID: e._lightID,
-                        };
-                        // i dont care
-                        // deno-lint-ignore no-explicit-any
-                    }) as any) ?? [];
+                template.customData.environment = (data.customData._environment!.map((e) => {
+                    return {
+                        id: e._id,
+                        lookupMethod: e._lookupMethod,
+                        track: e._track,
+                        duplicate: e._duplicate,
+                        active: e._active,
+                        scale: e._scale,
+                        position: e._position?.map((n) => n * 0.6),
+                        rotation: e._rotation,
+                        localPosition: e._localPosition?.map((n) => n * 0.6),
+                        localRotation: e._localRotation,
+                        lightID: e._lightID,
+                    };
+                    // i dont care
+                    // deno-lint-ignore no-explicit-any
+                }) as any) ?? [];
                 continue;
             }
             template.customData[k] = data.customData[k];
@@ -364,7 +350,7 @@ export const V2toV3 = (
  */
 export const V3toV2 = (
     data: DifficultyDataV3,
-    skipPrompt?: boolean
+    skipPrompt?: boolean,
 ): DifficultyDataV2 => {
     if (!skipPrompt) {
         console.warn('Converting beatmap v3 to v2 may lose certain data!');
@@ -387,7 +373,7 @@ export const V3toV2 = (
                 _type: n.color,
                 _cutDirection: n.direction,
                 _customData: n.customData,
-            })
+            }),
         )
     );
 
@@ -400,7 +386,7 @@ export const V3toV2 = (
                 _type: 3,
                 _cutDirection: 0,
                 _customData: b.customData,
-            })
+            }),
         )
     );
 
@@ -416,7 +402,7 @@ export const V3toV2 = (
                     _width: o.width,
                     _height: o.height,
                     _customData: o.customData,
-                })
+                }),
             );
         } else if (o.posY === 2 && o.height === 3) {
             template.obstacles.push(
@@ -429,7 +415,7 @@ export const V3toV2 = (
                     _width: o.width,
                     _height: o.height,
                     _customData: o.customData,
-                })
+                }),
             );
         } else {
             template.obstacles.push(
@@ -442,7 +428,7 @@ export const V3toV2 = (
                     _width: o.width,
                     _height: o.height,
                     _customData: o.customData,
-                })
+                }),
             );
         }
     });
@@ -455,7 +441,7 @@ export const V3toV2 = (
                 _value: be.value,
                 _floatValue: be.floatValue,
                 _customData: be.customData,
-            })
+            }),
         );
     });
 
@@ -466,7 +452,7 @@ export const V3toV2 = (
                 _type: 5,
                 _value: b.toggle ? 1 : 0,
                 _floatValue: 1,
-            })
+            }),
         )
     );
 
@@ -475,15 +461,14 @@ export const V3toV2 = (
             v2.Event.create({
                 _time: lr.time,
                 _type: lr.executionTime ? 14 : 15,
-                _value:
-                    Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
-                        ? Math.max(
-                              Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15),
-                              3
-                          )
-                        : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
+                _value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
+                    ? Math.max(
+                        Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15),
+                        3,
+                    )
+                    : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
                 _floatValue: 1,
-            })
+            }),
         )
     );
 
@@ -494,7 +479,7 @@ export const V3toV2 = (
                 _type: 100,
                 _value: 1,
                 _floatValue: bpm.bpm,
-            })
+            }),
         )
     );
 
@@ -513,7 +498,7 @@ export const V3toV2 = (
                 _tailControlPointLengthMultiplier: s.tailLengthMultiplier,
                 _tailCutDirection: s.color,
                 _sliderMidAnchorMode: s.midAnchor,
-            })
+            }),
         )
     );
 
@@ -524,25 +509,23 @@ export const V3toV2 = (
                 _lineIndex: w.posX,
                 _lineLayer: w.posY,
                 _offsetDirection: w.direction,
-            })
+            }),
         )
     );
 
     template.specialEventsKeywordFilters = v2.SpecialEventsKeywordFilters.create({
-        _keywords:
-            data.basicEventTypesWithKeywords.list.map((d) => {
-                return { _keyword: d.keyword, _specialEvents: d.events };
-            }) ?? [],
+        _keywords: data.basicEventTypesWithKeywords.list.map((d) => {
+            return { _keyword: d.keyword, _specialEvents: d.events };
+        }) ?? [],
     });
 
     if (data.customData) {
         for (const k in data.customData) {
             if (k === 'customEvents') {
-                template.customData._customEvents =
-                    (data.customData.customEvents?.map((ce) => {
-                        return { _time: ce.b, _type: ce.t, _data: ce.d };
-                        // deno-lint-ignore no-explicit-any
-                    }) as any) ?? [];
+                template.customData._customEvents = (data.customData.customEvents?.map((ce) => {
+                    return { _time: ce.b, _type: ce.t, _data: ce.d };
+                    // deno-lint-ignore no-explicit-any
+                }) as any) ?? [];
                 continue;
             }
             template.customData[k] = data.customData[k];

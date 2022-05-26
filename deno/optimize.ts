@@ -1,11 +1,7 @@
 import { IInfoData } from './types/beatmap/shared/info.ts';
 import { IDifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficultyData as DifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
-import {
-    OptimizeOptions,
-    OptimizeOptionsDifficulty,
-    OptimizeOptionsInfo,
-} from './types/bsmap/optimize.ts';
+import { OptimizeOptions, OptimizeOptionsDifficulty, OptimizeOptionsInfo } from './types/bsmap/optimize.ts';
 import { Either } from './types/utils.ts';
 import { round } from './utils/math.ts';
 import logger from './logger.ts';
@@ -57,7 +53,7 @@ const ignoreObjectRemove = [
 export const deepClean = (
     // deno-lint-ignore no-explicit-any
     obj: { [key: string | number]: any } | any[],
-    options: OptimizeOptions
+    options: OptimizeOptions,
 ) => {
     for (const k in obj) {
         // shorten number
@@ -100,13 +96,13 @@ export const deepClean = (
                 if (Array.isArray(obj)) {
                     logger.error(
                         tag(deepClean),
-                        `null value found in array index ${obj} ${k}, defaulting to 0...`
+                        `null value found in array index ${obj} ${k}, defaulting to 0...`,
                     );
                     obj[k] = 0;
                 } else {
                     logger.error(
                         tag(deepClean),
-                        `null value found in object key ${obj} ${k}, deleting property...`
+                        `null value found in object key ${obj} ${k}, deleting property...`,
                     );
                     delete obj[k];
                 }
@@ -117,7 +113,7 @@ export const deepClean = (
 
 export const performInfo = (
     info: IInfoData,
-    options: OptimizeOptionsInfo = { enabled: true }
+    options: OptimizeOptionsInfo = { enabled: true },
 ) => {
     const opt: Required<OptimizeOptionsInfo> = {
         enabled: options.enabled,
@@ -139,7 +135,7 @@ export const performInfo = (
 
 export const performDifficulty = (
     difficulty: Either<DifficultyDataV2, DifficultyDataV3>,
-    options: OptimizeOptionsDifficulty = { enabled: true }
+    options: OptimizeOptionsDifficulty = { enabled: true },
 ) => {
     const opt: Required<OptimizeOptionsDifficulty> = {
         enabled: options.enabled,
@@ -166,7 +162,7 @@ export const performDifficulty = (
                 Math.round((a.b + Number.EPSILON) * sortPrec) / sortPrec -
                     Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||
                 a.x - b.x ||
-                a.y - b.y
+                a.y - b.y,
         );
         difficulty.bombNotes?.sort((a, b) => a.b - b.b);
         difficulty.obstacles?.sort((a, b) => a.b - b.b);

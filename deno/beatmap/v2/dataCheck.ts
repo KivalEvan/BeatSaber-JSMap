@@ -1,13 +1,13 @@
 import { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
 import {
     IDifficultyData,
-    INote,
-    ISlider,
-    IObstacle,
     IEvent,
-    IWaypoint,
+    INote,
+    IObstacle,
+    ISlider,
     ISpecialEventsKeywordFilters,
     ISpecialEventsKeywordFiltersKeywords,
+    IWaypoint,
 } from '../../types/beatmap/v2/mod.ts';
 
 export const NoteDataCheck: Readonly<Record<keyof INote, DataCheck>> = {

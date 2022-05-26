@@ -1,4 +1,4 @@
-import { IInfoData, DifficultyRank } from '../../types/mod.ts';
+import { DifficultyRank, IInfoData } from '../../types/mod.ts';
 import { CharacteristicOrder } from './characteristic.ts';
 import logger from '../../logger.ts';
 
@@ -14,7 +14,7 @@ export const info = (infoData: IInfoData): IInfoData => {
     infoData._difficultyBeatmapSets.sort(
         (a, b) =>
             CharacteristicOrder[a._beatmapCharacteristicName] -
-            CharacteristicOrder[b._beatmapCharacteristicName]
+            CharacteristicOrder[b._beatmapCharacteristicName],
     );
     infoData._difficultyBeatmapSets.forEach((set) => {
         let num = 0;

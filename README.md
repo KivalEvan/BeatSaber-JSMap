@@ -4,7 +4,7 @@ Bunch of script compilation I made for mapping.
 
 ## Prerequisite
 
--   Deno 1.19.0 or higher (For `.ts` script)
+-   Deno 1.21.0 or higher (For `.ts` script)
 -   Node.js 16.6.1 or higher (For `.js` script)
 
 ## Credit

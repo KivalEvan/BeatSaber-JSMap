@@ -1,8 +1,4 @@
-import {
-    PercentPointDefinition,
-    Vector3,
-    ColorPointDefinition,
-} from '../shared/heck.ts';
+import { ColorPointDefinition, PercentPointDefinition, Vector3 } from '../shared/heck.ts';
 import { Easings } from '../shared/easings.ts';
 import { ColorArray } from '../shared/colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';

@@ -50,7 +50,7 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
                     sc: bs.sc ?? BurstSlider.default.sc,
                     s: bs.s ?? BurstSlider.default.s,
                     customData: bs.customData ?? BurstSlider.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

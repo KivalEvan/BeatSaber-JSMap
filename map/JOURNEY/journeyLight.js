@@ -42,15 +42,13 @@ const easings = {
     InOutQuad: (x) => (x < 0.5 ? 2 * x * x : -1 + (4 - 2 * x) * x),
     InCubic: (x) => x * x * x,
     OutCubic: (x) => --x * x * x + 1,
-    InOutCubic: (x) =>
-        x < 0.5 ? 4 * x * x * x : (x - 1) * (2 * x - 2) * (2 * x - 2) + 1,
+    InOutCubic: (x) => x < 0.5 ? 4 * x * x * x : (x - 1) * (2 * x - 2) * (2 * x - 2) + 1,
     InQuart: (x) => x * x * x * x,
     OutQuart: (x) => 1 - --x * x * x * x,
     InOutQuart: (x) => (x < 0.5 ? 8 * x * x * x * x : 1 - 8 * --x * x * x * x),
     InQuint: (x) => x * x * x * x * x,
     OutQuint: (x) => 1 - --x * x * x * x * x,
-    InOutQuint: (x) =>
-        x < 0.5 ? 16 * x * x * x * x * x : 1 + 16 * --x * x * x * x * x,
+    InOutQuint: (x) => x < 0.5 ? 16 * x * x * x * x * x : 1 + 16 * --x * x * x * x * x,
 };
 
 function setFloat(t1, t2, n, type) {
@@ -554,7 +552,7 @@ function deeperDaddy(obj) {
                 deeperDaddy(obj[key]);
             } else if (typeof obj[key] === 'number') {
                 obj[key] = parseFloat(
-                    Math.round((obj[key] + Number.EPSILON) * jsonP) / jsonP
+                    Math.round((obj[key] + Number.EPSILON) * jsonP) / jsonP,
                 );
             }
         }
@@ -568,7 +566,7 @@ difficulty._notes.sort(
         parseFloat(Math.round((a._lineIndex + Number.EPSILON) * sortP) / sortP) -
             parseFloat(Math.round((b._lineIndex + Number.EPSILON) * sortP) / sortP) ||
         parseFloat(Math.round((a._lineLayer + Number.EPSILON) * sortP) / sortP) -
-            parseFloat(Math.round((b._lineLayer + Number.EPSILON) * sortP) / sortP)
+            parseFloat(Math.round((b._lineLayer + Number.EPSILON) * sortP) / sortP),
 );
 difficulty._obstacles.sort((a, b) => a._time - b._time);
 difficulty._events.sort((a, b) => a._time - b._time);
@@ -577,7 +575,7 @@ fs.writeFileSync(OUTPUT_FILE, JSON.stringify(difficulty, null));
 console.log(
     `gradient event: ${
         difficulty._events.filter(
-            (e) => isLight(e._type) && (e._value === 4 || e._value === 8)
+            (e) => isLight(e._type) && (e._value === 4 || e._value === 8),
         ).length
-    }`
+    }`,
 );

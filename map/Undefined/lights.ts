@@ -67,7 +67,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                         e,
                     },
                 ],
-            }
+            },
         );
         d.addLightRotationEventBoxGroups(
             {
@@ -111,7 +111,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                         ],
                     },
                 ],
-            }
+            },
         );
     }
     d.addLightColorEventBoxGroups(
@@ -162,7 +162,7 @@ export default (d: bsmap.v3.DifficultyData) => {
             ],
         },
         { b: 34, g: 0, e: [{ e: [{ s: 0 }] }] },
-        { b: 34, g: 1, e: [{ e: [{ s: 0 }] }] }
+        { b: 34, g: 1, e: [{ e: [{ s: 0 }] }] },
     );
     d.addLightRotationEventBoxGroups(
         {
@@ -206,7 +206,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                     ],
                 },
             ],
-        }
+        },
     );
     for (let i = 0; i < 2; i++) {
         for (let t = 0; t < 4; t++) {
@@ -325,7 +325,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                             ],
                         },
                     ],
-                }
+                },
             );
             d.addLightRotationEventBoxGroups(
                 {
@@ -358,7 +358,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                             ],
                         },
                     ],
-                }
+                },
             );
         }
     }
@@ -425,7 +425,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                         ],
                     },
                 ],
-            }
+            },
         );
         d.addLightRotationEventBoxGroups(
             {
@@ -483,7 +483,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                         ],
                     },
                 ],
-            }
+            },
         );
     }
     //#endregion
@@ -516,7 +516,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                     { f: fltr, e, w },
                     { f: fltrR, e, w },
                 ],
-            }
+            },
         );
     }
     for (let t = 98; t < 128; t++) {
@@ -557,7 +557,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                     { f: fltr, e, w },
                     { f: fltrR, e, w },
                 ],
-            }
+            },
         );
     }
     {
@@ -721,7 +721,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                         l: [{ p: 1 }, { b: 16, r: 90, e: 1 }, { b: 32, r: 180, e: 2 }],
                     },
                 ],
-            }
+            },
         );
     }
     //#endregion
@@ -791,7 +791,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                 b: time + 2.5,
                 g: 11,
                 e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
-            }
+            },
         );
     }
     //#region outro
@@ -863,7 +863,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                     b: time + 2.5,
                     g: g[5],
                     e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
-                }
+                },
             );
             continue;
         }
@@ -897,7 +897,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                 b: time + 2.5,
                 g: g[5],
                 e: [{ e: [{ c: 2 }, { b: 0.0625, s: 0 }], w: 0.25 }],
-            }
+            },
         );
     }
     //#endregion

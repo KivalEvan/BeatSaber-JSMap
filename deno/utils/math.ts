@@ -18,7 +18,7 @@ export const random = (min: number, max: number, round = false) => {
 export const fixRange = (
     min: number,
     max: number,
-    inverse?: boolean
+    inverse?: boolean,
 ): [number, number] => {
     if (min < max && inverse) {
         return [max, min];
@@ -74,7 +74,7 @@ export const normalize = (value: number, min: number, max: number): number => {
     if (min >= max) {
         logger.warn(
             tag(normalize),
-            'Min value is equal or more than max value, returning 1'
+            'Min value is equal or more than max value, returning 1',
         );
         return 1;
     }
@@ -90,7 +90,7 @@ export const lerp = (
     alpha: number,
     start: number,
     end: number,
-    easing?: (x: number) => number
+    easing?: (x: number) => number,
 ): number => {
     if (!easing) {
         easing = (x) => x;
@@ -98,13 +98,13 @@ export const lerp = (
     if (alpha > 1) {
         logger.warn(
             tag(lerp),
-            'Alpha value is larger than 1, may have unintended result'
+            'Alpha value is larger than 1, may have unintended result',
         );
     }
     if (alpha < 0) {
         logger.warn(
             tag(lerp),
-            'Alpha value is smaller than 0, may have unintended result'
+            'Alpha value is smaller than 0, may have unintended result',
         );
     }
     const result = start + (end - start) * easing(alpha);

@@ -67,7 +67,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                     d: 1.5,
                     w: 2,
                     h: 1,
-                }
+                },
             );
         } else {
             d.addObstacles(
@@ -134,7 +134,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                     d: 1.5,
                     w: 2,
                     h: 1,
-                }
+                },
             );
         }
     }
@@ -155,7 +155,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                 d: 2.5 - i * 0.25,
                 w: 1,
                 h: 5 - i,
-            }
+            },
         );
     }
     for (let i = 0; i < 4; i++) {
@@ -176,7 +176,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                     d: 1,
                     w: 1,
                     h: 3 + j * 2,
-                }
+                },
             );
         }
     }

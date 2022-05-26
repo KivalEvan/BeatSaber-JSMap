@@ -28,8 +28,7 @@ export class LightColorEventBox extends EventBox<ILightColorEventBox> {
         this.e = lightColorEventBox.e.map((e) => LightColorBase.create(e));
         const lastTime = Math.max(...this.e.map((e) => e.time));
         if (this.beatDistributionType === 2) {
-            this.beatDistribution =
-                this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
+            this.beatDistribution = this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
         }
     }
 
@@ -45,18 +44,16 @@ export class LightColorEventBox extends EventBox<ILightColorEventBox> {
         eventBoxes?.forEach((eb) =>
             result.push(
                 new LightColorEventBox({
-                    f:
-                        (eb as Required<ILightColorEventBox>).f ??
+                    f: (eb as Required<ILightColorEventBox>).f ??
                         LightColorEventBox.default.f(),
                     w: eb.w ?? LightColorEventBox.default.w,
                     d: eb.d ?? LightColorEventBox.default.d,
                     r: eb.r ?? LightColorEventBox.default.r,
                     t: eb.t ?? LightColorEventBox.default.t,
                     b: eb.b ?? LightColorEventBox.default.b,
-                    e:
-                        (eb as Required<ILightColorEventBox>).e ??
+                    e: (eb as Required<ILightColorEventBox>).e ??
                         LightColorEventBox.default.e(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

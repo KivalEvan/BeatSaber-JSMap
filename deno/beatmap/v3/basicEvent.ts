@@ -32,7 +32,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
                     i: be.i ?? BasicEvent.default.i,
                     f: be.f ?? BasicEvent.default.f,
                     customData: be.customData ?? BasicEvent.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

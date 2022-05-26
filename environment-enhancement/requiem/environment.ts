@@ -30,7 +30,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
     };
     const translatePos = (
         posArr: bsmap.types.Vector3,
-        translate = [0, 0, 0]
+        translate = [0, 0, 0],
     ): bsmap.types.Vector3 => {
         let arr: bsmap.types.Vector3 = [...posArr];
         arr[0] += translate[0];
@@ -66,7 +66,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _duplicate: 1,
             _rotation: [0, 0, -90],
             _position: [80, 73, 12],
-        }
+        },
     );
     //#endregion
     //#region extra thicc ring
@@ -103,7 +103,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _lookupMethod: 'Regex',
             _duplicate: 1,
             _position: posGlowLine1,
-        }
+        },
     );
     //#endregion
     //#region test
@@ -122,7 +122,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _duplicate: 1,
             _rotation: [90, 0, 0],
             _position: posGlowLine3,
-        }
+        },
     );
     //#endregion
     return environment;

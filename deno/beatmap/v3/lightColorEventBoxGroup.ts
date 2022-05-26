@@ -20,13 +20,13 @@ export class LightColorEventBoxGroup extends EventBoxGroupTemplate<
     private constructor(eventBoxGroup: Required<ILightColorEventBoxGroup>) {
         super(
             eventBoxGroup,
-            eventBoxGroup.e.map((e) => LightColorEventBox.create(e))
+            eventBoxGroup.e.map((e) => LightColorEventBox.create(e)),
         );
     }
 
     static create(): LightColorEventBoxGroup;
     static create(
-        eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>
+        eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>,
     ): LightColorEventBoxGroup;
     static create(
         ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
@@ -40,12 +40,11 @@ export class LightColorEventBoxGroup extends EventBoxGroupTemplate<
                 new LightColorEventBoxGroup({
                     b: ebg.b ?? LightColorEventBoxGroup.default.b,
                     g: ebg.g ?? LightColorEventBoxGroup.default.g,
-                    e:
-                        (ebg as Required<ILightColorEventBoxGroup>).e ??
+                    e: (ebg as Required<ILightColorEventBoxGroup>).e ??
                         LightColorEventBoxGroup.default.e(),
-                    customData:
-                        ebg.customData ?? LightColorEventBoxGroup.default.customData(),
-                })
+                    customData: ebg.customData ??
+                        LightColorEventBoxGroup.default.customData(),
+                }),
             )
         );
         if (result.length === 1) {

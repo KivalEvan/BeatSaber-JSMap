@@ -7,8 +7,8 @@ export const printV3Event = (d: bsmap.v3.DifficultyData) => {
         '\nLight Color',
         d.lightColorEventBoxGroups.reduce(
             (t, e) => t + e.events.reduce((r, y) => r + y.events.length, 0),
-            0
-        )
+            0,
+        ),
     );
     console.log();
     console.log(
@@ -19,18 +19,18 @@ export const printV3Event = (d: bsmap.v3.DifficultyData) => {
         '\nLight Rotation',
         d.lightRotationEventBoxGroups.reduce(
             (t, e) => t + e.events.reduce((r, y) => r + y.events.length, 0),
-            0
-        )
+            0,
+        ),
     );
     console.log(
         '\nTotal V3 Event',
         d.lightColorEventBoxGroups.reduce(
             (t, e) => t + e.events.reduce((r, y) => r + y.events.length, 0),
-            0
+            0,
         ) +
             d.lightRotationEventBoxGroups.reduce(
                 (t, e) => t + e.events.reduce((r, y) => r + y.events.length, 0),
-                0
-            )
+                0,
+            ),
     );
 };

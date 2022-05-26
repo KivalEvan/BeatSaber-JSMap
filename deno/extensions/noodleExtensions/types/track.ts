@@ -11,7 +11,7 @@ export type INETrackOverload = {
         objects: INETrackObject[],
         track: string,
         startTime: number,
-        endTime: number
+        endTime: number,
     ): void;
     (objects: INETrackObject, track: string): void;
 };

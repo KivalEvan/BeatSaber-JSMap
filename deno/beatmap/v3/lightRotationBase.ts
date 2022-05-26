@@ -34,7 +34,7 @@ export class LightRotationBase extends Serializable<ILightRotationBase> {
                     l: lr.l ?? LightRotationBase.default.l,
                     r: lr.r ?? LightRotationBase.default.r,
                     o: lr.o ?? LightRotationBase.default.o,
-                })
+                }),
             )
         );
         if (result.length === 1) {

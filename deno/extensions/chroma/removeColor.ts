@@ -3,7 +3,7 @@ import { SetOptions } from './types/options.ts';
 
 export const removeColor = (objects: IChromaObject[], options: SetOptions) => {
     objects = objects.filter(
-        (obj) => obj.time >= options.startTime && obj.time <= options.endTime
+        (obj) => obj.time >= options.startTime && obj.time <= options.endTime,
     );
     objects.forEach((obj) => {
         if (obj.customData?._color) {

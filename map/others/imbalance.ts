@@ -3,8 +3,7 @@ import * as bsmap from '../../deno/mod.ts';
 
 console.log('Running script...');
 console.time('Runtime');
-bsmap.globals.path =
-    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Imbalance/';
+bsmap.globals.path = 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Imbalance/';
 
 const info = bsmap.load.infoSync();
 const difficultyList = bsmap.load.difficultyFromInfoSync(info);

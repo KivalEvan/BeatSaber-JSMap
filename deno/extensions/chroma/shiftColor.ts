@@ -25,7 +25,7 @@ export const shiftColor = (objects: IChromaObject[], options: ShiftColorOptions)
     const shift = (
         currentColor: ColorArray,
         shiftHSVA: ColorArray,
-        settings: typeof opt
+        settings: typeof opt,
     ) => {
         return HSVAtoRGBA(
             ...(RGBAtoHSVA(...currentColor).map((hsva, i) => {
@@ -61,7 +61,7 @@ export const shiftColor = (objects: IChromaObject[], options: ShiftColorOptions)
                         return hsva + shiftHSVA[3];
                     }
                 }
-            }) as ColorArray)
+            }) as ColorArray),
         ) as ColorArray;
     };
     objects.forEach((obj) => {
@@ -72,12 +72,12 @@ export const shiftColor = (objects: IChromaObject[], options: ShiftColorOptions)
             obj.customData._lightGradient._startColor = shift(
                 obj.customData._lightGradient._startColor,
                 hsvaShift,
-                opt
+                opt,
             );
             obj.customData._lightGradient._endColor = shift(
                 obj.customData._lightGradient._endColor,
                 hsvaShift,
-                opt
+                opt,
             );
         }
     });

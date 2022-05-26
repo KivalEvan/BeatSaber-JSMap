@@ -9,38 +9,34 @@ interface ContainerBase {
     type: string;
 }
 
-interface NoteContainerNote extends ContainerBase {
+export interface NoteContainerNote extends ContainerBase {
     type: 'note';
     data: ColorNote;
 }
 
-interface NoteContainerSlider extends ContainerBase {
+export interface NoteContainerSlider extends ContainerBase {
     type: 'slider';
     data: Slider;
 }
 
-interface NoteContainerBurstSlider extends ContainerBase {
+export interface NoteContainerBurstSlider extends ContainerBase {
     type: 'burstSlider';
     data: BurstSlider;
 }
 
-interface NoteContainerBomb extends ContainerBase {
+export interface NoteContainerBomb extends ContainerBase {
     type: 'bomb';
     data: BombNote;
 }
 
-export type NoteContainer =
-    | NoteContainerNote
-    | NoteContainerSlider
-    | NoteContainerBurstSlider
-    | NoteContainerBomb;
+export type NoteContainer = NoteContainerNote | NoteContainerSlider | NoteContainerBurstSlider | NoteContainerBomb;
 
-interface EventContainerBasic {
+export interface EventContainerBasic {
     type: 'basicEvent';
     data: BasicEvent;
 }
 
-interface EventContainerBoost {
+export interface EventContainerBoost {
     type: 'boost';
     data: ColorBoostEvent;
 }

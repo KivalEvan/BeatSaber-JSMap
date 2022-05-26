@@ -30,7 +30,7 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
                     b: be.b ?? ColorBoostEvent.default.b,
                     o: be.o ?? ColorBoostEvent.default.o,
                     customData: be.customData ?? ColorBoostEvent.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

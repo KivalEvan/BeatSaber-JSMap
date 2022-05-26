@@ -5,8 +5,7 @@ import jankySliderConvert from '../../deno/example/jankySliderConvert.ts';
 
 console.log('Running script...');
 console.time('Runtime');
-bsmap.globals.path =
-    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Undefined/';
+bsmap.globals.path = 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Undefined/';
 
 const info = bsmap.load.infoSync();
 const difficultyList = bsmap.load.difficultyFromInfoSync(info);
@@ -29,24 +28,23 @@ difficultyList.forEach((d) => {
                 n.angleOffset = bsmap.utils.lerp(
                     bsmap.utils.normalize(n.time, 32, 32.75),
                     -45,
-                    0
+                    0,
                 );
             }
             if (n.color === 0 && n.time >= 33 && n.time < 33.75) {
                 n.angleOffset = bsmap.utils.lerp(
                     bsmap.utils.normalize(n.time, 33, 33.75),
                     45,
-                    0
+                    0,
                 );
             }
             if (n.time >= 98 + j * 4 && n.time <= 101 + j * 4) {
                 if (n.color === (d.difficulty === 'Expert' ? j + 1 : j) % 2) {
-                    n.angleOffset =
-                        bsmap.utils.lerp(
-                            bsmap.utils.normalize(n.time, 98.25 + j * 4, 100.5 + j * 4),
-                            d.difficulty === 'Expert' ? -30 : -45,
-                            d.difficulty === 'Expert' ? 30 : 45
-                        ) * (j % 2 ? 1 : -1);
+                    n.angleOffset = bsmap.utils.lerp(
+                        bsmap.utils.normalize(n.time, 98.25 + j * 4, 100.5 + j * 4),
+                        d.difficulty === 'Expert' ? -30 : -45,
+                        d.difficulty === 'Expert' ? 30 : 45,
+                    ) * (j % 2 ? 1 : -1);
                 }
             }
             if (n.time >= 101 + j * 4) {

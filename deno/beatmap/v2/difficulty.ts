@@ -27,7 +27,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         this.events = data._events.map((obj) => Event.create(obj));
         this.waypoints = data._waypoints.map((obj) => Waypoint.create(obj));
         this.specialEventsKeywordFilters = SpecialEventsKeywordFilters.create(
-            data._specialEventsKeywordFilters
+            data._specialEventsKeywordFilters,
         );
         this.customData = data._customData;
     }
@@ -93,7 +93,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             if (this.obstacles[i].isInteractive()) {
                 obstacleEnd = Math.max(
                     obstacleEnd,
-                    this.obstacles[i].time + this.obstacles[i].duration
+                    this.obstacles[i].time + this.obstacles[i].duration,
                 );
             }
         }

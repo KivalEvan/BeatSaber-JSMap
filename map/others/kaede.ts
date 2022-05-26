@@ -3,12 +3,11 @@ import * as bsmap from '../../deno/mod.ts';
 console.log('Running script...');
 console.time('Runtime');
 bsmap.globals.logLevel = 1;
-bsmap.globals.path =
-    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/KAEDE/';
+bsmap.globals.path = 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/KAEDE/';
 
 const difficulty = bsmap.convert.V2toV3(
     bsmap.load.difficultyLegacySync('ExpertPlusStandard.dat'),
-    true
+    true,
 );
 
 const prevSlider: {
@@ -53,7 +52,7 @@ for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
                             ? 0
                             : prevSlider[n.color].customData!._color[3],
                         m: prevSlider[n.color].customData!._color[1],
-                    })
+                    }),
                 );
             }
             delete prevSlider[n.color];
@@ -83,7 +82,7 @@ for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
                             tc: n.direction,
                             tmu: 0,
                             m: 0,
-                        })
+                        }),
                     );
                 }
                 if (n.customData!._disableSpawnEffect) {
@@ -109,7 +108,7 @@ for (let i = 0, len = difficulty.colorNotes.length; i < len; i++) {
                 s: possibleBurst[n.color][0].customData!._color[2]
                     ? possibleBurst[n.color][0].customData!._color[2]
                     : 1,
-            })
+            }),
         );
         possibleBurst[n.color] = [];
     }
@@ -597,8 +596,8 @@ difficulty.sliders.push(
             tc: 3,
             tmu: 1,
             m: 0,
-        }
-    )
+        },
+    ),
 );
 
 bsmap.save.difficultySync(difficulty, {

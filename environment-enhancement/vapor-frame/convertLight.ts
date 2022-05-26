@@ -3,7 +3,7 @@ import { idOffsetType4, ringCount, ringRepeat } from './environment.ts';
 
 export const convertLight = (
     d: bsmap.v2.DifficultyData,
-    environment: bsmap.types.EnvironmentAllName
+    environment: bsmap.types.EnvironmentAllName,
 ) => {
     const events = d.events;
     const newEvents = [];
@@ -35,13 +35,12 @@ export const convertLight = (
         let noChromaColor = false;
         if (ev.value >= 2000000000) {
             currentColor[ev.type] = oldChromaColorConvert(
-                ev.value
+                ev.value,
             ) as bsmap.types.ColorArray;
         }
         if (!currentColor[ev.type]) {
             noChromaColor = true;
-            currentColor[ev.type] =
-                ev.value >= 1 && ev.value <= 3 ? defaultRightLight : defaultLeftLight;
+            currentColor[ev.type] = ev.value >= 1 && ev.value <= 3 ? defaultRightLight : defaultLeftLight;
         }
         if (ev.value === 4) {
             ev.value = 0;

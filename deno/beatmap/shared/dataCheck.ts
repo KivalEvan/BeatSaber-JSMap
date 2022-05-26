@@ -13,7 +13,7 @@ export const deepCheck = (
     data: { [key: string]: any },
     check: { [key: string]: DataCheck },
     name: string,
-    version: Version
+    version: Version,
 ) => {
     logger.verbose(tag(deepCheck), `Looking up ${name}`);
     if (Array.isArray(data)) {
@@ -50,7 +50,7 @@ export const deepCheck = (
                 data[key],
                 (check[key] as DataCheckObject).check,
                 `${name} ${key}`,
-                version
+                version,
             );
         }
         if (check[key].type === 'object') {
@@ -61,7 +61,7 @@ export const deepCheck = (
                     data[key],
                     (check[key] as DataCheckObject).check,
                     `${name} ${key}`,
-                    version
+                    version,
                 );
             }
         }

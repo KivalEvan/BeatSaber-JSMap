@@ -30,7 +30,7 @@ export class LightColorBase extends Serializable<ILightColorBase> {
                     c: lc.c ?? LightColorBase.default.c,
                     s: lc.s ?? LightColorBase.default.s,
                     f: lc.f ?? LightColorBase.default.f,
-                })
+                }),
             )
         );
         if (result.length === 1) {

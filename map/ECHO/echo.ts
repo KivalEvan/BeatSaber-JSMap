@@ -6,8 +6,7 @@ import { dirname } from 'https://deno.land/std@0.135.0/path/mod.ts';
 console.log('Running script...');
 console.time('Runtime');
 const WORKING_DIRECTORY = dirname(Deno.mainModule.replace('file:///', '')) + '/'; // for some reason deno doesnt like to deal with file:///
-bsmap.globals.path =
-    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/ECHO/';
+bsmap.globals.path = 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/ECHO/';
 const INPUT_FILE = 'EasyLightshow.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
@@ -24,10 +23,82 @@ const { addEvents } = difficulty;
 let itFrame = 0;
 const backtopOrder = [1, 3, 5, 6, 4, 2];
 const roadOrder: number[] = [
-    24, 21, 39, 44, 65, 48, 76, 42, 30, 28, 36, 53, 60, 45, 17, 34, 43, 41, 23, 15, 49,
-    37, 26, 47, 68, 66, 40, 77, 19, 62, 50, 67, 64, 46, 74, 71, 78, 69, 57, 72, 29, 54,
-    56, 75, 33, 63, 70, 55, 73, 79, 51, 38, 59, 16, 31, 32, 52, 61, 58, 80, 35, 27, 7,
-    6, 22, 14, 12, 9, 8, 5, 25, 18, 11, 10, 13, 20,
+    24,
+    21,
+    39,
+    44,
+    65,
+    48,
+    76,
+    42,
+    30,
+    28,
+    36,
+    53,
+    60,
+    45,
+    17,
+    34,
+    43,
+    41,
+    23,
+    15,
+    49,
+    37,
+    26,
+    47,
+    68,
+    66,
+    40,
+    77,
+    19,
+    62,
+    50,
+    67,
+    64,
+    46,
+    74,
+    71,
+    78,
+    69,
+    57,
+    72,
+    29,
+    54,
+    56,
+    75,
+    33,
+    63,
+    70,
+    55,
+    73,
+    79,
+    51,
+    38,
+    59,
+    16,
+    31,
+    32,
+    52,
+    61,
+    58,
+    80,
+    35,
+    27,
+    7,
+    6,
+    22,
+    14,
+    12,
+    9,
+    8,
+    5,
+    25,
+    18,
+    11,
+    10,
+    13,
+    20,
 ];
 const roadShuffle = [...roadOrder];
 
@@ -69,12 +140,10 @@ const screenStartID = offsetLightID + 1;
 const screenEndID = offsetLightID + screenX * screenY;
 for (let y = 0; y < screenY; y++) {
     for (let x = 0; x < screenX; x++) {
-        const posX =
-            screenXOffset +
+        const posX = screenXOffset +
             -(((screenX - 1) / 2) * screenSize) +
             x * (screenSize + screenGap);
-        const posY =
-            screenYOffset +
+        const posY = screenYOffset +
             -((screenY / 2) * screenSize) -
             y * (screenSize + screenGap);
         const posZ = 32 - Math.tan(345 * (Math.PI / 180)) * screenSize * y;
@@ -128,9 +197,7 @@ for (let i = 0; i < 5; i++) {
     });
 }
 for (let i = 0; i < 7; i++) {
-    const id = i
-        ? regexRotatingLasersPair.replace('$', ` \\(${i}\\)$`)
-        : regexRotatingLasersPair;
+    const id = i ? regexRotatingLasersPair.replace('$', ` \\(${i}\\)$`) : regexRotatingLasersPair;
     envEnh.push(
         {
             _id: id.replace('$', '\\.\\[\\d+\\]BaseL$'),
@@ -151,7 +218,7 @@ for (let i = 0; i < 7; i++) {
             _id: id.replace('$', '\\.\\[\\d+\\]BaseR\\.\\[\\d+\\]Laser$'),
             _lookupMethod: 'Regex',
             _rotation: [60 + i * 4, 135 + i * 5, 0],
-        }
+        },
     );
 }
 for (let i = 0; i < 6; i++) {
@@ -324,7 +391,7 @@ envEnh.push(
         _active: true,
         _position: [24, 2, 50],
         _rotation: [0, 210, 45],
-    }
+    },
 );
 //#endregion
 
@@ -400,8 +467,7 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
         }
         for (let y = 0; y < Math.min(gif.height, screenY); y++) {
             for (let x = 0; x < Math.min(gif.width, screenX); x++) {
-                const pos =
-                    screenStartID + screenX * (y + opt.yOffset) + x + opt.xOffset;
+                const pos = screenStartID + screenX * (y + opt.yOffset) + x + opt.xOffset;
                 const colorAry = frame.getRGBAAt(x + 1, y + 1);
                 if (opt.ignoreBlack && colorAry[0] === 0) {
                     continue;
@@ -434,22 +500,17 @@ const screenDraw = async (imagePath: string, options: ImageGIFOption) => {
         }
         for (const color in colorID) {
             addEvents({
-                _time:
-                    (opt.animated
-                        ? bsmap.utils.lerp(
-                              opt.easings(
-                                  bsmap.utils.normalize(itFrame, 0, gif.length)
-                              ),
-                              opt.time,
-                              opt.endTime
-                          )
-                        : opt.time) + opt.fadeInDuration,
+                _time: (opt.animated
+                    ? bsmap.utils.lerp(
+                        opt.easings(
+                            bsmap.utils.normalize(itFrame, 0, gif.length),
+                        ),
+                        opt.time,
+                        opt.endTime,
+                    )
+                    : opt.time) + opt.fadeInDuration,
                 _type: 4,
-                _value: opt.fadeInDuration
-                    ? opt.eventValue > 4
-                        ? 8
-                        : 4
-                    : opt.eventValue,
+                _value: opt.fadeInDuration ? opt.eventValue > 4 ? 8 : 4 : opt.eventValue,
                 _floatValue: (parseInt(color) / 255) * opt.floatValue,
                 _customData: {
                     _lightID: colorID[color],
@@ -509,7 +570,7 @@ addEvents(
         _time: 4,
         _value: 0,
         _floatValue: 1,
-    }
+    },
 );
 const introPianoOrder = [3, 6, 5, 3, 5, 7, 6, 3, 1, 2, 3, 6, 4, 6, 4, 6];
 for (let i = 0, paino = 0, painoFlip = false; i < 2; i++) {
@@ -537,7 +598,7 @@ for (let i = 0, paino = 0, painoFlip = false; i < 2; i++) {
                     _value: 7,
                     _floatValue: 1,
                     _customData: { _lightID: 1 },
-                }
+                },
             );
         } else {
             addEvents({
@@ -577,7 +638,7 @@ addEvents(
         _time: 20,
         _value: 0,
         _floatValue: 1,
-    }
+    },
 );
 for (let i = 1; i <= 7; i++) {
     addEvents(
@@ -594,7 +655,7 @@ for (let i = 1; i <= 7; i++) {
             _value: 3,
             _floatValue: 1,
             _customData: { _lightID: i },
-        }
+        },
     );
 }
 //#endregion
@@ -619,7 +680,7 @@ for (const pnt of piano2Notething) {
                     _customData: {
                         _lightID: [backtopOrder[2 - j], backtopOrder[j + 3]],
                     },
-                }
+                },
             );
         }
         if (pnt >= 325) {
@@ -655,7 +716,7 @@ for (const pnt of piano2Notething) {
                     _customData: {
                         _lightID: i < 4 ? [3, 4] : i < 6 ? [4, 5] : [6, 7],
                     },
-                }
+                },
             );
             if (i >= 6) {
                 for (let j = 0; j < 2; j++) {
@@ -691,7 +752,7 @@ for (const pnt of piano2Notething) {
                             _customData: {
                                 _lightID: i < 4 ? [3, 4] : i < 6 ? [4, 5] : [6, 7],
                             },
-                        }
+                        },
                     );
                 }
             }
@@ -754,7 +815,7 @@ for (let i = 0; i < 4; i++) {
                 _customData: {
                     _lightID: iso,
                 },
-            }
+            },
         );
         t++;
         if (i === 3 && t === 28) {
@@ -822,7 +883,7 @@ for (const ivt of introVocalTiming) {
                 _value: 0,
                 _floatValue: 0,
                 _customData: { _lightID: [1, 2] },
-            }
+            },
         );
     } else {
         for (let i = 0; i < ivt[1]; i += 0.125) {
@@ -840,7 +901,7 @@ for (const ivt of introVocalTiming) {
                     _value: 0,
                     _floatValue: 0,
                     _customData: { _lightID: [1, 2] },
-                }
+                },
             );
         }
     }
@@ -976,7 +1037,7 @@ screenClear(23, 0.5);
                     _customData: {
                         _lightID: colorID[color],
                     },
-                }
+                },
             );
         }
         itFrame++;
@@ -1075,7 +1136,7 @@ screenClear(23, 0.5);
                     _customData: {
                         _lightID: colorID[color],
                     },
-                }
+                },
             );
         }
     });
@@ -1193,7 +1254,7 @@ for (let i = 0; i < 7; i++) {
                 _value: 3,
                 _floatValue: 1,
                 _customData: { _lightID: [1, 2] },
-            }
+            },
         );
         for (let j = 0; j < 5; j++) {
             addEvents(
@@ -1210,7 +1271,7 @@ for (let i = 0; i < 7; i++) {
                     _value: 0,
                     _floatValue: 0,
                     _customData: { _lightID: [1, 2] },
-                }
+                },
             );
         }
         continue;
@@ -1229,7 +1290,7 @@ for (let i = 0; i < 7; i++) {
             _value: 0,
             _floatValue: 0,
             _customData: { _lightID: [1, 2] },
-        }
+        },
     );
     for (let j = 0; j < 5; j++) {
         addEvents(
@@ -1260,7 +1321,7 @@ for (let i = 0; i < 7; i++) {
                 _value: 0,
                 _floatValue: 0,
                 _customData: { _lightID: [1, 2] },
-            }
+            },
         );
     }
     if (i === 6) {
@@ -1279,7 +1340,7 @@ for (let i = 0; i < 7; i++) {
                     _value: 0,
                     _floatValue: 0,
                     _customData: { _lightID: [1, 2] },
-                }
+                },
             );
         }
     }
@@ -1299,7 +1360,7 @@ for (let i = 0; i < 7; i++) {
                     _value: 7,
                     _floatValue: 1,
                     _customData: { _lightID: roadOrder[x] },
-                }
+                },
             );
         }
 
@@ -1324,7 +1385,7 @@ for (let i = 0; i < 7; i++) {
                 _value: 4,
                 _floatValue: 0,
                 _customData: { _lightID: [3, 4], _easing: 'easeInQuad' },
-            }
+            },
         );
     }
     if (i === 0 || i === 1) {
@@ -1381,7 +1442,7 @@ for (let i = 0; i < 7; i++) {
                     _value: 4,
                     _floatValue: 1,
                     _customData: { _lightID: roadShuffle[x] },
-                }
+                },
             );
         }
         bsmap.utils.shuffle(roadShuffle);
@@ -1400,7 +1461,7 @@ for (let i = 0; i < 7; i++) {
                     _value: 4,
                     _floatValue: 0,
                     _customData: { _lightID: roadShuffle[x] },
-                }
+                },
             );
         }
         addEvents(
@@ -1424,7 +1485,7 @@ for (let i = 0; i < 7; i++) {
                 _value: 4,
                 _floatValue: 0,
                 _customData: { _lightID: [3, 4], _easing: 'easeInQuad' },
-            }
+            },
         );
     }
     for (let j = 0; j < 3; j++) {
@@ -1736,7 +1797,7 @@ for (let i = 0; i < 5; i++) {
                     _value: 0,
                     _floatValue: 0,
                     _customData: { _lightID: [1, 2] },
-                }
+                },
             );
         } else {
             for (let j = 0; j < ivt[1]; j += 0.125) {
@@ -1754,7 +1815,7 @@ for (let i = 0; i < 5; i++) {
                         _value: 0,
                         _floatValue: 0,
                         _customData: { _lightID: [1, 2] },
-                    }
+                    },
                 );
             }
         }
@@ -1779,7 +1840,7 @@ for (let i = 0; i < 5; i++) {
                             _customData: {
                                 _lightID: [screenEndID + 1, screenEndID + 2],
                             },
-                        }
+                        },
                     );
                 } else {
                     for (let j = 0; j < ivt[1]; j += 0.125) {
@@ -1801,7 +1862,7 @@ for (let i = 0; i < 5; i++) {
                                 _customData: {
                                     _lightID: [screenEndID + 1, screenEndID + 2],
                                 },
-                            }
+                            },
                         );
                     }
                 }
@@ -1826,7 +1887,7 @@ for (let i = 0; i < 5; i++) {
                             _customData: {
                                 _lightID: [screenEndID + 3, screenEndID + 4],
                             },
-                        }
+                        },
                     );
                 } else {
                     for (let j = 0; j < ivt[1]; j += 0.125) {
@@ -1848,7 +1909,7 @@ for (let i = 0; i < 5; i++) {
                                 _customData: {
                                     _lightID: [screenEndID + 3, screenEndID + 4],
                                 },
-                            }
+                            },
                         );
                     }
                 }
@@ -1877,12 +1938,11 @@ for (let i = 0; i < 4; i++) {
                     _value: 3,
                     _floatValue: 1,
                     _customData: {
-                        _lightID:
-                            i === 1
-                                ? [screenEndID + 1, screenEndID + 2]
-                                : i === 3
-                                ? [screenEndID + 3, screenEndID + 4]
-                                : [1, 2],
+                        _lightID: i === 1
+                            ? [screenEndID + 1, screenEndID + 2]
+                            : i === 3
+                            ? [screenEndID + 3, screenEndID + 4]
+                            : [1, 2],
                     },
                 },
                 {
@@ -1891,14 +1951,13 @@ for (let i = 0; i < 4; i++) {
                     _value: 0,
                     _floatValue: 0,
                     _customData: {
-                        _lightID:
-                            i === 1
-                                ? [screenEndID + 1, screenEndID + 2]
-                                : i === 3
-                                ? [screenEndID + 3, screenEndID + 4]
-                                : [1, 2],
+                        _lightID: i === 1
+                            ? [screenEndID + 1, screenEndID + 2]
+                            : i === 3
+                            ? [screenEndID + 3, screenEndID + 4]
+                            : [1, 2],
                     },
-                }
+                },
             );
         } else {
             for (let j = 0; j < anlb[1]; j += 0.125) {
@@ -1909,12 +1968,11 @@ for (let i = 0; i < 4; i++) {
                         _value: 3,
                         _floatValue: 1,
                         _customData: {
-                            _lightID:
-                                i === 1
-                                    ? [screenEndID + 1, screenEndID + 2]
-                                    : i === 3
-                                    ? [screenEndID + 3, screenEndID + 4]
-                                    : [1, 2],
+                            _lightID: i === 1
+                                ? [screenEndID + 1, screenEndID + 2]
+                                : i === 3
+                                ? [screenEndID + 3, screenEndID + 4]
+                                : [1, 2],
                         },
                     },
                     {
@@ -1923,14 +1981,13 @@ for (let i = 0; i < 4; i++) {
                         _value: 0,
                         _floatValue: 0,
                         _customData: {
-                            _lightID:
-                                i === 1
-                                    ? [screenEndID + 1, screenEndID + 2]
-                                    : i === 3
-                                    ? [screenEndID + 3, screenEndID + 4]
-                                    : [1, 2],
+                            _lightID: i === 1
+                                ? [screenEndID + 1, screenEndID + 2]
+                                : i === 3
+                                ? [screenEndID + 3, screenEndID + 4]
+                                : [1, 2],
                         },
-                    }
+                    },
                 );
             }
         }
@@ -1975,7 +2032,7 @@ for (let i = 0; i < 5; i++) {
             _time: 384 + i * 0.5,
             _value: 1,
             _customData: { _lockPosition: true },
-        }
+        },
     );
     for (let j = 0; j < 2; j++) {
         addEvents(
@@ -2046,7 +2103,7 @@ for (let i = 0; i < 5; i++) {
                 _time: 384 + 1 / 12 + i * 0.5 + j / 6,
                 _value: 0,
                 _floatValue: 0,
-            }
+            },
         );
     }
 }
@@ -2130,7 +2187,7 @@ for (const ctp of crystalTimingPeriod) {
                 }
                 crystalShuffle = bsmap.utils.interleave(
                     crystalShuffleLeft,
-                    crystalShuffleRight
+                    crystalShuffleRight,
                 );
                 r = 0;
             }
@@ -2197,7 +2254,7 @@ addEvents(
                 screenEndID + 4,
             ],
         },
-    }
+    },
 );
 
 const synthRhythmTiming = [116, 132, 212, 228, 244, 260, 292, 436, 452, 468, 484, 500];
@@ -2214,8 +2271,7 @@ for (const bbfp of backtopBassFlashPeriod) {
     const [t, m] = bbfp;
     let b = 0;
     for (let i = t; i < m; i++) {
-        const ringID =
-            b < 4 ? [3, 5] : b < 8 ? [1, 2] : b < 12 ? [3, 4, 5] : [1, 2, 3, 4, 5];
+        const ringID = b < 4 ? [3, 5] : b < 8 ? [1, 2] : b < 12 ? [3, 4, 5] : [1, 2, 3, 4, 5];
         const add = b < 4 ? 0 : b < 8 ? 0.0625 : b < 12 ? 0.125 : 0.25;
         addEvents(
             {
@@ -2231,7 +2287,7 @@ for (const bbfp of backtopBassFlashPeriod) {
                 _value: 8,
                 _floatValue: 0,
                 _customData: { _lightID: [3, 4] },
-            }
+            },
         );
         for (let j = 0; j < 3; j++) {
             addEvents(
@@ -2261,7 +2317,7 @@ for (const bbfp of backtopBassFlashPeriod) {
                     _customData: {
                         _lightID: [backtopOrder[2 - j], backtopOrder[j + 3]],
                     },
-                }
+                },
             );
         }
         for (let j = 0; j < 4; j++) {
@@ -2428,7 +2484,7 @@ for (const t of chorus1Timing) {
                     _value: 0,
                     _floatValue: 0,
                     _customData: { _lightID: [1, 2] },
-                }
+                },
             );
         } else {
             for (let i = 0; i < ivt[1]; i += 0.125) {
@@ -2446,7 +2502,7 @@ for (const t of chorus1Timing) {
                         _value: 0,
                         _floatValue: 0,
                         _customData: { _lightID: [1, 2] },
-                    }
+                    },
                 );
             }
         }
@@ -2491,7 +2547,7 @@ for (const t of chorus1Timing) {
             _value: 0,
             _floatValue: 0,
             _customData: { _lightID: [2, 3] },
-        }
+        },
     );
     await screenDraw('what.gif', { time: t - 1 });
     screenClear(t - 0.625);
@@ -2524,7 +2580,7 @@ for (const t of chorus1Timing) {
             _value: 0,
             _floatValue: 0,
             _customData: { _lightID: [5, 6] },
-        }
+        },
     );
     await screenDraw('the.gif', { time: t - 0.5 });
     await screenDraw('the.gif', { time: t - 0.1875, invert: true });
@@ -2559,7 +2615,7 @@ for (const t of chorus1Timing) {
                 _value: 0,
                 _floatValue: 0,
                 _customData: { _lightID: i },
-            }
+            },
         );
     }
     addEvents(
@@ -2574,7 +2630,7 @@ for (const t of chorus1Timing) {
             _type: 13,
             _value: 3,
             _floatValue: 1,
-        }
+        },
     );
     await screenDraw('hellglitch.gif', { time: t, rotate: 180 });
     await screenDraw('hell.gif', { time: t + 0.0625 });
@@ -2595,7 +2651,7 @@ for (const t of chorus1Timing) {
             _type: 13,
             _value: 0,
             _floatValue: 1,
-        }
+        },
     );
     for (let i = 0; i < 2; i++) {
         addEvents(
@@ -2640,7 +2696,7 @@ for (const t of chorus1Timing) {
                 _value: 0,
                 _floatValue: 1,
                 _customData: { _lightID: [2, 3, 4] },
-            }
+            },
         );
     }
     await screenDraw('goingglitch.gif', { time: t + 1, invert: true });
@@ -2665,7 +2721,7 @@ for (const t of chorus1Timing) {
             _type: 13,
             _value: 2,
             _floatValue: 1,
-        }
+        },
     );
     for (let i = 1; i <= 7; i++) {
         addEvents(
@@ -2710,7 +2766,7 @@ for (const t of chorus1Timing) {
                 _value: 8,
                 _floatValue: 0,
                 _customData: { _lightID: i },
-            }
+            },
         );
     }
     await screenDraw('can.gif', { time: t + 3, invert: true });
@@ -2928,7 +2984,7 @@ for (const t of chorus1Timing) {
                                 screenStartID + screenX * 13 + 13,
                             ],
                         },
-                    }
+                    },
                 );
             }
         });
@@ -2946,8 +3002,7 @@ for (const t of chorus1Timing) {
                     if (fixedX < 0 || fixedX >= Math.min(img.width, screenX)) {
                         continue;
                     }
-                    const pos =
-                        screenStartID + screenX * (y + yOffset) + fixedX + xOffset;
+                    const pos = screenStartID + screenX * (y + yOffset) + fixedX + xOffset;
                     const colorAry = frame.getRGBAAt(fixedX + 1, y + 1);
                     if (screenLight[pos] === colorAry[0]) {
                         continue;
@@ -2997,8 +3052,7 @@ for (const t of chorus1Timing) {
                     if (fixedX < 0 || fixedX >= Math.min(img.width, screenX)) {
                         continue;
                     }
-                    const pos =
-                        screenStartID + screenX * (y + yOffset) + fixedX + xOffset;
+                    const pos = screenStartID + screenX * (y + yOffset) + fixedX + xOffset;
                     const colorAry = frame.getRGBAAt(fixedX + 1, y + 1);
                     if (screenLight[pos] === colorAry[0]) {
                         continue;
@@ -3074,8 +3128,7 @@ for (const t of chorus1Timing) {
                     if (fixedY < 0 || fixedY >= Math.min(img.height, screenY)) {
                         continue;
                     }
-                    const pos =
-                        screenStartID + screenX * (fixedY + yOffset) + x + xOffset;
+                    const pos = screenStartID + screenX * (fixedY + yOffset) + x + xOffset;
                     const colorAry = frame.getRGBAAt(x + 1, fixedY + 1);
                     if (screenLight[pos] === colorAry[0]) {
                         continue;
@@ -3119,8 +3172,7 @@ for (const t of chorus1Timing) {
                     if (fixedY < 0 || fixedY >= Math.min(img.height, screenY)) {
                         continue;
                     }
-                    const pos =
-                        screenStartID + screenX * (fixedY + yOffset) + x + xOffset;
+                    const pos = screenStartID + screenX * (fixedY + yOffset) + x + xOffset;
                     const colorAry = frame.getRGBAAt(x + 1, fixedY + 1);
                     if (screenLight[pos] === colorAry[0]) {
                         continue;
@@ -3191,7 +3243,7 @@ for (const t of chorus2Timing) {
                     _value: 0,
                     _floatValue: 0,
                     _customData: { _lightID: [1, 2] },
-                }
+                },
             );
         } else {
             for (let i = 0; i < ivt[1]; i += 0.125) {
@@ -3209,7 +3261,7 @@ for (const t of chorus2Timing) {
                         _value: 0,
                         _floatValue: 0,
                         _customData: { _lightID: [1, 2] },
-                    }
+                    },
                 );
             }
         }
@@ -3229,7 +3281,7 @@ for (const t of chorus2Timing) {
                 _value: 3,
                 _floatValue: 1,
                 _customData: { _lightID: 8 - i },
-            }
+            },
         );
     }
 
@@ -3243,7 +3295,7 @@ for (const t of chorus2Timing) {
             _time: t - 0.5,
             _type: 13,
             _value: 0,
-        }
+        },
     );
     for (let j = 0; j < 3; j++) {
         for (let i = 1; i <= 7; i++) {
@@ -3289,7 +3341,7 @@ for (const t of chorus2Timing) {
                     _value: 8,
                     _floatValue: 0,
                     _customData: { _lightID: i },
-                }
+                },
             );
         }
     }
@@ -3303,7 +3355,7 @@ for (const t of chorus2Timing) {
             _time: t - 0.001,
             _type: 13,
             _value: 1,
-        }
+        },
     );
     for (let i = 0; i < 2; i++) {
         for (let j = 0; j < 3; j++) {
@@ -3312,8 +3364,7 @@ for (const t of chorus2Timing) {
                 addEvents(
                     {
                         _type: 4,
-                        _time:
-                            t +
+                        _time: t +
                             i * 4 +
                             (parseInt(x) / roadShuffle.length) * 1.25 +
                             j * 0.25,
@@ -3323,8 +3374,7 @@ for (const t of chorus2Timing) {
                     },
                     {
                         _type: 4,
-                        _time:
-                            0.25 +
+                        _time: 0.25 +
                             t +
                             i * 4 +
                             (parseInt(x) / roadShuffle.length) * 1.25 +
@@ -3332,7 +3382,7 @@ for (const t of chorus2Timing) {
                         _value: 0,
                         _floatValue: 0,
                         _customData: { _lightID: roadShuffle[x] },
-                    }
+                    },
                 );
             }
         }
@@ -3399,7 +3449,7 @@ for (const t of chorus2Timing) {
                 _value: 4,
                 _floatValue: 0,
                 _customData: { _lightID: i, _easing: 'easeOutQuad' },
-            }
+            },
         );
     }
     addEvents(
@@ -3412,7 +3462,7 @@ for (const t of chorus2Timing) {
             _time: t + 2.25,
             _type: 13,
             _value: 0,
-        }
+        },
     );
     await screenDraw('fearglitch.gif', { time: t + 2.5, rotate: 180, invert: true });
     await screenDraw('fearglitch.gif', { time: t + 2.5625 });
@@ -3433,7 +3483,7 @@ for (const t of chorus2Timing) {
             _value: 0,
             _floatValue: 0,
             _customData: { _lightID: [3, 4, 5] },
-        }
+        },
     );
     await screenDraw('isglitch.gif', { time: t + 3.5 });
     await screenDraw('is.gif', { time: t + 3.5625 });
@@ -3483,7 +3533,7 @@ for (const t of chorus2Timing) {
                     _value: 4,
                     _floatValue: 0,
                     _customData: { _lightID: i, _easing: 'easeOutQuad' },
-                }
+                },
             );
         }
     }
@@ -3497,7 +3547,7 @@ for (const t of chorus2Timing) {
             _time: t + 4,
             _type: 13,
             _value: 1,
-        }
+        },
     );
     await screenDraw('more.gif', { time: t + 4, invert: true });
     await screenDraw('more.gif', { time: t + 4.0625 });
@@ -3572,7 +3622,7 @@ for (const t of chorus2Timing) {
                 _value: 0,
                 _floatValue: 0,
                 _customData: { _lightID: i, _easing: 'easeOutQuad' },
-            }
+            },
         );
     }
     addEvents(
@@ -3585,7 +3635,7 @@ for (const t of chorus2Timing) {
             _time: t + 6.25,
             _type: 13,
             _value: 0,
-        }
+        },
     );
     await screenDraw('takeglitch.gif', { time: t + 6.5 });
     await screenDraw('take.gif', { time: t + 6.5625 });
@@ -3647,7 +3697,7 @@ for (const t of chorus2Timing) {
             _value: 0,
             _floatValue: 0,
             _customData: { _lightID: [5, 6] },
-        }
+        },
     );
     await screenDraw('when.gif', { time: t + 8 });
     screenClear(t + 8.375);
@@ -3676,7 +3726,7 @@ for (const t of chorus2Timing) {
                 _value: 3,
                 _floatValue: 1,
                 _customData: { _lightID: i },
-            }
+            },
         );
     }
     await screenDraw('against.gif', { time: t + 10, invert: true });
@@ -3712,7 +3762,7 @@ for (const t of chorus2Timing) {
                 _value: 4,
                 _floatValue: 0,
                 _customData: { _lightID: i },
-            }
+            },
         );
     }
     await screenDraw('echoglitch.gif', { time: t + 11.5 });
@@ -3747,7 +3797,7 @@ for (const t of chorus2Timing) {
                 _value: 4,
                 _floatValue: 0,
                 _customData: { _lightID: 8 - i },
-            }
+            },
         );
     }
     await screenDraw('echoglitch.gif', { time: t + 12.5, rotate: 180 });
@@ -3811,7 +3861,7 @@ for (const t of chorus2Timing) {
             _value: 0,
             _floatValue: 0,
             _customData: { _lightID: [5, 6] },
-        }
+        },
     );
     await screenDraw('in.gif', { time: t + 13 });
     screenClear(t + 13.375);
@@ -3828,8 +3878,31 @@ for (const t of chorus2Timing) {
 }
 
 const echoTiming = [
-    0, 0.5, 1, 1.5, 2, 2.5, 3, 4, 4.5, 5, 5.5, 6, 6.75, 7.5, 8.25, 9, 9.5, 10, 10.5, 11,
-    11.5, 12, 12.5, 13, 13.5,
+    0,
+    0.5,
+    1,
+    1.5,
+    2,
+    2.5,
+    3,
+    4,
+    4.5,
+    5,
+    5.5,
+    6,
+    6.75,
+    7.5,
+    8.25,
+    9,
+    9.5,
+    10,
+    10.5,
+    11,
+    11.5,
+    12,
+    12.5,
+    13,
+    13.5,
 ];
 await screenDraw('echoglitch.gif', { time: 132, invert: true });
 await screenDraw('echoglitch.gif', { time: 132.0625, rotate: 180 });
@@ -3944,7 +4017,7 @@ for (let i = 1; i <= 7; i++) {
                 _preciseSpeed: (i / 7) * 4,
                 _direction: 0,
             },
-        }
+        },
     );
 }
 addEvents(
@@ -4075,7 +4148,7 @@ addEvents(
         _customData: {
             _lightID: [screenEndID + 1, screenEndID + 4],
         },
-    }
+    },
 );
 for (const x in roadOrder) {
     addEvents(
@@ -4092,7 +4165,7 @@ for (const x in roadOrder) {
             _value: 3,
             _floatValue: 0.75,
             _customData: { _lightID: roadOrder[x] },
-        }
+        },
     );
 }
 for (const e of echoTiming) {
@@ -4146,7 +4219,7 @@ for (const e of echoTiming) {
                 _value: 4,
                 _floatValue: 0,
                 _customData: { _lightID: roadOrder[x] },
-            }
+            },
         );
     }
     const random = Math.floor(bsmap.utils.random(1, 7));
@@ -4199,7 +4272,7 @@ for (const e of echoTiming) {
             _value: 0,
             _floatValue: 0,
             _customData: { _lightID: lightIDrand2 },
-        }
+        },
     );
     addEvents(
         {
@@ -4255,7 +4328,7 @@ for (const e of echoTiming) {
             _customData: {
                 _lightID: [screenEndID + 1, screenEndID + 4],
             },
-        }
+        },
     );
 }
 

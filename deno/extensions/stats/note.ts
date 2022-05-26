@@ -114,7 +114,7 @@ export const peak = (notes: ColorNote[], beat: number, bpm: number): number => {
         }
         peakNPS = Math.max(
             peakNPS,
-            (i - currentSectionStart + 1) / ((beat / bpm) * 60)
+            (i - currentSectionStart + 1) / ((beat / bpm) * 60),
         );
     }
 

@@ -34,7 +34,7 @@ export class Note extends BeatmapObject<INote> {
                     _type: n._type ?? Note.default._type,
                     _cutDirection: n._cutDirection ?? Note.default._cutDirection,
                     _customData: n._customData ?? Note.default._customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

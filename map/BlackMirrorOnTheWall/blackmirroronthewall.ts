@@ -47,7 +47,7 @@ _environment.push(
         _id: regexTentacleRight,
         _lookupMethod: 'Regex',
         _position: [10, 7, 48],
-    }
+    },
 );
 
 let offsetLightID = 100;
@@ -80,9 +80,7 @@ for (let i = 0; i < 5; i++) {
     });
 }
 for (let i = 0; i < 7; i++) {
-    const id = i
-        ? regexRotatingLasersPair.replace('$', ` \\(${i}\\)$`)
-        : regexRotatingLasersPair;
+    const id = i ? regexRotatingLasersPair.replace('$', ` \\(${i}\\)$`) : regexRotatingLasersPair;
     _environment.push(
         {
             _id: id.replace('$', '\\.\\[\\d+\\]BaseL$'),
@@ -103,7 +101,7 @@ for (let i = 0; i < 7; i++) {
             _id: id.replace('$', '\\.\\[\\d+\\]BaseR\\.\\[\\d+\\]Laser$'),
             _lookupMethod: 'Regex',
             _rotation: [60 + i * 4, 135 + i * 5, 0],
-        }
+        },
     );
 }
 for (let i = 0; i < 6; i++) {
@@ -276,7 +274,7 @@ _environment.push(
         _active: true,
         _position: [24, 2, 50],
         _rotation: [0, 210, 45],
-    }
+    },
 );
 //#endregion
 
@@ -292,7 +290,7 @@ _environment.push(
         _track: 'mirrorstuff',
         _duplicate: 1,
         _position: [0, 0, -9999],
-    }
+    },
 );
 difficulty.customData._customEvents = [
     {

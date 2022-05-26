@@ -1,8 +1,5 @@
 import * as bsmap from '../../deno/mod.ts';
-import {
-    insertEnvironment,
-    convertLight,
-} from '../../environment-enhancement/vapor-frame/mod.ts';
+import { convertLight, insertEnvironment } from '../../environment-enhancement/vapor-frame/mod.ts';
 import { printChromaEnvironment } from '../../deno/example/printInfo.ts';
 
 bsmap.globals.path =

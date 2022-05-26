@@ -37,7 +37,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
                     _width: o._width ?? Obstacle.default._width,
                     _height: o._height ?? Obstacle.default._height,
                     _customData: o._customData ?? Obstacle.default._customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {
@@ -196,11 +196,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
                 : this.lineIndex >= 1000
                 ? this.lineIndex / 1000
                 : this.lineIndex) - 2,
-            this.type <= -1000
-                ? this.type / 1000
-                : this.type >= 1000
-                ? this.type / 1000
-                : this.type,
+            this.type <= -1000 ? this.type / 1000 : this.type >= 1000 ? this.type / 1000 : this.type,
         ];
     };
 
@@ -242,11 +238,11 @@ export class Obstacle extends BeatmapObject<IObstacle> {
     isLonger = (
         currObstacle: IObstacle,
         prevObstacle: IObstacle,
-        offset = 0
+        offset = 0,
     ): boolean => {
         return (
             currObstacle._time + currObstacle._duration >
-            prevObstacle._time + prevObstacle._duration + offset
+                prevObstacle._time + prevObstacle._duration + offset
         );
     };
 

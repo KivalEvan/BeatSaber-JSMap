@@ -1,8 +1,4 @@
-import {
-    ColorSchemeList,
-    IColorScheme,
-    IEnvironmentScheme,
-} from '../../types/beatmap/shared/colorScheme.ts';
+import { ColorSchemeList, IColorScheme, IEnvironmentScheme } from '../../types/beatmap/shared/colorScheme.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
 /** Record of Environment Color to Color Scheme. */
@@ -39,9 +35,11 @@ export const EnvironmentSchemeName: Readonly<
 };
 
 /** Color Scheme property rename to human readable. */
-export const ColorSchemeRename: Readonly<{
-    [k in keyof Required<IColorScheme>]: string;
-}> = {
+export const ColorSchemeRename: Readonly<
+    {
+        [k in keyof Required<IColorScheme>]: string;
+    }
+> = {
     _colorLeft: 'Left Note Color',
     _colorRight: 'Right Note Color',
     _envColorLeft: 'Left Environment Color',

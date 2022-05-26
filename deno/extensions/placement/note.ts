@@ -7,7 +7,7 @@ import { radToDeg, shortRotDistance } from '../../utils/math';
 export const isEnd = (
     currNote: ColorNote,
     prevNote: ColorNote,
-    cd: number
+    cd: number,
 ): boolean => {
     // fuck u and ur dot note stack
     if (currNote.direction === 8 && prevNote.direction === 8 && cd !== 8) {
@@ -123,7 +123,7 @@ export const isIntersect = (
     currNote: ColorNote,
     compareTo: ColorNote,
     angleDistances: [number, number, number?][],
-    ahead = false
+    ahead = false,
 ): [boolean, boolean] => {
     const [nX1, nY1] = currNote.getPosition();
     const [nX2, nY2] = compareTo.getPosition();
@@ -137,11 +137,10 @@ export const isIntersect = (
             const offset = offsetT ?? 0;
             const aS = (nA1 + angle - angleRange + offset) % 360;
             const aE = (nA1 + angle + angleRange + offset) % 360;
-            resultN1 =
-                (maxDistance >=
+            resultN1 = (maxDistance >=
                     Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
-                    ((aS < aE && aS <= a && a <= aE) ||
-                        (aS >= aE && (a <= aE || a >= aS)))) ||
+                ((aS < aE && aS <= a && a <= aE) ||
+                    (aS >= aE && (a <= aE || a >= aS)))) ||
                 resultN1;
             if (resultN1) {
                 break;
@@ -155,11 +154,10 @@ export const isIntersect = (
             const offset = offsetT ?? 0;
             const aS = (nA2 + angle - angleRange + offset) % 360;
             const aE = (nA2 + angle + angleRange + offset) % 360;
-            resultN2 =
-                (maxDistance >=
+            resultN2 = (maxDistance >=
                     Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
-                    ((aS < aE && aS <= a && a <= aE) ||
-                        (aS >= aE && (a <= aE || a >= aS)))) ||
+                ((aS < aE && aS <= a && a <= aE) ||
+                    (aS >= aE && (a <= aE || a >= aS)))) ||
                 resultN2;
             if (resultN2) {
                 break;
@@ -229,7 +227,7 @@ export const checkDirection = (
     n1: ColorNote | Slider | BurstSlider | number | null,
     n2: ColorNote | Slider | BurstSlider | number | null,
     angleTol: number,
-    equal: boolean
+    equal: boolean,
 ): boolean => {
     let nA1!: number;
     let nA2!: number;
@@ -252,7 +250,5 @@ export const checkDirection = (
         }
         nA2 = n2.getAngle();
     }
-    return equal
-        ? shortRotDistance(nA1, nA2, 360) <= angleTol
-        : shortRotDistance(nA1, nA2, 360) >= angleTol;
+    return equal ? shortRotDistance(nA1, nA2, 360) <= angleTol : shortRotDistance(nA1, nA2, 360) >= angleTol;
 };

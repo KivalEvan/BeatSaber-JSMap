@@ -37,7 +37,7 @@ export class Obstacle extends BaseObject<IObstacle> {
                     w: o.w ?? Obstacle.default.w,
                     h: o.h ?? Obstacle.default.h,
                     customData: o.customData ?? Obstacle.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {
@@ -217,16 +217,8 @@ export class Obstacle extends BaseObject<IObstacle> {
         //     return [obstacle._customData._position[0], obstacle._customData._position[1]];
         // }
         return [
-            (this.posX <= -1000
-                ? this.posX / 1000
-                : this.posX >= 1000
-                ? this.posX / 1000
-                : this.posX) - 2,
-            (this.posY <= -1000
-                ? this.posY / 1000
-                : this.posY >= 1000
-                ? this.posY / 1000
-                : this.posY) - 0.5,
+            (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
+            (this.posY <= -1000 ? this.posY / 1000 : this.posY >= 1000 ? this.posY / 1000 : this.posY) - 0.5,
         ];
     }
 

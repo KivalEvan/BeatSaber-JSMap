@@ -32,7 +32,7 @@ export class BombNote extends BaseNote<IBombNote> {
                     x: bn.x ?? BombNote.default.x,
                     y: bn.y ?? BombNote.default.y,
                     customData: bn.customData ?? BombNote.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {
@@ -68,16 +68,8 @@ export class BombNote extends BaseNote<IBombNote> {
         //     return [bomb._customData._position[0], bomb._customData._position[1]];
         // }
         return [
-            (this.posX <= -1000
-                ? this.posX / 1000
-                : this.posX >= 1000
-                ? this.posX / 1000
-                : this.posX) - 2,
-            this.posY <= -1000
-                ? this.posY / 1000
-                : this.posY >= 1000
-                ? this.posY / 1000
-                : this.posY,
+            (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
+            this.posY <= -1000 ? this.posY / 1000 : this.posY >= 1000 ? this.posY / 1000 : this.posY,
         ];
     }
 

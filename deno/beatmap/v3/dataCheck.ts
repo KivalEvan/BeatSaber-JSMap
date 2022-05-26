@@ -4,9 +4,9 @@ import {
     IBasicEventTypesForKeywords,
     IBasicEventTypesWithKeywords,
     IBombNote,
-    IColorBoostEvent,
     IBPMEvent,
     IBurstSlider,
+    IColorBoostEvent,
     IColorNote,
     IDifficultyData,
     IIndexFilter,
@@ -258,27 +258,26 @@ export const BPMChangeEventDataCheck: Readonly<Record<keyof IBPMEvent, DataCheck
     },
 };
 
-export const RotationEventDataCheck: Readonly<Record<keyof IRotationEvent, DataCheck>> =
-    {
-        b: {
-            type: 'number',
-            version: '3.0.0',
-        },
-        e: {
-            type: 'number',
-            version: '3.0.0',
-        },
-        r: {
-            type: 'number',
-            version: '3.0.0',
-        },
-        customData: {
-            type: 'object',
-            version: '3.0.0',
-            check: {},
-            optional: true,
-        },
-    };
+export const RotationEventDataCheck: Readonly<Record<keyof IRotationEvent, DataCheck>> = {
+    b: {
+        type: 'number',
+        version: '3.0.0',
+    },
+    e: {
+        type: 'number',
+        version: '3.0.0',
+    },
+    r: {
+        type: 'number',
+        version: '3.0.0',
+    },
+    customData: {
+        type: 'object',
+        version: '3.0.0',
+        check: {},
+        optional: true,
+    },
+};
 
 export const ColorBoostEventDataCheck: Readonly<
     Record<keyof IColorBoostEvent, DataCheck>
