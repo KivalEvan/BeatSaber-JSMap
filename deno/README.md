@@ -4,14 +4,15 @@ General-purpose Beat Saber scripting library, complete with type-check, auto-com
 
 ## Features
 
-- **Zero-dependency:** No external library used and no bloated file in the working folder.
-- **Mod Compatible:** Chroma, Noodle Extensions, and Mapping Extensions is supported out of the box.
+-   **Zero-dependency:** No external library used and no bloated file in the working folder.
+-   **Mod Compatible:** Chroma, Noodle Extensions, and Mapping Extensions is supported out of the box.
+-   **Modularity:** All types, classes and functions are exposed allowing extendability for plugins.
 
 ## Prerequisite
 
-- Deno 1.21.0 or latest
-- Basic JavaScript or TypeScript knowledge
-  - Library is entirely TypeScript, but for common use case you do not need in-depth knowledge.
+-   Deno 1.21.0 or latest
+-   Basic JavaScript or TypeScript knowledge
+    -   Library is entirely TypeScript, but for common use case you do not need in-depth knowledge.
 
 ## Getting Started
 
@@ -61,11 +62,11 @@ will proceed as normally, but recommended to specify `3` as new beatmap version 
 
 ## Beginner Tips
 
-- You can find all properties from an object with autocomplete suggestions `CTRL+Space`.
+-   You can find all properties from an object with autocomplete suggestions `CTRL+Space`.
 
 ## Planned
 
-- Strip some of the features as plugin/extension allowing for modular and lightweight system
-- Add more helper for Chroma and Noodle Extensions
-- Overload function for less function clutter (but more complex)
-- Bundle script
+-   Strip some of the features as plugin/extension allowing for modular and lightweight system
+-   Add more helper for Chroma and Noodle Extensions
+-   Overload function for less function clutter (but more complex)
+-   Bundle script
