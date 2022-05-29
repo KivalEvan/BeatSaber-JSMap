@@ -37,7 +37,7 @@ export class Obstacle extends BaseObject<IObstacle> {
                     w: o.w ?? Obstacle.default.w,
                     h: o.h ?? Obstacle.default.h,
                     customData: o.customData ?? Obstacle.default.customData(),
-                }),
+                })
             )
         );
         if (result.length === 1) {
@@ -172,21 +172,7 @@ export class Obstacle extends BaseObject<IObstacle> {
      */
     // FIXME: there are a lot more other variables
     isInteractive() {
-        return this.width - this.posX > 1 || this.posX === 1 || this.posX === 2;
-    }
-
-    /** Check if obstacle is crouch.
-     * ```ts
-     * if (wall.isCrouch()) {}
-     * ```
-     */
-    // FIXME: doesnt work properly
-    isCrouch() {
-        return (
-            this.posY === 2 &&
-            this.isInteractive() &&
-            (this.width > 2 || (this.width === 2 && this.posX === 1))
-        );
+        return (this.posX < 0 && this.width > 1 - this.posX) || this.width > 1 || this.posX === 1 || this.posX === 2;
     }
 
     /** Check if obstacle has zero value.
@@ -198,7 +184,7 @@ export class Obstacle extends BaseObject<IObstacle> {
         return this.duration === 0 || this.width === 0 || this.height === 0;
     }
 
-    /** Check if obstacle has negative value.
+    /** Check if obstacle has negative crouch.
      * ```ts
      * if (wall.hasNegative()) {}
      * ```
@@ -228,9 +214,7 @@ export class Obstacle extends BaseObject<IObstacle> {
      * ```
      */
     isLonger(compareTo: Obstacle, prevOffset = 0): boolean {
-        return (
-            this.time + this.duration > compareTo.time + compareTo.duration + prevOffset
-        );
+        return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
     }
 
     /** Check if obstacle has Chroma properties.
