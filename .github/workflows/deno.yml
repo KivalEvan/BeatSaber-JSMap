@@ -11,27 +11,27 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Set up Actions
-                uses: actions/checkout@v2
+              uses: actions/checkout@v2
 
             - name: Set up Deno
-                uses: denoland/setup-deno@v1.0.0
-                with:
-                deno-version: v1.x
+              uses: denoland/setup-deno@v1.0.0
+              with:
+              deno-version: v1.x
 
             - name: Analyze code
-                run: deno lint
+              run: deno lint
 
             - name: Run unit and integration tests
-                run: deno test -A ./deno/tests
+              run: deno test -A ./deno/tests
 
             - name: Deploy
-                uses: JamesIves/github-pages-deploy-action@4.1.0
-                with:
-                    branch: deno
-                    folder: deno
+              uses: JamesIves/github-pages-deploy-action@4.1.0
+              with:
+                  branch: deno
+                  folder: deno
 
             - name: Publish
-                uses: actions/upload-artifact@v2
-                with:
-                    name: published
-                    path: deno
+              uses: actions/upload-artifact@v2
+              with:
+                  name: published
+                  path: deno
