@@ -16,7 +16,7 @@ jobs:
             - name: Set up Deno
               uses: denoland/setup-deno@v1.0.0
               with:
-              deno-version: v1.x
+                  deno-version: v1.x
 
             - name: Analyze code
               run: deno lint
