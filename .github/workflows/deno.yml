@@ -19,7 +19,7 @@ jobs:
                 deno-version: v1.x
 
             - name: Analyze code
-                run: deno lint ./deno
+                run: deno lint
 
             - name: Run unit and integration tests
                 run: deno test -A ./deno/tests
