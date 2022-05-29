@@ -4,13 +4,12 @@ import logger from '../logger.ts';
 import { DifficultyData as DifficultyDataV2 } from './v2/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from './v3/difficulty.ts';
 import { clamp } from '../utils/math.ts';
-import { EventLaneRotation } from './shared/constants.ts';
+import { EventLaneRotationValue } from './shared/constants.ts';
 import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v3/customData.ts';
 import { IBasicEvent } from '../types/beatmap/v3/basicEvent.ts';
 
-// deno-lint-ignore ban-types
-const tag = (func: Function) => {
-    return `[convert::${func.name}]`;
+const tag = (name: string) => {
+    return `[convert::${name}]`;
 };
 
 /** Convert beatmap v2 to beatmap v3, you are encouraged to convert to make full use of new beatmap features.
@@ -20,19 +19,16 @@ const tag = (func: Function) => {
  * ---
  * **WARNING:** Custom data will be lost on conversion, as well as other incompatible attributes.
  */
-export const V2toV3 = (
-    data: DifficultyDataV2,
-    skipPrompt?: boolean,
-): DifficultyDataV3 => {
+export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): DifficultyDataV3 => {
     if (!skipPrompt) {
-        console.warn('Converting beatmap v2 to v3 may lose certain data!');
+        logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (Y/N):', 'n');
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v3 denied.');
         }
-        logger.info(tag(V2toV3), 'Converting beatmap v2 to v3');
+        logger.info(tag('V2toV3'), 'Converting beatmap v2 to v3');
     } else {
-        logger.warn(tag(V2toV3), 'Converting beatmap v2 to v3 may lose certain data!');
+        logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
     }
     const template = v3.DifficultyData.create();
 
@@ -75,9 +71,7 @@ export const V2toV3 = (
                 logger.warn(`notes${i} at time ${n.time} NE _fake will be removed.`);
             }
             if (typeof n.customData._cutDirection === 'number') {
-                logger.debug(
-                    `notes${i} at time ${n.time} NE _cutDirection will be converted.`,
-                );
+                logger.debug(`notes${i} at time ${n.time} NE _cutDirection will be converted.`);
             }
         }
         if (n.isBomb()) {
@@ -106,8 +100,7 @@ export const V2toV3 = (
                     c: n.type as 0 | 1,
                     x: n.lineIndex,
                     y: n.lineLayer,
-                    d: n.cutDirection >= 1000 ||
-                            typeof n.customData?._cutDirection === 'number'
+                    d: n.cutDirection >= 1000 || typeof n.customData?._cutDirection === 'number'
                         ? n.cutDirection === 8 ? 8 : 1
                         : clamp(n.cutDirection, 0, 8),
                     a: a,
@@ -148,9 +141,7 @@ export const V2toV3 = (
                 };
             }
             if (typeof o.customData._fake === 'boolean') {
-                logger.warn(
-                    `obstacles${i} at time ${o.time} NE _fake will be removed.`,
-                );
+                logger.warn(`obstacles${i} at time ${o.time} NE _fake will be removed.`);
             }
         }
         template.obstacles.push(
@@ -183,7 +174,7 @@ export const V2toV3 = (
                         ? e.customData._rotation
                         : e.value >= 1000
                         ? (e.value - 1360) % 360
-                        : EventLaneRotation[e.value] ?? 0,
+                        : EventLaneRotationValue[e.value] ?? 0,
                 }),
             );
         } else if (e.isBPMChangeEvent()) {
@@ -204,14 +195,10 @@ export const V2toV3 = (
                         lerpType: e.customData._lerpType,
                     };
                     if (e.customData._propID) {
-                        logger.warn(
-                            `events${i} at time ${e.time} Chroma _propID will be removed.`,
-                        );
+                        logger.warn(`events${i} at time ${e.time} Chroma _propID will be removed.`);
                     }
                     if (e.customData._lightGradient) {
-                        logger.warn(
-                            `events${i} at time ${e.time} Chroma _lightGradient will be removed.`,
-                        );
+                        logger.warn(`events${i} at time ${e.time} Chroma _lightGradient will be removed.`);
                     }
                 }
                 if (e.isRingEvent()) {
@@ -224,23 +211,13 @@ export const V2toV3 = (
                         direction: e.customData._direction,
                     };
                     if (e.customData._reset) {
-                        logger.warn(
-                            `events${i} at time ${e.time} Chroma _reset will be removed.`,
-                        );
+                        logger.warn(`events${i} at time ${e.time} Chroma _reset will be removed.`);
                     }
                     if (e.customData._counterSpin) {
-                        logger.warn(
-                            `events${i} at time ${e.time} Chroma _counterSpin will be removed.`,
-                        );
+                        logger.warn(`events${i} at time ${e.time} Chroma _counterSpin will be removed.`);
                     }
-                    if (
-                        e.customData._stepMult ||
-                        e.customData._propMult ||
-                        e.customData._speedMult
-                    ) {
-                        logger.warn(
-                            `events${i} at time ${e.time} Chroma _mult will be removed.`,
-                        );
+                    if (e.customData._stepMult || e.customData._propMult || e.customData._speedMult) {
+                        logger.warn(`events${i} at time ${e.time} Chroma _mult will be removed.`);
                     }
                 }
                 if (e.isLaserRotationEvent()) {
@@ -348,19 +325,16 @@ export const V2toV3 = (
  *
  * This is severely outdated for customData.
  */
-export const V3toV2 = (
-    data: DifficultyDataV3,
-    skipPrompt?: boolean,
-): DifficultyDataV2 => {
+export const V3toV2 = (data: DifficultyDataV3, skipPrompt?: boolean): DifficultyDataV2 => {
     if (!skipPrompt) {
-        console.warn('Converting beatmap v3 to v2 may lose certain data!');
+        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (Y/N):', 'n');
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v2 denied.');
         }
-        logger.info(tag(V3toV2), 'Converting beatmap v3 to v2');
+        logger.info(tag('V3toV2'), 'Converting beatmap v3 to v2');
     } else {
-        logger.warn(tag(V3toV2), 'Converting beatmap v3 to v2 may lose certain data!');
+        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
     }
     const template = DifficultyDataV2.create();
 
@@ -462,10 +436,7 @@ export const V3toV2 = (
                 _time: lr.time,
                 _type: lr.executionTime ? 14 : 15,
                 _value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
-                    ? Math.max(
-                        Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15),
-                        3,
-                    )
+                    ? Math.max(Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15), 3)
                     : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
                 _floatValue: 1,
             }),

@@ -1,8 +1,7 @@
 import logger from '../logger.ts';
 
-// deno-lint-ignore ban-types
-const tag = (func: Function) => {
-    return `[utils::misc::${func.name}]`;
+const tag = (name: string) => {
+    return `[utils::misc::${name}]`;
 };
 
 /** Fisher–Yates shuffle algorithm. */
@@ -25,7 +24,7 @@ export const interleave = ([x, ...xs]: number[], ys: number[] = []): number[] =>
  */
 export const deepCopy = <T>(object: T): T => {
     if (typeof object !== 'object') {
-        logger.error(tag(deepCopy), 'Received non-object type');
+        logger.error(tag('deepCopy'), 'Received non-object type');
     }
     return JSON.parse(JSON.stringify(object));
 };

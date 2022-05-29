@@ -3,9 +3,8 @@ import logger from '../../logger.ts';
 import { Version } from '../../types/beatmap/mod.ts';
 import { compareVersion } from './version.ts';
 
-// deno-lint-ignore ban-types
-const tag = (func: Function) => {
-    return `[shared::dataCheck::${func.name}]`;
+const tag = (name: string) => {
+    return `[shared::dataCheck::${name}]`;
 };
 
 export const deepCheck = (
@@ -15,7 +14,7 @@ export const deepCheck = (
     name: string,
     version: Version,
 ) => {
-    logger.verbose(tag(deepCheck), `Looking up ${name}`);
+    logger.verbose(tag('deepCheck'), `Looking up ${name}`);
     if (Array.isArray(data)) {
         data.forEach((d, i) => deepCheck(d, check, name + i, version));
         return;
@@ -26,7 +25,7 @@ export const deepCheck = (
             break;
         }
         if (!dataCheckKey.includes(key)) {
-            logger.warn(tag(deepCheck), `Foreign property ${key} found in ${name}`);
+            logger.warn(tag('deepCheck'), `Foreign property ${key} found in ${name}`);
         }
     }
     for (const key in check) {
@@ -46,23 +45,13 @@ export const deepCheck = (
             if (!Array.isArray(data[key])) {
                 throw Error(`${key} is not an array in property ${name}!`);
             }
-            deepCheck(
-                data[key],
-                (check[key] as DataCheckObject).check,
-                `${name} ${key}`,
-                version,
-            );
+            deepCheck(data[key], (check[key] as DataCheckObject).check, `${name} ${key}`, version);
         }
         if (check[key].type === 'object') {
             if (!Array.isArray(data[key]) && !(typeof data[key] === 'object')) {
                 throw Error(`${key} is not an object in property ${name}!`);
             } else {
-                deepCheck(
-                    data[key],
-                    (check[key] as DataCheckObject).check,
-                    `${name} ${key}`,
-                    version,
-                );
+                deepCheck(data[key], (check[key] as DataCheckObject).check, `${name} ${key}`, version);
             }
         }
         if (check[key].type !== 'array' && typeof data[key] !== check[key].type) {

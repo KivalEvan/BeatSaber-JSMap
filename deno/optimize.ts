@@ -6,9 +6,8 @@ import { Either } from './types/utils.ts';
 import { round } from './utils/math.ts';
 import logger from './logger.ts';
 
-// deno-lint-ignore ban-types
-const tag = (func: Function) => {
-    return `[optimize::${func.name}]`;
+const tag = (name: string) => {
+    return `[optimize::${name}]`;
 };
 
 export const defaultOptionsInfo: Required<OptimizeOptionsInfo> = {
@@ -81,9 +80,7 @@ export const deepClean = (
         if (
             !ignoreObjectRemove.includes(k) &&
             ((Array.isArray(obj[k]) && !obj[k].length) ||
-                (typeof obj[k] === 'object' &&
-                    !Array.isArray(obj[k]) &&
-                    JSON.stringify(obj[k]) === '{}'))
+                (typeof obj[k] === 'object' && !Array.isArray(obj[k]) && JSON.stringify(obj[k]) === '{}'))
         ) {
             delete obj[k];
             continue;
@@ -94,16 +91,10 @@ export const deepClean = (
                 throw new Error(`null value found in object key ${obj} ${k}.`);
             } else {
                 if (Array.isArray(obj)) {
-                    logger.error(
-                        tag(deepClean),
-                        `null value found in array index ${obj} ${k}, defaulting to 0...`,
-                    );
+                    logger.error(tag('deepClean'), `null value found in array index ${obj} ${k}, defaulting to 0...`);
                     obj[k] = 0;
                 } else {
-                    logger.error(
-                        tag(deepClean),
-                        `null value found in object key ${obj} ${k}, deleting property...`,
-                    );
+                    logger.error(tag('deepClean'), `null value found in object key ${obj} ${k}, deleting property...`);
                     delete obj[k];
                 }
             }
@@ -111,10 +102,7 @@ export const deepClean = (
     }
 };
 
-export const performInfo = (
-    info: IInfoData,
-    options: OptimizeOptionsInfo = { enabled: true },
-) => {
+export const performInfo = (info: IInfoData, options: OptimizeOptionsInfo = { enabled: true }) => {
     const opt: Required<OptimizeOptionsInfo> = {
         enabled: options.enabled,
         floatTrim: options.floatTrim ?? defaultOptionsInfo.floatTrim,
@@ -126,9 +114,9 @@ export const performInfo = (
     if (!opt.enabled) {
         return info;
     }
-    logger.info(tag(performInfo), `Optimising info data`);
+    logger.info(tag('performInfo'), `Optimising info data`);
 
-    logger.debug(tag(performInfo), 'Applying deep clean');
+    logger.debug(tag('performInfo'), 'Applying deep clean');
     deepClean(info, opt);
     return info;
 };
@@ -149,13 +137,13 @@ export const performDifficulty = (
     if (!opt.enabled) {
         return difficulty;
     }
-    logger.info(tag(performDifficulty), `Optimising difficulty data`);
+    logger.info(tag('performDifficulty'), `Optimising difficulty data`);
 
-    logger.debug(tag(performDifficulty), 'Applying deep clean');
+    logger.debug(tag('performDifficulty'), 'Applying deep clean');
     deepClean(difficulty, opt);
 
     if (opt.sort) {
-        logger.debug(tag(performDifficulty), 'Sorting objects');
+        logger.debug(tag('performDifficulty'), 'Sorting objects');
         const sortPrec = Math.pow(10, opt.floatTrim);
         difficulty.colorNotes?.sort(
             (a, b) =>
