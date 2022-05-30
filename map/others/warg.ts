@@ -6,7 +6,7 @@ import {
 import { printChromaEnvironment } from '../../deno/example/printInfo.ts';
 
 bsmap.globals.path =
-    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/Born_Of_Blood';
+    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/5495_Warg_-_AaltopahWi_Skeelie';
 
 const d2 = bsmap.load.difficultyLegacySync('LightshowOriginal.dat');
 insertEnvironment(d2);

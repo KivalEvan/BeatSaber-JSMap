@@ -1,7 +1,10 @@
 import * as bsmap from '../../deno/mod.ts';
 import { idOffsetType0, idOffsetType4, roadCount, roadRepeat } from './environment.ts';
 
-export const convertLight = (d: bsmap.v2.DifficultyData, environment: bsmap.types.EnvironmentAllName) => {
+export const convertLight = (
+    d: bsmap.v2.DifficultyData,
+    environment: bsmap.types.EnvironmentAllName
+) => {
     const events = d.events;
     const newEvents = [];
 
@@ -31,11 +34,14 @@ export const convertLight = (d: bsmap.v2.DifficultyData, environment: bsmap.type
     for (const ev of events) {
         let noChromaColor = false;
         if (ev.value >= 2000000000) {
-            currentColor[ev.type] = oldChromaColorConvert(ev.value) as bsmap.types.ColorArray;
+            currentColor[ev.type] = oldChromaColorConvert(
+                ev.value
+            ) as bsmap.types.ColorArray;
         }
         if (!currentColor[ev.type]) {
             noChromaColor = true;
-            currentColor[ev.type] = ev.value >= 1 && ev.value <= 3 ? defaultRightLight : defaultLeftLight;
+            currentColor[ev.type] =
+                ev.value >= 1 && ev.value <= 3 ? defaultRightLight : defaultLeftLight;
         }
         if (ev.value === 4) {
             ev.value = 0;
@@ -83,10 +89,10 @@ export const convertLight = (d: bsmap.v2.DifficultyData, environment: bsmap.type
         10: tempID.map((val) => val + 6),
         11: tempID.map((val) => val + 8),
         14: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
-            (val) => val + idOffsetType0 - 1,
+            (val) => val + idOffsetType0 - 1
         ),
         15: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
-            (val) => val + idOffsetType0 - 1,
+            (val) => val + idOffsetType0 - 1
         ),
     };
 
@@ -96,8 +102,16 @@ export const convertLight = (d: bsmap.v2.DifficultyData, environment: bsmap.type
         if (ignoreConversion.includes(ev.type)) {
             continue;
         }
-        if (ev.type === 5 || ev.type === 6 || ev.type === 7 || ev.type === 10 || ev.type === 11) {
-            ev.floatValue = 0.75;
+        if (
+            (ev.type === 5 ||
+                ev.type === 6 ||
+                ev.type === 7 ||
+                ev.type === 10 ||
+                ev.type === 11) &&
+            ev.customData!._color
+        ) {
+            ev.customData!._color = ev.customData!._color.map((n: number) => n * 0.75);
+            ev.customData!._color[3] = 1;
         }
         ev.customData!._lightID = typeLightIDMap[ev.type];
         ev.type = switchType[ev.type];

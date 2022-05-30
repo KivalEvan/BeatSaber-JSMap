@@ -1,5 +1,8 @@
 import * as bsmap from '../../deno/mod.ts';
-import { convertLight, insertEnvironment } from '../../environment-enhancement/vapor-frame/mod.ts';
+import {
+    convertLight,
+    insertEnvironment,
+} from '../../environment-enhancement/vapor-frame/mod.ts';
 import { printChromaEnvironment } from '../../deno/example/printInfo.ts';
 
 bsmap.globals.path =
@@ -9,7 +12,8 @@ const d2 = bsmap.load.difficultyLegacySync('Expert.dat');
 insertEnvironment(d2);
 convertLight(d2, 'BigMirrorEnvironment');
 
-printChromaEnvironment(bsmap.convert.V2toV3(d2, true));
-bsmap.save.difficultySync(d2, {
-    filePath: 'ExpertPlus.dat',
+const d3 = bsmap.convert.V2toV3(d2, true);
+printChromaEnvironment(d3);
+bsmap.save.difficultySync(d3, {
+    filePath: 'Hard.dat',
 });
