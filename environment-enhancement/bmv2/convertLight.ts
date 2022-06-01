@@ -28,7 +28,7 @@ export const convertLight = (
         let red = (rgb >> 16) & 0x0ff;
         let green = (rgb >> 8) & 0x0ff;
         let blue = rgb & 0x0ff;
-        return [red / 255, green / 255, blue / 255, 1];
+        return [red / 255, green / 255, blue / 255];
     };
     const currentColor: { [key: number]: bsmap.types.ColorArray | null } = {};
     for (const ev of events) {
@@ -110,8 +110,10 @@ export const convertLight = (
                 ev.type === 11) &&
             ev.customData!._color
         ) {
-            ev.customData!._color = ev.customData!._color.map((n: number) => n * 0.75);
-            ev.customData!._color[3] = 1;
+            ev.customData!._color = ev.customData!._color.map(
+                (n: number) => (n * 1) / 10
+            );
+            ev.floatValue = 10;
         }
         ev.customData!._lightID = typeLightIDMap[ev.type];
         ev.type = switchType[ev.type];

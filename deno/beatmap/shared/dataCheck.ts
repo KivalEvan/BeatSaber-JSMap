@@ -12,7 +12,7 @@ export const deepCheck = (
     data: { [key: string]: any },
     check: { [key: string]: DataCheck },
     name: string,
-    version: Version
+    version: Version,
 ) => {
     logger.verbose(tag('deepCheck'), `Looking up ${name}`);
     if (Array.isArray(data)) {

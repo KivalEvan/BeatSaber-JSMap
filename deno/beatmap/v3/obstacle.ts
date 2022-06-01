@@ -37,7 +37,7 @@ export class Obstacle extends BaseObject<IObstacle> {
                     w: o.w ?? Obstacle.default.w,
                     h: o.h ?? Obstacle.default.h,
                     customData: o.customData ?? Obstacle.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

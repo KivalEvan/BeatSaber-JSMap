@@ -30,12 +30,7 @@ export const RGBAtoHSVA = (r: number, g: number, b: number, a = 1): ColorArray =
     return [h, s, v, a];
 };
 
-export const HSVAtoRGBA = (
-    hue: number,
-    saturation: number,
-    value: number,
-    alpha = 1,
-): ColorArray => {
+export const HSVAtoRGBA = (hue: number, saturation: number, value: number, alpha = 1): ColorArray => {
     hue = hue / 360;
     let r!: number, g!: number, b!: number;
     const i = Math.floor(hue * 6);
@@ -82,43 +77,43 @@ export const interpolateColor = (
         case 'hsva': {
             return HSVAtoRGBA(
                 ...(colorStart.map((c, i) => {
-                    if (!c) {
+                    if (!(typeof c === 'number')) {
                         return 1;
                     }
                     const cE = colorEnd[i] ?? c;
-                    return lerp(easing!(alpha), c, cE);
+                    return lerp(easing!(alpha), c!, cE!);
                 }) as ColorArray),
             );
         }
         case 'long hsva': {
             return HSVAtoRGBA(
                 ...(colorStart.map((c, i) => {
-                    if (!c) {
+                    if (!(typeof c === 'number')) {
                         return 1;
                     }
                     const cE = colorEnd[i] ?? c;
-                    return lerp(easing!(alpha), c, cE);
+                    return lerp(easing!(alpha), c!, cE!);
                 }) as ColorArray),
             );
         }
         case 'short hsva': {
             return HSVAtoRGBA(
                 ...(colorStart.map((c, i) => {
-                    if (!c) {
+                    if (!(typeof c === 'number')) {
                         return 1;
                     }
                     const cE = colorEnd[i] ?? c;
-                    return lerp(easing!(alpha), c, cE);
+                    return lerp(easing!(alpha), c!, cE!);
                 }) as ColorArray),
             );
         }
         default: {
             return colorStart.map((c, i) => {
-                if (!c) {
+                if (!(typeof c === 'number')) {
                     return 1;
                 }
                 const cE = colorEnd[i] ?? c;
-                return lerp(easing!(alpha), c, cE);
+                return lerp(easing!(alpha), c!, cE!);
             }) as ColorArray;
         }
     }

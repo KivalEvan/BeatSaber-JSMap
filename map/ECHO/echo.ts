@@ -8,8 +8,9 @@ console.time('Runtime');
 const WORKING_DIRECTORY = dirname(Deno.mainModule.replace('file:///', '')) + '/'; // for some reason deno doesnt like to deal with file:///
 bsmap.globals.path =
     'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/ECHO/';
-const INPUT_FILE = 'EasyLightshow.dat';
-const OUTPUT_FILE = INPUT_FILE;
+const INPUT_FILE = 'ExpertPlusStandard.dat';
+// const OUTPUT_FILE = 'EasyLightshow.dat';
+const OUTPUT_FILE = 'ECHO.dat';
 
 const difficulty = bsmap.load.difficultyLegacySync(INPUT_FILE);
 
@@ -2368,6 +2369,84 @@ for (const t of chorus1Timing) {
             }
         }
     }
+    for (let i = 0; i < 2; i++) {
+        let j = bsmap.utils.random(1, 5, true);
+        const _lightID: number[] = [];
+        while (j < roadOrder.length - 1) {
+            _lightID.push(roadOrder[0 + j], roadOrder[1 + j]);
+            j += bsmap.utils.random(4, 10, true);
+        }
+        addEvents(
+            {
+                _time: t - 1 + i / 2,
+                _type: 4,
+                _value: 2,
+                _customData: { _lightID },
+            },
+            {
+                _time: t - 0.75 + i / 2,
+                _type: 4,
+                _value: 0,
+                _customData: { _lightID },
+            }
+        );
+    }
+    addEvents(
+        {
+            _time: t - 0.1875,
+            _type: 4,
+            _value: 0,
+            _customData: { _lightID: roadOrder },
+        },
+        {
+            _time: t - 0.001,
+            _type: 4,
+            _value: 4,
+            _customData: { _lightID: roadOrder },
+        }
+    );
+    for (const x in roadOrder) {
+        addEvents(
+            {
+                _time: t + (parseInt(x) / roadOrder.length) * 0.4375,
+                _type: 4,
+                _value: 0,
+                _customData: { _lightID: roadOrder[x] },
+            },
+            {
+                _time: t + 0.03125 + (parseInt(x) / roadOrder.length) * 0.4375,
+                _type: 4,
+                _value: 2,
+                _floatValue: 1.25,
+                _customData: { _lightID: roadOrder[x] },
+            },
+            {
+                _time: t + 0.0625 + 0.03125 + (parseInt(x) / roadOrder.length) * 0.4375,
+                _type: 4,
+                _value: 0,
+                _customData: { _lightID: roadOrder[x] },
+            }
+        );
+    }
+
+    bsmap.utils.shuffle(roadShuffle);
+    for (const x in roadShuffle) {
+        addEvents(
+            {
+                _type: 4,
+                _time: t + 3 + (parseInt(x) / roadShuffle.length) * 0.5,
+                _value: 7,
+                _customData: { _lightID: roadShuffle[x] },
+            },
+            {
+                _type: 4,
+                _time: 3.25 + t + (parseInt(x) / roadShuffle.length) * 0.5,
+                _floatValue: 0,
+                _customData: { _lightID: roadShuffle[x] },
+            }
+        );
+    }
+
     addEvents(
         {
             _time: t - 1,
@@ -2709,6 +2788,28 @@ for (const t of chorus1Timing) {
             _customData: { _lightID: [5, 6] },
         }
     );
+    for (let i = 0; i < 4; i++) {
+        let j = bsmap.utils.random(1, 5, true);
+        const _lightID: number[] = [];
+        while (j < roadOrder.length) {
+            _lightID.push(roadOrder[0 + j]);
+            j += bsmap.utils.random(4, 8, true);
+        }
+        addEvents(
+            {
+                _time: t + 4 + i / 2,
+                _type: 4,
+                _value: 2,
+                _customData: { _lightID },
+            },
+            {
+                _time: t + 4.25 + i / 2,
+                _type: 4,
+                _value: 0,
+                _customData: { _lightID },
+            }
+        );
+    }
     await screenDraw('someoneglitch.gif', { time: t + 4, rotate: 180 });
     await screenDraw('someoneglitch.gif', { time: t + 4.0625, invert: true });
     await screenDraw('someone.gif', { time: t + 4.125 });
@@ -2761,6 +2862,23 @@ for (const t of chorus1Timing) {
             }
         );
     }
+    for (const x in roadOrder) {
+        addEvents(
+            {
+                _time: t + 6 + (parseInt(x) / roadOrder.length) * 0.5,
+                _type: 4,
+                _value: 2,
+                _floatValue: 1.25,
+                _customData: { _lightID: roadOrder[x] },
+            },
+            {
+                _time: t + 6.0625 + (parseInt(x) / roadOrder.length) * 0.5,
+                _type: 4,
+                _value: 3,
+                _customData: { _lightID: roadOrder[x] },
+            }
+        );
+    }
     await screenDraw('please.gif', { time: t + 6, invert: true });
     await screenDraw('please.gif', { time: t + 6.0625 });
     screenClear(t + 6.5, 0.375);
@@ -2776,6 +2894,26 @@ for (const t of chorus1Timing) {
         }
     );
     for (let i = 0; i < 12; i++) {
+        let j = bsmap.utils.random(1, 5, true);
+        const _lightID: number[] = [];
+        while (j < roadOrder.length - 1) {
+            _lightID.push(roadOrder[0 + j], roadOrder[1 + j]);
+            j += bsmap.utils.random(4, 10, true);
+        }
+        addEvents(
+            {
+                _time: t + 8 + i / 2,
+                _type: 4,
+                _value: 2,
+                _customData: { _lightID },
+            },
+            {
+                _time: t + 8.25 + i / 2,
+                _type: 4,
+                _value: 0,
+                _customData: { _lightID },
+            }
+        );
         const random = Math.floor(bsmap.utils.random(1, 7));
         const lightIDrand = [random];
         const random2 = Math.floor(bsmap.utils.random(1, 7));
@@ -2934,6 +3072,30 @@ for (const t of chorus1Timing) {
                 _value: 8,
                 _floatValue: 0,
                 _customData: { _lightID: i },
+            }
+        );
+    }
+
+    addEvents({
+        _type: 4,
+        _time: t + 13.999,
+        _value: 5,
+        _customData: { _lightID: roadOrder },
+    });
+    bsmap.utils.shuffle(roadShuffle);
+    for (const x in roadShuffle) {
+        addEvents(
+            {
+                _type: 4,
+                _time: t + 14 + (parseInt(x) / roadShuffle.length) * 0.5,
+                _value: 7,
+                _customData: { _lightID: roadShuffle[x] },
+            },
+            {
+                _type: 4,
+                _time: 14.25 + t + (parseInt(x) / roadShuffle.length) * 0.5,
+                _floatValue: 0,
+                _customData: { _lightID: roadShuffle[x] },
             }
         );
     }
@@ -3157,6 +3319,30 @@ for (const t of chorus1Timing) {
             }
         );
     }
+    for (let j = 0; j < 3; j++) {
+        bsmap.utils.shuffle(roadShuffle);
+        for (const x in roadShuffle) {
+            addEvents(
+                {
+                    _type: 4,
+                    _time:
+                        15 + t + (parseInt(x) / roadShuffle.length) * 0.25 + j * 0.25,
+                    _value: 7,
+                    _customData: { _lightID: roadShuffle[x] },
+                },
+                {
+                    _type: 4,
+                    _time:
+                        15.1875 +
+                        t +
+                        (parseInt(x) / roadShuffle.length) * 0.25 +
+                        j * 0.25,
+                    _floatValue: 0,
+                    _customData: { _lightID: roadShuffle[x] },
+                }
+            );
+        }
+    }
     {
         const image = Deno.readFileSync(WORKING_DIRECTORY + 'black.gif');
         const img = await imagescript.GIF.decode(image, true);
@@ -3224,6 +3410,48 @@ for (const t of chorus1Timing) {
                 _customData: { _lightID: 1 + i },
             }
         );
+    }
+    for (const x in roadOrder) {
+        addEvents(
+            {
+                _time: t + 16 + (parseInt(x) / roadOrder.length) * 0.5,
+                _type: 4,
+                _value: 2,
+                _floatValue: 1.25,
+                _customData: {
+                    _lightID: roadOrder[parseInt(x)],
+                },
+            },
+            {
+                _time: t + 16.03125 + (parseInt(x) / roadOrder.length) * 0.5,
+                _type: 4,
+                _customData: {
+                    _lightID: roadOrder[parseInt(x)],
+                },
+            }
+        );
+    }
+    for (let i = 0; i < 3; i++) {
+        for (const x in roadOrder) {
+            addEvents(
+                {
+                    _time: t + 16.9375 + (parseInt(x) / roadOrder.length) * 0.5 + i / 2,
+                    _type: 4,
+                    _customData: {
+                        _lightID: roadOrder[roadOrder.length - 1 - parseInt(x)],
+                    },
+                },
+                {
+                    _time: t + 17 + (parseInt(x) / roadOrder.length) * 0.5 + i / 2,
+                    _type: 4,
+                    _value: 2,
+                    _floatValue: 1.25,
+                    _customData: {
+                        _lightID: roadOrder[roadOrder.length - 1 - parseInt(x)],
+                    },
+                }
+            );
+        }
     }
     {
         const image = Deno.readFileSync(WORKING_DIRECTORY + 'white.gif');
@@ -3334,6 +3562,24 @@ for (const t of chorus1Timing) {
             );
         }
     }
+
+    bsmap.utils.shuffle(roadShuffle);
+    for (const x in roadShuffle) {
+        addEvents(
+            {
+                _type: 4,
+                _time: t + 19 + (parseInt(x) / roadShuffle.length) * 0.5,
+                _value: 7,
+                _customData: { _lightID: roadShuffle[x] },
+            },
+            {
+                _type: 4,
+                _time: 19.25 + t + (parseInt(x) / roadShuffle.length) * 0.5,
+                _floatValue: 0,
+                _customData: { _lightID: roadShuffle[x] },
+            }
+        );
+    }
     await screenDraw('no.gif', { time: t + 19 });
     screenClear(t + 19.4375);
     for (let j = 0; j < 2; j++) {
@@ -3353,6 +3599,28 @@ for (const t of chorus1Timing) {
             _value: 0,
         }
     );
+    for (let i = 0; i < 5; i++) {
+        let j = bsmap.utils.random(1, 5, true);
+        const _lightID: number[] = [];
+        while (j < roadOrder.length - 1) {
+            _lightID.push(roadOrder[0 + j], roadOrder[1 + j]);
+            j += bsmap.utils.random(4, 10, true);
+        }
+        addEvents(
+            {
+                _time: t + 20 + i / 2,
+                _type: 4,
+                _value: 2,
+                _customData: { _lightID },
+            },
+            {
+                _time: t + 20.25 + i / 2,
+                _type: 4,
+                _value: 0,
+                _customData: { _lightID },
+            }
+        );
+    }
     for (let i = 0; i < 4; i++) {
         const random = Math.floor(bsmap.utils.random(1, 7));
         const lightIDrand = [random];
@@ -3504,6 +3772,30 @@ for (const t of chorus1Timing) {
             );
         }
     }
+    for (let j = 0; j < 3; j++) {
+        bsmap.utils.shuffle(roadShuffle);
+        for (const x in roadShuffle) {
+            addEvents(
+                {
+                    _type: 4,
+                    _time:
+                        23 + t + (parseInt(x) / roadShuffle.length) * 0.25 + j * 0.25,
+                    _value: 7,
+                    _customData: { _lightID: roadShuffle[x] },
+                },
+                {
+                    _type: 4,
+                    _time:
+                        23.1875 +
+                        t +
+                        (parseInt(x) / roadShuffle.length) * 0.25 +
+                        j * 0.25,
+                    _floatValue: 0,
+                    _customData: { _lightID: roadShuffle[x] },
+                }
+            );
+        }
+    }
     for (let i = 0; i < 4; i++) {
         await screenDraw('my.gif', { time: t + 23.0625 + i * 0.125, invert: i === 3 });
         screenClear(t + 23.125 + i * 0.125);
@@ -3512,6 +3804,26 @@ for (const t of chorus1Timing) {
     screenClear(t + 23.9375);
 
     for (let i = 0; i < 12; i++) {
+        let j = bsmap.utils.random(1, 5, true);
+        const _lightID: number[] = [];
+        while (j < roadOrder.length) {
+            _lightID.push(roadOrder[0 + j]);
+            j += bsmap.utils.random(4, 8, true);
+        }
+        addEvents(
+            {
+                _time: t + 24 + i / 2,
+                _type: 4,
+                _value: 2,
+                _customData: { _lightID },
+            },
+            {
+                _time: t + 24.25 + i / 2,
+                _type: 4,
+                _value: 0,
+                _customData: { _lightID },
+            }
+        );
         const random = Math.floor(bsmap.utils.random(1, 7));
         const lightIDrand = [random];
         const random2 = Math.floor(bsmap.utils.random(1, 7));
@@ -4199,6 +4511,29 @@ for (const t of chorus2Timing) {
             _customData: { _lightID: [5, 6] },
         }
     );
+
+    for (let i = 0; i < 4; i++) {
+        let j = bsmap.utils.random(1, 5, true);
+        const _lightID: number[] = [];
+        while (j < roadOrder.length) {
+            _lightID.push(roadOrder[0 + j]);
+            j += bsmap.utils.random(4, 8, true);
+        }
+        addEvents(
+            {
+                _time: t + 8 + i / 2,
+                _type: 4,
+                _value: 2,
+                _customData: { _lightID },
+            },
+            {
+                _time: t + 8.25 + i / 2,
+                _type: 4,
+                _value: 0,
+                _customData: { _lightID },
+            }
+        );
+    }
     await screenDraw('when.gif', { time: t + 8 });
     screenClear(t + 8.375);
 
@@ -4227,8 +4562,24 @@ for (const t of chorus2Timing) {
             }
         );
     }
+    bsmap.utils.shuffle(roadShuffle);
+    for (const x in roadShuffle) {
+        addEvents(
+            {
+                _type: 4,
+                _time: t + 10 + (parseInt(x) / roadShuffle.length) * 0.5,
+                _value: 7,
+                _customData: { _lightID: roadShuffle[x] },
+            },
+            {
+                _type: 4,
+                _time: 10.25 + t + (parseInt(x) / roadShuffle.length) * 0.5,
+                _floatValue: 0,
+                _customData: { _lightID: roadShuffle[x] },
+            }
+        );
+    }
     await screenDraw('against.gif', { time: t + 10, invert: true });
-    await screenDraw('against.gif', { time: t + 10.0625 });
     screenClear(t + 10.375, 0.5);
 
     for (let i = 3; i <= 5; i++) {
