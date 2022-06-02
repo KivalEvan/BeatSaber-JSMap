@@ -20,16 +20,25 @@ const tag = (name: string) => {
  * ---
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): DifficultyDataV3 => {
+export const V2toV3 = (
+    data: DifficultyDataV2,
+    skipPrompt?: boolean,
+): DifficultyDataV3 => {
     if (!skipPrompt) {
-        logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
+        logger.warn(
+            tag('V2toV3'),
+            'Converting beatmap v2 to v3 may lose certain data!',
+        );
         const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v3 denied.');
         }
         logger.info(tag('V2toV3'), 'Converting beatmap v2 to v3');
     } else {
-        logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
+        logger.warn(
+            tag('V2toV3'),
+            'Converting beatmap v2 to v3 may lose certain data!',
+        );
     }
     const template = v3.DifficultyData.create();
 
@@ -69,10 +78,16 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 };
             }
             if (typeof n.customData._fake === 'boolean') {
-                logger.warn(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _fake will be removed.`);
+                logger.warn(
+                    tag('V2toV3'),
+                    `notes[${i}] at time ${n.time} NE _fake will be removed.`,
+                );
             }
             if (typeof n.customData._cutDirection === 'number') {
-                logger.debug(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`);
+                logger.debug(
+                    tag('V2toV3'),
+                    `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`,
+                );
             }
         }
         if (n.isBomb()) {
@@ -101,7 +116,8 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     c: n.type as 0 | 1,
                     x: n.lineIndex,
                     y: n.lineLayer,
-                    d: n.cutDirection >= 1000 || typeof n.customData?._cutDirection === 'number'
+                    d: n.cutDirection >= 1000 ||
+                            typeof n.customData?._cutDirection === 'number'
                         ? n.cutDirection === 8 ? 8 : 1
                         : clamp(n.cutDirection, 0, 8),
                     a: a,
@@ -142,7 +158,10 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 };
             }
             if (typeof o.customData._fake === 'boolean') {
-                logger.warn(tag('V2toV3'), `obstacles[${i}] at time ${o.time} NE _fake will be removed.`);
+                logger.warn(
+                    tag('V2toV3'),
+                    `obstacles[${i}] at time ${o.time} NE _fake will be removed.`,
+                );
             }
         }
         template.obstacles.push(
@@ -196,7 +215,10 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                         lerpType: e.customData._lerpType,
                     };
                     if (e.customData._propID) {
-                        logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _propID will be removed.`);
+                        logger.warn(
+                            tag('V2toV3'),
+                            `events[${i}] at time ${e.time} Chroma _propID will be removed.`,
+                        );
                     }
                     if (e.customData._lightGradient) {
                         logger.warn(
@@ -215,7 +237,10 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                         direction: e.customData._direction,
                     };
                     if (e.customData._reset) {
-                        logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _reset will be removed.`);
+                        logger.warn(
+                            tag('V2toV3'),
+                            `events[${i}] at time ${e.time} Chroma _reset will be removed.`,
+                        );
                     }
                     if (e.customData._counterSpin) {
                         logger.warn(
@@ -223,8 +248,15 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`,
                         );
                     }
-                    if (e.customData._stepMult || e.customData._propMult || e.customData._speedMult) {
-                        logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _mult will be removed.`);
+                    if (
+                        e.customData._stepMult ||
+                        e.customData._propMult ||
+                        e.customData._speedMult
+                    ) {
+                        logger.warn(
+                            tag('V2toV3'),
+                            `events[${i}] at time ${e.time} Chroma _mult will be removed.`,
+                        );
                     }
                 }
                 if (e.isLaserRotationEvent()) {
@@ -290,9 +322,9 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 template.customData.customEvents = data.customData._customEvents!.map((ce) => {
                     if (ce._type === 'AnimateTrack') {
                         return {
-                            b: ce._time,
-                            t: 'AnimateTrack',
-                            d: {
+                            beat: ce._time,
+                            time: 'AnimateTrack',
+                            data: {
                                 track: ce._data._track,
                                 duration: ce._data._duration,
                                 easing: ce._data._easing,
@@ -310,9 +342,9 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     }
                     if (ce._type === 'AssignPathAnimation') {
                         return {
-                            b: ce._time,
-                            t: 'AssignPathAnimation',
-                            d: {
+                            beat: ce._time,
+                            time: 'AssignPathAnimation',
+                            data: {
                                 track: ce._data._track,
                                 duration: ce._data._duration,
                                 easing: ce._data._easing,
@@ -330,9 +362,9 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     }
                     if (ce._type === 'AssignTrackParent') {
                         return {
-                            b: ce._time,
-                            t: 'AssignTrackParent',
-                            d: {
+                            beat: ce._time,
+                            time: 'AssignTrackParent',
+                            data: {
                                 childrenTracks: ce._data._childrenTracks,
                                 parentTrack: ce._data._parentTrack,
                                 worldPositionStays: ce._data._worldPositionStays,
@@ -341,17 +373,17 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     }
                     if (ce._type === 'AssignPlayerToTrack') {
                         return {
-                            b: ce._time,
-                            t: 'AssignPlayerToTrack',
-                            d: {
+                            beat: ce._time,
+                            time: 'AssignPlayerToTrack',
+                            data: {
                                 track: ce._data._track,
                             },
                         } as ICustomEvent;
                     }
                     return {
-                        b: ce._time,
-                        t: 'AssignFogTrack',
-                        d: {
+                        beat: ce._time,
+                        time: 'AssignFogTrack',
+                        data: {
                             track: ce._data._track,
                             attenuation: ce._data._attenuation,
                             offset: ce._data._offset,
@@ -373,7 +405,9 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                         scale: e._scale,
                         position: e._position?.map((n) => n * 0.6) as Vector3,
                         rotation: e._rotation,
-                        localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
+                        localPosition: e._localPosition?.map(
+                            (n) => n * 0.6,
+                        ) as Vector3,
                         localRotation: e._localRotation,
                         lightID: e._lightID,
                     };

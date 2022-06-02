@@ -46,7 +46,9 @@ export const info = async (options: ILoadOptionsInfo = {}): Promise<IInfoData> =
     logger.info(tag('info'), `Async loading info from ${opt.path + opt.filePath}`);
     return await new Promise((resolve, reject) => {
         try {
-            resolve(parseInfo(JSON.parse(Deno.readTextFileSync(opt.path + opt.filePath))));
+            resolve(
+                parseInfo(JSON.parse(Deno.readTextFileSync(opt.path + opt.filePath))),
+            );
         } catch (e) {
             reject(new Error(e));
         }
@@ -74,50 +76,61 @@ export const infoSync = (options: ILoadOptionsInfo = {}) => {
  * console.log(difficulty);
  * ```
  */
-export async function difficulty(filePath: string, version?: 3, options?: IBaseOptions): Promise<DifficultyDataV3>;
-export async function difficulty(filePath: string, version?: 2, options?: IBaseOptions): Promise<DifficultyDataV2>;
-export async function difficulty(filePath: string, version = 3, options: IBaseOptions = {}) {
+export async function difficulty(
+    filePath: string,
+    version?: 3,
+    options?: IBaseOptions,
+): Promise<DifficultyDataV3>;
+export async function difficulty(
+    filePath: string,
+    version?: 2,
+    options?: IBaseOptions,
+): Promise<DifficultyDataV2>;
+export async function difficulty(
+    filePath: string,
+    version = 3,
+    options: IBaseOptions = {},
+) {
     const opt: Required<IBaseOptions> = {
         path: options.path ?? (globals.path || defaultOptionsInfo.path),
     };
-    logger.info(tag('difficulty'), `Async loading difficulty from ${opt.path + filePath}`);
+    logger.info(
+        tag('difficulty'),
+        `Async loading difficulty from ${opt.path + filePath}`,
+    );
     return await new Promise((resolve, reject) => {
         try {
-            const diffJSON = JSON.parse(Deno.readTextFileSync(opt.path + filePath)) as Either<
-                IDifficultyDataV2,
-                IDifficultyDataV3
-            >;
-            if (diffJSON._version) {
-                if (version === parseInt(diffJSON._version.at(0)!)) {
-                    resolve(parseDifficultyV2(diffJSON));
-                } else {
-                    logger.warn(
-                        tag('difficulty'),
-                        `Version unmatched, expected ${version}, got ${
-                            parseInt(
-                                diffJSON._version.at(0)!,
-                            )
-                        }; Converting to beatmap version ${version}`,
+            const diffJSON = JSON.parse(
+                Deno.readTextFileSync(opt.path + filePath),
+            ) as Either<IDifficultyDataV2, IDifficultyDataV3>;
+            const diffVersion = parseInt(
+                diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'),
+            );
+            if (diffVersion !== version) {
+                logger.warn(
+                    tag('difficulty'),
+                    'Version unmatched, expected',
+                    version,
+                    'but received',
+                    diffVersion,
+                    '; Converting to beatmap version',
+                    version,
+                );
+                if (diffVersion === 3 && version == 2) {
+                    resolve(
+                        V3toV2(parseDifficultyV3(diffJSON as IDifficultyDataV3), true),
                     );
-                    // shut up
-                    // deno-lint-ignore no-explicit-any
-                    resolve(V3toV2(parseDifficultyV3(diffJSON as any)));
+                } else {
+                    resolve(
+                        V2toV3(parseDifficultyV2(diffJSON as IDifficultyDataV2), true),
+                    );
                 }
             } else {
-                if (version === parseInt(diffJSON.version?.at(0)!)) {
-                    resolve(parseDifficultyV3(diffJSON));
-                } else {
-                    logger.warn(
-                        tag('difficulty'),
-                        `Version unmatched, expected ${version}, got ${
-                            parseInt(
-                                diffJSON.version?.at(0)!,
-                            )
-                        }; Converting to beatmap version ${version}`,
-                    );
-                    // shut up
-                    // deno-lint-ignore no-explicit-any
-                    resolve(V2toV3(parseDifficultyV2(diffJSON as any)));
+                if (version === 3) {
+                    resolve(parseDifficultyV3(diffJSON as IDifficultyDataV3));
+                }
+                if (version === 2) {
+                    resolve(parseDifficultyV2(diffJSON as IDifficultyDataV2));
                 }
             }
         } catch (e) {
@@ -132,9 +145,21 @@ export async function difficulty(filePath: string, version = 3, options: IBaseOp
  * console.log(difficulty);
  * ```
  */
-export function difficultySync(filePath: string, version?: 3, options?: IBaseOptions): DifficultyDataV3;
-export function difficultySync(filePath: string, version?: 2, options?: IBaseOptions): DifficultyDataV2;
-export function difficultySync(filePath: string, version = 3, options: IBaseOptions = {}) {
+export function difficultySync(
+    filePath: string,
+    version?: 3,
+    options?: IBaseOptions,
+): DifficultyDataV3;
+export function difficultySync(
+    filePath: string,
+    version?: 2,
+    options?: IBaseOptions,
+): DifficultyDataV2;
+export function difficultySync(
+    filePath: string,
+    version = 3,
+    options: IBaseOptions = {},
+) {
     const opt: Required<IBaseOptions> = {
         path: options.path ?? (globals.path || defaultOptionsInfo.path),
     };
@@ -146,21 +171,30 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
         IDifficultyDataV2,
         IDifficultyDataV3
     >;
-    if (diffJSON._version) {
-        if (version === parseInt(diffJSON._version.at(0)!)) {
-            return parseDifficultyV2(diffJSON);
+    const diffVersion = parseInt(
+        diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'),
+    );
+    if (diffVersion !== version) {
+        logger.warn(
+            tag('difficulty'),
+            'Version unmatched, expected',
+            version,
+            'but received',
+            diffVersion,
+            '; Converting to beatmap version',
+            version,
+        );
+        if (diffVersion === 3 && version == 2) {
+            return V3toV2(parseDifficultyV3(diffJSON as IDifficultyDataV3), true);
         } else {
-            // shut up
-            // deno-lint-ignore no-explicit-any
-            return V3toV2(parseDifficultyV3(diffJSON as any));
+            return V2toV3(parseDifficultyV2(diffJSON as IDifficultyDataV2), true);
         }
     } else {
-        if (version === parseInt(diffJSON.version?.at(0)!)) {
-            return parseDifficultyV3(diffJSON);
-        } else {
-            // shut up
-            // deno-lint-ignore no-explicit-any
-            return V2toV3(parseDifficultyV2(diffJSON as any));
+        if (version === 3) {
+            return parseDifficultyV3(diffJSON as IDifficultyDataV3);
+        }
+        if (version === 2) {
+            return parseDifficultyV2(diffJSON as IDifficultyDataV2);
         }
     }
 }
@@ -173,18 +207,26 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
  * ---
  * Info difficulty reference is also given to allow further control.
  */
-export const difficultyFromInfo = async (info: IInfoData, path = globals.path): Promise<DifficultyList> => {
+export const difficultyFromInfo = async (
+    info: IInfoData,
+    options: IBaseOptions = {},
+): Promise<DifficultyList> => {
+    const opt: Required<IBaseOptions> = {
+        path: options.path ?? (globals.path || defaultOptionsInfo.path),
+    };
     logger.info(tag('difficultyFromInfo'), 'Async loading difficulty from map Info...');
     return await new Promise((resolve, reject) => {
         const difficulties: DifficultyList = [];
         try {
             for (const set of info._difficultyBeatmapSets) {
                 for (const d of set._difficultyBeatmaps) {
-                    logger.info(tag('difficultyFromInfo'), `Loading difficulty from ${path + d._beatmapFilename}`);
-                    const diffJSON = JSON.parse(Deno.readTextFileSync(path + d._beatmapFilename)) as Either<
-                        IDifficultyDataV2,
-                        IDifficultyDataV3
-                    >;
+                    logger.info(
+                        tag('difficultyFromInfo'),
+                        `Loading difficulty from ${opt.path + d._beatmapFilename}`,
+                    );
+                    const diffJSON = JSON.parse(
+                        Deno.readTextFileSync(opt.path + d._beatmapFilename),
+                    ) as Either<IDifficultyDataV2, IDifficultyDataV3>;
                     if (diffJSON._version) {
                         difficulties.push({
                             characteristic: set._beatmapCharacteristicName,
@@ -221,16 +263,27 @@ export const difficultyFromInfo = async (info: IInfoData, path = globals.path): 
  * ---
  * Info difficulty reference is also given to allow further control.
  */
-export const difficultyFromInfoSync = (info: IInfoData, path = globals.path): DifficultyList => {
-    logger.info(tag('difficultyFromInfoSync'), 'Sync loading difficulty from map Info...');
+export const difficultyFromInfoSync = (
+    info: IInfoData,
+    options: IBaseOptions = {},
+): DifficultyList => {
+    const opt: Required<IBaseOptions> = {
+        path: options.path ?? (globals.path || defaultOptionsInfo.path),
+    };
+    logger.info(
+        tag('difficultyFromInfoSync'),
+        'Sync loading difficulty from map Info...',
+    );
     const difficulties: DifficultyList = [];
     for (const set of info._difficultyBeatmapSets) {
         for (const d of set._difficultyBeatmaps) {
-            logger.info(tag('difficultyFromInfoSync'), `Loading difficulty from ${path + d._beatmapFilename}`);
-            const diffJSON = JSON.parse(Deno.readTextFileSync(path + d._beatmapFilename)) as Either<
-                IDifficultyDataV2,
-                IDifficultyDataV3
-            >;
+            logger.info(
+                tag('difficultyFromInfoSync'),
+                `Loading difficulty from ${opt.path + d._beatmapFilename}`,
+            );
+            const diffJSON = JSON.parse(
+                Deno.readTextFileSync(opt.path + d._beatmapFilename),
+            ) as Either<IDifficultyDataV2, IDifficultyDataV3>;
             if (diffJSON._version) {
                 difficulties.push({
                     characteristic: set._beatmapCharacteristicName,

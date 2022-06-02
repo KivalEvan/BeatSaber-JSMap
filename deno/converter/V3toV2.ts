@@ -19,16 +19,25 @@ const tag = (name: string) => {
  *
  * This is severely outdated for customData.
  */
-export const V3toV2 = (data: DifficultyDataV3, skipPrompt?: boolean): DifficultyDataV2 => {
+export const V3toV2 = (
+    data: DifficultyDataV3,
+    skipPrompt?: boolean,
+): DifficultyDataV2 => {
     if (!skipPrompt) {
-        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
+        logger.warn(
+            tag('V3toV2'),
+            'Converting beatmap v3 to v2 may lose certain data!',
+        );
         const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v2 denied.');
         }
         logger.info(tag('V3toV2'), 'Converting beatmap v3 to v2');
     } else {
-        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
+        logger.warn(
+            tag('V3toV2'),
+            'Converting beatmap v3 to v2 may lose certain data!',
+        );
     }
     const template = DifficultyDataV2.create();
 
@@ -130,7 +139,10 @@ export const V3toV2 = (data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _time: lr.time,
                 _type: lr.executionTime ? 14 : 15,
                 _value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
-                    ? Math.max(Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15), 3)
+                    ? Math.max(
+                        Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15),
+                        3,
+                    )
                     : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
                 _floatValue: 1,
             }),
@@ -188,7 +200,7 @@ export const V3toV2 = (data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
         for (const k in data.customData) {
             if (k === 'customEvents') {
                 template.customData._customEvents = (data.customData.customEvents?.map((ce) => {
-                    return { _time: ce.b, _type: ce.t, _data: ce.d };
+                    return { _time: ce.beat, _type: ce.time, _data: ce.data };
                     // deno-lint-ignore no-explicit-any
                 }) as any) ?? [];
                 continue;

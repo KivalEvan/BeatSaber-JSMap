@@ -47,16 +47,16 @@ export interface IHeckCustomEventDataAssignPathAnimation extends IHeckCustomEven
 
 /** Heck Custom Event interface for AnimateTrack. */
 export interface IHeckCustomEventAnimateTrack {
-    b: number;
-    t: 'AnimateTrack';
-    d: IHeckCustomEventDataAnimateTrack;
+    beat: number;
+    time: 'AnimateTrack';
+    data: IHeckCustomEventDataAnimateTrack;
 }
 
 /** Heck Custom Event interface for AssignPathAnimation. */
 export interface IHeckCustomEventAssignPathAnimation {
-    b: number;
-    t: 'AssignPathAnimation';
-    d: IHeckCustomEventDataAssignPathAnimation;
+    beat: number;
+    time: 'AssignPathAnimation';
+    data: IHeckCustomEventDataAssignPathAnimation;
 }
 
 /** Heck Custom Event interface for InvokeEvent. */
@@ -66,7 +66,9 @@ export interface IHeckCustomEventAssignPathAnimation {
 //     d: IHeckCustomEventDataInvokeEvent;
 // }
 
-export type IHeckCustomEvent = IHeckCustomEventAnimateTrack | IHeckCustomEventAssignPathAnimation;
+export type IHeckCustomEvent =
+    | IHeckCustomEventAnimateTrack
+    | IHeckCustomEventAssignPathAnimation;
 // | IHeckCustomEventInvokeEvent;
 
 /** Heck Point Definition interface. */
