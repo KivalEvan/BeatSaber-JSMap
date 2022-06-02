@@ -19,7 +19,8 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
     const regexConstruction = `\\[\\d+\\]Construction$`;
     const regexNearBuilding = `\\[\\d+\\]NearBuilding(Left|Right)$`;
     const regexNeonTubeDirectional = `\\[\\d+\\]NeonTubeDirectionalF(L|R)$`;
-    const regexBigRingLight = `^GameCore\\.\\[\\d+\\]BigTrackLaneRing\\(Clone\\)\\.\\[\\d+\\]NeonTubeBothSidesDirectional(.?\\(\\d+\\))?$`;
+    const regexBigRingLight =
+        `^GameCore\\.\\[\\d+\\]BigTrackLaneRing\\(Clone\\)\\.\\[\\d+\\]NeonTubeBothSidesDirectional(.?\\(\\d+\\))?$`;
     const regexNeonTubeL = `\\[\\d+\\]NeonTubeDirectionalL$`;
     const regexNeonTubeR = `\\[\\d+\\]NeonTubeDirectionalR$`;
     const regexFrontLights = `\\[\\d+\\]FrontLights$`;
@@ -28,22 +29,22 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
 
     // beyond you're on your own
     const posAddZ = (posArr: bsmap.types.Vector3, z: number): bsmap.types.Vector3 => {
-        let arr: bsmap.types.Vector3 = [...posArr];
+        const arr: bsmap.types.Vector3 = [...posArr];
         arr[2] += z;
         return arr;
     };
     const posMirrorX = (posArr: bsmap.types.Vector3): bsmap.types.Vector3 => {
-        let arr: bsmap.types.Vector3 = [...posArr];
+        const arr: bsmap.types.Vector3 = [...posArr];
         arr[0] = -arr[0];
         return arr;
     };
     const posMirrorY = (posArr: bsmap.types.Vector3): bsmap.types.Vector3 => {
-        let arr: bsmap.types.Vector3 = [...posArr];
+        const arr: bsmap.types.Vector3 = [...posArr];
         arr[1] = -arr[1];
         return arr;
     };
     const translatePos = (posArr: bsmap.types.Vector3, translate = [0, 0, 0]): bsmap.types.Vector3 => {
-        let arr: bsmap.types.Vector3 = [...posArr];
+        const arr: bsmap.types.Vector3 = [...posArr];
         arr[0] += translate[0];
         arr[1] += translate[1];
         arr[2] += translate[2];
@@ -80,7 +81,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _id: regexNeonTubeDirectional,
             _lookupMethod: 'Regex',
             _active: false,
-        }
+        },
     );
     //#endregion
     //#region extra thicc ring
@@ -151,7 +152,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _duplicate: 1,
             _scale: centerLightScale,
             _position: translatePos(posMirrorY(topCenterLightPos), posOffset),
-        }
+        },
     );
     environment.push(
         {
@@ -178,7 +179,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _duplicate: 1,
             _rotation: [180, 180, 0],
             _position: translatePos([0, 0, 64 - posOffset[2]], posOffset),
-        }
+        },
     );
     environment.push(
         {
@@ -188,7 +189,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _scale: bigStuffScale,
             _position: translatePos(
                 translatePos(posMirrorX(rightBigStuffPos), [0, 2.21875 * scaleSizeMult, 0]),
-                posOffset
+                posOffset,
             ),
         },
         {
@@ -205,9 +206,9 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _scale: bigStuffScale,
             _position: translatePos(
                 translatePos(posMirrorX(rightBigStuffPos), [0, -2.21875 * scaleSizeMult, 0]),
-                posOffset
+                posOffset,
             ),
-        }
+        },
     );
     environment.push(
         {
@@ -230,7 +231,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _duplicate: 1,
             _scale: bigStuffScale,
             _position: translatePos(translatePos(rightBigStuffPos, [0, -2.21875 * scaleSizeMult, 0]), posOffset),
-        }
+        },
     );
     environment.push(
         {
@@ -253,7 +254,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _duplicate: 1,
             _scale: bigStuffScale,
             _position: translatePos(translatePos(topBigStuffPos, [-2.21875 * scaleSizeMult, 0, 0]), posOffset),
-        }
+        },
     );
     environment.push(
         {
@@ -263,7 +264,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _scale: bigStuffScale,
             _position: translatePos(
                 translatePos(posMirrorY(topBigStuffPos), [2.21875 * scaleSizeMult, 0, 0]),
-                posOffset
+                posOffset,
             ),
         },
         {
@@ -280,9 +281,9 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
             _scale: bigStuffScale,
             _position: translatePos(
                 translatePos(posMirrorY(topBigStuffPos), [-2.21875 * scaleSizeMult, 0, 0]),
-                posOffset
+                posOffset,
             ),
-        }
+        },
     );
     //#endregion
     //#region static ring
@@ -331,7 +332,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
                 _position: translatePos(posAddZ(posMirrorY(ringPos), i * ringGap), posOffset),
                 _rotation: [0, 0, 135],
                 _lightID: internalIdOffsetType4++,
-            }
+            },
         );
     }
     for (let i = 0; i < ringCount * ringRepeat; i++) {
@@ -371,7 +372,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
                 _position: translatePos(posAddZ(posMirrorY(outerRingPos), i * ringGap), posOffset),
                 _rotation: [0, 0, 135],
                 _lightID: internalIdOffsetType4++,
-            }
+            },
         );
     }
     //#endregion
@@ -391,7 +392,7 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
                 _lookupMethod: 'Regex',
                 _position: translatePos(
                     scaleArray(translatePos(posMirrorX(backTopFarPos), [-i * 1.625, -i * 1.625, 0]), scaleSizeMult),
-                    translatePos(posOffset, [0, 0, i * ringGap])
+                    translatePos(posOffset, [0, 0, i * ringGap]),
                 ),
                 _rotation: [12 - i * 8, 180, 348 - i * 8],
             },
@@ -400,10 +401,10 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
                 _lookupMethod: 'Regex',
                 _position: translatePos(
                     scaleArray(translatePos(backTopFarPos, [i * 1.625, -i * 1.625, 0]), scaleSizeMult),
-                    translatePos(posOffset, [0, 0, i * ringGap])
+                    translatePos(posOffset, [0, 0, i * ringGap]),
                 ),
                 _rotation: [12 - i * 8, 180, 12 + i * 8],
-            }
+            },
         );
     }
     for (let i = 0; i < 5; i++) {
@@ -415,9 +416,9 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
                 _position: translatePos(
                     scaleArray(
                         translatePos(posMirrorX(posMirrorY(backTopFarPos)), [-i * 1.625, i * 1.625, 0]),
-                        scaleSizeMult
+                        scaleSizeMult,
                     ),
-                    translatePos(posOffset, [0, 0, i * ringGap])
+                    translatePos(posOffset, [0, 0, i * ringGap]),
                 ),
                 _rotation: [12 - i * 8, 0, 168 - i * 8],
             },
@@ -427,10 +428,10 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
                 _duplicate: 1,
                 _position: translatePos(
                     scaleArray(translatePos(posMirrorY(backTopFarPos), [i * 1.625, i * 1.625, 0]), scaleSizeMult),
-                    translatePos(posOffset, [0, 0, i * ringGap])
+                    translatePos(posOffset, [0, 0, i * ringGap]),
                 ),
                 _rotation: [12 - i * 8, 0, 192 + i * 8],
-            }
+            },
         );
     }
     //#endregion

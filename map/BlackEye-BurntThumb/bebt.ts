@@ -7,19 +7,19 @@ bsmap.globals.path =
 const INPUT_FILE = 'ExpertPlusStandard.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
-const old = bsmap.load.difficultyLegacySync(INPUT_FILE);
-old._events.forEach((e) => {
-    e._floatValue = 1;
-    if (bsmap.v2.event.isLightEvent(e)) {
-        e._floatValue = e._value ? 1 : 0;
+const old = bsmap.load.difficultySync(INPUT_FILE, 2);
+old.events.forEach((e) => {
+    e.floatValue = 1;
+    if (e.isLightEvent()) {
+        e.floatValue = e.value ? 1 : 0;
     }
-    if (bsmap.v2.event.isLightEvent(e) && e._customData?._color) {
-        if (e._value !== 0) {
-            e._value = e._customData._color[0] ? (e._value <= 4 ? 4 : 8) : e._value;
+    if (e.isLightEvent() && e.customData?._color) {
+        if (e.value !== 0) {
+            e.value = e.customData._color[0] ? (e.value <= 4 ? 4 : 8) : e.value;
         }
-        e._floatValue = e._customData._color[3] ?? 1;
+        e.floatValue = e.customData._color[3] ?? 1;
     }
-    delete e._customData;
+    delete e.customData;
 });
 
 const difficulty = bsmap.convert.V2toV3(old, true);

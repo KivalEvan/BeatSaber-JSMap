@@ -14,6 +14,12 @@ General-purpose Beat Saber scripting library, complete with type-check, auto-com
 - Basic JavaScript or TypeScript knowledge
   - Library is entirely TypeScript, but for common use case you do not need in-depth knowledge.
 
+## Important Update
+
+`load.difficultyLegacy('difficulty.dat')` is removed in favour of `load.difficulty('difficulty.dat', 2)`. This will also
+automatically convert map to a specific version when the loaded data is not the correct version. Loading beatmap v3 will
+proceed as normally, but recommended to specify `3` as new beatmap version may exist in the future.
+
 ## Getting Started
 
 To get started, check out the [example folder](./example) for templates you can use. Deno by nature caches the module
@@ -50,15 +56,6 @@ For further explanation over on [Deno Manual](https://deno.land/manual).
 Deno related: if you're having issue of not being able to retrieve module on import, reload or cache the module to fix
 it. To reload or cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno server if necessary. If
 it still does not work, change to a different workspace.
-
-## Note
-
-Beatmap v2 (legacy) is deprecated, this will be around until it end of support officially by Beat Games. Convert the map
-with `convert.V2toV3(difficultyData)` after fetching the difficulty data with `load.difficultyLegacy('difficulty.dat')`.
-
-`load.difficultyLegacy('difficulty.dat')` will be removed in favour of `load.difficulty('difficulty.dat', 2)`. This will
-also automatically convert map to a specific version when the loaded data is not the correct version. Loading beatmap v3
-will proceed as normally, but recommended to specify `3` as new beatmap version may exist in the future.
 
 ## Beginner Tips
 

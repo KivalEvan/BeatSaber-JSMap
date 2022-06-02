@@ -1,19 +1,16 @@
-import { OptimizeOptionsDifficulty, OptimizeOptionsInfo } from './optimize.ts';
+import { IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './optimize.ts';
+import { IBaseOptions } from './options.ts';
 
-export interface SaveOptions {
-    path?: string;
-}
-
-export interface SaveOptionsInfo extends SaveOptions {
+export interface ISaveOptionsInfo extends IBaseOptions {
     filePath: string;
-    optimise?: OptimizeOptionsInfo;
+    optimise?: IOptimizeOptionsInfo;
 }
 
-export interface SaveOptionsDifficulty extends SaveOptions {
+export interface ISaveOptionsDifficulty extends IBaseOptions {
     filePath: string;
-    optimise?: OptimizeOptionsDifficulty;
+    optimise?: IOptimizeOptionsDifficulty;
 }
 
-export interface SaveOptionsDifficultyList extends SaveOptions {
-    optimise?: OptimizeOptionsDifficulty;
+export interface ISaveOptionsDifficultyList extends IBaseOptions {
+    optimise?: IOptimizeOptionsDifficulty;
 }

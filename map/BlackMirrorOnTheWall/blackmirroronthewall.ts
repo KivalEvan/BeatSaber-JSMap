@@ -15,7 +15,7 @@ info._difficultyBeatmapSets.forEach((set) =>
     })
 );
 
-const difficulty = bsmap.load.difficultyLegacySync(INPUT_FILE);
+const difficulty = bsmap.load.difficultySync(INPUT_FILE, 2);
 difficulty.version = '2.5.0';
 difficulty.customData._environment = [];
 const _environment = difficulty.customData._environment;
@@ -109,11 +109,7 @@ for (let i = 0; i < 6; i++) {
     _environment.push({
         _id: fixed ? regexLaser.replace('$', ` \\(${fixed}\\)$`) : regexLaser,
         _lookupMethod: 'Regex',
-        _position: [
-            (i > 2 ? -1 : 1) * (8 + (i > 2 ? i - 3 : i) * 3),
-            -3,
-            48 - (i > 2 ? i - 3 : i) * 3,
-        ],
+        _position: [(i > 2 ? -1 : 1) * (8 + (i > 2 ? i - 3 : i) * 3), -3, 48 - (i > 2 ? i - 3 : i) * 3],
         _rotation: [0, 0, 0],
     });
 }

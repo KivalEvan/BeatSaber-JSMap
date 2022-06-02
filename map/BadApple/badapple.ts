@@ -8,8 +8,8 @@ const MAP_DIRECTORY = 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Da
 const INPUT_FILE = MAP_DIRECTORY + 'EasyLawless.dat';
 const OUTPUT_FILE = INPUT_FILE;
 
-const difficulty = bsmap.load.difficultyLegacySync(INPUT_FILE);
-const info = bsmap.load.infoSync(MAP_DIRECTORY + 'Info.dat');
+const difficulty = bsmap.load.difficultySync(INPUT_FILE, 2);
+const info = bsmap.load.infoSync({ filePath: MAP_DIRECTORY + 'Info.dat' });
 
 const BPM = bsmap.BeatPerMinute.create(info._beatsPerMinute);
 

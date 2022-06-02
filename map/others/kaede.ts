@@ -5,10 +5,7 @@ console.time('Runtime');
 bsmap.globals.logLevel = 1;
 bsmap.globals.path = 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/KAEDE/';
 
-const difficulty = bsmap.convert.V2toV3(
-    bsmap.load.difficultyLegacySync('ExpertPlusStandard.dat'),
-    true,
-);
+const difficulty = bsmap.load.difficultySync('ExpertPlusStandard.dat');
 
 const prevSlider: {
     [key: number]: bsmap.v3.ColorNote;

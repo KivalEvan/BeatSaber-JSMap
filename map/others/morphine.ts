@@ -6,7 +6,7 @@ bsmap.globals.path =
 const d3 = bsmap.load.difficultySync('ExpertPlusStandardOld.dat');
 const d3Convert = bsmap.convert.V2toV3(
     bsmap.convert.chromaLightGradientToVanillaGradient(bsmap.convert.V3toV2(d3, true)),
-    true
+    true,
 );
 
 d3Convert.sliders = d3.sliders;

@@ -4,21 +4,21 @@ import { IInfoSetDifficultyData } from '../beatmap/shared/info.ts';
 import { DifficultyData as DifficultyDataV2 } from '../../beatmap/v2/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from '../../beatmap/v3/difficulty.ts';
 
-interface DifficultyListBase {
+interface IDifficultyListBase {
     characteristic: CharacteristicName;
     difficulty: DifficultyName;
     settings: IInfoSetDifficultyData;
     fileName: string;
 }
 
-interface DifficultyListV2 extends DifficultyListBase {
+interface IDifficultyListV2 extends IDifficultyListBase {
     version: 2;
     data: DifficultyDataV2;
 }
 
-interface DifficultyListV3 extends DifficultyListBase {
+interface IDifficultyListV3 extends IDifficultyListBase {
     version: 3;
     data: DifficultyDataV3;
 }
 
-export type DifficultyList = (DifficultyListV2 | DifficultyListV3)[];
+export type DifficultyList = (IDifficultyListV2 | IDifficultyListV3)[];

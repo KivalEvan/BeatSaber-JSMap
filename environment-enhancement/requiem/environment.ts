@@ -14,25 +14,22 @@ export const generateEnvironment = (): bsmap.types.v2.IChromaEnvironment[] => {
 
     //#region helper
     const posAddZ = (posArr: bsmap.types.Vector3, z: number): bsmap.types.Vector3 => {
-        let arr: bsmap.types.Vector3 = [...posArr];
+        const arr: bsmap.types.Vector3 = [...posArr];
         arr[2] += z;
         return arr;
     };
     const posMirrorX = (posArr: bsmap.types.Vector3): bsmap.types.Vector3 => {
-        let arr: bsmap.types.Vector3 = [...posArr];
+        const arr: bsmap.types.Vector3 = [...posArr];
         arr[0] = -arr[0];
         return arr;
     };
     const posMirrorY = (posArr: bsmap.types.Vector3): bsmap.types.Vector3 => {
-        let arr: bsmap.types.Vector3 = [...posArr];
+        const arr: bsmap.types.Vector3 = [...posArr];
         arr[1] = -arr[1];
         return arr;
     };
-    const translatePos = (
-        posArr: bsmap.types.Vector3,
-        translate = [0, 0, 0],
-    ): bsmap.types.Vector3 => {
-        let arr: bsmap.types.Vector3 = [...posArr];
+    const translatePos = (posArr: bsmap.types.Vector3, translate = [0, 0, 0]): bsmap.types.Vector3 => {
+        const arr: bsmap.types.Vector3 = [...posArr];
         arr[0] += translate[0];
         arr[1] += translate[1];
         arr[2] += translate[2];

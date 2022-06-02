@@ -33,12 +33,12 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
     );
     // duplicate this shit everywhere
     for (let i = 0; i < 15; i++) {
-        let posXRight = (i + 1) * 12 + 36;
-        let posZRight = 32 + Math.random() * 64;
-        let posYRight = Math.max(-64 + Math.random() * 32 + posXRight / 8 + posZRight / 1.25, 2);
-        let posXLeft = (i + 1) * 12 + 36;
-        let posZLeft = 32 + Math.random() * 64;
-        let posYLeft = Math.max(-64 + Math.random() * 32 + posXLeft / 8 + posZLeft / 1.25, 2);
+        const posXRight = (i + 1) * 12 + 36;
+        const posZRight = 32 + Math.random() * 64;
+        const posYRight = Math.max(-64 + Math.random() * 32 + posXRight / 8 + posZRight / 1.25, 2);
+        const posXLeft = (i + 1) * 12 + 36;
+        const posZLeft = 32 + Math.random() * 64;
+        const posYLeft = Math.max(-64 + Math.random() * 32 + posXLeft / 8 + posZLeft / 1.25, 2);
         environment.push(
             {
                 id: regexRingRight,
@@ -59,9 +59,9 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
     //#endregion
     //#region side
     for (let i = 0; i < 2; i++) {
-        let posX = i * 1.5 + 4;
-        let posY = i * 0.5 - 0.5;
-        let posZ = -511;
+        const posX = i * 1.5 + 4;
+        const posY = i * 0.5 - 0.5;
+        const posZ = -511;
         environment.push(
             {
                 id: regexGlowLine,
@@ -84,9 +84,9 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
     //#endregion
     //#region front
     for (let i = 0; i < 5; i++) {
-        let posX = 16 + i * 4;
-        let posY = 0;
-        let posZ = i * 8 + 24;
+        const posX = 16 + i * 4;
+        const posY = 0;
+        const posZ = i * 8 + 24;
         environment.push(
             {
                 id: regexSideLaser,
@@ -107,9 +107,9 @@ export const generateEnvironment = (): bsmap.types.v3.IChromaEnvironment[] => {
     //#endregion
     //#region backtop
     for (let i = 0; i < 5; i++) {
-        let posX = 54 + i * 4;
-        let posY = i * 2;
-        let posZ = i * 4 + 80;
+        const posX = 54 + i * 4;
+        const posY = i * 2;
+        const posZ = i * 4 + 80;
         environment.push(
             {
                 id: regexSideLaser,

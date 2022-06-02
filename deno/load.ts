@@ -2,15 +2,34 @@ import { DifficultyList } from './types/bsmap/list.ts';
 import { IInfoData } from './types/beatmap/shared/info.ts';
 import { IDifficultyData as IDifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficultyData as IDifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
+import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/difficulty.ts';
+import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/difficulty.ts';
 import { info as parseInfo } from './beatmap/shared/parse.ts';
 import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
 import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 import { Either } from './types/utils.ts';
+import { ILoadOptionsInfo } from './types/bsmap/load.ts';
+import { V3toV2 } from './converter/V3toV2.ts';
+import { V2toV3 } from './converter/V2toV3.ts';
+import { IBaseOptions } from './types/bsmap/options.ts';
 
 const tag = (name: string) => {
     return `[load::${name}]`;
+};
+
+export const defaultOptionsInfo: Required<ILoadOptionsInfo> = {
+    path: '',
+    filePath: 'Info.dat',
+};
+
+export const defaultOptionsDifficulty: Required<IBaseOptions> = {
+    path: '',
+};
+
+export const defaultOptionsDifficultyList: Required<IBaseOptions> = {
+    path: '',
 };
 
 /** Asynchronously load beatmap info file.
@@ -19,11 +38,15 @@ const tag = (name: string) => {
  * console.log(info);
  * ```
  */
-export const info = async (filePath = 'Info.dat', path = globals.path): Promise<IInfoData> => {
-    logger.info(tag('info'), `Async loading info from ${path + filePath}`);
+export const info = async (options: ILoadOptionsInfo = {}): Promise<IInfoData> => {
+    const opt: Required<ILoadOptionsInfo> = {
+        path: options.path ?? (globals.path || defaultOptionsInfo.path),
+        filePath: options.filePath ?? 'Info.dat',
+    };
+    logger.info(tag('info'), `Async loading info from ${opt.path + opt.filePath}`);
     return await new Promise((resolve, reject) => {
         try {
-            resolve(parseInfo(JSON.parse(Deno.readTextFileSync(path + filePath))));
+            resolve(parseInfo(JSON.parse(Deno.readTextFileSync(opt.path + opt.filePath))));
         } catch (e) {
             reject(new Error(e));
         }
@@ -36,61 +59,72 @@ export const info = async (filePath = 'Info.dat', path = globals.path): Promise<
  * console.log(info);
  * ```
  */
-export const infoSync = (filePath = 'Info.dat', path = globals.path) => {
-    logger.info(tag('infoSync'), `Sync loading info from ${path + filePath}`);
-    return parseInfo(JSON.parse(Deno.readTextFileSync(path + filePath)));
-};
-
-/** Asynchronously load legacy v2 beatmap difficulty file.
- * ```ts
- * const difficultyLegacy = await load.difficultyLegacy('ExpertPlusStandard.dat');
- * console.log(difficultyLegacy);
- * ```
- */
-export const difficultyLegacy = async (
-    filePath: string,
-    path = globals.path,
-): Promise<ReturnType<typeof parseDifficultyV2>> => {
-    logger.info(tag('difficultyLegacy'), `Async loading difficulty from ${path + filePath}`);
-    return await new Promise((resolve, reject) => {
-        try {
-            resolve(parseDifficultyV2(JSON.parse(Deno.readTextFileSync(path + filePath))));
-        } catch (e) {
-            reject(new Error(e));
-        }
-    });
-};
-
-/** Synchronously load legacy v2 beatmap difficulty file.
- * ```ts
- * const difficultyLegacy = load.difficultyLegacySync('ExpertPlusStandard.dat');
- * console.log(difficultyLegacy);
- * ```
- */
-export const difficultyLegacySync = (filePath: string, path = globals.path) => {
-    logger.info(tag('difficultyLegacySync'), `Sync loading difficulty from ${path + filePath}`);
-    return parseDifficultyV2(JSON.parse(Deno.readTextFileSync(path + filePath)));
+export const infoSync = (options: ILoadOptionsInfo = {}) => {
+    const opt: Required<ILoadOptionsInfo> = {
+        path: options.path ?? (globals.path || defaultOptionsInfo.path),
+        filePath: options.filePath ?? 'Info.dat',
+    };
+    logger.info(tag('infoSync'), `Sync loading info from ${opt.path + opt.filePath}`);
+    return parseInfo(JSON.parse(Deno.readTextFileSync(opt.path + opt.filePath)));
 };
 
 /** Asynchronously load v3 beatmap difficulty file.
  * ```ts
- * const difficultyLegacy = await load.difficultyLegacy('ExpertPlusStandard.dat');
- * console.log(difficultyLegacy);
+ * const difficulty = await load.difficulty('ExpertPlusStandard.dat');
+ * console.log(difficulty);
  * ```
  */
-export const difficulty = async (
-    filePath: string,
-    path = globals.path,
-): Promise<ReturnType<typeof parseDifficultyV3>> => {
-    logger.info(tag('difficulty'), `Async loading difficulty from ${path + filePath}`);
+export async function difficulty(filePath: string, version?: 3, options?: IBaseOptions): Promise<DifficultyDataV3>;
+export async function difficulty(filePath: string, version?: 2, options?: IBaseOptions): Promise<DifficultyDataV2>;
+export async function difficulty(filePath: string, version = 3, options: IBaseOptions = {}) {
+    const opt: Required<IBaseOptions> = {
+        path: options.path ?? (globals.path || defaultOptionsInfo.path),
+    };
+    logger.info(tag('difficulty'), `Async loading difficulty from ${opt.path + filePath}`);
     return await new Promise((resolve, reject) => {
         try {
-            resolve(parseDifficultyV3(JSON.parse(Deno.readTextFileSync(path + filePath))));
+            const diffJSON = JSON.parse(Deno.readTextFileSync(opt.path + filePath)) as Either<
+                IDifficultyDataV2,
+                IDifficultyDataV3
+            >;
+            if (diffJSON._version) {
+                if (version === parseInt(diffJSON._version.at(0)!)) {
+                    resolve(parseDifficultyV2(diffJSON));
+                } else {
+                    logger.warn(
+                        tag('difficulty'),
+                        `Version unmatched, expected ${version}, got ${
+                            parseInt(
+                                diffJSON._version.at(0)!,
+                            )
+                        }; Converting to beatmap version ${version}`,
+                    );
+                    // shut up
+                    // deno-lint-ignore no-explicit-any
+                    resolve(V3toV2(parseDifficultyV3(diffJSON as any)));
+                }
+            } else {
+                if (version === parseInt(diffJSON.version?.at(0)!)) {
+                    resolve(parseDifficultyV3(diffJSON));
+                } else {
+                    logger.warn(
+                        tag('difficulty'),
+                        `Version unmatched, expected ${version}, got ${
+                            parseInt(
+                                diffJSON.version?.at(0)!,
+                            )
+                        }; Converting to beatmap version ${version}`,
+                    );
+                    // shut up
+                    // deno-lint-ignore no-explicit-any
+                    resolve(V2toV3(parseDifficultyV2(diffJSON as any)));
+                }
+            }
         } catch (e) {
             reject(new Error(e));
         }
     });
-};
+}
 
 /** Synchronously load v3 beatmap difficulty file.
  * ```ts
@@ -98,10 +132,38 @@ export const difficulty = async (
  * console.log(difficulty);
  * ```
  */
-export const difficultySync = (filePath: string, path = globals.path) => {
-    logger.info(tag('difficultySync'), `Sync loading difficulty from ${path + filePath}`);
-    return parseDifficultyV3(JSON.parse(Deno.readTextFileSync(path + filePath)));
-};
+export function difficultySync(filePath: string, version?: 3, options?: IBaseOptions): DifficultyDataV3;
+export function difficultySync(filePath: string, version?: 2, options?: IBaseOptions): DifficultyDataV2;
+export function difficultySync(filePath: string, version = 3, options: IBaseOptions = {}) {
+    const opt: Required<IBaseOptions> = {
+        path: options.path ?? (globals.path || defaultOptionsInfo.path),
+    };
+    logger.info(
+        tag('difficultySync'),
+        `Sync loading difficulty from ${opt.path + filePath} as beatmap version ${version}`,
+    );
+    const diffJSON = JSON.parse(Deno.readTextFileSync(opt.path + filePath)) as Either<
+        IDifficultyDataV2,
+        IDifficultyDataV3
+    >;
+    if (diffJSON._version) {
+        if (version === parseInt(diffJSON._version.at(0)!)) {
+            return parseDifficultyV2(diffJSON);
+        } else {
+            // shut up
+            // deno-lint-ignore no-explicit-any
+            return V3toV2(parseDifficultyV3(diffJSON as any));
+        }
+    } else {
+        if (version === parseInt(diffJSON.version?.at(0)!)) {
+            return parseDifficultyV3(diffJSON);
+        } else {
+            // shut up
+            // deno-lint-ignore no-explicit-any
+            return V2toV3(parseDifficultyV2(diffJSON as any));
+        }
+    }
+}
 
 /** Asynchronously load multiple v3 beatmap difficulties given beatmap info.
  * ```ts

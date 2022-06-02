@@ -1,15 +1,15 @@
-export interface OptimizeOptions {
+export interface IOptimizeOptions {
     enabled: boolean;
     floatTrim?: number;
     stringTrim?: boolean;
     throwError?: boolean;
 }
 
-export interface OptimizeOptionsInfo extends OptimizeOptions {
+export interface IOptimizeOptionsInfo extends IOptimizeOptions {
     removeDuplicate?: boolean;
 }
 
-export interface OptimizeOptionsDifficulty extends OptimizeOptions {
+export interface IOptimizeOptionsDifficulty extends IOptimizeOptions {
     optimiseLight?: boolean;
     sort?: boolean;
 }

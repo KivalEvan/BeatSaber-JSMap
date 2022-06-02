@@ -1,7 +1,7 @@
 import { IInfoData } from './types/beatmap/shared/info.ts';
 import { IDifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficultyData as DifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
-import { OptimizeOptions, OptimizeOptionsDifficulty, OptimizeOptionsInfo } from './types/bsmap/optimize.ts';
+import { IOptimizeOptions, IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './types/bsmap/optimize.ts';
 import { Either } from './types/utils.ts';
 import { round } from './utils/math.ts';
 import logger from './logger.ts';
@@ -10,14 +10,14 @@ const tag = (name: string) => {
     return `[optimize::${name}]`;
 };
 
-export const defaultOptionsInfo: Required<OptimizeOptionsInfo> = {
+export const defaultOptionsInfo: Required<IOptimizeOptionsInfo> = {
     enabled: true,
     floatTrim: 4,
     stringTrim: true,
     throwError: true,
     removeDuplicate: true,
 };
-export const defaultOptionsDifficulty: Required<OptimizeOptionsDifficulty> = {
+export const defaultOptionsDifficulty: Required<IOptimizeOptionsDifficulty> = {
     enabled: true,
     floatTrim: 4,
     stringTrim: true,
@@ -52,7 +52,7 @@ const ignoreObjectRemove = [
 export const deepClean = (
     // deno-lint-ignore no-explicit-any
     obj: { [key: string | number]: any } | any[],
-    options: OptimizeOptions,
+    options: IOptimizeOptions,
 ) => {
     for (const k in obj) {
         // shorten number
@@ -102,8 +102,8 @@ export const deepClean = (
     }
 };
 
-export const performInfo = (info: IInfoData, options: OptimizeOptionsInfo = { enabled: true }) => {
-    const opt: Required<OptimizeOptionsInfo> = {
+export const performInfo = (info: IInfoData, options: IOptimizeOptionsInfo = { enabled: true }) => {
+    const opt: Required<IOptimizeOptionsInfo> = {
         enabled: options.enabled,
         floatTrim: options.floatTrim ?? defaultOptionsInfo.floatTrim,
         stringTrim: options.stringTrim ?? defaultOptionsInfo.stringTrim,
@@ -123,9 +123,9 @@ export const performInfo = (info: IInfoData, options: OptimizeOptionsInfo = { en
 
 export const performDifficulty = (
     difficulty: Either<DifficultyDataV2, DifficultyDataV3>,
-    options: OptimizeOptionsDifficulty = { enabled: true },
+    options: IOptimizeOptionsDifficulty = { enabled: true },
 ) => {
-    const opt: Required<OptimizeOptionsDifficulty> = {
+    const opt: Required<IOptimizeOptionsDifficulty> = {
         enabled: options.enabled,
         floatTrim: options.floatTrim ?? defaultOptionsDifficulty.floatTrim,
         stringTrim: options.stringTrim ?? defaultOptionsDifficulty.stringTrim,

@@ -1,10 +1,7 @@
 import * as bsmap from '../../deno/mod.ts';
 import { idOffsetType0, idOffsetType4, roadCount, roadRepeat } from './environment.ts';
 
-export const convertLight = (
-    d: bsmap.v2.DifficultyData,
-    environment: bsmap.types.EnvironmentAllName
-) => {
+export const convertLight = (d: bsmap.v2.DifficultyData, environment: bsmap.types.EnvironmentAllName) => {
     const events = d.events;
     const newEvents = [];
 
@@ -25,23 +22,20 @@ export const convertLight = (
     // convert chroma 1 to chroma 2
     const oldChromaColorConvert = (rgb: number): bsmap.types.ColorArray => {
         rgb = rgb - 2000000000;
-        let red = (rgb >> 16) & 0x0ff;
-        let green = (rgb >> 8) & 0x0ff;
-        let blue = rgb & 0x0ff;
+        const red = (rgb >> 16) & 0x0ff;
+        const green = (rgb >> 8) & 0x0ff;
+        const blue = rgb & 0x0ff;
         return [red / 255, green / 255, blue / 255];
     };
     const currentColor: { [key: number]: bsmap.types.ColorArray | null } = {};
     for (const ev of events) {
         let noChromaColor = false;
         if (ev.value >= 2000000000) {
-            currentColor[ev.type] = oldChromaColorConvert(
-                ev.value
-            ) as bsmap.types.ColorArray;
+            currentColor[ev.type] = oldChromaColorConvert(ev.value) as bsmap.types.ColorArray;
         }
         if (!currentColor[ev.type]) {
             noChromaColor = true;
-            currentColor[ev.type] =
-                ev.value >= 1 && ev.value <= 3 ? defaultRightLight : defaultLeftLight;
+            currentColor[ev.type] = ev.value >= 1 && ev.value <= 3 ? defaultRightLight : defaultLeftLight;
         }
         if (ev.value === 4) {
             ev.value = 0;
@@ -62,7 +56,7 @@ export const convertLight = (
         }
     }
 
-    let tempID = [];
+    const tempID = [];
     for (let i = 0; i < roadRepeat; i++) {
         for (let j = 0; j < 2; j++) {
             tempID.push(idOffsetType4 + j + i * roadCount * 2);
@@ -89,10 +83,10 @@ export const convertLight = (
         10: tempID.map((val) => val + 6),
         11: tempID.map((val) => val + 8),
         14: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
-            (val) => val + idOffsetType0 - 1
+            (val) => val + idOffsetType0 - 1,
         ),
         15: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
-            (val) => val + idOffsetType0 - 1
+            (val) => val + idOffsetType0 - 1,
         ),
     };
 
@@ -103,16 +97,10 @@ export const convertLight = (
             continue;
         }
         if (
-            (ev.type === 5 ||
-                ev.type === 6 ||
-                ev.type === 7 ||
-                ev.type === 10 ||
-                ev.type === 11) &&
+            (ev.type === 5 || ev.type === 6 || ev.type === 7 || ev.type === 10 || ev.type === 11) &&
             ev.customData!._color
         ) {
-            ev.customData!._color = ev.customData!._color.map(
-                (n: number) => (n * 1) / 10
-            );
+            ev.customData!._color = ev.customData!._color.map((n: number) => (n * 1) / 10);
             ev.floatValue = 10;
         }
         ev.customData!._lightID = typeLightIDMap[ev.type];
