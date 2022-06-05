@@ -53,6 +53,7 @@ export const deepClean = (
     // deno-lint-ignore no-explicit-any
     obj: { [key: string | number]: any } | any[],
     options: IOptimizeOptions,
+    name = '',
 ) => {
     for (const k in obj) {
         // shorten number
@@ -65,7 +66,7 @@ export const deepClean = (
         }
         // recursion
         if ((typeof obj[k] === 'object' || Array.isArray(obj[k])) && obj[k] !== null) {
-            deepClean(obj[k], options);
+            deepClean(obj[k], options, `${name}.${k}`);
             // if it's lightID array, sort it
             if (
                 k === '_lightID' &&
@@ -88,13 +89,13 @@ export const deepClean = (
         // throw or remove null
         if (obj[k] === null) {
             if (options.throwError) {
-                throw new Error(`null value found in object key ${obj} ${k}.`);
+                throw new Error(`null value found in object key ${name}.${k}.`);
             } else {
                 if (Array.isArray(obj)) {
-                    logger.error(tag('deepClean'), `null value found in array index ${obj} ${k}, defaulting to 0...`);
+                    logger.error(tag('deepClean'), `null value found in array ${name}[${k}], defaulting to 0...`);
                     obj[k] = 0;
                 } else {
-                    logger.error(tag('deepClean'), `null value found in object key ${obj} ${k}, deleting property...`);
+                    logger.error(tag('deepClean'), `null value found in object key ${name}.${k}, deleting property...`);
                     delete obj[k];
                 }
             }
