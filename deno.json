@@ -1,14 +1,14 @@
 {
     "lint": {
         "files": {
-            "include": ["deno/"],
-            "exclude": ["deno/example", "deno/tests"]
+            "include": ["./"],
+            "exclude": ["./example", "./tests"]
         }
     },
     "fmt": {
         "files": {
-            "include": ["deno/"],
-            "exclude": ["deno/example", "deno/tests"]
+            "include": ["./"],
+            "exclude": ["./example", "./tests"]
         },
         "options": {
             "indentWidth": 4,
