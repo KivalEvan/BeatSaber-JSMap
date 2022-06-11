@@ -1,4 +1,4 @@
-import * as bsmap from '../mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
 
 /**
  * Convert chroma note to arc and chain.
@@ -38,21 +38,18 @@ export default (d: bsmap.v3.DifficultyData) => {
                         y: prevSlider[n.color].posY,
                         d: prevSlider[n.color].direction,
                         mu:
-                            typeof prevSlider[n.color].customData?.spawnEffect ===
-                            'boolean'
+                            typeof prevSlider[n.color].customData?.spawnEffect === 'boolean'
                                 ? 0
                                 : prevSlider[n.color].customData!.color![2],
                         tb: n.time,
                         tx: n.posX,
                         ty: n.posY,
                         tc:
-                            typeof prevSlider[n.color].customData?.spawnEffect ===
-                            'boolean'
+                            typeof prevSlider[n.color].customData?.spawnEffect === 'boolean'
                                 ? prevSlider[n.color].direction
                                 : n.direction,
                         tmu:
-                            typeof prevSlider[n.color].customData?.spawnEffect ===
-                            'boolean'
+                            typeof prevSlider[n.color].customData?.spawnEffect === 'boolean'
                                 ? 0
                                 : prevSlider[n.color].customData!.color![3],
                         m: prevSlider[n.color].customData!.color![1] as 0,
@@ -97,6 +94,9 @@ export default (d: bsmap.v3.DifficultyData) => {
             }
         }
         if (possibleBurst[n.color].length === 2) {
+            const s = possibleBurst[n.color][0].customData!.color![2]
+                ? possibleBurst[n.color][0].customData!.color![2]
+                : 1;
             d.addBurstSliders({
                 b: possibleBurst[n.color][0].time,
                 c: possibleBurst[n.color][0].color,
@@ -107,9 +107,7 @@ export default (d: bsmap.v3.DifficultyData) => {
                 tx: possibleBurst[n.color][1].posX,
                 ty: possibleBurst[n.color][1].posY,
                 sc: possibleBurst[n.color][0].customData!.color![1],
-                s: possibleBurst[n.color][0].customData!.color![2]
-                    ? possibleBurst[n.color][0].customData!.color![2]
-                    : 1,
+                s: possibleBurst[n.color][0].isDiagonal(possibleBurst[n.color][1]) ? s * 0.9375 : s,
             });
             possibleBurst[n.color] = [];
         }

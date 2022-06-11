@@ -32,13 +32,11 @@ diffList.forEach((dl) => {
     if (!bsmap.version.isV3(dl.data)) {
         console.log('Backing up', dl.characteristic, dl.difficulty);
         bsmap.save.difficultySync(dl.data, {
-            filePath: dl.fileName + '.old',
+            filePath: dl.settings._beatmapFilename + '.old',
         });
         console.log('Converting up', dl.characteristic, dl.difficulty);
         dl.data = bsmap.convert.V2toV3(dl.data, true);
-        bsmap.save.difficultySync(dl.data, {
-            filePath: dl.fileName,
-        });
+        bsmap.save.difficultySync(dl.data);
         isConverted = true;
     }
 });

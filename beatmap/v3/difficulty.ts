@@ -31,6 +31,8 @@ import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotatio
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
 
 export class DifficultyData extends Serializable<IDifficultyData> {
+    private _fileName = 'UnnamedDifficulty.dat';
+
     version;
     bpmEvents: BPMEvent[];
     rotationEvents: RotationEvent[];
@@ -114,6 +116,17 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
             customData: deepCopy(this.customData),
         };
+    }
+
+    set fileName(name: string) {
+        this._fileName = name.trim();
+    }
+    get fileName() {
+        return this._fileName;
+    }
+    setFileName(fileName: string) {
+        this.fileName = fileName;
+        return this;
     }
 
     /** Calculate note per second.

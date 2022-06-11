@@ -1,13 +1,11 @@
-import * as bsmap from '../mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
 
 // YOUR BEAT SABER MAP PATH
 bsmap.globals.path = 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/YOUR_MAP_FOLDER/';
 
 const info = bsmap.load.infoSync();
-// for beatmap v2, use difficultySync()
-const difficulty = bsmap.load.difficultySync('ExpertPlusStandard.dat');
+// for beatmap v2, use difficultySync('beatmap.dat', 2)
+const difficulty = bsmap.load.difficultySync('ExpertPlusStandard.dat', 3);
 
 bsmap.save.infoSync(info);
-await bsmap.save.difficulty(difficulty, {
-    filePath: 'ExpertPlusStandard.dat',
-});
+bsmap.save.difficultySync(difficulty);

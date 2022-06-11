@@ -16,12 +16,6 @@ suggestions.
 - Basic JavaScript or TypeScript knowledge
   - Library is entirely TypeScript, but for common use case you do not need in-depth knowledge.
 
-## Important Update
-
-`load.difficultyLegacy('difficulty.dat')` is removed in favour of `load.difficulty('difficulty.dat', 2)`. This will also
-automatically convert map to a specific version when the loaded data is not the correct version. Loading beatmap v3 will
-proceed as normally, but recommended to specify `3` as new beatmap version may exist in the future.
-
 ## Getting Started
 
 To get started, check out the [example folder](./example) for templates you can use. Deno by nature caches the module
@@ -32,16 +26,19 @@ connection and will not break the existing code regardless of newly released upd
 The bare minimum example:
 
 ```ts
-import * as bsmap from 'https://raw.githubusercontent.com/KivalEvan/BeatSaber-MappingScript/deno/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
 
 const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 3);
-bsmap.save.difficultySync(data, 'ExpertPlusStandard.dat');
+bsmap.save.difficultySync(data);
 ```
 
-You may also clone the library and import it locally, and make any modification as you wish.
+**NOTE:** Recommended to use `https://deno.land/x/bsmap@version/mod.ts` to lock version to ensure the script works
+without breaking from newer update.
+
+You may also clone the library and import it locally to make any modification as you wish.
 
 If you are using the script outside of map directory, you can specify the map directory without the need to explicitly
-apply on IO function. This can be any valid path as long as it points to directory.
+apply `path` on IO function. This can be any valid path as long as it points to directory.
 
 ```ts
 bsmap.globals.path = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';

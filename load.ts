@@ -1,4 +1,4 @@
-import { DifficultyList } from './types/bsmap/list.ts';
+import { IDifficultyList } from './types/bsmap/list.ts';
 import { IInfoData } from './types/beatmap/shared/info.ts';
 import { IDifficultyData as IDifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficultyData as IDifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
@@ -70,11 +70,11 @@ export const infoSync = (options: ILoadOptionsInfo = {}) => {
 
 /** Asynchronously load beatmap difficulty file.
  * ```ts
- * const difficulty = await load.difficulty('ExpertPlusStandard.dat', 3);
+ * const difficulty = await load.difficulty('EasyStandard.dat', 3);
  * console.log(difficulty);
  * ```
  * ---
- * Unmatched beatmap version will be automatically converted.
+ * Unmatched beatmap version will be automatically converted; default to version 3.
  */
 export async function difficulty(filePath: string, version?: 3, options?: IBaseOptions): Promise<DifficultyDataV3>;
 export async function difficulty(filePath: string, version?: 2, options?: IBaseOptions): Promise<DifficultyDataV2>;
@@ -100,7 +100,7 @@ export async function difficulty(filePath: string, version = 3, options: IBaseOp
                     version,
                     'but received',
                     diffVersion,
-                    '; Converting to beatmap version',
+                    'for version; Converting to beatmap version',
                     version,
                 );
                 if (diffVersion === 3 && version == 2) {
@@ -110,10 +110,10 @@ export async function difficulty(filePath: string, version = 3, options: IBaseOp
                 }
             } else {
                 if (version === 3) {
-                    resolve(parseDifficultyV3(diffJSON as IDifficultyDataV3));
+                    resolve(parseDifficultyV3(diffJSON as IDifficultyDataV3).setFileName(filePath));
                 }
                 if (version === 2) {
-                    resolve(parseDifficultyV2(diffJSON as IDifficultyDataV2));
+                    resolve(parseDifficultyV2(diffJSON as IDifficultyDataV2).setFileName(filePath));
                 }
             }
         } catch (e) {
@@ -124,11 +124,11 @@ export async function difficulty(filePath: string, version = 3, options: IBaseOp
 
 /** Synchronously load beatmap difficulty file.
  * ```ts
- * const difficulty = load.difficultySync('ExpertPlusStandard.dat', 3);
+ * const difficulty = load.difficultySync('EasyStandard.dat', 3);
  * console.log(difficulty);
  * ```
  * ---
- * Unmatched beatmap version will be automatically converted.
+ * Unmatched beatmap version will be automatically converted; default to version 3.
  */
 export function difficultySync(filePath: string, version?: 3, options?: IBaseOptions): DifficultyDataV3;
 export function difficultySync(filePath: string, version?: 2, options?: IBaseOptions): DifficultyDataV2;
@@ -152,7 +152,7 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
             version,
             'but received',
             diffVersion,
-            '; Converting to beatmap version',
+            'for version; Converting to beatmap version',
             version,
         );
         if (diffVersion === 3 && version == 2) {
@@ -162,15 +162,15 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
         }
     } else {
         if (version === 3) {
-            return parseDifficultyV3(diffJSON as IDifficultyDataV3);
+            return parseDifficultyV3(diffJSON as IDifficultyDataV3).setFileName(filePath);
         }
         if (version === 2) {
-            return parseDifficultyV2(diffJSON as IDifficultyDataV2);
+            return parseDifficultyV2(diffJSON as IDifficultyDataV2).setFileName(filePath);
         }
     }
 }
 
-/** Asynchronously load multiple v3 beatmap difficulties given beatmap info.
+/** Asynchronously load multiple beatmap difficulties given beatmap info.
  * ```ts
  * const difficultyList = await load.difficultyFromInfo();
  * difficultyList.forEach((d) => { console.log(d) })
@@ -178,13 +178,13 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
  * ---
  * Info difficulty reference is also given to allow further control.
  */
-export const difficultyFromInfo = async (info: IInfoData, options: IBaseOptions = {}): Promise<DifficultyList> => {
+export const difficultyFromInfo = async (info: IInfoData, options: IBaseOptions = {}): Promise<IDifficultyList> => {
     const opt: Required<IBaseOptions> = {
         path: options.path ?? (globals.path || defaultOptionsInfo.path),
     };
     logger.info(tag('difficultyFromInfo'), 'Async loading difficulty from map Info...');
     return await new Promise((resolve, reject) => {
-        const difficulties: DifficultyList = [];
+        const difficulties: IDifficultyList = [];
         try {
             for (const set of info._difficultyBeatmapSets) {
                 for (const d of set._difficultyBeatmaps) {
@@ -197,19 +197,17 @@ export const difficultyFromInfo = async (info: IInfoData, options: IBaseOptions 
                         difficulties.push({
                             characteristic: set._beatmapCharacteristicName,
                             difficulty: d._difficulty,
-                            fileName: d._beatmapFilename,
                             settings: d,
                             version: 2,
-                            data: parseDifficultyV2(diffJSON),
+                            data: parseDifficultyV2(diffJSON).setFileName(d._beatmapFilename),
                         });
                     } else {
                         difficulties.push({
                             characteristic: set._beatmapCharacteristicName,
                             difficulty: d._difficulty,
-                            fileName: d._beatmapFilename,
                             settings: d,
                             version: 3,
-                            data: parseDifficultyV3(diffJSON),
+                            data: parseDifficultyV3(diffJSON).setFileName(d._beatmapFilename),
                         });
                     }
                 }
@@ -221,7 +219,7 @@ export const difficultyFromInfo = async (info: IInfoData, options: IBaseOptions 
     });
 };
 
-/** Asynchronously load multiple v3 beatmap difficulties given beatmap info.
+/** Asynchronously load multiple beatmap difficulties given beatmap info.
  * ```ts
  * const difficultyList = load.difficultyFromInfoSync();
  * difficultyList.forEach((d) => { console.log(d) })
@@ -229,12 +227,12 @@ export const difficultyFromInfo = async (info: IInfoData, options: IBaseOptions 
  * ---
  * Info difficulty reference is also given to allow further control.
  */
-export const difficultyFromInfoSync = (info: IInfoData, options: IBaseOptions = {}): DifficultyList => {
+export const difficultyFromInfoSync = (info: IInfoData, options: IBaseOptions = {}): IDifficultyList => {
     const opt: Required<IBaseOptions> = {
         path: options.path ?? (globals.path || defaultOptionsInfo.path),
     };
     logger.info(tag('difficultyFromInfoSync'), 'Sync loading difficulty from map Info...');
-    const difficulties: DifficultyList = [];
+    const difficulties: IDifficultyList = [];
     for (const set of info._difficultyBeatmapSets) {
         for (const d of set._difficultyBeatmaps) {
             logger.info(tag('difficultyFromInfoSync'), `Loading difficulty from ${opt.path + d._beatmapFilename}`);
@@ -246,19 +244,17 @@ export const difficultyFromInfoSync = (info: IInfoData, options: IBaseOptions = 
                 difficulties.push({
                     characteristic: set._beatmapCharacteristicName,
                     difficulty: d._difficulty,
-                    fileName: d._beatmapFilename,
                     settings: d,
                     version: 2,
-                    data: parseDifficultyV2(diffJSON),
+                    data: parseDifficultyV2(diffJSON).setFileName(d._beatmapFilename),
                 });
             } else {
                 difficulties.push({
                     characteristic: set._beatmapCharacteristicName,
                     difficulty: d._difficulty,
-                    fileName: d._beatmapFilename,
                     settings: d,
                     version: 3,
-                    data: parseDifficultyV3(diffJSON),
+                    data: parseDifficultyV3(diffJSON).setFileName(d._beatmapFilename),
                 });
             }
         }

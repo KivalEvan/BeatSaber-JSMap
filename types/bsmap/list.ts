@@ -8,7 +8,6 @@ interface IDifficultyListBase {
     characteristic: CharacteristicName;
     difficulty: DifficultyName;
     settings: IInfoSetDifficultyData;
-    fileName: string;
 }
 
 interface IDifficultyListV2 extends IDifficultyListBase {
@@ -21,4 +20,4 @@ interface IDifficultyListV3 extends IDifficultyListBase {
     data: DifficultyDataV3;
 }
 
-export type DifficultyList = (IDifficultyListV2 | IDifficultyListV3)[];
+export type IDifficultyList = (IDifficultyListV2 | IDifficultyListV3)[];

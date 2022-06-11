@@ -62,8 +62,6 @@ for (const set of info._difficultyBeatmapSets) {
         } else {
             difficulty.events = lightshow.events;
         }
-        bsmap.save.difficultySync(difficulty, {
-            filePath: d._beatmapFilename,
-        });
+        bsmap.save.difficultySync(difficulty);
     }
 }
