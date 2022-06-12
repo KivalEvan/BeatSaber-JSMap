@@ -38,7 +38,7 @@ export class ColorNote extends BaseNote<IColorNote> {
                     d: n.d ?? ColorNote.default.d,
                     a: n.a ?? ColorNote.default.a,
                     customData: n.customData ?? ColorNote.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {

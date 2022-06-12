@@ -32,7 +32,7 @@ export class BombNote extends BaseNote<IBombNote> {
                     x: bn.x ?? BombNote.default.x,
                     y: bn.y ?? BombNote.default.y,
                     customData: bn.customData ?? BombNote.default.customData(),
-                })
+                }),
             )
         );
         if (result.length === 1) {
