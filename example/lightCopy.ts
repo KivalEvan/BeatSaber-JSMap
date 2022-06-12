@@ -7,7 +7,7 @@
  * example run command:
  * deno run --allow-read --allow-write lightCopy.ts -p "FolderPath" CopyFile.dat
  */
-import * as bsmap from '../mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
 import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
 
 const args = parse(Deno.args, {
@@ -25,7 +25,7 @@ if (typeof args._[0] === 'number') {
 }
 const lightToCopy = args._[0];
 const lightshow = bsmap.load.difficultySync(lightToCopy, 2);
-if (args.e && !lightshow.customData?._environment) {
+if (args.e && !lightshow.customData._environment) {
     throw Error('Selected lightshow has no environment enhancement.');
 }
 

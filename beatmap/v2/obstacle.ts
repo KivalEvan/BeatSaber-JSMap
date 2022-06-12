@@ -187,7 +187,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
      */
     // FIXME: do i bother with Mapping Extension for obstacle Y position?
     getPosition = (): [number, number] => {
-        if (this.customData?._position) {
+        if (this.customData._position) {
             return [this.customData._position[0], this.customData._position[1]];
         }
         return [
@@ -215,10 +215,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
      * ```
      */
     isCrouch = (): boolean => {
-        return (
-            this.type === 1 &&
-            (this.width > 2 || (this.width === 2 && this.lineIndex === 1))
-        );
+        return this.type === 1 && (this.width > 2 || (this.width === 2 && this.lineIndex === 1));
     };
 
     /** Check if obstacle has zero value.
@@ -235,15 +232,8 @@ export class Obstacle extends BeatmapObject<IObstacle> {
      * if (isLonger(currWall, prevWall)) {}
      * ```
      */
-    isLonger = (
-        currObstacle: IObstacle,
-        prevObstacle: IObstacle,
-        offset = 0,
-    ): boolean => {
-        return (
-            currObstacle._time + currObstacle._duration >
-                prevObstacle._time + prevObstacle._duration + offset
-        );
+    isLonger = (currObstacle: IObstacle, prevObstacle: IObstacle, offset = 0): boolean => {
+        return currObstacle._time + currObstacle._duration > prevObstacle._time + prevObstacle._duration + offset;
     };
 
     /** Check if obstacle has Chroma properties.
@@ -252,7 +242,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
      * ```
      */
     hasChroma = (): boolean => {
-        return Array.isArray(this.customData?._color);
+        return Array.isArray(this.customData._color);
     };
 
     /** Check if obstacle has Noodle Extensions properties.
@@ -262,16 +252,16 @@ export class Obstacle extends BeatmapObject<IObstacle> {
      */
     hasNoodleExtensions = (): boolean => {
         return (
-            Array.isArray(this.customData?._animation) ||
-            typeof this.customData?._fake === 'boolean' ||
-            typeof this.customData?._interactable === 'boolean' ||
-            Array.isArray(this.customData?._localRotation) ||
-            typeof this.customData?._noteJumpMovementSpeed === 'number' ||
-            typeof this.customData?._noteJumpStartBeatOffset === 'number' ||
-            Array.isArray(this.customData?._position) ||
-            Array.isArray(this.customData?._rotation) ||
-            Array.isArray(this.customData?._scale) ||
-            typeof this.customData?._track === 'string'
+            Array.isArray(this.customData._animation) ||
+            typeof this.customData._fake === 'boolean' ||
+            typeof this.customData._interactable === 'boolean' ||
+            Array.isArray(this.customData._localRotation) ||
+            typeof this.customData._noteJumpMovementSpeed === 'number' ||
+            typeof this.customData._noteJumpStartBeatOffset === 'number' ||
+            Array.isArray(this.customData._position) ||
+            Array.isArray(this.customData._rotation) ||
+            Array.isArray(this.customData._scale) ||
+            typeof this.customData._track === 'string'
         );
     };
 
@@ -281,12 +271,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
      * ```
      */
     hasMappingExtensions = (): boolean => {
-        return (
-            this.width >= 1000 ||
-            this.type >= 1000 ||
-            this.lineIndex > 3 ||
-            this.lineIndex < 0
-        );
+        return this.width >= 1000 || this.type >= 1000 || this.lineIndex > 3 || this.lineIndex < 0;
     };
 
     /** Check if obstacle is a valid, vanilla obstacle.

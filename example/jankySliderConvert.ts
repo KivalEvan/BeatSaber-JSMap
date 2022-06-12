@@ -1,4 +1,4 @@
-import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
+import * as bsmap from '../mod.ts';
 
 /**
  * Convert chroma note to arc and chain.
@@ -13,7 +13,7 @@ export default (d: bsmap.v3.DifficultyData) => {
     } = { 0: [], 1: [] };
     for (let i = 0, len = d.colorNotes.length; i < len; i++) {
         const n = d.colorNotes[i];
-        if (n.customData?.color) {
+        if (n.customData.color) {
             if (n.customData.color[0] === 0) {
                 if (possibleBurst[n.color].length) {
                     d.colorNotes.splice(i, 1);
@@ -38,18 +38,18 @@ export default (d: bsmap.v3.DifficultyData) => {
                         y: prevSlider[n.color].posY,
                         d: prevSlider[n.color].direction,
                         mu:
-                            typeof prevSlider[n.color].customData?.spawnEffect === 'boolean'
+                            typeof prevSlider[n.color].customData.spawnEffect === 'boolean'
                                 ? 0
                                 : prevSlider[n.color].customData!.color![2],
                         tb: n.time,
                         tx: n.posX,
                         ty: n.posY,
                         tc:
-                            typeof prevSlider[n.color].customData?.spawnEffect === 'boolean'
+                            typeof prevSlider[n.color].customData.spawnEffect === 'boolean'
                                 ? prevSlider[n.color].direction
                                 : n.direction,
                         tmu:
-                            typeof prevSlider[n.color].customData?.spawnEffect === 'boolean'
+                            typeof prevSlider[n.color].customData.spawnEffect === 'boolean'
                                 ? 0
                                 : prevSlider[n.color].customData!.color![3],
                         m: prevSlider[n.color].customData!.color![1] as 0,

@@ -32,12 +32,12 @@ export const countNote = (notes: ColorNote[]): INoteCount => {
     for (let i = notes.length - 1; i >= 0; i--) {
         if (notes[i].color === 0) {
             noteCount.red.total++;
-            if (notes[i].customData?.color || notes[i].customData?.disableSpawnEffect) {
+            if (notes[i].customData.color || notes[i].customData.disableSpawnEffect) {
                 noteCount.red.chroma++;
             }
         } else if (notes[i].color === 1) {
             noteCount.blue.total++;
-            if (notes[i].customData?.color || notes[i].customData?.disableSpawnEffect) {
+            if (notes[i].customData.color || notes[i].customData.disableSpawnEffect) {
                 noteCount.blue.chroma++;
             }
         }
@@ -112,10 +112,7 @@ export const peak = (notes: ColorNote[], beat: number, bpm: number): number => {
         while (notes[i].time - notes[currentSectionStart].time > beat) {
             currentSectionStart++;
         }
-        peakNPS = Math.max(
-            peakNPS,
-            (i - currentSectionStart + 1) / ((beat / bpm) * 60),
-        );
+        peakNPS = Math.max(peakNPS, (i - currentSectionStart + 1) / ((beat / bpm) * 60));
     }
 
     return peakNPS;

@@ -22,11 +22,7 @@ export const shiftColor = (objects: IChromaObject[], options: ShiftColorOptions)
         opt.value,
         opt.alpha,
     ];
-    const shift = (
-        currentColor: ColorArray,
-        shiftHSVA: ColorArray,
-        settings: typeof opt,
-    ) => {
+    const shift = (currentColor: ColorArray, shiftHSVA: ColorArray, settings: typeof opt) => {
         return HSVAtoRGBA(
             ...(RGBAtoHSVA(...currentColor).map((hsva, i) => {
                 if (i === 0 && typeof hsva === 'number') {
@@ -50,11 +46,7 @@ export const shiftColor = (objects: IChromaObject[], options: ShiftColorOptions)
                         return hsva + shiftHSVA[2];
                     }
                 }
-                if (
-                    i === 3 &&
-                    typeof hsva === 'number' &&
-                    typeof shiftHSVA[3] === 'number'
-                ) {
+                if (i === 3 && typeof hsva === 'number' && typeof shiftHSVA[3] === 'number') {
                     if (settings.fixedAlpha) {
                         return shiftHSVA[3];
                     } else {
@@ -65,20 +57,16 @@ export const shiftColor = (objects: IChromaObject[], options: ShiftColorOptions)
         ) as ColorArray;
     };
     objects.forEach((obj) => {
-        if (obj.customData?._color) {
+        if (obj.customData._color) {
             obj.customData._color = shift(obj.customData._color, hsvaShift, opt);
         }
-        if (obj.customData?._lightGradient) {
+        if (obj.customData._lightGradient) {
             obj.customData._lightGradient._startColor = shift(
                 obj.customData._lightGradient._startColor,
                 hsvaShift,
                 opt,
             );
-            obj.customData._lightGradient._endColor = shift(
-                obj.customData._lightGradient._endColor,
-                hsvaShift,
-                opt,
-            );
+            obj.customData._lightGradient._endColor = shift(obj.customData._lightGradient._endColor, hsvaShift, opt);
         }
     });
 };

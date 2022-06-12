@@ -87,7 +87,7 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
         }
         if (n.isNote()) {
             let a = 0;
-            if (typeof n.customData?._cutDirection === 'number') {
+            if (typeof n.customData._cutDirection === 'number') {
                 a = n.customData._cutDirection > 0
                     ? n.customData._cutDirection % 360
                     : 360 + (n.customData._cutDirection % 360);
@@ -101,7 +101,7 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     c: n.type as 0 | 1,
                     x: n.lineIndex,
                     y: n.lineLayer,
-                    d: n.cutDirection >= 1000 || typeof n.customData?._cutDirection === 'number'
+                    d: n.cutDirection >= 1000 || typeof n.customData._cutDirection === 'number'
                         ? n.cutDirection === 8 ? 8 : 1
                         : clamp(n.cutDirection, 0, 8),
                     a: a,
@@ -171,7 +171,7 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 v3.RotationEvent.create({
                     b: e.time,
                     e: e.type === 14 ? 0 : 1,
-                    r: typeof e.customData?._rotation === 'number'
+                    r: typeof e.customData._rotation === 'number'
                         ? e.customData._rotation
                         : e.value >= 1000
                         ? (e.value - 1360) % 360

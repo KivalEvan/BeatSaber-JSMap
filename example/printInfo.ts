@@ -1,4 +1,4 @@
-import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
+import * as bsmap from '../mod.ts';
 
 export const printChromaEnvironment = (d: bsmap.v3.DifficultyData) => {
     const envEnh = d.customData.environment ?? [];

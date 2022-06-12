@@ -1,3 +1,4 @@
+// this is bad
 import { BasicEvent } from '../../../beatmap/v3/basicEvent.ts';
 import { BombNote } from '../../../beatmap/v3/bombNote.ts';
 import { BurstSlider } from '../../../beatmap/v3/burstSlider.ts';

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2 [2022-06-x]
+
+### Changed
+
+- Custom data will now always exist in class object context.
+
 ## 1.0.1 [2022-06-11]
 
 ### Added

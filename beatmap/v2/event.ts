@@ -254,9 +254,7 @@ export class Event extends BeatmapObject<IEvent> {
      * ```
      */
     isExtraEvent = (): boolean => {
-        return (
-            this.type === 16 || this.type === 17 || this.type === 18 || this.type === 19
-        );
+        return this.type === 16 || this.type === 17 || this.type === 18 || this.type === 19;
     };
 
     /** Check if  this is a special event.
@@ -265,9 +263,7 @@ export class Event extends BeatmapObject<IEvent> {
      * ```
      */
     isSpecialEvent = (): boolean => {
-        return (
-            this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43
-        );
+        return this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43;
     };
 
     /** Check if  this is a BPM change event.
@@ -285,12 +281,7 @@ export class Event extends BeatmapObject<IEvent> {
      * ```
      */
     isLightingEvent = (): boolean => {
-        return (
-            this.isLightEvent() ||
-            this.isRingEvent() ||
-            this.isLaserRotationEvent() ||
-            this.isExtraEvent()
-        );
+        return this.isLightEvent() || this.isRingEvent() || this.isLaserRotationEvent() || this.isExtraEvent();
     };
 
     /** Check if event has Chroma properties.
@@ -302,36 +293,36 @@ export class Event extends BeatmapObject<IEvent> {
     hasChroma = (): boolean => {
         if (this.isLightEvent()) {
             return (
-                Array.isArray(this.customData?._color) ||
-                typeof this.customData?._lightID === 'number' ||
-                Array.isArray(this.customData?._lightID) ||
-                typeof this.customData?._propID === 'number' ||
-                typeof this.customData?._lightGradient === 'object' ||
-                typeof this.customData?._easing === 'string' ||
-                typeof this.customData?._lerpType === 'string'
+                Array.isArray(this.customData._color) ||
+                typeof this.customData._lightID === 'number' ||
+                Array.isArray(this.customData._lightID) ||
+                typeof this.customData._propID === 'number' ||
+                typeof this.customData._lightGradient === 'object' ||
+                typeof this.customData._easing === 'string' ||
+                typeof this.customData._lerpType === 'string'
             );
         }
         if (this.isRingEvent()) {
             return (
-                typeof this.customData?._nameFilter === 'string' ||
-                typeof this.customData?._reset === 'boolean' ||
-                typeof this.customData?._rotation === 'number' ||
-                typeof this.customData?._step === 'number' ||
-                typeof this.customData?._prop === 'number' ||
-                typeof this.customData?._speed === 'number' ||
-                typeof this.customData?._direction === 'number' ||
-                typeof this.customData?._counterSpin === 'boolean' ||
-                typeof this.customData?._stepMult === 'number' ||
-                typeof this.customData?._propMult === 'number' ||
-                typeof this.customData?._speedMult === 'number'
+                typeof this.customData._nameFilter === 'string' ||
+                typeof this.customData._reset === 'boolean' ||
+                typeof this.customData._rotation === 'number' ||
+                typeof this.customData._step === 'number' ||
+                typeof this.customData._prop === 'number' ||
+                typeof this.customData._speed === 'number' ||
+                typeof this.customData._direction === 'number' ||
+                typeof this.customData._counterSpin === 'boolean' ||
+                typeof this.customData._stepMult === 'number' ||
+                typeof this.customData._propMult === 'number' ||
+                typeof this.customData._speedMult === 'number'
             );
         }
         if (this.isLaserRotationEvent()) {
             return (
-                typeof this.customData?._lockPosition === 'boolean' ||
-                typeof this.customData?._speed === 'number' ||
-                typeof this.customData?._preciseSpeed === 'number' ||
-                typeof this.customData?._direction === 'number'
+                typeof this.customData._lockPosition === 'boolean' ||
+                typeof this.customData._speed === 'number' ||
+                typeof this.customData._preciseSpeed === 'number' ||
+                typeof this.customData._direction === 'number'
             );
         }
         return false;
@@ -352,9 +343,7 @@ export class Event extends BeatmapObject<IEvent> {
      * ```
      */
     hasNoodleExtensions = (): boolean => {
-        return (
-            this.isLaneRotationEvent() && typeof this.customData?._rotation === 'number'
-        );
+        return this.isLaneRotationEvent() && typeof this.customData._rotation === 'number';
     };
 
     /** Check if event has Mapping Extensions properties.
