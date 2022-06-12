@@ -1,7 +1,7 @@
 import { IContributor } from './contributor.ts';
 import { IEditor } from './editor.ts';
 import { IColorScheme } from './colorScheme.ts';
-import { IHeckInfoCustomData } from './heck.ts';
+import { IHeckInfoCustomData, IInfoSettingsCustomData } from './heck.ts';
 import { IChromaInfoCustomData } from './chroma.ts';
 
 /** Base custom data interface. */
@@ -20,14 +20,14 @@ export interface ICustomDataInfo extends ICustomDataBase {
     _customEnvironmentHash?: string;
 }
 
+type IModSettingsIntersection = IInfoSettingsCustomData & IHeckInfoCustomData & IChromaInfoCustomData;
 /** Custom Data interface for info difficulty.
  * @extends ICustomDataBase
  * @extends IColorScheme
  * @extends IHeckInfoCustomData
  * @extends IChromaInfoCustomData
  */
-export interface ICustomDataInfoDifficulty
-    extends ICustomDataBase, IColorScheme, IHeckInfoCustomData, IChromaInfoCustomData {
+export interface ICustomDataInfoDifficulty extends ICustomDataBase, IColorScheme, IModSettingsIntersection {
     _difficultyLabel?: string;
     _editorOffset?: number;
     _editorOldOffset?: number;
