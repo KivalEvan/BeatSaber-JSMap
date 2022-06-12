@@ -2,6 +2,11 @@
 
 ## 1.0.2 [2022-06-x]
 
+### Added
+
+-   Selector extension
+    -   Select object at time and between time
+
 ### Changed
 
 -   Custom data will now always exist in class object context.
