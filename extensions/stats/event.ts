@@ -1,7 +1,7 @@
 import { EventList } from '../../beatmap/shared/environment.ts';
 import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import { IEventCount } from './types/stats.ts';
+import { ICountEvent } from './types/stats.ts';
 
 /** Count number of type of events with their properties in given array and return a event count object.
  * ```ts
@@ -12,10 +12,9 @@ import { IEventCount } from './types/stats.ts';
 export const countEvent = (
     events: BasicEvent[],
     environment: EnvironmentAllName = 'DefaultEnvironment',
-): IEventCount => {
-    const commonEvent = EventList[environment]?.[0] ??
-        EventList['DefaultEnvironment'][0];
-    const eventCount: IEventCount = {};
+): ICountEvent => {
+    const commonEvent = EventList[environment]?.[0] ?? EventList['DefaultEnvironment'][0];
+    const eventCount: ICountEvent = {};
     for (let i = commonEvent.length - 1; i >= 0; i--) {
         eventCount[commonEvent[i]] = {
             total: 0,

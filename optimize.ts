@@ -146,6 +146,15 @@ export const performDifficulty = (
     if (opt.sort) {
         logger.debug(tag('performDifficulty'), 'Sorting objects');
         const sortPrec = Math.pow(10, opt.floatTrim);
+        difficulty._notes?.sort(
+            (a, b) =>
+                Math.round((a._time + Number.EPSILON) * sortPrec) / sortPrec -
+                    Math.round((b._time + Number.EPSILON) * sortPrec) / sortPrec ||
+                a._lineIndex - b._lineIndex ||
+                a._lineLayer - b._lineLayer,
+        );
+        difficulty._obstacles?.sort((a, b) => a._time - b._time);
+        difficulty._events?.sort((a, b) => a._time - b._time);
         difficulty.colorNotes?.sort(
             (a, b) =>
                 Math.round((a.b + Number.EPSILON) * sortPrec) / sortPrec -

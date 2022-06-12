@@ -173,7 +173,7 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
 /** Asynchronously load multiple beatmap difficulties given beatmap info.
  * ```ts
  * const difficultyList = await load.difficultyFromInfo();
- * difficultyList.forEach((d) => { console.log(d) })
+ * difficultyList.forEach((d) => { ccoonsole.log(d) })
  * ```
  * ---
  * Info difficulty reference is also given to allow further control.

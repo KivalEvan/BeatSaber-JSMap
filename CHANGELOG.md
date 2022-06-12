@@ -13,6 +13,10 @@
 - Custom data will now always exist in class object context.
 - Heck settings setter now allow for any valid field.
 
+### Updated
+
+- Several extensions fixed
+
 ## 1.0.1 [2022-06-11]
 
 ### Added

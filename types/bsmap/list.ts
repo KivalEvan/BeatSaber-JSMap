@@ -5,9 +5,9 @@ import { DifficultyData as DifficultyDataV2 } from '../../beatmap/v2/difficulty.
 import { DifficultyData as DifficultyDataV3 } from '../../beatmap/v3/difficulty.ts';
 
 interface IDifficultyListBase {
-    characteristic: CharacteristicName;
-    difficulty: DifficultyName;
-    settings: IInfoSetDifficultyData;
+    readonly characteristic: CharacteristicName;
+    readonly difficulty: DifficultyName;
+    readonly settings: IInfoSetDifficultyData;
 }
 
 interface IDifficultyListV2 extends IDifficultyListBase {

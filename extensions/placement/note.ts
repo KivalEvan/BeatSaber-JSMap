@@ -1,14 +1,10 @@
-import { BurstSlider } from '../../beatmap/v3/burstSlider';
-import { ColorNote } from '../../beatmap/v3/colorNote';
-import { Slider } from '../../beatmap/v3/slider';
-import { radToDeg, shortRotDistance } from '../../utils/math';
+import { BurstSlider } from '../../beatmap/v3/burstSlider.ts';
+import { ColorNote } from '../../beatmap/v3/colorNote.ts';
+import { Slider } from '../../beatmap/v3/slider.ts';
+import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 
 // TODO: update with new position/rotation system
-export const isEnd = (
-    currNote: ColorNote,
-    prevNote: ColorNote,
-    cd: number,
-): boolean => {
+export const isEnd = (currNote: ColorNote, prevNote: ColorNote, cd: number): boolean => {
     // fuck u and ur dot note stack
     if (currNote.direction === 8 && prevNote.direction === 8 && cd !== 8) {
         // if end note on right side
@@ -39,18 +35,12 @@ export const isEnd = (
     // if end note on right side
     if (currNote.posX > prevNote.posX) {
         // check if end note is arrowed
-        if (
-            currNote.direction === 5 ||
-            currNote.direction === 3 ||
-            currNote.direction === 7
-        ) {
+        if (currNote.direction === 5 || currNote.direction === 3 || currNote.direction === 7) {
             return true;
         }
         // check if end note is dot and start arrow is pointing to it
         if (
-            (prevNote.direction === 5 ||
-                prevNote.direction === 3 ||
-                prevNote.direction === 7) &&
+            (prevNote.direction === 5 || prevNote.direction === 3 || prevNote.direction === 7) &&
             currNote.direction === 8
         ) {
             return true;
@@ -58,17 +48,11 @@ export const isEnd = (
     }
     // if end note on left side
     if (currNote.posX < prevNote.posX) {
-        if (
-            currNote.direction === 6 ||
-            currNote.direction === 2 ||
-            currNote.direction === 4
-        ) {
+        if (currNote.direction === 6 || currNote.direction === 2 || currNote.direction === 4) {
             return true;
         }
         if (
-            (prevNote.direction === 6 ||
-                prevNote.direction === 2 ||
-                prevNote.direction === 4) &&
+            (prevNote.direction === 6 || prevNote.direction === 2 || prevNote.direction === 4) &&
             currNote.direction === 8
         ) {
             return true;
@@ -76,17 +60,11 @@ export const isEnd = (
     }
     // if end note is above
     if (currNote.posY > prevNote.posY) {
-        if (
-            currNote.direction === 4 ||
-            currNote.direction === 0 ||
-            currNote.direction === 5
-        ) {
+        if (currNote.direction === 4 || currNote.direction === 0 || currNote.direction === 5) {
             return true;
         }
         if (
-            (prevNote.direction === 4 ||
-                prevNote.direction === 0 ||
-                prevNote.direction === 5) &&
+            (prevNote.direction === 4 || prevNote.direction === 0 || prevNote.direction === 5) &&
             currNote.direction === 8
         ) {
             return true;
@@ -94,17 +72,11 @@ export const isEnd = (
     }
     // if end note is below
     if (currNote.posY < prevNote.posY) {
-        if (
-            currNote.direction === 6 ||
-            currNote.direction === 1 ||
-            currNote.direction === 7
-        ) {
+        if (currNote.direction === 6 || currNote.direction === 1 || currNote.direction === 7) {
             return true;
         }
         if (
-            (prevNote.direction === 6 ||
-                prevNote.direction === 1 ||
-                prevNote.direction === 7) &&
+            (prevNote.direction === 6 || prevNote.direction === 1 || prevNote.direction === 7) &&
             currNote.direction === 8
         ) {
             return true;
@@ -137,10 +109,8 @@ export const isIntersect = (
             const offset = offsetT ?? 0;
             const aS = (nA1 + angle - angleRange + offset) % 360;
             const aE = (nA1 + angle + angleRange + offset) % 360;
-            resultN1 = (maxDistance >=
-                    Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
-                ((aS < aE && aS <= a && a <= aE) ||
-                    (aS >= aE && (a <= aE || a >= aS)))) ||
+            resultN1 = (maxDistance >= Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
+                ((aS < aE && aS <= a && a <= aE) || (aS >= aE && (a <= aE || a >= aS)))) ||
                 resultN1;
             if (resultN1) {
                 break;
@@ -154,10 +124,8 @@ export const isIntersect = (
             const offset = offsetT ?? 0;
             const aS = (nA2 + angle - angleRange + offset) % 360;
             const aE = (nA2 + angle + angleRange + offset) % 360;
-            resultN2 = (maxDistance >=
-                    Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
-                ((aS < aE && aS <= a && a <= aE) ||
-                    (aS >= aE && (a <= aE || a >= aS)))) ||
+            resultN2 = (maxDistance >= Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
+                ((aS < aE && aS <= a && a <= aE) || (aS >= aE && (a <= aE || a >= aS)))) ||
                 resultN2;
             if (resultN2) {
                 break;

@@ -9,14 +9,15 @@ export abstract class Serializable<T extends Object> {
 
     abstract toObject(): T;
 
+    /** Convert class object into serialized string. */
     serialize() {
         return JSON.stringify(this.toObject());
     }
 
+    /** Clone class object without referencing the original. */
     clone<U extends this>(): U {
-        const obj = deepCopy(this.data);
         const cloned = new (this.constructor as { new (): U })();
-        cloned.data = obj;
+        cloned.data = deepCopy(this.data);
         return cloned;
     }
 }
