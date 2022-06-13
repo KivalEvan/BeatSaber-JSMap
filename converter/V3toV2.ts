@@ -19,27 +19,19 @@ const tag = (name: string) => {
  *
  * This is severely outdated for customData.
  */
-export const V3toV2 = (
-    data: DifficultyDataV3,
-    skipPrompt?: boolean,
-): DifficultyDataV2 => {
+export const V3toV2 = (data: DifficultyDataV3, skipPrompt?: boolean): DifficultyDataV2 => {
     if (!skipPrompt) {
-        logger.warn(
-            tag('V3toV2'),
-            'Converting beatmap v3 to v2 may lose certain data!',
-        );
+        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v2 denied.');
         }
         logger.info(tag('V3toV2'), 'Converting beatmap v3 to v2');
     } else {
-        logger.warn(
-            tag('V3toV2'),
-            'Converting beatmap v3 to v2 may lose certain data!',
-        );
+        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
     }
     const template = DifficultyDataV2.create();
+    template.fileName = data.fileName;
 
     data.colorNotes.forEach((n) =>
         template.notes.push(
@@ -50,7 +42,7 @@ export const V3toV2 = (
                 _type: n.color,
                 _cutDirection: n.direction,
                 _customData: n.customData,
-            }),
+            })
         )
     );
 
@@ -63,7 +55,7 @@ export const V3toV2 = (
                 _type: 3,
                 _cutDirection: 0,
                 _customData: b.customData,
-            }),
+            })
         )
     );
 
@@ -79,7 +71,7 @@ export const V3toV2 = (
                     _width: o.width,
                     _height: o.height,
                     _customData: o.customData,
-                }),
+                })
             );
         } else if (o.posY === 2 && o.height === 3) {
             template.obstacles.push(
@@ -92,7 +84,7 @@ export const V3toV2 = (
                     _width: o.width,
                     _height: o.height,
                     _customData: o.customData,
-                }),
+                })
             );
         } else {
             template.obstacles.push(
@@ -105,7 +97,7 @@ export const V3toV2 = (
                     _width: o.width,
                     _height: o.height,
                     _customData: o.customData,
-                }),
+                })
             );
         }
     });
@@ -118,7 +110,7 @@ export const V3toV2 = (
                 _value: be.value,
                 _floatValue: be.floatValue,
                 _customData: be.customData,
-            }),
+            })
         );
     });
 
@@ -129,7 +121,7 @@ export const V3toV2 = (
                 _type: 5,
                 _value: b.toggle ? 1 : 0,
                 _floatValue: 1,
-            }),
+            })
         )
     );
 
@@ -138,14 +130,12 @@ export const V3toV2 = (
             v2.Event.create({
                 _time: lr.time,
                 _type: lr.executionTime ? 14 : 15,
-                _value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
-                    ? Math.max(
-                        Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15),
-                        3,
-                    )
-                    : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
+                _value:
+                    Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
+                        ? Math.max(Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15), 3)
+                        : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
                 _floatValue: 1,
-            }),
+            })
         )
     );
 
@@ -156,7 +146,7 @@ export const V3toV2 = (
                 _type: 100,
                 _value: 1,
                 _floatValue: bpm.bpm,
-            }),
+            })
         )
     );
 
@@ -175,7 +165,7 @@ export const V3toV2 = (
                 _tailControlPointLengthMultiplier: s.tailLengthMultiplier,
                 _tailCutDirection: s.color,
                 _sliderMidAnchorMode: s.midAnchor,
-            }),
+            })
         )
     );
 
@@ -186,23 +176,25 @@ export const V3toV2 = (
                 _lineIndex: w.posX,
                 _lineLayer: w.posY,
                 _offsetDirection: w.direction,
-            }),
+            })
         )
     );
 
     template.specialEventsKeywordFilters = v2.SpecialEventsKeywordFilters.create({
-        _keywords: data.basicEventTypesWithKeywords.list.map((d) => {
-            return { _keyword: d.keyword, _specialEvents: d.events };
-        }) ?? [],
+        _keywords:
+            data.basicEventTypesWithKeywords.list.map((d) => {
+                return { _keyword: d.keyword, _specialEvents: d.events };
+            }) ?? [],
     });
 
     if (data.customData) {
         for (const k in data.customData) {
             if (k === 'customEvents') {
-                template.customData._customEvents = (data.customData.customEvents?.map((ce) => {
-                    return { _time: ce.beat, _type: ce.time, _data: ce.data };
-                    // deno-lint-ignore no-explicit-any
-                }) as any) ?? [];
+                template.customData._customEvents =
+                    (data.customData.customEvents?.map((ce) => {
+                        return { _time: ce.beat, _type: ce.time, _data: ce.data };
+                        // deno-lint-ignore no-explicit-any
+                    }) as any) ?? [];
                 continue;
             }
             template.customData[k] = data.customData[k];

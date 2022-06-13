@@ -68,7 +68,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         this.lightRotationEventBoxGroups =
             difficultyData.lightRotationEventBoxGroups?.map((obj) => LightRotationEventBoxGroup.create(obj)) ?? [];
         this.basicEventTypesWithKeywords = BasicEventTypesWithKeywords.create(
-            difficultyData.basicEventTypesWithKeywords,
+            difficultyData.basicEventTypesWithKeywords
         ) ?? { d: [] };
         this.useNormalEventsAsCompatibleEvents = difficultyData.useNormalEventsAsCompatibleEvents ?? false;
         this.customData = difficultyData.customData ?? {};
@@ -221,7 +221,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         return obstacleEnd;
     };
 
-    /** Get container of color notes, sliders, burst sliders, and bombs.
+    /** Get container of color notes, sliders, burst sliders, and bombs (in order).
      * ```ts
      * const noteCountainer = getNoteContainer(difficultyData);
      * ```

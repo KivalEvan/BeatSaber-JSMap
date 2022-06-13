@@ -84,7 +84,7 @@ export async function difficulty(filePath: string, version = 3, options: IBaseOp
     };
     logger.info(
         tag('difficulty'),
-        `Async loading difficulty as beatmap version ${version} from ${opt.path + filePath}`,
+        `Async loading difficulty as beatmap version ${version} from ${opt.path + filePath}`
     );
     return await new Promise((resolve, reject) => {
         try {
@@ -101,12 +101,12 @@ export async function difficulty(filePath: string, version = 3, options: IBaseOp
                     'but received',
                     diffVersion,
                     'for version; Converting to beatmap version',
-                    version,
+                    version
                 );
                 if (diffVersion === 3 && version == 2) {
-                    resolve(V3toV2(parseDifficultyV3(diffJSON as IDifficultyDataV3), true));
+                    resolve(V3toV2(parseDifficultyV3(diffJSON as IDifficultyDataV3).setFileName(filePath), true));
                 } else {
-                    resolve(V2toV3(parseDifficultyV2(diffJSON as IDifficultyDataV2), true));
+                    resolve(V2toV3(parseDifficultyV2(diffJSON as IDifficultyDataV2).setFileName(filePath), true));
                 }
             } else {
                 if (version === 3) {
@@ -138,7 +138,7 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
     };
     logger.info(
         tag('difficultySync'),
-        `Sync loading difficulty as beatmap version ${version} from ${opt.path + filePath}`,
+        `Sync loading difficulty as beatmap version ${version} from ${opt.path + filePath}`
     );
     const diffJSON = JSON.parse(Deno.readTextFileSync(opt.path + filePath)) as Either<
         IDifficultyDataV2,
@@ -153,12 +153,12 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
             'but received',
             diffVersion,
             'for version; Converting to beatmap version',
-            version,
+            version
         );
         if (diffVersion === 3 && version == 2) {
-            return V3toV2(parseDifficultyV3(diffJSON as IDifficultyDataV3), true);
+            return V3toV2(parseDifficultyV3(diffJSON as IDifficultyDataV3).setFileName(filePath), true);
         } else {
-            return V2toV3(parseDifficultyV2(diffJSON as IDifficultyDataV2), true);
+            return V2toV3(parseDifficultyV2(diffJSON as IDifficultyDataV2).setFileName(filePath), true);
         }
     } else {
         if (version === 3) {
