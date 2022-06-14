@@ -36,6 +36,7 @@ export type ColorSchemeList =
     | 'Weave'
     | 'Pyro'
     | 'EDM'
+    | 'The Second'
     | 'Glass Desert';
 
 export type IEnvironmentScheme = {
