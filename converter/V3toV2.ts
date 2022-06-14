@@ -189,7 +189,7 @@ export const V3toV2 = (data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
         for (const k in data.customData) {
             if (k === 'customEvents') {
                 template.customData._customEvents = (data.customData.customEvents?.map((ce) => {
-                    return { _time: ce.beat, _type: ce.time, _data: ce.data };
+                    return { _time: ce.beat, _type: ce.type, _data: ce.data };
                     // deno-lint-ignore no-explicit-any
                 }) as any) ?? [];
                 continue;

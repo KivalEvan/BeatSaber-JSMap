@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.4 [2022-06-14]
+
+## Fixed
+
+- `time` instead of `type` for custom events
+
 ## 1.0.3 [2022-06-13]
 
 ## Fixed

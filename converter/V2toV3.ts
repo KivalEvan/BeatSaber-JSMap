@@ -292,7 +292,7 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     if (ce._type === 'AnimateTrack') {
                         return {
                             beat: ce._time,
-                            time: 'AnimateTrack',
+                            type: 'AnimateTrack',
                             data: {
                                 track: ce._data._track,
                                 duration: ce._data._duration,
@@ -312,7 +312,7 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     if (ce._type === 'AssignPathAnimation') {
                         return {
                             beat: ce._time,
-                            time: 'AssignPathAnimation',
+                            type: 'AssignPathAnimation',
                             data: {
                                 track: ce._data._track,
                                 duration: ce._data._duration,
@@ -332,7 +332,7 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     if (ce._type === 'AssignTrackParent') {
                         return {
                             beat: ce._time,
-                            time: 'AssignTrackParent',
+                            type: 'AssignTrackParent',
                             data: {
                                 childrenTracks: ce._data._childrenTracks,
                                 parentTrack: ce._data._parentTrack,
@@ -343,7 +343,7 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     if (ce._type === 'AssignPlayerToTrack') {
                         return {
                             beat: ce._time,
-                            time: 'AssignPlayerToTrack',
+                            type: 'AssignPlayerToTrack',
                             data: {
                                 track: ce._data._track,
                             },
@@ -351,7 +351,7 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     }
                     return {
                         beat: ce._time,
-                        time: 'AssignFogTrack',
+                        type: 'AssignFogTrack',
                         data: {
                             track: ce._data._track,
                             attenuation: ce._data._attenuation,

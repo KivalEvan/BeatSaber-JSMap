@@ -111,7 +111,7 @@ export interface IChromaAnimation {
 /** Chroma Custom Event interface for AssignFogTrack. */
 export interface IChromaCustomEventAssignFogTrack {
     beat: number;
-    time: 'AssignFogTrack';
+    type: 'AssignFogTrack';
     data: IChromaCustomEventDataAssignFogTrack;
 }
 
