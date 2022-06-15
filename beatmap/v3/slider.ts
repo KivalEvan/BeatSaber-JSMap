@@ -15,13 +15,13 @@ export class Slider extends BaseSlider<ISlider> {
         x: 0,
         y: 0,
         d: 0,
-        mu: 0.5,
+        mu: 1,
         tb: 0,
         tx: 0,
         ty: 0,
         tc: 0,
-        tmu: 0.5,
-        m: 1,
+        tmu: 1,
+        m: 0,
         customData: () => {
             return {};
         },

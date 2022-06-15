@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.5 [2022-06-x]
+
+## Changed
+
+- V2 objects use `pos` instead of `line`
+- Slider create default multiplier from `0.5` to `1` and mid anchor to `0`
+
 ## 1.0.4 [2022-06-14]
 
 ## Fixed

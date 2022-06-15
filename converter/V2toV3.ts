@@ -80,8 +80,8 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
             template.bombNotes.push(
                 v3.BombNote.create({
                     b: n.time,
-                    x: n.lineIndex,
-                    y: n.lineLayer,
+                    x: n.posX,
+                    y: n.posY,
                     customData,
                 }),
             );
@@ -100,8 +100,8 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 v3.ColorNote.create({
                     b: n.time,
                     c: n.type as 0 | 1,
-                    x: n.lineIndex,
-                    y: n.lineLayer,
+                    x: n.posX,
+                    y: n.posY,
                     d: n.cutDirection >= 1000 || typeof n.customData._cutDirection === 'number'
                         ? n.cutDirection === 8 ? 8 : 1
                         : clamp(n.cutDirection, 0, 8),
@@ -149,8 +149,8 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
         template.obstacles.push(
             v3.Obstacle.create({
                 b: o.time,
-                x: o.lineIndex,
-                y: o.type === 2 ? o.lineLayer : o.type ? 2 : 0,
+                x: o.posX,
+                y: o.type === 2 ? o.posY : o.type ? 2 : 0,
                 d: o.duration,
                 w: o.width,
                 h: o.type === 2 ? o.height : o.type ? 3 : 5,
@@ -253,8 +253,8 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
         template.waypoints.push(
             v3.Waypoint.create({
                 b: w.time,
-                x: w.lineIndex,
-                y: w.lineLayer,
+                x: w.posX,
+                y: w.posY,
                 d: w.direction,
             }),
         );
@@ -265,13 +265,13 @@ export const V2toV3 = (data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
             v3.Slider.create({
                 c: s.colorType,
                 b: s.headTime,
-                x: s.headLineIndex,
-                y: s.headLineLayer,
+                x: s.headPosX,
+                y: s.headPosY,
                 d: s.headCutDirection,
                 mu: s.headLengthMultiplier,
                 tb: s.tailTime,
-                tx: s.tailLineIndex,
-                ty: s.tailLineLayer,
+                tx: s.tailPosX,
+                ty: s.tailPosY,
                 tc: s.tailCutDirection,
                 tmu: s.tailLengthMultiplier,
                 m: s.midAnchor,

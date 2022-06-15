@@ -10,12 +10,12 @@ export class Slider extends Serializable<ISlider> {
         _headLineIndex: 0,
         _headLineLayer: 0,
         _headCutDirection: 0,
-        _headControlPointlengthMultiplier: 0.5,
+        _headControlPointlengthMultiplier: 1,
         _tailTime: 0,
         _tailLineIndex: 0,
         _tailLineLayer: 0,
         _tailCutDirection: 0,
-        _tailControlPointLengthMultiplier: 0.5,
+        _tailControlPointLengthMultiplier: 1,
         _sliderMidAnchorMode: 0,
     };
 
@@ -35,19 +35,16 @@ export class Slider extends Serializable<ISlider> {
                     _headTime: s._headTime ?? s._tailTime ?? Slider.default._headTime,
                     _headLineIndex: s._headLineIndex ?? Slider.default._headLineIndex,
                     _headLineLayer: s._headLineLayer ?? Slider.default._headLineLayer,
-                    _headCutDirection: s._headCutDirection ??
-                        Slider.default._headCutDirection,
+                    _headCutDirection: s._headCutDirection ?? Slider.default._headCutDirection,
                     _headControlPointlengthMultiplier: s._headControlPointlengthMultiplier ??
                         Slider.default._headControlPointlengthMultiplier,
                     _tailTime: s._tailTime ?? s._headTime ?? Slider.default._tailTime,
                     _tailLineIndex: s._tailLineIndex ?? Slider.default._tailLineIndex,
                     _tailLineLayer: s._tailLineLayer ?? Slider.default._tailLineLayer,
-                    _tailCutDirection: s._tailCutDirection ??
-                        Slider.default._tailCutDirection,
+                    _tailCutDirection: s._tailCutDirection ?? Slider.default._tailCutDirection,
                     _tailControlPointLengthMultiplier: s._tailControlPointLengthMultiplier ??
                         Slider.default._tailControlPointLengthMultiplier,
-                    _sliderMidAnchorMode: s._sliderMidAnchorMode ??
-                        Slider.default._sliderMidAnchorMode,
+                    _sliderMidAnchorMode: s._sliderMidAnchorMode ?? Slider.default._sliderMidAnchorMode,
                 }),
             )
         );
@@ -77,13 +74,13 @@ export class Slider extends Serializable<ISlider> {
         return {
             _colorType: this.colorType,
             _headTime: this.headTime,
-            _headLineIndex: this.headLineIndex,
-            _headLineLayer: this.headLineLayer,
+            _headLineIndex: this.headPosX,
+            _headLineLayer: this.headPosY,
             _headCutDirection: this.headCutDirection,
             _headControlPointlengthMultiplier: this.headLengthMultiplier,
             _tailTime: this.tailTime,
-            _tailLineIndex: this.tailLineIndex,
-            _tailLineLayer: this.tailLineLayer,
+            _tailLineIndex: this.tailPosX,
+            _tailLineLayer: this.tailPosY,
             _tailCutDirection: this.tailCutDirection,
             _tailControlPointLengthMultiplier: this.tailLengthMultiplier,
             _sliderMidAnchorMode: this.midAnchor,
@@ -120,10 +117,10 @@ export class Slider extends Serializable<ISlider> {
      * ---
      * Range: `0-3`
      */
-    get headLineIndex() {
+    get headPosX() {
         return this.data._headLineIndex;
     }
-    set headLineIndex(value: ISlider['_headLineIndex']) {
+    set headPosX(value: ISlider['_headLineIndex']) {
         this.data._headLineIndex = value;
     }
 
@@ -136,10 +133,10 @@ export class Slider extends Serializable<ISlider> {
      * ---
      * Range: `0-2`
      */
-    get headLineLayer() {
+    get headPosY() {
         return this.data._headLineLayer;
     }
-    set headLineLayer(value: ISlider['_headLineLayer']) {
+    set headPosY(value: ISlider['_headLineLayer']) {
         this.data._headLineLayer = value;
     }
 
@@ -194,10 +191,10 @@ export class Slider extends Serializable<ISlider> {
      * ---
      * Range: `none`
      */
-    get tailLineIndex() {
+    get tailPosX() {
         return this.data._tailLineIndex;
     }
-    set tailLineIndex(value: ISlider['_tailLineIndex']) {
+    set tailPosX(value: ISlider['_tailLineIndex']) {
         this.data._tailLineIndex = value;
     }
 
@@ -210,10 +207,10 @@ export class Slider extends Serializable<ISlider> {
      * ---
      * Range: `0-2`
      */
-    get tailLineLayer() {
+    get tailPosY() {
         return this.data._tailLineLayer;
     }
-    set tailLineLayer(value: ISlider['_tailLineLayer']) {
+    set tailPosY(value: ISlider['_tailLineLayer']) {
         this.data._tailLineLayer = value;
     }
 
@@ -269,11 +266,11 @@ export class Slider extends Serializable<ISlider> {
         return this;
     }
     setPosX(value: ISlider['_headLineIndex']) {
-        this.headLineIndex = value;
+        this.headPosX = value;
         return this;
     }
     setPosY(value: ISlider['_headLineLayer']) {
-        this.headLineLayer = value;
+        this.headPosY = value;
         return this;
     }
     setDirection(value: ISlider['_headCutDirection']) {
@@ -289,11 +286,11 @@ export class Slider extends Serializable<ISlider> {
         return this;
     }
     setTailPosX(value: ISlider['_tailLineIndex']) {
-        this.tailLineIndex = value;
+        this.tailPosX = value;
         return this;
     }
     setTailPosY(value: ISlider['_tailLineLayer']) {
-        this.tailLineLayer = value;
+        this.tailPosY = value;
         return this;
     }
     setTailDirection(value: ISlider['_tailCutDirection']) {
@@ -310,8 +307,8 @@ export class Slider extends Serializable<ISlider> {
     }
 
     mirror(flipColor = true) {
-        this.headLineIndex = LINE_COUNT - 1 - this.headLineIndex;
-        this.tailLineIndex = LINE_COUNT - 1 - this.tailLineIndex;
+        this.headPosX = LINE_COUNT - 1 - this.headPosX;
+        this.tailPosX = LINE_COUNT - 1 - this.tailPosX;
         if (flipColor) {
             this.colorType = ((1 + this.colorType) % 2) as typeof this.colorType;
         }
@@ -368,10 +365,10 @@ export class Slider extends Serializable<ISlider> {
      */
     hasMappingExtensions() {
         return (
-            this.headLineLayer > 2 ||
-            this.headLineLayer < 0 ||
-            this.headLineIndex <= -1000 ||
-            this.headLineIndex >= 1000 ||
+            this.headPosY > 2 ||
+            this.headPosY < 0 ||
+            this.headPosX <= -1000 ||
+            this.headPosX >= 1000 ||
             (this.headCutDirection >= 1000 && this.headCutDirection <= 1360) ||
             (this.tailCutDirection >= 1000 && this.tailCutDirection <= 1360)
         );
