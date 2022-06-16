@@ -5,6 +5,7 @@
 ### Added
 
 - The Second environment and color scheme
+- Environment class for Chroma extensions
 
 ### Changed
 

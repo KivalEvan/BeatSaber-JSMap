@@ -73,6 +73,7 @@ issue if you encounter error/problem or want an improvement.
 - File names shall use camel case.
 - Exported types, interfaces, fields, and functions should accompany with JSDoc comment right above its definition.
 - No third-party dependencies shall be used outside of examples, extensions, and tests.
+- Top-level function must use regular function.
 - Avoid circular imports.
 
 ## Planned
