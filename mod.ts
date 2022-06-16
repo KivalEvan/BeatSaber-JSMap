@@ -5,5 +5,5 @@ export * as load from './load.ts';
 export * as save from './save.ts';
 export * as optimize from './optimize.ts';
 export * as utils from './utils/mod.ts';
-export { default as logger } from './logger.ts';
-export { default as globals } from './globals.ts';
+export { default as Logger } from './logger.ts';
+export { default as Globals } from './globals.ts';

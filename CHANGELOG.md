@@ -1,21 +1,35 @@
 # Changelog
 
-## 1.0.5 [2022-06-x]
+## 1.1.0 [2022-06-17]
 
-## Changed
+### Added
 
+- The Second environment and color scheme
+
+### Changed
+
+- Top-level functions use regular function instead of arrow function
 - V2 objects use `pos` instead of `line`
 - Slider create default multiplier from `0.5` to `1` and mid anchor to `0`
+- Default options is now nested
+
+### Updated
+
+- Cleaned up JSDoc
+
+### Fixed
+
+- Bookmark type file somehow ended up in class folder
 
 ## 1.0.4 [2022-06-14]
 
-## Fixed
+### Fixed
 
 - `time` instead of `type` for custom events
 
 ## 1.0.3 [2022-06-13]
 
-## Fixed
+### Fixed
 
 - Difficulty file name not being saved
 

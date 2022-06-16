@@ -1,4 +1,4 @@
-import logger from './logger.ts';
+import Logger from './logger.ts';
 
 const tag = (str: string) => {
     return `[settings::${str}]`;
@@ -16,11 +16,11 @@ class Globals {
     set path(value: string) {
         value = value.trim();
         if (!(value.endsWith('\\') || value.endsWith('/'))) {
-            logger.debug(tag('path'), `Adding missing end slash`);
+            Logger.debug(tag('path'), `Adding missing end slash`);
             value += '/';
         }
         this.#path = value;
-        logger.info(tag('path'), `Global map directory path is set to ${this.#path}`);
+        Logger.info(tag('path'), `Global map directory path is set to ${this.#path}`);
     }
 
     /** Set logging level to filter various information.
@@ -34,11 +34,12 @@ class Globals {
      * ```
      */
     get logLevel() {
-        return logger.logLevel;
+        return Logger.logLevel;
     }
     set logLevel(value: number) {
-        logger.setLevel(value);
+        Logger.setLevel(value);
     }
 }
 
+/** Global settings. */
 export default new Globals();

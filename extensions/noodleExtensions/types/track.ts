@@ -4,9 +4,3 @@ import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
 import { Obstacle } from '../../../beatmap/v3/obstacle.ts';
 
 export type INETrackObject = Note | ObstacleV2 | ColorNote | Obstacle;
-
-export type INETrackOverload = {
-    (objects: INETrackObject[], track: string): void;
-    (objects: INETrackObject[], track: string, startTime: number, endTime: number): void;
-    (objects: INETrackObject, track: string): void;
-};

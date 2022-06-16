@@ -11,7 +11,7 @@ const args = parse(Deno.args, {
     string: ['p'],
     alias: { p: 'path' },
 });
-bsmap.globals.path = (args.p as string) ?? './';
+bsmap.Globals.path = (args.p as string) ?? './';
 
 let info: ReturnType<typeof bsmap.load.infoSync>;
 try {
@@ -32,8 +32,8 @@ diffList.forEach((dl) => {
     if (!bsmap.version.isV3(dl.data)) {
         console.log('Backing up', dl.characteristic, dl.difficulty);
         Deno.renameSync(
-            bsmap.globals.path + dl.settings._beatmapFilename,
-            bsmap.globals.path + dl.settings._beatmapFilename + '.old'
+            bsmap.Globals.path + dl.settings._beatmapFilename,
+            bsmap.Globals.path + dl.settings._beatmapFilename + '.old'
         );
         console.log('Converting', dl.characteristic, dl.difficulty);
         dl.data = bsmap.convert.V2toV3(dl.data, true);

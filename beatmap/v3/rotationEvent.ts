@@ -3,7 +3,7 @@ import { ObjectToReturn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './baseObject.ts';
 
-/** Rotation event beatmap object. */
+/** Rotation event beatmap v3 class object. */
 export class RotationEvent extends BaseObject<IRotationEvent> {
     static default: ObjectToReturn<Required<IRotationEvent>> = {
         b: 0,
@@ -21,13 +21,11 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
     static create(): RotationEvent;
     static create(rotationEvents: Partial<IRotationEvent>): RotationEvent;
     static create(...rotationEvents: Partial<IRotationEvent>[]): RotationEvent[];
-    static create(
-        ...rotationEvents: Partial<IRotationEvent>[]
-    ): RotationEvent | RotationEvent[] {
+    static create(...rotationEvents: Partial<IRotationEvent>[]): RotationEvent | RotationEvent[] {
         const result: RotationEvent[] = [];
         rotationEvents?.forEach((re) =>
             result.push(
-                new RotationEvent({
+                new this({
                     b: re.b ?? RotationEvent.default.b,
                     e: re.e ?? RotationEvent.default.e,
                     r: re.r ?? RotationEvent.default.r,
@@ -41,7 +39,7 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
         if (result.length) {
             return result;
         }
-        return new RotationEvent({
+        return new this({
             b: RotationEvent.default.b,
             e: RotationEvent.default.e,
             r: RotationEvent.default.r,
@@ -49,7 +47,7 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
         });
     }
 
-    toObject(): IRotationEvent {
+    toObject(): Required<IRotationEvent> {
         return {
             b: this.time,
             e: this.executionTime,

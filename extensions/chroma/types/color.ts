@@ -5,16 +5,10 @@ import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
 import { Obstacle as ObstacleV3 } from '../../../beatmap/v3/obstacle.ts';
 import { BasicEvent } from '../../../beatmap/v3/basicEvent.ts';
 import { Easings } from '../../../types/beatmap/shared/easings.ts';
-import { ColorArray } from '../../../types/beatmap/shared/colors.ts';
+import { ColorArray } from '../../../types/colors.ts';
 import { SetOptions } from './options.ts';
 
-export type IChromaObject =
-    | Note
-    | ColorNote
-    | Obstacle
-    | ObstacleV3
-    | Event
-    | BasicEvent;
+export type IChromaObject = Note | ColorNote | Obstacle | ObstacleV3 | Event | BasicEvent;
 
 export interface SetColorOptions extends SetOptions {
     color: ColorArray;

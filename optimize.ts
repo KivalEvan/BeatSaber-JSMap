@@ -4,26 +4,32 @@ import { IDifficultyData as DifficultyDataV3 } from './types/beatmap/v3/difficul
 import { IOptimizeOptions, IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './types/bsmap/optimize.ts';
 import { Either } from './types/utils.ts';
 import { round } from './utils/math.ts';
-import logger from './logger.ts';
+import Logger from './logger.ts';
 
 const tag = (name: string) => {
     return `[optimize::${name}]`;
 };
 
-export const defaultOptionsInfo: Required<IOptimizeOptionsInfo> = {
+const optionsInfo: Required<IOptimizeOptionsInfo> = {
     enabled: true,
     floatTrim: 4,
     stringTrim: true,
     throwError: true,
     removeDuplicate: true,
 };
-export const defaultOptionsDifficulty: Required<IOptimizeOptionsDifficulty> = {
+const optionsDifficulty: Required<IOptimizeOptionsDifficulty> = {
     enabled: true,
     floatTrim: 4,
     stringTrim: true,
     throwError: true,
     optimiseLight: false,
     sort: true,
+};
+
+/** Set default option value for optimize function. */
+export const defaultOptions = {
+    info: optionsInfo,
+    difficulty: optionsDifficulty,
 };
 
 const ignoreObjectRemove = [
@@ -49,12 +55,12 @@ const ignoreObjectRemove = [
     'useNormalEventsAsCompatibleEvents',
     'd',
 ];
-export const deepClean = (
+export function deepClean(
     // deno-lint-ignore no-explicit-any
     obj: { [key: string | number]: any } | any[],
     options: IOptimizeOptions,
     name = '',
-) => {
+) {
     for (const k in obj) {
         // shorten number
         if (typeof obj[k] === 'number') {
@@ -92,59 +98,59 @@ export const deepClean = (
                 throw new Error(`null value found in object key ${name}.${k}.`);
             } else {
                 if (Array.isArray(obj)) {
-                    logger.error(tag('deepClean'), `null value found in array ${name}[${k}], defaulting to 0...`);
+                    Logger.error(tag('deepClean'), `null value found in array ${name}[${k}], defaulting to 0...`);
                     obj[k] = 0;
                 } else {
-                    logger.error(tag('deepClean'), `null value found in object key ${name}.${k}, deleting property...`);
+                    Logger.error(tag('deepClean'), `null value found in object key ${name}.${k}, deleting property...`);
                     delete obj[k];
                 }
             }
         }
     }
-};
+}
 
-export const performInfo = (info: IInfoData, options: IOptimizeOptionsInfo = { enabled: true }) => {
+export function performInfo(info: IInfoData, options: IOptimizeOptionsInfo = { enabled: true }) {
     const opt: Required<IOptimizeOptionsInfo> = {
         enabled: options.enabled,
-        floatTrim: options.floatTrim ?? defaultOptionsInfo.floatTrim,
-        stringTrim: options.stringTrim ?? defaultOptionsInfo.stringTrim,
-        throwError: options.throwError ?? defaultOptionsInfo.throwError,
-        removeDuplicate: options.removeDuplicate ?? defaultOptionsInfo.removeDuplicate,
+        floatTrim: options.floatTrim ?? defaultOptions.info.floatTrim,
+        stringTrim: options.stringTrim ?? defaultOptions.info.stringTrim,
+        throwError: options.throwError ?? defaultOptions.info.throwError,
+        removeDuplicate: options.removeDuplicate ?? defaultOptions.info.removeDuplicate,
     };
 
     if (!opt.enabled) {
         return info;
     }
-    logger.info(tag('performInfo'), `Optimising info data`);
+    Logger.info(tag('performInfo'), `Optimising info data`);
 
-    logger.debug(tag('performInfo'), 'Applying deep clean');
+    Logger.debug(tag('performInfo'), 'Applying deep clean');
     deepClean(info, opt);
     return info;
-};
+}
 
-export const performDifficulty = (
+export function performDifficulty(
     difficulty: Either<DifficultyDataV2, DifficultyDataV3>,
     options: IOptimizeOptionsDifficulty = { enabled: true },
-) => {
+) {
     const opt: Required<IOptimizeOptionsDifficulty> = {
         enabled: options.enabled,
-        floatTrim: options.floatTrim ?? defaultOptionsDifficulty.floatTrim,
-        stringTrim: options.stringTrim ?? defaultOptionsDifficulty.stringTrim,
-        throwError: options.throwError ?? defaultOptionsDifficulty.throwError,
-        optimiseLight: options.optimiseLight ?? defaultOptionsDifficulty.optimiseLight,
-        sort: options.sort ?? defaultOptionsDifficulty.sort,
+        floatTrim: options.floatTrim ?? defaultOptions.difficulty.floatTrim,
+        stringTrim: options.stringTrim ?? defaultOptions.difficulty.stringTrim,
+        throwError: options.throwError ?? defaultOptions.difficulty.throwError,
+        optimiseLight: options.optimiseLight ?? defaultOptions.difficulty.optimiseLight,
+        sort: options.sort ?? defaultOptions.difficulty.sort,
     };
 
     if (!opt.enabled) {
         return difficulty;
     }
-    logger.info(tag('performDifficulty'), `Optimising difficulty data`);
+    Logger.info(tag('performDifficulty'), `Optimising difficulty data`);
 
-    logger.debug(tag('performDifficulty'), 'Applying deep clean');
+    Logger.debug(tag('performDifficulty'), 'Applying deep clean');
     deepClean(difficulty, opt);
 
     if (opt.sort) {
-        logger.debug(tag('performDifficulty'), 'Sorting objects');
+        Logger.debug(tag('performDifficulty'), 'Sorting objects');
         const sortPrec = Math.pow(10, opt.floatTrim);
         difficulty._notes?.sort(
             (a, b) =>
@@ -176,4 +182,4 @@ export const performDifficulty = (
     }
 
     return difficulty;
-};
+}

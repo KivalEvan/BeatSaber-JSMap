@@ -4,7 +4,7 @@ import { deepCopy } from '../../utils/misc.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { BeatmapObject } from './object.ts';
 
-/** Waypoint beatmap object. */
+/** Waypoint beatmap v2 class object. */
 export class Waypoint extends BeatmapObject<IWaypoint> {
     static default: ObjectToReturn<Required<IWaypoint>> = {
         _time: 0,
@@ -27,7 +27,7 @@ export class Waypoint extends BeatmapObject<IWaypoint> {
         const result: Waypoint[] = [];
         waypoints?.forEach((w) =>
             result.push(
-                new Waypoint({
+                new this({
                     _time: w._time ?? Waypoint.default._time,
                     _lineIndex: w._lineIndex ?? Waypoint.default._lineIndex,
                     _lineLayer: w._lineLayer ?? Waypoint.default._lineLayer,
@@ -42,7 +42,7 @@ export class Waypoint extends BeatmapObject<IWaypoint> {
         if (result.length) {
             return result;
         }
-        return new Waypoint({
+        return new this({
             _time: Waypoint.default._time,
             _lineIndex: Waypoint.default._lineIndex,
             _lineLayer: Waypoint.default._lineLayer,
@@ -51,7 +51,7 @@ export class Waypoint extends BeatmapObject<IWaypoint> {
         });
     }
 
-    toObject(): IWaypoint {
+    toObject(): Required<IWaypoint> {
         return {
             _time: this.time,
             _lineIndex: this.posX,

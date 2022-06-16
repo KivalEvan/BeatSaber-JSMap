@@ -1,7 +1,7 @@
 import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
 import { Serializable } from '../shared/serializable.ts';
 
-/** Light rotation for new lighting system. */
+/** Light rotation base beatmap v3 class object. */
 export class LightRotationBase extends Serializable<ILightRotationBase> {
     static default: Required<ILightRotationBase> = {
         b: 0,
@@ -18,16 +18,12 @@ export class LightRotationBase extends Serializable<ILightRotationBase> {
 
     static create(): LightRotationBase;
     static create(lightRotations: Partial<ILightRotationBase>): LightRotationBase;
-    static create(
-        ...lightRotations: Partial<ILightRotationBase>[]
-    ): LightRotationBase[];
-    static create(
-        ...lightRotations: Partial<ILightRotationBase>[]
-    ): LightRotationBase | LightRotationBase[] {
+    static create(...lightRotations: Partial<ILightRotationBase>[]): LightRotationBase[];
+    static create(...lightRotations: Partial<ILightRotationBase>[]): LightRotationBase | LightRotationBase[] {
         const result: LightRotationBase[] = [];
         lightRotations?.forEach((lr) =>
             result.push(
-                new LightRotationBase({
+                new this({
                     b: lr.b ?? LightRotationBase.default.b,
                     p: lr.p ?? LightRotationBase.default.p,
                     e: lr.e ?? LightRotationBase.default.e,
@@ -43,7 +39,7 @@ export class LightRotationBase extends Serializable<ILightRotationBase> {
         if (result.length) {
             return result;
         }
-        return new LightRotationBase({
+        return new this({
             b: LightRotationBase.default.b,
             p: LightRotationBase.default.p,
             e: LightRotationBase.default.e,

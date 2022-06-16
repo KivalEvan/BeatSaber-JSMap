@@ -1,4 +1,4 @@
-import { ColorObject } from './colors.ts';
+import { ColorObject } from '../../colors.ts';
 
 /** Color Scheme interface for difficulty info custom data. */
 export interface IColorScheme {

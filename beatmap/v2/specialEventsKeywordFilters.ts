@@ -4,16 +4,14 @@ import { ObjectToReturn } from '../../types/utils.ts';
 import { Serializable } from '../shared/serializable.ts';
 import { SpecialEventsKeywordFiltersKeywords } from './specialEventsKeywordFiltersKeywords.ts';
 
-/** Basic event types with keywords. */
+/** Special event types with keywords beatmap v2 class object. */
 export class SpecialEventsKeywordFilters extends Serializable<ISpecialEventsKeywordFilters> {
     static default: ObjectToReturn<Required<ISpecialEventsKeywordFilters>> = {
         _keywords: () => [],
     };
 
     keywords: SpecialEventsKeywordFiltersKeywords[];
-    private constructor(
-        specialEventsWithKeywords: Required<ISpecialEventsKeywordFilters>,
-    ) {
+    private constructor(specialEventsWithKeywords: Required<ISpecialEventsKeywordFilters>) {
         super(specialEventsWithKeywords);
         this.keywords = specialEventsWithKeywords._keywords.map((d) =>
             SpecialEventsKeywordFiltersKeywords.create({
@@ -23,12 +21,9 @@ export class SpecialEventsKeywordFilters extends Serializable<ISpecialEventsKeyw
         );
     }
 
-    static create(
-        specialEventsWithKeywords: Partial<ISpecialEventsKeywordFilters> = {},
-    ): SpecialEventsKeywordFilters {
-        return new SpecialEventsKeywordFilters({
-            _keywords: specialEventsWithKeywords._keywords ??
-                SpecialEventsKeywordFilters.default._keywords(),
+    static create(specialEventsWithKeywords: Partial<ISpecialEventsKeywordFilters> = {}): SpecialEventsKeywordFilters {
+        return new this({
+            _keywords: specialEventsWithKeywords._keywords ?? SpecialEventsKeywordFilters.default._keywords(),
         });
     }
 

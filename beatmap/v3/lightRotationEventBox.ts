@@ -4,6 +4,7 @@ import { EventBox } from './eventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
 import { LightRotationBase } from './lightRotationBase.ts';
 
+/** Light rotation event box beatmap v3 class object. */
 export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
     static default: ObjectToReturn<ILightRotationEventBox> = {
         f: () => {
@@ -36,16 +37,12 @@ export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
 
     static create(): LightRotationEventBox;
     static create(eventBoxes: Partial<ILightRotationEventBox>): LightRotationEventBox;
-    static create(
-        ...eventBoxes: Partial<ILightRotationEventBox>[]
-    ): LightRotationEventBox[];
-    static create(
-        ...eventBoxes: Partial<ILightRotationEventBox>[]
-    ): LightRotationEventBox | LightRotationEventBox[] {
+    static create(...eventBoxes: Partial<ILightRotationEventBox>[]): LightRotationEventBox[];
+    static create(...eventBoxes: Partial<ILightRotationEventBox>[]): LightRotationEventBox | LightRotationEventBox[] {
         const result: LightRotationEventBox[] = [];
         eventBoxes?.forEach((eb) =>
             result.push(
-                new LightRotationEventBox({
+                new this({
                     f: eb.f ?? LightRotationEventBox.default.f(),
                     w: eb.w ?? LightRotationEventBox.default.w,
                     d: eb.d ?? LightRotationEventBox.default.d,
@@ -64,7 +61,7 @@ export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
         if (result.length) {
             return result;
         }
-        return new LightRotationEventBox({
+        return new this({
             f: LightRotationEventBox.default.f(),
             w: LightRotationEventBox.default.w,
             d: LightRotationEventBox.default.d,

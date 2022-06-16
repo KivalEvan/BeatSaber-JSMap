@@ -1,6 +1,6 @@
 import { ColorPointDefinition, PercentPointDefinition, Vector3 } from '../shared/heck.ts';
 import { Easings } from '../shared/easings.ts';
-import { ColorArray } from '../shared/colors.ts';
+import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
 import { LookupMethod } from '../shared/chroma.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
@@ -46,6 +46,14 @@ export interface IChromaEnvironment {
     _localRotation?: Vector3;
     /** Assign light ID for duplicated object. */
     _lightID?: number;
+}
+
+export interface IChromaGeometry {
+    _geometryType: 'SPHERE' | 'CAPSULE' | 'CYLINDER' | 'CUBE' | 'PLANE' | 'QUAD';
+    _spawnCount: number;
+    _track?: string;
+    _shaderPreset?: 'LIGHT_BOX' | 'STANDARD' | 'NO_SHADE';
+    _collision?: boolean;
 }
 
 /** Chroma interface for Beatmap Note Custom Data.
@@ -143,4 +151,5 @@ export type IChromaCustomEvent = IChromaCustomEventAssignFogTrack;
 export interface IChromaCustomData {
     _customEvents?: IChromaCustomEvent[];
     _environment?: IChromaEnvironment[];
+    _geometry?: IChromaGeometry[];
 }

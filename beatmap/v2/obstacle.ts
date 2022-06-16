@@ -3,6 +3,7 @@ import { ObjectToReturn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BeatmapObject } from './object.ts';
 
+/** Object beatmap v2 class object. */
 export class Obstacle extends BeatmapObject<IObstacle> {
     static default: ObjectToReturn<Required<IObstacle>> = {
         _time: 0,
@@ -28,7 +29,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
         const result: Obstacle[] = [];
         obstacles?.forEach((o) =>
             result.push(
-                new Obstacle({
+                new this({
                     _time: o._time ?? Obstacle.default._time,
                     _type: o._type ?? Obstacle.default._type,
                     _lineIndex: o._lineIndex ?? Obstacle.default._lineIndex,
@@ -46,7 +47,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
         if (result.length) {
             return result;
         }
-        return new Obstacle({
+        return new this({
             _time: Obstacle.default._time,
             _type: Obstacle.default._type,
             _lineIndex: Obstacle.default._lineIndex,
@@ -58,7 +59,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
         });
     }
 
-    toObject(): IObstacle {
+    toObject(): Required<IObstacle> {
         return {
             _time: this.time,
             _type: this.type,

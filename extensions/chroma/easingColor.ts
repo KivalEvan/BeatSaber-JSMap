@@ -2,16 +2,9 @@ import { ApplyEasingsOptions } from './types/color.ts';
 import { Event } from '../../beatmap/v2/event.ts';
 import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
 
-export const applyEasingsTransition = (
-    events: (Event | BasicEvent)[],
-    options: ApplyEasingsOptions,
-) => {
+export function applyEasingsTransition(events: (Event | BasicEvent)[], options: ApplyEasingsOptions) {
     let filteredEvents = events.filter(
-        (ev) =>
-            ev.time >= options.startTime &&
-            ev.time <= options.endTime &&
-            ev.isTransition() &&
-            ev.isLightEvent(),
+        (ev) => ev.time >= options.startTime && ev.time <= options.endTime && ev.isTransition() && ev.isLightEvent(),
     );
     if (options.type != null) {
         filteredEvents = filteredEvents.filter((ev) => ev.type === options.type);
@@ -23,4 +16,4 @@ export const applyEasingsTransition = (
             ev.customData._easing = options.easing;
         }
     });
-};
+}

@@ -6,7 +6,7 @@ import { deepCopy } from '../../utils/misc.ts';
 import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v2/chroma.ts';
 import { INEEvent } from '../../types/beatmap/v2/noodleExtensions.ts';
 
-/** Basic event beatmap object. */
+/** Event beatmap v2 class object. */
 export class Event extends BeatmapObject<IEvent> {
     static default: ObjectToReturn<Required<IEvent>> = {
         _time: 0,
@@ -29,7 +29,7 @@ export class Event extends BeatmapObject<IEvent> {
         const result: Event[] = [];
         basicEvents?.forEach((ev) =>
             result.push(
-                new Event({
+                new this({
                     _time: ev._time ?? Event.default._time,
                     _type: ev._type ?? Event.default._type,
                     _value: ev._value ?? Event.default._value,
@@ -44,7 +44,7 @@ export class Event extends BeatmapObject<IEvent> {
         if (result.length) {
             return result;
         }
-        return new Event({
+        return new this({
             _time: Event.default._time,
             _type: Event.default._type,
             _value: Event.default._value,
@@ -53,7 +53,7 @@ export class Event extends BeatmapObject<IEvent> {
         });
     }
 
-    toObject(): IEvent {
+    toObject(): Required<IEvent> {
         return {
             _time: this.time,
             _type: this.type,

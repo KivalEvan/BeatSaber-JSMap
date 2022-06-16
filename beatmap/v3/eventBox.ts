@@ -2,6 +2,7 @@ import { IEventBox } from '../../types/beatmap/v3/eventBox.ts';
 import { Serializable } from '../shared/serializable.ts';
 import { IndexFilter } from './indexFilter.ts';
 
+/** Base event box beatmap v3 class object. */
 export abstract class EventBox<T extends IEventBox> extends Serializable<T> {
     private f: IndexFilter;
     protected constructor(eventBox: Required<T>) {

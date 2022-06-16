@@ -25,7 +25,7 @@ export default (d: bsmap.v3.DifficultyData) => {
             if (n.customData.color[0] === 1) {
                 if (prevSlider[n.color]) {
                     if (n.time - prevSlider[n.color].time > 2) {
-                        bsmap.logger.warn(
+                        bsmap.Logger.warn(
                             'beat',
                             prevSlider[n.color].time,
                             'slider last longer than 2 beat, is this intentional?'

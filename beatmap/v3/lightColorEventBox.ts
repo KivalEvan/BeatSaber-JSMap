@@ -4,6 +4,7 @@ import { EventBox } from './eventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
 import { LightColorBase } from './lightColorBase.ts';
 
+/** Light color event box beatmap v3 class object. */
 export class LightColorEventBox extends EventBox<ILightColorEventBox> {
     static default: ObjectToReturn<Required<ILightColorEventBox>> = {
         f: () => {
@@ -34,25 +35,19 @@ export class LightColorEventBox extends EventBox<ILightColorEventBox> {
 
     static create(): LightColorEventBox;
     static create(eventBoxes: DeepPartial<ILightColorEventBox>): LightColorEventBox;
-    static create(
-        ...eventBoxes: DeepPartial<ILightColorEventBox>[]
-    ): LightColorEventBox[];
-    static create(
-        ...eventBoxes: DeepPartial<ILightColorEventBox>[]
-    ): LightColorEventBox | LightColorEventBox[] {
+    static create(...eventBoxes: DeepPartial<ILightColorEventBox>[]): LightColorEventBox[];
+    static create(...eventBoxes: DeepPartial<ILightColorEventBox>[]): LightColorEventBox | LightColorEventBox[] {
         const result: LightColorEventBox[] = [];
         eventBoxes?.forEach((eb) =>
             result.push(
-                new LightColorEventBox({
-                    f: (eb as Required<ILightColorEventBox>).f ??
-                        LightColorEventBox.default.f(),
+                new this({
+                    f: (eb as Required<ILightColorEventBox>).f ?? LightColorEventBox.default.f(),
                     w: eb.w ?? LightColorEventBox.default.w,
                     d: eb.d ?? LightColorEventBox.default.d,
                     r: eb.r ?? LightColorEventBox.default.r,
                     t: eb.t ?? LightColorEventBox.default.t,
                     b: eb.b ?? LightColorEventBox.default.b,
-                    e: (eb as Required<ILightColorEventBox>).e ??
-                        LightColorEventBox.default.e(),
+                    e: (eb as Required<ILightColorEventBox>).e ?? LightColorEventBox.default.e(),
                 }),
             )
         );
@@ -62,7 +57,7 @@ export class LightColorEventBox extends EventBox<ILightColorEventBox> {
         if (result.length) {
             return result;
         }
-        return new LightColorEventBox({
+        return new this({
             f: LightColorEventBox.default.f(),
             w: LightColorEventBox.default.w,
             d: LightColorEventBox.default.d,

@@ -4,7 +4,7 @@ import { ISlider } from '../../types/beatmap/v3/slider.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 
-/** Slider beatmap object.
+/** Slider beatmap v3 class object.
  *
  * Also known as arc.
  */
@@ -38,7 +38,7 @@ export class Slider extends BaseSlider<ISlider> {
         const result: Slider[] = [];
         sliders?.forEach((s) =>
             result.push(
-                new Slider({
+                new this({
                     b: s.b ?? Slider.default.b,
                     c: s.c ?? Slider.default.c,
                     x: s.x ?? Slider.default.x,
@@ -61,7 +61,7 @@ export class Slider extends BaseSlider<ISlider> {
         if (result.length) {
             return result;
         }
-        return new Slider({
+        return new this({
             b: Slider.default.b,
             c: Slider.default.c,
             x: Slider.default.x,
@@ -78,7 +78,7 @@ export class Slider extends BaseSlider<ISlider> {
         });
     }
 
-    toObject(): ISlider {
+    toObject(): Required<ISlider> {
         return {
             b: this.time,
             c: this.color,

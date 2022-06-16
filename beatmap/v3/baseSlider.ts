@@ -2,7 +2,7 @@ import { IBaseNote } from '../../types/beatmap/v3/baseNote.ts';
 import { IBaseSlider } from '../../types/beatmap/v3/baseSlider.ts';
 import { BaseNote } from './baseNote.ts';
 
-/** Base slider beatmap object. */
+/** Base slider beatmap v3 class object. */
 export abstract class BaseSlider<T extends IBaseSlider> extends BaseNote<T> {
     /** Color type `<int>` of base slider.
      * ```ts

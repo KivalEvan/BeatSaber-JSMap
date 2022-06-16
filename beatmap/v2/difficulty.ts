@@ -9,6 +9,7 @@ import { Waypoint } from './waypoint.ts';
 import { SpecialEventsKeywordFilters } from './specialEventsKeywordFilters.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/** Difficulty beatmap v2 class object. */
 export class DifficultyData extends Serializable<IDifficultyData> {
     private _fileName = 'UnnamedDifficulty.dat';
 
@@ -18,7 +19,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
     obstacles: Obstacle[];
     events: Event[];
     waypoints: Waypoint[];
-    specialEventsKeywordFilters?: SpecialEventsKeywordFilters;
+    specialEventsKeywordFilters: SpecialEventsKeywordFilters;
     customData: ICustomDataDifficulty;
     private constructor(data: Required<IDifficultyData>) {
         super(data);
@@ -33,7 +34,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
     }
 
     static create(data: Partial<IDifficultyData> = {}): DifficultyData {
-        return new DifficultyData({
+        return new this({
             _version: '2.6.0',
             _notes: data._notes ?? [],
             _sliders: data._sliders ?? [],
@@ -47,7 +48,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         });
     }
 
-    toObject(): IDifficultyData {
+    toObject(): Required<IDifficultyData> {
         return {
             _version: this.version || '2.6.0',
             _notes: this.notes.map((obj) => obj.toObject()),
@@ -55,7 +56,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             _obstacles: this.obstacles.map((obj) => obj.toObject()),
             _events: this.events.map((obj) => obj.toObject()),
             _waypoints: this.waypoints.map((obj) => obj.toObject()),
-            _specialEventsKeywordFilters: this.specialEventsKeywordFilters?.toObject(),
+            _specialEventsKeywordFilters: this.specialEventsKeywordFilters.toObject(),
             _customData: deepCopy(this.customData),
         };
     }

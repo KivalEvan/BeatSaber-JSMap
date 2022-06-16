@@ -1,9 +1,9 @@
 import { HSVAtoRGBA, RGBAtoHSVA } from '../../utils/colors.ts';
-import { ColorArray } from '../../types/beatmap/shared/colors.ts';
+import { ColorArray } from '../../types/colors.ts';
 import { clamp } from '../../utils/math.ts';
 import { IChromaObject, ShiftColorOptions } from './types/color.ts';
 
-export const shiftColor = (objects: IChromaObject[], options: ShiftColorOptions) => {
+export function shiftColor(objects: IChromaObject[], options: ShiftColorOptions) {
     const opt: Omit<Required<ShiftColorOptions>, 'type'> = {
         startTime: options.startTime,
         endTime: options.endTime,
@@ -69,4 +69,4 @@ export const shiftColor = (objects: IChromaObject[], options: ShiftColorOptions)
             obj.customData._lightGradient._endColor = shift(obj.customData._lightGradient._endColor, hsvaShift, opt);
         }
     });
-};
+}

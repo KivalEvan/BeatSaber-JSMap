@@ -3,7 +3,7 @@ import { ObjectToReturn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './baseObject.ts';
 
-/** Boost event beatmap object. */
+/** Boost event beatmap v3 class object. */
 export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
     static default: ObjectToReturn<Required<IColorBoostEvent>> = {
         b: 0,
@@ -20,13 +20,11 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
     static create(): ColorBoostEvent;
     static create(colorBoostEvents: Partial<IColorBoostEvent>): ColorBoostEvent;
     static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent[];
-    static create(
-        ...colorBoostEvents: Partial<IColorBoostEvent>[]
-    ): ColorBoostEvent | ColorBoostEvent[] {
+    static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent | ColorBoostEvent[] {
         const result: ColorBoostEvent[] = [];
         colorBoostEvents?.forEach((be) =>
             result.push(
-                new ColorBoostEvent({
+                new this({
                     b: be.b ?? ColorBoostEvent.default.b,
                     o: be.o ?? ColorBoostEvent.default.o,
                     customData: be.customData ?? ColorBoostEvent.default.customData(),
@@ -39,14 +37,14 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
         if (result.length) {
             return result;
         }
-        return new ColorBoostEvent({
+        return new this({
             b: ColorBoostEvent.default.b,
             o: ColorBoostEvent.default.o,
             customData: ColorBoostEvent.default.customData(),
         });
     }
 
-    toObject(): IColorBoostEvent {
+    toObject(): Required<IColorBoostEvent> {
         return {
             b: this.time,
             o: this.toggle,

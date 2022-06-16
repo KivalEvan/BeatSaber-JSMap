@@ -1,6 +1,6 @@
-import { Version } from '../../types/beatmap/mod.ts';
+import { Version } from '../../types/beatmap/shared/version.ts';
 
-export const compareVersion = (version: Version, compareTo: Version) => {
+export function compareVersion(version: Version, compareTo: Version) {
     const ver = getVersionArray(version);
     const verCompare = getVersionArray(compareTo);
     for (const num in ver) {
@@ -12,7 +12,7 @@ export const compareVersion = (version: Version, compareTo: Version) => {
         }
     }
     return 'current';
-};
+}
 
 const getVersionArray = (version: Version): number[] => {
     return version

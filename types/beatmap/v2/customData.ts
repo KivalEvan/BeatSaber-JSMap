@@ -1,4 +1,4 @@
-import { IBookmark } from '../shared/bookmark.ts';
+import { IBookmark } from './bookmark.ts';
 import { IBPMChange, IBPMChangeOld } from '../shared/bpm.ts';
 import { IHeckCustomData, IHeckCustomEvent } from './heck.ts';
 import { IChromaCustomData, IChromaCustomEvent, IChromaNote, IChromaObstacle } from './chroma.ts';

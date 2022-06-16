@@ -1,13 +1,8 @@
 import { IChromaObject, SetColorRangeOptions } from './types/color.ts';
 import { HSVAtoRGBA, interpolateColor } from '../../utils/colors.ts';
 
-export const randomizeColor = (
-    objects: IChromaObject[],
-    options: SetColorRangeOptions,
-) => {
-    objects = objects.filter(
-        (obj) => obj.time >= options.startTime && obj.time <= options.endTime,
-    );
+export function randomizeColor(objects: IChromaObject[], options: SetColorRangeOptions) {
+    objects = objects.filter((obj) => obj.time >= options.startTime && obj.time <= options.endTime);
     objects.forEach((obj) => {
         const random = Math.random();
         const color = interpolateColor(
@@ -21,4 +16,4 @@ export const randomizeColor = (
             obj.customData = { _color: color };
         }
     });
-};
+}

@@ -30,6 +30,7 @@ import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
 import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
 
+/** Difficulty beatmap v3 class object. */
 export class DifficultyData extends Serializable<IDifficultyData> {
     private _fileName = 'UnnamedDifficulty.dat';
 
@@ -75,7 +76,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
     }
 
     static create(difficultyData: Partial<IDifficultyData> = {}): DifficultyData {
-        return new DifficultyData({
+        return new this({
             version: difficultyData.version || '3.0.0',
             bpmEvents: difficultyData.bpmEvents ?? [],
             rotationEvents: difficultyData.rotationEvents ?? [],
@@ -97,7 +98,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         });
     }
 
-    toObject(): IDifficultyData {
+    toObject(): Required<IDifficultyData> {
         return {
             version: this.version || '3.0.0',
             bpmEvents: this.bpmEvents.map((obj) => obj.toObject()),
@@ -287,12 +288,12 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             this.waypoints.push(Waypoint.create(w));
         });
     };
-    addBasicBeatmapEvents = (...basicEvents: Partial<IBasicEvent>[]) => {
+    addBasicEvents = (...basicEvents: Partial<IBasicEvent>[]) => {
         basicEvents.forEach((be) => {
             this.basicBeatmapEvents.push(BasicEvent.create(be));
         });
     };
-    addColorBoostBeatmapEvents = (...colorBoostEvents: Partial<IColorBoostEvent>[]) => {
+    addColorBoostEvents = (...colorBoostEvents: Partial<IColorBoostEvent>[]) => {
         colorBoostEvents.forEach((cbe) => {
             this.colorBoostBeatmapEvents.push(ColorBoostEvent.create(cbe));
         });

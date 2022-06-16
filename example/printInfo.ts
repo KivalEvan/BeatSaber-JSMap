@@ -1,6 +1,6 @@
 import * as bsmap from '../mod.ts';
 
-export const printChromaEnvironment = (d: bsmap.v3.DifficultyData) => {
+export function printChromaEnvironment(d: bsmap.v3.DifficultyData) {
     const envEnh = d.customData.environment ?? [];
     const uniqueID: string[] = [];
     let hasTrack = 0;
@@ -17,9 +17,9 @@ export const printChromaEnvironment = (d: bsmap.v3.DifficultyData) => {
     if (hasTrack) {
         console.log('Track Count:', hasTrack);
     }
-};
+}
 
-export const printV3Event = (d: bsmap.v3.DifficultyData) => {
+export function printV3Event(d: bsmap.v3.DifficultyData) {
     console.log(
         'Light Color Event Box Group',
         d.lightColorEventBoxGroups.length,
@@ -42,4 +42,4 @@ export const printV3Event = (d: bsmap.v3.DifficultyData) => {
         d.lightColorEventBoxGroups.reduce((t, e) => t + e.events.reduce((r, y) => r + y.events.length, 0), 0) +
             d.lightRotationEventBoxGroups.reduce((t, e) => t + e.events.reduce((r, y) => r + y.events.length, 0), 0)
     );
-};
+}

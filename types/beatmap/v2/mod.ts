@@ -1,3 +1,4 @@
+export * from './bookmark.ts';
 export * from './chroma.ts';
 export * from './customData.ts';
 export * from './difficulty.ts';

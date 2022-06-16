@@ -1,7 +1,7 @@
-import { ColorArray } from '../../types/beatmap/shared/colors.ts';
+import { ColorArray } from '../../colors.ts';
 
 /** Bookmark custom data for difficulty. */
-export interface Bookmark {
+export interface IBookmark {
     b: number;
     n: string;
     c?: ColorArray;

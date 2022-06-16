@@ -1,5 +1,3 @@
-import { deepCopy } from '../../utils/misc.ts';
-
 // deno-lint-ignore ban-types
 export abstract class Serializable<T extends Object> {
     protected data: Required<T>;
@@ -7,7 +5,7 @@ export abstract class Serializable<T extends Object> {
         this.data = data;
     }
 
-    abstract toObject(): T;
+    abstract toObject(): Required<T>;
 
     /** Convert class object into serialized string. */
     serialize() {
@@ -16,8 +14,6 @@ export abstract class Serializable<T extends Object> {
 
     /** Clone class object without referencing the original. */
     clone<U extends this>(): U {
-        const cloned = new (this.constructor as { new (): U })();
-        cloned.data = deepCopy(this.data);
-        return cloned;
+        return new (this.constructor as { new (data: T): U })(this.toObject());
     }
 }

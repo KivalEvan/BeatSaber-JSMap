@@ -1,11 +1,14 @@
-import { INETrackObject, INETrackOverload } from './types/track.ts';
+import { INETrackObject } from './types/track.ts';
 
-export const addTrack: INETrackOverload = (
+export function addTrack(objects: INETrackObject[], track: string): void;
+export function addTrack(objects: INETrackObject[], track: string, startTime: number, endTime: number): void;
+export function addTrack(objects: INETrackObject, track: string): void;
+export function addTrack(
     objects: INETrackObject | INETrackObject[],
     track: string,
     startTime?: number,
     endTime?: number,
-) => {
+) {
     if (!Array.isArray(objects)) {
         if (!objects.customData) {
             objects.customData = {};
@@ -39,14 +42,17 @@ export const addTrack: INETrackOverload = (
         .forEach((obj) => {
             addTrack(obj, track);
         });
-};
+}
 
-export const removeTrack: INETrackOverload = (
+export function removeTrack(objects: INETrackObject[], track: string): void;
+export function removeTrack(objects: INETrackObject[], track: string, startTime: number, endTime: number): void;
+export function removeTrack(objects: INETrackObject, track: string): void;
+export function removeTrack(
     objects: INETrackObject | INETrackObject[],
     track: string,
     startTime?: number,
     endTime?: number,
-) => {
+) {
     if (!Array.isArray(objects)) {
         if (!objects.customData) {
             return;
@@ -56,9 +62,7 @@ export const removeTrack: INETrackOverload = (
             return;
         } else if (Array.isArray(objects.customData._track)) {
             if (objects.customData._track.includes(track)) {
-                objects.customData._track = objects.customData._track.filter(
-                    (t) => t !== track,
-                );
+                objects.customData._track = objects.customData._track.filter((t) => t !== track);
                 if (objects.customData._track.length === 1) {
                     objects.customData._track = objects.customData._track[0];
                 }
@@ -85,4 +89,4 @@ export const removeTrack: INETrackOverload = (
         .forEach((obj) => {
             removeTrack(obj, track);
         });
-};
+}

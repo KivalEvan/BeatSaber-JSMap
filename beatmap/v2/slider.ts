@@ -3,6 +3,7 @@ import { ObjectToReturn } from '../../types/utils.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { Serializable } from '../shared/serializable.ts';
 
+/** Slider beatmap v2 class object. */
 export class Slider extends Serializable<ISlider> {
     static default: ObjectToReturn<Required<ISlider>> = {
         _colorType: 0,
@@ -30,7 +31,7 @@ export class Slider extends Serializable<ISlider> {
         const result: Slider[] = [];
         sliders?.forEach((s) =>
             result.push(
-                new Slider({
+                new this({
                     _colorType: s._colorType ?? Slider.default._colorType,
                     _headTime: s._headTime ?? s._tailTime ?? Slider.default._headTime,
                     _headLineIndex: s._headLineIndex ?? Slider.default._headLineIndex,
@@ -54,7 +55,7 @@ export class Slider extends Serializable<ISlider> {
         if (result.length) {
             return result;
         }
-        return new Slider({
+        return new this({
             _colorType: Slider.default._colorType,
             _headTime: Slider.default._headTime,
             _headLineIndex: Slider.default._headLineIndex,
@@ -70,7 +71,7 @@ export class Slider extends Serializable<ISlider> {
         });
     }
 
-    toObject(): ISlider {
+    toObject(): Required<ISlider> {
         return {
             _colorType: this.colorType,
             _headTime: this.headTime,

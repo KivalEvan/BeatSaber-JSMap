@@ -1,5 +1,5 @@
 import * as v2 from '../beatmap/v2/mod.ts';
-import logger from '../logger.ts';
+import Logger from '../logger.ts';
 import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
 import { easings } from '../beatmap/shared/easings.ts';
 import { interpolateColor } from '../utils/colors.ts';
@@ -9,12 +9,14 @@ const tag = (name: string) => {
     return `[convert::${name}]`;
 };
 
-export const chromaLightGradientToVanillaGradient = (
-    data: DifficultyDataV2,
-    skipPrompt?: boolean,
-): DifficultyDataV2 => {
+/** Convert Chroma light gradient to transition event.
+ * ```ts
+ * const newData = convert.ogChromaToChromaV2(oldData);
+ * ```
+ */
+export function chromaLightGradientToVanillaGradient(data: DifficultyDataV2, skipPrompt?: boolean): DifficultyDataV2 {
     if (!skipPrompt) {
-        logger.warn(
+        Logger.warn(
             tag('chromaLightGradientToVanillaGradient'),
             'Converting chroma light gradient may break certain lightshow effect!',
         );
@@ -22,12 +24,12 @@ export const chromaLightGradientToVanillaGradient = (
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Chroma light gradient conversion denied.');
         }
-        logger.info(
+        Logger.info(
             tag('chromaLightGradientToVanillaGradient'),
             'Converting chroma light gradient to vanilla chroma gradient',
         );
     } else {
-        logger.warn(
+        Logger.warn(
             tag('chromaLightGradientToVanillaGradient'),
             'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
         );
@@ -53,7 +55,7 @@ export const chromaLightGradientToVanillaGradient = (
             if (eventInGradient.length) {
                 ev.customData._color = ev.customData._lightGradient._startColor;
                 ev.value = ev.value >= 1 && ev.value <= 4 ? 1 : ev.value >= 5 && ev.value <= 8 ? 5 : 9;
-                const easing = easings.method[ev.customData._lightGradient._easing ?? 'easeLinear'];
+                const easing = easings[ev.customData._lightGradient._easing ?? 'easeLinear'];
                 let hasOff = false;
                 let previousEvent: v2.Event = ev;
                 for (const eig of eventInGradient) {
@@ -146,4 +148,4 @@ export const chromaLightGradientToVanillaGradient = (
     }
     data.events = newEvents;
     return data;
-};
+}

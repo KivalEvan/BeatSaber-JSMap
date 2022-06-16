@@ -4,6 +4,7 @@ export * from './basicEvent.ts';
 export * from './basicEventTypesForKeywords.ts';
 export * from './basicEventTypesWithKeywords.ts';
 export * from './bombNote.ts';
+export * from './bookmark.ts';
 export * from './bpmEvent.ts';
 export * from './burstSlider.ts';
 export * from './chroma.ts';

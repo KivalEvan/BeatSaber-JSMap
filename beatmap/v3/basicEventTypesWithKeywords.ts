@@ -4,16 +4,14 @@ import { ObjectToReturn } from '../../types/utils.ts';
 import { Serializable } from '../shared/serializable.ts';
 import { BasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
 
-/** Basic event types with keywords. */
+/** Basic event types with keywords beatmap v3 class object. */
 export class BasicEventTypesWithKeywords extends Serializable<IBasicEventTypesWithKeywords> {
     static default: ObjectToReturn<Required<IBasicEventTypesWithKeywords>> = {
         d: () => [],
     };
 
     private d: BasicEventTypesForKeywords[];
-    private constructor(
-        basicEventTypesWithKeywords: Required<IBasicEventTypesWithKeywords>,
-    ) {
+    private constructor(basicEventTypesWithKeywords: Required<IBasicEventTypesWithKeywords>) {
         super(basicEventTypesWithKeywords);
         this.d = basicEventTypesWithKeywords.d.map((d) => BasicEventTypesForKeywords.create({ e: d.e, k: d.k }));
     }
@@ -21,7 +19,7 @@ export class BasicEventTypesWithKeywords extends Serializable<IBasicEventTypesWi
     static create(
         basicEventTypesWithKeywords: Partial<IBasicEventTypesWithKeywords> = {},
     ): BasicEventTypesWithKeywords {
-        return new BasicEventTypesWithKeywords({
+        return new this({
             d: basicEventTypesWithKeywords.d ?? BasicEventTypesWithKeywords.default.d(),
         });
     }

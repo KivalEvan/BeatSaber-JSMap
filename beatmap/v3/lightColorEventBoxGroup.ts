@@ -4,10 +4,8 @@ import { DeepPartial, ObjectToReturn } from '../../types/utils.ts';
 import { EventBoxGroupTemplate } from './eventBoxGroupTemplate.ts';
 import { LightColorEventBox } from './lightColorEventBox.ts';
 
-export class LightColorEventBoxGroup extends EventBoxGroupTemplate<
-    ILightColorEventBox,
-    LightColorEventBox
-> {
+/** Light color event box group beatmap v3 class object. */
+export class LightColorEventBoxGroup extends EventBoxGroupTemplate<ILightColorEventBox, LightColorEventBox> {
     static default: ObjectToReturn<Required<ILightColorEventBoxGroup>> = {
         b: 0,
         g: 0,
@@ -25,25 +23,19 @@ export class LightColorEventBoxGroup extends EventBoxGroupTemplate<
     }
 
     static create(): LightColorEventBoxGroup;
-    static create(
-        eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>,
-    ): LightColorEventBoxGroup;
-    static create(
-        ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
-    ): LightColorEventBoxGroup[];
+    static create(eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>): LightColorEventBoxGroup;
+    static create(...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]): LightColorEventBoxGroup[];
     static create(
         ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
     ): LightColorEventBoxGroup | LightColorEventBoxGroup[] {
         const result: LightColorEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
             result.push(
-                new LightColorEventBoxGroup({
+                new this({
                     b: ebg.b ?? LightColorEventBoxGroup.default.b,
                     g: ebg.g ?? LightColorEventBoxGroup.default.g,
-                    e: (ebg as Required<ILightColorEventBoxGroup>).e ??
-                        LightColorEventBoxGroup.default.e(),
-                    customData: ebg.customData ??
-                        LightColorEventBoxGroup.default.customData(),
+                    e: (ebg as Required<ILightColorEventBoxGroup>).e ?? LightColorEventBoxGroup.default.e(),
+                    customData: ebg.customData ?? LightColorEventBoxGroup.default.customData(),
                 }),
             )
         );
@@ -53,7 +45,7 @@ export class LightColorEventBoxGroup extends EventBoxGroupTemplate<
         if (result.length) {
             return result;
         }
-        return new LightColorEventBoxGroup({
+        return new this({
             b: LightColorEventBoxGroup.default.b,
             g: LightColorEventBoxGroup.default.g,
             e: LightColorEventBoxGroup.default.e(),

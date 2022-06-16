@@ -4,6 +4,7 @@ import { ObjectToReturn } from '../../types/utils.ts';
 import { NoteCutAngle } from '../shared/constants.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/** Note beatmap v2 class object. */
 export class Note extends BeatmapObject<INote> {
     static default: ObjectToReturn<Required<INote>> = {
         _time: 0,
@@ -27,7 +28,7 @@ export class Note extends BeatmapObject<INote> {
         const result: Note[] = [];
         notes?.forEach((n) =>
             result.push(
-                new Note({
+                new this({
                     _time: n._time ?? Note.default._time,
                     _lineIndex: n._lineIndex ?? Note.default._lineIndex,
                     _lineLayer: n._lineLayer ?? Note.default._lineLayer,
@@ -43,7 +44,7 @@ export class Note extends BeatmapObject<INote> {
         if (result.length) {
             return result;
         }
-        return new Note({
+        return new this({
             _time: Note.default._time,
             _lineIndex: Note.default._lineIndex,
             _lineLayer: Note.default._lineLayer,
@@ -53,7 +54,7 @@ export class Note extends BeatmapObject<INote> {
         });
     }
 
-    toObject(): INote {
+    toObject(): Required<INote> {
         return {
             _time: this.time,
             _type: this.type,

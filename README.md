@@ -3,6 +3,12 @@
 General-purpose Beat Saber scripting library using Deno TypeScript, complete with type-check, auto-completion, and
 suggestions.
 
+---
+
+> ⚠️ Work in progress. Breaking changes is to be expected.
+
+---
+
 ## Features
 
 - **Zero-dependency:** No external library used and no bloated file in the working folder.
@@ -41,7 +47,7 @@ If you are using the script outside of map directory, you can specify the map di
 apply `path` on IO function. This can be any valid path as long as it points to directory.
 
 ```ts
-bsmap.globals.path = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
+bsmap.Globals.path = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 ```
 
 ## Usage
@@ -74,5 +80,4 @@ issue if you encounter error/problem or want an improvement.
 - Strip some of the features as plugin/extension allowing for modular and lightweight system
 - Add more helper for Chroma and Noodle Extensions
 - Overload function for less function clutter (but more complex)
-- Make top-level function a regular function instead of arrow function
 - Bundle script

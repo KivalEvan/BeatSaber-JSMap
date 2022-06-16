@@ -2,7 +2,8 @@ import { IBasicEventTypesForKeywords } from '../../types/beatmap/v3/basicEventTy
 import { ObjectToReturn } from '../../types/utils.ts';
 import { Serializable } from '../shared/serializable.ts';
 
-/** Basic event types for keywords.
+/** Basic event types for keywords beatmap v3 class object.
+ *
  * Used in basic event types with keywords.
  */
 export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesForKeywords> {
@@ -11,26 +12,20 @@ export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesFor
         e: () => [],
     };
 
-    private constructor(
-        basicEventTypesForKeywords: Required<IBasicEventTypesForKeywords>,
-    ) {
+    private constructor(basicEventTypesForKeywords: Required<IBasicEventTypesForKeywords>) {
         super(basicEventTypesForKeywords);
     }
 
     static create(): BasicEventTypesForKeywords;
-    static create(
-        basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>,
-    ): BasicEventTypesForKeywords;
-    static create(
-        ...basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>[]
-    ): BasicEventTypesForKeywords[];
+    static create(basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>): BasicEventTypesForKeywords;
+    static create(...basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>[]): BasicEventTypesForKeywords[];
     static create(
         ...basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>[]
     ): BasicEventTypesForKeywords | BasicEventTypesForKeywords[] {
         const result: BasicEventTypesForKeywords[] = [];
         basicEventTypesForKeywords?.forEach((betfk) =>
             result.push(
-                new BasicEventTypesForKeywords({
+                new this({
                     k: betfk.k ?? BasicEventTypesForKeywords.default.k,
                     e: betfk.e ?? BasicEventTypesForKeywords.default.e(),
                 }),
@@ -42,7 +37,7 @@ export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesFor
         if (result.length) {
             return result;
         }
-        return new BasicEventTypesForKeywords({
+        return new this({
             k: BasicEventTypesForKeywords.default.k,
             e: BasicEventTypesForKeywords.default.e(),
         });
