@@ -56,31 +56,18 @@ export interface IChromaGeometry {
     _collision?: boolean;
 }
 
-/** Chroma interface for Beatmap Note Custom Data.
- * ```ts
-    _color?: string | ArrayColorPointDefinition[]
- * ```
- */
+/** Chroma interface for Beatmap Note Custom Data. */
 export interface IChromaAnimation {
     _color?: string | ColorPointDefinition[];
 }
 
-/** Chroma interface for Beatmap Note Custom Data.
- * ```ts
- * _color?: [float, float, float, float?],
- * _disableSpawnEffect?: boolean
- * ```
- */
+/** Chroma interface for Beatmap Note Custom Data. */
 export interface IChromaNote {
     _color?: ColorArray;
     _disableSpawnEffect?: boolean;
 }
 
-/** Chroma interface for Beatmap Obstacle Custom Data.
- * ```ts
- * _color?: [float, float, float, float?]
- * ```
- */
+/** Chroma interface for Beatmap Obstacle Custom Data. */
 export interface IChromaObstacle {
     _color?: ColorArray;
 }
