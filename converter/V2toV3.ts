@@ -1,5 +1,5 @@
 import * as v3 from '../beatmap/v3/mod.ts';
-import Logger from '../logger.ts';
+import logger from '../logger.ts';
 import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from '../beatmap/v3/difficulty.ts';
 import { clamp } from '../utils/math.ts';
@@ -22,14 +22,14 @@ const tag = (name: string) => {
  */
 export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): DifficultyDataV3 {
     if (!skipPrompt) {
-        Logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
+        logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v3 denied.');
         }
-        Logger.info(tag('V2toV3'), 'Converting beatmap v2 to v3');
+        logger.info(tag('V2toV3'), 'Converting beatmap v2 to v3');
     } else {
-        Logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
+        logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
     }
     const template = v3.DifficultyData.create();
     template.fileName = data.fileName;
@@ -70,10 +70,10 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 };
             }
             if (typeof n.customData._fake === 'boolean') {
-                Logger.warn(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _fake will be removed.`);
+                logger.warn(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _fake will be removed.`);
             }
             if (typeof n.customData._cutDirection === 'number') {
-                Logger.debug(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`);
+                logger.debug(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`);
             }
         }
         if (n.isBomb()) {
@@ -143,7 +143,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 };
             }
             if (typeof o.customData._fake === 'boolean') {
-                Logger.warn(tag('V2toV3'), `obstacles[${i}] at time ${o.time} NE _fake will be removed.`);
+                logger.warn(tag('V2toV3'), `obstacles[${i}] at time ${o.time} NE _fake will be removed.`);
             }
         }
         template.obstacles.push(
@@ -197,10 +197,10 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                         lerpType: e.customData._lerpType,
                     };
                     if (e.customData._propID) {
-                        Logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _propID will be removed.`);
+                        logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _propID will be removed.`);
                     }
                     if (e.customData._lightGradient) {
-                        Logger.warn(
+                        logger.warn(
                             tag('V2toV3'),
                             `events[${i}] at time ${e.time} Chroma _lightGradient will be removed.`,
                         );
@@ -216,16 +216,16 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                         direction: e.customData._direction,
                     };
                     if (e.customData._reset) {
-                        Logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _reset will be removed.`);
+                        logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _reset will be removed.`);
                     }
                     if (e.customData._counterSpin) {
-                        Logger.warn(
+                        logger.warn(
                             tag('V2toV3'),
                             `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`,
                         );
                     }
                     if (e.customData._stepMult || e.customData._propMult || e.customData._speedMult) {
-                        Logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _mult will be removed.`);
+                        logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _mult will be removed.`);
                     }
                 }
                 if (e.isLaserRotationEvent()) {
@@ -360,7 +360,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             height: ce._data._height,
                         },
                     } as ICustomEvent;
-                }) ?? [];
+                });
                 continue;
             }
             if (k === '_environment') {
@@ -378,7 +378,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                         localRotation: e._localRotation,
                         lightID: e._lightID,
                     };
-                }) ?? [];
+                });
                 continue;
             }
             if (k === '_pointDefinitions') {
@@ -387,7 +387,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                         name: e._name,
                         points: e._points,
                     };
-                }) ?? [];
+                });
                 continue;
             }
             template.customData[k] = data.customData[k];

@@ -2,16 +2,16 @@ import { IDifficultyData } from '../../types/beatmap/v2/difficulty.ts';
 import { DifficultyData } from './difficulty.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
 import { DifficultyDataCheck } from './dataCheck.ts';
-import Logger from '../../logger.ts';
+import logger from '../../logger.ts';
 
 const tag = (name: string) => {
     return `[v2::parse::${name}]`;
 };
 
 export function difficulty(data: IDifficultyData): DifficultyData {
-    Logger.info(tag('difficulty'), 'Parsing beatmap difficulty v2.x.x');
+    logger.info(tag('difficulty'), 'Parsing beatmap difficulty v2.x.x');
     if (!data._version?.startsWith('2')) {
-        Logger.warn(tag('difficulty'), 'Unidentified beatmap version');
+        logger.warn(tag('difficulty'), 'Unidentified beatmap version');
         data._version = '2.0.0';
     }
     deepCheck(data, DifficultyDataCheck, 'difficulty', data._version);

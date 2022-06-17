@@ -336,6 +336,7 @@ export default class Parity {
         return rotation;
     }
     // "predict" btw
+    // deno-lint-ignore no-unused-vars
     private predictStartPosition(notes: NoteContainer[], type: number): [number, number] {
         return type ? [-0.5, 1] : [0.5, 1];
     }

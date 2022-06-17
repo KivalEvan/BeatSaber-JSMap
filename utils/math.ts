@@ -1,4 +1,4 @@
-import Logger from '../logger.ts';
+import logger from '../logger.ts';
 import { EasingFunction } from '../types/beatmap/shared/easings.ts';
 
 const tag = (name: string) => {
@@ -83,11 +83,11 @@ export function clamp(value: number, min: number, max: number): number {
 /** Normalize value to 0-1 from given min and max value. */
 export function normalize(value: number, min: number, max: number): number {
     if (min >= max) {
-        Logger.error(tag('normalize'), 'Min value is equal or more than max value, returning 1');
+        logger.error(tag('normalize'), 'Min value is equal or more than max value, returning 1');
         return 1;
     }
     const result = (value - min) / (max - min);
-    Logger.verbose(tag('normalize'), `Obtained ${result}`);
+    logger.verbose(tag('normalize'), `Obtained ${result}`);
     return result;
 }
 
@@ -99,12 +99,12 @@ export function lerp(alpha: number, start: number, end: number, easing?: EasingF
         easing = (x) => x;
     }
     if (alpha > 1) {
-        Logger.warn(tag('lerp'), 'Alpha value is larger than 1, may have unintended result');
+        logger.warn(tag('lerp'), 'Alpha value is larger than 1, may have unintended result');
     }
     if (alpha < 0) {
-        Logger.warn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
+        logger.warn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
     }
     const result = start + (end - start) * easing(alpha);
-    Logger.verbose(tag('lerp'), `Obtained ${result}`);
+    logger.verbose(tag('lerp'), `Obtained ${result}`);
     return result;
 }

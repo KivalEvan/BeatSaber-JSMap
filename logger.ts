@@ -1,4 +1,4 @@
-// really simple Logger
+// really simple logger
 enum LogLevels {
     VERBOSE,
     DEBUG,
@@ -17,7 +17,7 @@ const logPrefixes = new Map<LogLevels, string>([
     [LogLevels.NONE, 'NONE'],
 ]);
 
-class Logger {
+class logger {
     logLevel = LogLevels.INFO;
 
     // deno-lint-ignore no-explicit-any
@@ -53,7 +53,7 @@ class Logger {
     public setLevel(level: LogLevels) {
         level = Math.min(level, 5);
         this.logLevel = level;
-        this.info('[Logger::setLevel]', `Log level set to ${logPrefixes.get(level)}`);
+        this.info('[logger::setLevel]', `Log level set to ${logPrefixes.get(level)}`);
     }
 
     // deno-lint-ignore no-explicit-any
@@ -83,4 +83,4 @@ class Logger {
 }
 
 /** Simple logging system. */
-export default new Logger();
+export default new logger();

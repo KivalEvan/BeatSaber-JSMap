@@ -47,7 +47,7 @@ If you are using the script outside of map directory, you can specify the map di
 apply `path` on IO function. This can be any valid path as long as it points to directory.
 
 ```ts
-bsmap.Globals.path = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
+bsmap.globals.path = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 ```
 
 ## Usage

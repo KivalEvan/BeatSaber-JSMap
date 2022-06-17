@@ -23,6 +23,9 @@ export class EnvironmentGroup {
                 (p, i) => (this.anchor[i] + p) * (options.scale?.[i] ?? 1) + (options.position?.[i] ?? 0),
             ) as Vector3;
             d.scale = d.scale?.map((s, i) => s * (options.scale?.[i] ?? 1)) as Vector3;
+            if (options.lightID) {
+                d.lightID = options.lightID++;
+            }
         });
         if (insertTo) {
             insertTo.push(...data);

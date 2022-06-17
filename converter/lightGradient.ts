@@ -1,5 +1,5 @@
 import * as v2 from '../beatmap/v2/mod.ts';
-import Logger from '../logger.ts';
+import logger from '../logger.ts';
 import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
 import { easings } from '../beatmap/shared/easings.ts';
 import { interpolateColor } from '../utils/colors.ts';
@@ -16,7 +16,7 @@ const tag = (name: string) => {
  */
 export function chromaLightGradientToVanillaGradient(data: DifficultyDataV2, skipPrompt?: boolean): DifficultyDataV2 {
     if (!skipPrompt) {
-        Logger.warn(
+        logger.warn(
             tag('chromaLightGradientToVanillaGradient'),
             'Converting chroma light gradient may break certain lightshow effect!',
         );
@@ -24,12 +24,12 @@ export function chromaLightGradientToVanillaGradient(data: DifficultyDataV2, ski
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Chroma light gradient conversion denied.');
         }
-        Logger.info(
+        logger.info(
             tag('chromaLightGradientToVanillaGradient'),
             'Converting chroma light gradient to vanilla chroma gradient',
         );
     } else {
-        Logger.warn(
+        logger.warn(
             tag('chromaLightGradientToVanillaGradient'),
             'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
         );

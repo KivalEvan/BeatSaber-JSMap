@@ -3,7 +3,10 @@
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
 // should predefine it for performance but it might be longer and hard to trace
-export const LightIDList: Record<EnvironmentAllName, Readonly<{ [key: number]: ReadonlyArray<number> }>> = {
+export const LightIDList: Record<
+    EnvironmentAllName,
+    Readonly<{ [key: number]: ReadonlyArray<number> }>
+> = {
     DefaultEnvironment: {
         0: Array.from(Array(10), (_, i) => i + 1),
         1: Array.from(Array(60), (_, i) => i + 1),
@@ -193,6 +196,14 @@ export const LightIDList: Record<EnvironmentAllName, Readonly<{ [key: number]: R
         0: Array.from(Array(2), (_, i) => i + 1),
         1: Array.from(Array(66), (_, i) => i + 1),
         4: Array.from(Array(66), (_, i) => i + 1),
+    },
+    // FIXME: unknown
+    TheSecondEnvironment: {
+        0: Array.from(Array(10), (_, i) => i + 1),
+        1: Array.from(Array(60), (_, i) => i + 1),
+        2: Array.from(Array(7), (_, i) => i + 1),
+        3: Array.from(Array(7), (_, i) => i + 1),
+        4: Array.from(Array(12), (_, i) => i + 1),
     },
     GlassDesertEnvironment: {
         0: Array.from(Array(6), (_, i) => i + 1),

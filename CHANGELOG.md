@@ -1,6 +1,16 @@
 # Changelog
 
-## 1.1.0 [2022-06-17]
+## 1.1.1 [2022-06-17]
+
+### Changed
+
+- v2 event floatValue and v2 obstacle lineLayer & height is now optional
+
+### Fixed
+
+- Example is broken
+
+## 1.1.0 [2022-06-16]
 
 ### Added
 

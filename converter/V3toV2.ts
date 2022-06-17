@@ -1,5 +1,5 @@
 import * as v2 from '../beatmap/v2/mod.ts';
-import Logger from '../logger.ts';
+import logger from '../logger.ts';
 import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from '../beatmap/v3/difficulty.ts';
 import { clamp } from '../utils/math.ts';
@@ -21,14 +21,14 @@ const tag = (name: string) => {
  */
 export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): DifficultyDataV2 {
     if (!skipPrompt) {
-        Logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
+        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v2 denied.');
         }
-        Logger.info(tag('V3toV2'), 'Converting beatmap v3 to v2');
+        logger.info(tag('V3toV2'), 'Converting beatmap v3 to v2');
     } else {
-        Logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
+        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
     }
     const template = DifficultyDataV2.create();
     template.fileName = data.fileName;

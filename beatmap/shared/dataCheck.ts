@@ -1,5 +1,5 @@
 import { DataCheck, DataCheckObject } from '../../types/beatmap/shared/dataCheck.ts';
-import Logger from '../../logger.ts';
+import logger from '../../logger.ts';
 import { Version } from '../../types/beatmap/shared/version.ts';
 import { compareVersion } from './version.ts';
 
@@ -14,7 +14,7 @@ export function deepCheck(
     name: string,
     version: Version,
 ) {
-    Logger.verbose(tag('deepCheck'), `Looking up ${name}`);
+    logger.verbose(tag('deepCheck'), `Looking up ${name}`);
     if (Array.isArray(data)) {
         data.forEach((d, i) => deepCheck(d, check, `${name}[${i}]`, version));
         return;
@@ -25,7 +25,7 @@ export function deepCheck(
             break;
         }
         if (!dataCheckKey.includes(key)) {
-            Logger.warn(tag('deepCheck'), `Unused key ${key} found in ${name}`);
+            logger.warn(tag('deepCheck'), `Unused key ${key} found in ${name}`);
         }
     }
     for (const key in check) {

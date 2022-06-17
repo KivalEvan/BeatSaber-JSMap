@@ -1,4 +1,4 @@
-import Logger from '../logger.ts';
+import logger from '../logger.ts';
 
 const tag = (name: string) => {
     return `[utils::misc::${name}]`;
@@ -25,7 +25,7 @@ export function interleave([x, ...xs]: number[], ys: number[] = []): number[] {
  */
 export function deepCopy<T>(object: T): T {
     if (typeof object !== 'object') {
-        Logger.error(tag('deepCopy'), 'Received non-object type');
+        logger.error(tag('deepCopy'), 'Received non-object type');
     }
     return JSON.parse(JSON.stringify(object));
 }

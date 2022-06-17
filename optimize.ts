@@ -4,7 +4,7 @@ import { IDifficultyData as DifficultyDataV3 } from './types/beatmap/v3/difficul
 import { IOptimizeOptions, IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './types/bsmap/optimize.ts';
 import { Either } from './types/utils.ts';
 import { round } from './utils/math.ts';
-import Logger from './logger.ts';
+import logger from './logger.ts';
 
 const tag = (name: string) => {
     return `[optimize::${name}]`;
@@ -98,10 +98,10 @@ export function deepClean(
                 throw new Error(`null value found in object key ${name}.${k}.`);
             } else {
                 if (Array.isArray(obj)) {
-                    Logger.error(tag('deepClean'), `null value found in array ${name}[${k}], defaulting to 0...`);
+                    logger.error(tag('deepClean'), `null value found in array ${name}[${k}], defaulting to 0...`);
                     obj[k] = 0;
                 } else {
-                    Logger.error(tag('deepClean'), `null value found in object key ${name}.${k}, deleting property...`);
+                    logger.error(tag('deepClean'), `null value found in object key ${name}.${k}, deleting property...`);
                     delete obj[k];
                 }
             }
@@ -121,9 +121,9 @@ export function performInfo(info: IInfoData, options: IOptimizeOptionsInfo = { e
     if (!opt.enabled) {
         return info;
     }
-    Logger.info(tag('performInfo'), `Optimising info data`);
+    logger.info(tag('performInfo'), `Optimising info data`);
 
-    Logger.debug(tag('performInfo'), 'Applying deep clean');
+    logger.debug(tag('performInfo'), 'Applying deep clean');
     deepClean(info, opt);
     return info;
 }
@@ -144,13 +144,13 @@ export function performDifficulty(
     if (!opt.enabled) {
         return difficulty;
     }
-    Logger.info(tag('performDifficulty'), `Optimising difficulty data`);
+    logger.info(tag('performDifficulty'), `Optimising difficulty data`);
 
-    Logger.debug(tag('performDifficulty'), 'Applying deep clean');
+    logger.debug(tag('performDifficulty'), 'Applying deep clean');
     deepClean(difficulty, opt);
 
     if (opt.sort) {
-        Logger.debug(tag('performDifficulty'), 'Sorting objects');
+        logger.debug(tag('performDifficulty'), 'Sorting objects');
         const sortPrec = Math.pow(10, opt.floatTrim);
         difficulty._notes?.sort(
             (a, b) =>
