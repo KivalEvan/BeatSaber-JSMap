@@ -1,16 +1,13 @@
 import { IChromaObject, SetColorGradientOptions, SetColorOptions } from './types/color.ts';
 import { HSVAtoRGBA, interpolateColor } from '../../utils/colors.ts';
 import { normalize } from '../../utils/math.ts';
+import { IChromaEventLight } from '../../types/beatmap/v3/chroma.ts';
 
 export function setColor(objects: IChromaObject[], options: SetColorOptions) {
     objects = objects.filter((obj) => obj.time >= options.startTime && obj.time <= options.endTime);
     objects.forEach((obj) => {
         const color = options.colorType === 'hsva' ? HSVAtoRGBA(...options.color) : options.color;
-        if (obj.customData) {
-            obj.customData._color = color;
-        } else {
-            obj.customData = { _color: color };
-        }
+        (obj.customData as IChromaEventLight).color = color;
     });
 }
 
@@ -26,10 +23,6 @@ export function setColorGradient(objects: IChromaObject[], options: SetColorGrad
             options.colorType,
             options.easingColor,
         );
-        if (obj.customData) {
-            obj.customData._color = color;
-        } else {
-            obj.customData = { _color: color };
-        }
+        (obj.customData as IChromaEventLight).color = color;
     });
 }

@@ -1,5 +1,6 @@
 import { IChromaObject, SetColorRangeOptions } from './types/color.ts';
 import { HSVAtoRGBA, interpolateColor } from '../../utils/colors.ts';
+import { IChromaEventLight } from '../../types/beatmap/v3/chroma.ts';
 
 export function randomizeColor(objects: IChromaObject[], options: SetColorRangeOptions) {
     objects = objects.filter((obj) => obj.time >= options.startTime && obj.time <= options.endTime);
@@ -10,10 +11,6 @@ export function randomizeColor(objects: IChromaObject[], options: SetColorRangeO
             options.colorType === 'hsva' ? HSVAtoRGBA(...options.color2) : options.color2,
             random,
         );
-        if (obj.customData) {
-            obj.customData._color = color;
-        } else {
-            obj.customData = { _color: color };
-        }
+        (obj.customData as IChromaEventLight).color = color;
     });
 }

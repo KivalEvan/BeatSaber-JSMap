@@ -21,3 +21,5 @@ export interface ColorObject {
  * ```
  */
 export type ColorArray = [number, number, number, number?];
+
+export type ColorType = 'rgba' | 'hsva' | 'hex';

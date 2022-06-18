@@ -1,14 +1,11 @@
-import { Note } from '../../../beatmap/v2/note.ts';
-import { Obstacle } from '../../../beatmap/v2/obstacle.ts';
-import { Event } from '../../../beatmap/v2/event.ts';
 import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
-import { Obstacle as ObstacleV3 } from '../../../beatmap/v3/obstacle.ts';
+import { Obstacle } from '../../../beatmap/v3/obstacle.ts';
 import { BasicEvent } from '../../../beatmap/v3/basicEvent.ts';
 import { Easings } from '../../../types/beatmap/shared/easings.ts';
 import { ColorArray } from '../../../types/colors.ts';
 import { SetOptions } from './options.ts';
 
-export type IChromaObject = Note | ColorNote | Obstacle | ObstacleV3 | Event | BasicEvent;
+export type IChromaObject = ColorNote | Obstacle | BasicEvent;
 
 export interface SetColorOptions extends SetOptions {
     color: ColorArray;
@@ -49,14 +46,14 @@ export interface ShiftColorGradientOptions extends ShiftColorBaseOptions {
 
 export interface ApplyEasingsOptions extends SetOptions {
     easing: Easings;
-    type?: Event['type'];
+    type?: BasicEvent['type'];
 }
 
 export interface pRandomLightIDOptions extends SetOptions {
     startColor: ColorArray;
     endColor: ColorArray;
     colorType?: 'rgba' | 'long hsva' | 'short hsva';
-    type: Event['type'];
+    type: BasicEvent['type'];
     duration: number;
     length: number;
     precision: number;
@@ -80,7 +77,7 @@ export interface pRandomLightI2DOptions extends SetOptions {
     step: number;
     lightOff: boolean;
     offStrobe: boolean;
-    lightID: [Event['type'], number][];
+    lightID: [BasicEvent['type'], number][];
     lightIDMulti?: number;
     offsetEnd?: boolean;
     easingColor?: (x: number) => number;

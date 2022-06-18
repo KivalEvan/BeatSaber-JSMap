@@ -1,14 +1,24 @@
 # Changelog
 
-## 1.1.1 [2022-06-17]
+## 1.1.1 [2022-06-19]
+
+### Added
+
+- Selector extension `where` function
 
 ### Changed
 
 - v2 event floatValue and v2 obstacle lineLayer & height is now optional
+- Class object data is now exposed (not recommended for modification purpose)
+
+### Updated
+
+- Several changes to extensions
 
 ### Fixed
 
 - Example is broken
+- Sometimes error would come randomly
 
 ## 1.1.0 [2022-06-16]
 
