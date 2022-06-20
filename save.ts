@@ -12,19 +12,19 @@ const tag = (name: string) => {
 };
 
 const optionsInfo: Required<ISaveOptionsInfo> = {
-    path: '',
+    directory: '',
     filePath: 'Info.dat',
     optimise: { enabled: true },
 };
 
 const optionsDifficulty: Required<ISaveOptionsDifficulty> = {
-    path: '',
+    directory: '',
     filePath: 'UnnamedPath.dat',
     optimise: { enabled: true },
 };
 
 const optionsDifficultyList: Required<ISaveOptionsDifficultyList> = {
-    path: '',
+    directory: '',
     optimise: { enabled: true },
 };
 
@@ -42,7 +42,7 @@ export const defaultOptions = {
  */
 export async function info(data: IInfoData, options: Partial<ISaveOptionsInfo> = {}) {
     const opt: Required<ISaveOptionsDifficulty> = {
-        path: options.path ?? (globals.path || defaultOptions.info.path),
+        directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? 'Info.dat',
         optimise: options.optimise ?? { enabled: true },
     };
@@ -51,8 +51,8 @@ export async function info(data: IInfoData, options: Partial<ISaveOptionsInfo> =
         logger.info(tag('info'), `Optimising info data`);
         performInfo(data, opt.optimise);
     }
-    logger.info(tag('info'), `Writing to ${opt.path + opt.filePath}`);
-    await Deno.writeTextFile(opt.path + opt.filePath, JSON.stringify(data));
+    logger.info(tag('info'), `Writing to ${opt.directory + opt.filePath}`);
+    await Deno.writeTextFile(opt.directory + opt.filePath, JSON.stringify(data));
 }
 
 /** Synchronously save beatmap info.
@@ -62,7 +62,7 @@ export async function info(data: IInfoData, options: Partial<ISaveOptionsInfo> =
  */
 export function infoSync(data: IInfoData, options: Partial<ISaveOptionsInfo> = {}) {
     const opt: Required<ISaveOptionsDifficulty> = {
-        path: options.path ?? (globals.path || defaultOptions.info.path),
+        directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? 'Info.dat',
         optimise: options.optimise ?? { enabled: true },
     };
@@ -71,8 +71,8 @@ export function infoSync(data: IInfoData, options: Partial<ISaveOptionsInfo> = {
         logger.info(tag('infoSync'), `Optimising info data`);
         performInfo(data, opt.optimise);
     }
-    logger.info(tag('infoSync'), `Writing to ${opt.path + opt.filePath}`);
-    Deno.writeTextFileSync(opt.path + opt.filePath, JSON.stringify(data));
+    logger.info(tag('infoSync'), `Writing to ${opt.directory + opt.filePath}`);
+    Deno.writeTextFileSync(opt.directory + opt.filePath, JSON.stringify(data));
 }
 
 /** Asynchronously save beatmap difficulty.
@@ -85,7 +85,7 @@ export async function difficulty(
     options: Partial<ISaveOptionsDifficulty> = {},
 ) {
     const opt: Required<ISaveOptionsDifficulty> = {
-        path: options.path ?? (globals.path || defaultOptions.difficulty.path),
+        directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
         filePath: options.filePath ?? data.fileName ?? 'UnnamedDifficulty.dat',
         optimise: options.optimise ?? { enabled: true },
     };
@@ -94,8 +94,8 @@ export async function difficulty(
     if (opt.optimise.enabled) {
         performDifficulty(objectData, opt.optimise);
     }
-    logger.info(tag('difficulty'), `Writing to ${opt.path + opt.filePath}`);
-    await Deno.writeTextFile(opt.path + opt.filePath, JSON.stringify(objectData));
+    logger.info(tag('difficulty'), `Writing to ${opt.directory + opt.filePath}`);
+    await Deno.writeTextFile(opt.directory + opt.filePath, JSON.stringify(objectData));
 }
 
 /** Synchronously save beatmap difficulty.
@@ -108,7 +108,7 @@ export function difficultySync(
     options: Partial<ISaveOptionsDifficulty> = {},
 ) {
     const opt: Required<ISaveOptionsDifficulty> = {
-        path: options.path ?? (globals.path || defaultOptions.difficulty.path),
+        directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
         filePath: options.filePath ?? data.fileName ?? 'UnnamedDifficulty.dat',
         optimise: options.optimise ?? { enabled: true },
     };
@@ -117,8 +117,8 @@ export function difficultySync(
     if (opt.optimise.enabled) {
         performDifficulty(objectData, opt.optimise);
     }
-    logger.info(tag('difficultySync'), `Writing to ${opt.path + opt.filePath}`);
-    Deno.writeTextFileSync(opt.path + opt.filePath, JSON.stringify(objectData));
+    logger.info(tag('difficultySync'), `Writing to ${opt.directory + opt.filePath}`);
+    Deno.writeTextFileSync(opt.directory + opt.filePath, JSON.stringify(objectData));
 }
 
 /** Asynchronously save multiple beatmap difficulties.
@@ -130,7 +130,7 @@ export function difficultyList(difficulties: IDifficultyList, options: Partial<I
     logger.info(tag('difficultyList'), `Async saving list of difficulty`);
     difficulties.forEach(async (dl) => {
         const opt: Required<ISaveOptionsDifficultyList> = {
-            path: options.path ?? (globals.path || defaultOptions.difficultyList.path),
+            directory: options.directory ?? (globals.directory || defaultOptions.difficultyList.directory),
             optimise: options.optimise ?? { enabled: true },
         };
         logger.info(tag('difficultyListSync'), `Saving ${dl.characteristic} ${dl.difficulty}`);
@@ -138,8 +138,8 @@ export function difficultyList(difficulties: IDifficultyList, options: Partial<I
         if (opt.optimise.enabled) {
             performDifficulty(objectData, opt.optimise);
         }
-        logger.info(tag('difficultyList'), `Writing to ${opt.path + dl.settings._beatmapFilename}`);
-        await Deno.writeTextFile(opt.path + dl.settings._beatmapFilename, JSON.stringify(objectData));
+        logger.info(tag('difficultyList'), `Writing to ${opt.directory + dl.settings._beatmapFilename}`);
+        await Deno.writeTextFile(opt.directory + dl.settings._beatmapFilename, JSON.stringify(objectData));
     });
 }
 
@@ -152,7 +152,7 @@ export function difficultyListSync(difficulties: IDifficultyList, options: Parti
     logger.info(tag('difficultyListSync'), `Sync saving list of difficulty`);
     difficulties.forEach((dl) => {
         const opt: Required<ISaveOptionsDifficultyList> = {
-            path: options.path ?? (globals.path || defaultOptions.difficultyList.path),
+            directory: options.directory ?? (globals.directory || defaultOptions.difficultyList.directory),
             optimise: options.optimise ?? { enabled: true },
         };
         logger.info(tag('difficultyListSync'), `Saving ${dl.characteristic} ${dl.difficulty}`);
@@ -160,7 +160,7 @@ export function difficultyListSync(difficulties: IDifficultyList, options: Parti
         if (opt.optimise.enabled) {
             performDifficulty(objectData, opt.optimise);
         }
-        logger.info(tag('difficultyList'), `Writing to ${opt.path + dl.settings._beatmapFilename}`);
-        Deno.writeTextFileSync(opt.path + dl.settings._beatmapFilename, JSON.stringify(objectData));
+        logger.info(tag('difficultyList'), `Writing to ${opt.directory + dl.settings._beatmapFilename}`);
+        Deno.writeTextFileSync(opt.directory + dl.settings._beatmapFilename, JSON.stringify(objectData));
     });
 }

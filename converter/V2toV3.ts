@@ -7,7 +7,6 @@ import { EventLaneRotationValue } from '../beatmap/shared/constants.ts';
 import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v3/customData.ts';
 import { IBasicEvent } from '../types/beatmap/v3/basicEvent.ts';
 import { Vector3 } from '../types/beatmap/shared/heck.ts';
-import { ICustomEvent } from '../types/beatmap/v3/customEvent.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -307,7 +306,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                                 interactable: ce._data._interactable,
                                 time: ce._data._time,
                             },
-                        } as ICustomEvent;
+                        };
                     }
                     if (ce._type === 'AssignPathAnimation') {
                         return {
@@ -327,7 +326,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                                 interactable: ce._data._interactable,
                                 definitePosition: ce._data._definitePosition,
                             },
-                        } as ICustomEvent;
+                        };
                     }
                     if (ce._type === 'AssignTrackParent') {
                         return {
@@ -338,7 +337,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                                 parentTrack: ce._data._parentTrack,
                                 worldPositionStays: ce._data._worldPositionStays,
                             },
-                        } as ICustomEvent;
+                        };
                     }
                     if (ce._type === 'AssignPlayerToTrack') {
                         return {
@@ -347,7 +346,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             data: {
                                 track: ce._data._track,
                             },
-                        } as ICustomEvent;
+                        };
                     }
                     return {
                         beat: ce._time,
@@ -359,7 +358,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             startY: ce._data._startY,
                             height: ce._data._height,
                         },
-                    } as ICustomEvent;
+                    };
                 });
                 continue;
             }
@@ -386,6 +385,19 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     return {
                         name: e._name,
                         points: e._points,
+                    };
+                });
+                continue;
+            }
+            if (k === '_geometry') {
+                template.customData.geometry = data.customData._geometry!.map((g) => {
+                    return {
+                        type: g._type,
+                        spawnCount: g._spawnCount,
+                        track: g._track,
+                        shaderPreset: g._shaderPreset,
+                        shaderKeywords: g._shaderKeywords,
+                        collision: g._collision,
                     };
                 });
                 continue;

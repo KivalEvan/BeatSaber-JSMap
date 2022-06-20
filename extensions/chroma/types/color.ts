@@ -1,7 +1,7 @@
 import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
 import { Obstacle } from '../../../beatmap/v3/obstacle.ts';
 import { BasicEvent } from '../../../beatmap/v3/basicEvent.ts';
-import { Easings } from '../../../types/beatmap/shared/easings.ts';
+import { Easings } from '../../../types/easings.ts';
 import { ColorArray } from '../../../types/colors.ts';
 import { SetOptions } from './options.ts';
 

@@ -36,14 +36,11 @@ export class EnvironmentBlock implements IChromaEnvironment {
 
     place(options: IChromaEnvironmentPlacement, insertTo?: never): IChromaEnvironment;
     place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
-    place(
-        options: IChromaEnvironmentPlacement,
-        insertTo?: IChromaEnvironment[],
-    ): IChromaEnvironment | void {
+    place(options: IChromaEnvironmentPlacement, insertTo?: IChromaEnvironment[]): IChromaEnvironment | void {
         const scale = options.scale ? (this.scale.map((s, i) => s * options.scale![i]) as Vector3) : this.scale;
         const position = options.position
-            ? (options.position.map((p, i) => p + this.anchor[i]) as Vector3)
-            : this.position;
+            ? (options.position.map((p, i) => p + this.anchor[i] * (options.scale?.[i] || 1)) as Vector3)
+            : (this.position.map((p, i) => p + this.anchor[i] * (options.scale?.[i] || 1)) as Vector3);
         const rotation = options.rotation
             ? (options.rotation.map((r, i) => r + this.rotation[i]) as Vector3)
             : this.rotation;

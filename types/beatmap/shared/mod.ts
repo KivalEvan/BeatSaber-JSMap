@@ -7,7 +7,6 @@ export * from './coordinate.ts';
 export * from './customData.ts';
 export * from './dataCheck.ts';
 export * from './difficulty.ts';
-export * from './easings.ts';
 export * from './editor.ts';
 export * from './environment.ts';
 export * from './heck.ts';

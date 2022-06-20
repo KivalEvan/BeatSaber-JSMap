@@ -1,6 +1,6 @@
 /* Copy lightshow from specific difficulty file to all within Info.dat.
  * Command-line flag:
- * -p | --path : map folder path.
+ * -p | --directory : map folder directory.
  * -e | --env : copy environment enhancement.
  * -f | --force : force copy to same file.
  * -m | --merge : merge instead of overriding the event property
@@ -11,12 +11,12 @@ import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
 import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
 
 const args = parse(Deno.args, {
-    string: ['p'],
+    string: ['d'],
     boolean: ['e', 'f', 'm'],
-    alias: { p: 'path', e: 'env', f: 'force', m: 'merge' },
+    alias: { d: 'directory', e: 'env', f: 'force', m: 'merge' },
 });
-bsmap.globals.path = (args.p as string) ?? './';
-console.log(`Map directory: ${bsmap.globals.path}`);
+bsmap.globals.directory = (args.d as string) ?? './';
+console.log(`Map directory: ${bsmap.globals.directory}`);
 if (!args._[0]) {
     throw Error('Unspecified difficulty file to copy light.');
 }

@@ -85,7 +85,7 @@ export function isEnd(currNote: ColorNote, prevNote: ColorNote, cd: number): boo
     return false;
 }
 
-/** Check if the note intersect on swing path by angle and distance.
+/** Check if the note intersect on swing directory by angle and distance.
  * ```ts
  * if (isIntersect(note1, note2, [[20, 1.5]])) {}
  * ```

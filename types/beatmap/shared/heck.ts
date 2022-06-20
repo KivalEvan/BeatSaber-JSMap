@@ -1,4 +1,4 @@
-import { Easings } from '../shared/easings.ts';
+import { Easings } from '../../easings.ts';
 export type Vector2 = [number, number];
 export type Vector3 = [number, number, number];
 export type ColorPointDefinition = [number, number, number, number, number, Easings?];

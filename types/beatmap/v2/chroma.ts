@@ -1,5 +1,5 @@
 import { ColorPointDefinition, PercentPointDefinition, Vector3 } from '../shared/heck.ts';
-import { Easings } from '../shared/easings.ts';
+import { Easings } from '../../easings.ts';
 import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
 import { LookupMethod } from '../shared/chroma.ts';
@@ -49,10 +49,11 @@ export interface IChromaEnvironment {
 }
 
 export interface IChromaGeometry {
-    _geometryType: 'SPHERE' | 'CAPSULE' | 'CYLINDER' | 'CUBE' | 'PLANE' | 'QUAD';
+    _type: 'SPHERE' | 'CAPSULE' | 'CYLINDER' | 'CUBE' | 'PLANE' | 'QUAD' | 'TRIANGLE';
     _spawnCount: number;
     _track?: string;
     _shaderPreset?: 'LIGHT_BOX' | 'STANDARD' | 'NO_SHADE';
+    _shaderKeywords?: string[];
     _collision?: boolean;
 }
 

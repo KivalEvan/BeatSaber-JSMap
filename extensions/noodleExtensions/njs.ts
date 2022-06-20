@@ -1,21 +1,19 @@
 import { NoteJumpSpeed } from '../../beatmap/shared/njs.ts';
 import { INETrackObject } from './types/track.ts';
 import { NJS } from './settings.ts';
-import logger from '../../logger.ts';
 import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
-import { EasingFunction } from '../../types/beatmap/shared/easings.ts';
-import { lerp } from '../../utils/math.ts';
+import { EasingFunction } from '../../types/easings.ts';
+import { lerp, normalize } from '../../utils/math.ts';
 
-/** Simultaneously spawn the object from start to end object. */
+/** Simultaneously spawn the object from start to end object.
+ *
+ * Speed determines how fast should note spawn from start to end.
+ */
 export function simultaneousSpawn(
     objects: INETrackObject[],
     speed: number,
     njsOffset?: NoteJumpSpeed | number | null,
 ): void {
-    if (speed === 0) {
-        logger.warn('Speed cannot be 0');
-        speed = 1;
-    }
     let offset: number;
     if (typeof njsOffset !== 'number') {
         if (njsOffset) {
@@ -28,7 +26,7 @@ export function simultaneousSpawn(
     }
     const startTime = objects[0].time;
     objects.forEach((o) => {
-        o.customData.noteJumpStartBeatOffset = offset + o.time - startTime - (o.time - startTime) / speed;
+        o.customData.noteJumpStartBeatOffset = offset + o.time - startTime - (o.time - startTime) * speed;
     });
 }
 
@@ -36,38 +34,40 @@ export function simultaneousSpawn(
 export function gradientNJS(
     objects: INETrackObject[],
     options: {
-        njs: NoteJumpSpeed | number;
         bpm: BeatPerMinute | number;
         njsStart: number;
         njsEnd: number;
+        njsOffset?: NoteJumpSpeed | number | null;
         jd?: number;
         easing?: EasingFunction;
     },
 ): void {
-    const factor = (options.njsEnd - options.njsStart) / (objects[objects.length - 1]?.time - objects[0]?.time) || 1;
-    let offset: number;
     options.easing = options.easing ??
         function (x: number) {
             return x;
         };
-    if (typeof options.njs !== 'number') {
-        offset = options.njs.offset;
+    let offset: number;
+    if (typeof options.njsOffset !== 'number') {
+        if (options.njsOffset) {
+            offset = options.njsOffset.offset;
+        } else {
+            offset = NJS?.offset ?? 0;
+        }
     } else {
-        options.njs = NoteJumpSpeed.create(options.bpm, options.njs);
-        offset = 0;
+        offset = options.njsOffset;
     }
+    const startTime = objects[0].time;
+    const endTime = objects.at(-1)!.time;
     objects.forEach((o) => {
         o.customData.noteJumpMovementSpeed = lerp(
-            options.njsStart + (o.time - objects[0]?.time) * factor,
+            normalize(o.time, startTime, endTime),
             options.njsStart,
             options.njsEnd,
             options.easing,
-        ) || options.njsEnd;
+        );
         if (typeof options.jd === 'number') {
-            o.customData.noteJumpStartBeatOffset =
-                NoteJumpSpeed.create(options.bpm, o.customData.noteJumpMovementSpeed).calcHJDFromJD(options.jd) -
-                (options.njs as NoteJumpSpeed).calcHJD(o.customData.noteJumpMovementSpeed) +
-                offset;
+            const currNJS = NoteJumpSpeed.create(options.bpm, o.customData.noteJumpMovementSpeed, offset);
+            o.customData.noteJumpStartBeatOffset = currNJS.calcHJDFromJD(options.jd) - currNJS.calcHJD() + offset;
         }
     });
 }

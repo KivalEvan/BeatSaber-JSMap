@@ -14,22 +14,23 @@ import { ILoadOptionsInfo } from './types/bsmap/load.ts';
 import { V3toV2 } from './converter/V3toV2.ts';
 import { V2toV3 } from './converter/V2toV3.ts';
 import { IBaseOptions } from './types/bsmap/options.ts';
+import { fixDirectory } from './utils/fs.ts';
 
 const tag = (name: string) => {
     return `[load::${name}]`;
 };
 
 const optionsInfo: Required<ILoadOptionsInfo> = {
-    path: '',
+    directory: '',
     filePath: 'Info.dat',
 };
 
 const optionsDifficulty: Required<IBaseOptions> = {
-    path: '',
+    directory: '',
 };
 
 const optionsDifficultyList: Required<IBaseOptions> = {
-    path: '',
+    directory: '',
 };
 
 /** Set default option value for load function. */
@@ -47,13 +48,13 @@ export const defaultOptions = {
  */
 export async function info(options: ILoadOptionsInfo = {}): Promise<IInfoData> {
     const opt: Required<ILoadOptionsInfo> = {
-        path: options.path ?? (globals.path || defaultOptions.info.path),
+        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.info.directory)),
         filePath: options.filePath ?? 'Info.dat',
     };
-    logger.info(tag('info'), `Async loading info from ${opt.path + opt.filePath}`);
+    logger.info(tag('info'), `Async loading info from ${opt.directory + opt.filePath}`);
     return await new Promise((resolve, reject) => {
         try {
-            resolve(parseInfo(JSON.parse(Deno.readTextFileSync(opt.path + opt.filePath))));
+            resolve(parseInfo(JSON.parse(Deno.readTextFileSync(opt.directory + opt.filePath))));
         } catch (e) {
             reject(new Error(e));
         }
@@ -68,11 +69,11 @@ export async function info(options: ILoadOptionsInfo = {}): Promise<IInfoData> {
  */
 export function infoSync(options: ILoadOptionsInfo = {}): IInfoData {
     const opt: Required<ILoadOptionsInfo> = {
-        path: options.path ?? (globals.path || defaultOptions.info.path),
+        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.info.directory)),
         filePath: options.filePath ?? 'Info.dat',
     };
-    logger.info(tag('infoSync'), `Sync loading info from ${opt.path + opt.filePath}`);
-    return parseInfo(JSON.parse(Deno.readTextFileSync(opt.path + opt.filePath)));
+    logger.info(tag('infoSync'), `Sync loading info from ${opt.directory + opt.filePath}`);
+    return parseInfo(JSON.parse(Deno.readTextFileSync(opt.directory + opt.filePath)));
 }
 
 /** Asynchronously load beatmap difficulty file.
@@ -87,15 +88,15 @@ export async function difficulty(filePath: string, version?: 3, options?: IBaseO
 export async function difficulty(filePath: string, version?: 2, options?: IBaseOptions): Promise<DifficultyDataV2>;
 export async function difficulty(filePath: string, version = 3, options: IBaseOptions = {}) {
     const opt: Required<IBaseOptions> = {
-        path: options.path ?? (globals.path || defaultOptions.info.path),
+        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.info.directory)),
     };
     logger.info(
         tag('difficulty'),
-        `Async loading difficulty as beatmap version ${version} from ${opt.path + filePath}`,
+        `Async loading difficulty as beatmap version ${version} from ${opt.directory + filePath}`,
     );
     return await new Promise((resolve, reject) => {
         try {
-            const diffJSON = JSON.parse(Deno.readTextFileSync(opt.path + filePath)) as Either<
+            const diffJSON = JSON.parse(Deno.readTextFileSync(opt.directory + filePath)) as Either<
                 IDifficultyDataV2,
                 IDifficultyDataV3
             >;
@@ -141,13 +142,13 @@ export function difficultySync(filePath: string, version?: 3, options?: IBaseOpt
 export function difficultySync(filePath: string, version?: 2, options?: IBaseOptions): DifficultyDataV2;
 export function difficultySync(filePath: string, version = 3, options: IBaseOptions = {}) {
     const opt: Required<IBaseOptions> = {
-        path: options.path ?? (globals.path || defaultOptions.info.path),
+        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.info.directory)),
     };
     logger.info(
         tag('difficultySync'),
-        `Sync loading difficulty as beatmap version ${version} from ${opt.path + filePath}`,
+        `Sync loading difficulty as beatmap version ${version} from ${opt.directory + filePath}`,
     );
-    const diffJSON = JSON.parse(Deno.readTextFileSync(opt.path + filePath)) as Either<
+    const diffJSON = JSON.parse(Deno.readTextFileSync(opt.directory + filePath)) as Either<
         IDifficultyDataV2,
         IDifficultyDataV3
     >;
@@ -180,14 +181,14 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
 /** Asynchronously load multiple beatmap difficulties given beatmap info.
  * ```ts
  * const difficultyList = await load.difficultyFromInfo();
- * difficultyList.forEach((d) => { ccoonsole.log(d) })
+ * difficultyList.forEach((d) => { console.log(d) })
  * ```
  * ---
  * Info difficulty reference is also given to allow further control.
  */
 export async function difficultyFromInfo(info: IInfoData, options: IBaseOptions = {}): Promise<IDifficultyList> {
     const opt: Required<IBaseOptions> = {
-        path: options.path ?? (globals.path || defaultOptions.info.path),
+        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.info.directory)),
     };
     logger.info(tag('difficultyFromInfo'), 'Async loading difficulty from map Info...');
     return await new Promise((resolve, reject) => {
@@ -195,8 +196,11 @@ export async function difficultyFromInfo(info: IInfoData, options: IBaseOptions 
         try {
             for (const set of info._difficultyBeatmapSets) {
                 for (const d of set._difficultyBeatmaps) {
-                    logger.info(tag('difficultyFromInfo'), `Loading difficulty from ${opt.path + d._beatmapFilename}`);
-                    const diffJSON = JSON.parse(Deno.readTextFileSync(opt.path + d._beatmapFilename)) as Either<
+                    logger.info(
+                        tag('difficultyFromInfo'),
+                        `Loading difficulty from ${opt.directory + d._beatmapFilename}`,
+                    );
+                    const diffJSON = JSON.parse(Deno.readTextFileSync(opt.directory + d._beatmapFilename)) as Either<
                         IDifficultyDataV2,
                         IDifficultyDataV3
                     >;
@@ -236,14 +240,14 @@ export async function difficultyFromInfo(info: IInfoData, options: IBaseOptions 
  */
 export function difficultyFromInfoSync(info: IInfoData, options: IBaseOptions = {}): IDifficultyList {
     const opt: Required<IBaseOptions> = {
-        path: options.path ?? (globals.path || defaultOptions.info.path),
+        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.info.directory)),
     };
     logger.info(tag('difficultyFromInfoSync'), 'Sync loading difficulty from map Info...');
     const difficulties: IDifficultyList = [];
     for (const set of info._difficultyBeatmapSets) {
         for (const d of set._difficultyBeatmaps) {
-            logger.info(tag('difficultyFromInfoSync'), `Loading difficulty from ${opt.path + d._beatmapFilename}`);
-            const diffJSON = JSON.parse(Deno.readTextFileSync(opt.path + d._beatmapFilename)) as Either<
+            logger.info(tag('difficultyFromInfoSync'), `Loading difficulty from ${opt.directory + d._beatmapFilename}`);
+            const diffJSON = JSON.parse(Deno.readTextFileSync(opt.directory + d._beatmapFilename)) as Either<
                 IDifficultyDataV2,
                 IDifficultyDataV3
             >;

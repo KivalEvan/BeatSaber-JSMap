@@ -1,5 +1,5 @@
 // deno-lint-ignore-file prefer-const
-import { ColorArray, ColorObject } from '../types/colors.ts';
+import { ColorArray, IColor } from '../types/colors.ts';
 import { degToRad, lerp, radToDeg, round } from './math.ts';
 import { hexToDec, isHex } from './misc.ts';
 
@@ -150,7 +150,7 @@ export function interpolateColor(
     }
 }
 
-export function colorObjToAry(c: ColorObject): ColorArray {
+export function colorObjToAry(c: IColor): ColorArray {
     const result: ColorArray = [c.r, c.g, c.b];
     if (typeof c.a === 'number') {
         result.push(c.a);
@@ -171,14 +171,14 @@ function cNorm(c: number): number {
     return c / 255;
 }
 
-export function RGBAtoHex(colorObj: ColorObject): string {
-    const color: ColorObject = { r: 0, g: 0, b: 0 };
+export function RGBAtoHex(colorObj: IColor): string {
+    const color: IColor = { r: 0, g: 0, b: 0 };
     for (const c in colorObj) {
-        const num: number | undefined = colorObj[c as keyof ColorObject];
+        const num: number | undefined = colorObj[c as keyof IColor];
         if (num === undefined) {
             continue;
         }
-        color[c as keyof ColorObject] = cDenorm(num);
+        color[c as keyof IColor] = cDenorm(num);
     }
     return `#${compToHex(color.r)}${compToHex(color.g)}${compToHex(color.b)}${
         typeof color.a === 'number' ? compToHex(color.a) : ''
@@ -192,13 +192,23 @@ export function hexToRGBA(hex: string): ColorArray {
     if (!isHex(hex.substring(1))) {
         throw new Error('not hex');
     }
-    const result: ColorArray = [
-        cNorm(hexToDec(hex.slice(1, 3))),
-        cNorm(hexToDec(hex.slice(3, 5))),
-        cNorm(hexToDec(hex.slice(5, 7))),
-    ];
-    if (hex.length > 8) {
-        result.push(cNorm(hexToDec(hex.slice(7, 9))));
+    let result: ColorArray = [0, 0, 0];
+
+    if (hex.length >= 4 && hex.length <= 5) {
+        result = [
+            cNorm(hexToDec(hex.slice(1, 2) + hex.slice(1, 2))),
+            cNorm(hexToDec(hex.slice(2, 3) + hex.slice(2, 3))),
+            cNorm(hexToDec(hex.slice(3, 4) + hex.slice(3, 4))),
+        ];
+        if (hex.length === 5) {
+            result.push(cNorm(hexToDec(hex.slice(4, 5) + hex.slice(4, 5))));
+        }
+    }
+    if (hex.length >= 7 && hex.length <= 9) {
+        result = [cNorm(hexToDec(hex.slice(1, 3))), cNorm(hexToDec(hex.slice(3, 5))), cNorm(hexToDec(hex.slice(5, 7)))];
+        if (hex.length === 9) {
+            result.push(cNorm(hexToDec(hex.slice(7, 9))));
+        }
     }
     return result;
 }

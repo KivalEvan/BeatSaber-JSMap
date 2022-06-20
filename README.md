@@ -44,23 +44,24 @@ without breaking from newer update.
 You may also clone the library and import it locally to make any modification as you wish.
 
 If you are using the script outside of map directory, you can specify the map directory without the need to explicitly
-apply `path` on IO function. This can be any valid path as long as it points to directory.
+apply `directory` on IO function. This can be any valid directory as long as it points to directory.
 
 ```ts
-bsmap.globals.path = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
+bsmap.globals.directory = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 ```
 
 ## Usage
 
-Run the script by running this command in terminal `deno run yourscriptpath.ts`. For more advanced use, you may do
-`deno run --allow-read --allow-write --watch yourscriptpath.ts`. If you want to update to newer version, simply run
-`deno run --reload yourscriptpath.ts`; Do note that it may break existing part of your code that utilises the library.
+Run the script by running this command in terminal `deno run yourscriptdirectory.ts`. For more advanced use, you may do
+`deno run --allow-read --allow-write --watch yourscriptdirectory.ts`. If you want to update to newer version, simply run
+`deno run --reload yourscriptdirectory.ts`; Do note that it may break existing part of your code that utilises the
+library.
 
 For further explanation over on [Deno Manual](https://deno.land/manual).
 
 **Deno related:** if you are having issue of not being able to retrieve module on import, then reload or cache the
-module to fix it. To reload or cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno server if
-necessary. If it still does not work, change to a different workspace.
+module to fix it. To reload or cache the module, run `deno cache --reload yourscriptdirectory.ts` and restart Deno
+server if necessary. If it still does not work, change to a different workspace.
 
 ## Contributing
 

@@ -3,6 +3,7 @@ import logger from '../logger.ts';
 import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from '../beatmap/v3/difficulty.ts';
 import { clamp } from '../utils/math.ts';
+import { Vector3 } from '../types/beatmap/shared/heck.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -188,10 +189,119 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
     if (data.customData) {
         for (const k in data.customData) {
             if (k === 'customEvents') {
-                template.customData._customEvents = (data.customData.customEvents?.map((ce) => {
-                    return { _time: ce.beat, _type: ce.type, _data: ce.data };
-                    // deno-lint-ignore no-explicit-any
-                }) as any) ?? [];
+                template.customData._customEvents = data.customData.customEvents!.map((ce) => {
+                    if (ce.type === 'AnimateTrack') {
+                        return {
+                            _time: ce.beat,
+                            _type: 'AnimateTrack',
+                            _data: {
+                                _track: ce.data.track,
+                                _duration: ce.data.duration,
+                                _easing: ce.data.easing,
+                                _position: ce.data.position,
+                                _rotation: ce.data.rotation,
+                                _localRotation: ce.data.localRotation,
+                                _scale: ce.data.scale,
+                                _dissolve: ce.data.dissolve,
+                                _dissolveArrow: ce.data.dissolveArrow,
+                                _color: ce.data.color,
+                                _interactable: ce.data.interactable,
+                                _time: ce.data.time,
+                            },
+                        };
+                    }
+                    if (ce.type === 'AssignPathAnimation') {
+                        return {
+                            _time: ce.beat,
+                            _type: 'AssignPathAnimation',
+                            _data: {
+                                _track: ce.data.track,
+                                _duration: ce.data.duration,
+                                _easing: ce.data.easing,
+                                _position: ce.data.position,
+                                _rotation: ce.data.rotation,
+                                _localRotation: ce.data.localRotation,
+                                _scale: ce.data.scale,
+                                _dissolve: ce.data.dissolve,
+                                _dissolveArrow: ce.data.dissolveArrow,
+                                _color: ce.data.color,
+                                _interactable: ce.data.interactable,
+                                _definitePosition: ce.data.definitePosition,
+                            },
+                        };
+                    }
+                    if (ce.type === 'AssignTrackParent') {
+                        return {
+                            _time: ce.beat,
+                            _type: 'AssignTrackParent',
+                            _data: {
+                                _childrenTracks: ce.data.childrenTracks,
+                                _parentTrack: ce.data.parentTrack,
+                                _worldPositionStays: ce.data.worldPositionStays,
+                            },
+                        };
+                    }
+                    if (ce.type === 'AssignPlayerToTrack') {
+                        return {
+                            _time: ce.beat,
+                            _type: 'AssignPlayerToTrack',
+                            _data: {
+                                _track: ce.data.track,
+                            },
+                        };
+                    }
+                    return {
+                        _time: ce.beat,
+                        _type: 'AssignFogTrack',
+                        _data: {
+                            _track: ce.data.track,
+                            _attenuation: ce.data.attenuation,
+                            _offset: ce.data.offset,
+                            _startY: ce.data.startY,
+                            _height: ce.data.height,
+                        },
+                    };
+                });
+                continue;
+            }
+            if (k === 'environment') {
+                template.customData._environment = data.customData.environment!.map((e) => {
+                    return {
+                        _id: e.id,
+                        _lookupMethod: e.lookupMethod,
+                        _track: e.track,
+                        _duplicate: e.duplicate,
+                        _active: e.active,
+                        _scale: e.scale,
+                        _position: e.position?.map((n) => n / 0.6) as Vector3,
+                        _rotation: e.rotation,
+                        _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
+                        _localRotation: e.localRotation,
+                        _lightID: e.lightID,
+                    };
+                });
+                continue;
+            }
+            if (k === 'pointDefinitions') {
+                template.customData._pointDefinitions = data.customData.pointDefinitions!.map((e) => {
+                    return {
+                        _name: e.name,
+                        _points: e.points,
+                    };
+                });
+                continue;
+            }
+            if (k === 'geometry') {
+                template.customData._geometry = data.customData.geometry!.map((g) => {
+                    return {
+                        _type: g.type,
+                        _spawnCount: g.spawnCount,
+                        _track: g.track,
+                        _shaderPreset: g.shaderPreset,
+                        _shaderKeywords: g.shaderKeywords,
+                        _collision: g.collision,
+                    };
+                });
                 continue;
             }
             template.customData[k] = data.customData[k];

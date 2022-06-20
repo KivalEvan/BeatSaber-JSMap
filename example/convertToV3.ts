@@ -1,6 +1,6 @@
 /* Convert the map to beatmap V3
  * Command-line flag:
- * -p | --path : map folder path.
+ * -p | --directory : map folder directory.
  * example run command:
  * deno run --allow-read --allow-write convertToV3.ts -p "FolderPath"
  */
@@ -8,10 +8,10 @@ import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
 import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
 
 const args = parse(Deno.args, {
-    string: ['p'],
-    alias: { p: 'path' },
+    string: ['d'],
+    alias: { d: 'directory' },
 });
-bsmap.globals.path = (args.p as string) ?? './';
+bsmap.globals.directory = (args.d as string) ?? './';
 
 let info: ReturnType<typeof bsmap.load.infoSync>;
 try {
@@ -32,8 +32,8 @@ diffList.forEach((dl) => {
     if (!bsmap.version.isV3(dl.data)) {
         console.log('Backing up', dl.characteristic, dl.difficulty);
         Deno.renameSync(
-            bsmap.globals.path + dl.settings._beatmapFilename,
-            bsmap.globals.path + dl.settings._beatmapFilename + '.old'
+            bsmap.globals.directory + dl.settings._beatmapFilename,
+            bsmap.globals.directory + dl.settings._beatmapFilename + '.old'
         );
         console.log('Converting', dl.characteristic, dl.difficulty);
         dl.data = bsmap.convert.V2toV3(dl.data, true);

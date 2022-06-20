@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.2.0 [2022-06-x]
+
+### Added
+
+- More helper for Noodle Extensions
+
+### Changed
+
+- `path` is now called `directory` to avoid confusion
+- Easings is now independent to beatmap
+  - Easings can be retrieved from `utils`
+- Color function can infer hex string as RGBA color
+- Color function can take color object and uses them accordingly
+  - Depend on use case, this will always convert to RGBA for ease of development
+- Beatmap V3 to V2 conversion now converts customData back
+
+### Fixed
+
+- `directory` potentially no longer prefix file name instead of going into folder
+
 ## 1.1.1 [2022-06-19]
 
 ### Added

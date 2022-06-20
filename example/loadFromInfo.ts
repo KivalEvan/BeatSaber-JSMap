@@ -1,7 +1,8 @@
 import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
 
 // YOUR BEAT SABER MAP PATH
-bsmap.globals.path = 'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/YOUR_MAP_FOLDER/';
+bsmap.globals.directory =
+    'D:/SteamLibrary/steamapps/common/Beat Saber/Beat Saber_Data/CustomWIPLevels/YOUR_MAP_FOLDER/';
 
 const info = bsmap.load.infoSync();
 const difficultyList = bsmap.load.difficultyFromInfoSync(info);

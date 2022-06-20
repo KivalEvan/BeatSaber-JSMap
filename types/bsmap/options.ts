@@ -1,3 +1,3 @@
 export interface IBaseOptions {
-    path?: string;
+    directory?: string;
 }

@@ -5,22 +5,26 @@ const tag = (str: string) => {
 };
 
 class globals {
-    #path = '';
+    #directory = '';
 
     /** Global map directory.
-     * This will be overriden if path is specified elsewhere.
+     *
+     * This will be overriden if directory is specified elsewhere.
      */
-    get path() {
-        return this.#path;
+    get directory() {
+        return this.#directory;
     }
-    set path(value: string) {
+    set directory(value: string) {
         value = value.trim();
         if (!(value.endsWith('\\') || value.endsWith('/'))) {
-            logger.debug(tag('path'), `Adding missing end slash`);
+            logger.debug(tag('directory'), `Adding missing end slash`);
             value += '/';
         }
-        this.#path = value;
-        logger.info(tag('path'), `Global map directory path is set to ${this.#path}`);
+        if (value === '/') {
+            value = './';
+        }
+        this.#directory = value;
+        logger.info(tag('directory'), `Global map directory directory is set to ${this.#directory}`);
     }
 
     /** Set logging level to filter various information.

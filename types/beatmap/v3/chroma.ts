@@ -1,5 +1,5 @@
 import { ColorPointDefinition, PercentPointDefinition, Vector3 } from '../shared/heck.ts';
-import { Easings } from '../shared/easings.ts';
+import { Easings } from '../../easings.ts';
 import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
 import { LookupMethod } from '../shared/chroma.ts';
@@ -22,19 +22,22 @@ export enum ChromaDataEnvAbbr {
 /** Chroma interface for Environment Enhancement. */
 export interface IChromaEnvironment {
     /** Look up environment object name.
+     *
      * This grabs every environment objects that match the string.
      * ```ts
-     * _id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
+     * id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
      * ```
      */
     id: string;
     /** Look-up method to grab the object name.
+     *
      * Regex is considered an advanced method and more powerful than other methods.
      */
     lookupMethod: LookupMethod;
     /** Assign track to the object for animation use. */
     track?: string;
     /** Duplicate the object by set amount.
+     *
      * **WARNING:** You should always duplicate only one at a time unless you know what you are doing.
      */
     duplicate?: number;
@@ -49,10 +52,11 @@ export interface IChromaEnvironment {
 }
 
 export interface IChromaGeometry {
-    geometryType: 'SPHERE' | 'CAPSULE' | 'CYLINDER' | 'CUBE' | 'PLANE' | 'QUAD';
+    type: 'SPHERE' | 'CAPSULE' | 'CYLINDER' | 'CUBE' | 'PLANE' | 'QUAD' | 'TRIANGLE';
     spawnCount: number;
     track?: string;
     shaderPreset?: 'LIGHT_BOX' | 'STANDARD' | 'NO_SHADE';
+    shaderKeywords?: string[];
     collision?: boolean;
 }
 

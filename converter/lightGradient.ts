@@ -1,7 +1,7 @@
 import * as v2 from '../beatmap/v2/mod.ts';
 import logger from '../logger.ts';
 import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
-import { easings } from '../beatmap/shared/easings.ts';
+import { easings } from '../utils/easings.ts';
 import { interpolateColor } from '../utils/colors.ts';
 import { normalize } from '../utils/math.ts';
 

@@ -1,4 +1,4 @@
-import { Easings } from '../shared/easings.ts';
+import { Easings } from '../../easings.ts';
 import {
     ColorPointDefinition,
     PercentPointDefinition,

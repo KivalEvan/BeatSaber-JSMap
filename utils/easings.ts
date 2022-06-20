@@ -1,5 +1,5 @@
 // taken from Aeroluna's Heck easing animation
-import { Easings } from '../../types/beatmap/shared/easings.ts';
+import { Easings } from '../types/easings.ts';
 
 const PI = Math.PI;
 const HALFPI = Math.PI / 2;
