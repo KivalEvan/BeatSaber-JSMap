@@ -2,7 +2,7 @@ import { ColorPointDefinition, PercentPointDefinition, Vector3 } from '../shared
 import { Easings } from '../../easings.ts';
 import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
-import { LookupMethod } from '../shared/chroma.ts';
+import { GeometryShaderPreset, GeometryType, LookupMethod } from '../shared/chroma.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 
 export enum ChromaDataEnvAbbr {
@@ -19,21 +19,41 @@ export enum ChromaDataEnvAbbr {
     track = 'T',
 }
 
-/** Chroma interface for Environment Enhancement. */
-export interface IChromaEnvironment {
-    /** Look up environment object name.
-     *
-     * This grabs every environment objects that match the string.
-     * ```ts
-     * id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
-     * ```
-     */
-    id: string;
-    /** Look-up method to grab the object name.
-     *
-     * Regex is considered an advanced method and more powerful than other methods.
-     */
-    lookupMethod: LookupMethod;
+/** Chroma Geometry interface for Environment Enhancement. */
+export interface IChromaGeometry {
+    type: GeometryType;
+    spawnCount: number;
+    track?: string;
+    shader?: GeometryShaderPreset;
+    shaderKeywords?: string[];
+    collision?: boolean;
+}
+
+export interface IChromaComponentLightWithID {
+    type: number;
+    lightID: number;
+}
+
+export interface IChromaComponentBloomFogEnvironment {
+    attenuation: number;
+    offset: number;
+    startY: number;
+    height: number;
+}
+
+export interface IChromaComponentTubeBloomPrePassLight {
+    colorAlphaMultiplier: number;
+    bloomFogIntensityMultiplier: number;
+}
+
+export interface IChromaComponent {
+    ILightWithId?: IChromaComponentLightWithID;
+    BloomFogEnvironment?: IChromaComponentBloomFogEnvironment;
+    TubeBloomPrePassLight?: IChromaComponentTubeBloomPrePassLight;
+}
+
+/** Chroma interface for Environment Enhancement Base. */
+export interface IChromaEnvironmentBase {
     /** Assign track to the object for animation use. */
     track?: string;
     /** Duplicate the object by set amount.
@@ -49,16 +69,53 @@ export interface IChromaEnvironment {
     localRotation?: Vector3;
     /** Assign light ID for duplicated object. */
     lightID?: number;
+    components?: IChromaComponent;
 }
 
-export interface IChromaGeometry {
-    type: 'SPHERE' | 'CAPSULE' | 'CYLINDER' | 'CUBE' | 'PLANE' | 'QUAD' | 'TRIANGLE';
-    spawnCount: number;
-    track?: string;
-    shaderPreset?: 'LIGHT_BOX' | 'STANDARD' | 'NO_SHADE';
-    shaderKeywords?: string[];
-    collision?: boolean;
+/** Chroma interface for Environment Enhancement ID.
+ *
+ * @extends IChromaEnvironmentBase
+ */
+export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
+    /** Look up environment object name.
+     *
+     * This grabs every environment objects that match the string.
+     * ```ts
+     * id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
+     * ```
+     */
+    id: string;
+    /** Look-up method to grab the object name.
+     *
+     * Regex is considered an advanced method and more powerful than other methods.
+     */
+    lookupMethod: LookupMethod;
+    geometry?: never;
 }
+
+/** Chroma interface for Environment Enhancement Geometry.
+ *
+ * @extends IChromaEnvironmentBase
+ */
+export interface IChromaEnvironmentGeometry extends IChromaEnvironmentBase {
+    /** Look up environment object name.
+     *
+     * This grabs every environment objects that match the string.
+     * ```ts
+     * id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
+     * ```
+     */
+    id?: never;
+    /** Look-up method to grab the object name.
+     *
+     * Regex is considered an advanced method and more powerful than other methods.
+     */
+    lookupMethod?: never;
+    geometry: IChromaGeometry[];
+}
+
+/** Chroma interface for Environment Enhancement. */
+export type IChromaEnvironment = IChromaEnvironmentID | IChromaEnvironmentGeometry;
 
 /** Chroma interface for Beatmap Note Custom Data. */
 export interface IChromaAnimation {
@@ -116,8 +173,8 @@ export interface IChromaCustomEventDataAssignFogTrack extends IHeckCustomEventDa
     height?: number | PercentPointDefinition[];
 }
 
-export interface IChromaAnimation {
-    color?: string | ColorPointDefinition[];
+export interface IChromaCustomEventDataAnimateComponent extends IHeckCustomEventDataBase {
+    track: string;
 }
 
 /** Chroma Custom Event interface for AssignFogTrack. */
@@ -127,10 +184,15 @@ export interface IChromaCustomEventAssignFogTrack {
     data: IChromaCustomEventDataAssignFogTrack;
 }
 
-export type IChromaCustomEvent = IChromaCustomEventAssignFogTrack;
+export interface IChromaCustomEventAnimateComponent {
+    beat: number;
+    type: 'AnimateComponent';
+    data: IChromaCustomEventDataAnimateComponent;
+}
+
+export type IChromaCustomEvent = IChromaCustomEventAssignFogTrack | IChromaCustomEventAnimateComponent;
 
 /** Chroma Custom Data interface for difficulty custom data. */
 export interface IChromaCustomData {
     environment?: IChromaEnvironment[];
-    geometry?: IChromaGeometry[];
 }

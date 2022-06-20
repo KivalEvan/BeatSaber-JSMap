@@ -2,7 +2,7 @@ import { ColorPointDefinition, PercentPointDefinition, Vector3 } from '../shared
 import { Easings } from '../../easings.ts';
 import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
-import { LookupMethod } from '../shared/chroma.ts';
+import { GeometryShaderPreset, GeometryType, LookupMethod } from '../shared/chroma.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 
 export enum ChromaDataEnvAbbr {
@@ -19,9 +19,42 @@ export enum ChromaDataEnvAbbr {
     _track = 'T',
 }
 
-/** Chroma interface for Environment Enhancement. */
-export interface IChromaEnvironment {
+/** Chroma Geometry interface for Environment Enhancement. */
+export interface IChromaGeometry {
+    _type: GeometryType;
+    _spawnCount: number;
+    _track?: string;
+    _shader?: GeometryShaderPreset;
+    _shaderKeywords?: string[];
+    _collision?: boolean;
+}
+
+/** Chroma interface for Environment Enhancement Base. */
+export interface IChromaEnvironmentBase {
+    /** Assign track to the object for animation use. */
+    _track?: string;
+    /** Duplicate the object by set amount.
+     *
+     * **WARNING:** You should always duplicate only one at a time unless you know what you are doing.
+     */
+    _duplicate?: number;
+    _active?: boolean;
+    _scale?: Vector3;
+    _position?: Vector3;
+    _rotation?: Vector3;
+    _localPosition?: Vector3;
+    _localRotation?: Vector3;
+    /** Assign light ID for duplicated object. */
+    _lightID?: number;
+}
+
+/** Chroma interface for Environment Enhancement ID.
+ *
+ * @extends IChromaEnvironmentBase
+ */
+export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
     /** Look up environment object name.
+     *
      * This grabs every environment objects that match the string.
      * ```ts
      * _id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
@@ -29,33 +62,36 @@ export interface IChromaEnvironment {
      */
     _id: string;
     /** Look-up method to grab the object name.
+     *
      * Regex is considered an advanced method and more powerful than other methods.
      */
     _lookupMethod: LookupMethod;
-    /** Assign track to the object for animation use. */
-    _track?: string;
-    /** Duplicate the object by set amount.
-     * **WARNING:** You should always duplicate only one at a time unless you know what you are doing.
-     */
-    _duplicate?: number;
-    _active?: boolean;
-    _scale?: Vector3;
-    _position?: Vector3;
-    _localPosition?: Vector3;
-    _rotation?: Vector3;
-    _localRotation?: Vector3;
-    /** Assign light ID for duplicated object. */
-    _lightID?: number;
+    _geometry?: never;
 }
 
-export interface IChromaGeometry {
-    _type: 'SPHERE' | 'CAPSULE' | 'CYLINDER' | 'CUBE' | 'PLANE' | 'QUAD' | 'TRIANGLE';
-    _spawnCount: number;
-    _track?: string;
-    _shaderPreset?: 'LIGHT_BOX' | 'STANDARD' | 'NO_SHADE';
-    _shaderKeywords?: string[];
-    _collision?: boolean;
+/** Chroma interface for Environment Enhancement Geometry.
+ *
+ * @extends IChromaEnvironmentBase
+ */
+export interface IChromaEnvironmentGeometry extends IChromaEnvironmentBase {
+    /** Look up environment object name.
+     *
+     * This grabs every environment objects that match the string.
+     * ```ts
+     * _id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
+     * ```
+     */
+    _id?: never;
+    /** Look-up method to grab the object name.
+     *
+     * Regex is considered an advanced method and more powerful than other methods.
+     */
+    _lookupMethod?: never;
+    _geometry: IChromaGeometry[];
 }
+
+/** Chroma interface for Environment Enhancement. */
+export type IChromaEnvironment = IChromaEnvironmentID | IChromaEnvironmentGeometry;
 
 /** Chroma interface for Beatmap Note Custom Data. */
 export interface IChromaAnimation {
@@ -139,5 +175,4 @@ export type IChromaCustomEvent = IChromaCustomEventAssignFogTrack;
 export interface IChromaCustomData {
     _customEvents?: IChromaCustomEvent[];
     _environment?: IChromaEnvironment[];
-    _geometry?: IChromaGeometry[];
 }

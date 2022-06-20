@@ -1,10 +1,10 @@
 import { LookupMethod } from '../../../types/beatmap/shared/chroma.ts';
 import { Vector3 } from '../../../types/beatmap/shared/heck.ts';
-import { IChromaEnvironment } from '../../../types/beatmap/v3/chroma.ts';
+import { IChromaEnvironment, IChromaEnvironmentID } from '../../../types/beatmap/v3/chroma.ts';
 import { IChromaEnvironmentBlock, IChromaEnvironmentPlacement } from '../types/environment.ts';
 
 /** **IMPORTANT:** Manually adjust block to be exactly 1x1x1 unity unit (1x1x1 scale does usually not work) */
-export class EnvironmentBlock implements IChromaEnvironment {
+export class EnvironmentBlock implements IChromaEnvironmentID {
     id: string;
     lookupMethod: LookupMethod;
     track?: never;
@@ -34,9 +34,9 @@ export class EnvironmentBlock implements IChromaEnvironment {
         return new this(data, anchor);
     }
 
-    place(options: IChromaEnvironmentPlacement, insertTo?: never): IChromaEnvironment;
+    place(options: IChromaEnvironmentPlacement, insertTo?: never): IChromaEnvironmentID;
     place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
-    place(options: IChromaEnvironmentPlacement, insertTo?: IChromaEnvironment[]): IChromaEnvironment | void {
+    place(options: IChromaEnvironmentPlacement, insertTo?: IChromaEnvironment[]): IChromaEnvironmentID | void {
         const scale = options.scale ? (this.scale.map((s, i) => s * options.scale![i]) as Vector3) : this.scale;
         const position = options.position
             ? (options.position.map((p, i) => p + this.anchor[i] * (options.scale?.[i] || 1)) as Vector3)
@@ -54,7 +54,7 @@ export class EnvironmentBlock implements IChromaEnvironment {
             position,
             rotation,
             lightID: options.lightID,
-        } as IChromaEnvironment;
+        } as IChromaEnvironmentID;
         if (insertTo) {
             insertTo.push(data);
             return;

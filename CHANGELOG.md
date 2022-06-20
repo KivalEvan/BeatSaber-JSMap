@@ -4,6 +4,7 @@
 
 ### Added
 
+- Chroma geometry and component
 - More helper for Noodle Extensions
 
 ### Changed

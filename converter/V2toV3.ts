@@ -364,19 +364,45 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
             }
             if (k === '_environment') {
                 template.customData.environment = data.customData._environment!.map((e) => {
-                    return {
-                        id: e._id,
-                        lookupMethod: e._lookupMethod,
-                        track: e._track,
-                        duplicate: e._duplicate,
-                        active: e._active,
-                        scale: e._scale,
-                        position: e._position?.map((n) => n * 0.6) as Vector3,
-                        rotation: e._rotation,
-                        localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
-                        localRotation: e._localRotation,
-                        lightID: e._lightID,
-                    };
+                    if (e._id && e._lookupMethod) {
+                        return {
+                            id: e._id,
+                            lookupMethod: e._lookupMethod,
+                            track: e._track,
+                            duplicate: e._duplicate,
+                            active: e._active,
+                            scale: e._scale,
+                            position: e._position?.map((n) => n * 0.6) as Vector3,
+                            rotation: e._rotation,
+                            localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
+                            localRotation: e._localRotation,
+                            lightID: e._lightID,
+                        };
+                    }
+                    if (e._geometry) {
+                        return {
+                            geometry: e._geometry.map((g) => {
+                                return {
+                                    type: g._type,
+                                    spawnCount: g._spawnCount,
+                                    track: g._track,
+                                    shaderPreset: g._shader,
+                                    shaderKeywords: g._shaderKeywords,
+                                    collision: g._collision,
+                                };
+                            }),
+                            track: e._track,
+                            duplicate: e._duplicate,
+                            active: e._active,
+                            scale: e._scale,
+                            position: e._position?.map((n) => n * 0.6) as Vector3,
+                            rotation: e._rotation,
+                            localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
+                            localRotation: e._localRotation,
+                            lightID: e._lightID,
+                        };
+                    }
+                    throw new Error('Error converting environment v2 to v3');
                 });
                 continue;
             }
@@ -385,19 +411,6 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     return {
                         name: e._name,
                         points: e._points,
-                    };
-                });
-                continue;
-            }
-            if (k === '_geometry') {
-                template.customData.geometry = data.customData._geometry!.map((g) => {
-                    return {
-                        type: g._type,
-                        spawnCount: g._spawnCount,
-                        track: g._track,
-                        shaderPreset: g._shaderPreset,
-                        shaderKeywords: g._shaderKeywords,
-                        collision: g._collision,
                     };
                 });
                 continue;
