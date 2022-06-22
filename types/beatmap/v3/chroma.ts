@@ -27,6 +27,7 @@ export interface IChromaGeometry {
     shader?: GeometryShaderPreset;
     shaderKeywords?: string[];
     collision?: boolean;
+    color?: ColorArray;
 }
 
 export interface IChromaComponentLightWithID {
@@ -54,6 +55,20 @@ export interface IChromaComponent {
 
 /** Chroma interface for Environment Enhancement Base. */
 export interface IChromaEnvironmentBase {
+    /** Look up environment object name.
+     *
+     * This grabs every environment objects that match the string.
+     * ```ts
+     * id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
+     * ```
+     */
+    id?: unknown;
+    /** Look-up method to grab the object name.
+     *
+     * Regex is considered an advanced method and more powerful than other methods.
+     */
+    lookupMethod?: unknown;
+    geometry?: unknown;
     /** Assign track to the object for animation use. */
     track?: string;
     /** Duplicate the object by set amount.
@@ -77,18 +92,7 @@ export interface IChromaEnvironmentBase {
  * @extends IChromaEnvironmentBase
  */
 export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
-    /** Look up environment object name.
-     *
-     * This grabs every environment objects that match the string.
-     * ```ts
-     * id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
-     * ```
-     */
     id: string;
-    /** Look-up method to grab the object name.
-     *
-     * Regex is considered an advanced method and more powerful than other methods.
-     */
     lookupMethod: LookupMethod;
     geometry?: never;
 }
@@ -98,18 +102,7 @@ export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
  * @extends IChromaEnvironmentBase
  */
 export interface IChromaEnvironmentGeometry extends IChromaEnvironmentBase {
-    /** Look up environment object name.
-     *
-     * This grabs every environment objects that match the string.
-     * ```ts
-     * id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
-     * ```
-     */
     id?: never;
-    /** Look-up method to grab the object name.
-     *
-     * Regex is considered an advanced method and more powerful than other methods.
-     */
     lookupMethod?: never;
     geometry: IChromaGeometry[];
 }

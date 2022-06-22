@@ -34,46 +34,41 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
     template.fileName = data.fileName;
 
     data.notes.forEach((n, i) => {
-        let customData!: ICustomDataNote;
-        if (n.customData) {
-            customData = {
-                color: n.customData._color,
-                coordinates: n.customData._position,
-                disableNoteGravity: n.customData._disableNoteGravity,
-                disableNoteLook: n.customData._disableNoteLook,
-                flip: n.customData._flip,
-                localRotation: n.customData._localRotation,
-                noteJumpMovementSpeed: n.customData._noteJumpMovementSpeed,
-                noteJumpStartBeatOffset: n.customData._noteJumpStartBeatOffset,
-                spawnEffect: typeof n.customData._disableSpawnEffect === 'boolean'
-                    ? !n.customData._disableSpawnEffect
-                    : undefined,
-                track: n.customData._track,
-                uninteractable: typeof n.customData._interactable === 'boolean'
-                    ? !n.customData._interactable
-                    : undefined,
-                worldRotation: n.customData._rotation,
+        const customData: ICustomDataNote = {
+            color: n.customData._color,
+            coordinates: n.customData._position,
+            disableNoteGravity: n.customData._disableNoteGravity,
+            disableNoteLook: n.customData._disableNoteLook,
+            flip: n.customData._flip,
+            localRotation: n.customData._localRotation,
+            noteJumpMovementSpeed: n.customData._noteJumpMovementSpeed,
+            noteJumpStartBeatOffset: n.customData._noteJumpStartBeatOffset,
+            spawnEffect: typeof n.customData._disableSpawnEffect === 'boolean'
+                ? !n.customData._disableSpawnEffect
+                : undefined,
+            track: n.customData._track,
+            uninteractable: typeof n.customData._interactable === 'boolean' ? !n.customData._interactable : undefined,
+            worldRotation: n.customData._rotation,
+        };
+        if (n.customData._animation) {
+            customData.animation = {
+                color: n.customData._animation._color,
+                definitePosition: n.customData._animation._definitePosition,
+                dissolve: n.customData._animation._dissolve,
+                dissolveArrow: n.customData._animation._dissolveArrow,
+                interactable: n.customData._animation._interactable,
+                localRotation: n.customData._animation._localRotation,
+                offsetPosition: n.customData._animation._position,
+                offsetRotation: n.customData._animation._rotation,
+                scale: n.customData._animation._scale,
+                time: n.customData._animation._time,
             };
-            if (n.customData._animation) {
-                customData.animation = {
-                    color: n.customData._animation._color,
-                    definitePosition: n.customData._animation._definitePosition,
-                    dissolve: n.customData._animation._dissolve,
-                    dissolveArrow: n.customData._animation._dissolveArrow,
-                    interactable: n.customData._animation._interactable,
-                    localRotation: n.customData._animation._localRotation,
-                    offsetPosition: n.customData._animation._position,
-                    offsetRotation: n.customData._animation._rotation,
-                    scale: n.customData._animation._scale,
-                    time: n.customData._animation._time,
-                };
-            }
-            if (typeof n.customData._fake === 'boolean') {
-                logger.warn(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _fake will be removed.`);
-            }
-            if (typeof n.customData._cutDirection === 'number') {
-                logger.debug(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`);
-            }
+        }
+        if (typeof n.customData._fake === 'boolean') {
+            logger.warn(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _fake will be removed.`);
+        }
+        if (typeof n.customData._cutDirection === 'number') {
+            logger.debug(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`);
         }
         if (n.isBomb()) {
             template.bombNotes.push(
@@ -112,38 +107,33 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
     });
 
     data.obstacles.forEach((o, i) => {
-        let customData!: ICustomDataObstacle;
-        if (o.customData) {
-            customData = {
-                color: o.customData._color,
-                coordinates: o.customData._position,
-                localRotation: o.customData._localRotation,
-                noteJumpMovementSpeed: o.customData._noteJumpMovementSpeed,
-                noteJumpStartBeatOffset: o.customData._noteJumpStartBeatOffset,
-                size: o.customData._scale,
-                track: o.customData._track,
-                uninteractable: typeof o.customData._interactable === 'boolean'
-                    ? !o.customData._interactable
-                    : undefined,
-                worldRotation: o.customData._rotation,
+        const customData: ICustomDataObstacle = {
+            color: o.customData._color,
+            coordinates: o.customData._position,
+            localRotation: o.customData._localRotation,
+            noteJumpMovementSpeed: o.customData._noteJumpMovementSpeed,
+            noteJumpStartBeatOffset: o.customData._noteJumpStartBeatOffset,
+            size: o.customData._scale,
+            track: o.customData._track,
+            uninteractable: typeof o.customData._interactable === 'boolean' ? !o.customData._interactable : undefined,
+            worldRotation: o.customData._rotation,
+        };
+        if (o.customData._animation) {
+            customData.animation = {
+                color: o.customData._animation._color,
+                definitePosition: o.customData._animation._definitePosition,
+                dissolve: o.customData._animation._dissolve,
+                dissolveArrow: o.customData._animation._dissolveArrow,
+                interactable: o.customData._animation._interactable,
+                localRotation: o.customData._animation._localRotation,
+                offsetPosition: o.customData._animation._position,
+                offsetRotation: o.customData._animation._rotation,
+                scale: o.customData._animation._scale,
+                time: o.customData._animation._time,
             };
-            if (o.customData._animation) {
-                customData.animation = {
-                    color: o.customData._animation._color,
-                    definitePosition: o.customData._animation._definitePosition,
-                    dissolve: o.customData._animation._dissolve,
-                    dissolveArrow: o.customData._animation._dissolveArrow,
-                    interactable: o.customData._animation._interactable,
-                    localRotation: o.customData._animation._localRotation,
-                    offsetPosition: o.customData._animation._position,
-                    offsetRotation: o.customData._animation._rotation,
-                    scale: o.customData._animation._scale,
-                    time: o.customData._animation._time,
-                };
-            }
-            if (typeof o.customData._fake === 'boolean') {
-                logger.warn(tag('V2toV3'), `obstacles[${i}] at time ${o.time} NE _fake will be removed.`);
-            }
+        }
+        if (typeof o.customData._fake === 'boolean') {
+            logger.warn(tag('V2toV3'), `obstacles[${i}] at time ${o.time} NE _fake will be removed.`);
         }
         template.obstacles.push(
             v3.Obstacle.create({

@@ -39,7 +39,8 @@ bsmap.save.difficultySync(data);
 ```
 
 **NOTE:** Recommended to use `https://deno.land/x/bsmap@version/mod.ts` to lock version to ensure the script works
-without breaking from newer update.
+without breaking from newer update. For rolling release, visit
+[GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw file directly from there.
 
 You may also clone the library and import it locally to make any modification as you wish.
 
@@ -72,7 +73,8 @@ issue if you encounter error/problem or want an improvement.
 - Use `deno fmt` for standard formatting.
 - File names shall use camel case.
 - Exported types, interfaces, fields, and functions should accompany with JSDoc comment right above its definition.
-- No third-party dependencies shall be used outside of examples, extensions, and tests.
+- No third-party dependencies shall be used outside of examples, extensions, and tests. (Exception when absolutely
+  necessary is Deno standard library)
 - Top-level function must use regular function.
 - Avoid circular imports.
 
@@ -80,5 +82,4 @@ issue if you encounter error/problem or want an improvement.
 
 - Strip some of the features as plugin/extension allowing for modular and lightweight system
 - Add more helper for Chroma and Noodle Extensions
-- Overload function for less function clutter (but more complex)
 - Bundle script

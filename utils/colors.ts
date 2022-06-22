@@ -1,7 +1,12 @@
 // deno-lint-ignore-file prefer-const
-import { ColorArray, IColor } from '../types/colors.ts';
+import logger from '../logger.ts';
+import { ColorArray, ColorObject, IColor } from '../types/colors.ts';
 import { degToRad, lerp, radToDeg, round } from './math.ts';
 import { hexToDec, isHex } from './misc.ts';
+
+const tag = (name: string) => {
+    return `[utils::colors::${name}]`;
+};
 
 /** Convert RGBA to HSVA array.
  * ```
@@ -74,8 +79,8 @@ export function HSVAtoRGBA(hue: number, saturation: number, value: number, alpha
 
 /** Interpolate [r,g,b,a] or #hex color */
 export function interpolateColor(
-    colorStart: ColorArray | string,
-    colorEnd: ColorArray | string,
+    colorStart: ColorObject | ColorArray | string,
+    colorEnd: ColorObject | ColorArray | string,
     alpha: number,
     type: 'rgba' | 'hsva' | 'long hsva' | 'short hsva' = 'rgba',
     easing?: (x: number) => number,
@@ -87,22 +92,34 @@ export function interpolateColor(
     }
     let cStart!: ColorArray, cEnd!: ColorArray;
     if (typeof colorStart === 'string') {
-        if (isHex(colorStart)) {
-            cStart = hexToRGBA(colorStart);
-        } else {
-            throw new Error('not hex');
-        }
-    } else {
+        cStart = hexToRGBA(colorStart);
+    } else if (Array.isArray(colorStart)) {
         cStart = colorStart;
+    } else {
+        if (colorStart.type === 'hex') {
+            cStart = hexToRGBA(colorStart.value);
+        }
+        if (colorStart.type === 'hsva') {
+            cStart = colorStart.value;
+        }
+        if (colorStart.type === 'rgba') {
+            cStart = colorStart.value;
+        }
     }
     if (typeof colorEnd === 'string') {
-        if (isHex(colorEnd)) {
-            cEnd = hexToRGBA(colorEnd);
-        } else {
-            throw new Error('not hex');
-        }
-    } else {
+        cEnd = hexToRGBA(colorEnd);
+    } else if (Array.isArray(colorEnd)) {
         cEnd = colorEnd;
+    } else {
+        if (colorEnd.type === 'hex') {
+            cStart = hexToRGBA(colorEnd.value);
+        }
+        if (colorEnd.type === 'hsva') {
+            cStart = colorEnd.value;
+        }
+        if (colorEnd.type === 'rgba') {
+            cStart = colorEnd.value;
+        }
     }
     switch (type) {
         case 'hsva': {
@@ -186,29 +203,31 @@ export function RGBAtoHex(colorObj: IColor): string {
 }
 
 export function hexToRGBA(hex: string): ColorArray {
-    if (!hex.startsWith('#')) {
-        throw new Error('not color hex');
+    hex = hex.trim();
+    if (hex.startsWith('#')) {
+        hex = hex.substring(1);
     }
-    if (!isHex(hex.substring(1))) {
-        throw new Error('not hex');
+    if (!isHex(hex)) {
+        throw new Error('Not valid hexadecimal');
     }
     let result: ColorArray = [0, 0, 0];
 
-    if (hex.length >= 4 && hex.length <= 5) {
+    if (hex.length === 3 || hex.length === 4) {
         result = [
+            cNorm(hexToDec(hex.slice(0, 1) + hex.slice(0, 1))),
             cNorm(hexToDec(hex.slice(1, 2) + hex.slice(1, 2))),
             cNorm(hexToDec(hex.slice(2, 3) + hex.slice(2, 3))),
-            cNorm(hexToDec(hex.slice(3, 4) + hex.slice(3, 4))),
         ];
-        if (hex.length === 5) {
-            result.push(cNorm(hexToDec(hex.slice(4, 5) + hex.slice(4, 5))));
+        if (hex.length === 4) {
+            result.push(cNorm(hexToDec(hex.slice(3, 4) + hex.slice(3, 4))));
         }
-    }
-    if (hex.length >= 7 && hex.length <= 9) {
-        result = [cNorm(hexToDec(hex.slice(1, 3))), cNorm(hexToDec(hex.slice(3, 5))), cNorm(hexToDec(hex.slice(5, 7)))];
-        if (hex.length === 9) {
-            result.push(cNorm(hexToDec(hex.slice(7, 9))));
+    } else if (hex.length === 6 || hex.length === 8) {
+        result = [cNorm(hexToDec(hex.slice(0, 2))), cNorm(hexToDec(hex.slice(2, 4))), cNorm(hexToDec(hex.slice(4, 6)))];
+        if (hex.length === 8) {
+            result.push(cNorm(hexToDec(hex.slice(6, 8))));
         }
+    } else {
+        logger.warn(tag('hexToRGBA'), `Unknown color hex #${hex}`);
     }
     return result;
 }

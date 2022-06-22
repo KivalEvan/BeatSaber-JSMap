@@ -3,7 +3,9 @@ import logger from '../logger.ts';
 import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
 import { DifficultyData as DifficultyDataV3 } from '../beatmap/v3/difficulty.ts';
 import { clamp } from '../utils/math.ts';
-import { Vector3 } from '../types/beatmap/shared/heck.ts';
+import { Vector3, Vector3PointDefinition } from '../types/beatmap/shared/heck.ts';
+import { IEvent } from '../types/beatmap/v2/event.ts';
+import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v2/customData.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -34,7 +36,35 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
     const template = DifficultyDataV2.create();
     template.fileName = data.fileName;
 
-    data.colorNotes.forEach((n) =>
+    data.colorNotes.forEach((n) => {
+        const _customData: ICustomDataNote = {
+            _color: n.customData.color,
+            _position: n.customData.coordinates,
+            _disableNoteGravity: n.customData.disableNoteGravity,
+            _disableNoteLook: n.customData.disableNoteLook,
+            _flip: n.customData.flip,
+            _localRotation: n.customData.localRotation,
+            _noteJumpMovementSpeed: n.customData.noteJumpMovementSpeed,
+            _noteJumpStartBeatOffset: n.customData.noteJumpStartBeatOffset,
+            _disableSpawnEffect: typeof n.customData.spawnEffect === 'boolean' ? !n.customData.spawnEffect : undefined,
+            _track: n.customData.track,
+            _interactable: typeof n.customData.uninteractable === 'boolean' ? !n.customData.uninteractable : undefined,
+            _rotation: n.customData.worldRotation,
+        };
+        if (n.customData.animation) {
+            _customData._animation = {
+                _color: n.customData.animation.color,
+                _definitePosition: n.customData.animation.definitePosition,
+                _dissolve: n.customData.animation.dissolve,
+                _dissolveArrow: n.customData.animation.dissolveArrow,
+                _interactable: n.customData.animation.interactable,
+                _localRotation: n.customData.animation.localRotation,
+                _position: n.customData.animation.offsetPosition,
+                _rotation: n.customData.animation.offsetRotation,
+                _scale: n.customData.animation.scale,
+                _time: n.customData.animation.time,
+            };
+        }
         template.notes.push(
             v2.Note.create({
                 _time: n.time,
@@ -42,12 +72,40 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _lineLayer: n.posY,
                 _type: n.color,
                 _cutDirection: n.direction,
-                _customData: n.customData,
+                _customData,
             }),
-        )
-    );
+        );
+    });
 
-    data.bombNotes.forEach((b) =>
+    data.bombNotes.forEach((b) => {
+        const customData: ICustomDataNote = {
+            _color: b.customData.color,
+            _position: b.customData.coordinates,
+            _disableNoteGravity: b.customData.disableNoteGravity,
+            _disableNoteLook: b.customData.disableNoteLook,
+            _flip: b.customData.flip,
+            _localRotation: b.customData.localRotation,
+            _noteJumpMovementSpeed: b.customData.noteJumpMovementSpeed,
+            _noteJumpStartBeatOffset: b.customData.noteJumpStartBeatOffset,
+            _disableSpawnEffect: typeof b.customData.spawnEffect === 'boolean' ? !b.customData.spawnEffect : undefined,
+            _track: b.customData.track,
+            _interactable: typeof b.customData.uninteractable === 'boolean' ? !b.customData.uninteractable : undefined,
+            _rotation: b.customData.worldRotation,
+        };
+        if (b.customData.animation) {
+            customData._animation = {
+                _color: b.customData.animation.color,
+                _definitePosition: b.customData.animation.definitePosition,
+                _dissolve: b.customData.animation.dissolve,
+                _dissolveArrow: b.customData.animation.dissolveArrow,
+                _interactable: b.customData.animation.interactable,
+                _localRotation: b.customData.animation.localRotation,
+                _position: b.customData.animation.offsetPosition,
+                _rotation: b.customData.animation.offsetRotation,
+                _scale: b.customData.animation.scale,
+                _time: b.customData.animation.time,
+            };
+        }
         template.notes.push(
             v2.Note.create({
                 _time: b.time,
@@ -55,12 +113,37 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _lineLayer: b.posY,
                 _type: 3,
                 _cutDirection: 0,
-                _customData: b.customData,
+                _customData: customData,
             }),
-        )
-    );
+        );
+    });
 
     data.obstacles.forEach((o) => {
+        const _customData: ICustomDataObstacle = {
+            _color: o.customData.color,
+            _position: o.customData.coordinates,
+            _localRotation: o.customData.localRotation,
+            _noteJumpMovementSpeed: o.customData.noteJumpMovementSpeed,
+            _noteJumpStartBeatOffset: o.customData.noteJumpStartBeatOffset,
+            _scale: o.customData.size,
+            _track: o.customData.track,
+            _interactable: typeof o.customData.uninteractable === 'boolean' ? !o.customData.uninteractable : undefined,
+            _rotation: o.customData.worldRotation,
+        };
+        if (o.customData.animation) {
+            _customData._animation = {
+                _color: o.customData.animation.color,
+                _definitePosition: o.customData.animation.definitePosition,
+                _dissolve: o.customData.animation.dissolve,
+                _dissolveArrow: o.customData.animation.dissolveArrow,
+                _interactable: o.customData.animation.interactable,
+                _localRotation: o.customData.animation.localRotation,
+                _position: o.customData.animation.offsetPosition,
+                _rotation: o.customData.animation.offsetRotation,
+                _scale: o.customData.animation.scale,
+                _time: o.customData.animation.time,
+            };
+        }
         if (o.posY === 0 && o.height === 5) {
             template.obstacles.push(
                 v2.Obstacle.create({
@@ -71,7 +154,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     _duration: o.duration,
                     _width: o.width,
                     _height: o.height,
-                    _customData: o.customData,
+                    _customData,
                 }),
             );
         } else if (o.posY === 2 && o.height === 3) {
@@ -84,7 +167,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     _duration: o.duration,
                     _width: o.width,
                     _height: o.height,
-                    _customData: o.customData,
+                    _customData,
                 }),
             );
         } else {
@@ -97,24 +180,51 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     _duration: o.duration,
                     _width: o.width,
                     _height: o.height,
-                    _customData: o.customData,
+                    _customData,
                 }),
             );
         }
     });
 
-    data.basicBeatmapEvents.forEach((be) => {
+    data.basicBeatmapEvents.forEach((e) => {
+        let _customData!: IEvent['_customData'];
+        if (e.customData) {
+            if (e.isLightEvent()) {
+                _customData = {
+                    _color: e.customData.color,
+                    _lightID: e.customData.lightID,
+                    _easing: e.customData.easing,
+                    _lerpType: e.customData.lerpType,
+                };
+            }
+            if (e.isRingEvent()) {
+                _customData = {
+                    _nameFilter: e.customData.nameFilter,
+                    _rotation: e.customData.rotation,
+                    _step: e.customData.step,
+                    _prop: e.customData.prop,
+                    _speed: e.customData.speed,
+                    _direction: e.customData.direction,
+                };
+            }
+            if (e.isLaserRotationEvent()) {
+                _customData = {
+                    _lockPosition: e.customData.lockRotation,
+                    _direction: e.customData.direction,
+                    _preciseSpeed: e.customData.speed,
+                };
+            }
+        }
         template.events.push(
             v2.Event.create({
-                _time: be.time,
-                _type: be.type as 8, // hackish way to just accept any other event
-                _value: be.value,
-                _floatValue: be.floatValue,
-                _customData: be.customData,
+                _time: e.time,
+                _type: e.type,
+                _value: e.value,
+                _floatValue: e.floatValue,
+                _customData,
             }),
         );
     });
-
     data.colorBoostBeatmapEvents.forEach((b) =>
         template.events.push(
             v2.Event.create({
@@ -200,7 +310,14 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                                     _track: ce.data.track,
                                     _duration: ce.data.duration,
                                     _easing: ce.data.easing,
-                                    _position: ce.data.position,
+                                    _position: typeof ce.data.position === 'string'
+                                        ? ce.data.position
+                                        : ce.data.position?.map((p) => {
+                                            p[0] = p[0] / 0.6;
+                                            p[1] = p[1] / 0.6;
+                                            p[2] = p[2] / 0.6;
+                                            return p as Vector3PointDefinition;
+                                        }),
                                     _rotation: ce.data.rotation,
                                     _localRotation: ce.data.localRotation,
                                     _scale: ce.data.scale,
@@ -276,9 +393,9 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                             _duplicate: e.duplicate,
                             _active: e.active,
                             _scale: e.scale,
-                            _position: e.position?.map((n) => n * 0.6) as Vector3,
+                            _position: e.position?.map((n) => n / 0.6) as Vector3,
                             _rotation: e.rotation,
-                            _localPosition: e.localPosition?.map((n) => n * 0.6) as Vector3,
+                            _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
                             _localRotation: e.localRotation,
                             _lightID: e.lightID,
                         };
@@ -299,9 +416,9 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                             _duplicate: e.duplicate,
                             _active: e.active,
                             _scale: e.scale,
-                            _position: e.position?.map((n) => n * 0.6) as Vector3,
+                            _position: e.position?.map((n) => n / 0.6) as Vector3,
                             _rotation: e.rotation,
-                            _localPosition: e.localPosition?.map((n) => n * 0.6) as Vector3,
+                            _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
                             _localRotation: e.localRotation,
                             _lightID: e.lightID,
                         };

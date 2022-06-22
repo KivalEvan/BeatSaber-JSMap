@@ -27,10 +27,25 @@ export interface IChromaGeometry {
     _shader?: GeometryShaderPreset;
     _shaderKeywords?: string[];
     _collision?: boolean;
+    _color?: ColorArray;
 }
 
 /** Chroma interface for Environment Enhancement Base. */
 export interface IChromaEnvironmentBase {
+    /** Look up environment object name.
+     *
+     * This grabs every environment objects that match the string.
+     * ```ts
+     * id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
+     * ```
+     */
+    _id?: unknown;
+    /** Look-up method to grab the object name.
+     *
+     * Regex is considered an advanced method and more powerful than other methods.
+     */
+    _lookupMethod?: unknown;
+    _geometry?: unknown;
     /** Assign track to the object for animation use. */
     _track?: string;
     /** Duplicate the object by set amount.
@@ -53,18 +68,7 @@ export interface IChromaEnvironmentBase {
  * @extends IChromaEnvironmentBase
  */
 export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
-    /** Look up environment object name.
-     *
-     * This grabs every environment objects that match the string.
-     * ```ts
-     * _id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
-     * ```
-     */
     _id: string;
-    /** Look-up method to grab the object name.
-     *
-     * Regex is considered an advanced method and more powerful than other methods.
-     */
     _lookupMethod: LookupMethod;
     _geometry?: never;
 }
@@ -74,18 +78,7 @@ export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
  * @extends IChromaEnvironmentBase
  */
 export interface IChromaEnvironmentGeometry extends IChromaEnvironmentBase {
-    /** Look up environment object name.
-     *
-     * This grabs every environment objects that match the string.
-     * ```ts
-     * _id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
-     * ```
-     */
     _id?: never;
-    /** Look-up method to grab the object name.
-     *
-     * Regex is considered an advanced method and more powerful than other methods.
-     */
     _lookupMethod?: never;
     _geometry: IChromaGeometry[];
 }

@@ -56,9 +56,9 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
                 _duplicate: e.duplicate,
                 _active: e.active,
                 _scale: e.scale,
-                _position: e.position?.map((n) => n * 0.6) as Vector3,
+                _position: e.position?.map((n) => n / 0.6) as Vector3,
                 _rotation: e.rotation,
-                _localPosition: e.localPosition?.map((n) => n * 0.6) as Vector3,
+                _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
                 _localRotation: e.localRotation,
                 _lightID: e.lightID,
             };
@@ -79,9 +79,9 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
                 _duplicate: e.duplicate,
                 _active: e.active,
                 _scale: e.scale,
-                _position: e.position?.map((n) => n * 0.6) as Vector3,
+                _position: e.position?.map((n) => n / 0.6) as Vector3,
                 _rotation: e.rotation,
-                _localPosition: e.localPosition?.map((n) => n * 0.6) as Vector3,
+                _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
                 _localRotation: e.localRotation,
                 _lightID: e.lightID,
             };

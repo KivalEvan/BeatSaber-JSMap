@@ -30,7 +30,7 @@ interface INEObject {
     noteJumpStartBeatOffset?: number;
     uninteractable?: boolean;
     track?: string | string[];
-    animation?: INEAnimation | IChromaAnimation;
+    animation?: INEAnimation & IChromaAnimation;
 }
 
 /** Noodle Extensions Note interface for Beatmap Note.
