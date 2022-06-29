@@ -23,7 +23,8 @@ export function interleave([x, ...xs]: number[], ys: number[] = []): number[] {
  *
  * Works best with only primitive objects.
  */
-export function deepCopy<T>(object: T): T {
+// deno-lint-ignore ban-types
+export function deepCopy<T extends object>(object: T): T {
     if (typeof object !== 'object') {
         logger.error(tag('deepCopy'), 'Received non-object type');
     }

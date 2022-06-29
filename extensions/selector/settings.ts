@@ -1,3 +1,7 @@
 import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 
-export let BPM: BeatPerMinute | undefined | null;
+export const settings: {
+    BPM: BeatPerMinute | null;
+} = {
+    BPM: null,
+};

@@ -1,8 +1,8 @@
-import { INETrackObject } from './types/track.ts';
+import { INEObject } from './types/object.ts';
 
-export function addTrack(objects: INETrackObject[], track: string): void;
-export function addTrack(objects: INETrackObject, track: string): void;
-export function addTrack(objects: INETrackObject | INETrackObject[], track: string): void {
+export function addTrack(objects: INEObject[], track: string): void;
+export function addTrack(objects: INEObject, track: string): void;
+export function addTrack(objects: INEObject | INEObject[], track: string): void {
     if (!Array.isArray(objects)) {
         if (!objects.customData) {
             objects.customData = {};
@@ -24,9 +24,9 @@ export function addTrack(objects: INETrackObject | INETrackObject[], track: stri
     });
 }
 
-export function removeTrack(objects: INETrackObject[], track: string): void;
-export function removeTrack(objects: INETrackObject, track: string): void;
-export function removeTrack(objects: INETrackObject | INETrackObject[], track: string): void {
+export function removeTrack(objects: INEObject[], track: string): void;
+export function removeTrack(objects: INEObject, track: string): void;
+export function removeTrack(objects: INEObject | INEObject[], track: string): void {
     if (!Array.isArray(objects)) {
         if (!objects.customData) {
             return;

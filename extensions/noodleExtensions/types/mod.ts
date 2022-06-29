@@ -1,1 +1,2 @@
-export * from './track.ts';
+export * from './object.ts';
+export * from './shape.ts';

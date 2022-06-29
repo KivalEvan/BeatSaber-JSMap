@@ -1,6 +1,6 @@
 import { NoteJumpSpeed } from '../../beatmap/shared/njs.ts';
-import { INETrackObject } from './types/track.ts';
-import { NJS } from './settings.ts';
+import { INEObject } from './types/object.ts';
+import { settings } from './settings.ts';
 import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 import { EasingFunction } from '../../types/easings.ts';
 import { lerp, normalize } from '../../utils/math.ts';
@@ -10,7 +10,7 @@ import { lerp, normalize } from '../../utils/math.ts';
  * Speed determines how fast should note spawn from start to end.
  */
 export function simultaneousSpawn(
-    objects: INETrackObject[],
+    objects: INEObject[],
     speed: number,
     njsOffset?: NoteJumpSpeed | number | null,
 ): void {
@@ -19,7 +19,7 @@ export function simultaneousSpawn(
         if (njsOffset) {
             offset = njsOffset.offset;
         } else {
-            offset = NJS?.offset ?? 0;
+            offset = settings.NJS?.offset ?? 0;
         }
     } else {
         offset = njsOffset;
@@ -32,7 +32,7 @@ export function simultaneousSpawn(
 
 /** Gradually change NJS for objects from start to end objects. */
 export function gradientNJS(
-    objects: INETrackObject[],
+    objects: INEObject[],
     options: {
         bpm: BeatPerMinute | number;
         njsStart: number;
@@ -51,7 +51,7 @@ export function gradientNJS(
         if (options.njsOffset) {
             offset = options.njsOffset.offset;
         } else {
-            offset = NJS?.offset ?? 0;
+            offset = settings.NJS?.offset ?? 0;
         }
     } else {
         offset = options.njsOffset;
@@ -66,7 +66,11 @@ export function gradientNJS(
             options.easing,
         );
         if (typeof options.jd === 'number') {
-            const currNJS = NoteJumpSpeed.create(options.bpm, o.customData.noteJumpMovementSpeed, offset);
+            const currNJS = NoteJumpSpeed.create(
+                options.bpm,
+                o.customData.noteJumpMovementSpeed,
+                offset,
+            );
             o.customData.noteJumpStartBeatOffset = currNJS.calcHJDFromJD(options.jd) - currNJS.calcHJD() + offset;
         }
     });

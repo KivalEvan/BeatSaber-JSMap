@@ -3,7 +3,7 @@ import { IBaseObject as IBaseObjectV2 } from '../../types/beatmap/v2/object.ts';
 import { BaseObject } from '../../beatmap/v3/baseObject.ts';
 import { IBaseObject } from '../../types/beatmap/v3/baseObject.ts';
 import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
-import { BPM } from './settings.ts';
+import { settings } from './settings.ts';
 
 /** Return objects at given time, adjusted by BPM change if provided.
  * ```ts
@@ -16,7 +16,7 @@ export function at<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObject
     times: number | number[],
     bpm?: BeatPerMinute | null,
 ): T[] {
-    bpm = bpm ?? BPM;
+    bpm = bpm ?? settings.BPM;
     if (Array.isArray(times)) {
         return objects.filter((o) => times.some((time) => (bpm ? bpm.adjustTime(o.time) === time : o.time === time)));
     }
@@ -35,7 +35,7 @@ export function between<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseO
     to: number,
     bpm?: BeatPerMinute | null,
 ): T[] {
-    bpm = bpm ?? BPM;
+    bpm = bpm ?? settings.BPM;
     return objects.filter((o) =>
         bpm ? bpm.adjustTime(o.time) >= from && bpm.adjustTime(o.time) <= to : o.time >= from && o.time <= to
     );
