@@ -14,52 +14,57 @@ import { IFilter } from './types/filter.ts';
  */
 export function where<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObjectV2>>(
     objects: T[],
-    filter: IFilter<T['data']> = {},
+    filter: IFilter<T['data']> = {}
 ): T[] {
-    return objects.filter((o) => {
-        let result = false;
-        for (const key in filter.include) {
-            const value = filter.include[key];
-            if (key === 'customData' || key === '_customData') {
-                if ((o.data as any)[key]) {
-                    result = (value as string[]).some((p) => Object.keys((o.data as any)[key]).includes(p));
-                    if (result) {
-                        break;
+    return objects
+        .filter((o) => {
+            let result = false;
+            for (const key in filter.include) {
+                const value = filter.include[key];
+                if (key === 'customData' || key === '_customData') {
+                    if ((o.data as any)[key]) {
+                        result = (value as string[]).some((p) => Object.keys((o.data as any)[key]).includes(p));
+                        if (result) {
+                            break;
+                        }
+                    } else {
+                        continue;
                     }
+                }
+                if (Array.isArray(value)) {
+                    result = value.some((p) => (o.data as any)[key] === p);
                 } else {
-                    continue;
+                    result = (o.data as any)[key] === value;
+                }
+                if (result) {
+                    break;
                 }
             }
-            if (Array.isArray(value)) {
-                result = value.some((p) => (o.data as any)[key] === p);
-            } else {
-                result = (o.data as any)[key] === value;
-            }
-            if (result) {
-                break;
-            }
-        }
-        for (const key in filter.exclude) {
-            const value = filter.exclude[key];
-            if (key === 'customData' || key === '_customData') {
-                if ((o.data as any)[key]) {
-                    result = (value as string[]).some((p) => Object.keys((o.data as any)[key]).includes(p));
-                    if (!result) {
-                        break;
+            return result;
+        })
+        .filter((o) => {
+            let result = false;
+            for (const key in filter.exclude) {
+                const value = filter.exclude[key];
+                if (key === 'customData' || key === '_customData') {
+                    if ((o.data as any)[key]) {
+                        result = (value as string[]).some((p) => Object.keys((o.data as any)[key]).includes(p));
+                        if (result) {
+                            break;
+                        }
+                    } else {
+                        continue;
                     }
+                }
+                if (Array.isArray(value)) {
+                    result = value.some((p) => (o.data as any)[key] === p);
                 } else {
-                    continue;
+                    result = (o.data as any)[key] === value;
+                }
+                if (result) {
+                    break;
                 }
             }
-            if (Array.isArray(value)) {
-                result = !value.some((p) => (o.data as any)[key] === p);
-            } else {
-                result = !((o.data as any)[key] === value);
-            }
-            if (!result) {
-                break;
-            }
-        }
-        return result;
-    });
+            return !result;
+        });
 }
