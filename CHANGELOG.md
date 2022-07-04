@@ -20,6 +20,7 @@
 ### Fixed
 
 - `directory` potentially no longer prefix file name instead of going into folder
+- `where` function does not filter correctly with exclude
 
 ## 1.1.1 [2022-06-19]
 

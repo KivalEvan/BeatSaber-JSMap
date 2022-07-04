@@ -14,7 +14,7 @@ import { IFilter } from './types/filter.ts';
  */
 export function where<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObjectV2>>(
     objects: T[],
-    filter: IFilter<T['data']> = {}
+    filter: IFilter<T['data']> = {},
 ): T[] {
     return objects
         .filter((o) => {
