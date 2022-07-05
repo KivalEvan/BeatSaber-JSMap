@@ -219,15 +219,15 @@ export interface IChromaCustomEventDataAnimateComponent extends IHeckCustomEvent
 
 /** Chroma Custom Event interface for AssignFogTrack. */
 export interface IChromaCustomEventAssignFogTrack {
-    beat: number;
-    type: 'AssignFogTrack';
-    data: IChromaCustomEventDataAssignFogTrack;
+    b: number;
+    t: 'AssignFogTrack';
+    d: IChromaCustomEventDataAssignFogTrack;
 }
 
 export interface IChromaCustomEventAnimateComponent {
-    beat: number;
-    type: 'AnimateComponent';
-    data: IChromaCustomEventDataAnimateComponent;
+    b: number;
+    t: 'AnimateComponent';
+    d: IChromaCustomEventDataAnimateComponent;
 }
 
 export type IChromaCustomEvent = IChromaCustomEventAssignFogTrack | IChromaCustomEventAnimateComponent;

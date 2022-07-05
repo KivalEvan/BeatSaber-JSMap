@@ -281,9 +281,9 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 template.customData.customEvents = data.customData._customEvents!.map((ce) => {
                     if (ce._type === 'AnimateTrack') {
                         return {
-                            beat: ce._time,
-                            type: 'AnimateTrack',
-                            data: {
+                            b: ce._time,
+                            t: 'AnimateTrack',
+                            d: {
                                 track: ce._data._track,
                                 duration: ce._data._duration,
                                 easing: ce._data._easing,
@@ -301,9 +301,9 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     }
                     if (ce._type === 'AssignPathAnimation') {
                         return {
-                            beat: ce._time,
-                            type: 'AssignPathAnimation',
-                            data: {
+                            b: ce._time,
+                            t: 'AssignPathAnimation',
+                            d: {
                                 track: ce._data._track,
                                 duration: ce._data._duration,
                                 easing: ce._data._easing,
@@ -321,9 +321,9 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     }
                     if (ce._type === 'AssignTrackParent') {
                         return {
-                            beat: ce._time,
-                            type: 'AssignTrackParent',
-                            data: {
+                            b: ce._time,
+                            t: 'AssignTrackParent',
+                            d: {
                                 childrenTracks: ce._data._childrenTracks,
                                 parentTrack: ce._data._parentTrack,
                                 worldPositionStays: ce._data._worldPositionStays,
@@ -332,17 +332,17 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     }
                     if (ce._type === 'AssignPlayerToTrack') {
                         return {
-                            beat: ce._time,
-                            type: 'AssignPlayerToTrack',
-                            data: {
+                            b: ce._time,
+                            t: 'AssignPlayerToTrack',
+                            d: {
                                 track: ce._data._track,
                             },
                         };
                     }
                     return {
-                        beat: ce._time,
-                        type: 'AssignFogTrack',
-                        data: {
+                        b: ce._time,
+                        t: 'AssignFogTrack',
+                        d: {
                             track: ce._data._track,
                             attenuation: ce._data._attenuation,
                             offset: ce._data._offset,

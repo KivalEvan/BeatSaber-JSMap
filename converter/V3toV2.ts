@@ -301,84 +301,84 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
         for (const k in data.customData) {
             if (k === 'customEvents') {
                 template.customData._customEvents = data.customData
-                    .customEvents!.filter((ce) => ce.type !== 'AnimateComponent')
+                    .customEvents!.filter((ce) => ce.t !== 'AnimateComponent')
                     .map((ce) => {
-                        if (ce.type === 'AnimateTrack') {
+                        if (ce.t === 'AnimateTrack') {
                             return {
-                                _time: ce.beat,
+                                _time: ce.b,
                                 _type: 'AnimateTrack',
                                 _data: {
-                                    _track: ce.data.track,
-                                    _duration: ce.data.duration,
-                                    _easing: ce.data.easing,
-                                    _position: typeof ce.data.position === 'string'
-                                        ? ce.data.position
-                                        : ce.data.position?.map((p) => {
+                                    _track: ce.d.track,
+                                    _duration: ce.d.duration,
+                                    _easing: ce.d.easing,
+                                    _position: typeof ce.d.position === 'string'
+                                        ? ce.d.position
+                                        : ce.d.position?.map((p) => {
                                             p[0] = p[0] / 0.6;
                                             p[1] = p[1] / 0.6;
                                             p[2] = p[2] / 0.6;
                                             return p as Vector3PointDefinition;
                                         }),
-                                    _rotation: ce.data.rotation,
-                                    _localRotation: ce.data.localRotation,
-                                    _scale: ce.data.scale,
-                                    _dissolve: ce.data.dissolve,
-                                    _dissolveArrow: ce.data.dissolveArrow,
-                                    _color: ce.data.color,
-                                    _interactable: ce.data.interactable,
-                                    _time: ce.data.time,
+                                    _rotation: ce.d.rotation,
+                                    _localRotation: ce.d.localRotation,
+                                    _scale: ce.d.scale,
+                                    _dissolve: ce.d.dissolve,
+                                    _dissolveArrow: ce.d.dissolveArrow,
+                                    _color: ce.d.color,
+                                    _interactable: ce.d.interactable,
+                                    _time: ce.d.time,
                                 },
                             };
                         }
-                        if (ce.type === 'AssignPathAnimation') {
+                        if (ce.t === 'AssignPathAnimation') {
                             return {
-                                _time: ce.beat,
+                                _time: ce.b,
                                 _type: 'AssignPathAnimation',
                                 _data: {
-                                    _track: ce.data.track,
-                                    _duration: ce.data.duration,
-                                    _easing: ce.data.easing,
-                                    _position: ce.data.position,
-                                    _rotation: ce.data.rotation,
-                                    _localRotation: ce.data.localRotation,
-                                    _scale: ce.data.scale,
-                                    _dissolve: ce.data.dissolve,
-                                    _dissolveArrow: ce.data.dissolveArrow,
-                                    _color: ce.data.color,
-                                    _interactable: ce.data.interactable,
-                                    _definitePosition: ce.data.definitePosition,
+                                    _track: ce.d.track,
+                                    _duration: ce.d.duration,
+                                    _easing: ce.d.easing,
+                                    _position: ce.d.position,
+                                    _rotation: ce.d.rotation,
+                                    _localRotation: ce.d.localRotation,
+                                    _scale: ce.d.scale,
+                                    _dissolve: ce.d.dissolve,
+                                    _dissolveArrow: ce.d.dissolveArrow,
+                                    _color: ce.d.color,
+                                    _interactable: ce.d.interactable,
+                                    _definitePosition: ce.d.definitePosition,
                                 },
                             };
                         }
-                        if (ce.type === 'AssignTrackParent') {
+                        if (ce.t === 'AssignTrackParent') {
                             return {
-                                _time: ce.beat,
+                                _time: ce.b,
                                 _type: 'AssignTrackParent',
                                 _data: {
-                                    _childrenTracks: ce.data.childrenTracks,
-                                    _parentTrack: ce.data.parentTrack,
-                                    _worldPositionStays: ce.data.worldPositionStays,
+                                    _childrenTracks: ce.d.childrenTracks,
+                                    _parentTrack: ce.d.parentTrack,
+                                    _worldPositionStays: ce.d.worldPositionStays,
                                 },
                             };
                         }
-                        if (ce.type === 'AssignFogTrack') {
+                        if (ce.t === 'AssignFogTrack') {
                             return {
-                                _time: ce.beat,
+                                _time: ce.b,
                                 _type: 'AssignFogTrack',
                                 _data: {
-                                    _track: ce.data.track,
-                                    _attenuation: ce.data.attenuation,
-                                    _offset: ce.data.offset,
-                                    _startY: ce.data.startY,
-                                    _height: ce.data.height,
+                                    _track: ce.d.track,
+                                    _attenuation: ce.d.attenuation,
+                                    _offset: ce.d.offset,
+                                    _startY: ce.d.startY,
+                                    _height: ce.d.height,
                                 },
                             };
                         }
                         return {
-                            _time: ce.beat,
+                            _time: ce.b,
                             _type: 'AssignPlayerToTrack',
                             _data: {
-                                _track: ce.data.track,
+                                _track: ce.d.track,
                             },
                         };
                     });
