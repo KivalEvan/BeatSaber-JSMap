@@ -2,26 +2,26 @@ import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
 import { Obstacle } from '../../../beatmap/v3/obstacle.ts';
 import { BasicEvent } from '../../../beatmap/v3/basicEvent.ts';
 import { Easings } from '../../../types/easings.ts';
-import { ColorArray } from '../../../types/colors.ts';
+import { ColorArray, ColorInput, ColorType } from '../../../types/colors.ts';
 import { SetOptions } from './options.ts';
 
 export type IChromaObject = ColorNote | Obstacle | BasicEvent;
 
-export interface SetColorOptions extends SetOptions {
-    color: ColorArray;
-    colorType?: 'rgba' | 'hsva';
+export interface SetColorOptions {
+    color: ColorInput;
+    colorType?: ColorType;
 }
 
 export interface SetColorRangeOptions extends SetOptions {
-    color1: ColorArray;
-    color2: ColorArray;
-    colorType?: 'rgba' | 'hsva';
+    color1: ColorInput;
+    color2: ColorInput;
+    colorType?: ColorType;
 }
 
 export interface SetColorGradientOptions extends SetOptions {
-    startColor: ColorArray;
-    endColor: ColorArray;
-    colorType?: 'rgba' | 'long hsva' | 'short hsva';
+    colorStart: ColorInput;
+    colorEnd: ColorInput;
+    colorType?: ColorType;
     easingColor?: (x: number) => number;
 }
 
@@ -44,14 +44,14 @@ export interface ShiftColorGradientOptions extends ShiftColorBaseOptions {
     easing?: (x: number) => number;
 }
 
-export interface ApplyEasingsOptions extends SetOptions {
+export interface ApplyEasingsOptions {
     easing: Easings;
     type?: BasicEvent['type'];
 }
 
-export interface pRandomLightIDOptions extends SetOptions {
-    startColor: ColorArray;
-    endColor: ColorArray;
+export interface pRandomLightIDOptions {
+    colorStart: ColorArray;
+    colorEnd: ColorArray;
     colorType?: 'rgba' | 'long hsva' | 'short hsva';
     type: BasicEvent['type'];
     duration: number;
@@ -66,7 +66,7 @@ export interface pRandomLightIDOptions extends SetOptions {
     easingColor?: (x: number) => number;
 }
 
-export interface pRandomLightI2DOptions extends SetOptions {
+export interface pRandomLightI2DOptions {
     startColor: ColorArray;
     endColor: ColorArray;
     colorType?: 'rgba' | 'long hsva' | 'short hsva';

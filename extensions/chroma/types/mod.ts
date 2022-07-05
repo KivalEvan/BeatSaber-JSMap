@@ -1,3 +1,3 @@
-export * from './color.ts';
+export * from './colors.ts';
 export * from './options.ts';
 export * from './environment.ts';

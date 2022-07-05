@@ -1,13 +1,13 @@
 import { HSVAtoRGBA, RGBAtoHSVA } from '../../utils/colors.ts';
 import { ColorArray } from '../../types/colors.ts';
 import { clamp } from '../../utils/math.ts';
-import { IChromaObject, ShiftColorOptions } from './types/color.ts';
+import { IChromaObject, ShiftColorOptions } from './types/colors.ts';
 import { IChromaEventLight } from '../../types/beatmap/v3/chroma.ts';
 
 export function shiftColor(objects: IChromaObject[], options: ShiftColorOptions) {
     const opt: Omit<Required<ShiftColorOptions>, 'type'> = {
-        startTime: options.startTime,
-        endTime: options.endTime,
+        offsetStart: options.offsetStart,
+        offsetEnd: options.offsetEnd,
         hue: options.hue ?? 0,
         saturation: options.saturation ?? 100,
         value: options.value ?? 0,
@@ -62,9 +62,5 @@ export function shiftColor(objects: IChromaObject[], options: ShiftColorOptions)
         if (cd.color) {
             cd.color = shift(cd.color, hsvaShift, opt);
         }
-        // if (cd.lightGradient) {
-        //     cd.lightGradient.startColor = shift(cd.lightGradient.startColor, hsvaShift, opt);
-        //     cd.lightGradient.endColor = shift(cd.lightGradient.endColor, hsvaShift, opt);
-        // }
     });
 }

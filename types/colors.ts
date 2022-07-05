@@ -13,26 +13,23 @@ export interface IColor {
  */
 export type ColorArray = [number, number, number, number?];
 
-export type ColorType = 'rgba' | 'hsva' | 'hex';
+export type ColorType = 'rgba' | 'hsva';
 
 interface IColorBase {
     type: ColorType;
-    value: string | ColorArray;
+    value: ColorArray | string;
 }
 
 interface IColorRGBA extends IColorBase {
     type: 'rgba';
-    value: ColorArray;
+    value: ColorArray | string;
 }
 
 interface IColorHSVA extends IColorBase {
     type: 'hsva';
-    value: ColorArray;
+    value: ColorArray | string;
 }
 
-interface IColorHex extends IColorBase {
-    type: 'hex';
-    value: string;
-}
+export type ColorObject = IColorRGBA | IColorHSVA;
 
-export type ColorObject = IColorRGBA | IColorHSVA | IColorHex;
+export type ColorInput = ColorArray | ColorObject | string;

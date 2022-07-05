@@ -1,6 +1,6 @@
 // deno-lint-ignore-file prefer-const
 import logger from '../logger.ts';
-import { ColorArray, ColorObject, IColor } from '../types/colors.ts';
+import { ColorArray, ColorInput, ColorObject, ColorType, IColor } from '../types/colors.ts';
 import { degToRad, lerp, radToDeg, round } from './math.ts';
 import { hexToDec, isHex } from './misc.ts';
 
@@ -96,14 +96,11 @@ export function interpolateColor(
     } else if (Array.isArray(colorStart)) {
         cStart = colorStart;
     } else {
-        if (colorStart.type === 'hex') {
+        if (typeof colorStart.value === 'string') {
             cStart = hexToRGBA(colorStart.value);
-        }
-        if (colorStart.type === 'hsva') {
-            cStart = colorStart.value;
-        }
-        if (colorStart.type === 'rgba') {
-            cStart = colorStart.value;
+            if (colorStart.type === 'hsva') {
+                cStart = RGBAtoHSVA(...cStart);
+            }
         }
     }
     if (typeof colorEnd === 'string') {
@@ -111,14 +108,11 @@ export function interpolateColor(
     } else if (Array.isArray(colorEnd)) {
         cEnd = colorEnd;
     } else {
-        if (colorEnd.type === 'hex') {
-            cStart = hexToRGBA(colorEnd.value);
-        }
-        if (colorEnd.type === 'hsva') {
-            cStart = colorEnd.value;
-        }
-        if (colorEnd.type === 'rgba') {
-            cStart = colorEnd.value;
+        if (typeof colorEnd.value === 'string') {
+            cEnd = hexToRGBA(colorEnd.value);
+            if (colorEnd.type === 'hsva') {
+                cEnd = RGBAtoHSVA(...cEnd);
+            }
         }
     }
     switch (type) {
@@ -230,6 +224,28 @@ export function hexToRGBA(hex: string): ColorArray {
         logger.warn(tag('hexToRGBA'), `Unknown color hex #${hex}`);
     }
     return result;
+}
+
+export function convertColorInput(value: ColorInput, type: ColorType = 'rgba'): ColorArray {
+    if (typeof value === 'string') {
+        const temp = hexToRGBA(value);
+        if (type === 'hsva') {
+            return HSVAtoRGBA(...temp);
+        }
+        return temp;
+    } else if (Array.isArray(value)) {
+        return value;
+    } else {
+        if (typeof value.value === 'string') {
+            const temp = hexToRGBA(value.value);
+            if (value.type === 'hsva') {
+                return RGBAtoHSVA(...temp);
+            }
+            return temp;
+        } else {
+            return value.value;
+        }
+    }
 }
 
 // https://www.easyrgb.com/ with Adobe RGB reference value
