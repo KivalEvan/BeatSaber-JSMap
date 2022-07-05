@@ -2,9 +2,9 @@
  * Command-line flag:
  * -p | --directory : map folder directory.
  * example run command:
- * deno run --allow-read --allow-write convertToV3.ts -p "FolderPath"
+ * deno run --allow-read --allow-write convertToV3.ts -d "./Folder/Path"
  */
-import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
+import * as bsmap from '../mod.ts';
 import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
 
 const args = parse(Deno.args, {
@@ -29,7 +29,7 @@ const diffList = bsmap.load.difficultyFromInfoSync(info);
 
 let isConverted = false;
 diffList.forEach((dl) => {
-    if (!bsmap.version.isV3(dl.data)) {
+    if (!bsmap.isV3(dl.data)) {
         console.log('Backing up', dl.characteristic, dl.difficulty);
         Deno.renameSync(
             bsmap.globals.directory + dl.settings._beatmapFilename,

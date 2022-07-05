@@ -2,12 +2,17 @@ import { ColorPointDefinition, PercentPointDefinition, Vector3 } from '../shared
 import { Easings } from '../../easings.ts';
 import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
-import { GeometryShaderPreset, GeometryType, LookupMethod } from '../shared/chroma.ts';
+import {
+    GeometryType,
+    LookupMethod,
+    ShaderKeywordsOpaque,
+    ShaderKeywordsStandard,
+    ShaderKeywordsTransparent,
+    ShaderType,
+} from '../shared/chroma.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 
 export enum ChromaDataEnvAbbr {
-    _id = 'Ct',
-    _lookupMethod = 'Lm',
     _duplicate = 'D',
     _active = 'A',
     _scale = 'S',
@@ -19,13 +24,47 @@ export enum ChromaDataEnvAbbr {
     _track = 'T',
 }
 
+/** Chroma Material Base interface for Environment Enhancement. */
+export interface IChromaMaterialBase {
+    _shaderPreset: ShaderType;
+    _shaderKeywords?: string[];
+    _track?: string[];
+    _color?: ColorArray;
+}
+
+/** Chroma Material Standard interface for Environment Enhancement.
+ * @extends IChromaMaterialBase
+ */
+export interface IChromaMaterialStandard extends IChromaMaterialBase {
+    _shaderPreset: 'STANDARD';
+    _shaderKeywords?: ShaderKeywordsStandard[];
+}
+
+/** Chroma Material Opaque interface for Environment Enhancement.
+ * @extends IChromaMaterialBase
+ */
+export interface IChromaMaterialOpaque extends IChromaMaterialBase {
+    _shaderPreset: 'NO_SHADE';
+    _shaderKeywords?: ShaderKeywordsOpaque[];
+}
+
+/** Chroma Material Transparent interface for Environment Enhancement.
+ * @extends IChromaMaterialBase
+ */
+export interface IChromaMaterialTransparent extends IChromaMaterialBase {
+    _shaderPreset: 'LIGHT_BOX';
+    _shaderKeywords?: ShaderKeywordsTransparent[];
+}
+
+/** Chroma Material interface for Environment Enhancement. */
+export type IChromaMaterial = IChromaMaterialStandard | IChromaMaterialOpaque | IChromaMaterialTransparent;
+
 /** Chroma Geometry interface for Environment Enhancement. */
 export interface IChromaGeometry {
     _type: GeometryType;
+    _material: IChromaMaterial | string;
     _spawnCount: number;
-    _track?: string;
-    _shader?: GeometryShaderPreset;
-    _shaderKeywords?: string[];
+    _track?: string[];
     _collision?: boolean;
     _color?: ColorArray;
 }
@@ -168,4 +207,5 @@ export type IChromaCustomEvent = IChromaCustomEventAssignFogTrack;
 export interface IChromaCustomData {
     _customEvents?: IChromaCustomEvent[];
     _environment?: IChromaEnvironment[];
+    _materials?: { [key: string]: IChromaMaterial };
 }

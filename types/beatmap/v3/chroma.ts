@@ -2,12 +2,18 @@ import { ColorPointDefinition, PercentPointDefinition, Vector3 } from '../shared
 import { Easings } from '../../easings.ts';
 import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
-import { GeometryShaderPreset, GeometryType, LookupMethod } from '../shared/chroma.ts';
+import {
+    GeometryType,
+    LookupMethod,
+    ShaderKeywordsOpaque,
+    ShaderKeywordsStandard,
+    ShaderKeywordsTransparent,
+    ShaderType,
+} from '../shared/chroma.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 
 export enum ChromaDataEnvAbbr {
-    id = 'Ct',
-    lookupMethod = 'Lm',
+    track = 'T',
     duplicate = 'D',
     active = 'A',
     scale = 'S',
@@ -15,38 +21,80 @@ export enum ChromaDataEnvAbbr {
     localPosition = 'Lp',
     rotation = 'R',
     localRotation = 'Lr',
-    lightID = 'Li',
-    track = 'T',
+    components = 'C',
 }
+
+/** Chroma Material Base interface for Environment Enhancement. */
+export interface IChromaMaterialBase {
+    shaderPreset: ShaderType;
+    shaderKeywords?: string[];
+    track?: string[];
+    color?: ColorArray;
+}
+
+/** Chroma Material Standard interface for Environment Enhancement.
+ * @extends IChromaMaterialBase
+ */
+export interface IChromaMaterialStandard extends IChromaMaterialBase {
+    shaderPreset: 'STANDARD';
+    shaderKeywords?: ShaderKeywordsStandard[];
+}
+
+/** Chroma Material Opaque interface for Environment Enhancement.
+ * @extends IChromaMaterialBase
+ */
+export interface IChromaMaterialOpaque extends IChromaMaterialBase {
+    shaderPreset: 'NO_SHADE';
+    shaderKeywords?: ShaderKeywordsOpaque[];
+}
+
+/** Chroma Material Transparent interface for Environment Enhancement.
+ * @extends IChromaMaterialBase
+ */
+export interface IChromaMaterialTransparent extends IChromaMaterialBase {
+    shaderPreset: 'LIGHT_BOX';
+    shaderKeywords?: ShaderKeywordsTransparent[];
+}
+
+/** Chroma Material interface for Environment Enhancement. */
+export type IChromaMaterial = IChromaMaterialStandard | IChromaMaterialOpaque | IChromaMaterialTransparent;
 
 /** Chroma Geometry interface for Environment Enhancement. */
 export interface IChromaGeometry {
     type: GeometryType;
+    material: IChromaMaterial | string;
     spawnCount: number;
-    track?: string;
-    shader?: GeometryShaderPreset;
-    shaderKeywords?: string[];
+    track?: string[];
     collision?: boolean;
     color?: ColorArray;
 }
 
 export interface IChromaComponentLightWithID {
-    type: number;
-    lightID: number;
+    /** `<int>` Assign event type value. */
+    type?: number;
+    /** `<int>` Assign lightID value. */
+    lightID?: number;
 }
 
 export interface IChromaComponentBloomFogEnvironment {
-    attenuation: number;
-    offset: number;
-    startY: number;
-    height: number;
+    /** `<float>` */
+    attenuation?: number;
+    /** `<float>` */
+    offset?: number;
+    /** `<float>` */
+    startY?: number;
+    /** `<float>` */
+    height?: number;
 }
 
 export interface IChromaComponentTubeBloomPrePassLight {
-    colorAlphaMultiplier: number;
-    bloomFogIntensityMultiplier: number;
+    /** `<float>` */
+    colorAlphaMultiplier?: number;
+    /** `<float>` */
+    bloomFogIntensityMultiplier?: number;
 }
 
+/** Chroma Component interface for Environment Enhancement. */
 export interface IChromaComponent {
     ILightWithId?: IChromaComponentLightWithID;
     BloomFogEnvironment?: IChromaComponentBloomFogEnvironment;
@@ -83,7 +131,6 @@ export interface IChromaEnvironmentBase {
     localPosition?: Vector3;
     localRotation?: Vector3;
     /** Assign light ID for duplicated object. */
-    lightID?: number;
     components?: IChromaComponent;
 }
 
@@ -188,4 +235,5 @@ export type IChromaCustomEvent = IChromaCustomEventAssignFogTrack | IChromaCusto
 /** Chroma Custom Data interface for difficulty custom data. */
 export interface IChromaCustomData {
     environment?: IChromaEnvironment[];
+    materials?: { [key: string]: IChromaMaterial };
 }

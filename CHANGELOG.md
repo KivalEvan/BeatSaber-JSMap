@@ -4,7 +4,8 @@
 
 ### Added
 
-- Chroma geometry and component
+- Chroma geometry, material and animate component
+  - This contains breaking changes to existing v3 Chroma
 - More helper for Noodle Extensions
 
 ### Changed

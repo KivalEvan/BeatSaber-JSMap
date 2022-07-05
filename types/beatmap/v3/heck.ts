@@ -9,6 +9,7 @@ import {
 /** Heck Base Custom Event interface. */
 export interface IHeckCustomEventDataBase {
     track: string | string[];
+    repeat?: number;
 }
 
 /** AssignPathAnimation interface for Heck Custom Event.

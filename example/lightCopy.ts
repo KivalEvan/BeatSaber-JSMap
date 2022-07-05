@@ -5,9 +5,9 @@
  * -f | --force : force copy to same file.
  * -m | --merge : merge instead of overriding the event property
  * example run command:
- * deno run --allow-read --allow-write lightCopy.ts -p "FolderPath" CopyFile.dat
+ * deno run --allow-read --allow-write lightCopy.ts -d "./Folder/Path" Lightshow.dat
  */
-import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
+import * as bsmap from '../mod.ts';
 import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
 
 const args = parse(Deno.args, {

@@ -24,7 +24,7 @@ export class EnvironmentGroup {
             ) as Vector3;
             d.scale = d.scale?.map((s, i) => s * (options.scale?.[i] ?? 1)) as Vector3;
             if (options.lightID) {
-                d.lightID = options.lightID++;
+                d.components = { ILightWithId: { lightID: options.lightID++ } };
             }
         });
         if (insertTo) {

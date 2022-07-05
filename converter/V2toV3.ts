@@ -7,6 +7,7 @@ import { EventLaneRotationValue } from '../beatmap/shared/constants.ts';
 import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v3/customData.ts';
 import { IBasicEvent } from '../types/beatmap/v3/basicEvent.ts';
 import { Vector3 } from '../types/beatmap/shared/heck.ts';
+import { IChromaEnvironment, IChromaMaterial } from '../types/beatmap/v3/chroma.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -354,6 +355,8 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
             }
             if (k === '_environment') {
                 template.customData.environment = data.customData._environment!.map((e) => {
+                    let components = {};
+                    if (e._lightID) components = { ILightWithId: { lightID: e._lightID } };
                     if (e._id && e._lookupMethod) {
                         return {
                             id: e._id,
@@ -366,19 +369,19 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             rotation: e._rotation,
                             localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
                             localRotation: e._localRotation,
-                            lightID: e._lightID,
-                        };
+                            components,
+                        } as IChromaEnvironment;
                     }
                     if (e._geometry) {
                         return {
                             geometry: e._geometry.map((g) => {
                                 return {
                                     type: g._type,
+                                    material: g._material,
                                     spawnCount: g._spawnCount,
                                     track: g._track,
-                                    shaderPreset: g._shader,
-                                    shaderKeywords: g._shaderKeywords,
                                     collision: g._collision,
+                                    color: g._color,
                                 };
                             }),
                             track: e._track,
@@ -389,11 +392,23 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             rotation: e._rotation,
                             localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
                             localRotation: e._localRotation,
-                            lightID: e._lightID,
-                        };
+                            components,
+                        } as IChromaEnvironment;
                     }
                     throw new Error('Error converting environment v2 to v3');
                 });
+                continue;
+            }
+            if (k === '_materials') {
+                template.customData.materials = {};
+                for (const m in data.customData._materials) {
+                    template.customData.materials[m] = {
+                        shaderPreset: data.customData._materials[m]._shaderPreset,
+                        shaderKeywords: data.customData._materials[m]._shaderKeywords,
+                        track: data.customData._materials[m]._track,
+                        color: data.customData._materials[m]._color,
+                    } as IChromaMaterial;
+                }
                 continue;
             }
             if (k === '_pointDefinitions') {
