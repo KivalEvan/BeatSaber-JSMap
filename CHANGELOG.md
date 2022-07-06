@@ -1,12 +1,12 @@
 # Changelog
 
-## 1.2.0 [2022-06-x]
+## 1.2.0 [2022-07-x]
 
 ### Added
 
-- Chroma geometry, material and animate component
+- Chroma geometry, material and component
   - This contains breaking changes to existing v3 Chroma
-- More helper for Noodle Extensions
+- More utilities for Chroma and Noodle Extensions
 
 ### Changed
 
@@ -20,6 +20,7 @@
 
 ### Fixed
 
+- Negative hue no longer result null value
 - `directory` potentially no longer prefix file name instead of going into folder
 - `where` function does not filter correctly with exclude
 

@@ -1,7 +1,7 @@
 // deno-lint-ignore-file prefer-const
 import logger from '../logger.ts';
 import { ColorArray, ColorInput, ColorObject, ColorType, IColor } from '../types/colors.ts';
-import { degToRad, lerp, radToDeg, round } from './math.ts';
+import { degToRad, lerp, radToDeg, round, shortRotDistance } from './math.ts';
 import { hexToDec, isHex } from './misc.ts';
 
 const tag = (name: string) => {
@@ -48,7 +48,12 @@ export function RGBAtoHSVA(r: number, g: number, b: number, a = 1): ColorArray {
  */
 export function HSVAtoRGBA(hue: number, saturation: number, value: number, alpha = 1): ColorArray {
     hue = hue / 360;
-    let r!: number, g!: number, b!: number;
+    if (hue < 0) {
+        hue += Math.abs(Math.floor(hue));
+    }
+    let r = 0,
+        g = 0,
+        b = 0;
     const i = Math.floor(hue * 6);
     const f = hue * 6 - i;
     const p = value * (1 - saturation);
@@ -82,7 +87,7 @@ export function interpolateColor(
     colorStart: ColorObject | ColorArray | string,
     colorEnd: ColorObject | ColorArray | string,
     alpha: number,
-    type: 'rgba' | 'hsva' | 'long hsva' | 'short hsva' = 'rgba',
+    type: ColorType = 'rgba',
     easing?: (x: number) => number,
 ): ColorArray {
     if (!easing) {
@@ -90,32 +95,10 @@ export function interpolateColor(
             return x;
         };
     }
-    let cStart!: ColorArray, cEnd!: ColorArray;
-    if (typeof colorStart === 'string') {
-        cStart = hexToRGBA(colorStart);
-    } else if (Array.isArray(colorStart)) {
-        cStart = colorStart;
-    } else {
-        if (typeof colorStart.value === 'string') {
-            cStart = hexToRGBA(colorStart.value);
-            if (colorStart.type === 'hsva') {
-                cStart = RGBAtoHSVA(...cStart);
-            }
-        }
-    }
-    if (typeof colorEnd === 'string') {
-        cEnd = hexToRGBA(colorEnd);
-    } else if (Array.isArray(colorEnd)) {
-        cEnd = colorEnd;
-    } else {
-        if (typeof colorEnd.value === 'string') {
-            cEnd = hexToRGBA(colorEnd.value);
-            if (colorEnd.type === 'hsva') {
-                cEnd = RGBAtoHSVA(...cEnd);
-            }
-        }
-    }
-    switch (type) {
+    const fixType = type.endsWith('hsva') ? 'hsva' : (type as 'rgba' | 'hsva');
+    const cStart = convertColorInput(colorStart, fixType, fixType);
+    const cEnd = convertColorInput(colorEnd, fixType, fixType);
+    switch (fixType) {
         case 'hsva': {
             return HSVAtoRGBA(
                 ...(cStart.map((c, i) => {
@@ -127,29 +110,7 @@ export function interpolateColor(
                 }) as ColorArray),
             );
         }
-        case 'long hsva': {
-            return HSVAtoRGBA(
-                ...(cStart.map((c, i) => {
-                    if (!(typeof c === 'number')) {
-                        return 1;
-                    }
-                    const cE = cEnd[i] ?? c;
-                    return lerp(easing!(alpha), c!, cE!);
-                }) as ColorArray),
-            );
-        }
-        case 'short hsva': {
-            return HSVAtoRGBA(
-                ...(cStart.map((c, i) => {
-                    if (!(typeof c === 'number')) {
-                        return 1;
-                    }
-                    const cE = cEnd[i] ?? c;
-                    return lerp(easing!(alpha), c!, cE!);
-                }) as ColorArray),
-            );
-        }
-        default: {
+        default:
             return cStart.map((c, i) => {
                 if (!(typeof c === 'number')) {
                     return 1;
@@ -157,7 +118,6 @@ export function interpolateColor(
                 const cE = cEnd[i] ?? c;
                 return lerp(easing!(alpha), c!, cE!);
             }) as ColorArray;
-        }
     }
 }
 
@@ -226,24 +186,39 @@ export function hexToRGBA(hex: string): ColorArray {
     return result;
 }
 
-export function convertColorInput(value: ColorInput, type: ColorType = 'rgba'): ColorArray {
+/** Convert color input to standard RGBA array.
+ * ```ts
+ * const rgba = convertColorInput([30, 0.75, 1], 'hsva')
+ * ```
+ * Default color output type is RGBA unless specified otherwise.
+ */
+export function convertColorInput(
+    value: ColorInput,
+    type: ColorType = 'rgba',
+    output: 'rgba' | 'hsva' = 'rgba',
+): ColorArray {
     if (typeof value === 'string') {
         const temp = hexToRGBA(value);
-        if (type === 'hsva') {
-            return HSVAtoRGBA(...temp);
+        if (output === 'hsva') {
+            return RGBAtoHSVA(...temp);
         }
         return temp;
     } else if (Array.isArray(value)) {
-        return value;
+        if (type === 'hsva') {
+            return output === 'hsva' ? value : HSVAtoRGBA(...value);
+        }
+        const temp = type === 'rgba255' ? (value.map((n) => cNorm(n!)) as ColorArray) : value;
+        return output === 'hsva' ? RGBAtoHSVA(...temp) : temp;
     } else {
         if (typeof value.value === 'string') {
             const temp = hexToRGBA(value.value);
-            if (value.type === 'hsva') {
-                return RGBAtoHSVA(...temp);
-            }
-            return temp;
+            return output === 'hsva' ? RGBAtoHSVA(...temp) : temp;
         } else {
-            return value.value;
+            if (value.type === 'hsva') {
+                return output === 'hsva' ? value.value : HSVAtoRGBA(...value.value);
+            }
+            const temp = value.type === 'rgba255' ? (value.value.map((n) => cNorm(n!)) as ColorArray) : value.value;
+            return output === 'hsva' ? RGBAtoHSVA(...temp) : temp;
         }
     }
 }

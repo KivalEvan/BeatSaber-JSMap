@@ -13,7 +13,7 @@ export interface IColor {
  */
 export type ColorArray = [number, number, number, number?];
 
-export type ColorType = 'rgba' | 'hsva';
+export type ColorType = 'rgba' | 'rgba255' | 'hsva';
 
 interface IColorBase {
     type: ColorType;
@@ -25,11 +25,16 @@ interface IColorRGBA extends IColorBase {
     value: ColorArray | string;
 }
 
+interface IColorRGBA255 extends IColorBase {
+    type: 'rgba255';
+    value: ColorArray | string;
+}
+
 interface IColorHSVA extends IColorBase {
     type: 'hsva';
     value: ColorArray | string;
 }
 
-export type ColorObject = IColorRGBA | IColorHSVA;
+export type ColorObject = IColorRGBA | IColorRGBA255 | IColorHSVA;
 
 export type ColorInput = ColorArray | ColorObject | string;
