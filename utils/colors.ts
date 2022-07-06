@@ -1,7 +1,7 @@
 // deno-lint-ignore-file prefer-const
 import logger from '../logger.ts';
 import { ColorArray, ColorInput, ColorObject, ColorType, IColor } from '../types/colors.ts';
-import { degToRad, lerp, radToDeg, round, shortRotDistance } from './math.ts';
+import { degToRad, lerp, radToDeg, round } from './math.ts';
 import { hexToDec, isHex } from './misc.ts';
 
 const tag = (name: string) => {
@@ -95,7 +95,7 @@ export function interpolateColor(
             return x;
         };
     }
-    const fixType = type.endsWith('hsva') ? 'hsva' : (type as 'rgba' | 'hsva');
+    const fixType = type === 'rgba255' ? 'rgba' : (type as 'rgba' | 'hsva');
     const cStart = convertColorInput(colorStart, fixType, fixType);
     const cEnd = convertColorInput(colorEnd, fixType, fixType);
     switch (fixType) {
