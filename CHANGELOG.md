@@ -21,6 +21,7 @@
 ### Fixed
 
 - Negative hue no longer result null value
+- Obstacle mirroring now accounts for width
 - `directory` potentially no longer prefix file name instead of going into folder
 - `where` function does not filter correctly with exclude
 

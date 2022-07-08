@@ -161,7 +161,7 @@ export class Obstacle extends BaseObject<IObstacle> {
     }
 
     mirror() {
-        this.posX = LINE_COUNT - 1 - this.posX;
+        this.posX = LINE_COUNT - 1 - (this.posX + this.width - 1);
         return this;
     }
 
@@ -172,7 +172,12 @@ export class Obstacle extends BaseObject<IObstacle> {
      */
     // FIXME: there are a lot more other variables
     isInteractive() {
-        return (this.posX < 0 && this.width > 1 - this.posX) || this.width > 1 || this.posX === 1 || this.posX === 2;
+        return (
+            (this.posX < 0 && this.width > 1 - this.posX) ||
+            this.width > 1 ||
+            this.posX === 1 ||
+            this.posX === 2
+        );
     }
 
     /** Check if obstacle has zero value.
@@ -214,7 +219,9 @@ export class Obstacle extends BaseObject<IObstacle> {
      * ```
      */
     isLonger(compareTo: Obstacle, prevOffset = 0): boolean {
-        return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
+        return (
+            this.time + this.duration > compareTo.time + compareTo.duration + prevOffset
+        );
     }
 
     /** Check if obstacle has Chroma properties.
