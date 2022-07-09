@@ -17,6 +17,7 @@
 - Color function can take color object and uses them accordingly
   - Depend on use case, this will always convert to RGBA for ease of development
 - Beatmap V3 to V2 conversion now converts customData back
+  - Attempts to fix position for environment track
 
 ### Fixed
 

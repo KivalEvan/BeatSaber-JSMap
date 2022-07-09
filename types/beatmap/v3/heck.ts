@@ -1,10 +1,5 @@
 import { Easings } from '../../easings.ts';
-import {
-    ColorPointDefinition,
-    PercentPointDefinition,
-    PointDefinition,
-    Vector3PointDefinition,
-} from '../shared/heck.ts';
+import { PointDefinition, Vector3PointDefinition } from '../shared/heck.ts';
 
 /** Heck Base Custom Event interface. */
 export interface IHeckCustomEventDataBase {
@@ -22,11 +17,6 @@ export interface IHeckCustomEventDataAnimateTrack extends IHeckCustomEventDataBa
     rotation?: string | Vector3PointDefinition[];
     localRotation?: string | Vector3PointDefinition[];
     scale?: string | Vector3PointDefinition[];
-    dissolve?: string | PercentPointDefinition[];
-    dissolveArrow?: string | PercentPointDefinition[];
-    color?: string | ColorPointDefinition[];
-    interactable?: string | PercentPointDefinition[];
-    time?: string | PercentPointDefinition[];
 }
 
 /** AssignPathAnimation interface for Heck Custom Event.
@@ -39,25 +29,6 @@ export interface IHeckCustomEventDataAssignPathAnimation extends IHeckCustomEven
     rotation?: string | Vector3PointDefinition[];
     localRotation?: string | Vector3PointDefinition[];
     scale?: string | Vector3PointDefinition[];
-    dissolve?: string | PercentPointDefinition[];
-    dissolveArrow?: string | PercentPointDefinition[];
-    color?: string | ColorPointDefinition[];
-    interactable?: string | PercentPointDefinition[];
-    definitePosition?: string | Vector3PointDefinition[];
-}
-
-/** Heck Custom Event interface for AnimateTrack. */
-export interface IHeckCustomEventAnimateTrack {
-    b: number;
-    t: 'AnimateTrack';
-    d: IHeckCustomEventDataAnimateTrack;
-}
-
-/** Heck Custom Event interface for AssignPathAnimation. */
-export interface IHeckCustomEventAssignPathAnimation {
-    b: number;
-    t: 'AssignPathAnimation';
-    d: IHeckCustomEventDataAssignPathAnimation;
 }
 
 /** Heck Custom Event interface for InvokeEvent. */
@@ -66,11 +37,6 @@ export interface IHeckCustomEventAssignPathAnimation {
 //     t: 'InvokeEvent';
 //     d: IHeckCustomEventDataInvokeEvent;
 // }
-
-export type IHeckCustomEvent =
-    | IHeckCustomEventAnimateTrack
-    | IHeckCustomEventAssignPathAnimation;
-// | IHeckCustomEventInvokeEvent;
 
 /** Heck Point Definition interface. */
 export interface IHeckPointDefinition {

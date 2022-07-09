@@ -204,7 +204,17 @@ export interface IChromaEventZoom extends ICustomDataBase {
     speed?: number;
 }
 
-/** AssignFogTrack interface for Noodle Extensions Custom Event. */
+/** AnimateComponent interface for Chroma Custom Event. */
+export interface IChromaCustomEventDataAnimateTrack extends IHeckCustomEventDataBase {
+    color?: string | ColorPointDefinition[];
+}
+
+/** AnimateComponent interface for Chroma Custom Event. */
+export interface IChromaCustomEventDataAssignPathAnimation extends IHeckCustomEventDataBase {
+    color?: string | ColorPointDefinition[];
+}
+
+/** AssignFogTrack interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAssignFogTrack extends IHeckCustomEventDataBase {
     track: string;
     attenuation?: number | PercentPointDefinition[];
@@ -213,24 +223,10 @@ export interface IChromaCustomEventDataAssignFogTrack extends IHeckCustomEventDa
     height?: number | PercentPointDefinition[];
 }
 
+/** AnimateComponent interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAnimateComponent extends IHeckCustomEventDataBase {
     track: string;
 }
-
-/** Chroma Custom Event interface for AssignFogTrack. */
-export interface IChromaCustomEventAssignFogTrack {
-    b: number;
-    t: 'AssignFogTrack';
-    d: IChromaCustomEventDataAssignFogTrack;
-}
-
-export interface IChromaCustomEventAnimateComponent {
-    b: number;
-    t: 'AnimateComponent';
-    d: IChromaCustomEventDataAnimateComponent;
-}
-
-export type IChromaCustomEvent = IChromaCustomEventAssignFogTrack | IChromaCustomEventAnimateComponent;
 
 /** Chroma Custom Data interface for difficulty custom data. */
 export interface IChromaCustomData {

@@ -26,7 +26,6 @@ export * from './lightRotationEventBox.ts';
 export * from './lightRotationEventBoxGroup.ts';
 export * from './noodleExtensions.ts';
 export * from './obstacle.ts';
-export * from './pointDefinition.ts';
 export * from './rotationEvent.ts';
 export * from './slider.ts';
 export * from './waypoint.ts';

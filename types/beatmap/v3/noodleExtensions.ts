@@ -49,6 +49,26 @@ export interface INEObstacle extends INEObject {
     size?: Vector3;
 }
 
+/** AssignPathAnimation interface for Noodle Extensions Custom Event.
+ * @extends IHeckCustomEventDataBase
+ */
+export interface INECustomEventDataAnimateTrack extends IHeckCustomEventDataBase {
+    dissolve?: string | PercentPointDefinition[];
+    dissolveArrow?: string | PercentPointDefinition[];
+    interactable?: string | PercentPointDefinition[];
+    time?: string | PercentPointDefinition[];
+}
+
+/** AssignPathAnimation interface for Noodle Extensions Custom Event.
+ * @extends IHeckCustomEventDataBase
+ */
+export interface INECustomEventDataAssignPathAnimation extends IHeckCustomEventDataBase {
+    dissolve?: string | PercentPointDefinition[];
+    dissolveArrow?: string | PercentPointDefinition[];
+    interactable?: string | PercentPointDefinition[];
+    definitePosition?: string | Vector3PointDefinition[];
+}
+
 /** AssignPathAnimation interface for Noodle Extensions Custom Event. */
 export interface INECustomEventDataAssignTrackParent {
     childrenTracks: string[];
@@ -75,19 +95,3 @@ export interface INEAnimation {
     definitePosition?: string | Vector3PointDefinition[];
     time?: string | PercentPointDefinition[];
 }
-
-/** Noodle Extensions Custom Event interface for AssignTrackParent. */
-export interface INECustomEventAssignTrackParent {
-    b: number;
-    t: 'AssignTrackParent';
-    d: INECustomEventDataAssignTrackParent;
-}
-
-/** Noodle Extensions Custom Event interface for AssignPlayerToTrack. */
-export interface INECustomEventAssignPlayerToTrack {
-    b: number;
-    t: 'AssignPlayerToTrack';
-    d: INECustomEventDataAssignPlayerToTrack;
-}
-
-export type INECustomEvent = INECustomEventAssignTrackParent | INECustomEventAssignPlayerToTrack;
