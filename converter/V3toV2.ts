@@ -453,5 +453,45 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
         }
     }
 
+    if (template.customData._environment) {
+        const envTracks: string[] = [];
+        for (const env of template.customData._environment) {
+            if (env._track) {
+                envTracks.push(env._track);
+            }
+        }
+        const customEvents = [];
+        if (template.customData._customEvents) {
+            for (const ce of template.customData._customEvents) {
+                if (ce._type === 'AnimateTrack') {
+                    if (typeof ce._data._track === 'string' && envTracks.includes(ce._data._track)) {
+                        customEvents.push(ce);
+                    } else {
+                        for (const t of ce._data._track) {
+                            if (envTracks.includes(t)) {
+                                customEvents.push(ce);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (const ce of customEvents) {
+            if (typeof ce._data._track === 'string') {
+                if (typeof ce._data._position === 'string') {
+                    logger.warn(tag('V3toV2'), 'Cannot convert point definitions, unknown use.');
+                } else if (Array.isArray(ce._data._position)) {
+                    ce._data._position.forEach((n) => {
+                        n[0] /= 0.6;
+                        n[1] /= 0.6;
+                        n[2] /= 0.6;
+                    });
+                }
+            } else {
+                logger.warn(tag('V3toV2'), 'Environment animate track array conversion not yet implemented.');
+            }
+        }
+    }
     return template;
 }
