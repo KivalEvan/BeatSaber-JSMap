@@ -1,10 +1,7 @@
 import { Easings } from '../../easings.ts';
-import {
-    ColorPointDefinition,
-    PercentPointDefinition,
-    PointDefinition,
-    Vector3PointDefinition,
-} from '../shared/heck.ts';
+import { ColorPointDefinition } from '../shared/chroma.ts';
+import { PercentPointDefinition, Vector3PointDefinition } from '../shared/heck.ts';
+import { PointDefinition } from '../shared/pointDefinition.ts';
 
 /** Heck Base Custom Event interface. */
 export interface IHeckCustomEventDataBase {
@@ -59,12 +56,14 @@ export interface IHeckCustomEventAssignPathAnimation {
     _data: IHeckCustomEventDataAssignPathAnimation;
 }
 
-export type IHeckCustomEvent = IHeckCustomEventAnimateTrack | IHeckCustomEventAssignPathAnimation;
+export type IHeckCustomEvent =
+    | IHeckCustomEventAnimateTrack
+    | IHeckCustomEventAssignPathAnimation;
 
 /** Heck Point Definition interface. */
 export interface IHeckPointDefinition {
     _name: string;
-    _points: PointDefinition[];
+    _points: PointDefinition;
 }
 
 /** Heck Custom Data interface for difficulty custom data. */

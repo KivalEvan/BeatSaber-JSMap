@@ -5,6 +5,7 @@ import { IChromaCustomData, IChromaNote, IChromaObstacle } from './chroma.ts';
 import { INENote, INEObstacle } from './noodleExtensions.ts';
 import { ICustomEvent } from './customEvent.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
+import { IPointDefinition } from './pointDefinition.ts';
 
 /** Custom Data interface for difficulty file.
  * @extends CustomData
@@ -13,6 +14,7 @@ import { ICustomDataBase } from '../shared/customData.ts';
  */
 export interface ICustomDataDifficulty extends ICustomDataBase, IHeckCustomData, IChromaCustomData {
     customEvents?: ICustomEvent[];
+    pointDefinitions?: IPointDefinition[];
     time?: number;
     BPMChanges?: IBPMChange[];
     _bookmarks?: IBookmark[];

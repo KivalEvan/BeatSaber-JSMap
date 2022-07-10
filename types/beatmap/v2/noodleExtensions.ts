@@ -1,11 +1,6 @@
+import { ColorPointDefinition } from '../shared/chroma.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
-import {
-    ColorPointDefinition,
-    PercentPointDefinition,
-    Vector2,
-    Vector3,
-    Vector3PointDefinition,
-} from '../shared/heck.ts';
+import { PercentPointDefinition, Vector2, Vector3, Vector3PointDefinition } from '../shared/heck.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 
 export enum NEDataAbbr {
@@ -106,7 +101,9 @@ export interface INECustomEventAssignPlayerToTrack {
     _data: INECustomEventDataAssignPlayerToTrack;
 }
 
-export type INECustomEvent = INECustomEventAssignTrackParent | INECustomEventAssignPlayerToTrack;
+export type INECustomEvent =
+    | INECustomEventAssignTrackParent
+    | INECustomEventAssignPlayerToTrack;
 
 /** Noodle Extensions Custom Data interface for difficulty custom data. */
 export interface INECustomData {

@@ -1,8 +1,18 @@
+import { Easings } from '../../easings.ts';
 import { IInfoSettingsCustomData } from './heck.ts';
+
+export type ColorPointDefinition = [number, number, number, number, number, Easings?];
 
 export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
 
-export type GeometryType = 'SPHERE' | 'CAPSULE' | 'CYLINDER' | 'CUBE' | 'PLANE' | 'QUAD' | 'TRIANGLE';
+export type GeometryType =
+    | 'SPHERE'
+    | 'CAPSULE'
+    | 'CYLINDER'
+    | 'CUBE'
+    | 'PLANE'
+    | 'QUAD'
+    | 'TRIANGLE';
 
 export type ShaderType = 'LIGHT_BOX' | 'STANDARD' | 'NO_SHADE';
 

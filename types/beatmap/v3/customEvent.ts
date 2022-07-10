@@ -36,6 +36,13 @@ export interface ICustomEventAssignPathAnimation {
     d: ICustomEventDataAssignPathAnimation;
 }
 
+/** Custom Event interface for InvokeEvent. */
+// export interface IHeckCustomEventInvokeEvent {
+//     b: number;
+//     t: 'InvokeEvent';
+//     d: IHeckCustomEventDataInvokeEvent;
+// }
+
 /** Custom Event interface for AssignFogTrack. */
 export interface ICustomEventAssignFogTrack {
     b: number;

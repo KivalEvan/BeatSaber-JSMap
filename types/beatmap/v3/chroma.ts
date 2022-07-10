@@ -1,8 +1,9 @@
-import { ColorPointDefinition, PercentPointDefinition, Vector3 } from '../shared/heck.ts';
+import { PercentPointDefinition, Vector3 } from '../shared/heck.ts';
 import { Easings } from '../../easings.ts';
 import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
 import {
+    ColorPointDefinition,
     GeometryType,
     LookupMethod,
     ShaderKeywordsOpaque,
@@ -57,7 +58,10 @@ export interface IChromaMaterialTransparent extends IChromaMaterialBase {
 }
 
 /** Chroma Material interface for Environment Enhancement. */
-export type IChromaMaterial = IChromaMaterialStandard | IChromaMaterialOpaque | IChromaMaterialTransparent;
+export type IChromaMaterial =
+    | IChromaMaterialStandard
+    | IChromaMaterialOpaque
+    | IChromaMaterialTransparent;
 
 /** Chroma Geometry interface for Environment Enhancement. */
 export interface IChromaGeometry {

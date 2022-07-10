@@ -1,5 +1,5 @@
 import { Easings } from '../../easings.ts';
-import { PointDefinition, Vector3PointDefinition } from '../shared/heck.ts';
+import { Vector3PointDefinition } from '../shared/heck.ts';
 
 /** Heck Base Custom Event interface. */
 export interface IHeckCustomEventDataBase {
@@ -31,21 +31,7 @@ export interface IHeckCustomEventDataAssignPathAnimation extends IHeckCustomEven
     scale?: string | Vector3PointDefinition[];
 }
 
-/** Heck Custom Event interface for InvokeEvent. */
-// export interface IHeckCustomEventInvokeEvent {
-//     b: number;
-//     t: 'InvokeEvent';
-//     d: IHeckCustomEventDataInvokeEvent;
-// }
-
-/** Heck Point Definition interface. */
-export interface IHeckPointDefinition {
-    name: string;
-    points: PointDefinition[];
-}
-
 /** Heck Custom Data interface for difficulty custom data. */
 export interface IHeckCustomData {
     eventDefinitions?: unknown[];
-    pointDefinitions?: IHeckPointDefinition[];
 }
