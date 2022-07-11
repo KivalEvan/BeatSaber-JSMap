@@ -121,10 +121,10 @@ export function interpolateColor(
     }
 }
 
-export function colorObjToAry(c: IColor): ColorArray {
+export function colorObjToAry(c: IColor | Omit<IColor, 'a'>): ColorArray {
     const result: ColorArray = [c.r, c.g, c.b];
-    if (typeof c.a === 'number') {
-        result.push(c.a);
+    if (typeof (c as IColor).a === 'number') {
+        result.push((c as IColor).a);
     }
     return result;
 }

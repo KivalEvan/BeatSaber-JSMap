@@ -42,6 +42,13 @@ export interface INENote extends INEObject {
     disableNoteLook?: boolean;
 }
 
+/** Noodle Extensions Slider interface for Beatmap Slider.
+ * @extends INENote
+ */
+export interface INESlider extends INENote {
+    tailCoordinates?: Vector2;
+}
+
 /** Noodle Extensions Obstacle interface for Beatmap Obstacle.
  * @extends INEObject
  */

@@ -10,10 +10,9 @@ import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 import { Either } from './types/utils.ts';
-import { ILoadOptionsInfo } from './types/bsmap/load.ts';
+import { ILoadOptionsDifficulty, ILoadOptionsInfo } from './types/bsmap/load.ts';
 import { V3toV2 } from './converter/V3toV2.ts';
 import { V2toV3 } from './converter/V2toV3.ts';
-import { IBaseOptions } from './types/bsmap/options.ts';
 import { fixDirectory } from './utils/fs.ts';
 
 const tag = (name: string) => {
@@ -25,12 +24,22 @@ const optionsInfo: Required<ILoadOptionsInfo> = {
     filePath: 'Info.dat',
 };
 
-const optionsDifficulty: Required<IBaseOptions> = {
+const optionsDifficulty: Required<ILoadOptionsDifficulty> = {
     directory: '',
+    forceConvert: true,
+    dataCheck: {
+        enable: true,
+        throwError: true,
+    },
 };
 
-const optionsDifficultyList: Required<IBaseOptions> = {
+const optionsDifficultyList: Required<ILoadOptionsDifficulty> = {
     directory: '',
+    forceConvert: false,
+    dataCheck: {
+        enable: true,
+        throwError: true,
+    },
 };
 
 /** Set default option value for load function. */
@@ -84,11 +93,21 @@ export function infoSync(options: ILoadOptionsInfo = {}): IInfoData {
  * ---
  * Unmatched beatmap version will be automatically converted; default to version 3.
  */
-export async function difficulty(filePath: string, version?: 3, options?: IBaseOptions): Promise<DifficultyDataV3>;
-export async function difficulty(filePath: string, version?: 2, options?: IBaseOptions): Promise<DifficultyDataV2>;
-export async function difficulty(filePath: string, version = 3, options: IBaseOptions = {}) {
-    const opt: Required<IBaseOptions> = {
-        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.info.directory)),
+export async function difficulty(
+    filePath: string,
+    version?: 3,
+    options?: ILoadOptionsDifficulty,
+): Promise<DifficultyDataV3>;
+export async function difficulty(
+    filePath: string,
+    version?: 2,
+    options?: ILoadOptionsDifficulty,
+): Promise<DifficultyDataV2>;
+export async function difficulty(filePath: string, version = 3, options: ILoadOptionsDifficulty = {}) {
+    const opt: Required<ILoadOptionsDifficulty> = {
+        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.difficulty.directory)),
+        forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
+        dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     logger.info(
         tag('difficulty'),
@@ -102,6 +121,9 @@ export async function difficulty(filePath: string, version = 3, options: IBaseOp
             >;
             const diffVersion = parseInt(diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'));
             if (diffVersion !== version) {
+                if (!opt.forceConvert) {
+                    throw new Error(`Beatmap version unmatched, expected ${version} but received ${diffVersion}`);
+                }
                 logger.warn(
                     tag('difficulty'),
                     'Beatmap version unmatched, expected',
@@ -138,11 +160,13 @@ export async function difficulty(filePath: string, version = 3, options: IBaseOp
  * ---
  * Unmatched beatmap version will be automatically converted; default to version 3.
  */
-export function difficultySync(filePath: string, version?: 3, options?: IBaseOptions): DifficultyDataV3;
-export function difficultySync(filePath: string, version?: 2, options?: IBaseOptions): DifficultyDataV2;
-export function difficultySync(filePath: string, version = 3, options: IBaseOptions = {}) {
-    const opt: Required<IBaseOptions> = {
-        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.info.directory)),
+export function difficultySync(filePath: string, version?: 3, options?: ILoadOptionsDifficulty): DifficultyDataV3;
+export function difficultySync(filePath: string, version?: 2, options?: ILoadOptionsDifficulty): DifficultyDataV2;
+export function difficultySync(filePath: string, version = 3, options: ILoadOptionsDifficulty = {}) {
+    const opt: Required<ILoadOptionsDifficulty> = {
+        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.difficulty.directory)),
+        forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
+        dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     logger.info(
         tag('difficultySync'),
@@ -154,6 +178,9 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
     >;
     const diffVersion = parseInt(diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'));
     if (diffVersion !== version) {
+        if (!opt.forceConvert) {
+            throw new Error(`Beatmap version unmatched, expected ${version} but received ${diffVersion}`);
+        }
         logger.warn(
             tag('difficultySync'),
             'Beatmap version unmatched, expected',
@@ -186,9 +213,14 @@ export function difficultySync(filePath: string, version = 3, options: IBaseOpti
  * ---
  * Info difficulty reference is also given to allow further control.
  */
-export async function difficultyFromInfo(info: IInfoData, options: IBaseOptions = {}): Promise<IDifficultyList> {
-    const opt: Required<IBaseOptions> = {
-        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.info.directory)),
+export async function difficultyFromInfo(
+    info: IInfoData,
+    options: ILoadOptionsDifficulty = {},
+): Promise<IDifficultyList> {
+    const opt: Required<ILoadOptionsDifficulty> = {
+        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.difficulty.directory)),
+        forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
+        dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     logger.info(tag('difficultyFromInfo'), 'Async loading difficulty from map Info...');
     return await new Promise((resolve, reject) => {
@@ -238,9 +270,11 @@ export async function difficultyFromInfo(info: IInfoData, options: IBaseOptions 
  * ---
  * Info difficulty reference is also given to allow further control.
  */
-export function difficultyFromInfoSync(info: IInfoData, options: IBaseOptions = {}): IDifficultyList {
-    const opt: Required<IBaseOptions> = {
-        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.info.directory)),
+export function difficultyFromInfoSync(info: IInfoData, options: ILoadOptionsDifficulty = {}): IDifficultyList {
+    const opt: Required<ILoadOptionsDifficulty> = {
+        directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.difficulty.directory)),
+        forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
+        dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     logger.info(tag('difficultyFromInfoSync'), 'Sync loading difficulty from map Info...');
     const difficulties: IDifficultyList = [];

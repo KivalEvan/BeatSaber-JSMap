@@ -1,4 +1,5 @@
 import { IBaseSlider } from './baseSlider.ts';
+import { ICustomDataSlider } from './customData.ts';
 
 export interface IBurstSlider extends IBaseSlider {
     /** Slice count or element `<int>` in burst slider.
@@ -15,4 +16,5 @@ export interface IBurstSlider extends IBaseSlider {
      * **WARNING:** Value `0` will crash the game.
      */
     s: number;
+    customData?: ICustomDataSlider;
 }
