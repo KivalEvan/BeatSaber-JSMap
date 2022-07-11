@@ -1,7 +1,7 @@
 import { Vector3 } from '../../../types/beatmap/shared/heck.ts';
-import { IChromaEnvironmentID } from '../../../types/beatmap/v3/chroma.ts';
+import { IChromaEnvironmentGeometry } from '../../../types/beatmap/v3/chroma.ts';
 
-export interface IChromaEnvironmentBlock extends IChromaEnvironmentID {
+export interface IChromaEnvironmentBlock extends IChromaEnvironmentGeometry {
     track?: never;
     duplicate?: never;
     active?: never;

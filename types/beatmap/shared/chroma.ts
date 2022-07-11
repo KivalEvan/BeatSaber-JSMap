@@ -6,15 +6,15 @@ export type ColorPointDefinition = [number, number, number, number, number, Easi
 export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
 
 export type GeometryType =
-    | 'SPHERE'
-    | 'CAPSULE'
-    | 'CYLINDER'
-    | 'CUBE'
-    | 'PLANE'
-    | 'QUAD'
-    | 'TRIANGLE';
+    | 'Sphere'
+    | 'Capsule'
+    | 'Cylinder'
+    | 'Cube'
+    | 'Plane'
+    | 'Quad'
+    | 'Triangle';
 
-export type ShaderType = 'LIGHT_BOX' | 'STANDARD' | 'NO_SHADE';
+export type ShaderType = 'TransparentLight' | 'Standard' | 'OpaqueLight';
 
 export type ShaderKeywordsStandard =
     | 'DIFFUSE'

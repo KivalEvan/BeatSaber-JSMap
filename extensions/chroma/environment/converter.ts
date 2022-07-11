@@ -23,16 +23,21 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
         }
         if (e._geometry) {
             return {
-                geometry: e._geometry.map((g) => {
-                    return {
-                        type: g._type,
-                        material: g._material,
-                        spawnCount: g._spawnCount,
-                        track: g._track,
-                        collision: g._collision,
-                        color: g._color,
-                    };
-                }),
+                geometry: {
+                    type: e._geometry._type,
+                    material:
+                        typeof e._geometry._material === 'string'
+                            ? e._geometry._material
+                            : {
+                                  shaderPreset: e._geometry._material._shaderPreset,
+                                  shaderKeywords: e._geometry._material._shaderKeywords,
+                                  track: e._geometry._material._track,
+                                  color: e._geometry._material._color,
+                              },
+                    spawnCount: e._geometry._spawnCount,
+                    track: e._geometry._track,
+                    collision: e._geometry._collision,
+                },
                 track: e._track,
                 duplicate: e._duplicate,
                 active: e._active,
@@ -63,20 +68,25 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
                 _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
                 _localRotation: e.localRotation,
                 _lightID: e.components?.ILightWithId?.lightID,
-            } as IChromaEnvironmentV2;
+            };
         }
         if (e.geometry) {
             return {
-                _geometry: e.geometry.map((g) => {
-                    return {
-                        _type: g.type,
-                        _material: g.material,
-                        _spawnCount: g.spawnCount,
-                        _track: g.track,
-                        _collision: g.collision,
-                        _color: g.color,
-                    };
-                }),
+                _geometry: {
+                    _type: e.geometry.type,
+                    _material:
+                        typeof e.geometry.material === 'string'
+                            ? e.geometry.material
+                            : {
+                                  shaderPreset: e.geometry.material.shaderPreset,
+                                  shaderKeywords: e.geometry.material.shaderKeywords,
+                                  track: e.geometry.material.track,
+                                  color: e.geometry.material.color,
+                              },
+                    _spawnCount: e.geometry.spawnCount,
+                    _track: e.geometry.track,
+                    _collision: e.geometry.collision,
+                },
                 _track: e.track,
                 _duplicate: e.duplicate,
                 _active: e.active,

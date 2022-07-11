@@ -37,7 +37,7 @@ export interface IChromaMaterialBase {
  * @extends IChromaMaterialBase
  */
 export interface IChromaMaterialStandard extends IChromaMaterialBase {
-    shaderPreset: 'STANDARD';
+    shaderPreset: 'Standard';
     shaderKeywords?: ShaderKeywordsStandard[];
 }
 
@@ -45,7 +45,7 @@ export interface IChromaMaterialStandard extends IChromaMaterialBase {
  * @extends IChromaMaterialBase
  */
 export interface IChromaMaterialOpaque extends IChromaMaterialBase {
-    shaderPreset: 'NO_SHADE';
+    shaderPreset: 'OpaqueLight';
     shaderKeywords?: ShaderKeywordsOpaque[];
 }
 
@@ -53,7 +53,7 @@ export interface IChromaMaterialOpaque extends IChromaMaterialBase {
  * @extends IChromaMaterialBase
  */
 export interface IChromaMaterialTransparent extends IChromaMaterialBase {
-    shaderPreset: 'LIGHT_BOX';
+    shaderPreset: 'TransparentLight';
     shaderKeywords?: ShaderKeywordsTransparent[];
 }
 
@@ -70,7 +70,6 @@ export interface IChromaGeometry {
     spawnCount: number;
     track?: string[];
     collision?: boolean;
-    color?: ColorArray;
 }
 
 export interface IChromaComponentLightWithID {
@@ -155,7 +154,7 @@ export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
 export interface IChromaEnvironmentGeometry extends IChromaEnvironmentBase {
     id?: never;
     lookupMethod?: never;
-    geometry: IChromaGeometry[];
+    geometry: IChromaGeometry;
 }
 
 /** Chroma interface for Environment Enhancement. */
