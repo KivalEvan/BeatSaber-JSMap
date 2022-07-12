@@ -25,15 +25,12 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
             return {
                 geometry: {
                     type: e._geometry._type,
-                    material:
-                        typeof e._geometry._material === 'string'
-                            ? e._geometry._material
-                            : {
-                                  shaderPreset: e._geometry._material._shaderPreset,
-                                  shaderKeywords: e._geometry._material._shaderKeywords,
-                                  track: e._geometry._material._track,
-                                  color: e._geometry._material._color,
-                              },
+                    material: typeof e._geometry._material === 'string' ? e._geometry._material : {
+                        shaderPreset: e._geometry._material._shaderPreset,
+                        shaderKeywords: e._geometry._material._shaderKeywords,
+                        track: e._geometry._material._track,
+                        color: e._geometry._material._color,
+                    },
                     spawnCount: e._geometry._spawnCount,
                     track: e._geometry._track,
                     collision: e._geometry._collision,
@@ -74,15 +71,12 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
             return {
                 _geometry: {
                     _type: e.geometry.type,
-                    _material:
-                        typeof e.geometry.material === 'string'
-                            ? e.geometry.material
-                            : {
-                                  shaderPreset: e.geometry.material.shaderPreset,
-                                  shaderKeywords: e.geometry.material.shaderKeywords,
-                                  track: e.geometry.material.track,
-                                  color: e.geometry.material.color,
-                              },
+                    _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
+                        shaderPreset: e.geometry.material.shaderPreset,
+                        shaderKeywords: e.geometry.material.shaderKeywords,
+                        track: e.geometry.material.track,
+                        color: e.geometry.material.color,
+                    },
                     _spawnCount: e.geometry.spawnCount,
                     _track: e.geometry.track,
                     _collision: e.geometry.collision,

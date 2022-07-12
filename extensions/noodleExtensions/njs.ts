@@ -4,6 +4,28 @@ import { settings } from './settings.ts';
 import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 import { EasingFunction } from '../../types/easings.ts';
 import { lerp, normalize } from '../../utils/math.ts';
+import logger from '../../logger.ts';
+
+const tag = (name: string) => {
+    return `[ext::NE::njs::${name}]`;
+};
+
+/** Set NJS to object from start to end object. */
+export function setNJS(
+    objects: INEObject[],
+    options: { njs: NoteJumpSpeed | number; offset?: number; jd?: number },
+): void {
+    if (!objects.length) {
+        logger.warn(tag('setNJS'), 'No object(s) received.');
+        return;
+    }
+    const njs = typeof options.njs === 'number' ? NoteJumpSpeed.create(options.njs, options.offset) : options.njs;
+    const offset = njs.calcHJDFromJD(options.jd) - njs.calcHJDRaw();
+    objects.forEach((o) => {
+        o.customData.noteJumpMovementSpeed = njs.value;
+        o.customData.noteJumpStartBeatOffset = offset;
+    });
+}
 
 /** Simultaneously spawn the object from start to end object.
  *
@@ -14,6 +36,10 @@ export function simultaneousSpawn(
     speed: number,
     njsOffset?: NoteJumpSpeed | number | null,
 ): void {
+    if (!objects.length) {
+        logger.warn(tag('simultaneousSpawn'), 'No object(s) received.');
+        return;
+    }
     let offset: number;
     if (typeof njsOffset !== 'number') {
         if (njsOffset) {
@@ -42,6 +68,10 @@ export function gradientNJS(
         easing?: EasingFunction;
     },
 ): void {
+    if (!objects.length) {
+        logger.warn(tag('gradientNJS'), 'No object(s) received.');
+        return;
+    }
     options.easing = options.easing ??
         function (x: number) {
             return x;
@@ -66,11 +96,7 @@ export function gradientNJS(
             options.easing,
         );
         if (typeof options.jd === 'number') {
-            const currNJS = NoteJumpSpeed.create(
-                options.bpm,
-                o.customData.noteJumpMovementSpeed,
-                offset,
-            );
+            const currNJS = NoteJumpSpeed.create(options.bpm, o.customData.noteJumpMovementSpeed, offset);
             o.customData.noteJumpStartBeatOffset = currNJS.calcHJDFromJD(options.jd) - currNJS.calcHJD() + offset;
         }
     });

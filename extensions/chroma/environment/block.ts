@@ -1,12 +1,6 @@
 import { Vector3 } from '../../../types/beatmap/shared/heck.ts';
-import {
-    IChromaEnvironment,
-    IChromaEnvironmentGeometry,
-} from '../../../types/beatmap/v3/chroma.ts';
-import {
-    IChromaEnvironmentBlock,
-    IChromaEnvironmentPlacement,
-} from '../types/environment.ts';
+import { IChromaEnvironment, IChromaEnvironmentGeometry } from '../../../types/beatmap/v3/chroma.ts';
+import { IChromaEnvironmentBlock, IChromaEnvironmentPlacement } from '../types/environment.ts';
 
 /** **IMPORTANT:** Manually adjust block to be exactly 1x1x1 unity unit (1x1x1 scale does usually not work) */
 export class EnvironmentBlock implements IChromaEnvironmentGeometry {
@@ -39,23 +33,21 @@ export class EnvironmentBlock implements IChromaEnvironmentGeometry {
 
     place(
         options: IChromaEnvironmentPlacement,
-        insertTo?: never
+        insertTo?: never,
     ): IChromaEnvironmentBlock;
     place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
     place(
         options: IChromaEnvironmentPlacement,
-        insertTo?: IChromaEnvironment[]
+        insertTo?: IChromaEnvironment[],
     ): IChromaEnvironmentBlock | void {
-        const scale = options.scale
-            ? (this.scale.map((s, i) => s * options.scale![i]) as Vector3)
-            : this.scale;
+        const scale = options.scale ? (this.scale.map((s, i) => s * options.scale![i]) as Vector3) : this.scale;
         const position = options.position
             ? (options.position.map(
-                  (p, i) => p + this.anchor[i] * (options.scale?.[i] || 1)
-              ) as Vector3)
+                (p, i) => p + this.anchor[i] * (options.scale?.[i] || 1),
+            ) as Vector3)
             : (this.position.map(
-                  (p, i) => p + this.anchor[i] * (options.scale?.[i] || 1)
-              ) as Vector3);
+                (p, i) => p + this.anchor[i] * (options.scale?.[i] || 1),
+            ) as Vector3);
         const rotation = options.rotation
             ? (options.rotation.map((r, i) => r + this.rotation[i]) as Vector3)
             : this.rotation;

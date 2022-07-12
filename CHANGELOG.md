@@ -7,6 +7,8 @@
 - Chroma geometry, material and component
   - This contains breaking changes to existing v3 Chroma
 - More utilities for Chroma and Noodle Extensions
+- Configurable data check
+  - Checks on save
 
 ### Changed
 
@@ -18,6 +20,7 @@
   - Depend on use case, this will always convert to RGBA for ease of development
 - Beatmap V3 to V2 conversion now converts customData back
   - Attempts to fix position for environment track
+- Types structure changes
 
 ### Fixed
 

@@ -40,3 +40,33 @@ export function between<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseO
         bpm ? bpm.adjustTime(o.time) >= from && bpm.adjustTime(o.time) <= to : o.time >= from && o.time <= to
     );
 }
+
+/** Return objects before specified time, adjusted by BPM change if provided.
+ * ```ts
+ * const notesBefore = before(notes, 42);
+ * console.log(...notesBefore);
+ * ```
+ */
+export function before<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObjectV2>>(
+    objects: T[],
+    before: number,
+    bpm?: BeatPerMinute | null,
+): T[] {
+    bpm = bpm ?? settings.BPM;
+    return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > before : o.time > before));
+}
+
+/** Return objects after specified time, adjusted by BPM change if provided.
+ * ```ts
+ * const notesAfter = after(notes, 69);
+ * console.log(...notesAfter);
+ * ```
+ */
+export function after<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObjectV2>>(
+    objects: T[],
+    after: number,
+    bpm?: BeatPerMinute | null,
+): T[] {
+    bpm = bpm ?? settings.BPM;
+    return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > after : o.time > after));
+}
