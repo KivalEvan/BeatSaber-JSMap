@@ -54,14 +54,16 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         super(difficultyData);
         this.version = difficultyData.version ?? '3.0.0';
         this.bpmEvents = difficultyData.bpmEvents?.map((obj) => BPMEvent.create(obj)) ?? [];
-        this.rotationEvents = difficultyData.rotationEvents?.map((obj) => RotationEvent.create(obj)) ?? [];
+        this.rotationEvents = difficultyData.rotationEvents?.map((obj) => RotationEvent.create(obj)) ??
+            [];
         this.colorNotes = difficultyData.colorNotes?.map((obj) => ColorNote.create(obj)) ?? [];
         this.bombNotes = difficultyData.bombNotes?.map((obj) => BombNote.create(obj)) ?? [];
         this.obstacles = difficultyData.obstacles?.map((obj) => Obstacle.create(obj)) ?? [];
         this.sliders = difficultyData.sliders?.map((obj) => Slider.create(obj)) ?? [];
         this.burstSliders = difficultyData.burstSliders?.map((obj) => BurstSlider.create(obj)) ?? [];
         this.waypoints = difficultyData.waypoints?.map((obj) => Waypoint.create(obj)) ?? [];
-        this.basicBeatmapEvents = difficultyData.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)) ?? [];
+        this.basicBeatmapEvents = difficultyData.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)) ??
+            [];
         this.colorBoostBeatmapEvents =
             difficultyData.colorBoostBeatmapEvents?.map((obj) => ColorBoostEvent.create(obj)) ?? [];
         this.lightColorEventBoxGroups =
@@ -119,6 +121,11 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         };
     }
 
+    clone<U extends this>(): U {
+        const fileName = this.fileName;
+        return super.clone().setFileName(fileName) as U;
+    }
+
     set fileName(name: string) {
         this._fileName = name.trim();
     }
@@ -157,7 +164,10 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             while (notes[i].data.time - notes[currentSectionStart].data.time > beat) {
                 currentSectionStart++;
             }
-            peakNPS = Math.max(peakNPS, (i - currentSectionStart + 1) / ((beat / bpmV) * 60));
+            peakNPS = Math.max(
+                peakNPS,
+                (i - currentSectionStart + 1) / ((beat / bpmV) * 60),
+            );
         }
 
         return peakNPS;
@@ -216,7 +226,10 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         let obstacleEnd = 0;
         for (let i = this.obstacles.length - 1; i >= 0; i--) {
             if (this.obstacles[i].isInteractive()) {
-                obstacleEnd = Math.max(obstacleEnd, this.obstacles[i].time + this.obstacles[i].duration);
+                obstacleEnd = Math.max(
+                    obstacleEnd,
+                    this.obstacles[i].time + this.obstacles[i].duration,
+                );
             }
         }
         return obstacleEnd;
@@ -298,14 +311,20 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             this.colorBoostBeatmapEvents.push(ColorBoostEvent.create(cbe));
         });
     };
-    addLightColorEventBoxGroups = (...lightColorEBGs: DeepPartial<ILightColorEventBoxGroup>[]) => {
+    addLightColorEventBoxGroups = (
+        ...lightColorEBGs: DeepPartial<ILightColorEventBoxGroup>[]
+    ) => {
         lightColorEBGs.forEach((lcebg) => {
             this.lightColorEventBoxGroups.push(LightColorEventBoxGroup.create(lcebg));
         });
     };
-    addLightRotationEventBoxGroups = (...lightRotationEBGs: DeepPartial<ILightRotationEventBoxGroup>[]) => {
+    addLightRotationEventBoxGroups = (
+        ...lightRotationEBGs: DeepPartial<ILightRotationEventBoxGroup>[]
+    ) => {
         lightRotationEBGs.forEach((lrebg) => {
-            this.lightRotationEventBoxGroups.push(LightRotationEventBoxGroup.create(lrebg));
+            this.lightRotationEventBoxGroups.push(
+                LightRotationEventBoxGroup.create(lrebg),
+            );
         });
     };
 }

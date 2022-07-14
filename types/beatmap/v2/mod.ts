@@ -8,6 +8,7 @@ export * from './noodleExtensions.ts';
 export * from './note.ts';
 export * from './object.ts';
 export * from './obstacle.ts';
+export * from './pointDefinition.ts';
 export * from './slider.ts';
 export * from './specialEventsKeywordFilters.ts';
 export * from './specialEventsKeywordFiltersKeywords.ts';

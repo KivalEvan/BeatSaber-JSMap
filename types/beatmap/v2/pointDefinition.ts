@@ -3,8 +3,8 @@ import { PercentPointDefinition, Vector2PointDefinition, Vector3PointDefinition 
 
 /** Point Definition interface. */
 export interface IPointDefinition {
-    name: string;
-    points:
+    _name: string;
+    _points:
         | PercentPointDefinition[]
         | Vector2PointDefinition[]
         | Vector3PointDefinition[]

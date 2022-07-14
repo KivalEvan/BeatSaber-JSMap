@@ -9,10 +9,10 @@ export function formatNumber(num: number): string {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-export function random(min: number, max: number, round = false) {
+export function random(min: number, max: number, rounding: boolean | number = false) {
     [min, max] = fixRange(min, max);
     const result = Math.random() * (max - min) + min;
-    return round ? Math.round(result) : result;
+    return rounding ? round(result, typeof rounding === 'number' && rounding > 0 ? rounding : 0) : result;
 }
 
 export function fixRange(min: number, max: number, inverse?: boolean): [number, number] {
@@ -83,7 +83,7 @@ export function clamp(value: number, min: number, max: number): number {
 /** Normalize value to 0-1 from given min and max value. */
 export function normalize(value: number, min: number, max: number): number {
     if (min >= max) {
-        logger.error(tag('normalize'), 'Min value is equal or more than max value, returning 1');
+        logger.warn(tag('normalize'), 'Min value is equal or more than max value, returning 1');
         return 1;
     }
     const result = (value - min) / (max - min);

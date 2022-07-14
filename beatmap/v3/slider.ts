@@ -176,6 +176,24 @@ export class Slider extends BaseSlider<ISlider> {
     }
 
     mirror(flipColor = true) {
+        if (this.customData.coordinates) {
+            this.customData.coordinates[0] = LINE_COUNT - 1 - this.customData.coordinates[1];
+        }
+        if (this.customData.flip) {
+            this.customData.flip[0] = LINE_COUNT - 1 - this.customData.flip[1];
+        }
+        if (this.customData.animation) {
+            if (Array.isArray(this.customData.animation.definitePosition)) {
+                this.customData.animation.definitePosition.forEach((dp) => {
+                    dp[0] = LINE_COUNT - 1 - dp[0];
+                });
+            }
+            if (Array.isArray(this.customData.animation.offsetPosition)) {
+                this.customData.animation.offsetPosition.forEach((op) => {
+                    op[0] = LINE_COUNT - 1 - op[0];
+                });
+            }
+        }
         this.posX = LINE_COUNT - 1 - this.posX;
         this.tailPosX = LINE_COUNT - 1 - this.tailPosX;
         if (flipColor) {

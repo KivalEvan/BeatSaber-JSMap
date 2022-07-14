@@ -10,16 +10,26 @@ const tag = (name: string) => {
     return `[ext::NE::njs::${name}]`;
 };
 
-/** Set NJS to object from start to end object. */
+/** Set NJS to object from start to end object.
+ *
+ * **NOTE:** JD input will override NJS offset.
+ */
 export function setNJS(
     objects: INEObject[],
-    options: { njs: NoteJumpSpeed | number; offset?: number; jd?: number },
+    options: {
+        bpm: BeatPerMinute;
+        njs: NoteJumpSpeed | number;
+        offset?: number;
+        jd?: number;
+    },
 ): void {
     if (!objects.length) {
         logger.warn(tag('setNJS'), 'No object(s) received.');
         return;
     }
-    const njs = typeof options.njs === 'number' ? NoteJumpSpeed.create(options.njs, options.offset) : options.njs;
+    const njs = typeof options.njs === 'number'
+        ? NoteJumpSpeed.create(options.bpm, options.njs, options.offset)
+        : options.njs;
     const offset = njs.calcHJDFromJD(options.jd) - njs.calcHJDRaw();
     objects.forEach((o) => {
         o.customData.noteJumpMovementSpeed = njs.value;
@@ -40,6 +50,10 @@ export function simultaneousSpawn(
         logger.warn(tag('simultaneousSpawn'), 'No object(s) received.');
         return;
     }
+    if (!speed) {
+        logger.error(tag('simultaneousSpawn'), 'Speed cannot be 0!');
+        speed = 1;
+    }
     let offset: number;
     if (typeof njsOffset !== 'number') {
         if (njsOffset) {
@@ -52,11 +66,14 @@ export function simultaneousSpawn(
     }
     const startTime = objects[0].time;
     objects.forEach((o) => {
-        o.customData.noteJumpStartBeatOffset = offset + o.time - startTime - (o.time - startTime) * speed;
+        o.customData.noteJumpStartBeatOffset = offset + o.time - startTime - (o.time - startTime) / speed;
     });
 }
 
-/** Gradually change NJS for objects from start to end objects. */
+/** Gradually change NJS for objects from start to end objects.
+ *
+ * **NOTE:** JD input will override NJS offset.
+ */
 export function gradientNJS(
     objects: INEObject[],
     options: {
@@ -97,7 +114,7 @@ export function gradientNJS(
         );
         if (typeof options.jd === 'number') {
             const currNJS = NoteJumpSpeed.create(options.bpm, o.customData.noteJumpMovementSpeed, offset);
-            o.customData.noteJumpStartBeatOffset = currNJS.calcHJDFromJD(options.jd) - currNJS.calcHJD() + offset;
+            o.customData.noteJumpStartBeatOffset = currNJS.calcHJDFromJD(options.jd) - currNJS.calcHJDRaw();
         }
     });
 }

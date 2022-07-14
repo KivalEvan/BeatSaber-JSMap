@@ -23,7 +23,6 @@ export interface IHeckCustomEventDataAnimateTrack extends IHeckCustomEventDataBa
  * @extends IHeckCustomEventDataBase
  */
 export interface IHeckCustomEventDataAssignPathAnimation extends IHeckCustomEventDataBase {
-    duration: number;
     easing?: Easings;
     position?: string | Vector3PointDefinition[];
     rotation?: string | Vector3PointDefinition[];

@@ -25,20 +25,14 @@ const tag = (name: string) => {
  */
 export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): DifficultyDataV2 {
     if (!skipPrompt) {
-        logger.warn(
-            tag('V3toV2'),
-            'Converting beatmap v3 to v2 may lose certain data!',
-        );
+        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v2 denied.');
         }
         logger.info(tag('V3toV2'), 'Converting beatmap v3 to v2');
     } else {
-        logger.warn(
-            tag('V3toV2'),
-            'Converting beatmap v3 to v2 may lose certain data!',
-        );
+        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
     }
     const template = DifficultyDataV2.create();
     template.fileName = data.fileName;
@@ -55,6 +49,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
             _noteJumpStartBeatOffset: n.customData.noteJumpStartBeatOffset,
             _disableSpawnEffect: typeof n.customData.spawnEffect === 'boolean' ? !n.customData.spawnEffect : undefined,
             _track: n.customData.track,
+            _fake: n.customData.NE_fake,
             _interactable: typeof n.customData.uninteractable === 'boolean' ? !n.customData.uninteractable : undefined,
             _rotation: n.customData.worldRotation,
         };
@@ -96,6 +91,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
             _noteJumpStartBeatOffset: b.customData.noteJumpStartBeatOffset,
             _disableSpawnEffect: typeof b.customData.spawnEffect === 'boolean' ? !b.customData.spawnEffect : undefined,
             _track: b.customData.track,
+            _fake: b.customData.NE_fake,
             _interactable: typeof b.customData.uninteractable === 'boolean' ? !b.customData.uninteractable : undefined,
             _rotation: b.customData.worldRotation,
         };
@@ -134,6 +130,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
             _noteJumpStartBeatOffset: o.customData.noteJumpStartBeatOffset,
             _scale: o.customData.size,
             _track: o.customData.track,
+            _fake: o.customData.NE_fake,
             _interactable: typeof o.customData.uninteractable === 'boolean' ? !o.customData.uninteractable : undefined,
             _rotation: o.customData.worldRotation,
         };
@@ -232,6 +229,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
             }),
         );
     });
+
     data.colorBoostBeatmapEvents.forEach((b) =>
         template.events.push(
             v2.Event.create({
@@ -249,10 +247,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _time: lr.time,
                 _type: lr.executionTime ? 14 : 15,
                 _value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
-                    ? Math.max(
-                        Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15),
-                        3,
-                    )
+                    ? Math.max(Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15), 3)
                     : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
                 _floatValue: 1,
             }),
@@ -345,7 +340,6 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                                 _type: 'AssignPathAnimation',
                                 _data: {
                                     _track: ce.d.track,
-                                    _duration: ce.d.duration,
                                     _easing: ce.d.easing,
                                     _position: ce.d.position,
                                     _rotation: ce.d.rotation,
@@ -394,56 +388,49 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 continue;
             }
             if (k === 'environment') {
-                template.customData._environment = data.customData.environment!.map(
-                    (e) => {
-                        if (e.id && e.lookupMethod) {
-                            return {
-                                _id: e.id,
-                                _lookupMethod: e.lookupMethod,
-                                _track: e.track,
-                                _duplicate: e.duplicate,
-                                _active: e.active,
-                                _scale: e.scale,
-                                _position: e.position?.map((n) => n / 0.6) as Vector3,
-                                _rotation: e.rotation,
-                                _localPosition: e.localPosition?.map(
-                                    (n) => n / 0.6,
-                                ) as Vector3,
-                                _localRotation: e.localRotation,
-                                _lightID: e.components?.ILightWithId?.lightID,
-                            };
-                        }
-                        if (e.geometry) {
-                            return {
-                                _geometry: {
-                                    _type: e.geometry.type,
-                                    _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
-                                        shaderPreset: e.geometry.material.shaderPreset,
-                                        shaderKeywords: e.geometry.material
-                                            .shaderKeywords,
-                                        track: e.geometry.material.track,
-                                        color: e.geometry.material.color,
-                                    },
-                                    _spawnCount: e.geometry.spawnCount,
-                                    _track: e.geometry.track,
-                                    _collision: e.geometry.collision,
+                template.customData._environment = data.customData.environment!.map((e) => {
+                    if (e.id && e.lookupMethod) {
+                        return {
+                            _id: e.id,
+                            _lookupMethod: e.lookupMethod,
+                            _track: e.track,
+                            _duplicate: e.duplicate,
+                            _active: e.active,
+                            _scale: e.scale,
+                            _position: e.position?.map((n) => n / 0.6) as Vector3,
+                            _rotation: e.rotation,
+                            _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
+                            _localRotation: e.localRotation,
+                            _lightID: e.components?.ILightWithId?.lightID,
+                        };
+                    }
+                    if (e.geometry) {
+                        return {
+                            _geometry: {
+                                _type: e.geometry.type,
+                                _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
+                                    shaderPreset: e.geometry.material.shaderPreset,
+                                    shaderKeywords: e.geometry.material.shaderKeywords,
+                                    track: e.geometry.material.track,
+                                    color: e.geometry.material.color,
                                 },
-                                _track: e.track,
-                                _duplicate: e.duplicate,
-                                _active: e.active,
-                                _scale: e.scale,
-                                _position: e.position?.map((n) => n / 0.6) as Vector3,
-                                _rotation: e.rotation,
-                                _localPosition: e.localPosition?.map(
-                                    (n) => n / 0.6,
-                                ) as Vector3,
-                                _localRotation: e.localRotation,
-                                _lightID: e.components?.ILightWithId?.lightID,
-                            } as IChromaEnvironment;
-                        }
-                        throw new Error('Error converting environment v3 to v2');
-                    },
-                );
+                                _spawnCount: e.geometry.spawnCount,
+                                _track: e.geometry.track,
+                                _collision: e.geometry.collision,
+                            },
+                            _track: e.track,
+                            _duplicate: e.duplicate,
+                            _active: e.active,
+                            _scale: e.scale,
+                            _position: e.position?.map((n) => n / 0.6) as Vector3,
+                            _rotation: e.rotation,
+                            _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
+                            _localRotation: e.localRotation,
+                            _lightID: e.components?.ILightWithId?.lightID,
+                        } as IChromaEnvironment;
+                    }
+                    throw new Error('Error converting environment v3 to v2');
+                });
                 continue;
             }
             if (k === 'materials') {
@@ -482,10 +469,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
         if (template.customData._customEvents) {
             for (const ce of template.customData._customEvents) {
                 if (ce._type === 'AnimateTrack') {
-                    if (
-                        typeof ce._data._track === 'string' &&
-                        envTracks.includes(ce._data._track)
-                    ) {
+                    if (typeof ce._data._track === 'string' && envTracks.includes(ce._data._track)) {
                         customEvents.push(ce);
                     } else {
                         for (const t of ce._data._track) {
@@ -501,10 +485,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
         for (const ce of customEvents) {
             if (typeof ce._data._track === 'string') {
                 if (typeof ce._data._position === 'string') {
-                    logger.warn(
-                        tag('V3toV2'),
-                        'Cannot convert point definitions, unknown use.',
-                    );
+                    logger.warn(tag('V3toV2'), 'Cannot convert point definitions, unknown use.');
                 } else if (Array.isArray(ce._data._position)) {
                     ce._data._position.forEach((n) => {
                         n[0] /= 0.6;
@@ -513,10 +494,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     });
                 }
             } else {
-                logger.warn(
-                    tag('V3toV2'),
-                    'Environment animate track array conversion not yet implemented.',
-                );
+                logger.warn(tag('V3toV2'), 'Environment animate track array conversion not yet implemented.');
             }
         }
     }

@@ -106,9 +106,9 @@ export abstract class BaseSlider<T extends IBaseSlider> extends BaseNote<T> {
     }
 
     getPosition(): [number, number] {
-        // if (slider._customData._position) {
-        //     return [slider._customData._position[0], slider._customData._position[1]];
-        // }
+        if (this.customData.coordinates) {
+            return [this.customData.coordinates[0], this.customData.coordinates[1]];
+        }
         return [
             (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
             this.posY <= -1000 ? this.posY / 1000 : this.posY >= 1000 ? this.posY / 1000 : this.posY,
