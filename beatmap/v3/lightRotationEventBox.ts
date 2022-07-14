@@ -26,7 +26,7 @@ export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
     };
 
     private l: LightRotationBase[];
-    private constructor(lightRotationEventBox: Required<ILightRotationEventBox>) {
+    protected constructor(lightRotationEventBox: Required<ILightRotationEventBox>) {
         super(lightRotationEventBox);
         this.l = lightRotationEventBox.l.map((l) => LightRotationBase.create(l));
         const lastTime = Math.max(...this.l.map((l) => l.time));

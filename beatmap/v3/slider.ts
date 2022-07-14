@@ -27,7 +27,7 @@ export class Slider extends BaseSlider<ISlider> {
         },
     };
 
-    private constructor(slider: Required<ISlider>) {
+    protected constructor(slider: Required<ISlider>) {
         super(slider);
     }
 
@@ -245,21 +245,28 @@ export class Slider extends BaseSlider<ISlider> {
         return this;
     }
 
-    /** Get and return standardised note angle.
+    /** Get arc and return standardised tail note angle.
      * ```ts
-     * const noteAngle = note.getAngle(noteCompare);
+     * const arcTailAngle = arc.getTailAngle();
      * ```
      */
-    getAngle() {
-        // if (this.customData._cutDirection) {
-        //     return this.customData._cutDirection > 0
-        //         ? this.customData._cutDirection % 360
-        //         : 360 + (this.customData._cutDirection % 360);
-        // }
-        if (this.direction >= 1000) {
-            return Math.abs(((this.direction % 1000) % 360) - 360);
+    getTailAngle(type?: 'vanilla' | 'me' | 'ne') {
+        switch (type) {
+            case 'vanilla':
+                return NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0;
+            case 'me':
+                if (this.tailDirection >= 1000) {
+                    return Math.abs(((this.tailDirection % 1000) % 360) - 360);
+                }
+            /* falls through */
+            case 'ne':
+                return NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0;
+            default:
+                if (this.tailDirection >= 1000) {
+                    return Math.abs(((this.tailDirection % 1000) % 360) - 360);
+                }
+                return NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0;
         }
-        return NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0;
     }
 
     /** Check if slider has Mapping Extensions properties.

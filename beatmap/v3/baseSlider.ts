@@ -1,5 +1,6 @@
 import { IBaseNote } from '../../types/beatmap/v3/baseNote.ts';
 import { IBaseSlider } from '../../types/beatmap/v3/baseSlider.ts';
+import { NoteCutAngle } from '../shared/constants.ts';
 import { BaseNote } from './baseNote.ts';
 
 /** Base slider beatmap v3 class object. */
@@ -105,14 +106,69 @@ export abstract class BaseSlider<T extends IBaseSlider> extends BaseNote<T> {
         return this;
     }
 
-    getPosition(): [number, number] {
-        if (this.customData.coordinates) {
-            return [this.customData.coordinates[0], this.customData.coordinates[1]];
+    getTailPosition(type?: 'vanilla' | 'me' | 'ne'): [number, number] {
+        switch (type) {
+            case 'vanilla':
+                return [this.tailPosX, this.tailPosY];
+            case 'me':
+                return [
+                    (this.tailPosX <= -1000
+                        ? this.tailPosX / 1000
+                        : this.tailPosX >= 1000
+                        ? this.tailPosX / 1000
+                        : this.tailPosX) - 2,
+                    this.tailPosY <= -1000
+                        ? this.tailPosY / 1000
+                        : this.tailPosY >= 1000
+                        ? this.tailPosY / 1000
+                        : this.tailPosY,
+                ];
+            case 'ne':
+                if (this.customData.tailCoordinates) {
+                    return [this.customData.tailCoordinates[0], this.customData.tailCoordinates[1]];
+                }
+                return [this.tailPosX, this.tailPosY];
+            default:
+                if (this.customData.tailCoordinates) {
+                    return [this.customData.tailCoordinates[0], this.customData.tailCoordinates[1]];
+                }
+                return [
+                    (this.tailPosX <= -1000
+                        ? this.tailPosX / 1000
+                        : this.tailPosX >= 1000
+                        ? this.tailPosX / 1000
+                        : this.tailPosX) - 2,
+                    this.tailPosY <= -1000
+                        ? this.tailPosY / 1000
+                        : this.tailPosY >= 1000
+                        ? this.tailPosY / 1000
+                        : this.tailPosY,
+                ];
         }
-        return [
-            (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
-            this.posY <= -1000 ? this.posY / 1000 : this.posY >= 1000 ? this.posY / 1000 : this.posY,
-        ];
+    }
+
+    /** Get arc and return standardised note angle.
+     * ```ts
+     * const arcAngle = arc.getAngle();
+     * ```
+     */
+    getAngle(type?: 'vanilla' | 'me' | 'ne') {
+        switch (type) {
+            case 'vanilla':
+                return NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0;
+            case 'me':
+                if (this.direction >= 1000) {
+                    return Math.abs(((this.direction % 1000) % 360) - 360);
+                }
+            /* falls through */
+            case 'ne':
+                return NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0;
+            default:
+        }
+        if (this.direction >= 1000) {
+            return Math.abs(((this.direction % 1000) % 360) - 360);
+        }
+        return NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0;
     }
 
     getDistance(compareTo: BaseNote<IBaseNote | T>) {

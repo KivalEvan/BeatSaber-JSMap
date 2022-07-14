@@ -12,7 +12,7 @@ export class SpecialEventsKeywordFiltersKeywords extends Serializable<ISpecialEv
         _specialEvents: () => [],
     };
 
-    private constructor(specialEventsForKeywords: Required<ISpecialEventsKeywordFiltersKeywords>) {
+    protected constructor(specialEventsForKeywords: Required<ISpecialEventsKeywordFiltersKeywords>) {
         super(specialEventsForKeywords);
     }
 

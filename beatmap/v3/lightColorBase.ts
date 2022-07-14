@@ -11,7 +11,7 @@ export class LightColorBase extends Serializable<ILightColorBase> {
         f: 0,
     };
 
-    private constructor(lightColorBase: Required<ILightColorBase>) {
+    protected constructor(lightColorBase: Required<ILightColorBase>) {
         super(lightColorBase);
     }
 

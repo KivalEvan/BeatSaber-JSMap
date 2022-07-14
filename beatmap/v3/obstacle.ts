@@ -18,7 +18,7 @@ export class Obstacle extends BaseObject<IObstacle> {
         },
     };
 
-    private constructor(obstacle: Required<IObstacle>) {
+    protected constructor(obstacle: Required<IObstacle>) {
         super(obstacle);
     }
 
@@ -181,6 +181,21 @@ export class Obstacle extends BaseObject<IObstacle> {
         return this;
     }
 
+    /** Get obstacle and return the Beatwalls' position x and y value in tuple.
+     * ```ts
+     * const obstaclePos = wall.getPosition();
+     * ```
+     */
+    getPosition(): [number, number] {
+        if (this.customData.coordinates) {
+            return [this.customData.coordinates[0], this.customData.coordinates[1]];
+        }
+        return [
+            (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
+            (this.posY <= -1000 ? this.posY / 1000 : this.posY >= 1000 ? this.posY / 1000 : this.posY) - 0.5,
+        ];
+    }
+
     /** Check if obstacle is interactive.
      * ```ts
      * if (wall.isInteractive()) {}
@@ -207,21 +222,6 @@ export class Obstacle extends BaseObject<IObstacle> {
      */
     hasNegative() {
         return this.posY < 0 || this.duration < 0 || this.width < 0 || this.height < 0;
-    }
-
-    /** Get obstacle and return the Beatwalls' position x and y value in tuple.
-     * ```ts
-     * const obstaclePos = wall.getPosition();
-     * ```
-     */
-    getPosition(): [number, number] {
-        if (this.customData.coordinates) {
-            return [this.customData.coordinates[0], this.customData.coordinates[1]];
-        }
-        return [
-            (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
-            (this.posY <= -1000 ? this.posY / 1000 : this.posY >= 1000 ? this.posY / 1000 : this.posY) - 0.5,
-        ];
     }
 
     /** Check if current obstacle is longer than previous obstacle.

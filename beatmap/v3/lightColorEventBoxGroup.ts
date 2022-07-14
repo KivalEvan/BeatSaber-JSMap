@@ -15,7 +15,7 @@ export class LightColorEventBoxGroup extends EventBoxGroupTemplate<ILightColorEv
         },
     };
 
-    private constructor(eventBoxGroup: Required<ILightColorEventBoxGroup>) {
+    protected constructor(eventBoxGroup: Required<ILightColorEventBoxGroup>) {
         super(
             eventBoxGroup,
             eventBoxGroup.e.map((e) => LightColorEventBox.create(e)),

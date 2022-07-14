@@ -19,7 +19,7 @@ export class ColorNote extends BaseNote<IColorNote> {
         },
     };
 
-    private constructor(colorNote: Required<IColorNote>) {
+    protected constructor(colorNote: Required<IColorNote>) {
         super(colorNote);
     }
 
@@ -167,31 +167,28 @@ export class ColorNote extends BaseNote<IColorNote> {
         return this;
     }
 
-    /** Get note and return the Beatwalls' position x and y value in tuple.
-     * ```ts
-     * const notePos = note.getPosition();
-     * ```
-     */
-    getPosition(): [number, number] {
-        if (this.customData.coordinates) {
-            return [this.customData.coordinates[0], this.customData.coordinates[1]];
-        }
-        return [
-            (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
-            this.posY <= -1000 ? this.posY / 1000 : this.posY >= 1000 ? this.posY / 1000 : this.posY,
-        ];
-    }
-
     /** Get note and return standardised note angle.
      * ```ts
-     * const noteAngle = note.getAngle(noteCompare);
+     * const noteAngle = note.getAngle();
      * ```
      */
-    getAngle() {
-        if (this.direction >= 1000) {
-            return Math.abs(((this.direction % 1000) % 360) - 360);
+    getAngle(type?: 'vanilla' | 'me' | 'ne') {
+        switch (type) {
+            case 'vanilla':
+                return (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) + this.angleOffset;
+            case 'me':
+                if (this.direction >= 1000) {
+                    return Math.abs(((this.direction % 1000) % 360) - 360);
+                }
+            /* falls through */
+            case 'ne':
+                return (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) + this.angleOffset;
+            default:
+                if (this.direction >= 1000) {
+                    return Math.abs(((this.direction % 1000) % 360) - 360);
+                }
+                return (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) + this.angleOffset;
         }
-        return (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) + this.angleOffset;
     }
 
     getDistance(compareTo: BaseNote<IBaseNote>) {

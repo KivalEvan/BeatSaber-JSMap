@@ -20,7 +20,7 @@ export class Slider extends Serializable<ISlider> {
         _sliderMidAnchorMode: 0,
     };
 
-    private constructor(slider: Required<ISlider>) {
+    protected constructor(slider: Required<ISlider>) {
         super(slider);
     }
 

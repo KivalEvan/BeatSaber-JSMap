@@ -14,7 +14,7 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
         },
     };
 
-    private constructor(rotationEvent: Required<IRotationEvent>) {
+    protected constructor(rotationEvent: Required<IRotationEvent>) {
         super(rotationEvent);
     }
 

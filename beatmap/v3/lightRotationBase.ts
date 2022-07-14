@@ -12,7 +12,7 @@ export class LightRotationBase extends Serializable<ILightRotationBase> {
         o: 0,
     };
 
-    private constructor(lightRotationBase: Required<ILightRotationBase>) {
+    protected constructor(lightRotationBase: Required<ILightRotationBase>) {
         super(lightRotationBase);
     }
 

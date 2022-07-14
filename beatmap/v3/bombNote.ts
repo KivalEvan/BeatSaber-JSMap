@@ -16,7 +16,7 @@ export class BombNote extends BaseNote<IBombNote> {
         },
     };
 
-    private constructor(bombNote: Required<IBombNote>) {
+    protected constructor(bombNote: Required<IBombNote>) {
         super(bombNote);
     }
 
@@ -79,16 +79,6 @@ export class BombNote extends BaseNote<IBombNote> {
         }
         this.posX = LINE_COUNT - 1 - this.posX;
         return this;
-    }
-
-    getPosition(): [number, number] {
-        if (this.customData.coordinates) {
-            return [this.customData.coordinates[0], this.customData.coordinates[1]];
-        }
-        return [
-            (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
-            this.posY <= -1000 ? this.posY / 1000 : this.posY >= 1000 ? this.posY / 1000 : this.posY,
-        ];
     }
 
     getDistance(compareTo: BaseNote<IBaseNote>) {

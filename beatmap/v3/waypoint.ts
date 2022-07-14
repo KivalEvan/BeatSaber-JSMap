@@ -16,7 +16,7 @@ export class Waypoint extends BaseObject<IWaypoint> {
         },
     };
 
-    private constructor(waypoint: Required<IWaypoint>) {
+    protected constructor(waypoint: Required<IWaypoint>) {
         super(waypoint);
     }
 

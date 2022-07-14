@@ -11,7 +11,7 @@ export class SpecialEventsKeywordFilters extends Serializable<ISpecialEventsKeyw
     };
 
     keywords: SpecialEventsKeywordFiltersKeywords[];
-    private constructor(specialEventsWithKeywords: Required<ISpecialEventsKeywordFilters>) {
+    protected constructor(specialEventsWithKeywords: Required<ISpecialEventsKeywordFilters>) {
         super(specialEventsWithKeywords);
         this.keywords = specialEventsWithKeywords._keywords.map((d) =>
             SpecialEventsKeywordFiltersKeywords.create({

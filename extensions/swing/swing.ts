@@ -14,7 +14,7 @@ export default class Swing implements ISwingContainer {
     ebpmSwing: number;
     data: NoteContainer[];
 
-    private constructor(sc: ISwingContainer) {
+    protected constructor(sc: ISwingContainer) {
         this.time = sc.time;
         this.duration = sc.duration;
         this.minSpeed = sc.minSpeed;

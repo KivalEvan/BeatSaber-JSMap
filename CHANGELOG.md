@@ -13,6 +13,8 @@
 ### Changed
 
 - `path` is now called `directory` to avoid confusion
+- Object mirroring now uses/changes custom data
+- Object get position/angle can use & return custom data value
 - Easings is now independent to beatmap
   - Easings can be retrieved from `utils`
 - Color function can infer hex string as RGBA color
@@ -21,6 +23,7 @@
 - Beatmap V3 to V2 conversion now converts customData back
   - Attempts to fix position for environment track
 - Types structure changes
+- All constructor is now protected instead of private
 
 ### Fixed
 

@@ -11,7 +11,7 @@ export class BasicEventTypesWithKeywords extends Serializable<IBasicEventTypesWi
     };
 
     private d: BasicEventTypesForKeywords[];
-    private constructor(basicEventTypesWithKeywords: Required<IBasicEventTypesWithKeywords>) {
+    protected constructor(basicEventTypesWithKeywords: Required<IBasicEventTypesWithKeywords>) {
         super(basicEventTypesWithKeywords);
         this.d = basicEventTypesWithKeywords.d.map((d) => BasicEventTypesForKeywords.create({ e: d.e, k: d.k }));
     }

@@ -13,7 +13,7 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
         },
     };
 
-    private constructor(boostEvent: Required<IColorBoostEvent>) {
+    protected constructor(boostEvent: Required<IColorBoostEvent>) {
         super(boostEvent);
     }
 

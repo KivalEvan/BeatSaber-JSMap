@@ -12,7 +12,7 @@ export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesFor
         e: () => [],
     };
 
-    private constructor(basicEventTypesForKeywords: Required<IBasicEventTypesForKeywords>) {
+    protected constructor(basicEventTypesForKeywords: Required<IBasicEventTypesForKeywords>) {
         super(basicEventTypesForKeywords);
     }
 

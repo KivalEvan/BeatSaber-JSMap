@@ -18,7 +18,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
         },
     };
 
-    private constructor(data: Required<IObstacle>) {
+    protected constructor(data: Required<IObstacle>) {
         super(data);
     }
 

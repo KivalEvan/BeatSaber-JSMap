@@ -17,7 +17,7 @@ export class Note extends BeatmapObject<INote> {
         },
     };
 
-    private constructor(data: Required<INote>) {
+    protected constructor(data: Required<INote>) {
         super(data);
     }
 

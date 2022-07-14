@@ -24,7 +24,7 @@ export class LightColorEventBox extends EventBox<ILightColorEventBox> {
     };
 
     private e: LightColorBase[];
-    private constructor(lightColorEventBox: Required<ILightColorEventBox>) {
+    protected constructor(lightColorEventBox: Required<ILightColorEventBox>) {
         super(lightColorEventBox);
         this.e = lightColorEventBox.e.map((e) => LightColorBase.create(e));
         const lastTime = Math.max(...this.e.map((e) => e.time));

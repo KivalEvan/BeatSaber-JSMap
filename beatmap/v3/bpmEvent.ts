@@ -13,7 +13,7 @@ export class BPMEvent extends BaseObject<IBPMEvent> {
         },
     };
 
-    private constructor(bpmEvent: Required<IBPMEvent>) {
+    protected constructor(bpmEvent: Required<IBPMEvent>) {
         super(bpmEvent);
     }
 

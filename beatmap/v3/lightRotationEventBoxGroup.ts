@@ -15,7 +15,7 @@ export class LightRotationEventBoxGroup extends EventBoxGroupTemplate<ILightRota
         },
     };
 
-    private constructor(eventBoxGroup: Required<ILightRotationEventBoxGroup>) {
+    protected constructor(eventBoxGroup: Required<ILightRotationEventBoxGroup>) {
         super(
             eventBoxGroup,
             eventBoxGroup.e.map((e) => LightRotationEventBox.create(e)),

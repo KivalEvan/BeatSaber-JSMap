@@ -13,7 +13,7 @@ export class NoteJumpSpeed {
     private _jdMin!: number;
     private _reactionTime!: number;
 
-    private constructor(bpm: BeatPerMinute, njs: number = 10, sdm: number = 0) {
+    protected constructor(bpm: BeatPerMinute, njs: number = 10, sdm: number = 0) {
         this._bpm = bpm;
         this._njs = njs;
         this._sdm = sdm;
