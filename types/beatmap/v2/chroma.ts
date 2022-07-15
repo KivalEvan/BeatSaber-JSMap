@@ -27,9 +27,10 @@ export enum ChromaDataEnvAbbr {
 
 /** Chroma Material Base interface for Environment Enhancement. */
 export interface IChromaMaterialBase {
-    _shaderPreset: ShaderType;
+    _shader: ShaderType;
     _shaderKeywords?: string[];
-    _track?: string[];
+    _collision?: boolean;
+    _track?: string;
     _color?: ColorArray;
 }
 
@@ -37,7 +38,7 @@ export interface IChromaMaterialBase {
  * @extends IChromaMaterialBase
  */
 export interface IChromaMaterialStandard extends IChromaMaterialBase {
-    _shaderPreset: 'Standard';
+    _shader: 'Standard';
     _shaderKeywords?: ShaderKeywordsStandard[];
 }
 
@@ -45,7 +46,7 @@ export interface IChromaMaterialStandard extends IChromaMaterialBase {
  * @extends IChromaMaterialBase
  */
 export interface IChromaMaterialOpaque extends IChromaMaterialBase {
-    _shaderPreset: 'OpaqueLight';
+    _shader: 'OpaqueLight';
     _shaderKeywords?: ShaderKeywordsOpaque[];
 }
 
@@ -53,22 +54,17 @@ export interface IChromaMaterialOpaque extends IChromaMaterialBase {
  * @extends IChromaMaterialBase
  */
 export interface IChromaMaterialTransparent extends IChromaMaterialBase {
-    _shaderPreset: 'TransparentLight';
+    _shader: 'TransparentLight';
     _shaderKeywords?: ShaderKeywordsTransparent[];
 }
 
 /** Chroma Material interface for Environment Enhancement. */
-export type IChromaMaterial =
-    | IChromaMaterialStandard
-    | IChromaMaterialOpaque
-    | IChromaMaterialTransparent;
+export type IChromaMaterial = IChromaMaterialStandard | IChromaMaterialOpaque | IChromaMaterialTransparent;
 
 /** Chroma Geometry interface for Environment Enhancement. */
 export interface IChromaGeometry {
     _type: GeometryType;
     _material: IChromaMaterial | string;
-    _spawnCount: number;
-    _track?: string[];
     _collision?: boolean;
 }
 

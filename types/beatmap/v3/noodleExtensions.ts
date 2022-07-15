@@ -29,7 +29,6 @@ interface INEObject {
     noteJumpMovementSpeed?: number;
     noteJumpStartBeatOffset?: number;
     uninteractable?: boolean;
-    NE_fake?: boolean;
     track?: string | string[];
     animation?: INEAnimation & IChromaAnimation;
 }

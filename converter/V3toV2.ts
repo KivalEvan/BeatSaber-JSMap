@@ -364,19 +364,6 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                                 },
                             };
                         }
-                        if (ce.t === 'AssignFogTrack') {
-                            return {
-                                _time: ce.b,
-                                _type: 'AssignFogTrack',
-                                _data: {
-                                    _track: ce.d.track,
-                                    _attenuation: ce.d.attenuation,
-                                    _offset: ce.d.offset,
-                                    _startY: ce.d.startY,
-                                    _height: ce.d.height,
-                                },
-                            };
-                        }
                         return {
                             _time: ce.b,
                             _type: 'AssignPlayerToTrack',
@@ -409,13 +396,12 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                             _geometry: {
                                 _type: e.geometry.type,
                                 _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
-                                    shaderPreset: e.geometry.material.shaderPreset,
-                                    shaderKeywords: e.geometry.material.shaderKeywords,
-                                    track: e.geometry.material.track,
-                                    color: e.geometry.material.color,
+                                    _shaderPreset: e.geometry.material.shader,
+                                    _shaderKeywords: e.geometry.material.shaderKeywords,
+                                    _collision: e.geometry.material.collision,
+                                    _track: e.geometry.material.track,
+                                    _color: e.geometry.material.color,
                                 },
-                                _spawnCount: e.geometry.spawnCount,
-                                _track: e.geometry.track,
                                 _collision: e.geometry.collision,
                             },
                             _track: e.track,
@@ -437,8 +423,9 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 template.customData._materials = {};
                 for (const m in data.customData.materials) {
                     template.customData._materials[m] = {
-                        _shaderPreset: data.customData.materials[m].shaderPreset,
+                        _shader: data.customData.materials[m].shader,
                         _shaderKeywords: data.customData.materials[m].shaderKeywords,
+                        _collision: data.customData.materials[m].collision,
                         _track: data.customData.materials[m].track,
                         _color: data.customData.materials[m].color,
                     } as IChromaMaterial;
@@ -446,12 +433,13 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 continue;
             }
             if (k === 'pointDefinitions') {
-                template.customData._pointDefinitions = data.customData.pointDefinitions!.map((e) => {
-                    return {
-                        _name: e.name,
-                        _points: e.points,
-                    };
-                });
+                template.customData._pointDefinitions = [];
+                for (const p in data.customData.pointDefinitions!) {
+                    template.customData._pointDefinitions.push({
+                        _name: p,
+                        _points: data.customData.pointDefinitions[p],
+                    });
+                }
                 continue;
             }
             template.customData[k] = data.customData[k];

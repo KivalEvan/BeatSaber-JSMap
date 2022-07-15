@@ -1,7 +1,6 @@
 import {
     IChromaCustomEventDataAnimateComponent,
     IChromaCustomEventDataAnimateTrack,
-    IChromaCustomEventDataAssignFogTrack,
     IChromaCustomEventDataAssignPathAnimation,
 } from './chroma.ts';
 import { IHeckCustomEventDataAnimateTrack, IHeckCustomEventDataAssignPathAnimation } from './heck.ts';
@@ -43,13 +42,6 @@ export interface ICustomEventAssignPathAnimation {
 //     d: IHeckCustomEventDataInvokeEvent;
 // }
 
-/** Custom Event interface for AssignFogTrack. */
-export interface ICustomEventAssignFogTrack {
-    b: number;
-    t: 'AssignFogTrack';
-    d: IChromaCustomEventDataAssignFogTrack;
-}
-
 /** Custom Event interface for AnimateComponent. */
 export interface ICustomEventAnimateComponent {
     b: number;
@@ -74,7 +66,6 @@ export interface ICustomEventAssignPlayerToTrack {
 export type ICustomEvent =
     | ICustomEventAnimateTrack
     | ICustomEventAssignPathAnimation
-    | ICustomEventAssignFogTrack
     | ICustomEventAnimateComponent
     | ICustomEventAssignTrackParent
     | ICustomEventAssignPlayerToTrack;

@@ -27,9 +27,10 @@ export enum ChromaDataEnvAbbr {
 
 /** Chroma Material Base interface for Environment Enhancement. */
 export interface IChromaMaterialBase {
-    shaderPreset: ShaderType;
+    shader: ShaderType;
     shaderKeywords?: string[];
-    track?: string[];
+    collision?: boolean;
+    track?: string;
     color?: ColorArray;
 }
 
@@ -37,7 +38,7 @@ export interface IChromaMaterialBase {
  * @extends IChromaMaterialBase
  */
 export interface IChromaMaterialStandard extends IChromaMaterialBase {
-    shaderPreset: 'Standard';
+    shader: 'Standard';
     shaderKeywords?: ShaderKeywordsStandard[];
 }
 
@@ -45,7 +46,7 @@ export interface IChromaMaterialStandard extends IChromaMaterialBase {
  * @extends IChromaMaterialBase
  */
 export interface IChromaMaterialOpaque extends IChromaMaterialBase {
-    shaderPreset: 'OpaqueLight';
+    shader: 'OpaqueLight';
     shaderKeywords?: ShaderKeywordsOpaque[];
 }
 
@@ -53,22 +54,17 @@ export interface IChromaMaterialOpaque extends IChromaMaterialBase {
  * @extends IChromaMaterialBase
  */
 export interface IChromaMaterialTransparent extends IChromaMaterialBase {
-    shaderPreset: 'TransparentLight';
+    shader: 'TransparentLight';
     shaderKeywords?: ShaderKeywordsTransparent[];
 }
 
 /** Chroma Material interface for Environment Enhancement. */
-export type IChromaMaterial =
-    | IChromaMaterialStandard
-    | IChromaMaterialOpaque
-    | IChromaMaterialTransparent;
+export type IChromaMaterial = IChromaMaterialStandard | IChromaMaterialOpaque | IChromaMaterialTransparent;
 
 /** Chroma Geometry interface for Environment Enhancement. */
 export interface IChromaGeometry {
     type: GeometryType;
     material: IChromaMaterial | string;
-    spawnCount: number;
-    track?: string[];
     collision?: boolean;
 }
 
@@ -217,18 +213,21 @@ export interface IChromaCustomEventDataAssignPathAnimation extends IHeckCustomEv
     color?: string | ColorPointDefinition[];
 }
 
-/** AssignFogTrack interface for Chroma Custom Event. */
-export interface IChromaCustomEventDataAssignFogTrack extends IHeckCustomEventDataBase {
-    track: string;
-    attenuation?: number | PercentPointDefinition[];
-    offset?: number | PercentPointDefinition[];
-    startY?: number | PercentPointDefinition[];
-    height?: number | PercentPointDefinition[];
-}
-
 /** AnimateComponent interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAnimateComponent extends IHeckCustomEventDataBase {
     track: string;
+    duration: number;
+    easing?: string;
+    BloomFogEnvironment?: {
+        attenuation?: PercentPointDefinition[];
+        offset?: PercentPointDefinition[];
+        startY?: PercentPointDefinition[];
+        height?: PercentPointDefinition[];
+    };
+    TubeBloomPrePassLight?: {
+        colorAlphaMultiplier: PercentPointDefinition[];
+        bloomFogIntensityMultiplier: PercentPointDefinition[];
+    };
 }
 
 /** Chroma Custom Data interface for difficulty custom data. */

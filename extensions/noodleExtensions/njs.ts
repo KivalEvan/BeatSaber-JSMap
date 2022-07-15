@@ -44,7 +44,7 @@ export function setNJS(
 export function simultaneousSpawn(
     objects: INEObject[],
     speed: number,
-    njsOffset?: NoteJumpSpeed | number | null,
+    startOffset?: NoteJumpSpeed | number | null,
 ): void {
     if (!objects.length) {
         logger.warn(tag('simultaneousSpawn'), 'No object(s) received.');
@@ -55,14 +55,14 @@ export function simultaneousSpawn(
         speed = 1;
     }
     let offset: number;
-    if (typeof njsOffset !== 'number') {
-        if (njsOffset) {
-            offset = njsOffset.offset;
+    if (typeof startOffset !== 'number') {
+        if (startOffset) {
+            offset = startOffset.offset;
         } else {
             offset = settings.NJS?.offset ?? 0;
         }
     } else {
-        offset = njsOffset;
+        offset = startOffset;
     }
     const startTime = objects[0].time;
     objects.forEach((o) => {
@@ -113,7 +113,11 @@ export function gradientNJS(
             options.easing,
         );
         if (typeof options.jd === 'number') {
-            const currNJS = NoteJumpSpeed.create(options.bpm, o.customData.noteJumpMovementSpeed, offset);
+            const currNJS = NoteJumpSpeed.create(
+                options.bpm,
+                o.customData.noteJumpMovementSpeed,
+                offset,
+            );
             o.customData.noteJumpStartBeatOffset = currNJS.calcHJDFromJD(options.jd) - currNJS.calcHJDRaw();
         }
     });

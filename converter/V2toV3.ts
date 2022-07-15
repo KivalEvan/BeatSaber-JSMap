@@ -34,6 +34,12 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
     const template = v3.DifficultyData.create();
     template.fileName = data.fileName;
 
+    template.customData.fakeBombNotes = [];
+    template.customData.fakeBurstSliders = [];
+    template.customData.fakeColorNotes = [];
+    template.customData.fakeObstacles = [];
+    template.customData.fakeSliders = [];
+
     data.notes.forEach((n, i) => {
         const customData: ICustomDataNote = {
             color: n.customData._color,
@@ -48,7 +54,6 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 ? !n.customData._disableSpawnEffect
                 : undefined,
             track: n.customData._track,
-            NE_fake: n.customData._fake,
             uninteractable: typeof n.customData._interactable === 'boolean' ? !n.customData._interactable : undefined,
             worldRotation: n.customData._rotation,
         };
@@ -70,14 +75,25 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
             logger.debug(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`);
         }
         if (n.isBomb()) {
-            template.bombNotes.push(
-                v3.BombNote.create({
-                    b: n.time,
-                    x: n.posX,
-                    y: n.posY,
-                    customData,
-                }),
-            );
+            if (n.customData._fake) {
+                template.customData.fakeBombNotes!.push(
+                    v3.BombNote.create({
+                        b: n.time,
+                        x: n.posX,
+                        y: n.posY,
+                        customData,
+                    }),
+                );
+            } else {
+                template.bombNotes.push(
+                    v3.BombNote.create({
+                        b: n.time,
+                        x: n.posX,
+                        y: n.posY,
+                        customData,
+                    }),
+                );
+            }
         }
         if (n.isNote()) {
             let a = 0;
@@ -89,19 +105,35 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
             if (n.cutDirection >= 1000) {
                 a = Math.abs(((n.cutDirection % 1000) % 360) - 360);
             }
-            template.colorNotes.push(
-                v3.ColorNote.create({
-                    b: n.time,
-                    c: n.type as 0 | 1,
-                    x: n.posX,
-                    y: n.posY,
-                    d: n.cutDirection >= 1000 || typeof n.customData._cutDirection === 'number'
-                        ? n.cutDirection === 8 ? 8 : 1
-                        : clamp(n.cutDirection, 0, 8),
-                    a: a,
-                    customData,
-                }),
-            );
+            if (n.customData._fake) {
+                template.customData.fakeColorNotes!.push(
+                    v3.ColorNote.create({
+                        b: n.time,
+                        c: n.type as 0 | 1,
+                        x: n.posX,
+                        y: n.posY,
+                        d: n.cutDirection >= 1000 || typeof n.customData._cutDirection === 'number'
+                            ? n.cutDirection === 8 ? 8 : 1
+                            : clamp(n.cutDirection, 0, 8),
+                        a: a,
+                        customData,
+                    }),
+                );
+            } else {
+                template.colorNotes.push(
+                    v3.ColorNote.create({
+                        b: n.time,
+                        c: n.type as 0 | 1,
+                        x: n.posX,
+                        y: n.posY,
+                        d: n.cutDirection >= 1000 || typeof n.customData._cutDirection === 'number'
+                            ? n.cutDirection === 8 ? 8 : 1
+                            : clamp(n.cutDirection, 0, 8),
+                        a: a,
+                        customData,
+                    }),
+                );
+            }
         }
     });
 
@@ -114,7 +146,6 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
             noteJumpStartBeatOffset: o.customData._noteJumpStartBeatOffset,
             size: o.customData._scale,
             track: o.customData._track,
-            NE_fake: o.customData._fake,
             uninteractable: typeof o.customData._interactable === 'boolean' ? !o.customData._interactable : undefined,
             worldRotation: o.customData._rotation,
         };
@@ -132,17 +163,31 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 time: o.customData._animation._time,
             };
         }
-        template.obstacles.push(
-            v3.Obstacle.create({
-                b: o.time,
-                x: o.posX,
-                y: o.type === 2 ? o.posY : o.type ? 2 : 0,
-                d: o.duration,
-                w: o.width,
-                h: o.type === 2 ? o.height : o.type ? 3 : 5,
-                customData,
-            }),
-        );
+        if (o.customData._fake) {
+            template.customData.fakeObstacles!.push(
+                v3.Obstacle.create({
+                    b: o.time,
+                    x: o.posX,
+                    y: o.type === 2 ? o.posY : o.type ? 2 : 0,
+                    d: o.duration,
+                    w: o.width,
+                    h: o.type === 2 ? o.height : o.type ? 3 : 5,
+                    customData,
+                }),
+            );
+        } else {
+            template.obstacles.push(
+                v3.Obstacle.create({
+                    b: o.time,
+                    x: o.posX,
+                    y: o.type === 2 ? o.posY : o.type ? 2 : 0,
+                    d: o.duration,
+                    w: o.width,
+                    h: o.type === 2 ? o.height : o.type ? 3 : 5,
+                    customData,
+                }),
+            );
+        }
     });
 
     data.events.forEach((e, i) => {
@@ -274,9 +319,10 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
     if (data.customData) {
         for (const k in data.customData) {
             if (k === '_customEvents') {
-                template.customData.customEvents = data.customData._customEvents!.map((ce) => {
+                template.customData.customEvents = [];
+                data.customData._customEvents!.forEach((ce) => {
                     if (ce._type === 'AnimateTrack') {
-                        return {
+                        template.customData.customEvents?.push({
                             b: ce._time,
                             t: 'AnimateTrack',
                             d: {
@@ -293,10 +339,10 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                                 interactable: ce._data._interactable,
                                 time: ce._data._time,
                             },
-                        };
+                        });
                     }
                     if (ce._type === 'AssignPathAnimation') {
-                        return {
+                        template.customData.customEvents?.push({
                             b: ce._time,
                             t: 'AssignPathAnimation',
                             d: {
@@ -312,10 +358,10 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                                 interactable: ce._data._interactable,
                                 definitePosition: ce._data._definitePosition,
                             },
-                        };
+                        });
                     }
                     if (ce._type === 'AssignTrackParent') {
-                        return {
+                        template.customData.customEvents?.push({
                             b: ce._time,
                             t: 'AssignTrackParent',
                             d: {
@@ -323,28 +369,35 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                                 parentTrack: ce._data._parentTrack,
                                 worldPositionStays: ce._data._worldPositionStays,
                             },
-                        };
+                        });
                     }
                     if (ce._type === 'AssignPlayerToTrack') {
-                        return {
+                        template.customData.customEvents?.push({
                             b: ce._time,
                             t: 'AssignPlayerToTrack',
                             d: {
                                 track: ce._data._track,
                             },
-                        };
+                        });
                     }
-                    return {
-                        b: ce._time,
-                        t: 'AssignFogTrack',
-                        d: {
-                            track: ce._data._track,
-                            attenuation: ce._data._attenuation,
-                            offset: ce._data._offset,
-                            startY: ce._data._startY,
-                            height: ce._data._height,
-                        },
-                    };
+                    if (ce._type === 'AssignFogTrack') {
+                        template.customData.customEvents?.push({
+                            b: ce._time,
+                            t: 'AnimateComponent',
+                            d: {
+                                track: ce._data._track,
+                                duration: 0,
+                                BloomFogEnvironment: {
+                                    attenuation: typeof ce._data._attenuation === 'number'
+                                        ? [[ce._data._attenuation, 0]]
+                                        : undefined,
+                                    height: typeof ce._data._height === 'number' ? [[ce._data._height, 0]] : undefined,
+                                    offset: typeof ce._data._offset === 'number' ? [[ce._data._offset, 0]] : undefined,
+                                    startY: typeof ce._data._startY === 'number' ? [[ce._data._startY, 0]] : undefined,
+                                },
+                            },
+                        });
+                    }
                 });
                 continue;
             }
@@ -374,13 +427,12 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             geometry: {
                                 type: e._geometry._type,
                                 material: typeof e._geometry._material === 'string' ? e._geometry._material : {
-                                    shaderPreset: e._geometry._material._shaderPreset,
+                                    shader: e._geometry._material._shader,
                                     shaderKeywords: e._geometry._material._shaderKeywords,
+                                    collision: e._geometry._material._collision,
                                     track: e._geometry._material._track,
                                     color: e._geometry._material._color,
                                 },
-                                spawnCount: e._geometry._spawnCount,
-                                track: e._geometry._track,
                                 collision: e._geometry._collision,
                             },
                             track: e._track,
@@ -402,8 +454,9 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 template.customData.materials = {};
                 for (const m in data.customData._materials) {
                     template.customData.materials[m] = {
-                        shaderPreset: data.customData._materials[m]._shaderPreset,
+                        shader: data.customData._materials[m]._shader,
                         shaderKeywords: data.customData._materials[m]._shaderKeywords,
+                        collision: data.customData._materials[m]._collision,
                         track: data.customData._materials[m]._track,
                         color: data.customData._materials[m]._color,
                     } as IChromaMaterial;
@@ -411,11 +464,9 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 continue;
             }
             if (k === '_pointDefinitions') {
-                template.customData.pointDefinitions = data.customData._pointDefinitions!.map((e) => {
-                    return {
-                        name: e._name,
-                        points: e._points,
-                    };
+                template.customData.pointDefinitions = {};
+                data.customData._pointDefinitions!.forEach((p) => {
+                    template.customData.pointDefinitions![p._name] = p._points;
                 });
                 continue;
             }
