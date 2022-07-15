@@ -187,6 +187,7 @@ export interface IChromaEventZoom extends ICustomDataBase {
 /** AssignFogTrack interface for Noodle Extensions Custom Event. */
 export interface IChromaCustomEventDataAssignFogTrack extends IHeckCustomEventDataBase {
     _track: string;
+    _duration: number;
     _attenuation?: number | PercentPointDefinition[];
     _offset?: number | PercentPointDefinition[];
     _startY?: number | PercentPointDefinition[];

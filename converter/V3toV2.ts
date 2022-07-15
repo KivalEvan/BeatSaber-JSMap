@@ -304,74 +304,89 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
     if (data.customData) {
         for (const k in data.customData) {
             if (k === 'customEvents') {
-                template.customData._customEvents = data.customData
-                    .customEvents!.filter((ce) => ce.t !== 'AnimateComponent')
-                    .map((ce) => {
-                        if (ce.t === 'AnimateTrack') {
-                            return {
-                                _time: ce.b,
-                                _type: 'AnimateTrack',
-                                _data: {
-                                    _track: ce.d.track,
-                                    _duration: ce.d.duration,
-                                    _easing: ce.d.easing,
-                                    _position: typeof ce.d.position === 'string'
-                                        ? ce.d.position
-                                        : ce.d.position?.map((p) => {
-                                            p[0] = p[0] / 0.6;
-                                            p[1] = p[1] / 0.6;
-                                            p[2] = p[2] / 0.6;
-                                            return p as Vector3PointDefinition;
-                                        }),
-                                    _rotation: ce.d.rotation,
-                                    _localRotation: ce.d.localRotation,
-                                    _scale: ce.d.scale,
-                                    _dissolve: ce.d.dissolve,
-                                    _dissolveArrow: ce.d.dissolveArrow,
-                                    _color: ce.d.color,
-                                    _interactable: ce.d.interactable,
-                                    _time: ce.d.time,
-                                },
-                            };
-                        }
-                        if (ce.t === 'AssignPathAnimation') {
-                            return {
-                                _time: ce.b,
-                                _type: 'AssignPathAnimation',
-                                _data: {
-                                    _track: ce.d.track,
-                                    _easing: ce.d.easing,
-                                    _position: ce.d.position,
-                                    _rotation: ce.d.rotation,
-                                    _localRotation: ce.d.localRotation,
-                                    _scale: ce.d.scale,
-                                    _dissolve: ce.d.dissolve,
-                                    _dissolveArrow: ce.d.dissolveArrow,
-                                    _color: ce.d.color,
-                                    _interactable: ce.d.interactable,
-                                    _definitePosition: ce.d.definitePosition,
-                                },
-                            };
-                        }
-                        if (ce.t === 'AssignTrackParent') {
-                            return {
-                                _time: ce.b,
-                                _type: 'AssignTrackParent',
-                                _data: {
-                                    _childrenTracks: ce.d.childrenTracks,
-                                    _parentTrack: ce.d.parentTrack,
-                                    _worldPositionStays: ce.d.worldPositionStays,
-                                },
-                            };
-                        }
-                        return {
+                template.customData._customEvents = [];
+                for (const ce of data.customData.customEvents!) {
+                    if (ce.t === 'AnimateTrack') {
+                        template.customData._customEvents.push({
+                            _time: ce.b,
+                            _type: 'AnimateTrack',
+                            _data: {
+                                _track: ce.d.track,
+                                _duration: ce.d.duration,
+                                _easing: ce.d.easing,
+                                _position: typeof ce.d.position === 'string'
+                                    ? ce.d.position
+                                    : ce.d.position?.map((p) => {
+                                        p[0] = p[0] / 0.6;
+                                        p[1] = p[1] / 0.6;
+                                        p[2] = p[2] / 0.6;
+                                        return p as Vector3PointDefinition;
+                                    }),
+                                _rotation: ce.d.rotation,
+                                _localRotation: ce.d.localRotation,
+                                _scale: ce.d.scale,
+                                _dissolve: ce.d.dissolve,
+                                _dissolveArrow: ce.d.dissolveArrow,
+                                _color: ce.d.color,
+                                _interactable: ce.d.interactable,
+                                _time: ce.d.time,
+                            },
+                        });
+                    }
+                    if (ce.t === 'AssignPathAnimation') {
+                        template.customData._customEvents.push({
+                            _time: ce.b,
+                            _type: 'AssignPathAnimation',
+                            _data: {
+                                _track: ce.d.track,
+                                _easing: ce.d.easing,
+                                _position: ce.d.position,
+                                _rotation: ce.d.rotation,
+                                _localRotation: ce.d.localRotation,
+                                _scale: ce.d.scale,
+                                _dissolve: ce.d.dissolve,
+                                _dissolveArrow: ce.d.dissolveArrow,
+                                _color: ce.d.color,
+                                _interactable: ce.d.interactable,
+                                _definitePosition: ce.d.definitePosition,
+                            },
+                        });
+                    }
+                    if (ce.t === 'AssignTrackParent') {
+                        template.customData._customEvents.push({
+                            _time: ce.b,
+                            _type: 'AssignTrackParent',
+                            _data: {
+                                _childrenTracks: ce.d.childrenTracks,
+                                _parentTrack: ce.d.parentTrack,
+                                _worldPositionStays: ce.d.worldPositionStays,
+                            },
+                        });
+                    }
+                    if (ce.t === 'AssignPlayerToTrack') {
+                        template.customData._customEvents.push({
                             _time: ce.b,
                             _type: 'AssignPlayerToTrack',
                             _data: {
                                 _track: ce.d.track,
                             },
-                        };
-                    });
+                        });
+                    }
+                    if (ce.t === 'AnimateComponent' && ce.d.BloomFogEnvironment) {
+                        template.customData._customEvents.push({
+                            _time: ce.b,
+                            _type: 'AssignFogTrack',
+                            _data: {
+                                _track: ce.d.track,
+                                _duration: ce.d.duration,
+                                _attenuation: ce.d.BloomFogEnvironment.attenuation,
+                                _height: ce.d.BloomFogEnvironment.height,
+                                _offset: ce.d.BloomFogEnvironment.offset,
+                                _startY: ce.d.BloomFogEnvironment.startY,
+                            },
+                        });
+                    }
+                }
                 continue;
             }
             if (k === 'environment') {

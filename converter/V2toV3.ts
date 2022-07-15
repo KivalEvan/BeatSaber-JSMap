@@ -35,10 +35,8 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
     template.fileName = data.fileName;
 
     template.customData.fakeBombNotes = [];
-    template.customData.fakeBurstSliders = [];
     template.customData.fakeColorNotes = [];
     template.customData.fakeObstacles = [];
-    template.customData.fakeSliders = [];
 
     data.notes.forEach((n, i) => {
         const customData: ICustomDataNote = {
@@ -386,14 +384,20 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             t: 'AnimateComponent',
                             d: {
                                 track: ce._data._track,
-                                duration: 0,
+                                duration: ce._data._duration || 0,
                                 BloomFogEnvironment: {
                                     attenuation: typeof ce._data._attenuation === 'number'
                                         ? [[ce._data._attenuation, 0]]
-                                        : undefined,
-                                    height: typeof ce._data._height === 'number' ? [[ce._data._height, 0]] : undefined,
-                                    offset: typeof ce._data._offset === 'number' ? [[ce._data._offset, 0]] : undefined,
-                                    startY: typeof ce._data._startY === 'number' ? [[ce._data._startY, 0]] : undefined,
+                                        : ce._data._attenuation,
+                                    height: typeof ce._data._height === 'number'
+                                        ? [[ce._data._height, 0]]
+                                        : ce._data._height,
+                                    offset: typeof ce._data._offset === 'number'
+                                        ? [[ce._data._offset, 0]]
+                                        : ce._data._offset,
+                                    startY: typeof ce._data._startY === 'number'
+                                        ? [[ce._data._startY, 0]]
+                                        : ce._data._startY,
                                 },
                             },
                         });
