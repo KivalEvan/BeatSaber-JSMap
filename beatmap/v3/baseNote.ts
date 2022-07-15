@@ -76,12 +76,18 @@ export abstract class BaseNote<T extends IBaseNote> extends BaseObject<T> {
                 ];
             case 'ne':
                 if (this.customData.coordinates) {
-                    return [this.customData.coordinates[0], this.customData.coordinates[1]];
+                    return [
+                        this.customData.coordinates[0],
+                        this.customData.coordinates[1],
+                    ];
                 }
                 return [this.posX, this.posY];
             default:
                 if (this.customData.coordinates) {
-                    return [this.customData.coordinates[0], this.customData.coordinates[1]];
+                    return [
+                        this.customData.coordinates[0],
+                        this.customData.coordinates[1],
+                    ];
                 }
                 return [
                     (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
