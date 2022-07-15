@@ -5,6 +5,7 @@ import { IOptimizeOptions, IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } fr
 import { Either } from './types/utils.ts';
 import { round } from './utils/math.ts';
 import logger from './logger.ts';
+import { IBaseNote } from './types/beatmap/v3/baseNote.ts';
 
 const tag = (name: string) => {
     return `[optimize::${name}]`;
@@ -152,6 +153,20 @@ export function performDifficulty(
     if (opt.sort) {
         logger.debug(tag('performDifficulty'), 'Sorting objects');
         const sortPrec = Math.pow(10, opt.floatTrim);
+        const sortV3Note = (a: IBaseNote, b: IBaseNote) => {
+            if (a.customData?.coordinates && b.customData?.coordinates) {
+                Math.round((a.b + Number.EPSILON) * sortPrec) / sortPrec -
+                        Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||
+                    a.customData.coordinates[0] - b.customData.coordinates[0] ||
+                    a.customData.coordinates[1] - b.customData.coordinates[1];
+            }
+            return (
+                Math.round((a.b + Number.EPSILON) * sortPrec) / sortPrec -
+                    Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||
+                a.x - b.x ||
+                a.y - b.y
+            );
+        };
         difficulty._notes?.sort(
             (a, b) =>
                 Math.round((a._time + Number.EPSILON) * sortPrec) / sortPrec -
@@ -161,24 +176,18 @@ export function performDifficulty(
         );
         difficulty._obstacles?.sort((a, b) => a._time - b._time);
         difficulty._events?.sort((a, b) => a._time - b._time);
-        difficulty.colorNotes?.sort(
-            (a, b) =>
-                Math.round((a.b + Number.EPSILON) * sortPrec) / sortPrec -
-                    Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||
-                a.x - b.x ||
-                a.y - b.y,
-        );
-        difficulty.bombNotes?.sort((a, b) => a.b - b.b);
+        difficulty.colorNotes?.sort(sortV3Note);
+        difficulty.bombNotes?.sort(sortV3Note);
         difficulty.obstacles?.sort((a, b) => a.b - b.b);
         difficulty.bpmEvents?.sort((a, b) => a.b - b.b);
         difficulty.rotationEvents?.sort((a, b) => a.b - b.b);
         difficulty.colorBoostBeatmapEvents?.sort((a, b) => a.b - b.b);
         difficulty.basicBeatmapEvents?.sort((a, b) => a.b - b.b);
-        difficulty.sliders?.sort((a, b) => a.b - b.b);
-        difficulty.burstSliders?.sort((a, b) => a.b - b.b);
+        difficulty.sliders?.sort(sortV3Note);
+        difficulty.burstSliders?.sort(sortV3Note);
         difficulty.lightColorEventBoxGroups?.sort((a, b) => a.b - b.b);
         difficulty.lightRotationEventBoxGroups?.sort((a, b) => a.b - b.b);
-        difficulty.waypoints?.sort((a, b) => a.b - b.b);
+        difficulty.waypoints?.sort(sortV3Note);
     }
 
     return difficulty;
