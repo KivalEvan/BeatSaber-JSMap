@@ -39,34 +39,44 @@ export function setNJS(
 
 /** Simultaneously spawn the object from start to end object.
  *
- * Speed determines how fast should note spawn from start to end.
+ * Speed determines how fast should note spawn from start to end. (1 is regular speed)
+ *
+ * **NOTE:** JD input will override NJS offset.
  */
 export function simultaneousSpawn(
     objects: INEObject[],
-    speed: number,
-    startOffset?: NoteJumpSpeed | number | null,
+    options: {
+        bpm: BeatPerMinute;
+        njs: NoteJumpSpeed | number;
+        njsOverride?: boolean;
+        jd?: number;
+        spawnBeatOffset?: number;
+        speed: number;
+    },
 ): void {
     if (!objects.length) {
         logger.warn(tag('simultaneousSpawn'), 'No object(s) received.');
         return;
     }
-    if (!speed) {
+    if (!options.speed) {
         logger.error(tag('simultaneousSpawn'), 'Speed cannot be 0!');
-        speed = 1;
+        options.speed = 1;
     }
-    let offset: number;
-    if (typeof startOffset !== 'number') {
-        if (startOffset) {
-            offset = startOffset.offset;
-        } else {
-            offset = settings.NJS?.offset ?? 0;
-        }
-    } else {
-        offset = startOffset;
-    }
+    options.spawnBeatOffset = options.spawnBeatOffset ?? 0;
+    const njs = typeof options.njs === 'number' ? options.njs : options.njs.value;
     const startTime = objects[0].time;
     objects.forEach((o) => {
-        o.customData.noteJumpStartBeatOffset = offset + o.time - startTime - (o.time - startTime) / speed;
+        o.customData.noteJumpMovementSpeed = options.njsOverride ? o.customData.noteJumpMovementSpeed ?? njs : njs;
+        const currentNJS = NoteJumpSpeed.create(
+            options.bpm,
+            o.customData.noteJumpMovementSpeed,
+        );
+        const offset = currentNJS.calcHJDFromJD(options.jd) - currentNJS.calcHJDRaw();
+        o.customData.noteJumpStartBeatOffset = options.spawnBeatOffset! +
+            offset +
+            o.time -
+            startTime -
+            (o.time - startTime) / options.speed;
     });
 }
 

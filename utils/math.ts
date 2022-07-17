@@ -15,7 +15,11 @@ export function random(min: number, max: number, rounding: boolean | number = fa
     return rounding ? round(result, typeof rounding === 'number' && rounding > 0 ? rounding : 0) : result;
 }
 
-export function fixRange(min: number, max: number, inverse?: boolean): [number, number] {
+export function fixRange(
+    min: number,
+    max: number,
+    inverse?: boolean,
+): [number, number] {
     if (min < max && inverse) {
         return [max, min];
     }
@@ -38,13 +42,25 @@ export function degToRad(deg: number) {
 }
 
 /** Return [radius, theta, phi] */
-export function cartesianCoordToSphericalCoord(x: number, y: number, z: number): [number, number, number] {
+export function cartesianCoordToSphericalCoord(
+    x: number,
+    y: number,
+    z: number,
+): [number, number, number] {
     const radius = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-    return [radius, Math.acos(z / radius), (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI)];
+    return [
+        radius,
+        Math.acos(z / radius),
+        (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI),
+    ];
 }
 
 /** Return [x, y, z] */
-export function sphericalCoordToCartesianCoord(radius: number, theta: number, phi: number): [number, number, number] {
+export function sphericalCoordToCartesianCoord(
+    radius: number,
+    theta: number,
+    phi: number,
+): [number, number, number] {
     return [
         radius * Math.sin(theta) * Math.cos(phi),
         radius * Math.sin(theta) * Math.sin(phi),
@@ -82,8 +98,11 @@ export function clamp(value: number, min: number, max: number): number {
 
 /** Normalize value to 0-1 from given min and max value. */
 export function normalize(value: number, min: number, max: number): number {
-    if (min >= max) {
-        logger.warn(tag('normalize'), 'Min value is equal or more than max value, returning 1');
+    if (min > max) {
+        logger.warn(tag('normalize'), 'Min value is more than max value, returning 1');
+        return 1;
+    }
+    if (min === max) {
         return 1;
     }
     const result = (value - min) / (max - min);
@@ -94,15 +113,26 @@ export function normalize(value: number, min: number, max: number): number {
 /** Linear interpolate between start to end time given alpha value.
  * Alpha value must be around 0-1.
  */
-export function lerp(alpha: number, start: number, end: number, easing?: EasingFunction): number {
+export function lerp(
+    alpha: number,
+    start: number,
+    end: number,
+    easing?: EasingFunction,
+): number {
     if (!easing) {
         easing = (x) => x;
     }
     if (alpha > 1) {
-        logger.warn(tag('lerp'), 'Alpha value is larger than 1, may have unintended result');
+        logger.warn(
+            tag('lerp'),
+            'Alpha value is larger than 1, may have unintended result',
+        );
     }
     if (alpha < 0) {
-        logger.warn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
+        logger.warn(
+            tag('lerp'),
+            'Alpha value is smaller than 0, may have unintended result',
+        );
     }
     const result = start + (end - start) * easing(alpha);
     logger.verbose(tag('lerp'), `Obtained ${result}`);

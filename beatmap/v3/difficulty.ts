@@ -50,51 +50,51 @@ export class DifficultyData extends Serializable<IDifficultyData> {
     basicEventTypesWithKeywords: BasicEventTypesWithKeywords;
     useNormalEventsAsCompatibleEvents;
     customData;
-    protected constructor(difficultyData: Required<IDifficultyData>) {
-        super(difficultyData);
-        this.version = difficultyData.version ?? '3.0.0';
-        this.bpmEvents = difficultyData.bpmEvents?.map((obj) => BPMEvent.create(obj)) ?? [];
-        this.rotationEvents = difficultyData.rotationEvents?.map((obj) => RotationEvent.create(obj)) ?? [];
-        this.colorNotes = difficultyData.colorNotes?.map((obj) => ColorNote.create(obj)) ?? [];
-        this.bombNotes = difficultyData.bombNotes?.map((obj) => BombNote.create(obj)) ?? [];
-        this.obstacles = difficultyData.obstacles?.map((obj) => Obstacle.create(obj)) ?? [];
-        this.sliders = difficultyData.sliders?.map((obj) => Slider.create(obj)) ?? [];
-        this.burstSliders = difficultyData.burstSliders?.map((obj) => BurstSlider.create(obj)) ?? [];
-        this.waypoints = difficultyData.waypoints?.map((obj) => Waypoint.create(obj)) ?? [];
-        this.basicBeatmapEvents = difficultyData.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)) ?? [];
-        this.colorBoostBeatmapEvents =
-            difficultyData.colorBoostBeatmapEvents?.map((obj) => ColorBoostEvent.create(obj)) ?? [];
+    protected constructor(data: Required<IDifficultyData>) {
+        super(data);
+        this.version = data.version ?? '3.0.0';
+        this.bpmEvents = data.bpmEvents?.map((obj) => BPMEvent.create(obj)) ?? [];
+        this.rotationEvents = data.rotationEvents?.map((obj) => RotationEvent.create(obj)) ?? [];
+        this.colorNotes = data.colorNotes?.map((obj) => ColorNote.create(obj)) ?? [];
+        this.bombNotes = data.bombNotes?.map((obj) => BombNote.create(obj)) ?? [];
+        this.obstacles = data.obstacles?.map((obj) => Obstacle.create(obj)) ?? [];
+        this.sliders = data.sliders?.map((obj) => Slider.create(obj)) ?? [];
+        this.burstSliders = data.burstSliders?.map((obj) => BurstSlider.create(obj)) ?? [];
+        this.waypoints = data.waypoints?.map((obj) => Waypoint.create(obj)) ?? [];
+        this.basicBeatmapEvents = data.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)) ?? [];
+        this.colorBoostBeatmapEvents = data.colorBoostBeatmapEvents?.map((obj) => ColorBoostEvent.create(obj)) ??
+            [];
         this.lightColorEventBoxGroups =
-            difficultyData.lightColorEventBoxGroups?.map((obj) => LightColorEventBoxGroup.create(obj)) ?? [];
+            data.lightColorEventBoxGroups?.map((obj) => LightColorEventBoxGroup.create(obj)) ?? [];
         this.lightRotationEventBoxGroups =
-            difficultyData.lightRotationEventBoxGroups?.map((obj) => LightRotationEventBoxGroup.create(obj)) ?? [];
+            data.lightRotationEventBoxGroups?.map((obj) => LightRotationEventBoxGroup.create(obj)) ?? [];
         this.basicEventTypesWithKeywords = BasicEventTypesWithKeywords.create(
-            difficultyData.basicEventTypesWithKeywords,
+            data.basicEventTypesWithKeywords,
         ) ?? { d: [] };
-        this.useNormalEventsAsCompatibleEvents = difficultyData.useNormalEventsAsCompatibleEvents ?? false;
-        this.customData = difficultyData.customData ?? {};
+        this.useNormalEventsAsCompatibleEvents = data.useNormalEventsAsCompatibleEvents ?? false;
+        this.customData = data.customData ?? {};
     }
 
-    static create(difficultyData: Partial<IDifficultyData> = {}): DifficultyData {
+    static create(data: Partial<IDifficultyData> = {}): DifficultyData {
         return new this({
-            version: difficultyData.version || '3.0.0',
-            bpmEvents: difficultyData.bpmEvents ?? [],
-            rotationEvents: difficultyData.rotationEvents ?? [],
-            colorNotes: difficultyData.colorNotes ?? [],
-            bombNotes: difficultyData.bombNotes ?? [],
-            obstacles: difficultyData.obstacles ?? [],
-            sliders: difficultyData.sliders ?? [],
-            burstSliders: difficultyData.burstSliders ?? [],
-            waypoints: difficultyData.waypoints ?? [],
-            basicBeatmapEvents: difficultyData.basicBeatmapEvents ?? [],
-            colorBoostBeatmapEvents: difficultyData.colorBoostBeatmapEvents ?? [],
-            lightColorEventBoxGroups: difficultyData.lightColorEventBoxGroups ?? [],
-            lightRotationEventBoxGroups: difficultyData.lightRotationEventBoxGroups ?? [],
-            basicEventTypesWithKeywords: difficultyData.basicEventTypesWithKeywords ?? {
+            version: data.version || '3.0.0',
+            bpmEvents: data.bpmEvents ?? [],
+            rotationEvents: data.rotationEvents ?? [],
+            colorNotes: data.colorNotes ?? [],
+            bombNotes: data.bombNotes ?? [],
+            obstacles: data.obstacles ?? [],
+            sliders: data.sliders ?? [],
+            burstSliders: data.burstSliders ?? [],
+            waypoints: data.waypoints ?? [],
+            basicBeatmapEvents: data.basicBeatmapEvents ?? [],
+            colorBoostBeatmapEvents: data.colorBoostBeatmapEvents ?? [],
+            lightColorEventBoxGroups: data.lightColorEventBoxGroups ?? [],
+            lightRotationEventBoxGroups: data.lightRotationEventBoxGroups ?? [],
+            basicEventTypesWithKeywords: data.basicEventTypesWithKeywords ?? {
                 d: [],
             },
-            useNormalEventsAsCompatibleEvents: difficultyData.useNormalEventsAsCompatibleEvents ?? false,
-            customData: difficultyData.customData ?? {},
+            useNormalEventsAsCompatibleEvents: data.useNormalEventsAsCompatibleEvents ?? false,
+            customData: data.customData ?? {},
         });
     }
 
@@ -162,7 +162,10 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             while (notes[i].data.time - notes[currentSectionStart].data.time > beat) {
                 currentSectionStart++;
             }
-            peakNPS = Math.max(peakNPS, (i - currentSectionStart + 1) / ((beat / bpmV) * 60));
+            peakNPS = Math.max(
+                peakNPS,
+                (i - currentSectionStart + 1) / ((beat / bpmV) * 60),
+            );
         }
 
         return peakNPS;
@@ -221,7 +224,10 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         let obstacleEnd = 0;
         for (let i = this.obstacles.length - 1; i >= 0; i--) {
             if (this.obstacles[i].isInteractive()) {
-                obstacleEnd = Math.max(obstacleEnd, this.obstacles[i].time + this.obstacles[i].duration);
+                obstacleEnd = Math.max(
+                    obstacleEnd,
+                    this.obstacles[i].time + this.obstacles[i].duration,
+                );
             }
         }
         return obstacleEnd;
@@ -303,14 +309,20 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             this.colorBoostBeatmapEvents.push(ColorBoostEvent.create(cbe));
         });
     };
-    addLightColorEventBoxGroups = (...lightColorEBGs: DeepPartial<ILightColorEventBoxGroup>[]) => {
+    addLightColorEventBoxGroups = (
+        ...lightColorEBGs: DeepPartial<ILightColorEventBoxGroup>[]
+    ) => {
         lightColorEBGs.forEach((lcebg) => {
             this.lightColorEventBoxGroups.push(LightColorEventBoxGroup.create(lcebg));
         });
     };
-    addLightRotationEventBoxGroups = (...lightRotationEBGs: DeepPartial<ILightRotationEventBoxGroup>[]) => {
+    addLightRotationEventBoxGroups = (
+        ...lightRotationEBGs: DeepPartial<ILightRotationEventBoxGroup>[]
+    ) => {
         lightRotationEBGs.forEach((lrebg) => {
-            this.lightRotationEventBoxGroups.push(LightRotationEventBoxGroup.create(lrebg));
+            this.lightRotationEventBoxGroups.push(
+                LightRotationEventBoxGroup.create(lrebg),
+            );
         });
     };
 }
