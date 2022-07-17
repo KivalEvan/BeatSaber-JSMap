@@ -2,6 +2,9 @@
 /** Also known as lane count. */
 export const LINE_COUNT = 4;
 
+/** Size of grid in unity unit */
+export const LANE_SIZE = 0.6;
+
 export const enum NoteColor {
     RED,
     BLUE,
