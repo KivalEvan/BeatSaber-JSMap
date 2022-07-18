@@ -2,32 +2,13 @@ import { PercentPointDefinition, Vector3 } from '../shared/heck.ts';
 import { Easings } from '../../easings.ts';
 import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
-import {
-    ColorPointDefinition,
-    GeometryType,
-    LookupMethod,
-    ShaderKeywordsOpaque,
-    ShaderKeywordsStandard,
-    ShaderKeywordsTransparent,
-    ShaderType,
-} from '../shared/chroma.ts';
+import { ColorPointDefinition, GeometryType, LookupMethod, ShaderKeywords, ShaderType } from '../shared/chroma.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
-
-export enum ChromaDataEnvAbbr {
-    track = 'T',
-    duplicate = 'D',
-    active = 'A',
-    scale = 'S',
-    position = 'P',
-    localPosition = 'Lp',
-    rotation = 'R',
-    localRotation = 'Lr',
-    components = 'C',
-}
 
 /** Chroma Material Base interface for Environment Enhancement. */
 export interface IChromaMaterialBase {
     shader: ShaderType;
+    /** Overrides default shader keywords. */
     shaderKeywords?: string[];
     collision?: boolean;
     track?: string;
@@ -39,7 +20,15 @@ export interface IChromaMaterialBase {
  */
 export interface IChromaMaterialStandard extends IChromaMaterialBase {
     shader: 'Standard';
-    shaderKeywords?: ShaderKeywordsStandard[];
+    /** Default shader keywords preset:
+     * ```ts
+     * ["DIFFUSE", "ENABLE_DIFFUSE", "ENABLE_FOG", "ENABLE_HEIGHT_FOG", "ENABLE_SPECULAR", "FOG",
+     *  "HEIGHT_FOG", "REFLECTION_PROBE_BOX_PROJECTION", "SPECULAR", "_EMISSION",
+     *  "_ENABLE_FOG_TINT", "_RIMLIGHT_NONE", "_ZWRITE_ON", "REFLECTION_PROBE", "LIGHT_FALLOFF"]
+     * ```
+     * Overrides default shader keywords.
+     */
+    shaderKeywords?: ShaderKeywords[];
 }
 
 /** Chroma Material Opaque interface for Environment Enhancement.
@@ -47,7 +36,13 @@ export interface IChromaMaterialStandard extends IChromaMaterialBase {
  */
 export interface IChromaMaterialOpaque extends IChromaMaterialBase {
     shader: 'OpaqueLight';
-    shaderKeywords?: ShaderKeywordsOpaque[];
+    /** Default shader keywords preset:
+     * ```ts
+     * ["DIFFUSE", "ENABLE_BLUE_NOISE", "ENABLE_DIFFUSE", "ENABLE_HEIGHT_FOG", "ENABLE_LIGHTNING", "USE_COLOR_FOG"]
+     * ```
+     * Overrides default shader keywords.
+     */
+    shaderKeywords?: ShaderKeywords[];
 }
 
 /** Chroma Material Transparent interface for Environment Enhancement.
@@ -55,7 +50,13 @@ export interface IChromaMaterialOpaque extends IChromaMaterialBase {
  */
 export interface IChromaMaterialTransparent extends IChromaMaterialBase {
     shader: 'TransparentLight';
-    shaderKeywords?: ShaderKeywordsTransparent[];
+    /** Default shader keywords preset:
+     * ```ts
+     * ["ENABLE_HEIGHT_FOG", "MULTIPLY_COLOR_WITH_ALPHA", "_ENABLE_MAIN_EFFECT_WHITE_BOOST"]
+     * ```
+     * Overrides default shader keywords.
+     */
+    shaderKeywords?: ShaderKeywords[];
 }
 
 /** Chroma Material interface for Environment Enhancement. */

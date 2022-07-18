@@ -2,25 +2,6 @@ import { PercentPointDefinition, Vector2, Vector3, Vector3PointDefinition } from
 import { IChromaAnimation } from './chroma.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 
-export enum NEDataAbbr {
-    childrenTracks = 'Ct',
-    color = 'C',
-    definitePosition = 'Dp',
-    dissolve = 'D',
-    dissolveArrow = 'Da',
-    duration = 'Dur',
-    easing = 'E',
-    interactable = 'I',
-    localRotation = 'Lr',
-    parentTrack = 'Pt',
-    position = 'P',
-    rotation = 'R',
-    scale = 'S',
-    time = 'T',
-    track = 'Tr',
-    worldPositionStays = 'Wps',
-}
-
 /** Noodle Extensions Object interface for Beatmap Object. */
 interface INEObject {
     coordinates?: Vector2;

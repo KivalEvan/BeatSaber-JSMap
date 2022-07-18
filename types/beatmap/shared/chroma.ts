@@ -5,17 +5,11 @@ export type ColorPointDefinition = [number, number, number, number, number, Easi
 
 export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
 
-export type GeometryType =
-    | 'Sphere'
-    | 'Capsule'
-    | 'Cylinder'
-    | 'Cube'
-    | 'Plane'
-    | 'Quad'
-    | 'Triangle';
+export type GeometryType = 'Sphere' | 'Capsule' | 'Cylinder' | 'Cube' | 'Plane' | 'Quad' | 'Triangle';
 
 export type ShaderType = 'TransparentLight' | 'Standard' | 'OpaqueLight';
 
+/** Default shader keywords used in standard shaders. */
 export type ShaderKeywordsStandard =
     | 'DIFFUSE'
     | 'ENABLE_DIFFUSE'
@@ -33,6 +27,7 @@ export type ShaderKeywordsStandard =
     | 'REFLECTION_PROBE'
     | 'LIGHT_FALLOFF';
 
+/** Default shader keywords used in opaque light shaders. */
 export type ShaderKeywordsOpaque =
     | 'DIFFUSE'
     | 'ENABLE_BLUE_NOISE'
@@ -41,10 +36,13 @@ export type ShaderKeywordsOpaque =
     | 'ENABLE_LIGHTNING'
     | 'USE_COLOR_FOG';
 
+/** Default shader keywords used in transparent light shaders. */
 export type ShaderKeywordsTransparent =
     | 'ENABLE_HEIGHT_FOG'
     | 'MULTIPLY_COLOR_WITH_ALPHA'
     | '_ENABLE_MAIN_EFFECT_WHITE_BOOST';
+
+export type ShaderKeywords = ShaderKeywordsStandard | ShaderKeywordsOpaque | ShaderKeywordsTransparent;
 
 export const chromaName = 'Chroma';
 

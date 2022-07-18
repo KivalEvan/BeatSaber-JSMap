@@ -83,7 +83,7 @@ export function drawPath(path: Vector2[]) {
         const size = Math.sqrt(
             Math.pow(coordinateNext[0] - coordinate[0], 2) +
                 Math.pow(coordinateNext[1] - coordinate[1], 2),
-        );
+        ) * 2;
         coordinates.push(coordinate);
         rotations.push(rotation);
         sizes.push(size);

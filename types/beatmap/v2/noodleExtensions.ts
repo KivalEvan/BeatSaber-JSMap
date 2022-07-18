@@ -3,25 +3,6 @@ import { ICustomDataBase } from '../shared/customData.ts';
 import { PercentPointDefinition, Vector2, Vector3, Vector3PointDefinition } from '../shared/heck.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 
-export enum NEDataAbbr {
-    _childrenTracks = 'Ct',
-    _color = 'C',
-    _definitePosition = 'Dp',
-    _dissolve = 'D',
-    _dissolveArrow = 'Da',
-    _duration = 'Dur',
-    _easing = 'E',
-    _interactable = 'I',
-    _localRotation = 'Lr',
-    _parentTrack = 'Pt',
-    _position = 'P',
-    _rotation = 'R',
-    _scale = 'S',
-    _time = 'T',
-    _track = 'Tr',
-    _worldPositionStays = 'Wps',
-}
-
 /** Noodle Extensions Object interface for Beatmap Object. */
 interface INEObject {
     _position?: Vector2;
@@ -101,9 +82,7 @@ export interface INECustomEventAssignPlayerToTrack {
     _data: INECustomEventDataAssignPlayerToTrack;
 }
 
-export type INECustomEvent =
-    | INECustomEventAssignTrackParent
-    | INECustomEventAssignPlayerToTrack;
+export type INECustomEvent = INECustomEventAssignTrackParent | INECustomEventAssignPlayerToTrack;
 
 /** Noodle Extensions Custom Data interface for difficulty custom data. */
 export interface INECustomData {
