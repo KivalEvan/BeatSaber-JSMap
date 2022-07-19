@@ -2,6 +2,7 @@ import { BaseSlider } from './baseSlider.ts';
 import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
 import { ISlider } from '../../types/beatmap/v3/slider.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Slider beatmap v3 class object.
  *
@@ -91,7 +92,7 @@ export class Slider extends BaseSlider<ISlider> {
             tc: this.tailDirection,
             tmu: this.tailLengthMultiplier,
             m: this.midAnchor,
-            customData: structuredClone(this.customData),
+            customData: deepCopy(this.customData),
         };
     }
 

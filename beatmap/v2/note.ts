@@ -2,6 +2,7 @@ import { INote } from '../../types/beatmap/v2/note.ts';
 import { BeatmapObject } from './object.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { NoteCutAngle } from '../shared/constants.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Note beatmap v2 class object. */
 export class Note extends BeatmapObject<INote> {
@@ -60,7 +61,7 @@ export class Note extends BeatmapObject<INote> {
             _lineIndex: this.posX,
             _lineLayer: this.posY,
             _cutDirection: this.cutDirection,
-            _customData: structuredClone(this.customData),
+            _customData: deepCopy(this.customData),
         };
     }
 

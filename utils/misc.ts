@@ -26,7 +26,7 @@ export function interleave([x, ...xs]: number[], ys: number[] = []): number[] {
 // deno-lint-ignore ban-types
 export function deepCopy<T extends object>(object: T): T {
     if (typeof object !== 'object') {
-        logger.error(tag('deepCopy'), 'Received non-object type');
+        throw new Error('Received non-object type');
     }
     return JSON.parse(JSON.stringify(object));
 }

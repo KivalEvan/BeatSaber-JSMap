@@ -3,6 +3,7 @@ import { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
 import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v3/chroma.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { BaseObject } from './baseObject.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Basic event beatmap v3 class object. */
 export class BasicEvent extends BaseObject<IBasicEvent> {
@@ -57,7 +58,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
             et: this.type,
             i: this.value,
             f: this.floatValue,
-            customData: structuredClone(this.customData),
+            customData: deepCopy(this.customData),
         };
     }
 

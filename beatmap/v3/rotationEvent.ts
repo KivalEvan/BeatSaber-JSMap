@@ -1,6 +1,7 @@
 import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { BaseObject } from './baseObject.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Rotation event beatmap v3 class object. */
 export class RotationEvent extends BaseObject<IRotationEvent> {
@@ -53,7 +54,7 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
             b: this.time,
             e: this.executionTime,
             r: this.rotation,
-            customData: structuredClone(this.customData),
+            customData: deepCopy(this.customData),
         };
     }
 

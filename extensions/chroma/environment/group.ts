@@ -1,6 +1,7 @@
 import { Vector3 } from '../../../types/beatmap/shared/heck.ts';
 import { IChromaEnvironment } from '../../../types/beatmap/v3/chroma.ts';
 import { IChromaEnvironmentPlacement } from '../types/environment.ts';
+import { deepCopy } from '../../../utils/misc.ts';
 
 export class EnvironmentGroup {
     data: IChromaEnvironment[];
@@ -17,14 +18,14 @@ export class EnvironmentGroup {
     place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
     place(
         options: IChromaEnvironmentPlacement,
-        insertTo?: IChromaEnvironment[]
+        insertTo?: IChromaEnvironment[],
     ): IChromaEnvironment[] | void {
-        const data = <IChromaEnvironment[]>structuredClone(this.data);
+        const data = deepCopy(this.data);
         data.forEach((d) => {
             d.position = d.position!.map(
                 (p, i) =>
                     (this.anchor[i] + p) * (options.scale?.[i] ?? 1) +
-                    (options.position?.[i] ?? 0)
+                    (options.position?.[i] ?? 0),
             ) as Vector3;
             d.scale = d.scale?.map((s, i) => s * (options.scale?.[i] ?? 1)) as Vector3;
         });

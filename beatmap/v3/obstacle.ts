@@ -2,6 +2,7 @@ import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
 import { BaseObject } from './baseObject.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Obstacle beatmap v3 class object. */
 export class Obstacle extends BaseObject<IObstacle> {
@@ -64,7 +65,7 @@ export class Obstacle extends BaseObject<IObstacle> {
             d: this.duration,
             w: this.width,
             h: this.height,
-            customData: structuredClone(this.customData),
+            customData: deepCopy(this.customData),
         };
     }
 

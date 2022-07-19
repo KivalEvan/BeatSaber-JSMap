@@ -1,6 +1,7 @@
 import { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { BeatmapObject } from './object.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Object beatmap v2 class object. */
 export class Obstacle extends BeatmapObject<IObstacle> {
@@ -67,7 +68,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
             _duration: this.duration,
             _width: this.width,
             _height: this.height,
-            _customData: structuredClone(this.customData),
+            _customData: deepCopy(this.customData),
         };
     }
 

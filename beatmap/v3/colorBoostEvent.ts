@@ -1,6 +1,7 @@
 import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { BaseObject } from './baseObject.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Boost event beatmap v3 class object. */
 export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
@@ -49,7 +50,7 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
         return {
             b: this.time,
             o: this.toggle,
-            customData: structuredClone(this.customData),
+            customData: deepCopy(this.customData),
         };
     }
 

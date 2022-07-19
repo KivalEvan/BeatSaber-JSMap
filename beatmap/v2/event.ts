@@ -4,6 +4,7 @@ import { ObjectToReturn } from '../../types/utils.ts';
 import { BeatmapObject } from './object.ts';
 import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v2/chroma.ts';
 import { INEEvent } from '../../types/beatmap/v2/noodleExtensions.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Event beatmap v2 class object. */
 export class Event extends BeatmapObject<IEvent> {
@@ -58,7 +59,7 @@ export class Event extends BeatmapObject<IEvent> {
             _type: this.type,
             _value: this.value,
             _floatValue: this.floatValue,
-            _customData: structuredClone(this.customData),
+            _customData: deepCopy(this.customData),
         };
     }
 

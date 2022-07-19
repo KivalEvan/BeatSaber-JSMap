@@ -28,6 +28,7 @@ import { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
 import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
 import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Difficulty beatmap v3 class object. */
 export class DifficultyData extends Serializable<IDifficultyData> {
@@ -114,7 +115,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map((obj) => obj.toObject()),
             basicEventTypesWithKeywords: this.basicEventTypesWithKeywords.toObject(),
             useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
-            customData: structuredClone(this.customData),
+            customData: deepCopy(this.customData),
         };
     }
 

@@ -2,6 +2,7 @@ import { BaseSlider } from './baseSlider.ts';
 import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
 import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Burst slider beatmap v3 class object.
  *
@@ -85,7 +86,7 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
             ty: this.tailPosY,
             sc: this.sliceCount,
             s: this.squish,
-            customData: structuredClone(this.customData),
+            customData: deepCopy(this.customData),
         };
     }
 

@@ -3,6 +3,7 @@ import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { BaseNote } from './baseNote.ts';
 import { IBaseNote } from '../../types/beatmap/v3/baseNote.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Color note beatmap v3 class object. */
 export class ColorNote extends BaseNote<IColorNote> {
@@ -65,7 +66,7 @@ export class ColorNote extends BaseNote<IColorNote> {
             y: this.posY,
             d: this.direction,
             a: this.angleOffset,
-            customData: structuredClone(this.customData),
+            customData: deepCopy(this.customData),
         };
     }
 

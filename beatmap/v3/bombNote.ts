@@ -3,6 +3,7 @@ import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { BaseNote } from './baseNote.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Bomb note beatmap v3 class object. */
 export class BombNote extends BaseNote<IBombNote> {
@@ -53,7 +54,7 @@ export class BombNote extends BaseNote<IBombNote> {
             b: this.time,
             x: this.posX,
             y: this.posY,
-            customData: structuredClone(this.customData),
+            customData: deepCopy(this.customData),
         };
     }
 

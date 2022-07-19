@@ -7,6 +7,7 @@ import { Obstacle } from './obstacle.ts';
 import { Event } from './event.ts';
 import { Waypoint } from './waypoint.ts';
 import { SpecialEventsKeywordFilters } from './specialEventsKeywordFilters.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /** Difficulty beatmap v2 class object. */
 export class DifficultyData extends Serializable<IDifficultyData> {
@@ -58,7 +59,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             _events: this.events.map((obj) => obj.toObject()),
             _waypoints: this.waypoints.map((obj) => obj.toObject()),
             _specialEventsKeywordFilters: this.specialEventsKeywordFilters.toObject(),
-            _customData: structuredClone(this.customData),
+            _customData: deepCopy(this.customData),
         };
     }
 
