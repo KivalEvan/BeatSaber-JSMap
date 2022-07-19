@@ -6,7 +6,7 @@ import { clamp } from '../utils/math.ts';
 import { Vector3, Vector3PointDefinition } from '../types/beatmap/shared/heck.ts';
 import { IEvent } from '../types/beatmap/v2/event.ts';
 import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v2/customData.ts';
-import { IChromaEnvironment, IChromaMaterial } from '../types/beatmap/v2/chroma.ts';
+import { IChromaMaterial } from '../types/beatmap/v2/chroma.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -49,7 +49,6 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
             _noteJumpStartBeatOffset: n.customData.noteJumpStartBeatOffset,
             _disableSpawnEffect: typeof n.customData.spawnEffect === 'boolean' ? !n.customData.spawnEffect : undefined,
             _track: n.customData.track,
-            _fake: n.customData.NE_fake,
             _interactable: typeof n.customData.uninteractable === 'boolean' ? !n.customData.uninteractable : undefined,
             _rotation: n.customData.worldRotation,
         };
@@ -79,6 +78,48 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
         );
     });
 
+    data.customData.fakeColorNotes?.forEach((n) => {
+        const _customData: ICustomDataNote = {
+            _color: n.customData?.color,
+            _position: n.customData?.coordinates,
+            _disableNoteGravity: n.customData?.disableNoteGravity,
+            _disableNoteLook: n.customData?.disableNoteLook,
+            _flip: n.customData?.flip,
+            _localRotation: n.customData?.localRotation,
+            _noteJumpMovementSpeed: n.customData?.noteJumpMovementSpeed,
+            _noteJumpStartBeatOffset: n.customData?.noteJumpStartBeatOffset,
+            _disableSpawnEffect: typeof n.customData?.spawnEffect === 'boolean' ? !n.customData.spawnEffect : undefined,
+            _track: n.customData?.track,
+            _fake: true,
+            _interactable: typeof n.customData?.uninteractable === 'boolean' ? !n.customData.uninteractable : undefined,
+            _rotation: n.customData?.worldRotation,
+        };
+        if (n.customData?.animation) {
+            _customData._animation = {
+                _color: n.customData.animation.color,
+                _definitePosition: n.customData.animation.definitePosition,
+                _dissolve: n.customData.animation.dissolve,
+                _dissolveArrow: n.customData.animation.dissolveArrow,
+                _interactable: n.customData.animation.interactable,
+                _localRotation: n.customData.animation.localRotation,
+                _position: n.customData.animation.offsetPosition,
+                _rotation: n.customData.animation.offsetRotation,
+                _scale: n.customData.animation.scale,
+                _time: n.customData.animation.time,
+            };
+        }
+        template.notes.push(
+            v2.Note.create({
+                _time: n.b,
+                _lineIndex: n.x,
+                _lineLayer: n.y,
+                _type: n.c,
+                _cutDirection: n.d,
+                _customData,
+            }),
+        );
+    });
+
     data.bombNotes.forEach((b) => {
         const customData: ICustomDataNote = {
             _color: b.customData.color,
@@ -91,7 +132,6 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
             _noteJumpStartBeatOffset: b.customData.noteJumpStartBeatOffset,
             _disableSpawnEffect: typeof b.customData.spawnEffect === 'boolean' ? !b.customData.spawnEffect : undefined,
             _track: b.customData.track,
-            _fake: b.customData.NE_fake,
             _interactable: typeof b.customData.uninteractable === 'boolean' ? !b.customData.uninteractable : undefined,
             _rotation: b.customData.worldRotation,
         };
@@ -121,6 +161,48 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
         );
     });
 
+    data.customData.fakeBombNotes?.forEach((b) => {
+        const customData: ICustomDataNote = {
+            _color: b.customData?.color,
+            _position: b.customData?.coordinates,
+            _disableNoteGravity: b.customData?.disableNoteGravity,
+            _disableNoteLook: b.customData?.disableNoteLook,
+            _flip: b.customData?.flip,
+            _localRotation: b.customData?.localRotation,
+            _noteJumpMovementSpeed: b.customData?.noteJumpMovementSpeed,
+            _noteJumpStartBeatOffset: b.customData?.noteJumpStartBeatOffset,
+            _disableSpawnEffect: typeof b.customData?.spawnEffect === 'boolean' ? !b.customData.spawnEffect : undefined,
+            _track: b.customData?.track,
+            _fake: true,
+            _interactable: typeof b.customData?.uninteractable === 'boolean' ? !b.customData.uninteractable : undefined,
+            _rotation: b.customData?.worldRotation,
+        };
+        if (b.customData?.animation) {
+            customData._animation = {
+                _color: b.customData.animation.color,
+                _definitePosition: b.customData.animation.definitePosition,
+                _dissolve: b.customData.animation.dissolve,
+                _dissolveArrow: b.customData.animation.dissolveArrow,
+                _interactable: b.customData.animation.interactable,
+                _localRotation: b.customData.animation.localRotation,
+                _position: b.customData.animation.offsetPosition,
+                _rotation: b.customData.animation.offsetRotation,
+                _scale: b.customData.animation.scale,
+                _time: b.customData.animation.time,
+            };
+        }
+        template.notes.push(
+            v2.Note.create({
+                _time: b.b,
+                _lineIndex: b.x,
+                _lineLayer: b.y,
+                _type: 3,
+                _cutDirection: 0,
+                _customData: customData,
+            }),
+        );
+    });
+
     data.obstacles.forEach((o) => {
         const _customData: ICustomDataObstacle = {
             _color: o.customData.color,
@@ -130,7 +212,6 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
             _noteJumpStartBeatOffset: o.customData.noteJumpStartBeatOffset,
             _scale: o.customData.size,
             _track: o.customData.track,
-            _fake: o.customData.NE_fake,
             _interactable: typeof o.customData.uninteractable === 'boolean' ? !o.customData.uninteractable : undefined,
             _rotation: o.customData.worldRotation,
         };
@@ -184,6 +265,75 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     _duration: o.duration,
                     _width: o.width,
                     _height: o.height,
+                    _customData,
+                }),
+            );
+        }
+    });
+
+    data.customData.fakeObstacles?.forEach((o) => {
+        const _customData: ICustomDataObstacle = {
+            _color: o.customData?.color,
+            _position: o.customData?.coordinates,
+            _localRotation: o.customData?.localRotation,
+            _noteJumpMovementSpeed: o.customData?.noteJumpMovementSpeed,
+            _noteJumpStartBeatOffset: o.customData?.noteJumpStartBeatOffset,
+            _scale: o.customData?.size,
+            _track: o.customData?.track,
+            _fake: true,
+            _interactable: typeof o.customData?.uninteractable === 'boolean' ? !o.customData.uninteractable : undefined,
+            _rotation: o.customData?.worldRotation,
+        };
+        if (o.customData?.animation) {
+            _customData._animation = {
+                _color: o.customData.animation.color,
+                _definitePosition: o.customData.animation.definitePosition,
+                _dissolve: o.customData.animation.dissolve,
+                _dissolveArrow: o.customData.animation.dissolveArrow,
+                _interactable: o.customData.animation.interactable,
+                _localRotation: o.customData.animation.localRotation,
+                _position: o.customData.animation.offsetPosition,
+                _rotation: o.customData.animation.offsetRotation,
+                _scale: o.customData.animation.scale,
+                _time: o.customData.animation.time,
+            };
+        }
+        if (o.y === 0 && o.h === 5) {
+            template.obstacles.push(
+                v2.Obstacle.create({
+                    _time: o.b,
+                    _lineIndex: o.x,
+                    _lineLayer: 0,
+                    _type: 0,
+                    _duration: o.d,
+                    _width: o.w,
+                    _height: o.h,
+                    _customData,
+                }),
+            );
+        } else if (o.y === 2 && o.h === 3) {
+            template.obstacles.push(
+                v2.Obstacle.create({
+                    _time: o.b,
+                    _lineIndex: o.x,
+                    _lineLayer: 0,
+                    _type: 1,
+                    _duration: o.d,
+                    _width: o.w,
+                    _height: o.h,
+                    _customData,
+                }),
+            );
+        } else {
+            template.obstacles.push(
+                v2.Obstacle.create({
+                    _time: o.b,
+                    _lineIndex: o.x,
+                    _lineLayer: o.y,
+                    _type: 2,
+                    _duration: o.d,
+                    _width: o.w,
+                    _height: o.h,
                     _customData,
                 }),
             );
@@ -407,11 +557,14 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                         };
                     }
                     if (e.geometry) {
+                        if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
+                            logger.warn(tag('V3toV2'), 'v2 geometry cannot be made assignable light to specific type');
+                        }
                         return {
                             _geometry: {
                                 _type: e.geometry.type,
                                 _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
-                                    _shaderPreset: e.geometry.material.shader,
+                                    _shader: e.geometry.material.shader,
                                     _shaderKeywords: e.geometry.material.shaderKeywords,
                                     _collision: e.geometry.material.collision,
                                     _track: e.geometry.material.track,
@@ -428,7 +581,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                             _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
                             _localRotation: e.localRotation,
                             _lightID: e.components?.ILightWithId?.lightID,
-                        } as IChromaEnvironment;
+                        };
                     }
                     throw new Error('Error converting environment v3 to v2');
                 });

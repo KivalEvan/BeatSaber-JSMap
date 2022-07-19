@@ -2,7 +2,6 @@ import { INote } from '../../types/beatmap/v2/note.ts';
 import { BeatmapObject } from './object.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 import { NoteCutAngle } from '../shared/constants.ts';
-import { deepCopy } from '../../utils/misc.ts';
 
 /** Note beatmap v2 class object. */
 export class Note extends BeatmapObject<INote> {
@@ -61,7 +60,7 @@ export class Note extends BeatmapObject<INote> {
             _lineIndex: this.posX,
             _lineLayer: this.posY,
             _cutDirection: this.cutDirection,
-            _customData: deepCopy(this.customData),
+            _customData: structuredClone(this.customData),
         };
     }
 
@@ -310,7 +309,10 @@ export class Note extends BeatmapObject<INote> {
      * ```
      */
     hasChroma = (): boolean => {
-        return Array.isArray(this.customData._color) || typeof this.customData._disableSpawnEffect === 'boolean';
+        return (
+            Array.isArray(this.customData._color) ||
+            typeof this.customData._disableSpawnEffect === 'boolean'
+        );
     };
 
     /** Check if note has Noodle Extensions properties.
@@ -343,7 +345,13 @@ export class Note extends BeatmapObject<INote> {
      * ```
      */
     hasMappingExtensions = (): boolean => {
-        return this.cutDirection >= 1000 || this.posX > 3 || this.posX < 0 || this.posY > 2 || this.posY < 0;
+        return (
+            this.cutDirection >= 1000 ||
+            this.posX > 3 ||
+            this.posX < 0 ||
+            this.posY > 2 ||
+            this.posY < 0
+        );
     };
 
     /** Check if note has a valid cut direction.

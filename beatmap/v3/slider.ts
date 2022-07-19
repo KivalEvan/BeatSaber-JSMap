@@ -1,7 +1,6 @@
 import { BaseSlider } from './baseSlider.ts';
 import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
 import { ISlider } from '../../types/beatmap/v3/slider.ts';
-import { deepCopy } from '../../utils/misc.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
 
 /** Slider beatmap v3 class object.
@@ -92,7 +91,7 @@ export class Slider extends BaseSlider<ISlider> {
             tc: this.tailDirection,
             tmu: this.tailLengthMultiplier,
             m: this.midAnchor,
-            customData: deepCopy(this.customData),
+            customData: structuredClone(this.customData),
         };
     }
 
@@ -253,19 +252,25 @@ export class Slider extends BaseSlider<ISlider> {
     getTailAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':
-                return NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0;
+                return (
+                    NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0
+                );
             case 'me':
                 if (this.tailDirection >= 1000) {
                     return Math.abs(((this.tailDirection % 1000) % 360) - 360);
                 }
             /* falls through */
             case 'ne':
-                return NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0;
+                return (
+                    NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0
+                );
             default:
                 if (this.tailDirection >= 1000) {
                     return Math.abs(((this.tailDirection % 1000) % 360) - 360);
                 }
-                return NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0;
+                return (
+                    NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0
+                );
         }
     }
 

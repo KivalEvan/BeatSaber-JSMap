@@ -27,8 +27,8 @@ export class EnvironmentBlock {
         const position = options.position
             ? (options.position.map((p, i) => p + this.anchor[i] * (options.scale?.[i] || 1)) as Vector3)
             : ((this.data.position ? this.data.position : [0, 0, 0]).map(
-                  (p, i) => p + this.anchor[i] * (options.scale?.[i] || 1)
-              ) as Vector3);
+                (p, i) => p + this.anchor[i] * (options.scale?.[i] ?? 1),
+            ) as Vector3);
         const rotation = options.rotation
             ? (options.rotation.map((r, i) => r + (this.data.rotation?.[i] ?? 0)) as Vector3)
             : this.data.rotation;

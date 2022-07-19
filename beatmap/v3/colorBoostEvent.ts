@@ -1,6 +1,5 @@
 import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './baseObject.ts';
 
 /** Boost event beatmap v3 class object. */
@@ -20,7 +19,9 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
     static create(): ColorBoostEvent;
     static create(colorBoostEvents: Partial<IColorBoostEvent>): ColorBoostEvent;
     static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent[];
-    static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent | ColorBoostEvent[] {
+    static create(
+        ...colorBoostEvents: Partial<IColorBoostEvent>[]
+    ): ColorBoostEvent | ColorBoostEvent[] {
         const result: ColorBoostEvent[] = [];
         colorBoostEvents?.forEach((be) =>
             result.push(
@@ -48,7 +49,7 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
         return {
             b: this.time,
             o: this.toggle,
-            customData: deepCopy(this.customData),
+            customData: structuredClone(this.customData),
         };
     }
 

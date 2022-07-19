@@ -1,10 +1,15 @@
-import { IChromaEnvironment } from '../../../types/beatmap/v3/chroma.ts';
+import { IChromaComponent, IChromaEnvironment } from '../../../types/beatmap/v3/chroma.ts';
 import { IChromaEnvironment as IChromaEnvironmentV2 } from '../../../types/beatmap/v2/chroma.ts';
 import { Vector3 } from '../../../types/beatmap/shared/heck.ts';
+import logger from '../../../logger.ts';
+
+const tag = (name: string) => {
+    return `[chroma::environment::${name}]`;
+};
 
 export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
     return env.map((e) => {
-        let components = {};
+        let components: IChromaComponent = {};
         if (e._lightID) components = { ILightWithId: { lightID: e._lightID } };
         if (e._id && e._lookupMethod) {
             return {
@@ -19,14 +24,17 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
                 localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
                 localRotation: e._localRotation,
                 components,
-            } as IChromaEnvironment;
+            };
         }
         if (e._geometry) {
+            if (e._lightID && components.ILightWithId) {
+                components.ILightWithId.type = 0;
+            }
             return {
                 geometry: {
                     type: e._geometry._type,
                     material: typeof e._geometry._material === 'string' ? e._geometry._material : {
-                        shaderPreset: e._geometry._material._shader,
+                        shader: e._geometry._material._shader,
                         shaderKeywords: e._geometry._material._shaderKeywords,
                         collision: e._geometry._material._collision,
                         track: e._geometry._material._track,
@@ -43,7 +51,7 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
                 localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
                 localRotation: e._localRotation,
                 components,
-            } as IChromaEnvironment;
+            };
         }
         throw new Error('Error converting environment v2 to v3');
     });
@@ -67,11 +75,14 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
             };
         }
         if (e.geometry) {
+            if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
+                logger.warn(tag('V3toV2'), 'v2 geometry cannot be made assignable light to specific type');
+            }
             return {
                 _geometry: {
                     _type: e.geometry.type,
                     _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
-                        _shaderPreset: e.geometry.material.shader,
+                        _shader: e.geometry.material.shader,
                         _shaderKeywords: e.geometry.material.shaderKeywords,
                         _collision: e.geometry.material.collision,
                         _track: e.geometry.material.track,
@@ -88,7 +99,7 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
                 _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
                 _localRotation: e.localRotation,
                 _lightID: e.components?.ILightWithId?.lightID,
-            } as IChromaEnvironmentV2;
+            };
         }
         throw new Error('Error converting environment v3 to v2');
     });

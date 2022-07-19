@@ -1,6 +1,5 @@
 import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './baseObject.ts';
 
 /** Rotation event beatmap v3 class object. */
@@ -21,7 +20,9 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
     static create(): RotationEvent;
     static create(rotationEvents: Partial<IRotationEvent>): RotationEvent;
     static create(...rotationEvents: Partial<IRotationEvent>[]): RotationEvent[];
-    static create(...rotationEvents: Partial<IRotationEvent>[]): RotationEvent | RotationEvent[] {
+    static create(
+        ...rotationEvents: Partial<IRotationEvent>[]
+    ): RotationEvent | RotationEvent[] {
         const result: RotationEvent[] = [];
         rotationEvents?.forEach((re) =>
             result.push(
@@ -52,7 +53,7 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
             b: this.time,
             e: this.executionTime,
             r: this.rotation,
-            customData: deepCopy(this.customData),
+            customData: structuredClone(this.customData),
         };
     }
 

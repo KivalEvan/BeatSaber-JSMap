@@ -1,6 +1,5 @@
 import { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { BaseObject } from './baseObject.ts';
 
@@ -57,7 +56,7 @@ export class Waypoint extends BaseObject<IWaypoint> {
             x: this.posX,
             y: this.posY,
             d: this.direction,
-            customData: deepCopy(this.customData),
+            customData: structuredClone(this.customData),
         };
     }
 

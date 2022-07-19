@@ -16,7 +16,6 @@ import { Waypoint } from './waypoint.ts';
 import { BeatPerMinute } from '../shared/bpm.ts';
 import { EventContainer, NoteContainer } from '../../types/beatmap/v3/container.ts';
 import { DeepPartial } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
 import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
@@ -115,7 +114,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map((obj) => obj.toObject()),
             basicEventTypesWithKeywords: this.basicEventTypesWithKeywords.toObject(),
             useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
-            customData: deepCopy(this.customData),
+            customData: structuredClone(this.customData),
         };
     }
 

@@ -1,7 +1,6 @@
 import { IBaseNote } from '../../types/beatmap/v3/baseNote.ts';
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { BaseNote } from './baseNote.ts';
 
@@ -54,7 +53,7 @@ export class BombNote extends BaseNote<IBombNote> {
             b: this.time,
             x: this.posX,
             y: this.posY,
-            customData: deepCopy(this.customData),
+            customData: structuredClone(this.customData),
         };
     }
 
@@ -137,7 +136,10 @@ export class BombNote extends BaseNote<IBombNote> {
      * ```
      */
     hasChroma = (): boolean => {
-        return Array.isArray(this.customData.color) || typeof this.customData.spawnEffect === 'boolean';
+        return (
+            Array.isArray(this.customData.color) ||
+            typeof this.customData.spawnEffect === 'boolean'
+        );
     };
 
     /** Check if note has Noodle Extensions properties.

@@ -1,6 +1,5 @@
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
 import { ObjectToReturn } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './baseObject.ts';
 
 /** BPM change event beatmap v3 class object. */
@@ -48,7 +47,7 @@ export class BPMEvent extends BaseObject<IBPMEvent> {
         return {
             b: this.time,
             m: this.bpm,
-            customData: deepCopy(this.customData),
+            customData: structuredClone(this.customData),
         };
     }
 
