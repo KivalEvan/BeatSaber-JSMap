@@ -19,9 +19,9 @@ export function interleave([x, ...xs]: number[], ys: number[] = []): number[] {
         : [x, ...interleave(ys, xs)]; // inductive: some x
 }
 
-/** Simple deep copy JSON object or JSON array.
+/** Simple old-fashioned deep copy JSON object or JSON array.
  *
- * Works best with only primitive objects.
+ * Works best with only primitive objects. Use `structuredClone()` for more complicated objects.
  */
 // deno-lint-ignore ban-types
 export function deepCopy<T extends object>(object: T): T {
