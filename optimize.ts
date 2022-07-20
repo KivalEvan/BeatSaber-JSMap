@@ -88,9 +88,7 @@ export function deepClean(
         if (
             !ignoreObjectRemove.includes(k) &&
             ((Array.isArray(obj[k]) && !obj[k].length) ||
-                (typeof obj[k] === 'object' &&
-                    !Array.isArray(obj[k]) &&
-                    JSON.stringify(obj[k]) === '{}'))
+                (typeof obj[k] === 'object' && !Array.isArray(obj[k]) && JSON.stringify(obj[k]) === '{}'))
         ) {
             delete obj[k];
             continue;
@@ -101,16 +99,10 @@ export function deepClean(
                 throw new Error(`null value found in object key ${name}.${k}.`);
             } else {
                 if (Array.isArray(obj)) {
-                    logger.error(
-                        tag('deepClean'),
-                        `null value found in array ${name}[${k}], defaulting to 0...`,
-                    );
+                    logger.error(tag('deepClean'), `null value found in array ${name}[${k}], defaulting to 0...`);
                     obj[k] = 0;
                 } else {
-                    logger.error(
-                        tag('deepClean'),
-                        `null value found in object key ${name}.${k}, deleting property...`,
-                    );
+                    logger.error(tag('deepClean'), `null value found in object key ${name}.${k}, deleting property...`);
                     delete obj[k];
                 }
             }
@@ -118,10 +110,7 @@ export function deepClean(
     }
 }
 
-export function performInfo(
-    info: IInfoData,
-    options: IOptimizeOptionsInfo = { enabled: true },
-) {
+export function info(info: IInfoData, options: IOptimizeOptionsInfo = { enabled: true }) {
     const opt: Required<IOptimizeOptionsInfo> = {
         enabled: options.enabled,
         floatTrim: options.floatTrim ?? defaultOptions.info.floatTrim,
@@ -133,14 +122,14 @@ export function performInfo(
     if (!opt.enabled) {
         return info;
     }
-    logger.info(tag('performInfo'), `Optimising info data`);
+    logger.info(tag('info'), `Optimising info data`);
 
-    logger.debug(tag('performInfo'), 'Applying deep clean');
+    logger.debug(tag('info'), 'Applying deep clean');
     deepClean(info, opt);
     return info;
 }
 
-export function performDifficulty(
+export function difficulty(
     difficulty: Either<DifficultyDataV2, DifficultyDataV3>,
     options: IOptimizeOptionsDifficulty = { enabled: true },
 ) {
@@ -156,13 +145,13 @@ export function performDifficulty(
     if (!opt.enabled) {
         return difficulty;
     }
-    logger.info(tag('performDifficulty'), `Optimising difficulty data`);
+    logger.info(tag('difficulty'), `Optimising difficulty data`);
 
-    logger.debug(tag('performDifficulty'), 'Applying deep clean');
+    logger.debug(tag('difficulty'), 'Applying deep clean');
     deepClean(difficulty, opt);
 
     if (opt.sort) {
-        logger.debug(tag('performDifficulty'), 'Sorting objects');
+        logger.debug(tag('difficulty'), 'Sorting objects');
         const sortPrec = Math.pow(10, opt.floatTrim);
         const sortV3Note = (a: IBaseNote, b: IBaseNote) => {
             if (a.customData?.coordinates && b.customData?.coordinates) {

@@ -127,10 +127,10 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
 
     mirror(flipColor = true) {
         if (this.customData.coordinates) {
-            this.customData.coordinates[0] = LINE_COUNT - 1 - this.customData.coordinates[1];
+            this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
         }
         if (this.customData.flip) {
-            this.customData.flip[0] = LINE_COUNT - 1 - this.customData.flip[1];
+            this.customData.flip[0] = -1 - this.customData.flip[0];
         }
         if (this.customData.animation) {
             if (Array.isArray(this.customData.animation.definitePosition)) {

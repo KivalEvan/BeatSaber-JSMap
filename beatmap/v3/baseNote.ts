@@ -68,7 +68,7 @@ export abstract class BaseNote<T extends IBaseNote> extends BaseObject<T> {
     getPosition(type?: 'vanilla' | 'me' | 'ne'): [number, number] {
         switch (type) {
             case 'vanilla':
-                return [this.posX, this.posY];
+                return [this.posX - 2, this.posY];
             case 'me':
                 return [
                     (this.posX <= -1000 ? this.posX / 1000 : this.posX >= 1000 ? this.posX / 1000 : this.posX) - 2,
@@ -81,7 +81,7 @@ export abstract class BaseNote<T extends IBaseNote> extends BaseObject<T> {
                         this.customData.coordinates[1],
                     ];
                 }
-                return [this.posX, this.posY];
+                return [this.posX - 2, this.posY];
             default:
                 if (this.customData.coordinates) {
                     return [
