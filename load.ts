@@ -1,5 +1,5 @@
 import { IDifficultyList } from './types/bsmap/list.ts';
-import { IInfoData } from './types/beatmap/shared/info.ts';
+import { GenericFileName, IInfoData } from './types/beatmap/shared/info.ts';
 import { IDifficultyData as IDifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficultyData as IDifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
 import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/difficulty.ts';
@@ -9,7 +9,7 @@ import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
 import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
-import { Either } from './types/utils.ts';
+import { Either, LooseAutocomplete } from './types/utils.ts';
 import { ILoadOptionsDifficulty, ILoadOptionsInfo } from './types/bsmap/load.ts';
 import { V3toV2 } from './converter/V3toV2.ts';
 import { V2toV3 } from './converter/V2toV3.ts';
@@ -94,16 +94,20 @@ export function infoSync(options: ILoadOptionsInfo = {}): IInfoData {
  * Unmatched beatmap version will be automatically converted; default to version 3.
  */
 export async function difficulty(
-    filePath: string,
+    filePath: LooseAutocomplete<GenericFileName>,
     version?: 3,
     options?: ILoadOptionsDifficulty,
 ): Promise<DifficultyDataV3>;
 export async function difficulty(
-    filePath: string,
+    filePath: LooseAutocomplete<GenericFileName>,
     version?: 2,
     options?: ILoadOptionsDifficulty,
 ): Promise<DifficultyDataV2>;
-export async function difficulty(filePath: string, version = 3, options: ILoadOptionsDifficulty = {}) {
+export async function difficulty(
+    filePath: LooseAutocomplete<GenericFileName>,
+    version = 3,
+    options: ILoadOptionsDifficulty = {},
+) {
     const opt: Required<ILoadOptionsDifficulty> = {
         directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.difficulty.directory)),
         forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
@@ -160,9 +164,21 @@ export async function difficulty(filePath: string, version = 3, options: ILoadOp
  * ---
  * Unmatched beatmap version will be automatically converted; default to version 3.
  */
-export function difficultySync(filePath: string, version?: 3, options?: ILoadOptionsDifficulty): DifficultyDataV3;
-export function difficultySync(filePath: string, version?: 2, options?: ILoadOptionsDifficulty): DifficultyDataV2;
-export function difficultySync(filePath: string, version = 3, options: ILoadOptionsDifficulty = {}) {
+export function difficultySync(
+    filePath: LooseAutocomplete<GenericFileName>,
+    version?: 3,
+    options?: ILoadOptionsDifficulty,
+): DifficultyDataV3;
+export function difficultySync(
+    filePath: LooseAutocomplete<GenericFileName>,
+    version?: 2,
+    options?: ILoadOptionsDifficulty,
+): DifficultyDataV2;
+export function difficultySync(
+    filePath: LooseAutocomplete<GenericFileName>,
+    version = 3,
+    options: ILoadOptionsDifficulty = {},
+) {
     const opt: Required<ILoadOptionsDifficulty> = {
         directory: fixDirectory(options.directory ?? (globals.directory || defaultOptions.difficulty.directory)),
         forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,

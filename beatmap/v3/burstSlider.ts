@@ -135,12 +135,12 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
         if (this.customData.animation) {
             if (Array.isArray(this.customData.animation.definitePosition)) {
                 this.customData.animation.definitePosition.forEach((dp) => {
-                    dp[0] = LINE_COUNT - 1 - dp[0];
+                    dp[0] = -dp[0];
                 });
             }
             if (Array.isArray(this.customData.animation.offsetPosition)) {
                 this.customData.animation.offsetPosition.forEach((op) => {
-                    op[0] = LINE_COUNT - 1 - op[0];
+                    op[0] = -op[0];
                 });
             }
         }

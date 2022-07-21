@@ -8,6 +8,8 @@ import { Event } from './event.ts';
 import { Waypoint } from './waypoint.ts';
 import { SpecialEventsKeywordFilters } from './specialEventsKeywordFilters.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { GenericFileName } from '../../types/beatmap/shared/info.ts';
+import { LooseAutocomplete } from '../../types/utils.ts';
 
 /** Difficulty beatmap v2 class object. */
 export class DifficultyData extends Serializable<IDifficultyData> {
@@ -29,9 +31,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         this.obstacles = data._obstacles.map((obj) => Obstacle.create(obj));
         this.events = data._events.map((obj) => Event.create(obj));
         this.waypoints = data._waypoints.map((obj) => Waypoint.create(obj));
-        this.specialEventsKeywordFilters = SpecialEventsKeywordFilters.create(
-            data._specialEventsKeywordFilters,
-        );
+        this.specialEventsKeywordFilters = SpecialEventsKeywordFilters.create(data._specialEventsKeywordFilters);
         this.customData = data._customData;
     }
 
@@ -68,13 +68,13 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         return super.clone().setFileName(fileName) as U;
     }
 
-    set fileName(name: string) {
+    set fileName(name: LooseAutocomplete<GenericFileName>) {
         this._fileName = name.trim();
     }
-    get fileName() {
+    get fileName(): string {
         return this._fileName;
     }
-    setFileName(fileName: string) {
+    setFileName(fileName: LooseAutocomplete<GenericFileName>) {
         this.fileName = fileName;
         return this;
     }
@@ -110,10 +110,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         let obstacleEnd = 0;
         for (let i = this.obstacles.length - 1; i >= 0; i--) {
             if (this.obstacles[i].isInteractive()) {
-                obstacleEnd = Math.max(
-                    obstacleEnd,
-                    this.obstacles[i].time + this.obstacles[i].duration,
-                );
+                obstacleEnd = Math.max(obstacleEnd, this.obstacles[i].time + this.obstacles[i].duration);
             }
         }
         return obstacleEnd;

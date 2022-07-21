@@ -9,6 +9,7 @@
 - More utilities for Chroma and Noodle Extensions
 - Configurable data check
   - Checks on save
+- Loose autocomplete
 
 ### Changed
 

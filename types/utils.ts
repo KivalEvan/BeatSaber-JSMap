@@ -17,3 +17,5 @@ export type ObjectToReturn<T> = {
     // deno-lint-ignore ban-types
     [P in keyof T]: T[P] extends object ? () => T[P] : T[P];
 };
+
+export type LooseAutocomplete<T extends string | number> = T extends string ? T | Omit<string, T> : T | Omit<number, T>;

@@ -15,7 +15,7 @@ import { Slider } from './slider.ts';
 import { Waypoint } from './waypoint.ts';
 import { BeatPerMinute } from '../shared/bpm.ts';
 import { EventContainer, NoteContainer } from '../../types/beatmap/v3/container.ts';
-import { DeepPartial } from '../../types/utils.ts';
+import { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
 import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
@@ -29,6 +29,7 @@ import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
 import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { GenericFileName } from '../../types/beatmap/shared/info.ts';
 
 /** Difficulty beatmap v3 class object. */
 export class DifficultyData extends Serializable<IDifficultyData> {
@@ -62,15 +63,14 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         this.burstSliders = data.burstSliders?.map((obj) => BurstSlider.create(obj)) ?? [];
         this.waypoints = data.waypoints?.map((obj) => Waypoint.create(obj)) ?? [];
         this.basicBeatmapEvents = data.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)) ?? [];
-        this.colorBoostBeatmapEvents = data.colorBoostBeatmapEvents?.map((obj) => ColorBoostEvent.create(obj)) ??
-            [];
+        this.colorBoostBeatmapEvents = data.colorBoostBeatmapEvents?.map((obj) => ColorBoostEvent.create(obj)) ?? [];
         this.lightColorEventBoxGroups =
             data.lightColorEventBoxGroups?.map((obj) => LightColorEventBoxGroup.create(obj)) ?? [];
         this.lightRotationEventBoxGroups =
             data.lightRotationEventBoxGroups?.map((obj) => LightRotationEventBoxGroup.create(obj)) ?? [];
-        this.basicEventTypesWithKeywords = BasicEventTypesWithKeywords.create(
-            data.basicEventTypesWithKeywords,
-        ) ?? { d: [] };
+        this.basicEventTypesWithKeywords = BasicEventTypesWithKeywords.create(data.basicEventTypesWithKeywords) ?? {
+            d: [],
+        };
         this.useNormalEventsAsCompatibleEvents = data.useNormalEventsAsCompatibleEvents ?? false;
         this.customData = data.customData ?? {};
     }
@@ -124,13 +124,13 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         return super.clone().setFileName(fileName) as U;
     }
 
-    set fileName(name: string) {
+    set fileName(name: LooseAutocomplete<GenericFileName>) {
         this._fileName = name.trim();
     }
-    get fileName() {
+    get fileName(): string {
         return this._fileName;
     }
-    setFileName(fileName: string) {
+    setFileName(fileName: LooseAutocomplete<GenericFileName>) {
         this.fileName = fileName;
         return this;
     }
@@ -162,10 +162,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             while (notes[i].data.time - notes[currentSectionStart].data.time > beat) {
                 currentSectionStart++;
             }
-            peakNPS = Math.max(
-                peakNPS,
-                (i - currentSectionStart + 1) / ((beat / bpmV) * 60),
-            );
+            peakNPS = Math.max(peakNPS, (i - currentSectionStart + 1) / ((beat / bpmV) * 60));
         }
 
         return peakNPS;
@@ -224,10 +221,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         let obstacleEnd = 0;
         for (let i = this.obstacles.length - 1; i >= 0; i--) {
             if (this.obstacles[i].isInteractive()) {
-                obstacleEnd = Math.max(
-                    obstacleEnd,
-                    this.obstacles[i].time + this.obstacles[i].duration,
-                );
+                obstacleEnd = Math.max(obstacleEnd, this.obstacles[i].time + this.obstacles[i].duration);
             }
         }
         return obstacleEnd;
@@ -309,20 +303,14 @@ export class DifficultyData extends Serializable<IDifficultyData> {
             this.colorBoostBeatmapEvents.push(ColorBoostEvent.create(cbe));
         });
     };
-    addLightColorEventBoxGroups = (
-        ...lightColorEBGs: DeepPartial<ILightColorEventBoxGroup>[]
-    ) => {
+    addLightColorEventBoxGroups = (...lightColorEBGs: DeepPartial<ILightColorEventBoxGroup>[]) => {
         lightColorEBGs.forEach((lcebg) => {
             this.lightColorEventBoxGroups.push(LightColorEventBoxGroup.create(lcebg));
         });
     };
-    addLightRotationEventBoxGroups = (
-        ...lightRotationEBGs: DeepPartial<ILightRotationEventBoxGroup>[]
-    ) => {
+    addLightRotationEventBoxGroups = (...lightRotationEBGs: DeepPartial<ILightRotationEventBoxGroup>[]) => {
         lightRotationEBGs.forEach((lrebg) => {
-            this.lightRotationEventBoxGroups.push(
-                LightRotationEventBoxGroup.create(lrebg),
-            );
+            this.lightRotationEventBoxGroups.push(LightRotationEventBoxGroup.create(lrebg));
         });
     };
 }

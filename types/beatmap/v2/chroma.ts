@@ -24,7 +24,7 @@ export interface IChromaMaterialStandard extends IChromaMaterialBase {
      * ```ts
      * ["DIFFUSE", "ENABLE_DIFFUSE", "ENABLE_FOG", "ENABLE_HEIGHT_FOG", "ENABLE_SPECULAR", "FOG",
      *  "HEIGHT_FOG", "REFLECTION_PROBE_BOX_PROJECTION", "SPECULAR", "_EMISSION",
-     *  "_ENABLE_FOG_TINT", "_RIMLIGHT_NONE", "_ZWRITE_ON", "REFLECTION_PROBE", "LIGHT_FALLOFF"]
+     *  "_ENABLE_FOG_TINT", "_RIMLIGHT_NONE"]
      * ```
      * Overrides default shader keywords.
      */
@@ -60,7 +60,10 @@ export interface IChromaMaterialTransparent extends IChromaMaterialBase {
 }
 
 /** Chroma Material interface for Environment Enhancement. */
-export type IChromaMaterial = IChromaMaterialStandard | IChromaMaterialOpaque | IChromaMaterialTransparent;
+export type IChromaMaterial =
+    | IChromaMaterialStandard
+    | IChromaMaterialOpaque
+    | IChromaMaterialTransparent;
 
 /** Chroma Geometry interface for Environment Enhancement. */
 export interface IChromaGeometry {
