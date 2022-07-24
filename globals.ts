@@ -24,7 +24,7 @@ class globals {
             value = './';
         }
         this.#directory = value;
-        logger.info(tag('directory'), `Global map directory directory is set to ${this.#directory}`);
+        logger.info(tag('directory'), `Global map directory is set to ${this.#directory}`);
     }
 
     /** Set logging level to filter various information.

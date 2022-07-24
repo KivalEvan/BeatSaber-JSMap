@@ -9,7 +9,7 @@ export type GeometryType = 'Sphere' | 'Capsule' | 'Cylinder' | 'Cube' | 'Plane' 
 
 export type ShaderType = 'TransparentLight' | 'Standard' | 'OpaqueLight';
 
-/** Default shader keywords used in standard shaders. */
+/** Default shader keywords used in standard. */
 export type ShaderKeywordsStandard =
     | 'DIFFUSE'
     | 'ENABLE_DIFFUSE'
@@ -27,7 +27,7 @@ export type ShaderKeywordsStandard =
     | 'REFLECTION_PROBE'
     | 'LIGHT_FALLOFF';
 
-/** Default shader keywords used in opaque light shaders. */
+/** Default shader keywords used in opaque light. */
 export type ShaderKeywordsOpaque =
     | 'DIFFUSE'
     | 'ENABLE_BLUE_NOISE'
@@ -36,15 +36,39 @@ export type ShaderKeywordsOpaque =
     | 'ENABLE_LIGHTNING'
     | 'USE_COLOR_FOG';
 
-/** Default shader keywords used in transparent light shaders. */
+/** Default shader keywords used in transparent light. */
 export type ShaderKeywordsTransparent =
     | 'ENABLE_HEIGHT_FOG'
     | 'MULTIPLY_COLOR_WITH_ALPHA'
     | '_ENABLE_MAIN_EFFECT_WHITE_BOOST';
 
-export type ShaderKeywords = ShaderKeywordsStandard | ShaderKeywordsOpaque | ShaderKeywordsTransparent;
+/** Shader keywords used in billie water. */
+export type ShaderKeywordsBillieWater =
+    | 'FOG'
+    | 'HEIGHT_FOG'
+    | 'INVERT_RIMLIGHT'
+    | 'MASK_RED_IS_ALPHA'
+    | 'NOISE_DITHERING'
+    | 'NORMAL_MAP'
+    | 'REFLECTION_PROBE'
+    | 'REFLECTION_PROBE_BOX_PROJECTION'
+    | '_DECALBLEND_ALPHABLEND'
+    | '_DISSOLVEAXIS_LOCALX'
+    | '_EMISSIONCOLORTYPE_FLAT'
+    | '_EMISSIONTEXTURE_NONE'
+    | '_RIMLIGHT_NONE'
+    | '_ROTATE_UV_NONE'
+    | '_VERTEXMODE_NONE'
+    | '_WHITEBOOSTTYPE_NONE'
+    | '_ZWRITE_ON';
 
-export const chromaName = 'Chroma';
+export type ShaderKeywords =
+    | ShaderKeywordsStandard
+    | ShaderKeywordsOpaque
+    | ShaderKeywordsTransparent
+    | ShaderKeywordsBillieWater;
+
+export type EnvironmentMaterial = 'BTSPillar' | 'BillieWater' | 'Concrete2' | 'Car';
 
 /** Chroma interface for Difficulty Info Custom Data. */
 export interface IChromaInfoCustomData extends IInfoSettingsCustomData {

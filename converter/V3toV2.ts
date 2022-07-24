@@ -564,6 +564,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                             _geometry: {
                                 _type: e.geometry.type,
                                 _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
+                                    _environmentMaterial: e.geometry.material.environmentMaterial,
                                     _shader: e.geometry.material.shader,
                                     _shaderKeywords: e.geometry.material.shaderKeywords,
                                     _collision: e.geometry.material.collision,

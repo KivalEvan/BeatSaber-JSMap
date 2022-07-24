@@ -2,7 +2,14 @@ import { PercentPointDefinition, Vector3 } from '../shared/heck.ts';
 import { Easings } from '../../easings.ts';
 import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
-import { ColorPointDefinition, GeometryType, LookupMethod, ShaderKeywords, ShaderType } from '../shared/chroma.ts';
+import {
+    ColorPointDefinition,
+    EnvironmentMaterial,
+    GeometryType,
+    LookupMethod,
+    ShaderKeywords,
+    ShaderType,
+} from '../shared/chroma.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 
 /** Chroma Material Base interface for Environment Enhancement. */
@@ -10,6 +17,8 @@ export interface IChromaMaterialBase {
     shader: ShaderType;
     /** Overrides default shader keywords. */
     shaderKeywords?: string[];
+    /** This override current shaders, fallback if does not find */
+    environmentMaterial?: EnvironmentMaterial;
     collision?: boolean;
     track?: string;
     color?: ColorArray;
@@ -60,10 +69,7 @@ export interface IChromaMaterialTransparent extends IChromaMaterialBase {
 }
 
 /** Chroma Material interface for Environment Enhancement. */
-export type IChromaMaterial =
-    | IChromaMaterialStandard
-    | IChromaMaterialOpaque
-    | IChromaMaterialTransparent;
+export type IChromaMaterial = IChromaMaterialStandard | IChromaMaterialOpaque | IChromaMaterialTransparent;
 
 /** Chroma Geometry interface for Environment Enhancement. */
 export interface IChromaGeometry {

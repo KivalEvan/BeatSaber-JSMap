@@ -9,13 +9,9 @@ export type Vector3PointDefinition =
     | [number, number, number, number, Easings?, 'splineCatmullRom'?]
     | [number, number, number, number, 'splineCatmullRom'?];
 
-export const heckName = 'Heck';
-
 export interface IInfoSettingsCustomData {
     _settings?: {
-        [key: string]:
-            | { [key: string]: boolean | string | number | undefined }
-            | undefined;
+        [key: string]: { [key: string]: boolean | string | number | undefined } | undefined;
     };
 }
 
@@ -38,14 +34,8 @@ export interface IHeckInfoCustomData extends IInfoSettingsCustomData {
             _noteJumpStartBeatOffset?: number;
             _hideNoteSpawnEffect?: boolean;
             _adaptiveSfx?: number;
-            _environmentEffectsFilterDefaultPreset?:
-                | 'AllEffects'
-                | 'Strobefilter'
-                | 'NoEffects';
-            _environmentEffectsFilterExpertPlusPreset?:
-                | 'AllEffects'
-                | 'Strobefilter'
-                | 'NoEffects';
+            _environmentEffectsFilterDefaultPreset?: 'AllEffects' | 'Strobefilter' | 'NoEffects';
+            _environmentEffectsFilterExpertPlusPreset?: 'AllEffects' | 'Strobefilter' | 'NoEffects';
         };
         _modifiers?: {
             _energyType?: 'Bar' | 'Battery';

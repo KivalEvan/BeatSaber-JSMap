@@ -36,6 +36,7 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
                     material: typeof e._geometry._material === 'string' ? e._geometry._material : {
                         shader: e._geometry._material._shader,
                         shaderKeywords: e._geometry._material._shaderKeywords,
+                        environmentMaterial: e._geometry._material._environmentMaterial,
                         collision: e._geometry._material._collision,
                         track: e._geometry._material._track,
                         color: e._geometry._material._color,
@@ -84,6 +85,7 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
                     _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
                         _shader: e.geometry.material.shader,
                         _shaderKeywords: e.geometry.material.shaderKeywords,
+                        _environmentMaterial: e.geometry.material.environmentMaterial,
                         _collision: e.geometry.material.collision,
                         _track: e.geometry.material.track,
                         _color: e.geometry.material.color,
