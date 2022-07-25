@@ -10,11 +10,12 @@ import { IColorNote } from './colorNote.ts';
 import { IBurstSlider } from './burstSlider.ts';
 import { IBombNote } from './bombNote.ts';
 import { IObstacle } from './obstacle.ts';
+import { IAnimation } from './animation.ts';
 
 /** Custom Data interface for difficulty file.
- * @extends CustomData
- * @extends CCustomData
- * @extends INECustomData
+ * @extends ICustomDataBase
+ * @extends IHeckCustomData
+ * @extends IChromaCustomData
  */
 export interface ICustomDataDifficulty extends ICustomDataBase, IHeckCustomData, IChromaCustomData {
     fakeColorNotes?: IColorNote[];
@@ -28,6 +29,6 @@ export interface ICustomDataDifficulty extends ICustomDataBase, IHeckCustomData,
     _bookmarks?: IBookmark[];
 }
 
-export type ICustomDataNote = ICustomDataBase & IChromaNote & INENote;
-export type ICustomDataSlider = ICustomDataBase & IChromaNote & INESlider;
-export type ICustomDataObstacle = ICustomDataBase & IChromaObstacle & INEObstacle;
+export type ICustomDataNote = ICustomDataBase & IChromaNote & INENote & IAnimation;
+export type ICustomDataSlider = ICustomDataBase & IChromaNote & INESlider & IAnimation;
+export type ICustomDataObstacle = ICustomDataBase & IChromaObstacle & INEObstacle & IAnimation;

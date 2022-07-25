@@ -1,5 +1,5 @@
 import { PercentPointDefinition, Vector2, Vector3, Vector3PointDefinition } from '../shared/heck.ts';
-import { IChromaAnimation } from './chroma.ts';
+import { PlayerObject } from '../shared/noodleExtensions.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 
 /** Noodle Extensions Object interface for Beatmap Object. */
@@ -11,7 +11,6 @@ interface INEObject {
     noteJumpStartBeatOffset?: number;
     uninteractable?: boolean;
     track?: string | string[];
-    animation?: INEAnimation & IChromaAnimation;
 }
 
 /** Noodle Extensions Note interface for Beatmap Note.
@@ -69,6 +68,7 @@ export interface INECustomEventDataAssignTrackParent {
  */
 export interface INECustomEventDataAssignPlayerToTrack extends IHeckCustomEventDataBase {
     track: string;
+    playerTrackObject?: PlayerObject;
 }
 
 /** Noodle Extensions Animation interface for Noodle Extensions Object. */

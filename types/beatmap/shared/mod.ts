@@ -11,4 +11,5 @@ export * from './editor.ts';
 export * from './environment.ts';
 export * from './heck.ts';
 export * from './info.ts';
+export * from './noodleExtensions.ts';
 export * from './version.ts';

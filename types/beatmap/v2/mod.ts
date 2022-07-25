@@ -1,6 +1,7 @@
 export * from './bookmark.ts';
 export * from './chroma.ts';
 export * from './customData.ts';
+export * from './customEvent.ts';
 export * from './difficulty.ts';
 export * from './event.ts';
 export * from './heck.ts';

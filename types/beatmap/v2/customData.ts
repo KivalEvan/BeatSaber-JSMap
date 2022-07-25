@@ -1,24 +1,17 @@
 import { IBookmark } from './bookmark.ts';
 import { IBPMChange, IBPMChangeOld } from '../shared/bpm.ts';
-import { IHeckCustomData, IHeckCustomEvent } from './heck.ts';
-import { IChromaCustomData, IChromaCustomEvent, IChromaNote, IChromaObstacle } from './chroma.ts';
-import { INECustomData, INECustomEvent, INENote, INEObstacle } from './noodleExtensions.ts';
+import { IChromaCustomData, IChromaNote, IChromaObstacle } from './chroma.ts';
+import { INENote, INEObstacle } from './noodleExtensions.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
 import { IPointDefinition } from './pointDefinition.ts';
-
-export type ICustomEvent = IHeckCustomEvent | IChromaCustomEvent | INECustomEvent;
+import { ICustomEvent } from './customEvent.ts';
+import { IAnimation } from './animation.ts';
 
 /** Custom Data interface for difficulty file.
- * @extends CustomData
- * @extends CCustomData
- * @extends INECustomData
+ * @extends ICustomDataBase
+ * @extends IChromaCustomData
  */
-export interface ICustomDataDifficulty
-    extends
-        ICustomDataBase,
-        Omit<IHeckCustomData, '_customEvents'>,
-        Omit<IChromaCustomData, '_customEvents'>,
-        Omit<INECustomData, '_customEvents'> {
+export interface ICustomDataDifficulty extends ICustomDataBase, IChromaCustomData {
     _customEvents?: ICustomEvent[];
     _pointDefinitions?: IPointDefinition[];
     _time?: number;
@@ -27,5 +20,5 @@ export interface ICustomDataDifficulty
     _bookmarks?: IBookmark[];
 }
 
-export type ICustomDataNote = ICustomDataBase & IChromaNote & INENote;
-export type ICustomDataObstacle = ICustomDataBase & IChromaObstacle & INEObstacle;
+export type ICustomDataNote = ICustomDataBase & IChromaNote & INENote & IAnimation;
+export type ICustomDataObstacle = ICustomDataBase & IChromaObstacle & INEObstacle & IAnimation;

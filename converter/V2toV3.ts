@@ -375,6 +375,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             t: 'AssignPlayerToTrack',
                             d: {
                                 track: ce._data._track,
+                                playerTrackObject: ce._data._playerTrackObject,
                             },
                         });
                     }

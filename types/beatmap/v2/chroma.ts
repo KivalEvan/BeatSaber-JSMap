@@ -134,7 +134,7 @@ export interface IChromaEnvironmentGeometry extends IChromaEnvironmentBase {
 /** Chroma interface for Environment Enhancement. */
 export type IChromaEnvironment = IChromaEnvironmentID | IChromaEnvironmentGeometry;
 
-/** Chroma interface for Beatmap Note Custom Data. */
+/** Chroma interface for Beatmap Object Animation Custom Data. */
 export interface IChromaAnimation {
     _color?: string | ColorPointDefinition[];
 }
@@ -194,7 +194,17 @@ export interface IChromaEventZoom extends ICustomDataBase {
     _speed?: number;
 }
 
-/** AssignFogTrack interface for Noodle Extensions Custom Event. */
+/** AnimateComponent interface for Chroma Custom Event. */
+export interface IChromaCustomEventDataAnimateTrack extends IHeckCustomEventDataBase {
+    _color?: string | ColorPointDefinition[];
+}
+
+/** AnimateComponent interface for Chroma Custom Event. */
+export interface IChromaCustomEventDataAssignPathAnimation extends IHeckCustomEventDataBase {
+    _color?: string | ColorPointDefinition[];
+}
+
+/** AssignFogTrack interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAssignFogTrack extends IHeckCustomEventDataBase {
     _track: string;
     _duration: number;
@@ -204,18 +214,8 @@ export interface IChromaCustomEventDataAssignFogTrack extends IHeckCustomEventDa
     _height?: number | PercentPointDefinition[];
 }
 
-/** Chroma Custom Event interface for AssignFogTrack. */
-export interface IChromaCustomEventAssignFogTrack {
-    _time: number;
-    _type: 'AssignFogTrack';
-    _data: IChromaCustomEventDataAssignFogTrack;
-}
-
-export type IChromaCustomEvent = IChromaCustomEventAssignFogTrack;
-
 /** Chroma Custom Data interface for difficulty custom data. */
 export interface IChromaCustomData {
-    _customEvents?: IChromaCustomEvent[];
     _environment?: IChromaEnvironment[];
     _materials?: { [key: string]: IChromaMaterial };
 }

@@ -457,31 +457,33 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 template.customData._customEvents = [];
                 for (const ce of data.customData.customEvents!) {
                     if (ce.t === 'AnimateTrack') {
-                        template.customData._customEvents.push({
-                            _time: ce.b,
-                            _type: 'AnimateTrack',
-                            _data: {
-                                _track: ce.d.track,
-                                _duration: ce.d.duration,
-                                _easing: ce.d.easing,
-                                _position: typeof ce.d.position === 'string'
-                                    ? ce.d.position
-                                    : ce.d.position?.map((p) => {
-                                        p[0] = p[0] / 0.6;
-                                        p[1] = p[1] / 0.6;
-                                        p[2] = p[2] / 0.6;
-                                        return p as Vector3PointDefinition;
-                                    }),
-                                _rotation: ce.d.rotation,
-                                _localRotation: ce.d.localRotation,
-                                _scale: ce.d.scale,
-                                _dissolve: ce.d.dissolve,
-                                _dissolveArrow: ce.d.dissolveArrow,
-                                _color: ce.d.color,
-                                _interactable: ce.d.interactable,
-                                _time: ce.d.time,
-                            },
-                        });
+                        for (let i = 0, repeat = ce.d.repeat ?? 0; i <= repeat; i++) {
+                            template.customData._customEvents.push({
+                                _time: ce.b + ce.d.duration * i,
+                                _type: 'AnimateTrack',
+                                _data: {
+                                    _track: ce.d.track,
+                                    _duration: ce.d.duration,
+                                    _easing: ce.d.easing,
+                                    _position: typeof ce.d.position === 'string'
+                                        ? ce.d.position
+                                        : ce.d.position?.map((p) => {
+                                            p[0] = p[0] / 0.6;
+                                            p[1] = p[1] / 0.6;
+                                            p[2] = p[2] / 0.6;
+                                            return p as Vector3PointDefinition;
+                                        }),
+                                    _rotation: ce.d.rotation,
+                                    _localRotation: ce.d.localRotation,
+                                    _scale: ce.d.scale,
+                                    _dissolve: ce.d.dissolve,
+                                    _dissolveArrow: ce.d.dissolveArrow,
+                                    _color: ce.d.color,
+                                    _interactable: ce.d.interactable,
+                                    _time: ce.d.time,
+                                },
+                            });
+                        }
                     }
                     if (ce.t === 'AssignPathAnimation') {
                         template.customData._customEvents.push({
@@ -519,6 +521,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                             _type: 'AssignPlayerToTrack',
                             _data: {
                                 _track: ce.d.track,
+                                _playerTrackObject: ce.d.playerTrackObject,
                             },
                         });
                     }
