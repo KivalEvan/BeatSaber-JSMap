@@ -1,11 +1,11 @@
 import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { BaseObject } from './baseObject.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /** Boost event beatmap v3 class object. */
 export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
-    static default: ObjectToReturn<Required<IColorBoostEvent>> = {
+    static default: ObjectReturnFn<Required<IColorBoostEvent>> = {
         b: 0,
         o: false,
         customData: () => {
@@ -20,9 +20,7 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
     static create(): ColorBoostEvent;
     static create(colorBoostEvents: Partial<IColorBoostEvent>): ColorBoostEvent;
     static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent[];
-    static create(
-        ...colorBoostEvents: Partial<IColorBoostEvent>[]
-    ): ColorBoostEvent | ColorBoostEvent[] {
+    static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent | ColorBoostEvent[] {
         const result: ColorBoostEvent[] = [];
         colorBoostEvents?.forEach((be) =>
             result.push(

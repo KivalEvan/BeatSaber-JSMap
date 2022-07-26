@@ -1,11 +1,11 @@
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { BaseObject } from './baseObject.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /** BPM change event beatmap v3 class object. */
 export class BPMEvent extends BaseObject<IBPMEvent> {
-    static default: ObjectToReturn<Required<IBPMEvent>> = {
+    static default: ObjectReturnFn<Required<IBPMEvent>> = {
         b: 0,
         m: 0,
         customData: () => {

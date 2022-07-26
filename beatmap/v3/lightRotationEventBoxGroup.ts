@@ -1,12 +1,12 @@
 import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
 import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
-import { DeepPartial, ObjectToReturn } from '../../types/utils.ts';
+import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
 import { EventBoxGroupTemplate } from './eventBoxGroupTemplate.ts';
 import { LightRotationEventBox } from './lightRotationEventBox.ts';
 
 /** Light rotation event box group beatmap v3 class object. */
 export class LightRotationEventBoxGroup extends EventBoxGroupTemplate<ILightRotationEventBox, LightRotationEventBox> {
-    static default: ObjectToReturn<Required<ILightRotationEventBoxGroup>> = {
+    static default: ObjectReturnFn<Required<ILightRotationEventBoxGroup>> = {
         b: 0,
         g: 0,
         e: () => [],

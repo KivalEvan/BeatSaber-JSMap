@@ -14,11 +14,9 @@ import { IHeckCustomEventDataBase } from './heck.ts';
 
 /** Chroma Material Base interface for Environment Enhancement. */
 export interface IChromaMaterialBase {
-    shader: ShaderType;
+    shader: ShaderType | EnvironmentMaterial;
     /** Overrides default shader keywords. */
     shaderKeywords?: string[];
-    /** This override current shaders, fallback if does not find */
-    environmentMaterial?: EnvironmentMaterial;
     collision?: boolean;
     track?: string;
     color?: ColorArray;

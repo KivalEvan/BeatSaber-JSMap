@@ -1,15 +1,20 @@
 import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { Serializable } from '../shared/serializable.ts';
 
 /** Light rotation base beatmap v3 class object. */
 export class LightRotationBase extends Serializable<ILightRotationBase> {
-    static default: Required<ILightRotationBase> = {
+    static default: ObjectReturnFn<Required<ILightRotationBase>> = {
         b: 0,
         p: 0,
         e: 0,
         l: 0,
         r: 0,
         o: 0,
+        customData: () => {
+            return {};
+        },
     };
 
     protected constructor(lightRotationBase: Required<ILightRotationBase>) {
@@ -30,6 +35,7 @@ export class LightRotationBase extends Serializable<ILightRotationBase> {
                     l: lr.l ?? LightRotationBase.default.l,
                     r: lr.r ?? LightRotationBase.default.r,
                     o: lr.o ?? LightRotationBase.default.o,
+                    customData: lr.customData ?? LightRotationBase.default.customData(),
                 }),
             )
         );
@@ -46,10 +52,11 @@ export class LightRotationBase extends Serializable<ILightRotationBase> {
             l: LightRotationBase.default.l,
             r: LightRotationBase.default.r,
             o: LightRotationBase.default.o,
+            customData: LightRotationBase.default.customData(),
         });
     }
 
-    toObject(): ILightRotationBase {
+    toObject(): Required<ILightRotationBase> {
         return {
             b: this.time,
             p: this.previous,
@@ -57,6 +64,7 @@ export class LightRotationBase extends Serializable<ILightRotationBase> {
             l: this.loop,
             r: this.rotation,
             o: this.direction,
+            customData: deepCopy(this.data.customData),
         };
     }
 

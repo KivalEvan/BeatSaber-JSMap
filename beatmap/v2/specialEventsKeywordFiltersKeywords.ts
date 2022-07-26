@@ -1,5 +1,5 @@
 import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { Serializable } from '../shared/serializable.ts';
 
 /** Special event types for keywords beatmap v2 class object.
@@ -7,7 +7,7 @@ import { Serializable } from '../shared/serializable.ts';
  * Used in special event types with keywords.
  */
 export class SpecialEventsKeywordFiltersKeywords extends Serializable<ISpecialEventsKeywordFiltersKeywords> {
-    static default: ObjectToReturn<Required<ISpecialEventsKeywordFiltersKeywords>> = {
+    static default: ObjectReturnFn<Required<ISpecialEventsKeywordFiltersKeywords>> = {
         _keyword: '',
         _specialEvents: () => [],
     };

@@ -1,13 +1,13 @@
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { BaseNote } from './baseNote.ts';
 import { IBaseNote } from '../../types/beatmap/v3/baseNote.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /** Color note beatmap v3 class object. */
 export class ColorNote extends BaseNote<IColorNote> {
-    static default: ObjectToReturn<Required<IColorNote>> = {
+    static default: ObjectReturnFn<Required<IColorNote>> = {
         b: 0,
         c: 0,
         x: 0,
@@ -175,28 +175,19 @@ export class ColorNote extends BaseNote<IColorNote> {
     getAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':
-                return (
-                    (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) +
-                    this.angleOffset
-                );
+                return (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) + this.angleOffset;
             case 'me':
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
             /* falls through */
             case 'ne':
-                return (
-                    (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) +
-                    this.angleOffset
-                );
+                return (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) + this.angleOffset;
             default:
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
-                return (
-                    (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) +
-                    this.angleOffset
-                );
+                return (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) + this.angleOffset;
         }
     }
 
@@ -231,10 +222,7 @@ export class ColorNote extends BaseNote<IColorNote> {
             const d = nX1 - nX2;
             return d > -0.001 && d < 0.001;
         }
-        return (
-            22.5 <= (Math.abs(this.getAngle()) % 180) + 90 &&
-            (Math.abs(this.getAngle()) % 180) + 90 <= 67.5
-        );
+        return 22.5 <= (Math.abs(this.getAngle()) % 180) + 90 && (Math.abs(this.getAngle()) % 180) + 90 <= 67.5;
     }
 
     isHorizontal(compareTo?: BaseNote<IBaseNote>) {
@@ -244,10 +232,7 @@ export class ColorNote extends BaseNote<IColorNote> {
             const d = nY1 - nY2;
             return d > -0.001 && d < 0.001;
         }
-        return (
-            22.5 <= (Math.abs(this.getAngle()) % 180) + 90 &&
-            (Math.abs(this.getAngle()) % 180) + 90 <= 67.5
-        );
+        return 22.5 <= (Math.abs(this.getAngle()) % 180) + 90 && (Math.abs(this.getAngle()) % 180) + 90 <= 67.5;
     }
 
     isDiagonal(compareTo?: BaseNote<IBaseNote>) {
@@ -258,10 +243,7 @@ export class ColorNote extends BaseNote<IColorNote> {
             const dY = Math.abs(nY1 - nY2);
             return dX === dY;
         }
-        return (
-            22.5 <= Math.abs(this.getAngle()) % 90 &&
-            Math.abs(this.getAngle()) % 90 <= 67.5
-        );
+        return 22.5 <= Math.abs(this.getAngle()) % 90 && Math.abs(this.getAngle()) % 90 <= 67.5;
     }
 
     isInline(compareTo: BaseNote<IBaseNote>, lapping = 0.5) {
@@ -305,10 +287,7 @@ export class ColorNote extends BaseNote<IColorNote> {
      * ```
      */
     hasChroma = (): boolean => {
-        return (
-            Array.isArray(this.customData.color) ||
-            typeof this.customData.spawnEffect === 'boolean'
-        );
+        return Array.isArray(this.customData.color) || typeof this.customData.spawnEffect === 'boolean';
     };
 
     /** Check if note has Noodle Extensions properties.

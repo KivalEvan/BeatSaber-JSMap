@@ -437,7 +437,6 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                                 material: typeof e._geometry._material === 'string' ? e._geometry._material : {
                                     shader: e._geometry._material._shader,
                                     shaderKeywords: e._geometry._material._shaderKeywords,
-                                    environmentalMaterial: e._geometry._material._environmentMaterial,
                                     collision: e._geometry._material._collision,
                                     track: e._geometry._material._track,
                                     color: e._geometry._material._color,

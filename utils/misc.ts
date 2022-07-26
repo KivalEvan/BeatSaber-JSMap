@@ -1,9 +1,3 @@
-import logger from '../logger.ts';
-
-const tag = (name: string) => {
-    return `[utils::misc::${name}]`;
-};
-
 /** Fisher–Yates shuffle algorithm. */
 // deno-lint-ignore no-explicit-any
 export function shuffle(array: any[]): void {

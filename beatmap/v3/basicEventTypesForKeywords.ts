@@ -1,5 +1,5 @@
 import { IBasicEventTypesForKeywords } from '../../types/beatmap/v3/basicEventTypesForKeywords.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { Serializable } from '../shared/serializable.ts';
 
 /** Basic event types for keywords beatmap v3 class object.
@@ -7,7 +7,7 @@ import { Serializable } from '../shared/serializable.ts';
  * Used in basic event types with keywords.
  */
 export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesForKeywords> {
-    static default: ObjectToReturn<Required<IBasicEventTypesForKeywords>> = {
+    static default: ObjectReturnFn<Required<IBasicEventTypesForKeywords>> = {
         k: '',
         e: () => [],
     };

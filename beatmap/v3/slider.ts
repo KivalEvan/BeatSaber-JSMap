@@ -1,7 +1,7 @@
 import { BaseSlider } from './baseSlider.ts';
 import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
 import { ISlider } from '../../types/beatmap/v3/slider.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /** Slider beatmap v3 class object.
@@ -9,7 +9,7 @@ import { deepCopy } from '../../utils/misc.ts';
  * Also known as arc.
  */
 export class Slider extends BaseSlider<ISlider> {
-    static default: ObjectToReturn<Required<ISlider>> = {
+    static default: ObjectReturnFn<Required<ISlider>> = {
         b: 0,
         c: 0,
         x: 0,
@@ -253,25 +253,19 @@ export class Slider extends BaseSlider<ISlider> {
     getTailAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':
-                return (
-                    NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0
-                );
+                return NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0;
             case 'me':
                 if (this.tailDirection >= 1000) {
                     return Math.abs(((this.tailDirection % 1000) % 360) - 360);
                 }
             /* falls through */
             case 'ne':
-                return (
-                    NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0
-                );
+                return NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0;
             default:
                 if (this.tailDirection >= 1000) {
                     return Math.abs(((this.tailDirection % 1000) % 360) - 360);
                 }
-                return (
-                    NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0
-                );
+                return NoteCutAngle[this.tailDirection as keyof typeof NoteCutAngle] || 0;
         }
     }
 

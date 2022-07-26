@@ -13,7 +13,7 @@ export type DeepPartial<T> = {
     [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
-export type ObjectToReturn<T> = {
+export type ObjectReturnFn<T> = {
     // deno-lint-ignore ban-types
     [P in keyof T]: T[P] extends object ? () => T[P] : T[P];
 };

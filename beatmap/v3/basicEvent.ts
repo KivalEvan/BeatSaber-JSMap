@@ -1,13 +1,13 @@
 // deno-lint-ignore-file no-unused-vars
 import { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
 import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v3/chroma.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { BaseObject } from './baseObject.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /** Basic event beatmap v3 class object. */
 export class BasicEvent extends BaseObject<IBasicEvent> {
-    static default: ObjectToReturn<Required<IBasicEvent>> = {
+    static default: ObjectReturnFn<Required<IBasicEvent>> = {
         b: 0,
         et: 0,
         i: 0,
@@ -254,9 +254,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
      * ```
      */
     isExtraEvent(): boolean {
-        return (
-            this.type === 16 || this.type === 17 || this.type === 18 || this.type === 19
-        );
+        return this.type === 16 || this.type === 17 || this.type === 18 || this.type === 19;
     }
 
     /** Check if event is a special event.
@@ -265,9 +263,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
      * ```
      */
     isSpecialEvent(): boolean {
-        return (
-            this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43
-        );
+        return this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43;
     }
 
     /** Check if event is a BPM change event.
@@ -285,12 +281,7 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
      * ```
      */
     isLightingEvent(): boolean {
-        return (
-            this.isLightEvent() ||
-            this.isRingEvent() ||
-            this.isLaserRotationEvent() ||
-            this.isExtraEvent()
-        );
+        return this.isLightEvent() || this.isRingEvent() || this.isLaserRotationEvent() || this.isExtraEvent();
     }
 
     /** Check if event has old Chroma properties.

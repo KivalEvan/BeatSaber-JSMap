@@ -1,11 +1,11 @@
 import { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { BeatmapObject } from './object.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /** Object beatmap v2 class object. */
 export class Obstacle extends BeatmapObject<IObstacle> {
-    static default: ObjectToReturn<Required<IObstacle>> = {
+    static default: ObjectReturnFn<Required<IObstacle>> = {
         _time: 0,
         _lineIndex: 0,
         _lineLayer: 0,
@@ -212,9 +212,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
      * ```
      */
     isCrouch = (): boolean => {
-        return (
-            this.type === 1 && (this.width > 2 || (this.width === 2 && this.posX === 1))
-        );
+        return this.type === 1 && (this.width > 2 || (this.width === 2 && this.posX === 1));
     };
 
     /** Check if obstacle has zero value.
@@ -231,15 +229,8 @@ export class Obstacle extends BeatmapObject<IObstacle> {
      * if (isLonger(currWall, prevWall)) {}
      * ```
      */
-    isLonger = (
-        currObstacle: IObstacle,
-        prevObstacle: IObstacle,
-        offset = 0,
-    ): boolean => {
-        return (
-            currObstacle._time + currObstacle._duration >
-                prevObstacle._time + prevObstacle._duration + offset
-        );
+    isLonger = (currObstacle: IObstacle, prevObstacle: IObstacle, offset = 0): boolean => {
+        return currObstacle._time + currObstacle._duration > prevObstacle._time + prevObstacle._duration + offset;
     };
 
     /** Check if obstacle has Chroma properties.
@@ -277,9 +268,7 @@ export class Obstacle extends BeatmapObject<IObstacle> {
      * ```
      */
     hasMappingExtensions = (): boolean => {
-        return (
-            this.width >= 1000 || this.type >= 1000 || this.posX > 3 || this.posX < 0
-        );
+        return this.width >= 1000 || this.type >= 1000 || this.posX > 3 || this.posX < 0;
     };
 
     /** Check if obstacle is a valid, vanilla obstacle.

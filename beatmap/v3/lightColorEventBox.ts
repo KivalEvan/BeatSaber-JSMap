@@ -1,12 +1,12 @@
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
-import { DeepPartial, ObjectToReturn } from '../../types/utils.ts';
+import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
 import { EventBox } from './eventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
 import { LightColorBase } from './lightColorBase.ts';
 
 /** Light color event box beatmap v3 class object. */
 export class LightColorEventBox extends EventBox<ILightColorEventBox> {
-    static default: ObjectToReturn<Required<ILightColorEventBox>> = {
+    static default: ObjectReturnFn<Required<ILightColorEventBox>> = {
         f: () => {
             return {
                 f: IndexFilter.default.f,

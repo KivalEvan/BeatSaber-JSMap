@@ -1,7 +1,7 @@
 # Beat Saber Deno
 
-General-purpose Beat Saber scripting library using Deno TypeScript, complete with type-check, auto-completion, and
-suggestions.
+General-purpose Beat Saber beatmap scripting library using [Deno](https://deno.land/), fully-typed and flexible tool
+designed to ease scripting development surrounding beatmap while providing high-detail regarding the beatmap.
 
 ---
 
@@ -11,10 +11,14 @@ suggestions.
 
 ## Features
 
-- **Zero-dependency:** No external library used and no bloated file in the working folder.
-- **Mod Compatible:** Chroma, Noodle Extensions, and Mapping Extensions is supported out of the box.
-- **Modularity:** All types, classes and functions are exposed allowing extendability for more functionality.
+- **Zero-dependency:** No external library used and can be used anywhere.
+- **Low-abstraction** As close to vanilla JS/TS scripting while providing plenty of options.
+- **Modularity:** All types, functions and classes are exposed allowing extendability for more functionality.
 - **Partial Creation:** Define notes, obstacles, events, event boxes partially and let default fill the rest of fields.
+- **Mod Compatible:** Chroma, Noodle Extensions, and Mapping Extensions is supported out of the box.
+  - All helpers and classes surrounding modded is only available in extensions category.
+- **Plentiful Utility** Useful helpers including math, colour, easings, and more.
+- **Validator & Optimiser** Customisable tool ensuring beatmap difficulty is valid to the game and optimised.
 
 ## Prerequisite
 
@@ -32,7 +36,7 @@ connection and will not break the existing code regardless of newly released upd
 The bare minimum example:
 
 ```ts
-import * as bsmap from 'https://deno.land/x/bsmap/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.2.0/mod.ts';
 
 const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 3);
 bsmap.save.difficultySync(data);
@@ -80,6 +84,9 @@ issue if you encounter error/problem or want an improvement.
 
 ## Planned
 
-- Strip some of the features as plugin/extension allowing for modular and lightweight system
 - Add more helper for Chroma and Noodle Extensions
-- Bundle script
+
+### Credits
+
+- [HSV conversion algorithm](https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c)
+- [CIE-L\*ab and Delta E2000 algorithm](https://www.easyrgb.com/)

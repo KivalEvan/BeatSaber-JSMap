@@ -1,11 +1,11 @@
 import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { BaseObject } from './baseObject.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /** Rotation event beatmap v3 class object. */
 export class RotationEvent extends BaseObject<IRotationEvent> {
-    static default: ObjectToReturn<Required<IRotationEvent>> = {
+    static default: ObjectReturnFn<Required<IRotationEvent>> = {
         b: 0,
         e: 0,
         r: 0,
@@ -21,9 +21,7 @@ export class RotationEvent extends BaseObject<IRotationEvent> {
     static create(): RotationEvent;
     static create(rotationEvents: Partial<IRotationEvent>): RotationEvent;
     static create(...rotationEvents: Partial<IRotationEvent>[]): RotationEvent[];
-    static create(
-        ...rotationEvents: Partial<IRotationEvent>[]
-    ): RotationEvent | RotationEvent[] {
+    static create(...rotationEvents: Partial<IRotationEvent>[]): RotationEvent | RotationEvent[] {
         const result: RotationEvent[] = [];
         rotationEvents?.forEach((re) =>
             result.push(

@@ -1,7 +1,7 @@
 import logger from './logger.ts';
 
 const tag = (str: string) => {
-    return `[settings::${str}]`;
+    return `[globals::${str}]`;
 };
 
 class globals {

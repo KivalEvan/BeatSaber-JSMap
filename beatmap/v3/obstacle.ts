@@ -1,12 +1,12 @@
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
 import { BaseObject } from './baseObject.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /** Obstacle beatmap v3 class object. */
 export class Obstacle extends BaseObject<IObstacle> {
-    static default: ObjectToReturn<Required<IObstacle>> = {
+    static default: ObjectReturnFn<Required<IObstacle>> = {
         b: 0,
         x: 0,
         y: 0,
@@ -204,12 +204,7 @@ export class Obstacle extends BaseObject<IObstacle> {
      */
     // FIXME: there are a lot more other variables
     isInteractive() {
-        return (
-            (this.posX < 0 && this.width > 1 - this.posX) ||
-            this.width > 1 ||
-            this.posX === 1 ||
-            this.posX === 2
-        );
+        return (this.posX < 0 && this.width > 1 - this.posX) || this.width > 1 || this.posX === 1 || this.posX === 2;
     }
 
     /** Check if obstacle has zero value.
@@ -236,9 +231,7 @@ export class Obstacle extends BaseObject<IObstacle> {
      * ```
      */
     isLonger(compareTo: Obstacle, prevOffset = 0): boolean {
-        return (
-            this.time + this.duration > compareTo.time + compareTo.duration + prevOffset
-        );
+        return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
     }
 
     /** Check if obstacle has Chroma properties.

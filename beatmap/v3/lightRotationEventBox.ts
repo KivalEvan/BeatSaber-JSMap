@@ -1,12 +1,12 @@
 import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { EventBox } from './eventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
 import { LightRotationBase } from './lightRotationBase.ts';
 
 /** Light rotation event box beatmap v3 class object. */
 export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
-    static default: ObjectToReturn<ILightRotationEventBox> = {
+    static default: ObjectReturnFn<ILightRotationEventBox> = {
         f: () => {
             return {
                 f: IndexFilter.default.f,

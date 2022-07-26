@@ -1,7 +1,7 @@
 import { BaseSlider } from './baseSlider.ts';
 import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
 import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /** Burst slider beatmap v3 class object.
@@ -9,7 +9,7 @@ import { deepCopy } from '../../utils/misc.ts';
  * Also known as chain.
  */
 export class BurstSlider extends BaseSlider<IBurstSlider> {
-    static default: ObjectToReturn<Required<IBurstSlider>> = {
+    static default: ObjectReturnFn<Required<IBurstSlider>> = {
         b: 0,
         c: 0,
         x: 0,
@@ -32,9 +32,7 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
     static create(): BurstSlider;
     static create(burstSliders: Partial<IBurstSlider>): BurstSlider;
     static create(...burstSliders: Partial<IBurstSlider>[]): BurstSlider[];
-    static create(
-        ...burstSliders: Partial<IBurstSlider>[]
-    ): BurstSlider | BurstSlider[] {
+    static create(...burstSliders: Partial<IBurstSlider>[]): BurstSlider | BurstSlider[] {
         const result: BurstSlider[] = [];
         burstSliders?.forEach((bs) =>
             result.push(

@@ -1,11 +1,11 @@
 import { ISlider } from '../../types/beatmap/v2/slider.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { Serializable } from '../shared/serializable.ts';
 
 /** Slider beatmap v2 class object. */
 export class Slider extends Serializable<ISlider> {
-    static default: ObjectToReturn<Required<ISlider>> = {
+    static default: ObjectReturnFn<Required<ISlider>> = {
         _colorType: 0,
         _headTime: 0,
         _headLineIndex: 0,

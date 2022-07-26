@@ -1,12 +1,12 @@
 import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
-import { ObjectToReturn } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { BeatmapObject } from './object.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /** Waypoint beatmap v2 class object. */
 export class Waypoint extends BeatmapObject<IWaypoint> {
-    static default: ObjectToReturn<Required<IWaypoint>> = {
+    static default: ObjectReturnFn<Required<IWaypoint>> = {
         _time: 0,
         _lineIndex: 0,
         _lineLayer: 0,

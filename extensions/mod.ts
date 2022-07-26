@@ -1,5 +1,5 @@
 export * as chroma from './chroma/mod.ts';
-export * as noodleExtensions from './noodleExtensions/mod.ts';
+export * as NE from './noodleExtensions/mod.ts';
 export * as parity from './parity/mod.ts';
 export * as placement from './placement/mod.ts';
 export * as renamer from './renamer/mod.ts';

@@ -1,14 +1,19 @@
 import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { Serializable } from '../shared/serializable.ts';
 
 /** Light color base beatmap v3 class object. */
 export class LightColorBase extends Serializable<ILightColorBase> {
-    static default: Required<ILightColorBase> = {
+    static default: ObjectReturnFn<Required<ILightColorBase>> = {
         b: 0,
         i: 0,
         c: 0,
         s: 1,
         f: 0,
+        customData: () => {
+            return {};
+        },
     };
 
     protected constructor(lightColorBase: Required<ILightColorBase>) {
@@ -28,6 +33,7 @@ export class LightColorBase extends Serializable<ILightColorBase> {
                     c: lc.c ?? LightColorBase.default.c,
                     s: lc.s ?? LightColorBase.default.s,
                     f: lc.f ?? LightColorBase.default.f,
+                    customData: lc.customData ?? LightColorBase.default.customData(),
                 }),
             )
         );
@@ -43,16 +49,18 @@ export class LightColorBase extends Serializable<ILightColorBase> {
             c: LightColorBase.default.c,
             s: LightColorBase.default.s,
             f: LightColorBase.default.f,
+            customData: LightColorBase.default.customData(),
         });
     }
 
-    toObject(): ILightColorBase {
+    toObject(): Required<ILightColorBase> {
         return {
             b: this.time,
             i: this.transition,
             c: this.color,
             s: this.brightness,
             f: this.frequency,
+            customData: deepCopy(this.data.customData),
         };
     }
 

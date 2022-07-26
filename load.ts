@@ -278,7 +278,7 @@ export async function difficultyFromInfo(
     });
 }
 
-/** Asynchronously load multiple beatmap difficulties given beatmap info.
+/** Synchronously load multiple beatmap difficulties given beatmap info.
  * ```ts
  * const difficultyList = load.difficultyFromInfoSync();
  * difficultyList.forEach((d) => { console.log(d) })

@@ -1,12 +1,12 @@
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
-import { DeepPartial, ObjectToReturn } from '../../types/utils.ts';
+import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
 import { EventBoxGroupTemplate } from './eventBoxGroupTemplate.ts';
 import { LightColorEventBox } from './lightColorEventBox.ts';
 
 /** Light color event box group beatmap v3 class object. */
 export class LightColorEventBoxGroup extends EventBoxGroupTemplate<ILightColorEventBox, LightColorEventBox> {
-    static default: ObjectToReturn<Required<ILightColorEventBoxGroup>> = {
+    static default: ObjectReturnFn<Required<ILightColorEventBoxGroup>> = {
         b: 0,
         g: 0,
         e: () => [],
