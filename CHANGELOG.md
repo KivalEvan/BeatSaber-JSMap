@@ -7,6 +7,7 @@
 - Chroma geometry, material and component
   - This contains breaking changes to existing v3 Chroma
 - More utilities for Chroma and Noodle Extensions
+- Additional helpers
 - Configurable data check
   - Checks on save
 - Loose autocomplete

@@ -5,6 +5,9 @@ export const LINE_COUNT = 4;
 /** Size of grid in unity unit */
 export const LANE_SIZE = 0.6;
 
+/** Size of regular note in unity unit */
+export const NOTE_SIZE = [0.5, 0.5] as const;
+
 export const enum NoteColor {
     RED,
     BLUE,
