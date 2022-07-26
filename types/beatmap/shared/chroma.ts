@@ -7,14 +7,7 @@ export type ColorPointDefinition =
 
 export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
 
-export type GeometryType =
-    | 'Sphere'
-    | 'Capsule'
-    | 'Cylinder'
-    | 'Cube'
-    | 'Plane'
-    | 'Quad'
-    | 'Triangle';
+export type GeometryType = 'Sphere' | 'Capsule' | 'Cylinder' | 'Cube' | 'Plane' | 'Quad' | 'Triangle';
 
 export type ShaderType = 'TransparentLight' | 'Standard' | 'OpaqueLight';
 
@@ -32,9 +25,9 @@ export type ShaderKeywordsStandard =
     | '_EMISSION'
     | '_ENABLE_FOG_TINT'
     | '_RIMLIGHT_NONE'
-    | '_ZWRITE_ON'
-    | 'REFLECTION_PROBE'
-    | 'LIGHT_FALLOFF';
+    | '_ZWRITE_ON' // possibly not needed
+    | 'REFLECTION_PROBE' // possibly not needed
+    | 'LIGHT_FALLOFF'; // possibly not needed
 
 /** Default shader keywords used in opaque light. */
 export type ShaderKeywordsOpaque =
@@ -77,11 +70,7 @@ export type ShaderKeywords =
     | ShaderKeywordsTransparent
     | ShaderKeywordsBillieWater;
 
-export type EnvironmentMaterial =
-    | 'BTSPillar'
-    | 'BillieWater'
-    | 'InterscopeConcrete'
-    | 'InterscopeCar';
+export type EnvironmentMaterial = 'BTSPillar' | 'BillieWater' | 'InterscopeConcrete' | 'InterscopeCar';
 
 /** Chroma interface for Difficulty Info Custom Data. */
 export interface IChromaInfoCustomData extends IInfoSettingsCustomData {

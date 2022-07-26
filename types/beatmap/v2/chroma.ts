@@ -13,66 +13,15 @@ import {
 import { IHeckCustomEventDataBase } from './heck.ts';
 import { LooseAutocomplete } from '../../utils.ts';
 
-/** Chroma Material Base interface for Environment Enhancement. */
-export interface IChromaMaterialBase {
+/** Chroma Material interface for Environment Enhancement. */
+export interface IChromaMaterial {
     _shader: LooseAutocomplete<ShaderType | EnvironmentMaterial>;
     /** Overrides default shader keywords. */
-    _shaderKeywords?: string[];
+    _shaderKeywords?: LooseAutocomplete<ShaderKeywords>[];
     _collision?: boolean;
     _track?: string;
     _color?: ColorArray;
 }
-
-/** Chroma Material Standard interface for Environment Enhancement.
- * @extends IChromaMaterialBase
- */
-export interface IChromaMaterialStandard extends IChromaMaterialBase {
-    _shader: 'Standard';
-    /** Default shader keywords preset:
-     * ```ts
-     * ["DIFFUSE", "ENABLE_DIFFUSE", "ENABLE_FOG", "ENABLE_HEIGHT_FOG", "ENABLE_SPECULAR", "FOG",
-     *  "HEIGHT_FOG", "REFLECTION_PROBE_BOX_PROJECTION", "SPECULAR", "_EMISSION",
-     *  "_ENABLE_FOG_TINT", "_RIMLIGHT_NONE"]
-     * ```
-     * Overrides default shader keywords.
-     */
-    _shaderKeywords?: ShaderKeywords[];
-}
-
-/** Chroma Material Opaque interface for Environment Enhancement.
- * @extends IChromaMaterialBase
- */
-export interface IChromaMaterialOpaque extends IChromaMaterialBase {
-    _shader: 'OpaqueLight';
-    /** Default shader keywords preset:
-     * ```ts
-     * ["DIFFUSE", "ENABLE_BLUE_NOISE", "ENABLE_DIFFUSE", "ENABLE_HEIGHT_FOG", "ENABLE_LIGHTNING", "USE_COLOR_FOG"]
-     * ```
-     * Overrides default shader keywords.
-     */
-    _shaderKeywords?: ShaderKeywords[];
-}
-
-/** Chroma Material Transparent interface for Environment Enhancement.
- * @extends IChromaMaterialBase
- */
-export interface IChromaMaterialTransparent extends IChromaMaterialBase {
-    _shader: 'TransparentLight';
-    /** Default shader keywords preset:
-     * ```ts
-     * ["ENABLE_HEIGHT_FOG", "MULTIPLY_COLOR_WITH_ALPHA", "_ENABLE_MAIN_EFFECT_WHITE_BOOST"]
-     * ```
-     * Overrides default shader keywords.
-     */
-    _shaderKeywords?: ShaderKeywords[];
-}
-
-/** Chroma Material interface for Environment Enhancement. */
-export type IChromaMaterial =
-    | IChromaMaterialBase
-    | IChromaMaterialStandard
-    | IChromaMaterialOpaque
-    | IChromaMaterialTransparent;
 
 /** Chroma Geometry interface for Environment Enhancement. */
 export interface IChromaGeometry {
