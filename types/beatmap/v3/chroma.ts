@@ -11,10 +11,11 @@ import {
     ShaderType,
 } from '../shared/chroma.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
+import { LooseAutocomplete } from '../../utils.ts';
 
 /** Chroma Material Base interface for Environment Enhancement. */
 export interface IChromaMaterialBase {
-    shader: ShaderType | EnvironmentMaterial;
+    shader: LooseAutocomplete<ShaderType | EnvironmentMaterial>;
     /** Overrides default shader keywords. */
     shaderKeywords?: string[];
     collision?: boolean;
@@ -67,7 +68,11 @@ export interface IChromaMaterialTransparent extends IChromaMaterialBase {
 }
 
 /** Chroma Material interface for Environment Enhancement. */
-export type IChromaMaterial = IChromaMaterialStandard | IChromaMaterialOpaque | IChromaMaterialTransparent;
+export type IChromaMaterial =
+    | IChromaMaterialBase
+    | IChromaMaterialStandard
+    | IChromaMaterialOpaque
+    | IChromaMaterialTransparent;
 
 /** Chroma Geometry interface for Environment Enhancement. */
 export interface IChromaGeometry {
