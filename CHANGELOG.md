@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2.0 [2022-07-x]
+## 1.2.0 [2022-08-x]
 
 ### Added
 
@@ -9,21 +9,24 @@
 - More utilities standard, Chroma, and Noodle Extensions
 - Configurable data check
   - Checks on save
+- Object mirroring now use & change custom data
+- Object get position/angle can use & return custom data value
+- Color function can infer hex string as RGBA color
+- Color function can take color object and uses them accordingly
+  - Depend on use case, this will always convert to RGBA for ease of development
 - Loose autocomplete
 
 ### Changed
 
 - `path` is now called `directory` to avoid confusion
-- Object mirroring now uses/changes custom data
-- Object get position/angle can use & return custom data value
 - Easings is now independent to beatmap
   - Easings can be retrieved from `utils`
-- Color function can infer hex string as RGBA color
-- Color function can take color object and uses them accordingly
-  - Depend on use case, this will always convert to RGBA for ease of development
 - Beatmap V3 to V2 conversion now converts customData back
   - Attempts to fix position for environment track
+- Beatmap object create will now always return array
 - Types structure changes
+- Renamed class `DifficultyData` to `Difficulty`
+- Renamed method `toObject` to `toJSON` for JS built-in functionality
 - All constructor is now protected instead of private
 
 ### Fixed

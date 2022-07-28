@@ -18,16 +18,13 @@ export class LightRotationEventBoxGroup extends EventBoxGroupTemplate<ILightRota
     protected constructor(eventBoxGroup: Required<ILightRotationEventBoxGroup>) {
         super(
             eventBoxGroup,
-            eventBoxGroup.e.map((e) => LightRotationEventBox.create(e)),
+            eventBoxGroup.e.map((e) => LightRotationEventBox.create(e)[0]),
         );
     }
 
-    static create(): LightRotationEventBoxGroup;
-    static create(eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>): LightRotationEventBoxGroup;
+    static create(): LightRotationEventBoxGroup[];
     static create(...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]): LightRotationEventBoxGroup[];
-    static create(
-        ...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]
-    ): LightRotationEventBoxGroup | LightRotationEventBoxGroup[] {
+    static create(...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]): LightRotationEventBoxGroup[] {
         const result: LightRotationEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
             result.push(
@@ -39,17 +36,16 @@ export class LightRotationEventBoxGroup extends EventBoxGroupTemplate<ILightRota
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: LightRotationEventBoxGroup.default.b,
-            g: LightRotationEventBoxGroup.default.g,
-            e: LightRotationEventBoxGroup.default.e(),
-            customData: LightRotationEventBoxGroup.default.customData(),
-        });
+        return [
+            new this({
+                b: LightRotationEventBoxGroup.default.b,
+                g: LightRotationEventBoxGroup.default.g,
+                e: LightRotationEventBoxGroup.default.e(),
+                customData: LightRotationEventBoxGroup.default.customData(),
+            }),
+        ];
     }
 }

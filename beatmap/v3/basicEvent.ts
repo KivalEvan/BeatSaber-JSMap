@@ -21,10 +21,9 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
         super(basicEvent);
     }
 
-    static create(): BasicEvent;
-    static create(basicEvents: Partial<IBasicEvent>): BasicEvent;
+    static create(): BasicEvent[];
     static create(...basicEvents: Partial<IBasicEvent>[]): BasicEvent[];
-    static create(...basicEvents: Partial<IBasicEvent>[]): BasicEvent | BasicEvent[] {
+    static create(...basicEvents: Partial<IBasicEvent>[]): BasicEvent[] {
         const result: BasicEvent[] = [];
         basicEvents?.forEach((be) =>
             result.push(
@@ -37,22 +36,21 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: BasicEvent.default.b,
-            et: BasicEvent.default.et,
-            i: BasicEvent.default.i,
-            f: BasicEvent.default.f,
-            customData: BasicEvent.default.customData(),
-        });
+        return [
+            new this({
+                b: BasicEvent.default.b,
+                et: BasicEvent.default.et,
+                i: BasicEvent.default.i,
+                f: BasicEvent.default.f,
+                customData: BasicEvent.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IBasicEvent> {
+    toJSON(): Required<IBasicEvent> {
         return {
             b: this.time,
             et: this.type,

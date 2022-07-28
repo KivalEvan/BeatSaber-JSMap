@@ -20,10 +20,9 @@ export class Waypoint extends BaseObject<IWaypoint> {
         super(waypoint);
     }
 
-    static create(): Waypoint;
-    static create(waypoints: Partial<IWaypoint>): Waypoint;
+    static create(): Waypoint[];
     static create(...waypoints: Partial<IWaypoint>[]): Waypoint[];
-    static create(...waypoints: Partial<IWaypoint>[]): Waypoint | Waypoint[] {
+    static create(...waypoints: Partial<IWaypoint>[]): Waypoint[] {
         const result: Waypoint[] = [];
         waypoints?.forEach((w) =>
             result.push(
@@ -36,22 +35,21 @@ export class Waypoint extends BaseObject<IWaypoint> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: Waypoint.default.b,
-            x: Waypoint.default.x,
-            y: Waypoint.default.y,
-            d: Waypoint.default.d,
-            customData: Waypoint.default.customData(),
-        });
+        return [
+            new this({
+                b: Waypoint.default.b,
+                x: Waypoint.default.x,
+                y: Waypoint.default.y,
+                d: Waypoint.default.d,
+                customData: Waypoint.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IWaypoint> {
+    toJSON(): Required<IWaypoint> {
         return {
             b: this.time,
             x: this.posX,

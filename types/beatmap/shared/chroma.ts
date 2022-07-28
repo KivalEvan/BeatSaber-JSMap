@@ -2,8 +2,8 @@ import { Easings } from '../../easings.ts';
 import { IInfoSettingsCustomData } from './heck.ts';
 
 export type ColorPointDefinition =
-    | [number, number, number, number, number, 'hsv'?, Easings?]
-    | [number, number, number, number, number, Easings?, 'hsv'?];
+    | [number, number, number, number, number, 'hsvLerp'?, Easings?]
+    | [number, number, number, number, number, Easings?, 'hsvLerp'?];
 
 export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
 

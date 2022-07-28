@@ -36,14 +36,48 @@ try {
     const diffList = bsmap.load.difficultyFromInfoSync(info);
 
     let isConverted = false;
+    let oldChromaConvert = false;
+    let oldChromaConfirm = false;
+    let gradientChromaConvert = false;
+    let gradientChromaConfirm = false;
     diffList.forEach((dl) => {
         if (!bsmap.isV3(dl.data)) {
-            bsmap.logger.info('Backing up', dl.characteristic, dl.difficulty);
+            bsmap.logger.info('Backing up beatmap v2', dl.characteristic, dl.difficulty);
             Deno.renameSync(
                 bsmap.globals.directory + dl.settings._beatmapFilename,
                 bsmap.globals.directory + dl.settings._beatmapFilename + '.old'
             );
-            bsmap.logger.info('Converting', dl.characteristic, dl.difficulty);
+            if (dl.data.events.some((e) => e.hasOldChroma())) {
+                if (oldChromaConfirm) {
+                    const confirmation = prompt(
+                        'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
+                        'n'
+                    );
+                    if (confirmation![0].toLowerCase() === 'y') {
+                        oldChromaConvert = true;
+                    }
+                    oldChromaConfirm = true;
+                }
+                if (oldChromaConvert) {
+                    bsmap.convert.ogChromaToChromaV2(dl.data, info._environmentName);
+                }
+            }
+            if (dl.data.events.some((e) => e.customData._lightGradient)) {
+                if (gradientChromaConfirm) {
+                    const confirmation = prompt(
+                        'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
+                        'n'
+                    );
+                    if (confirmation![0].toLowerCase() === 'y') {
+                        gradientChromaConvert = true;
+                    }
+                    gradientChromaConfirm = true;
+                }
+                if (gradientChromaConvert) {
+                    bsmap.convert.chromaLightGradientToVanillaGradient(dl.data, true);
+                }
+            }
+            bsmap.logger.info('Converting beatmap v2', dl.characteristic, dl.difficulty, 'to v3');
             dl.data = bsmap.convert.V2toV3(dl.data, true);
             bsmap.save.difficultySync(dl.data);
             isConverted = true;
@@ -51,7 +85,7 @@ try {
     });
 
     if (isConverted) {
-        bsmap.logger.info('Done!');
+        bsmap.logger.info('Conversion completed!');
     } else {
         bsmap.logger.info('Nothing was converted.');
     }

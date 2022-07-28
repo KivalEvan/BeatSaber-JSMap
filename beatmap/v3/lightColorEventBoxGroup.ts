@@ -18,16 +18,13 @@ export class LightColorEventBoxGroup extends EventBoxGroupTemplate<ILightColorEv
     protected constructor(eventBoxGroup: Required<ILightColorEventBoxGroup>) {
         super(
             eventBoxGroup,
-            eventBoxGroup.e.map((e) => LightColorEventBox.create(e)),
+            eventBoxGroup.e.map((e) => LightColorEventBox.create(e)[0]),
         );
     }
 
-    static create(): LightColorEventBoxGroup;
-    static create(eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>): LightColorEventBoxGroup;
+    static create(): LightColorEventBoxGroup[];
     static create(...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]): LightColorEventBoxGroup[];
-    static create(
-        ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
-    ): LightColorEventBoxGroup | LightColorEventBoxGroup[] {
+    static create(...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]): LightColorEventBoxGroup[] {
         const result: LightColorEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
             result.push(
@@ -39,17 +36,16 @@ export class LightColorEventBoxGroup extends EventBoxGroupTemplate<ILightColorEv
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: LightColorEventBoxGroup.default.b,
-            g: LightColorEventBoxGroup.default.g,
-            e: LightColorEventBoxGroup.default.e(),
-            customData: LightColorEventBoxGroup.default.customData(),
-        });
+        return [
+            new this({
+                b: LightColorEventBoxGroup.default.b,
+                g: LightColorEventBoxGroup.default.g,
+                e: LightColorEventBoxGroup.default.e(),
+                customData: LightColorEventBoxGroup.default.customData(),
+            }),
+        ];
     }
 }

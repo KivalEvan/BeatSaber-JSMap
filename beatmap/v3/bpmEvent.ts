@@ -17,10 +17,9 @@ export class BPMEvent extends BaseObject<IBPMEvent> {
         super(bpmEvent);
     }
 
-    static create(): BPMEvent;
-    static create(bpmEvents: Partial<IBPMEvent>): BPMEvent;
+    static create(): BPMEvent[];
     static create(...bpmEvents: Partial<IBPMEvent>[]): BPMEvent[];
-    static create(...bpmEvents: Partial<IBPMEvent>[]): BPMEvent | BPMEvent[] {
+    static create(...bpmEvents: Partial<IBPMEvent>[]): BPMEvent[] {
         const result: BPMEvent[] = [];
         bpmEvents?.forEach((be) =>
             result.push(
@@ -31,20 +30,19 @@ export class BPMEvent extends BaseObject<IBPMEvent> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: BPMEvent.default.b,
-            m: BPMEvent.default.m,
-            customData: BPMEvent.default.customData(),
-        });
+        return [
+            new this({
+                b: BPMEvent.default.b,
+                m: BPMEvent.default.m,
+                customData: BPMEvent.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IBPMEvent> {
+    toJSON(): Required<IBPMEvent> {
         return {
             b: this.time,
             m: this.bpm,

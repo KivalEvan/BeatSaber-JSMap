@@ -13,7 +13,7 @@ import { ILightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { IBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 import { ICustomDataDifficulty } from './customData.ts';
 
-export interface IDifficultyData {
+export interface IDifficulty {
     version: '3.0.0';
     bpmEvents: IBPMEvent[];
     rotationEvents: IRotationEvent[];

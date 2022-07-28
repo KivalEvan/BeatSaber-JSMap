@@ -21,10 +21,9 @@ export class Note extends BeatmapObject<INote> {
         super(data);
     }
 
-    static create(): Note;
-    static create(notes: Partial<INote>): Note;
+    static create(): Note[];
     static create(...notes: Partial<INote>[]): Note[];
-    static create(...notes: Partial<INote>[]): Note | Note[] {
+    static create(...notes: Partial<INote>[]): Note[] {
         const result: Note[] = [];
         notes?.forEach((n) =>
             result.push(
@@ -38,23 +37,22 @@ export class Note extends BeatmapObject<INote> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            _time: Note.default._time,
-            _lineIndex: Note.default._lineIndex,
-            _lineLayer: Note.default._lineLayer,
-            _type: Note.default._type,
-            _cutDirection: Note.default._cutDirection,
-            _customData: Note.default._customData(),
-        });
+        return [
+            new this({
+                _time: Note.default._time,
+                _lineIndex: Note.default._lineIndex,
+                _lineLayer: Note.default._lineLayer,
+                _type: Note.default._type,
+                _cutDirection: Note.default._cutDirection,
+                _customData: Note.default._customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<INote> {
+    toJSON(): Required<INote> {
         return {
             _time: this.time,
             _type: this.type,

@@ -20,10 +20,9 @@ export class Waypoint extends BeatmapObject<IWaypoint> {
         super(waypoint);
     }
 
-    static create(): Waypoint;
-    static create(waypoints: Partial<IWaypoint>): Waypoint;
+    static create(): Waypoint[];
     static create(...waypoints: Partial<IWaypoint>[]): Waypoint[];
-    static create(...waypoints: Partial<IWaypoint>[]): Waypoint | Waypoint[] {
+    static create(...waypoints: Partial<IWaypoint>[]): Waypoint[] {
         const result: Waypoint[] = [];
         waypoints?.forEach((w) =>
             result.push(
@@ -36,22 +35,21 @@ export class Waypoint extends BeatmapObject<IWaypoint> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            _time: Waypoint.default._time,
-            _lineIndex: Waypoint.default._lineIndex,
-            _lineLayer: Waypoint.default._lineLayer,
-            _offsetDirection: Waypoint.default._offsetDirection,
-            _customData: Waypoint.default._customData(),
-        });
+        return [
+            new this({
+                _time: Waypoint.default._time,
+                _lineIndex: Waypoint.default._lineIndex,
+                _lineLayer: Waypoint.default._lineLayer,
+                _offsetDirection: Waypoint.default._offsetDirection,
+                _customData: Waypoint.default._customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IWaypoint> {
+    toJSON(): Required<IWaypoint> {
         return {
             _time: this.time,
             _lineIndex: this.posX,

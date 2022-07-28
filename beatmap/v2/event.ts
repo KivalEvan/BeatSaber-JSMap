@@ -22,10 +22,9 @@ export class Event extends BeatmapObject<IEvent> {
         super(event);
     }
 
-    static create(): Event;
-    static create(basicEvents: Partial<IEvent>): Event;
+    static create(): Event[];
     static create(...basicEvents: Partial<IEvent>[]): Event[];
-    static create(...basicEvents: Partial<IEvent>[]): Event | Event[] {
+    static create(...basicEvents: Partial<IEvent>[]): Event[] {
         const result: Event[] = [];
         basicEvents?.forEach((ev) =>
             result.push(
@@ -38,22 +37,21 @@ export class Event extends BeatmapObject<IEvent> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            _time: Event.default._time,
-            _type: Event.default._type,
-            _value: Event.default._value,
-            _floatValue: Event.default._floatValue,
-            _customData: Event.default._customData(),
-        });
+        return [
+            new this({
+                _time: Event.default._time,
+                _type: Event.default._type,
+                _value: Event.default._value,
+                _floatValue: Event.default._floatValue,
+                _customData: Event.default._customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IEvent> {
+    toJSON(): Required<IEvent> {
         return {
             _time: this.time,
             _type: this.type,

@@ -23,10 +23,9 @@ export class ColorNote extends BaseNote<IColorNote> {
         super(colorNote);
     }
 
-    static create(): ColorNote;
-    static create(colorNotes: Partial<IColorNote>): ColorNote;
+    static create(): ColorNote[];
     static create(...colorNotes: Partial<IColorNote>[]): ColorNote[];
-    static create(...colorNotes: Partial<IColorNote>[]): ColorNote | ColorNote[] {
+    static create(...colorNotes: Partial<IColorNote>[]): ColorNote[] {
         const result: ColorNote[] = [];
         colorNotes?.forEach((n) =>
             result.push(
@@ -41,24 +40,23 @@ export class ColorNote extends BaseNote<IColorNote> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: ColorNote.default.b,
-            x: ColorNote.default.x,
-            y: ColorNote.default.y,
-            c: ColorNote.default.c,
-            d: ColorNote.default.d,
-            a: ColorNote.default.a,
-            customData: ColorNote.default.customData(),
-        });
+        return [
+            new this({
+                b: ColorNote.default.b,
+                x: ColorNote.default.x,
+                y: ColorNote.default.y,
+                c: ColorNote.default.c,
+                d: ColorNote.default.d,
+                a: ColorNote.default.a,
+                customData: ColorNote.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IColorNote> {
+    toJSON(): Required<IColorNote> {
         return {
             b: this.time,
             c: this.color,

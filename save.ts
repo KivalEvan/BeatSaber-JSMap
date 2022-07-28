@@ -1,16 +1,16 @@
 import { IInfoData } from './types/beatmap/shared/info.ts';
-import { DifficultyData as DifficultyDataV2 } from './beatmap/v2/difficulty.ts';
-import { DifficultyData as DifficultyDataV3 } from './beatmap/v3/difficulty.ts';
+import { Difficulty as DifficultyV2 } from './beatmap/v2/difficulty.ts';
+import { Difficulty as DifficultyV3 } from './beatmap/v3/difficulty.ts';
 import { ISaveOptionsDifficulty, ISaveOptionsDifficultyList, ISaveOptionsInfo } from './types/bsmap/save.ts';
 import { IDifficultyList } from './types/bsmap/list.ts';
 import * as optimize from './optimize.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 import { deepCheck } from './beatmap/shared/dataCheck.ts';
-import { DifficultyDataCheck as DifficultyDataCheckV2 } from './beatmap/v2/dataCheck.ts';
-import { DifficultyDataCheck } from './beatmap/v3/dataCheck.ts';
-import { IDifficultyData as IDifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
-import { IDifficultyData } from './types/beatmap/v3/difficulty.ts';
+import { DifficultyCheck as DifficultyCheckV2 } from './beatmap/v2/dataCheck.ts';
+import { DifficultyCheck } from './beatmap/v3/dataCheck.ts';
+import { IDifficulty as IDifficultyV2 } from './types/beatmap/v2/difficulty.ts';
+import { IDifficulty } from './types/beatmap/v3/difficulty.ts';
 
 const tag = (name: string) => {
     return `[save::${name}]`;
@@ -104,10 +104,7 @@ export function infoSync(data: IInfoData, options: Partial<ISaveOptionsInfo> = {
  * await save.difficulty(difficulty);
  * ```
  */
-export async function difficulty(
-    data: DifficultyDataV2 | DifficultyDataV3,
-    options: Partial<ISaveOptionsDifficulty> = {},
-) {
+export async function difficulty(data: DifficultyV2 | DifficultyV3, options: Partial<ISaveOptionsDifficulty> = {}) {
     const opt: Required<ISaveOptionsDifficulty> = {
         directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
         filePath: options.filePath ?? (data.fileName || defaultOptions.difficulty.filePath || 'UnnamedDifficulty.dat'),
@@ -116,23 +113,23 @@ export async function difficulty(
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     logger.info(tag('difficulty'), `Async saving difficulty`);
-    const objectData = data.toObject();
+    const objectData = data.toJSON();
     if (opt.dataCheck.enable) {
-        if ((objectData as IDifficultyDataV2)._version) {
+        if ((objectData as IDifficultyV2)._version) {
             deepCheck(
                 objectData,
-                DifficultyDataCheckV2,
+                DifficultyCheckV2,
                 'difficulty',
-                (objectData as IDifficultyDataV2)._version,
+                (objectData as IDifficultyV2)._version,
                 opt.dataCheck.throwError,
             );
         }
-        if ((objectData as IDifficultyData).version) {
+        if ((objectData as IDifficulty).version) {
             deepCheck(
                 objectData,
-                DifficultyDataCheck,
+                DifficultyCheck,
                 'difficulty',
-                (objectData as IDifficultyData).version,
+                (objectData as IDifficulty).version,
                 opt.dataCheck.throwError,
             );
         }
@@ -152,10 +149,7 @@ export async function difficulty(
  * save.difficultySync(difficulty);
  * ```
  */
-export function difficultySync(
-    data: DifficultyDataV2 | DifficultyDataV3,
-    options: Partial<ISaveOptionsDifficulty> = {},
-) {
+export function difficultySync(data: DifficultyV2 | DifficultyV3, options: Partial<ISaveOptionsDifficulty> = {}) {
     const opt: Required<ISaveOptionsDifficulty> = {
         directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
         filePath: options.filePath ?? (data.fileName || defaultOptions.difficulty.filePath || 'UnnamedDifficulty.dat'),
@@ -164,23 +158,23 @@ export function difficultySync(
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     logger.info(tag('difficultySync'), `Sync saving difficulty`);
-    const objectData = data.toObject();
+    const objectData = data.toJSON();
     if (opt.dataCheck.enable) {
-        if ((objectData as IDifficultyDataV2)._version) {
+        if ((objectData as IDifficultyV2)._version) {
             deepCheck(
                 objectData,
-                DifficultyDataCheckV2,
+                DifficultyCheckV2,
                 'difficulty',
-                (objectData as IDifficultyDataV2)._version,
+                (objectData as IDifficultyV2)._version,
                 opt.dataCheck.throwError,
             );
         }
-        if ((objectData as IDifficultyData).version) {
+        if ((objectData as IDifficulty).version) {
             deepCheck(
                 objectData,
-                DifficultyDataCheck,
+                DifficultyCheck,
                 'difficulty',
-                (objectData as IDifficultyData).version,
+                (objectData as IDifficulty).version,
                 opt.dataCheck.throwError,
             );
         }
@@ -210,23 +204,23 @@ export function difficultyList(difficulties: IDifficultyList, options: Partial<I
             dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
         };
         logger.info(tag('difficultyListSync'), `Saving ${dl.characteristic} ${dl.difficulty}`);
-        const objectData = dl.data.toObject();
+        const objectData = dl.data.toJSON();
         if (opt.dataCheck.enable) {
-            if ((objectData as IDifficultyDataV2)._version) {
+            if ((objectData as IDifficultyV2)._version) {
                 deepCheck(
                     objectData,
-                    DifficultyDataCheckV2,
+                    DifficultyCheckV2,
                     'difficulty',
-                    (objectData as IDifficultyDataV2)._version,
+                    (objectData as IDifficultyV2)._version,
                     opt.dataCheck.throwError,
                 );
             }
-            if ((objectData as IDifficultyData).version) {
+            if ((objectData as IDifficulty).version) {
                 deepCheck(
                     objectData,
-                    DifficultyDataCheck,
+                    DifficultyCheck,
                     'difficulty',
-                    (objectData as IDifficultyData).version,
+                    (objectData as IDifficulty).version,
                     opt.dataCheck.throwError,
                 );
             }
@@ -257,23 +251,23 @@ export function difficultyListSync(difficulties: IDifficultyList, options: Parti
             dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
         };
         logger.info(tag('difficultyListSync'), `Saving ${dl.characteristic} ${dl.difficulty}`);
-        const objectData = dl.data.toObject();
+        const objectData = dl.data.toJSON();
         if (opt.dataCheck.enable) {
-            if ((objectData as IDifficultyDataV2)._version) {
+            if ((objectData as IDifficultyV2)._version) {
                 deepCheck(
                     objectData,
-                    DifficultyDataCheckV2,
+                    DifficultyCheckV2,
                     'difficulty',
-                    (objectData as IDifficultyDataV2)._version,
+                    (objectData as IDifficultyV2)._version,
                     opt.dataCheck.throwError,
                 );
             }
-            if ((objectData as IDifficultyData).version) {
+            if ((objectData as IDifficulty).version) {
                 deepCheck(
                     objectData,
-                    DifficultyDataCheck,
+                    DifficultyCheck,
                     'difficulty',
-                    (objectData as IDifficultyData).version,
+                    (objectData as IDifficulty).version,
                     opt.dataCheck.throwError,
                 );
             }

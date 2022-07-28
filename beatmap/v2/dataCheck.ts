@@ -1,6 +1,6 @@
 import { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
 import {
-    IDifficultyData,
+    IDifficulty,
     IEvent,
     INote,
     IObstacle,
@@ -220,10 +220,7 @@ export const SpecialEventsKeywordFiltersKeywordsDataCheck: Record<
     },
 } as const;
 
-export const SpecialEventsKeywordFiltersDataCheck: Record<
-    keyof ISpecialEventsKeywordFilters,
-    DataCheck
-> = {
+export const SpecialEventsKeywordFiltersDataCheck: Record<keyof ISpecialEventsKeywordFilters, DataCheck> = {
     _keywords: {
         type: 'array',
         version: '2.4.0',
@@ -231,7 +228,7 @@ export const SpecialEventsKeywordFiltersDataCheck: Record<
     },
 } as const;
 
-export const DifficultyDataCheck: Record<keyof IDifficultyData, DataCheck> = {
+export const DifficultyCheck: Record<keyof IDifficulty, DataCheck> = {
     _version: {
         type: 'string',
         version: '2.0.0',

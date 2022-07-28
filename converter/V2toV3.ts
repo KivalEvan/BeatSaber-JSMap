@@ -1,7 +1,7 @@
 import * as v3 from '../beatmap/v3/mod.ts';
 import logger from '../logger.ts';
-import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
-import { DifficultyData as DifficultyDataV3 } from '../beatmap/v3/difficulty.ts';
+import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
+import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
 import { clamp } from '../utils/math.ts';
 import { EventLaneRotationValue } from '../beatmap/shared/constants.ts';
 import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v3/customData.ts';
@@ -20,7 +20,7 @@ const tag = (name: string) => {
  * ---
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): DifficultyDataV3 {
+export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
     if (!skipPrompt) {
         logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
@@ -31,7 +31,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
     } else {
         logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
     }
-    const template = v3.DifficultyData.create();
+    const template = v3.Difficulty.create();
     template.fileName = data.fileName;
 
     template.customData.fakeBombNotes = [];
@@ -80,7 +80,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                         x: n.posX,
                         y: n.posY,
                         customData,
-                    }).toObject(),
+                    })[0].toJSON(),
                 );
             } else {
                 template.bombNotes.push(
@@ -89,7 +89,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                         x: n.posX,
                         y: n.posY,
                         customData,
-                    }),
+                    })[0],
                 );
             }
         }
@@ -115,7 +115,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             : clamp(n.cutDirection, 0, 8),
                         a: a,
                         customData,
-                    }).toObject(),
+                    })[0].toJSON(),
                 );
             } else {
                 template.colorNotes.push(
@@ -129,7 +129,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                             : clamp(n.cutDirection, 0, 8),
                         a: a,
                         customData,
-                    }),
+                    })[0],
                 );
             }
         }
@@ -171,7 +171,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     w: o.width,
                     h: o.type === 2 ? o.height : o.type ? 3 : 5,
                     customData,
-                }).toObject(),
+                })[0].toJSON(),
             );
         } else {
             template.obstacles.push(
@@ -183,7 +183,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     w: o.width,
                     h: o.type === 2 ? o.height : o.type ? 3 : 5,
                     customData,
-                }),
+                })[0],
             );
         }
     });
@@ -194,7 +194,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 v3.ColorBoostEvent.create({
                     b: e.time,
                     o: e.value ? true : false,
-                }),
+                })[0],
             );
         } else if (e.isLaneRotationEvent()) {
             template.rotationEvents.push(
@@ -206,14 +206,14 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                         : e.value >= 1000
                         ? (e.value - 1360) % 360
                         : EventLaneRotationValue[e.value] ?? 0,
-                }),
+                })[0],
             );
         } else if (e.isBPMChangeEvent()) {
             template.bpmEvents.push(
                 v3.BPMEvent.create({
                     b: e.time,
                     m: e.floatValue,
-                }),
+                })[0],
             );
         } else {
             let customData!: IBasicEvent['customData'];
@@ -273,7 +273,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                     i: e.value,
                     f: e.floatValue,
                     customData,
-                }),
+                })[0],
             );
         }
     });
@@ -285,7 +285,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 x: w.posX,
                 y: w.posY,
                 d: w.direction,
-            }),
+            })[0],
         );
     });
 
@@ -304,7 +304,7 @@ export function V2toV3(data: DifficultyDataV2, skipPrompt?: boolean): Difficulty
                 tc: s.tailCutDirection,
                 tmu: s.tailLengthMultiplier,
                 m: s.midAnchor,
-            }),
+            })[0],
         )
     );
 

@@ -1,7 +1,7 @@
 import { IBaseObject } from '../../types/beatmap/v3/baseObject.ts';
-import { IDifficultyData } from '../../types/beatmap/v3/difficulty.ts';
-import { DifficultyData } from './difficulty.ts';
-import { DifficultyDataCheck } from './dataCheck.ts';
+import { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
+import { Difficulty } from './difficulty.ts';
+import { DifficultyCheck } from './dataCheck.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
 import logger from '../../logger.ts';
 
@@ -11,13 +11,13 @@ const tag = (name: string) => {
 
 const sortObjectTime = (a: IBaseObject, b: IBaseObject) => a.b - b.b;
 
-export function difficulty(data: IDifficultyData): DifficultyData {
+export function difficulty(data: Partial<IDifficulty>): Difficulty {
     logger.info(tag('difficulty'), 'Parsing beatmap difficulty v3.x.x');
     if (data.version !== '3.0.0') {
         logger.warn(tag('difficulty'), 'Unidentified beatmap version');
         data.version = '3.0.0';
     }
-    deepCheck(data, DifficultyDataCheck, 'difficulty', data.version);
+    deepCheck(data, DifficultyCheck, 'difficulty', data.version);
 
     // haha why do i have to do this, beat games
     data.bpmEvents = data.bpmEvents ?? [];
@@ -46,5 +46,5 @@ export function difficulty(data: IDifficultyData): DifficultyData {
     data.lightColorEventBoxGroups.sort(sortObjectTime);
     data.lightRotationEventBoxGroups.sort(sortObjectTime);
 
-    return DifficultyData.create(data);
+    return Difficulty.create(data);
 }

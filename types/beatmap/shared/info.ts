@@ -29,10 +29,10 @@ export interface IInfoData {
 /** Info Set interface for info. */
 export interface IInfoSetData {
     _beatmapCharacteristicName: CharacteristicName;
-    _difficultyBeatmaps: IInfoSetDifficultyData[];
+    _difficultyBeatmaps: IInfoSetDifficulty[];
 }
 /** Info Set interface for info. */
-export interface IInfoSetDifficultyData {
+export interface IInfoSetDifficulty {
     _difficulty: DifficultyName;
     _difficultyRank: DifficultyRank;
     _beatmapFilename: LooseAutocomplete<GenericFileName>;

@@ -26,7 +26,7 @@ export class IndexFilter extends Serializable<IIndexFilter> {
         });
     }
 
-    toObject(): IIndexFilter {
+    toJSON(): IIndexFilter {
         return {
             f: this.type,
             p: this.p0,

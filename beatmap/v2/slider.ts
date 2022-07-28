@@ -24,10 +24,9 @@ export class Slider extends Serializable<ISlider> {
         super(slider);
     }
 
-    static create(): Slider;
-    static create(sliders: Partial<ISlider>): Slider;
+    static create(): Slider[];
     static create(...sliders: Partial<ISlider>[]): Slider[];
-    static create(...sliders: Partial<ISlider>[]): Slider | Slider[] {
+    static create(...sliders: Partial<ISlider>[]): Slider[] {
         const result: Slider[] = [];
         sliders?.forEach((s) =>
             result.push(
@@ -49,29 +48,28 @@ export class Slider extends Serializable<ISlider> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            _colorType: Slider.default._colorType,
-            _headTime: Slider.default._headTime,
-            _headLineIndex: Slider.default._headLineIndex,
-            _headLineLayer: Slider.default._headLineLayer,
-            _headCutDirection: Slider.default._headCutDirection,
-            _headControlPointlengthMultiplier: Slider.default._headControlPointlengthMultiplier,
-            _tailTime: Slider.default._tailTime,
-            _tailLineIndex: Slider.default._tailLineIndex,
-            _tailLineLayer: Slider.default._tailLineLayer,
-            _tailCutDirection: Slider.default._tailCutDirection,
-            _tailControlPointLengthMultiplier: Slider.default._tailControlPointLengthMultiplier,
-            _sliderMidAnchorMode: Slider.default._sliderMidAnchorMode,
-        });
+        return [
+            new this({
+                _colorType: Slider.default._colorType,
+                _headTime: Slider.default._headTime,
+                _headLineIndex: Slider.default._headLineIndex,
+                _headLineLayer: Slider.default._headLineLayer,
+                _headCutDirection: Slider.default._headCutDirection,
+                _headControlPointlengthMultiplier: Slider.default._headControlPointlengthMultiplier,
+                _tailTime: Slider.default._tailTime,
+                _tailLineIndex: Slider.default._tailLineIndex,
+                _tailLineLayer: Slider.default._tailLineLayer,
+                _tailCutDirection: Slider.default._tailCutDirection,
+                _tailControlPointLengthMultiplier: Slider.default._tailControlPointLengthMultiplier,
+                _sliderMidAnchorMode: Slider.default._sliderMidAnchorMode,
+            }),
+        ];
     }
 
-    toObject(): Required<ISlider> {
+    toJSON(): Required<ISlider> {
         return {
             _colorType: this.colorType,
             _headTime: this.headTime,

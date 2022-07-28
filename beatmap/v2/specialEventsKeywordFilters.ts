@@ -13,11 +13,12 @@ export class SpecialEventsKeywordFilters extends Serializable<ISpecialEventsKeyw
     keywords: SpecialEventsKeywordFiltersKeywords[];
     protected constructor(specialEventsWithKeywords: Required<ISpecialEventsKeywordFilters>) {
         super(specialEventsWithKeywords);
-        this.keywords = specialEventsWithKeywords._keywords.map((d) =>
-            SpecialEventsKeywordFiltersKeywords.create({
-                _keyword: d._keyword,
-                _specialEvents: d._specialEvents,
-            })
+        this.keywords = specialEventsWithKeywords._keywords.map(
+            (d) =>
+                SpecialEventsKeywordFiltersKeywords.create({
+                    _keyword: d._keyword,
+                    _specialEvents: d._specialEvents,
+                })[0],
         );
     }
 
@@ -27,9 +28,9 @@ export class SpecialEventsKeywordFilters extends Serializable<ISpecialEventsKeyw
         });
     }
 
-    toObject(): ISpecialEventsKeywordFilters {
+    toJSON(): ISpecialEventsKeywordFilters {
         return {
-            _keywords: this.keywords.map((d) => d.toObject()),
+            _keywords: this.keywords.map((d) => d.toJSON()),
         };
     }
 
@@ -39,7 +40,7 @@ export class SpecialEventsKeywordFilters extends Serializable<ISpecialEventsKeyw
         return this;
     }
     addKeyword(value: ISpecialEventsKeywordFiltersKeywords) {
-        this.keywords.push(SpecialEventsKeywordFiltersKeywords.create(value));
+        this.keywords.push(SpecialEventsKeywordFiltersKeywords.create(value)[0]);
         return this;
     }
     removeKeyword(value: string) {

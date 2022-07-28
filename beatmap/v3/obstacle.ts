@@ -22,10 +22,9 @@ export class Obstacle extends BaseObject<IObstacle> {
         super(obstacle);
     }
 
-    static create(): Obstacle;
-    static create(obstacles: Partial<IObstacle>): Obstacle;
+    static create(): Obstacle[];
     static create(...obstacles: Partial<IObstacle>[]): Obstacle[];
-    static create(...obstacles: Partial<IObstacle>[]): Obstacle | Obstacle[] {
+    static create(...obstacles: Partial<IObstacle>[]): Obstacle[] {
         const result: Obstacle[] = [];
         obstacles?.forEach((o) =>
             result.push(
@@ -40,24 +39,23 @@ export class Obstacle extends BaseObject<IObstacle> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: Obstacle.default.b,
-            x: Obstacle.default.x,
-            y: Obstacle.default.y,
-            d: Obstacle.default.d,
-            w: Obstacle.default.w,
-            h: Obstacle.default.h,
-            customData: Obstacle.default.customData(),
-        });
+        return [
+            new this({
+                b: Obstacle.default.b,
+                x: Obstacle.default.x,
+                y: Obstacle.default.y,
+                d: Obstacle.default.d,
+                w: Obstacle.default.w,
+                h: Obstacle.default.h,
+                customData: Obstacle.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IObstacle> {
+    toJSON(): Required<IObstacle> {
         return {
             b: this.time,
             x: this.posX,

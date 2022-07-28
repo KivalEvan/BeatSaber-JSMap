@@ -13,7 +13,7 @@ export class BasicEventTypesWithKeywords extends Serializable<IBasicEventTypesWi
     private d: BasicEventTypesForKeywords[];
     protected constructor(basicEventTypesWithKeywords: Required<IBasicEventTypesWithKeywords>) {
         super(basicEventTypesWithKeywords);
-        this.d = basicEventTypesWithKeywords.d.map((d) => BasicEventTypesForKeywords.create({ e: d.e, k: d.k }));
+        this.d = basicEventTypesWithKeywords.d.map((d) => BasicEventTypesForKeywords.create({ e: d.e, k: d.k })[0]);
     }
 
     static create(
@@ -24,9 +24,9 @@ export class BasicEventTypesWithKeywords extends Serializable<IBasicEventTypesWi
         });
     }
 
-    toObject(): IBasicEventTypesWithKeywords {
+    toJSON(): IBasicEventTypesWithKeywords {
         return {
-            d: this.list.map((d) => d.toObject()),
+            d: this.list.map((d) => d.toJSON()),
         };
     }
 
@@ -43,7 +43,7 @@ export class BasicEventTypesWithKeywords extends Serializable<IBasicEventTypesWi
         return this;
     }
     addData(value: IBasicEventTypesForKeywords) {
-        this.list.push(BasicEventTypesForKeywords.create(value));
+        this.list.push(BasicEventTypesForKeywords.create(value)[0]);
         return this;
     }
     removeData(value: string) {

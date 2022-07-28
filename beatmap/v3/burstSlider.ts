@@ -29,10 +29,9 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
         super(burstSlider);
     }
 
-    static create(): BurstSlider;
-    static create(burstSliders: Partial<IBurstSlider>): BurstSlider;
+    static create(): BurstSlider[];
     static create(...burstSliders: Partial<IBurstSlider>[]): BurstSlider[];
-    static create(...burstSliders: Partial<IBurstSlider>[]): BurstSlider | BurstSlider[] {
+    static create(...burstSliders: Partial<IBurstSlider>[]): BurstSlider[] {
         const result: BurstSlider[] = [];
         burstSliders?.forEach((bs) =>
             result.push(
@@ -51,28 +50,27 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: BurstSlider.default.b,
-            c: BurstSlider.default.c,
-            x: BurstSlider.default.x,
-            y: BurstSlider.default.y,
-            d: BurstSlider.default.d,
-            tb: BurstSlider.default.tb,
-            tx: BurstSlider.default.tx,
-            ty: BurstSlider.default.ty,
-            sc: BurstSlider.default.sc,
-            s: BurstSlider.default.s,
-            customData: BurstSlider.default.customData(),
-        });
+        return [
+            new this({
+                b: BurstSlider.default.b,
+                c: BurstSlider.default.c,
+                x: BurstSlider.default.x,
+                y: BurstSlider.default.y,
+                d: BurstSlider.default.d,
+                tb: BurstSlider.default.tb,
+                tx: BurstSlider.default.tx,
+                ty: BurstSlider.default.ty,
+                sc: BurstSlider.default.sc,
+                s: BurstSlider.default.s,
+                customData: BurstSlider.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IBurstSlider> {
+    toJSON(): Required<IBurstSlider> {
         return {
             b: this.time,
             c: this.color,

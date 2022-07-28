@@ -1,7 +1,7 @@
 import * as v2 from '../beatmap/v2/mod.ts';
 import logger from '../logger.ts';
-import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
-import { DifficultyData as DifficultyDataV3 } from '../beatmap/v3/difficulty.ts';
+import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
+import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
 import { clamp } from '../utils/math.ts';
 import { Vector3, Vector3PointDefinition } from '../types/beatmap/shared/heck.ts';
 import { IEvent } from '../types/beatmap/v2/event.ts';
@@ -21,7 +21,7 @@ const tag = (name: string) => {
  *
  * This feature won't be supported in the near future.
  */
-export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): DifficultyDataV2 {
+export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     if (!skipPrompt) {
         logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
@@ -32,7 +32,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
     } else {
         logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
     }
-    const template = DifficultyDataV2.create();
+    const template = DifficultyV2.create();
     template.fileName = data.fileName;
 
     data.colorNotes.forEach((n) => {
@@ -72,7 +72,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _type: n.color,
                 _cutDirection: n.direction,
                 _customData,
-            }),
+            })[0],
         );
     });
 
@@ -114,7 +114,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _type: n.c,
                 _cutDirection: n.d,
                 _customData,
-            }),
+            })[0],
         );
     });
 
@@ -155,7 +155,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _type: 3,
                 _cutDirection: 0,
                 _customData: customData,
-            }),
+            })[0],
         );
     });
 
@@ -197,7 +197,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _type: 3,
                 _cutDirection: 0,
                 _customData: customData,
-            }),
+            })[0],
         );
     });
 
@@ -238,7 +238,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     _width: o.width,
                     _height: o.height,
                     _customData,
-                }),
+                })[0],
             );
         } else if (o.posY === 2 && o.height === 3) {
             template.obstacles.push(
@@ -251,7 +251,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     _width: o.width,
                     _height: o.height,
                     _customData,
-                }),
+                })[0],
             );
         } else {
             template.obstacles.push(
@@ -264,7 +264,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     _width: o.width,
                     _height: o.height,
                     _customData,
-                }),
+                })[0],
             );
         }
     });
@@ -307,7 +307,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     _width: o.w,
                     _height: o.h,
                     _customData,
-                }),
+                })[0],
             );
         } else if (o.y === 2 && o.h === 3) {
             template.obstacles.push(
@@ -320,7 +320,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     _width: o.w,
                     _height: o.h,
                     _customData,
-                }),
+                })[0],
             );
         } else {
             template.obstacles.push(
@@ -333,7 +333,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     _width: o.w,
                     _height: o.h,
                     _customData,
-                }),
+                })[0],
             );
         }
     });
@@ -374,7 +374,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _value: e.value,
                 _floatValue: e.floatValue,
                 _customData,
-            }),
+            })[0],
         );
     });
 
@@ -385,7 +385,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _type: 5,
                 _value: b.toggle ? 1 : 0,
                 _floatValue: 1,
-            }),
+            })[0],
         )
     );
 
@@ -398,7 +398,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                     ? Math.max(Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15), 3)
                     : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
                 _floatValue: 1,
-            }),
+            })[0],
         )
     );
 
@@ -409,7 +409,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _type: 100,
                 _value: 1,
                 _floatValue: bpm.bpm,
-            }),
+            })[0],
         )
     );
 
@@ -428,7 +428,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _tailControlPointLengthMultiplier: s.tailLengthMultiplier,
                 _tailCutDirection: s.color,
                 _sliderMidAnchorMode: s.midAnchor,
-            }),
+            })[0],
         )
     );
 
@@ -439,7 +439,7 @@ export function V3toV2(data: DifficultyDataV3, skipPrompt?: boolean): Difficulty
                 _lineIndex: w.posX,
                 _lineLayer: w.posY,
                 _offsetDirection: w.direction,
-            }),
+            })[0],
         )
     );
 

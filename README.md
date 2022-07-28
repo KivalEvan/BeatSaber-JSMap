@@ -1,7 +1,8 @@
 # Beat Saber Deno
 
-General-purpose Beat Saber beatmap scripting library using [Deno](https://deno.land/), fully-typed and flexible tool
-designed to ease scripting development surrounding beatmap while providing high-detail regarding the beatmap.
+General-purpose Beat Saber beatmap scripting library using [Deno](https://deno.land/), fully-typed schema and flexible
+tool designed to ease scripting development surrounding beatmap while providing high implementation detail regarding the
+beatmap.
 
 ---
 
@@ -11,14 +12,14 @@ designed to ease scripting development surrounding beatmap while providing high-
 
 ## Features
 
-- **Zero-dependency:** No external library used and can be used anywhere.
-- **Low-abstraction** As close to vanilla JS/TS scripting while providing plenty of options.
-- **Modularity:** All types, functions and classes are exposed allowing extendability for more functionality.
-- **Partial Creation:** Define notes, obstacles, events, event boxes partially and let default fill the rest of fields.
+- **Zero-dependency:** No third-party library used in main.
+- **Latest Schema:** Supports both latest beatmap v2 and v3 including conversion.
+- **Partial Creation:** Define beatmap object partially and let default fill the rest of fields.
 - **Mod Compatible:** Chroma, Noodle Extensions, and Mapping Extensions is supported out of the box.
   - All helpers and classes surrounding modded is only available in extensions category.
-- **Plentiful Utility** Useful helpers including math, colour, easings, and more.
-- **Validator & Optimiser** Customisable tool ensuring beatmap difficulty is valid to the game and optimised.
+- **Modularity:** All types, functions, and classes are exposed allowing for more functionality.
+- **Built-in Utility:** Relevant utilities including math, colour, easings, and more.
+- **Validator & Optimiser:** Customisable tool ensuring beatmap schema is valid to the game and optimised.
 
 ## Prerequisite
 
@@ -28,10 +29,8 @@ designed to ease scripting development surrounding beatmap while providing high-
 
 ## Getting Started
 
-To get started, check out the [example folder](./example) for templates you can use. Deno by nature caches the module
-upon first execution, and will never be updated after. This mean you can continue working on the script regardless of
-connection and will not break the existing code regardless of newly released update until explicitly updating it via
-`--reload` flag or URL version change.
+To get started, check out the [example folder](./example) for templates you can use and read
+[the guide](./example/README.md) for more detail.
 
 The bare minimum example:
 
@@ -65,7 +64,10 @@ For further explanation over on [Deno Manual](https://deno.land/manual).
 
 **Deno related:** if you are having issue of not being able to retrieve module on import, then reload or cache the
 module to fix it. To reload or cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno server if
-necessary. If it still does not work, change to a different workspace.
+necessary. If it still does not work, change to a different workspace. Deno by nature caches the module upon first
+execution, and will never be updated after. This mean you can continue working on the script regardless of connection
+and will not break the existing code regardless of newly released update until explicitly updating it via `--reload`
+flag or URL version change.
 
 ## Contributing
 
@@ -86,7 +88,10 @@ issue if you encounter error/problem or want an improvement.
 
 - Add more helper for Chroma and Noodle Extensions
 
-### Credits
+## Credits
 
 - [HSV conversion algorithm](https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c)
 - [CIE-L\*ab and Delta E2000 algorithm](https://www.easyrgb.com/)
+- Uninstaller and Qwasyx (improving it) for note swing detection algorithm
+- Top_Cat for math guidance
+- Others for indirect contribution

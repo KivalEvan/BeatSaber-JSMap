@@ -1,4 +1,4 @@
-import { IDifficultyData } from '../../types/beatmap/v3/difficulty.ts';
+import { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
 import { Serializable } from '../shared/serializable.ts';
 import { BasicEvent } from './basicEvent.ts';
 import { BasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
@@ -32,7 +32,7 @@ import { deepCopy } from '../../utils/misc.ts';
 import { GenericFileName } from '../../types/beatmap/shared/info.ts';
 
 /** Difficulty beatmap v3 class object. */
-export class DifficultyData extends Serializable<IDifficultyData> {
+export class Difficulty extends Serializable<IDifficulty> {
     private _fileName = 'UnnamedDifficulty.dat';
 
     version;
@@ -51,23 +51,23 @@ export class DifficultyData extends Serializable<IDifficultyData> {
     basicEventTypesWithKeywords: BasicEventTypesWithKeywords;
     useNormalEventsAsCompatibleEvents;
     customData;
-    protected constructor(data: Required<IDifficultyData>) {
+    protected constructor(data: Required<IDifficulty>) {
         super(data);
         this.version = data.version ?? '3.0.0';
-        this.bpmEvents = data.bpmEvents?.map((obj) => BPMEvent.create(obj)) ?? [];
-        this.rotationEvents = data.rotationEvents?.map((obj) => RotationEvent.create(obj)) ?? [];
-        this.colorNotes = data.colorNotes?.map((obj) => ColorNote.create(obj)) ?? [];
-        this.bombNotes = data.bombNotes?.map((obj) => BombNote.create(obj)) ?? [];
-        this.obstacles = data.obstacles?.map((obj) => Obstacle.create(obj)) ?? [];
-        this.sliders = data.sliders?.map((obj) => Slider.create(obj)) ?? [];
-        this.burstSliders = data.burstSliders?.map((obj) => BurstSlider.create(obj)) ?? [];
-        this.waypoints = data.waypoints?.map((obj) => Waypoint.create(obj)) ?? [];
-        this.basicBeatmapEvents = data.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)) ?? [];
-        this.colorBoostBeatmapEvents = data.colorBoostBeatmapEvents?.map((obj) => ColorBoostEvent.create(obj)) ?? [];
+        this.bpmEvents = data.bpmEvents?.map((obj) => BPMEvent.create(obj)[0]) ?? [];
+        this.rotationEvents = data.rotationEvents?.map((obj) => RotationEvent.create(obj)[0]) ?? [];
+        this.colorNotes = data.colorNotes?.map((obj) => ColorNote.create(obj)[0]) ?? [];
+        this.bombNotes = data.bombNotes?.map((obj) => BombNote.create(obj)[0]) ?? [];
+        this.obstacles = data.obstacles?.map((obj) => Obstacle.create(obj)[0]) ?? [];
+        this.sliders = data.sliders?.map((obj) => Slider.create(obj)[0]) ?? [];
+        this.burstSliders = data.burstSliders?.map((obj) => BurstSlider.create(obj)[0]) ?? [];
+        this.waypoints = data.waypoints?.map((obj) => Waypoint.create(obj)[0]) ?? [];
+        this.basicBeatmapEvents = data.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)[0]) ?? [];
+        this.colorBoostBeatmapEvents = data.colorBoostBeatmapEvents?.map((obj) => ColorBoostEvent.create(obj)[0]) ?? [];
         this.lightColorEventBoxGroups =
-            data.lightColorEventBoxGroups?.map((obj) => LightColorEventBoxGroup.create(obj)) ?? [];
+            data.lightColorEventBoxGroups?.map((obj) => LightColorEventBoxGroup.create(obj)[0]) ?? [];
         this.lightRotationEventBoxGroups =
-            data.lightRotationEventBoxGroups?.map((obj) => LightRotationEventBoxGroup.create(obj)) ?? [];
+            data.lightRotationEventBoxGroups?.map((obj) => LightRotationEventBoxGroup.create(obj)[0]) ?? [];
         this.basicEventTypesWithKeywords = BasicEventTypesWithKeywords.create(data.basicEventTypesWithKeywords) ?? {
             d: [],
         };
@@ -75,7 +75,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         this.customData = data.customData ?? {};
     }
 
-    static create(data: Partial<IDifficultyData> = {}): DifficultyData {
+    static create(data: Partial<IDifficulty> = {}): Difficulty {
         return new this({
             version: data.version || '3.0.0',
             bpmEvents: data.bpmEvents ?? [],
@@ -98,22 +98,22 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         });
     }
 
-    toObject(): Required<IDifficultyData> {
+    toJSON(): Required<IDifficulty> {
         return {
             version: this.version || '3.0.0',
-            bpmEvents: this.bpmEvents.map((obj) => obj.toObject()),
-            rotationEvents: this.rotationEvents.map((obj) => obj.toObject()),
-            colorNotes: this.colorNotes.map((obj) => obj.toObject()),
-            bombNotes: this.bombNotes.map((obj) => obj.toObject()),
-            obstacles: this.obstacles.map((obj) => obj.toObject()),
-            sliders: this.sliders.map((obj) => obj.toObject()),
-            burstSliders: this.burstSliders.map((obj) => obj.toObject()),
-            waypoints: this.waypoints.map((obj) => obj.toObject()),
-            basicBeatmapEvents: this.basicBeatmapEvents.map((obj) => obj.toObject()),
-            colorBoostBeatmapEvents: this.colorBoostBeatmapEvents.map((obj) => obj.toObject()),
-            lightColorEventBoxGroups: this.lightColorEventBoxGroups.map((obj) => obj.toObject()),
-            lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map((obj) => obj.toObject()),
-            basicEventTypesWithKeywords: this.basicEventTypesWithKeywords.toObject(),
+            bpmEvents: this.bpmEvents.map((obj) => obj.toJSON()),
+            rotationEvents: this.rotationEvents.map((obj) => obj.toJSON()),
+            colorNotes: this.colorNotes.map((obj) => obj.toJSON()),
+            bombNotes: this.bombNotes.map((obj) => obj.toJSON()),
+            obstacles: this.obstacles.map((obj) => obj.toJSON()),
+            sliders: this.sliders.map((obj) => obj.toJSON()),
+            burstSliders: this.burstSliders.map((obj) => obj.toJSON()),
+            waypoints: this.waypoints.map((obj) => obj.toJSON()),
+            basicBeatmapEvents: this.basicBeatmapEvents.map((obj) => obj.toJSON()),
+            colorBoostBeatmapEvents: this.colorBoostBeatmapEvents.map((obj) => obj.toJSON()),
+            lightColorEventBoxGroups: this.lightColorEventBoxGroups.map((obj) => obj.toJSON()),
+            lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map((obj) => obj.toJSON()),
+            basicEventTypesWithKeywords: this.basicEventTypesWithKeywords.toJSON(),
             useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
             customData: deepCopy(this.customData),
         };
@@ -137,7 +137,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
 
     /** Calculate note per second.
      * ```ts
-     * const nps = difficulty.nps(difficultyData, 10);
+     * const nps = difficulty.nps(Difficulty, 10);
      * ```
      * ---
      * **Note:** Duration can be either in any time type.
@@ -149,7 +149,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
 
     /** Calculate the peak by rolling average.
      * ```ts
-     * const peakNPS = difficulty.peak(difficultyData, 10, BPM ?? 128);
+     * const peakNPS = difficulty.peak(Difficulty, 10, BPM ?? 128);
      * ```
      */
     peak = (beat: number, bpm: BeatPerMinute | number): number => {
@@ -170,7 +170,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
 
     /** Get first interactible object beat time in beatmap.
      * ```ts
-     * const firstInteractiveTime = difficulty.getFirstInteractiveTime(difficultyData);
+     * const firstInteractiveTime = difficulty.getFirstInteractiveTime(Difficulty);
      * ```
      */
     getFirstInteractiveTime = (): number => {
@@ -185,7 +185,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
 
     /** Get last interactible object beat time in beatmap.
      * ```ts
-     * const lastInteractiveTime = difficulty.getLastInteractiveTime(difficultyData);
+     * const lastInteractiveTime = difficulty.getLastInteractiveTime(Difficulty);
      * ```
      */
     getLastInteractiveTime = (): number => {
@@ -229,7 +229,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
 
     /** Get container of color notes, sliders, burst sliders, and bombs (in order).
      * ```ts
-     * const noteCountainer = getNoteContainer(difficultyData);
+     * const noteCountainer = getNoteContainer(Difficulty);
      * ```
      */
     getNoteContainer = (): NoteContainer[] => {
@@ -243,7 +243,7 @@ export class DifficultyData extends Serializable<IDifficultyData> {
 
     /** Get container of basic events and boost events.
      * ```ts
-     * const noteCountainer = getNoteContainer(difficultyData);
+     * const noteCountainer = getNoteContainer(Difficulty);
      * ```
      */
     getEventContainer = (): EventContainer[] => {
@@ -253,64 +253,60 @@ export class DifficultyData extends Serializable<IDifficultyData> {
         return ec.sort((a, b) => a.data.time - b.data.time);
     };
 
-    addBPMEvents = (...bpmEvents: Partial<IBPMEvent>[]) => {
-        bpmEvents.forEach((bpme) => {
-            this.bpmEvents.push(BPMEvent.create(bpme));
-        });
+    addBPMEvents = (...bpmEvents: (Partial<IBPMEvent> | BPMEvent)[]) => {
+        this.bpmEvents.push(...bpmEvents.map((bpme) => (bpme instanceof BPMEvent ? bpme : BPMEvent.create(bpme)[0])));
     };
-    addRotationEvents = (...rotationEvents: Partial<IRotationEvent>[]) => {
-        rotationEvents.forEach((re) => {
-            this.rotationEvents.push(RotationEvent.create(re));
-        });
+    addRotationEvents = (...rotationEvents: (Partial<IRotationEvent> | RotationEvent)[]) => {
+        this.rotationEvents.push(
+            ...rotationEvents.map((re) => (re instanceof RotationEvent ? re : RotationEvent.create(re)[0])),
+        );
     };
-    addColorNotes = (...colorNotes: Partial<IColorNote>[]) => {
-        colorNotes.forEach((cn) => {
-            this.colorNotes.push(ColorNote.create(cn));
-        });
+    addColorNotes = (...colorNotes: (Partial<IColorNote> | ColorNote)[]) => {
+        this.colorNotes.push(...colorNotes.map((cn) => (cn instanceof ColorNote ? cn : ColorNote.create(cn)[0])));
     };
-    addBombNotes = (...bombNotes: Partial<IBombNote>[]) => {
-        bombNotes.forEach((bn) => {
-            this.bombNotes.push(BombNote.create(bn));
-        });
+    addBombNotes = (...bombNotes: (Partial<IBombNote> | BombNote)[]) => {
+        this.bombNotes.push(...bombNotes.map((bn) => (bn instanceof BombNote ? bn : BombNote.create(bn)[0])));
     };
-    addObstacles = (...obstacles: Partial<IObstacle>[]) => {
-        obstacles.forEach((o) => {
-            this.obstacles.push(Obstacle.create(o));
-        });
+    addObstacles = (...obstacles: (Partial<IObstacle> | Obstacle)[]) => {
+        this.obstacles.push(...obstacles.map((o) => (o instanceof Obstacle ? o : Obstacle.create(o)[0])));
     };
-    addSliders = (...sliders: Partial<ISlider>[]) => {
-        sliders.forEach((s) => {
-            this.sliders.push(Slider.create(s));
-        });
+    addSliders = (...sliders: (Partial<ISlider> | Slider)[]) => {
+        this.sliders.push(...sliders.map((s) => (s instanceof Slider ? s : Slider.create(s)[0])));
     };
-    addBurstSliders = (...burstSliders: Partial<IBurstSlider>[]) => {
-        burstSliders.forEach((bs) => {
-            this.burstSliders.push(BurstSlider.create(bs));
-        });
+    addBurstSliders = (...burstSliders: (Partial<IBurstSlider> | BurstSlider)[]) => {
+        this.burstSliders.push(
+            ...burstSliders.map((bs) => (bs instanceof BurstSlider ? bs : BurstSlider.create(bs)[0])),
+        );
     };
-    addWaypoints = (...waypoints: Partial<IWaypoint>[]) => {
-        waypoints.forEach((w) => {
-            this.waypoints.push(Waypoint.create(w));
-        });
+    addWaypoints = (...waypoints: (Partial<IWaypoint> | Waypoint)[]) => {
+        this.waypoints.push(...waypoints.map((w) => (w instanceof Waypoint ? w : Waypoint.create(w)[0])));
     };
-    addBasicEvents = (...basicEvents: Partial<IBasicEvent>[]) => {
-        basicEvents.forEach((be) => {
-            this.basicBeatmapEvents.push(BasicEvent.create(be));
-        });
+    addBasicEvents = (...basicEvents: (Partial<IBasicEvent> | BasicEvent)[]) => {
+        this.basicBeatmapEvents.push(
+            ...basicEvents.map((be) => (be instanceof BasicEvent ? be : BasicEvent.create(be)[0])),
+        );
     };
-    addColorBoostEvents = (...colorBoostEvents: Partial<IColorBoostEvent>[]) => {
-        colorBoostEvents.forEach((cbe) => {
-            this.colorBoostBeatmapEvents.push(ColorBoostEvent.create(cbe));
-        });
+    addColorBoostEvents = (...colorBoostEvents: (Partial<IColorBoostEvent> | ColorBoostEvent)[]) => {
+        this.colorBoostBeatmapEvents.push(
+            ...colorBoostEvents.map((cbe) => (cbe instanceof ColorBoostEvent ? cbe : ColorBoostEvent.create(cbe)[0])),
+        );
     };
-    addLightColorEventBoxGroups = (...lightColorEBGs: DeepPartial<ILightColorEventBoxGroup>[]) => {
-        lightColorEBGs.forEach((lcebg) => {
-            this.lightColorEventBoxGroups.push(LightColorEventBoxGroup.create(lcebg));
-        });
+    addLightColorEventBoxGroups = (
+        ...lightColorEBGs: (DeepPartial<ILightColorEventBoxGroup> | LightColorEventBoxGroup)[]
+    ) => {
+        this.lightColorEventBoxGroups.push(
+            ...lightColorEBGs.map((lcebg) =>
+                lcebg instanceof LightColorEventBoxGroup ? lcebg : LightColorEventBoxGroup.create(lcebg)[0]
+            ),
+        );
     };
-    addLightRotationEventBoxGroups = (...lightRotationEBGs: DeepPartial<ILightRotationEventBoxGroup>[]) => {
-        lightRotationEBGs.forEach((lrebg) => {
-            this.lightRotationEventBoxGroups.push(LightRotationEventBoxGroup.create(lrebg));
-        });
+    addLightRotationEventBoxGroups = (
+        ...lightRotationEBGs: (DeepPartial<ILightRotationEventBoxGroup> | LightRotationEventBoxGroup)[]
+    ) => {
+        this.lightRotationEventBoxGroups.push(
+            ...lightRotationEBGs.map((lrebg) =>
+                lrebg instanceof LightRotationEventBoxGroup ? lrebg : LightRotationEventBoxGroup.create(lrebg)[0]
+            ),
+        );
     };
 }

@@ -20,10 +20,9 @@ export class BombNote extends BaseNote<IBombNote> {
         super(bombNote);
     }
 
-    static create(): BombNote;
-    static create(bombNotes: Partial<IBombNote>): BombNote;
+    static create(): BombNote[];
     static create(...bombNotes: Partial<IBombNote>[]): BombNote[];
-    static create(...bombNotes: Partial<IBombNote>[]): BombNote | BombNote[] {
+    static create(...bombNotes: Partial<IBombNote>[]): BombNote[] {
         const result: BombNote[] = [];
         bombNotes?.forEach((bn) =>
             result.push(
@@ -35,21 +34,20 @@ export class BombNote extends BaseNote<IBombNote> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: BombNote.default.b,
-            x: BombNote.default.x,
-            y: BombNote.default.y,
-            customData: BombNote.default.customData(),
-        });
+        return [
+            new this({
+                b: BombNote.default.b,
+                x: BombNote.default.x,
+                y: BombNote.default.y,
+                customData: BombNote.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IBombNote> {
+    toJSON(): Required<IBombNote> {
         return {
             b: this.time,
             x: this.posX,

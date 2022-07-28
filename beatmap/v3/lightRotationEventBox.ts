@@ -28,17 +28,16 @@ export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
     private l: LightRotationBase[];
     protected constructor(lightRotationEventBox: Required<ILightRotationEventBox>) {
         super(lightRotationEventBox);
-        this.l = lightRotationEventBox.l.map((l) => LightRotationBase.create(l));
+        this.l = lightRotationEventBox.l.map((l) => LightRotationBase.create(l)[0]);
         const lastTime = Math.max(...this.l.map((l) => l.time));
         if (this.beatDistributionType === 2) {
             this.beatDistribution = this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
         }
     }
 
-    static create(): LightRotationEventBox;
-    static create(eventBoxes: Partial<ILightRotationEventBox>): LightRotationEventBox;
+    static create(): LightRotationEventBox[];
     static create(...eventBoxes: Partial<ILightRotationEventBox>[]): LightRotationEventBox[];
-    static create(...eventBoxes: Partial<ILightRotationEventBox>[]): LightRotationEventBox | LightRotationEventBox[] {
+    static create(...eventBoxes: Partial<ILightRotationEventBox>[]): LightRotationEventBox[] {
         const result: LightRotationEventBox[] = [];
         eventBoxes?.forEach((eb) =>
             result.push(
@@ -55,28 +54,27 @@ export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            f: LightRotationEventBox.default.f(),
-            w: LightRotationEventBox.default.w,
-            d: LightRotationEventBox.default.d,
-            s: LightRotationEventBox.default.s,
-            t: LightRotationEventBox.default.t,
-            a: LightRotationEventBox.default.a,
-            r: LightRotationEventBox.default.r,
-            b: LightRotationEventBox.default.b,
-            l: LightRotationEventBox.default.l(),
-        });
+        return [
+            new this({
+                f: LightRotationEventBox.default.f(),
+                w: LightRotationEventBox.default.w,
+                d: LightRotationEventBox.default.d,
+                s: LightRotationEventBox.default.s,
+                t: LightRotationEventBox.default.t,
+                a: LightRotationEventBox.default.a,
+                r: LightRotationEventBox.default.r,
+                b: LightRotationEventBox.default.b,
+                l: LightRotationEventBox.default.l(),
+            }),
+        ];
     }
 
-    toObject(): ILightRotationEventBox {
+    toJSON(): ILightRotationEventBox {
         return {
-            f: this.filter.toObject(),
+            f: this.filter.toJSON(),
             w: this.beatDistribution,
             d: this.beatDistributionType,
             s: this.rotationDistribution,
@@ -84,7 +82,7 @@ export class LightRotationEventBox extends EventBox<ILightRotationEventBox> {
             a: this.axis,
             r: this.flip,
             b: this.affectFirst,
-            l: this.events.map((l) => l.toObject()),
+            l: this.events.map((l) => l.toJSON()),
         };
     }
 

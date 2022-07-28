@@ -21,10 +21,9 @@ export class LightRotationBase extends Serializable<ILightRotationBase> {
         super(lightRotationBase);
     }
 
-    static create(): LightRotationBase;
-    static create(lightRotations: Partial<ILightRotationBase>): LightRotationBase;
+    static create(): LightRotationBase[];
     static create(...lightRotations: Partial<ILightRotationBase>[]): LightRotationBase[];
-    static create(...lightRotations: Partial<ILightRotationBase>[]): LightRotationBase | LightRotationBase[] {
+    static create(...lightRotations: Partial<ILightRotationBase>[]): LightRotationBase[] {
         const result: LightRotationBase[] = [];
         lightRotations?.forEach((lr) =>
             result.push(
@@ -39,24 +38,23 @@ export class LightRotationBase extends Serializable<ILightRotationBase> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: LightRotationBase.default.b,
-            p: LightRotationBase.default.p,
-            e: LightRotationBase.default.e,
-            l: LightRotationBase.default.l,
-            r: LightRotationBase.default.r,
-            o: LightRotationBase.default.o,
-            customData: LightRotationBase.default.customData(),
-        });
+        return [
+            new this({
+                b: LightRotationBase.default.b,
+                p: LightRotationBase.default.p,
+                e: LightRotationBase.default.e,
+                l: LightRotationBase.default.l,
+                r: LightRotationBase.default.r,
+                o: LightRotationBase.default.o,
+                customData: LightRotationBase.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<ILightRotationBase> {
+    toJSON(): Required<ILightRotationBase> {
         return {
             b: this.time,
             p: this.previous,

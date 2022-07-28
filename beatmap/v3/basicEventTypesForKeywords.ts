@@ -16,12 +16,9 @@ export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesFor
         super(basicEventTypesForKeywords);
     }
 
-    static create(): BasicEventTypesForKeywords;
-    static create(basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>): BasicEventTypesForKeywords;
+    static create(): BasicEventTypesForKeywords[];
     static create(...basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>[]): BasicEventTypesForKeywords[];
-    static create(
-        ...basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>[]
-    ): BasicEventTypesForKeywords | BasicEventTypesForKeywords[] {
+    static create(...basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>[]): BasicEventTypesForKeywords[] {
         const result: BasicEventTypesForKeywords[] = [];
         basicEventTypesForKeywords?.forEach((betfk) =>
             result.push(
@@ -31,19 +28,18 @@ export class BasicEventTypesForKeywords extends Serializable<IBasicEventTypesFor
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            k: BasicEventTypesForKeywords.default.k,
-            e: BasicEventTypesForKeywords.default.e(),
-        });
+        return [
+            new this({
+                k: BasicEventTypesForKeywords.default.k,
+                e: BasicEventTypesForKeywords.default.e(),
+            }),
+        ];
     }
 
-    toObject(): IBasicEventTypesForKeywords {
+    toJSON(): IBasicEventTypesForKeywords {
         return {
             k: this.keyword,
             e: this.events,

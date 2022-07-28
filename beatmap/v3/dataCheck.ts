@@ -8,7 +8,7 @@ import {
     IBurstSlider,
     IColorBoostEvent,
     IColorNote,
-    IDifficultyData,
+    IDifficulty,
     IIndexFilter,
     ILightColorBase,
     ILightColorEventBox,
@@ -590,7 +590,7 @@ export const WaypointDataCheck: Record<keyof IWaypoint, DataCheck> = {
     },
 } as const;
 
-export const DifficultyDataCheck: Record<keyof IDifficultyData, DataCheck> = {
+export const DifficultyCheck: Record<keyof IDifficulty, DataCheck> = {
     version: {
         type: 'string',
         version: '3.0.0',

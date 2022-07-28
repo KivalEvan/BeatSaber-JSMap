@@ -31,10 +31,9 @@ export class Slider extends BaseSlider<ISlider> {
         super(slider);
     }
 
-    static create(): Slider;
-    static create(sliders: Partial<ISlider>): Slider;
+    static create(): Slider[];
     static create(...sliders: Partial<ISlider>[]): Slider[];
-    static create(...sliders: Partial<ISlider>[]): Slider | Slider[] {
+    static create(...sliders: Partial<ISlider>[]): Slider[] {
         const result: Slider[] = [];
         sliders?.forEach((s) =>
             result.push(
@@ -55,30 +54,29 @@ export class Slider extends BaseSlider<ISlider> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: Slider.default.b,
-            c: Slider.default.c,
-            x: Slider.default.x,
-            y: Slider.default.y,
-            d: Slider.default.d,
-            mu: Slider.default.mu,
-            tb: Slider.default.tb,
-            tx: Slider.default.tx,
-            ty: Slider.default.ty,
-            tc: Slider.default.tc,
-            tmu: Slider.default.tmu,
-            m: Slider.default.m,
-            customData: Slider.default.customData(),
-        });
+        return [
+            new this({
+                b: Slider.default.b,
+                c: Slider.default.c,
+                x: Slider.default.x,
+                y: Slider.default.y,
+                d: Slider.default.d,
+                mu: Slider.default.mu,
+                tb: Slider.default.tb,
+                tx: Slider.default.tx,
+                ty: Slider.default.ty,
+                tc: Slider.default.tc,
+                tmu: Slider.default.tmu,
+                m: Slider.default.m,
+                customData: Slider.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<ISlider> {
+    toJSON(): Required<ISlider> {
         return {
             b: this.time,
             c: this.color,

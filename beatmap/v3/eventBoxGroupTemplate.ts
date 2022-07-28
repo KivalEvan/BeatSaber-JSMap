@@ -18,11 +18,11 @@ export abstract class EventBoxGroupTemplate<
         this.e = objects;
     }
 
-    toObject(): Required<IEventBoxGroupTemplate<T>> {
+    toJSON(): Required<IEventBoxGroupTemplate<T>> {
         return {
             b: this.time,
             g: this.groupID,
-            e: this.events.map((e) => e.toObject()),
+            e: this.events.map((e) => e.toJSON()),
             customData: deepCopy(this.customData),
         };
     }

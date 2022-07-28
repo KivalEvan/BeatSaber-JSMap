@@ -1,6 +1,6 @@
 import { IInfoData } from './types/beatmap/shared/info.ts';
-import { IDifficultyData as DifficultyDataV2 } from './types/beatmap/v2/difficulty.ts';
-import { IDifficultyData as DifficultyDataV3 } from './types/beatmap/v3/difficulty.ts';
+import { IDifficulty as DifficultyV2 } from './types/beatmap/v2/difficulty.ts';
+import { IDifficulty as DifficultyV3 } from './types/beatmap/v3/difficulty.ts';
 import { IOptimizeOptions, IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './types/bsmap/optimize.ts';
 import { Either } from './types/utils.ts';
 import { round } from './utils/math.ts';
@@ -130,7 +130,7 @@ export function info(info: IInfoData, options: IOptimizeOptionsInfo = { enabled:
 }
 
 export function difficulty(
-    difficulty: Either<DifficultyDataV2, DifficultyDataV3>,
+    difficulty: Either<DifficultyV2, DifficultyV3>,
     options: IOptimizeOptionsDifficulty = { enabled: true },
 ) {
     const opt: Required<IOptimizeOptionsDifficulty> = {

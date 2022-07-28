@@ -16,16 +16,13 @@ export class SpecialEventsKeywordFiltersKeywords extends Serializable<ISpecialEv
         super(specialEventsForKeywords);
     }
 
-    static create(): SpecialEventsKeywordFiltersKeywords;
-    static create(
-        basicEventTypesForKeywords: Partial<ISpecialEventsKeywordFiltersKeywords>,
-    ): SpecialEventsKeywordFiltersKeywords;
+    static create(): SpecialEventsKeywordFiltersKeywords[];
     static create(
         ...basicEventTypesForKeywords: Partial<ISpecialEventsKeywordFiltersKeywords>[]
     ): SpecialEventsKeywordFiltersKeywords[];
     static create(
         ...basicEventTypesForKeywords: Partial<ISpecialEventsKeywordFiltersKeywords>[]
-    ): SpecialEventsKeywordFiltersKeywords | SpecialEventsKeywordFiltersKeywords[] {
+    ): SpecialEventsKeywordFiltersKeywords[] {
         const result: SpecialEventsKeywordFiltersKeywords[] = [];
         basicEventTypesForKeywords?.forEach((betfk) =>
             result.push(
@@ -36,19 +33,18 @@ export class SpecialEventsKeywordFiltersKeywords extends Serializable<ISpecialEv
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            _keyword: SpecialEventsKeywordFiltersKeywords.default._keyword,
-            _specialEvents: SpecialEventsKeywordFiltersKeywords.default._specialEvents(),
-        });
+        return [
+            new this({
+                _keyword: SpecialEventsKeywordFiltersKeywords.default._keyword,
+                _specialEvents: SpecialEventsKeywordFiltersKeywords.default._specialEvents(),
+            }),
+        ];
     }
 
-    toObject(): ISpecialEventsKeywordFiltersKeywords {
+    toJSON(): ISpecialEventsKeywordFiltersKeywords {
         return {
             _keyword: this.keyword,
             _specialEvents: this.events,

@@ -1,6 +1,6 @@
 import * as v2 from '../beatmap/v2/mod.ts';
 import logger from '../logger.ts';
-import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
+import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
 import { easings } from '../utils/easings.ts';
 import { interpolateColor } from '../utils/colors.ts';
 import { normalize } from '../utils/math.ts';
@@ -14,7 +14,7 @@ const tag = (name: string) => {
  * const newData = convert.ogChromaToChromaV2(oldData);
  * ```
  */
-export function chromaLightGradientToVanillaGradient(data: DifficultyDataV2, skipPrompt?: boolean): DifficultyDataV2 {
+export function chromaLightGradientToVanillaGradient(data: DifficultyV2, skipPrompt?: boolean): DifficultyV2 {
     if (!skipPrompt) {
         logger.warn(
             tag('chromaLightGradientToVanillaGradient'),
@@ -61,7 +61,7 @@ export function chromaLightGradientToVanillaGradient(data: DifficultyDataV2, ski
                 for (const eig of eventInGradient) {
                     if (!hasOff && eig.time > ev.time + ev.customData._lightGradient._duration - 0.001) {
                         newEvents.push(
-                            v2.Event.create({
+                            ...v2.Event.create({
                                 _time: ev.time + ev.customData._lightGradient._duration - 0.001,
                                 _type: ev.type,
                                 _value: ev.value >= 1 && ev.value <= 4 ? 4 : ev.value >= 5 && ev.value <= 8 ? 8 : 12,
@@ -93,7 +93,7 @@ export function chromaLightGradientToVanillaGradient(data: DifficultyDataV2, ski
                             eig.removeCustomData('_color');
                             if (!hasOff) {
                                 newEvents.push(
-                                    v2.Event.create({
+                                    ...v2.Event.create({
                                         _time: eig.time - 0.001,
                                         _type: ev.type,
                                         _value: previousEvent.value >= 1 && previousEvent.value <= 4
@@ -130,7 +130,7 @@ export function chromaLightGradientToVanillaGradient(data: DifficultyDataV2, ski
                 ev.customData._color = ev.customData._lightGradient._startColor;
                 ev.value = ev.value >= 1 && ev.value <= 4 ? 1 : ev.value >= 5 && ev.value <= 8 ? 5 : 9;
                 newEvents.push(
-                    v2.Event.create({
+                    ...v2.Event.create({
                         _time: ev.time + ev.customData._lightGradient._duration,
                         _type: ev.type,
                         _value: ev.value >= 1 && ev.value <= 4 ? 4 : ev.value >= 5 && ev.value <= 8 ? 8 : 12,

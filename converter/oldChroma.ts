@@ -1,5 +1,5 @@
 import logger from '../logger.ts';
-import { DifficultyData as DifficultyDataV2 } from '../beatmap/v2/difficulty.ts';
+import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
 import { ColorArray } from '../types/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../beatmap/shared/colorScheme.ts';
 import { EnvironmentAllName } from '../types/beatmap/shared/environment.ts';
@@ -14,9 +14,9 @@ const tag = (name: string) => {
  * ```
  */
 export function ogChromaToChromaV2(
-    data: DifficultyDataV2,
+    data: DifficultyV2,
     environment: EnvironmentAllName = 'DefaultEnvironment',
-): DifficultyDataV2 {
+): DifficultyV2 {
     logger.info(tag('ogChromaToChromaV2'), 'Converting old Chroma event value to Chroma event customData');
     const events = data.events;
     const newEvents = [] as typeof data.events;

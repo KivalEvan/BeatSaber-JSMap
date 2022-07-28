@@ -20,10 +20,9 @@ export class LightColorBase extends Serializable<ILightColorBase> {
         super(lightColorBase);
     }
 
-    static create(): LightColorBase;
-    static create(lightColors: Partial<ILightColorBase>): LightColorBase;
+    static create(): LightColorBase[];
     static create(...lightColors: Partial<ILightColorBase>[]): LightColorBase[];
-    static create(...lightColors: Partial<ILightColorBase>[]): LightColorBase | LightColorBase[] {
+    static create(...lightColors: Partial<ILightColorBase>[]): LightColorBase[] {
         const result: LightColorBase[] = [];
         lightColors?.forEach((lc) =>
             result.push(
@@ -37,23 +36,22 @@ export class LightColorBase extends Serializable<ILightColorBase> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: LightColorBase.default.b,
-            i: LightColorBase.default.i,
-            c: LightColorBase.default.c,
-            s: LightColorBase.default.s,
-            f: LightColorBase.default.f,
-            customData: LightColorBase.default.customData(),
-        });
+        return [
+            new this({
+                b: LightColorBase.default.b,
+                i: LightColorBase.default.i,
+                c: LightColorBase.default.c,
+                s: LightColorBase.default.s,
+                f: LightColorBase.default.f,
+                customData: LightColorBase.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<ILightColorBase> {
+    toJSON(): Required<ILightColorBase> {
         return {
             b: this.time,
             i: this.transition,

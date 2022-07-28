@@ -22,10 +22,9 @@ export class Obstacle extends BeatmapObject<IObstacle> {
         super(data);
     }
 
-    static create(): Obstacle;
-    static create(obstacles: Partial<IObstacle>): Obstacle;
+    static create(): Obstacle[];
     static create(...obstacles: Partial<IObstacle>[]): Obstacle[];
-    static create(...obstacles: Partial<IObstacle>[]): Obstacle | Obstacle[] {
+    static create(...obstacles: Partial<IObstacle>[]): Obstacle[] {
         const result: Obstacle[] = [];
         obstacles?.forEach((o) =>
             result.push(
@@ -41,25 +40,24 @@ export class Obstacle extends BeatmapObject<IObstacle> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            _time: Obstacle.default._time,
-            _type: Obstacle.default._type,
-            _lineIndex: Obstacle.default._lineIndex,
-            _lineLayer: Obstacle.default._lineLayer,
-            _duration: Obstacle.default._duration,
-            _width: Obstacle.default._width,
-            _height: Obstacle.default._height,
-            _customData: Obstacle.default._customData(),
-        });
+        return [
+            new this({
+                _time: Obstacle.default._time,
+                _type: Obstacle.default._type,
+                _lineIndex: Obstacle.default._lineIndex,
+                _lineLayer: Obstacle.default._lineLayer,
+                _duration: Obstacle.default._duration,
+                _width: Obstacle.default._width,
+                _height: Obstacle.default._height,
+                _customData: Obstacle.default._customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IObstacle> {
+    toJSON(): Required<IObstacle> {
         return {
             _time: this.time,
             _type: this.type,

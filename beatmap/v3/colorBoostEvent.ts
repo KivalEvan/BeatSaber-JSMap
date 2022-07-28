@@ -17,10 +17,9 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
         super(boostEvent);
     }
 
-    static create(): ColorBoostEvent;
-    static create(colorBoostEvents: Partial<IColorBoostEvent>): ColorBoostEvent;
+    static create(): ColorBoostEvent[];
     static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent[];
-    static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent | ColorBoostEvent[] {
+    static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent[] {
         const result: ColorBoostEvent[] = [];
         colorBoostEvents?.forEach((be) =>
             result.push(
@@ -31,20 +30,19 @@ export class ColorBoostEvent extends BaseObject<IColorBoostEvent> {
                 }),
             )
         );
-        if (result.length === 1) {
-            return result[0];
-        }
         if (result.length) {
             return result;
         }
-        return new this({
-            b: ColorBoostEvent.default.b,
-            o: ColorBoostEvent.default.o,
-            customData: ColorBoostEvent.default.customData(),
-        });
+        return [
+            new this({
+                b: ColorBoostEvent.default.b,
+                o: ColorBoostEvent.default.o,
+                customData: ColorBoostEvent.default.customData(),
+            }),
+        ];
     }
 
-    toObject(): Required<IColorBoostEvent> {
+    toJSON(): Required<IColorBoostEvent> {
         return {
             b: this.time,
             o: this.toggle,
