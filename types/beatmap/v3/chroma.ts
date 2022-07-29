@@ -1,4 +1,4 @@
-import { PercentPointDefinition, Vector3 } from '../shared/heck.ts';
+import { PercentPointDefinition, Vector2, Vector3 } from '../shared/heck.ts';
 import { Easings } from '../../easings.ts';
 import { ColorArray } from '../../colors.ts';
 import { ICustomDataBase } from '../shared/customData.ts';
@@ -24,11 +24,25 @@ export interface IChromaMaterial {
 }
 
 /** Chroma Geometry interface for Environment Enhancement. */
-export interface IChromaGeometry {
+export interface IChromaGeometryBase {
     type: GeometryType;
     material: IChromaMaterial | string;
     collision?: boolean;
 }
+
+/** Chroma Geometry Custom interface for Environment Enhancement. */
+export interface IChromaGeometryCustom {
+    type: 'CUSTOM';
+    mesh: {
+        vertices: Vector3[];
+        uv?: Vector2[];
+        triangles?: number[];
+    };
+    material: IChromaMaterial | string;
+    collision?: boolean;
+}
+
+export type IChromaGeometry = IChromaGeometryBase | IChromaGeometryCustom;
 
 export interface IChromaComponentLightWithID {
     /** `<int>` Assign event type value. */

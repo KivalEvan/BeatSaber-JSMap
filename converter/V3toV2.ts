@@ -562,17 +562,34 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
                             logger.warn(tag('V3toV2'), 'v2 geometry cannot be made assignable light to specific type');
                         }
                         return {
-                            _geometry: {
-                                _type: e.geometry.type,
-                                _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
-                                    _shader: e.geometry.material.shader,
-                                    _shaderKeywords: e.geometry.material.shaderKeywords,
-                                    _collision: e.geometry.material.collision,
-                                    _track: e.geometry.material.track,
-                                    _color: e.geometry.material.color,
+                            _geometry: e.geometry.type === 'CUSTOM'
+                                ? {
+                                    _type: e.geometry.type,
+                                    _mesh: {
+                                        _vertices: e.geometry.mesh.vertices,
+                                        _uv: e.geometry.mesh.uv,
+                                        _triangles: e.geometry.mesh.triangles,
+                                    },
+                                    _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
+                                        _shader: e.geometry.material.shader,
+                                        _shaderKeywords: e.geometry.material.shaderKeywords,
+                                        _collision: e.geometry.material.collision,
+                                        _track: e.geometry.material.track,
+                                        _color: e.geometry.material.color,
+                                    },
+                                    _collision: e.geometry.collision,
+                                }
+                                : {
+                                    _type: e.geometry.type,
+                                    _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
+                                        _shader: e.geometry.material.shader,
+                                        _shaderKeywords: e.geometry.material.shaderKeywords,
+                                        _collision: e.geometry.material.collision,
+                                        _track: e.geometry.material.track,
+                                        _color: e.geometry.material.color,
+                                    },
+                                    _collision: e.geometry.collision,
                                 },
-                                _collision: e.geometry.collision,
-                            },
                             _track: e.track,
                             _duplicate: e.duplicate,
                             _active: e.active,

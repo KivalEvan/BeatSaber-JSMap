@@ -7,6 +7,8 @@
 - Chroma geometry, material and component
   - This contains breaking changes to existing v3 Chroma
 - More utilities standard, Chroma, and Noodle Extensions
+  - LightMapper -> v3 lighting system for v2 light
+  - EnvironmentGrab -> utility to write environment game object in regex and string form
 - Configurable data check
   - Checks on save
 - Object mirroring now use & change custom data
@@ -33,6 +35,7 @@
 
 - Negative hue no longer result null value
 - Obstacle mirroring now accounts for width
+- `RGBAtoHSVA` hue returning normalised hue value instead
 - `directory` potentially no longer prefix file name instead of going into folder
 - `where` function does not filter correctly with exclude
 

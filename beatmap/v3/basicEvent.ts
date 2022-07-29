@@ -169,6 +169,39 @@ export class BasicEvent extends BaseObject<IBasicEvent> {
         return this.value === 3 || this.value === 7 || this.value === 11;
     }
 
+    /** Check if light event is a red light.
+     * ```ts
+     * if (basicEvent.isRed()) {}
+     * ```
+     * ---
+     * This may check non-light event too.
+     */
+    isRed(): boolean {
+        return this.value === 5 || this.value === 6 || this.value === 7 || this.value === 8;
+    }
+
+    /** Check if light event is a blue light.
+     * ```ts
+     * if (basicEvent.isBlue()) {}
+     * ```
+     * ---
+     * This may check non-light event too.
+     */
+    isBlue(): boolean {
+        return this.value === 1 || this.value === 2 || this.value === 3 || this.value === 4;
+    }
+
+    /** Check if light event is a white light.
+     * ```ts
+     * if (basicEvent.isWhite()) {}
+     * ```
+     * ---
+     * This may check non-light event too.
+     */
+    isWhite(): boolean {
+        return this.value === 9 || this.value === 10 || this.value === 11 || this.value === 12;
+    }
+
     /** Check if light event is a transition event.
      * ```ts
      * if (basicEvent.isTransition()) {}
