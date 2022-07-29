@@ -1,14 +1,12 @@
 import { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
-import {
-    IDifficulty,
-    IEvent,
-    INote,
-    IObstacle,
-    ISlider,
-    ISpecialEventsKeywordFilters,
-    ISpecialEventsKeywordFiltersKeywords,
-    IWaypoint,
-} from '../../types/beatmap/v2/mod.ts';
+import { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
+import { IEvent } from '../../types/beatmap/v2/event.ts';
+import { INote } from '../../types/beatmap/v2/note.ts';
+import { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
+import { ISlider } from '../../types/beatmap/v2/slider.ts';
+import { ISpecialEventsKeywordFilters } from '../../types/beatmap/v2/specialEventsKeywordFilters.ts';
+import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
+import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
 
 export const NoteDataCheck: Record<keyof INote, DataCheck> = {
     _time: {

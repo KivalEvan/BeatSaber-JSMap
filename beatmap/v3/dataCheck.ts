@@ -1,26 +1,24 @@
 import { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
-import {
-    IBasicEvent,
-    IBasicEventTypesForKeywords,
-    IBasicEventTypesWithKeywords,
-    IBombNote,
-    IBPMEvent,
-    IBurstSlider,
-    IColorBoostEvent,
-    IColorNote,
-    IDifficulty,
-    IIndexFilter,
-    ILightColorBase,
-    ILightColorEventBox,
-    ILightColorEventBoxGroup,
-    ILightRotationBase,
-    ILightRotationEventBox,
-    ILightRotationEventBoxGroup,
-    IObstacle,
-    IRotationEvent,
-    ISlider,
-    IWaypoint,
-} from '../../types/beatmap/v3/mod.ts';
+import { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
+import { IBasicEventTypesForKeywords } from '../../types/beatmap/v3/basicEventTypesForKeywords.ts';
+import { IBasicEventTypesWithKeywords } from '../../types/beatmap/v3/basicEventTypesWithKeywords.ts';
+import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
+import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
+import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
+import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
+import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
+import { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
+import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
+import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
+import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
+import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
+import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
+import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
+import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
+import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
+import { ISlider } from '../../types/beatmap/v3/slider.ts';
+import { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
 
 // FIXME: ALMOST EVERYTHING IS HERE IFUCKIN OPTIONAL REE
 export const ColorNoteDataCheck: Record<keyof IColorNote, DataCheck> = {

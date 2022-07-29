@@ -1,4 +1,4 @@
-import { ColorPointDefinition } from '../mod.ts';
+import { ColorPointDefinition } from '../shared/chroma.ts';
 import { PercentPointDefinition, Vector2PointDefinition, Vector3PointDefinition } from '../shared/heck.ts';
 
 /** Point Definition interface. */

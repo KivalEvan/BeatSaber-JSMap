@@ -1,4 +1,5 @@
-import { CharacteristicName, DifficultyName } from '../../../types/beatmap/mod.ts';
+import { CharacteristicName } from '../../../types/beatmap/shared/characteristic.ts';
+import { DifficultyName } from '../../../types/beatmap/shared/difficulty.ts';
 import { NoteContainer } from '../../../types/beatmap/v3/container.ts';
 
 export interface ISwingContainer {

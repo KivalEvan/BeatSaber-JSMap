@@ -1,6 +1,7 @@
 import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 import { Difficulty } from '../../beatmap/v3/difficulty.ts';
-import { CharacteristicName, DifficultyName } from '../../types/beatmap/shared/mod.ts';
+import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
+import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { NoteContainer } from '../../types/beatmap/v3/container.ts';
 import { ISwingAnalysis, ISwingCount } from './types/swing.ts';
 import { median } from '../../utils/math.ts';

@@ -1,4 +1,4 @@
-import { IInfoData } from '../../types/mod.ts';
+import { IInfoData } from '../../types/beatmap/shared/info.ts';
 import { CharacteristicOrder } from './characteristic.ts';
 import logger from '../../logger.ts';
 import { DifficultyRanking } from './difficulty.ts';

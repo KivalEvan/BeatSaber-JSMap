@@ -1,5 +1,6 @@
 import { EventList } from '../../beatmap/shared/environment.ts';
-import { LightColorEventBoxGroup, LightRotationEventBoxGroup } from '../../beatmap/v3/mod.ts';
+import { LightColorEventBoxGroup } from '../../beatmap/v3/lightColorEventBoxGroup.ts';
+import { LightRotationEventBoxGroup } from '../../beatmap/v3/lightRotationEventBoxGroup.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { ICountEventBoxGroup } from './types/stats.ts';
 
