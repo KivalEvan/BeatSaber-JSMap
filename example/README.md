@@ -1,6 +1,6 @@
 ## Guide
 
-The following is a guide on how to use Beat Saber Deno, referred as `bsmap` for simpler term. If you are familiar with basic JavaScript or new to TypeScript, this should be very familiar as it is about what you expect it to do like a regular scripting. This will not cover everything but enough to get good grasp at what it does.
+The following is a guide on how to use Beat Saber Deno, referred as `bsmap` for simpler term. If you are familiar with basic JavaScript or new to TypeScript, this should be very familiar as it is about what you expect it to do like a regular scripting. This does not cover everything but enough to get good grasp at what it does.
 
 ### Examples
 
@@ -8,13 +8,13 @@ You may refer to example script if you need more glimpse on how to use them. Alt
 
 ### Importing
 
-Create a `.ts` script file anywhere, be it desktop, map folder, or any dedicated place, and simply add the following on top of the script. No additional file needed to be created, it just works.
+Create a `.ts` script file anywhere, be it desktop, map folder, or any dedicated place, and simply add the following on top of the script. No additional file or setup needed, it just works.
 
 ```ts
 import * as bsmap from 'https://deno.land/x/bsmap@1.2.0/mod.ts';
 ```
 
-**NOTE:** for first time user, you may need to cache the URL if the error pops up on import. Hover over error and click on quick fix or `CTRL+.` on select.
+**NOTE:** for first time user, you may need to cache the URL if the error pops up on import. Hover over error and click on quick fix or `CTRL+.` on select. You may also need to initialise Deno workspace if strange error regarding TS URL pops up.
 
 ### Namespaces
 
@@ -153,6 +153,15 @@ export * as ext from 'https://deno.land/x/bsmap@1.2.0/extensions/mod.ts';
 // map.ts
 import * as bsmap from './deps.ts';
 import { v3, types } from './deps.ts';
+```
+
+#### Typing
+
+Static type is an incredibly powerful tool that can ensure type correctness of an object. This is used extensively in the library and is encouraged to explore further into it by utilising type casting. This is an intermediate knowledge of TypeScript but should be relatively easy to grasp.
+
+```ts
+const event = [{ c: 2 }, { b: 0.25, s: 0, i: 1 }] as Partial<types.v3.LightColorBase>;
+data.addLightColorEventBoxGroup({ e: [{ e: event }] });
 ```
 
 #### Logger

@@ -86,6 +86,7 @@ issue if you encounter error/problem or want an improvement.
 
 ## Planned
 
+- Write JSDoc on every important bit
 - Add more helper for Chroma and Noodle Extensions
 
 ## Credits

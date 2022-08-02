@@ -4,6 +4,7 @@ import { NoteContainer, NoteContainerNote } from '../../types/beatmap/v3/contain
 import { checkDirection } from '../placement/note.ts';
 import { IBaseObject } from '../../types/beatmap/v3/baseObject.ts';
 import { BaseObject } from '../../beatmap/v3/baseObject.ts';
+import { NoteDirection } from '../../beatmap/shared/constants.ts';
 
 export default class Swing implements ISwingContainer {
     time: number;
@@ -106,11 +107,11 @@ export default class Swing implements ISwingContainer {
             context &&
             context.length > 0 &&
             bpm.toRealTime(prevNote.data.time) + 0.005 < bpm.toRealTime(currNote.data.time) &&
-            currNote.data.direction !== 8
+            currNote.data.direction !== NoteDirection.ANY
         ) {
             for (const n of context) {
                 if (n.type === 'note') {
-                    if (n.data.direction !== 8 && checkDirection(currNote.data, n.data, 90, false)) {
+                    if (n.data.direction !== NoteDirection.ANY && checkDirection(currNote.data, n.data, 90, false)) {
                         return true;
                     }
                 }

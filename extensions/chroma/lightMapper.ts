@@ -87,7 +87,7 @@ export class LightMapper {
                                 color: ev!.color ?? 0,
                                 transition: ev!.transition ?? 0,
                                 brightness: ev!.brightness ?? 1,
-                                frequency: ev!.frequency ?? 0,
+                                frequency: Math.max(ev!.frequency ?? 0, 0),
                                 customData: ev!.customData ?? {},
                             };
                         })
@@ -256,13 +256,17 @@ export class LightMapper {
                             b: q.time + ev.time + x,
                             et: q.type,
                             i: this.internalEventValue(ev.color, ev.transition),
-                            f: isFirst ? ev.brightness : eb.brightnessDistributionType === 'Division'
-                                ? ev.brightness +
-                                    easings[
-                                            eb.brightnessDistributionEasing ?? 'easeLinear'
-                                        ](i / (lid.length - 1)) *
-                                        eb.brightnessDistribution
-                                : ev.brightness + i * eb.brightnessDistribution,
+                            f: Math.max(
+                                isFirst ? ev.brightness : eb.brightnessDistributionType === 'Division'
+                                    ? ev.brightness +
+                                        easings[
+                                                eb.brightnessDistributionEasing ??
+                                                    'easeLinear'
+                                            ](i / (lid.length - 1)) *
+                                            eb.brightnessDistribution
+                                    : ev.brightness + i * eb.brightnessDistribution,
+                                0,
+                            ),
                             customData: { ...ev.customData, lightID: lid[i] },
                         })[0];
                         if (eb.hueDistribution && event.isLightEvent()) {
