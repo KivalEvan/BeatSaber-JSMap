@@ -13,6 +13,7 @@
   - Checks on save
 - Object mirroring now use & change custom data
 - Object get position/angle can use & return custom data value
+- Object function callback method for more advanced use
 - Color function can infer hex string as RGBA color
 - Color function can take color object and uses them accordingly
   - Depend on use case, this will always convert to RGBA for ease of development
