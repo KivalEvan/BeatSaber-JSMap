@@ -1,5 +1,5 @@
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
-import { LINE_COUNT, NoteCutAngle } from '../shared/constants.ts';
+import { LINE_COUNT, NoteDirectionAngle } from '../shared/constants.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { BaseNote } from './baseNote.ts';
 import { IBaseNote } from '../../types/beatmap/v3/baseNote.ts';
@@ -173,19 +173,19 @@ export class ColorNote extends BaseNote<IColorNote> {
     getAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':
-                return (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) + this.angleOffset;
+                return (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) + this.angleOffset;
             case 'me':
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
             /* falls through */
             case 'ne':
-                return (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) + this.angleOffset;
+                return (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) + this.angleOffset;
             default:
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
-                return (NoteCutAngle[this.direction as keyof typeof NoteCutAngle] || 0) + this.angleOffset;
+                return (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) + this.angleOffset;
         }
     }
 

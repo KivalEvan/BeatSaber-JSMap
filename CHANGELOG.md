@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.2.1 [2022-08-xx]
+
+### Added
+
+- v3 BPM change support to `BeatPerMinute` class
+
+### Changed
+
+- `NoteCutAngle` renamed to `NoteDirectionAngle`
+- `AnimateTrack` `duration` is now optional
+- Couple of clean-up
+
+### Fixed
+
+- LightMapper default brightness now set to 1
+
 ## 1.2.0 [2022-08-02]
 
 ### Added

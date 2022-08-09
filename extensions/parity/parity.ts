@@ -72,7 +72,7 @@ export default class Parity {
         this.position = this.predictStartPosition(notes, type);
     }
 
-    public check(noteContext: NoteContainer[], bombContext: NoteContainerBomb[]): ParityStatus {
+    check(noteContext: NoteContainer[], bombContext: NoteContainerBomb[]): ParityStatus {
         if (this.state === 'neutral') {
             return 'none';
         }
@@ -150,7 +150,7 @@ export default class Parity {
 
         return 'none';
     }
-    public next(noteContext: NoteContainer[], bombContext: NoteContainerBomb[]): void {
+    next(noteContext: NoteContainer[], bombContext: NoteContainerBomb[]): void {
         if (this.check(noteContext, bombContext) !== 'error') {
             switch (this.state) {
                 case 'forehand': {

@@ -44,10 +44,19 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
         return this as unknown as EnvironmentGrabNamedID;
     }
 
+    /** Add spaces. */
+    space(count = 1) {
+        for (let i = 0; i < count; i++) {
+            this._string += ' ';
+            this._regex += ' ';
+        }
+        return this;
+    }
+
     /** Grab cloned. */
     clone(): EnvironmentGrabNamedID {
-        this._string += ' (Clone)';
-        this._regex += ' \\(Clone\\)';
+        this._string += '(Clone)';
+        this._regex += '\\(Clone\\)';
         return this as EnvironmentGrabNamedID;
     }
 
@@ -71,6 +80,10 @@ abstract class EnvironmentGrabChild extends EnvironmentGrabBase {
     name(value: string) {
         return this as unknown as EnvironmentGrabNamed;
     }
+
+    space(count = 1) {
+        return this;
+    }
 }
 
 abstract class EnvironmentGrabNamed extends EnvironmentGrabBase {
@@ -89,6 +102,10 @@ abstract class EnvironmentGrabNamed extends EnvironmentGrabBase {
     child(id?: number) {
         return this as unknown as EnvironmentGrabChild;
     }
+
+    space(count = 1) {
+        return this;
+    }
 }
 
 abstract class EnvironmentGrabNamedID extends EnvironmentGrabBase {
@@ -102,5 +119,9 @@ abstract class EnvironmentGrabNamedID extends EnvironmentGrabBase {
 
     child(id?: number) {
         return this as unknown as EnvironmentGrabChild;
+    }
+
+    space(count = 1) {
+        return this;
     }
 }
