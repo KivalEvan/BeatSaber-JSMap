@@ -46,7 +46,7 @@ export abstract class BaseObject<T extends IBaseObject> extends Serializable<T> 
         return this;
     }
 
-    func(fn: (object?: this) => void) {
+    func(fn: (object: this) => void) {
         fn(this);
         return this;
     }

@@ -9,12 +9,14 @@
 ### Changed
 
 - `NoteCutAngle` renamed to `NoteDirectionAngle`
-- `AnimateTrack` `duration` is now optional
+- v2 Waypoints is now optional
+- Updated Heck
 - Couple of clean-up
 
 ### Fixed
 
 - LightMapper default brightness now set to 1
+- Object callback no longer warn undefined
 
 ## 1.2.0 [2022-08-02]
 
