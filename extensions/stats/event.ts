@@ -13,7 +13,7 @@ import { ICountEvent } from './types/stats.ts';
 export function countEvent(
     events: BasicEvent[],
     boost: ColorBoostEvent[],
-    environment: EnvironmentAllName = 'DefaultEnvironment',
+    environment: EnvironmentAllName = 'DefaultEnvironment'
 ): ICountEvent {
     const commonEvent = EventList[environment]?.[0] ?? EventList['DefaultEnvironment'][0];
     const eventCount: ICountEvent = {};
@@ -25,7 +25,7 @@ export function countEvent(
         };
     }
 
-    eventCount[commonEvent[5]] = {
+    eventCount[5] = {
         total: boost.length,
         chroma: 0,
         chromaOld: 0,
