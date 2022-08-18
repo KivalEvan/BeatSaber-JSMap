@@ -7,6 +7,7 @@ import { Vector3, Vector3PointDefinition } from '../types/beatmap/shared/heck.ts
 import { IEvent } from '../types/beatmap/v2/event.ts';
 import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v2/customData.ts';
 import { IChromaMaterial } from '../types/beatmap/v2/chroma.ts';
+import objectToV2 from './customData/objectToV2.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -36,34 +37,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     template.fileName = data.fileName;
 
     data.colorNotes.forEach((n) => {
-        const _customData: ICustomDataNote = {
-            _color: n.customData.color,
-            _position: n.customData.coordinates,
-            _disableNoteGravity: n.customData.disableNoteGravity,
-            _disableNoteLook: n.customData.disableNoteLook,
-            _flip: n.customData.flip,
-            _localRotation: n.customData.localRotation,
-            _noteJumpMovementSpeed: n.customData.noteJumpMovementSpeed,
-            _noteJumpStartBeatOffset: n.customData.noteJumpStartBeatOffset,
-            _disableSpawnEffect: typeof n.customData.spawnEffect === 'boolean' ? !n.customData.spawnEffect : undefined,
-            _track: n.customData.track,
-            _interactable: typeof n.customData.uninteractable === 'boolean' ? !n.customData.uninteractable : undefined,
-            _rotation: n.customData.worldRotation,
-        };
-        if (n.customData.animation) {
-            _customData._animation = {
-                _color: n.customData.animation.color,
-                _definitePosition: n.customData.animation.definitePosition,
-                _dissolve: n.customData.animation.dissolve,
-                _dissolveArrow: n.customData.animation.dissolveArrow,
-                _interactable: n.customData.animation.interactable,
-                _localRotation: n.customData.animation.localRotation,
-                _position: n.customData.animation.offsetPosition,
-                _rotation: n.customData.animation.offsetRotation,
-                _scale: n.customData.animation.scale,
-                _time: n.customData.animation.time,
-            };
-        }
+        const _customData: ICustomDataNote = objectToV2(n.customData);
         template.notes.push(
             v2.Note.create({
                 _time: n.time,
@@ -77,35 +51,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     });
 
     data.customData.fakeColorNotes?.forEach((n) => {
-        const _customData: ICustomDataNote = {
-            _color: n.customData?.color,
-            _position: n.customData?.coordinates,
-            _disableNoteGravity: n.customData?.disableNoteGravity,
-            _disableNoteLook: n.customData?.disableNoteLook,
-            _flip: n.customData?.flip,
-            _localRotation: n.customData?.localRotation,
-            _noteJumpMovementSpeed: n.customData?.noteJumpMovementSpeed,
-            _noteJumpStartBeatOffset: n.customData?.noteJumpStartBeatOffset,
-            _disableSpawnEffect: typeof n.customData?.spawnEffect === 'boolean' ? !n.customData.spawnEffect : undefined,
-            _track: n.customData?.track,
-            _fake: true,
-            _interactable: typeof n.customData?.uninteractable === 'boolean' ? !n.customData.uninteractable : undefined,
-            _rotation: n.customData?.worldRotation,
-        };
-        if (n.customData?.animation) {
-            _customData._animation = {
-                _color: n.customData.animation.color,
-                _definitePosition: n.customData.animation.definitePosition,
-                _dissolve: n.customData.animation.dissolve,
-                _dissolveArrow: n.customData.animation.dissolveArrow,
-                _interactable: n.customData.animation.interactable,
-                _localRotation: n.customData.animation.localRotation,
-                _position: n.customData.animation.offsetPosition,
-                _rotation: n.customData.animation.offsetRotation,
-                _scale: n.customData.animation.scale,
-                _time: n.customData.animation.time,
-            };
-        }
+        const _customData: ICustomDataNote = objectToV2(n.customData);
         template.notes.push(
             v2.Note.create({
                 _time: n.b,
@@ -119,34 +65,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     });
 
     data.bombNotes.forEach((b) => {
-        const customData: ICustomDataNote = {
-            _color: b.customData.color,
-            _position: b.customData.coordinates,
-            _disableNoteGravity: b.customData.disableNoteGravity,
-            _disableNoteLook: b.customData.disableNoteLook,
-            _flip: b.customData.flip,
-            _localRotation: b.customData.localRotation,
-            _noteJumpMovementSpeed: b.customData.noteJumpMovementSpeed,
-            _noteJumpStartBeatOffset: b.customData.noteJumpStartBeatOffset,
-            _disableSpawnEffect: typeof b.customData.spawnEffect === 'boolean' ? !b.customData.spawnEffect : undefined,
-            _track: b.customData.track,
-            _interactable: typeof b.customData.uninteractable === 'boolean' ? !b.customData.uninteractable : undefined,
-            _rotation: b.customData.worldRotation,
-        };
-        if (b.customData.animation) {
-            customData._animation = {
-                _color: b.customData.animation.color,
-                _definitePosition: b.customData.animation.definitePosition,
-                _dissolve: b.customData.animation.dissolve,
-                _dissolveArrow: b.customData.animation.dissolveArrow,
-                _interactable: b.customData.animation.interactable,
-                _localRotation: b.customData.animation.localRotation,
-                _position: b.customData.animation.offsetPosition,
-                _rotation: b.customData.animation.offsetRotation,
-                _scale: b.customData.animation.scale,
-                _time: b.customData.animation.time,
-            };
-        }
+        const _customData: ICustomDataNote = objectToV2(b.customData);
         template.notes.push(
             v2.Note.create({
                 _time: b.time,
@@ -154,41 +73,13 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
                 _lineLayer: b.posY,
                 _type: 3,
                 _cutDirection: 0,
-                _customData: customData,
+                _customData,
             })[0],
         );
     });
 
     data.customData.fakeBombNotes?.forEach((b) => {
-        const customData: ICustomDataNote = {
-            _color: b.customData?.color,
-            _position: b.customData?.coordinates,
-            _disableNoteGravity: b.customData?.disableNoteGravity,
-            _disableNoteLook: b.customData?.disableNoteLook,
-            _flip: b.customData?.flip,
-            _localRotation: b.customData?.localRotation,
-            _noteJumpMovementSpeed: b.customData?.noteJumpMovementSpeed,
-            _noteJumpStartBeatOffset: b.customData?.noteJumpStartBeatOffset,
-            _disableSpawnEffect: typeof b.customData?.spawnEffect === 'boolean' ? !b.customData.spawnEffect : undefined,
-            _track: b.customData?.track,
-            _fake: true,
-            _interactable: typeof b.customData?.uninteractable === 'boolean' ? !b.customData.uninteractable : undefined,
-            _rotation: b.customData?.worldRotation,
-        };
-        if (b.customData?.animation) {
-            customData._animation = {
-                _color: b.customData.animation.color,
-                _definitePosition: b.customData.animation.definitePosition,
-                _dissolve: b.customData.animation.dissolve,
-                _dissolveArrow: b.customData.animation.dissolveArrow,
-                _interactable: b.customData.animation.interactable,
-                _localRotation: b.customData.animation.localRotation,
-                _position: b.customData.animation.offsetPosition,
-                _rotation: b.customData.animation.offsetRotation,
-                _scale: b.customData.animation.scale,
-                _time: b.customData.animation.time,
-            };
-        }
+        const _customData: ICustomDataNote = objectToV2(b.customData);
         template.notes.push(
             v2.Note.create({
                 _time: b.b,
@@ -196,37 +87,13 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
                 _lineLayer: b.y,
                 _type: 3,
                 _cutDirection: 0,
-                _customData: customData,
+                _customData,
             })[0],
         );
     });
 
     data.obstacles.forEach((o) => {
-        const _customData: ICustomDataObstacle = {
-            _color: o.customData.color,
-            _position: o.customData.coordinates,
-            _localRotation: o.customData.localRotation,
-            _noteJumpMovementSpeed: o.customData.noteJumpMovementSpeed,
-            _noteJumpStartBeatOffset: o.customData.noteJumpStartBeatOffset,
-            _scale: o.customData.size,
-            _track: o.customData.track,
-            _interactable: typeof o.customData.uninteractable === 'boolean' ? !o.customData.uninteractable : undefined,
-            _rotation: o.customData.worldRotation,
-        };
-        if (o.customData.animation) {
-            _customData._animation = {
-                _color: o.customData.animation.color,
-                _definitePosition: o.customData.animation.definitePosition,
-                _dissolve: o.customData.animation.dissolve,
-                _dissolveArrow: o.customData.animation.dissolveArrow,
-                _interactable: o.customData.animation.interactable,
-                _localRotation: o.customData.animation.localRotation,
-                _position: o.customData.animation.offsetPosition,
-                _rotation: o.customData.animation.offsetRotation,
-                _scale: o.customData.animation.scale,
-                _time: o.customData.animation.time,
-            };
-        }
+        const _customData: ICustomDataObstacle = objectToV2(o.customData);
         if (o.posY === 0 && o.height === 5) {
             template.obstacles.push(
                 v2.Obstacle.create({
@@ -270,32 +137,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     });
 
     data.customData.fakeObstacles?.forEach((o) => {
-        const _customData: ICustomDataObstacle = {
-            _color: o.customData?.color,
-            _position: o.customData?.coordinates,
-            _localRotation: o.customData?.localRotation,
-            _noteJumpMovementSpeed: o.customData?.noteJumpMovementSpeed,
-            _noteJumpStartBeatOffset: o.customData?.noteJumpStartBeatOffset,
-            _scale: o.customData?.size,
-            _track: o.customData?.track,
-            _fake: true,
-            _interactable: typeof o.customData?.uninteractable === 'boolean' ? !o.customData.uninteractable : undefined,
-            _rotation: o.customData?.worldRotation,
-        };
-        if (o.customData?.animation) {
-            _customData._animation = {
-                _color: o.customData.animation.color,
-                _definitePosition: o.customData.animation.definitePosition,
-                _dissolve: o.customData.animation.dissolve,
-                _dissolveArrow: o.customData.animation.dissolveArrow,
-                _interactable: o.customData.animation.interactable,
-                _localRotation: o.customData.animation.localRotation,
-                _position: o.customData.animation.offsetPosition,
-                _rotation: o.customData.animation.offsetRotation,
-                _scale: o.customData.animation.scale,
-                _time: o.customData.animation.time,
-            };
-        }
+        const _customData: ICustomDataObstacle = objectToV2(o.customData);
         if (o.y === 0 && o.h === 5) {
             template.obstacles.push(
                 v2.Obstacle.create({
@@ -339,34 +181,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     });
 
     data.basicBeatmapEvents.forEach((e) => {
-        let _customData!: IEvent['_customData'];
-        if (e.customData) {
-            if (e.isLightEvent()) {
-                _customData = {
-                    _color: e.customData.color,
-                    _lightID: e.customData.lightID,
-                    _easing: e.customData.easing,
-                    _lerpType: e.customData.lerpType,
-                };
-            }
-            if (e.isRingEvent()) {
-                _customData = {
-                    _nameFilter: e.customData.nameFilter,
-                    _rotation: e.customData.rotation,
-                    _step: e.customData.step,
-                    _prop: e.customData.prop,
-                    _speed: e.customData.speed,
-                    _direction: e.customData.direction,
-                };
-            }
-            if (e.isLaserRotationEvent()) {
-                _customData = {
-                    _lockPosition: e.customData.lockRotation,
-                    _direction: e.customData.direction,
-                    _preciseSpeed: e.customData.speed,
-                };
-            }
-        }
+        const _customData: IEvent['_customData'] = objectToV2(e.customData);
         template.events.push(
             v2.Event.create({
                 _time: e.time,
@@ -626,6 +441,18 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
                         _points: data.customData.pointDefinitions[p],
                     });
                 }
+                continue;
+            }
+            if (k === 'time') {
+                template.customData._time = data.customData[k];
+                continue;
+            }
+            if (k === 'BPMChanges') {
+                template.customData._BPMChanges = data.customData[k];
+                continue;
+            }
+            if (k === 'bookmarks') {
+                template.customData._bookmarks = data.customData[k];
                 continue;
             }
             template.customData[k] = data.customData[k];

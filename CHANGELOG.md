@@ -1,13 +1,15 @@
 # Changelog
 
-## 1.2.1 [2022-08-xx]
+## 1.2.1 [2022-08-18]
 
 ### Added
 
 - v3 BPM change support to `BeatPerMinute` class
+- Custom data patching for v2 and v3
 
 ### Changed
 
+- Conversion now keeps unknown custom data
 - `NoteCutAngle` renamed to `NoteDirectionAngle`
 - v2 Waypoints is now optional
 - Updated Heck

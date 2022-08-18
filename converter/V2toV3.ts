@@ -8,6 +8,7 @@ import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v3/custom
 import { IBasicEvent } from '../types/beatmap/v3/basicEvent.ts';
 import { Vector3 } from '../types/beatmap/shared/heck.ts';
 import { IChromaComponent, IChromaMaterial } from '../types/beatmap/v3/chroma.ts';
+import objectToV3 from './customData/objectToV3.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -22,20 +23,14 @@ const tag = (name: string) => {
  */
 export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
     if (!skipPrompt) {
-        logger.warn(
-            tag('V2toV3'),
-            'Converting beatmap v2 to v3 may lose certain data!',
-        );
+        logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
         const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v3 denied.');
         }
         logger.info(tag('V2toV3'), 'Converting beatmap v2 to v3');
     } else {
-        logger.warn(
-            tag('V2toV3'),
-            'Converting beatmap v2 to v3 may lose certain data!',
-        );
+        logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
     }
     const template = v3.Difficulty.create();
     template.fileName = data.fileName;
@@ -45,41 +40,9 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
     template.customData.fakeObstacles = [];
 
     data.notes.forEach((n, i) => {
-        const customData: ICustomDataNote = {
-            color: n.customData._color,
-            coordinates: n.customData._position,
-            disableNoteGravity: n.customData._disableNoteGravity,
-            disableNoteLook: n.customData._disableNoteLook,
-            flip: n.customData._flip,
-            localRotation: n.customData._localRotation,
-            noteJumpMovementSpeed: n.customData._noteJumpMovementSpeed,
-            noteJumpStartBeatOffset: n.customData._noteJumpStartBeatOffset,
-            spawnEffect: typeof n.customData._disableSpawnEffect === 'boolean'
-                ? !n.customData._disableSpawnEffect
-                : undefined,
-            track: n.customData._track,
-            uninteractable: typeof n.customData._interactable === 'boolean' ? !n.customData._interactable : undefined,
-            worldRotation: n.customData._rotation,
-        };
-        if (n.customData._animation) {
-            customData.animation = {
-                color: n.customData._animation._color,
-                definitePosition: n.customData._animation._definitePosition,
-                dissolve: n.customData._animation._dissolve,
-                dissolveArrow: n.customData._animation._dissolveArrow,
-                interactable: n.customData._animation._interactable,
-                localRotation: n.customData._animation._localRotation,
-                offsetPosition: n.customData._animation._position,
-                offsetRotation: n.customData._animation._rotation,
-                scale: n.customData._animation._scale,
-                time: n.customData._animation._time,
-            };
-        }
+        const customData: ICustomDataNote = objectToV3(n.customData);
         if (typeof n.customData._cutDirection === 'number') {
-            logger.debug(
-                tag('V2toV3'),
-                `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`,
-            );
+            logger.debug(tag('V2toV3'), `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`);
         }
         if (n.isBomb()) {
             if (n.customData._fake) {
@@ -108,8 +71,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 a = n.customData._cutDirection > 0
                     ? n.customData._cutDirection % 360
                     : 360 + (n.customData._cutDirection % 360);
-            }
-            if (n.cutDirection >= 1000) {
+            } else if (n.cutDirection >= 1000) {
                 a = Math.abs(((n.cutDirection % 1000) % 360) - 360);
             }
             if (n.customData._fake) {
@@ -119,8 +81,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                         c: n.type as 0 | 1,
                         x: n.posX,
                         y: n.posY,
-                        d: n.cutDirection >= 1000 ||
-                                typeof n.customData._cutDirection === 'number'
+                        d: n.cutDirection >= 1000 || typeof n.customData._cutDirection === 'number'
                             ? n.cutDirection === 8 ? 8 : 1
                             : clamp(n.cutDirection, 0, 8),
                         a: a,
@@ -134,8 +95,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                         c: n.type as 0 | 1,
                         x: n.posX,
                         y: n.posY,
-                        d: n.cutDirection >= 1000 ||
-                                typeof n.customData._cutDirection === 'number'
+                        d: n.cutDirection >= 1000 || typeof n.customData._cutDirection === 'number'
                             ? n.cutDirection === 8 ? 8 : 1
                             : clamp(n.cutDirection, 0, 8),
                         a: a,
@@ -147,31 +107,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
     });
 
     data.obstacles.forEach((o) => {
-        const customData: ICustomDataObstacle = {
-            color: o.customData._color,
-            coordinates: o.customData._position,
-            localRotation: o.customData._localRotation,
-            noteJumpMovementSpeed: o.customData._noteJumpMovementSpeed,
-            noteJumpStartBeatOffset: o.customData._noteJumpStartBeatOffset,
-            size: o.customData._scale,
-            track: o.customData._track,
-            uninteractable: typeof o.customData._interactable === 'boolean' ? !o.customData._interactable : undefined,
-            worldRotation: o.customData._rotation,
-        };
-        if (o.customData._animation) {
-            customData.animation = {
-                color: o.customData._animation._color,
-                definitePosition: o.customData._animation._definitePosition,
-                dissolve: o.customData._animation._dissolve,
-                dissolveArrow: o.customData._animation._dissolveArrow,
-                interactable: o.customData._animation._interactable,
-                localRotation: o.customData._animation._localRotation,
-                offsetPosition: o.customData._animation._position,
-                offsetRotation: o.customData._animation._rotation,
-                scale: o.customData._animation._scale,
-                time: o.customData._animation._time,
-            };
-        }
+        const customData: ICustomDataObstacle = objectToV3(o.customData);
         if (o.customData._fake) {
             template.customData.fakeObstacles!.push(
                 v3.Obstacle.create({
@@ -227,67 +163,24 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 })[0],
             );
         } else {
-            let customData!: IBasicEvent['customData'];
-            if (e.customData) {
-                if (e.isLightEvent()) {
-                    customData = {
-                        color: e.customData._color,
-                        lightID: e.customData._lightID,
-                        easing: e.customData._easing,
-                        lerpType: e.customData._lerpType,
-                    };
-                    if (e.customData._propID) {
-                        logger.warn(
-                            tag('V2toV3'),
-                            `events[${i}] at time ${e.time} Chroma _propID will be removed.`,
-                        );
-                    }
-                    if (e.customData._lightGradient) {
-                        logger.warn(
-                            tag('V2toV3'),
-                            `events[${i}] at time ${e.time} Chroma _lightGradient will be removed.`,
-                        );
-                    }
+            const customData: IBasicEvent['customData'] = objectToV3(e.customData);
+            if (e.isLightEvent()) {
+                if (e.customData._propID) {
+                    logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _propID will be removed.`);
                 }
-                if (e.isRingEvent()) {
-                    customData = {
-                        nameFilter: e.customData._nameFilter,
-                        rotation: e.customData._rotation,
-                        step: e.customData._step,
-                        prop: e.customData._prop,
-                        speed: e.customData._speed,
-                        direction: e.customData._direction,
-                    };
-                    if (e.customData._reset) {
-                        logger.warn(
-                            tag('V2toV3'),
-                            `events[${i}] at time ${e.time} Chroma _reset will be removed.`,
-                        );
-                    }
-                    if (e.customData._counterSpin) {
-                        logger.warn(
-                            tag('V2toV3'),
-                            `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`,
-                        );
-                    }
-                    if (
-                        e.customData._stepMult ||
-                        e.customData._propMult ||
-                        e.customData._speedMult
-                    ) {
-                        logger.warn(
-                            tag('V2toV3'),
-                            `events[${i}] at time ${e.time} Chroma _mult will be removed.`,
-                        );
-                    }
+                if (e.customData._lightGradient) {
+                    logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _lightGradient will be removed.`);
                 }
-                if (e.isLaserRotationEvent()) {
-                    const speed = e.customData._preciseSpeed ?? e.customData._speed;
-                    customData = {
-                        lockRotation: e.customData._lockPosition,
-                        direction: e.customData._direction,
-                        speed,
-                    };
+            }
+            if (e.isRingEvent()) {
+                if (e.customData._reset) {
+                    logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _reset will be removed.`);
+                }
+                if (e.customData._counterSpin) {
+                    logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`);
+                }
+                if (e.customData._stepMult || e.customData._propMult || e.customData._speedMult) {
+                    logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _mult will be removed.`);
                 }
             }
             template.basicBeatmapEvents.push(
@@ -431,94 +324,72 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 continue;
             }
             if (k === '_environment') {
-                template.customData.environment = data.customData._environment!.map(
-                    (e) => {
-                        let components: IChromaComponent = {};
-                        if (e._lightID) {
-                            components = { ILightWithId: { lightID: e._lightID } };
+                template.customData.environment = data.customData._environment!.map((e) => {
+                    let components: IChromaComponent = {};
+                    if (e._lightID) {
+                        components = { ILightWithId: { lightID: e._lightID } };
+                    }
+                    if (e._id && e._lookupMethod) {
+                        return {
+                            id: e._id,
+                            lookupMethod: e._lookupMethod,
+                            track: e._track,
+                            duplicate: e._duplicate,
+                            active: e._active,
+                            scale: e._scale,
+                            position: e._position?.map((n) => n * 0.6) as Vector3,
+                            rotation: e._rotation,
+                            localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
+                            localRotation: e._localRotation,
+                            components,
+                        };
+                    }
+                    if (e._geometry) {
+                        if (e._lightID && components.ILightWithId) {
+                            components.ILightWithId.type = 0;
                         }
-                        if (e._id && e._lookupMethod) {
-                            return {
-                                id: e._id,
-                                lookupMethod: e._lookupMethod,
-                                track: e._track,
-                                duplicate: e._duplicate,
-                                active: e._active,
-                                scale: e._scale,
-                                position: e._position?.map((n) => n * 0.6) as Vector3,
-                                rotation: e._rotation,
-                                localPosition: e._localPosition?.map(
-                                    (n) => n * 0.6,
-                                ) as Vector3,
-                                localRotation: e._localRotation,
-                                components,
-                            };
-                        }
-                        if (e._geometry) {
-                            if (e._lightID && components.ILightWithId) {
-                                components.ILightWithId.type = 0;
-                            }
-                            return {
-                                geometry: e._geometry._type === 'CUSTOM'
-                                    ? {
-                                        type: e._geometry._type,
-                                        mesh: {
-                                            vertices: e._geometry._mesh._vertices,
-                                            uv: e._geometry._mesh._uv,
-                                            triangles: e._geometry._mesh._triangles,
-                                        },
-                                        material: typeof e._geometry._material ===
-                                                'string'
-                                            ? e._geometry._material
-                                            : {
-                                                shader: e._geometry
-                                                    ._material._shader,
-                                                shaderKeywords: e._geometry._material
-                                                    ._shaderKeywords,
-                                                collision: e._geometry._material
-                                                    ._collision,
-                                                track: e._geometry._material
-                                                    ._track,
-                                                color: e._geometry._material
-                                                    ._color,
-                                            },
-                                        collision: e._geometry._collision,
-                                    }
-                                    : {
-                                        type: e._geometry._type,
-                                        material: typeof e._geometry._material ===
-                                                'string'
-                                            ? e._geometry._material
-                                            : {
-                                                shader: e._geometry
-                                                    ._material._shader,
-                                                shaderKeywords: e._geometry._material
-                                                    ._shaderKeywords,
-                                                collision: e._geometry._material
-                                                    ._collision,
-                                                track: e._geometry._material
-                                                    ._track,
-                                                color: e._geometry._material
-                                                    ._color,
-                                            },
-                                        collision: e._geometry._collision,
+                        return {
+                            geometry: e._geometry._type === 'CUSTOM'
+                                ? {
+                                    type: e._geometry._type,
+                                    mesh: {
+                                        vertices: e._geometry._mesh._vertices,
+                                        uv: e._geometry._mesh._uv,
+                                        triangles: e._geometry._mesh._triangles,
                                     },
-                                track: e._track,
-                                duplicate: e._duplicate,
-                                active: e._active,
-                                scale: e._scale,
-                                position: e._position?.map((n) => n * 0.6) as Vector3,
-                                rotation: e._rotation,
-                                localPosition: e._localPosition?.map(
-                                    (n) => n * 0.6,
-                                ) as Vector3,
-                                localRotation: e._localRotation,
-                                components,
-                            };
-                        }
-                        throw new Error('Error converting environment v2 to v3');
-                    },
-                );
+                                    material: typeof e._geometry._material === 'string' ? e._geometry._material : {
+                                        shader: e._geometry._material._shader,
+                                        shaderKeywords: e._geometry._material._shaderKeywords,
+                                        collision: e._geometry._material._collision,
+                                        track: e._geometry._material._track,
+                                        color: e._geometry._material._color,
+                                    },
+                                    collision: e._geometry._collision,
+                                }
+                                : {
+                                    type: e._geometry._type,
+                                    material: typeof e._geometry._material === 'string' ? e._geometry._material : {
+                                        shader: e._geometry._material._shader,
+                                        shaderKeywords: e._geometry._material._shaderKeywords,
+                                        collision: e._geometry._material._collision,
+                                        track: e._geometry._material._track,
+                                        color: e._geometry._material._color,
+                                    },
+                                    collision: e._geometry._collision,
+                                },
+                            track: e._track,
+                            duplicate: e._duplicate,
+                            active: e._active,
+                            scale: e._scale,
+                            position: e._position?.map((n) => n * 0.6) as Vector3,
+                            rotation: e._rotation,
+                            localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
+                            localRotation: e._localRotation,
+                            components,
+                        };
+                    }
+                    throw new Error('Error converting environment v2 to v3');
+                });
                 continue;
             }
             if (k === '_materials') {
@@ -541,6 +412,29 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 });
                 continue;
             }
+            if (k === '_time') {
+                template.customData.time = data.customData[k];
+                continue;
+            }
+            if (k === '_BPMChanges') {
+                template.customData.BPMChanges = data.customData[k];
+                continue;
+            }
+            if (k === '_bpmChanges') {
+                template.customData.BPMChanges = data.customData[k]?.map((bpmc) => {
+                    return {
+                        _time: bpmc._time,
+                        _BPM: bpmc._bpm,
+                        _beatsPerBar: bpmc._beatsPerBar,
+                        _metronomeOffset: bpmc._metronomeOffset,
+                    };
+                });
+                continue;
+            }
+            if (k === '_bookmarks') {
+                template.customData.bookmarks = data.customData[k];
+                continue;
+            }
             template.customData[k] = data.customData[k];
         }
     }
@@ -556,10 +450,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
         if (template.customData.customEvents) {
             for (const ce of template.customData.customEvents) {
                 if (ce.t === 'AnimateTrack') {
-                    if (
-                        typeof ce.d.track === 'string' &&
-                        envTracks.includes(ce.d.track)
-                    ) {
+                    if (typeof ce.d.track === 'string' && envTracks.includes(ce.d.track)) {
                         customEvents.push(ce);
                     } else if (Array.isArray(ce.d.track)) {
                         for (const t of ce.d.track) {
@@ -575,10 +466,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
         for (const ce of customEvents) {
             if (typeof ce.d.track === 'string') {
                 if (typeof ce.d.position === 'string') {
-                    logger.warn(
-                        tag('V2toV3'),
-                        'Cannot convert point definitions, unknown use.',
-                    );
+                    logger.warn(tag('V2toV3'), 'Cannot convert point definitions, unknown use.');
                 } else if (Array.isArray(ce.d.position)) {
                     ce.d.position.forEach((n) => {
                         n[0] *= 0.6;
@@ -587,10 +475,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                     });
                 }
             } else {
-                logger.warn(
-                    tag('V2toV3'),
-                    'Environment animate track array conversion not yet implemented.',
-                );
+                logger.warn(tag('V2toV3'), 'Environment animate track array conversion not yet implemented.');
             }
         }
     }
