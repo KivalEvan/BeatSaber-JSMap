@@ -62,7 +62,7 @@ try {
         if (isV2(dl.data)) {
             logger.info('Fixing beatmap v2', dl.characteristic, dl.difficulty);
             if (dl.data.events.some((e) => e.hasOldChroma())) {
-                if (oldChromaConfirm) {
+                if (!oldChromaConfirm) {
                     const confirmation = prompt(
                         'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
                         'n'
@@ -77,7 +77,7 @@ try {
                 }
             }
             if (dl.data.events.some((e) => e.customData._lightGradient)) {
-                if (gradientChromaConfirm) {
+                if (!gradientChromaConfirm) {
                     const confirmation = prompt(
                         'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
                         'n'
@@ -95,9 +95,8 @@ try {
             logger.info('Fixing beatmap v3', dl.characteristic, dl.difficulty);
             logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
             const temp = convert.V3toV2(dl.data, true);
-
             if (temp.events.some((e) => e.hasOldChroma())) {
-                if (oldChromaConfirm) {
+                if (!oldChromaConfirm) {
                     const confirmation = prompt(
                         'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
                         'n'
@@ -112,7 +111,7 @@ try {
                 }
             }
             if (temp.events.some((e) => e.customData._lightGradient)) {
-                if (gradientChromaConfirm) {
+                if (!gradientChromaConfirm) {
                     const confirmation = prompt(
                         'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
                         'n'

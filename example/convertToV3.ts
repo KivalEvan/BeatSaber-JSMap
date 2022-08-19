@@ -61,7 +61,7 @@ try {
                 }
             }
             if (dl.data.events.some((e) => e.hasOldChroma())) {
-                if (oldChromaConfirm) {
+                if (!oldChromaConfirm) {
                     const confirmation = prompt(
                         'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
                         'n'
@@ -76,7 +76,7 @@ try {
                 }
             }
             if (dl.data.events.some((e) => e.customData._lightGradient)) {
-                if (gradientChromaConfirm) {
+                if (!gradientChromaConfirm) {
                     const confirmation = prompt(
                         'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
                         'n'
