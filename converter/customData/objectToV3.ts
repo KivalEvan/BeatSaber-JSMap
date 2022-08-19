@@ -83,6 +83,7 @@ export default function <T extends ICustomDataBase>(
     delete cd._step;
     delete cd._prop;
     delete cd._speed;
+    delete cd._preciseSpeed;
     delete cd._direction;
     delete cd._reset;
     delete cd._counterSpin;

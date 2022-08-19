@@ -43,10 +43,10 @@ function patchCDV3(data: DifficultyV3) {
 
 export function patchCustomData(data: DifficultyV2 | DifficultyV3) {
     if (isV2(data)) {
-        logger.info('Patching custom data for beatmap v2...');
+        logger.info('[patch::customData] Patching custom data for beatmap v2...');
         patchCDV2(data);
     } else {
-        logger.info('Patching custom data for beatmap v3...');
+        logger.info('[patch::customData] Patching custom data for beatmap v3...');
         patchCDV3(data);
     }
 }

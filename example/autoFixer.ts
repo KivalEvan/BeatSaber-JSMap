@@ -1,8 +1,8 @@
-/* Convert the map to beatmap V3
+/* Auto-fix beatmap
  * Command-line flag:
- * -p | --directory : map folder directory.
+ * -d | --directory : map folder directory.
  * example run command:
- * deno run --allow-read --allow-write convertToV3.ts -d "./Folder/Path"
+ * deno run --allow-read --allow-write autoFixer.ts -d "./Folder/Path"
  */
 import { copySync } from 'https://deno.land/std@0.152.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
@@ -54,9 +54,10 @@ try {
                     globals.directory + dl.settings._beatmapFilename + '.old',
                     { overwrite: true }
                 );
+            } else {
+                logger.info('Skipping overwrite...');
+                return;
             }
-            logger.info('Skipping overwrite...');
-            return;
         }
         if (isV2(dl.data)) {
             logger.info('Fixing beatmap v2', dl.characteristic, dl.difficulty);
@@ -90,7 +91,6 @@ try {
                     convert.chromaLightGradientToVanillaGradient(dl.data, true);
                 }
             }
-            save.difficultySync(dl.data);
         } else {
             logger.info('Fixing beatmap v3', dl.characteristic, dl.difficulty);
             logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
@@ -132,10 +132,9 @@ try {
 
             logger.info('Re-inserting events from temporary beatmap', dl.characteristic, dl.difficulty);
             dl.data.basicBeatmapEvents = temp2.basicBeatmapEvents;
-
-            save.difficultySync(dl.data);
         }
         patchCustomData(dl.data);
+        save.difficultySync(dl.data);
     });
 
     logger.info('Auto-fix process completed.');

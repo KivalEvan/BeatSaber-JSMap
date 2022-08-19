@@ -1,9 +1,10 @@
 /* Convert the map to beatmap V3
  * Command-line flag:
- * -p | --directory : map folder directory.
+ * -d | --directory : map folder directory.
  * example run command:
  * deno run --allow-read --allow-write convertToV3.ts -d "./Folder/Path"
  */
+import { copySync } from 'https://deno.land/std@0.152.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
 import { load, isV3, convert, save, logger, globals } from '../mod.ts';
 
@@ -41,10 +42,24 @@ try {
     diffList.forEach((dl) => {
         if (!isV3(dl.data)) {
             logger.info('Backing up beatmap v2', dl.characteristic, dl.difficulty);
-            Deno.renameSync(
-                globals.directory + dl.settings._beatmapFilename,
-                globals.directory + dl.settings._beatmapFilename + '.old'
-            );
+            try {
+                copySync(
+                    globals.directory + dl.settings._beatmapFilename,
+                    globals.directory + dl.settings._beatmapFilename + '.old'
+                );
+            } catch (_) {
+                const confirmation = prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
+                if (confirmation![0].toLowerCase() === 'y') {
+                    copySync(
+                        globals.directory + dl.settings._beatmapFilename,
+                        globals.directory + dl.settings._beatmapFilename + '.old',
+                        { overwrite: true }
+                    );
+                } else {
+                    logger.info('Skipping overwrite...');
+                    return;
+                }
+            }
             if (dl.data.events.some((e) => e.hasOldChroma())) {
                 if (oldChromaConfirm) {
                     const confirmation = prompt(
