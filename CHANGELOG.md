@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.2 [2022-08-xx]
+
+### Added
+
+- Beatmap auto-fixer script
+
+### Fixed
+
+- Convert To V3 script now actually ask for miscellaneous conversion
+- Data check option now actually respect option
+- Deleted stray \_preciseSpeed custom data on conversion
+
 ## 1.2.1 [2022-08-18]
 
 ### Added

@@ -138,16 +138,20 @@ export async function difficulty(
                     version,
                 );
                 if (diffVersion === 3 && version == 2) {
-                    resolve(V3toV2(parseDifficultyV3(diffJSON as IDifficultyV3).setFileName(filePath), true));
+                    resolve(
+                        V3toV2(parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck).setFileName(filePath), true),
+                    );
                 } else {
-                    resolve(V2toV3(parseDifficultyV2(diffJSON as IDifficultyV2).setFileName(filePath), true));
+                    resolve(
+                        V2toV3(parseDifficultyV2(diffJSON as IDifficultyV2, opt.dataCheck).setFileName(filePath), true),
+                    );
                 }
             } else {
                 if (version === 3) {
-                    resolve(parseDifficultyV3(diffJSON as IDifficultyV3).setFileName(filePath));
+                    resolve(parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck).setFileName(filePath));
                 }
                 if (version === 2) {
-                    resolve(parseDifficultyV2(diffJSON as IDifficultyV2).setFileName(filePath));
+                    resolve(parseDifficultyV2(diffJSON as IDifficultyV2, opt.dataCheck).setFileName(filePath));
                 }
             }
         } catch (e) {
@@ -207,16 +211,16 @@ export function difficultySync(
             version,
         );
         if (diffVersion === 3 && version == 2) {
-            return V3toV2(parseDifficultyV3(diffJSON as IDifficultyV3).setFileName(filePath), true);
+            return V3toV2(parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck).setFileName(filePath), true);
         } else {
-            return V2toV3(parseDifficultyV2(diffJSON as IDifficultyV2).setFileName(filePath), true);
+            return V2toV3(parseDifficultyV2(diffJSON as IDifficultyV2, opt.dataCheck).setFileName(filePath), true);
         }
     } else {
         if (version === 3) {
-            return parseDifficultyV3(diffJSON as IDifficultyV3).setFileName(filePath);
+            return parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck).setFileName(filePath);
         }
         if (version === 2) {
-            return parseDifficultyV2(diffJSON as IDifficultyV2).setFileName(filePath);
+            return parseDifficultyV2(diffJSON as IDifficultyV2, opt.dataCheck).setFileName(filePath);
         }
     }
 }
@@ -258,7 +262,7 @@ export async function difficultyFromInfo(
                             difficulty: d._difficulty,
                             settings: d,
                             version: 2,
-                            data: parseDifficultyV2(diffJSON).setFileName(d._beatmapFilename),
+                            data: parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(d._beatmapFilename),
                         });
                     } else {
                         difficulties.push({
@@ -266,7 +270,7 @@ export async function difficultyFromInfo(
                             difficulty: d._difficulty,
                             settings: d,
                             version: 3,
-                            data: parseDifficultyV3(diffJSON).setFileName(d._beatmapFilename),
+                            data: parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(d._beatmapFilename),
                         });
                     }
                 }
@@ -307,7 +311,7 @@ export function difficultyFromInfoSync(info: IInfoData, options: ILoadOptionsDif
                     difficulty: d._difficulty,
                     settings: d,
                     version: 2,
-                    data: parseDifficultyV2(diffJSON).setFileName(d._beatmapFilename),
+                    data: parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(d._beatmapFilename),
                 });
             } else {
                 difficulties.push({
@@ -315,7 +319,7 @@ export function difficultyFromInfoSync(info: IInfoData, options: ILoadOptionsDif
                     difficulty: d._difficulty,
                     settings: d,
                     version: 3,
-                    data: parseDifficultyV3(diffJSON).setFileName(d._beatmapFilename),
+                    data: parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(d._beatmapFilename),
                 });
             }
         }

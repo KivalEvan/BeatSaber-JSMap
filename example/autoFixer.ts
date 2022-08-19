@@ -33,7 +33,7 @@ try {
         }
     }
 
-    const diffList = load.difficultyFromInfoSync(info);
+    const diffList = load.difficultyFromInfoSync(info, { dataCheck: { enable: true, throwError: false } });
 
     let oldChromaConvert = false;
     let oldChromaConfirm = false;
