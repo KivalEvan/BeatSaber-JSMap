@@ -9,6 +9,7 @@ import { IBasicEvent } from '../types/beatmap/v3/basicEvent.ts';
 import { Vector3 } from '../types/beatmap/shared/heck.ts';
 import { IChromaComponent, IChromaMaterial } from '../types/beatmap/v3/chroma.ts';
 import objectToV3 from './customData/objectToV3.ts';
+import eventToV3 from './customData/eventToV3.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -71,8 +72,8 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 a = n.customData._cutDirection > 0
                     ? n.customData._cutDirection % 360
                     : 360 + (n.customData._cutDirection % 360);
-            } else if (n.cutDirection >= 1000) {
-                a = Math.abs(((n.cutDirection % 1000) % 360) - 360);
+            } else if (n.direction >= 1000) {
+                a = Math.abs(((n.direction % 1000) % 360) - 360);
             }
             if (n.customData._fake) {
                 template.customData.fakeColorNotes!.push(
@@ -81,9 +82,9 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                         c: n.type as 0 | 1,
                         x: n.posX,
                         y: n.posY,
-                        d: n.cutDirection >= 1000 || typeof n.customData._cutDirection === 'number'
-                            ? n.cutDirection === 8 ? 8 : 1
-                            : clamp(n.cutDirection, 0, 8),
+                        d: n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
+                            ? n.direction === 8 ? 8 : 1
+                            : clamp(n.direction, 0, 8),
                         a: a,
                         customData,
                     })[0].toJSON(),
@@ -95,9 +96,9 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                         c: n.type as 0 | 1,
                         x: n.posX,
                         y: n.posY,
-                        d: n.cutDirection >= 1000 || typeof n.customData._cutDirection === 'number'
-                            ? n.cutDirection === 8 ? 8 : 1
-                            : clamp(n.cutDirection, 0, 8),
+                        d: n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
+                            ? n.direction === 8 ? 8 : 1
+                            : clamp(n.direction, 0, 8),
                         a: a,
                         customData,
                     })[0],
@@ -163,7 +164,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 })[0],
             );
         } else {
-            const customData: IBasicEvent['customData'] = objectToV3(e.customData);
+            const customData = eventToV3(e.customData);
             if (e.isLightEvent()) {
                 if (e.customData._propID) {
                     logger.warn(tag('V2toV3'), `events[${i}] at time ${e.time} Chroma _propID will be removed.`);
@@ -213,12 +214,12 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 b: s.headTime,
                 x: s.headPosX,
                 y: s.headPosY,
-                d: s.headCutDirection,
+                d: s.headDirection,
                 mu: s.headLengthMultiplier,
                 tb: s.tailTime,
                 tx: s.tailPosX,
                 ty: s.tailPosY,
-                tc: s.tailCutDirection,
+                tc: s.tailDirection,
                 tmu: s.tailLengthMultiplier,
                 m: s.midAnchor,
             })[0],

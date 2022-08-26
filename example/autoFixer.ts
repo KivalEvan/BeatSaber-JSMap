@@ -6,7 +6,7 @@
  */
 import { copySync } from 'https://deno.land/std@0.152.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
-import { patchCustomData } from '../patch/customData.ts';
+import { fixCustomData, dataCorrection } from '../patch/mod.ts';
 import { convert, globals, isV2, load, logger, save } from '../mod.ts';
 
 const args = parse(Deno.args, {
@@ -132,7 +132,8 @@ try {
             logger.info('Re-inserting events from temporary beatmap', dl.characteristic, dl.difficulty);
             dl.data.basicBeatmapEvents = temp2.basicBeatmapEvents;
         }
-        patchCustomData(dl.data);
+        fixCustomData(dl.data);
+        dataCorrection(dl.data);
         save.difficultySync(dl.data);
     });
 

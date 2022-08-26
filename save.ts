@@ -65,7 +65,6 @@ export async function info(data: IInfoData, options: Partial<ISaveOptionsInfo> =
     };
     logger.info(tag('info'), `Async saving info`);
     if (opt.optimise.enabled) {
-        logger.info(tag('info'), `Optimising info data`);
         optimize.info(data, opt.optimise);
     }
     logger.info(tag('info'), `Writing to ${opt.directory + opt.filePath}`);
@@ -89,7 +88,6 @@ export function infoSync(data: IInfoData, options: Partial<ISaveOptionsInfo> = {
     };
     logger.info(tag('infoSync'), `Sync saving info`);
     if (opt.optimise.enabled) {
-        logger.info(tag('infoSync'), `Optimising info data`);
         optimize.info(data, opt.optimise);
     }
     logger.info(tag('infoSync'), `Writing to ${opt.directory + opt.filePath}`);

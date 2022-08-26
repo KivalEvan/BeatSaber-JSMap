@@ -5,6 +5,11 @@
 ### Added
 
 - Beatmap auto-fixer script
+- Data and custom data correction patch
+
+### Changed
+
+- v2 Note and v2 Slider `cutDirection` shortened to `direction` to match v3 consistency
 
 ### Fixed
 

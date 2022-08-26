@@ -58,7 +58,7 @@ export class Note extends BeatmapObject<INote> {
             _type: this.type,
             _lineIndex: this.posX,
             _lineLayer: this.posY,
-            _cutDirection: this.cutDirection,
+            _cutDirection: this.direction,
             _customData: deepCopy(this.customData),
         };
     }
@@ -121,10 +121,10 @@ export class Note extends BeatmapObject<INote> {
      *
      * **WARNING:** Dot-directional is not recommended with sliders, assumes down-directional.
      */
-    get cutDirection() {
+    get direction() {
         return this.data._cutDirection;
     }
-    set cutDirection(value: INote['_cutDirection']) {
+    set direction(value: INote['_cutDirection']) {
         this.data._cutDirection = value;
     }
 
@@ -141,7 +141,7 @@ export class Note extends BeatmapObject<INote> {
         return this;
     }
     setCutDirection(value: INote['_cutDirection']) {
-        this.cutDirection = value;
+        this.direction = value;
         return this;
     }
 
@@ -189,10 +189,10 @@ export class Note extends BeatmapObject<INote> {
                 ? this.customData._cutDirection % 360
                 : 360 + (this.customData._cutDirection % 360);
         }
-        if (this.cutDirection >= 1000) {
-            return Math.abs(((this.cutDirection % 1000) % 360) - 360);
+        if (this.direction >= 1000) {
+            return Math.abs(((this.direction % 1000) % 360) - 360);
         }
-        return NoteDirectionAngle[this.cutDirection] || 0;
+        return NoteDirectionAngle[this.direction] || 0;
     };
 
     /** Get two notes and return the distance between two notes.
@@ -341,7 +341,7 @@ export class Note extends BeatmapObject<INote> {
      * ```
      */
     hasMappingExtensions = (): boolean => {
-        return this.cutDirection >= 1000 || this.posX > 3 || this.posX < 0 || this.posY > 2 || this.posY < 0;
+        return this.direction >= 1000 || this.posX > 3 || this.posX < 0 || this.posY > 2 || this.posY < 0;
     };
 
     /** Check if note has a valid cut direction.
@@ -350,7 +350,7 @@ export class Note extends BeatmapObject<INote> {
      * ```
      */
     isValidDirection = (): boolean => {
-        return this.cutDirection >= 0 && this.cutDirection <= 8;
+        return this.direction >= 0 && this.direction <= 8;
     };
 
     /** Check if note is a valid, vanilla this.

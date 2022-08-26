@@ -8,6 +8,7 @@ import { IEvent } from '../types/beatmap/v2/event.ts';
 import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v2/customData.ts';
 import { IChromaMaterial } from '../types/beatmap/v2/chroma.ts';
 import objectToV2 from './customData/objectToV2.ts';
+import eventToV2 from './customData/eventToV2.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -181,7 +182,12 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     });
 
     data.basicBeatmapEvents.forEach((e) => {
-        const _customData: IEvent['_customData'] = objectToV2(e.customData);
+        const _customData = eventToV2(e.customData);
+        if (e.isLaserRotationEvent()) {
+            delete _customData?._speed;
+        } else {
+            delete _customData?._preciseSpeed;
+        }
         template.events.push(
             v2.Event.create({
                 _time: e.time,
