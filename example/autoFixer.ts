@@ -29,7 +29,7 @@ try {
         try {
             info = load.infoSync({ filePath: 'info.data' });
         } catch {
-            throw Error('Info.dat is missing from folder.');
+            throw Error('Info.dat is missing from folder');
         }
     }
 
@@ -137,7 +137,7 @@ try {
         save.difficultySync(dl.data);
     });
 
-    logger.info('Auto-fix process completed.');
+    logger.info('Auto-fix process completed');
     if (!args.d) {
         prompt('Enter any key to exit...');
     }

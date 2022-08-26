@@ -1,6 +1,8 @@
 import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
 import { isV2 } from '../beatmap/version.ts';
+import eventToV2 from '../converter/customData/eventToV2.ts';
+import eventToV3 from '../converter/customData/eventToV3.ts';
 import objectToV2 from '../converter/customData/objectToV2.ts';
 import objectToV3 from '../converter/customData/objectToV3.ts';
 import logger from '../logger.ts';
@@ -16,7 +18,7 @@ function patchV2(data: DifficultyV2) {
     });
     logger.debug('[patch::customData] Patching events');
     data.events.forEach((e) => {
-        e.customData = objectToV2(e.customData);
+        e.customData = eventToV2(e.customData);
         if (e.isLaserRotationEvent()) {
             if (typeof e.customData._preciseSpeed !== 'number') {
                 delete e.customData._speed;
@@ -54,7 +56,7 @@ function patchV3(data: DifficultyV3) {
     });
     logger.debug('[patch::customData] Patching basic events');
     data.basicBeatmapEvents.forEach((e) => {
-        e.customData = objectToV3(e.customData);
+        e.customData = eventToV3(e.customData);
     });
 }
 

@@ -4,7 +4,6 @@ import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
 import { clamp } from '../utils/math.ts';
 import { Vector3, Vector3PointDefinition } from '../types/beatmap/shared/heck.ts';
-import { IEvent } from '../types/beatmap/v2/event.ts';
 import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v2/customData.ts';
 import { IChromaMaterial } from '../types/beatmap/v2/chroma.ts';
 import objectToV2 from './customData/objectToV2.ts';
