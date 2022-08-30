@@ -13,8 +13,9 @@ const args = parse(Deno.args, {
     alias: { d: 'directory' },
 });
 
-logger.info('Beat Saber beatmap v2 to v3 conversion by Kival Evan#5480');
+logger.info('Beat Saber beatmap v2 to v3 conversion build 1');
 logger.info('Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/convertToV3.ts');
+logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 globals.directory =
     (args.d as string) ?? (prompt('Enter map folder path (leave blank for current folder):')?.trim() || './');

@@ -61,12 +61,12 @@ export function fixFloat(value: unknown): number {
     }
 }
 
-export function fixString(value: unknown): string {
+export function fixString<T extends string>(value: unknown): T {
     switch (typeof value) {
         case 'string':
-            return value;
+            return value as T;
         case 'number':
-            return value.toString();
+            return value.toString() as T;
         case 'boolean':
             throw new TypeError('Could not evaluate string value from boolean');
         default:

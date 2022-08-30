@@ -7,10 +7,16 @@ import { patchV3 } from './v3.ts';
 
 export function dataCorrection(data: DifficultyV2 | DifficultyV3) {
     if (isV2(data)) {
-        logger.info('[patch::dataCorrection] Verifying and correcting data type for beatmap v2...');
+        logger.info(
+            '[patch::dataCorrection] Verifying and correcting data type for beatmap v2...',
+        );
         patchV2(data);
     } else {
-        logger.info('[patch::dataCorrection] Verifying and correcting data type for beatmap v3...');
+        logger.info(
+            '[patch::dataCorrection] Verifying and correcting data type for beatmap v3...',
+        );
         patchV3(data);
     }
 }
+
+export { patchInfo } from './info.ts';

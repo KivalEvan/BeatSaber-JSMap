@@ -1,4 +1,4 @@
-import { IInfoData } from '../../types/beatmap/shared/info.ts';
+import { IInfo } from '../../types/beatmap/shared/info.ts';
 import { CharacteristicOrder } from './characteristic.ts';
 import logger from '../../logger.ts';
 import { DifficultyRanking } from './difficulty.ts';
@@ -9,10 +9,12 @@ const tag = (name: string) => {
 
 // TODO: more error check
 // TODO: contemplate whether to make pure function or keep as is
-export function info(infoData: IInfoData): IInfoData {
+export function info(infoData: IInfo): IInfo {
     logger.info(tag('info'), 'Parsing beatmap info v2.x.x');
     infoData._difficultyBeatmapSets.sort(
-        (a, b) => CharacteristicOrder[a._beatmapCharacteristicName] - CharacteristicOrder[b._beatmapCharacteristicName],
+        (a, b) =>
+            CharacteristicOrder[a._beatmapCharacteristicName] -
+            CharacteristicOrder[b._beatmapCharacteristicName],
     );
     infoData._difficultyBeatmapSets.forEach((set) => {
         let num = 0;

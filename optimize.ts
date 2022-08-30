@@ -1,4 +1,4 @@
-import { IInfoData } from './types/beatmap/shared/info.ts';
+import { IInfo } from './types/beatmap/shared/info.ts';
 import { IDifficulty as DifficultyV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficulty as DifficultyV3 } from './types/beatmap/v3/difficulty.ts';
 import { IOptimizeOptions, IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './types/bsmap/optimize.ts';
@@ -88,7 +88,9 @@ export function deepClean(
         if (
             !ignoreObjectRemove.includes(k) &&
             ((Array.isArray(obj[k]) && !obj[k].length) ||
-                (typeof obj[k] === 'object' && !Array.isArray(obj[k]) && JSON.stringify(obj[k]) === '{}'))
+                (typeof obj[k] === 'object' &&
+                    !Array.isArray(obj[k]) &&
+                    JSON.stringify(obj[k]) === '{}'))
         ) {
             delete obj[k];
             continue;
@@ -99,10 +101,16 @@ export function deepClean(
                 throw new Error(`null value found in object key ${name}.${k}.`);
             } else {
                 if (Array.isArray(obj)) {
-                    logger.error(tag('deepClean'), `null value found in array ${name}[${k}], defaulting to 0...`);
+                    logger.error(
+                        tag('deepClean'),
+                        `null value found in array ${name}[${k}], defaulting to 0...`,
+                    );
                     obj[k] = 0;
                 } else {
-                    logger.error(tag('deepClean'), `null value found in object key ${name}.${k}, deleting property...`);
+                    logger.error(
+                        tag('deepClean'),
+                        `null value found in object key ${name}.${k}, deleting property...`,
+                    );
                     delete obj[k];
                 }
             }
@@ -110,7 +118,7 @@ export function deepClean(
     }
 }
 
-export function info(info: IInfoData, options: IOptimizeOptionsInfo = { enabled: true }) {
+export function info(info: IInfo, options: IOptimizeOptionsInfo = { enabled: true }) {
     const opt: Required<IOptimizeOptionsInfo> = {
         enabled: options.enabled,
         floatTrim: options.floatTrim ?? defaultOptions.info.floatTrim,

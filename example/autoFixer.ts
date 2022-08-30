@@ -14,11 +14,15 @@ const args = parse(Deno.args, {
     alias: { d: 'directory' },
 });
 
-logger.info('Beat Saber beatmap fixer by Kival Evan#5480');
-logger.info('Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/autoFixer.ts');
+logger.info('Beat Saber beatmap auto-fixer build 1');
+logger.info(
+    'Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/autoFixer.ts'
+);
+logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 globals.directory =
-    (args.d as string) ?? (prompt('Enter map folder path (leave blank for current folder):')?.trim() || './');
+    (args.d as string) ??
+    (prompt('Enter map folder path (leave blank for current folder):')?.trim() || './');
 
 try {
     let info: ReturnType<typeof load.infoSync>;
@@ -33,7 +37,9 @@ try {
         }
     }
 
-    const diffList = load.difficultyFromInfoSync(info, { dataCheck: { enable: true, throwError: false } });
+    const diffList = load.difficultyFromInfoSync(info, {
+        dataCheck: { enable: true, throwError: false },
+    });
 
     let oldChromaConvert = false;
     let oldChromaConfirm = false;
@@ -47,7 +53,10 @@ try {
                 globals.directory + dl.settings._beatmapFilename + '.old'
             );
         } catch (_) {
-            const confirmation = prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
+            const confirmation = prompt(
+                'Old backup file detected, do you want to overwrite? (y/N):',
+                'n'
+            );
             if (confirmation![0].toLowerCase() === 'y') {
                 copySync(
                     globals.directory + dl.settings._beatmapFilename,
@@ -93,7 +102,11 @@ try {
             }
         } else {
             logger.info('Fixing beatmap v3', dl.characteristic, dl.difficulty);
-            logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
+            logger.info(
+                'Temporarily converting beatmap v2 copy',
+                dl.characteristic,
+                dl.difficulty
+            );
             const temp = convert.V3toV2(dl.data, true);
             if (temp.events.some((e) => e.hasOldChroma())) {
                 if (!oldChromaConfirm) {
@@ -126,10 +139,18 @@ try {
                 }
             }
 
-            logger.info('Reconverting temporary beatmap v2 copy to v3', dl.characteristic, dl.difficulty);
+            logger.info(
+                'Reconverting temporary beatmap v2 copy to v3',
+                dl.characteristic,
+                dl.difficulty
+            );
             const temp2 = convert.V2toV3(temp, true);
 
-            logger.info('Re-inserting events from temporary beatmap', dl.characteristic, dl.difficulty);
+            logger.info(
+                'Re-inserting events from temporary beatmap',
+                dl.characteristic,
+                dl.difficulty
+            );
             dl.data.basicBeatmapEvents = temp2.basicBeatmapEvents;
         }
         fixCustomData(dl.data);
