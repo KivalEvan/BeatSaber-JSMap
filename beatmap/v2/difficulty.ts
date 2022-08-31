@@ -121,19 +121,19 @@ export class Difficulty extends Serializable<IDifficulty> {
         return obstacleEnd;
     };
 
-    addNotes = (...notes: (Partial<INote> | Note)[]) => {
+    addNotes = (...notes: Partial<INote>[] | Note[]) => {
         this.notes.push(...notes.map((n) => (n instanceof Note ? n : Note.create(n)[0])));
     };
-    addObstacles = (...obstacles: (Partial<IObstacle> | Obstacle)[]) => {
+    addObstacles = (...obstacles: Partial<IObstacle>[] | Obstacle[]) => {
         this.obstacles.push(...obstacles.map((o) => (o instanceof Obstacle ? o : Obstacle.create(o)[0])));
     };
-    addEvents = (...events: (Partial<IEvent> | Event)[]) => {
+    addEvents = (...events: Partial<IEvent>[] | Event[]) => {
         this.events.push(...events.map((e) => (e instanceof Event ? e : Event.create(e)[0])));
     };
-    addWaypoints = (...waypoints: (Partial<IWaypoint> | Waypoint)[]) => {
+    addWaypoints = (...waypoints: Partial<IWaypoint>[] | Waypoint[]) => {
         this.waypoints.push(...waypoints.map((w) => (w instanceof Waypoint ? w : Waypoint.create(w)[0])));
     };
-    addSliders = (...sliders: (Partial<ISlider> | Slider)[]) => {
+    addSliders = (...sliders: Partial<ISlider>[] | Slider[]) => {
         this.sliders.push(...sliders.map((s) => (s instanceof Slider ? s : Slider.create(s)[0])));
     };
 }

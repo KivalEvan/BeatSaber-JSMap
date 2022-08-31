@@ -253,46 +253,46 @@ export class Difficulty extends Serializable<IDifficulty> {
         return ec.sort((a, b) => a.data.time - b.data.time);
     };
 
-    addBPMEvents = (...bpmEvents: (Partial<IBPMEvent> | BPMEvent)[]) => {
+    addBPMEvents = (...bpmEvents: Partial<IBPMEvent>[] | BPMEvent[]) => {
         this.bpmEvents.push(...bpmEvents.map((bpme) => (bpme instanceof BPMEvent ? bpme : BPMEvent.create(bpme)[0])));
     };
-    addRotationEvents = (...rotationEvents: (Partial<IRotationEvent> | RotationEvent)[]) => {
+    addRotationEvents = (...rotationEvents: Partial<IRotationEvent>[] | RotationEvent[]) => {
         this.rotationEvents.push(
             ...rotationEvents.map((re) => (re instanceof RotationEvent ? re : RotationEvent.create(re)[0])),
         );
     };
-    addColorNotes = (...colorNotes: (Partial<IColorNote> | ColorNote)[]) => {
+    addColorNotes = (...colorNotes: Partial<IColorNote>[] | ColorNote[]) => {
         this.colorNotes.push(...colorNotes.map((cn) => (cn instanceof ColorNote ? cn : ColorNote.create(cn)[0])));
     };
-    addBombNotes = (...bombNotes: (Partial<IBombNote> | BombNote)[]) => {
+    addBombNotes = (...bombNotes: Partial<IBombNote>[] | BombNote[]) => {
         this.bombNotes.push(...bombNotes.map((bn) => (bn instanceof BombNote ? bn : BombNote.create(bn)[0])));
     };
-    addObstacles = (...obstacles: (Partial<IObstacle> | Obstacle)[]) => {
+    addObstacles = (...obstacles: Partial<IObstacle>[] | Obstacle[]) => {
         this.obstacles.push(...obstacles.map((o) => (o instanceof Obstacle ? o : Obstacle.create(o)[0])));
     };
-    addSliders = (...sliders: (Partial<ISlider> | Slider)[]) => {
+    addSliders = (...sliders: Partial<ISlider>[] | Slider[]) => {
         this.sliders.push(...sliders.map((s) => (s instanceof Slider ? s : Slider.create(s)[0])));
     };
-    addBurstSliders = (...burstSliders: (Partial<IBurstSlider> | BurstSlider)[]) => {
+    addBurstSliders = (...burstSliders: Partial<IBurstSlider>[] | BurstSlider[]) => {
         this.burstSliders.push(
             ...burstSliders.map((bs) => (bs instanceof BurstSlider ? bs : BurstSlider.create(bs)[0])),
         );
     };
-    addWaypoints = (...waypoints: (Partial<IWaypoint> | Waypoint)[]) => {
+    addWaypoints = (...waypoints: Partial<IWaypoint>[] | Waypoint[]) => {
         this.waypoints.push(...waypoints.map((w) => (w instanceof Waypoint ? w : Waypoint.create(w)[0])));
     };
-    addBasicEvents = (...basicEvents: (Partial<IBasicEvent> | BasicEvent)[]) => {
+    addBasicEvents = (...basicEvents: Partial<IBasicEvent>[] | BasicEvent[]) => {
         this.basicBeatmapEvents.push(
             ...basicEvents.map((be) => (be instanceof BasicEvent ? be : BasicEvent.create(be)[0])),
         );
     };
-    addColorBoostEvents = (...colorBoostEvents: (Partial<IColorBoostEvent> | ColorBoostEvent)[]) => {
+    addColorBoostEvents = (...colorBoostEvents: Partial<IColorBoostEvent>[] | ColorBoostEvent[]) => {
         this.colorBoostBeatmapEvents.push(
             ...colorBoostEvents.map((cbe) => (cbe instanceof ColorBoostEvent ? cbe : ColorBoostEvent.create(cbe)[0])),
         );
     };
     addLightColorEventBoxGroups = (
-        ...lightColorEBGs: (DeepPartial<ILightColorEventBoxGroup> | LightColorEventBoxGroup)[]
+        ...lightColorEBGs: DeepPartial<ILightColorEventBoxGroup>[] | LightColorEventBoxGroup[]
     ) => {
         this.lightColorEventBoxGroups.push(
             ...lightColorEBGs.map((lcebg) =>
@@ -301,7 +301,7 @@ export class Difficulty extends Serializable<IDifficulty> {
         );
     };
     addLightRotationEventBoxGroups = (
-        ...lightRotationEBGs: (DeepPartial<ILightRotationEventBoxGroup> | LightRotationEventBoxGroup)[]
+        ...lightRotationEBGs: DeepPartial<ILightRotationEventBoxGroup>[] | LightRotationEventBoxGroup[]
     ) => {
         this.lightRotationEventBoxGroups.push(
             ...lightRotationEBGs.map((lrebg) =>
