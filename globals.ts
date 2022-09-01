@@ -7,7 +7,7 @@ const tag = (str: string) => {
 class globals {
     #directory = '';
 
-    /** Global map directory.
+    /** Global source and destination directory.
      *
      * This will be overriden if directory is specified elsewhere.
      */

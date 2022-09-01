@@ -1,16 +1,19 @@
 /* Convert the map to beatmap V3
  * Command-line flag:
- * -d | --directory : map folder directory.
+ * -d | --directory : map folder directory
+ * -q | --quite : reduced log output (overridden by verbose)
+ * -v | --verbose : enable debug log output
  * example run command:
  * deno run --allow-read --allow-write convertToV3.ts -d "./Folder/Path"
  */
-import { copySync } from 'https://deno.land/std@0.152.0/fs/mod.ts';
-import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
+import { copySync } from 'https://deno.land/std@0.153.0/fs/mod.ts';
+import { parse } from 'https://deno.land/std@0.153.0/flags/mod.ts';
 import { load, isV3, convert, save, logger, globals } from '../mod.ts';
 
 const args = parse(Deno.args, {
-    string: ['d'],
-    alias: { d: 'directory' },
+    string: 'd',
+    boolean: ['v', 'q'],
+    alias: { d: 'directory', q: 'quite', v: 'verbose' },
 });
 
 logger.info('Beat Saber beatmap v2 to v3 conversion build 1');
@@ -19,6 +22,14 @@ logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 globals.directory =
     (args.d as string) ?? (prompt('Enter map folder path (leave blank for current folder):')?.trim() || './');
+
+if (args.q) {
+    logger.setLevel(4);
+}
+
+if (args.v) {
+    logger.setLevel(1);
+}
 
 try {
     let info: ReturnType<typeof load.infoSync>;
@@ -109,5 +120,7 @@ try {
     }
 } catch (e) {
     logger.error(e.message);
-    prompt('!! An error has occured, enter any key to exit...');
+    logger.error('If this is an unexpected or unknown error');
+    logger.error('Please report this to Kival Evan#5480 on Discord');
+    prompt('!! Enter any key to exit...');
 }

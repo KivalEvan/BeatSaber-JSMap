@@ -1,6 +1,7 @@
 import { IBaseOptions } from './options.ts';
 
 export interface ILoadOptionsInfo extends IBaseOptions {
+    /** Set info source file path/name. */
     filePath?: string;
 }
 

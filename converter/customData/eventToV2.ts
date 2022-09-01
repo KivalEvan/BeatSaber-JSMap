@@ -22,7 +22,6 @@ export default function (customData?: IBasicEvent['customData']): NonNullable<IE
     cd._speed ??= cd.speed;
     cd._direction ??= cd.direction;
     cd._lockPosition ??= cd.lockRotation;
-    cd._direction ??= cd.direction;
     cd._preciseSpeed ??= cd.speed;
 
     // delete converted customData
@@ -37,7 +36,6 @@ export default function (customData?: IBasicEvent['customData']): NonNullable<IE
     delete cd.speed;
     delete cd.direction;
     delete cd.lockRotation;
-    delete cd.direction;
 
     return cd;
 }

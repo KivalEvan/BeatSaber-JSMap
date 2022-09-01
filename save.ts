@@ -102,17 +102,10 @@ export function infoSync(data: IInfo, options: Partial<ISaveOptionsInfo> = {}) {
  * await save.difficulty(difficulty);
  * ```
  */
-export async function difficulty(
-    data: DifficultyV2 | DifficultyV3,
-    options: Partial<ISaveOptionsDifficulty> = {},
-) {
+export async function difficulty(data: DifficultyV2 | DifficultyV3, options: Partial<ISaveOptionsDifficulty> = {}) {
     const opt: Required<ISaveOptionsDifficulty> = {
-        directory: options.directory ??
-            (globals.directory || defaultOptions.difficulty.directory),
-        filePath: options.filePath ??
-            (data.fileName ||
-                defaultOptions.difficulty.filePath ||
-                'UnnamedDifficulty.dat'),
+        directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
+        filePath: options.filePath ?? (data.fileName || defaultOptions.difficulty.filePath || 'UnnamedDifficulty.dat'),
         format: options.format ?? defaultOptions.info.format,
         optimise: options.optimise ?? { enabled: true },
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
@@ -154,17 +147,10 @@ export async function difficulty(
  * save.difficultySync(difficulty);
  * ```
  */
-export function difficultySync(
-    data: DifficultyV2 | DifficultyV3,
-    options: Partial<ISaveOptionsDifficulty> = {},
-) {
+export function difficultySync(data: DifficultyV2 | DifficultyV3, options: Partial<ISaveOptionsDifficulty> = {}) {
     const opt: Required<ISaveOptionsDifficulty> = {
-        directory: options.directory ??
-            (globals.directory || defaultOptions.difficulty.directory),
-        filePath: options.filePath ??
-            (data.fileName ||
-                defaultOptions.difficulty.filePath ||
-                'UnnamedDifficulty.dat'),
+        directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
+        filePath: options.filePath ?? (data.fileName || defaultOptions.difficulty.filePath || 'UnnamedDifficulty.dat'),
         format: options.format ?? defaultOptions.info.format,
         optimise: options.optimise ?? { enabled: true },
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
@@ -206,23 +192,16 @@ export function difficultySync(
  * await save.difficultyList(difficulties);
  * ```
  */
-export function difficultyList(
-    difficulties: IDifficultyList,
-    options: Partial<ISaveOptionsDifficultyList> = {},
-) {
+export function difficultyList(difficulties: IDifficultyList, options: Partial<ISaveOptionsDifficultyList> = {}) {
     logger.info(tag('difficultyList'), `Async saving list of difficulty`);
     difficulties.forEach(async (dl) => {
         const opt: Required<ISaveOptionsDifficultyList> = {
-            directory: options.directory ??
-                (globals.directory || defaultOptions.difficultyList.directory),
+            directory: options.directory ?? (globals.directory || defaultOptions.difficultyList.directory),
             format: options.format ?? defaultOptions.info.format,
             optimise: options.optimise ?? { enabled: true },
             dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
         };
-        logger.info(
-            tag('difficultyListSync'),
-            `Saving ${dl.characteristic} ${dl.difficulty}`,
-        );
+        logger.info(tag('difficultyListSync'), `Saving ${dl.characteristic} ${dl.difficulty}`);
         const objectData = dl.data.toJSON();
         if (opt.dataCheck.enable) {
             if ((objectData as IDifficultyV2)._version) {
@@ -247,10 +226,7 @@ export function difficultyList(
         if (opt.optimise.enabled) {
             optimize.difficulty(objectData, opt.optimise);
         }
-        logger.info(
-            tag('difficultyList'),
-            `Writing to ${opt.directory + dl.settings._beatmapFilename}`,
-        );
+        logger.info(tag('difficultyList'), `Writing to ${opt.directory + dl.settings._beatmapFilename}`);
         await Deno.writeTextFile(
             opt.directory + dl.settings._beatmapFilename,
             opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),
@@ -263,23 +239,16 @@ export function difficultyList(
  * save.difficultyList(difficulties);
  * ```
  */
-export function difficultyListSync(
-    difficulties: IDifficultyList,
-    options: Partial<ISaveOptionsDifficultyList> = {},
-) {
+export function difficultyListSync(difficulties: IDifficultyList, options: Partial<ISaveOptionsDifficultyList> = {}) {
     logger.info(tag('difficultyListSync'), `Sync saving list of difficulty`);
     difficulties.forEach((dl) => {
         const opt: Required<ISaveOptionsDifficultyList> = {
-            directory: options.directory ??
-                (globals.directory || defaultOptions.difficultyList.directory),
+            directory: options.directory ?? (globals.directory || defaultOptions.difficultyList.directory),
             format: options.format ?? defaultOptions.info.format,
             optimise: options.optimise ?? { enabled: true },
             dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
         };
-        logger.info(
-            tag('difficultyListSync'),
-            `Saving ${dl.characteristic} ${dl.difficulty}`,
-        );
+        logger.info(tag('difficultyListSync'), `Saving ${dl.characteristic} ${dl.difficulty}`);
         const objectData = dl.data.toJSON();
         if (opt.dataCheck.enable) {
             if ((objectData as IDifficultyV2)._version) {
@@ -304,10 +273,7 @@ export function difficultyListSync(
         if (opt.optimise.enabled) {
             optimize.difficulty(objectData, opt.optimise);
         }
-        logger.info(
-            tag('difficultyList'),
-            `Writing to ${opt.directory + dl.settings._beatmapFilename}`,
-        );
+        logger.info(tag('difficultyList'), `Writing to ${opt.directory + dl.settings._beatmapFilename}`);
         Deno.writeTextFileSync(
             opt.directory + dl.settings._beatmapFilename,
             opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),

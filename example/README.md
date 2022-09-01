@@ -11,7 +11,7 @@ You may refer to example script if you need more glimpse on how to use them. Alt
 Create a `.ts` script file anywhere, be it desktop, map folder, or any dedicated place, and simply add the following on top of the script. No additional file or setup needed, it just works.
 
 ```ts
-import * as bsmap from 'https://deno.land/x/bsmap@1.2.0/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.2.2/mod.ts';
 ```
 
 **NOTE:** for first time user, you may need to cache the URL if the error pops up on import. Hover over error and click on quick fix or `CTRL+.` on select. You may also need to initialise Deno workspace if strange error regarding TS URL pops up.
@@ -21,7 +21,7 @@ import * as bsmap from 'https://deno.land/x/bsmap@1.2.0/mod.ts';
 Due to expansive library, namespace is used to separate functionality on their own area. Object destructuring can be used to obtain certain variables and functions. Helpful tip, use `CTRL+Space` to show list of available variables and functions.
 
 ```ts
-import { load, save, v3, utils } from 'https://deno.land/x/bsmap@1.2.0/mod.ts';
+import { load, save, v3, utils } from 'https://deno.land/x/bsmap@1.2.2/mod.ts';
 const { random, deepCopy } = utils;
 ```
 
@@ -126,15 +126,15 @@ data.addBasicEvents({
 This module is not available directly from main import as it is heavy, unstable, and make use of third-party library. This provides plentiful of helpers that may be useful for modcharting and many other purposes.
 
 ```ts
-import * as chroma from 'https://deno.land/x/bsmap@1.2.0/extensions/chroma/mod.ts';
-import * as NE from 'https://deno.land/x/bsmap@1.2.0/extensions/NE/mod.ts';
-import * as selector from 'https://deno.land/x/bsmap@1.2.0/extensions/selector/mod.ts';
+import * as chroma from 'https://deno.land/x/bsmap@1.2.2/extensions/chroma/mod.ts';
+import * as NE from 'https://deno.land/x/bsmap@1.2.2/extensions/NE/mod.ts';
+import * as selector from 'https://deno.land/x/bsmap@1.2.2/extensions/selector/mod.ts';
 ```
 
 If you wish to import all of them, do as following:
 
 ```ts
-import * as ext from 'https://deno.land/x/bsmap@1.2.0/extensions/mod.ts';
+import * as ext from 'https://deno.land/x/bsmap@1.2.2/extensions/mod.ts';
 ```
 
 ### Addendum
@@ -145,8 +145,8 @@ If you happen to work on multiple script files or has centralised folder for map
 
 ```ts
 // deps.ts
-export * from 'https://deno.land/x/bsmap@1.2.0/mod.ts';
-export * as ext from 'https://deno.land/x/bsmap@1.2.0/extensions/mod.ts';
+export * from 'https://deno.land/x/bsmap@1.2.2/mod.ts';
+export * as ext from 'https://deno.land/x/bsmap@1.2.2/extensions/mod.ts';
 ```
 
 ```ts

@@ -1,4 +1,3 @@
-import * as v3 from '../beatmap/v3/mod.ts';
 import logger from '../logger.ts';
 import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
@@ -9,6 +8,16 @@ import { Vector3 } from '../types/beatmap/shared/heck.ts';
 import { IChromaComponent, IChromaMaterial } from '../types/beatmap/v3/chroma.ts';
 import objectToV3 from './customData/objectToV3.ts';
 import eventToV3 from './customData/eventToV3.ts';
+import { Obstacle } from '../beatmap/v3/obstacle.ts';
+import { Slider } from '../beatmap/v3/slider.ts';
+import { Waypoint } from '../beatmap/v3/waypoint.ts';
+import { BasicEvent } from '../beatmap/v3/basicEvent.ts';
+import { BasicEventTypesWithKeywords } from '../beatmap/v3/basicEventTypesWithKeywords.ts';
+import { BombNote } from '../beatmap/v3/bombNote.ts';
+import { BPMEvent } from '../beatmap/v3/bpmEvent.ts';
+import { ColorBoostEvent } from '../beatmap/v3/colorBoostEvent.ts';
+import { ColorNote } from '../beatmap/v3/colorNote.ts';
+import { RotationEvent } from '../beatmap/v3/rotationEvent.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -32,7 +41,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
     } else {
         logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
     }
-    const template = v3.Difficulty.create();
+    const template = DifficultyV3.create();
     template.fileName = data.fileName;
 
     template.customData.fakeBombNotes = [];
@@ -47,7 +56,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
         if (n.isBomb()) {
             if (n.customData._fake) {
                 template.customData.fakeBombNotes!.push(
-                    v3.BombNote.create({
+                    BombNote.create({
                         b: n.time,
                         x: n.posX,
                         y: n.posY,
@@ -56,7 +65,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 );
             } else {
                 template.bombNotes.push(
-                    v3.BombNote.create({
+                    BombNote.create({
                         b: n.time,
                         x: n.posX,
                         y: n.posY,
@@ -76,7 +85,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
             }
             if (n.customData._fake) {
                 template.customData.fakeColorNotes!.push(
-                    v3.ColorNote.create({
+                    ColorNote.create({
                         b: n.time,
                         c: n.type as 0 | 1,
                         x: n.posX,
@@ -90,7 +99,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 );
             } else {
                 template.colorNotes.push(
-                    v3.ColorNote.create({
+                    ColorNote.create({
                         b: n.time,
                         c: n.type as 0 | 1,
                         x: n.posX,
@@ -110,7 +119,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
         const customData: ICustomDataObstacle = objectToV3(o.customData);
         if (o.customData._fake) {
             template.customData.fakeObstacles!.push(
-                v3.Obstacle.create({
+                Obstacle.create({
                     b: o.time,
                     x: o.posX,
                     y: o.type === 2 ? o.posY : o.type ? 2 : 0,
@@ -122,7 +131,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
             );
         } else {
             template.obstacles.push(
-                v3.Obstacle.create({
+                Obstacle.create({
                     b: o.time,
                     x: o.posX,
                     y: o.type === 2 ? o.posY : o.type ? 2 : 0,
@@ -138,14 +147,14 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
     data.events.forEach((e, i) => {
         if (e.isColorBoost()) {
             template.colorBoostBeatmapEvents.push(
-                v3.ColorBoostEvent.create({
+                ColorBoostEvent.create({
                     b: e.time,
                     o: e.value ? true : false,
                 })[0],
             );
         } else if (e.isLaneRotationEvent()) {
             template.rotationEvents.push(
-                v3.RotationEvent.create({
+                RotationEvent.create({
                     b: e.time,
                     e: e.type === 14 ? 0 : 1,
                     r: typeof e.customData._rotation === 'number'
@@ -157,7 +166,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
             );
         } else if (e.isBPMChangeEvent()) {
             template.bpmEvents.push(
-                v3.BPMEvent.create({
+                BPMEvent.create({
                     b: e.time,
                     m: e.floatValue,
                 })[0],
@@ -184,7 +193,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 }
             }
             template.basicBeatmapEvents.push(
-                v3.BasicEvent.create({
+                BasicEvent.create({
                     b: e.time,
                     et: e.type,
                     i: e.value,
@@ -197,7 +206,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
 
     data.waypoints.forEach((w) => {
         template.waypoints.push(
-            v3.Waypoint.create({
+            Waypoint.create({
                 b: w.time,
                 x: w.posX,
                 y: w.posY,
@@ -208,7 +217,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
 
     data.sliders.forEach((s) =>
         template.sliders.push(
-            v3.Slider.create({
+            Slider.create({
                 c: s.colorType,
                 b: s.headTime,
                 x: s.headPosX,
@@ -225,7 +234,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
         )
     );
 
-    template.basicEventTypesWithKeywords = v3.BasicEventTypesWithKeywords.create({
+    template.basicEventTypesWithKeywords = BasicEventTypesWithKeywords.create({
         d: data.specialEventsKeywordFilters?.keywords?.map((k) => {
             return { k: k.keyword, e: k.events };
         }) ?? [],

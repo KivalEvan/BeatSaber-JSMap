@@ -1,11 +1,8 @@
 import { ICustomDataBase } from '../../types/beatmap/shared/customData.ts';
 import { ICustomDataNote, ICustomDataObstacle } from '../../types/beatmap/v2/customData.ts';
-import { IEvent } from '../../types/beatmap/v2/event.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
-export default function <T extends ICustomDataBase>(
-    customData?: ICustomDataNote & ICustomDataObstacle & IEvent['_customData'],
-): T {
+export default function <T extends ICustomDataBase>(customData?: ICustomDataNote & ICustomDataObstacle): T {
     if (!customData) {
         return {} as T;
     }

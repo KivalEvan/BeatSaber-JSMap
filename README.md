@@ -35,7 +35,7 @@ To get started, check out the [example folder](./example) for templates you can 
 The bare minimum example:
 
 ```ts
-import * as bsmap from 'https://deno.land/x/bsmap@1.2.0/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.2.2/mod.ts';
 
 const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 3);
 bsmap.save.difficultySync(data);
@@ -95,4 +95,4 @@ issue if you encounter error/problem or want an improvement.
 - [CIE-L\*ab and Delta E2000 algorithm](https://www.easyrgb.com/)
 - Uninstaller and Qwasyx (improving it) for note swing detection algorithm
 - Top_Cat for math guidance
-- Others for indirect contribution
+- Others for helpful feedback & indirect contribution

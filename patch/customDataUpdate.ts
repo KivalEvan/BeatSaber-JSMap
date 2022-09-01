@@ -7,16 +7,16 @@ import objectToV2 from '../converter/customData/objectToV2.ts';
 import objectToV3 from '../converter/customData/objectToV3.ts';
 import logger from '../logger.ts';
 
-function patchV2(data: DifficultyV2) {
-    logger.debug('[patch::customData] Patching notes');
+function v2(data: DifficultyV2) {
+    logger.debug('[patch::customData::v2] Patching notes');
     data.notes.forEach((n) => {
         n.customData = objectToV2(n.customData);
     });
-    logger.debug('[patch::customData] Patching obstacles');
+    logger.debug('[patch::customData::v2] Patching obstacles');
     data.obstacles.forEach((o) => {
         o.customData = objectToV2(o.customData);
     });
-    logger.debug('[patch::customData] Patching events');
+    logger.debug('[patch::customData::v2] Patching events');
     data.events.forEach((e) => {
         e.customData = eventToV2(e.customData);
         if (e.isLaserRotationEvent()) {
@@ -29,43 +29,55 @@ function patchV2(data: DifficultyV2) {
     });
 }
 
-function patchV3(data: DifficultyV3) {
-    logger.debug('[patch::customData] Patching color notes');
+function v3(data: DifficultyV3) {
+    logger.debug('[patch::customData::v3] Patching color notes');
     data.colorNotes.forEach((n) => {
         n.customData = objectToV3(n.customData);
     });
-    logger.debug('[patch::customData] Patching bomb notes');
+    logger.debug('[patch::customData::v3] Patching bomb notes');
     data.bombNotes.forEach((b) => {
         b.customData = objectToV3(b.customData);
     });
-    logger.debug('[patch::customData] Patching obstacles');
+    logger.debug('[patch::customData::v3] Patching obstacles');
     data.obstacles.forEach((o) => {
         o.customData = objectToV3(o.customData);
     });
-    logger.debug('[patch::customData] Patching fake color notes');
+    logger.debug('[patch::customData::v3] Patching fake color notes');
     data.customData.fakeColorNotes?.forEach((n) => {
         n.customData = objectToV3(n.customData);
     });
-    logger.debug('[patch::customData] Patching fake bomb notes');
+    logger.debug('[patch::customData::v3] Patching fake bomb notes');
     data.customData.fakeBombNotes?.forEach((b) => {
         b.customData = objectToV3(b.customData);
     });
-    logger.debug('[patch::customData] Patching fake obstacles');
+    logger.debug('[patch::customData::v3] Patching fake obstacles');
     data.customData.fakeObstacles?.forEach((o) => {
         o.customData = objectToV3(o.customData);
     });
-    logger.debug('[patch::customData] Patching basic events');
+    logger.debug('[patch::customData::v3] Patching basic events');
     data.basicBeatmapEvents.forEach((e) => {
         e.customData = eventToV3(e.customData);
     });
+    data.customData.environment?.forEach((env) => {
+        // deno-lint-ignore no-explicit-any
+        if ((env as any).lightID) {
+            // deno-lint-ignore no-explicit-any
+            const id = (env as any).lightID as number;
+            if (env.components?.ILightWithId) {
+                env.components.ILightWithId.lightID ??= id;
+            }
+            // deno-lint-ignore no-explicit-any
+            delete (env as any).lightID;
+        }
+    });
 }
 
-export function fixCustomData(data: DifficultyV2 | DifficultyV3) {
+export default function (data: DifficultyV2 | DifficultyV3) {
     if (isV2(data)) {
-        logger.info('[patch::customData] Patching custom data for beatmap v2...');
-        patchV2(data);
+        logger.info('[patch::customDataUpdate] Patching custom data for beatmap v2...');
+        v2(data);
     } else {
-        logger.info('[patch::customData] Patching custom data for beatmap v3...');
-        patchV3(data);
+        logger.info('[patch::customDataUpdate] Patching custom data for beatmap v3...');
+        v3(data);
     }
 }

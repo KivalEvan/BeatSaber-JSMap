@@ -5,55 +5,63 @@ import { Event } from '../../beatmap/v2/event.ts';
 import { Waypoint } from '../../beatmap/v2/waypoint.ts';
 import { Slider } from '../../beatmap/v2/slider.ts';
 import { fixFloat, fixInt } from './helpers.ts';
+import logger from '../../logger.ts';
+import { fixCustomDataObject } from './customDataObject.ts';
+import { fixCustomDataEvent } from './customDataEvent.ts';
 
 function fixNote(obj: Note) {
-    obj.time = fixFloat(obj.time);
-    obj.type = fixInt(obj.type);
-    obj.posX = fixInt(obj.posX);
-    obj.posY = fixInt(obj.posY);
-    obj.direction = fixInt(obj.direction);
+    obj.time = fixFloat(obj.time, Note.default._time);
+    obj.type = fixInt(obj.type, [0, 3], [0, 1, 3]);
+    obj.posX = fixInt(obj.posX, Note.default._lineIndex);
+    obj.posY = fixInt(obj.posY, Note.default._lineLayer);
+    obj.direction = fixInt(obj.direction, Note.default._cutDirection);
+    fixCustomDataObject(obj.customData);
 }
 
 function fixObstacle(obj: Obstacle) {
-    obj.time = fixFloat(obj.time);
-    obj.type = fixInt(obj.type);
-    obj.posX = fixInt(obj.posX);
-    obj.posY = fixInt(obj.posY);
-    obj.duration = fixFloat(obj.duration);
-    obj.width = fixInt(obj.width);
-    obj.height = fixInt(obj.height);
+    obj.time = fixFloat(obj.time, Obstacle.default._time);
+    obj.type = fixInt(obj.type, Obstacle.default._type);
+    obj.posX = fixInt(obj.posX, Obstacle.default._lineIndex);
+    obj.posY = fixInt(obj.posY, Obstacle.default._lineLayer);
+    obj.duration = fixFloat(obj.duration, Obstacle.default._duration);
+    obj.width = fixInt(obj.width, Obstacle.default._width);
+    obj.height = fixInt(obj.height, Obstacle.default._height);
+    fixCustomDataObject(obj.customData);
 }
 
 function fixEvent(obj: Event) {
-    obj.time = fixFloat(obj.time);
-    obj.type = fixInt(obj.type);
-    obj.value = fixInt(obj.value);
-    obj.floatValue = fixFloat(obj.floatValue);
+    obj.time = fixFloat(obj.time, Event.default._time);
+    obj.type = fixInt(obj.type, Event.default._type);
+    obj.value = fixInt(obj.value, Event.default._value);
+    obj.floatValue = fixFloat(obj.floatValue, Event.default._floatValue);
+    fixCustomDataEvent(obj.customData);
 }
 
 function fixWaypoint(obj: Waypoint) {
-    obj.time = fixFloat(obj.time);
-    obj.posX = fixInt(obj.posX);
-    obj.posY = fixInt(obj.posY);
-    obj.direction = fixInt(obj.direction);
+    obj.time = fixFloat(obj.time, Waypoint.default._time);
+    obj.posX = fixInt(obj.posX, Waypoint.default._lineIndex);
+    obj.posY = fixInt(obj.posY, Waypoint.default._lineLayer);
+    obj.direction = fixInt(obj.direction, Waypoint.default._offsetDirection);
 }
 
 function fixSlider(obj: Slider) {
-    obj.colorType = fixInt(obj.colorType);
-    obj.headTime = fixFloat(obj.headTime);
-    obj.headPosX = fixInt(obj.headPosX);
-    obj.headPosY = fixInt(obj.headPosY);
-    obj.headDirection = fixInt(obj.headDirection);
-    obj.headLengthMultiplier = fixFloat(obj.headLengthMultiplier);
-    obj.tailTime = fixFloat(obj.tailTime);
-    obj.tailPosX = fixInt(obj.tailPosX);
-    obj.tailPosY = fixInt(obj.tailPosY);
-    obj.tailDirection = fixInt(obj.tailDirection);
-    obj.tailLengthMultiplier = fixFloat(obj.tailLengthMultiplier);
-    obj.midAnchor = fixInt(obj.midAnchor);
+    obj.colorType = fixInt(obj.colorType, Slider.default._colorType, [0, 1]);
+    obj.headTime = fixFloat(obj.headTime, Slider.default._headTime);
+    obj.headPosX = fixInt(obj.headPosX, Slider.default._headLineIndex);
+    obj.headPosY = fixInt(obj.headPosY, Slider.default._headLineLayer);
+    obj.headDirection = fixInt(obj.headDirection, Slider.default._headCutDirection);
+    obj.headLengthMultiplier = fixFloat(obj.headLengthMultiplier, Slider.default._headControlPointlengthMultiplier);
+    obj.tailTime = fixFloat(obj.tailTime, Slider.default._tailTime);
+    obj.tailPosX = fixInt(obj.tailPosX, Slider.default._tailLineIndex);
+    obj.tailPosY = fixInt(obj.tailPosY, Slider.default._tailLineLayer);
+    obj.tailDirection = fixInt(obj.tailDirection, Slider.default._tailCutDirection);
+    obj.tailLengthMultiplier = fixFloat(obj.tailLengthMultiplier, Slider.default._tailControlPointLengthMultiplier);
+    obj.midAnchor = fixInt(obj.midAnchor, Slider.default._sliderMidAnchorMode);
 }
 
-export function patchV2(data: Difficulty) {
+export function v2(data: Difficulty) {
+    logger.info('[patch::dataCorrection::difficulty::v2] Verifying and correcting data type for beatmap v2...');
+
     data.notes.forEach(fixNote);
     data.obstacles.forEach(fixObstacle);
     data.events.forEach(fixEvent);

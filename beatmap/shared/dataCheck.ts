@@ -50,49 +50,23 @@ export function deepCheck(
             handleError(`Missing ${key} in object ${name}!`, throwError, error);
         }
         if (data[key] == null) {
-            handleError(
-                `${key} contain null value in object ${name}!`,
-                throwError,
-                error,
-            );
+            handleError(`${key} contain null value in object ${name}!`, throwError, error);
         }
         if (check[key].type === 'array') {
             if (!Array.isArray(data[key])) {
-                handleError(
-                    `${key} is not an array in object ${name}!`,
-                    throwError,
-                    error,
-                );
+                handleError(`${key} is not an array in object ${name}!`, throwError, error);
             }
-            deepCheck(
-                data[key],
-                (check[key] as DataCheckObject).check,
-                `${name} ${key}`,
-                version,
-            );
+            deepCheck(data[key], (check[key] as DataCheckObject).check, `${name} ${key}`, version);
         }
         if (check[key].type === 'object') {
             if (!Array.isArray(data[key]) && !(typeof data[key] === 'object')) {
-                handleError(
-                    `${key} is not an object in object ${name}!`,
-                    throwError,
-                    error,
-                );
+                handleError(`${key} is not an object in object ${name}!`, throwError, error);
             } else {
-                deepCheck(
-                    data[key],
-                    (check[key] as DataCheckObject).check,
-                    `${name} ${key}`,
-                    version,
-                );
+                deepCheck(data[key], (check[key] as DataCheckObject).check, `${name} ${key}`, version);
             }
         }
         if (check[key].type !== 'array' && typeof data[key] !== check[key].type) {
-            handleError(
-                `${key} is not ${check[key].type} in object ${name}!`,
-                throwError,
-                error,
-            );
+            handleError(`${key} is not ${check[key].type} in object ${name}!`, throwError, error);
         }
         if (check[key].type === 'number' && typeof data[key] === 'number') {
             if ((check[key] as DataCheckNumber).int && data[key] % 1 !== 0) {

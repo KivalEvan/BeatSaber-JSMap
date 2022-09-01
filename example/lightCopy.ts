@@ -8,7 +8,7 @@
  * deno run --allow-read --allow-write lightCopy.ts -d "./Folder/Path" Lightshow.dat
  */
 import * as bsmap from '../mod.ts';
-import { parse } from 'https://deno.land/std@0.125.0/flags/mod.ts';
+import { parse } from 'https://deno.land/std@0.153.0/flags/mod.ts';
 
 const args = parse(Deno.args, {
     string: ['d'],

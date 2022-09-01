@@ -28,3 +28,8 @@ export function toMMSSMS(seconds: number): string {
     const dec = (seconds % 1).toString().split('.')[1]?.padEnd(3, '0').slice(0, 3) || '000';
     return `${toMMSS(seconds)}.${dec}`;
 }
+
+export function MMSStoFloat(mmss: string): number {
+    const [m, s] = mmss.split(':').map((el) => parseInt(el));
+    return m * 60 + s;
+}

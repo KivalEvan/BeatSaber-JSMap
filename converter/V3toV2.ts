@@ -1,4 +1,3 @@
-import * as v2 from '../beatmap/v2/mod.ts';
 import logger from '../logger.ts';
 import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
@@ -8,6 +7,12 @@ import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v2/custom
 import { IChromaMaterial } from '../types/beatmap/v2/chroma.ts';
 import objectToV2 from './customData/objectToV2.ts';
 import eventToV2 from './customData/eventToV2.ts';
+import { Note } from '../beatmap/v2/note.ts';
+import { Event } from '../beatmap/v2/event.ts';
+import { Obstacle } from '../beatmap/v2/obstacle.ts';
+import { Slider } from '../beatmap/v2/slider.ts';
+import { SpecialEventsKeywordFilters } from '../beatmap/v2/specialEventsKeywordFilters.ts';
+import { Waypoint } from '../beatmap/v2/waypoint.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -39,7 +44,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     data.colorNotes.forEach((n) => {
         const _customData: ICustomDataNote = objectToV2(n.customData);
         template.notes.push(
-            v2.Note.create({
+            Note.create({
                 _time: n.time,
                 _lineIndex: n.posX,
                 _lineLayer: n.posY,
@@ -53,7 +58,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     data.customData.fakeColorNotes?.forEach((n) => {
         const _customData: ICustomDataNote = objectToV2(n.customData);
         template.notes.push(
-            v2.Note.create({
+            Note.create({
                 _time: n.b,
                 _lineIndex: n.x,
                 _lineLayer: n.y,
@@ -67,7 +72,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     data.bombNotes.forEach((b) => {
         const _customData: ICustomDataNote = objectToV2(b.customData);
         template.notes.push(
-            v2.Note.create({
+            Note.create({
                 _time: b.time,
                 _lineIndex: b.posX,
                 _lineLayer: b.posY,
@@ -81,7 +86,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     data.customData.fakeBombNotes?.forEach((b) => {
         const _customData: ICustomDataNote = objectToV2(b.customData);
         template.notes.push(
-            v2.Note.create({
+            Note.create({
                 _time: b.b,
                 _lineIndex: b.x,
                 _lineLayer: b.y,
@@ -96,7 +101,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
         const _customData: ICustomDataObstacle = objectToV2(o.customData);
         if (o.posY === 0 && o.height === 5) {
             template.obstacles.push(
-                v2.Obstacle.create({
+                Obstacle.create({
                     _time: o.time,
                     _lineIndex: o.posX,
                     _lineLayer: 0,
@@ -109,7 +114,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
             );
         } else if (o.posY === 2 && o.height === 3) {
             template.obstacles.push(
-                v2.Obstacle.create({
+                Obstacle.create({
                     _time: o.time,
                     _lineIndex: o.posX,
                     _lineLayer: 0,
@@ -122,7 +127,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
             );
         } else {
             template.obstacles.push(
-                v2.Obstacle.create({
+                Obstacle.create({
                     _time: o.time,
                     _lineIndex: o.posX,
                     _lineLayer: o.posY,
@@ -140,7 +145,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
         const _customData: ICustomDataObstacle = objectToV2(o.customData);
         if (o.y === 0 && o.h === 5) {
             template.obstacles.push(
-                v2.Obstacle.create({
+                Obstacle.create({
                     _time: o.b,
                     _lineIndex: o.x,
                     _lineLayer: 0,
@@ -153,7 +158,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
             );
         } else if (o.y === 2 && o.h === 3) {
             template.obstacles.push(
-                v2.Obstacle.create({
+                Obstacle.create({
                     _time: o.b,
                     _lineIndex: o.x,
                     _lineLayer: 0,
@@ -166,7 +171,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
             );
         } else {
             template.obstacles.push(
-                v2.Obstacle.create({
+                Obstacle.create({
                     _time: o.b,
                     _lineIndex: o.x,
                     _lineLayer: o.y,
@@ -188,7 +193,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
             delete _customData?._preciseSpeed;
         }
         template.events.push(
-            v2.Event.create({
+            Event.create({
                 _time: e.time,
                 _type: e.type,
                 _value: e.value,
@@ -200,7 +205,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
 
     data.colorBoostBeatmapEvents.forEach((b) =>
         template.events.push(
-            v2.Event.create({
+            Event.create({
                 _time: b.time,
                 _type: 5,
                 _value: b.toggle ? 1 : 0,
@@ -211,7 +216,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
 
     data.rotationEvents.forEach((lr) =>
         template.events.push(
-            v2.Event.create({
+            Event.create({
                 _time: lr.time,
                 _type: lr.executionTime ? 14 : 15,
                 _value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
@@ -224,7 +229,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
 
     data.bpmEvents.forEach((bpm) =>
         template.events.push(
-            v2.Event.create({
+            Event.create({
                 _time: bpm.time,
                 _type: 100,
                 _value: 1,
@@ -235,7 +240,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
 
     data.sliders.forEach((s) =>
         template.sliders.push(
-            v2.Slider.create({
+            Slider.create({
                 _colorType: s.color,
                 _headTime: s.time,
                 _headLineIndex: s.posX,
@@ -254,7 +259,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
 
     data.waypoints.forEach((w) =>
         template.waypoints.push(
-            v2.Waypoint.create({
+            Waypoint.create({
                 _time: w.time,
                 _lineIndex: w.posX,
                 _lineLayer: w.posY,
@@ -263,7 +268,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
         )
     );
 
-    template.specialEventsKeywordFilters = v2.SpecialEventsKeywordFilters.create({
+    template.specialEventsKeywordFilters = SpecialEventsKeywordFilters.create({
         _keywords: data.basicEventTypesWithKeywords.list.map((d) => {
             return { _keyword: d.keyword, _specialEvents: d.events };
         }) ?? [],
