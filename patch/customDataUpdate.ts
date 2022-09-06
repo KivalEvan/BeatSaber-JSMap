@@ -63,8 +63,14 @@ function v3(data: DifficultyV3) {
         if ((env as any).lightID) {
             // deno-lint-ignore no-explicit-any
             const id = (env as any).lightID as number;
-            if (env.components?.ILightWithId) {
-                env.components.ILightWithId.lightID ??= id;
+            if (env.components) {
+                if (env.components.ILightWithId) {
+                    env.components.ILightWithId.lightID ??= id;
+                } else {
+                    env.components.ILightWithId = { lightID: id };
+                }
+            } else {
+                env.components = { ILightWithId: { lightID: id } };
             }
             // deno-lint-ignore no-explicit-any
             delete (env as any).lightID;

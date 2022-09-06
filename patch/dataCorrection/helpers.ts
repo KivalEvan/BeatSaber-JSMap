@@ -35,8 +35,30 @@ export function fixInt<T extends number>(value: unknown): T;
 export function fixInt<T extends number>(value: unknown, defaultValue: T): T;
 export function fixInt<T extends number>(value: unknown, defaultValue: T | [T, T], range: T[]): T;
 export function fixInt<T extends number>(value: unknown, defaultValue?: T | [T, T], range?: T[]): T {
+    if (typeof defaultValue === 'number' && !Number.isInteger(defaultValue)) {
+        throw new TypeError(`Default value must be integer; received ${value}`);
+    }
+    if (Array.isArray(defaultValue) && defaultValue.some((dv) => !Number.isInteger(dv))) {
+        throw new TypeError(`Default value in array must be integer; received ${defaultValue}`);
+    }
+    if (range && range.some((n) => !Number.isInteger(n))) {
+        throw new TypeError(`Range value must be integer; received ${range}`);
+    }
     switch (typeof value) {
         case 'number':
+            if (isNaN(value)) {
+                if (range && !range.includes(value as T)) {
+                    if (typeof defaultValue === 'number') {
+                        value = defaultValue;
+                    } else if (Array.isArray(defaultValue)) {
+                        value = clamp(value as T, defaultValue[0], defaultValue[1]);
+                    } else {
+                        value = clamp(value as T, range.at(0) ?? 0, range.at(-1) ?? 0);
+                    }
+                    return value as T;
+                }
+                throw new TypeError(`Could not evaluate number for ${value}`);
+            }
             value = Math.round(value);
             if (range && !range.includes(value as T)) {
                 if (typeof defaultValue === 'number') {
@@ -89,6 +111,9 @@ export function fixFloat(value: unknown): number;
 export function fixFloat(value: unknown, defaultValue: number): number;
 export function fixFloat(value: unknown, defaultValue: number, min: number, max: number): number;
 export function fixFloat(value: unknown, defaultValue?: number, min?: number, max?: number): number {
+    if (typeof defaultValue === 'number' && isNaN(defaultValue)) {
+        throw new TypeError(`Default value must not be NaN`);
+    }
     switch (typeof value) {
         case 'number':
             if (typeof min === 'number' && typeof max === 'number') {
@@ -121,6 +146,9 @@ export function fixFloat(value: unknown, defaultValue?: number, min?: number, ma
 export function fixString<T extends string>(value: unknown): T;
 export function fixString<T extends string>(value: unknown, defaultValue: T): T;
 export function fixString<T extends string>(value: unknown, defaultValue?: T): T {
+    if (typeof defaultValue === 'string' && !defaultValue.trim()) {
+        throw new TypeError(`Default string cannot be empty`);
+    }
     switch (typeof value) {
         case 'string':
             return value as T;

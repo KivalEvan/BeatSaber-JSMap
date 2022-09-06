@@ -4,16 +4,16 @@ import { EnvironmentRename } from '../../beatmap/shared/environment.ts';
 import logger from '../../logger.ts';
 
 function fixEnvironment(str: unknown): IInfo['_environmentName'] {
-    if (
-        typeof str === 'string' &&
-        Object.keys(EnvironmentRename)
-            .filter((env) => env !== 'GlassDesertEnvironment')
-            .includes(str)
-    ) {
-        return str as IInfo['_environmentName'];
-    } else {
-        return 'DefaultEnvironment';
+    if (typeof str === 'string') {
+        if (str === 'Origins') return 'OriginsEnvironment';
+        if (
+            Object.keys(EnvironmentRename)
+                .filter((env) => env !== 'GlassDesertEnvironment')
+                .includes(str)
+        )
+            return str as IInfo['_environmentName'];
     }
+    return 'DefaultEnvironment';
 }
 
 export function info(data: IInfo) {

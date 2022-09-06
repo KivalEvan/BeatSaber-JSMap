@@ -8,7 +8,17 @@ export function fixCustomDataEvent(cd?: IEvent['_customData'] & IBasicEvent['cus
     }
 
     if (cd._color != null) cd._color = fixColor(cd._color, [0, 0, 0, 1]);
-    if (cd._lightID != null) cd._lightID = fixInt(cd._lightID, 1);
+    if (cd._lightID != null) {
+        cd._lightID = Array.isArray(cd._lightID)
+            ? cd._lightID
+                .filter((id) => typeof id === 'number')
+                .map((id) => fixInt(id))
+                .filter(function (x, i, ary) {
+                    return !i || x !== ary[i - 1];
+                })
+                .sort((a, b) => a - b)
+            : fixInt(cd._lightID, 1);
+    }
     if (cd._propID != null) cd._propID = fixInt(cd._propID, 1);
     if (cd._easing != null) cd._easing = fixString(cd._easing, 'easeLinear');
     if (cd._lerpType != null) cd._lerpType = fixString(cd._lerpType, 'RGB');
@@ -27,7 +37,17 @@ export function fixCustomDataEvent(cd?: IEvent['_customData'] & IBasicEvent['cus
     if (cd._speedMult != null) cd._speedMult = fixFloat(cd._speedMult, 1);
 
     if (cd.color != null) cd.color = fixColor(cd.color, [0, 0, 0, 1]);
-    if (cd.lightID != null) cd.lightID = fixInt(cd.lightID, 1);
+    if (cd.lightID != null) {
+        cd.lightID = Array.isArray(cd.lightID)
+            ? cd.lightID
+                .filter((id) => id != null)
+                .map((id) => fixInt(id, 1))
+                .filter(function (x, i, ary) {
+                    return !i || x !== ary[i - 1];
+                })
+                .sort((a, b) => a - b)
+            : fixInt(cd.lightID, 1);
+    }
     if (cd.easing != null) cd.easing = fixString(cd.easing, 'easeLinear');
     if (cd.lerpType != null) cd.lerpType = fixString(cd.lerpType, 'RGB');
     if (cd.nameFilter != null) cd.nameFilter = fixString(cd.nameFilter, '');
