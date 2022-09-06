@@ -12,7 +12,7 @@ const tag = (name: string) => {
 export function info(infoData: IInfo): IInfo {
     logger.info(tag('info'), 'Parsing beatmap info v2.x.x');
     infoData._difficultyBeatmapSets.sort(
-        (a, b) => CharacteristicOrder[a._beatmapCharacteristicName] - CharacteristicOrder[b._beatmapCharacteristicName],
+        (a, b) => CharacteristicOrder[a._beatmapCharacteristicName] - CharacteristicOrder[b._beatmapCharacteristicName]
     );
     infoData._difficultyBeatmapSets.forEach((set) => {
         let num = 0;
@@ -24,6 +24,12 @@ export function info(infoData: IInfo): IInfo {
                 logger.error(tag('info'), a._difficulty + ' has invalid rank');
             }
             num = a._difficultyRank;
+            if (typeof a._customData?._editorOffset === 'number' && a._customData._editorOffset === 0) {
+                delete a._customData._editorOffset;
+            }
+            if (typeof a._customData?._editorOldOffset === 'number' && a._customData._editorOldOffset === 0) {
+                delete a._customData._editorOldOffset;
+            }
         });
         set._difficultyBeatmaps.sort((a, b) => a._difficultyRank - b._difficultyRank);
     });
