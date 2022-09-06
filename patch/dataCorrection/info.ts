@@ -10,8 +10,9 @@ function fixEnvironment(str: unknown): IInfo['_environmentName'] {
             Object.keys(EnvironmentRename)
                 .filter((env) => env !== 'GlassDesertEnvironment')
                 .includes(str)
-        )
+        ) {
             return str as IInfo['_environmentName'];
+        }
     }
     return 'DefaultEnvironment';
 }
