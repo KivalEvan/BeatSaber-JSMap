@@ -1,5 +1,5 @@
 import { fixFloat, fixString } from './helpers.ts';
-import { IInfo } from '../../types/mod.ts';
+import { IInfo } from '../../types/beatmap/shared/info.ts';
 import { EnvironmentRename } from '../../beatmap/shared/environment.ts';
 import logger from '../../logger.ts';
 

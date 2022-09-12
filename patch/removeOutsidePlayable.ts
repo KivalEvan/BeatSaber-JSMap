@@ -6,7 +6,7 @@ import { isV2 } from '../beatmap/version.ts';
 import logger from '../logger.ts';
 import { IBaseObject as IBaseObjectV2 } from '../types/beatmap/v2/object.ts';
 import { IBaseObject as IBaseObjectV3 } from '../types/beatmap/v3/baseObject.ts';
-import { BeatPerMinute } from '../mod.ts';
+import { BeatPerMinute } from '../beatmap/shared/bpm.ts';
 
 let duration = 0;
 const filterTime = <T extends IBaseObjectV2, U extends IBaseObjectV3>(obj: BeatmapObject<T> | BaseObject<U>) =>
