@@ -67,7 +67,7 @@ export function info(
     difficulty: Difficulty,
     bpm: BeatPerMinute,
     charName: CharacteristicName,
-    diffName: DifficultyName,
+    diffName: DifficultyName
 ): ISwingAnalysis {
     const interval = 10;
     const spsInfo: ISwingAnalysis = {
@@ -80,7 +80,7 @@ export function info(
     };
     const duration = Math.max(
         bpm.toRealTime(difficulty.getLastInteractiveTime() - difficulty.getFirstInteractiveTime()),
-        0,
+        0
     );
     const mapDuration = Math.max(bpm.toRealTime(difficulty.getLastInteractiveTime()), 0);
     const swing = count(difficulty.getNoteContainer(), mapDuration, bpm);
@@ -124,8 +124,8 @@ export function info(
 
 export function getProgressionMax(
     spsArray: ISwingAnalysis[],
-    minSPS: number,
-): { result: ISwingAnalysis; min: number; max: number; comparedTo: number } | null {
+    minSPS: number
+): { result: ISwingAnalysis; comparedTo: number } | null {
     let spsPerc = 0;
     let spsCurr = 0;
     for (const spsMap of spsArray) {
@@ -133,12 +133,10 @@ export function getProgressionMax(
         if (spsCurr > 0 && overall > 0) {
             spsPerc = (1 - spsCurr / overall) * 100;
         }
-        const min = overall * 0.6;
-        const max = overall * 0.9;
         const comparedTo = spsCurr;
         spsCurr = overall > 0 ? overall : spsCurr;
         if (spsCurr > minSPS && spsPerc > 40) {
-            return { result: spsMap, min, max, comparedTo };
+            return { result: spsMap, comparedTo };
         }
     }
     return null;
@@ -146,8 +144,8 @@ export function getProgressionMax(
 
 export function getProgressionMin(
     spsArray: ISwingAnalysis[],
-    minSPS: number,
-): { result: ISwingAnalysis; min: number; max: number; comparedTo: number } | null {
+    minSPS: number
+): { result: ISwingAnalysis; comparedTo: number } | null {
     let spsPerc = Number.MAX_SAFE_INTEGER;
     let spsCurr = 0;
     for (const spsMap of spsArray) {
@@ -155,12 +153,10 @@ export function getProgressionMin(
         if (spsCurr > 0 && overall > 0) {
             spsPerc = (1 - spsCurr / overall) * 100;
         }
-        const min = overall * 0.6;
-        const max = overall * 0.9;
         const comparedTo = spsCurr;
         spsCurr = overall > 0 ? overall : spsCurr;
         if (spsCurr > minSPS && spsPerc < 10) {
-            return { result: spsMap, min, max, comparedTo };
+            return { result: spsMap, comparedTo };
         }
     }
     return null;
