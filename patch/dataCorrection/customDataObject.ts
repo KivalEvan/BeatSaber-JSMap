@@ -5,6 +5,7 @@ import {
 import {
     ICustomDataNote as ICustomDataNoteV3,
     ICustomDataObstacle as ICustomDataObstacleV3,
+    ICustomDataSlider,
 } from '../../types/beatmap/v3/customData.ts';
 import {
     fixBoolean,
@@ -20,7 +21,7 @@ import {
 } from './helpers.ts';
 
 export function fixCustomDataObject(
-    cd?: ICustomDataNoteV2 & ICustomDataObstacleV2 & ICustomDataNoteV3 & ICustomDataObstacleV3,
+    cd?: ICustomDataNoteV2 & ICustomDataObstacleV2 & ICustomDataNoteV3 & ICustomDataObstacleV3 & ICustomDataSlider,
 ) {
     if (!cd) {
         return;
@@ -101,6 +102,7 @@ export function fixCustomDataObject(
 
     if (cd.color != null) cd.color = fixColor(cd.color, [0, 0, 0, 1]);
     if (cd.coordinates != null) cd.coordinates = fixVector2(cd.coordinates, [0, 0]);
+    if (cd.tailCoordinates != null) cd.tailCoordinates = fixVector2(cd.tailCoordinates, [0, 0]);
     if (cd.disableDebris != null) cd.disableDebris = fixBoolean(cd.disableDebris);
     if (cd.disableNoteGravity != null) cd.disableNoteGravity = fixBoolean(cd.disableNoteGravity);
     if (cd.disableNoteLook != null) cd.disableNoteLook = fixBoolean(cd.disableNoteLook);

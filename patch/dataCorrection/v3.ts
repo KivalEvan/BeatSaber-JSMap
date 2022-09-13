@@ -23,185 +23,200 @@ import { LightRotationBase } from '../../beatmap/v3/lightRotationBase.ts';
 import { LightRotationEventBox } from '../../beatmap/v3/lightRotationEventBox.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
+import { fixCustomDataEvent } from './customDataEvent.ts';
+import { fixCustomDataObject } from './customDataObject.ts';
+import logger from '../../logger.ts';
 
 function fixBPMEvent(obj: BPMEvent) {
-    obj.time = fixFloat(obj.time);
+    obj.time = fixFloat(obj.time, BPMEvent.default.b);
     obj.bpm = fixFloat(obj.bpm);
 }
 
 function fixRotationEvent(obj: RotationEvent) {
-    obj.time = fixFloat(obj.time);
-    obj.executionTime = fixInt(obj.executionTime);
-    obj.rotation = fixInt(obj.rotation);
+    obj.time = fixFloat(obj.time, RotationEvent.default.b);
+    obj.executionTime = fixInt(obj.executionTime, RotationEvent.default.e, [0, 1]);
+    obj.rotation = fixFloat(obj.rotation, RotationEvent.default.r);
 }
 
 function fixColorNote(obj: ColorNote) {
-    obj.time = fixFloat(obj.time);
-    obj.color = fixInt(obj.color);
-    obj.posX = fixInt(obj.posX);
-    obj.posY = fixInt(obj.posY);
-    obj.direction = fixInt(obj.direction);
-    obj.angleOffset = fixInt(obj.angleOffset);
+    obj.time = fixFloat(obj.time, ColorNote.default.b);
+    obj.color = fixInt(obj.color, [0, 1], [0, 1]);
+    obj.posX = fixInt(obj.posX, ColorNote.default.x);
+    obj.posY = fixInt(obj.posY, ColorNote.default.y);
+    obj.direction = fixInt(obj.direction, ColorNote.default.d);
+    obj.angleOffset = fixInt(obj.angleOffset, ColorNote.default.a);
+    fixCustomDataObject(obj.customData);
 }
 
 function fixFakeColorNote(obj: IColorNote) {
-    obj.b = fixFloat(obj.b);
-    obj.c = fixInt(obj.c);
-    obj.x = fixInt(obj.x);
-    obj.y = fixInt(obj.y);
-    obj.d = fixInt(obj.d);
-    obj.a = fixInt(obj.a);
+    obj.b = fixFloat(obj.b, ColorNote.default.b);
+    obj.c = fixInt(obj.c, [0, 1], [0, 1]);
+    obj.x = fixInt(obj.x, ColorNote.default.x);
+    obj.y = fixInt(obj.y, ColorNote.default.y);
+    obj.d = fixInt(obj.d, ColorNote.default.d);
+    obj.a = fixInt(obj.a, ColorNote.default.a);
+    fixCustomDataObject(obj.customData);
 }
 
 function fixBombNote(obj: BombNote) {
-    obj.time = fixFloat(obj.time);
-    obj.posX = fixInt(obj.posX);
-    obj.posY = fixInt(obj.posY);
+    obj.time = fixFloat(obj.time, BombNote.default.b);
+    obj.posX = fixInt(obj.posX, BombNote.default.x);
+    obj.posY = fixInt(obj.posY, BombNote.default.y);
+    fixCustomDataObject(obj.customData);
 }
 
 function fixFakeBombNote(obj: IBombNote) {
-    obj.b = fixFloat(obj.b);
-    obj.x = fixInt(obj.x);
-    obj.y = fixInt(obj.y);
+    obj.b = fixFloat(obj.b, BombNote.default.b);
+    obj.x = fixInt(obj.x, BombNote.default.x);
+    obj.y = fixInt(obj.y, BombNote.default.y);
+    fixCustomDataObject(obj.customData);
 }
 
 function fixObstacle(obj: Obstacle) {
-    obj.time = fixFloat(obj.time);
-    obj.posX = fixInt(obj.posX);
-    obj.posY = fixInt(obj.posY);
-    obj.duration = fixFloat(obj.duration);
-    obj.width = fixInt(obj.width);
-    obj.height = fixInt(obj.height);
+    obj.time = fixFloat(obj.time, Obstacle.default.b);
+    obj.posX = fixInt(obj.posX, Obstacle.default.x);
+    obj.posY = fixInt(obj.posY, Obstacle.default.y);
+    obj.duration = fixFloat(obj.duration, Obstacle.default.d);
+    obj.width = fixInt(obj.width, Obstacle.default.w);
+    obj.height = fixInt(obj.height, Obstacle.default.h);
+    fixCustomDataObject(obj.customData);
 }
 
 function fixFakeObstacle(obj: IObstacle) {
-    obj.b = fixFloat(obj.b);
-    obj.x = fixInt(obj.x);
-    obj.y = fixInt(obj.y);
-    obj.d = fixFloat(obj.d);
-    obj.w = fixInt(obj.w);
-    obj.h = fixInt(obj.h);
+    obj.b = fixFloat(obj.b, Obstacle.default.b);
+    obj.x = fixInt(obj.x, Obstacle.default.x);
+    obj.y = fixInt(obj.y, Obstacle.default.y);
+    obj.d = fixFloat(obj.d, Obstacle.default.d);
+    obj.w = fixInt(obj.w, Obstacle.default.w);
+    obj.h = fixInt(obj.h, Obstacle.default.h);
+    fixCustomDataObject(obj.customData);
 }
 
 function fixSlider(obj: Slider) {
-    obj.time = fixFloat(obj.time);
-    obj.color = fixInt(obj.color);
-    obj.posX = fixInt(obj.posX);
-    obj.posY = fixInt(obj.posY);
-    obj.direction = fixInt(obj.direction);
-    obj.lengthMultiplier = fixFloat(obj.lengthMultiplier);
-    obj.tailTime = fixFloat(obj.tailTime);
-    obj.tailPosX = fixInt(obj.tailPosX);
-    obj.tailPosY = fixInt(obj.tailPosY);
-    obj.tailDirection = fixInt(obj.tailDirection);
-    obj.tailLengthMultiplier = fixFloat(obj.tailLengthMultiplier);
-    obj.midAnchor = fixInt(obj.midAnchor);
+    obj.time = fixFloat(obj.time, Slider.default.b);
+    obj.color = fixInt(obj.color, [0, 1], [0, 1]);
+    obj.posX = fixInt(obj.posX, Slider.default.x);
+    obj.posY = fixInt(obj.posY, Slider.default.y);
+    obj.direction = fixInt(obj.direction, Slider.default.d);
+    obj.lengthMultiplier = fixFloat(obj.lengthMultiplier, Slider.default.mu);
+    obj.tailTime = fixFloat(obj.tailTime, Slider.default.tb);
+    obj.tailPosX = fixInt(obj.tailPosX, Slider.default.tx);
+    obj.tailPosY = fixInt(obj.tailPosY, Slider.default.ty);
+    obj.tailDirection = fixInt(obj.tailDirection, Slider.default.tc);
+    obj.tailLengthMultiplier = fixFloat(obj.tailLengthMultiplier, Slider.default.tmu);
+    obj.midAnchor = fixInt(obj.midAnchor, Slider.default.m);
+    fixCustomDataObject(obj.customData);
 }
 
 function fixBurstSlider(obj: BurstSlider) {
-    obj.time = fixFloat(obj.time);
-    obj.color = fixInt(obj.color);
-    obj.posX = fixInt(obj.posX);
-    obj.posY = fixInt(obj.posY);
-    obj.direction = fixInt(obj.direction);
-    obj.tailTime = fixFloat(obj.tailTime);
-    obj.tailPosX = fixInt(obj.tailPosX);
-    obj.tailPosY = fixInt(obj.tailPosY);
-    obj.sliceCount = fixInt(obj.sliceCount);
-    obj.squish = fixFloat(obj.squish);
+    obj.time = fixFloat(obj.time, BurstSlider.default.b);
+    obj.color = fixInt(obj.color, [0, 1], [0, 1]);
+    obj.posX = fixInt(obj.posX, BurstSlider.default.x);
+    obj.posY = fixInt(obj.posY, BurstSlider.default.y);
+    obj.direction = fixInt(obj.direction, BurstSlider.default.d);
+    obj.tailTime = fixFloat(obj.tailTime, BurstSlider.default.tb);
+    obj.tailPosX = fixInt(obj.tailPosX, BurstSlider.default.tx);
+    obj.tailPosY = fixInt(obj.tailPosY, BurstSlider.default.ty);
+    obj.sliceCount = fixInt(obj.sliceCount, BurstSlider.default.sc) || 1;
+    obj.squish = fixFloat(obj.squish, BurstSlider.default.s) || 0.001;
+    fixCustomDataObject(obj.customData);
 }
 
 function fixFakeBurstSlider(obj: IBurstSlider) {
-    obj.b = fixFloat(obj.b);
-    obj.c = fixInt(obj.c);
-    obj.x = fixInt(obj.x);
-    obj.y = fixInt(obj.y);
-    obj.d = fixInt(obj.d);
-    obj.tb = fixFloat(obj.tb);
-    obj.tx = fixInt(obj.tx);
-    obj.ty = fixInt(obj.ty);
-    obj.sc = fixInt(obj.sc);
-    obj.s = fixFloat(obj.s);
+    obj.b = fixFloat(obj.b, BurstSlider.default.b);
+    obj.c = fixInt(obj.c, [0, 1], [0, 1]);
+    obj.x = fixInt(obj.x, BurstSlider.default.x);
+    obj.y = fixInt(obj.y, BurstSlider.default.y);
+    obj.d = fixInt(obj.d, BurstSlider.default.d);
+    obj.tb = fixFloat(obj.tb, BurstSlider.default.tb);
+    obj.tx = fixInt(obj.tx, BurstSlider.default.tx);
+    obj.ty = fixInt(obj.ty, BurstSlider.default.ty);
+    obj.sc = fixInt(obj.sc, BurstSlider.default.sc) || 1;
+    obj.s = fixFloat(obj.s, BurstSlider.default.s) || 0.001;
+    fixCustomDataObject(obj.customData);
 }
 
 function fixWaypoint(obj: Waypoint) {
-    obj.time = fixFloat(obj.time);
-    obj.posX = fixInt(obj.posX);
-    obj.posY = fixInt(obj.posY);
-    obj.direction = fixInt(obj.direction);
+    obj.time = fixFloat(obj.time, Waypoint.default.b);
+    obj.posX = fixInt(obj.posX, Waypoint.default.x);
+    obj.posY = fixInt(obj.posY, Waypoint.default.y);
+    obj.direction = fixInt(obj.direction, Waypoint.default.d);
 }
 
 function fixBasicEvent(obj: BasicEvent) {
-    obj.time = fixFloat(obj.time);
-    obj.type = fixInt(obj.type);
-    obj.value = fixInt(obj.value);
-    obj.floatValue = fixFloat(obj.floatValue);
+    obj.time = fixFloat(obj.time, BasicEvent.default.b);
+    obj.type = fixInt(obj.type, BasicEvent.default.et);
+    obj.value = fixInt(obj.value, BasicEvent.default.i);
+    obj.floatValue = fixFloat(obj.floatValue, BasicEvent.default.f);
+    fixCustomDataEvent(obj.customData);
 }
 
 function fixColorBoostEvent(obj: ColorBoostEvent) {
-    obj.time = fixFloat(obj.time);
-    obj.toggle = fixBoolean(obj.toggle);
+    obj.time = fixFloat(obj.time, ColorBoostEvent.default.b);
+    obj.toggle = fixBoolean(obj.toggle, ColorBoostEvent.default.o);
 }
 
 function fixIndexFilter(obj: IndexFilter) {
-    obj.type = fixInt(obj.type);
-    obj.p0 = fixInt(obj.p0);
-    obj.p1 = fixInt(obj.p1);
-    obj.reverse = fixInt(obj.reverse);
+    obj.type = fixInt(obj.type, IndexFilter.default.f, [1, 2]);
+    obj.p0 = fixInt(obj.p0, IndexFilter.default.p);
+    obj.p1 = fixInt(obj.p1, IndexFilter.default.t);
+    obj.reverse = fixInt(obj.reverse, IndexFilter.default.r, [0, 1]);
 }
 
 function fixLightColorBase(obj: LightColorBase) {
-    obj.time = fixFloat(obj.time);
-    obj.transition = fixInt(obj.transition);
-    obj.color = fixInt(obj.color);
-    obj.brightness = fixFloat(obj.brightness);
-    obj.frequency = fixInt(obj.frequency);
+    obj.time = fixFloat(obj.time, LightColorBase.default.b);
+    obj.transition = fixInt(obj.transition, LightColorBase.default.i, [0, 1, 2]);
+    obj.color = fixInt(obj.color, LightColorBase.default.c, [0, 1, 2]);
+    obj.brightness = fixFloat(obj.brightness, LightColorBase.default.s);
+    obj.frequency = fixInt(obj.frequency, LightColorBase.default.f);
 }
 
 function fixLightColorEventBox(obj: LightColorEventBox) {
     fixIndexFilter(obj.filter);
-    obj.beatDistribution = fixFloat(obj.beatDistribution);
-    obj.beatDistributionType = fixInt(obj.beatDistributionType);
-    obj.brightnessDistribution = fixFloat(obj.brightnessDistribution);
-    obj.brightnessDistributionType = fixInt(obj.brightnessDistributionType);
-    obj.affectFirst = fixInt<ILightColorEventBox['b']>(obj.affectFirst);
+    obj.beatDistribution = fixFloat(obj.beatDistribution, LightColorEventBox.default.w);
+    obj.beatDistributionType = fixInt(obj.beatDistributionType, LightColorEventBox.default.d, [1, 2]);
+    obj.brightnessDistribution = fixFloat(obj.brightnessDistribution, LightColorEventBox.default.r);
+    obj.brightnessDistributionType = fixInt(obj.brightnessDistributionType, LightColorEventBox.default.t, [1, 2]);
+    obj.affectFirst = fixInt<ILightColorEventBox['b']>(obj.affectFirst, LightColorEventBox.default.b, [0, 1]);
     obj.events.forEach(fixLightColorBase);
 }
 
 function fixLightColorEventBoxGroup(obj: LightColorEventBoxGroup) {
-    obj.time = fixFloat(obj.time);
-    obj.groupID = fixInt(obj.groupID);
+    obj.time = fixFloat(obj.time, LightColorEventBoxGroup.default.b);
+    obj.groupID = fixInt(obj.groupID, LightColorEventBoxGroup.default.g);
     obj.events.forEach(fixLightColorEventBox);
 }
 
 function fixLightRotationBase(obj: LightRotationBase) {
-    obj.time = fixFloat(obj.time);
-    obj.previous = fixInt(obj.previous);
-    obj.ease = fixInt(obj.ease);
-    obj.loop = fixInt(obj.loop);
-    obj.rotation = fixFloat(obj.rotation);
-    obj.direction = fixInt(obj.direction);
+    obj.time = fixFloat(obj.time, LightRotationBase.default.b);
+    obj.previous = fixInt(obj.previous, LightRotationBase.default.p, [0, 1]);
+    obj.ease = fixInt(obj.ease, LightRotationBase.default.e, [-1, 0, 1, 2, 3]);
+    obj.loop = fixInt(obj.loop, LightRotationBase.default.l);
+    obj.rotation = fixFloat(obj.rotation, LightRotationBase.default.r);
+    obj.direction = fixInt(obj.direction, LightRotationBase.default.o, [0, 1, 2]);
 }
 
 function fixLightRotationEventBox(obj: LightRotationEventBox) {
     fixIndexFilter(obj.filter);
-    obj.beatDistribution = fixFloat(obj.beatDistribution);
-    obj.beatDistributionType = fixInt(obj.beatDistributionType);
-    obj.rotationDistribution = fixFloat(obj.rotationDistribution);
-    obj.rotationDistributionType = fixInt(obj.rotationDistributionType);
-    obj.axis = fixInt(obj.axis);
-    obj.flip = fixInt<ILightRotationEventBox['r']>(obj.flip);
-    obj.affectFirst = fixInt<ILightRotationEventBox['b']>(obj.affectFirst);
+    obj.beatDistribution = fixFloat(obj.beatDistribution, LightRotationEventBox.default.w);
+    obj.beatDistributionType = fixInt(obj.beatDistributionType, LightRotationEventBox.default.d, [1, 2]);
+    obj.rotationDistribution = fixFloat(obj.rotationDistribution, LightRotationEventBox.default.s);
+    obj.rotationDistributionType = fixInt(obj.rotationDistributionType, LightRotationEventBox.default.t, [1, 2]);
+    obj.axis = fixInt(obj.axis, LightRotationEventBox.default.a, [0, 1]);
+    obj.flip = fixInt<ILightRotationEventBox['r']>(obj.flip, LightRotationEventBox.default.r, [0, 1]);
+    obj.affectFirst = fixInt<ILightRotationEventBox['b']>(obj.affectFirst, LightRotationEventBox.default.b, [0, 1]);
     obj.events.forEach(fixLightRotationBase);
 }
 
 function fixLightRotationEventBoxGroup(obj: LightRotationEventBoxGroup) {
-    obj.time = fixFloat(obj.time);
-    obj.groupID = fixInt(obj.groupID);
+    obj.time = fixFloat(obj.time, LightRotationEventBoxGroup.default.b);
+    obj.groupID = fixInt(obj.groupID, LightRotationEventBoxGroup.default.g);
     obj.events.forEach(fixLightRotationEventBox);
 }
 
-export function patchV3(data: Difficulty) {
+export function v3(data: Difficulty) {
+    logger.info('[patch::dataCorrection::difficulty::v3] Verifying and correcting data type for beatmap v3...');
+
     data.bpmEvents.forEach(fixBPMEvent);
     data.rotationEvents.forEach(fixRotationEvent);
     data.colorNotes.forEach(fixColorNote);
