@@ -1,22 +1,23 @@
-## Guide
+# Guide
 
 The following is a guide on how to use Beat Saber Deno, referred as `bsmap` for simpler term. If you are familiar with basic JavaScript or new to TypeScript, this should be very familiar as it is about what you expect it to do like a regular scripting. This does not cover everything but enough to get good grasp at what it does.
 
-### Examples
+## Examples
 
 You may refer to example script if you need more glimpse on how to use them. Alternatively, check out [my mapping scripts](https://github.com/KivalEvan/BeatSaber-MappingScript) to see how I would use them.
 
-### Importing
+## Importing
 
 Create a `.ts` script file anywhere, be it desktop, map folder, or any dedicated place, and simply add the following on top of the script. No additional file or setup needed, it just works.
 
 ```ts
+// be sure to check for latest version on 'bsmap@version'
 import * as bsmap from 'https://deno.land/x/bsmap@1.2.2/mod.ts';
 ```
 
 **NOTE:** for first time user, you may need to cache the URL if the error pops up on import. Hover over error and click on quick fix or `CTRL+.` on select. You may also need to initialise Deno workspace if strange error regarding TS URL pops up.
 
-### Namespaces
+## Namespaces
 
 Due to expansive library, namespace is used to separate functionality on their own area. Object destructuring can be used to obtain certain variables and functions. Helpful tip, use `CTRL+Space` to show list of available variables and functions.
 
@@ -27,7 +28,7 @@ const { random, deepCopy } = utils;
 
 List of available namespaces from root are `load`, `save`, `v2`, `v3`, `utils`, `globals`, `convert`, `optimize`, `logger`, and `types`. Nested namespace is to be expected on an obscure area.
 
-### Loading & Saving
+## Loading & Saving
 
 To load & save the beatmap, a function is used to parse, validate, and optimise the respective info and difficulty file.
 
@@ -45,13 +46,13 @@ save.difficultySync(data);
 await save.difficulty(data2, { directory: '/somewhere/else', filePath: 'overrideName.dat' }); // advanced use
 ```
 
-Difficulty file name is saved directly on difficulty class and can be changed.
+Difficulty file name is saved directly on difficulty class and can be changed, does not save the file name inside custom data.
 
 ```ts
 data.fileName = 'ExpertPlusStandard.dat';
 ```
 
-If you happen to use the script outside of map folder, you can use the following before loading and saving to target the folder. You may change this anytime whenever necessary.
+If you happen to use the script outside of map folder, you can do the following before loading the source folder and saving to target the folder. You may change this anytime whenever necessary.
 
 ```ts
 globals.directory = './YOUR/MAP/FOLDER/PATH/';
@@ -59,11 +60,13 @@ globals.directory = './YOUR/MAP/FOLDER/PATH/';
 
 **NOTE:** Windows typically uses `\` instead of `/` in path, this actually means escape character in programming and would result in error. You may need to change the slash or escape character.
 
-### Beatmap Object
+**NOTE:** Directory and file path will be overridden if explicitly provided in one of the following load and save functions.
+
+## Beatmap Object
 
 All beatmap object is a class object as opposed to regular JSON object. This mean most array and object will only accept class object. This enables extensive method and functionality to be used directly from object. Custom data is always available and require no checking if exist.
 
-#### Creation
+### Creation
 
 Each beatmap object including difficulty contain a static method `create` which allows you to instantiate one or more objects. Partial or no data can be used to instantiate an object and will use default value to fill the empty spot. This method always return object(s) in an array with an exception being object that is not placed in array such as difficulty and index filter.
 
@@ -75,10 +78,11 @@ data.colorNotes.push(...notes);
 Difficulty class has a built-in method that allows instantiating of an object directly and insert into an array. This also allows insertion of an already instantiated object.
 
 ```ts
-data.addBasicEvents({ et: 3 }, { b: 2, et: 1, i: 3 }, {}, ...events);
+data.addBasicEvents({ et: 3 }, { b: 2, et: 1, i: 3 }, {});
+data.addBasicEvents(...events);
 ```
 
-#### Cloning
+### Cloning
 
 In modcharting, cloning is often used to create certain effect. This method can be used to clone an existing object without referencing the original.
 
@@ -87,7 +91,7 @@ const original = v3.ColorNotes.create()[0];
 const cloned = original.clone(); // new object with same property as original
 ```
 
-#### Method Chaining
+### Method Chaining
 
 One liner or method chaining can be proven powerful in certain case scenarios.
 
@@ -101,7 +105,7 @@ const clones = notes.map((n) =>
 );
 ```
 
-### Constants
+## Constants
 
 The library provide constant variables in form of `PascalCase` or `SCREAMING_SNAKE_CASE` that can be used to make your script slightly more readable but it is not necessarily needed.
 
@@ -121,7 +125,7 @@ data.addBasicEvents({
 });
 ```
 
-### Extensions
+## Extensions
 
 This module is not available directly from main import as it is heavy, unstable, and make use of third-party library. This provides plentiful of helpers that may be useful for modcharting and many other purposes.
 
@@ -137,9 +141,17 @@ If you wish to import all of them, do as following:
 import * as ext from 'https://deno.land/x/bsmap@1.2.2/extensions/mod.ts';
 ```
 
-### Addendum
+## Patch
 
-#### Dependency File
+This module is not included as it is very rarely used and unstable. It contains functions to attempt fix and alter beatmap objects that were potentially broken or contain incompatible data.
+
+```ts
+import * as patch from 'https://deno.land/x/bsmap@1.2.2/patch/mod.ts';
+```
+
+## Addendum
+
+### Dependency File
 
 If you happen to work on multiple script files or has centralised folder for map scripting, a dependency file can be used.
 
@@ -155,16 +167,16 @@ import * as bsmap from './deps.ts';
 import { v3, types } from './deps.ts';
 ```
 
-#### Typing
+### Typing
 
 Static type is an incredibly powerful tool that can ensure type correctness of an object. This is used extensively in the library and is encouraged to explore further into it by utilising type casting. This is an intermediate knowledge of TypeScript but should be relatively easy to grasp.
 
 ```ts
-const event = [{ c: 2 }, { b: 0.25, s: 0, i: 1 }] as Partial<types.v3.LightColorBase>;
+const event = [{ c: 2 }, { b: 0.25, s: 0, i: 1 }] as Partial<types.v3.LightColorBase>[];
 data.addLightColorEventBoxGroup({ e: [{ e: event }] });
 ```
 
-#### Logger
+### Logger
 
 Contrary to popular belief, this is simply an output logging that can be controlled by level. This can show and hide logging based on level.
 
@@ -178,7 +190,7 @@ bsmap.load.difficultySync('Test.dat');
 bsmap.logger.setLevel(2); // default info logging
 ```
 
-#### Classic Scripting
+### Classic Scripting
 
 If you prefer to script the old-fashioned way but would like to keep strong-typed schema, it is possible but you may lose the ability to use certain utilities built around it.
 

@@ -1,8 +1,8 @@
 # Beat Saber Deno
 
-General-purpose Beat Saber beatmap scripting library using [Deno](https://deno.land/), fully-typed schema and flexible
-tool designed to ease scripting development surrounding beatmap while providing high implementation detail regarding the
-beatmap.
+General-purpose Beat Saber beatmap scripting library using [Deno](https://deno.land/) with
+[TypeScript](https://www.typescriptlang.org/), fully-typed schema and flexible tool designed to ease scripting
+development surrounding beatmap while providing high implementation detail regarding the beatmap.
 
 ---
 
