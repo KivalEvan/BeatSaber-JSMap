@@ -1,12 +1,15 @@
 /* Copy lightshow from specific difficulty file to all within Info.dat.
  * This includes both v2 and v3 beatmap, and can be made compatible given constraint.
  * Command-line flag:
- * -d | --directory : map folder directory.
- * -f | --force : force copy to same file.
- * -e | --env : copy environment enhancement.
+ * -d | --directory : map folder directory
+ * -f | --force : force copy to same file
+ * -e | --environment : copy environment enhancement
+ * -c | --event : copy custom event (does not copy track from any objects)
  * -m | --merge : merge instead of overriding the event property
  * -q | --quite : reduced log output (overridden by verbose)
  * -v | --verbose : enable debug log output
+ * -x | --no-backup : disable backup
+ * -y | --no-prompt : auto-complete prompt
  * example run command:
  * deno run --allow-read --allow-write lightCopy.ts -d "./Folder/Path" SourceLightshow.dat
  */
@@ -16,16 +19,31 @@ import { copySync } from 'https://deno.land/std@0.153.0/fs/mod.ts';
 
 const args = parse(Deno.args, {
     string: ['d'],
-    boolean: ['e', 'f', 'm', 'v', 'q'],
-    alias: { d: 'directory', e: 'env', f: 'force', m: 'merge', q: 'quite', v: 'verbose' },
+    boolean: ['e', 'f', 'm', 'v', 'q', 'x', 'y'],
+    alias: {
+        d: 'directory',
+        e: 'environment',
+        c: 'event',
+        f: 'force',
+        m: 'merge',
+        q: 'quite',
+        v: 'verbose',
+        x: 'no-backup',
+        y: 'no-prompt',
+    },
 });
 
 logger.info('Beat Saber beatmap light copy build 1');
 logger.info('Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/lightCopy.ts');
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
+if (args.x) {
+    logger.warn('No backup flagged, any changes done by this script is irreversible');
+}
+
 globals.directory =
-    (args.d as string) ?? (prompt('Enter map folder path (leave blank for current folder):')?.trim() || './');
+    (args.d as string) ??
+    (args.y ? './' : prompt('Enter map folder path (leave blank for current folder):')?.trim() || './');
 
 if (args.q) {
     logger.setLevel(4);
@@ -35,13 +53,25 @@ if (args.v) {
     logger.setLevel(1);
 }
 
+let copyEnvironment = args.e ?? false;
+let copyCustomEvent = args.c ?? false;
+
 try {
     if (!args._[0]) {
-        throw Error('Unspecified difficulty file to copy light.');
+        logger.warn('Unspecified source lightshow file to copy light.');
     }
 
     if (typeof args._[0] === 'number') {
-        throw Error('Number is not accepted value.');
+        logger.error('Number is not acceptable value for source file path.');
+    }
+
+    const lightToCopy =
+        typeof args._[0] === 'string'
+            ? args._[0]
+            : prompt('Enter source lightshow file name (must include extension):')?.trim();
+
+    if (!lightToCopy) {
+        throw new Error('Received empty file path.');
     }
 
     let info: ReturnType<typeof load.infoSync>;
@@ -56,7 +86,6 @@ try {
         }
     }
 
-    const lightToCopy = args._[0];
     const diffJSON = JSON.parse(Deno.readTextFileSync(globals.directory + lightToCopy)) as types.Either<
         types.v2.IDifficulty,
         types.v3.IDifficulty
@@ -69,16 +98,17 @@ try {
     } else {
         lightV2 = beatmapParser.difficultyV2(diffJSON as types.v2.IDifficulty).setFileName(lightToCopy);
         if (lightV2.events.some((e) => e.hasOldChroma())) {
-            const confirmation = prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
+            const confirmation = args.y
+                ? 'n'
+                : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
             if (confirmation![0].toLowerCase() === 'y') {
                 convert.ogChromaToChromaV2(lightV2, info._environmentName);
             }
         }
         if (lightV2.events.some((e) => e.customData._lightGradient)) {
-            const confirmation = prompt(
-                'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
-                'n'
-            );
+            const confirmation = args.y
+                ? 'n'
+                : prompt('Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):', 'n');
             if (confirmation![0].toLowerCase() === 'y') {
                 convert.chromaLightGradientToVanillaGradient(lightV2, true);
             }
@@ -91,9 +121,30 @@ try {
         lightV3 = convert.V2toV3(lightV2, true);
     }
 
-    if (args.e && (!lightV3.customData.environment || !lightV2.customData._environment)) {
-        logger.warn('Selected lightshow has no environment enhancement.');
+    if (copyEnvironment && !lightV3.customData.environment && !lightV2.customData._environment) {
+        logger.warn('Selected lightshow has no environment enhancement; skipping environment copy');
+        copyEnvironment = false;
     }
+
+    if (copyCustomEvent && !lightV3.customData.customEvents && !lightV2.customData._customEvents) {
+        logger.warn('Selected lightshow has no custom event; skipping custom event copy');
+        copyCustomEvent = false;
+    }
+
+    if (!copyEnvironment && lightV3.customData.environment && lightV2.customData._environment)
+        copyEnvironment =
+            (args.y
+                ? 'n'
+                : prompt('Environment enhancement found in lightshow, would you like to include into copy? (y/N)', 'n')
+                      ?.trim()
+                      .toLowerCase()) === 'y';
+    if (!copyCustomEvent && lightV3.customData.customEvents && lightV2.customData._customEvents)
+        copyCustomEvent =
+            (args.y
+                ? 'n'
+                : prompt('Custom event found in lightshow, would you like to include into copy? (y/N)', 'n')
+                      ?.trim()
+                      .toLowerCase()) === 'y';
 
     const diffList = load.difficultyFromInfoSync(info);
 
@@ -103,29 +154,50 @@ try {
             return;
         }
 
-        logger.info('Backing up beatmap', dl.characteristic, dl.difficulty);
-        try {
-            copySync(
-                globals.directory + dl.settings._beatmapFilename,
-                globals.directory + dl.settings._beatmapFilename + '.old'
-            );
-        } catch (_) {
-            const confirmation = prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
-            if (confirmation![0].toLowerCase() === 'y') {
+        if (!args.x) {
+            logger.info('Backing up beatmap', dl.characteristic, dl.difficulty);
+            try {
                 copySync(
                     globals.directory + dl.settings._beatmapFilename,
-                    globals.directory + dl.settings._beatmapFilename + '.old',
-                    { overwrite: true }
+                    globals.directory + dl.settings._beatmapFilename + '.old'
                 );
-            } else {
-                logger.info('Skipping overwrite...');
-                return;
+            } catch (_) {
+                const confirmation = args.y
+                    ? 'n'
+                    : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
+                if (confirmation![0].toLowerCase() === 'y') {
+                    copySync(
+                        globals.directory + dl.settings._beatmapFilename,
+                        globals.directory + dl.settings._beatmapFilename + '.old',
+                        { overwrite: true }
+                    );
+                } else {
+                    logger.info('Skipping overwrite...');
+                    return;
+                }
             }
         }
         logger.info('Copying lightshow to', dl.characteristic, dl.difficulty);
         if (isV3(dl.data)) {
-            if (args.e) {
+            if (copyEnvironment) {
                 dl.data.customData.environment = lightV3.customData.environment;
+            }
+            if (copyCustomEvent && lightV3.customData.customEvents) {
+                if (dl.data.customData.customEvents) {
+                    dl.data.customData.customEvents.push(...lightV3.customData.customEvents);
+                } else {
+                    dl.data.customData.customEvents = lightV3.customData.customEvents;
+                }
+                if (lightV3.customData.pointDefinitions) {
+                    if (dl.data.customData.pointDefinitions) {
+                        dl.data.customData.pointDefinitions = {
+                            ...dl.data.customData.pointDefinitions,
+                            ...lightV3.customData.pointDefinitions,
+                        };
+                    } else {
+                        dl.data.customData.pointDefinitions = lightV3.customData.pointDefinitions;
+                    }
+                }
             }
             if (args.m) {
                 dl.data.basicBeatmapEvents.push(...lightV3.basicBeatmapEvents);
@@ -139,8 +211,22 @@ try {
                 dl.data.lightRotationEventBoxGroups = lightV3.lightRotationEventBoxGroups;
             }
         } else {
-            if (args.e) {
+            if (copyEnvironment) {
                 dl.data.customData._environment = lightV2.customData._environment;
+            }
+            if (copyCustomEvent && lightV2.customData._customEvents) {
+                if (dl.data.customData._customEvents) {
+                    dl.data.customData._customEvents.push(...lightV2.customData._customEvents);
+                } else {
+                    dl.data.customData._customEvents = lightV2.customData._customEvents;
+                }
+                if (lightV2.customData._pointDefinitions) {
+                    if (dl.data.customData._pointDefinitions) {
+                        dl.data.customData._pointDefinitions.push(...lightV2.customData._pointDefinitions);
+                    } else {
+                        dl.data.customData._pointDefinitions = lightV2.customData._pointDefinitions;
+                    }
+                }
             }
             if (args.m) {
                 dl.data.events.push(...lightV2.events);
@@ -160,12 +246,12 @@ try {
         logger.info('No lightshow were copied.');
     }
 
-    if (!args.d) {
-        prompt('Enter any key to exit...');
+    if (!args.d && !args.y) {
+        args.y || prompt('Enter any key to exit...');
     }
 } catch (e) {
     logger.error(e.message);
     logger.error('If this is an unexpected or unknown error');
     logger.error('Please report this to Kival Evan#5480 on Discord');
-    prompt('!! Enter any key to exit...');
+    args.y || prompt('!! Enter any key to exit...');
 }
