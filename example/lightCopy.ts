@@ -125,16 +125,13 @@ try {
         logger.info('Copying lightshow to', dl.characteristic, dl.difficulty);
         if (isV3(dl.data)) {
             if (args.e) {
-                if (dl.data.customData) {
-                    dl.data.customData.environment = lightV3.customData.environment;
-                } else {
-                    dl.data.customData = {
-                        environment: lightV3.customData.environment,
-                    };
-                }
+                dl.data.customData.environment = lightV3.customData.environment;
             }
             if (args.m) {
                 dl.data.basicBeatmapEvents.push(...lightV3.basicBeatmapEvents);
+                dl.data.colorBoostBeatmapEvents.push(...lightV3.colorBoostBeatmapEvents);
+                dl.data.lightColorEventBoxGroups.push(...lightV3.lightColorEventBoxGroups);
+                dl.data.lightRotationEventBoxGroups.push(...lightV3.lightRotationEventBoxGroups);
             } else {
                 dl.data.basicBeatmapEvents = lightV3.basicBeatmapEvents;
                 dl.data.colorBoostBeatmapEvents = lightV3.colorBoostBeatmapEvents;
@@ -143,18 +140,13 @@ try {
             }
         } else {
             if (args.e) {
-                if (dl.data.customData) {
-                    dl.data.customData._environment = lightV2.customData._environment;
-                } else {
-                    dl.data.customData = {
-                        _environment: lightV2.customData._environment,
-                    };
-                }
+                dl.data.customData._environment = lightV2.customData._environment;
             }
             if (args.m) {
                 dl.data.events.push(...lightV2.events);
             } else {
-                dl.data.events = lightV2.events;
+                const rotationEvent = dl.data.events.filter((ev) => ev.isLaneRotationEvent());
+                dl.data.events = [...lightV2.events, ...rotationEvent];
             }
         }
 
