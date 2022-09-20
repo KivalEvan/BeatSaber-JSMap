@@ -1,6 +1,7 @@
 /* Convert the map to beatmap V3
  * Command-line flag:
  * -d | --directory : map folder directory
+ * -s | --single : single difficulty conversion
  * -q | --quite : reduced log output (overridden by verbose)
  * -v | --verbose : enable debug log output
  * -x | --no-backup : disable backup
@@ -10,15 +11,15 @@
  */
 import { copySync } from 'https://deno.land/std@0.153.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.153.0/flags/mod.ts';
-import { load, isV3, convert, save, logger, globals } from '../mod.ts';
+import { convert, globals, isV3, load, logger, parse as beatmapParser, save, types, v2 } from '../mod.ts';
 
 const args = parse(Deno.args, {
     string: 'd',
-    boolean: ['v', 'q', 'x', 'y'],
-    alias: { d: 'directory', q: 'quite', v: 'verbose', x: 'no-backup', y: 'no-prompt' },
+    boolean: ['v', 'q', 'x', 'y', 's'],
+    alias: { d: 'directory', q: 'quite', v: 'verbose', x: 'no-backup', y: 'no-prompt', s: 'single' },
 });
 
-logger.info('Beat Saber beatmap v2 to v3 conversion build 2');
+logger.info('Beat Saber beatmap v2 to v3 conversion build 3');
 logger.info('Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/convertToV3.ts');
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
@@ -26,8 +27,7 @@ if (args.x) {
     logger.warn('No backup flagged, any changes done by this script is irreversible');
 }
 
-globals.directory =
-    (args.d as string) ??
+globals.directory = (args.d as string) ??
     (args.y ? './' : prompt('Enter map folder path (leave blank for current folder):')?.trim() || './');
 
 if (args.q) {
@@ -38,89 +38,152 @@ if (args.v) {
     logger.setLevel(1);
 }
 
+let isConverted = false;
+let oldChromaConvert = false;
+let oldChromaConfirm = false;
+let gradientChromaConvert = false;
+let gradientChromaConfirm = false;
 try {
-    let info: ReturnType<typeof load.infoSync>;
-    try {
-        info = load.infoSync();
-    } catch {
-        logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
-        try {
-            info = load.infoSync({ filePath: 'info.data' });
-        } catch {
-            throw Error('Info.dat is missing from folder.');
+    if (args.s) {
+        if (!args._[0]) {
+            logger.warn('Unspecified difficulty file to convert.');
         }
-    }
 
-    const diffList = load.difficultyFromInfoSync(info);
+        if (typeof args._[0] === 'number') {
+            logger.error('Number is not acceptable value for file path.');
+        }
 
-    let isConverted = false;
-    let oldChromaConvert = false;
-    let oldChromaConfirm = false;
-    let gradientChromaConvert = false;
-    let gradientChromaConfirm = false;
-    diffList.forEach((dl) => {
-        if (!isV3(dl.data)) {
+        const diffFilePath = typeof args._[0] === 'string'
+            ? args._[0]
+            : prompt('Enter difficulty file name (must include extension):')?.trim();
+
+        if (!diffFilePath) {
+            throw new Error('Received empty file path.');
+        }
+
+        const diffJSON = JSON.parse(Deno.readTextFileSync(globals.directory + diffFilePath)) as types.Either<
+            types.v2.IDifficulty,
+            types.v3.IDifficulty
+        >;
+        const diffVersion = parseInt(diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'));
+
+        let diff!: v2.Difficulty;
+        if (diffVersion === 2) {
+            let skipped = false;
             if (!args.x) {
-                logger.info('Backing up beatmap v2', dl.characteristic, dl.difficulty);
+                logger.info('Backing up beatmap');
                 try {
-                    copySync(
-                        globals.directory + dl.settings._beatmapFilename,
-                        globals.directory + dl.settings._beatmapFilename + '.old'
-                    );
+                    copySync(globals.directory + diffFilePath, globals.directory + diffFilePath + '.old');
                 } catch (_) {
                     const confirmation = args.y
                         ? 'n'
                         : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
                     if (confirmation![0].toLowerCase() === 'y') {
-                        copySync(
-                            globals.directory + dl.settings._beatmapFilename,
-                            globals.directory + dl.settings._beatmapFilename + '.old',
-                            { overwrite: true }
-                        );
+                        copySync(globals.directory + diffFilePath, globals.directory + diffFilePath + '.old', {
+                            overwrite: true,
+                        });
                     } else {
                         logger.info('Skipping overwrite...');
-                        return;
+                        skipped = true;
                     }
                 }
             }
-            if (dl.data.events.some((e) => e.hasOldChroma())) {
-                if (!oldChromaConfirm) {
+            if (!skipped) {
+                diff = beatmapParser.difficultyV2(diffJSON as types.v2.IDifficulty).setFileName(diffFilePath);
+                if (diff.events.some((e) => e.hasOldChroma())) {
                     const confirmation = args.y
                         ? 'n'
                         : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
                     if (confirmation![0].toLowerCase() === 'y') {
-                        oldChromaConvert = true;
+                        convert.ogChromaToChromaV2(diff);
                     }
-                    oldChromaConfirm = true;
                 }
-                if (oldChromaConvert) {
-                    convert.ogChromaToChromaV2(dl.data, info._environmentName);
-                }
-            }
-            if (dl.data.events.some((e) => e.customData._lightGradient)) {
-                if (!gradientChromaConfirm) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt(
-                              'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
-                              'n'
-                          );
+                if (diff.events.some((e) => e.customData._lightGradient)) {
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
-                        gradientChromaConvert = true;
+                        convert.chromaLightGradientToVanillaGradient(diff, true);
                     }
-                    gradientChromaConfirm = true;
                 }
-                if (gradientChromaConvert) {
-                    convert.chromaLightGradientToVanillaGradient(dl.data, true);
-                }
+                logger.info('Converting beatmap to v3');
+                save.difficultySync(convert.V2toV3(diff, true));
+                isConverted = true;
             }
-            logger.info('Converting beatmap v2', dl.characteristic, dl.difficulty, 'to v3');
-            dl.data = convert.V2toV3(dl.data, true);
-            save.difficultySync(dl.data);
-            isConverted = true;
         }
-    });
+    } else {
+        let info: ReturnType<typeof load.infoSync>;
+        try {
+            info = load.infoSync();
+        } catch {
+            logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
+            info = load.infoSync({ filePath: 'info.data' });
+        }
 
+        const diffList = load.difficultyFromInfoSync(info);
+
+        diffList.forEach((dl) => {
+            if (!isV3(dl.data)) {
+                if (!args.x) {
+                    logger.info('Backing up beatmap v2', dl.characteristic, dl.difficulty);
+                    try {
+                        copySync(
+                            globals.directory + dl.settings._beatmapFilename,
+                            globals.directory + dl.settings._beatmapFilename + '.old',
+                        );
+                    } catch (_) {
+                        const confirmation = args.y
+                            ? 'n'
+                            : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
+                        if (confirmation![0].toLowerCase() === 'y') {
+                            copySync(
+                                globals.directory + dl.settings._beatmapFilename,
+                                globals.directory + dl.settings._beatmapFilename + '.old',
+                                { overwrite: true },
+                            );
+                        } else {
+                            logger.info('Skipping overwrite...');
+                            return;
+                        }
+                    }
+                }
+                if (dl.data.events.some((e) => e.hasOldChroma())) {
+                    if (!oldChromaConfirm) {
+                        const confirmation = args.y
+                            ? 'n'
+                            : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
+                        if (confirmation![0].toLowerCase() === 'y') {
+                            oldChromaConvert = true;
+                        }
+                        oldChromaConfirm = true;
+                    }
+                    if (oldChromaConvert) {
+                        convert.ogChromaToChromaV2(dl.data, info._environmentName);
+                    }
+                }
+                if (dl.data.events.some((e) => e.customData._lightGradient)) {
+                    if (!gradientChromaConfirm) {
+                        const confirmation = args.y ? 'n' : prompt(
+                            'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
+                            'n',
+                        );
+                        if (confirmation![0].toLowerCase() === 'y') {
+                            gradientChromaConvert = true;
+                        }
+                        gradientChromaConfirm = true;
+                    }
+                    if (gradientChromaConvert) {
+                        convert.chromaLightGradientToVanillaGradient(dl.data, true);
+                    }
+                }
+                logger.info('Converting beatmap v2', dl.characteristic, dl.difficulty, 'to v3');
+                dl.data = convert.V2toV3(dl.data, true);
+                save.difficultySync(dl.data);
+                isConverted = true;
+            }
+        });
+    }
     if (isConverted) {
         logger.info('Conversion completed!');
     } else {

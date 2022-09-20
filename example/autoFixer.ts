@@ -20,15 +20,17 @@ const args = parse(Deno.args, {
 });
 
 logger.info('Beat Saber beatmap auto-fixer build 3');
-logger.info('Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/autoFixer.ts');
+logger.info(
+    'Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/autoFixer.ts',
+);
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 if (args.x) {
     logger.warn('No backup flagged, any changes done by this script is irreversible');
 }
 
-globals.directory =
-    (args.d as string) ?? (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() || './');
+globals.directory = (args.d as string) ??
+    (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() || './');
 
 if (args.q) {
     logger.setLevel(4);
@@ -45,21 +47,25 @@ try {
         info = load.infoSync();
     } catch {
         logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
-        try {
-            infoFileName = 'info.dat';
-            info = load.infoSync({ filePath: infoFileName });
-        } catch {
-            throw Error('Info.dat is missing from folder');
-        }
+        infoFileName = 'info.dat';
+        info = load.infoSync({ filePath: infoFileName });
     }
     try {
-        copySync(globals.directory + infoFileName, globals.directory + infoFileName + '.old');
+        copySync(
+            globals.directory + infoFileName,
+            globals.directory + infoFileName + '.old',
+        );
     } catch (_) {
-        const confirmation = args.y
-            ? 'n'
-            : prompt('Old info backup file detected, do you want to overwrite? (y/N):', 'n');
+        const confirmation = args.y ? 'n' : prompt(
+            'Old info backup file detected, do you want to overwrite? (y/N):',
+            'n',
+        );
         if (confirmation![0].toLowerCase() === 'y') {
-            copySync(globals.directory + infoFileName, globals.directory + infoFileName + '.old', { overwrite: true });
+            copySync(
+                globals.directory + infoFileName,
+                globals.directory + infoFileName + '.old',
+                { overwrite: true },
+            );
         } else {
             logger.info('Skipping info overwrite...');
         }
@@ -68,9 +74,13 @@ try {
 
     let duration = 0;
     let audioConfirmed = false;
-    logger.info('Could not read audio (yet), this will be used to remove outside end playable object');
+    logger.info(
+        'Could not read audio (yet), this will be used to remove outside end playable object',
+    );
     while (!audioConfirmed) {
-        const input = args.y ? '0' : prompt('Enter audio duration in seconds or mm:ss (blank or 0 to skip):') ?? '';
+        const input = args.y ? '0' : prompt(
+            'Enter audio duration in seconds or mm:ss (blank or 0 to skip):',
+        ) ?? '';
         if (/^\d+(\.\d+)?$/.test(input)) {
             duration = Math.max(parseFloat(input), 0);
         } else if (/^\d+:(\d){1,2}$/.test(input)) {
@@ -78,11 +88,17 @@ try {
         } else {
             duration = 0;
         }
-        logger.info('Retrieved and parsed input as value', duration, 'second(s) |', utils.toMMSS(duration));
+        logger.info(
+            'Retrieved and parsed input as value',
+            duration,
+            'second(s) |',
+            utils.toMMSS(duration),
+        );
         if (duration && duration < 60) {
-            const confirmation = args.y
-                ? 'y'
-                : prompt('Duration seems lower than expected, are you sure with this audio length? (Y/n):', 'y');
+            const confirmation = args.y ? 'y' : prompt(
+                'Duration seems lower than expected, are you sure with this audio length? (Y/n):',
+                'y',
+            );
             if (confirmation![0].toLowerCase() === 'y') {
                 audioConfirmed = true;
             }
@@ -113,20 +129,18 @@ try {
             try {
                 copySync(
                     globals.directory + dl.settings._beatmapFilename,
-                    globals.directory + dl.settings._beatmapFilename + '.old'
+                    globals.directory + dl.settings._beatmapFilename + '.old',
                 );
             } catch (_) {
-                const confirmation = args.y
-                    ? 'n'
-                    : prompt(
-                          `Old ${dl.characteristic} ${dl.difficulty} difficulty backup file detected, do you want to overwrite? (y/N):`,
-                          'n'
-                      );
+                const confirmation = args.y ? 'n' : prompt(
+                    `Old ${dl.characteristic} ${dl.difficulty} difficulty backup file detected, do you want to overwrite? (y/N):`,
+                    'n',
+                );
                 if (confirmation![0].toLowerCase() === 'y') {
                     copySync(
                         globals.directory + dl.settings._beatmapFilename,
                         globals.directory + dl.settings._beatmapFilename + '.old',
-                        { overwrite: true }
+                        { overwrite: true },
                     );
                 } else {
                     logger.info('Skipping overwrite...');
@@ -138,9 +152,10 @@ try {
             logger.info('Fixing beatmap v2', dl.characteristic, dl.difficulty);
             if (dl.data.events.some((e) => e.hasOldChroma())) {
                 if (!oldChromaConfirm) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
                         oldChromaConvert = true;
                     }
@@ -152,12 +167,10 @@ try {
             }
             if (dl.data.events.some((e) => e.customData._lightGradient)) {
                 if (!gradientChromaConfirm) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt(
-                              'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
-                              'n'
-                          );
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
                         gradientChromaConvert = true;
                     }
@@ -171,13 +184,18 @@ try {
             logger.info('Fixing beatmap v3', dl.characteristic, dl.difficulty);
             bpm.timescale = dl.data.bpmEvents.map((bpme) => bpme.toJSON());
 
-            logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
+            logger.info(
+                'Temporarily converting beatmap v2 copy',
+                dl.characteristic,
+                dl.difficulty,
+            );
             const temp = convert.V3toV2(dl.data, true);
             if (temp.events.some((e) => e.hasOldChroma())) {
                 if (!oldChromaConfirm) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
                         oldChromaConvert = true;
                     }
@@ -189,12 +207,10 @@ try {
             }
             if (temp.events.some((e) => e.customData._lightGradient)) {
                 if (!gradientChromaConfirm) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt(
-                              'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
-                              'n'
-                          );
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
                         gradientChromaConvert = true;
                     }
@@ -205,10 +221,18 @@ try {
                 }
             }
 
-            logger.info('Reconverting temporary beatmap v2 copy to v3', dl.characteristic, dl.difficulty);
+            logger.info(
+                'Reconverting temporary beatmap v2 copy to v3',
+                dl.characteristic,
+                dl.difficulty,
+            );
             const temp2 = convert.V2toV3(temp, true);
 
-            logger.info('Re-inserting events from temporary beatmap', dl.characteristic, dl.difficulty);
+            logger.info(
+                'Re-inserting events from temporary beatmap',
+                dl.characteristic,
+                dl.difficulty,
+            );
             dl.data.basicBeatmapEvents = temp2.basicBeatmapEvents;
         }
         removeOutsidePlayable(dl.data, bpm, duration);

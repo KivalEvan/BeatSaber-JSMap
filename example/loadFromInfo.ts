@@ -8,7 +8,7 @@ const info = bsmap.load.infoSync();
 const difficultyList = bsmap.load.difficultyFromInfoSync(info);
 
 const expertPlusDiff = difficultyList.find(
-    (dl) => dl.characteristic === 'Standard' && dl.difficulty === 'ExpertPlus'
+    (dl) => dl.characteristic === 'Standard' && dl.difficulty === 'ExpertPlus',
 )?.data;
 
 bsmap.save.infoSync(info);
