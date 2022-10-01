@@ -16,7 +16,14 @@ import { convert, globals, isV3, load, logger, parse as beatmapParser, save, typ
 const args = parse(Deno.args, {
     string: 'd',
     boolean: ['v', 'q', 'x', 'y', 's'],
-    alias: { d: 'directory', q: 'quite', v: 'verbose', x: 'no-backup', y: 'no-prompt', s: 'single' },
+    alias: {
+        d: 'directory',
+        q: 'quite',
+        v: 'verbose',
+        x: 'no-backup',
+        y: 'no-prompt',
+        s: 'single',
+    },
 });
 
 logger.info('Beat Saber beatmap v2 to v3 conversion build 3');

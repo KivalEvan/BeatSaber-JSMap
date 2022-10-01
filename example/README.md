@@ -45,14 +45,19 @@ To load & save the beatmap, a function is used to parse, validate, and optimise 
 const info = load.infoSync(); // not required
 
 const data = load.difficultySync('HardStandard.dat'); // auto convert to v3
-const data2 = await load.difficulty('ExpertStandard.dat', 2, { directory: '/somewhere/else' }); // advanced use, use or convert to v2
+const data2 = await load.difficulty('ExpertStandard.dat', 2, {
+    directory: '/somewhere/else',
+}); // advanced use, use or convert to v2
 ```
 
 ```ts
 save.infoSync(info);
 
 save.difficultySync(data);
-await save.difficulty(data2, { directory: '/somewhere/else', filePath: 'overrideName.dat' }); // advanced use
+await save.difficulty(data2, {
+    directory: '/somewhere/else',
+    filePath: 'overrideName.dat',
+}); // advanced use
 ```
 
 Difficulty file name is saved directly on difficulty class and can be changed, does not save the file name inside custom
