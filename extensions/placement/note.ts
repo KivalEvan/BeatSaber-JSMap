@@ -1,7 +1,9 @@
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
+import { BaseNote } from '../../beatmap/v3/baseNote.ts';
 import { BurstSlider } from '../../beatmap/v3/burstSlider.ts';
 import { ColorNote } from '../../beatmap/v3/colorNote.ts';
 import { Slider } from '../../beatmap/v3/slider.ts';
+import { IBaseNote } from '../../types/beatmap/v3/baseNote.ts';
 import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 
 // TODO: update with new position/rotation system
@@ -114,25 +116,24 @@ export function isEnd(currNote: ColorNote, prevNote: ColorNote, cd: number): boo
     return false;
 }
 
-/** Check if the note intersect on swing directory by angle and distance.
+/** Check if the note intersect on swing path by angle and distance.
  * ```ts
  * if (isIntersect(note1, note2, [[20, 1.5]])) {}
  * ```
  */
 // a fkin abomination that's what currNote is
-export function isIntersect(
+export function isIntersect<T extends IBaseNote>(
     currNote: ColorNote,
-    compareTo: ColorNote,
+    compareTo: BaseNote<T>,
     angleDistances: [number, number, number?][],
     ahead = false,
 ): [boolean, boolean] {
     const [nX1, nY1] = currNote.getPosition();
     const [nX2, nY2] = compareTo.getPosition();
-    const nA1 = currNote.getAngle();
-    const nA2 = compareTo.getAngle();
     const angle = ahead ? 540 : 360;
     let resultN1 = false;
-    if (currNote.direction !== NoteDirection.ANY) {
+    if (currNote.direction !== 8) {
+        const nA1 = currNote.getAngle();
         const a = (radToDeg(Math.atan2(nY1 - nY2, nX1 - nX2)) + 450) % 360;
         for (const [angleRange, maxDistance, offsetT] of angleDistances) {
             const offset = offsetT ?? 0;
@@ -147,7 +148,8 @@ export function isIntersect(
         }
     }
     let resultN2 = false;
-    if (compareTo.direction !== NoteDirection.ANY) {
+    if (compareTo instanceof ColorNote && compareTo.direction !== 8) {
+        const nA2 = compareTo.getAngle();
         const a = (radToDeg(Math.atan2(nY2 - nY1, nX2 - nX1)) + 450) % 360;
         for (const [angleRange, maxDistance, offsetT] of angleDistances) {
             const offset = offsetT ?? 0;

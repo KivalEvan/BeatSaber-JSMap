@@ -35,7 +35,7 @@ export const easings: {
     easeInOutCubic: (x) => x < 0.5 ? 4 * x * x * x : (x - 1) * (2 * x - 2) * (2 * x - 2) + 1,
     easeInQuart: (x) => x * x * x * x,
     easeOutQuart: (x) => 1 - --x * x * x * x,
-    easeInOutQuart: (x) => (x < 0.5 ? 8 * x * x * x * x : 1 - 8 * --x * x * x * x),
+    easeInOutQuart: (x) => x < 0.5 ? 8 * x * x * x * x : 1 - 8 * --x * x * x * x,
     easeInQuint: (x) => x * x * x * x * x,
     easeOutQuint: (x) => 1 - --x * x * x * x * x,
     easeInOutQuint: (x) => x < 0.5 ? 16 * x * x * x * x * x : 1 + 16 * --x * x * x * x * x,

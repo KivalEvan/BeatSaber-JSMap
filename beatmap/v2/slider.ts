@@ -11,7 +11,7 @@ export class Slider extends Serializable<ISlider> {
         _headLineIndex: 0,
         _headLineLayer: 0,
         _headCutDirection: 0,
-        _headControlPointlengthMultiplier: 1,
+        _headControlPointLengthMultiplier: 1,
         _tailTime: 0,
         _tailLineIndex: 0,
         _tailLineLayer: 0,
@@ -36,8 +36,8 @@ export class Slider extends Serializable<ISlider> {
                     _headLineIndex: s._headLineIndex ?? Slider.default._headLineIndex,
                     _headLineLayer: s._headLineLayer ?? Slider.default._headLineLayer,
                     _headCutDirection: s._headCutDirection ?? Slider.default._headCutDirection,
-                    _headControlPointlengthMultiplier: s._headControlPointlengthMultiplier ??
-                        Slider.default._headControlPointlengthMultiplier,
+                    _headControlPointLengthMultiplier: s._headControlPointLengthMultiplier ??
+                        Slider.default._headControlPointLengthMultiplier,
                     _tailTime: s._tailTime ?? s._headTime ?? Slider.default._tailTime,
                     _tailLineIndex: s._tailLineIndex ?? Slider.default._tailLineIndex,
                     _tailLineLayer: s._tailLineLayer ?? Slider.default._tailLineLayer,
@@ -58,7 +58,7 @@ export class Slider extends Serializable<ISlider> {
                 _headLineIndex: Slider.default._headLineIndex,
                 _headLineLayer: Slider.default._headLineLayer,
                 _headCutDirection: Slider.default._headCutDirection,
-                _headControlPointlengthMultiplier: Slider.default._headControlPointlengthMultiplier,
+                _headControlPointLengthMultiplier: Slider.default._headControlPointLengthMultiplier,
                 _tailTime: Slider.default._tailTime,
                 _tailLineIndex: Slider.default._tailLineIndex,
                 _tailLineLayer: Slider.default._tailLineLayer,
@@ -76,7 +76,7 @@ export class Slider extends Serializable<ISlider> {
             _headLineIndex: this.headPosX,
             _headLineLayer: this.headPosY,
             _headCutDirection: this.headDirection,
-            _headControlPointlengthMultiplier: this.headLengthMultiplier,
+            _headControlPointLengthMultiplier: this.headLengthMultiplier,
             _tailTime: this.tailTime,
             _tailLineIndex: this.tailPosX,
             _tailLineLayer: this.tailPosY,
@@ -166,10 +166,10 @@ export class Slider extends Serializable<ISlider> {
      * Range: `0-1`
      */
     get headLengthMultiplier() {
-        return this.data._headControlPointlengthMultiplier;
+        return this.data._headControlPointLengthMultiplier;
     }
-    set headLengthMultiplier(value: ISlider['_headControlPointlengthMultiplier']) {
-        this.data._headControlPointlengthMultiplier = value;
+    set headLengthMultiplier(value: ISlider['_headControlPointLengthMultiplier']) {
+        this.data._headControlPointLengthMultiplier = value;
     }
 
     /** Tail beat time `<float>` of base slider. */
@@ -276,7 +276,7 @@ export class Slider extends Serializable<ISlider> {
         this.headDirection = value;
         return this;
     }
-    setLengthMultiplier(value: ISlider['_headControlPointlengthMultiplier']) {
+    setLengthMultiplier(value: ISlider['_headControlPointLengthMultiplier']) {
         this.headLengthMultiplier = value;
         return this;
     }

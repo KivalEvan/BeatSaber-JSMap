@@ -245,7 +245,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
                 _headTime: s.time,
                 _headLineIndex: s.posX,
                 _headLineLayer: s.posY,
-                _headControlPointlengthMultiplier: s.lengthMultiplier,
+                _headControlPointLengthMultiplier: s.lengthMultiplier,
                 _headCutDirection: s.color,
                 _tailTime: s.tailTime,
                 _tailLineIndex: s.tailPosX,

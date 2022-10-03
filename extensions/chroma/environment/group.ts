@@ -16,16 +16,11 @@ export class EnvironmentGroup {
 
     place(options: IChromaEnvironmentPlacement, insertTo?: never): IChromaEnvironment[];
     place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
-    place(
-        options: IChromaEnvironmentPlacement,
-        insertTo?: IChromaEnvironment[],
-    ): IChromaEnvironment[] | void {
+    place(options: IChromaEnvironmentPlacement, insertTo?: IChromaEnvironment[]): IChromaEnvironment[] | void {
         const data = deepCopy(this.data);
         data.forEach((d) => {
             d.position = d.position!.map(
-                (p, i) =>
-                    (this.anchor[i] + p) * (options.scale?.[i] ?? 1) +
-                    (options.position?.[i] ?? 0),
+                (p, i) => (this.anchor[i] + p) * (options.scale?.[i] ?? 1) + (options.position?.[i] ?? 0),
             ) as Vector3;
             d.scale = d.scale?.map((s, i) => s * (options.scale?.[i] ?? 1)) as Vector3;
         });

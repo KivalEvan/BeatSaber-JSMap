@@ -1,14 +1,12 @@
 {
     "lint": {
         "files": {
-            "include": ["./"],
-            "exclude": ["./example", "./tests"]
+            "exclude": [".git"]
         }
     },
     "fmt": {
         "files": {
-            "include": ["./"],
-            "exclude": ["./example", "./tests"]
+            "exclude": [".git"]
         },
         "options": {
             "indentWidth": 4,
@@ -17,8 +15,9 @@
         }
     },
     "tasks": {
-        "autoFixer": "export COMPILE='deno compile --allow-read=. --allow-write=.' NAME='BSAutoFixer' SOURCE='./example/autoFixer.ts' && deno task compileScript",
-        "convertToV3": "export COMPILE='deno compile --allow-read=. --allow-write=.' NAME='ConvertToV3' SOURCE='./example/convertToV3.ts' && deno task compileScript",
-        "compileScript": "$COMPILE --target=x86_64-pc-windows-msvc --output='./dist/'$NAME'_win64' $SOURCE && $COMPILE --target=x86_64-unknown-linux-gnu --output='./dist/'$NAME'_linux64' $SOURCE && $COMPILE --target=x86_64-apple-darwin --output='./dist/'$NAME'_mac64' $SOURCE && $COMPILE --target=aarch64-apple-darwin --output='./dist/'$NAME'_aarchmac64' $SOURCE"
+        "compile:autoFixer": "NAME='BSAutoFixer' SOURCE='./example/autoFixer.ts' && deno task compile:generic",
+        "compile:convertToV3": "NAME='ConvertToV3' SOURCE='./example/convertToV3.ts' && deno task compile:generic",
+        "compile:generic": "export COMPILE='deno compile --allow-read=. --allow-write=.' && deno task compile:target-all",
+        "compile:target-all": "$COMPILE --target=x86_64-pc-windows-msvc --output='./dist/'$NAME'_win64' $SOURCE && $COMPILE --target=x86_64-unknown-linux-gnu --output='./dist/'$NAME'_linux64' $SOURCE && $COMPILE --target=x86_64-apple-darwin --output='./dist/'$NAME'_mac64' $SOURCE && $COMPILE --target=aarch64-apple-darwin --output='./dist/'$NAME'_aarchmac64' $SOURCE"
     }
 }

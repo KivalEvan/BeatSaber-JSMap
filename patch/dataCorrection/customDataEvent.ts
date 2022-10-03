@@ -28,10 +28,16 @@ export function fixCustomDataEvent(cd?: IEvent['_customData'] & IBasicEvent['cus
     if (cd._prop != null) cd._prop = fixFloat(cd._prop, 1);
     if (cd._speed != null) cd._speed = fixFloat(cd._speed, 1);
     if (cd._direction != null) cd._direction = fixInt(cd._direction, 0);
-    if (cd._lockPosition != null) cd._lockPosition = fixBoolean(cd._lockPosition, false);
-    if (cd._preciseSpeed != null) cd._preciseSpeed = fixFloat(cd._preciseSpeed, 0);
+    if (cd._lockPosition != null) {
+        cd._lockPosition = fixBoolean(cd._lockPosition, false);
+    }
+    if (cd._preciseSpeed != null) {
+        cd._preciseSpeed = fixFloat(cd._preciseSpeed, 0);
+    }
     if (cd._reset != null) cd._reset = fixBoolean(cd._reset, false);
-    if (cd._counterSpin != null) cd._counterSpin = fixBoolean(cd._counterSpin, false);
+    if (cd._counterSpin != null) {
+        cd._counterSpin = fixBoolean(cd._counterSpin, false);
+    }
     if (cd._stepMult != null) cd._stepMult = fixFloat(cd._stepMult, 1);
     if (cd._propMult != null) cd._propMult = fixFloat(cd._propMult, 1);
     if (cd._speedMult != null) cd._speedMult = fixFloat(cd._speedMult, 1);
@@ -56,5 +62,7 @@ export function fixCustomDataEvent(cd?: IEvent['_customData'] & IBasicEvent['cus
     if (cd.prop != null) cd.prop = fixInt(cd.prop, 1);
     if (cd.speed != null) cd.speed = fixInt(cd.speed, 1);
     if (cd.direction != null) cd.direction = fixInt(cd.direction, 0);
-    if (cd.lockRotation != null) cd.lockRotation = fixBoolean(cd.lockRotation, false);
+    if (cd.lockRotation != null) {
+        cd.lockRotation = fixBoolean(cd.lockRotation, false);
+    }
 }

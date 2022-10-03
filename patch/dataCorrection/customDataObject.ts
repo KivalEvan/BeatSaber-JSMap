@@ -29,20 +29,34 @@ export function fixCustomDataObject(
 
     if (cd._color != null) cd._color = fixColor(cd._color, [0, 0, 0, 1]);
     if (cd._position != null) cd._position = fixVector2(cd._position, [0, 0]);
-    if (cd._disableNoteGravity != null) cd._disableNoteGravity = fixBoolean(cd._disableNoteGravity, false);
-    if (cd._disableNoteLook != null) cd._disableNoteLook = fixBoolean(cd._disableNoteLook, false);
+    if (cd._disableNoteGravity != null) {
+        cd._disableNoteGravity = fixBoolean(cd._disableNoteGravity, false);
+    }
+    if (cd._disableNoteLook != null) {
+        cd._disableNoteLook = fixBoolean(cd._disableNoteLook, false);
+    }
     if (cd._flip != null) cd._flip = fixVector2(cd._flip, [0, 0]);
-    if (cd._localRotation != null) cd._localRotation = fixVector3(cd._localRotation, [0, 0, 0]);
-    if (cd._noteJumpMovementSpeed != null) cd._noteJumpMovementSpeed = fixFloat(cd._noteJumpMovementSpeed, 10);
-    if (cd._noteJumpStartBeatOffset != null) cd._noteJumpStartBeatOffset = fixFloat(cd._noteJumpStartBeatOffset, 0);
-    if (cd._disableSpawnEffect != null) cd._disableSpawnEffect = fixBoolean(cd._disableSpawnEffect, false);
+    if (cd._localRotation != null) {
+        cd._localRotation = fixVector3(cd._localRotation, [0, 0, 0]);
+    }
+    if (cd._noteJumpMovementSpeed != null) {
+        cd._noteJumpMovementSpeed = fixFloat(cd._noteJumpMovementSpeed, 10);
+    }
+    if (cd._noteJumpStartBeatOffset != null) {
+        cd._noteJumpStartBeatOffset = fixFloat(cd._noteJumpStartBeatOffset, 0);
+    }
+    if (cd._disableSpawnEffect != null) {
+        cd._disableSpawnEffect = fixBoolean(cd._disableSpawnEffect, false);
+    }
     if (cd._scale != null) cd._scale = fixVector3(cd._scale, [1, 1, 1]);
     if (cd._track != null) {
         cd._track = Array.isArray(cd._track)
             ? fixStringAry(cd._track, 'unknownTrack')
             : fixString(cd._track, 'unknownTrack');
     }
-    if (cd._interactable != null) cd._interactable = fixBoolean(cd._interactable, false);
+    if (cd._interactable != null) {
+        cd._interactable = fixBoolean(cd._interactable, false);
+    }
     if (cd._fake != null) cd._fake = fixBoolean(cd._interactable, false);
     if (cd._rotation != null) {
         cd._rotation = Array.isArray(cd._rotation) ? fixVector3(cd._rotation, [0, 0, 0]) : fixFloat(cd._rotation, 0);
@@ -101,15 +115,29 @@ export function fixCustomDataObject(
     }
 
     if (cd.color != null) cd.color = fixColor(cd.color, [0, 0, 0, 1]);
-    if (cd.coordinates != null) cd.coordinates = fixVector2(cd.coordinates, [0, 0]);
-    if (cd.tailCoordinates != null) cd.tailCoordinates = fixVector2(cd.tailCoordinates, [0, 0]);
+    if (cd.coordinates != null) {
+        cd.coordinates = fixVector2(cd.coordinates, [0, 0]);
+    }
+    if (cd.tailCoordinates != null) {
+        cd.tailCoordinates = fixVector2(cd.tailCoordinates, [0, 0]);
+    }
     if (cd.disableDebris != null) cd.disableDebris = fixBoolean(cd.disableDebris);
-    if (cd.disableNoteGravity != null) cd.disableNoteGravity = fixBoolean(cd.disableNoteGravity);
-    if (cd.disableNoteLook != null) cd.disableNoteLook = fixBoolean(cd.disableNoteLook);
+    if (cd.disableNoteGravity != null) {
+        cd.disableNoteGravity = fixBoolean(cd.disableNoteGravity);
+    }
+    if (cd.disableNoteLook != null) {
+        cd.disableNoteLook = fixBoolean(cd.disableNoteLook);
+    }
     if (cd.flip != null) cd.flip = fixVector2(cd.flip, [0, 0]);
-    if (cd.localRotation != null) cd.localRotation = fixVector3(cd.localRotation, [0, 0, 0]);
-    if (cd.noteJumpMovementSpeed != null) cd.noteJumpMovementSpeed = fixFloat(cd.noteJumpMovementSpeed);
-    if (cd.noteJumpStartBeatOffset != null) cd.noteJumpStartBeatOffset = fixFloat(cd.noteJumpStartBeatOffset);
+    if (cd.localRotation != null) {
+        cd.localRotation = fixVector3(cd.localRotation, [0, 0, 0]);
+    }
+    if (cd.noteJumpMovementSpeed != null) {
+        cd.noteJumpMovementSpeed = fixFloat(cd.noteJumpMovementSpeed);
+    }
+    if (cd.noteJumpStartBeatOffset != null) {
+        cd.noteJumpStartBeatOffset = fixFloat(cd.noteJumpStartBeatOffset);
+    }
     if (cd.size != null) cd.size = fixVector3(cd.size, [1, 1, 1]);
     if (cd.spawnEffect != null) cd.spawnEffect = fixBoolean(cd.spawnEffect);
     if (cd.track != null) {
@@ -117,7 +145,9 @@ export function fixCustomDataObject(
             ? fixStringAry(cd.track, 'unknownTrack')
             : fixString(cd.track, 'unknownTrack');
     }
-    if (cd.uninteractable != null) cd.uninteractable = fixBoolean(cd.uninteractable);
+    if (cd.uninteractable != null) {
+        cd.uninteractable = fixBoolean(cd.uninteractable);
+    }
     if (cd.worldRotation != null) {
         cd.worldRotation = Array.isArray(cd.worldRotation)
             ? fixVector3(cd.worldRotation, [0, 0, 0])

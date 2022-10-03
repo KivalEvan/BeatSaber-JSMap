@@ -46,7 +46,12 @@ export function RGBAtoHSVA(r: number, g: number, b: number, a = 1): ColorArray {
  * const rgba = HSVAtoRGBA(...hsva);
  * ```
  */
-export function HSVAtoRGBA(hue: number, saturation: number, value: number, alpha = 1): ColorArray {
+export function HSVAtoRGBA(
+    hue: number,
+    saturation: number,
+    value: number,
+    alpha = 1,
+): ColorArray {
     hue = hue / 360;
     if (hue < 0) {
         hue += Math.abs(Math.floor(hue));
@@ -176,7 +181,11 @@ export function hexToRGBA(hex: string): ColorArray {
             result.push(cNorm(hexToDec(hex.slice(3, 4) + hex.slice(3, 4))));
         }
     } else if (hex.length === 6 || hex.length === 8) {
-        result = [cNorm(hexToDec(hex.slice(0, 2))), cNorm(hexToDec(hex.slice(2, 4))), cNorm(hexToDec(hex.slice(4, 6)))];
+        result = [
+            cNorm(hexToDec(hex.slice(0, 2))),
+            cNorm(hexToDec(hex.slice(2, 4))),
+            cNorm(hexToDec(hex.slice(4, 6))),
+        ];
         if (hex.length === 8) {
             result.push(cNorm(hexToDec(hex.slice(6, 8))));
         }
@@ -334,7 +343,8 @@ export function deltaE00(rgbaAry1: ColorArray, rgbaAry2: ColorArray): number {
         0.2 * Math.cos(degToRad(4 * hX - 63));
     pH = 30 * Math.exp(-((hX - 275) / 25) * ((hX - 275) / 25));
     rC = 2 * Math.sqrt((cY ^ 7) / ((cY ^ 7) + (25 ^ 7)));
-    sL = 1 + (0.015 * ((lX - 50) * (lX - 50))) / Math.sqrt(20 + (lX - 50) * (lX - 50));
+    sL = 1 +
+        (0.015 * ((lX - 50) * (lX - 50))) / Math.sqrt(20 + (lX - 50) * (lX - 50));
 
     sC = 1 + 0.045 * cY;
     sH = 1 + 0.015 * cY * tX;
