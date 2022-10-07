@@ -57,7 +57,7 @@ export class Difficulty extends Serializable<IDifficulty> {
 
     toJSON(): Required<IDifficulty> {
         return {
-            _version: this.version || '2.6.0',
+            _version: '2.6.0',
             _notes: this.notes.map((obj) => obj.toJSON()),
             _sliders: this.sliders.map((obj) => obj.toJSON()),
             _obstacles: this.obstacles.map((obj) => obj.toJSON()),

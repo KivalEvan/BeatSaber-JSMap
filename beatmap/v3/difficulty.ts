@@ -53,7 +53,7 @@ export class Difficulty extends Serializable<IDifficulty> {
     customData;
     protected constructor(data: Required<IDifficulty>) {
         super(data);
-        this.version = data.version ?? '3.0.0';
+        this.version = '3.1.0';
         this.bpmEvents = data.bpmEvents?.map((obj) => BPMEvent.create(obj)[0]) ?? [];
         this.rotationEvents = data.rotationEvents?.map((obj) => RotationEvent.create(obj)[0]) ?? [];
         this.colorNotes = data.colorNotes?.map((obj) => ColorNote.create(obj)[0]) ?? [];
@@ -77,7 +77,7 @@ export class Difficulty extends Serializable<IDifficulty> {
 
     static create(data: Partial<IDifficulty> = {}): Difficulty {
         return new this({
-            version: data.version || '3.0.0',
+            version: '3.1.0',
             bpmEvents: data.bpmEvents ?? [],
             rotationEvents: data.rotationEvents ?? [],
             colorNotes: data.colorNotes ?? [],
@@ -100,7 +100,7 @@ export class Difficulty extends Serializable<IDifficulty> {
 
     toJSON(): Required<IDifficulty> {
         return {
-            version: this.version || '3.0.0',
+            version: '3.1.0',
             bpmEvents: this.bpmEvents.map((obj) => obj.toJSON()),
             rotationEvents: this.rotationEvents.map((obj) => obj.toJSON()),
             colorNotes: this.colorNotes.map((obj) => obj.toJSON()),

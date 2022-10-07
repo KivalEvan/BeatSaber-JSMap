@@ -14,7 +14,7 @@ import { IBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 import { ICustomDataDifficulty } from './customData.ts';
 
 export interface IDifficulty {
-    version: '3.0.0';
+    version: `3.${0 | 1}.0`;
     bpmEvents: IBPMEvent[];
     rotationEvents: IRotationEvent[];
     colorNotes: IColorNote[];

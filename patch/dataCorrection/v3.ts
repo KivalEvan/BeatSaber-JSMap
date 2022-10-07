@@ -161,6 +161,11 @@ function fixIndexFilter(obj: IndexFilter) {
     obj.p0 = fixInt(obj.p0, IndexFilter.default.p);
     obj.p1 = fixInt(obj.p1, IndexFilter.default.t);
     obj.reverse = fixInt(obj.reverse, IndexFilter.default.r, [0, 1]);
+    obj.chunks = fixInt(obj.chunks, IndexFilter.default.c);
+    obj.limit = fixFloat(obj.limit, IndexFilter.default.l, 0, 1);
+    obj.limitAffectsType = fixInt(obj.limitAffectsType, IndexFilter.default.d, [0, 1, 2]);
+    obj.random = fixInt(obj.random, IndexFilter.default.n, [0, 1, 2]);
+    obj.seed = fixInt(obj.seed, IndexFilter.default.s);
 }
 
 function fixLightColorBase(obj: LightColorBase) {

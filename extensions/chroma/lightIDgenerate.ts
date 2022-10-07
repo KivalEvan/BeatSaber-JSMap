@@ -201,6 +201,14 @@ export const LightIDList: Record<EnvironmentAllName, Readonly<{ [key: number]: R
         3: Array.from(Array(7), (_, i) => i + 1),
         4: Array.from(Array(12), (_, i) => i + 1),
     },
+    // FIXME: unknown
+    LizzoEnvironment: {
+        0: Array.from(Array(10), (_, i) => i + 1),
+        1: Array.from(Array(60), (_, i) => i + 1),
+        2: Array.from(Array(7), (_, i) => i + 1),
+        3: Array.from(Array(7), (_, i) => i + 1),
+        4: Array.from(Array(12), (_, i) => i + 1),
+    },
     GlassDesertEnvironment: {
         0: Array.from(Array(6), (_, i) => i + 1),
         1: Array.from(Array(8), (_, i) => i + 1),

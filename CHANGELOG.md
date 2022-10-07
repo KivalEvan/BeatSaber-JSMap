@@ -1,21 +1,30 @@
 # Changelog
 
-## 1.2.2 [2022-08-xx]
+## 1.2.2 [2022-09-xx]
 
 ### Added
 
+- Lizzo environment & color scheme
 - Beatmap auto-fixer script
 - Data and custom data correction patch
+- Remove outside playable patch
+- Library version
 
 ### Changed
 
+- Updated to beatmap v3.1.0
 - v2 Note and v2 Slider `cutDirection` shortened to `direction` to match v3 consistency
+- Disallow both class object and object to be added in the same parameter for difficulty add object (this makes for less
+  confusing autocomplete)
+- Updated SPS info
 
 ### Fixed
 
 - Convert To V3 script now actually ask for miscellaneous conversion
 - Data check option now actually respect option
 - Deleted stray \_preciseSpeed custom data on conversion
+- Autocomplete no longer includes object class property in add/creation
+- JSDoc typo error
 
 ## 1.2.1 [2022-08-18]
 
