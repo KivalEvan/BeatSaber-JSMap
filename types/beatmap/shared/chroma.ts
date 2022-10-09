@@ -7,9 +7,26 @@ export type ColorPointDefinition =
 
 export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
 
-export type GeometryType = 'Sphere' | 'Capsule' | 'Cylinder' | 'Cube' | 'Plane' | 'Quad' | 'Triangle';
+export type GeometryType =
+    | 'Sphere'
+    | 'Capsule'
+    | 'Cylinder'
+    | 'Cube'
+    | 'Plane'
+    | 'Quad'
+    | 'Triangle';
 
-export type ShaderType = 'TransparentLight' | 'Standard' | 'OpaqueLight';
+export type ShaderType =
+    | 'Standard'
+    | 'OpaqueLight'
+    | 'TransparentLight'
+    | 'BaseWater'
+    | 'BillieWater'
+    | 'BTSPillar'
+    | 'InterscopeConcrete'
+    | 'InterscopeCar'
+    | 'Obstacle'
+    | 'WaterfallMirror';
 
 /** Default shader keywords used in standard. */
 export type ShaderKeywordsStandard =
@@ -44,8 +61,8 @@ export type ShaderKeywordsTransparent =
     | 'MULTIPLY_COLOR_WITH_ALPHA'
     | '_ENABLE_MAIN_EFFECT_WHITE_BOOST';
 
-/** Shader keywords used in billie water. */
-export type ShaderKeywordsBillieWater =
+/** Shader keywords used in base water. */
+export type ShaderKeywordsBaseWater =
     | 'FOG'
     | 'HEIGHT_FOG'
     | 'INVERT_RIMLIGHT'
@@ -68,9 +85,13 @@ export type ShaderKeywords =
     | ShaderKeywordsStandard
     | ShaderKeywordsOpaque
     | ShaderKeywordsTransparent
-    | ShaderKeywordsBillieWater;
+    | ShaderKeywordsBaseWater;
 
-export type EnvironmentMaterial = 'BTSPillar' | 'BillieWater' | 'InterscopeConcrete' | 'InterscopeCar';
+export type EnvironmentMaterial =
+    | 'BTSPillar'
+    | 'BillieWater'
+    | 'InterscopeConcrete'
+    | 'InterscopeCar';
 
 /** Chroma interface for Difficulty Info Custom Data. */
 export interface IChromaInfoCustomData extends IInfoSettingsCustomData {
