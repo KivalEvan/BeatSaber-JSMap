@@ -1,3 +1,5 @@
+import { dim, red, yellow } from './deps.ts';
+
 // really simple logger
 enum LogLevels {
     VERBOSE,
@@ -12,19 +14,19 @@ const logPrefixes = new Map<LogLevels, string>([
     [LogLevels.VERBOSE, 'VERBOSE'],
     [LogLevels.DEBUG, 'DEBUG'],
     [LogLevels.INFO, 'INFO'],
-    [LogLevels.WARN, 'WARN'],
-    [LogLevels.ERROR, '!!ERROR!!'],
+    [LogLevels.WARN, yellow('WARN')],
+    [LogLevels.ERROR, red('!!ERROR!!')],
     [LogLevels.NONE, 'NONE'],
 ]);
 
-class logger {
+class Logger {
     logLevel = LogLevels.INFO;
 
     // deno-lint-ignore no-explicit-any
     private log(level: LogLevels, ...args: any[]) {
         if (level < this.logLevel) return;
 
-        const log = [logPrefixes.get(level), '>', ...args];
+        const log = [logPrefixes.get(level), dim('>'), ...args];
 
         switch (level) {
             case LogLevels.DEBUG:
@@ -83,4 +85,4 @@ class logger {
 }
 
 /** Simple logging system. */
-export default new logger();
+export default new Logger();
