@@ -4,5 +4,5 @@ export {
     assertExists,
     assertNotEquals,
     assertThrows,
-} from 'https://deno.land/std@0.140.0/testing/asserts.ts';
-export * as bsmap from '../mod.ts';
+} from 'https://deno.land/std@0.156.0/testing/asserts.ts';
+export * from '../mod.ts';
