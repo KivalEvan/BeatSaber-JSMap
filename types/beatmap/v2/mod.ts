@@ -1,4 +1,5 @@
 export * from './bookmark.ts';
+export * from './bpmChange.ts';
 export * from './chroma.ts';
 export * from './customData.ts';
 export * from './customEvent.ts';

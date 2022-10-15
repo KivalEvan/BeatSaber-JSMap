@@ -1,5 +1,5 @@
 import { IBookmark } from './bookmark.ts';
-import { IBPMChange, IBPMChangeOld } from '../shared/bpm.ts';
+import { IBPMChange, IBPMChangeOld } from './bpmChange.ts';
 import { IChromaCustomData, IChromaNote, IChromaObstacle } from './chroma.ts';
 import { INENote, INEObstacle } from './noodleExtensions.ts';
 import { ICustomDataBase } from '../shared/customData.ts';

@@ -58,6 +58,62 @@ function v3(data: DifficultyV3) {
     data.basicBeatmapEvents.forEach((e) => {
         e.customData = eventToV3(e.customData);
     });
+    logger.debug('[patch::customData::v3] Patching bookmarks');
+    data.customData.bookmarks?.forEach((b) => {
+        // deno-lint-ignore no-explicit-any
+        if ((b as any)._time) {
+            // deno-lint-ignore no-explicit-any
+            b.b = (b as any)._time;
+            // deno-lint-ignore no-explicit-any
+            delete (b as any)._time;
+        }
+        // deno-lint-ignore no-explicit-any
+        if ((b as any)._name) {
+            // deno-lint-ignore no-explicit-any
+            b.n = (b as any)._name;
+            // deno-lint-ignore no-explicit-any
+            delete (b as any)._name;
+        }
+        // deno-lint-ignore no-explicit-any
+        if ((b as any)._color) {
+            // deno-lint-ignore no-explicit-any
+            b.c = (b as any)._color;
+            // deno-lint-ignore no-explicit-any
+            delete (b as any)._color;
+        }
+    });
+    logger.debug('[patch::customData::v3] Patching BPM changes');
+    data.customData.BPMChanges?.forEach((bpmc) => {
+        // deno-lint-ignore no-explicit-any
+        if ((bpmc as any)._time) {
+            // deno-lint-ignore no-explicit-any
+            bpmc.b = (bpmc as any)._time;
+            // deno-lint-ignore no-explicit-any
+            delete (bpmc as any)._time;
+        }
+        // deno-lint-ignore no-explicit-any
+        if ((bpmc as any)._BPM) {
+            // deno-lint-ignore no-explicit-any
+            bpmc.m = (bpmc as any)._BPM;
+            // deno-lint-ignore no-explicit-any
+            delete (bpmc as any)._BPM;
+        }
+        // deno-lint-ignore no-explicit-any
+        if ((bpmc as any)._beatsPerBar) {
+            // deno-lint-ignore no-explicit-any
+            bpmc.p = (bpmc as any)._beatsPerBar;
+            // deno-lint-ignore no-explicit-any
+            delete (bpmc as any)._beatsPerBar;
+        }
+        // deno-lint-ignore no-explicit-any
+        if ((bpmc as any)._metronomeOffset) {
+            // deno-lint-ignore no-explicit-any
+            bpmc.o = (bpmc as any)._metronomeOffset;
+            // deno-lint-ignore no-explicit-any
+            delete (bpmc as any)._metronomeOffset;
+        }
+    });
+    logger.debug('[patch::customData::v3] Patching environment');
     data.customData.environment?.forEach((env) => {
         // deno-lint-ignore no-explicit-any
         if ((env as any).lightID) {
