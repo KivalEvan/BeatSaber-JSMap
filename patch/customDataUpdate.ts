@@ -6,6 +6,7 @@ import eventToV3 from '../converter/customData/eventToV3.ts';
 import objectToV2 from '../converter/customData/objectToV2.ts';
 import objectToV3 from '../converter/customData/objectToV3.ts';
 import logger from '../logger.ts';
+import { IPointDefinition } from '../types/beatmap/v3/pointDefinition.ts';
 
 function v2(data: DifficultyV2) {
     logger.debug('[patch::customData::v2] Patching notes');
@@ -132,6 +133,14 @@ function v3(data: DifficultyV3) {
             delete (env as any).lightID;
         }
     });
+    logger.debug('[patch::customData::v3] Patching point definitions');
+    if (Array.isArray(data.customData.pointDefinitions)) {
+        const fixedObj: IPointDefinition = {};
+        data.customData.pointDefinitions.forEach(
+            (pd) => (fixedObj[pd.name as string] = pd.points),
+        );
+        data.customData.pointDefinitions = fixedObj;
+    }
 }
 
 export default function (data: DifficultyV2 | DifficultyV3) {
