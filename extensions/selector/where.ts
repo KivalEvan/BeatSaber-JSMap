@@ -1,10 +1,7 @@
 // i know what im doing shut up
 // deno-lint-ignore-file no-explicit-any
-import { BeatmapObject } from '../../beatmap/v2/object.ts';
-import { IBaseObject as IBaseObjectV2 } from '../../types/beatmap/v2/object.ts';
-import { BaseObject } from '../../beatmap/v3/baseObject.ts';
-import { IBaseObject } from '../../types/beatmap/v3/baseObject.ts';
 import { IFilter } from './types/filter.ts';
+import { WrapBaseObject } from '../../beatmap/wrapper/baseObject.ts';
 
 /** Query function on class object array.
  * ```ts
@@ -12,9 +9,9 @@ import { IFilter } from './types/filter.ts';
  * console.log(...notesFilter);
  * ```
  */
-export function where<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObjectV2>>(
+export function where<T extends WrapBaseObject<Record<keyof T['data'], unknown>>, U extends T['data']>(
     objects: T[],
-    filter: IFilter<T['data']> = {},
+    filter: IFilter<U> = {},
 ): T[] {
     return objects
         .filter((o) => {

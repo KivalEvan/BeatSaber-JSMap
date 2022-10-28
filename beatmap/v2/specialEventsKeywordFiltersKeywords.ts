@@ -1,12 +1,14 @@
 import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
-import { Serializable } from '../shared/serializable.ts';
+import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
 
 /** Special event types for keywords beatmap v2 class object.
  *
  * Used in special event types with keywords.
  */
-export class SpecialEventsKeywordFiltersKeywords extends Serializable<ISpecialEventsKeywordFiltersKeywords> {
+export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywords<
+    Required<ISpecialEventsKeywordFiltersKeywords>
+> {
     static default: ObjectReturnFn<Required<ISpecialEventsKeywordFiltersKeywords>> = {
         _keyword: '',
         _specialEvents: () => [],
@@ -51,7 +53,6 @@ export class SpecialEventsKeywordFiltersKeywords extends Serializable<ISpecialEv
         };
     }
 
-    /** Keyword `<string>` of basic event types for keywords. */
     get keyword() {
         return this.data._keyword;
     }
@@ -59,7 +60,6 @@ export class SpecialEventsKeywordFiltersKeywords extends Serializable<ISpecialEv
         this.data._keyword = value;
     }
 
-    /** Event type `<int[]>` of basic event types for keywords. */
     get events() {
         return this.data._specialEvents;
     }

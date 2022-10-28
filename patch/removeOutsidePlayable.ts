@@ -1,16 +1,12 @@
 import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
-import { BaseObject } from '../beatmap/v3/baseObject.ts';
-import { BeatmapObject } from '../beatmap/v2/object.ts';
 import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
 import { isV2 } from '../beatmap/version.ts';
 import logger from '../logger.ts';
-import { IBaseObject as IBaseObjectV2 } from '../types/beatmap/v2/object.ts';
-import { IBaseObject as IBaseObjectV3 } from '../types/beatmap/v3/baseObject.ts';
 import { BeatPerMinute } from '../beatmap/shared/bpm.ts';
+import { IWrapBaseObject } from '../types/beatmap/wrapper/baseObject.ts';
 
 let duration = 0;
-const filterTime = <T extends IBaseObjectV2, U extends IBaseObjectV3>(obj: BeatmapObject<T> | BaseObject<U>) =>
-    duration ? !(obj.time < 0 || obj.time > duration) : !(obj.time < 0);
+const filterTime = (obj: IWrapBaseObject) => (duration ? !(obj.time < 0 || obj.time > duration) : !(obj.time < 0));
 
 function v2(data: DifficultyV2) {
     logger.debug('[patch::removeOutsidePlayable::v2] Removing outside playable notes');
@@ -22,9 +18,7 @@ function v2(data: DifficultyV2) {
     logger.debug('[patch::removeOutsidePlayable::v2] Removing outside playable waypoints');
     data.waypoints = data.waypoints.filter(filterTime);
     logger.debug('[patch::removeOutsidePlayable::v2] Removing outside playable sliders');
-    data.sliders = data.sliders.filter((obj) =>
-        duration ? !(obj.headTime < 0 || obj.headTime > duration) : !(obj.headTime < 0)
-    );
+    data.sliders = data.sliders.filter((obj) => (duration ? !(obj.time < 0 || obj.time > duration) : !(obj.time < 0)));
 }
 
 function v3(data: DifficultyV3) {
@@ -69,9 +63,9 @@ function v3(data: DifficultyV3) {
         );
     }
     logger.debug('[patch::removeOutsidePlayable::v3] Removing outside playable basic events');
-    data.basicBeatmapEvents = data.basicBeatmapEvents.filter(filterTime);
+    data.basicEvents = data.basicEvents.filter(filterTime);
     logger.debug('[patch::removeOutsidePlayable::v3] Removing outside playable color boost beatmap events');
-    data.colorBoostBeatmapEvents = data.colorBoostBeatmapEvents.filter(filterTime);
+    data.colorBoostEvents = data.colorBoostEvents.filter(filterTime);
     logger.debug('[patch::removeOutsidePlayable::v3] Removing outside playable light color event box groups');
     data.lightColorEventBoxGroups = data.lightColorEventBoxGroups.filter(filterTime);
     logger.debug('[patch::removeOutsidePlayable::v3] Removing outside playable light rotation event box groups');

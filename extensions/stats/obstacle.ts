@@ -20,13 +20,13 @@ export function countObstacle(obstacles: Obstacle[]): IObstacleCount {
         if (obstacles[i].isInteractive()) {
             obstacleCount.interactive++;
         }
-        if (obstacles[i].hasChroma()) {
+        if (obstacles[i].isChroma()) {
             obstacleCount.chroma++;
         }
-        if (obstacles[i].hasNoodleExtensions()) {
+        if (obstacles[i].isNoodleExtensions()) {
             obstacleCount.noodleExtensions++;
         }
-        if (obstacles[i].hasMappingExtensions()) {
+        if (obstacles[i].isMappingExtensions()) {
             obstacleCount.mappingExtensions++;
         }
     }

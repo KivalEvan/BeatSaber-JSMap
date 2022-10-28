@@ -56,7 +56,7 @@ function v3(data: DifficultyV3) {
         o.customData = objectToV3(o.customData);
     });
     logger.debug('[patch::customData::v3] Patching basic events');
-    data.basicBeatmapEvents.forEach((e) => {
+    data.basicEvents.forEach((e) => {
         e.customData = eventToV3(e.customData);
     });
     logger.debug('[patch::customData::v3] Patching bookmarks');
@@ -136,9 +136,7 @@ function v3(data: DifficultyV3) {
     logger.debug('[patch::customData::v3] Patching point definitions');
     if (Array.isArray(data.customData.pointDefinitions)) {
         const fixedObj: IPointDefinition = {};
-        data.customData.pointDefinitions.forEach(
-            (pd) => (fixedObj[pd.name as string] = pd.points),
-        );
+        data.customData.pointDefinitions.forEach((pd) => (fixedObj[pd.name as string] = pd.points));
         data.customData.pointDefinitions = fixedObj;
     }
 }

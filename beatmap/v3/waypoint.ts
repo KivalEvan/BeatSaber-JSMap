@@ -1,11 +1,11 @@
 import { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
-import { BaseObject } from './baseObject.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { WrapWaypoint } from '../wrapper/waypoint.ts';
 
 /** Waypoint beatmap v3 class object. */
-export class Waypoint extends BaseObject<IWaypoint> {
+export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
     static default: ObjectReturnFn<Required<IWaypoint>> = {
         b: 0,
         x: 0,
@@ -59,16 +59,13 @@ export class Waypoint extends BaseObject<IWaypoint> {
         };
     }
 
-    /** Position x `<int>` of waypoint.
-     * ```ts
-     * 0 -> Outer Left
-     * 1 -> Middle Left
-     * 2 -> Middle Right
-     * 3 -> Outer Right
-     * ```
-     * ---
-     * Range: `unknown`
-     */
+    get time() {
+        return this.data.b;
+    }
+    set time(value: IWaypoint['b']) {
+        this.data.b = value;
+    }
+
     get posX() {
         return this.data.x;
     }
@@ -76,15 +73,6 @@ export class Waypoint extends BaseObject<IWaypoint> {
         this.data.x = value;
     }
 
-    /** Position y `<int>` of waypoint.
-     * ```ts
-     * 0 -> Bottom row
-     * 1 -> Middle row
-     * 2 -> Top row
-     * ```
-     * ---
-     * Range: `unknown`
-     */
     get posY() {
         return this.data.y;
     }
@@ -92,15 +80,6 @@ export class Waypoint extends BaseObject<IWaypoint> {
         this.data.y = value;
     }
 
-    /** Offset direction `<int>` of waypoint.
-     * ```ts
-     * 4 | 0 | 5
-     * 2 | 8 | 3
-     * 6 | 1 | 7
-     * ```
-     * ---
-     * Grid represents cut direction from center.
-     */
     get direction() {
         return this.data.d;
     }
@@ -108,16 +87,19 @@ export class Waypoint extends BaseObject<IWaypoint> {
         this.data.d = value;
     }
 
-    setPosX(value: IWaypoint['x']) {
-        this.posX = value;
+    get customData(): NonNullable<IWaypoint['customData']> {
+        return this.data.customData;
+    }
+    set customData(value: NonNullable<IWaypoint['customData']>) {
+        this.data.customData = value;
+    }
+
+    setCustomData(value: NonNullable<IWaypoint['customData']>): this {
+        this.customData = value;
         return this;
     }
-    setPosY(value: IWaypoint['y']) {
-        this.posY = value;
-        return this;
-    }
-    setDirection(value: IWaypoint['d']) {
-        this.direction = value;
+    addCustomData(object: IWaypoint['customData']): this {
+        this.customData = { ...this.customData, object };
         return this;
     }
 
@@ -144,5 +126,9 @@ export class Waypoint extends BaseObject<IWaypoint> {
                 break;
         }
         return this;
+    }
+
+    isValid(): boolean {
+        return this.direction >= 0 && this.direction <= 9;
     }
 }

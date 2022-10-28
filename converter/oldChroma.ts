@@ -27,7 +27,7 @@ export function ogChromaToChromaV2<T extends DifficultyV2 | DifficultyV3>(
     if (isV2(data)) {
         events = data.events;
     } else {
-        events = data.basicBeatmapEvents;
+        events = data.basicEvents;
     }
     const colorScheme = ColorScheme[EnvironmentSchemeName[environment]];
     const defaultLeftLight: ColorArray = [
@@ -92,7 +92,7 @@ export function ogChromaToChromaV2<T extends DifficultyV2 | DifficultyV3>(
     if (isV2(data)) {
         data.events = newEvents as Event[];
     } else {
-        data.basicBeatmapEvents = newEvents as BasicEvent[];
+        data.basicEvents = newEvents as BasicEvent[];
     }
     return data;
 }

@@ -2,7 +2,7 @@
 // TODO: proper rotation check based on position
 // TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA there's still more work needed for parity check
 // TODO: cleanup the implementation
-import { NoteContainer, NoteContainerBomb, NoteContainerNote } from '../../types/beatmap/v3/container.ts';
+import { NoteContainer, NoteContainerBomb, NoteContainerNote } from '../../types/beatmap/wrapper/container.ts';
 import { ParityState, ParityStatus, ParitySwitch } from './types/parity.ts';
 import { predictDirection } from '../placement/note.ts';
 import { NoteColor, NoteDirection, PositionX, PositionY } from '../../beatmap/shared/constants.ts';

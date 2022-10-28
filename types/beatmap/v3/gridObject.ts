@@ -1,6 +1,6 @@
 import { IBaseObject } from './baseObject.ts';
 
-export interface IBaseNote extends IBaseObject {
+export interface IGridObject extends IBaseObject {
     /** Position x `<int>` of base note.
      * ```ts
      * 0 -> Outer Left

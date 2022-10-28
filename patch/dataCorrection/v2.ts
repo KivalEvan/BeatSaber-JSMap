@@ -45,30 +45,22 @@ function fixWaypoint(obj: Waypoint) {
 }
 
 function fixSlider(obj: Slider) {
-    obj.colorType = fixInt(obj.colorType, Slider.default._colorType, [0, 1]);
-    obj.headTime = fixFloat(obj.headTime, Slider.default._headTime);
-    obj.headPosX = fixInt(obj.headPosX, Slider.default._headLineIndex);
-    obj.headPosY = fixInt(obj.headPosY, Slider.default._headLineLayer);
-    obj.headDirection = fixInt(obj.headDirection, Slider.default._headCutDirection);
-    obj.headLengthMultiplier = fixFloat(
-        obj.headLengthMultiplier,
-        Slider.default._headControlPointLengthMultiplier,
-    );
+    obj.color = fixInt(obj.color, Slider.default._colorType, [0, 1]);
+    obj.time = fixFloat(obj.time, Slider.default._headTime);
+    obj.posX = fixInt(obj.posX, Slider.default._headLineIndex);
+    obj.posY = fixInt(obj.posY, Slider.default._headLineLayer);
+    obj.direction = fixInt(obj.direction, Slider.default._headCutDirection);
+    obj.lengthMultiplier = fixFloat(obj.lengthMultiplier, Slider.default._headControlPointLengthMultiplier);
     obj.tailTime = fixFloat(obj.tailTime, Slider.default._tailTime);
     obj.tailPosX = fixInt(obj.tailPosX, Slider.default._tailLineIndex);
     obj.tailPosY = fixInt(obj.tailPosY, Slider.default._tailLineLayer);
     obj.tailDirection = fixInt(obj.tailDirection, Slider.default._tailCutDirection);
-    obj.tailLengthMultiplier = fixFloat(
-        obj.tailLengthMultiplier,
-        Slider.default._tailControlPointLengthMultiplier,
-    );
+    obj.tailLengthMultiplier = fixFloat(obj.tailLengthMultiplier, Slider.default._tailControlPointLengthMultiplier);
     obj.midAnchor = fixInt(obj.midAnchor, Slider.default._sliderMidAnchorMode);
 }
 
 export function v2(data: Difficulty) {
-    logger.info(
-        '[patch::dataCorrection::difficulty::v2] Verifying and correcting data type for beatmap v2...',
-    );
+    logger.info('[patch::dataCorrection::difficulty::v2] Verifying and correcting data type for beatmap v2...');
 
     data.notes.forEach(fixNote);
     data.obstacles.forEach(fixObstacle);

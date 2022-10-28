@@ -188,14 +188,14 @@ function fixLightColorEventBox(obj: LightColorEventBox) {
 
 function fixLightColorEventBoxGroup(obj: LightColorEventBoxGroup) {
     obj.time = fixFloat(obj.time, LightColorEventBoxGroup.default.b);
-    obj.groupID = fixInt(obj.groupID, LightColorEventBoxGroup.default.g);
+    obj.id = fixInt(obj.id, LightColorEventBoxGroup.default.g);
     obj.events.forEach(fixLightColorEventBox);
 }
 
 function fixLightRotationBase(obj: LightRotationBase) {
     obj.time = fixFloat(obj.time, LightRotationBase.default.b);
     obj.previous = fixInt(obj.previous, LightRotationBase.default.p, [0, 1]);
-    obj.ease = fixInt(obj.ease, LightRotationBase.default.e, [-1, 0, 1, 2, 3]);
+    obj.easing = fixInt(obj.easing, LightRotationBase.default.e, [-1, 0, 1, 2, 3]);
     obj.loop = fixInt(obj.loop, LightRotationBase.default.l);
     obj.rotation = fixFloat(obj.rotation, LightRotationBase.default.r);
     obj.direction = fixInt(obj.direction, LightRotationBase.default.o, [0, 1, 2]);
@@ -215,7 +215,7 @@ function fixLightRotationEventBox(obj: LightRotationEventBox) {
 
 function fixLightRotationEventBoxGroup(obj: LightRotationEventBoxGroup) {
     obj.time = fixFloat(obj.time, LightRotationEventBoxGroup.default.b);
-    obj.groupID = fixInt(obj.groupID, LightRotationEventBoxGroup.default.g);
+    obj.id = fixInt(obj.id, LightRotationEventBoxGroup.default.g);
     obj.events.forEach(fixLightRotationEventBox);
 }
 
@@ -234,8 +234,8 @@ export function v3(data: Difficulty) {
     data.customData.fakeBombNotes?.forEach(fixFakeBombNote);
     data.customData.fakeObstacles?.forEach(fixFakeObstacle);
     data.customData.fakeBurstSliders?.forEach(fixFakeBurstSlider);
-    data.basicBeatmapEvents.forEach(fixBasicEvent);
-    data.colorBoostBeatmapEvents.forEach(fixColorBoostEvent);
+    data.basicEvents.forEach(fixBasicEvent);
+    data.colorBoostEvents.forEach(fixColorBoostEvent);
     data.lightColorEventBoxGroups.forEach(fixLightColorEventBoxGroup);
     data.lightRotationEventBoxGroups.forEach(fixLightRotationEventBoxGroup);
     data.useNormalEventsAsCompatibleEvents = fixBoolean(data.useNormalEventsAsCompatibleEvents);

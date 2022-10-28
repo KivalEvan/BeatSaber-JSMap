@@ -1,3 +1,4 @@
+export * from './animation.ts';
 export * from './baseObject.ts';
 export * from './baseSlider.ts';
 export * from './basicEvent.ts';

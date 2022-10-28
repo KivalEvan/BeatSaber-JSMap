@@ -1,3 +1,4 @@
+export * from './animation.ts';
 export * from './bookmark.ts';
 export * from './bpmChange.ts';
 export * from './chroma.ts';

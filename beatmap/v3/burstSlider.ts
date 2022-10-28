@@ -1,14 +1,14 @@
-import { BaseSlider } from './baseSlider.ts';
-import { LINE_COUNT, NoteDirectionAngle } from '../shared/constants.ts';
+import { NoteDirectionAngle } from '../shared/constants.ts';
 import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { WrapBurstSlider } from '../wrapper/burstSlider.ts';
 
 /** Burst slider beatmap v3 class object.
  *
  * Also known as chain.
  */
-export class BurstSlider extends BaseSlider<IBurstSlider> {
+export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
     static default: ObjectReturnFn<Required<IBurstSlider>> = {
         b: 0,
         c: 0,
@@ -86,10 +86,62 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
         };
     }
 
-    /** Slice count or element `<int>` in burst slider.
-     *
-     * **NOTE:** Must be more than `0`, the head counts as `1`.
-     */
+    get time() {
+        return this.data.b;
+    }
+    set time(value: IBurstSlider['b']) {
+        this.data.b = value;
+    }
+
+    get posX() {
+        return this.data.x;
+    }
+    set posX(value: IBurstSlider['x']) {
+        this.data.x = value;
+    }
+
+    get posY() {
+        return this.data.y;
+    }
+    set posY(value: IBurstSlider['y']) {
+        this.data.y = value;
+    }
+
+    get color() {
+        return this.data.c;
+    }
+    set color(value: IBurstSlider['c']) {
+        this.data.c = value;
+    }
+
+    get direction() {
+        return this.data.d;
+    }
+    set direction(value: IBurstSlider['d']) {
+        this.data.d = value;
+    }
+
+    get tailTime() {
+        return this.data.tb;
+    }
+    set tailTime(value: IBurstSlider['tb']) {
+        this.data.tb = value;
+    }
+
+    get tailPosX() {
+        return this.data.tx;
+    }
+    set tailPosX(value: IBurstSlider['tx']) {
+        this.data.tx = value;
+    }
+
+    get tailPosY() {
+        return this.data.ty;
+    }
+    set tailPosY(value: IBurstSlider['ty']) {
+        this.data.ty = value;
+    }
+
     get sliceCount() {
         return this.data.sc;
     }
@@ -97,14 +149,6 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
         this.data.sc = value;
     }
 
-    /** Length multiplier `<float>` of element in burst slider.
-     * ```ts
-     * 1 -> Normal length
-     * 0.5 -> Half length
-     * 0.25 -> Quarter length
-     * ```
-     * **WARNING:** Value `0` will crash the game.
-     */
     get squish() {
         return this.data.s;
     }
@@ -112,12 +156,19 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
         this.data.s = value;
     }
 
-    setSliceCount(value: IBurstSlider['sc']) {
-        this.sliceCount = value;
+    get customData(): NonNullable<IBurstSlider['customData']> {
+        return this.data.customData;
+    }
+    set customData(value: NonNullable<IBurstSlider['customData']>) {
+        this.data.customData = value;
+    }
+
+    setCustomData(value: NonNullable<IBurstSlider['customData']>): this {
+        this.customData = value;
         return this;
     }
-    setSquish(value: IBurstSlider['s']) {
-        this.squish = value;
+    addCustomData(object: IBurstSlider['customData']): this {
+        this.customData = { ...this.customData, object };
         return this;
     }
 
@@ -140,32 +191,7 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
                 });
             }
         }
-        this.posX = LINE_COUNT - 1 - this.posX;
-        this.tailPosX = LINE_COUNT - 1 - this.tailPosX;
-        if (flipColor) {
-            this.color = ((1 + this.color) % 2) as typeof this.color;
-        }
-        switch (this.direction) {
-            case 2:
-                this.direction = 3;
-                break;
-            case 3:
-                this.direction = 2;
-                break;
-            case 6:
-                this.direction = 7;
-                break;
-            case 7:
-                this.direction = 6;
-                break;
-            case 4:
-                this.direction = 5;
-                break;
-            case 5:
-                this.direction = 4;
-                break;
-        }
-        return this;
+        return super.mirror(flipColor);
     }
 
     /** Get chain and return standardised note angle.
@@ -194,10 +220,10 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
 
     /** Check if burst slider has Mapping Extensions properties.
      * ```ts
-     * if (burstSlider.hasMappingExtensions()) {}
+     * if (burstSlider.isMappingExtensions()) {}
      * ```
      */
-    hasMappingExtensions() {
+    isMappingExtensions() {
         return (
             this.posY > 2 ||
             this.posY < 0 ||
@@ -215,7 +241,7 @@ export class BurstSlider extends BaseSlider<IBurstSlider> {
     isValid() {
         return (
             !(
-                this.hasMappingExtensions() ||
+                this.isMappingExtensions() ||
                 this.isInverse() ||
                 this.posX < 0 ||
                 this.posX > 3 ||

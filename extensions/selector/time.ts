@@ -1,9 +1,6 @@
-import { BeatmapObject } from '../../beatmap/v2/object.ts';
-import { IBaseObject as IBaseObjectV2 } from '../../types/beatmap/v2/object.ts';
-import { BaseObject } from '../../beatmap/v3/baseObject.ts';
-import { IBaseObject } from '../../types/beatmap/v3/baseObject.ts';
 import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 import { settings } from './settings.ts';
+import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
 /** Return objects at given time, adjusted by BPM change if provided.
  * ```ts
@@ -11,11 +8,7 @@ import { settings } from './settings.ts';
  * console.log(...notesHere);
  * ```
  */
-export function at<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObjectV2>>(
-    objects: T[],
-    times: number | number[],
-    bpm?: BeatPerMinute | null,
-): T[] {
+export function at<T extends IWrapBaseObject>(objects: T[], times: number | number[], bpm?: BeatPerMinute | null): T[] {
     bpm = bpm ?? settings.BPM;
     if (Array.isArray(times)) {
         return objects.filter((o) => times.some((time) => (bpm ? bpm.adjustTime(o.time) === time : o.time === time)));
@@ -29,7 +22,7 @@ export function at<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObject
  * console.log(...notesRange);
  * ```
  */
-export function between<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObjectV2>>(
+export function between<T extends IWrapBaseObject>(
     objects: T[],
     from: number,
     to: number,
@@ -47,11 +40,7 @@ export function between<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseO
  * console.log(...notesBefore);
  * ```
  */
-export function before<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObjectV2>>(
-    objects: T[],
-    before: number,
-    bpm?: BeatPerMinute | null,
-): T[] {
+export function before<T extends IWrapBaseObject>(objects: T[], before: number, bpm?: BeatPerMinute | null): T[] {
     bpm = bpm ?? settings.BPM;
     return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > before : o.time > before));
 }
@@ -62,11 +51,7 @@ export function before<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseOb
  * console.log(...notesAfter);
  * ```
  */
-export function after<T extends BaseObject<IBaseObject> | BeatmapObject<IBaseObjectV2>>(
-    objects: T[],
-    after: number,
-    bpm?: BeatPerMinute | null,
-): T[] {
+export function after<T extends IWrapBaseObject>(objects: T[], after: number, bpm?: BeatPerMinute | null): T[] {
     bpm = bpm ?? settings.BPM;
     return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > after : o.time > after));
 }

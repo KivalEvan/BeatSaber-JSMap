@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.3.0 [2022-11-##]
+
+### Added
+
+- Wrapper class/interface
+
+### Changed
+
+- Renamed `basicBeatmapEvents` and `colorBoostBeatmapEvents` to `basicEvents` and `colorBoostEvents`
+
+### Fixed
+
+- Obstacle not correctly check for interactive in specific case
+
 ## 1.2.2 [2022-10-07]
 
 ### Added

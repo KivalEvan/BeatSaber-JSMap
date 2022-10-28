@@ -12,8 +12,9 @@ import { ILightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { ILightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { IBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 import { ICustomDataDifficulty } from './customData.ts';
+import { IBaseItem } from './baseItem.ts';
 
-export interface IDifficulty {
+export interface IDifficulty extends IBaseItem {
     version: `3.${0 | 1}.0`;
     bpmEvents: IBPMEvent[];
     rotationEvents: IRotationEvent[];

@@ -285,9 +285,9 @@ export class LightMapper {
 
         if (isV3(mapData)) {
             if (overwrite) {
-                mapData.basicBeatmapEvents = [];
+                mapData.basicEvents = [];
             }
-            mapData.basicBeatmapEvents.push(...events);
+            mapData.basicEvents.push(...events);
         } else {
             if (overwrite) {
                 mapData.events = [];

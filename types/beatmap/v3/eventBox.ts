@@ -1,6 +1,7 @@
+import { IBaseItem } from './baseItem.ts';
 import { IIndexFilter } from './indexFilter.ts';
 
-export interface IEventBox {
+export interface IEventBox extends IBaseItem {
     /** Index filter of event box. */
     f: IIndexFilter;
     /** Beat distribution `<float>` of event box. */

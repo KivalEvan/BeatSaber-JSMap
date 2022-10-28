@@ -25,16 +25,16 @@ export function countColorEBG(
     }
 
     for (let i = ebg.length - 1; i >= 0; i--) {
-        if (!ebgCount[ebg[i].groupID]) {
-            ebgCount[ebg[i].groupID] = {
+        if (!ebgCount[ebg[i].id]) {
+            ebgCount[ebg[i].id] = {
                 total: 0,
                 eventBox: 0,
                 base: 0,
             };
         }
-        ebgCount[ebg[i].groupID].total++;
-        ebgCount[ebg[i].groupID].eventBox += ebg[i].events.length;
-        ebgCount[ebg[i].groupID].base += ebg[i].events.reduce((t, e) => t + e.events.length, 0);
+        ebgCount[ebg[i].id].total++;
+        ebgCount[ebg[i].id].eventBox += ebg[i].events.length;
+        ebgCount[ebg[i].id].base += ebg[i].events.reduce((t, e) => t + e.events.length, 0);
     }
     return ebgCount;
 }
@@ -54,16 +54,16 @@ export function countRotationEBG(
     }
 
     for (let i = ebg.length - 1; i >= 0; i--) {
-        if (!ebgCount[ebg[i].groupID]) {
-            ebgCount[ebg[i].groupID] = {
+        if (!ebgCount[ebg[i].id]) {
+            ebgCount[ebg[i].id] = {
                 total: 0,
                 eventBox: 0,
                 base: 0,
             };
         }
-        ebgCount[ebg[i].groupID].total++;
-        ebgCount[ebg[i].groupID].eventBox += ebg[i].events.length;
-        ebgCount[ebg[i].groupID].base += ebg[i].events.reduce((t, e) => t + e.events.length, 0);
+        ebgCount[ebg[i].id].total++;
+        ebgCount[ebg[i].id].eventBox += ebg[i].events.length;
+        ebgCount[ebg[i].id].base += ebg[i].events.reduce((t, e) => t + e.events.length, 0);
     }
     return ebgCount;
 }

@@ -5,7 +5,7 @@ import { IOptimizeOptions, IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } fr
 import { Either } from './types/utils.ts';
 import { round } from './utils/math.ts';
 import logger from './logger.ts';
-import { IBaseNote } from './types/beatmap/v3/baseNote.ts';
+import { IGridObject } from './types/beatmap/v3/gridObject.ts';
 
 const tag = (name: string) => {
     return `[optimize::${name}]`;
@@ -153,7 +153,7 @@ export function difficulty(
     if (opt.sort) {
         logger.debug(tag('difficulty'), 'Sorting objects');
         const sortPrec = Math.pow(10, opt.floatTrim);
-        const sortV3Note = (a: IBaseNote, b: IBaseNote) => {
+        const sortV3Note = (a: IGridObject, b: IGridObject) => {
             if (a.customData?.coordinates && b.customData?.coordinates) {
                 Math.round((a.b + Number.EPSILON) * sortPrec) / sortPrec -
                         Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||

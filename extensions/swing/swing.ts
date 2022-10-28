@@ -1,10 +1,9 @@
 import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 import { ISwingContainer } from './types/swing.ts';
-import { NoteContainer, NoteContainerNote } from '../../types/beatmap/v3/container.ts';
+import { NoteContainer, NoteContainerNote } from '../../types/beatmap/wrapper/container.ts';
 import { checkDirection } from '../placement/note.ts';
-import { IBaseObject } from '../../types/beatmap/v3/baseObject.ts';
-import { BaseObject } from '../../beatmap/v3/baseObject.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
+import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
 export default class Swing implements ISwingContainer {
     time: number;
@@ -130,11 +129,7 @@ export default class Swing implements ISwingContainer {
         );
     };
 
-    static calcEBPMBetweenObject = <T extends IBaseObject, U extends IBaseObject>(
-        currObj: BaseObject<T>,
-        prevObj: BaseObject<U>,
-        bpm: number,
-    ): number => {
+    static calcEBPMBetweenObject = (currObj: IWrapBaseObject, prevObj: IWrapBaseObject, bpm: number): number => {
         return bpm / ((currObj.time - prevObj.time) * 2);
     };
 
