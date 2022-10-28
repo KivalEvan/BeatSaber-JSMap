@@ -1,6 +1,6 @@
-import { ICustomDataBase } from '../shared/customData.ts';
+import { IWrapBaseItem } from './baseItem.ts';
 
-export interface IWrapLightRotationBase {
+export interface IWrapLightRotationBase extends IWrapBaseItem {
     /** Relative beat time `<float>` to event box group. */
     time: number;
     /** Use previous event rotation value `<int>` in light rotation. */
@@ -32,7 +32,6 @@ export interface IWrapLightRotationBase {
      * ```
      */
     direction: 0 | 1 | 2;
-    customData?: ICustomDataBase;
 
     setTime(value: number): this;
     setPrevious(value: 0 | 1): this;

@@ -1,5 +1,4 @@
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
-import { LINE_COUNT } from '../shared/constants.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';
@@ -125,19 +124,6 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
         return this;
     }
 
-    setDuration(value: IObstacle['d']) {
-        this.duration = value;
-        return this;
-    }
-    setWidth(value: IObstacle['w']) {
-        this.width = value;
-        return this;
-    }
-    setHeight(value: IObstacle['h']) {
-        this.height = value;
-        return this;
-    }
-
     mirror() {
         const width = this.customData.size?.[0] ?? this.width;
         if (this.customData.coordinates) {
@@ -156,8 +142,7 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
                 // fuck mirroring this tbh
             }
         }
-        this.posX = LINE_COUNT - 1 - (this.posX + this.width - 1);
-        return this;
+        return super.mirror();
     }
 
     getPosition(): [number, number] {

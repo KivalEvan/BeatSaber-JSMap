@@ -107,6 +107,9 @@ export class Note extends WrapColorNote<Required<INote>> {
     get angleOffset() {
         return 0;
     }
+    set angleOffset(_: number) {
+        // TODO: do some calculation with direction?
+    }
 
     get customData(): NonNullable<INote['_customData']> {
         return this.data._customData;

@@ -11,7 +11,6 @@ import { IWrapColorBoostEvent } from './colorBoostEvent.ts';
 import { IWrapLightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { IWrapLightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
-import { ICustomDataBase } from '../shared/customData.ts';
 import { IWrapBaseItem } from './baseItem.ts';
 
 export interface IDifficulty extends IWrapBaseItem {
@@ -30,5 +29,4 @@ export interface IDifficulty extends IWrapBaseItem {
     lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
     basicEventTypesWithKeywords: IWrapEventTypesWithKeywords;
     useNormalEventsAsCompatibleEvents: boolean;
-    customData?: ICustomDataBase;
 }

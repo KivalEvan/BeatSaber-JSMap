@@ -167,30 +167,6 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
         return super.mirror(flipColor);
     }
 
-    /** Swap note rotation with another note.
-     * ```ts
-     * note.swapPosition(noteSwap);
-     * ```
-     */
-    swapRotation(toSwap: ColorNote, mirrorAngle = true) {
-        const tempD = toSwap.direction;
-        toSwap.direction = this.direction;
-        this.direction = tempD;
-        const tempA = toSwap.angleOffset;
-        toSwap.angleOffset = this.angleOffset;
-        this.angleOffset = tempA;
-        if (mirrorAngle) {
-            toSwap.angleOffset = 0 - toSwap.angleOffset;
-            this.angleOffset = 0 - this.angleOffset;
-        }
-        return this;
-    }
-
-    /** Get note and return standardised note angle.
-     * ```ts
-     * const noteAngle = note.getAngle();
-     * ```
-     */
     getAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':

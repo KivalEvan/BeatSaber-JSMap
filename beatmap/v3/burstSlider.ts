@@ -1,4 +1,3 @@
-import { NoteDirectionAngle } from '../shared/constants.ts';
 import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -192,62 +191,5 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
             }
         }
         return super.mirror(flipColor);
-    }
-
-    /** Get chain and return standardised note angle.
-     * ```ts
-     * const chainAngle = chain.getAngle();
-     * ```
-     */
-    getAngle(type?: 'vanilla' | 'me' | 'ne') {
-        switch (type) {
-            case 'vanilla':
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
-            case 'me':
-                if (this.direction >= 1000) {
-                    return Math.abs(((this.direction % 1000) % 360) - 360);
-                }
-            /* falls through */
-            case 'ne':
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
-            default:
-                if (this.direction >= 1000) {
-                    return Math.abs(((this.direction % 1000) % 360) - 360);
-                }
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
-        }
-    }
-
-    /** Check if burst slider has Mapping Extensions properties.
-     * ```ts
-     * if (burstSlider.isMappingExtensions()) {}
-     * ```
-     */
-    isMappingExtensions() {
-        return (
-            this.posY > 2 ||
-            this.posY < 0 ||
-            this.posX <= -1000 ||
-            this.posX >= 1000 ||
-            (this.direction >= 1000 && this.direction <= 1360)
-        );
-    }
-
-    /** Check if burst slider is valid & vanilla.
-     * ```ts
-     * if (burstSlider.isValid()) {}
-     * ```
-     */
-    isValid() {
-        return (
-            !(
-                this.isMappingExtensions() ||
-                this.isInverse() ||
-                this.posX < 0 ||
-                this.posX > 3 ||
-                this.tailPosX < 0 ||
-                this.tailPosX > 3
-            ) && !(this.posX === this.tailPosX && this.posY === this.tailPosY)
-        );
     }
 }

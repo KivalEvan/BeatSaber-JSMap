@@ -20,4 +20,27 @@ export abstract class WrapBurstSlider<T extends Record<keyof T, unknown>> extend
         this.squish = value;
         return this;
     }
+
+    isMappingExtensions() {
+        return (
+            this.posY > 2 ||
+            this.posY < 0 ||
+            this.posX <= -1000 ||
+            this.posX >= 1000 ||
+            (this.direction >= 1000 && this.direction <= 1360)
+        );
+    }
+
+    isValid() {
+        return (
+            !(
+                this.isMappingExtensions() ||
+                this.isInverse() ||
+                this.posX < 0 ||
+                this.posX > 3 ||
+                this.tailPosX < 0 ||
+                this.tailPosX > 3
+            ) && !(this.posX === this.tailPosX && this.posY === this.tailPosY)
+        );
+    }
 }

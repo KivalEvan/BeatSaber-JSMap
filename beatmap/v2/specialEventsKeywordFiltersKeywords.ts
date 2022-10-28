@@ -66,24 +66,4 @@ export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywor
     set events(value: ISpecialEventsKeywordFiltersKeywords['_specialEvents']) {
         this.data._specialEvents = value;
     }
-
-    setKeyword(value: ISpecialEventsKeywordFiltersKeywords['_keyword']) {
-        this.keyword = value;
-        return this;
-    }
-    setEvents(value: ISpecialEventsKeywordFiltersKeywords['_specialEvents']) {
-        this.events = value;
-        return this;
-    }
-    addEvent(value: number) {
-        this.events.push(value);
-        return this;
-    }
-    removeEvent(value: number) {
-        const index = this.events.indexOf(value, 0);
-        if (index > -1) {
-            this.events.splice(index, 1);
-        }
-        return this;
-    }
 }
