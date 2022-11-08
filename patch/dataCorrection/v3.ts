@@ -26,6 +26,10 @@ import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEven
 import { fixCustomDataEvent } from './customDataEvent.ts';
 import { fixCustomDataObject } from './customDataObject.ts';
 import logger from '../../logger.ts';
+import { LightTranslationBase } from '../../beatmap/v3/lightTranslationBase.ts';
+import { LightTranslationEventBox } from '../../beatmap/v3/lightTranslationEventBox.ts';
+import { LightTranslationEventBoxGroup } from '../../beatmap/v3/lightTranslationEventBoxGroup.ts';
+import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
 
 function fixBPMEvent(obj: BPMEvent) {
     obj.time = fixFloat(obj.time, BPMEvent.default.b);
@@ -163,7 +167,11 @@ function fixIndexFilter(obj: IndexFilter) {
     obj.reverse = fixInt(obj.reverse, IndexFilter.default.r, [0, 1]);
     obj.chunks = fixInt(obj.chunks, IndexFilter.default.c);
     obj.limit = fixFloat(obj.limit, IndexFilter.default.l, 0, 1);
-    obj.limitAffectsType = fixInt(obj.limitAffectsType, IndexFilter.default.d, [0, 1, 2]);
+    obj.limitAffectsType = fixInt(
+        obj.limitAffectsType,
+        IndexFilter.default.d,
+        [0, 1, 2],
+    );
     obj.random = fixInt(obj.random, IndexFilter.default.n, [0, 1, 2]);
     obj.seed = fixInt(obj.seed, IndexFilter.default.s);
 }
@@ -179,10 +187,25 @@ function fixLightColorBase(obj: LightColorBase) {
 function fixLightColorEventBox(obj: LightColorEventBox) {
     fixIndexFilter(obj.filter);
     obj.beatDistribution = fixFloat(obj.beatDistribution, LightColorEventBox.default.w);
-    obj.beatDistributionType = fixInt(obj.beatDistributionType, LightColorEventBox.default.d, [1, 2]);
-    obj.brightnessDistribution = fixFloat(obj.brightnessDistribution, LightColorEventBox.default.r);
-    obj.brightnessDistributionType = fixInt(obj.brightnessDistributionType, LightColorEventBox.default.t, [1, 2]);
-    obj.affectFirst = fixInt<ILightColorEventBox['b']>(obj.affectFirst, LightColorEventBox.default.b, [0, 1]);
+    obj.beatDistributionType = fixInt(
+        obj.beatDistributionType,
+        LightColorEventBox.default.d,
+        [1, 2],
+    );
+    obj.brightnessDistribution = fixFloat(
+        obj.brightnessDistribution,
+        LightColorEventBox.default.r,
+    );
+    obj.brightnessDistributionType = fixInt(
+        obj.brightnessDistributionType,
+        LightColorEventBox.default.t,
+        [1, 2],
+    );
+    obj.affectFirst = fixInt<ILightColorEventBox['b']>(
+        obj.affectFirst,
+        LightColorEventBox.default.b,
+        [0, 1],
+    );
     obj.events.forEach(fixLightColorBase);
 }
 
@@ -203,13 +226,35 @@ function fixLightRotationBase(obj: LightRotationBase) {
 
 function fixLightRotationEventBox(obj: LightRotationEventBox) {
     fixIndexFilter(obj.filter);
-    obj.beatDistribution = fixFloat(obj.beatDistribution, LightRotationEventBox.default.w);
-    obj.beatDistributionType = fixInt(obj.beatDistributionType, LightRotationEventBox.default.d, [1, 2]);
-    obj.rotationDistribution = fixFloat(obj.rotationDistribution, LightRotationEventBox.default.s);
-    obj.rotationDistributionType = fixInt(obj.rotationDistributionType, LightRotationEventBox.default.t, [1, 2]);
-    obj.axis = fixInt(obj.axis, LightRotationEventBox.default.a, [0, 1]);
-    obj.flip = fixInt<ILightRotationEventBox['r']>(obj.flip, LightRotationEventBox.default.r, [0, 1]);
-    obj.affectFirst = fixInt<ILightRotationEventBox['b']>(obj.affectFirst, LightRotationEventBox.default.b, [0, 1]);
+    obj.beatDistribution = fixFloat(
+        obj.beatDistribution,
+        LightRotationEventBox.default.w,
+    );
+    obj.beatDistributionType = fixInt(
+        obj.beatDistributionType,
+        LightRotationEventBox.default.d,
+        [1, 2],
+    );
+    obj.rotationDistribution = fixFloat(
+        obj.rotationDistribution,
+        LightRotationEventBox.default.s,
+    );
+    obj.rotationDistributionType = fixInt(
+        obj.rotationDistributionType,
+        LightRotationEventBox.default.t,
+        [1, 2],
+    );
+    obj.axis = fixInt(obj.axis, LightRotationEventBox.default.a, [0, 2]);
+    obj.flip = fixInt<ILightRotationEventBox['r']>(
+        obj.flip,
+        LightRotationEventBox.default.r,
+        [0, 1],
+    );
+    obj.affectFirst = fixInt<ILightRotationEventBox['b']>(
+        obj.affectFirst,
+        LightRotationEventBox.default.b,
+        [0, 1],
+    );
     obj.events.forEach(fixLightRotationBase);
 }
 
@@ -219,8 +264,57 @@ function fixLightRotationEventBoxGroup(obj: LightRotationEventBoxGroup) {
     obj.events.forEach(fixLightRotationEventBox);
 }
 
+function fixLightTranslationBase(obj: LightTranslationBase) {
+    obj.time = fixFloat(obj.time, LightTranslationBase.default.b);
+    obj.previous = fixInt(obj.previous, LightTranslationBase.default.p, [0, 1]);
+    obj.easing = fixInt(obj.easing, LightTranslationBase.default.e, [-1, 0, 1, 2, 3]);
+    obj.translation = fixFloat(obj.translation, LightTranslationBase.default.t);
+}
+
+function fixLightTranslationEventBox(obj: LightTranslationEventBox) {
+    fixIndexFilter(obj.filter);
+    obj.beatDistribution = fixFloat(
+        obj.beatDistribution,
+        LightTranslationEventBox.default.w,
+    );
+    obj.beatDistributionType = fixInt(
+        obj.beatDistributionType,
+        LightTranslationEventBox.default.d,
+        [1, 2],
+    );
+    obj.translationDistribution = fixFloat(
+        obj.translationDistribution,
+        LightTranslationEventBox.default.s,
+    );
+    obj.translationDistributionType = fixInt(
+        obj.translationDistributionType,
+        LightTranslationEventBox.default.t,
+        [1, 2],
+    );
+    obj.axis = fixInt(obj.axis, LightTranslationEventBox.default.a, [0, 2]);
+    obj.flip = fixInt<ILightTranslationEventBox['r']>(
+        obj.flip,
+        LightTranslationEventBox.default.r,
+        [0, 1],
+    );
+    obj.affectFirst = fixInt<ILightTranslationEventBox['b']>(
+        obj.affectFirst,
+        LightTranslationEventBox.default.b,
+        [0, 1],
+    );
+    obj.events.forEach(fixLightTranslationBase);
+}
+
+function fixLightTranslationEventBoxGroup(obj: LightTranslationEventBoxGroup) {
+    obj.time = fixFloat(obj.time, LightTranslationEventBoxGroup.default.b);
+    obj.id = fixInt(obj.id, LightTranslationEventBoxGroup.default.g);
+    obj.events.forEach(fixLightTranslationEventBox);
+}
+
 export function v3(data: Difficulty) {
-    logger.info('[patch::dataCorrection::difficulty::v3] Verifying and correcting data type for beatmap v3...');
+    logger.info(
+        '[patch::dataCorrection::difficulty::v3] Verifying and correcting data type for beatmap v3...',
+    );
 
     data.bpmEvents.forEach(fixBPMEvent);
     data.rotationEvents.forEach(fixRotationEvent);
@@ -238,5 +332,8 @@ export function v3(data: Difficulty) {
     data.colorBoostEvents.forEach(fixColorBoostEvent);
     data.lightColorEventBoxGroups.forEach(fixLightColorEventBoxGroup);
     data.lightRotationEventBoxGroups.forEach(fixLightRotationEventBoxGroup);
-    data.useNormalEventsAsCompatibleEvents = fixBoolean(data.useNormalEventsAsCompatibleEvents);
+    data.lightTranslationEventBoxGroups.forEach(fixLightTranslationEventBoxGroup);
+    data.useNormalEventsAsCompatibleEvents = fixBoolean(
+        data.useNormalEventsAsCompatibleEvents,
+    );
 }

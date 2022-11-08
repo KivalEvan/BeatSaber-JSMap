@@ -6,19 +6,27 @@ import { WrapEventBox } from './eventBox.ts';
 export abstract class WrapLightColorEventBox<T extends Record<keyof T, unknown>> extends WrapEventBox<T>
     implements IWrapLightColorEventBox {
     abstract get brightnessDistribution(): IWrapLightColorEventBox['brightnessDistribution'];
-    abstract set brightnessDistribution(value: IWrapLightColorEventBox['brightnessDistribution']);
+    abstract set brightnessDistribution(
+        value: IWrapLightColorEventBox['brightnessDistribution'],
+    );
     abstract get brightnessDistributionType(): IWrapLightColorEventBox['brightnessDistributionType'];
-    abstract set brightnessDistributionType(value: IWrapLightColorEventBox['brightnessDistributionType']);
+    abstract set brightnessDistributionType(
+        value: IWrapLightColorEventBox['brightnessDistributionType'],
+    );
     abstract get affectFirst(): IWrapLightColorEventBox['affectFirst'];
     abstract set affectFirst(value: IWrapLightColorEventBox['affectFirst']);
     abstract get events(): IWrapLightColorBase[];
     abstract set events(value: IWrapLightColorBase[]);
 
-    setBrightnessDistribution(value: IWrapLightColorEventBox['brightnessDistribution']) {
+    setBrightnessDistribution(
+        value: IWrapLightColorEventBox['brightnessDistribution'],
+    ) {
         this.brightnessDistribution = value;
         return this;
     }
-    setBrightnessDistributionType(value: IWrapLightColorEventBox['brightnessDistributionType']) {
+    setBrightnessDistributionType(
+        value: IWrapLightColorEventBox['brightnessDistributionType'],
+    ) {
         this.brightnessDistributionType = value;
         return this;
     }
@@ -31,7 +39,8 @@ export abstract class WrapLightColorEventBox<T extends Record<keyof T, unknown>>
     isValid(): boolean {
         return (
             super.isValid() &&
-            (this.brightnessDistributionType === 1 || this.brightnessDistributionType === 2) &&
+            (this.brightnessDistributionType === 1 ||
+                this.brightnessDistributionType === 2) &&
             (this.affectFirst === 0 || this.affectFirst === 1)
         );
     }

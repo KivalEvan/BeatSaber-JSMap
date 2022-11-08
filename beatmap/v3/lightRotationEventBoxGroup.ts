@@ -4,8 +4,10 @@ import { LightRotationEventBox } from './lightRotationEventBox.ts';
 import { WrapLightRotationEventBoxGroup } from '../wrapper/lightRotationEventBoxGroup.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
-/** Light rotation event box group beatmap v3 class object. */
-export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<Required<ILightRotationEventBoxGroup>> {
+/** Light translation event box group beatmap v3 class object. */
+export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
+    Required<ILightRotationEventBoxGroup>
+> {
     static default: ObjectReturnFn<Required<ILightRotationEventBoxGroup>> = {
         b: 0,
         g: 0,
@@ -22,16 +24,22 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<R
     }
 
     static create(): LightRotationEventBoxGroup[];
-    static create(...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]): LightRotationEventBoxGroup[];
-    static create(...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]): LightRotationEventBoxGroup[] {
+    static create(
+        ...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]
+    ): LightRotationEventBoxGroup[];
+    static create(
+        ...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]
+    ): LightRotationEventBoxGroup[] {
         const result: LightRotationEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
             result.push(
                 new this({
                     b: ebg.b ?? LightRotationEventBoxGroup.default.b,
                     g: ebg.g ?? LightRotationEventBoxGroup.default.g,
-                    e: (ebg as Required<ILightRotationEventBoxGroup>).e ?? LightRotationEventBoxGroup.default.e(),
-                    customData: ebg.customData ?? LightRotationEventBoxGroup.default.customData(),
+                    e: (ebg as Required<ILightRotationEventBoxGroup>).e ??
+                        LightRotationEventBoxGroup.default.e(),
+                    customData: ebg.customData ??
+                        LightRotationEventBoxGroup.default.customData(),
                 }),
             )
         );

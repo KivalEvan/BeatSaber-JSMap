@@ -7,6 +7,7 @@ import { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEven
 import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 import { IWrapLightColorEventBoxGroup } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
 import { IWrapLightRotationEventBoxGroup } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
+import { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 import { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
 import { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
 import { IWrapSlider } from '../../types/beatmap/wrapper/slider.ts';
@@ -20,7 +21,9 @@ import { Version } from '../../types/beatmap/shared/version.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
 /** Difficulty beatmap class object. */
-export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends WrapBaseItem<T> {
+export abstract class WrapDifficulty<
+    T extends Record<keyof T, unknown>,
+> extends WrapBaseItem<T> {
     private _fileName = 'UnnamedDifficulty.dat';
 
     abstract version: Version;
@@ -36,6 +39,7 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
     abstract colorBoostEvents: IWrapColorBoostEvent[];
     abstract lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
     abstract lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
+    abstract lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
     abstract basicEventTypesWithKeywords: IWrapEventTypesWithKeywords;
     abstract useNormalEventsAsCompatibleEvents: boolean;
     abstract customData: ICustomDataBase;
@@ -83,7 +87,10 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
             while (notes[i].data.time - notes[currentSectionStart].data.time > beat) {
                 currentSectionStart++;
             }
-            peakNPS = Math.max(peakNPS, (i - currentSectionStart + 1) / bpm.toRealTime(beat));
+            peakNPS = Math.max(
+                peakNPS,
+                (i - currentSectionStart + 1) / bpm.toRealTime(beat),
+            );
         }
 
         return peakNPS;
@@ -142,7 +149,10 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
         let obstacleEnd = 0;
         for (let i = this.obstacles.length - 1; i >= 0; i--) {
             if (this.obstacles[i].isInteractive()) {
-                obstacleEnd = Math.max(obstacleEnd, this.obstacles[i].time + this.obstacles[i].duration);
+                obstacleEnd = Math.max(
+                    obstacleEnd,
+                    this.obstacles[i].time + this.obstacles[i].duration,
+                );
             }
         }
         return obstacleEnd;
@@ -183,7 +193,13 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
     abstract addBurstSliders(...burstSliders: Partial<IWrapBurstSlider>[]): void;
     abstract addWaypoints(...waypoints: Partial<IWrapWaypoint>[]): void;
     abstract addBasicEvents(...basicEvents: Partial<IWrapEvent>[]): void;
-    abstract addColorBoostEvents(...colorBoostEvents: Partial<IWrapColorBoostEvent>[]): void;
-    abstract addLightColorEventBoxGroups(...lightColorEBGs: DeepPartial<IWrapLightColorEventBoxGroup>[]): void;
-    abstract addLightRotationEventBoxGroups(...lightRotationEBGs: DeepPartial<IWrapLightRotationEventBoxGroup>[]): void;
+    abstract addColorBoostEvents(
+        ...colorBoostEvents: Partial<IWrapColorBoostEvent>[]
+    ): void;
+    abstract addLightColorEventBoxGroups(
+        ...lightColorEBGs: DeepPartial<IWrapLightColorEventBoxGroup>[]
+    ): void;
+    abstract addLightRotationEventBoxGroups(
+        ...lightRotationEBGs: DeepPartial<IWrapLightRotationEventBoxGroup>[]
+    ): void;
 }

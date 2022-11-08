@@ -11,6 +11,8 @@ export abstract class WrapEventBox<T extends Record<keyof T, unknown>> extends W
     abstract set beatDistribution(value: IWrapEventBox['beatDistribution']);
     abstract get beatDistributionType(): IWrapEventBox['beatDistributionType'];
     abstract set beatDistributionType(value: IWrapEventBox['beatDistributionType']);
+    abstract get easing(): IWrapEventBox['easing'];
+    abstract set easing(value: IWrapEventBox['easing']);
 
     setFilter(value: IWrapIndexFilter) {
         this.filter = value;
@@ -22,6 +24,10 @@ export abstract class WrapEventBox<T extends Record<keyof T, unknown>> extends W
     }
     setBeatDistributionType(value: IWrapEventBox['beatDistributionType']) {
         this.beatDistributionType = value;
+        return this;
+    }
+    setEasing(value: IWrapEventBox['easing']) {
+        this.easing = value;
         return this;
     }
 

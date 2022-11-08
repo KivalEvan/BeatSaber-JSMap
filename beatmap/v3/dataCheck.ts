@@ -15,6 +15,9 @@ import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEvent
 import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
 import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
 import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
+import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
+import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
+import { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
 import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
 import { ISlider } from '../../types/beatmap/v3/slider.ts';
@@ -433,6 +436,11 @@ export const LightColorEventBoxDataCheck: Record<keyof ILightColorEventBox, Data
         int: true,
         version: '3.0.0',
     },
+    i: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
     customData: {
         type: 'object',
         version: '3.0.0',
@@ -441,7 +449,10 @@ export const LightColorEventBoxDataCheck: Record<keyof ILightColorEventBox, Data
     },
 } as const;
 
-export const LightColorEventBoxGroupDataCheck: Record<keyof ILightColorEventBoxGroup, DataCheck> = {
+export const LightColorEventBoxGroupDataCheck: Record<
+    keyof ILightColorEventBoxGroup,
+    DataCheck
+> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -500,7 +511,10 @@ export const LightRotationBaseDataCheck: Record<keyof ILightRotationBase, DataCh
     },
 } as const;
 
-export const LightRotationEventBoxDataCheck: Record<keyof ILightRotationEventBox, DataCheck> = {
+export const LightRotationEventBoxDataCheck: Record<
+    keyof ILightRotationEventBox,
+    DataCheck
+> = {
     f: {
         type: 'object',
         version: '3.0.0',
@@ -544,6 +558,11 @@ export const LightRotationEventBoxDataCheck: Record<keyof ILightRotationEventBox
         int: true,
         version: '3.0.0',
     },
+    i: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
     customData: {
         type: 'object',
         version: '3.0.0',
@@ -552,7 +571,10 @@ export const LightRotationEventBoxDataCheck: Record<keyof ILightRotationEventBox
     },
 } as const;
 
-export const LightRotationEventBoxGroupDataCheck: Record<keyof ILightRotationEventBoxGroup, DataCheck> = {
+export const LightRotationEventBoxGroupDataCheck: Record<
+    keyof ILightRotationEventBoxGroup,
+    DataCheck
+> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -575,7 +597,126 @@ export const LightRotationEventBoxGroupDataCheck: Record<keyof ILightRotationEve
     },
 } as const;
 
-export const BasicEventTypesForKeywordsDataCheck: Record<keyof IBasicEventTypesForKeywords, DataCheck> = {
+export const LightTranslationBaseDataCheck: Record<
+    keyof ILightTranslationBase,
+    DataCheck
+> = {
+    b: {
+        type: 'number',
+        version: '3.2.0',
+    },
+    p: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    e: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    t: {
+        type: 'number',
+        version: '3.2.0',
+    },
+    customData: {
+        type: 'object',
+        version: '3.0.0',
+        check: {},
+        optional: true,
+    },
+} as const;
+
+export const LightTranslationEventBoxDataCheck: Record<
+    keyof ILightTranslationEventBox,
+    DataCheck
+> = {
+    f: {
+        type: 'object',
+        version: '3.2.0',
+        check: IndexFilterDataCheck,
+    },
+    w: {
+        type: 'number',
+        version: '3.2.0',
+    },
+    d: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    s: {
+        type: 'number',
+        version: '3.2.0',
+    },
+    t: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    a: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    l: {
+        type: 'array',
+        version: '3.2.0',
+        check: LightTranslationBaseDataCheck,
+    },
+    r: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    b: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    i: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    customData: {
+        type: 'object',
+        version: '3.0.0',
+        check: {},
+        optional: true,
+    },
+} as const;
+
+export const LightTranslationEventBoxGroupDataCheck: Record<
+    keyof ILightTranslationEventBoxGroup,
+    DataCheck
+> = {
+    b: {
+        type: 'number',
+        version: '3.2.0',
+    },
+    g: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    e: {
+        type: 'array',
+        version: '3.2.0',
+        check: LightTranslationEventBoxDataCheck,
+    },
+    customData: {
+        type: 'object',
+        version: '3.2.0',
+        check: {},
+        optional: true,
+    },
+} as const;
+
+export const BasicEventTypesForKeywordsDataCheck: Record<
+    keyof IBasicEventTypesForKeywords,
+    DataCheck
+> = {
     k: {
         type: 'string',
         version: '3.0.0',
@@ -587,7 +728,10 @@ export const BasicEventTypesForKeywordsDataCheck: Record<keyof IBasicEventTypesF
     },
 } as const;
 
-export const BasicEventTypesWithKeywordsDataCheck: Record<keyof IBasicEventTypesWithKeywords, DataCheck> = {
+export const BasicEventTypesWithKeywordsDataCheck: Record<
+    keyof IBasicEventTypesWithKeywords,
+    DataCheck
+> = {
     d: {
         type: 'array',
         version: '3.0.0',
@@ -699,6 +843,12 @@ export const DifficultyCheck: Record<keyof IDifficulty, DataCheck> = {
         type: 'array',
         version: '3.0.0',
         check: LightRotationEventBoxGroupDataCheck,
+        optional: true,
+    },
+    lightTranslationEventBoxGroups: {
+        type: 'array',
+        version: '3.2.0',
+        check: LightTranslationEventBoxGroupDataCheck,
         optional: true,
     },
     basicEventTypesWithKeywords: {

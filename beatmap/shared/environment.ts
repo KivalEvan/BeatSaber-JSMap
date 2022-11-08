@@ -30,12 +30,15 @@ export const EnvironmentRename: { [key in EnvironmentAllName]: string } = {
     EDMEnvironment: 'EDM',
     TheSecondEnvironment: 'The Second',
     LizzoEnvironment: 'Lizzo',
+    TheWeekndEnvironment: 'The Weeknd',
     GlassDesertEnvironment: 'Glass Desert',
 } as const;
 
 /** List of available event type in environment. */
 export const EventList: {
-    [key in EnvironmentAllName]: Readonly<[ReadonlyArray<number>, ReadonlyArray<number>]>;
+    [key in EnvironmentAllName]: Readonly<
+        [ReadonlyArray<number>, ReadonlyArray<number>]
+    >;
 } = {
     DefaultEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
     OriginsEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
@@ -77,5 +80,45 @@ export const EventList: {
     LizzoEnvironment: [
         [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 16, 17],
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+    ],
+    TheWeekndEnvironment: [
+        [0, 1, 6],
+        [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            38,
+            39,
+            40,
+        ],
     ],
 } as const;
