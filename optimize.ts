@@ -1,7 +1,11 @@
 import { IInfo } from './types/beatmap/shared/info.ts';
 import { IDifficulty as DifficultyV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficulty as DifficultyV3 } from './types/beatmap/v3/difficulty.ts';
-import { IOptimizeOptions, IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './types/bsmap/optimize.ts';
+import {
+    IOptimizeOptions,
+    IOptimizeOptionsDifficulty,
+    IOptimizeOptionsInfo,
+} from './types/bsmap/optimize.ts';
 import { Either } from './types/utils.ts';
 import { round } from './utils/math.ts';
 import logger from './logger.ts';
@@ -52,6 +56,7 @@ const ignoreObjectRemove = [
     'colorBoostBeatmapEvents',
     'lightColorEventBoxGroups',
     'lightRotationEventBoxGroups',
+    'lightTranslationEventBoxGroups',
     'basicEventTypesWithKeywords',
     'useNormalEventsAsCompatibleEvents',
     'd',
@@ -60,7 +65,7 @@ export function deepClean(
     // deno-lint-ignore no-explicit-any
     obj: { [key: string | number]: any } | any[],
     options: IOptimizeOptions,
-    name = '',
+    name = ''
 ) {
     for (const k in obj) {
         // shorten number
@@ -88,7 +93,9 @@ export function deepClean(
         if (
             !ignoreObjectRemove.includes(k) &&
             ((Array.isArray(obj[k]) && !obj[k].length) ||
-                (typeof obj[k] === 'object' && !Array.isArray(obj[k]) && JSON.stringify(obj[k]) === '{}'))
+                (typeof obj[k] === 'object' &&
+                    !Array.isArray(obj[k]) &&
+                    JSON.stringify(obj[k]) === '{}'))
         ) {
             delete obj[k];
             continue;
@@ -99,10 +106,16 @@ export function deepClean(
                 throw new Error(`null value found in object key ${name}.${k}.`);
             } else {
                 if (Array.isArray(obj)) {
-                    logger.error(tag('deepClean'), `null value found in array ${name}[${k}], defaulting to 0...`);
+                    logger.error(
+                        tag('deepClean'),
+                        `null value found in array ${name}[${k}], defaulting to 0...`
+                    );
                     obj[k] = 0;
                 } else {
-                    logger.error(tag('deepClean'), `null value found in object key ${name}.${k}, deleting property...`);
+                    logger.error(
+                        tag('deepClean'),
+                        `null value found in object key ${name}.${k}, deleting property...`
+                    );
                     delete obj[k];
                 }
             }
@@ -131,7 +144,7 @@ export function info(info: IInfo, options: IOptimizeOptionsInfo = { enabled: tru
 
 export function difficulty(
     difficulty: Either<DifficultyV2, DifficultyV3>,
-    options: IOptimizeOptionsDifficulty = { enabled: true },
+    options: IOptimizeOptionsDifficulty = { enabled: true }
 ) {
     const opt: Required<IOptimizeOptionsDifficulty> = {
         enabled: options.enabled,
@@ -156,7 +169,7 @@ export function difficulty(
         const sortV3Note = (a: IGridObject, b: IGridObject) => {
             if (a.customData?.coordinates && b.customData?.coordinates) {
                 Math.round((a.b + Number.EPSILON) * sortPrec) / sortPrec -
-                        Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||
+                    Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||
                     a.customData.coordinates[0] - b.customData.coordinates[0] ||
                     a.customData.coordinates[1] - b.customData.coordinates[1];
             }
@@ -172,7 +185,7 @@ export function difficulty(
                 Math.round((a._time + Number.EPSILON) * sortPrec) / sortPrec -
                     Math.round((b._time + Number.EPSILON) * sortPrec) / sortPrec ||
                 a._lineIndex - b._lineIndex ||
-                a._lineLayer - b._lineLayer,
+                a._lineLayer - b._lineLayer
         );
         difficulty._obstacles?.sort((a, b) => a._time - b._time);
         difficulty._events?.sort((a, b) => a._time - b._time);
