@@ -4,7 +4,8 @@ import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
 
 /** Event beatmap class object. */
-export abstract class WrapEvent<T extends Record<keyof T, unknown>> extends WrapBaseObject<T> implements IWrapEvent {
+export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>> extends WrapBaseObject<T>
+    implements IWrapEvent<T> {
     abstract get type(): IWrapEvent['type'];
     abstract set type(value: IWrapEvent['type']);
     abstract get value(): IWrapEvent['value'];
@@ -46,15 +47,24 @@ export abstract class WrapEvent<T extends Record<keyof T, unknown>> extends Wrap
     }
 
     isBlue(): boolean {
-        return this.value === 1 || this.value === 2 || this.value === 3 || this.value === 4;
+        return (
+            this.value === 1 || this.value === 2 || this.value === 3 || this.value === 4
+        );
     }
 
     isRed(): boolean {
-        return this.value === 5 || this.value === 6 || this.value === 7 || this.value === 8;
+        return (
+            this.value === 5 || this.value === 6 || this.value === 7 || this.value === 8
+        );
     }
 
     isWhite(): boolean {
-        return this.value === 9 || this.value === 10 || this.value === 11 || this.value === 12;
+        return (
+            this.value === 9 ||
+            this.value === 10 ||
+            this.value === 11 ||
+            this.value === 12
+        );
     }
 
     isLightEvent(environment?: EnvironmentAllName): boolean {
@@ -116,11 +126,15 @@ export abstract class WrapEvent<T extends Record<keyof T, unknown>> extends Wrap
     }
 
     isExtraEvent(environment?: EnvironmentAllName): boolean {
-        return this.type === 16 || this.type === 17 || this.type === 18 || this.type === 19;
+        return (
+            this.type === 16 || this.type === 17 || this.type === 18 || this.type === 19
+        );
     }
 
     isSpecialEvent(environment?: EnvironmentAllName): boolean {
-        return this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43;
+        return (
+            this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43
+        );
     }
 
     isBPMChangeEvent(): boolean {
@@ -143,7 +157,11 @@ export abstract class WrapEvent<T extends Record<keyof T, unknown>> extends Wrap
     abstract isChroma(): boolean;
 
     isValidType(): boolean {
-        return (this.type >= 0 && this.type <= 19) || (this.type >= 40 && this.type <= 43) || this.type === 100;
+        return (
+            (this.type >= 0 && this.type <= 19) ||
+            (this.type >= 40 && this.type <= 43) ||
+            this.type === 100
+        );
     }
 
     isValid(): boolean {

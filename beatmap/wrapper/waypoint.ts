@@ -4,7 +4,7 @@ import { WrapGridObject } from './gridObject.ts';
 
 /** Waypoint beatmap class object. */
 export abstract class WrapWaypoint<T extends Record<keyof T, unknown>> extends WrapGridObject<T>
-    implements IWrapWaypoint {
+    implements IWrapWaypoint<T> {
     abstract get direction(): IWrapWaypoint['direction'];
     abstract set direction(value: IWrapWaypoint['direction']);
 
@@ -39,6 +39,8 @@ export abstract class WrapWaypoint<T extends Record<keyof T, unknown>> extends W
     }
 
     isValid(): boolean {
-        return this.direction >= 0 && this.direction <= 9 && this.direction !== (8 as 0);
+        return (
+            this.direction >= 0 && this.direction <= 9 && this.direction !== (8 as 0)
+        );
     }
 }

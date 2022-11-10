@@ -1,3 +1,5 @@
+import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
 import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -7,7 +9,9 @@ import { LightRotationBase } from './lightRotationBase.ts';
 
 /** Light rotation event box beatmap v3 class object. */
 export class LightRotationEventBox extends WrapLightRotationEventBox<
-    Required<ILightRotationEventBox>
+    Required<ILightRotationEventBox>,
+    Required<ILightRotationBase>,
+    Required<IIndexFilter>
 > {
     static default: ObjectReturnFn<Required<ILightRotationEventBox>> = {
         f: () => {
@@ -45,7 +49,8 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
         this._l = lightRotationEventBox.l.map((l) => LightRotationBase.create(l)[0]);
         const lastTime = Math.max(...this._l.map((l) => l.time));
         if (this.beatDistributionType === 2) {
-            this.beatDistribution = this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
+            this.beatDistribution =
+                this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
         }
     }
 
@@ -70,8 +75,9 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
                     b: eb.b ?? LightRotationEventBox.default.b,
                     i: eb.i ?? LightRotationEventBox.default.i,
                     l: eb.l ?? LightRotationEventBox.default.l(),
-                    customData: eb.customData ?? LightRotationEventBox.default.customData(),
-                }),
+                    customData:
+                        eb.customData ?? LightRotationEventBox.default.customData(),
+                })
             )
         );
         if (result.length) {

@@ -4,7 +4,7 @@ import { WrapBaseNote } from './baseNote.ts';
 
 /** Color note beatmap class object. */
 export abstract class WrapColorNote<T extends Record<keyof T, unknown>> extends WrapBaseNote<T>
-    implements IWrapColorNote {
+    implements IWrapColorNote<T> {
     abstract get type(): IWrapColorNote['type'];
     abstract set type(value: IWrapColorNote['type']);
     abstract get angleOffset(): IWrapColorNote['angleOffset'];
@@ -45,19 +45,31 @@ export abstract class WrapColorNote<T extends Record<keyof T, unknown>> extends 
     getAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':
-                return (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) + this.angleOffset;
+                return (
+                    (NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0) + this.angleOffset
+                );
             case 'me':
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
             /* falls through */
             case 'ne':
-                return (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) + this.angleOffset;
+                return (
+                    (NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0) + this.angleOffset
+                );
             default:
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
-                return (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) + this.angleOffset;
+                return (
+                    (NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0) + this.angleOffset
+                );
         }
     }
 

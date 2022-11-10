@@ -1,3 +1,5 @@
+import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -7,7 +9,9 @@ import { LightColorBase } from './lightColorBase.ts';
 
 /** Light color event box beatmap v3 class object. */
 export class LightColorEventBox extends WrapLightColorEventBox<
-    Required<ILightColorEventBox>
+    Required<ILightColorEventBox>,
+    Required<ILightColorBase>,
+    Required<IIndexFilter>
 > {
     static default: ObjectReturnFn<Required<ILightColorEventBox>> = {
         f: () => {
@@ -43,7 +47,8 @@ export class LightColorEventBox extends WrapLightColorEventBox<
         this._e = lightColorEventBox.e.map((e) => LightColorBase.create(e)[0]);
         const lastTime = Math.max(...this._e.map((e) => e.time));
         if (this.beatDistributionType === 2) {
-            this.beatDistribution = this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
+            this.beatDistribution =
+                this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
         }
     }
 
@@ -58,7 +63,8 @@ export class LightColorEventBox extends WrapLightColorEventBox<
         eventBoxes?.forEach((eb) =>
             result.push(
                 new this({
-                    f: (eb as Required<ILightColorEventBox>).f ??
+                    f:
+                        (eb as Required<ILightColorEventBox>).f ??
                         LightColorEventBox.default.f(),
                     w: eb.w ?? LightColorEventBox.default.w,
                     d: eb.d ?? LightColorEventBox.default.d,
@@ -66,10 +72,12 @@ export class LightColorEventBox extends WrapLightColorEventBox<
                     t: eb.t ?? LightColorEventBox.default.t,
                     b: eb.b ?? LightColorEventBox.default.b,
                     i: eb.i ?? LightColorEventBox.default.i,
-                    e: (eb as Required<ILightColorEventBox>).e ??
+                    e:
+                        (eb as Required<ILightColorEventBox>).e ??
                         LightColorEventBox.default.e(),
-                    customData: eb.customData ?? LightColorEventBox.default.customData(),
-                }),
+                    customData:
+                        eb.customData ?? LightColorEventBox.default.customData(),
+                })
             )
         );
         if (result.length) {
@@ -153,7 +161,7 @@ export class LightColorEventBox extends WrapLightColorEventBox<
         this.data.i = value;
     }
 
-    get events() {
+    get events(): LightColorBase[] {
         return this._e;
     }
     set events(value: LightColorBase[]) {

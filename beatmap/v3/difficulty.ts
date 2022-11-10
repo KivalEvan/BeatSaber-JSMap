@@ -31,10 +31,13 @@ import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEvent
 import { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { GenericFileName } from '../../types/beatmap/shared/info.ts';
-import { EventContainer, NoteContainer } from '../../types/beatmap/wrapper/container.ts';
+import {
+    EventContainer,
+    NoteContainer,
+} from '../../types/beatmap/wrapper/container.ts';
 
 /** Difficulty beatmap v3 class object. */
-export class Difficulty extends Serializable<IDifficulty> {
+export class Difficulty extends Serializable<Required<IDifficulty>> {
     private _fileName = 'UnnamedDifficulty.dat';
 
     version;
@@ -58,32 +61,40 @@ export class Difficulty extends Serializable<IDifficulty> {
         super(data);
         this.version = '3.2.0';
         this.bpmEvents = data.bpmEvents?.map((obj) => BPMEvent.create(obj)[0]) ?? [];
-        this.rotationEvents = data.rotationEvents?.map((obj) => RotationEvent.create(obj)[0]) ?? [];
+        this.rotationEvents =
+            data.rotationEvents?.map((obj) => RotationEvent.create(obj)[0]) ?? [];
         this.colorNotes = data.colorNotes?.map((obj) => ColorNote.create(obj)[0]) ?? [];
         this.bombNotes = data.bombNotes?.map((obj) => BombNote.create(obj)[0]) ?? [];
         this.obstacles = data.obstacles?.map((obj) => Obstacle.create(obj)[0]) ?? [];
         this.sliders = data.sliders?.map((obj) => Slider.create(obj)[0]) ?? [];
-        this.burstSliders = data.burstSliders?.map((obj) => BurstSlider.create(obj)[0]) ?? [];
+        this.burstSliders =
+            data.burstSliders?.map((obj) => BurstSlider.create(obj)[0]) ?? [];
         this.waypoints = data.waypoints?.map((obj) => Waypoint.create(obj)[0]) ?? [];
-        this.basicEvents = data.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)[0]) ?? [];
-        this.colorBoostEvents = data.colorBoostBeatmapEvents?.map(
-            (obj) => ColorBoostEvent.create(obj)[0],
-        ) ?? [];
-        this.lightColorEventBoxGroups = data.lightColorEventBoxGroups?.map(
-            (obj) => LightColorEventBoxGroup.create(obj)[0],
-        ) ?? [];
-        this.lightRotationEventBoxGroups = data.lightRotationEventBoxGroups?.map(
-            (obj) => LightRotationEventBoxGroup.create(obj)[0],
-        ) ?? [];
-        this.lightTranslationEventBoxGroups = data.lightTranslationEventBoxGroups?.map(
-            (obj) => LightTranslationEventBoxGroup.create(obj)[0],
-        ) ?? [];
+        this.basicEvents =
+            data.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)[0]) ?? [];
+        this.colorBoostEvents =
+            data.colorBoostBeatmapEvents?.map(
+                (obj) => ColorBoostEvent.create(obj)[0]
+            ) ?? [];
+        this.lightColorEventBoxGroups =
+            data.lightColorEventBoxGroups?.map(
+                (obj) => LightColorEventBoxGroup.create(obj)[0]
+            ) ?? [];
+        this.lightRotationEventBoxGroups =
+            data.lightRotationEventBoxGroups?.map(
+                (obj) => LightRotationEventBoxGroup.create(obj)[0]
+            ) ?? [];
+        this.lightTranslationEventBoxGroups =
+            data.lightTranslationEventBoxGroups?.map(
+                (obj) => LightTranslationEventBoxGroup.create(obj)[0]
+            ) ?? [];
         this.basicEventTypesWithKeywords = BasicEventTypesWithKeywords.create(
-            data.basicEventTypesWithKeywords,
+            data.basicEventTypesWithKeywords
         ) ?? {
             d: [],
         };
-        this.useNormalEventsAsCompatibleEvents = data.useNormalEventsAsCompatibleEvents ?? false;
+        this.useNormalEventsAsCompatibleEvents =
+            data.useNormalEventsAsCompatibleEvents ?? false;
         this.customData = data.customData ?? {};
     }
 
@@ -106,7 +117,8 @@ export class Difficulty extends Serializable<IDifficulty> {
             basicEventTypesWithKeywords: data.basicEventTypesWithKeywords ?? {
                 d: [],
             },
-            useNormalEventsAsCompatibleEvents: data.useNormalEventsAsCompatibleEvents ?? false,
+            useNormalEventsAsCompatibleEvents:
+                data.useNormalEventsAsCompatibleEvents ?? false,
             customData: data.customData ?? {},
         });
     }
@@ -124,10 +136,14 @@ export class Difficulty extends Serializable<IDifficulty> {
             waypoints: this.waypoints.map((obj) => obj.toJSON()),
             basicBeatmapEvents: this.basicEvents.map((obj) => obj.toJSON()),
             colorBoostBeatmapEvents: this.colorBoostEvents.map((obj) => obj.toJSON()),
-            lightColorEventBoxGroups: this.lightColorEventBoxGroups.map((obj) => obj.toJSON()),
-            lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map((obj) => obj.toJSON()),
+            lightColorEventBoxGroups: this.lightColorEventBoxGroups.map((obj) =>
+                obj.toJSON()
+            ),
+            lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map((obj) =>
+                obj.toJSON()
+            ),
             lightTranslationEventBoxGroups: this.lightTranslationEventBoxGroups.map(
-                (obj) => obj.toJSON(),
+                (obj) => obj.toJSON()
             ),
             basicEventTypesWithKeywords: this.basicEventTypesWithKeywords.toJSON(),
             useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
@@ -180,7 +196,7 @@ export class Difficulty extends Serializable<IDifficulty> {
             }
             peakNPS = Math.max(
                 peakNPS,
-                (i - currentSectionStart + 1) / bpm.toRealTime(beat),
+                (i - currentSectionStart + 1) / bpm.toRealTime(beat)
             );
         }
 
@@ -242,7 +258,7 @@ export class Difficulty extends Serializable<IDifficulty> {
             if (this.obstacles[i].isInteractive()) {
                 obstacleEnd = Math.max(
                     obstacleEnd,
-                    this.obstacles[i].time + this.obstacles[i].duration,
+                    this.obstacles[i].time + this.obstacles[i].duration
                 );
             }
         }
@@ -277,54 +293,68 @@ export class Difficulty extends Serializable<IDifficulty> {
 
     addBPMEvents(...bpmEvents: Partial<IBPMEvent>[] | BPMEvent[]) {
         this.bpmEvents.push(
-            ...bpmEvents.map((bpme) => bpme instanceof BPMEvent ? bpme : BPMEvent.create(bpme)[0]),
+            ...bpmEvents.map((bpme) =>
+                bpme instanceof BPMEvent ? bpme : BPMEvent.create(bpme)[0]
+            )
         );
     }
     addRotationEvents(...rotationEvents: Partial<IRotationEvent>[] | RotationEvent[]) {
         this.rotationEvents.push(
-            ...rotationEvents.map((re) => re instanceof RotationEvent ? re : RotationEvent.create(re)[0]),
+            ...rotationEvents.map((re) =>
+                re instanceof RotationEvent ? re : RotationEvent.create(re)[0]
+            )
         );
     }
     addColorNotes(...colorNotes: Partial<IColorNote>[] | ColorNote[]) {
         this.colorNotes.push(
-            ...colorNotes.map((cn) => cn instanceof ColorNote ? cn : ColorNote.create(cn)[0]),
+            ...colorNotes.map((cn) =>
+                cn instanceof ColorNote ? cn : ColorNote.create(cn)[0]
+            )
         );
     }
     addBombNotes(...bombNotes: Partial<IBombNote>[] | BombNote[]) {
         this.bombNotes.push(
-            ...bombNotes.map((bn) => bn instanceof BombNote ? bn : BombNote.create(bn)[0]),
+            ...bombNotes.map((bn) =>
+                bn instanceof BombNote ? bn : BombNote.create(bn)[0]
+            )
         );
     }
     addObstacles(...obstacles: Partial<IObstacle>[] | Obstacle[]) {
         this.obstacles.push(
-            ...obstacles.map((o) => (o instanceof Obstacle ? o : Obstacle.create(o)[0])),
+            ...obstacles.map((o) => (o instanceof Obstacle ? o : Obstacle.create(o)[0]))
         );
     }
     addSliders(...sliders: Partial<ISlider>[] | Slider[]) {
         this.sliders.push(
-            ...sliders.map((s) => (s instanceof Slider ? s : Slider.create(s)[0])),
+            ...sliders.map((s) => (s instanceof Slider ? s : Slider.create(s)[0]))
         );
     }
     addBurstSliders(...burstSliders: Partial<IBurstSlider>[] | BurstSlider[]) {
         this.burstSliders.push(
-            ...burstSliders.map((bs) => bs instanceof BurstSlider ? bs : BurstSlider.create(bs)[0]),
+            ...burstSliders.map((bs) =>
+                bs instanceof BurstSlider ? bs : BurstSlider.create(bs)[0]
+            )
         );
     }
     addWaypoints(...waypoints: Partial<IWaypoint>[] | Waypoint[]) {
         this.waypoints.push(
-            ...waypoints.map((w) => (w instanceof Waypoint ? w : Waypoint.create(w)[0])),
+            ...waypoints.map((w) => (w instanceof Waypoint ? w : Waypoint.create(w)[0]))
         );
     }
     addBasicEvents(...basicEvents: Partial<IBasicEvent>[] | BasicEvent[]) {
         this.basicEvents.push(
-            ...basicEvents.map((be) => be instanceof BasicEvent ? be : BasicEvent.create(be)[0]),
+            ...basicEvents.map((be) =>
+                be instanceof BasicEvent ? be : BasicEvent.create(be)[0]
+            )
         );
     }
     addColorBoostEvents(
         ...colorBoostEvents: Partial<IColorBoostEvent>[] | ColorBoostEvent[]
     ) {
         this.colorBoostEvents.push(
-            ...colorBoostEvents.map((cbe) => cbe instanceof ColorBoostEvent ? cbe : ColorBoostEvent.create(cbe)[0]),
+            ...colorBoostEvents.map((cbe) =>
+                cbe instanceof ColorBoostEvent ? cbe : ColorBoostEvent.create(cbe)[0]
+            )
         );
     }
     addLightColorEventBoxGroups(
@@ -334,8 +364,10 @@ export class Difficulty extends Serializable<IDifficulty> {
     ) {
         this.lightColorEventBoxGroups.push(
             ...lightColorEBGs.map((lcebg) =>
-                lcebg instanceof LightColorEventBoxGroup ? lcebg : LightColorEventBoxGroup.create(lcebg)[0]
-            ),
+                lcebg instanceof LightColorEventBoxGroup
+                    ? lcebg
+                    : LightColorEventBoxGroup.create(lcebg)[0]
+            )
         );
     }
     addLightRotationEventBoxGroups(
@@ -345,8 +377,23 @@ export class Difficulty extends Serializable<IDifficulty> {
     ) {
         this.lightRotationEventBoxGroups.push(
             ...lightRotationEBGs.map((lrebg) =>
-                lrebg instanceof LightRotationEventBoxGroup ? lrebg : LightRotationEventBoxGroup.create(lrebg)[0]
-            ),
+                lrebg instanceof LightRotationEventBoxGroup
+                    ? lrebg
+                    : LightRotationEventBoxGroup.create(lrebg)[0]
+            )
+        );
+    }
+    addLightTranslationEventBoxGroups(
+        ...lightTranslationEBGs:
+            | DeepPartial<ILightTranslationEventBoxGroup>[]
+            | LightTranslationEventBoxGroup[]
+    ) {
+        this.lightTranslationEventBoxGroups.push(
+            ...lightTranslationEBGs.map((ltebg) =>
+                ltebg instanceof LightTranslationEventBoxGroup
+                    ? ltebg
+                    : LightTranslationEventBoxGroup.create(ltebg)[0]
+            )
         );
     }
 }

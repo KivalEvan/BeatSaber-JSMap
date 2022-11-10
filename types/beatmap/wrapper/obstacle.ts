@@ -1,6 +1,8 @@
 import { IWrapGridObject } from './gridObject.ts';
 
-export interface IWrapObstacle extends IWrapGridObject {
+export interface IWrapObstacle<
+    T extends Record<keyof T, unknown> = Record<string, unknown>,
+> extends IWrapGridObject<T> {
     /** Duration `<float>` of obstacle.*/
     duration: number;
     /** Width `<int>` of obstacle.

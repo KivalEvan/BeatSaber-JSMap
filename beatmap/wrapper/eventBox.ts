@@ -1,20 +1,28 @@
+import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 import { IWrapEventBox } from '../../types/beatmap/wrapper/eventBox.ts';
 import { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
 /** Base event box beatmap class object. */
-export abstract class WrapEventBox<T extends Record<keyof T, unknown>> extends WrapBaseItem<T>
-    implements IWrapEventBox {
-    abstract get filter(): IWrapIndexFilter;
-    abstract set filter(value: IWrapIndexFilter);
-    abstract get beatDistribution(): IWrapEventBox['beatDistribution'];
-    abstract set beatDistribution(value: IWrapEventBox['beatDistribution']);
-    abstract get beatDistributionType(): IWrapEventBox['beatDistributionType'];
-    abstract set beatDistributionType(value: IWrapEventBox['beatDistributionType']);
-    abstract get easing(): IWrapEventBox['easing'];
-    abstract set easing(value: IWrapEventBox['easing']);
+export abstract class WrapEventBox<
+    TBox extends Record<keyof TBox, unknown>,
+    TBase extends Record<keyof TBase, unknown>,
+    TFilter extends Record<keyof TFilter, unknown>,
+> extends WrapBaseItem<TBox> implements IWrapEventBox<TBox, TBase, TFilter> {
+    abstract get filter(): IWrapIndexFilter<TFilter>;
+    abstract set filter(value: IWrapIndexFilter<TFilter>);
+    abstract get beatDistribution(): IWrapEventBox<TBase>['beatDistribution'];
+    abstract set beatDistribution(value: IWrapEventBox<TBase>['beatDistribution']);
+    abstract get beatDistributionType(): IWrapEventBox<TBase>['beatDistributionType'];
+    abstract set beatDistributionType(
+        value: IWrapEventBox<TBase>['beatDistributionType'],
+    );
+    abstract get easing(): IWrapEventBox<TBase>['easing'];
+    abstract set easing(value: IWrapEventBox<TBase>['easing']);
+    abstract get events(): IWrapBaseObject<TBase>[];
+    abstract set events(val: IWrapBaseObject<TBase>[]);
 
-    setFilter(value: IWrapIndexFilter) {
+    setFilter(value: IWrapIndexFilter<TFilter>) {
         this.filter = value;
         return this;
     }
@@ -30,6 +38,7 @@ export abstract class WrapEventBox<T extends Record<keyof T, unknown>> extends W
         this.easing = value;
         return this;
     }
+    abstract setEvents(value: IWrapBaseObject<TBase>[]): this;
 
     isValid(): boolean {
         return this.beatDistributionType === 1 || this.beatDistributionType === 2;

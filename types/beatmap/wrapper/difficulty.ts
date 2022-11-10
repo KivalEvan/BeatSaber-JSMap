@@ -13,7 +13,9 @@ import { IWrapLightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts
 import { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
 import { IWrapBaseItem } from './baseItem.ts';
 
-export interface IDifficulty extends IWrapBaseItem {
+export interface IDifficulty<
+    T extends Record<keyof T, unknown> = Record<string, unknown>,
+> extends IWrapBaseItem<T> {
     version: `3.${0 | 1}.0`;
     bpmEvents: IWrapBPMEvent[];
     rotationEvents: IWrapRotationEvent[];

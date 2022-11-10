@@ -4,7 +4,7 @@ import { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
 
 /** Color note beatmap class object. */
 export abstract class WrapBaseNote<T extends Record<keyof T, unknown>> extends WrapGridObject<T>
-    implements IWrapBaseNote {
+    implements IWrapBaseNote<T> {
     abstract get color(): IWrapBaseNote['color'];
     abstract set color(value: IWrapBaseNote['color']);
     abstract get direction(): IWrapBaseNote['direction'];
@@ -64,19 +64,31 @@ export abstract class WrapBaseNote<T extends Record<keyof T, unknown>> extends W
     getAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
+                return (
+                    NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0
+                );
             case 'me':
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
             /* falls through */
             case 'ne':
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
+                return (
+                    NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0
+                );
             default:
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
+                return (
+                    NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0
+                );
         }
     }
 

@@ -1,6 +1,8 @@
-import { IWrapBaseItem } from './baseItem.ts';
+import { IWrapBaseObject } from './baseObject.ts';
 
-export interface IWrapLightTranslationBase extends IWrapBaseItem {
+export interface IWrapLightTranslationBase<
+    T extends Record<keyof T, unknown> = Record<string, unknown>,
+> extends IWrapBaseObject<T> {
     /** Relative beat time `<float>` to event box group. */
     time: number;
     /** Use previous event translation value `<int>` in light translation. */

@@ -6,7 +6,7 @@ import { IWrapBurstSlider } from '../../types/beatmap/wrapper/burstSlider.ts';
  * Also known as chain.
  */
 export abstract class WrapBurstSlider<T extends Record<keyof T, unknown>> extends WrapBaseSlider<T>
-    implements IWrapBurstSlider {
+    implements IWrapBurstSlider<T> {
     abstract get sliceCount(): IWrapBurstSlider['sliceCount'];
     abstract set sliceCount(value: IWrapBurstSlider['sliceCount']);
     abstract get squish(): IWrapBurstSlider['squish'];

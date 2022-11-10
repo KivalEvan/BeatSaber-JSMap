@@ -118,7 +118,9 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
         return super.isLaserRotationEvent(environment);
     }
 
-    isLaneRotationEvent(environment?: EnvironmentAllName): this is BasicEventLaneRotation {
+    isLaneRotationEvent(
+        environment?: EnvironmentAllName,
+    ): this is BasicEventLaneRotation {
         return super.isLaneRotationEvent(environment);
     }
 
@@ -154,22 +156,22 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
     }
 }
 
-abstract class BasicEventLight extends BasicEvent implements IWrapEvent {
+abstract class BasicEventLight extends BasicEvent {
     get customData(): IChromaEventLight {
         return this.data.customData as IChromaEventLight;
     }
 }
 
-abstract class BasicEventRing extends BasicEvent implements IWrapEvent {
+abstract class BasicEventRing extends BasicEvent {
     get customData(): IChromaEventRing {
         return this.data.customData as IChromaEventRing;
     }
 }
 
-abstract class BasicEventLaser extends BasicEvent implements IWrapEvent {
+abstract class BasicEventLaser extends BasicEvent {
     get customData(): IChromaEventLaser {
         return this.data.customData as IChromaEventLaser;
     }
 }
 
-abstract class BasicEventLaneRotation extends BasicEvent implements IWrapEvent {}
+abstract class BasicEventLaneRotation extends BasicEvent {}

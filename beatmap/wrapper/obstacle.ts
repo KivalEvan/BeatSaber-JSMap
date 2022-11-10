@@ -4,7 +4,7 @@ import { WrapGridObject } from './gridObject.ts';
 
 /** Obstacle beatmap class object. */
 export abstract class WrapObstacle<T extends Record<keyof T, unknown>> extends WrapGridObject<T>
-    implements IWrapObstacle {
+    implements IWrapObstacle<T> {
     abstract get duration(): IWrapObstacle['duration'];
     abstract set duration(value: IWrapObstacle['duration']);
     abstract get width(): IWrapObstacle['width'];
@@ -48,7 +48,9 @@ export abstract class WrapObstacle<T extends Record<keyof T, unknown>> extends W
     }
 
     isLonger(compareTo: IWrapObstacle, prevOffset = 0): boolean {
-        return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
+        return (
+            this.time + this.duration > compareTo.time + compareTo.duration + prevOffset
+        );
     }
 
     hasZero() {

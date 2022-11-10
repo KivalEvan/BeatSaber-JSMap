@@ -3,10 +3,16 @@ import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
 import { LightRotationEventBox } from './lightRotationEventBox.ts';
 import { WrapLightRotationEventBoxGroup } from '../wrapper/lightRotationEventBoxGroup.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
+import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
 
 /** Light translation event box group beatmap v3 class object. */
 export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
-    Required<ILightRotationEventBoxGroup>
+    Required<ILightRotationEventBoxGroup>,
+    Required<ILightRotationEventBox>,
+    Required<ILightRotationBase>,
+    Required<IIndexFilter>
 > {
     static default: ObjectReturnFn<Required<ILightRotationEventBoxGroup>> = {
         b: 0,
@@ -36,11 +42,13 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
                 new this({
                     b: ebg.b ?? LightRotationEventBoxGroup.default.b,
                     g: ebg.g ?? LightRotationEventBoxGroup.default.g,
-                    e: (ebg as Required<ILightRotationEventBoxGroup>).e ??
+                    e:
+                        (ebg as Required<ILightRotationEventBoxGroup>).e ??
                         LightRotationEventBoxGroup.default.e(),
-                    customData: ebg.customData ??
+                    customData:
+                        ebg.customData ??
                         LightRotationEventBoxGroup.default.customData(),
-                }),
+                })
             )
         );
         if (result.length) {
@@ -79,7 +87,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
         this.data.g = value;
     }
 
-    get events() {
+    get events(): LightRotationEventBox[] {
         return this._e;
     }
     set events(value: LightRotationEventBox[]) {

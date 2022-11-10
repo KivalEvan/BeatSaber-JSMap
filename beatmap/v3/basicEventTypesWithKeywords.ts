@@ -1,18 +1,26 @@
+import { IBasicEventTypesForKeywords } from '../../types/beatmap/v3/basicEventTypesForKeywords.ts';
 import { IBasicEventTypesWithKeywords } from '../../types/beatmap/v3/basicEventTypesWithKeywords.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { WrapEventTypesWithKeywords } from '../wrapper/eventTypesWithKeywords.ts';
 import { BasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
 
 /** Basic event types with keywords beatmap v3 class object. */
-export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<Required<IBasicEventTypesWithKeywords>> {
+export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
+    Required<IBasicEventTypesWithKeywords>,
+    Required<IBasicEventTypesForKeywords>
+> {
     static default: ObjectReturnFn<Required<IBasicEventTypesWithKeywords>> = {
         d: () => [],
     };
 
     private d: BasicEventTypesForKeywords[];
-    protected constructor(basicEventTypesWithKeywords: Required<IBasicEventTypesWithKeywords>) {
+    protected constructor(
+        basicEventTypesWithKeywords: Required<IBasicEventTypesWithKeywords>,
+    ) {
         super(basicEventTypesWithKeywords);
-        this.d = basicEventTypesWithKeywords.d.map((d) => BasicEventTypesForKeywords.create({ e: d.e, k: d.k })[0]);
+        this.d = basicEventTypesWithKeywords.d.map(
+            (d) => BasicEventTypesForKeywords.create({ e: d.e, k: d.k })[0],
+        );
     }
 
     static create(

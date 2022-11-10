@@ -3,10 +3,16 @@ import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
 import { LightTranslationEventBox } from './lightTranslationEventBox.ts';
 import { WrapLightTranslationEventBoxGroup } from '../wrapper/lightTranslationEventBoxGroup.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
+import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
 
 /** Light translation event box group beatmap v3 class object. */
 export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxGroup<
-    Required<ILightTranslationEventBoxGroup>
+    Required<ILightTranslationEventBoxGroup>,
+    Required<ILightTranslationEventBox>,
+    Required<ILightTranslationBase>,
+    Required<IIndexFilter>
 > {
     static default: ObjectReturnFn<Required<ILightTranslationEventBoxGroup>> = {
         b: 0,
@@ -36,11 +42,13 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
                 new this({
                     b: ebg.b ?? LightTranslationEventBoxGroup.default.b,
                     g: ebg.g ?? LightTranslationEventBoxGroup.default.g,
-                    e: (ebg as Required<ILightTranslationEventBoxGroup>).e ??
+                    e:
+                        (ebg as Required<ILightTranslationEventBoxGroup>).e ??
                         LightTranslationEventBoxGroup.default.e(),
-                    customData: ebg.customData ??
+                    customData:
+                        ebg.customData ??
                         LightTranslationEventBoxGroup.default.customData(),
-                }),
+                })
             )
         );
         if (result.length) {
@@ -79,7 +87,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         this.data.g = value;
     }
 
-    get events() {
+    get events(): LightTranslationEventBox[] {
         return this._e;
     }
     set events(value: LightTranslationEventBox[]) {
@@ -94,7 +102,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     }
 
     setCustomData(
-        value: NonNullable<ILightTranslationEventBoxGroup['customData']>,
+        value: NonNullable<ILightTranslationEventBoxGroup['customData']>
     ): this {
         this.customData = value;
         return this;

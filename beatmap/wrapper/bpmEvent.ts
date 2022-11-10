@@ -3,7 +3,7 @@ import { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
 
 /** BPM change event beatmap class object. */
 export abstract class WrapBPMEvent<T extends Record<keyof T, unknown>> extends WrapBaseObject<T>
-    implements IWrapBPMEvent {
+    implements IWrapBPMEvent<T> {
     abstract get bpm(): IWrapBPMEvent['bpm'];
     abstract set bpm(value: IWrapBPMEvent['bpm']);
 

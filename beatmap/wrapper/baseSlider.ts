@@ -5,7 +5,7 @@ import { WrapBaseNote } from './baseNote.ts';
 
 /** Base slider beatmap class object. */
 export abstract class WrapBaseSlider<T extends Record<keyof T, unknown>> extends WrapBaseNote<T>
-    implements IWrapBaseSlider {
+    implements IWrapBaseSlider<T> {
     abstract get tailTime(): IWrapBaseSlider['tailTime'];
     abstract set tailTime(value: IWrapBaseSlider['tailTime']);
     abstract get tailPosX(): IWrapBaseSlider['tailPosX'];
@@ -74,20 +74,30 @@ export abstract class WrapBaseSlider<T extends Record<keyof T, unknown>> extends
     getAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
+                return (
+                    NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0
+                );
             case 'me':
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
             /* falls through */
             case 'ne':
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
+                return (
+                    NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0
+                );
             default:
         }
         if (this.direction >= 1000) {
             return Math.abs(((this.direction % 1000) % 360) - 360);
         }
-        return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
+        return (
+            NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0
+        );
     }
 
     getDistance(compareTo: IWrapGridObject) {

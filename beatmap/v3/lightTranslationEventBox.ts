@@ -1,3 +1,5 @@
+import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -7,7 +9,9 @@ import { LightTranslationBase } from './lightTranslationBase.ts';
 
 /** Light translation event box beatmap v3 class object. */
 export class LightTranslationEventBox extends WrapLightTranslationEventBox<
-    Required<ILightTranslationEventBox>
+    Required<ILightTranslationEventBox>,
+    Required<ILightTranslationBase>,
+    Required<IIndexFilter>
 > {
     static default: ObjectReturnFn<Required<ILightTranslationEventBox>> = {
         f: () => {
@@ -40,16 +44,17 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
     private _f: IndexFilter;
     private _l: LightTranslationBase[];
     protected constructor(
-        lightTranslationEventBox: Required<ILightTranslationEventBox>,
+        lightTranslationEventBox: Required<ILightTranslationEventBox>
     ) {
         super(lightTranslationEventBox);
         this._f = IndexFilter.create(lightTranslationEventBox.f);
         this._l = lightTranslationEventBox.l.map(
-            (l) => LightTranslationBase.create(l)[0],
+            (l) => LightTranslationBase.create(l)[0]
         );
         const lastTime = Math.max(...this._l.map((l) => l.time));
         if (this.beatDistributionType === 2) {
-            this.beatDistribution = this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
+            this.beatDistribution =
+                this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
         }
     }
 
@@ -74,8 +79,9 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
                     b: eb.b ?? LightTranslationEventBox.default.b,
                     i: eb.i ?? LightTranslationEventBox.default.i,
                     l: eb.l ?? LightTranslationEventBox.default.l(),
-                    customData: eb.customData ?? LightTranslationEventBox.default.customData(),
-                }),
+                    customData:
+                        eb.customData ?? LightTranslationEventBox.default.customData(),
+                })
             )
         );
         if (result.length) {
@@ -177,7 +183,7 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
         this.data.i = value;
     }
 
-    get events() {
+    get events(): LightTranslationBase[] {
         return this._l;
     }
     set events(value: LightTranslationBase[]) {

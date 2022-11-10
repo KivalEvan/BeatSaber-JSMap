@@ -1,3 +1,6 @@
+import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
+import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
 import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -5,7 +8,12 @@ import { WrapLightColorEventBoxGroup } from '../wrapper/lightColorEventBoxGroup.
 import { LightColorEventBox } from './lightColorEventBox.ts';
 
 /** Light color event box group beatmap v3 class object. */
-export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<Required<ILightColorEventBoxGroup>> {
+export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
+    Required<ILightColorEventBoxGroup>,
+    Required<ILightColorEventBox>,
+    Required<ILightColorBase>,
+    Required<IIndexFilter>
+> {
     static default: ObjectReturnFn<Required<ILightColorEventBoxGroup>> = {
         b: 0,
         g: 0,
@@ -22,17 +30,24 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<Require
     }
 
     static create(): LightColorEventBoxGroup[];
-    static create(...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]): LightColorEventBoxGroup[];
-    static create(...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]): LightColorEventBoxGroup[] {
+    static create(
+        ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
+    ): LightColorEventBoxGroup[];
+    static create(
+        ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
+    ): LightColorEventBoxGroup[] {
         const result: LightColorEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
             result.push(
                 new this({
                     b: ebg.b ?? LightColorEventBoxGroup.default.b,
                     g: ebg.g ?? LightColorEventBoxGroup.default.g,
-                    e: (ebg as Required<ILightColorEventBoxGroup>).e ?? LightColorEventBoxGroup.default.e(),
-                    customData: ebg.customData ?? LightColorEventBoxGroup.default.customData(),
-                }),
+                    e:
+                        (ebg as Required<ILightColorEventBoxGroup>).e ??
+                        LightColorEventBoxGroup.default.e(),
+                    customData:
+                        ebg.customData ?? LightColorEventBoxGroup.default.customData(),
+                })
             )
         );
         if (result.length) {
@@ -71,7 +86,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<Require
         this.data.g = value;
     }
 
-    get events() {
+    get events(): LightColorEventBox[] {
         return this._e;
     }
     set events(value: LightColorEventBox[]) {

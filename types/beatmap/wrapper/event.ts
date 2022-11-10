@@ -1,7 +1,9 @@
 import { IWrapBaseObject } from './baseObject.ts';
 import { EnvironmentAllName } from '../shared/environment.ts';
 
-export interface IWrapEvent extends IWrapBaseObject {
+export interface IWrapEvent<
+    T extends Record<keyof T, unknown> = Record<string, unknown>,
+> extends IWrapBaseObject<T> {
     /** Event type `<int>` of basic event.
      * ```ts
      * 0 -> Back Lasers

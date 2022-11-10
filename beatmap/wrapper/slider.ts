@@ -6,7 +6,8 @@ import { IWrapSlider } from '../../types/beatmap/wrapper/slider.ts';
  *
  * Also known as arc.
  */
-export abstract class WrapSlider<T extends Record<keyof T, unknown>> extends WrapBaseSlider<T> implements IWrapSlider {
+export abstract class WrapSlider<T extends Record<keyof T, unknown>> extends WrapBaseSlider<T>
+    implements IWrapSlider<T> {
     abstract get lengthMultiplier(): IWrapSlider['lengthMultiplier'];
     abstract set lengthMultiplier(value: IWrapSlider['lengthMultiplier']);
     abstract get tailLengthMultiplier(): IWrapSlider['tailLengthMultiplier'];
@@ -63,19 +64,31 @@ export abstract class WrapSlider<T extends Record<keyof T, unknown>> extends Wra
     getTailAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':
-                return NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0;
+                return (
+                    NoteDirectionAngle[
+                        this.tailDirection as keyof typeof NoteDirectionAngle
+                    ] || 0
+                );
             case 'me':
                 if (this.tailDirection >= 1000) {
                     return Math.abs(((this.tailDirection % 1000) % 360) - 360);
                 }
             /* falls through */
             case 'ne':
-                return NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0;
+                return (
+                    NoteDirectionAngle[
+                        this.tailDirection as keyof typeof NoteDirectionAngle
+                    ] || 0
+                );
             default:
                 if (this.tailDirection >= 1000) {
                     return Math.abs(((this.tailDirection % 1000) % 360) - 360);
                 }
-                return NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0;
+                return (
+                    NoteDirectionAngle[
+                        this.tailDirection as keyof typeof NoteDirectionAngle
+                    ] || 0
+                );
         }
     }
 
@@ -98,7 +111,9 @@ export abstract class WrapSlider<T extends Record<keyof T, unknown>> extends Wra
             this.posX > 3 ||
             this.tailPosX < 0 ||
             this.tailPosX > 3 ||
-            (this.posX === this.tailPosX && this.posY === this.tailPosY && this.time === this.tailTime)
+            (this.posX === this.tailPosX &&
+                this.posY === this.tailPosY &&
+                this.time === this.tailTime)
         );
     }
 }

@@ -2,15 +2,21 @@ import { ISpecialEventsKeywordFilters } from '../../types/beatmap/v2/specialEven
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { SpecialEventsKeywordFiltersKeywords } from './specialEventsKeywordFiltersKeywords.ts';
 import { WrapEventTypesWithKeywords } from '../wrapper/eventTypesWithKeywords.ts';
+import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
 
 /** Special event types with keywords beatmap v2 class object. */
-export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<Required<ISpecialEventsKeywordFilters>> {
+export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
+    Required<ISpecialEventsKeywordFilters>,
+    Required<ISpecialEventsKeywordFiltersKeywords>
+> {
     static default: ObjectReturnFn<Required<ISpecialEventsKeywordFilters>> = {
         _keywords: () => [],
     };
 
     private _d: SpecialEventsKeywordFiltersKeywords[];
-    protected constructor(specialEventsWithKeywords: Required<ISpecialEventsKeywordFilters>) {
+    protected constructor(
+        specialEventsWithKeywords: Required<ISpecialEventsKeywordFilters>,
+    ) {
         super(specialEventsWithKeywords);
         this._d = specialEventsWithKeywords._keywords.map(
             (d) =>
@@ -21,9 +27,12 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<Requ
         );
     }
 
-    static create(specialEventsWithKeywords: Partial<ISpecialEventsKeywordFilters> = {}): SpecialEventsKeywordFilters {
+    static create(
+        specialEventsWithKeywords: Partial<ISpecialEventsKeywordFilters> = {},
+    ): SpecialEventsKeywordFilters {
         return new this({
-            _keywords: specialEventsWithKeywords._keywords ?? SpecialEventsKeywordFilters.default._keywords(),
+            _keywords: specialEventsWithKeywords._keywords ??
+                SpecialEventsKeywordFilters.default._keywords(),
         });
     }
 
