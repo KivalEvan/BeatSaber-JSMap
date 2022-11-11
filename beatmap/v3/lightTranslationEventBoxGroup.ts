@@ -41,9 +41,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
             >
         >[]
     ): LightTranslationEventBoxGroup[];
-    static create(
-        ...eventBoxGroups: DeepPartial<ILightTranslationEventBoxGroup>[]
-    ): LightTranslationEventBoxGroup[];
+    static create(...eventBoxGroups: DeepPartial<ILightTranslationEventBoxGroup>[]): LightTranslationEventBoxGroup[];
     static create(
         ...eventBoxGroups: (
             & DeepPartial<ILightTranslationEventBoxGroup>
@@ -74,13 +72,12 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         eventBoxGroups?.forEach((ebg) =>
             result.push(
                 new this({
-                    b: ebg.b ?? LightTranslationEventBoxGroup.default.b,
-                    g: ebg.g ?? LightTranslationEventBoxGroup.default.g,
+                    b: ebg.time ?? ebg.b ?? LightTranslationEventBoxGroup.default.b,
+                    g: ebg.id ?? ebg.g ?? LightTranslationEventBoxGroup.default.g,
                     e: (ebg.events as ILightTranslationEventBox[]) ??
                         (ebg.e as unknown as ILightTranslationEventBox[]) ??
                         LightTranslationEventBoxGroup.default.e(),
-                    customData: ebg.customData ??
-                        LightTranslationEventBoxGroup.default.customData(),
+                    customData: ebg.customData ?? LightTranslationEventBoxGroup.default.customData(),
                 }),
             )
         );
@@ -134,9 +131,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         this.data.customData = value;
     }
 
-    setCustomData(
-        value: NonNullable<ILightTranslationEventBoxGroup['customData']>,
-    ): this {
+    setCustomData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>): this {
         this.customData = value;
         return this;
     }

@@ -41,9 +41,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             >
         >[]
     ): LightColorEventBoxGroup[];
-    static create(
-        ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
-    ): LightColorEventBoxGroup[];
+    static create(...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]): LightColorEventBoxGroup[];
     static create(
         ...eventBoxGroups: (
             & DeepPartial<ILightColorEventBoxGroup>
@@ -74,7 +72,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
         eventBoxGroups?.forEach((ebg) =>
             result.push(
                 new this({
-                    b: ebg.b ?? LightColorEventBoxGroup.default.b,
+                    b: ebg.time ?? ebg.b ?? LightColorEventBoxGroup.default.b,
                     g: ebg.id ?? ebg.g ?? LightColorEventBoxGroup.default.g,
                     e: (ebg.events as ILightColorEventBox[]) ??
                         (ebg.e as unknown as ILightColorEventBox[]) ??

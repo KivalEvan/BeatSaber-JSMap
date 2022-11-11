@@ -41,9 +41,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             >
         >[]
     ): LightRotationEventBoxGroup[];
-    static create(
-        ...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]
-    ): LightRotationEventBoxGroup[];
+    static create(...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]): LightRotationEventBoxGroup[];
     static create(
         ...eventBoxGroups: (
             & DeepPartial<ILightRotationEventBoxGroup>
@@ -74,13 +72,12 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
         eventBoxGroups?.forEach((ebg) =>
             result.push(
                 new this({
-                    b: ebg.b ?? LightRotationEventBoxGroup.default.b,
-                    g: ebg.g ?? LightRotationEventBoxGroup.default.g,
+                    b: ebg.time ?? ebg.b ?? LightRotationEventBoxGroup.default.b,
+                    g: ebg.id ?? ebg.g ?? LightRotationEventBoxGroup.default.g,
                     e: (ebg.events as ILightRotationEventBox[]) ??
                         (ebg.e as unknown as ILightRotationEventBox[]) ??
                         LightRotationEventBoxGroup.default.e(),
-                    customData: ebg.customData ??
-                        LightRotationEventBoxGroup.default.customData(),
+                    customData: ebg.customData ?? LightRotationEventBoxGroup.default.customData(),
                 }),
             )
         );

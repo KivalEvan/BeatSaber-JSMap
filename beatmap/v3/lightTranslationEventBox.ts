@@ -44,14 +44,10 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
 
     private _f: IndexFilter;
     private _l: LightTranslationBase[];
-    protected constructor(
-        lightTranslationEventBox: Required<ILightTranslationEventBox>,
-    ) {
+    protected constructor(lightTranslationEventBox: Required<ILightTranslationEventBox>) {
         super(lightTranslationEventBox);
         this._f = IndexFilter.create(lightTranslationEventBox.f);
-        this._l = lightTranslationEventBox.l.map(
-            (l) => LightTranslationBase.create(l)[0],
-        );
+        this._l = lightTranslationEventBox.l.map((l) => LightTranslationBase.create(l)[0]);
         const lastTime = Math.max(...this._l.map((l) => l.time));
         if (this.beatDistributionType === 2) {
             this.beatDistribution = this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
@@ -68,9 +64,7 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
             >
         >[]
     ): LightTranslationEventBox[];
-    static create(
-        ...eventBoxes: DeepPartial<ILightTranslationEventBox>[]
-    ): LightTranslationEventBox[];
+    static create(...eventBoxes: DeepPartial<ILightTranslationEventBox>[]): LightTranslationEventBox[];
     static create(
         ...eventBoxes: (
             & DeepPartial<ILightTranslationEventBox>
@@ -102,14 +96,14 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
                     f: (eb.filter as IIndexFilter) ??
                         (eb as Required<ILightTranslationEventBox>).f ??
                         LightTranslationEventBox.default.f(),
-                    w: eb.w ?? LightTranslationEventBox.default.w,
-                    d: eb.d ?? LightTranslationEventBox.default.d,
-                    s: eb.s ?? LightTranslationEventBox.default.s,
-                    t: eb.t ?? LightTranslationEventBox.default.t,
-                    a: eb.a ?? LightTranslationEventBox.default.a,
-                    r: eb.r ?? LightTranslationEventBox.default.r,
-                    b: eb.b ?? LightTranslationEventBox.default.b,
-                    i: eb.i ?? LightTranslationEventBox.default.i,
+                    w: eb.beatDistribution ?? eb.w ?? LightTranslationEventBox.default.w,
+                    d: eb.beatDistributionType ?? eb.d ?? LightTranslationEventBox.default.d,
+                    s: eb.translationDistribution ?? eb.s ?? LightTranslationEventBox.default.s,
+                    t: eb.translationDistributionType ?? eb.t ?? LightTranslationEventBox.default.t,
+                    a: eb.axis ?? eb.a ?? LightTranslationEventBox.default.a,
+                    r: eb.flip ?? eb.r ?? LightTranslationEventBox.default.r,
+                    b: eb.affectFirst ?? eb.b ?? LightTranslationEventBox.default.b,
+                    i: eb.easing ?? eb.i ?? LightTranslationEventBox.default.i,
                     l: (eb.events as ILightTranslationBase[]) ??
                         (eb as Required<ILightTranslationEventBox>).l ??
                         LightTranslationEventBox.default.l(),
@@ -147,8 +141,8 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
             a: this.axis,
             r: this.flip,
             b: this.affectFirst,
-            l: this.events.map((l) => l.toJSON()),
             i: this.easing,
+            l: this.events.map((l) => l.toJSON()),
             customData: deepCopy(this.customData),
         };
     }

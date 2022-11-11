@@ -64,9 +64,7 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
             >
         >[]
     ): LightRotationEventBox[];
-    static create(
-        ...eventBoxes: DeepPartial<ILightRotationEventBox>[]
-    ): LightRotationEventBox[];
+    static create(...eventBoxes: DeepPartial<ILightRotationEventBox>[]): LightRotationEventBox[];
     static create(
         ...eventBoxes: (
             & DeepPartial<ILightRotationEventBox>
@@ -98,14 +96,14 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
                     f: (eb.filter as IIndexFilter) ??
                         (eb as Required<ILightRotationEventBox>).f ??
                         LightRotationEventBox.default.f(),
-                    w: eb.w ?? LightRotationEventBox.default.w,
-                    d: eb.d ?? LightRotationEventBox.default.d,
-                    s: eb.s ?? LightRotationEventBox.default.s,
-                    t: eb.t ?? LightRotationEventBox.default.t,
-                    a: eb.a ?? LightRotationEventBox.default.a,
-                    r: eb.r ?? LightRotationEventBox.default.r,
-                    b: eb.b ?? LightRotationEventBox.default.b,
-                    i: eb.i ?? LightRotationEventBox.default.i,
+                    w: eb.beatDistribution ?? eb.w ?? LightRotationEventBox.default.w,
+                    d: eb.beatDistributionType ?? eb.d ?? LightRotationEventBox.default.d,
+                    s: eb.rotationDistribution ?? eb.s ?? LightRotationEventBox.default.s,
+                    t: eb.rotationDistributionType ?? eb.t ?? LightRotationEventBox.default.t,
+                    a: eb.axis ?? eb.a ?? LightRotationEventBox.default.a,
+                    r: eb.flip ?? eb.r ?? LightRotationEventBox.default.r,
+                    b: eb.affectFirst ?? eb.b ?? LightRotationEventBox.default.b,
+                    i: eb.easing ?? eb.i ?? LightRotationEventBox.default.i,
                     l: (eb.events as ILightRotationBase[]) ??
                         (eb as Required<ILightRotationEventBox>).l ??
                         LightRotationEventBox.default.l(),
@@ -143,8 +141,8 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
             a: this.axis,
             r: this.flip,
             b: this.affectFirst,
-            l: this.events.map((l) => l.toJSON()),
             i: this.easing,
+            l: this.events.map((l) => l.toJSON()),
             customData: deepCopy(this.customData),
         };
     }
