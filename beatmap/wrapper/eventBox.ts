@@ -14,9 +14,7 @@ export abstract class WrapEventBox<
     abstract get beatDistribution(): IWrapEventBox<TBase>['beatDistribution'];
     abstract set beatDistribution(value: IWrapEventBox<TBase>['beatDistribution']);
     abstract get beatDistributionType(): IWrapEventBox<TBase>['beatDistributionType'];
-    abstract set beatDistributionType(
-        value: IWrapEventBox<TBase>['beatDistributionType'],
-    );
+    abstract set beatDistributionType(value: IWrapEventBox<TBase>['beatDistributionType']);
     abstract get easing(): IWrapEventBox<TBase>['easing'];
     abstract set easing(value: IWrapEventBox<TBase>['easing']);
     abstract get events(): IWrapBaseObject<TBase>[];

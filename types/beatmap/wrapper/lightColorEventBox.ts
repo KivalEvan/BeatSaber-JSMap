@@ -1,4 +1,5 @@
 import { IWrapEventBox } from './eventBox.ts';
+import { IWrapLightColorBase } from './lightColorBase.ts';
 
 export interface IWrapLightColorEventBox<
     TBox extends Record<keyof TBox, unknown> = Record<string, unknown>,
@@ -19,12 +20,10 @@ export interface IWrapLightColorEventBox<
     brightnessDistributionType: 1 | 2;
     /** Brightness distribution should affect first event `<int>` of light color event box. */
     affectFirst: 0 | 1;
+    events: IWrapLightColorBase<TBase>[];
 
-    setBrightnessDistribution(
-        value: IWrapLightColorEventBox['brightnessDistribution'],
-    ): this;
-    setBrightnessDistributionType(
-        value: IWrapLightColorEventBox['brightnessDistributionType'],
-    ): this;
+    setBrightnessDistribution(value: IWrapLightColorEventBox['brightnessDistribution']): this;
+    setBrightnessDistributionType(value: IWrapLightColorEventBox['brightnessDistributionType']): this;
     setAffectFirst(value: IWrapLightColorEventBox['affectFirst']): this;
+    setEvents(value: IWrapLightColorBase<TBase>[]): this;
 }

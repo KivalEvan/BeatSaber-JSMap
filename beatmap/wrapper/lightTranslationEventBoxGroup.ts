@@ -1,5 +1,6 @@
 import { WrapEventBoxGroupTemplate } from './eventBoxGroupTemplate.ts';
 import { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
+import { IWrapLightTranslationEventBox } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 
 /** Light translation event box group beatmap class object. */
 export abstract class WrapLightTranslationEventBoxGroup<
@@ -8,4 +9,7 @@ export abstract class WrapLightTranslationEventBoxGroup<
     TBase extends Record<keyof TBase, unknown>,
     TFilter extends Record<keyof TFilter, unknown>,
 > extends WrapEventBoxGroupTemplate<TGroup, TBox, TBase, TFilter>
-    implements IWrapLightTranslationEventBoxGroup<TGroup, TBox, TBase, TFilter> {}
+    implements IWrapLightTranslationEventBoxGroup<TGroup, TBox, TBase, TFilter> {
+    abstract get events(): IWrapLightTranslationEventBox<TBox, TBase, TFilter>[];
+    abstract set events(value: IWrapLightTranslationEventBox<TBox, TBase, TFilter>[]);
+}

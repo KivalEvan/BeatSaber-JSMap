@@ -1,4 +1,5 @@
 import { IWrapEventBox } from './eventBox.ts';
+import { IWrapLightRotationBase } from './lightRotationBase.ts';
 
 export interface IWrapLightRotationEventBox<
     TBox extends Record<keyof TBox, unknown> = Record<string, unknown>,
@@ -26,14 +27,12 @@ export interface IWrapLightRotationEventBox<
     flip: 0 | 1;
     /** Rotation distribution should affect first event `<int>` of light rotation event box. */
     affectFirst: 0 | 1;
+    events: IWrapLightRotationBase<TBase>[];
 
-    setRotationDistribution(
-        value: IWrapLightRotationEventBox['rotationDistribution'],
-    ): this;
-    setRotationDistributionType(
-        value: IWrapLightRotationEventBox['rotationDistributionType'],
-    ): this;
+    setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']): this;
+    setRotationDistributionType(value: IWrapLightRotationEventBox['rotationDistributionType']): this;
     setAxis(value: IWrapLightRotationEventBox['axis']): this;
     setFlip(value: IWrapLightRotationEventBox['flip']): this;
     setAffectFirst(value: IWrapLightRotationEventBox['affectFirst']): this;
+    setEvents(value: IWrapLightRotationBase<TBase>[]): this;
 }
