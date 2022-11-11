@@ -290,7 +290,7 @@ export class LightMapper {
             mapData.basicEvents.push(...events);
         } else {
             if (overwrite) {
-                mapData.events = [];
+                mapData.basicEvents = [];
             }
             events.forEach((e) => {
                 let _customData!: IEvent['_customData'];
@@ -321,7 +321,7 @@ export class LightMapper {
                         };
                     }
                 }
-                mapData.events.push(
+                mapData.basicEvents.push(
                     Event.create({
                         _time: e.time,
                         _type: e.type,

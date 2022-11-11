@@ -11,11 +11,13 @@
   - Mix-and-match is possible but will prioritise wrapper property
 - External file interface
   - Currently supported `BPM Info`, `Cinema`, `Chroma`
+- Couple more utils
 
 ### Changed
 
 - Updated to beatmap v3.2.0
 - Renamed `basicBeatmapEvents` and `colorBoostBeatmapEvents` to `basicEvents` and `colorBoostEvents`
+- Beatmap v2 field rename (JSON remains the same)
 - Improved function overloading and auto-completion
 
 ### Fixed

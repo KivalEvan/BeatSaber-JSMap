@@ -10,7 +10,7 @@ import { IPointDefinition } from '../types/beatmap/v3/pointDefinition.ts';
 
 function v2(data: DifficultyV2) {
     logger.debug('[patch::customData::v2] Patching notes');
-    data.notes.forEach((n) => {
+    data.colorNotes.forEach((n) => {
         n.customData = objectToV2(n.customData);
     });
     logger.debug('[patch::customData::v2] Patching obstacles');
@@ -18,7 +18,7 @@ function v2(data: DifficultyV2) {
         o.customData = objectToV2(o.customData);
     });
     logger.debug('[patch::customData::v2] Patching events');
-    data.events.forEach((e) => {
+    data.basicEvents.forEach((e) => {
         e.customData = eventToV2(e.customData);
         if (e.isLaserRotationEvent()) {
             if (typeof e.customData._preciseSpeed !== 'number') {

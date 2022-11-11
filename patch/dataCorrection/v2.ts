@@ -62,9 +62,9 @@ function fixSlider(obj: Slider) {
 export function v2(data: Difficulty) {
     logger.info('[patch::dataCorrection::difficulty::v2] Verifying and correcting data type for beatmap v2...');
 
-    data.notes.forEach(fixNote);
+    data.colorNotes.forEach(fixNote);
     data.obstacles.forEach(fixObstacle);
-    data.events.forEach(fixEvent);
+    data.basicEvents.forEach(fixEvent);
     data.waypoints.forEach(fixWaypoint);
     data.sliders.forEach(fixSlider);
 }
