@@ -1,5 +1,6 @@
 import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { IWrapLightTranslationBase } from '../../types/beatmap/wrapper/lightTranslationBase.ts';
+import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightTranslationBase } from '../wrapper/lightTranslationBase.ts';
 
@@ -23,19 +24,37 @@ export class LightTranslationBase extends WrapLightTranslationBase<
 
     static create(): LightTranslationBase[];
     static create(
-        ...lightTranslations: Partial<ILightTranslationBase>[]
+        ...lightTranslations: PartialWrapper<
+            IWrapLightTranslationBase<Required<ILightTranslationBase>>
+        >[]
     ): LightTranslationBase[];
     static create(
         ...lightTranslations: Partial<ILightTranslationBase>[]
+    ): LightTranslationBase[];
+    static create(
+        ...lightTranslations: (
+            & Partial<ILightTranslationBase>
+            & PartialWrapper<
+                IWrapLightTranslationBase<Required<ILightTranslationBase>>
+            >
+        )[]
+    ): LightTranslationBase[];
+    static create(
+        ...lightTranslations: (
+            & Partial<ILightTranslationBase>
+            & PartialWrapper<
+                IWrapLightTranslationBase<Required<ILightTranslationBase>>
+            >
+        )[]
     ): LightTranslationBase[] {
         const result: LightTranslationBase[] = [];
         lightTranslations?.forEach((lr) =>
             result.push(
                 new this({
-                    b: lr.b ?? LightTranslationBase.default.b,
-                    p: lr.p ?? LightTranslationBase.default.p,
-                    e: lr.e ?? LightTranslationBase.default.e,
-                    t: lr.t ?? LightTranslationBase.default.t,
+                    b: lr.time ?? lr.b ?? LightTranslationBase.default.b,
+                    p: lr.previous ?? lr.p ?? LightTranslationBase.default.p,
+                    e: lr.easing ?? lr.e ?? LightTranslationBase.default.e,
+                    t: lr.translation ?? lr.t ?? LightTranslationBase.default.t,
                     customData: lr.customData ?? LightTranslationBase.default.customData(),
                 }),
             )
@@ -97,14 +116,5 @@ export class LightTranslationBase extends WrapLightTranslationBase<
     }
     set customData(value: NonNullable<ILightTranslationBase['customData']>) {
         this.data.customData = value;
-    }
-
-    setCustomData(value: NonNullable<ILightTranslationBase['customData']>): this {
-        this.customData = value;
-        return this;
-    }
-    addCustomData(object: ILightTranslationBase['customData']): this {
-        this.customData = { ...this.customData, object };
-        return this;
     }
 }

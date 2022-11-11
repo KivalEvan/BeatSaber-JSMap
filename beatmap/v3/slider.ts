@@ -1,5 +1,6 @@
 import { ISlider } from '../../types/beatmap/v3/slider.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { IWrapSlider } from '../../types/beatmap/wrapper/slider.ts';
+import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapSlider } from '../wrapper/slider.ts';
 
@@ -31,24 +32,38 @@ export class Slider extends WrapSlider<Required<ISlider>> {
     }
 
     static create(): Slider[];
+    static create(
+        ...sliders: PartialWrapper<IWrapSlider<Required<ISlider>>>[]
+    ): Slider[];
     static create(...sliders: Partial<ISlider>[]): Slider[];
-    static create(...sliders: Partial<ISlider>[]): Slider[] {
+    static create(
+        ...sliders: (
+            & Partial<ISlider>
+            & PartialWrapper<IWrapSlider<Required<ISlider>>>
+        )[]
+    ): Slider[];
+    static create(
+        ...sliders: (
+            & Partial<ISlider>
+            & PartialWrapper<IWrapSlider<Required<ISlider>>>
+        )[]
+    ): Slider[] {
         const result: Slider[] = [];
         sliders?.forEach((s) =>
             result.push(
                 new this({
-                    b: s.b ?? Slider.default.b,
-                    c: s.c ?? Slider.default.c,
-                    x: s.x ?? Slider.default.x,
-                    y: s.y ?? Slider.default.y,
-                    d: s.d ?? Slider.default.d,
-                    mu: s.mu ?? Slider.default.mu,
-                    tb: s.tb ?? Slider.default.tb,
-                    tx: s.tx ?? Slider.default.tx,
-                    ty: s.ty ?? Slider.default.ty,
-                    tc: s.tc ?? Slider.default.tc,
-                    tmu: s.tmu ?? Slider.default.tmu,
-                    m: s.m ?? Slider.default.m,
+                    b: s.time ?? s.b ?? Slider.default.b,
+                    c: s.color ?? s.c ?? Slider.default.c,
+                    x: s.posX ?? s.x ?? Slider.default.x,
+                    y: s.posY ?? s.y ?? Slider.default.y,
+                    d: s.direction ?? s.d ?? Slider.default.d,
+                    mu: s.lengthMultiplier ?? s.mu ?? Slider.default.mu,
+                    tb: s.tailTime ?? s.tb ?? Slider.default.tb,
+                    tx: s.tailPosX ?? s.tx ?? Slider.default.tx,
+                    ty: s.tailPosY ?? s.ty ?? Slider.default.ty,
+                    tc: s.tailDirection ?? s.tc ?? Slider.default.tc,
+                    tmu: s.tailLengthMultiplier ?? s.tmu ?? Slider.default.tmu,
+                    m: s.midAnchor ?? s.m ?? Slider.default.m,
                     customData: s.customData ?? Slider.default.customData(),
                 }),
             )
@@ -184,15 +199,6 @@ export class Slider extends WrapSlider<Required<ISlider>> {
         this.data.customData = value;
     }
 
-    setCustomData(value: NonNullable<ISlider['customData']>): this {
-        this.customData = value;
-        return this;
-    }
-    addCustomData(object: ISlider['customData']): this {
-        this.customData = { ...this.customData, object };
-        return this;
-    }
-
     mirror(flipColor = true) {
         if (this.customData.coordinates) {
             this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
@@ -219,12 +225,18 @@ export class Slider extends WrapSlider<Required<ISlider>> {
         switch (type) {
             case 'ne':
                 if (this.customData.tailCoordinates) {
-                    return [this.customData.tailCoordinates[0], this.customData.tailCoordinates[1]];
+                    return [
+                        this.customData.tailCoordinates[0],
+                        this.customData.tailCoordinates[1],
+                    ];
                 }
                 return [this.tailPosX, this.tailPosY];
             default:
                 if (this.customData.tailCoordinates) {
-                    return [this.customData.tailCoordinates[0], this.customData.tailCoordinates[1]];
+                    return [
+                        this.customData.tailCoordinates[0],
+                        this.customData.tailCoordinates[1],
+                    ];
                 }
                 return super.getTailPosition(type);
         }

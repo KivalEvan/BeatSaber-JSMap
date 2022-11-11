@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-unused-vars
 import { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
 import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v3/chroma.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
@@ -24,16 +24,30 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
     }
 
     static create(): BasicEvent[];
+    static create(
+        ...basicEvents: PartialWrapper<IWrapEvent<Required<IBasicEvent>>>[]
+    ): BasicEvent[];
     static create(...basicEvents: Partial<IBasicEvent>[]): BasicEvent[];
-    static create(...basicEvents: Partial<IBasicEvent>[]): BasicEvent[] {
+    static create(
+        ...basicEvents: (
+            & Partial<IBasicEvent>
+            & PartialWrapper<IWrapEvent<Required<IBasicEvent>>>
+        )[]
+    ): BasicEvent[];
+    static create(
+        ...basicEvents: (
+            & Partial<IBasicEvent>
+            & PartialWrapper<IWrapEvent<Required<IBasicEvent>>>
+        )[]
+    ): BasicEvent[] {
         const result: BasicEvent[] = [];
         basicEvents?.forEach((be) =>
             result.push(
                 new this({
-                    b: be.b ?? BasicEvent.default.b,
-                    et: be.et ?? BasicEvent.default.et,
-                    i: be.i ?? BasicEvent.default.i,
-                    f: be.f ?? BasicEvent.default.f,
+                    b: be.time ?? be.b ?? BasicEvent.default.b,
+                    et: be.type ?? be.et ?? BasicEvent.default.et,
+                    i: be.value ?? be.i ?? BasicEvent.default.i,
+                    f: be.floatValue ?? be.f ?? BasicEvent.default.f,
                     customData: be.customData ?? BasicEvent.default.customData(),
                 }),
             )
@@ -95,15 +109,6 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
     }
     set customData(value: NonNullable<IBasicEvent['customData']>) {
         this.data.customData = value;
-    }
-
-    setCustomData(value: NonNullable<IBasicEvent['customData']>): this {
-        this.customData = value;
-        return this;
-    }
-    addCustomData(object: IBasicEvent['customData']): this {
-        this.customData = { ...this.customData, object };
-        return this;
     }
 
     isLightEvent(environment?: EnvironmentAllName): this is BasicEventLight {

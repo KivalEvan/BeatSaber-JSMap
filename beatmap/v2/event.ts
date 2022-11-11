@@ -1,11 +1,12 @@
 // deno-lint-ignore-file no-unused-vars
 import { IEvent } from '../../types/beatmap/v2/event.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v2/chroma.ts';
 import { INEEvent } from '../../types/beatmap/v2/noodleExtensions.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { WrapEvent } from '../wrapper/event.ts';
+import { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
 
 /** Event beatmap v2 class object. */
 export class Event extends WrapEvent<Required<IEvent>> {
@@ -24,17 +25,31 @@ export class Event extends WrapEvent<Required<IEvent>> {
     }
 
     static create(): Event[];
+    static create(
+        ...basicEvents: PartialWrapper<IWrapEvent<Required<IEvent>>>[]
+    ): Event[];
     static create(...basicEvents: Partial<IEvent>[]): Event[];
-    static create(...basicEvents: Partial<IEvent>[]): Event[] {
+    static create(
+        ...basicEvents: (
+            & Partial<IEvent>
+            & PartialWrapper<IWrapEvent<Required<IEvent>>>
+        )[]
+    ): Event[];
+    static create(
+        ...basicEvents: (
+            & Partial<IEvent>
+            & PartialWrapper<IWrapEvent<Required<IEvent>>>
+        )[]
+    ): Event[] {
         const result: Event[] = [];
         basicEvents?.forEach((ev) =>
             result.push(
                 new this({
-                    _time: ev._time ?? Event.default._time,
-                    _type: ev._type ?? Event.default._type,
-                    _value: ev._value ?? Event.default._value,
-                    _floatValue: ev._floatValue ?? Event.default._floatValue,
-                    _customData: ev._customData ?? Event.default._customData(),
+                    _time: ev.time ?? ev._time ?? Event.default._time,
+                    _type: ev.type ?? ev._type ?? Event.default._type,
+                    _value: ev.value ?? ev._value ?? Event.default._value,
+                    _floatValue: ev.floatValue ?? ev._floatValue ?? Event.default._floatValue,
+                    _customData: ev.customData ?? ev._customData ?? Event.default._customData(),
                 }),
             )
         );
@@ -97,15 +112,6 @@ export class Event extends WrapEvent<Required<IEvent>> {
         this.data._customData = value;
     }
 
-    setCustomData(value: NonNullable<IEvent['_customData']>): this {
-        this.customData = value;
-        return this;
-    }
-    addCustomData(object: IEvent['_customData']): this {
-        this.customData = { ...this.customData, object };
-        return this;
-    }
-
     isLightEvent(environment?: EnvironmentAllName): this is EventLight {
         return super.isLightEvent(environment);
     }
@@ -162,7 +168,9 @@ export class Event extends WrapEvent<Required<IEvent>> {
     }
 
     isNoodleExtensions(): boolean {
-        return this.isLaneRotationEvent() && typeof this.customData._rotation === 'number';
+        return (
+            this.isLaneRotationEvent() && typeof this.customData._rotation === 'number'
+        );
     }
 
     isMappingExtensions(): boolean {

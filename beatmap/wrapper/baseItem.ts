@@ -1,15 +1,19 @@
 import { IWrapBaseItem } from '../../types/beatmap/wrapper/baseItem.ts';
+import { ObtainCustomData } from '../../types/utils.ts';
 import { Serializable } from '../shared/serializable.ts';
 
 /** Basic building block of beatmap object. */
 export abstract class WrapBaseItem<T extends Record<keyof T, unknown>> extends Serializable<T>
     implements IWrapBaseItem<T> {
-    abstract get customData(): Record<string, unknown>;
-    abstract set customData(value: Record<string, unknown>);
+    abstract get customData(): ObtainCustomData<T>;
+    abstract set customData(value: ObtainCustomData<T>);
 
-    abstract setCustomData(value: Record<string, unknown>): this;
+    setCustomData(value: ObtainCustomData<T>): this {
+        this.customData = value;
+        return this;
+    }
     resetCustomData() {
-        this.customData = {} as Record<string, unknown>;
+        this.customData = {} as ObtainCustomData<T>;
         return this;
     }
     removeCustomData(key: string | string[]) {
@@ -20,7 +24,10 @@ export abstract class WrapBaseItem<T extends Record<keyof T, unknown>> extends S
         }
         return this;
     }
-    abstract addCustomData(object: Record<string, unknown>): this;
+    addCustomData(object: ObtainCustomData<T>): this {
+        this.customData = { ...this.customData, object };
+        return this;
+    }
 
     func(fn: (object: this) => void) {
         fn(this);

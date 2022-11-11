@@ -1,7 +1,8 @@
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { WrapBombNote } from '../wrapper/bombNote.ts';
+import { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
 
 /** Bomb note beatmap v3 class object. */
 export class BombNote extends WrapBombNote<Required<IBombNote>> {
@@ -19,15 +20,29 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
     }
 
     static create(): BombNote[];
+    static create(
+        ...bombNotes: PartialWrapper<IWrapBombNote<Required<IBombNote>>>[]
+    ): BombNote[];
     static create(...bombNotes: Partial<IBombNote>[]): BombNote[];
-    static create(...bombNotes: Partial<IBombNote>[]): BombNote[] {
+    static create(
+        ...bombNotes: (
+            & Partial<IBombNote>
+            & PartialWrapper<IWrapBombNote<Required<IBombNote>>>
+        )[]
+    ): BombNote[];
+    static create(
+        ...bombNotes: (
+            & Partial<IBombNote>
+            & PartialWrapper<IWrapBombNote<Required<IBombNote>>>
+        )[]
+    ): BombNote[] {
         const result: BombNote[] = [];
         bombNotes?.forEach((bn) =>
             result.push(
                 new this({
-                    b: bn.b ?? BombNote.default.b,
-                    x: bn.x ?? BombNote.default.x,
-                    y: bn.y ?? BombNote.default.y,
+                    b: bn.time ?? bn.b ?? BombNote.default.b,
+                    x: bn.posX ?? bn.x ?? BombNote.default.x,
+                    y: bn.posY ?? bn.y ?? BombNote.default.y,
                     customData: bn.customData ?? BombNote.default.customData(),
                 }),
             )
@@ -82,15 +97,6 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
         this.data.customData = value;
     }
 
-    setCustomData(value: NonNullable<IBombNote['customData']>): this {
-        this.customData = value;
-        return this;
-    }
-    addCustomData(object: IBombNote['customData']): this {
-        this.customData = { ...this.customData, object };
-        return this;
-    }
-
     mirror() {
         if (this.customData.coordinates) {
             this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
@@ -114,7 +120,10 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
     }
 
     isChroma(): boolean {
-        return Array.isArray(this.customData.color) || typeof this.customData.spawnEffect === 'boolean';
+        return (
+            Array.isArray(this.customData.color) ||
+            typeof this.customData.spawnEffect === 'boolean'
+        );
     }
 
     // god i hate these

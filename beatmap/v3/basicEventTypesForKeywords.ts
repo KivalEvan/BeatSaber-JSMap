@@ -1,30 +1,56 @@
 import { IBasicEventTypesForKeywords } from '../../types/beatmap/v3/basicEventTypesForKeywords.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { IWrapEventTypesForKeywords } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
+import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
 
 /** Basic event types for keywords beatmap v3 class object.
  *
  * Used in basic event types with keywords.
  */
-export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<Required<IBasicEventTypesForKeywords>> {
+export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<
+    Required<IBasicEventTypesForKeywords>
+> {
     static default: ObjectReturnFn<Required<IBasicEventTypesForKeywords>> = {
         k: '',
         e: () => [],
     };
 
-    protected constructor(basicEventTypesForKeywords: Required<IBasicEventTypesForKeywords>) {
+    protected constructor(
+        basicEventTypesForKeywords: Required<IBasicEventTypesForKeywords>,
+    ) {
         super(basicEventTypesForKeywords);
     }
 
     static create(): BasicEventTypesForKeywords[];
-    static create(...basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>[]): BasicEventTypesForKeywords[];
-    static create(...basicEventTypesForKeywords: Partial<IBasicEventTypesForKeywords>[]): BasicEventTypesForKeywords[] {
+    static create(
+        ...basicEventTypesForKeywords: PartialWrapper<
+            IWrapEventTypesForKeywords<Required<IBasicEventTypesForKeywords>>
+        >[]
+    ): BasicEventTypesForKeywords[];
+    static create(
+        ...basicEventTypesForKeywords: (
+            & Partial<IBasicEventTypesForKeywords>
+            & PartialWrapper<
+                IWrapEventTypesForKeywords<Required<IBasicEventTypesForKeywords>>
+            >
+        )[]
+    ): BasicEventTypesForKeywords[];
+    static create(
+        ...basicEventTypesForKeywords: (
+            & Partial<IBasicEventTypesForKeywords>
+            & PartialWrapper<
+                IWrapEventTypesForKeywords<Required<IBasicEventTypesForKeywords>>
+            >
+        )[]
+    ): BasicEventTypesForKeywords[] {
         const result: BasicEventTypesForKeywords[] = [];
         basicEventTypesForKeywords?.forEach((betfk) =>
             result.push(
                 new this({
-                    k: betfk.k ?? BasicEventTypesForKeywords.default.k,
-                    e: betfk.e ?? BasicEventTypesForKeywords.default.e(),
+                    k: betfk.keyword ?? betfk.k ?? BasicEventTypesForKeywords.default.k,
+                    e: betfk.events ??
+                        betfk.e ??
+                        BasicEventTypesForKeywords.default.e(),
                 }),
             )
         );

@@ -1,11 +1,12 @@
 import { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
-import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
+import { DeepPartial, DeepPartialWrapper, ObjectReturnFn } from '../../types/utils.ts';
 import { LightTranslationEventBox } from './lightTranslationEventBox.ts';
 import { WrapLightTranslationEventBoxGroup } from '../wrapper/lightTranslationEventBoxGroup.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
 import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
+import { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 
 /** Light translation event box group beatmap v3 class object. */
 export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxGroup<
@@ -31,10 +32,43 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
 
     static create(): LightTranslationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartial<ILightTranslationEventBoxGroup>[]
+        ...eventBoxGroups: DeepPartialWrapper<
+            IWrapLightTranslationEventBoxGroup<
+                Required<ILightTranslationEventBoxGroup>,
+                Required<ILightTranslationEventBox>,
+                Required<ILightTranslationBase>,
+                Required<IIndexFilter>
+            >
+        >[]
     ): LightTranslationEventBoxGroup[];
     static create(
         ...eventBoxGroups: DeepPartial<ILightTranslationEventBoxGroup>[]
+    ): LightTranslationEventBoxGroup[];
+    static create(
+        ...eventBoxGroups: (
+            & DeepPartial<ILightTranslationEventBoxGroup>
+            & DeepPartialWrapper<
+                IWrapLightTranslationEventBoxGroup<
+                    Required<ILightTranslationEventBoxGroup>,
+                    Required<ILightTranslationEventBox>,
+                    Required<ILightTranslationBase>,
+                    Required<IIndexFilter>
+                >
+            >
+        )[]
+    ): LightTranslationEventBoxGroup[];
+    static create(
+        ...eventBoxGroups: (
+            & DeepPartial<ILightTranslationEventBoxGroup>
+            & DeepPartialWrapper<
+                IWrapLightTranslationEventBoxGroup<
+                    Required<ILightTranslationEventBoxGroup>,
+                    Required<ILightTranslationEventBox>,
+                    Required<ILightTranslationBase>,
+                    Required<IIndexFilter>
+                >
+            >
+        )[]
     ): LightTranslationEventBoxGroup[] {
         const result: LightTranslationEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
@@ -42,13 +76,12 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
                 new this({
                     b: ebg.b ?? LightTranslationEventBoxGroup.default.b,
                     g: ebg.g ?? LightTranslationEventBoxGroup.default.g,
-                    e:
-                        (ebg as Required<ILightTranslationEventBoxGroup>).e ??
+                    e: (ebg.events as ILightTranslationEventBox[]) ??
+                        (ebg.e as unknown as ILightTranslationEventBox[]) ??
                         LightTranslationEventBoxGroup.default.e(),
-                    customData:
-                        ebg.customData ??
+                    customData: ebg.customData ??
                         LightTranslationEventBoxGroup.default.customData(),
-                })
+                }),
             )
         );
         if (result.length) {
@@ -102,7 +135,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     }
 
     setCustomData(
-        value: NonNullable<ILightTranslationEventBoxGroup['customData']>
+        value: NonNullable<ILightTranslationEventBoxGroup['customData']>,
     ): this {
         this.customData = value;
         return this;

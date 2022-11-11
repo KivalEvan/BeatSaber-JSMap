@@ -14,7 +14,10 @@ const tag = (name: string) => {
  * const newData = convert.ogChromaToChromaV2(oldData);
  * ```
  */
-export function chromaLightGradientToVanillaGradient(data: DifficultyV2, skipPrompt?: boolean): DifficultyV2 {
+export function chromaLightGradientToVanillaGradient(
+    data: DifficultyV2,
+    skipPrompt?: boolean,
+): DifficultyV2 {
     if (!skipPrompt) {
         logger.warn(
             tag('chromaLightGradientToVanillaGradient'),
@@ -34,8 +37,8 @@ export function chromaLightGradientToVanillaGradient(data: DifficultyV2, skipPro
             'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
         );
     }
-    const events = data.events;
-    const newEvents = [] as typeof data.events;
+    const events = data.basicEvents;
+    const newEvents = [] as typeof data.basicEvents;
     for (let curr = 0, len = events.length; curr < len; curr++) {
         const ev = events[curr];
         if (!ev.isLightEvent()) {
@@ -48,7 +51,10 @@ export function chromaLightGradientToVanillaGradient(data: DifficultyV2, skipPro
                 if (ev.type !== events[next].type) {
                     continue;
                 }
-                if (ev.time + ev.customData._lightGradient._duration >= events[next].time) {
+                if (
+                    ev.time + ev.customData._lightGradient._duration >=
+                        events[next].time
+                ) {
                     eventInGradient.push(events[next]);
                 }
             }
@@ -59,10 +65,16 @@ export function chromaLightGradientToVanillaGradient(data: DifficultyV2, skipPro
                 let hasOff = false;
                 let previousEvent: Event = ev;
                 for (const eig of eventInGradient) {
-                    if (!hasOff && eig.time > ev.time + ev.customData._lightGradient._duration - 0.001) {
+                    if (
+                        !hasOff &&
+                        eig.time >
+                            ev.time + ev.customData._lightGradient._duration - 0.001
+                    ) {
                         newEvents.push(
                             ...Event.create({
-                                _time: ev.time + ev.customData._lightGradient._duration - 0.001,
+                                _time: ev.time +
+                                    ev.customData._lightGradient._duration -
+                                    0.001,
                                 _type: ev.type,
                                 _value: ev.value >= 1 && ev.value <= 4 ? 4 : ev.value >= 5 && ev.value <= 8 ? 8 : 12,
                                 _floatValue: 1,
@@ -85,7 +97,11 @@ export function chromaLightGradientToVanillaGradient(data: DifficultyV2, skipPro
                         eig.customData!._color = interpolateColor(
                             ev.customData._lightGradient._startColor,
                             ev.customData._lightGradient._endColor,
-                            normalize(eig.time, ev.time, ev.time + ev.customData._lightGradient._duration),
+                            normalize(
+                                eig.time,
+                                ev.time,
+                                ev.time + ev.customData._lightGradient._duration,
+                            ),
                             'rgba',
                             easing,
                         );
@@ -96,20 +112,25 @@ export function chromaLightGradientToVanillaGradient(data: DifficultyV2, skipPro
                                     ...Event.create({
                                         _time: eig.time - 0.001,
                                         _type: ev.type,
-                                        _value: previousEvent.value >= 1 && previousEvent.value <= 4
+                                        _value: previousEvent.value >= 1 &&
+                                                previousEvent.value <= 4
                                             ? 4
-                                            : previousEvent.value >= 5 && previousEvent.value <= 8
+                                            : previousEvent.value >= 5 &&
+                                                    previousEvent.value <= 8
                                             ? 8
                                             : 12,
                                         _floatValue: 1,
                                         _customData: {
                                             _color: interpolateColor(
-                                                ev.customData._lightGradient._startColor,
+                                                ev.customData._lightGradient
+                                                    ._startColor,
                                                 ev.customData._lightGradient._endColor,
                                                 normalize(
                                                     eig.time - 0.001,
                                                     ev.time,
-                                                    ev.time + ev.customData._lightGradient._duration,
+                                                    ev.time +
+                                                        ev.customData._lightGradient
+                                                            ._duration,
                                                 ),
                                                 'rgba',
                                                 easing,
@@ -146,6 +167,6 @@ export function chromaLightGradientToVanillaGradient(data: DifficultyV2, skipPro
         }
         newEvents.push(ev);
     }
-    data.events = newEvents;
+    data.basicEvents = newEvents;
     return data;
 }

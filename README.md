@@ -35,7 +35,7 @@ To get started, check out the [example folder](./example) for templates you can 
 The bare minimum example:
 
 ```ts
-import * as bsmap from 'https://deno.land/x/bsmap@1.2.2/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.3.0/mod.ts';
 
 const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 3);
 bsmap.save.difficultySync(data);

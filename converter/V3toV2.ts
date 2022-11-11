@@ -29,21 +29,27 @@ const tag = (name: string) => {
  */
 export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     if (!skipPrompt) {
-        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
+        logger.warn(
+            tag('V3toV2'),
+            'Converting beatmap v3 to v2 may lose certain data!',
+        );
         const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
         if (confirmation![0].toLowerCase() !== 'y') {
             throw Error('Conversion to beatmap v2 denied.');
         }
         logger.info(tag('V3toV2'), 'Converting beatmap v3 to v2');
     } else {
-        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
+        logger.warn(
+            tag('V3toV2'),
+            'Converting beatmap v3 to v2 may lose certain data!',
+        );
     }
     const template = DifficultyV2.create();
     template.fileName = data.fileName;
 
     data.colorNotes.forEach((n) => {
         const _customData: ICustomDataNote = objectToV2(n.customData);
-        template.notes.push(
+        template.colorNotes.push(
             Note.create({
                 _time: n.time,
                 _lineIndex: n.posX,
@@ -57,7 +63,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
 
     data.customData.fakeColorNotes?.forEach((n) => {
         const _customData: ICustomDataNote = objectToV2(n.customData);
-        template.notes.push(
+        template.colorNotes.push(
             Note.create({
                 _time: n.b,
                 _lineIndex: n.x,
@@ -71,7 +77,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
 
     data.bombNotes.forEach((b) => {
         const _customData: ICustomDataNote = objectToV2(b.customData);
-        template.notes.push(
+        template.colorNotes.push(
             Note.create({
                 _time: b.time,
                 _lineIndex: b.posX,
@@ -85,7 +91,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
 
     data.customData.fakeBombNotes?.forEach((b) => {
         const _customData: ICustomDataNote = objectToV2(b.customData);
-        template.notes.push(
+        template.colorNotes.push(
             Note.create({
                 _time: b.b,
                 _lineIndex: b.x,
@@ -192,7 +198,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
         } else {
             delete _customData?._preciseSpeed;
         }
-        template.events.push(
+        template.basicEvents.push(
             Event.create({
                 _time: e.time,
                 _type: e.type,
@@ -204,7 +210,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     });
 
     data.colorBoostEvents.forEach((b) =>
-        template.events.push(
+        template.basicEvents.push(
             Event.create({
                 _time: b.time,
                 _type: 5,
@@ -215,12 +221,15 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     );
 
     data.rotationEvents.forEach((lr) =>
-        template.events.push(
+        template.basicEvents.push(
             Event.create({
                 _time: lr.time,
                 _type: lr.executionTime ? 14 : 15,
                 _value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
-                    ? Math.max(Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15), 3)
+                    ? Math.max(
+                        Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15),
+                        3,
+                    )
                     : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
                 _floatValue: 1,
             })[0],
@@ -228,7 +237,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
     );
 
     data.bpmEvents.forEach((bpm) =>
-        template.events.push(
+        template.basicEvents.push(
             Event.create({
                 _time: bpm.time,
                 _type: 100,
@@ -268,8 +277,8 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
         )
     );
 
-    template.specialEventsKeywordFilters = SpecialEventsKeywordFilters.create({
-        _keywords: data.basicEventTypesWithKeywords.list.map((d) => {
+    template.eventTypesWithKeywords = SpecialEventsKeywordFilters.create({
+        _keywords: data.eventTypesWithKeywords.list.map((d) => {
             return { _keyword: d.keyword, _specialEvents: d.events };
         }) ?? [],
     });
@@ -366,68 +375,96 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
                 continue;
             }
             if (k === 'environment') {
-                template.customData._environment = data.customData.environment!.map((e) => {
-                    if (e.id && e.lookupMethod) {
-                        return {
-                            _id: e.id,
-                            _lookupMethod: e.lookupMethod,
-                            _track: e.track,
-                            _duplicate: e.duplicate,
-                            _active: e.active,
-                            _scale: e.scale,
-                            _position: e.position?.map((n) => n / 0.6) as Vector3,
-                            _rotation: e.rotation,
-                            _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
-                            _localRotation: e.localRotation,
-                            _lightID: e.components?.ILightWithId?.lightID,
-                        };
-                    }
-                    if (e.geometry) {
-                        if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
-                            logger.warn(tag('V3toV2'), 'v2 geometry cannot be made assignable light to specific type');
+                template.customData._environment = data.customData.environment!.map(
+                    (e) => {
+                        if (e.id && e.lookupMethod) {
+                            return {
+                                _id: e.id,
+                                _lookupMethod: e.lookupMethod,
+                                _track: e.track,
+                                _duplicate: e.duplicate,
+                                _active: e.active,
+                                _scale: e.scale,
+                                _position: e.position?.map((n) => n / 0.6) as Vector3,
+                                _rotation: e.rotation,
+                                _localPosition: e.localPosition?.map(
+                                    (n) => n / 0.6,
+                                ) as Vector3,
+                                _localRotation: e.localRotation,
+                                _lightID: e.components?.ILightWithId?.lightID,
+                            };
                         }
-                        return {
-                            _geometry: e.geometry.type === 'CUSTOM'
-                                ? {
-                                    _type: e.geometry.type,
-                                    _mesh: {
-                                        _vertices: e.geometry.mesh.vertices,
-                                        _uv: e.geometry.mesh.uv,
-                                        _triangles: e.geometry.mesh.triangles,
+                        if (e.geometry) {
+                            if (
+                                e.components?.ILightWithId?.type ||
+                                e.components?.ILightWithId?.lightID
+                            ) {
+                                logger.warn(
+                                    tag('V3toV2'),
+                                    'v2 geometry cannot be made assignable light to specific type',
+                                );
+                            }
+                            return {
+                                _geometry: e.geometry.type === 'CUSTOM'
+                                    ? {
+                                        _type: e.geometry.type,
+                                        _mesh: {
+                                            _vertices: e.geometry.mesh.vertices,
+                                            _uv: e.geometry.mesh.uv,
+                                            _triangles: e.geometry.mesh.triangles,
+                                        },
+                                        _material: typeof e.geometry.material ===
+                                                'string'
+                                            ? e.geometry.material
+                                            : {
+                                                _shader: e.geometry.material
+                                                    .shader,
+                                                _shaderKeywords: e.geometry.material
+                                                    .shaderKeywords,
+                                                _collision: e.geometry.material
+                                                    .collision,
+                                                _track: e.geometry.material
+                                                    .track,
+                                                _color: e.geometry.material
+                                                    .color,
+                                            },
+                                        _collision: e.geometry.collision,
+                                    }
+                                    : {
+                                        _type: e.geometry.type,
+                                        _material: typeof e.geometry.material ===
+                                                'string'
+                                            ? e.geometry.material
+                                            : {
+                                                _shader: e.geometry.material
+                                                    .shader,
+                                                _shaderKeywords: e.geometry.material
+                                                    .shaderKeywords,
+                                                _collision: e.geometry.material
+                                                    .collision,
+                                                _track: e.geometry.material
+                                                    .track,
+                                                _color: e.geometry.material
+                                                    .color,
+                                            },
+                                        _collision: e.geometry.collision,
                                     },
-                                    _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
-                                        _shader: e.geometry.material.shader,
-                                        _shaderKeywords: e.geometry.material.shaderKeywords,
-                                        _collision: e.geometry.material.collision,
-                                        _track: e.geometry.material.track,
-                                        _color: e.geometry.material.color,
-                                    },
-                                    _collision: e.geometry.collision,
-                                }
-                                : {
-                                    _type: e.geometry.type,
-                                    _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
-                                        _shader: e.geometry.material.shader,
-                                        _shaderKeywords: e.geometry.material.shaderKeywords,
-                                        _collision: e.geometry.material.collision,
-                                        _track: e.geometry.material.track,
-                                        _color: e.geometry.material.color,
-                                    },
-                                    _collision: e.geometry.collision,
-                                },
-                            _track: e.track,
-                            _duplicate: e.duplicate,
-                            _active: e.active,
-                            _scale: e.scale,
-                            _position: e.position?.map((n) => n / 0.6) as Vector3,
-                            _rotation: e.rotation,
-                            _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
-                            _localRotation: e.localRotation,
-                            _lightID: e.components?.ILightWithId?.lightID,
-                        };
-                    }
-                    throw new Error('Error converting environment v3 to v2');
-                });
+                                _track: e.track,
+                                _duplicate: e.duplicate,
+                                _active: e.active,
+                                _scale: e.scale,
+                                _position: e.position?.map((n) => n / 0.6) as Vector3,
+                                _rotation: e.rotation,
+                                _localPosition: e.localPosition?.map(
+                                    (n) => n / 0.6,
+                                ) as Vector3,
+                                _localRotation: e.localRotation,
+                                _lightID: e.components?.ILightWithId?.lightID,
+                            };
+                        }
+                        throw new Error('Error converting environment v3 to v2');
+                    },
+                );
                 continue;
             }
             if (k === 'materials') {
@@ -489,7 +526,10 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
         if (template.customData._customEvents) {
             for (const ce of template.customData._customEvents) {
                 if (ce._type === 'AnimateTrack') {
-                    if (typeof ce._data._track === 'string' && envTracks.includes(ce._data._track)) {
+                    if (
+                        typeof ce._data._track === 'string' &&
+                        envTracks.includes(ce._data._track)
+                    ) {
                         customEvents.push(ce);
                     } else if (Array.isArray(ce._data._track)) {
                         for (const t of ce._data._track) {
@@ -505,7 +545,10 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
         for (const ce of customEvents) {
             if (typeof ce._data._track === 'string') {
                 if (typeof ce._data._position === 'string') {
-                    logger.warn(tag('V3toV2'), 'Cannot convert point definitions, unknown use.');
+                    logger.warn(
+                        tag('V3toV2'),
+                        'Cannot convert point definitions, unknown use.',
+                    );
                 } else if (Array.isArray(ce._data._position)) {
                     ce._data._position.forEach((n) => {
                         n[0] /= 0.6;
@@ -514,7 +557,10 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
                     });
                 }
             } else {
-                logger.warn(tag('V3toV2'), 'Environment animate track array conversion not yet implemented.');
+                logger.warn(
+                    tag('V3toV2'),
+                    'Environment animate track array conversion not yet implemented.',
+                );
             }
         }
     }

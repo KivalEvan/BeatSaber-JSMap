@@ -16,7 +16,7 @@ top of the script. No additional file or setup needed, it just works.
 
 ```ts
 // be sure to check for latest version on 'bsmap@version'
-import * as bsmap from 'https://deno.land/x/bsmap@1.2.2/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.3.0/mod.ts';
 ```
 
 **NOTE:** for first time user, you may need to cache the URL if the error pops up on import. Hover over error and click
@@ -30,7 +30,7 @@ used to obtain certain variables and functions. Helpful tip, use `CTRL+Space` to
 functions.
 
 ```ts
-import { load, save, utils, v3 } from 'https://deno.land/x/bsmap@1.2.2/mod.ts';
+import { load, save, utils, v3 } from 'https://deno.land/x/bsmap@1.3.0/mod.ts';
 const { random, deepCopy } = utils;
 ```
 
@@ -157,15 +157,15 @@ This module is not available directly from main import as it is heavy, unstable,
 This provides plentiful of helpers that may be useful for modcharting and many other purposes.
 
 ```ts
-import * as chroma from 'https://deno.land/x/bsmap@1.2.2/extensions/chroma/mod.ts';
-import * as NE from 'https://deno.land/x/bsmap@1.2.2/extensions/NE/mod.ts';
-import * as selector from 'https://deno.land/x/bsmap@1.2.2/extensions/selector/mod.ts';
+import * as chroma from 'https://deno.land/x/bsmap@1.3.0/extensions/chroma/mod.ts';
+import * as NE from 'https://deno.land/x/bsmap@1.3.0/extensions/NE/mod.ts';
+import * as selector from 'https://deno.land/x/bsmap@1.3.0/extensions/selector/mod.ts';
 ```
 
 If you wish to import all of them, do as following:
 
 ```ts
-import * as ext from 'https://deno.land/x/bsmap@1.2.2/extensions/mod.ts';
+import * as ext from 'https://deno.land/x/bsmap@1.3.0/extensions/mod.ts';
 ```
 
 ## Patch
@@ -174,7 +174,7 @@ This module is not included as it is very rarely used and unstable. It contains 
 beatmap objects that were potentially broken or contain incompatible data.
 
 ```ts
-import * as patch from 'https://deno.land/x/bsmap@1.2.2/patch/mod.ts';
+import * as patch from 'https://deno.land/x/bsmap@1.3.0/patch/mod.ts';
 ```
 
 ## Addendum
@@ -186,8 +186,8 @@ used.
 
 ```ts
 // deps.ts
-export * from 'https://deno.land/x/bsmap@1.2.2/mod.ts';
-export * as ext from 'https://deno.land/x/bsmap@1.2.2/extensions/mod.ts';
+export * from 'https://deno.land/x/bsmap@1.3.0/mod.ts';
+export * as ext from 'https://deno.land/x/bsmap@1.3.0/extensions/mod.ts';
 ```
 
 ```ts
@@ -229,5 +229,7 @@ lose the ability to use certain utilities built around it.
 
 ```ts
 const difficulty = load.difficultySync('ExpertPlusStandard.dat').toJSON();
-const difficultyJSON = JSON.parse(Deno.readTextFileSync('ExpertPlusStandard.dat')) as types.v3.IDifficulty; // unsafe
+const difficultyJSON = JSON.parse(
+    Deno.readTextFileSync('ExpertPlusStandard.dat'),
+) as types.v3.IDifficulty; // unsafe
 ```

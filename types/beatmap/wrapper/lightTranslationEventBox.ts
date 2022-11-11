@@ -3,7 +3,7 @@ import { IWrapEventBox } from './eventBox.ts';
 export interface IWrapLightTranslationEventBox<
     TBox extends Record<keyof TBox, unknown> = Record<string, unknown>,
     TBase extends Record<keyof TBase, unknown> = Record<string, unknown>,
-    TFilter extends Record<keyof TFilter, unknown> = Record<string, unknown>
+    TFilter extends Record<keyof TFilter, unknown> = Record<string, unknown>,
 > extends IWrapEventBox<TBox, TBase, TFilter> {
     /** Translation distribution `<float>` of light translation event box. */
     translationDistribution: number;
@@ -28,10 +28,10 @@ export interface IWrapLightTranslationEventBox<
     affectFirst: 0 | 1;
 
     setTranslationDistribution(
-        value: IWrapLightTranslationEventBox['translationDistribution']
+        value: IWrapLightTranslationEventBox['translationDistribution'],
     ): this;
     setTranslationDistributionType(
-        value: IWrapLightTranslationEventBox['translationDistributionType']
+        value: IWrapLightTranslationEventBox['translationDistributionType'],
     ): this;
     setAxis(value: IWrapLightTranslationEventBox['axis']): this;
     setFlip(value: IWrapLightTranslationEventBox['flip']): this;

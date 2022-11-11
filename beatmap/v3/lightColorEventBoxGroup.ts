@@ -2,7 +2,8 @@ import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
 import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
-import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
+import { IWrapLightColorEventBoxGroup } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
+import { DeepPartial, DeepPartialWrapper, ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightColorEventBoxGroup } from '../wrapper/lightColorEventBoxGroup.ts';
 import { LightColorEventBox } from './lightColorEventBox.ts';
@@ -31,23 +32,55 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
 
     static create(): LightColorEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
+        ...eventBoxGroups: DeepPartialWrapper<
+            IWrapLightColorEventBoxGroup<
+                Required<ILightColorEventBoxGroup>,
+                Required<ILightColorEventBox>,
+                Required<ILightColorBase>,
+                Required<IIndexFilter>
+            >
+        >[]
     ): LightColorEventBoxGroup[];
     static create(
         ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
+    ): LightColorEventBoxGroup[];
+    static create(
+        ...eventBoxGroups: (
+            & DeepPartial<ILightColorEventBoxGroup>
+            & DeepPartialWrapper<
+                IWrapLightColorEventBoxGroup<
+                    Required<ILightColorEventBoxGroup>,
+                    Required<ILightColorEventBox>,
+                    Required<ILightColorBase>,
+                    Required<IIndexFilter>
+                >
+            >
+        )[]
+    ): LightColorEventBoxGroup[];
+    static create(
+        ...eventBoxGroups: (
+            & DeepPartial<ILightColorEventBoxGroup>
+            & DeepPartialWrapper<
+                IWrapLightColorEventBoxGroup<
+                    Required<ILightColorEventBoxGroup>,
+                    Required<ILightColorEventBox>,
+                    Required<ILightColorBase>,
+                    Required<IIndexFilter>
+                >
+            >
+        )[]
     ): LightColorEventBoxGroup[] {
         const result: LightColorEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
             result.push(
                 new this({
                     b: ebg.b ?? LightColorEventBoxGroup.default.b,
-                    g: ebg.g ?? LightColorEventBoxGroup.default.g,
-                    e:
-                        (ebg as Required<ILightColorEventBoxGroup>).e ??
+                    g: ebg.id ?? ebg.g ?? LightColorEventBoxGroup.default.g,
+                    e: (ebg.events as ILightColorEventBox[]) ??
+                        (ebg.e as unknown as ILightColorEventBox[]) ??
                         LightColorEventBoxGroup.default.e(),
-                    customData:
-                        ebg.customData ?? LightColorEventBoxGroup.default.customData(),
-                })
+                    customData: ebg.customData ?? LightColorEventBoxGroup.default.customData(),
+                }),
             )
         );
         if (result.length) {
@@ -98,15 +131,6 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
     }
     set customData(value: NonNullable<ILightColorEventBoxGroup['customData']>) {
         this.data.customData = value;
-    }
-
-    setCustomData(value: NonNullable<ILightColorEventBoxGroup['customData']>): this {
-        this.customData = value;
-        return this;
-    }
-    addCustomData(object: ILightColorEventBoxGroup['customData']): this {
-        this.customData = { ...this.customData, object };
-        return this;
     }
 
     isValid(): boolean {

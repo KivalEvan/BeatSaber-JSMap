@@ -21,14 +21,12 @@ export function ogChromaToChromaV2<T extends DifficultyV2 | DifficultyV3>(
     data: T,
     environment: EnvironmentAllName = 'DefaultEnvironment',
 ): T {
-    logger.info(tag('ogChromaToChromaV2'), 'Converting old Chroma event value to Chroma event customData');
-    let events: BasicEvent[] | Event[];
+    logger.info(
+        tag('ogChromaToChromaV2'),
+        'Converting old Chroma event value to Chroma event customData',
+    );
+    const events: BasicEvent[] | Event[] = data.basicEvents;
     const newEvents: BasicEvent[] | Event[] = [];
-    if (isV2(data)) {
-        events = data.events;
-    } else {
-        events = data.basicEvents;
-    }
     const colorScheme = ColorScheme[EnvironmentSchemeName[environment]];
     const defaultLeftLight: ColorArray = [
         colorScheme._envColorLeft!.r,
@@ -90,7 +88,7 @@ export function ogChromaToChromaV2<T extends DifficultyV2 | DifficultyV3>(
         }
     }
     if (isV2(data)) {
-        data.events = newEvents as Event[];
+        data.basicEvents = newEvents as Event[];
     } else {
         data.basicEvents = newEvents as BasicEvent[];
     }

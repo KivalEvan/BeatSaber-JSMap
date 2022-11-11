@@ -4,11 +4,19 @@
 
 ### Added
 
+- The Weeknd environment & color scheme
 - Wrapper class/interface
+  - Write properties instantiation in more readable syntax
+  - Able to instantiate object from existing class object
+  - Mix-and-match is possible but will prioritise wrapper property
+- External file interface
+  - Currently supported `BPM Info`, `Cinema`, `Chroma`
 
 ### Changed
 
+- Updated to beatmap v3.2.0
 - Renamed `basicBeatmapEvents` and `colorBoostBeatmapEvents` to `basicEvents` and `colorBoostEvents`
+- Improved function overloading and auto-completion
 
 ### Fixed
 
@@ -36,7 +44,7 @@
 
 - Convert To V3 script now actually ask for miscellaneous conversion
 - Data check option now actually respect option
-- Deleted stray \_preciseSpeed custom data on conversion
+- Deleted stray `_preciseSpeed` custom data on conversion
 - Autocomplete no longer includes object class property in add/creation
 - JSDoc typo error
 

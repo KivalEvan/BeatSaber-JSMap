@@ -1,6 +1,7 @@
 import { IBasicEventTypesForKeywords } from '../../types/beatmap/v3/basicEventTypesForKeywords.ts';
 import { IBasicEventTypesWithKeywords } from '../../types/beatmap/v3/basicEventTypesWithKeywords.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { IWrapEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
+import { DeepPartial, DeepPartialWrapper, ObjectReturnFn } from '../../types/utils.ts';
 import { WrapEventTypesWithKeywords } from '../wrapper/eventTypesWithKeywords.ts';
 import { BasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
 
@@ -23,11 +24,35 @@ export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
         );
     }
 
+    static create(): BasicEventTypesWithKeywords;
     static create(
-        basicEventTypesWithKeywords: Partial<IBasicEventTypesWithKeywords> = {},
+        basicEventTypesWithKeywords: DeepPartialWrapper<
+            IWrapEventTypesWithKeywords<Required<IBasicEventTypesWithKeywords>>
+        >,
+    ): BasicEventTypesWithKeywords;
+    static create(
+        basicEventTypesWithKeywords: DeepPartial<IBasicEventTypesWithKeywords>,
+    ): BasicEventTypesWithKeywords;
+    static create(
+        basicEventTypesWithKeywords:
+            & DeepPartial<IBasicEventTypesWithKeywords>
+            & DeepPartialWrapper<
+                IWrapEventTypesWithKeywords<Required<IBasicEventTypesWithKeywords>>
+            >,
+    ): BasicEventTypesWithKeywords;
+    static create(
+        basicEventTypesWithKeywords:
+            & DeepPartial<IBasicEventTypesWithKeywords>
+            & DeepPartialWrapper<
+                IWrapEventTypesWithKeywords<Required<IBasicEventTypesWithKeywords>>
+            > = {},
     ): BasicEventTypesWithKeywords {
         return new this({
-            d: basicEventTypesWithKeywords.d ?? BasicEventTypesWithKeywords.default.d(),
+            d: (basicEventTypesWithKeywords.list?.map((k) => {
+                return { k: k?.keyword, e: k?.events };
+            }) as IBasicEventTypesForKeywords[]) ??
+                basicEventTypesWithKeywords.d ??
+                BasicEventTypesWithKeywords.default.d(),
         });
     }
 

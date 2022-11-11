@@ -1,11 +1,12 @@
 import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
-import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
+import { DeepPartial, DeepPartialWrapper, ObjectReturnFn } from '../../types/utils.ts';
 import { LightRotationEventBox } from './lightRotationEventBox.ts';
 import { WrapLightRotationEventBoxGroup } from '../wrapper/lightRotationEventBoxGroup.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
 import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
+import { IWrapLightRotationEventBoxGroup } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
 
 /** Light translation event box group beatmap v3 class object. */
 export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
@@ -31,10 +32,43 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
 
     static create(): LightRotationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]
+        ...eventBoxGroups: DeepPartialWrapper<
+            IWrapLightRotationEventBoxGroup<
+                Required<ILightRotationEventBoxGroup>,
+                Required<ILightRotationEventBox>,
+                Required<ILightRotationBase>,
+                Required<IIndexFilter>
+            >
+        >[]
     ): LightRotationEventBoxGroup[];
     static create(
         ...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]
+    ): LightRotationEventBoxGroup[];
+    static create(
+        ...eventBoxGroups: (
+            & DeepPartial<ILightRotationEventBoxGroup>
+            & DeepPartialWrapper<
+                IWrapLightRotationEventBoxGroup<
+                    Required<ILightRotationEventBoxGroup>,
+                    Required<ILightRotationEventBox>,
+                    Required<ILightRotationBase>,
+                    Required<IIndexFilter>
+                >
+            >
+        )[]
+    ): LightRotationEventBoxGroup[];
+    static create(
+        ...eventBoxGroups: (
+            & DeepPartial<ILightRotationEventBoxGroup>
+            & DeepPartialWrapper<
+                IWrapLightRotationEventBoxGroup<
+                    Required<ILightRotationEventBoxGroup>,
+                    Required<ILightRotationEventBox>,
+                    Required<ILightRotationBase>,
+                    Required<IIndexFilter>
+                >
+            >
+        )[]
     ): LightRotationEventBoxGroup[] {
         const result: LightRotationEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
@@ -42,13 +76,12 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
                 new this({
                     b: ebg.b ?? LightRotationEventBoxGroup.default.b,
                     g: ebg.g ?? LightRotationEventBoxGroup.default.g,
-                    e:
-                        (ebg as Required<ILightRotationEventBoxGroup>).e ??
+                    e: (ebg.events as ILightRotationEventBox[]) ??
+                        (ebg.e as unknown as ILightRotationEventBox[]) ??
                         LightRotationEventBoxGroup.default.e(),
-                    customData:
-                        ebg.customData ??
+                    customData: ebg.customData ??
                         LightRotationEventBoxGroup.default.customData(),
-                })
+                }),
             )
         );
         if (result.length) {
@@ -99,15 +132,6 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
     }
     set customData(value: NonNullable<ILightRotationEventBoxGroup['customData']>) {
         this.data.customData = value;
-    }
-
-    setCustomData(value: NonNullable<ILightRotationEventBoxGroup['customData']>): this {
-        this.customData = value;
-        return this;
-    }
-    addCustomData(object: ILightRotationEventBoxGroup['customData']): this {
-        this.customData = { ...this.customData, object };
-        return this;
     }
 
     isValid(): boolean {

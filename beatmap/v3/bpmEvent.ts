@@ -1,5 +1,6 @@
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapBPMEvent } from '../wrapper/bpmEvent.ts';
 
@@ -18,14 +19,28 @@ export class BPMEvent extends WrapBPMEvent<Required<IBPMEvent>> {
     }
 
     static create(): BPMEvent[];
+    static create(
+        ...bpmEvents: PartialWrapper<IWrapBPMEvent<Required<IBPMEvent>>>[]
+    ): BPMEvent[];
     static create(...bpmEvents: Partial<IBPMEvent>[]): BPMEvent[];
-    static create(...bpmEvents: Partial<IBPMEvent>[]): BPMEvent[] {
+    static create(
+        ...bpmEvents: (
+            & Partial<IBPMEvent>
+            & PartialWrapper<IWrapBPMEvent<Required<IBPMEvent>>>
+        )[]
+    ): BPMEvent[];
+    static create(
+        ...bpmEvents: (
+            & Partial<IBPMEvent>
+            & PartialWrapper<IWrapBPMEvent<Required<IBPMEvent>>>
+        )[]
+    ): BPMEvent[] {
         const result: BPMEvent[] = [];
         bpmEvents?.forEach((be) =>
             result.push(
                 new this({
-                    b: be.b ?? BPMEvent.default.b,
-                    m: be.m ?? BPMEvent.default.m,
+                    b: be.time ?? be.b ?? BPMEvent.default.b,
+                    m: be.bpm ?? be.m ?? BPMEvent.default.m,
                     customData: be.customData ?? BPMEvent.default.customData(),
                 }),
             )
@@ -74,15 +89,6 @@ export class BPMEvent extends WrapBPMEvent<Required<IBPMEvent>> {
     }
     set customData(value: NonNullable<IBPMEvent['customData']>) {
         this.data.customData = value;
-    }
-
-    setCustomData(value: NonNullable<IBPMEvent['customData']>): this {
-        this.customData = value;
-        return this;
-    }
-    addCustomData(object: IBPMEvent['customData']): this {
-        this.customData = { ...this.customData, object };
-        return this;
     }
 
     isValid(): boolean {

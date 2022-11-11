@@ -1,5 +1,6 @@
 import { INote } from '../../types/beatmap/v2/note.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
 
@@ -21,18 +22,24 @@ export class Note extends WrapColorNote<Required<INote>> {
     }
 
     static create(): Note[];
+    static create(...notes: PartialWrapper<IWrapColorNote<Required<INote>>>[]): Note[];
     static create(...notes: Partial<INote>[]): Note[];
-    static create(...notes: Partial<INote>[]): Note[] {
+    static create(
+        ...notes: (Partial<INote> & PartialWrapper<IWrapColorNote<Required<INote>>>)[]
+    ): Note[];
+    static create(
+        ...notes: (Partial<INote> & PartialWrapper<IWrapColorNote<Required<INote>>>)[]
+    ): Note[] {
         const result: Note[] = [];
         notes?.forEach((n) =>
             result.push(
                 new this({
-                    _time: n._time ?? Note.default._time,
-                    _lineIndex: n._lineIndex ?? Note.default._lineIndex,
-                    _lineLayer: n._lineLayer ?? Note.default._lineLayer,
-                    _type: n._type ?? Note.default._type,
-                    _cutDirection: n._cutDirection ?? Note.default._cutDirection,
-                    _customData: n._customData ?? Note.default._customData(),
+                    _time: n.time ?? n._time ?? Note.default._time,
+                    _lineIndex: n.posX ?? n._lineIndex ?? Note.default._lineIndex,
+                    _lineLayer: n.posY ?? n._lineLayer ?? Note.default._lineLayer,
+                    _type: n.type ?? n._type ?? Note.default._type,
+                    _cutDirection: n.direction ?? n._cutDirection ?? Note.default._cutDirection,
+                    _customData: n.customData ?? n._customData ?? Note.default._customData(),
                 }),
             )
         );
@@ -118,15 +125,6 @@ export class Note extends WrapColorNote<Required<INote>> {
         this.data._customData = value;
     }
 
-    setCustomData(value: NonNullable<INote['_customData']>): this {
-        this.customData = value;
-        return this;
-    }
-    addCustomData(object: INote['_customData']): this {
-        this.customData = { ...this.customData, object };
-        return this;
-    }
-
     getPosition(type?: 'vanilla' | 'me' | 'ne'): [number, number] {
         if (this.customData._position) {
             return [this.customData._position[0], this.customData._position[1]];
@@ -144,7 +142,10 @@ export class Note extends WrapColorNote<Required<INote>> {
     }
 
     isChroma(): boolean {
-        return Array.isArray(this.customData._color) || typeof this.customData._disableSpawnEffect === 'boolean';
+        return (
+            Array.isArray(this.customData._color) ||
+            typeof this.customData._disableSpawnEffect === 'boolean'
+        );
     }
 
     // god i hate these

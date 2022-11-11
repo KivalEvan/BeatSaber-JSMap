@@ -1,8 +1,9 @@
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { NoteDirectionAngle } from '../shared/constants.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
+import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 
 /** Color note beatmap v3 class object. */
 export class ColorNote extends WrapColorNote<Required<IColorNote>> {
@@ -23,18 +24,32 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
     }
 
     static create(): ColorNote[];
+    static create(
+        ...colorNotes: PartialWrapper<IWrapColorNote<Required<IColorNote>>>[]
+    ): ColorNote[];
     static create(...colorNotes: Partial<IColorNote>[]): ColorNote[];
-    static create(...colorNotes: Partial<IColorNote>[]): ColorNote[] {
+    static create(
+        ...colorNotes: (
+            & Partial<IColorNote>
+            & PartialWrapper<IWrapColorNote<Required<IColorNote>>>
+        )[]
+    ): ColorNote[];
+    static create(
+        ...colorNotes: (
+            & Partial<IColorNote>
+            & PartialWrapper<IWrapColorNote<Required<IColorNote>>>
+        )[]
+    ): ColorNote[] {
         const result: ColorNote[] = [];
         colorNotes?.forEach((n) =>
             result.push(
                 new this({
-                    b: n.b ?? ColorNote.default.b,
-                    x: n.x ?? ColorNote.default.x,
-                    y: n.y ?? ColorNote.default.y,
-                    c: n.c ?? ColorNote.default.c,
-                    d: n.d ?? ColorNote.default.d,
-                    a: n.a ?? ColorNote.default.a,
+                    b: n.time ?? n.b ?? ColorNote.default.b,
+                    x: n.posX ?? n.x ?? ColorNote.default.x,
+                    y: n.posY ?? n.y ?? ColorNote.default.y,
+                    c: n.color ?? n.c ?? ColorNote.default.c,
+                    d: n.direction ?? n.d ?? ColorNote.default.d,
+                    a: n.angleOffset ?? n.a ?? ColorNote.default.a,
                     customData: n.customData ?? ColorNote.default.customData(),
                 }),
             )
@@ -123,28 +138,6 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
         this.data.customData = value;
     }
 
-    setCustomData(value: NonNullable<IColorNote['customData']>): this {
-        this.customData = value;
-        return this;
-    }
-    addCustomData(object: IColorNote['customData']): this {
-        this.customData = { ...this.customData, object };
-        return this;
-    }
-
-    setColor(value: IColorNote['c']) {
-        this.color = value;
-        return this;
-    }
-    setDirection(value: IColorNote['d']) {
-        this.direction = value;
-        return this;
-    }
-    setAngleOffset(value: IColorNote['a']) {
-        this.angleOffset = value;
-        return this;
-    }
-
     mirror(flipColor = true) {
         if (this.customData.coordinates) {
             this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
@@ -170,24 +163,39 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
     getAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':
-                return (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) + this.angleOffset;
+                return (
+                    (NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0) + this.angleOffset
+                );
             case 'me':
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
             /* falls through */
             case 'ne':
-                return (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) + this.angleOffset;
+                return (
+                    (NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0) + this.angleOffset
+                );
             default:
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
-                return (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) + this.angleOffset;
+                return (
+                    (NoteDirectionAngle[
+                        this.direction as keyof typeof NoteDirectionAngle
+                    ] || 0) + this.angleOffset
+                );
         }
     }
 
     isChroma(): boolean {
-        return Array.isArray(this.customData.color) || typeof this.customData.spawnEffect === 'boolean';
+        return (
+            Array.isArray(this.customData.color) ||
+            typeof this.customData.spawnEffect === 'boolean'
+        );
     }
 
     // god i hate these
