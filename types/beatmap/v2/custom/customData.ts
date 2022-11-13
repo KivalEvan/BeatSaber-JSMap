@@ -2,7 +2,7 @@ import { IBookmark } from './bookmark.ts';
 import { IBPMChange, IBPMChangeOld } from './bpmChange.ts';
 import { IChromaCustomData, IChromaNote, IChromaObstacle } from './chroma.ts';
 import { INENote, INEObstacle } from './noodleExtensions.ts';
-import { ICustomDataBase } from '../shared/customData.ts';
+import { ICustomDataBase } from '../../shared/custom/customData.ts';
 import { IPointDefinition } from './pointDefinition.ts';
 import { ICustomEvent } from './customEvent.ts';
 import { IAnimation } from './animation.ts';
@@ -21,4 +21,8 @@ export interface ICustomDataDifficulty extends ICustomDataBase, IChromaCustomDat
 }
 
 export type ICustomDataNote = ICustomDataBase & IChromaNote & INENote & IAnimation;
-export type ICustomDataObstacle = ICustomDataBase & IChromaObstacle & INEObstacle & IAnimation;
+export type ICustomDataObstacle =
+    & ICustomDataBase
+    & IChromaObstacle
+    & INEObstacle
+    & IAnimation;

@@ -1,5 +1,5 @@
 import { IGridObject } from './gridObject.ts';
-import { ICustomDataNote } from './customData.ts';
+import { ICustomDataNote } from './custom/customData.ts';
 
 export interface IColorNote extends IGridObject {
     /** Color type `<int>` of note.

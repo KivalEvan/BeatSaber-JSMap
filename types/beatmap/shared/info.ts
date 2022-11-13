@@ -1,6 +1,6 @@
 import { LooseAutocomplete } from '../../utils.ts';
 import { CharacteristicName } from './characteristic.ts';
-import { ICustomDataInfo, ICustomDataInfoDifficulty } from './customData.ts';
+import { ICustomDataInfo, ICustomDataInfoDifficulty } from './custom/customData.ts';
 import { DifficultyName, DifficultyRank } from './difficulty.ts';
 import { Environment360Name, EnvironmentName, EnvironmentV3Name } from './environment.ts';
 

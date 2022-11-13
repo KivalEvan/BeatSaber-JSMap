@@ -1,6 +1,6 @@
-import { IChromaComponent, IChromaEnvironment } from '../../../types/beatmap/v3/chroma.ts';
-import { IChromaEnvironment as IChromaEnvironmentV2 } from '../../../types/beatmap/v2/chroma.ts';
-import { Vector3 } from '../../../types/beatmap/shared/heck.ts';
+import { IChromaComponent, IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
+import { IChromaEnvironment as IChromaEnvironmentV2 } from '../../../types/beatmap/v2/custom/chroma.ts';
+import { Vector3 } from '../../../types/beatmap/shared/custom/heck.ts';
 import logger from '../../../logger.ts';
 
 const tag = (name: string) => {
@@ -92,8 +92,14 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
             };
         }
         if (e.geometry) {
-            if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
-                logger.warn(tag('V3toV2'), 'v2 geometry cannot be made assignable light to specific type');
+            if (
+                e.components?.ILightWithId?.type ||
+                e.components?.ILightWithId?.lightID
+            ) {
+                logger.warn(
+                    tag('V3toV2'),
+                    'v2 geometry cannot be made assignable light to specific type',
+                );
             }
             return {
                 _geometry: e.geometry.type === 'CUSTOM'

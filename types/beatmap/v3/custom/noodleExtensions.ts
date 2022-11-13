@@ -1,5 +1,5 @@
-import { PercentPointDefinition, Vector2, Vector3, Vector3PointDefinition } from '../shared/heck.ts';
-import { PlayerObject } from '../shared/noodleExtensions.ts';
+import { PercentPointDefinition, Vector2, Vector3, Vector3PointDefinition } from '../../shared/custom/heck.ts';
+import { PlayerObject } from '../../shared/custom/noodleExtensions.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 
 /** Noodle Extensions Object interface for Beatmap Object. */

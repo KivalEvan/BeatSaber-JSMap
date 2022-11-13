@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-unused-vars
 import { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
-import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v3/chroma.ts';
+import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v3/custom/chroma.ts';
 import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';

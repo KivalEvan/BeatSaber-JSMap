@@ -1,5 +1,5 @@
 import { IBaseSlider } from './baseSlider.ts';
-import { ICustomDataSlider } from './customData.ts';
+import { ICustomDataSlider } from './custom/customData.ts';
 
 export interface ISlider extends IBaseSlider {
     /** Head control point length multiplier `<float>` of slider.

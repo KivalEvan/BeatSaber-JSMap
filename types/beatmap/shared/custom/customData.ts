@@ -1,9 +1,9 @@
 import { IContributor } from './contributor.ts';
 import { IEditor } from './editor.ts';
-import { IColorScheme } from './colorScheme.ts';
+import { IColorScheme } from '../colorScheme.ts';
 import { IHeckInfoCustomData, IInfoSettingsCustomData } from './heck.ts';
 import { IChromaInfoCustomData } from './chroma.ts';
-import { LooseAutocomplete } from '../../utils.ts';
+import { LooseAutocomplete } from '../../../utils.ts';
 
 /** Base custom data interface. */
 export interface ICustomDataBase {
@@ -27,7 +27,10 @@ export type Suggestions = 'Chroma' | 'Cinema';
 /** Available mod requirements. */
 export type Requirements = Suggestions | 'Noodle Extensions' | 'Mapping Extensions';
 
-type IInfoSettings = IInfoSettingsCustomData & IHeckInfoCustomData & IChromaInfoCustomData;
+type IInfoSettings =
+    & IInfoSettingsCustomData
+    & IHeckInfoCustomData
+    & IChromaInfoCustomData;
 /** Custom Data interface for info difficulty.
  * @extends ICustomDataBase
  * @extends IColorScheme

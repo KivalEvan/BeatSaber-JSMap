@@ -1,4 +1,4 @@
-import { Vector2 } from '../shared/heck.ts';
+import { Vector2 } from '../shared/custom/heck.ts';
 import { IWrapBaseObject } from './baseObject.ts';
 
 export interface IWrapGridObject<

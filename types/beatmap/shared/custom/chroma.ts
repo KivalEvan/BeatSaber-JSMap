@@ -1,4 +1,4 @@
-import { Easings } from '../../easings.ts';
+import { Easings } from '../../../easings.ts';
 import { IInfoSettingsCustomData } from './heck.ts';
 
 export type ColorPointDefinition =

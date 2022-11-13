@@ -1,4 +1,4 @@
-import { ICustomDataNote } from './customData.ts';
+import { ICustomDataNote } from './custom/customData.ts';
 import { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Note. */

@@ -1,12 +1,12 @@
 import {
     ICustomDataNote as ICustomDataNoteV2,
     ICustomDataObstacle as ICustomDataObstacleV2,
-} from '../../types/beatmap/v2/customData.ts';
+} from '../../types/beatmap/v2/custom/customData.ts';
 import {
     ICustomDataNote as ICustomDataNoteV3,
     ICustomDataObstacle as ICustomDataObstacleV3,
     ICustomDataSlider,
-} from '../../types/beatmap/v3/customData.ts';
+} from '../../types/beatmap/v3/custom/customData.ts';
 import {
     fixBoolean,
     fixColor,
@@ -21,7 +21,12 @@ import {
 } from './helpers.ts';
 
 export function fixCustomDataObject(
-    cd?: ICustomDataNoteV2 & ICustomDataObstacleV2 & ICustomDataNoteV3 & ICustomDataObstacleV3 & ICustomDataSlider,
+    cd?:
+        & ICustomDataNoteV2
+        & ICustomDataObstacleV2
+        & ICustomDataNoteV3
+        & ICustomDataObstacleV3
+        & ICustomDataSlider,
 ) {
     if (!cd) {
         return;
@@ -68,7 +73,9 @@ export function fixCustomDataObject(
                 : fixString(cd._animation._color, 'unknownTrack');
         }
         if (cd._animation._definitePosition != null) {
-            cd._animation._definitePosition = Array.isArray(cd._animation._definitePosition)
+            cd._animation._definitePosition = Array.isArray(
+                    cd._animation._definitePosition,
+                )
                 ? fixVector3PointDefinition(cd._animation._definitePosition, [0, 0, 0])
                 : fixString(cd._animation._definitePosition, 'unknownTrack');
         }

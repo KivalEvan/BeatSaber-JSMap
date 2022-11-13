@@ -16,6 +16,8 @@
 ### Changed
 
 - Updated to beatmap v3.2.0
+- Structural change
+  - Custom data type moved to their dedicated folder to separate main and custom schema
 - Renamed `basicBeatmapEvents` and `colorBoostBeatmapEvents` to `basicEvents` and `colorBoostEvents`
 - Beatmap v2 field rename (JSON remains the same)
 - Improved function overloading and auto-completion

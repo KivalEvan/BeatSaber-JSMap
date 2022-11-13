@@ -12,7 +12,7 @@ import { ILightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { ILightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { IBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 import { ILightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
-import { ICustomDataDifficulty } from './customData.ts';
+import { ICustomDataDifficulty } from './custom/customData.ts';
 import { IBaseItem } from './baseItem.ts';
 
 export interface IDifficulty extends IBaseItem {

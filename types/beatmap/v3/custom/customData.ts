@@ -4,12 +4,12 @@ import { IHeckCustomData } from './heck.ts';
 import { IChromaCustomData, IChromaNote, IChromaObstacle } from './chroma.ts';
 import { INENote, INEObstacle, INESlider } from './noodleExtensions.ts';
 import { ICustomEvent } from './customEvent.ts';
-import { ICustomDataBase } from '../shared/customData.ts';
+import { ICustomDataBase } from '../../shared/custom/customData.ts';
 import { IPointDefinition } from './pointDefinition.ts';
-import { IColorNote } from './colorNote.ts';
-import { IBurstSlider } from './burstSlider.ts';
-import { IBombNote } from './bombNote.ts';
-import { IObstacle } from './obstacle.ts';
+import { IColorNote } from '../colorNote.ts';
+import { IBurstSlider } from '../burstSlider.ts';
+import { IBombNote } from '../bombNote.ts';
+import { IObstacle } from '../obstacle.ts';
 import { IAnimation } from './animation.ts';
 
 /** Custom Data interface for difficulty file.

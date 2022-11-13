@@ -6,7 +6,7 @@ import { Difficulty as DifficultyV3 } from '../../beatmap/v3/difficulty.ts';
 import { isV3 } from '../../beatmap/version.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { IEvent } from '../../types/beatmap/v2/event.ts';
-import { IChromaEventRing, IChromaEventZoom } from '../../types/beatmap/v3/chroma.ts';
+import { IChromaEventRing, IChromaEventZoom } from '../../types/beatmap/v3/custom/chroma.ts';
 import { DeepPartial } from '../../types/utils.ts';
 import { LightIDList } from './lightID.ts';
 import { EventBase, EventBox, EventBoxType, IndexFilterDivision } from './types/lightMapper.ts';
@@ -31,7 +31,9 @@ export class LightMapper {
     private boosts: ColorBoostEvent[] = [];
 
     constructor(environment: EnvironmentAllName) {
-        this.lightIDMapping = <{ [key: number]: number[] }> structuredClone(LightIDList[environment]);
+        this.lightIDMapping = <{ [key: number]: number[] }> (
+            structuredClone(LightIDList[environment])
+        );
         this.environment = environment;
     }
 
@@ -57,7 +59,8 @@ export class LightMapper {
                             }
                             : {
                                 type: 'Division',
-                                divide: (eb.indexFilter as IndexFilterDivision).divide ?? 1,
+                                divide: (eb.indexFilter as IndexFilterDivision).divide ??
+                                    1,
                                 id: eb.indexFilter.id ?? 0,
                                 reverse: eb.indexFilter.reverse ?? false,
                             }
@@ -132,8 +135,10 @@ export class LightMapper {
                 if (eb.indexFilter.type === 'Division') {
                     if (eb.indexFilter.divide > 1) {
                         lid = lid.slice(
-                            Math.floor(lid.length / eb.indexFilter.divide) * eb.indexFilter.id,
-                            Math.ceil(lid.length / eb.indexFilter.divide) * (eb.indexFilter.id + 1),
+                            Math.floor(lid.length / eb.indexFilter.divide) *
+                                eb.indexFilter.id,
+                            Math.ceil(lid.length / eb.indexFilter.divide) *
+                                (eb.indexFilter.id + 1),
                         );
                     }
                 }
@@ -147,7 +152,12 @@ export class LightMapper {
                     }
                     lid = temp;
                 }
-                if (!eb.beatDistribution && !eb.brightnessDistribution && !eb.hueDistribution && !eb.affectFirst) {
+                if (
+                    !eb.beatDistribution &&
+                    !eb.brightnessDistribution &&
+                    !eb.hueDistribution &&
+                    !eb.affectFirst
+                ) {
                     let previousEvent: BasicEvent;
                     let previousBase: EventBase;
                     eb.events.forEach((ev) => {
@@ -161,7 +171,9 @@ export class LightMapper {
                                     events.push(
                                         previousEvent
                                             .clone()
-                                            .setTime(t - 1 / (previousBase.frequency * 2))
+                                            .setTime(
+                                                t - 1 / (previousBase.frequency * 2),
+                                            )
                                             .setValue(0)
                                             .setFloatValue(0),
                                         previousEvent.clone().setTime(t),
@@ -195,8 +207,9 @@ export class LightMapper {
                         i < lid.length;
                         i++,
                             x = eb.beatDistributionType === 'Division'
-                                ? easings[eb.beatDistributionEasing ?? 'easeLinear'](i / (lid.length - 1)) *
-                                    eb.beatDistribution
+                                ? easings[
+                                    eb.beatDistributionEasing ?? 'easeLinear'
+                                ](i / (lid.length - 1)) * eb.beatDistribution
                                 : i * (lastEventTime + eb.beatDistribution)
                     ) {
                         if (ev.transition === 2 && previousEvent) {
@@ -209,7 +222,9 @@ export class LightMapper {
                                     events.push(
                                         previousEvent
                                             .clone()
-                                            .setTime(t - 1 / (previousBase.frequency * 2) + x)
+                                            .setTime(
+                                                t - 1 / (previousBase.frequency * 2) + x,
+                                            )
                                             .setValue(0)
                                             .setFloatValue(0),
                                         previousEvent.clone().setTime(t),
@@ -244,7 +259,10 @@ export class LightMapper {
                             f: Math.max(
                                 isFirst ? ev.brightness : eb.brightnessDistributionType === 'Division'
                                     ? ev.brightness +
-                                        easings[eb.brightnessDistributionEasing ?? 'easeLinear'](i / (lid.length - 1)) *
+                                        easings[
+                                                eb.brightnessDistributionEasing ??
+                                                    'easeLinear'
+                                            ](i / (lid.length - 1)) *
                                             eb.brightnessDistribution
                                     : ev.brightness + i * eb.brightnessDistribution,
                                 0,
@@ -254,23 +272,30 @@ export class LightMapper {
                         if (eb.hueDistribution && event.isLightEvent()) {
                             if (!event.customData.color) {
                                 event.customData.color = event.isWhite() ? [1, 1, 1] : colorObjToAry(
-                                    ColorScheme[EnvironmentSchemeName[this.environment]][
+                                    ColorScheme[
+                                        EnvironmentSchemeName[this.environment]
+                                    ][
                                         event.isRed() ? '_envColorLeft' : '_envColorRight'
                                     ]!,
                                 );
                             }
                             if (!isFirst) {
                                 event.customData.color = HSVAtoRGBA(
-                                    ...(RGBAtoHSVA(...event.customData.color).map((v, x) => {
-                                        if (!x) {
-                                            v! += eb.hueDistributionType === 'Division'
-                                                ? easings[eb.hueDistributionEasing ?? 'easeLinear'](
-                                                    i / (lid.length - 1),
-                                                ) * eb.hueDistribution
-                                                : i * eb.hueDistribution;
-                                        }
-                                        return v;
-                                    }) as ColorArray),
+                                    ...(RGBAtoHSVA(...event.customData.color).map(
+                                        (v, x) => {
+                                            if (!x) {
+                                                v! += eb.hueDistributionType ===
+                                                        'Division'
+                                                    ? easings[
+                                                        eb.hueDistributionEasing ??
+                                                            'easeLinear'
+                                                    ](i / (lid.length - 1)) *
+                                                        eb.hueDistribution
+                                                    : i * eb.hueDistribution;
+                                            }
+                                            return v;
+                                        },
+                                    ) as ColorArray),
                                 );
                             }
                         }

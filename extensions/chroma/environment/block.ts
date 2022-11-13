@@ -1,5 +1,5 @@
-import { Vector3 } from '../../../types/beatmap/shared/heck.ts';
-import { IChromaEnvironment } from '../../../types/beatmap/v3/chroma.ts';
+import { Vector3 } from '../../../types/beatmap/shared/custom/heck.ts';
+import { IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
 import { IChromaEnvironmentPlacement } from '../types/environment.ts';
 
 /** **IMPORTANT:** Manually adjust block to be exactly 1x1x1 unity unit (1x1x1 scale does usually not work) */
@@ -9,7 +9,11 @@ export class EnvironmentBlock {
     lightType?: number;
     static startLightID = 100;
     static index = 0;
-    protected constructor(data: IChromaEnvironment, anchor: Vector3, lightType?: number) {
+    protected constructor(
+        data: IChromaEnvironment,
+        anchor: Vector3,
+        lightType?: number,
+    ) {
         this.data = data;
         this.anchor = anchor;
         this.lightType = lightType;
@@ -20,17 +24,26 @@ export class EnvironmentBlock {
 
     place(options: IChromaEnvironmentPlacement, insertTo?: never): IChromaEnvironment;
     place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
-    place(options: IChromaEnvironmentPlacement, insertTo?: IChromaEnvironment[]): IChromaEnvironment | void {
+    place(
+        options: IChromaEnvironmentPlacement,
+        insertTo?: IChromaEnvironment[],
+    ): IChromaEnvironment | void {
         const scale = options.scale
-            ? ((this.data.scale ? this.data.scale : [1, 1, 1]).map((s, i) => s * options.scale![i]) as Vector3)
+            ? ((this.data.scale ? this.data.scale : [1, 1, 1]).map(
+                (s, i) => s * options.scale![i],
+            ) as Vector3)
             : this.data.scale;
         const position = options.position
-            ? (options.position.map((p, i) => p + this.anchor[i] * (options.scale?.[i] || 1)) as Vector3)
+            ? (options.position.map(
+                (p, i) => p + this.anchor[i] * (options.scale?.[i] || 1),
+            ) as Vector3)
             : ((this.data.position ? this.data.position : [0, 0, 0]).map(
                 (p, i) => p + this.anchor[i] * (options.scale?.[i] ?? 1),
             ) as Vector3);
         const rotation = options.rotation
-            ? (options.rotation.map((r, i) => r + (this.data.rotation?.[i] ?? 0)) as Vector3)
+            ? (options.rotation.map(
+                (r, i) => r + (this.data.rotation?.[i] ?? 0),
+            ) as Vector3)
             : this.data.rotation;
         const components = {
             ...this.data.components,

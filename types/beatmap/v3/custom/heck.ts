@@ -1,5 +1,5 @@
-import { Easings } from '../../easings.ts';
-import { Vector3PointDefinition } from '../shared/heck.ts';
+import { Easings } from '../../../easings.ts';
+import { Vector3PointDefinition } from '../../shared/custom/heck.ts';
 
 /** Heck Base Custom Event interface. */
 export interface IHeckCustomEventDataBase {
