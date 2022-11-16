@@ -36,9 +36,7 @@ export const EnvironmentRename: { [key in EnvironmentAllName]: string } = {
 
 /** List of available event type in environment. */
 export const EventList: {
-    [key in EnvironmentAllName]: Readonly<
-        [ReadonlyArray<number>, ReadonlyArray<number>]
-    >;
+    [key in EnvironmentAllName]: Readonly<[ReadonlyArray<number>, ReadonlyArray<number>]>;
 } = {
     DefaultEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
     OriginsEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
@@ -116,8 +114,8 @@ export const EventList: {
             34,
             35,
             36,
+            37,
             38,
-            39,
             40,
         ],
     ],

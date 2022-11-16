@@ -134,7 +134,7 @@ try {
         }
         if (isV2(dl.data)) {
             logger.info('Fixing beatmap v2', dl.characteristic, dl.difficulty);
-            if (dl.data.events.some((e) => e.hasOldChroma())) {
+            if (dl.data.basicEvents.some((e) => e.isOldChroma())) {
                 if (!oldChromaConfirm) {
                     const confirmation = args.y
                         ? 'n'
@@ -148,7 +148,7 @@ try {
                     convert.ogChromaToChromaV2(dl.data, info._environmentName);
                 }
             }
-            if (dl.data.events.some((e) => e.customData._lightGradient)) {
+            if (dl.data.basicEvents.some((e) => e.customData._lightGradient)) {
                 if (!gradientChromaConfirm) {
                     const confirmation = args.y ? 'n' : prompt(
                         'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
@@ -164,9 +164,9 @@ try {
                 }
             }
 
-            const hasChroma = dl.data.events.some((obj) => obj.hasChroma()) ||
-                dl.data.notes.some((obj) => obj.hasChroma()) ||
-                dl.data.obstacles.some((obj) => obj.hasChroma());
+            const hasChroma = dl.data.basicEvents.some((obj) => obj.isChroma()) ||
+                dl.data.colorNotes.some((obj) => obj.isChroma()) ||
+                dl.data.obstacles.some((obj) => obj.isChroma());
             if (hasChroma) {
                 dl.settings._customData ??= {};
                 if (
@@ -183,9 +183,9 @@ try {
                 }
             }
 
-            const hasNoodleExtensions = dl.data.events.some((obj) => obj.hasNoodleExtensions()) ||
-                dl.data.notes.some((obj) => obj.hasNoodleExtensions()) ||
-                dl.data.obstacles.some((obj) => obj.hasNoodleExtensions());
+            const hasNoodleExtensions = dl.data.basicEvents.some((obj) => obj.isNoodleExtensions()) ||
+                dl.data.colorNotes.some((obj) => obj.isNoodleExtensions()) ||
+                dl.data.obstacles.some((obj) => obj.isNoodleExtensions());
             if (hasNoodleExtensions) {
                 dl.settings._customData ??= {};
                 if (dl.settings._customData._requirements) {
@@ -204,7 +204,7 @@ try {
 
             logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
             const temp = convert.V3toV2(dl.data, true);
-            if (temp.events.some((e) => e.hasOldChroma())) {
+            if (temp.basicEvents.some((e) => e.isOldChroma())) {
                 if (!oldChromaConfirm) {
                     const confirmation = args.y
                         ? 'n'
@@ -218,7 +218,7 @@ try {
                     convert.ogChromaToChromaV2(temp, info._environmentName);
                 }
             }
-            if (temp.events.some((e) => e.customData._lightGradient)) {
+            if (temp.basicEvents.some((e) => e.customData._lightGradient)) {
                 if (!gradientChromaConfirm) {
                     const confirmation = args.y ? 'n' : prompt(
                         'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
@@ -238,14 +238,14 @@ try {
             const temp2 = convert.V2toV3(temp, true);
 
             logger.info('Re-inserting events from temporary beatmap', dl.characteristic, dl.difficulty);
-            dl.data.basicBeatmapEvents = temp2.basicBeatmapEvents;
+            dl.data.basicEvents = temp2.basicEvents;
 
-            const hasChroma = dl.data.basicBeatmapEvents.some((obj) => obj.hasChroma()) ||
-                dl.data.colorNotes.some((obj) => obj.hasChroma()) ||
-                dl.data.bombNotes.some((obj) => obj.hasChroma()) ||
-                dl.data.sliders.some((obj) => obj.hasChroma()) ||
-                dl.data.burstSliders.some((obj) => obj.hasChroma()) ||
-                dl.data.obstacles.some((obj) => obj.hasChroma());
+            const hasChroma = dl.data.basicEvents.some((obj) => obj.isChroma()) ||
+                dl.data.colorNotes.some((obj) => obj.isChroma()) ||
+                dl.data.bombNotes.some((obj) => obj.isChroma()) ||
+                dl.data.sliders.some((obj) => obj.isChroma()) ||
+                dl.data.burstSliders.some((obj) => obj.isChroma()) ||
+                dl.data.obstacles.some((obj) => obj.isChroma());
             if (hasChroma) {
                 dl.settings._customData ??= {};
                 if (
@@ -262,11 +262,11 @@ try {
                 }
             }
 
-            const hasNoodleExtensions = dl.data.colorNotes.some((obj) => obj.hasNoodleExtensions()) ||
-                dl.data.bombNotes.some((obj) => obj.hasNoodleExtensions()) ||
-                dl.data.sliders.some((obj) => obj.hasNoodleExtensions()) ||
-                dl.data.burstSliders.some((obj) => obj.hasNoodleExtensions()) ||
-                dl.data.obstacles.some((obj) => obj.hasNoodleExtensions());
+            const hasNoodleExtensions = dl.data.colorNotes.some((obj) => obj.isNoodleExtensions()) ||
+                dl.data.bombNotes.some((obj) => obj.isNoodleExtensions()) ||
+                dl.data.sliders.some((obj) => obj.isNoodleExtensions()) ||
+                dl.data.burstSliders.some((obj) => obj.isNoodleExtensions()) ||
+                dl.data.obstacles.some((obj) => obj.isNoodleExtensions());
             if (hasNoodleExtensions) {
                 dl.settings._customData ??= {};
                 if (dl.settings._customData._requirements) {
