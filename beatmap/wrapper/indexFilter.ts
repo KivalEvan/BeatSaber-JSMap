@@ -1,8 +1,8 @@
 import { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
-import { Serializable } from '../shared/serializable.ts';
+import { WrapBaseItem } from './baseItem.ts';
 
 /** Index filter beatmap class object. */
-export abstract class WrapIndexFilter<T extends Record<keyof T, unknown>> extends Serializable<T>
+export abstract class WrapIndexFilter<T extends Record<keyof T, unknown>> extends WrapBaseItem<T>
     implements IWrapIndexFilter<T> {
     abstract get type(): IWrapIndexFilter['type'];
     abstract set type(value: IWrapIndexFilter['type']);
@@ -43,6 +43,14 @@ export abstract class WrapIndexFilter<T extends Record<keyof T, unknown>> extend
         this.chunks = value;
         return this;
     }
+    setRandom(value: IWrapIndexFilter['random']) {
+        this.random = value;
+        return this;
+    }
+    setSeed(value: IWrapIndexFilter['seed']) {
+        this.seed = value;
+        return this;
+    }
     setLimit(value: IWrapIndexFilter['limit']) {
         this.limit = value;
         return this;
@@ -51,12 +59,20 @@ export abstract class WrapIndexFilter<T extends Record<keyof T, unknown>> extend
         this.limitAffectsType = value;
         return this;
     }
-    setRandom(value: IWrapIndexFilter['random']) {
-        this.random = value;
-        return this;
-    }
-    setSeed(value: IWrapIndexFilter['seed']) {
-        this.seed = value;
-        return this;
+
+    isValid(): boolean {
+        return (
+            (this.type === 1 || this.type === 2) &&
+            this.p0 >= 0 &&
+            this.p1 >= 0 &&
+            (this.reverse === 0 || this.reverse === 1) &&
+            this.chunks >= 0 &&
+            this.random >= 0 &&
+            this.random <= 2 &&
+            this.limit >= 0 &&
+            this.limit <= 0 &&
+            this.limitAffectsType >= 0 &&
+            this.limitAffectsType <= 2
+        );
     }
 }

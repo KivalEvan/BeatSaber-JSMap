@@ -1,5 +1,5 @@
-import { IEventBoxGroupTemplate } from './eventBoxGroupTemplate.ts';
+import { IEventBoxGroup } from './eventBoxGroup.ts';
 import { ILightRotationEventBox } from './lightRotationEventBox.ts';
 
 // deno-lint-ignore no-empty-interface
-export interface ILightRotationEventBoxGroup extends IEventBoxGroupTemplate<ILightRotationEventBox> {}
+export interface ILightRotationEventBoxGroup extends IEventBoxGroup<ILightRotationEventBox> {}

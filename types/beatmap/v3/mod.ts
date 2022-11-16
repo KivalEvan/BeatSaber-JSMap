@@ -12,7 +12,6 @@ export * from './colorNote.ts';
 export * from './difficulty.ts';
 export * from './eventBox.ts';
 export * from './eventBoxGroup.ts';
-export * from './eventBoxGroupTemplate.ts';
 export * from './indexFilter.ts';
 export * from './lightColorBase.ts';
 export * from './lightColorEventBox.ts';

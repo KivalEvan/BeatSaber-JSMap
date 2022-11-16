@@ -1,8 +1,7 @@
-import { ISerializable } from '../shared/serializable.ts';
+import { IWrapBaseItem } from './baseItem.ts';
 
-export interface IWrapIndexFilter<
-    T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends ISerializable<T> {
+export interface IWrapIndexFilter<T extends Record<keyof T, unknown> = Record<string, unknown>>
+    extends IWrapBaseItem<T> {
     /** Type `<int>` of index filter.
      * ```ts
      * 1 -> Division
