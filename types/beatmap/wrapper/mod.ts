@@ -9,7 +9,6 @@ export * from './difficulty.ts';
 export * from './event.ts';
 export * from './eventBox.ts';
 export * from './eventBoxGroup.ts';
-export * from './eventBoxGroupTemplate.ts';
 export * from './eventTypesForKeywords.ts';
 export * from './eventTypesWithKeywords.ts';
 export * from './indexFilter.ts';
