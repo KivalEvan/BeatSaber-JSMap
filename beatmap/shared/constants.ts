@@ -178,14 +178,14 @@ export const enum LimitAlsoAffectsType {
     NONE,
     DURATION = 1 << 0,
     DISTRIBUTION = 1 << 1,
-    ALL = 1 << 2,
+    ALL = ~(~0 << 2),
 }
 
 export const enum RandomType {
     NO_RANDOM,
     KEEP_ORDER = 1 << 0,
     RANDOM_ELEMENTS = 1 << 1,
-    ALL = 1 << 2,
+    ALL = ~(~0 << 2),
 }
 
 export const enum EventBoxColor {
