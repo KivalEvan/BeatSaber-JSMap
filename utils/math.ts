@@ -5,25 +5,101 @@ const tag = (name: string) => {
     return `[utils::math::${name}]`;
 };
 
+/** Return number in formatted number string.
+ * ```ts
+ * console.log(formatNumber(12345678)) // 12,345,678
+ * ```
+ */
 export function formatNumber(num: number): string {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-export function random(
-    min: number,
-    max: number,
-    rounding: boolean | number = false,
+// Randomly generate seed if not provided.
+let _seed = hashCode(Math.random());
+
+/** Mulberry32 algorithm. */
+function internalPRandom(): number {
+    let s = (_seed += 0x6d2b79f5);
+    s = Math.imul(s ^ (s >>> 15), s | 1);
+    s ^= s + Math.imul(s ^ (s >>> 7), s | 61);
+    return ((s ^ (s >>> 14)) >>> 0) / 4294967296;
+}
+
+function internalRandom(
+    min?: number | boolean,
+    max?: number | boolean,
+    rounding: number | boolean = false,
+    func: () => number = Math.random,
 ) {
+    if (typeof min === 'boolean' || !min) {
+        if (min) {
+            return Math.round(func());
+        }
+        return func();
+    }
+    if (typeof max === 'boolean' || !max) {
+        let result = func() * min;
+        if (max) {
+            result = Math.round(result);
+        }
+        return result;
+    }
     [min, max] = fixRange(min, max);
-    const result = Math.random() * (max - min) + min;
+    const result = func() * (max - min) + min;
     return rounding ? round(result, typeof rounding === 'number' && rounding > 0 ? rounding : 0) : result;
 }
 
-export function fixRange(
-    min: number,
-    max: number,
-    inverse?: boolean,
-): [number, number] {
+/** Seeded pseudorandom generator.
+ *
+ * Based on Mulberry32 PRNG algorithm.
+ *
+ * **WARNING:** This is not meant to be used for security, rather quick and simple for pseudorandom purpose. Do note that this is globally scoped, any random call elsewhere will affect the consequent call after. Reset the random seed for call.
+ */
+export function pRandom(max: number, int?: boolean): number;
+export function pRandom(int?: boolean): number;
+export function pRandom(min: number, max: number): number;
+export function pRandom(min: number, max: number, rounding: boolean): number;
+export function pRandom(min: number, max: number, rounding: number): number;
+export function pRandom(min?: number | boolean, max?: number | boolean, rounding: boolean | number = false): number {
+    return internalRandom(min, max, rounding, internalPRandom);
+}
+
+/** Set seed for pseudorandom generator.
+ *
+ * Recalling this resets the seed.
+ *
+ * If this is never called, defaults to randomly generated seed.
+ */
+export function pRandomSeed(seed: string | number | bigint): void {
+    _seed = hashCode(seed);
+}
+
+/** Generate 32-bit hash.
+ *
+ * Internally converts primitives to string.
+ */
+export function hashCode(str: string | number | bigint): number {
+    str = str.toString();
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0;
+    }
+    return hash;
+}
+
+/** Random number generator using built-in JS Math. */
+export function random(max: number, int?: boolean): number;
+export function random(int?: boolean): number;
+export function random(min: number, max: number): number;
+export function random(min: number, max: number, rounding: boolean): number;
+export function random(min: number, max: number, rounding: number): number;
+export function random(min?: number | boolean, max?: number | boolean, rounding: boolean | number = false): number {
+    return internalRandom(min, max, rounding, Math.random);
+}
+
+/** Return number tuple in order. */
+export function fixRange(min: number, max: number, inverse?: boolean): [number, number] {
     if (min < max && inverse) {
         return [max, min];
     }
@@ -46,25 +122,13 @@ export function degToRad(deg: number) {
 }
 
 /** Return [radius, theta, phi] */
-export function cartesianCoordToSphericalCoord(
-    x: number,
-    y: number,
-    z: number,
-): [number, number, number] {
+export function cartesianCoordToSphericalCoord(x: number, y: number, z: number): [number, number, number] {
     const radius = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-    return [
-        radius,
-        Math.acos(z / radius),
-        (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI),
-    ];
+    return [radius, Math.acos(z / radius), (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI)];
 }
 
 /** Return [x, y, z] */
-export function sphericalCoordToCartesianCoord(
-    radius: number,
-    theta: number,
-    phi: number,
-): [number, number, number] {
+export function sphericalCoordToCartesianCoord(radius: number, theta: number, phi: number): [number, number, number] {
     return [
         radius * Math.sin(theta) * Math.cos(phi),
         radius * Math.sin(theta) * Math.sin(phi),
@@ -103,10 +167,7 @@ export function clamp(value: number, min: number, max: number): number {
 /** Normalize value to 0-1 from given min and max value. */
 export function normalize(value: number, min: number, max: number): number {
     if (min > max) {
-        logger.warn(
-            tag('normalize'),
-            'Min value is more than max value, returning 1',
-        );
+        logger.warn(tag('normalize'), 'Min value is more than max value, returning 1');
         return 1;
     }
     if (min === max) {
@@ -120,26 +181,15 @@ export function normalize(value: number, min: number, max: number): number {
 /** Linear interpolate between start to end time given alpha value.
  * Alpha value must be around 0-1.
  */
-export function lerp(
-    alpha: number,
-    start: number,
-    end: number,
-    easing?: EasingFunction,
-): number {
+export function lerp(alpha: number, start: number, end: number, easing?: EasingFunction): number {
     if (!easing) {
         easing = (x) => x;
     }
     if (alpha > 1) {
-        logger.warn(
-            tag('lerp'),
-            'Alpha value is larger than 1, may have unintended result',
-        );
+        logger.warn(tag('lerp'), 'Alpha value is larger than 1, may have unintended result');
     }
     if (alpha < 0) {
-        logger.warn(
-            tag('lerp'),
-            'Alpha value is smaller than 0, may have unintended result',
-        );
+        logger.warn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
     }
     const result = start + (end - start) * easing(alpha);
     logger.verbose(tag('lerp'), `Obtained ${result}`);
