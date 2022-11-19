@@ -1,4 +1,5 @@
 import { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
+import { LimitAlsoAffectsType, RandomType } from '../mod.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
 /** Index filter beatmap class object. */
@@ -68,11 +69,11 @@ export abstract class WrapIndexFilter<T extends Record<keyof T, unknown>> extend
             (this.reverse === 0 || this.reverse === 1) &&
             this.chunks >= 0 &&
             this.random >= 0 &&
-            this.random <= 2 &&
+            this.random <= RandomType.ALL &&
             this.limit >= 0 &&
             this.limit <= 0 &&
             this.limitAffectsType >= 0 &&
-            this.limitAffectsType <= 2
+            this.limitAffectsType <= LimitAlsoAffectsType.ALL
         );
     }
 }
