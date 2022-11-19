@@ -94,7 +94,7 @@ try {
         lightV3 = beatmapParser.difficultyV3(diffJSON as types.v3.IDifficulty).setFileName(lightToCopy);
     } else {
         lightV2 = beatmapParser.difficultyV2(diffJSON as types.v2.IDifficulty).setFileName(lightToCopy);
-        if (lightV2.events.some((e) => e.hasOldChroma())) {
+        if (lightV2.basicEvents.some((e) => e.isOldChroma())) {
             const confirmation = args.y
                 ? 'n'
                 : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
@@ -102,7 +102,7 @@ try {
                 convert.ogChromaToChromaV2(lightV2, info._environmentName);
             }
         }
-        if (lightV2.events.some((e) => e.customData._lightGradient)) {
+        if (lightV2.basicEvents.some((e) => e.customData._lightGradient)) {
             const confirmation = args.y
                 ? 'n'
                 : prompt('Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):', 'n');
@@ -118,7 +118,7 @@ try {
         lightV3 = convert.V2toV3(lightV2, true);
     }
 
-    if (lightV2.events.some((ev) => ev.hasChroma()) || lightV3.basicBeatmapEvents.some((ev) => ev.hasChroma())) {
+    if (lightV2.basicEvents.some((ev) => ev.isChroma()) || lightV3.basicEvents.some((ev) => ev.isChroma())) {
         hasChroma = true;
     }
 
@@ -212,13 +212,13 @@ try {
                 }
             }
             if (args.m) {
-                dl.data.basicBeatmapEvents.push(...lightV3.basicBeatmapEvents);
-                dl.data.colorBoostBeatmapEvents.push(...lightV3.colorBoostBeatmapEvents);
+                dl.data.basicEvents.push(...lightV3.basicEvents);
+                dl.data.colorBoostEvents.push(...lightV3.colorBoostEvents);
                 dl.data.lightColorEventBoxGroups.push(...lightV3.lightColorEventBoxGroups);
                 dl.data.lightRotationEventBoxGroups.push(...lightV3.lightRotationEventBoxGroups);
             } else {
-                dl.data.basicBeatmapEvents = lightV3.basicBeatmapEvents;
-                dl.data.colorBoostBeatmapEvents = lightV3.colorBoostBeatmapEvents;
+                dl.data.basicEvents = lightV3.basicEvents;
+                dl.data.colorBoostEvents = lightV3.colorBoostEvents;
                 dl.data.lightColorEventBoxGroups = lightV3.lightColorEventBoxGroups;
                 dl.data.lightRotationEventBoxGroups = lightV3.lightRotationEventBoxGroups;
             }
@@ -241,10 +241,10 @@ try {
                 }
             }
             if (args.m) {
-                dl.data.events.push(...lightV2.events);
+                dl.data.basicEvents.push(...lightV2.basicEvents);
             } else {
-                const rotationEvent = dl.data.events.filter((ev) => ev.isLaneRotationEvent());
-                dl.data.events = [...lightV2.events, ...rotationEvent];
+                const rotationEvent = dl.data.basicEvents.filter((ev) => ev.isLaneRotationEvent());
+                dl.data.basicEvents = [...lightV2.basicEvents, ...rotationEvent];
             }
         }
 
