@@ -193,7 +193,7 @@ function fixLightColorEventBox(obj: LightColorEventBox) {
 function fixLightColorEventBoxGroup(obj: LightColorEventBoxGroup) {
     obj.time = fixFloat(obj.time, LightColorEventBoxGroup.default.b);
     obj.id = fixInt(obj.id, LightColorEventBoxGroup.default.g);
-    obj.events.forEach(fixLightColorEventBox);
+    obj.boxes.forEach(fixLightColorEventBox);
 }
 
 function fixLightRotationBase(obj: LightRotationBase) {
@@ -220,7 +220,7 @@ function fixLightRotationEventBox(obj: LightRotationEventBox) {
 function fixLightRotationEventBoxGroup(obj: LightRotationEventBoxGroup) {
     obj.time = fixFloat(obj.time, LightRotationEventBoxGroup.default.b);
     obj.id = fixInt(obj.id, LightRotationEventBoxGroup.default.g);
-    obj.events.forEach(fixLightRotationEventBox);
+    obj.boxes.forEach(fixLightRotationEventBox);
 }
 
 function fixLightTranslationBase(obj: LightTranslationBase) {
@@ -238,14 +238,14 @@ function fixLightTranslationEventBox(obj: LightTranslationEventBox) {
     obj.translationDistributionType = fixInt(
         obj.translationDistributionType,
         LightTranslationEventBox.default.t,
-        [1, 2],
+        [1, 2]
     );
     obj.axis = fixInt(obj.axis, LightTranslationEventBox.default.a, [0, 1, 2]);
     obj.flip = fixInt<ILightTranslationEventBox['r']>(obj.flip, LightTranslationEventBox.default.r, [0, 1]);
     obj.affectFirst = fixInt<ILightTranslationEventBox['b']>(
         obj.affectFirst,
         LightTranslationEventBox.default.b,
-        [0, 1],
+        [0, 1]
     );
     obj.events.forEach(fixLightTranslationBase);
 }
@@ -253,7 +253,7 @@ function fixLightTranslationEventBox(obj: LightTranslationEventBox) {
 function fixLightTranslationEventBoxGroup(obj: LightTranslationEventBoxGroup) {
     obj.time = fixFloat(obj.time, LightTranslationEventBoxGroup.default.b);
     obj.id = fixInt(obj.id, LightTranslationEventBoxGroup.default.g);
-    obj.events.forEach(fixLightTranslationEventBox);
+    obj.boxes.forEach(fixLightTranslationEventBox);
 }
 
 export function v3(data: Difficulty) {

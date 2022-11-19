@@ -11,7 +11,7 @@ import { ICountEventBoxGroup } from './types/stats.ts';
  */
 export function countEBG(
     ebg: IWrapEventBoxGroup[],
-    environment: EnvironmentAllName = 'DefaultEnvironment',
+    environment: EnvironmentAllName = 'DefaultEnvironment'
 ): ICountEventBoxGroup {
     const commonEvent = EventList[environment]?.[1] ?? EventList['DefaultEnvironment'][1];
     const ebgCount: ICountEventBoxGroup = {};
@@ -32,8 +32,8 @@ export function countEBG(
             };
         }
         ebgCount[ebg[i].id].total++;
-        ebgCount[ebg[i].id].eventBox += ebg[i].events.length;
-        ebgCount[ebg[i].id].base += ebg[i].events.reduce((t, e) => t + e.events.length, 0);
+        ebgCount[ebg[i].id].eventBox += ebg[i].boxes.length;
+        ebgCount[ebg[i].id].base += ebg[i].boxes.reduce((t, e) => t + e.events.length, 0);
     }
     return ebgCount;
 }
