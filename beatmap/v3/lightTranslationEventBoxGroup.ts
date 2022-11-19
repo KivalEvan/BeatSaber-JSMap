@@ -43,26 +43,30 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     ): LightTranslationEventBoxGroup[];
     static create(...eventBoxGroups: DeepPartial<ILightTranslationEventBoxGroup>[]): LightTranslationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: (DeepPartial<ILightTranslationEventBoxGroup> &
-            DeepPartialWrapper<
+        ...eventBoxGroups: (
+            & DeepPartial<ILightTranslationEventBoxGroup>
+            & DeepPartialWrapper<
                 IWrapLightTranslationEventBoxGroup<
                     Required<ILightTranslationEventBoxGroup>,
                     Required<ILightTranslationEventBox>,
                     Required<ILightTranslationBase>,
                     Required<IIndexFilter>
                 >
-            >)[]
+            >
+        )[]
     ): LightTranslationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: (DeepPartial<ILightTranslationEventBoxGroup> &
-            DeepPartialWrapper<
+        ...eventBoxGroups: (
+            & DeepPartial<ILightTranslationEventBoxGroup>
+            & DeepPartialWrapper<
                 IWrapLightTranslationEventBoxGroup<
                     Required<ILightTranslationEventBoxGroup>,
                     Required<ILightTranslationEventBox>,
                     Required<ILightTranslationBase>,
                     Required<IIndexFilter>
                 >
-            >)[]
+            >
+        )[]
     ): LightTranslationEventBoxGroup[] {
         const result: LightTranslationEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
@@ -70,12 +74,11 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
                 new this({
                     b: ebg.time ?? ebg.b ?? LightTranslationEventBoxGroup.default.b,
                     g: ebg.id ?? ebg.g ?? LightTranslationEventBoxGroup.default.g,
-                    e:
-                        (ebg.boxes as ILightTranslationEventBox[]) ??
+                    e: (ebg.boxes as ILightTranslationEventBox[]) ??
                         (ebg.e as unknown as ILightTranslationEventBox[]) ??
                         LightTranslationEventBoxGroup.default.e(),
                     customData: ebg.customData ?? LightTranslationEventBoxGroup.default.customData(),
-                })
+                }),
             )
         );
         if (result.length) {

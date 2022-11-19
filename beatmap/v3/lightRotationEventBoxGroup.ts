@@ -43,26 +43,30 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
     ): LightRotationEventBoxGroup[];
     static create(...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]): LightRotationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: (DeepPartial<ILightRotationEventBoxGroup> &
-            DeepPartialWrapper<
+        ...eventBoxGroups: (
+            & DeepPartial<ILightRotationEventBoxGroup>
+            & DeepPartialWrapper<
                 IWrapLightRotationEventBoxGroup<
                     Required<ILightRotationEventBoxGroup>,
                     Required<ILightRotationEventBox>,
                     Required<ILightRotationBase>,
                     Required<IIndexFilter>
                 >
-            >)[]
+            >
+        )[]
     ): LightRotationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: (DeepPartial<ILightRotationEventBoxGroup> &
-            DeepPartialWrapper<
+        ...eventBoxGroups: (
+            & DeepPartial<ILightRotationEventBoxGroup>
+            & DeepPartialWrapper<
                 IWrapLightRotationEventBoxGroup<
                     Required<ILightRotationEventBoxGroup>,
                     Required<ILightRotationEventBox>,
                     Required<ILightRotationBase>,
                     Required<IIndexFilter>
                 >
-            >)[]
+            >
+        )[]
     ): LightRotationEventBoxGroup[] {
         const result: LightRotationEventBoxGroup[] = [];
         eventBoxGroups?.forEach((ebg) =>
@@ -70,12 +74,11 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
                 new this({
                     b: ebg.time ?? ebg.b ?? LightRotationEventBoxGroup.default.b,
                     g: ebg.id ?? ebg.g ?? LightRotationEventBoxGroup.default.g,
-                    e:
-                        (ebg.boxes as ILightRotationEventBox[]) ??
+                    e: (ebg.boxes as ILightRotationEventBox[]) ??
                         (ebg.e as unknown as ILightRotationEventBox[]) ??
                         LightRotationEventBoxGroup.default.e(),
                     customData: ebg.customData ?? LightRotationEventBoxGroup.default.customData(),
-                })
+                }),
             )
         );
         if (result.length) {
