@@ -31,13 +31,13 @@ function internalRandom(
     rounding: number | boolean = false,
     func: () => number = Math.random,
 ) {
-    if (typeof min === 'boolean' || !min) {
+    if (typeof min === 'boolean' || (!min && typeof min !== 'number')) {
         if (min) {
             return Math.round(func());
         }
         return func();
     }
-    if (typeof max === 'boolean' || !max) {
+    if (typeof max === 'boolean' || (!max && typeof max !== 'number')) {
         let result = func() * min;
         if (max) {
             result = Math.round(result);
