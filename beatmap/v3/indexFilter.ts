@@ -1,12 +1,12 @@
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
 import { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
-import { PartialWrapper } from '../../types/utils.ts';
+import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapIndexFilter } from '../wrapper/indexFilter.ts';
 
 /** Index filter beatmap v3 class object. */
 export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
-    static default: Required<IIndexFilter> = {
+    static default: ObjectReturnFn<Required<IIndexFilter>> = {
         f: 1,
         p: 0,
         t: 0,
@@ -32,10 +32,10 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
     static create(indexFilter: PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>): IndexFilter;
     static create(indexFilter: Partial<IIndexFilter>): IndexFilter;
     static create(
-        indexFilter: Partial<IIndexFilter> & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>,
+        indexFilter: Partial<IIndexFilter> & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>
     ): IndexFilter;
     static create(
-        indexFilter: Partial<IIndexFilter> & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>> = {},
+        indexFilter: Partial<IIndexFilter> & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>> = {}
     ): IndexFilter {
         return new IndexFilter({
             f: indexFilter.type ?? indexFilter.f ?? IndexFilter.default.f,
@@ -47,7 +47,7 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
             s: indexFilter.seed ?? indexFilter.s ?? IndexFilter.default.s,
             l: indexFilter.limit ?? indexFilter.l ?? IndexFilter.default.l,
             d: indexFilter.limitAffectsType ?? indexFilter.d ?? IndexFilter.default.d,
-            customData: indexFilter.customData ?? IndexFilter.default.customData,
+            customData: indexFilter.customData ?? IndexFilter.default.customData(),
         });
     }
 
