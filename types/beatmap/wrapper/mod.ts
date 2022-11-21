@@ -1,3 +1,8 @@
+/** Wrapper interface for abstract class implementation.
+ *
+ * @module
+ */
+
 export * from './baseObject.ts';
 export * from './baseSlider.ts';
 export * from './bombNote.ts';

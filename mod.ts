@@ -1,3 +1,11 @@
+/**
+ * Beat Saber general-purpose scripting library.
+ *
+ * This library provides beatmap schema, class object, and various toolings to handle Beat Saber map.
+ *
+ * @module
+ */
+
 export * from './beatmap/mod.ts';
 export * as types from './types/mod.ts';
 export * as convert from './converter/mod.ts';

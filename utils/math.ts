@@ -53,14 +53,14 @@ function internalRandom(
  *
  * Based on Mulberry32 PRNG algorithm.
  *
- * **WARNING:** This is not meant to be used for security, rather quick and simple for pseudorandom purpose. Do note that this is globally scoped, any random call elsewhere will affect the consequent call after. Reset the random seed for call.
+ * **WARNING:** This is not meant to be used for security, rather quick and simple for pseudorandom purpose. Do note that this is globally scoped, any random call elsewhere will affect the consequent call. Reset the random seed to retain same randomness if needed.
  */
 export function pRandom(max: number, int?: boolean): number;
 export function pRandom(int?: boolean): number;
 export function pRandom(min: number, max: number): number;
 export function pRandom(min: number, max: number, rounding: boolean): number;
 export function pRandom(min: number, max: number, rounding: number): number;
-export function pRandom(min?: number | boolean, max?: number | boolean, rounding: boolean | number = false): number {
+export function pRandom(min?: number | boolean, max?: number | boolean, rounding: number | boolean = false): number {
     return internalRandom(min, max, rounding, internalPRandom);
 }
 
@@ -94,7 +94,7 @@ export function random(int?: boolean): number;
 export function random(min: number, max: number): number;
 export function random(min: number, max: number, rounding: boolean): number;
 export function random(min: number, max: number, rounding: number): number;
-export function random(min?: number | boolean, max?: number | boolean, rounding: boolean | number = false): number {
+export function random(min?: number | boolean, max?: number | boolean, rounding: number | boolean = false): number {
     return internalRandom(min, max, rounding, Math.random);
 }
 

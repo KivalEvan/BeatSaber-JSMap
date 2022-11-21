@@ -5,7 +5,7 @@ const tag = (str: string) => {
 };
 
 class globals {
-    #directory = '';
+    #directory = './';
 
     /** Global source and destination directory.
      *

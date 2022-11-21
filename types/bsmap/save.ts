@@ -3,7 +3,7 @@ import { IBaseOptions } from './options.ts';
 
 export interface ISaveOptionsInfo extends IBaseOptions {
     /** Set info destination file path/name. */
-    filePath: string;
+    filePath?: string;
     format?: number;
     optimise?: IOptimizeOptionsInfo;
 }
@@ -13,7 +13,7 @@ export interface ISaveOptionsDifficulty extends IBaseOptions {
      *
      * **NOTE:** Overrides class file name.
      */
-    filePath: string;
+    filePath?: string;
     format?: number;
     optimise?: IOptimizeOptionsDifficulty;
     dataCheck?: {

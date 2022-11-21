@@ -32,10 +32,10 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
     static create(indexFilter: PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>): IndexFilter;
     static create(indexFilter: Partial<IIndexFilter>): IndexFilter;
     static create(
-        indexFilter: Partial<IIndexFilter> & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>
+        indexFilter: Partial<IIndexFilter> & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>,
     ): IndexFilter;
     static create(
-        indexFilter: Partial<IIndexFilter> & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>> = {}
+        indexFilter: Partial<IIndexFilter> & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>> = {},
     ): IndexFilter {
         return new IndexFilter({
             f: indexFilter.type ?? indexFilter.f ?? IndexFilter.default.f,
@@ -101,20 +101,6 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
         this.data.c = value;
     }
 
-    get limit() {
-        return this.data.l;
-    }
-    set limit(value: IIndexFilter['l']) {
-        this.data.l = value;
-    }
-
-    get limitAffectsType() {
-        return this.data.d;
-    }
-    set limitAffectsType(value: IIndexFilter['d']) {
-        this.data.d = value;
-    }
-
     get random() {
         return this.data.n;
     }
@@ -127,6 +113,20 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
     }
     set seed(value: IIndexFilter['s']) {
         this.data.s = value;
+    }
+
+    get limit() {
+        return this.data.l;
+    }
+    set limit(value: IIndexFilter['l']) {
+        this.data.l = value;
+    }
+
+    get limitAffectsType() {
+        return this.data.d;
+    }
+    set limitAffectsType(value: IIndexFilter['d']) {
+        this.data.d = value;
     }
 
     get customData(): NonNullable<IIndexFilter['customData']> {

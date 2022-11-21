@@ -97,7 +97,7 @@ try {
             }
             if (!skipped) {
                 diff = beatmapParser.difficultyV2(diffJSON as types.v2.IDifficulty).setFileName(diffFilePath);
-                if (diff.events.some((e) => e.hasOldChroma())) {
+                if (diff.basicEvents.some((e) => e.isOldChroma())) {
                     const confirmation = args.y
                         ? 'n'
                         : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
@@ -105,7 +105,7 @@ try {
                         convert.ogChromaToChromaV2(diff);
                     }
                 }
-                if (diff.events.some((e) => e.customData._lightGradient)) {
+                if (diff.basicEvents.some((e) => e.customData._lightGradient)) {
                     const confirmation = args.y ? 'n' : prompt(
                         'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
                         'n',
@@ -125,7 +125,7 @@ try {
             info = load.infoSync();
         } catch {
             logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
-            info = load.infoSync({ filePath: 'info.data' });
+            info = load.infoSync({ filePath: 'info.dat' });
         }
 
         const diffList = load.difficultyFromInfoSync(info);
@@ -155,7 +155,7 @@ try {
                         }
                     }
                 }
-                if (dl.data.events.some((e) => e.hasOldChroma())) {
+                if (dl.data.basicEvents.some((e) => e.isOldChroma())) {
                     if (!oldChromaConfirm) {
                         const confirmation = args.y
                             ? 'n'
@@ -169,7 +169,7 @@ try {
                         convert.ogChromaToChromaV2(dl.data, info._environmentName);
                     }
                 }
-                if (dl.data.events.some((e) => e.customData._lightGradient)) {
+                if (dl.data.basicEvents.some((e) => e.customData._lightGradient)) {
                     if (!gradientChromaConfirm) {
                         const confirmation = args.y ? 'n' : prompt(
                             'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',

@@ -1,3 +1,8 @@
+/** Beatmap v3 classes.
+ *
+ * @module
+ */
+
 export * from './basicEvent.ts';
 export * from './basicEventTypesForKeywords.ts';
 export * from './basicEventTypesWithKeywords.ts';
