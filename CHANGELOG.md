@@ -7,11 +7,14 @@
 - The Weeknd environment & color scheme
 - Wrapper class/interface
   - Write properties instantiation in more readable syntax
-  - Able to instantiate object from existing class object
+  - Able to instantiate object from existing class object (copy)
   - Mix-and-match is possible but will prioritise wrapper property
 - External file interface
   - Currently supported `BPM Info`, `Cinema`, `Chroma`
-- Couple more utils
+- Zip extension
+- Couple more utilities
+  - Pseudorandom number generator (global or instanced)
+  - Array pick random
 
 ### Changed
 
@@ -25,6 +28,7 @@
 ### Fixed
 
 - Obstacle not correctly check for interactive in specific case
+- Loose-autocomplete type incorrectly throw error
 
 ## 1.2.2 [2022-10-07]
 

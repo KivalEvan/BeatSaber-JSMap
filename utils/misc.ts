@@ -13,6 +13,10 @@ export function interleave([x, ...xs]: number[], ys: number[] = []): number[] {
         : [x, ...interleave(ys, xs)]; // inductive: some x
 }
 
+export function pickRandom<T>(ary: T[], func = Math.random): T {
+    return ary[Math.floor(func() * ary.length)];
+}
+
 /** Simple old-fashioned deep copy JSON object or JSON array.
  *
  * Works best with only primitive objects. Use `structuredClone()` for more complicated objects.

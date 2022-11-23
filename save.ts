@@ -65,7 +65,7 @@ function internalInfo(data: IInfo, options: ISaveOptionsInfo) {
     logger.info(tag('internalInfo'), `Writing to ${opt.directory + opt.filePath}`);
     Deno.writeTextFileSync(
         opt.directory + opt.filePath,
-        opt.format ? JSON.stringify(data, null, opt.format) : JSON.stringify(data)
+        opt.format ? JSON.stringify(data, null, opt.format) : JSON.stringify(data),
     );
 }
 
@@ -105,7 +105,7 @@ function internalDifficulty(data: DifficultyV2 | DifficultyV3, options: ISaveOpt
                 DifficultyCheckV2,
                 'difficulty',
                 (objectData as IDifficultyV2)._version,
-                opt.dataCheck.throwError
+                opt.dataCheck.throwError,
             );
         }
         if ((objectData as IDifficulty).version) {
@@ -114,7 +114,7 @@ function internalDifficulty(data: DifficultyV2 | DifficultyV3, options: ISaveOpt
                 DifficultyCheck,
                 'difficulty',
                 (objectData as IDifficulty).version,
-                opt.dataCheck.throwError
+                opt.dataCheck.throwError,
             );
         }
     }
@@ -124,7 +124,7 @@ function internalDifficulty(data: DifficultyV2 | DifficultyV3, options: ISaveOpt
     logger.info(tag('internalDifficulty'), `Writing to ${opt.directory + opt.filePath}`);
     Deno.writeTextFileSync(
         opt.directory + opt.filePath,
-        opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData)
+        opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),
     );
 }
 
@@ -165,7 +165,7 @@ function internalDifficultyList(difficulties: IDifficultyList, options: ISaveOpt
                     DifficultyCheckV2,
                     'difficulty',
                     (objectData as IDifficultyV2)._version,
-                    opt.dataCheck.throwError
+                    opt.dataCheck.throwError,
                 );
             }
             if ((objectData as IDifficulty).version) {
@@ -174,7 +174,7 @@ function internalDifficultyList(difficulties: IDifficultyList, options: ISaveOpt
                     DifficultyCheck,
                     'difficulty',
                     (objectData as IDifficulty).version,
-                    opt.dataCheck.throwError
+                    opt.dataCheck.throwError,
                 );
             }
         }
@@ -184,7 +184,7 @@ function internalDifficultyList(difficulties: IDifficultyList, options: ISaveOpt
         logger.info(tag('internalDifficultyList'), `Writing to ${opt.directory + dl.settings._beatmapFilename}`);
         Deno.writeTextFileSync(
             opt.directory + dl.settings._beatmapFilename,
-            opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData)
+            opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),
         );
     });
 }

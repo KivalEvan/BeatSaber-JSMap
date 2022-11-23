@@ -15,15 +15,22 @@ export function formatNumber(num: number): string {
 }
 
 // Randomly generate seed if not provided.
-let _seed = hashCode(Math.random());
+const _internalSeed = { ref: hashCode(Math.random()) };
 
-/** Mulberry32 algorithm. */
-function internalPRandom(): number {
-    let s = (_seed += 0x6d2b79f5);
-    s = Math.imul(s ^ (s >>> 15), s | 1);
-    s ^= s + Math.imul(s ^ (s >>> 7), s | 61);
-    return ((s ^ (s >>> 14)) >>> 0) / 4294967296;
+/** Mulberry32 algorithm.
+ *
+ * shamelessly taken from stackoverflow
+ */
+function internalPRandom(seed: number | { ref: number }) {
+    const _s = typeof seed === 'number' ? { ref: seed } : seed;
+    return function () {
+        let s = (_s.ref += 0x6d2b79f5);
+        s = Math.imul(s ^ (s >>> 15), s | 1);
+        s ^= s + Math.imul(s ^ (s >>> 7), s | 61);
+        return ((s ^ (s >>> 14)) >>> 0) / 4294967296;
+    };
 }
+const _instPRandom = internalPRandom(_internalSeed);
 
 function internalRandom(
     min?: number | boolean,
@@ -53,7 +60,9 @@ function internalRandom(
  *
  * Based on Mulberry32 PRNG algorithm.
  *
- * **WARNING:** This is not meant to be used for security, rather quick and simple for pseudorandom purpose. Do note that this is globally scoped, any random call elsewhere will affect the consequent call. Reset the random seed to retain same randomness if needed.
+ * **NOTE:** This is globally scoped, any random call elsewhere will affect the consequent call. Consider creating instance of pseudorandom with `pRandomFn` if you need consistency across usage. Reset the random seed to retain same randomness if needed.
+ *
+ * **WARNING:** This is not meant to be used for security, rather quick and simple for pseudorandom purpose.
  */
 export function pRandom(max: number, int?: boolean): number;
 export function pRandom(int?: boolean): number;
@@ -61,7 +70,22 @@ export function pRandom(min: number, max: number): number;
 export function pRandom(min: number, max: number, rounding: boolean): number;
 export function pRandom(min: number, max: number, rounding: number): number;
 export function pRandom(min?: number | boolean, max?: number | boolean, rounding: number | boolean = false): number {
-    return internalRandom(min, max, rounding, internalPRandom);
+    return internalRandom(min, max, rounding, _instPRandom);
+}
+
+/** Create instance of pseudorandom function.
+ * ```ts
+ * const pRandom = utils.pRandomFn('seed');
+ * console.log(pRandom());
+ * ```
+ * **NOTE:** Seed cannot be reset.
+ */
+export function pRandomFn(seed: string | number | bigint = Math.random()) {
+    const _seed = hashCode(seed);
+    const _func = internalPRandom(_seed);
+    return function (min?: number | boolean, max?: number | boolean, rounding: number | boolean = false) {
+        return internalRandom(min, max, rounding, _func);
+    };
 }
 
 /** Set seed for pseudorandom generator.
@@ -71,10 +95,10 @@ export function pRandom(min?: number | boolean, max?: number | boolean, rounding
  * If this is never called, defaults to randomly generated seed.
  */
 export function pRandomSeed(seed: string | number | bigint): void {
-    _seed = hashCode(seed);
+    _internalSeed.ref = hashCode(seed);
 }
 
-/** Generate 32-bit hash.
+/** Generate 32-bit hash with Java implementation.
  *
  * Internally converts primitives to string.
  */

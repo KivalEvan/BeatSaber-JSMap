@@ -104,7 +104,7 @@ function internalDifficulty(filePath: string, version: number, options: ILoadOpt
     >;
     logger.info(
         tag('internalDifficulty'),
-        `Loading difficulty as beatmap version ${version} from ${opt.directory + filePath}`
+        `Loading difficulty as beatmap version ${version} from ${opt.directory + filePath}`,
     );
     const diffVersion = parseInt(diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'));
     if (diffVersion !== version) {
@@ -118,7 +118,7 @@ function internalDifficulty(filePath: string, version: number, options: ILoadOpt
             'but received',
             diffVersion,
             'for version; Converting to beatmap version',
-            version
+            version,
         );
         if (diffVersion === 3 && version == 2) {
             return V3toV2(parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck).setFileName(filePath), true);
@@ -145,22 +145,22 @@ function internalDifficulty(filePath: string, version: number, options: ILoadOpt
 export async function difficulty(
     filePath: LooseAutocomplete<GenericFileName>,
     version?: null,
-    options?: ILoadOptionsDifficulty
+    options?: ILoadOptionsDifficulty,
 ): Promise<DifficultyV3>;
 export async function difficulty(
     filePath: LooseAutocomplete<GenericFileName>,
     version: 3,
-    options?: ILoadOptionsDifficulty
+    options?: ILoadOptionsDifficulty,
 ): Promise<DifficultyV3>;
 export async function difficulty(
     filePath: LooseAutocomplete<GenericFileName>,
     version: 2,
-    options?: ILoadOptionsDifficulty
+    options?: ILoadOptionsDifficulty,
 ): Promise<DifficultyV2>;
 export async function difficulty(
     filePath: LooseAutocomplete<GenericFileName>,
     version: number | null = 3,
-    options: ILoadOptionsDifficulty = {}
+    options: ILoadOptionsDifficulty = {},
 ) {
     version ??= 3;
     return await new Promise((resolve, reject) => {
@@ -183,22 +183,22 @@ export async function difficulty(
 export function difficultySync(
     filePath: LooseAutocomplete<GenericFileName>,
     version?: null,
-    options?: ILoadOptionsDifficulty
+    options?: ILoadOptionsDifficulty,
 ): DifficultyV3;
 export function difficultySync(
     filePath: LooseAutocomplete<GenericFileName>,
     version: 3,
-    options?: ILoadOptionsDifficulty
+    options?: ILoadOptionsDifficulty,
 ): DifficultyV3;
 export function difficultySync(
     filePath: LooseAutocomplete<GenericFileName>,
     version: 2,
-    options?: ILoadOptionsDifficulty
+    options?: ILoadOptionsDifficulty,
 ): DifficultyV2;
 export function difficultySync(
     filePath: LooseAutocomplete<GenericFileName>,
     version: number | null = 3,
-    options: ILoadOptionsDifficulty = {}
+    options: ILoadOptionsDifficulty = {},
 ) {
     version ??= 3;
     return internalDifficulty(filePath, version, options);
@@ -216,7 +216,7 @@ function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty
             try {
                 logger.info(
                     tag('internalDifficultyFromInfo'),
-                    `Loading difficulty from ${opt.directory + d._beatmapFilename}`
+                    `Loading difficulty from ${opt.directory + d._beatmapFilename}`,
                 );
                 const diffJSON = JSON.parse(Deno.readTextFileSync(opt.directory + d._beatmapFilename)) as Either<
                     IDifficultyV2,
@@ -242,7 +242,7 @@ function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty
             } catch {
                 logger.warn(
                     tag('internalDifficultyFromInfo'),
-                    `Could not load difficulty from ${opt.directory + d._beatmapFilename}, skipping...`
+                    `Could not load difficulty from ${opt.directory + d._beatmapFilename}, skipping...`,
                 );
             }
         }

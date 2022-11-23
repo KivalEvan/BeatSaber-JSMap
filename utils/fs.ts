@@ -20,6 +20,22 @@ export async function exists(filename: string): Promise<boolean> {
     }
 }
 
+export function existsSync(filename: string): boolean {
+    try {
+        Deno.statSync(filename);
+        // successful, file or directory must exist
+        return true;
+    } catch (error) {
+        if (error instanceof Deno.errors.NotFound) {
+            // file or directory does not exist
+            return false;
+        } else {
+            // unexpected error, maybe permissions, pass it along
+            throw error;
+        }
+    }
+}
+
 export function sanitizeDir(dir: string) {
     dir = dir.trim();
     if (dir && !(dir.endsWith('\\') || dir.endsWith('/'))) {
