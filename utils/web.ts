@@ -1,4 +1,4 @@
-export function sanitizeURL(url: string): string {
+export function sanitizeUrl(url: string): string {
     // regex from stackoverflow from another source and tbh i have no idea where the origin of this is
     const regexURL = /^(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/;
     url = url.trim();
@@ -11,7 +11,7 @@ export function sanitizeURL(url: string): string {
     throw new Error('Invalid URL');
 }
 
-export function sanitizeBeatSaverID(id: string): string {
+export function sanitizeBeatSaverId(id: string): string {
     const regexID = /^[0-9a-fA-F]{1,6}$/;
     id = id.trim();
     if (/^!bsr /.test(id)) {

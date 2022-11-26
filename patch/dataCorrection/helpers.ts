@@ -1,13 +1,12 @@
 import { ColorPointDefinition } from '../../types/beatmap/shared/custom/chroma.ts';
 import {
     PercentPointDefinition,
-    Vector2,
     Vector2PointDefinition,
-    Vector3,
     Vector3PointDefinition,
 } from '../../types/beatmap/shared/custom/heck.ts';
 import { ColorArray } from '../../types/colors.ts';
 import { Easings } from '../../types/easings.ts';
+import { Vector2, Vector3 } from '../../types/vector.ts';
 import { easings } from '../../utils/easings.ts';
 import { clamp } from '../../utils/math.ts';
 
@@ -33,26 +32,13 @@ export function fixBoolean(value: unknown, defaultValue?: boolean): boolean {
 
 export function fixInt<T extends number>(value: unknown): T;
 export function fixInt<T extends number>(value: unknown, defaultValue: T): T;
-export function fixInt<T extends number>(
-    value: unknown,
-    defaultValue: T | [T, T],
-    range: T[],
-): T;
-export function fixInt<T extends number>(
-    value: unknown,
-    defaultValue?: T | [T, T],
-    range?: T[],
-): T {
+export function fixInt<T extends number>(value: unknown, defaultValue: T | [T, T], range: T[]): T;
+export function fixInt<T extends number>(value: unknown, defaultValue?: T | [T, T], range?: T[]): T {
     if (typeof defaultValue === 'number' && !Number.isInteger(defaultValue)) {
         throw new TypeError(`Default value must be integer; received ${value}`);
     }
-    if (
-        Array.isArray(defaultValue) &&
-        defaultValue.some((dv) => !Number.isInteger(dv))
-    ) {
-        throw new TypeError(
-            `Default value in array must be integer; received ${defaultValue}`,
-        );
+    if (Array.isArray(defaultValue) && defaultValue.some((dv) => !Number.isInteger(dv))) {
+        throw new TypeError(`Default value in array must be integer; received ${defaultValue}`);
     }
     if (range && range.some((n) => !Number.isInteger(n))) {
         throw new TypeError(`Range value must be integer; received ${range}`);
@@ -122,18 +108,8 @@ export function fixInt<T extends number>(
 
 export function fixFloat(value: unknown): number;
 export function fixFloat(value: unknown, defaultValue: number): number;
-export function fixFloat(
-    value: unknown,
-    defaultValue: number,
-    min: number,
-    max: number,
-): number;
-export function fixFloat(
-    value: unknown,
-    defaultValue?: number,
-    min?: number,
-    max?: number,
-): number {
+export function fixFloat(value: unknown, defaultValue: number, min: number, max: number): number;
+export function fixFloat(value: unknown, defaultValue?: number, min?: number, max?: number): number {
     if (typeof defaultValue === 'number' && isNaN(defaultValue)) {
         throw new TypeError(`Default value must not be NaN`);
     }
@@ -196,10 +172,7 @@ export function fixStringAry(value: unknown[], defaultValue: string): string[] {
 
 const easingsList = Object.keys(easings).concat('easeStep') as Easings[];
 
-export function fixPercentPointDefinition(
-    value: unknown,
-    defaultValue: number,
-): PercentPointDefinition[] {
+export function fixPercentPointDefinition(value: unknown, defaultValue: number): PercentPointDefinition[] {
     if (Array.isArray(value)) {
         return value
             .filter((ary) => Array.isArray(ary))
@@ -225,18 +198,12 @@ export function fixPercentPointDefinition(
 
 export function fixVector2(value: unknown, defaultValue: Vector2): Vector2 {
     if (Array.isArray(value)) {
-        return [
-            fixFloat(value.at(0), defaultValue[0]),
-            fixFloat(value.at(1), defaultValue[1]),
-        ];
+        return [fixFloat(value.at(0), defaultValue[0]), fixFloat(value.at(1), defaultValue[1])];
     }
     return defaultValue;
 }
 
-export function fixVector2PointDefinition(
-    value: unknown,
-    defaultValue: Vector2,
-): Vector2PointDefinition[] {
+export function fixVector2PointDefinition(value: unknown, defaultValue: Vector2): Vector2PointDefinition[] {
     if (Array.isArray(value)) {
         return value
             .filter((ary) => Array.isArray(ary))
@@ -274,10 +241,7 @@ export function fixVector3(value: unknown, defaultValue: Vector3): Vector3 {
     return defaultValue;
 }
 
-export function fixVector3PointDefinition(
-    value: unknown,
-    defaultValue: Vector3,
-): Vector3PointDefinition[] {
+export function fixVector3PointDefinition(value: unknown, defaultValue: Vector3): Vector3PointDefinition[] {
     if (Array.isArray(value)) {
         return value
             .filter((ary) => Array.isArray(ary))
@@ -317,10 +281,7 @@ export function fixColor(value: unknown, defaultValue: ColorArray): ColorArray {
     return defaultValue;
 }
 
-export function fixColorPointDefinition(
-    value: unknown,
-    defaultValue: ColorArray,
-): ColorPointDefinition[] {
+export function fixColorPointDefinition(value: unknown, defaultValue: ColorArray): ColorPointDefinition[] {
     if (Array.isArray(value)) {
         return value
             .filter((ary) => Array.isArray(ary))

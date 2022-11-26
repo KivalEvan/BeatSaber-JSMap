@@ -14,7 +14,10 @@
 - Zip extension
 - Couple more utilities
   - Pseudorandom number generator (global or instanced)
+  - Vector helpers
+  - Color from helpers (various of input to return color array)
   - Array pick random
+- Experimental Deno standard library usage
 
 ### Changed
 
@@ -24,11 +27,13 @@
 - Renamed `basicBeatmapEvents` and `colorBoostBeatmapEvents` to `basicEvents` and `colorBoostEvents`
 - Beatmap v2 field rename (JSON remains the same)
 - Improved function overloading and auto-completion
+- Renamed couple of function to be camel/pascal case including acronyms (Web API left untouched)
+- Array utilties now uses template
 
 ### Fixed
 
 - Obstacle not correctly check for interactive in specific case
-- Loose-autocomplete type incorrectly throw error
+- Loose-autocomplete type incorrectly throw error when passed to primitive
 
 ## 1.2.2 [2022-10-07]
 
@@ -112,7 +117,7 @@
 
 - Negative hue no longer result null value
 - Obstacle mirroring now accounts for width
-- `RGBAtoHSVA` hue returning normalised hue value instead
+- `RgbaToHsva` hue returning normalised hue value instead
 - `directory` potentially no longer prefix file name instead of going into folder
 - `where` function does not filter correctly with exclude
 
@@ -126,9 +131,6 @@
 
 - v2 event floatValue and v2 obstacle lineLayer & height is now optional
 - Class object data is now exposed (not recommended for modification purpose)
-
-### Updated
-
 - Several changes to extensions
 
 ### Fixed
@@ -149,9 +151,6 @@
 - V2 objects use `pos` instead of `line`
 - Slider create default multiplier from `0.5` to `1` and mid anchor to `0`
 - Default options is now nested
-
-### Updated
-
 - Cleaned up JSDoc
 
 ### Fixed
@@ -183,7 +182,7 @@
 - Custom data will now always exist in class object context
 - Heck settings setter now allow for any valid field
 
-### Updated
+### Fixed
 
 - Several extensions fixed
 
@@ -194,7 +193,7 @@
 - File name saved to difficulty class object
   - Saving difficulty will prioritise file name from explicit option `filePath`, class object, info, and default value
 
-### Updated
+### Changed
 
 - Point definitions v2 to v3 conversion
 

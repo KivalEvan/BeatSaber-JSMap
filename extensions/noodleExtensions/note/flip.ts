@@ -1,5 +1,5 @@
 import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
-import { Vector2 } from '../../../types/beatmap/shared/custom/heck.ts';
+import { Vector2 } from '../../../types/vector.ts';
 import { random } from '../../../utils/math.ts';
 
 /** Apply random flip to notes.

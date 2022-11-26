@@ -1,13 +1,12 @@
 /** Fisher–Yates shuffle algorithm. */
-// deno-lint-ignore no-explicit-any
-export function shuffle(array: any[]): void {
+export function shuffle<T>(array: T[]): void {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
 
-export function interleave([x, ...xs]: number[], ys: number[] = []): number[] {
+export function interleave<T, U>([x, ...xs]: T[], ys: U[] = []): (T | U)[] {
     return x === undefined
         ? ys // base: no x
         : [x, ...interleave(ys, xs)]; // inductive: some x
@@ -21,8 +20,9 @@ export function pickRandom<T>(ary: T[], func = Math.random): T {
  *
  * Works best with only primitive objects. Use `structuredClone()` for more complicated objects.
  */
-// deno-lint-ignore ban-types
-export function deepCopy<T extends object>(object: T): T {
+export function deepCopy<T extends Record<keyof T, unknown>>(object: T): T;
+export function deepCopy<T extends Record<keyof T, unknown>>(object: T[]): T[];
+export function deepCopy<T extends Record<keyof T, unknown>>(object: T | T[]): T | T[] {
     if (typeof object !== 'object') {
         throw new Error('Received non-object type');
     }

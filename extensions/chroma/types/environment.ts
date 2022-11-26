@@ -1,4 +1,4 @@
-import { Vector3 } from '../../../types/beatmap/shared/custom/heck.ts';
+import { Vector3 } from '../../../types/vector.ts';
 
 export interface IChromaEnvironmentPlacement {
     scale?: Vector3;

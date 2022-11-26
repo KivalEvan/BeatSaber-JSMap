@@ -14,7 +14,7 @@ const tag = (name: string) => {
  *
  * **NOTE:** JD input will override NJS offset.
  */
-export function setNJS(
+export function setNjs(
     objects: INEObject[],
     options: {
         bpm: BeatPerMinute;
@@ -67,15 +67,9 @@ export function simultaneousSpawn(
     const startTime = objects[0].time;
     objects.forEach((o) => {
         o.customData.noteJumpMovementSpeed = options.njsOverride ? o.customData.noteJumpMovementSpeed ?? njs : njs;
-        const currentNJS = NoteJumpSpeed.create(
-            options.bpm,
-            o.customData.noteJumpMovementSpeed,
-        );
+        const currentNJS = NoteJumpSpeed.create(options.bpm, o.customData.noteJumpMovementSpeed);
         const offset = currentNJS.calcHJDFromJD(options.jd) - currentNJS.calcHJDRaw();
-        o.customData.noteJumpStartBeatOffset = options.spawnBeatOffset! +
-            offset +
-            o.time -
-            startTime -
+        o.customData.noteJumpStartBeatOffset = options.spawnBeatOffset! + offset + o.time - startTime -
             (o.time - startTime) / options.speed;
     });
 }
@@ -84,7 +78,7 @@ export function simultaneousSpawn(
  *
  * **NOTE:** JD input will override NJS offset.
  */
-export function gradientNJS(
+export function gradientNjs(
     objects: INEObject[],
     options: {
         bpm: BeatPerMinute | number;
@@ -123,11 +117,7 @@ export function gradientNJS(
             options.easing,
         );
         if (typeof options.jd === 'number') {
-            const currNJS = NoteJumpSpeed.create(
-                options.bpm,
-                o.customData.noteJumpMovementSpeed,
-                offset,
-            );
+            const currNJS = NoteJumpSpeed.create(options.bpm, o.customData.noteJumpMovementSpeed, offset);
             o.customData.noteJumpStartBeatOffset = currNJS.calcHJDFromJD(options.jd) - currNJS.calcHJDRaw();
         }
     });

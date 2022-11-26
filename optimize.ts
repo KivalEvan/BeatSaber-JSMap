@@ -77,7 +77,7 @@ export function deepClean(
             deepClean(obj[k], options, `${name}.${k}`);
             // if it's lightID array, sort it
             if (
-                k === '_lightID' &&
+                (k === '_lightID' || k === 'lightID') &&
                 Array.isArray(obj[k]) &&
                 // deno-lint-ignore no-explicit-any
                 obj[k].every((x: any) => typeof x === 'number')
@@ -89,9 +89,7 @@ export function deepClean(
         if (
             !ignoreObjectRemove.includes(k) &&
             ((Array.isArray(obj[k]) && !obj[k].length) ||
-                (typeof obj[k] === 'object' &&
-                    !Array.isArray(obj[k]) &&
-                    JSON.stringify(obj[k]) === '{}'))
+                (typeof obj[k] === 'object' && !Array.isArray(obj[k]) && JSON.stringify(obj[k]) === '{}'))
         ) {
             delete obj[k];
             continue;
@@ -102,16 +100,10 @@ export function deepClean(
                 throw new Error(`null value found in object key ${name}.${k}.`);
             } else {
                 if (Array.isArray(obj)) {
-                    logger.error(
-                        tag('deepClean'),
-                        `null value found in array ${name}[${k}], defaulting to 0...`,
-                    );
+                    logger.error(tag('deepClean'), `null value found in array ${name}[${k}], defaulting to 0...`);
                     obj[k] = 0;
                 } else {
-                    logger.error(
-                        tag('deepClean'),
-                        `null value found in object key ${name}.${k}, deleting property...`,
-                    );
+                    logger.error(tag('deepClean'), `null value found in object key ${name}.${k}, deleting property...`);
                     delete obj[k];
                 }
             }

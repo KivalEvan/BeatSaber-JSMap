@@ -1,5 +1,6 @@
+import { Vector2, Vector3 } from '../../../vector.ts';
 import { ICustomDataBase } from '../../shared/custom/customData.ts';
-import { PercentPointDefinition, Vector2, Vector3, Vector3PointDefinition } from '../../shared/custom/heck.ts';
+import { PercentPointDefinition, Vector3PointDefinition } from '../../shared/custom/heck.ts';
 import { PlayerObject } from '../../shared/custom/noodleExtensions.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 

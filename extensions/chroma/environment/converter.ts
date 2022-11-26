@@ -1,7 +1,7 @@
 import { IChromaComponent, IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
 import { IChromaEnvironment as IChromaEnvironmentV2 } from '../../../types/beatmap/v2/custom/chroma.ts';
-import { Vector3 } from '../../../types/beatmap/shared/custom/heck.ts';
 import logger from '../../../logger.ts';
+import { vectorScale } from '../../../utils/vector.ts';
 
 const tag = (name: string) => {
     return `[chroma::environment::${name}]`;
@@ -19,9 +19,9 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
                 duplicate: e._duplicate,
                 active: e._active,
                 scale: e._scale,
-                position: e._position?.map((n) => n * 0.6) as Vector3,
+                position: vectorScale(e._position, 0.6),
                 rotation: e._rotation,
-                localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
+                localPosition: vectorScale(e._localPosition, 0.6),
                 localRotation: e._localRotation,
                 components,
             };
@@ -63,9 +63,9 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
                 duplicate: e._duplicate,
                 active: e._active,
                 scale: e._scale,
-                position: e._position?.map((n) => n * 0.6) as Vector3,
+                position: vectorScale(e._position, 0.6),
                 rotation: e._rotation,
-                localPosition: e._localPosition?.map((n) => n * 0.6) as Vector3,
+                localPosition: vectorScale(e._localPosition, 0.6),
                 localRotation: e._localRotation,
                 components,
             };
@@ -84,22 +84,16 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
                 _duplicate: e.duplicate,
                 _active: e.active,
                 _scale: e.scale,
-                _position: e.position?.map((n) => n / 0.6) as Vector3,
+                _position: vectorScale(e.position, 1 / 0.6),
                 _rotation: e.rotation,
-                _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
+                _localPosition: vectorScale(e.localPosition, 1 / 0.6),
                 _localRotation: e.localRotation,
                 _lightID: e.components?.ILightWithId?.lightID,
             };
         }
         if (e.geometry) {
-            if (
-                e.components?.ILightWithId?.type ||
-                e.components?.ILightWithId?.lightID
-            ) {
-                logger.warn(
-                    tag('V3toV2'),
-                    'v2 geometry cannot be made assignable light to specific type',
-                );
+            if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
+                logger.warn(tag('V3toV2'), 'v2 geometry cannot be made assignable light to specific type');
             }
             return {
                 _geometry: e.geometry.type === 'CUSTOM'
@@ -134,20 +128,13 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
                 _duplicate: e.duplicate,
                 _active: e.active,
                 _scale: e.scale,
-                _position: e.position?.map((n) => n / 0.6) as Vector3,
+                _position: vectorScale(e.position, 1 / 0.6),
                 _rotation: e.rotation,
-                _localPosition: e.localPosition?.map((n) => n / 0.6) as Vector3,
+                _localPosition: vectorScale(e.localPosition, 1 / 0.6),
                 _localRotation: e.localRotation,
                 _lightID: e.components?.ILightWithId?.lightID,
             };
         }
         throw new Error('Error converting environment v3 to v2');
-    });
-}
-
-export function unityUnitToNoodleUnit(env: IChromaEnvironmentV2[]): void {
-    env.forEach((e) => {
-        e._position = e._position?.map((n) => n / 0.6) as Vector3;
-        e._localPosition = e._localPosition?.map((n) => n / 0.6) as Vector3;
     });
 }

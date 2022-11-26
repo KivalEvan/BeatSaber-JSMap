@@ -1,4 +1,4 @@
-import { PercentPointDefinition, Vector2, Vector3 } from '../../shared/custom/heck.ts';
+import { PercentPointDefinition } from '../../shared/custom/heck.ts';
 import { Easings } from '../../../easings.ts';
 import { ColorArray } from '../../../colors.ts';
 import { ICustomDataBase } from '../../shared/custom/customData.ts';
@@ -12,6 +12,7 @@ import {
 } from '../../shared/custom/chroma.ts';
 import { IHeckCustomEventDataBase } from './heck.ts';
 import { LooseAutocomplete } from '../../../utils.ts';
+import { Vector2, Vector3 } from '../../../vector.ts';
 
 /** Chroma Material interface for Environment Enhancement. */
 export interface IChromaMaterial {

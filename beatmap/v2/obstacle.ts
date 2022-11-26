@@ -1,4 +1,4 @@
-import { Vector2 } from '../../types/beatmap/shared/custom/heck.ts';
+import { Vector2 } from '../../types/vector.ts';
 import { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
 import { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
 import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
@@ -25,21 +25,13 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     }
 
     static create(): Obstacle[];
-    static create(
-        ...obstacles: PartialWrapper<IWrapObstacle<Required<IObstacle>>>[]
-    ): Obstacle[];
+    static create(...obstacles: PartialWrapper<IWrapObstacle<Required<IObstacle>>>[]): Obstacle[];
     static create(...obstacles: Partial<IObstacle>[]): Obstacle[];
     static create(
-        ...obstacles: (
-            & Partial<IObstacle>
-            & PartialWrapper<IWrapObstacle<Required<IObstacle>>>
-        )[]
+        ...obstacles: (Partial<IObstacle> & PartialWrapper<IWrapObstacle<Required<IObstacle>>>)[]
     ): Obstacle[];
     static create(
-        ...obstacles: (
-            & Partial<IObstacle>
-            & PartialWrapper<IWrapObstacle<Required<IObstacle>>>
-        )[]
+        ...obstacles: (Partial<IObstacle> & PartialWrapper<IWrapObstacle<Required<IObstacle>>>)[]
     ): Obstacle[] {
         const result: Obstacle[] = [];
         obstacles?.forEach((o) =>
