@@ -2,7 +2,8 @@
 
 General-purpose Beat Saber beatmap scripting library using [Deno](https://deno.land/) with
 [TypeScript](https://www.typescriptlang.org/), fully-typed schema and flexible tool designed to ease scripting
-development surrounding beatmap while providing high implementation detail regarding the beatmap.
+development surrounding beatmap while providing high implementation detail regarding the beatmap. It ensures the safety
+and correctness of the code unless explicitly stated by the user, and verify the beatmap integrity.
 
 ---
 
@@ -12,8 +13,9 @@ development surrounding beatmap while providing high implementation detail regar
 
 ## Features
 
-- **Zero-dependency:** No third-party library used in main.
+- **Zero-dependency:** No third-party library used in main with standard library being an exception.
 - **Latest Schema:** Supports both latest beatmap v2 and v3 including conversion.
+  - Current schema version is v2.6.0 and v3.2.0 respectively.
 - **Partial Creation:** Define beatmap object partially and let default fill the rest of fields.
 - **Mod Compatible:** Chroma, Noodle Extensions, and Mapping Extensions is supported out of the box.
   - All helpers and classes surrounding modded is only available in extensions category.
@@ -38,6 +40,9 @@ The bare minimum example:
 import * as bsmap from 'https://deno.land/x/bsmap@1.3.0/mod.ts';
 
 const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 3);
+
+// ... code to modify difficulty data
+
 bsmap.save.difficultySync(data);
 ```
 

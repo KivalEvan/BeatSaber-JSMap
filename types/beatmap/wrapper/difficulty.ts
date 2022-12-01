@@ -19,9 +19,8 @@ import { GenericFileName } from '../shared/info.ts';
 import { EventContainer, NoteContainer } from './container.ts';
 import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
 
-export interface IWrapDifficulty<
-    T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapBaseItem<T> {
+export interface IWrapDifficulty<T extends Record<keyof T, unknown> = Record<string, unknown>>
+    extends IWrapBaseItem<T> {
     version: Version;
     bpmEvents: IWrapBPMEvent[];
     rotationEvents: IWrapRotationEvent[];
@@ -33,18 +32,10 @@ export interface IWrapDifficulty<
     waypoints: IWrapWaypoint[];
     basicEvents: IWrapEvent[];
     colorBoostEvents: IWrapColorBoostEvent[];
-    lightColorEventBoxGroups: IWrapLightColorEventBoxGroup<
-        IWrapLightColorEventBoxGroup['data']
-    >[];
-    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup<
-        IWrapLightRotationEventBoxGroup['data']
-    >[];
-    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup<
-        IWrapLightTranslationEventBoxGroup['data']
-    >[];
-    eventTypesWithKeywords: IWrapEventTypesWithKeywords<
-        IWrapEventTypesWithKeywords['data']
-    >;
+    lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
+    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
+    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
+    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
     useNormalEventsAsCompatibleEvents: boolean;
 
     fileName: string;
@@ -55,7 +46,7 @@ export interface IWrapDifficulty<
      * const nps = difficulty.nps(Difficulty, 10);
      * ```
      * ---
-     * **Note:** Duration can be either in any time type.
+     * **NOTE:** Duration can be either in any time type.
      */
     nps(duration: number): number;
 
@@ -117,15 +108,9 @@ export interface IWrapDifficulty<
     addBurstSliders(...burstSliders: PartialWrapper<IWrapBurstSlider>[]): void;
     addWaypoints(...waypoints: PartialWrapper<IWrapWaypoint>[]): void;
     addBasicEvents(...basicEvents: PartialWrapper<IWrapEvent>[]): void;
-    addColorBoostEvents(
-        ...colorBoostEvents: PartialWrapper<IWrapColorBoostEvent>[]
-    ): void;
-    addLightColorEventBoxGroups(
-        ...lightColorEBGs: DeepPartialWrapper<IWrapLightColorEventBoxGroup>[]
-    ): void;
-    addLightRotationEventBoxGroups(
-        ...lightRotationEBGs: DeepPartialWrapper<IWrapLightRotationEventBoxGroup>[]
-    ): void;
+    addColorBoostEvents(...colorBoostEvents: PartialWrapper<IWrapColorBoostEvent>[]): void;
+    addLightColorEventBoxGroups(...lightColorEBGs: DeepPartialWrapper<IWrapLightColorEventBoxGroup>[]): void;
+    addLightRotationEventBoxGroups(...lightRotationEBGs: DeepPartialWrapper<IWrapLightRotationEventBoxGroup>[]): void;
     addLightTranslationEventBoxGroups(
         ...lightTranslationEBGs: DeepPartialWrapper<IWrapLightTranslationEventBoxGroup>[]
     ): void;

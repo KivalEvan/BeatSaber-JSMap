@@ -33,8 +33,8 @@ if (args.x) {
     logger.warn('No backup flagged, any changes done by this script is irreversible');
 }
 
-globals.directory =
-    (args.d as string) ?? (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() || './');
+globals.directory = (args.d as string) ??
+    (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() || './');
 
 if (args.q) {
     logger.setLevel(4);
@@ -113,20 +113,18 @@ try {
             try {
                 copySync(
                     globals.directory + dl.settings._beatmapFilename,
-                    globals.directory + dl.settings._beatmapFilename + '.old'
+                    globals.directory + dl.settings._beatmapFilename + '.old',
                 );
             } catch (_) {
-                const confirmation = args.y
-                    ? 'n'
-                    : prompt(
-                          `Old ${dl.characteristic} ${dl.difficulty} difficulty backup file detected, do you want to overwrite? (y/N):`,
-                          'n'
-                      );
+                const confirmation = args.y ? 'n' : prompt(
+                    `Old ${dl.characteristic} ${dl.difficulty} difficulty backup file detected, do you want to overwrite? (y/N):`,
+                    'n',
+                );
                 if (confirmation![0].toLowerCase() === 'y') {
                     copySync(
                         globals.directory + dl.settings._beatmapFilename,
                         globals.directory + dl.settings._beatmapFilename + '.old',
-                        { overwrite: true }
+                        { overwrite: true },
                     );
                 } else {
                     logger.info('Skipping overwrite...');
@@ -152,12 +150,10 @@ try {
             }
             if (dl.data.basicEvents.some((e) => e.customData._lightGradient)) {
                 if (!gradientChromaConfirm) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt(
-                              'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
-                              'n'
-                          );
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
                         gradientChromaConvert = true;
                     }
@@ -168,8 +164,7 @@ try {
                 }
             }
 
-            const hasChroma =
-                dl.data.basicEvents.some((obj) => obj.isChroma()) ||
+            const hasChroma = dl.data.basicEvents.some((obj) => obj.isChroma()) ||
                 dl.data.colorNotes.some((obj) => obj.isChroma()) ||
                 dl.data.obstacles.some((obj) => obj.isChroma());
             if (hasChroma) {
@@ -188,8 +183,7 @@ try {
                 }
             }
 
-            const hasNoodleExtensions =
-                dl.data.basicEvents.some((obj) => obj.isNoodleExtensions()) ||
+            const hasNoodleExtensions = dl.data.basicEvents.some((obj) => obj.isNoodleExtensions()) ||
                 dl.data.colorNotes.some((obj) => obj.isNoodleExtensions()) ||
                 dl.data.obstacles.some((obj) => obj.isNoodleExtensions());
             if (hasNoodleExtensions) {
@@ -226,12 +220,10 @@ try {
             }
             if (temp.basicEvents.some((e) => e.customData._lightGradient)) {
                 if (!gradientChromaConfirm) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt(
-                              'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
-                              'n'
-                          );
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
                         gradientChromaConvert = true;
                     }
@@ -248,8 +240,7 @@ try {
             logger.info('Re-inserting events from temporary beatmap', dl.characteristic, dl.difficulty);
             dl.data.basicEvents = temp2.basicEvents;
 
-            const hasChroma =
-                dl.data.basicEvents.some((obj) => obj.isChroma()) ||
+            const hasChroma = dl.data.basicEvents.some((obj) => obj.isChroma()) ||
                 dl.data.colorNotes.some((obj) => obj.isChroma()) ||
                 dl.data.bombNotes.some((obj) => obj.isChroma()) ||
                 dl.data.sliders.some((obj) => obj.isChroma()) ||
@@ -271,8 +262,7 @@ try {
                 }
             }
 
-            const hasNoodleExtensions =
-                dl.data.colorNotes.some((obj) => obj.isNoodleExtensions()) ||
+            const hasNoodleExtensions = dl.data.colorNotes.some((obj) => obj.isNoodleExtensions()) ||
                 dl.data.bombNotes.some((obj) => obj.isNoodleExtensions()) ||
                 dl.data.sliders.some((obj) => obj.isNoodleExtensions()) ||
                 dl.data.burstSliders.some((obj) => obj.isNoodleExtensions()) ||

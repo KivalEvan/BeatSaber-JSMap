@@ -39,7 +39,7 @@ export class EnvironmentGroup {
             }
 
             d.position = d.position!.map(
-                (p, i) => (this.anchor[i] + p) * (options.scale?.[i] ?? 1) + (options.position?.[i] ?? 0)
+                (p, i) => (this.anchor[i] + p) * (options.scale?.[i] ?? 1) + (options.position?.[i] ?? 0),
             ) as Vector3;
 
             d.scale = vectorScale(d.scale, options.scale);
