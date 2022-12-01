@@ -23,7 +23,7 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
         }
     }
 
-    static init(value?: string) {
+    static create(value?: string) {
         if (value) {
             return new this(value) as EnvironmentGrabNamed;
         }
@@ -38,9 +38,22 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
     }
 
     /** Take duplicate ID. */
-    id(id: number): EnvironmentGrabNamedID {
-        this._string += ` (${id})`;
-        this._regex += ` \\(${id}\\)`;
+    id(id: number | null, optional?: boolean): EnvironmentGrabNamedID {
+        if (id !== null) {
+            if (optional) {
+                this._regex += `( \\(${id}\\))?`;
+            } else {
+                this._regex += ` \\(${id}\\)`;
+            }
+            this._string += ` (${id})`;
+        } else {
+            if (optional) {
+                this._regex += `( \\(\\d+\\))?`;
+            } else {
+                this._regex += ` \\(\\d+\\)`;
+            }
+            this._string += ` (1)`;
+        }
         return this as unknown as EnvironmentGrabNamedID;
     }
 
@@ -54,9 +67,11 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
     }
 
     /** Grab cloned. */
-    clone(): EnvironmentGrabNamedID {
-        this._string += '(Clone)';
-        this._regex += '\\(Clone\\)';
+    clone(count = 1): EnvironmentGrabNamedID {
+        for (let i = 0; i < count; i++) {
+            this._string += ' (Clone)';
+            this._regex += ' \\(Clone\\)';
+        }
         return this as EnvironmentGrabNamedID;
     }
 
@@ -69,7 +84,7 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
     /** Move into child, ID is optional for regex. */
     child(id?: number): EnvironmentGrabChild {
         this._string += `.[${typeof id === 'number' ? id : 1}]`;
-        this._regex += `\\.\\[${typeof id === 'number' ? id : '\\d+'}]`;
+        this._regex += `\\.\\[${typeof id === 'number' ? id : '\\d+'}\\]`;
         return this as EnvironmentGrabChild;
     }
 }
@@ -87,11 +102,11 @@ abstract class EnvironmentGrabChild extends EnvironmentGrabBase {
 }
 
 abstract class EnvironmentGrabNamed extends EnvironmentGrabBase {
-    id(id: number) {
+    id(id: number | null, optional?: boolean) {
         return this as unknown as EnvironmentGrabNamedID;
     }
 
-    clone() {
+    clone(count = 1) {
         return this as EnvironmentGrabEnd;
     }
 
@@ -109,7 +124,7 @@ abstract class EnvironmentGrabNamed extends EnvironmentGrabBase {
 }
 
 abstract class EnvironmentGrabNamedID extends EnvironmentGrabBase {
-    clone() {
+    clone(count = 1) {
         return this;
     }
 
