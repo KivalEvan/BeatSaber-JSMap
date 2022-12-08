@@ -20,7 +20,7 @@ export class EnvironmentBlock {
     place(options: IChromaEnvironmentPlacement, insertTo?: never): IChromaEnvironment;
     place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
     place(options: IChromaEnvironmentPlacement, insertTo?: IChromaEnvironment[]): IChromaEnvironment | void {
-        const d = deepCopy(this.data as {}) as IChromaEnvironment;
+        const d = deepCopy(this.data);
         const scale = options.scale
             ? ((d.scale ? d.scale : [1, 1, 1]).map((s, i) => s * options.scale![i]) as Vector3)
             : d.scale;

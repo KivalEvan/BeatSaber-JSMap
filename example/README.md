@@ -23,6 +23,10 @@ import * as bsmap from 'https://deno.land/x/bsmap@1.3.0/mod.ts';
 on quick fix or `CTRL+.` on select. You may also need to initialise Deno workspace if strange error regarding TS URL
 pops up.
 
+For rolling release, visit [GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw file directly from
+there (`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`), you may need to occasionally add
+`--reload` tag for latest update.
+
 ## Namespaces
 
 Due to expansive library, namespace is used to separate functionality on their own area. Object destructuring can be
@@ -44,7 +48,7 @@ To load & save the beatmap, a function is used to parse, validate, and optimise 
 ```ts
 const info = load.infoSync(); // not required
 
-const data = load.difficultySync('HardStandard.dat'); // auto convert to v3
+const data = load.difficultySync('HardStandard.dat'); // auto convert to v3 if it is not
 const data2 = await load.difficulty('ExpertStandard.dat', 2, {
     directory: '/somewhere/else',
 }); // advanced use, use or convert to v2
@@ -93,8 +97,12 @@ objects. Partial or no data can be used to instantiate an object and will use de
 method always return object(s) in an array with an exception being object that is not placed in array such as difficulty
 and index filter.
 
+Object creation field can be mixed with either the schema field or the wrapped field, prioritises wrapped field when
+presented.
+
 ```ts
-const notes = v3.ColorNotes.create();
+const bomb = v3.BombNote.create();
+const notes = v3.ColorNote.create({}, { b: 1, x: 0, y: 1 }, { time: 2, posX: 1, posY: 0 }, { b: 2, color: 1 });
 data.colorNotes.push(...notes);
 ```
 
@@ -102,7 +110,7 @@ Difficulty class has a built-in method that allows instantiating of an object di
 also allows insertion of an already instantiated object.
 
 ```ts
-data.addBasicEvents({ et: 3 }, { b: 2, et: 1, i: 3 }, {});
+data.addBasicEvents({ et: 3 }, { time: 2, type: 1, value: 3 }, { b: 5, type: 2, value: 7, f: 1 }, {});
 data.addBasicEvents(...events);
 ```
 
@@ -113,7 +121,7 @@ without referencing the original.
 
 ```ts
 const original = v3.ColorNotes.create()[0];
-const cloned = original.clone(); // new object with same property as original
+const cloned = original.clone(); // new object with same property as original without reference
 ```
 
 ### Method Chaining
@@ -145,9 +153,9 @@ const note = v3.ColorNotes.create({
 })[0];
 
 data.addBasicEvents({
-    b: 10,
-    et: EventType.BACK_LASERS,
-    i: EventLightValue.WHITE_FADE,
+    time: 10,
+    type: EventType.BACK_LASERS,
+    value: EventLightValue.WHITE_FADE,
 });
 ```
 
@@ -179,10 +187,10 @@ import * as patch from 'https://deno.land/x/bsmap@1.3.0/patch/mod.ts';
 
 ## Addendum
 
-### Dependency File
+### Dependency/Modular File
 
 If you happen to work on multiple script files or has centralised folder for map scripting, a dependency file can be
-used.
+used. Similarly, you can break your script into multiple file for modularity purpose.
 
 ```ts
 // deps.ts
@@ -229,7 +237,5 @@ lose the ability to use certain utilities built around it.
 
 ```ts
 const difficulty = load.difficultySync('ExpertPlusStandard.dat').toJSON();
-const difficultyJSON = JSON.parse(
-    Deno.readTextFileSync('ExpertPlusStandard.dat'),
-) as types.v3.IDifficulty; // unsafe
+const difficultyJSON = JSON.parse(Deno.readTextFileSync('ExpertPlusStandard.dat')) as types.v3.IDifficulty; // unsafe
 ```

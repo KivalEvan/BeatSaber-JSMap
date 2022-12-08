@@ -48,7 +48,9 @@ bsmap.save.difficultySync(data);
 
 **NOTE:** Recommended to use `https://deno.land/x/bsmap@version/mod.ts` to lock version to ensure the script works
 without breaking from newer update. For rolling release, visit
-[GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw file directly from there.
+[GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw file directly from there
+(`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`), you may need to occasionally add `--reload`
+tag for latest update.
 
 You may also clone the library and import it locally to make any modification as you wish.
 
