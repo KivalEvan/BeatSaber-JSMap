@@ -20,21 +20,13 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
     }
 
     static create(): BombNote[];
-    static create(
-        ...bombNotes: PartialWrapper<IWrapBombNote<Required<IBombNote>>>[]
-    ): BombNote[];
+    static create(...bombNotes: PartialWrapper<IWrapBombNote<Required<IBombNote>>>[]): BombNote[];
     static create(...bombNotes: Partial<IBombNote>[]): BombNote[];
     static create(
-        ...bombNotes: (
-            & Partial<IBombNote>
-            & PartialWrapper<IWrapBombNote<Required<IBombNote>>>
-        )[]
+        ...bombNotes: (Partial<IBombNote> & PartialWrapper<IWrapBombNote<Required<IBombNote>>>)[]
     ): BombNote[];
     static create(
-        ...bombNotes: (
-            & Partial<IBombNote>
-            & PartialWrapper<IWrapBombNote<Required<IBombNote>>>
-        )[]
+        ...bombNotes: (Partial<IBombNote> & PartialWrapper<IWrapBombNote<Required<IBombNote>>>)[]
     ): BombNote[] {
         const result: BombNote[] = [];
         bombNotes?.forEach((bn) =>
@@ -120,10 +112,7 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
     }
 
     isChroma(): boolean {
-        return (
-            Array.isArray(this.customData.color) ||
-            typeof this.customData.spawnEffect === 'boolean'
-        );
+        return Array.isArray(this.customData.color) || typeof this.customData.spawnEffect === 'boolean';
     }
 
     // god i hate these

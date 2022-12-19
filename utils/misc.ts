@@ -20,9 +20,9 @@ export function pickRandom<T>(ary: T[], func = Math.random): T {
  *
  * Works best with only primitive objects. Use `structuredClone()` for more complicated objects.
  */
-export function deepCopy<T extends Record<keyof T, unknown>>(object: T): T;
-export function deepCopy<T extends Record<keyof T, unknown>>(object: T[]): T[];
-export function deepCopy<T extends Record<keyof T, unknown>>(object: T | T[]): T | T[] {
+export function deepCopy<T extends { [P in keyof T]: T[P] }>(object: T): T;
+export function deepCopy<T extends { [P in keyof T]: T[P] }>(object: T[]): T[];
+export function deepCopy<T extends { [P in keyof T]: T[P] }>(object: T | T[]): T | T[] {
     if (typeof object !== 'object') {
         throw new Error('Received non-object type');
     }
