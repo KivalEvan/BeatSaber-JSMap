@@ -4,7 +4,7 @@
 
 ### Added
 
-- The Weeknd environment & color scheme
+- The Weeknd and Rock Mixtape environment & color scheme
 - Wrapper class/interface
   - Write properties instantiation in more readable syntax
   - Able to instantiate object from existing class object (copy)
