@@ -9,8 +9,8 @@
  * example run command:
  * deno run --allow-read --allow-write convertToV3.ts -d "./Folder/Path"
  */
-import { copySync } from 'https://deno.land/std@0.153.0/fs/mod.ts';
-import { parse } from 'https://deno.land/std@0.153.0/flags/mod.ts';
+import { copySync } from 'https://deno.land/std@0.167.0/fs/mod.ts';
+import { parse } from 'https://deno.land/std@0.167.0/flags/mod.ts';
 import { convert, globals, isV3, load, logger, parse as beatmapParser, save, types, v2 } from '../mod.ts';
 
 const args = parse(Deno.args, {
@@ -27,7 +27,9 @@ const args = parse(Deno.args, {
 });
 
 logger.info('Beat Saber beatmap v2 to v3 conversion build 3');
-logger.info('Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/convertToV3.ts');
+logger.info(
+    'Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/convertToV3.ts',
+);
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 if (args.x) {
@@ -35,7 +37,8 @@ if (args.x) {
 }
 
 globals.directory = (args.d as string) ??
-    (args.y ? './' : prompt('Enter map folder path (leave blank for current folder):')?.trim() || './');
+    (args.y ? './' : prompt('Enter map folder path (leave blank for current folder):')?.trim() ||
+        './');
 
 if (args.q) {
     logger.setLevel(4);
@@ -60,19 +63,20 @@ try {
             logger.error('Number is not acceptable value for file path.');
         }
 
-        const diffFilePath = typeof args._[0] === 'string'
-            ? args._[0]
-            : prompt('Enter difficulty file name (must include extension):')?.trim();
+        const diffFilePath = typeof args._[0] === 'string' ? args._[0] : prompt(
+            'Enter difficulty file name (must include extension):',
+        )?.trim();
 
         if (!diffFilePath) {
             throw new Error('Received empty file path.');
         }
 
-        const diffJSON = JSON.parse(Deno.readTextFileSync(globals.directory + diffFilePath)) as types.Either<
-            types.v2.IDifficulty,
-            types.v3.IDifficulty
-        >;
-        const diffVersion = parseInt(diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'));
+        const diffJSON = JSON.parse(
+            Deno.readTextFileSync(globals.directory + diffFilePath),
+        ) as types.Either<types.v2.IDifficulty, types.v3.IDifficulty>;
+        const diffVersion = parseInt(
+            diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'),
+        );
 
         let diff!: v2.Difficulty;
         if (diffVersion === 2) {
@@ -80,15 +84,23 @@ try {
             if (!args.x) {
                 logger.info('Backing up beatmap');
                 try {
-                    copySync(globals.directory + diffFilePath, globals.directory + diffFilePath + '.old');
+                    copySync(
+                        globals.directory + diffFilePath,
+                        globals.directory + diffFilePath + '.old',
+                    );
                 } catch (_) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Old backup file detected, do you want to overwrite? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
-                        copySync(globals.directory + diffFilePath, globals.directory + diffFilePath + '.old', {
-                            overwrite: true,
-                        });
+                        copySync(
+                            globals.directory + diffFilePath,
+                            globals.directory + diffFilePath + '.old',
+                            {
+                                overwrite: true,
+                            },
+                        );
                     } else {
                         logger.info('Skipping overwrite...');
                         skipped = true;
@@ -96,11 +108,14 @@ try {
                 }
             }
             if (!skipped) {
-                diff = beatmapParser.difficultyV2(diffJSON as types.v2.IDifficulty).setFileName(diffFilePath);
+                diff = beatmapParser
+                    .difficultyV2(diffJSON as types.v2.IDifficulty)
+                    .setFileName(diffFilePath);
                 if (diff.basicEvents.some((e) => e.isOldChroma())) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
                         convert.ogChromaToChromaV2(diff);
                     }
@@ -124,7 +139,9 @@ try {
         try {
             info = load.infoSync();
         } catch {
-            logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
+            logger.warn(
+                'Could not load Info.dat from folder, retrying with info.dat...',
+            );
             info = load.infoSync({ filePath: 'info.dat' });
         }
 
@@ -133,20 +150,27 @@ try {
         diffList.forEach((dl) => {
             if (!isV3(dl.data)) {
                 if (!args.x) {
-                    logger.info('Backing up beatmap v2', dl.characteristic, dl.difficulty);
+                    logger.info(
+                        'Backing up beatmap v2',
+                        dl.characteristic,
+                        dl.difficulty,
+                    );
                     try {
                         copySync(
                             globals.directory + dl.settings._beatmapFilename,
                             globals.directory + dl.settings._beatmapFilename + '.old',
                         );
                     } catch (_) {
-                        const confirmation = args.y
-                            ? 'n'
-                            : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
+                        const confirmation = args.y ? 'n' : prompt(
+                            'Old backup file detected, do you want to overwrite? (y/N):',
+                            'n',
+                        );
                         if (confirmation![0].toLowerCase() === 'y') {
                             copySync(
                                 globals.directory + dl.settings._beatmapFilename,
-                                globals.directory + dl.settings._beatmapFilename + '.old',
+                                globals.directory +
+                                    dl.settings._beatmapFilename +
+                                    '.old',
                                 { overwrite: true },
                             );
                         } else {
@@ -157,9 +181,10 @@ try {
                 }
                 if (dl.data.basicEvents.some((e) => e.isOldChroma())) {
                     if (!oldChromaConfirm) {
-                        const confirmation = args.y
-                            ? 'n'
-                            : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
+                        const confirmation = args.y ? 'n' : prompt(
+                            'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
+                            'n',
+                        );
                         if (confirmation![0].toLowerCase() === 'y') {
                             oldChromaConvert = true;
                         }
@@ -184,7 +209,12 @@ try {
                         convert.chromaLightGradientToVanillaGradient(dl.data, true);
                     }
                 }
-                logger.info('Converting beatmap v2', dl.characteristic, dl.difficulty, 'to v3');
+                logger.info(
+                    'Converting beatmap v2',
+                    dl.characteristic,
+                    dl.difficulty,
+                    'to v3',
+                );
                 dl.data = convert.V2toV3(dl.data, true);
                 save.difficultySync(dl.data);
                 isConverted = true;

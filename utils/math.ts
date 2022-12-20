@@ -69,7 +69,11 @@ export function pRandom(int?: boolean): number;
 export function pRandom(min: number, max: number): number;
 export function pRandom(min: number, max: number, rounding: boolean): number;
 export function pRandom(min: number, max: number, rounding: number): number;
-export function pRandom(min?: number | boolean, max?: number | boolean, rounding: number | boolean = false): number {
+export function pRandom(
+    min?: number | boolean,
+    max?: number | boolean,
+    rounding: number | boolean = false,
+): number {
     return internalRandom(min, max, rounding, _instPRandom);
 }
 
@@ -83,7 +87,11 @@ export function pRandom(min?: number | boolean, max?: number | boolean, rounding
 export function pRandomFn(seed: string | number | bigint = Math.random()) {
     const _seed = hashCode(seed);
     const _func = internalPRandom(_seed);
-    return function (min?: number | boolean, max?: number | boolean, rounding: number | boolean = false) {
+    return function (
+        min?: number | boolean,
+        max?: number | boolean,
+        rounding: number | boolean = false,
+    ) {
         return internalRandom(min, max, rounding, _func);
     };
 }
@@ -118,12 +126,20 @@ export function random(int?: boolean): number;
 export function random(min: number, max: number): number;
 export function random(min: number, max: number, rounding: boolean): number;
 export function random(min: number, max: number, rounding: number): number;
-export function random(min?: number | boolean, max?: number | boolean, rounding: number | boolean = false): number {
+export function random(
+    min?: number | boolean,
+    max?: number | boolean,
+    rounding: number | boolean = false,
+): number {
     return internalRandom(min, max, rounding, Math.random);
 }
 
 /** Return number tuple in order. */
-export function fixRange(min: number, max: number, inverse?: boolean): [number, number] {
+export function fixRange(
+    min: number,
+    max: number,
+    inverse?: boolean,
+): [number, number] {
     if (min < max && inverse) {
         return [max, min];
     }
@@ -146,13 +162,25 @@ export function degToRad(deg: number) {
 }
 
 /** Return [radius, theta, phi] */
-export function cartesianCoordToSphericalCoord(x: number, y: number, z: number): [number, number, number] {
+export function cartesianCoordToSphericalCoord(
+    x: number,
+    y: number,
+    z: number,
+): [number, number, number] {
     const radius = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-    return [radius, Math.acos(z / radius), (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI)];
+    return [
+        radius,
+        Math.acos(z / radius),
+        (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI),
+    ];
 }
 
 /** Return [x, y, z] */
-export function sphericalCoordToCartesianCoord(radius: number, theta: number, phi: number): [number, number, number] {
+export function sphericalCoordToCartesianCoord(
+    radius: number,
+    theta: number,
+    phi: number,
+): [number, number, number] {
     return [
         radius * Math.sin(theta) * Math.cos(phi),
         radius * Math.sin(theta) * Math.sin(phi),
@@ -205,15 +233,26 @@ export function normalize(value: number, min: number, max: number): number {
 /** Linear interpolate between start to end time given alpha value.
  * Alpha value must be around 0-1.
  */
-export function lerp(alpha: number, start: number, end: number, easing?: EasingFunction): number {
+export function lerp(
+    alpha: number,
+    start: number,
+    end: number,
+    easing?: EasingFunction,
+): number {
     if (!easing) {
         easing = (x) => x;
     }
     if (alpha > 1) {
-        logger.warn(tag('lerp'), 'Alpha value is larger than 1, may have unintended result');
+        logger.warn(
+            tag('lerp'),
+            'Alpha value is larger than 1, may have unintended result',
+        );
     }
     if (alpha < 0) {
-        logger.warn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
+        logger.warn(
+            tag('lerp'),
+            'Alpha value is smaller than 0, may have unintended result',
+        );
     }
     const result = start + (end - start) * easing(alpha);
     logger.verbose(tag('lerp'), `Obtained ${result}`);

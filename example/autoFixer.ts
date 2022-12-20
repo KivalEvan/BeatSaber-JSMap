@@ -8,8 +8,8 @@
  * example run command:
  * deno run --allow-read --allow-write autoFixer.ts -d "./Folder/Path"
  */
-import { copySync } from 'https://deno.land/std@0.153.0/fs/mod.ts';
-import { parse } from 'https://deno.land/std@0.153.0/flags/mod.ts';
+import { copySync } from 'https://deno.land/std@0.167.0/fs/mod.ts';
+import { parse } from 'https://deno.land/std@0.167.0/flags/mod.ts';
 import { customDataUpdate, dataCorrection, removeOutsidePlayable } from '../patch/mod.ts';
 import { BeatPerMinute, convert, globals, isV2, load, logger, save, utils } from '../mod.ts';
 
@@ -26,7 +26,9 @@ const args = parse(Deno.args, {
 });
 
 logger.info('Beat Saber beatmap auto-fixer build 3');
-logger.info('Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/autoFixer.ts');
+logger.info(
+    'Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/autoFixer.ts',
+);
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 if (args.x) {
@@ -55,13 +57,21 @@ try {
         info = load.infoSync({ filePath: infoFileName });
     }
     try {
-        copySync(globals.directory + infoFileName, globals.directory + infoFileName + '.old');
+        copySync(
+            globals.directory + infoFileName,
+            globals.directory + infoFileName + '.old',
+        );
     } catch (_) {
-        const confirmation = args.y
-            ? 'n'
-            : prompt('Old info backup file detected, do you want to overwrite? (y/N):', 'n');
+        const confirmation = args.y ? 'n' : prompt(
+            'Old info backup file detected, do you want to overwrite? (y/N):',
+            'n',
+        );
         if (confirmation![0].toLowerCase() === 'y') {
-            copySync(globals.directory + infoFileName, globals.directory + infoFileName + '.old', { overwrite: true });
+            copySync(
+                globals.directory + infoFileName,
+                globals.directory + infoFileName + '.old',
+                { overwrite: true },
+            );
         } else {
             logger.info('Skipping info overwrite...');
         }
@@ -70,9 +80,13 @@ try {
 
     let duration = 0;
     let audioConfirmed = false;
-    logger.info('Could not read audio (yet), this will be used to remove outside end playable object');
+    logger.info(
+        'Could not read audio (yet), this will be used to remove outside end playable object',
+    );
     while (!audioConfirmed) {
-        const input = args.y ? '0' : prompt('Enter audio duration in seconds or mm:ss (blank or 0 to skip):') ?? '';
+        const input = args.y ? '0' : prompt(
+            'Enter audio duration in seconds or mm:ss (blank or 0 to skip):',
+        ) ?? '';
         if (/^\d+(\.\d+)?$/.test(input)) {
             duration = Math.max(parseFloat(input), 0);
         } else if (/^\d+:(\d){1,2}$/.test(input)) {
@@ -80,11 +94,17 @@ try {
         } else {
             duration = 0;
         }
-        logger.info('Retrieved and parsed input as value', duration, 'second(s) |', utils.toMmss(duration));
+        logger.info(
+            'Retrieved and parsed input as value',
+            duration,
+            'second(s) |',
+            utils.toMmss(duration),
+        );
         if (duration && duration < 60) {
-            const confirmation = args.y
-                ? 'y'
-                : prompt('Duration seems lower than expected, are you sure with this audio length? (Y/n):', 'y');
+            const confirmation = args.y ? 'y' : prompt(
+                'Duration seems lower than expected, are you sure with this audio length? (Y/n):',
+                'y',
+            );
             if (confirmation![0].toLowerCase() === 'y') {
                 audioConfirmed = true;
             }
@@ -136,9 +156,10 @@ try {
             logger.info('Fixing beatmap v2', dl.characteristic, dl.difficulty);
             if (dl.data.basicEvents.some((e) => e.isOldChroma())) {
                 if (!oldChromaConfirm) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
                         oldChromaConvert = true;
                     }
@@ -174,11 +195,19 @@ try {
                     !dl.settings._customData._requirements?.includes('Chroma')
                 ) {
                     if (!dl.settings._customData._suggestions.includes('Chroma')) {
-                        logger.info('Applying Chroma suggestions to', dl.characteristic, dl.difficulty);
+                        logger.info(
+                            'Applying Chroma suggestions to',
+                            dl.characteristic,
+                            dl.difficulty,
+                        );
                         dl.settings._customData._suggestions.push('Chroma');
                     }
                 } else if (!dl.settings._customData._requirements?.includes('Chroma')) {
-                    logger.info('Creating Chroma suggestions to', dl.characteristic, dl.difficulty);
+                    logger.info(
+                        'Creating Chroma suggestions to',
+                        dl.characteristic,
+                        dl.difficulty,
+                    );
                     dl.settings._customData._suggestions = ['Chroma'];
                 }
             }
@@ -189,12 +218,24 @@ try {
             if (hasNoodleExtensions) {
                 dl.settings._customData ??= {};
                 if (dl.settings._customData._requirements) {
-                    if (!dl.settings._customData._requirements?.includes('Noodle Extensions')) {
-                        logger.info('Applying Noodle Extensions requirements to', dl.characteristic, dl.difficulty);
+                    if (
+                        !dl.settings._customData._requirements?.includes(
+                            'Noodle Extensions',
+                        )
+                    ) {
+                        logger.info(
+                            'Applying Noodle Extensions requirements to',
+                            dl.characteristic,
+                            dl.difficulty,
+                        );
                         dl.settings._customData._requirements.push('Noodle Extensions');
                     }
                 } else {
-                    logger.info('Creating Noodle Extensions requirements to', dl.characteristic, dl.difficulty);
+                    logger.info(
+                        'Creating Noodle Extensions requirements to',
+                        dl.characteristic,
+                        dl.difficulty,
+                    );
                     dl.settings._customData._requirements = ['Noodle Extensions'];
                 }
             }
@@ -202,13 +243,18 @@ try {
             logger.info('Fixing beatmap v3', dl.characteristic, dl.difficulty);
             bpm.timescale = dl.data.bpmEvents.map((bpme) => bpme.toJSON());
 
-            logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
+            logger.info(
+                'Temporarily converting beatmap v2 copy',
+                dl.characteristic,
+                dl.difficulty,
+            );
             const temp = convert.V3toV2(dl.data, true);
             if (temp.basicEvents.some((e) => e.isOldChroma())) {
                 if (!oldChromaConfirm) {
-                    const confirmation = args.y
-                        ? 'n'
-                        : prompt('Old Chroma detected, do you want to convert this (apply to all)? (y/N):', 'n');
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
                     if (confirmation![0].toLowerCase() === 'y') {
                         oldChromaConvert = true;
                     }
@@ -234,10 +280,18 @@ try {
                 }
             }
 
-            logger.info('Reconverting temporary beatmap v2 copy to v3', dl.characteristic, dl.difficulty);
+            logger.info(
+                'Reconverting temporary beatmap v2 copy to v3',
+                dl.characteristic,
+                dl.difficulty,
+            );
             const temp2 = convert.V2toV3(temp, true);
 
-            logger.info('Re-inserting events from temporary beatmap', dl.characteristic, dl.difficulty);
+            logger.info(
+                'Re-inserting events from temporary beatmap',
+                dl.characteristic,
+                dl.difficulty,
+            );
             dl.data.basicEvents = temp2.basicEvents;
 
             const hasChroma = dl.data.basicEvents.some((obj) => obj.isChroma()) ||
@@ -253,11 +307,19 @@ try {
                     !dl.settings._customData._requirements?.includes('Chroma')
                 ) {
                     if (!dl.settings._customData._suggestions.includes('Chroma')) {
-                        logger.info('Applying Chroma suggestions to', dl.characteristic, dl.difficulty);
+                        logger.info(
+                            'Applying Chroma suggestions to',
+                            dl.characteristic,
+                            dl.difficulty,
+                        );
                         dl.settings._customData._suggestions.push('Chroma');
                     }
                 } else if (!dl.settings._customData._requirements?.includes('Chroma')) {
-                    logger.info('Creating Chroma suggestions to', dl.characteristic, dl.difficulty);
+                    logger.info(
+                        'Creating Chroma suggestions to',
+                        dl.characteristic,
+                        dl.difficulty,
+                    );
                     dl.settings._customData._suggestions = ['Chroma'];
                 }
             }
@@ -270,12 +332,24 @@ try {
             if (hasNoodleExtensions) {
                 dl.settings._customData ??= {};
                 if (dl.settings._customData._requirements) {
-                    if (!dl.settings._customData._requirements?.includes('Noodle Extensions')) {
-                        logger.info('Applying Noodle Extensions requirements to', dl.characteristic, dl.difficulty);
+                    if (
+                        !dl.settings._customData._requirements?.includes(
+                            'Noodle Extensions',
+                        )
+                    ) {
+                        logger.info(
+                            'Applying Noodle Extensions requirements to',
+                            dl.characteristic,
+                            dl.difficulty,
+                        );
                         dl.settings._customData._requirements.push('Noodle Extensions');
                     }
                 } else {
-                    logger.info('Creating Noodle Extensions requirements to', dl.characteristic, dl.difficulty);
+                    logger.info(
+                        'Creating Noodle Extensions requirements to',
+                        dl.characteristic,
+                        dl.difficulty,
+                    );
                     dl.settings._customData._requirements = ['Noodle Extensions'];
                 }
             }
