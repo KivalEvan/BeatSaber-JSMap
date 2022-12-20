@@ -40,9 +40,14 @@ if (args.x) {
 globals.directory = (args.d as string) ??
     (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() || './');
 
-const fadeDuration = parseInt(
-    args.t ?? args.y ? '1.5' : prompt('Fade duration in seconds', '1.5')?.trim() ?? '1.5',
-) || 1.5;
+const fadeDuration = parseFloat(
+    args.t ?? args.y ? '1' : prompt('Fade duration in seconds (blank for default 1s):')?.trim() ?? '1',
+) || 1;
+
+const flashMultiplier = parseFloat(
+    args.t ?? args.y ? '1.2' : prompt('Flash brightness multiplier (blank for default 1.2):')?.trim() ??
+        '1.2',
+) || 1.2;
 
 if (args.q) {
     logger.setLevel(4);
@@ -193,17 +198,14 @@ try {
 
         dl.data.basicEvents.forEach((e) => e);
 
-        if (dl.data.basicEvents.some((e) => e.isFade())) {
+        if (dl.data.basicEvents.some((e) => e.isFade() || e.isFlash())) {
             logger.info('V1 event found in beatmap');
-
-            console.log('Before Conversion:', dl.data.basicEvents.length);
-
             logger.info('Sorting event');
             dl.data.basicEvents
                 .sort((a, b) => a.type - b.type)
                 .sort((a, b) => a.time - b.time);
             const mappedEvent = (dl.data as types.wrapper.IWrapDifficulty).basicEvents
-                .filter((ev) => ev.isLightEvent())
+                .filter((ev) => ev.isLightEvent(info._environmentName))
                 .reduce((obj: { [key: number]: types.wrapper.IWrapEvent[] }, ev) => {
                     obj[ev.type] ??= [];
                     obj[ev.type].push(ev);
@@ -221,19 +223,19 @@ try {
                                 bpm.toRealTime(current.time) -
                                 0.001,
                             0,
-                            current.isFlash() ? fadeDuration / 6 : fadeDuration,
+                            current.isFlash() ? fadeDuration / 10 : fadeDuration,
                         );
                         const alpha = utils.normalize(
                             duration,
                             0,
-                            current.isFlash() ? fadeDuration / 6 : fadeDuration,
+                            current.isFlash() ? fadeDuration / 10 : fadeDuration,
                         );
                         if (!alpha) {
                             continue;
                         }
                         if (current.isFade()) {
                             current.value -= 2;
-                            current.floatValue *= 1.2;
+                            current.floatValue *= flashMultiplier;
                             dl.data.addBasicEvents({
                                 ...current.data,
                                 time: bpm.toBeatTime(
@@ -247,7 +249,7 @@ try {
                         if (current.isFlash()) {
                             current.value -= 1;
                             const prev = current.floatValue;
-                            current.floatValue *= 1.2;
+                            current.floatValue *= flashMultiplier;
                             dl.data.addBasicEvents({
                                 ...current.data,
                                 time: bpm.toBeatTime(
@@ -261,7 +263,7 @@ try {
                     } else {
                         if (current.isFade()) {
                             current.value -= 2;
-                            current.floatValue *= 1.2;
+                            current.floatValue *= flashMultiplier;
                             dl.data.addBasicEvents({
                                 ...current.data,
                                 time: bpm.toBeatTime(
@@ -275,11 +277,11 @@ try {
                         if (current.isFlash()) {
                             current.value -= 1;
                             const prev = current.floatValue;
-                            current.floatValue *= 1.2;
+                            current.floatValue *= flashMultiplier;
                             dl.data.addBasicEvents({
                                 ...current.data,
                                 time: bpm.toBeatTime(
-                                    bpm.toRealTime(current.time) + fadeDuration / 6,
+                                    bpm.toRealTime(current.time) + fadeDuration / 10,
                                     true,
                                 ),
                                 value: current.value + 3,
@@ -289,10 +291,13 @@ try {
                     }
                 }
             }
-            console.log('After Conversion:', dl.data.basicEvents.length);
-
             logger.info('Conversion to V2 event completed');
         }
+
+        logger.info('Applying 0 float value to off events');
+        (dl.data as types.wrapper.IWrapDifficulty).basicEvents
+            .filter((ev) => ev.isLightEvent(info._environmentName) && ev.isOff())
+            .forEach((ev) => (ev.floatValue = 0));
 
         save.difficultySync(dl.data);
     });
