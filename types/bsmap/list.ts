@@ -3,11 +3,13 @@ import { DifficultyName } from '../beatmap/shared/difficulty.ts';
 import { IInfoSetDifficulty } from '../beatmap/shared/info.ts';
 import { Difficulty as DifficultyV2 } from '../../beatmap/v2/difficulty.ts';
 import { Difficulty as DifficultyV3 } from '../../beatmap/v3/difficulty.ts';
+import { WrapDifficulty } from '../../beatmap/wrapper/difficulty.ts';
 
 interface IDifficultyListBase {
     readonly characteristic: CharacteristicName;
     readonly difficulty: DifficultyName;
     readonly settings: IInfoSetDifficulty;
+    data: WrapDifficulty<Record<string, unknown>>;
 }
 
 interface IDifficultyListV2 extends IDifficultyListBase {

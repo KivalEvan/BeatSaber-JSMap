@@ -11,7 +11,7 @@
  */
 import { copySync } from 'https://deno.land/std@0.167.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.167.0/flags/mod.ts';
-import { BeatPerMinute, convert, globals, isV2, load, logger, save, types, utils } from '../mod.ts';
+import { BeatPerMinute, convert, globals, isV2, load, logger, save, types, utils, v2, v3 } from '../mod.ts';
 
 const args = parse(Deno.args, {
     string: ['d', 't'],
@@ -204,7 +204,8 @@ try {
             dl.data.basicEvents
                 .sort((a, b) => a.type - b.type)
                 .sort((a, b) => a.time - b.time);
-            const mappedEvent = (dl.data as types.wrapper.IWrapDifficulty).basicEvents
+            const mappedEvent = dl.data.basicEvents
+                .map((ev) => ev)
                 .filter((ev) => ev.isLightEvent(info._environmentName))
                 .reduce((obj: { [key: number]: types.wrapper.IWrapEvent[] }, ev) => {
                     obj[ev.type] ??= [];
@@ -295,7 +296,8 @@ try {
         }
 
         logger.info('Applying 0 float value to off events');
-        (dl.data as types.wrapper.IWrapDifficulty).basicEvents
+        dl.data.basicEvents
+            .map((ev) => ev)
             .filter((ev) => ev.isLightEvent(info._environmentName) && ev.isOff())
             .forEach((ev) => (ev.floatValue = 0));
 

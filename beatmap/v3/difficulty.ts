@@ -149,11 +149,6 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         };
     }
 
-    clone<U extends this>(): U {
-        const fileName = this.fileName;
-        return super.clone().setFileName(fileName) as U;
-    }
-
     get customData(): NonNullable<IDifficulty['customData']> {
         return this.data.customData;
     }
