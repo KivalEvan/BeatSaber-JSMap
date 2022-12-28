@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.3.0 [2022-11-##]
+## 1.3.0 [2022-12-##]
 
 ### Added
 
@@ -35,6 +35,7 @@
 
 - Obstacle not correctly check for interactive in specific case
 - Loose-autocomplete type incorrectly throw error when passed to primitive
+- Couple of utils fixed from testing
 
 ## 1.2.2 [2022-10-07]
 
