@@ -4,7 +4,8 @@ import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
 
 /** Event beatmap class object. */
-export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>> extends WrapBaseObject<T>
+export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>>
+    extends WrapBaseObject<T>
     implements IWrapEvent<T> {
     abstract get type(): IWrapEvent['type'];
     abstract set type(value: IWrapEvent['type']);
@@ -48,13 +49,15 @@ export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>> ex
 
     isBlue(): boolean {
         return (
-            this.value === 1 || this.value === 2 || this.value === 3 || this.value === 4
+            this.value === 1 || this.value === 2 || this.value === 3 ||
+            this.value === 4
         );
     }
 
     isRed(): boolean {
         return (
-            this.value === 5 || this.value === 6 || this.value === 7 || this.value === 8
+            this.value === 5 || this.value === 6 || this.value === 7 ||
+            this.value === 8
         );
     }
 
@@ -127,13 +130,15 @@ export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>> ex
 
     isExtraEvent(environment?: EnvironmentAllName): boolean {
         return (
-            this.type === 16 || this.type === 17 || this.type === 18 || this.type === 19
+            this.type === 16 || this.type === 17 || this.type === 18 ||
+            this.type === 19
         );
     }
 
     isSpecialEvent(environment?: EnvironmentAllName): boolean {
         return (
-            this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43
+            this.type === 40 || this.type === 41 || this.type === 42 ||
+            this.type === 43
         );
     }
 
@@ -168,7 +173,8 @@ export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>> ex
         return (
             this.isValidType() &&
             this.value >= 0 &&
-            !(!this.isLaserRotationEvent() && this.value > 12 && !this.isOldChroma())
+            !(!this.isLaserRotationEvent() && this.value > 12 &&
+                !this.isOldChroma())
         );
     }
 }

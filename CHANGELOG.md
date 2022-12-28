@@ -50,8 +50,8 @@
 
 - Updated to beatmap v3.1.0
 - v2 Note and v2 Slider `cutDirection` shortened to `direction` to match v3 consistency
-- Disallow both class object and object to be added in the same parameter for difficulty add object (this makes for less
-  confusing autocomplete)
+- Disallow both class object and object to be added in the same parameter for difficulty add object
+  (this makes for less confusing autocomplete)
 - Updated SPS info
 
 ### Fixed
@@ -192,7 +192,8 @@
 ### Added
 
 - File name saved to difficulty class object
-  - Saving difficulty will prioritise file name from explicit option `filePath`, class object, info, and default value
+  - Saving difficulty will prioritise file name from explicit option `filePath`, class object, info,
+    and default value
 
 ### Changed
 
@@ -200,7 +201,7 @@
 
 ### Removed
 
-- `fileName` field removed from difficulty list interface due to redundancy (`settings` field already provided file
-  name)
+- `fileName` field removed from difficulty list interface due to redundancy (`settings` field
+  already provided file name)
 
 ## 1.0.0 - First stable release [2022-06-07]

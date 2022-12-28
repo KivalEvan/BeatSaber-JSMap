@@ -29,8 +29,12 @@ export interface IWrapLightTranslationEventBox<
     affectFirst: 0 | 1;
     events: IWrapLightTranslationBase<TBase>[];
 
-    setTranslationDistribution(value: IWrapLightTranslationEventBox['translationDistribution']): this;
-    setTranslationDistributionType(value: IWrapLightTranslationEventBox['translationDistributionType']): this;
+    setTranslationDistribution(
+        value: IWrapLightTranslationEventBox['translationDistribution'],
+    ): this;
+    setTranslationDistributionType(
+        value: IWrapLightTranslationEventBox['translationDistributionType'],
+    ): this;
     setAxis(value: IWrapLightTranslationEventBox['axis']): this;
     setFlip(value: IWrapLightTranslationEventBox['flip']): this;
     setAffectFirst(value: IWrapLightTranslationEventBox['affectFirst']): this;

@@ -25,7 +25,9 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
     };
 
     private _e: LightRotationEventBox[];
-    protected constructor(eventBoxGroup: Required<ILightRotationEventBoxGroup>) {
+    protected constructor(
+        eventBoxGroup: Required<ILightRotationEventBoxGroup>,
+    ) {
         super(eventBoxGroup);
         this._e = eventBoxGroup.e.map((e) => LightRotationEventBox.create(e)[0]);
     }
@@ -41,7 +43,9 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             >
         >[]
     ): LightRotationEventBoxGroup[];
-    static create(...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]): LightRotationEventBoxGroup[];
+    static create(
+        ...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]
+    ): LightRotationEventBoxGroup[];
     static create(
         ...eventBoxGroups: (
             & DeepPartial<ILightRotationEventBoxGroup>
@@ -72,12 +76,14 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
         eventBoxGroups?.forEach((ebg) =>
             result.push(
                 new this({
-                    b: ebg.time ?? ebg.b ?? LightRotationEventBoxGroup.default.b,
+                    b: ebg.time ?? ebg.b ??
+                        LightRotationEventBoxGroup.default.b,
                     g: ebg.id ?? ebg.g ?? LightRotationEventBoxGroup.default.g,
                     e: (ebg.boxes as ILightRotationEventBox[]) ??
                         (ebg.e as unknown as ILightRotationEventBox[]) ??
                         LightRotationEventBoxGroup.default.e(),
-                    customData: ebg.customData ?? LightRotationEventBoxGroup.default.customData(),
+                    customData: ebg.customData ??
+                        LightRotationEventBoxGroup.default.customData(),
                 }),
             )
         );
@@ -127,7 +133,9 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
     get customData(): NonNullable<ILightRotationEventBoxGroup['customData']> {
         return this.data.customData;
     }
-    set customData(value: NonNullable<ILightRotationEventBoxGroup['customData']>) {
+    set customData(
+        value: NonNullable<ILightRotationEventBoxGroup['customData']>,
+    ) {
         this.data.customData = value;
     }
 

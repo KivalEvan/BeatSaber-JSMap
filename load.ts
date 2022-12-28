@@ -51,10 +51,15 @@ export const defaultOptions = {
 
 function internalInfo(options: ILoadOptionsInfo) {
     const opt: Required<ILoadOptionsInfo> = {
-        directory: sanitizeDir(options.directory ?? (globals.directory || defaultOptions.info.directory)),
+        directory: sanitizeDir(
+            options.directory ??
+                (globals.directory || defaultOptions.info.directory),
+        ),
         filePath: options.filePath ?? 'Info.dat',
     };
-    return parseInfo(JSON.parse(Deno.readTextFileSync(opt.directory + opt.filePath)));
+    return parseInfo(
+        JSON.parse(Deno.readTextFileSync(opt.directory + opt.filePath)),
+    );
 }
 
 /** Asynchronously load beatmap info file.
@@ -64,10 +69,16 @@ function internalInfo(options: ILoadOptionsInfo) {
  */
 export async function info(options: ILoadOptionsInfo = {}): Promise<IInfo> {
     const opt: Required<ILoadOptionsInfo> = {
-        directory: sanitizeDir(options.directory ?? (globals.directory || defaultOptions.info.directory)),
+        directory: sanitizeDir(
+            options.directory ??
+                (globals.directory || defaultOptions.info.directory),
+        ),
         filePath: options.filePath ?? 'Info.dat',
     };
-    logger.info(tag('info'), `Async loading info from ${opt.directory + opt.filePath}`);
+    logger.info(
+        tag('info'),
+        `Async loading info from ${opt.directory + opt.filePath}`,
+    );
     return await new Promise((resolve, reject) => {
         try {
             resolve(internalInfo(opt));
@@ -85,20 +96,36 @@ export async function info(options: ILoadOptionsInfo = {}): Promise<IInfo> {
  */
 export function infoSync(options: ILoadOptionsInfo = {}): IInfo {
     const opt: Required<ILoadOptionsInfo> = {
-        directory: sanitizeDir(options.directory ?? (globals.directory || defaultOptions.info.directory)),
+        directory: sanitizeDir(
+            options.directory ??
+                (globals.directory || defaultOptions.info.directory),
+        ),
         filePath: options.filePath ?? 'Info.dat',
     };
-    logger.info(tag('infoSync'), `Sync loading info from ${opt.directory + opt.filePath}`);
+    logger.info(
+        tag('infoSync'),
+        `Sync loading info from ${opt.directory + opt.filePath}`,
+    );
     return internalInfo(opt);
 }
 
-function internalDifficulty(filePath: string, version: number, options: ILoadOptionsDifficulty) {
+function internalDifficulty(
+    filePath: string,
+    version: number,
+    options: ILoadOptionsDifficulty,
+) {
     const opt: Required<ILoadOptionsDifficulty> = {
-        directory: sanitizeDir(options.directory ?? (globals.directory || defaultOptions.difficulty.directory)),
-        forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
+        directory: sanitizeDir(
+            options.directory ??
+                (globals.directory || defaultOptions.difficulty.directory),
+        ),
+        forceConvert: options.forceConvert ??
+            defaultOptions.difficulty.forceConvert,
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
-    const diffJSON = JSON.parse(Deno.readTextFileSync(opt.directory + filePath)) as Either<
+    const diffJSON = JSON.parse(
+        Deno.readTextFileSync(opt.directory + filePath),
+    ) as Either<
         IDifficultyV2,
         IDifficultyV3
     >;
@@ -106,10 +133,14 @@ function internalDifficulty(filePath: string, version: number, options: ILoadOpt
         tag('internalDifficulty'),
         `Loading difficulty as beatmap version ${version} from ${opt.directory + filePath}`,
     );
-    const diffVersion = parseInt(diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'));
+    const diffVersion = parseInt(
+        diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'),
+    );
     if (diffVersion !== version) {
         if (!opt.forceConvert) {
-            throw new Error(`Beatmap version unmatched, expected ${version} but received ${diffVersion}`);
+            throw new Error(
+                `Beatmap version unmatched, expected ${version} but received ${diffVersion}`,
+            );
         }
         logger.warn(
             tag('internalDifficulty'),
@@ -121,16 +152,26 @@ function internalDifficulty(filePath: string, version: number, options: ILoadOpt
             version,
         );
         if (diffVersion === 3 && version == 2) {
-            return V3toV2(parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck).setFileName(filePath), true);
+            return V3toV2(
+                parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck)
+                    .setFileName(filePath),
+                true,
+            );
         } else {
-            return V2toV3(parseDifficultyV2(diffJSON as IDifficultyV2, opt.dataCheck).setFileName(filePath), true);
+            return V2toV3(
+                parseDifficultyV2(diffJSON as IDifficultyV2, opt.dataCheck)
+                    .setFileName(filePath),
+                true,
+            );
         }
     } else {
         if (version === 3) {
-            return parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck).setFileName(filePath);
+            return parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck)
+                .setFileName(filePath);
         }
         if (version === 2) {
-            return parseDifficultyV2(diffJSON as IDifficultyV2, opt.dataCheck).setFileName(filePath);
+            return parseDifficultyV2(diffJSON as IDifficultyV2, opt.dataCheck)
+                .setFileName(filePath);
         }
     }
 }
@@ -204,10 +245,17 @@ export function difficultySync(
     return internalDifficulty(filePath, version, options);
 }
 
-function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
+function internalDifficultyFromInfo(
+    info: IInfo,
+    options: ILoadOptionsDifficulty,
+) {
     const opt: Required<ILoadOptionsDifficulty> = {
-        directory: sanitizeDir(options.directory ?? (globals.directory || defaultOptions.difficulty.directory)),
-        forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
+        directory: sanitizeDir(
+            options.directory ??
+                (globals.directory || defaultOptions.difficulty.directory),
+        ),
+        forceConvert: options.forceConvert ??
+            defaultOptions.difficulty.forceConvert,
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     const difficulties: IDifficultyList = [];
@@ -218,7 +266,9 @@ function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty
                     tag('internalDifficultyFromInfo'),
                     `Loading difficulty from ${opt.directory + d._beatmapFilename}`,
                 );
-                const diffJSON = JSON.parse(Deno.readTextFileSync(opt.directory + d._beatmapFilename)) as Either<
+                const diffJSON = JSON.parse(
+                    Deno.readTextFileSync(opt.directory + d._beatmapFilename),
+                ) as Either<
                     IDifficultyV2,
                     IDifficultyV3
                 >;
@@ -228,7 +278,8 @@ function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty
                         difficulty: d._difficulty,
                         settings: d,
                         version: 2,
-                        data: parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(d._beatmapFilename),
+                        data: parseDifficultyV2(diffJSON, opt.dataCheck)
+                            .setFileName(d._beatmapFilename),
                     });
                 } else {
                     difficulties.push({
@@ -236,13 +287,16 @@ function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty
                         difficulty: d._difficulty,
                         settings: d,
                         version: 3,
-                        data: parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(d._beatmapFilename),
+                        data: parseDifficultyV3(diffJSON, opt.dataCheck)
+                            .setFileName(d._beatmapFilename),
                     });
                 }
             } catch {
                 logger.warn(
                     tag('internalDifficultyFromInfo'),
-                    `Could not load difficulty from ${opt.directory + d._beatmapFilename}, skipping...`,
+                    `Could not load difficulty from ${
+                        opt.directory + d._beatmapFilename
+                    }, skipping...`,
                 );
             }
         }
@@ -259,8 +313,14 @@ function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty
  * ---
  * Info difficulty reference is also given to allow further control.
  */
-export async function difficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty = {}): Promise<IDifficultyList> {
-    logger.info(tag('difficultyFromInfo'), 'Async loading difficulty from map info...');
+export async function difficultyFromInfo(
+    info: IInfo,
+    options: ILoadOptionsDifficulty = {},
+): Promise<IDifficultyList> {
+    logger.info(
+        tag('difficultyFromInfo'),
+        'Async loading difficulty from map info...',
+    );
     return await new Promise((resolve, reject) => {
         try {
             resolve(internalDifficultyFromInfo(info, options));
@@ -280,7 +340,13 @@ export async function difficultyFromInfo(info: IInfo, options: ILoadOptionsDiffi
  * ---
  * Info difficulty reference is also given to allow further control.
  */
-export function difficultyFromInfoSync(info: IInfo, options: ILoadOptionsDifficulty = {}): IDifficultyList {
-    logger.info(tag('difficultyFromInfoSync'), 'Sync loading difficulty from map info...');
+export function difficultyFromInfoSync(
+    info: IInfo,
+    options: ILoadOptionsDifficulty = {},
+): IDifficultyList {
+    logger.info(
+        tag('difficultyFromInfoSync'),
+        'Sync loading difficulty from map info...',
+    );
     return internalDifficultyFromInfo(info, options);
 }

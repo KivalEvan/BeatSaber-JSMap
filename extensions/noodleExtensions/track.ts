@@ -2,7 +2,10 @@ import { INEObject } from './types/object.ts';
 
 export function addTrack(objects: INEObject[], track: string): void;
 export function addTrack(objects: INEObject, track: string): void;
-export function addTrack(objects: INEObject | INEObject[], track: string): void {
+export function addTrack(
+    objects: INEObject | INEObject[],
+    track: string,
+): void {
     if (!Array.isArray(objects)) {
         if (!objects.customData) {
             objects.customData = {};
@@ -26,7 +29,10 @@ export function addTrack(objects: INEObject | INEObject[], track: string): void 
 
 export function removeTrack(objects: INEObject[], track: string): void;
 export function removeTrack(objects: INEObject, track: string): void;
-export function removeTrack(objects: INEObject | INEObject[], track: string): void {
+export function removeTrack(
+    objects: INEObject | INEObject[],
+    track: string,
+): void {
     if (!Array.isArray(objects)) {
         if (!objects.customData) {
             return;
@@ -36,7 +42,9 @@ export function removeTrack(objects: INEObject | INEObject[], track: string): vo
             return;
         } else if (Array.isArray(objects.customData.track)) {
             if (objects.customData.track.includes(track)) {
-                objects.customData.track = objects.customData.track.filter((t) => t !== track);
+                objects.customData.track = objects.customData.track.filter((
+                    t,
+                ) => t !== track);
                 if (objects.customData.track.length === 1) {
                     objects.customData.track = objects.customData.track[0];
                 }

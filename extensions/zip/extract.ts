@@ -32,6 +32,8 @@ export async function extract(
     } catch (e) {
         throw e;
     } finally {
-        Deno.removeSync(globals.directory + 'temp_bsmap_extract', { recursive: true });
+        Deno.removeSync(globals.directory + 'temp_bsmap_extract', {
+            recursive: true,
+        });
     }
 }

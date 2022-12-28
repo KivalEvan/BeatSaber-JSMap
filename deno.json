@@ -10,7 +10,7 @@
         },
         "options": {
             "indentWidth": 4,
-            "lineWidth": 120,
+            "lineWidth": 100,
             "singleQuote": true
         }
     },

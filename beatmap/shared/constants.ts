@@ -102,7 +102,9 @@ export const NoteDirectionFlip: { [d in NoteDirection]: NoteDirection } = {
  * 8 -> [0, 0]
  * ```
  */
-export const NoteDirectionSpace: { [d in NoteDirection]: Readonly<[number, number]> } = {
+export const NoteDirectionSpace: {
+    [d in NoteDirection]: Readonly<[number, number]>;
+} = {
     [NoteDirection.UP]: [0, 1],
     [NoteDirection.DOWN]: [0, -1],
     [NoteDirection.LEFT]: [-1, 0],

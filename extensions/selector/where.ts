@@ -9,7 +9,10 @@ import { WrapBaseObject } from '../../beatmap/wrapper/baseObject.ts';
  * console.log(...notesFilter);
  * ```
  */
-export function where<T extends WrapBaseObject<Record<keyof T['data'], unknown>>, U extends T['data']>(
+export function where<
+    T extends WrapBaseObject<Record<keyof T['data'], unknown>>,
+    U extends T['data'],
+>(
     objects: T[],
     filter: IFilter<U> = {},
 ): T[] {
@@ -20,7 +23,9 @@ export function where<T extends WrapBaseObject<Record<keyof T['data'], unknown>>
                 const value = filter.include[key];
                 if (key === 'customData' || key === '_customData') {
                     if ((o.data as any)[key]) {
-                        result = (value as string[]).some((p) => Object.keys((o.data as any)[key]).includes(p));
+                        result = (value as string[]).some((p) =>
+                            Object.keys((o.data as any)[key]).includes(p)
+                        );
                         if (result) {
                             break;
                         }
@@ -45,7 +50,9 @@ export function where<T extends WrapBaseObject<Record<keyof T['data'], unknown>>
                 const value = filter.exclude[key];
                 if (key === 'customData' || key === '_customData') {
                     if ((o.data as any)[key]) {
-                        result = (value as string[]).some((p) => Object.keys((o.data as any)[key]).includes(p));
+                        result = (value as string[]).some((p) =>
+                            Object.keys((o.data as any)[key]).includes(p)
+                        );
                         if (result) {
                             break;
                         }

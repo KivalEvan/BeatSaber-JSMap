@@ -32,11 +32,14 @@ logger.info(
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 if (args.x) {
-    logger.warn('No backup flagged, any changes done by this script is irreversible');
+    logger.warn(
+        'No backup flagged, any changes done by this script is irreversible',
+    );
 }
 
 globals.directory = (args.d as string) ??
-    (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() || './');
+    (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() ||
+        './');
 
 if (args.q) {
     logger.setLevel(4);
@@ -52,7 +55,9 @@ try {
     try {
         info = load.infoSync();
     } catch {
-        logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
+        logger.warn(
+            'Could not load Info.dat from folder, retrying with info.dat...',
+        );
         infoFileName = 'info.dat';
         info = load.infoSync({ filePath: infoFileName });
     }
@@ -143,7 +148,8 @@ try {
                 if (confirmation![0].toLowerCase() === 'y') {
                     copySync(
                         globals.directory + dl.settings._beatmapFilename,
-                        globals.directory + dl.settings._beatmapFilename + '.old',
+                        globals.directory + dl.settings._beatmapFilename +
+                            '.old',
                         { overwrite: true },
                     );
                 } else {
@@ -194,7 +200,9 @@ try {
                     dl.settings._customData._suggestions &&
                     !dl.settings._customData._requirements?.includes('Chroma')
                 ) {
-                    if (!dl.settings._customData._suggestions.includes('Chroma')) {
+                    if (
+                        !dl.settings._customData._suggestions.includes('Chroma')
+                    ) {
                         logger.info(
                             'Applying Chroma suggestions to',
                             dl.characteristic,
@@ -202,7 +210,9 @@ try {
                         );
                         dl.settings._customData._suggestions.push('Chroma');
                     }
-                } else if (!dl.settings._customData._requirements?.includes('Chroma')) {
+                } else if (
+                    !dl.settings._customData._requirements?.includes('Chroma')
+                ) {
                     logger.info(
                         'Creating Chroma suggestions to',
                         dl.characteristic,
@@ -212,7 +222,9 @@ try {
                 }
             }
 
-            const hasNoodleExtensions = dl.data.basicEvents.some((obj) => obj.isNoodleExtensions()) ||
+            const hasNoodleExtensions = dl.data.basicEvents.some((obj) =>
+                obj.isNoodleExtensions()
+            ) ||
                 dl.data.colorNotes.some((obj) => obj.isNoodleExtensions()) ||
                 dl.data.obstacles.some((obj) => obj.isNoodleExtensions());
             if (hasNoodleExtensions) {
@@ -228,7 +240,9 @@ try {
                             dl.characteristic,
                             dl.difficulty,
                         );
-                        dl.settings._customData._requirements.push('Noodle Extensions');
+                        dl.settings._customData._requirements.push(
+                            'Noodle Extensions',
+                        );
                     }
                 } else {
                     logger.info(
@@ -236,7 +250,9 @@ try {
                         dl.characteristic,
                         dl.difficulty,
                     );
-                    dl.settings._customData._requirements = ['Noodle Extensions'];
+                    dl.settings._customData._requirements = [
+                        'Noodle Extensions',
+                    ];
                 }
             }
         } else {
@@ -306,7 +322,9 @@ try {
                     dl.settings._customData._suggestions &&
                     !dl.settings._customData._requirements?.includes('Chroma')
                 ) {
-                    if (!dl.settings._customData._suggestions.includes('Chroma')) {
+                    if (
+                        !dl.settings._customData._suggestions.includes('Chroma')
+                    ) {
                         logger.info(
                             'Applying Chroma suggestions to',
                             dl.characteristic,
@@ -314,7 +332,9 @@ try {
                         );
                         dl.settings._customData._suggestions.push('Chroma');
                     }
-                } else if (!dl.settings._customData._requirements?.includes('Chroma')) {
+                } else if (
+                    !dl.settings._customData._requirements?.includes('Chroma')
+                ) {
                     logger.info(
                         'Creating Chroma suggestions to',
                         dl.characteristic,
@@ -324,7 +344,9 @@ try {
                 }
             }
 
-            const hasNoodleExtensions = dl.data.colorNotes.some((obj) => obj.isNoodleExtensions()) ||
+            const hasNoodleExtensions = dl.data.colorNotes.some((obj) =>
+                obj.isNoodleExtensions()
+            ) ||
                 dl.data.bombNotes.some((obj) => obj.isNoodleExtensions()) ||
                 dl.data.sliders.some((obj) => obj.isNoodleExtensions()) ||
                 dl.data.burstSliders.some((obj) => obj.isNoodleExtensions()) ||
@@ -342,7 +364,9 @@ try {
                             dl.characteristic,
                             dl.difficulty,
                         );
-                        dl.settings._customData._requirements.push('Noodle Extensions');
+                        dl.settings._customData._requirements.push(
+                            'Noodle Extensions',
+                        );
                     }
                 } else {
                     logger.info(
@@ -350,7 +374,9 @@ try {
                         dl.characteristic,
                         dl.difficulty,
                     );
-                    dl.settings._customData._requirements = ['Noodle Extensions'];
+                    dl.settings._customData._requirements = [
+                        'Noodle Extensions',
+                    ];
                 }
             }
         }

@@ -60,15 +60,22 @@ export function chromaLightGradientToVanillaGradient(
             }
             if (eventInGradient.length) {
                 ev.customData._color = ev.customData._lightGradient._startColor;
-                ev.value = ev.value >= 1 && ev.value <= 4 ? 1 : ev.value >= 5 && ev.value <= 8 ? 5 : 9;
-                const easing = easings[ev.customData._lightGradient._easing ?? 'easeLinear'];
+                ev.value = ev.value >= 1 && ev.value <= 4
+                    ? 1
+                    : ev.value >= 5 && ev.value <= 8
+                    ? 5
+                    : 9;
+                const easing = easings[
+                    ev.customData._lightGradient._easing ?? 'easeLinear'
+                ];
                 let hasOff = false;
                 let previousEvent: Event = ev;
                 for (const eig of eventInGradient) {
                     if (
                         !hasOff &&
                         eig.time >
-                            ev.time + ev.customData._lightGradient._duration - 0.001
+                            ev.time + ev.customData._lightGradient._duration -
+                                0.001
                     ) {
                         newEvents.push(
                             ...Event.create({
@@ -76,7 +83,11 @@ export function chromaLightGradientToVanillaGradient(
                                     ev.customData._lightGradient._duration -
                                     0.001,
                                 _type: ev.type,
-                                _value: ev.value >= 1 && ev.value <= 4 ? 4 : ev.value >= 5 && ev.value <= 8 ? 8 : 12,
+                                _value: ev.value >= 1 && ev.value <= 4
+                                    ? 4
+                                    : ev.value >= 5 && ev.value <= 8
+                                    ? 8
+                                    : 12,
                                 _floatValue: 1,
                                 _customData: {
                                     _color: ev.customData._lightGradient._endColor,
@@ -88,7 +99,11 @@ export function chromaLightGradientToVanillaGradient(
                         );
                     } else {
                         eig.value = hasOff
-                            ? eig.value >= 1 && eig.value <= 4 ? 1 : eig.value >= 5 && eig.value <= 8 ? 5 : 9
+                            ? eig.value >= 1 && eig.value <= 4
+                                ? 1
+                                : eig.value >= 5 && eig.value <= 8
+                                ? 5
+                                : 9
                             : eig.value >= 1 && eig.value <= 4
                             ? 4
                             : eig.value >= 5 && eig.value <= 8
@@ -100,7 +115,8 @@ export function chromaLightGradientToVanillaGradient(
                             normalize(
                                 eig.time,
                                 ev.time,
-                                ev.time + ev.customData._lightGradient._duration,
+                                ev.time +
+                                    ev.customData._lightGradient._duration,
                             ),
                             'rgba',
                             easing,
@@ -124,12 +140,14 @@ export function chromaLightGradientToVanillaGradient(
                                             _color: interpolateColor(
                                                 ev.customData._lightGradient
                                                     ._startColor,
-                                                ev.customData._lightGradient._endColor,
+                                                ev.customData._lightGradient
+                                                    ._endColor,
                                                 normalize(
                                                     eig.time - 0.001,
                                                     ev.time,
                                                     ev.time +
-                                                        ev.customData._lightGradient
+                                                        ev.customData
+                                                            ._lightGradient
                                                             ._duration,
                                                 ),
                                                 'rgba',
@@ -149,12 +167,20 @@ export function chromaLightGradientToVanillaGradient(
                 ev.removeCustomData('_lightGradient');
             } else {
                 ev.customData._color = ev.customData._lightGradient._startColor;
-                ev.value = ev.value >= 1 && ev.value <= 4 ? 1 : ev.value >= 5 && ev.value <= 8 ? 5 : 9;
+                ev.value = ev.value >= 1 && ev.value <= 4
+                    ? 1
+                    : ev.value >= 5 && ev.value <= 8
+                    ? 5
+                    : 9;
                 newEvents.push(
                     ...Event.create({
                         _time: ev.time + ev.customData._lightGradient._duration,
                         _type: ev.type,
-                        _value: ev.value >= 1 && ev.value <= 4 ? 4 : ev.value >= 5 && ev.value <= 8 ? 8 : 12,
+                        _value: ev.value >= 1 && ev.value <= 4
+                            ? 4
+                            : ev.value >= 5 && ev.value <= 8
+                            ? 8
+                            : 12,
                         _floatValue: 1,
                         _customData: {
                             _color: ev.customData._lightGradient._endColor,

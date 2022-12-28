@@ -17,15 +17,26 @@ export class EnvironmentBlock {
         return new this(data, anchor);
     }
 
-    place(options: IChromaEnvironmentPlacement, insertTo?: never): IChromaEnvironment;
-    place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
-    place(options: IChromaEnvironmentPlacement, insertTo?: IChromaEnvironment[]): IChromaEnvironment | void {
+    place(
+        options: IChromaEnvironmentPlacement,
+        insertTo?: never,
+    ): IChromaEnvironment;
+    place(
+        options: IChromaEnvironmentPlacement,
+        insertTo: IChromaEnvironment[],
+    ): void;
+    place(
+        options: IChromaEnvironmentPlacement,
+        insertTo?: IChromaEnvironment[],
+    ): IChromaEnvironment | void {
         const d = deepCopy(this.data);
         const scale = options.scale
             ? ((d.scale ? d.scale : [1, 1, 1]).map((s, i) => s * options.scale![i]) as Vector3)
             : d.scale;
         const position = options.position
-            ? (options.position.map((p, i) => p + this.anchor[i] * (options.scale?.[i] || 1)) as Vector3)
+            ? (options.position.map((p, i) =>
+                p + this.anchor[i] * (options.scale?.[i] || 1)
+            ) as Vector3)
             : ((d.position ? d.position : [0, 0, 0]).map(
                 (p, i) => p + this.anchor[i] * (options.scale?.[i] ?? 1),
             ) as Vector3);
@@ -36,8 +47,11 @@ export class EnvironmentBlock {
             ...d.components,
         };
         if (typeof components.ILightWithId?.type === 'number') {
-            if (typeof options.type === 'number') components.ILightWithId.type = options.type;
-            components.ILightWithId.lightID = EnvironmentBlock.startLightID + EnvironmentBlock.index++;
+            if (typeof options.type === 'number') {
+                components.ILightWithId.type = options.type;
+            }
+            components.ILightWithId.lightID = EnvironmentBlock.startLightID +
+                EnvironmentBlock.index++;
         }
         const data = {
             ...d,

@@ -17,12 +17,19 @@ export class EnvironmentGroup {
     }
 
     place(options: IChromaEnvironmentPlacement): IChromaEnvironment[];
-    place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
-    place(options: IChromaEnvironmentPlacement, insertTo?: IChromaEnvironment[]): IChromaEnvironment[] | void {
+    place(
+        options: IChromaEnvironmentPlacement,
+        insertTo: IChromaEnvironment[],
+    ): void;
+    place(
+        options: IChromaEnvironmentPlacement,
+        insertTo?: IChromaEnvironment[],
+    ): IChromaEnvironment[] | void {
         const data = deepCopy(this.data);
         data.forEach((d) => {
-            if (d.rotation) d.rotation = vectorRotate(d.rotation, options.rotation);
-            else d.rotation = options.rotation;
+            if (d.rotation) {
+                d.rotation = vectorRotate(d.rotation, options.rotation);
+            } else d.rotation = options.rotation;
 
             // im only doing Y rotation for now
             if (options.rotation && d.position) {
@@ -39,12 +46,17 @@ export class EnvironmentGroup {
             }
 
             d.position = d.position!.map(
-                (p, i) => (this.anchor[i] + p) * (options.scale?.[i] ?? 1) + (options.position?.[i] ?? 0),
+                (p, i) =>
+                    (this.anchor[i] + p) * (options.scale?.[i] ?? 1) +
+                    (options.position?.[i] ?? 0),
             ) as Vector3;
 
             d.scale = vectorScale(d.scale, options.scale);
 
-            if (typeof d.components?.ILightWithId?.type === 'number' && typeof options.type === 'number') {
+            if (
+                typeof d.components?.ILightWithId?.type === 'number' &&
+                typeof options.type === 'number'
+            ) {
                 d.components.ILightWithId.type = options.type;
             }
         });

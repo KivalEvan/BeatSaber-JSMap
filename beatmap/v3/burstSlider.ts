@@ -31,7 +31,9 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
 
     static create(): BurstSlider[];
     static create(
-        ...burstSliders: PartialWrapper<IWrapBurstSlider<Required<IBurstSlider>>>[]
+        ...burstSliders: PartialWrapper<
+            IWrapBurstSlider<Required<IBurstSlider>>
+        >[]
     ): BurstSlider[];
     static create(...burstSliders: Partial<IBurstSlider>[]): BurstSlider[];
     static create(
@@ -60,7 +62,8 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
                     ty: bs.tailPosY ?? bs.ty ?? BurstSlider.default.ty,
                     sc: bs.sliceCount ?? bs.sc ?? BurstSlider.default.sc,
                     s: bs.squish ?? bs.s ?? BurstSlider.default.s,
-                    customData: bs.customData ?? BurstSlider.default.customData(),
+                    customData: bs.customData ??
+                        BurstSlider.default.customData(),
                 }),
             )
         );
@@ -179,7 +182,8 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
 
     mirror(flipColor = true) {
         if (this.customData.coordinates) {
-            this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
+            this.customData.coordinates[0] = -1 -
+                this.customData.coordinates[0];
         }
         if (this.customData.flip) {
             this.customData.flip[0] = -1 - this.customData.flip[0];

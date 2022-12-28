@@ -29,8 +29,12 @@ export interface IWrapLightRotationEventBox<
     affectFirst: 0 | 1;
     events: IWrapLightRotationBase<TBase>[];
 
-    setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']): this;
-    setRotationDistributionType(value: IWrapLightRotationEventBox['rotationDistributionType']): this;
+    setRotationDistribution(
+        value: IWrapLightRotationEventBox['rotationDistribution'],
+    ): this;
+    setRotationDistributionType(
+        value: IWrapLightRotationEventBox['rotationDistributionType'],
+    ): this;
     setAxis(value: IWrapLightRotationEventBox['axis']): this;
     setFlip(value: IWrapLightRotationEventBox['flip']): this;
     setAffectFirst(value: IWrapLightRotationEventBox['affectFirst']): this;

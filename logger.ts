@@ -55,7 +55,10 @@ class Logger {
     setLevel(level: LogLevels) {
         level = Math.min(level, 5);
         this.logLevel = level;
-        this.info('[logger::setLevel]', `Log level set to ${logPrefixes.get(level)}`);
+        this.info(
+            '[logger::setLevel]',
+            `Log level set to ${logPrefixes.get(level)}`,
+        );
     }
 
     // deno-lint-ignore no-explicit-any

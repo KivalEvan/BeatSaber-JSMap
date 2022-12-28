@@ -1,4 +1,9 @@
-import { IChromaObject, SetColorGradientOptions, SetColorOptions, SetColorRangeOptions } from './types/colors.ts';
+import {
+    IChromaObject,
+    SetColorGradientOptions,
+    SetColorOptions,
+    SetColorRangeOptions,
+} from './types/colors.ts';
 import { convertColorInput, interpolateColor } from '../../utils/colors.ts';
 import { normalize } from '../../utils/math.ts';
 import { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
@@ -71,7 +76,12 @@ export function setColorRandom(
         if (objects[i].time > prevTime + 0.001) {
             random = Math.random();
         }
-        const color = interpolateColor(opt.color1, opt.color2, random, opt.colorType);
+        const color = interpolateColor(
+            opt.color1,
+            opt.color2,
+            random,
+            opt.colorType,
+        );
         objects[i].customData._color = color;
         prevTime = objects[i].time;
     }

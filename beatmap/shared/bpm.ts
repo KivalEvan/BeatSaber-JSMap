@@ -1,5 +1,8 @@
 import { IBPMChangeTime, IBPMTimeScale } from '../../types/beatmap/shared/custom/bpm.ts';
-import { IBPMChange as IBPMChangeV2, IBPMChangeOld } from '../../types/beatmap/v2/custom/bpmChange.ts';
+import {
+    IBPMChange as IBPMChangeV2,
+    IBPMChangeOld,
+} from '../../types/beatmap/v2/custom/bpmChange.ts';
 import { IBPMChange as IBPMChangeV3 } from '../../types/beatmap/v3/custom/bpmChange.ts';
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
 
@@ -22,12 +25,15 @@ export class BeatPerMinute {
                 if ((bc as IBPMEvent).m === 0) {
                     throw new Error('v3 BPM Change of value 0 detected.');
                 }
-                return (bc as IBPMEvent).m != null && (bc as IBPMChangeV3).o == null;
+                return (bc as IBPMEvent).m != null &&
+                    (bc as IBPMChangeV3).o == null;
             }) as IBPMEvent[],
         );
         this._bpmChange = this.getBPMChangeTime(
             bpmChange.filter(
-                (bc) => (bc as IBPMChangeV2)._time != null || (bc as IBPMChangeV3).o != null,
+                (bc) =>
+                    (bc as IBPMChangeV2)._time != null ||
+                    (bc as IBPMChangeV3).o != null,
             ) as (IBPMChangeV2 | IBPMChangeOld | IBPMChangeV3)[],
         );
     }
@@ -82,7 +88,8 @@ export class BeatPerMinute {
         const bpmChange: IBPMChangeTime[] = [];
         for (let i = 0; i < bpmc.length; i++) {
             const curBPMC: IBPMChangeTime = {
-                time: (bpmc[i] as IBPMChangeV2)._time ?? (bpmc[i] as IBPMChangeV3).b,
+                time: (bpmc[i] as IBPMChangeV2)._time ??
+                    (bpmc[i] as IBPMChangeV3).b,
                 BPM: (bpmc[i] as IBPMChangeV2)._BPM ??
                     (bpmc[i] as IBPMChangeOld)._bpm ??
                     (bpmc[i] as IBPMChangeV3).m,
@@ -142,7 +149,8 @@ export class BeatPerMinute {
         let calculatedBeat = 0;
         for (let i = this._timeScale.length - 1; i >= 0; i--) {
             if (beat > this._timeScale[i].time) {
-                calculatedBeat += (beat - this._timeScale[i].time) * this._timeScale[i].scale;
+                calculatedBeat += (beat - this._timeScale[i].time) *
+                    this._timeScale[i].scale;
                 beat = this._timeScale[i].time;
             }
         }
@@ -163,7 +171,8 @@ export class BeatPerMinute {
         for (let i = this._timeScale.length - 1; i >= 0; i--) {
             const currentSeconds = this.toRealTime(this._timeScale[i].time);
             if (seconds > currentSeconds) {
-                calculatedSecond += (seconds - currentSeconds) / this._timeScale[i].scale;
+                calculatedSecond += (seconds - currentSeconds) /
+                    this._timeScale[i].scale;
                 seconds = currentSeconds;
             }
         }
@@ -179,7 +188,8 @@ export class BeatPerMinute {
         for (let i = this._bpmChange.length - 1; i >= 0; i--) {
             if (beat > this._bpmChange[i].newTime) {
                 return (
-                    ((beat - this._bpmChange[i].newTime) / this._bpmChange[i].BPM) *
+                    ((beat - this._bpmChange[i].newTime) /
+                            this._bpmChange[i].BPM) *
                         this._bpm +
                     this._bpmChange[i].time
                 );

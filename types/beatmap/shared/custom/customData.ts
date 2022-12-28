@@ -25,7 +25,10 @@ export interface ICustomDataInfo extends ICustomDataBase {
 export type Suggestions = 'Chroma' | 'Cinema';
 
 /** Available mod requirements. */
-export type Requirements = Suggestions | 'Noodle Extensions' | 'Mapping Extensions';
+export type Requirements =
+    | Suggestions
+    | 'Noodle Extensions'
+    | 'Mapping Extensions';
 
 type IInfoSettings =
     & IInfoSettingsCustomData

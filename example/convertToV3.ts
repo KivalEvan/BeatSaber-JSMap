@@ -11,7 +11,17 @@
  */
 import { copySync } from 'https://deno.land/std@0.167.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.167.0/flags/mod.ts';
-import { convert, globals, isV3, load, logger, parse as beatmapParser, save, types, v2 } from '../mod.ts';
+import {
+    convert,
+    globals,
+    isV3,
+    load,
+    logger,
+    parse as beatmapParser,
+    save,
+    types,
+    v2,
+} from '../mod.ts';
 
 const args = parse(Deno.args, {
     string: 'd',
@@ -33,11 +43,14 @@ logger.info(
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 if (args.x) {
-    logger.warn('No backup flagged, any changes done by this script is irreversible');
+    logger.warn(
+        'No backup flagged, any changes done by this script is irreversible',
+    );
 }
 
 globals.directory = (args.d as string) ??
-    (args.y ? './' : prompt('Enter map folder path (leave blank for current folder):')?.trim() ||
+    (args.y ? './' : prompt('Enter map folder path (leave blank for current folder):')
+        ?.trim() ||
         './');
 
 if (args.q) {
@@ -75,7 +88,8 @@ try {
             Deno.readTextFileSync(globals.directory + diffFilePath),
         ) as types.Either<types.v2.IDifficulty, types.v3.IDifficulty>;
         const diffVersion = parseInt(
-            diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'),
+            diffJSON._version?.at(0)! ??
+                parseInt(diffJSON.version?.at(0)! ?? '2'),
         );
 
         let diff!: v2.Difficulty;
@@ -126,7 +140,10 @@ try {
                         'n',
                     );
                     if (confirmation![0].toLowerCase() === 'y') {
-                        convert.chromaLightGradientToVanillaGradient(diff, true);
+                        convert.chromaLightGradientToVanillaGradient(
+                            diff,
+                            true,
+                        );
                     }
                 }
                 logger.info('Converting beatmap to v3');
@@ -158,7 +175,8 @@ try {
                     try {
                         copySync(
                             globals.directory + dl.settings._beatmapFilename,
-                            globals.directory + dl.settings._beatmapFilename + '.old',
+                            globals.directory + dl.settings._beatmapFilename +
+                                '.old',
                         );
                     } catch (_) {
                         const confirmation = args.y ? 'n' : prompt(
@@ -167,7 +185,8 @@ try {
                         );
                         if (confirmation![0].toLowerCase() === 'y') {
                             copySync(
-                                globals.directory + dl.settings._beatmapFilename,
+                                globals.directory +
+                                    dl.settings._beatmapFilename,
                                 globals.directory +
                                     dl.settings._beatmapFilename +
                                     '.old',
@@ -191,10 +210,15 @@ try {
                         oldChromaConfirm = true;
                     }
                     if (oldChromaConvert) {
-                        convert.ogChromaToChromaV2(dl.data, info._environmentName);
+                        convert.ogChromaToChromaV2(
+                            dl.data,
+                            info._environmentName,
+                        );
                     }
                 }
-                if (dl.data.basicEvents.some((e) => e.customData._lightGradient)) {
+                if (
+                    dl.data.basicEvents.some((e) => e.customData._lightGradient)
+                ) {
                     if (!gradientChromaConfirm) {
                         const confirmation = args.y ? 'n' : prompt(
                             'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
@@ -206,7 +230,10 @@ try {
                         gradientChromaConfirm = true;
                     }
                     if (gradientChromaConvert) {
-                        convert.chromaLightGradientToVanillaGradient(dl.data, true);
+                        convert.chromaLightGradientToVanillaGradient(
+                            dl.data,
+                            true,
+                        );
                     }
                 }
                 logger.info(

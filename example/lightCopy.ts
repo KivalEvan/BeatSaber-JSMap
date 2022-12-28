@@ -13,7 +13,18 @@
  * example run command:
  * deno run --allow-read --allow-write lightCopy.ts -d "./Folder/Path" SourceLightshow.dat
  */
-import { convert, globals, isV3, load, logger, parse as beatmapParser, save, types, v2, v3 } from '../mod.ts';
+import {
+    convert,
+    globals,
+    isV3,
+    load,
+    logger,
+    parse as beatmapParser,
+    save,
+    types,
+    v2,
+    v3,
+} from '../mod.ts';
 import { parse } from 'https://deno.land/std@0.167.0/flags/mod.ts';
 import { copySync } from 'https://deno.land/std@0.167.0/fs/mod.ts';
 
@@ -40,11 +51,14 @@ logger.info(
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 if (args.x) {
-    logger.warn('No backup flagged, any changes done by this script is irreversible');
+    logger.warn(
+        'No backup flagged, any changes done by this script is irreversible',
+    );
 }
 
 globals.directory = (args.d as string) ??
-    (args.y ? './' : prompt('Enter map folder path (leave blank for current folder):')?.trim() ||
+    (args.y ? './' : prompt('Enter map folder path (leave blank for current folder):')
+        ?.trim() ||
         './');
 
 if (args.q) {
@@ -81,7 +95,9 @@ try {
     try {
         info = load.infoSync();
     } catch {
-        logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
+        logger.warn(
+            'Could not load Info.dat from folder, retrying with info.dat...',
+        );
         infoFileName = 'info.dat';
         info = load.infoSync({ filePath: infoFileName });
     }
@@ -205,7 +221,8 @@ try {
                 if (confirmation![0].toLowerCase() === 'y') {
                     copySync(
                         globals.directory + dl.settings._beatmapFilename,
-                        globals.directory + dl.settings._beatmapFilename + '.old',
+                        globals.directory + dl.settings._beatmapFilename +
+                            '.old',
                         { overwrite: true },
                     );
                 } else {
@@ -229,7 +246,9 @@ try {
                     );
                     dl.settings._customData._suggestions.push('Chroma');
                 }
-            } else if (!dl.settings._customData._requirements?.includes('Chroma')) {
+            } else if (
+                !dl.settings._customData._requirements?.includes('Chroma')
+            ) {
                 logger.info(
                     'Creating Chroma suggestions to',
                     dl.characteristic,
@@ -302,7 +321,10 @@ try {
                 dl.data.basicEvents.push(...lightV2.basicEvents);
             } else {
                 const rotationEvent = dl.data.basicEvents.filter((ev) => ev.isLaneRotationEvent());
-                dl.data.basicEvents = [...lightV2.basicEvents, ...rotationEvent];
+                dl.data.basicEvents = [
+                    ...lightV2.basicEvents,
+                    ...rotationEvent,
+                ];
             }
         }
 

@@ -13,7 +13,8 @@ export function countEbg(
     ebg: IWrapEventBoxGroup[],
     environment: EnvironmentAllName = 'DefaultEnvironment',
 ): ICountEventBoxGroup {
-    const commonEvent = EventList[environment]?.[1] ?? EventList['DefaultEnvironment'][1];
+    const commonEvent = EventList[environment]?.[1] ??
+        EventList['DefaultEnvironment'][1];
     const ebgCount: ICountEventBoxGroup = {};
     for (let i = commonEvent.length - 1; i >= 0; i--) {
         ebgCount[commonEvent[i]] = {
@@ -33,7 +34,10 @@ export function countEbg(
         }
         ebgCount[ebg[i].id].total++;
         ebgCount[ebg[i].id].eventBox += ebg[i].boxes.length;
-        ebgCount[ebg[i].id].base += ebg[i].boxes.reduce((t, e) => t + e.events.length, 0);
+        ebgCount[ebg[i].id].base += ebg[i].boxes.reduce(
+            (t, e) => t + e.events.length,
+            0,
+        );
     }
     return ebgCount;
 }

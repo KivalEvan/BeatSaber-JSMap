@@ -20,7 +20,11 @@ export interface ICustomDataDifficulty extends ICustomDataBase, IChromaCustomDat
     _bookmarks?: IBookmark[];
 }
 
-export type ICustomDataNote = ICustomDataBase & IChromaNote & INENote & IAnimation;
+export type ICustomDataNote =
+    & ICustomDataBase
+    & IChromaNote
+    & INENote
+    & IAnimation;
 export type ICustomDataObstacle =
     & ICustomDataBase
     & IChromaObstacle

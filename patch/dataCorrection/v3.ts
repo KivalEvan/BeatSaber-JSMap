@@ -38,7 +38,10 @@ function fixBpmEvent(obj: BPMEvent) {
 
 function fixRotationEvent(obj: RotationEvent) {
     obj.time = fixFloat(obj.time, RotationEvent.default.b);
-    obj.executionTime = fixInt(obj.executionTime, RotationEvent.default.e, [0, 1]);
+    obj.executionTime = fixInt(obj.executionTime, RotationEvent.default.e, [
+        0,
+        1,
+    ]);
     obj.rotation = fixFloat(obj.rotation, RotationEvent.default.r);
 }
 
@@ -107,7 +110,10 @@ function fixSlider(obj: Slider) {
     obj.tailPosX = fixInt(obj.tailPosX, Slider.default.tx);
     obj.tailPosY = fixInt(obj.tailPosY, Slider.default.ty);
     obj.tailDirection = fixInt(obj.tailDirection, Slider.default.tc);
-    obj.tailLengthMultiplier = fixFloat(obj.tailLengthMultiplier, Slider.default.tmu);
+    obj.tailLengthMultiplier = fixFloat(
+        obj.tailLengthMultiplier,
+        Slider.default.tmu,
+    );
     obj.midAnchor = fixInt(obj.midAnchor, Slider.default.m);
     fixCustomDataObject(obj.customData);
 }
@@ -178,7 +184,11 @@ function fixIndexFilter(obj: IndexFilter) {
 
 function fixLightColorBase(obj: LightColorBase) {
     obj.time = fixFloat(obj.time, LightColorBase.default.b);
-    obj.transition = fixInt(obj.transition, LightColorBase.default.i, [0, 1, 2]);
+    obj.transition = fixInt(obj.transition, LightColorBase.default.i, [
+        0,
+        1,
+        2,
+    ]);
     obj.color = obj.transition === 2
         ? fixInt(obj.color, -1, [-1, 0, 1, 2])
         : fixInt(obj.color, LightColorBase.default.c, [0, 1, 2]);
@@ -188,7 +198,10 @@ function fixLightColorBase(obj: LightColorBase) {
 
 function fixLightColorEventBox(obj: LightColorEventBox) {
     fixIndexFilter(obj.filter);
-    obj.beatDistribution = fixFloat(obj.beatDistribution, LightColorEventBox.default.w);
+    obj.beatDistribution = fixFloat(
+        obj.beatDistribution,
+        LightColorEventBox.default.w,
+    );
     obj.beatDistributionType = fixInt(
         obj.beatDistributionType,
         LightColorEventBox.default.d,
@@ -220,10 +233,20 @@ function fixLightColorEventBoxGroup(obj: LightColorEventBoxGroup) {
 function fixLightRotationBase(obj: LightRotationBase) {
     obj.time = fixFloat(obj.time, LightRotationBase.default.b);
     obj.previous = fixInt(obj.previous, LightRotationBase.default.p, [0, 1]);
-    obj.easing = fixInt(obj.easing, LightRotationBase.default.e, [-1, 0, 1, 2, 3]);
+    obj.easing = fixInt(obj.easing, LightRotationBase.default.e, [
+        -1,
+        0,
+        1,
+        2,
+        3,
+    ]);
     obj.loop = fixInt(obj.loop, LightRotationBase.default.l);
     obj.rotation = fixFloat(obj.rotation, LightRotationBase.default.r);
-    obj.direction = fixInt(obj.direction, LightRotationBase.default.o, [0, 1, 2]);
+    obj.direction = fixInt(obj.direction, LightRotationBase.default.o, [
+        0,
+        1,
+        2,
+    ]);
 }
 
 function fixLightRotationEventBox(obj: LightRotationEventBox) {
@@ -269,7 +292,13 @@ function fixLightRotationEventBoxGroup(obj: LightRotationEventBoxGroup) {
 function fixLightTranslationBase(obj: LightTranslationBase) {
     obj.time = fixFloat(obj.time, LightTranslationBase.default.b);
     obj.previous = fixInt(obj.previous, LightTranslationBase.default.p, [0, 1]);
-    obj.easing = fixInt(obj.easing, LightTranslationBase.default.e, [-1, 0, 1, 2, 3]);
+    obj.easing = fixInt(obj.easing, LightTranslationBase.default.e, [
+        -1,
+        0,
+        1,
+        2,
+        3,
+    ]);
     obj.translation = fixFloat(obj.translation, LightTranslationBase.default.t);
 }
 
@@ -334,7 +363,9 @@ export function v3(data: Difficulty) {
     data.colorBoostEvents.forEach(fixColorBoostEvent);
     data.lightColorEventBoxGroups.forEach(fixLightColorEventBoxGroup);
     data.lightRotationEventBoxGroups.forEach(fixLightRotationEventBoxGroup);
-    data.lightTranslationEventBoxGroups.forEach(fixLightTranslationEventBoxGroup);
+    data.lightTranslationEventBoxGroups.forEach(
+        fixLightTranslationEventBoxGroup,
+    );
     data.useNormalEventsAsCompatibleEvents = fixBoolean(
         data.useNormalEventsAsCompatibleEvents,
     );

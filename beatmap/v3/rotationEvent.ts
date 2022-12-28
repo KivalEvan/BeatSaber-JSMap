@@ -25,7 +25,9 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
             IWrapRotationEvent<Required<IRotationEvent>>
         >[]
     ): RotationEvent[];
-    static create(...rotationEvents: Partial<IRotationEvent>[]): RotationEvent[];
+    static create(
+        ...rotationEvents: Partial<IRotationEvent>[]
+    ): RotationEvent[];
     static create(
         ...rotationEvents: (
             & Partial<IRotationEvent>
@@ -45,7 +47,8 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
                     b: re.time ?? re.b ?? RotationEvent.default.b,
                     e: re.executionTime ?? re.e ?? RotationEvent.default.e,
                     r: re.rotation ?? re.r ?? RotationEvent.default.r,
-                    customData: re.customData ?? RotationEvent.default.customData(),
+                    customData: re.customData ??
+                        RotationEvent.default.customData(),
                 }),
             )
         );

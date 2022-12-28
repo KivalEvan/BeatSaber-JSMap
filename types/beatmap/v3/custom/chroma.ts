@@ -131,7 +131,9 @@ export interface IChromaEnvironmentGeometry extends IChromaEnvironmentBase {
 }
 
 /** Chroma interface for Environment Enhancement. */
-export type IChromaEnvironment = IChromaEnvironmentID | IChromaEnvironmentGeometry;
+export type IChromaEnvironment =
+    | IChromaEnvironmentID
+    | IChromaEnvironmentGeometry;
 
 /** Chroma interface for Beatmap Object Animation Custom Data. */
 export interface IChromaAnimation {

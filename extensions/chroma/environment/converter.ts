@@ -39,24 +39,28 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
                             uv: e._geometry._mesh._uv,
                             triangles: e._geometry._mesh._triangles,
                         },
-                        material: typeof e._geometry._material === 'string' ? e._geometry._material : {
-                            shader: e._geometry._material._shader,
-                            shaderKeywords: e._geometry._material._shaderKeywords,
-                            collision: e._geometry._material._collision,
-                            track: e._geometry._material._track,
-                            color: e._geometry._material._color,
-                        },
+                        material: typeof e._geometry._material === 'string'
+                            ? e._geometry._material
+                            : {
+                                shader: e._geometry._material._shader,
+                                shaderKeywords: e._geometry._material._shaderKeywords,
+                                collision: e._geometry._material._collision,
+                                track: e._geometry._material._track,
+                                color: e._geometry._material._color,
+                            },
                         collision: e._geometry._collision,
                     }
                     : {
                         type: e._geometry._type,
-                        material: typeof e._geometry._material === 'string' ? e._geometry._material : {
-                            shader: e._geometry._material._shader,
-                            shaderKeywords: e._geometry._material._shaderKeywords,
-                            collision: e._geometry._material._collision,
-                            track: e._geometry._material._track,
-                            color: e._geometry._material._color,
-                        },
+                        material: typeof e._geometry._material === 'string'
+                            ? e._geometry._material
+                            : {
+                                shader: e._geometry._material._shader,
+                                shaderKeywords: e._geometry._material._shaderKeywords,
+                                collision: e._geometry._material._collision,
+                                track: e._geometry._material._track,
+                                color: e._geometry._material._color,
+                            },
                         collision: e._geometry._collision,
                     },
                 track: e._track,
@@ -92,8 +96,14 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
             };
         }
         if (e.geometry) {
-            if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
-                logger.warn(tag('V3toV2'), 'v2 geometry cannot be made assignable light to specific type');
+            if (
+                e.components?.ILightWithId?.type ||
+                e.components?.ILightWithId?.lightID
+            ) {
+                logger.warn(
+                    tag('V3toV2'),
+                    'v2 geometry cannot be made assignable light to specific type',
+                );
             }
             return {
                 _geometry: e.geometry.type === 'CUSTOM'

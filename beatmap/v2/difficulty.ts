@@ -8,7 +8,12 @@ import { SpecialEventsKeywordFilters } from './specialEventsKeywordFilters.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { INote } from '../../types/beatmap/v2/note.ts';
 import { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
-import { IEvent, IEventBoost, IEventBPMChange, IEventLaneRotation } from '../../types/beatmap/v2/event.ts';
+import {
+    IEvent,
+    IEventBoost,
+    IEventBPMChange,
+    IEventLaneRotation,
+} from '../../types/beatmap/v2/event.ts';
 import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
 import { ISlider } from '../../types/beatmap/v2/slider.ts';
 import { WrapDifficulty } from '../wrapper/difficulty.ts';
@@ -107,7 +112,9 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     ): void {
         this.basicEvents.push(
             ...events.map((bpme) => {
-                return bpme instanceof Event ? bpme : Event.create({ ...bpme, type: 100, value: bpme.bpm })[0];
+                return bpme instanceof Event
+                    ? bpme
+                    : Event.create({ ...bpme, type: 100, value: bpme.bpm })[0];
             }),
         );
     }
@@ -130,7 +137,9 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             ...events.map((re) =>
                 re instanceof Event ? re : Event.create({
                     ...re,
-                    type: typeof re.executionTime === 'number' ? re.executionTime === 0 ? 14 : 15 : re._type,
+                    type: typeof re.executionTime === 'number'
+                        ? re.executionTime === 0 ? 14 : 15
+                        : re._type,
                 })[0]
             ),
         );
@@ -154,11 +163,15 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.colorNotes.push(
-            ...colorNotes.map((cn) => (cn instanceof Note ? cn : Note.create(cn)[0])),
+            ...colorNotes.map((
+                cn,
+            ) => (cn instanceof Note ? cn : Note.create(cn)[0])),
         );
     }
 
-    addBombNotes(...notes: PartialWrapper<IWrapBombNote<Required<INote>>>[]): void;
+    addBombNotes(
+        ...notes: PartialWrapper<IWrapBombNote<Required<INote>>>[]
+    ): void;
     addBombNotes(...notes: Partial<INote>[]): void;
     addBombNotes(
         ...notes: (Partial<INote> & PartialWrapper<IWrapBombNote<Required<INote>>>)[]
@@ -188,11 +201,15 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.obstacles.push(
-            ...obstacles.map((o) => (o instanceof Obstacle ? o : Obstacle.create(o)[0])),
+            ...obstacles.map((
+                o,
+            ) => (o instanceof Obstacle ? o : Obstacle.create(o)[0])),
         );
     }
 
-    addSliders(...sliders: PartialWrapper<IWrapSlider<Required<ISlider>>>[]): void;
+    addSliders(
+        ...sliders: PartialWrapper<IWrapSlider<Required<ISlider>>>[]
+    ): void;
     addSliders(...sliders: Partial<ISlider>[]): void;
     addSliders(
         ...sliders: (
@@ -207,7 +224,9 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.sliders.push(
-            ...sliders.map((s) => (s instanceof Slider ? s : Slider.create(s)[0])),
+            ...sliders.map((
+                s,
+            ) => (s instanceof Slider ? s : Slider.create(s)[0])),
         );
     }
 
@@ -232,7 +251,9 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.waypoints.push(
-            ...waypoints.map((w) => (w instanceof Waypoint ? w : Waypoint.create(w)[0])),
+            ...waypoints.map((
+                w,
+            ) => (w instanceof Waypoint ? w : Waypoint.create(w)[0])),
         );
     }
 
@@ -253,12 +274,16 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.basicEvents.push(
-            ...basicEvents.map((be) => (be instanceof Event ? be : Event.create(be)[0])),
+            ...basicEvents.map((
+                be,
+            ) => (be instanceof Event ? be : Event.create(be)[0])),
         );
     }
 
     addColorBoostEvents(
-        ...basicEvents: PartialWrapper<IWrapColorBoostEvent<Required<IEventBoost>>>[]
+        ...basicEvents: PartialWrapper<
+            IWrapColorBoostEvent<Required<IEventBoost>>
+        >[]
     ): void;
     addColorBoostEvents(...basicEvents: Partial<IEventBoost>[]): void;
     addColorBoostEvents(
@@ -285,11 +310,15 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     addLightRotationEventBoxGroups(..._: never[]): void {
-        logger.warn('Light Rotation Event Box Group does not exist in beatmap V2');
+        logger.warn(
+            'Light Rotation Event Box Group does not exist in beatmap V2',
+        );
     }
 
     addLightTranslationEventBoxGroups(..._: never[]): void {
-        logger.warn('Light Translation Event Box Group does not exist in beatmap V2');
+        logger.warn(
+            'Light Translation Event Box Group does not exist in beatmap V2',
+        );
     }
 
     isValid(): boolean {

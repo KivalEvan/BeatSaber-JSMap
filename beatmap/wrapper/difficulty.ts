@@ -13,7 +13,12 @@ import { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts
 import { IWrapSlider } from '../../types/beatmap/wrapper/slider.ts';
 import { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
 import { BeatPerMinute } from '../shared/bpm.ts';
-import { DeepPartialWrapper, LooseAutocomplete, ObtainCustomData, PartialWrapper } from '../../types/utils.ts';
+import {
+    DeepPartialWrapper,
+    LooseAutocomplete,
+    ObtainCustomData,
+    PartialWrapper,
+} from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/info.ts';
 import { EventContainer, NoteContainer } from '../../types/beatmap/wrapper/container.ts';
 import { Version } from '../../types/beatmap/shared/version.ts';
@@ -71,7 +76,9 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
         const notes = this.getNoteContainer().filter((n) => n.type !== 'bomb');
 
         for (let i = 0; i < notes.length; i++) {
-            while (notes[i].data.time - notes[currentSectionStart].data.time > beat) {
+            while (
+                notes[i].data.time - notes[currentSectionStart].data.time > beat
+            ) {
                 currentSectionStart++;
             }
             peakNPS = Math.max(
@@ -89,7 +96,8 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
         if (notes.length > 0) {
             firstNoteTime = notes[0].data.time;
         }
-        const firstInteractiveObstacleTime = this.findFirstInteractiveObstacleTime();
+        const firstInteractiveObstacleTime = this
+            .findFirstInteractiveObstacleTime();
         return Math.min(firstNoteTime, firstInteractiveObstacleTime);
     }
 
@@ -99,7 +107,8 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
         if (notes.length > 0) {
             lastNoteTime = notes[notes.length - 1].data.time;
         }
-        const lastInteractiveObstacleTime = this.findLastInteractiveObstacleTime();
+        const lastInteractiveObstacleTime = this
+            .findLastInteractiveObstacleTime();
         return Math.max(lastNoteTime, lastInteractiveObstacleTime);
     }
 
@@ -145,11 +154,15 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
     abstract addRotationEvents(
         ...rotationEvents: PartialWrapper<IWrapRotationEvent>[]
     ): void;
-    abstract addColorNotes(...colorNotes: PartialWrapper<IWrapColorNote>[]): void;
+    abstract addColorNotes(
+        ...colorNotes: PartialWrapper<IWrapColorNote>[]
+    ): void;
     abstract addBombNotes(...bombNotes: PartialWrapper<IWrapBombNote>[]): void;
     abstract addObstacles(...obstacles: PartialWrapper<IWrapObstacle>[]): void;
     abstract addSliders(...sliders: PartialWrapper<IWrapSlider>[]): void;
-    abstract addBurstSliders(...burstSliders: PartialWrapper<IWrapBurstSlider>[]): void;
+    abstract addBurstSliders(
+        ...burstSliders: PartialWrapper<IWrapBurstSlider>[]
+    ): void;
     abstract addWaypoints(...waypoints: PartialWrapper<IWrapWaypoint>[]): void;
     abstract addBasicEvents(...basicEvents: PartialWrapper<IWrapEvent>[]): void;
     abstract addColorBoostEvents(
@@ -159,9 +172,13 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
         ...lightColorEBGs: DeepPartialWrapper<IWrapLightColorEventBoxGroup>[]
     ): void;
     abstract addLightRotationEventBoxGroups(
-        ...lightRotationEBGs: DeepPartialWrapper<IWrapLightRotationEventBoxGroup>[]
+        ...lightRotationEBGs: DeepPartialWrapper<
+            IWrapLightRotationEventBoxGroup
+        >[]
     ): void;
     abstract addLightTranslationEventBoxGroups(
-        ...lightTranslationEBGs: DeepPartialWrapper<IWrapLightTranslationEventBoxGroup>[]
+        ...lightTranslationEBGs: DeepPartialWrapper<
+            IWrapLightTranslationEventBoxGroup
+        >[]
     ): void;
 }

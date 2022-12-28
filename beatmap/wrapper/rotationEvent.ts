@@ -2,7 +2,8 @@ import { WrapBaseObject } from './baseObject.ts';
 import { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
 
 /** Rotation event beatmap class object. */
-export abstract class WrapRotationEvent<T extends Record<keyof T, unknown>> extends WrapBaseObject<T>
+export abstract class WrapRotationEvent<T extends Record<keyof T, unknown>>
+    extends WrapBaseObject<T>
     implements IWrapRotationEvent<T> {
     abstract get executionTime(): IWrapRotationEvent['executionTime'];
     abstract set executionTime(value: IWrapRotationEvent['executionTime']);

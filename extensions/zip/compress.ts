@@ -11,5 +11,7 @@ export async function compress(info: IInfo, zipName: string) {
             toZip.push((globals.directory + diff._beatmapFilename) as string);
         }
     }
-    return zip.compress(toZip, globals.directory + zipName + '.zip', { overwrite: true });
+    return zip.compress(toZip, globals.directory + zipName + '.zip', {
+        overwrite: true,
+    });
 }

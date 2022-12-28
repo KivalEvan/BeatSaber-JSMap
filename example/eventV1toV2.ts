@@ -34,18 +34,23 @@ logger.info(
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 if (args.x) {
-    logger.warn('No backup flagged, any changes done by this script is irreversible');
+    logger.warn(
+        'No backup flagged, any changes done by this script is irreversible',
+    );
 }
 
 globals.directory = (args.d as string) ??
-    (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() || './');
+    (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() ||
+        './');
 
 const fadeDuration = parseFloat(
-    args.t ?? args.y ? '1' : prompt('Fade duration in seconds (blank for default 1s):')?.trim() ?? '1',
+    args.t ?? args.y ? '1' : prompt('Fade duration in seconds (blank for default 1s):')?.trim() ??
+        '1',
 ) || 1;
 
 const flashMultiplier = parseFloat(
-    args.t ?? args.y ? '1.2' : prompt('Flash brightness multiplier (blank for default 1.2):')?.trim() ??
+    args.t ?? args.y ? '1.2' : prompt('Flash brightness multiplier (blank for default 1.2):')
+        ?.trim() ??
         '1.2',
 ) || 1.2;
 
@@ -62,7 +67,9 @@ try {
     try {
         info = load.infoSync();
     } catch {
-        logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
+        logger.warn(
+            'Could not load Info.dat from folder, retrying with info.dat...',
+        );
         info = load.infoSync({ filePath: 'info.dat' });
     }
 
@@ -91,7 +98,8 @@ try {
                 if (confirmation![0].toLowerCase() === 'y') {
                     copySync(
                         globals.directory + dl.settings._beatmapFilename,
-                        globals.directory + dl.settings._beatmapFilename + '.old',
+                        globals.directory + dl.settings._beatmapFilename +
+                            '.old',
                         { overwrite: true },
                     );
                 } else {
@@ -207,11 +215,17 @@ try {
             const mappedEvent = dl.data.basicEvents
                 .map((ev) => ev)
                 .filter((ev) => ev.isLightEvent(info._environmentName))
-                .reduce((obj: { [key: number]: types.wrapper.IWrapEvent[] }, ev) => {
-                    obj[ev.type] ??= [];
-                    obj[ev.type].push(ev);
-                    return obj;
-                }, {});
+                .reduce(
+                    (
+                        obj: { [key: number]: types.wrapper.IWrapEvent[] },
+                        ev,
+                    ) => {
+                        obj[ev.type] ??= [];
+                        obj[ev.type].push(ev);
+                        return obj;
+                    },
+                    {},
+                );
 
             for (const id in mappedEvent) {
                 const events = mappedEvent[id];
@@ -244,7 +258,11 @@ try {
                                     true,
                                 ),
                                 value: current.value + 3,
-                                floatValue: utils.lerp(alpha, current.floatValue, 0),
+                                floatValue: utils.lerp(
+                                    alpha,
+                                    current.floatValue,
+                                    0,
+                                ),
                             });
                         }
                         if (current.isFlash()) {
@@ -258,7 +276,11 @@ try {
                                     true,
                                 ),
                                 value: current.value + 3,
-                                floatValue: utils.lerp(alpha, current.floatValue, prev),
+                                floatValue: utils.lerp(
+                                    alpha,
+                                    current.floatValue,
+                                    prev,
+                                ),
                             });
                         }
                     } else {
@@ -282,7 +304,8 @@ try {
                             dl.data.addBasicEvents({
                                 ...current.data,
                                 time: bpm.toBeatTime(
-                                    bpm.toRealTime(current.time) + fadeDuration / 10,
+                                    bpm.toRealTime(current.time) +
+                                        fadeDuration / 10,
                                     true,
                                 ),
                                 value: current.value + 3,

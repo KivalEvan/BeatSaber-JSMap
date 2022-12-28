@@ -25,7 +25,9 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
 
     static Preset = {
         ENVIRONMENT: new EnvironmentGrab().child().name('Environment').end(),
-        CONSTRUCTION: new EnvironmentGrab('Environment').child().name('Construction').end(),
+        CONSTRUCTION: new EnvironmentGrab('Environment').child().name(
+            'Construction',
+        ).end(),
         SMOKE: new EnvironmentGrab().child().name('BigSmokePS').end(),
     } as const;
 

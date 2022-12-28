@@ -11,7 +11,9 @@ export abstract class WrapSlider<T extends Record<keyof T, unknown>> extends Wra
     abstract get lengthMultiplier(): IWrapSlider['lengthMultiplier'];
     abstract set lengthMultiplier(value: IWrapSlider['lengthMultiplier']);
     abstract get tailLengthMultiplier(): IWrapSlider['tailLengthMultiplier'];
-    abstract set tailLengthMultiplier(value: IWrapSlider['tailLengthMultiplier']);
+    abstract set tailLengthMultiplier(
+        value: IWrapSlider['tailLengthMultiplier'],
+    );
     abstract get tailDirection(): IWrapSlider['tailDirection'];
     abstract set tailDirection(value: IWrapSlider['tailDirection']);
     abstract get midAnchor(): IWrapSlider['midAnchor'];

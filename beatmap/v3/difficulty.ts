@@ -72,14 +72,16 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         super(data);
         this.version = '3.2.0';
         this.bpmEvents = data.bpmEvents?.map((obj) => BPMEvent.create(obj)[0]) ?? [];
-        this.rotationEvents = data.rotationEvents?.map((obj) => RotationEvent.create(obj)[0]) ?? [];
+        this.rotationEvents = data.rotationEvents?.map((obj) => RotationEvent.create(obj)[0]) ??
+            [];
         this.colorNotes = data.colorNotes?.map((obj) => ColorNote.create(obj)[0]) ?? [];
         this.bombNotes = data.bombNotes?.map((obj) => BombNote.create(obj)[0]) ?? [];
         this.obstacles = data.obstacles?.map((obj) => Obstacle.create(obj)[0]) ?? [];
         this.sliders = data.sliders?.map((obj) => Slider.create(obj)[0]) ?? [];
         this.burstSliders = data.burstSliders?.map((obj) => BurstSlider.create(obj)[0]) ?? [];
         this.waypoints = data.waypoints?.map((obj) => Waypoint.create(obj)[0]) ?? [];
-        this.basicEvents = data.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)[0]) ?? [];
+        this.basicEvents = data.basicBeatmapEvents?.map((obj) => BasicEvent.create(obj)[0]) ??
+            [];
         this.colorBoostEvents = data.colorBoostBeatmapEvents?.map(
             (obj) => ColorBoostEvent.create(obj)[0],
         ) ?? [];
@@ -120,7 +122,8 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             basicEventTypesWithKeywords: data.basicEventTypesWithKeywords ?? {
                 d: [],
             },
-            useNormalEventsAsCompatibleEvents: data.useNormalEventsAsCompatibleEvents ?? false,
+            useNormalEventsAsCompatibleEvents: data.useNormalEventsAsCompatibleEvents ??
+                false,
             customData: data.customData ?? {},
         });
     }
@@ -139,10 +142,13 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             basicBeatmapEvents: this.basicEvents.map((obj) => obj.toJSON()),
             colorBoostBeatmapEvents: this.colorBoostEvents.map((obj) => obj.toJSON()),
             lightColorEventBoxGroups: this.lightColorEventBoxGroups.map((obj) => obj.toJSON()),
-            lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map((obj) => obj.toJSON()),
-            lightTranslationEventBoxGroups: this.lightTranslationEventBoxGroups.map(
-                (obj) => obj.toJSON(),
-            ),
+            lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map((
+                obj,
+            ) => obj.toJSON()),
+            lightTranslationEventBoxGroups: this.lightTranslationEventBoxGroups
+                .map(
+                    (obj) => obj.toJSON(),
+                ),
             basicEventTypesWithKeywords: this.eventTypesWithKeywords.toJSON(),
             useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
             customData: deepCopy(this.customData),
@@ -198,7 +204,9 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.rotationEvents.push(
-            ...rotationEvents.map((re) => re instanceof RotationEvent ? re : RotationEvent.create(re)[0]),
+            ...rotationEvents.map((re) =>
+                re instanceof RotationEvent ? re : RotationEvent.create(re)[0]
+            ),
         );
     }
 
@@ -261,11 +269,15 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.obstacles.push(
-            ...obstacles.map((o) => (o instanceof Obstacle ? o : Obstacle.create(o)[0])),
+            ...obstacles.map((
+                o,
+            ) => (o instanceof Obstacle ? o : Obstacle.create(o)[0])),
         );
     }
 
-    addSliders(...sliders: PartialWrapper<IWrapSlider<Required<ISlider>>>[]): void;
+    addSliders(
+        ...sliders: PartialWrapper<IWrapSlider<Required<ISlider>>>[]
+    ): void;
     addSliders(...sliders: Partial<ISlider>[]): void;
     addSliders(
         ...sliders: (
@@ -280,12 +292,16 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.sliders.push(
-            ...sliders.map((s) => (s instanceof Slider ? s : Slider.create(s)[0])),
+            ...sliders.map((
+                s,
+            ) => (s instanceof Slider ? s : Slider.create(s)[0])),
         );
     }
 
     addBurstSliders(
-        ...burstSliders: PartialWrapper<IWrapBurstSlider<Required<IBurstSlider>>>[]
+        ...burstSliders: PartialWrapper<
+            IWrapBurstSlider<Required<IBurstSlider>>
+        >[]
     ): void;
     addBurstSliders(...burstSliders: Partial<IBurstSlider>[]): void;
     addBurstSliders(
@@ -322,7 +338,9 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.waypoints.push(
-            ...waypoints.map((w) => (w instanceof Waypoint ? w : Waypoint.create(w)[0])),
+            ...waypoints.map((
+                w,
+            ) => (w instanceof Waypoint ? w : Waypoint.create(w)[0])),
         );
     }
 
@@ -366,7 +384,9 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.colorBoostEvents.push(
-            ...colorBoostEvents.map((cbe) => cbe instanceof ColorBoostEvent ? cbe : ColorBoostEvent.create(cbe)[0]),
+            ...colorBoostEvents.map((cbe) =>
+                cbe instanceof ColorBoostEvent ? cbe : ColorBoostEvent.create(cbe)[0]
+            ),
         );
     }
 
@@ -411,7 +431,9 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     ): void {
         this.lightColorEventBoxGroups.push(
             ...lightColorEBGs.map((lcebg) =>
-                lcebg instanceof LightColorEventBoxGroup ? lcebg : LightColorEventBoxGroup.create(lcebg)[0]
+                lcebg instanceof LightColorEventBoxGroup
+                    ? lcebg
+                    : LightColorEventBoxGroup.create(lcebg)[0]
             ),
         );
     }
@@ -457,7 +479,9 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     ): void {
         this.lightRotationEventBoxGroups.push(
             ...lightRotationEBGs.map((lrebg) =>
-                lrebg instanceof LightRotationEventBoxGroup ? lrebg : LightRotationEventBoxGroup.create(lrebg)[0]
+                lrebg instanceof LightRotationEventBoxGroup
+                    ? lrebg
+                    : LightRotationEventBoxGroup.create(lrebg)[0]
             ),
         );
     }
@@ -503,7 +527,9 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     ): void {
         this.lightTranslationEventBoxGroups.push(
             ...lightTranslationEBGs.map((ltebg) =>
-                ltebg instanceof LightTranslationEventBoxGroup ? ltebg : LightTranslationEventBoxGroup.create(ltebg)[0]
+                ltebg instanceof LightTranslationEventBoxGroup
+                    ? ltebg
+                    : LightTranslationEventBoxGroup.create(ltebg)[0]
             ),
         );
     }

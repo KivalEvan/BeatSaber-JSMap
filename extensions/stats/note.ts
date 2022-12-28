@@ -10,7 +10,9 @@ import { ICountNote, ICountStatsNote } from './types/stats.ts';
  * console.log(list);
  * ```
  */
-export function countNote(notes: (IWrapColorNote | IWrapBaseSlider)[]): ICountNote {
+export function countNote(
+    notes: (IWrapColorNote | IWrapBaseSlider)[],
+): ICountNote {
     const noteCount: ICountNote = {
         red: {
             total: 0,
@@ -108,7 +110,8 @@ export function countXY(notes: NoteContainer[], x: number, y: number): number {
  * ```
  */
 export function countDirection(notes: NoteContainer[], cd: number): number {
-    return notes.filter((n) => n.type !== 'bomb' && n.data.direction === cd).length;
+    return notes.filter((n) => n.type !== 'bomb' && n.data.direction === cd)
+        .length;
 }
 
 /** Count number of specified angle in a given array and return a counted number of angle.
@@ -117,7 +120,8 @@ export function countDirection(notes: NoteContainer[], cd: number): number {
  * ```
  */
 export function countAngle(notes: NoteContainer[], angle: number): number {
-    return notes.filter((n) => n.type !== 'bomb' && n.data.getAngle() === angle).length;
+    return notes.filter((n) => n.type !== 'bomb' && n.data.getAngle() === angle)
+        .length;
 }
 
 /** Calculate note per second.
@@ -134,7 +138,11 @@ export function nps(notes: IWrapColorNote[], duration: number): number {
  * const peakNPS = peak(notes, 10, BPM ?? 128);
  * ```
  */
-export function peak(notes: IWrapColorNote[], beat: number, bpm: number): number {
+export function peak(
+    notes: IWrapColorNote[],
+    beat: number,
+    bpm: number,
+): number {
     let peakNPS = 0;
     let currentSectionStart = 0;
 
@@ -142,7 +150,10 @@ export function peak(notes: IWrapColorNote[], beat: number, bpm: number): number
         while (notes[i].time - notes[currentSectionStart].time > beat) {
             currentSectionStart++;
         }
-        peakNPS = Math.max(peakNPS, (i - currentSectionStart + 1) / ((beat / bpm) * 60));
+        peakNPS = Math.max(
+            peakNPS,
+            (i - currentSectionStart + 1) / ((beat / bpm) * 60),
+        );
     }
 
     return peakNPS;

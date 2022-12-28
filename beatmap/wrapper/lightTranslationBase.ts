@@ -2,8 +2,9 @@ import { IWrapLightTranslationBase } from '../../types/beatmap/wrapper/lightTran
 import { WrapBaseObject } from './baseObject.ts';
 
 /** Light translation base beatmap class object. */
-export abstract class WrapLightTranslationBase<T extends Record<keyof T, unknown>> extends WrapBaseObject<T>
-    implements IWrapLightTranslationBase<T> {
+export abstract class WrapLightTranslationBase<
+    T extends Record<keyof T, unknown>,
+> extends WrapBaseObject<T> implements IWrapLightTranslationBase<T> {
     abstract get previous(): IWrapLightTranslationBase['previous'];
     abstract set previous(value: IWrapLightTranslationBase['previous']);
     abstract get easing(): IWrapLightTranslationBase['easing'];

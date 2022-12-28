@@ -22,7 +22,9 @@ export default function <T extends ICustomDataBase>(
     cd.localRotation ??= cd._localRotation;
     cd.noteJumpMovementSpeed ??= cd._noteJumpMovementSpeed;
     cd.noteJumpStartBeatOffset ??= cd._noteJumpStartBeatOffset;
-    cd.spawnEffect ??= typeof cd._disableSpawnEffect === 'boolean' ? !cd._disableSpawnEffect : undefined;
+    cd.spawnEffect ??= typeof cd._disableSpawnEffect === 'boolean'
+        ? !cd._disableSpawnEffect
+        : undefined;
     cd.size ??= cd._scale;
     cd.track ??= cd._track;
     cd.uninteractable ??= typeof cd._interactable === 'boolean' ? !cd._interactable : undefined;

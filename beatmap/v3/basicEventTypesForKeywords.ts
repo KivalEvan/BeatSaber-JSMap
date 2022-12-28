@@ -31,7 +31,9 @@ export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<
         ...basicEventTypesForKeywords: (
             & Partial<IBasicEventTypesForKeywords>
             & PartialWrapper<
-                IWrapEventTypesForKeywords<Required<IBasicEventTypesForKeywords>>
+                IWrapEventTypesForKeywords<
+                    Required<IBasicEventTypesForKeywords>
+                >
             >
         )[]
     ): BasicEventTypesForKeywords[];
@@ -39,7 +41,9 @@ export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<
         ...basicEventTypesForKeywords: (
             & Partial<IBasicEventTypesForKeywords>
             & PartialWrapper<
-                IWrapEventTypesForKeywords<Required<IBasicEventTypesForKeywords>>
+                IWrapEventTypesForKeywords<
+                    Required<IBasicEventTypesForKeywords>
+                >
             >
         )[]
     ): BasicEventTypesForKeywords[] {
@@ -47,7 +51,8 @@ export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<
         basicEventTypesForKeywords?.forEach((betfk) =>
             result.push(
                 new this({
-                    k: betfk.keyword ?? betfk.k ?? BasicEventTypesForKeywords.default.k,
+                    k: betfk.keyword ?? betfk.k ??
+                        BasicEventTypesForKeywords.default.k,
                     e: betfk.events ??
                         betfk.e ??
                         BasicEventTypesForKeywords.default.e(),

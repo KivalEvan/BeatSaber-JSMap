@@ -15,7 +15,8 @@ export function countEvent(
     boost: ColorBoostEvent[],
     environment: EnvironmentAllName = 'DefaultEnvironment',
 ): ICountEvent {
-    const commonEvent = EventList[environment]?.[0] ?? EventList['DefaultEnvironment'][0];
+    const commonEvent = EventList[environment]?.[0] ??
+        EventList['DefaultEnvironment'][0];
     const eventCount: ICountEvent = {};
     for (let i = commonEvent.length - 1; i >= 0; i--) {
         eventCount[commonEvent[i]] = {

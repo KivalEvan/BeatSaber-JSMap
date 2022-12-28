@@ -49,7 +49,9 @@ export function ogChromaToChromaV2<T extends DifficultyV2 | DifficultyV3>(
     for (const ev of events) {
         let noChromaColor = false;
         if (ev.value >= 2000000000) {
-            currentColor[ev.type] = oldChromaColorConvert(ev.value) as ColorArray;
+            currentColor[ev.type] = oldChromaColorConvert(
+                ev.value,
+            ) as ColorArray;
         }
         if (!currentColor[ev.type]) {
             noChromaColor = true;

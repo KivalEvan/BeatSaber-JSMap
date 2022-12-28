@@ -30,17 +30,23 @@ export class LightRotationBase extends WrapLightRotationBase<
             IWrapLightRotationBase<Required<ILightRotationBase>>
         >[]
     ): LightRotationBase[];
-    static create(...waypoints: Partial<ILightRotationBase>[]): LightRotationBase[];
+    static create(
+        ...waypoints: Partial<ILightRotationBase>[]
+    ): LightRotationBase[];
     static create(
         ...lightRotations: (
             & Partial<ILightRotationBase>
-            & PartialWrapper<IWrapLightRotationBase<Required<ILightRotationBase>>>
+            & PartialWrapper<
+                IWrapLightRotationBase<Required<ILightRotationBase>>
+            >
         )[]
     ): LightRotationBase[];
     static create(
         ...lightRotations: (
             & Partial<ILightRotationBase>
-            & PartialWrapper<IWrapLightRotationBase<Required<ILightRotationBase>>>
+            & PartialWrapper<
+                IWrapLightRotationBase<Required<ILightRotationBase>>
+            >
         )[]
     ): LightRotationBase[] {
         const result: LightRotationBase[] = [];
@@ -53,7 +59,8 @@ export class LightRotationBase extends WrapLightRotationBase<
                     l: lr.loop ?? lr.l ?? LightRotationBase.default.l,
                     r: lr.rotation ?? lr.r ?? LightRotationBase.default.r,
                     o: lr.direction ?? lr.o ?? LightRotationBase.default.o,
-                    customData: lr.customData ?? LightRotationBase.default.customData(),
+                    customData: lr.customData ??
+                        LightRotationBase.default.customData(),
                 }),
             )
         );

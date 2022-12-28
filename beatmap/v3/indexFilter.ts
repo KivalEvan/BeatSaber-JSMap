@@ -29,13 +29,19 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
     }
 
     static create(): IndexFilter;
-    static create(indexFilter: PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>): IndexFilter;
+    static create(
+        indexFilter: PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>,
+    ): IndexFilter;
     static create(indexFilter: Partial<IIndexFilter>): IndexFilter;
     static create(
-        indexFilter: Partial<IIndexFilter> & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>,
+        indexFilter:
+            & Partial<IIndexFilter>
+            & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>,
     ): IndexFilter;
     static create(
-        indexFilter: Partial<IIndexFilter> & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>> = {},
+        indexFilter:
+            & Partial<IIndexFilter>
+            & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>> = {},
     ): IndexFilter {
         return new IndexFilter({
             f: indexFilter.type ?? indexFilter.f ?? IndexFilter.default.f,
@@ -46,8 +52,10 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
             n: indexFilter.random ?? indexFilter.n ?? IndexFilter.default.n,
             s: indexFilter.seed ?? indexFilter.s ?? IndexFilter.default.s,
             l: indexFilter.limit ?? indexFilter.l ?? IndexFilter.default.l,
-            d: indexFilter.limitAffectsType ?? indexFilter.d ?? IndexFilter.default.d,
-            customData: indexFilter.customData ?? IndexFilter.default.customData(),
+            d: indexFilter.limitAffectsType ?? indexFilter.d ??
+                IndexFilter.default.d,
+            customData: indexFilter.customData ??
+                IndexFilter.default.customData(),
         });
     }
 

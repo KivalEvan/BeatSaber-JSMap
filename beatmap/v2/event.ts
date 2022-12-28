@@ -1,7 +1,11 @@
 // deno-lint-ignore-file no-unused-vars
 import { IEvent } from '../../types/beatmap/v2/event.ts';
 import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
-import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v2/custom/chroma.ts';
+import {
+    IChromaEventLaser,
+    IChromaEventLight,
+    IChromaEventRing,
+} from '../../types/beatmap/v2/custom/chroma.ts';
 import { INEEvent } from '../../types/beatmap/v2/custom/noodleExtensions.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
@@ -48,8 +52,10 @@ export class Event extends WrapEvent<Required<IEvent>> {
                     _time: ev.time ?? ev._time ?? Event.default._time,
                     _type: ev.type ?? ev._type ?? Event.default._type,
                     _value: ev.value ?? ev._value ?? Event.default._value,
-                    _floatValue: ev.floatValue ?? ev._floatValue ?? Event.default._floatValue,
-                    _customData: ev.customData ?? ev._customData ?? Event.default._customData(),
+                    _floatValue: ev.floatValue ?? ev._floatValue ??
+                        Event.default._floatValue,
+                    _customData: ev.customData ?? ev._customData ??
+                        Event.default._customData(),
                 }),
             )
         );
@@ -124,7 +130,9 @@ export class Event extends WrapEvent<Required<IEvent>> {
         return super.isLaserRotationEvent(environment);
     }
 
-    isLaneRotationEvent(environment?: EnvironmentAllName): this is EventLaneRotation {
+    isLaneRotationEvent(
+        environment?: EnvironmentAllName,
+    ): this is EventLaneRotation {
         return super.isLaneRotationEvent(environment);
     }
 
@@ -169,12 +177,14 @@ export class Event extends WrapEvent<Required<IEvent>> {
 
     isNoodleExtensions(): boolean {
         return (
-            this.isLaneRotationEvent() && typeof this.customData._rotation === 'number'
+            this.isLaneRotationEvent() &&
+            typeof this.customData._rotation === 'number'
         );
     }
 
     isMappingExtensions(): boolean {
-        return this.isLaneRotationEvent() && this.value >= 1000 && this.value <= 1720;
+        return this.isLaneRotationEvent() && this.value >= 1000 &&
+            this.value <= 1720;
     }
 }
 

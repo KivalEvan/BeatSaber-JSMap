@@ -309,7 +309,10 @@ export const RotationEventDataCheck: Record<keyof IRotationEvent, DataCheck> = {
     },
 } as const;
 
-export const ColorBoostEventDataCheck: Record<keyof IColorBoostEvent, DataCheck> = {
+export const ColorBoostEventDataCheck: Record<
+    keyof IColorBoostEvent,
+    DataCheck
+> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -408,7 +411,10 @@ export const LightColorBaseDataCheck: Record<keyof ILightColorBase, DataCheck> =
     },
 } as const;
 
-export const LightColorEventBoxDataCheck: Record<keyof ILightColorEventBox, DataCheck> = {
+export const LightColorEventBoxDataCheck: Record<
+    keyof ILightColorEventBox,
+    DataCheck
+> = {
     f: {
         type: 'object',
         version: '3.0.0',
@@ -455,7 +461,10 @@ export const LightColorEventBoxDataCheck: Record<keyof ILightColorEventBox, Data
     },
 } as const;
 
-export const LightColorEventBoxGroupDataCheck: Record<keyof ILightColorEventBoxGroup, DataCheck> = {
+export const LightColorEventBoxGroupDataCheck: Record<
+    keyof ILightColorEventBoxGroup,
+    DataCheck
+> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -478,7 +487,10 @@ export const LightColorEventBoxGroupDataCheck: Record<keyof ILightColorEventBoxG
     },
 } as const;
 
-export const LightRotationBaseDataCheck: Record<keyof ILightRotationBase, DataCheck> = {
+export const LightRotationBaseDataCheck: Record<
+    keyof ILightRotationBase,
+    DataCheck
+> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -514,7 +526,10 @@ export const LightRotationBaseDataCheck: Record<keyof ILightRotationBase, DataCh
     },
 } as const;
 
-export const LightRotationEventBoxDataCheck: Record<keyof ILightRotationEventBox, DataCheck> = {
+export const LightRotationEventBoxDataCheck: Record<
+    keyof ILightRotationEventBox,
+    DataCheck
+> = {
     f: {
         type: 'object',
         version: '3.0.0',
@@ -571,7 +586,10 @@ export const LightRotationEventBoxDataCheck: Record<keyof ILightRotationEventBox
     },
 } as const;
 
-export const LightRotationEventBoxGroupDataCheck: Record<keyof ILightRotationEventBoxGroup, DataCheck> = {
+export const LightRotationEventBoxGroupDataCheck: Record<
+    keyof ILightRotationEventBoxGroup,
+    DataCheck
+> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -594,7 +612,10 @@ export const LightRotationEventBoxGroupDataCheck: Record<keyof ILightRotationEve
     },
 } as const;
 
-export const LightTranslationBaseDataCheck: Record<keyof ILightTranslationBase, DataCheck> = {
+export const LightTranslationBaseDataCheck: Record<
+    keyof ILightTranslationBase,
+    DataCheck
+> = {
     b: {
         type: 'number',
         version: '3.2.0',
@@ -621,7 +642,10 @@ export const LightTranslationBaseDataCheck: Record<keyof ILightTranslationBase, 
     },
 } as const;
 
-export const LightTranslationEventBoxDataCheck: Record<keyof ILightTranslationEventBox, DataCheck> = {
+export const LightTranslationEventBoxDataCheck: Record<
+    keyof ILightTranslationEventBox,
+    DataCheck
+> = {
     f: {
         type: 'object',
         version: '3.2.0',
@@ -678,7 +702,10 @@ export const LightTranslationEventBoxDataCheck: Record<keyof ILightTranslationEv
     },
 } as const;
 
-export const LightTranslationEventBoxGroupDataCheck: Record<keyof ILightTranslationEventBoxGroup, DataCheck> = {
+export const LightTranslationEventBoxGroupDataCheck: Record<
+    keyof ILightTranslationEventBoxGroup,
+    DataCheck
+> = {
     b: {
         type: 'number',
         version: '3.2.0',
@@ -701,7 +728,10 @@ export const LightTranslationEventBoxGroupDataCheck: Record<keyof ILightTranslat
     },
 } as const;
 
-export const BasicEventTypesForKeywordsDataCheck: Record<keyof IBasicEventTypesForKeywords, DataCheck> = {
+export const BasicEventTypesForKeywordsDataCheck: Record<
+    keyof IBasicEventTypesForKeywords,
+    DataCheck
+> = {
     k: {
         type: 'string',
         version: '3.0.0',
@@ -713,7 +743,10 @@ export const BasicEventTypesForKeywordsDataCheck: Record<keyof IBasicEventTypesF
     },
 } as const;
 
-export const BasicEventTypesWithKeywordsDataCheck: Record<keyof IBasicEventTypesWithKeywords, DataCheck> = {
+export const BasicEventTypesWithKeywordsDataCheck: Record<
+    keyof IBasicEventTypesWithKeywords,
+    DataCheck
+> = {
     d: {
         type: 'array',
         version: '3.0.0',

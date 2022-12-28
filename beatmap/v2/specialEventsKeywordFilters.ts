@@ -30,7 +30,9 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
 
     static create(): SpecialEventsKeywordFilters;
     static create(
-        specialEventsWithKeywords: DeepPartialWrapper<IWrapEventTypesWithKeywords>,
+        specialEventsWithKeywords: DeepPartialWrapper<
+            IWrapEventTypesWithKeywords
+        >,
     ): SpecialEventsKeywordFilters;
     static create(
         specialEventsWithKeywords: DeepPartial<ISpecialEventsKeywordFilters>,

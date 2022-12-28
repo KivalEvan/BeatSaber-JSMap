@@ -22,8 +22,12 @@ export interface IWrapLightColorEventBox<
     affectFirst: 0 | 1;
     events: IWrapLightColorBase<TBase>[];
 
-    setBrightnessDistribution(value: IWrapLightColorEventBox['brightnessDistribution']): this;
-    setBrightnessDistributionType(value: IWrapLightColorEventBox['brightnessDistributionType']): this;
+    setBrightnessDistribution(
+        value: IWrapLightColorEventBox['brightnessDistribution'],
+    ): this;
+    setBrightnessDistributionType(
+        value: IWrapLightColorEventBox['brightnessDistributionType'],
+    ): this;
     setAffectFirst(value: IWrapLightColorEventBox['affectFirst']): this;
     setEvents(value: IWrapLightColorBase<TBase>[]): this;
 }

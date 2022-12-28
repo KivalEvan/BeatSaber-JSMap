@@ -2,7 +2,11 @@ import { Vector2 } from '../../types/vector.ts';
 import { degToRad, radToDeg } from '../../utils/math.ts';
 
 /** Create points around circle, higher precision is more accurate. */
-export function createCircle(radius: number, precision: number, angleOffset?: number) {
+export function createCircle(
+    radius: number,
+    precision: number,
+    angleOffset?: number,
+) {
     const points: Vector2[] = [];
     angleOffset = angleOffset || 0;
     const offset = degToRad(angleOffset % 360);
@@ -47,8 +51,13 @@ export function drawPolygon(
             radius * Math.cos(offset + ((2 * Math.PI) / sides) * (i + 1)),
             radius * Math.sin(offset + ((2 * Math.PI) / sides) * (i + 1)),
         ];
-        const rotation =
-            (-90 + radToDeg(Math.atan2(coordinateNext[1] - coordinate[1], coordinateNext[0] - coordinate[0])) + 360) %
+        const rotation = (-90 +
+            radToDeg(
+                Math.atan2(
+                    coordinateNext[1] - coordinate[1],
+                    coordinateNext[0] - coordinate[0],
+                ),
+            ) + 360) %
             360;
         coordinates.push(coordinate);
         rotations.push(rotation);
@@ -65,11 +74,18 @@ export function drawPath(path: Vector2[]) {
     for (let i = 0; i < path.length - 1; i++) {
         const coordinate: Vector2 = coordinateNext ?? [path[i][0], path[i][1]];
         coordinateNext = [path[i + 1][0], path[i + 1][1]];
-        const rotation =
-            (-90 + radToDeg(Math.atan2(coordinateNext[1] - coordinate[1], coordinateNext[0] - coordinate[0])) + 360) %
+        const rotation = (-90 +
+            radToDeg(
+                Math.atan2(
+                    coordinateNext[1] - coordinate[1],
+                    coordinateNext[0] - coordinate[0],
+                ),
+            ) + 360) %
             360;
-        const size =
-            Math.sqrt(Math.pow(coordinateNext[0] - coordinate[0], 2) + Math.pow(coordinateNext[1] - coordinate[1], 2)) *
+        const size = Math.sqrt(
+            Math.pow(coordinateNext[0] - coordinate[0], 2) +
+                Math.pow(coordinateNext[1] - coordinate[1], 2),
+        ) *
             2;
         coordinates.push(coordinate);
         rotations.push(rotation);

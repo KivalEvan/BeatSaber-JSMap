@@ -1,5 +1,12 @@
 // deno-lint-ignore-file ban-types no-explicit-any
-export type Primitive = string | Function | number | boolean | Symbol | undefined | null;
+export type Primitive =
+    | string
+    | Function
+    | number
+    | boolean
+    | Symbol
+    | undefined
+    | null;
 
 export type Only<T, U> =
     & {
@@ -19,7 +26,8 @@ export type ObjectReturnFn<T> = {
     [P in keyof T]: T[P] extends object ? () => T[P] : T[P];
 };
 
-export type LooseAutocomplete<T extends string | number> = T extends string ? T | (string & {}) : T | (number & {});
+export type LooseAutocomplete<T extends string | number> = T extends string ? T | (string & {})
+    : T | (number & {});
 
 type OmitNever<T> = { [K in keyof T as T[K] extends never ? never : K]: T[K] };
 
@@ -60,7 +68,10 @@ export type PartialDeepOmit<T, K> = T extends Primitive ? T
         }
     >;
 
-export type ExcludeMethod<T> = Pick<T, { [P in keyof T]: T[P] extends Function ? never : P }[keyof T]>;
+export type ExcludeMethod<T> = Pick<
+    T,
+    { [P in keyof T]: T[P] extends Function ? never : P }[keyof T]
+>;
 
 export type DeepExcludeMethodArray<T extends any[]> = {
     [P in keyof T]: DeepExcludeMethod<T[P]>;
@@ -78,10 +89,12 @@ export type DeepExcludeMethod<T> = T extends Primitive ? T
 
 export type PartialWrapper<T> = Partial<DeepOmit<ExcludeMethod<T>, 'data'>>;
 
-export type DeepPartialWrapper<T> = DeepPartial<DeepOmit<DeepExcludeMethod<T>, 'data'>>;
+export type DeepPartialWrapper<T> = DeepPartial<
+    DeepOmit<DeepExcludeMethod<T>, 'data'>
+>;
 
 /** INTERNAL USE ONLY */
-export type ObtainCustomData<T extends Record<string, unknown>> = T['customData'] extends Record<string, unknown>
-    ? T['customData']
+export type ObtainCustomData<T extends Record<string, unknown>> = T['customData'] extends
+    Record<string, unknown> ? T['customData']
     : T['_customData'] extends Record<string, unknown> ? T['_customData']
     : Record<string, unknown>;

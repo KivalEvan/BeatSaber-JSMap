@@ -12,7 +12,9 @@ export abstract class WrapLightTranslationEventBox<
     abstract get translationDistribution(): ILightTranslationEventBox['s'];
     abstract set translationDistribution(value: ILightTranslationEventBox['s']);
     abstract get translationDistributionType(): ILightTranslationEventBox['t'];
-    abstract set translationDistributionType(value: ILightTranslationEventBox['t']);
+    abstract set translationDistributionType(
+        value: ILightTranslationEventBox['t'],
+    );
     abstract get axis(): ILightTranslationEventBox['a'];
     abstract set axis(value: ILightTranslationEventBox['a']);
     abstract get flip(): ILightTranslationEventBox['r'];

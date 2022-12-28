@@ -46,7 +46,12 @@ export function RgbaToHsva(r: number, g: number, b: number, a = 1): ColorArray {
  * const rgba = HsvaToRgba(...hsva);
  * ```
  */
-export function HsvaToRgba(hue: number, saturation: number, value: number, alpha = 1): ColorArray {
+export function HsvaToRgba(
+    hue: number,
+    saturation: number,
+    value: number,
+    alpha = 1,
+): ColorArray {
     hue = hue / 360;
     if (hue < 0) {
         hue += Math.abs(Math.floor(hue));
@@ -176,7 +181,11 @@ export function hexToRgba(hex: string): ColorArray {
             result.push(cNorm(hexToDec(hex.slice(3, 4) + hex.slice(3, 4))));
         }
     } else if (hex.length === 6 || hex.length === 8) {
-        result = [cNorm(hexToDec(hex.slice(0, 2))), cNorm(hexToDec(hex.slice(2, 4))), cNorm(hexToDec(hex.slice(4, 6)))];
+        result = [
+            cNorm(hexToDec(hex.slice(0, 2))),
+            cNorm(hexToDec(hex.slice(2, 4))),
+            cNorm(hexToDec(hex.slice(4, 6))),
+        ];
         if (hex.length === 8) {
             result.push(cNorm(hexToDec(hex.slice(6, 8))));
         }
@@ -217,7 +226,9 @@ export function convertColorInput(
             if (value.type === 'hsva') {
                 return output === 'hsva' ? value.value : HsvaToRgba(...value.value);
             }
-            const temp = value.type === 'rgba255' ? (value.value.map((n) => cNorm(n!)) as ColorArray) : value.value;
+            const temp = value.type === 'rgba255'
+                ? (value.value.map((n) => cNorm(n!)) as ColorArray)
+                : value.value;
             return output === 'hsva' ? RgbaToHsva(...temp) : temp;
         }
     }
@@ -334,7 +345,9 @@ export function deltaE00(rgbaAry1: ColorArray, rgbaAry2: ColorArray): number {
         0.2 * Math.cos(degToRad(4 * hX - 63));
     pH = 30 * Math.exp(-((hX - 275) / 25) * ((hX - 275) / 25));
     rC = 2 * Math.sqrt((cY ^ 7) / ((cY ^ 7) + (25 ^ 7)));
-    sL = 1 + (0.015 * ((lX - 50) * (lX - 50))) / Math.sqrt(20 + (lX - 50) * (lX - 50));
+    sL = 1 +
+        (0.015 * ((lX - 50) * (lX - 50))) /
+            Math.sqrt(20 + (lX - 50) * (lX - 50));
 
     sC = 1 + 0.045 * cY;
     sH = 1 + 0.015 * cY * tX;
@@ -348,13 +361,51 @@ export function deltaE00(rgbaAry1: ColorArray, rgbaAry2: ColorArray): number {
 }
 
 /** Return RGBA color array from input. */
-export function colorFrom(r: number, g: number, b: number, a?: number): ColorArray;
-export function colorFrom(r: number, g: number, b: number, a: number, type: 'rgba'): ColorArray;
-export function colorFrom(r: number, g: number, b: number, a: number, type: 'rgba255'): ColorArray;
-export function colorFrom(h: number, s: number, v: number, a: number, type: 'hsva'): ColorArray;
-export function colorFrom(r: number, g: number, b: number, type: 'rgba'): ColorArray;
-export function colorFrom(r: number, g: number, b: number, type: 'rgba255'): ColorArray;
-export function colorFrom(h: number, s: number, v: number, type: 'hsva'): ColorArray;
+export function colorFrom(
+    r: number,
+    g: number,
+    b: number,
+    a?: number,
+): ColorArray;
+export function colorFrom(
+    r: number,
+    g: number,
+    b: number,
+    a: number,
+    type: 'rgba',
+): ColorArray;
+export function colorFrom(
+    r: number,
+    g: number,
+    b: number,
+    a: number,
+    type: 'rgba255',
+): ColorArray;
+export function colorFrom(
+    h: number,
+    s: number,
+    v: number,
+    a: number,
+    type: 'hsva',
+): ColorArray;
+export function colorFrom(
+    r: number,
+    g: number,
+    b: number,
+    type: 'rgba',
+): ColorArray;
+export function colorFrom(
+    r: number,
+    g: number,
+    b: number,
+    type: 'rgba255',
+): ColorArray;
+export function colorFrom(
+    h: number,
+    s: number,
+    v: number,
+    type: 'hsva',
+): ColorArray;
 export function colorFrom(value: number, alpha?: number): ColorArray;
 export function colorFrom(value: number, normalise255?: boolean): ColorArray;
 export function colorFrom(hex: string): ColorArray;
@@ -367,7 +418,10 @@ export function colorFrom(color: IColor): ColorArray;
 export function colorFrom(color: number[]): ColorArray;
 export function colorFrom(): ColorArray {
     const args = arguments;
-    if (typeof args[0] === 'number' && typeof args[1] === 'number' && typeof args[2] === 'number') {
+    if (
+        typeof args[0] === 'number' && typeof args[1] === 'number' &&
+        typeof args[2] === 'number'
+    ) {
         let val: ColorArray = [args[0], args[1], args[2]];
         if (typeof args[3] === 'number') {
             val.push(args[3]);
@@ -405,7 +459,9 @@ export function colorFrom(): ColorArray {
     if (Array.isArray(args[0])) {
         let val = [args[0][0], args[0][1], args[0][2]] as ColorArray;
         if (!val.every((v) => typeof v === 'number')) {
-            throw new Error('Unable to parse color; array contain undefined or non-numeric');
+            throw new Error(
+                'Unable to parse color; array contain undefined or non-numeric',
+            );
         }
         if (typeof args[0][3] === 'number') {
             val.push(args[0][3]);
@@ -424,7 +480,9 @@ export function colorFrom(): ColorArray {
         const obj = args[0] as IColor;
         const val = [obj.r, obj.g, obj.b] as ColorArray;
         if (!val.every((v) => typeof v === 'number')) {
-            throw new Error('Unable to parse color; object contain undefined or non-numeric');
+            throw new Error(
+                'Unable to parse color; object contain undefined or non-numeric',
+            );
         }
         if (typeof obj.a === 'number') {
             val.push(obj.a);

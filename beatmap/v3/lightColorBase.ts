@@ -23,7 +23,9 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
 
     static create(): LightColorBase[];
     static create(
-        ...lightColors: PartialWrapper<IWrapLightColorBase<Required<ILightColorBase>>>[]
+        ...lightColors: PartialWrapper<
+            IWrapLightColorBase<Required<ILightColorBase>>
+        >[]
     ): LightColorBase[];
     static create(...lightColors: Partial<ILightColorBase>[]): LightColorBase[];
     static create(
@@ -47,7 +49,8 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
                     c: lc.color ?? lc.c ?? LightColorBase.default.c,
                     s: lc.brightness ?? lc.s ?? LightColorBase.default.s,
                     f: lc.frequency ?? lc.f ?? LightColorBase.default.f,
-                    customData: lc.customData ?? LightColorBase.default.customData(),
+                    customData: lc.customData ??
+                        LightColorBase.default.customData(),
                 }),
             )
         );

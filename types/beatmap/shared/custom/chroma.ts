@@ -5,7 +5,12 @@ export type ColorPointDefinition =
     | [number, number, number, number, number, 'lerpHSV'?, Easings?]
     | [number, number, number, number, number, Easings?, 'lerpHSV'?];
 
-export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
+export type LookupMethod =
+    | 'Regex'
+    | 'Exact'
+    | 'Contains'
+    | 'StartsWith'
+    | 'EndsWith';
 
 export type GeometryType =
     | 'Sphere'

@@ -49,13 +49,16 @@ export class Slider extends WrapSlider<Required<ISlider>> {
         sliders?.forEach((s) =>
             result.push(
                 new this({
-                    _colorType: s.color ?? s._colorType ?? Slider.default._colorType,
+                    _colorType: s.color ?? s._colorType ??
+                        Slider.default._colorType,
                     _headTime: s.time ??
                         s._headTime ??
                         s._tailTime ??
                         Slider.default._headTime,
-                    _headLineIndex: s.posX ?? s._headLineIndex ?? Slider.default._headLineIndex,
-                    _headLineLayer: s.posY ?? s._headLineLayer ?? Slider.default._headLineLayer,
+                    _headLineIndex: s.posX ?? s._headLineIndex ??
+                        Slider.default._headLineIndex,
+                    _headLineLayer: s.posY ?? s._headLineLayer ??
+                        Slider.default._headLineLayer,
                     _headCutDirection: (s.direction as 0) ??
                         s._headCutDirection ??
                         Slider.default._headCutDirection,
@@ -66,8 +69,10 @@ export class Slider extends WrapSlider<Required<ISlider>> {
                         s._tailTime ??
                         s._headTime ??
                         Slider.default._tailTime,
-                    _tailLineIndex: s.tailPosX ?? s._tailLineIndex ?? Slider.default._tailLineIndex,
-                    _tailLineLayer: s.tailPosY ?? s._tailLineLayer ?? Slider.default._tailLineLayer,
+                    _tailLineIndex: s.tailPosX ?? s._tailLineIndex ??
+                        Slider.default._tailLineIndex,
+                    _tailLineLayer: s.tailPosY ?? s._tailLineLayer ??
+                        Slider.default._tailLineLayer,
                     _tailCutDirection: (s.tailDirection as 0) ??
                         s._tailCutDirection ??
                         Slider.default._tailCutDirection,
@@ -77,7 +82,8 @@ export class Slider extends WrapSlider<Required<ISlider>> {
                     _sliderMidAnchorMode: s.midAnchor ??
                         s._sliderMidAnchorMode ??
                         Slider.default._sliderMidAnchorMode,
-                    _customData: s.customData ?? s._customData ?? Slider.default._customData(),
+                    _customData: s.customData ?? s._customData ??
+                        Slider.default._customData(),
                 }),
             )
         );
@@ -194,7 +200,9 @@ export class Slider extends WrapSlider<Required<ISlider>> {
     get tailLengthMultiplier() {
         return this.data._tailControlPointLengthMultiplier;
     }
-    set tailLengthMultiplier(value: ISlider['_tailControlPointLengthMultiplier']) {
+    set tailLengthMultiplier(
+        value: ISlider['_tailControlPointLengthMultiplier'],
+    ) {
         this.data._tailControlPointLengthMultiplier = value;
     }
 

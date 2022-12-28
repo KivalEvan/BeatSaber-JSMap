@@ -48,7 +48,9 @@ export class LightColorEventBox extends WrapLightColorEventBox<
         this._e = lightColorEventBox.e.map((e) => LightColorBase.create(e)[0]);
         const lastTime = Math.max(...this._e.map((e) => e.time));
         if (this.beatDistributionType === 2) {
-            this.beatDistribution = this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
+            this.beatDistribution = this.beatDistribution < lastTime
+                ? lastTime
+                : this.beatDistribution;
         }
     }
 
@@ -96,8 +98,10 @@ export class LightColorEventBox extends WrapLightColorEventBox<
                     f: (eb.filter as IIndexFilter) ??
                         (eb as Required<ILightColorEventBox>).f ??
                         LightColorEventBox.default.f(),
-                    w: eb.beatDistribution ?? eb.w ?? LightColorEventBox.default.w,
-                    d: eb.beatDistributionType ?? eb.d ?? LightColorEventBox.default.d,
+                    w: eb.beatDistribution ?? eb.w ??
+                        LightColorEventBox.default.w,
+                    d: eb.beatDistributionType ?? eb.d ??
+                        LightColorEventBox.default.d,
                     r: eb.brightnessDistribution ??
                         eb.r ??
                         LightColorEventBox.default.r,
@@ -109,7 +113,8 @@ export class LightColorEventBox extends WrapLightColorEventBox<
                     e: (eb.events as ILightColorBase[]) ??
                         (eb as Required<ILightColorEventBox>).e ??
                         LightColorEventBox.default.e(),
-                    customData: eb.customData ?? LightColorEventBox.default.customData(),
+                    customData: eb.customData ??
+                        LightColorEventBox.default.customData(),
                 }),
             )
         );

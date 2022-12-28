@@ -24,7 +24,9 @@ export class ColorBoostEvent extends WrapColorBoostEvent<Required<IColorBoostEve
             IWrapColorBoostEvent<Required<IColorBoostEvent>>
         >[]
     ): ColorBoostEvent[];
-    static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent[];
+    static create(
+        ...colorBoostEvents: Partial<IColorBoostEvent>[]
+    ): ColorBoostEvent[];
     static create(
         ...colorBoostEvents: (
             & Partial<IColorBoostEvent>
@@ -43,7 +45,8 @@ export class ColorBoostEvent extends WrapColorBoostEvent<Required<IColorBoostEve
                 new this({
                     b: be.time ?? be.b ?? ColorBoostEvent.default.b,
                     o: be.toggle ?? be.o ?? ColorBoostEvent.default.o,
-                    customData: be.customData ?? ColorBoostEvent.default.customData(),
+                    customData: be.customData ??
+                        ColorBoostEvent.default.customData(),
                 }),
             )
         );

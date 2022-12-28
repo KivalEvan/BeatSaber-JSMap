@@ -11,7 +11,11 @@ import Swing from './swing.ts';
 // some variable or function may have been modified
 // translating from Python to JavaScript is hard
 // this is special function SPS used by ScoreSaber
-export function count(noteContainer: NoteContainer[], duration: number, bpm: BeatPerMinute): ISwingCount {
+export function count(
+    noteContainer: NoteContainer[],
+    duration: number,
+    bpm: BeatPerMinute,
+): ISwingCount {
     const swingCount: ISwingCount = {
         left: new Array(Math.floor(duration + 1)).fill(0),
         right: new Array(Math.floor(duration + 1)).fill(0),
@@ -79,10 +83,16 @@ export function info(
         container: Swing.generate(difficulty.getNoteContainer(), bpm),
     };
     const duration = Math.max(
-        bpm.toRealTime(difficulty.getLastInteractiveTime() - difficulty.getFirstInteractiveTime()),
+        bpm.toRealTime(
+            difficulty.getLastInteractiveTime() -
+                difficulty.getFirstInteractiveTime(),
+        ),
         0,
     );
-    const mapDuration = Math.max(bpm.toRealTime(difficulty.getLastInteractiveTime()), 0);
+    const mapDuration = Math.max(
+        bpm.toRealTime(difficulty.getLastInteractiveTime()),
+        0,
+    );
     const swing = count(difficulty.getNoteContainer(), mapDuration, bpm);
     const swingTotal = swing.left.map((num, i) => num + swing.right[i]);
     if (swingTotal.reduce((a, b) => a + b) === 0) {
@@ -92,18 +102,30 @@ export function info(
     const swingIntervalBlue = [];
     const swingIntervalTotal = [];
 
-    for (let i = 0, len = Math.ceil(swingTotal.length / interval); i < len; i++) {
+    for (
+        let i = 0, len = Math.ceil(swingTotal.length / interval);
+        i < len;
+        i++
+    ) {
         const sliceStart = i * interval;
         let maxInterval = interval;
         if (maxInterval + sliceStart > swingTotal.length) {
             maxInterval = swingTotal.length - sliceStart;
         }
         const sliceRed = swing.left.slice(sliceStart, sliceStart + maxInterval);
-        const sliceBlue = swing.right.slice(sliceStart, sliceStart + maxInterval);
-        const sliceTotal = swingTotal.slice(sliceStart, sliceStart + maxInterval);
+        const sliceBlue = swing.right.slice(
+            sliceStart,
+            sliceStart + maxInterval,
+        );
+        const sliceTotal = swingTotal.slice(
+            sliceStart,
+            sliceStart + maxInterval,
+        );
         swingIntervalRed.push(sliceRed.reduce((a, b) => a + b) / maxInterval);
         swingIntervalBlue.push(sliceBlue.reduce((a, b) => a + b) / maxInterval);
-        swingIntervalTotal.push(sliceTotal.reduce((a, b) => a + b) / maxInterval);
+        swingIntervalTotal.push(
+            sliceTotal.reduce((a, b) => a + b) / maxInterval,
+        );
     }
 
     spsInfo.red.total = swing.left.reduce((a, b) => a + b);

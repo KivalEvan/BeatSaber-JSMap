@@ -25,13 +25,21 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     }
 
     static create(): Obstacle[];
-    static create(...obstacles: PartialWrapper<IWrapObstacle<Required<IObstacle>>>[]): Obstacle[];
+    static create(
+        ...obstacles: PartialWrapper<IWrapObstacle<Required<IObstacle>>>[]
+    ): Obstacle[];
     static create(...obstacles: Partial<IObstacle>[]): Obstacle[];
     static create(
-        ...obstacles: (Partial<IObstacle> & PartialWrapper<IWrapObstacle<Required<IObstacle>>>)[]
+        ...obstacles: (
+            & Partial<IObstacle>
+            & PartialWrapper<IWrapObstacle<Required<IObstacle>>>
+        )[]
     ): Obstacle[];
     static create(
-        ...obstacles: (Partial<IObstacle> & PartialWrapper<IWrapObstacle<Required<IObstacle>>>)[]
+        ...obstacles: (
+            & Partial<IObstacle>
+            & PartialWrapper<IWrapObstacle<Required<IObstacle>>>
+        )[]
     ): Obstacle[] {
         const result: Obstacle[] = [];
         obstacles?.forEach((o) =>
@@ -39,12 +47,16 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
                 new this({
                     _time: o.time ?? o._time ?? Obstacle.default._time,
                     _type: o._type ?? Obstacle.default._type,
-                    _lineIndex: o.posX ?? o._lineIndex ?? Obstacle.default._lineIndex,
-                    _lineLayer: o.posY ?? o._lineLayer ?? Obstacle.default._lineLayer,
-                    _duration: o.duration ?? o._duration ?? Obstacle.default._duration,
+                    _lineIndex: o.posX ?? o._lineIndex ??
+                        Obstacle.default._lineIndex,
+                    _lineLayer: o.posY ?? o._lineLayer ??
+                        Obstacle.default._lineLayer,
+                    _duration: o.duration ?? o._duration ??
+                        Obstacle.default._duration,
                     _width: o.width ?? o._width ?? Obstacle.default._width,
                     _height: o.height ?? o._height ?? Obstacle.default._height,
-                    _customData: o.customData ?? o._customData ?? Obstacle.default._customData(),
+                    _customData: o.customData ?? o._customData ??
+                        Obstacle.default._customData(),
                 }),
             )
         );

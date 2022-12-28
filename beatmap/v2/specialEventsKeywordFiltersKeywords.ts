@@ -10,23 +10,31 @@ import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
 export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywords<
     Required<ISpecialEventsKeywordFiltersKeywords>
 > {
-    static default: ObjectReturnFn<Required<ISpecialEventsKeywordFiltersKeywords>> = {
+    static default: ObjectReturnFn<
+        Required<ISpecialEventsKeywordFiltersKeywords>
+    > = {
         _keyword: '',
         _specialEvents: () => [],
     };
 
     protected constructor(
-        specialEventsForKeywords: Required<ISpecialEventsKeywordFiltersKeywords>,
+        specialEventsForKeywords: Required<
+            ISpecialEventsKeywordFiltersKeywords
+        >,
     ) {
         super(specialEventsForKeywords);
     }
 
     static create(): SpecialEventsKeywordFiltersKeywords[];
     static create(
-        ...basicEventTypesForKeywords: PartialWrapper<IWrapEventTypesForKeywords>[]
+        ...basicEventTypesForKeywords: PartialWrapper<
+            IWrapEventTypesForKeywords
+        >[]
     ): SpecialEventsKeywordFiltersKeywords[];
     static create(
-        ...basicEventTypesForKeywords: Partial<ISpecialEventsKeywordFiltersKeywords>[]
+        ...basicEventTypesForKeywords: Partial<
+            ISpecialEventsKeywordFiltersKeywords
+        >[]
     ): SpecialEventsKeywordFiltersKeywords[];
     static create(
         ...basicEventTypesForKeywords: (
@@ -49,7 +57,8 @@ export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywor
                         SpecialEventsKeywordFiltersKeywords.default._keyword,
                     _specialEvents: betfk.events ??
                         betfk._specialEvents ??
-                        SpecialEventsKeywordFiltersKeywords.default._specialEvents(),
+                        SpecialEventsKeywordFiltersKeywords.default
+                            ._specialEvents(),
                 }),
             )
         );
@@ -59,7 +68,8 @@ export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywor
         return [
             new this({
                 _keyword: SpecialEventsKeywordFiltersKeywords.default._keyword,
-                _specialEvents: SpecialEventsKeywordFiltersKeywords.default._specialEvents(),
+                _specialEvents: SpecialEventsKeywordFiltersKeywords.default
+                    ._specialEvents(),
             }),
         ];
     }

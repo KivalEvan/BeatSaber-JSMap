@@ -7,12 +7,17 @@ export abstract class WrapLightColorEventBox<
     TBox extends Record<keyof TBox, unknown>,
     TBase extends Record<keyof TBase, unknown>,
     TFilter extends Record<keyof TFilter, unknown>,
-> extends WrapEventBox<TBox, TBase, TFilter> implements IWrapLightColorEventBox<TBox, TBase, TFilter> {
-    abstract get brightnessDistribution(): IWrapLightColorEventBox['brightnessDistribution'];
+> extends WrapEventBox<TBox, TBase, TFilter>
+    implements IWrapLightColorEventBox<TBox, TBase, TFilter> {
+    abstract get brightnessDistribution(): IWrapLightColorEventBox[
+        'brightnessDistribution'
+    ];
     abstract set brightnessDistribution(
         value: IWrapLightColorEventBox['brightnessDistribution'],
     );
-    abstract get brightnessDistributionType(): IWrapLightColorEventBox['brightnessDistributionType'];
+    abstract get brightnessDistributionType(): IWrapLightColorEventBox[
+        'brightnessDistributionType'
+    ];
     abstract set brightnessDistributionType(
         value: IWrapLightColorEventBox['brightnessDistributionType'],
     );

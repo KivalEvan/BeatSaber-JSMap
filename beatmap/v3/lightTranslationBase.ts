@@ -18,7 +18,9 @@ export class LightTranslationBase extends WrapLightTranslationBase<
         },
     };
 
-    protected constructor(lightTranslationBase: Required<ILightTranslationBase>) {
+    protected constructor(
+        lightTranslationBase: Required<ILightTranslationBase>,
+    ) {
         super(lightTranslationBase);
     }
 
@@ -55,7 +57,8 @@ export class LightTranslationBase extends WrapLightTranslationBase<
                     p: lr.previous ?? lr.p ?? LightTranslationBase.default.p,
                     e: lr.easing ?? lr.e ?? LightTranslationBase.default.e,
                     t: lr.translation ?? lr.t ?? LightTranslationBase.default.t,
-                    customData: lr.customData ?? LightTranslationBase.default.customData(),
+                    customData: lr.customData ??
+                        LightTranslationBase.default.customData(),
                 }),
             )
         );

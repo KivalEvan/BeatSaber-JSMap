@@ -40,7 +40,8 @@ export abstract class WrapWaypoint<T extends Record<keyof T, unknown>> extends W
 
     isValid(): boolean {
         return (
-            this.direction >= 0 && this.direction <= 9 && this.direction !== (8 as 0)
+            this.direction >= 0 && this.direction <= 9 &&
+            this.direction !== (8 as 0)
         );
     }
 }

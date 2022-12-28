@@ -96,7 +96,9 @@ export abstract class WrapBaseSlider<T extends Record<keyof T, unknown>> extends
             return Math.abs(((this.direction % 1000) % 360) - 360);
         }
         return (
-            NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0
+            NoteDirectionAngle[
+                this.direction as keyof typeof NoteDirectionAngle
+            ] || 0
         );
     }
 

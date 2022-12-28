@@ -53,7 +53,12 @@ function internalRandom(
     }
     [min, max] = fixRange(min, max);
     const result = func() * (max - min) + min;
-    return rounding ? round(result, typeof rounding === 'number' && rounding > 0 ? rounding : 0) : result;
+    return rounding
+        ? round(
+            result,
+            typeof rounding === 'number' && rounding > 0 ? rounding : 0,
+        )
+        : result;
 }
 
 /** Seeded pseudorandom generator.
@@ -219,7 +224,10 @@ export function clamp(value: number, min: number, max: number): number {
 /** Normalize value to 0-1 from given min and max value. */
 export function normalize(value: number, min: number, max: number): number {
     if (min > max) {
-        logger.warn(tag('normalize'), 'Min value is more than max value, returning 1');
+        logger.warn(
+            tag('normalize'),
+            'Min value is more than max value, returning 1',
+        );
         return 1;
     }
     if (min === max) {

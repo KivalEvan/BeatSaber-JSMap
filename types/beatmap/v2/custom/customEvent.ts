@@ -3,7 +3,10 @@ import {
     IChromaCustomEventDataAssignFogTrack,
     IChromaCustomEventDataAssignPathAnimation,
 } from './chroma.ts';
-import { IHeckCustomEventDataAnimateTrack, IHeckCustomEventDataAssignPathAnimation } from './heck.ts';
+import {
+    IHeckCustomEventDataAnimateTrack,
+    IHeckCustomEventDataAssignPathAnimation,
+} from './heck.ts';
 import {
     INECustomEventDataAnimateTrack,
     INECustomEventDataAssignPathAnimation,

@@ -31,7 +31,9 @@ export class LightMapper {
     private boosts: ColorBoostEvent[] = [];
 
     constructor(environment: EnvironmentAllName) {
-        this.lightIDMapping = <{ [key: number]: number[] }> structuredClone(LightIDList[environment]);
+        this.lightIDMapping = <{ [key: number]: number[] }> structuredClone(
+            LightIDList[environment],
+        );
         this.environment = environment;
     }
 
@@ -57,7 +59,8 @@ export class LightMapper {
                             }
                             : {
                                 type: 'Division',
-                                divide: (eb.indexFilter as IndexFilterDivision).divide ?? 1,
+                                divide: (eb.indexFilter as IndexFilterDivision)
+                                    .divide ?? 1,
                                 id: eb.indexFilter.id ?? 0,
                                 reverse: eb.indexFilter.reverse ?? false,
                             }
@@ -69,13 +72,17 @@ export class LightMapper {
                         },
                     beatDistribution: eb.beatDistribution ?? 0,
                     beatDistributionType: eb.beatDistributionType ?? 'Division',
-                    beatDistributionEasing: eb.beatDistributionEasing ?? 'easeLinear',
+                    beatDistributionEasing: eb.beatDistributionEasing ??
+                        'easeLinear',
                     brightnessDistribution: eb.brightnessDistribution ?? 0,
-                    brightnessDistributionType: eb.brightnessDistributionType ?? 'Division',
-                    brightnessDistributionEasing: eb.brightnessDistributionEasing ?? 'easeLinear',
+                    brightnessDistributionType: eb.brightnessDistributionType ??
+                        'Division',
+                    brightnessDistributionEasing: eb.brightnessDistributionEasing ??
+                        'easeLinear',
                     hueDistribution: eb.hueDistribution ?? 0,
                     hueDistributionType: eb.hueDistributionType ?? 'Division',
-                    hueDistributionEasing: eb.hueDistributionEasing ?? 'easeLinear',
+                    hueDistributionEasing: eb.hueDistributionEasing ??
+                        'easeLinear',
                     affectFirst: eb.affectFirst ?? false,
                     events: eb.events
                         ? eb.events.map((ev) => {
@@ -96,7 +103,9 @@ export class LightMapper {
     }
 
     ring(time: number, type: 8 | 9, customData?: IChromaEventRing) {
-        this.events.push(BasicEvent.create({ b: time, et: type, customData })[0]);
+        this.events.push(
+            BasicEvent.create({ b: time, et: type, customData })[0],
+        );
         return this;
     }
 
@@ -132,8 +141,10 @@ export class LightMapper {
                 if (eb.indexFilter.type === 'Division') {
                     if (eb.indexFilter.divide > 1) {
                         lid = lid.slice(
-                            Math.floor(lid.length / eb.indexFilter.divide) * eb.indexFilter.id,
-                            Math.ceil(lid.length / eb.indexFilter.divide) * (eb.indexFilter.id + 1),
+                            Math.floor(lid.length / eb.indexFilter.divide) *
+                                eb.indexFilter.id,
+                            Math.ceil(lid.length / eb.indexFilter.divide) *
+                                (eb.indexFilter.id + 1),
                         );
                     }
                 }
@@ -147,21 +158,30 @@ export class LightMapper {
                     }
                     lid = temp;
                 }
-                if (!eb.beatDistribution && !eb.brightnessDistribution && !eb.hueDistribution && !eb.affectFirst) {
+                if (
+                    !eb.beatDistribution && !eb.brightnessDistribution &&
+                    !eb.hueDistribution && !eb.affectFirst
+                ) {
                     let previousEvent: BasicEvent;
                     let previousBase: EventBase;
                     eb.events.forEach((ev) => {
                         if (ev.transition === 2 && previousEvent) {
                             if (previousBase.frequency) {
                                 for (
-                                    let t = previousBase.time + 1 / previousBase.frequency;
+                                    let t = previousBase.time +
+                                        1 / previousBase.frequency;
                                     t < ev.time;
                                     t += 1 / previousBase.frequency
                                 ) {
                                     events.push(
                                         previousEvent
                                             .clone()
-                                            .setTime(t - 1 / (previousBase.frequency * 2))
+                                            .setTime(
+                                                t -
+                                                    1 /
+                                                        (previousBase
+                                                            .frequency * 2),
+                                            )
                                             .setValue(0)
                                             .setFloatValue(0),
                                         previousEvent.clone().setTime(t),
@@ -195,21 +215,31 @@ export class LightMapper {
                         i < lid.length;
                         i++,
                             x = eb.beatDistributionType === 'Division'
-                                ? easings[eb.beatDistributionEasing ?? 'easeLinear'](i / (lid.length - 1)) *
+                                ? easings
+                                    [eb.beatDistributionEasing ?? 'easeLinear'](
+                                        i / (lid.length - 1),
+                                    ) *
                                     eb.beatDistribution
                                 : i * (lastEventTime + eb.beatDistribution)
                     ) {
                         if (ev.transition === 2 && previousEvent) {
                             if (previousBase.frequency) {
                                 for (
-                                    let t = previousBase.time + 1 / previousBase.frequency;
+                                    let t = previousBase.time +
+                                        1 / previousBase.frequency;
                                     t < ev.time;
                                     t += 1 / previousBase.frequency
                                 ) {
                                     events.push(
                                         previousEvent
                                             .clone()
-                                            .setTime(t - 1 / (previousBase.frequency * 2) + x)
+                                            .setTime(
+                                                t -
+                                                    1 /
+                                                        (previousBase
+                                                            .frequency * 2) +
+                                                    x,
+                                            )
                                             .setValue(0)
                                             .setFloatValue(0),
                                         previousEvent.clone().setTime(t),
@@ -223,14 +253,20 @@ export class LightMapper {
                         }
                         if (previousBase?.frequency) {
                             for (
-                                let t = previousBase.time + 1 / previousBase.frequency;
+                                let t = previousBase.time +
+                                    1 / previousBase.frequency;
                                 t < ev.time;
                                 t += 1 / previousBase.frequency
                             ) {
                                 events.push(
                                     previousEvent
                                         .clone()
-                                        .setTime(t - 1 / (previousBase.frequency * 2))
+                                        .setTime(
+                                            t -
+                                                1 /
+                                                    (previousBase.frequency *
+                                                        2),
+                                        )
                                         .setValue(0)
                                         .setFloatValue(0),
                                     previousEvent.clone().setTime(t),
@@ -242,35 +278,57 @@ export class LightMapper {
                             et: q.type,
                             i: this.internalEventValue(ev.color, ev.transition),
                             f: Math.max(
-                                isFirst ? ev.brightness : eb.brightnessDistributionType === 'Division'
+                                isFirst ? ev.brightness : eb.brightnessDistributionType ===
+                                        'Division'
                                     ? ev.brightness +
-                                        easings[eb.brightnessDistributionEasing ?? 'easeLinear'](i / (lid.length - 1)) *
+                                        easings
+                                                [
+                                                    eb.brightnessDistributionEasing ??
+                                                        'easeLinear'
+                                                ](i / (lid.length - 1)) *
                                             eb.brightnessDistribution
-                                    : ev.brightness + i * eb.brightnessDistribution,
+                                    : ev.brightness +
+                                        i * eb.brightnessDistribution,
                                 0,
                             ),
                             customData: { ...ev.customData, lightID: lid[i] },
                         })[0];
                         if (eb.hueDistribution && event.isLightEvent()) {
                             if (!event.customData.color) {
-                                event.customData.color = event.isWhite() ? [1, 1, 1] : colorObjToAry(
-                                    ColorScheme[EnvironmentSchemeName[this.environment]][
-                                        event.isRed() ? '_envColorLeft' : '_envColorRight'
-                                    ]!,
-                                );
+                                event.customData.color = event.isWhite()
+                                    ? [1, 1, 1]
+                                    : colorObjToAry(
+                                        ColorScheme[
+                                            EnvironmentSchemeName[
+                                                this.environment
+                                            ]
+                                        ][
+                                            event.isRed() ? '_envColorLeft' : '_envColorRight'
+                                        ]!,
+                                    );
                             }
                             if (!isFirst) {
                                 event.customData.color = HsvaToRgba(
-                                    ...(RgbaToHsva(...event.customData.color).map((v, x) => {
-                                        if (!x) {
-                                            v! += eb.hueDistributionType === 'Division'
-                                                ? easings[eb.hueDistributionEasing ?? 'easeLinear'](
-                                                    i / (lid.length - 1),
-                                                ) * eb.hueDistribution
-                                                : i * eb.hueDistribution;
-                                        }
-                                        return v;
-                                    }) as ColorArray),
+                                    ...(RgbaToHsva(...event.customData.color)
+                                        .map((v, x) => {
+                                            if (!x) {
+                                                v! += eb.hueDistributionType ===
+                                                        'Division'
+                                                    ? easings
+                                                        [
+                                                            eb.hueDistributionEasing ??
+                                                                'easeLinear'
+                                                        ](
+                                                            i /
+                                                                (lid.length -
+                                                                    1),
+                                                        ) *
+                                                        eb.hueDistribution
+                                                    : i *
+                                                        eb.hueDistribution;
+                                            }
+                                            return v;
+                                        }) as ColorArray),
                                 );
                             }
                         }

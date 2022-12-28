@@ -145,10 +145,14 @@ function v3(data: DifficultyV3) {
 
 export default function (data: DifficultyV2 | DifficultyV3) {
     if (isV2(data)) {
-        logger.info('[patch::customDataUpdate] Patching custom data for beatmap v2...');
+        logger.info(
+            '[patch::customDataUpdate] Patching custom data for beatmap v2...',
+        );
         v2(data);
     } else {
-        logger.info('[patch::customDataUpdate] Patching custom data for beatmap v3...');
+        logger.info(
+            '[patch::customDataUpdate] Patching custom data for beatmap v3...',
+        );
         v3(data);
     }
 }

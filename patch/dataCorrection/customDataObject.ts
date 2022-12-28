@@ -64,7 +64,9 @@ export function fixCustomDataObject(
     }
     if (cd._fake != null) cd._fake = fixBoolean(cd._interactable, false);
     if (cd._rotation != null) {
-        cd._rotation = Array.isArray(cd._rotation) ? fixVector3(cd._rotation, [0, 0, 0]) : fixFloat(cd._rotation, 0);
+        cd._rotation = Array.isArray(cd._rotation)
+            ? fixVector3(cd._rotation, [0, 0, 0])
+            : fixFloat(cd._rotation, 0);
     }
     if (cd._animation != null) {
         if (cd._animation._color != null) {
@@ -76,7 +78,11 @@ export function fixCustomDataObject(
             cd._animation._definitePosition = Array.isArray(
                     cd._animation._definitePosition,
                 )
-                ? fixVector3PointDefinition(cd._animation._definitePosition, [0, 0, 0])
+                ? fixVector3PointDefinition(cd._animation._definitePosition, [
+                    0,
+                    0,
+                    0,
+                ])
                 : fixString(cd._animation._definitePosition, 'unknownTrack');
         }
         if (cd._animation._dissolve != null) {
@@ -96,7 +102,11 @@ export function fixCustomDataObject(
         }
         if (cd._animation._localRotation != null) {
             cd._animation._localRotation = Array.isArray(cd._animation._localRotation)
-                ? fixVector3PointDefinition(cd._animation._localRotation, [0, 0, 0])
+                ? fixVector3PointDefinition(cd._animation._localRotation, [
+                    0,
+                    0,
+                    0,
+                ])
                 : fixString(cd._animation._localRotation, 'unknownTrack');
         }
         if (cd._animation._position != null) {
@@ -128,7 +138,9 @@ export function fixCustomDataObject(
     if (cd.tailCoordinates != null) {
         cd.tailCoordinates = fixVector2(cd.tailCoordinates, [0, 0]);
     }
-    if (cd.disableDebris != null) cd.disableDebris = fixBoolean(cd.disableDebris);
+    if (cd.disableDebris != null) {
+        cd.disableDebris = fixBoolean(cd.disableDebris);
+    }
     if (cd.disableNoteGravity != null) {
         cd.disableNoteGravity = fixBoolean(cd.disableNoteGravity);
     }
@@ -168,7 +180,11 @@ export function fixCustomDataObject(
         }
         if (cd.animation.definitePosition != null) {
             cd.animation.definitePosition = Array.isArray(cd.animation.definitePosition)
-                ? fixVector3PointDefinition(cd.animation.definitePosition, [0, 0, 0])
+                ? fixVector3PointDefinition(cd.animation.definitePosition, [
+                    0,
+                    0,
+                    0,
+                ])
                 : fixString(cd.animation.definitePosition);
         }
         if (cd.animation.dissolve != null) {
@@ -188,17 +204,29 @@ export function fixCustomDataObject(
         }
         if (cd.animation.localRotation != null) {
             cd.animation.localRotation = Array.isArray(cd.animation.localRotation)
-                ? fixVector3PointDefinition(cd.animation.localRotation, [0, 0, 0])
+                ? fixVector3PointDefinition(cd.animation.localRotation, [
+                    0,
+                    0,
+                    0,
+                ])
                 : fixString(cd.animation.localRotation);
         }
         if (cd.animation.offsetPosition != null) {
             cd.animation.offsetPosition = Array.isArray(cd.animation.offsetPosition)
-                ? fixVector3PointDefinition(cd.animation.offsetPosition, [0, 0, 0])
+                ? fixVector3PointDefinition(cd.animation.offsetPosition, [
+                    0,
+                    0,
+                    0,
+                ])
                 : fixString(cd.animation.offsetPosition);
         }
         if (cd.animation.offsetRotation != null) {
             cd.animation.offsetRotation = Array.isArray(cd.animation.offsetRotation)
-                ? fixVector3PointDefinition(cd.animation.offsetRotation, [0, 0, 0])
+                ? fixVector3PointDefinition(cd.animation.offsetRotation, [
+                    0,
+                    0,
+                    0,
+                ])
                 : fixString(cd.animation.offsetRotation);
         }
         if (cd.animation.scale != null) {

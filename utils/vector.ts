@@ -1,15 +1,39 @@
-import { Vector2, Vector2Object, Vector3, Vector3Object, Vector4, Vector4Object } from '../types/vector.ts';
+import {
+    Vector2,
+    Vector2Object,
+    Vector3,
+    Vector3Object,
+    Vector4,
+    Vector4Object,
+} from '../types/vector.ts';
 
-export function vectorTranslate<T extends Vector2 | Vector3 | Vector4 | number[] | undefined>(
+export function vectorTranslate<
+    T extends Vector2 | Vector3 | Vector4 | number[] | undefined,
+>(
     vec: T,
     translate?: number[],
 ): T;
-export function vectorTranslate(vec?: Vector2, translate?: Partial<Vector2Object>): Vector2;
-export function vectorTranslate(vec?: Vector3, translate?: Partial<Vector3Object>): Vector3;
-export function vectorTranslate(vec?: Vector4, translate?: Partial<Vector4Object>): Vector4;
-export function vectorTranslate<T extends Vector2 | Vector3 | Vector4 | number[]>(
+export function vectorTranslate(
+    vec?: Vector2,
+    translate?: Partial<Vector2Object>,
+): Vector2;
+export function vectorTranslate(
+    vec?: Vector3,
+    translate?: Partial<Vector3Object>,
+): Vector3;
+export function vectorTranslate(
+    vec?: Vector4,
+    translate?: Partial<Vector4Object>,
+): Vector4;
+export function vectorTranslate<
+    T extends Vector2 | Vector3 | Vector4 | number[],
+>(
     vec?: T,
-    translate?: T | Partial<Vector2Object> | Partial<Vector3Object> | Partial<Vector4Object>,
+    translate?:
+        | T
+        | Partial<Vector2Object>
+        | Partial<Vector3Object>
+        | Partial<Vector4Object>,
 ): T | undefined {
     if (!vec) return vec;
     if (translate) {
@@ -36,16 +60,31 @@ export function vectorTranslate<T extends Vector2 | Vector3 | Vector4 | number[]
     return vec;
 }
 
-export function vectorRotate<T extends Vector2 | Vector3 | Vector4 | number[] | undefined>(
+export function vectorRotate<
+    T extends Vector2 | Vector3 | Vector4 | number[] | undefined,
+>(
     vec: T,
     rotate?: number[],
 ): T;
-export function vectorRotate(vec: Vector2, rotate?: Partial<Vector2Object>): Vector2;
-export function vectorRotate(vec: Vector3, rotate?: Partial<Vector3Object>): Vector3;
-export function vectorRotate(vec: Vector4, rotate?: Partial<Vector4Object>): Vector4;
+export function vectorRotate(
+    vec: Vector2,
+    rotate?: Partial<Vector2Object>,
+): Vector2;
+export function vectorRotate(
+    vec: Vector3,
+    rotate?: Partial<Vector3Object>,
+): Vector3;
+export function vectorRotate(
+    vec: Vector4,
+    rotate?: Partial<Vector4Object>,
+): Vector4;
 export function vectorRotate<T extends Vector2 | Vector3 | Vector4 | number[]>(
     vec?: T,
-    rotate?: T | Partial<Vector2Object> | Partial<Vector3Object> | Partial<Vector4Object>,
+    rotate?:
+        | T
+        | Partial<Vector2Object>
+        | Partial<Vector3Object>
+        | Partial<Vector4Object>,
 ): T | undefined {
     if (!vec) return vec;
     if (rotate) {
@@ -72,16 +111,32 @@ export function vectorRotate<T extends Vector2 | Vector3 | Vector4 | number[]>(
     return vec;
 }
 
-export function vectorScale<T extends Vector2 | Vector3 | Vector4 | number[] | undefined>(
+export function vectorScale<
+    T extends Vector2 | Vector3 | Vector4 | number[] | undefined,
+>(
     vec: T,
     scale?: number | number[],
 ): T;
-export function vectorScale(vec: Vector2, scale?: Partial<Vector2Object>): Vector2;
-export function vectorScale(vec: Vector3, scale?: Partial<Vector3Object>): Vector3;
-export function vectorScale(vec: Vector4, scale?: Partial<Vector4Object>): Vector4;
+export function vectorScale(
+    vec: Vector2,
+    scale?: Partial<Vector2Object>,
+): Vector2;
+export function vectorScale(
+    vec: Vector3,
+    scale?: Partial<Vector3Object>,
+): Vector3;
+export function vectorScale(
+    vec: Vector4,
+    scale?: Partial<Vector4Object>,
+): Vector4;
 export function vectorScale<T extends Vector2 | Vector3 | Vector4 | number[]>(
     vec?: T,
-    scale?: number | T | Partial<Vector2Object> | Partial<Vector3Object> | Partial<Vector4Object>,
+    scale?:
+        | number
+        | T
+        | Partial<Vector2Object>
+        | Partial<Vector3Object>
+        | Partial<Vector4Object>,
 ): T | undefined {
     if (!vec) return vec;
     if (typeof scale === 'number') return vec.map((v) => v * scale) as T;

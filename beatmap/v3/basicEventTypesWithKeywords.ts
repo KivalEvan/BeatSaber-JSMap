@@ -37,14 +37,18 @@ export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
         basicEventTypesWithKeywords:
             & DeepPartial<IBasicEventTypesWithKeywords>
             & DeepPartialWrapper<
-                IWrapEventTypesWithKeywords<Required<IBasicEventTypesWithKeywords>>
+                IWrapEventTypesWithKeywords<
+                    Required<IBasicEventTypesWithKeywords>
+                >
             >,
     ): BasicEventTypesWithKeywords;
     static create(
         basicEventTypesWithKeywords:
             & DeepPartial<IBasicEventTypesWithKeywords>
             & DeepPartialWrapper<
-                IWrapEventTypesWithKeywords<Required<IBasicEventTypesWithKeywords>>
+                IWrapEventTypesWithKeywords<
+                    Required<IBasicEventTypesWithKeywords>
+                >
             > = {},
     ): BasicEventTypesWithKeywords {
         return new this({

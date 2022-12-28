@@ -5,7 +5,11 @@ import { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
 import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 
 // TODO: update with new position/rotation system
-export function isEnd(currNote: IWrapBaseNote, prevNote: IWrapBaseNote, cd: number): boolean {
+export function isEnd(
+    currNote: IWrapBaseNote,
+    prevNote: IWrapBaseNote,
+    cd: number,
+): boolean {
     // fuck u and ur dot note stack
     if (
         currNote.direction === NoteDirection.ANY &&
@@ -14,25 +18,37 @@ export function isEnd(currNote: IWrapBaseNote, prevNote: IWrapBaseNote, cd: numb
     ) {
         // if end note on right side
         if (currNote.posX > prevNote.posX) {
-            if (cd === NoteDirection.UP_RIGHT || cd === NoteDirection.RIGHT || cd === NoteDirection.DOWN_RIGHT) {
+            if (
+                cd === NoteDirection.UP_RIGHT || cd === NoteDirection.RIGHT ||
+                cd === NoteDirection.DOWN_RIGHT
+            ) {
                 return true;
             }
         }
         // if end note on left side
         if (currNote.posX < prevNote.posX) {
-            if (cd === NoteDirection.DOWN_LEFT || cd === NoteDirection.LEFT || cd === NoteDirection.UP_LEFT) {
+            if (
+                cd === NoteDirection.DOWN_LEFT || cd === NoteDirection.LEFT ||
+                cd === NoteDirection.UP_LEFT
+            ) {
                 return true;
             }
         }
         // if end note is above
         if (currNote.posY > prevNote.posY) {
-            if (cd === NoteDirection.UP_LEFT || cd === NoteDirection.UP || cd === NoteDirection.UP_RIGHT) {
+            if (
+                cd === NoteDirection.UP_LEFT || cd === NoteDirection.UP ||
+                cd === NoteDirection.UP_RIGHT
+            ) {
                 return true;
             }
         }
         // if end note is below
         if (currNote.posY < prevNote.posY) {
-            if (cd === NoteDirection.DOWN_LEFT || cd === NoteDirection.DOWN || cd === NoteDirection.DOWN_RIGHT) {
+            if (
+                cd === NoteDirection.DOWN_LEFT || cd === NoteDirection.DOWN ||
+                cd === NoteDirection.DOWN_RIGHT
+            ) {
                 return true;
             }
         }
@@ -137,8 +153,12 @@ export function isIntersect(
             const offset = offsetT ?? 0;
             const aS = (nA1 + angle - angleRange + offset) % 360;
             const aE = (nA1 + angle + angleRange + offset) % 360;
-            resultN1 = (maxDistance >= Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
-                ((aS < aE && aS <= a && a <= aE) || (aS >= aE && (a <= aE || a >= aS)))) ||
+            resultN1 = (maxDistance >=
+                    Math.sqrt(
+                        Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2),
+                    ) &&
+                ((aS < aE && aS <= a && a <= aE) ||
+                    (aS >= aE && (a <= aE || a >= aS)))) ||
                 resultN1;
             if (resultN1) {
                 break;
@@ -153,8 +173,12 @@ export function isIntersect(
             const offset = offsetT ?? 0;
             const aS = (nA2 + angle - angleRange + offset) % 360;
             const aE = (nA2 + angle + angleRange + offset) % 360;
-            resultN2 = (maxDistance >= Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
-                ((aS < aE && aS <= a && a <= aE) || (aS >= aE && (a <= aE || a >= aS)))) ||
+            resultN2 = (maxDistance >=
+                    Math.sqrt(
+                        Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2),
+                    ) &&
+                ((aS < aE && aS <= a && a <= aE) ||
+                    (aS >= aE && (a <= aE || a >= aS)))) ||
                 resultN2;
             if (resultN2) {
                 break;
@@ -165,7 +189,10 @@ export function isIntersect(
 }
 
 // TODO: update with new position/rotation system
-export function predictDirection(currNote: IWrapBaseNote, prevNote: IWrapBaseNote): number {
+export function predictDirection(
+    currNote: IWrapBaseNote,
+    prevNote: IWrapBaseNote,
+): number {
     if (isEnd(currNote, prevNote, NoteDirection.ANY)) {
         return currNote.direction === NoteDirection.ANY ? prevNote.direction : currNote.direction;
     }
@@ -247,5 +274,7 @@ export function checkDirection(
         }
         nA2 = n2.getAngle();
     }
-    return equal ? shortRotDistance(nA1, nA2, 360) <= angleTol : shortRotDistance(nA1, nA2, 360) >= angleTol;
+    return equal
+        ? shortRotDistance(nA1, nA2, 360) <= angleTol
+        : shortRotDistance(nA1, nA2, 360) >= angleTol;
 }

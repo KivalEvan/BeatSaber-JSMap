@@ -8,7 +8,8 @@ export abstract class WrapLightRotationEventBox<
     TBox extends Record<keyof TBox, unknown>,
     TBase extends Record<keyof TBase, unknown>,
     TFilter extends Record<keyof TFilter, unknown>,
-> extends WrapEventBox<TBox, TBase, TFilter> implements IWrapLightRotationEventBox<TBox, TBase, TFilter> {
+> extends WrapEventBox<TBox, TBase, TFilter>
+    implements IWrapLightRotationEventBox<TBox, TBase, TFilter> {
     abstract get rotationDistribution(): ILightRotationEventBox['s'];
     abstract set rotationDistribution(value: ILightRotationEventBox['s']);
     abstract get rotationDistributionType(): ILightRotationEventBox['t'];
@@ -22,7 +23,9 @@ export abstract class WrapLightRotationEventBox<
     abstract get events(): IWrapLightRotationBase<TBase>[];
     abstract set events(value: IWrapLightRotationBase<TBase>[]);
 
-    setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']) {
+    setRotationDistribution(
+        value: IWrapLightRotationEventBox['rotationDistribution'],
+    ) {
         this.rotationDistribution = value;
         return this;
     }

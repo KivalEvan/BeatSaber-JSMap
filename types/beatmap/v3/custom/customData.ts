@@ -29,8 +29,16 @@ export interface ICustomDataDifficulty extends ICustomDataBase, IHeckCustomData,
     bookmarks?: IBookmark[];
 }
 
-export type ICustomDataNote = ICustomDataBase & IChromaNote & INENote & IAnimation;
-export type ICustomDataSlider = ICustomDataBase & IChromaNote & INESlider & IAnimation;
+export type ICustomDataNote =
+    & ICustomDataBase
+    & IChromaNote
+    & INENote
+    & IAnimation;
+export type ICustomDataSlider =
+    & ICustomDataBase
+    & IChromaNote
+    & INESlider
+    & IAnimation;
 export type ICustomDataObstacle =
     & ICustomDataBase
     & IChromaObstacle

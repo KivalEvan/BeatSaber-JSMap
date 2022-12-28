@@ -1,6 +1,9 @@
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
-export function eventGroupRename(id: number, environment?: EnvironmentAllName): string {
+export function eventGroupRename(
+    id: number,
+    environment?: EnvironmentAllName,
+): string {
     switch (environment) {
         case 'WeaveEnvironment': {
             switch (id) {

@@ -201,7 +201,8 @@ export class Slider extends WrapSlider<Required<ISlider>> {
 
     mirror(flipColor = true) {
         if (this.customData.coordinates) {
-            this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
+            this.customData.coordinates[0] = -1 -
+                this.customData.coordinates[0];
         }
         if (this.customData.flip) {
             this.customData.flip[0] = -1 - this.customData.flip[0];

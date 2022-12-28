@@ -44,13 +44,17 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
 
     private _f: IndexFilter;
     private _l: LightRotationBase[];
-    protected constructor(lightRotationEventBox: Required<ILightRotationEventBox>) {
+    protected constructor(
+        lightRotationEventBox: Required<ILightRotationEventBox>,
+    ) {
         super(lightRotationEventBox);
         this._f = IndexFilter.create(lightRotationEventBox.f);
         this._l = lightRotationEventBox.l.map((l) => LightRotationBase.create(l)[0]);
         const lastTime = Math.max(...this._l.map((l) => l.time));
         if (this.beatDistributionType === 2) {
-            this.beatDistribution = this.beatDistribution < lastTime ? lastTime : this.beatDistribution;
+            this.beatDistribution = this.beatDistribution < lastTime
+                ? lastTime
+                : this.beatDistribution;
         }
     }
 
@@ -64,7 +68,9 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
             >
         >[]
     ): LightRotationEventBox[];
-    static create(...eventBoxes: DeepPartial<ILightRotationEventBox>[]): LightRotationEventBox[];
+    static create(
+        ...eventBoxes: DeepPartial<ILightRotationEventBox>[]
+    ): LightRotationEventBox[];
     static create(
         ...eventBoxes: (
             & DeepPartial<ILightRotationEventBox>
@@ -96,18 +102,24 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
                     f: (eb.filter as IIndexFilter) ??
                         (eb as Required<ILightRotationEventBox>).f ??
                         LightRotationEventBox.default.f(),
-                    w: eb.beatDistribution ?? eb.w ?? LightRotationEventBox.default.w,
-                    d: eb.beatDistributionType ?? eb.d ?? LightRotationEventBox.default.d,
-                    s: eb.rotationDistribution ?? eb.s ?? LightRotationEventBox.default.s,
-                    t: eb.rotationDistributionType ?? eb.t ?? LightRotationEventBox.default.t,
+                    w: eb.beatDistribution ?? eb.w ??
+                        LightRotationEventBox.default.w,
+                    d: eb.beatDistributionType ?? eb.d ??
+                        LightRotationEventBox.default.d,
+                    s: eb.rotationDistribution ?? eb.s ??
+                        LightRotationEventBox.default.s,
+                    t: eb.rotationDistributionType ?? eb.t ??
+                        LightRotationEventBox.default.t,
                     a: eb.axis ?? eb.a ?? LightRotationEventBox.default.a,
                     r: eb.flip ?? eb.r ?? LightRotationEventBox.default.r,
-                    b: eb.affectFirst ?? eb.b ?? LightRotationEventBox.default.b,
+                    b: eb.affectFirst ?? eb.b ??
+                        LightRotationEventBox.default.b,
                     i: eb.easing ?? eb.i ?? LightRotationEventBox.default.i,
                     l: (eb.events as ILightRotationBase[]) ??
                         (eb as Required<ILightRotationEventBox>).l ??
                         LightRotationEventBox.default.l(),
-                    customData: eb.customData ?? LightRotationEventBox.default.customData(),
+                    customData: eb.customData ??
+                        LightRotationEventBox.default.customData(),
                 }),
             )
         );

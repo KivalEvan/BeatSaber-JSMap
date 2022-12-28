@@ -22,7 +22,9 @@ export class Note extends WrapColorNote<Required<INote>> {
     }
 
     static create(): Note[];
-    static create(...notes: PartialWrapper<IWrapColorNote<Required<INote>>>[]): Note[];
+    static create(
+        ...notes: PartialWrapper<IWrapColorNote<Required<INote>>>[]
+    ): Note[];
     static create(...notes: Partial<INote>[]): Note[];
     static create(
         ...notes: (Partial<INote> & PartialWrapper<IWrapColorNote<Required<INote>>>)[]
@@ -35,11 +37,15 @@ export class Note extends WrapColorNote<Required<INote>> {
             result.push(
                 new this({
                     _time: n.time ?? n._time ?? Note.default._time,
-                    _lineIndex: n.posX ?? n._lineIndex ?? Note.default._lineIndex,
-                    _lineLayer: n.posY ?? n._lineLayer ?? Note.default._lineLayer,
+                    _lineIndex: n.posX ?? n._lineIndex ??
+                        Note.default._lineIndex,
+                    _lineLayer: n.posY ?? n._lineLayer ??
+                        Note.default._lineLayer,
                     _type: n.type ?? n._type ?? Note.default._type,
-                    _cutDirection: n.direction ?? n._cutDirection ?? Note.default._cutDirection,
-                    _customData: n.customData ?? n._customData ?? Note.default._customData(),
+                    _cutDirection: n.direction ?? n._cutDirection ??
+                        Note.default._cutDirection,
+                    _customData: n.customData ?? n._customData ??
+                        Note.default._customData(),
                 }),
             )
         );

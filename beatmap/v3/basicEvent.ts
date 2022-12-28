@@ -1,6 +1,10 @@
 // deno-lint-ignore-file no-unused-vars
 import { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
-import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from '../../types/beatmap/v3/custom/chroma.ts';
+import {
+    IChromaEventLaser,
+    IChromaEventLight,
+    IChromaEventRing,
+} from '../../types/beatmap/v3/custom/chroma.ts';
 import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
@@ -48,7 +52,8 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
                     et: be.type ?? be.et ?? BasicEvent.default.et,
                     i: be.value ?? be.i ?? BasicEvent.default.i,
                     f: be.floatValue ?? be.f ?? BasicEvent.default.f,
-                    customData: be.customData ?? BasicEvent.default.customData(),
+                    customData: be.customData ??
+                        BasicEvent.default.customData(),
                 }),
             )
         );
@@ -119,7 +124,9 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
         return super.isRingEvent(environment);
     }
 
-    isLaserRotationEvent(environment?: EnvironmentAllName): this is BasicEventLaser {
+    isLaserRotationEvent(
+        environment?: EnvironmentAllName,
+    ): this is BasicEventLaser {
         return super.isLaserRotationEvent(environment);
     }
 
