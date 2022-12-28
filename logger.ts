@@ -20,11 +20,20 @@ const logPrefixes = new Map<LogLevels, string>([
 ]);
 
 class Logger {
-    logLevel = LogLevels.INFO;
+    #logLevel = LogLevels.INFO;
+
+    set logLevel(value: number) {
+        value = Math.min(Math.max(value, 0), 5);
+        this.#logLevel = value;
+        this.info('[logger::logLevel]', `Log level set to ${logPrefixes.get(value)}`);
+    }
+    get logLevel() {
+        return this.#logLevel;
+    }
 
     // deno-lint-ignore no-explicit-any
     private log(level: LogLevels, ...args: any[]) {
-        if (level < this.logLevel) return;
+        if (level < this.#logLevel) return;
 
         const log = [logPrefixes.get(level), dim('>'), ...args];
 
@@ -53,12 +62,9 @@ class Logger {
      * ```
      */
     setLevel(level: LogLevels) {
-        level = Math.min(level, 5);
-        this.logLevel = level;
-        this.info(
-            '[logger::setLevel]',
-            `Log level set to ${logPrefixes.get(level)}`,
-        );
+        level = Math.min(Math.max(level, 0), 5);
+        this.#logLevel = level;
+        this.info('[logger::setLevel]', `Log level set to ${logPrefixes.get(level)}`);
     }
 
     // deno-lint-ignore no-explicit-any

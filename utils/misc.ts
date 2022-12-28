@@ -22,9 +22,7 @@ export function pickRandom<T>(ary: T[], func = Math.random): T {
  */
 export function deepCopy<T extends { [P in keyof T]: T[P] }>(object: T): T;
 export function deepCopy<T extends { [P in keyof T]: T[P] }>(object: T[]): T[];
-export function deepCopy<T extends { [P in keyof T]: T[P] }>(
-    object: T | T[],
-): T | T[] {
+export function deepCopy<T extends { [P in keyof T]: T[P] }>(object: T | T[]): T | T[] {
     if (typeof object !== 'object') {
         throw new Error('Received non-object type');
     }
@@ -32,7 +30,7 @@ export function deepCopy<T extends { [P in keyof T]: T[P] }>(
 }
 
 export function isHex(hex: string): boolean {
-    return /[a-fA-F0-9]*/g.test(hex);
+    return /^[a-fA-F0-9]*$/g.test(hex);
 }
 
 export function hexToDec(hex: string): number {
