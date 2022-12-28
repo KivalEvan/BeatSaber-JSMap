@@ -1,12 +1,12 @@
 {
     "lint": {
         "files": {
-            "exclude": [".git"]
+            "exclude": [".git", "cov_profile"]
         }
     },
     "fmt": {
         "files": {
-            "exclude": [".git"]
+            "exclude": [".git", "cov_profile"]
         },
         "options": {
             "indentWidth": 4,
@@ -15,6 +15,9 @@
         }
     },
     "tasks": {
+        "test": "deno test --coverage=cov_profile && deno coverage cov_profile --lcov --output=cov_profile.lcov && genhtml -o cov_profile/html cov_profile.lcov",
+        "test:clean": "rm -r cov_profile || rm cov_profile.lcov",
+        "test:auto": "deno task test:clean && deno task test && xdg-open cov_profile/html/index.html",
         "compile:autoFixer": "NAME='BSAutoFixer' SOURCE='./example/autoFixer.ts' && deno task compile:generic",
         "compile:convertToV3": "NAME='ConvertToV3' SOURCE='./example/convertToV3.ts' && deno task compile:generic",
         "compile:generic": "export COMPILE='deno compile --allow-read=. --allow-write=.' && deno task compile:target-all",

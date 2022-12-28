@@ -18,6 +18,7 @@
   - Color from helpers (various of input to return color array)
   - Array pick random
 - Experimental Deno standard library usage
+- Test coverage
 
 ### Changed
 

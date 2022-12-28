@@ -26,7 +26,7 @@ export function toMmssms(seconds: number): string {
         return '0:00.000';
     }
     const dec = (seconds % 1).toString().split('.')[1]?.padEnd(3, '0').slice(0, 3) || '000';
-    return `${toMmss(seconds)}.${dec}`;
+    return `${toMmss(seconds > 0 ? Math.floor(seconds) : Math.ceil(seconds))}.${dec}`;
 }
 
 export function mmssToFloat(mmss: string): number {
