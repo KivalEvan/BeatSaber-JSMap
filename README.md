@@ -27,7 +27,7 @@ verify the beatmap integrity.
 
 ## Prerequisite
 
-- Deno 1.21.0 or latest
+- Deno 1.29.1 or latest
 - Basic JavaScript or TypeScript knowledge
   - Library is entirely TypeScript, but for common use case you do not need in-depth knowledge.
 
@@ -92,9 +92,9 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 - File names shall use camel case.
 - Exported types, interfaces, fields, and functions should accompany with JSDoc comment right above
   its definition.
+- Top-level function shall use regular function.
 - No third-party dependencies shall be used outside of examples, extensions, and tests. (Exception
   when absolutely necessary is Deno standard library)
-- Top-level function must use regular function.
 - Avoid circular imports.
 
 ## Planned

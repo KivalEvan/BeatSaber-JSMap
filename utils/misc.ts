@@ -30,7 +30,7 @@ export function deepCopy<T extends { [P in keyof T]: T[P] }>(object: T | T[]): T
 }
 
 export function isHex(hex: string): boolean {
-    return /^[a-fA-F0-9]*$/g.test(hex);
+    return /^[a-fA-F0-9]+$/g.test(hex);
 }
 
 export function hexToDec(hex: string): number {

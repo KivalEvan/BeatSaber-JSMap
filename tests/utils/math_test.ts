@@ -31,6 +31,45 @@ Deno.test('Global pseudorandom number generator', async (t) => {
     assertAlmostEquals(math.pRandom(0, 5, false), 2.837599, EPSILON);
     assertAlmostEquals(math.pRandom(-5, 0, 3), -0.533, EPSILON);
     assertAlmostEquals(math.pRandom(0, 5, true), 1, EPSILON);
+
+    await t.step('Re-seeding global pseudorandom number generator', () => {
+        math.pRandomSeed('tEsT');
+    });
+
+    assertAlmostEquals(math.pRandom(), 0.970629, EPSILON);
+    assertAlmostEquals(math.pRandom(true), 0, EPSILON);
+    assertAlmostEquals(math.pRandom(10, true), 2, EPSILON);
+    assertAlmostEquals(math.pRandom(0, 5, false), 2.837599, EPSILON);
+    assertAlmostEquals(math.pRandom(-5, 0, 3), -0.533, EPSILON);
+    assertAlmostEquals(math.pRandom(0, 5, true), 1, EPSILON);
+
+    await t.step(
+        'Re-seeding global pseudorandom number generator with different numbered seed',
+        () => {
+            math.pRandomSeed(1234);
+        },
+    );
+
+    assertAlmostEquals(math.pRandom(), 0.22365, EPSILON);
+    assertAlmostEquals(math.pRandom(true), 1, EPSILON);
+    assertAlmostEquals(math.pRandom(10, true), 3, EPSILON);
+    assertAlmostEquals(math.pRandom(0, 5, false), 4.53964, EPSILON);
+    assertAlmostEquals(math.pRandom(-5, 0, 3), -0.055, EPSILON);
+    assertAlmostEquals(math.pRandom(0, 5, true), 3, EPSILON);
+
+    await t.step(
+        'Re-seeding global pseudorandom number generator with different bigint seed',
+        () => {
+            math.pRandomSeed(12345678901234567890123456789n);
+        },
+    );
+
+    assertAlmostEquals(math.pRandom(), 0.401839, EPSILON);
+    assertAlmostEquals(math.pRandom(true), 1, EPSILON);
+    assertAlmostEquals(math.pRandom(10, true), 3, EPSILON);
+    assertAlmostEquals(math.pRandom(0, 5, false), 0.803033, EPSILON);
+    assertAlmostEquals(math.pRandom(-5, 0, 3), -2.679, EPSILON);
+    assertAlmostEquals(math.pRandom(0, 5, true), 4, EPSILON);
 });
 
 Deno.test('Pseudorandom number generator function', () => {
@@ -42,6 +81,17 @@ Deno.test('Pseudorandom number generator function', () => {
     assertAlmostEquals(pRandom(0, 5, false), 2.837599, EPSILON);
     assertAlmostEquals(pRandom(-5, 0, 3), -0.533, EPSILON);
     assertAlmostEquals(pRandom(0, 5, true), 1, EPSILON);
+
+    const pRandom2 = math.pRandomFn('tEsT');
+
+    assertAlmostEquals(pRandom2(), 0.970629, EPSILON);
+    assertAlmostEquals(pRandom2(true), 0, EPSILON);
+    assertAlmostEquals(pRandom2(10, true), 2, EPSILON);
+    assertAlmostEquals(pRandom2(0, 5, false), 2.837599, EPSILON);
+    assertAlmostEquals(pRandom2(-5, 0, 3), -0.533, EPSILON);
+    assertAlmostEquals(pRandom2(0, 5, true), 1, EPSILON);
+
+    assertAlmostEquals(pRandom(0, 10), pRandom2(0, 10), EPSILON);
 });
 
 // helper cannot be tested due to unpredictable value
@@ -91,6 +141,16 @@ Deno.test('Fix range helper', () => {
     assertEquals(math.fixRange(420, 6.9, true), [420, 6.9]);
     assertEquals(math.fixRange(6.9, 420, false), [6.9, 420]);
     assertEquals(math.fixRange(6.9, 420, true), [420, 6.9]);
+});
+
+Deno.test('Near Equality', () => {
+    assert(math.equalNear(0, 0));
+    assert(math.equalNear(Number.EPSILON, Number.EPSILON));
+    assert(math.equalNear(0, Number.EPSILON));
+    assert(math.equalNear(0.001, Number.EPSILON, 0.001));
+    assert(!math.equalNear(0, 10));
+    assert(!math.equalNear(-10, 10));
+    assert(math.equalNear(-10, 10, 20));
 });
 
 Deno.test('Radian to Degree', () => {

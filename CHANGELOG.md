@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.3.0 [2022-12-##]
+## 1.3.0 [2022-12-31]
 
 ### Added
 
@@ -24,11 +24,12 @@
 
 - Updated to beatmap v3.2.0
 - Structural change
-  - Custom data type moved to their dedicated folder to separate main and custom schema
+  - Custom data type moved to their dedicated folder to separate main and custom schema (main schema
+    uses custom schema for custom data)
 - Renamed `basicBeatmapEvents` and `colorBoostBeatmapEvents` to `basicEvents` and `colorBoostEvents`
 - Beatmap v2 field rename (JSON remains the same)
 - Improved function overloading and auto-completion
-- Renamed couple of function to be camel/pascal case including acronyms (Web API left untouched)
+- Renamed couple of function to be camel/pascal case including acronyms (JS API left untouched)
 - Array utilties now uses template
 
 ### Fixed

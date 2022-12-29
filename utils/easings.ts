@@ -1,5 +1,6 @@
 // taken from Aeroluna's Heck easing animation
 import { Easings } from '../types/easings.ts';
+import { LooseAutocomplete } from '../types/utils.ts';
 
 const PI = Math.PI;
 const HALFPI = Math.PI / 2;
@@ -25,21 +26,21 @@ const easeInOutBounce = (x: number) =>
  * ```
  */
 export const easings: {
-    [easing in Exclude<Easings, 'easeStep'> | string]: (x: number) => number;
+    [easing in LooseAutocomplete<Exclude<Easings, 'easeStep'>>]: (x: number) => number;
 } = {
     easeLinear: (x) => x,
-    easeInQuad: (x) => x * x,
+    easeInQuad: (x) => Math.pow(x, 2),
     easeOutQuad: (x) => x * (2 - x),
     easeInOutQuad: (x) => (x < 0.5 ? 2 * x * x : -1 + (4 - 2 * x) * x),
-    easeInCubic: (x) => x * x * x,
-    easeOutCubic: (x) => --x * x * x + 1,
-    easeInOutCubic: (x) => x < 0.5 ? 4 * x * x * x : (x - 1) * (2 * x - 2) * (2 * x - 2) + 1,
-    easeInQuart: (x) => x * x * x * x,
-    easeOutQuart: (x) => 1 - --x * x * x * x,
-    easeInOutQuart: (x) => x < 0.5 ? 8 * x * x * x * x : 1 - 8 * --x * x * x * x,
-    easeInQuint: (x) => x * x * x * x * x,
-    easeOutQuint: (x) => 1 - --x * x * x * x * x,
-    easeInOutQuint: (x) => x < 0.5 ? 16 * x * x * x * x * x : 1 + 16 * --x * x * x * x * x,
+    easeInCubic: (x) => Math.pow(x, 3),
+    easeOutCubic: (x) => 1 - Math.pow(1 - x, 3),
+    easeInOutCubic: (x) => (x < 0.5 ? 4 * Math.pow(x, 3) : (x - 1) * (2 * x - 2) * (2 * x - 2) + 1),
+    easeInQuart: (x) => Math.pow(x, 4),
+    easeOutQuart: (x) => 1 - Math.pow(1 - x, 4),
+    easeInOutQuart: (x) => (x < 0.5 ? 8 * Math.pow(x, 4) : 1 - 8 * Math.pow(1 - x, 4)),
+    easeInQuint: (x) => Math.pow(x, 5),
+    easeOutQuint: (x) => 1 - Math.pow(1 - x, 5),
+    easeInOutQuint: (x) => (x < 0.5 ? 16 * Math.pow(x, 5) : 1 - 16 * Math.pow(1 - x, 5)),
     easeInSine: (x) => Math.sin((x - 1) * HALFPI) + 1,
     easeOutSine: (x) => Math.sin(x * HALFPI),
     easeInOutSine: (x) => 0.5 * (1 - Math.cos(x * PI)),
@@ -66,17 +67,10 @@ export const easings: {
     easeOutElastic: (x) => Math.sin(-13 * HALFPI * (x + 1)) * Math.pow(2, -10 * x) + 1,
     easeInOutElastic: (x) => {
         if (x < 0.5) {
-            return (
-                0.5 * Math.sin(13 * HALFPI * (2 * x)) *
-                Math.pow(2, 10 * (2 * x - 1))
-            );
+            return 0.5 * Math.sin(13 * HALFPI * (2 * x)) * Math.pow(2, 10 * (2 * x - 1));
         }
 
-        return (
-            0.5 *
-            (Math.sin(-13 * HALFPI * (2 * x)) * Math.pow(2, -10 * (2 * x - 1)) +
-                2)
-        );
+        return 0.5 * (Math.sin(-13 * HALFPI * (2 * x)) * Math.pow(2, -10 * (2 * x - 1)) + 2);
     },
     easeInBack: (x) => x * x * x - x * Math.sin(x * PI),
     easeOutBack: (x) => {
