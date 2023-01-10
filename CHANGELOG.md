@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.1 [2023-01-##]
+
+### Added
+
+- Data check can now check for array of primitives
+
+### Fixed
+
+- Data check throwing error for array of primitives
+
 ## 1.3.0 [2022-12-31]
 
 ### Added

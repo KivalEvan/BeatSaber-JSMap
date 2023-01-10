@@ -309,10 +309,7 @@ export const RotationEventDataCheck: Record<keyof IRotationEvent, DataCheck> = {
     },
 } as const;
 
-export const ColorBoostEventDataCheck: Record<
-    keyof IColorBoostEvent,
-    DataCheck
-> = {
+export const ColorBoostEventDataCheck: Record<keyof IColorBoostEvent, DataCheck> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -411,10 +408,7 @@ export const LightColorBaseDataCheck: Record<keyof ILightColorBase, DataCheck> =
     },
 } as const;
 
-export const LightColorEventBoxDataCheck: Record<
-    keyof ILightColorEventBox,
-    DataCheck
-> = {
+export const LightColorEventBoxDataCheck: Record<keyof ILightColorEventBox, DataCheck> = {
     f: {
         type: 'object',
         version: '3.0.0',
@@ -461,10 +455,7 @@ export const LightColorEventBoxDataCheck: Record<
     },
 } as const;
 
-export const LightColorEventBoxGroupDataCheck: Record<
-    keyof ILightColorEventBoxGroup,
-    DataCheck
-> = {
+export const LightColorEventBoxGroupDataCheck: Record<keyof ILightColorEventBoxGroup, DataCheck> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -487,10 +478,7 @@ export const LightColorEventBoxGroupDataCheck: Record<
     },
 } as const;
 
-export const LightRotationBaseDataCheck: Record<
-    keyof ILightRotationBase,
-    DataCheck
-> = {
+export const LightRotationBaseDataCheck: Record<keyof ILightRotationBase, DataCheck> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -526,10 +514,7 @@ export const LightRotationBaseDataCheck: Record<
     },
 } as const;
 
-export const LightRotationEventBoxDataCheck: Record<
-    keyof ILightRotationEventBox,
-    DataCheck
-> = {
+export const LightRotationEventBoxDataCheck: Record<keyof ILightRotationEventBox, DataCheck> = {
     f: {
         type: 'object',
         version: '3.0.0',
@@ -612,10 +597,7 @@ export const LightRotationEventBoxGroupDataCheck: Record<
     },
 } as const;
 
-export const LightTranslationBaseDataCheck: Record<
-    keyof ILightTranslationBase,
-    DataCheck
-> = {
+export const LightTranslationBaseDataCheck: Record<keyof ILightTranslationBase, DataCheck> = {
     b: {
         type: 'number',
         version: '3.2.0',
@@ -642,65 +624,63 @@ export const LightTranslationBaseDataCheck: Record<
     },
 } as const;
 
-export const LightTranslationEventBoxDataCheck: Record<
-    keyof ILightTranslationEventBox,
-    DataCheck
-> = {
-    f: {
-        type: 'object',
-        version: '3.2.0',
-        check: IndexFilterDataCheck,
-    },
-    w: {
-        type: 'number',
-        version: '3.2.0',
-    },
-    d: {
-        type: 'number',
-        int: true,
-        version: '3.2.0',
-    },
-    s: {
-        type: 'number',
-        version: '3.2.0',
-    },
-    t: {
-        type: 'number',
-        int: true,
-        version: '3.2.0',
-    },
-    a: {
-        type: 'number',
-        int: true,
-        version: '3.2.0',
-    },
-    l: {
-        type: 'array',
-        version: '3.2.0',
-        check: LightTranslationBaseDataCheck,
-    },
-    r: {
-        type: 'number',
-        int: true,
-        version: '3.2.0',
-    },
-    b: {
-        type: 'number',
-        int: true,
-        version: '3.2.0',
-    },
-    i: {
-        type: 'number',
-        int: true,
-        version: '3.2.0',
-    },
-    customData: {
-        type: 'object',
-        version: '3.0.0',
-        check: {},
-        optional: true,
-    },
-} as const;
+export const LightTranslationEventBoxDataCheck: Record<keyof ILightTranslationEventBox, DataCheck> =
+    {
+        f: {
+            type: 'object',
+            version: '3.2.0',
+            check: IndexFilterDataCheck,
+        },
+        w: {
+            type: 'number',
+            version: '3.2.0',
+        },
+        d: {
+            type: 'number',
+            int: true,
+            version: '3.2.0',
+        },
+        s: {
+            type: 'number',
+            version: '3.2.0',
+        },
+        t: {
+            type: 'number',
+            int: true,
+            version: '3.2.0',
+        },
+        a: {
+            type: 'number',
+            int: true,
+            version: '3.2.0',
+        },
+        l: {
+            type: 'array',
+            version: '3.2.0',
+            check: LightTranslationBaseDataCheck,
+        },
+        r: {
+            type: 'number',
+            int: true,
+            version: '3.2.0',
+        },
+        b: {
+            type: 'number',
+            int: true,
+            version: '3.2.0',
+        },
+        i: {
+            type: 'number',
+            int: true,
+            version: '3.2.0',
+        },
+        customData: {
+            type: 'object',
+            version: '3.0.0',
+            check: {},
+            optional: true,
+        },
+    } as const;
 
 export const LightTranslationEventBoxGroupDataCheck: Record<
     keyof ILightTranslationEventBoxGroup,
@@ -739,6 +719,7 @@ export const BasicEventTypesForKeywordsDataCheck: Record<
     e: {
         type: 'number',
         int: true,
+        array: true,
         version: '3.0.0',
     },
 } as const;
