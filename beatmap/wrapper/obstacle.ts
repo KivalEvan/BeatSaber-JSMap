@@ -56,10 +56,7 @@ export abstract class WrapObstacle<T extends Record<keyof T, unknown>> extends W
     }
 
     isLonger(compareTo: IWrapObstacle, prevOffset = 0): boolean {
-        return (
-            this.time + this.duration >
-                compareTo.time + compareTo.duration + prevOffset
-        );
+        return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
     }
 
     hasZero() {
@@ -67,8 +64,7 @@ export abstract class WrapObstacle<T extends Record<keyof T, unknown>> extends W
     }
 
     hasNegative() {
-        return this.posY < 0 || this.duration < 0 || this.width < 0 ||
-            this.height < 0;
+        return this.posY < 0 || this.duration < 0 || this.width < 0 || this.height < 0;
     }
 
     isMappingExtensions(): boolean {
@@ -76,7 +72,6 @@ export abstract class WrapObstacle<T extends Record<keyof T, unknown>> extends W
     }
 
     isValid(): boolean {
-        return !this.isMappingExtensions() && !this.hasZero() &&
-            !this.hasNegative();
+        return !this.isMappingExtensions() && !this.hasZero() && !this.hasNegative();
     }
 }

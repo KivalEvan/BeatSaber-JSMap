@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.3.1 [2023-01-##]
+## 1.3.1 [2023-02-##]
 
 ### Added
 
@@ -9,6 +9,10 @@
 ### Fixed
 
 - Data check throwing error for array of primitives
+
+### Removed
+
+- `_lineLayer` and `_height` from v2 obstacle (it never existed in the first place)
 
 ## 1.3.0 [2022-12-31]
 

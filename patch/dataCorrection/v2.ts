@@ -22,10 +22,8 @@ function fixObstacle(obj: Obstacle) {
     obj.time = fixFloat(obj.time, Obstacle.default._time);
     obj.type = fixInt(obj.type, Obstacle.default._type);
     obj.posX = fixInt(obj.posX, Obstacle.default._lineIndex);
-    obj.posY = fixInt(obj.posY, Obstacle.default._lineLayer);
     obj.duration = fixFloat(obj.duration, Obstacle.default._duration);
     obj.width = fixInt(obj.width, Obstacle.default._width);
-    obj.height = fixInt(obj.height, Obstacle.default._height);
     fixCustomDataObject(obj.customData);
 }
 
@@ -57,10 +55,7 @@ function fixSlider(obj: Slider) {
     obj.tailTime = fixFloat(obj.tailTime, Slider.default._tailTime);
     obj.tailPosX = fixInt(obj.tailPosX, Slider.default._tailLineIndex);
     obj.tailPosY = fixInt(obj.tailPosY, Slider.default._tailLineLayer);
-    obj.tailDirection = fixInt(
-        obj.tailDirection,
-        Slider.default._tailCutDirection,
-    );
+    obj.tailDirection = fixInt(obj.tailDirection, Slider.default._tailCutDirection);
     obj.tailLengthMultiplier = fixFloat(
         obj.tailLengthMultiplier,
         Slider.default._tailControlPointLengthMultiplier,
