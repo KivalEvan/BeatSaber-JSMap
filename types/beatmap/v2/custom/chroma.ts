@@ -117,17 +117,19 @@ export interface IChromaObstacle {
     _color?: ColorArray;
 }
 
+export interface IChromaLightGradient {
+    _duration: number;
+    _startColor: ColorArray;
+    _endColor: ColorArray;
+    _easing?: Easings;
+}
+
 /** Chroma interface for Beatmap Event Light Custom Data. */
 export interface IChromaEventLight extends ICustomDataBase {
     _color?: ColorArray;
     _lightID?: number | number[];
     _propID?: number;
-    _lightGradient?: {
-        _duration: number;
-        _startColor: ColorArray;
-        _endColor: ColorArray;
-        _easing?: Easings;
-    };
+    _lightGradient?: IChromaLightGradient;
     _lerpType?: 'HSV' | 'RGB';
     _easing?: Easings;
 }

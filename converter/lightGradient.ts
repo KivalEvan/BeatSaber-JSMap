@@ -1,23 +1,29 @@
 import logger from '../logger.ts';
 import { Event } from '../beatmap/v2/event.ts';
-import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
 import { easings } from '../utils/easings.ts';
 import { interpolateColor } from '../utils/colors.ts';
 import { normalize } from '../utils/math.ts';
+import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import { IChromaLightGradient } from '../types/beatmap/v2/custom/chroma.ts';
+import { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
 };
+
+function isLightGradient(obj: unknown): obj is IChromaLightGradient {
+    return typeof obj === 'object' && obj != null && '_startColor' in obj && '_endColor' in obj;
+}
 
 /** Convert Chroma light gradient to transition event.
  * ```ts
  * const newData = convert.ogChromaToChromaV2(oldData);
  * ```
  */
-export function chromaLightGradientToVanillaGradient(
-    data: DifficultyV2,
+export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
+    data: T,
     skipPrompt?: boolean,
-): DifficultyV2 {
+): T {
     if (!skipPrompt) {
         logger.warn(
             tag('chromaLightGradientToVanillaGradient'),
@@ -45,16 +51,13 @@ export function chromaLightGradientToVanillaGradient(
             newEvents.push(ev);
             continue;
         }
-        if (ev.customData._lightGradient) {
+        if (isLightGradient(ev.customData._lightGradient)) {
             const eventInGradient = [] as typeof events;
             for (let next = curr + 1; next < len; next++) {
                 if (ev.type !== events[next].type) {
                     continue;
                 }
-                if (
-                    ev.time + ev.customData._lightGradient._duration >=
-                        events[next].time
-                ) {
+                if (ev.time + ev.customData._lightGradient._duration >= events[next].time) {
                     eventInGradient.push(events[next]);
                 }
             }
@@ -65,23 +68,17 @@ export function chromaLightGradientToVanillaGradient(
                     : ev.value >= 5 && ev.value <= 8
                     ? 5
                     : 9;
-                const easing = easings[
-                    ev.customData._lightGradient._easing ?? 'easeLinear'
-                ];
+                const easing = easings[ev.customData._lightGradient._easing ?? 'easeLinear'];
                 let hasOff = false;
-                let previousEvent: Event = ev;
+                let previousEvent: IWrapEvent = ev;
                 for (const eig of eventInGradient) {
                     if (
                         !hasOff &&
-                        eig.time >
-                            ev.time + ev.customData._lightGradient._duration -
-                                0.001
+                        eig.time > ev.time + ev.customData._lightGradient._duration - 0.001
                     ) {
                         newEvents.push(
                             ...Event.create({
-                                _time: ev.time +
-                                    ev.customData._lightGradient._duration -
-                                    0.001,
+                                _time: ev.time + ev.customData._lightGradient._duration - 0.001,
                                 _type: ev.type,
                                 _value: ev.value >= 1 && ev.value <= 4
                                     ? 4
@@ -115,8 +112,7 @@ export function chromaLightGradientToVanillaGradient(
                             normalize(
                                 eig.time,
                                 ev.time,
-                                ev.time +
-                                    ev.customData._lightGradient._duration,
+                                ev.time + ev.customData._lightGradient._duration,
                             ),
                             'rgba',
                             easing,
@@ -128,8 +124,7 @@ export function chromaLightGradientToVanillaGradient(
                                     ...Event.create({
                                         _time: eig.time - 0.001,
                                         _type: ev.type,
-                                        _value: previousEvent.value >= 1 &&
-                                                previousEvent.value <= 4
+                                        _value: previousEvent.value >= 1 && previousEvent.value <= 4
                                             ? 4
                                             : previousEvent.value >= 5 &&
                                                     previousEvent.value <= 8
@@ -138,17 +133,13 @@ export function chromaLightGradientToVanillaGradient(
                                         _floatValue: 1,
                                         _customData: {
                                             _color: interpolateColor(
-                                                ev.customData._lightGradient
-                                                    ._startColor,
-                                                ev.customData._lightGradient
-                                                    ._endColor,
+                                                ev.customData._lightGradient._startColor,
+                                                ev.customData._lightGradient._endColor,
                                                 normalize(
                                                     eig.time - 0.001,
                                                     ev.time,
                                                     ev.time +
-                                                        ev.customData
-                                                            ._lightGradient
-                                                            ._duration,
+                                                        ev.customData._lightGradient._duration,
                                                 ),
                                                 'rgba',
                                                 easing,

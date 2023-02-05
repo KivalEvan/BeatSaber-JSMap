@@ -1,12 +1,10 @@
 import logger from '../logger.ts';
-import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
-import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
 import { ColorArray } from '../types/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../beatmap/shared/colorScheme.ts';
 import { EnvironmentAllName } from '../types/beatmap/shared/environment.ts';
 import { isV2 } from '../beatmap/version.ts';
-import { BasicEvent } from '../beatmap/v3/basicEvent.ts';
-import { Event } from '../beatmap/v2/event.ts';
+import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -17,7 +15,7 @@ const tag = (name: string) => {
  * const newData = convert.ogChromaToChromaV2(oldData);
  * ```
  */
-export function ogChromaToChromaV2<T extends DifficultyV2 | DifficultyV3>(
+export function ogChromaToChromaV2<T extends IWrapDifficulty>(
     data: T,
     environment: EnvironmentAllName = 'DefaultEnvironment',
 ): T {
@@ -25,8 +23,8 @@ export function ogChromaToChromaV2<T extends DifficultyV2 | DifficultyV3>(
         tag('ogChromaToChromaV2'),
         'Converting old Chroma event value to Chroma event customData',
     );
-    const events: BasicEvent[] | Event[] = data.basicEvents;
-    const newEvents: BasicEvent[] | Event[] = [];
+    const events: IWrapEvent[] = data.basicEvents;
+    const newEvents: IWrapEvent[] = [];
     const colorScheme = ColorScheme[EnvironmentSchemeName[environment]];
     const defaultLeftLight: ColorArray = [
         colorScheme._envColorLeft!.r,
@@ -49,9 +47,7 @@ export function ogChromaToChromaV2<T extends DifficultyV2 | DifficultyV3>(
     for (const ev of events) {
         let noChromaColor = false;
         if (ev.value >= 2000000000) {
-            currentColor[ev.type] = oldChromaColorConvert(
-                ev.value,
-            ) as ColorArray;
+            currentColor[ev.type] = oldChromaColorConvert(ev.value) as ColorArray;
         }
         if (!currentColor[ev.type]) {
             noChromaColor = true;
@@ -89,10 +85,7 @@ export function ogChromaToChromaV2<T extends DifficultyV2 | DifficultyV3>(
             }
         }
     }
-    if (isV2(data)) {
-        data.basicEvents = newEvents as Event[];
-    } else {
-        data.basicEvents = newEvents as BasicEvent[];
-    }
+    data.basicEvents = newEvents;
+
     return data;
 }

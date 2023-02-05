@@ -9,10 +9,13 @@
 ### Changed
 
 - Updated custom data schema
+- Data checks now performed after optimisation
+- Difficulty related function now uses wrapper instead of concrete object
 
 ### Fixed
 
 - Data check throwing error for array of primitives
+- Fixed optimisation removing required attributes
 
 ### Removed
 

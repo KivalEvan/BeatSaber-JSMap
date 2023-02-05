@@ -1,6 +1,5 @@
-import { Difficulty as DifficultyV2 } from '../../beatmap/v2/difficulty.ts';
-import { Difficulty as DifficultyV3 } from '../../beatmap/v3/difficulty.ts';
-import { isV2 } from '../../beatmap/version.ts';
+import { isV2, isV3 } from '../../beatmap/version.ts';
+import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { v2 } from './v2.ts';
 import { v3 } from './v3.ts';
 
@@ -8,10 +7,10 @@ import { v3 } from './v3.ts';
  *
  * **WARNING:** These patch uses default value provided by class object, any changes to said default value will be affected here.
  */
-export function difficulty(data: DifficultyV2 | DifficultyV3) {
+export function difficulty(data: IWrapDifficulty) {
     if (isV2(data)) {
         v2(data);
-    } else {
+    } else if (isV3(data)) {
         v3(data);
     }
 }
