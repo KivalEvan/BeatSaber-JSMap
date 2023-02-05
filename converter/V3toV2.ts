@@ -2,7 +2,6 @@ import logger from '../logger.ts';
 import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
 import { clamp } from '../utils/math.ts';
-import { Vector3PointDefinition } from '../types/beatmap/shared/custom/heck.ts';
 import { ICustomDataNote, ICustomDataObstacle } from '../types/beatmap/v2/custom/customData.ts';
 import { IChromaMaterial } from '../types/beatmap/v2/custom/chroma.ts';
 import objectToV2 from './customData/objectToV2.ts';
@@ -13,7 +12,7 @@ import { Obstacle } from '../beatmap/v2/obstacle.ts';
 import { Slider } from '../beatmap/v2/slider.ts';
 import { SpecialEventsKeywordFilters } from '../beatmap/v2/specialEventsKeywordFilters.ts';
 import { Waypoint } from '../beatmap/v2/waypoint.ts';
-import { vectorScale } from '../utils/vector.ts';
+import { isVector3, vectorScale } from '../utils/vector.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -255,14 +254,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
                                     _track: ce.d.track,
                                     _duration: ce.d.duration,
                                     _easing: ce.d.easing,
-                                    _position: typeof ce.d.position === 'string'
-                                        ? ce.d.position
-                                        : ce.d.position?.map((p) => {
-                                            p[0] = p[0] / 0.6;
-                                            p[1] = p[1] / 0.6;
-                                            p[2] = p[2] / 0.6;
-                                            return p as Vector3PointDefinition;
-                                        }),
+                                    _position: ce.d.position,
                                     _rotation: ce.d.rotation,
                                     _localRotation: ce.d.localRotation,
                                     _scale: ce.d.scale,
@@ -311,7 +303,7 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
                             _type: 'AssignPlayerToTrack',
                             _data: {
                                 _track: ce.d.track,
-                                _playerTrackObject: ce.d.playerTrackObject,
+                                _target: ce.d.target,
                             },
                         });
                     }
@@ -487,11 +479,14 @@ export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
                 if (typeof ce._data._position === 'string') {
                     logger.warn(tag('V3toV2'), 'Cannot convert point definitions, unknown use.');
                 } else if (Array.isArray(ce._data._position)) {
-                    ce._data._position.forEach((n) => {
-                        n[0] /= 0.6;
-                        n[1] /= 0.6;
-                        n[2] /= 0.6;
-                    });
+                    isVector3(ce._data._position)
+                        ? vectorScale(ce._data._position, 0.6)
+                        // deno-lint-ignore no-explicit-any
+                        : ce._data._position.forEach((point: any) => {
+                            point[0] *= 0.6;
+                            point[1] *= 0.6;
+                            point[2] *= 0.6;
+                        });
                 }
             } else {
                 logger.warn(

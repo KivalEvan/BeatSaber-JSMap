@@ -6,6 +6,10 @@
 
 - Data check can now check for array of primitives
 
+### Changed
+
+- Updated custom data schema
+
 ### Fixed
 
 - Data check throwing error for array of primitives

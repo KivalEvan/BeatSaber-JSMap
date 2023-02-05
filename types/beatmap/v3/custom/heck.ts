@@ -1,4 +1,5 @@
 import { Easings } from '../../../easings.ts';
+import { Vector3 } from '../../../vector.ts';
 import { Vector3PointDefinition } from '../../shared/custom/heck.ts';
 
 /** Heck Base Custom Event interface. */
@@ -13,10 +14,10 @@ export interface IHeckCustomEventDataAnimateTrack extends IHeckCustomEventDataBa
     duration?: number;
     repeat?: number;
     easing?: Easings;
-    position?: string | Vector3PointDefinition[];
-    rotation?: string | Vector3PointDefinition[];
-    localRotation?: string | Vector3PointDefinition[];
-    scale?: string | Vector3PointDefinition[];
+    position?: string | Vector3 | Vector3PointDefinition[];
+    rotation?: string | Vector3 | Vector3PointDefinition[];
+    localRotation?: string | Vector3 | Vector3PointDefinition[];
+    scale?: string | Vector3 | Vector3PointDefinition[];
 }
 
 /** AssignPathAnimation interface for Heck Custom Event.
@@ -24,10 +25,10 @@ export interface IHeckCustomEventDataAnimateTrack extends IHeckCustomEventDataBa
  */
 export interface IHeckCustomEventDataAssignPathAnimation extends IHeckCustomEventDataBase {
     easing?: Easings;
-    position?: string | Vector3PointDefinition[];
-    rotation?: string | Vector3PointDefinition[];
-    localRotation?: string | Vector3PointDefinition[];
-    scale?: string | Vector3PointDefinition[];
+    position?: string | Vector3 | Vector3PointDefinition[];
+    rotation?: string | Vector3 | Vector3PointDefinition[];
+    localRotation?: string | Vector3 | Vector3PointDefinition[];
+    scale?: string | Vector3 | Vector3PointDefinition[];
 }
 
 /** Heck Custom Data interface for difficulty custom data. */

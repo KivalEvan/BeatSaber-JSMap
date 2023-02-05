@@ -51,15 +51,13 @@ logger.info(
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 if (args.x) {
-    logger.warn(
-        'No backup flagged, any changes done by this script is irreversible',
-    );
+    logger.warn('No backup flagged, any changes done by this script is irreversible');
 }
 
 globals.directory = (args.d as string) ??
-    (args.y ? './' : prompt('Enter map folder path (leave blank for current folder):')
-        ?.trim() ||
-        './');
+    (args.y
+        ? './'
+        : prompt('Enter map folder path (leave blank for current folder):')?.trim() || './');
 
 if (args.q) {
     logger.setLevel(4);
@@ -82,9 +80,9 @@ try {
         logger.error('Number is not acceptable value for source file path.');
     }
 
-    const lightToCopy = typeof args._[0] === 'string' ? args._[0] : prompt(
-        'Enter source lightshow file name (must include extension):',
-    )?.trim();
+    const lightToCopy = typeof args._[0] === 'string'
+        ? args._[0]
+        : prompt('Enter source lightshow file name (must include extension):')?.trim();
 
     if (!lightToCopy) {
         throw new Error('Received empty file path.');
@@ -95,9 +93,7 @@ try {
     try {
         info = load.infoSync();
     } catch {
-        logger.warn(
-            'Could not load Info.dat from folder, retrying with info.dat...',
-        );
+        logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
         infoFileName = 'info.dat';
         info = load.infoSync({ filePath: infoFileName });
     }
@@ -151,33 +147,17 @@ try {
         hasChroma = true;
     }
 
-    if (
-        copyEnvironment &&
-        !lightV3.customData.environment &&
-        !lightV2.customData._environment
-    ) {
-        logger.warn(
-            'Selected lightshow has no environment enhancement; skipping environment copy',
-        );
+    if (copyEnvironment && !lightV3.customData.environment && !lightV2.customData._environment) {
+        logger.warn('Selected lightshow has no environment enhancement; skipping environment copy');
         copyEnvironment = false;
     }
 
-    if (
-        copyCustomEvent &&
-        !lightV3.customData.customEvents &&
-        !lightV2.customData._customEvents
-    ) {
-        logger.warn(
-            'Selected lightshow has no custom event; skipping custom event copy',
-        );
+    if (copyCustomEvent && !lightV3.customData.customEvents && !lightV2.customData._customEvents) {
+        logger.warn('Selected lightshow has no custom event; skipping custom event copy');
         copyCustomEvent = false;
     }
 
-    if (
-        !copyEnvironment &&
-        lightV3.customData.environment &&
-        lightV2.customData._environment
-    ) {
+    if (!copyEnvironment && lightV3.customData.environment && lightV2.customData._environment) {
         copyEnvironment = (args.y ? 'n' : prompt(
             'Environment enhancement found in lightshow, would you like to include into copy? (y/N)',
             'n',
@@ -185,11 +165,7 @@ try {
             ?.trim()
             .toLowerCase()) === 'y';
     }
-    if (
-        !copyCustomEvent &&
-        lightV3.customData.customEvents &&
-        lightV2.customData._customEvents
-    ) {
+    if (!copyCustomEvent && lightV3.customData.customEvents && lightV2.customData._customEvents) {
         copyCustomEvent = (args.y ? 'n' : prompt(
             'Custom event found in lightshow, would you like to include into copy? (y/N)',
             'n',
@@ -214,15 +190,13 @@ try {
                     globals.directory + dl.settings._beatmapFilename + '.old',
                 );
             } catch (_) {
-                const confirmation = args.y ? 'n' : prompt(
-                    'Old backup file detected, do you want to overwrite? (y/N):',
-                    'n',
-                );
+                const confirmation = args.y
+                    ? 'n'
+                    : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
                 if (confirmation![0].toLowerCase() === 'y') {
                     copySync(
                         globals.directory + dl.settings._beatmapFilename,
-                        globals.directory + dl.settings._beatmapFilename +
-                            '.old',
+                        globals.directory + dl.settings._beatmapFilename + '.old',
                         { overwrite: true },
                     );
                 } else {
@@ -239,21 +213,11 @@ try {
                 !dl.settings._customData._requirements?.includes('Chroma')
             ) {
                 if (!dl.settings._customData._suggestions.includes('Chroma')) {
-                    logger.info(
-                        'Applying Chroma suggestions to',
-                        dl.characteristic,
-                        dl.difficulty,
-                    );
+                    logger.info('Applying Chroma suggestions to', dl.characteristic, dl.difficulty);
                     dl.settings._customData._suggestions.push('Chroma');
                 }
-            } else if (
-                !dl.settings._customData._requirements?.includes('Chroma')
-            ) {
-                logger.info(
-                    'Creating Chroma suggestions to',
-                    dl.characteristic,
-                    dl.difficulty,
-                );
+            } else if (!dl.settings._customData._requirements?.includes('Chroma')) {
+                logger.info('Creating Chroma suggestions to', dl.characteristic, dl.difficulty);
                 dl.settings._customData._suggestions = ['Chroma'];
             }
         }
@@ -263,9 +227,7 @@ try {
             }
             if (copyCustomEvent && lightV3.customData.customEvents) {
                 if (dl.data.customData.customEvents) {
-                    dl.data.customData.customEvents.push(
-                        ...lightV3.customData.customEvents,
-                    );
+                    dl.data.customData.customEvents.push(...lightV3.customData.customEvents);
                 } else {
                     dl.data.customData.customEvents = lightV3.customData.customEvents;
                 }
@@ -283,17 +245,17 @@ try {
             if (args.m) {
                 dl.data.basicEvents.push(...lightV3.basicEvents);
                 dl.data.colorBoostEvents.push(...lightV3.colorBoostEvents);
-                dl.data.lightColorEventBoxGroups.push(
-                    ...lightV3.lightColorEventBoxGroups,
-                );
-                dl.data.lightRotationEventBoxGroups.push(
-                    ...lightV3.lightRotationEventBoxGroups,
+                dl.data.lightColorEventBoxGroups.push(...lightV3.lightColorEventBoxGroups);
+                dl.data.lightRotationEventBoxGroups.push(...lightV3.lightRotationEventBoxGroups);
+                dl.data.lightTranslationEventBoxGroups.push(
+                    ...lightV3.lightTranslationEventBoxGroups,
                 );
             } else {
                 dl.data.basicEvents = lightV3.basicEvents;
                 dl.data.colorBoostEvents = lightV3.colorBoostEvents;
                 dl.data.lightColorEventBoxGroups = lightV3.lightColorEventBoxGroups;
                 dl.data.lightRotationEventBoxGroups = lightV3.lightRotationEventBoxGroups;
+                dl.data.lightTranslationEventBoxGroups = lightV3.lightTranslationEventBoxGroups;
             }
         } else {
             if (copyEnvironment) {
@@ -301,9 +263,7 @@ try {
             }
             if (copyCustomEvent && lightV2.customData._customEvents) {
                 if (dl.data.customData._customEvents) {
-                    dl.data.customData._customEvents.push(
-                        ...lightV2.customData._customEvents,
-                    );
+                    dl.data.customData._customEvents.push(...lightV2.customData._customEvents);
                 } else {
                     dl.data.customData._customEvents = lightV2.customData._customEvents;
                 }
@@ -321,10 +281,7 @@ try {
                 dl.data.basicEvents.push(...lightV2.basicEvents);
             } else {
                 const rotationEvent = dl.data.basicEvents.filter((ev) => ev.isLaneRotationEvent());
-                dl.data.basicEvents = [
-                    ...lightV2.basicEvents,
-                    ...rotationEvent,
-                ];
+                dl.data.basicEvents = [...lightV2.basicEvents, ...rotationEvent];
             }
         }
 
@@ -334,15 +291,11 @@ try {
 
     if (hasChroma) {
         try {
-            copySync(
-                globals.directory + infoFileName,
-                globals.directory + infoFileName + '.old',
-            );
+            copySync(globals.directory + infoFileName, globals.directory + infoFileName + '.old');
         } catch (_) {
-            const confirmation = args.y ? 'n' : prompt(
-                'Old info backup file detected, do you want to overwrite? (y/N):',
-                'n',
-            );
+            const confirmation = args.y
+                ? 'n'
+                : prompt('Old info backup file detected, do you want to overwrite? (y/N):', 'n');
             if (confirmation![0].toLowerCase() === 'y') {
                 copySync(
                     globals.directory + infoFileName,

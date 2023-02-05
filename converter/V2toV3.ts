@@ -17,7 +17,8 @@ import { BPMEvent } from '../beatmap/v3/bpmEvent.ts';
 import { ColorBoostEvent } from '../beatmap/v3/colorBoostEvent.ts';
 import { ColorNote } from '../beatmap/v3/colorNote.ts';
 import { RotationEvent } from '../beatmap/v3/rotationEvent.ts';
-import { vectorScale } from '../utils/vector.ts';
+import { isVector3, vectorScale } from '../utils/vector.ts';
+import { Vector3 } from '../types/vector.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -319,7 +320,7 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                             t: 'AssignPlayerToTrack',
                             d: {
                                 track: ce._data._track,
-                                playerTrackObject: ce._data._playerTrackObject,
+                                target: ce._data._target,
                             },
                         });
                     }
@@ -514,11 +515,14 @@ export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
                 if (typeof ce.d.position === 'string') {
                     logger.warn(tag('V2toV3'), 'Cannot convert point definitions, unknown use.');
                 } else if (Array.isArray(ce.d.position)) {
-                    ce.d.position.forEach((n) => {
-                        n[0] *= 0.6;
-                        n[1] *= 0.6;
-                        n[2] *= 0.6;
-                    });
+                    isVector3(ce.d.position)
+                        ? vectorScale(ce.d.position as Vector3, 0.6)
+                        // deno-lint-ignore no-explicit-any
+                        : ce.d.position.forEach((point: any) => {
+                            point[0] *= 0.6;
+                            point[1] *= 0.6;
+                            point[2] *= 0.6;
+                        });
                 }
             } else {
                 logger.warn(

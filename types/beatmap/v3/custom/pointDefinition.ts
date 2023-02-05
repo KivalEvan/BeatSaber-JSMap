@@ -1,3 +1,5 @@
+import { ColorArray } from '../../../colors.ts';
+import { Vector2, Vector3 } from '../../../vector.ts';
 import { ColorPointDefinition } from '../../shared/custom/chroma.ts';
 import {
     PercentPointDefinition,
@@ -8,6 +10,10 @@ import {
 /** Point Definition interface. */
 export type IPointDefinition = {
     [key: string]:
+        | number
+        | Vector2
+        | Vector3
+        | ColorArray
         | PercentPointDefinition[]
         | Vector2PointDefinition[]
         | Vector3PointDefinition[]

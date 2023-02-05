@@ -99,13 +99,11 @@ export interface IChromaEnvironmentGeometry extends IChromaEnvironmentBase {
 }
 
 /** Chroma interface for Environment Enhancement. */
-export type IChromaEnvironment =
-    | IChromaEnvironmentID
-    | IChromaEnvironmentGeometry;
+export type IChromaEnvironment = IChromaEnvironmentID | IChromaEnvironmentGeometry;
 
 /** Chroma interface for Beatmap Object Animation Custom Data. */
 export interface IChromaAnimation {
-    _color?: string | ColorPointDefinition[];
+    _color?: string | ColorArray | ColorPointDefinition[];
 }
 
 /** Chroma interface for Beatmap Note Custom Data. */
@@ -165,22 +163,22 @@ export interface IChromaEventZoom extends ICustomDataBase {
 
 /** AnimateComponent interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAnimateTrack extends IHeckCustomEventDataBase {
-    _color?: string | ColorPointDefinition[];
+    _color?: string | ColorArray | ColorPointDefinition[];
 }
 
 /** AnimateComponent interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAssignPathAnimation extends IHeckCustomEventDataBase {
-    _color?: string | ColorPointDefinition[];
+    _color?: string | ColorArray | ColorPointDefinition[];
 }
 
 /** AssignFogTrack interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAssignFogTrack extends IHeckCustomEventDataBase {
     _track: string;
     _duration: number;
-    _attenuation?: number | PercentPointDefinition[];
-    _offset?: number | PercentPointDefinition[];
-    _startY?: number | PercentPointDefinition[];
-    _height?: number | PercentPointDefinition[];
+    _attenuation?: string | number | PercentPointDefinition[];
+    _offset?: string | number | PercentPointDefinition[];
+    _startY?: string | number | PercentPointDefinition[];
+    _height?: string | number | PercentPointDefinition[];
 }
 
 /** Chroma Custom Data interface for difficulty custom data. */

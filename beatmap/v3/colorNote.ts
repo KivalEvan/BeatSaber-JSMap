@@ -4,6 +4,7 @@ import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
 import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import { isVector3 } from '../../utils/vector.ts';
 
 /** Color note beatmap v3 class object. */
 export class ColorNote extends WrapColorNote<Required<IColorNote>> {
@@ -140,22 +141,33 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
 
     mirror(flipColor = true) {
         if (this.customData.coordinates) {
-            this.customData.coordinates[0] = -1 -
-                this.customData.coordinates[0];
+            this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
         }
         if (this.customData.flip) {
             this.customData.flip[0] = -1 - this.customData.flip[0];
         }
         if (this.customData.animation) {
             if (Array.isArray(this.customData.animation.definitePosition)) {
-                this.customData.animation.definitePosition.forEach((dp) => {
-                    dp[0] = -dp[0];
-                });
+                if (isVector3(this.customData.animation.definitePosition)) {
+                    this.customData.animation.definitePosition[0] = -this.customData.animation
+                        .definitePosition[0];
+                } else {
+                    // deno-lint-ignore no-explicit-any
+                    this.customData.animation.definitePosition.forEach((dp: any) => {
+                        dp[0] = -dp[0];
+                    });
+                }
             }
             if (Array.isArray(this.customData.animation.offsetPosition)) {
-                this.customData.animation.offsetPosition.forEach((op) => {
-                    op[0] = -op[0];
-                });
+                if (isVector3(this.customData.animation.offsetPosition)) {
+                    this.customData.animation.offsetPosition[0] = -this.customData.animation
+                        .offsetPosition[0];
+                } else {
+                    // deno-lint-ignore no-explicit-any
+                    this.customData.animation.offsetPosition.forEach((op: any) => {
+                        op[0] = -op[0];
+                    });
+                }
             }
         }
         return super.mirror(flipColor);
@@ -165,9 +177,8 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
         switch (type) {
             case 'vanilla':
                 return (
-                    (NoteDirectionAngle[
-                        this.direction as keyof typeof NoteDirectionAngle
-                    ] || 0) + this.angleOffset
+                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
+                    this.angleOffset
                 );
             case 'me':
                 if (this.direction >= 1000) {
@@ -176,26 +187,23 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
             /* falls through */
             case 'ne':
                 return (
-                    (NoteDirectionAngle[
-                        this.direction as keyof typeof NoteDirectionAngle
-                    ] || 0) + this.angleOffset
+                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
+                    this.angleOffset
                 );
             default:
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
                 return (
-                    (NoteDirectionAngle[
-                        this.direction as keyof typeof NoteDirectionAngle
-                    ] || 0) + this.angleOffset
+                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
+                    this.angleOffset
                 );
         }
     }
 
     isChroma(): boolean {
         return (
-            Array.isArray(this.customData.color) ||
-            typeof this.customData.spawnEffect === 'boolean'
+            Array.isArray(this.customData.color) || typeof this.customData.spawnEffect === 'boolean'
         );
     }
 

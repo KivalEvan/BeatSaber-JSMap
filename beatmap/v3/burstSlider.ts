@@ -2,6 +2,7 @@ import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
 import { IWrapBurstSlider } from '../../types/beatmap/wrapper/burstSlider.ts';
 import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { isVector3 } from '../../utils/vector.ts';
 import { WrapBurstSlider } from '../wrapper/burstSlider.ts';
 
 /** Burst slider beatmap v3 class object.
@@ -31,9 +32,7 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
 
     static create(): BurstSlider[];
     static create(
-        ...burstSliders: PartialWrapper<
-            IWrapBurstSlider<Required<IBurstSlider>>
-        >[]
+        ...burstSliders: PartialWrapper<IWrapBurstSlider<Required<IBurstSlider>>>[]
     ): BurstSlider[];
     static create(...burstSliders: Partial<IBurstSlider>[]): BurstSlider[];
     static create(
@@ -62,8 +61,7 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
                     ty: bs.tailPosY ?? bs.ty ?? BurstSlider.default.ty,
                     sc: bs.sliceCount ?? bs.sc ?? BurstSlider.default.sc,
                     s: bs.squish ?? bs.s ?? BurstSlider.default.s,
-                    customData: bs.customData ??
-                        BurstSlider.default.customData(),
+                    customData: bs.customData ?? BurstSlider.default.customData(),
                 }),
             )
         );
@@ -182,22 +180,33 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
 
     mirror(flipColor = true) {
         if (this.customData.coordinates) {
-            this.customData.coordinates[0] = -1 -
-                this.customData.coordinates[0];
+            this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
         }
         if (this.customData.flip) {
             this.customData.flip[0] = -1 - this.customData.flip[0];
         }
         if (this.customData.animation) {
             if (Array.isArray(this.customData.animation.definitePosition)) {
-                this.customData.animation.definitePosition.forEach((dp) => {
-                    dp[0] = -dp[0];
-                });
+                if (isVector3(this.customData.animation.definitePosition)) {
+                    this.customData.animation.definitePosition[0] = -this.customData.animation
+                        .definitePosition[0];
+                } else {
+                    // deno-lint-ignore no-explicit-any
+                    this.customData.animation.definitePosition.forEach((dp: any) => {
+                        dp[0] = -dp[0];
+                    });
+                }
             }
             if (Array.isArray(this.customData.animation.offsetPosition)) {
-                this.customData.animation.offsetPosition.forEach((op) => {
-                    op[0] = -op[0];
-                });
+                if (isVector3(this.customData.animation.offsetPosition)) {
+                    this.customData.animation.offsetPosition[0] = -this.customData.animation
+                        .offsetPosition[0];
+                } else {
+                    // deno-lint-ignore no-explicit-any
+                    this.customData.animation.offsetPosition.forEach((op: any) => {
+                        op[0] = -op[0];
+                    });
+                }
             }
         }
         return super.mirror(flipColor);
