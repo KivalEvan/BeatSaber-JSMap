@@ -24,14 +24,14 @@ const optionsInfo: Required<ISaveOptionsInfo> = {
     directory: '',
     filePath: 'Info.dat',
     format: 0,
-    optimise: { enabled: true },
+    optimize: { enabled: true },
 };
 
 const optionsDifficulty: Required<ISaveOptionsDifficulty> = {
     directory: '',
     filePath: 'UnnamedPath.dat',
     format: 0,
-    optimise: { enabled: true },
+    optimize: { enabled: true },
     dataCheck: {
         enable: true,
         throwError: true,
@@ -41,7 +41,7 @@ const optionsDifficulty: Required<ISaveOptionsDifficulty> = {
 const optionsDifficultyList: Required<ISaveOptionsDifficultyList> = {
     directory: '',
     format: 0,
-    optimise: { enabled: true },
+    optimize: { enabled: true },
     dataCheck: {
         enable: true,
         throwError: true,
@@ -60,10 +60,10 @@ function internalInfo(data: IInfo, options: ISaveOptionsInfo) {
         directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? (defaultOptions.info.filePath || 'Info.dat'),
         format: options.format ?? defaultOptions.info.format,
-        optimise: options.optimise ?? { enabled: true },
+        optimize: options.optimize ?? { enabled: true },
     };
-    if (opt.optimise.enabled) {
-        optimize.info(data, opt.optimise);
+    if (opt.optimize.enabled) {
+        optimize.info(data, opt.optimize);
     }
     logger.info(tag('internalInfo'), `Writing to ${opt.directory + opt.filePath}`);
     Deno.writeTextFileSync(
@@ -98,12 +98,12 @@ function internalDifficulty(data: IWrapDifficulty, options: ISaveOptionsDifficul
         filePath: options.filePath ??
             (data.fileName || defaultOptions.difficulty.filePath || 'UnnamedDifficulty.dat'),
         format: options.format ?? defaultOptions.info.format,
-        optimise: options.optimise ?? { enabled: true },
+        optimize: options.optimize ?? { enabled: true },
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     const objectData = data.toJSON();
-    if (opt.optimise.enabled) {
-        optimize.difficulty(objectData as IDifficultyV2, opt.optimise);
+    if (opt.optimize.enabled) {
+        optimize.difficulty(objectData as IDifficultyV2, opt.optimize);
     }
     if (opt.dataCheck.enable) {
         if ((objectData as IDifficultyV2)._version) {
@@ -160,14 +160,14 @@ function internalDifficultyList(
         directory: options.directory ??
             (globals.directory || defaultOptions.difficultyList.directory),
         format: options.format ?? defaultOptions.info.format,
-        optimise: options.optimise ?? { enabled: true },
+        optimize: options.optimize ?? { enabled: true },
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     difficulties.forEach((dl) => {
         logger.info(tag('internalDifficultyList'), `Saving ${dl.characteristic} ${dl.difficulty}`);
         const objectData = dl.data.toJSON();
-        if (opt.optimise.enabled) {
-            optimize.difficulty(objectData, opt.optimise);
+        if (opt.optimize.enabled) {
+            optimize.difficulty(objectData, opt.optimize);
         }
         if (opt.dataCheck.enable) {
             if ((objectData as IDifficultyV2)._version) {

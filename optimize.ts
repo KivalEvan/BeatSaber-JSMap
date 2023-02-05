@@ -31,7 +31,7 @@ const optionsDifficulty: Required<IOptimizeOptionsDifficulty> = {
     floatTrim: 4,
     stringTrim: true,
     throwError: true,
-    optimiseLight: false,
+    optimizeLight: false,
     sort: true,
 };
 
@@ -157,7 +157,7 @@ export function difficulty<T extends IDifficultyV2 | IDifficultyV3>(
         floatTrim: options.floatTrim ?? defaultOptions.difficulty.floatTrim,
         stringTrim: options.stringTrim ?? defaultOptions.difficulty.stringTrim,
         throwError: options.throwError ?? defaultOptions.difficulty.throwError,
-        optimiseLight: options.optimiseLight ?? defaultOptions.difficulty.optimiseLight,
+        optimizeLight: options.optimizeLight ?? defaultOptions.difficulty.optimizeLight,
         sort: options.sort ?? defaultOptions.difficulty.sort,
     };
 

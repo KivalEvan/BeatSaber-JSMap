@@ -10,6 +10,6 @@ export interface IOptimizeOptionsInfo extends IOptimizeOptions {
 }
 
 export interface IOptimizeOptionsDifficulty extends IOptimizeOptions {
-    optimiseLight?: boolean;
+    optimizeLight?: boolean;
     sort?: boolean;
 }

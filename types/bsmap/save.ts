@@ -5,7 +5,7 @@ export interface ISaveOptionsInfo extends IBaseOptions {
     /** Set info destination file path/name. */
     filePath?: string;
     format?: number;
-    optimise?: IOptimizeOptionsInfo;
+    optimize?: IOptimizeOptionsInfo;
 }
 
 export interface ISaveOptionsDifficulty extends IBaseOptions {
@@ -15,7 +15,7 @@ export interface ISaveOptionsDifficulty extends IBaseOptions {
      */
     filePath?: string;
     format?: number;
-    optimise?: IOptimizeOptionsDifficulty;
+    optimize?: IOptimizeOptionsDifficulty;
     dataCheck?: {
         enable: boolean;
         throwError?: boolean;
@@ -24,7 +24,7 @@ export interface ISaveOptionsDifficulty extends IBaseOptions {
 
 export interface ISaveOptionsDifficultyList extends IBaseOptions {
     format?: number;
-    optimise?: IOptimizeOptionsDifficulty;
+    optimize?: IOptimizeOptionsDifficulty;
     dataCheck?: {
         enable: boolean;
         throwError?: boolean;
