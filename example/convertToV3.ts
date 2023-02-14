@@ -9,8 +9,8 @@
  * example run command:
  * deno run --allow-read --allow-write convertToV3.ts -d "./Folder/Path"
  */
-import { copySync } from 'https://deno.land/std@0.167.0/fs/mod.ts';
-import { parse } from 'https://deno.land/std@0.167.0/flags/mod.ts';
+import { copySync } from 'https://deno.land/std@0.177.0/fs/mod.ts';
+import { parse } from 'https://deno.land/std@0.177.0/flags/mod.ts';
 import {
     convert,
     globals,
@@ -43,15 +43,13 @@ logger.info(
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 if (args.x) {
-    logger.warn(
-        'No backup flagged, any changes done by this script is irreversible',
-    );
+    logger.warn('No backup flagged, any changes done by this script is irreversible');
 }
 
 globals.directory = (args.d as string) ??
-    (args.y ? './' : prompt('Enter map folder path (leave blank for current folder):')
-        ?.trim() ||
-        './');
+    (args.y
+        ? './'
+        : prompt('Enter map folder path (leave blank for current folder):')?.trim() || './');
 
 if (args.q) {
     logger.setLevel(4);
@@ -76,9 +74,9 @@ try {
             logger.error('Number is not acceptable value for file path.');
         }
 
-        const diffFilePath = typeof args._[0] === 'string' ? args._[0] : prompt(
-            'Enter difficulty file name (must include extension):',
-        )?.trim();
+        const diffFilePath = typeof args._[0] === 'string'
+            ? args._[0]
+            : prompt('Enter difficulty file name (must include extension):')?.trim();
 
         if (!diffFilePath) {
             throw new Error('Received empty file path.');
@@ -88,8 +86,7 @@ try {
             Deno.readTextFileSync(globals.directory + diffFilePath),
         ) as types.Either<types.v2.IDifficulty, types.v3.IDifficulty>;
         const diffVersion = parseInt(
-            diffJSON._version?.at(0)! ??
-                parseInt(diffJSON.version?.at(0)! ?? '2'),
+            diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'),
         );
 
         let diff!: v2.Difficulty;
@@ -103,10 +100,9 @@ try {
                         globals.directory + diffFilePath + '.old',
                     );
                 } catch (_) {
-                    const confirmation = args.y ? 'n' : prompt(
-                        'Old backup file detected, do you want to overwrite? (y/N):',
-                        'n',
-                    );
+                    const confirmation = args.y
+                        ? 'n'
+                        : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
                     if (confirmation![0].toLowerCase() === 'y') {
                         copySync(
                             globals.directory + diffFilePath,
@@ -140,10 +136,7 @@ try {
                         'n',
                     );
                     if (confirmation![0].toLowerCase() === 'y') {
-                        convert.chromaLightGradientToVanillaGradient(
-                            diff,
-                            true,
-                        );
+                        convert.chromaLightGradientToVanillaGradient(diff, true);
                     }
                 }
                 logger.info('Converting beatmap to v3');
@@ -156,9 +149,7 @@ try {
         try {
             info = load.infoSync();
         } catch {
-            logger.warn(
-                'Could not load Info.dat from folder, retrying with info.dat...',
-            );
+            logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
             info = load.infoSync({ filePath: 'info.dat' });
         }
 
@@ -167,16 +158,11 @@ try {
         diffList.forEach((dl) => {
             if (!isV3(dl.data)) {
                 if (!args.x) {
-                    logger.info(
-                        'Backing up beatmap v2',
-                        dl.characteristic,
-                        dl.difficulty,
-                    );
+                    logger.info('Backing up beatmap v2', dl.characteristic, dl.difficulty);
                     try {
                         copySync(
                             globals.directory + dl.settings._beatmapFilename,
-                            globals.directory + dl.settings._beatmapFilename +
-                                '.old',
+                            globals.directory + dl.settings._beatmapFilename + '.old',
                         );
                     } catch (_) {
                         const confirmation = args.y ? 'n' : prompt(
@@ -185,11 +171,8 @@ try {
                         );
                         if (confirmation![0].toLowerCase() === 'y') {
                             copySync(
-                                globals.directory +
-                                    dl.settings._beatmapFilename,
-                                globals.directory +
-                                    dl.settings._beatmapFilename +
-                                    '.old',
+                                globals.directory + dl.settings._beatmapFilename,
+                                globals.directory + dl.settings._beatmapFilename + '.old',
                                 { overwrite: true },
                             );
                         } else {
@@ -210,15 +193,10 @@ try {
                         oldChromaConfirm = true;
                     }
                     if (oldChromaConvert) {
-                        convert.ogChromaToChromaV2(
-                            dl.data,
-                            info._environmentName,
-                        );
+                        convert.ogChromaToChromaV2(dl.data, info._environmentName);
                     }
                 }
-                if (
-                    dl.data.basicEvents.some((e) => e.customData._lightGradient)
-                ) {
+                if (dl.data.basicEvents.some((e) => e.customData._lightGradient)) {
                     if (!gradientChromaConfirm) {
                         const confirmation = args.y ? 'n' : prompt(
                             'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
@@ -230,18 +208,10 @@ try {
                         gradientChromaConfirm = true;
                     }
                     if (gradientChromaConvert) {
-                        convert.chromaLightGradientToVanillaGradient(
-                            dl.data,
-                            true,
-                        );
+                        convert.chromaLightGradientToVanillaGradient(dl.data, true);
                     }
                 }
-                logger.info(
-                    'Converting beatmap v2',
-                    dl.characteristic,
-                    dl.difficulty,
-                    'to v3',
-                );
+                logger.info('Converting beatmap v2', dl.characteristic, dl.difficulty, 'to v3');
                 dl.data = convert.V2toV3(dl.data, true);
                 save.difficultySync(dl.data);
                 isConverted = true;

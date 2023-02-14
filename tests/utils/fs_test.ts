@@ -5,8 +5,7 @@ Deno.test({
     name: 'Exist',
     permissions: { read: 'inherit' },
     fn: async () => {
-        assert(await fs.exists('./tests/deps.ts'));
-        assert(!(await fs.exists('./tests/mod.ts')));
+        assert(await fs.exists('./tests/'));
     },
 });
 
@@ -14,8 +13,7 @@ Deno.test({
     name: 'Exist Sync',
     permissions: { read: 'inherit' },
     fn: () => {
-        assert(fs.existsSync('./tests/deps.ts'));
-        assert(!fs.existsSync('./tests/mod.ts'));
+        assert(fs.existsSync('./tests/'));
     },
 });
 

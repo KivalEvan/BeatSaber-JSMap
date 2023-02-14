@@ -1,3 +1,4 @@
 dist/
 deno.lock
 cov_*
+npm/

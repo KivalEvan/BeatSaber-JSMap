@@ -9,8 +9,8 @@
  * example run command:
  * deno run --allow-read --allow-write autoFixer.ts -d "./Folder/Path"
  */
-import { copySync } from 'https://deno.land/std@0.167.0/fs/mod.ts';
-import { parse } from 'https://deno.land/std@0.167.0/flags/mod.ts';
+import { copySync } from 'https://deno.land/std@0.177.0/fs/mod.ts';
+import { parse } from 'https://deno.land/std@0.177.0/flags/mod.ts';
 import { BeatPerMinute, convert, globals, isV2, load, logger, save, types, utils } from '../mod.ts';
 
 const args = parse(Deno.args, {
@@ -34,24 +34,22 @@ logger.info(
 logger.info('Send any feedback to Kival Evan#5480 on Discord');
 
 if (args.x) {
-    logger.warn(
-        'No backup flagged, any changes done by this script is irreversible',
-    );
+    logger.warn('No backup flagged, any changes done by this script is irreversible');
 }
 
 globals.directory = (args.d as string) ??
-    (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() ||
-        './');
+    (args.y ? './' : prompt('Enter map folder path (blank for current folder):')?.trim() || './');
 
 const fadeDuration = parseFloat(
-    args.t ?? args.y ? '1' : prompt('Fade duration in seconds (blank for default 1s):')?.trim() ??
-        '1',
+    args.t ?? args.y
+        ? '1'
+        : prompt('Fade duration in seconds (blank for default 1s):')?.trim() ?? '1',
 ) || 1;
 
 const flashMultiplier = parseFloat(
-    args.t ?? args.y ? '1.2' : prompt('Flash brightness multiplier (blank for default 1.2):')
-        ?.trim() ??
-        '1.2',
+    args.t ?? args.y
+        ? '1.2'
+        : prompt('Flash brightness multiplier (blank for default 1.2):')?.trim() ?? '1.2',
 ) || 1.2;
 
 if (args.q) {
@@ -67,9 +65,7 @@ try {
     try {
         info = load.infoSync();
     } catch {
-        logger.warn(
-            'Could not load Info.dat from folder, retrying with info.dat...',
-        );
+        logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
         info = load.infoSync({ filePath: 'info.dat' });
     }
 
@@ -98,8 +94,7 @@ try {
                 if (confirmation![0].toLowerCase() === 'y') {
                     copySync(
                         globals.directory + dl.settings._beatmapFilename,
-                        globals.directory + dl.settings._beatmapFilename +
-                            '.old',
+                        globals.directory + dl.settings._beatmapFilename + '.old',
                         { overwrite: true },
                     );
                 } else {
@@ -109,11 +104,7 @@ try {
             }
         }
         if (isV2(dl.data)) {
-            logger.info(
-                'Checking event in beatmap v2',
-                dl.characteristic,
-                dl.difficulty,
-            );
+            logger.info('Checking event in beatmap v2', dl.characteristic, dl.difficulty);
             if (dl.data.basicEvents.some((e) => e.isOldChroma())) {
                 if (!oldChromaConfirm) {
                     const confirmation = args.y ? 'n' : prompt(
@@ -145,18 +136,10 @@ try {
                 }
             }
         } else {
-            logger.info(
-                'Checking event in beatmap v3',
-                dl.characteristic,
-                dl.difficulty,
-            );
+            logger.info('Checking event in beatmap v3', dl.characteristic, dl.difficulty);
             bpm.timescale = dl.data.bpmEvents.map((bpme) => bpme.toJSON());
 
-            logger.info(
-                'Temporarily converting beatmap v2 copy',
-                dl.characteristic,
-                dl.difficulty,
-            );
+            logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
             const temp = convert.V3toV2(dl.data, true);
             if (temp.basicEvents.some((e) => e.isOldChroma())) {
                 if (!oldChromaConfirm) {
@@ -209,23 +192,15 @@ try {
         if (dl.data.basicEvents.some((e) => e.isFade() || e.isFlash())) {
             logger.info('V1 event found in beatmap');
             logger.info('Sorting event');
-            dl.data.basicEvents
-                .sort((a, b) => a.type - b.type)
-                .sort((a, b) => a.time - b.time);
+            dl.data.basicEvents.sort((a, b) => a.type - b.type).sort((a, b) => a.time - b.time);
             const mappedEvent = dl.data.basicEvents
                 .map((ev) => ev)
                 .filter((ev) => ev.isLightEvent(info._environmentName))
-                .reduce(
-                    (
-                        obj: { [key: number]: types.wrapper.IWrapEvent[] },
-                        ev,
-                    ) => {
-                        obj[ev.type] ??= [];
-                        obj[ev.type].push(ev);
-                        return obj;
-                    },
-                    {},
-                );
+                .reduce((obj: { [key: number]: types.wrapper.IWrapEvent[] }, ev) => {
+                    obj[ev.type] ??= [];
+                    obj[ev.type].push(ev);
+                    return obj;
+                }, {});
 
             for (const id in mappedEvent) {
                 const events = mappedEvent[id];
@@ -234,9 +209,7 @@ try {
                     const next = events[parseInt(i) + 1];
                     if (next) {
                         const duration = utils.clamp(
-                            bpm.toRealTime(next.time) -
-                                bpm.toRealTime(current.time) -
-                                0.001,
+                            bpm.toRealTime(next.time) - bpm.toRealTime(current.time) - 0.001,
                             0,
                             current.isFlash() ? fadeDuration / 10 : fadeDuration,
                         );
@@ -253,16 +226,9 @@ try {
                             current.floatValue *= flashMultiplier;
                             dl.data.addBasicEvents({
                                 ...current.data,
-                                time: bpm.toBeatTime(
-                                    bpm.toRealTime(current.time) + duration,
-                                    true,
-                                ),
+                                time: bpm.toBeatTime(bpm.toRealTime(current.time) + duration, true),
                                 value: current.value + 3,
-                                floatValue: utils.lerp(
-                                    alpha,
-                                    current.floatValue,
-                                    0,
-                                ),
+                                floatValue: utils.lerp(alpha, current.floatValue, 0),
                             });
                         }
                         if (current.isFlash()) {
@@ -271,16 +237,9 @@ try {
                             current.floatValue *= flashMultiplier;
                             dl.data.addBasicEvents({
                                 ...current.data,
-                                time: bpm.toBeatTime(
-                                    bpm.toRealTime(current.time) + duration,
-                                    true,
-                                ),
+                                time: bpm.toBeatTime(bpm.toRealTime(current.time) + duration, true),
                                 value: current.value + 3,
-                                floatValue: utils.lerp(
-                                    alpha,
-                                    current.floatValue,
-                                    prev,
-                                ),
+                                floatValue: utils.lerp(alpha, current.floatValue, prev),
                             });
                         }
                     } else {
@@ -304,8 +263,7 @@ try {
                             dl.data.addBasicEvents({
                                 ...current.data,
                                 time: bpm.toBeatTime(
-                                    bpm.toRealTime(current.time) +
-                                        fadeDuration / 10,
+                                    bpm.toRealTime(current.time) + fadeDuration / 10,
                                     true,
                                 ),
                                 value: current.value + 3,

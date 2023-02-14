@@ -1,12 +1,12 @@
 {
     "lint": {
         "files": {
-            "exclude": [".git", "cov_profile"]
+            "exclude": [".git", "cov_profile", "npm"]
         }
     },
     "fmt": {
         "files": {
-            "exclude": [".git", "cov_profile"]
+            "exclude": [".git", "cov_profile", "npm"]
         },
         "options": {
             "indentWidth": 4,
@@ -14,8 +14,10 @@
             "singleQuote": true
         }
     },
+    "lock": false,
     "tasks": {
-        "test": "deno test --parallel --allow-read=tests --allow-write=tests --coverage=cov_profile && deno coverage cov_profile --lcov --output=cov_profile.lcov && genhtml -o cov_profile/html cov_profile.lcov",
+        "npm": "deno run -A build_npm.ts",
+        "test": "deno test --parallel --allow-read=tests --allow-write=tests --coverage=cov_profile tests/ && deno coverage cov_profile --lcov --output=cov_profile.lcov && genhtml -o cov_profile/html cov_profile.lcov",
         "test:clean": "rm -rf cov_profile cov_profile.lcov",
         "test:auto": "deno task test:clean || true && deno task test",
         "compile:autoFixer": "NAME='BSAutoFixer' SOURCE='./example/autoFixer.ts' && deno task compile:generic",
