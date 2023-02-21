@@ -212,7 +212,7 @@ try {
                     }
                 }
                 logger.info('Converting beatmap v2', dl.characteristic, dl.difficulty, 'to v3');
-                dl.data = convert.V2toV3(dl.data, true);
+                dl.data = convert.V2toV3(dl.data as v2.Difficulty, true);
                 save.difficultySync(dl.data);
                 isConverted = true;
             }

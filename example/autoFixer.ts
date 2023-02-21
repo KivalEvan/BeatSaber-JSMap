@@ -137,8 +137,6 @@ try {
                 .map((bpme) => bpme.toJSON() as types.v3.IBPMEvent);
             removeOutsidePlayable(d, bpm, duration);
         }
-        customDataUpdate(d);
-        dataCorrection.difficulty(d);
 
         if (d.basicEvents.some((e) => e.isOldChroma())) {
             if (!oldChromaConfirm) {
@@ -170,6 +168,9 @@ try {
                 convert.chromaLightGradientToVanillaGradient(d, true);
             }
         }
+
+        customDataUpdate(d);
+        dataCorrection.difficulty(d);
     };
 
     const performDifficultyList = (
