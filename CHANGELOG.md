@@ -1,10 +1,12 @@
 # Changelog
 
-## 1.3.1 [2023-02-##]
+## 1.3.1 [2023-02-22]
 
 ### Added
 
 - Data check can now check for array of primitives
+- Converts boost and lane rotation event from basic events to their respective arrays
+- Temporary v2 event conversion to v3 event in beatmap v3 parsing
 
 ### Changed
 

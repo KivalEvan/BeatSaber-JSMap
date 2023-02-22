@@ -30,6 +30,7 @@ import { LightTranslationBase } from '../../beatmap/v3/lightTranslationBase.ts';
 import { LightTranslationEventBox } from '../../beatmap/v3/lightTranslationEventBox.ts';
 import { LightTranslationEventBoxGroup } from '../../beatmap/v3/lightTranslationEventBoxGroup.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
+import { EventLaneRotationValue } from '../../beatmap/shared/constants.ts';
 
 function fixBpmEvent(obj: BPMEvent) {
     obj.time = fixFloat(obj.time, BPMEvent.default.b);
@@ -320,4 +321,30 @@ export function v3(data: Difficulty) {
     data.lightRotationEventBoxGroups.forEach(fixLightRotationEventBoxGroup);
     data.lightTranslationEventBoxGroups.forEach(fixLightTranslationEventBoxGroup);
     data.useNormalEventsAsCompatibleEvents = fixBoolean(data.useNormalEventsAsCompatibleEvents);
+
+    const boost = data.basicEvents.filter((ev) => ev.isLaneRotationEvent());
+    const laneRotation = data.basicEvents.filter((ev) => ev.isColorBoost());
+    data.basicEvents = data.basicEvents.filter(
+        (ev) => !(ev.isColorBoost() || ev.isLaneRotationEvent()),
+    );
+    data.colorBoostEvents.push(
+        ...boost.map(
+            (ev) => ColorBoostEvent.create({ time: ev.time, toggle: ev.value ? true : false })[0],
+        ),
+    );
+    data.rotationEvents.push(
+        ...laneRotation.map(
+            (ev) =>
+                RotationEvent.create({
+                    time: ev.time,
+                    executionTime: ev.type == 15 ? 1 : 0,
+                    rotation: ev.customData._rotation ??
+                        (ev.value >= 1000 && ev.value <= 1720
+                            ? ev.value - 1360
+                            : ev.value >= 0 && ev.value <= 7
+                            ? EventLaneRotationValue[ev.value]
+                            : 0),
+                })[0],
+        ),
+    );
 }
