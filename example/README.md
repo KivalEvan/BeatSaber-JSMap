@@ -18,7 +18,7 @@ add the following on top of the script. No additional file or setup needed, it j
 
 ```ts
 // be sure to check for latest version on 'bsmap@version'
-import * as bsmap from 'https://deno.land/x/bsmap@1.3.0/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.3.2/mod.ts';
 ```
 
 **NOTE:** for first time user, you may need to cache the URL if the error pops up on import. Hover
@@ -36,7 +36,7 @@ destructuring can be used to obtain certain variables and functions. Helpful tip
 to show list of available variables and functions.
 
 ```ts
-import { load, save, utils, v3 } from 'https://deno.land/x/bsmap@1.3.0/mod.ts';
+import { load, save, utils, v3 } from 'https://deno.land/x/bsmap@1.3.2/mod.ts';
 const { random, deepCopy } = utils;
 ```
 
@@ -105,11 +105,16 @@ wrapped field when presented.
 
 ```ts
 const bomb = v3.BombNote.create();
-const notes = v3.ColorNote.create({}, { b: 1, x: 0, y: 1 }, {
-    time: 2,
-    posX: 1,
-    posY: 0,
-}, { b: 2, color: 1 });
+const notes = v3.ColorNote.create(
+    {},
+    { b: 1, x: 0, y: 1 },
+    {
+        time: 2,
+        posX: 1,
+        posY: 0,
+    },
+    { b: 2, color: 1 },
+);
 data.colorNotes.push(...notes);
 ```
 
@@ -117,12 +122,17 @@ Difficulty class has a built-in method that allows instantiating of an object di
 into an array. This also allows insertion of an already instantiated object.
 
 ```ts
-data.addBasicEvents({ et: 3 }, { time: 2, type: 1, value: 3 }, {
-    b: 5,
-    type: 2,
-    value: 7,
-    f: 1,
-}, {});
+data.addBasicEvents(
+    { et: 3 },
+    { time: 2, type: 1, value: 3 },
+    {
+        b: 5,
+        type: 2,
+        value: 7,
+        f: 1,
+    },
+    {},
+);
 data.addBasicEvents(...events);
 ```
 
@@ -178,15 +188,15 @@ third-party library. This provides plentiful of helpers that may be useful for m
 other purposes.
 
 ```ts
-import * as chroma from 'https://deno.land/x/bsmap@1.3.0/extensions/chroma/mod.ts';
-import * as NE from 'https://deno.land/x/bsmap@1.3.0/extensions/NE/mod.ts';
-import * as selector from 'https://deno.land/x/bsmap@1.3.0/extensions/selector/mod.ts';
+import * as chroma from 'https://deno.land/x/bsmap@1.3.2/extensions/chroma/mod.ts';
+import * as NE from 'https://deno.land/x/bsmap@1.3.2/extensions/NE/mod.ts';
+import * as selector from 'https://deno.land/x/bsmap@1.3.2/extensions/selector/mod.ts';
 ```
 
 If you wish to import all of them, do as following:
 
 ```ts
-import * as ext from 'https://deno.land/x/bsmap@1.3.0/extensions/mod.ts';
+import * as ext from 'https://deno.land/x/bsmap@1.3.2/extensions/mod.ts';
 ```
 
 ## Patch
@@ -195,7 +205,7 @@ This module is not included as it is very rarely used and unstable. It contains 
 fix and alter beatmap objects that were potentially broken or contain incompatible data.
 
 ```ts
-import * as patch from 'https://deno.land/x/bsmap@1.3.0/patch/mod.ts';
+import * as patch from 'https://deno.land/x/bsmap@1.3.2/patch/mod.ts';
 ```
 
 ## Addendum
@@ -208,8 +218,8 @@ purpose.
 
 ```ts
 // deps.ts
-export * from 'https://deno.land/x/bsmap@1.3.0/mod.ts';
-export * as ext from 'https://deno.land/x/bsmap@1.3.0/extensions/mod.ts';
+export * from 'https://deno.land/x/bsmap@1.3.2/mod.ts';
+export * as ext from 'https://deno.land/x/bsmap@1.3.2/extensions/mod.ts';
 ```
 
 ```ts
@@ -225,9 +235,7 @@ used extensively in the library and is encouraged to explore further into it by 
 casting. This is an intermediate knowledge of TypeScript but should be relatively easy to grasp.
 
 ```ts
-const event = [{ c: 2 }, { b: 0.25, s: 0, i: 1 }] as Partial<
-    types.v3.LightColorBase
->[];
+const event = [{ c: 2 }, { b: 0.25, s: 0, i: 1 }] as Partial<types.v3.LightColorBase>[];
 data.addLightColorEventBoxGroup({ e: [{ e: event }] });
 ```
 
