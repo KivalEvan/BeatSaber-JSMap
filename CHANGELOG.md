@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.2 - Hotfix [2023-02-22]
+
+### Fixed
+
+- Gradient conversion used wrong event class
+
 ## 1.3.1 [2023-02-22]
 
 ### Added

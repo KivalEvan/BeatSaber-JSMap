@@ -1,11 +1,13 @@
 import logger from '../logger.ts';
 import { Event } from '../beatmap/v2/event.ts';
+import { BasicEvent } from '../beatmap/v3/basicEvent.ts';
 import { easings } from '../utils/easings.ts';
 import { interpolateColor } from '../utils/colors.ts';
 import { normalize } from '../utils/math.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IChromaLightGradient } from '../types/beatmap/v2/custom/chroma.ts';
 import { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
+import { isV3 } from '../beatmap/version.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -24,6 +26,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
     data: T,
     skipPrompt?: boolean,
 ): T {
+    const EventClass = isV3(data) ? BasicEvent : Event;
     if (!skipPrompt) {
         logger.warn(
             tag('chromaLightGradientToVanillaGradient'),
@@ -77,16 +80,16 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                         eig.time > ev.time + ev.customData._lightGradient._duration - 0.001
                     ) {
                         newEvents.push(
-                            ...Event.create({
-                                _time: ev.time + ev.customData._lightGradient._duration - 0.001,
-                                _type: ev.type,
-                                _value: ev.value >= 1 && ev.value <= 4
+                            ...EventClass.create({
+                                time: ev.time + ev.customData._lightGradient._duration - 0.001,
+                                type: ev.type,
+                                value: ev.value >= 1 && ev.value <= 4
                                     ? 4
                                     : ev.value >= 5 && ev.value <= 8
                                     ? 8
                                     : 12,
-                                _floatValue: 1,
-                                _customData: {
+                                floatValue: 1,
+                                customData: {
                                     _color: ev.customData._lightGradient._endColor,
                                     _easing: eventInGradient.length === 1
                                         ? ev.customData._lightGradient._easing
@@ -121,17 +124,17 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                             eig.removeCustomData('_color');
                             if (!hasOff) {
                                 newEvents.push(
-                                    ...Event.create({
-                                        _time: eig.time - 0.001,
-                                        _type: ev.type,
-                                        _value: previousEvent.value >= 1 && previousEvent.value <= 4
+                                    ...EventClass.create({
+                                        time: eig.time - 0.001,
+                                        type: ev.type,
+                                        value: previousEvent.value >= 1 && previousEvent.value <= 4
                                             ? 4
                                             : previousEvent.value >= 5 &&
                                                     previousEvent.value <= 8
                                             ? 8
                                             : 12,
-                                        _floatValue: 1,
-                                        _customData: {
+                                        floatValue: 1,
+                                        customData: {
                                             _color: interpolateColor(
                                                 ev.customData._lightGradient._startColor,
                                                 ev.customData._lightGradient._endColor,
@@ -164,16 +167,16 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                     ? 5
                     : 9;
                 newEvents.push(
-                    ...Event.create({
-                        _time: ev.time + ev.customData._lightGradient._duration,
-                        _type: ev.type,
-                        _value: ev.value >= 1 && ev.value <= 4
+                    ...EventClass.create({
+                        time: ev.time + ev.customData._lightGradient._duration,
+                        type: ev.type,
+                        value: ev.value >= 1 && ev.value <= 4
                             ? 4
                             : ev.value >= 5 && ev.value <= 8
                             ? 8
                             : 12,
-                        _floatValue: 1,
-                        _customData: {
+                        floatValue: 1,
+                        customData: {
                             _color: ev.customData._lightGradient._endColor,
                             _easing: ev.customData._lightGradient._easing,
                         },
