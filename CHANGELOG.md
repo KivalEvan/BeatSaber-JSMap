@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.3 [2023-03-03]
+
+### Added
+
+- Dragons 2.0 environment & color scheme
+
 ## 1.3.2 - Hotfix [2023-02-22]
 
 ### Fixed

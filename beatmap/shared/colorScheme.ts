@@ -6,10 +6,7 @@ import {
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
 /** Record of Environment Color to Color Scheme. */
-export const EnvironmentSchemeName: Record<
-    EnvironmentAllName,
-    ColorSchemeList
-> = {
+export const EnvironmentSchemeName: Record<EnvironmentAllName, ColorSchemeList> = {
     DefaultEnvironment: 'The First',
     OriginsEnvironment: 'Origins',
     TriangleEnvironment: 'The First',
@@ -40,6 +37,7 @@ export const EnvironmentSchemeName: Record<
     LizzoEnvironment: 'Lizzo',
     TheWeekndEnvironment: 'The Weeknd',
     RockMixtapeEnvironment: 'Rock Mixtape',
+    Dragons2Environment: 'Dragons 2.0',
     GlassDesertEnvironment: 'Glass Desert',
 } as const;
 
@@ -264,6 +262,15 @@ export const ColorScheme: IEnvironmentScheme = {
         _envColorLeftBoost: { r: 0.96, g: 0.1344, b: 0.9187202 },
         _envColorRightBoost: { r: 0.378, g: 0.813, b: 0.9 },
         _obstacleColor: { r: 1, g: 1, b: 1 },
+    },
+    'Dragons 2.0': {
+        _colorLeft: { r: 0.7264151, g: 0.6587077, b: 0.2809719 },
+        _colorRight: { r: 0.2509804, g: 0.7647059, b: 0.405098 },
+        _envColorLeft: { r: 0.01960784, g: 0.9960785, b: 0.06666667 },
+        _envColorRight: { r: 0, g: 0.05490196, b: 1 },
+        _envColorLeftBoost: { r: 0.9764706, g: 0.03137255, b: 0.01960784 },
+        _envColorRightBoost: { r: 1, g: 0.8292086, b: 0.2264151 },
+        _obstacleColor: { r: 0.5548979, g: 0.2470588, b: 1 },
     },
     'Glass Desert': {
         _colorLeft: { r: 0.6792453, g: 0.5712628, b: 0 },

@@ -1,9 +1,6 @@
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
-export function eventTypeRename(
-    type: number,
-    environment?: EnvironmentAllName,
-): string {
+export function eventTypeRename(type: number, environment?: EnvironmentAllName): string {
     // environment specific
     switch (environment) {
         case 'LinkinParkEnvironment':
@@ -259,6 +256,34 @@ export function eventTypeRename(
                     return 'Runway Left';
                 case 1:
                     return 'Runway Right';
+                case 6:
+                    return 'Ambient';
+                default:
+            }
+            break;
+        case 'RockMixtapeEnvironment':
+            switch (type) {
+                case 3:
+                    return 'BG Bloom';
+                case 4:
+                    return 'Aurora';
+                case 6:
+                    return 'Ambient';
+                default:
+            }
+            break;
+        case 'Dragons2Environment':
+            switch (type) {
+                case 0:
+                    return 'Inner Laser Left';
+                case 1:
+                    return 'Inner Laser Right';
+                case 2:
+                    return 'Outer Laser Left';
+                case 3:
+                    return 'Outer Laser Right';
+                case 4:
+                    return 'Logo';
                 case 6:
                     return 'Ambient';
                 default:

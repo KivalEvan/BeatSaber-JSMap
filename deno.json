@@ -17,6 +17,7 @@
     "lock": false,
     "tasks": {
         "npm": "deno run -A build_npm.ts",
+        "check": "deno check mod.ts && deno check extensions/mod.ts && deno check patch/mod.ts",
         "test": "deno test --parallel --allow-read=tests --allow-write=tests --coverage=cov_profile tests/ && deno coverage cov_profile --lcov --output=cov_profile.lcov && genhtml -o cov_profile/html cov_profile.lcov",
         "test:clean": "rm -rf cov_profile cov_profile.lcov",
         "test:auto": "deno task test:clean || true && deno task test",

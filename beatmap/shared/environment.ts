@@ -32,14 +32,13 @@ export const EnvironmentRename: { [key in EnvironmentAllName]: string } = {
     LizzoEnvironment: 'Lizzo',
     TheWeekndEnvironment: 'The Weeknd',
     RockMixtapeEnvironment: 'Rock Mixtape',
+    Dragons2Environment: 'Dragons 2.0',
     GlassDesertEnvironment: 'Glass Desert',
 } as const;
 
 /** List of available event type in environment. */
 export const EventList: {
-    [key in EnvironmentAllName]: Readonly<
-        [ReadonlyArray<number>, ReadonlyArray<number>]
-    >;
+    [key in EnvironmentAllName]: Readonly<[ReadonlyArray<number>, ReadonlyArray<number>]>;
 } = {
     DefaultEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
     OriginsEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
@@ -65,24 +64,7 @@ export const EventList: {
     HalloweenEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
     GagaEnvironment: [[0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17], []],
     GlassDesertEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
-    WeaveEnvironment: [[], [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-    ]],
+    WeaveEnvironment: [[], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]],
     PyroEnvironment: [
         [0, 1, 2, 3, 4, 6],
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
@@ -181,5 +163,9 @@ export const EventList: {
             36,
             37,
         ],
+    ],
+    Dragons2Environment: [
+        [0, 1, 2, 3, 4, 6],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     ],
 } as const;
