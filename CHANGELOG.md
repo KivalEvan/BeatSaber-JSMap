@@ -6,6 +6,11 @@
 
 - Dragons 2.0 environment & color scheme
 
+### Fixed
+
+- Event box constructor should no longer attempt to fix beat distribution value for step and offset
+  type filter
+
 ## 1.3.2 - Hotfix [2023-02-22]
 
 ### Fixed

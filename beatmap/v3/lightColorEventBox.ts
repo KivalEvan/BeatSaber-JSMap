@@ -46,12 +46,6 @@ export class LightColorEventBox extends WrapLightColorEventBox<
         super(lightColorEventBox);
         this._f = IndexFilter.create(lightColorEventBox.f);
         this._e = lightColorEventBox.e.map((e) => LightColorBase.create(e)[0]);
-        const lastTime = Math.max(...this._e.map((e) => e.time));
-        if (this.beatDistributionType === 2) {
-            this.beatDistribution = this.beatDistribution < lastTime
-                ? lastTime
-                : this.beatDistribution;
-        }
     }
 
     static create(): LightColorEventBox[];
@@ -64,9 +58,7 @@ export class LightColorEventBox extends WrapLightColorEventBox<
             >
         >[]
     ): LightColorEventBox[];
-    static create(
-        ...eventBoxes: DeepPartial<ILightColorEventBox>[]
-    ): LightColorEventBox[];
+    static create(...eventBoxes: DeepPartial<ILightColorEventBox>[]): LightColorEventBox[];
     static create(
         ...eventBoxes: (
             & DeepPartial<ILightColorEventBox>
@@ -98,23 +90,16 @@ export class LightColorEventBox extends WrapLightColorEventBox<
                     f: (eb.filter as IIndexFilter) ??
                         (eb as Required<ILightColorEventBox>).f ??
                         LightColorEventBox.default.f(),
-                    w: eb.beatDistribution ?? eb.w ??
-                        LightColorEventBox.default.w,
-                    d: eb.beatDistributionType ?? eb.d ??
-                        LightColorEventBox.default.d,
-                    r: eb.brightnessDistribution ??
-                        eb.r ??
-                        LightColorEventBox.default.r,
-                    t: eb.brightnessDistributionType ??
-                        eb.t ??
-                        LightColorEventBox.default.t,
+                    w: eb.beatDistribution ?? eb.w ?? LightColorEventBox.default.w,
+                    d: eb.beatDistributionType ?? eb.d ?? LightColorEventBox.default.d,
+                    r: eb.brightnessDistribution ?? eb.r ?? LightColorEventBox.default.r,
+                    t: eb.brightnessDistributionType ?? eb.t ?? LightColorEventBox.default.t,
                     b: eb.affectFirst ?? eb.b ?? LightColorEventBox.default.b,
                     i: eb.easing ?? eb.i ?? LightColorEventBox.default.i,
                     e: (eb.events as ILightColorBase[]) ??
                         (eb as Required<ILightColorEventBox>).e ??
                         LightColorEventBox.default.e(),
-                    customData: eb.customData ??
-                        LightColorEventBox.default.customData(),
+                    customData: eb.customData ?? LightColorEventBox.default.customData(),
                 }),
             )
         );
