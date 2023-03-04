@@ -1,15 +1,18 @@
 import { ObtainCustomData } from '../../utils.ts';
 import { ISerializable } from '../shared/serializable.ts';
 
-export interface IWrapBaseItem<
+export interface IWrapBaseItemAttribute<
     T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends ISerializable<T> {
+> {
     /** Custom data `<object>` of beatmap object.
      *
      * This has no type-safety for unsupported data.
      */
     customData: ObtainCustomData<T>;
+}
 
+export interface IWrapBaseItem<T extends Record<keyof T, unknown> = Record<string, unknown>>
+    extends ISerializable<T>, IWrapBaseItemAttribute<T> {
     setCustomData(value: ObtainCustomData<T>): this;
     resetCustomData(): this;
     removeCustomData(key: string): this;

@@ -5,6 +5,7 @@
 ### Added
 
 - Dragons 2.0 environment & color scheme
+- Wrapper attribute interface separated
 
 ### Fixed
 

@@ -1,8 +1,8 @@
-import { IWrapBaseObject } from './baseObject.ts';
+import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapLightRotationBase<
+export interface IWrapLightRotationBaseAttribute<
     T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapBaseObject<T> {
+> extends IWrapBaseObjectAttribute<T> {
     /** Relative beat time `<float>` to event box group. */
     time: number;
     /** Use previous event rotation value `<int>` in light rotation. */
@@ -34,7 +34,11 @@ export interface IWrapLightRotationBase<
      * ```
      */
     direction: 0 | 1 | 2;
+}
 
+export interface IWrapLightRotationBase<
+    T extends Record<keyof T, unknown> = Record<string, unknown>,
+> extends IWrapBaseObject<T>, IWrapLightRotationBaseAttribute<T> {
     setTime(value: number): this;
     setPrevious(value: 0 | 1): this;
     setEasing(value: -1 | 0 | 1 | 2 | 3): this;

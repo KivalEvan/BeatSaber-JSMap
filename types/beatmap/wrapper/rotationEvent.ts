@@ -1,8 +1,8 @@
-import { IWrapBaseObject } from './baseObject.ts';
+import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapRotationEvent<
+export interface IWrapRotationEventAttribute<
     T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapBaseObject<T> {
+> extends IWrapBaseObjectAttribute<T> {
     /** Execution time `<int>` of rotation event.
      * ```ts
      * 0 -> Early
@@ -12,7 +12,10 @@ export interface IWrapRotationEvent<
     executionTime: 0 | 1;
     /** Clockwise rotation value `<float>` of rotation event. */
     rotation: number;
+}
 
+export interface IWrapRotationEvent<T extends Record<keyof T, unknown> = Record<string, unknown>>
+    extends IWrapBaseObject<T>, IWrapRotationEventAttribute<T> {
     setExecutionTime(value: 0 | 1): this;
     setRotation(value: number): this;
 }

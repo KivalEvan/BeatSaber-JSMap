@@ -1,10 +1,13 @@
-import { IWrapBaseItem } from './baseItem.ts';
+import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
-export interface IWrapBaseObject<
+export interface IWrapBaseObjectAttribute<
     T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapBaseItem<T> {
+> extends IWrapBaseItemAttribute<T> {
     /** Beat time `<float>` of beatmap object. */
     time: number;
+}
 
+export interface IWrapBaseObject<T extends Record<keyof T, unknown> = Record<string, unknown>>
+    extends IWrapBaseItem<T>, IWrapBaseObjectAttribute<T> {
     setTime(value: number): this;
 }

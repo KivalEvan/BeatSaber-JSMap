@@ -1,9 +1,9 @@
 import { Vector2 } from '../../vector.ts';
-import { IWrapBaseObject } from './baseObject.ts';
+import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapGridObject<
+export interface IWrapGridObjectAttribute<
     T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapBaseObject<T> {
+> extends IWrapBaseObjectAttribute<T> {
     /** Position x `<int>` of base obj.
      * ```ts
      * 0 -> Outer Left
@@ -25,7 +25,10 @@ export interface IWrapGridObject<
      * Range: `0-2`
      */
     posY: number;
+}
 
+export interface IWrapGridObject<T extends Record<keyof T, unknown> = Record<string, unknown>>
+    extends IWrapBaseObject<T>, IWrapGridObjectAttribute<T> {
     setPosX(value: number): this;
     setPosY(value: number): this;
 

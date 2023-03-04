@@ -1,8 +1,8 @@
-import { IWrapGridObject } from './gridObject.ts';
+import { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
-export interface IWrapBaseNote<
+export interface IWrapBaseNoteAttribute<
     T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapGridObject<T> {
+> extends IWrapGridObjectAttribute<T> {
     /** Color `<int>` of note.
      * ```ts
      * 0 -> Red
@@ -22,7 +22,10 @@ export interface IWrapBaseNote<
      * **WARNING:** Dot-directional is not recommended with sliders, assumes down-directional.
      */
     direction: number;
+}
 
+export interface IWrapBaseNote<T extends Record<keyof T, unknown> = Record<string, unknown>>
+    extends IWrapGridObject<T>, IWrapBaseNoteAttribute<T> {
     setColor(value: 0 | 1): this;
     setDirection(value: number): this;
 

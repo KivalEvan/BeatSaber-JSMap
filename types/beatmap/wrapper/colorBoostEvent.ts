@@ -1,10 +1,13 @@
-import { IWrapBaseObject } from './baseObject.ts';
+import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapColorBoostEvent<
+export interface IWrapColorBoostEventAttribute<
     T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapBaseObject<T> {
+> extends IWrapBaseObjectAttribute<T> {
     /** Toggle `<boolean>` of boost event. */
     toggle: boolean;
+}
 
+export interface IWrapColorBoostEvent<T extends Record<keyof T, unknown> = Record<string, unknown>>
+    extends IWrapBaseObject<T>, IWrapColorBoostEventAttribute<T> {
     setToggle(value: boolean): this;
 }

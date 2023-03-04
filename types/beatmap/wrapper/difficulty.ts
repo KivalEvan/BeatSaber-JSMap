@@ -12,16 +12,16 @@ import { IWrapLightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { IWrapLightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { IWrapLightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 import { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
-import { IWrapBaseItem } from './baseItem.ts';
+import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import { Version } from '../shared/version.ts';
 import { DeepPartialWrapper, LooseAutocomplete, PartialWrapper } from '../../utils.ts';
 import { GenericFileName } from '../shared/info.ts';
 import { EventContainer, NoteContainer } from './container.ts';
 import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
 
-export interface IWrapDifficulty<
+export interface IWrapDifficultyAttribute<
     T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapBaseItem<T> {
+> extends IWrapBaseItemAttribute<T> {
     version: Version;
     bpmEvents: IWrapBPMEvent[];
     rotationEvents: IWrapRotationEvent[];
@@ -40,6 +40,10 @@ export interface IWrapDifficulty<
     useNormalEventsAsCompatibleEvents: boolean;
 
     fileName: string;
+}
+
+export interface IWrapDifficulty<T extends Record<keyof T, unknown> = Record<string, unknown>>
+    extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
     setFileName(fileName: LooseAutocomplete<GenericFileName>): this;
 
     /** Calculate note per second.
@@ -101,9 +105,7 @@ export interface IWrapDifficulty<
     getEventContainer(): EventContainer[];
 
     addBPMEvents(...bpmEvents: Partial<IWrapBPMEvent>[]): void;
-    addRotationEvents(
-        ...rotationEvents: PartialWrapper<IWrapRotationEvent>[]
-    ): void;
+    addRotationEvents(...rotationEvents: PartialWrapper<IWrapRotationEvent>[]): void;
     addColorNotes(...colorNotes: PartialWrapper<IWrapColorNote>[]): void;
     addBombNotes(...bombNotes: PartialWrapper<IWrapBombNote>[]): void;
     addObstacles(...obstacles: PartialWrapper<IWrapObstacle>[]): void;
@@ -111,20 +113,14 @@ export interface IWrapDifficulty<
     addBurstSliders(...burstSliders: PartialWrapper<IWrapBurstSlider>[]): void;
     addWaypoints(...waypoints: PartialWrapper<IWrapWaypoint>[]): void;
     addBasicEvents(...basicEvents: PartialWrapper<IWrapEvent>[]): void;
-    addColorBoostEvents(
-        ...colorBoostEvents: PartialWrapper<IWrapColorBoostEvent>[]
-    ): void;
+    addColorBoostEvents(...colorBoostEvents: PartialWrapper<IWrapColorBoostEvent>[]): void;
     addLightColorEventBoxGroups(
         ...lightColorEBGs: DeepPartialWrapper<IWrapLightColorEventBoxGroup>[]
     ): void;
     addLightRotationEventBoxGroups(
-        ...lightRotationEBGs: DeepPartialWrapper<
-            IWrapLightRotationEventBoxGroup
-        >[]
+        ...lightRotationEBGs: DeepPartialWrapper<IWrapLightRotationEventBoxGroup>[]
     ): void;
     addLightTranslationEventBoxGroups(
-        ...lightTranslationEBGs: DeepPartialWrapper<
-            IWrapLightTranslationEventBoxGroup
-        >[]
+        ...lightTranslationEBGs: DeepPartialWrapper<IWrapLightTranslationEventBoxGroup>[]
     ): void;
 }
