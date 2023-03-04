@@ -1,6 +1,6 @@
 import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
-import { IWrapLightTranslationBase } from '../../types/beatmap/wrapper/lightTranslationBase.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { IWrapLightTranslationBaseAttribute } from '../../types/beatmap/wrapper/lightTranslationBase.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightTranslationBase } from '../wrapper/lightTranslationBase.ts';
 
@@ -18,35 +18,27 @@ export class LightTranslationBase extends WrapLightTranslationBase<
         },
     };
 
-    protected constructor(
-        lightTranslationBase: Required<ILightTranslationBase>,
-    ) {
+    protected constructor(lightTranslationBase: Required<ILightTranslationBase>) {
         super(lightTranslationBase);
     }
 
     static create(): LightTranslationBase[];
     static create(
-        ...lightTranslations: PartialWrapper<
-            IWrapLightTranslationBase<Required<ILightTranslationBase>>
+        ...lightTranslations: Partial<
+            IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>
         >[]
     ): LightTranslationBase[];
-    static create(
-        ...lightTranslations: Partial<ILightTranslationBase>[]
-    ): LightTranslationBase[];
+    static create(...lightTranslations: Partial<ILightTranslationBase>[]): LightTranslationBase[];
     static create(
         ...lightTranslations: (
             & Partial<ILightTranslationBase>
-            & PartialWrapper<
-                IWrapLightTranslationBase<Required<ILightTranslationBase>>
-            >
+            & Partial<IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>>
         )[]
     ): LightTranslationBase[];
     static create(
         ...lightTranslations: (
             & Partial<ILightTranslationBase>
-            & PartialWrapper<
-                IWrapLightTranslationBase<Required<ILightTranslationBase>>
-            >
+            & Partial<IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>>
         )[]
     ): LightTranslationBase[] {
         const result: LightTranslationBase[] = [];
@@ -57,8 +49,7 @@ export class LightTranslationBase extends WrapLightTranslationBase<
                     p: lr.previous ?? lr.p ?? LightTranslationBase.default.p,
                     e: lr.easing ?? lr.e ?? LightTranslationBase.default.e,
                     t: lr.translation ?? lr.t ?? LightTranslationBase.default.t,
-                    customData: lr.customData ??
-                        LightTranslationBase.default.customData(),
+                    customData: lr.customData ?? LightTranslationBase.default.customData(),
                 }),
             )
         );

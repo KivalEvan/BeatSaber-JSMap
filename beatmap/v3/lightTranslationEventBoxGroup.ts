@@ -1,12 +1,12 @@
 import { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
-import { DeepPartial, DeepPartialWrapper, ObjectReturnFn } from '../../types/utils.ts';
+import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
 import { LightTranslationEventBox } from './lightTranslationEventBox.ts';
 import { WrapLightTranslationEventBoxGroup } from '../wrapper/lightTranslationEventBoxGroup.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
 import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
-import { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
+import { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 
 /** Light translation event box group beatmap v3 class object. */
 export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxGroup<
@@ -25,17 +25,15 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     };
 
     private _e: LightTranslationEventBox[];
-    protected constructor(
-        eventBoxGroup: Required<ILightTranslationEventBoxGroup>,
-    ) {
+    protected constructor(eventBoxGroup: Required<ILightTranslationEventBoxGroup>) {
         super(eventBoxGroup);
         this._e = eventBoxGroup.e.map((e) => LightTranslationEventBox.create(e)[0]);
     }
 
     static create(): LightTranslationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartialWrapper<
-            IWrapLightTranslationEventBoxGroup<
+        ...eventBoxGroups: DeepPartial<
+            IWrapLightTranslationEventBoxGroupAttribute<
                 Required<ILightTranslationEventBoxGroup>,
                 Required<ILightTranslationEventBox>,
                 Required<ILightTranslationBase>,
@@ -49,8 +47,8 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     static create(
         ...eventBoxGroups: (
             & DeepPartial<ILightTranslationEventBoxGroup>
-            & DeepPartialWrapper<
-                IWrapLightTranslationEventBoxGroup<
+            & DeepPartial<
+                IWrapLightTranslationEventBoxGroupAttribute<
                     Required<ILightTranslationEventBoxGroup>,
                     Required<ILightTranslationEventBox>,
                     Required<ILightTranslationBase>,
@@ -62,8 +60,8 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     static create(
         ...eventBoxGroups: (
             & DeepPartial<ILightTranslationEventBoxGroup>
-            & DeepPartialWrapper<
-                IWrapLightTranslationEventBoxGroup<
+            & DeepPartial<
+                IWrapLightTranslationEventBoxGroupAttribute<
                     Required<ILightTranslationEventBoxGroup>,
                     Required<ILightTranslationEventBox>,
                     Required<ILightTranslationBase>,
@@ -76,10 +74,8 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         eventBoxGroups?.forEach((ebg) =>
             result.push(
                 new this({
-                    b: ebg.time ?? ebg.b ??
-                        LightTranslationEventBoxGroup.default.b,
-                    g: ebg.id ?? ebg.g ??
-                        LightTranslationEventBoxGroup.default.g,
+                    b: ebg.time ?? ebg.b ?? LightTranslationEventBoxGroup.default.b,
+                    g: ebg.id ?? ebg.g ?? LightTranslationEventBoxGroup.default.g,
                     e: (ebg.boxes as ILightTranslationEventBox[]) ??
                         (ebg.e as unknown as ILightTranslationEventBox[]) ??
                         LightTranslationEventBoxGroup.default.e(),
@@ -131,20 +127,14 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         this._e = value;
     }
 
-    get customData(): NonNullable<
-        ILightTranslationEventBoxGroup['customData']
-    > {
+    get customData(): NonNullable<ILightTranslationEventBoxGroup['customData']> {
         return this.data.customData;
     }
-    set customData(
-        value: NonNullable<ILightTranslationEventBoxGroup['customData']>,
-    ) {
+    set customData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>) {
         this.data.customData = value;
     }
 
-    setCustomData(
-        value: NonNullable<ILightTranslationEventBoxGroup['customData']>,
-    ): this {
+    setCustomData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>): this {
         this.customData = value;
         return this;
     }

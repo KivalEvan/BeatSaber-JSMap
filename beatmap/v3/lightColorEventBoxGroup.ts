@@ -2,8 +2,8 @@ import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
 import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
-import { IWrapLightColorEventBoxGroup } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import { DeepPartial, DeepPartialWrapper, ObjectReturnFn } from '../../types/utils.ts';
+import { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
+import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightColorEventBoxGroup } from '../wrapper/lightColorEventBoxGroup.ts';
 import { LightColorEventBox } from './lightColorEventBox.ts';
@@ -32,8 +32,8 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
 
     static create(): LightColorEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartialWrapper<
-            IWrapLightColorEventBoxGroup<
+        ...eventBoxGroups: DeepPartial<
+            IWrapLightColorEventBoxGroupAttribute<
                 Required<ILightColorEventBoxGroup>,
                 Required<ILightColorEventBox>,
                 Required<ILightColorBase>,
@@ -47,8 +47,8 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
     static create(
         ...eventBoxGroups: (
             & DeepPartial<ILightColorEventBoxGroup>
-            & DeepPartialWrapper<
-                IWrapLightColorEventBoxGroup<
+            & DeepPartial<
+                IWrapLightColorEventBoxGroupAttribute<
                     Required<ILightColorEventBoxGroup>,
                     Required<ILightColorEventBox>,
                     Required<ILightColorBase>,
@@ -60,8 +60,8 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
     static create(
         ...eventBoxGroups: (
             & DeepPartial<ILightColorEventBoxGroup>
-            & DeepPartialWrapper<
-                IWrapLightColorEventBoxGroup<
+            & DeepPartial<
+                IWrapLightColorEventBoxGroupAttribute<
                     Required<ILightColorEventBoxGroup>,
                     Required<ILightColorEventBox>,
                     Required<ILightColorBase>,
@@ -79,8 +79,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
                     e: (ebg.boxes as ILightColorEventBox[]) ??
                         (ebg.e as unknown as ILightColorEventBox[]) ??
                         LightColorEventBoxGroup.default.e(),
-                    customData: ebg.customData ??
-                        LightColorEventBoxGroup.default.customData(),
+                    customData: ebg.customData ?? LightColorEventBoxGroup.default.customData(),
                 }),
             )
         );

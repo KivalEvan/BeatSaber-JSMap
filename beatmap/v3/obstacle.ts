@@ -1,6 +1,6 @@
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
-import { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';
@@ -24,13 +24,13 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     }
 
     static create(): Obstacle[];
-    static create(...obstacles: PartialWrapper<IWrapObstacle<Required<IObstacle>>>[]): Obstacle[];
+    static create(...obstacles: Partial<IWrapObstacleAttribute<Required<IObstacle>>>[]): Obstacle[];
     static create(...obstacles: Partial<IObstacle>[]): Obstacle[];
     static create(
-        ...obstacles: (Partial<IObstacle> & PartialWrapper<IWrapObstacle<Required<IObstacle>>>)[]
+        ...obstacles: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
     ): Obstacle[];
     static create(
-        ...obstacles: (Partial<IObstacle> & PartialWrapper<IWrapObstacle<Required<IObstacle>>>)[]
+        ...obstacles: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
     ): Obstacle[] {
         const result: Obstacle[] = [];
         obstacles?.forEach((o) =>

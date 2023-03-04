@@ -1,8 +1,8 @@
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { WrapBombNote } from '../wrapper/bombNote.ts';
-import { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
+import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
 import { isVector3 } from '../../utils/vector.ts';
 
 /** Bomb note beatmap v3 class object. */
@@ -21,13 +21,13 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
     }
 
     static create(): BombNote[];
-    static create(...bombNotes: PartialWrapper<IWrapBombNote<Required<IBombNote>>>[]): BombNote[];
+    static create(...bombNotes: Partial<IWrapBombNoteAttribute<Required<IBombNote>>>[]): BombNote[];
     static create(...bombNotes: Partial<IBombNote>[]): BombNote[];
     static create(
-        ...bombNotes: (Partial<IBombNote> & PartialWrapper<IWrapBombNote<Required<IBombNote>>>)[]
+        ...bombNotes: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>)[]
     ): BombNote[];
     static create(
-        ...bombNotes: (Partial<IBombNote> & PartialWrapper<IWrapBombNote<Required<IBombNote>>>)[]
+        ...bombNotes: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>)[]
     ): BombNote[] {
         const result: BombNote[] = [];
         bombNotes?.forEach((bn) =>

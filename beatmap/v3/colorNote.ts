@@ -1,9 +1,9 @@
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { NoteDirectionAngle } from '../shared/constants.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
-import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
 import { isVector3 } from '../../utils/vector.ts';
 
 /** Color note beatmap v3 class object. */
@@ -26,19 +26,19 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
 
     static create(): ColorNote[];
     static create(
-        ...colorNotes: PartialWrapper<IWrapColorNote<Required<IColorNote>>>[]
+        ...colorNotes: Partial<IWrapColorNoteAttribute<Required<IColorNote>>>[]
     ): ColorNote[];
     static create(...colorNotes: Partial<IColorNote>[]): ColorNote[];
     static create(
         ...colorNotes: (
             & Partial<IColorNote>
-            & PartialWrapper<IWrapColorNote<Required<IColorNote>>>
+            & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>
         )[]
     ): ColorNote[];
     static create(
         ...colorNotes: (
             & Partial<IColorNote>
-            & PartialWrapper<IWrapColorNote<Required<IColorNote>>>
+            & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>
         )[]
     ): ColorNote[] {
         const result: ColorNote[] = [];

@@ -1,6 +1,6 @@
 import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
-import { IWrapLightColorBase } from '../../types/beatmap/wrapper/lightColorBase.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { IWrapLightColorBaseAttribute } from '../../types/beatmap/wrapper/lightColorBase.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightColorBase } from '../wrapper/lightColorBase.ts';
 
@@ -23,21 +23,19 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
 
     static create(): LightColorBase[];
     static create(
-        ...lightColors: PartialWrapper<
-            IWrapLightColorBase<Required<ILightColorBase>>
-        >[]
+        ...lightColors: Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>[]
     ): LightColorBase[];
     static create(...lightColors: Partial<ILightColorBase>[]): LightColorBase[];
     static create(
         ...lightColors: (
             & Partial<ILightColorBase>
-            & PartialWrapper<IWrapLightColorBase<Required<ILightColorBase>>>
+            & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>
         )[]
     ): LightColorBase[];
     static create(
         ...lightColors: (
             & Partial<ILightColorBase>
-            & PartialWrapper<IWrapLightColorBase<Required<ILightColorBase>>>
+            & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>
         )[]
     ): LightColorBase[] {
         const result: LightColorBase[] = [];
@@ -49,8 +47,7 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
                     c: lc.color ?? lc.c ?? LightColorBase.default.c,
                     s: lc.brightness ?? lc.s ?? LightColorBase.default.s,
                     f: lc.frequency ?? lc.f ?? LightColorBase.default.f,
-                    customData: lc.customData ??
-                        LightColorBase.default.customData(),
+                    customData: lc.customData ?? LightColorBase.default.customData(),
                 }),
             )
         );

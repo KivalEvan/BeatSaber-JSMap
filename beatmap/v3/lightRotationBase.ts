@@ -1,13 +1,11 @@
 import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
-import { IWrapLightRotationBase } from '../../types/beatmap/wrapper/lightRotationBase.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { IWrapLightRotationBaseAttribute } from '../../types/beatmap/wrapper/lightRotationBase.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightRotationBase } from '../wrapper/lightRotationBase.ts';
 
 /** Light rotation base beatmap v3 class object. */
-export class LightRotationBase extends WrapLightRotationBase<
-    Required<ILightRotationBase>
-> {
+export class LightRotationBase extends WrapLightRotationBase<Required<ILightRotationBase>> {
     static default: ObjectReturnFn<Required<ILightRotationBase>> = {
         b: 0,
         p: 0,
@@ -26,27 +24,19 @@ export class LightRotationBase extends WrapLightRotationBase<
 
     static create(): LightRotationBase[];
     static create(
-        ...lightRotations: PartialWrapper<
-            IWrapLightRotationBase<Required<ILightRotationBase>>
-        >[]
+        ...lightRotations: Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>>[]
     ): LightRotationBase[];
-    static create(
-        ...waypoints: Partial<ILightRotationBase>[]
-    ): LightRotationBase[];
+    static create(...waypoints: Partial<ILightRotationBase>[]): LightRotationBase[];
     static create(
         ...lightRotations: (
             & Partial<ILightRotationBase>
-            & PartialWrapper<
-                IWrapLightRotationBase<Required<ILightRotationBase>>
-            >
+            & Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>>
         )[]
     ): LightRotationBase[];
     static create(
         ...lightRotations: (
             & Partial<ILightRotationBase>
-            & PartialWrapper<
-                IWrapLightRotationBase<Required<ILightRotationBase>>
-            >
+            & Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>>
         )[]
     ): LightRotationBase[] {
         const result: LightRotationBase[] = [];
@@ -59,8 +49,7 @@ export class LightRotationBase extends WrapLightRotationBase<
                     l: lr.loop ?? lr.l ?? LightRotationBase.default.l,
                     r: lr.rotation ?? lr.r ?? LightRotationBase.default.r,
                     o: lr.direction ?? lr.o ?? LightRotationBase.default.o,
-                    customData: lr.customData ??
-                        LightRotationBase.default.customData(),
+                    customData: lr.customData ?? LightRotationBase.default.customData(),
                 }),
             )
         );

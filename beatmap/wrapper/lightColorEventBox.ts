@@ -9,12 +9,8 @@ export abstract class WrapLightColorEventBox<
     TFilter extends Record<keyof TFilter, unknown>,
 > extends WrapEventBox<TBox, TBase, TFilter>
     implements IWrapLightColorEventBox<TBox, TBase, TFilter> {
-    abstract get brightnessDistribution(): IWrapLightColorEventBox[
-        'brightnessDistribution'
-    ];
-    abstract set brightnessDistribution(
-        value: IWrapLightColorEventBox['brightnessDistribution'],
-    );
+    abstract get brightnessDistribution(): IWrapLightColorEventBox['brightnessDistribution'];
+    abstract set brightnessDistribution(value: IWrapLightColorEventBox['brightnessDistribution']);
     abstract get brightnessDistributionType(): IWrapLightColorEventBox[
         'brightnessDistributionType'
     ];
@@ -26,15 +22,11 @@ export abstract class WrapLightColorEventBox<
     abstract get events(): IWrapLightColorBase<TBase>[];
     abstract set events(value: IWrapLightColorBase<TBase>[]);
 
-    setBrightnessDistribution(
-        value: IWrapLightColorEventBox['brightnessDistribution'],
-    ) {
+    setBrightnessDistribution(value: IWrapLightColorEventBox['brightnessDistribution']) {
         this.brightnessDistribution = value;
         return this;
     }
-    setBrightnessDistributionType(
-        value: IWrapLightColorEventBox['brightnessDistributionType'],
-    ) {
+    setBrightnessDistributionType(value: IWrapLightColorEventBox['brightnessDistributionType']) {
         this.brightnessDistributionType = value;
         return this;
     }
@@ -47,8 +39,7 @@ export abstract class WrapLightColorEventBox<
     isValid(): boolean {
         return (
             super.isValid() &&
-            (this.brightnessDistributionType === 1 ||
-                this.brightnessDistributionType === 2) &&
+            (this.brightnessDistributionType === 1 || this.brightnessDistributionType === 2) &&
             (this.affectFirst === 0 || this.affectFirst === 1)
         );
     }

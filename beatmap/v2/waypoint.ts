@@ -1,6 +1,6 @@
 import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
-import { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapWaypoint } from '../wrapper/waypoint.ts';
 
@@ -21,36 +21,24 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
     }
 
     static create(): Waypoint[];
-    static create(
-        ...waypoints: PartialWrapper<IWrapWaypoint<Required<IWaypoint>>>[]
-    ): Waypoint[];
+    static create(...waypoints: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>[]): Waypoint[];
     static create(...waypoints: Partial<IWaypoint>[]): Waypoint[];
     static create(
-        ...waypoints: (
-            & Partial<IWaypoint>
-            & PartialWrapper<IWrapWaypoint<Required<IWaypoint>>>
-        )[]
+        ...waypoints: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
     ): Waypoint[];
     static create(
-        ...waypoints: (
-            & Partial<IWaypoint>
-            & PartialWrapper<IWrapWaypoint<Required<IWaypoint>>>
-        )[]
+        ...waypoints: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
     ): Waypoint[] {
         const result: Waypoint[] = [];
         waypoints?.forEach((w) =>
             result.push(
                 new this({
                     _time: w.time ?? w._time ?? Waypoint.default._time,
-                    _lineIndex: w.posX ?? w._lineIndex ??
-                        Waypoint.default._lineIndex,
-                    _lineLayer: w.posY ?? w._lineLayer ??
-                        Waypoint.default._lineLayer,
-                    _offsetDirection: w.direction ??
-                        w._offsetDirection ??
+                    _lineIndex: w.posX ?? w._lineIndex ?? Waypoint.default._lineIndex,
+                    _lineLayer: w.posY ?? w._lineLayer ?? Waypoint.default._lineLayer,
+                    _offsetDirection: w.direction ?? w._offsetDirection ??
                         Waypoint.default._offsetDirection,
-                    _customData: w.customData ?? w._customData ??
-                        Waypoint.default._customData(),
+                    _customData: w.customData ?? w._customData ?? Waypoint.default._customData(),
                 }),
             )
         );

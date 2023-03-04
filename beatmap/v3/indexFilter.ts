@@ -1,6 +1,6 @@
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
-import { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { IWrapIndexFilterAttribute } from '../../types/beatmap/wrapper/indexFilter.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapIndexFilter } from '../wrapper/indexFilter.ts';
 
@@ -30,18 +30,18 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
 
     static create(): IndexFilter;
     static create(
-        indexFilter: PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>,
+        indexFilter: Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>,
     ): IndexFilter;
     static create(indexFilter: Partial<IIndexFilter>): IndexFilter;
     static create(
         indexFilter:
             & Partial<IIndexFilter>
-            & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>>,
+            & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>,
     ): IndexFilter;
     static create(
         indexFilter:
             & Partial<IIndexFilter>
-            & PartialWrapper<IWrapIndexFilter<Required<IIndexFilter>>> = {},
+            & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>> = {},
     ): IndexFilter {
         return new IndexFilter({
             f: indexFilter.type ?? indexFilter.f ?? IndexFilter.default.f,
@@ -52,10 +52,8 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
             n: indexFilter.random ?? indexFilter.n ?? IndexFilter.default.n,
             s: indexFilter.seed ?? indexFilter.s ?? IndexFilter.default.s,
             l: indexFilter.limit ?? indexFilter.l ?? IndexFilter.default.l,
-            d: indexFilter.limitAffectsType ?? indexFilter.d ??
-                IndexFilter.default.d,
-            customData: indexFilter.customData ??
-                IndexFilter.default.customData(),
+            d: indexFilter.limitAffectsType ?? indexFilter.d ?? IndexFilter.default.d,
+            customData: indexFilter.customData ?? IndexFilter.default.customData(),
         });
     }
 

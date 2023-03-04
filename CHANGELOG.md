@@ -1,11 +1,12 @@
 # Changelog
 
-## 1.3.3 [2023-03-03]
+## 1.3.3 [2023-03-04]
 
 ### Added
 
 - Dragons 2.0 environment & color scheme
-- Wrapper attribute interface separated
+- Wrapper attribute interface separated (This should result in consistent and better developing
+  experience)
 
 ### Fixed
 

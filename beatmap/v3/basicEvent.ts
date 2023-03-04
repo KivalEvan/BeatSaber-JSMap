@@ -5,10 +5,10 @@ import {
     IChromaEventLight,
     IChromaEventRing,
 } from '../../types/beatmap/v3/custom/chroma.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
+import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import { WrapEvent } from '../wrapper/event.ts';
 
 /** Basic event beatmap v3 class object. */
@@ -29,19 +29,19 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
 
     static create(): BasicEvent[];
     static create(
-        ...basicEvents: PartialWrapper<IWrapEvent<Required<IBasicEvent>>>[]
+        ...basicEvents: Partial<IWrapEventAttribute<Required<IBasicEvent>>>[]
     ): BasicEvent[];
     static create(...basicEvents: Partial<IBasicEvent>[]): BasicEvent[];
     static create(
         ...basicEvents: (
             & Partial<IBasicEvent>
-            & PartialWrapper<IWrapEvent<Required<IBasicEvent>>>
+            & Partial<IWrapEventAttribute<Required<IBasicEvent>>>
         )[]
     ): BasicEvent[];
     static create(
         ...basicEvents: (
             & Partial<IBasicEvent>
-            & PartialWrapper<IWrapEvent<Required<IBasicEvent>>>
+            & Partial<IWrapEventAttribute<Required<IBasicEvent>>>
         )[]
     ): BasicEvent[] {
         const result: BasicEvent[] = [];
@@ -52,8 +52,7 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
                     et: be.type ?? be.et ?? BasicEvent.default.et,
                     i: be.value ?? be.i ?? BasicEvent.default.i,
                     f: be.floatValue ?? be.f ?? BasicEvent.default.f,
-                    customData: be.customData ??
-                        BasicEvent.default.customData(),
+                    customData: be.customData ?? BasicEvent.default.customData(),
                 }),
             )
         );
@@ -124,15 +123,11 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
         return super.isRingEvent(environment);
     }
 
-    isLaserRotationEvent(
-        environment?: EnvironmentAllName,
-    ): this is BasicEventLaser {
+    isLaserRotationEvent(environment?: EnvironmentAllName): this is BasicEventLaser {
         return super.isLaserRotationEvent(environment);
     }
 
-    isLaneRotationEvent(
-        environment?: EnvironmentAllName,
-    ): this is BasicEventLaneRotation {
+    isLaneRotationEvent(environment?: EnvironmentAllName): this is BasicEventLaneRotation {
         return super.isLaneRotationEvent(environment);
     }
 

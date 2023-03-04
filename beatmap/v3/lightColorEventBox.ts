@@ -1,8 +1,8 @@
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
 import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
-import { IWrapLightColorEventBox } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
-import { DeepPartial, DeepPartialWrapper, ObjectReturnFn } from '../../types/utils.ts';
+import { IWrapLightColorEventBoxAttribute } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
+import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightColorEventBox } from '../wrapper/lightColorEventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
@@ -50,8 +50,8 @@ export class LightColorEventBox extends WrapLightColorEventBox<
 
     static create(): LightColorEventBox[];
     static create(
-        ...eventBoxes: DeepPartialWrapper<
-            IWrapLightColorEventBox<
+        ...eventBoxes: DeepPartial<
+            IWrapLightColorEventBoxAttribute<
                 Required<ILightColorEventBox>,
                 Required<ILightColorBase>,
                 Required<IIndexFilter>
@@ -62,8 +62,8 @@ export class LightColorEventBox extends WrapLightColorEventBox<
     static create(
         ...eventBoxes: (
             & DeepPartial<ILightColorEventBox>
-            & DeepPartialWrapper<
-                IWrapLightColorEventBox<
+            & DeepPartial<
+                IWrapLightColorEventBoxAttribute<
                     Required<ILightColorEventBox>,
                     Required<ILightColorBase>,
                     Required<IIndexFilter>
@@ -74,8 +74,8 @@ export class LightColorEventBox extends WrapLightColorEventBox<
     static create(
         ...eventBoxes: (
             & DeepPartial<ILightColorEventBox>
-            & DeepPartialWrapper<
-                IWrapLightColorEventBox<
+            & DeepPartial<
+                IWrapLightColorEventBoxAttribute<
                     Required<ILightColorEventBox>,
                     Required<ILightColorBase>,
                     Required<IIndexFilter>

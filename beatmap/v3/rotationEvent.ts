@@ -1,6 +1,6 @@
 import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
-import { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapRotationEvent } from '../wrapper/rotationEvent.ts';
 
@@ -21,23 +21,19 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
 
     static create(): RotationEvent[];
     static create(
-        ...rotationEvents: PartialWrapper<
-            IWrapRotationEvent<Required<IRotationEvent>>
-        >[]
+        ...rotationEvents: Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>[]
     ): RotationEvent[];
-    static create(
-        ...rotationEvents: Partial<IRotationEvent>[]
-    ): RotationEvent[];
+    static create(...rotationEvents: Partial<IRotationEvent>[]): RotationEvent[];
     static create(
         ...rotationEvents: (
             & Partial<IRotationEvent>
-            & PartialWrapper<IWrapRotationEvent<Required<IRotationEvent>>>
+            & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>
         )[]
     ): RotationEvent[];
     static create(
         ...rotationEvents: (
             & Partial<IRotationEvent>
-            & PartialWrapper<IWrapRotationEvent<Required<IRotationEvent>>>
+            & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>
         )[]
     ): RotationEvent[] {
         const result: RotationEvent[] = [];
@@ -47,8 +43,7 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
                     b: re.time ?? re.b ?? RotationEvent.default.b,
                     e: re.executionTime ?? re.e ?? RotationEvent.default.e,
                     r: re.rotation ?? re.r ?? RotationEvent.default.r,
-                    customData: re.customData ??
-                        RotationEvent.default.customData(),
+                    customData: re.customData ?? RotationEvent.default.customData(),
                 }),
             )
         );

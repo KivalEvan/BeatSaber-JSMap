@@ -23,15 +23,11 @@ export abstract class WrapLightRotationEventBox<
     abstract get events(): IWrapLightRotationBase<TBase>[];
     abstract set events(value: IWrapLightRotationBase<TBase>[]);
 
-    setRotationDistribution(
-        value: IWrapLightRotationEventBox['rotationDistribution'],
-    ) {
+    setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']) {
         this.rotationDistribution = value;
         return this;
     }
-    setRotationDistributionType(
-        value: IWrapLightRotationEventBox['rotationDistributionType'],
-    ) {
+    setRotationDistributionType(value: IWrapLightRotationEventBox['rotationDistributionType']) {
         this.rotationDistributionType = value;
         return this;
     }
@@ -51,8 +47,7 @@ export abstract class WrapLightRotationEventBox<
     isValid(): boolean {
         return (
             super.isValid() &&
-            (this.rotationDistributionType === 1 ||
-                this.rotationDistributionType === 2) &&
+            (this.rotationDistributionType === 1 || this.rotationDistributionType === 2) &&
             (this.axis === 0 || this.axis === 1) &&
             (this.flip === 0 || this.flip === 1) &&
             (this.affectFirst === 0 || this.affectFirst === 1)

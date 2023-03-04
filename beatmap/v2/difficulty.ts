@@ -18,16 +18,15 @@ import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
 import { ISlider } from '../../types/beatmap/v2/slider.ts';
 import { WrapDifficulty } from '../wrapper/difficulty.ts';
 import logger from '../../logger.ts';
-import { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
-import { PartialWrapper } from '../../types/utils.ts';
-import { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
-import { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
-import { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
-import { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
-import { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import { IWrapSlider } from '../../types/beatmap/wrapper/slider.ts';
-import { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
+import { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
+import { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
+import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
+import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import { IWrapSliderAttribute } from '../../types/beatmap/wrapper/slider.ts';
+import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
 
 /** Difficulty beatmap v2 class object. */
 export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
@@ -96,18 +95,18 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         this.data._customData = value;
     }
 
-    addBPMEvents(...events: PartialWrapper<IWrapBPMEvent>[]): void;
+    addBPMEvents(...events: Partial<IWrapBPMEventAttribute>[]): void;
     addBPMEvents(...events: Partial<IEventBPMChange>[]): void;
     addBPMEvents(
         ...events: (
             & Partial<IEventBPMChange>
-            & PartialWrapper<IWrapBPMEvent<Required<IEventBPMChange>>>
+            & Partial<IWrapBPMEventAttribute<Required<IEventBPMChange>>>
         )[]
     ): void;
     addBPMEvents(
         ...events: (
             & Partial<IEventBPMChange>
-            & PartialWrapper<IWrapBPMEvent<Required<IEventBPMChange>>>
+            & Partial<IWrapBPMEventAttribute<Required<IEventBPMChange>>>
         )[]
     ): void {
         this.basicEvents.push(
@@ -119,18 +118,18 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         );
     }
 
-    addRotationEvents(...events: PartialWrapper<IWrapRotationEvent>[]): void;
+    addRotationEvents(...events: Partial<IWrapRotationEventAttribute>[]): void;
     addRotationEvents(...events: Partial<IEventLaneRotation>[]): void;
     addRotationEvents(
         ...events: (
             & Partial<IEventLaneRotation>
-            & PartialWrapper<IWrapRotationEvent<Required<IEventLaneRotation>>>
+            & Partial<IWrapRotationEventAttribute<Required<IEventLaneRotation>>>
         )[]
     ): void;
     addRotationEvents(
         ...events: (
             & Partial<IEventLaneRotation>
-            & PartialWrapper<IWrapRotationEvent<Required<IEventLaneRotation>>>
+            & Partial<IWrapRotationEventAttribute<Required<IEventLaneRotation>>>
         )[]
     ): void {
         this.basicEvents.push(
@@ -146,52 +145,52 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         logger.warn('This may not work correctly');
     }
 
-    addColorNotes(...colorNotes: PartialWrapper<IWrapColorNote<Required<INote>>>[]): void;
+    addColorNotes(...colorNotes: Partial<IWrapColorNoteAttribute<Required<INote>>>[]): void;
     addColorNotes(...colorNotes: Partial<INote>[]): void;
     addColorNotes(
-        ...colorNotes: (Partial<INote> & PartialWrapper<IWrapColorNote<Required<INote>>>)[]
+        ...colorNotes: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
     ): void;
     addColorNotes(
-        ...colorNotes: (Partial<INote> & PartialWrapper<IWrapColorNote<Required<INote>>>)[]
+        ...colorNotes: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
     ): void {
         this.colorNotes.push(
             ...colorNotes.map((cn) => (cn instanceof Note ? cn : Note.create(cn)[0])),
         );
     }
 
-    addBombNotes(...notes: PartialWrapper<IWrapBombNote<Required<INote>>>[]): void;
+    addBombNotes(...notes: Partial<IWrapBombNoteAttribute<Required<INote>>>[]): void;
     addBombNotes(...notes: Partial<INote>[]): void;
     addBombNotes(
-        ...notes: (Partial<INote> & PartialWrapper<IWrapBombNote<Required<INote>>>)[]
+        ...notes: (Partial<INote> & Partial<IWrapBombNoteAttribute<Required<INote>>>)[]
     ): void;
     addBombNotes(
-        ...notes: (Partial<INote> & PartialWrapper<IWrapBombNote<Required<INote>>>)[]
+        ...notes: (Partial<INote> & Partial<IWrapBombNoteAttribute<Required<INote>>>)[]
     ): void {
         this.colorNotes.push(
             ...notes.map((bn) => (bn instanceof Note ? bn : Note.create({ ...bn, type: 3 })[0])),
         );
     }
 
-    addObstacles(...obstacles: PartialWrapper<IWrapObstacle<Required<IObstacle>>>[]): void;
+    addObstacles(...obstacles: Partial<IWrapObstacleAttribute<Required<IObstacle>>>[]): void;
     addObstacles(...obstacles: Partial<IObstacle>[]): void;
     addObstacles(
-        ...obstacles: (Partial<IObstacle> & PartialWrapper<IWrapObstacle<Required<IObstacle>>>)[]
+        ...obstacles: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
     ): void;
     addObstacles(
-        ...obstacles: (Partial<IObstacle> & PartialWrapper<IWrapObstacle<Required<IObstacle>>>)[]
+        ...obstacles: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
     ): void {
         this.obstacles.push(
             ...obstacles.map((o) => (o instanceof Obstacle ? o : Obstacle.create(o)[0])),
         );
     }
 
-    addSliders(...sliders: PartialWrapper<IWrapSlider<Required<ISlider>>>[]): void;
+    addSliders(...sliders: Partial<IWrapSliderAttribute<Required<ISlider>>>[]): void;
     addSliders(...sliders: Partial<ISlider>[]): void;
     addSliders(
-        ...sliders: (Partial<ISlider> & PartialWrapper<IWrapSlider<Required<ISlider>>>)[]
+        ...sliders: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
     ): void;
     addSliders(
-        ...sliders: (Partial<ISlider> & PartialWrapper<IWrapSlider<Required<ISlider>>>)[]
+        ...sliders: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
     ): void {
         this.sliders.push(...sliders.map((s) => (s instanceof Slider ? s : Slider.create(s)[0])));
     }
@@ -200,26 +199,26 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         logger.warn('Burst Slider does not exist in beatmap V2');
     }
 
-    addWaypoints(...waypoints: PartialWrapper<IWrapWaypoint<Required<IWaypoint>>>[]): void;
+    addWaypoints(...waypoints: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>[]): void;
     addWaypoints(...waypoints: Partial<IWaypoint>[]): void;
     addWaypoints(
-        ...waypoints: (Partial<IWaypoint> & PartialWrapper<IWrapWaypoint<Required<IWaypoint>>>)[]
+        ...waypoints: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
     ): void;
     addWaypoints(
-        ...waypoints: (Partial<IWaypoint> & PartialWrapper<IWrapWaypoint<Required<IWaypoint>>>)[]
+        ...waypoints: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
     ): void {
         this.waypoints.push(
             ...waypoints.map((w) => (w instanceof Waypoint ? w : Waypoint.create(w)[0])),
         );
     }
 
-    addBasicEvents(...basicEvents: PartialWrapper<IWrapEvent<Required<IEvent>>>[]): void;
+    addBasicEvents(...basicEvents: Partial<IWrapEventAttribute<Required<IEvent>>>[]): void;
     addBasicEvents(...basicEvents: Partial<IEvent>[]): void;
     addBasicEvents(
-        ...basicEvents: (Partial<IEvent> & PartialWrapper<IWrapEvent<Required<IEvent>>>)[]
+        ...basicEvents: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
     ): void;
     addBasicEvents(
-        ...basicEvents: (Partial<IEvent> & PartialWrapper<IWrapEvent<Required<IEvent>>>)[]
+        ...basicEvents: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
     ): void {
         this.basicEvents.push(
             ...basicEvents.map((be) => (be instanceof Event ? be : Event.create(be)[0])),
@@ -227,19 +226,19 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     addColorBoostEvents(
-        ...basicEvents: PartialWrapper<IWrapColorBoostEvent<Required<IEventBoost>>>[]
+        ...basicEvents: Partial<IWrapColorBoostEventAttribute<Required<IEventBoost>>>[]
     ): void;
     addColorBoostEvents(...basicEvents: Partial<IEventBoost>[]): void;
     addColorBoostEvents(
         ...basicEvents: (
             & Partial<IEventBoost>
-            & PartialWrapper<IWrapColorBoostEvent<Required<IEventBoost>>>
+            & Partial<IWrapColorBoostEventAttribute<Required<IEventBoost>>>
         )[]
     ): void;
     addColorBoostEvents(
         ...basicEvents: (
             & Partial<IEventBoost>
-            & PartialWrapper<IWrapColorBoostEvent<Required<IEventBoost>>>
+            & Partial<IWrapColorBoostEventAttribute<Required<IEventBoost>>>
         )[]
     ): void {
         this.basicEvents.push(

@@ -48,26 +48,15 @@ export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>>
     }
 
     isBlue(): boolean {
-        return (
-            this.value === 1 || this.value === 2 || this.value === 3 ||
-            this.value === 4
-        );
+        return this.value === 1 || this.value === 2 || this.value === 3 || this.value === 4;
     }
 
     isRed(): boolean {
-        return (
-            this.value === 5 || this.value === 6 || this.value === 7 ||
-            this.value === 8
-        );
+        return this.value === 5 || this.value === 6 || this.value === 7 || this.value === 8;
     }
 
     isWhite(): boolean {
-        return (
-            this.value === 9 ||
-            this.value === 10 ||
-            this.value === 11 ||
-            this.value === 12
-        );
+        return this.value === 9 || this.value === 10 || this.value === 11 || this.value === 12;
     }
 
     isLightEvent(environment?: EnvironmentAllName): boolean {
@@ -129,17 +118,11 @@ export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>>
     }
 
     isExtraEvent(environment?: EnvironmentAllName): boolean {
-        return (
-            this.type === 16 || this.type === 17 || this.type === 18 ||
-            this.type === 19
-        );
+        return this.type === 16 || this.type === 17 || this.type === 18 || this.type === 19;
     }
 
     isSpecialEvent(environment?: EnvironmentAllName): boolean {
-        return (
-            this.type === 40 || this.type === 41 || this.type === 42 ||
-            this.type === 43
-        );
+        return this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43;
     }
 
     isBPMChangeEvent(): boolean {
@@ -173,8 +156,7 @@ export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>>
         return (
             this.isValidType() &&
             this.value >= 0 &&
-            !(!this.isLaserRotationEvent() && this.value > 12 &&
-                !this.isOldChroma())
+            !(!this.isLaserRotationEvent() && this.value > 12 && !this.isOldChroma())
         );
     }
 }

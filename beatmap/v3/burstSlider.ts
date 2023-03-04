@@ -1,6 +1,6 @@
 import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
-import { IWrapBurstSlider } from '../../types/beatmap/wrapper/burstSlider.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { IWrapBurstSliderAttribute } from '../../types/beatmap/wrapper/burstSlider.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapBurstSlider } from '../wrapper/burstSlider.ts';
@@ -32,19 +32,19 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
 
     static create(): BurstSlider[];
     static create(
-        ...burstSliders: PartialWrapper<IWrapBurstSlider<Required<IBurstSlider>>>[]
+        ...burstSliders: Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>[]
     ): BurstSlider[];
     static create(...burstSliders: Partial<IBurstSlider>[]): BurstSlider[];
     static create(
         ...burstSliders: (
             & Partial<IBurstSlider>
-            & PartialWrapper<IWrapBurstSlider<Required<IBurstSlider>>>
+            & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>
         )[]
     ): BurstSlider[];
     static create(
         ...burstSliders: (
             & Partial<IBurstSlider>
-            & PartialWrapper<IWrapBurstSlider<Required<IBurstSlider>>>
+            & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>
         )[]
     ): BurstSlider[] {
         const result: BurstSlider[] = [];

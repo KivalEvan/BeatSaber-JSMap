@@ -46,9 +46,8 @@ export abstract class WrapColorNote<T extends Record<keyof T, unknown>> extends 
         switch (type) {
             case 'vanilla':
                 return (
-                    (NoteDirectionAngle[
-                        this.direction as keyof typeof NoteDirectionAngle
-                    ] || 0) + this.angleOffset
+                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
+                    this.angleOffset
                 );
             case 'me':
                 if (this.direction >= 1000) {
@@ -57,18 +56,16 @@ export abstract class WrapColorNote<T extends Record<keyof T, unknown>> extends 
             /* falls through */
             case 'ne':
                 return (
-                    (NoteDirectionAngle[
-                        this.direction as keyof typeof NoteDirectionAngle
-                    ] || 0) + this.angleOffset
+                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
+                    this.angleOffset
                 );
             default:
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
                 return (
-                    (NoteDirectionAngle[
-                        this.direction as keyof typeof NoteDirectionAngle
-                    ] || 0) + this.angleOffset
+                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
+                    this.angleOffset
                 );
         }
     }

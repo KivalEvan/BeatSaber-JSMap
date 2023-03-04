@@ -1,6 +1,6 @@
 import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
-import { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorBoostEvent } from '../wrapper/colorBoostEvent.ts';
 
@@ -20,23 +20,19 @@ export class ColorBoostEvent extends WrapColorBoostEvent<Required<IColorBoostEve
 
     static create(): ColorBoostEvent[];
     static create(
-        ...colorBoostEvents: PartialWrapper<
-            IWrapColorBoostEvent<Required<IColorBoostEvent>>
-        >[]
+        ...colorBoostEvents: Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>[]
     ): ColorBoostEvent[];
-    static create(
-        ...colorBoostEvents: Partial<IColorBoostEvent>[]
-    ): ColorBoostEvent[];
+    static create(...colorBoostEvents: Partial<IColorBoostEvent>[]): ColorBoostEvent[];
     static create(
         ...colorBoostEvents: (
             & Partial<IColorBoostEvent>
-            & PartialWrapper<IWrapColorBoostEvent<Required<IColorBoostEvent>>>
+            & Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>
         )[]
     ): ColorBoostEvent[];
     static create(
         ...colorBoostEvents: (
             & Partial<IColorBoostEvent>
-            & PartialWrapper<IWrapColorBoostEvent<Required<IColorBoostEvent>>>
+            & Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>
         )[]
     ): ColorBoostEvent[] {
         const result: ColorBoostEvent[] = [];
@@ -45,8 +41,7 @@ export class ColorBoostEvent extends WrapColorBoostEvent<Required<IColorBoostEve
                 new this({
                     b: be.time ?? be.b ?? ColorBoostEvent.default.b,
                     o: be.toggle ?? be.o ?? ColorBoostEvent.default.o,
-                    customData: be.customData ??
-                        ColorBoostEvent.default.customData(),
+                    customData: be.customData ?? ColorBoostEvent.default.customData(),
                 }),
             )
         );

@@ -12,9 +12,7 @@ export abstract class WrapLightTranslationEventBox<
     abstract get translationDistribution(): ILightTranslationEventBox['s'];
     abstract set translationDistribution(value: ILightTranslationEventBox['s']);
     abstract get translationDistributionType(): ILightTranslationEventBox['t'];
-    abstract set translationDistributionType(
-        value: ILightTranslationEventBox['t'],
-    );
+    abstract set translationDistributionType(value: ILightTranslationEventBox['t']);
     abstract get axis(): ILightTranslationEventBox['a'];
     abstract set axis(value: ILightTranslationEventBox['a']);
     abstract get flip(): ILightTranslationEventBox['r'];
@@ -24,9 +22,7 @@ export abstract class WrapLightTranslationEventBox<
     abstract get events(): IWrapLightTranslationBase<TBase>[];
     abstract set events(value: IWrapLightTranslationBase<TBase>[]);
 
-    setTranslationDistribution(
-        value: IWrapLightTranslationEventBox['translationDistribution'],
-    ) {
+    setTranslationDistribution(value: IWrapLightTranslationEventBox['translationDistribution']) {
         this.translationDistribution = value;
         return this;
     }
@@ -53,8 +49,7 @@ export abstract class WrapLightTranslationEventBox<
     isValid(): boolean {
         return (
             super.isValid() &&
-            (this.translationDistributionType === 1 ||
-                this.translationDistributionType === 2) &&
+            (this.translationDistributionType === 1 || this.translationDistributionType === 2) &&
             (this.axis === 0 || this.axis === 1) &&
             (this.flip === 0 || this.flip === 1) &&
             (this.affectFirst === 0 || this.affectFirst === 1)

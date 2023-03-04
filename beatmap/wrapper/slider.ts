@@ -11,9 +11,7 @@ export abstract class WrapSlider<T extends Record<keyof T, unknown>> extends Wra
     abstract get lengthMultiplier(): IWrapSlider['lengthMultiplier'];
     abstract set lengthMultiplier(value: IWrapSlider['lengthMultiplier']);
     abstract get tailLengthMultiplier(): IWrapSlider['tailLengthMultiplier'];
-    abstract set tailLengthMultiplier(
-        value: IWrapSlider['tailLengthMultiplier'],
-    );
+    abstract set tailLengthMultiplier(value: IWrapSlider['tailLengthMultiplier']);
     abstract get tailDirection(): IWrapSlider['tailDirection'];
     abstract set tailDirection(value: IWrapSlider['tailDirection']);
     abstract get midAnchor(): IWrapSlider['midAnchor'];
@@ -67,9 +65,7 @@ export abstract class WrapSlider<T extends Record<keyof T, unknown>> extends Wra
         switch (type) {
             case 'vanilla':
                 return (
-                    NoteDirectionAngle[
-                        this.tailDirection as keyof typeof NoteDirectionAngle
-                    ] || 0
+                    NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0
                 );
             case 'me':
                 if (this.tailDirection >= 1000) {
@@ -78,18 +74,14 @@ export abstract class WrapSlider<T extends Record<keyof T, unknown>> extends Wra
             /* falls through */
             case 'ne':
                 return (
-                    NoteDirectionAngle[
-                        this.tailDirection as keyof typeof NoteDirectionAngle
-                    ] || 0
+                    NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0
                 );
             default:
                 if (this.tailDirection >= 1000) {
                     return Math.abs(((this.tailDirection % 1000) % 360) - 360);
                 }
                 return (
-                    NoteDirectionAngle[
-                        this.tailDirection as keyof typeof NoteDirectionAngle
-                    ] || 0
+                    NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0
                 );
         }
     }

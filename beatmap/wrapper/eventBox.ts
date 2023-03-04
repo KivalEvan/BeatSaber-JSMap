@@ -12,15 +12,9 @@ export abstract class WrapEventBox<
     abstract get filter(): IWrapIndexFilter<TFilter>;
     abstract set filter(value: IWrapIndexFilter<TFilter>);
     abstract get beatDistribution(): IWrapEventBox<TBase>['beatDistribution'];
-    abstract set beatDistribution(
-        value: IWrapEventBox<TBase>['beatDistribution'],
-    );
-    abstract get beatDistributionType(): IWrapEventBox<
-        TBase
-    >['beatDistributionType'];
-    abstract set beatDistributionType(
-        value: IWrapEventBox<TBase>['beatDistributionType'],
-    );
+    abstract set beatDistribution(value: IWrapEventBox<TBase>['beatDistribution']);
+    abstract get beatDistributionType(): IWrapEventBox<TBase>['beatDistributionType'];
+    abstract set beatDistributionType(value: IWrapEventBox<TBase>['beatDistributionType']);
     abstract get easing(): IWrapEventBox<TBase>['easing'];
     abstract set easing(value: IWrapEventBox<TBase>['easing']);
     abstract get events(): IWrapBaseObject<TBase>[];
@@ -46,8 +40,7 @@ export abstract class WrapEventBox<
 
     isValid(): boolean {
         return (
-            (this.beatDistributionType === 1 ||
-                this.beatDistributionType === 2) &&
+            (this.beatDistributionType === 1 || this.beatDistributionType === 2) &&
             this.easing >= 0 &&
             this.easing <= 3 &&
             this.events.every((e) => e.isValid()) &&

@@ -1,6 +1,6 @@
 import { ISlider } from '../../types/beatmap/v3/slider.ts';
-import { IWrapSlider } from '../../types/beatmap/wrapper/slider.ts';
-import { ObjectReturnFn, PartialWrapper } from '../../types/utils.ts';
+import { IWrapSliderAttribute } from '../../types/beatmap/wrapper/slider.ts';
+import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapSlider } from '../wrapper/slider.ts';
@@ -33,13 +33,13 @@ export class Slider extends WrapSlider<Required<ISlider>> {
     }
 
     static create(): Slider[];
-    static create(...sliders: PartialWrapper<IWrapSlider<Required<ISlider>>>[]): Slider[];
+    static create(...sliders: Partial<IWrapSliderAttribute<Required<ISlider>>>[]): Slider[];
     static create(...sliders: Partial<ISlider>[]): Slider[];
     static create(
-        ...sliders: (Partial<ISlider> & PartialWrapper<IWrapSlider<Required<ISlider>>>)[]
+        ...sliders: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
     ): Slider[];
     static create(
-        ...sliders: (Partial<ISlider> & PartialWrapper<IWrapSlider<Required<ISlider>>>)[]
+        ...sliders: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
     ): Slider[] {
         const result: Slider[] = [];
         sliders?.forEach((s) =>

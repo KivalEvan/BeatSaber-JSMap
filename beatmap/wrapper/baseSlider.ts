@@ -74,32 +74,20 @@ export abstract class WrapBaseSlider<T extends Record<keyof T, unknown>> extends
     getAngle(type?: 'vanilla' | 'me' | 'ne') {
         switch (type) {
             case 'vanilla':
-                return (
-                    NoteDirectionAngle[
-                        this.direction as keyof typeof NoteDirectionAngle
-                    ] || 0
-                );
+                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
             case 'me':
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
             /* falls through */
             case 'ne':
-                return (
-                    NoteDirectionAngle[
-                        this.direction as keyof typeof NoteDirectionAngle
-                    ] || 0
-                );
+                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
             default:
         }
         if (this.direction >= 1000) {
             return Math.abs(((this.direction % 1000) % 360) - 360);
         }
-        return (
-            NoteDirectionAngle[
-                this.direction as keyof typeof NoteDirectionAngle
-            ] || 0
-        );
+        return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
     }
 
     getDistance(compareTo: IWrapGridObject) {
