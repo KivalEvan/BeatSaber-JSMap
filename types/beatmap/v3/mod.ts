@@ -4,6 +4,7 @@
  */
 
 export * from './custom/mod.ts';
+export * from "./gridObject.ts";
 export * from './baseObject.ts';
 export * from './baseSlider.ts';
 export * from './basicEvent.ts';
