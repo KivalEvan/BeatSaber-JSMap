@@ -20,10 +20,6 @@
         "check": "deno check mod.ts && deno check extensions/mod.ts && deno check patch/mod.ts",
         "test": "deno test --parallel --allow-read=tests --allow-write=tests --coverage=cov_profile tests/ && deno coverage cov_profile --lcov --output=cov_profile.lcov && genhtml -o cov_profile/html cov_profile.lcov",
         "test:clean": "rm -rf cov_profile cov_profile.lcov",
-        "test:auto": "deno task test:clean || true && deno task test",
-        "compile:autoFixer": "NAME='BSAutoFixer' SOURCE='./example/autoFixer.ts' && deno task compile:generic",
-        "compile:convertToV3": "NAME='ConvertToV3' SOURCE='./example/convertToV3.ts' && deno task compile:generic",
-        "compile:generic": "export COMPILE='deno compile --allow-read=. --allow-write=.' && deno task compile:target-all",
-        "compile:target-all": "$COMPILE --target=x86_64-pc-windows-msvc --output='./dist/'$NAME'_win64' $SOURCE && $COMPILE --target=x86_64-unknown-linux-gnu --output='./dist/'$NAME'_linux64' $SOURCE && $COMPILE --target=x86_64-apple-darwin --output='./dist/'$NAME'_mac64' $SOURCE && $COMPILE --target=aarch64-apple-darwin --output='./dist/'$NAME'_aarchmac64' $SOURCE"
+        "test:auto": "deno task test:clean || true && deno task test"
     }
 }
