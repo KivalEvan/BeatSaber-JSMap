@@ -150,84 +150,25 @@ export const LightIDList: Record<
         7: Array.from(Array(24), (_, i) => i + 1),
     },
     //FIXME: Billie, Halloween and Gaga is incorrect
-    BillieEnvironment: {
-        0: Array.from(Array(2), (_, i) => i + 1),
-        1: Array.from(Array(66), (_, i) => i + 1),
-        2: Array.from(Array(23), (_, i) => i + 1),
-        3: Array.from(Array(23), (_, i) => i + 1),
-        4: Array.from(Array(66), (_, i) => i + 1),
-        6: Array.from(Array(24), (_, i) => i + 1),
-        7: Array.from(Array(24), (_, i) => i + 1),
-        10: Array.from(Array(24), (_, i) => i + 1),
-        11: Array.from(Array(24), (_, i) => i + 1),
-    },
-    HalloweenEnvironment: {
-        0: Array.from(Array(2), (_, i) => i + 1),
-        1: Array.from(Array(66), (_, i) => i + 1),
-        2: Array.from(Array(23), (_, i) => i + 1),
-        3: Array.from(Array(23), (_, i) => i + 1),
-        4: Array.from(Array(66), (_, i) => i + 1),
-    },
+    BillieEnvironment: {},
+    HalloweenEnvironment: {},
     // FIXME: unknown
-    GagaEnvironment: {
-        0: Array.from(Array(2), (_, i) => i + 1),
-        1: Array.from(Array(66), (_, i) => i + 1),
-        2: Array.from(Array(23), (_, i) => i + 1),
-        3: Array.from(Array(23), (_, i) => i + 1),
-        4: Array.from(Array(66), (_, i) => i + 1),
-        6: Array.from(Array(24), (_, i) => i + 1),
-        7: Array.from(Array(24), (_, i) => i + 1),
-        10: Array.from(Array(24), (_, i) => i + 1),
-        11: Array.from(Array(24), (_, i) => i + 1),
-    },
+    GagaEnvironment: {},
     WeaveEnvironment: {},
     // FIXME: unknown
-    PyroEnvironment: {
-        0: Array.from(Array(2), (_, i) => i + 1),
-        1: Array.from(Array(66), (_, i) => i + 1),
-        2: Array.from(Array(23), (_, i) => i + 1),
-        3: Array.from(Array(23), (_, i) => i + 1),
-        4: Array.from(Array(66), (_, i) => i + 1),
-        6: Array.from(Array(24), (_, i) => i + 1),
-    },
+    PyroEnvironment: {},
     // FIXME: unknown
-    EDMEnvironment: {
-        0: Array.from(Array(2), (_, i) => i + 1),
-        1: Array.from(Array(66), (_, i) => i + 1),
-        4: Array.from(Array(66), (_, i) => i + 1),
-    },
+    EDMEnvironment: {},
     // FIXME: unknown
-    TheSecondEnvironment: {
-        0: Array.from(Array(10), (_, i) => i + 1),
-        1: Array.from(Array(60), (_, i) => i + 1),
-        2: Array.from(Array(7), (_, i) => i + 1),
-        3: Array.from(Array(7), (_, i) => i + 1),
-        4: Array.from(Array(12), (_, i) => i + 1),
-    },
+    TheSecondEnvironment: {},
     // FIXME: unknown
-    LizzoEnvironment: {
-        0: Array.from(Array(10), (_, i) => i + 1),
-        1: Array.from(Array(60), (_, i) => i + 1),
-        2: Array.from(Array(7), (_, i) => i + 1),
-        3: Array.from(Array(7), (_, i) => i + 1),
-        4: Array.from(Array(12), (_, i) => i + 1),
-    },
+    LizzoEnvironment: {},
     // FIXME: unknown
-    TheWeekndEnvironment: {
-        0: Array.from(Array(10), (_, i) => i + 1),
-        1: Array.from(Array(60), (_, i) => i + 1),
-        2: Array.from(Array(7), (_, i) => i + 1),
-        3: Array.from(Array(7), (_, i) => i + 1),
-        4: Array.from(Array(12), (_, i) => i + 1),
-    },
+    TheWeekndEnvironment: {},
     // FIXME: unknown
-    RockMixtapeEnvironment: {
-        0: Array.from(Array(10), (_, i) => i + 1),
-        1: Array.from(Array(60), (_, i) => i + 1),
-        2: Array.from(Array(7), (_, i) => i + 1),
-        3: Array.from(Array(7), (_, i) => i + 1),
-        4: Array.from(Array(12), (_, i) => i + 1),
-    },
+    RockMixtapeEnvironment: {},
+    Dragons2Environment: {},
+    Panic2Environment: {},
     GlassDesertEnvironment: {
         0: Array.from(Array(6), (_, i) => i + 1),
         1: Array.from(Array(8), (_, i) => i + 1),

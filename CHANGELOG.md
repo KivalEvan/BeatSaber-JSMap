@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.4 [2023-03-xx]
+
+### Added
+
+- Panic 2.0 environment & color scheme
+- Missing export for types
+
 ## 1.3.3 [2023-03-04]
 
 ### Added
