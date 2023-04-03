@@ -162,8 +162,7 @@ export class Note extends WrapColorNote<Required<INote>> {
             typeof this.customData._noteJumpMovementSpeed === 'number' ||
             typeof this.customData._noteJumpStartBeatOffset === 'number' ||
             Array.isArray(this.customData._position) ||
-            Array.isArray(this.customData._rotation) ||
-            typeof this.customData._track === 'string'
+            Array.isArray(this.customData._rotation)
         );
     }
 }

@@ -240,4 +240,32 @@ export class Slider extends WrapSlider<Required<ISlider>> {
                 return super.getTailPosition(type);
         }
     }
+
+    isChroma(): boolean {
+        return (
+            Array.isArray(this.customData.color) ||
+            typeof this.customData.spawnEffect === 'boolean' ||
+            typeof this.customData.disableDebris === 'boolean'
+        );
+    }
+
+    isNoodleExtensions(): boolean {
+        return (
+            Array.isArray(this.customData.animation) ||
+            typeof this.customData.disableNoteGravity === 'boolean' ||
+            typeof this.customData.disableNoteLook === 'boolean' ||
+            typeof this.customData.disableBadCutDirection === 'boolean' ||
+            typeof this.customData.disableBadCutSaberType === 'boolean' ||
+            typeof this.customData.disableBadCutSpeed === 'boolean' ||
+            Array.isArray(this.customData.flip) ||
+            typeof this.customData.uninteractable === 'boolean' ||
+            Array.isArray(this.customData.localRotation) ||
+            typeof this.customData.noteJumpMovementSpeed === 'number' ||
+            typeof this.customData.noteJumpStartBeatOffset === 'number' ||
+            Array.isArray(this.customData.coordinates) ||
+            Array.isArray(this.customData.tailCoordinates) ||
+            Array.isArray(this.customData.worldRotation) ||
+            typeof this.customData.worldRotation === 'number'
+        );
+    }
 }

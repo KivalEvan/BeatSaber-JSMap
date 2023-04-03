@@ -203,7 +203,9 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
 
     isChroma(): boolean {
         return (
-            Array.isArray(this.customData.color) || typeof this.customData.spawnEffect === 'boolean'
+            Array.isArray(this.customData.color) ||
+            typeof this.customData.spawnEffect === 'boolean' ||
+            typeof this.customData.disableDebris === 'boolean'
         );
     }
 
@@ -213,6 +215,9 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
             Array.isArray(this.customData.animation) ||
             typeof this.customData.disableNoteGravity === 'boolean' ||
             typeof this.customData.disableNoteLook === 'boolean' ||
+            typeof this.customData.disableBadCutDirection === 'boolean' ||
+            typeof this.customData.disableBadCutSaberType === 'boolean' ||
+            typeof this.customData.disableBadCutSpeed === 'boolean' ||
             Array.isArray(this.customData.flip) ||
             typeof this.customData.uninteractable === 'boolean' ||
             Array.isArray(this.customData.localRotation) ||
@@ -220,8 +225,7 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
             typeof this.customData.noteJumpStartBeatOffset === 'number' ||
             Array.isArray(this.customData.coordinates) ||
             Array.isArray(this.customData.worldRotation) ||
-            typeof this.customData.worldRotation === 'number' ||
-            typeof this.customData.track === 'string'
+            typeof this.customData.worldRotation === 'number'
         );
     }
 }
