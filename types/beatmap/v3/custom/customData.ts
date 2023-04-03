@@ -1,6 +1,6 @@
 import { IBookmark } from './bookmark.ts';
 import { IBPMChange } from './bpmChange.ts';
-import { IHeckCustomData } from './heck.ts';
+import { IHeckBase, IHeckCustomData } from './heck.ts';
 import { IChromaCustomData, IChromaNote, IChromaObstacle } from './chroma.ts';
 import { INENote, INEObstacle, INESlider } from './noodleExtensions.ts';
 import { ICustomEvent } from './customEvent.ts';
@@ -29,18 +29,11 @@ export interface ICustomDataDifficulty extends ICustomDataBase, IHeckCustomData,
     bookmarks?: IBookmark[];
 }
 
-export type ICustomDataNote =
-    & ICustomDataBase
-    & IChromaNote
-    & INENote
-    & IAnimation;
-export type ICustomDataSlider =
-    & ICustomDataBase
-    & IChromaNote
-    & INESlider
-    & IAnimation;
+export type ICustomDataNote = ICustomDataBase & IHeckBase & IChromaNote & INENote & IAnimation;
+export type ICustomDataSlider = ICustomDataBase & IHeckBase & IChromaNote & INESlider & IAnimation;
 export type ICustomDataObstacle =
     & ICustomDataBase
+    & IHeckBase
     & IChromaObstacle
     & INEObstacle
     & IAnimation;

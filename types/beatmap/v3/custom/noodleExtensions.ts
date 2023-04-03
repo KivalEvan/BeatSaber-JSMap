@@ -1,7 +1,7 @@
 import { Vector2, Vector3 } from '../../../vector.ts';
 import { PercentPointDefinition, Vector3PointDefinition } from '../../shared/custom/heck.ts';
 import { PlayerObject } from '../../shared/custom/noodleExtensions.ts';
-import { IHeckCustomEventDataBase } from './heck.ts';
+import { IHeckBase } from './heck.ts';
 
 /** Noodle Extensions Object interface for Beatmap Object. */
 interface INEObject {
@@ -11,7 +11,6 @@ interface INEObject {
     noteJumpMovementSpeed?: number;
     noteJumpStartBeatOffset?: number;
     uninteractable?: boolean;
-    track?: string | string[];
 }
 
 /** Noodle Extensions Note interface for Beatmap Note.
@@ -41,9 +40,9 @@ export interface INEObstacle extends INEObject {
 }
 
 /** AssignPathAnimation interface for Noodle Extensions Custom Event.
- * @extends IHeckCustomEventDataBase
+ * @extends Required<IHeckBase>
  */
-export interface INECustomEventDataAnimateTrack extends IHeckCustomEventDataBase {
+export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
     dissolve?: string | number | PercentPointDefinition[];
     dissolveArrow?: string | number | PercentPointDefinition[];
     interactable?: string | number | PercentPointDefinition[];
@@ -51,9 +50,9 @@ export interface INECustomEventDataAnimateTrack extends IHeckCustomEventDataBase
 }
 
 /** AssignPathAnimation interface for Noodle Extensions Custom Event.
- * @extends IHeckCustomEventDataBase
+ * @extends Required<IHeckBase>
  */
-export interface INECustomEventDataAssignPathAnimation extends IHeckCustomEventDataBase {
+export interface INECustomEventDataAssignPathAnimation extends Required<IHeckBase> {
     dissolve?: string | number | PercentPointDefinition[];
     dissolveArrow?: string | number | PercentPointDefinition[];
     interactable?: string | number | PercentPointDefinition[];
@@ -68,10 +67,9 @@ export interface INECustomEventDataAssignTrackParent {
 }
 
 /** AssignPlayerToTrack interface for Noodle Extensions Custom Event.
- * @extends INECustomEventDataBase
+ * @extends Required<IHeckBase>
  */
-export interface INECustomEventDataAssignPlayerToTrack extends IHeckCustomEventDataBase {
-    track: string;
+export interface INECustomEventDataAssignPlayerToTrack extends Required<IHeckBase> {
     target?: PlayerObject;
 }
 

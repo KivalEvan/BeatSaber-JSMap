@@ -11,6 +11,7 @@
 
 - Interactive time condition changed
   - Arc is ignored and bomb should no longer be ignored (no idea why this was)
+- Moved `track` from NE to Heck
 
 ## 1.3.3 [2023-03-04]
 
