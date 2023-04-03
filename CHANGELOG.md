@@ -1,11 +1,16 @@
 # Changelog
 
-## 1.3.4 [2023-03-xx]
+## 1.3.4 [2023-04-xx]
 
 ### Added
 
 - Panic 2.0 environment & color scheme
 - Missing export for types
+
+### Changed
+
+- Interactive time condition changed
+  - Arc is ignored and bomb should no longer be ignored (no idea why this was)
 
 ## 1.3.3 [2023-03-04]
 

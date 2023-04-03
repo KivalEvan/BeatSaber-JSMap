@@ -104,7 +104,7 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
     }
 
     getFirstInteractiveTime(): number {
-        const notes = this.getNoteContainer().filter((n) => n.type !== 'bomb');
+        const notes = this.getNoteContainer().filter((n) => n.type !== 'slider');
         let firstNoteTime = Number.MAX_VALUE;
         if (notes.length > 0) {
             firstNoteTime = notes[0].data.time;
@@ -114,7 +114,7 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
     }
 
     getLastInteractiveTime(): number {
-        const notes = this.getNoteContainer().filter((n) => n.type !== 'bomb');
+        const notes = this.getNoteContainer().filter((n) => n.type !== 'slider');
         let lastNoteTime = 0;
         if (notes.length > 0) {
             lastNoteTime = notes[notes.length - 1].data.time;
