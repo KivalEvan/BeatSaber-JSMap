@@ -1,3 +1,4 @@
+import { Nullable } from '../../../utils.ts';
 import { Vector2, Vector3 } from '../../../vector.ts';
 import { PercentPointDefinition, Vector3PointDefinition } from '../../shared/custom/heck.ts';
 import { PlayerObject } from '../../shared/custom/noodleExtensions.ts';
@@ -36,7 +37,7 @@ export interface INESlider extends INENote {
  * @extends INEObject
  */
 export interface INEObstacle extends INEObject {
-    size?: Vector3;
+    size?: Nullable<Vector3>;
 }
 
 /** AssignPathAnimation interface for Noodle Extensions Custom Event.

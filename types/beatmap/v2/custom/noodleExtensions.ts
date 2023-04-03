@@ -1,3 +1,4 @@
+import { Nullable } from '../../../utils.ts';
 import { Vector2, Vector3 } from '../../../vector.ts';
 import { ICustomDataBase } from '../../shared/custom/customData.ts';
 import { PercentPointDefinition, Vector3PointDefinition } from '../../shared/custom/heck.ts';
@@ -29,7 +30,7 @@ export interface INENote extends INEObject {
  * @extends INEObject
  */
 export interface INEObstacle extends INEObject {
-    _scale?: Vector3;
+    _scale?: Nullable<Vector3>;
 }
 
 /** Noodle Extensions Event interface for Beatmap Event.
