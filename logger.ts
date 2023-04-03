@@ -22,8 +22,7 @@ const logPrefixes = new Map<LogLevels, string>([
 class Logger {
     #logLevel = LogLevels.INFO;
 
-    set logLevel(value: number) {
-        value = Math.min(Math.max(value, 0), 5);
+    set logLevel(value: LogLevels) {
         this.#logLevel = value;
         this.info('[logger::logLevel]', `Log level set to ${logPrefixes.get(value)}`);
     }

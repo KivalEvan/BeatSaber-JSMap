@@ -19,12 +19,6 @@ Deno.test('Set log level via accessor', () => {
 
     logger.logLevel = 5;
     assertEquals(logger.logLevel, 5);
-
-    logger.logLevel = -1;
-    assertEquals(logger.logLevel, 0);
-
-    logger.logLevel = 6;
-    assertEquals(logger.logLevel, 5);
 });
 
 Deno.test('Set log level via method', () => {
@@ -44,12 +38,6 @@ Deno.test('Set log level via method', () => {
     assertEquals(logger.logLevel, 4);
 
     logger.setLevel(5);
-    assertEquals(logger.logLevel, 5);
-
-    logger.setLevel(-1);
-    assertEquals(logger.logLevel, 0);
-
-    logger.setLevel(6);
     assertEquals(logger.logLevel, 5);
 });
 

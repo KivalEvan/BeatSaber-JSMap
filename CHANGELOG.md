@@ -5,13 +5,14 @@
 ### Added
 
 - Panic 2.0 environment & color scheme
-- Missing export for types
+- Missing export for types (@Fernthedev)
 
 ### Changed
 
 - Interactive time condition changed
   - Arc is ignored and bomb should no longer be ignored (no idea why this was)
 - Moved `track` from NE to Heck
+- Updated Chroma and NE check on beatmap object
 
 ## 1.3.3 [2023-03-04]
 
