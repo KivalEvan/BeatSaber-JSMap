@@ -99,6 +99,7 @@ export interface IChromaInfoCustomData extends IInfoSettingsCustomData {
         _chroma?: {
             _disableChromaEvents?: boolean;
             _disableEnvironmentEnhancements?: boolean;
+            _disableNoteColoring?: boolean;
             _forceZenModeWall?: boolean;
         };
     };

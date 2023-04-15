@@ -29,6 +29,8 @@ export interface IHeckInfoCustomData extends IInfoSettingsCustomData {
             _advancedHud?: boolean;
             _autoRestart?: boolean;
             _saberTrailIntensity?: number;
+            _noteJumpDurationTypeSettings?: 'Dynamic' | 'Static';
+            _noteJumpFixedDuration?: number;
             _noteJumpStartBeatOffset?: number;
             _hideNoteSpawnEffect?: boolean;
             _adaptiveSfx?: number;
@@ -66,9 +68,6 @@ export interface IHeckInfoCustomData extends IInfoSettingsCustomData {
             _burnMarkTrailsEnabled?: boolean;
             _screenDisplacementEffectsEnabled?: boolean;
             _maxShockwaveParticles?: 0 | 1 | 2;
-        };
-        _noteJumpDurationTypeSettings?: {
-            _noteJumpFixedDuration?: number;
         };
     };
 }
