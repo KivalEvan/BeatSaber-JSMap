@@ -136,11 +136,11 @@ try {
                         'n',
                     );
                     if (confirmation![0].toLowerCase() === 'y') {
-                        convert.chromaLightGradientToVanillaGradient(diff, true);
+                        convert.chromaLightGradientToVanillaGradient(diff);
                     }
                 }
                 logger.info('Converting beatmap to v3');
-                save.difficultySync(convert.V2toV3(diff, true));
+                save.difficultySync(convert.V2toV3(diff));
                 isConverted = true;
             }
         }
@@ -208,11 +208,11 @@ try {
                         gradientChromaConfirm = true;
                     }
                     if (gradientChromaConvert) {
-                        convert.chromaLightGradientToVanillaGradient(dl.data, true);
+                        convert.chromaLightGradientToVanillaGradient(dl.data);
                     }
                 }
                 logger.info('Converting beatmap v2', dl.characteristic, dl.difficulty, 'to v3');
-                dl.data = convert.V2toV3(dl.data as v2.Difficulty, true);
+                dl.data = convert.V2toV3(dl.data as v2.Difficulty);
                 save.difficultySync(dl.data);
                 isConverted = true;
             }

@@ -129,15 +129,15 @@ try {
                 'n',
             );
             if (confirmation![0].toLowerCase() === 'y') {
-                convert.chromaLightGradientToVanillaGradient(lightV2, true);
+                convert.chromaLightGradientToVanillaGradient(lightV2);
             }
         }
     }
     if (lightV3! && !lightV2!) {
-        lightV2 = convert.V3toV2(lightV3, true);
+        lightV2 = convert.V3toV2(lightV3);
     }
     if (lightV2! && !lightV3!) {
-        lightV3 = convert.V2toV3(lightV2, true);
+        lightV3 = convert.V2toV3(lightV2);
     }
 
     if (

@@ -132,7 +132,7 @@ try {
                     gradientChromaConfirm = true;
                 }
                 if (gradientChromaConvert) {
-                    convert.chromaLightGradientToVanillaGradient(dl.data, true);
+                    convert.chromaLightGradientToVanillaGradient(dl.data);
                 }
             }
         } else {
@@ -140,7 +140,7 @@ try {
             bpm.timescale = dl.data.bpmEvents.map((bpme) => bpme.toJSON());
 
             logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
-            const temp = convert.V3toV2(dl.data, true);
+            const temp = convert.V3toV2(dl.data);
             if (temp.basicEvents.some((e) => e.isOldChroma())) {
                 if (!oldChromaConfirm) {
                     const confirmation = args.y ? 'n' : prompt(
@@ -168,7 +168,7 @@ try {
                     gradientChromaConfirm = true;
                 }
                 if (gradientChromaConvert) {
-                    convert.chromaLightGradientToVanillaGradient(temp, true);
+                    convert.chromaLightGradientToVanillaGradient(temp);
                 }
             }
 
@@ -177,7 +177,7 @@ try {
                 dl.characteristic,
                 dl.difficulty,
             );
-            const temp2 = convert.V2toV3(temp, true);
+            const temp2 = convert.V2toV3(temp);
 
             logger.info(
                 'Re-inserting events from temporary beatmap',

@@ -165,7 +165,7 @@ try {
                 gradientChromaConfirm = true;
             }
             if (gradientChromaConvert) {
-                convert.chromaLightGradientToVanillaGradient(d, true);
+                convert.chromaLightGradientToVanillaGradient(d);
             }
         }
 
