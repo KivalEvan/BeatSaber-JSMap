@@ -99,6 +99,7 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 ## Planned
 
+- General clean-up and restructuring (this has grown far larger than I anticipated)
 - Write JSDoc on every important bit
 - Add more helper for Chroma and Noodle Extensions
 

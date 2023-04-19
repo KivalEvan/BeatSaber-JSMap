@@ -8,6 +8,7 @@ import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IChromaLightGradient } from '../types/beatmap/v2/custom/chroma.ts';
 import { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
 import { isV3 } from '../beatmap/version.ts';
+import eventToV3 from './customData/eventToV3.ts';
 
 const tag = (name: string) => {
     return `[convert::${name}]`;
@@ -22,30 +23,13 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
  * const newData = convert.ogChromaToChromaV2(oldData);
  * ```
  */
-export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
-    data: T,
-    skipPrompt?: boolean,
-): T {
+export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(data: T): T {
     const EventClass = isV3(data) ? BasicEvent : Event;
-    if (!skipPrompt) {
-        logger.warn(
-            tag('chromaLightGradientToVanillaGradient'),
-            'Converting chroma light gradient may break certain lightshow effect!',
-        );
-        const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
-        if (confirmation![0].toLowerCase() !== 'y') {
-            throw Error('Chroma light gradient conversion denied.');
-        }
-        logger.info(
-            tag('chromaLightGradientToVanillaGradient'),
-            'Converting chroma light gradient to vanilla chroma gradient',
-        );
-    } else {
-        logger.warn(
-            tag('chromaLightGradientToVanillaGradient'),
-            'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
-        );
-    }
+    logger.warn(
+        tag('chromaLightGradientToVanillaGradient'),
+        'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
+    );
+
     const events = data.basicEvents;
     const newEvents = [] as typeof data.basicEvents;
     for (let curr = 0, len = events.length; curr < len; curr++) {
@@ -188,5 +172,8 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
         newEvents.push(ev);
     }
     data.basicEvents = newEvents;
+    if (isV3(data)) {
+        data.basicEvents.forEach((ev) => eventToV3(ev.customData));
+    }
     return data;
 }

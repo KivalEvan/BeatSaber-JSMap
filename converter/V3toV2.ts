@@ -27,17 +27,8 @@ const tag = (name: string) => {
  *
  * This feature won't be supported in the near future.
  */
-export function V3toV2(data: DifficultyV3, skipPrompt?: boolean): DifficultyV2 {
-    if (!skipPrompt) {
-        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
-        const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
-        if (confirmation![0].toLowerCase() !== 'y') {
-            throw Error('Conversion to beatmap v2 denied.');
-        }
-        logger.info(tag('V3toV2'), 'Converting beatmap v3 to v2');
-    } else {
-        logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
-    }
+export function V3toV2(data: DifficultyV3): DifficultyV2 {
+    logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
     const template = DifficultyV2.create();
     template.fileName = data.fileName;
 

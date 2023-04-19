@@ -31,17 +31,9 @@ const tag = (name: string) => {
  * ---
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export function V2toV3(data: DifficultyV2, skipPrompt?: boolean): DifficultyV3 {
-    if (!skipPrompt) {
-        logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
-        const confirmation = prompt('Proceed with conversion? (y/N):', 'n');
-        if (confirmation![0].toLowerCase() !== 'y') {
-            throw Error('Conversion to beatmap v3 denied.');
-        }
-        logger.info(tag('V2toV3'), 'Converting beatmap v2 to v3');
-    } else {
-        logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
-    }
+export function V2toV3(data: DifficultyV2): DifficultyV3 {
+    logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
+
     const template = DifficultyV3.create();
     template.fileName = data.fileName;
 
