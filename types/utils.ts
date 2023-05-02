@@ -90,7 +90,7 @@ export type Nullable<T> = T extends Primitive ? T | null
     };
 
 /** INTERNAL USE ONLY */
-export type ObtainCustomData<T extends Record<string, unknown>> = T['customData'] extends Record<
+export type _ObtainCustomData<T extends Record<string, unknown>> = T['customData'] extends Record<
     string,
     unknown
 > ? T['customData']

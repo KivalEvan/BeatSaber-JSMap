@@ -1,6 +1,6 @@
 # Beat Saber Deno
 
-General-purpose Beat Saber beatmap scripting library using [Deno](https://deno.land/) with
+General-purpose Beat Saber beatmap scripting module using [Deno](https://deno.land/) with
 [TypeScript](https://www.typescriptlang.org/), fully-typed schema and flexible tool designed to ease
 scripting development surrounding beatmap while providing high implementation detail regarding the
 beatmap. It ensures the safety and correctness of the code unless explicitly stated by the user, and
@@ -8,28 +8,32 @@ verify the beatmap integrity.
 
 ---
 
-> ⚠️ Work in progress. Breaking changes is to be expected.
+> ⚠️ Work in progress. Breaking changes is to be expected. To be honest, would've started with v0.x
+> but it was usable and complete from the start with more features added on top.
 
 ---
 
 ## Features
 
-- **Zero-dependency:** No third-party library used in main with standard library being an exception.
+- **Zero-dependency:** No third-party module used in main with standard module being an exception.
 - **Latest Schema:** Supports both latest beatmap v2 and v3 including conversion.
   - Current schema version is v2.6.0 and v3.2.0 respectively.
+- **Wrapper Attribute:** Readable and cross-version class attribute for easy version transferring.
 - **Partial Creation:** Define beatmap object partially and let default fill the rest of fields.
-- **Mod Compatible:** Chroma, Noodle Extensions, and Mapping Extensions is supported out of the box.
-  - All helpers and classes surrounding modded is only available in extensions category.
-- **Modularity:** All types, functions, and classes are exposed allowing for more functionality.
+- **Mod Compatible:** Chroma, Cinema, Noodle Extensions, and Mapping Extensions is supported out of
+  the box.
+  - All helpers and classes (excluding method) surrounding modded is only available in extensions
+    category.
+- **Modularity:** Import only what you need, be it classes, functions, and types.
 - **Built-in Utility:** Relevant utilities including math, colour, easings, and more.
 - **Validator & Optimiser:** Customisable tool ensuring beatmap schema is valid to the game and
   optimised.
 
 ## Prerequisite
 
-- Deno 1.29.1 or latest
+- Deno 1.33.0 or latest
 - Basic JavaScript or TypeScript knowledge
-  - Library is entirely TypeScript, but for common use case you do not need in-depth knowledge.
+  - Module is entirely TypeScript, but for common use case you do not need in-depth knowledge.
 
 ## Getting Started
 
@@ -54,7 +58,7 @@ the script works without breaking from newer update. For rolling release, visit
 (`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`), you may need to
 occasionally add `--reload` tag for latest update.
 
-You may also clone the library and import it locally to make any modification as you wish.
+You may also clone the module and import it locally to make any modification as you wish.
 
 If you are using the script outside of map directory, you can specify the map directory without the
 need to explicitly apply `directory` on IO function. This can be any valid directory as long as it
@@ -69,7 +73,7 @@ bsmap.globals.directory = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 Run the script by running this command in terminal `deno run yourscriptpath.ts`. For more advanced
 use, you may do `deno run --allow-read --allow-write --watch yourscriptpath.ts`. If you want to
 update to newer version, simply run `deno run --reload yourscriptpath.ts`; Do note that it may break
-existing part of your code that utilises the library.
+existing part of your code that utilises the module.
 
 For further explanation over on [Deno Manual](https://deno.land/manual).
 
@@ -94,7 +98,7 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
   its definition.
 - Top-level function shall use regular function.
 - No third-party dependencies shall be used outside of examples, extensions, and tests. (Exception
-  when absolutely necessary is Deno standard library)
+  when absolutely necessary is Deno standard module)
 - Avoid circular imports.
 
 ## Planned
@@ -107,6 +111,7 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 - Instantiating nested object or array depends on the property and does not allow mix-and-match
   - However, it can still process like normally if you choose to ignore the error
+- **(WORKING ON IT)** Different object beatmap version class can exist on one beatmap version
 
 ## Credits
 

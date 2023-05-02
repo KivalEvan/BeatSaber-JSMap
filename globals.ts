@@ -1,10 +1,11 @@
+import { resolve } from './deps.ts';
 import logger from './logger.ts';
 
 const tag = (str: string) => {
     return `[globals::${str}]`;
 };
 
-class globals {
+class Globals {
     #directory = './';
 
     /** Global source and destination directory.
@@ -15,14 +16,7 @@ class globals {
         return this.#directory;
     }
     set directory(value: string) {
-        value = value.trim();
-        if (!(value.endsWith('\\') || value.endsWith('/'))) {
-            logger.debug(tag('directory'), `Adding missing end slash`);
-            value += '/';
-        }
-        if (value === '/') {
-            value = './';
-        }
+        value = resolve(value.trim());
         this.#directory = value;
         logger.info(tag('directory'), `Global map directory is set to ${this.#directory}`);
     }
@@ -46,4 +40,4 @@ class globals {
 }
 
 /** Global settings. */
-export default new globals();
+export default new Globals();

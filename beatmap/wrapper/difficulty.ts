@@ -32,9 +32,9 @@ import { IWrapSlider, IWrapSliderAttribute } from '../../types/beatmap/wrapper/s
 import { IWrapWaypoint, IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
 import { BeatPerMinute } from '../shared/bpm.ts';
 import {
+    _ObtainCustomData,
     DeepPartialWrapper,
     LooseAutocomplete,
-    ObtainCustomData,
     PartialWrapper,
 } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/info.ts';
@@ -64,7 +64,7 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
     abstract lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
     abstract eventTypesWithKeywords: IWrapEventTypesWithKeywords;
     abstract useNormalEventsAsCompatibleEvents: boolean;
-    abstract customData: ObtainCustomData<T>;
+    abstract customData: _ObtainCustomData<T>;
 
     clone<U extends this>(): U {
         return super.clone().setFileName(this.fileName) as U;

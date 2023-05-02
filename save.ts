@@ -15,6 +15,7 @@ import { DifficultyCheck } from './beatmap/v3/dataCheck.ts';
 import { IDifficulty as IDifficultyV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficulty } from './types/beatmap/v3/difficulty.ts';
 import { IWrapDifficulty } from './types/beatmap/wrapper/difficulty.ts';
+import { resolve } from './deps.ts';
 
 const tag = (name: string) => {
     return `[save::${name}]`;
@@ -65,9 +66,10 @@ function internalInfo(data: IInfo, options: ISaveOptionsInfo) {
     if (opt.optimize.enabled) {
         optimize.info(data, opt.optimize);
     }
-    logger.info(tag('internalInfo'), `Writing to ${opt.directory + opt.filePath}`);
+    const p = resolve(opt.directory, opt.filePath);
+    logger.info(tag('internalInfo'), `Writing to ${p}`);
     Deno.writeTextFileSync(
-        opt.directory + opt.filePath,
+        p,
         opt.format ? JSON.stringify(data, null, opt.format) : JSON.stringify(data),
     );
 }
@@ -125,9 +127,10 @@ function internalDifficulty(data: IWrapDifficulty, options: ISaveOptionsDifficul
             );
         }
     }
-    logger.info(tag('internalDifficulty'), `Writing to ${opt.directory + opt.filePath}`);
+    const p = resolve(opt.directory, opt.filePath);
+    logger.info(tag('internalDifficulty'), `Writing to ${p}`);
     Deno.writeTextFileSync(
-        opt.directory + opt.filePath,
+        p,
         opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),
     );
 }
@@ -189,12 +192,10 @@ function internalDifficultyList(
                 );
             }
         }
-        logger.info(
-            tag('internalDifficultyList'),
-            `Writing to ${opt.directory + dl.settings._beatmapFilename}`,
-        );
+        const p = resolve(opt.directory, dl.settings._beatmapFilename);
+        logger.info(tag('internalDifficultyList'), `Writing to ${p}`);
         Deno.writeTextFileSync(
-            opt.directory + dl.settings._beatmapFilename,
+            p,
             opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),
         );
     });

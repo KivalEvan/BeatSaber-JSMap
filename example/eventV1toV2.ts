@@ -9,8 +9,8 @@
  * example run command:
  * deno run --allow-read --allow-write autoFixer.ts -d "./Folder/Path"
  */
-import { copySync } from 'https://deno.land/std@0.177.0/fs/mod.ts';
-import { parse } from 'https://deno.land/std@0.177.0/flags/mod.ts';
+import { copySync } from 'https://deno.land/std@0.185.0/fs/mod.ts';
+import { parse } from 'https://deno.land/std@0.185.0/flags/mod.ts';
 import { BeatPerMinute, convert, globals, isV2, load, logger, save, types, utils } from '../mod.ts';
 
 const args = parse(Deno.args, {

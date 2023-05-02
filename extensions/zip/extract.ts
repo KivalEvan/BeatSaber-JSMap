@@ -9,13 +9,9 @@ export async function extract(
 ): Promise<{ info: IInfo; difficulties: IDifficultyList }> {
     try {
         fs.ensureDirSync(globals.directory + 'temp_bsmap_extract');
-        const location = await zip.decompress(
-            zipPath,
-            globals.directory + 'temp_bsmap_extract',
-            {
-                includeFileName: true,
-            },
-        );
+        const location = await zip.decompress(zipPath, globals.directory + 'temp_bsmap_extract', {
+            includeFileName: true,
+        });
         let info: IInfo;
         try {
             info = load.infoSync({ directory: globals.directory + location });

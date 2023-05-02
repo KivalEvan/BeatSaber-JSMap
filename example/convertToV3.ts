@@ -9,8 +9,8 @@
  * example run command:
  * deno run --allow-read --allow-write convertToV3.ts -d "./Folder/Path"
  */
-import { copySync } from 'https://deno.land/std@0.177.0/fs/mod.ts';
-import { parse } from 'https://deno.land/std@0.177.0/flags/mod.ts';
+import { copySync } from 'https://deno.land/std@0.185.0/fs/mod.ts';
+import { parse } from 'https://deno.land/std@0.185.0/flags/mod.ts';
 import {
     convert,
     globals,

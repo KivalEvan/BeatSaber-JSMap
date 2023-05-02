@@ -12,8 +12,8 @@ import logger from './logger.ts';
 import { Either, LooseAutocomplete } from './types/utils.ts';
 import { ILoadOptionsDifficulty, ILoadOptionsInfo } from './types/bsmap/load.ts';
 import { V3toV2 } from './converter/V3toV2.ts';
-import { sanitizeDir } from './utils/fs.ts';
 import { WrapDifficulty } from './beatmap/wrapper/difficulty.ts';
+import { resolve } from './deps.ts';
 
 const tag = (name: string) => {
     return `[load::${name}]`;
@@ -51,12 +51,10 @@ export const defaultOptions = {
 
 function internalInfo(options: ILoadOptionsInfo) {
     const opt: Required<ILoadOptionsInfo> = {
-        directory: sanitizeDir(
-            options.directory ?? (globals.directory || defaultOptions.info.directory),
-        ),
+        directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? 'Info.dat',
     };
-    return parseInfo(JSON.parse(Deno.readTextFileSync(opt.directory + opt.filePath)));
+    return parseInfo(JSON.parse(Deno.readTextFileSync(resolve(opt.directory, opt.filePath))));
 }
 
 /** Asynchronously load beatmap info file.
@@ -66,12 +64,10 @@ function internalInfo(options: ILoadOptionsInfo) {
  */
 export async function info(options: ILoadOptionsInfo = {}): Promise<IInfo> {
     const opt: Required<ILoadOptionsInfo> = {
-        directory: sanitizeDir(
-            options.directory ?? (globals.directory || defaultOptions.info.directory),
-        ),
+        directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? 'Info.dat',
     };
-    logger.info(tag('info'), `Async loading info from ${opt.directory + opt.filePath}`);
+    logger.info(tag('info'), `Async loading info from ${resolve(opt.directory, opt.filePath)}`);
     return await new Promise((resolve, reject) => {
         try {
             resolve(internalInfo(opt));
@@ -89,12 +85,10 @@ export async function info(options: ILoadOptionsInfo = {}): Promise<IInfo> {
  */
 export function infoSync(options: ILoadOptionsInfo = {}): IInfo {
     const opt: Required<ILoadOptionsInfo> = {
-        directory: sanitizeDir(
-            options.directory ?? (globals.directory || defaultOptions.info.directory),
-        ),
+        directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? 'Info.dat',
     };
-    logger.info(tag('infoSync'), `Sync loading info from ${opt.directory + opt.filePath}`);
+    logger.info(tag('infoSync'), `Sync loading info from ${resolve(opt.directory, opt.filePath)}`);
     return internalInfo(opt);
 }
 
@@ -104,19 +98,19 @@ function internalDifficulty(
     options: ILoadOptionsDifficulty,
 ): WrapDifficulty<Record<string, unknown>> {
     const opt: Required<ILoadOptionsDifficulty> = {
-        directory: sanitizeDir(
-            options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
-        ),
+        directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
         forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
-    const diffJSON = JSON.parse(Deno.readTextFileSync(opt.directory + filePath)) as Either<
+    const diffJSON = JSON.parse(Deno.readTextFileSync(resolve(opt.directory, filePath))) as Either<
         IDifficultyV2,
         IDifficultyV3
     >;
+
+    const p = resolve(opt.directory, filePath);
     logger.info(
         tag('internalDifficulty'),
-        `Loading difficulty as beatmap version ${version} from ${opt.directory + filePath}`,
+        `Loading difficulty as beatmap version ${version} from ${p}`,
     );
     const diffVersion = parseInt(
         diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'),
@@ -223,23 +217,20 @@ export function difficultySync(
 
 function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
     const opt: Required<ILoadOptionsDifficulty> = {
-        directory: sanitizeDir(
-            options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
-        ),
+        directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
         forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     const difficulties: IDifficultyList = [];
     for (const set of info._difficultyBeatmapSets) {
         for (const d of set._difficultyBeatmaps) {
+            const p = resolve(opt.directory, d._beatmapFilename);
             try {
-                logger.info(
-                    tag('internalDifficultyFromInfo'),
-                    `Loading difficulty from ${opt.directory + d._beatmapFilename}`,
-                );
-                const diffJSON = JSON.parse(
-                    Deno.readTextFileSync(opt.directory + d._beatmapFilename),
-                ) as Either<IDifficultyV2, IDifficultyV3>;
+                logger.info(tag('internalDifficultyFromInfo'), `Loading difficulty from ${p}`);
+                const diffJSON = JSON.parse(Deno.readTextFileSync(p)) as Either<
+                    IDifficultyV2,
+                    IDifficultyV3
+                >;
                 if (diffJSON._version) {
                     difficulties.push({
                         characteristic: set._beatmapCharacteristicName,
@@ -264,9 +255,7 @@ function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty
             } catch {
                 logger.warn(
                     tag('internalDifficultyFromInfo'),
-                    `Could not load difficulty from ${
-                        opt.directory + d._beatmapFilename
-                    }, skipping...`,
+                    `Could not load difficulty from ${p}, skipping...`,
                 );
             }
         }

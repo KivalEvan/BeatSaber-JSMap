@@ -1,4 +1,4 @@
-import { ObtainCustomData } from '../../utils.ts';
+import { _ObtainCustomData } from '../../utils.ts';
 import { ISerializable } from '../shared/serializable.ts';
 
 export interface IWrapBaseItemAttribute<
@@ -8,15 +8,15 @@ export interface IWrapBaseItemAttribute<
      *
      * This has no type-safety for unsupported data.
      */
-    customData: ObtainCustomData<T>;
+    customData: _ObtainCustomData<T>;
 }
 
 export interface IWrapBaseItem<T extends Record<keyof T, unknown> = Record<string, unknown>>
     extends ISerializable<T>, IWrapBaseItemAttribute<T> {
-    setCustomData(value: ObtainCustomData<T>): this;
+    setCustomData(value: _ObtainCustomData<T>): this;
     resetCustomData(): this;
     removeCustomData(key: string): this;
-    addCustomData(object: ObtainCustomData<T>): this;
+    addCustomData(object: _ObtainCustomData<T>): this;
 
     /** Allow for advanced custom function. */
     func(fn: (object: this) => void): this;

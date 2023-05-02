@@ -25,8 +25,8 @@ import {
     v2,
     v3,
 } from '../mod.ts';
-import { parse } from 'https://deno.land/std@0.177.0/flags/mod.ts';
-import { copySync } from 'https://deno.land/std@0.177.0/fs/mod.ts';
+import { parse } from 'https://deno.land/std@0.185.0/flags/mod.ts';
+import { copySync } from 'https://deno.land/std@0.185.0/fs/mod.ts';
 
 const args = parse(Deno.args, {
     string: ['d'],
