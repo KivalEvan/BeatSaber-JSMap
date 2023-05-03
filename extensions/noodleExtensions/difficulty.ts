@@ -45,22 +45,22 @@ export class NoodleDifficulty {
     }
 
     addFakeColorNotes = (...colorNotes: Partial<IColorNote>[]) => {
-        colorNotes.forEach((cn) => {
+        colorNotes.forEach((obj) => {
             this.fakeColorNotes.push(new ColorNote(obj));
         });
     };
     addFakeBombNotes = (...bombNotes: Partial<IBombNote>[]) => {
-        bombNotes.forEach((bn) => {
+        bombNotes.forEach((obj) => {
             this.fakeBombNotes.push(new BombNote(obj));
         });
     };
     addFakeObstacles = (...obstacles: Partial<IObstacle>[]) => {
-        obstacles.forEach((o) => {
+        obstacles.forEach((obj) => {
             this.fakeObstacles.push(new Obstacle(obj));
         });
     };
     addFakeBurstSliders = (...burstSliders: Partial<IBurstSlider>[]) => {
-        burstSliders.forEach((bs) => {
+        burstSliders.forEach((obj) => {
             this.fakeBurstSliders.push(new BurstSlider(obj));
         });
     };

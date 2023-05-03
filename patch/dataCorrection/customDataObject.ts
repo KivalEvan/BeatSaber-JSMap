@@ -7,6 +7,7 @@ import {
     ICustomDataObstacle as ICustomDataObstacleV3,
     ICustomDataSlider,
 } from '../../types/beatmap/v3/custom/customData.ts';
+import { Vector3 } from '../../types/vector.ts';
 import {
     fixBoolean,
     fixColor,
@@ -75,14 +76,8 @@ export function fixCustomDataObject(
                 : fixString(cd._animation._color, 'unknownTrack');
         }
         if (cd._animation._definitePosition != null) {
-            cd._animation._definitePosition = Array.isArray(
-                    cd._animation._definitePosition,
-                )
-                ? fixVector3PointDefinition(cd._animation._definitePosition, [
-                    0,
-                    0,
-                    0,
-                ])
+            cd._animation._definitePosition = Array.isArray(cd._animation._definitePosition)
+                ? fixVector3PointDefinition(cd._animation._definitePosition, [0, 0, 0])
                 : fixString(cd._animation._definitePosition, 'unknownTrack');
         }
         if (cd._animation._dissolve != null) {
@@ -102,11 +97,7 @@ export function fixCustomDataObject(
         }
         if (cd._animation._localRotation != null) {
             cd._animation._localRotation = Array.isArray(cd._animation._localRotation)
-                ? fixVector3PointDefinition(cd._animation._localRotation, [
-                    0,
-                    0,
-                    0,
-                ])
+                ? fixVector3PointDefinition(cd._animation._localRotation, [0, 0, 0])
                 : fixString(cd._animation._localRotation, 'unknownTrack');
         }
         if (cd._animation._position != null) {
@@ -157,12 +148,19 @@ export function fixCustomDataObject(
     if (cd.noteJumpStartBeatOffset != null) {
         cd.noteJumpStartBeatOffset = fixFloat(cd.noteJumpStartBeatOffset);
     }
-    if (cd.size != null) cd.size = fixVector3(cd.size, [1, 1, 1]);
+    if (cd.size != null) {
+        if (!Array.isArray(cd.size)) cd.size = [null, null, null];
+        cd.size.length = 3;
+        cd.size = cd.size.map((s) => (typeof s === 'number' ? s : null)) as Vector3;
+    }
     if (cd.spawnEffect != null) cd.spawnEffect = fixBoolean(cd.spawnEffect);
     if (cd.track != null) {
         cd.track = Array.isArray(cd.track)
             ? fixStringAry(cd.track, 'unknownTrack')
             : fixString(cd.track, 'unknownTrack');
+    }
+    if (cd.link != null) {
+        cd.link = fixString(cd.track, 'unknownLink');
     }
     if (cd.uninteractable != null) {
         cd.uninteractable = fixBoolean(cd.uninteractable);
@@ -180,11 +178,7 @@ export function fixCustomDataObject(
         }
         if (cd.animation.definitePosition != null) {
             cd.animation.definitePosition = Array.isArray(cd.animation.definitePosition)
-                ? fixVector3PointDefinition(cd.animation.definitePosition, [
-                    0,
-                    0,
-                    0,
-                ])
+                ? fixVector3PointDefinition(cd.animation.definitePosition, [0, 0, 0])
                 : fixString(cd.animation.definitePosition);
         }
         if (cd.animation.dissolve != null) {
@@ -204,29 +198,17 @@ export function fixCustomDataObject(
         }
         if (cd.animation.localRotation != null) {
             cd.animation.localRotation = Array.isArray(cd.animation.localRotation)
-                ? fixVector3PointDefinition(cd.animation.localRotation, [
-                    0,
-                    0,
-                    0,
-                ])
+                ? fixVector3PointDefinition(cd.animation.localRotation, [0, 0, 0])
                 : fixString(cd.animation.localRotation);
         }
         if (cd.animation.offsetPosition != null) {
             cd.animation.offsetPosition = Array.isArray(cd.animation.offsetPosition)
-                ? fixVector3PointDefinition(cd.animation.offsetPosition, [
-                    0,
-                    0,
-                    0,
-                ])
+                ? fixVector3PointDefinition(cd.animation.offsetPosition, [0, 0, 0])
                 : fixString(cd.animation.offsetPosition);
         }
         if (cd.animation.offsetRotation != null) {
             cd.animation.offsetRotation = Array.isArray(cd.animation.offsetRotation)
-                ? fixVector3PointDefinition(cd.animation.offsetRotation, [
-                    0,
-                    0,
-                    0,
-                ])
+                ? fixVector3PointDefinition(cd.animation.offsetRotation, [0, 0, 0])
                 : fixString(cd.animation.offsetRotation);
         }
         if (cd.animation.scale != null) {

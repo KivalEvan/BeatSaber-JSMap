@@ -24,6 +24,7 @@ export interface INENote extends INEObject {
     disableBadCutDirection?: boolean;
     disableBadCutSpeed?: boolean;
     disableBadCutSaberType?: boolean;
+    link?: string;
 }
 
 /** Noodle Extensions Slider interface for Beatmap Slider.
