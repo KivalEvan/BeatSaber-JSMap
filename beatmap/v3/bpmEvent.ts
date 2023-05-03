@@ -14,39 +14,35 @@ export class BPMEvent extends WrapBPMEvent<Required<IBPMEvent>> {
         },
     };
 
-    protected constructor(bpmEvent: Required<IBPMEvent>) {
-        super(bpmEvent);
+    constructor();
+    constructor(data: Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>);
+    constructor(data: Partial<IBPMEvent>);
+    constructor(data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>);
+    constructor(
+        data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? BPMEvent.default.b,
+            m: data.bpm ?? data.m ?? BPMEvent.default.m,
+            customData: data.customData ?? BPMEvent.default.customData(),
+        });
     }
 
     static create(): BPMEvent[];
-    static create(...bpmEvents: Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>[]): BPMEvent[];
-    static create(...bpmEvents: Partial<IBPMEvent>[]): BPMEvent[];
+    static create(...data: Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>[]): BPMEvent[];
+    static create(...data: Partial<IBPMEvent>[]): BPMEvent[];
     static create(
-        ...bpmEvents: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>)[]
+        ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>)[]
     ): BPMEvent[];
     static create(
-        ...bpmEvents: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>)[]
+        ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>)[]
     ): BPMEvent[] {
         const result: BPMEvent[] = [];
-        bpmEvents?.forEach((be) =>
-            result.push(
-                new this({
-                    b: be.time ?? be.b ?? BPMEvent.default.b,
-                    m: be.bpm ?? be.m ?? BPMEvent.default.m,
-                    customData: be.customData ?? BPMEvent.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: BPMEvent.default.b,
-                m: BPMEvent.default.m,
-                customData: BPMEvent.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<IBPMEvent> {

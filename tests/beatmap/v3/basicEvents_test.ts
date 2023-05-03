@@ -3,7 +3,7 @@ import { assertEquals, v3 } from '../../deps.ts';
 Deno.test({
     name: 'Create Basic Event',
     fn() {
-        const be = v3.BasicEvent.create()[0];
+        const be = new v3.BasicEvent();
         assertEquals(be.time, 0);
         assertEquals(be.type, 0);
         assertEquals(be.value, 0);

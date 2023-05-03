@@ -25,14 +25,57 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
     };
 
     private _e: LightColorEventBox[];
-    protected constructor(eventBoxGroup: Required<ILightColorEventBoxGroup>) {
-        super(eventBoxGroup);
-        this._e = eventBoxGroup.e.map((e) => LightColorEventBox.create(e)[0]);
+
+    constructor();
+    constructor(
+        data: DeepPartial<
+            IWrapLightColorEventBoxGroupAttribute<
+                Required<ILightColorEventBoxGroup>,
+                Required<ILightColorEventBox>,
+                Required<ILightColorBase>,
+                Required<IIndexFilter>
+            >
+        >,
+    );
+    constructor(data: DeepPartial<ILightColorEventBoxGroup>);
+    constructor(
+        data:
+            & DeepPartial<ILightColorEventBoxGroup>
+            & DeepPartial<
+                IWrapLightColorEventBoxGroupAttribute<
+                    Required<ILightColorEventBoxGroup>,
+                    Required<ILightColorEventBox>,
+                    Required<ILightColorBase>,
+                    Required<IIndexFilter>
+                >
+            >,
+    );
+    constructor(
+        data:
+            & DeepPartial<ILightColorEventBoxGroup>
+            & DeepPartial<
+                IWrapLightColorEventBoxGroupAttribute<
+                    Required<ILightColorEventBoxGroup>,
+                    Required<ILightColorEventBox>,
+                    Required<ILightColorBase>,
+                    Required<IIndexFilter>
+                >
+            > = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? LightColorEventBoxGroup.default.b,
+            g: data.id ?? data.g ?? LightColorEventBoxGroup.default.g,
+            e: (data.boxes as ILightColorEventBox[]) ??
+                (data.e as unknown as ILightColorEventBox[]) ??
+                LightColorEventBoxGroup.default.e(),
+            customData: data.customData ?? LightColorEventBoxGroup.default.customData(),
+        });
+        this._e = this.data.e.map((obj) => new LightColorEventBox(obj));
     }
 
     static create(): LightColorEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartial<
+        ...data: DeepPartial<
             IWrapLightColorEventBoxGroupAttribute<
                 Required<ILightColorEventBoxGroup>,
                 Required<ILightColorEventBox>,
@@ -41,11 +84,9 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             >
         >[]
     ): LightColorEventBoxGroup[];
+    static create(...data: DeepPartial<ILightColorEventBoxGroup>[]): LightColorEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartial<ILightColorEventBoxGroup>[]
-    ): LightColorEventBoxGroup[];
-    static create(
-        ...eventBoxGroups: (
+        ...data: (
             & DeepPartial<ILightColorEventBoxGroup>
             & DeepPartial<
                 IWrapLightColorEventBoxGroupAttribute<
@@ -58,7 +99,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
         )[]
     ): LightColorEventBoxGroup[];
     static create(
-        ...eventBoxGroups: (
+        ...data: (
             & DeepPartial<ILightColorEventBoxGroup>
             & DeepPartial<
                 IWrapLightColorEventBoxGroupAttribute<
@@ -71,29 +112,11 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
         )[]
     ): LightColorEventBoxGroup[] {
         const result: LightColorEventBoxGroup[] = [];
-        eventBoxGroups?.forEach((ebg) =>
-            result.push(
-                new this({
-                    b: ebg.time ?? ebg.b ?? LightColorEventBoxGroup.default.b,
-                    g: ebg.id ?? ebg.g ?? LightColorEventBoxGroup.default.g,
-                    e: (ebg.boxes as ILightColorEventBox[]) ??
-                        (ebg.e as unknown as ILightColorEventBox[]) ??
-                        LightColorEventBoxGroup.default.e(),
-                    customData: ebg.customData ?? LightColorEventBoxGroup.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: LightColorEventBoxGroup.default.b,
-                g: LightColorEventBoxGroup.default.g,
-                e: LightColorEventBoxGroup.default.e(),
-                customData: LightColorEventBoxGroup.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<ILightColorEventBoxGroup> {

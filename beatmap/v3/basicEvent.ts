@@ -23,39 +23,33 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
         },
     };
 
-    protected constructor(basicEvent: Required<IBasicEvent>) {
-        super(basicEvent);
+    constructor();
+    constructor(data: Partial<IWrapEventAttribute<Required<IBasicEvent>>>);
+    constructor(...data: Partial<IBasicEvent>[]);
+    constructor(data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<Required<IBasicEvent>>>);
+    constructor(
+        data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<Required<IBasicEvent>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? BasicEvent.default.b,
+            et: data.type ?? data.et ?? BasicEvent.default.et,
+            i: data.value ?? data.i ?? BasicEvent.default.i,
+            f: data.floatValue ?? data.f ?? BasicEvent.default.f,
+            customData: data.customData ?? BasicEvent.default.customData(),
+        });
     }
 
     static create(): BasicEvent[];
+    static create(...data: Partial<IWrapEventAttribute<Required<IBasicEvent>>>[]): BasicEvent[];
+    static create(...data: Partial<IBasicEvent>[]): BasicEvent[];
     static create(
-        ...basicEvents: Partial<IWrapEventAttribute<Required<IBasicEvent>>>[]
-    ): BasicEvent[];
-    static create(...basicEvents: Partial<IBasicEvent>[]): BasicEvent[];
-    static create(
-        ...basicEvents: (
-            & Partial<IBasicEvent>
-            & Partial<IWrapEventAttribute<Required<IBasicEvent>>>
-        )[]
+        ...data: (Partial<IBasicEvent> & Partial<IWrapEventAttribute<Required<IBasicEvent>>>)[]
     ): BasicEvent[];
     static create(
-        ...basicEvents: (
-            & Partial<IBasicEvent>
-            & Partial<IWrapEventAttribute<Required<IBasicEvent>>>
-        )[]
+        ...data: (Partial<IBasicEvent> & Partial<IWrapEventAttribute<Required<IBasicEvent>>>)[]
     ): BasicEvent[] {
         const result: BasicEvent[] = [];
-        basicEvents?.forEach((be) =>
-            result.push(
-                new this({
-                    b: be.time ?? be.b ?? BasicEvent.default.b,
-                    et: be.type ?? be.et ?? BasicEvent.default.et,
-                    i: be.value ?? be.i ?? BasicEvent.default.i,
-                    f: be.floatValue ?? be.f ?? BasicEvent.default.f,
-                    customData: be.customData ?? BasicEvent.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

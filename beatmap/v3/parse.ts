@@ -76,5 +76,5 @@ export function difficulty(
     data.lightColorEventBoxGroups.sort(sortObjectTime);
     data.lightRotationEventBoxGroups.sort(sortObjectTime);
 
-    return Difficulty.create(data);
+    return new Difficulty(data);
 }

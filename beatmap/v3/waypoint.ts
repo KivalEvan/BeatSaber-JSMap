@@ -16,43 +16,37 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
         },
     };
 
-    protected constructor(waypoint: Required<IWaypoint>) {
-        super(waypoint);
+    constructor();
+    constructor(data: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>);
+    constructor(data: Partial<IWaypoint>);
+    constructor(data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>);
+    constructor(
+        data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? Waypoint.default.b,
+            x: data.posX ?? data.x ?? Waypoint.default.x,
+            y: data.posY ?? data.y ?? Waypoint.default.y,
+            d: data.direction ?? data.d ?? Waypoint.default.d,
+            customData: data.customData ?? Waypoint.default.customData(),
+        });
     }
 
     static create(): Waypoint[];
-    static create(...waypoints: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>[]): Waypoint[];
-    static create(...waypoints: Partial<IWaypoint>[]): Waypoint[];
+    static create(...data: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>[]): Waypoint[];
+    static create(...data: Partial<IWaypoint>[]): Waypoint[];
     static create(
-        ...waypoints: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
+        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
     ): Waypoint[];
     static create(
-        ...waypoints: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
+        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
     ): Waypoint[] {
         const result: Waypoint[] = [];
-        waypoints?.forEach((w) =>
-            result.push(
-                new this({
-                    b: w.time ?? w.b ?? Waypoint.default.b,
-                    x: w.posX ?? w.x ?? Waypoint.default.x,
-                    y: w.posY ?? w.y ?? Waypoint.default.y,
-                    d: w.direction ?? w.d ?? Waypoint.default.d,
-                    customData: w.customData ?? Waypoint.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: Waypoint.default.b,
-                x: Waypoint.default.x,
-                y: Waypoint.default.y,
-                d: Waypoint.default.d,
-                customData: Waypoint.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<IWaypoint> {

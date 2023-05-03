@@ -15,53 +15,54 @@ export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywor
         _specialEvents: () => [],
     };
 
-    protected constructor(
-        specialEventsForKeywords: Required<ISpecialEventsKeywordFiltersKeywords>,
+    constructor();
+    constructor(data: Partial<IWrapEventTypesForKeywordsAttribute>);
+    constructor(data: Partial<ISpecialEventsKeywordFiltersKeywords>);
+    constructor(
+        data:
+            & Partial<ISpecialEventsKeywordFiltersKeywords>
+            & Partial<IWrapEventTypesForKeywordsAttribute>,
+    );
+    constructor(
+        data:
+            & Partial<ISpecialEventsKeywordFiltersKeywords>
+            & Partial<IWrapEventTypesForKeywordsAttribute> = {},
     ) {
-        super(specialEventsForKeywords);
+        super({
+            _keyword: data.keyword ??
+                data._keyword ??
+                SpecialEventsKeywordFiltersKeywords.default._keyword,
+            _specialEvents: data.events ??
+                data._specialEvents ??
+                SpecialEventsKeywordFiltersKeywords.default._specialEvents(),
+        });
     }
 
     static create(): SpecialEventsKeywordFiltersKeywords[];
     static create(
-        ...basicEventTypesForKeywords: Partial<IWrapEventTypesForKeywordsAttribute>[]
+        ...data: Partial<IWrapEventTypesForKeywordsAttribute>[]
     ): SpecialEventsKeywordFiltersKeywords[];
     static create(
-        ...basicEventTypesForKeywords: Partial<ISpecialEventsKeywordFiltersKeywords>[]
+        ...data: Partial<ISpecialEventsKeywordFiltersKeywords>[]
     ): SpecialEventsKeywordFiltersKeywords[];
     static create(
-        ...basicEventTypesForKeywords: (
+        ...data: (
             & Partial<ISpecialEventsKeywordFiltersKeywords>
             & Partial<IWrapEventTypesForKeywordsAttribute>
         )[]
     ): SpecialEventsKeywordFiltersKeywords[];
     static create(
-        ...basicEventTypesForKeywords: (
+        ...data: (
             & Partial<ISpecialEventsKeywordFiltersKeywords>
             & Partial<IWrapEventTypesForKeywordsAttribute>
         )[]
     ): SpecialEventsKeywordFiltersKeywords[] {
         const result: SpecialEventsKeywordFiltersKeywords[] = [];
-        basicEventTypesForKeywords?.forEach((betfk) =>
-            result.push(
-                new this({
-                    _keyword: betfk.keyword ??
-                        betfk._keyword ??
-                        SpecialEventsKeywordFiltersKeywords.default._keyword,
-                    _specialEvents: betfk.events ??
-                        betfk._specialEvents ??
-                        SpecialEventsKeywordFiltersKeywords.default._specialEvents(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                _keyword: SpecialEventsKeywordFiltersKeywords.default._keyword,
-                _specialEvents: SpecialEventsKeywordFiltersKeywords.default._specialEvents(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): ISpecialEventsKeywordFiltersKeywords {

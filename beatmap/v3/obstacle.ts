@@ -21,47 +21,39 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
         },
     };
 
-    protected constructor(obstacle: Required<IObstacle>) {
-        super(obstacle);
+    constructor();
+    constructor(data: Partial<IWrapObstacleAttribute<Required<IObstacle>>>);
+    constructor(data: Partial<IObstacle>);
+    constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>);
+    constructor(
+        data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? Obstacle.default.b,
+            x: data.posX ?? data.x ?? Obstacle.default.x,
+            y: data.posY ?? data.y ?? Obstacle.default.y,
+            d: data.duration ?? data.d ?? Obstacle.default.d,
+            w: data.width ?? data.w ?? Obstacle.default.w,
+            h: data.height ?? data.h ?? Obstacle.default.h,
+            customData: data.customData ?? Obstacle.default.customData(),
+        });
     }
 
     static create(): Obstacle[];
-    static create(...obstacles: Partial<IWrapObstacleAttribute<Required<IObstacle>>>[]): Obstacle[];
-    static create(...obstacles: Partial<IObstacle>[]): Obstacle[];
+    static create(...data: Partial<IWrapObstacleAttribute<Required<IObstacle>>>[]): Obstacle[];
+    static create(...data: Partial<IObstacle>[]): Obstacle[];
     static create(
-        ...obstacles: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
+        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
     ): Obstacle[];
     static create(
-        ...obstacles: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
+        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
     ): Obstacle[] {
         const result: Obstacle[] = [];
-        obstacles?.forEach((o) =>
-            result.push(
-                new this({
-                    b: o.time ?? o.b ?? Obstacle.default.b,
-                    x: o.posX ?? o.x ?? Obstacle.default.x,
-                    y: o.posY ?? o.y ?? Obstacle.default.y,
-                    d: o.duration ?? o.d ?? Obstacle.default.d,
-                    w: o.width ?? o.w ?? Obstacle.default.w,
-                    h: o.height ?? o.h ?? Obstacle.default.h,
-                    customData: o.customData ?? Obstacle.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: Obstacle.default.b,
-                x: Obstacle.default.x,
-                y: Obstacle.default.y,
-                d: Obstacle.default.d,
-                w: Obstacle.default.w,
-                h: Obstacle.default.h,
-                customData: Obstacle.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<IObstacle> {

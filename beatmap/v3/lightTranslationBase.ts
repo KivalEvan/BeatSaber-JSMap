@@ -18,53 +18,51 @@ export class LightTranslationBase extends WrapLightTranslationBase<
         },
     };
 
-    protected constructor(lightTranslationBase: Required<ILightTranslationBase>) {
-        super(lightTranslationBase);
+    constructor();
+    constructor(data: Partial<IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>>);
+    constructor(data: Partial<ILightTranslationBase>);
+    constructor(
+        data:
+            & Partial<ILightTranslationBase>
+            & Partial<IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>>,
+    );
+    constructor(
+        data:
+            & Partial<ILightTranslationBase>
+            & Partial<IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? LightTranslationBase.default.b,
+            p: data.previous ?? data.p ?? LightTranslationBase.default.p,
+            e: data.easing ?? data.e ?? LightTranslationBase.default.e,
+            t: data.translation ?? data.t ?? LightTranslationBase.default.t,
+            customData: data.customData ?? LightTranslationBase.default.customData(),
+        });
     }
 
     static create(): LightTranslationBase[];
     static create(
-        ...lightTranslations: Partial<
-            IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>
-        >[]
+        ...data: Partial<IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>>[]
     ): LightTranslationBase[];
-    static create(...lightTranslations: Partial<ILightTranslationBase>[]): LightTranslationBase[];
+    static create(...data: Partial<ILightTranslationBase>[]): LightTranslationBase[];
     static create(
-        ...lightTranslations: (
+        ...data: (
             & Partial<ILightTranslationBase>
             & Partial<IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>>
         )[]
     ): LightTranslationBase[];
     static create(
-        ...lightTranslations: (
+        ...data: (
             & Partial<ILightTranslationBase>
             & Partial<IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>>
         )[]
     ): LightTranslationBase[] {
         const result: LightTranslationBase[] = [];
-        lightTranslations?.forEach((lr) =>
-            result.push(
-                new this({
-                    b: lr.time ?? lr.b ?? LightTranslationBase.default.b,
-                    p: lr.previous ?? lr.p ?? LightTranslationBase.default.p,
-                    e: lr.easing ?? lr.e ?? LightTranslationBase.default.e,
-                    t: lr.translation ?? lr.t ?? LightTranslationBase.default.t,
-                    customData: lr.customData ?? LightTranslationBase.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: LightTranslationBase.default.b,
-                p: LightTranslationBase.default.p,
-                e: LightTranslationBase.default.e,
-                t: LightTranslationBase.default.t,
-                customData: LightTranslationBase.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<ILightTranslationBase> {

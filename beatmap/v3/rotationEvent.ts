@@ -15,49 +15,50 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
         },
     };
 
-    protected constructor(rotationEvent: Required<IRotationEvent>) {
-        super(rotationEvent);
+    constructor();
+    constructor(data: Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>);
+    constructor(data: Partial<IRotationEvent>);
+    constructor(
+        data:
+            & Partial<IRotationEvent>
+            & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>,
+    );
+    constructor(
+        data:
+            & Partial<IRotationEvent>
+            & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? RotationEvent.default.b,
+            e: data.executionTime ?? data.e ?? RotationEvent.default.e,
+            r: data.rotation ?? data.r ?? RotationEvent.default.r,
+            customData: data.customData ?? RotationEvent.default.customData(),
+        });
     }
 
     static create(): RotationEvent[];
     static create(
-        ...rotationEvents: Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>[]
+        ...data: Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>[]
     ): RotationEvent[];
-    static create(...rotationEvents: Partial<IRotationEvent>[]): RotationEvent[];
+    static create(...data: Partial<IRotationEvent>[]): RotationEvent[];
     static create(
-        ...rotationEvents: (
+        ...data: (
             & Partial<IRotationEvent>
             & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>
         )[]
     ): RotationEvent[];
     static create(
-        ...rotationEvents: (
+        ...data: (
             & Partial<IRotationEvent>
             & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>
         )[]
     ): RotationEvent[] {
         const result: RotationEvent[] = [];
-        rotationEvents?.forEach((re) =>
-            result.push(
-                new this({
-                    b: re.time ?? re.b ?? RotationEvent.default.b,
-                    e: re.executionTime ?? re.e ?? RotationEvent.default.e,
-                    r: re.rotation ?? re.r ?? RotationEvent.default.r,
-                    customData: re.customData ?? RotationEvent.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: RotationEvent.default.b,
-                e: RotationEvent.default.e,
-                r: RotationEvent.default.r,
-                customData: RotationEvent.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<IRotationEvent> {

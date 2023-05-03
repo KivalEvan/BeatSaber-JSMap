@@ -28,63 +28,55 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
         },
     };
 
-    protected constructor(burstSlider: Required<IBurstSlider>) {
-        super(burstSlider);
+    constructor();
+    constructor(data: Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>);
+    constructor(data: Partial<IBurstSlider>);
+    constructor(
+        data: Partial<IBurstSlider> & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>,
+    );
+    constructor(
+        data:
+            & Partial<IBurstSlider>
+            & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? data.tb ?? BurstSlider.default.b,
+            c: data.color ?? data.c ?? BurstSlider.default.c,
+            x: data.posX ?? data.x ?? BurstSlider.default.x,
+            y: data.posY ?? data.y ?? BurstSlider.default.y,
+            d: data.direction ?? data.d ?? BurstSlider.default.d,
+            tb: data.tailTime ?? data.tb ?? data.b ?? BurstSlider.default.tb,
+            tx: data.tailPosX ?? data.tx ?? BurstSlider.default.tx,
+            ty: data.tailPosY ?? data.ty ?? BurstSlider.default.ty,
+            sc: data.sliceCount ?? data.sc ?? BurstSlider.default.sc,
+            s: data.squish ?? data.s ?? BurstSlider.default.s,
+            customData: data.customData ?? BurstSlider.default.customData(),
+        });
     }
 
     static create(): BurstSlider[];
     static create(
-        ...burstSliders: Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>[]
+        ...data: Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>[]
     ): BurstSlider[];
-    static create(...burstSliders: Partial<IBurstSlider>[]): BurstSlider[];
+    static create(...data: Partial<IBurstSlider>[]): BurstSlider[];
     static create(
-        ...burstSliders: (
+        ...data: (
             & Partial<IBurstSlider>
             & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>
         )[]
     ): BurstSlider[];
     static create(
-        ...burstSliders: (
+        ...data: (
             & Partial<IBurstSlider>
             & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>
         )[]
     ): BurstSlider[] {
         const result: BurstSlider[] = [];
-        burstSliders?.forEach((bs) =>
-            result.push(
-                new this({
-                    b: bs.time ?? bs.b ?? bs.tb ?? BurstSlider.default.b,
-                    c: bs.color ?? bs.c ?? BurstSlider.default.c,
-                    x: bs.posX ?? bs.x ?? BurstSlider.default.x,
-                    y: bs.posY ?? bs.y ?? BurstSlider.default.y,
-                    d: bs.direction ?? bs.d ?? BurstSlider.default.d,
-                    tb: bs.tailTime ?? bs.tb ?? bs.b ?? BurstSlider.default.tb,
-                    tx: bs.tailPosX ?? bs.tx ?? BurstSlider.default.tx,
-                    ty: bs.tailPosY ?? bs.ty ?? BurstSlider.default.ty,
-                    sc: bs.sliceCount ?? bs.sc ?? BurstSlider.default.sc,
-                    s: bs.squish ?? bs.s ?? BurstSlider.default.s,
-                    customData: bs.customData ?? BurstSlider.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: BurstSlider.default.b,
-                c: BurstSlider.default.c,
-                x: BurstSlider.default.x,
-                y: BurstSlider.default.y,
-                d: BurstSlider.default.d,
-                tb: BurstSlider.default.tb,
-                tx: BurstSlider.default.tx,
-                ty: BurstSlider.default.ty,
-                sc: BurstSlider.default.sc,
-                s: BurstSlider.default.s,
-                customData: BurstSlider.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<IBurstSlider> {

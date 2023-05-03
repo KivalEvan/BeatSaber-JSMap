@@ -46,33 +46,35 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     lightTranslationEventBoxGroups: never[] = [];
     eventTypesWithKeywords: SpecialEventsKeywordFilters;
     useNormalEventsAsCompatibleEvents = true;
-    protected constructor(data: Required<IDifficulty>) {
-        super(data);
+
+    constructor(data: Partial<IDifficulty> = {}) {
+        super({
+            _version: '2.6.0',
+            _notes: data?._notes ?? [],
+            _sliders: data?._sliders ?? [],
+            _obstacles: data?._obstacles ?? [],
+            _events: data?._events ?? [],
+            _waypoints: data?._waypoints ?? [],
+            _specialEventsKeywordFilters: data?._specialEventsKeywordFilters ?? {
+                _keywords: [],
+            },
+            _customData: data?._customData ?? {},
+        });
+
         this.version = '2.6.0';
-        this.colorNotes = data._notes.map((obj) => Note.create(obj)[0]);
-        this.sliders = data._sliders.map((obj) => Slider.create(obj)[0]);
-        this.obstacles = data._obstacles.map((obj) => Obstacle.create(obj)[0]);
-        this.basicEvents = data._events.map((obj) => Event.create(obj)[0]);
-        this.waypoints = data._waypoints.map((obj) => Waypoint.create(obj)[0]);
-        this.eventTypesWithKeywords = SpecialEventsKeywordFilters.create(
-            data._specialEventsKeywordFilters,
+        this.colorNotes = this.data._notes.map((obj) => new Note(obj));
+        this.sliders = this.data._sliders.map((obj) => new Slider(obj));
+        this.obstacles = this.data._obstacles.map((obj) => new Obstacle(obj));
+        this.basicEvents = this.data._events.map((obj) => new Event(obj));
+        this.waypoints = this.data._waypoints.map((obj) => new Waypoint(obj));
+        this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(
+            this.data._specialEventsKeywordFilters,
         );
-        this.customData = data._customData;
+        this.customData = this.data._customData;
     }
 
     static create(data: Partial<IDifficulty> = {}): Difficulty {
-        return new this({
-            _version: '2.6.0',
-            _notes: data._notes ?? [],
-            _sliders: data._sliders ?? [],
-            _obstacles: data._obstacles ?? [],
-            _events: data._events ?? [],
-            _waypoints: data._waypoints ?? [],
-            _specialEventsKeywordFilters: data._specialEventsKeywordFilters ?? {
-                _keywords: [],
-            },
-            _customData: data._customData ?? {},
-        });
+        return new this(data);
     }
 
     toJSON(): Required<IDifficulty> {
@@ -110,10 +112,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.basicEvents.push(
-            ...events.map((bpme) => {
-                return bpme instanceof Event
-                    ? bpme
-                    : Event.create({ ...bpme, type: 100, value: bpme.bpm })[0];
+            ...events.map((obj) => {
+                return obj instanceof Event
+                    ? obj
+                    : new Event({ ...obj, type: 100, value: obj.bpm });
             }),
         );
     }
@@ -133,13 +135,13 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.basicEvents.push(
-            ...events.map((re) =>
-                re instanceof Event ? re : Event.create({
-                    ...re,
-                    type: typeof re.executionTime === 'number'
-                        ? re.executionTime === 0 ? 14 : 15
-                        : re._type,
-                })[0]
+            ...events.map((obj) =>
+                obj instanceof Event ? obj : new Event({
+                    ...obj,
+                    type: typeof obj.executionTime === 'number'
+                        ? obj.executionTime === 0 ? 14 : 15
+                        : obj._type,
+                })
             ),
         );
         logger.warn('This may not work correctly');
@@ -154,7 +156,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         ...colorNotes: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
     ): void {
         this.colorNotes.push(
-            ...colorNotes.map((cn) => (cn instanceof Note ? cn : Note.create(cn)[0])),
+            ...colorNotes.map((obj) => (obj instanceof Note ? obj : new Note(obj))),
         );
     }
 
@@ -167,7 +169,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         ...notes: (Partial<INote> & Partial<IWrapBombNoteAttribute<Required<INote>>>)[]
     ): void {
         this.colorNotes.push(
-            ...notes.map((bn) => (bn instanceof Note ? bn : Note.create({ ...bn, type: 3 })[0])),
+            ...notes.map((obj) => (obj instanceof Note ? obj : new Note({ ...obj, type: 3 }))),
         );
     }
 
@@ -180,7 +182,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         ...obstacles: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
     ): void {
         this.obstacles.push(
-            ...obstacles.map((o) => (o instanceof Obstacle ? o : Obstacle.create(o)[0])),
+            ...obstacles.map((obj) => (obj instanceof Obstacle ? obj : new Obstacle(obj))),
         );
     }
 
@@ -192,7 +194,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     addSliders(
         ...sliders: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
     ): void {
-        this.sliders.push(...sliders.map((s) => (s instanceof Slider ? s : Slider.create(s)[0])));
+        this.sliders.push(...sliders.map((obj) => (obj instanceof Slider ? obj : new Slider(obj))));
     }
 
     addBurstSliders(..._: never[]): void {
@@ -208,7 +210,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         ...waypoints: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
     ): void {
         this.waypoints.push(
-            ...waypoints.map((w) => (w instanceof Waypoint ? w : Waypoint.create(w)[0])),
+            ...waypoints.map((obj) => (obj instanceof Waypoint ? obj : new Waypoint(obj))),
         );
     }
 
@@ -221,7 +223,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         ...basicEvents: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
     ): void {
         this.basicEvents.push(
-            ...basicEvents.map((be) => (be instanceof Event ? be : Event.create(be)[0])),
+            ...basicEvents.map((obj) => (obj instanceof Event ? obj : new Event(obj))),
         );
     }
 
@@ -242,8 +244,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         )[]
     ): void {
         this.basicEvents.push(
-            ...basicEvents.map((e) =>
-                e instanceof Event ? e : Event.create({ ...e, value: e.toggle ? 1 : e._value })[0]
+            ...basicEvents.map((obj) =>
+                obj instanceof Event
+                    ? obj
+                    : new Event({ ...obj, value: obj.toggle ? 1 : obj._value })
             ),
         );
     }

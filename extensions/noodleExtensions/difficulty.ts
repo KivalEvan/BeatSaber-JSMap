@@ -39,31 +39,29 @@ export class NoodleDifficulty {
     toJSON(): Required<IDifficulty> {
         this.base.customData.fakeColorNotes = this.fakeColorNotes.map((n) => n.toJSON());
         this.base.customData.fakeBombNotes = this.fakeBombNotes.map((b) => b.toJSON());
-        this.base.customData.fakeBurstSliders = this.fakeBurstSliders.map((
-            bs,
-        ) => bs.toJSON());
+        this.base.customData.fakeBurstSliders = this.fakeBurstSliders.map((bs) => bs.toJSON());
         this.base.customData.fakeObstacles = this.fakeObstacles.map((o) => o.toJSON());
         return this.base.toJSON();
     }
 
     addFakeColorNotes = (...colorNotes: Partial<IColorNote>[]) => {
         colorNotes.forEach((cn) => {
-            this.fakeColorNotes.push(ColorNote.create(cn)[0]);
+            this.fakeColorNotes.push(new ColorNote(obj));
         });
     };
     addFakeBombNotes = (...bombNotes: Partial<IBombNote>[]) => {
         bombNotes.forEach((bn) => {
-            this.fakeBombNotes.push(BombNote.create(bn)[0]);
+            this.fakeBombNotes.push(new BombNote(obj));
         });
     };
     addFakeObstacles = (...obstacles: Partial<IObstacle>[]) => {
         obstacles.forEach((o) => {
-            this.fakeObstacles.push(Obstacle.create(o)[0]);
+            this.fakeObstacles.push(new Obstacle(obj));
         });
     };
     addFakeBurstSliders = (...burstSliders: Partial<IBurstSlider>[]) => {
         burstSliders.forEach((bs) => {
-            this.fakeBurstSliders.push(BurstSlider.create(bs)[0]);
+            this.fakeBurstSliders.push(new BurstSlider(obj));
         });
     };
 }

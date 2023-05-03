@@ -16,41 +16,36 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
         },
     };
 
-    protected constructor(bombNote: Required<IBombNote>) {
-        super(bombNote);
+    constructor();
+    constructor(data: Partial<IWrapBombNoteAttribute<Required<IBombNote>>>);
+    constructor(data: Partial<IBombNote>);
+    constructor(data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>);
+    constructor(
+        data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? BombNote.default.b,
+            x: data.posX ?? data.x ?? BombNote.default.x,
+            y: data.posY ?? data.y ?? BombNote.default.y,
+            customData: data.customData ?? BombNote.default.customData(),
+        });
     }
 
     static create(): BombNote[];
-    static create(...bombNotes: Partial<IWrapBombNoteAttribute<Required<IBombNote>>>[]): BombNote[];
-    static create(...bombNotes: Partial<IBombNote>[]): BombNote[];
+    static create(...data: Partial<IWrapBombNoteAttribute<Required<IBombNote>>>[]): BombNote[];
+    static create(...data: Partial<IBombNote>[]): BombNote[];
     static create(
-        ...bombNotes: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>)[]
+        ...data: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>)[]
     ): BombNote[];
     static create(
-        ...bombNotes: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>)[]
+        ...data: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>)[]
     ): BombNote[] {
         const result: BombNote[] = [];
-        bombNotes?.forEach((bn) =>
-            result.push(
-                new this({
-                    b: bn.time ?? bn.b ?? BombNote.default.b,
-                    x: bn.posX ?? bn.x ?? BombNote.default.x,
-                    y: bn.posY ?? bn.y ?? BombNote.default.y,
-                    customData: bn.customData ?? BombNote.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: BombNote.default.b,
-                x: BombNote.default.x,
-                y: BombNote.default.y,
-                customData: BombNote.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<IBombNote> {

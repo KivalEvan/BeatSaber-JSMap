@@ -24,13 +24,7 @@ export function difficulty(
         data._version = '2.0.0';
     }
     if (checkData.enable) {
-        deepCheck(
-            data,
-            DifficultyCheck,
-            'difficulty',
-            data._version,
-            checkData.throwError,
-        );
+        deepCheck(data, DifficultyCheck, 'difficulty', data._version, checkData.throwError);
     }
 
     // haha why do i have to do this, beat games
@@ -46,5 +40,5 @@ export function difficulty(
     data._events.sort(sortObjectTime);
     data._waypoints.sort(sortObjectTime);
 
-    return Difficulty.create(data);
+    return new Difficulty(data);
 }

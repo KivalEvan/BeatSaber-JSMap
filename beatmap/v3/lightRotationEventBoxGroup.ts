@@ -25,14 +25,57 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
     };
 
     private _e: LightRotationEventBox[];
-    protected constructor(eventBoxGroup: Required<ILightRotationEventBoxGroup>) {
-        super(eventBoxGroup);
-        this._e = eventBoxGroup.e.map((e) => LightRotationEventBox.create(e)[0]);
+
+    constructor();
+    constructor(
+        data: DeepPartial<
+            IWrapLightRotationEventBoxGroupAttribute<
+                Required<ILightRotationEventBoxGroup>,
+                Required<ILightRotationEventBox>,
+                Required<ILightRotationBase>,
+                Required<IIndexFilter>
+            >
+        >,
+    );
+    constructor(data: DeepPartial<ILightRotationEventBoxGroup>);
+    constructor(
+        data:
+            & DeepPartial<ILightRotationEventBoxGroup>
+            & DeepPartial<
+                IWrapLightRotationEventBoxGroupAttribute<
+                    Required<ILightRotationEventBoxGroup>,
+                    Required<ILightRotationEventBox>,
+                    Required<ILightRotationBase>,
+                    Required<IIndexFilter>
+                >
+            >,
+    );
+    constructor(
+        data:
+            & DeepPartial<ILightRotationEventBoxGroup>
+            & DeepPartial<
+                IWrapLightRotationEventBoxGroupAttribute<
+                    Required<ILightRotationEventBoxGroup>,
+                    Required<ILightRotationEventBox>,
+                    Required<ILightRotationBase>,
+                    Required<IIndexFilter>
+                >
+            > = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? LightRotationEventBoxGroup.default.b,
+            g: data.id ?? data.g ?? LightRotationEventBoxGroup.default.g,
+            e: (data.boxes as ILightRotationEventBox[]) ??
+                (data.e as unknown as ILightRotationEventBox[]) ??
+                LightRotationEventBoxGroup.default.e(),
+            customData: data.customData ?? LightRotationEventBoxGroup.default.customData(),
+        });
+        this._e = this.data.e.map((obj) => new LightRotationEventBox(obj));
     }
 
     static create(): LightRotationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartial<
+        ...data: DeepPartial<
             IWrapLightRotationEventBoxGroupAttribute<
                 Required<ILightRotationEventBoxGroup>,
                 Required<ILightRotationEventBox>,
@@ -42,10 +85,10 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
         >[]
     ): LightRotationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartial<ILightRotationEventBoxGroup>[]
+        ...data: DeepPartial<ILightRotationEventBoxGroup>[]
     ): LightRotationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: (
+        ...data: (
             & DeepPartial<ILightRotationEventBoxGroup>
             & DeepPartial<
                 IWrapLightRotationEventBoxGroupAttribute<
@@ -58,7 +101,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
         )[]
     ): LightRotationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: (
+        ...data: (
             & DeepPartial<ILightRotationEventBoxGroup>
             & DeepPartial<
                 IWrapLightRotationEventBoxGroupAttribute<
@@ -71,29 +114,11 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
         )[]
     ): LightRotationEventBoxGroup[] {
         const result: LightRotationEventBoxGroup[] = [];
-        eventBoxGroups?.forEach((ebg) =>
-            result.push(
-                new this({
-                    b: ebg.time ?? ebg.b ?? LightRotationEventBoxGroup.default.b,
-                    g: ebg.id ?? ebg.g ?? LightRotationEventBoxGroup.default.g,
-                    e: (ebg.boxes as ILightRotationEventBox[]) ??
-                        (ebg.e as unknown as ILightRotationEventBox[]) ??
-                        LightRotationEventBoxGroup.default.e(),
-                    customData: ebg.customData ?? LightRotationEventBoxGroup.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: LightRotationEventBoxGroup.default.b,
-                g: LightRotationEventBoxGroup.default.g,
-                e: LightRotationEventBoxGroup.default.e(),
-                customData: LightRotationEventBoxGroup.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<ILightRotationEventBoxGroup> {

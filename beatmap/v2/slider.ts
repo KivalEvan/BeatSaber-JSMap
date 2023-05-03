@@ -24,69 +24,52 @@ export class Slider extends WrapSlider<Required<ISlider>> {
         },
     };
 
-    protected constructor(slider: Required<ISlider>) {
-        super(slider);
+    constructor();
+    constructor(data: Partial<IWrapSliderAttribute<Required<ISlider>>>);
+    constructor(data: Partial<ISlider>);
+    constructor(data: Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>);
+    constructor(data: Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>> = {}) {
+        super({
+            _colorType: data.color ?? data._colorType ?? Slider.default._colorType,
+            _headTime: data.time ?? data._headTime ?? data._tailTime ?? Slider.default._headTime,
+            _headLineIndex: data.posX ?? data._headLineIndex ?? Slider.default._headLineIndex,
+            _headLineLayer: data.posY ?? data._headLineLayer ?? Slider.default._headLineLayer,
+            _headCutDirection: (data.direction as 0) ?? data._headCutDirection ??
+                Slider.default._headCutDirection,
+            _headControlPointLengthMultiplier: data.lengthMultiplier ??
+                data._headControlPointLengthMultiplier ??
+                Slider.default._headControlPointLengthMultiplier,
+            _tailTime: data.tailTime ?? data._tailTime ?? data._headTime ??
+                Slider.default._tailTime,
+            _tailLineIndex: data.tailPosX ?? data._tailLineIndex ?? Slider.default._tailLineIndex,
+            _tailLineLayer: data.tailPosY ?? data._tailLineLayer ?? Slider.default._tailLineLayer,
+            _tailCutDirection: (data.tailDirection as 0) ??
+                data._tailCutDirection ??
+                Slider.default._tailCutDirection,
+            _tailControlPointLengthMultiplier: data.tailLengthMultiplier ??
+                data._tailControlPointLengthMultiplier ??
+                Slider.default._tailControlPointLengthMultiplier,
+            _sliderMidAnchorMode: data.midAnchor ?? data._sliderMidAnchorMode ??
+                Slider.default._sliderMidAnchorMode,
+            _customData: data.customData ?? data._customData ?? Slider.default._customData(),
+        });
     }
 
     static create(): Slider[];
-    static create(...sliders: Partial<IWrapSliderAttribute<Required<ISlider>>>[]): Slider[];
-    static create(...sliders: Partial<ISlider>[]): Slider[];
+    static create(...data: Partial<IWrapSliderAttribute<Required<ISlider>>>[]): Slider[];
+    static create(...data: Partial<ISlider>[]): Slider[];
     static create(
-        ...sliders: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
+        ...data: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
     ): Slider[];
     static create(
-        ...sliders: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
+        ...data: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
     ): Slider[] {
         const result: Slider[] = [];
-        sliders?.forEach((s) =>
-            result.push(
-                new this({
-                    _colorType: s.color ?? s._colorType ?? Slider.default._colorType,
-                    _headTime: s.time ?? s._headTime ?? s._tailTime ?? Slider.default._headTime,
-                    _headLineIndex: s.posX ?? s._headLineIndex ?? Slider.default._headLineIndex,
-                    _headLineLayer: s.posY ?? s._headLineLayer ?? Slider.default._headLineLayer,
-                    _headCutDirection: (s.direction as 0) ??
-                        s._headCutDirection ??
-                        Slider.default._headCutDirection,
-                    _headControlPointLengthMultiplier: s.lengthMultiplier ??
-                        s._headControlPointLengthMultiplier ??
-                        Slider.default._headControlPointLengthMultiplier,
-                    _tailTime: s.tailTime ?? s._tailTime ?? s._headTime ?? Slider.default._tailTime,
-                    _tailLineIndex: s.tailPosX ?? s._tailLineIndex ?? Slider.default._tailLineIndex,
-                    _tailLineLayer: s.tailPosY ?? s._tailLineLayer ?? Slider.default._tailLineLayer,
-                    _tailCutDirection: (s.tailDirection as 0) ??
-                        s._tailCutDirection ??
-                        Slider.default._tailCutDirection,
-                    _tailControlPointLengthMultiplier: s.tailLengthMultiplier ??
-                        s._tailControlPointLengthMultiplier ??
-                        Slider.default._tailControlPointLengthMultiplier,
-                    _sliderMidAnchorMode: s.midAnchor ??
-                        s._sliderMidAnchorMode ??
-                        Slider.default._sliderMidAnchorMode,
-                    _customData: s.customData ?? s._customData ?? Slider.default._customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                _colorType: Slider.default._colorType,
-                _headTime: Slider.default._headTime,
-                _headLineIndex: Slider.default._headLineIndex,
-                _headLineLayer: Slider.default._headLineLayer,
-                _headCutDirection: Slider.default._headCutDirection,
-                _headControlPointLengthMultiplier: Slider.default._headControlPointLengthMultiplier,
-                _tailTime: Slider.default._tailTime,
-                _tailLineIndex: Slider.default._tailLineIndex,
-                _tailLineLayer: Slider.default._tailLineLayer,
-                _tailCutDirection: Slider.default._tailCutDirection,
-                _tailControlPointLengthMultiplier: Slider.default._tailControlPointLengthMultiplier,
-                _sliderMidAnchorMode: Slider.default._sliderMidAnchorMode,
-                _customData: Slider.default._customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<ISlider> {

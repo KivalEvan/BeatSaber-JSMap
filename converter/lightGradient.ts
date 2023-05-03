@@ -64,7 +64,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                         eig.time > ev.time + ev.customData._lightGradient._duration - 0.001
                     ) {
                         newEvents.push(
-                            ...EventClass.create({
+                            new EventClass({
                                 time: ev.time + ev.customData._lightGradient._duration - 0.001,
                                 type: ev.type,
                                 value: ev.value >= 1 && ev.value <= 4
@@ -108,7 +108,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                             eig.removeCustomData('_color');
                             if (!hasOff) {
                                 newEvents.push(
-                                    ...EventClass.create({
+                                    new EventClass({
                                         time: eig.time - 0.001,
                                         type: ev.type,
                                         value: previousEvent.value >= 1 && previousEvent.value <= 4
@@ -151,7 +151,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                     ? 5
                     : 9;
                 newEvents.push(
-                    ...EventClass.create({
+                    new EventClass({
                         time: ev.time + ev.customData._lightGradient._duration,
                         type: ev.type,
                         value: ev.value >= 1 && ev.value <= 4

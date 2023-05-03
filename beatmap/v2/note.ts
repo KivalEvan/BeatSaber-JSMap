@@ -19,45 +19,36 @@ export class Note extends WrapColorNote<Required<INote>> {
         },
     };
 
-    protected constructor(data: Required<INote>) {
-        super(data);
+    constructor();
+    constructor(data: Partial<IWrapColorNoteAttribute<Required<INote>>>);
+    constructor(data: Partial<INote>);
+    constructor(data: Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>);
+    constructor(data: Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>> = {}) {
+        super({
+            _time: data.time ?? data._time ?? Note.default._time,
+            _lineIndex: data.posX ?? data._lineIndex ?? Note.default._lineIndex,
+            _lineLayer: data.posY ?? data._lineLayer ?? Note.default._lineLayer,
+            _type: data.type ?? data._type ?? Note.default._type,
+            _cutDirection: data.direction ?? data._cutDirection ?? Note.default._cutDirection,
+            _customData: data.customData ?? data._customData ?? Note.default._customData(),
+        });
     }
 
     static create(): Note[];
-    static create(...notes: Partial<IWrapColorNoteAttribute<Required<INote>>>[]): Note[];
-    static create(...notes: Partial<INote>[]): Note[];
+    static create(...data: Partial<IWrapColorNoteAttribute<Required<INote>>>[]): Note[];
+    static create(...data: Partial<INote>[]): Note[];
     static create(
-        ...notes: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
+        ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
     ): Note[];
     static create(
-        ...notes: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
+        ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
     ): Note[] {
         const result: Note[] = [];
-        notes?.forEach((n) =>
-            result.push(
-                new this({
-                    _time: n.time ?? n._time ?? Note.default._time,
-                    _lineIndex: n.posX ?? n._lineIndex ?? Note.default._lineIndex,
-                    _lineLayer: n.posY ?? n._lineLayer ?? Note.default._lineLayer,
-                    _type: n.type ?? n._type ?? Note.default._type,
-                    _cutDirection: n.direction ?? n._cutDirection ?? Note.default._cutDirection,
-                    _customData: n.customData ?? n._customData ?? Note.default._customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                _time: Note.default._time,
-                _lineIndex: Note.default._lineIndex,
-                _lineLayer: Note.default._lineLayer,
-                _type: Note.default._type,
-                _cutDirection: Note.default._cutDirection,
-                _customData: Note.default._customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<INote> {

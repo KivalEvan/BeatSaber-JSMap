@@ -21,55 +21,39 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
         },
     };
 
-    protected constructor(colorNote: Required<IColorNote>) {
-        super(colorNote);
+    constructor();
+    constructor(data: Partial<IWrapColorNoteAttribute<Required<IColorNote>>>);
+    constructor(data: Partial<IColorNote>);
+    constructor(data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>);
+    constructor(
+        data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? ColorNote.default.b,
+            x: data.posX ?? data.x ?? ColorNote.default.x,
+            y: data.posY ?? data.y ?? ColorNote.default.y,
+            c: data.color ?? data.c ?? ColorNote.default.c,
+            d: data.direction ?? data.d ?? ColorNote.default.d,
+            a: data.angleOffset ?? data.a ?? ColorNote.default.a,
+            customData: data.customData ?? ColorNote.default.customData(),
+        });
     }
 
     static create(): ColorNote[];
+    static create(...data: Partial<IWrapColorNoteAttribute<Required<IColorNote>>>[]): ColorNote[];
+    static create(...data: Partial<IColorNote>[]): ColorNote[];
     static create(
-        ...colorNotes: Partial<IWrapColorNoteAttribute<Required<IColorNote>>>[]
-    ): ColorNote[];
-    static create(...colorNotes: Partial<IColorNote>[]): ColorNote[];
-    static create(
-        ...colorNotes: (
-            & Partial<IColorNote>
-            & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>
-        )[]
+        ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>)[]
     ): ColorNote[];
     static create(
-        ...colorNotes: (
-            & Partial<IColorNote>
-            & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>
-        )[]
+        ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>)[]
     ): ColorNote[] {
         const result: ColorNote[] = [];
-        colorNotes?.forEach((n) =>
-            result.push(
-                new this({
-                    b: n.time ?? n.b ?? ColorNote.default.b,
-                    x: n.posX ?? n.x ?? ColorNote.default.x,
-                    y: n.posY ?? n.y ?? ColorNote.default.y,
-                    c: n.color ?? n.c ?? ColorNote.default.c,
-                    d: n.direction ?? n.d ?? ColorNote.default.d,
-                    a: n.angleOffset ?? n.a ?? ColorNote.default.a,
-                    customData: n.customData ?? ColorNote.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: ColorNote.default.b,
-                x: ColorNote.default.x,
-                y: ColorNote.default.y,
-                c: ColorNote.default.c,
-                d: ColorNote.default.d,
-                a: ColorNote.default.a,
-                customData: ColorNote.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<IColorNote> {

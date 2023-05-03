@@ -17,53 +17,52 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
         },
     };
 
-    protected constructor(lightColorBase: Required<ILightColorBase>) {
-        super(lightColorBase);
+    constructor();
+    constructor(data: Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>);
+    constructor(data: Partial<ILightColorBase>);
+    constructor(
+        data:
+            & Partial<ILightColorBase>
+            & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>,
+    );
+    constructor(
+        data:
+            & Partial<ILightColorBase>
+            & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? LightColorBase.default.b,
+            i: data.transition ?? data.i ?? LightColorBase.default.i,
+            c: data.color ?? data.c ?? LightColorBase.default.c,
+            s: data.brightness ?? data.s ?? LightColorBase.default.s,
+            f: data.frequency ?? data.f ?? LightColorBase.default.f,
+            customData: data.customData ?? LightColorBase.default.customData(),
+        });
     }
 
     static create(): LightColorBase[];
     static create(
-        ...lightColors: Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>[]
+        ...data: Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>[]
     ): LightColorBase[];
-    static create(...lightColors: Partial<ILightColorBase>[]): LightColorBase[];
+    static create(...data: Partial<ILightColorBase>[]): LightColorBase[];
     static create(
-        ...lightColors: (
+        ...data: (
             & Partial<ILightColorBase>
             & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>
         )[]
     ): LightColorBase[];
     static create(
-        ...lightColors: (
+        ...data: (
             & Partial<ILightColorBase>
             & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>
         )[]
     ): LightColorBase[] {
         const result: LightColorBase[] = [];
-        lightColors?.forEach((lc) =>
-            result.push(
-                new this({
-                    b: lc.time ?? lc.b ?? LightColorBase.default.b,
-                    i: lc.transition ?? lc.i ?? LightColorBase.default.i,
-                    c: lc.color ?? lc.c ?? LightColorBase.default.c,
-                    s: lc.brightness ?? lc.s ?? LightColorBase.default.s,
-                    f: lc.frequency ?? lc.f ?? LightColorBase.default.f,
-                    customData: lc.customData ?? LightColorBase.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: LightColorBase.default.b,
-                i: LightColorBase.default.i,
-                c: LightColorBase.default.c,
-                s: LightColorBase.default.s,
-                f: LightColorBase.default.f,
-                customData: LightColorBase.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<ILightColorBase> {

@@ -18,55 +18,53 @@ export class LightRotationBase extends WrapLightRotationBase<Required<ILightRota
         },
     };
 
-    protected constructor(lightRotationBase: Required<ILightRotationBase>) {
-        super(lightRotationBase);
+    constructor();
+    constructor(data: Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>>);
+    constructor(data: Partial<ILightRotationBase>);
+    constructor(
+        data:
+            & Partial<ILightRotationBase>
+            & Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>>,
+    );
+    constructor(
+        data:
+            & Partial<ILightRotationBase>
+            & Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>> = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? LightRotationBase.default.b,
+            p: data.previous ?? data.p ?? LightRotationBase.default.p,
+            e: data.easing ?? data.e ?? LightRotationBase.default.e,
+            l: data.loop ?? data.l ?? LightRotationBase.default.l,
+            r: data.rotation ?? data.r ?? LightRotationBase.default.r,
+            o: data.direction ?? data.o ?? LightRotationBase.default.o,
+            customData: data.customData ?? LightRotationBase.default.customData(),
+        });
     }
 
     static create(): LightRotationBase[];
     static create(
-        ...lightRotations: Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>>[]
+        ...data: Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>>[]
     ): LightRotationBase[];
-    static create(...waypoints: Partial<ILightRotationBase>[]): LightRotationBase[];
+    static create(...data: Partial<ILightRotationBase>[]): LightRotationBase[];
     static create(
-        ...lightRotations: (
+        ...data: (
             & Partial<ILightRotationBase>
             & Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>>
         )[]
     ): LightRotationBase[];
     static create(
-        ...lightRotations: (
+        ...data: (
             & Partial<ILightRotationBase>
             & Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>>
         )[]
     ): LightRotationBase[] {
         const result: LightRotationBase[] = [];
-        lightRotations?.forEach((lr) =>
-            result.push(
-                new this({
-                    b: lr.time ?? lr.b ?? LightRotationBase.default.b,
-                    p: lr.previous ?? lr.p ?? LightRotationBase.default.p,
-                    e: lr.easing ?? lr.e ?? LightRotationBase.default.e,
-                    l: lr.loop ?? lr.l ?? LightRotationBase.default.l,
-                    r: lr.rotation ?? lr.r ?? LightRotationBase.default.r,
-                    o: lr.direction ?? lr.o ?? LightRotationBase.default.o,
-                    customData: lr.customData ?? LightRotationBase.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: LightRotationBase.default.b,
-                p: LightRotationBase.default.p,
-                e: LightRotationBase.default.e,
-                l: LightRotationBase.default.l,
-                r: LightRotationBase.default.r,
-                o: LightRotationBase.default.o,
-                customData: LightRotationBase.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<ILightRotationBase> {

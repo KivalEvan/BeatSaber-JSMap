@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Allow object class constructor to be used (similar to static `create` but as single object)
 - Only root-level file can contain platform-specific API
 - Unspecified difficulty version will now return base wrapper class instead of version specific
   - This means it won't automagically convert v2 map to v3 map when unspecified

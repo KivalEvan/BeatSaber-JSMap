@@ -25,14 +25,57 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     };
 
     private _e: LightTranslationEventBox[];
-    protected constructor(eventBoxGroup: Required<ILightTranslationEventBoxGroup>) {
-        super(eventBoxGroup);
-        this._e = eventBoxGroup.e.map((e) => LightTranslationEventBox.create(e)[0]);
+
+    constructor();
+    constructor(
+        data: DeepPartial<
+            IWrapLightTranslationEventBoxGroupAttribute<
+                Required<ILightTranslationEventBoxGroup>,
+                Required<ILightTranslationEventBox>,
+                Required<ILightTranslationBase>,
+                Required<IIndexFilter>
+            >
+        >,
+    );
+    constructor(data: DeepPartial<ILightTranslationEventBoxGroup>);
+    constructor(
+        data:
+            & DeepPartial<ILightTranslationEventBoxGroup>
+            & DeepPartial<
+                IWrapLightTranslationEventBoxGroupAttribute<
+                    Required<ILightTranslationEventBoxGroup>,
+                    Required<ILightTranslationEventBox>,
+                    Required<ILightTranslationBase>,
+                    Required<IIndexFilter>
+                >
+            >,
+    );
+    constructor(
+        data:
+            & DeepPartial<ILightTranslationEventBoxGroup>
+            & DeepPartial<
+                IWrapLightTranslationEventBoxGroupAttribute<
+                    Required<ILightTranslationEventBoxGroup>,
+                    Required<ILightTranslationEventBox>,
+                    Required<ILightTranslationBase>,
+                    Required<IIndexFilter>
+                >
+            > = {},
+    ) {
+        super({
+            b: data.time ?? data.b ?? LightTranslationEventBoxGroup.default.b,
+            g: data.id ?? data.g ?? LightTranslationEventBoxGroup.default.g,
+            e: (data.boxes as ILightTranslationEventBox[]) ??
+                (data.e as unknown as ILightTranslationEventBox[]) ??
+                LightTranslationEventBoxGroup.default.e(),
+            customData: data.customData ?? LightTranslationEventBoxGroup.default.customData(),
+        });
+        this._e = this.data.e.map((obj) => new LightTranslationEventBox(obj));
     }
 
     static create(): LightTranslationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartial<
+        ...data: DeepPartial<
             IWrapLightTranslationEventBoxGroupAttribute<
                 Required<ILightTranslationEventBoxGroup>,
                 Required<ILightTranslationEventBox>,
@@ -42,10 +85,10 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         >[]
     ): LightTranslationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: DeepPartial<ILightTranslationEventBoxGroup>[]
+        ...data: DeepPartial<ILightTranslationEventBoxGroup>[]
     ): LightTranslationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: (
+        ...data: (
             & DeepPartial<ILightTranslationEventBoxGroup>
             & DeepPartial<
                 IWrapLightTranslationEventBoxGroupAttribute<
@@ -58,7 +101,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         )[]
     ): LightTranslationEventBoxGroup[];
     static create(
-        ...eventBoxGroups: (
+        ...data: (
             & DeepPartial<ILightTranslationEventBoxGroup>
             & DeepPartial<
                 IWrapLightTranslationEventBoxGroupAttribute<
@@ -71,30 +114,11 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         )[]
     ): LightTranslationEventBoxGroup[] {
         const result: LightTranslationEventBoxGroup[] = [];
-        eventBoxGroups?.forEach((ebg) =>
-            result.push(
-                new this({
-                    b: ebg.time ?? ebg.b ?? LightTranslationEventBoxGroup.default.b,
-                    g: ebg.id ?? ebg.g ?? LightTranslationEventBoxGroup.default.g,
-                    e: (ebg.boxes as ILightTranslationEventBox[]) ??
-                        (ebg.e as unknown as ILightTranslationEventBox[]) ??
-                        LightTranslationEventBoxGroup.default.e(),
-                    customData: ebg.customData ??
-                        LightTranslationEventBoxGroup.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: LightTranslationEventBoxGroup.default.b,
-                g: LightTranslationEventBoxGroup.default.g,
-                e: LightTranslationEventBoxGroup.default.e(),
-                customData: LightTranslationEventBoxGroup.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<ILightTranslationEventBoxGroup> {

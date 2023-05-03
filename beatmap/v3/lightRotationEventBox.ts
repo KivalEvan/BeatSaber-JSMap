@@ -44,15 +44,64 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
 
     private _f: IndexFilter;
     private _l: LightRotationBase[];
-    protected constructor(lightRotationEventBox: Required<ILightRotationEventBox>) {
-        super(lightRotationEventBox);
-        this._f = IndexFilter.create(lightRotationEventBox.f);
-        this._l = lightRotationEventBox.l.map((l) => LightRotationBase.create(l)[0]);
+
+    constructor();
+    constructor(
+        data: DeepPartial<
+            IWrapLightRotationEventBoxAttribute<
+                Required<ILightRotationEventBox>,
+                Required<ILightRotationBase>,
+                Required<IIndexFilter>
+            >
+        >,
+    );
+    constructor(data: DeepPartial<ILightRotationEventBox>);
+    constructor(
+        data:
+            & DeepPartial<ILightRotationEventBox>
+            & DeepPartial<
+                IWrapLightRotationEventBoxAttribute<
+                    Required<ILightRotationEventBox>,
+                    Required<ILightRotationBase>,
+                    Required<IIndexFilter>
+                >
+            >,
+    );
+    constructor(
+        data:
+            & DeepPartial<ILightRotationEventBox>
+            & DeepPartial<
+                IWrapLightRotationEventBoxAttribute<
+                    Required<ILightRotationEventBox>,
+                    Required<ILightRotationBase>,
+                    Required<IIndexFilter>
+                >
+            > = {},
+    ) {
+        super({
+            f: (data.filter as IIndexFilter) ??
+                (data as Required<ILightRotationEventBox>).f ??
+                LightRotationEventBox.default.f(),
+            w: data.beatDistribution ?? data.w ?? LightRotationEventBox.default.w,
+            d: data.beatDistributionType ?? data.d ?? LightRotationEventBox.default.d,
+            s: data.rotationDistribution ?? data.s ?? LightRotationEventBox.default.s,
+            t: data.rotationDistributionType ?? data.t ?? LightRotationEventBox.default.t,
+            a: data.axis ?? data.a ?? LightRotationEventBox.default.a,
+            r: data.flip ?? data.r ?? LightRotationEventBox.default.r,
+            b: data.affectFirst ?? data.b ?? LightRotationEventBox.default.b,
+            i: data.easing ?? data.i ?? LightRotationEventBox.default.i,
+            l: (data.events as ILightRotationBase[]) ??
+                (data as Required<ILightRotationEventBox>).l ??
+                LightRotationEventBox.default.l(),
+            customData: data.customData ?? LightRotationEventBox.default.customData(),
+        });
+        this._f = IndexFilter.create(this.data.f);
+        this._l = this.data.l.map((obj) => new LightRotationBase(obj));
     }
 
     static create(): LightRotationEventBox[];
     static create(
-        ...eventBoxes: DeepPartial<
+        ...data: DeepPartial<
             IWrapLightRotationEventBoxAttribute<
                 Required<ILightRotationEventBox>,
                 Required<ILightRotationBase>,
@@ -60,9 +109,9 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
             >
         >[]
     ): LightRotationEventBox[];
-    static create(...eventBoxes: DeepPartial<ILightRotationEventBox>[]): LightRotationEventBox[];
+    static create(...data: DeepPartial<ILightRotationEventBox>[]): LightRotationEventBox[];
     static create(
-        ...eventBoxes: (
+        ...data: (
             & DeepPartial<ILightRotationEventBox>
             & DeepPartial<
                 IWrapLightRotationEventBoxAttribute<
@@ -74,7 +123,7 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
         )[]
     ): LightRotationEventBox[];
     static create(
-        ...eventBoxes: (
+        ...data: (
             & DeepPartial<ILightRotationEventBox>
             & DeepPartial<
                 IWrapLightRotationEventBoxAttribute<
@@ -86,45 +135,11 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
         )[]
     ): LightRotationEventBox[] {
         const result: LightRotationEventBox[] = [];
-        eventBoxes?.forEach((eb) =>
-            result.push(
-                new this({
-                    f: (eb.filter as IIndexFilter) ??
-                        (eb as Required<ILightRotationEventBox>).f ??
-                        LightRotationEventBox.default.f(),
-                    w: eb.beatDistribution ?? eb.w ?? LightRotationEventBox.default.w,
-                    d: eb.beatDistributionType ?? eb.d ?? LightRotationEventBox.default.d,
-                    s: eb.rotationDistribution ?? eb.s ?? LightRotationEventBox.default.s,
-                    t: eb.rotationDistributionType ?? eb.t ?? LightRotationEventBox.default.t,
-                    a: eb.axis ?? eb.a ?? LightRotationEventBox.default.a,
-                    r: eb.flip ?? eb.r ?? LightRotationEventBox.default.r,
-                    b: eb.affectFirst ?? eb.b ?? LightRotationEventBox.default.b,
-                    i: eb.easing ?? eb.i ?? LightRotationEventBox.default.i,
-                    l: (eb.events as ILightRotationBase[]) ??
-                        (eb as Required<ILightRotationEventBox>).l ??
-                        LightRotationEventBox.default.l(),
-                    customData: eb.customData ?? LightRotationEventBox.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                f: LightRotationEventBox.default.f(),
-                w: LightRotationEventBox.default.w,
-                d: LightRotationEventBox.default.d,
-                s: LightRotationEventBox.default.s,
-                t: LightRotationEventBox.default.t,
-                a: LightRotationEventBox.default.a,
-                r: LightRotationEventBox.default.r,
-                b: LightRotationEventBox.default.b,
-                i: LightRotationEventBox.default.i,
-                l: LightRotationEventBox.default.l(),
-                customData: LightRotationEventBox.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<ILightRotationEventBox> {

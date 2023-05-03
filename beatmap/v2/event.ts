@@ -24,43 +24,35 @@ export class Event extends WrapEvent<Required<IEvent>> {
         },
     };
 
-    protected constructor(event: Required<IEvent>) {
-        super(event);
+    constructor();
+    constructor(data: Partial<IWrapEventAttribute<Required<IEvent>>>);
+    constructor(data: Partial<IEvent>);
+    constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>);
+    constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>> = {}) {
+        super({
+            _time: data.time ?? data._time ?? Event.default._time,
+            _type: data.type ?? data._type ?? Event.default._type,
+            _value: data.value ?? data._value ?? Event.default._value,
+            _floatValue: data.floatValue ?? data._floatValue ?? Event.default._floatValue,
+            _customData: data.customData ?? data._customData ?? Event.default._customData(),
+        });
     }
 
     static create(): Event[];
-    static create(...basicEvents: Partial<IWrapEventAttribute<Required<IEvent>>>[]): Event[];
-    static create(...basicEvents: Partial<IEvent>[]): Event[];
+    static create(...data: Partial<IWrapEventAttribute<Required<IEvent>>>[]): Event[];
+    static create(...data: Partial<IEvent>[]): Event[];
     static create(
-        ...basicEvents: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
+        ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
     ): Event[];
     static create(
-        ...basicEvents: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
+        ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
     ): Event[] {
         const result: Event[] = [];
-        basicEvents?.forEach((ev) =>
-            result.push(
-                new this({
-                    _time: ev.time ?? ev._time ?? Event.default._time,
-                    _type: ev.type ?? ev._type ?? Event.default._type,
-                    _value: ev.value ?? ev._value ?? Event.default._value,
-                    _floatValue: ev.floatValue ?? ev._floatValue ?? Event.default._floatValue,
-                    _customData: ev.customData ?? ev._customData ?? Event.default._customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                _time: Event.default._time,
-                _type: Event.default._type,
-                _value: Event.default._value,
-                _floatValue: Event.default._floatValue,
-                _customData: Event.default._customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<IEvent> {

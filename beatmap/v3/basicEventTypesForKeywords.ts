@@ -15,46 +15,51 @@ export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<
         e: () => [],
     };
 
-    protected constructor(basicEventTypesForKeywords: Required<IBasicEventTypesForKeywords>) {
-        super(basicEventTypesForKeywords);
+    constructor();
+    constructor(
+        data: Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>>,
+    );
+    constructor(
+        data:
+            & Partial<IBasicEventTypesForKeywords>
+            & Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>>,
+    );
+    constructor(
+        data:
+            & Partial<IBasicEventTypesForKeywords>
+            & Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>> =
+                {},
+    ) {
+        super({
+            k: data.keyword ?? data.k ?? BasicEventTypesForKeywords.default.k,
+            e: data.events ?? data.e ?? BasicEventTypesForKeywords.default.e(),
+        });
     }
 
     static create(): BasicEventTypesForKeywords[];
     static create(
-        ...basicEventTypesForKeywords: Partial<
+        ...data: Partial<
             IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>
         >[]
     ): BasicEventTypesForKeywords[];
     static create(
-        ...basicEventTypesForKeywords: (
+        ...data: (
             & Partial<IBasicEventTypesForKeywords>
             & Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>>
         )[]
     ): BasicEventTypesForKeywords[];
     static create(
-        ...basicEventTypesForKeywords: (
+        ...data: (
             & Partial<IBasicEventTypesForKeywords>
             & Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>>
         )[]
     ): BasicEventTypesForKeywords[] {
         const result: BasicEventTypesForKeywords[] = [];
-        basicEventTypesForKeywords?.forEach((betfk) =>
-            result.push(
-                new this({
-                    k: betfk.keyword ?? betfk.k ?? BasicEventTypesForKeywords.default.k,
-                    e: betfk.events ?? betfk.e ?? BasicEventTypesForKeywords.default.e(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                k: BasicEventTypesForKeywords.default.k,
-                e: BasicEventTypesForKeywords.default.e(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): IBasicEventTypesForKeywords {

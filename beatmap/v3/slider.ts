@@ -30,59 +30,43 @@ export class Slider extends WrapSlider<Required<ISlider>> {
         },
     };
 
-    protected constructor(slider: Required<ISlider>) {
-        super(slider);
+    constructor();
+    constructor(data: Partial<IWrapSliderAttribute<Required<ISlider>>>);
+    constructor(data: Partial<ISlider>);
+    constructor(data: Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>);
+    constructor(data: Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>> = {}) {
+        super({
+            b: data.time ?? data.b ?? Slider.default.b,
+            c: data.color ?? data.c ?? Slider.default.c,
+            x: data.posX ?? data.x ?? Slider.default.x,
+            y: data.posY ?? data.y ?? Slider.default.y,
+            d: data.direction ?? data.d ?? Slider.default.d,
+            mu: data.lengthMultiplier ?? data.mu ?? Slider.default.mu,
+            tb: data.tailTime ?? data.tb ?? Slider.default.tb,
+            tx: data.tailPosX ?? data.tx ?? Slider.default.tx,
+            ty: data.tailPosY ?? data.ty ?? Slider.default.ty,
+            tc: data.tailDirection ?? data.tc ?? Slider.default.tc,
+            tmu: data.tailLengthMultiplier ?? data.tmu ?? Slider.default.tmu,
+            m: data.midAnchor ?? data.m ?? Slider.default.m,
+            customData: data.customData ?? Slider.default.customData(),
+        });
     }
 
     static create(): Slider[];
-    static create(...sliders: Partial<IWrapSliderAttribute<Required<ISlider>>>[]): Slider[];
-    static create(...sliders: Partial<ISlider>[]): Slider[];
+    static create(...data: Partial<IWrapSliderAttribute<Required<ISlider>>>[]): Slider[];
+    static create(...data: Partial<ISlider>[]): Slider[];
     static create(
-        ...sliders: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
+        ...data: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
     ): Slider[];
     static create(
-        ...sliders: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
+        ...data: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
     ): Slider[] {
         const result: Slider[] = [];
-        sliders?.forEach((s) =>
-            result.push(
-                new this({
-                    b: s.time ?? s.b ?? Slider.default.b,
-                    c: s.color ?? s.c ?? Slider.default.c,
-                    x: s.posX ?? s.x ?? Slider.default.x,
-                    y: s.posY ?? s.y ?? Slider.default.y,
-                    d: s.direction ?? s.d ?? Slider.default.d,
-                    mu: s.lengthMultiplier ?? s.mu ?? Slider.default.mu,
-                    tb: s.tailTime ?? s.tb ?? Slider.default.tb,
-                    tx: s.tailPosX ?? s.tx ?? Slider.default.tx,
-                    ty: s.tailPosY ?? s.ty ?? Slider.default.ty,
-                    tc: s.tailDirection ?? s.tc ?? Slider.default.tc,
-                    tmu: s.tailLengthMultiplier ?? s.tmu ?? Slider.default.tmu,
-                    m: s.midAnchor ?? s.m ?? Slider.default.m,
-                    customData: s.customData ?? Slider.default.customData(),
-                }),
-            )
-        );
+        data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
-        return [
-            new this({
-                b: Slider.default.b,
-                c: Slider.default.c,
-                x: Slider.default.x,
-                y: Slider.default.y,
-                d: Slider.default.d,
-                mu: Slider.default.mu,
-                tb: Slider.default.tb,
-                tx: Slider.default.tx,
-                ty: Slider.default.ty,
-                tc: Slider.default.tc,
-                tmu: Slider.default.tmu,
-                m: Slider.default.m,
-                customData: Slider.default.customData(),
-            }),
-        ];
+        return [new this()];
     }
 
     toJSON(): Required<ISlider> {

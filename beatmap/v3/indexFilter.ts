@@ -21,40 +21,43 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
         },
     };
 
-    protected constructor(indexFilter: Required<IIndexFilter>) {
-        super(indexFilter);
-        if (this.data.f === 1) {
-            this.p0 = this.p0 ? this.p0 : 1;
-        }
+    constructor();
+    constructor(data: Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>);
+    constructor(data: Partial<IIndexFilter>);
+    constructor(
+        data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>,
+    );
+    constructor(
+        data:
+            & Partial<IIndexFilter>
+            & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>> = {},
+    ) {
+        super({
+            f: data.type ?? data.f ?? IndexFilter.default.f,
+            p: data.p0 ?? data.p ?? IndexFilter.default.p,
+            t: data.p1 ?? data.t ?? IndexFilter.default.t,
+            r: data.reverse ?? data.r ?? IndexFilter.default.r,
+            c: data.chunks ?? data.c ?? IndexFilter.default.c,
+            n: data.random ?? data.n ?? IndexFilter.default.n,
+            s: data.seed ?? data.s ?? IndexFilter.default.s,
+            l: data.limit ?? data.l ?? IndexFilter.default.l,
+            d: data.limitAffectsType ?? data.d ?? IndexFilter.default.d,
+            customData: data.customData ?? IndexFilter.default.customData(),
+        });
     }
 
     static create(): IndexFilter;
+    static create(data: Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>): IndexFilter;
+    static create(data: Partial<IIndexFilter>): IndexFilter;
     static create(
-        indexFilter: Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>,
-    ): IndexFilter;
-    static create(indexFilter: Partial<IIndexFilter>): IndexFilter;
-    static create(
-        indexFilter:
-            & Partial<IIndexFilter>
-            & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>,
+        data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>,
     ): IndexFilter;
     static create(
-        indexFilter:
+        data:
             & Partial<IIndexFilter>
             & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>> = {},
     ): IndexFilter {
-        return new IndexFilter({
-            f: indexFilter.type ?? indexFilter.f ?? IndexFilter.default.f,
-            p: indexFilter.p0 ?? indexFilter.p ?? IndexFilter.default.p,
-            t: indexFilter.p1 ?? indexFilter.t ?? IndexFilter.default.t,
-            r: indexFilter.reverse ?? indexFilter.r ?? IndexFilter.default.r,
-            c: indexFilter.chunks ?? indexFilter.c ?? IndexFilter.default.c,
-            n: indexFilter.random ?? indexFilter.n ?? IndexFilter.default.n,
-            s: indexFilter.seed ?? indexFilter.s ?? IndexFilter.default.s,
-            l: indexFilter.limit ?? indexFilter.l ?? IndexFilter.default.l,
-            d: indexFilter.limitAffectsType ?? indexFilter.d ?? IndexFilter.default.d,
-            customData: indexFilter.customData ?? IndexFilter.default.customData(),
-        });
+        return new IndexFilter(data);
     }
 
     toJSON(): Required<IIndexFilter> {
