@@ -12,7 +12,7 @@ Deno.test({
 Deno.test({
     name: 'Create Basic Event from data',
     fn() {
-        const be = BasicEvent.create({ b: 1, et: 5, i: 1, f: 0.5 })[0];
+        const be = new BasicEvent({ b: 1, et: 5, i: 1, f: 0.5 });
         assertEquals(be.time, 1);
         assertEquals(be.type, 5);
         assertEquals(be.value, 1);
@@ -23,7 +23,7 @@ Deno.test({
 Deno.test({
     name: 'Create Basic Event from partial data',
     fn() {
-        const be = BasicEvent.create({ b: 4, et: 2 })[0];
+        const be = new BasicEvent({ b: 4, et: 2 });
         assertEquals(be.time, 4);
         assertEquals(be.type, 2);
         assertEquals(be.value, 0);

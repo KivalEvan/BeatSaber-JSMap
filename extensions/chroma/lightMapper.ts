@@ -97,17 +97,17 @@ export class LightMapper {
     }
 
     ring(time: number, type: 8 | 9, customData?: IChromaEventRing) {
-        this.events.push(BasicEvent.create({ b: time, et: type, customData })[0]);
+        this.events.push(new BasicEvent({ b: time, et: type, customData }));
         return this;
     }
 
     zoom(time: number, customData?: IChromaEventZoom) {
-        this.events.push(BasicEvent.create({ b: time, et: 9, customData })[0]);
+        this.events.push(new BasicEvent({ b: time, et: 9, customData }));
         return this;
     }
 
     boost(time: number, toggle: boolean) {
-        this.boosts.push(ColorBoostEvent.create({ b: time, o: toggle })[0]);
+        this.boosts.push(new ColorBoostEvent({ b: time, o: toggle }));
         return this;
     }
 
@@ -335,13 +335,13 @@ export class LightMapper {
                     }
                 }
                 mapData.basicEvents.push(
-                    Event.create({
+                    new Event({
                         _time: e.time,
                         _type: e.type,
                         _value: e.value,
                         _floatValue: e.floatValue,
                         _customData,
-                    })[0],
+                    }),
                 );
             });
         }

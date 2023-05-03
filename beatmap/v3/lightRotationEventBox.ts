@@ -95,7 +95,7 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
                 LightRotationEventBox.default.l(),
             customData: data.customData ?? LightRotationEventBox.default.customData(),
         });
-        this._f = IndexFilter.create(this.data.f);
+        this._f = new IndexFilter(this.data.f);
         this._l = this.data.l.map((obj) => new LightRotationBase(obj));
     }
 

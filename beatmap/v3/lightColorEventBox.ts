@@ -91,7 +91,7 @@ export class LightColorEventBox extends WrapLightColorEventBox<
                 LightColorEventBox.default.e(),
             customData: data.customData ?? LightColorEventBox.default.customData(),
         });
-        this._f = IndexFilter.create(this.data.f);
+        this._f = new IndexFilter(this.data.f);
         this._e = this.data.e.map((obj) => new LightColorBase(obj));
     }
 

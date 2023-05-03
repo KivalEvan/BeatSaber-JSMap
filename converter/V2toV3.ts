@@ -52,21 +52,21 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
         if (n.isBomb()) {
             if (n.customData._fake) {
                 template.customData.fakeBombNotes!.push(
-                    BombNote.create({
+                    new BombNote({
                         b: n.time,
                         x: n.posX,
                         y: n.posY,
                         customData,
-                    })[0].toJSON(),
+                    }).toJSON(),
                 );
             } else {
                 template.bombNotes.push(
-                    BombNote.create({
+                    new BombNote({
                         b: n.time,
                         x: n.posX,
                         y: n.posY,
                         customData,
-                    })[0],
+                    }),
                 );
             }
         }
@@ -162,10 +162,10 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
             );
         } else if (e.isBPMChangeEvent()) {
             template.bpmEvents.push(
-                BPMEvent.create({
+                new BPMEvent({
                     b: e.time,
                     m: e.floatValue,
-                })[0],
+                }),
             );
         } else {
             const customData = eventToV3(e.customData);
@@ -204,31 +204,31 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
                 }
             }
             template.basicEvents.push(
-                BasicEvent.create({
+                new BasicEvent({
                     b: e.time,
                     et: e.type,
                     i: e.value,
                     f: e.floatValue,
                     customData,
-                })[0],
+                }),
             );
         }
     });
 
     data.waypoints.forEach((w) => {
         template.waypoints.push(
-            Waypoint.create({
+            new Waypoint({
                 b: w.time,
                 x: w.posX,
                 y: w.posY,
                 d: w.direction,
-            })[0],
+            }),
         );
     });
 
     data.sliders.forEach((s) =>
         template.sliders.push(
-            Slider.create({
+            new Slider({
                 c: s.color,
                 b: s.time,
                 x: s.posX,
@@ -241,7 +241,7 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
                 tc: s.tailDirection,
                 tmu: s.tailLengthMultiplier,
                 m: s.midAnchor,
-            })[0],
+            }),
         )
     );
 

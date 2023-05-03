@@ -113,7 +113,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         this.lightTranslationEventBoxGroups = this.data.lightTranslationEventBoxGroups?.map(
             (obj) => new LightTranslationEventBoxGroup(obj),
         ) ?? [];
-        this.eventTypesWithKeywords = BasicEventTypesWithKeywords.create(
+        this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(
             this.data.basicEventTypesWithKeywords,
         ) ?? {
             d: [],

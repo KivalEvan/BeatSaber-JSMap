@@ -95,7 +95,7 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
                 LightTranslationEventBox.default.l(),
             customData: data.customData ?? LightTranslationEventBox.default.customData(),
         });
-        this._f = IndexFilter.create(this.data.f);
+        this._f = new IndexFilter(this.data.f);
         this._l = this.data.l.map((obj) => new LightTranslationBase(obj));
     }
 

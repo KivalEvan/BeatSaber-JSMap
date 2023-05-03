@@ -35,56 +35,56 @@ export function V3toV2(data: DifficultyV3): DifficultyV2 {
     data.colorNotes.forEach((n) => {
         const _customData: ICustomDataNote = objectToV2(n.customData);
         template.colorNotes.push(
-            Note.create({
+            new Note({
                 _time: n.time,
                 _lineIndex: n.posX,
                 _lineLayer: n.posY,
                 _type: n.color,
                 _cutDirection: n.direction,
                 _customData,
-            })[0],
+            }),
         );
     });
 
     data.customData.fakeColorNotes?.forEach((n) => {
         const _customData: ICustomDataNote = objectToV2(n.customData);
         template.colorNotes.push(
-            Note.create({
+            new Note({
                 _time: n.b,
                 _lineIndex: n.x,
                 _lineLayer: n.y,
                 _type: n.c,
                 _cutDirection: n.d,
                 _customData,
-            })[0],
+            }),
         );
     });
 
     data.bombNotes.forEach((b) => {
         const _customData: ICustomDataNote = objectToV2(b.customData);
         template.colorNotes.push(
-            Note.create({
+            new Note({
                 _time: b.time,
                 _lineIndex: b.posX,
                 _lineLayer: b.posY,
                 _type: 3,
                 _cutDirection: 0,
                 _customData,
-            })[0],
+            }),
         );
     });
 
     data.customData.fakeBombNotes?.forEach((b) => {
         const _customData: ICustomDataNote = objectToV2(b.customData);
         template.colorNotes.push(
-            Note.create({
+            new Note({
                 _time: b.b,
                 _lineIndex: b.x,
                 _lineLayer: b.y,
                 _type: 3,
                 _cutDirection: 0,
                 _customData,
-            })[0],
+            }),
         );
     });
 
@@ -92,25 +92,25 @@ export function V3toV2(data: DifficultyV3): DifficultyV2 {
         const _customData: ICustomDataObstacle = objectToV2(o.customData);
         if (o.posY === 2 && o.height === 3) {
             template.obstacles.push(
-                Obstacle.create({
+                new Obstacle({
                     _time: o.time,
                     _lineIndex: o.posX,
                     _type: 1,
                     _duration: o.duration,
                     _width: o.width,
                     _customData,
-                })[0],
+                }),
             );
         } else {
             template.obstacles.push(
-                Obstacle.create({
+                new Obstacle({
                     _time: o.time,
                     _lineIndex: o.posX,
                     _type: 0,
                     _duration: o.duration,
                     _width: o.width,
                     _customData,
-                })[0],
+                }),
             );
         }
     });
@@ -119,25 +119,25 @@ export function V3toV2(data: DifficultyV3): DifficultyV2 {
         const _customData: ICustomDataObstacle = objectToV2(o.customData);
         if (o.y === 2 && o.h === 3) {
             template.obstacles.push(
-                Obstacle.create({
+                new Obstacle({
                     _time: o.b,
                     _lineIndex: o.x,
                     _type: 1,
                     _duration: o.d,
                     _width: o.w,
                     _customData,
-                })[0],
+                }),
             );
         } else {
             template.obstacles.push(
-                Obstacle.create({
+                new Obstacle({
                     _time: o.b,
                     _lineIndex: o.x,
                     _type: 0,
                     _duration: o.d,
                     _width: o.w,
                     _customData,
-                })[0],
+                }),
             );
         }
     });
@@ -150,13 +150,13 @@ export function V3toV2(data: DifficultyV3): DifficultyV2 {
             delete _customData?._preciseSpeed;
         }
         template.basicEvents.push(
-            Event.create({
+            new Event({
                 _time: e.time,
                 _type: e.type,
                 _value: e.value,
                 _floatValue: e.floatValue,
                 _customData,
-            })[0],
+            }),
         );
     });
 
@@ -186,18 +186,18 @@ export function V3toV2(data: DifficultyV3): DifficultyV2 {
 
     data.bpmEvents.forEach((bpm) =>
         template.basicEvents.push(
-            Event.create({
+            new Event({
                 _time: bpm.time,
                 _type: 100,
                 _value: 1,
                 _floatValue: bpm.bpm,
-            })[0],
+            }),
         )
     );
 
     data.sliders.forEach((s) =>
         template.sliders.push(
-            Slider.create({
+            new Slider({
                 _colorType: s.color,
                 _headTime: s.time,
                 _headLineIndex: s.posX,
@@ -210,18 +210,18 @@ export function V3toV2(data: DifficultyV3): DifficultyV2 {
                 _tailControlPointLengthMultiplier: s.tailLengthMultiplier,
                 _tailCutDirection: s.tailDirection as 0,
                 _sliderMidAnchorMode: s.midAnchor,
-            })[0],
+            }),
         )
     );
 
     data.waypoints.forEach((w) =>
         template.waypoints.push(
-            Waypoint.create({
+            new Waypoint({
                 _time: w.time,
                 _lineIndex: w.posX,
                 _lineLayer: w.posY,
                 _offsetDirection: w.direction,
-            })[0],
+            }),
         )
     );
 
