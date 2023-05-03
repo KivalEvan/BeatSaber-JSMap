@@ -8,8 +8,14 @@ import { IWrapBurstSlider, IWrapBurstSliderAttribute } from './burstSlider.ts';
 import { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
 import { IWrapEvent, IWrapEventAttribute } from './event.ts';
 import { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
-import { IWrapLightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
-import { IWrapLightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
+import {
+    IWrapLightColorEventBoxGroup,
+    IWrapLightColorEventBoxGroupAttribute,
+} from './lightColorEventBoxGroup.ts';
+import {
+    IWrapLightRotationEventBoxGroup,
+    IWrapLightRotationEventBoxGroupAttribute,
+} from './lightRotationEventBoxGroup.ts';
 import {
     IWrapLightTranslationEventBoxGroup,
     IWrapLightTranslationEventBoxGroupAttribute,
@@ -21,10 +27,6 @@ import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
 import { GenericFileName } from '../shared/info.ts';
 import { EventContainer, NoteContainer } from './container.ts';
 import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
-import {
-    IWrapLightColorEventBoxGroupAttribute,
-    IWrapLightRotationEventBoxGroupAttribute,
-} from './mod.ts';
 
 export interface IWrapDifficultyAttribute<
     T extends Record<keyof T, unknown> = Record<string, unknown>,

@@ -1,4 +1,4 @@
-import { CharacteristicName } from '../../types/mod.ts';
+import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 
 /** Rename characteristic to human readable. */
 export const CharacteristicRename: Record<CharacteristicName, string> = {

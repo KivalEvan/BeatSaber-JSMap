@@ -1,6 +1,7 @@
 import { NoteDirectionAngle } from '../shared/constants.ts';
 import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 import { WrapBaseNote } from './baseNote.ts';
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Color note beatmap class object. */
 export abstract class WrapColorNote<T extends Record<keyof T, unknown>> extends WrapBaseNote<T>
@@ -42,32 +43,11 @@ export abstract class WrapColorNote<T extends Record<keyof T, unknown>> extends 
         return this;
     }
 
-    getAngle(type?: 'vanilla' | 'me' | 'ne') {
-        switch (type) {
-            case 'vanilla':
-                return (
-                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
-                    this.angleOffset
-                );
-            case 'me':
-                if (this.direction >= 1000) {
-                    return Math.abs(((this.direction % 1000) % 360) - 360);
-                }
-            /* falls through */
-            case 'ne':
-                return (
-                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
-                    this.angleOffset
-                );
-            default:
-                if (this.direction >= 1000) {
-                    return Math.abs(((this.direction % 1000) % 360) - 360);
-                }
-                return (
-                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
-                    this.angleOffset
-                );
-        }
+    getAngle(_type?: ModType) {
+        return (
+            (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
+            this.angleOffset
+        );
     }
 
     isMappingExtensions() {

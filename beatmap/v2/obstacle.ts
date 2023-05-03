@@ -4,6 +4,7 @@ import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts'
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Object beatmap v2 class object. */
 export class Obstacle extends WrapObstacle<Required<IObstacle>> {
@@ -132,11 +133,30 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
         this.data._customData = value;
     }
 
-    getPosition(): Vector2 {
-        if (this.customData._position) {
-            return [this.customData._position[0], this.customData._position[1]];
+    getPosition(type?: ModType): Vector2 {
+        switch (type) {
+            case 'vanilla':
+                return super.getPosition();
+            case 'ne':
+                if (this.customData._position) {
+                    return [this.customData._position[0], this.customData._position[1]];
+                }
+            /** falls through */
+            case 'me':
+            default:
+                return [
+                    (this.posX <= -1000
+                        ? this.posX / 1000
+                        : this.posX >= 1000
+                        ? this.posX / 1000
+                        : this.posX) - 2,
+                    (this.posY <= -1000
+                        ? this.posY / 1000
+                        : this.posY >= 1000
+                        ? this.posY / 1000
+                        : this.posY) - 0.5,
+                ];
         }
-        return super.getPosition();
     }
 
     isChroma(): boolean {
@@ -155,5 +175,9 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
             Array.isArray(this.customData._rotation) ||
             Array.isArray(this.customData._scale)
         );
+    }
+
+    isMappingExtensions(): boolean {
+        return this.type > 2 || this.posX <= -1000 || this.posX >= 1000;
     }
 }

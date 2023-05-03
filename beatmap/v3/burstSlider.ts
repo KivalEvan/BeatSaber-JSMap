@@ -1,6 +1,8 @@
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
 import { IWrapBurstSliderAttribute } from '../../types/beatmap/wrapper/burstSlider.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
+import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapBurstSlider } from '../wrapper/burstSlider.ts';
@@ -210,6 +212,46 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
             }
         }
         return super.mirror(flipColor);
+    }
+
+    getPosition(type?: ModType): Vector2 {
+        switch (type) {
+            case 'vanilla':
+                return super.getPosition();
+            case 'ne':
+                if (this.customData.coordinates) {
+                    return [this.customData.coordinates[0], this.customData.coordinates[1]];
+                }
+            /** falls through */
+            case 'me':
+            default:
+                return [
+                    (this.posX <= -1000
+                        ? this.posX / 1000
+                        : this.posX >= 1000
+                        ? this.posX / 1000
+                        : this.posX) - 2,
+                    this.posY <= -1000
+                        ? this.posY / 1000
+                        : this.posY >= 1000
+                        ? this.posY / 1000
+                        : this.posY,
+                ];
+        }
+    }
+
+    getAngle(type?: ModType) {
+        switch (type) {
+            case 'me':
+                if (this.direction >= 1000) {
+                    return Math.abs(((this.direction % 1000) % 360) - 360);
+                }
+            /* falls through */
+            case 'vanilla':
+            case 'ne':
+            default:
+                return super.getAngle();
+        }
     }
 
     isChroma(): boolean {

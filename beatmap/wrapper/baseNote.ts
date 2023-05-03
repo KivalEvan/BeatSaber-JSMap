@@ -1,6 +1,7 @@
 import { NoteDirectionAngle } from '../shared/constants.ts';
 import { WrapGridObject } from './gridObject.ts';
 import { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Color note beatmap class object. */
 export abstract class WrapBaseNote<T extends Record<keyof T, unknown>> extends WrapGridObject<T>
@@ -61,23 +62,8 @@ export abstract class WrapBaseNote<T extends Record<keyof T, unknown>> extends W
         return this;
     }
 
-    getAngle(type?: 'vanilla' | 'me' | 'ne') {
-        switch (type) {
-            case 'vanilla':
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
-            case 'me':
-                if (this.direction >= 1000) {
-                    return Math.abs(((this.direction % 1000) % 360) - 360);
-                }
-            /* falls through */
-            case 'ne':
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
-            default:
-                if (this.direction >= 1000) {
-                    return Math.abs(((this.direction % 1000) % 360) - 360);
-                }
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
-        }
+    getAngle(_type?: ModType) {
+        return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
     }
 
     isDouble(compareTo: IWrapBaseNote, tolerance = 0.01) {

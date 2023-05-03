@@ -7,12 +7,13 @@
 - Only root-level file can contain platform-specific API
 - Unspecified difficulty version will now return base wrapper class instead of version specific
   - This means it won't automagically convert v2 map to v3 map when unspecified
+- Changed modded object value method behaviour
 - Recommended Deno version to 1.33.0+
 
 ### Removed
 
 - Prompting in conversion (this should now be handled by script user)
-- Library FS utility (now uses standard module)
+- FS utility (now uses standard module)
 
 ## 1.3.4 [2023-04-19]
 

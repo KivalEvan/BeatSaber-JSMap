@@ -1,8 +1,9 @@
 import globals from '../../globals.ts';
 import { zip } from './deps.ts';
 import * as load from '../../load.ts';
-import { IDifficultyList, IInfo } from '../../types/mod.ts';
 import { fs } from './deps.ts';
+import { IInfo } from '../../types/beatmap/shared/info.ts';
+import { IDifficultyList } from '../../types/bsmap/list.ts';
 
 export async function extract(
     zipPath: string,

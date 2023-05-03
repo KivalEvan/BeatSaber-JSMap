@@ -1,10 +1,11 @@
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
-import { NoteDirectionAngle } from '../shared/constants.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
 import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
 import { isVector3 } from '../../utils/vector.ts';
+import { Vector2 } from '../../types/vector.ts';
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Color note beatmap v3 class object. */
 export class ColorNote extends WrapColorNote<Required<IColorNote>> {
@@ -173,31 +174,44 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
         return super.mirror(flipColor);
     }
 
-    getAngle(type?: 'vanilla' | 'me' | 'ne') {
+    getPosition(type?: ModType): Vector2 {
         switch (type) {
             case 'vanilla':
-                return (
-                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
-                    this.angleOffset
-                );
-            case 'me':
-                if (this.direction >= 1000) {
-                    return Math.abs(((this.direction % 1000) % 360) - 360);
-                }
-            /* falls through */
+                return super.getPosition();
             case 'ne':
-                return (
-                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
-                    this.angleOffset
-                );
+                if (this.customData.coordinates) {
+                    return [this.customData.coordinates[0], this.customData.coordinates[1]];
+                }
+            /** falls through */
+            case 'me':
+            default:
+                return [
+                    (this.posX <= -1000
+                        ? this.posX / 1000
+                        : this.posX >= 1000
+                        ? this.posX / 1000
+                        : this.posX) - 2,
+                    this.posY <= -1000
+                        ? this.posY / 1000
+                        : this.posY >= 1000
+                        ? this.posY / 1000
+                        : this.posY,
+                ];
+        }
+    }
+
+    getAngle(type?: ModType) {
+        switch (type) {
+            case 'vanilla':
+            case 'ne':
+                return super.getAngle();
+            /* falls through */
+            case 'me':
             default:
                 if (this.direction >= 1000) {
                     return Math.abs(((this.direction % 1000) % 360) - 360);
                 }
-                return (
-                    (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
-                    this.angleOffset
-                );
+                return super.getAngle();
         }
     }
 

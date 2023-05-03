@@ -1,6 +1,7 @@
 import { WrapBaseSlider } from './baseSlider.ts';
 import { NoteDirectionAngle } from '../shared/constants.ts';
 import { IWrapSlider } from '../../types/beatmap/wrapper/slider.ts';
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Slider beatmap class object.
  *
@@ -61,29 +62,8 @@ export abstract class WrapSlider<T extends Record<keyof T, unknown>> extends Wra
         return super.mirror(flipColor);
     }
 
-    getTailAngle(type?: 'vanilla' | 'me' | 'ne') {
-        switch (type) {
-            case 'vanilla':
-                return (
-                    NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0
-                );
-            case 'me':
-                if (this.tailDirection >= 1000) {
-                    return Math.abs(((this.tailDirection % 1000) % 360) - 360);
-                }
-            /* falls through */
-            case 'ne':
-                return (
-                    NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0
-                );
-            default:
-                if (this.tailDirection >= 1000) {
-                    return Math.abs(((this.tailDirection % 1000) % 360) - 360);
-                }
-                return (
-                    NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0
-                );
-        }
+    getTailAngle(_type?: ModType) {
+        return NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0;
     }
 
     isMappingExtensions() {

@@ -2,6 +2,8 @@ import { LINE_COUNT, NoteDirectionAngle } from '../shared/constants.ts';
 import { IWrapBaseSlider } from '../../types/beatmap/wrapper/baseSlider.ts';
 import { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
 import { WrapBaseNote } from './baseNote.ts';
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import { Vector2 } from '../../types/vector.ts';
 
 /** Base slider beatmap class object. */
 export abstract class WrapBaseSlider<T extends Record<keyof T, unknown>> extends WrapBaseNote<T>
@@ -31,39 +33,8 @@ export abstract class WrapBaseSlider<T extends Record<keyof T, unknown>> extends
         return super.mirror(flipColor);
     }
 
-    getTailPosition(type?: 'vanilla' | 'me' | 'ne'): [number, number] {
-        switch (type) {
-            case 'vanilla':
-                return [this.tailPosX, this.tailPosY];
-            case 'me':
-                return [
-                    (this.tailPosX <= -1000
-                        ? this.tailPosX / 1000
-                        : this.tailPosX >= 1000
-                        ? this.tailPosX / 1000
-                        : this.tailPosX) - 2,
-                    this.tailPosY <= -1000
-                        ? this.tailPosY / 1000
-                        : this.tailPosY >= 1000
-                        ? this.tailPosY / 1000
-                        : this.tailPosY,
-                ];
-            case 'ne':
-                return [this.tailPosX, this.tailPosY];
-            default:
-                return [
-                    (this.tailPosX <= -1000
-                        ? this.tailPosX / 1000
-                        : this.tailPosX >= 1000
-                        ? this.tailPosX / 1000
-                        : this.tailPosX) - 2,
-                    this.tailPosY <= -1000
-                        ? this.tailPosY / 1000
-                        : this.tailPosY >= 1000
-                        ? this.tailPosY / 1000
-                        : this.tailPosY,
-                ];
-        }
+    getTailPosition(_type?: ModType): Vector2 {
+        return [this.tailPosX - 2, this.tailPosY];
     }
 
     /** Get arc and return standardised note angle.
@@ -71,22 +42,7 @@ export abstract class WrapBaseSlider<T extends Record<keyof T, unknown>> extends
      * const arcAngle = arc.getAngle();
      * ```
      */
-    getAngle(type?: 'vanilla' | 'me' | 'ne') {
-        switch (type) {
-            case 'vanilla':
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
-            case 'me':
-                if (this.direction >= 1000) {
-                    return Math.abs(((this.direction % 1000) % 360) - 360);
-                }
-            /* falls through */
-            case 'ne':
-                return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
-            default:
-        }
-        if (this.direction >= 1000) {
-            return Math.abs(((this.direction % 1000) % 360) - 360);
-        }
+    getAngle(_type?: ModType) {
         return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
     }
 

@@ -2,6 +2,7 @@ import { WrapBaseObject } from './baseObject.ts';
 import { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { Vector2 } from '../../types/vector.ts';
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Beatmap grid class object. */
 export abstract class WrapGridObject<T extends Record<keyof T, unknown>> extends WrapBaseObject<T>
@@ -35,39 +36,8 @@ export abstract class WrapGridObject<T extends Record<keyof T, unknown>> extends
         return this;
     }
 
-    getPosition(type?: 'vanilla' | 'me' | 'ne'): Vector2 {
-        switch (type) {
-            case 'vanilla':
-                return [this.posX - 2, this.posY];
-            case 'me':
-                return [
-                    (this.posX <= -1000
-                        ? this.posX / 1000
-                        : this.posX >= 1000
-                        ? this.posX / 1000
-                        : this.posX) - 2,
-                    this.posY <= -1000
-                        ? this.posY / 1000
-                        : this.posY >= 1000
-                        ? this.posY / 1000
-                        : this.posY,
-                ];
-            case 'ne':
-                return [this.posX - 2, this.posY];
-            default:
-                return [
-                    (this.posX <= -1000
-                        ? this.posX / 1000
-                        : this.posX >= 1000
-                        ? this.posX / 1000
-                        : this.posX) - 2,
-                    this.posY <= -1000
-                        ? this.posY / 1000
-                        : this.posY >= 1000
-                        ? this.posY / 1000
-                        : this.posY,
-                ];
-        }
+    getPosition(_type?: ModType): Vector2 {
+        return [this.posX - 2, this.posY];
     }
 
     getDistance(compareTo: IWrapGridObject) {

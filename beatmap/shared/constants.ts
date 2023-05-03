@@ -1,4 +1,7 @@
 // const enum is used regardless as this will never be compiled and reused by JS.
+
+import { Vector2 } from '../../types/vector.ts';
+
 /** Also known as lane count. */
 export const LINE_COUNT = 4;
 
@@ -103,7 +106,7 @@ export const NoteDirectionFlip: { [d in NoteDirection]: NoteDirection } = {
  * ```
  */
 export const NoteDirectionSpace: {
-    [d in NoteDirection]: Readonly<[number, number]>;
+    [d in NoteDirection]: Readonly<Vector2>;
 } = {
     [NoteDirection.UP]: [0, 1],
     [NoteDirection.DOWN]: [0, -1],

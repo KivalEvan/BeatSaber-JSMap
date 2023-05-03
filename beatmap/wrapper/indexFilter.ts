@@ -1,5 +1,5 @@
 import { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
-import { LimitAlsoAffectsType, RandomType } from '../mod.ts';
+import { LimitAlsoAffectsType, RandomType } from '../shared/constants.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
 /** Index filter beatmap class object. */

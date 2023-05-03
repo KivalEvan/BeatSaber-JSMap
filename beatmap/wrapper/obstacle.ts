@@ -1,4 +1,6 @@
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
+import { Vector2 } from '../../types/vector.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { WrapGridObject } from './gridObject.ts';
 
@@ -30,19 +32,8 @@ export abstract class WrapObstacle<T extends Record<keyof T, unknown>> extends W
         return this;
     }
 
-    getPosition(): [number, number] {
-        return [
-            (this.posX <= -1000
-                ? this.posX / 1000
-                : this.posX >= 1000
-                ? this.posX / 1000
-                : this.posX) - 2,
-            (this.posY <= -1000
-                ? this.posY / 1000
-                : this.posY >= 1000
-                ? this.posY / 1000
-                : this.posY) - 0.5,
-        ];
+    getPosition(_type?: ModType): Vector2 {
+        return [this.posX - 2, this.posY - 0.5];
     }
 
     // FIXME: there are a lot more other variables
@@ -65,10 +56,6 @@ export abstract class WrapObstacle<T extends Record<keyof T, unknown>> extends W
 
     hasNegative() {
         return this.posY < 0 || this.duration < 0 || this.width < 0 || this.height < 0;
-    }
-
-    isMappingExtensions(): boolean {
-        return this.posY > 2 || this.posX <= -1000 || this.posX >= 1000;
     }
 
     isValid(): boolean {

@@ -1,3 +1,4 @@
+import { ModType } from '../shared/modCheck.ts';
 import { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
 
 export interface IWrapSliderAttribute<T extends Record<keyof T, unknown> = Record<string, unknown>>
@@ -54,5 +55,5 @@ export interface IWrapSlider<T extends Record<keyof T, unknown> = Record<string,
      * const arcTailAngle = arc.getTailAngle();
      * ```
      */
-    getTailAngle(type?: 'vanilla' | 'me' | 'ne'): number;
+    getTailAngle(type?: ModType): number;
 }

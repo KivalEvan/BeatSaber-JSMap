@@ -1,6 +1,8 @@
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { INote } from '../../types/beatmap/v2/note.ts';
 import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
+import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
 
@@ -125,20 +127,50 @@ export class Note extends WrapColorNote<Required<INote>> {
         this.data._customData = value;
     }
 
-    getPosition(type?: 'vanilla' | 'me' | 'ne'): [number, number] {
-        if (this.customData._position) {
-            return [this.customData._position[0], this.customData._position[1]];
+    getPosition(type?: ModType): Vector2 {
+        switch (type) {
+            case 'vanilla':
+                return super.getPosition();
+            case 'ne':
+                if (this.customData._position) {
+                    return [this.customData._position[0], this.customData._position[1]];
+                }
+            /** falls through */
+            case 'me':
+            default:
+                return [
+                    (this.posX <= -1000
+                        ? this.posX / 1000
+                        : this.posX >= 1000
+                        ? this.posX / 1000
+                        : this.posX) - 2,
+                    this.posY <= -1000
+                        ? this.posY / 1000
+                        : this.posY >= 1000
+                        ? this.posY / 1000
+                        : this.posY,
+                ];
         }
-        return super.getPosition(type);
     }
 
-    getAngle(type?: 'vanilla' | 'me' | 'ne'): number {
-        if (this.customData._cutDirection) {
-            return this.customData._cutDirection > 0
-                ? this.customData._cutDirection % 360
-                : 360 + (this.customData._cutDirection % 360);
+    getAngle(type?: ModType): number {
+        switch (type) {
+            case 'vanilla':
+                return super.getAngle(type);
+            case 'ne':
+                if (this.customData._cutDirection) {
+                    return this.customData._cutDirection > 0
+                        ? this.customData._cutDirection % 360
+                        : 360 + (this.customData._cutDirection % 360);
+                }
+            /* falls through */
+            case 'me':
+            default:
+                if (this.direction >= 1000) {
+                    return Math.abs(((this.direction % 1000) % 360) - 360);
+                }
+                return super.getAngle();
         }
-        return super.getAngle(type);
     }
 
     isChroma(): boolean {

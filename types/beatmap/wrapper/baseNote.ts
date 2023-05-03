@@ -1,3 +1,4 @@
+import { ModType } from '../shared/modCheck.ts';
 import { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
 export interface IWrapBaseNoteAttribute<
@@ -41,7 +42,7 @@ export interface IWrapBaseNote<T extends Record<keyof T, unknown> = Record<strin
      * const noteAngle = note.getAngle();
      * ```
      */
-    getAngle(type?: 'vanilla' | 'me' | 'ne'): number;
+    getAngle(type?: ModType): number;
 
     /** Check if note is red note.
      * ```ts

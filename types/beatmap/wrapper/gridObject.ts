@@ -1,4 +1,5 @@
 import { Vector2 } from '../../vector.ts';
+import { ModType } from '../shared/modCheck.ts';
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
 export interface IWrapGridObjectAttribute<
@@ -44,7 +45,7 @@ export interface IWrapGridObject<T extends Record<keyof T, unknown> = Record<str
      * const objPos = obj.getPosition();
      * ```
      */
-    getPosition(type?: 'vanilla' | 'me' | 'ne'): Vector2;
+    getPosition(type?: ModType): Vector2;
 
     /** Get two objects and return the distance between two objects.
      * ```ts

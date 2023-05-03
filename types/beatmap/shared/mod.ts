@@ -5,4 +5,5 @@ export * from './dataCheck.ts';
 export * from './difficulty.ts';
 export * from './environment.ts';
 export * from './info.ts';
+export * from './modCheck.ts';
 export * from './version.ts';

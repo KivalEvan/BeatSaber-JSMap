@@ -1,6 +1,8 @@
+import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
 import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
+import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';
@@ -155,11 +157,30 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
         return super.mirror();
     }
 
-    getPosition(): [number, number] {
-        if (this.customData.coordinates) {
-            return [this.customData.coordinates[0], this.customData.coordinates[1]];
+    getPosition(type?: ModType): Vector2 {
+        switch (type) {
+            case 'vanilla':
+                return super.getPosition();
+            case 'ne':
+                if (this.customData.coordinates) {
+                    return [this.customData.coordinates[0], this.customData.coordinates[1]];
+                }
+            /** falls through */
+            case 'me':
+            default:
+                return [
+                    (this.posX <= -1000
+                        ? this.posX / 1000
+                        : this.posX >= 1000
+                        ? this.posX / 1000
+                        : this.posX) - 2,
+                    (this.posY <= -1000
+                        ? this.posY / 1000
+                        : this.posY >= 1000
+                        ? this.posY / 1000
+                        : this.posY) - 0.5,
+                ];
         }
-        return super.getPosition();
     }
 
     isChroma(): boolean {
@@ -177,5 +198,9 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
             Array.isArray(this.customData.worldRotation) ||
             Array.isArray(this.customData.size)
         );
+    }
+
+    isMappingExtensions(): boolean {
+        return this.posY > 2 || this.posX <= -1000 || this.posX >= 1000;
     }
 }
