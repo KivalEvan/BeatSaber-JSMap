@@ -13,7 +13,7 @@ export class BeatPerMinute {
     private _timeScale: IBPMTimeScale[];
     private _offset: number;
 
-    protected constructor(
+    constructor(
         bpm: number,
         bpmChange: (IBPMChangeV2 | IBPMChangeOld | IBPMChangeV3 | IBPMEvent)[] = [],
         offset: number = 0,

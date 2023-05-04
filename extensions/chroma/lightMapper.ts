@@ -178,13 +178,13 @@ export class LightMapper {
                             previousBase = ev;
                             return;
                         }
-                        const event = BasicEvent.create({
+                        const event = new BasicEvent({
                             b: q.time + ev.time,
                             et: q.type,
                             i: this.internalEventValue(ev.color, ev.transition),
                             f: ev.brightness,
                             customData: { ...ev.customData, lightID: lid },
-                        })[0];
+                        });
                         events.push(event);
                         previousEvent = event;
                         previousBase = ev;
@@ -244,7 +244,7 @@ export class LightMapper {
                                 );
                             }
                         }
-                        const event = BasicEvent.create({
+                        const event = new BasicEvent({
                             b: q.time + ev.time + x,
                             et: q.type,
                             i: this.internalEventValue(ev.color, ev.transition),
@@ -261,7 +261,7 @@ export class LightMapper {
                                 0,
                             ),
                             customData: { ...ev.customData, lightID: lid[i] },
-                        })[0];
+                        });
                         if (eb.hueDistribution && event.isLightEvent()) {
                             if (!event.customData.color) {
                                 event.customData.color = event.isWhite()

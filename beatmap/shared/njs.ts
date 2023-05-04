@@ -13,12 +13,8 @@ export class NoteJumpSpeed {
     private _jdMin!: number;
     private _reactionTime!: number;
 
-    protected constructor(
-        bpm: BeatPerMinute,
-        njs: number = 10,
-        sdm: number = 0,
-    ) {
-        this._bpm = bpm;
+    constructor(bpm: BeatPerMinute | number, njs = 10, sdm = 0) {
+        this._bpm = typeof bpm === 'number' ? new BeatPerMinute(bpm) : bpm;
         this._njs = njs;
         this._sdm = sdm;
         this.update();
@@ -29,16 +25,8 @@ export class NoteJumpSpeed {
      * const NJS = NoteJumpSpeed.create(BPM ?? 128, 16, 0);
      * ```
      */
-    static create(
-        bpm: BeatPerMinute | number,
-        njs = 10,
-        sdm = 0,
-    ): NoteJumpSpeed {
-        return new NoteJumpSpeed(
-            typeof bpm === 'number' ? BeatPerMinute.create(bpm) : bpm,
-            njs,
-            sdm,
-        );
+    static create(bpm: BeatPerMinute | number, njs?: number, sdm?: number): NoteJumpSpeed {
+        return new NoteJumpSpeed(bpm, njs, sdm);
     }
 
     /** Fallback value used if NJS value is null or 0.

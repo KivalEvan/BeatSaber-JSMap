@@ -28,7 +28,7 @@ export function setNjs(
         return;
     }
     const njs = typeof options.njs === 'number'
-        ? NoteJumpSpeed.create(options.bpm, options.njs, options.offset)
+        ? new NoteJumpSpeed(options.bpm, options.njs, options.offset)
         : options.njs;
     const offset = njs.calcHJDFromJD(options.jd) - njs.calcHJDRaw();
     objects.forEach((o) => {
@@ -69,14 +69,12 @@ export function simultaneousSpawn(
         o.customData.noteJumpMovementSpeed = options.njsOverride
             ? o.customData.noteJumpMovementSpeed ?? njs
             : njs;
-        const currentNJS = NoteJumpSpeed.create(
-            options.bpm,
-            o.customData.noteJumpMovementSpeed,
-        );
-        const offset = currentNJS.calcHJDFromJD(options.jd) -
-            currentNJS.calcHJDRaw();
+        const currentNJS = new NoteJumpSpeed(options.bpm, o.customData.noteJumpMovementSpeed);
+        const offset = currentNJS.calcHJDFromJD(options.jd) - currentNJS.calcHJDRaw();
         o.customData.noteJumpStartBeatOffset = options.spawnBeatOffset! +
-            offset + o.time - startTime -
+            offset +
+            o.time -
+            startTime -
             (o.time - startTime) / options.speed;
     });
 }
@@ -124,7 +122,7 @@ export function gradientNjs(
             options.easing,
         );
         if (typeof options.jd === 'number') {
-            const currNJS = NoteJumpSpeed.create(
+            const currNJS = new NoteJumpSpeed(
                 options.bpm,
                 o.customData.noteJumpMovementSpeed,
                 offset,

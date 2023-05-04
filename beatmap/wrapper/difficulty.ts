@@ -90,7 +90,7 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
     peak(beat: number, bpm: BeatPerMinute | number): number {
         let peakNPS = 0;
         let currentSectionStart = 0;
-        bpm = typeof bpm === 'number' ? BeatPerMinute.create(bpm) : bpm;
+        bpm = typeof bpm === 'number' ? new BeatPerMinute(bpm) : bpm;
         const notes = this.getNoteContainer().filter((n) => n.type !== 'bomb');
 
         for (let i = 0; i < notes.length; i++) {

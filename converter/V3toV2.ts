@@ -29,7 +29,7 @@ const tag = (name: string) => {
  */
 export function V3toV2(data: DifficultyV3): DifficultyV2 {
     logger.warn(tag('V3toV2'), 'Converting beatmap v3 to v2 may lose certain data!');
-    const template = DifficultyV2.create();
+    const template = new DifficultyV2();
     template.fileName = data.fileName;
 
     data.colorNotes.forEach((n) => {
@@ -162,25 +162,25 @@ export function V3toV2(data: DifficultyV3): DifficultyV2 {
 
     data.colorBoostEvents.forEach((b) =>
         template.basicEvents.push(
-            Event.create({
+            new Event({
                 _time: b.time,
                 _type: 5,
                 _value: b.toggle ? 1 : 0,
                 _floatValue: 1,
-            })[0],
+            }),
         )
     );
 
     data.rotationEvents.forEach((lr) =>
         template.basicEvents.push(
-            Event.create({
+            new Event({
                 _time: lr.time,
                 _type: lr.executionTime ? 14 : 15,
                 _value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
                     ? Math.max(Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15), 3)
                     : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
                 _floatValue: 1,
-            })[0],
+            }),
         )
     );
 
@@ -225,7 +225,7 @@ export function V3toV2(data: DifficultyV3): DifficultyV2 {
         )
     );
 
-    template.eventTypesWithKeywords = SpecialEventsKeywordFilters.create({
+    template.eventTypesWithKeywords = new SpecialEventsKeywordFilters({
         _keywords: data.eventTypesWithKeywords.list.map((d) => {
             return { _keyword: d.keyword, _specialEvents: d.events };
         }) ?? [],

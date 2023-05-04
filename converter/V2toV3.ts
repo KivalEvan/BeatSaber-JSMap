@@ -34,7 +34,7 @@ const tag = (name: string) => {
 export function V2toV3(data: DifficultyV2): DifficultyV3 {
     logger.warn(tag('V2toV3'), 'Converting beatmap v2 to v3 may lose certain data!');
 
-    const template = DifficultyV3.create();
+    const template = new DifficultyV3();
     template.fileName = data.fileName;
 
     template.customData.fakeBombNotes = [];
@@ -81,7 +81,7 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
             }
             if (n.customData._fake) {
                 template.customData.fakeColorNotes!.push(
-                    ColorNote.create({
+                    new ColorNote({
                         b: n.time,
                         c: n.type as 0 | 1,
                         x: n.posX,
@@ -91,11 +91,11 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
                             : clamp(n.direction, 0, 8),
                         a: a,
                         customData,
-                    })[0].toJSON(),
+                    }).toJSON(),
                 );
             } else {
                 template.colorNotes.push(
-                    ColorNote.create({
+                    new ColorNote({
                         b: n.time,
                         c: n.type as 0 | 1,
                         x: n.posX,
@@ -105,7 +105,7 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
                             : clamp(n.direction, 0, 8),
                         a: a,
                         customData,
-                    })[0],
+                    }),
                 );
             }
         }
@@ -115,7 +115,7 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
         const customData: ICustomDataObstacle = objectToV3(o.customData);
         if (o.customData._fake) {
             template.customData.fakeObstacles!.push(
-                Obstacle.create({
+                new Obstacle({
                     b: o.time,
                     x: o.posX,
                     y: o.type ? 2 : 0,
@@ -123,11 +123,11 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
                     w: o.width,
                     h: o.type ? 3 : 5,
                     customData,
-                })[0].toJSON(),
+                }).toJSON(),
             );
         } else {
             template.obstacles.push(
-                Obstacle.create({
+                new Obstacle({
                     b: o.time,
                     x: o.posX,
                     y: o.type ? 2 : 0,
@@ -135,7 +135,7 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
                     w: o.width,
                     h: o.type ? 3 : 5,
                     customData,
-                })[0],
+                }),
             );
         }
     });
@@ -143,14 +143,14 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
     data.basicEvents.forEach((e, i) => {
         if (e.isColorBoost()) {
             template.colorBoostEvents.push(
-                ColorBoostEvent.create({
+                new ColorBoostEvent({
                     b: e.time,
                     o: e.value ? true : false,
-                })[0],
+                }),
             );
         } else if (e.isLaneRotationEvent()) {
             template.rotationEvents.push(
-                RotationEvent.create({
+                new RotationEvent({
                     b: e.time,
                     e: e.type === 14 ? 0 : 1,
                     r: typeof e.customData._rotation === 'number'
@@ -158,7 +158,7 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
                         : e.value >= 1000
                         ? (e.value - 1360) % 360
                         : EventLaneRotationValue[e.value] ?? 0,
-                })[0],
+                }),
             );
         } else if (e.isBPMChangeEvent()) {
             template.bpmEvents.push(
@@ -245,7 +245,7 @@ export function V2toV3(data: DifficultyV2): DifficultyV3 {
         )
     );
 
-    template.eventTypesWithKeywords = BasicEventTypesWithKeywords.create({
+    template.eventTypesWithKeywords = new BasicEventTypesWithKeywords({
         d: data.eventTypesWithKeywords?.list?.map((k) => {
             return { k: k.keyword, e: k.events };
         }) ?? [],

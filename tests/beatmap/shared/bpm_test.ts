@@ -4,7 +4,7 @@ import { assertEquals, BeatPerMinute } from '../../deps.ts';
 Deno.test({
     name: 'Create BPM instance',
     fn() {
-        const be = BeatPerMinute.create(128);
+        const be = new BeatPerMinute(128);
         assertEquals(be.value, 128);
     },
 });

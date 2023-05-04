@@ -329,13 +329,13 @@ export function v3(data: Difficulty) {
     );
     data.colorBoostEvents.push(
         ...boost.map(
-            (ev) => ColorBoostEvent.create({ time: ev.time, toggle: ev.value ? true : false })[0],
+            (ev) => new ColorBoostEvent({ time: ev.time, toggle: ev.value ? true : false }),
         ),
     );
     data.rotationEvents.push(
         ...laneRotation.map(
             (ev) =>
-                RotationEvent.create({
+                new RotationEvent({
                     time: ev.time,
                     executionTime: ev.type == 15 ? 1 : 0,
                     rotation: ev.customData._rotation ??
@@ -344,7 +344,7 @@ export function v3(data: Difficulty) {
                             : ev.value >= 0 && ev.value <= 7
                             ? EventLaneRotationValue[ev.value]
                             : 0),
-                })[0],
+                }),
         ),
     );
 }
