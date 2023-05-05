@@ -14,16 +14,16 @@ const sortObjectTime = (a: IBaseObject, b: IBaseObject) => a._time - b._time;
 export function difficulty(
     data: Partial<IDifficulty>,
     checkData: {
-        enable: boolean;
+        enabled: boolean;
         throwError?: boolean;
-    } = { enable: true, throwError: true },
+    } = { enabled: true, throwError: true }
 ): Difficulty {
     logger.info(tag('difficulty'), 'Parsing beatmap difficulty v1.x.x');
     if (!data._version?.startsWith('1')) {
         logger.warn(tag('difficulty'), 'Unidentified beatmap version');
         data._version = '1.5.0';
     }
-    if (checkData.enable) {
+    if (checkData.enabled) {
         deepCheck(data, DifficultyCheck, 'difficulty', data._version, checkData.throwError);
     }
 

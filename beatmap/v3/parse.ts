@@ -34,9 +34,9 @@ export function conversionFix(data: Partial<IDifficulty>) {
 export function difficulty(
     data: Partial<IDifficulty>,
     checkData: {
-        enable: boolean;
+        enabled: boolean;
         throwError?: boolean;
-    } = { enable: true, throwError: true },
+    } = { enabled: true, throwError: true }
 ): Difficulty {
     logger.info(tag('difficulty'), 'Parsing beatmap difficulty v3.x.x');
     if (!(data.version === '3.0.0' || data.version === '3.1.0' || data.version === '3.2.0')) {
@@ -44,7 +44,7 @@ export function difficulty(
         data.version = '3.0.0';
     }
     conversionFix(data);
-    if (checkData.enable) {
+    if (checkData.enabled) {
         deepCheck(data, DifficultyCheck, 'difficulty', data.version, checkData.throwError);
     }
 
