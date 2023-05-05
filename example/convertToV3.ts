@@ -14,13 +14,13 @@ import { parse } from 'https://deno.land/std@0.185.0/flags/mod.ts';
 import {
     convert,
     globals,
+    isV1,
     isV3,
     load,
     logger,
     parse as beatmapParser,
     save,
-    types,
-    v2,
+    wrapper,
 } from '../mod.ts';
 
 const args = parse(Deno.args, {
@@ -36,7 +36,7 @@ const args = parse(Deno.args, {
     },
 });
 
-logger.info('Beat Saber beatmap v2 to v3 conversion build 3');
+logger.info('Beat Saber beatmap to v3 conversion build 4');
 logger.info(
     'Source code available at https://github.com/KivalEvan/BeatSaber-Deno/blob/main/example/convertToV3.ts',
 );
@@ -84,12 +84,16 @@ try {
 
         const diffJSON = JSON.parse(
             Deno.readTextFileSync(globals.directory + diffFilePath),
-        ) as types.Either<types.v2.IDifficulty, types.v3.IDifficulty>;
+        ) as Record<string, unknown>;
         const diffVersion = parseInt(
-            diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'),
+            typeof diffJSON._version === 'string'
+                ? diffJSON._version.at(0)!
+                : typeof diffJSON.version === 'string'
+                ? diffJSON.version?.at(0)!
+                : '2',
         );
 
-        let diff!: v2.Difficulty;
+        let diff!: wrapper.WrapDifficulty<Record<string, unknown>>;
         if (diffVersion === 2) {
             let skipped = false;
             if (!args.x) {
@@ -118,9 +122,59 @@ try {
                 }
             }
             if (!skipped) {
-                diff = beatmapParser
-                    .difficultyV2(diffJSON as types.v2.IDifficulty)
-                    .setFileName(diffFilePath);
+                diff = beatmapParser.difficultyV2(diffJSON).setFileName(diffFilePath);
+                if (diff.basicEvents.some((e) => e.isOldChroma())) {
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
+                    if (confirmation![0].toLowerCase() === 'y') {
+                        convert.ogChromaToChromaV2(diff);
+                    }
+                }
+                if (diff.basicEvents.some((e) => e.customData._lightGradient)) {
+                    const confirmation = args.y ? 'n' : prompt(
+                        'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
+                        'n',
+                    );
+                    if (confirmation![0].toLowerCase() === 'y') {
+                        convert.chromaLightGradientToVanillaGradient(diff);
+                    }
+                }
+                logger.info('Converting beatmap to v3');
+                save.difficultySync(convert.toV3(diff));
+                isConverted = true;
+            }
+        }
+        if (diffVersion === 1) {
+            let skipped = false;
+            if (!args.x) {
+                logger.info('Backing up beatmap');
+                try {
+                    copySync(
+                        globals.directory + diffFilePath,
+                        globals.directory + diffFilePath + '.old',
+                    );
+                } catch (_) {
+                    const confirmation = args.y
+                        ? 'n'
+                        : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
+                    if (confirmation![0].toLowerCase() === 'y') {
+                        copySync(
+                            globals.directory + diffFilePath,
+                            globals.directory + diffFilePath + '.old',
+                            {
+                                overwrite: true,
+                            },
+                        );
+                    } else {
+                        logger.info('Skipping overwrite...');
+                        skipped = true;
+                    }
+                }
+            }
+            if (!skipped) {
+                diff = convert.toV2(beatmapParser.difficultyV1(diffJSON).setFileName(diffFilePath));
                 if (diff.basicEvents.some((e) => e.isOldChroma())) {
                     const confirmation = args.y ? 'n' : prompt(
                         'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
@@ -158,7 +212,7 @@ try {
         diffList.forEach((dl) => {
             if (!isV3(dl.data)) {
                 if (!args.x) {
-                    logger.info('Backing up beatmap v2', dl.characteristic, dl.difficulty);
+                    logger.info('Backing up beatmap', dl.characteristic, dl.difficulty);
                     try {
                         copySync(
                             globals.directory + dl.settings._beatmapFilename,
@@ -180,6 +234,9 @@ try {
                             return;
                         }
                     }
+                }
+                if (isV1(dl.data)) {
+                    dl.data = convert.toV2(dl.data);
                 }
                 if (dl.data.basicEvents.some((e) => e.isOldChroma())) {
                     if (!oldChromaConfirm) {
@@ -211,8 +268,8 @@ try {
                         convert.chromaLightGradientToVanillaGradient(dl.data);
                     }
                 }
-                logger.info('Converting beatmap v2', dl.characteristic, dl.difficulty, 'to v3');
-                dl.data = convert.toV3(dl.data as v2.Difficulty);
+                logger.info('Converting beatmap', dl.characteristic, dl.difficulty, 'to v3');
+                dl.data = convert.toV3(dl.data);
                 save.difficultySync(dl.data);
                 isConverted = true;
             }

@@ -278,10 +278,13 @@ try {
                 }
             }
             if (args.m) {
-                dl.data.basicEvents.push(...lightV2.basicEvents);
+                dl.data.addBasicEvents(...lightV2.basicEvents);
             } else {
-                const rotationEvent = dl.data.basicEvents.filter((ev) => ev.isLaneRotationEvent());
-                dl.data.basicEvents = [...lightV2.basicEvents, ...rotationEvent];
+                const rotationEvent = dl.data.basicEvents
+                    .map((ev) => ev)
+                    .filter((ev) => ev.isLaneRotationEvent());
+                dl.data.basicEvents = [];
+                dl.data.addBasicEvents(...lightV2.basicEvents, ...rotationEvent);
             }
         }
 
