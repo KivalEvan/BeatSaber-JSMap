@@ -8,7 +8,7 @@ export interface ILoadOptionsInfo extends IBaseOptions {
 export interface ILoadOptionsDifficulty extends IBaseOptions {
     forceConvert?: boolean;
     dataCheck?: {
-        enable: boolean;
+        enabled: boolean;
         throwError?: boolean;
     };
 }

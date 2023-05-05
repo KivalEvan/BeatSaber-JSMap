@@ -97,6 +97,15 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         this.data._customData = value;
     }
 
+    reparse(keepRef?: boolean): void {
+        this.colorNotes = this.colorNotes.map((obj) => this.createOrKeep(Note, obj, keepRef));
+        this.obstacles = this.obstacles.map((obj) => this.createOrKeep(Obstacle, obj, keepRef));
+        this.basicEvents = this.basicEvents.map((obj) => this.createOrKeep(Event, obj, keepRef));
+        this.waypoints = this.waypoints.map((obj) => this.createOrKeep(Waypoint, obj, keepRef));
+        this.sliders = this.sliders.map((obj) => this.createOrKeep(Slider, obj, keepRef));
+        this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(this.eventTypesWithKeywords);
+    }
+
     addBPMEvents(...events: Partial<IWrapBPMEventAttribute>[]): void;
     addBPMEvents(...events: Partial<IEventBPMChange>[]): void;
     addBPMEvents(
@@ -265,6 +274,13 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     isValid(): boolean {
-        throw new Error('Method not implemented.');
+        return (
+            this.colorNotes.every((obj) => this.checkClass(Note, obj)) ||
+            this.obstacles.every((obj) => this.checkClass(Obstacle, obj)) ||
+            this.basicEvents.every((obj) => this.checkClass(Event, obj)) ||
+            this.waypoints.every((obj) => this.checkClass(Waypoint, obj)) ||
+            this.sliders.every((obj) => this.checkClass(Slider, obj)) ||
+            this.eventTypesWithKeywords instanceof SpecialEventsKeywordFilters
+        );
     }
 }

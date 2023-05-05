@@ -112,7 +112,6 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 - Instantiating nested object or array depends on the property and does not allow mix-and-match
   - However, it can still process like normally if you choose to ignore the error
-- **(WORKING ON IT)** Different object beatmap version class can exist on one beatmap version
 
 ## Credits
 

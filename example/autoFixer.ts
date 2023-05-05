@@ -260,7 +260,7 @@ try {
         save.difficultySync(difficulty);
     } else {
         const diffList = load.difficultyFromInfoSync(info!, {
-            dataCheck: { enable: true, throwError: false },
+            dataCheck: { enabled: true, throwError: false },
         });
         diffList.forEach((dl) => {
             if (!args.x) {

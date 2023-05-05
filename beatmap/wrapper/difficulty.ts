@@ -82,6 +82,16 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
         return this;
     }
 
+    abstract reparse(keepRef?: boolean): void;
+
+    protected createOrKeep<T, U>(concrete: { new (data: T): U }, obj: T, keep?: boolean): U {
+        return keep && obj instanceof concrete ? obj : new concrete(obj);
+    }
+
+    protected checkClass<T, U>(concrete: { new (data: T): U }, obj: T): boolean {
+        return obj instanceof concrete;
+    }
+
     nps(duration: number): number {
         const notes = this.getNoteContainer().filter((n) => n.type !== 'bomb');
         return duration ? notes.length / duration : 0;

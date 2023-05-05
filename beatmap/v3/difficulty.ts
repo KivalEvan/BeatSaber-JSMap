@@ -160,6 +160,28 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         this.data.customData = value;
     }
 
+    reparse(keepRef?: boolean): void {
+        this.colorNotes = this.colorNotes.map((obj) => this.createOrKeep(ColorNote, obj, keepRef));
+        this.bombNotes = this.bombNotes.map((obj) => this.createOrKeep(BombNote, obj, keepRef));
+        this.sliders = this.sliders.map((obj) => this.createOrKeep(Slider, obj, keepRef));
+        this.burstSliders = this.burstSliders.map((obj) =>
+            this.createOrKeep(BurstSlider, obj, keepRef)
+        );
+        this.obstacles = this.obstacles.map((obj) => this.createOrKeep(Obstacle, obj, keepRef));
+        this.basicEvents = this.basicEvents.map((obj) =>
+            this.createOrKeep(BasicEvent, obj, keepRef)
+        );
+        this.colorBoostEvents = this.colorBoostEvents.map((obj) =>
+            this.createOrKeep(ColorBoostEvent, obj, keepRef)
+        );
+        this.rotationEvents = this.rotationEvents.map((obj) =>
+            this.createOrKeep(RotationEvent, obj, keepRef)
+        );
+        this.bpmEvents = this.bpmEvents.map((obj) => this.createOrKeep(BPMEvent, obj, keepRef));
+        this.waypoints = this.waypoints.map((obj) => this.createOrKeep(Waypoint, obj, keepRef));
+        this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(this.eventTypesWithKeywords);
+    }
+
     addBPMEvents(...bpmEvents: Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>[]): void;
     addBPMEvents(...bpmEvents: Partial<IBPMEvent>[]): void;
     addBPMEvents(
@@ -477,6 +499,27 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     isValid(): boolean {
-        throw new Error('Method not implemented.');
+        return (
+            this.colorNotes.every((obj) => this.checkClass(ColorNote, obj)) ||
+            this.bombNotes.every((obj) => this.checkClass(BombNote, obj)) ||
+            this.sliders.every((obj) => this.checkClass(Slider, obj)) ||
+            this.burstSliders.every((obj) => this.checkClass(BurstSlider, obj)) ||
+            this.obstacles.every((obj) => this.checkClass(Obstacle, obj)) ||
+            this.basicEvents.every((obj) => this.checkClass(BasicEvent, obj)) ||
+            this.colorBoostEvents.every((obj) => this.checkClass(ColorBoostEvent, obj)) ||
+            this.rotationEvents.every((obj) => this.checkClass(RotationEvent, obj)) ||
+            this.bpmEvents.every((obj) => this.checkClass(BPMEvent, obj)) ||
+            this.waypoints.every((obj) => this.checkClass(Waypoint, obj)) ||
+            this.lightColorEventBoxGroups.every((obj) =>
+                this.checkClass(LightColorEventBoxGroup, obj)
+            ) ||
+            this.lightRotationEventBoxGroups.every((obj) =>
+                this.checkClass(LightRotationEventBoxGroup, obj)
+            ) ||
+            this.lightTranslationEventBoxGroups.every((obj) =>
+                this.checkClass(LightTranslationEventBoxGroup, obj)
+            ) ||
+            this.eventTypesWithKeywords instanceof BasicEventTypesWithKeywords
+        );
     }
 }

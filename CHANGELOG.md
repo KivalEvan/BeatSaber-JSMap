@@ -5,6 +5,7 @@
 ### Added
 
 - Legacy beatmap v1 (incomplete; contain mixed information)
+- Beatmap object class validation
 
 ### Changed
 

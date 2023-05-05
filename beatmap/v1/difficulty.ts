@@ -104,6 +104,12 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         logger.warn('Custom data does not exist in beatmap V1');
     }
 
+    reparse(keepRef?: boolean): void {
+        this.colorNotes = this.colorNotes.map((obj) => this.createOrKeep(Note, obj, keepRef));
+        this.obstacles = this.obstacles.map((obj) => this.createOrKeep(Obstacle, obj, keepRef));
+        this.basicEvents = this.basicEvents.map((obj) => this.createOrKeep(Event, obj, keepRef));
+    }
+
     addBPMEvents(..._: never[]): void {
         logger.warn('BPM Event does not exist in beatmap V1');
     }
@@ -219,6 +225,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     isValid(): boolean {
-        throw new Error('Method not implemented.');
+        return (
+            this.colorNotes.every((obj) => this.checkClass(Note, obj)) ||
+            this.obstacles.every((obj) => this.checkClass(Obstacle, obj)) ||
+            this.basicEvents.every((obj) => this.checkClass(Event, obj))
+        );
     }
 }

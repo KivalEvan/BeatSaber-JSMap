@@ -55,6 +55,20 @@ export interface IWrapDifficulty<T extends Record<keyof T, unknown> = Record<str
     extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
     setFileName(fileName: LooseAutocomplete<GenericFileName>): this;
 
+    /** Reparse the beatmap to their respective schema class.
+     *
+     * Used to match the beatmap schema if wrapper mix-and-matched the class.
+     * ```ts
+     * if (!difficulty.isValid()) {
+     *     difficulty.reparse();
+     * }
+     * ```
+     * ---
+     * **NOTE:** This will create a new set of array,
+     * `keepRef` allows for already matched object to stay in new array instead of creating new object (this is faster and less memory but can cause reference issue)
+     */
+    reparse(keepRef?: boolean): void;
+
     /** Calculate note per second.
      * ```ts
      * const nps = difficulty.nps(10);

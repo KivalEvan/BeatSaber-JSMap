@@ -30,7 +30,7 @@ const optionsDifficulty: Required<ILoadOptionsDifficulty> = {
     directory: '',
     forceConvert: true,
     dataCheck: {
-        enable: true,
+        enabled: true,
         throwError: true,
     },
 };
@@ -39,7 +39,7 @@ const optionsDifficultyList: Required<ILoadOptionsDifficulty> = {
     directory: '',
     forceConvert: false,
     dataCheck: {
-        enable: true,
+        enabled: true,
         throwError: true,
     },
 };
