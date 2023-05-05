@@ -171,27 +171,23 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
         return ec.sort((a, b) => a.data.time - b.data.time);
     }
 
-    abstract addBPMEvents(...bpmEvents: PartialWrapper<IWrapBPMEventAttribute>[]): void;
-    abstract addRotationEvents(
-        ...rotationEvents: PartialWrapper<IWrapRotationEventAttribute>[]
-    ): void;
-    abstract addColorNotes(...colorNotes: PartialWrapper<IWrapColorNoteAttribute>[]): void;
-    abstract addBombNotes(...bombNotes: PartialWrapper<IWrapBombNoteAttribute>[]): void;
-    abstract addObstacles(...obstacles: PartialWrapper<IWrapObstacleAttribute>[]): void;
-    abstract addSliders(...sliders: PartialWrapper<IWrapSliderAttribute>[]): void;
-    abstract addBurstSliders(...burstSliders: PartialWrapper<IWrapBurstSliderAttribute>[]): void;
-    abstract addWaypoints(...waypoints: PartialWrapper<IWrapWaypointAttribute>[]): void;
-    abstract addBasicEvents(...basicEvents: PartialWrapper<IWrapEventAttribute>[]): void;
-    abstract addColorBoostEvents(
-        ...colorBoostEvents: PartialWrapper<IWrapColorBoostEventAttribute>[]
-    ): void;
+    abstract addBPMEvents(...data: PartialWrapper<IWrapBPMEventAttribute>[]): void;
+    abstract addRotationEvents(...data: PartialWrapper<IWrapRotationEventAttribute>[]): void;
+    abstract addColorNotes(...data: PartialWrapper<IWrapColorNoteAttribute>[]): void;
+    abstract addBombNotes(...data: PartialWrapper<IWrapBombNoteAttribute>[]): void;
+    abstract addObstacles(...data: PartialWrapper<IWrapObstacleAttribute>[]): void;
+    abstract addSliders(...data: PartialWrapper<IWrapSliderAttribute>[]): void;
+    abstract addBurstSliders(...data: PartialWrapper<IWrapBurstSliderAttribute>[]): void;
+    abstract addWaypoints(...data: PartialWrapper<IWrapWaypointAttribute>[]): void;
+    abstract addBasicEvents(...data: PartialWrapper<IWrapEventAttribute>[]): void;
+    abstract addColorBoostEvents(...data: PartialWrapper<IWrapColorBoostEventAttribute>[]): void;
     abstract addLightColorEventBoxGroups(
-        ...lightColorEBGs: DeepPartialWrapper<IWrapLightColorEventBoxGroupAttribute>[]
+        ...data: DeepPartialWrapper<IWrapLightColorEventBoxGroupAttribute>[]
     ): void;
     abstract addLightRotationEventBoxGroups(
-        ...lightRotationEBGs: DeepPartialWrapper<IWrapLightRotationEventBoxGroupAttribute>[]
+        ...data: DeepPartialWrapper<IWrapLightRotationEventBoxGroupAttribute>[]
     ): void;
     abstract addLightTranslationEventBoxGroups(
-        ...lightTranslationEBGs: DeepPartialWrapper<IWrapLightTranslationEventBoxGroupAttribute>[]
+        ...data: DeepPartialWrapper<IWrapLightTranslationEventBoxGroupAttribute>[]
     ): void;
 }

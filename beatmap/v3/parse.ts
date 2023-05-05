@@ -36,7 +36,7 @@ export function difficulty(
     checkData: {
         enabled: boolean;
         throwError?: boolean;
-    } = { enabled: true, throwError: true }
+    } = { enabled: true, throwError: true },
 ): Difficulty {
     logger.info(tag('difficulty'), 'Parsing beatmap difficulty v3.x.x');
     if (!(data.version === '3.0.0' || data.version === '3.1.0' || data.version === '3.2.0')) {

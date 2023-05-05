@@ -246,6 +246,32 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
         }
     }
 
+    getTailPosition(type?: ModType): Vector2 {
+        switch (type) {
+            case 'vanilla':
+                return super.getTailPosition();
+            case 'ne':
+                if (this.customData.tailCoordinates) {
+                    return [this.customData.tailCoordinates[0], this.customData.tailCoordinates[1]];
+                }
+            /** falls through */
+            case 'me':
+            default:
+                return [
+                    (this.tailPosX <= -1000
+                        ? this.tailPosX / 1000
+                        : this.tailPosX >= 1000
+                        ? this.tailPosX / 1000
+                        : this.tailPosX) - 2,
+                    this.tailPosY <= -1000
+                        ? this.tailPosY / 1000
+                        : this.tailPosY >= 1000
+                        ? this.tailPosY / 1000
+                        : this.tailPosY,
+                ];
+        }
+    }
+
     isChroma(): boolean {
         return (
             Array.isArray(this.customData.color) ||

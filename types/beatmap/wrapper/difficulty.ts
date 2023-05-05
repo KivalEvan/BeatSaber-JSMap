@@ -127,23 +127,23 @@ export interface IWrapDifficulty<T extends Record<keyof T, unknown> = Record<str
      */
     getEventContainer(): EventContainer[];
 
-    addBPMEvents(...bpmEvents: Partial<IWrapBPMEventAttribute>[]): void;
-    addRotationEvents(...rotationEvents: Partial<IWrapRotationEventAttribute>[]): void;
-    addColorNotes(...colorNotes: Partial<IWrapColorNoteAttribute>[]): void;
-    addBombNotes(...bombNotes: Partial<IWrapBombNoteAttribute>[]): void;
-    addObstacles(...obstacles: Partial<IWrapObstacleAttribute>[]): void;
-    addSliders(...sliders: Partial<IWrapSliderAttribute>[]): void;
-    addBurstSliders(...burstSliders: Partial<IWrapBurstSliderAttribute>[]): void;
-    addWaypoints(...waypoints: Partial<IWrapWaypointAttribute>[]): void;
-    addBasicEvents(...basicEvents: Partial<IWrapEventAttribute>[]): void;
-    addColorBoostEvents(...colorBoostEvents: Partial<IWrapColorBoostEventAttribute>[]): void;
+    addBPMEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;
+    addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): void;
+    addColorNotes(...data: Partial<IWrapColorNoteAttribute>[]): void;
+    addBombNotes(...data: Partial<IWrapBombNoteAttribute>[]): void;
+    addObstacles(...data: Partial<IWrapObstacleAttribute>[]): void;
+    addSliders(...data: Partial<IWrapSliderAttribute>[]): void;
+    addBurstSliders(...data: Partial<IWrapBurstSliderAttribute>[]): void;
+    addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): void;
+    addBasicEvents(...data: Partial<IWrapEventAttribute>[]): void;
+    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): void;
     addLightColorEventBoxGroups(
-        ...lightColorEBGs: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]
+        ...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]
     ): void;
     addLightRotationEventBoxGroups(
-        ...lightRotationEBGs: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
+        ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
     ): void;
     addLightTranslationEventBoxGroups(
-        ...lightTranslationEBGs: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
+        ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
     ): void;
 }
