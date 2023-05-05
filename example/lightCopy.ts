@@ -134,10 +134,10 @@ try {
         }
     }
     if (lightV3! && !lightV2!) {
-        lightV2 = convert.V3toV2(lightV3);
+        lightV2 = convert.toV2(lightV3);
     }
     if (lightV2! && !lightV3!) {
-        lightV3 = convert.V2toV3(lightV2);
+        lightV3 = convert.toV3(lightV2);
     }
 
     if (

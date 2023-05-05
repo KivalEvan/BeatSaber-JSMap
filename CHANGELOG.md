@@ -2,13 +2,18 @@
 
 ## 1.4.0 [2023-05-xx]
 
+### Added
+
+- Legacy beatmap v1 (incomplete; contain mixed information)
+
 ### Changed
 
 - Allow object class constructor to be used (similar to static `create` but as single object)
-- Only root-level file can contain platform-specific API
+- Renamed converter function
 - Unspecified difficulty version will now return base wrapper class instead of version specific
   - This means it won't automagically convert v2 map to v3 map when unspecified
 - Changed modded object value method behaviour
+- Only root-level file can contain platform-specific API
 - Recommended Deno version to 1.33.0+
 
 ### Removed

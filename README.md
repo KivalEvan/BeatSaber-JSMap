@@ -16,9 +16,10 @@ verify the beatmap integrity.
 ## Features
 
 - **Zero-dependency:** No third-party module used in main with standard module being an exception.
-- **Latest Schema:** Supports both latest beatmap v2 and v3 including conversion.
-  - Current schema version is v2.6.0 and v3.2.0 respectively.
-- **Wrapper Attribute:** Readable and cross-version class attribute for easy version transferring.
+- **Latest Schema:** Supports all official schema including modded.
+  - Current schema version is v1.5.0, v2.6.0 and v3.2.0.
+- **Wrapper Attribute:** Readable and cross-version class attribute for seamless version
+  transferring.
 - **Partial Creation:** Define beatmap object partially and let default fill the rest of fields.
 - **Mod Compatible:** Chroma, Cinema, Noodle Extensions, and Mapping Extensions is supported out of
   the box.

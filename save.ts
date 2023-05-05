@@ -10,10 +10,12 @@ import * as optimize from './optimize.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 import { deepCheck } from './beatmap/shared/dataCheck.ts';
+import { DifficultyCheck as DifficultyCheckV1 } from './beatmap/v1/dataCheck.ts';
 import { DifficultyCheck as DifficultyCheckV2 } from './beatmap/v2/dataCheck.ts';
-import { DifficultyCheck } from './beatmap/v3/dataCheck.ts';
+import { DifficultyCheck as DifficultyCheckV3 } from './beatmap/v3/dataCheck.ts';
+import { IDifficulty as IDifficultyV1 } from './types/beatmap/v1/difficulty.ts';
 import { IDifficulty as IDifficultyV2 } from './types/beatmap/v2/difficulty.ts';
-import { IDifficulty } from './types/beatmap/v3/difficulty.ts';
+import { IDifficulty as IDifficultyV3 } from './types/beatmap/v3/difficulty.ts';
 import { IWrapDifficulty } from './types/beatmap/wrapper/difficulty.ts';
 import { resolve } from './deps.ts';
 
@@ -56,7 +58,7 @@ export const defaultOptions = {
     difficultyList: optionsDifficultyList,
 };
 
-function internalInfo(data: IInfo, options: ISaveOptionsInfo) {
+function _info(data: IInfo, options: ISaveOptionsInfo) {
     const opt: Required<ISaveOptionsInfo> = {
         directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? (defaultOptions.info.filePath || 'Info.dat'),
@@ -67,7 +69,7 @@ function internalInfo(data: IInfo, options: ISaveOptionsInfo) {
         optimize.info(data, opt.optimize);
     }
     const p = resolve(opt.directory, opt.filePath);
-    logger.info(tag('internalInfo'), `Writing to ${p}`);
+    logger.info(tag('_info'), `Writing to ${p}`);
     Deno.writeTextFileSync(
         p,
         opt.format ? JSON.stringify(data, null, opt.format) : JSON.stringify(data),
@@ -81,7 +83,7 @@ function internalInfo(data: IInfo, options: ISaveOptionsInfo) {
  */
 export async function info(data: IInfo, options: ISaveOptionsInfo = {}) {
     logger.info(tag('info'), `Async saving info`);
-    internalInfo(data, options);
+    _info(data, options);
 }
 
 /** Synchronously save beatmap info.
@@ -91,10 +93,10 @@ export async function info(data: IInfo, options: ISaveOptionsInfo = {}) {
  */
 export function infoSync(data: IInfo, options: ISaveOptionsInfo = {}) {
     logger.info(tag('infoSync'), `Sync saving info`);
-    internalInfo(data, options);
+    _info(data, options);
 }
 
-function internalDifficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
+function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
     const opt: Required<ISaveOptionsDifficulty> = {
         directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
         filePath: options.filePath ??
@@ -108,7 +110,16 @@ function internalDifficulty(data: IWrapDifficulty, options: ISaveOptionsDifficul
         optimize.difficulty(objectData as IDifficultyV2, opt.optimize);
     }
     if (opt.dataCheck.enable) {
-        if ((objectData as IDifficultyV2)._version) {
+        if ((objectData as IDifficultyV1)._version?.startsWith('1')) {
+            deepCheck(
+                objectData,
+                DifficultyCheckV1,
+                'difficulty',
+                (objectData as IDifficultyV1)._version,
+                opt.dataCheck.throwError,
+            );
+        }
+        if ((objectData as IDifficultyV2)._version?.startsWith('2')) {
             deepCheck(
                 objectData,
                 DifficultyCheckV2,
@@ -117,18 +128,18 @@ function internalDifficulty(data: IWrapDifficulty, options: ISaveOptionsDifficul
                 opt.dataCheck.throwError,
             );
         }
-        if ((objectData as IDifficulty).version) {
+        if ((objectData as IDifficultyV3).version?.startsWith('3')) {
             deepCheck(
                 objectData,
-                DifficultyCheck,
+                DifficultyCheckV3,
                 'difficulty',
-                (objectData as IDifficulty).version,
+                (objectData as IDifficultyV3).version,
                 opt.dataCheck.throwError,
             );
         }
     }
     const p = resolve(opt.directory, opt.filePath);
-    logger.info(tag('internalDifficulty'), `Writing to ${p}`);
+    logger.info(tag('_difficulty'), `Writing to ${p}`);
     Deno.writeTextFileSync(
         p,
         opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),
@@ -142,7 +153,7 @@ function internalDifficulty(data: IWrapDifficulty, options: ISaveOptionsDifficul
  */
 export async function difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty = {}) {
     logger.info(tag('difficulty'), `Async saving difficulty`);
-    internalDifficulty(data, options);
+    _difficulty(data, options);
 }
 
 /** Synchronously save beatmap difficulty.
@@ -152,13 +163,10 @@ export async function difficulty(data: IWrapDifficulty, options: ISaveOptionsDif
  */
 export function difficultySync(data: IWrapDifficulty, options: ISaveOptionsDifficulty = {}) {
     logger.info(tag('difficultySync'), `Sync saving difficulty`);
-    internalDifficulty(data, options);
+    _difficulty(data, options);
 }
 
-function internalDifficultyList(
-    difficulties: IDifficultyList,
-    options: ISaveOptionsDifficultyList,
-) {
+function _difficultyList(difficulties: IDifficultyList, options: ISaveOptionsDifficultyList) {
     const opt: Required<ISaveOptionsDifficultyList> = {
         directory: options.directory ??
             (globals.directory || defaultOptions.difficultyList.directory),
@@ -167,13 +175,22 @@ function internalDifficultyList(
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     difficulties.forEach((dl) => {
-        logger.info(tag('internalDifficultyList'), `Saving ${dl.characteristic} ${dl.difficulty}`);
+        logger.info(tag('_difficultyList'), `Saving ${dl.characteristic} ${dl.difficulty}`);
         const objectData = dl.data.toJSON();
         if (opt.optimize.enabled) {
             optimize.difficulty(objectData, opt.optimize);
         }
         if (opt.dataCheck.enable) {
-            if ((objectData as IDifficultyV2)._version) {
+            if ((objectData as IDifficultyV1)._version?.startsWith('1')) {
+                deepCheck(
+                    objectData,
+                    DifficultyCheckV1,
+                    'difficulty',
+                    (objectData as IDifficultyV1)._version,
+                    opt.dataCheck.throwError,
+                );
+            }
+            if ((objectData as IDifficultyV2)._version?.startsWith('2')) {
                 deepCheck(
                     objectData,
                     DifficultyCheckV2,
@@ -182,18 +199,18 @@ function internalDifficultyList(
                     opt.dataCheck.throwError,
                 );
             }
-            if ((objectData as IDifficulty).version) {
+            if ((objectData as IDifficultyV3).version?.startsWith('3')) {
                 deepCheck(
                     objectData,
-                    DifficultyCheck,
+                    DifficultyCheckV3,
                     'difficulty',
-                    (objectData as IDifficulty).version,
+                    (objectData as IDifficultyV3).version,
                     opt.dataCheck.throwError,
                 );
             }
         }
         const p = resolve(opt.directory, dl.settings._beatmapFilename);
-        logger.info(tag('internalDifficultyList'), `Writing to ${p}`);
+        logger.info(tag('_difficultyList'), `Writing to ${p}`);
         Deno.writeTextFileSync(
             p,
             opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),
@@ -211,7 +228,7 @@ export async function difficultyList(
     options: ISaveOptionsDifficultyList = {},
 ) {
     logger.info(tag('difficultyList'), `Async saving list of difficulty`);
-    internalDifficultyList(difficulties, options);
+    _difficultyList(difficulties, options);
 }
 
 /** Synchronously save multiple beatmap difficulties.
@@ -224,5 +241,5 @@ export function difficultyListSync(
     options: ISaveOptionsDifficultyList = {},
 ) {
     logger.info(tag('difficultyListSync'), `Sync saving list of difficulty`);
-    internalDifficultyList(difficulties, options);
+    _difficultyList(difficulties, options);
 }

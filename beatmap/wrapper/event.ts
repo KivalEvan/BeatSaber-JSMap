@@ -142,8 +142,6 @@ export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>>
         return this.value >= 2000000000;
     }
 
-    abstract isChroma(): boolean;
-
     isValidType(): boolean {
         return (
             (this.type >= 0 && this.type <= 19) ||

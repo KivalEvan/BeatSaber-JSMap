@@ -6,6 +6,7 @@ import {
 } from './types/bsmap/optimize.ts';
 import { round } from './utils/math.ts';
 import logger from './logger.ts';
+import { IDifficulty as IDifficultyV1 } from './types/beatmap/v1/difficulty.ts';
 import { IDifficulty as IDifficultyV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficulty as IDifficultyV3 } from './types/beatmap/v3/difficulty.ts';
 import { IBaseObject as IBaseObjectV2 } from './types/beatmap/v2/object.ts';
@@ -148,7 +149,7 @@ export function info(info: IInfo, options: IOptimizeOptionsInfo = { enabled: tru
     return info;
 }
 
-export function difficulty<T extends IDifficultyV2 | IDifficultyV3>(
+export function difficulty<T extends IDifficultyV1 | IDifficultyV2 | IDifficultyV3>(
     difficulty: T,
     options: IOptimizeOptionsDifficulty = { enabled: true },
 ): T {

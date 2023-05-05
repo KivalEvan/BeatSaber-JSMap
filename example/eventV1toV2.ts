@@ -140,7 +140,7 @@ try {
             bpm.timescale = dl.data.bpmEvents.map((bpme) => bpme.toJSON());
 
             logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
-            const temp = convert.V3toV2(dl.data);
+            const temp = convert.toV2(dl.data);
             if (temp.basicEvents.some((e) => e.isOldChroma())) {
                 if (!oldChromaConfirm) {
                     const confirmation = args.y ? 'n' : prompt(
@@ -177,7 +177,7 @@ try {
                 dl.characteristic,
                 dl.difficulty,
             );
-            const temp2 = convert.V2toV3(temp);
+            const temp2 = convert.toV3(temp);
 
             logger.info(
                 'Re-inserting events from temporary beatmap',

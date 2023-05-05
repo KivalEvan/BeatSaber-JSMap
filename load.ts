@@ -1,19 +1,21 @@
 import { IDifficultyList } from './types/bsmap/list.ts';
 import { GenericFileName, IInfo } from './types/beatmap/shared/info.ts';
-import { IDifficulty as IDifficultyV2 } from './types/beatmap/v2/difficulty.ts';
-import { IDifficulty as IDifficultyV3 } from './types/beatmap/v3/difficulty.ts';
+import { Difficulty as DifficultyV1 } from './beatmap/v1/difficulty.ts';
 import { Difficulty as DifficultyV2 } from './beatmap/v2/difficulty.ts';
 import { Difficulty as DifficultyV3 } from './beatmap/v3/difficulty.ts';
 import { info as parseInfo } from './beatmap/shared/parse.ts';
+import { difficulty as parseDifficultyV1 } from './beatmap/v1/parse.ts';
 import { difficulty as parseDifficultyV2 } from './beatmap/v2/parse.ts';
 import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
-import { Either, LooseAutocomplete } from './types/utils.ts';
+import { LooseAutocomplete } from './types/utils.ts';
 import { ILoadOptionsDifficulty, ILoadOptionsInfo } from './types/bsmap/load.ts';
-import { V3toV2 } from './converter/V3toV2.ts';
 import { WrapDifficulty } from './beatmap/wrapper/difficulty.ts';
 import { resolve } from './deps.ts';
+import { toV1 } from './converter/toV1.ts';
+import { toV2 } from './converter/toV2.ts';
+import { toV3 } from './converter/toV3.ts';
 
 const tag = (name: string) => {
     return `[load::${name}]`;
@@ -49,7 +51,7 @@ export const defaultOptions = {
     difficultyList: optionsDifficultyList,
 };
 
-function internalInfo(options: ILoadOptionsInfo) {
+function _info(options: ILoadOptionsInfo) {
     const opt: Required<ILoadOptionsInfo> = {
         directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? 'Info.dat',
@@ -70,7 +72,7 @@ export async function info(options: ILoadOptionsInfo = {}): Promise<IInfo> {
     logger.info(tag('info'), `Async loading info from ${resolve(opt.directory, opt.filePath)}`);
     return await new Promise((resolve, reject) => {
         try {
-            resolve(internalInfo(opt));
+            resolve(_info(opt));
         } catch (e) {
             reject(new Error(e));
         }
@@ -89,10 +91,10 @@ export function infoSync(options: ILoadOptionsInfo = {}): IInfo {
         filePath: options.filePath ?? 'Info.dat',
     };
     logger.info(tag('infoSync'), `Sync loading info from ${resolve(opt.directory, opt.filePath)}`);
-    return internalInfo(opt);
+    return _info(opt);
 }
 
-function internalDifficulty(
+function _difficulty(
     filePath: string,
     version: number,
     options: ILoadOptionsDifficulty,
@@ -102,19 +104,22 @@ function internalDifficulty(
         forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
-    const diffJSON = JSON.parse(Deno.readTextFileSync(resolve(opt.directory, filePath))) as Either<
-        IDifficultyV2,
-        IDifficultyV3
+    const diffJSON = JSON.parse(Deno.readTextFileSync(resolve(opt.directory, filePath))) as Record<
+        string,
+        unknown
     >;
 
     const p = resolve(opt.directory, filePath);
-    logger.info(
-        tag('internalDifficulty'),
-        `Loading difficulty as beatmap version ${version} from ${p}`,
-    );
+    logger.info(tag('_difficulty'), `Loading difficulty as beatmap version ${version} from ${p}`);
+
     const diffVersion = parseInt(
-        diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'),
+        typeof diffJSON._version === 'string'
+            ? diffJSON._version.at(0)!
+            : typeof diffJSON.version === 'string'
+            ? diffJSON.version?.at(0)!
+            : '2',
     );
+
     if (diffVersion !== version) {
         if (!opt.forceConvert) {
             throw new Error(
@@ -122,7 +127,7 @@ function internalDifficulty(
             );
         }
         logger.warn(
-            tag('internalDifficulty'),
+            tag('_difficulty'),
             'Beatmap version unmatched, expected',
             version,
             'but received',
@@ -130,19 +135,54 @@ function internalDifficulty(
             'for version; Converting to beatmap version',
             version,
         );
-        if (diffVersion === 3 && version === 2) {
-            return V3toV2(
-                parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck).setFileName(filePath),
-            );
+        if (diffVersion === 1) {
+            const diff = parseDifficultyV1(diffJSON, opt.dataCheck).setFileName(filePath);
+            if (version === 2) return toV2(diff);
+            if (version === 3) return toV3(diff);
         }
-        return parseDifficultyV2(diffJSON as IDifficultyV2, opt.dataCheck).setFileName(filePath);
+        if (diffVersion === 3) {
+            const diff = parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(filePath);
+            if (version === 2) return toV2(diff);
+            if (version === 1) {
+                return toV1(
+                    diff,
+                    {
+                        _version: '2.0.0',
+                        _songName: 'placeholder',
+                        _songSubName: '',
+                        _songAuthorName: 'author',
+                        _levelAuthorName: '',
+                        _beatsPerMinute: 0,
+                        _shuffle: 0,
+                        _shufflePeriod: 0.5,
+                        _previewStartTime: 12,
+                        _previewDuration: 10,
+                        _songFilename: 'song.ogg',
+                        _coverImageFilename: 'cover.jpg',
+                        _environmentName: 'DefaultEnvironment',
+                        _allDirectionsEnvironmentName: 'GlassDesertEnvironment',
+                        _songTimeOffset: 0,
+                        _difficultyBeatmapSets: [],
+                    },
+                    {
+                        _difficulty: 'Easy',
+                        _difficultyRank: 1,
+                        _beatmapFilename: filePath,
+                        _noteJumpMovementSpeed: 0,
+                        _noteJumpStartBeatOffset: 0,
+                    },
+                );
+            }
+        }
+        return parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(filePath);
     } else {
-        if (version === 3) {
-            return parseDifficultyV3(diffJSON as IDifficultyV3, opt.dataCheck).setFileName(
-                filePath,
-            );
+        if (version === 1) {
+            return parseDifficultyV1(diffJSON, opt.dataCheck).setFileName(filePath);
         }
-        return parseDifficultyV2(diffJSON as IDifficultyV2, opt.dataCheck).setFileName(filePath);
+        if (version === 3) {
+            return parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(filePath);
+        }
+        return parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(filePath);
     }
 }
 
@@ -176,7 +216,7 @@ export async function difficulty(
     version ??= 3;
     return await new Promise((resolve, reject) => {
         try {
-            resolve(internalDifficulty(filePath, version!, options));
+            resolve(_difficulty(filePath, version!, options));
         } catch (e) {
             reject(new Error(e));
         }
@@ -208,14 +248,19 @@ export function difficultySync(
 ): DifficultyV2;
 export function difficultySync(
     filePath: LooseAutocomplete<GenericFileName>,
+    version: 1,
+    options?: ILoadOptionsDifficulty,
+): DifficultyV1;
+export function difficultySync(
+    filePath: LooseAutocomplete<GenericFileName>,
     version: number | null = 3,
     options: ILoadOptionsDifficulty = {},
 ) {
     version ??= 3;
-    return internalDifficulty(filePath, version, options);
+    return _difficulty(filePath, version, options);
 }
 
-function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
+function _difficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
     const opt: Required<ILoadOptionsDifficulty> = {
         directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
         forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
@@ -226,12 +271,29 @@ function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty
         for (const d of set._difficultyBeatmaps) {
             const p = resolve(opt.directory, d._beatmapFilename);
             try {
-                logger.info(tag('internalDifficultyFromInfo'), `Loading difficulty from ${p}`);
-                const diffJSON = JSON.parse(Deno.readTextFileSync(p)) as Either<
-                    IDifficultyV2,
-                    IDifficultyV3
-                >;
-                if (diffJSON._version) {
+                logger.info(tag('_difficultyFromInfo'), `Loading difficulty from ${p}`);
+                const diffJSON = JSON.parse(Deno.readTextFileSync(p)) as Record<string, unknown>;
+
+                const diffVersion = parseInt(
+                    typeof diffJSON._version === 'string'
+                        ? diffJSON._version.at(0)!
+                        : typeof diffJSON.version === 'string'
+                        ? diffJSON.version?.at(0)!
+                        : '2',
+                );
+
+                if (diffVersion === 1) {
+                    difficulties.push({
+                        characteristic: set._beatmapCharacteristicName,
+                        difficulty: d._difficulty,
+                        settings: d,
+                        version: 1,
+                        data: parseDifficultyV1(diffJSON, opt.dataCheck).setFileName(
+                            d._beatmapFilename,
+                        ),
+                    });
+                }
+                if (diffVersion === 2) {
                     difficulties.push({
                         characteristic: set._beatmapCharacteristicName,
                         difficulty: d._difficulty,
@@ -241,7 +303,8 @@ function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty
                             d._beatmapFilename,
                         ),
                     });
-                } else {
+                }
+                if (diffVersion === 3) {
                     difficulties.push({
                         characteristic: set._beatmapCharacteristicName,
                         difficulty: d._difficulty,
@@ -254,7 +317,7 @@ function internalDifficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty
                 }
             } catch {
                 logger.warn(
-                    tag('internalDifficultyFromInfo'),
+                    tag('_difficultyFromInfo'),
                     `Could not load difficulty from ${p}, skipping...`,
                 );
             }
@@ -279,7 +342,7 @@ export async function difficultyFromInfo(
     logger.info(tag('difficultyFromInfo'), 'Async loading difficulty from map info...');
     return await new Promise((resolve, reject) => {
         try {
-            resolve(internalDifficultyFromInfo(info, options));
+            resolve(_difficultyFromInfo(info, options));
         } catch (e) {
             reject(new Error(e));
         }
@@ -301,5 +364,5 @@ export function difficultyFromInfoSync(
     options: ILoadOptionsDifficulty = {},
 ): IDifficultyList {
     logger.info(tag('difficultyFromInfoSync'), 'Sync loading difficulty from map info...');
-    return internalDifficultyFromInfo(info, options);
+    return _difficultyFromInfo(info, options);
 }
