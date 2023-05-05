@@ -9,7 +9,7 @@ import { IChromaComponent, IChromaMaterial } from '../types/beatmap/v3/custom/ch
 import objectToV3 from './customData/objectToV3.ts';
 import eventToV3 from './customData/eventToV3.ts';
 import { Obstacle } from '../beatmap/v3/obstacle.ts';
-import { Slider } from '../beatmap/v3/slider.ts';
+import { Arc } from '../beatmap/v3/arc.ts';
 import { Waypoint } from '../beatmap/v3/waypoint.ts';
 import { BasicEvent } from '../beatmap/v3/basicEvent.ts';
 import { BasicEventTypesWithKeywords } from '../beatmap/v3/basicEventTypesWithKeywords.ts';
@@ -261,9 +261,9 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
             );
         });
 
-        data.sliders.forEach((s) =>
-            template.sliders.push(
-                new Slider({
+        data.arcs.forEach((s) =>
+            template.arcs.push(
+                new Arc({
                     c: s.color,
                     b: s.time,
                     x: s.posX,

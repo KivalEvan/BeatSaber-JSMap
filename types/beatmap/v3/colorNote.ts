@@ -18,7 +18,7 @@ export interface IColorNote extends IGridObject {
      * ---
      * Grid represents cut direction from center.
      *
-     * **WARNING:** Dot-directional is not recommended with sliders, assumes down-directional.
+     * **WARNING:** Dot-directional is not recommended with arcs, assumes down-directional.
      */
     d: number;
     /** Angle offset in degree counter-clockwise `<int>` of note.*/

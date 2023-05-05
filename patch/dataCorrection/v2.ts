@@ -3,7 +3,7 @@ import { Note } from '../../beatmap/v2/note.ts';
 import { Obstacle } from '../../beatmap/v2/obstacle.ts';
 import { Event } from '../../beatmap/v2/event.ts';
 import { Waypoint } from '../../beatmap/v2/waypoint.ts';
-import { Slider } from '../../beatmap/v2/slider.ts';
+import { Arc } from '../../beatmap/v2/arc.ts';
 import { fixFloat, fixInt } from './helpers.ts';
 import logger from '../../logger.ts';
 import { fixCustomDataObject } from './customDataObject.ts';
@@ -42,25 +42,25 @@ function fixWaypoint(obj: Waypoint) {
     obj.direction = fixInt(obj.direction, Waypoint.default._offsetDirection);
 }
 
-function fixSlider(obj: Slider) {
-    obj.color = fixInt(obj.color, Slider.default._colorType, [0, 1]);
-    obj.time = fixFloat(obj.time, Slider.default._headTime);
-    obj.posX = fixInt(obj.posX, Slider.default._headLineIndex);
-    obj.posY = fixInt(obj.posY, Slider.default._headLineLayer);
-    obj.direction = fixInt(obj.direction, Slider.default._headCutDirection);
+function fixArc(obj: Arc) {
+    obj.color = fixInt(obj.color, Arc.default._colorType, [0, 1]);
+    obj.time = fixFloat(obj.time, Arc.default._headTime);
+    obj.posX = fixInt(obj.posX, Arc.default._headLineIndex);
+    obj.posY = fixInt(obj.posY, Arc.default._headLineLayer);
+    obj.direction = fixInt(obj.direction, Arc.default._headCutDirection);
     obj.lengthMultiplier = fixFloat(
         obj.lengthMultiplier,
-        Slider.default._headControlPointLengthMultiplier,
+        Arc.default._headControlPointLengthMultiplier,
     );
-    obj.tailTime = fixFloat(obj.tailTime, Slider.default._tailTime);
-    obj.tailPosX = fixInt(obj.tailPosX, Slider.default._tailLineIndex);
-    obj.tailPosY = fixInt(obj.tailPosY, Slider.default._tailLineLayer);
-    obj.tailDirection = fixInt(obj.tailDirection, Slider.default._tailCutDirection);
+    obj.tailTime = fixFloat(obj.tailTime, Arc.default._tailTime);
+    obj.tailPosX = fixInt(obj.tailPosX, Arc.default._tailLineIndex);
+    obj.tailPosY = fixInt(obj.tailPosY, Arc.default._tailLineLayer);
+    obj.tailDirection = fixInt(obj.tailDirection, Arc.default._tailCutDirection);
     obj.tailLengthMultiplier = fixFloat(
         obj.tailLengthMultiplier,
-        Slider.default._tailControlPointLengthMultiplier,
+        Arc.default._tailControlPointLengthMultiplier,
     );
-    obj.midAnchor = fixInt(obj.midAnchor, Slider.default._sliderMidAnchorMode);
+    obj.midAnchor = fixInt(obj.midAnchor, Arc.default._sliderMidAnchorMode);
 }
 
 export function v2(data: Difficulty) {
@@ -72,5 +72,5 @@ export function v2(data: Difficulty) {
     data.obstacles.forEach(fixObstacle);
     data.basicEvents.forEach(fixEvent);
     data.waypoints.forEach(fixWaypoint);
-    data.sliders.forEach(fixSlider);
+    data.arcs.forEach(fixArc);
 }

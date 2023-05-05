@@ -1,8 +1,8 @@
 import { ICustomDataBase } from '../shared/custom/customData.ts';
 
-/** not a burst slider. */
-export interface ISlider {
-    /** Color type `<int>` of base slider.
+/** not a chain. */
+export interface IArc {
+    /** Color type `<int>` of base arc.
      * ```ts
      * 0 -> Red
      * 1 -> Blue
@@ -12,9 +12,9 @@ export interface ISlider {
     _headTime: number;
     _headLineIndex: number;
     _headLineLayer: number;
-    /** Head control point length multiplier `<float>` of slider. */
+    /** Head control point length multiplier `<float>` of arc. */
     _headControlPointLengthMultiplier: number;
-    /** Head cut direction `<int>` of slider.
+    /** Head cut direction `<int>` of arc.
      * ```ts
      * 4 | 0 | 5
      * 2 | 8 | 3
@@ -27,9 +27,9 @@ export interface ISlider {
     _tailTime: number;
     _tailLineIndex: number;
     _tailLineLayer: number;
-    /** Tail control point length multiplier `<float>` of slider. */
+    /** Tail control point length multiplier `<float>` of arc. */
     _tailControlPointLengthMultiplier: number;
-    /** Tail cut direction `<int>` of slider.
+    /** Tail cut direction `<int>` of arc.
      * ```ts
      * 4 | 0 | 5
      * 2 | 8 | 3
@@ -39,7 +39,7 @@ export interface ISlider {
      * Grid represents cut direction from center.
      */
     _tailCutDirection: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-    /** Mid anchor mode `<int>` of slider.
+    /** Mid anchor mode `<int>` of arc.
      * ```ts
      * 0 -> Straight
      * 1 -> Clockwise

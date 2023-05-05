@@ -1,9 +1,9 @@
 import { IWrapEvent } from './event.ts';
 import { IWrapBombNote } from './bombNote.ts';
-import { IWrapBurstSlider } from './burstSlider.ts';
+import { IWrapChain } from './chain.ts';
 import { IWrapColorBoostEvent } from './colorBoostEvent.ts';
 import { IWrapColorNote } from './colorNote.ts';
-import { IWrapSlider } from './slider.ts';
+import { IWrapArc } from './arc.ts';
 
 interface ContainerBase {
     type: string;
@@ -14,14 +14,14 @@ export interface NoteContainerNote extends ContainerBase {
     data: IWrapColorNote;
 }
 
-export interface NoteContainerSlider extends ContainerBase {
-    type: 'slider';
-    data: IWrapSlider;
+export interface NoteContainerArc extends ContainerBase {
+    type: 'arc';
+    data: IWrapArc;
 }
 
-export interface NoteContainerBurstSlider extends ContainerBase {
-    type: 'burstSlider';
-    data: IWrapBurstSlider;
+export interface NoteContainerChain extends ContainerBase {
+    type: 'chain';
+    data: IWrapChain;
 }
 
 export interface NoteContainerBomb extends ContainerBase {
@@ -31,8 +31,8 @@ export interface NoteContainerBomb extends ContainerBase {
 
 export type NoteContainer =
     | NoteContainerNote
-    | NoteContainerSlider
-    | NoteContainerBurstSlider
+    | NoteContainerArc
+    | NoteContainerChain
     | NoteContainerBomb;
 
 export interface EventContainerBasic {

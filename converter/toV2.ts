@@ -10,7 +10,7 @@ import eventToV2 from './customData/eventToV2.ts';
 import { Note } from '../beatmap/v2/note.ts';
 import { Event } from '../beatmap/v2/event.ts';
 import { Obstacle } from '../beatmap/v2/obstacle.ts';
-import { Slider } from '../beatmap/v2/slider.ts';
+import { Arc } from '../beatmap/v2/arc.ts';
 import { SpecialEventsKeywordFilters } from '../beatmap/v2/specialEventsKeywordFilters.ts';
 import { Waypoint } from '../beatmap/v2/waypoint.ts';
 import { isVector3, vectorScale } from '../utils/vector.ts';
@@ -26,7 +26,7 @@ const tag = (name: string) => {
  * const converted = convert.toV2(data);
  * ```
  * ---
- * **WARNING:** Burst slider and other new stuff will be gone!
+ * **WARNING:** Chain and other new stuff will be gone!
  */
 export function toV2(data: IWrapDifficulty): DifficultyV2 {
     if (data instanceof DifficultyV2) {
@@ -212,9 +212,9 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
             )
         );
 
-        data.sliders.forEach((s) =>
-            template.sliders.push(
-                new Slider({
+        data.arcs.forEach((s) =>
+            template.arcs.push(
+                new Arc({
                     _colorType: s.color,
                     _headTime: s.time,
                     _headLineIndex: s.posX,

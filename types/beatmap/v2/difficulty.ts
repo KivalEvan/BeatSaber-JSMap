@@ -1,5 +1,5 @@
 import { INote } from './note.ts';
-import { ISlider } from './slider.ts';
+import { IArc } from './arc.ts';
 import { IObstacle } from './obstacle.ts';
 import { IEvent } from './event.ts';
 import { IWaypoint } from './waypoint.ts';
@@ -10,7 +10,7 @@ import { ISpecialEventsKeywordFilters } from './specialEventsKeywordFilters.ts';
 export interface IDifficulty {
     _version: `2.${0 | 2 | 4 | 5 | 6}.0`;
     _notes: INote[];
-    _sliders: ISlider[];
+    _sliders: IArc[];
     _obstacles: IObstacle[];
     _events: IEvent[];
     _waypoints: IWaypoint[];

@@ -1,6 +1,6 @@
 import { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
 import { Note } from './note.ts';
-import { Slider } from './slider.ts';
+import { Arc } from './arc.ts';
 import { Obstacle } from './obstacle.ts';
 import { Event } from './event.ts';
 import { Waypoint } from './waypoint.ts';
@@ -15,7 +15,7 @@ import {
     IEventLaneRotation,
 } from '../../types/beatmap/v2/event.ts';
 import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
-import { ISlider } from '../../types/beatmap/v2/slider.ts';
+import { IArc } from '../../types/beatmap/v2/arc.ts';
 import { WrapDifficulty } from '../wrapper/difficulty.ts';
 import logger from '../../logger.ts';
 import { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
@@ -25,7 +25,7 @@ import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.t
 import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
 import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import { IWrapSliderAttribute } from '../../types/beatmap/wrapper/slider.ts';
+import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
 
 /** Difficulty beatmap v2 class object. */
@@ -36,8 +36,8 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     colorNotes: Note[];
     bombNotes: never[] = [];
     obstacles: Obstacle[];
-    sliders: Slider[];
-    burstSliders: never[] = [];
+    arcs: Arc[];
+    chains: never[] = [];
     waypoints: Waypoint[];
     basicEvents: Event[];
     colorBoostEvents: never[] = [];
@@ -63,7 +63,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
 
         this.version = '2.6.0';
         this.colorNotes = this.data._notes.map((obj) => new Note(obj));
-        this.sliders = this.data._sliders.map((obj) => new Slider(obj));
+        this.arcs = this.data._sliders.map((obj) => new Arc(obj));
         this.obstacles = this.data._obstacles.map((obj) => new Obstacle(obj));
         this.basicEvents = this.data._events.map((obj) => new Event(obj));
         this.waypoints = this.data._waypoints.map((obj) => new Waypoint(obj));
@@ -81,7 +81,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         return {
             _version: '2.6.0',
             _notes: this.colorNotes.map((obj) => obj.toJSON()),
-            _sliders: this.sliders.map((obj) => obj.toJSON()),
+            _sliders: this.arcs.map((obj) => obj.toJSON()),
             _obstacles: this.obstacles.map((obj) => obj.toJSON()),
             _events: this.basicEvents.map((obj) => obj.toJSON()),
             _waypoints: this.waypoints.map((obj) => obj.toJSON()),
@@ -102,7 +102,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         this.obstacles = this.obstacles.map((obj) => this.createOrKeep(Obstacle, obj, keepRef));
         this.basicEvents = this.basicEvents.map((obj) => this.createOrKeep(Event, obj, keepRef));
         this.waypoints = this.waypoints.map((obj) => this.createOrKeep(Waypoint, obj, keepRef));
-        this.sliders = this.sliders.map((obj) => this.createOrKeep(Slider, obj, keepRef));
+        this.arcs = this.arcs.map((obj) => this.createOrKeep(Arc, obj, keepRef));
         this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(this.eventTypesWithKeywords);
     }
 
@@ -193,19 +193,15 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         );
     }
 
-    addSliders(...data: Partial<IWrapSliderAttribute<Required<ISlider>>>[]): void;
-    addSliders(...data: Partial<ISlider>[]): void;
-    addSliders(
-        ...data: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
-    ): void;
-    addSliders(
-        ...data: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
-    ): void {
-        this.sliders.push(...data.map((obj) => (obj instanceof Slider ? obj : new Slider(obj))));
+    addArcs(...data: Partial<IWrapArcAttribute<Required<IArc>>>[]): void;
+    addArcs(...data: Partial<IArc>[]): void;
+    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): void;
+    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): void {
+        this.arcs.push(...data.map((obj) => (obj instanceof Arc ? obj : new Arc(obj))));
     }
 
-    addBurstSliders(..._: never[]): void {
-        logger.warn('Burst Slider does not exist in beatmap V2');
+    addChains(..._: never[]): void {
+        logger.warn('Chain does not exist in beatmap V2');
     }
 
     addWaypoints(...data: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>[]): void;
@@ -275,7 +271,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             this.obstacles.every((obj) => this.checkClass(Obstacle, obj)) ||
             this.basicEvents.every((obj) => this.checkClass(Event, obj)) ||
             this.waypoints.every((obj) => this.checkClass(Waypoint, obj)) ||
-            this.sliders.every((obj) => this.checkClass(Slider, obj)) ||
+            this.arcs.every((obj) => this.checkClass(Arc, obj)) ||
             this.eventTypesWithKeywords instanceof SpecialEventsKeywordFilters
         );
     }

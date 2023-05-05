@@ -1,10 +1,10 @@
 import { BombNote } from '../../beatmap/v3/bombNote.ts';
-import { BurstSlider } from '../../beatmap/v3/burstSlider.ts';
+import { Chain } from '../../beatmap/v3/chain.ts';
 import { ColorNote } from '../../beatmap/v3/colorNote.ts';
 import { Obstacle } from '../../beatmap/v3/obstacle.ts';
 import { Difficulty } from '../../beatmap/v3/difficulty.ts';
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
-import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
+import { IChain } from '../../types/beatmap/v3/chain.ts';
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
 import { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
@@ -13,7 +13,7 @@ export class NoodleDifficulty {
     fakeColorNotes: ColorNote[];
     fakeBombNotes: BombNote[];
     fakeObstacles: Obstacle[];
-    fakeBurstSliders: BurstSlider[];
+    fakeChains: Chain[];
     readonly base;
 
     constructor(base: Difficulty) {
@@ -21,15 +21,15 @@ export class NoodleDifficulty {
         this.fakeColorNotes = [];
         this.fakeBombNotes = [];
         this.fakeObstacles = [];
-        this.fakeBurstSliders = [];
+        this.fakeChains = [];
         if (base.customData.fakeColorNotes) {
             this.addFakeColorNotes(...base.customData.fakeColorNotes);
         }
         if (base.customData.fakeBombNotes) {
             this.addFakeBombNotes(...base.customData.fakeBombNotes);
         }
-        if (base.customData.fakeBurstSliders) {
-            this.addFakeBurstSliders(...base.customData.fakeBurstSliders);
+        if (base.customData.fakeChains) {
+            this.addFakeChains(...base.customData.fakeChains);
         }
         if (base.customData.fakeObstacles) {
             this.addFakeObstacles(...base.customData.fakeObstacles);
@@ -39,7 +39,7 @@ export class NoodleDifficulty {
     toJSON(): Required<IDifficulty> {
         this.base.customData.fakeColorNotes = this.fakeColorNotes.map((n) => n.toJSON());
         this.base.customData.fakeBombNotes = this.fakeBombNotes.map((b) => b.toJSON());
-        this.base.customData.fakeBurstSliders = this.fakeBurstSliders.map((bs) => bs.toJSON());
+        this.base.customData.fakeChains = this.fakeChains.map((bs) => bs.toJSON());
         this.base.customData.fakeObstacles = this.fakeObstacles.map((o) => o.toJSON());
         return this.base.toJSON();
     }
@@ -59,9 +59,9 @@ export class NoodleDifficulty {
             this.fakeObstacles.push(new Obstacle(obj));
         });
     };
-    addFakeBurstSliders = (...burstSliders: Partial<IBurstSlider>[]) => {
-        burstSliders.forEach((obj) => {
-            this.fakeBurstSliders.push(new BurstSlider(obj));
+    addFakeChains = (...chains: Partial<IChain>[]) => {
+        chains.forEach((obj) => {
+            this.fakeChains.push(new Chain(obj));
         });
     };
 }

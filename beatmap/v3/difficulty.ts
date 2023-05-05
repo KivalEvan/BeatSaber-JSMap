@@ -3,7 +3,7 @@ import { BasicEvent } from './basicEvent.ts';
 import { BasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 import { BombNote } from './bombNote.ts';
 import { BPMEvent } from './bpmEvent.ts';
-import { BurstSlider } from './burstSlider.ts';
+import { Chain } from './chain.ts';
 import { ColorBoostEvent } from './colorBoostEvent.ts';
 import { ColorNote } from './colorNote.ts';
 import { LightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
@@ -11,7 +11,7 @@ import { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { LightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 import { Obstacle } from './obstacle.ts';
 import { RotationEvent } from './rotationEvent.ts';
-import { Slider } from './slider.ts';
+import { Arc } from './arc.ts';
 import { Waypoint } from './waypoint.ts';
 import { DeepPartial } from '../../types/utils.ts';
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
@@ -19,8 +19,8 @@ import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
-import { ISlider } from '../../types/beatmap/v3/slider.ts';
-import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
+import { IArc } from '../../types/beatmap/v3/arc.ts';
+import { IChain } from '../../types/beatmap/v3/chain.ts';
 import { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
 import { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
 import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
@@ -32,7 +32,7 @@ import { WrapDifficulty } from '../wrapper/difficulty.ts';
 import { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
 import { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
-import { IWrapBurstSliderAttribute } from '../../types/beatmap/wrapper/burstSlider.ts';
+import { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
 import { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
 import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
 import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
@@ -40,7 +40,7 @@ import { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapp
 import { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
 import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
 import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import { IWrapSliderAttribute } from '../../types/beatmap/wrapper/slider.ts';
+import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
@@ -58,8 +58,8 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     colorNotes: ColorNote[];
     bombNotes: BombNote[];
     obstacles: Obstacle[];
-    sliders: Slider[];
-    burstSliders: BurstSlider[];
+    arcs: Arc[];
+    chains: Chain[];
     waypoints: Waypoint[];
     basicEvents: BasicEvent[];
     colorBoostEvents: ColorBoostEvent[];
@@ -98,8 +98,8 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         this.colorNotes = this.data.colorNotes?.map((obj) => new ColorNote(obj)) ?? [];
         this.bombNotes = this.data.bombNotes?.map((obj) => new BombNote(obj)) ?? [];
         this.obstacles = this.data.obstacles?.map((obj) => new Obstacle(obj)) ?? [];
-        this.sliders = this.data.sliders?.map((obj) => new Slider(obj)) ?? [];
-        this.burstSliders = this.data.burstSliders?.map((obj) => new BurstSlider(obj)) ?? [];
+        this.arcs = this.data.sliders?.map((obj) => new Arc(obj)) ?? [];
+        this.chains = this.data.burstSliders?.map((obj) => new Chain(obj)) ?? [];
         this.waypoints = this.data.waypoints?.map((obj) => new Waypoint(obj)) ?? [];
         this.basicEvents = this.data.basicBeatmapEvents?.map((obj) => new BasicEvent(obj)) ?? [];
         this.colorBoostEvents =
@@ -135,8 +135,8 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             colorNotes: this.colorNotes.map((obj) => obj.toJSON()),
             bombNotes: this.bombNotes.map((obj) => obj.toJSON()),
             obstacles: this.obstacles.map((obj) => obj.toJSON()),
-            sliders: this.sliders.map((obj) => obj.toJSON()),
-            burstSliders: this.burstSliders.map((obj) => obj.toJSON()),
+            sliders: this.arcs.map((obj) => obj.toJSON()),
+            burstSliders: this.chains.map((obj) => obj.toJSON()),
             waypoints: this.waypoints.map((obj) => obj.toJSON()),
             basicBeatmapEvents: this.basicEvents.map((obj) => obj.toJSON()),
             colorBoostBeatmapEvents: this.colorBoostEvents.map((obj) => obj.toJSON()),
@@ -163,10 +163,8 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     reparse(keepRef?: boolean): void {
         this.colorNotes = this.colorNotes.map((obj) => this.createOrKeep(ColorNote, obj, keepRef));
         this.bombNotes = this.bombNotes.map((obj) => this.createOrKeep(BombNote, obj, keepRef));
-        this.sliders = this.sliders.map((obj) => this.createOrKeep(Slider, obj, keepRef));
-        this.burstSliders = this.burstSliders.map((obj) =>
-            this.createOrKeep(BurstSlider, obj, keepRef)
-        );
+        this.arcs = this.arcs.map((obj) => this.createOrKeep(Arc, obj, keepRef));
+        this.chains = this.chains.map((obj) => this.createOrKeep(Chain, obj, keepRef));
         this.obstacles = this.obstacles.map((obj) => this.createOrKeep(Obstacle, obj, keepRef));
         this.basicEvents = this.basicEvents.map((obj) =>
             this.createOrKeep(BasicEvent, obj, keepRef)
@@ -257,34 +255,18 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         );
     }
 
-    addSliders(...data: Partial<IWrapSliderAttribute<Required<ISlider>>>[]): void;
-    addSliders(...data: Partial<ISlider>[]): void;
-    addSliders(
-        ...data: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
-    ): void;
-    addSliders(
-        ...data: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
-    ): void {
-        this.sliders.push(...data.map((obj) => (obj instanceof Slider ? obj : new Slider(obj))));
+    addArcs(...data: Partial<IWrapArcAttribute<Required<IArc>>>[]): void;
+    addArcs(...data: Partial<IArc>[]): void;
+    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): void;
+    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): void {
+        this.arcs.push(...data.map((obj) => (obj instanceof Arc ? obj : new Arc(obj))));
     }
 
-    addBurstSliders(...data: Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>[]): void;
-    addBurstSliders(...data: Partial<IBurstSlider>[]): void;
-    addBurstSliders(
-        ...data: (
-            & Partial<IBurstSlider>
-            & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>
-        )[]
-    ): void;
-    addBurstSliders(
-        ...data: (
-            & Partial<IBurstSlider>
-            & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>
-        )[]
-    ): void {
-        this.burstSliders.push(
-            ...data.map((obj) => (obj instanceof BurstSlider ? obj : new BurstSlider(obj))),
-        );
+    addChains(...data: Partial<IWrapChainAttribute<Required<IChain>>>[]): void;
+    addChains(...data: Partial<IChain>[]): void;
+    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>)[]): void;
+    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>)[]): void {
+        this.chains.push(...data.map((obj) => (obj instanceof Chain ? obj : new Chain(obj))));
     }
 
     addWaypoints(...data: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>[]): void;
@@ -474,8 +456,8 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         return (
             this.colorNotes.every((obj) => this.checkClass(ColorNote, obj)) ||
             this.bombNotes.every((obj) => this.checkClass(BombNote, obj)) ||
-            this.sliders.every((obj) => this.checkClass(Slider, obj)) ||
-            this.burstSliders.every((obj) => this.checkClass(BurstSlider, obj)) ||
+            this.arcs.every((obj) => this.checkClass(Arc, obj)) ||
+            this.chains.every((obj) => this.checkClass(Chain, obj)) ||
             this.obstacles.every((obj) => this.checkClass(Obstacle, obj)) ||
             this.basicEvents.every((obj) => this.checkClass(BasicEvent, obj)) ||
             this.colorBoostEvents.every((obj) => this.checkClass(ColorBoostEvent, obj)) ||

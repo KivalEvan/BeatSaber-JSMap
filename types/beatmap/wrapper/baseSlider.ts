@@ -3,9 +3,9 @@ import { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
 export interface IWrapBaseSliderAttribute<
     T extends Record<keyof T, unknown> = Record<string, unknown>,
 > extends IWrapBaseNoteAttribute<T> {
-    /** Tail beat time `<float>` of base slider. */
+    /** Tail beat time `<float>` of base arc. */
     tailTime: number;
-    /** Tail position x `<int>` of base slider.
+    /** Tail position x `<int>` of base arc.
      * ```ts
      * 0 -> Outer Left
      * 1 -> Middle Left
@@ -16,7 +16,7 @@ export interface IWrapBaseSliderAttribute<
      * Range: `none`
      */
     tailPosX: number;
-    /** Tail position y `<int>` of base slider.
+    /** Tail position y `<int>` of base arc.
      * ```ts
      * 0 -> Bottom row
      * 1 -> Middle row

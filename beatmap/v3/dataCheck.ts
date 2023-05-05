@@ -4,7 +4,7 @@ import { IBasicEventTypesForKeywords } from '../../types/beatmap/v3/basicEventTy
 import { IBasicEventTypesWithKeywords } from '../../types/beatmap/v3/basicEventTypesWithKeywords.ts';
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
-import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
+import { IChain } from '../../types/beatmap/v3/chain.ts';
 import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
@@ -20,7 +20,7 @@ import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslati
 import { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
 import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
-import { ISlider } from '../../types/beatmap/v3/slider.ts';
+import { IArc } from '../../types/beatmap/v3/arc.ts';
 import { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
 
 // FIXME: ALMOST EVERYTHING IS HERE IFUCKIN OPTIONAL REE
@@ -85,7 +85,7 @@ export const BombDataCheck: Record<keyof IBombNote, DataCheck> = {
     },
 } as const;
 
-export const SliderDataCheck: Record<keyof ISlider, DataCheck> = {
+export const ArcDataCheck: Record<keyof IArc, DataCheck> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -150,7 +150,7 @@ export const SliderDataCheck: Record<keyof ISlider, DataCheck> = {
     },
 } as const;
 
-export const BurstSliderDataCheck: Record<keyof IBurstSlider, DataCheck> = {
+export const ChainDataCheck: Record<keyof IChain, DataCheck> = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -802,13 +802,13 @@ export const DifficultyCheck: Record<keyof IDifficulty, DataCheck> = {
     sliders: {
         type: 'array',
         version: '3.0.0',
-        check: SliderDataCheck,
+        check: ArcDataCheck,
         optional: true,
     },
     burstSliders: {
         type: 'array',
         version: '3.0.0',
-        check: BurstSliderDataCheck,
+        check: ChainDataCheck,
         optional: true,
     },
     waypoints: {

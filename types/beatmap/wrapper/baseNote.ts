@@ -20,7 +20,7 @@ export interface IWrapBaseNoteAttribute<
      * ---
      * Grid represents cut direction from center.
      *
-     * **WARNING:** Dot-directional is not recommended with sliders, assumes down-directional.
+     * **WARNING:** Dot-directional is not recommended with arcs, assumes down-directional.
      */
     direction: number;
 }

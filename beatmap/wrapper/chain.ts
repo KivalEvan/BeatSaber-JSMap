@@ -1,22 +1,22 @@
 import { WrapBaseSlider } from './baseSlider.ts';
-import { IWrapBurstSlider } from '../../types/beatmap/wrapper/burstSlider.ts';
+import { IWrapChain } from '../../types/beatmap/wrapper/chain.ts';
 
-/** Burst slider beatmap class object.
+/** Chain beatmap class object.
  *
  * Also known as chain.
  */
-export abstract class WrapBurstSlider<T extends Record<keyof T, unknown>> extends WrapBaseSlider<T>
-    implements IWrapBurstSlider<T> {
-    abstract get sliceCount(): IWrapBurstSlider['sliceCount'];
-    abstract set sliceCount(value: IWrapBurstSlider['sliceCount']);
-    abstract get squish(): IWrapBurstSlider['squish'];
-    abstract set squish(value: IWrapBurstSlider['squish']);
+export abstract class WrapChain<T extends Record<keyof T, unknown>> extends WrapBaseSlider<T>
+    implements IWrapChain<T> {
+    abstract get sliceCount(): IWrapChain['sliceCount'];
+    abstract set sliceCount(value: IWrapChain['sliceCount']);
+    abstract get squish(): IWrapChain['squish'];
+    abstract set squish(value: IWrapChain['squish']);
 
-    setSliceCount(value: IWrapBurstSlider['sliceCount']) {
+    setSliceCount(value: IWrapChain['sliceCount']) {
         this.sliceCount = value;
         return this;
     }
-    setSquish(value: IWrapBurstSlider['squish']) {
+    setSquish(value: IWrapChain['squish']) {
         this.squish = value;
         return this;
     }

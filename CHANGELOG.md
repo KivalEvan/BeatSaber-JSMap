@@ -9,8 +9,11 @@
 
 ### Changed
 
+- Renamed `slider` and `burstSlider` to `arc` and `chain` respectively
+  - This reduce the confusion between internal and common name
+  - Schema remained unchanged for obvious reason
 - Allow object class constructor to be used (similar to static `create` but as single object)
-- Renamed converter function
+- Renamed and updated converter function
 - Unspecified difficulty version will now return base wrapper class instead of version specific
   - This means it won't automagically convert v2 map to v3 map when unspecified
 - Changed modded object value method behaviour

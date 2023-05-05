@@ -1,36 +1,36 @@
 import { WrapBaseSlider } from './baseSlider.ts';
 import { NoteDirectionAngle } from '../shared/constants.ts';
-import { IWrapSlider } from '../../types/beatmap/wrapper/slider.ts';
+import { IWrapArc } from '../../types/beatmap/wrapper/arc.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
-/** Slider beatmap class object.
+/** Arc beatmap class object.
  *
  * Also known as arc.
  */
-export abstract class WrapSlider<T extends Record<keyof T, unknown>> extends WrapBaseSlider<T>
-    implements IWrapSlider<T> {
-    abstract get lengthMultiplier(): IWrapSlider['lengthMultiplier'];
-    abstract set lengthMultiplier(value: IWrapSlider['lengthMultiplier']);
-    abstract get tailLengthMultiplier(): IWrapSlider['tailLengthMultiplier'];
-    abstract set tailLengthMultiplier(value: IWrapSlider['tailLengthMultiplier']);
-    abstract get tailDirection(): IWrapSlider['tailDirection'];
-    abstract set tailDirection(value: IWrapSlider['tailDirection']);
-    abstract get midAnchor(): IWrapSlider['midAnchor'];
-    abstract set midAnchor(value: IWrapSlider['midAnchor']);
+export abstract class WrapArc<T extends Record<keyof T, unknown>> extends WrapBaseSlider<T>
+    implements IWrapArc<T> {
+    abstract get lengthMultiplier(): IWrapArc['lengthMultiplier'];
+    abstract set lengthMultiplier(value: IWrapArc['lengthMultiplier']);
+    abstract get tailLengthMultiplier(): IWrapArc['tailLengthMultiplier'];
+    abstract set tailLengthMultiplier(value: IWrapArc['tailLengthMultiplier']);
+    abstract get tailDirection(): IWrapArc['tailDirection'];
+    abstract set tailDirection(value: IWrapArc['tailDirection']);
+    abstract get midAnchor(): IWrapArc['midAnchor'];
+    abstract set midAnchor(value: IWrapArc['midAnchor']);
 
-    setLengthMultiplier(value: IWrapSlider['lengthMultiplier']) {
+    setLengthMultiplier(value: IWrapArc['lengthMultiplier']) {
         this.lengthMultiplier = value;
         return this;
     }
-    setTailLengthMultiplier(value: IWrapSlider['tailLengthMultiplier']) {
+    setTailLengthMultiplier(value: IWrapArc['tailLengthMultiplier']) {
         this.tailLengthMultiplier = value;
         return this;
     }
-    setTailDirection(value: IWrapSlider['tailDirection']) {
+    setTailDirection(value: IWrapArc['tailDirection']) {
         this.tailDirection = value;
         return this;
     }
-    setMidAnchor(value: IWrapSlider['midAnchor']) {
+    setMidAnchor(value: IWrapArc['midAnchor']) {
         this.midAnchor = value;
         return this;
     }

@@ -3,8 +3,8 @@ import { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent
 import { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
 import { IWrapBombNote, IWrapBombNoteAttribute } from './bombNote.ts';
 import { IWrapObstacle, IWrapObstacleAttribute } from './obstacle.ts';
-import { IWrapSlider, IWrapSliderAttribute } from './slider.ts';
-import { IWrapBurstSlider, IWrapBurstSliderAttribute } from './burstSlider.ts';
+import { IWrapArc, IWrapArcAttribute } from './arc.ts';
+import { IWrapChain, IWrapChainAttribute } from './chain.ts';
 import { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
 import { IWrapEvent, IWrapEventAttribute } from './event.ts';
 import { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
@@ -37,8 +37,8 @@ export interface IWrapDifficultyAttribute<
     colorNotes: IWrapColorNote[];
     bombNotes: IWrapBombNote[];
     obstacles: IWrapObstacle[];
-    sliders: IWrapSlider[];
-    burstSliders: IWrapBurstSlider[];
+    arcs: IWrapArc[];
+    chains: IWrapChain[];
     waypoints: IWrapWaypoint[];
     basicEvents: IWrapEvent[];
     colorBoostEvents: IWrapColorBoostEvent[];
@@ -113,7 +113,7 @@ export interface IWrapDifficulty<T extends Record<keyof T, unknown> = Record<str
      */
     findLastInteractiveObstacleTime(): number;
 
-    /** Get container of color notes, sliders, burst sliders, and bombs (in order).
+    /** Get container of color notes, arcs, chains, and bombs (in order).
      * ```ts
      * const noteCountainer = getNoteContainer(Difficulty);
      * ```
@@ -132,8 +132,8 @@ export interface IWrapDifficulty<T extends Record<keyof T, unknown> = Record<str
     addColorNotes(...data: Partial<IWrapColorNoteAttribute>[]): void;
     addBombNotes(...data: Partial<IWrapBombNoteAttribute>[]): void;
     addObstacles(...data: Partial<IWrapObstacleAttribute>[]): void;
-    addSliders(...data: Partial<IWrapSliderAttribute>[]): void;
-    addBurstSliders(...data: Partial<IWrapBurstSliderAttribute>[]): void;
+    addArcs(...data: Partial<IWrapArcAttribute>[]): void;
+    addChains(...data: Partial<IWrapChainAttribute>[]): void;
     addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): void;
     addBasicEvents(...data: Partial<IWrapEventAttribute>[]): void;
     addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): void;

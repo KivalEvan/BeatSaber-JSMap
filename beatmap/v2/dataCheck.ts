@@ -3,7 +3,7 @@ import { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
 import { IEvent } from '../../types/beatmap/v2/event.ts';
 import { INote } from '../../types/beatmap/v2/note.ts';
 import { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
-import { ISlider } from '../../types/beatmap/v2/slider.ts';
+import { IArc } from '../../types/beatmap/v2/arc.ts';
 import { ISpecialEventsKeywordFilters } from '../../types/beatmap/v2/specialEventsKeywordFilters.ts';
 import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
 import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
@@ -43,7 +43,7 @@ export const NoteDataCheck: Record<keyof INote, DataCheck> = {
     },
 } as const;
 
-export const SliderDataCheck: Record<keyof ISlider, DataCheck> = {
+export const ArcDataCheck: Record<keyof IArc, DataCheck> = {
     _colorType: {
         type: 'number',
         version: '2.0.0',
@@ -237,7 +237,7 @@ export const DifficultyCheck: Record<keyof IDifficulty, DataCheck> = {
     _sliders: {
         type: 'array',
         version: '2.6.0',
-        check: SliderDataCheck,
+        check: ArcDataCheck,
     },
     _obstacles: {
         type: 'array',

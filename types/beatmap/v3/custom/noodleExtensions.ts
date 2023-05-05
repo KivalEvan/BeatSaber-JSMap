@@ -27,7 +27,7 @@ export interface INENote extends INEObject {
     link?: string;
 }
 
-/** Noodle Extensions Slider interface for Beatmap Slider.
+/** Noodle Extensions Slider interface for Beatmap Arc.
  * @extends INENote
  */
 export interface INESlider extends INENote {

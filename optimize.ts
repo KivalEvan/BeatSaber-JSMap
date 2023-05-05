@@ -14,7 +14,7 @@ import { IBaseObject as IBaseObjectV3 } from './types/beatmap/v3/baseObject.ts';
 import { INote } from './types/beatmap/v2/note.ts';
 import { IGridObject } from './types/beatmap/v3/gridObject.ts';
 import { Vector2 } from './types/vector.ts';
-import { isV2, isV3 } from './beatmap/version.ts';
+import { isV1, isV2, isV3 } from './beatmap/version.ts';
 
 const tag = (name: string) => {
     return `[optimize::${name}]`;
@@ -213,6 +213,11 @@ export function difficulty<T extends IDifficultyV1 | IDifficultyV2 | IDifficulty
             );
         };
 
+        if (isV1(difficulty)) {
+            difficulty._notes.sort(sortV2Note);
+            difficulty._obstacles.sort(sortV2Object);
+            difficulty._events.sort(sortV2Object);
+        }
         if (isV2(difficulty)) {
             difficulty._notes.sort(sortV2Note);
             difficulty._obstacles.sort(sortV2Object);

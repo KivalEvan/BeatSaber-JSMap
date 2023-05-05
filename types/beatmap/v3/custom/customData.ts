@@ -7,7 +7,7 @@ import { ICustomEvent } from './customEvent.ts';
 import { ICustomDataBase } from '../../shared/custom/customData.ts';
 import { IPointDefinition } from './pointDefinition.ts';
 import { IColorNote } from '../colorNote.ts';
-import { IBurstSlider } from '../burstSlider.ts';
+import { IChain } from '../chain.ts';
 import { IBombNote } from '../bombNote.ts';
 import { IObstacle } from '../obstacle.ts';
 import { IAnimation } from './animation.ts';
@@ -19,7 +19,7 @@ import { IAnimation } from './animation.ts';
  */
 export interface ICustomDataDifficulty extends ICustomDataBase, IHeckCustomData, IChromaCustomData {
     fakeColorNotes?: IColorNote[];
-    fakeBurstSliders?: IBurstSlider[];
+    fakeBurstSliders?: IChain[];
     fakeBombNotes?: IBombNote[];
     fakeObstacles?: IObstacle[];
     customEvents?: ICustomEvent[];

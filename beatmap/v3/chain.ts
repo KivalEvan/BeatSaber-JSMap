@@ -1,18 +1,18 @@
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
-import { IWrapBurstSliderAttribute } from '../../types/beatmap/wrapper/burstSlider.ts';
+import { IChain } from '../../types/beatmap/v3/chain.ts';
+import { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
-import { WrapBurstSlider } from '../wrapper/burstSlider.ts';
+import { WrapChain } from '../wrapper/chain.ts';
 
-/** Burst slider beatmap v3 class object.
+/** Chain beatmap v3 class object.
  *
- * Also known as chain.
+ * Also known as burst slider internally.
  */
-export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
-    static default: ObjectReturnFn<Required<IBurstSlider>> = {
+export class Chain extends WrapChain<Required<IChain>> {
+    static default: ObjectReturnFn<Required<IChain>> = {
         b: 0,
         c: 0,
         x: 0,
@@ -29,49 +29,35 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>);
-    constructor(data: Partial<IBurstSlider>);
-    constructor(
-        data: Partial<IBurstSlider> & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>,
-    );
-    constructor(
-        data:
-            & Partial<IBurstSlider>
-            & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>> = {},
-    ) {
+    constructor(data: Partial<IWrapChainAttribute<Required<IChain>>>);
+    constructor(data: Partial<IChain>);
+    constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>);
+    constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>> = {}) {
         super({
-            b: data.time ?? data.b ?? data.tb ?? BurstSlider.default.b,
-            c: data.color ?? data.c ?? BurstSlider.default.c,
-            x: data.posX ?? data.x ?? BurstSlider.default.x,
-            y: data.posY ?? data.y ?? BurstSlider.default.y,
-            d: data.direction ?? data.d ?? BurstSlider.default.d,
-            tb: data.tailTime ?? data.tb ?? data.b ?? BurstSlider.default.tb,
-            tx: data.tailPosX ?? data.tx ?? BurstSlider.default.tx,
-            ty: data.tailPosY ?? data.ty ?? BurstSlider.default.ty,
-            sc: data.sliceCount ?? data.sc ?? BurstSlider.default.sc,
-            s: data.squish ?? data.s ?? BurstSlider.default.s,
-            customData: data.customData ?? BurstSlider.default.customData(),
+            b: data.time ?? data.b ?? data.tb ?? Chain.default.b,
+            c: data.color ?? data.c ?? Chain.default.c,
+            x: data.posX ?? data.x ?? Chain.default.x,
+            y: data.posY ?? data.y ?? Chain.default.y,
+            d: data.direction ?? data.d ?? Chain.default.d,
+            tb: data.tailTime ?? data.tb ?? data.b ?? Chain.default.tb,
+            tx: data.tailPosX ?? data.tx ?? Chain.default.tx,
+            ty: data.tailPosY ?? data.ty ?? Chain.default.ty,
+            sc: data.sliceCount ?? data.sc ?? Chain.default.sc,
+            s: data.squish ?? data.s ?? Chain.default.s,
+            customData: data.customData ?? Chain.default.customData(),
         });
     }
 
-    static create(): BurstSlider[];
+    static create(): Chain[];
+    static create(...data: Partial<IWrapChainAttribute<Required<IChain>>>[]): Chain[];
+    static create(...data: Partial<IChain>[]): Chain[];
     static create(
-        ...data: Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>[]
-    ): BurstSlider[];
-    static create(...data: Partial<IBurstSlider>[]): BurstSlider[];
+        ...data: (Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>)[]
+    ): Chain[];
     static create(
-        ...data: (
-            & Partial<IBurstSlider>
-            & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>
-        )[]
-    ): BurstSlider[];
-    static create(
-        ...data: (
-            & Partial<IBurstSlider>
-            & Partial<IWrapBurstSliderAttribute<Required<IBurstSlider>>>
-        )[]
-    ): BurstSlider[] {
-        const result: BurstSlider[] = [];
+        ...data: (Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>)[]
+    ): Chain[] {
+        const result: Chain[] = [];
         data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
@@ -79,7 +65,7 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
         return [new this()];
     }
 
-    toJSON(): Required<IBurstSlider> {
+    toJSON(): Required<IChain> {
         return {
             b: this.time,
             c: this.color,
@@ -98,77 +84,77 @@ export class BurstSlider extends WrapBurstSlider<Required<IBurstSlider>> {
     get time() {
         return this.data.b;
     }
-    set time(value: IBurstSlider['b']) {
+    set time(value: IChain['b']) {
         this.data.b = value;
     }
 
     get posX() {
         return this.data.x;
     }
-    set posX(value: IBurstSlider['x']) {
+    set posX(value: IChain['x']) {
         this.data.x = value;
     }
 
     get posY() {
         return this.data.y;
     }
-    set posY(value: IBurstSlider['y']) {
+    set posY(value: IChain['y']) {
         this.data.y = value;
     }
 
     get color() {
         return this.data.c;
     }
-    set color(value: IBurstSlider['c']) {
+    set color(value: IChain['c']) {
         this.data.c = value;
     }
 
     get direction() {
         return this.data.d;
     }
-    set direction(value: IBurstSlider['d']) {
+    set direction(value: IChain['d']) {
         this.data.d = value;
     }
 
     get tailTime() {
         return this.data.tb;
     }
-    set tailTime(value: IBurstSlider['tb']) {
+    set tailTime(value: IChain['tb']) {
         this.data.tb = value;
     }
 
     get tailPosX() {
         return this.data.tx;
     }
-    set tailPosX(value: IBurstSlider['tx']) {
+    set tailPosX(value: IChain['tx']) {
         this.data.tx = value;
     }
 
     get tailPosY() {
         return this.data.ty;
     }
-    set tailPosY(value: IBurstSlider['ty']) {
+    set tailPosY(value: IChain['ty']) {
         this.data.ty = value;
     }
 
     get sliceCount() {
         return this.data.sc;
     }
-    set sliceCount(value: IBurstSlider['sc']) {
+    set sliceCount(value: IChain['sc']) {
         this.data.sc = value;
     }
 
     get squish() {
         return this.data.s;
     }
-    set squish(value: IBurstSlider['s']) {
+    set squish(value: IChain['s']) {
         this.data.s = value;
     }
 
-    get customData(): NonNullable<IBurstSlider['customData']> {
+    get customData(): NonNullable<IChain['customData']> {
         return this.data.customData;
     }
-    set customData(value: NonNullable<IBurstSlider['customData']>) {
+    set customData(value: NonNullable<IChain['customData']>) {
         this.data.customData = value;
     }
 

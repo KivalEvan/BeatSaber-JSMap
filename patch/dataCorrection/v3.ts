@@ -3,15 +3,15 @@ import { ColorNote } from '../../beatmap/v3/colorNote.ts';
 import { Obstacle } from '../../beatmap/v3/obstacle.ts';
 import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
 import { Waypoint } from '../../beatmap/v3/waypoint.ts';
-import { Slider } from '../../beatmap/v3/slider.ts';
+import { Arc } from '../../beatmap/v3/arc.ts';
 import { RotationEvent } from '../../beatmap/v3/rotationEvent.ts';
 import { BPMEvent } from '../../beatmap/v3/bpmEvent.ts';
 import { BombNote } from '../../beatmap/v3/bombNote.ts';
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
-import { BurstSlider } from '../../beatmap/v3/burstSlider.ts';
-import { IBurstSlider } from '../../types/beatmap/v3/burstSlider.ts';
+import { Chain } from '../../beatmap/v3/chain.ts';
+import { IChain } from '../../types/beatmap/v3/chain.ts';
 import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent.ts';
 import { fixBoolean, fixFloat, fixInt } from './helpers.ts';
 import { LightColorEventBoxGroup } from '../../beatmap/v3/lightColorEventBoxGroup.ts';
@@ -97,47 +97,47 @@ function fixFakeObstacle(obj: IObstacle) {
     fixCustomDataObject(obj.customData);
 }
 
-function fixSlider(obj: Slider) {
-    obj.time = fixFloat(obj.time, Slider.default.b);
+function fixSlider(obj: Arc) {
+    obj.time = fixFloat(obj.time, Arc.default.b);
     obj.color = fixInt(obj.color, [0, 1], [0, 1]);
-    obj.posX = fixInt(obj.posX, Slider.default.x);
-    obj.posY = fixInt(obj.posY, Slider.default.y);
-    obj.direction = fixInt(obj.direction, Slider.default.d);
-    obj.lengthMultiplier = fixFloat(obj.lengthMultiplier, Slider.default.mu);
-    obj.tailTime = fixFloat(obj.tailTime, Slider.default.tb);
-    obj.tailPosX = fixInt(obj.tailPosX, Slider.default.tx);
-    obj.tailPosY = fixInt(obj.tailPosY, Slider.default.ty);
-    obj.tailDirection = fixInt(obj.tailDirection, Slider.default.tc);
-    obj.tailLengthMultiplier = fixFloat(obj.tailLengthMultiplier, Slider.default.tmu);
-    obj.midAnchor = fixInt(obj.midAnchor, Slider.default.m);
+    obj.posX = fixInt(obj.posX, Arc.default.x);
+    obj.posY = fixInt(obj.posY, Arc.default.y);
+    obj.direction = fixInt(obj.direction, Arc.default.d);
+    obj.lengthMultiplier = fixFloat(obj.lengthMultiplier, Arc.default.mu);
+    obj.tailTime = fixFloat(obj.tailTime, Arc.default.tb);
+    obj.tailPosX = fixInt(obj.tailPosX, Arc.default.tx);
+    obj.tailPosY = fixInt(obj.tailPosY, Arc.default.ty);
+    obj.tailDirection = fixInt(obj.tailDirection, Arc.default.tc);
+    obj.tailLengthMultiplier = fixFloat(obj.tailLengthMultiplier, Arc.default.tmu);
+    obj.midAnchor = fixInt(obj.midAnchor, Arc.default.m);
     fixCustomDataObject(obj.customData);
 }
 
-function fixBurstSlider(obj: BurstSlider) {
-    obj.time = fixFloat(obj.time, BurstSlider.default.b);
+function fixChain(obj: Chain) {
+    obj.time = fixFloat(obj.time, Chain.default.b);
     obj.color = fixInt(obj.color, [0, 1], [0, 1]);
-    obj.posX = fixInt(obj.posX, BurstSlider.default.x);
-    obj.posY = fixInt(obj.posY, BurstSlider.default.y);
-    obj.direction = fixInt(obj.direction, BurstSlider.default.d);
-    obj.tailTime = fixFloat(obj.tailTime, BurstSlider.default.tb);
-    obj.tailPosX = fixInt(obj.tailPosX, BurstSlider.default.tx);
-    obj.tailPosY = fixInt(obj.tailPosY, BurstSlider.default.ty);
-    obj.sliceCount = fixInt(obj.sliceCount, BurstSlider.default.sc) || 1;
-    obj.squish = fixFloat(obj.squish, BurstSlider.default.s) || 0.001;
+    obj.posX = fixInt(obj.posX, Chain.default.x);
+    obj.posY = fixInt(obj.posY, Chain.default.y);
+    obj.direction = fixInt(obj.direction, Chain.default.d);
+    obj.tailTime = fixFloat(obj.tailTime, Chain.default.tb);
+    obj.tailPosX = fixInt(obj.tailPosX, Chain.default.tx);
+    obj.tailPosY = fixInt(obj.tailPosY, Chain.default.ty);
+    obj.sliceCount = fixInt(obj.sliceCount, Chain.default.sc) || 1;
+    obj.squish = fixFloat(obj.squish, Chain.default.s) || 0.001;
     fixCustomDataObject(obj.customData);
 }
 
-function fixFakeBurstSlider(obj: IBurstSlider) {
-    obj.b = fixFloat(obj.b, BurstSlider.default.b);
+function fixFakeChain(obj: IChain) {
+    obj.b = fixFloat(obj.b, Chain.default.b);
     obj.c = fixInt(obj.c, [0, 1], [0, 1]);
-    obj.x = fixInt(obj.x, BurstSlider.default.x);
-    obj.y = fixInt(obj.y, BurstSlider.default.y);
-    obj.d = fixInt(obj.d, BurstSlider.default.d);
-    obj.tb = fixFloat(obj.tb, BurstSlider.default.tb);
-    obj.tx = fixInt(obj.tx, BurstSlider.default.tx);
-    obj.ty = fixInt(obj.ty, BurstSlider.default.ty);
-    obj.sc = fixInt(obj.sc, BurstSlider.default.sc) || 1;
-    obj.s = fixFloat(obj.s, BurstSlider.default.s) || 0.001;
+    obj.x = fixInt(obj.x, Chain.default.x);
+    obj.y = fixInt(obj.y, Chain.default.y);
+    obj.d = fixInt(obj.d, Chain.default.d);
+    obj.tb = fixFloat(obj.tb, Chain.default.tb);
+    obj.tx = fixInt(obj.tx, Chain.default.tx);
+    obj.ty = fixInt(obj.ty, Chain.default.ty);
+    obj.sc = fixInt(obj.sc, Chain.default.sc) || 1;
+    obj.s = fixFloat(obj.s, Chain.default.s) || 0.001;
     fixCustomDataObject(obj.customData);
 }
 
@@ -308,13 +308,13 @@ export function v3(data: Difficulty) {
     data.colorNotes.forEach(fixColorNote);
     data.bombNotes.forEach(fixBombNote);
     data.obstacles.forEach(fixObstacle);
-    data.sliders.forEach(fixSlider);
-    data.burstSliders.forEach(fixBurstSlider);
+    data.arcs.forEach(fixSlider);
+    data.chains.forEach(fixChain);
     data.waypoints.forEach(fixWaypoint);
     data.customData.fakeColorNotes?.forEach(fixFakeColorNote);
     data.customData.fakeBombNotes?.forEach(fixFakeBombNote);
     data.customData.fakeObstacles?.forEach(fixFakeObstacle);
-    data.customData.fakeBurstSliders?.forEach(fixFakeBurstSlider);
+    data.customData.fakeChains?.forEach(fixFakeChain);
     data.basicEvents.forEach(fixBasicEvent);
     data.colorBoostEvents.forEach(fixColorBoostEvent);
     data.lightColorEventBoxGroups.forEach(fixLightColorEventBoxGroup);

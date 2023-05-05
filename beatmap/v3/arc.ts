@@ -1,18 +1,18 @@
-import { ISlider } from '../../types/beatmap/v3/slider.ts';
-import { IWrapSliderAttribute } from '../../types/beatmap/wrapper/slider.ts';
+import { IArc } from '../../types/beatmap/v3/arc.ts';
+import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { ObjectReturnFn } from '../../types/utils.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
-import { WrapSlider } from '../wrapper/slider.ts';
+import { WrapArc } from '../wrapper/arc.ts';
 
-/** Slider beatmap v3 class object.
+/** Arc beatmap v3 class object.
  *
- * Also known as arc.
+ * Also known as slider internally.
  */
-export class Slider extends WrapSlider<Required<ISlider>> {
-    static default: ObjectReturnFn<Required<ISlider>> = {
+export class Arc extends WrapArc<Required<IArc>> {
+    static default: ObjectReturnFn<Required<IArc>> = {
         b: 0,
         c: 0,
         x: 0,
@@ -31,37 +31,33 @@ export class Slider extends WrapSlider<Required<ISlider>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapSliderAttribute<Required<ISlider>>>);
-    constructor(data: Partial<ISlider>);
-    constructor(data: Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>);
-    constructor(data: Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>> = {}) {
+    constructor(data: Partial<IWrapArcAttribute<Required<IArc>>>);
+    constructor(data: Partial<IArc>);
+    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>);
+    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>> = {}) {
         super({
-            b: data.time ?? data.b ?? Slider.default.b,
-            c: data.color ?? data.c ?? Slider.default.c,
-            x: data.posX ?? data.x ?? Slider.default.x,
-            y: data.posY ?? data.y ?? Slider.default.y,
-            d: data.direction ?? data.d ?? Slider.default.d,
-            mu: data.lengthMultiplier ?? data.mu ?? Slider.default.mu,
-            tb: data.tailTime ?? data.tb ?? Slider.default.tb,
-            tx: data.tailPosX ?? data.tx ?? Slider.default.tx,
-            ty: data.tailPosY ?? data.ty ?? Slider.default.ty,
-            tc: data.tailDirection ?? data.tc ?? Slider.default.tc,
-            tmu: data.tailLengthMultiplier ?? data.tmu ?? Slider.default.tmu,
-            m: data.midAnchor ?? data.m ?? Slider.default.m,
-            customData: data.customData ?? Slider.default.customData(),
+            b: data.time ?? data.b ?? Arc.default.b,
+            c: data.color ?? data.c ?? Arc.default.c,
+            x: data.posX ?? data.x ?? Arc.default.x,
+            y: data.posY ?? data.y ?? Arc.default.y,
+            d: data.direction ?? data.d ?? Arc.default.d,
+            mu: data.lengthMultiplier ?? data.mu ?? Arc.default.mu,
+            tb: data.tailTime ?? data.tb ?? Arc.default.tb,
+            tx: data.tailPosX ?? data.tx ?? Arc.default.tx,
+            ty: data.tailPosY ?? data.ty ?? Arc.default.ty,
+            tc: data.tailDirection ?? data.tc ?? Arc.default.tc,
+            tmu: data.tailLengthMultiplier ?? data.tmu ?? Arc.default.tmu,
+            m: data.midAnchor ?? data.m ?? Arc.default.m,
+            customData: data.customData ?? Arc.default.customData(),
         });
     }
 
-    static create(): Slider[];
-    static create(...data: Partial<IWrapSliderAttribute<Required<ISlider>>>[]): Slider[];
-    static create(...data: Partial<ISlider>[]): Slider[];
-    static create(
-        ...data: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
-    ): Slider[];
-    static create(
-        ...data: (Partial<ISlider> & Partial<IWrapSliderAttribute<Required<ISlider>>>)[]
-    ): Slider[] {
-        const result: Slider[] = [];
+    static create(): Arc[];
+    static create(...data: Partial<IWrapArcAttribute<Required<IArc>>>[]): Arc[];
+    static create(...data: Partial<IArc>[]): Arc[];
+    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): Arc[];
+    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): Arc[] {
+        const result: Arc[] = [];
         data?.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
@@ -69,7 +65,7 @@ export class Slider extends WrapSlider<Required<ISlider>> {
         return [new this()];
     }
 
-    toJSON(): Required<ISlider> {
+    toJSON(): Required<IArc> {
         return {
             b: this.time,
             c: this.color,
@@ -90,91 +86,91 @@ export class Slider extends WrapSlider<Required<ISlider>> {
     get time() {
         return this.data.b;
     }
-    set time(value: ISlider['b']) {
+    set time(value: IArc['b']) {
         this.data.b = value;
     }
 
     get posX() {
         return this.data.x;
     }
-    set posX(value: ISlider['x']) {
+    set posX(value: IArc['x']) {
         this.data.x = value;
     }
 
     get posY() {
         return this.data.y;
     }
-    set posY(value: ISlider['y']) {
+    set posY(value: IArc['y']) {
         this.data.y = value;
     }
 
     get color() {
         return this.data.c;
     }
-    set color(value: ISlider['c']) {
+    set color(value: IArc['c']) {
         this.data.c = value;
     }
 
     get direction() {
         return this.data.d;
     }
-    set direction(value: ISlider['d']) {
+    set direction(value: IArc['d']) {
         this.data.d = value;
     }
 
     get lengthMultiplier() {
         return this.data.mu;
     }
-    set lengthMultiplier(value: ISlider['mu']) {
+    set lengthMultiplier(value: IArc['mu']) {
         this.data.mu = value;
     }
 
     get tailTime() {
         return this.data.tb;
     }
-    set tailTime(value: ISlider['tb']) {
+    set tailTime(value: IArc['tb']) {
         this.data.tb = value;
     }
 
     get tailPosX() {
         return this.data.tx;
     }
-    set tailPosX(value: ISlider['tx']) {
+    set tailPosX(value: IArc['tx']) {
         this.data.tx = value;
     }
 
     get tailPosY() {
         return this.data.ty;
     }
-    set tailPosY(value: ISlider['ty']) {
+    set tailPosY(value: IArc['ty']) {
         this.data.ty = value;
     }
 
     get tailDirection() {
         return this.data.tc;
     }
-    set tailDirection(value: ISlider['tc']) {
+    set tailDirection(value: IArc['tc']) {
         this.data.tc = value;
     }
 
     get tailLengthMultiplier() {
         return this.data.tmu;
     }
-    set tailLengthMultiplier(value: ISlider['tmu']) {
+    set tailLengthMultiplier(value: IArc['tmu']) {
         this.data.tmu = value;
     }
 
     get midAnchor() {
         return this.data.m;
     }
-    set midAnchor(value: ISlider['m']) {
+    set midAnchor(value: IArc['m']) {
         this.data.m = value;
     }
 
-    get customData(): NonNullable<ISlider['customData']> {
+    get customData(): NonNullable<IArc['customData']> {
         return this.data.customData;
     }
-    set customData(value: NonNullable<ISlider['customData']>) {
+    set customData(value: NonNullable<IArc['customData']>) {
         this.data.customData = value;
     }
 

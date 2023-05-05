@@ -20,10 +20,10 @@ export default function (data: IWrapDifficulty, bpm: BeatPerMinute, audioLength:
     data.bombNotes = data.bombNotes.filter(filterTime);
     logger.debug('[patch::removeOutsidePlayable] Removing outside playable obstacles');
     data.obstacles = data.obstacles.filter(filterTime);
-    logger.debug('[patch::removeOutsidePlayable] Removing outside playable sliders');
-    data.sliders = data.sliders.filter(filterTime);
-    logger.debug('[patch::removeOutsidePlayable] Removing outside playable burst sliders');
-    data.burstSliders = data.burstSliders.filter(filterTime);
+    logger.debug('[patch::removeOutsidePlayable] Removing outside playable arcs');
+    data.arcs = data.arcs.filter(filterTime);
+    logger.debug('[patch::removeOutsidePlayable] Removing outside playable chains');
+    data.chains = data.chains.filter(filterTime);
     logger.debug('[patch::removeOutsidePlayable] Removing outside playable waypoints');
     data.waypoints = data.waypoints.filter(filterTime);
     logger.debug('[patch::removeOutsidePlayable] Removing outside playable fake color notes');
@@ -45,7 +45,7 @@ export default function (data: IWrapDifficulty, bpm: BeatPerMinute, audioLength:
                 duration ? !(obj.b < 0 || obj.b > duration) : !(obj.b < 0)
             );
         }
-        logger.debug('[patch::removeOutsidePlayable] Removing outside playable fake burst sliders');
+        logger.debug('[patch::removeOutsidePlayable] Removing outside playable fake chains');
         if (data.customData.fakeBurstSliders) {
             data.customData.fakeBurstSliders = data.customData.fakeBurstSliders.filter((obj) =>
                 duration ? !(obj.b < 0 || obj.b > duration) : !(obj.b < 0)

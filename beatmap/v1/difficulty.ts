@@ -22,8 +22,8 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     colorNotes: Note[];
     bombNotes: never[] = [];
     obstacles: Obstacle[];
-    sliders: never[] = [];
-    burstSliders: never[] = [];
+    arcs: never[] = [];
+    chains: never[] = [];
     waypoints: never[] = [];
     basicEvents: Event[];
     colorBoostEvents: never[] = [];
@@ -172,12 +172,12 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         );
     }
 
-    addSliders(..._: never[]): void {
-        logger.warn('Slider does not exist in beatmap V1');
+    addArcs(..._: never[]): void {
+        logger.warn('Arc does not exist in beatmap V1');
     }
 
-    addBurstSliders(..._: never[]): void {
-        logger.warn('Burst Slider does not exist in beatmap V1');
+    addChains(..._: never[]): void {
+        logger.warn('Chain does not exist in beatmap V1');
     }
 
     addWaypoints(..._: never[]): void {

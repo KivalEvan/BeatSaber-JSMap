@@ -1,9 +1,9 @@
 import { BombNote } from '../../../beatmap/v3/bombNote.ts';
 import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
-import { BurstSlider } from '../../../beatmap/v3/burstSlider.ts';
-import { Slider } from '../../../beatmap/v3/slider.ts';
+import { Chain } from '../../../beatmap/v3/chain.ts';
+import { Arc } from '../../../beatmap/v3/arc.ts';
 import { Obstacle } from '../../../beatmap/v3/obstacle.ts';
 
-export type INEObject = ColorNote | Obstacle | BombNote | BurstSlider | Slider;
+export type INEObject = ColorNote | Obstacle | BombNote | Chain | Arc;
 
-export type INENote = ColorNote | BombNote | BurstSlider | Slider;
+export type INENote = ColorNote | BombNote | Chain | Arc;

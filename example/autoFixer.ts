@@ -184,8 +184,8 @@ try {
         const hasChroma = d.basicEvents.some((obj) => obj.isChroma()) ||
             d.colorNotes.some((obj) => obj.isChroma()) ||
             d.bombNotes.some((obj) => obj.isChroma()) ||
-            d.sliders.some((obj) => obj.isChroma()) ||
-            d.burstSliders.some((obj) => obj.isChroma()) ||
+            d.arcs.some((obj) => obj.isChroma()) ||
+            d.chains.some((obj) => obj.isChroma()) ||
             d.obstacles.some((obj) => obj.isChroma());
         if (hasChroma) {
             dl.settings._customData ??= {};
@@ -206,8 +206,8 @@ try {
         const hasNoodleExtensions = d.basicEvents.some((obj) => obj.isNoodleExtensions()) ||
             d.colorNotes.some((obj) => obj.isNoodleExtensions()) ||
             d.bombNotes.some((obj) => obj.isNoodleExtensions()) ||
-            d.sliders.some((obj) => obj.isNoodleExtensions()) ||
-            d.burstSliders.some((obj) => obj.isNoodleExtensions()) ||
+            d.arcs.some((obj) => obj.isNoodleExtensions()) ||
+            d.chains.some((obj) => obj.isNoodleExtensions()) ||
             d.obstacles.some((obj) => obj.isNoodleExtensions());
         if (hasNoodleExtensions) {
             dl.settings._customData ??= {};
