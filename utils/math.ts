@@ -20,13 +20,13 @@ export function formatNumber(num: number): string {
 }
 
 // Randomly generate seed if not provided.
-const _internalSeed = { ref: hashCode(Math.random()) };
+const _seed = { ref: hashCode(Math.random()) };
 
 /** Mulberry32 algorithm.
  *
  * shamelessly taken from stackoverflow
  */
-function internalPRandom(seed: number | { ref: number }) {
+function _pRandom(seed: number | { ref: number }) {
     const _s = typeof seed === 'number' ? { ref: seed } : seed;
     return function () {
         let s = (_s.ref += 0x6d2b79f5);
@@ -35,9 +35,9 @@ function internalPRandom(seed: number | { ref: number }) {
         return ((s ^ (s >>> 14)) >>> 0) / 4294967296;
     };
 }
-const _instPRandom = internalPRandom(_internalSeed);
+const _instPRandom = _pRandom(_seed);
 
-function internalRandom(
+function _random(
     min?: number | boolean,
     max?: number | boolean,
     rounding: number | boolean = false,
@@ -81,7 +81,7 @@ export function pRandom(
     max?: number | boolean,
     rounding: number | boolean = false,
 ): number {
-    return internalRandom(min, max, rounding, _instPRandom);
+    return _random(min, max, rounding, _instPRandom);
 }
 
 /** Create instance of pseudorandom function.
@@ -93,13 +93,13 @@ export function pRandom(
  */
 export function pRandomFn(seed: string | number | bigint = Math.random()) {
     const _seed = hashCode(seed);
-    const _func = internalPRandom(_seed);
+    const _func = _pRandom(_seed);
     return function (
         min?: number | boolean,
         max?: number | boolean,
         rounding: number | boolean = false,
     ) {
-        return internalRandom(min, max, rounding, _func);
+        return _random(min, max, rounding, _func);
     };
 }
 
@@ -110,12 +110,12 @@ export function pRandomFn(seed: string | number | bigint = Math.random()) {
  * If this is never called, defaults to randomly generated seed.
  */
 export function pRandomSeed(seed: string | number | bigint): void {
-    _internalSeed.ref = hashCode(seed);
+    _seed.ref = hashCode(seed);
 }
 
 /** Generate 32-bit hash with Java implementation.
  *
- * Internally converts primitives to string.
+ * _ly converts primitives to string.
  */
 export function hashCode(str: string | number | bigint): number {
     str = str.toString();
@@ -138,7 +138,7 @@ export function random(
     max?: number | boolean,
     rounding: number | boolean = false,
 ): number {
-    return internalRandom(min, max, rounding, Math.random);
+    return _random(min, max, rounding, Math.random);
 }
 
 /** Return number tuple in order. */
