@@ -20,6 +20,10 @@
 - Only root-level file can contain platform-specific API
 - Recommended Deno version to 1.33.0+
 
+### Fixed
+
+- Missing NE and Chroma check
+
 ### Removed
 
 - Prompting in conversion (this should now be handled by script user)

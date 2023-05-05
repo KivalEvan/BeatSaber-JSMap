@@ -223,7 +223,8 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
             typeof this.customData.noteJumpStartBeatOffset === 'number' ||
             Array.isArray(this.customData.coordinates) ||
             Array.isArray(this.customData.worldRotation) ||
-            typeof this.customData.worldRotation === 'number'
+            typeof this.customData.worldRotation === 'number' ||
+            typeof this.customData.link === 'string'
         );
     }
 }

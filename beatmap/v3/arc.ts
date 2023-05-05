@@ -313,7 +313,8 @@ export class Arc extends WrapArc<Required<IArc>> {
             Array.isArray(this.customData.coordinates) ||
             Array.isArray(this.customData.tailCoordinates) ||
             Array.isArray(this.customData.worldRotation) ||
-            typeof this.customData.worldRotation === 'number'
+            typeof this.customData.worldRotation === 'number' ||
+            typeof this.customData.link === 'string'
         );
     }
 }

@@ -142,4 +142,8 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
                 ];
         }
     }
+
+    isMappingExtensions(): boolean {
+        return this.type > 2 || this.posX <= -1000 || this.posX >= 1000;
+    }
 }

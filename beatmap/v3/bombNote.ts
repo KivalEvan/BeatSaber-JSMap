@@ -127,7 +127,6 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
         );
     }
 
-    // god i hate these
     isNoodleExtensions(): boolean {
         return (
             Array.isArray(this.customData.animation) ||
@@ -143,7 +142,8 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
             typeof this.customData.noteJumpStartBeatOffset === 'number' ||
             Array.isArray(this.customData.coordinates) ||
             Array.isArray(this.customData.worldRotation) ||
-            typeof this.customData.worldRotation === 'number'
+            typeof this.customData.worldRotation === 'number' ||
+            typeof this.customData.link === 'string'
         );
     }
 }

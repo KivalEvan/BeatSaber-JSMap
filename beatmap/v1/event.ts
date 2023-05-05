@@ -83,4 +83,8 @@ export class Event extends WrapEvent<Required<IEvent>> {
     set customData(_: Record<string, never>) {
         logger.warn('Event custom data does not exist in beatmap V1');
     }
+
+    isMappingExtensions(): boolean {
+        return this.isLaneRotationEvent() && this.value >= 1000 && this.value <= 1720;
+    }
 }
