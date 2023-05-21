@@ -1,20 +1,20 @@
 import { Easings } from '../../../easings.ts';
-export type PercentPointDefinition =
-    | [percent: number, time: number, ...options: (Easings | PointFlag | PointModifier)[]];
-export type Vector2PointDefinition = [
-    x: number,
-    y: number,
+import { Vector2, Vector3 } from '../../../vector.ts';
+export type PercentPointDefinition = [
+    percent: number,
     time: number,
-    ...options: (Easings | PointFlag | PointModifier)[]
+    ...options: (Easings | PointFlag | PointModifier)[],
 ];
-export type Vector3PointDefinition =
-    | [
-          x: number,
-          y: number,
-          z: number,
-          time: number,
-          ...options: (Easings | PointFlag | PointModifier)[]
-      ];
+export type Vector2PointDefinition = [
+    ...vector2: Vector2,
+    time: number,
+    ...options: (Easings | PointFlag | PointModifier)[],
+];
+export type Vector3PointDefinition = [
+    ...vector3: Vector3,
+    time: number,
+    ...options: (Easings | PointFlag | PointModifier)[],
+];
 
 export interface IInfoSettingsCustomData {
     _settings?: {

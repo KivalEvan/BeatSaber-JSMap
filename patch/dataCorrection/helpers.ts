@@ -6,6 +6,7 @@ import {
 } from '../../types/beatmap/shared/custom/heck.ts';
 import { ColorArray } from '../../types/colors.ts';
 import { Easings } from '../../types/easings.ts';
+import { PointModifier } from '../../types/beatmap/shared/custom/heck.ts';
 import { Vector2, Vector3 } from '../../types/vector.ts';
 import { easings } from '../../utils/easings.ts';
 import { clamp } from '../../utils/math.ts';
@@ -180,6 +181,7 @@ export function fixStringAry(value: unknown[], defaultValue: string): string[] {
 }
 
 const easingsList = Object.keys(easings).concat('easeStep') as Easings[];
+const modifiersList: PointModifier[] = ['opNone', 'opAdd', 'opSub', 'opMul', 'opMul'];
 
 export function fixPercentPointDefinition(
     value: unknown,
@@ -194,12 +196,19 @@ export function fixPercentPointDefinition(
                     fixFloat(elm.at(1), 1, 0, 1),
                 ] as PercentPointDefinition;
                 if (elm.length > 2) {
-                    const attr = elm
-                        .slice(2)
-                        .filter((e) => typeof e === 'string')
-                        .find((e) => easingsList.includes(e as Easings));
-                    if (attr) {
-                        temp[2] = attr as Easings;
+                    const attr = elm.slice(3).filter((e) => typeof e === 'string');
+                    const ease = attr.find((e) => easingsList.includes(e as Easings));
+                    const spline = attr.find((e) => e === 'splineCatmullRom');
+                    const modifier = attr.find((e) => modifiersList.includes(e as PointModifier));
+                    let idx = 2;
+                    if (ease) {
+                        temp[idx++] = ease as Easings;
+                    }
+                    if (spline) {
+                        temp[idx++] = spline as 'splineCatmullRom';
+                    }
+                    if (modifier) {
+                        temp[idx++] = modifier as PointModifier;
                     }
                 }
                 return temp as PercentPointDefinition;
@@ -234,11 +243,18 @@ export function fixVector2PointDefinition(
                         const attr = elm.slice(3).filter((e) => typeof e === 'string');
                         const ease = attr.find((e) => easingsList.includes(e as Easings));
                         const spline = attr.find((e) => e === 'splineCatmullRom');
+                        const modifier = attr.find((e) =>
+                            modifiersList.includes(e as PointModifier)
+                        );
+                        let idx = 3;
                         if (ease) {
-                            temp[3] = ease as Easings;
+                            temp[idx++] = ease as Easings;
                         }
                         if (spline) {
-                            temp[4] = spline as Easings;
+                            temp[idx++] = spline as 'splineCatmullRom';
+                        }
+                        if (modifier) {
+                            temp[idx++] = modifier as PointModifier;
                         }
                     }
                     return temp as Vector2PointDefinition;
@@ -278,11 +294,18 @@ export function fixVector3PointDefinition(
                         const attr = elm.slice(4).filter((e) => typeof e === 'string');
                         const ease = attr.find((e) => easingsList.includes(e as Easings));
                         const spline = attr.find((e) => e === 'splineCatmullRom');
+                        const modifier = attr.find((e) =>
+                            modifiersList.includes(e as PointModifier)
+                        );
+                        let idx = 4;
                         if (ease) {
-                            temp[4] = ease as Easings;
+                            temp[idx++] = ease as Easings;
                         }
                         if (spline) {
-                            temp[5] = spline as Easings;
+                            temp[idx++] = spline as 'splineCatmullRom';
+                        }
+                        if (modifier) {
+                            temp[idx++] = modifier as PointModifier;
                         }
                     }
                     return temp as Vector3PointDefinition;
@@ -324,11 +347,18 @@ export function fixColorPointDefinition(
                         const attr = elm.slice(5).filter((e) => typeof e === 'string');
                         const ease = attr.find((e) => easingsList.includes(e as Easings));
                         const lerp = attr.find((e) => e === 'lerpHSV');
+                        const modifier = attr.find((e) =>
+                            modifiersList.includes(e as PointModifier)
+                        );
+                        let idx = 4;
                         if (ease) {
-                            temp[5] = ease as Easings;
+                            temp[idx++] = ease as Easings;
                         }
                         if (lerp) {
-                            temp[6] = lerp as Easings;
+                            temp[idx++] = lerp as 'lerpHSV';
+                        }
+                        if (modifier) {
+                            temp[idx++] = modifier as PointModifier;
                         }
                     }
                     return temp as ColorPointDefinition;
