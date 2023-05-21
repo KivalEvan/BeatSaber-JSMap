@@ -26,7 +26,7 @@ class Logger {
 
     set logLevel(value: LogLevels) {
         this.#logLevel = value;
-        this.info(['logger', 'logLevel'], `Log level set to ${logPrefixes.get(value)}`);
+        this.tInfo(['logger', 'logLevel'], `Log level set to ${logPrefixes.get(value)}`);
     }
     get logLevel() {
         return this.#logLevel;
@@ -34,7 +34,7 @@ class Logger {
 
     set tagPrint(fn: (tags: string[]) => string) {
         this.#tagPrint = fn;
-        this.info(['logger', 'tagPrint'], `Update tag print function`);
+        this.tInfo(['logger', 'tagPrint'], `Update tag print function`);
     }
     get tagPrint() {
         return this.#tagPrint;
@@ -76,7 +76,7 @@ class Logger {
     setLevel(level: LogLevels) {
         level = Math.min(Math.max(level, 0), 5);
         this.#logLevel = level;
-        this.info(['logger', 'setLevel'], `Log level set to ${logPrefixes.get(level)}`);
+        this.tInfo(['logger', 'setLevel'], `Log level set to ${logPrefixes.get(level)}`);
     }
 
     tVerbose(tag: string[], ...args: any[]) {
