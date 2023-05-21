@@ -18,6 +18,7 @@
   - This means it won't automagically convert v2 map to v3 map when unspecified
 - Changed modded object value method behaviour
 - Only root-level file can contain platform-specific API
+- Updated Heck stuff
 - Recommended Deno version to 1.33.0+
 
 ### Fixed
