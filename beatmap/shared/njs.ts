@@ -65,6 +65,9 @@ export class NoteJumpSpeed {
     get reactionTime(): number {
         return this.calcRtFromHjd();
     }
+    get bpm(): BeatPerMinute {
+        return this._bpm;
+    }
 
     /** Calculate half jump duration given NJS offset.
      * ```ts

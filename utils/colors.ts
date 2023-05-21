@@ -52,7 +52,7 @@ export function HsvaToRgba(
     hue: number,
     saturation: number,
     value: number,
-    alpha?: number
+    alpha?: number,
 ): ColorArray {
     hue = hue / 360;
     if (hue < 0) {
@@ -97,7 +97,7 @@ export function interpolateColor(
     colorEnd: ColorInput,
     alpha: number,
     type: ColorType = 'rgba',
-    easing?: (x: number) => number
+    easing?: (x: number) => number,
 ): ColorArray {
     if (!easing) {
         easing = function (x: number) {
@@ -118,7 +118,7 @@ export function interpolateColor(
                     }
                     const cE = cEnd[i] ?? c;
                     return lerp(easing!(alpha), c!, cE!);
-                }) as ColorArray)
+                }) as ColorArray),
             );
         }
         default:
@@ -215,7 +215,7 @@ export function hexToRgba(hex: string): ColorArray {
 export function convertColorType(
     color: ColorInput | IColor,
     type: ColorType = 'rgba',
-    output: 'rgba' | 'hsva' = 'rgba'
+    output: 'rgba' | 'hsva' = 'rgba',
 ): ColorArray {
     if (typeof color === 'string') {
         const temp = hexToRgba(color);
@@ -359,8 +359,7 @@ export function deltaE00(rgbaAry1: ColorArray, rgbaAry2: ColorArray): number {
         }
         hX /= 2;
     }
-    tX =
-        1 -
+    tX = 1 -
         0.17 * Math.cos(degToRad(hX - 30)) +
         0.24 * Math.cos(degToRad(2 * hX)) +
         0.32 * Math.cos(degToRad(3 * hX + 6)) -
