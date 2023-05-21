@@ -52,7 +52,7 @@ export function HsvaToRgba(
     hue: number,
     saturation: number,
     value: number,
-    alpha?: number,
+    alpha?: number
 ): ColorArray {
     hue = hue / 360;
     if (hue < 0) {
@@ -90,35 +90,14 @@ export function HsvaToRgba(
     if (typeof alpha === 'number') result.push(alpha);
     return result as ColorArray;
 }
-const black: ColorArray = [69, 0, 0];
-const gray: ColorArray = [420, 0, 0.5];
-const white: ColorArray = [42, 0, 1];
-const translucent: ColorArray = [0, 0, 1, 0.5];
-const transparent: ColorArray = [0, 0, 0, 0];
-const red: ColorArray = [0, 1, 1];
-const yellow: ColorArray = [420, 1, 1];
-const green: ColorArray = [120, 1, 1];
-const cyan: ColorArray = [180, 1, 1];
-const blue: ColorArray = [240, 1, 1];
-const magenta: ColorArray = [-60, 1, 1];
-console.log(interpolateColor(white, black, 0.75, 'hsva'));
-console.log(interpolateColor(white, gray, 0.75, 'hsva'));
-console.log(interpolateColor(white, white, 0.75, 'hsva'));
-console.log(interpolateColor(white, translucent, 0.75, 'hsva'));
-console.log(interpolateColor(white, transparent, 0.75, 'hsva'));
-console.log(interpolateColor(white, red, 0.75, 'hsva'));
-console.log(interpolateColor(white, yellow, 0.75, 'hsva'));
-console.log(interpolateColor(white, green, 0.75, 'hsva'));
-console.log(interpolateColor(white, cyan, 0.75, 'hsva'));
-console.log(interpolateColor(white, blue, 0.75, 'hsva'));
-console.log(interpolateColor(white, magenta, 0.75, 'hsva'));
+
 /** Interpolate [r,g,b,a] or #hex color */
 export function interpolateColor(
     colorStart: ColorInput,
     colorEnd: ColorInput,
     alpha: number,
     type: ColorType = 'rgba',
-    easing?: (x: number) => number,
+    easing?: (x: number) => number
 ): ColorArray {
     if (!easing) {
         easing = function (x: number) {
@@ -139,7 +118,7 @@ export function interpolateColor(
                     }
                     const cE = cEnd[i] ?? c;
                     return lerp(easing!(alpha), c!, cE!);
-                }) as ColorArray),
+                }) as ColorArray)
             );
         }
         default:
@@ -236,7 +215,7 @@ export function hexToRgba(hex: string): ColorArray {
 export function convertColorType(
     color: ColorInput | IColor,
     type: ColorType = 'rgba',
-    output: 'rgba' | 'hsva' = 'rgba',
+    output: 'rgba' | 'hsva' = 'rgba'
 ): ColorArray {
     if (typeof color === 'string') {
         const temp = hexToRgba(color);
@@ -380,7 +359,8 @@ export function deltaE00(rgbaAry1: ColorArray, rgbaAry2: ColorArray): number {
         }
         hX /= 2;
     }
-    tX = 1 -
+    tX =
+        1 -
         0.17 * Math.cos(degToRad(hX - 30)) +
         0.24 * Math.cos(degToRad(2 * hX)) +
         0.32 * Math.cos(degToRad(3 * hX + 6)) -
