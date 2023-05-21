@@ -7,6 +7,8 @@ import {
     Vector4Object,
 } from '../types/vector.ts';
 
+type VectorObject = Partial<Vector2Object> | Partial<Vector3Object> | Partial<Vector4Object>;
+
 export function isVector2(obj: unknown): obj is Vector2 {
     return Array.isArray(obj) && obj.every((n) => typeof n === 'number') && obj.length === 2;
 }
@@ -23,12 +25,12 @@ export function vectorTranslate<T extends Vector2 | Vector3 | Vector4 | number[]
     vec: T,
     translate?: number[],
 ): T;
-export function vectorTranslate(vec?: Vector2, translate?: Partial<Vector2Object>): Vector2;
-export function vectorTranslate(vec?: Vector3, translate?: Partial<Vector3Object>): Vector3;
-export function vectorTranslate(vec?: Vector4, translate?: Partial<Vector4Object>): Vector4;
+export function vectorTranslate(vec?: Vector2, translate?: VectorObject): Vector2;
+export function vectorTranslate(vec?: Vector3, translate?: VectorObject): Vector3;
+export function vectorTranslate(vec?: Vector4, translate?: VectorObject): Vector4;
 export function vectorTranslate<T extends Vector2 | Vector3 | Vector4 | number[]>(
     vec?: T,
-    translate?: T | Partial<Vector2Object> | Partial<Vector3Object> | Partial<Vector4Object>,
+    translate?: T | VectorObject,
 ): T | undefined {
     if (!vec) return vec;
     if (translate) {
@@ -40,15 +42,16 @@ export function vectorTranslate<T extends Vector2 | Vector3 | Vector4 | number[]
             }
         } else {
             switch (vec.length) {
-                case 2:
-                    vec[0] = vec[0] + (translate.x ?? 0);
-                    vec[1] = vec[1] + (translate.y ?? 0);
+                case 4:
+                    vec[3] = vec[3]! + ((translate as Vector4Object).w ?? 0);
                 /* falls through */
                 case 3:
                     vec[2] = vec[2]! + ((translate as Vector3Object).z ?? 0);
                 /* falls through */
-                case 4:
-                    vec[3] = vec[3]! + ((translate as Vector4Object).w ?? 0);
+                case 2:
+                    // manually tested and verified, why does coverage not see past this?
+                    vec[1] = vec[1] + (translate.y ?? 0);
+                    vec[0] = vec[0] + (translate.x ?? 0);
             }
         }
     }
@@ -59,12 +62,12 @@ export function vectorRotate<T extends Vector2 | Vector3 | Vector4 | number[] | 
     vec: T,
     rotate?: number[],
 ): T;
-export function vectorRotate(vec: Vector2, rotate?: Partial<Vector2Object>): Vector2;
-export function vectorRotate(vec: Vector3, rotate?: Partial<Vector3Object>): Vector3;
-export function vectorRotate(vec: Vector4, rotate?: Partial<Vector4Object>): Vector4;
+export function vectorRotate(vec?: Vector2, rotate?: VectorObject): Vector2;
+export function vectorRotate(vec?: Vector3, rotate?: VectorObject): Vector3;
+export function vectorRotate(vec?: Vector4, rotate?: VectorObject): Vector4;
 export function vectorRotate<T extends Vector2 | Vector3 | Vector4 | number[]>(
     vec?: T,
-    rotate?: T | Partial<Vector2Object> | Partial<Vector3Object> | Partial<Vector4Object>,
+    rotate?: T | VectorObject,
 ): T | undefined {
     if (!vec) return vec;
     if (rotate) {
@@ -76,15 +79,15 @@ export function vectorRotate<T extends Vector2 | Vector3 | Vector4 | number[]>(
             }
         } else {
             switch (vec.length) {
-                case 2:
-                    vec[0] = vec[0] + (rotate.x ?? 0);
-                    vec[1] = vec[1] + (rotate.y ?? 0);
+                case 4:
+                    vec[3] = vec[3]! + ((rotate as Vector4Object).w ?? 0);
                 /* falls through */
                 case 3:
                     vec[2] = vec[2]! + ((rotate as Vector3Object).z ?? 0);
                 /* falls through */
-                case 4:
-                    vec[3] = vec[3]! + ((rotate as Vector4Object).w ?? 0);
+                case 2:
+                    vec[1] = vec[1] + (rotate.y ?? 0);
+                    vec[0] = vec[0] + (rotate.x ?? 0);
             }
         }
     }
@@ -95,12 +98,12 @@ export function vectorScale<T extends Vector2 | Vector3 | Vector4 | number[] | u
     vec: T,
     scale?: number | number[],
 ): T;
-export function vectorScale(vec: Vector2, scale?: Partial<Vector2Object>): Vector2;
-export function vectorScale(vec: Vector3, scale?: Partial<Vector3Object>): Vector3;
-export function vectorScale(vec: Vector4, scale?: Partial<Vector4Object>): Vector4;
+export function vectorScale(vec?: Vector2, scale?: VectorObject): Vector2;
+export function vectorScale(vec?: Vector3, scale?: VectorObject): Vector3;
+export function vectorScale(vec?: Vector4, scale?: VectorObject): Vector4;
 export function vectorScale<T extends Vector2 | Vector3 | Vector4 | number[]>(
     vec?: T,
-    scale?: number | T | Partial<Vector2Object> | Partial<Vector3Object> | Partial<Vector4Object>,
+    scale?: number | T | VectorObject,
 ): T | undefined {
     if (!vec) return vec;
     if (typeof scale === 'number') return vec.map((v) => v * scale) as T;
@@ -113,15 +116,15 @@ export function vectorScale<T extends Vector2 | Vector3 | Vector4 | number[]>(
             }
         } else {
             switch (vec.length) {
-                case 2:
-                    vec[0] = vec[0] * (scale.x ?? 1);
-                    vec[1] = vec[1] * (scale.y ?? 1);
+                case 4:
+                    vec[3] = vec[3]! * ((scale as Vector4Object).w ?? 1);
                 /* falls through */
                 case 3:
                     vec[2] = vec[2]! * ((scale as Vector3Object).z ?? 1);
                 /* falls through */
-                case 4:
-                    vec[3] = vec[3]! * ((scale as Vector4Object).w ?? 1);
+                case 2:
+                    vec[1] = vec[1] * (scale.y ?? 1);
+                    vec[0] = vec[0] * (scale.x ?? 1);
             }
         }
     }

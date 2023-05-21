@@ -1,5 +1,60 @@
 import * as misc from '../../utils/misc.ts';
-import { assert, assertEquals } from '../deps.ts';
+import * as math from '../../utils/math.ts';
+import { assert, assertEquals, assertThrows } from '../deps.ts';
+
+Deno.test('Shuffle', () => {
+    const rand = math.pRandomFn('shuffle');
+    const ary = [1, 2, 3, 4, 5];
+
+    misc.shuffle(ary, rand);
+    assertEquals(ary, [3, 1, 2, 4, 5]);
+
+    misc.shuffle(ary, rand);
+    assertEquals(ary, [2, 4, 5, 1, 3]);
+});
+
+Deno.test('Interleave', () => {
+    assertEquals(misc.interleave([1, 2, 3], [4, 5, 6]), [1, 4, 2, 5, 3, 6]);
+});
+
+Deno.test('Pick Random', () => {
+    const rand = math.pRandomFn('pickRandom');
+    const ary = [1, 2, 3, 4, 5];
+
+    assertEquals(misc.pickRandom(ary, rand), 4);
+    assertEquals(misc.pickRandom(ary, rand), 5);
+    assertEquals(misc.pickRandom(ary, rand), 3);
+});
+
+Deno.test('Deep Copy', () => {
+    // acceptable
+    assertEquals(misc.deepCopy([]), []);
+    assertEquals(misc.deepCopy({}), {});
+    assertEquals(misc.deepCopy([{}, 0]), [{}, 0]);
+    assertEquals(misc.deepCopy([0, 'lol']), [0, 'lol']);
+    assertEquals(misc.deepCopy([{ yes: '' }]), [{ yes: '' }]);
+    assertEquals(
+        misc.deepCopy({
+            string: 'abc',
+            number: 123.05,
+            boolean: true,
+            array: ['hi'],
+            object: { nested: 'hi' },
+        }),
+        { string: 'abc', number: 123.05, boolean: true, array: ['hi'], object: { nested: 'hi' } },
+    );
+    assertEquals(misc.deepCopy(null), null); // i mean yea it works and expected
+
+    // unacceptable
+    assertThrows(() => misc.deepCopy(''));
+    assertThrows(() => misc.deepCopy(0));
+    assertThrows(() => misc.deepCopy(false));
+    assertThrows(() => misc.deepCopy(Boolean()));
+    assertThrows(() => misc.deepCopy(undefined));
+    assertThrows(() => misc.deepCopy(() => {}));
+    // assertThrows(() => misc.deepCopy(new Date())); // FIXME: figure out if this is even valid
+    // assertThrows(() => misc.deepCopy(new Boolean()));
+});
 
 Deno.test('Is Hexadecimal', () => {
     // acceptable

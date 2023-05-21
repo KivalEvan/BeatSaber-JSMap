@@ -9,7 +9,7 @@ import { DeepPartial } from '../../types/utils.ts';
 import { LightIDList } from './lightID.ts';
 import { EventBase, EventBox, EventBoxType, IndexFilterDivision } from './types/lightMapper.ts';
 import { easings } from '../../utils/easings.ts';
-import { colorObjToAry, HsvaToRgba, RgbaToHsva } from '../../utils/colors.ts';
+import { colorFrom, HsvaToRgba, RgbaToHsva } from '../../utils/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
 import { ColorArray } from '../../types/colors.ts';
 import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
@@ -264,13 +264,11 @@ export class LightMapper {
                         });
                         if (eb.hueDistribution && event.isLightEvent()) {
                             if (!event.customData.color) {
-                                event.customData.color = event.isWhite()
-                                    ? [1, 1, 1]
-                                    : colorObjToAry(
-                                        ColorScheme[EnvironmentSchemeName[this.environment]][
-                                            event.isRed() ? '_envColorLeft' : '_envColorRight'
-                                        ]!,
-                                    );
+                                event.customData.color = event.isWhite() ? [1, 1, 1] : colorFrom(
+                                    ColorScheme[EnvironmentSchemeName[this.environment]][
+                                        event.isRed() ? '_envColorLeft' : '_envColorRight'
+                                    ]!,
+                                );
                             }
                             if (!isFirst) {
                                 event.customData.color = HsvaToRgba(

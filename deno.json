@@ -14,6 +14,7 @@
         "check": "deno check mod.ts && deno check extensions/mod.ts && deno check patch/mod.ts",
         "test:coverage": "deno coverage cov_profile --lcov --output=cov_profile.lcov && genhtml -o cov_profile/html cov_profile.lcov || deno coverage cov_profile",
         "test:run": "deno test --parallel --allow-read --allow-write --coverage=cov_profile tests/",
+        "test:serial": "deno test --allow-read --allow-write",
         "test:clean": "rm -rf cov_profile cov_profile.lcov",
         "test": "deno task test:clean || true && deno task test:run && deno task test:coverage"
     }

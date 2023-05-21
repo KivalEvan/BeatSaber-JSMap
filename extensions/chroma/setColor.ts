@@ -4,7 +4,7 @@ import {
     SetColorOptions,
     SetColorRangeOptions,
 } from './types/colors.ts';
-import { convertColorInput, interpolateColor } from '../../utils/colors.ts';
+import { convertColorType, interpolateColor } from '../../utils/colors.ts';
 import { normalize } from '../../utils/math.ts';
 import { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 import { settings } from './settings.ts';
@@ -19,7 +19,7 @@ export function setColor(objects: IChromaObject[], options: SetColorOptions) {
         color: options.color,
         colorType: options.colorType ?? (settings.colorType || 'hsva'),
     };
-    const color = convertColorInput(opt.color, opt.colorType);
+    const color = convertColorType(opt.color, opt.colorType);
     objects.forEach((obj) => {
         (obj.customData as IChromaEventLight).color = color;
     });

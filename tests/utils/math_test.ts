@@ -104,6 +104,40 @@ Deno.test('Random number generator helper', () => {
     assert(typeof math.random(0, 5, true) === 'number');
 });
 
+Deno.test('Modulo helper', () => {
+    assertEquals(math.mod(0, 100), 0);
+    assertEquals(math.mod(10, 100), 10);
+    assertEquals(math.mod(110, 100), 10);
+    assertEquals(math.mod(110, -100), 10);
+    assertEquals(math.mod(-110, 100), 90);
+    assertEquals(math.mod(-110, -100), 90);
+});
+
+Deno.test('Short rotation distance helper', () => {
+    assertEquals(math.shortRotDistance(0, 180, 360), 180);
+    assertEquals(math.shortRotDistance(180, 0, 360), 180);
+    assertEquals(math.shortRotDistance(60, 180, 360), 120);
+    assertEquals(math.shortRotDistance(180, 60, 360), 120);
+    assertEquals(math.shortRotDistance(180, 180, 360), 0);
+    assertEquals(math.shortRotDistance(-180, 180, 360), 0);
+    assertEquals(math.shortRotDistance(-180, -180, 360), 0);
+    assertEquals(math.shortRotDistance(-180, 0, 360), 180);
+    assertEquals(math.shortRotDistance(0, -180, 360), 180);
+    assertEquals(math.shortRotDistance(-180, -180, -360), 0);
+});
+
+Deno.test('Median helper', () => {
+    const rand = math.pRandomFn('pickRandom');
+
+    assertEquals(math.median([]), 0);
+    assertEquals(math.median([-2, 1, 5, 2, 2, 3, 6]), 2);
+    assertAlmostEquals(
+        math.median(new Array(100).fill(0).map((_) => rand(-1000, 1000))),
+        -116.0512797,
+        EPSILON,
+    );
+});
+
 Deno.test('Number clamp helper', () => {
     assertAlmostEquals(math.clamp(0, -10, 10), 0, EPSILON);
     assertAlmostEquals(math.clamp(5, -10, 10), 5, EPSILON);
