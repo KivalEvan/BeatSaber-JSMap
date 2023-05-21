@@ -6,9 +6,9 @@ import { EasingFunction } from '../../types/easings.ts';
 import { lerp, normalize } from '../../utils/math.ts';
 import logger from '../../logger.ts';
 
-const tag = (name: string) => {
-    return `[ext::NE::njs::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['ext', 'NE', 'njs', name];
+}
 
 /** Set NJS to object from start to end object.
  *
@@ -24,7 +24,7 @@ export function setNjs(
     },
 ): void {
     if (!objects.length) {
-        logger.warn(tag('setNJS'), 'No object(s) received.');
+        logger.tWarn(tag('setNJS'), 'No object(s) received.');
         return;
     }
     const njs = typeof options.njs === 'number'
@@ -55,11 +55,11 @@ export function simultaneousSpawn(
     },
 ): void {
     if (!objects.length) {
-        logger.warn(tag('simultaneousSpawn'), 'No object(s) received.');
+        logger.tWarn(tag('simultaneousSpawn'), 'No object(s) received.');
         return;
     }
     if (!options.speed) {
-        logger.error(tag('simultaneousSpawn'), 'Speed cannot be 0!');
+        logger.tError(tag('simultaneousSpawn'), 'Speed cannot be 0!');
         options.speed = 1;
     }
     options.spawnBeatOffset = options.spawnBeatOffset ?? 0;
@@ -95,7 +95,7 @@ export function gradientNjs(
     },
 ): void {
     if (!objects.length) {
-        logger.warn(tag('gradientNJS'), 'No object(s) received.');
+        logger.tWarn(tag('gradientNJS'), 'No object(s) received.');
         return;
     }
     options.easing = options.easing ??

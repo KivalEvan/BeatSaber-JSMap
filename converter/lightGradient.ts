@@ -10,9 +10,9 @@ import { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
 import { isV3 } from '../beatmap/version.ts';
 import eventToV3 from './customData/eventToV3.ts';
 
-const tag = (name: string) => {
-    return `[convert::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['convert', name];
+}
 
 function isLightGradient(obj: unknown): obj is IChromaLightGradient {
     return typeof obj === 'object' && obj != null && '_startColor' in obj && '_endColor' in obj;
@@ -25,7 +25,7 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
  */
 export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(data: T): T {
     const EventClass = isV3(data) ? BasicEvent : Event;
-    logger.warn(
+    logger.tWarn(
         tag('chromaLightGradientToVanillaGradient'),
         'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
     );

@@ -6,6 +6,10 @@
 
 - Legacy beatmap v1 (incomplete; contain mixed information)
 - Beatmap object class validation
+- Tagged log method
+  - Prefixed with, `t` followed by capital letter, for consistent tagging style print
+  - Non-tagged log will automatically apply `script` tag
+  - Able to customise tag print
 
 ### Changed
 

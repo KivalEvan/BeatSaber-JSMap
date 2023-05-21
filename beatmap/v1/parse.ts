@@ -5,9 +5,9 @@ import { DifficultyCheck } from './dataCheck.ts';
 import logger from '../../logger.ts';
 import { IBaseObject } from '../../types/beatmap/v1/object.ts';
 
-const tag = (name: string) => {
-    return `[v1::parse::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['v1', 'parse', name];
+}
 
 const sortObjectTime = (a: IBaseObject, b: IBaseObject) => a._time - b._time;
 
@@ -18,9 +18,9 @@ export function difficulty(
         throwError?: boolean;
     } = { enabled: true, throwError: true },
 ): Difficulty {
-    logger.info(tag('difficulty'), 'Parsing beatmap difficulty v1.x.x');
+    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v1.x.x');
     if (!data._version?.startsWith('1')) {
-        logger.warn(tag('difficulty'), 'Unidentified beatmap version');
+        logger.tWarn(tag('difficulty'), 'Unidentified beatmap version');
         data._version = '1.5.0';
     }
     if (checkData.enabled) {

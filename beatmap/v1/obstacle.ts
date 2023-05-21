@@ -6,7 +6,11 @@ import { WrapObstacle } from '../wrapper/obstacle.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import logger from '../../logger.ts';
 
-/** Object beatmap v2 class object. */
+function tag(name: string): string[] {
+    return ['beatmap', 'v1', 'obstacle', name];
+}
+
+/** Obstacle beatmap v1 class object. */
 export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     static default: ObjectReturnFn<Required<IObstacle>> = {
         _time: 0,
@@ -118,7 +122,7 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
         return {};
     }
     set customData(_: Record<string, never>) {
-        logger.warn('Obstacle custom data does not exist in beatmap V1');
+        logger.tWarn(tag('customData'), 'Obstacle custom data does not exist in beatmap V1');
     }
 
     getPosition(type?: ModType): Vector2 {

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { dim, red, yellow } from './deps.ts';
 
 // really simple logger
@@ -21,16 +22,24 @@ const logPrefixes = new Map<LogLevels, string>([
 
 class Logger {
     #logLevel = LogLevels.INFO;
+    #tagPrint: (tags: string[]) => string = (tags) => '[' + tags.join('::') + ']';
 
     set logLevel(value: LogLevels) {
         this.#logLevel = value;
-        this.info('[logger::logLevel]', `Log level set to ${logPrefixes.get(value)}`);
+        this.info(['logger', 'logLevel'], `Log level set to ${logPrefixes.get(value)}`);
     }
     get logLevel() {
         return this.#logLevel;
     }
 
-    // deno-lint-ignore no-explicit-any
+    set tagPrint(fn: (tags: string[]) => string) {
+        this.#tagPrint = fn;
+        this.info(['logger', 'tagPrint'], `Update tag print function`);
+    }
+    get tagPrint() {
+        return this.#tagPrint;
+    }
+
     private log(level: LogLevels, ...args: any[]) {
         if (level < this.#logLevel) return;
 
@@ -50,6 +59,10 @@ class Logger {
         }
     }
 
+    private prettyTag(tags: string[]): string {
+        return this.tagPrint(tags);
+    }
+
     /** Set logging level to filter various information.
      * ```ts
      * 0 -> Verbose
@@ -63,32 +76,47 @@ class Logger {
     setLevel(level: LogLevels) {
         level = Math.min(Math.max(level, 0), 5);
         this.#logLevel = level;
-        this.info('[logger::setLevel]', `Log level set to ${logPrefixes.get(level)}`);
+        this.info(['logger', 'setLevel'], `Log level set to ${logPrefixes.get(level)}`);
     }
 
-    // deno-lint-ignore no-explicit-any
+    tVerbose(tag: string[], ...args: any[]) {
+        this.log(LogLevels.VERBOSE, this.prettyTag(tag), ...args);
+    }
+
+    tDebug(tag: string[], ...args: any[]) {
+        this.log(LogLevels.DEBUG, this.prettyTag(tag), ...args);
+    }
+
+    tInfo(tag: string[], ...args: any[]) {
+        this.log(LogLevels.INFO, this.prettyTag(tag), ...args);
+    }
+
+    tWarn(tag: string[], ...args: any[]) {
+        this.log(LogLevels.WARN, this.prettyTag(tag), ...args);
+    }
+
+    tError(tag: string[], ...args: any[]) {
+        this.log(LogLevels.ERROR, this.prettyTag(tag), ...args);
+    }
+
     verbose(...args: any[]) {
-        this.log(LogLevels.VERBOSE, ...args);
+        this.tVerbose(['script'], ...args);
     }
 
-    // deno-lint-ignore no-explicit-any
     debug(...args: any[]) {
-        this.log(LogLevels.DEBUG, ...args);
+        this.tDebug(['script'], ...args);
     }
 
-    // deno-lint-ignore no-explicit-any
     info(...args: any[]) {
-        this.log(LogLevels.INFO, ...args);
+        this.tInfo(['script'], ...args);
     }
 
-    // deno-lint-ignore no-explicit-any
     warn(...args: any[]) {
-        this.log(LogLevels.WARN, ...args);
+        this.tWarn(['script'], ...args);
     }
 
-    // deno-lint-ignore no-explicit-any
     error(...args: any[]) {
-        this.log(LogLevels.ERROR, ...args);
+        this.tError(['script'], ...args);
     }
 }
 

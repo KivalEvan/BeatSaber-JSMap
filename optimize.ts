@@ -16,9 +16,9 @@ import { IGridObject } from './types/beatmap/v3/gridObject.ts';
 import { Vector2 } from './types/vector.ts';
 import { isV1, isV2, isV3 } from './beatmap/version.ts';
 
-const tag = (name: string) => {
-    return `[optimize::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['optimize', name];
+}
 
 const optionsInfo: Required<IOptimizeOptionsInfo> = {
     enabled: true,
@@ -113,13 +113,13 @@ export function deepClean(
                 throw new Error(`null value found in object key ${name}.${k}.`);
             } else {
                 if (Array.isArray(obj)) {
-                    logger.error(
+                    logger.tError(
                         tag('deepClean'),
                         `null value found in array ${name}[${k}], defaulting to 0...`,
                     );
                     obj[k] = 0;
                 } else {
-                    logger.error(
+                    logger.tError(
                         tag('deepClean'),
                         `null value found in object key ${name}.${k}, deleting property...`,
                     );
@@ -142,9 +142,9 @@ export function info(info: IInfo, options: IOptimizeOptionsInfo = { enabled: tru
     if (!opt.enabled) {
         return info;
     }
-    logger.info(tag('info'), `Optimising info data`);
+    logger.tInfo(tag('info'), `Optimising info data`);
 
-    logger.debug(tag('info'), 'Applying deep clean');
+    logger.tDebug(tag('info'), 'Applying deep clean');
     deepClean(info, opt);
     return info;
 }
@@ -165,13 +165,13 @@ export function difficulty<T extends IDifficultyV1 | IDifficultyV2 | IDifficulty
     if (!opt.enabled) {
         return difficulty;
     }
-    logger.info(tag('difficulty'), `Optimising difficulty data`);
+    logger.tInfo(tag('difficulty'), `Optimising difficulty data`);
 
-    logger.debug(tag('difficulty'), 'Applying deep clean');
+    logger.tDebug(tag('difficulty'), 'Applying deep clean');
     deepClean(difficulty, opt);
 
     if (opt.sort) {
-        logger.debug(tag('difficulty'), 'Sorting objects');
+        logger.tDebug(tag('difficulty'), 'Sorting objects');
         const sortPrec = Math.pow(10, opt.floatTrim);
 
         const sortV2Object = (a: IBaseObjectV2, b: IBaseObjectV2) => a._time - b._time;

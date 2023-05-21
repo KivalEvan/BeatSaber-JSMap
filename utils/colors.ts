@@ -4,9 +4,9 @@ import { ColorArray, ColorInput, ColorObject, ColorType, IColor } from '../types
 import { degToRad, lerp, radToDeg, round } from './math.ts';
 import { hexToDec, isHex } from './misc.ts';
 
-const tag = (name: string) => {
-    return `[utils::colors::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['utils', 'colors', name];
+}
 
 /** Convert RGBA to HSVA array.
  * ```
@@ -185,7 +185,7 @@ export function hexToRgba(hex: string): ColorArray {
             result.push(cNorm(hexToDec(hex.slice(6, 8))));
         }
     } else {
-        logger.warn(tag('hexToRGBA'), `Unknown color hex #${hex}`);
+        logger.tWarn(tag('hexToRGBA'), `Unknown color hex #${hex}`);
     }
     return result;
 }

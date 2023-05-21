@@ -28,6 +28,10 @@ import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotatio
 import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
 
+function tag(name: string): string[] {
+    return ['beatmap', 'v2', 'difficulty', name];
+}
+
 /** Difficulty beatmap v2 class object. */
 export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     version: `2.${0 | 2 | 4 | 5 | 6}.0`;
@@ -153,7 +157,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
                 })
             ),
         );
-        logger.warn('This may not work correctly');
+        logger.tWarn(tag('addRotationEvents'), 'This may not work correctly');
     }
 
     addColorNotes(...data: Partial<IWrapColorNoteAttribute<Required<INote>>>[]): void;
@@ -201,7 +205,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     addChains(..._: never[]): void {
-        logger.warn('Chain does not exist in beatmap V2');
+        logger.tWarn(tag('addChains'), 'Chain does not exist in beatmap V2');
     }
 
     addWaypoints(...data: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>[]): void;
@@ -254,15 +258,24 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     addLightColorEventBoxGroups(..._: never[]): void {
-        logger.warn('Light Color Event Box Group does not exist in beatmap V2');
+        logger.tWarn(
+            tag('addLightColorEventBoxGroups'),
+            'Light Color Event Box Group does not exist in beatmap V2',
+        );
     }
 
     addLightRotationEventBoxGroups(..._: never[]): void {
-        logger.warn('Light Rotation Event Box Group does not exist in beatmap V2');
+        logger.tWarn(
+            tag('addLightRotationEventBoxGroups'),
+            'Light Rotation Event Box Group does not exist in beatmap V2',
+        );
     }
 
     addLightTranslationEventBoxGroups(..._: never[]): void {
-        logger.warn('Light Translation Event Box Group does not exist in beatmap V2');
+        logger.tWarn(
+            tag('addLightTranslationEventBoxGroups'),
+            'Light Translation Event Box Group does not exist in beatmap V2',
+        );
     }
 
     isValid(): boolean {

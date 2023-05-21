@@ -1,9 +1,9 @@
 import { resolve } from './deps.ts';
 import logger from './logger.ts';
 
-const tag = (str: string) => {
-    return `[globals::${str}]`;
-};
+function tag(str: string): string[] {
+    return ['globals', str];
+}
 
 class Globals {
     #directory = './';
@@ -18,7 +18,7 @@ class Globals {
     set directory(value: string) {
         value = resolve(value.trim());
         this.#directory = value;
-        logger.info(tag('directory'), `Global map directory is set to ${this.#directory}`);
+        logger.tInfo(tag('directory'), `Global map directory is set to ${this.#directory}`);
     }
 
     /** Set logging level to filter various information.

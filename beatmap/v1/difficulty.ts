@@ -14,6 +14,10 @@ import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
 import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
 
+function tag(name: string): string[] {
+    return ['beatmap', 'v1', 'difficulty', name];
+}
+
 /** Difficulty beatmap v1 class object. */
 export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     version: '1.5.0';
@@ -101,7 +105,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         return {};
     }
     set customData(_: Record<string, never>) {
-        logger.warn('Custom data does not exist in beatmap V1');
+        logger.tWarn(tag('customData'), 'Custom data does not exist in beatmap V1');
     }
 
     reparse(keepRef?: boolean): void {
@@ -111,7 +115,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     addBPMEvents(..._: never[]): void {
-        logger.warn('BPM Event does not exist in beatmap V1');
+        logger.tWarn(tag('addBPMEvents'), 'BPM Event does not exist in beatmap V1');
     }
 
     addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): void;
@@ -132,7 +136,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
                 })
             ),
         );
-        logger.warn('This may not work correctly');
+        logger.tWarn(tag('addRotationEvents'), 'This may not work correctly');
     }
 
     addColorNotes(...data: Partial<IWrapColorNoteAttribute<Required<INote>>>[]): void;
@@ -173,15 +177,15 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     addArcs(..._: never[]): void {
-        logger.warn('Arc does not exist in beatmap V1');
+        logger.tWarn(tag('addArcs'), 'Arc does not exist in beatmap V1');
     }
 
     addChains(..._: never[]): void {
-        logger.warn('Chain does not exist in beatmap V1');
+        logger.tWarn(tag('addChains'), 'Chain does not exist in beatmap V1');
     }
 
     addWaypoints(..._: never[]): void {
-        logger.warn('Waypoint does not exist in beatmap V1');
+        logger.tWarn(tag('addWaypoints'), 'Waypoint does not exist in beatmap V1');
     }
 
     addBasicEvents(...data: Partial<IWrapEventAttribute<Required<IEvent>>>[]): void;
@@ -213,15 +217,24 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     addLightColorEventBoxGroups(..._: never[]): void {
-        logger.warn('Light Color Event Box Group does not exist in beatmap V1');
+        logger.tWarn(
+            tag('addLightColorEventBoxGroups'),
+            'Light Color Event Box Group does not exist in beatmap V1',
+        );
     }
 
     addLightRotationEventBoxGroups(..._: never[]): void {
-        logger.warn('Light Rotation Event Box Group does not exist in beatmap V1');
+        logger.tWarn(
+            tag('addLightRotationEventBoxGroups'),
+            'Light Rotation Event Box Group does not exist in beatmap V1',
+        );
     }
 
     addLightTranslationEventBoxGroups(..._: never[]): void {
-        logger.warn('Light Translation Event Box Group does not exist in beatmap V1');
+        logger.tWarn(
+            tag('addLightTranslationEventBoxGroups'),
+            'Light Translation Event Box Group does not exist in beatmap V1',
+        );
     }
 
     isValid(): boolean {

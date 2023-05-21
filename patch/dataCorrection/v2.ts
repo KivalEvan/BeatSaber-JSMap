@@ -64,8 +64,9 @@ function fixArc(obj: Arc) {
 }
 
 export function v2(data: Difficulty) {
-    logger.info(
-        '[patch::dataCorrection::difficulty::v2] Verifying and correcting data type for beatmap v2...',
+    logger.tInfo(
+        ['patch', 'dataCorrection', 'difficulty', 'v2'],
+        'Verifying and correcting data type for beatmap v2...',
     );
 
     data.colorNotes.forEach(fixNote);

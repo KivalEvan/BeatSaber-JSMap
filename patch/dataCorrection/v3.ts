@@ -299,8 +299,9 @@ function fixLightTranslationEventBoxGroup(obj: LightTranslationEventBoxGroup) {
 }
 
 export function v3(data: Difficulty) {
-    logger.info(
-        '[patch::dataCorrection::difficulty::v3] Verifying and correcting data type for beatmap v3...',
+    logger.tInfo(
+        ['patch', 'dataCorrection', 'difficulty', 'v3'],
+        'Verifying and correcting data type for beatmap v3...',
     );
 
     data.bpmEvents.forEach(fixBpmEvent);

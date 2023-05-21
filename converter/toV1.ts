@@ -10,9 +10,9 @@ import { IInfo, IInfoSetDifficulty } from '../types/beatmap/shared/info.ts';
 import { IInfo as IInfoV1 } from '../types/beatmap/v1/info.ts';
 import { deepCopy } from '../utils/misc.ts';
 
-const tag = (name: string) => {
-    return `[convert::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['convert', name];
+}
 
 /** Feeling nostalgic?
  * ```ts
@@ -30,7 +30,7 @@ export function toV1(
         return data;
     }
 
-    logger.warn(tag('toV1'), 'Converting beatmap to v1 may lose certain data!');
+    logger.tWarn(tag('toV1'), 'Converting beatmap to v1 may lose certain data!');
     const template = new DifficultyV1();
     template.fileName = data.fileName;
 

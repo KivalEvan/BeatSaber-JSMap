@@ -17,9 +17,9 @@ import { isVector3, vectorScale } from '../utils/vector.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IBPMChangeOld } from '../types/beatmap/v2/custom/bpmChange.ts';
 
-const tag = (name: string) => {
-    return `[convert::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['convert', name];
+}
 
 /** In case you need to go back, who knows why.
  * ```ts
@@ -33,7 +33,7 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
         return data;
     }
 
-    logger.warn(tag('toV2'), 'Converting beatmap to v2 may lose certain data!');
+    logger.tWarn(tag('toV2'), 'Converting beatmap to v2 may lose certain data!');
 
     const template = new DifficultyV2();
     template.fileName = data.fileName;
@@ -354,7 +354,7 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
                                 e.components?.ILightWithId?.type ||
                                 e.components?.ILightWithId?.lightID
                             ) {
-                                logger.warn(
+                                logger.tWarn(
                                     tag('toV2'),
                                     'v2 geometry cannot be made assignable light to specific type',
                                 );
@@ -485,7 +485,7 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
             for (const ce of customEvents) {
                 if (typeof ce._data._track === 'string') {
                     if (typeof ce._data._position === 'string') {
-                        logger.warn(tag('toV2'), 'Cannot convert point definitions, unknown use.');
+                        logger.tWarn(tag('toV2'), 'Cannot convert point definitions, unknown use.');
                     } else if (Array.isArray(ce._data._position)) {
                         isVector3(ce._data._position)
                             ? vectorScale(ce._data._position, 0.6)
@@ -497,7 +497,7 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
                             });
                     }
                 } else {
-                    logger.warn(
+                    logger.tWarn(
                         tag('toV2'),
                         'Environment animate track array conversion not yet implemented.',
                     );

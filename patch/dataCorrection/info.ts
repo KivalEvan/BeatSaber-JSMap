@@ -18,8 +18,9 @@ function fixEnvironment(str: unknown): IInfo['_environmentName'] {
 }
 
 export function info(data: IInfo) {
-    logger.info(
-        '[patch::dataCorrection::info] Verifying and correcting data type for beatmap info...',
+    logger.tInfo(
+        ['patch', 'dataCorrection', 'info'],
+        'Verifying and correcting data type for beatmap info...',
     );
 
     data._version = fixString(data._version, '2.0.0');

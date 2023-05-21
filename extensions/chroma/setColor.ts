@@ -10,9 +10,9 @@ import { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 import { settings } from './settings.ts';
 import logger from '../../logger.ts';
 
-const tag = (name: string) => {
-    return `[ext::chroma::color::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['ext', 'chroma', 'color', name];
+}
 
 export function setColor(objects: IChromaObject[], options: SetColorOptions) {
     const opt: Required<SetColorOptions> = {
@@ -25,12 +25,9 @@ export function setColor(objects: IChromaObject[], options: SetColorOptions) {
     });
 }
 
-export function setColorGradient(
-    objects: IChromaObject[],
-    options: SetColorGradientOptions,
-) {
+export function setColorGradient(objects: IChromaObject[], options: SetColorGradientOptions) {
     if (!objects.length) {
-        logger.warn(tag('setColorGradient'), 'No object(s) received.');
+        logger.tWarn(tag('setColorGradient'), 'No object(s) received.');
         return;
     }
     const opt: Required<SetColorGradientOptions> = {
@@ -59,10 +56,7 @@ export function setColorGradient(
     });
 }
 
-export function setColorRandom(
-    objects: IChromaObject[],
-    options: SetColorRangeOptions,
-) {
+export function setColorRandom(objects: IChromaObject[], options: SetColorRangeOptions) {
     const opt: Required<SetColorRangeOptions> = {
         offsetStart: options.offsetStart,
         offsetEnd: options.offsetEnd,
@@ -76,12 +70,7 @@ export function setColorRandom(
         if (objects[i].time > prevTime + 0.001) {
             random = Math.random();
         }
-        const color = interpolateColor(
-            opt.color1,
-            opt.color2,
-            random,
-            opt.colorType,
-        );
+        const color = interpolateColor(opt.color1, opt.color2, random, opt.colorType);
         objects[i].customData._color = color;
         prevTime = objects[i].time;
     }

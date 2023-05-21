@@ -3,6 +3,7 @@
  *
  * Current model version:
  * ```ts
+ * Beatmap V1: 1.5.0
  * Beatmap V2: 2.6.0
  * Beatmap V3: 3.2.0
  * ```

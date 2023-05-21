@@ -22,9 +22,9 @@ import { isVector3, vectorScale } from '../utils/vector.ts';
 import { Vector3 } from '../types/vector.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 
-const tag = (name: string) => {
-    return `[convert::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['convert', name];
+}
 
 /** Convert beatmap to beatmap v3, you are encouraged to convert to make full use of new beatmap features.
  * ```ts
@@ -38,7 +38,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
         return data;
     }
 
-    logger.warn(tag('toV3'), 'Converting beatmap to v3 may lose certain data!');
+    logger.tWarn(tag('toV3'), 'Converting beatmap to v3 may lose certain data!');
 
     const template = new DifficultyV3();
     template.fileName = data.fileName;
@@ -73,7 +73,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
         data.colorNotes.forEach((n, i) => {
             const customData: ICustomDataNote = objectToV3(n.customData);
             if (typeof n.customData._cutDirection === 'number') {
-                logger.debug(
+                logger.tDebug(
                     tag('toV3'),
                     `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`,
                 );
@@ -202,13 +202,13 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                 const customData = eventToV3(e.customData);
                 if (e.isLightEvent()) {
                     if (e.customData._propID) {
-                        logger.warn(
+                        logger.tWarn(
                             tag('toV3'),
                             `events[${i}] at time ${e.time} Chroma _propID will be removed.`,
                         );
                     }
                     if (e.customData._lightGradient) {
-                        logger.warn(
+                        logger.tWarn(
                             tag('toV3'),
                             `events[${i}] at time ${e.time} Chroma _lightGradient will be removed.`,
                         );
@@ -216,13 +216,13 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                 }
                 if (e.isRingEvent()) {
                     if (e.customData._reset) {
-                        logger.warn(
+                        logger.tWarn(
                             tag('toV3'),
                             `events[${i}] at time ${e.time} Chroma _reset will be removed.`,
                         );
                     }
                     if (e.customData._counterSpin) {
-                        logger.warn(
+                        logger.tWarn(
                             tag('toV3'),
                             `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`,
                         );
@@ -232,7 +232,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                         e.customData._propMult ||
                         e.customData._speedMult
                     ) {
-                        logger.warn(
+                        logger.tWarn(
                             tag('toV3'),
                             `events[${i}] at time ${e.time} Chroma _mult will be removed.`,
                         );
@@ -542,7 +542,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
             for (const ce of customEvents) {
                 if (typeof ce.d.track === 'string') {
                     if (typeof ce.d.position === 'string') {
-                        logger.warn(tag('toV3'), 'Cannot convert point definitions, unknown use.');
+                        logger.tWarn(tag('toV3'), 'Cannot convert point definitions, unknown use.');
                     } else if (Array.isArray(ce.d.position)) {
                         isVector3(ce.d.position)
                             ? vectorScale(ce.d.position as Vector3, 0.6)
@@ -554,7 +554,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                             });
                     }
                 } else {
-                    logger.warn(
+                    logger.tWarn(
                         tag('toV3'),
                         'Environment animate track array conversion not yet implemented.',
                     );

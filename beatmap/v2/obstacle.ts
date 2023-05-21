@@ -6,7 +6,7 @@ import { deepCopy } from '../../utils/misc.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
-/** Object beatmap v2 class object. */
+/** Obstacle beatmap v2 class object. */
 export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     static default: ObjectReturnFn<Required<IObstacle>> = {
         _time: 0,

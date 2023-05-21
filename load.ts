@@ -17,9 +17,9 @@ import { toV1 } from './converter/toV1.ts';
 import { toV2 } from './converter/toV2.ts';
 import { toV3 } from './converter/toV3.ts';
 
-const tag = (name: string) => {
-    return `[load::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['load', name];
+}
 
 const optionsInfo: Required<ILoadOptionsInfo> = {
     directory: '',
@@ -69,7 +69,7 @@ export function info(options: ILoadOptionsInfo = {}): Promise<IInfo> {
         directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? 'Info.dat',
     };
-    logger.info(tag('info'), `Async loading info from ${resolve(opt.directory, opt.filePath)}`);
+    logger.tInfo(tag('info'), `Async loading info from ${resolve(opt.directory, opt.filePath)}`);
     return new Promise((resolve, reject) => {
         try {
             resolve(_info(opt));
@@ -90,7 +90,7 @@ export function infoSync(options: ILoadOptionsInfo = {}): IInfo {
         directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? 'Info.dat',
     };
-    logger.info(tag('infoSync'), `Sync loading info from ${resolve(opt.directory, opt.filePath)}`);
+    logger.tInfo(tag('infoSync'), `Sync loading info from ${resolve(opt.directory, opt.filePath)}`);
     return _info(opt);
 }
 
@@ -110,7 +110,7 @@ function _difficulty(
     >;
 
     const p = resolve(opt.directory, filePath);
-    logger.info(tag('_difficulty'), `Loading difficulty as beatmap version ${version} from ${p}`);
+    logger.tInfo(tag('_difficulty'), `Loading difficulty as beatmap version ${version} from ${p}`);
 
     const jsonVersion = parseInt(
         typeof diffJSON._version === 'string'
@@ -126,7 +126,7 @@ function _difficulty(
                 `Beatmap version unmatched, expected ${version} but received ${jsonVersion}`,
             );
         }
-        logger.warn(
+        logger.tWarn(
             tag('_difficulty'),
             'Beatmap version unmatched, expected',
             version,
@@ -269,7 +269,7 @@ function _difficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
         for (const d of set._difficultyBeatmaps) {
             const p = resolve(opt.directory, d._beatmapFilename);
             try {
-                logger.info(tag('_difficultyFromInfo'), `Loading difficulty from ${p}`);
+                logger.tInfo(tag('_difficultyFromInfo'), `Loading difficulty from ${p}`);
                 const diffJSON = JSON.parse(Deno.readTextFileSync(p)) as Record<string, unknown>;
 
                 const jsonVersion = parseInt(
@@ -314,7 +314,7 @@ function _difficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
                     });
                 }
             } catch {
-                logger.warn(
+                logger.tWarn(
                     tag('_difficultyFromInfo'),
                     `Could not load difficulty from ${p}, skipping...`,
                 );
@@ -337,7 +337,7 @@ export function difficultyFromInfo(
     info: IInfo,
     options: ILoadOptionsDifficulty = {},
 ): Promise<IDifficultyList> {
-    logger.info(tag('difficultyFromInfo'), 'Async loading difficulty from map info...');
+    logger.tInfo(tag('difficultyFromInfo'), 'Async loading difficulty from map info...');
     return new Promise((resolve, reject) => {
         try {
             resolve(_difficultyFromInfo(info, options));
@@ -361,6 +361,6 @@ export function difficultyFromInfoSync(
     info: IInfo,
     options: ILoadOptionsDifficulty = {},
 ): IDifficultyList {
-    logger.info(tag('difficultyFromInfoSync'), 'Sync loading difficulty from map info...');
+    logger.tInfo(tag('difficultyFromInfoSync'), 'Sync loading difficulty from map info...');
     return _difficultyFromInfo(info, options);
 }

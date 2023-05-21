@@ -4,7 +4,11 @@ import { WrapEvent } from '../wrapper/event.ts';
 import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import logger from '../../logger.ts';
 
-/** Event beatmap v2 class object. */
+function tag(name: string): string[] {
+    return ['beatmap', 'v1', 'event', name];
+}
+
+/** Event beatmap v1 class object. */
 export class Event extends WrapEvent<Required<IEvent>> {
     static default: ObjectReturnFn<Required<IEvent>> = {
         _time: 0,
@@ -74,14 +78,14 @@ export class Event extends WrapEvent<Required<IEvent>> {
         return 1;
     }
     set floatValue(value: number) {
-        logger.warn('Event float value does not exist in beatmap V1');
+        logger.tWarn(tag('floatValue'), 'Event float value does not exist in beatmap V1');
     }
 
     get customData(): Record<string, never> {
         return {};
     }
     set customData(_: Record<string, never>) {
-        logger.warn('Event custom data does not exist in beatmap V1');
+        logger.tWarn(tag('customData'), 'Event custom data does not exist in beatmap V1');
     }
 
     isMappingExtensions(): boolean {

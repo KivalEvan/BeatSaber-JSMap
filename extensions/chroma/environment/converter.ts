@@ -3,9 +3,9 @@ import { IChromaEnvironment as IChromaEnvironmentV2 } from '../../../types/beatm
 import logger from '../../../logger.ts';
 import { vectorScale } from '../../../utils/vector.ts';
 
-const tag = (name: string) => {
-    return `[chroma::environment::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['chroma', 'environment', name];
+}
 
 export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
     return env.map((e) => {
@@ -96,11 +96,8 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
             };
         }
         if (e.geometry) {
-            if (
-                e.components?.ILightWithId?.type ||
-                e.components?.ILightWithId?.lightID
-            ) {
-                logger.warn(
+            if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
+                logger.tWarn(
                     tag('V3toV2'),
                     'v2 geometry cannot be made assignable light to specific type',
                 );

@@ -19,9 +19,9 @@ import { IDifficulty as IDifficultyV3 } from './types/beatmap/v3/difficulty.ts';
 import { IWrapDifficulty } from './types/beatmap/wrapper/difficulty.ts';
 import { resolve } from './deps.ts';
 
-const tag = (name: string) => {
-    return `[save::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['save', name];
+}
 
 const optionsInfo: Required<ISaveOptionsInfo> = {
     directory: '',
@@ -73,7 +73,7 @@ function _info(data: IInfo, options: ISaveOptionsInfo) {
         optimize.info(data, opt.optimize);
     }
     const p = resolve(opt.directory, opt.filePath);
-    logger.info(tag('_info'), `Writing to ${p}`);
+    logger.tInfo(tag('_info'), `Writing to ${p}`);
     Deno.writeTextFileSync(
         p,
         opt.format ? JSON.stringify(data, null, opt.format) : JSON.stringify(data),
@@ -86,7 +86,7 @@ function _info(data: IInfo, options: ISaveOptionsInfo) {
  * ```
  */
 export async function info(data: IInfo, options: ISaveOptionsInfo = {}) {
-    logger.info(tag('info'), `Async saving info`);
+    logger.tInfo(tag('info'), `Async saving info`);
     _info(data, options);
 }
 
@@ -96,7 +96,7 @@ export async function info(data: IInfo, options: ISaveOptionsInfo = {}) {
  * ```
  */
 export function infoSync(data: IInfo, options: ISaveOptionsInfo = {}) {
-    logger.info(tag('infoSync'), `Sync saving info`);
+    logger.tInfo(tag('infoSync'), `Sync saving info`);
     _info(data, options);
 }
 
@@ -111,9 +111,9 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     if (opt.validate.enabled) {
-        logger.info(tag('_difficulty'), 'Validating beatmap');
+        logger.tInfo(tag('_difficulty'), 'Validating beatmap');
         if (!data.isValid()) {
-            logger.warn(tag('_difficulty'), 'Invalid data detected in beatmap');
+            logger.tWarn(tag('_difficulty'), 'Invalid data detected in beatmap');
             if (opt.validate.reparse) {
                 data.reparse();
             } else {
@@ -155,7 +155,7 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
         }
     }
     const p = resolve(opt.directory, opt.filePath);
-    logger.info(tag('_difficulty'), `Writing to ${p}`);
+    logger.tInfo(tag('_difficulty'), `Writing to ${p}`);
     Deno.writeTextFileSync(
         p,
         opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),
@@ -168,7 +168,7 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
  * ```
  */
 export async function difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty = {}) {
-    logger.info(tag('difficulty'), `Async saving difficulty`);
+    logger.tInfo(tag('difficulty'), `Async saving difficulty`);
     _difficulty(data, options);
 }
 
@@ -178,7 +178,7 @@ export async function difficulty(data: IWrapDifficulty, options: ISaveOptionsDif
  * ```
  */
 export function difficultySync(data: IWrapDifficulty, options: ISaveOptionsDifficulty = {}) {
-    logger.info(tag('difficultySync'), `Sync saving difficulty`);
+    logger.tInfo(tag('difficultySync'), `Sync saving difficulty`);
     _difficulty(data, options);
 }
 
@@ -192,12 +192,12 @@ function _difficultyList(difficulties: IDifficultyList, options: ISaveOptionsDif
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     difficulties.forEach((dl) => {
-        logger.info(tag('_difficultyList'), `Saving ${dl.characteristic} ${dl.difficulty}`);
+        logger.tInfo(tag('_difficultyList'), `Saving ${dl.characteristic} ${dl.difficulty}`);
         const objectData = dl.data.toJSON();
         if (opt.validate.enabled) {
-            logger.info(tag('_difficulty'), 'Validating beatmap');
+            logger.tInfo(tag('_difficulty'), 'Validating beatmap');
             if (!dl.data.isValid()) {
-                logger.warn(tag('_difficulty'), 'Invalid data detected in beatmap');
+                logger.tWarn(tag('_difficulty'), 'Invalid data detected in beatmap');
                 if (opt.validate.reparse) {
                     dl.data.reparse();
                 } else {
@@ -238,7 +238,7 @@ function _difficultyList(difficulties: IDifficultyList, options: ISaveOptionsDif
             }
         }
         const p = resolve(opt.directory, dl.settings._beatmapFilename);
-        logger.info(tag('_difficultyList'), `Writing to ${p}`);
+        logger.tInfo(tag('_difficultyList'), `Writing to ${p}`);
         Deno.writeTextFileSync(
             p,
             opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),
@@ -255,7 +255,7 @@ export async function difficultyList(
     difficulties: IDifficultyList,
     options: ISaveOptionsDifficultyList = {},
 ) {
-    logger.info(tag('difficultyList'), `Async saving list of difficulty`);
+    logger.tInfo(tag('difficultyList'), `Async saving list of difficulty`);
     _difficultyList(difficulties, options);
 }
 
@@ -268,6 +268,6 @@ export function difficultyListSync(
     difficulties: IDifficultyList,
     options: ISaveOptionsDifficultyList = {},
 ) {
-    logger.info(tag('difficultyListSync'), `Sync saving list of difficulty`);
+    logger.tInfo(tag('difficultyListSync'), `Sync saving list of difficulty`);
     _difficultyList(difficulties, options);
 }

@@ -6,7 +6,11 @@ import { ObjectReturnFn } from '../../types/utils.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
 
-/** Note beatmap v2 class object. */
+function tag(name: string): string[] {
+    return ['beatmap', 'v1', 'note', name];
+}
+
+/** Note beatmap v1 class object. */
 export class Note extends WrapColorNote<Required<INote>> {
     static default: ObjectReturnFn<Required<INote>> = {
         _time: 0,
@@ -110,7 +114,7 @@ export class Note extends WrapColorNote<Required<INote>> {
         return {};
     }
     set customData(_: Record<string, never>) {
-        logger.warn('Note custom data does not exist in beatmap V1');
+        logger.tWarn(tag('customData'), 'Note custom data does not exist in beatmap V1');
     }
 
     getPosition(type?: ModType): Vector2 {

@@ -2,9 +2,9 @@ import logger from '../logger.ts';
 import { EasingFunction } from '../types/easings.ts';
 import { Vector3 } from '../types/vector.ts';
 
-const tag = (name: string) => {
-    return `[utils::math::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['utils', 'math', name];
+}
 
 /** Return number in formatted number string.
  * ```ts
@@ -214,7 +214,7 @@ export function clamp(value: number, min: number, max: number): number {
 /** Normalize value to 0-1 from given min and max value. */
 export function normalize(value: number, min: number, max: number): number {
     if (min > max) {
-        logger.warn(tag('normalize'), 'Min value is more than max value, returning 1');
+        logger.tWarn(tag('normalize'), 'Min value is more than max value, returning 1');
         return 1;
     }
     if (min === max) {
@@ -233,10 +233,10 @@ export function lerp(alpha: number, start: number, end: number, easing?: EasingF
         easing = (x) => x;
     }
     if (alpha > 1) {
-        logger.warn(tag('lerp'), 'Alpha value is larger than 1, may have unintended result');
+        logger.tWarn(tag('lerp'), 'Alpha value is larger than 1, may have unintended result');
     }
     if (alpha < 0) {
-        logger.warn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
+        logger.tWarn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
     }
     const result = start + (end - start) * easing(alpha);
     logger.verbose(tag('lerp'), `Obtained ${result}`);

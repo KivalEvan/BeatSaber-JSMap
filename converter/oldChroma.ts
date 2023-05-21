@@ -6,9 +6,9 @@ import { isV2 } from '../beatmap/version.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
 
-const tag = (name: string) => {
-    return `[convert::${name}]`;
-};
+function tag(name: string): string[] {
+    return ['convert', name];
+}
 
 /** Convert old Chroma color value to Chroma 2 custom data.
  * ```ts
@@ -19,7 +19,7 @@ export function ogChromaToChromaV2<T extends IWrapDifficulty>(
     data: T,
     environment: EnvironmentAllName = 'DefaultEnvironment',
 ): T {
-    logger.info(
+    logger.tInfo(
         tag('ogChromaToChromaV2'),
         'Converting old Chroma event value to Chroma event customData',
     );

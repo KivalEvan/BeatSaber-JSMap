@@ -49,4 +49,10 @@ Deno.test('Print log level', () => {
     logger.info('Printing info');
     logger.warn('Printing warn');
     logger.error('Printing error');
+
+    logger.tVerbose(['test', 'logger'], 'Printing verbose');
+    logger.tDebug(['test', 'logger'], 'Printing debug');
+    logger.tInfo(['test', 'logger'], 'Printing info');
+    logger.tWarn(['test', 'logger'], 'Printing warn');
+    logger.tError(['test', 'logger'], 'Printing error');
 });
