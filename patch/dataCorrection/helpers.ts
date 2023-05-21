@@ -332,7 +332,7 @@ export function fixColorPointDefinition(
                     const ease = attr.find((e) => easingsList.includes(e as Easings));
                     const lerp = attr.find((e) => e === 'lerpHSV');
                     const modifier = attr.find((e) => modifiersList.includes(e as PointModifier));
-                    let idx = 4;
+                    let idx = 5;
                     if (ease) {
                         temp[idx++] = ease as Easings;
                     }
