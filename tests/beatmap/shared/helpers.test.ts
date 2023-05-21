@@ -1,7 +1,6 @@
 import * as helpers from '../../../beatmap/shared/helpers.ts';
+import { EPSILON } from '../../constants.ts';
 import { assertAlmostEquals } from '../../deps.ts';
-
-const EPSILON = 0.001;
 
 Deno.test('Grid to Unity Unit', () => {
     assertAlmostEquals(helpers.gridToUnityUnit(0), 0, EPSILON);

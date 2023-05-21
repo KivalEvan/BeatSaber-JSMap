@@ -1,7 +1,6 @@
 import * as math from '../../utils/math.ts';
+import { EPSILON } from '../constants.ts';
 import { assert, assertAlmostEquals, assertEquals } from '../deps.ts';
-
-const EPSILON = 0.001;
 
 Deno.test('Format number helper', () => {
     assertEquals(math.formatNumber(123456789), '123,456,789');

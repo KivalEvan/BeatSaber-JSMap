@@ -1,9 +1,8 @@
 import { ColorArray } from '../../types/colors.ts';
 import * as colors from '../../utils/colors.ts';
 import { equalNear } from '../../utils/math.ts';
+import { EPSILON } from '../constants.ts';
 import { assert, assertAlmostEquals, assertEquals, assertThrows } from '../deps.ts';
-
-const EPSILON = 0.001;
 
 Deno.test('HSVA to RGBA', () => {
     const black = colors.HsvaToRgba(69, 0, 0);
