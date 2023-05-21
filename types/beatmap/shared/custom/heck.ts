@@ -1,17 +1,29 @@
 import { Easings } from '../../../easings.ts';
-export type PercentPointDefinition = [number, number, Easings?];
-export type Vector2PointDefinition =
-    | [number, number, number, Easings?, 'splineCatmullRom'?]
-    | [number, number, number, 'splineCatmullRom'?, Easings?];
+export type PercentPointDefinition =
+    | [percent: number, time: number, ...options: (Easings | PointFlag | PointModifier)[]];
+export type Vector2PointDefinition = [
+    x: number,
+    y: number,
+    time: number,
+    ...options: (Easings | PointFlag | PointModifier)[]
+];
 export type Vector3PointDefinition =
-    | [number, number, number, number, Easings?, 'splineCatmullRom'?]
-    | [number, number, number, number, 'splineCatmullRom'?, Easings?];
+    | [
+          x: number,
+          y: number,
+          z: number,
+          time: number,
+          ...options: (Easings | PointFlag | PointModifier)[]
+      ];
 
 export interface IInfoSettingsCustomData {
     _settings?: {
         [key: string]: { [key: string]: boolean | string | number | undefined } | undefined;
     };
 }
+
+export type PointModifier = `op${'None' | 'Add' | 'Sub' | 'Mul' | 'Div'}`;
+export type PointFlag = 'splineCatmullRom';
 
 /** Heck interface for difficulty info custom data.
  * Honestly, just look at heck wiki for this, it's too many.
