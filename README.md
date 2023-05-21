@@ -23,7 +23,7 @@ verify the beatmap integrity.
 - **Partial Creation:** Define beatmap object partially and let default fill the rest of fields.
 - **Mod Compatible:** Chroma, Cinema, Noodle Extensions, and Mapping Extensions is supported out of
   the box.
-  - All helpers and classes (excluding method) surrounding modded is only available in extensions
+  - All helpers and classes (excluding method) around modded is only available in extensions
     category.
 - **Modularity:** Import only what you need, be it classes, functions, and types.
 - **Built-in Utility:** Relevant utilities including math, colour, easings, and more.
@@ -107,6 +107,7 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 - General clean-up and restructuring (this has grown far larger than I anticipated)
 - Write JSDoc on every important bit
 - Add more helper for Chroma and Noodle Extensions
+- Observable/decorator for class array
 
 ## Known Issue
 
