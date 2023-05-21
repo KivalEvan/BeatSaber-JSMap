@@ -64,17 +64,17 @@ function _info(options: ILoadOptionsInfo) {
  * load.info().then((data) => console.log(data));
  * ```
  */
-export async function info(options: ILoadOptionsInfo = {}): Promise<IInfo> {
+export function info(options: ILoadOptionsInfo = {}): Promise<IInfo> {
     const opt: Required<ILoadOptionsInfo> = {
         directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
         filePath: options.filePath ?? 'Info.dat',
     };
     logger.info(tag('info'), `Async loading info from ${resolve(opt.directory, opt.filePath)}`);
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         try {
             resolve(_info(opt));
         } catch (e) {
-            reject(new Error(e));
+            reject(e);
         }
     });
 }
@@ -96,7 +96,7 @@ export function infoSync(options: ILoadOptionsInfo = {}): IInfo {
 
 function _difficulty(
     filePath: string,
-    version: number,
+    version: number | null,
     options: ILoadOptionsDifficulty,
 ): WrapDifficulty<Record<string, unknown>> {
     const opt: Required<ILoadOptionsDifficulty> = {
@@ -112,7 +112,7 @@ function _difficulty(
     const p = resolve(opt.directory, filePath);
     logger.info(tag('_difficulty'), `Loading difficulty as beatmap version ${version} from ${p}`);
 
-    const diffVersion = parseInt(
+    const jsonVersion = parseInt(
         typeof diffJSON._version === 'string'
             ? diffJSON._version.at(0)!
             : typeof diffJSON.version === 'string'
@@ -120,10 +120,10 @@ function _difficulty(
             : '2',
     );
 
-    if (diffVersion !== version) {
+    if (version && jsonVersion !== version) {
         if (!opt.forceConvert) {
             throw new Error(
-                `Beatmap version unmatched, expected ${version} but received ${diffVersion}`,
+                `Beatmap version unmatched, expected ${version} but received ${jsonVersion}`,
             );
         }
         logger.warn(
@@ -131,16 +131,16 @@ function _difficulty(
             'Beatmap version unmatched, expected',
             version,
             'but received',
-            diffVersion,
+            jsonVersion,
             'for version; Converting to beatmap version',
             version,
         );
-        if (diffVersion === 1) {
+        if (jsonVersion === 1) {
             const diff = parseDifficultyV1(diffJSON, opt.dataCheck).setFileName(filePath);
             if (version === 2) return toV2(diff);
             if (version === 3) return toV3(diff);
         }
-        if (diffVersion === 3) {
+        if (jsonVersion === 3) {
             const diff = parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(filePath);
             if (version === 2) return toV2(diff);
             if (version === 1) {
@@ -193,32 +193,31 @@ function _difficulty(
  * ---
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export async function difficulty(
+export function difficulty(
     filePath: LooseAutocomplete<GenericFileName>,
     version?: null,
     options?: ILoadOptionsDifficulty,
 ): Promise<WrapDifficulty<Record<string, unknown>>>;
-export async function difficulty(
+export function difficulty(
     filePath: LooseAutocomplete<GenericFileName>,
     version: 3,
     options?: ILoadOptionsDifficulty,
 ): Promise<DifficultyV3>;
-export async function difficulty(
+export function difficulty(
     filePath: LooseAutocomplete<GenericFileName>,
     version: 2,
     options?: ILoadOptionsDifficulty,
 ): Promise<DifficultyV2>;
-export async function difficulty(
+export function difficulty(
     filePath: LooseAutocomplete<GenericFileName>,
     version: number | null = 3,
     options: ILoadOptionsDifficulty = {},
 ) {
-    version ??= 3;
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         try {
             resolve(_difficulty(filePath, version!, options));
         } catch (e) {
-            reject(new Error(e));
+            reject(e);
         }
     });
 }
@@ -256,7 +255,6 @@ export function difficultySync(
     version: number | null = 3,
     options: ILoadOptionsDifficulty = {},
 ) {
-    version ??= 3;
     return _difficulty(filePath, version, options);
 }
 
@@ -274,7 +272,7 @@ function _difficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
                 logger.info(tag('_difficultyFromInfo'), `Loading difficulty from ${p}`);
                 const diffJSON = JSON.parse(Deno.readTextFileSync(p)) as Record<string, unknown>;
 
-                const diffVersion = parseInt(
+                const jsonVersion = parseInt(
                     typeof diffJSON._version === 'string'
                         ? diffJSON._version.at(0)!
                         : typeof diffJSON.version === 'string'
@@ -282,7 +280,7 @@ function _difficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
                         : '2',
                 );
 
-                if (diffVersion === 1) {
+                if (jsonVersion === 1) {
                     difficulties.push({
                         characteristic: set._beatmapCharacteristicName,
                         difficulty: d._difficulty,
@@ -293,7 +291,7 @@ function _difficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
                         ),
                     });
                 }
-                if (diffVersion === 2) {
+                if (jsonVersion === 2) {
                     difficulties.push({
                         characteristic: set._beatmapCharacteristicName,
                         difficulty: d._difficulty,
@@ -304,7 +302,7 @@ function _difficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
                         ),
                     });
                 }
-                if (diffVersion === 3) {
+                if (jsonVersion === 3) {
                     difficulties.push({
                         characteristic: set._beatmapCharacteristicName,
                         difficulty: d._difficulty,
@@ -335,16 +333,16 @@ function _difficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
  * ---
  * Info difficulty reference is also given to allow further control.
  */
-export async function difficultyFromInfo(
+export function difficultyFromInfo(
     info: IInfo,
     options: ILoadOptionsDifficulty = {},
 ): Promise<IDifficultyList> {
     logger.info(tag('difficultyFromInfo'), 'Async loading difficulty from map info...');
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         try {
             resolve(_difficultyFromInfo(info, options));
         } catch (e) {
-            reject(new Error(e));
+            reject(e);
         }
     });
 }
