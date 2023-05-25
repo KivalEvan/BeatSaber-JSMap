@@ -39,6 +39,7 @@ export const EnvironmentSchemeName: Record<EnvironmentAllName, ColorSchemeList> 
     RockMixtapeEnvironment: 'Rock Mixtape',
     Dragons2Environment: 'Dragons 2.0',
     Panic2Environment: 'Panic 2.0',
+    QueenEnvironment: 'Queen',
     GlassDesertEnvironment: 'Glass Desert',
 } as const;
 
@@ -281,6 +282,15 @@ export const ColorScheme: IEnvironmentScheme = {
         _envColorLeftBoost: { r: 0.9019608, g: 0.4470589, b: 0.06666667 },
         _envColorRightBoost: { r: 0.6365692, g: 0.4373443, b: 0.8584906 },
         _obstacleColor: { r: 0.9686275, g: 0.3803922, b: 0.2745098 },
+    },
+    Queen: {
+        _colorLeft: { r: 0.58, g: 0.5675714, b: 0.5551428 },
+        _colorRight: { r: 0.5236231, g: 0.1345675, b: 0.6792453 },
+        _envColorLeft: { r: 0.9333334, g: 0.6392157, b: 0.1215686 },
+        _envColorRight: { r: 0.04313726, g: 0.7176471, b: 0.8980393 },
+        _envColorLeftBoost: { r: 0.7686275, g: 0.145098, b: 0.07450981 },
+        _envColorRightBoost: { r: 0.4, g: 0.007843138, b: 0.7254902 },
+        _obstacleColor: { r: 0.9333334, g: 0.6392157, b: 0.1215686 },
     },
     'Glass Desert': {
         _colorLeft: { r: 0.6792453, g: 0.5712628, b: 0 },

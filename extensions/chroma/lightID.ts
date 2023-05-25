@@ -1218,6 +1218,7 @@ export const LightIDList: Record<
     RockMixtapeEnvironment: {},
     Dragons2Environment: {},
     Panic2Environment: {},
+    QueenEnvironment: {},
     GlassDesertEnvironment: {
         '0': [1, 2, 3, 4, 5, 6],
         '1': [1, 2, 3, 4, 5, 6, 7, 8],

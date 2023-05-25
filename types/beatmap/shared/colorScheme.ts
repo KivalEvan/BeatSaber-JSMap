@@ -42,7 +42,8 @@ export type ColorSchemeList =
     | 'Glass Desert'
     | 'Rock Mixtape'
     | 'Dragons 2.0'
-    | 'Panic 2.0';
+    | 'Panic 2.0'
+    | 'Queen';
 
 export type IEnvironmentScheme = {
     readonly [key in ColorSchemeList]: Readonly<IColorScheme>;
