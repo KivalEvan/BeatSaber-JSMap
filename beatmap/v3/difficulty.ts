@@ -133,10 +133,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     get customData(): NonNullable<IDifficulty['customData']> {
-        return this.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IDifficulty['customData']>) {
-        this.customData = value;
+        this._customData = value;
     }
 
     reparse(keepRef?: boolean): void {
