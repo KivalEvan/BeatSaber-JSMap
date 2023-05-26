@@ -1,4 +1,3 @@
-import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
 import { IWrapLightRotationBase } from '../../types/beatmap/wrapper/lightRotationBase.ts';
 import { IWrapLightRotationEventBox } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
 import { WrapEventBox } from './eventBox.ts';
@@ -10,16 +9,25 @@ export abstract class WrapLightRotationEventBox<
     TFilter extends Record<keyof TFilter, unknown>,
 > extends WrapEventBox<TBox, TBase, TFilter>
     implements IWrapLightRotationEventBox<TBox, TBase, TFilter> {
-    abstract get rotationDistribution(): ILightRotationEventBox['s'];
-    abstract set rotationDistribution(value: ILightRotationEventBox['s']);
-    abstract get rotationDistributionType(): ILightRotationEventBox['t'];
-    abstract set rotationDistributionType(value: ILightRotationEventBox['t']);
-    abstract get axis(): ILightRotationEventBox['a'];
-    abstract set axis(value: ILightRotationEventBox['a']);
-    abstract get flip(): ILightRotationEventBox['r'];
-    abstract set flip(value: ILightRotationEventBox['r']);
-    abstract get affectFirst(): ILightRotationEventBox['b'];
-    abstract set affectFirst(value: ILightRotationEventBox['b']);
+    protected _rotationDistribution!: IWrapLightRotationEventBox['rotationDistribution'];
+    protected _rotationDistributionType!: IWrapLightRotationEventBox['rotationDistributionType'];
+    protected _axis!: IWrapLightRotationEventBox['axis'];
+    protected _flip!: IWrapLightRotationEventBox['flip'];
+    protected _affectFirst!: IWrapLightRotationEventBox['affectFirst'];
+    declare protected _events: IWrapLightRotationBase<TBase>[];
+
+    abstract get rotationDistribution(): IWrapLightRotationEventBox['rotationDistribution'];
+    abstract set rotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']);
+    abstract get rotationDistributionType(): IWrapLightRotationEventBox['rotationDistributionType'];
+    abstract set rotationDistributionType(
+        value: IWrapLightRotationEventBox['rotationDistributionType'],
+    );
+    abstract get axis(): IWrapLightRotationEventBox['axis'];
+    abstract set axis(value: IWrapLightRotationEventBox['axis']);
+    abstract get flip(): IWrapLightRotationEventBox['flip'];
+    abstract set flip(value: IWrapLightRotationEventBox['flip']);
+    abstract get affectFirst(): IWrapLightRotationEventBox['affectFirst'];
+    abstract set affectFirst(value: IWrapLightRotationEventBox['affectFirst']);
     abstract get events(): IWrapLightRotationBase<TBase>[];
     abstract set events(value: IWrapLightRotationBase<TBase>[]);
 

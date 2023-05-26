@@ -5,6 +5,9 @@ import { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts
 export abstract class WrapRotationEvent<T extends Record<keyof T, unknown>>
     extends WrapBaseObject<T>
     implements IWrapRotationEvent<T> {
+    protected _executionTime!: IWrapRotationEvent['executionTime'];
+    protected _rotation!: IWrapRotationEvent['rotation'];
+
     abstract get executionTime(): IWrapRotationEvent['executionTime'];
     abstract set executionTime(value: IWrapRotationEvent['executionTime']);
     abstract get rotation(): IWrapRotationEvent['rotation'];

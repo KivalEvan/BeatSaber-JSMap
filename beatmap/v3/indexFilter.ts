@@ -32,18 +32,18 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
             & Partial<IIndexFilter>
             & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>> = {},
     ) {
-        super({
-            f: data.type ?? data.f ?? IndexFilter.default.f,
-            p: data.p0 ?? data.p ?? IndexFilter.default.p,
-            t: data.p1 ?? data.t ?? IndexFilter.default.t,
-            r: data.reverse ?? data.r ?? IndexFilter.default.r,
-            c: data.chunks ?? data.c ?? IndexFilter.default.c,
-            n: data.random ?? data.n ?? IndexFilter.default.n,
-            s: data.seed ?? data.s ?? IndexFilter.default.s,
-            l: data.limit ?? data.l ?? IndexFilter.default.l,
-            d: data.limitAffectsType ?? data.d ?? IndexFilter.default.d,
-            customData: data.customData ?? IndexFilter.default.customData(),
-        });
+        super();
+
+        this._type = data.type ?? data.f ?? IndexFilter.default.f;
+        this._p0 = data.p0 ?? data.p ?? IndexFilter.default.p;
+        this._p1 = data.p1 ?? data.t ?? IndexFilter.default.t;
+        this._reverse = data.reverse ?? data.r ?? IndexFilter.default.r;
+        this._chunks = data.chunks ?? data.c ?? IndexFilter.default.c;
+        this._random = data.random ?? data.n ?? IndexFilter.default.n;
+        this._seed = data.seed ?? data.s ?? IndexFilter.default.s;
+        this._limit = data.limit ?? data.l ?? IndexFilter.default.l;
+        this._limitAffectsType = data.limitAffectsType ?? data.d ?? IndexFilter.default.d;
+        this._customData = data.customData ?? IndexFilter.default.customData();
     }
 
     static create(): IndexFilter;
@@ -76,72 +76,72 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
     }
 
     get type() {
-        return this.data.f;
+        return this._type;
     }
     set type(value: IIndexFilter['f']) {
-        this.data.f = value;
+        this._type = value;
     }
 
     get p0() {
-        return this.data.p;
+        return this._p0;
     }
     set p0(value: IIndexFilter['p']) {
-        this.data.p = value;
+        this._p0 = value;
     }
 
     get p1() {
-        return this.data.t;
+        return this._p1;
     }
     set p1(value: IIndexFilter['t']) {
-        this.data.t = value;
+        this._p1 = value;
     }
 
     get reverse() {
-        return this.data.r;
+        return this._reverse;
     }
     set reverse(value: IIndexFilter['r']) {
-        this.data.r = value;
+        this._reverse = value;
     }
 
     get chunks() {
-        return this.data.c;
+        return this._chunks;
     }
     set chunks(value: IIndexFilter['c']) {
-        this.data.c = value;
+        this._chunks = value;
     }
 
     get random() {
-        return this.data.n;
+        return this._random;
     }
     set random(value: IIndexFilter['n']) {
-        this.data.n = value;
+        this._random = value;
     }
 
     get seed() {
-        return this.data.s;
+        return this._seed;
     }
     set seed(value: IIndexFilter['s']) {
-        this.data.s = value;
+        this._seed = value;
     }
 
     get limit() {
-        return this.data.l;
+        return this._limit;
     }
     set limit(value: IIndexFilter['l']) {
-        this.data.l = value;
+        this._limit = value;
     }
 
     get limitAffectsType() {
-        return this.data.d;
+        return this._limitAffectsType;
     }
     set limitAffectsType(value: IIndexFilter['d']) {
-        this.data.d = value;
+        this._limitAffectsType = value;
     }
 
     get customData(): NonNullable<IIndexFilter['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IIndexFilter['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 }

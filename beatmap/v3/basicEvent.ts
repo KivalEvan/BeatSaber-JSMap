@@ -30,13 +30,13 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
     constructor(
         data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<Required<IBasicEvent>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? BasicEvent.default.b,
-            et: data.type ?? data.et ?? BasicEvent.default.et,
-            i: data.value ?? data.i ?? BasicEvent.default.i,
-            f: data.floatValue ?? data.f ?? BasicEvent.default.f,
-            customData: data.customData ?? BasicEvent.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? BasicEvent.default.b;
+        this._type = data.type ?? data.et ?? BasicEvent.default.et;
+        this._value = data.value ?? data.i ?? BasicEvent.default.i;
+        this._floatValue = data.floatValue ?? data.f ?? BasicEvent.default.f;
+        this._customData = data.customData ?? BasicEvent.default.customData();
     }
 
     static create(): BasicEvent[];
@@ -75,38 +75,38 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: IBasicEvent['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get type() {
-        return this.data.et;
+        return this._type;
     }
     set type(value: IBasicEvent['et']) {
-        this.data.et = value;
+        this._type = value;
     }
 
     get value() {
-        return this.data.i;
+        return this._value;
     }
     set value(value: IBasicEvent['i']) {
-        this.data.i = value;
+        this._value = value;
     }
 
     get floatValue() {
-        return this.data.f;
+        return this._floatValue;
     }
     set floatValue(value: IBasicEvent['f']) {
-        this.data.f = value;
+        this._floatValue = value;
     }
 
     get customData(): NonNullable<IBasicEvent['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IBasicEvent['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 
     isLightEvent(environment?: EnvironmentAllName): this is BasicEventLight {
@@ -159,19 +159,19 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
 
 abstract class BasicEventLight extends BasicEvent {
     get customData(): IChromaEventLight {
-        return this.data.customData as IChromaEventLight;
+        return this.customData as IChromaEventLight;
     }
 }
 
 abstract class BasicEventRing extends BasicEvent {
     get customData(): IChromaEventRing {
-        return this.data.customData as IChromaEventRing;
+        return this.customData as IChromaEventRing;
     }
 }
 
 abstract class BasicEventLaser extends BasicEvent {
     get customData(): IChromaEventLaser {
-        return this.data.customData as IChromaEventLaser;
+        return this.customData as IChromaEventLaser;
     }
 }
 

@@ -81,11 +81,11 @@ export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends
 
     abstract reparse(keepRef?: boolean): void;
 
-    protected createOrKeep<T, U>(concrete: { new (data: T): U }, obj: T, keep?: boolean): U {
+    protected createOrKeep<T, U>(concrete: { new (data: T | U): U }, obj: U, keep?: boolean): U {
         return keep && obj instanceof concrete ? obj : new concrete(obj);
     }
 
-    protected checkClass<T, U>(concrete: { new (data: T): U }, obj: T): boolean {
+    protected checkClass<T, U>(concrete: { new (data: T): U }, obj: U): boolean {
         return obj instanceof concrete;
     }
 

@@ -1,6 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import { IFilter } from './types/filter.ts';
-import { WrapBaseObject } from '../../beatmap/wrapper/baseObject.ts';
+import { Difficulty } from '../../beatmap/v3/difficulty.ts';
+import { DeepPartialWrapper } from '../../types/utils.ts';
+import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
 /** Query function on class object array.
  * ```ts
@@ -9,18 +11,19 @@ import { WrapBaseObject } from '../../beatmap/wrapper/baseObject.ts';
  * ```
  */
 export function where<
-    T extends WrapBaseObject<Record<keyof T['data'], unknown>>,
-    U extends T['data'],
+    T extends IWrapBaseObject<Record<string, any>>,
+    U extends DeepPartialWrapper<T>,
 >(objects: T[], filter: IFilter<U> = {}): T[] {
     return objects
         .filter((o) => {
             let result = false;
-            for (const key in filter.include) {
-                const value = filter.include[key];
+            for (const k in filter.include) {
+                const key = k as keyof T;
+                const value = filter.include[k];
                 if (key === 'customData' || key === '_customData') {
-                    if ((o.data as any)[key]) {
+                    if (o[key]) {
                         result = (value as string[]).some((p) =>
-                            Object.keys((o.data as any)[key]).includes(p)
+                            Object.keys((o as any)[key]).includes(p)
                         );
                         if (result) {
                             break;
@@ -30,9 +33,9 @@ export function where<
                     }
                 }
                 if (Array.isArray(value)) {
-                    result = value.some((p) => (o.data as any)[key] === p);
+                    result = value.some((p) => o[key] === p);
                 } else {
-                    result = (o.data as any)[key] === value;
+                    result = o[key] === value;
                 }
                 if (result) {
                     break;
@@ -42,12 +45,13 @@ export function where<
         })
         .filter((o) => {
             let result = false;
-            for (const key in filter.exclude) {
-                const value = filter.exclude[key];
+            for (const k in filter.exclude) {
+                const key = k as keyof T;
+                const value = filter.exclude[k];
                 if (key === 'customData' || key === '_customData') {
-                    if ((o.data as any)[key]) {
+                    if (o[key]) {
                         result = (value as string[]).some((p) =>
-                            Object.keys((o.data as any)[key]).includes(p)
+                            Object.keys((o as any)[key]).includes(p)
                         );
                         if (result) {
                             break;
@@ -57,9 +61,9 @@ export function where<
                     }
                 }
                 if (Array.isArray(value)) {
-                    result = value.some((p) => (o.data as any)[key] === p);
+                    result = value.some((p) => o[key] === p);
                 } else {
-                    result = (o.data as any)[key] === value;
+                    result = o[key] === value;
                 }
                 if (result) {
                     break;
@@ -68,3 +72,7 @@ export function where<
             return !result;
         });
 }
+
+const d = new Difficulty();
+
+where(d.obstacles, { include: {} });

@@ -31,15 +31,15 @@ export class LightRotationBase extends WrapLightRotationBase<Required<ILightRota
             & Partial<ILightRotationBase>
             & Partial<IWrapLightRotationBaseAttribute<Required<ILightRotationBase>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? LightRotationBase.default.b,
-            p: data.previous ?? data.p ?? LightRotationBase.default.p,
-            e: data.easing ?? data.e ?? LightRotationBase.default.e,
-            l: data.loop ?? data.l ?? LightRotationBase.default.l,
-            r: data.rotation ?? data.r ?? LightRotationBase.default.r,
-            o: data.direction ?? data.o ?? LightRotationBase.default.o,
-            customData: data.customData ?? LightRotationBase.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? LightRotationBase.default.b;
+        this._previous = data.previous ?? data.p ?? LightRotationBase.default.p;
+        this._easing = data.easing ?? data.e ?? LightRotationBase.default.e;
+        this._loop = data.loop ?? data.l ?? LightRotationBase.default.l;
+        this._rotation = data.rotation ?? data.r ?? LightRotationBase.default.r;
+        this._direction = data.direction ?? data.o ?? LightRotationBase.default.o;
+        this._customData = data.customData ?? LightRotationBase.default.customData();
     }
 
     static create(): LightRotationBase[];
@@ -75,56 +75,56 @@ export class LightRotationBase extends WrapLightRotationBase<Required<ILightRota
             l: this.loop,
             r: this.rotation,
             o: this.direction,
-            customData: deepCopy(this.data.customData),
+            customData: deepCopy(this.customData),
         };
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: ILightRotationBase['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get previous() {
-        return this.data.p;
+        return this._previous;
     }
     set previous(value: ILightRotationBase['p']) {
-        this.data.p = value;
+        this._previous = value;
     }
 
     get easing() {
-        return this.data.e;
+        return this._easing;
     }
     set easing(value: ILightRotationBase['e']) {
-        this.data.e = value;
+        this._easing = value;
     }
 
     get loop() {
-        return this.data.l;
+        return this._loop;
     }
     set loop(value: ILightRotationBase['l']) {
-        this.data.l = value;
+        this._loop = value;
     }
 
     get rotation() {
-        return this.data.r;
+        return this._rotation;
     }
     set rotation(value: ILightRotationBase['r']) {
-        this.data.r = value;
+        this._rotation = value;
     }
 
     get direction() {
-        return this.data.o;
+        return this._direction;
     }
     set direction(value: ILightRotationBase['o']) {
-        this.data.o = value;
+        this._direction = value;
     }
 
     get customData(): NonNullable<ILightRotationBase['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<ILightRotationBase['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 }

@@ -52,29 +52,20 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     useNormalEventsAsCompatibleEvents = true;
 
     constructor(data: Partial<IDifficulty> = {}) {
-        super({
-            _version: '2.6.0',
-            _notes: data?._notes ?? [],
-            _sliders: data?._sliders ?? [],
-            _obstacles: data?._obstacles ?? [],
-            _events: data?._events ?? [],
-            _waypoints: data?._waypoints ?? [],
-            _specialEventsKeywordFilters: data?._specialEventsKeywordFilters ?? {
-                _keywords: [],
-            },
-            _customData: data?._customData ?? {},
-        });
+        super();
 
         this.version = '2.6.0';
-        this.colorNotes = this.data._notes.map((obj) => new Note(obj));
-        this.arcs = this.data._sliders.map((obj) => new Arc(obj));
-        this.obstacles = this.data._obstacles.map((obj) => new Obstacle(obj));
-        this.basicEvents = this.data._events.map((obj) => new Event(obj));
-        this.waypoints = this.data._waypoints.map((obj) => new Waypoint(obj));
+        this.colorNotes = (data?._notes ?? []).map((obj) => new Note(obj));
+        this.arcs = (data?._sliders ?? []).map((obj) => new Arc(obj));
+        this.obstacles = (data?._obstacles ?? []).map((obj) => new Obstacle(obj));
+        this.basicEvents = (data?._events ?? []).map((obj) => new Event(obj));
+        this.waypoints = (data?._waypoints ?? []).map((obj) => new Waypoint(obj));
         this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(
-            this.data._specialEventsKeywordFilters,
+            data?._specialEventsKeywordFilters ?? {
+                _keywords: [],
+            },
         );
-        this.customData = this.data._customData;
+        this.customData = this._customData ?? {};
     }
 
     static create(data: Partial<IDifficulty> = {}): Difficulty {
@@ -95,10 +86,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     get customData(): NonNullable<IDifficulty['_customData']> {
-        return this.data._customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IDifficulty['_customData']>) {
-        this.data._customData = value;
+        this._customData = value;
     }
 
     reparse(keepRef?: boolean): void {

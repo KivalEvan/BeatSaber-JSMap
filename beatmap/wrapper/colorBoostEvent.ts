@@ -5,6 +5,8 @@ import { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEven
 export abstract class WrapColorBoostEvent<T extends Record<keyof T, unknown>>
     extends WrapBaseObject<T>
     implements IWrapColorBoostEvent<T> {
+    protected _toggle!: IWrapColorBoostEvent['toggle'];
+
     abstract get toggle(): IWrapColorBoostEvent['toggle'];
     abstract set toggle(value: IWrapColorBoostEvent['toggle']);
 

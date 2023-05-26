@@ -19,7 +19,6 @@ import { ColorBoostEvent } from '../beatmap/v3/colorBoostEvent.ts';
 import { ColorNote } from '../beatmap/v3/colorNote.ts';
 import { RotationEvent } from '../beatmap/v3/rotationEvent.ts';
 import { isVector3, vectorScale } from '../utils/vector.ts';
-import { Vector3 } from '../types/vector.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 
 function tag(name: string): string[] {
@@ -191,7 +190,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                             : EventLaneRotationValue[e.value] ?? 0,
                     }),
                 );
-            } else if (e.isBPMChangeEvent()) {
+            } else if (e.isBpmEvent()) {
                 template.bpmEvents.push(
                     new BPMEvent({
                         b: e.time,

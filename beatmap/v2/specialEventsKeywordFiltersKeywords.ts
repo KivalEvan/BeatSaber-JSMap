@@ -28,14 +28,13 @@ export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywor
             & Partial<ISpecialEventsKeywordFiltersKeywords>
             & Partial<IWrapEventTypesForKeywordsAttribute> = {},
     ) {
-        super({
-            _keyword: data.keyword ??
-                data._keyword ??
-                SpecialEventsKeywordFiltersKeywords.default._keyword,
-            _specialEvents: data.events ??
-                data._specialEvents ??
-                SpecialEventsKeywordFiltersKeywords.default._specialEvents(),
-        });
+        super();
+
+        this._keyword = data.keyword ?? data._keyword ??
+            SpecialEventsKeywordFiltersKeywords.default._keyword;
+        this._events = data.events ??
+            data._specialEvents ??
+            SpecialEventsKeywordFiltersKeywords.default._specialEvents();
     }
 
     static create(): SpecialEventsKeywordFiltersKeywords[];
@@ -73,16 +72,16 @@ export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywor
     }
 
     get keyword() {
-        return this.data._keyword;
+        return this._keyword;
     }
     set keyword(value: ISpecialEventsKeywordFiltersKeywords['_keyword']) {
-        this.data._keyword = value;
+        this._keyword = value;
     }
 
     get events() {
-        return this.data._specialEvents;
+        return this._events;
     }
     set events(value: ISpecialEventsKeywordFiltersKeywords['_specialEvents']) {
-        this.data._specialEvents = value;
+        this._events = value;
     }
 }

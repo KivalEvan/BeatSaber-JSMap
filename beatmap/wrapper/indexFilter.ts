@@ -5,6 +5,16 @@ import { WrapBaseItem } from './baseItem.ts';
 /** Index filter beatmap class object. */
 export abstract class WrapIndexFilter<T extends Record<keyof T, unknown>> extends WrapBaseItem<T>
     implements IWrapIndexFilter<T> {
+    protected _type!: IWrapIndexFilter['type'];
+    protected _p0!: IWrapIndexFilter['p0'];
+    protected _p1!: IWrapIndexFilter['p1'];
+    protected _reverse!: IWrapIndexFilter['reverse'];
+    protected _chunks!: IWrapIndexFilter['chunks'];
+    protected _limit!: IWrapIndexFilter['limit'];
+    protected _limitAffectsType!: IWrapIndexFilter['limitAffectsType'];
+    protected _random!: IWrapIndexFilter['random'];
+    protected _seed!: IWrapIndexFilter['seed'];
+
     abstract get type(): IWrapIndexFilter['type'];
     abstract set type(value: IWrapIndexFilter['type']);
     abstract get p0(): IWrapIndexFilter['p0'];

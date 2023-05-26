@@ -7,6 +7,10 @@ import { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
 export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>>
     extends WrapBaseObject<T>
     implements IWrapEvent<T> {
+    protected _type!: IWrapEvent['type'];
+    protected _value!: IWrapEvent['value'];
+    protected _floatValue!: IWrapEvent['floatValue'];
+
     abstract get type(): IWrapEvent['type'];
     abstract set type(value: IWrapEvent['type']);
     abstract get value(): IWrapEvent['value'];
@@ -125,7 +129,7 @@ export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>>
         return this.type === 40 || this.type === 41 || this.type === 42 || this.type === 43;
     }
 
-    isBPMChangeEvent(): boolean {
+    isBpmEvent(): boolean {
         return this.type === 100;
     }
 

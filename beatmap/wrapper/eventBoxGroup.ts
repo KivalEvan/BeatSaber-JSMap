@@ -9,6 +9,9 @@ export abstract class WrapEventBoxGroup<
     TBase extends Record<keyof TBase, unknown>,
     TFilter extends Record<keyof TFilter, unknown>,
 > extends WrapBaseObject<TGroup> implements IWrapEventBoxGroup<TGroup> {
+    protected _id!: IWrapEventBoxGroup['id'];
+    protected _boxes!: IWrapEventBox<TBox, TBase, TFilter>[];
+
     abstract get id(): IWrapEventBoxGroup['id'];
     abstract set id(value: IWrapEventBoxGroup['id']);
     abstract get boxes(): IWrapEventBox<TBox, TBase, TFilter>[];

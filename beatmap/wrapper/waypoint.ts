@@ -5,6 +5,8 @@ import { WrapGridObject } from './gridObject.ts';
 /** Waypoint beatmap class object. */
 export abstract class WrapWaypoint<T extends Record<keyof T, unknown>> extends WrapGridObject<T>
     implements IWrapWaypoint<T> {
+    protected _direction!: IWrapWaypoint['direction'];
+
     abstract get direction(): IWrapWaypoint['direction'];
     abstract set direction(value: IWrapWaypoint['direction']);
 

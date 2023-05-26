@@ -24,8 +24,6 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         },
     };
 
-    private _e: LightTranslationEventBox[];
-
     constructor();
     constructor(
         data: DeepPartial<
@@ -62,15 +60,16 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
                 >
             > = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? LightTranslationEventBoxGroup.default.b,
-            g: data.id ?? data.g ?? LightTranslationEventBoxGroup.default.g,
-            e: (data.boxes as ILightTranslationEventBox[]) ??
+        super();
+
+        this._time = data.time ?? data.b ?? LightTranslationEventBoxGroup.default.b;
+        this._id = data.id ?? data.g ?? LightTranslationEventBoxGroup.default.g;
+        this._boxes = (
+            (data.boxes as ILightTranslationEventBox[]) ??
                 (data.e as unknown as ILightTranslationEventBox[]) ??
-                LightTranslationEventBoxGroup.default.e(),
-            customData: data.customData ?? LightTranslationEventBoxGroup.default.customData(),
-        });
-        this._e = this.data.e.map((obj) => new LightTranslationEventBox(obj));
+                LightTranslationEventBoxGroup.default.e()
+        ).map((obj) => new LightTranslationEventBox(obj));
+        this._customData = data.customData ?? LightTranslationEventBoxGroup.default.customData();
     }
 
     static create(): LightTranslationEventBoxGroup[];
@@ -131,31 +130,31 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: ILightTranslationEventBoxGroup['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get id() {
-        return this.data.g;
+        return this._id;
     }
     set id(value: ILightTranslationEventBoxGroup['g']) {
-        this.data.g = value;
+        this._id = value;
     }
 
-    get boxes(): LightTranslationEventBox[] {
-        return this._e;
+    get boxes() {
+        return this._boxes as LightTranslationEventBox[];
     }
     set boxes(value: LightTranslationEventBox[]) {
-        this._e = value;
+        this._boxes = value;
     }
 
     get customData(): NonNullable<ILightTranslationEventBoxGroup['customData']> {
-        return this.data.customData;
+        return this.customData;
     }
     set customData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>) {
-        this.data.customData = value;
+        this.customData = value;
     }
 
     setCustomData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>): this {

@@ -20,6 +20,8 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
         _width: 1,
     };
 
+    protected _type: number;
+
     constructor();
     constructor(data: Partial<IWrapObstacleAttribute<Required<IObstacle>>>);
     constructor(data: Partial<IObstacle>);
@@ -27,13 +29,13 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     constructor(
         data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>> = {},
     ) {
-        super({
-            _time: data.time ?? data._time ?? Obstacle.default._time,
-            _type: data._type ?? Obstacle.default._type,
-            _lineIndex: data.posX ?? data._lineIndex ?? Obstacle.default._lineIndex,
-            _duration: data.duration ?? data._duration ?? Obstacle.default._duration,
-            _width: data.width ?? data._width ?? Obstacle.default._width,
-        });
+        super();
+
+        this._time = data.time ?? data._time ?? Obstacle.default._time;
+        this._type = data._type ?? Obstacle.default._type;
+        this._posX = data.posX ?? data._lineIndex ?? Obstacle.default._lineIndex;
+        this._duration = data.duration ?? data._duration ?? Obstacle.default._duration;
+        this._width = data.width ?? data._width ?? Obstacle.default._width;
     }
 
     static create(): Obstacle[];
@@ -64,24 +66,24 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     }
 
     get time() {
-        return this.data._time;
+        return this._time;
     }
     set time(value: IObstacle['_time']) {
-        this.data._time = value;
+        this._time = value;
     }
 
     get posX() {
-        return this.data._lineIndex;
+        return this._posX;
     }
     set posX(value: IObstacle['_lineIndex']) {
-        this.data._lineIndex = value;
+        this._posX = value;
     }
 
     get type() {
-        return this.data._type;
+        return this._type;
     }
     set type(value: IObstacle['_type']) {
-        this.data._type = value;
+        this._type = value;
     }
 
     get posY() {
@@ -95,24 +97,24 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     }
 
     get duration() {
-        return this.data._duration;
+        return this._duration;
     }
     set duration(value: IObstacle['_duration']) {
-        this.data._duration = value;
+        this._duration = value;
     }
 
     get width() {
-        return this.data._width;
+        return this._width;
     }
     set width(value: IObstacle['_width']) {
-        this.data._width = value;
+        this._width = value;
     }
 
     get height() {
         return this.type == 1 ? 3 : 5;
     }
     set height(value: 3 | 5) {
-        if (value != 3 && value != 5) {
+        if (value !== 3 && value !== 5) {
             this.type = 0;
             return;
         }

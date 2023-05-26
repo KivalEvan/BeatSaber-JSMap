@@ -24,8 +24,6 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
         },
     };
 
-    private _e: LightColorEventBox[];
-
     constructor();
     constructor(
         data: DeepPartial<
@@ -62,15 +60,16 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
                 >
             > = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? LightColorEventBoxGroup.default.b,
-            g: data.id ?? data.g ?? LightColorEventBoxGroup.default.g,
-            e: (data.boxes as ILightColorEventBox[]) ??
+        super();
+
+        this._time = data.time ?? data.b ?? LightColorEventBoxGroup.default.b;
+        this._id = data.id ?? data.g ?? LightColorEventBoxGroup.default.g;
+        this._boxes = (
+            (data.boxes as ILightColorEventBox[]) ??
                 (data.e as unknown as ILightColorEventBox[]) ??
-                LightColorEventBoxGroup.default.e(),
-            customData: data.customData ?? LightColorEventBoxGroup.default.customData(),
-        });
-        this._e = this.data.e.map((obj) => new LightColorEventBox(obj));
+                LightColorEventBoxGroup.default.e()
+        ).map((obj) => new LightColorEventBox(obj));
+        this._customData = data.customData ?? LightColorEventBoxGroup.default.customData();
     }
 
     static create(): LightColorEventBoxGroup[];
@@ -129,31 +128,31 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: ILightColorEventBoxGroup['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get id() {
-        return this.data.g;
+        return this._id;
     }
     set id(value: ILightColorEventBoxGroup['g']) {
-        this.data.g = value;
+        this._id = value;
     }
 
-    get boxes(): LightColorEventBox[] {
-        return this._e;
+    get boxes() {
+        return this._boxes as LightColorEventBox[];
     }
     set boxes(value: LightColorEventBox[]) {
-        this._e = value;
+        this._boxes = value;
     }
 
     get customData(): NonNullable<ILightColorEventBoxGroup['customData']> {
-        return this.data.customData;
+        return this.customData;
     }
     set customData(value: NonNullable<ILightColorEventBoxGroup['customData']>) {
-        this.data.customData = value;
+        this.customData = value;
     }
 
     isValid(): boolean {

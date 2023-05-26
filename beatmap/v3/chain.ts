@@ -33,19 +33,19 @@ export class Chain extends WrapChain<Required<IChain>> {
     constructor(data: Partial<IChain>);
     constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>);
     constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>> = {}) {
-        super({
-            b: data.time ?? data.b ?? data.tb ?? Chain.default.b,
-            c: data.color ?? data.c ?? Chain.default.c,
-            x: data.posX ?? data.x ?? Chain.default.x,
-            y: data.posY ?? data.y ?? Chain.default.y,
-            d: data.direction ?? data.d ?? Chain.default.d,
-            tb: data.tailTime ?? data.tb ?? data.b ?? Chain.default.tb,
-            tx: data.tailPosX ?? data.tx ?? Chain.default.tx,
-            ty: data.tailPosY ?? data.ty ?? Chain.default.ty,
-            sc: data.sliceCount ?? data.sc ?? Chain.default.sc,
-            s: data.squish ?? data.s ?? Chain.default.s,
-            customData: data.customData ?? Chain.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? data.tb ?? Chain.default.b;
+        this._color = data.color ?? data.c ?? Chain.default.c;
+        this._posX = data.posX ?? data.x ?? Chain.default.x;
+        this._posY = data.posY ?? data.y ?? Chain.default.y;
+        this._direction = data.direction ?? data.d ?? Chain.default.d;
+        this._tailTime = data.tailTime ?? data.tb ?? data.b ?? Chain.default.tb;
+        this._tailPosX = data.tailPosX ?? data.tx ?? Chain.default.tx;
+        this._tailPosY = data.tailPosY ?? data.ty ?? Chain.default.ty;
+        this._sliceCount = data.sliceCount ?? data.sc ?? Chain.default.sc;
+        this._squish = data.squish ?? data.s ?? Chain.default.s;
+        this._customData = data.customData ?? Chain.default.customData();
     }
 
     static create(): Chain[];
@@ -82,80 +82,80 @@ export class Chain extends WrapChain<Required<IChain>> {
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: IChain['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get posX() {
-        return this.data.x;
+        return this._posX;
     }
     set posX(value: IChain['x']) {
-        this.data.x = value;
+        this._posX = value;
     }
 
     get posY() {
-        return this.data.y;
+        return this._posY;
     }
     set posY(value: IChain['y']) {
-        this.data.y = value;
+        this._posY = value;
     }
 
     get color() {
-        return this.data.c;
+        return this._color;
     }
     set color(value: IChain['c']) {
-        this.data.c = value;
+        this._color = value;
     }
 
     get direction() {
-        return this.data.d;
+        return this._direction;
     }
     set direction(value: IChain['d']) {
-        this.data.d = value;
+        this._direction = value;
     }
 
     get tailTime() {
-        return this.data.tb;
+        return this._tailTime;
     }
     set tailTime(value: IChain['tb']) {
-        this.data.tb = value;
+        this._tailTime = value;
     }
 
     get tailPosX() {
-        return this.data.tx;
+        return this._tailPosX;
     }
     set tailPosX(value: IChain['tx']) {
-        this.data.tx = value;
+        this._tailPosX = value;
     }
 
     get tailPosY() {
-        return this.data.ty;
+        return this._tailPosY;
     }
     set tailPosY(value: IChain['ty']) {
-        this.data.ty = value;
+        this._tailPosY = value;
     }
 
     get sliceCount() {
-        return this.data.sc;
+        return this._sliceCount;
     }
     set sliceCount(value: IChain['sc']) {
-        this.data.sc = value;
+        this._sliceCount = value;
     }
 
     get squish() {
-        return this.data.s;
+        return this._squish;
     }
     set squish(value: IChain['s']) {
-        this.data.s = value;
+        this._squish = value;
     }
 
     get customData(): NonNullable<IChain['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IChain['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 
     mirror(flipColor = true) {

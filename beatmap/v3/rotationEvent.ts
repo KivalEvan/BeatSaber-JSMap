@@ -28,12 +28,12 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
             & Partial<IRotationEvent>
             & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? RotationEvent.default.b,
-            e: data.executionTime ?? data.e ?? RotationEvent.default.e,
-            r: data.rotation ?? data.r ?? RotationEvent.default.r,
-            customData: data.customData ?? RotationEvent.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? RotationEvent.default.b;
+        this._executionTime = data.executionTime ?? data.e ?? RotationEvent.default.e;
+        this._rotation = data.rotation ?? data.r ?? RotationEvent.default.r;
+        this._customData = data.customData ?? RotationEvent.default.customData();
     }
 
     static create(): RotationEvent[];
@@ -71,30 +71,30 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: IRotationEvent['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get executionTime() {
-        return this.data.e;
+        return this._executionTime;
     }
     set executionTime(value: IRotationEvent['e']) {
-        this.data.e = value;
+        this._executionTime = value;
     }
 
     get rotation() {
-        return this.data.r;
+        return this._rotation;
     }
     set rotation(value: IRotationEvent['r']) {
-        this.data.r = value;
+        this._rotation = value;
     }
 
     get customData(): NonNullable<IRotationEvent['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IRotationEvent['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 }

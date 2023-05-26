@@ -8,7 +8,7 @@ import { ColorArray } from '../../types/colors.ts';
 import { Easings } from '../../types/easings.ts';
 import { PointModifier } from '../../types/beatmap/shared/custom/heck.ts';
 import { Vector2, Vector3 } from '../../types/vector.ts';
-import { easings } from '../../utils/easings.ts';
+import { EasingsFn } from '../../utils/easings.ts';
 import { clamp } from '../../utils/math.ts';
 
 export function fixBoolean(value: unknown): boolean;
@@ -180,7 +180,7 @@ export function fixStringAry(value: unknown[], defaultValue: string): string[] {
     return value.map(fixString, defaultValue);
 }
 
-const easingsList = Object.keys(easings).concat('easeStep') as Easings[];
+const easingsList = Object.keys(EasingsFn) as Easings[];
 const modifiersList: PointModifier[] = ['opNone', 'opAdd', 'opSub', 'opMul', 'opMul'];
 
 export function fixPercentPointDefinition(

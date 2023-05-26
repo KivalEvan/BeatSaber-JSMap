@@ -10,7 +10,7 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
         _time: 0,
         _lineIndex: 0,
         _lineLayer: 0,
-        _offsetDirection: 1,
+        _offsetDirection: 0,
         _customData: () => {
             return {};
         },
@@ -23,14 +23,14 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
     constructor(
         data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>> = {},
     ) {
-        super({
-            _time: data.time ?? data._time ?? Waypoint.default._time,
-            _lineIndex: data.posX ?? data._lineIndex ?? Waypoint.default._lineIndex,
-            _lineLayer: data.posY ?? data._lineLayer ?? Waypoint.default._lineLayer,
-            _offsetDirection: data.direction ?? data._offsetDirection ??
-                Waypoint.default._offsetDirection,
-            _customData: data.customData ?? data._customData ?? Waypoint.default._customData(),
-        });
+        super();
+
+        this._time = data.time ?? data._time ?? Waypoint.default._time;
+        this._posX = data.posX ?? data._lineIndex ?? Waypoint.default._lineIndex;
+        this._posY = data.posY ?? data._lineLayer ?? Waypoint.default._lineLayer;
+        this._direction = data.direction ?? data._offsetDirection ??
+            Waypoint.default._offsetDirection;
+        this._customData = data.customData ?? data._customData ?? Waypoint.default._customData();
     }
 
     static create(): Waypoint[];
@@ -61,37 +61,37 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
     }
 
     get time() {
-        return this.data._time;
+        return this._time;
     }
     set time(value: IWaypoint['_time']) {
-        this.data._time = value;
+        this._time = value;
     }
 
     get posX() {
-        return this.data._lineIndex;
+        return this._posX;
     }
     set posX(value: IWaypoint['_lineIndex']) {
-        this.data._lineIndex = value;
+        this._posX = value;
     }
 
     get posY() {
-        return this.data._lineLayer;
+        return this._posY;
     }
     set posY(value: IWaypoint['_lineLayer']) {
-        this.data._lineLayer = value;
+        this._posY = value;
     }
 
     get direction() {
-        return this.data._offsetDirection;
+        return this._direction;
     }
     set direction(value: IWaypoint['_offsetDirection']) {
-        this.data._offsetDirection = value;
+        this._direction = value;
     }
 
     get customData(): NonNullable<IWaypoint['_customData']> {
-        return this.data._customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IWaypoint['_customData']>) {
-        this.data._customData = value;
+        this._customData = value;
     }
 }

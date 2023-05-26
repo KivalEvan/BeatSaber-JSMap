@@ -169,10 +169,10 @@ export interface IWrapEvent<T extends Record<keyof T, unknown> = Record<string, 
 
     /** Check if event is a BPM change event.
      * ```ts
-     * if (event.isBPMChangeEvent()) {}
+     * if (event.isBpmEvent()) {}
      * ```
      */
-    isBPMChangeEvent(): boolean;
+    isBpmEvent(): boolean;
 
     /** Not to be confused with `isLightEvent`, this checks for event that affects the environment/lighting.
      * ```ts

@@ -21,11 +21,11 @@ export class BPMEvent extends WrapBPMEvent<Required<IBPMEvent>> {
     constructor(
         data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? BPMEvent.default.b,
-            m: data.bpm ?? data.m ?? BPMEvent.default.m,
-            customData: data.customData ?? BPMEvent.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? BPMEvent.default.b;
+        this._bpm = data.bpm ?? data.m ?? BPMEvent.default.m;
+        this._customData = data.customData ?? BPMEvent.default.customData();
     }
 
     static create(): BPMEvent[];
@@ -54,29 +54,29 @@ export class BPMEvent extends WrapBPMEvent<Required<IBPMEvent>> {
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: IBPMEvent['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get bpm() {
-        return this.data.m;
+        return this._bpm;
     }
     set bpm(value: IBPMEvent['m']) {
-        this.data.m = value;
+        this._bpm = value;
+    }
+
+    get customData(): NonNullable<IBPMEvent['customData']> {
+        return this._customData;
+    }
+    set customData(value: NonNullable<IBPMEvent['customData']>) {
+        this._customData = value;
     }
 
     setBPM(value: IBPMEvent['m']) {
         this.bpm = value;
         return this;
-    }
-
-    get customData(): NonNullable<IBPMEvent['customData']> {
-        return this.data.customData;
-    }
-    set customData(value: NonNullable<IBPMEvent['customData']>) {
-        this.data.customData = value;
     }
 
     isValid(): boolean {

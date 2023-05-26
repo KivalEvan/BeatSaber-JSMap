@@ -35,21 +35,21 @@ export class Arc extends WrapArc<Required<IArc>> {
     constructor(data: Partial<IArc>);
     constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>);
     constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>> = {}) {
-        super({
-            b: data.time ?? data.b ?? Arc.default.b,
-            c: data.color ?? data.c ?? Arc.default.c,
-            x: data.posX ?? data.x ?? Arc.default.x,
-            y: data.posY ?? data.y ?? Arc.default.y,
-            d: data.direction ?? data.d ?? Arc.default.d,
-            mu: data.lengthMultiplier ?? data.mu ?? Arc.default.mu,
-            tb: data.tailTime ?? data.tb ?? Arc.default.tb,
-            tx: data.tailPosX ?? data.tx ?? Arc.default.tx,
-            ty: data.tailPosY ?? data.ty ?? Arc.default.ty,
-            tc: data.tailDirection ?? data.tc ?? Arc.default.tc,
-            tmu: data.tailLengthMultiplier ?? data.tmu ?? Arc.default.tmu,
-            m: data.midAnchor ?? data.m ?? Arc.default.m,
-            customData: data.customData ?? Arc.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? Arc.default.b;
+        this._color = data.color ?? data.c ?? Arc.default.c;
+        this._posX = data.posX ?? data.x ?? Arc.default.x;
+        this._posY = data.posY ?? data.y ?? Arc.default.y;
+        this._direction = data.direction ?? data.d ?? Arc.default.d;
+        this._lengthMultiplier = data.lengthMultiplier ?? data.mu ?? Arc.default.mu;
+        this._tailTime = data.tailTime ?? data.tb ?? Arc.default.tb;
+        this._tailPosX = data.tailPosX ?? data.tx ?? Arc.default.tx;
+        this._tailPosY = data.tailPosY ?? data.ty ?? Arc.default.ty;
+        this._tailDirection = data.tailDirection ?? data.tc ?? Arc.default.tc;
+        this._tailLengthMultiplier = data.tailLengthMultiplier ?? data.tmu ?? Arc.default.tmu;
+        this._midAnchor = data.midAnchor ?? data.m ?? Arc.default.m;
+        this._customData = data.customData ?? Arc.default.customData();
     }
 
     static create(): Arc[];
@@ -84,94 +84,94 @@ export class Arc extends WrapArc<Required<IArc>> {
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: IArc['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get posX() {
-        return this.data.x;
+        return this._posX;
     }
     set posX(value: IArc['x']) {
-        this.data.x = value;
+        this._posX = value;
     }
 
     get posY() {
-        return this.data.y;
+        return this._posY;
     }
     set posY(value: IArc['y']) {
-        this.data.y = value;
+        this._posY = value;
     }
 
     get color() {
-        return this.data.c;
+        return this._color;
     }
     set color(value: IArc['c']) {
-        this.data.c = value;
+        this._color = value;
     }
 
     get direction() {
-        return this.data.d;
+        return this._direction;
     }
     set direction(value: IArc['d']) {
-        this.data.d = value;
+        this._direction = value;
     }
 
     get lengthMultiplier() {
-        return this.data.mu;
+        return this._lengthMultiplier;
     }
     set lengthMultiplier(value: IArc['mu']) {
-        this.data.mu = value;
+        this._lengthMultiplier = value;
     }
 
     get tailTime() {
-        return this.data.tb;
+        return this._tailTime;
     }
     set tailTime(value: IArc['tb']) {
-        this.data.tb = value;
+        this._tailTime = value;
     }
 
     get tailPosX() {
-        return this.data.tx;
+        return this._tailPosX;
     }
     set tailPosX(value: IArc['tx']) {
-        this.data.tx = value;
+        this._tailPosX = value;
     }
 
     get tailPosY() {
-        return this.data.ty;
+        return this._tailPosY;
     }
     set tailPosY(value: IArc['ty']) {
-        this.data.ty = value;
+        this._tailPosY = value;
     }
 
     get tailDirection() {
-        return this.data.tc;
+        return this._tailDirection;
     }
     set tailDirection(value: IArc['tc']) {
-        this.data.tc = value;
+        this._tailDirection = value;
     }
 
     get tailLengthMultiplier() {
-        return this.data.tmu;
+        return this._tailLengthMultiplier;
     }
     set tailLengthMultiplier(value: IArc['tmu']) {
-        this.data.tmu = value;
+        this._tailLengthMultiplier = value;
     }
 
     get midAnchor() {
-        return this.data.m;
+        return this._midAnchor;
     }
     set midAnchor(value: IArc['m']) {
-        this.data.m = value;
+        this._midAnchor = value;
     }
 
     get customData(): NonNullable<IArc['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IArc['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 
     mirror(flipColor = true) {

@@ -9,6 +9,11 @@ import { ModType } from '../../types/beatmap/shared/modCheck.ts';
  */
 export abstract class WrapArc<T extends Record<keyof T, unknown>> extends WrapBaseSlider<T>
     implements IWrapArc<T> {
+    protected _lengthMultiplier!: IWrapArc['lengthMultiplier'];
+    protected _tailLengthMultiplier!: IWrapArc['tailLengthMultiplier'];
+    protected _tailDirection!: IWrapArc['tailDirection'];
+    protected _midAnchor!: IWrapArc['midAnchor'];
+
     abstract get lengthMultiplier(): IWrapArc['lengthMultiplier'];
     abstract set lengthMultiplier(value: IWrapArc['lengthMultiplier']);
     abstract get tailLengthMultiplier(): IWrapArc['tailLengthMultiplier'];

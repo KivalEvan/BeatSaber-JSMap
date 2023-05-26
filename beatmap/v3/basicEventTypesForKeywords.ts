@@ -30,10 +30,10 @@ export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<
             & Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>> =
                 {},
     ) {
-        super({
-            k: data.keyword ?? data.k ?? BasicEventTypesForKeywords.default.k,
-            e: data.events ?? data.e ?? BasicEventTypesForKeywords.default.e(),
-        });
+        super();
+
+        this._keyword = data.keyword ?? data.k ?? BasicEventTypesForKeywords.default.k;
+        this._events = data.events ?? data.e ?? BasicEventTypesForKeywords.default.e();
     }
 
     static create(): BasicEventTypesForKeywords[];
@@ -70,16 +70,16 @@ export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<
     }
 
     get keyword() {
-        return this.data.k;
+        return this._keyword;
     }
     set keyword(value: IBasicEventTypesForKeywords['k']) {
-        this.data.k = value;
+        this._keyword = value;
     }
 
     get events() {
-        return this.data.e;
+        return this._events;
     }
     set events(value: IBasicEventTypesForKeywords['e']) {
-        this.data.e = value;
+        this._events = value;
     }
 }

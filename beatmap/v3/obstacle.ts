@@ -28,15 +28,15 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     constructor(
         data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? Obstacle.default.b,
-            x: data.posX ?? data.x ?? Obstacle.default.x,
-            y: data.posY ?? data.y ?? Obstacle.default.y,
-            d: data.duration ?? data.d ?? Obstacle.default.d,
-            w: data.width ?? data.w ?? Obstacle.default.w,
-            h: data.height ?? data.h ?? Obstacle.default.h,
-            customData: data.customData ?? Obstacle.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? Obstacle.default.b;
+        this._posX = data.posX ?? data.x ?? Obstacle.default.x;
+        this._posY = data.posY ?? data.y ?? Obstacle.default.y;
+        this._duration = data.duration ?? data.d ?? Obstacle.default.d;
+        this._width = data.width ?? data.w ?? Obstacle.default.w;
+        this._height = data.height ?? data.h ?? Obstacle.default.h;
+        this._customData = data.customData ?? Obstacle.default.customData();
     }
 
     static create(): Obstacle[];
@@ -69,52 +69,52 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: IObstacle['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get posX() {
-        return this.data.x;
+        return this._posX;
     }
     set posX(value: IObstacle['x']) {
-        this.data.x = value;
+        this._posX = value;
     }
 
     get posY() {
-        return this.data.y;
+        return this._posY;
     }
     set posY(value: IObstacle['y']) {
-        this.data.y = value;
+        this._posY = value;
     }
 
     get duration() {
-        return this.data.d;
+        return this._duration;
     }
     set duration(value: IObstacle['d']) {
-        this.data.d = value;
+        this._duration = value;
     }
 
     get width() {
-        return this.data.w;
+        return this._width;
     }
     set width(value: IObstacle['w']) {
-        this.data.w = value;
+        this._width = value;
     }
 
     get height() {
-        return this.data.h;
+        return this._height;
     }
     set height(value: IObstacle['h']) {
-        this.data.h = value;
+        this._height = value;
     }
 
     get customData(): NonNullable<IObstacle['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IObstacle['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 
     mirror() {

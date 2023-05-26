@@ -7,6 +7,9 @@ import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 /** Beatmap grid class object. */
 export abstract class WrapGridObject<T extends Record<keyof T, unknown>> extends WrapBaseObject<T>
     implements IWrapGridObject<T> {
+    protected _posX!: IWrapGridObject['posX'];
+    protected _posY!: IWrapGridObject['posY'];
+
     abstract get posX(): IWrapGridObject['posX'];
     abstract set posX(value: IWrapGridObject['posX']);
     abstract get posY(): IWrapGridObject['posY'];

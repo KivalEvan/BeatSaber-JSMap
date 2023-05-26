@@ -9,6 +9,12 @@ export abstract class WrapEventBox<
     TBase extends Record<keyof TBase, unknown>,
     TFilter extends Record<keyof TFilter, unknown>,
 > extends WrapBaseItem<TBox> implements IWrapEventBox<TBox, TBase, TFilter> {
+    protected _filter!: IWrapIndexFilter<TFilter>;
+    protected _beatDistribution!: IWrapEventBox<TBase>['beatDistribution'];
+    protected _beatDistributionType!: IWrapEventBox<TBase>['beatDistributionType'];
+    protected _easing!: IWrapEventBox<TBase>['easing'];
+    protected _events!: IWrapBaseObject<TBase>[];
+
     abstract get filter(): IWrapIndexFilter<TFilter>;
     abstract set filter(value: IWrapIndexFilter<TFilter>);
     abstract get beatDistribution(): IWrapEventBox<TBase>['beatDistribution'];

@@ -1,7 +1,7 @@
 import logger from '../logger.ts';
 import { Event } from '../beatmap/v2/event.ts';
 import { BasicEvent } from '../beatmap/v3/basicEvent.ts';
-import { easings } from '../utils/easings.ts';
+import { EasingsFn } from '../utils/easings.ts';
 import { interpolateColor } from '../utils/colors.ts';
 import { normalize } from '../utils/math.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
@@ -55,7 +55,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                     : ev.value >= 5 && ev.value <= 8
                     ? 5
                     : 9;
-                const easing = easings[ev.customData._lightGradient._easing ?? 'easeLinear'];
+                const easing = EasingsFn[ev.customData._lightGradient._easing ?? 'easeLinear'];
                 let hasOff = false;
                 let previousEvent: IWrapEvent = ev;
                 for (const eig of eventInGradient) {

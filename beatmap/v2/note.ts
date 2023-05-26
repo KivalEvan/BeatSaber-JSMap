@@ -29,14 +29,14 @@ export class Note extends WrapColorNote<Required<INote>> {
     constructor(data: Partial<INote>);
     constructor(data: Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>);
     constructor(data: Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>> = {}) {
-        super({
-            _time: data.time ?? data._time ?? Note.default._time,
-            _lineIndex: data.posX ?? data._lineIndex ?? Note.default._lineIndex,
-            _lineLayer: data.posY ?? data._lineLayer ?? Note.default._lineLayer,
-            _type: data.type ?? data._type ?? Note.default._type,
-            _cutDirection: data.direction ?? data._cutDirection ?? Note.default._cutDirection,
-            _customData: data.customData ?? data._customData ?? Note.default._customData(),
-        });
+        super();
+
+        this._time = data.time ?? data._time ?? Note.default._time;
+        this._posX = data.posX ?? data._lineIndex ?? Note.default._lineIndex;
+        this._posY = data.posY ?? data._lineLayer ?? Note.default._lineLayer;
+        this._type = data.type ?? data._type ?? Note.default._type;
+        this._direction = data.direction ?? data._cutDirection ?? Note.default._cutDirection;
+        this._customData = data.customData ?? data._customData ?? Note.default._customData();
     }
 
     static create(): Note[];
@@ -68,45 +68,45 @@ export class Note extends WrapColorNote<Required<INote>> {
     }
 
     get time() {
-        return this.data._time;
+        return this._time;
     }
     set time(value: INote['_time']) {
-        this.data._time = value;
+        this._time = value;
     }
 
     get posX() {
-        return this.data._lineIndex;
+        return this._posX;
     }
     set posX(value: INote['_lineIndex']) {
-        this.data._lineIndex = value;
+        this._posX = value;
     }
 
     get posY() {
-        return this.data._lineLayer;
+        return this._posY;
     }
     set posY(value: INote['_lineLayer']) {
-        this.data._lineLayer = value;
+        this._posY = value;
     }
 
     get type() {
-        return this.data._type;
+        return this._type;
     }
     set type(value: INote['_type']) {
-        this.data._type = value;
+        this._type = value;
     }
 
     get color() {
-        return this.data._type as 0;
+        return this._type as 0;
     }
     set color(value: 0 | 1) {
-        this.data._type = value;
+        this._type = value;
     }
 
     get direction() {
-        return this.data._cutDirection;
+        return this._direction;
     }
     set direction(value: INote['_cutDirection']) {
-        this.data._cutDirection = value;
+        this._direction = value;
     }
 
     get angleOffset() {
@@ -117,10 +117,10 @@ export class Note extends WrapColorNote<Required<INote>> {
     }
 
     get customData(): NonNullable<INote['_customData']> {
-        return this.data._customData;
+        return this._customData;
     }
     set customData(value: NonNullable<INote['_customData']>) {
-        this.data._customData = value;
+        this._customData = value;
     }
 
     getPosition(type?: ModType): Vector2 {

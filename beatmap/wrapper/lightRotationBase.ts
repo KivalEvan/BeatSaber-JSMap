@@ -5,6 +5,12 @@ import { WrapBaseObject } from './baseObject.ts';
 export abstract class WrapLightRotationBase<T extends Record<keyof T, unknown>>
     extends WrapBaseObject<T>
     implements IWrapLightRotationBase<T> {
+    protected _previous!: IWrapLightRotationBase['previous'];
+    protected _easing!: IWrapLightRotationBase['easing'];
+    protected _loop!: IWrapLightRotationBase['loop'];
+    protected _rotation!: IWrapLightRotationBase['rotation'];
+    protected _direction!: IWrapLightRotationBase['direction'];
+
     abstract get previous(): IWrapLightRotationBase['previous'];
     abstract set previous(value: IWrapLightRotationBase['previous']);
     abstract get easing(): IWrapLightRotationBase['easing'];

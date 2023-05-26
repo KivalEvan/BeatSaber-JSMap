@@ -70,57 +70,36 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     useNormalEventsAsCompatibleEvents;
 
     constructor(data: Partial<IDifficulty> = {}) {
-        super({
-            version: '3.2.0',
-            bpmEvents: data.bpmEvents ?? [],
-            rotationEvents: data.rotationEvents ?? [],
-            colorNotes: data.colorNotes ?? [],
-            bombNotes: data.bombNotes ?? [],
-            obstacles: data.obstacles ?? [],
-            sliders: data.sliders ?? [],
-            burstSliders: data.burstSliders ?? [],
-            waypoints: data.waypoints ?? [],
-            basicBeatmapEvents: data.basicBeatmapEvents ?? [],
-            colorBoostBeatmapEvents: data.colorBoostBeatmapEvents ?? [],
-            lightColorEventBoxGroups: data.lightColorEventBoxGroups ?? [],
-            lightRotationEventBoxGroups: data.lightRotationEventBoxGroups ?? [],
-            lightTranslationEventBoxGroups: data.lightTranslationEventBoxGroups ?? [],
-            basicEventTypesWithKeywords: data.basicEventTypesWithKeywords ?? {
-                d: [],
-            },
-            useNormalEventsAsCompatibleEvents: data.useNormalEventsAsCompatibleEvents ?? false,
-            customData: data.customData ?? {},
-        });
+        super();
 
         this.version = '3.2.0';
-        this.bpmEvents = this.data.bpmEvents?.map((obj) => new BPMEvent(obj)) ?? [];
-        this.rotationEvents = this.data.rotationEvents?.map((obj) => new RotationEvent(obj)) ?? [];
-        this.colorNotes = this.data.colorNotes?.map((obj) => new ColorNote(obj)) ?? [];
-        this.bombNotes = this.data.bombNotes?.map((obj) => new BombNote(obj)) ?? [];
-        this.obstacles = this.data.obstacles?.map((obj) => new Obstacle(obj)) ?? [];
-        this.arcs = this.data.sliders?.map((obj) => new Arc(obj)) ?? [];
-        this.chains = this.data.burstSliders?.map((obj) => new Chain(obj)) ?? [];
-        this.waypoints = this.data.waypoints?.map((obj) => new Waypoint(obj)) ?? [];
-        this.basicEvents = this.data.basicBeatmapEvents?.map((obj) => new BasicEvent(obj)) ?? [];
+        this.bpmEvents = (data.bpmEvents ?? []).map((obj) => new BPMEvent(obj)) ?? [];
+        this.rotationEvents = (data.rotationEvents ?? []).map((obj) => new RotationEvent(obj)) ??
+            [];
+        this.colorNotes = (data.colorNotes ?? []).map((obj) => new ColorNote(obj)) ?? [];
+        this.bombNotes = (data.bombNotes ?? []).map((obj) => new BombNote(obj)) ?? [];
+        this.obstacles = (data.obstacles ?? []).map((obj) => new Obstacle(obj)) ?? [];
+        this.arcs = (data.sliders ?? []).map((obj) => new Arc(obj)) ?? [];
+        this.chains = (data.burstSliders ?? []).map((obj) => new Chain(obj)) ?? [];
+        this.waypoints = (data.waypoints ?? []).map((obj) => new Waypoint(obj)) ?? [];
+        this.basicEvents = (data.basicBeatmapEvents ?? []).map((obj) => new BasicEvent(obj)) ?? [];
         this.colorBoostEvents =
-            this.data.colorBoostBeatmapEvents?.map((obj) => new ColorBoostEvent(obj)) ?? [];
+            data.colorBoostBeatmapEvents?.map((obj) => new ColorBoostEvent(obj)) ?? [];
         this.lightColorEventBoxGroups =
-            this.data.lightColorEventBoxGroups?.map((obj) => new LightColorEventBoxGroup(obj)) ??
+            data.lightColorEventBoxGroups?.map((obj) => new LightColorEventBoxGroup(obj)) ?? [];
+        this.lightRotationEventBoxGroups =
+            data.lightRotationEventBoxGroups?.map((obj) => new LightRotationEventBoxGroup(obj)) ??
                 [];
-        this.lightRotationEventBoxGroups = this.data.lightRotationEventBoxGroups?.map(
-            (obj) => new LightRotationEventBoxGroup(obj),
-        ) ?? [];
-        this.lightTranslationEventBoxGroups = this.data.lightTranslationEventBoxGroups?.map(
+        this.lightTranslationEventBoxGroups = data.lightTranslationEventBoxGroups?.map(
             (obj) => new LightTranslationEventBoxGroup(obj),
         ) ?? [];
         this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(
-            this.data.basicEventTypesWithKeywords,
-        ) ?? {
-            d: [],
-        };
-        this.useNormalEventsAsCompatibleEvents = this.data.useNormalEventsAsCompatibleEvents ??
-            false;
-        this.customData = this.data.customData ?? {};
+            data.basicEventTypesWithKeywords ?? {
+                d: [],
+            },
+        );
+        this.useNormalEventsAsCompatibleEvents = data.useNormalEventsAsCompatibleEvents ?? false;
+        this.customData = data.customData ?? {};
     }
 
     static create(data: Partial<IDifficulty> = {}): Difficulty {
@@ -154,10 +133,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     }
 
     get customData(): NonNullable<IDifficulty['customData']> {
-        return this.data.customData;
+        return this.customData;
     }
     set customData(value: NonNullable<IDifficulty['customData']>) {
-        this.data.customData = value;
+        this.customData = value;
     }
 
     reparse(keepRef?: boolean): void {

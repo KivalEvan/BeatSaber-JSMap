@@ -25,9 +25,10 @@ const easeInOutBounce = (x: number) =>
  * ```
  */
 export const EasingsFn: {
-    readonly [easing in Exclude<Easings, 'easeStep'>]: EasingFunction;
+    readonly [easing in Easings]: EasingFunction;
 } = {
     easeLinear: (x) => x,
+    easeStep: (x) => x,
     easeInQuad: (x) => Math.pow(x, 2),
     easeOutQuad: (x) => x * (2 - x),
     easeInOutQuad: (x) => (x < 0.5 ? 2 * x * x : -1 + (4 - 2 * x) * x),

@@ -29,29 +29,28 @@ export class Arc extends WrapArc<Required<IArc>> {
     constructor(data: Partial<IArc>);
     constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>);
     constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>> = {}) {
-        super({
-            _colorType: data.color ?? data._colorType ?? Arc.default._colorType,
-            _headTime: data.time ?? data._headTime ?? data._tailTime ?? Arc.default._headTime,
-            _headLineIndex: data.posX ?? data._headLineIndex ?? Arc.default._headLineIndex,
-            _headLineLayer: data.posY ?? data._headLineLayer ?? Arc.default._headLineLayer,
-            _headCutDirection: (data.direction as 0) ?? data._headCutDirection ??
-                Arc.default._headCutDirection,
-            _headControlPointLengthMultiplier: data.lengthMultiplier ??
-                data._headControlPointLengthMultiplier ??
-                Arc.default._headControlPointLengthMultiplier,
-            _tailTime: data.tailTime ?? data._tailTime ?? data._headTime ?? Arc.default._tailTime,
-            _tailLineIndex: data.tailPosX ?? data._tailLineIndex ?? Arc.default._tailLineIndex,
-            _tailLineLayer: data.tailPosY ?? data._tailLineLayer ?? Arc.default._tailLineLayer,
-            _tailCutDirection: (data.tailDirection as 0) ??
-                data._tailCutDirection ??
-                Arc.default._tailCutDirection,
-            _tailControlPointLengthMultiplier: data.tailLengthMultiplier ??
-                data._tailControlPointLengthMultiplier ??
-                Arc.default._tailControlPointLengthMultiplier,
-            _sliderMidAnchorMode: data.midAnchor ?? data._sliderMidAnchorMode ??
-                Arc.default._sliderMidAnchorMode,
-            _customData: data.customData ?? data._customData ?? Arc.default._customData(),
-        });
+        super();
+
+        this._color = data.color ?? data._colorType ?? Arc.default._colorType;
+        this._time = data.time ?? data._headTime ?? data._tailTime ?? Arc.default._headTime;
+        this._posX = data.posX ?? data._headLineIndex ?? Arc.default._headLineIndex;
+        this._posY = data.posY ?? data._headLineLayer ?? Arc.default._headLineLayer;
+        this._direction = (data.direction as 0) ?? data._headCutDirection ??
+            Arc.default._headCutDirection;
+        this._lengthMultiplier = data.lengthMultiplier ??
+            data._headControlPointLengthMultiplier ??
+            Arc.default._headControlPointLengthMultiplier;
+        this._tailTime = data.tailTime ?? data._tailTime ?? data._headTime ?? Arc.default._tailTime;
+        this._tailPosX = data.tailPosX ?? data._tailLineIndex ?? Arc.default._tailLineIndex;
+        this._tailPosY = data.tailPosY ?? data._tailLineLayer ?? Arc.default._tailLineLayer;
+        this._tailDirection = (data.tailDirection as 0) ?? data._tailCutDirection ??
+            Arc.default._tailCutDirection;
+        this._tailLengthMultiplier = data.tailLengthMultiplier ??
+            data._tailControlPointLengthMultiplier ??
+            Arc.default._tailControlPointLengthMultiplier;
+        this._midAnchor = data.midAnchor ?? data._sliderMidAnchorMode ??
+            Arc.default._sliderMidAnchorMode;
+        this._customData = data.customData ?? data._customData ?? Arc.default._customData();
     }
 
     static create(): Arc[];
@@ -86,93 +85,93 @@ export class Arc extends WrapArc<Required<IArc>> {
     }
 
     get color() {
-        return this.data._colorType;
+        return this._color;
     }
     set color(value: IArc['_colorType']) {
-        this.data._colorType = value;
+        this._color = value;
     }
 
     get time() {
-        return this.data._headTime;
+        return this._time;
     }
     set time(value: number) {
-        this.data._headTime = value;
+        this._time = value;
     }
 
     get posX() {
-        return this.data._headLineIndex;
+        return this._posX;
     }
     set posX(value: IArc['_headLineIndex']) {
-        this.data._headLineIndex = value;
+        this._posX = value;
     }
 
     get posY() {
-        return this.data._headLineLayer;
+        return this._posY;
     }
     set posY(value: IArc['_headLineLayer']) {
-        this.data._headLineLayer = value;
+        this._posY = value;
     }
 
     get direction() {
-        return this.data._headCutDirection;
+        return this._direction as IArc['_headCutDirection'];
     }
     set direction(value: IArc['_headCutDirection']) {
-        this.data._headCutDirection = value;
+        this._direction = value;
     }
 
     get lengthMultiplier() {
-        return this.data._headControlPointLengthMultiplier;
+        return this._lengthMultiplier;
     }
     set lengthMultiplier(value: IArc['_headControlPointLengthMultiplier']) {
-        this.data._headControlPointLengthMultiplier = value;
+        this._lengthMultiplier = value;
     }
 
     get tailTime() {
-        return this.data._tailTime;
+        return this._tailTime;
     }
     set tailTime(value: number) {
-        this.data._tailTime = value;
+        this._tailTime = value;
     }
 
     get tailPosX() {
-        return this.data._tailLineIndex;
+        return this._tailPosX;
     }
     set tailPosX(value: IArc['_tailLineIndex']) {
-        this.data._tailLineIndex = value;
+        this._tailPosX = value;
     }
 
     get tailPosY() {
-        return this.data._tailLineLayer;
+        return this._tailPosY;
     }
     set tailPosY(value: IArc['_tailLineLayer']) {
-        this.data._tailLineLayer = value;
+        this._tailPosY = value;
     }
 
     get tailDirection() {
-        return this.data._tailCutDirection;
+        return this._tailDirection as IArc['_tailCutDirection'];
     }
     set tailDirection(value: IArc['_tailCutDirection']) {
-        this.data._tailCutDirection = value;
+        this._tailDirection = value;
     }
 
     get tailLengthMultiplier() {
-        return this.data._tailControlPointLengthMultiplier;
+        return this._tailLengthMultiplier;
     }
     set tailLengthMultiplier(value: IArc['_tailControlPointLengthMultiplier']) {
-        this.data._tailControlPointLengthMultiplier = value;
+        this._tailLengthMultiplier = value;
     }
 
     get midAnchor() {
-        return this.data._sliderMidAnchorMode;
+        return this._midAnchor;
     }
     set midAnchor(value: IArc['_sliderMidAnchorMode']) {
-        this.data._sliderMidAnchorMode = value;
+        this._midAnchor = value;
     }
 
     get customData(): NonNullable<IArc['_customData']> {
-        return this.data._customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IArc['_customData']>) {
-        this.data._customData = value;
+        this._customData = value;
     }
 }

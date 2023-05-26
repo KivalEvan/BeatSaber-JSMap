@@ -10,7 +10,7 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
         b: 0,
         x: 0,
         y: 0,
-        d: 1,
+        d: 0,
         customData: () => {
             return {};
         },
@@ -23,13 +23,13 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
     constructor(
         data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? Waypoint.default.b,
-            x: data.posX ?? data.x ?? Waypoint.default.x,
-            y: data.posY ?? data.y ?? Waypoint.default.y,
-            d: data.direction ?? data.d ?? Waypoint.default.d,
-            customData: data.customData ?? Waypoint.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? Waypoint.default.b;
+        this._posX = data.posX ?? data.x ?? Waypoint.default.x;
+        this._posY = data.posY ?? data.y ?? Waypoint.default.y;
+        this._direction = data.direction ?? data.d ?? Waypoint.default.d;
+        this._customData = data.customData ?? Waypoint.default.customData();
     }
 
     static create(): Waypoint[];
@@ -60,37 +60,37 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: IWaypoint['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get posX() {
-        return this.data.x;
+        return this._posX;
     }
     set posX(value: IWaypoint['x']) {
-        this.data.x = value;
+        this._posX = value;
     }
 
     get posY() {
-        return this.data.y;
+        return this._posY;
     }
     set posY(value: IWaypoint['y']) {
-        this.data.y = value;
+        this._posY = value;
     }
 
     get direction() {
-        return this.data.d;
+        return this._direction;
     }
     set direction(value: IWaypoint['d']) {
-        this.data.d = value;
+        this._direction = value;
     }
 
     get customData(): NonNullable<IWaypoint['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IWaypoint['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 }

@@ -27,11 +27,11 @@ export class ColorBoostEvent extends WrapColorBoostEvent<Required<IColorBoostEve
             & Partial<IColorBoostEvent>
             & Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? ColorBoostEvent.default.b,
-            o: data.toggle ?? data.o ?? ColorBoostEvent.default.o,
-            customData: data.customData ?? ColorBoostEvent.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? ColorBoostEvent.default.b;
+        this._toggle = data.toggle ?? data.o ?? ColorBoostEvent.default.o;
+        this._customData = data.customData ?? ColorBoostEvent.default.customData();
     }
 
     static create(): ColorBoostEvent[];
@@ -68,24 +68,24 @@ export class ColorBoostEvent extends WrapColorBoostEvent<Required<IColorBoostEve
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: IColorBoostEvent['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get toggle() {
-        return this.data.o;
+        return this._toggle;
     }
     set toggle(value: IColorBoostEvent['o']) {
-        this.data.o = value;
+        this._toggle = value;
     }
 
     get customData(): NonNullable<IColorBoostEvent['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IColorBoostEvent['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 
     isValid(): boolean {

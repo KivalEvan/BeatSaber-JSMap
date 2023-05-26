@@ -7,6 +7,9 @@ import { IWrapChain } from '../../types/beatmap/wrapper/chain.ts';
  */
 export abstract class WrapChain<T extends Record<keyof T, unknown>> extends WrapBaseSlider<T>
     implements IWrapChain<T> {
+    protected _sliceCount!: IWrapChain['sliceCount'];
+    protected _squish!: IWrapChain['squish'];
+
     abstract get sliceCount(): IWrapChain['sliceCount'];
     abstract set sliceCount(value: IWrapChain['sliceCount']);
     abstract get squish(): IWrapChain['squish'];

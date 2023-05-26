@@ -31,13 +31,13 @@ export class LightTranslationBase extends WrapLightTranslationBase<
             & Partial<ILightTranslationBase>
             & Partial<IWrapLightTranslationBaseAttribute<Required<ILightTranslationBase>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? LightTranslationBase.default.b,
-            p: data.previous ?? data.p ?? LightTranslationBase.default.p,
-            e: data.easing ?? data.e ?? LightTranslationBase.default.e,
-            t: data.translation ?? data.t ?? LightTranslationBase.default.t,
-            customData: data.customData ?? LightTranslationBase.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? LightTranslationBase.default.b;
+        this._previous = data.previous ?? data.p ?? LightTranslationBase.default.p;
+        this._easing = data.easing ?? data.e ?? LightTranslationBase.default.e;
+        this._translation = data.translation ?? data.t ?? LightTranslationBase.default.t;
+        this._customData = data.customData ?? LightTranslationBase.default.customData();
     }
 
     static create(): LightTranslationBase[];
@@ -71,42 +71,42 @@ export class LightTranslationBase extends WrapLightTranslationBase<
             p: this.previous,
             e: this.easing,
             t: this.translation,
-            customData: deepCopy(this.data.customData),
+            customData: deepCopy(this.customData),
         };
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: ILightTranslationBase['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get previous() {
-        return this.data.p;
+        return this._previous;
     }
     set previous(value: ILightTranslationBase['p']) {
-        this.data.p = value;
+        this._previous = value;
     }
 
     get easing() {
-        return this.data.e;
+        return this._easing;
     }
     set easing(value: ILightTranslationBase['e']) {
-        this.data.e = value;
+        this._easing = value;
     }
 
     get translation() {
-        return this.data.t;
+        return this._translation;
     }
     set translation(value: ILightTranslationBase['t']) {
-        this.data.t = value;
+        this._translation = value;
     }
 
     get customData(): NonNullable<ILightTranslationBase['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<ILightTranslationBase['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 }

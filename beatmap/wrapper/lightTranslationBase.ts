@@ -5,6 +5,10 @@ import { WrapBaseObject } from './baseObject.ts';
 export abstract class WrapLightTranslationBase<T extends Record<keyof T, unknown>>
     extends WrapBaseObject<T>
     implements IWrapLightTranslationBase<T> {
+    protected _previous!: IWrapLightTranslationBase['previous'];
+    protected _easing!: IWrapLightTranslationBase['easing'];
+    protected _translation!: IWrapLightTranslationBase['translation'];
+
     abstract get previous(): IWrapLightTranslationBase['previous'];
     abstract set previous(value: IWrapLightTranslationBase['previous']);
     abstract get easing(): IWrapLightTranslationBase['easing'];

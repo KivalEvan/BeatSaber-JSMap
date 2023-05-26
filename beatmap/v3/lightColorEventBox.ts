@@ -40,9 +40,6 @@ export class LightColorEventBox extends WrapLightColorEventBox<
         },
     };
 
-    private _f: IndexFilter;
-    private _e: LightColorBase[];
-
     constructor();
     constructor(
         data: DeepPartial<
@@ -76,23 +73,28 @@ export class LightColorEventBox extends WrapLightColorEventBox<
                 >
             > = {},
     ) {
-        super({
-            f: (data.filter as IIndexFilter) ??
+        super();
+
+        this._filter = new IndexFilter(
+            (data.filter as IIndexFilter) ??
                 (data as Required<ILightColorEventBox>).f ??
                 LightColorEventBox.default.f(),
-            w: data.beatDistribution ?? data.w ?? LightColorEventBox.default.w,
-            d: data.beatDistributionType ?? data.d ?? LightColorEventBox.default.d,
-            r: data.brightnessDistribution ?? data.r ?? LightColorEventBox.default.r,
-            t: data.brightnessDistributionType ?? data.t ?? LightColorEventBox.default.t,
-            b: data.affectFirst ?? data.b ?? LightColorEventBox.default.b,
-            i: data.easing ?? data.i ?? LightColorEventBox.default.i,
-            e: (data.events as ILightColorBase[]) ??
+        );
+        this._beatDistribution = data.beatDistribution ?? data.w ?? LightColorEventBox.default.w;
+        this._beatDistributionType = data.beatDistributionType ?? data.d ??
+            LightColorEventBox.default.d;
+        this._brightnessDistribution = data.brightnessDistribution ?? data.r ??
+            LightColorEventBox.default.r;
+        this._brightnessDistributionType = data.brightnessDistributionType ?? data.t ??
+            LightColorEventBox.default.t;
+        this._affectFirst = data.affectFirst ?? data.b ?? LightColorEventBox.default.b;
+        this._easing = data.easing ?? data.i ?? LightColorEventBox.default.i;
+        this._events = (
+            (data.events as ILightColorBase[]) ??
                 (data as Required<ILightColorEventBox>).e ??
-                LightColorEventBox.default.e(),
-            customData: data.customData ?? LightColorEventBox.default.customData(),
-        });
-        this._f = new IndexFilter(this.data.f);
-        this._e = this.data.e.map((obj) => new LightColorBase(obj));
+                LightColorEventBox.default.e()
+        ).map((obj) => new LightColorBase(obj));
+        this._customData = data.customData ?? LightColorEventBox.default.customData();
     }
 
     static create(): LightColorEventBox[];
@@ -153,66 +155,66 @@ export class LightColorEventBox extends WrapLightColorEventBox<
     }
 
     get filter() {
-        return this._f;
+        return this._filter as IndexFilter;
     }
     set filter(value: IndexFilter) {
-        this._f = value;
+        this._filter = value;
     }
 
     get beatDistribution() {
-        return this.data.w;
+        return this._beatDistribution;
     }
     set beatDistribution(value: ILightColorEventBox['w']) {
-        this.data.w = value;
+        this._beatDistribution = value;
     }
 
     get beatDistributionType() {
-        return this.data.d;
+        return this._beatDistributionType;
     }
     set beatDistributionType(value: ILightColorEventBox['d']) {
-        this.data.d = value;
+        this._beatDistributionType = value;
     }
 
     get brightnessDistribution() {
-        return this.data.r;
+        return this._brightnessDistribution;
     }
     set brightnessDistribution(value: ILightColorEventBox['r']) {
-        this.data.r = value;
+        this._brightnessDistribution = value;
     }
 
     get brightnessDistributionType() {
-        return this.data.t;
+        return this._brightnessDistributionType;
     }
     set brightnessDistributionType(value: ILightColorEventBox['t']) {
-        this.data.t = value;
+        this._brightnessDistributionType = value;
     }
 
     get affectFirst(): ILightColorEventBox['b'] {
-        return this.data.b;
+        return this._affectFirst;
     }
     set affectFirst(value: ILightColorEventBox['b'] | boolean) {
-        this.data.b = value ? 1 : 0;
+        this._affectFirst = value ? 1 : 0;
     }
 
     get easing() {
-        return this.data.i;
+        return this._easing;
     }
     set easing(value: ILightColorEventBox['i']) {
-        this.data.i = value;
+        this._easing = value;
     }
 
-    get events(): LightColorBase[] {
-        return this._e;
+    get events() {
+        return this._events as LightColorBase[];
     }
     set events(value: LightColorBase[]) {
-        this._e = value;
+        this._events = value;
     }
 
     get customData(): NonNullable<ILightColorEventBox['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<ILightColorEventBox['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 
     setEvents(value: LightColorBase[]): this {

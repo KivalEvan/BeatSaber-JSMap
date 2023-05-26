@@ -23,12 +23,12 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
     constructor(
         data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? BombNote.default.b,
-            x: data.posX ?? data.x ?? BombNote.default.x,
-            y: data.posY ?? data.y ?? BombNote.default.y,
-            customData: data.customData ?? BombNote.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? BombNote.default.b;
+        this._posX = data.posX ?? data.x ?? BombNote.default.x;
+        this._posY = data.posY ?? data.y ?? BombNote.default.y;
+        this._customData = data.customData ?? BombNote.default.customData();
     }
 
     static create(): BombNote[];
@@ -58,31 +58,31 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: IBombNote['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get posX() {
-        return this.data.x;
+        return this._posX;
     }
     set posX(value: IBombNote['x']) {
-        this.data.x = value;
+        this._posX = value;
     }
 
     get posY() {
-        return this.data.y;
+        return this._posY;
     }
     set posY(value: IBombNote['y']) {
-        this.data.y = value;
+        this._posY = value;
     }
 
     get customData(): NonNullable<IBombNote['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IBombNote['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 
     mirror() {

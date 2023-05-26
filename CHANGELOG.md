@@ -14,19 +14,21 @@
 
 ### Changed
 
+- Wrapper class now have their own protected attributes instead of using `data`
 - Renamed `slider` and `burstSlider` to `arc` and `chain` respectively
   - This reduce the confusion between internal and common name
   - Schema remained unchanged for obvious reason
 - Allow object class constructor to be used (similar to static `create` but as single object)
-- Renamed and updated converter function
 - Unspecified difficulty version will now return base wrapper class instead of version specific
   - This means it won't automagically convert v2 map to v3 map when unspecified
 - Changed modded object value method behaviour
-- Only root-level file can contain platform-specific API
-- Changed certain constants name and type from `Record` to `Object` for known constants
+- Renamed couple of functions and constants
+- Updated converter functions
+- Changed type from `Record` to `Object` for known constants
 - Small refactor for BPM and NJS class
 - Updated Heck stuff
 - Recommended Deno version to 1.33.0+
+- Only root-level file can contain platform-specific API
 
 ### Fixed
 
@@ -36,6 +38,7 @@
 
 ### Removed
 
+- `data` in class object (`Array` and `Object` are never modified and could cause confusing usage)
 - Prompting in conversion (this should now be handled by script user)
 - FS utility (now uses standard module)
 

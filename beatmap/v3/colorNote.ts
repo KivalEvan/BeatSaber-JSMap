@@ -28,15 +28,15 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
     constructor(
         data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? ColorNote.default.b,
-            x: data.posX ?? data.x ?? ColorNote.default.x,
-            y: data.posY ?? data.y ?? ColorNote.default.y,
-            c: data.color ?? data.c ?? ColorNote.default.c,
-            d: data.direction ?? data.d ?? ColorNote.default.d,
-            a: data.angleOffset ?? data.a ?? ColorNote.default.a,
-            customData: data.customData ?? ColorNote.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? ColorNote.default.b;
+        this._posX = data.posX ?? data.x ?? ColorNote.default.x;
+        this._posY = data.posY ?? data.y ?? ColorNote.default.y;
+        this._color = data.color ?? data.c ?? ColorNote.default.c;
+        this._direction = data.direction ?? data.d ?? ColorNote.default.d;
+        this._angleOffset = data.angleOffset ?? data.a ?? ColorNote.default.a;
+        this._customData = data.customData ?? ColorNote.default.customData();
     }
 
     static create(): ColorNote[];
@@ -69,59 +69,59 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: IColorNote['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get posX() {
-        return this.data.x;
+        return this._posX;
     }
     set posX(value: IColorNote['x']) {
-        this.data.x = value;
+        this._posX = value;
     }
 
     get posY() {
-        return this.data.y;
+        return this._posY;
     }
     set posY(value: IColorNote['y']) {
-        this.data.y = value;
+        this._posY = value;
     }
 
     get color() {
-        return this.data.c;
+        return this._color;
     }
     set color(value: IColorNote['c']) {
-        this.data.c = value;
+        this._color = value;
     }
 
     get type() {
-        return this.data.c;
+        return this._color;
     }
     set type(value: IColorNote['c']) {
-        this.data.c = value;
+        this._color = value;
     }
 
     get direction() {
-        return this.data.d;
+        return this._direction;
     }
     set direction(value: IColorNote['d']) {
-        this.data.d = value;
+        this._direction = value;
     }
 
     get angleOffset() {
-        return this.data.a;
+        return this._angleOffset;
     }
     set angleOffset(value: IColorNote['a']) {
-        this.data.a = value;
+        this._angleOffset = value;
     }
 
     get customData(): NonNullable<IColorNote['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<IColorNote['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 
     mirror(flipColor = true) {

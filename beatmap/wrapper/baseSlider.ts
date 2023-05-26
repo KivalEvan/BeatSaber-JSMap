@@ -8,6 +8,10 @@ import { Vector2 } from '../../types/vector.ts';
 /** Base slider beatmap class object. */
 export abstract class WrapBaseSlider<T extends Record<keyof T, unknown>> extends WrapBaseNote<T>
     implements IWrapBaseSlider<T> {
+    protected _tailTime!: IWrapBaseSlider['tailTime'];
+    protected _tailPosX!: IWrapBaseSlider['tailPosX'];
+    protected _tailPosY!: IWrapBaseSlider['tailPosY'];
+
     abstract get tailTime(): IWrapBaseSlider['tailTime'];
     abstract set tailTime(value: IWrapBaseSlider['tailTime']);
     abstract get tailPosX(): IWrapBaseSlider['tailPosX'];

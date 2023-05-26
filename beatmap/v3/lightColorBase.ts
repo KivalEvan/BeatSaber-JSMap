@@ -30,14 +30,14 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
             & Partial<ILightColorBase>
             & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>> = {},
     ) {
-        super({
-            b: data.time ?? data.b ?? LightColorBase.default.b,
-            i: data.transition ?? data.i ?? LightColorBase.default.i,
-            c: data.color ?? data.c ?? LightColorBase.default.c,
-            s: data.brightness ?? data.s ?? LightColorBase.default.s,
-            f: data.frequency ?? data.f ?? LightColorBase.default.f,
-            customData: data.customData ?? LightColorBase.default.customData(),
-        });
+        super();
+
+        this._time = data.time ?? data.b ?? LightColorBase.default.b;
+        this._transition = data.transition ?? data.i ?? LightColorBase.default.i;
+        this._color = data.color ?? data.c ?? LightColorBase.default.c;
+        this._brightness = data.brightness ?? data.s ?? LightColorBase.default.s;
+        this._frequency = data.frequency ?? data.f ?? LightColorBase.default.f;
+        this._customData = data.customData ?? LightColorBase.default.customData();
     }
 
     static create(): LightColorBase[];
@@ -72,49 +72,49 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
             c: this.color,
             s: this.brightness,
             f: this.frequency,
-            customData: deepCopy(this.data.customData),
+            customData: deepCopy(this.customData),
         };
     }
 
     get time() {
-        return this.data.b;
+        return this._time;
     }
     set time(value: ILightColorBase['b']) {
-        this.data.b = value;
+        this._time = value;
     }
 
     get transition() {
-        return this.data.i;
+        return this._transition;
     }
     set transition(value: ILightColorBase['i']) {
-        this.data.i = value;
+        this._transition = value;
     }
 
     get color() {
-        return this.data.c;
+        return this._color;
     }
     set color(value: ILightColorBase['c']) {
-        this.data.c = value;
+        this._color = value;
     }
 
     get brightness() {
-        return this.data.s;
+        return this._brightness;
     }
     set brightness(value: ILightColorBase['s']) {
-        this.data.s = value;
+        this._brightness = value;
     }
 
     get frequency() {
-        return this.data.f;
+        return this._frequency;
     }
     set frequency(value: ILightColorBase['f']) {
-        this.data.f = value;
+        this._frequency = value;
     }
 
     get customData(): NonNullable<ILightColorBase['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<ILightColorBase['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 }

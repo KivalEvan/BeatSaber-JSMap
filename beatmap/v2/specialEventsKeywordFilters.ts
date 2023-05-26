@@ -14,8 +14,6 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
         _keywords: () => [],
     };
 
-    private _d: SpecialEventsKeywordFiltersKeywords[];
-
     constructor();
     constructor(data: DeepPartial<IWrapEventTypesWithKeywordsAttribute>);
     constructor(data: DeepPartial<ISpecialEventsKeywordFilters>);
@@ -29,14 +27,15 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
             & DeepPartial<ISpecialEventsKeywordFilters>
             & DeepPartial<IWrapEventTypesWithKeywordsAttribute> = {},
     ) {
-        super({
-            _keywords: (data.list?.map((k) => {
+        super();
+
+        this._list = (
+            (data.list?.map((k) => {
                 return { _keyword: k?.keyword, _specialEvents: k?.events };
             }) as ISpecialEventsKeywordFiltersKeywords[]) ??
                 data._keywords ??
-                SpecialEventsKeywordFilters.default._keywords(),
-        });
-        this._d = this.data._keywords.map(
+                SpecialEventsKeywordFilters.default._keywords()
+        ).map(
             (d) =>
                 new SpecialEventsKeywordFiltersKeywords({
                     _keyword: d._keyword,
@@ -65,19 +64,19 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
 
     toJSON(): ISpecialEventsKeywordFilters {
         return {
-            _keywords: this._d.map((d) => d.toJSON()),
+            _keywords: this.list.map((d) => d.toJSON()),
         };
     }
 
     get list() {
-        return this._d;
+        return this._list as SpecialEventsKeywordFiltersKeywords[];
     }
     set list(value: SpecialEventsKeywordFiltersKeywords[]) {
-        this._d = value;
+        this._list = value;
     }
 
     addData(value: SpecialEventsKeywordFiltersKeywords) {
-        this._d.push(value);
+        this._list.push(value);
         return this;
     }
 }

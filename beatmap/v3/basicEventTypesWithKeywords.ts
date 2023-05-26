@@ -14,8 +14,6 @@ export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
         d: () => [],
     };
 
-    private d: BasicEventTypesForKeywords[];
-
     constructor();
     constructor(
         data: DeepPartial<
@@ -37,14 +35,15 @@ export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
                 IWrapEventTypesWithKeywordsAttribute<Required<IBasicEventTypesWithKeywords>>
             > = {},
     ) {
-        super({
-            d: (data.list?.map((k) => {
+        super();
+
+        this._list = (
+            (data.list?.map((k) => {
                 return { k: k?.keyword, e: k?.events };
             }) as IBasicEventTypesForKeywords[]) ??
                 data.d ??
-                BasicEventTypesWithKeywords.default.d(),
-        });
-        this.d = this.data.d.map((d) => new BasicEventTypesForKeywords({ e: d.e, k: d.k }));
+                BasicEventTypesWithKeywords.default.d()
+        ).map((d) => new BasicEventTypesForKeywords({ e: d.e, k: d.k }));
     }
 
     static create(): BasicEventTypesWithKeywords;
@@ -78,10 +77,10 @@ export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
     }
 
     get list() {
-        return this.d;
+        return this._list as BasicEventTypesForKeywords[];
     }
     set list(value: BasicEventTypesForKeywords[]) {
-        this.d = value;
+        this._list = value;
     }
 
     addData(value: BasicEventTypesForKeywords) {

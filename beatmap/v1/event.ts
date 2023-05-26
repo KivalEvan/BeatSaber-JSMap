@@ -21,11 +21,11 @@ export class Event extends WrapEvent<Required<IEvent>> {
     constructor(data: Partial<IEvent>);
     constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>);
     constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>> = {}) {
-        super({
-            _time: data.time ?? data._time ?? Event.default._time,
-            _type: data.type ?? data._type ?? Event.default._type,
-            _value: data.value ?? data._value ?? Event.default._value,
-        });
+        super();
+
+        this._time = data.time ?? data._time ?? Event.default._time;
+        this._type = data.type ?? data._type ?? Event.default._type;
+        this._value = data.value ?? data._value ?? Event.default._value;
     }
 
     static create(): Event[];
@@ -54,24 +54,24 @@ export class Event extends WrapEvent<Required<IEvent>> {
     }
 
     get time() {
-        return this.data._time;
+        return this._time;
     }
     set time(value: IEvent['_time']) {
-        this.data._time = value;
+        this._time = value;
     }
 
     get type() {
-        return this.data._type;
+        return this._type;
     }
     set type(value: IEvent['_type']) {
-        this.data._type = value;
+        this._type = value;
     }
 
     get value() {
-        return this.data._value;
+        return this._value;
     }
     set value(value: IEvent['_value']) {
-        this.data._value = value;
+        this._value = value;
     }
 
     get floatValue() {

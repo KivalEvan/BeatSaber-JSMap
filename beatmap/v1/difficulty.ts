@@ -48,35 +48,21 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     bookmarks;
 
     constructor(data: Partial<IDifficulty> = {}) {
-        super({
-            _version: '1.5.0',
-            _beatsPerMinute: data._beatsPerMinute ?? 120,
-            _beatsPerBar: data._beatsPerBar ?? 4,
-            _shuffle: data._shuffle ?? 0,
-            _shufflePeriod: data._shufflePeriod ?? 0.5,
-            _noteJumpSpeed: data._noteJumpSpeed ?? 0,
-            _noteJumpStartBeatOffset: data._noteJumpStartBeatOffset ?? 0,
-            _notes: data._notes ?? [],
-            _obstacles: data._obstacles ?? [],
-            _events: data._events ?? [],
-            _time: data._time ?? 0,
-            _BPMChanges: data._BPMChanges ?? [],
-            _bookmarks: data._bookmarks ?? [],
-        });
+        super();
 
         this.version = '1.5.0';
-        this.beatsPerMinute = this.data._beatsPerMinute;
-        this.beatsPerBar = this.data._beatsPerBar;
-        this.shuffle = this.data._shuffle;
-        this.shufflePeriod = this.data._shufflePeriod;
-        this.noteJumpSpeed = this.data._noteJumpSpeed;
-        this.noteJumpStartBeatOffset = this.data._noteJumpStartBeatOffset;
-        this.time = this.data._time;
-        this.BPMChanges = this.data._BPMChanges;
-        this.bookmarks = this.data._bookmarks;
-        this.colorNotes = this.data._notes.map((obj) => new Note(obj));
-        this.obstacles = this.data._obstacles.map((obj) => new Obstacle(obj));
-        this.basicEvents = this.data._events.map((obj) => new Event(obj));
+        this.beatsPerMinute = data._beatsPerMinute ?? 120;
+        this.beatsPerBar = data._beatsPerBar ?? 4;
+        this.shuffle = data._shuffle ?? 0;
+        this.shufflePeriod = data._shufflePeriod ?? 0;
+        this.noteJumpSpeed = data._noteJumpSpeed ?? 0;
+        this.noteJumpStartBeatOffset = data._noteJumpStartBeatOffset ?? 0;
+        this.colorNotes = (data._notes ?? []).map((obj) => new Note(obj));
+        this.obstacles = (data._obstacles ?? []).map((obj) => new Obstacle(obj));
+        this.basicEvents = (data._events ?? []).map((obj) => new Event(obj));
+        this.time = data._time ?? 0;
+        this.BPMChanges = data._BPMChanges ?? [];
+        this.bookmarks = data._bookmarks ?? [];
     }
 
     static create(data: Partial<IDifficulty> = {}): Difficulty {

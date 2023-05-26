@@ -10,6 +10,8 @@ export abstract class WrapLightColorEventBoxGroup<
     TFilter extends Record<keyof TFilter, unknown>,
 > extends WrapEventBoxGroup<TGroup, TBox, TBase, TFilter>
     implements IWrapLightColorEventBoxGroup<TGroup, TBox, TBase, TFilter> {
+    declare protected _boxes: IWrapLightColorEventBox<TBox, TBase, TFilter>[];
+
     abstract get boxes(): IWrapLightColorEventBox<TBox, TBase, TFilter>[];
     abstract set boxes(value: IWrapLightColorEventBox<TBox, TBase, TFilter>[]);
 }

@@ -8,7 +8,7 @@ import { IChromaEventRing, IChromaEventZoom } from '../../types/beatmap/v3/custo
 import { DeepPartial } from '../../types/utils.ts';
 import { LightIDList } from './lightID.ts';
 import { EventBase, EventBox, EventBoxType, IndexFilterDivision } from './types/lightMapper.ts';
-import { easings } from '../../utils/easings.ts';
+import { EasingsFn } from '../../utils/easings.ts';
 import { colorFrom, HsvaToRgba, RgbaToHsva } from '../../utils/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
 import { ColorArray } from '../../types/colors.ts';
@@ -201,7 +201,7 @@ export class LightMapper {
                         i < lid.length;
                         i++,
                             x = eb.beatDistributionType === 'Division'
-                                ? easings[eb.beatDistributionEasing ?? 'easeLinear'](
+                                ? EasingsFn[eb.beatDistributionEasing ?? 'easeLinear'](
                                     i / (lid.length - 1),
                                 ) * eb.beatDistribution
                                 : i * (lastEventTime + eb.beatDistribution)
@@ -253,7 +253,7 @@ export class LightMapper {
                                     ? ev.brightness
                                     : eb.brightnessDistributionType === 'Division'
                                     ? ev.brightness +
-                                        easings[eb.brightnessDistributionEasing ?? 'easeLinear'](
+                                        EasingsFn[eb.brightnessDistributionEasing ?? 'easeLinear'](
                                                 i / (lid.length - 1),
                                             ) *
                                             eb.brightnessDistribution
@@ -275,7 +275,7 @@ export class LightMapper {
                                     ...(RgbaToHsva(...event.customData.color).map((v, x) => {
                                         if (!x) {
                                             v! += eb.hueDistributionType === 'Division'
-                                                ? easings[
+                                                ? EasingsFn[
                                                     eb.hueDistributionEasing ?? 'easeLinear'
                                                 ](i / (lid.length - 1)) * eb.hueDistribution
                                                 : i * eb.hueDistribution;

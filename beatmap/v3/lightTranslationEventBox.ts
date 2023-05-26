@@ -42,9 +42,6 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
         },
     };
 
-    private _f: IndexFilter;
-    private _l: LightTranslationBase[];
-
     constructor();
     constructor(
         data: DeepPartial<
@@ -78,25 +75,31 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
                 >
             > = {},
     ) {
-        super({
-            f: (data.filter as IIndexFilter) ??
+        super();
+
+        this._filter = new IndexFilter(
+            (data.filter as IIndexFilter) ??
                 (data as Required<ILightTranslationEventBox>).f ??
                 LightTranslationEventBox.default.f(),
-            w: data.beatDistribution ?? data.w ?? LightTranslationEventBox.default.w,
-            d: data.beatDistributionType ?? data.d ?? LightTranslationEventBox.default.d,
-            s: data.translationDistribution ?? data.s ?? LightTranslationEventBox.default.s,
-            t: data.translationDistributionType ?? data.t ?? LightTranslationEventBox.default.t,
-            a: data.axis ?? data.a ?? LightTranslationEventBox.default.a,
-            r: data.flip ?? data.r ?? LightTranslationEventBox.default.r,
-            b: data.affectFirst ?? data.b ?? LightTranslationEventBox.default.b,
-            i: data.easing ?? data.i ?? LightTranslationEventBox.default.i,
-            l: (data.events as ILightTranslationBase[]) ??
+        );
+        this._beatDistribution = data.beatDistribution ?? data.w ??
+            LightTranslationEventBox.default.w;
+        this._beatDistributionType = data.beatDistributionType ?? data.d ??
+            LightTranslationEventBox.default.d;
+        this._translationDistribution = data.translationDistribution ?? data.s ??
+            LightTranslationEventBox.default.s;
+        this._translationDistributionType = data.translationDistributionType ?? data.t ??
+            LightTranslationEventBox.default.t;
+        this._axis = data.axis ?? data.a ?? LightTranslationEventBox.default.a;
+        this._flip = data.flip ?? data.r ?? LightTranslationEventBox.default.r;
+        this._affectFirst = data.affectFirst ?? data.b ?? LightTranslationEventBox.default.b;
+        this._easing = data.easing ?? data.i ?? LightTranslationEventBox.default.i;
+        this._events = (
+            (data.events as ILightTranslationBase[]) ??
                 (data as Required<ILightTranslationEventBox>).l ??
-                LightTranslationEventBox.default.l(),
-            customData: data.customData ?? LightTranslationEventBox.default.customData(),
-        });
-        this._f = new IndexFilter(this.data.f);
-        this._l = this.data.l.map((obj) => new LightTranslationBase(obj));
+                LightTranslationEventBox.default.l()
+        ).map((obj) => new LightTranslationBase(obj));
+        this._customData = data.customData ?? LightTranslationEventBox.default.customData();
     }
 
     static create(): LightTranslationEventBox[];
@@ -159,80 +162,80 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
     }
 
     get filter() {
-        return this._f;
+        return this._filter as IndexFilter;
     }
     set filter(value: IndexFilter) {
-        this._f = value;
+        this._filter = value;
     }
 
     get beatDistribution() {
-        return this.data.w;
+        return this._beatDistribution;
     }
     set beatDistribution(value: ILightTranslationEventBox['w']) {
-        this.data.w = value;
+        this._beatDistribution = value;
     }
 
     get beatDistributionType() {
-        return this.data.d;
+        return this._beatDistributionType;
     }
     set beatDistributionType(value: ILightTranslationEventBox['d']) {
-        this.data.d = value;
+        this._beatDistributionType = value;
     }
 
     get translationDistribution() {
-        return this.data.s;
+        return this._translationDistribution;
     }
     set translationDistribution(value: ILightTranslationEventBox['s']) {
-        this.data.s = value;
+        this._translationDistribution = value;
     }
 
     get translationDistributionType() {
-        return this.data.t;
+        return this._translationDistributionType;
     }
     set translationDistributionType(value: ILightTranslationEventBox['t']) {
-        this.data.t = value;
+        this._translationDistributionType = value;
     }
 
     get axis() {
-        return this.data.a;
+        return this._axis;
     }
     set axis(value: ILightTranslationEventBox['a']) {
-        this.data.a = value;
+        this._axis = value;
     }
 
     get flip(): ILightTranslationEventBox['r'] {
-        return this.data.r;
+        return this._flip;
     }
     set flip(value: ILightTranslationEventBox['r'] | boolean) {
-        this.data.r = value ? 1 : 0;
+        this._flip = value ? 1 : 0;
     }
 
     get affectFirst(): ILightTranslationEventBox['b'] {
-        return this.data.b;
+        return this._affectFirst;
     }
     set affectFirst(value: ILightTranslationEventBox['b'] | boolean) {
-        this.data.b = value ? 1 : 0;
+        this._affectFirst = value ? 1 : 0;
     }
 
     get easing() {
-        return this.data.i;
+        return this._easing;
     }
     set easing(value: ILightTranslationEventBox['i']) {
-        this.data.i = value;
+        this._easing = value;
     }
 
-    get events(): LightTranslationBase[] {
-        return this._l;
+    get events() {
+        return this._events as LightTranslationBase[];
     }
     set events(value: LightTranslationBase[]) {
-        this._l = value;
+        this._events = value;
     }
 
     get customData(): NonNullable<ILightTranslationEventBox['customData']> {
-        return this.data.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<ILightTranslationEventBox['customData']>) {
-        this.data.customData = value;
+        this._customData = value;
     }
 
     setEvents(value: LightTranslationBase[]): this {

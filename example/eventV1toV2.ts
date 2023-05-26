@@ -225,7 +225,7 @@ try {
                             current.value -= 2;
                             current.floatValue *= flashMultiplier;
                             dl.data.addBasicEvents({
-                                ...current.data,
+                                ...current.toJSON(),
                                 time: bpm.toBeatTime(bpm.toRealTime(current.time) + duration, true),
                                 value: current.value + 3,
                                 floatValue: utils.lerp(alpha, current.floatValue, 0),
@@ -236,7 +236,7 @@ try {
                             const prev = current.floatValue;
                             current.floatValue *= flashMultiplier;
                             dl.data.addBasicEvents({
-                                ...current.data,
+                                ...current.toJSON(),
                                 time: bpm.toBeatTime(bpm.toRealTime(current.time) + duration, true),
                                 value: current.value + 3,
                                 floatValue: utils.lerp(alpha, current.floatValue, prev),
@@ -247,7 +247,7 @@ try {
                             current.value -= 2;
                             current.floatValue *= flashMultiplier;
                             dl.data.addBasicEvents({
-                                ...current.data,
+                                ...current.toJSON(),
                                 time: bpm.toBeatTime(
                                     bpm.toRealTime(current.time) + fadeDuration,
                                     true,
@@ -261,7 +261,7 @@ try {
                             const prev = current.floatValue;
                             current.floatValue *= flashMultiplier;
                             dl.data.addBasicEvents({
-                                ...current.data,
+                                ...current.toJSON(),
                                 time: bpm.toBeatTime(
                                     bpm.toRealTime(current.time) + fadeDuration / 10,
                                     true,

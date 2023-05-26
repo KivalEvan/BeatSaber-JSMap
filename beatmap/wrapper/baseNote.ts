@@ -6,6 +6,9 @@ import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 /** Color note beatmap class object. */
 export abstract class WrapBaseNote<T extends Record<keyof T, unknown>> extends WrapGridObject<T>
     implements IWrapBaseNote<T> {
+    protected _color!: IWrapBaseNote['color'];
+    protected _direction!: IWrapBaseNote['direction'];
+
     abstract get color(): IWrapBaseNote['color'];
     abstract set color(value: IWrapBaseNote['color']);
     abstract get direction(): IWrapBaseNote['direction'];

@@ -5,6 +5,11 @@ import { WrapBaseObject } from './baseObject.ts';
 export abstract class WrapLightColorBase<T extends Record<keyof T, unknown>>
     extends WrapBaseObject<T>
     implements IWrapLightColorBase<T> {
+    protected _transition!: IWrapLightColorBase['transition'];
+    protected _color!: IWrapLightColorBase['color'];
+    protected _brightness!: IWrapLightColorBase['brightness'];
+    protected _frequency!: IWrapLightColorBase['frequency'];
+
     abstract get transition(): IWrapLightColorBase['transition'];
     abstract set transition(value: IWrapLightColorBase['transition']);
     abstract get color(): IWrapLightColorBase['color'];

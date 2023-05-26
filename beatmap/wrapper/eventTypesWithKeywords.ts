@@ -7,6 +7,8 @@ export abstract class WrapEventTypesWithKeywords<
     T extends Record<keyof T, unknown>,
     U extends Record<keyof U, unknown>,
 > extends Serializable<T> implements IWrapEventTypesWithKeywords<T> {
+    protected _list!: IWrapEventTypesForKeywords<U>[];
+
     abstract get list(): IWrapEventTypesForKeywords<U>[];
     abstract set list(value: IWrapEventTypesForKeywords<U>[]);
 
