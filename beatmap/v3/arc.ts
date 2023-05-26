@@ -187,8 +187,7 @@ export class Arc extends WrapArc<Required<IArc>> {
                     this.customData.animation.definitePosition[0] = -this.customData.animation
                         .definitePosition[0];
                 } else {
-                    // deno-lint-ignore no-explicit-any
-                    this.customData.animation.definitePosition.forEach((dp: any) => {
+                    this.customData.animation.definitePosition.forEach((dp) => {
                         dp[0] = -dp[0];
                     });
                 }
@@ -198,8 +197,7 @@ export class Arc extends WrapArc<Required<IArc>> {
                     this.customData.animation.offsetPosition[0] = -this.customData.animation
                         .offsetPosition[0];
                 } else {
-                    // deno-lint-ignore no-explicit-any
-                    this.customData.animation.offsetPosition.forEach((op: any) => {
+                    this.customData.animation.offsetPosition.forEach((op) => {
                         op[0] = -op[0];
                     });
                 }

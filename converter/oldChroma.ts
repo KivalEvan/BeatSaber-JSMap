@@ -77,9 +77,7 @@ export function ogChromaToChromaV2<T extends IWrapDifficulty>(
             }
         }
         if (!(ev.value >= 2000000000)) {
-            // hush
-            // deno-lint-ignore no-explicit-any
-            newEvents.push(ev as any);
+            newEvents.push(ev);
             if (noChromaColor) {
                 currentColor[ev.type] = null;
             }

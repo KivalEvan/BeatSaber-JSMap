@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
 import { isV2, isV3 } from '../beatmap/version.ts';
@@ -9,6 +8,8 @@ import objectToV3 from '../converter/customData/objectToV3.ts';
 import logger from '../logger.ts';
 import { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import { ColorArray } from '../types/colors.ts';
+import { colorFrom } from '../utils/colors.ts';
 
 function tag(name: string): string[] {
     return ['patch', 'customDataUpdate', name];
@@ -67,42 +68,46 @@ function v3(data: DifficultyV3) {
     });
     logger.tDebug(tag('v3'), ' Patching bookmarks');
     data.customData.bookmarks?.forEach((b) => {
-        if ((b as any)._time) {
-            b.b = (b as any)._time;
-            delete (b as any)._time;
+        if ('_time' in b && typeof b._time === 'number') {
+            b.b ??= b._time as number;
+            delete b._time;
         }
-        if ((b as any)._name) {
-            b.n = (b as any)._name;
-            delete (b as any)._name;
+        if ('_name' in b && typeof b._name === 'string') {
+            b.n ??= b._name as string;
+            delete b._name;
         }
-        if ((b as any)._color) {
-            b.c = (b as any)._color;
-            delete (b as any)._color;
+        if ('_color' in b && Array.isArray(b._color)) {
+            try {
+                b.c ??= colorFrom(b._color as ColorArray);
+            } catch {
+                // just try anyway
+            }
+            delete b._color;
         }
     });
     logger.tDebug(tag('v3'), ' Patching BPM changes');
     data.customData.BPMChanges?.forEach((bpmc) => {
-        if ((bpmc as any)._time) {
-            bpmc.b = (bpmc as any)._time;
-            delete (bpmc as any)._time;
+        if ('_time' in bpmc && typeof bpmc._time === 'number') {
+            bpmc.b ??= bpmc._time;
+            delete bpmc._time;
         }
-        if ((bpmc as any)._BPM) {
-            bpmc.m = (bpmc as any)._BPM;
-            delete (bpmc as any)._BPM;
+        if ('_BPM' in bpmc && typeof bpmc._BPM === 'number') {
+            bpmc.m ??= bpmc._BPM;
+            delete bpmc._BPM;
         }
-        if ((bpmc as any)._beatsPerBar) {
-            bpmc.p = (bpmc as any)._beatsPerBar;
-            delete (bpmc as any)._beatsPerBar;
+        if ('_beatsPerBar' in bpmc && typeof bpmc._beatsPerBar === 'number') {
+            bpmc.p ??= bpmc._beatsPerBar;
+            delete bpmc._beatsPerBar;
         }
-        if ((bpmc as any)._metronomeOffset) {
-            bpmc.o = (bpmc as any)._metronomeOffset;
-            delete (bpmc as any)._metronomeOffset;
+        if ('_metronomeOffset' in bpmc && typeof bpmc._metronomeOffset === 'number') {
+            bpmc.o ??= bpmc._metronomeOffset;
+            delete bpmc._metronomeOffset;
         }
     });
     logger.tDebug(tag('v3'), ' Patching environment');
     data.customData.environment?.forEach((env) => {
-        if ((env as any).lightID) {
-            const id = (env as any).lightID as number;
+        if ('lightID' in env && typeof env.lightID === 'number') {
+            const id = env.lightID as number;
             if (env.components) {
                 if (env.components.ILightWithId) {
                     env.components.ILightWithId.lightID ??= id;
@@ -112,7 +117,7 @@ function v3(data: DifficultyV3) {
             } else {
                 env.components = { ILightWithId: { lightID: id } };
             }
-            delete (env as any).lightID;
+            delete env.lightID;
         }
     });
     logger.tDebug(tag('v3'), ' Patching point definitions');

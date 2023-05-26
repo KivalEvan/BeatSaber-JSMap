@@ -125,7 +125,6 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
         return super.isLaneRotationEvent(environment);
     }
 
-    // holy shit i hate type guard
     isChroma(): boolean {
         const ev = this as BasicEvent;
         if (ev.isLightEvent()) {

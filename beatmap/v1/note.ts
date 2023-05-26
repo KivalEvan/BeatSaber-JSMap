@@ -107,7 +107,7 @@ export class Note extends WrapColorNote<Required<INote>> {
         return 0;
     }
     set angleOffset(_: number) {
-        // TODO: do some calculation with direction?
+        logger.tWarn(tag('customData'), 'Note angle offset does not exist in beatmap V1');
     }
 
     get customData(): Record<string, never> {

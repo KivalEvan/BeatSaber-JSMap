@@ -83,7 +83,8 @@ export interface IChromaEnvironmentBase {
      *
      * This grabs every environment objects that match the string.
      * ```ts
-     * id: 'Environment.[0]GlowLine' || 'Environment\.\\[\\d+\\]GlowLine$' // Regex example
+     * id: 'Environment.[0]GlowLine' // Non-regex
+     * id: 'Environment\.\\[\\d+\\]GlowLine$' // Regex
      * ```
      */
     id?: unknown;

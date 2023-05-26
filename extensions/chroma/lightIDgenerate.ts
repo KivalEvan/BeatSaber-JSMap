@@ -149,26 +149,20 @@ export const LightIDList: Record<
         6: Array.from(Array(24), (_, i) => i + 1),
         7: Array.from(Array(24), (_, i) => i + 1),
     },
-    //FIXME: Billie, Halloween and Gaga is incorrect
+    // FIXME: Figure out light ID for these
     BillieEnvironment: {},
     HalloweenEnvironment: {},
-    // FIXME: unknown
     GagaEnvironment: {},
     WeaveEnvironment: {},
-    // FIXME: unknown
     PyroEnvironment: {},
-    // FIXME: unknown
     EDMEnvironment: {},
-    // FIXME: unknown
     TheSecondEnvironment: {},
-    // FIXME: unknown
     LizzoEnvironment: {},
-    // FIXME: unknown
     TheWeekndEnvironment: {},
-    // FIXME: unknown
     RockMixtapeEnvironment: {},
     Dragons2Environment: {},
     Panic2Environment: {},
+    QueenEnvironment: {},
     GlassDesertEnvironment: {
         0: Array.from(Array(6), (_, i) => i + 1),
         1: Array.from(Array(8), (_, i) => i + 1),

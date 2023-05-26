@@ -6,6 +6,11 @@ import {
 import { IBPMChange as IBPMChangeV3 } from '../../types/beatmap/v3/custom/bpmChange.ts';
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
 import { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import logger from '../../logger.ts';
+
+function tag(name: string): string[] {
+    return ['beatmap', 'shared', 'bpm', name];
+}
 
 /** BPM class for various utility around adjusted beat time, JSON time, reaction time, etc. */
 export class BeatPerMinute {
@@ -38,6 +43,12 @@ export class BeatPerMinute {
                 (bc) => (bc as IBPMChangeV2)._time != null || (bc as IBPMChangeV3).o != null,
             ) as (IBPMChangeV2 | IBPMChangeOld | IBPMChangeV3)[],
         );
+        if (this._timeScale.length && this._bpmChange.length) {
+            logger.tWarn(
+                tag('constructor'),
+                'BPM change and BPM event should not be used along side together to avoid confusion between editors and in-game behaviour',
+            );
+        }
     }
 
     /** Create and return an instance of BeatPerMinute class.

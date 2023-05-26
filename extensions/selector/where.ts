@@ -1,4 +1,3 @@
-// i know what im doing shut up
 // deno-lint-ignore-file no-explicit-any
 import { IFilter } from './types/filter.ts';
 import { WrapBaseObject } from '../../beatmap/wrapper/baseObject.ts';
@@ -12,10 +11,7 @@ import { WrapBaseObject } from '../../beatmap/wrapper/baseObject.ts';
 export function where<
     T extends WrapBaseObject<Record<keyof T['data'], unknown>>,
     U extends T['data'],
->(
-    objects: T[],
-    filter: IFilter<U> = {},
-): T[] {
+>(objects: T[], filter: IFilter<U> = {}): T[] {
     return objects
         .filter((o) => {
             let result = false;

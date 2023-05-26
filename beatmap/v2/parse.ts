@@ -27,7 +27,6 @@ export function difficulty(
         deepCheck(data, DifficultyCheck, 'difficulty', data._version, checkData.throwError);
     }
 
-    // haha why do i have to do this, beat games
     data._notes = data._notes ?? [];
     data._sliders = data._sliders ?? [];
     data._obstacles = data._obstacles ?? [];

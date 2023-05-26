@@ -1,3 +1,4 @@
+import logger from '../../logger.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { INote } from '../../types/beatmap/v2/note.ts';
 import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
@@ -5,6 +6,10 @@ import { ObjectReturnFn } from '../../types/utils.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
+
+function tag(name: string): string[] {
+    return ['beatmap', 'v2', 'note', name];
+}
 
 /** Note beatmap v2 class object. */
 export class Note extends WrapColorNote<Required<INote>> {
@@ -108,7 +113,7 @@ export class Note extends WrapColorNote<Required<INote>> {
         return 0;
     }
     set angleOffset(_: number) {
-        // TODO: do some calculation with direction?
+        logger.tWarn(tag('customData'), 'Note angle offset does not exist in beatmap V2');
     }
 
     get customData(): NonNullable<INote['_customData']> {
@@ -171,7 +176,6 @@ export class Note extends WrapColorNote<Required<INote>> {
         );
     }
 
-    // god i hate these
     isNoodleExtensions(): boolean {
         return (
             Array.isArray(this.customData._animation) ||

@@ -45,9 +45,9 @@ export type ShaderKeywordsStandard =
     | '_EMISSION'
     | '_ENABLE_FOG_TINT'
     | '_RIMLIGHT_NONE'
-    | '_ZWRITE_ON' // possibly not needed
-    | 'REFLECTION_PROBE' // possibly not needed
-    | 'LIGHT_FALLOFF'; // possibly not needed
+    | '_ZWRITE_ON'
+    | 'REFLECTION_PROBE'
+    | 'LIGHT_FALLOFF';
 
 /** Default shader keywords used in opaque light. */
 export type ShaderKeywordsOpaque =

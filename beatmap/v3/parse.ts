@@ -27,7 +27,6 @@ export function difficulty(
         deepCheck(data, DifficultyCheck, 'difficulty', data.version, checkData.throwError);
     }
 
-    // haha why do i have to do this, beat games
     data.bpmEvents = data.bpmEvents ?? [];
     data.rotationEvents = data.rotationEvents ?? [];
     data.colorNotes = data.colorNotes ?? [];

@@ -545,9 +545,8 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                         logger.tWarn(tag('toV3'), 'Cannot convert point definitions, unknown use.');
                     } else if (Array.isArray(ce.d.position)) {
                         isVector3(ce.d.position)
-                            ? vectorScale(ce.d.position as Vector3, 0.6)
-                            // deno-lint-ignore no-explicit-any
-                            : ce.d.position.forEach((point: any) => {
+                            ? vectorScale(ce.d.position, 0.6)
+                            : ce.d.position.forEach((point) => {
                                 point[0] *= 0.6;
                                 point[1] *= 0.6;
                                 point[2] *= 0.6;
