@@ -34,7 +34,7 @@ export class NoteJumpSpeed {
      * 'Easy' -> 10
      * ```
      */
-    static readonly FallbackNJS: Record<DifficultyName, number> = {
+    static readonly FallbackNJS: { readonly [key in DifficultyName]: number } = {
         ExpertPlus: 16,
         Expert: 12,
         Hard: 10,

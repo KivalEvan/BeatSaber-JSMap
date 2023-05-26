@@ -24,7 +24,7 @@ import { IArc } from '../../types/beatmap/v3/arc.ts';
 import { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
 
 // FIXME: ALMOST EVERYTHING IS HERE IFUCKIN OPTIONAL REE
-export const ColorNoteDataCheck: Record<keyof IColorNote, DataCheck> = {
+export const ColorNoteDataCheck: { readonly [key in keyof IColorNote]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -62,7 +62,7 @@ export const ColorNoteDataCheck: Record<keyof IColorNote, DataCheck> = {
     },
 } as const;
 
-export const BombDataCheck: Record<keyof IBombNote, DataCheck> = {
+export const BombDataCheck: { readonly [key in keyof IBombNote]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -85,7 +85,7 @@ export const BombDataCheck: Record<keyof IBombNote, DataCheck> = {
     },
 } as const;
 
-export const ArcDataCheck: Record<keyof IArc, DataCheck> = {
+export const ArcDataCheck: { readonly [key in keyof IArc]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -150,7 +150,7 @@ export const ArcDataCheck: Record<keyof IArc, DataCheck> = {
     },
 } as const;
 
-export const ChainDataCheck: Record<keyof IChain, DataCheck> = {
+export const ChainDataCheck: { readonly [key in keyof IChain]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -206,7 +206,7 @@ export const ChainDataCheck: Record<keyof IChain, DataCheck> = {
     },
 } as const;
 
-export const ObstacleDataCheck: Record<keyof IObstacle, DataCheck> = {
+export const ObstacleDataCheck: { readonly [key in keyof IObstacle]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -243,7 +243,7 @@ export const ObstacleDataCheck: Record<keyof IObstacle, DataCheck> = {
     },
 } as const;
 
-export const BasicEventDataCheck: Record<keyof IBasicEvent, DataCheck> = {
+export const BasicEventDataCheck: { readonly [key in keyof IBasicEvent]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -270,7 +270,7 @@ export const BasicEventDataCheck: Record<keyof IBasicEvent, DataCheck> = {
     },
 } as const;
 
-export const BPMChangeEventDataCheck: Record<keyof IBPMEvent, DataCheck> = {
+export const BPMChangeEventDataCheck: { readonly [key in keyof IBPMEvent]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -287,7 +287,7 @@ export const BPMChangeEventDataCheck: Record<keyof IBPMEvent, DataCheck> = {
     },
 } as const;
 
-export const RotationEventDataCheck: Record<keyof IRotationEvent, DataCheck> = {
+export const RotationEventDataCheck: { readonly [key in keyof IRotationEvent]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -309,7 +309,7 @@ export const RotationEventDataCheck: Record<keyof IRotationEvent, DataCheck> = {
     },
 } as const;
 
-export const ColorBoostEventDataCheck: Record<keyof IColorBoostEvent, DataCheck> = {
+export const ColorBoostEventDataCheck: { readonly [key in keyof IColorBoostEvent]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -326,7 +326,7 @@ export const ColorBoostEventDataCheck: Record<keyof IColorBoostEvent, DataCheck>
     },
 } as const;
 
-export const IndexFilterDataCheck: Record<keyof IIndexFilter, DataCheck> = {
+export const IndexFilterDataCheck: { readonly [key in keyof IIndexFilter]: DataCheck } = {
     f: {
         type: 'number',
         int: true,
@@ -377,7 +377,7 @@ export const IndexFilterDataCheck: Record<keyof IIndexFilter, DataCheck> = {
     },
 } as const;
 
-export const LightColorBaseDataCheck: Record<keyof ILightColorBase, DataCheck> = {
+export const LightColorBaseDataCheck: { readonly [key in keyof ILightColorBase]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -408,7 +408,9 @@ export const LightColorBaseDataCheck: Record<keyof ILightColorBase, DataCheck> =
     },
 } as const;
 
-export const LightColorEventBoxDataCheck: Record<keyof ILightColorEventBox, DataCheck> = {
+export const LightColorEventBoxDataCheck: {
+    readonly [key in keyof ILightColorEventBox]: DataCheck;
+} = {
     f: {
         type: 'object',
         version: '3.0.0',
@@ -455,7 +457,9 @@ export const LightColorEventBoxDataCheck: Record<keyof ILightColorEventBox, Data
     },
 } as const;
 
-export const LightColorEventBoxGroupDataCheck: Record<keyof ILightColorEventBoxGroup, DataCheck> = {
+export const LightColorEventBoxGroupDataCheck: {
+    readonly [key in keyof ILightColorEventBoxGroup]: DataCheck;
+} = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -478,43 +482,46 @@ export const LightColorEventBoxGroupDataCheck: Record<keyof ILightColorEventBoxG
     },
 } as const;
 
-export const LightRotationBaseDataCheck: Record<keyof ILightRotationBase, DataCheck> = {
-    b: {
-        type: 'number',
-        version: '3.0.0',
-    },
-    p: {
-        type: 'number',
-        int: true,
-        version: '3.0.0',
-    },
-    e: {
-        type: 'number',
-        int: true,
-        version: '3.0.0',
-    },
-    l: {
-        type: 'number',
-        version: '3.0.0',
-    },
-    r: {
-        type: 'number',
-        version: '3.0.0',
-    },
-    o: {
-        type: 'number',
-        int: true,
-        version: '3.0.0',
-    },
-    customData: {
-        type: 'object',
-        version: '3.0.0',
-        check: {},
-        optional: true,
-    },
-} as const;
+export const LightRotationBaseDataCheck: { readonly [key in keyof ILightRotationBase]: DataCheck } =
+    {
+        b: {
+            type: 'number',
+            version: '3.0.0',
+        },
+        p: {
+            type: 'number',
+            int: true,
+            version: '3.0.0',
+        },
+        e: {
+            type: 'number',
+            int: true,
+            version: '3.0.0',
+        },
+        l: {
+            type: 'number',
+            version: '3.0.0',
+        },
+        r: {
+            type: 'number',
+            version: '3.0.0',
+        },
+        o: {
+            type: 'number',
+            int: true,
+            version: '3.0.0',
+        },
+        customData: {
+            type: 'object',
+            version: '3.0.0',
+            check: {},
+            optional: true,
+        },
+    } as const;
 
-export const LightRotationEventBoxDataCheck: Record<keyof ILightRotationEventBox, DataCheck> = {
+export const LightRotationEventBoxDataCheck: {
+    readonly [key in keyof ILightRotationEventBox]: DataCheck;
+} = {
     f: {
         type: 'object',
         version: '3.0.0',
@@ -597,7 +604,9 @@ export const LightRotationEventBoxGroupDataCheck: Record<
     },
 } as const;
 
-export const LightTranslationBaseDataCheck: Record<keyof ILightTranslationBase, DataCheck> = {
+export const LightTranslationBaseDataCheck: {
+    readonly [key in keyof ILightTranslationBase]: DataCheck;
+} = {
     b: {
         type: 'number',
         version: '3.2.0',
@@ -624,63 +633,64 @@ export const LightTranslationBaseDataCheck: Record<keyof ILightTranslationBase, 
     },
 } as const;
 
-export const LightTranslationEventBoxDataCheck: Record<keyof ILightTranslationEventBox, DataCheck> =
-    {
-        f: {
-            type: 'object',
-            version: '3.2.0',
-            check: IndexFilterDataCheck,
-        },
-        w: {
-            type: 'number',
-            version: '3.2.0',
-        },
-        d: {
-            type: 'number',
-            int: true,
-            version: '3.2.0',
-        },
-        s: {
-            type: 'number',
-            version: '3.2.0',
-        },
-        t: {
-            type: 'number',
-            int: true,
-            version: '3.2.0',
-        },
-        a: {
-            type: 'number',
-            int: true,
-            version: '3.2.0',
-        },
-        l: {
-            type: 'array',
-            version: '3.2.0',
-            check: LightTranslationBaseDataCheck,
-        },
-        r: {
-            type: 'number',
-            int: true,
-            version: '3.2.0',
-        },
-        b: {
-            type: 'number',
-            int: true,
-            version: '3.2.0',
-        },
-        i: {
-            type: 'number',
-            int: true,
-            version: '3.2.0',
-        },
-        customData: {
-            type: 'object',
-            version: '3.0.0',
-            check: {},
-            optional: true,
-        },
-    } as const;
+export const LightTranslationEventBoxDataCheck: {
+    readonly [key in keyof ILightTranslationEventBox]: DataCheck;
+} = {
+    f: {
+        type: 'object',
+        version: '3.2.0',
+        check: IndexFilterDataCheck,
+    },
+    w: {
+        type: 'number',
+        version: '3.2.0',
+    },
+    d: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    s: {
+        type: 'number',
+        version: '3.2.0',
+    },
+    t: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    a: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    l: {
+        type: 'array',
+        version: '3.2.0',
+        check: LightTranslationBaseDataCheck,
+    },
+    r: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    b: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    i: {
+        type: 'number',
+        int: true,
+        version: '3.2.0',
+    },
+    customData: {
+        type: 'object',
+        version: '3.0.0',
+        check: {},
+        optional: true,
+    },
+} as const;
 
 export const LightTranslationEventBoxGroupDataCheck: Record<
     keyof ILightTranslationEventBoxGroup,
@@ -736,7 +746,7 @@ export const BasicEventTypesWithKeywordsDataCheck: Record<
     },
 } as const;
 
-export const WaypointDataCheck: Record<keyof IWaypoint, DataCheck> = {
+export const WaypointDataCheck: { readonly [key in keyof IWaypoint]: DataCheck } = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -764,7 +774,7 @@ export const WaypointDataCheck: Record<keyof IWaypoint, DataCheck> = {
     },
 } as const;
 
-export const DifficultyCheck: Record<keyof IDifficulty, DataCheck> = {
+export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck } = {
     version: {
         type: 'string',
         version: '3.0.0',

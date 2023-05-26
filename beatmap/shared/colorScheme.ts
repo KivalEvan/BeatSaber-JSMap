@@ -1,12 +1,8 @@
-import {
-    ColorSchemeList,
-    IColorScheme,
-    IEnvironmentScheme,
-} from '../../types/beatmap/shared/colorScheme.ts';
+import { ColorSchemeName, IColorScheme } from '../../types/beatmap/shared/colorScheme.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
 /** Record of Environment Color to Color Scheme. */
-export const EnvironmentSchemeName: Record<EnvironmentAllName, ColorSchemeList> = {
+export const EnvironmentSchemeName: { readonly [key in EnvironmentAllName]: ColorSchemeName } = {
     DefaultEnvironment: 'The First',
     OriginsEnvironment: 'Origins',
     TriangleEnvironment: 'The First',
@@ -44,9 +40,7 @@ export const EnvironmentSchemeName: Record<EnvironmentAllName, ColorSchemeList> 
 } as const;
 
 /** Color Scheme property rename to human readable. */
-export const ColorSchemeRename: {
-    [k in keyof Required<IColorScheme>]: string;
-} = {
+export const ColorSchemeRename: { readonly [key in keyof Required<IColorScheme>]: string } = {
     _colorLeft: 'Left Note Color',
     _colorRight: 'Right Note Color',
     _envColorLeft: 'Left Environment Color',
@@ -59,7 +53,7 @@ export const ColorSchemeRename: {
 } as const;
 
 /** Color scheme definition. */
-export const ColorScheme: IEnvironmentScheme = {
+export const ColorScheme: { readonly [key in ColorSchemeName]: Readonly<IColorScheme> } = {
     'Default Custom': {
         _colorLeft: { r: 0.7529412, g: 0.1882353, b: 0.1882353 },
         _colorRight: { r: 0.1254902, g: 0.3921569, b: 0.6588235 },
@@ -299,4 +293,4 @@ export const ColorScheme: IEnvironmentScheme = {
         _envColorRight: { r: 0.03844783, g: 0.62239975, b: 0.90566039 },
         _obstacleColor: { r: 0.06167676, g: 0.2869513, b: 0.3962264 },
     },
-};
+} as const;

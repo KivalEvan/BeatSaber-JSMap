@@ -14,7 +14,7 @@ export interface IColorScheme {
 }
 
 /** List of available color scheme in base game. */
-export type ColorSchemeList =
+export type ColorSchemeName =
     | 'Default Custom'
     | 'The First'
     | 'Origins'
@@ -44,7 +44,3 @@ export type ColorSchemeList =
     | 'Dragons 2.0'
     | 'Panic 2.0'
     | 'Queen';
-
-export type IEnvironmentScheme = {
-    readonly [key in ColorSchemeList]: Readonly<IColorScheme>;
-};

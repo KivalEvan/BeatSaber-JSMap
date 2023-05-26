@@ -23,6 +23,7 @@
   - This means it won't automagically convert v2 map to v3 map when unspecified
 - Changed modded object value method behaviour
 - Only root-level file can contain platform-specific API
+- Changed certain constants name and type from `Record` to `Object` for known constants
 - Small refactor for BPM and NJS class
 - Updated Heck stuff
 - Recommended Deno version to 1.33.0+
@@ -31,6 +32,7 @@
 
 - Missing NE and Chroma check
 - Possible floating-point error in NJS HJD calculation
+- Constants should throw TS error if modified (`environment`, `colorScheme`, etc.)
 
 ### Removed
 

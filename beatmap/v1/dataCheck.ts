@@ -4,9 +4,9 @@ import { IEvent } from '../../types/beatmap/v1/event.ts';
 import { INote } from '../../types/beatmap/v1/note.ts';
 import { IObstacle } from '../../types/beatmap/v1/obstacle.ts';
 
-export const SkipCheck: Record<string, DataCheck> = {} as const;
+export const SkipCheck: { readonly [key in string]: DataCheck } = {} as const;
 
-export const NoteDataCheck: Record<keyof INote, DataCheck> = {
+export const NoteDataCheck: { readonly [key in keyof INote]: DataCheck } = {
     _time: {
         type: 'number',
         version: '1.5.0',
@@ -35,7 +35,7 @@ export const NoteDataCheck: Record<keyof INote, DataCheck> = {
     },
 } as const;
 
-export const ObstacleDataCheck: Record<keyof IObstacle, DataCheck> = {
+export const ObstacleDataCheck: { readonly [key in keyof IObstacle]: DataCheck } = {
     _time: {
         type: 'number',
         version: '1.5.0',
@@ -62,7 +62,7 @@ export const ObstacleDataCheck: Record<keyof IObstacle, DataCheck> = {
     },
 } as const;
 
-export const EventDataCheck: Record<keyof IEvent, DataCheck> = {
+export const EventDataCheck: { readonly [key in keyof IEvent]: DataCheck } = {
     _time: {
         type: 'number',
         version: '1.5.0',
@@ -79,7 +79,7 @@ export const EventDataCheck: Record<keyof IEvent, DataCheck> = {
     },
 } as const;
 
-export const DifficultyCheck: Record<keyof IDifficulty, DataCheck> = {
+export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck } = {
     _version: {
         type: 'string',
         version: '1.5.0',

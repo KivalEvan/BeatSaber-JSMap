@@ -8,7 +8,7 @@ import { ISpecialEventsKeywordFilters } from '../../types/beatmap/v2/specialEven
 import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
 import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
 
-export const NoteDataCheck: Record<keyof INote, DataCheck> = {
+export const NoteDataCheck: { readonly [key in keyof INote]: DataCheck } = {
     _time: {
         type: 'number',
         version: '2.0.0',
@@ -43,7 +43,7 @@ export const NoteDataCheck: Record<keyof INote, DataCheck> = {
     },
 } as const;
 
-export const ArcDataCheck: Record<keyof IArc, DataCheck> = {
+export const ArcDataCheck: { readonly [key in keyof IArc]: DataCheck } = {
     _colorType: {
         type: 'number',
         version: '2.0.0',
@@ -108,7 +108,7 @@ export const ArcDataCheck: Record<keyof IArc, DataCheck> = {
     },
 } as const;
 
-export const ObstacleDataCheck: Record<keyof IObstacle, DataCheck> = {
+export const ObstacleDataCheck: { readonly [key in keyof IObstacle]: DataCheck } = {
     _time: {
         type: 'number',
         version: '2.0.0',
@@ -141,7 +141,7 @@ export const ObstacleDataCheck: Record<keyof IObstacle, DataCheck> = {
     },
 } as const;
 
-export const EventDataCheck: Record<keyof IEvent, DataCheck> = {
+export const EventDataCheck: { readonly [key in keyof IEvent]: DataCheck } = {
     _time: {
         type: 'number',
         version: '2.0.0',
@@ -169,7 +169,7 @@ export const EventDataCheck: Record<keyof IEvent, DataCheck> = {
     },
 } as const;
 
-export const WaypointDataCheck: Record<keyof IWaypoint, DataCheck> = {
+export const WaypointDataCheck: { readonly [key in keyof IWaypoint]: DataCheck } = {
     _time: {
         type: 'number',
         version: '2.2.0',
@@ -224,7 +224,7 @@ export const SpecialEventsKeywordFiltersDataCheck: Record<
     },
 } as const;
 
-export const DifficultyCheck: Record<keyof IDifficulty, DataCheck> = {
+export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck } = {
     _version: {
         type: 'string',
         version: '2.0.0',
