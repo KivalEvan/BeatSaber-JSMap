@@ -138,7 +138,7 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
         )[]
     ): LightTranslationEventBox[] {
         const result: LightTranslationEventBox[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

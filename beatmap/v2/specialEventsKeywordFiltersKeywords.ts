@@ -57,7 +57,7 @@ export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywor
         )[]
     ): SpecialEventsKeywordFiltersKeywords[] {
         const result: SpecialEventsKeywordFiltersKeywords[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

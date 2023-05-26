@@ -111,7 +111,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
         )[]
     ): LightColorEventBoxGroup[] {
         const result: LightColorEventBoxGroup[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

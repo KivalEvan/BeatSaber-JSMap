@@ -58,7 +58,7 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
         )[]
     ): LightColorBase[] {
         const result: LightColorBase[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

@@ -113,7 +113,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
         )[]
     ): LightRotationEventBoxGroup[] {
         const result: LightRotationEventBoxGroup[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

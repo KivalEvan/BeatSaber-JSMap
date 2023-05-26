@@ -42,7 +42,7 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
         ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
     ): Waypoint[] {
         const result: Waypoint[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

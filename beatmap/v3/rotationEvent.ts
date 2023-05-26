@@ -54,7 +54,7 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
         )[]
     ): RotationEvent[] {
         const result: RotationEvent[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

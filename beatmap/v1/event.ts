@@ -38,7 +38,7 @@ export class Event extends WrapEvent<Required<IEvent>> {
         ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
     ): Event[] {
         const result: Event[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

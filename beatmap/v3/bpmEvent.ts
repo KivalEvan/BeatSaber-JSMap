@@ -38,7 +38,7 @@ export class BPMEvent extends WrapBPMEvent<Required<IBPMEvent>> {
         ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>)[]
     ): BPMEvent[] {
         const result: BPMEvent[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

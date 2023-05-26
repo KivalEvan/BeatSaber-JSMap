@@ -49,7 +49,7 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
         ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>)[]
     ): ColorNote[] {
         const result: ColorNote[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

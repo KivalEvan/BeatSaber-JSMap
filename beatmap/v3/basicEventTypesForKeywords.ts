@@ -55,7 +55,7 @@ export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<
         )[]
     ): BasicEventTypesForKeywords[] {
         const result: BasicEventTypesForKeywords[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

@@ -58,7 +58,7 @@ export class LightTranslationBase extends WrapLightTranslationBase<
         )[]
     ): LightTranslationBase[] {
         const result: LightTranslationBase[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }

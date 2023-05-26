@@ -55,13 +55,13 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         super();
 
         this.version = '2.6.0';
-        this.colorNotes = (data?._notes ?? []).map((obj) => new Note(obj));
-        this.arcs = (data?._sliders ?? []).map((obj) => new Arc(obj));
-        this.obstacles = (data?._obstacles ?? []).map((obj) => new Obstacle(obj));
-        this.basicEvents = (data?._events ?? []).map((obj) => new Event(obj));
-        this.waypoints = (data?._waypoints ?? []).map((obj) => new Waypoint(obj));
+        this.colorNotes = (data._notes ?? []).map((obj) => new Note(obj));
+        this.arcs = (data._sliders ?? []).map((obj) => new Arc(obj));
+        this.obstacles = (data._obstacles ?? []).map((obj) => new Obstacle(obj));
+        this.basicEvents = (data._events ?? []).map((obj) => new Event(obj));
+        this.waypoints = (data._waypoints ?? []).map((obj) => new Waypoint(obj));
         this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(
-            data?._specialEventsKeywordFilters ?? {
+            data._specialEventsKeywordFilters ?? {
                 _keywords: [],
             },
         );

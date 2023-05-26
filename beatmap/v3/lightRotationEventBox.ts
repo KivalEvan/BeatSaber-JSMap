@@ -137,7 +137,7 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
         )[]
     ): LightRotationEventBox[] {
         const result: LightRotationEventBox[] = [];
-        data?.forEach((obj) => result.push(new this(obj)));
+        data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
             return result;
         }
