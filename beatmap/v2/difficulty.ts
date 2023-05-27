@@ -101,12 +101,12 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
         this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(this.eventTypesWithKeywords);
     }
 
-    addBPMEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;
-    addBPMEvents(...data: Partial<IEventBPMChange>[]): void;
-    addBPMEvents(
+    addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;
+    addBpmEvents(...data: Partial<IEventBPMChange>[]): void;
+    addBpmEvents(
         ...data: (Partial<IEventBPMChange> & Partial<IWrapBPMEventAttribute<IEventBPMChange>>)[]
     ): void;
-    addBPMEvents(
+    addBpmEvents(
         ...data: (Partial<IEventBPMChange> & Partial<IWrapBPMEventAttribute<IEventBPMChange>>)[]
     ): void {
         this.basicEvents.push(

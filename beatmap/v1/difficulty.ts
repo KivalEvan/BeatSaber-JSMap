@@ -100,8 +100,8 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
         this.basicEvents = this.basicEvents.map((obj) => this.createOrKeep(Event, obj, keepRef));
     }
 
-    addBPMEvents(..._: never[]): void {
-        logger.tWarn(tag('addBPMEvents'), 'BPM Event does not exist in beatmap V1');
+    addBpmEvents(..._: never[]): void {
+        logger.tWarn(tag('addBpmEvents'), 'BPM Event does not exist in beatmap V1');
     }
 
     addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): void;

@@ -127,7 +127,7 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
      */
     getEventContainer(): EventContainer[];
 
-    addBPMEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;
+    addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;
     addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): void;
     addColorNotes(...data: Partial<IWrapColorNoteAttribute>[]): void;
     addBombNotes(...data: Partial<IWrapBombNoteAttribute>[]): void;

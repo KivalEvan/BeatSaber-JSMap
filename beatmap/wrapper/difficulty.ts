@@ -168,7 +168,7 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
         return ec.sort((a, b) => a.data.time - b.data.time);
     }
 
-    abstract addBPMEvents(...data: PartialWrapper<IWrapBPMEventAttribute>[]): void;
+    abstract addBpmEvents(...data: PartialWrapper<IWrapBPMEventAttribute>[]): void;
     abstract addRotationEvents(...data: PartialWrapper<IWrapRotationEventAttribute>[]): void;
     abstract addColorNotes(...data: PartialWrapper<IWrapColorNoteAttribute>[]): void;
     abstract addBombNotes(...data: PartialWrapper<IWrapBombNoteAttribute>[]): void;
