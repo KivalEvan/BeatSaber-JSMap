@@ -36,7 +36,7 @@ export class NoodleDifficulty {
         }
     }
 
-    toJSON(): Required<IDifficulty> {
+    toJSON(): IDifficulty {
         this.base.customData.fakeColorNotes = this.fakeColorNotes.map((n) => n.toJSON());
         this.base.customData.fakeBombNotes = this.fakeBombNotes.map((b) => b.toJSON());
         this.base.customData.fakeChains = this.fakeChains.map((bs) => bs.toJSON());

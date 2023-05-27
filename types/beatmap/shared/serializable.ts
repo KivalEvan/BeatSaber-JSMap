@@ -1,7 +1,6 @@
-export interface ISerializable<T extends Record<keyof T, unknown> | Record<keyof T, unknown>[]> {
+export interface ISerializable<T extends { [P in keyof T]: T[P] }> {
     /** Standard serializer used in JSON. */
-    // deno-lint-ignore no-explicit-any
-    toJSON(): Record<string, any>;
+    toJSON(): T;
     /** Convert class object into serialized string. */
     serialize(): string;
     /** Clone class object without referencing the original. */

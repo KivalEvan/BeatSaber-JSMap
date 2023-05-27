@@ -1,10 +1,10 @@
-export type FilterTypeChange<T extends Record<keyof T, unknown>> = {
-    [P in keyof T]?: T[P] extends Record<keyof T, unknown> ? [keyof T[P]]
+export type FilterTypeChange<T extends { [P in keyof T]: T[P] }> = {
+    [P in keyof T]?: T[P] extends { [P in keyof T]: T[P] } ? [keyof T[P]]
         : T[P] extends Array<T[P]> ? never
         : T[P] | T[P][];
 };
 
-export interface IFilter<T extends Record<keyof T, unknown>> {
+export interface IFilter<T extends { [P in keyof T]: T[P] }> {
     include?: FilterTypeChange<T>;
     exclude?: FilterTypeChange<T>;
 }

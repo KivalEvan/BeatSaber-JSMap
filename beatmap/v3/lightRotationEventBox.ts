@@ -10,11 +10,11 @@ import { LightRotationBase } from './lightRotationBase.ts';
 
 /** Light rotation event box beatmap v3 class object. */
 export class LightRotationEventBox extends WrapLightRotationEventBox<
-    Required<ILightRotationEventBox>,
-    Required<ILightRotationBase>,
-    Required<IIndexFilter>
+    ILightRotationEventBox,
+    ILightRotationBase,
+    IIndexFilter
 > {
-    static default: ObjectReturnFn<Required<ILightRotationEventBox>> = {
+    static default: ObjectReturnFn<ILightRotationEventBox> = {
         f: () => {
             return {
                 f: IndexFilter.default.f,
@@ -46,9 +46,9 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
     constructor(
         data: DeepPartial<
             IWrapLightRotationEventBoxAttribute<
-                Required<ILightRotationEventBox>,
-                Required<ILightRotationBase>,
-                Required<IIndexFilter>
+                ILightRotationEventBox,
+                ILightRotationBase,
+                IIndexFilter
             >
         >,
     );
@@ -58,9 +58,9 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
             & DeepPartial<ILightRotationEventBox>
             & DeepPartial<
                 IWrapLightRotationEventBoxAttribute<
-                    Required<ILightRotationEventBox>,
-                    Required<ILightRotationBase>,
-                    Required<IIndexFilter>
+                    ILightRotationEventBox,
+                    ILightRotationBase,
+                    IIndexFilter
                 >
             >,
     );
@@ -69,9 +69,9 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
             & DeepPartial<ILightRotationEventBox>
             & DeepPartial<
                 IWrapLightRotationEventBoxAttribute<
-                    Required<ILightRotationEventBox>,
-                    Required<ILightRotationBase>,
-                    Required<IIndexFilter>
+                    ILightRotationEventBox,
+                    ILightRotationBase,
+                    IIndexFilter
                 >
             > = {},
     ) {
@@ -79,7 +79,7 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
 
         this._filter = new IndexFilter(
             (data.filter as IIndexFilter) ??
-                (data as Required<ILightRotationEventBox>).f ??
+                (data as ILightRotationEventBox).f ??
                 LightRotationEventBox.default.f(),
         );
         this._beatDistribution = data.beatDistribution ?? data.w ?? LightRotationEventBox.default.w;
@@ -95,7 +95,7 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
         this._easing = data.easing ?? data.i ?? LightRotationEventBox.default.i;
         this._events = (
             (data.events as ILightRotationBase[]) ??
-                (data as Required<ILightRotationEventBox>).l ??
+                (data as ILightRotationEventBox).l ??
                 LightRotationEventBox.default.l()
         ).map((obj) => new LightRotationBase(obj));
         this._customData = data.customData ?? LightRotationEventBox.default.customData();
@@ -105,9 +105,9 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
     static create(
         ...data: DeepPartial<
             IWrapLightRotationEventBoxAttribute<
-                Required<ILightRotationEventBox>,
-                Required<ILightRotationBase>,
-                Required<IIndexFilter>
+                ILightRotationEventBox,
+                ILightRotationBase,
+                IIndexFilter
             >
         >[]
     ): LightRotationEventBox[];
@@ -117,9 +117,9 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
             & DeepPartial<ILightRotationEventBox>
             & DeepPartial<
                 IWrapLightRotationEventBoxAttribute<
-                    Required<ILightRotationEventBox>,
-                    Required<ILightRotationBase>,
-                    Required<IIndexFilter>
+                    ILightRotationEventBox,
+                    ILightRotationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -129,9 +129,9 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
             & DeepPartial<ILightRotationEventBox>
             & DeepPartial<
                 IWrapLightRotationEventBoxAttribute<
-                    Required<ILightRotationEventBox>,
-                    Required<ILightRotationBase>,
-                    Required<IIndexFilter>
+                    ILightRotationEventBox,
+                    ILightRotationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -144,7 +144,7 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
         return [new this()];
     }
 
-    toJSON(): Required<ILightRotationEventBox> {
+    toJSON(): ILightRotationEventBox {
         return {
             f: this.filter.toJSON(),
             w: this.beatDistribution,

@@ -5,8 +5,8 @@ import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorBoostEvent } from '../wrapper/colorBoostEvent.ts';
 
 /** Boost event beatmap v3 class object. */
-export class ColorBoostEvent extends WrapColorBoostEvent<Required<IColorBoostEvent>> {
-    static default: ObjectReturnFn<Required<IColorBoostEvent>> = {
+export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEvent> {
+    static default: ObjectReturnFn<IColorBoostEvent> = {
         b: 0,
         o: false,
         customData: () => {
@@ -15,17 +15,15 @@ export class ColorBoostEvent extends WrapColorBoostEvent<Required<IColorBoostEve
     };
 
     constructor();
-    constructor(data: Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>);
+    constructor(data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>);
     constructor(data: Partial<IColorBoostEvent>);
     constructor(
-        data:
-            & Partial<IColorBoostEvent>
-            & Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>,
+        data: Partial<IColorBoostEvent> & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>,
     );
     constructor(
         data:
             & Partial<IColorBoostEvent>
-            & Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>> = {},
+            & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>> = {},
     ) {
         super();
 
@@ -36,19 +34,19 @@ export class ColorBoostEvent extends WrapColorBoostEvent<Required<IColorBoostEve
 
     static create(): ColorBoostEvent[];
     static create(
-        ...data: Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>[]
+        ...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]
     ): ColorBoostEvent[];
     static create(...data: Partial<IColorBoostEvent>[]): ColorBoostEvent[];
     static create(
         ...data: (
             & Partial<IColorBoostEvent>
-            & Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>
+            & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
         )[]
     ): ColorBoostEvent[];
     static create(
         ...data: (
             & Partial<IColorBoostEvent>
-            & Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>
+            & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
         )[]
     ): ColorBoostEvent[] {
         const result: ColorBoostEvent[] = [];
@@ -59,7 +57,7 @@ export class ColorBoostEvent extends WrapColorBoostEvent<Required<IColorBoostEve
         return [new this()];
     }
 
-    toJSON(): Required<IColorBoostEvent> {
+    toJSON(): IColorBoostEvent {
         return {
             b: this.time,
             o: this.toggle,

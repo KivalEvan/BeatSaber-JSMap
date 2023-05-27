@@ -2,7 +2,7 @@ import { IWrapLightRotationBase } from '../../types/beatmap/wrapper/lightRotatio
 import { WrapBaseObject } from './baseObject.ts';
 
 /** Light rotation base beatmap class object. */
-export abstract class WrapLightRotationBase<T extends Record<keyof T, unknown>>
+export abstract class WrapLightRotationBase<T extends { [P in keyof T]: T[P] }>
     extends WrapBaseObject<T>
     implements IWrapLightRotationBase<T> {
     protected _previous!: IWrapLightRotationBase['previous'];

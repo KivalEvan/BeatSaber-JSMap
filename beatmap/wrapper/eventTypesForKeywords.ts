@@ -5,7 +5,7 @@ import { Serializable } from '../shared/serializable.ts';
  *
  * Used in basic event types with keywords.
  */
-export abstract class WrapEventTypesForKeywords<T extends Record<keyof T, unknown>>
+export abstract class WrapEventTypesForKeywords<T extends { [P in keyof T]: T[P] }>
     extends Serializable<T>
     implements IWrapEventTypesForKeywords<T> {
     protected _keyword!: IWrapEventTypesForKeywords['keyword'];

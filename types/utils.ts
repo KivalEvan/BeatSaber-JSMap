@@ -16,7 +16,7 @@ export type DeepPartial<T> = {
 };
 
 export type ObjectReturnFn<T> = {
-    [P in keyof T]: T[P] extends object ? () => T[P] : T[P];
+    [P in keyof T]-?: NonNullable<T[P]> extends object ? () => NonNullable<T[P]> : T[P];
 };
 
 export type LooseAutocomplete<T extends string | number> = T extends string ? T | (string & {})
@@ -90,9 +90,9 @@ export type Nullable<T> = T extends Primitive ? T | null
     };
 
 /** INTERNAL USE ONLY */
-export type _ObtainCustomData<T extends Record<string, unknown>> = T['customData'] extends Record<
+export type _ObtainCustomData<T extends Record<string, any>> = T['customData'] extends Record<
     string,
     unknown
 > ? T['customData']
-    : T['_customData'] extends Record<string, unknown> ? T['_customData']
-    : Record<string, unknown>;
+    : T['_customData'] extends Record<string, any> ? T['_customData']
+    : Record<string, any>;

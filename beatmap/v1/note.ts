@@ -11,8 +11,8 @@ function tag(name: string): string[] {
 }
 
 /** Note beatmap v1 class object. */
-export class Note extends WrapColorNote<Required<INote>> {
-    static default: ObjectReturnFn<Required<INote>> = {
+export class Note extends WrapColorNote<INote> {
+    static default: ObjectReturnFn<INote> = {
         _time: 0,
         _lineIndex: 0,
         _lineLayer: 0,
@@ -21,10 +21,10 @@ export class Note extends WrapColorNote<Required<INote>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapColorNoteAttribute<Required<INote>>>);
+    constructor(data: Partial<IWrapColorNoteAttribute<INote>>);
     constructor(data: Partial<INote>);
-    constructor(data: Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>);
-    constructor(data: Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>> = {}) {
+    constructor(data: Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>);
+    constructor(data: Partial<INote> & Partial<IWrapColorNoteAttribute<INote>> = {}) {
         super();
 
         this._time = data.time ?? data._time ?? Note.default._time;
@@ -35,14 +35,10 @@ export class Note extends WrapColorNote<Required<INote>> {
     }
 
     static create(): Note[];
-    static create(...data: Partial<IWrapColorNoteAttribute<Required<INote>>>[]): Note[];
+    static create(...data: Partial<IWrapColorNoteAttribute<INote>>[]): Note[];
     static create(...data: Partial<INote>[]): Note[];
-    static create(
-        ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
-    ): Note[];
-    static create(
-        ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
-    ): Note[] {
+    static create(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): Note[];
+    static create(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): Note[] {
         const result: Note[] = [];
         data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
@@ -51,7 +47,7 @@ export class Note extends WrapColorNote<Required<INote>> {
         return [new this()];
     }
 
-    toJSON(): Required<INote> {
+    toJSON(): INote {
         return {
             _time: this.time,
             _type: this.type,

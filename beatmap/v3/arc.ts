@@ -11,8 +11,8 @@ import { WrapArc } from '../wrapper/arc.ts';
  *
  * Also known as slider internally.
  */
-export class Arc extends WrapArc<Required<IArc>> {
-    static default: ObjectReturnFn<Required<IArc>> = {
+export class Arc extends WrapArc<IArc> {
+    static default: ObjectReturnFn<IArc> = {
         b: 0,
         c: 0,
         x: 0,
@@ -31,10 +31,10 @@ export class Arc extends WrapArc<Required<IArc>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapArcAttribute<Required<IArc>>>);
+    constructor(data: Partial<IWrapArcAttribute<IArc>>);
     constructor(data: Partial<IArc>);
-    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>);
-    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>> = {}) {
+    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<IArc>>);
+    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<IArc>> = {}) {
         super();
 
         this._time = data.time ?? data.b ?? Arc.default.b;
@@ -53,10 +53,10 @@ export class Arc extends WrapArc<Required<IArc>> {
     }
 
     static create(): Arc[];
-    static create(...data: Partial<IWrapArcAttribute<Required<IArc>>>[]): Arc[];
+    static create(...data: Partial<IWrapArcAttribute<IArc>>[]): Arc[];
     static create(...data: Partial<IArc>[]): Arc[];
-    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): Arc[];
-    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): Arc[] {
+    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): Arc[];
+    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): Arc[] {
         const result: Arc[] = [];
         data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
@@ -65,7 +65,7 @@ export class Arc extends WrapArc<Required<IArc>> {
         return [new this()];
     }
 
-    toJSON(): Required<IArc> {
+    toJSON(): IArc {
         return {
             b: this.time,
             c: this.color,

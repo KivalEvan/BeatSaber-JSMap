@@ -10,12 +10,12 @@ import { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wr
 
 /** Light Rotation event box group beatmap v3 class object. */
 export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
-    Required<ILightRotationEventBoxGroup>,
-    Required<ILightRotationEventBox>,
-    Required<ILightRotationBase>,
-    Required<IIndexFilter>
+    ILightRotationEventBoxGroup,
+    ILightRotationEventBox,
+    ILightRotationBase,
+    IIndexFilter
 > {
-    static default: ObjectReturnFn<Required<ILightRotationEventBoxGroup>> = {
+    static default: ObjectReturnFn<ILightRotationEventBoxGroup> = {
         b: 0,
         g: 0,
         e: () => [],
@@ -28,10 +28,10 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
     constructor(
         data: DeepPartial<
             IWrapLightRotationEventBoxGroupAttribute<
-                Required<ILightRotationEventBoxGroup>,
-                Required<ILightRotationEventBox>,
-                Required<ILightRotationBase>,
-                Required<IIndexFilter>
+                ILightRotationEventBoxGroup,
+                ILightRotationEventBox,
+                ILightRotationBase,
+                IIndexFilter
             >
         >,
     );
@@ -41,10 +41,10 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             & DeepPartial<ILightRotationEventBoxGroup>
             & DeepPartial<
                 IWrapLightRotationEventBoxGroupAttribute<
-                    Required<ILightRotationEventBoxGroup>,
-                    Required<ILightRotationEventBox>,
-                    Required<ILightRotationBase>,
-                    Required<IIndexFilter>
+                    ILightRotationEventBoxGroup,
+                    ILightRotationEventBox,
+                    ILightRotationBase,
+                    IIndexFilter
                 >
             >,
     );
@@ -53,10 +53,10 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             & DeepPartial<ILightRotationEventBoxGroup>
             & DeepPartial<
                 IWrapLightRotationEventBoxGroupAttribute<
-                    Required<ILightRotationEventBoxGroup>,
-                    Required<ILightRotationEventBox>,
-                    Required<ILightRotationBase>,
-                    Required<IIndexFilter>
+                    ILightRotationEventBoxGroup,
+                    ILightRotationEventBox,
+                    ILightRotationBase,
+                    IIndexFilter
                 >
             > = {},
     ) {
@@ -76,10 +76,10 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
     static create(
         ...data: DeepPartial<
             IWrapLightRotationEventBoxGroupAttribute<
-                Required<ILightRotationEventBoxGroup>,
-                Required<ILightRotationEventBox>,
-                Required<ILightRotationBase>,
-                Required<IIndexFilter>
+                ILightRotationEventBoxGroup,
+                ILightRotationEventBox,
+                ILightRotationBase,
+                IIndexFilter
             >
         >[]
     ): LightRotationEventBoxGroup[];
@@ -91,10 +91,10 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             & DeepPartial<ILightRotationEventBoxGroup>
             & DeepPartial<
                 IWrapLightRotationEventBoxGroupAttribute<
-                    Required<ILightRotationEventBoxGroup>,
-                    Required<ILightRotationEventBox>,
-                    Required<ILightRotationBase>,
-                    Required<IIndexFilter>
+                    ILightRotationEventBoxGroup,
+                    ILightRotationEventBox,
+                    ILightRotationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -104,10 +104,10 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             & DeepPartial<ILightRotationEventBoxGroup>
             & DeepPartial<
                 IWrapLightRotationEventBoxGroupAttribute<
-                    Required<ILightRotationEventBoxGroup>,
-                    Required<ILightRotationEventBox>,
-                    Required<ILightRotationBase>,
-                    Required<IIndexFilter>
+                    ILightRotationEventBoxGroup,
+                    ILightRotationEventBox,
+                    ILightRotationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -120,7 +120,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
         return [new this()];
     }
 
-    toJSON(): Required<ILightRotationEventBoxGroup> {
+    toJSON(): ILightRotationEventBoxGroup {
         return {
             b: this.time,
             g: this.id,

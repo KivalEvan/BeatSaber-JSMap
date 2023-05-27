@@ -12,8 +12,8 @@ import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import { WrapEvent } from '../wrapper/event.ts';
 
 /** Basic event beatmap v3 class object. */
-export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
-    static default: ObjectReturnFn<Required<IBasicEvent>> = {
+export class BasicEvent extends WrapEvent<IBasicEvent> {
+    static default: ObjectReturnFn<IBasicEvent> = {
         b: 0,
         et: 0,
         i: 0,
@@ -24,12 +24,10 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapEventAttribute<Required<IBasicEvent>>>);
+    constructor(data: Partial<IWrapEventAttribute<IBasicEvent>>);
     constructor(...data: Partial<IBasicEvent>[]);
-    constructor(data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<Required<IBasicEvent>>>);
-    constructor(
-        data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<Required<IBasicEvent>>> = {},
-    ) {
+    constructor(data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>>);
+    constructor(data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>> = {}) {
         super();
 
         this._time = data.time ?? data.b ?? BasicEvent.default.b;
@@ -40,13 +38,13 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
     }
 
     static create(): BasicEvent[];
-    static create(...data: Partial<IWrapEventAttribute<Required<IBasicEvent>>>[]): BasicEvent[];
+    static create(...data: Partial<IWrapEventAttribute<IBasicEvent>>[]): BasicEvent[];
     static create(...data: Partial<IBasicEvent>[]): BasicEvent[];
     static create(
-        ...data: (Partial<IBasicEvent> & Partial<IWrapEventAttribute<Required<IBasicEvent>>>)[]
+        ...data: (Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>>)[]
     ): BasicEvent[];
     static create(
-        ...data: (Partial<IBasicEvent> & Partial<IWrapEventAttribute<Required<IBasicEvent>>>)[]
+        ...data: (Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>>)[]
     ): BasicEvent[] {
         const result: BasicEvent[] = [];
         data.forEach((obj) => result.push(new this(obj)));
@@ -64,7 +62,7 @@ export class BasicEvent extends WrapEvent<Required<IBasicEvent>> {
         ];
     }
 
-    toJSON(): Required<IBasicEvent> {
+    toJSON(): IBasicEvent {
         return {
             b: this.time,
             et: this.type,

@@ -10,12 +10,12 @@ import { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap
 
 /** Light translation event box group beatmap v3 class object. */
 export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxGroup<
-    Required<ILightTranslationEventBoxGroup>,
-    Required<ILightTranslationEventBox>,
-    Required<ILightTranslationBase>,
-    Required<IIndexFilter>
+    ILightTranslationEventBoxGroup,
+    ILightTranslationEventBox,
+    ILightTranslationBase,
+    IIndexFilter
 > {
-    static default: ObjectReturnFn<Required<ILightTranslationEventBoxGroup>> = {
+    static default: ObjectReturnFn<ILightTranslationEventBoxGroup> = {
         b: 0,
         g: 0,
         e: () => [],
@@ -28,10 +28,10 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     constructor(
         data: DeepPartial<
             IWrapLightTranslationEventBoxGroupAttribute<
-                Required<ILightTranslationEventBoxGroup>,
-                Required<ILightTranslationEventBox>,
-                Required<ILightTranslationBase>,
-                Required<IIndexFilter>
+                ILightTranslationEventBoxGroup,
+                ILightTranslationEventBox,
+                ILightTranslationBase,
+                IIndexFilter
             >
         >,
     );
@@ -41,10 +41,10 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
             & DeepPartial<ILightTranslationEventBoxGroup>
             & DeepPartial<
                 IWrapLightTranslationEventBoxGroupAttribute<
-                    Required<ILightTranslationEventBoxGroup>,
-                    Required<ILightTranslationEventBox>,
-                    Required<ILightTranslationBase>,
-                    Required<IIndexFilter>
+                    ILightTranslationEventBoxGroup,
+                    ILightTranslationEventBox,
+                    ILightTranslationBase,
+                    IIndexFilter
                 >
             >,
     );
@@ -53,10 +53,10 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
             & DeepPartial<ILightTranslationEventBoxGroup>
             & DeepPartial<
                 IWrapLightTranslationEventBoxGroupAttribute<
-                    Required<ILightTranslationEventBoxGroup>,
-                    Required<ILightTranslationEventBox>,
-                    Required<ILightTranslationBase>,
-                    Required<IIndexFilter>
+                    ILightTranslationEventBoxGroup,
+                    ILightTranslationEventBox,
+                    ILightTranslationBase,
+                    IIndexFilter
                 >
             > = {},
     ) {
@@ -76,10 +76,10 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     static create(
         ...data: DeepPartial<
             IWrapLightTranslationEventBoxGroupAttribute<
-                Required<ILightTranslationEventBoxGroup>,
-                Required<ILightTranslationEventBox>,
-                Required<ILightTranslationBase>,
-                Required<IIndexFilter>
+                ILightTranslationEventBoxGroup,
+                ILightTranslationEventBox,
+                ILightTranslationBase,
+                IIndexFilter
             >
         >[]
     ): LightTranslationEventBoxGroup[];
@@ -91,10 +91,10 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
             & DeepPartial<ILightTranslationEventBoxGroup>
             & DeepPartial<
                 IWrapLightTranslationEventBoxGroupAttribute<
-                    Required<ILightTranslationEventBoxGroup>,
-                    Required<ILightTranslationEventBox>,
-                    Required<ILightTranslationBase>,
-                    Required<IIndexFilter>
+                    ILightTranslationEventBoxGroup,
+                    ILightTranslationEventBox,
+                    ILightTranslationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -104,10 +104,10 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
             & DeepPartial<ILightTranslationEventBoxGroup>
             & DeepPartial<
                 IWrapLightTranslationEventBoxGroupAttribute<
-                    Required<ILightTranslationEventBoxGroup>,
-                    Required<ILightTranslationEventBox>,
-                    Required<ILightTranslationBase>,
-                    Required<IIndexFilter>
+                    ILightTranslationEventBoxGroup,
+                    ILightTranslationEventBox,
+                    ILightTranslationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -120,7 +120,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         return [new this()];
     }
 
-    toJSON(): Required<ILightTranslationEventBoxGroup> {
+    toJSON(): ILightTranslationEventBoxGroup {
         return {
             b: this.time,
             g: this.id,

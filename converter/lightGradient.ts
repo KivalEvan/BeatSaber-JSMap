@@ -7,8 +7,9 @@ import { normalize } from '../utils/math.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IChromaLightGradient } from '../types/beatmap/v2/custom/chroma.ts';
 import { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
-import { isV3 } from '../beatmap/version.ts';
+import { isV2, isV3 } from '../beatmap/version.ts';
 import eventToV3 from './customData/eventToV3.ts';
+import { Easings } from '../types/easings.ts';
 
 function tag(name: string): string[] {
     return ['convert', name];
@@ -24,6 +25,8 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
  * ```
  */
 export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(data: T): T {
+    if (!(isV2(data) || isV3(data))) return data;
+
     const EventClass = isV3(data) ? BasicEvent : Event;
     logger.tWarn(
         tag('chromaLightGradientToVanillaGradient'),
@@ -55,7 +58,8 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                     : ev.value >= 5 && ev.value <= 8
                     ? 5
                     : 9;
-                const easing = EasingsFn[ev.customData._lightGradient._easing ?? 'easeLinear'];
+                const easing =
+                    EasingsFn[(ev.customData._lightGradient._easing as Easings) ?? 'easeLinear'];
                 let hasOff = false;
                 let previousEvent: IWrapEvent = ev;
                 for (const eig of eventInGradient) {

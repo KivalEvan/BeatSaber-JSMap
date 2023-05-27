@@ -9,18 +9,18 @@ function tag(name: string): string[] {
 }
 
 /** Event beatmap v1 class object. */
-export class Event extends WrapEvent<Required<IEvent>> {
-    static default: ObjectReturnFn<Required<IEvent>> = {
+export class Event extends WrapEvent<IEvent> {
+    static default: ObjectReturnFn<IEvent> = {
         _time: 0,
         _type: 0,
         _value: 0,
     };
 
     constructor();
-    constructor(data: Partial<IWrapEventAttribute<Required<IEvent>>>);
+    constructor(data: Partial<IWrapEventAttribute<IEvent>>);
     constructor(data: Partial<IEvent>);
-    constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>);
-    constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>> = {}) {
+    constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>);
+    constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>> = {}) {
         super();
 
         this._time = data.time ?? data._time ?? Event.default._time;
@@ -29,14 +29,10 @@ export class Event extends WrapEvent<Required<IEvent>> {
     }
 
     static create(): Event[];
-    static create(...data: Partial<IWrapEventAttribute<Required<IEvent>>>[]): Event[];
+    static create(...data: Partial<IWrapEventAttribute<IEvent>>[]): Event[];
     static create(...data: Partial<IEvent>[]): Event[];
-    static create(
-        ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
-    ): Event[];
-    static create(
-        ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
-    ): Event[] {
+    static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[];
+    static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[] {
         const result: Event[] = [];
         data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
@@ -45,7 +41,7 @@ export class Event extends WrapEvent<Required<IEvent>> {
         return [new this()];
     }
 
-    toJSON(): Required<IEvent> {
+    toJSON(): IEvent {
         return {
             _time: this.time,
             _type: this.type,

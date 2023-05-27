@@ -41,7 +41,7 @@ import { WrapBaseItem } from './baseItem.ts';
 import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 
 /** Difficulty beatmap class object. */
-export abstract class WrapDifficulty<T extends Record<keyof T, unknown>> extends WrapBaseItem<T>
+export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
     implements IWrapDifficulty<T> {
     private _fileName = 'UnnamedDifficulty.dat';
 

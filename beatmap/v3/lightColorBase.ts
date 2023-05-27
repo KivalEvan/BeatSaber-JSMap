@@ -5,8 +5,8 @@ import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightColorBase } from '../wrapper/lightColorBase.ts';
 
 /** Light color base beatmap v3 class object. */
-export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>> {
-    static default: ObjectReturnFn<Required<ILightColorBase>> = {
+export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
+    static default: ObjectReturnFn<ILightColorBase> = {
         b: 0,
         i: 0,
         c: 0,
@@ -18,17 +18,14 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
     };
 
     constructor();
-    constructor(data: Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>);
+    constructor(data: Partial<IWrapLightColorBaseAttribute<ILightColorBase>>);
     constructor(data: Partial<ILightColorBase>);
     constructor(
-        data:
-            & Partial<ILightColorBase>
-            & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>,
+        data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>,
     );
     constructor(
-        data:
-            & Partial<ILightColorBase>
-            & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>> = {},
+        data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>> =
+            {},
     ) {
         super();
 
@@ -42,19 +39,19 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
 
     static create(): LightColorBase[];
     static create(
-        ...data: Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>[]
+        ...data: Partial<IWrapLightColorBaseAttribute<ILightColorBase>>[]
     ): LightColorBase[];
     static create(...data: Partial<ILightColorBase>[]): LightColorBase[];
     static create(
         ...data: (
             & Partial<ILightColorBase>
-            & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>
+            & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>
         )[]
     ): LightColorBase[];
     static create(
         ...data: (
             & Partial<ILightColorBase>
-            & Partial<IWrapLightColorBaseAttribute<Required<ILightColorBase>>>
+            & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>
         )[]
     ): LightColorBase[] {
         const result: LightColorBase[] = [];
@@ -65,7 +62,7 @@ export class LightColorBase extends WrapLightColorBase<Required<ILightColorBase>
         return [new this()];
     }
 
-    toJSON(): Required<ILightColorBase> {
+    toJSON(): ILightColorBase {
         return {
             b: this.time,
             i: this.transition,

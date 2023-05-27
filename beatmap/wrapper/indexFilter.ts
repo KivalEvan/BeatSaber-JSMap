@@ -3,7 +3,7 @@ import { LimitAlsoAffectsType, RandomType } from '../shared/constants.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
 /** Index filter beatmap class object. */
-export abstract class WrapIndexFilter<T extends Record<keyof T, unknown>> extends WrapBaseItem<T>
+export abstract class WrapIndexFilter<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
     implements IWrapIndexFilter<T> {
     protected _type!: IWrapIndexFilter['type'];
     protected _p0!: IWrapIndexFilter['p0'];

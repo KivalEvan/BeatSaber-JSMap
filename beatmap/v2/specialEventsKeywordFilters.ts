@@ -7,10 +7,10 @@ import { IWrapEventTypesWithKeywordsAttribute } from '../../types/beatmap/wrappe
 
 /** Special event types with keywords beatmap v2 class object. */
 export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
-    Required<ISpecialEventsKeywordFilters>,
-    Required<ISpecialEventsKeywordFiltersKeywords>
+    ISpecialEventsKeywordFilters,
+    ISpecialEventsKeywordFiltersKeywords
 > {
-    static default: ObjectReturnFn<Required<ISpecialEventsKeywordFilters>> = {
+    static default: ObjectReturnFn<ISpecialEventsKeywordFilters> = {
         _keywords: () => [],
     };
 

@@ -7,8 +7,8 @@ import { WrapObstacle } from '../wrapper/obstacle.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Obstacle beatmap v2 class object. */
-export class Obstacle extends WrapObstacle<Required<IObstacle>> {
-    static default: ObjectReturnFn<Required<IObstacle>> = {
+export class Obstacle extends WrapObstacle<IObstacle> {
+    static default: ObjectReturnFn<IObstacle> = {
         _time: 0,
         _lineIndex: 0,
         _type: 0,
@@ -22,12 +22,10 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     protected _type: number;
 
     constructor();
-    constructor(data: Partial<IWrapObstacleAttribute<Required<IObstacle>>>);
+    constructor(data: Partial<IWrapObstacleAttribute<IObstacle>>);
     constructor(data: Partial<IObstacle>);
-    constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>);
-    constructor(
-        data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>> = {},
-    ) {
+    constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>);
+    constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
         super();
 
         this._time = data.time ?? data._time ?? Obstacle.default._time;
@@ -39,13 +37,13 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
     }
 
     static create(): Obstacle[];
-    static create(...data: Partial<IWrapObstacleAttribute<Required<IObstacle>>>[]): Obstacle[];
+    static create(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): Obstacle[];
     static create(...data: Partial<IObstacle>[]): Obstacle[];
     static create(
-        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
+        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
     ): Obstacle[];
     static create(
-        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
+        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
     ): Obstacle[] {
         const result: Obstacle[] = [];
         data.forEach((obj) => result.push(new this(obj)));
@@ -55,7 +53,7 @@ export class Obstacle extends WrapObstacle<Required<IObstacle>> {
         return [new this()];
     }
 
-    toJSON(): Required<IObstacle> {
+    toJSON(): IObstacle {
         return {
             _time: this.time,
             _type: this.type,

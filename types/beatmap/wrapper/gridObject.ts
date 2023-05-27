@@ -1,10 +1,10 @@
+// deno-lint-ignore-file no-explicit-any
 import { Vector2 } from '../../vector.ts';
 import { ModType } from '../shared/modCheck.ts';
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapGridObjectAttribute<
-    T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapBaseObjectAttribute<T> {
+export interface IWrapGridObjectAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+    extends IWrapBaseObjectAttribute<T> {
     /** Position x `<int>` of base obj.
      * ```ts
      * 0 -> Outer Left
@@ -28,7 +28,7 @@ export interface IWrapGridObjectAttribute<
     posY: number;
 }
 
-export interface IWrapGridObject<T extends Record<keyof T, unknown> = Record<string, unknown>>
+export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<string, any>>
     extends IWrapBaseObject<T>, IWrapGridObjectAttribute<T> {
     setPosX(value: number): this;
     setPosY(value: number): this;

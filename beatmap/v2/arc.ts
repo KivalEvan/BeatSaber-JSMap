@@ -5,8 +5,8 @@ import { deepCopy } from '../../utils/misc.ts';
 import { WrapArc } from '../wrapper/arc.ts';
 
 /** Arc beatmap v2 class object. */
-export class Arc extends WrapArc<Required<IArc>> {
-    static default: ObjectReturnFn<Required<IArc>> = {
+export class Arc extends WrapArc<IArc> {
+    static default: ObjectReturnFn<IArc> = {
         _colorType: 0,
         _headTime: 0,
         _headLineIndex: 0,
@@ -25,10 +25,10 @@ export class Arc extends WrapArc<Required<IArc>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapArcAttribute<Required<IArc>>>);
+    constructor(data: Partial<IWrapArcAttribute<IArc>>);
     constructor(data: Partial<IArc>);
-    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>);
-    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>> = {}) {
+    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<IArc>>);
+    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<IArc>> = {}) {
         super();
 
         this._color = data.color ?? data._colorType ?? Arc.default._colorType;
@@ -54,10 +54,10 @@ export class Arc extends WrapArc<Required<IArc>> {
     }
 
     static create(): Arc[];
-    static create(...data: Partial<IWrapArcAttribute<Required<IArc>>>[]): Arc[];
+    static create(...data: Partial<IWrapArcAttribute<IArc>>[]): Arc[];
     static create(...data: Partial<IArc>[]): Arc[];
-    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): Arc[];
-    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): Arc[] {
+    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): Arc[];
+    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): Arc[] {
         const result: Arc[] = [];
         data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
@@ -66,7 +66,7 @@ export class Arc extends WrapArc<Required<IArc>> {
         return [new this()];
     }
 
-    toJSON(): Required<IArc> {
+    toJSON(): IArc {
         return {
             _colorType: this.color,
             _headTime: this.time,

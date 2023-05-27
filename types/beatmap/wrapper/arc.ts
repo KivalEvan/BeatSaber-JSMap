@@ -1,7 +1,8 @@
+// deno-lint-ignore-file no-explicit-any
 import { ModType } from '../shared/modCheck.ts';
 import { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
 
-export interface IWrapArcAttribute<T extends Record<keyof T, unknown> = Record<string, unknown>>
+export interface IWrapArcAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
     extends IWrapBaseSliderAttribute<T> {
     /** Head control point length multiplier `<float>` of arc.
      * ```ts
@@ -43,7 +44,7 @@ export interface IWrapArcAttribute<T extends Record<keyof T, unknown> = Record<s
     midAnchor: 0 | 1 | 2;
 }
 
-export interface IWrapArc<T extends Record<keyof T, unknown> = Record<string, unknown>>
+export interface IWrapArc<T extends { [P in keyof T]: T[P] } = Record<string, any>>
     extends IWrapBaseSlider<T>, IWrapArcAttribute<T> {
     setLengthMultiplier(value: number): this;
     setTailLengthMultiplier(value: number): this;

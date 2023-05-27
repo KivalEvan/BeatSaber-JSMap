@@ -11,11 +11,11 @@ import globals from './globals.ts';
 import logger from './logger.ts';
 import { LooseAutocomplete } from './types/utils.ts';
 import { ILoadOptionsDifficulty, ILoadOptionsInfo } from './types/bsmap/load.ts';
-import { WrapDifficulty } from './beatmap/wrapper/difficulty.ts';
 import { resolve } from './deps.ts';
 import { toV1 } from './converter/toV1.ts';
 import { toV2 } from './converter/toV2.ts';
 import { toV3 } from './converter/toV3.ts';
+import { IWrapDifficulty } from './types/beatmap/wrapper/difficulty.ts';
 
 function tag(name: string): string[] {
     return ['load', name];
@@ -98,7 +98,7 @@ function _difficulty(
     filePath: string,
     version: number | null,
     options: ILoadOptionsDifficulty,
-): WrapDifficulty<Record<string, unknown>> {
+): IWrapDifficulty {
     const opt: Required<ILoadOptionsDifficulty> = {
         directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
         forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
@@ -197,7 +197,7 @@ export function difficulty(
     filePath: LooseAutocomplete<GenericFileName>,
     version?: null,
     options?: ILoadOptionsDifficulty,
-): Promise<WrapDifficulty<Record<string, unknown>>>;
+): Promise<IWrapDifficulty>;
 export function difficulty(
     filePath: LooseAutocomplete<GenericFileName>,
     version: 3,
@@ -234,7 +234,7 @@ export function difficultySync(
     filePath: LooseAutocomplete<GenericFileName>,
     version?: null,
     options?: ILoadOptionsDifficulty,
-): WrapDifficulty<Record<string, unknown>>;
+): IWrapDifficulty;
 export function difficultySync(
     filePath: LooseAutocomplete<GenericFileName>,
     version: 3,
@@ -270,7 +270,7 @@ function _difficultyFromInfo(info: IInfo, options: ILoadOptionsDifficulty) {
             const p = resolve(opt.directory, d._beatmapFilename);
             try {
                 logger.tInfo(tag('_difficultyFromInfo'), `Loading difficulty from ${p}`);
-                const diffJSON = JSON.parse(Deno.readTextFileSync(p)) as Record<string, unknown>;
+                const diffJSON = JSON.parse(Deno.readTextFileSync(p));
 
                 const jsonVersion = parseInt(
                     typeof diffJSON._version === 'string'

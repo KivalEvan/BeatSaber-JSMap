@@ -5,8 +5,8 @@ import { deepCopy } from '../../utils/misc.ts';
 import { WrapBPMEvent } from '../wrapper/bpmEvent.ts';
 
 /** BPM change event beatmap v3 class object. */
-export class BPMEvent extends WrapBPMEvent<Required<IBPMEvent>> {
-    static default: ObjectReturnFn<Required<IBPMEvent>> = {
+export class BPMEvent extends WrapBPMEvent<IBPMEvent> {
+    static default: ObjectReturnFn<IBPMEvent> = {
         b: 0,
         m: 0,
         customData: () => {
@@ -15,12 +15,10 @@ export class BPMEvent extends WrapBPMEvent<Required<IBPMEvent>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>);
+    constructor(data: Partial<IWrapBPMEventAttribute<IBPMEvent>>);
     constructor(data: Partial<IBPMEvent>);
-    constructor(data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>);
-    constructor(
-        data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>> = {},
-    ) {
+    constructor(data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>);
+    constructor(data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>> = {}) {
         super();
 
         this._time = data.time ?? data.b ?? BPMEvent.default.b;
@@ -29,13 +27,13 @@ export class BPMEvent extends WrapBPMEvent<Required<IBPMEvent>> {
     }
 
     static create(): BPMEvent[];
-    static create(...data: Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>[]): BPMEvent[];
+    static create(...data: Partial<IWrapBPMEventAttribute<IBPMEvent>>[]): BPMEvent[];
     static create(...data: Partial<IBPMEvent>[]): BPMEvent[];
     static create(
-        ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>)[]
+        ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]
     ): BPMEvent[];
     static create(
-        ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>)[]
+        ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]
     ): BPMEvent[] {
         const result: BPMEvent[] = [];
         data.forEach((obj) => result.push(new this(obj)));
@@ -45,7 +43,7 @@ export class BPMEvent extends WrapBPMEvent<Required<IBPMEvent>> {
         return [new this()];
     }
 
-    toJSON(): Required<IBPMEvent> {
+    toJSON(): IBPMEvent {
         return {
             b: this.time,
             m: this.bpm,

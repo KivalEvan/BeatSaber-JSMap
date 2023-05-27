@@ -4,9 +4,9 @@ import { WrapEventBox } from './eventBox.ts';
 
 /** Light translation event box beatmap class object. */
 export abstract class WrapLightTranslationEventBox<
-    TBox extends Record<keyof TBox, unknown>,
-    TBase extends Record<keyof TBase, unknown>,
-    TFilter extends Record<keyof TFilter, unknown>,
+    TBox extends { [P in keyof TBox]: TBox[P] },
+    TBase extends { [P in keyof TBase]: TBase[P] },
+    TFilter extends { [P in keyof TFilter]: TFilter[P] },
 > extends WrapEventBox<TBox, TBase, TFilter> implements IWrapLightTranslationEventBox<TBox> {
     protected _translationDistribution!: IWrapLightTranslationEventBox['translationDistribution'];
     protected _translationDistributionType!:

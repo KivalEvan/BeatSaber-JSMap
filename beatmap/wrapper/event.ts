@@ -4,8 +4,7 @@ import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
 
 /** Event beatmap class object. */
-export abstract class WrapEvent<T extends Record<keyof Required<T>, unknown>>
-    extends WrapBaseObject<T>
+export abstract class WrapEvent<T extends { [P in keyof T]: T[P] }> extends WrapBaseObject<T>
     implements IWrapEvent<T> {
     protected _type!: IWrapEvent['type'];
     protected _value!: IWrapEvent['value'];

@@ -10,11 +10,11 @@ import { LightTranslationBase } from './lightTranslationBase.ts';
 
 /** Light translation event box beatmap v3 class object. */
 export class LightTranslationEventBox extends WrapLightTranslationEventBox<
-    Required<ILightTranslationEventBox>,
-    Required<ILightTranslationBase>,
-    Required<IIndexFilter>
+    ILightTranslationEventBox,
+    ILightTranslationBase,
+    IIndexFilter
 > {
-    static default: ObjectReturnFn<Required<ILightTranslationEventBox>> = {
+    static default: ObjectReturnFn<ILightTranslationEventBox> = {
         f: () => {
             return {
                 f: IndexFilter.default.f,
@@ -46,9 +46,9 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
     constructor(
         data: DeepPartial<
             IWrapLightTranslationEventBoxAttribute<
-                Required<ILightTranslationEventBox>,
-                Required<ILightTranslationBase>,
-                Required<IIndexFilter>
+                ILightTranslationEventBox,
+                ILightTranslationBase,
+                IIndexFilter
             >
         >,
     );
@@ -58,9 +58,9 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
             & DeepPartial<ILightTranslationEventBox>
             & DeepPartial<
                 IWrapLightTranslationEventBoxAttribute<
-                    Required<ILightTranslationEventBox>,
-                    Required<ILightTranslationBase>,
-                    Required<IIndexFilter>
+                    ILightTranslationEventBox,
+                    ILightTranslationBase,
+                    IIndexFilter
                 >
             >,
     );
@@ -69,9 +69,9 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
             & DeepPartial<ILightTranslationEventBox>
             & DeepPartial<
                 IWrapLightTranslationEventBoxAttribute<
-                    Required<ILightTranslationEventBox>,
-                    Required<ILightTranslationBase>,
-                    Required<IIndexFilter>
+                    ILightTranslationEventBox,
+                    ILightTranslationBase,
+                    IIndexFilter
                 >
             > = {},
     ) {
@@ -79,7 +79,7 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
 
         this._filter = new IndexFilter(
             (data.filter as IIndexFilter) ??
-                (data as Required<ILightTranslationEventBox>).f ??
+                (data as ILightTranslationEventBox).f ??
                 LightTranslationEventBox.default.f(),
         );
         this._beatDistribution = data.beatDistribution ?? data.w ??
@@ -96,7 +96,7 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
         this._easing = data.easing ?? data.i ?? LightTranslationEventBox.default.i;
         this._events = (
             (data.events as ILightTranslationBase[]) ??
-                (data as Required<ILightTranslationEventBox>).l ??
+                (data as ILightTranslationEventBox).l ??
                 LightTranslationEventBox.default.l()
         ).map((obj) => new LightTranslationBase(obj));
         this._customData = data.customData ?? LightTranslationEventBox.default.customData();
@@ -106,9 +106,9 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
     static create(
         ...data: DeepPartial<
             IWrapLightTranslationEventBoxAttribute<
-                Required<ILightTranslationEventBox>,
-                Required<ILightTranslationBase>,
-                Required<IIndexFilter>
+                ILightTranslationEventBox,
+                ILightTranslationBase,
+                IIndexFilter
             >
         >[]
     ): LightTranslationEventBox[];
@@ -118,9 +118,9 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
             & DeepPartial<ILightTranslationEventBox>
             & DeepPartial<
                 IWrapLightTranslationEventBoxAttribute<
-                    Required<ILightTranslationEventBox>,
-                    Required<ILightTranslationBase>,
-                    Required<IIndexFilter>
+                    ILightTranslationEventBox,
+                    ILightTranslationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -130,9 +130,9 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
             & DeepPartial<ILightTranslationEventBox>
             & DeepPartial<
                 IWrapLightTranslationEventBoxAttribute<
-                    Required<ILightTranslationEventBox>,
-                    Required<ILightTranslationBase>,
-                    Required<IIndexFilter>
+                    ILightTranslationEventBox,
+                    ILightTranslationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -145,7 +145,7 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
         return [new this()];
     }
 
-    toJSON(): Required<ILightTranslationEventBox> {
+    toJSON(): ILightTranslationEventBox {
         return {
             f: this.filter.toJSON(),
             w: this.beatDistribution,

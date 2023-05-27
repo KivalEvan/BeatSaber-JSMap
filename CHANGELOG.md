@@ -39,6 +39,7 @@
 ### Removed
 
 - `data` in class object (`Array` and `Object` are never modified and could cause confusing usage)
+- `Required` object in concrete class (overall less visual noise)
 - Prompting in conversion (this should now be handled by script user)
 - FS utility (now uses standard module)
 

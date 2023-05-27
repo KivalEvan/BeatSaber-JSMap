@@ -1,7 +1,6 @@
 import { ISerializable } from '../../types/beatmap/shared/serializable.ts';
 
-export abstract class Serializable<T extends Record<keyof T, unknown> | Record<keyof T, unknown>[]>
-    implements ISerializable<T> {
+export abstract class Serializable<T extends { [P in keyof T]: T[P] }> implements ISerializable<T> {
     abstract toJSON(): T;
     serialize() {
         return JSON.stringify(this.toJSON());

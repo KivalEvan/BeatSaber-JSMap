@@ -6,7 +6,7 @@ import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { Vector2 } from '../../types/vector.ts';
 
 /** Base slider beatmap class object. */
-export abstract class WrapBaseSlider<T extends Record<keyof T, unknown>> extends WrapBaseNote<T>
+export abstract class WrapBaseSlider<T extends { [P in keyof T]: T[P] }> extends WrapBaseNote<T>
     implements IWrapBaseSlider<T> {
     protected _tailTime!: IWrapBaseSlider['tailTime'];
     protected _tailPosX!: IWrapBaseSlider['tailPosX'];

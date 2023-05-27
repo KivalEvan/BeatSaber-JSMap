@@ -7,28 +7,24 @@ import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
  *
  * Used in basic event types with keywords.
  */
-export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<
-    Required<IBasicEventTypesForKeywords>
-> {
-    static default: ObjectReturnFn<Required<IBasicEventTypesForKeywords>> = {
+export class BasicEventTypesForKeywords
+    extends WrapEventTypesForKeywords<IBasicEventTypesForKeywords> {
+    static default: ObjectReturnFn<IBasicEventTypesForKeywords> = {
         k: '',
         e: () => [],
     };
 
     constructor();
+    constructor(data: Partial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>>);
     constructor(
-        data: Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>>,
+        data:
+            & Partial<IBasicEventTypesForKeywords>
+            & Partial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>>,
     );
     constructor(
         data:
             & Partial<IBasicEventTypesForKeywords>
-            & Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>>,
-    );
-    constructor(
-        data:
-            & Partial<IBasicEventTypesForKeywords>
-            & Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>> =
-                {},
+            & Partial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>> = {},
     ) {
         super();
 
@@ -38,20 +34,18 @@ export class BasicEventTypesForKeywords extends WrapEventTypesForKeywords<
 
     static create(): BasicEventTypesForKeywords[];
     static create(
-        ...data: Partial<
-            IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>
-        >[]
+        ...data: Partial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>>[]
     ): BasicEventTypesForKeywords[];
     static create(
         ...data: (
             & Partial<IBasicEventTypesForKeywords>
-            & Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>>
+            & Partial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>>
         )[]
     ): BasicEventTypesForKeywords[];
     static create(
         ...data: (
             & Partial<IBasicEventTypesForKeywords>
-            & Partial<IWrapEventTypesForKeywordsAttribute<Required<IBasicEventTypesForKeywords>>>
+            & Partial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>>
         )[]
     ): BasicEventTypesForKeywords[] {
         const result: BasicEventTypesForKeywords[] = [];

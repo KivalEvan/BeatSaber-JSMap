@@ -7,7 +7,7 @@ import { ModType } from '../../types/beatmap/shared/modCheck.ts';
  *
  * Also known as arc.
  */
-export abstract class WrapArc<T extends Record<keyof T, unknown>> extends WrapBaseSlider<T>
+export abstract class WrapArc<T extends { [P in keyof T]: T[P] }> extends WrapBaseSlider<T>
     implements IWrapArc<T> {
     protected _lengthMultiplier!: IWrapArc['lengthMultiplier'];
     protected _tailLengthMultiplier!: IWrapArc['tailLengthMultiplier'];

@@ -8,8 +8,8 @@ import { Vector2 } from '../../types/vector.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Color note beatmap v3 class object. */
-export class ColorNote extends WrapColorNote<Required<IColorNote>> {
-    static default: ObjectReturnFn<Required<IColorNote>> = {
+export class ColorNote extends WrapColorNote<IColorNote> {
+    static default: ObjectReturnFn<IColorNote> = {
         b: 0,
         c: 0,
         x: 0,
@@ -22,12 +22,10 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapColorNoteAttribute<Required<IColorNote>>>);
+    constructor(data: Partial<IWrapColorNoteAttribute<IColorNote>>);
     constructor(data: Partial<IColorNote>);
-    constructor(data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>);
-    constructor(
-        data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>> = {},
-    ) {
+    constructor(data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>);
+    constructor(data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>> = {}) {
         super();
 
         this._time = data.time ?? data.b ?? ColorNote.default.b;
@@ -40,13 +38,13 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
     }
 
     static create(): ColorNote[];
-    static create(...data: Partial<IWrapColorNoteAttribute<Required<IColorNote>>>[]): ColorNote[];
+    static create(...data: Partial<IWrapColorNoteAttribute<IColorNote>>[]): ColorNote[];
     static create(...data: Partial<IColorNote>[]): ColorNote[];
     static create(
-        ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>)[]
+        ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
     ): ColorNote[];
     static create(
-        ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>)[]
+        ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
     ): ColorNote[] {
         const result: ColorNote[] = [];
         data.forEach((obj) => result.push(new this(obj)));
@@ -56,7 +54,7 @@ export class ColorNote extends WrapColorNote<Required<IColorNote>> {
         return [new this()];
     }
 
-    toJSON(): Required<IColorNote> {
+    toJSON(): IColorNote {
         return {
             b: this.time,
             c: this.color,

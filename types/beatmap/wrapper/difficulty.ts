@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent.ts';
 import { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent.ts';
 import { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
@@ -28,9 +29,8 @@ import { GenericFileName } from '../shared/info.ts';
 import { EventContainer, NoteContainer } from './container.ts';
 import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
 
-export interface IWrapDifficultyAttribute<
-    T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapBaseItemAttribute<T> {
+export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+    extends IWrapBaseItemAttribute<T> {
     version: Version;
     bpmEvents: IWrapBPMEvent[];
     rotationEvents: IWrapRotationEvent[];
@@ -51,7 +51,7 @@ export interface IWrapDifficultyAttribute<
     fileName: string;
 }
 
-export interface IWrapDifficulty<T extends Record<keyof T, unknown> = Record<string, unknown>>
+export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
     extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
     setFileName(fileName: LooseAutocomplete<GenericFileName>): this;
 

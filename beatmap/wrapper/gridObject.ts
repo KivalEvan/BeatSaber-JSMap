@@ -5,7 +5,7 @@ import { Vector2 } from '../../types/vector.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Beatmap grid class object. */
-export abstract class WrapGridObject<T extends Record<keyof T, unknown>> extends WrapBaseObject<T>
+export abstract class WrapGridObject<T extends { [P in keyof T]: T[P] }> extends WrapBaseObject<T>
     implements IWrapGridObject<T> {
     protected _posX!: IWrapGridObject['posX'];
     protected _posY!: IWrapGridObject['posY'];

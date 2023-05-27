@@ -2,7 +2,7 @@ import { IWrapLightColorBase } from '../../types/beatmap/wrapper/lightColorBase.
 import { WrapBaseObject } from './baseObject.ts';
 
 /** Light color base beatmap class object. */
-export abstract class WrapLightColorBase<T extends Record<keyof T, unknown>>
+export abstract class WrapLightColorBase<T extends { [P in keyof T]: T[P] }>
     extends WrapBaseObject<T>
     implements IWrapLightColorBase<T> {
     protected _transition!: IWrapLightColorBase['transition'];

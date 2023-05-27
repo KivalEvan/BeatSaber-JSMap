@@ -7,10 +7,9 @@ import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
  *
  * Used in special event types with keywords.
  */
-export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywords<
-    Required<ISpecialEventsKeywordFiltersKeywords>
-> {
-    static default: ObjectReturnFn<Required<ISpecialEventsKeywordFiltersKeywords>> = {
+export class SpecialEventsKeywordFiltersKeywords
+    extends WrapEventTypesForKeywords<ISpecialEventsKeywordFiltersKeywords> {
+    static default: ObjectReturnFn<ISpecialEventsKeywordFiltersKeywords> = {
         _keyword: '',
         _specialEvents: () => [],
     };

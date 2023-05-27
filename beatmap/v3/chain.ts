@@ -11,8 +11,8 @@ import { WrapChain } from '../wrapper/chain.ts';
  *
  * Also known as burst slider internally.
  */
-export class Chain extends WrapChain<Required<IChain>> {
-    static default: ObjectReturnFn<Required<IChain>> = {
+export class Chain extends WrapChain<IChain> {
+    static default: ObjectReturnFn<IChain> = {
         b: 0,
         c: 0,
         x: 0,
@@ -29,10 +29,10 @@ export class Chain extends WrapChain<Required<IChain>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapChainAttribute<Required<IChain>>>);
+    constructor(data: Partial<IWrapChainAttribute<IChain>>);
     constructor(data: Partial<IChain>);
-    constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>);
-    constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>> = {}) {
+    constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<IChain>>);
+    constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<IChain>> = {}) {
         super();
 
         this._time = data.time ?? data.b ?? data.tb ?? Chain.default.b;
@@ -49,14 +49,10 @@ export class Chain extends WrapChain<Required<IChain>> {
     }
 
     static create(): Chain[];
-    static create(...data: Partial<IWrapChainAttribute<Required<IChain>>>[]): Chain[];
+    static create(...data: Partial<IWrapChainAttribute<IChain>>[]): Chain[];
     static create(...data: Partial<IChain>[]): Chain[];
-    static create(
-        ...data: (Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>)[]
-    ): Chain[];
-    static create(
-        ...data: (Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>)[]
-    ): Chain[] {
+    static create(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): Chain[];
+    static create(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): Chain[] {
         const result: Chain[] = [];
         data.forEach((obj) => result.push(new this(obj)));
         if (result.length) {
@@ -65,7 +61,7 @@ export class Chain extends WrapChain<Required<IChain>> {
         return [new this()];
     }
 
-    toJSON(): Required<IChain> {
+    toJSON(): IChain {
         return {
             b: this.time,
             c: this.color,

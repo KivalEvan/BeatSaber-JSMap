@@ -6,8 +6,8 @@ import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts'
 import { isVector3 } from '../../utils/vector.ts';
 
 /** Bomb note beatmap v3 class object. */
-export class BombNote extends WrapBombNote<Required<IBombNote>> {
-    static default: ObjectReturnFn<Required<IBombNote>> = {
+export class BombNote extends WrapBombNote<IBombNote> {
+    static default: ObjectReturnFn<IBombNote> = {
         b: 0,
         x: 0,
         y: 0,
@@ -17,12 +17,10 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapBombNoteAttribute<Required<IBombNote>>>);
+    constructor(data: Partial<IWrapBombNoteAttribute<IBombNote>>);
     constructor(data: Partial<IBombNote>);
-    constructor(data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>);
-    constructor(
-        data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>> = {},
-    ) {
+    constructor(data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>>);
+    constructor(data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>> = {}) {
         super();
 
         this._time = data.time ?? data.b ?? BombNote.default.b;
@@ -32,13 +30,13 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
     }
 
     static create(): BombNote[];
-    static create(...data: Partial<IWrapBombNoteAttribute<Required<IBombNote>>>[]): BombNote[];
+    static create(...data: Partial<IWrapBombNoteAttribute<IBombNote>>[]): BombNote[];
     static create(...data: Partial<IBombNote>[]): BombNote[];
     static create(
-        ...data: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>)[]
+        ...data: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
     ): BombNote[];
     static create(
-        ...data: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>)[]
+        ...data: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
     ): BombNote[] {
         const result: BombNote[] = [];
         data.forEach((obj) => result.push(new this(obj)));
@@ -48,7 +46,7 @@ export class BombNote extends WrapBombNote<Required<IBombNote>> {
         return [new this()];
     }
 
-    toJSON(): Required<IBombNote> {
+    toJSON(): IBombNote {
         return {
             b: this.time,
             x: this.posX,

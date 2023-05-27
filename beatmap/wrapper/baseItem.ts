@@ -3,7 +3,7 @@ import { _ObtainCustomData } from '../../types/utils.ts';
 import { Serializable } from '../shared/serializable.ts';
 
 /** Basic building block of beatmap object. */
-export abstract class WrapBaseItem<T extends Record<keyof T, unknown>> extends Serializable<T>
+export abstract class WrapBaseItem<T extends { [P in keyof T]: T[P] }> extends Serializable<T>
     implements IWrapBaseItem<T> {
     protected _customData!: _ObtainCustomData<T>;
 

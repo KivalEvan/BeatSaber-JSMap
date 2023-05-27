@@ -4,8 +4,8 @@ import { Serializable } from '../shared/serializable.ts';
 
 /** Basic event types with keywords beatmap class object. */
 export abstract class WrapEventTypesWithKeywords<
-    T extends Record<keyof T, unknown>,
-    U extends Record<keyof U, unknown>,
+    T extends { [P in keyof T]: T[P] },
+    U extends { [P in keyof U]: U[P] },
 > extends Serializable<T> implements IWrapEventTypesWithKeywords<T> {
     protected _list!: IWrapEventTypesForKeywords<U>[];
 

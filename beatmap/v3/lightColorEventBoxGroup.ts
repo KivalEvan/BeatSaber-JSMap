@@ -10,12 +10,12 @@ import { LightColorEventBox } from './lightColorEventBox.ts';
 
 /** Light color event box group beatmap v3 class object. */
 export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
-    Required<ILightColorEventBoxGroup>,
-    Required<ILightColorEventBox>,
-    Required<ILightColorBase>,
-    Required<IIndexFilter>
+    ILightColorEventBoxGroup,
+    ILightColorEventBox,
+    ILightColorBase,
+    IIndexFilter
 > {
-    static default: ObjectReturnFn<Required<ILightColorEventBoxGroup>> = {
+    static default: ObjectReturnFn<ILightColorEventBoxGroup> = {
         b: 0,
         g: 0,
         e: () => [],
@@ -28,10 +28,10 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
     constructor(
         data: DeepPartial<
             IWrapLightColorEventBoxGroupAttribute<
-                Required<ILightColorEventBoxGroup>,
-                Required<ILightColorEventBox>,
-                Required<ILightColorBase>,
-                Required<IIndexFilter>
+                ILightColorEventBoxGroup,
+                ILightColorEventBox,
+                ILightColorBase,
+                IIndexFilter
             >
         >,
     );
@@ -41,10 +41,10 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             & DeepPartial<ILightColorEventBoxGroup>
             & DeepPartial<
                 IWrapLightColorEventBoxGroupAttribute<
-                    Required<ILightColorEventBoxGroup>,
-                    Required<ILightColorEventBox>,
-                    Required<ILightColorBase>,
-                    Required<IIndexFilter>
+                    ILightColorEventBoxGroup,
+                    ILightColorEventBox,
+                    ILightColorBase,
+                    IIndexFilter
                 >
             >,
     );
@@ -53,10 +53,10 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             & DeepPartial<ILightColorEventBoxGroup>
             & DeepPartial<
                 IWrapLightColorEventBoxGroupAttribute<
-                    Required<ILightColorEventBoxGroup>,
-                    Required<ILightColorEventBox>,
-                    Required<ILightColorBase>,
-                    Required<IIndexFilter>
+                    ILightColorEventBoxGroup,
+                    ILightColorEventBox,
+                    ILightColorBase,
+                    IIndexFilter
                 >
             > = {},
     ) {
@@ -76,10 +76,10 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
     static create(
         ...data: DeepPartial<
             IWrapLightColorEventBoxGroupAttribute<
-                Required<ILightColorEventBoxGroup>,
-                Required<ILightColorEventBox>,
-                Required<ILightColorBase>,
-                Required<IIndexFilter>
+                ILightColorEventBoxGroup,
+                ILightColorEventBox,
+                ILightColorBase,
+                IIndexFilter
             >
         >[]
     ): LightColorEventBoxGroup[];
@@ -89,10 +89,10 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             & DeepPartial<ILightColorEventBoxGroup>
             & DeepPartial<
                 IWrapLightColorEventBoxGroupAttribute<
-                    Required<ILightColorEventBoxGroup>,
-                    Required<ILightColorEventBox>,
-                    Required<ILightColorBase>,
-                    Required<IIndexFilter>
+                    ILightColorEventBoxGroup,
+                    ILightColorEventBox,
+                    ILightColorBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -102,10 +102,10 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             & DeepPartial<ILightColorEventBoxGroup>
             & DeepPartial<
                 IWrapLightColorEventBoxGroupAttribute<
-                    Required<ILightColorEventBoxGroup>,
-                    Required<ILightColorEventBox>,
-                    Required<ILightColorBase>,
-                    Required<IIndexFilter>
+                    ILightColorEventBoxGroup,
+                    ILightColorEventBox,
+                    ILightColorBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -118,7 +118,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
         return [new this()];
     }
 
-    toJSON(): Required<ILightColorEventBoxGroup> {
+    toJSON(): ILightColorEventBoxGroup {
         return {
             b: this.time,
             g: this.id,

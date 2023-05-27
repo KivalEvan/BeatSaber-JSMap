@@ -1,7 +1,8 @@
+// deno-lint-ignore-file no-explicit-any
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 import { EnvironmentAllName } from '../shared/environment.ts';
 
-export interface IWrapEventAttribute<T extends Record<keyof T, unknown> = Record<string, unknown>>
+export interface IWrapEventAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
     extends IWrapBaseObjectAttribute<T> {
     /** Event type `<int>` of basic event.
      * ```ts
@@ -39,7 +40,7 @@ export interface IWrapEventAttribute<T extends Record<keyof T, unknown> = Record
     floatValue: number;
 }
 
-export interface IWrapEvent<T extends Record<keyof T, unknown> = Record<string, unknown>>
+export interface IWrapEvent<T extends { [P in keyof T]: T[P] } = Record<string, any>>
     extends IWrapBaseObject<T>, IWrapEventAttribute<T> {
     setType(value: number): this;
     setValue(value: number): this;
@@ -121,7 +122,7 @@ export interface IWrapEvent<T extends Record<keyof T, unknown> = Record<string, 
      * if (event.isLightEvent()) {}
      * ```
      */
-    isLightEvent(environment?: EnvironmentAllName): this is IWrapEvent;
+    isLightEvent(environment?: EnvironmentAllName): boolean;
 
     /** Check if event is a boost event.
      * ```ts
@@ -137,21 +138,21 @@ export interface IWrapEvent<T extends Record<keyof T, unknown> = Record<string, 
      * ---
      * This does not check for ring zoom.
      */
-    isRingEvent(environment?: EnvironmentAllName): this is IWrapEvent;
+    isRingEvent(environment?: EnvironmentAllName): boolean;
 
     /** Check if event is a laser rotation event.
      * ```ts
      * if (event.isLaserRotationEvent()) {}
      * ```
      */
-    isLaserRotationEvent(environment?: EnvironmentAllName): this is IWrapEvent;
+    isLaserRotationEvent(environment?: EnvironmentAllName): boolean;
 
     /** Check if event is a lane rotation event.
      * ```ts
      * if (event.isLaneRotationEvent()) {}
      * ```
      */
-    isLaneRotationEvent(environment?: EnvironmentAllName): this is IWrapEvent;
+    isLaneRotationEvent(environment?: EnvironmentAllName): boolean;
 
     /** Check if event is a extra event.
      * ```ts

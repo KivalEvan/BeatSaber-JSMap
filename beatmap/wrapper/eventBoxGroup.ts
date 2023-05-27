@@ -4,10 +4,10 @@ import { WrapBaseObject } from './baseObject.ts';
 
 /** Base event box group beatmap class object. */
 export abstract class WrapEventBoxGroup<
-    TGroup extends Record<keyof TGroup, unknown>,
-    TBox extends Record<keyof TBox, unknown>,
-    TBase extends Record<keyof TBase, unknown>,
-    TFilter extends Record<keyof TFilter, unknown>,
+    TGroup extends { [P in keyof TGroup]: TGroup[P] },
+    TBox extends { [P in keyof TBox]: TBox[P] },
+    TBase extends { [P in keyof TBase]: TBase[P] },
+    TFilter extends { [P in keyof TFilter]: TFilter[P] },
 > extends WrapBaseObject<TGroup> implements IWrapEventBoxGroup<TGroup> {
     protected _id!: IWrapEventBoxGroup['id'];
     protected _boxes!: IWrapEventBox<TBox, TBase, TFilter>[];

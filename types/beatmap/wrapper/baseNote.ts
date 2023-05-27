@@ -1,9 +1,9 @@
+// deno-lint-ignore-file no-explicit-any
 import { ModType } from '../shared/modCheck.ts';
 import { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
-export interface IWrapBaseNoteAttribute<
-    T extends Record<keyof T, unknown> = Record<string, unknown>,
-> extends IWrapGridObjectAttribute<T> {
+export interface IWrapBaseNoteAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+    extends IWrapGridObjectAttribute<T> {
     /** Color `<int>` of note.
      * ```ts
      * 0 -> Red
@@ -25,7 +25,7 @@ export interface IWrapBaseNoteAttribute<
     direction: number;
 }
 
-export interface IWrapBaseNote<T extends Record<keyof T, unknown> = Record<string, unknown>>
+export interface IWrapBaseNote<T extends { [P in keyof T]: T[P] } = Record<string, any>>
     extends IWrapGridObject<T>, IWrapBaseNoteAttribute<T> {
     setColor(value: 0 | 1): this;
     setDirection(value: number): this;

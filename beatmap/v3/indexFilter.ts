@@ -5,8 +5,8 @@ import { deepCopy } from '../../utils/misc.ts';
 import { WrapIndexFilter } from '../wrapper/indexFilter.ts';
 
 /** Index filter beatmap v3 class object. */
-export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
-    static default: ObjectReturnFn<Required<IIndexFilter>> = {
+export class IndexFilter extends WrapIndexFilter<IIndexFilter> {
+    static default: ObjectReturnFn<IIndexFilter> = {
         f: 1,
         p: 0,
         t: 0,
@@ -22,15 +22,11 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>);
+    constructor(data: Partial<IWrapIndexFilterAttribute<IIndexFilter>>);
     constructor(data: Partial<IIndexFilter>);
+    constructor(data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<IIndexFilter>>);
     constructor(
-        data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>,
-    );
-    constructor(
-        data:
-            & Partial<IIndexFilter>
-            & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>> = {},
+        data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<IIndexFilter>> = {},
     ) {
         super();
 
@@ -47,20 +43,18 @@ export class IndexFilter extends WrapIndexFilter<Required<IIndexFilter>> {
     }
 
     static create(): IndexFilter;
-    static create(data: Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>): IndexFilter;
+    static create(data: Partial<IWrapIndexFilterAttribute<IIndexFilter>>): IndexFilter;
     static create(data: Partial<IIndexFilter>): IndexFilter;
     static create(
-        data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>>,
+        data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<IIndexFilter>>,
     ): IndexFilter;
     static create(
-        data:
-            & Partial<IIndexFilter>
-            & Partial<IWrapIndexFilterAttribute<Required<IIndexFilter>>> = {},
+        data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<IIndexFilter>> = {},
     ): IndexFilter {
         return new IndexFilter(data);
     }
 
-    toJSON(): Required<IIndexFilter> {
+    toJSON(): IIndexFilter {
         return {
             f: this.type,
             p: this.p0,

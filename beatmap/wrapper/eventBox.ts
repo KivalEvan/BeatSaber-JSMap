@@ -5,9 +5,9 @@ import { WrapBaseItem } from './baseItem.ts';
 
 /** Base event box beatmap class object. */
 export abstract class WrapEventBox<
-    TBox extends Record<keyof TBox, unknown>,
-    TBase extends Record<keyof TBase, unknown>,
-    TFilter extends Record<keyof TFilter, unknown>,
+    TBox extends { [P in keyof TBox]: TBox[P] },
+    TBase extends { [P in keyof TBase]: TBase[P] },
+    TFilter extends { [P in keyof TFilter]: TFilter[P] },
 > extends WrapBaseItem<TBox> implements IWrapEventBox<TBox, TBase, TFilter> {
     protected _filter!: IWrapIndexFilter<TFilter>;
     protected _beatDistribution!: IWrapEventBox<TBase>['beatDistribution'];

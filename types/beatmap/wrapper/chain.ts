@@ -1,6 +1,7 @@
+// deno-lint-ignore-file no-explicit-any
 import { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
 
-export interface IWrapChainAttribute<T extends Record<keyof T, unknown> = Record<string, unknown>>
+export interface IWrapChainAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
     extends IWrapBaseSliderAttribute<T> {
     /** Slice count or element `<int>` in chain.
      *
@@ -18,7 +19,7 @@ export interface IWrapChainAttribute<T extends Record<keyof T, unknown> = Record
     squish: number;
 }
 
-export interface IWrapChain<T extends Record<keyof T, unknown> = Record<string, unknown>>
+export interface IWrapChain<T extends { [P in keyof T]: T[P] } = Record<string, any>>
     extends IWrapBaseSlider<T>, IWrapChainAttribute<T> {
     setSliceCount(value: number): this;
     setSquish(value: number): this;

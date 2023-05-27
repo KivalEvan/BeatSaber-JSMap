@@ -51,7 +51,7 @@ import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts'
 import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
 
 /** Difficulty beatmap v3 class object. */
-export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
+export class Difficulty extends WrapDifficulty<IDifficulty> {
     version: `3.${0 | 1 | 2}.0`;
     bpmEvents: BPMEvent[];
     rotationEvents: RotationEvent[];
@@ -106,7 +106,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         return new this(data);
     }
 
-    toJSON(): Required<IDifficulty> {
+    toJSON(): IDifficulty {
         return {
             version: '3.2.0',
             bpmEvents: this.bpmEvents.map((obj) => obj.toJSON()),
@@ -159,13 +159,13 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(this.eventTypesWithKeywords);
     }
 
-    addBPMEvents(...data: Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>[]): void;
+    addBPMEvents(...data: Partial<IWrapBPMEventAttribute<IBPMEvent>>[]): void;
     addBPMEvents(...data: Partial<IBPMEvent>[]): void;
     addBPMEvents(
-        ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>)[]
+        ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]
     ): void;
     addBPMEvents(
-        ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<Required<IBPMEvent>>>)[]
+        ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]
     ): void {
         this.bpmEvents.push(
             ...data.map((obj) => {
@@ -174,120 +174,110 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         );
     }
 
-    addRotationEvents(
-        ...data: Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>[]
-    ): void;
+    addRotationEvents(...data: Partial<IWrapRotationEventAttribute<IRotationEvent>>[]): void;
     addRotationEvents(...data: Partial<IRotationEvent>[]): void;
     addRotationEvents(
-        ...data: (
-            & Partial<IRotationEvent>
-            & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>
-        )[]
+        ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
     ): void;
     addRotationEvents(
-        ...data: (
-            & Partial<IRotationEvent>
-            & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>
-        )[]
+        ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
     ): void {
         this.rotationEvents.push(
             ...data.map((obj) => (obj instanceof RotationEvent ? obj : new RotationEvent(obj))),
         );
     }
 
-    addColorNotes(...data: Partial<IWrapColorNoteAttribute<Required<IColorNote>>>[]): void;
+    addColorNotes(...data: Partial<IWrapColorNoteAttribute<IColorNote>>[]): void;
     addColorNotes(...data: Partial<IColorNote>[]): void;
     addColorNotes(
-        ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>)[]
+        ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
     ): void;
     addColorNotes(
-        ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<Required<IColorNote>>>)[]
+        ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
     ): void {
         this.colorNotes.push(
             ...data.map((obj) => (obj instanceof ColorNote ? obj : new ColorNote(obj))),
         );
     }
 
-    addBombNotes(...data: Partial<IWrapBombNoteAttribute<Required<IBombNote>>>[]): void;
+    addBombNotes(...data: Partial<IWrapBombNoteAttribute<IBombNote>>[]): void;
     addBombNotes(...data: Partial<IBombNote>[]): void;
     addBombNotes(
-        ...data: (Partial<IBombNote>[] & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>)[]
+        ...data: (Partial<IBombNote>[] & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
     ): void;
     addBombNotes(
-        ...data: (Partial<IBombNote>[] & Partial<IWrapBombNoteAttribute<Required<IBombNote>>>)[]
+        ...data: (Partial<IBombNote>[] & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
     ): void {
         this.bombNotes.push(
             ...data.map((obj) => (obj instanceof BombNote ? obj : new BombNote(obj))),
         );
     }
 
-    addObstacles(...data: Partial<IWrapObstacleAttribute<Required<IObstacle>>>[]): void;
+    addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): void;
     addObstacles(...data: Partial<IObstacle>[]): void;
     addObstacles(
-        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
+        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
     ): void;
     addObstacles(
-        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
+        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
     ): void {
         this.obstacles.push(
             ...data.map((obj) => (obj instanceof Obstacle ? obj : new Obstacle(obj))),
         );
     }
 
-    addArcs(...data: Partial<IWrapArcAttribute<Required<IArc>>>[]): void;
+    addArcs(...data: Partial<IWrapArcAttribute<IArc>>[]): void;
     addArcs(...data: Partial<IArc>[]): void;
-    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): void;
-    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): void {
+    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void;
+    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void {
         this.arcs.push(...data.map((obj) => (obj instanceof Arc ? obj : new Arc(obj))));
     }
 
-    addChains(...data: Partial<IWrapChainAttribute<Required<IChain>>>[]): void;
+    addChains(...data: Partial<IWrapChainAttribute<IChain>>[]): void;
     addChains(...data: Partial<IChain>[]): void;
-    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>)[]): void;
-    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<Required<IChain>>>)[]): void {
+    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): void;
+    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): void {
         this.chains.push(...data.map((obj) => (obj instanceof Chain ? obj : new Chain(obj))));
     }
 
-    addWaypoints(...data: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>[]): void;
+    addWaypoints(...data: Partial<IWrapWaypointAttribute<IWaypoint>>[]): void;
     addWaypoints(...data: Partial<IWaypoint>[]): void;
     addWaypoints(
-        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
+        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
     ): void;
     addWaypoints(
-        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
+        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
     ): void {
         this.waypoints.push(
             ...data.map((obj) => (obj instanceof Waypoint ? obj : new Waypoint(obj))),
         );
     }
 
-    addBasicEvents(...data: Partial<IWrapEventAttribute<Required<IBasicEvent>>>[]): void;
+    addBasicEvents(...data: Partial<IWrapEventAttribute<IBasicEvent>>[]): void;
     addBasicEvents(...data: Partial<IBasicEvent>[]): void;
     addBasicEvents(
-        ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<Required<IBasicEvent>>>)[]
+        ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<IBasicEvent>>)[]
     ): void;
     addBasicEvents(
-        ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<Required<IBasicEvent>>>)[]
+        ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<IBasicEvent>>)[]
     ): void {
         this.basicEvents.push(
             ...data.map((obj) => (obj instanceof BasicEvent ? obj : new BasicEvent(obj))),
         );
     }
 
-    addColorBoostEvents(
-        ...data: Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>[]
-    ): void;
+    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]): void;
     addColorBoostEvents(...data: Partial<IColorBoostEvent>[]): void;
     addColorBoostEvents(
         ...data: (
             & Partial<IColorBoostEvent>
-            & Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>
+            & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
         )[]
     ): void;
     addColorBoostEvents(
         ...data: (
             & Partial<IColorBoostEvent>
-            & Partial<IWrapColorBoostEventAttribute<Required<IColorBoostEvent>>>
+            & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
         )[]
     ): void {
         this.colorBoostEvents.push(
@@ -298,10 +288,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     addLightColorEventBoxGroups(
         ...data: DeepPartial<
             IWrapLightColorEventBoxGroupAttribute<
-                Required<ILightColorEventBoxGroup>,
-                Required<ILightColorEventBox>,
-                Required<ILightColorBase>,
-                Required<IIndexFilter>
+                ILightColorEventBoxGroup,
+                ILightColorEventBox,
+                ILightColorBase,
+                IIndexFilter
             >
         >[]
     ): void;
@@ -311,10 +301,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             & DeepPartial<ILightColorEventBoxGroup>
             & DeepPartial<
                 IWrapLightColorEventBoxGroupAttribute<
-                    Required<ILightColorEventBoxGroup>,
-                    Required<ILightColorEventBox>,
-                    Required<ILightColorBase>,
-                    Required<IIndexFilter>
+                    ILightColorEventBoxGroup,
+                    ILightColorEventBox,
+                    ILightColorBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -324,10 +314,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             & DeepPartial<ILightColorEventBoxGroup>
             & DeepPartial<
                 IWrapLightColorEventBoxGroupAttribute<
-                    Required<ILightColorEventBoxGroup>,
-                    Required<ILightColorEventBox>,
-                    Required<ILightColorBase>,
-                    Required<IIndexFilter>
+                    ILightColorEventBoxGroup,
+                    ILightColorEventBox,
+                    ILightColorBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -342,10 +332,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     addLightRotationEventBoxGroups(
         ...data: DeepPartial<
             IWrapLightRotationEventBoxGroupAttribute<
-                Required<ILightRotationEventBoxGroup>,
-                Required<ILightRotationEventBox>,
-                Required<ILightRotationBase>,
-                Required<IIndexFilter>
+                ILightRotationEventBoxGroup,
+                ILightRotationEventBox,
+                ILightRotationBase,
+                IIndexFilter
             >
         >[]
     ): void;
@@ -355,10 +345,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             & DeepPartial<ILightRotationEventBoxGroup>
             & DeepPartial<
                 IWrapLightRotationEventBoxGroupAttribute<
-                    Required<ILightRotationEventBoxGroup>,
-                    Required<ILightRotationEventBox>,
-                    Required<ILightRotationBase>,
-                    Required<IIndexFilter>
+                    ILightRotationEventBoxGroup,
+                    ILightRotationEventBox,
+                    ILightRotationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -368,10 +358,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             & DeepPartial<ILightRotationEventBoxGroup>
             & DeepPartial<
                 IWrapLightRotationEventBoxGroupAttribute<
-                    Required<ILightRotationEventBoxGroup>,
-                    Required<ILightRotationEventBox>,
-                    Required<ILightRotationBase>,
-                    Required<IIndexFilter>
+                    ILightRotationEventBoxGroup,
+                    ILightRotationEventBox,
+                    ILightRotationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -388,10 +378,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     addLightTranslationEventBoxGroups(
         ...data: DeepPartial<
             IWrapLightTranslationEventBoxGroupAttribute<
-                Required<ILightTranslationEventBoxGroup>,
-                Required<ILightTranslationEventBox>,
-                Required<ILightTranslationBase>,
-                Required<IIndexFilter>
+                ILightTranslationEventBoxGroup,
+                ILightTranslationEventBox,
+                ILightTranslationBase,
+                IIndexFilter
             >
         >[]
     ): void;
@@ -401,10 +391,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             & DeepPartial<ILightTranslationEventBoxGroup>
             & DeepPartial<
                 IWrapLightTranslationEventBoxGroupAttribute<
-                    Required<ILightTranslationEventBoxGroup>,
-                    Required<ILightTranslationEventBox>,
-                    Required<ILightTranslationBase>,
-                    Required<IIndexFilter>
+                    ILightTranslationEventBoxGroup,
+                    ILightTranslationEventBox,
+                    ILightTranslationBase,
+                    IIndexFilter
                 >
             >
         )[]
@@ -414,10 +404,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
             & DeepPartial<ILightTranslationEventBoxGroup>
             & DeepPartial<
                 IWrapLightTranslationEventBoxGroupAttribute<
-                    Required<ILightTranslationEventBoxGroup>,
-                    Required<ILightTranslationEventBox>,
-                    Required<ILightTranslationBase>,
-                    Required<IIndexFilter>
+                    ILightTranslationEventBoxGroup,
+                    ILightTranslationEventBox,
+                    ILightTranslationBase,
+                    IIndexFilter
                 >
             >
         )[]

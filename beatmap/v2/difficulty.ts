@@ -33,7 +33,7 @@ function tag(name: string): string[] {
 }
 
 /** Difficulty beatmap v2 class object. */
-export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
+export class Difficulty extends WrapDifficulty<IDifficulty> {
     version: `2.${0 | 2 | 4 | 5 | 6}.0`;
     bpmEvents: never[] = [];
     rotationEvents: never[] = [];
@@ -72,7 +72,7 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         return new this(data);
     }
 
-    toJSON(): Required<IDifficulty> {
+    toJSON(): IDifficulty {
         return {
             _version: '2.6.0',
             _notes: this.colorNotes.map((obj) => obj.toJSON()),
@@ -104,16 +104,10 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     addBPMEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;
     addBPMEvents(...data: Partial<IEventBPMChange>[]): void;
     addBPMEvents(
-        ...data: (
-            & Partial<IEventBPMChange>
-            & Partial<IWrapBPMEventAttribute<Required<IEventBPMChange>>>
-        )[]
+        ...data: (Partial<IEventBPMChange> & Partial<IWrapBPMEventAttribute<IEventBPMChange>>)[]
     ): void;
     addBPMEvents(
-        ...data: (
-            & Partial<IEventBPMChange>
-            & Partial<IWrapBPMEventAttribute<Required<IEventBPMChange>>>
-        )[]
+        ...data: (Partial<IEventBPMChange> & Partial<IWrapBPMEventAttribute<IEventBPMChange>>)[]
     ): void {
         this.basicEvents.push(
             ...data.map((obj) => {
@@ -129,13 +123,13 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
     addRotationEvents(
         ...data: (
             & Partial<IEventLaneRotation>
-            & Partial<IWrapRotationEventAttribute<Required<IEventLaneRotation>>>
+            & Partial<IWrapRotationEventAttribute<IEventLaneRotation>>
         )[]
     ): void;
     addRotationEvents(
         ...data: (
             & Partial<IEventLaneRotation>
-            & Partial<IWrapRotationEventAttribute<Required<IEventLaneRotation>>>
+            & Partial<IWrapRotationEventAttribute<IEventLaneRotation>>
         )[]
     ): void {
         this.basicEvents.push(
@@ -151,47 +145,39 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         logger.tWarn(tag('addRotationEvents'), 'This may not work correctly');
     }
 
-    addColorNotes(...data: Partial<IWrapColorNoteAttribute<Required<INote>>>[]): void;
+    addColorNotes(...data: Partial<IWrapColorNoteAttribute<INote>>[]): void;
     addColorNotes(...data: Partial<INote>[]): void;
-    addColorNotes(
-        ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
-    ): void;
-    addColorNotes(
-        ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<Required<INote>>>)[]
-    ): void {
+    addColorNotes(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): void;
+    addColorNotes(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): void {
         this.colorNotes.push(...data.map((obj) => (obj instanceof Note ? obj : new Note(obj))));
     }
 
-    addBombNotes(...data: Partial<IWrapBombNoteAttribute<Required<INote>>>[]): void;
+    addBombNotes(...data: Partial<IWrapBombNoteAttribute<INote>>[]): void;
     addBombNotes(...data: Partial<INote>[]): void;
-    addBombNotes(
-        ...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<Required<INote>>>)[]
-    ): void;
-    addBombNotes(
-        ...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<Required<INote>>>)[]
-    ): void {
+    addBombNotes(...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]): void;
+    addBombNotes(...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]): void {
         this.colorNotes.push(
             ...data.map((obj) => (obj instanceof Note ? obj : new Note({ ...obj, type: 3 }))),
         );
     }
 
-    addObstacles(...data: Partial<IWrapObstacleAttribute<Required<IObstacle>>>[]): void;
+    addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): void;
     addObstacles(...data: Partial<IObstacle>[]): void;
     addObstacles(
-        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
+        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
     ): void;
     addObstacles(
-        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<Required<IObstacle>>>)[]
+        ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
     ): void {
         this.obstacles.push(
             ...data.map((obj) => (obj instanceof Obstacle ? obj : new Obstacle(obj))),
         );
     }
 
-    addArcs(...data: Partial<IWrapArcAttribute<Required<IArc>>>[]): void;
+    addArcs(...data: Partial<IWrapArcAttribute<IArc>>[]): void;
     addArcs(...data: Partial<IArc>[]): void;
-    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): void;
-    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<Required<IArc>>>)[]): void {
+    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void;
+    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void {
         this.arcs.push(...data.map((obj) => (obj instanceof Arc ? obj : new Arc(obj))));
     }
 
@@ -199,45 +185,33 @@ export class Difficulty extends WrapDifficulty<Required<IDifficulty>> {
         logger.tWarn(tag('addChains'), 'Chain does not exist in beatmap V2');
     }
 
-    addWaypoints(...data: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>[]): void;
+    addWaypoints(...data: Partial<IWrapWaypointAttribute<IWaypoint>>[]): void;
     addWaypoints(...data: Partial<IWaypoint>[]): void;
     addWaypoints(
-        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
+        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
     ): void;
     addWaypoints(
-        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
+        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
     ): void {
         this.waypoints.push(
             ...data.map((obj) => (obj instanceof Waypoint ? obj : new Waypoint(obj))),
         );
     }
 
-    addBasicEvents(...data: Partial<IWrapEventAttribute<Required<IEvent>>>[]): void;
+    addBasicEvents(...data: Partial<IWrapEventAttribute<IEvent>>[]): void;
     addBasicEvents(...data: Partial<IEvent>[]): void;
-    addBasicEvents(
-        ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
-    ): void;
-    addBasicEvents(
-        ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<Required<IEvent>>>)[]
-    ): void {
+    addBasicEvents(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): void;
+    addBasicEvents(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): void {
         this.basicEvents.push(...data.map((obj) => (obj instanceof Event ? obj : new Event(obj))));
     }
 
-    addColorBoostEvents(
-        ...data: Partial<IWrapColorBoostEventAttribute<Required<IEventBoost>>>[]
-    ): void;
+    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IEventBoost>>[]): void;
     addColorBoostEvents(...data: Partial<IEventBoost>[]): void;
     addColorBoostEvents(
-        ...data: (
-            & Partial<IEventBoost>
-            & Partial<IWrapColorBoostEventAttribute<Required<IEventBoost>>>
-        )[]
+        ...data: (Partial<IEventBoost> & Partial<IWrapColorBoostEventAttribute<IEventBoost>>)[]
     ): void;
     addColorBoostEvents(
-        ...data: (
-            & Partial<IEventBoost>
-            & Partial<IWrapColorBoostEventAttribute<Required<IEventBoost>>>
-        )[]
+        ...data: (Partial<IEventBoost> & Partial<IWrapColorBoostEventAttribute<IEventBoost>>)[]
     ): void {
         this.basicEvents.push(
             ...data.map((obj) =>

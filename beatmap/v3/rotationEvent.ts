@@ -5,8 +5,8 @@ import { deepCopy } from '../../utils/misc.ts';
 import { WrapRotationEvent } from '../wrapper/rotationEvent.ts';
 
 /** Rotation event beatmap v3 class object. */
-export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
-    static default: ObjectReturnFn<Required<IRotationEvent>> = {
+export class RotationEvent extends WrapRotationEvent<IRotationEvent> {
+    static default: ObjectReturnFn<IRotationEvent> = {
         b: 0,
         e: 0,
         r: 0,
@@ -16,17 +16,13 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>);
+    constructor(data: Partial<IWrapRotationEventAttribute<IRotationEvent>>);
     constructor(data: Partial<IRotationEvent>);
     constructor(
-        data:
-            & Partial<IRotationEvent>
-            & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>,
+        data: Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>,
     );
     constructor(
-        data:
-            & Partial<IRotationEvent>
-            & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>> = {},
+        data: Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>> = {},
     ) {
         super();
 
@@ -37,21 +33,13 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
     }
 
     static create(): RotationEvent[];
-    static create(
-        ...data: Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>[]
-    ): RotationEvent[];
+    static create(...data: Partial<IWrapRotationEventAttribute<IRotationEvent>>[]): RotationEvent[];
     static create(...data: Partial<IRotationEvent>[]): RotationEvent[];
     static create(
-        ...data: (
-            & Partial<IRotationEvent>
-            & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>
-        )[]
+        ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
     ): RotationEvent[];
     static create(
-        ...data: (
-            & Partial<IRotationEvent>
-            & Partial<IWrapRotationEventAttribute<Required<IRotationEvent>>>
-        )[]
+        ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
     ): RotationEvent[] {
         const result: RotationEvent[] = [];
         data.forEach((obj) => result.push(new this(obj)));
@@ -61,7 +49,7 @@ export class RotationEvent extends WrapRotationEvent<Required<IRotationEvent>> {
         return [new this()];
     }
 
-    toJSON(): Required<IRotationEvent> {
+    toJSON(): IRotationEvent {
         return {
             b: this.time,
             e: this.executionTime,

@@ -5,8 +5,8 @@ import { deepCopy } from '../../utils/misc.ts';
 import { WrapWaypoint } from '../wrapper/waypoint.ts';
 
 /** Waypoint beatmap v3 class object. */
-export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
-    static default: ObjectReturnFn<Required<IWaypoint>> = {
+export class Waypoint extends WrapWaypoint<IWaypoint> {
+    static default: ObjectReturnFn<IWaypoint> = {
         b: 0,
         x: 0,
         y: 0,
@@ -17,12 +17,10 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
     };
 
     constructor();
-    constructor(data: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>);
+    constructor(data: Partial<IWrapWaypointAttribute<IWaypoint>>);
     constructor(data: Partial<IWaypoint>);
-    constructor(data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>);
-    constructor(
-        data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>> = {},
-    ) {
+    constructor(data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>);
+    constructor(data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>> = {}) {
         super();
 
         this._time = data.time ?? data.b ?? Waypoint.default.b;
@@ -33,13 +31,13 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
     }
 
     static create(): Waypoint[];
-    static create(...data: Partial<IWrapWaypointAttribute<Required<IWaypoint>>>[]): Waypoint[];
+    static create(...data: Partial<IWrapWaypointAttribute<IWaypoint>>[]): Waypoint[];
     static create(...data: Partial<IWaypoint>[]): Waypoint[];
     static create(
-        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
+        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
     ): Waypoint[];
     static create(
-        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<Required<IWaypoint>>>)[]
+        ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
     ): Waypoint[] {
         const result: Waypoint[] = [];
         data.forEach((obj) => result.push(new this(obj)));
@@ -49,7 +47,7 @@ export class Waypoint extends WrapWaypoint<Required<IWaypoint>> {
         return [new this()];
     }
 
-    toJSON(): Required<IWaypoint> {
+    toJSON(): IWaypoint {
         return {
             b: this.time,
             x: this.posX,
