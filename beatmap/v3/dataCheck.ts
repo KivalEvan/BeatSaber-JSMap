@@ -578,10 +578,9 @@ export const LightRotationEventBoxDataCheck: {
     },
 } as const;
 
-export const LightRotationEventBoxGroupDataCheck: Record<
-    keyof ILightRotationEventBoxGroup,
-    DataCheck
-> = {
+export const LightRotationEventBoxGroupDataCheck: {
+    readonly [key in keyof ILightRotationEventBoxGroup]: DataCheck;
+} = {
     b: {
         type: 'number',
         version: '3.0.0',
@@ -692,10 +691,9 @@ export const LightTranslationEventBoxDataCheck: {
     },
 } as const;
 
-export const LightTranslationEventBoxGroupDataCheck: Record<
-    keyof ILightTranslationEventBoxGroup,
-    DataCheck
-> = {
+export const LightTranslationEventBoxGroupDataCheck: {
+    readonly [key in keyof ILightTranslationEventBoxGroup]: DataCheck;
+} = {
     b: {
         type: 'number',
         version: '3.2.0',
@@ -718,10 +716,9 @@ export const LightTranslationEventBoxGroupDataCheck: Record<
     },
 } as const;
 
-export const BasicEventTypesForKeywordsDataCheck: Record<
-    keyof IBasicEventTypesForKeywords,
-    DataCheck
-> = {
+export const BasicEventTypesForKeywordsDataCheck: {
+    readonly [key in keyof IBasicEventTypesForKeywords]: DataCheck;
+} = {
     k: {
         type: 'string',
         version: '3.0.0',
@@ -734,10 +731,9 @@ export const BasicEventTypesForKeywordsDataCheck: Record<
     },
 } as const;
 
-export const BasicEventTypesWithKeywordsDataCheck: Record<
-    keyof IBasicEventTypesWithKeywords,
-    DataCheck
-> = {
+export const BasicEventTypesWithKeywordsDataCheck: {
+    readonly [key in keyof IBasicEventTypesWithKeywords]: DataCheck;
+} = {
     d: {
         type: 'array',
         version: '3.0.0',

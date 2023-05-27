@@ -197,10 +197,9 @@ export const WaypointDataCheck: { readonly [key in keyof IWaypoint]: DataCheck }
     },
 } as const;
 
-export const SpecialEventsKeywordFiltersKeywordsDataCheck: Record<
-    keyof ISpecialEventsKeywordFiltersKeywords,
-    DataCheck
-> = {
+export const SpecialEventsKeywordFiltersKeywordsDataCheck: {
+    readonly [key in keyof ISpecialEventsKeywordFiltersKeywords]: DataCheck;
+} = {
     _keyword: {
         type: 'string',
         version: '2.4.0',
@@ -213,10 +212,9 @@ export const SpecialEventsKeywordFiltersKeywordsDataCheck: Record<
     },
 } as const;
 
-export const SpecialEventsKeywordFiltersDataCheck: Record<
-    keyof ISpecialEventsKeywordFilters,
-    DataCheck
-> = {
+export const SpecialEventsKeywordFiltersDataCheck: {
+    readonly [key in keyof ISpecialEventsKeywordFilters]: DataCheck;
+} = {
     _keywords: {
         type: 'array',
         version: '2.4.0',

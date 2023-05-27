@@ -2,10 +2,9 @@
 
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
-export const LightIDList: Record<
-    EnvironmentAllName,
-    Readonly<{ [key: number]: ReadonlyArray<number> }>
-> = {
+export const LightIDList: {
+    readonly [key in EnvironmentAllName]: { readonly [key: number]: readonly number[] };
+} = {
     DefaultEnvironment: {
         0: Array.from(Array(10), (_, i) => i + 1),
         1: Array.from(Array(60), (_, i) => i + 1),

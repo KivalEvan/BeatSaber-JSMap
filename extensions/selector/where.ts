@@ -10,10 +10,10 @@ import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
  * console.log(...notesFilter);
  * ```
  */
-export function where<
-    T extends IWrapBaseObject<Record<string, any>>,
-    U extends DeepPartialWrapper<T>,
->(objects: T[], filter: IFilter<U> = {}): T[] {
+export function where<T extends IWrapBaseObject, U extends DeepPartialWrapper<T>>(
+    objects: T[],
+    filter: IFilter<U> = {},
+): T[] {
     return objects
         .filter((o) => {
             let result = false;
