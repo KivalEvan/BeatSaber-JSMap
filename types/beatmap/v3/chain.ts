@@ -1,5 +1,5 @@
 import { IBaseSlider } from './baseSlider.ts';
-import { ICustomDataSlider } from './custom/customData.ts';
+import { ICustomDataSlider } from './custom/slider.ts';
 
 export interface IChain extends IBaseSlider {
     /** Slice count or element `<int>` in chain.

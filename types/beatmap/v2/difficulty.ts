@@ -3,7 +3,7 @@ import { IArc } from './arc.ts';
 import { IObstacle } from './obstacle.ts';
 import { IEvent } from './event.ts';
 import { IWaypoint } from './waypoint.ts';
-import { ICustomDataDifficulty } from './custom/customData.ts';
+import { ICustomDataDifficulty } from './custom/difficulty.ts';
 import { ISpecialEventsKeywordFilters } from './specialEventsKeywordFilters.ts';
 
 /** Difficulty interface for difficulty file. */

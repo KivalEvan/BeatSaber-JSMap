@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.4.0 [2023-05-xx]
+## 1.4.0 [2023-06-xx]
 
 ### Added
 
@@ -24,6 +24,7 @@
 - Changed modded object value method behaviour
 - Renamed couple of functions and constants
 - Updated converter functions
+- Changed custom data type structure
 - Changed type from `Record` to `Object` for known constants
 - Small refactor for BPM and NJS class
 - Updated Heck stuff

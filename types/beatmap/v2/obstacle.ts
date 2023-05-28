@@ -1,4 +1,4 @@
-import { ICustomDataObstacle } from './custom/customData.ts';
+import { ICustomDataObstacle } from './custom/obstacle.ts';
 import { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Obstacle. */

@@ -1,8 +1,7 @@
 import { IBookmark } from './bookmark.ts';
 import { IBPMChange } from './bpmChange.ts';
-import { IHeckBase, IHeckCustomData } from './heck.ts';
-import { IChromaCustomData, IChromaNote, IChromaObstacle } from './chroma.ts';
-import { INENote, INEObstacle, INESlider } from './noodleExtensions.ts';
+import { IHeckCustomData } from './heck.ts';
+import { IChromaCustomData } from './chroma.ts';
 import { ICustomEvent } from './customEvent.ts';
 import { ICustomDataBase } from '../../shared/custom/customData.ts';
 import { IPointDefinition } from './pointDefinition.ts';
@@ -10,7 +9,6 @@ import { IColorNote } from '../colorNote.ts';
 import { IChain } from '../chain.ts';
 import { IBombNote } from '../bombNote.ts';
 import { IObstacle } from '../obstacle.ts';
-import { IAnimation } from './animation.ts';
 
 /** Custom Data interface for difficulty file.
  * @extends ICustomDataBase
@@ -28,12 +26,3 @@ export interface ICustomDataDifficulty extends ICustomDataBase, IHeckCustomData,
     BPMChanges?: IBPMChange[];
     bookmarks?: IBookmark[];
 }
-
-export type ICustomDataNote = ICustomDataBase & IHeckBase & IChromaNote & INENote & IAnimation;
-export type ICustomDataSlider = ICustomDataBase & IHeckBase & IChromaNote & INESlider & IAnimation;
-export type ICustomDataObstacle =
-    & ICustomDataBase
-    & IHeckBase
-    & IChromaObstacle
-    & INEObstacle
-    & IAnimation;

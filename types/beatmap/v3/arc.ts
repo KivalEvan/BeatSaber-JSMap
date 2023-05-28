@@ -1,5 +1,5 @@
 import { IBaseSlider } from './baseSlider.ts';
-import { ICustomDataSlider } from './custom/customData.ts';
+import { ICustomDataSlider } from './custom/slider.ts';
 
 export interface IArc extends IBaseSlider {
     /** Head control point length multiplier `<float>` of arc.

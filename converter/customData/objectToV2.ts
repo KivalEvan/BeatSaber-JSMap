@@ -1,5 +1,6 @@
 import { ICustomDataBase } from '../../types/beatmap/shared/custom/customData.ts';
-import { ICustomDataNote, ICustomDataObstacle } from '../../types/beatmap/v3/custom/customData.ts';
+import { ICustomDataNote } from '../../types/beatmap/v3/custom/note.ts';
+import { ICustomDataObstacle } from '../../types/beatmap/v3/custom/obstacle.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { renameKey } from './_helpers.ts';
 
