@@ -2,7 +2,7 @@ import { Vector3 } from '../../../types/vector.ts';
 import { IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
 import { IChromaEnvironmentPlacement } from '../types/environment.ts';
 import { deepCopy } from '../../../utils/misc.ts';
-import { vectorMul, vectorAdd } from '../../../utils/vector.ts';
+import { vectorAdd, vectorMul } from '../../../utils/vector.ts';
 import { degToRad } from '../../../utils/math.ts';
 
 export class EnvironmentGroup {
@@ -20,7 +20,7 @@ export class EnvironmentGroup {
     place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
     place(
         options: IChromaEnvironmentPlacement,
-        insertTo?: IChromaEnvironment[]
+        insertTo?: IChromaEnvironment[],
     ): IChromaEnvironment[] | void {
         const data = deepCopy(this.data);
         data.forEach((d) => {
@@ -44,7 +44,7 @@ export class EnvironmentGroup {
 
             d.position = d.position!.map(
                 (p, i) =>
-                    (this.anchor[i] + p) * (options.scale?.[i] ?? 1) + (options.position?.[i] ?? 0)
+                    (this.anchor[i] + p) * (options.scale?.[i] ?? 1) + (options.position?.[i] ?? 0),
             ) as Vector3;
 
             d.scale = vectorMul(d.scale, options.scale);
