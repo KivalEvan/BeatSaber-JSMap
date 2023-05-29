@@ -1,7 +1,7 @@
 import { IChromaComponent, IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
 import { IChromaEnvironment as IChromaEnvironmentV2 } from '../../../types/beatmap/v2/custom/chroma.ts';
 import logger from '../../../logger.ts';
-import { vectorScale } from '../../../utils/vector.ts';
+import { vectorMul } from '../../../utils/vector.ts';
 
 function tag(name: string): string[] {
     return ['chroma', 'environment', name];
@@ -19,9 +19,9 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
                 duplicate: e._duplicate,
                 active: e._active,
                 scale: e._scale,
-                position: vectorScale(e._position, 0.6),
+                position: vectorMul(e._position, 0.6),
                 rotation: e._rotation,
-                localPosition: vectorScale(e._localPosition, 0.6),
+                localPosition: vectorMul(e._localPosition, 0.6),
                 localRotation: e._localRotation,
                 components,
             };
@@ -67,9 +67,9 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
                 duplicate: e._duplicate,
                 active: e._active,
                 scale: e._scale,
-                position: vectorScale(e._position, 0.6),
+                position: vectorMul(e._position, 0.6),
                 rotation: e._rotation,
-                localPosition: vectorScale(e._localPosition, 0.6),
+                localPosition: vectorMul(e._localPosition, 0.6),
                 localRotation: e._localRotation,
                 components,
             };
@@ -88,9 +88,9 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
                 _duplicate: e.duplicate,
                 _active: e.active,
                 _scale: e.scale,
-                _position: vectorScale(e.position, 1 / 0.6),
+                _position: vectorMul(e.position, 1 / 0.6),
                 _rotation: e.rotation,
-                _localPosition: vectorScale(e.localPosition, 1 / 0.6),
+                _localPosition: vectorMul(e.localPosition, 1 / 0.6),
                 _localRotation: e.localRotation,
                 _lightID: e.components?.ILightWithId?.lightID,
             };
@@ -135,9 +135,9 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
                 _duplicate: e.duplicate,
                 _active: e.active,
                 _scale: e.scale,
-                _position: vectorScale(e.position, 1 / 0.6),
+                _position: vectorMul(e.position, 1 / 0.6),
                 _rotation: e.rotation,
-                _localPosition: vectorScale(e.localPosition, 1 / 0.6),
+                _localPosition: vectorMul(e.localPosition, 1 / 0.6),
                 _localRotation: e.localRotation,
                 _lightID: e.components?.ILightWithId?.lightID,
             };

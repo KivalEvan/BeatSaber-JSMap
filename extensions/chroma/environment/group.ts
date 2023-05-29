@@ -2,7 +2,7 @@ import { Vector3 } from '../../../types/vector.ts';
 import { IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
 import { IChromaEnvironmentPlacement } from '../types/environment.ts';
 import { deepCopy } from '../../../utils/misc.ts';
-import { vectorRotate, vectorScale } from '../../../utils/vector.ts';
+import { vectorMul, vectorAdd } from '../../../utils/vector.ts';
 import { degToRad } from '../../../utils/math.ts';
 
 export class EnvironmentGroup {
@@ -17,18 +17,15 @@ export class EnvironmentGroup {
     }
 
     place(options: IChromaEnvironmentPlacement): IChromaEnvironment[];
+    place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
     place(
         options: IChromaEnvironmentPlacement,
-        insertTo: IChromaEnvironment[],
-    ): void;
-    place(
-        options: IChromaEnvironmentPlacement,
-        insertTo?: IChromaEnvironment[],
+        insertTo?: IChromaEnvironment[]
     ): IChromaEnvironment[] | void {
         const data = deepCopy(this.data);
         data.forEach((d) => {
             if (d.rotation) {
-                d.rotation = vectorRotate(d.rotation, options.rotation);
+                d.rotation = vectorAdd(d.rotation, options.rotation);
             } else d.rotation = options.rotation;
 
             // im only doing Y rotation for now
@@ -47,11 +44,10 @@ export class EnvironmentGroup {
 
             d.position = d.position!.map(
                 (p, i) =>
-                    (this.anchor[i] + p) * (options.scale?.[i] ?? 1) +
-                    (options.position?.[i] ?? 0),
+                    (this.anchor[i] + p) * (options.scale?.[i] ?? 1) + (options.position?.[i] ?? 0)
             ) as Vector3;
 
-            d.scale = vectorScale(d.scale, options.scale);
+            d.scale = vectorMul(d.scale, options.scale);
 
             if (
                 typeof d.components?.ILightWithId?.type === 'number' &&

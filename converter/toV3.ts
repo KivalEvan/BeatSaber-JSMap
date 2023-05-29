@@ -19,7 +19,7 @@ import { BPMEvent } from '../beatmap/v3/bpmEvent.ts';
 import { ColorBoostEvent } from '../beatmap/v3/colorBoostEvent.ts';
 import { ColorNote } from '../beatmap/v3/colorNote.ts';
 import { RotationEvent } from '../beatmap/v3/rotationEvent.ts';
-import { isVector3, vectorScale } from '../utils/vector.ts';
+import { isVector3, vectorMul } from '../utils/vector.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 
 function tag(name: string): string[] {
@@ -394,9 +394,9 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                                 duplicate: e._duplicate,
                                 active: e._active,
                                 scale: e._scale,
-                                position: vectorScale(e._position, 0.6),
+                                position: vectorMul(e._position, 0.6),
                                 rotation: e._rotation,
-                                localPosition: vectorScale(e._localPosition, 0.6),
+                                localPosition: vectorMul(e._localPosition, 0.6),
                                 localRotation: e._localRotation,
                                 components,
                             };
@@ -444,9 +444,9 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                                 duplicate: e._duplicate,
                                 active: e._active,
                                 scale: e._scale,
-                                position: vectorScale(e._position, 0.6),
+                                position: vectorMul(e._position, 0.6),
                                 rotation: e._rotation,
-                                localPosition: vectorScale(e._localPosition, 0.6),
+                                localPosition: vectorMul(e._localPosition, 0.6),
                                 localRotation: e._localRotation,
                                 components,
                             };
@@ -545,7 +545,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                         logger.tWarn(tag('toV3'), 'Cannot convert point definitions, unknown use.');
                     } else if (Array.isArray(ce.d.position)) {
                         isVector3(ce.d.position)
-                            ? vectorScale(ce.d.position, 0.6)
+                            ? vectorMul(ce.d.position, 0.6)
                             : ce.d.position.forEach((point) => {
                                 point[0] *= 0.6;
                                 point[1] *= 0.6;

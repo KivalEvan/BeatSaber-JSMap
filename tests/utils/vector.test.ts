@@ -43,79 +43,80 @@ Deno.test('Is Vector 4', () => {
     assert(!vector.isVector4([1, 2, 3, 4, 5]));
 });
 
-Deno.test('Translate Vector', () => {
-    assertEquals(vector.vectorTranslate(), undefined);
-    assertEquals(vector.vectorTranslate([1]), [1]);
-    assertEquals(vector.vectorTranslate([]), []);
+Deno.test('Add Vector', () => {
+    assertEquals(vector.vectorAdd(), undefined);
+    assertEquals(vector.vectorAdd([1]), [1]);
+    assertEquals(vector.vectorAdd([]), []);
 
-    assertEquals(vector.vectorTranslate([1, 2]), [1, 2]);
-    assertEquals(vector.vectorTranslate([1, 2, 3]), [1, 2, 3]);
-    assertEquals(vector.vectorTranslate([1, 2, 3, 4]), [1, 2, 3, 4]);
+    assertEquals(vector.vectorAdd([1, 2]), [1, 2]);
+    assertEquals(vector.vectorAdd([1, 2, 3]), [1, 2, 3]);
+    assertEquals(vector.vectorAdd([1, 2, 3, 4]), [1, 2, 3, 4]);
 
-    assertEquals(vector.vectorTranslate([1, 2], [-1, 0, 1, 0]), [0, 2]);
-    assertEquals(vector.vectorTranslate([1, 2, 3], [-1, 0, 1, 0]), [0, 2, 4]);
-    assertEquals(vector.vectorTranslate([1, 2, 3, 4], [-1, 0, 1, 0]), [0, 2, 4, 4]);
+    assertEquals(vector.vectorAdd([1, 2], [-1, 0, 1, 0]), [0, 2]);
+    assertEquals(vector.vectorAdd([1, 2, 3], [-1, 0, 1, 0]), [0, 2, 4]);
+    assertEquals(vector.vectorAdd([1, 2, 3, 4], [-1, 0, 1, 0]), [0, 2, 4, 4]);
 
-    assertEquals(vector.vectorTranslate([1, 2], [-1, 0]), [0, 2]);
-    assertEquals(vector.vectorTranslate([1, 2, 3], [-1, 0]), [0, 2, 3]);
-    assertEquals(vector.vectorTranslate([1, 2, 3, 4], [-1, 0]), [0, 2, 3, 4]);
+    assertEquals(vector.vectorAdd([1, 2], [-1, 0]), [0, 2]);
+    assertEquals(vector.vectorAdd([1, 2, 3], [-1, 0]), [0, 2, 3]);
+    assertEquals(vector.vectorAdd([1, 2, 3, 4], [-1, 0]), [0, 2, 3, 4]);
 
-    assertEquals(vector.vectorTranslate([1, 2], { x: -1, y: 0, z: 1, w: 0 }), [0, 2]);
-    assertEquals(vector.vectorTranslate([1, 2, 3], { x: -1, y: 0, z: 1, w: 0 }), [0, 2, 4]);
-    assertEquals(vector.vectorTranslate([1, 2, 3, 4], { x: -1, y: 0, z: 1, w: 0 }), [0, 2, 4, 4]);
+    assertEquals(vector.vectorAdd([1, 2], { x: -1, y: 0, z: 1, w: 0 }), [0, 2]);
+    assertEquals(vector.vectorAdd([1, 2, 3], { x: -1, y: 0, z: 1, w: 0 }), [0, 2, 4]);
+    assertEquals(vector.vectorAdd([1, 2, 3, 4], { x: -1, y: 0, z: 1, w: 0 }), [0, 2, 4, 4]);
 
-    assertEquals(vector.vectorTranslate([1, 2], { x: -1, y: 1 }), [0, 3]);
-    assertEquals(vector.vectorTranslate([1, 2, 3], { x: -1, y: 1 }), [0, 3, 3]);
-    assertEquals(vector.vectorTranslate([1, 2, 3, 4], { x: -1, y: 1 }), [0, 3, 3, 4]);
+    assertEquals(vector.vectorAdd([1, 2], { x: -1, y: 1 }), [0, 3]);
+    assertEquals(vector.vectorAdd([1, 2, 3], { x: -1, y: 1 }), [0, 3, 3]);
+    assertEquals(vector.vectorAdd([1, 2, 3, 4], { x: -1, y: 1 }), [0, 3, 3, 4]);
 });
 
-Deno.test('Rotate Vector', () => {
-    assertEquals(vector.vectorRotate(), undefined);
-    assertEquals(vector.vectorRotate([1]), [1]);
-    assertEquals(vector.vectorRotate([]), []);
+Deno.test('Subtract Vector', () => {
+    assertEquals(vector.vectorSub(), undefined);
+    assertEquals(vector.vectorSub([1]), [1]);
+    assertEquals(vector.vectorSub([]), []);
 
-    assertEquals(vector.vectorRotate([0, 30]), [0, 30]);
-    assertEquals(vector.vectorRotate([0, 30, 45]), [0, 30, 45]);
-    assertEquals(vector.vectorRotate([0, 30, 45, 90]), [0, 30, 45, 90]);
+    assertEquals(vector.vectorSub([1, 2]), [1, 2]);
+    assertEquals(vector.vectorSub([1, 2, 3]), [1, 2, 3]);
+    assertEquals(vector.vectorSub([1, 2, 3, 4]), [1, 2, 3, 4]);
 
-    assertEquals(vector.vectorRotate([0, 30], [-90, 45, -30, 0]), [-90, 75]);
-    assertEquals(vector.vectorRotate([0, 30, 45], [-90, 45, -30, 0]), [-90, 75, 15]);
-    assertEquals(vector.vectorRotate([0, 30, 45, 90], [-90, 45, -30, 0]), [-90, 75, 15, 90]);
+    assertEquals(vector.vectorSub([1, 2], [-1, 0, 1, 0]), [2, 2]);
+    assertEquals(vector.vectorSub([1, 2, 3], [-1, 0, 1, 0]), [2, 2, 2]);
+    assertEquals(vector.vectorSub([1, 2, 3, 4], [-1, 0, 1, 0]), [2, 2, 2, 4]);
 
-    assertEquals(vector.vectorRotate([0, 30], { x: -90, y: 45, z: -30, w: 0 }), [-90, 75]);
-    assertEquals(vector.vectorRotate([0, 30, 45], { x: -90, y: 45, z: -30, w: 0 }), [-90, 75, 15]);
-    assertEquals(
-        vector.vectorRotate([0, 30, 45, 90], { x: -90, y: 45, z: -30, w: 0 }),
-        [-90, 75, 15, 90],
-    );
+    assertEquals(vector.vectorSub([1, 2], [-1, 0]), [2, 2]);
+    assertEquals(vector.vectorSub([1, 2, 3], [-1, 0]), [2, 2, 3]);
+    assertEquals(vector.vectorSub([1, 2, 3, 4], [-1, 0]), [2, 2, 3, 4]);
 
-    assertEquals(vector.vectorRotate([0, 30], { x: -90, y: 45 }), [-90, 75]);
-    assertEquals(vector.vectorRotate([0, 30, 45], { x: -90, y: 45 }), [-90, 75, 45]);
-    assertEquals(vector.vectorRotate([0, 30, 45, 90], { x: -90, y: 45 }), [-90, 75, 45, 90]);
+    assertEquals(vector.vectorSub([1, 2], { x: -1, y: 0, z: 1, w: 0 }), [2, 2]);
+    assertEquals(vector.vectorSub([1, 2, 3], { x: -1, y: 0, z: 1, w: 0 }), [2, 2, 2]);
+    assertEquals(vector.vectorSub([1, 2, 3, 4], { x: -1, y: 0, z: 1, w: 0 }), [2, 2, 2, 4]);
+
+    assertEquals(vector.vectorSub([1, 2], { x: -1, y: 1 }), [2, 1]);
+    assertEquals(vector.vectorSub([1, 2, 3], { x: -1, y: 1 }), [2, 1, 3]);
+    assertEquals(vector.vectorSub([1, 2, 3, 4], { x: -1, y: 1 }), [2, 1, 3, 4]);
 });
 
-Deno.test('Scale Vector', () => {
-    assertEquals(vector.vectorScale(), undefined);
-    assertEquals(vector.vectorScale([1]), [1]);
-    assertEquals(vector.vectorScale([]), []);
+Deno.test('Multiply Vector', () => {
+    assertEquals(vector.vectorMul(), undefined);
+    assertEquals(vector.vectorMul([1]), [1]);
+    assertEquals(vector.vectorMul([]), []);
 
-    assertEquals(vector.vectorScale([1, 2]), [1, 2]);
-    assertEquals(vector.vectorScale([1, 2, 3]), [1, 2, 3]);
-    assertEquals(vector.vectorScale([1, 2, 3, 4]), [1, 2, 3, 4]);
+    assertEquals(vector.vectorMul([1, 2]), [1, 2]);
+    assertEquals(vector.vectorMul([1, 2, 3]), [1, 2, 3]);
+    assertEquals(vector.vectorMul([1, 2, 3, 4]), [1, 2, 3, 4]);
 
-    assertEquals(vector.vectorScale([1, 2], 2), [2, 4]);
-    assertEquals(vector.vectorScale([1, 2, 3], 2), [2, 4, 6]);
-    assertEquals(vector.vectorScale([1, 2, 3, 4], 2), [2, 4, 6, 8]);
+    assertEquals(vector.vectorMul([1, 2], 2), [2, 4]);
+    assertEquals(vector.vectorMul([1, 2, 3], 2), [2, 4, 6]);
+    assertEquals(vector.vectorMul([1, 2, 3, 4], 2), [2, 4, 6, 8]);
 
-    assertEquals(vector.vectorScale([2, 2], [1, 2, -3, 5.5]), [2, 4]);
-    assertEquals(vector.vectorScale([2, 2, 2], [1, 2, -3, 5.5]), [2, 4, -6]);
-    assertEquals(vector.vectorScale([2, 2, 2, 2], [1, 2, -3, 5.5]), [2, 4, -6, 11]);
+    assertEquals(vector.vectorMul([2, 2], [1, 2, -3, 5.5]), [2, 4]);
+    assertEquals(vector.vectorMul([2, 2, 2], [1, 2, -3, 5.5]), [2, 4, -6]);
+    assertEquals(vector.vectorMul([2, 2, 2, 2], [1, 2, -3, 5.5]), [2, 4, -6, 11]);
 
-    assertEquals(vector.vectorScale([2, 2], { x: 1, y: 2, z: -3, w: 5.5 }), [2, 4]);
-    assertEquals(vector.vectorScale([2, 2, 2], { x: 1, y: 2, z: -3, w: 5.5 }), [2, 4, -6]);
-    assertEquals(vector.vectorScale([2, 2, 2, 2], { x: 1, y: 2, z: -3, w: 5.5 }), [2, 4, -6, 11]);
+    assertEquals(vector.vectorMul([2, 2], { x: 1, y: 2, z: -3, w: 5.5 }), [2, 4]);
+    assertEquals(vector.vectorMul([2, 2, 2], { x: 1, y: 2, z: -3, w: 5.5 }), [2, 4, -6]);
+    assertEquals(vector.vectorMul([2, 2, 2, 2], { x: 1, y: 2, z: -3, w: 5.5 }), [2, 4, -6, 11]);
 
-    assertEquals(vector.vectorScale([2, 2], { x: 1, y: 2 }), [2, 4]);
-    assertEquals(vector.vectorScale([2, 2, 2], { x: 1, y: 2 }), [2, 4, 2]);
-    assertEquals(vector.vectorScale([2, 2, 2, 2], { x: 1, y: 2 }), [2, 4, 2, 2]);
+    assertEquals(vector.vectorMul([2, 2], { x: 1, y: 2 }), [2, 4]);
+    assertEquals(vector.vectorMul([2, 2, 2], { x: 1, y: 2 }), [2, 4, 2]);
+    assertEquals(vector.vectorMul([2, 2, 2, 2], { x: 1, y: 2 }), [2, 4, 2, 2]);
 });

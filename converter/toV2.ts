@@ -14,7 +14,7 @@ import { Obstacle } from '../beatmap/v2/obstacle.ts';
 import { Arc } from '../beatmap/v2/arc.ts';
 import { SpecialEventsKeywordFilters } from '../beatmap/v2/specialEventsKeywordFilters.ts';
 import { Waypoint } from '../beatmap/v2/waypoint.ts';
-import { isVector3, vectorScale } from '../utils/vector.ts';
+import { isVector3, vectorMul } from '../utils/vector.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IBPMChangeOld } from '../types/beatmap/v2/custom/bpmChange.ts';
 
@@ -343,9 +343,9 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
                                 _duplicate: e.duplicate,
                                 _active: e.active,
                                 _scale: e.scale,
-                                _position: vectorScale(e.position, 1 / 0.6),
+                                _position: vectorMul(e.position, 1 / 0.6),
                                 _rotation: e.rotation,
-                                _localPosition: vectorScale(e.localPosition, 1 / 0.6),
+                                _localPosition: vectorMul(e.localPosition, 1 / 0.6),
                                 _localRotation: e.localRotation,
                                 _lightID: e.components?.ILightWithId?.lightID,
                             };
@@ -397,9 +397,9 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
                                 _duplicate: e.duplicate,
                                 _active: e.active,
                                 _scale: e.scale,
-                                _position: vectorScale(e.position, 1 / 0.6),
+                                _position: vectorMul(e.position, 1 / 0.6),
                                 _rotation: e.rotation,
-                                _localPosition: vectorScale(e.localPosition, 1 / 0.6),
+                                _localPosition: vectorMul(e.localPosition, 1 / 0.6),
                                 _localRotation: e.localRotation,
                                 _lightID: e.components?.ILightWithId?.lightID,
                             };
@@ -489,7 +489,7 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
                         logger.tWarn(tag('toV2'), 'Cannot convert point definitions, unknown use.');
                     } else if (Array.isArray(ce._data._position)) {
                         isVector3(ce._data._position)
-                            ? vectorScale(ce._data._position, 0.6)
+                            ? vectorMul(ce._data._position, 0.6)
                             // deno-lint-ignore no-explicit-any
                             : ce._data._position.forEach((point: any) => {
                                 point[0] *= 0.6;

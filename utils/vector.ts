@@ -21,14 +21,14 @@ export function isVector4(obj: unknown): obj is Vector4 {
     return Array.isArray(obj) && obj.every((n) => typeof n === 'number') && obj.length === 4;
 }
 
-export function vectorTranslate<T extends Vector2 | Vector3 | Vector4 | number[] | undefined>(
+export function vectorAdd<T extends Vector2 | Vector3 | Vector4 | number[] | undefined>(
     vec: T,
     translate?: number[],
 ): T;
-export function vectorTranslate(vec?: Vector2, translate?: VectorObject): Vector2;
-export function vectorTranslate(vec?: Vector3, translate?: VectorObject): Vector3;
-export function vectorTranslate(vec?: Vector4, translate?: VectorObject): Vector4;
-export function vectorTranslate<T extends Vector2 | Vector3 | Vector4 | number[]>(
+export function vectorAdd(vec?: Vector2, translate?: VectorObject): Vector2;
+export function vectorAdd(vec?: Vector3, translate?: VectorObject): Vector3;
+export function vectorAdd(vec?: Vector4, translate?: VectorObject): Vector4;
+export function vectorAdd<T extends Vector2 | Vector3 | Vector4 | number[]>(
     vec?: T,
     translate?: T | VectorObject,
 ): T | undefined {
@@ -58,14 +58,14 @@ export function vectorTranslate<T extends Vector2 | Vector3 | Vector4 | number[]
     return vec;
 }
 
-export function vectorRotate<T extends Vector2 | Vector3 | Vector4 | number[] | undefined>(
+export function vectorSub<T extends Vector2 | Vector3 | Vector4 | number[] | undefined>(
     vec: T,
     rotate?: number[],
 ): T;
-export function vectorRotate(vec?: Vector2, rotate?: VectorObject): Vector2;
-export function vectorRotate(vec?: Vector3, rotate?: VectorObject): Vector3;
-export function vectorRotate(vec?: Vector4, rotate?: VectorObject): Vector4;
-export function vectorRotate<T extends Vector2 | Vector3 | Vector4 | number[]>(
+export function vectorSub(vec?: Vector2, rotate?: VectorObject): Vector2;
+export function vectorSub(vec?: Vector3, rotate?: VectorObject): Vector3;
+export function vectorSub(vec?: Vector4, rotate?: VectorObject): Vector4;
+export function vectorSub<T extends Vector2 | Vector3 | Vector4 | number[]>(
     vec?: T,
     rotate?: T | VectorObject,
 ): T | undefined {
@@ -74,34 +74,34 @@ export function vectorRotate<T extends Vector2 | Vector3 | Vector4 | number[]>(
         if (Array.isArray(rotate)) {
             for (let i = 0; i < vec.length; i++) {
                 if (typeof rotate[i] === 'number') {
-                    vec[i] += rotate[i];
+                    vec[i] -= rotate[i];
                 }
             }
         } else {
             switch (vec.length) {
                 case 4:
-                    vec[3] = vec[3]! + ((rotate as Vector4Object).w ?? 0);
+                    vec[3] = vec[3]! - ((rotate as Vector4Object).w ?? 0);
                 /* falls through */
                 case 3:
-                    vec[2] = vec[2]! + ((rotate as Vector3Object).z ?? 0);
+                    vec[2] = vec[2]! - ((rotate as Vector3Object).z ?? 0);
                 /* falls through */
                 case 2:
-                    vec[1] = vec[1] + (rotate.y ?? 0);
-                    vec[0] = vec[0] + (rotate.x ?? 0);
+                    vec[1] = vec[1] - (rotate.y ?? 0);
+                    vec[0] = vec[0] - (rotate.x ?? 0);
             }
         }
     }
     return vec;
 }
 
-export function vectorScale<T extends Vector2 | Vector3 | Vector4 | number[] | undefined>(
+export function vectorMul<T extends Vector2 | Vector3 | Vector4 | number[] | undefined>(
     vec: T,
     scale?: number | number[],
 ): T;
-export function vectorScale(vec?: Vector2, scale?: VectorObject): Vector2;
-export function vectorScale(vec?: Vector3, scale?: VectorObject): Vector3;
-export function vectorScale(vec?: Vector4, scale?: VectorObject): Vector4;
-export function vectorScale<T extends Vector2 | Vector3 | Vector4 | number[]>(
+export function vectorMul(vec?: Vector2, scale?: VectorObject): Vector2;
+export function vectorMul(vec?: Vector3, scale?: VectorObject): Vector3;
+export function vectorMul(vec?: Vector4, scale?: VectorObject): Vector4;
+export function vectorMul<T extends Vector2 | Vector3 | Vector4 | number[]>(
     vec?: T,
     scale?: number | T | VectorObject,
 ): T | undefined {
