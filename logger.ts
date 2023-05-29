@@ -1,7 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { dim, red, yellow } from './deps.ts';
 
-// really simple logger
 enum LogLevels {
     VERBOSE,
     DEBUG,
@@ -11,28 +10,33 @@ enum LogLevels {
     NONE,
 }
 
-const logPrefixes = new Map<LogLevels, string>([
-    [LogLevels.VERBOSE, 'VERBOSE'],
-    [LogLevels.DEBUG, 'DEBUG'],
-    [LogLevels.INFO, 'INFO'],
-    [LogLevels.WARN, yellow('WARN')],
-    [LogLevels.ERROR, red('!!ERROR!!')],
-    [LogLevels.NONE, 'NONE'],
-]);
+// really simple logger
+export class Logger {
+    static readonly LogLevels = LogLevels;
 
-class Logger {
+    static LogPrefixes = new Map<LogLevels, string>([
+        [LogLevels.VERBOSE, 'VERBOSE'],
+        [LogLevels.DEBUG, 'DEBUG'],
+        [LogLevels.INFO, 'INFO'],
+        [LogLevels.WARN, yellow('WARN')],
+        [LogLevels.ERROR, red('!!ERROR!!')],
+        [LogLevels.NONE, 'NONE'],
+    ]);
+
     #logLevel = LogLevels.INFO;
-    #tagPrint: (tags: string[]) => string = (tags) => '[' + tags.join('::') + ']';
+    #tagPrint: (tags: string[], level: LogLevels) => string = (tags, level) =>
+        `${Logger.LogPrefixes.get(level)} ${dim('>')} [${tags.join('::')}]`;
+    #untagged = 'script';
 
     set logLevel(value: LogLevels) {
         this.#logLevel = value;
-        this.tInfo(['logger', 'logLevel'], `Log level set to ${logPrefixes.get(value)}`);
+        this.tInfo(['logger', 'logLevel'], `Log level set to ${Logger.LogPrefixes.get(value)}`);
     }
     get logLevel() {
         return this.#logLevel;
     }
 
-    set tagPrint(fn: (tags: string[]) => string) {
+    set tagPrint(fn: (tags: string[], level: LogLevels) => string) {
         this.#tagPrint = fn;
         this.tInfo(['logger', 'tagPrint'], `Update tag print function`);
     }
@@ -40,10 +44,18 @@ class Logger {
         return this.#tagPrint;
     }
 
-    private log(level: LogLevels, ...args: any[]) {
+    set untagged(value: string) {
+        this.#untagged = value.trim();
+        this.tInfo(['logger', 'untagged'], `Update untagged string to ${this.#untagged}`);
+    }
+    get untagged() {
+        return this.#untagged;
+    }
+
+    private log(level: LogLevels, tags: string[], ...args: any[]) {
         if (level < this.#logLevel) return;
 
-        const log = [logPrefixes.get(level), dim('>'), ...args];
+        const log = [this.tagPrint(tags, level), ...args];
 
         switch (level) {
             case LogLevels.DEBUG:
@@ -59,10 +71,6 @@ class Logger {
         }
     }
 
-    private prettyTag(tags: string[]): string {
-        return this.tagPrint(tags);
-    }
-
     /** Set logging level to filter various information.
      * ```ts
      * 0 -> Verbose
@@ -76,47 +84,47 @@ class Logger {
     setLevel(level: LogLevels) {
         level = Math.min(Math.max(level, 0), 5);
         this.#logLevel = level;
-        this.tInfo(['logger', 'setLevel'], `Log level set to ${logPrefixes.get(level)}`);
+        this.tInfo(['logger', 'setLevel'], `Log level set to ${Logger.LogPrefixes.get(level)}`);
     }
 
-    tVerbose(tag: string[], ...args: any[]) {
-        this.log(LogLevels.VERBOSE, this.prettyTag(tag), ...args);
+    tVerbose(tags: string[], ...args: any[]) {
+        this.log(LogLevels.VERBOSE, tags, ...args);
     }
 
-    tDebug(tag: string[], ...args: any[]) {
-        this.log(LogLevels.DEBUG, this.prettyTag(tag), ...args);
+    tDebug(tags: string[], ...args: any[]) {
+        this.log(LogLevels.DEBUG, tags, ...args);
     }
 
-    tInfo(tag: string[], ...args: any[]) {
-        this.log(LogLevels.INFO, this.prettyTag(tag), ...args);
+    tInfo(tags: string[], ...args: any[]) {
+        this.log(LogLevels.INFO, tags, ...args);
     }
 
-    tWarn(tag: string[], ...args: any[]) {
-        this.log(LogLevels.WARN, this.prettyTag(tag), ...args);
+    tWarn(tags: string[], ...args: any[]) {
+        this.log(LogLevels.WARN, tags, ...args);
     }
 
-    tError(tag: string[], ...args: any[]) {
-        this.log(LogLevels.ERROR, this.prettyTag(tag), ...args);
+    tError(tags: string[], ...args: any[]) {
+        this.log(LogLevels.ERROR, tags, ...args);
     }
 
     verbose(...args: any[]) {
-        this.tVerbose(['script'], ...args);
+        this.tVerbose([this.#untagged], ...args);
     }
 
     debug(...args: any[]) {
-        this.tDebug(['script'], ...args);
+        this.tDebug([this.#untagged], ...args);
     }
 
     info(...args: any[]) {
-        this.tInfo(['script'], ...args);
+        this.tInfo([this.#untagged], ...args);
     }
 
     warn(...args: any[]) {
-        this.tWarn(['script'], ...args);
+        this.tWarn([this.#untagged], ...args);
     }
 
     error(...args: any[]) {
-        this.tError(['script'], ...args);
+        this.tError([this.#untagged], ...args);
     }
 }
 

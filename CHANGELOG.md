@@ -10,7 +10,7 @@
 - Tagged log method
   - Prefixed with, `t` followed by capital letter, for consistent tagging style print
   - Non-tagged log will automatically apply `script` tag
-  - Able to customise tag print
+  - Able to customise tag print and untagged string
 
 ### Changed
 
@@ -19,6 +19,7 @@
   - This reduce the confusion between internal and common name
   - Schema remained unchanged for obvious reason
 - Allow object class constructor to be used (similar to static `create` but as single object)
+- Logger can now be instantiated
 - Unspecified difficulty version will now return base wrapper class instead of version specific
   - This means it won't automagically convert v2 map to v3 map when unspecified
 - Changed modded object value method behaviour
