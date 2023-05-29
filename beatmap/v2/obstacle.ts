@@ -86,7 +86,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
     }
 
     get posY() {
-        return this.type == 1 ? 0 : 2;
+        return this.type == 1 ? 2 : 0;
     }
     set posY(value: 0 | 2) {
         if (value != 0 && value != 2) {

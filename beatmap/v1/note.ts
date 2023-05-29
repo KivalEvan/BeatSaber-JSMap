@@ -30,7 +30,7 @@ export class Note extends WrapColorNote<INote> {
         this._time = data.time ?? data._time ?? Note.default._time;
         this._posX = data.posX ?? data._lineIndex ?? Note.default._lineIndex;
         this._posY = data.posY ?? data._lineLayer ?? Note.default._lineLayer;
-        this._type = data.type ?? data._type ?? Note.default._type;
+        this._type = data.type ?? data.color ?? data._type ?? Note.default._type;
         this._direction = data.direction ?? data._cutDirection ?? Note.default._cutDirection;
     }
 
