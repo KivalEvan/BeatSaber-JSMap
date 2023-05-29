@@ -135,10 +135,10 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
     }
 
     get customData(): NonNullable<ILightColorEventBoxGroup['customData']> {
-        return this.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<ILightColorEventBoxGroup['customData']>) {
-        this.customData = value;
+        this._customData = value;
     }
 
     isValid(): boolean {

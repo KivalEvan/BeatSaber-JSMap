@@ -137,10 +137,10 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
     }
 
     get customData(): NonNullable<ILightRotationEventBoxGroup['customData']> {
-        return this.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<ILightRotationEventBoxGroup['customData']>) {
-        this.customData = value;
+        this._customData = value;
     }
 
     isValid(): boolean {

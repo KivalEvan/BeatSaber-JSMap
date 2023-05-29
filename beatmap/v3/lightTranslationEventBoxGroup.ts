@@ -137,10 +137,10 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
     }
 
     get customData(): NonNullable<ILightTranslationEventBoxGroup['customData']> {
-        return this.customData;
+        return this._customData;
     }
     set customData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>) {
-        this.customData = value;
+        this._customData = value;
     }
 
     setCustomData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>): this {
