@@ -4,8 +4,10 @@ export {
     assertArrayIncludes,
     assertEquals,
     assertExists,
+    AssertionError,
     assertIsError,
     assertNotEquals,
+    assertObjectMatch,
     assertThrows,
 } from 'https://deno.land/std@0.185.0/testing/asserts.ts';
 
