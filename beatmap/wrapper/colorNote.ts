@@ -9,10 +9,18 @@ export abstract class WrapColorNote<T extends { [P in keyof T]: T[P] }> extends 
     protected _type!: IWrapColorNote['type'];
     protected _angleOffset!: IWrapColorNote['angleOffset'];
 
-    abstract get type(): IWrapColorNote['type'];
-    abstract set type(value: IWrapColorNote['type']);
-    abstract get angleOffset(): IWrapColorNote['angleOffset'];
-    abstract set angleOffset(value: IWrapColorNote['angleOffset']);
+    get type(): IWrapColorNote['type'] {
+        return this._type;
+    }
+    set type(value: IWrapColorNote['type']) {
+        this._type = value;
+    }
+    get angleOffset(): IWrapColorNote['angleOffset'] {
+        return this._angleOffset;
+    }
+    set angleOffset(value: IWrapColorNote['angleOffset']) {
+        this._angleOffset = value;
+    }
 
     setType(value: IWrapColorNote['type']) {
         this.type = value;

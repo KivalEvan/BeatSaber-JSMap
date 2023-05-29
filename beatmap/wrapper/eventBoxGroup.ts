@@ -12,10 +12,18 @@ export abstract class WrapEventBoxGroup<
     protected _id!: IWrapEventBoxGroup['id'];
     protected _boxes!: IWrapEventBox<TBox, TBase, TFilter>[];
 
-    abstract get id(): IWrapEventBoxGroup['id'];
-    abstract set id(value: IWrapEventBoxGroup['id']);
-    abstract get boxes(): IWrapEventBox<TBox, TBase, TFilter>[];
-    abstract set boxes(value: IWrapEventBox<TBox, TBase, TFilter>[]);
+    get id(): IWrapEventBoxGroup['id'] {
+        return this._id;
+    }
+    set id(value: IWrapEventBoxGroup['id']) {
+        this._id = value;
+    }
+    get boxes(): IWrapEventBox<TBox, TBase, TFilter>[] {
+        return this._boxes;
+    }
+    set boxes(value: IWrapEventBox<TBox, TBase, TFilter>[]) {
+        this._boxes = value;
+    }
 
     isValid(): boolean {
         return this.id >= 0 && this.boxes.every((e) => e.isValid());

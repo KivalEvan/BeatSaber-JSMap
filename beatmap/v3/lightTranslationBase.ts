@@ -73,34 +73,6 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: ILightTranslationBase['b']) {
-        this._time = value;
-    }
-
-    get previous() {
-        return this._previous;
-    }
-    set previous(value: ILightTranslationBase['p']) {
-        this._previous = value;
-    }
-
-    get easing() {
-        return this._easing;
-    }
-    set easing(value: ILightTranslationBase['e']) {
-        this._easing = value;
-    }
-
-    get translation() {
-        return this._translation;
-    }
-    set translation(value: ILightTranslationBase['t']) {
-        this._translation = value;
-    }
-
     get customData(): NonNullable<ILightTranslationBase['customData']> {
         return this._customData;
     }

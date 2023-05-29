@@ -57,34 +57,6 @@ export class Waypoint extends WrapWaypoint<IWaypoint> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IWaypoint['b']) {
-        this._time = value;
-    }
-
-    get posX() {
-        return this._posX;
-    }
-    set posX(value: IWaypoint['x']) {
-        this._posX = value;
-    }
-
-    get posY() {
-        return this._posY;
-    }
-    set posY(value: IWaypoint['y']) {
-        this._posY = value;
-    }
-
-    get direction() {
-        return this._direction;
-    }
-    set direction(value: IWaypoint['d']) {
-        this._direction = value;
-    }
-
     get customData(): NonNullable<IWaypoint['customData']> {
         return this._customData;
     }

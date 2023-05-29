@@ -10,10 +10,18 @@ export abstract class WrapGridObject<T extends { [P in keyof T]: T[P] }> extends
     protected _posX!: IWrapGridObject['posX'];
     protected _posY!: IWrapGridObject['posY'];
 
-    abstract get posX(): IWrapGridObject['posX'];
-    abstract set posX(value: IWrapGridObject['posX']);
-    abstract get posY(): IWrapGridObject['posY'];
-    abstract set posY(value: IWrapGridObject['posY']);
+    get posX(): IWrapGridObject['posX'] {
+        return this._posX;
+    }
+    set posX(value: IWrapGridObject['posX']) {
+        this._posX = value;
+    }
+    get posY(): IWrapGridObject['posY'] {
+        return this._posY;
+    }
+    set posY(value: IWrapGridObject['posY']) {
+        this._posY = value;
+    }
 
     setPosX(value: number) {
         this.posX = value;

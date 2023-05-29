@@ -67,53 +67,11 @@ export class ColorNote extends WrapColorNote<IColorNote> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IColorNote['b']) {
-        this._time = value;
-    }
-
-    get posX() {
-        return this._posX;
-    }
-    set posX(value: IColorNote['x']) {
-        this._posX = value;
-    }
-
-    get posY() {
-        return this._posY;
-    }
-    set posY(value: IColorNote['y']) {
-        this._posY = value;
-    }
-
-    get color() {
-        return this._color;
-    }
-    set color(value: IColorNote['c']) {
-        this._color = value;
-    }
-
     get type() {
         return this._color;
     }
     set type(value: IColorNote['c']) {
         this._color = value;
-    }
-
-    get direction() {
-        return this._direction;
-    }
-    set direction(value: IColorNote['d']) {
-        this._direction = value;
-    }
-
-    get angleOffset() {
-        return this._angleOffset;
-    }
-    set angleOffset(value: IColorNote['a']) {
-        this._angleOffset = value;
     }
 
     get customData(): NonNullable<IColorNote['customData']> {

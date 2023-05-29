@@ -10,14 +10,30 @@ export abstract class WrapLightColorBase<T extends { [P in keyof T]: T[P] }>
     protected _brightness!: IWrapLightColorBase['brightness'];
     protected _frequency!: IWrapLightColorBase['frequency'];
 
-    abstract get transition(): IWrapLightColorBase['transition'];
-    abstract set transition(value: IWrapLightColorBase['transition']);
-    abstract get color(): IWrapLightColorBase['color'];
-    abstract set color(value: IWrapLightColorBase['color']);
-    abstract get brightness(): IWrapLightColorBase['brightness'];
-    abstract set brightness(value: IWrapLightColorBase['brightness']);
-    abstract get frequency(): IWrapLightColorBase['frequency'];
-    abstract set frequency(value: IWrapLightColorBase['frequency']);
+    get transition(): IWrapLightColorBase['transition'] {
+        return this._transition;
+    }
+    set transition(value: IWrapLightColorBase['transition']) {
+        this._transition = value;
+    }
+    get color(): IWrapLightColorBase['color'] {
+        return this._color;
+    }
+    set color(value: IWrapLightColorBase['color']) {
+        this._color = value;
+    }
+    get brightness(): IWrapLightColorBase['brightness'] {
+        return this._brightness;
+    }
+    set brightness(value: IWrapLightColorBase['brightness']) {
+        this._brightness = value;
+    }
+    get frequency(): IWrapLightColorBase['frequency'] {
+        return this._frequency;
+    }
+    set frequency(value: IWrapLightColorBase['frequency']) {
+        this._frequency = value;
+    }
 
     setTransition(value: IWrapLightColorBase['transition']): this {
         this.transition = value;

@@ -58,27 +58,6 @@ export class RotationEvent extends WrapRotationEvent<IRotationEvent> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IRotationEvent['b']) {
-        this._time = value;
-    }
-
-    get executionTime() {
-        return this._executionTime;
-    }
-    set executionTime(value: IRotationEvent['e']) {
-        this._executionTime = value;
-    }
-
-    get rotation() {
-        return this._rotation;
-    }
-    set rotation(value: IRotationEvent['r']) {
-        this._rotation = value;
-    }
-
     get customData(): NonNullable<IRotationEvent['customData']> {
         return this._customData;
     }

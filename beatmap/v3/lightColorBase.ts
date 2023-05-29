@@ -73,41 +73,6 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: ILightColorBase['b']) {
-        this._time = value;
-    }
-
-    get transition() {
-        return this._transition;
-    }
-    set transition(value: ILightColorBase['i']) {
-        this._transition = value;
-    }
-
-    get color() {
-        return this._color;
-    }
-    set color(value: ILightColorBase['c']) {
-        this._color = value;
-    }
-
-    get brightness() {
-        return this._brightness;
-    }
-    set brightness(value: ILightColorBase['s']) {
-        this._brightness = value;
-    }
-
-    get frequency() {
-        return this._frequency;
-    }
-    set frequency(value: ILightColorBase['f']) {
-        this._frequency = value;
-    }
-
     get customData(): NonNullable<ILightColorBase['customData']> {
         return this._customData;
     }

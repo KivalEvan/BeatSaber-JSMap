@@ -11,10 +11,18 @@ export abstract class WrapEventTypesForKeywords<T extends { [P in keyof T]: T[P]
     protected _keyword!: IWrapEventTypesForKeywords['keyword'];
     protected _events!: IWrapEventTypesForKeywords['events'];
 
-    abstract get keyword(): IWrapEventTypesForKeywords['keyword'];
-    abstract set keyword(value: IWrapEventTypesForKeywords['keyword']);
-    abstract get events(): IWrapEventTypesForKeywords['events'];
-    abstract set events(value: IWrapEventTypesForKeywords['events']);
+    get keyword(): IWrapEventTypesForKeywords['keyword'] {
+        return this._keyword;
+    }
+    set keyword(value: IWrapEventTypesForKeywords['keyword']) {
+        this._keyword = value;
+    }
+    get events(): IWrapEventTypesForKeywords['events'] {
+        return this._events;
+    }
+    set events(value: IWrapEventTypesForKeywords['events']) {
+        this._events = value;
+    }
 
     setKeyword(value: IWrapEventTypesForKeywords['keyword']) {
         this.keyword = value;

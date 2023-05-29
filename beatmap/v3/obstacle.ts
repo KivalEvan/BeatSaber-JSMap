@@ -66,48 +66,6 @@ export class Obstacle extends WrapObstacle<IObstacle> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IObstacle['b']) {
-        this._time = value;
-    }
-
-    get posX() {
-        return this._posX;
-    }
-    set posX(value: IObstacle['x']) {
-        this._posX = value;
-    }
-
-    get posY() {
-        return this._posY;
-    }
-    set posY(value: IObstacle['y']) {
-        this._posY = value;
-    }
-
-    get duration() {
-        return this._duration;
-    }
-    set duration(value: IObstacle['d']) {
-        this._duration = value;
-    }
-
-    get width() {
-        return this._width;
-    }
-    set width(value: IObstacle['w']) {
-        this._width = value;
-    }
-
-    get height() {
-        return this._height;
-    }
-    set height(value: IObstacle['h']) {
-        this._height = value;
-    }
-
     get customData(): NonNullable<IObstacle['customData']> {
         return this._customData;
     }

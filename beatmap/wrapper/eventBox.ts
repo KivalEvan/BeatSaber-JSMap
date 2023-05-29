@@ -15,16 +15,36 @@ export abstract class WrapEventBox<
     protected _easing!: IWrapEventBox<TBase>['easing'];
     protected _events!: IWrapBaseObject<TBase>[];
 
-    abstract get filter(): IWrapIndexFilter<TFilter>;
-    abstract set filter(value: IWrapIndexFilter<TFilter>);
-    abstract get beatDistribution(): IWrapEventBox<TBase>['beatDistribution'];
-    abstract set beatDistribution(value: IWrapEventBox<TBase>['beatDistribution']);
-    abstract get beatDistributionType(): IWrapEventBox<TBase>['beatDistributionType'];
-    abstract set beatDistributionType(value: IWrapEventBox<TBase>['beatDistributionType']);
-    abstract get easing(): IWrapEventBox<TBase>['easing'];
-    abstract set easing(value: IWrapEventBox<TBase>['easing']);
-    abstract get events(): IWrapBaseObject<TBase>[];
-    abstract set events(val: IWrapBaseObject<TBase>[]);
+    get filter(): IWrapIndexFilter<TFilter> {
+        return this._filter;
+    }
+    set filter(value: IWrapIndexFilter<TFilter>) {
+        this._filter = value;
+    }
+    get beatDistribution(): IWrapEventBox<TBase>['beatDistribution'] {
+        return this._beatDistribution;
+    }
+    set beatDistribution(value: IWrapEventBox<TBase>['beatDistribution']) {
+        this._beatDistribution = value;
+    }
+    get beatDistributionType(): IWrapEventBox<TBase>['beatDistributionType'] {
+        return this._beatDistributionType;
+    }
+    set beatDistributionType(value: IWrapEventBox<TBase>['beatDistributionType']) {
+        this._beatDistributionType = value;
+    }
+    get easing(): IWrapEventBox<TBase>['easing'] {
+        return this._easing;
+    }
+    set easing(value: IWrapEventBox<TBase>['easing']) {
+        this._easing = value;
+    }
+    get events(): IWrapBaseObject<TBase>[] {
+        return this._events;
+    }
+    set events(value: IWrapBaseObject<TBase>[]) {
+        this._events = value;
+    }
 
     setFilter(value: IWrapIndexFilter<TFilter>) {
         this.filter = value;

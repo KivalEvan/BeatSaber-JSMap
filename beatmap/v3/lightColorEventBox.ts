@@ -137,48 +137,6 @@ export class LightColorEventBox extends WrapLightColorEventBox<
         this._filter = value;
     }
 
-    get beatDistribution() {
-        return this._beatDistribution;
-    }
-    set beatDistribution(value: ILightColorEventBox['w']) {
-        this._beatDistribution = value;
-    }
-
-    get beatDistributionType() {
-        return this._beatDistributionType;
-    }
-    set beatDistributionType(value: ILightColorEventBox['d']) {
-        this._beatDistributionType = value;
-    }
-
-    get brightnessDistribution() {
-        return this._brightnessDistribution;
-    }
-    set brightnessDistribution(value: ILightColorEventBox['r']) {
-        this._brightnessDistribution = value;
-    }
-
-    get brightnessDistributionType() {
-        return this._brightnessDistributionType;
-    }
-    set brightnessDistributionType(value: ILightColorEventBox['t']) {
-        this._brightnessDistributionType = value;
-    }
-
-    get affectFirst(): ILightColorEventBox['b'] {
-        return this._affectFirst;
-    }
-    set affectFirst(value: ILightColorEventBox['b'] | boolean) {
-        this._affectFirst = value ? 1 : 0;
-    }
-
-    get easing() {
-        return this._easing;
-    }
-    set easing(value: ILightColorEventBox['i']) {
-        this._easing = value;
-    }
-
     get events() {
         return this._events as LightColorBase[];
     }

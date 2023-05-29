@@ -12,6 +12,10 @@ export abstract class WrapLightRotationEventBoxGroup<
     implements IWrapLightRotationEventBoxGroup<TGroup, TBox, TBase, TFilter> {
     declare protected _boxes: IWrapLightRotationEventBox<TBox, TBase, TFilter>[];
 
-    abstract get boxes(): IWrapLightRotationEventBox<TBox, TBase, TFilter>[];
-    abstract set boxes(value: IWrapLightRotationEventBox<TBox, TBase, TFilter>[]);
+    get boxes(): IWrapLightRotationEventBox<TBox, TBase, TFilter>[] {
+        return this._boxes;
+    }
+    set boxes(value: IWrapLightRotationEventBox<TBox, TBase, TFilter>[]) {
+        this._boxes = value;
+    }
 }

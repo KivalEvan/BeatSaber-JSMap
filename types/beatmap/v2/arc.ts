@@ -23,7 +23,7 @@ export interface IArc {
      * ---
      * Grid represents cut direction from center.
      */
-    _headCutDirection: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+    _headCutDirection: number;
     _tailTime: number;
     _tailLineIndex: number;
     _tailLineLayer: number;
@@ -38,7 +38,7 @@ export interface IArc {
      * ---
      * Grid represents cut direction from center.
      */
-    _tailCutDirection: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+    _tailCutDirection: number;
     /** Mid anchor mode `<int>` of arc.
      * ```ts
      * 0 -> Straight

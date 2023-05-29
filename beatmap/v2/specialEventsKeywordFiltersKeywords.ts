@@ -69,18 +69,4 @@ export class SpecialEventsKeywordFiltersKeywords
             _specialEvents: this.events,
         };
     }
-
-    get keyword() {
-        return this._keyword;
-    }
-    set keyword(value: ISpecialEventsKeywordFiltersKeywords['_keyword']) {
-        this._keyword = value;
-    }
-
-    get events() {
-        return this._events;
-    }
-    set events(value: ISpecialEventsKeywordFiltersKeywords['_specialEvents']) {
-        this._events = value;
-    }
 }

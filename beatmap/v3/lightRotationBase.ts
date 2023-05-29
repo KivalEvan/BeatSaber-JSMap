@@ -79,48 +79,6 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: ILightRotationBase['b']) {
-        this._time = value;
-    }
-
-    get previous() {
-        return this._previous;
-    }
-    set previous(value: ILightRotationBase['p']) {
-        this._previous = value;
-    }
-
-    get easing() {
-        return this._easing;
-    }
-    set easing(value: ILightRotationBase['e']) {
-        this._easing = value;
-    }
-
-    get loop() {
-        return this._loop;
-    }
-    set loop(value: ILightRotationBase['l']) {
-        this._loop = value;
-    }
-
-    get rotation() {
-        return this._rotation;
-    }
-    set rotation(value: ILightRotationBase['r']) {
-        this._rotation = value;
-    }
-
-    get direction() {
-        return this._direction;
-    }
-    set direction(value: ILightRotationBase['o']) {
-        this._direction = value;
-    }
-
     get customData(): NonNullable<ILightRotationBase['customData']> {
         return this._customData;
     }

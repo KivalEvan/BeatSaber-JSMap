@@ -6,8 +6,12 @@ export abstract class WrapBaseObject<T extends { [P in keyof T]: T[P] }> extends
     implements IWrapBaseObject<T> {
     protected _time!: IWrapBaseObject['time'];
 
-    abstract get time(): IWrapBaseObject['time'];
-    abstract set time(value: IWrapBaseObject['time']);
+    get time(): IWrapBaseObject['time'] {
+        return this._time;
+    }
+    set time(value: IWrapBaseObject['time']) {
+        this._time = value;
+    }
 
     setTime(value: number) {
         this.time = value;

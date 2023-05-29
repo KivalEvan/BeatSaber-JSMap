@@ -16,26 +16,46 @@ export abstract class WrapLightTranslationEventBox<
     protected _affectFirst!: IWrapLightTranslationEventBox['affectFirst'];
     declare protected _events: IWrapLightTranslationBase<TBase>[];
 
-    abstract get translationDistribution(): IWrapLightTranslationEventBox[
-        'translationDistribution'
-    ];
-    abstract set translationDistribution(
-        value: IWrapLightTranslationEventBox['translationDistribution'],
-    );
-    abstract get translationDistributionType(): IWrapLightTranslationEventBox[
+    get translationDistribution(): IWrapLightTranslationEventBox['translationDistribution'] {
+        return this._translationDistribution;
+    }
+    set translationDistribution(value: IWrapLightTranslationEventBox['translationDistribution']) {
+        this._translationDistribution = value;
+    }
+    get translationDistributionType(): IWrapLightTranslationEventBox[
         'translationDistributionType'
-    ];
-    abstract set translationDistributionType(
+    ] {
+        return this._translationDistributionType;
+    }
+    set translationDistributionType(
         value: IWrapLightTranslationEventBox['translationDistributionType'],
-    );
-    abstract get axis(): IWrapLightTranslationEventBox['axis'];
-    abstract set axis(value: IWrapLightTranslationEventBox['axis']);
-    abstract get flip(): IWrapLightTranslationEventBox['flip'];
-    abstract set flip(value: IWrapLightTranslationEventBox['flip']);
-    abstract get affectFirst(): IWrapLightTranslationEventBox['affectFirst'];
-    abstract set affectFirst(value: IWrapLightTranslationEventBox['affectFirst']);
-    abstract get events(): IWrapLightTranslationBase<TBase>[];
-    abstract set events(value: IWrapLightTranslationBase<TBase>[]);
+    ) {
+        this._translationDistributionType = value;
+    }
+    get axis(): IWrapLightTranslationEventBox['axis'] {
+        return this._axis;
+    }
+    set axis(value: IWrapLightTranslationEventBox['axis']) {
+        this._axis = value;
+    }
+    get flip(): IWrapLightTranslationEventBox['flip'] {
+        return this._flip;
+    }
+    set flip(value: IWrapLightTranslationEventBox['flip']) {
+        this._flip = value;
+    }
+    get affectFirst(): IWrapLightTranslationEventBox['affectFirst'] {
+        return this._affectFirst;
+    }
+    set affectFirst(value: IWrapLightTranslationEventBox['affectFirst']) {
+        this._affectFirst = value;
+    }
+    get events(): IWrapLightTranslationBase<TBase>[] {
+        return this._events;
+    }
+    set events(value: IWrapLightTranslationBase<TBase>[]) {
+        this._events = value;
+    }
 
     setTranslationDistribution(value: IWrapLightTranslationEventBox['translationDistribution']) {
         this.translationDistribution = value;

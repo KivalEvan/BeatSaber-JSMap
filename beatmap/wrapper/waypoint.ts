@@ -7,8 +7,12 @@ export abstract class WrapWaypoint<T extends { [P in keyof T]: T[P] }> extends W
     implements IWrapWaypoint<T> {
     protected _direction!: IWrapWaypoint['direction'];
 
-    abstract get direction(): IWrapWaypoint['direction'];
-    abstract set direction(value: IWrapWaypoint['direction']);
+    get direction(): IWrapWaypoint['direction'] {
+        return this._direction;
+    }
+    set direction(value: IWrapWaypoint['direction']) {
+        this._direction = value;
+    }
 
     setDirection(value: IWrapWaypoint['direction']) {
         this.direction = value;

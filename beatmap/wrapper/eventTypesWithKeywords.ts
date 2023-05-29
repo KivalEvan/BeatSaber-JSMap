@@ -9,8 +9,12 @@ export abstract class WrapEventTypesWithKeywords<
 > extends Serializable<T> implements IWrapEventTypesWithKeywords<T> {
     protected _list!: IWrapEventTypesForKeywords<U>[];
 
-    abstract get list(): IWrapEventTypesForKeywords<U>[];
-    abstract set list(value: IWrapEventTypesForKeywords<U>[]);
+    get list(): IWrapEventTypesForKeywords<U>[] {
+        return this._list;
+    }
+    set list(value: IWrapEventTypesForKeywords<U>[]) {
+        this._list = value;
+    }
 
     setData(value: IWrapEventTypesForKeywords<U>[]) {
         this.list = value;

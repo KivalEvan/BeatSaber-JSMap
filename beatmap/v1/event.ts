@@ -49,31 +49,10 @@ export class Event extends WrapEvent<IEvent> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IEvent['_time']) {
-        this._time = value;
-    }
-
-    get type() {
-        return this._type;
-    }
-    set type(value: IEvent['_type']) {
-        this._type = value;
-    }
-
-    get value() {
-        return this._value;
-    }
-    set value(value: IEvent['_value']) {
-        this._value = value;
-    }
-
     get floatValue() {
         return 1;
     }
-    set floatValue(value: number) {
+    set floatValue(_: number) {
         logger.tWarn(tag('floatValue'), 'Event float value does not exist in beatmap V1');
     }
 

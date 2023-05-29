@@ -64,20 +64,6 @@ export class Obstacle extends WrapObstacle<IObstacle> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IObstacle['_time']) {
-        this._time = value;
-    }
-
-    get posX() {
-        return this._posX;
-    }
-    set posX(value: IObstacle['_lineIndex']) {
-        this._posX = value;
-    }
-
     get type() {
         return this._type;
     }
@@ -89,33 +75,25 @@ export class Obstacle extends WrapObstacle<IObstacle> {
         return this.type == 1 ? 2 : 0;
     }
     set posY(value: 0 | 2) {
-        if (value != 0 && value != 2) {
-            this.type = 0;
-            return;
+        switch (value) {
+            case 2:
+                this.type = 1;
+                break;
+            default:
+                this.type = 0;
         }
-    }
-
-    get duration() {
-        return this._duration;
-    }
-    set duration(value: IObstacle['_duration']) {
-        this._duration = value;
-    }
-
-    get width() {
-        return this._width;
-    }
-    set width(value: IObstacle['_width']) {
-        this._width = value;
     }
 
     get height() {
         return this.type == 1 ? 3 : 5;
     }
     set height(value: 3 | 5) {
-        if (value != 3 && value != 5) {
-            this.type = 0;
-            return;
+        switch (value) {
+            case 3:
+                this.type = 1;
+                break;
+            default:
+                this.type = 0;
         }
     }
 

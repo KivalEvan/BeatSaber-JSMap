@@ -72,34 +72,6 @@ export class BasicEvent extends WrapEvent<IBasicEvent> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IBasicEvent['b']) {
-        this._time = value;
-    }
-
-    get type() {
-        return this._type;
-    }
-    set type(value: IBasicEvent['et']) {
-        this._type = value;
-    }
-
-    get value() {
-        return this._value;
-    }
-    set value(value: IBasicEvent['i']) {
-        this._value = value;
-    }
-
-    get floatValue() {
-        return this._floatValue;
-    }
-    set floatValue(value: IBasicEvent['f']) {
-        this._floatValue = value;
-    }
-
     get customData(): NonNullable<IBasicEvent['customData']> {
         return this._customData;
     }

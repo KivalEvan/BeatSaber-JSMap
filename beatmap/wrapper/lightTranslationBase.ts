@@ -9,12 +9,24 @@ export abstract class WrapLightTranslationBase<T extends { [P in keyof T]: T[P] 
     protected _easing!: IWrapLightTranslationBase['easing'];
     protected _translation!: IWrapLightTranslationBase['translation'];
 
-    abstract get previous(): IWrapLightTranslationBase['previous'];
-    abstract set previous(value: IWrapLightTranslationBase['previous']);
-    abstract get easing(): IWrapLightTranslationBase['easing'];
-    abstract set easing(value: IWrapLightTranslationBase['easing']);
-    abstract get translation(): IWrapLightTranslationBase['translation'];
-    abstract set translation(value: IWrapLightTranslationBase['translation']);
+    get previous(): IWrapLightTranslationBase['previous'] {
+        return this._previous;
+    }
+    set previous(value: IWrapLightTranslationBase['previous']) {
+        this._previous = value;
+    }
+    get easing(): IWrapLightTranslationBase['easing'] {
+        return this._easing;
+    }
+    set easing(value: IWrapLightTranslationBase['easing']) {
+        this._easing = value;
+    }
+    get translation(): IWrapLightTranslationBase['translation'] {
+        return this._translation;
+    }
+    set translation(value: IWrapLightTranslationBase['translation']) {
+        this._translation = value;
+    }
 
     setPrevious(value: IWrapLightTranslationBase['previous']) {
         this.previous = value;

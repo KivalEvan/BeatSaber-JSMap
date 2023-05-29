@@ -9,10 +9,18 @@ export abstract class WrapBaseNote<T extends { [P in keyof T]: T[P] }> extends W
     protected _color!: IWrapBaseNote['color'];
     protected _direction!: IWrapBaseNote['direction'];
 
-    abstract get color(): IWrapBaseNote['color'];
-    abstract set color(value: IWrapBaseNote['color']);
-    abstract get direction(): IWrapBaseNote['direction'];
-    abstract set direction(value: IWrapBaseNote['direction']);
+    get color(): IWrapBaseNote['color'] {
+        return this._color;
+    }
+    set color(value: IWrapBaseNote['color']) {
+        this._color = value;
+    }
+    get direction(): IWrapBaseNote['direction'] {
+        return this._direction;
+    }
+    set direction(value: IWrapBaseNote['direction']) {
+        this._direction = value;
+    }
 
     setColor(value: IWrapBaseNote['color']) {
         this.color = value;

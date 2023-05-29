@@ -8,10 +8,18 @@ export abstract class WrapRotationEvent<T extends { [P in keyof T]: T[P] }>
     protected _executionTime!: IWrapRotationEvent['executionTime'];
     protected _rotation!: IWrapRotationEvent['rotation'];
 
-    abstract get executionTime(): IWrapRotationEvent['executionTime'];
-    abstract set executionTime(value: IWrapRotationEvent['executionTime']);
-    abstract get rotation(): IWrapRotationEvent['rotation'];
-    abstract set rotation(value: IWrapRotationEvent['rotation']);
+    get executionTime(): IWrapRotationEvent['executionTime'] {
+        return this._executionTime;
+    }
+    set executionTime(value: IWrapRotationEvent['executionTime']) {
+        this._executionTime = value;
+    }
+    get rotation(): IWrapRotationEvent['rotation'] {
+        return this._rotation;
+    }
+    set rotation(value: IWrapRotationEvent['rotation']) {
+        this._rotation = value;
+    }
 
     setExecutionTime(value: IWrapRotationEvent['executionTime']) {
         this.executionTime = value;

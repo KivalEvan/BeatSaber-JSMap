@@ -51,20 +51,6 @@ export class BPMEvent extends WrapBPMEvent<IBPMEvent> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IBPMEvent['b']) {
-        this._time = value;
-    }
-
-    get bpm() {
-        return this._bpm;
-    }
-    set bpm(value: IBPMEvent['m']) {
-        this._bpm = value;
-    }
-
     get customData(): NonNullable<IBPMEvent['customData']> {
         return this._customData;
     }

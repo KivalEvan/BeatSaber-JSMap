@@ -69,69 +69,6 @@ export class IndexFilter extends WrapIndexFilter<IIndexFilter> {
         };
     }
 
-    get type() {
-        return this._type;
-    }
-    set type(value: IIndexFilter['f']) {
-        this._type = value;
-    }
-
-    get p0() {
-        return this._p0;
-    }
-    set p0(value: IIndexFilter['p']) {
-        this._p0 = value;
-    }
-
-    get p1() {
-        return this._p1;
-    }
-    set p1(value: IIndexFilter['t']) {
-        this._p1 = value;
-    }
-
-    get reverse() {
-        return this._reverse;
-    }
-    set reverse(value: IIndexFilter['r']) {
-        this._reverse = value;
-    }
-
-    get chunks() {
-        return this._chunks;
-    }
-    set chunks(value: IIndexFilter['c']) {
-        this._chunks = value;
-    }
-
-    get random() {
-        return this._random;
-    }
-    set random(value: IIndexFilter['n']) {
-        this._random = value;
-    }
-
-    get seed() {
-        return this._seed;
-    }
-    set seed(value: IIndexFilter['s']) {
-        this._seed = value;
-    }
-
-    get limit() {
-        return this._limit;
-    }
-    set limit(value: IIndexFilter['l']) {
-        this._limit = value;
-    }
-
-    get limitAffectsType() {
-        return this._limitAffectsType;
-    }
-    set limitAffectsType(value: IIndexFilter['d']) {
-        this._limitAffectsType = value;
-    }
-
     get customData(): NonNullable<IIndexFilter['customData']> {
         return this._customData;
     }

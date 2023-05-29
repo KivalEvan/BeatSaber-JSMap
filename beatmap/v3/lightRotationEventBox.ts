@@ -167,62 +167,6 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
         this._filter = value;
     }
 
-    get beatDistribution() {
-        return this._beatDistribution;
-    }
-    set beatDistribution(value: ILightRotationEventBox['w']) {
-        this._beatDistribution = value;
-    }
-
-    get beatDistributionType() {
-        return this._beatDistributionType;
-    }
-    set beatDistributionType(value: ILightRotationEventBox['d']) {
-        this._beatDistributionType = value;
-    }
-
-    get rotationDistribution() {
-        return this._rotationDistribution;
-    }
-    set rotationDistribution(value: ILightRotationEventBox['s']) {
-        this._rotationDistribution = value;
-    }
-
-    get rotationDistributionType() {
-        return this._rotationDistributionType;
-    }
-    set rotationDistributionType(value: ILightRotationEventBox['t']) {
-        this._rotationDistributionType = value;
-    }
-
-    get axis() {
-        return this._axis;
-    }
-    set axis(value: ILightRotationEventBox['a']) {
-        this._axis = value;
-    }
-
-    get flip(): ILightRotationEventBox['r'] {
-        return this._flip;
-    }
-    set flip(value: ILightRotationEventBox['r'] | boolean) {
-        this._flip = value ? 1 : 0;
-    }
-
-    get affectFirst(): ILightRotationEventBox['b'] {
-        return this._affectFirst;
-    }
-    set affectFirst(value: ILightRotationEventBox['b'] | boolean) {
-        this._affectFirst = value ? 1 : 0;
-    }
-
-    get easing() {
-        return this._easing;
-    }
-    set easing(value: ILightRotationEventBox['i']) {
-        this._easing = value;
-    }
-
     get events() {
         return this._events as LightRotationBase[];
     }

@@ -10,12 +10,24 @@ export abstract class WrapEvent<T extends { [P in keyof T]: T[P] }> extends Wrap
     protected _value!: IWrapEvent['value'];
     protected _floatValue!: IWrapEvent['floatValue'];
 
-    abstract get type(): IWrapEvent['type'];
-    abstract set type(value: IWrapEvent['type']);
-    abstract get value(): IWrapEvent['value'];
-    abstract set value(value: IWrapEvent['value']);
-    abstract get floatValue(): IWrapEvent['floatValue'];
-    abstract set floatValue(value: IWrapEvent['floatValue']);
+    get type(): IWrapEvent['type'] {
+        return this._type;
+    }
+    set type(value: IWrapEvent['type']) {
+        this._type = value;
+    }
+    get value(): IWrapEvent['value'] {
+        return this._value;
+    }
+    set value(value: IWrapEvent['value']) {
+        this._value = value;
+    }
+    get floatValue(): IWrapEvent['floatValue'] {
+        return this._floatValue;
+    }
+    set floatValue(value: IWrapEvent['floatValue']) {
+        this._floatValue = value;
+    }
 
     setType(value: IWrapEvent['type']) {
         this.type = value;

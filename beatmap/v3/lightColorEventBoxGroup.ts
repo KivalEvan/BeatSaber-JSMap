@@ -127,20 +127,6 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: ILightColorEventBoxGroup['b']) {
-        this._time = value;
-    }
-
-    get id() {
-        return this._id;
-    }
-    set id(value: ILightColorEventBoxGroup['g']) {
-        this._id = value;
-    }
-
     get boxes() {
         return this._boxes as LightColorEventBox[];
     }

@@ -55,27 +55,6 @@ export class BombNote extends WrapBombNote<IBombNote> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IBombNote['b']) {
-        this._time = value;
-    }
-
-    get posX() {
-        return this._posX;
-    }
-    set posX(value: IBombNote['x']) {
-        this._posX = value;
-    }
-
-    get posY() {
-        return this._posY;
-    }
-    set posY(value: IBombNote['y']) {
-        this._posY = value;
-    }
-
     get customData(): NonNullable<IBombNote['customData']> {
         return this._customData;
     }

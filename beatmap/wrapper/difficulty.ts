@@ -61,7 +61,6 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
     abstract lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
     abstract eventTypesWithKeywords: IWrapEventTypesWithKeywords;
     abstract useNormalEventsAsCompatibleEvents: boolean;
-    abstract customData: _ObtainCustomData<T>;
 
     clone<U extends this>(): U {
         return super.clone().setFileName(this.fileName) as U;

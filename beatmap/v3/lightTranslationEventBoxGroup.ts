@@ -129,20 +129,6 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: ILightTranslationEventBoxGroup['b']) {
-        this._time = value;
-    }
-
-    get id() {
-        return this._id;
-    }
-    set id(value: ILightTranslationEventBoxGroup['g']) {
-        this._id = value;
-    }
-
     get boxes() {
         return this._boxes as LightTranslationEventBox[];
     }

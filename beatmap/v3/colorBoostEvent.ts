@@ -65,20 +65,6 @@ export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEvent> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IColorBoostEvent['b']) {
-        this._time = value;
-    }
-
-    get toggle() {
-        return this._toggle;
-    }
-    set toggle(value: IColorBoostEvent['o']) {
-        this._toggle = value;
-    }
-
     get customData(): NonNullable<IColorBoostEvent['customData']> {
         return this._customData;
     }

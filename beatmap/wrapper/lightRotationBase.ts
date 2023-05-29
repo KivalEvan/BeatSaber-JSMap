@@ -11,16 +11,36 @@ export abstract class WrapLightRotationBase<T extends { [P in keyof T]: T[P] }>
     protected _rotation!: IWrapLightRotationBase['rotation'];
     protected _direction!: IWrapLightRotationBase['direction'];
 
-    abstract get previous(): IWrapLightRotationBase['previous'];
-    abstract set previous(value: IWrapLightRotationBase['previous']);
-    abstract get easing(): IWrapLightRotationBase['easing'];
-    abstract set easing(value: IWrapLightRotationBase['easing']);
-    abstract get loop(): IWrapLightRotationBase['loop'];
-    abstract set loop(value: IWrapLightRotationBase['loop']);
-    abstract get rotation(): IWrapLightRotationBase['rotation'];
-    abstract set rotation(value: IWrapLightRotationBase['rotation']);
-    abstract get direction(): IWrapLightRotationBase['direction'];
-    abstract set direction(value: IWrapLightRotationBase['direction']);
+    get previous(): IWrapLightRotationBase['previous'] {
+        return this._previous;
+    }
+    set previous(value: IWrapLightRotationBase['previous']) {
+        this._previous = value;
+    }
+    get easing(): IWrapLightRotationBase['easing'] {
+        return this._easing;
+    }
+    set easing(value: IWrapLightRotationBase['easing']) {
+        this._easing = value;
+    }
+    get loop(): IWrapLightRotationBase['loop'] {
+        return this._loop;
+    }
+    set loop(value: IWrapLightRotationBase['loop']) {
+        this._loop = value;
+    }
+    get rotation(): IWrapLightRotationBase['rotation'] {
+        return this._rotation;
+    }
+    set rotation(value: IWrapLightRotationBase['rotation']) {
+        this._rotation = value;
+    }
+    get direction(): IWrapLightRotationBase['direction'] {
+        return this._direction;
+    }
+    set direction(value: IWrapLightRotationBase['direction']) {
+        this._direction = value;
+    }
 
     setPrevious(value: IWrapLightRotationBase['previous']) {
         this.previous = value;

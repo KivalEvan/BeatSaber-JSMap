@@ -7,8 +7,12 @@ export abstract class WrapBaseItem<T extends { [P in keyof T]: T[P] }> extends S
     implements IWrapBaseItem<T> {
     protected _customData!: _ObtainCustomData<T>;
 
-    abstract get customData(): _ObtainCustomData<T>;
-    abstract set customData(value: _ObtainCustomData<T>);
+    get customData(): _ObtainCustomData<T> {
+        return this._customData;
+    }
+    set customData(value: _ObtainCustomData<T>) {
+        this._customData = value;
+    }
 
     setCustomData(value: _ObtainCustomData<T>): this {
         this.customData = value;

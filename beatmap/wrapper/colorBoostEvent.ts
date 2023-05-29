@@ -7,8 +7,12 @@ export abstract class WrapColorBoostEvent<T extends { [P in keyof T]: T[P] }>
     implements IWrapColorBoostEvent<T> {
     protected _toggle!: IWrapColorBoostEvent['toggle'];
 
-    abstract get toggle(): IWrapColorBoostEvent['toggle'];
-    abstract set toggle(value: IWrapColorBoostEvent['toggle']);
+    get toggle(): IWrapColorBoostEvent['toggle'] {
+        return this._toggle;
+    }
+    set toggle(value: IWrapColorBoostEvent['toggle']) {
+        this._toggle = value;
+    }
 
     setToggle(value: boolean): this {
         this.toggle = value;

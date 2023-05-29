@@ -10,10 +10,18 @@ export abstract class WrapChain<T extends { [P in keyof T]: T[P] }> extends Wrap
     protected _sliceCount!: IWrapChain['sliceCount'];
     protected _squish!: IWrapChain['squish'];
 
-    abstract get sliceCount(): IWrapChain['sliceCount'];
-    abstract set sliceCount(value: IWrapChain['sliceCount']);
-    abstract get squish(): IWrapChain['squish'];
-    abstract set squish(value: IWrapChain['squish']);
+    get sliceCount(): IWrapChain['sliceCount'] {
+        return this._sliceCount;
+    }
+    set sliceCount(value: IWrapChain['sliceCount']) {
+        this._sliceCount = value;
+    }
+    get squish(): IWrapChain['squish'] {
+        return this._squish;
+    }
+    set squish(value: IWrapChain['squish']) {
+        this._squish = value;
+    }
 
     setSliceCount(value: IWrapChain['sliceCount']) {
         this.sliceCount = value;

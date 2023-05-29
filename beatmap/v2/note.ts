@@ -63,46 +63,11 @@ export class Note extends WrapColorNote<INote> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: INote['_time']) {
-        this._time = value;
-    }
-
-    get posX() {
-        return this._posX;
-    }
-    set posX(value: INote['_lineIndex']) {
-        this._posX = value;
-    }
-
-    get posY() {
-        return this._posY;
-    }
-    set posY(value: INote['_lineLayer']) {
-        this._posY = value;
-    }
-
-    get type() {
-        return this._type;
-    }
-    set type(value: INote['_type']) {
-        this._type = value;
-    }
-
     get color() {
         return this._type as 0;
     }
     set color(value: 0 | 1) {
         this._type = value;
-    }
-
-    get direction() {
-        return this._direction;
-    }
-    set direction(value: INote['_cutDirection']) {
-        this._direction = value;
     }
 
     get angleOffset() {

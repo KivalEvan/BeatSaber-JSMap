@@ -129,20 +129,6 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: ILightRotationEventBoxGroup['b']) {
-        this._time = value;
-    }
-
-    get id() {
-        return this._id;
-    }
-    set id(value: ILightRotationEventBoxGroup['g']) {
-        this._id = value;
-    }
-
     get boxes() {
         return this._boxes as LightRotationEventBox[];
     }

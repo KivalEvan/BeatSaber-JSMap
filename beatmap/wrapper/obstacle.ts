@@ -11,12 +11,24 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }> extends W
     protected _width!: IWrapObstacle['width'];
     protected _height!: IWrapObstacle['height'];
 
-    abstract get duration(): IWrapObstacle['duration'];
-    abstract set duration(value: IWrapObstacle['duration']);
-    abstract get width(): IWrapObstacle['width'];
-    abstract set width(value: IWrapObstacle['width']);
-    abstract get height(): IWrapObstacle['height'];
-    abstract set height(value: IWrapObstacle['height']);
+    get duration(): IWrapObstacle['duration'] {
+        return this._duration;
+    }
+    set duration(value: IWrapObstacle['duration']) {
+        this._duration = value;
+    }
+    get width(): IWrapObstacle['width'] {
+        return this._width;
+    }
+    set width(value: IWrapObstacle['width']) {
+        this._width = value;
+    }
+    get height(): IWrapObstacle['height'] {
+        return this._height;
+    }
+    set height(value: IWrapObstacle['height']) {
+        this._height = value;
+    }
 
     setDuration(value: IWrapObstacle['duration']) {
         this.duration = value;

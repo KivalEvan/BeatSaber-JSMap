@@ -61,34 +61,6 @@ export class Event extends WrapEvent<IEvent> {
         };
     }
 
-    get time() {
-        return this._time;
-    }
-    set time(value: IEvent['_time']) {
-        this._time = value;
-    }
-
-    get type() {
-        return this._type;
-    }
-    set type(value: IEvent['_type']) {
-        this._type = value;
-    }
-
-    get value() {
-        return this._value;
-    }
-    set value(value: IEvent['_value']) {
-        this._value = value;
-    }
-
-    get floatValue() {
-        return this._floatValue;
-    }
-    set floatValue(value: IEvent['_floatValue']) {
-        this._floatValue = value;
-    }
-
     get customData(): NonNullable<IEvent['_customData']> {
         return this._customData;
     }

@@ -168,62 +168,6 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
         this._filter = value;
     }
 
-    get beatDistribution() {
-        return this._beatDistribution;
-    }
-    set beatDistribution(value: ILightTranslationEventBox['w']) {
-        this._beatDistribution = value;
-    }
-
-    get beatDistributionType() {
-        return this._beatDistributionType;
-    }
-    set beatDistributionType(value: ILightTranslationEventBox['d']) {
-        this._beatDistributionType = value;
-    }
-
-    get translationDistribution() {
-        return this._translationDistribution;
-    }
-    set translationDistribution(value: ILightTranslationEventBox['s']) {
-        this._translationDistribution = value;
-    }
-
-    get translationDistributionType() {
-        return this._translationDistributionType;
-    }
-    set translationDistributionType(value: ILightTranslationEventBox['t']) {
-        this._translationDistributionType = value;
-    }
-
-    get axis() {
-        return this._axis;
-    }
-    set axis(value: ILightTranslationEventBox['a']) {
-        this._axis = value;
-    }
-
-    get flip(): ILightTranslationEventBox['r'] {
-        return this._flip;
-    }
-    set flip(value: ILightTranslationEventBox['r'] | boolean) {
-        this._flip = value ? 1 : 0;
-    }
-
-    get affectFirst(): ILightTranslationEventBox['b'] {
-        return this._affectFirst;
-    }
-    set affectFirst(value: ILightTranslationEventBox['b'] | boolean) {
-        this._affectFirst = value ? 1 : 0;
-    }
-
-    get easing() {
-        return this._easing;
-    }
-    set easing(value: ILightTranslationEventBox['i']) {
-        this._easing = value;
-    }
-
     get events() {
         return this._events as LightTranslationBase[];
     }

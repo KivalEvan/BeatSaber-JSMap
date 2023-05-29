@@ -14,14 +14,30 @@ export abstract class WrapArc<T extends { [P in keyof T]: T[P] }> extends WrapBa
     protected _tailDirection!: IWrapArc['tailDirection'];
     protected _midAnchor!: IWrapArc['midAnchor'];
 
-    abstract get lengthMultiplier(): IWrapArc['lengthMultiplier'];
-    abstract set lengthMultiplier(value: IWrapArc['lengthMultiplier']);
-    abstract get tailLengthMultiplier(): IWrapArc['tailLengthMultiplier'];
-    abstract set tailLengthMultiplier(value: IWrapArc['tailLengthMultiplier']);
-    abstract get tailDirection(): IWrapArc['tailDirection'];
-    abstract set tailDirection(value: IWrapArc['tailDirection']);
-    abstract get midAnchor(): IWrapArc['midAnchor'];
-    abstract set midAnchor(value: IWrapArc['midAnchor']);
+    get lengthMultiplier(): IWrapArc['lengthMultiplier'] {
+        return this._lengthMultiplier;
+    }
+    set lengthMultiplier(value: IWrapArc['lengthMultiplier']) {
+        this._lengthMultiplier = value;
+    }
+    get tailLengthMultiplier(): IWrapArc['tailLengthMultiplier'] {
+        return this._tailLengthMultiplier;
+    }
+    set tailLengthMultiplier(value: IWrapArc['tailLengthMultiplier']) {
+        this._tailLengthMultiplier = value;
+    }
+    get tailDirection(): IWrapArc['tailDirection'] {
+        return this._tailDirection;
+    }
+    set tailDirection(value: IWrapArc['tailDirection']) {
+        this._tailDirection = value;
+    }
+    get midAnchor(): IWrapArc['midAnchor'] {
+        return this._midAnchor;
+    }
+    set midAnchor(value: IWrapArc['midAnchor']) {
+        this._midAnchor = value;
+    }
 
     setLengthMultiplier(value: IWrapArc['lengthMultiplier']) {
         this.lengthMultiplier = value;

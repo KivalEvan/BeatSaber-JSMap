@@ -12,12 +12,24 @@ export abstract class WrapBaseSlider<T extends { [P in keyof T]: T[P] }> extends
     protected _tailPosX!: IWrapBaseSlider['tailPosX'];
     protected _tailPosY!: IWrapBaseSlider['tailPosY'];
 
-    abstract get tailTime(): IWrapBaseSlider['tailTime'];
-    abstract set tailTime(value: IWrapBaseSlider['tailTime']);
-    abstract get tailPosX(): IWrapBaseSlider['tailPosX'];
-    abstract set tailPosX(value: IWrapBaseSlider['tailPosX']);
-    abstract get tailPosY(): IWrapBaseSlider['tailPosY'];
-    abstract set tailPosY(value: IWrapBaseSlider['tailPosY']);
+    get tailTime(): IWrapBaseSlider['tailTime'] {
+        return this._tailTime;
+    }
+    set tailTime(value: IWrapBaseSlider['tailTime']) {
+        this._tailTime = value;
+    }
+    get tailPosX(): IWrapBaseSlider['tailPosX'] {
+        return this._tailPosX;
+    }
+    set tailPosX(value: IWrapBaseSlider['tailPosX']) {
+        this._tailPosX = value;
+    }
+    get tailPosY(): IWrapBaseSlider['tailPosY'] {
+        return this._tailPosY;
+    }
+    set tailPosY(value: IWrapBaseSlider['tailPosY']) {
+        this._tailPosY = value;
+    }
 
     setTailTime(value: IWrapBaseSlider['tailTime']) {
         this.tailTime = value;
