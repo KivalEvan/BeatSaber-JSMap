@@ -34,6 +34,7 @@
 ### Fixed
 
 - Missing NE and Chroma check
+- Missing wrapper and types export
 - Possible floating-point error in NJS HJD calculation
 - Constants should throw TS error if modified (`environment`, `colorScheme`, etc.)
 
