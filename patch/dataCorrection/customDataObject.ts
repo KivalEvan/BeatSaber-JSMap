@@ -7,14 +7,14 @@ import { Vector3 } from '../../types/vector.ts';
 import {
     fixBoolean,
     fixColor,
-    fixColorPointDefinition,
     fixFloat,
-    fixPercentPointDefinition,
+    fixFloatPointDefinition,
     fixString,
     fixStringAry,
     fixVector2,
     fixVector3,
     fixVector3PointDefinition,
+    fixVector4PointDefinition,
 } from './helpers.ts';
 
 export function fixCustomDataObject(
@@ -68,7 +68,7 @@ export function fixCustomDataObject(
     if (cd._animation != null) {
         if (cd._animation._color != null) {
             cd._animation._color = Array.isArray(cd._animation._color)
-                ? fixColorPointDefinition(cd._animation._color, [0, 0, 0, 1])
+                ? fixVector4PointDefinition(cd._animation._color, [0, 0, 0, 1])
                 : fixString(cd._animation._color, 'unknownTrack');
         }
         if (cd._animation._definitePosition != null) {
@@ -78,17 +78,17 @@ export function fixCustomDataObject(
         }
         if (cd._animation._dissolve != null) {
             cd._animation._dissolve = Array.isArray(cd._animation._dissolve)
-                ? fixPercentPointDefinition(cd._animation._dissolve, 0)
+                ? fixFloatPointDefinition(cd._animation._dissolve, 0)
                 : fixString(cd._animation._dissolve, 'unknownTrack');
         }
         if (cd._animation._dissolveArrow != null) {
             cd._animation._dissolveArrow = Array.isArray(cd._animation._dissolveArrow)
-                ? fixPercentPointDefinition(cd._animation._dissolveArrow, 0)
+                ? fixFloatPointDefinition(cd._animation._dissolveArrow, 0)
                 : fixString(cd._animation._dissolveArrow, 'unknownTrack');
         }
         if (cd._animation._interactable != null) {
             cd._animation._interactable = Array.isArray(cd._animation._interactable)
-                ? fixPercentPointDefinition(cd._animation._interactable, 0)
+                ? fixFloatPointDefinition(cd._animation._interactable, 0)
                 : fixString(cd._animation._interactable, 'unknownTrack');
         }
         if (cd._animation._localRotation != null) {
@@ -113,7 +113,7 @@ export function fixCustomDataObject(
         }
         if (cd._animation._time != null) {
             cd._animation._time = Array.isArray(cd._animation._time)
-                ? fixPercentPointDefinition(cd._animation._time, 0)
+                ? fixFloatPointDefinition(cd._animation._time, 0)
                 : fixString(cd._animation._time, 'unknownTrack');
         }
     }
@@ -169,7 +169,7 @@ export function fixCustomDataObject(
     if (cd.animation != null) {
         if (cd.animation.color != null) {
             cd.animation.color = Array.isArray(cd.animation.color)
-                ? fixColorPointDefinition(cd.animation.color, [0, 0, 0, 1])
+                ? fixVector4PointDefinition(cd.animation.color, [0, 0, 0, 1])
                 : fixString(cd.animation.color);
         }
         if (cd.animation.definitePosition != null) {
@@ -179,17 +179,17 @@ export function fixCustomDataObject(
         }
         if (cd.animation.dissolve != null) {
             cd.animation.dissolve = Array.isArray(cd.animation.dissolve)
-                ? fixPercentPointDefinition(cd.animation.dissolve, 0)
+                ? fixFloatPointDefinition(cd.animation.dissolve, 0)
                 : fixString(cd.animation.dissolve);
         }
         if (cd.animation.dissolveArrow != null) {
             cd.animation.dissolveArrow = Array.isArray(cd.animation.dissolveArrow)
-                ? fixPercentPointDefinition(cd.animation.dissolveArrow, 0)
+                ? fixFloatPointDefinition(cd.animation.dissolveArrow, 0)
                 : fixString(cd.animation.dissolveArrow);
         }
         if (cd.animation.interactable != null) {
             cd.animation.interactable = Array.isArray(cd.animation.interactable)
-                ? fixPercentPointDefinition(cd.animation.interactable, 1)
+                ? fixFloatPointDefinition(cd.animation.interactable, 1)
                 : fixString(cd.animation.interactable);
         }
         if (cd.animation.localRotation != null) {
@@ -214,7 +214,7 @@ export function fixCustomDataObject(
         }
         if (cd.animation.time != null) {
             cd.animation.time = Array.isArray(cd.animation.time)
-                ? fixPercentPointDefinition(cd.animation.time, 0)
+                ? fixFloatPointDefinition(cd.animation.time, 0)
                 : fixString(cd.animation.time);
         }
     }

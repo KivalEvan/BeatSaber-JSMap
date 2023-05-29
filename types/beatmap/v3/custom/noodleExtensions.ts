@@ -1,6 +1,6 @@
 import { Nullable } from '../../../utils.ts';
 import { Vector2, Vector3 } from '../../../vector.ts';
-import { PercentPointDefinition, Vector3PointDefinition } from '../../shared/custom/heck.ts';
+import { FloatPointDefinition, Vector3PointDefinition } from '../../shared/custom/heck.ts';
 import { PlayerObject } from '../../shared/custom/noodleExtensions.ts';
 import { IHeckBase } from './heck.ts';
 
@@ -45,19 +45,19 @@ export interface INEObstacle extends INEObject {
  * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
-    dissolve?: string | number | PercentPointDefinition[];
-    dissolveArrow?: string | number | PercentPointDefinition[];
-    interactable?: string | number | PercentPointDefinition[];
-    time?: string | number | PercentPointDefinition[];
+    dissolve?: string | number | FloatPointDefinition[];
+    dissolveArrow?: string | number | FloatPointDefinition[];
+    interactable?: string | number | FloatPointDefinition[];
+    time?: string | number | FloatPointDefinition[];
 }
 
 /** AssignPathAnimation interface for Noodle Extensions Custom Event.
  * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAssignPathAnimation extends Required<IHeckBase> {
-    dissolve?: string | number | PercentPointDefinition[];
-    dissolveArrow?: string | number | PercentPointDefinition[];
-    interactable?: string | number | PercentPointDefinition[];
+    dissolve?: string | number | FloatPointDefinition[];
+    dissolveArrow?: string | number | FloatPointDefinition[];
+    interactable?: string | number | FloatPointDefinition[];
     definitePosition?: string | Vector3 | Vector3PointDefinition[];
 }
 
@@ -81,9 +81,9 @@ export interface INEAnimation {
     offsetRotation?: string | Vector3 | Vector3PointDefinition[];
     localRotation?: string | Vector3 | Vector3PointDefinition[];
     scale?: string | Vector3 | Vector3PointDefinition[];
-    dissolve?: string | number | PercentPointDefinition[];
-    dissolveArrow?: string | number | PercentPointDefinition[];
-    interactable?: string | number | PercentPointDefinition[];
+    dissolve?: string | number | FloatPointDefinition[];
+    dissolveArrow?: string | number | FloatPointDefinition[];
+    interactable?: string | number | FloatPointDefinition[];
     definitePosition?: string | Vector3 | Vector3PointDefinition[];
-    time?: string | number | PercentPointDefinition[];
+    time?: string | number | FloatPointDefinition[];
 }

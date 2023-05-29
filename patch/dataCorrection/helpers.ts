@@ -1,13 +1,12 @@
-import { ColorPointDefinition } from '../../types/beatmap/shared/custom/chroma.ts';
 import {
-    PercentPointDefinition,
-    Vector2PointDefinition,
+    FloatPointDefinition,
     Vector3PointDefinition,
+    Vector4PointDefinition,
 } from '../../types/beatmap/shared/custom/heck.ts';
 import { ColorArray } from '../../types/colors.ts';
 import { Easings } from '../../types/easings.ts';
 import { PointModifier } from '../../types/beatmap/shared/custom/heck.ts';
-import { Vector2, Vector3 } from '../../types/vector.ts';
+import { Vector2, Vector3, Vector4 } from '../../types/vector.ts';
 import { EasingsFn } from '../../utils/easings.ts';
 import { clamp } from '../../utils/math.ts';
 
@@ -183,10 +182,48 @@ export function fixStringAry(value: unknown[], defaultValue: string): string[] {
 const easingsList = Object.keys(EasingsFn) as Easings[];
 const modifiersList: PointModifier[] = ['opNone', 'opAdd', 'opSub', 'opMul', 'opMul'];
 
-export function fixPercentPointDefinition(
+export function fixVector2(value: unknown, defaultValue: Vector2): Vector2 {
+    return Array.isArray(value)
+        ? [fixFloat(value.at(0), defaultValue[0]), fixFloat(value.at(1), defaultValue[1])]
+        : defaultValue;
+}
+
+export function fixVector3(value: unknown, defaultValue: Vector3): Vector3 {
+    return Array.isArray(value)
+        ? [
+            fixFloat(value.at(0), defaultValue[0]),
+            fixFloat(value.at(1), defaultValue[1]),
+            fixFloat(value.at(2), defaultValue[2]),
+        ]
+        : defaultValue;
+}
+
+export function fixVector4(value: unknown, defaultValue: Vector4): Vector4 {
+    return Array.isArray(value)
+        ? [
+            fixFloat(value.at(0), defaultValue[0]),
+            fixFloat(value.at(1), defaultValue[1]),
+            fixFloat(value.at(2), defaultValue[2]),
+            fixFloat(value.at(3), defaultValue[3]),
+        ]
+        : defaultValue;
+}
+
+export function fixColor(value: unknown, defaultValue: ColorArray): ColorArray {
+    return Array.isArray(value)
+        ? [
+            fixFloat(value.at(0), defaultValue[0]),
+            fixFloat(value.at(1), defaultValue[1]),
+            fixFloat(value.at(2), defaultValue[2]),
+            fixFloat(value.at(3), defaultValue.at(3) ?? 1),
+        ]
+        : defaultValue;
+}
+
+export function fixFloatPointDefinition(
     value: unknown,
     defaultValue: number,
-): PercentPointDefinition[] {
+): FloatPointDefinition[] {
     return Array.isArray(value)
         ? value
             .filter((ary) => Array.isArray(ary))
@@ -194,7 +231,7 @@ export function fixPercentPointDefinition(
                 const temp = [
                     fixFloat(elm.at(0), defaultValue),
                     fixFloat(elm.at(1), 1, 0, 1),
-                ] as PercentPointDefinition;
+                ] as FloatPointDefinition;
                 if (elm.length > 2) {
                     const attr = elm.slice(3).filter((e) => typeof e === 'string');
                     const ease = attr.find((e) => easingsList.includes(e as Easings));
@@ -211,61 +248,10 @@ export function fixPercentPointDefinition(
                         temp[idx++] = modifier as PointModifier;
                     }
                 }
-                return temp as PercentPointDefinition;
+                return temp as FloatPointDefinition;
             })
         : [];
 }
-
-export function fixVector2(value: unknown, defaultValue: Vector2): Vector2 {
-    return Array.isArray(value)
-        ? [fixFloat(value.at(0), defaultValue[0]), fixFloat(value.at(1), defaultValue[1])]
-        : defaultValue;
-}
-
-export function fixVector2PointDefinition(
-    value: unknown,
-    defaultValue: Vector2,
-): Vector2PointDefinition[] {
-    return Array.isArray(value)
-        ? value
-            .filter((ary) => Array.isArray(ary))
-            .map((elm: unknown[]) => {
-                const temp = [
-                    fixFloat(elm.at(0), defaultValue[0]),
-                    fixFloat(elm.at(1), defaultValue[1]),
-                    fixFloat(elm.at(2), 1, 0, 1),
-                ] as Vector2PointDefinition;
-                if (elm.length > 3) {
-                    const attr = elm.slice(3).filter((e) => typeof e === 'string');
-                    const ease = attr.find((e) => easingsList.includes(e as Easings));
-                    const spline = attr.find((e) => e === 'splineCatmullRom');
-                    const modifier = attr.find((e) => modifiersList.includes(e as PointModifier));
-                    let idx = 3;
-                    if (ease) {
-                        temp[idx++] = ease as Easings;
-                    }
-                    if (spline) {
-                        temp[idx++] = spline as 'splineCatmullRom';
-                    }
-                    if (modifier) {
-                        temp[idx++] = modifier as PointModifier;
-                    }
-                }
-                return temp as Vector2PointDefinition;
-            })
-        : [];
-}
-
-export function fixVector3(value: unknown, defaultValue: Vector3): Vector3 {
-    return Array.isArray(value)
-        ? [
-            fixFloat(value.at(0), defaultValue[0]),
-            fixFloat(value.at(1), defaultValue[1]),
-            fixFloat(value.at(2), defaultValue[2]),
-        ]
-        : defaultValue;
-}
-
 export function fixVector3PointDefinition(
     value: unknown,
     defaultValue: Vector3,
@@ -301,21 +287,10 @@ export function fixVector3PointDefinition(
         : [];
 }
 
-export function fixColor(value: unknown, defaultValue: ColorArray): ColorArray {
-    return Array.isArray(value)
-        ? [
-            fixFloat(value.at(0), defaultValue[0]),
-            fixFloat(value.at(1), defaultValue[1]),
-            fixFloat(value.at(2), defaultValue[2]),
-            fixFloat(value.at(3), defaultValue.at(3) ?? 1),
-        ]
-        : defaultValue;
-}
-
-export function fixColorPointDefinition(
+export function fixVector4PointDefinition(
     value: unknown,
-    defaultValue: ColorArray,
-): ColorPointDefinition[] {
+    defaultValue: Vector4,
+): Vector4PointDefinition[] {
     return Array.isArray(value)
         ? value
             .filter((ary) => Array.isArray(ary))
@@ -324,9 +299,9 @@ export function fixColorPointDefinition(
                     fixFloat(value.at(0), defaultValue[0]),
                     fixFloat(value.at(1), defaultValue[1]),
                     fixFloat(value.at(2), defaultValue[2]),
-                    fixFloat(value.at(3), defaultValue[3] ?? 1),
+                    fixFloat(value.at(3), defaultValue[3]),
                     fixFloat(elm.at(4), 1, 0, 1),
-                ] as ColorPointDefinition;
+                ] as Vector4PointDefinition;
                 if (elm.length > 5) {
                     const attr = elm.slice(5).filter((e) => typeof e === 'string');
                     const ease = attr.find((e) => easingsList.includes(e as Easings));
@@ -343,7 +318,7 @@ export function fixColorPointDefinition(
                         temp[idx++] = modifier as PointModifier;
                     }
                 }
-                return temp as ColorPointDefinition;
+                return temp as Vector4PointDefinition;
             })
         : [];
 }

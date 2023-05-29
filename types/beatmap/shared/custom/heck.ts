@@ -1,12 +1,7 @@
 import { Easings } from '../../../easings.ts';
-import { Vector2, Vector3 } from '../../../vector.ts';
-export type PercentPointDefinition = [
+import { Vector3, Vector4 } from '../../../vector.ts';
+export type FloatPointDefinition = [
     percent: number,
-    time: number,
-    ...options: (Easings | PointFlag | PointModifier)[],
-];
-export type Vector2PointDefinition = [
-    ...vector2: Vector2,
     time: number,
     ...options: (Easings | PointFlag | PointModifier)[],
 ];
@@ -14,6 +9,11 @@ export type Vector3PointDefinition = [
     ...vector3: Vector3,
     time: number,
     ...options: (Easings | PointFlag | PointModifier)[],
+];
+export type Vector4PointDefinition = [
+    ...vector4: Vector4,
+    time: number,
+    ...options: ('lerpHSV' | Easings | PointFlag | PointModifier)[],
 ];
 
 export interface IInfoSettingsCustomData {

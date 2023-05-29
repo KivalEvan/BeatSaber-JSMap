@@ -1,12 +1,4 @@
-import { ColorArray } from '../../../colors.ts';
-import { Easings } from '../../../easings.ts';
-import { IInfoSettingsCustomData, PointFlag, PointModifier } from './heck.ts';
-
-export type ColorPointDefinition = [
-    ...rgba: Required<ColorArray>,
-    time: number,
-    ...options: ('lerpHSV' | Easings | PointFlag | PointModifier)[],
-];
+import { IInfoSettingsCustomData } from './heck.ts';
 
 export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
 
