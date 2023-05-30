@@ -25,7 +25,7 @@ export class Logger {
 
     #logLevel = LogLevels.INFO;
     #tagPrint: (tags: string[], level: LogLevels) => string = (tags, level) =>
-        `${Logger.LogPrefixes.get(level)} ${dim('>')} [${tags.join('::')}]`;
+        `${Logger.LogPrefixes.get(level)} ${dim('>')} [${dim(tags.join('::'))}]`;
     #untagged = 'script';
 
     set logLevel(value: LogLevels) {
