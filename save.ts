@@ -67,7 +67,7 @@ function _info(data: IInfo, options: ISaveOptionsInfo) {
         filePath: options.filePath ?? (defaultOptions.info.filePath || 'Info.dat'),
         format: options.format ?? defaultOptions.info.format,
         optimize: options.optimize ?? defaultOptions.info.optimize,
-        validate: options.optimize ?? defaultOptions.info.validate,
+        validate: options.validate ?? defaultOptions.info.validate,
     };
     if (opt.optimize.enabled) {
         optimize.info(data, opt.optimize);
@@ -107,7 +107,7 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
             (data.fileName || defaultOptions.difficulty.filePath || 'UnnamedDifficulty.dat'),
         format: options.format ?? defaultOptions.info.format,
         optimize: options.optimize ?? defaultOptions.info.optimize,
-        validate: options.optimize ?? defaultOptions.info.validate,
+        validate: options.validate ?? defaultOptions.info.validate,
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     if (opt.validate.enabled) {
@@ -188,7 +188,7 @@ function _difficultyList(difficulties: IDifficultyList, options: ISaveOptionsDif
             (globals.directory || defaultOptions.difficultyList.directory),
         format: options.format ?? defaultOptions.info.format,
         optimize: options.optimize ?? defaultOptions.info.optimize,
-        validate: options.optimize ?? defaultOptions.info.validate,
+        validate: options.validate ?? defaultOptions.info.validate,
         dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
     };
     difficulties.forEach((dl) => {
