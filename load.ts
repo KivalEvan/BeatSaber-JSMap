@@ -140,6 +140,40 @@ function _difficulty(
             if (version === 2) return toV2(diff);
             if (version === 3) return toV3(diff);
         }
+        if (jsonVersion === 2) {
+            const diff = parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(filePath);
+            if (version === 1) {
+                return toV1(
+                    diff,
+                    {
+                        _version: '2.0.0',
+                        _songName: 'placeholder',
+                        _songSubName: '',
+                        _songAuthorName: 'author',
+                        _levelAuthorName: '',
+                        _beatsPerMinute: 0,
+                        _shuffle: 0,
+                        _shufflePeriod: 0.5,
+                        _previewStartTime: 12,
+                        _previewDuration: 10,
+                        _songFilename: 'song.ogg',
+                        _coverImageFilename: 'cover.jpg',
+                        _environmentName: 'DefaultEnvironment',
+                        _allDirectionsEnvironmentName: 'GlassDesertEnvironment',
+                        _songTimeOffset: 0,
+                        _difficultyBeatmapSets: [],
+                    },
+                    {
+                        _difficulty: 'Easy',
+                        _difficultyRank: 1,
+                        _beatmapFilename: filePath,
+                        _noteJumpMovementSpeed: 0,
+                        _noteJumpStartBeatOffset: 0,
+                    },
+                );
+            }
+            if (version === 3) return toV3(diff);
+        }
         if (jsonVersion === 3) {
             const diff = parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(filePath);
             if (version === 2) return toV2(diff);
