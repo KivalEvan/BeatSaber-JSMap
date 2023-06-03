@@ -20,11 +20,9 @@ export function pickRandom<T>(ary: T[], fn = Math.random): T {
  *
  * Works best with only primitive objects. Use `structuredClone()` for more complicated objects.
  */
-export function deepCopy<T extends { [P in keyof T]: T[P] }>(object: T): T;
-export function deepCopy<T extends { [P in keyof T]: T[P] }>(object: T[]): T[];
-export function deepCopy<T extends { [P in keyof T]: T[P] }>(object: T | T[]): T | T[] {
-    if (typeof object !== 'object') {
-        throw new Error('Received non-object type');
+export function deepCopy<T>(object: T): T {
+    if (typeof object !== 'object' || typeof object === null || typeof object === undefined) {
+        return object;
     }
     return JSON.parse(JSON.stringify(object));
 }

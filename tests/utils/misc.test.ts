@@ -45,15 +45,18 @@ Deno.test('Deep Copy', () => {
     );
     assertEquals(misc.deepCopy(null), null); // i mean yea it works and expected
 
-    // unacceptable
-    assertThrows(() => misc.deepCopy(''));
-    assertThrows(() => misc.deepCopy(0));
-    assertThrows(() => misc.deepCopy(false));
-    assertThrows(() => misc.deepCopy(Boolean()));
-    assertThrows(() => misc.deepCopy(undefined));
-    assertThrows(() => misc.deepCopy(() => {}));
-    // assertThrows(() => misc.deepCopy(new Date())); // FIXME: figure out if this is even valid
-    // assertThrows(() => misc.deepCopy(new Boolean()));
+    // non object stuff
+    assertEquals(misc.deepCopy(''), '');
+    assertEquals(misc.deepCopy(0), 0);
+    assertEquals(misc.deepCopy(false), false);
+    assertEquals(misc.deepCopy(Boolean()), Boolean());
+    assertEquals(misc.deepCopy(undefined), undefined);
+    const fn = () => {};
+    assertEquals(misc.deepCopy(fn), fn);
+    const date = new Date();
+    // assertEquals(misc.deepCopy(date)); // FIXME: figure out if this is even valid
+    const boolean = new Boolean();
+    // assertEquals(misc.deepCopy(boolean), boolean);
 });
 
 Deno.test('Is Hexadecimal', () => {

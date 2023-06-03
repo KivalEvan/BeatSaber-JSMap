@@ -221,7 +221,7 @@ export function normalize(value: number, min: number, max: number): number {
         return 1;
     }
     const result = (value - min) / (max - min);
-    logger.verbose(tag('normalize'), `Obtained ${result}`);
+    logger.tVerbose(tag('normalize'), `Obtained ${result}`);
     return result;
 }
 
@@ -239,7 +239,7 @@ export function lerp(alpha: number, start: number, end: number, easing?: EasingF
         logger.tWarn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
     }
     const result = start + (end - start) * easing(alpha);
-    logger.verbose(tag('lerp'), `Obtained ${result}`);
+    logger.tVerbose(tag('lerp'), `Obtained ${result}`);
     return result;
 }
 
