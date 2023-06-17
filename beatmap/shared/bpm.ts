@@ -29,27 +29,27 @@ export class BeatPerMinute {
             | Omit<IWrapBPMEventAttribute, 'customData'>
             | IBPMTimeScale
         )[] = [],
-        offset: number = 0
+        offset: number = 0,
     ) {
         this._bpm = bpm;
         this._offset = offset / 1000;
         this._timeScale = this.getTimeScale(
             bpmChange.filter(
-                (bc) => ('m' in bc || 'bpm' in bc || 'timescale' in bc) && !('o' in bc)
-            ) as IBPMEvent[]
+                (bc) => ('m' in bc || 'bpm' in bc || 'timescale' in bc) && !('o' in bc),
+            ) as IBPMEvent[],
         );
         this._bpmChange = this.getBpmChangeTime(
             bpmChange.filter(
                 (bc) =>
                     ('BPM' in bc && 'metronomeOffset' in bc) ||
                     (('_bpm' in bc || '_BPM' in bc) && '_metronomeOffset' in bc) ||
-                    ('m' in bc && 'o' in bc)
-            ) as (IBPMChangeV2 | IBPMChangeOld | IBPMChangeV3)[]
+                    ('m' in bc && 'o' in bc),
+            ) as (IBPMChangeV2 | IBPMChangeOld | IBPMChangeV3)[],
         );
         if (this._timeScale.length && this._bpmChange.length) {
             logger.tWarn(
                 tag('constructor'),
-                'BPM change and BPM event should not be used along side together to avoid confusion between editors and in-game behaviour'
+                'BPM change and BPM event should not be used along side together to avoid confusion between editors and in-game behaviour',
             );
         }
     }
@@ -69,7 +69,7 @@ export class BeatPerMinute {
             | Omit<IWrapBPMEventAttribute, 'customData'>
             | IBPMTimeScale
         )[],
-        offset?: number
+        offset?: number,
     ): BeatPerMinute => {
         return new BeatPerMinute(bpm, bpmChange, offset);
     };
@@ -105,39 +105,35 @@ export class BeatPerMinute {
      * ```
      */
     private getBpmChangeTime(
-        bpmc: (IBPMChangeTime | IBPMChangeV2 | IBPMChangeOld | IBPMChangeV3)[] = []
+        bpmc: (IBPMChangeTime | IBPMChangeV2 | IBPMChangeOld | IBPMChangeV3)[] = [],
     ): IBPMChangeTime[] {
         let temp!: IBPMChangeTime;
         const bpmChange: IBPMChangeTime[] = [];
         bpmc = [...bpmc].sort(
             (a, b) =>
                 ((a as IBPMChangeTime).time ?? (a as IBPMChangeV2)._time ?? (a as IBPMChangeV3).b) -
-                ((b as IBPMChangeTime).time ?? (b as IBPMChangeV2)._time ?? (b as IBPMChangeV3).b)
+                ((b as IBPMChangeTime).time ?? (b as IBPMChangeV2)._time ?? (b as IBPMChangeV3).b),
         );
         for (let i = 0; i < bpmc.length; i++) {
             const curBPMC: IBPMChangeTime = {
-                time:
-                    (bpmc[i] as IBPMChangeTime).time ??
+                time: (bpmc[i] as IBPMChangeTime).time ??
                     (bpmc[i] as IBPMChangeV2)._time ??
                     (bpmc[i] as IBPMChangeV3).b,
-                BPM:
-                    (bpmc[i] as IBPMChangeTime).BPM ??
+                BPM: (bpmc[i] as IBPMChangeTime).BPM ??
                     (bpmc[i] as IBPMChangeV2)._BPM ??
                     (bpmc[i] as IBPMChangeOld)._bpm ??
                     (bpmc[i] as IBPMChangeV3).m,
-                beatsPerBar:
-                    (bpmc[i] as IBPMChangeTime).beatsPerBar ??
+                beatsPerBar: (bpmc[i] as IBPMChangeTime).beatsPerBar ??
                     (bpmc[i] as IBPMChangeV2)._beatsPerBar ??
                     (bpmc[i] as IBPMChangeV3).p,
-                metronomeOffset:
-                    (bpmc[i] as IBPMChangeTime).metronomeOffset ??
+                metronomeOffset: (bpmc[i] as IBPMChangeTime).metronomeOffset ??
                     (bpmc[i] as IBPMChangeV2)._metronomeOffset ??
                     (bpmc[i] as IBPMChangeV3).o,
                 newTime: 0,
             };
             if (temp) {
                 curBPMC.newTime = Math.ceil(
-                    ((curBPMC.time - temp.time) / this._bpm) * temp.BPM + temp.newTime - 0.01
+                    ((curBPMC.time - temp.time) / this._bpm) * temp.BPM + temp.newTime - 0.01,
                 );
             } else {
                 curBPMC.newTime = Math.ceil(curBPMC.time - (this._offset * this._bpm) / 60 - 0.01);
@@ -154,13 +150,13 @@ export class BeatPerMinute {
      * ```
      */
     private getTimeScale(
-        bpmc: (IBPMTimeScale | IBPMEvent | Omit<IWrapBPMEventAttribute, 'customData'>)[] = []
+        bpmc: (IBPMTimeScale | IBPMEvent | Omit<IWrapBPMEventAttribute, 'customData'>)[] = [],
     ): IBPMTimeScale[] {
         return [...bpmc]
             .sort(
                 (a, b) =>
                     ((a as IWrapBPMEventAttribute).time ?? (a as IBPMChangeV3).b) -
-                    ((b as IWrapBPMEventAttribute).time ?? (b as IBPMChangeV3).b)
+                    ((b as IWrapBPMEventAttribute).time ?? (b as IBPMChangeV3).b),
             )
             .map((el) => {
                 if ('scale' in el) return el;

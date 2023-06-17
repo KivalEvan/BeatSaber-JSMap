@@ -6,6 +6,7 @@
 export * from './arc.ts';
 export * from './baseItem.ts';
 export * from './baseNote.ts';
+export * from './baseObject.ts';
 export * from './baseSlider.ts';
 export * from './bombNote.ts';
 export * from './bpmEvent.ts';
