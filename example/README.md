@@ -53,7 +53,7 @@ const info = load.infoSync(); // not required
 
 const data = load.difficultySync('HardStandard.dat'); // auto convert to v3 if it is not
 const data2 = await load.difficulty('ExpertStandard.dat', 2, {
-    directory: '/somewhere/else',
+   directory: '/somewhere/else',
 }); // advanced use, use or convert to v2
 ```
 
@@ -62,8 +62,8 @@ save.infoSync(info);
 
 save.difficultySync(data);
 await save.difficulty(data2, {
-    directory: '/somewhere/else',
-    filePath: 'overrideName.dat',
+   directory: '/somewhere/else',
+   filePath: 'overrideName.dat',
 }); // advanced use
 ```
 
@@ -106,14 +106,14 @@ wrapped field when presented.
 ```ts
 const bomb = v3.BombNote.create();
 const notes = v3.ColorNote.create(
-    {},
-    { b: 1, x: 0, y: 1 },
-    {
-        time: 2,
-        posX: 1,
-        posY: 0,
-    },
-    { b: 2, color: 1 },
+   {},
+   { b: 1, x: 0, y: 1 },
+   {
+      time: 2,
+      posX: 1,
+      posY: 0,
+   },
+   { b: 2, color: 1 },
 );
 data.colorNotes.push(...notes);
 ```
@@ -123,15 +123,15 @@ into an array. This also allows insertion of an already instantiated object.
 
 ```ts
 data.addBasicEvents(
-    { et: 3 },
-    { time: 2, type: 1, value: 3 },
-    {
-        b: 5,
-        type: 2,
-        value: 7,
-        f: 1,
-    },
-    {},
+   { et: 3 },
+   { time: 2, type: 1, value: 3 },
+   {
+      b: 5,
+      type: 2,
+      value: 7,
+      f: 1,
+   },
+   {},
 );
 data.addBasicEvents(...events);
 ```
@@ -152,11 +152,11 @@ One liner or method chaining can be proven powerful in certain case scenarios.
 
 ```ts
 const clones = notes.map((n) =>
-    n
-        .clone()
-        .setTime(n.time + 4)
-        .setDirection(8)
-        .addCustomData({ color: [1, 1, 1] })
+   n
+      .clone()
+      .setTime(n.time + 4)
+      .setDirection(8)
+      .addCustomData({ color: [1, 1, 1] })
 );
 ```
 
@@ -167,17 +167,17 @@ used to make your script slightly more readable but it is not necessarily needed
 
 ```ts
 const note = v3.ColorNotes.create({
-    b: 24,
-    c: NoteColor.RED,
-    d: NoteDirection.ANY,
-    x: PositionX.MIDDLE_LEFT,
-    y: PositionY.BOTTOM,
+   b: 24,
+   c: NoteColor.RED,
+   d: NoteDirection.ANY,
+   x: PositionX.MIDDLE_LEFT,
+   y: PositionY.BOTTOM,
 })[0];
 
 data.addBasicEvents({
-    time: 10,
-    type: EventType.BACK_LASERS,
-    value: EventLightValue.WHITE_FADE,
+   time: 10,
+   type: EventType.BACK_LASERS,
+   value: EventLightValue.WHITE_FADE,
 });
 ```
 
@@ -262,6 +262,6 @@ possible but you may lose the ability to use certain utilities built around it.
 ```ts
 const difficulty = load.difficultySync('ExpertPlusStandard.dat').toJSON();
 const difficultyJSON = JSON.parse(
-    Deno.readTextFileSync('ExpertPlusStandard.dat'),
+   Deno.readTextFileSync('ExpertPlusStandard.dat'),
 ) as types.v3.IDifficulty; // unsafe
 ```

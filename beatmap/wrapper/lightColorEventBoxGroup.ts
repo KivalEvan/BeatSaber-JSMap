@@ -4,18 +4,18 @@ import { WrapEventBoxGroup } from './eventBoxGroup.ts';
 
 /** Light color event box group beatmap class object. */
 export abstract class WrapLightColorEventBoxGroup<
-    TGroup extends { [P in keyof TGroup]: TGroup[P] },
-    TBox extends { [P in keyof TBox]: TBox[P] },
-    TBase extends { [P in keyof TBase]: TBase[P] },
-    TFilter extends { [P in keyof TFilter]: TFilter[P] },
+   TGroup extends { [P in keyof TGroup]: TGroup[P] },
+   TBox extends { [P in keyof TBox]: TBox[P] },
+   TBase extends { [P in keyof TBase]: TBase[P] },
+   TFilter extends { [P in keyof TFilter]: TFilter[P] },
 > extends WrapEventBoxGroup<TGroup, TBox, TBase, TFilter>
-    implements IWrapLightColorEventBoxGroup<TGroup, TBox, TBase, TFilter> {
-    declare protected _boxes: IWrapLightColorEventBox<TBox, TBase, TFilter>[];
+   implements IWrapLightColorEventBoxGroup<TGroup, TBox, TBase, TFilter> {
+   declare protected _boxes: IWrapLightColorEventBox<TBox, TBase, TFilter>[];
 
-    get boxes(): IWrapLightColorEventBox<TBox, TBase, TFilter>[] {
-        return this._boxes;
-    }
-    set boxes(value: IWrapLightColorEventBox<TBox, TBase, TFilter>[]) {
-        this._boxes = value;
-    }
+   get boxes(): IWrapLightColorEventBox<TBox, TBase, TFilter>[] {
+      return this._boxes;
+   }
+   set boxes(value: IWrapLightColorEventBox<TBox, TBase, TFilter>[]) {
+      this._boxes = value;
+   }
 }

@@ -2,39 +2,39 @@ import { IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './optimize.ts'
 import { IBaseOptions } from './options.ts';
 
 export interface ISaveValidate {
-    enabled: boolean;
-    reparse?: boolean;
+   enabled: boolean;
+   reparse?: boolean;
 }
 
 export interface ISaveOptionsInfo extends IBaseOptions {
-    /** Set info destination file path/name. */
-    filePath?: string;
-    format?: number;
-    optimize?: IOptimizeOptionsInfo;
-    validate?: ISaveValidate;
+   /** Set info destination file path/name. */
+   filePath?: string;
+   format?: number;
+   optimize?: IOptimizeOptionsInfo;
+   validate?: ISaveValidate;
 }
 
 export interface ISaveOptionsDifficulty extends IBaseOptions {
-    /** Set difficulty destination file path.
-     *
-     * **NOTE:** Overrides class file name.
-     */
-    filePath?: string;
-    format?: number;
-    optimize?: IOptimizeOptionsDifficulty;
-    validate?: ISaveValidate;
-    dataCheck?: {
-        enabled: boolean;
-        throwError?: boolean;
-    };
+   /** Set difficulty destination file path.
+    *
+    * **NOTE:** Overrides class file name.
+    */
+   filePath?: string;
+   format?: number;
+   optimize?: IOptimizeOptionsDifficulty;
+   validate?: ISaveValidate;
+   dataCheck?: {
+      enabled: boolean;
+      throwError?: boolean;
+   };
 }
 
 export interface ISaveOptionsDifficultyList extends IBaseOptions {
-    format?: number;
-    optimize?: IOptimizeOptionsDifficulty;
-    validate?: ISaveValidate;
-    dataCheck?: {
-        enabled: boolean;
-        throwError?: boolean;
-    };
+   format?: number;
+   optimize?: IOptimizeOptionsDifficulty;
+   validate?: ISaveValidate;
+   dataCheck?: {
+      enabled: boolean;
+      throwError?: boolean;
+   };
 }

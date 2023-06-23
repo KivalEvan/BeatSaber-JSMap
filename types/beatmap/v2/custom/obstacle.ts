@@ -5,8 +5,8 @@ import { IHeckBase } from './heck.ts';
 import { INEObstacle } from './noodleExtensions.ts';
 
 export type ICustomDataObstacle =
-    & ICustomDataBase
-    & IHeckBase
-    & IChromaObstacle
-    & INEObstacle
-    & IAnimation;
+   & ICustomDataBase
+   & IHeckBase
+   & IChromaObstacle
+   & INEObstacle
+   & IAnimation;

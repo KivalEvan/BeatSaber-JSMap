@@ -9,21 +9,21 @@ import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
  * ```
  */
 export function at<T extends IWrapBaseObject>(
-    objects: T[],
-    times: number | number[],
-    bpm?: BeatPerMinute | null,
+   objects: T[],
+   times: number | number[],
+   bpm?: BeatPerMinute | null,
 ): T[] {
-    bpm = bpm ?? settings.BPM;
-    if (Array.isArray(times)) {
-        return objects.filter((o) =>
-            times.some((
-                time,
-            ) => (bpm ? bpm.adjustTime(o.time) === time : o.time === time))
-        );
-    }
-    return objects.filter((
-        o,
-    ) => (bpm ? bpm.adjustTime(o.time) === times : o.time === times));
+   bpm = bpm ?? settings.BPM;
+   if (Array.isArray(times)) {
+      return objects.filter((o) =>
+         times.some((
+            time,
+         ) => (bpm ? bpm.adjustTime(o.time) === time : o.time === time))
+      );
+   }
+   return objects.filter((
+      o,
+   ) => (bpm ? bpm.adjustTime(o.time) === times : o.time === times));
 }
 
 /** Return objects at given time range, adjusted by BPM change if provided.
@@ -33,17 +33,17 @@ export function at<T extends IWrapBaseObject>(
  * ```
  */
 export function between<T extends IWrapBaseObject>(
-    objects: T[],
-    from: number,
-    to: number,
-    bpm?: BeatPerMinute | null,
+   objects: T[],
+   from: number,
+   to: number,
+   bpm?: BeatPerMinute | null,
 ): T[] {
-    bpm = bpm ?? settings.BPM;
-    return objects.filter((o) =>
-        bpm
-            ? bpm.adjustTime(o.time) >= from && bpm.adjustTime(o.time) <= to
-            : o.time >= from && o.time <= to
-    );
+   bpm = bpm ?? settings.BPM;
+   return objects.filter((o) =>
+      bpm
+         ? bpm.adjustTime(o.time) >= from && bpm.adjustTime(o.time) <= to
+         : o.time >= from && o.time <= to
+   );
 }
 
 /** Return objects before specified time, adjusted by BPM change if provided.
@@ -53,14 +53,14 @@ export function between<T extends IWrapBaseObject>(
  * ```
  */
 export function before<T extends IWrapBaseObject>(
-    objects: T[],
-    before: number,
-    bpm?: BeatPerMinute | null,
+   objects: T[],
+   before: number,
+   bpm?: BeatPerMinute | null,
 ): T[] {
-    bpm = bpm ?? settings.BPM;
-    return objects.filter((
-        o,
-    ) => (bpm ? bpm.adjustTime(o.time) > before : o.time > before));
+   bpm = bpm ?? settings.BPM;
+   return objects.filter((
+      o,
+   ) => (bpm ? bpm.adjustTime(o.time) > before : o.time > before));
 }
 
 /** Return objects after specified time, adjusted by BPM change if provided.
@@ -70,12 +70,12 @@ export function before<T extends IWrapBaseObject>(
  * ```
  */
 export function after<T extends IWrapBaseObject>(
-    objects: T[],
-    after: number,
-    bpm?: BeatPerMinute | null,
+   objects: T[],
+   after: number,
+   bpm?: BeatPerMinute | null,
 ): T[] {
-    bpm = bpm ?? settings.BPM;
-    return objects.filter((
-        o,
-    ) => (bpm ? bpm.adjustTime(o.time) > after : o.time > after));
+   bpm = bpm ?? settings.BPM;
+   return objects.filter((
+      o,
+   ) => (bpm ? bpm.adjustTime(o.time) > after : o.time > after));
 }

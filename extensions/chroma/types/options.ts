@@ -1,4 +1,4 @@
 export interface SetOptions {
-    offsetStart: number;
-    offsetEnd: number;
+   offsetStart: number;
+   offsetEnd: number;
 }

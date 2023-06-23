@@ -10,38 +10,38 @@ import { Difficulty as DifficultyV3 } from './v3/difficulty.ts';
 export function isV1(data: IWrapDifficultyAttribute): data is DifficultyV1;
 export function isV1(data: { [key: string]: any }): data is IDifficultyV1;
 export function isV1(data: unknown) {
-    return (
-        data instanceof DifficultyV1 ||
-        (typeof data === 'object' &&
-            data != null &&
-            '_version' in data &&
-            typeof data._version === 'string' &&
-            data._version.startsWith('1'))
-    );
+   return (
+      data instanceof DifficultyV1 ||
+      (typeof data === 'object' &&
+         data != null &&
+         '_version' in data &&
+         typeof data._version === 'string' &&
+         data._version.startsWith('1'))
+   );
 }
 
 export function isV2(data: IWrapDifficultyAttribute): data is DifficultyV2;
 export function isV2(data: { [key: string]: any }): data is IDifficultyV2;
 export function isV2(data: unknown) {
-    return (
-        data instanceof DifficultyV2 ||
-        (typeof data === 'object' &&
-            data != null &&
-            '_version' in data &&
-            typeof data._version === 'string' &&
-            data._version.startsWith('2'))
-    );
+   return (
+      data instanceof DifficultyV2 ||
+      (typeof data === 'object' &&
+         data != null &&
+         '_version' in data &&
+         typeof data._version === 'string' &&
+         data._version.startsWith('2'))
+   );
 }
 
 export function isV3(data: IWrapDifficultyAttribute): data is DifficultyV3;
 export function isV3(data: { [key: string]: any }): data is IDifficultyV3;
 export function isV3(data: unknown) {
-    return (
-        data instanceof DifficultyV3 ||
-        (typeof data === 'object' &&
-            data != null &&
-            'version' in data &&
-            typeof data.version === 'string' &&
-            data.version.startsWith('3'))
-    );
+   return (
+      data instanceof DifficultyV3 ||
+      (typeof data === 'object' &&
+         data != null &&
+         'version' in data &&
+         typeof data.version === 'string' &&
+         data.version.startsWith('3'))
+   );
 }

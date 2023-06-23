@@ -8,14 +8,14 @@ import { random } from '../../../utils/math.ts';
  * ```
  */
 export function randomFlip(
-    notes: ColorNote[],
-    range: [Vector2, Vector2],
+   notes: ColorNote[],
+   range: [Vector2, Vector2],
 ): void {
-    const [xVec, yVec] = range.map((r) => r.sort((a, b) => a - b));
-    notes.forEach((n) => {
-        n.customData.flip = [
-            random(xVec[0], xVec[1]),
-            random(yVec[0], yVec[1]),
-        ];
-    });
+   const [xVec, yVec] = range.map((r) => r.sort((a, b) => a - b));
+   notes.forEach((n) => {
+      n.customData.flip = [
+         random(xVec[0], xVec[1]),
+         random(yVec[0], yVec[1]),
+      ];
+   });
 }

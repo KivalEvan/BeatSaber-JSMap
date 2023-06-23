@@ -8,27 +8,27 @@ import { Obstacle } from '../../beatmap/v3/obstacle.ts';
  * ```
  */
 export function countObstacle(obstacles: Obstacle[]): IObstacleCount {
-    const obstacleCount: IObstacleCount = {
-        total: 0,
-        interactive: 0,
-        chroma: 0,
-        noodleExtensions: 0,
-        mappingExtensions: 0,
-    };
-    for (let i = obstacles.length - 1; i > -1; i--) {
-        obstacleCount.total++;
-        if (obstacles[i].isInteractive()) {
-            obstacleCount.interactive++;
-        }
-        if (obstacles[i].isChroma()) {
-            obstacleCount.chroma++;
-        }
-        if (obstacles[i].isNoodleExtensions()) {
-            obstacleCount.noodleExtensions++;
-        }
-        if (obstacles[i].isMappingExtensions()) {
-            obstacleCount.mappingExtensions++;
-        }
-    }
-    return obstacleCount;
+   const obstacleCount: IObstacleCount = {
+      total: 0,
+      interactive: 0,
+      chroma: 0,
+      noodleExtensions: 0,
+      mappingExtensions: 0,
+   };
+   for (let i = obstacles.length - 1; i > -1; i--) {
+      obstacleCount.total++;
+      if (obstacles[i].isInteractive()) {
+         obstacleCount.interactive++;
+      }
+      if (obstacles[i].isChroma()) {
+         obstacleCount.chroma++;
+      }
+      if (obstacles[i].isNoodleExtensions()) {
+         obstacleCount.noodleExtensions++;
+      }
+      if (obstacles[i].isMappingExtensions()) {
+         obstacleCount.mappingExtensions++;
+      }
+   }
+   return obstacleCount;
 }

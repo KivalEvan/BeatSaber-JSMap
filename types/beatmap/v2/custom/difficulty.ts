@@ -10,10 +10,10 @@ import { ICustomEvent } from './customEvent.ts';
  * @extends IChromaCustomData
  */
 export interface ICustomDataDifficulty extends ICustomDataBase, IChromaCustomData {
-    _customEvents?: ICustomEvent[];
-    _pointDefinitions?: IPointDefinition[];
-    _time?: number;
-    _bpmChanges?: IBPMChangeOld[];
-    _BPMChanges?: IBPMChange[];
-    _bookmarks?: IBookmark[];
+   _customEvents?: ICustomEvent[];
+   _pointDefinitions?: IPointDefinition[];
+   _time?: number;
+   _bpmChanges?: IBPMChangeOld[];
+   _BPMChanges?: IBPMChange[];
+   _bookmarks?: IBookmark[];
 }

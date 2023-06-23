@@ -6,31 +6,35 @@ import { IInfo } from '../../types/beatmap/shared/info.ts';
 import { IDifficultyList } from '../../types/bsmap/list.ts';
 
 export async function extract(
-    zipPath: string,
+   zipPath: string,
 ): Promise<{ info: IInfo; difficulties: IDifficultyList }> {
-    try {
-        fs.ensureDirSync(globals.directory + 'temp_bsmap_extract');
-        const location = await zip.decompress(zipPath, globals.directory + 'temp_bsmap_extract', {
+   try {
+      fs.ensureDirSync(globals.directory + 'temp_bsmap_extract');
+      const location = await zip.decompress(
+         zipPath,
+         globals.directory + 'temp_bsmap_extract',
+         {
             includeFileName: true,
-        });
-        let info: IInfo;
-        try {
-            info = load.infoSync({ directory: globals.directory + location });
-        } catch {
-            info = load.infoSync({
-                directory: globals.directory + location,
-                filePath: 'info.dat',
-            });
-        }
-        const list = load.difficultyFromInfoSync(info, {
+         },
+      );
+      let info: IInfo;
+      try {
+         info = load.infoSync({ directory: globals.directory + location });
+      } catch {
+         info = load.infoSync({
             directory: globals.directory + location,
-        });
-        return { info, difficulties: list };
-    } catch (e) {
-        throw e;
-    } finally {
-        Deno.removeSync(globals.directory + 'temp_bsmap_extract', {
-            recursive: true,
-        });
-    }
+            filePath: 'info.dat',
+         });
+      }
+      const list = load.difficultyFromInfoSync(info, {
+         directory: globals.directory + location,
+      });
+      return { info, difficulties: list };
+   } catch (e) {
+      throw e;
+   } finally {
+      Deno.removeSync(globals.directory + 'temp_bsmap_extract', {
+         recursive: true,
+      });
+   }
 }

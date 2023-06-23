@@ -16,13 +16,13 @@ import { IObstacle } from '../obstacle.ts';
  * @extends IChromaCustomData
  */
 export interface ICustomDataDifficulty extends ICustomDataBase, IHeckCustomData, IChromaCustomData {
-    fakeColorNotes?: IColorNote[];
-    fakeBurstSliders?: IChain[];
-    fakeBombNotes?: IBombNote[];
-    fakeObstacles?: IObstacle[];
-    customEvents?: ICustomEvent[];
-    pointDefinitions?: IPointDefinition;
-    time?: number;
-    BPMChanges?: IBPMChange[];
-    bookmarks?: IBookmark[];
+   fakeColorNotes?: IColorNote[];
+   fakeBurstSliders?: IChain[];
+   fakeBombNotes?: IBombNote[];
+   fakeObstacles?: IObstacle[];
+   customEvents?: ICustomEvent[];
+   pointDefinitions?: IPointDefinition;
+   time?: number;
+   BPMChanges?: IBPMChange[];
+   bookmarks?: IBookmark[];
 }

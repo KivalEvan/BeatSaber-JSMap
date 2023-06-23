@@ -7,25 +7,25 @@ import { Difficulty as DifficultyV3 } from '../../beatmap/v3/difficulty.ts';
 import { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
 
 interface IDifficultyListBase {
-    readonly characteristic: CharacteristicName;
-    readonly difficulty: DifficultyName;
-    readonly settings: IInfoSetDifficulty;
-    data: IWrapDifficulty;
+   readonly characteristic: CharacteristicName;
+   readonly difficulty: DifficultyName;
+   readonly settings: IInfoSetDifficulty;
+   data: IWrapDifficulty;
 }
 
 interface IDifficultyListV1 extends IDifficultyListBase {
-    version: 1;
-    data: DifficultyV1;
+   version: 1;
+   data: DifficultyV1;
 }
 
 interface IDifficultyListV2 extends IDifficultyListBase {
-    version: 2;
-    data: DifficultyV2;
+   version: 2;
+   data: DifficultyV2;
 }
 
 interface IDifficultyListV3 extends IDifficultyListBase {
-    version: 3;
-    data: DifficultyV3;
+   version: 3;
+   data: DifficultyV3;
 }
 
 export type IDifficultyList = (IDifficultyListV1 | IDifficultyListV2 | IDifficultyListV3)[];

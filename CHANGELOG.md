@@ -29,13 +29,14 @@
 - Changed type from `Record` to `Object` for known constants
 - Small refactor for BPM and NJS class
 - Updated Heck stuff
-- Recommended Deno version to 1.33.0+
+- Recommended Deno version to 1.34.0+
 - Only root-level file can contain platform-specific API
 
 ### Fixed
 
 - Missing NE and Chroma check
 - Missing wrapper and types export
+- Chroma gradient event convert properly
 - Possible floating-point error in NJS HJD calculation
 - Constants should throw TS error if modified (`environment`, `colorScheme`, etc.)
 

@@ -11,66 +11,66 @@ import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
  * ```
  */
 export function where<T extends IWrapBaseObject, U extends DeepPartialWrapper<T>>(
-    objects: T[],
-    filter: IFilter<U> = {},
+   objects: T[],
+   filter: IFilter<U> = {},
 ): T[] {
-    return objects
-        .filter((o) => {
-            let result = false;
-            for (const k in filter.include) {
-                const key = k as keyof T;
-                const value = filter.include[k];
-                if (key === 'customData' || key === '_customData') {
-                    if (o[key]) {
-                        result = (value as string[]).some((p) =>
-                            Object.keys((o as any)[key]).includes(p)
-                        );
-                        if (result) {
-                            break;
-                        }
-                    } else {
-                        continue;
-                    }
-                }
-                if (Array.isArray(value)) {
-                    result = value.some((p) => o[key] === p);
-                } else {
-                    result = o[key] === value;
-                }
-                if (result) {
-                    break;
-                }
+   return objects
+      .filter((o) => {
+         let result = false;
+         for (const k in filter.include) {
+            const key = k as keyof T;
+            const value = filter.include[k];
+            if (key === 'customData' || key === '_customData') {
+               if (o[key]) {
+                  result = (value as string[]).some((p) =>
+                     Object.keys((o as any)[key]).includes(p)
+                  );
+                  if (result) {
+                     break;
+                  }
+               } else {
+                  continue;
+               }
             }
-            return result;
-        })
-        .filter((o) => {
-            let result = false;
-            for (const k in filter.exclude) {
-                const key = k as keyof T;
-                const value = filter.exclude[k];
-                if (key === 'customData' || key === '_customData') {
-                    if (o[key]) {
-                        result = (value as string[]).some((p) =>
-                            Object.keys((o as any)[key]).includes(p)
-                        );
-                        if (result) {
-                            break;
-                        }
-                    } else {
-                        continue;
-                    }
-                }
-                if (Array.isArray(value)) {
-                    result = value.some((p) => o[key] === p);
-                } else {
-                    result = o[key] === value;
-                }
-                if (result) {
-                    break;
-                }
+            if (Array.isArray(value)) {
+               result = value.some((p) => o[key] === p);
+            } else {
+               result = o[key] === value;
             }
-            return !result;
-        });
+            if (result) {
+               break;
+            }
+         }
+         return result;
+      })
+      .filter((o) => {
+         let result = false;
+         for (const k in filter.exclude) {
+            const key = k as keyof T;
+            const value = filter.exclude[k];
+            if (key === 'customData' || key === '_customData') {
+               if (o[key]) {
+                  result = (value as string[]).some((p) =>
+                     Object.keys((o as any)[key]).includes(p)
+                  );
+                  if (result) {
+                     break;
+                  }
+               } else {
+                  continue;
+               }
+            }
+            if (Array.isArray(value)) {
+               result = value.some((p) => o[key] === p);
+            } else {
+               result = o[key] === value;
+            }
+            if (result) {
+               break;
+            }
+         }
+         return !result;
+      });
 }
 
 const d = new Difficulty();

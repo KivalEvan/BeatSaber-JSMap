@@ -32,7 +32,7 @@ verify the beatmap integrity.
 
 ## Prerequisite
 
-- Deno 1.33.0 or latest
+- Deno 1.34.0 or latest
 - Basic JavaScript or TypeScript knowledge
   - Module is entirely TypeScript, but for common use case you do not need in-depth knowledge.
 
