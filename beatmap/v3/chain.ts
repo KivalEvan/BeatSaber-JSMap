@@ -1,7 +1,6 @@
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { IChain } from '../../types/beatmap/v3/chain.ts';
 import { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
@@ -12,7 +11,7 @@ import { WrapChain } from '../wrapper/chain.ts';
  * Also known as burst slider internally.
  */
 export class Chain extends WrapChain<IChain> {
-   static default: ObjectReturnFn<IChain> = {
+   static default: Required<IChain> = {
       b: 0,
       c: 0,
       x: 0,
@@ -23,9 +22,7 @@ export class Chain extends WrapChain<IChain> {
       ty: 0,
       sc: 1,
       s: 1,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
@@ -45,18 +42,14 @@ export class Chain extends WrapChain<IChain> {
       this._tailPosY = data.tailPosY ?? data.ty ?? Chain.default.ty;
       this._sliceCount = data.sliceCount ?? data.sc ?? Chain.default.sc;
       this._squish = data.squish ?? data.s ?? Chain.default.s;
-      this._customData = data.customData ?? Chain.default.customData();
+      this._customData = deepCopy(data.customData ?? Chain.default.customData);
    }
 
    static create(): Chain[];
    static create(...data: Partial<IWrapChainAttribute<IChain>>[]): Chain[];
    static create(...data: Partial<IChain>[]): Chain[];
-   static create(
-      ...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]
-   ): Chain[];
-   static create(
-      ...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]
-   ): Chain[] {
+   static create(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): Chain[];
+   static create(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): Chain[] {
       const result: Chain[] = [];
       data.forEach((obj) => result.push(new this(obj)));
       if (result.length) {
@@ -98,8 +91,7 @@ export class Chain extends WrapChain<IChain> {
       if (this.customData.animation) {
          if (Array.isArray(this.customData.animation.definitePosition)) {
             if (isVector3(this.customData.animation.definitePosition)) {
-               this.customData.animation.definitePosition[0] = -this.customData
-                  .animation
+               this.customData.animation.definitePosition[0] = -this.customData.animation
                   .definitePosition[0];
             } else {
                this.customData.animation.definitePosition.forEach((dp) => {
@@ -167,10 +159,7 @@ export class Chain extends WrapChain<IChain> {
             return super.getTailPosition();
          case 'ne':
             if (this.customData.tailCoordinates) {
-               return [
-                  this.customData.tailCoordinates[0],
-                  this.customData.tailCoordinates[1],
-               ];
+               return [this.customData.tailCoordinates[0], this.customData.tailCoordinates[1]];
             }
          /** falls through */
          case 'me':

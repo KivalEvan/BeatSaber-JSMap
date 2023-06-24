@@ -1,22 +1,19 @@
 import { Vector2 } from '../../types/vector.ts';
 import { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
 import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Obstacle beatmap v2 class object. */
 export class Obstacle extends WrapObstacle<IObstacle> {
-   static default: ObjectReturnFn<IObstacle> = {
+   static default: Required<IObstacle> = {
       _time: 0,
       _lineIndex: 0,
       _type: 0,
       _duration: 1,
       _width: 1,
-      _customData: () => {
-         return {};
-      },
+      _customData: {},
    };
 
    protected _type: number;
@@ -25,9 +22,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
    constructor(data: Partial<IWrapObstacleAttribute<IObstacle>>);
    constructor(data: Partial<IObstacle>);
    constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>);
-   constructor(
-      data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {},
-   ) {
+   constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
       super();
 
       this._time = data.time ?? data._time ?? Obstacle.default._time;
@@ -35,8 +30,9 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       this._posX = data.posX ?? data._lineIndex ?? Obstacle.default._lineIndex;
       this._duration = data.duration ?? data._duration ?? Obstacle.default._duration;
       this._width = data.width ?? data._width ?? Obstacle.default._width;
-      this._customData = data.customData ?? data._customData ??
-         Obstacle.default._customData();
+      this._customData = deepCopy(
+         data.customData ?? data._customData ?? Obstacle.default._customData,
+      );
    }
 
    static create(): Obstacle[];

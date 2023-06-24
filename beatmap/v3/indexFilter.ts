@@ -1,12 +1,11 @@
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
 import { IWrapIndexFilterAttribute } from '../../types/beatmap/wrapper/indexFilter.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapIndexFilter } from '../wrapper/indexFilter.ts';
 
 /** Index filter beatmap v3 class object. */
 export class IndexFilter extends WrapIndexFilter<IIndexFilter> {
-   static default: ObjectReturnFn<IIndexFilter> = {
+   static default: Required<IIndexFilter> = {
       f: 1,
       p: 0,
       t: 0,
@@ -16,17 +15,13 @@ export class IndexFilter extends WrapIndexFilter<IIndexFilter> {
       s: 0,
       l: 0,
       d: 0,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
    constructor(data: Partial<IWrapIndexFilterAttribute<IIndexFilter>>);
    constructor(data: Partial<IIndexFilter>);
-   constructor(
-      data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<IIndexFilter>>,
-   );
+   constructor(data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<IIndexFilter>>);
    constructor(
       data: Partial<IIndexFilter> & Partial<IWrapIndexFilterAttribute<IIndexFilter>> = {},
    ) {
@@ -41,7 +36,7 @@ export class IndexFilter extends WrapIndexFilter<IIndexFilter> {
       this._seed = data.seed ?? data.s ?? IndexFilter.default.s;
       this._limit = data.limit ?? data.l ?? IndexFilter.default.l;
       this._limitAffectsType = data.limitAffectsType ?? data.d ?? IndexFilter.default.d;
-      this._customData = data.customData ?? IndexFilter.default.customData();
+      this._customData = deepCopy(data.customData ?? IndexFilter.default.customData);
    }
 
    static create(): IndexFilter;

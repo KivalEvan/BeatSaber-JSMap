@@ -1,7 +1,6 @@
 import { IArc } from '../../types/beatmap/v3/arc.ts';
 import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
@@ -12,7 +11,7 @@ import { WrapArc } from '../wrapper/arc.ts';
  * Also known as slider internally.
  */
 export class Arc extends WrapArc<IArc> {
-   static default: ObjectReturnFn<IArc> = {
+   static default: Required<IArc> = {
       b: 0,
       c: 0,
       x: 0,
@@ -25,9 +24,7 @@ export class Arc extends WrapArc<IArc> {
       tc: 0,
       tmu: 1,
       m: 0,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
@@ -47,10 +44,9 @@ export class Arc extends WrapArc<IArc> {
       this._tailPosX = data.tailPosX ?? data.tx ?? Arc.default.tx;
       this._tailPosY = data.tailPosY ?? data.ty ?? Arc.default.ty;
       this._tailDirection = data.tailDirection ?? data.tc ?? Arc.default.tc;
-      this._tailLengthMultiplier = data.tailLengthMultiplier ?? data.tmu ??
-         Arc.default.tmu;
+      this._tailLengthMultiplier = data.tailLengthMultiplier ?? data.tmu ?? Arc.default.tmu;
       this._midAnchor = data.midAnchor ?? data.m ?? Arc.default.m;
-      this._customData = data.customData ?? Arc.default.customData();
+      this._customData = deepCopy(data.customData ?? Arc.default.customData);
    }
 
    static create(): Arc[];
@@ -101,8 +97,7 @@ export class Arc extends WrapArc<IArc> {
       if (this.customData.animation) {
          if (Array.isArray(this.customData.animation.definitePosition)) {
             if (isVector3(this.customData.animation.definitePosition)) {
-               this.customData.animation.definitePosition[0] = -this.customData
-                  .animation
+               this.customData.animation.definitePosition[0] = -this.customData.animation
                   .definitePosition[0];
             } else {
                this.customData.animation.definitePosition.forEach((dp) => {
@@ -170,10 +165,7 @@ export class Arc extends WrapArc<IArc> {
             return super.getTailPosition();
          case 'ne':
             if (this.customData.tailCoordinates) {
-               return [
-                  this.customData.tailCoordinates[0],
-                  this.customData.tailCoordinates[1],
-               ];
+               return [this.customData.tailCoordinates[0], this.customData.tailCoordinates[1]];
             }
          /** falls through */
          case 'me':

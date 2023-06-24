@@ -2,7 +2,7 @@ import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
 import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
 import { IWrapLightTranslationEventBoxAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
-import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
+import { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightTranslationEventBox } from '../wrapper/lightTranslationEventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
@@ -14,19 +14,17 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
    ILightTranslationBase,
    IIndexFilter
 > {
-   static default: ObjectReturnFn<ILightTranslationEventBox> = {
-      f: () => {
-         return {
-            f: IndexFilter.default.f,
-            p: IndexFilter.default.p,
-            t: IndexFilter.default.t,
-            r: IndexFilter.default.r,
-            c: IndexFilter.default.c,
-            n: IndexFilter.default.n,
-            s: IndexFilter.default.s,
-            l: IndexFilter.default.l,
-            d: IndexFilter.default.d,
-         };
+   static default: Required<ILightTranslationEventBox> = {
+      f: {
+         f: IndexFilter.default.f,
+         p: IndexFilter.default.p,
+         t: IndexFilter.default.t,
+         r: IndexFilter.default.r,
+         c: IndexFilter.default.c,
+         n: IndexFilter.default.n,
+         s: IndexFilter.default.s,
+         l: IndexFilter.default.l,
+         d: IndexFilter.default.d,
       },
       w: 0,
       d: 1,
@@ -36,10 +34,8 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
       r: 0,
       b: 0,
       i: 0,
-      l: () => [],
-      customData: () => {
-         return {};
-      },
+      l: [],
+      customData: {},
    };
 
    constructor();
@@ -80,7 +76,7 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
       this._filter = new IndexFilter(
          (data.filter as IIndexFilter) ??
             (data as ILightTranslationEventBox).f ??
-            LightTranslationEventBox.default.f(),
+            LightTranslationEventBox.default.f,
       );
       this._beatDistribution = data.beatDistribution ?? data.w ??
          LightTranslationEventBox.default.w;
@@ -92,16 +88,14 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
          LightTranslationEventBox.default.t;
       this._axis = data.axis ?? data.a ?? LightTranslationEventBox.default.a;
       this._flip = data.flip ?? data.r ?? LightTranslationEventBox.default.r;
-      this._affectFirst = data.affectFirst ?? data.b ??
-         LightTranslationEventBox.default.b;
+      this._affectFirst = data.affectFirst ?? data.b ?? LightTranslationEventBox.default.b;
       this._easing = data.easing ?? data.i ?? LightTranslationEventBox.default.i;
       this._events = (
          (data.events as ILightTranslationBase[]) ??
             (data as ILightTranslationEventBox).l ??
-            LightTranslationEventBox.default.l()
+            LightTranslationEventBox.default.l
       ).map((obj) => new LightTranslationBase(obj));
-      this._customData = data.customData ??
-         LightTranslationEventBox.default.customData();
+      this._customData = deepCopy(data.customData ?? LightTranslationEventBox.default.customData);
    }
 
    static create(): LightTranslationEventBox[];
@@ -114,9 +108,7 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
          >
       >[]
    ): LightTranslationEventBox[];
-   static create(
-      ...data: DeepPartial<ILightTranslationEventBox>[]
-   ): LightTranslationEventBox[];
+   static create(...data: DeepPartial<ILightTranslationEventBox>[]): LightTranslationEventBox[];
    static create(
       ...data: (
          & DeepPartial<ILightTranslationEventBox>

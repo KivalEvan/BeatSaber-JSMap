@@ -1,34 +1,29 @@
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { WrapBombNote } from '../wrapper/bombNote.ts';
 import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
 import { isVector3 } from '../../utils/vector.ts';
 
 /** Bomb note beatmap v3 class object. */
 export class BombNote extends WrapBombNote<IBombNote> {
-   static default: ObjectReturnFn<IBombNote> = {
+   static default: Required<IBombNote> = {
       b: 0,
       x: 0,
       y: 0,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
    constructor(data: Partial<IWrapBombNoteAttribute<IBombNote>>);
    constructor(data: Partial<IBombNote>);
    constructor(data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>>);
-   constructor(
-      data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>> = {},
-   ) {
+   constructor(data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>> = {}) {
       super();
 
       this._time = data.time ?? data.b ?? BombNote.default.b;
       this._posX = data.posX ?? data.x ?? BombNote.default.x;
       this._posY = data.posY ?? data.y ?? BombNote.default.y;
-      this._customData = data.customData ?? BombNote.default.customData();
+      this._customData = deepCopy(data.customData ?? BombNote.default.customData);
    }
 
    static create(): BombNote[];
@@ -74,8 +69,7 @@ export class BombNote extends WrapBombNote<IBombNote> {
       if (this.customData.animation) {
          if (Array.isArray(this.customData.animation.definitePosition)) {
             if (isVector3(this.customData.animation.definitePosition)) {
-               this.customData.animation.definitePosition[0] = -this.customData
-                  .animation
+               this.customData.animation.definitePosition[0] = -this.customData.animation
                   .definitePosition[0];
             } else {
                this.customData.animation.definitePosition.forEach((dp) => {

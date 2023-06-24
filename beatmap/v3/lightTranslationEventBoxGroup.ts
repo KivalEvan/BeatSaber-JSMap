@@ -1,5 +1,5 @@
 import { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
-import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
+import { DeepPartial } from '../../types/utils.ts';
 import { LightTranslationEventBox } from './lightTranslationEventBox.ts';
 import { WrapLightTranslationEventBoxGroup } from '../wrapper/lightTranslationEventBoxGroup.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -15,13 +15,11 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
    ILightTranslationBase,
    IIndexFilter
 > {
-   static default: ObjectReturnFn<ILightTranslationEventBoxGroup> = {
+   static default: Required<ILightTranslationEventBoxGroup> = {
       b: 0,
       g: 0,
-      e: () => [],
-      customData: () => {
-         return {};
-      },
+      e: [],
+      customData: {},
    };
 
    constructor();
@@ -67,10 +65,11 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
       this._boxes = (
          (data.boxes as ILightTranslationEventBox[]) ??
             (data.e as unknown as ILightTranslationEventBox[]) ??
-            LightTranslationEventBoxGroup.default.e()
+            LightTranslationEventBoxGroup.default.e
       ).map((obj) => new LightTranslationEventBox(obj));
-      this._customData = data.customData ??
-         LightTranslationEventBoxGroup.default.customData();
+      this._customData = deepCopy(
+         data.customData ?? LightTranslationEventBoxGroup.default.customData,
+      );
    }
 
    static create(): LightTranslationEventBoxGroup[];
@@ -144,9 +143,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
       this._customData = value;
    }
 
-   setCustomData(
-      value: NonNullable<ILightTranslationEventBoxGroup['customData']>,
-   ): this {
+   setCustomData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>): this {
       this.customData = value;
       return this;
    }

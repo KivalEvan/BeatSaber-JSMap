@@ -2,7 +2,6 @@ import logger from '../../logger.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { INote } from '../../types/beatmap/v2/note.ts';
 import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
@@ -13,15 +12,13 @@ function tag(name: string): string[] {
 
 /** Note beatmap v2 class object. */
 export class Note extends WrapColorNote<INote> {
-   static default: ObjectReturnFn<INote> = {
+   static default: Required<INote> = {
       _time: 0,
       _lineIndex: 0,
       _lineLayer: 0,
       _type: 0,
       _cutDirection: 0,
-      _customData: () => {
-         return {};
-      },
+      _customData: {},
    };
 
    constructor();
@@ -35,21 +32,15 @@ export class Note extends WrapColorNote<INote> {
       this._posX = data.posX ?? data._lineIndex ?? Note.default._lineIndex;
       this._posY = data.posY ?? data._lineLayer ?? Note.default._lineLayer;
       this._type = data.type ?? data.color ?? data._type ?? Note.default._type;
-      this._direction = data.direction ?? data._cutDirection ??
-         Note.default._cutDirection;
-      this._customData = data.customData ?? data._customData ??
-         Note.default._customData();
+      this._direction = data.direction ?? data._cutDirection ?? Note.default._cutDirection;
+      this._customData = deepCopy(data.customData ?? data._customData ?? Note.default._customData);
    }
 
    static create(): Note[];
    static create(...data: Partial<IWrapColorNoteAttribute<INote>>[]): Note[];
    static create(...data: Partial<INote>[]): Note[];
-   static create(
-      ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]
-   ): Note[];
-   static create(
-      ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]
-   ): Note[] {
+   static create(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): Note[];
+   static create(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): Note[] {
       const result: Note[] = [];
       data.forEach((obj) => result.push(new this(obj)));
       if (result.length) {

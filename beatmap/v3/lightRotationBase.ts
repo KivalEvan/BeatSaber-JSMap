@@ -1,21 +1,18 @@
 import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
 import { IWrapLightRotationBaseAttribute } from '../../types/beatmap/wrapper/lightRotationBase.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightRotationBase } from '../wrapper/lightRotationBase.ts';
 
 /** Light rotation base beatmap v3 class object. */
 export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase> {
-   static default: ObjectReturnFn<ILightRotationBase> = {
+   static default: Required<ILightRotationBase> = {
       b: 0,
       p: 0,
       e: 0,
       l: 0,
       r: 0,
       o: 0,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
@@ -39,7 +36,7 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
       this._loop = data.loop ?? data.l ?? LightRotationBase.default.l;
       this._rotation = data.rotation ?? data.r ?? LightRotationBase.default.r;
       this._direction = data.direction ?? data.o ?? LightRotationBase.default.o;
-      this._customData = data.customData ?? LightRotationBase.default.customData();
+      this._customData = deepCopy(data.customData ?? LightRotationBase.default.customData);
    }
 
    static create(): LightRotationBase[];

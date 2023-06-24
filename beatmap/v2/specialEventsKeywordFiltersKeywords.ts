@@ -1,6 +1,6 @@
 import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
 import { IWrapEventTypesForKeywordsAttribute } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
 
 /** Special event types for keywords beatmap v2 class object.
@@ -9,9 +9,9 @@ import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
  */
 export class SpecialEventsKeywordFiltersKeywords
    extends WrapEventTypesForKeywords<ISpecialEventsKeywordFiltersKeywords> {
-   static default: ObjectReturnFn<ISpecialEventsKeywordFiltersKeywords> = {
+   static default: Required<ISpecialEventsKeywordFiltersKeywords> = {
       _keyword: '',
-      _specialEvents: () => [],
+      _specialEvents: [],
    };
 
    constructor();
@@ -31,9 +31,11 @@ export class SpecialEventsKeywordFiltersKeywords
 
       this._keyword = data.keyword ?? data._keyword ??
          SpecialEventsKeywordFiltersKeywords.default._keyword;
-      this._events = data.events ??
-         data._specialEvents ??
-         SpecialEventsKeywordFiltersKeywords.default._specialEvents();
+      this._events = deepCopy(
+         data.events ??
+            data._specialEvents ??
+            SpecialEventsKeywordFiltersKeywords.default._specialEvents,
+      );
    }
 
    static create(): SpecialEventsKeywordFiltersKeywords[];

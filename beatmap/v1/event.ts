@@ -1,5 +1,4 @@
 import { IEvent } from '../../types/beatmap/v1/event.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { WrapEvent } from '../wrapper/event.ts';
 import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import logger from '../../logger.ts';
@@ -10,7 +9,7 @@ function tag(name: string): string[] {
 
 /** Event beatmap v1 class object. */
 export class Event extends WrapEvent<IEvent> {
-   static default: ObjectReturnFn<IEvent> = {
+   static default: Required<IEvent> = {
       _time: 0,
       _type: 0,
       _value: 0,
@@ -31,12 +30,8 @@ export class Event extends WrapEvent<IEvent> {
    static create(): Event[];
    static create(...data: Partial<IWrapEventAttribute<IEvent>>[]): Event[];
    static create(...data: Partial<IEvent>[]): Event[];
-   static create(
-      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
-   ): Event[];
-   static create(
-      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
-   ): Event[] {
+   static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[];
+   static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[] {
       const result: Event[] = [];
       data.forEach((obj) => result.push(new this(obj)));
       if (result.length) {

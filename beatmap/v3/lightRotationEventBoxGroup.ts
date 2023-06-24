@@ -1,5 +1,5 @@
 import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
-import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
+import { DeepPartial } from '../../types/utils.ts';
 import { LightRotationEventBox } from './lightRotationEventBox.ts';
 import { WrapLightRotationEventBoxGroup } from '../wrapper/lightRotationEventBoxGroup.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -15,13 +15,11 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
    ILightRotationBase,
    IIndexFilter
 > {
-   static default: ObjectReturnFn<ILightRotationEventBoxGroup> = {
+   static default: Required<ILightRotationEventBoxGroup> = {
       b: 0,
       g: 0,
-      e: () => [],
-      customData: () => {
-         return {};
-      },
+      e: [],
+      customData: {},
    };
 
    constructor();
@@ -67,10 +65,9 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
       this._boxes = (
          (data.boxes as ILightRotationEventBox[]) ??
             (data.e as unknown as ILightRotationEventBox[]) ??
-            LightRotationEventBoxGroup.default.e()
+            LightRotationEventBoxGroup.default.e
       ).map((obj) => new LightRotationEventBox(obj));
-      this._customData = data.customData ??
-         LightRotationEventBoxGroup.default.customData();
+      this._customData = deepCopy(data.customData ?? LightRotationEventBoxGroup.default.customData);
    }
 
    static create(): LightRotationEventBoxGroup[];
@@ -84,9 +81,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
          >
       >[]
    ): LightRotationEventBoxGroup[];
-   static create(
-      ...data: DeepPartial<ILightRotationEventBoxGroup>[]
-   ): LightRotationEventBoxGroup[];
+   static create(...data: DeepPartial<ILightRotationEventBoxGroup>[]): LightRotationEventBoxGroup[];
    static create(
       ...data: (
          & DeepPartial<ILightRotationEventBoxGroup>

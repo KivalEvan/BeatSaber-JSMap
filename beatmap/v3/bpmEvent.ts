@@ -1,31 +1,26 @@
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
 import { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapBPMEvent } from '../wrapper/bpmEvent.ts';
 
 /** BPM change event beatmap v3 class object. */
 export class BPMEvent extends WrapBPMEvent<IBPMEvent> {
-   static default: ObjectReturnFn<IBPMEvent> = {
+   static default: Required<IBPMEvent> = {
       b: 0,
       m: 0,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
    constructor(data: Partial<IWrapBPMEventAttribute<IBPMEvent>>);
    constructor(data: Partial<IBPMEvent>);
    constructor(data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>);
-   constructor(
-      data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>> = {},
-   ) {
+   constructor(data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>> = {}) {
       super();
 
       this._time = data.time ?? data.b ?? BPMEvent.default.b;
       this._bpm = data.bpm ?? data.m ?? BPMEvent.default.m;
-      this._customData = data.customData ?? BPMEvent.default.customData();
+      this._customData = deepCopy(data.customData ?? BPMEvent.default.customData);
    }
 
    static create(): BPMEvent[];

@@ -1,26 +1,21 @@
 import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
 import { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorBoostEvent } from '../wrapper/colorBoostEvent.ts';
 
 /** Boost event beatmap v3 class object. */
 export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEvent> {
-   static default: ObjectReturnFn<IColorBoostEvent> = {
+   static default: Required<IColorBoostEvent> = {
       b: 0,
       o: false,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
    constructor(data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>);
    constructor(data: Partial<IColorBoostEvent>);
    constructor(
-      data:
-         & Partial<IColorBoostEvent>
-         & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>,
+      data: Partial<IColorBoostEvent> & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>,
    );
    constructor(
       data:
@@ -31,7 +26,7 @@ export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEvent> {
 
       this._time = data.time ?? data.b ?? ColorBoostEvent.default.b;
       this._toggle = data.toggle ?? data.o ?? ColorBoostEvent.default.o;
-      this._customData = data.customData ?? ColorBoostEvent.default.customData();
+      this._customData = deepCopy(data.customData ?? ColorBoostEvent.default.customData);
    }
 
    static create(): ColorBoostEvent[];

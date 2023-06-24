@@ -1,57 +1,42 @@
 import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
 import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapRotationEvent } from '../wrapper/rotationEvent.ts';
 
 /** Rotation event beatmap v3 class object. */
 export class RotationEvent extends WrapRotationEvent<IRotationEvent> {
-   static default: ObjectReturnFn<IRotationEvent> = {
+   static default: Required<IRotationEvent> = {
       b: 0,
       e: 0,
       r: 0,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
    constructor(data: Partial<IWrapRotationEventAttribute<IRotationEvent>>);
    constructor(data: Partial<IRotationEvent>);
    constructor(
-      data:
-         & Partial<IRotationEvent>
-         & Partial<IWrapRotationEventAttribute<IRotationEvent>>,
+      data: Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>,
    );
    constructor(
-      data:
-         & Partial<IRotationEvent>
-         & Partial<IWrapRotationEventAttribute<IRotationEvent>> = {},
+      data: Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>> = {},
    ) {
       super();
 
       this._time = data.time ?? data.b ?? RotationEvent.default.b;
       this._executionTime = data.executionTime ?? data.e ?? RotationEvent.default.e;
       this._rotation = data.rotation ?? data.r ?? RotationEvent.default.r;
-      this._customData = data.customData ?? RotationEvent.default.customData();
+      this._customData = deepCopy(data.customData ?? RotationEvent.default.customData);
    }
 
    static create(): RotationEvent[];
-   static create(
-      ...data: Partial<IWrapRotationEventAttribute<IRotationEvent>>[]
-   ): RotationEvent[];
+   static create(...data: Partial<IWrapRotationEventAttribute<IRotationEvent>>[]): RotationEvent[];
    static create(...data: Partial<IRotationEvent>[]): RotationEvent[];
    static create(
-      ...data: (
-         & Partial<IRotationEvent>
-         & Partial<IWrapRotationEventAttribute<IRotationEvent>>
-      )[]
+      ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
    ): RotationEvent[];
    static create(
-      ...data: (
-         & Partial<IRotationEvent>
-         & Partial<IWrapRotationEventAttribute<IRotationEvent>>
-      )[]
+      ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
    ): RotationEvent[] {
       const result: RotationEvent[] = [];
       data.forEach((obj) => result.push(new this(obj)));

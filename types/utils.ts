@@ -1,12 +1,5 @@
 // deno-lint-ignore-file ban-types no-explicit-any
-export type Primitive =
-   | string
-   | Function
-   | number
-   | boolean
-   | Symbol
-   | undefined
-   | null;
+export type Primitive = string | Function | number | boolean | Symbol | undefined | null;
 
 export type Only<T, U> =
    & {
@@ -20,10 +13,6 @@ export type Either<T, U> = Only<T, U> | Only<U, T>;
 
 export type DeepPartial<T> = {
    [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
-};
-
-export type ObjectReturnFn<T> = {
-   [P in keyof T]-?: NonNullable<T[P]> extends object ? () => NonNullable<T[P]> : T[P];
 };
 
 export type LooseAutocomplete<T extends string | number> = T extends string ? T | (string & {})

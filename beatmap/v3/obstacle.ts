@@ -1,7 +1,6 @@
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
 import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
@@ -9,25 +8,21 @@ import { WrapObstacle } from '../wrapper/obstacle.ts';
 
 /** Obstacle beatmap v3 class object. */
 export class Obstacle extends WrapObstacle<IObstacle> {
-   static default: ObjectReturnFn<IObstacle> = {
+   static default: Required<IObstacle> = {
       b: 0,
       x: 0,
       y: 0,
       d: 1,
       w: 1,
       h: 1,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
    constructor(data: Partial<IWrapObstacleAttribute<IObstacle>>);
    constructor(data: Partial<IObstacle>);
    constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>);
-   constructor(
-      data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {},
-   ) {
+   constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
       super();
 
       this._time = data.time ?? data.b ?? Obstacle.default.b;
@@ -36,7 +31,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       this._duration = data.duration ?? data.d ?? Obstacle.default.d;
       this._width = data.width ?? data.w ?? Obstacle.default.w;
       this._height = data.height ?? data.h ?? Obstacle.default.h;
-      this._customData = data.customData ?? Obstacle.default.customData();
+      this._customData = deepCopy(data.customData ?? Obstacle.default.customData);
    }
 
    static create(): Obstacle[];
@@ -84,8 +79,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
          if (Array.isArray(this.customData.animation.definitePosition)) {
             if (isVector3(this.customData.animation.definitePosition)) {
                this.customData.animation.definitePosition[0] =
-                  -this.customData.animation.definitePosition[0] -
-                  (this.posX + width - 1);
+                  -this.customData.animation.definitePosition[0] - (this.posX + width - 1);
             } else {
                this.customData.animation.definitePosition.forEach((dp) => {
                   dp[0] = -dp[0] - (this.posX + width - 1);
@@ -95,8 +89,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
          if (Array.isArray(this.customData.animation.offsetPosition)) {
             if (isVector3(this.customData.animation.offsetPosition)) {
                this.customData.animation.offsetPosition[0] =
-                  -this.customData.animation.offsetPosition[0] -
-                  (this.posX + width - 1);
+                  -this.customData.animation.offsetPosition[0] - (this.posX + width - 1);
             } else {
                this.customData.animation.offsetPosition.forEach((op) => {
                   op[0] = -op[0] - (this.posX + width - 1);

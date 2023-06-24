@@ -1,25 +1,20 @@
 import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
 import { IWrapLightTranslationBaseAttribute } from '../../types/beatmap/wrapper/lightTranslationBase.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightTranslationBase } from '../wrapper/lightTranslationBase.ts';
 
 /** Light translation base beatmap v3 class object. */
 export class LightTranslationBase extends WrapLightTranslationBase<ILightTranslationBase> {
-   static default: ObjectReturnFn<ILightTranslationBase> = {
+   static default: Required<ILightTranslationBase> = {
       b: 0,
       p: 0,
       e: 0,
       t: 0,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
-   constructor(
-      data: Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>,
-   );
+   constructor(data: Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>);
    constructor(data: Partial<ILightTranslationBase>);
    constructor(
       data:
@@ -37,7 +32,7 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
       this._previous = data.previous ?? data.p ?? LightTranslationBase.default.p;
       this._easing = data.easing ?? data.e ?? LightTranslationBase.default.e;
       this._translation = data.translation ?? data.t ?? LightTranslationBase.default.t;
-      this._customData = data.customData ?? LightTranslationBase.default.customData();
+      this._customData = deepCopy(data.customData ?? LightTranslationBase.default.customData);
    }
 
    static create(): LightTranslationBase[];

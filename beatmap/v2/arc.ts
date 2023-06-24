@@ -1,12 +1,11 @@
 import { IArc } from '../../types/beatmap/v2/arc.ts';
 import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapArc } from '../wrapper/arc.ts';
 
 /** Arc beatmap v2 class object. */
 export class Arc extends WrapArc<IArc> {
-   static default: ObjectReturnFn<IArc> = {
+   static default: Required<IArc> = {
       _colorType: 0,
       _headTime: 0,
       _headLineIndex: 0,
@@ -19,9 +18,7 @@ export class Arc extends WrapArc<IArc> {
       _tailCutDirection: 0,
       _tailControlPointLengthMultiplier: 1,
       _sliderMidAnchorMode: 0,
-      _customData: () => {
-         return {};
-      },
+      _customData: {},
    };
 
    constructor();
@@ -32,8 +29,7 @@ export class Arc extends WrapArc<IArc> {
       super();
 
       this._color = data.color ?? data._colorType ?? Arc.default._colorType;
-      this._time = data.time ?? data._headTime ?? data._tailTime ??
-         Arc.default._headTime;
+      this._time = data.time ?? data._headTime ?? data._tailTime ?? Arc.default._headTime;
       this._posX = data.posX ?? data._headLineIndex ?? Arc.default._headLineIndex;
       this._posY = data.posY ?? data._headLineLayer ?? Arc.default._headLineLayer;
       this._direction = (data.direction as 0) ?? data._headCutDirection ??
@@ -41,12 +37,9 @@ export class Arc extends WrapArc<IArc> {
       this._lengthMultiplier = data.lengthMultiplier ??
          data._headControlPointLengthMultiplier ??
          Arc.default._headControlPointLengthMultiplier;
-      this._tailTime = data.tailTime ?? data._tailTime ?? data._headTime ??
-         Arc.default._tailTime;
-      this._tailPosX = data.tailPosX ?? data._tailLineIndex ??
-         Arc.default._tailLineIndex;
-      this._tailPosY = data.tailPosY ?? data._tailLineLayer ??
-         Arc.default._tailLineLayer;
+      this._tailTime = data.tailTime ?? data._tailTime ?? data._headTime ?? Arc.default._tailTime;
+      this._tailPosX = data.tailPosX ?? data._tailLineIndex ?? Arc.default._tailLineIndex;
+      this._tailPosY = data.tailPosY ?? data._tailLineLayer ?? Arc.default._tailLineLayer;
       this._tailDirection = (data.tailDirection as 0) ?? data._tailCutDirection ??
          Arc.default._tailCutDirection;
       this._tailLengthMultiplier = data.tailLengthMultiplier ??
@@ -54,8 +47,7 @@ export class Arc extends WrapArc<IArc> {
          Arc.default._tailControlPointLengthMultiplier;
       this._midAnchor = data.midAnchor ?? data._sliderMidAnchorMode ??
          Arc.default._sliderMidAnchorMode;
-      this._customData = data.customData ?? data._customData ??
-         Arc.default._customData();
+      this._customData = deepCopy(data.customData ?? data._customData ?? Arc.default._customData);
    }
 
    static create(): Arc[];

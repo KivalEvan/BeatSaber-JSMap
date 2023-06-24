@@ -1,28 +1,23 @@
 import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
 import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapWaypoint } from '../wrapper/waypoint.ts';
 
 /** Waypoint beatmap v2 class object. */
 export class Waypoint extends WrapWaypoint<IWaypoint> {
-   static default: ObjectReturnFn<IWaypoint> = {
+   static default: Required<IWaypoint> = {
       _time: 0,
       _lineIndex: 0,
       _lineLayer: 0,
       _offsetDirection: 0,
-      _customData: () => {
-         return {};
-      },
+      _customData: {},
    };
 
    constructor();
    constructor(data: Partial<IWrapWaypointAttribute<IWaypoint>>);
    constructor(data: Partial<IWaypoint>);
    constructor(data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>);
-   constructor(
-      data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>> = {},
-   ) {
+   constructor(data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>> = {}) {
       super();
 
       this._time = data.time ?? data._time ?? Waypoint.default._time;
@@ -30,8 +25,9 @@ export class Waypoint extends WrapWaypoint<IWaypoint> {
       this._posY = data.posY ?? data._lineLayer ?? Waypoint.default._lineLayer;
       this._direction = data.direction ?? data._offsetDirection ??
          Waypoint.default._offsetDirection;
-      this._customData = data.customData ?? data._customData ??
-         Waypoint.default._customData();
+      this._customData = deepCopy(
+         data.customData ?? data._customData ?? Waypoint.default._customData,
+      );
    }
 
    static create(): Waypoint[];

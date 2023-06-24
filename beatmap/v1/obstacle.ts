@@ -1,7 +1,6 @@
 import { Vector2 } from '../../types/vector.ts';
 import { IObstacle } from '../../types/beatmap/v1/obstacle.ts';
 import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import logger from '../../logger.ts';
@@ -12,7 +11,7 @@ function tag(name: string): string[] {
 
 /** Obstacle beatmap v1 class object. */
 export class Obstacle extends WrapObstacle<IObstacle> {
-   static default: ObjectReturnFn<IObstacle> = {
+   static default: Required<IObstacle> = {
       _time: 0,
       _lineIndex: 0,
       _type: 0,
@@ -26,9 +25,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
    constructor(data: Partial<IWrapObstacleAttribute<IObstacle>>);
    constructor(data: Partial<IObstacle>);
    constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>);
-   constructor(
-      data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {},
-   ) {
+   constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
       super();
 
       this._time = data.time ?? data._time ?? Obstacle.default._time;
@@ -102,10 +99,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       return {};
    }
    set customData(_: Record<string, never>) {
-      logger.tWarn(
-         tag('customData'),
-         'Obstacle custom data does not exist in beatmap V1',
-      );
+      logger.tWarn(tag('customData'), 'Obstacle custom data does not exist in beatmap V1');
    }
 
    getPosition(type?: ModType): Vector2 {

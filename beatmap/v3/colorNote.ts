@@ -1,5 +1,4 @@
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
 import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
@@ -9,27 +8,21 @@ import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Color note beatmap v3 class object. */
 export class ColorNote extends WrapColorNote<IColorNote> {
-   static default: ObjectReturnFn<IColorNote> = {
+   static default: Required<IColorNote> = {
       b: 0,
       c: 0,
       x: 0,
       y: 0,
       d: 0,
       a: 0,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
    constructor(data: Partial<IWrapColorNoteAttribute<IColorNote>>);
    constructor(data: Partial<IColorNote>);
-   constructor(
-      data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>,
-   );
-   constructor(
-      data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>> = {},
-   ) {
+   constructor(data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>);
+   constructor(data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>> = {}) {
       super();
 
       this._time = data.time ?? data.b ?? ColorNote.default.b;
@@ -39,7 +32,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
          (data.type === 0 || data.type === 1 ? (data.type as 0) : data.c ?? ColorNote.default.c);
       this._direction = data.direction ?? data.d ?? ColorNote.default.d;
       this._angleOffset = data.angleOffset ?? data.a ?? ColorNote.default.a;
-      this._customData = data.customData ?? ColorNote.default.customData();
+      this._customData = deepCopy(data.customData ?? ColorNote.default.customData);
    }
 
    static create(): ColorNote[];
@@ -95,8 +88,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       if (this.customData.animation) {
          if (Array.isArray(this.customData.animation.definitePosition)) {
             if (isVector3(this.customData.animation.definitePosition)) {
-               this.customData.animation.definitePosition[0] = -this.customData
-                  .animation
+               this.customData.animation.definitePosition[0] = -this.customData.animation
                   .definitePosition[0];
             } else {
                this.customData.animation.definitePosition.forEach((dp) => {

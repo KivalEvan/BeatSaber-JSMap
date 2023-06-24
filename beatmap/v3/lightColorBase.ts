@@ -1,34 +1,27 @@
 import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
 import { IWrapLightColorBaseAttribute } from '../../types/beatmap/wrapper/lightColorBase.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightColorBase } from '../wrapper/lightColorBase.ts';
 
 /** Light color base beatmap v3 class object. */
 export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
-   static default: ObjectReturnFn<ILightColorBase> = {
+   static default: Required<ILightColorBase> = {
       b: 0,
       i: 0,
       c: 0,
       s: 1,
       f: 0,
-      customData: () => {
-         return {};
-      },
+      customData: {},
    };
 
    constructor();
    constructor(data: Partial<IWrapLightColorBaseAttribute<ILightColorBase>>);
    constructor(data: Partial<ILightColorBase>);
    constructor(
-      data:
-         & Partial<ILightColorBase>
-         & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>,
+      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>,
    );
    constructor(
-      data:
-         & Partial<ILightColorBase>
-         & Partial<IWrapLightColorBaseAttribute<ILightColorBase>> = {},
+      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>> = {},
    ) {
       super();
 
@@ -37,7 +30,7 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
       this._color = data.color ?? data.c ?? LightColorBase.default.c;
       this._brightness = data.brightness ?? data.s ?? LightColorBase.default.s;
       this._frequency = data.frequency ?? data.f ?? LightColorBase.default.f;
-      this._customData = data.customData ?? LightColorBase.default.customData();
+      this._customData = deepCopy(data.customData ?? LightColorBase.default.customData);
    }
 
    static create(): LightColorBase[];
@@ -46,16 +39,10 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
    ): LightColorBase[];
    static create(...data: Partial<ILightColorBase>[]): LightColorBase[];
    static create(
-      ...data: (
-         & Partial<ILightColorBase>
-         & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>
-      )[]
+      ...data: (Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>)[]
    ): LightColorBase[];
    static create(
-      ...data: (
-         & Partial<ILightColorBase>
-         & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>
-      )[]
+      ...data: (Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>)[]
    ): LightColorBase[] {
       const result: LightColorBase[] = [];
       data.forEach((obj) => result.push(new this(obj)));

@@ -1,6 +1,5 @@
 // deno-lint-ignore-file no-unused-vars
 import { IEvent } from '../../types/beatmap/v2/event.ts';
-import { ObjectReturnFn } from '../../types/utils.ts';
 import {
    IChromaEventLaser,
    IChromaEventLight,
@@ -14,14 +13,12 @@ import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 
 /** Event beatmap v2 class object. */
 export class Event extends WrapEvent<IEvent> {
-   static default: ObjectReturnFn<IEvent> = {
+   static default: Required<IEvent> = {
       _time: 0,
       _type: 0,
       _value: 0,
       _floatValue: 1,
-      _customData: () => {
-         return {};
-      },
+      _customData: {},
    };
 
    constructor();
@@ -34,21 +31,15 @@ export class Event extends WrapEvent<IEvent> {
       this._time = data.time ?? data._time ?? Event.default._time;
       this._type = data.type ?? data._type ?? Event.default._type;
       this._value = data.value ?? data._value ?? Event.default._value;
-      this._floatValue = data.floatValue ?? data._floatValue ??
-         Event.default._floatValue;
-      this._customData = data.customData ?? data._customData ??
-         Event.default._customData();
+      this._floatValue = data.floatValue ?? data._floatValue ?? Event.default._floatValue;
+      this._customData = deepCopy(data.customData ?? data._customData ?? Event.default._customData);
    }
 
    static create(): Event[];
    static create(...data: Partial<IWrapEventAttribute<IEvent>>[]): Event[];
    static create(...data: Partial<IEvent>[]): Event[];
-   static create(
-      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
-   ): Event[];
-   static create(
-      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
-   ): Event[] {
+   static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[];
+   static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[] {
       const result: Event[] = [];
       data.forEach((obj) => result.push(new this(obj)));
       if (result.length) {
@@ -130,8 +121,7 @@ export class Event extends WrapEvent<IEvent> {
    }
 
    isNoodleExtensions(): boolean {
-      return this.isLaneRotationEvent() &&
-         typeof this.customData._rotation === 'number';
+      return this.isLaneRotationEvent() && typeof this.customData._rotation === 'number';
    }
 
    isMappingExtensions(): boolean {

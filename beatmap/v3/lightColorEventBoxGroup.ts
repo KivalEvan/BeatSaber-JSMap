@@ -3,7 +3,7 @@ import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
 import { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import { DeepPartial, ObjectReturnFn } from '../../types/utils.ts';
+import { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightColorEventBoxGroup } from '../wrapper/lightColorEventBoxGroup.ts';
 import { LightColorEventBox } from './lightColorEventBox.ts';
@@ -15,13 +15,11 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
    ILightColorBase,
    IIndexFilter
 > {
-   static default: ObjectReturnFn<ILightColorEventBoxGroup> = {
+   static default: Required<ILightColorEventBoxGroup> = {
       b: 0,
       g: 0,
-      e: () => [],
-      customData: () => {
-         return {};
-      },
+      e: [],
+      customData: {},
    };
 
    constructor();
@@ -67,10 +65,9 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
       this._boxes = (
          (data.boxes as ILightColorEventBox[]) ??
             (data.e as unknown as ILightColorEventBox[]) ??
-            LightColorEventBoxGroup.default.e()
+            LightColorEventBoxGroup.default.e
       ).map((obj) => new LightColorEventBox(obj));
-      this._customData = data.customData ??
-         LightColorEventBoxGroup.default.customData();
+      this._customData = deepCopy(data.customData ?? LightColorEventBoxGroup.default.customData);
    }
 
    static create(): LightColorEventBoxGroup[];
@@ -84,9 +81,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
          >
       >[]
    ): LightColorEventBoxGroup[];
-   static create(
-      ...data: DeepPartial<ILightColorEventBoxGroup>[]
-   ): LightColorEventBoxGroup[];
+   static create(...data: DeepPartial<ILightColorEventBoxGroup>[]): LightColorEventBoxGroup[];
    static create(
       ...data: (
          & DeepPartial<ILightColorEventBoxGroup>

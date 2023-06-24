@@ -34,6 +34,7 @@
 
 ### Fixed
 
+- Copy object/array in class object to prevent accidental mutation
 - Missing NE and Chroma check
 - Missing wrapper and types export
 - Chroma gradient event convert properly
