@@ -31,13 +31,11 @@ export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
    ) {
       super();
 
-      this._list = (
-         (data.list?.map((k) => {
-            return { k: k?.keyword, e: k?.events };
-         }) as IBasicEventTypesForKeywords[]) ??
-            data.d ??
-            BasicEventTypesWithKeywords.default.d
-      ).map((d) => new BasicEventTypesForKeywords({ e: d.e, k: d.k }));
+      this._list = (data.list ?? data.d ?? BasicEventTypesWithKeywords.default.d)
+         .map((d) => {
+            if (d) return new BasicEventTypesForKeywords(d);
+         })
+         .filter((d) => d) as BasicEventTypesForKeywords[];
    }
 
    static create(): BasicEventTypesWithKeywords;

@@ -29,19 +29,11 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
    ) {
       super();
 
-      this._list = (
-         (data.list?.map((k) => {
-            return { _keyword: k?.keyword, _specialEvents: k?.events };
-         }) as ISpecialEventsKeywordFiltersKeywords[]) ??
-            data._keywords ??
-            SpecialEventsKeywordFilters.default._keywords
-      ).map(
-         (d) =>
-            new SpecialEventsKeywordFiltersKeywords({
-               _keyword: d._keyword,
-               _specialEvents: d._specialEvents,
-            }),
-      );
+      this._list = (data.list ?? data._keywords ?? SpecialEventsKeywordFilters.default._keywords)
+         .map((d) => {
+            if (d) return new SpecialEventsKeywordFiltersKeywords(d);
+         })
+         .filter((d) => d) as SpecialEventsKeywordFiltersKeywords[];
    }
 
    static create(): SpecialEventsKeywordFilters;

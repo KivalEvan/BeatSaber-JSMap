@@ -1,6 +1,6 @@
 import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
 import { IWrapEventTypesForKeywordsAttribute } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { DeepPartial } from '../../types/utils.ts';
 import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
 
 /** Special event types for keywords beatmap v2 class object.
@@ -15,27 +15,27 @@ export class SpecialEventsKeywordFiltersKeywords
    };
 
    constructor();
-   constructor(data: Partial<IWrapEventTypesForKeywordsAttribute>);
-   constructor(data: Partial<ISpecialEventsKeywordFiltersKeywords>);
+   constructor(data: DeepPartial<IWrapEventTypesForKeywordsAttribute>);
+   constructor(data: DeepPartial<ISpecialEventsKeywordFiltersKeywords>);
    constructor(
       data:
-         & Partial<ISpecialEventsKeywordFiltersKeywords>
-         & Partial<IWrapEventTypesForKeywordsAttribute>,
+         & DeepPartial<ISpecialEventsKeywordFiltersKeywords>
+         & DeepPartial<IWrapEventTypesForKeywordsAttribute>,
    );
    constructor(
       data:
-         & Partial<ISpecialEventsKeywordFiltersKeywords>
-         & Partial<IWrapEventTypesForKeywordsAttribute> = {},
+         & DeepPartial<ISpecialEventsKeywordFiltersKeywords>
+         & DeepPartial<IWrapEventTypesForKeywordsAttribute> = {},
    ) {
       super();
 
       this._keyword = data.keyword ?? data._keyword ??
          SpecialEventsKeywordFiltersKeywords.default._keyword;
-      this._events = deepCopy(
+      this._events = (
          data.events ??
             data._specialEvents ??
-            SpecialEventsKeywordFiltersKeywords.default._specialEvents,
-      );
+            SpecialEventsKeywordFiltersKeywords.default._specialEvents
+      ).filter((n) => typeof n === 'number') as number[];
    }
 
    static create(): SpecialEventsKeywordFiltersKeywords[];

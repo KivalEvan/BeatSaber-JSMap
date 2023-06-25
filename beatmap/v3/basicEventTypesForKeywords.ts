@@ -1,6 +1,6 @@
 import { IBasicEventTypesForKeywords } from '../../types/beatmap/v3/basicEventTypesForKeywords.ts';
 import { IWrapEventTypesForKeywordsAttribute } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { DeepPartial } from '../../types/utils.ts';
 import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
 
 /** Basic event types for keywords beatmap v3 class object.
@@ -15,21 +15,23 @@ export class BasicEventTypesForKeywords
    };
 
    constructor();
-   constructor(data: Partial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>>);
+   constructor(data: DeepPartial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>>);
    constructor(
       data:
-         & Partial<IBasicEventTypesForKeywords>
-         & Partial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>>,
+         & DeepPartial<IBasicEventTypesForKeywords>
+         & DeepPartial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>>,
    );
    constructor(
       data:
-         & Partial<IBasicEventTypesForKeywords>
-         & Partial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>> = {},
+         & DeepPartial<IBasicEventTypesForKeywords>
+         & DeepPartial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>> = {},
    ) {
       super();
 
       this._keyword = data.keyword ?? data.k ?? BasicEventTypesForKeywords.default.k;
-      this._events = deepCopy(data.events ?? data.e ?? BasicEventTypesForKeywords.default.e);
+      this._events = (data.events ?? data.e ?? BasicEventTypesForKeywords.default.e).filter(
+         (n) => typeof n === 'number',
+      ) as number[];
    }
 
    static create(): BasicEventTypesForKeywords[];
