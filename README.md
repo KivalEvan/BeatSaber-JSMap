@@ -2,9 +2,7 @@
 
 General-purpose Beat Saber beatmap scripting module using [Deno](https://deno.land/) with
 [TypeScript](https://www.typescriptlang.org/), fully-typed schema and flexible tool designed to ease
-scripting development surrounding beatmap while providing high implementation detail regarding the
-beatmap. It ensures the safety and correctness of the code unless explicitly stated by the user, and
-verify the beatmap integrity.
+scripting development surrounding beatmap.
 
 ---
 
@@ -44,7 +42,7 @@ To get started, check out the [example folder](./example) for templates you can 
 The bare minimum example:
 
 ```ts
-import * as bsmap from 'https://deno.land/x/bsmap@1.3.4/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.4.0/mod.ts';
 
 const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 3);
 
@@ -72,19 +70,21 @@ bsmap.globals.directory = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 ## Usage
 
 Run the script by running this command in terminal `deno run yourscriptpath.ts`. For more advanced
-use, you may do `deno run --allow-read --allow-write --watch yourscriptpath.ts`. If you want to
-update to newer version, simply run `deno run --reload yourscriptpath.ts`; Do note that it may break
-existing part of your code that utilises the module.
+use, you may do `deno run --allow-read --allow-write --watch yourscriptpath.ts` to automatically
+allow for read and write while watching for change in script.
 
-For further explanation over on [Deno Manual](https://deno.land/manual).
+For further explanation, see [Deno Manual](https://deno.land/manual).
 
-**Deno related:** if you are having issue of not being able to retrieve module on import, then
-reload or cache the module to fix it. To reload or cache the module, run
-`deno cache --reload yourscriptpath.ts` and restart Deno server if necessary. If it still does not
-work, change to a different workspace. Deno by nature caches the module upon first execution, and
-will never be updated after. This mean you can continue working on the script regardless of
-connection and will not break the existing code regardless of newly released update until explicitly
-updating it via `--reload` flag or URL version change.
+**To first timer:** Make sure to initialise Deno workspace before using the script. If you encounter
+import error, you can ignore and run the (empty) script then it will automatically fetch the URL for
+you. Alternatively, `Alt+.` on the error message may reveal fix problem solution. If you are having
+issue of not being able to retrieve module, then cache or reload the module to fix it. To reload or
+cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno server if necessary.
+If it still does not work, change to a different workspace.
+
+If you are using GitHub version and want to update to newer version, simply run
+`deno run --reload yourscriptpath.ts`; do note that it may break existing part of your code that
+utilises the module.
 
 ## Contributing
 
@@ -94,9 +94,11 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 ### Guidelines
 
 - Use `deno fmt` for standard formatting.
+  - Do not change `deno.json` configuration.
 - File names shall use camel case.
-- Exported types, interfaces, fields, and functions should accompany with JSDoc comment right above
-  its definition.
+- Exported types, interfaces, fields, and functions should be accompanied by JSDoc comment right
+  above its definition.
+  - Function/method should provide usage example.
 - Top-level function shall use regular function.
 - No third-party dependencies shall be used outside of examples, extensions, and tests. (Exception
   when absolutely necessary is Deno standard module)
