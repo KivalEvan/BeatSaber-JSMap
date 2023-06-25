@@ -19,7 +19,7 @@ export abstract class WrapWaypoint<T extends { [P in keyof T]: T[P] }> extends W
       return this;
    }
 
-   mirror() {
+   mirror(_flipAlt?: boolean, _flipNoodle?: boolean) {
       this.posX = LINE_COUNT - 1 - this.posX;
       switch (this.direction) {
          case 2:

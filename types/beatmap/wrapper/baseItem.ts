@@ -2,9 +2,7 @@
 import { _ObtainCustomData } from '../../utils.ts';
 import { ISerializable } from '../shared/serializable.ts';
 
-export interface IWrapBaseItemAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> {
+export interface IWrapBaseItemAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>> {
    /** Custom data `<object>` of beatmap object.
     *
     * This has no type-safety for unsupported data.
@@ -20,7 +18,7 @@ export interface IWrapBaseItem<T extends { [P in keyof T]: T[P] } = Record<strin
    addCustomData(object: _ObtainCustomData<T>): this;
 
    /** Allow for advanced custom function. */
-   func(fn: (object: this) => void): this;
+   func(fn: (object: this, ...args: any[]) => void, ...args: any[]): this;
 
    /** Check if object is valid in vanilla game.
     * ```ts

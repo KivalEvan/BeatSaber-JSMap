@@ -31,15 +31,7 @@ export abstract class WrapBaseNote<T extends { [P in keyof T]: T[P] }> extends W
       return this;
    }
 
-   isRed() {
-      return this.color === 0;
-   }
-
-   isBlue() {
-      return this.color === 1;
-   }
-
-   mirror(flipColor = true) {
+   mirror(flipColor = true, _flipNoodle?: boolean) {
       if (flipColor) {
          this.color = ((1 + this.color) % 2) as typeof this.color;
       }
@@ -66,11 +58,12 @@ export abstract class WrapBaseNote<T extends { [P in keyof T]: T[P] }> extends W
       return super.mirror(flipColor);
    }
 
-   swapRotation(toSwap: IWrapBaseNote, _ = true) {
-      const tempD = toSwap.direction;
-      toSwap.direction = this.direction;
-      this.direction = tempD;
-      return this;
+   isRed() {
+      return this.color === 0;
+   }
+
+   isBlue() {
+      return this.color === 1;
    }
 
    getAngle(_type?: ModType) {

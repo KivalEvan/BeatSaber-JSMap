@@ -3,9 +3,8 @@ import { Vector2 } from '../../vector.ts';
 import { ModType } from '../shared/modCheck.ts';
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapGridObjectAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseObjectAttribute<T> {
+export interface IWrapGridObjectAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseObjectAttribute<T> {
    /** Position x `<int>` of base obj.
     * ```ts
     * 0 -> Outer Left
@@ -29,18 +28,18 @@ export interface IWrapGridObjectAttribute<
    posY: number;
 }
 
-export interface IWrapGridObject<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseObject<T>, IWrapGridObjectAttribute<T> {
+export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseObject<T>, IWrapGridObjectAttribute<T> {
    setPosX(value: number): this;
    setPosY(value: number): this;
 
-   /** Swap object position with another obj.
+   /** Mirror a grid object, apply alternative flip and Noodle Extensions if available.
     * ```ts
-    * obj.swapPosition(objSwap);
+    * obj.mirror();
     * ```
+    * Alternative flip is true by default. This implementation is typically used to flip color of note.
     */
-   swapPosition(toSwap: IWrapGridObject): this;
+   mirror(flipAlt?: boolean, flipNoodle?: boolean): this;
 
    /** Get object position and return the Beatwalls' position x and y value in tuple.
     * ```ts

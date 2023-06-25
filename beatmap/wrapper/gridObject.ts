@@ -32,18 +32,8 @@ export abstract class WrapGridObject<T extends { [P in keyof T]: T[P] }> extends
       return this;
    }
 
-   mirror(_ = true) {
+   mirror(_flipAlt?: boolean, _flipNoodle?: boolean) {
       this.posX = LINE_COUNT - 1 - this.posX;
-      return this;
-   }
-
-   swapPosition(toSwap: IWrapGridObject) {
-      const tempX = toSwap.posX;
-      toSwap.posX = this.posX;
-      this.posX = tempX;
-      const tempY = toSwap.posY;
-      toSwap.posY = this.posY;
-      this.posY = tempY;
       return this;
    }
 

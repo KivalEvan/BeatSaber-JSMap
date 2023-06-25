@@ -56,7 +56,7 @@ export abstract class WrapArc<T extends { [P in keyof T]: T[P] }> extends WrapBa
       return this;
    }
 
-   mirror(flipColor = true) {
+   mirror(flipColor = true, _flipNoodle?: boolean) {
       switch (this.tailDirection) {
          case 2:
             this.tailDirection = 3;
@@ -84,9 +84,7 @@ export abstract class WrapArc<T extends { [P in keyof T]: T[P] }> extends WrapBa
    }
 
    getTailAngle(_type?: ModType) {
-      return NoteDirectionAngle[
-         this.tailDirection as keyof typeof NoteDirectionAngle
-      ] || 0;
+      return NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] || 0;
    }
 
    isMappingExtensions() {
@@ -108,9 +106,7 @@ export abstract class WrapArc<T extends { [P in keyof T]: T[P] }> extends WrapBa
          this.posX > 3 ||
          this.tailPosX < 0 ||
          this.tailPosX > 3 ||
-         (this.posX === this.tailPosX &&
-            this.posY === this.tailPosY &&
-            this.time === this.tailTime)
+         (this.posX === this.tailPosX && this.posY === this.tailPosY && this.time === this.tailTime)
       );
    }
 }

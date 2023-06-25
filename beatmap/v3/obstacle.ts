@@ -70,30 +70,32 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       this._customData = value;
    }
 
-   mirror() {
-      const width = this.customData.size?.[0] ?? this.width;
-      if (this.customData.coordinates) {
-         this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
-      }
-      if (this.customData.animation) {
-         if (Array.isArray(this.customData.animation.definitePosition)) {
-            if (isVector3(this.customData.animation.definitePosition)) {
-               this.customData.animation.definitePosition[0] =
-                  -this.customData.animation.definitePosition[0] - (this.posX + width - 1);
-            } else {
-               this.customData.animation.definitePosition.forEach((dp) => {
-                  dp[0] = -dp[0] - (this.posX + width - 1);
-               });
-            }
+   mirror(_?: boolean, flipNoodle?: boolean) {
+      if (flipNoodle) {
+         const width = this.customData.size?.[0] ?? this.width;
+         if (this.customData.coordinates) {
+            this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
          }
-         if (Array.isArray(this.customData.animation.offsetPosition)) {
-            if (isVector3(this.customData.animation.offsetPosition)) {
-               this.customData.animation.offsetPosition[0] =
-                  -this.customData.animation.offsetPosition[0] - (this.posX + width - 1);
-            } else {
-               this.customData.animation.offsetPosition.forEach((op) => {
-                  op[0] = -op[0] - (this.posX + width - 1);
-               });
+         if (this.customData.animation) {
+            if (Array.isArray(this.customData.animation.definitePosition)) {
+               if (isVector3(this.customData.animation.definitePosition)) {
+                  this.customData.animation.definitePosition[0] =
+                     -this.customData.animation.definitePosition[0] - (this.posX + width - 1);
+               } else {
+                  this.customData.animation.definitePosition.forEach((dp) => {
+                     dp[0] = -dp[0] - (this.posX + width - 1);
+                  });
+               }
+            }
+            if (Array.isArray(this.customData.animation.offsetPosition)) {
+               if (isVector3(this.customData.animation.offsetPosition)) {
+                  this.customData.animation.offsetPosition[0] =
+                     -this.customData.animation.offsetPosition[0] - (this.posX + width - 1);
+               } else {
+                  this.customData.animation.offsetPosition.forEach((op) => {
+                     op[0] = -op[0] - (this.posX + width - 1);
+                  });
+               }
             }
          }
       }

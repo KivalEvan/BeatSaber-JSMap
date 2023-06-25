@@ -41,23 +41,23 @@ function _random(
    min?: number | boolean,
    max?: number | boolean,
    rounding: number | boolean = false,
-   func: () => number = Math.random,
+   fn: () => number = Math.random,
 ) {
    if (typeof min === 'boolean' || (!min && typeof min !== 'number')) {
       if (min) {
-         return Math.round(func());
+         return Math.round(fn());
       }
-      return func();
+      return fn();
    }
    if (typeof max === 'boolean' || (!max && typeof max !== 'number')) {
-      let result = func() * min;
+      let result = fn() * min;
       if (max) {
          result = Math.round(result);
       }
       return result;
    }
    [min, max] = fixRange(min, max);
-   const result = func() * (max - min) + min;
+   const result = fn() * (max - min) + min;
    return rounding
       ? round(result, typeof rounding === 'number' && rounding > 0 ? rounding : 0)
       : result;
@@ -142,11 +142,7 @@ export function random(
 }
 
 /** Return number tuple in order. */
-export function fixRange(
-   min: number,
-   max: number,
-   inverse?: boolean,
-): [number, number] {
+export function fixRange(min: number, max: number, inverse?: boolean): [number, number] {
    if (!inverse && min > max) {
       return [max, min];
    }
@@ -169,17 +165,9 @@ export function degToRad(deg: number) {
 }
 
 /** Return [radius, theta, phi] */
-export function cartesianCoordToSphericalCoord(
-   x: number,
-   y: number,
-   z: number,
-): Vector3 {
+export function cartesianCoordToSphericalCoord(x: number, y: number, z: number): Vector3 {
    const radius = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-   return [
-      radius,
-      Math.acos(z / radius),
-      (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI),
-   ];
+   return [radius, Math.acos(z / radius), (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI)];
 }
 
 /** Return [x, y, z] */
@@ -240,36 +228,21 @@ export function normalize(value: number, min: number, max: number): number {
 /** Linear interpolate between start to end time given alpha value.
  * Alpha value must be around 0-1.
  */
-export function lerp(
-   alpha: number,
-   start: number,
-   end: number,
-   easing?: EasingFunction,
-): number {
+export function lerp(alpha: number, start: number, end: number, easing?: EasingFunction): number {
    if (!easing) {
       easing = (x) => x;
    }
    if (alpha > 1) {
-      logger.tWarn(
-         tag('lerp'),
-         'Alpha value is larger than 1, may have unintended result',
-      );
+      logger.tWarn(tag('lerp'), 'Alpha value is larger than 1, may have unintended result');
    }
    if (alpha < 0) {
-      logger.tWarn(
-         tag('lerp'),
-         'Alpha value is smaller than 0, may have unintended result',
-      );
+      logger.tWarn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
    }
    const result = start + (end - start) * easing(alpha);
    logger.tVerbose(tag('lerp'), `Obtained ${result}`);
    return result;
 }
 
-export function equalNear(
-   value: number,
-   compareTo: number,
-   tolerance = Number.EPSILON,
-): boolean {
+export function equalNear(value: number, compareTo: number, tolerance = Number.EPSILON): boolean {
    return Math.abs(value - compareTo) <= tolerance;
 }

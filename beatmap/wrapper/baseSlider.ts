@@ -44,7 +44,7 @@ export abstract class WrapBaseSlider<T extends { [P in keyof T]: T[P] }> extends
       return this;
    }
 
-   mirror(flipColor = true) {
+   mirror(flipColor = true, _flipNoodle?: boolean) {
       this.tailPosX = LINE_COUNT - 1 - this.tailPosX;
       return super.mirror(flipColor);
    }

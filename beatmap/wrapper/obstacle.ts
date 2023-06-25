@@ -43,7 +43,7 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }> extends W
       return this;
    }
 
-   mirror() {
+   mirror(_flipAlt?: boolean, _flipNoodle?: boolean) {
       this.posX = LINE_COUNT - 1 - (this.posX + this.width - 1);
       return this;
    }
@@ -63,8 +63,7 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }> extends W
    }
 
    isLonger(compareTo: IWrapObstacle, prevOffset = 0): boolean {
-      return this.time + this.duration >
-         compareTo.time + compareTo.duration + prevOffset;
+      return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
    }
 
    hasZero() {
@@ -72,7 +71,9 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }> extends W
    }
 
    hasNegative() {
-      return this.posY < 0 || this.duration < 0 || this.width < 0 || this.height < 0;
+      return (
+         this.posX < 0 || this.posY < 0 || this.duration < 0 || this.width < 0 || this.height < 0
+      );
    }
 
    isValid(): boolean {

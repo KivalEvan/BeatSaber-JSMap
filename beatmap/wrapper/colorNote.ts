@@ -31,27 +31,16 @@ export abstract class WrapColorNote<T extends { [P in keyof T]: T[P] }> extends 
       return this;
    }
 
+   mirror(flipColor = true, _flipNoodle?: boolean) {
+      return super.mirror(flipColor);
+   }
+
    isNote(): boolean {
       return this.type === 0 || this.type === 1;
    }
 
    isBomb(): boolean {
       return this.type === 3;
-   }
-
-   mirror(flipColor = true) {
-      return super.mirror(flipColor);
-   }
-
-   swapRotation(toSwap: IWrapColorNote, mirrorAngle = true) {
-      const tempA = toSwap.angleOffset;
-      toSwap.angleOffset = this.angleOffset;
-      this.angleOffset = tempA;
-      if (mirrorAngle) {
-         toSwap.angleOffset = 0 - toSwap.angleOffset;
-         this.angleOffset = 0 - this.angleOffset;
-      }
-      return this;
    }
 
    getAngle(_type?: ModType) {

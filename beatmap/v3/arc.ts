@@ -87,32 +87,34 @@ export class Arc extends WrapArc<IArc> {
       this._customData = value;
    }
 
-   mirror(flipColor = true) {
-      if (this.customData.coordinates) {
-         this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
-      }
-      if (this.customData.flip) {
-         this.customData.flip[0] = -1 - this.customData.flip[0];
-      }
-      if (this.customData.animation) {
-         if (Array.isArray(this.customData.animation.definitePosition)) {
-            if (isVector3(this.customData.animation.definitePosition)) {
-               this.customData.animation.definitePosition[0] = -this.customData.animation
-                  .definitePosition[0];
-            } else {
-               this.customData.animation.definitePosition.forEach((dp) => {
-                  dp[0] = -dp[0];
-               });
-            }
+   mirror(flipColor = true, flipNoodle?: boolean) {
+      if (flipNoodle) {
+         if (this.customData.coordinates) {
+            this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
          }
-         if (Array.isArray(this.customData.animation.offsetPosition)) {
-            if (isVector3(this.customData.animation.offsetPosition)) {
-               this.customData.animation.offsetPosition[0] = -this.customData.animation
-                  .offsetPosition[0];
-            } else {
-               this.customData.animation.offsetPosition.forEach((op) => {
-                  op[0] = -op[0];
-               });
+         if (this.customData.flip) {
+            this.customData.flip[0] = -1 - this.customData.flip[0];
+         }
+         if (this.customData.animation) {
+            if (Array.isArray(this.customData.animation.definitePosition)) {
+               if (isVector3(this.customData.animation.definitePosition)) {
+                  this.customData.animation.definitePosition[0] = -this.customData.animation
+                     .definitePosition[0];
+               } else {
+                  this.customData.animation.definitePosition.forEach((dp) => {
+                     dp[0] = -dp[0];
+                  });
+               }
+            }
+            if (Array.isArray(this.customData.animation.offsetPosition)) {
+               if (isVector3(this.customData.animation.offsetPosition)) {
+                  this.customData.animation.offsetPosition[0] = -this.customData.animation
+                     .offsetPosition[0];
+               } else {
+                  this.customData.animation.offsetPosition.forEach((op) => {
+                     op[0] = -op[0];
+                  });
+               }
             }
          }
       }

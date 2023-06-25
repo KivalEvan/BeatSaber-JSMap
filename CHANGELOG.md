@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.4.0 [2023-06-xx]
+## 1.4.0 [2023-06-26]
 
 ### Added
 
@@ -19,6 +19,7 @@
   - This reduce the confusion between internal and common name
   - Schema remained unchanged for obvious reason
 - Allow object class constructor to be used (similar to static `create` but as single object)
+- Allow object class `func` to have any arguments
 - Logger can now be instantiated
 - Unspecified difficulty version will now return base wrapper class instead of version specific
   - This means it won't automagically convert v2 map to v3 map when unspecified
@@ -44,6 +45,7 @@
 ### Removed
 
 - `data` in class object (`Array` and `Object` are never modified and could cause confusing usage)
+- `swapPosition` and `swapRotation` in class object (seemingly unnecessary utility)
 - `Required` object in concrete class (overall less visual noise)
 - Prompting in conversion (this should now be handled by script user)
 - FS utility (now uses standard module)

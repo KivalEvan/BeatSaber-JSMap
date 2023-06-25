@@ -2,9 +2,8 @@
 import { ModType } from '../shared/modCheck.ts';
 import { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
-export interface IWrapBaseNoteAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapGridObjectAttribute<T> {
+export interface IWrapBaseNoteAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapGridObjectAttribute<T> {
    /** Color `<int>` of note.
     * ```ts
     * 0 -> Red
@@ -30,13 +29,6 @@ export interface IWrapBaseNote<T extends { [P in keyof T]: T[P] } = Record<strin
    extends IWrapGridObject<T>, IWrapBaseNoteAttribute<T> {
    setColor(value: 0 | 1): this;
    setDirection(value: number): this;
-
-   /** Swap note rotation with another note.
-    * ```ts
-    * note.swapRotation(noteSwap);
-    * ```
-    */
-   swapRotation(toSwap: IWrapBaseNote, mirrorAngle: boolean): this;
 
    /** Get note and return standardised note angle.
     * ```ts

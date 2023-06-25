@@ -35,8 +35,9 @@ export abstract class WrapBaseItem<T extends { [P in keyof T]: T[P] }> extends S
       return this;
    }
 
-   func(fn: (object: this) => void) {
-      fn(this);
+   // deno-lint-ignore no-explicit-any
+   func(fn: (object: this, ...args: any[]) => void, ...args: any[]) {
+      fn(this, ...args);
       return this;
    }
 
