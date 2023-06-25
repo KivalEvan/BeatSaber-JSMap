@@ -1,4 +1,4 @@
-import { IInfo } from './types/beatmap/shared/info.ts';
+import { IInfo } from './types/beatmap/v2/info.ts';
 import {
    IOptimizeOptions,
    IOptimizeOptionsDifficulty,
@@ -32,7 +32,6 @@ const optionsDifficulty: Required<IOptimizeOptionsDifficulty> = {
    floatTrim: 4,
    stringTrim: true,
    throwError: true,
-   optimizeLight: false,
    sort: true,
 };
 
@@ -158,7 +157,6 @@ export function difficulty<T extends IDifficultyV1 | IDifficultyV2 | IDifficulty
       floatTrim: options.floatTrim ?? defaultOptions.difficulty.floatTrim,
       stringTrim: options.stringTrim ?? defaultOptions.difficulty.stringTrim,
       throwError: options.throwError ?? defaultOptions.difficulty.throwError,
-      optimizeLight: options.optimizeLight ?? defaultOptions.difficulty.optimizeLight,
       sort: options.sort ?? defaultOptions.difficulty.sort,
    };
 
@@ -180,10 +178,8 @@ export function difficulty<T extends IDifficultyV1 | IDifficultyV2 | IDifficulty
             return (
                Math.round((a._time + Number.EPSILON) * sortPrec) / sortPrec -
                   Math.round((b._time + Number.EPSILON) * sortPrec) / sortPrec ||
-               (a._customData._position as Vector2)[0] -
-                  (b._customData._position as Vector2)[0] ||
-               (a._customData._position as Vector2)[1] -
-                  (b._customData._position as Vector2)[1]
+               (a._customData._position as Vector2)[0] - (b._customData._position as Vector2)[0] ||
+               (a._customData._position as Vector2)[1] - (b._customData._position as Vector2)[1]
             );
          }
          return (
@@ -201,8 +197,7 @@ export function difficulty<T extends IDifficultyV1 | IDifficultyV2 | IDifficulty
                   Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||
                (a.customData.coordinates as Vector2)[0] -
                   (b.customData.coordinates as Vector2)[0] ||
-               (a.customData.coordinates as Vector2)[1] -
-                  (b.customData.coordinates as Vector2)[1]
+               (a.customData.coordinates as Vector2)[1] - (b.customData.coordinates as Vector2)[1]
             );
          }
          return (
