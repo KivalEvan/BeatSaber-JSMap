@@ -7,10 +7,8 @@ import { resolve } from '../../deps.ts';
 export async function compress(info: IWrapInfo, zipName: string) {
    await save.info(info);
    const toZip: string[] = [globals.directory + 'Info.dat'];
-   for (const difficulties of Object.values(info.difficultySets)) {
-      for (const d of difficulties) {
-         toZip.push(resolve(globals.directory + d.filename));
-      }
+   for (const [_, d] of info.listMap()) {
+      toZip.push(resolve(globals.directory + d.filename));
    }
    return zip.compress(toZip, globals.directory + zipName + '.zip', {
       overwrite: true,

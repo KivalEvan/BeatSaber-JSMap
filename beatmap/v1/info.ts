@@ -3,13 +3,14 @@ import { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
 import { IInfo, IInfoDifficulty } from '../../types/beatmap/v1/info.ts';
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
-import { WrapInfo, WrapInfoBeatmap } from '../wrapper/info.ts';
+import { WrapInfo, WrapInfoDifficulty } from '../wrapper/info.ts';
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { IColor } from '../../types/colors.ts';
 import { IContributor } from '../../types/beatmap/shared/custom/contributor.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { IWrapInfoDifficultyAttribute } from '../../types/beatmap/wrapper/info.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v1', 'info', name];
@@ -32,7 +33,7 @@ export class Info extends WrapInfo<IInfo> {
    environmentName: EnvironmentName | EnvironmentV3Name;
    allDirectionsEnvironmentName!: never;
    songTimeOffset!: never;
-   difficultySets: { [mode in CharacteristicName]?: InfoBeatmap[] } = {};
+   difficultySets: { [mode in CharacteristicName]?: InfoDifficulty[] } = {};
 
    oneSaber: boolean;
    contributors?: IContributor[];
@@ -53,10 +54,9 @@ export class Info extends WrapInfo<IInfo> {
 
       data.difficultyLevels?.forEach((d) => {
          this.songFilename ||= d.audioPath;
-         if (d.characteristic) {
-            this.difficultySets[d.characteristic] ||= [];
-            this.difficultySets[d.characteristic]!.push(new InfoBeatmap(d));
-         }
+         const mode = d.characteristic || 'Standard';
+         this.difficultySets[mode] ||= [];
+         this.difficultySets[mode]!.push(new InfoDifficulty(d));
       });
       this.songFilename ||= 'song.ogg';
 
@@ -80,13 +80,10 @@ export class Info extends WrapInfo<IInfo> {
          previewDuration: this.previewDuration,
          coverImagePath: this.coverImageFilename,
          environmentName: this.environmentName,
-         difficultyLevels: Object.values(this.difficultySets).reduce(
-            (sets: IInfoDifficulty[], beatmaps) => {
-               sets.push(...beatmaps.map((b) => b.toJSON()));
-               return sets;
-            },
-            [],
-         ),
+         difficultyLevels: this.listMap().reduce((sets: IInfoDifficulty[], [_, beatmap]) => {
+            sets.push(beatmap.toJSON());
+            return sets;
+         }, []),
          oneSaber: !!this.difficultySets.OneSaber?.length,
          contributors: this.contributors,
          customEnvironment: this.customEnvironment,
@@ -101,12 +98,30 @@ export class Info extends WrapInfo<IInfo> {
       logger.tWarn(tag('customData'), 'Custom data does not exist in beatmap V1');
    }
 
+   addMap(data: Partial<IInfoDifficulty>, characteristic?: CharacteristicName): this;
+   addMap(data: Partial<IWrapInfoDifficultyAttribute>, characteristic?: CharacteristicName): this;
+   addMap(
+      data: Partial<IInfoDifficulty> & Partial<IWrapInfoDifficultyAttribute>,
+      characteristic?: CharacteristicName,
+   ): this {
+      const mode = (characteristic || data.characteristic) ?? 'Standard';
+      data.audioPath ||= this.songFilename;
+
+      this.difficultySets[mode] ??= [];
+      this.difficultySets[mode]!.push(new InfoDifficulty(data));
+      return this;
+   }
+
+   listMap(): [CharacteristicName, InfoDifficulty][] {
+      return super.listMap() as [CharacteristicName, InfoDifficulty][];
+   }
+
    isValid(): boolean {
       throw new Error('Method not implemented.');
    }
 }
 
-export class InfoBeatmap extends WrapInfoBeatmap<IInfoDifficulty> {
+export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    difficulty: DifficultyName;
    rank: IInfoDifficulty['difficultyRank'];
    filename: LooseAutocomplete<GenericFileName>;

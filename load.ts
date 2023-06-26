@@ -1,6 +1,6 @@
 import { IDifficultyList } from './types/bsmap/list.ts';
 import { GenericFileName } from './types/beatmap/shared/filename.ts';
-import { Info as InfoV1, InfoBeatmap } from './beatmap/v1/info.ts';
+import { Info as InfoV1, InfoDifficulty } from './beatmap/v1/info.ts';
 import { Info as InfoV2 } from './beatmap/v2/info.ts';
 import { Difficulty as DifficultyV1 } from './beatmap/v1/difficulty.ts';
 import { Difficulty as DifficultyV2 } from './beatmap/v2/difficulty.ts';
@@ -18,7 +18,6 @@ import { toInfoV2, toV2 } from './converter/toV2.ts';
 import { toV3 } from './converter/toV3.ts';
 import { IWrapDifficulty } from './types/beatmap/wrapper/difficulty.ts';
 import { IWrapInfo } from './types/beatmap/wrapper/info.ts';
-import { CharacteristicName } from './types/mod.ts';
 
 function tag(name: string): string[] {
    return ['load', name];
@@ -190,7 +189,7 @@ function _difficulty(
       if (jsonVersion === 2) {
          const d = parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(filePath);
          if (version === 1) {
-            return toV1(d, new InfoV1(), new InfoBeatmap({ jsonPath: filePath }));
+            return toV1(d, new InfoV1(), new InfoDifficulty({ jsonPath: filePath }));
          }
          if (version === 3) return toV3(d);
       }
@@ -198,7 +197,7 @@ function _difficulty(
          const d = parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(filePath);
          if (version === 2) return toV2(d);
          if (version === 1) {
-            return toV1(d, new InfoV1(), new InfoBeatmap({ jsonPath: filePath }));
+            return toV1(d, new InfoV1(), new InfoDifficulty({ jsonPath: filePath }));
          }
       }
       return parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(filePath);
@@ -297,55 +296,52 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
       dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
    };
    const lists: IDifficultyList = [];
-   for (const [mode, difficulties] of Object.entries(info.difficultySets)) {
-      const m = mode as CharacteristicName;
-      for (const d of difficulties) {
-         const p = resolve(opt.directory, d.filename);
-         try {
-            logger.tInfo(tag('_difficultyFromInfo'), `Loading difficulty from ${p}`);
-            const diffJSON = JSON.parse(Deno.readTextFileSync(p));
+   for (const [mode, beatmap] of info.listMap()) {
+      const p = resolve(opt.directory, beatmap.filename);
+      try {
+         logger.tInfo(tag('_difficultyFromInfo'), `Loading difficulty from ${p}`);
+         const diffJSON = JSON.parse(Deno.readTextFileSync(p));
 
-            const jsonVersion = parseInt(
-               typeof diffJSON._version === 'string'
-                  ? diffJSON._version.at(0)!
-                  : typeof diffJSON.version === 'string'
-                  ? diffJSON.version?.at(0)!
-                  : '2',
-            );
+         const jsonVersion = parseInt(
+            typeof diffJSON._version === 'string'
+               ? diffJSON._version.at(0)!
+               : typeof diffJSON.version === 'string'
+               ? diffJSON.version?.at(0)!
+               : '2',
+         );
 
-            if (jsonVersion === 1) {
-               lists.push({
-                  characteristic: m,
-                  difficulty: d.difficulty,
-                  settings: d,
-                  version: 1,
-                  data: parseDifficultyV1(diffJSON, opt.dataCheck).setFileName(d.filename),
-               });
-            }
-            if (jsonVersion === 2) {
-               lists.push({
-                  characteristic: m,
-                  difficulty: d.difficulty,
-                  settings: d,
-                  version: 2,
-                  data: parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(d.filename),
-               });
-            }
-            if (jsonVersion === 3) {
-               lists.push({
-                  characteristic: m,
-                  difficulty: d.difficulty,
-                  settings: d,
-                  version: 3,
-                  data: parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(d.filename),
-               });
-            }
-         } catch {
-            logger.tWarn(
-               tag('_difficultyFromInfo'),
-               `Could not load difficulty from ${p}, skipping...`,
-            );
+         if (jsonVersion === 1) {
+            lists.push({
+               characteristic: mode,
+               difficulty: beatmap.difficulty,
+               settings: beatmap,
+               version: 1,
+               data: parseDifficultyV1(diffJSON, opt.dataCheck).setFileName(beatmap.filename),
+            });
          }
+         if (jsonVersion === 2) {
+            lists.push({
+               characteristic: mode,
+               difficulty: beatmap.difficulty,
+               settings: beatmap,
+               version: 2,
+               data: parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(beatmap.filename),
+            });
+         }
+         if (jsonVersion === 3) {
+            lists.push({
+               characteristic: mode,
+               difficulty: beatmap.difficulty,
+               settings: beatmap,
+               version: 3,
+               data: parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(beatmap.filename),
+            });
+         }
+      } catch {
+         logger.tWarn(
+            tag('_difficultyFromInfo'),
+            `Could not load difficulty from ${p}, skipping...`,
+         );
       }
    }
    return lists;

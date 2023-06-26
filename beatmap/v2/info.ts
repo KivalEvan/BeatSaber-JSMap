@@ -2,12 +2,13 @@ import { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
 import { IInfo, IInfoSet, IInfoSetDifficulty } from '../../types/beatmap/v2/info.ts';
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
-import { WrapInfo, WrapInfoBeatmap } from '../wrapper/info.ts';
+import { WrapInfo, WrapInfoDifficulty } from '../wrapper/info.ts';
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
-import { Environment360Name } from '../../types/mod.ts';
+import { Environment360Name } from '../../types/beatmap/shared/environment.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { IWrapInfoDifficultyAttribute } from '../../types/beatmap/wrapper/info.ts';
 
 /** Difficulty beatmap class object. */
 export class Info extends WrapInfo<IInfo> {
@@ -26,7 +27,7 @@ export class Info extends WrapInfo<IInfo> {
    environmentName: EnvironmentName | EnvironmentV3Name;
    allDirectionsEnvironmentName!: Environment360Name;
    songTimeOffset!: number;
-   difficultySets: { [mode in CharacteristicName]?: InfoBeatmap[] } = {};
+   difficultySets: { [mode in CharacteristicName]?: InfoDifficulty[] } = {};
 
    constructor(data: Partial<IInfo> = {}) {
       super();
@@ -50,7 +51,7 @@ export class Info extends WrapInfo<IInfo> {
 
       data._difficultyBeatmapSets?.forEach((set) => {
          this.difficultySets[set._beatmapCharacteristicName] = set._difficultyBeatmaps.map(
-            (beatmap) => new InfoBeatmap(beatmap, set._beatmapCharacteristicName),
+            (beatmap) => new InfoDifficulty(beatmap, set._beatmapCharacteristicName),
          );
       });
    }
@@ -77,16 +78,19 @@ export class Info extends WrapInfo<IInfo> {
          _allDirectionsEnvironmentName: this.allDirectionsEnvironmentName,
          _songTimeOffset: this.songTimeOffset,
          _customData: this.customData,
-         _difficultyBeatmapSets: Object.entries(this.difficultySets).reduce(
-            (sets, [mode, beatmaps]) => {
-               sets.push({
-                  _beatmapCharacteristicName: mode as CharacteristicName,
-                  _difficultyBeatmaps: beatmaps.map((b) => b.toJSON()),
-               });
+         _difficultyBeatmapSets: Object.entries(
+            this.listMap().reduce((sets, [mode, beatmap]) => {
+               sets[mode] ??= [];
+               sets[mode].push(beatmap.toJSON());
                return sets;
-            },
-            [] as IInfoSet[],
-         ),
+            }, {} as { [key: string]: IInfoSetDifficulty[] }),
+         ).reduce((ary, [mode, beatmaps]) => {
+            ary.push({
+               _beatmapCharacteristicName: mode as CharacteristicName,
+               _difficultyBeatmaps: beatmaps,
+            });
+            return ary;
+         }, [] as IInfoSet[]),
       };
    }
 
@@ -97,12 +101,29 @@ export class Info extends WrapInfo<IInfo> {
       this._customData = value;
    }
 
+   addMap(data: Partial<IInfoSetDifficulty>, characteristic?: CharacteristicName): this;
+   addMap(data: Partial<IWrapInfoDifficultyAttribute>, characteristic?: CharacteristicName): this;
+   addMap(
+      data: Partial<IWrapInfoDifficultyAttribute> & Partial<IInfoSetDifficulty>,
+      characteristic?: CharacteristicName,
+   ): this {
+      const mode = (characteristic || data.characteristic) ?? 'Standard';
+
+      this.difficultySets[mode] ??= [];
+      this.difficultySets[mode]!.push(new InfoDifficulty(data));
+      return this;
+   }
+
+   listMap(): [CharacteristicName, InfoDifficulty][] {
+      return super.listMap() as [CharacteristicName, InfoDifficulty][];
+   }
+
    isValid(): boolean {
       throw new Error('Method not implemented.');
    }
 }
 
-export class InfoBeatmap extends WrapInfoBeatmap<IInfoSetDifficulty> {
+export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
    readonly characteristic?: CharacteristicName | undefined;
    difficulty: DifficultyName;
    rank: IInfoSetDifficulty['_difficultyRank'];

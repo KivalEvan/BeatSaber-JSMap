@@ -24,14 +24,19 @@ export interface IWrapInfoAttribute<T extends { [P in keyof T]: T[P] } = Record<
    environmentName: EnvironmentName | EnvironmentV3Name;
    allDirectionsEnvironmentName: Environment360Name;
    songTimeOffset: number;
-   difficultySets: { [mode in CharacteristicName]?: IWrapInfoBeatmap[] };
+   readonly difficultySets: { [mode in CharacteristicName]?: IWrapInfoDifficulty[] };
 }
 
 export interface IWrapInfo<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>, IWrapInfoAttribute<T> {}
+   extends IWrapBaseItem<T>, IWrapInfoAttribute<T> {
+   /** Show entries of map inside info. */
+   addMap(data: Partial<IWrapInfoDifficultyAttribute>): this;
+   listMap(): [CharacteristicName, IWrapInfoDifficulty][];
+}
 
-export interface IWrapInfoBeatmapAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T> {
+export interface IWrapInfoDifficultyAttribute<
+   T extends { [P in keyof T]: T[P] } = Record<string, any>,
+> extends IWrapBaseItem<T> {
    /** Loose string to parent characteristic name, cannot be up-to-date when moved */
    readonly characteristic?: CharacteristicName;
    difficulty: DifficultyName;
@@ -41,5 +46,5 @@ export interface IWrapInfoBeatmapAttribute<T extends { [P in keyof T]: T[P] } = 
    njsOffset: number;
 }
 
-export interface IWrapInfoBeatmap<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>, IWrapInfoBeatmapAttribute<T> {}
+export interface IWrapInfoDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItem<T>, IWrapInfoDifficultyAttribute<T> {}

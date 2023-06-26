@@ -6,10 +6,9 @@ import { Note } from '../beatmap/v1/note.ts';
 import { Event } from '../beatmap/v1/event.ts';
 import { Obstacle } from '../beatmap/v1/obstacle.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
-import { IWrapInfo, IWrapInfoBeatmap } from '../types/beatmap/wrapper/info.ts';
-import { Info as InfoV1, InfoBeatmap } from '../beatmap/v1/info.ts';
+import { IWrapInfo, IWrapInfoDifficulty } from '../types/beatmap/wrapper/info.ts';
+import { Info as InfoV1 } from '../beatmap/v1/info.ts';
 import { deepCopy } from '../utils/misc.ts';
-import { CharacteristicName } from '../types/beatmap/shared/characteristic.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -25,7 +24,7 @@ function tag(name: string): string[] {
 export function toV1(
    data: IWrapDifficulty,
    info: IWrapInfo,
-   infoDifficulty: IWrapInfoBeatmap,
+   infoDifficulty: IWrapInfoDifficulty,
 ): DifficultyV1 {
    if (data instanceof DifficultyV1) {
       return data;
@@ -84,38 +83,34 @@ export function toInfoV1(data: IWrapInfo): InfoV1 {
    template.previewDuration = data.previewDuration;
    template.coverImageFilename = data.coverImageFilename;
    template.environmentName = data.environmentName;
-   template.difficultySets = Object.entries(data.difficultySets).reduce(
-      // deno-lint-ignore no-explicit-any
-      (sets: any, [mode, beatmaps]) => {
-         sets[mode as CharacteristicName] = beatmaps.map((m) => {
-            return new InfoBeatmap({
-               difficulty: m.difficulty,
-               difficultyRank: m.rank as 1,
-               audioPath: data.songFilename,
-               jsonPath: m.filename,
-               characteristic: mode as 'Standard',
-               offset: m.customData?._editorOffset,
-               oldOffset: m.customData?._editorOldOffset,
-               chromaToggle: 'Off',
-               customColors: !!(
-                  m.customData?._colorLeft ||
-                  m.customData?._colorRight ||
-                  m.customData?._envColorLeft ||
-                  m.customData?._envColorRight ||
-                  m.customData?._obstacleColor
-               ),
-               difficultyLabel: m.customData?._difficultyLabel,
-               colorLeft: deepCopy(m.customData._colorLeft),
-               colorRight: deepCopy(m.customData._colorRight),
-               envColorLeft: deepCopy(m.customData._envColorLeft),
-               envColorRight: deepCopy(m.customData._envColorRight),
-               obstacleColor: deepCopy(m.customData._obstacleColor),
-            });
-         });
-         return sets;
-      },
-      {},
-   );
+   data.listMap().forEach(([mode, m]) => {
+      template.addMap(
+         {
+            difficulty: m.difficulty,
+            difficultyRank: m.rank as 1,
+            audioPath: data.songFilename,
+            jsonPath: m.filename,
+            characteristic: mode,
+            offset: m.customData?._editorOffset,
+            oldOffset: m.customData?._editorOldOffset,
+            chromaToggle: 'Off',
+            customColors: !!(
+               m.customData?._colorLeft ||
+               m.customData?._colorRight ||
+               m.customData?._envColorLeft ||
+               m.customData?._envColorRight ||
+               m.customData?._obstacleColor
+            ),
+            difficultyLabel: m.customData?._difficultyLabel,
+            colorLeft: deepCopy(m.customData._colorLeft),
+            colorRight: deepCopy(m.customData._colorRight),
+            envColorLeft: deepCopy(m.customData._envColorLeft),
+            envColorRight: deepCopy(m.customData._envColorRight),
+            obstacleColor: deepCopy(m.customData._obstacleColor),
+         },
+         mode,
+      );
+   });
    template.oneSaber = !!data.difficultySets.OneSaber?.length;
    template.contributors = data.customData?._contributors;
    template.customEnvironment = data.customData?._customEnvironment;

@@ -7,7 +7,11 @@ import {
 } from '../../types/beatmap/shared/environment.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { Version } from '../../types/beatmap/shared/version.ts';
-import { IWrapInfo, IWrapInfoBeatmap } from '../../types/beatmap/wrapper/info.ts';
+import {
+   IWrapInfo,
+   IWrapInfoDifficulty,
+   IWrapInfoDifficultyAttribute,
+} from '../../types/beatmap/wrapper/info.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
@@ -31,7 +35,7 @@ export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }> extends WrapB
    abstract environmentName: EnvironmentName | EnvironmentV3Name;
    abstract allDirectionsEnvironmentName: Environment360Name;
    abstract songTimeOffset: number;
-   difficultySets: { [mode in CharacteristicName]?: IWrapInfoBeatmap[] } = {};
+   difficultySets: { [mode in CharacteristicName]?: IWrapInfoDifficulty[] } = {};
 
    clone<U extends this>(): U {
       return super.clone().setFileName(this.filename) as U;
@@ -48,10 +52,27 @@ export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }> extends WrapB
       this.filename = filename;
       return this;
    }
+
+   abstract addMap(data: Partial<IWrapInfoDifficultyAttribute>): this;
+
+   listMap(): [CharacteristicName, IWrapInfoDifficulty][] {
+      return Object.entries(this.difficultySets).reduce(
+         (sets: [CharacteristicName, IWrapInfoDifficulty][], [mode, beatmaps]) => {
+            sets.push(
+               ...beatmaps.map(
+                  (b) =>
+                     [mode as CharacteristicName, b] as [CharacteristicName, IWrapInfoDifficulty],
+               ),
+            );
+            return sets;
+         },
+         [],
+      );
+   }
 }
 
-export abstract class WrapInfoBeatmap<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
-   implements IWrapInfoBeatmap<T> {
+export abstract class WrapInfoDifficulty<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
+   implements IWrapInfoDifficulty<T> {
    abstract readonly characteristic?: CharacteristicName;
    abstract difficulty: DifficultyName;
    abstract rank: number;

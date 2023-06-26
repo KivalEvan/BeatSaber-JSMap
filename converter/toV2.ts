@@ -2,8 +2,8 @@ import logger from '../logger.ts';
 import { Difficulty as DifficultyV1 } from '../beatmap/v1/difficulty.ts';
 import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
-import { Info as InfoV1, InfoBeatmap as InfoBeatmapV1 } from '../beatmap/v1/info.ts';
-import { Info as InfoV2, InfoBeatmap as InfoBeatmapV2 } from '../beatmap/v2/info.ts';
+import { Info as InfoV1 } from '../beatmap/v1/info.ts';
+import { Info as InfoV2 } from '../beatmap/v2/info.ts';
 import { clamp } from '../utils/math.ts';
 import { ICustomDataNote } from '../types/beatmap/v2/custom/note.ts';
 import { ICustomDataObstacle } from '../types/beatmap/v2/custom/obstacle.ts';
@@ -21,7 +21,6 @@ import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IBPMChangeOld } from '../types/beatmap/v2/custom/bpmChange.ts';
 import { deepCopy } from '../utils/misc.ts';
 import { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
-import { CharacteristicName } from '../types/beatmap/shared/characteristic.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -538,36 +537,30 @@ export function toInfoV2(data: IWrapInfo): InfoV2 {
       template.customData = deepCopy(data.customData);
    }
 
-   template.difficultySets = Object.entries(data.difficultySets).reduce(
-      // deno-lint-ignore no-explicit-any
-      (sets: any, [mode, beatmaps]) => {
-         sets[mode as CharacteristicName] = beatmaps.map((m) => {
-            return new InfoBeatmapV2({
-               _difficulty: m.difficulty,
-               _difficultyRank: m.rank as 1,
-               _beatmapFilename: m.filename,
-               _noteJumpMovementSpeed: m.njs,
-               _noteJumpStartBeatOffset: m.njsOffset,
-               _customData: deepCopy(
-                  m instanceof InfoBeatmapV1
-                     ? {
-                        _editorOffset: m.offset,
-                        _editorOldOffset: m.oldOffset,
-                        _difficultyLabel: m.difficultyLabel,
-                        _colorLeft: deepCopy(m.colorLeft),
-                        _colorRight: deepCopy(m.colorRight),
-                        _envColorLeft: deepCopy(m.envColorLeft),
-                        _envColorRight: deepCopy(m.envColorRight),
-                        _obstacleColor: deepCopy(m.obstacleColor),
-                     }
-                     : m.customData,
-               ),
-            });
-         });
-         return sets;
-      },
-      {},
-   );
+   if (data instanceof InfoV1) {
+      data.listMap().forEach(([mode, beatmap]) => {
+         template.addMap(
+            {
+               _difficulty: beatmap.difficulty,
+               _difficultyRank: beatmap.rank as 1,
+               _beatmapFilename: beatmap.filename,
+               _noteJumpMovementSpeed: beatmap.njs,
+               _noteJumpStartBeatOffset: beatmap.njsOffset,
+               _customData: deepCopy({
+                  _editorOffset: beatmap.offset,
+                  _editorOldOffset: beatmap.oldOffset,
+                  _difficultyLabel: beatmap.difficultyLabel,
+                  _colorLeft: deepCopy(beatmap.colorLeft),
+                  _colorRight: deepCopy(beatmap.colorRight),
+                  _envColorLeft: deepCopy(beatmap.envColorLeft),
+                  _envColorRight: deepCopy(beatmap.envColorRight),
+                  _obstacleColor: deepCopy(beatmap.obstacleColor),
+               }),
+            },
+            mode,
+         );
+      });
+   }
 
    return template;
 }
