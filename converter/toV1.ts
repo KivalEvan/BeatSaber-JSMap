@@ -84,8 +84,8 @@ export function toInfoV1(data: IWrapInfo): InfoV1 {
    template.previewDuration = data.previewDuration;
    template.coverImageFilename = data.coverImageFilename;
    template.environmentName = data.environmentName;
-   // deno-lint-ignore no-explicit-any
    template.difficultySets = Object.entries(data.difficultySets).reduce(
+      // deno-lint-ignore no-explicit-any
       (sets: any, [mode, beatmaps]) => {
          sets[mode as CharacteristicName] = beatmaps.map((m) => {
             return new InfoBeatmap({

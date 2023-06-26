@@ -538,8 +538,8 @@ export function toInfoV2(data: IWrapInfo): InfoV2 {
       template.customData = deepCopy(data.customData);
    }
 
-   // deno-lint-ignore no-explicit-any
    template.difficultySets = Object.entries(data.difficultySets).reduce(
+      // deno-lint-ignore no-explicit-any
       (sets: any, [mode, beatmaps]) => {
          sets[mode as CharacteristicName] = beatmaps.map((m) => {
             return new InfoBeatmapV2({

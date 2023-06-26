@@ -296,12 +296,10 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
       forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
       dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
    };
-   const difficulties: IDifficultyList = [];
-   for (const mode in info.difficultySets) {
+   const lists: IDifficultyList = [];
+   for (const [mode, difficulties] of Object.entries(info.difficultySets)) {
       const m = mode as CharacteristicName;
-      const sets = info.difficultySets[m];
-      if (!sets) continue;
-      for (const d of sets) {
+      for (const d of difficulties) {
          const p = resolve(opt.directory, d.filename);
          try {
             logger.tInfo(tag('_difficultyFromInfo'), `Loading difficulty from ${p}`);
@@ -316,7 +314,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
             );
 
             if (jsonVersion === 1) {
-               difficulties.push({
+               lists.push({
                   characteristic: m,
                   difficulty: d.difficulty,
                   settings: d,
@@ -325,7 +323,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
                });
             }
             if (jsonVersion === 2) {
-               difficulties.push({
+               lists.push({
                   characteristic: m,
                   difficulty: d.difficulty,
                   settings: d,
@@ -334,7 +332,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
                });
             }
             if (jsonVersion === 3) {
-               difficulties.push({
+               lists.push({
                   characteristic: m,
                   difficulty: d.difficulty,
                   settings: d,
@@ -350,7 +348,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
          }
       }
    }
-   return difficulties;
+   return lists;
 }
 
 /** Asynchronously load multiple beatmap difficulties given beatmap info.
