@@ -33,7 +33,7 @@ export function toV1(
 
    logger.tWarn(tag('toV1'), 'Converting beatmap to v1 may lose certain data!');
    const template = new DifficultyV1();
-   template.fileName = data.fileName;
+   template.filename = data.filename;
 
    template.beatsPerMinute = info.beatsPerMinute;
    template.shuffle = info.shuffle;

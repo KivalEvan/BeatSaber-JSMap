@@ -77,7 +77,7 @@ await save.difficulty(data2, {
 Difficulty file name is saved directly in difficulty class and can be changed.
 
 ```ts
-data.fileName = 'ExpertPlusStandard.dat';
+data.filename = 'ExpertPlusStandard.dat';
 ```
 
 If you happen to use the script outside of map folder, you can do the following before loading the

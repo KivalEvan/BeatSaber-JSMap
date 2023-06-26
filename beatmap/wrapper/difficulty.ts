@@ -34,7 +34,7 @@ import {
    LooseAutocomplete,
    PartialWrapper,
 } from '../../types/utils.ts';
-import { GenericFileName } from '../../types/beatmap/shared/fileName.ts';
+import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { EventContainer, NoteContainer } from '../../types/beatmap/wrapper/container.ts';
 import { Version } from '../../types/beatmap/shared/version.ts';
 import { WrapBaseItem } from './baseItem.ts';
@@ -43,7 +43,7 @@ import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 /** Difficulty beatmap class object. */
 export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
    implements IWrapDifficulty<T> {
-   private _fileName = 'UnnamedDifficulty.dat';
+   private _filename = 'UnnamedDifficulty.dat';
 
    abstract version: Version;
    abstract bpmEvents: IWrapBPMEvent[];
@@ -63,18 +63,18 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
    abstract useNormalEventsAsCompatibleEvents: boolean;
 
    clone<U extends this>(): U {
-      return super.clone().setFileName(this.fileName) as U;
+      return super.clone().setFileName(this.filename) as U;
    }
 
-   set fileName(name: LooseAutocomplete<GenericFileName>) {
-      this._fileName = name.trim();
+   set filename(name: LooseAutocomplete<GenericFileName>) {
+      this._filename = name.trim();
    }
-   get fileName(): string {
-      return this._fileName;
+   get filename(): string {
+      return this._filename;
    }
 
-   setFileName(fileName: LooseAutocomplete<GenericFileName>) {
-      this.fileName = fileName;
+   setFileName(filename: LooseAutocomplete<GenericFileName>) {
+      this.filename = filename;
       return this;
    }
 

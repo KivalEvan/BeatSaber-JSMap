@@ -25,7 +25,7 @@ import { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
 import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import { Version } from '../shared/version.ts';
 import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
-import { GenericFileName } from '../shared/fileName.ts';
+import { GenericFileName } from '../shared/filename.ts';
 import { EventContainer, NoteContainer } from './container.ts';
 import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
 
@@ -48,12 +48,12 @@ export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = R
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
 
-   fileName: string;
+   filename: string;
 }
 
 export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
-   setFileName(fileName: LooseAutocomplete<GenericFileName>): this;
+   setFileName(filename: LooseAutocomplete<GenericFileName>): this;
 
    /** Reparse the beatmap to their respective schema class.
     *

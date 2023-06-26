@@ -5,7 +5,7 @@ import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
 import { WrapInfo, WrapInfoBeatmap } from '../wrapper/info.ts';
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
-import { GenericFileName } from '../../types/beatmap/shared/fileName.ts';
+import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { Environment360Name } from '../../types/mod.ts';
 import { deepCopy } from '../../utils/misc.ts';
 

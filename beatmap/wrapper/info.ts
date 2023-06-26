@@ -5,7 +5,7 @@ import {
    EnvironmentName,
    EnvironmentV3Name,
 } from '../../types/beatmap/shared/environment.ts';
-import { GenericFileName } from '../../types/beatmap/shared/fileName.ts';
+import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { Version } from '../../types/beatmap/shared/version.ts';
 import { IWrapInfo, IWrapInfoBeatmap } from '../../types/beatmap/wrapper/info.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
@@ -14,7 +14,7 @@ import { WrapBaseItem } from './baseItem.ts';
 /** Difficulty beatmap class object. */
 export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
    implements IWrapInfo<T> {
-   private _fileName = 'Info.dat';
+   private _filename = 'Info.dat';
 
    abstract version: Version;
    abstract songName: string;
@@ -34,18 +34,18 @@ export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }> extends WrapB
    difficultySets: { [mode in CharacteristicName]?: IWrapInfoBeatmap[] } = {};
 
    clone<U extends this>(): U {
-      return super.clone().setFileName(this.fileName) as U;
+      return super.clone().setFileName(this.filename) as U;
    }
 
-   set fileName(name: LooseAutocomplete<'Info.dat' | 'info.dat'>) {
-      this._fileName = name.trim();
+   set filename(name: LooseAutocomplete<'Info.dat' | 'info.dat'>) {
+      this._filename = name.trim();
    }
-   get fileName(): string {
-      return this._fileName;
+   get filename(): string {
+      return this._filename;
    }
 
-   setFileName(fileName: LooseAutocomplete<'Info.dat' | 'info.dat'>) {
-      this.fileName = fileName;
+   setFileName(filename: LooseAutocomplete<'Info.dat' | 'info.dat'>) {
+      this.filename = filename;
       return this;
    }
 }

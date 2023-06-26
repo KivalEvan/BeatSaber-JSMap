@@ -41,7 +41,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
    logger.tWarn(tag('toV3'), 'Converting beatmap to v3 may lose certain data!');
 
    const template = new DifficultyV3();
-   template.fileName = data.fileName;
+   template.filename = data.filename;
 
    if (data instanceof DifficultyV1) {
       template.colorNotes = data.colorNotes.map((obj) => new ColorNote(obj));
@@ -115,8 +115,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                      c: n.type as 0 | 1,
                      x: n.posX,
                      y: n.posY,
-                     d: n.direction >= 1000 ||
-                           typeof n.customData._cutDirection === 'number'
+                     d: n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
                         ? n.direction === 8 ? 8 : 1
                         : clamp(n.direction, 0, 8),
                      a: a,
@@ -130,8 +129,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                      c: n.type as 0 | 1,
                      x: n.posX,
                      y: n.posY,
-                     d: n.direction >= 1000 ||
-                           typeof n.customData._cutDirection === 'number'
+                     d: n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
                         ? n.direction === 8 ? 8 : 1
                         : clamp(n.direction, 0, 8),
                      a: a,
@@ -227,11 +225,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                      `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`,
                   );
                }
-               if (
-                  e.customData._stepMult ||
-                  e.customData._propMult ||
-                  e.customData._speedMult
-               ) {
+               if (e.customData._stepMult || e.customData._propMult || e.customData._speedMult) {
                   logger.tWarn(
                      tag('toV3'),
                      `events[${i}] at time ${e.time} Chroma _mult will be removed.`,
@@ -379,82 +373,78 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                continue;
             }
             if (k === '_environment') {
-               template.customData.environment = data.customData._environment!.map(
-                  (e) => {
-                     let components: IChromaComponent = {};
-                     if (e._lightID) {
-                        components = {
-                           ILightWithId: { lightID: e._lightID },
-                        };
+               template.customData.environment = data.customData._environment!.map((e) => {
+                  let components: IChromaComponent = {};
+                  if (e._lightID) {
+                     components = {
+                        ILightWithId: { lightID: e._lightID },
+                     };
+                  }
+                  if (e._id && e._lookupMethod) {
+                     return {
+                        id: e._id,
+                        lookupMethod: e._lookupMethod,
+                        track: e._track,
+                        duplicate: e._duplicate,
+                        active: e._active,
+                        scale: e._scale,
+                        position: vectorMul(e._position, 0.6),
+                        rotation: e._rotation,
+                        localPosition: vectorMul(e._localPosition, 0.6),
+                        localRotation: e._localRotation,
+                        components,
+                     };
+                  }
+                  if (e._geometry) {
+                     if (e._lightID && components.ILightWithId) {
+                        components.ILightWithId.type = 0;
                      }
-                     if (e._id && e._lookupMethod) {
-                        return {
-                           id: e._id,
-                           lookupMethod: e._lookupMethod,
-                           track: e._track,
-                           duplicate: e._duplicate,
-                           active: e._active,
-                           scale: e._scale,
-                           position: vectorMul(e._position, 0.6),
-                           rotation: e._rotation,
-                           localPosition: vectorMul(e._localPosition, 0.6),
-                           localRotation: e._localRotation,
-                           components,
-                        };
-                     }
-                     if (e._geometry) {
-                        if (e._lightID && components.ILightWithId) {
-                           components.ILightWithId.type = 0;
-                        }
-                        return {
-                           geometry: e._geometry._type === 'CUSTOM'
-                              ? {
-                                 type: e._geometry._type,
-                                 mesh: {
-                                    vertices: e._geometry._mesh._vertices,
-                                    uv: e._geometry._mesh._uv,
-                                    triangles: e._geometry._mesh._triangles,
-                                 },
-                                 material: typeof e._geometry._material === 'string'
-                                    ? e._geometry._material
-                                    : {
-                                       shader: e._geometry._material._shader,
-                                       shaderKeywords: e._geometry._material
-                                          ._shaderKeywords,
-                                       collision: e._geometry._material._collision,
-                                       track: e._geometry._material._track,
-                                       color: e._geometry._material._color,
-                                    },
-                                 collision: e._geometry._collision,
-                              }
-                              : {
-                                 type: e._geometry._type,
-                                 material: typeof e._geometry._material === 'string'
-                                    ? e._geometry._material
-                                    : {
-                                       shader: e._geometry._material._shader,
-                                       shaderKeywords: e._geometry._material
-                                          ._shaderKeywords,
-                                       collision: e._geometry._material._collision,
-                                       track: e._geometry._material._track,
-                                       color: e._geometry._material._color,
-                                    },
-                                 collision: e._geometry._collision,
+                     return {
+                        geometry: e._geometry._type === 'CUSTOM'
+                           ? {
+                              type: e._geometry._type,
+                              mesh: {
+                                 vertices: e._geometry._mesh._vertices,
+                                 uv: e._geometry._mesh._uv,
+                                 triangles: e._geometry._mesh._triangles,
                               },
-                           track: e._track,
-                           duplicate: e._duplicate,
-                           active: e._active,
-                           scale: e._scale,
-                           position: vectorMul(e._position, 0.6),
-                           rotation: e._rotation,
-                           localPosition: vectorMul(e._localPosition, 0.6),
-                           localRotation: e._localRotation,
-                           components,
-                        };
-                     }
-                     throw new Error('Error converting environment v2 to v3');
-                  },
-               );
+                              material: typeof e._geometry._material === 'string'
+                                 ? e._geometry._material
+                                 : {
+                                    shader: e._geometry._material._shader,
+                                    shaderKeywords: e._geometry._material._shaderKeywords,
+                                    collision: e._geometry._material._collision,
+                                    track: e._geometry._material._track,
+                                    color: e._geometry._material._color,
+                                 },
+                              collision: e._geometry._collision,
+                           }
+                           : {
+                              type: e._geometry._type,
+                              material: typeof e._geometry._material === 'string'
+                                 ? e._geometry._material
+                                 : {
+                                    shader: e._geometry._material._shader,
+                                    shaderKeywords: e._geometry._material._shaderKeywords,
+                                    collision: e._geometry._material._collision,
+                                    track: e._geometry._material._track,
+                                    color: e._geometry._material._color,
+                                 },
+                              collision: e._geometry._collision,
+                           },
+                        track: e._track,
+                        duplicate: e._duplicate,
+                        active: e._active,
+                        scale: e._scale,
+                        position: vectorMul(e._position, 0.6),
+                        rotation: e._rotation,
+                        localPosition: vectorMul(e._localPosition, 0.6),
+                        localRotation: e._localRotation,
+                        components,
+                     };
+                  }
+                  throw new Error('Error converting environment v2 to v3');
+               });
                continue;
             }
             if (k === '_materials') {
@@ -528,9 +518,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
          if (template.customData.customEvents) {
             for (const ce of template.customData.customEvents) {
                if (ce.t === 'AnimateTrack') {
-                  if (
-                     typeof ce.d.track === 'string' && envTracks.includes(ce.d.track)
-                  ) {
+                  if (typeof ce.d.track === 'string' && envTracks.includes(ce.d.track)) {
                      customEvents.push(ce);
                   } else if (Array.isArray(ce.d.track)) {
                      for (const t of ce.d.track) {
@@ -546,10 +534,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
          for (const ce of customEvents) {
             if (typeof ce.d.track === 'string') {
                if (typeof ce.d.position === 'string') {
-                  logger.tWarn(
-                     tag('toV3'),
-                     'Cannot convert point definitions, unknown use.',
-                  );
+                  logger.tWarn(tag('toV3'), 'Cannot convert point definitions, unknown use.');
                } else if (Array.isArray(ce.d.position)) {
                   isVector3(ce.d.position)
                      ? vectorMul(ce.d.position, 0.6)

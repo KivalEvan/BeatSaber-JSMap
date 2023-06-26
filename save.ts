@@ -125,7 +125,7 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
    const opt: Required<ISaveOptionsDifficulty> = {
       directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
       filePath: options.filePath ??
-         (data.fileName || defaultOptions.difficulty.filePath || 'UnnamedDifficulty.dat'),
+         (data.filename || defaultOptions.difficulty.filePath || 'UnnamedDifficulty.dat'),
       format: options.format ?? defaultOptions.info.format,
       optimize: options.optimize ?? defaultOptions.info.optimize,
       validate: options.validate ?? defaultOptions.info.validate,

@@ -4,7 +4,7 @@ import { Version } from '../shared/version.ts';
 import { CharacteristicName } from '../shared/characteristic.ts';
 import { DifficultyName } from '../shared/difficulty.ts';
 import { Environment360Name, EnvironmentName, EnvironmentV3Name } from '../shared/environment.ts';
-import { GenericFileName } from '../shared/fileName.ts';
+import { GenericFileName } from '../shared/filename.ts';
 import { IWrapBaseItem } from './baseItem.ts';
 
 export interface IWrapInfoAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>

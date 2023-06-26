@@ -3,7 +3,7 @@ import { CharacteristicName } from '../shared/characteristic.ts';
 import { ICustomDataInfo, ICustomDataInfoDifficulty } from '../shared/custom/customData.ts';
 import { DifficultyName, DifficultyRank } from '../shared/difficulty.ts';
 import { Environment360Name, EnvironmentName, EnvironmentV3Name } from '../shared/environment.ts';
-import { GenericFileName } from '../shared/fileName.ts';
+import { GenericFileName } from '../shared/filename.ts';
 
 export interface IInfo {
    _version: `2.${0 | 2}.0`;

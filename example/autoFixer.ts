@@ -232,8 +232,8 @@ try {
          logger.info('Backing up beatmap');
          try {
             copySync(
-               globals.directory + difficulty.fileName,
-               globals.directory + difficulty.fileName + '.old',
+               globals.directory + difficulty.filename,
+               globals.directory + difficulty.filename + '.old',
             );
          } catch (_) {
             const confirmation = args.y ? 'n' : prompt(
@@ -242,8 +242,8 @@ try {
             );
             if (confirmation![0].toLowerCase() === 'y') {
                copySync(
-                  globals.directory + difficulty.fileName,
-                  globals.directory + difficulty.fileName + '.old',
+                  globals.directory + difficulty.filename,
+                  globals.directory + difficulty.filename + '.old',
                   { overwrite: true },
                );
             } else {

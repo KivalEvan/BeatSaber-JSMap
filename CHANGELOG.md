@@ -313,7 +313,7 @@
 
 ### Removed
 
-- `fileName` field removed from difficulty list interface due to redundancy (`settings` field
+- `filename` field removed from difficulty list interface due to redundancy (`settings` field
   already provided file name)
 
 ## 1.0.0 - First stable release [2022-06-07]

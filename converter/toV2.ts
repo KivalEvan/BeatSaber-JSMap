@@ -42,7 +42,7 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
    logger.tWarn(tag('toV2'), 'Converting beatmap to v2 may lose certain data!');
 
    const template = new DifficultyV2();
-   template.fileName = data.fileName;
+   template.filename = data.filename;
 
    if (data instanceof DifficultyV1) {
       template.colorNotes = data.colorNotes.map((obj) => new Note(obj));

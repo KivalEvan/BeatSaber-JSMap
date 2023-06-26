@@ -1,5 +1,5 @@
 import { IDifficultyList } from './types/bsmap/list.ts';
-import { GenericFileName } from './types/beatmap/shared/fileName.ts';
+import { GenericFileName } from './types/beatmap/shared/filename.ts';
 import { Info as InfoV1, InfoBeatmap } from './beatmap/v1/info.ts';
 import { Info as InfoV2 } from './beatmap/v2/info.ts';
 import { Difficulty as DifficultyV1 } from './beatmap/v1/difficulty.ts';
