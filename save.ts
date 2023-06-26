@@ -1,5 +1,4 @@
 // deno-lint-ignore-file require-await
-import { IInfo } from './types/beatmap/shared/info.ts';
 import {
    ISaveOptionsDifficulty,
    ISaveOptionsDifficultyList,
@@ -10,14 +9,21 @@ import * as optimize from './optimize.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 import { deepCheck } from './beatmap/shared/dataCheck.ts';
-import { DifficultyCheck as DifficultyCheckV1 } from './beatmap/v1/dataCheck.ts';
-import { DifficultyCheck as DifficultyCheckV2 } from './beatmap/v2/dataCheck.ts';
+import {
+   DifficultyCheck as DifficultyCheckV1,
+   InfoCheck as InfoCheckV1,
+} from './beatmap/v1/dataCheck.ts';
+import {
+   DifficultyCheck as DifficultyCheckV2,
+   InfoCheck as InfoCheckV2,
+} from './beatmap/v2/dataCheck.ts';
 import { DifficultyCheck as DifficultyCheckV3 } from './beatmap/v3/dataCheck.ts';
-import { IDifficulty as IDifficultyV1 } from './types/beatmap/v1/difficulty.ts';
 import { IDifficulty as IDifficultyV2 } from './types/beatmap/v2/difficulty.ts';
-import { IDifficulty as IDifficultyV3 } from './types/beatmap/v3/difficulty.ts';
+import { Info as InfoV2 } from './beatmap/v2/info.ts';
+import { IWrapInfo } from './types/beatmap/wrapper/info.ts';
 import { IWrapDifficulty } from './types/beatmap/wrapper/difficulty.ts';
 import { resolve } from './deps.ts';
+import { IInfo } from './types/beatmap/v2/info.ts';
 
 function tag(name: string): string[] {
    return ['save', name];
@@ -29,6 +35,10 @@ const optionsInfo: Required<ISaveOptionsInfo> = {
    format: 0,
    optimize: { enabled: true },
    validate: { enabled: true, reparse: true },
+   dataCheck: {
+      enabled: true,
+      throwError: true,
+   },
 };
 
 const optionsDifficulty: Required<ISaveOptionsDifficulty> = {
@@ -61,23 +71,33 @@ export const defaultOptions = {
    difficultyList: optionsDifficultyList,
 };
 
-function _info(data: IInfo, options: ISaveOptionsInfo) {
+function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
    const opt: Required<ISaveOptionsInfo> = {
-      directory: options.directory ??
-         (globals.directory || defaultOptions.info.directory),
+      directory: options.directory ?? (globals.directory || defaultOptions.info.directory),
       filePath: options.filePath ?? (defaultOptions.info.filePath || 'Info.dat'),
       format: options.format ?? defaultOptions.info.format,
       optimize: options.optimize ?? defaultOptions.info.optimize,
       validate: options.validate ?? defaultOptions.info.validate,
+      dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
    };
+   const ver = data instanceof InfoV2 ? 2 : 1;
+   const objectData = data.toJSON();
    if (opt.optimize.enabled) {
-      optimize.info(data, opt.optimize);
+      optimize.info(objectData as IInfo, opt.optimize);
+   }
+   if (opt.dataCheck.enabled) {
+      if (ver === 1) {
+         deepCheck(objectData, InfoCheckV1, 'difficulty', '1.0.0', opt.dataCheck.throwError);
+      }
+      if (ver === 2) {
+         deepCheck(objectData, InfoCheckV2, 'difficulty', '2.2.0', opt.dataCheck.throwError);
+      }
    }
    const p = resolve(opt.directory, opt.filePath);
    logger.tInfo(tag('_info'), `Writing to ${p}`);
    Deno.writeTextFileSync(
       p,
-      opt.format ? JSON.stringify(data, null, opt.format) : JSON.stringify(data),
+      opt.format ? JSON.stringify(objectData, null, opt.format) : JSON.stringify(objectData),
    );
 }
 
@@ -86,7 +106,7 @@ function _info(data: IInfo, options: ISaveOptionsInfo) {
  * await save.info(info);
  * ```
  */
-export async function info(data: IInfo, options: ISaveOptionsInfo = {}) {
+export async function info(data: IWrapInfo, options: ISaveOptionsInfo = {}) {
    logger.tInfo(tag('info'), `Async saving info`);
    _info(data, options);
 }
@@ -96,18 +116,16 @@ export async function info(data: IInfo, options: ISaveOptionsInfo = {}) {
  * save.infoSync(info);
  * ```
  */
-export function infoSync(data: IInfo, options: ISaveOptionsInfo = {}) {
+export function infoSync(data: IWrapInfo, options: ISaveOptionsInfo = {}) {
    logger.tInfo(tag('infoSync'), `Sync saving info`);
    _info(data, options);
 }
 
 function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
    const opt: Required<ISaveOptionsDifficulty> = {
-      directory: options.directory ??
-         (globals.directory || defaultOptions.difficulty.directory),
+      directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
       filePath: options.filePath ??
-         (data.fileName || defaultOptions.difficulty.filePath ||
-            'UnnamedDifficulty.dat'),
+         (data.fileName || defaultOptions.difficulty.filePath || 'UnnamedDifficulty.dat'),
       format: options.format ?? defaultOptions.info.format,
       optimize: options.optimize ?? defaultOptions.info.optimize,
       validate: options.validate ?? defaultOptions.info.validate,
@@ -124,37 +142,20 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
          }
       }
    }
+   const ver = data.version;
    const objectData = data.toJSON();
    if (opt.optimize.enabled) {
       optimize.difficulty(objectData as IDifficultyV2, opt.optimize);
    }
    if (opt.dataCheck.enabled) {
-      if ((objectData as IDifficultyV1)._version?.startsWith('1')) {
-         deepCheck(
-            objectData,
-            DifficultyCheckV1,
-            'difficulty',
-            (objectData as IDifficultyV1)._version,
-            opt.dataCheck.throwError,
-         );
+      if (ver.startsWith('1')) {
+         deepCheck(objectData, DifficultyCheckV1, 'difficulty', ver, opt.dataCheck.throwError);
       }
-      if ((objectData as IDifficultyV2)._version?.startsWith('2')) {
-         deepCheck(
-            objectData,
-            DifficultyCheckV2,
-            'difficulty',
-            (objectData as IDifficultyV2)._version,
-            opt.dataCheck.throwError,
-         );
+      if (ver.startsWith('2')) {
+         deepCheck(objectData, DifficultyCheckV2, 'difficulty', ver, opt.dataCheck.throwError);
       }
-      if ((objectData as IDifficultyV3).version?.startsWith('3')) {
-         deepCheck(
-            objectData,
-            DifficultyCheckV3,
-            'difficulty',
-            (objectData as IDifficultyV3).version,
-            opt.dataCheck.throwError,
-         );
+      if (ver.startsWith('3')) {
+         deepCheck(objectData, DifficultyCheckV3, 'difficulty', ver, opt.dataCheck.throwError);
       }
    }
    const p = resolve(opt.directory, opt.filePath);
@@ -170,10 +171,7 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
  * await save.difficulty(difficulty);
  * ```
  */
-export async function difficulty(
-   data: IWrapDifficulty,
-   options: ISaveOptionsDifficulty = {},
-) {
+export async function difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty = {}) {
    logger.tInfo(tag('difficulty'), `Async saving difficulty`);
    _difficulty(data, options);
 }
@@ -183,18 +181,12 @@ export async function difficulty(
  * save.difficultySync(difficulty);
  * ```
  */
-export function difficultySync(
-   data: IWrapDifficulty,
-   options: ISaveOptionsDifficulty = {},
-) {
+export function difficultySync(data: IWrapDifficulty, options: ISaveOptionsDifficulty = {}) {
    logger.tInfo(tag('difficultySync'), `Sync saving difficulty`);
    _difficulty(data, options);
 }
 
-function _difficultyList(
-   difficulties: IDifficultyList,
-   options: ISaveOptionsDifficultyList,
-) {
+function _difficultyList(difficulties: IDifficultyList, options: ISaveOptionsDifficultyList) {
    const opt: Required<ISaveOptionsDifficultyList> = {
       directory: options.directory ??
          (globals.directory || defaultOptions.difficultyList.directory),
@@ -204,11 +196,7 @@ function _difficultyList(
       dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
    };
    difficulties.forEach((dl) => {
-      logger.tInfo(
-         tag('_difficultyList'),
-         `Saving ${dl.characteristic} ${dl.difficulty}`,
-      );
-      const objectData = dl.data.toJSON();
+      logger.tInfo(tag('_difficultyList'), `Saving ${dl.characteristic} ${dl.difficulty}`);
       if (opt.validate.enabled) {
          logger.tInfo(tag('_difficulty'), 'Validating beatmap');
          if (!dl.data.isValid()) {
@@ -220,39 +208,23 @@ function _difficultyList(
             }
          }
       }
+      const ver = dl.data.version;
+      const objectData = dl.data.toJSON();
       if (opt.optimize.enabled) {
          optimize.difficulty(objectData, opt.optimize);
       }
       if (opt.dataCheck.enabled) {
-         if ((objectData as IDifficultyV1)._version?.startsWith('1')) {
-            deepCheck(
-               objectData,
-               DifficultyCheckV1,
-               'difficulty',
-               (objectData as IDifficultyV1)._version,
-               opt.dataCheck.throwError,
-            );
+         if (ver.startsWith('1')) {
+            deepCheck(objectData, DifficultyCheckV1, 'difficulty', ver, opt.dataCheck.throwError);
          }
-         if ((objectData as IDifficultyV2)._version?.startsWith('2')) {
-            deepCheck(
-               objectData,
-               DifficultyCheckV2,
-               'difficulty',
-               (objectData as IDifficultyV2)._version,
-               opt.dataCheck.throwError,
-            );
+         if (ver.startsWith('2')) {
+            deepCheck(objectData, DifficultyCheckV2, 'difficulty', ver, opt.dataCheck.throwError);
          }
-         if ((objectData as IDifficultyV3).version?.startsWith('3')) {
-            deepCheck(
-               objectData,
-               DifficultyCheckV3,
-               'difficulty',
-               (objectData as IDifficultyV3).version,
-               opt.dataCheck.throwError,
-            );
+         if (ver.startsWith('3')) {
+            deepCheck(objectData, DifficultyCheckV3, 'difficulty', ver, opt.dataCheck.throwError);
          }
       }
-      const p = resolve(opt.directory, dl.settings._beatmapFilename);
+      const p = resolve(opt.directory, dl.settings.filename);
       logger.tInfo(tag('_difficultyList'), `Writing to ${p}`);
       Deno.writeTextFileSync(
          p,

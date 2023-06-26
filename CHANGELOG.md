@@ -1,11 +1,12 @@
 # Changelog
 
-## 1.4.0 [2023-06-26]
+## 1.4.0 [2023-06-30]
 
 ### Added
 
 - Queen environment & color scheme
 - Legacy beatmap v1 (incomplete; contain mixed information)
+- Info wrapper class
 - Beatmap object class validation
 - Tagged log method
   - Prefixed with, `t` followed by capital letter, for consistent tagging style print
@@ -15,27 +16,28 @@
 ### Changed
 
 - Wrapper class now have their own protected attributes instead of using `data`
+- Unspecified difficulty version will now return base wrapper class instead of version specific
+  - This means it won't automagically convert v2 map to v3 map when unspecified
 - Renamed `slider` and `burstSlider` to `arc` and `chain` respectively
   - This reduce the confusion between internal and common name
   - Schema remained unchanged for obvious reason
+- Renamed `fileName` to `filename` for consistency
+- Renamed couple of functions and constants
 - Allow object class constructor to be used (similar to static `create` but as single object)
 - Allow object class `func` to have any arguments
-- Logger can now be instantiated
-- Unspecified difficulty version will now return base wrapper class instead of version specific
-  - This means it won't automagically convert v2 map to v3 map when unspecified
 - Changed modded object value method behaviour
-- Renamed couple of functions and constants
-- Updated converter functions
 - Changed custom data type structure
 - Changed type from `Record` to `Object` for known constants
-- Small refactor for BPM and NJS class
+- Updated converter functions
 - Updated Heck stuff
+- Logger can now be instantiated
+- Small refactor for BPM and NJS class
 - Recommended Deno version to 1.34.0+
 - Only root-level file can contain platform-specific API
 
 ### Fixed
 
-- Copy object/array in class object to prevent accidental mutation
+- Copy object/array in class object when copying to prevent accidental referenced mutation
 - Missing NE and Chroma check
 - Missing wrapper and types export
 - Chroma gradient event convert properly
@@ -45,9 +47,10 @@
 ### Removed
 
 - `data` in class object (`Array` and `Object` are never modified and could cause confusing usage)
+- Prompting in conversion (this should now be handled by script user)
 - `swapPosition` and `swapRotation` in class object (seemingly unnecessary utility)
 - `Required` object in concrete class (overall less visual noise)
-- Prompting in conversion (this should now be handled by script user)
+- Unused optimize option
 - FS utility (now uses standard module)
 
 ## 1.3.4 [2023-04-19]

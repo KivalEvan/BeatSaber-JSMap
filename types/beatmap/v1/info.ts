@@ -1,7 +1,11 @@
+import { LooseAutocomplete } from '../../utils.ts';
+import { EnvironmentV3Name } from '../shared/environment.ts';
 import { CharacteristicName } from '../shared/characteristic.ts';
 import { DifficultyName, DifficultyRank } from '../shared/difficulty.ts';
-import { EnvironmentAllName } from '../shared/environment.ts';
+import { EnvironmentName } from '../shared/environment.ts';
 import { ICustomInfo, ICustomInfoDifficulty } from './custom/info.ts';
+
+export type GenericJSONFileName = `${DifficultyName}${CharacteristicName | ''}.json`;
 
 export interface IInfo extends ICustomInfo {
    songName: string;
@@ -11,7 +15,7 @@ export interface IInfo extends ICustomInfo {
    previewStartTime: number;
    previewDuration: number;
    coverImagePath: string;
-   environmentName: EnvironmentAllName;
+   environmentName: EnvironmentName | EnvironmentV3Name;
    difficultyLevels: IInfoDifficulty[];
    oneSaber: boolean; // need confirmation
 }
@@ -22,6 +26,6 @@ export interface IInfoDifficulty extends ICustomInfoDifficulty {
    difficulty: DifficultyName;
    difficultyRank: DifficultyRankOld | DifficultyRank;
    audioPath: string;
-   jsonPath: string;
+   jsonPath: LooseAutocomplete<GenericJSONFileName>;
    characteristic: CharacteristicName;
 }

@@ -65,7 +65,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             _keywords: [],
          },
       );
-      this.customData = this._customData ?? {};
+      this.customData = deepCopy(data._customData ?? {});
    }
 
    static create(data: Partial<IDifficulty> = {}): Difficulty {
@@ -98,9 +98,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       this.basicEvents = this.basicEvents.map((obj) => this.createOrKeep(Event, obj, keepRef));
       this.waypoints = this.waypoints.map((obj) => this.createOrKeep(Waypoint, obj, keepRef));
       this.arcs = this.arcs.map((obj) => this.createOrKeep(Arc, obj, keepRef));
-      this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(
-         this.eventTypesWithKeywords,
-      );
+      this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(this.eventTypesWithKeywords);
    }
 
    addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;
@@ -147,37 +145,23 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    addColorNotes(...data: Partial<IWrapColorNoteAttribute<INote>>[]): void;
    addColorNotes(...data: Partial<INote>[]): void;
-   addColorNotes(
-      ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]
-   ): void;
-   addColorNotes(
-      ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]
-   ): void {
-      this.colorNotes.push(
-         ...data.map((obj) => (obj instanceof Note ? obj : new Note(obj))),
-      );
+   addColorNotes(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): void;
+   addColorNotes(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): void {
+      this.colorNotes.push(...data.map((obj) => (obj instanceof Note ? obj : new Note(obj))));
    }
 
    addBombNotes(...data: Partial<IWrapBombNoteAttribute<INote>>[]): void;
    addBombNotes(...data: Partial<INote>[]): void;
-   addBombNotes(
-      ...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]
-   ): void;
-   addBombNotes(
-      ...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]
-   ): void {
+   addBombNotes(...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]): void;
+   addBombNotes(...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]): void {
       this.colorNotes.push(
-         ...data.map((
-            obj,
-         ) => (obj instanceof Note ? obj : new Note({ ...obj, type: 3 }))),
+         ...data.map((obj) => (obj instanceof Note ? obj : new Note({ ...obj, type: 3 }))),
       );
    }
 
    addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): void;
    addObstacles(...data: Partial<IObstacle>[]): void;
-   addObstacles(
-      ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
-   ): void;
+   addObstacles(...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]): void;
    addObstacles(
       ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
    ): void {
@@ -199,9 +183,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    addWaypoints(...data: Partial<IWrapWaypointAttribute<IWaypoint>>[]): void;
    addWaypoints(...data: Partial<IWaypoint>[]): void;
-   addWaypoints(
-      ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
-   ): void;
+   addWaypoints(...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]): void;
    addWaypoints(
       ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
    ): void {
@@ -212,20 +194,12 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    addBasicEvents(...data: Partial<IWrapEventAttribute<IEvent>>[]): void;
    addBasicEvents(...data: Partial<IEvent>[]): void;
-   addBasicEvents(
-      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
-   ): void;
-   addBasicEvents(
-      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
-   ): void {
-      this.basicEvents.push(
-         ...data.map((obj) => (obj instanceof Event ? obj : new Event(obj))),
-      );
+   addBasicEvents(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): void;
+   addBasicEvents(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): void {
+      this.basicEvents.push(...data.map((obj) => (obj instanceof Event ? obj : new Event(obj))));
    }
 
-   addColorBoostEvents(
-      ...data: Partial<IWrapColorBoostEventAttribute<IEventBoost>>[]
-   ): void;
+   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IEventBoost>>[]): void;
    addColorBoostEvents(...data: Partial<IEventBoost>[]): void;
    addColorBoostEvents(
       ...data: (Partial<IEventBoost> & Partial<IWrapColorBoostEventAttribute<IEventBoost>>)[]

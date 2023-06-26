@@ -25,13 +25,12 @@ import { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
 import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import { Version } from '../shared/version.ts';
 import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
-import { GenericFileName } from '../shared/info.ts';
+import { GenericFileName } from '../shared/fileName.ts';
 import { EventContainer, NoteContainer } from './container.ts';
 import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
 
-export interface IWrapDifficultyAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItemAttribute<T> {
+export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItemAttribute<T> {
    version: Version;
    bpmEvents: IWrapBPMEvent[];
    rotationEvents: IWrapRotationEvent[];
@@ -52,9 +51,8 @@ export interface IWrapDifficultyAttribute<
    fileName: string;
 }
 
-export interface IWrapDifficulty<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
+export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
    setFileName(fileName: LooseAutocomplete<GenericFileName>): this;
 
    /** Reparse the beatmap to their respective schema class.
@@ -139,9 +137,7 @@ export interface IWrapDifficulty<
    addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): void;
    addBasicEvents(...data: Partial<IWrapEventAttribute>[]): void;
    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): void;
-   addLightColorEventBoxGroups(
-      ...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]
-   ): void;
+   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): void;
    addLightRotationEventBoxGroups(
       ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
    ): void;

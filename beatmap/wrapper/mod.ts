@@ -15,6 +15,7 @@ export * from './eventTypesForKeywords.ts';
 export * from './eventTypesWithKeywords.ts';
 export * from './gridObject.ts';
 export * from './indexFilter.ts';
+export * from './info.ts';
 export * from './lightColorBase.ts';
 export * from './lightColorEventBox.ts';
 export * from './lightColorEventBoxGroup.ts';

@@ -12,6 +12,10 @@ export interface ISaveOptionsInfo extends IBaseOptions {
    format?: number;
    optimize?: IOptimizeOptionsInfo;
    validate?: ISaveValidate;
+   dataCheck?: {
+      enabled: boolean;
+      throwError?: boolean;
+   };
 }
 
 export interface ISaveOptionsDifficulty extends IBaseOptions {

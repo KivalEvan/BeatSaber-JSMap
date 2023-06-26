@@ -1,6 +1,6 @@
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import { IInfo } from '../../types/beatmap/shared/info.ts';
+import { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import { LANE_SIZE } from './constants.ts';
 
 /** Convert grid lane size unit to unity unit */
@@ -14,11 +14,11 @@ export function unityToGridUnit(value: number) {
 }
 
 export function currentEnvironment(
-   info: IInfo,
+   info: IWrapInfo,
    characteristic?: CharacteristicName,
 ): EnvironmentAllName {
    if (characteristic === '360Degree' || characteristic === '90Degree') {
-      return info._allDirectionsEnvironmentName;
+      return info.allDirectionsEnvironmentName;
    }
-   return info._environmentName;
+   return info.environmentName;
 }

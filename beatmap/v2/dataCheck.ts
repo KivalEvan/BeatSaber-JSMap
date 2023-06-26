@@ -7,6 +7,7 @@ import { IArc } from '../../types/beatmap/v2/arc.ts';
 import { ISpecialEventsKeywordFilters } from '../../types/beatmap/v2/specialEventsKeywordFilters.ts';
 import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
 import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
+import { IInfo, IInfoSet, IInfoSetDifficulty } from '../../types/beatmap/v2/info.ts';
 
 export const NoteDataCheck: { readonly [key in keyof INote]: DataCheck } = {
    _time: {
@@ -266,3 +267,119 @@ export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck }
       optional: true,
    },
 } as const;
+
+export const InfoSetDifficultyCheck: { readonly [key in keyof IInfoSetDifficulty]: DataCheck } = {
+   _difficulty: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _difficultyRank: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _beatmapFilename: {
+      type: 'string',
+      version: '2.0.0',
+   },
+   _noteJumpMovementSpeed: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _noteJumpStartBeatOffset: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _customData: {
+      type: 'object',
+      version: '2.0.0',
+      check: {},
+      optional: true,
+   },
+};
+
+export const InfoSetCheck: { readonly [key in keyof IInfoSet]: DataCheck } = {
+   _beatmapCharacteristicName: {
+      type: 'string',
+      version: '2.0.0',
+   },
+   _difficultyBeatmaps: {
+      type: 'array',
+      version: '2.0.0',
+      check: InfoSetDifficultyCheck,
+   },
+};
+
+export const InfoCheck: { readonly [key in keyof IInfo]: DataCheck } = {
+   _version: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _songName: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _songSubName: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _songAuthorName: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _levelAuthorName: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _beatsPerMinute: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _shuffle: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _shufflePeriod: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _previewStartTime: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _previewDuration: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _songFilename: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _coverImageFilename: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _environmentName: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _allDirectionsEnvironmentName: {
+      type: 'number',
+      version: '2.2.0',
+      optional: true,
+   },
+   _songTimeOffset: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _customData: {
+      type: 'object',
+      version: '2.0.0',
+      check: {},
+      optional: true,
+   },
+   _difficultyBeatmapSets: {
+      type: 'array',
+      version: '2.0.0',
+      check: InfoSetCheck,
+   },
+};

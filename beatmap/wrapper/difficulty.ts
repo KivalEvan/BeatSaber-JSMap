@@ -34,7 +34,7 @@ import {
    LooseAutocomplete,
    PartialWrapper,
 } from '../../types/utils.ts';
-import { GenericFileName } from '../../types/beatmap/shared/info.ts';
+import { GenericFileName } from '../../types/beatmap/shared/fileName.ts';
 import { EventContainer, NoteContainer } from '../../types/beatmap/wrapper/container.ts';
 import { Version } from '../../types/beatmap/shared/version.ts';
 import { WrapBaseItem } from './baseItem.ts';
@@ -80,11 +80,7 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
 
    abstract reparse(keepRef?: boolean): void;
 
-   protected createOrKeep<T, U>(
-      concrete: { new (data: T | U): U },
-      obj: U,
-      keep?: boolean,
-   ): U {
+   protected createOrKeep<T, U>(concrete: { new (data: T | U): U }, obj: U, keep?: boolean): U {
       return keep && obj instanceof concrete ? obj : new concrete(obj);
    }
 
@@ -107,10 +103,7 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
          while (notes[i].data.time - notes[currentSectionStart].data.time > beat) {
             currentSectionStart++;
          }
-         peakNPS = Math.max(
-            peakNPS,
-            (i - currentSectionStart + 1) / bpm.toRealTime(beat),
-         );
+         peakNPS = Math.max(peakNPS, (i - currentSectionStart + 1) / bpm.toRealTime(beat));
       }
 
       return peakNPS;
@@ -175,9 +168,7 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
    }
 
    abstract addBpmEvents(...data: PartialWrapper<IWrapBPMEventAttribute>[]): void;
-   abstract addRotationEvents(
-      ...data: PartialWrapper<IWrapRotationEventAttribute>[]
-   ): void;
+   abstract addRotationEvents(...data: PartialWrapper<IWrapRotationEventAttribute>[]): void;
    abstract addColorNotes(...data: PartialWrapper<IWrapColorNoteAttribute>[]): void;
    abstract addBombNotes(...data: PartialWrapper<IWrapBombNoteAttribute>[]): void;
    abstract addObstacles(...data: PartialWrapper<IWrapObstacleAttribute>[]): void;
@@ -185,9 +176,7 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
    abstract addChains(...data: PartialWrapper<IWrapChainAttribute>[]): void;
    abstract addWaypoints(...data: PartialWrapper<IWrapWaypointAttribute>[]): void;
    abstract addBasicEvents(...data: PartialWrapper<IWrapEventAttribute>[]): void;
-   abstract addColorBoostEvents(
-      ...data: PartialWrapper<IWrapColorBoostEventAttribute>[]
-   ): void;
+   abstract addColorBoostEvents(...data: PartialWrapper<IWrapColorBoostEventAttribute>[]): void;
    abstract addLightColorEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightColorEventBoxGroupAttribute>[]
    ): void;

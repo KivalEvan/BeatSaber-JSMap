@@ -74,8 +74,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
       this.version = '3.2.0';
       this.bpmEvents = (data.bpmEvents ?? []).map((obj) => new BPMEvent(obj)) ?? [];
-      this.rotationEvents = (data.rotationEvents ?? []).map((obj) => new RotationEvent(obj)) ??
-         [];
+      this.rotationEvents = (data.rotationEvents ?? []).map((obj) => new RotationEvent(obj)) ?? [];
       this.colorNotes = (data.colorNotes ?? []).map((obj) => new ColorNote(obj)) ?? [];
       this.bombNotes = (data.bombNotes ?? []).map((obj) => new BombNote(obj)) ?? [];
       this.obstacles = (data.obstacles ?? []).map((obj) => new Obstacle(obj)) ?? [];
@@ -88,8 +87,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       this.lightColorEventBoxGroups =
          data.lightColorEventBoxGroups?.map((obj) => new LightColorEventBoxGroup(obj)) ?? [];
       this.lightRotationEventBoxGroups =
-         data.lightRotationEventBoxGroups?.map((obj) => new LightRotationEventBoxGroup(obj)) ??
-            [];
+         data.lightRotationEventBoxGroups?.map((obj) => new LightRotationEventBoxGroup(obj)) ?? [];
       this.lightTranslationEventBoxGroups = data.lightTranslationEventBoxGroups?.map(
          (obj) => new LightTranslationEventBoxGroup(obj),
       ) ?? [];
@@ -98,9 +96,8 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             d: [],
          },
       );
-      this.useNormalEventsAsCompatibleEvents = data.useNormalEventsAsCompatibleEvents ??
-         false;
-      this.customData = data.customData ?? {};
+      this.useNormalEventsAsCompatibleEvents = data.useNormalEventsAsCompatibleEvents ?? false;
+      this.customData = deepCopy(data.customData ?? {});
    }
 
    static create(data: Partial<IDifficulty> = {}): Difficulty {
@@ -122,9 +119,9 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          colorBoostBeatmapEvents: this.colorBoostEvents.map((obj) => obj.toJSON()),
          lightColorEventBoxGroups: this.lightColorEventBoxGroups.map((obj) => obj.toJSON()),
          lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map((obj) => obj.toJSON()),
-         lightTranslationEventBoxGroups: this.lightTranslationEventBoxGroups.map((
-            obj,
-         ) => obj.toJSON()),
+         lightTranslationEventBoxGroups: this.lightTranslationEventBoxGroups.map((obj) =>
+            obj.toJSON()
+         ),
          basicEventTypesWithKeywords: this.eventTypesWithKeywords.toJSON(),
          useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
          customData: deepCopy(this.customData),
@@ -153,16 +150,12 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       );
       this.bpmEvents = this.bpmEvents.map((obj) => this.createOrKeep(BPMEvent, obj, keepRef));
       this.waypoints = this.waypoints.map((obj) => this.createOrKeep(Waypoint, obj, keepRef));
-      this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(
-         this.eventTypesWithKeywords,
-      );
+      this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(this.eventTypesWithKeywords);
    }
 
    addBpmEvents(...data: Partial<IWrapBPMEventAttribute<IBPMEvent>>[]): void;
    addBpmEvents(...data: Partial<IBPMEvent>[]): void;
-   addBpmEvents(
-      ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]
-   ): void;
+   addBpmEvents(...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]): void;
    addBpmEvents(
       ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]
    ): void {
@@ -173,26 +166,16 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       );
    }
 
-   addRotationEvents(
-      ...data: Partial<IWrapRotationEventAttribute<IRotationEvent>>[]
-   ): void;
+   addRotationEvents(...data: Partial<IWrapRotationEventAttribute<IRotationEvent>>[]): void;
    addRotationEvents(...data: Partial<IRotationEvent>[]): void;
    addRotationEvents(
-      ...data: (
-         & Partial<IRotationEvent>
-         & Partial<IWrapRotationEventAttribute<IRotationEvent>>
-      )[]
+      ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
    ): void;
    addRotationEvents(
-      ...data: (
-         & Partial<IRotationEvent>
-         & Partial<IWrapRotationEventAttribute<IRotationEvent>>
-      )[]
+      ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
    ): void {
       this.rotationEvents.push(
-         ...data.map((
-            obj,
-         ) => (obj instanceof RotationEvent ? obj : new RotationEvent(obj))),
+         ...data.map((obj) => (obj instanceof RotationEvent ? obj : new RotationEvent(obj))),
       );
    }
 
@@ -224,9 +207,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): void;
    addObstacles(...data: Partial<IObstacle>[]): void;
-   addObstacles(
-      ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
-   ): void;
+   addObstacles(...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]): void;
    addObstacles(
       ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
    ): void {
@@ -245,19 +226,13 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addChains(...data: Partial<IWrapChainAttribute<IChain>>[]): void;
    addChains(...data: Partial<IChain>[]): void;
    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): void;
-   addChains(
-      ...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]
-   ): void {
-      this.chains.push(
-         ...data.map((obj) => (obj instanceof Chain ? obj : new Chain(obj))),
-      );
+   addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): void {
+      this.chains.push(...data.map((obj) => (obj instanceof Chain ? obj : new Chain(obj))));
    }
 
    addWaypoints(...data: Partial<IWrapWaypointAttribute<IWaypoint>>[]): void;
    addWaypoints(...data: Partial<IWaypoint>[]): void;
-   addWaypoints(
-      ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
-   ): void;
+   addWaypoints(...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]): void;
    addWaypoints(
       ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
    ): void {
@@ -279,9 +254,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       );
    }
 
-   addColorBoostEvents(
-      ...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]
-   ): void;
+   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]): void;
    addColorBoostEvents(...data: Partial<IColorBoostEvent>[]): void;
    addColorBoostEvents(
       ...data: (
@@ -296,9 +269,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       )[]
    ): void {
       this.colorBoostEvents.push(
-         ...data.map((
-            obj,
-         ) => (obj instanceof ColorBoostEvent ? obj : new ColorBoostEvent(obj))),
+         ...data.map((obj) => (obj instanceof ColorBoostEvent ? obj : new ColorBoostEvent(obj))),
       );
    }
 
@@ -356,9 +327,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          >
       >[]
    ): void;
-   addLightRotationEventBoxGroups(
-      ...data: DeepPartial<ILightRotationEventBoxGroup>[]
-   ): void;
+   addLightRotationEventBoxGroups(...data: DeepPartial<ILightRotationEventBoxGroup>[]): void;
    addLightRotationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightRotationEventBoxGroup>
@@ -402,9 +371,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          >
       >[]
    ): void;
-   addLightTranslationEventBoxGroups(
-      ...data: DeepPartial<ILightTranslationEventBoxGroup>[]
-   ): void;
+   addLightTranslationEventBoxGroups(...data: DeepPartial<ILightTranslationEventBoxGroup>[]): void;
    addLightTranslationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightTranslationEventBoxGroup>

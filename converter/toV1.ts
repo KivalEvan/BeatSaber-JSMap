@@ -6,9 +6,10 @@ import { Note } from '../beatmap/v1/note.ts';
 import { Event } from '../beatmap/v1/event.ts';
 import { Obstacle } from '../beatmap/v1/obstacle.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
-import { IInfo, IInfoSetDifficulty } from '../types/beatmap/shared/info.ts';
-import { IInfo as IInfoV1 } from '../types/beatmap/v1/info.ts';
+import { IWrapInfo, IWrapInfoBeatmap } from '../types/beatmap/wrapper/info.ts';
+import { Info as InfoV1, InfoBeatmap } from '../beatmap/v1/info.ts';
 import { deepCopy } from '../utils/misc.ts';
+import { CharacteristicName } from '../types/beatmap/shared/characteristic.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -23,8 +24,8 @@ function tag(name: string): string[] {
  */
 export function toV1(
    data: IWrapDifficulty,
-   info: IInfo,
-   infoDiff: IInfoSetDifficulty,
+   info: IWrapInfo,
+   infoDifficulty: IWrapInfoBeatmap,
 ): DifficultyV1 {
    if (data instanceof DifficultyV1) {
       return data;
@@ -34,11 +35,11 @@ export function toV1(
    const template = new DifficultyV1();
    template.fileName = data.fileName;
 
-   template.beatsPerMinute = info._beatsPerMinute;
-   template.shuffle = info._shuffle;
-   template.shufflePeriod = info._shufflePeriod;
-   template.noteJumpSpeed = infoDiff._noteJumpMovementSpeed;
-   template.noteJumpStartBeatOffset = infoDiff._noteJumpStartBeatOffset;
+   template.beatsPerMinute = info.beatsPerMinute;
+   template.shuffle = info.shuffle;
+   template.shufflePeriod = info.shufflePeriod;
+   template.noteJumpSpeed = infoDifficulty.njs;
+   template.noteJumpStartBeatOffset = infoDifficulty.njsOffset;
 
    if (data instanceof DifficultyV2) {
       template.time = data.customData._time ?? 0;
@@ -68,49 +69,57 @@ export function toV1(
    return template;
 }
 
-export function toInfoV1(data: IInfo): IInfoV1 {
-   data = deepCopy(data);
-   return {
-      songName: data._songName,
-      songSubName: data._songSubName,
-      authorName: data._songAuthorName,
-      beatsPerMinute: data._beatsPerMinute,
-      previewStartTime: data._previewStartTime,
-      previewDuration: data._previewDuration,
-      coverImagePath: data._coverImageFilename,
-      environmentName: data._environmentName,
-      difficultyLevels: data._difficultyBeatmapSets.flatMap((d) =>
-         d._difficultyBeatmaps.map((m) => {
-            return {
-               difficulty: m._difficulty,
-               difficultyRank: m._difficultyRank,
-               audioPath: data._songFilename,
-               jsonPath: m._beatmapFilename,
-               characteristic: d._beatmapCharacteristicName,
-               offset: m._customData?._editorOffset,
-               oldOffset: m._customData?._editorOldOffset,
+export function toInfoV1(data: IWrapInfo): InfoV1 {
+   if (data instanceof InfoV1) {
+      return data;
+   }
+
+   const template = new InfoV1();
+
+   template.songName = data.songName;
+   template.songSubName = data.songSubName;
+   template.songAuthorName = data.songAuthorName;
+   template.beatsPerMinute = data.beatsPerMinute;
+   template.previewStartTime = data.previewStartTime;
+   template.previewDuration = data.previewDuration;
+   template.coverImageFilename = data.coverImageFilename;
+   template.environmentName = data.environmentName;
+   // deno-lint-ignore no-explicit-any
+   template.difficultySets = Object.entries(data.difficultySets).reduce(
+      (sets: any, [mode, beatmaps]) => {
+         sets[mode as CharacteristicName] = beatmaps.map((m) => {
+            return new InfoBeatmap({
+               difficulty: m.difficulty,
+               difficultyRank: m.rank as 1,
+               audioPath: data.songFilename,
+               jsonPath: m.filename,
+               characteristic: mode as 'Standard',
+               offset: m.customData?._editorOffset,
+               oldOffset: m.customData?._editorOldOffset,
                chromaToggle: 'Off',
                customColors: !!(
-                  m._customData?.colorLeft ||
-                  m._customData?.colorRight ||
-                  m._customData?.envColorLeft ||
-                  m._customData?.envColorRight ||
-                  m._customData?.obstacleColor
+                  m.customData?._colorLeft ||
+                  m.customData?._colorRight ||
+                  m.customData?._envColorLeft ||
+                  m.customData?._envColorRight ||
+                  m.customData?._obstacleColor
                ),
-               difficultyLabel: m._customData?._difficultyLabel,
-               colorLeft: m._customData?.colorLeft,
-               colorRight: m._customData?.colorRight,
-               envColorLeft: m._customData?.envColorLeft,
-               envColorRight: m._customData?.envColorRight,
-               obstacleColor: m._customData?.obstacleColor,
-            };
-         })
-      ),
-      oneSaber: data._difficultyBeatmapSets.some(
-         (d) => d._beatmapCharacteristicName === 'OneSaber',
-      ),
-      contributors: data._customData?._contributors,
-      customEnvironment: data._customData?._customEnvironment,
-      customEnvironmentHash: data._customData?._customEnvironmentHash,
-   };
+               difficultyLabel: m.customData?._difficultyLabel,
+               colorLeft: deepCopy(m.customData._colorLeft),
+               colorRight: deepCopy(m.customData._colorRight),
+               envColorLeft: deepCopy(m.customData._envColorLeft),
+               envColorRight: deepCopy(m.customData._envColorRight),
+               obstacleColor: deepCopy(m.customData._obstacleColor),
+            });
+         });
+         return sets;
+      },
+      {},
+   );
+   template.oneSaber = !!data.difficultySets.OneSaber?.length;
+   template.contributors = data.customData?._contributors;
+   template.customEnvironment = data.customData?._customEnvironment;
+   template.customEnvironmentHash = data.customData?._customEnvironmentHash;
+
+   return template;
 }

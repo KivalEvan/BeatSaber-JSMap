@@ -1,10 +1,9 @@
 import { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
 import { IDifficulty } from '../../types/beatmap/v1/difficulty.ts';
 import { IEvent } from '../../types/beatmap/v1/event.ts';
+import { IInfo, IInfoDifficulty } from '../../types/beatmap/v1/info.ts';
 import { INote } from '../../types/beatmap/v1/note.ts';
 import { IObstacle } from '../../types/beatmap/v1/obstacle.ts';
-
-export const SkipCheck: { readonly [key in string]: DataCheck } = {} as const;
 
 export const NoteDataCheck: { readonly [key in keyof INote]: DataCheck } = {
    _time: {
@@ -134,12 +133,151 @@ export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck }
       type: 'array',
       version: '1.5.0',
       optional: true,
-      check: SkipCheck,
+      check: {},
    },
    _bookmarks: {
       type: 'array',
       version: '1.5.0',
       optional: true,
-      check: SkipCheck,
+      check: {},
    },
 } as const;
+
+export const InfoDifficultyCheck: { readonly [key in keyof IInfoDifficulty]: DataCheck } = {
+   difficulty: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   difficultyRank: {
+      type: 'number',
+      version: '1.0.0',
+   },
+   audioPath: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   jsonPath: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   characteristic: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   offset: {
+      type: 'number',
+      version: '1.0.0',
+      optional: true,
+   },
+   oldOffset: {
+      type: 'number',
+      version: '1.0.0',
+      optional: true,
+   },
+   chromaToggle: {
+      type: 'string',
+      version: '1.0.0',
+      optional: true,
+   },
+   customColors: {
+      type: 'number',
+      version: '1.0.0',
+      optional: true,
+   },
+   difficultyLabel: {
+      type: 'string',
+      version: '1.0.0',
+      optional: true,
+   },
+   colorLeft: {
+      type: 'object',
+      version: '1.0.0',
+      check: {},
+      optional: true,
+   },
+   colorRight: {
+      type: 'object',
+      version: '1.0.0',
+      check: {},
+      optional: true,
+   },
+   envColorLeft: {
+      type: 'object',
+      version: '1.0.0',
+      check: {},
+      optional: true,
+   },
+   envColorRight: {
+      type: 'object',
+      version: '1.0.0',
+      check: {},
+      optional: true,
+   },
+   obstacleColor: {
+      type: 'object',
+      version: '1.0.0',
+      check: {},
+      optional: true,
+   },
+};
+
+export const InfoCheck: { readonly [key in keyof IInfo]: DataCheck } = {
+   songName: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   songSubName: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   authorName: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   beatsPerMinute: {
+      type: 'number',
+      version: '1.0.0',
+   },
+   previewStartTime: {
+      type: 'number',
+      version: '1.0.0',
+   },
+   previewDuration: {
+      type: 'number',
+      version: '1.0.0',
+   },
+   coverImagePath: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   environmentName: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   difficultyLevels: {
+      type: 'array',
+      version: '1.0.0',
+      check: InfoDifficultyCheck,
+   },
+   oneSaber: {
+      type: 'boolean',
+      version: '1.0.0',
+      optional: true,
+   },
+   contributors: {
+      type: 'array',
+      version: '1.0.0',
+      optional: true,
+      check: {},
+   },
+   customEnvironment: {
+      type: 'string',
+      version: '1.0.0',
+      optional: true,
+   },
+   customEnvironmentHash: {
+      type: 'string',
+      version: '1.0.0',
+      optional: true,
+   },
+};
