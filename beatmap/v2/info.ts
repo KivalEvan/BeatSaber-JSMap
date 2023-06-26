@@ -50,7 +50,7 @@ export class Info extends WrapInfo<IInfo> {
 
       data._difficultyBeatmapSets?.forEach((set) => {
          this.difficultySets[set._beatmapCharacteristicName] = set._difficultyBeatmaps.map(
-            (beatmap) => new InfoBeatmap(beatmap),
+            (beatmap) => new InfoBeatmap(beatmap, set._beatmapCharacteristicName),
          );
       });
    }
@@ -103,15 +103,17 @@ export class Info extends WrapInfo<IInfo> {
 }
 
 export class InfoBeatmap extends WrapInfoBeatmap<IInfoSetDifficulty> {
+   readonly characteristic?: CharacteristicName | undefined;
    difficulty: DifficultyName;
    rank: IInfoSetDifficulty['_difficultyRank'];
    filename: LooseAutocomplete<GenericFileName>;
    njs: number;
    njsOffset: number;
 
-   constructor(data: Partial<IInfoSetDifficulty>) {
+   constructor(data: Partial<IInfoSetDifficulty>, mode?: CharacteristicName) {
       super();
 
+      this.characteristic = mode;
       this.difficulty = data._difficulty ?? 'Easy';
       this.rank = data._difficultyRank ?? 1;
       this.filename = data._beatmapFilename ?? 'UnnamedFile.dat';

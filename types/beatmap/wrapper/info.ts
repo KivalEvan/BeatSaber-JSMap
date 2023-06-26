@@ -32,6 +32,8 @@ export interface IWrapInfo<T extends { [P in keyof T]: T[P] } = Record<string, a
 
 export interface IWrapInfoBeatmapAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseItem<T> {
+   /** Loose string to parent characteristic name, cannot be up-to-date when moved */
+   readonly characteristic?: CharacteristicName;
    difficulty: DifficultyName;
    rank: number;
    filename: LooseAutocomplete<GenericFileName>;

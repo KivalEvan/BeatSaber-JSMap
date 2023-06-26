@@ -52,6 +52,7 @@ export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }> extends WrapB
 
 export abstract class WrapInfoBeatmap<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
    implements IWrapInfoBeatmap<T> {
+   abstract readonly characteristic?: CharacteristicName;
    abstract difficulty: DifficultyName;
    abstract rank: number;
    abstract filename: LooseAutocomplete<GenericFileName>;
