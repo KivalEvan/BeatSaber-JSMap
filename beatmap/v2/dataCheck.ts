@@ -270,7 +270,7 @@ export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck }
 
 export const InfoSetDifficultyCheck: { readonly [key in keyof IInfoSetDifficulty]: DataCheck } = {
    _difficulty: {
-      type: 'number',
+      type: 'string',
       version: '2.0.0',
    },
    _difficultyRank: {
@@ -311,23 +311,24 @@ export const InfoSetCheck: { readonly [key in keyof IInfoSet]: DataCheck } = {
 
 export const InfoCheck: { readonly [key in keyof IInfo]: DataCheck } = {
    _version: {
-      type: 'number',
+      type: 'string',
       version: '2.0.0',
+      optional: true,
    },
    _songName: {
-      type: 'number',
+      type: 'string',
       version: '2.0.0',
    },
    _songSubName: {
-      type: 'number',
+      type: 'string',
       version: '2.0.0',
    },
    _songAuthorName: {
-      type: 'number',
+      type: 'string',
       version: '2.0.0',
    },
    _levelAuthorName: {
-      type: 'number',
+      type: 'string',
       version: '2.0.0',
    },
    _beatsPerMinute: {
@@ -351,19 +352,19 @@ export const InfoCheck: { readonly [key in keyof IInfo]: DataCheck } = {
       version: '2.0.0',
    },
    _songFilename: {
-      type: 'number',
+      type: 'string',
       version: '2.0.0',
    },
    _coverImageFilename: {
-      type: 'number',
+      type: 'string',
       version: '2.0.0',
    },
    _environmentName: {
-      type: 'number',
+      type: 'string',
       version: '2.0.0',
    },
    _allDirectionsEnvironmentName: {
-      type: 'number',
+      type: 'string',
       version: '2.2.0',
       optional: true,
    },
