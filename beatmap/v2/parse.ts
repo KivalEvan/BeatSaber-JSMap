@@ -6,14 +6,12 @@ import { deepCheck } from '../shared/dataCheck.ts';
 import { DifficultyCheck, InfoCheck } from './dataCheck.ts';
 import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
-import { IBaseObject } from '../../types/beatmap/v2/object.ts';
 import logger from '../../logger.ts';
+import { sortV2NoteFn, sortV2ObjectFn } from '../shared/helpers.ts';
 
 function tag(name: string): string[] {
    return ['v2', 'parse', name];
 }
-
-const sortObjectTime = (a: IBaseObject, b: IBaseObject) => a._time - b._time;
 
 export function difficulty(
    data: Partial<IDifficulty>,
@@ -31,11 +29,11 @@ export function difficulty(
       deepCheck(data, DifficultyCheck, 'difficulty', data._version, checkData.throwError);
    }
 
-   data._notes?.sort(sortObjectTime);
+   data._notes?.sort(sortV2NoteFn);
    data._sliders?.sort((a, b) => a._headTime - b._headTime);
-   data._obstacles?.sort(sortObjectTime);
-   data._events?.sort(sortObjectTime);
-   data._waypoints?.sort(sortObjectTime);
+   data._obstacles?.sort(sortV2ObjectFn);
+   data._events?.sort(sortV2ObjectFn);
+   data._waypoints?.sort(sortV2ObjectFn);
 
    return new Difficulty(data);
 }
