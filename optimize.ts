@@ -9,12 +9,13 @@ import logger from './logger.ts';
 import { IDifficulty as IDifficultyV1 } from './types/beatmap/v1/difficulty.ts';
 import { IDifficulty as IDifficultyV2 } from './types/beatmap/v2/difficulty.ts';
 import { IDifficulty as IDifficultyV3 } from './types/beatmap/v3/difficulty.ts';
-import { IBaseObject as IBaseObjectV2 } from './types/beatmap/v2/object.ts';
-import { IBaseObject as IBaseObjectV3 } from './types/beatmap/v3/baseObject.ts';
-import { INote } from './types/beatmap/v2/note.ts';
-import { IGridObject } from './types/beatmap/v3/gridObject.ts';
-import { Vector2 } from './types/vector.ts';
 import { isV1, isV2, isV3 } from './beatmap/version.ts';
+import {
+   sortV2NoteFn,
+   sortV2ObjectFn,
+   sortV3NoteFn,
+   sortV3ObjectFn,
+} from './beatmap/shared/helpers.ts';
 
 function tag(name: string): string[] {
    return ['optimize', name];
@@ -170,76 +171,39 @@ export function difficulty<T extends IDifficultyV1 | IDifficultyV2 | IDifficulty
 
    if (opt.sort) {
       logger.tDebug(tag('difficulty'), 'Sorting objects');
-      const sortPrec = Math.pow(10, opt.floatTrim);
-
-      const sortV2Object = (a: IBaseObjectV2, b: IBaseObjectV2) => a._time - b._time;
-      const sortV2Note = (a: INote, b: INote) => {
-         if (a._customData?._position && b._customData?._position) {
-            return (
-               Math.round((a._time + Number.EPSILON) * sortPrec) / sortPrec -
-                  Math.round((b._time + Number.EPSILON) * sortPrec) / sortPrec ||
-               (a._customData._position as Vector2)[0] - (b._customData._position as Vector2)[0] ||
-               (a._customData._position as Vector2)[1] - (b._customData._position as Vector2)[1]
-            );
-         }
-         return (
-            Math.round((a._time + Number.EPSILON) * sortPrec) / sortPrec -
-               Math.round((b._time + Number.EPSILON) * sortPrec) / sortPrec ||
-            a._lineIndex - b._lineLayer ||
-            a._lineIndex - b._lineLayer
-         );
-      };
-      const sortV3Object = (a: IBaseObjectV3, b: IBaseObjectV3) => a.b - b.b;
-      const sortV3Grid = (a: IGridObject, b: IGridObject) => {
-         if (a.customData?.coordinates && b.customData?.coordinates) {
-            return (
-               Math.round((a.b + Number.EPSILON) * sortPrec) / sortPrec -
-                  Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||
-               (a.customData.coordinates as Vector2)[0] -
-                  (b.customData.coordinates as Vector2)[0] ||
-               (a.customData.coordinates as Vector2)[1] - (b.customData.coordinates as Vector2)[1]
-            );
-         }
-         return (
-            Math.round((a.b + Number.EPSILON) * sortPrec) / sortPrec -
-               Math.round((b.b + Number.EPSILON) * sortPrec) / sortPrec ||
-            a.x - b.x ||
-            a.y - b.y
-         );
-      };
 
       if (isV1(difficulty)) {
-         difficulty._notes.sort(sortV2Note);
-         difficulty._obstacles.sort(sortV2Object);
-         difficulty._events.sort(sortV2Object);
+         difficulty._notes.sort(sortV2NoteFn);
+         difficulty._obstacles.sort(sortV2ObjectFn);
+         difficulty._events.sort(sortV2ObjectFn);
       }
       if (isV2(difficulty)) {
-         difficulty._notes.sort(sortV2Note);
-         difficulty._obstacles.sort(sortV2Object);
-         difficulty._events.sort(sortV2Object);
+         difficulty._notes.sort(sortV2NoteFn);
+         difficulty._obstacles.sort(sortV2ObjectFn);
+         difficulty._events.sort(sortV2ObjectFn);
          difficulty._sliders.sort((a, b) => a._headTime - b._headTime);
-         difficulty._waypoints.sort(sortV2Object);
-         difficulty._customData?._customEvents?.sort((a, b) => a._time - b._time);
+         difficulty._waypoints.sort(sortV2ObjectFn);
+         difficulty._customData?._customEvents?.sort(sortV2ObjectFn);
       }
       if (isV3(difficulty)) {
-         difficulty.colorNotes.sort(sortV3Grid);
-         difficulty.bombNotes.sort(sortV3Grid);
-         difficulty.obstacles.sort(sortV3Object);
-         difficulty.bpmEvents.sort(sortV3Object);
-         difficulty.rotationEvents.sort(sortV3Object);
-         difficulty.colorBoostBeatmapEvents.sort(sortV3Object);
-         difficulty.basicBeatmapEvents.sort(sortV3Object);
-         difficulty.sliders.sort(sortV3Grid);
-         difficulty.burstSliders.sort(sortV3Grid);
-         difficulty.lightColorEventBoxGroups.sort(sortV3Object);
-         difficulty.lightRotationEventBoxGroups.sort(sortV3Object);
-         difficulty.lightTranslationEventBoxGroups.sort(sortV3Object);
-         difficulty.waypoints.sort(sortV3Grid);
-         difficulty.customData?.customEvents?.sort(sortV3Object);
-         difficulty.customData?.fakeColorNotes?.sort(sortV3Grid);
-         difficulty.customData?.fakeBombNotes?.sort(sortV3Object);
-         difficulty.customData?.fakeBurstSliders?.sort(sortV3Object);
-         difficulty.customData?.fakeObstacles?.sort(sortV3Object);
+         difficulty.colorNotes.sort(sortV3NoteFn);
+         difficulty.bombNotes.sort(sortV3NoteFn);
+         difficulty.obstacles.sort(sortV3ObjectFn);
+         difficulty.bpmEvents.sort(sortV3ObjectFn);
+         difficulty.rotationEvents.sort(sortV3ObjectFn);
+         difficulty.colorBoostBeatmapEvents.sort(sortV3ObjectFn);
+         difficulty.basicBeatmapEvents.sort(sortV3ObjectFn);
+         difficulty.sliders.sort(sortV3NoteFn);
+         difficulty.burstSliders.sort(sortV3NoteFn);
+         difficulty.lightColorEventBoxGroups.sort(sortV3ObjectFn);
+         difficulty.lightRotationEventBoxGroups.sort(sortV3ObjectFn);
+         difficulty.lightTranslationEventBoxGroups.sort(sortV3ObjectFn);
+         difficulty.waypoints.sort(sortV3NoteFn);
+         difficulty.customData?.customEvents?.sort(sortV3ObjectFn);
+         difficulty.customData?.fakeColorNotes?.sort(sortV3NoteFn);
+         difficulty.customData?.fakeBombNotes?.sort(sortV3ObjectFn);
+         difficulty.customData?.fakeBurstSliders?.sort(sortV3ObjectFn);
+         difficulty.customData?.fakeObstacles?.sort(sortV3ObjectFn);
       }
    }
 
