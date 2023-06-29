@@ -34,6 +34,8 @@ export class Info extends WrapInfo<IInfo> {
    allDirectionsEnvironmentName!: never;
    songTimeOffset!: never;
    difficultySets: { [mode in CharacteristicName]?: InfoDifficulty[] } = {};
+   environmentNames: never[] = [];
+   colorSchemes: never[] = [];
 
    oneSaber: boolean;
    contributors?: IContributor[];
@@ -127,6 +129,8 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    filename: LooseAutocomplete<GenericFileName>;
    njs: number;
    njsOffset: number;
+   colorSchemeId!: never;
+   environmentId!: never;
 
    audioPath: string;
    characteristic: CharacteristicName;

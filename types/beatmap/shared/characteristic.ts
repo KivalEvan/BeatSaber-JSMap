@@ -3,6 +3,7 @@ export type CharacteristicName =
    | 'Standard'
    | 'NoArrows'
    | 'OneSaber'
+   | 'Legacy'
    | '360Degree'
    | '90Degree'
    | 'Lightshow'

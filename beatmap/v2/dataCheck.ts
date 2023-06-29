@@ -7,7 +7,14 @@ import { IArc } from '../../types/beatmap/v2/arc.ts';
 import { ISpecialEventsKeywordFilters } from '../../types/beatmap/v2/specialEventsKeywordFilters.ts';
 import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
 import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
-import { IInfo, IInfoSet, IInfoSetDifficulty } from '../../types/beatmap/v2/info.ts';
+import {
+   IInfo,
+   IInfoColorScheme,
+   IInfoColorSchemeData,
+   IInfoSet,
+   IInfoSetDifficulty,
+} from '../../types/beatmap/v2/info.ts';
+import { IColor } from '../../types/colors.ts';
 
 export const NoteDataCheck: { readonly [key in keyof INote]: DataCheck } = {
    _time: {
@@ -289,6 +296,14 @@ export const InfoSetDifficultyCheck: { readonly [key in keyof IInfoSetDifficulty
       type: 'number',
       version: '2.0.0',
    },
+   _beatmapColorSchemeIdx: {
+      type: 'number',
+      version: '2.1.0',
+   },
+   _environmentNameIdx: {
+      type: 'number',
+      version: '2.1.0',
+   },
    _customData: {
       type: 'object',
       version: '2.0.0',
@@ -306,6 +321,80 @@ export const InfoSetCheck: { readonly [key in keyof IInfoSet]: DataCheck } = {
       type: 'array',
       version: '2.0.0',
       check: InfoSetDifficultyCheck,
+   },
+};
+
+export const ColorObjectCheck: { readonly [key in keyof IColor]: DataCheck } = {
+   r: {
+      type: 'number',
+      version: '2.1.0',
+   },
+   g: {
+      type: 'number',
+      version: '2.1.0',
+   },
+   b: {
+      type: 'number',
+      version: '2.1.0',
+   },
+   a: {
+      type: 'number',
+      version: '2.1.0',
+   },
+};
+
+export const InfoColorSchemeDataCheck: { readonly [key in keyof IInfoColorSchemeData]: DataCheck } =
+   {
+      colorSchemeId: {
+         type: 'string',
+         version: '2.1.0',
+      },
+      saberAColor: {
+         type: 'object',
+         version: '2.1.0',
+         check: ColorObjectCheck,
+      },
+      saberBColor: {
+         type: 'object',
+         version: '2.1.0',
+         check: ColorObjectCheck,
+      },
+      environmentColor0: {
+         type: 'object',
+         version: '2.1.0',
+         check: ColorObjectCheck,
+      },
+      environmentColor1: {
+         type: 'object',
+         version: '2.1.0',
+         check: ColorObjectCheck,
+      },
+      obstaclesColor: {
+         type: 'object',
+         version: '2.1.0',
+         check: ColorObjectCheck,
+      },
+      environmentColor0Boost: {
+         type: 'object',
+         version: '2.1.0',
+         check: ColorObjectCheck,
+      },
+      environmentColor1Boost: {
+         type: 'object',
+         version: '2.1.0',
+         check: ColorObjectCheck,
+      },
+   };
+
+export const InfoColorSchemeCheck: { readonly [key in keyof IInfoColorScheme]: DataCheck } = {
+   useOverride: {
+      type: 'boolean',
+      version: '2.1.0',
+   },
+   colorScheme: {
+      type: 'object',
+      version: '2.1.0',
+      check: InfoColorSchemeDataCheck,
    },
 };
 
@@ -332,6 +421,10 @@ export const InfoCheck: { readonly [key in keyof IInfo]: DataCheck } = {
       version: '2.0.0',
    },
    _beatsPerMinute: {
+      type: 'number',
+      version: '2.0.0',
+   },
+   _songTimeOffset: {
       type: 'number',
       version: '2.0.0',
    },
@@ -365,12 +458,18 @@ export const InfoCheck: { readonly [key in keyof IInfo]: DataCheck } = {
    },
    _allDirectionsEnvironmentName: {
       type: 'string',
-      version: '2.2.0',
+      version: '2.0.0',
       optional: true,
    },
-   _songTimeOffset: {
-      type: 'number',
-      version: '2.0.0',
+   _environmentNames: {
+      type: 'string',
+      version: '2.1.0',
+      array: true,
+   },
+   _colorSchemes: {
+      type: 'array',
+      version: '2.1.0',
+      check: InfoColorSchemeCheck,
    },
    _customData: {
       type: 'object',

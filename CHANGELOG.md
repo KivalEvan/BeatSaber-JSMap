@@ -4,6 +4,7 @@
 
 ### Added
 
+- Updated to info v2.1.0
 - Queen environment & color scheme
 - Legacy beatmap v1 (incomplete; contain mixed information)
 - Info wrapper class

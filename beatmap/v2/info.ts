@@ -1,4 +1,4 @@
-import { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
+import { EnvironmentAllName, EnvironmentName } from '../../types/beatmap/shared/environment.ts';
 import { IInfo, IInfoSet, IInfoSetDifficulty } from '../../types/beatmap/v2/info.ts';
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
@@ -8,25 +8,30 @@ import { LooseAutocomplete } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { Environment360Name } from '../../types/beatmap/shared/environment.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { IWrapInfoDifficultyAttribute } from '../../types/beatmap/wrapper/info.ts';
+import {
+   IWrapInfoColorScheme,
+   IWrapInfoDifficultyAttribute,
+} from '../../types/beatmap/wrapper/info.ts';
 
 /** Difficulty beatmap class object. */
 export class Info extends WrapInfo<IInfo> {
-   version = '2.2.0' as const;
+   version = '2.1.0' as const;
    songName: string;
    songSubName: string;
    songAuthorName: string;
-   levelAuthorName!: string;
+   levelAuthorName: string;
    beatsPerMinute: number;
-   shuffle!: number;
-   shufflePeriod!: number;
+   songTimeOffset: number;
+   shuffle: number;
+   shufflePeriod: number;
    previewStartTime: number;
    previewDuration: number;
    songFilename: string;
    coverImageFilename: string;
    environmentName: EnvironmentName | EnvironmentV3Name;
-   allDirectionsEnvironmentName!: Environment360Name;
-   songTimeOffset!: number;
+   allDirectionsEnvironmentName: Environment360Name;
+   environmentNames: EnvironmentAllName[];
+   colorSchemes: IWrapInfoColorScheme[];
    difficultySets: { [mode in CharacteristicName]?: InfoDifficulty[] } = {};
 
    constructor(data: Partial<IInfo> = {}) {
@@ -37,6 +42,7 @@ export class Info extends WrapInfo<IInfo> {
       this.songAuthorName = data._songAuthorName ?? 'SongAuthor';
       this.levelAuthorName = data._levelAuthorName ?? '';
       this.beatsPerMinute = data._beatsPerMinute ?? 120;
+      this.songTimeOffset = data._songTimeOffset ?? 0;
       this.shuffle = data._shuffle ?? 0;
       this.shufflePeriod = data._shufflePeriod ?? 0.5;
       this.previewStartTime = data._previewStartTime ?? 12;
@@ -46,7 +52,57 @@ export class Info extends WrapInfo<IInfo> {
       this.environmentName = data._environmentName ?? 'DefaultEnvironment';
       this.allDirectionsEnvironmentName = data._allDirectionsEnvironmentName ??
          'GlassDesertEnvironment';
-      this.songTimeOffset = data._songTimeOffset ?? 0;
+      this.environmentNames = data._environmentNames?.map((e) => e) ?? [];
+      this.colorSchemes = data._colorSchemes?.map((e) => {
+         return {
+            useOverride: e.useOverride ?? false,
+            colorScheme: {
+               name: e.colorScheme.colorSchemeId ?? '',
+               saberLeftColor: {
+                  r: e.colorScheme.saberAColor.r ?? 0,
+                  g: e.colorScheme.saberAColor.g ?? 0,
+                  b: e.colorScheme.saberAColor.b ?? 0,
+                  a: e.colorScheme.saberAColor.a ?? 1,
+               },
+               saberRightColor: {
+                  r: e.colorScheme.saberBColor.r ?? 0,
+                  g: e.colorScheme.saberBColor.g ?? 0,
+                  b: e.colorScheme.saberBColor.b ?? 0,
+                  a: e.colorScheme.saberBColor.a ?? 1,
+               },
+               environment0Color: {
+                  r: e.colorScheme.environmentColor0.r ?? 0,
+                  g: e.colorScheme.environmentColor0.g ?? 0,
+                  b: e.colorScheme.environmentColor0.b ?? 0,
+                  a: e.colorScheme.environmentColor0.a ?? 1,
+               },
+               environment1Color: {
+                  r: e.colorScheme.environmentColor1.r ?? 0,
+                  g: e.colorScheme.environmentColor1.g ?? 0,
+                  b: e.colorScheme.environmentColor1.b ?? 0,
+                  a: e.colorScheme.environmentColor1.a ?? 1,
+               },
+               obstaclesColor: {
+                  r: e.colorScheme.obstaclesColor.r ?? 0,
+                  g: e.colorScheme.obstaclesColor.g ?? 0,
+                  b: e.colorScheme.obstaclesColor.b ?? 0,
+                  a: e.colorScheme.obstaclesColor.a ?? 1,
+               },
+               environment0ColorBoost: {
+                  r: e.colorScheme.environmentColor0Boost.r ?? 0,
+                  g: e.colorScheme.environmentColor0Boost.g ?? 0,
+                  b: e.colorScheme.environmentColor0Boost.b ?? 0,
+                  a: e.colorScheme.environmentColor0Boost.a ?? 1,
+               },
+               environment1ColorBoost: {
+                  r: e.colorScheme.environmentColor1Boost.r ?? 0,
+                  g: e.colorScheme.environmentColor1Boost.g ?? 0,
+                  b: e.colorScheme.environmentColor1Boost.b ?? 0,
+                  a: e.colorScheme.environmentColor1Boost.a ?? 1,
+               },
+            },
+         };
+      }) ?? [];
       this.customData = deepCopy(data._customData ?? {});
 
       data._difficultyBeatmapSets?.forEach((set) => {
@@ -68,6 +124,7 @@ export class Info extends WrapInfo<IInfo> {
          _songAuthorName: this.songAuthorName,
          _levelAuthorName: this.levelAuthorName,
          _beatsPerMinute: this.beatsPerMinute,
+         _songTimeOffset: this.songTimeOffset,
          _shuffle: this.shuffle,
          _shufflePeriod: this.shufflePeriod,
          _previewStartTime: this.previewStartTime,
@@ -76,7 +133,22 @@ export class Info extends WrapInfo<IInfo> {
          _coverImageFilename: this.coverImageFilename,
          _environmentName: this.environmentName,
          _allDirectionsEnvironmentName: this.allDirectionsEnvironmentName,
-         _songTimeOffset: this.songTimeOffset,
+         _environmentNames: this.environmentNames.map((e) => e),
+         _colorSchemes: this.colorSchemes.map((e) => {
+            return {
+               useOverride: e.useOverride,
+               colorScheme: {
+                  colorSchemeId: e.colorScheme.name,
+                  saberAColor: deepCopy(e.colorScheme.saberLeftColor),
+                  saberBColor: deepCopy(e.colorScheme.saberRightColor),
+                  environmentColor0: deepCopy(e.colorScheme.environment0Color),
+                  environmentColor1: deepCopy(e.colorScheme.environment1Color),
+                  obstaclesColor: deepCopy(e.colorScheme.obstaclesColor),
+                  environmentColor0Boost: deepCopy(e.colorScheme.environment0ColorBoost),
+                  environmentColor1Boost: deepCopy(e.colorScheme.environment1ColorBoost),
+               },
+            };
+         }),
          _customData: this.customData,
          _difficultyBeatmapSets: Object.entries(
             this.listMap().reduce((sets, [mode, beatmap]) => {
@@ -130,6 +202,8 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
    filename: LooseAutocomplete<GenericFileName>;
    njs: number;
    njsOffset: number;
+   colorSchemeId: number;
+   environmentId: number;
 
    constructor(data: Partial<IInfoSetDifficulty>, mode?: CharacteristicName) {
       super();
@@ -140,6 +214,8 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
       this.filename = data._beatmapFilename ?? 'UnnamedFile.dat';
       this.njs = data._noteJumpMovementSpeed ?? 0;
       this.njsOffset = data._noteJumpStartBeatOffset ?? 0;
+      this.colorSchemeId = data._beatmapColorSchemeIdx ?? 0;
+      this.environmentId = data._environmentNameIdx ?? 0;
       this.customData = deepCopy(data._customData ?? {});
    }
 
@@ -154,6 +230,8 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
          _beatmapFilename: this.filename,
          _noteJumpMovementSpeed: this.njs,
          _noteJumpStartBeatOffset: this.njsOffset,
+         _beatmapColorSchemeIdx: this.colorSchemeId,
+         _environmentNameIdx: this.environmentId,
          _customData: this.customData,
       };
    }

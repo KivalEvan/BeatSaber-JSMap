@@ -72,7 +72,7 @@ export function deepClean(
    // deno-lint-ignore no-explicit-any
    obj: { [key: string | number]: any } | any[],
    options: IOptimizeOptions,
-   name = ''
+   name = '',
 ) {
    for (const k in obj) {
       // shorten number
@@ -115,13 +115,13 @@ export function deepClean(
             if (Array.isArray(obj)) {
                logger.tError(
                   tag('deepClean'),
-                  `null value found in array ${name}[${k}], defaulting to 0...`
+                  `null value found in array ${name}[${k}], defaulting to 0...`,
                );
                obj[k] = 0;
             } else {
                logger.tError(
                   tag('deepClean'),
-                  `null value found in object key ${name}.${k}, deleting property...`
+                  `null value found in object key ${name}.${k}, deleting property...`,
                );
                delete obj[k];
             }
@@ -151,7 +151,7 @@ export function info(info: IInfo, options: IOptimizeOptionsInfo = { enabled: tru
 
 export function difficulty<T extends IDifficultyV1 | IDifficultyV2 | IDifficultyV3>(
    difficulty: T,
-   options: IOptimizeOptionsDifficulty = { enabled: true }
+   options: IOptimizeOptionsDifficulty = { enabled: true },
 ): T {
    const opt: Required<IOptimizeOptionsDifficulty> = {
       enabled: options.enabled,

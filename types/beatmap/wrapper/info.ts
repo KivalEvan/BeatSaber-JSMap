@@ -3,9 +3,15 @@ import { LooseAutocomplete } from '../../utils.ts';
 import { Version } from '../shared/version.ts';
 import { CharacteristicName } from '../shared/characteristic.ts';
 import { DifficultyName } from '../shared/difficulty.ts';
-import { Environment360Name, EnvironmentName, EnvironmentV3Name } from '../shared/environment.ts';
+import {
+   Environment360Name,
+   EnvironmentAllName,
+   EnvironmentName,
+   EnvironmentV3Name,
+} from '../shared/environment.ts';
 import { GenericFileName } from '../shared/filename.ts';
 import { IWrapBaseItem } from './baseItem.ts';
+import { IColor } from '../../colors.ts';
 
 export interface IWrapInfoAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseItem<T> {
@@ -23,8 +29,26 @@ export interface IWrapInfoAttribute<T extends { [P in keyof T]: T[P] } = Record<
    coverImageFilename: string;
    environmentName: EnvironmentName | EnvironmentV3Name;
    allDirectionsEnvironmentName: Environment360Name;
+   environmentNames: EnvironmentAllName[];
+   colorSchemes: IWrapInfoColorScheme[];
    songTimeOffset: number;
    readonly difficultySets: { [mode in CharacteristicName]?: IWrapInfoDifficulty[] };
+}
+
+export interface IWrapInfoColorScheme {
+   useOverride: boolean;
+   colorScheme: IWrapInfoColorSchemeData;
+}
+
+export interface IWrapInfoColorSchemeData {
+   name: string;
+   saberLeftColor: Required<IColor>;
+   saberRightColor: Required<IColor>;
+   environment0Color: Required<IColor>;
+   environment1Color: Required<IColor>;
+   obstaclesColor: Required<IColor>;
+   environment0ColorBoost: Required<IColor>;
+   environment1ColorBoost: Required<IColor>;
 }
 
 export interface IWrapInfo<T extends { [P in keyof T]: T[P] } = Record<string, any>>
@@ -44,6 +68,8 @@ export interface IWrapInfoDifficultyAttribute<
    filename: LooseAutocomplete<GenericFileName>;
    njs: number;
    njsOffset: number;
+   colorSchemeId: number;
+   environmentId: number;
 }
 
 export interface IWrapInfoDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>

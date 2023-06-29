@@ -2,6 +2,7 @@ import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import {
    Environment360Name,
+   EnvironmentAllName,
    EnvironmentName,
    EnvironmentV3Name,
 } from '../../types/beatmap/shared/environment.ts';
@@ -9,6 +10,7 @@ import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { Version } from '../../types/beatmap/shared/version.ts';
 import {
    IWrapInfo,
+   IWrapInfoColorScheme,
    IWrapInfoDifficulty,
    IWrapInfoDifficultyAttribute,
 } from '../../types/beatmap/wrapper/info.ts';
@@ -35,6 +37,8 @@ export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }> extends WrapB
    abstract environmentName: EnvironmentName | EnvironmentV3Name;
    abstract allDirectionsEnvironmentName: Environment360Name;
    abstract songTimeOffset: number;
+   abstract environmentNames: EnvironmentAllName[];
+   abstract colorSchemes: IWrapInfoColorScheme[];
    difficultySets: { [mode in CharacteristicName]?: IWrapInfoDifficulty[] } = {};
 
    clone<U extends this>(): U {
@@ -79,4 +83,6 @@ export abstract class WrapInfoDifficulty<T extends { [P in keyof T]: T[P] }> ext
    abstract filename: LooseAutocomplete<GenericFileName>;
    abstract njs: number;
    abstract njsOffset: number;
+   abstract colorSchemeId: number;
+   abstract environmentId: number;
 }
