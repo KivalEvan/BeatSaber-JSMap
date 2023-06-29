@@ -32,11 +32,7 @@ export function fixBoolean(value: unknown, defaultValue?: boolean): boolean {
 
 export function fixInt<T extends number>(value: unknown): T;
 export function fixInt<T extends number>(value: unknown, defaultValue: T): T;
-export function fixInt<T extends number>(
-   value: unknown,
-   defaultValue: T | [T, T],
-   range: T[],
-): T;
+export function fixInt<T extends number>(value: unknown, defaultValue: T | [T, T], range: T[]): T;
 export function fixInt<T extends number>(
    value: unknown,
    defaultValue?: T | [T, T],
@@ -45,12 +41,8 @@ export function fixInt<T extends number>(
    if (typeof defaultValue === 'number' && !Number.isInteger(defaultValue)) {
       throw new TypeError(`Default value must be integer; received ${value}`);
    }
-   if (
-      Array.isArray(defaultValue) && defaultValue.some((dv) => !Number.isInteger(dv))
-   ) {
-      throw new TypeError(
-         `Default value in array must be integer; received ${defaultValue}`,
-      );
+   if (Array.isArray(defaultValue) && defaultValue.some((dv) => !Number.isInteger(dv))) {
+      throw new TypeError(`Default value in array must be integer; received ${defaultValue}`);
    }
    if (range && range.some((n) => !Number.isInteger(n))) {
       throw new TypeError(`Range value must be integer; received ${range}`);
@@ -120,12 +112,7 @@ export function fixInt<T extends number>(
 
 export function fixFloat(value: unknown): number;
 export function fixFloat(value: unknown, defaultValue: number): number;
-export function fixFloat(
-   value: unknown,
-   defaultValue: number,
-   min: number,
-   max: number,
-): number;
+export function fixFloat(value: unknown, defaultValue: number, min: number, max: number): number;
 export function fixFloat(
    value: unknown,
    defaultValue?: number,
@@ -189,7 +176,7 @@ export function fixString<T extends string>(value: unknown, defaultValue?: T): T
 }
 
 export function fixStringAry(value: unknown[], defaultValue: string): string[] {
-   return value.map(fixString, defaultValue);
+   return value.map((v) => fixString(v, defaultValue));
 }
 
 const easingsList = Object.keys(EasingsFn) as Easings[];
