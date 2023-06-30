@@ -23,3 +23,8 @@ export interface DataCheckObject extends DataCheckBase {
 }
 
 export type DataCheck = DataCheckPrimitive | DataCheckNumber | DataCheckObject;
+
+export interface DataCheckOption {
+   enabled?: boolean;
+   throwError?: boolean;
+}

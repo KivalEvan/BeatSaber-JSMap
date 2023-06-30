@@ -8,6 +8,7 @@ import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
 import logger from '../../logger.ts';
 import { sortV2NoteFn, sortV2ObjectFn } from '../shared/helpers.ts';
+import { DataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
    return ['v2', 'parse', name];
@@ -15,10 +16,7 @@ function tag(name: string): string[] {
 
 export function difficulty(
    data: Partial<IDifficulty>,
-   checkData: {
-      enabled: boolean;
-      throwError?: boolean;
-   } = { enabled: true, throwError: true },
+   checkData: DataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v2.x.x');
    if (!data._version?.startsWith('2')) {
@@ -40,16 +38,14 @@ export function difficulty(
 
 export function info(
    data: Partial<IInfo>,
-   checkData: {
-      enabled: boolean;
-      throwError?: boolean;
-   } = { enabled: true, throwError: true },
+   checkData: DataCheckOption = { enabled: true, throwError: true },
 ): Info {
    logger.tInfo(tag('info'), 'Parsing beatmap info v2.x.x');
    if (!data._version?.startsWith('2')) {
       logger.tWarn(tag('info'), 'Unidentified beatmap version');
-      data._version = '2.0.0';
    }
+   // FIXME: temporary fix from my own mistake, remove when 2.2.0 exist
+   data._version = '2.0.0';
    if (checkData.enabled) {
       deepCheck(data, InfoCheck, 'info', data._version, checkData.throwError);
    }

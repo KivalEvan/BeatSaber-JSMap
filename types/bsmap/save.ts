@@ -1,3 +1,4 @@
+import { DataCheckOption } from '../beatmap/shared/dataCheck.ts';
 import { IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './optimize.ts';
 import { IBaseOptions } from './options.ts';
 
@@ -12,10 +13,7 @@ export interface ISaveOptionsInfo extends IBaseOptions {
    format?: number;
    optimize?: IOptimizeOptionsInfo;
    validate?: ISaveValidate;
-   dataCheck?: {
-      enabled: boolean;
-      throwError?: boolean;
-   };
+   dataCheck?: DataCheckOption;
 }
 
 export interface ISaveOptionsDifficulty extends IBaseOptions {
@@ -27,18 +25,12 @@ export interface ISaveOptionsDifficulty extends IBaseOptions {
    format?: number;
    optimize?: IOptimizeOptionsDifficulty;
    validate?: ISaveValidate;
-   dataCheck?: {
-      enabled: boolean;
-      throwError?: boolean;
-   };
+   dataCheck?: DataCheckOption;
 }
 
 export interface ISaveOptionsDifficultyList extends IBaseOptions {
    format?: number;
    optimize?: IOptimizeOptionsDifficulty;
    validate?: ISaveValidate;
-   dataCheck?: {
-      enabled: boolean;
-      throwError?: boolean;
-   };
+   dataCheck?: DataCheckOption;
 }

@@ -7,6 +7,7 @@ import { DifficultyCheck, InfoCheck } from './dataCheck.ts';
 import { CharacteristicOrder } from '../shared/characteristic.ts';
 import logger from '../../logger.ts';
 import { sortV2NoteFn, sortV2ObjectFn } from '../shared/helpers.ts';
+import { DataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
    return ['v1', 'parse', name];
@@ -14,10 +15,7 @@ function tag(name: string): string[] {
 
 export function difficulty(
    data: Partial<IDifficulty>,
-   checkData: {
-      enabled: boolean;
-      throwError?: boolean;
-   } = { enabled: true, throwError: true },
+   checkData: DataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v1.x.x');
    if (!data._version?.startsWith('1')) {
@@ -41,10 +39,7 @@ export function difficulty(
 
 export function info(
    data: Partial<IInfo>,
-   checkData: {
-      enabled: boolean;
-      throwError?: boolean;
-   } = { enabled: true, throwError: true },
+   checkData: DataCheckOption = { enabled: true, throwError: true },
 ): Info {
    logger.tInfo(tag('info'), 'Parsing beatmap info v1.x.x');
    if (checkData.enabled) {
