@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.1 [2023-06-30]
+
+### Fixed
+
+- Optimize shouldn't remove info attribute
+
 ## 1.4.0 [2023-06-30]
 
 ### Added
