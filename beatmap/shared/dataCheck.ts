@@ -31,7 +31,7 @@ export function deepCheck(
 ) {
    logger.tVerbose(tag('deepCheck'), `Looking up ${name}`);
    if (Array.isArray(data)) {
-      data.forEach((d, i) => deepCheck(d, check, `${name}[${i}]`, version));
+      data.forEach((d, i) => deepCheck(d, check, `${name}[${i}]`, version, throwError));
       return;
    }
    const dataCheckKey = Object.keys(check);
@@ -41,6 +41,7 @@ export function deepCheck(
       }
       if (!dataCheckKey.includes(key)) {
          handleError(`Unused key ${key} found in ${name}`, false, error);
+         continue;
       }
    }
    for (const key in check) {
@@ -52,34 +53,36 @@ export function deepCheck(
             continue;
          }
          handleError(`Missing ${key} in object ${name}!`, throwError, error);
+         continue;
       }
       if (data[key] == null) {
          handleError(`${key} contain null value in object ${name}!`, throwError, error);
+         continue;
       }
       if (check[key].type === 'array') {
          if (!Array.isArray(data[key])) {
             handleError(`${key} is not an array in object ${name}!`, throwError, error);
+            continue;
          }
          deepCheck(
             data[key],
             (check[key] as DataCheckObject).check,
             `${name} ${key}`,
             version,
+            throwError,
          );
       }
       if (check[key].type === 'object') {
          if (!Array.isArray(data[key]) && !(typeof data[key] === 'object')) {
-            handleError(
-               `${key} is not an object in object ${name}!`,
-               throwError,
-               error,
-            );
+            handleError(`${key} is not an object in object ${name}!`, throwError, error);
+            continue;
          } else {
             deepCheck(
                data[key],
                (check[key] as DataCheckObject).check,
                `${name} ${key}`,
                version,
+               throwError,
             );
          }
       }
@@ -95,29 +98,25 @@ export function deepCheck(
                   ((check[key] as DataCheckNumber).unsigned ? data[key] < 0 : true)),
          )
       ) {
-         handleError(
-            `${key} is not ${check[key].type} in object ${name}!`,
-            throwError,
-            error,
-         );
+         handleError(`${key} is not ${check[key].type} in object ${name}!`, throwError, error);
+         continue;
       }
       if (
          !check[key].array &&
          check[key].type !== 'array' &&
          typeof data[key] !== check[key].type
       ) {
-         handleError(
-            `${key} is not ${check[key].type} in object ${name}!`,
-            throwError,
-            error,
-         );
+         handleError(`${key} is not ${check[key].type} in object ${name}!`, throwError, error);
+         continue;
       }
       if (check[key].type === 'number' && typeof data[key] === 'number') {
          if ((check[key] as DataCheckNumber).int && data[key] % 1 !== 0) {
             handleError(`${name} ${key} cannot be float!`, false, error);
+            continue;
          }
          if ((check[key] as DataCheckNumber).unsigned && data[key] < 0) {
             handleError(`${name} ${key} cannot be negative!`, false, error);
+            continue;
          }
       }
    }

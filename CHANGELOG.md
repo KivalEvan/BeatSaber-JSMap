@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.2 [2023-07-xx]
+
+### Fixed
+
+- Data check should properly skip error
+
 ## 1.4.1 [2023-06-30]
 
 ### Fixed
