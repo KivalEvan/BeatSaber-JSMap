@@ -67,6 +67,11 @@ const ignoreObjectRemove = [
    'd',
    'e',
    'l',
+   '_environmentNames',
+   '_colorSchemes',
+   '_difficultyBeatmapSets',
+   '_difficultyBeatmaps',
+   'difficultyLevels',
 ];
 export function deepClean(
    // deno-lint-ignore no-explicit-any
