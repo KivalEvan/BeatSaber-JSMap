@@ -9,7 +9,9 @@ import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { Environment360Name } from '../../types/beatmap/shared/environment.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import {
+   IWrapInfo,
    IWrapInfoColorScheme,
+   IWrapInfoColorSchemeData,
    IWrapInfoDifficultyAttribute,
 } from '../../types/beatmap/wrapper/info.ts';
 
@@ -241,6 +243,69 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
    }
    set customData(value: NonNullable<IInfoSetDifficulty['_customData']>) {
       this._customData = value;
+   }
+
+   copyColorScheme(id: number, info: IWrapInfo): this;
+   copyColorScheme(colorScheme: IWrapInfoColorSchemeData): this;
+   copyColorScheme(id: IWrapInfoColorSchemeData | number, info?: IWrapInfo): this {
+      if (typeof id === 'number') {
+         if (info!.colorSchemes.length < id) {
+            return this;
+         }
+         const colorScheme = info!.colorSchemes[id].colorScheme;
+         return this.copyColorScheme(colorScheme);
+      }
+
+      this.customData._colorLeft = Object.entries(id.saberLeftColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._colorRight = Object.entries(id.saberRightColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._envColorLeft = Object.entries(id.environment0Color).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._envColorRight = Object.entries(id.environment1Color).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._envColorLeftBoost = Object.entries(id.environment0ColorBoost).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._envColorRightBoost = Object.entries(id.environment1ColorBoost).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._obstacleColor = Object.entries(id.obstaclesColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      return this;
    }
 
    isValid(): boolean {

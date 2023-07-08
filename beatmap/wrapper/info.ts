@@ -11,6 +11,7 @@ import { Version } from '../../types/beatmap/shared/version.ts';
 import {
    IWrapInfo,
    IWrapInfoColorScheme,
+   IWrapInfoColorSchemeData,
    IWrapInfoDifficulty,
    IWrapInfoDifficultyAttribute,
 } from '../../types/beatmap/wrapper/info.ts';
@@ -85,4 +86,7 @@ export abstract class WrapInfoDifficulty<T extends { [P in keyof T]: T[P] }> ext
    abstract njsOffset: number;
    abstract colorSchemeId: number;
    abstract environmentId: number;
+
+   abstract copyColorScheme(colorScheme: IWrapInfoColorSchemeData): this;
+   abstract copyColorScheme(id: number, info: IWrapInfo): this;
 }

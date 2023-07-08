@@ -73,4 +73,7 @@ export interface IWrapInfoDifficultyAttribute<
 }
 
 export interface IWrapInfoDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>, IWrapInfoDifficultyAttribute<T> {}
+   extends IWrapBaseItem<T>, IWrapInfoDifficultyAttribute<T> {
+   copyColorScheme(colorScheme: IWrapInfoColorSchemeData): this;
+   copyColorScheme(id: number, info: IWrapInfo): this;
+}

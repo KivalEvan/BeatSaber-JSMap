@@ -2,6 +2,10 @@
 
 ## 1.4.2 [2023-07-xx]
 
+### Added
+
+- Info color scheme copy
+
 ### Fixed
 
 - Data check should properly skip error

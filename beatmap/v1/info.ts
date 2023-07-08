@@ -10,7 +10,11 @@ import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { IColor } from '../../types/colors.ts';
 import { IContributor } from '../../types/beatmap/shared/custom/contributor.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { IWrapInfoDifficultyAttribute } from '../../types/beatmap/wrapper/info.ts';
+import {
+   IWrapInfo,
+   IWrapInfoColorSchemeData,
+   IWrapInfoDifficultyAttribute,
+} from '../../types/beatmap/wrapper/info.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v1', 'info', name];
@@ -206,6 +210,55 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    }
    set customData(_: Record<string, never>) {
       logger.tWarn(tag('customData'), 'Custom data does not exist in beatmap V1');
+   }
+
+   copyColorScheme(colorScheme: IWrapInfoColorSchemeData): this;
+   copyColorScheme(id: number, info: IWrapInfo): this;
+   copyColorScheme(id: IWrapInfoColorSchemeData | number, info?: IWrapInfo): this {
+      if (typeof id === 'number') {
+         if (info!.colorSchemes.length < id) {
+            return this;
+         }
+         const colorScheme = info!.colorSchemes[id].colorScheme;
+         return this.copyColorScheme(colorScheme);
+      }
+
+      this.colorLeft = Object.entries(id.saberLeftColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.colorRight = Object.entries(id.saberRightColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.envColorLeft = Object.entries(id.environment0Color).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.envColorRight = Object.entries(id.environment1Color).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.obstacleColor = Object.entries(id.obstaclesColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      return this;
    }
 
    isValid(): boolean {
