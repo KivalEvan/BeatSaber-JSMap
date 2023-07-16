@@ -44,9 +44,11 @@ export interface IInfoColorSchemeData {
    saberBColor: Required<IColor>;
    environmentColor0: Required<IColor>;
    environmentColor1: Required<IColor>;
+   environmentColorW?: Required<IColor>;
    obstaclesColor: Required<IColor>;
    environmentColor0Boost: Required<IColor>;
    environmentColor1Boost: Required<IColor>;
+   environmentColorWBoost?: Required<IColor>;
 }
 
 export interface IInfoSet {

@@ -5,6 +5,7 @@
 ### Added
 
 - Info color scheme copy
+- SongCore vanilla color scheme
 
 ### Fixed
 

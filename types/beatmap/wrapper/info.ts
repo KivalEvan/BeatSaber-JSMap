@@ -46,9 +46,11 @@ export interface IWrapInfoColorSchemeData {
    saberRightColor: Required<IColor>;
    environment0Color: Required<IColor>;
    environment1Color: Required<IColor>;
+   environmentWColor?: Required<IColor>;
    obstaclesColor: Required<IColor>;
    environment0ColorBoost: Required<IColor>;
    environment1ColorBoost: Required<IColor>;
+   environmentWColorBoost?: Required<IColor>;
 }
 
 export interface IWrapInfo<T extends { [P in keyof T]: T[P] } = Record<string, any>>
