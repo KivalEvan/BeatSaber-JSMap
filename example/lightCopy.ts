@@ -88,14 +88,14 @@ try {
       throw new Error('Received empty file path.');
    }
 
-   let info: ReturnType<typeof load.infoSync>;
+   let info: types.wrapper.IWrapInfo;
    let infoFileName = 'Info.dat';
    try {
       info = load.infoSync();
    } catch {
       logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
       infoFileName = 'info.dat';
-      info = load.infoSync({ filePath: infoFileName });
+      info = load.infoSync(null, { filePath: infoFileName });
    }
 
    const diffJSON = JSON.parse(
@@ -120,7 +120,7 @@ try {
             'n',
          );
          if (confirmation![0].toLowerCase() === 'y') {
-            convert.ogChromaToChromaV2(lightV2, info._environmentName);
+            convert.ogChromaToChromaV2(lightV2, info.environmentName);
          }
       }
       if (lightV2.basicEvents.some((e) => e.customData._lightGradient)) {
@@ -178,7 +178,7 @@ try {
 
    let hasCopied = false;
    diffList.forEach((dl) => {
-      if (!args.f && lightToCopy === dl.settings._beatmapFilename) {
+      if (!args.f && lightToCopy === dl.settings.filename) {
          return;
       }
 
@@ -186,8 +186,8 @@ try {
          logger.info('Backing up beatmap', dl.characteristic, dl.difficulty);
          try {
             copySync(
-               globals.directory + dl.settings._beatmapFilename,
-               globals.directory + dl.settings._beatmapFilename + '.old',
+               globals.directory + dl.settings.filename,
+               globals.directory + dl.settings.filename + '.old',
             );
          } catch (_) {
             const confirmation = args.y
@@ -195,8 +195,8 @@ try {
                : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
             if (confirmation![0].toLowerCase() === 'y') {
                copySync(
-                  globals.directory + dl.settings._beatmapFilename,
-                  globals.directory + dl.settings._beatmapFilename + '.old',
+                  globals.directory + dl.settings.filename,
+                  globals.directory + dl.settings.filename + '.old',
                   { overwrite: true },
                );
             } else {
@@ -207,18 +207,17 @@ try {
       }
       logger.info('Copying lightshow to', dl.characteristic, dl.difficulty);
       if (hasChroma) {
-         dl.settings._customData ??= {};
          if (
-            dl.settings._customData._suggestions &&
-            !dl.settings._customData._requirements?.includes('Chroma')
+            dl.settings.customData._suggestions &&
+            !dl.settings.customData._requirements?.includes('Chroma')
          ) {
-            if (!dl.settings._customData._suggestions.includes('Chroma')) {
+            if (!dl.settings.customData._suggestions.includes('Chroma')) {
                logger.info('Applying Chroma suggestions to', dl.characteristic, dl.difficulty);
-               dl.settings._customData._suggestions.push('Chroma');
+               dl.settings.customData._suggestions.push('Chroma');
             }
-         } else if (!dl.settings._customData._requirements?.includes('Chroma')) {
+         } else if (!dl.settings.customData._requirements?.includes('Chroma')) {
             logger.info('Creating Chroma suggestions to', dl.characteristic, dl.difficulty);
-            dl.settings._customData._suggestions = ['Chroma'];
+            dl.settings.customData._suggestions = ['Chroma'];
          }
       }
       if (isV3(dl.data)) {

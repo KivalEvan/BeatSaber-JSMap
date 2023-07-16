@@ -20,6 +20,7 @@ import {
    logger,
    parse as beatmapParser,
    save,
+   types,
    wrapper,
 } from '../mod.ts';
 
@@ -199,12 +200,12 @@ try {
          }
       }
    } else {
-      let info: ReturnType<typeof load.infoSync>;
+      let info: types.wrapper.IWrapInfo;
       try {
          info = load.infoSync();
       } catch {
          logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
-         info = load.infoSync({ filePath: 'info.dat' });
+         info = load.infoSync(null, { filePath: 'info.dat' });
       }
 
       const diffList = load.difficultyFromInfoSync(info);
@@ -215,8 +216,8 @@ try {
                logger.info('Backing up beatmap', dl.characteristic, dl.difficulty);
                try {
                   copySync(
-                     globals.directory + dl.settings._beatmapFilename,
-                     globals.directory + dl.settings._beatmapFilename + '.old',
+                     globals.directory + dl.settings.filename,
+                     globals.directory + dl.settings.filename + '.old',
                   );
                } catch (_) {
                   const confirmation = args.y
@@ -224,8 +225,8 @@ try {
                      : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
                   if (confirmation![0].toLowerCase() === 'y') {
                      copySync(
-                        globals.directory + dl.settings._beatmapFilename,
-                        globals.directory + dl.settings._beatmapFilename + '.old',
+                        globals.directory + dl.settings.filename,
+                        globals.directory + dl.settings.filename + '.old',
                         { overwrite: true },
                      );
                   } else {
@@ -249,7 +250,7 @@ try {
                   oldChromaConfirm = true;
                }
                if (oldChromaConvert) {
-                  convert.ogChromaToChromaV2(dl.data, info._environmentName);
+                  convert.ogChromaToChromaV2(dl.data, info.environmentName);
                }
             }
             if (dl.data.basicEvents.some((e) => e.customData._lightGradient)) {

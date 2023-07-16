@@ -61,15 +61,15 @@ if (args.v) {
 }
 
 try {
-   let info: types.IInfo;
+   let info: types.wrapper.IWrapInfo;
    try {
       info = load.infoSync();
    } catch {
       logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
-      info = load.infoSync({ filePath: 'info.dat' });
+      info = load.infoSync(null, { filePath: 'info.dat' });
    }
 
-   const bpm = BeatPerMinute.create(info._beatsPerMinute);
+   const bpm = BeatPerMinute.create(info.beatsPerMinute);
 
    const diffList = load.difficultyFromInfoSync(info);
 
@@ -83,8 +83,8 @@ try {
          logger.info('Backing up beatmap', dl.characteristic, dl.difficulty);
          try {
             copySync(
-               globals.directory + dl.settings._beatmapFilename,
-               globals.directory + dl.settings._beatmapFilename + '.old',
+               globals.directory + dl.settings.filename,
+               globals.directory + dl.settings.filename + '.old',
             );
          } catch (_) {
             const confirmation = args.y ? 'n' : prompt(
@@ -93,8 +93,8 @@ try {
             );
             if (confirmation![0].toLowerCase() === 'y') {
                copySync(
-                  globals.directory + dl.settings._beatmapFilename,
-                  globals.directory + dl.settings._beatmapFilename + '.old',
+                  globals.directory + dl.settings.filename,
+                  globals.directory + dl.settings.filename + '.old',
                   { overwrite: true },
                );
             } else {
@@ -117,7 +117,7 @@ try {
                oldChromaConfirm = true;
             }
             if (oldChromaConvert) {
-               convert.ogChromaToChromaV2(dl.data, info._environmentName);
+               convert.ogChromaToChromaV2(dl.data, info.environmentName);
             }
          }
          if (dl.data.basicEvents.some((e) => e.customData._lightGradient)) {
@@ -153,7 +153,7 @@ try {
                oldChromaConfirm = true;
             }
             if (oldChromaConvert) {
-               convert.ogChromaToChromaV2(temp, info._environmentName);
+               convert.ogChromaToChromaV2(temp, info.environmentName);
             }
          }
          if (temp.basicEvents.some((e) => e.customData._lightGradient)) {
@@ -195,7 +195,7 @@ try {
          dl.data.basicEvents.sort((a, b) => a.type - b.type).sort((a, b) => a.time - b.time);
          const mappedEvent = dl.data.basicEvents
             .map((ev) => ev)
-            .filter((ev) => ev.isLightEvent(info._environmentName))
+            .filter((ev) => ev.isLightEvent(info.environmentName))
             .reduce((obj: { [key: number]: types.wrapper.IWrapEvent[] }, ev) => {
                obj[ev.type] ??= [];
                obj[ev.type].push(ev);
@@ -276,7 +276,7 @@ try {
       logger.info('Applying 0 float value to off events');
       dl.data.basicEvents
          .map((ev) => ev)
-         .filter((ev) => ev.isLightEvent(info._environmentName) && ev.isOff())
+         .filter((ev) => ev.isLightEvent(info.environmentName) && ev.isOff())
          .forEach((ev) => (ev.floatValue = 0));
 
       save.difficultySync(dl.data);
