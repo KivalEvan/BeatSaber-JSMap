@@ -80,7 +80,7 @@ export interface INEAnimation {
   _rotation?: string | Vector3 | Vector3PointDefinition[];
   _localRotation?: string | Vector3 | Vector3PointDefinition[];
   _scale?: string | Vector3 | Vector3PointDefinition[];
-  _dissolve?: string | number | FloatPointDefinition[];
+  _dissolve?: string | [number] | FloatPointDefinition[];
   _dissolveArrow?: string | [number] | FloatPointDefinition[];
   _interactable?: string | [number] | FloatPointDefinition[];
   _definitePosition?: string | Vector3 | Vector3PointDefinition[];
