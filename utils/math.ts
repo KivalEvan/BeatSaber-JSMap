@@ -233,14 +233,18 @@ export function lerp(alpha: number, start: number, end: number, easing?: EasingF
       easing = (x) => x;
    }
    if (alpha > 1) {
-      logger.tWarn(tag('lerp'), 'Alpha value is larger than 1, may have unintended result');
+      logger.tWarn(tag('lerp'), 'Alpha value larger than 1');
    }
    if (alpha < 0) {
-      logger.tWarn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
+      logger.tWarn(tag('lerp'), 'Alpha value smaller than 0');
    }
    const result = start + (end - start) * easing(alpha);
    logger.tVerbose(tag('lerp'), `Obtained ${result}`);
    return result;
+}
+
+export function invLerp(x: number, y: number, a: number): number {
+   return clamp((a - x) / (y - x), 0, 1);
 }
 
 export function equalNear(value: number, compareTo: number, tolerance = Number.EPSILON): boolean {

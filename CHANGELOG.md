@@ -7,6 +7,7 @@
 - Info color scheme copy
 - SongCore vanilla color scheme
 - Ensure alpha for to color object
+- Inverse lerp utility function
 
 ### Fixed
 
