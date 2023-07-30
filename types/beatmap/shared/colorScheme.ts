@@ -2,15 +2,15 @@ import { IColor } from '../../colors.ts';
 
 /** Color Scheme interface for difficulty info custom data. */
 export interface IColorScheme {
-   _colorLeft?: Omit<IColor, 'a'>;
-   _colorRight?: Omit<IColor, 'a'>;
-   _envColorLeft?: Omit<IColor, 'a'>;
-   _envColorRight?: Omit<IColor, 'a'>;
-   _envColorWhite?: Omit<IColor, 'a'>;
-   _envColorLeftBoost?: Omit<IColor, 'a'>;
-   _envColorRightBoost?: Omit<IColor, 'a'>;
-   _envColorWhiteBoost?: Omit<IColor, 'a'>;
-   _obstacleColor?: Omit<IColor, 'a'>;
+   _colorLeft?: IColor;
+   _colorRight?: IColor;
+   _envColorLeft?: IColor;
+   _envColorRight?: IColor;
+   _envColorWhite?: IColor;
+   _envColorLeftBoost?: IColor;
+   _envColorRightBoost?: IColor;
+   _envColorWhiteBoost?: IColor;
+   _obstacleColor?: IColor;
 }
 
 /** List of available color scheme in base game. */

@@ -9,6 +9,10 @@
 - Ensure alpha for to color object
 - Inverse lerp utility function
 
+### Changed
+
+- Custom data color scheme `a` is now optional instead of omitted
+
 ### Fixed
 
 - Data check should properly skip error
