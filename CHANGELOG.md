@@ -6,10 +6,13 @@
 
 - Info color scheme copy
 - SongCore vanilla color scheme
+- Ensure alpha for to color object
 
 ### Fixed
 
 - Data check should properly skip error
+- To color object should copy the object instead of referencing
+- To hex color properly normalize the value outside of 0-1 range
 
 ## 1.4.1 [2023-06-30]
 

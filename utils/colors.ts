@@ -138,34 +138,41 @@ function compToHex(c: number): string {
 }
 
 function cDenorm(c: number): number {
-   return c > 1 && c >= 0 ? c : round(c * 255);
+   return round(c * 255);
 }
 
 function cNorm(c: number): number {
    return c / 255;
 }
 
-export function toColorObject(color: ColorInput | IColor): IColor {
+export function toColorObject(color: ColorInput | IColor, ensureAlpha?: boolean): IColor;
+export function toColorObject(color: ColorInput | IColor, ensureAlpha: true): Required<IColor>;
+export function toColorObject(color: ColorInput | IColor, ensureAlpha?: boolean): IColor {
    if (Array.isArray(color)) {
       const result = { r: color[0], g: color[1], b: color[2] } as IColor;
       if (typeof color[3] === 'number') result.a = color[3];
       return result;
    }
-   if (typeof color === 'string') return toColorObject(colorFrom(color));
+   if (typeof color === 'string') return toColorObject(colorFrom(color), ensureAlpha);
    if ('type' in color) {
-      return toColorObject(colorFrom(color));
+      return toColorObject(colorFrom(color), ensureAlpha);
    }
-   return color;
+   const newColor: IColor = { r: color.r, g: color.g, b: color.b };
+   if (typeof color.a === 'number') newColor.a = color.a;
+   if (ensureAlpha) {
+      newColor.a ??= 1;
+   }
+   return newColor;
 }
 
 export function colorToHex(color: ColorInput | IColor): string {
    const obj: IColor = toColorObject(color);
+   let max = 1;
    for (const c in obj) {
-      const num: number | undefined = obj[c as keyof IColor];
-      if (num === undefined) {
-         continue;
-      }
-      obj[c as keyof IColor] = cDenorm(num);
+      max = Math.max(Math.abs(obj[c as keyof IColor]!), max);
+   }
+   for (const c in obj) {
+      obj[c as keyof IColor] = cDenorm(obj[c as keyof IColor]! / max);
    }
    return `#${compToHex(obj.r)}${compToHex(obj.g)}${compToHex(obj.b)}${
       typeof obj.a === 'number' ? compToHex(obj.a) : ''
@@ -387,21 +394,21 @@ export function colorFrom(
    b: number,
    a: number,
    type: 'rgba',
-): ColorArray;
+): Required<ColorArray>;
 export function colorFrom(
    r: number,
    g: number,
    b: number,
    a: number,
    type: 'rgba255',
-): ColorArray;
+): Required<ColorArray>;
 export function colorFrom(
    h: number,
    s: number,
    v: number,
    a: number,
    type: 'hsva',
-): ColorArray;
+): Required<ColorArray>;
 export function colorFrom(r: number, g: number, b: number, type: 'rgba'): ColorArray;
 export function colorFrom(r: number, g: number, b: number, type: 'rgba255'): ColorArray;
 export function colorFrom(h: number, s: number, v: number, type: 'hsva'): ColorArray;
@@ -417,10 +424,7 @@ export function colorFrom(color: IColor): ColorArray;
 export function colorFrom(color: number[]): ColorArray;
 export function colorFrom(): ColorArray {
    const args = arguments;
-   if (
-      typeof args[0] === 'number' && typeof args[1] === 'number' &&
-      typeof args[2] === 'number'
-   ) {
+   if (typeof args[0] === 'number' && typeof args[1] === 'number' && typeof args[2] === 'number') {
       let val: ColorArray = [args[0], args[1], args[2]];
       if (typeof args[3] === 'number') {
          val.push(args[3]);
@@ -458,9 +462,7 @@ export function colorFrom(): ColorArray {
    if (Array.isArray(args[0])) {
       let val = [args[0][0], args[0][1], args[0][2]] as ColorArray;
       if (!val.every((v) => typeof v === 'number')) {
-         throw new Error(
-            'Unable to parse color; array contain undefined or non-numeric',
-         );
+         throw new Error('Unable to parse color; array contain undefined or non-numeric');
       }
       if (typeof args[0][3] === 'number') {
          val.push(args[0][3]);
