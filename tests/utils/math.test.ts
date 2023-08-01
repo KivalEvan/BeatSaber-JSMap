@@ -165,6 +165,22 @@ Deno.test('Lerp helper', () => {
    assertAlmostEquals(math.lerp(2, 0, 1), 2, EPSILON);
 });
 
+Deno.test('Inverse lerp helper', () => {
+   assertAlmostEquals(math.invLerp(210, 0, 420), 0.5, EPSILON);
+   assertAlmostEquals(math.invLerp(-5, -10, 10), 0.25, EPSILON);
+   assertAlmostEquals(math.invLerp(6.9, 6.9, 420), 0, EPSILON);
+   assertAlmostEquals(math.invLerp(420, 6.9, 420), 1, EPSILON);
+   assertAlmostEquals(math.invLerp(-1, 0, 1), -1, EPSILON);
+   assertAlmostEquals(math.invLerp(2, 0, 1), 2, EPSILON);
+});
+
+Deno.test('Remap helper', () => {
+   assertAlmostEquals(math.remap(150, 100, 200, 10, 20), 15, EPSILON);
+   assertAlmostEquals(math.remap(-100, -150, -50, 0, 10), 5, EPSILON);
+   assertAlmostEquals(math.remap(50, 100, 200, 10, 20), 5, EPSILON);
+   assertAlmostEquals(math.remap(300, 100, 200, 10, 20), 30, EPSILON);
+});
+
 Deno.test('Fix range helper', () => {
    assertEquals(math.fixRange(10, 0), [0, 10]);
    assertEquals(math.fixRange(10, -10), [-10, 10]);

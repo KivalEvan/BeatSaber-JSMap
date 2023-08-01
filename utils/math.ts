@@ -1,14 +1,9 @@
-import logger from '../logger.ts';
 import { EasingFunction } from '../types/easings.ts';
 import { Vector3 } from '../types/vector.ts';
 
-function tag(name: string): string[] {
-   return ['utils', 'math', name];
-}
-
 /** Return number in formatted number string.
  * ```ts
- * console.log(formatNumber(12345678)) // 12,345,678
+ * console.log(formatNumber(12345678)); // 12,345,678
  * ```
  */
 export function formatNumber(num: number): string {
@@ -113,10 +108,7 @@ export function pRandomSeed(seed: string | number | bigint): void {
    _seed.ref = hashCode(seed);
 }
 
-/** Generate 32-bit hash with Java implementation.
- *
- * _ly converts primitives to string.
- */
+/** Generate 32-bit hash with Java implementation. */
 export function hashCode(str: string | number | bigint): number {
    str = str.toString();
    let hash = 0;
@@ -127,7 +119,7 @@ export function hashCode(str: string | number | bigint): number {
    return hash;
 }
 
-/** Random number generator using built-in JS Math. */
+/** Random number generator helpers using built-in JS Math. */
 export function random(max: number, int?: boolean): number;
 export function random(int?: boolean): number;
 export function random(min: number, max: number): number;
@@ -214,37 +206,49 @@ export function clamp(value: number, min: number, max: number): number {
 /** Normalize value to 0-1 from given min and max value. */
 export function normalize(value: number, min: number, max: number): number {
    if (min > max) {
-      logger.tWarn(tag('normalize'), 'Min value is more than max value, returning 1');
       return 1;
    }
    if (min === max) {
       return 1;
    }
    const result = (value - min) / (max - min);
-   logger.tVerbose(tag('normalize'), `Obtained ${result}`);
    return result;
 }
 
 /** Linear interpolate between start to end time given alpha value.
- * Alpha value must be around 0-1.
+ * ```ts
+ * const num = lerp(0.5, 4, 8); // returns 6
+ * ```
+ * Alpha value must be in range of 0-1.
  */
-export function lerp(alpha: number, start: number, end: number, easing?: EasingFunction): number {
-   if (!easing) {
-      easing = (x) => x;
-   }
-   if (alpha > 1) {
-      logger.tWarn(tag('lerp'), 'Alpha value larger than 1');
-   }
-   if (alpha < 0) {
-      logger.tWarn(tag('lerp'), 'Alpha value smaller than 0');
-   }
-   const result = start + (end - start) * easing(alpha);
-   logger.tVerbose(tag('lerp'), `Obtained ${result}`);
-   return result;
+export function lerp(alpha: number, from: number, to: number, easing?: EasingFunction): number {
+   if (!easing) easing = (x) => x;
+   return from + (to - from) * easing(alpha);
 }
 
-export function invLerp(x: number, y: number, a: number): number {
-   return clamp((a - x) / (y - x), 0, 1);
+/** Returns alpha value from interpolated value.
+ * ```ts
+ * const num = invLerp(6, 4, 8); // returns 0.5
+ * ```
+ */
+export function invLerp(value: number, from: number, to: number): number {
+   return (value - from) / (to - from);
+}
+
+/** Remap the value from original range to target range.
+ * ```ts
+ * const num = remap(6, 4, 8, 40, 60); // returns 50
+ * ```
+ */
+export function remap(
+   value: number,
+   origFrom: number,
+   origTo: number,
+   targetFrom: number,
+   targetTo: number,
+) {
+   const alpha = invLerp(value, origFrom, origTo);
+   return lerp(alpha, targetFrom, targetTo);
 }
 
 export function equalNear(value: number, compareTo: number, tolerance = Number.EPSILON): boolean {

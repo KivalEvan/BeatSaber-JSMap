@@ -1,12 +1,7 @@
 // deno-lint-ignore-file prefer-const
-import logger from '../logger.ts';
 import { ColorArray, ColorInput, ColorObject, ColorType, IColor } from '../types/colors.ts';
 import { degToRad, lerp, radToDeg, round } from './math.ts';
 import { hexToDec, isHex } from './misc.ts';
-
-function tag(name: string): string[] {
-   return ['utils', 'colors', name];
-}
 
 /** Convert RGBA to HSVA array.
  * ```
@@ -208,7 +203,7 @@ export function hexToRgba(hex: string): ColorArray {
          result.push(cNorm(hexToDec(hex.slice(6, 8))));
       }
    } else {
-      logger.tWarn(tag('hexToRgba'), `Unknown color hex #${hex}`);
+      throw new Error('Not valid colour hexadecimal');
    }
    return result;
 }
@@ -412,8 +407,9 @@ export function colorFrom(
 export function colorFrom(r: number, g: number, b: number, type: 'rgba'): ColorArray;
 export function colorFrom(r: number, g: number, b: number, type: 'rgba255'): ColorArray;
 export function colorFrom(h: number, s: number, v: number, type: 'hsva'): ColorArray;
-export function colorFrom(value: number, alpha?: number): ColorArray;
+export function colorFrom(value: number): ColorArray;
 export function colorFrom(value: number, normalise255?: boolean): ColorArray;
+export function colorFrom(value: number, alpha: number): Required<ColorArray>;
 export function colorFrom(hex: string): ColorArray;
 export function colorFrom(color: ColorArray): ColorArray;
 export function colorFrom(color: ColorArray, type: 'rgba'): ColorArray;
@@ -462,7 +458,7 @@ export function colorFrom(): ColorArray {
    if (Array.isArray(args[0])) {
       let val = [args[0][0], args[0][1], args[0][2]] as ColorArray;
       if (!val.every((v) => typeof v === 'number')) {
-         throw new Error('Unable to parse color; array contain undefined or non-numeric');
+         throw new Error('Unable to parse color; array contain undefined or non-numeric value');
       }
       if (typeof args[0][3] === 'number') {
          val.push(args[0][3]);

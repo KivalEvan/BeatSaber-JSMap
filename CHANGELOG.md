@@ -6,12 +6,13 @@
 
 - Info color scheme copy
 - SongCore vanilla color scheme
-- Ensure alpha for to color object
-- Inverse lerp utility function
+- Ensure alpha for `toColorObject`
+- `invLerp` and `remap` math utils
 
 ### Changed
 
 - Custom data color scheme `a` is now optional instead of omitted
+- Removed logging from utils, now throws error instead of warn
 
 ### Fixed
 
