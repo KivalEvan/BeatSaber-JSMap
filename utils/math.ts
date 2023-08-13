@@ -205,10 +205,7 @@ export function clamp(value: number, min: number, max: number): number {
 
 /** Normalize value to 0-1 from given min and max value. */
 export function normalize(value: number, min: number, max: number): number {
-   if (min > max) {
-      return 1;
-   }
-   if (min === max) {
+   if (min >= max) {
       return 1;
    }
    const result = (value - min) / (max - min);

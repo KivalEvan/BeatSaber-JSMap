@@ -7,24 +7,18 @@ import {
    Vector4Object,
 } from '../types/vector.ts';
 
-type VectorObject =
-   | Partial<Vector2Object>
-   | Partial<Vector3Object>
-   | Partial<Vector4Object>;
+type VectorObject = Partial<Vector2Object> | Partial<Vector3Object> | Partial<Vector4Object>;
 
 export function isVector2(obj: unknown): obj is Vector2 {
-   return Array.isArray(obj) && obj.every((n) => typeof n === 'number') &&
-      obj.length === 2;
+   return Array.isArray(obj) && obj.every((n) => typeof n === 'number') && obj.length === 2;
 }
 
 export function isVector3(obj: unknown): obj is Vector3 {
-   return Array.isArray(obj) && obj.every((n) => typeof n === 'number') &&
-      obj.length === 3;
+   return Array.isArray(obj) && obj.every((n) => typeof n === 'number') && obj.length === 3;
 }
 
 export function isVector4(obj: unknown): obj is Vector4 {
-   return Array.isArray(obj) && obj.every((n) => typeof n === 'number') &&
-      obj.length === 4;
+   return Array.isArray(obj) && obj.every((n) => typeof n === 'number') && obj.length === 4;
 }
 
 export function vectorAdd<T extends Vector2 | Vector3 | Vector4 | number[] | undefined>(

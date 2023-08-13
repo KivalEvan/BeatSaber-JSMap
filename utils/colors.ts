@@ -145,8 +145,7 @@ export function toColorObject(color: ColorInput | IColor, ensureAlpha: true): Re
 export function toColorObject(color: ColorInput | IColor, ensureAlpha?: boolean): IColor {
    if (Array.isArray(color)) {
       const result = { r: color[0], g: color[1], b: color[2] } as IColor;
-      if (typeof color[3] === 'number') result.a = color[3];
-      return result;
+      return toColorObject(result, ensureAlpha);
    }
    if (typeof color === 'string') return toColorObject(colorFrom(color), ensureAlpha);
    if ('type' in color) {
@@ -210,7 +209,7 @@ export function hexToRgba(hex: string): ColorArray {
 
 /** Convert color input to standard RGBA array.
  * ```ts
- * const rgba = convertColorInput([30, 0.75, 1], 'hsva')
+ * const rgba = convertColorType([30, 0.75, 1], 'hsva')
  * ```
  * Default color output type is RGBA unless specified otherwise.
  */
@@ -411,13 +410,12 @@ export function colorFrom(value: number): ColorArray;
 export function colorFrom(value: number, normalise255?: boolean): ColorArray;
 export function colorFrom(value: number, alpha: number): Required<ColorArray>;
 export function colorFrom(hex: string): ColorArray;
-export function colorFrom(color: ColorArray): ColorArray;
-export function colorFrom(color: ColorArray, type: 'rgba'): ColorArray;
-export function colorFrom(color: ColorArray, type: 'rgba255'): ColorArray;
-export function colorFrom(color: ColorArray, type: 'hsva'): ColorArray;
+export function colorFrom(color: (number | undefined)[]): ColorArray;
+export function colorFrom(color: (number | undefined)[], type: 'rgba'): ColorArray;
+export function colorFrom(color: (number | undefined)[], type: 'rgba255'): ColorArray;
+export function colorFrom(color: (number | undefined)[], type: 'hsva'): ColorArray;
 export function colorFrom(color: ColorObject): ColorArray;
 export function colorFrom(color: IColor): ColorArray;
-export function colorFrom(color: number[]): ColorArray;
 export function colorFrom(): ColorArray {
    const args = arguments;
    if (typeof args[0] === 'number' && typeof args[1] === 'number' && typeof args[2] === 'number') {
