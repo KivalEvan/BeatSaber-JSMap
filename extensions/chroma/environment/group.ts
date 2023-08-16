@@ -41,7 +41,8 @@ export class EnvironmentGroup {
             d.position[2] = ny;
          }
 
-         d.position = d.position!.map(
+         d.position ??= this.anchor;
+         d.position = d.position.map(
             (p, i) =>
                (this.anchor[i] + p) * (options.scale?.[i] ?? 1) + (options.position?.[i] ?? 0),
          ) as Vector3;
