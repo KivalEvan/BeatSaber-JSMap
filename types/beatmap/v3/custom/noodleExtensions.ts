@@ -45,6 +45,8 @@ export interface INEObstacle extends INEObject {
  * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
+   offsetPosition?: string | Vector3 | Vector3PointDefinition[];
+   offsetWorldRotation?: string | Vector3 | Vector3PointDefinition[];
    dissolve?: string | number | FloatPointDefinition[];
    dissolveArrow?: string | number | FloatPointDefinition[];
    interactable?: string | number | FloatPointDefinition[];
@@ -55,6 +57,8 @@ export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
  * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAssignPathAnimation extends Required<IHeckBase> {
+   offsetPosition?: string | Vector3 | Vector3PointDefinition[];
+   offsetWorldRotation?: string | Vector3 | Vector3PointDefinition[];
    dissolve?: string | number | FloatPointDefinition[];
    dissolveArrow?: string | number | FloatPointDefinition[];
    interactable?: string | number | FloatPointDefinition[];
