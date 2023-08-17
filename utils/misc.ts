@@ -16,15 +16,13 @@ export function pickRandom<T>(ary: T[], fn = Math.random): T {
    return ary[Math.floor(fn() * ary.length)];
 }
 
-/** Simple old-fashioned deep copy JSON object or JSON array.
+/**
+ * Simple old-fashioned deep copy JSON object or JSON array.
  *
  * Works best with only primitive objects. Use `structuredClone()` for more complicated objects.
  */
 export function deepCopy<T>(object: T): T {
-   if (
-      typeof object !== 'object' || typeof object === null ||
-      typeof object === undefined
-   ) {
+   if (typeof object !== 'object' || typeof object === null || typeof object === undefined) {
       return object;
    }
    return JSON.parse(JSON.stringify(object));

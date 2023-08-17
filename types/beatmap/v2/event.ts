@@ -11,7 +11,8 @@ import { IBaseObject } from './object.ts';
 /** Beatmap object interface for Event. */
 // it took me long enough to realise Event is a built in JS class/interface, but it has no effect here anyway
 export interface IEventBase extends IBaseObject {
-   /** Type of event.
+   /**
+    * Type of event.
     * ```ts
     * 0 -> Back Lasers
     * 1 -> Ring Lights
@@ -49,7 +50,8 @@ export interface IEventBase extends IBaseObject {
 
 export interface IEventLight extends IEventBase {
    _type: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11;
-   /** State of light event. ( Blue | Red | White )
+   /**
+    * State of light event. ( Blue | Red | White )
     * ```ts
     * 0 -> Off
     * 1 | 5 | 9 -> On
@@ -59,9 +61,10 @@ export interface IEventLight extends IEventBase {
     * ```
     */
    _value: number;
-   /** Controls the brightness of the light.
+   /**
+    * Controls the brightness of the light.
     * ```ts
-    * Range: 0-1 // (0% to 100%), can be more than 1.
+    * **RANGE:** 0-1 // (0% to 100%), can be more than 1.
     * ```
     */
    _floatValue: number;
@@ -97,7 +100,8 @@ export interface IEventLaser extends IEventBase {
 
 export interface IEventLaneRotation extends IEventBase {
    _type: 14 | 15;
-   /** Amount of angle changed clockwise.
+   /**
+    * Amount of angle changed clockwise.
     * ```ts
     * 0 -> -60 Degree
     * 1 -> -45 Degree

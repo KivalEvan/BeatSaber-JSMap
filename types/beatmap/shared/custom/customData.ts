@@ -11,7 +11,8 @@ export interface ICustomDataBase {
    [key: string]: any;
 }
 
-/** Custom Data interface for info.
+/**
+ * Custom Data interface for info.
  * @extends ICustomDataBase
  */
 export interface ICustomDataInfo extends ICustomDataBase {
@@ -25,16 +26,11 @@ export interface ICustomDataInfo extends ICustomDataBase {
 export type Suggestions = 'Chroma' | 'Cinema';
 
 /** Available mod requirements. */
-export type Requirements =
-   | Suggestions
-   | 'Noodle Extensions'
-   | 'Mapping Extensions';
+export type Requirements = Suggestions | 'Noodle Extensions' | 'Mapping Extensions';
 
-type IInfoSettings =
-   & IInfoSettingsCustomData
-   & IHeckInfoCustomData
-   & IChromaInfoCustomData;
-/** Custom Data interface for info difficulty.
+type IInfoSettings = IInfoSettingsCustomData & IHeckInfoCustomData & IChromaInfoCustomData;
+/**
+ * Custom Data interface for info difficulty.
  * @extends ICustomDataBase
  * @extends IColorScheme
  * @extends IInfoSettings

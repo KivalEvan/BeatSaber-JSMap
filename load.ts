@@ -111,10 +111,12 @@ function _info(version: number | null | undefined, options: ILoadOptionsInfo) {
    }
 }
 
-/** Asynchronously load beatmap info file.
+/**
+ * Asynchronously load beatmap info file.
  * ```ts
  * load.info().then((data) => console.log(data));
  * ```
+ *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function info(version?: null, options?: ILoadOptionsInfo): Promise<IWrapInfo>;
@@ -130,11 +132,13 @@ export function info(version?: number | null, options: ILoadOptionsInfo = {}) {
    });
 }
 
-/** Synchronously load beatmap info file.
+/**
+ * Synchronously load beatmap info file.
  * ```ts
  * const info = load.infoSync();
  * console.log(info);
  * ```
+ *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function infoSync(version?: null, options?: ILoadOptionsInfo): IWrapInfo;
@@ -212,11 +216,12 @@ function _difficulty(
    }
 }
 
-/** Asynchronously load beatmap difficulty file.
+/**
+ * Asynchronously load beatmap difficulty file.
  * ```ts
  * load.difficulty('EasyStandard.dat', 3).then((data) => console.log(data));
  * ```
- * ---
+ *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function difficulty(
@@ -253,12 +258,13 @@ export function difficulty(
    });
 }
 
-/** Synchronously load beatmap difficulty file.
+/**
+ * Synchronously load beatmap difficulty file.
  * ```ts
  * const difficulty = load.difficultySync('EasyStandard.dat', 3);
  * console.log(difficulty);
  * ```
- * ---
+ *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function difficultySync(
@@ -347,13 +353,14 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
    return lists;
 }
 
-/** Asynchronously load multiple beatmap difficulties given beatmap info.
+/**
+ * Asynchronously load multiple beatmap difficulties given beatmap info.
  *
  * Automatically omits difficulty that could not be loaded or does not exist.
  * ```ts
  * load.difficultyFromInfo().then((data) => data.forEach((d) => console.log(d)));
  * ```
- * ---
+ *
  * Info difficulty reference is also given to allow further control.
  */
 export function difficultyFromInfo(
@@ -370,14 +377,15 @@ export function difficultyFromInfo(
    });
 }
 
-/** Synchronously load multiple beatmap difficulties given beatmap info.
+/**
+ * Synchronously load multiple beatmap difficulties given beatmap info.
  *
  * Automatically omits difficulty that could not be loaded or does not exist.
  * ```ts
  * const difficultyList = load.difficultyFromInfoSync();
  * difficultyList.forEach((d) => console.log(d));
  * ```
- * ---
+ *
  * Info difficulty reference is also given to allow further control.
  */
 export function difficultyFromInfoSync(

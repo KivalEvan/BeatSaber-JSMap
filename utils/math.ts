@@ -1,7 +1,8 @@
 import { EasingFunction } from '../types/easings.ts';
 import { Vector3 } from '../types/vector.ts';
 
-/** Return number in formatted number string.
+/**
+ * Return number in formatted number string.
  * ```ts
  * console.log(formatNumber(12345678)); // 12,345,678
  * ```
@@ -17,7 +18,8 @@ export function formatNumber(num: number): string {
 // Randomly generate seed if not provided.
 const _seed = { ref: hashCode(Math.random()) };
 
-/** Mulberry32 algorithm.
+/**
+ * Mulberry32 algorithm.
  *
  * shamelessly taken from stackoverflow
  */
@@ -58,11 +60,14 @@ function _random(
       : result;
 }
 
-/** Seeded pseudorandom generator.
+/**
+ * Seeded pseudorandom generator.
  *
  * Based on Mulberry32 PRNG algorithm.
  *
- * **NOTE:** This is globally scoped, any random call elsewhere will affect the consequent call. Consider creating instance of pseudorandom with `pRandomFn` if you need consistency across usage. Reset the random seed to retain same randomness if needed.
+ * **NOTE:** This is globally scoped, any random call elsewhere will affect the consequent call.
+ * Consider creating instance of pseudorandom with `pRandomFn` if you need consistency across usage.
+ * Reset the random seed to retain same randomness if needed.
  *
  * **WARNING:** This is not meant to be used for security, rather quick and simple for pseudorandom purpose.
  */
@@ -79,7 +84,8 @@ export function pRandom(
    return _random(min, max, rounding, _instPRandom);
 }
 
-/** Create instance of pseudorandom function.
+/**
+ * Create instance of pseudorandom function.
  * ```ts
  * const pRandom = utils.pRandomFn('seed');
  * console.log(pRandom());
@@ -98,7 +104,8 @@ export function pRandomFn(seed: string | number | bigint = Math.random()) {
    };
 }
 
-/** Set seed for pseudorandom generator.
+/**
+ * Set seed for pseudorandom generator.
  *
  * Recalling this resets the seed.
  *
@@ -212,18 +219,21 @@ export function normalize(value: number, min: number, max: number): number {
    return result;
 }
 
-/** Linear interpolate between start to end time given alpha value.
+/**
+ * Linear interpolate between start to end time given alpha value.
  * ```ts
  * const num = lerp(0.5, 4, 8); // returns 6
  * ```
- * Alpha value must be in range of 0-1.
+ *
+ * Alpha value must be in range of `0-1`, otherwise extrapolated.
  */
 export function lerp(alpha: number, from: number, to: number, easing?: EasingFunction): number {
    if (!easing) easing = (x) => x;
    return from + (to - from) * easing(alpha);
 }
 
-/** Returns alpha value from interpolated value.
+/**
+ * Returns alpha value from interpolated value.
  * ```ts
  * const num = invLerp(6, 4, 8); // returns 0.5
  * ```
@@ -232,7 +242,8 @@ export function invLerp(value: number, from: number, to: number): number {
    return (value - from) / (to - from);
 }
 
-/** Remap the value from original range to target range.
+/**
+ * Remap the value from original range to target range.
  * ```ts
  * const num = remap(6, 4, 8, 40, 60); // returns 50
  * ```

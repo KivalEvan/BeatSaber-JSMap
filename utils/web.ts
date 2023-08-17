@@ -21,11 +21,5 @@ export function sanitizeBeatSaverId(id: string): string {
    if (regexID.test(id)) {
       return id;
    }
-   throw new Error('Invalid ID');
+   throw new Error('Invalid BeatSaver ID');
 }
-
-// export function removeOptions(selectElement: HTMLSelectElement): void {
-//     for (let i = selectElement.options.length - 1; i >= 0; i--) {
-//         selectElement.remove(i);
-//     }
-// }

@@ -6,7 +6,8 @@ import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapArc } from '../wrapper/arc.ts';
 
-/** Arc beatmap v3 class object.
+/**
+ * Arc beatmap v3 class object.
  *
  * Also known as slider internally.
  */

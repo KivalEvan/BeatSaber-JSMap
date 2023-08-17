@@ -4,14 +4,16 @@ import { ILightTranslationBase } from './lightTranslationBase.ts';
 export interface ILightTranslationEventBox extends IEventBox {
    /** Translation distribution `<float>` of light translation event box. */
    s: number;
-   /** Translation distribution type `<int>` of light translation event box.
+   /**
+    * Translation distribution type `<int>` of light translation event box.
     * ```ts
     * 1 -> Wave // adds up to last ID.
     * 2 -> Step // adds to consequent ID.
     * ```
     */
    t: 1 | 2;
-   /** Axis `<int>` of light translation event box.
+   /**
+    * Axis `<int>` of light translation event box.
     * ```ts
     * 0 -> X
     * 1 -> Y

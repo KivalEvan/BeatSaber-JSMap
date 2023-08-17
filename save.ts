@@ -101,7 +101,8 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
    );
 }
 
-/** Asynchronously save beatmap info.
+/**
+ * Asynchronously save beatmap info.
  * ```ts
  * await save.info(info);
  * ```
@@ -111,7 +112,8 @@ export async function info(data: IWrapInfo, options: ISaveOptionsInfo = {}) {
    _info(data, options);
 }
 
-/** Synchronously save beatmap info.
+/**
+ * Synchronously save beatmap info.
  * ```ts
  * save.infoSync(info);
  * ```
@@ -166,7 +168,8 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
    );
 }
 
-/** Asynchronously save beatmap difficulty.
+/**
+ * Asynchronously save beatmap difficulty.
  * ```ts
  * await save.difficulty(difficulty);
  * ```
@@ -176,7 +179,8 @@ export async function difficulty(data: IWrapDifficulty, options: ISaveOptionsDif
    _difficulty(data, options);
 }
 
-/** Synchronously save beatmap difficulty.
+/**
+ * Synchronously save beatmap difficulty.
  * ```ts
  * save.difficultySync(difficulty);
  * ```
@@ -233,7 +237,8 @@ function _difficultyList(difficulties: IDifficultyList, options: ISaveOptionsDif
    });
 }
 
-/** Asynchronously save multiple beatmap difficulties.
+/**
+ * Asynchronously save multiple beatmap difficulties.
  * ```ts
  * await save.difficultyList(difficulties);
  * ```
@@ -246,7 +251,8 @@ export async function difficultyList(
    _difficultyList(difficulties, options);
 }
 
-/** Synchronously save multiple beatmap difficulties.
+/**
+ * Synchronously save multiple beatmap difficulties.
  * ```ts
  * save.difficultyList(difficulties);
  * ```

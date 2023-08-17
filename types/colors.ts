@@ -6,7 +6,8 @@ export interface IColor {
    a?: number;
 }
 
-/** Standard color array.
+/**
+ * Standard color array.
  * ```ts
  * const color = [red, green, blue] || [red, green, blue, alpha];
  * ```

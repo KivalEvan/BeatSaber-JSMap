@@ -17,7 +17,8 @@ export interface ISaveOptionsInfo extends IBaseOptions {
 }
 
 export interface ISaveOptionsDifficulty extends IBaseOptions {
-   /** Set difficulty destination file path.
+   /**
+    * Set difficulty destination file path.
     *
     * **NOTE:** Overrides class file name.
     */

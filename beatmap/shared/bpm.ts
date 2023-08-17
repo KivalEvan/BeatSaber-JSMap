@@ -54,7 +54,8 @@ export class BeatPerMinute {
       }
    }
 
-   /** Create and return an instance of BeatPerMinute class.
+   /**
+    * Create and return an instance of BeatPerMinute class.
     * ```ts
     * const bpm = BeatPerMinute.create(bpm, bpmc, 0);
     * ```
@@ -89,9 +90,7 @@ export class BeatPerMinute {
    get timescale(): IBPMTimeScale[] {
       return this._timeScale;
    }
-   set timescale(
-      val: (IBPMTimeScale | IBPMEvent | Omit<IWrapBPMEventAttribute, 'customData'>)[],
-   ) {
+   set timescale(val: (IBPMTimeScale | IBPMEvent | Omit<IWrapBPMEventAttribute, 'customData'>)[]) {
       this._timeScale = this.getTimeScale(val);
    }
    get offset(): number {
@@ -101,7 +100,8 @@ export class BeatPerMinute {
       this._offset = val / 1000;
    }
 
-   /** Create new BPM change object that allow time to be read according to editor.
+   /**
+    * Create new BPM change object that allow time to be read according to editor.
     * ```ts
     * const newBpmChange = bpm.getBpmChangeTime(bpmc);
     * ```
@@ -113,10 +113,8 @@ export class BeatPerMinute {
       const bpmChange: IBPMChangeTime[] = [];
       bpmc = [...bpmc].sort(
          (a, b) =>
-            ((a as IBPMChangeTime).time ?? (a as IBPMChangeV2)._time ??
-               (a as IBPMChangeV3).b) -
-            ((b as IBPMChangeTime).time ?? (b as IBPMChangeV2)._time ??
-               (b as IBPMChangeV3).b),
+            ((a as IBPMChangeTime).time ?? (a as IBPMChangeV2)._time ?? (a as IBPMChangeV3).b) -
+            ((b as IBPMChangeTime).time ?? (b as IBPMChangeV2)._time ?? (b as IBPMChangeV3).b),
       );
       for (let i = 0; i < bpmc.length; i++) {
          const curBPMC: IBPMChangeTime = {
@@ -137,13 +135,10 @@ export class BeatPerMinute {
          };
          if (temp) {
             curBPMC.newTime = Math.ceil(
-               ((curBPMC.time - temp.time) / this._bpm) * temp.BPM + temp.newTime -
-                  0.01,
+               ((curBPMC.time - temp.time) / this._bpm) * temp.BPM + temp.newTime - 0.01,
             );
          } else {
-            curBPMC.newTime = Math.ceil(
-               curBPMC.time - (this._offset * this._bpm) / 60 - 0.01,
-            );
+            curBPMC.newTime = Math.ceil(curBPMC.time - (this._offset * this._bpm) / 60 - 0.01);
          }
          bpmChange.push(curBPMC);
          temp = curBPMC;
@@ -151,7 +146,8 @@ export class BeatPerMinute {
       return bpmChange;
    }
 
-   /** Create new time scale object that adjust beat to BPM event.
+   /**
+    * Create new time scale object that adjust beat to BPM event.
     * ```ts
     * const newTimeScale = bpm.getTimeScale(bpmc);
     * ```
@@ -172,7 +168,8 @@ export class BeatPerMinute {
          });
    }
 
-   /** Adjust beat time by offset.
+   /**
+    * Adjust beat time by offset.
     * ```ts
     * const removedOffset = bpm.offsetBegone(beat);
     * ```
@@ -181,7 +178,8 @@ export class BeatPerMinute {
       return this.toBeatTime(this.toRealTime(beat, false) - this._offset);
    }
 
-   /** Convert beat time to real-time in second.
+   /**
+    * Convert beat time to real-time in second.
     * ```ts
     * const realTime = bpm.toRealTime(beat);
     * ```
@@ -194,15 +192,15 @@ export class BeatPerMinute {
       let calculatedBeat = 0;
       for (let i = this._timeScale.length - 1; i >= 0; i--) {
          if (beat > this._timeScale[i].time) {
-            calculatedBeat += (beat - this._timeScale[i].time) *
-               this._timeScale[i].scale;
+            calculatedBeat += (beat - this._timeScale[i].time) * this._timeScale[i].scale;
             beat = this._timeScale[i].time;
          }
       }
       return ((beat + calculatedBeat) / this._bpm) * 60;
    }
 
-   /** Convert real-time in second to beat time.
+   /**
+    * Convert real-time in second to beat time.
     * ```ts
     * const beatTime = bpm.toBeatTime(rt);
     * ```
@@ -223,18 +221,19 @@ export class BeatPerMinute {
       return this.toBeatTime(seconds + calculatedSecond);
    }
 
-   /** Convert editor beat time to actual JSON time.
+   /**
+    * Convert editor beat time to actual JSON time.
     * ```ts
     * const JsonTime = bpm.toJsonTime(beat);
     * ```
+    *
     * This only works with custom data BPM change.
     */
    toJsonTime(beat: number): number {
       for (let i = this._bpmChange.length - 1; i >= 0; i--) {
          if (beat > this._bpmChange[i].newTime) {
             return (
-               ((beat - this._bpmChange[i].newTime) / this._bpmChange[i].BPM) *
-                  this._bpm +
+               ((beat - this._bpmChange[i].newTime) / this._bpmChange[i].BPM) * this._bpm +
                this._bpmChange[i].time
             );
          }
@@ -242,7 +241,8 @@ export class BeatPerMinute {
       return this.toBeatTime(this.toRealTime(beat, false) + this._offset);
    }
 
-   /** Adjust beat time from BPM changes and offset.
+   /**
+    * Adjust beat time from BPM changes and offset.
     * ```ts
     * const adjustedBeat = bpm.adjustTime(beat);
     * ```

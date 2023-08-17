@@ -18,16 +18,15 @@ export type Vector4PointDefinition = [
 
 export interface IInfoSettingsCustomData {
    _settings?: {
-      [key: string]:
-         | { [key: string]: boolean | string | number | undefined }
-         | undefined;
+      [key: string]: { [key: string]: boolean | string | number | undefined } | undefined;
    };
 }
 
 export type PointModifier = `op${'None' | 'Add' | 'Sub' | 'Mul' | 'Div'}`;
 export type PointFlag = 'splineCatmullRom';
 
-/** Heck interface for difficulty info custom data.
+/**
+ * Heck interface for difficulty info custom data.
  * Honestly, just look at heck wiki for this, it's too many.
  */
 export interface IHeckInfoCustomData extends IInfoSettingsCustomData {
@@ -48,14 +47,8 @@ export interface IHeckInfoCustomData extends IInfoSettingsCustomData {
          _noteJumpStartBeatOffset?: number;
          _hideNoteSpawnEffect?: boolean;
          _adaptiveSfx?: number;
-         _environmentEffectsFilterDefaultPreset?:
-            | 'AllEffects'
-            | 'Strobefilter'
-            | 'NoEffects';
-         _environmentEffectsFilterExpertPlusPreset?:
-            | 'AllEffects'
-            | 'Strobefilter'
-            | 'NoEffects';
+         _environmentEffectsFilterDefaultPreset?: 'AllEffects' | 'Strobefilter' | 'NoEffects';
+         _environmentEffectsFilterExpertPlusPreset?: 'AllEffects' | 'Strobefilter' | 'NoEffects';
       };
       _modifiers?: {
          _energyType?: 'Bar' | 'Battery';

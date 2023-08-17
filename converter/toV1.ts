@@ -14,11 +14,12 @@ function tag(name: string): string[] {
    return ['convert', name];
 }
 
-/** Feeling nostalgic?
+/**
+ * Feeling nostalgic?
  * ```ts
  * const converted = convert.toV1(data);
  * ```
- * ---
+ *
  * **WARNING:** Guess you should know this legacy version does not have modern features.
  */
 export function toV1(

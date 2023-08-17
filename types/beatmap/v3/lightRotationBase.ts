@@ -5,7 +5,8 @@ export interface ILightRotationBase {
    b: number;
    /** Use previous event rotation value `<int>` in light rotation. */
    p: 0 | 1;
-   /** Ease type `<int>` of light rotation.
+   /**
+    * Ease type `<int>` of light rotation.
     * ```ts
     * -1 -> Step
     * 0 -> Linear
@@ -17,14 +18,16 @@ export interface ILightRotationBase {
    e: -1 | 0 | 1 | 2 | 3;
    /** Loop count `<int>` in light rotation. */
    l: number;
-   /** Rotation value `<float>` of light rotation.
+   /**
+    * Rotation value `<float>` of light rotation.
     * ```ts
     * Left-side -> Clockwise
     * Right-side -> Counter-Clockwise
     * ```
     */
    r: number;
-   /** Rotation direction `<int>` of light rotation.
+   /**
+    * Rotation direction `<int>` of light rotation.
     * ```ts
     * 0 -> Automatic
     * 1 -> Clockwise

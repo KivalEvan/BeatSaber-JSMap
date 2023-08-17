@@ -26,11 +26,12 @@ function tag(name: string): string[] {
    return ['convert', name];
 }
 
-/** Convert beatmap to beatmap v3, you are encouraged to convert to make full use of new beatmap features.
+/**
+ * Convert beatmap to beatmap v3, you are encouraged to convert to make full use of new beatmap features.
  * ```ts
  * const converted = convert.toV3(data);
  * ```
- * ---
+ *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
 export function toV3(data: IWrapDifficulty): DifficultyV3 {

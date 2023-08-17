@@ -5,7 +5,8 @@ export interface ILightTranslationBase {
    b: number;
    /** Use previous event translation value `<int>` in light translation. */
    p: 0 | 1;
-   /** Ease type `<int>` of light translation.
+   /**
+    * Ease type `<int>` of light translation.
     * ```ts
     * -1 -> Step
     * 0 -> Linear

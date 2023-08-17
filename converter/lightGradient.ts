@@ -19,7 +19,8 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
    return typeof obj === 'object' && obj != null && '_startColor' in obj && '_endColor' in obj;
 }
 
-/** Convert Chroma light gradient to transition event.
+/**
+ * Convert Chroma light gradient to transition event.
  * ```ts
  * const newData = convert.ogChromaToChromaV2(oldData);
  * ```

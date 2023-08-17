@@ -3,7 +3,8 @@ import { ColorArray, ColorInput, ColorObject, ColorType, IColor } from '../types
 import { degToRad, lerp, radToDeg, round } from './math.ts';
 import { hexToDec, isHex } from './misc.ts';
 
-/** Convert RGBA to HSVA array.
+/**
+ * Convert RGBA to HSVA array.
  * ```
  * const hsva = RgbaToHsva(...rgba);
  * ```
@@ -38,7 +39,8 @@ export function RgbaToHsva(r: number, g: number, b: number, a?: number): ColorAr
    return result as ColorArray;
 }
 
-/** Convert HSVA to RGBA array.
+/**
+ * Convert HSVA to RGBA array.
  * ```
  * const rgba = HsvaToRgba(...hsva);
  * ```
@@ -207,10 +209,12 @@ export function hexToRgba(hex: string): ColorArray {
    return result;
 }
 
-/** Convert color input to standard RGBA array.
+/**
+ * Convert color input to standard RGBA array.
  * ```ts
  * const rgba = convertColorType([30, 0.75, 1], 'hsva')
  * ```
+ *
  * Default color output type is RGBA unless specified otherwise.
  */
 export function convertColorType(

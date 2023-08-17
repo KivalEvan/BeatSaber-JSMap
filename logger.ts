@@ -30,10 +30,7 @@ export class Logger {
 
    set logLevel(value: LogLevels) {
       this.#logLevel = value;
-      this.tInfo(
-         ['logger', 'logLevel'],
-         `Log level set to ${Logger.LogPrefixes.get(value)}`,
-      );
+      this.tInfo(['logger', 'logLevel'], `Log level set to ${Logger.LogPrefixes.get(value)}`);
    }
    get logLevel() {
       return this.#logLevel;
@@ -74,7 +71,8 @@ export class Logger {
       }
    }
 
-   /** Set logging level to filter various information.
+   /**
+    * Set logging level to filter various information.
     * ```ts
     * 0 -> Verbose
     * 1 -> Debug
@@ -87,10 +85,7 @@ export class Logger {
    setLevel(level: LogLevels) {
       level = Math.min(Math.max(level, 0), 5);
       this.#logLevel = level;
-      this.tInfo(
-         ['logger', 'setLevel'],
-         `Log level set to ${Logger.LogPrefixes.get(level)}`,
-      );
+      this.tInfo(['logger', 'setLevel'], `Log level set to ${Logger.LogPrefixes.get(level)}`);
    }
 
    tVerbose(tags: string[], ...args: any[]) {

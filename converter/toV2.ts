@@ -26,11 +26,12 @@ function tag(name: string): string[] {
    return ['convert', name];
 }
 
-/** In case you need to go back, who knows why.
+/**
+ * In case you need to go back, who knows why.
  * ```ts
  * const converted = convert.toV2(data);
  * ```
- * ---
+ *
  * **WARNING:** Chain and other new stuff will be gone!
  */
 export function toV2(data: IWrapDifficulty): DifficultyV2 {

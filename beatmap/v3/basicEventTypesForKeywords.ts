@@ -3,7 +3,8 @@ import { IWrapEventTypesForKeywordsAttribute } from '../../types/beatmap/wrapper
 import { DeepPartial } from '../../types/utils.ts';
 import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
 
-/** Basic event types for keywords beatmap v3 class object.
+/**
+ * Basic event types for keywords beatmap v3 class object.
  *
  * Used in basic event types with keywords.
  */

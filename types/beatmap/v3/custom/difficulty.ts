@@ -10,7 +10,8 @@ import { IChain } from '../chain.ts';
 import { IBombNote } from '../bombNote.ts';
 import { IObstacle } from '../obstacle.ts';
 
-/** Custom Data interface for difficulty file.
+/**
+ * Custom Data interface for difficulty file.
  * @extends ICustomDataBase
  * @extends IHeckCustomData
  * @extends IChromaCustomData

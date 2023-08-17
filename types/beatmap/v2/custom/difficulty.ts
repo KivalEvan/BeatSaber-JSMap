@@ -5,7 +5,8 @@ import { ICustomDataBase } from '../../shared/custom/customData.ts';
 import { IPointDefinition } from './pointDefinition.ts';
 import { ICustomEvent } from './customEvent.ts';
 
-/** Custom Data interface for difficulty file.
+/**
+ * Custom Data interface for difficulty file.
  * @extends ICustomDataBase
  * @extends IChromaCustomData
  */

@@ -14,7 +14,8 @@ import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorSc
 import { ColorArray } from '../../types/colors.ts';
 import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 
-/** This uses new lighting lighting syntax for v2 lighting including support for color and easing.
+/**
+ * This uses new lighting lighting syntax for v2 lighting including support for color and easing.
  * ```ts
  * const lightMapper = new LightMapper('FitbeatEnvironment');
  * lightMapper.light(8, 2, [eventBox]);
@@ -30,9 +31,7 @@ export class LightMapper {
    private boosts: ColorBoostEvent[] = [];
 
    constructor(environment: EnvironmentAllName) {
-      this.lightIDMapping = <{ [key: number]: number[] }> (
-         structuredClone(LightIDList[environment])
-      );
+      this.lightIDMapping = <{ [key: number]: number[] }> structuredClone(LightIDList[environment]);
       this.environment = environment;
    }
 
@@ -73,8 +72,7 @@ export class LightMapper {
                beatDistributionEasing: eb.beatDistributionEasing ?? 'easeLinear',
                brightnessDistribution: eb.brightnessDistribution ?? 0,
                brightnessDistributionType: eb.brightnessDistributionType ?? 'Division',
-               brightnessDistributionEasing: eb.brightnessDistributionEasing ??
-                  'easeLinear',
+               brightnessDistributionEasing: eb.brightnessDistributionEasing ?? 'easeLinear',
                hueDistribution: eb.hueDistribution ?? 0,
                hueDistributionType: eb.hueDistributionType ?? 'Division',
                hueDistributionEasing: eb.hueDistributionEasing ?? 'easeLinear',
@@ -135,8 +133,7 @@ export class LightMapper {
                if (eb.indexFilter.divide > 1) {
                   lid = lid.slice(
                      Math.floor(lid.length / eb.indexFilter.divide) * eb.indexFilter.id,
-                     Math.ceil(lid.length / eb.indexFilter.divide) *
-                        (eb.indexFilter.id + 1),
+                     Math.ceil(lid.length / eb.indexFilter.divide) * (eb.indexFilter.id + 1),
                   );
                }
             }
@@ -255,10 +252,9 @@ export class LightMapper {
                            ? ev.brightness
                            : eb.brightnessDistributionType === 'Division'
                            ? ev.brightness +
-                              EasingsFn
-                                    [eb.brightnessDistributionEasing ?? 'easeLinear'](
-                                       i / (lid.length - 1),
-                                    ) *
+                              EasingsFn[eb.brightnessDistributionEasing ?? 'easeLinear'](
+                                    i / (lid.length - 1),
+                                 ) *
                                  eb.brightnessDistribution
                            : ev.brightness + i * eb.brightnessDistribution,
                         0,
@@ -278,9 +274,9 @@ export class LightMapper {
                            ...(RgbaToHsva(...event.customData.color).map((v, x) => {
                               if (!x) {
                                  v! += eb.hueDistributionType === 'Division'
-                                    ? EasingsFn[
-                                       eb.hueDistributionEasing ?? 'easeLinear'
-                                    ](i / (lid.length - 1)) * eb.hueDistribution
+                                    ? EasingsFn[eb.hueDistributionEasing ?? 'easeLinear'](
+                                       i / (lid.length - 1),
+                                    ) * eb.hueDistribution
                                     : i * eb.hueDistribution;
                               }
                               return v;

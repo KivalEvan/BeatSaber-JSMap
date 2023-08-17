@@ -3,7 +3,8 @@ import { NoteDirectionAngle } from '../shared/constants.ts';
 import { IWrapArc } from '../../types/beatmap/wrapper/arc.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
-/** Arc beatmap class object.
+/**
+ * Arc beatmap class object.
  *
  * Also known as arc.
  */

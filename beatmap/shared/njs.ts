@@ -16,20 +16,18 @@ export class NoteJumpSpeed {
       this._sdm = sdm;
    }
 
-   /** Create and return new instance of NJS class.
+   /**
+    * Create and return new instance of NJS class.
     * ```ts
     * const njs = NoteJumpSpeed.create(BPM ?? 128, 16, 0);
     * ```
     */
-   static create(
-      bpm: BeatPerMinute | number,
-      njs?: number,
-      sdm?: number,
-   ): NoteJumpSpeed {
+   static create(bpm: BeatPerMinute | number, njs?: number, sdm?: number): NoteJumpSpeed {
       return new NoteJumpSpeed(bpm, njs, sdm);
    }
 
-   /** Fallback value used if NJS value is null or 0.
+   /**
+    * Fallback value used if NJS value is null or 0.
     * ```ts
     * 'ExpertPlus' -> 16,
     * 'Expert' -> 12,
@@ -73,7 +71,8 @@ export class NoteJumpSpeed {
       return this._bpm;
    }
 
-   /** Calculate half jump duration given NJS offset.
+   /**
+    * Calculate half jump duration given NJS offset.
     * ```ts
     * const hjd = njs.calcHjd();
     * const hjdOffset = njs.calcHjd(0.5);
@@ -90,7 +89,8 @@ export class NoteJumpSpeed {
       return Math.max(hjd + offset, NoteJumpSpeed.HJD_MIN);
    }
 
-   /** Calculate half jump duration given jump distance.
+   /**
+    * Calculate half jump duration given jump distance.
     * ```ts
     * const hjd = njs.calcHjdFromJd();
     * const hjdSpecified = njs.calcHjdFromJd(21);
@@ -100,7 +100,8 @@ export class NoteJumpSpeed {
       return jd / ((60 / this._bpm.value) * this._njs * 2);
    }
 
-   /** Calculate half jump duration given real time in second.
+   /**
+    * Calculate half jump duration given real time in second.
     * ```ts
     * const hjd = njs.calcHjdFromRt();
     * const hjdSpecified = njs.calcHjdFromRt(4.5);
@@ -110,7 +111,8 @@ export class NoteJumpSpeed {
       return rt / (60 / this._bpm.value);
    }
 
-   /** Calculate jump distance given half jump duration.
+   /**
+    * Calculate jump distance given half jump duration.
     * ```ts
     * const jd = njs.calcJd();
     * const jdSpecified = njs.calcJd(1.5);
@@ -120,7 +122,8 @@ export class NoteJumpSpeed {
       return this._njs * (60 / this._bpm.value) * hjd * 2;
    }
 
-   /** Calculate optimal jump distance.
+   /**
+    * Calculate optimal jump distance.
     * ```ts
     * const [lowJd, highJd] = njs.calcJdOptimal();
     * ```
@@ -129,7 +132,8 @@ export class NoteJumpSpeed {
       return [-(18 / (this._njs + 1)) + 18, 18 * (1 / 1.07) ** this._njs + 18];
    }
 
-   /** Calculate reaction time given jump distance.
+   /**
+    * Calculate reaction time given jump distance.
     * ```ts
     * const rt = njs.calcRtFromJd();
     * const rtSpecified = njs.calcRtFromJd(21);
@@ -139,7 +143,8 @@ export class NoteJumpSpeed {
       return jd / (2 * this._njs);
    }
 
-   /** Calculate reaction time given half jump duration.
+   /**
+    * Calculate reaction time given half jump duration.
     * ```ts
     * const rt = njs.calcRtFromHjd();
     * const rtSpecified = njs.calcRtFromHjd(1.5);
@@ -149,7 +154,8 @@ export class NoteJumpSpeed {
       return (60 / this._bpm.value) * hjd;
    }
 
-   /** Calculate unity distance given beat.
+   /**
+    * Calculate unity distance given beat.
     * ```ts
     * const distance = njs.calcDistance(1);
     * ```

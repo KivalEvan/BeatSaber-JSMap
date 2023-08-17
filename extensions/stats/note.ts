@@ -4,15 +4,14 @@ import { IWrapBaseSlider } from '../../types/beatmap/wrapper/baseSlider.ts';
 import { NoteContainer } from '../../types/beatmap/wrapper/container.ts';
 import { ICountNote, ICountStatsNote } from './types/stats.ts';
 
-/** Count number of red, blue, and bomb notes with their properties in given array and return a note count object.
+/**
+ * Count number of red, blue, and bomb notes with their properties in given array and return a note count object.
  * ```ts
  * const list = count(notes);
  * console.log(list);
  * ```
  */
-export function countNote(
-   notes: (IWrapColorNote | IWrapBaseSlider)[],
-): ICountNote {
+export function countNote(notes: (IWrapColorNote | IWrapBaseSlider)[]): ICountNote {
    const noteCount: ICountNote = {
       red: {
          total: 0,
@@ -77,7 +76,8 @@ export function countBomb(bombs: IWrapBombNote[]): ICountStatsNote {
    return bombCount;
 }
 
-/** Count number of specified line index in a given array and return a counted number of line index.
+/**
+ * Count number of specified line index in a given array and return a counted number of line index.
  * ```ts
  * const xCount = countX(notes, 0);
  * ```
@@ -86,7 +86,8 @@ export function countX(notes: NoteContainer[], x: number): number {
    return notes.filter((n) => n.data.posX === x).length;
 }
 
-/** Count number of specified line layer in a given array and return a counted number of line layer.
+/**
+ * Count number of specified line layer in a given array and return a counted number of line layer.
  * ```ts
  * const yCount = countY(notes, 0);
  * ```
@@ -95,7 +96,8 @@ export function countY(notes: NoteContainer[], y: number): number {
    return notes.filter((n) => n.data.posY === y).length;
 }
 
-/** Count number of specified line index and line layer in a given array and return a counted number of line index and line layer.
+/**
+ * Count number of specified line index and line layer in a given array and return a counted number of line index and line layer.
  * ```ts
  * const xyCount = countXY(notes, 0, 0);
  * ```
@@ -104,27 +106,28 @@ export function countXY(notes: NoteContainer[], x: number, y: number): number {
    return notes.filter((n) => n.data.posX === x && n.data.posY === y).length;
 }
 
-/** Count number of specified `_cutDirection` in a given array and return a counted number of `_cutDirection`.
+/**
+ * Count number of specified `_cutDirection` in a given array and return a counted number of `_cutDirection`.
  * ```ts
  * const cdCount = countDirection(notes, 0);
  * ```
  */
 export function countDirection(notes: NoteContainer[], cd: number): number {
-   return notes.filter((n) => n.type !== 'bomb' && n.data.direction === cd)
-      .length;
+   return notes.filter((n) => n.type !== 'bomb' && n.data.direction === cd).length;
 }
 
-/** Count number of specified angle in a given array and return a counted number of angle.
+/**
+ * Count number of specified angle in a given array and return a counted number of angle.
  * ```ts
  * const angleCount = countAngle(notes, 0);
  * ```
  */
 export function countAngle(notes: NoteContainer[], angle: number): number {
-   return notes.filter((n) => n.type !== 'bomb' && n.data.getAngle() === angle)
-      .length;
+   return notes.filter((n) => n.type !== 'bomb' && n.data.getAngle() === angle).length;
 }
 
-/** Calculate note per second.
+/**
+ * Calculate note per second.
  * ```ts
  * const nps = nps(notes, 10);
  * ```
@@ -133,16 +136,13 @@ export function nps(notes: IWrapColorNote[], duration: number): number {
    return duration ? notes.length / duration : 0;
 }
 
-/** Calculate the peak by rolling average.
+/**
+ * Calculate the peak by rolling average.
  * ```ts
  * const peakNPS = peak(notes, 10, BPM ?? 128);
  * ```
  */
-export function peak(
-   notes: IWrapColorNote[],
-   beat: number,
-   bpm: number,
-): number {
+export function peak(notes: IWrapColorNote[], beat: number, bpm: number): number {
    let peakNPS = 0;
    let currentSectionStart = 0;
 
@@ -150,10 +150,7 @@ export function peak(
       while (notes[i].time - notes[currentSectionStart].time > beat) {
          currentSectionStart++;
       }
-      peakNPS = Math.max(
-         peakNPS,
-         (i - currentSectionStart + 1) / ((beat / bpm) * 60),
-      );
+      peakNPS = Math.max(peakNPS, (i - currentSectionStart + 1) / ((beat / bpm) * 60));
    }
 
    return peakNPS;

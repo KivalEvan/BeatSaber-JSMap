@@ -4,7 +4,8 @@ import { Difficulty } from '../../beatmap/v3/difficulty.ts';
 import { DeepPartialWrapper } from '../../types/utils.ts';
 import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
-/** Query function on class object array.
+/**
+ * Query function on class object array.
  * ```ts
  * const notesFilter = where(notes, { include: { x: 2, y: [1, 0] }, exclude: { customData: ['color'] } });
  * console.log(...notesFilter);

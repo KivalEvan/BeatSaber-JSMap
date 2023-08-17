@@ -10,7 +10,8 @@ function tag(name: string): string[] {
    return ['ext', 'NE', 'njs', name];
 }
 
-/** Set NJS to object from start to end object.
+/**
+ * Set NJS to object from start to end object.
  *
  * **NOTE:** JD input will override NJS offset.
  */
@@ -37,7 +38,8 @@ export function setNjs(
    });
 }
 
-/** Simultaneously spawn the object from start to end object.
+/**
+ * Simultaneously spawn the object from start to end object.
  *
  * Speed determines how fast should note spawn from start to end. (1 is regular speed)
  *
@@ -69,10 +71,7 @@ export function simultaneousSpawn(
       o.customData.noteJumpMovementSpeed = options.njsOverride
          ? o.customData.noteJumpMovementSpeed ?? njs
          : njs;
-      const currentNJS = new NoteJumpSpeed(
-         options.bpm,
-         o.customData.noteJumpMovementSpeed,
-      );
+      const currentNJS = new NoteJumpSpeed(options.bpm, o.customData.noteJumpMovementSpeed);
       const offset = currentNJS.calcHjdFromJd(options.jd) - currentNJS.calcHjd(0);
       o.customData.noteJumpStartBeatOffset = options.spawnBeatOffset! +
          offset +
@@ -82,7 +81,8 @@ export function simultaneousSpawn(
    });
 }
 
-/** Gradually change NJS for objects from start to end objects.
+/**
+ * Gradually change NJS for objects from start to end objects.
  *
  * **NOTE:** JD input will override NJS offset.
  */
@@ -125,11 +125,7 @@ export function gradientNjs(
          options.easing,
       );
       if (typeof options.jd === 'number') {
-         const currNJS = new NoteJumpSpeed(
-            options.bpm,
-            o.customData.noteJumpMovementSpeed,
-            offset,
-         );
+         const currNJS = new NoteJumpSpeed(options.bpm, o.customData.noteJumpMovementSpeed, offset);
          o.customData.noteJumpStartBeatOffset = currNJS.calcHjdFromJd(options.jd) -
             currNJS.calcHjd(0);
       }

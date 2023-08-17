@@ -3,7 +3,8 @@ import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { v2 } from './v2.ts';
 import { v3 } from './v3.ts';
 
-/** Supports both beatmap v2 and v3.
+/**
+ * Supports both beatmap v2 and v3.
  *
  * **WARNING:** These patch uses default value provided by class object, any changes to said default value will be affected here.
  */

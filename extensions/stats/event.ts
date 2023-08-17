@@ -4,7 +4,8 @@ import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { ICountEvent } from './types/stats.ts';
 
-/** Count number of type of events with their properties in given array and return a event count object.
+/**
+ * Count number of type of events with their properties in given array and return a event count object.
  * ```ts
  * const list = count(events);
  * console.log(list);
@@ -15,8 +16,7 @@ export function countEvent(
    boost: ColorBoostEvent[],
    environment: EnvironmentAllName = 'DefaultEnvironment',
 ): ICountEvent {
-   const commonEvent = EventList[environment]?.[0] ??
-      EventList['DefaultEnvironment'][0];
+   const commonEvent = EventList[environment]?.[0] ?? EventList['DefaultEnvironment'][0];
    const eventCount: ICountEvent = {};
    for (let i = commonEvent.length - 1; i >= 0; i--) {
       eventCount[commonEvent[i]] = {

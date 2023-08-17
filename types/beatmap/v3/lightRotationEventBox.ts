@@ -4,14 +4,16 @@ import { ILightRotationBase } from './lightRotationBase.ts';
 export interface ILightRotationEventBox extends IEventBox {
    /** Rotation distribution `<float>` of light rotation event box. */
    s: number;
-   /** Rotation distribution type `<int>` of light rotation event box.
+   /**
+    * Rotation distribution type `<int>` of light rotation event box.
     * ```ts
     * 1 -> Wave // adds up to last ID.
     * 2 -> Step // adds to consequent ID.
     * ```
     */
    t: 1 | 2;
-   /** Axis `<int>` of light rotation event box.
+   /**
+    * Axis `<int>` of light rotation event box.
     * ```ts
     * 0 -> X
     * 1 -> Y

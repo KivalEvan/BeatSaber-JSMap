@@ -7,7 +7,8 @@ export interface IHeckBase {
    _track?: string | string[];
 }
 
-/** AnimateTrack interface for Heck Custom Event.
+/**
+ * AnimateTrack interface for Heck Custom Event.
  * @extends Required<IHeckBase>
  */
 export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
@@ -19,7 +20,8 @@ export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
    _scale?: string | Vector3 | Vector3PointDefinition[];
 }
 
-/** AssignPathAnimation interface for Heck Custom Event.
+/**
+ * AssignPathAnimation interface for Heck Custom Event.
  * @extends Required<IHeckBase>
  */
 export interface IHeckCustomEventDataAssignPathAnimation extends Required<IHeckBase> {

@@ -10,7 +10,8 @@ function tag(name: string): string[] {
    return ['convert', name];
 }
 
-/** Convert old Chroma color value to Chroma 2 custom data.
+/**
+ * Convert old Chroma color value to Chroma 2 custom data.
  * ```ts
  * const newData = convert.ogChromaToChromaV2(oldData);
  * ```

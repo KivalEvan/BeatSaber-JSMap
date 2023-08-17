@@ -6,14 +6,16 @@ export interface IEventBox extends IBaseItem {
    f: IIndexFilter;
    /** Beat distribution `<float>` of event box. */
    w: number;
-   /** Beat distribution type `<int>` of event box.
+   /**
+    * Beat distribution type `<int>` of event box.
     * ```ts
     * 1 -> Wave // adds up to last ID.
     * 2 -> Step // adds to consequent ID.
     * ```
     */
    d: 1 | 2;
-   /** Easing `<int>` of distribution.
+   /**
+    * Easing `<int>` of distribution.
     * ```ts
     * 0 -> Linear
     * 1 -> EaseInQuad

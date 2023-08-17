@@ -6,7 +6,8 @@ import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapChain } from '../wrapper/chain.ts';
 
-/** Chain beatmap v3 class object.
+/**
+ * Chain beatmap v3 class object.
  *
  * Also known as burst slider internally.
  */

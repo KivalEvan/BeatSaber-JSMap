@@ -53,7 +53,8 @@ export abstract class WrapBaseSlider<T extends { [P in keyof T]: T[P] }> extends
       return [this.tailPosX - 2, this.tailPosY];
    }
 
-   /** Get arc and return standardised note angle.
+   /**
+    * Get arc and return standardised note angle.
     * ```ts
     * const arcAngle = arc.getAngle();
     * ```

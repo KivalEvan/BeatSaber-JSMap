@@ -14,7 +14,8 @@ interface INEObject {
    uninteractable?: boolean;
 }
 
-/** Noodle Extensions Note interface for Beatmap Note.
+/**
+ * Noodle Extensions Note interface for Beatmap Note.
  * @extends INEObject
  */
 export interface INENote extends INEObject {
@@ -27,21 +28,24 @@ export interface INENote extends INEObject {
    link?: string;
 }
 
-/** Noodle Extensions Slider interface for Beatmap Arc.
+/**
+ * Noodle Extensions Slider interface for Beatmap Arc.
  * @extends INENote
  */
 export interface INESlider extends INENote {
    tailCoordinates?: Vector2;
 }
 
-/** Noodle Extensions Obstacle interface for Beatmap Obstacle.
+/**
+ * Noodle Extensions Obstacle interface for Beatmap Obstacle.
  * @extends INEObject
  */
 export interface INEObstacle extends INEObject {
    size?: Nullable<Vector3>;
 }
 
-/** AssignPathAnimation interface for Noodle Extensions Custom Event.
+/**
+ * AssignPathAnimation interface for Noodle Extensions Custom Event.
  * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
@@ -53,7 +57,8 @@ export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
    time?: string | number | FloatPointDefinition[];
 }
 
-/** AssignPathAnimation interface for Noodle Extensions Custom Event.
+/**
+ * AssignPathAnimation interface for Noodle Extensions Custom Event.
  * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAssignPathAnimation extends Required<IHeckBase> {
@@ -72,7 +77,8 @@ export interface INECustomEventDataAssignTrackParent {
    worldPositionStays?: boolean;
 }
 
-/** AssignPlayerToTrack interface for Noodle Extensions Custom Event.
+/**
+ * AssignPlayerToTrack interface for Noodle Extensions Custom Event.
  * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAssignPlayerToTrack extends Required<IHeckBase> {

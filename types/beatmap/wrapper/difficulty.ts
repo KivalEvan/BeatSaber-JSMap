@@ -55,7 +55,8 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
    extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
    setFileName(filename: LooseAutocomplete<GenericFileName>): this;
 
-   /** Reparse the beatmap to their respective schema class.
+   /**
+    * Reparse the beatmap to their respective schema class.
     *
     * Used to match the beatmap schema if wrapper mix-and-matched the class.
     * ```ts
@@ -63,64 +64,72 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
     *     difficulty.reparse();
     * }
     * ```
-    * ---
+    *
     * **NOTE:** This will create a new set of array,
     * `keepRef` allows for already matched object to stay in new array instead of creating new object (this is faster and less memory but can cause reference issue)
     */
    reparse(keepRef?: boolean): void;
 
-   /** Calculate note per second.
+   /**
+    * Calculate note per second.
     * ```ts
     * const nps = difficulty.nps(10);
     * ```
-    * ---
+    *
     * **NOTE:** Duration can be either in any time type (second, beat, etc).
     */
    nps(duration: number): number;
 
-   /** Calculate the peak by rolling average.
+   /**
+    * Calculate the peak by rolling average.
     * ```ts
     * const peakNPS = difficulty.peak(10, BPM ?? 128);
     * ```
     */
    peak(beats: number, bpm: BeatPerMinute | number): number;
 
-   /** Get first interactible object beat time in beatmap.
+   /**
+    * Get first interactible object beat time in beatmap.
     * ```ts
     * const firstInteractiveTime = difficulty.getFirstInteractiveTime(Difficulty);
     * ```
     */
    getFirstInteractiveTime(): number;
 
-   /** Get last interactible object beat time in beatmap.
+   /**
+    * Get last interactible object beat time in beatmap.
     * ```ts
     * const lastInteractiveTime = difficulty.getLastInteractiveTime(Difficulty);
     * ```
     */
    getLastInteractiveTime(): number;
 
-   /** Get first interactible obstacle beat time in beatmap.
+   /**
+    * Get first interactible obstacle beat time in beatmap.
     * ```ts
     * const firstInteractiveObstacleTime = difficulty.findFirstInteractiveObstacleTime(obstacles);
     * ```
     */
    findFirstInteractiveObstacleTime(): number;
 
-   /** Get last interactible obstacle beat time in beatmap.
+   /**
+    * Get last interactible obstacle beat time in beatmap.
     * ```ts
     * const lastInteractiveObstacleTime = difficulty.findLastInteractiveObstacleTime(obstacles);
     * ```
     */
    findLastInteractiveObstacleTime(): number;
 
-   /** Get container of color notes, arcs, chains, and bombs (in order).
+   /**
+    * Get container of color notes, arcs, chains, and bombs (in order).
     * ```ts
     * const noteCountainer = getNoteContainer(Difficulty);
     * ```
     */
    getNoteContainer(): NoteContainer[];
 
-   /** Get container of basic events and boost events.
+   /**
+    * Get container of basic events and boost events.
     * ```ts
     * const noteCountainer = getNoteContainer(Difficulty);
     * ```
