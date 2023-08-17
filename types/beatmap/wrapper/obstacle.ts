@@ -1,4 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
+import { ModType } from '../shared/modCheck.ts';
 import { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
 export interface IWrapObstacleAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
@@ -38,7 +39,7 @@ export interface IWrapObstacle<T extends { [P in keyof T]: T[P] } = Record<strin
     * if (wall.isInteractive()) {}
     * ```
     */
-   isInteractive(): boolean;
+   isInteractive(type?: ModType): boolean;
 
    /**
     * Check if current obstacle is longer than previous obstacle.
@@ -46,7 +47,7 @@ export interface IWrapObstacle<T extends { [P in keyof T]: T[P] } = Record<strin
     * if (wall.isLonger(compareWall)) {}
     * ```
     */
-   isLonger(compareTo: IWrapObstacle, prevOffset: number): boolean;
+   isLonger(compareTo: IWrapObstacle, prevOffset: number, type?: ModType): boolean;
 
    /**
     * Check if obstacle has zero value.

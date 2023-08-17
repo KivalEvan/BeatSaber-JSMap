@@ -59,7 +59,7 @@ export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<str
     * if (obj.getDistance(objCompare)) {}
     * ```
     */
-   getDistance(compareTo: IWrapGridObject): number;
+   getDistance(compareTo: IWrapGridObject, type?: ModType): number;
 
    /**
     * Compare two objects and return if the objects is in vertical alignment.
@@ -67,7 +67,7 @@ export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<str
     * if (obj.isVertical(objCompare)) {}
     * ```
     */
-   isVertical(compareTo: IWrapGridObject): boolean;
+   isVertical(compareTo: IWrapGridObject, type?: ModType): boolean;
 
    /**
     * Compare two objects and return if the objects is in horizontal alignment.
@@ -75,7 +75,7 @@ export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<str
     * if (obj.isHorizontal(objCompare)) {}
     * ```
     */
-   isHorizontal(compareTo: IWrapGridObject): boolean;
+   isHorizontal(compareTo: IWrapGridObject, type?: ModType): boolean;
 
    /**
     * Compare two objects and return if the objects is in diagonal alignment.
@@ -83,7 +83,7 @@ export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<str
     * if (obj.isDiagonal(objCompare)) {}
     * ```
     */
-   isDiagonal(compareTo: IWrapGridObject): boolean;
+   isDiagonal(compareTo: IWrapGridObject, type?: ModType): boolean;
 
    /**
     * Compare two  objects and return if the  objects is an inline.
@@ -91,7 +91,7 @@ export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<str
     * if (obj.isInline(objCompare)) {}
     * ```
     */
-   isInline(compareTo: IWrapGridObject, lapping?: number): boolean;
+   isInline(compareTo: IWrapGridObject, lapping?: number | null, type?: ModType): boolean;
 
    /**
     * Compare two objects and return if the objects is adjacent.
@@ -99,7 +99,7 @@ export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<str
     * if (obj.isAdjacent(objCompare)) {}
     * ```
     */
-   isAdjacent(compareTo: IWrapGridObject): boolean;
+   isAdjacent(compareTo: IWrapGridObject, type?: ModType): boolean;
 
    /**
     * Compare two objects and return if the objects is a window.
@@ -107,7 +107,7 @@ export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<str
     * if (obj.isWindow(objCompare)) {}
     * ```
     */
-   isWindow(compareTo: IWrapGridObject, distance?: number): boolean;
+   isWindow(compareTo: IWrapGridObject, distance?: number | null, type?: ModType): boolean;
 
    /**
     * Compare two objects and return if the objects is a slanted window.
@@ -115,5 +115,5 @@ export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<str
     * if (obj.isSlantedWindow(objCompare)) {}
     * ```
     */
-   isSlantedWindow(compareTo: IWrapGridObject): boolean;
+   isSlantedWindow(compareTo: IWrapGridObject, type?: ModType): boolean;
 }

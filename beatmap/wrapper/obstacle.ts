@@ -53,7 +53,7 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }> extends W
    }
 
    // FIXME: there are a lot more other variables
-   isInteractive() {
+   isInteractive(_type?: ModType) {
       return (
          (this.posX < 0 && this.width > 1 - this.posX) ||
          (this.posX === 0 && this.width > 1) ||
@@ -62,7 +62,7 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }> extends W
       );
    }
 
-   isLonger(compareTo: IWrapObstacle, prevOffset = 0): boolean {
+   isLonger(compareTo: IWrapObstacle, prevOffset = 0, _type?: ModType): boolean {
       return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
    }
 

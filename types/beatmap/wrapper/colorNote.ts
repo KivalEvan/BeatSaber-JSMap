@@ -36,12 +36,4 @@ export interface IWrapColorNote<T extends { [P in keyof T]: T[P] } = Record<stri
     * ```
     */
    isBomb(): boolean;
-
-   /**
-    * Compare current note with the note ahead of it and return if the notes is a double.
-    * ```ts
-    * if (note.isDouble(notes, index)) {}
-    * ```
-    */
-   isDouble(compareTo: IWrapColorNote, tolerance: number): boolean;
 }

@@ -57,6 +57,14 @@ export interface IWrapBaseNote<T extends { [P in keyof T]: T[P] } = Record<strin
    isBlue(): boolean;
 
    /**
+    * Compare current note with the note ahead of it and return if the notes is a double.
+    * ```ts
+    * if (note.isDouble(otherNote, tol)) {}
+    * ```
+    */
+   isDouble(compareTo: IWrapBaseNote, tolerance: number): boolean;
+
+   /**
     * Check if note has a valid cut direction.
     * ```ts
     * if (note.isValidDirection()) {}

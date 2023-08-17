@@ -10,6 +10,7 @@
 - `invLerp` and `remap` math utils
 - Missing `offsetPosition` and `offsetWorldRotation` property for `AnimateTrack` and
   `AssignPathAnimation`
+- Object method comparison now checks for mod type
 
 ### Changed
 
@@ -19,6 +20,7 @@
 
 ### Fixed
 
+- Mapping Extensions precision placement X position being incorrect
 - Data check should properly skip error
 - To color object should copy the object instead of referencing
 - To hex color properly normalize the value outside of 0-1 range

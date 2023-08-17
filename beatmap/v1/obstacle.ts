@@ -111,9 +111,9 @@ export class Obstacle extends WrapObstacle<IObstacle> {
          default:
             return [
                (this.posX <= -1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 - 1
                   : this.posX) - 2,
                (this.posY <= -1000
                   ? this.posY / 1000
