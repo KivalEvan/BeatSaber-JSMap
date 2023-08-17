@@ -34,9 +34,9 @@ export function RgbaToHsva(r: number, g: number, b: number, a?: number): ColorAr
          h /= 6 * d;
          break;
    }
-   const result = [h * 360, s, v];
+   const result: ColorArray = [h * 360, s, v];
    if (typeof a === 'number') result.push(a);
-   return result as ColorArray;
+   return result;
 }
 
 /**
@@ -83,9 +83,9 @@ export function HsvaToRgba(
          (r = value), (g = p), (b = q);
          break;
    }
-   const result = [r, g, b];
+   const result: ColorArray = [r, g, b];
    if (typeof alpha === 'number') result.push(alpha);
-   return result as ColorArray;
+   return result;
 }
 
 /** Interpolate [r,g,b,a] or #hex color */
@@ -147,6 +147,7 @@ export function toColorObject(color: ColorInput | IColor, ensureAlpha: true): Re
 export function toColorObject(color: ColorInput | IColor, ensureAlpha?: boolean): IColor {
    if (Array.isArray(color)) {
       const result = { r: color[0], g: color[1], b: color[2] } as IColor;
+      if (typeof color[3] === 'number') result.a = color[3];
       return toColorObject(result, ensureAlpha);
    }
    if (typeof color === 'string') return toColorObject(colorFrom(color), ensureAlpha);
