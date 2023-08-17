@@ -275,3 +275,76 @@ const difficultyJSON = JSON.parse(
    Deno.readTextFileSync('ExpertPlusStandard.dat'),
 ) as types.v3.IDifficulty; // unsafe
 ```
+
+### Practices
+
+There is neither correct nor best way to do scripting, but there are several caveats when using this
+module especially surrounding data modification with references (Object, Array, etc.). Whichever
+approach or paradigm you may use, it is the way it is for broader approach without trying to be too
+strict on certain standards.
+
+These practices are something you should be aware of, and it should be a second nature once you get
+used to it. Not that I am advocating for these practices, but by design the module behave exactly as
+you would with vanilla JS/TS scripting, so the skill is transferrable even if you do not agree with
+it.
+
+#### Object Data Transferring
+
+If you are unfamiliar with OO programming language, almost everything in this module is an object,
+meaning that you may encounter reference issue or different object inheritance behaviour. This mean
+that transferring array from one to another place will cause side-effects from mutations (changing
+thing in array affects another) or unexpected class behaviour being in the wrong place.
+
+##### Object Referencing
+
+If you plan to modify the object after transferring an object, be aware of reference issue that may
+cause side-effect on 2 or more difficulty using the same object. There are advantages with current
+behaviour (such as performance), but overall
+
+```ts
+const lightshow = load.difficultySync('Lightshow.dat', 3);
+const map = load.difficultySync('ExpertStandard.dat', 3);
+
+// DO
+map.basicEvents = lightshow.basicEvents.map((e) => e.clone()); // this correctly copies the class object
+
+// DON'T - 1
+map.basicEvents = lightshow.basicEvents;
+map.addBasicEvents({}); // this affects lightshow array
+
+// DON'T - 2
+map.basicEvents = [...lightshow.basicEvents];
+map.basicEvents[0].value = 1; // this also affects lightshow
+map.addBasicEvents({}); // however, lightshow array is unaffected
+
+// DON'T - 3 - may change in the future
+map.basicEvents = [];
+map.addBasicEvents(lightshow.basicEvents); // similar as 2
+```
+
+##### Mismatched Class Object Version
+
+Without explicit versioning, it is possible to insert mismatched class version. However, the module
+has special guard-rail that reparse the object to their respective class version and is by default
+on save. It can be explicitly called to reparse the object when needed.
+
+```ts
+const v3map = load.difficultySync('v3map.dat');
+const v2map = load.difficultySync('v2map.dat');
+
+// DON'T
+// this causes v2 note class behaviour to appear in v3 map
+// and may be inconsistent when handling note property
+v3map.colorNotes = v2map.colorNotes;
+
+// DO
+v3map.colorNotes = [];
+// because version is mismatched, instead of inserting as is,
+// it copies the object to corresponding map version
+v3map.addColorNotes(v2map.colorNotes);
+
+// ALTERNATIVE SOLUTION
+// this reparse all objects in this difficulty to respective version,
+// the process may be slow depending on amount of objects
+v3map.reparse();
+```
