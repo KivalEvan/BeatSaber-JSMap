@@ -4,7 +4,7 @@ import { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import * as save from '../../save.ts';
 import { resolve } from '../../deps.ts';
 
-export async function compress(info: IWrapInfo, zipName: string) {
+export async function compress(info: IWrapInfo, zipName: string): Promise<boolean> {
    await save.info(info);
    const toZip: string[] = [globals.directory + 'Info.dat'];
    for (const [_, d] of info.listMap()) {

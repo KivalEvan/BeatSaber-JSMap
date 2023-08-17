@@ -14,7 +14,7 @@ function tag(name: string): string[] {
    return ['ext', 'chroma', 'color', name];
 }
 
-export function setColor(objects: IChromaObject[], options: SetColorOptions) {
+export function setColor(objects: IChromaObject[], options: SetColorOptions): void {
    const opt: Required<SetColorOptions> = {
       color: options.color,
       colorType: options.colorType ?? (settings.colorType || 'hsva'),
@@ -25,10 +25,7 @@ export function setColor(objects: IChromaObject[], options: SetColorOptions) {
    });
 }
 
-export function setColorGradient(
-   objects: IChromaObject[],
-   options: SetColorGradientOptions,
-) {
+export function setColorGradient(objects: IChromaObject[], options: SetColorGradientOptions) {
    if (!objects.length) {
       logger.tWarn(tag('setColorGradient'), 'No object(s) received.');
       return;
@@ -59,10 +56,7 @@ export function setColorGradient(
    });
 }
 
-export function setColorRandom(
-   objects: IChromaObject[],
-   options: SetColorRangeOptions,
-) {
+export function setColorRandom(objects: IChromaObject[], options: SetColorRangeOptions) {
    const opt: Required<SetColorRangeOptions> = {
       offsetStart: options.offsetStart,
       offsetEnd: options.offsetEnd,

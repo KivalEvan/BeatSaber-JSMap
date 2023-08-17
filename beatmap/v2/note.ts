@@ -60,14 +60,15 @@ export class Note extends WrapColorNote<INote> {
       };
    }
 
-   get color() {
+   // FIXME: this aint ok
+   get color(): 0 | 1 {
       return this._type as 0;
    }
    set color(value: 0 | 1) {
       this._type = value;
    }
 
-   get angleOffset() {
+   get angleOffset(): 0 {
       return 0;
    }
    set angleOffset(_: number) {

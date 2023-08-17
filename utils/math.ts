@@ -23,7 +23,7 @@ const _seed = { ref: hashCode(Math.random()) };
  *
  * shamelessly taken from stackoverflow
  */
-function _pRandom(seed: number | { ref: number }) {
+function _pRandom(seed: number | { ref: number }): () => number {
    const _s = typeof seed === 'number' ? { ref: seed } : seed;
    return function () {
       let s = (_s.ref += 0x6d2b79f5);
@@ -90,6 +90,7 @@ export function pRandom(
  * const pRandom = utils.pRandomFn('seed');
  * console.log(pRandom());
  * ```
+ *
  * **NOTE:** Seed cannot be reset.
  */
 export function pRandomFn(seed: string | number | bigint = Math.random()) {

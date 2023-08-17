@@ -32,7 +32,7 @@ export class Logger {
       this.#logLevel = value;
       this.tInfo(['logger', 'logLevel'], `Log level set to ${Logger.LogPrefixes.get(value)}`);
    }
-   get logLevel() {
+   get logLevel(): LogLevels {
       return this.#logLevel;
    }
 
@@ -40,7 +40,7 @@ export class Logger {
       this.#tagPrint = fn;
       this.tInfo(['logger', 'tagPrint'], `Update tag print function`);
    }
-   get tagPrint() {
+   get tagPrint(): (tags: string[], level: LogLevels) => string {
       return this.#tagPrint;
    }
 
@@ -48,7 +48,7 @@ export class Logger {
       this.#untagged = value.trim();
       this.tInfo(['logger', 'untagged'], `Update untagged string to ${this.#untagged}`);
    }
-   get untagged() {
+   get untagged(): string {
       return this.#untagged;
    }
 

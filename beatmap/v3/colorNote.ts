@@ -64,7 +64,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       };
    }
 
-   get type() {
+   get type(): IColorNote['c'] {
       return this._color;
    }
    set type(value: IColorNote['c']) {

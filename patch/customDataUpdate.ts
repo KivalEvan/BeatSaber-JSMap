@@ -15,7 +15,7 @@ function tag(name: string): string[] {
    return ['patch', 'customDataUpdate', name];
 }
 
-function v2(data: DifficultyV2) {
+function v2(data: DifficultyV2): void {
    logger.tDebug(tag('v2'), ' Patching notes');
    data.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
@@ -37,7 +37,7 @@ function v2(data: DifficultyV2) {
    });
 }
 
-function v3(data: DifficultyV3) {
+function v3(data: DifficultyV3): void {
    logger.tDebug(tag('v3'), ' Patching color notes');
    data.colorNotes.forEach((n) => {
       n.customData = objectToV3(n.customData);
@@ -123,25 +123,17 @@ function v3(data: DifficultyV3) {
    logger.tDebug(tag('v3'), ' Patching point definitions');
    if (Array.isArray(data.customData.pointDefinitions)) {
       const fixedObj: IPointDefinition = {};
-      data.customData.pointDefinitions.forEach((
-         pd,
-      ) => (fixedObj[pd.name as string] = pd.points));
+      data.customData.pointDefinitions.forEach((pd) => (fixedObj[pd.name as string] = pd.points));
       data.customData.pointDefinitions = fixedObj;
    }
 }
 
 export default function (data: IWrapDifficulty) {
    if (isV2(data)) {
-      logger.tInfo(
-         ['patch', 'customDataUpdate'],
-         'Patching custom data for beatmap v2...',
-      );
+      logger.tInfo(['patch', 'customDataUpdate'], 'Patching custom data for beatmap v2...');
       v2(data);
    } else if (isV3(data)) {
-      logger.tInfo(
-         ['patch', 'customDataUpdate'],
-         'Patching custom data for beatmap v3...',
-      );
+      logger.tInfo(['patch', 'customDataUpdate'], 'Patching custom data for beatmap v3...');
       v3(data);
    }
 }

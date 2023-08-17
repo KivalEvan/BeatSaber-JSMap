@@ -3,11 +3,11 @@ abstract class EnvironmentGrabBase {
    protected _regex = '';
    protected _string = '';
 
-   get regex() {
+   get regex(): string {
       return this._regex;
    }
 
-   get string() {
+   get string(): string {
       return this._string;
    }
 }
@@ -25,9 +25,7 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
 
    static Preset = {
       ENVIRONMENT: new EnvironmentGrab().child().name('Environment').end(),
-      CONSTRUCTION: new EnvironmentGrab('Environment').child().name(
-         'Construction',
-      ).end(),
+      CONSTRUCTION: new EnvironmentGrab('Environment').child().name('Construction').end(),
       SMOKE: new EnvironmentGrab().child().name('BigSmokePS').end(),
    } as const;
 

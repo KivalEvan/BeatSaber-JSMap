@@ -11,7 +11,7 @@ function tag(name: string): string[] {
    return ['shared', 'dataCheck', name];
 }
 
-function handleError(text: string, throwError: boolean, error: string[]) {
+function handleError(text: string, throwError: boolean, error: string[]): void {
    if (throwError) {
       throw Error(text);
    } else {

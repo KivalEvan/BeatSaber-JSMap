@@ -125,7 +125,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
       };
    }
 
-   get boxes() {
+   get boxes(): LightRotationEventBox[] {
       return this._boxes as LightRotationEventBox[];
    }
    set boxes(value: LightRotationEventBox[]) {

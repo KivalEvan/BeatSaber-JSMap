@@ -11,12 +11,12 @@ import { LANE_SIZE } from './constants.ts';
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 
 /** Convert grid lane size unit to unity unit. */
-export function gridToUnityUnit(value: number) {
+export function gridToUnityUnit(value: number): number {
    return value * LANE_SIZE;
 }
 
 /** Convert unity unit to grid lane size unit. */
-export function unityToGridUnit(value: number) {
+export function unityToGridUnit(value: number): number {
    return value / LANE_SIZE;
 }
 
@@ -36,7 +36,7 @@ export function currentEnvironment(
  * data.basicEvents.sort(sortObjectFn);
  * ```
  */
-export function sortObjectFn(a: IWrapBaseObjectAttribute, b: IWrapBaseObjectAttribute) {
+export function sortObjectFn(a: IWrapBaseObjectAttribute, b: IWrapBaseObjectAttribute): number {
    return a.time - b.time;
 }
 
@@ -46,7 +46,7 @@ export function sortObjectFn(a: IWrapBaseObjectAttribute, b: IWrapBaseObjectAttr
  * data.chains.sort(sortNoteFn);
  * ```
  */
-export function sortNoteFn(a: IWrapBaseNoteAttribute, b: IWrapBaseNoteAttribute) {
+export function sortNoteFn(a: IWrapBaseNoteAttribute, b: IWrapBaseNoteAttribute): number {
    if (Array.isArray(a.customData.coordinates) && Array.isArray(b.customData.coordinates)) {
       return (
          a.time - b.time ||
@@ -70,7 +70,7 @@ export function sortNoteFn(a: IWrapBaseNoteAttribute, b: IWrapBaseNoteAttribute)
  * data._events.sort(sortV2ObjectFn);
  * ```
  */
-export function sortV2ObjectFn(a: IBaseObjectV1, b: IBaseObjectV1) {
+export function sortV2ObjectFn(a: IBaseObjectV1, b: IBaseObjectV1): number {
    return a._time - b._time;
 }
 
@@ -80,7 +80,7 @@ export function sortV2ObjectFn(a: IBaseObjectV1, b: IBaseObjectV1) {
  * data._notes.sort(sortV2NoteFn);
  * ```
  */
-export function sortV2NoteFn(a: INote, b: INote) {
+export function sortV2NoteFn(a: INote, b: INote): number {
    if (Array.isArray(a._customData?._position) && Array.isArray(b._customData?._position)) {
       return (
          a._time - b._time ||
@@ -97,7 +97,7 @@ export function sortV2NoteFn(a: INote, b: INote) {
  * data.basicBeatmapEvents.sort(sortV3ObjectFn);
  * ```
  */
-export function sortV3ObjectFn(a: IBaseObjectV3, b: IBaseObjectV3) {
+export function sortV3ObjectFn(a: IBaseObjectV3, b: IBaseObjectV3): number {
    return a.b - b.b;
 }
 
@@ -107,7 +107,7 @@ export function sortV3ObjectFn(a: IBaseObjectV3, b: IBaseObjectV3) {
  * data.arcs.sort(sortV3NoteFn);
  * ```
  */
-export function sortV3NoteFn(a: IBombNote, b: IBombNote) {
+export function sortV3NoteFn(a: IBombNote, b: IBombNote): number {
    if (Array.isArray(a.customData?.coordinates) && Array.isArray(b.customData?.coordinates)) {
       return (
          a.b - b.b ||
