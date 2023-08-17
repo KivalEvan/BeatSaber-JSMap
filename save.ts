@@ -4,7 +4,7 @@ import {
    ISaveOptionsDifficultyList,
    ISaveOptionsInfo,
 } from './types/bsmap/save.ts';
-import { IDifficultyList } from './types/bsmap/list.ts';
+import { ILoadInfoData } from './types/bsmap/infoDiff.ts';
 import * as optimize from './optimize.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
@@ -190,7 +190,7 @@ export function difficultySync(data: IWrapDifficulty, options: ISaveOptionsDiffi
    _difficulty(data, options);
 }
 
-function _difficultyList(difficulties: IDifficultyList, options: ISaveOptionsDifficultyList) {
+function _difficultyList(difficulties: ILoadInfoData[], options: ISaveOptionsDifficultyList) {
    const opt: Required<ISaveOptionsDifficultyList> = {
       directory: options.directory ??
          (globals.directory || defaultOptions.difficultyList.directory),
@@ -244,7 +244,7 @@ function _difficultyList(difficulties: IDifficultyList, options: ISaveOptionsDif
  * ```
  */
 export async function difficultyList(
-   difficulties: IDifficultyList,
+   difficulties: ILoadInfoData[],
    options: ISaveOptionsDifficultyList = {},
 ) {
    logger.tInfo(tag('difficultyList'), `Async saving list of difficulty`);
@@ -258,7 +258,7 @@ export async function difficultyList(
  * ```
  */
 export function difficultyListSync(
-   difficulties: IDifficultyList,
+   difficulties: ILoadInfoData[],
    options: ISaveOptionsDifficultyList = {},
 ) {
    logger.tInfo(tag('difficultyListSync'), `Sync saving list of difficulty`);

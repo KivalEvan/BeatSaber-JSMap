@@ -1,4 +1,4 @@
-import { IDifficultyList } from './types/bsmap/list.ts';
+import { ILoadInfoData } from './types/bsmap/infoDiff.ts';
 import { GenericFileName } from './types/beatmap/shared/filename.ts';
 import { Info as InfoV1, InfoDifficulty } from './beatmap/v1/info.ts';
 import { Info as InfoV2 } from './beatmap/v2/info.ts';
@@ -301,7 +301,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
       forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
       dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
    };
-   const lists: IDifficultyList = [];
+   const lists: ILoadInfoData[] = [];
    for (const [mode, beatmap] of info.listMap()) {
       const p = resolve(opt.directory, beatmap.filename);
       try {
@@ -366,7 +366,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
 export function difficultyFromInfo(
    info: IWrapInfo,
    options: ILoadOptionsDifficulty = {},
-): Promise<IDifficultyList> {
+): Promise<ILoadInfoData[]> {
    logger.tInfo(tag('difficultyFromInfo'), 'Async loading difficulty from map info...');
    return new Promise((resolve, reject) => {
       try {
@@ -391,7 +391,7 @@ export function difficultyFromInfo(
 export function difficultyFromInfoSync(
    info: IWrapInfo,
    options: ILoadOptionsDifficulty = {},
-): IDifficultyList {
+): ILoadInfoData[] {
    logger.tInfo(tag('difficultyFromInfoSync'), 'Sync loading difficulty from map info...');
    return _difficultyFromInfo(info, options);
 }

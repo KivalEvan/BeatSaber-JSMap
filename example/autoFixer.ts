@@ -171,7 +171,7 @@ try {
 
    const performDifficultyList = (
       d: types.wrapper.IWrapDifficulty,
-      dl: types.IDifficultyList[number],
+      dl: types.ILoadInfoData[number],
    ) => {
       logger.info('Fixing beatmap', dl.characteristic, dl.difficulty);
 
