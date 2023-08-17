@@ -8,6 +8,8 @@
 - SongCore vanilla color scheme
 - Ensure alpha for `toColorObject`
 - `invLerp` and `remap` math utils
+- Missing `offsetPosition` and `offsetWorldRotation` property for `AnimateTrack` and
+  `AssignPathAnimation`
 
 ### Changed
 
