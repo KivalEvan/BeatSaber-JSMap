@@ -1,18 +1,3 @@
-import { IColor } from '../../colors.ts';
-
-/** Color Scheme interface for difficulty info custom data. */
-export interface IColorScheme {
-   _colorLeft?: IColor;
-   _colorRight?: IColor;
-   _envColorLeft?: IColor;
-   _envColorRight?: IColor;
-   _envColorWhite?: IColor;
-   _envColorLeftBoost?: IColor;
-   _envColorRightBoost?: IColor;
-   _envColorWhiteBoost?: IColor;
-   _obstacleColor?: IColor;
-}
-
 /** List of available color scheme in base game. */
 export type ColorSchemeName =
    | 'Default Custom'

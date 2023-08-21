@@ -32,7 +32,7 @@ export interface IWrapInfoAttribute<T extends { [P in keyof T]: T[P] } = Record<
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
    songTimeOffset: number;
-   readonly difficultySets: { [mode in CharacteristicName]?: IWrapInfoDifficulty[] };
+   readonly difficultySets: IWrapInfoSet[];
 }
 
 export interface IWrapInfoColorScheme {
@@ -59,6 +59,15 @@ export interface IWrapInfo<T extends { [P in keyof T]: T[P] } = Record<string, a
    addMap(data: Partial<IWrapInfoDifficultyAttribute>): this;
    listMap(): [CharacteristicName, IWrapInfoDifficulty][];
 }
+
+export interface IWrapInfoSetAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItem<T> {
+   characteristic: CharacteristicName;
+   difficulties: IWrapInfoDifficulty[];
+}
+
+export interface IWrapInfoSet<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItem<T>, IWrapInfoSetAttribute<T> {}
 
 export interface IWrapInfoDifficultyAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,

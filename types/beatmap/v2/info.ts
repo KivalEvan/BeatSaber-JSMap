@@ -1,7 +1,7 @@
 import { IColor } from '../../colors.ts';
 import { LooseAutocomplete } from '../../utils.ts';
 import { CharacteristicName } from '../shared/characteristic.ts';
-import { ICustomDataInfo, ICustomDataInfoDifficulty } from '../shared/custom/customData.ts';
+import { ICustomDataInfo, ICustomDataInfoDifficulty, ICustomDataInfoSet } from './custom/info.ts';
 import { DifficultyName, DifficultyRank } from '../shared/difficulty.ts';
 import {
    Environment360Name,
@@ -53,10 +53,11 @@ export interface IInfoColorSchemeData {
 
 export interface IInfoSet {
    _beatmapCharacteristicName: CharacteristicName;
-   _difficultyBeatmaps: IInfoSetDifficulty[];
+   _difficultyBeatmaps: IInfoDifficulty[];
+   _customData?: ICustomDataInfoSet;
 }
 
-export interface IInfoSetDifficulty {
+export interface IInfoDifficulty {
    _difficulty: DifficultyName;
    _difficultyRank: DifficultyRank;
    _beatmapFilename: LooseAutocomplete<GenericFileName>;

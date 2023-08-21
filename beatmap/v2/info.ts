@@ -1,8 +1,8 @@
 import { EnvironmentAllName, EnvironmentName } from '../../types/beatmap/shared/environment.ts';
-import { IInfo, IInfoSet, IInfoSetDifficulty } from '../../types/beatmap/v2/info.ts';
+import { IInfo, IInfoDifficulty, IInfoSet } from '../../types/beatmap/v2/info.ts';
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
-import { WrapInfo, WrapInfoDifficulty } from '../wrapper/info.ts';
+import { WrapInfo, WrapInfoDifficulty, WrapInfoSet } from '../wrapper/info.ts';
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
@@ -34,7 +34,7 @@ export class Info extends WrapInfo<IInfo> {
    allDirectionsEnvironmentName: Environment360Name;
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
-   difficultySets: { [mode in CharacteristicName]?: InfoDifficulty[] } = {};
+   difficultySets: InfoSet[] = [];
 
    constructor(data: Partial<IInfo> = {}) {
       super();
@@ -124,9 +124,7 @@ export class Info extends WrapInfo<IInfo> {
       this.customData = deepCopy(data._customData ?? {});
 
       data._difficultyBeatmapSets?.forEach((set) => {
-         this.difficultySets[set._beatmapCharacteristicName] = set._difficultyBeatmaps.map(
-            (beatmap) => new InfoDifficulty(beatmap, set._beatmapCharacteristicName),
-         );
+         this.difficultySets = set._difficultyBeatmaps.map((diffSet) => new InfoSet(diffSet));
       });
    }
 
@@ -176,13 +174,13 @@ export class Info extends WrapInfo<IInfo> {
             }
             return cs;
          }),
-         _customData: this.customData,
+         _customData: deepCopy(this.customData),
          _difficultyBeatmapSets: Object.entries(
             this.listMap().reduce((sets, [mode, beatmap]) => {
                sets[mode] ??= [];
                sets[mode].push(beatmap.toJSON());
                return sets;
-            }, {} as { [key: string]: IInfoSetDifficulty[] }),
+            }, {} as { [key: string]: IInfoDifficulty[] }),
          ).reduce((ary, [mode, beatmaps]) => {
             ary.push({
                _beatmapCharacteristicName: mode as CharacteristicName,
@@ -200,16 +198,19 @@ export class Info extends WrapInfo<IInfo> {
       this._customData = value;
    }
 
-   addMap(data: Partial<IInfoSetDifficulty>, characteristic?: CharacteristicName): this;
+   addMap(data: Partial<IInfoDifficulty>, characteristic?: CharacteristicName): this;
    addMap(data: Partial<IWrapInfoDifficultyAttribute>, characteristic?: CharacteristicName): this;
    addMap(
-      data: Partial<IWrapInfoDifficultyAttribute> & Partial<IInfoSetDifficulty>,
+      data: Partial<IWrapInfoDifficultyAttribute> & Partial<IInfoDifficulty>,
       characteristic?: CharacteristicName,
    ): this {
-      const mode = (characteristic || data.characteristic) ?? 'Standard';
-
-      this.difficultySets[mode] ??= [];
-      this.difficultySets[mode]!.push(new InfoDifficulty(data));
+      const mode = characteristic || data.characteristic || 'Standard';
+      let found = this.difficultySets.find((set) => set.characteristic === mode);
+      if (!found) {
+         found = new InfoSet({ _beatmapCharacteristicName: mode });
+         this.difficultySets.push(found);
+      }
+      found.difficulties.push(new InfoDifficulty(data));
       return this;
    }
 
@@ -222,17 +223,56 @@ export class Info extends WrapInfo<IInfo> {
    }
 }
 
-export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
+export class InfoSet extends WrapInfoSet<IInfoSet> {
+   characteristic: CharacteristicName;
+   difficulties: InfoDifficulty[] = [];
+
+   constructor(data: Partial<IInfoSet>) {
+      super();
+
+      this.characteristic = data._beatmapCharacteristicName || 'Standard';
+      this.difficulties = data._difficultyBeatmaps?.forEach(
+         (bmap) => new InfoDifficulty(bmap, this.characteristic),
+      ) ?? [];
+
+      this.customData = deepCopy(data._customData ?? {});
+   }
+
+   static create(data: Partial<IInfoSet>) {
+      return new this(data);
+   }
+
+   toJSON(): IInfoSet {
+      return {
+         _beatmapCharacteristicName: this.characteristic,
+         _difficultyBeatmaps: this.difficulties.map((d) => d.toJSON()),
+         _customData: deepCopy(this.customData),
+      };
+   }
+
+   get customData(): NonNullable<IInfoSet['_customData']> {
+      return this._customData;
+   }
+   set customData(value: NonNullable<IInfoSet['_customData']>) {
+      this._customData = value;
+   }
+
+   isValid(): boolean {
+      throw new Error('Method not implemented.');
+   }
+}
+
+export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    readonly characteristic?: CharacteristicName | undefined;
    difficulty: DifficultyName;
-   rank: IInfoSetDifficulty['_difficultyRank'];
+   rank: IInfoDifficulty['_difficultyRank'];
    filename: LooseAutocomplete<GenericFileName>;
    njs: number;
    njsOffset: number;
    colorSchemeId: number;
    environmentId: number;
 
-   constructor(data: Partial<IInfoSetDifficulty>, mode?: CharacteristicName) {
+   constructor(data: Partial<IInfoDifficulty>, mode?: CharacteristicName) {
       super();
 
       this.characteristic = mode;
@@ -246,11 +286,11 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
       this.customData = deepCopy(data._customData ?? {});
    }
 
-   static create(data: Partial<IInfoSetDifficulty>) {
+   static create(data: Partial<IInfoDifficulty>) {
       return new this(data);
    }
 
-   toJSON(): IInfoSetDifficulty {
+   toJSON(): IInfoDifficulty {
       return {
          _difficulty: this.difficulty,
          _difficultyRank: this.rank,
@@ -259,14 +299,14 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
          _noteJumpStartBeatOffset: this.njsOffset,
          _beatmapColorSchemeIdx: this.colorSchemeId,
          _environmentNameIdx: this.environmentId,
-         _customData: this.customData,
+         _customData: deepCopy(this.customData),
       };
    }
 
-   get customData(): NonNullable<IInfoSetDifficulty['_customData']> {
+   get customData(): NonNullable<IInfoDifficulty['_customData']> {
       return this._customData;
    }
-   set customData(value: NonNullable<IInfoSetDifficulty['_customData']>) {
+   set customData(value: NonNullable<IInfoDifficulty['_customData']>) {
       this._customData = value;
    }
 

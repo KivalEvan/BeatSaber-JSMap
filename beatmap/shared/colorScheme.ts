@@ -1,5 +1,6 @@
-import { ColorSchemeName, IColorScheme } from '../../types/beatmap/shared/colorScheme.ts';
+import { ColorSchemeName } from '../../types/beatmap/shared/colorScheme.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import { IColorScheme } from '../../types/beatmap/v2/custom/colorScheme.ts';
 
 /** Record of Environment Color to Color Scheme. */
 export const EnvironmentSchemeName: {

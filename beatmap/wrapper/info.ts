@@ -14,6 +14,7 @@ import {
    IWrapInfoColorSchemeData,
    IWrapInfoDifficulty,
    IWrapInfoDifficultyAttribute,
+   IWrapInfoSet,
 } from '../../types/beatmap/wrapper/info.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
 import { WrapBaseItem } from './baseItem.ts';
@@ -40,7 +41,7 @@ export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }> extends WrapB
    abstract songTimeOffset: number;
    abstract environmentNames: EnvironmentAllName[];
    abstract colorSchemes: IWrapInfoColorScheme[];
-   difficultySets: { [mode in CharacteristicName]?: IWrapInfoDifficulty[] } = {};
+   abstract difficultySets: IWrapInfoSet[];
 
    clone<U extends this>(): U {
       return super.clone().setFileName(this.filename) as U;
@@ -61,19 +62,22 @@ export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }> extends WrapB
    abstract addMap(data: Partial<IWrapInfoDifficultyAttribute>): this;
 
    listMap(): [CharacteristicName, IWrapInfoDifficulty][] {
-      return Object.entries(this.difficultySets).reduce(
-         (sets: [CharacteristicName, IWrapInfoDifficulty][], [mode, beatmaps]) => {
-            sets.push(
-               ...beatmaps.map(
-                  (b) =>
-                     [mode as CharacteristicName, b] as [CharacteristicName, IWrapInfoDifficulty],
+      return this.difficultySets.reduce(
+         (sets: [CharacteristicName, IWrapInfoDifficulty][], diffSet) =>
+            sets.concat(
+               diffSet.difficulties.map(
+                  (d) => [diffSet.characteristic, d] as [CharacteristicName, IWrapInfoDifficulty],
                ),
-            );
-            return sets;
-         },
+            ),
          [],
       );
    }
+}
+
+export abstract class WrapInfoSet<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
+   implements IWrapInfoSet<T> {
+   abstract characteristic: CharacteristicName;
+   abstract difficulties: IWrapInfoDifficulty[];
 }
 
 export abstract class WrapInfoDifficulty<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>

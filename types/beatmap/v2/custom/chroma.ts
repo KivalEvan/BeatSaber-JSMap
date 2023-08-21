@@ -9,7 +9,7 @@ import {
    ShaderKeywords,
    ShaderType,
 } from '../../shared/custom/chroma.ts';
-import { IHeckBase } from './heck.ts';
+import { IHeckBase, IInfoSettingsCustomData } from './heck.ts';
 import { LooseAutocomplete } from '../../../utils.ts';
 import { Vector2, Vector3 } from '../../../vector.ts';
 
@@ -191,4 +191,17 @@ export interface IChromaCustomEventDataAssignFogTrack extends Required<IHeckBase
 export interface IChromaCustomData {
    _environment?: IChromaEnvironment[];
    _materials?: Record<string, IChromaMaterial>;
+}
+
+/** Chroma interface for Difficulty Info Custom Data. */
+export interface IChromaInfoCustomData extends IInfoSettingsCustomData {
+   _settings?: {
+      _chroma?: {
+         _disableChromaEvents?: boolean;
+         _disableEnvironmentEnhancements?: boolean;
+         _disableNoteColoring?: boolean;
+         _forceZenModeWall?: boolean;
+      };
+   };
+   _environmentalRemoval?: string[];
 }

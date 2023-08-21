@@ -112,7 +112,8 @@ export function toInfoV1(data: IWrapInfo): InfoV1 {
          mode,
       );
    });
-   template.oneSaber = !!data.difficultySets.OneSaber?.length;
+   template.oneSaber = !!data.difficultySets.find((m) => m.characteristic === 'OneSaber')
+      ?.difficulties.length;
    template.contributors = data.customData?._contributors;
    template.customEnvironment = data.customData?._customEnvironment;
    template.customEnvironmentHash = data.customData?._customEnvironmentHash;

@@ -23,6 +23,7 @@ export type EnvironmentName =
    | 'BillieEnvironment'
    | 'HalloweenEnvironment'
    | 'GagaEnvironment';
+
 /** List of available v3 environment in base game. */
 export type EnvironmentV3Name =
    | 'WeaveEnvironment'
@@ -35,10 +36,9 @@ export type EnvironmentV3Name =
    | 'Dragons2Environment'
    | 'Panic2Environment'
    | 'QueenEnvironment';
+
 /** List of available 360 environment in base game. */
 export type Environment360Name = 'GlassDesertEnvironment';
+
 /** List of all available environment in base game. */
-export type EnvironmentAllName =
-   | EnvironmentName
-   | EnvironmentV3Name
-   | Environment360Name;
+export type EnvironmentAllName = EnvironmentName | EnvironmentV3Name | Environment360Name;

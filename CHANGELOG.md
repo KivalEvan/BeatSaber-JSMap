@@ -4,8 +4,9 @@
 
 ### Added
 
+- [New SongCore features](https://github.com/Kylemc1413/SongCore/pull/122) (tags, custom
+  characteristic label, etc.)
 - Info color scheme copy
-- SongCore vanilla color scheme
 - Ensure alpha for `toColorObject`
 - `invLerp` and `remap` math utils
 - Missing `offsetPosition` and `offsetWorldRotation` property for `AnimateTrack` and
@@ -14,6 +15,8 @@
 
 ### Changed
 
+- Beatmap Info structure changed to better fit original structure
+  - This also goes for info custom data
 - Custom data color scheme `a` is now optional instead of omitted
 - Removed logging from utils, now throws error instead of warn or error
 - Clarify `difficultyFromInfo` return type
