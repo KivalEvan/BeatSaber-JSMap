@@ -1,15 +1,24 @@
 // deno-lint-ignore-file prefer-const
 import { ColorArray, ColorInput, ColorObject, ColorType, IColor } from '../types/colors.ts';
+import { EasingFunction } from '../types/easings.ts';
 import { degToRad, lerp, radToDeg, round } from './math.ts';
 import { hexToDec, isHex } from './misc.ts';
 
 /**
- * Convert RGBA to HSVA array.
+ * Convert RGBA value to HSVA array.
  * ```
- * const hsva = RgbaToHsva(...rgba);
+ * const hsva1 = RgbaToHsva(r, g, b, a);
+ * const hsva2 = RgbaToHsva(rgba);
  * ```
  */
-export function RgbaToHsva(r: number, g: number, b: number, a?: number): ColorArray {
+export function RgbaToHsva(r: number, g: number, b: number, a?: number): ColorArray;
+export function RgbaToHsva(color: ColorArray): ColorArray;
+export function RgbaToHsva(r: number | ColorArray, g?: number, b?: number, a?: number): ColorArray {
+   if (Array.isArray(r)) {
+      return RgbaToHsva(...r);
+   }
+   g ??= 0;
+   b ??= 0;
    let h!: number;
    const max = Math.max(r, g, b);
    const min = Math.min(r, g, b);
@@ -40,9 +49,10 @@ export function RgbaToHsva(r: number, g: number, b: number, a?: number): ColorAr
 }
 
 /**
- * Convert HSVA to RGBA array.
+ * Convert HSVA value to RGBA array.
  * ```
- * const rgba = HsvaToRgba(...hsva);
+ * const rgba1 = HsvaToRgba(h, s, v, a);
+ * const rgba2 = HsvaToRgba(hsva);
  * ```
  */
 export function HsvaToRgba(
@@ -50,8 +60,20 @@ export function HsvaToRgba(
    saturation: number,
    value: number,
    alpha?: number,
+): ColorArray;
+export function HsvaToRgba(color: ColorArray): ColorArray;
+export function HsvaToRgba(
+   hue: number | ColorArray,
+   saturation?: number,
+   value?: number,
+   alpha?: number,
 ): ColorArray {
+   if (Array.isArray(hue)) {
+      return RgbaToHsva(...hue);
+   }
    hue = hue / 360;
+   saturation ??= 0;
+   value ??= 0;
    if (hue < 0) {
       hue += Math.abs(Math.floor(hue));
    }
@@ -88,16 +110,21 @@ export function HsvaToRgba(
    return result;
 }
 
-/** Interpolate [r,g,b,a] or #hex color */
+/**
+ * Interpolate between colors and returns RGBA array.
+ * ```ts
+ * const rgba = interpolateColor([90, 1, 1], [180, 1, 1], 0.5, 'hsva');
+ * ```
+ */
 export function interpolateColor(
    colorStart: ColorInput,
    colorEnd: ColorInput,
    alpha: number,
    type: ColorType = 'rgba',
-   easing?: (x: number) => number,
+   easing?: EasingFunction,
 ): ColorArray {
    if (!easing) {
-      easing = function (x: number) {
+      easing = (x: number) => {
          return x;
       };
    }
