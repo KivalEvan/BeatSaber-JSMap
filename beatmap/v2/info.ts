@@ -124,7 +124,7 @@ export class Info extends WrapInfo<IInfo> {
       this.customData = deepCopy(data._customData ?? {});
 
       data._difficultyBeatmapSets?.forEach((set) => {
-         this.difficultySets = set._difficultyBeatmaps.map((diffSet) => new InfoSet(diffSet));
+         this.difficultySets.push(new InfoSet(set));
       });
    }
 
@@ -175,19 +175,7 @@ export class Info extends WrapInfo<IInfo> {
             return cs;
          }),
          _customData: deepCopy(this.customData),
-         _difficultyBeatmapSets: Object.entries(
-            this.listMap().reduce((sets, [mode, beatmap]) => {
-               sets[mode] ??= [];
-               sets[mode].push(beatmap.toJSON());
-               return sets;
-            }, {} as { [key: string]: IInfoDifficulty[] }),
-         ).reduce((ary, [mode, beatmaps]) => {
-            ary.push({
-               _beatmapCharacteristicName: mode as CharacteristicName,
-               _difficultyBeatmaps: beatmaps,
-            });
-            return ary;
-         }, [] as IInfoSet[]),
+         _difficultyBeatmapSets: this.difficultySets.map((d) => d.toJSON()),
       };
    }
 
@@ -231,9 +219,9 @@ export class InfoSet extends WrapInfoSet<IInfoSet> {
       super();
 
       this.characteristic = data._beatmapCharacteristicName || 'Standard';
-      this.difficulties = data._difficultyBeatmaps?.forEach(
-         (bmap) => new InfoDifficulty(bmap, this.characteristic),
-      ) ?? [];
+      this.difficulties =
+         data._difficultyBeatmaps?.map((bmap) => new InfoDifficulty(bmap, this.characteristic)) ??
+            [];
 
       this.customData = deepCopy(data._customData ?? {});
    }

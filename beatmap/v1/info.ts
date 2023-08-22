@@ -144,7 +144,7 @@ export class InfoSet extends WrapInfoSet<{
 
       this.characteristic = data.mode || 'Standard';
       this.difficulties =
-         data.difficulties?.forEach((bmap) => new InfoDifficulty(bmap, this.characteristic)) ?? [];
+         data.difficulties?.map((bmap) => new InfoDifficulty(bmap, this.characteristic)) ?? [];
       this.customData = {};
    }
 
