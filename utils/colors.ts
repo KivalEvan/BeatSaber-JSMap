@@ -69,7 +69,7 @@ export function HsvaToRgba(
    alpha?: number,
 ): ColorArray {
    if (Array.isArray(hue)) {
-      return RgbaToHsva(...hue);
+      return HsvaToRgba(...hue);
    }
    hue = hue / 360;
    saturation ??= 0;
