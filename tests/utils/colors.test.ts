@@ -77,8 +77,8 @@ Deno.test('Interpolate color RGBA', () => {
    assertEquals(colors.interpolateColor(white, black, 0, 'rgba'), white);
    assertEquals(colors.interpolateColor(white, gray, 0, 'rgba'), white);
    assertEquals(colors.interpolateColor(white, white, 0, 'rgba'), white);
-   assertEquals(colors.interpolateColor(white, translucent, 0, 'rgba'), white);
-   assertEquals(colors.interpolateColor(white, transparent, 0, 'rgba'), white);
+   assertEquals(colors.interpolateColor(white, translucent, 0, 'rgba'), [...white, 1]);
+   assertEquals(colors.interpolateColor(white, transparent, 0, 'rgba'), [...white, 1]);
    assertEquals(colors.interpolateColor(white, red, 0, 'rgba'), white);
    assertEquals(colors.interpolateColor(white, yellow, 0, 'rgba'), white);
    assertEquals(colors.interpolateColor(white, green, 0, 'rgba'), white);
@@ -86,47 +86,47 @@ Deno.test('Interpolate color RGBA', () => {
    assertEquals(colors.interpolateColor(white, blue, 0, 'rgba'), white);
    assertEquals(colors.interpolateColor(white, magenta, 0, 'rgba'), white);
 
-   assertEquals(colors.interpolateColor(white, black, 0.25, 'rgba'), [0.75, 0.75, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, gray, 0.25, 'rgba'), [0.875, 0.875, 0.875, 1]);
-   assertEquals(colors.interpolateColor(white, white, 0.25, 'rgba'), [1, 1, 1, 1]);
+   assertEquals(colors.interpolateColor(white, black, 0.25, 'rgba'), [0.75, 0.75, 0.75]);
+   assertEquals(colors.interpolateColor(white, gray, 0.25, 'rgba'), [0.875, 0.875, 0.875]);
+   assertEquals(colors.interpolateColor(white, white, 0.25, 'rgba'), [1, 1, 1]);
    assertEquals(colors.interpolateColor(white, translucent, 0.25, 'rgba'), [1, 1, 1, 0.875]);
    assertEquals(
       colors.interpolateColor(white, transparent, 0.25, 'rgba'),
       [0.75, 0.75, 0.75, 0.75],
    );
-   assertEquals(colors.interpolateColor(white, red, 0.25, 'rgba'), [1, 0.75, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, yellow, 0.25, 'rgba'), [1, 1, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, green, 0.25, 'rgba'), [0.75, 1, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, cyan, 0.25, 'rgba'), [0.75, 1, 1, 1]);
-   assertEquals(colors.interpolateColor(white, blue, 0.25, 'rgba'), [0.75, 0.75, 1, 1]);
-   assertEquals(colors.interpolateColor(white, magenta, 0.25, 'rgba'), [1, 0.75, 1, 1]);
+   assertEquals(colors.interpolateColor(white, red, 0.25, 'rgba'), [1, 0.75, 0.75]);
+   assertEquals(colors.interpolateColor(white, yellow, 0.25, 'rgba'), [1, 1, 0.75]);
+   assertEquals(colors.interpolateColor(white, green, 0.25, 'rgba'), [0.75, 1, 0.75]);
+   assertEquals(colors.interpolateColor(white, cyan, 0.25, 'rgba'), [0.75, 1, 1]);
+   assertEquals(colors.interpolateColor(white, blue, 0.25, 'rgba'), [0.75, 0.75, 1]);
+   assertEquals(colors.interpolateColor(white, magenta, 0.25, 'rgba'), [1, 0.75, 1]);
 
-   assertEquals(colors.interpolateColor(white, black, 0.5, 'rgba'), [0.5, 0.5, 0.5, 1]);
-   assertEquals(colors.interpolateColor(white, gray, 0.5, 'rgba'), [0.75, 0.75, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, white, 0.5, 'rgba'), [1, 1, 1, 1]);
+   assertEquals(colors.interpolateColor(white, black, 0.5, 'rgba'), [0.5, 0.5, 0.5]);
+   assertEquals(colors.interpolateColor(white, gray, 0.5, 'rgba'), [0.75, 0.75, 0.75]);
+   assertEquals(colors.interpolateColor(white, white, 0.5, 'rgba'), [1, 1, 1]);
    assertEquals(colors.interpolateColor(white, translucent, 0.5, 'rgba'), [1, 1, 1, 0.75]);
    assertEquals(colors.interpolateColor(white, transparent, 0.5, 'rgba'), [0.5, 0.5, 0.5, 0.5]);
-   assertEquals(colors.interpolateColor(white, red, 0.5, 'rgba'), [1, 0.5, 0.5, 1]);
-   assertEquals(colors.interpolateColor(white, yellow, 0.5, 'rgba'), [1, 1, 0.5, 1]);
-   assertEquals(colors.interpolateColor(white, green, 0.5, 'rgba'), [0.5, 1, 0.5, 1]);
-   assertEquals(colors.interpolateColor(white, cyan, 0.5, 'rgba'), [0.5, 1, 1, 1]);
-   assertEquals(colors.interpolateColor(white, blue, 0.5, 'rgba'), [0.5, 0.5, 1, 1]);
-   assertEquals(colors.interpolateColor(white, magenta, 0.5, 'rgba'), [1, 0.5, 1, 1]);
+   assertEquals(colors.interpolateColor(white, red, 0.5, 'rgba'), [1, 0.5, 0.5]);
+   assertEquals(colors.interpolateColor(white, yellow, 0.5, 'rgba'), [1, 1, 0.5]);
+   assertEquals(colors.interpolateColor(white, green, 0.5, 'rgba'), [0.5, 1, 0.5]);
+   assertEquals(colors.interpolateColor(white, cyan, 0.5, 'rgba'), [0.5, 1, 1]);
+   assertEquals(colors.interpolateColor(white, blue, 0.5, 'rgba'), [0.5, 0.5, 1]);
+   assertEquals(colors.interpolateColor(white, magenta, 0.5, 'rgba'), [1, 0.5, 1]);
 
-   assertEquals(colors.interpolateColor(white, black, 0.75, 'rgba'), [0.25, 0.25, 0.25, 1]);
-   assertEquals(colors.interpolateColor(white, gray, 0.75, 'rgba'), [0.625, 0.625, 0.625, 1]);
-   assertEquals(colors.interpolateColor(white, white, 0.75, 'rgba'), [1, 1, 1, 1]);
+   assertEquals(colors.interpolateColor(white, black, 0.75, 'rgba'), [0.25, 0.25, 0.25]);
+   assertEquals(colors.interpolateColor(white, gray, 0.75, 'rgba'), [0.625, 0.625, 0.625]);
+   assertEquals(colors.interpolateColor(white, white, 0.75, 'rgba'), [1, 1, 1]);
    assertEquals(colors.interpolateColor(white, translucent, 0.75, 'rgba'), [1, 1, 1, 0.625]);
    assertEquals(
       colors.interpolateColor(white, transparent, 0.75, 'rgba'),
       [0.25, 0.25, 0.25, 0.25],
    );
-   assertEquals(colors.interpolateColor(white, red, 0.75, 'rgba'), [1, 0.25, 0.25, 1]);
-   assertEquals(colors.interpolateColor(white, yellow, 0.75, 'rgba'), [1, 1, 0.25, 1]);
-   assertEquals(colors.interpolateColor(white, green, 0.75, 'rgba'), [0.25, 1, 0.25, 1]);
-   assertEquals(colors.interpolateColor(white, cyan, 0.75, 'rgba'), [0.25, 1, 1, 1]);
-   assertEquals(colors.interpolateColor(white, blue, 0.75, 'rgba'), [0.25, 0.25, 1, 1]);
-   assertEquals(colors.interpolateColor(white, magenta, 0.75, 'rgba'), [1, 0.25, 1, 1]);
+   assertEquals(colors.interpolateColor(white, red, 0.75, 'rgba'), [1, 0.25, 0.25]);
+   assertEquals(colors.interpolateColor(white, yellow, 0.75, 'rgba'), [1, 1, 0.25]);
+   assertEquals(colors.interpolateColor(white, green, 0.75, 'rgba'), [0.25, 1, 0.25]);
+   assertEquals(colors.interpolateColor(white, cyan, 0.75, 'rgba'), [0.25, 1, 1]);
+   assertEquals(colors.interpolateColor(white, blue, 0.75, 'rgba'), [0.25, 0.25, 1]);
+   assertEquals(colors.interpolateColor(white, magenta, 0.75, 'rgba'), [1, 0.25, 1]);
 
    assertEquals(colors.interpolateColor(white, black, 1, 'rgba'), black);
    assertEquals(colors.interpolateColor(white, gray, 1, 'rgba'), gray);
@@ -154,107 +154,89 @@ Deno.test('Interpolate color HSVA', () => {
    const blue: ColorArray = [240, 1, 1];
    const magenta: ColorArray = [-60, 1, 1];
 
-   assertEquals(colors.interpolateColor(white, black, 0, 'hsva'), colors.HsvaToRgba(...white));
-   assertEquals(colors.interpolateColor(white, gray, 0, 'hsva'), colors.HsvaToRgba(...white));
-   assertEquals(colors.interpolateColor(white, white, 0, 'hsva'), colors.HsvaToRgba(...white));
-   assertEquals(
-      colors.interpolateColor(white, translucent, 0, 'hsva'),
-      colors.HsvaToRgba(...white),
-   );
-   assertEquals(
-      colors.interpolateColor(white, transparent, 0, 'hsva'),
-      colors.HsvaToRgba(...white),
-   );
-   assertEquals(colors.interpolateColor(white, red, 0, 'hsva'), colors.HsvaToRgba(...white));
-   assertEquals(colors.interpolateColor(white, yellow, 0, 'hsva'), colors.HsvaToRgba(...white));
-   assertEquals(colors.interpolateColor(white, green, 0, 'hsva'), colors.HsvaToRgba(...white));
-   assertEquals(colors.interpolateColor(white, cyan, 0, 'hsva'), colors.HsvaToRgba(...white));
-   assertEquals(colors.interpolateColor(white, blue, 0, 'hsva'), colors.HsvaToRgba(...white));
-   assertEquals(colors.interpolateColor(white, magenta, 0, 'hsva'), colors.HsvaToRgba(...white));
+   assertEquals(colors.interpolateColor(white, black, 0, 'hsva'), colors.HsvaToRgba(white));
+   assertEquals(colors.interpolateColor(white, gray, 0, 'hsva'), colors.HsvaToRgba(white));
+   assertEquals(colors.interpolateColor(white, white, 0, 'hsva'), colors.HsvaToRgba(white));
+   assertEquals(colors.interpolateColor(white, translucent, 0, 'hsva'), [
+      ...colors.HsvaToRgba(white),
+      1,
+   ]);
+   assertEquals(colors.interpolateColor(white, transparent, 0, 'hsva'), [
+      ...colors.HsvaToRgba(white),
+      1,
+   ]);
+   assertEquals(colors.interpolateColor(white, red, 0, 'hsva'), colors.HsvaToRgba(white));
+   assertEquals(colors.interpolateColor(white, yellow, 0, 'hsva'), colors.HsvaToRgba(white));
+   assertEquals(colors.interpolateColor(white, green, 0, 'hsva'), colors.HsvaToRgba(white));
+   assertEquals(colors.interpolateColor(white, cyan, 0, 'hsva'), colors.HsvaToRgba(white));
+   assertEquals(colors.interpolateColor(white, blue, 0, 'hsva'), colors.HsvaToRgba(white));
+   assertEquals(colors.interpolateColor(white, magenta, 0, 'hsva'), colors.HsvaToRgba(white));
 
-   assertEquals(colors.interpolateColor(white, black, 0.25, 'hsva'), [0.75, 0.75, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, gray, 0.25, 'hsva'), [0.875, 0.875, 0.875, 1]);
-   assertEquals(colors.interpolateColor(white, white, 0.25, 'hsva'), [1, 1, 1, 1]);
+   assertEquals(colors.interpolateColor(white, black, 0.25, 'hsva'), [0.75, 0.75, 0.75]);
+   assertEquals(colors.interpolateColor(white, gray, 0.25, 'hsva'), [0.875, 0.875, 0.875]);
+   assertEquals(colors.interpolateColor(white, white, 0.25, 'hsva'), [1, 1, 1]);
    assertEquals(colors.interpolateColor(white, translucent, 0.25, 'hsva'), [1, 1, 1, 0.875]);
    assertEquals(
       colors.interpolateColor(white, transparent, 0.25, 'hsva'),
       [0.75, 0.75, 0.75, 0.75],
    );
-   assertEquals(colors.interpolateColor(white, red, 0.25, 'hsva'), [1, 0.88125, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, yellow, 0.25, 'hsva'), [0.75, 1, 0.81875, 1]);
-   assertEquals(colors.interpolateColor(white, green, 0.25, 'hsva'), [0.99375, 1, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, cyan, 0.25, 'hsva'), [0.93125, 1, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, blue, 0.25, 'hsva'), [0.86875, 1, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, magenta, 0.25, 'hsva'), [1, 0.81875, 0.75, 1]);
+   assertEquals(colors.interpolateColor(white, red, 0.25, 'hsva'), [1, 0.88125, 0.75]);
+   assertEquals(colors.interpolateColor(white, yellow, 0.25, 'hsva'), [0.75, 1, 0.81875]);
+   assertEquals(colors.interpolateColor(white, green, 0.25, 'hsva'), [0.99375, 1, 0.75]);
+   assertEquals(colors.interpolateColor(white, cyan, 0.25, 'hsva'), [0.93125, 1, 0.75]);
+   assertEquals(colors.interpolateColor(white, blue, 0.25, 'hsva'), [0.86875, 1, 0.75]);
+   assertEquals(colors.interpolateColor(white, magenta, 0.25, 'hsva'), [1, 0.81875, 0.75]);
 
-   assertEquals(colors.interpolateColor(white, black, 0.5, 'hsva'), [0.5, 0.5, 0.5, 1]);
-   assertEquals(colors.interpolateColor(white, gray, 0.5, 'hsva'), [0.75, 0.75, 0.75, 1]);
-   assertEquals(colors.interpolateColor(white, white, 0.5, 'hsva'), [1, 1, 1, 1]);
+   assertEquals(colors.interpolateColor(white, black, 0.5, 'hsva'), [0.5, 0.5, 0.5]);
+   assertEquals(colors.interpolateColor(white, gray, 0.5, 'hsva'), [0.75, 0.75, 0.75]);
+   assertEquals(colors.interpolateColor(white, white, 0.5, 'hsva'), [1, 1, 1]);
    assertEquals(colors.interpolateColor(white, translucent, 0.5, 'hsva'), [1, 1, 1, 0.75]);
    assertEquals(colors.interpolateColor(white, transparent, 0.5, 'hsva'), [0.5, 0.5, 0.5, 0.5]);
-   assertEquals(colors.interpolateColor(white, red, 0.5, 'hsva'), [1, 0.675, 0.5, 1]);
-   assertEquals(
-      colors.interpolateColor(white, yellow, 0.5, 'hsva'),
-      [0.5, 0.5749999999999997, 1, 1],
-   );
-   assertEquals(colors.interpolateColor(white, green, 0.5, 'hsva'), [0.825, 1, 0.5, 1]);
-   assertEquals(colors.interpolateColor(white, cyan, 0.5, 'hsva'), [0.575, 1, 0.5, 1]);
-   assertEquals(colors.interpolateColor(white, blue, 0.5, 'hsva'), [0.5, 1, 0.675, 1]);
-   assertEquals(
-      colors.interpolateColor(white, magenta, 0.5, 'hsva'),
-      [1, 0.5, 0.5750000000000002, 1],
-   );
+   assertEquals(colors.interpolateColor(white, red, 0.5, 'hsva'), [1, 0.675, 0.5]);
+   assertEquals(colors.interpolateColor(white, yellow, 0.5, 'hsva'), [0.5, 0.5749999999999997, 1]);
+   assertEquals(colors.interpolateColor(white, green, 0.5, 'hsva'), [0.825, 1, 0.5]);
+   assertEquals(colors.interpolateColor(white, cyan, 0.5, 'hsva'), [0.575, 1, 0.5]);
+   assertEquals(colors.interpolateColor(white, blue, 0.5, 'hsva'), [0.5, 1, 0.675]);
+   assertEquals(colors.interpolateColor(white, magenta, 0.5, 'hsva'), [1, 0.5, 0.5750000000000002]);
 
-   assertEquals(colors.interpolateColor(white, black, 0.75, 'hsva'), [0.25, 0.25, 0.25, 1]);
-   assertEquals(colors.interpolateColor(white, gray, 0.75, 'hsva'), [0.625, 0.625, 0.625, 1]);
-   assertEquals(colors.interpolateColor(white, white, 0.75, 'hsva'), [1, 1, 1, 1]);
+   assertEquals(colors.interpolateColor(white, black, 0.75, 'hsva'), [0.25, 0.25, 0.25]);
+   assertEquals(colors.interpolateColor(white, gray, 0.75, 'hsva'), [0.625, 0.625, 0.625]);
+   assertEquals(colors.interpolateColor(white, white, 0.75, 'hsva'), [1, 1, 1]);
    assertEquals(colors.interpolateColor(white, translucent, 0.75, 'hsva'), [1, 1, 1, 0.625]);
    assertEquals(
       colors.interpolateColor(white, transparent, 0.75, 'hsva'),
       [0.25, 0.25, 0.25, 0.25],
    );
-   assertEquals(
-      colors.interpolateColor(white, red, 0.75, 'hsva'),
-      [1, 0.3812500000000001, 0.25, 1],
-   );
+   assertEquals(colors.interpolateColor(white, red, 0.75, 'hsva'), [1, 0.3812500000000001, 0.25]);
    assertEquals(
       colors.interpolateColor(white, yellow, 0.75, 'hsva'),
-      [1, 0.25, 0.6812500000000001, 1],
+      [1, 0.25, 0.6812500000000001],
    );
-   assertEquals(
-      colors.interpolateColor(white, green, 0.75, 'hsva'),
-      [0.4937499999999999, 1, 0.25, 1],
-   );
-   assertEquals(
-      colors.interpolateColor(white, cyan, 0.75, 'hsva'),
-      [0.25, 1, 0.5687499999999999, 1],
-   );
-   assertEquals(
-      colors.interpolateColor(white, blue, 0.75, 'hsva'),
-      [0.25, 0.8687500000000001, 1, 1],
-   );
+   assertEquals(colors.interpolateColor(white, green, 0.75, 'hsva'), [0.4937499999999999, 1, 0.25]);
+   assertEquals(colors.interpolateColor(white, cyan, 0.75, 'hsva'), [0.25, 1, 0.5687499999999999]);
+   assertEquals(colors.interpolateColor(white, blue, 0.75, 'hsva'), [0.25, 0.8687500000000001, 1]);
    assertEquals(
       colors.interpolateColor(white, magenta, 0.75, 'hsva'),
-      [1, 0.25, 0.6812500000000001, 1],
+      [1, 0.25, 0.6812500000000001],
    );
 
-   assertEquals(colors.interpolateColor(white, black, 1, 'hsva'), colors.HsvaToRgba(...black));
-   assertEquals(colors.interpolateColor(white, gray, 1, 'hsva'), colors.HsvaToRgba(...gray));
-   assertEquals(colors.interpolateColor(white, white, 1, 'hsva'), colors.HsvaToRgba(...white));
+   assertEquals(colors.interpolateColor(white, black, 1, 'hsva'), colors.HsvaToRgba(black));
+   assertEquals(colors.interpolateColor(white, gray, 1, 'hsva'), colors.HsvaToRgba(gray));
+   assertEquals(colors.interpolateColor(white, white, 1, 'hsva'), colors.HsvaToRgba(white));
    assertEquals(
       colors.interpolateColor(white, translucent, 1, 'hsva'),
-      colors.HsvaToRgba(...translucent),
+      colors.HsvaToRgba(translucent),
    );
    assertEquals(
       colors.interpolateColor(white, transparent, 1, 'hsva'),
-      colors.HsvaToRgba(...transparent),
+      colors.HsvaToRgba(transparent),
    );
-   assertEquals(colors.interpolateColor(white, red, 1, 'hsva'), colors.HsvaToRgba(...red));
-   assertEquals(colors.interpolateColor(white, yellow, 1, 'hsva'), colors.HsvaToRgba(...yellow));
-   assertEquals(colors.interpolateColor(white, green, 1, 'hsva'), colors.HsvaToRgba(...green));
-   assertEquals(colors.interpolateColor(white, cyan, 1, 'hsva'), colors.HsvaToRgba(...cyan));
-   assertEquals(colors.interpolateColor(white, blue, 1, 'hsva'), colors.HsvaToRgba(...blue));
-   assertEquals(colors.interpolateColor(white, magenta, 1, 'hsva'), colors.HsvaToRgba(...magenta));
+   assertEquals(colors.interpolateColor(white, red, 1, 'hsva'), colors.HsvaToRgba(red));
+   assertEquals(colors.interpolateColor(white, yellow, 1, 'hsva'), colors.HsvaToRgba(yellow));
+   assertEquals(colors.interpolateColor(white, green, 1, 'hsva'), colors.HsvaToRgba(green));
+   assertEquals(colors.interpolateColor(white, cyan, 1, 'hsva'), colors.HsvaToRgba(cyan));
+   assertEquals(colors.interpolateColor(white, blue, 1, 'hsva'), colors.HsvaToRgba(blue));
+   assertEquals(colors.interpolateColor(white, magenta, 1, 'hsva'), colors.HsvaToRgba(magenta));
 });
 
 Deno.test('To Color Object', () => {

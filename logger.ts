@@ -52,22 +52,23 @@ export class Logger {
       return this.#untagged;
    }
 
-   private log(level: LogLevels, tags: string[], ...args: any[]) {
+   private log(level: LogLevels, tags: string[], args: any[]) {
       if (level < this.#logLevel) return;
 
-      const log = [this.tagPrint(tags, level), ...args];
+      const tag = this.tagPrint(tags, level);
+      if (tag) args.unshift(tag);
 
       switch (level) {
          case LogLevels.DEBUG:
-            return console.debug(...log);
+            return console.debug(...args);
          case LogLevels.INFO:
-            return console.info(...log);
+            return console.info(...args);
          case LogLevels.WARN:
-            return console.warn(...log);
+            return console.warn(...args);
          case LogLevels.ERROR:
-            return console.error(...log);
+            return console.error(...args);
          default:
-            return console.log(...log);
+            return console.log(...args);
       }
    }
 
@@ -89,23 +90,23 @@ export class Logger {
    }
 
    tVerbose(tags: string[], ...args: any[]) {
-      this.log(LogLevels.VERBOSE, tags, ...args);
+      this.log(LogLevels.VERBOSE, tags, args);
    }
 
    tDebug(tags: string[], ...args: any[]) {
-      this.log(LogLevels.DEBUG, tags, ...args);
+      this.log(LogLevels.DEBUG, tags, args);
    }
 
    tInfo(tags: string[], ...args: any[]) {
-      this.log(LogLevels.INFO, tags, ...args);
+      this.log(LogLevels.INFO, tags, args);
    }
 
    tWarn(tags: string[], ...args: any[]) {
-      this.log(LogLevels.WARN, tags, ...args);
+      this.log(LogLevels.WARN, tags, args);
    }
 
    tError(tags: string[], ...args: any[]) {
-      this.log(LogLevels.ERROR, tags, ...args);
+      this.log(LogLevels.ERROR, tags, args);
    }
 
    verbose(...args: any[]) {

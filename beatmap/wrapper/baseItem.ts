@@ -31,7 +31,9 @@ export abstract class WrapBaseItem<T extends { [P in keyof T]: T[P] }> extends S
       return this;
    }
    addCustomData(object: _ObtainCustomData<T>): this {
-      this.customData = { ...this.customData, object };
+      for (const k in object) {
+         this.customData[k] = object[k];
+      }
       return this;
    }
 

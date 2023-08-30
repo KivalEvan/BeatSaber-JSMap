@@ -15,11 +15,13 @@ export function RgbaToHsva(r: number, g: number, b: number, a?: number): ColorAr
 export function RgbaToHsva(color: ColorArray): ColorArray;
 export function RgbaToHsva(r: number | ColorArray, g?: number, b?: number, a?: number): ColorArray {
    if (Array.isArray(r)) {
-      return RgbaToHsva(...r);
+      a = r[3];
+      b = r[2]!;
+      g = r[1]!;
+      r = r[0]!;
    }
-   g ??= 0;
-   b ??= 0;
-   let h!: number;
+   (r = r!), (g = g!), (b = b!);
+   let h = 0;
    const max = Math.max(r, g, b);
    const min = Math.min(r, g, b);
    const d = max - min;
@@ -28,7 +30,6 @@ export function RgbaToHsva(r: number | ColorArray, g?: number, b?: number, a?: n
 
    switch (max) {
       case min:
-         h = 0;
          break;
       case r:
          h = g - b + d * (g < b ? 6 : 0);
@@ -69,11 +70,12 @@ export function HsvaToRgba(
    alpha?: number,
 ): ColorArray {
    if (Array.isArray(hue)) {
-      return HsvaToRgba(...hue);
+      alpha = hue[3];
+      value = hue[2]!;
+      saturation = hue[1]!;
+      hue = hue[0]!;
    }
-   hue = hue / 360;
-   saturation ??= 0;
-   value ??= 0;
+   (hue = hue! / 360), (saturation = saturation!), (value = value!);
    if (hue < 0) {
       hue += Math.abs(Math.floor(hue));
    }
@@ -117,8 +119,8 @@ export function HsvaToRgba(
  * ```
  */
 export function interpolateColor(
-   colorStart: ColorInput,
-   colorEnd: ColorInput,
+   start: ColorInput,
+   end: ColorInput,
    alpha: number,
    type: ColorType = 'rgba',
    easing?: EasingFunction,
@@ -128,31 +130,29 @@ export function interpolateColor(
          return x;
       };
    }
-   const fixType = type === 'rgba255' ? 'rgba' : (type as 'rgba' | 'hsva');
-   const cStart = convertColorType(colorStart, fixType, fixType);
-   const cEnd = convertColorType(colorEnd, fixType, fixType);
-   if (cStart.length === 3) cStart.push(1);
-   if (cEnd.length === 3) cEnd.push(1);
-   switch (fixType) {
+   const cType = type === 'rgba255' ? 'rgba' : (type as 'rgba' | 'hsva');
+   const cStart = convertColorType(start, cType, cType);
+   const cEnd = convertColorType(end, cType, cType);
+   if (cStart.length !== cEnd.length) {
+      if (cStart.length === 3) cStart.push(1);
+      if (cEnd.length === 3) cEnd.push(1);
+   }
+   if (alpha === 0) return convertColorType(cStart, cType, 'rgba');
+   if (alpha === 1) return convertColorType(cEnd, cType, 'rgba');
+   const lerpedColor: ColorArray = [
+      lerp(easing(alpha), cStart[0], cEnd[0]),
+      lerp(easing(alpha), cStart[1], cEnd[1]),
+      lerp(easing(alpha), cStart[2], cEnd[2]),
+   ];
+   if (cStart.length > 3) {
+      lerpedColor.push(lerp(easing(alpha), cStart[3]!, cEnd[3]!));
+   }
+   switch (cType) {
       case 'hsva': {
-         return HsvaToRgba(
-            ...(cStart.map((c, i) => {
-               if (!(typeof c === 'number')) {
-                  return 1;
-               }
-               const cE = cEnd[i] ?? c;
-               return lerp(easing!(alpha), c!, cE!);
-            }) as ColorArray),
-         );
+         return HsvaToRgba(lerpedColor);
       }
       default:
-         return cStart.map((c, i) => {
-            if (!(typeof c === 'number')) {
-               return 1;
-            }
-            const cE = cEnd[i] ?? c;
-            return lerp(easing!(alpha), c!, cE!);
-         }) as ColorArray;
+         return lerpedColor;
    }
 }
 
@@ -162,7 +162,7 @@ function compToHex(c: number): string {
 }
 
 function cDenorm(c: number): number {
-   return round(c * 255);
+   return Math.round(c * 255);
 }
 
 function cNorm(c: number): number {
@@ -173,9 +173,12 @@ export function toColorObject(color: ColorInput | IColor, ensureAlpha?: boolean)
 export function toColorObject(color: ColorInput | IColor, ensureAlpha: true): Required<IColor>;
 export function toColorObject(color: ColorInput | IColor, ensureAlpha?: boolean): IColor {
    if (Array.isArray(color)) {
-      const result = { r: color[0], g: color[1], b: color[2] } as IColor;
+      const result: IColor = { r: color[0], g: color[1], b: color[2] };
       if (typeof color[3] === 'number') result.a = color[3];
-      return toColorObject(result, ensureAlpha);
+      if (ensureAlpha) {
+         result.a ??= 1;
+      }
+      return result;
    }
    if (typeof color === 'string') return toColorObject(colorFrom(color), ensureAlpha);
    if ('type' in color) {
@@ -253,15 +256,17 @@ export function convertColorType(
    if (typeof color === 'string') {
       const temp = hexToRgba(color);
       if (output === 'hsva') {
-         return RgbaToHsva(...temp);
+         return RgbaToHsva(temp);
       }
       return temp;
    } else if (Array.isArray(color)) {
       if (type === 'hsva') {
-         return output === 'hsva' ? color : HsvaToRgba(...color);
+         return output === 'hsva' ? ([...color] satisfies ColorArray) : HsvaToRgba(color);
       }
-      const temp = type === 'rgba255' ? (color.map((n) => cNorm(n!)) as ColorArray) : color;
-      return output === 'hsva' ? RgbaToHsva(...temp) : temp;
+      const temp = type === 'rgba255'
+         ? (color.map((n) => cNorm(n!)) as ColorArray)
+         : ([...color] satisfies ColorArray);
+      return output === 'hsva' ? RgbaToHsva(temp) : temp;
    } else {
       if ('type' in color) {
          let temp;
@@ -275,13 +280,13 @@ export function convertColorType(
             case 'rgba255':
                temp = colorFrom(color.value, 'rgba255');
          }
-         return output === 'hsva' ? RgbaToHsva(...temp) : temp;
+         return output === 'hsva' ? RgbaToHsva(temp) : temp;
       } else {
          const temp = [color.r, color.g, color.b] as ColorArray;
          if (typeof color.a === 'number') {
             temp.push(color.a);
          }
-         return output === 'hsva' ? RgbaToHsva(...temp) : temp;
+         return output === 'hsva' ? RgbaToHsva(temp) : temp;
       }
    }
 }
@@ -457,7 +462,7 @@ export function colorFrom(): ColorArray {
       }
       if (typeof args[3] === 'string') {
          if (args[3] === 'hsva') {
-            val = HsvaToRgba(...val);
+            val = HsvaToRgba(val);
          }
          if (args[3] === 'rgba255') {
             val = val.map((v) => v! / 255) as ColorArray;
@@ -465,7 +470,7 @@ export function colorFrom(): ColorArray {
       }
       if (typeof args[4] === 'string') {
          if (args[4] === 'hsva') {
-            val = HsvaToRgba(...val);
+            val = HsvaToRgba(val);
          }
          if (args[4] === 'rgba255') {
             val = val.map((v) => v! / 255) as ColorArray;
@@ -495,7 +500,7 @@ export function colorFrom(): ColorArray {
       }
       if (typeof args[1] === 'string') {
          if (args[1] === 'hsva') {
-            val = HsvaToRgba(...val);
+            val = HsvaToRgba(val);
          }
          if (args[1] === 'rgba255') {
             val = val.filter((v) => typeof v === 'number').map((v) => v! / 255) as ColorArray;
