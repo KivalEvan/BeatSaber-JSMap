@@ -9,7 +9,7 @@ import { DeepPartial } from '../../types/utils.ts';
 import { LightIDList } from './lightID.ts';
 import { EventBase, EventBox, EventBoxType, IndexFilterDivision } from './types/lightMapper.ts';
 import { EasingsFn } from '../../utils/easings.ts';
-import { colorFrom, HsvaToRgba, RgbaToHsva } from '../../utils/colors.ts';
+import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
 import { ColorArray } from '../../types/colors.ts';
 import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
@@ -270,8 +270,8 @@ export class LightMapper {
                         );
                      }
                      if (!isFirst) {
-                        event.customData.color = HsvaToRgba(
-                           ...(RgbaToHsva(...event.customData.color).map((v, x) => {
+                        event.customData.color = hsvaToRgba(
+                           ...(rgbaToHsva(...event.customData.color).map((v, x) => {
                               if (!x) {
                                  v! += eb.hueDistributionType === 'Division'
                                     ? EasingsFn[eb.hueDistributionEasing ?? 'easeLinear'](

@@ -20,6 +20,7 @@
 - Custom data color scheme `a` is now optional instead of omitted
 - Removed logging from utils, now throws error instead of warn or error
 - Clarify `difficultyFromInfo` return type
+- Color utils rename for consistency
 
 ### Fixed
 
