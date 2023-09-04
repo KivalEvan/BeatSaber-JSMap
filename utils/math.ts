@@ -211,13 +211,14 @@ export function clamp(value: number, min: number, max: number): number {
    return Math.min(Math.max(min, value), max);
 }
 
-/** Normalize value to 0-1 from given min and max value. */
+/**
+ * Normalize value to 0-1 from given min and max value.
+ *
+ * Returns 1 if `max - min === 0`.
+ */
 export function normalize(value: number, min: number, max: number): number {
-   if (min >= max) {
-      return 1;
-   }
-   const result = (value - min) / (max - min);
-   return result;
+   if (max - min === 0) return 1;
+   return (value - min) / (max - min);
 }
 
 /**

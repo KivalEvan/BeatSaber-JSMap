@@ -1,6 +1,8 @@
 # Changelog
 
-## 1.4.2 [2023-08-xx]
+## 1.5.0 [2023-09-xx]
+
+Couple of optimization work has been done to further improve memory and time efficiency.
 
 ### Added
 
@@ -8,19 +10,25 @@
   characteristic label, etc.)
 - Info color scheme copy
 - Ensure alpha for `toColorObject`
-- `invLerp` and `remap` math utils
+- `invLerp`, `remap`, `shallowCopy`, and `lerpVector` utils
 - Missing `offsetPosition` and `offsetWorldRotation` property for `AnimateTrack` and
   `AssignPathAnimation`
 - Object method comparison now checks for mod type
 
 ### Changed
 
+- Utils no longer require namespace
+  - This should reveal more hidden utilities without the need to import `utils` namespace
 - Beatmap Info structure changed to better fit original structure
   - This also goes for info custom data
 - Custom data color scheme `a` is now optional instead of omitted
 - Removed logging from utils, now throws error instead of warn or error
 - Clarify `difficultyFromInfo` return type
-- Color utils rename for consistency
+- Color utils renamed for consistency
+  - `HsvaToRgba` to `hsvaToRgba`
+  - `RgbaToHsva` to `rgbaToHsva`
+  - `interpolateColor` to `lerpColor`
+  - And couple others I forgot
 
 ### Fixed
 
