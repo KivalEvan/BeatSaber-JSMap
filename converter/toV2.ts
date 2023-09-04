@@ -19,7 +19,7 @@ import { Waypoint } from '../beatmap/v2/waypoint.ts';
 import { isVector3, vectorMul } from '../utils/vector.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IBPMChangeOld } from '../types/beatmap/v2/custom/bpmChange.ts';
-import { deepCopy } from '../utils/misc.ts';
+import { deepCopy, shallowCopy } from '../utils/misc.ts';
 import { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
 
 function tag(name: string): string[] {
@@ -550,16 +550,16 @@ export function toIV2nfo(data: IWrapInfo): IV2nfo {
                _beatmapFilename: beatmap.filename,
                _noteJumpMovementSpeed: beatmap.njs,
                _noteJumpStartBeatOffset: beatmap.njsOffset,
-               _customData: deepCopy({
+               _customData: {
                   _editorOffset: beatmap.offset,
                   _editorOldOffset: beatmap.oldOffset,
                   _difficultyLabel: beatmap.difficultyLabel,
-                  _colorLeft: deepCopy(beatmap.colorLeft),
-                  _colorRight: deepCopy(beatmap.colorRight),
-                  _envColorLeft: deepCopy(beatmap.envColorLeft),
-                  _envColorRight: deepCopy(beatmap.envColorRight),
-                  _obstacleColor: deepCopy(beatmap.obstacleColor),
-               }),
+                  _colorLeft: shallowCopy(beatmap.colorLeft),
+                  _colorRight: shallowCopy(beatmap.colorRight),
+                  _envColorLeft: shallowCopy(beatmap.envColorLeft),
+                  _envColorRight: shallowCopy(beatmap.envColorRight),
+                  _obstacleColor: shallowCopy(beatmap.obstacleColor),
+               },
             },
             mode,
          );

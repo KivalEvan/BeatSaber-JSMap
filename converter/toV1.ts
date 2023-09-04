@@ -8,7 +8,7 @@ import { Obstacle } from '../beatmap/v1/obstacle.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IWrapInfo, IWrapInfoDifficulty } from '../types/beatmap/wrapper/info.ts';
 import { Info as IV1nfo } from '../beatmap/v1/info.ts';
-import { deepCopy } from '../utils/misc.ts';
+import { shallowCopy } from '../utils/misc.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -103,11 +103,11 @@ export function toIV1nfo(data: IWrapInfo): IV1nfo {
                m.customData?._obstacleColor
             ),
             difficultyLabel: m.customData?._difficultyLabel,
-            colorLeft: deepCopy(m.customData._colorLeft),
-            colorRight: deepCopy(m.customData._colorRight),
-            envColorLeft: deepCopy(m.customData._envColorLeft),
-            envColorRight: deepCopy(m.customData._envColorRight),
-            obstacleColor: deepCopy(m.customData._obstacleColor),
+            colorLeft: shallowCopy(m.customData._colorLeft),
+            colorRight: shallowCopy(m.customData._colorRight),
+            envColorLeft: shallowCopy(m.customData._envColorLeft),
+            envColorRight: shallowCopy(m.customData._envColorRight),
+            obstacleColor: shallowCopy(m.customData._obstacleColor),
          },
          mode,
       );

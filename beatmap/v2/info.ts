@@ -7,7 +7,7 @@ import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { Environment360Name } from '../../types/beatmap/shared/environment.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy, shallowCopy } from '../../utils/misc.ts';
 import {
    IWrapInfo,
    IWrapInfoColorScheme,
@@ -155,20 +155,20 @@ export class Info extends WrapInfo<IInfo> {
                useOverride: e.useOverride,
                colorScheme: {
                   colorSchemeId: e.colorScheme.name,
-                  saberAColor: deepCopy(e.colorScheme.saberLeftColor),
-                  saberBColor: deepCopy(e.colorScheme.saberRightColor),
-                  environmentColor0: deepCopy(e.colorScheme.environment0Color),
-                  environmentColor1: deepCopy(e.colorScheme.environment1Color),
-                  obstaclesColor: deepCopy(e.colorScheme.obstaclesColor),
-                  environmentColor0Boost: deepCopy(e.colorScheme.environment0ColorBoost),
-                  environmentColor1Boost: deepCopy(e.colorScheme.environment1ColorBoost),
+                  saberAColor: shallowCopy(e.colorScheme.saberLeftColor),
+                  saberBColor: shallowCopy(e.colorScheme.saberRightColor),
+                  environmentColor0: shallowCopy(e.colorScheme.environment0Color),
+                  environmentColor1: shallowCopy(e.colorScheme.environment1Color),
+                  obstaclesColor: shallowCopy(e.colorScheme.obstaclesColor),
+                  environmentColor0Boost: shallowCopy(e.colorScheme.environment0ColorBoost),
+                  environmentColor1Boost: shallowCopy(e.colorScheme.environment1ColorBoost),
                },
             };
             if (e.colorScheme.environmentWColor) {
-               cs.colorScheme.environmentColorW = deepCopy(e.colorScheme.environmentWColor);
+               cs.colorScheme.environmentColorW = shallowCopy(e.colorScheme.environmentWColor);
             }
             if (e.colorScheme.environmentWColorBoost) {
-               cs.colorScheme.environmentColorWBoost = deepCopy(
+               cs.colorScheme.environmentColorWBoost = shallowCopy(
                   e.colorScheme.environmentWColorBoost,
                );
             }
