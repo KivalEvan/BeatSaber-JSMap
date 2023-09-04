@@ -51,10 +51,10 @@ export interface INEObstacle extends INEObject {
 export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
    offsetPosition?: string | Vector3 | Vector3PointDefinition[];
    offsetWorldRotation?: string | Vector3 | Vector3PointDefinition[];
-   dissolve?: string | number | FloatPointDefinition[];
-   dissolveArrow?: string | number | FloatPointDefinition[];
-   interactable?: string | number | FloatPointDefinition[];
-   time?: string | number | FloatPointDefinition[];
+   dissolve?: string | [number] | FloatPointDefinition[];
+   dissolveArrow?: string | [number] | FloatPointDefinition[];
+   interactable?: string | [number] | FloatPointDefinition[];
+   time?: string | [number] | FloatPointDefinition[];
 }
 
 /**
@@ -64,10 +64,10 @@ export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
 export interface INECustomEventDataAssignPathAnimation extends Required<IHeckBase> {
    offsetPosition?: string | Vector3 | Vector3PointDefinition[];
    offsetWorldRotation?: string | Vector3 | Vector3PointDefinition[];
-   dissolve?: string | number | FloatPointDefinition[];
-   dissolveArrow?: string | number | FloatPointDefinition[];
-   interactable?: string | number | FloatPointDefinition[];
-   definitePosition?: string | Vector3 | Vector3PointDefinition[];
+   dissolve?: string | [number] | FloatPointDefinition[];
+   dissolveArrow?: string | [number] | FloatPointDefinition[];
+   interactable?: string | [number] | FloatPointDefinition[];
+  definitePosition?: string | Vector3 | Vector3PointDefinition[];
 }
 
 /** AssignPathAnimation interface for Noodle Extensions Custom Event. */
@@ -87,13 +87,13 @@ export interface INECustomEventDataAssignPlayerToTrack extends Required<IHeckBas
 
 /** Noodle Extensions Animation interface for Noodle Extensions Object. */
 export interface INEAnimation {
-   offsetPosition?: string | Vector3 | Vector3PointDefinition[];
-   offsetRotation?: string | Vector3 | Vector3PointDefinition[];
-   localRotation?: string | Vector3 | Vector3PointDefinition[];
-   scale?: string | Vector3 | Vector3PointDefinition[];
-   dissolve?: string | number | FloatPointDefinition[];
-   dissolveArrow?: string | number | FloatPointDefinition[];
-   interactable?: string | number | FloatPointDefinition[];
-   definitePosition?: string | Vector3 | Vector3PointDefinition[];
-   time?: string | number | FloatPointDefinition[];
+  offsetPosition?: string | Vector3 | Vector3PointDefinition[];
+  offsetRotation?: string | Vector3 | Vector3PointDefinition[];
+  localRotation?: string | Vector3 | Vector3PointDefinition[];
+  scale?: string | Vector3 | Vector3PointDefinition[];
+  dissolve?: string | [number] | FloatPointDefinition[];
+  dissolveArrow?: string | [number] | FloatPointDefinition[];
+  interactable?: string | [number] | FloatPointDefinition[];
+  definitePosition?: string | Vector3 | Vector3PointDefinition[];
+  time?: string | [number] | FloatPointDefinition[];
 }
