@@ -198,18 +198,18 @@ export interface IChromaCustomEventDataAssignPathAnimation extends Required<IHec
 
 /** AnimateComponent interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAnimateComponent extends Required<IHeckBase> {
-  duration: number;
-  easing?: string;
-  BloomFogEnvironment?: {
-    attenuation?: string | [number] | FloatPointDefinition[];
-    offset?: string | [number] | FloatPointDefinition[];
-    startY?: string | [number] | FloatPointDefinition[];
-    height?: string | [number] | FloatPointDefinition[];
-  };
-  TubeBloomPrePassLight?: {
-    colorAlphaMultiplier: string | [number] | FloatPointDefinition[];
-    bloomFogIntensityMultiplier: string | [number] | FloatPointDefinition[];
-  };
+   duration: number;
+   easing?: string;
+   BloomFogEnvironment?: {
+      attenuation?: string | [number] | FloatPointDefinition[];
+      offset?: string | [number] | FloatPointDefinition[];
+      startY?: string | [number] | FloatPointDefinition[];
+      height?: string | [number] | FloatPointDefinition[];
+   };
+   TubeBloomPrePassLight?: {
+      colorAlphaMultiplier: string | [number] | FloatPointDefinition[];
+      bloomFogIntensityMultiplier: string | [number] | FloatPointDefinition[];
+   };
 }
 
 /** Chroma Custom Data interface for difficulty custom data. */

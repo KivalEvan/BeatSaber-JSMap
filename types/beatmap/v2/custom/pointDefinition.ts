@@ -8,13 +8,13 @@ import {
 
 /** Point Definition interface. */
 export interface IPointDefinition {
-  _name: string;
-  _points:
-    | [number]
-    | Vector2
-    | Vector3
-    | ColorArray
-    | FloatPointDefinition[]
-    | Vector3PointDefinition[]
-    | Vector4PointDefinition[];
+   _name: string;
+   _points:
+      | [number]
+      | Vector2
+      | Vector3
+      | ColorArray
+      | FloatPointDefinition[]
+      | Vector3PointDefinition[]
+      | Vector4PointDefinition[];
 }

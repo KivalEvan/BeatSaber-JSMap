@@ -180,11 +180,11 @@ export interface IChromaCustomEventDataAssignPathAnimation extends Required<IHec
 
 /** AssignFogTrack interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAssignFogTrack extends Required<IHeckBase> {
-  _duration: number;
-  _attenuation?: string | [number] | FloatPointDefinition[];
-  _offset?: string | [number] | FloatPointDefinition[];
-  _startY?: string | [number] | FloatPointDefinition[];
-  _height?: string | [number] | FloatPointDefinition[];
+   _duration: number;
+   _attenuation?: string | [number] | FloatPointDefinition[];
+   _offset?: string | [number] | FloatPointDefinition[];
+   _startY?: string | [number] | FloatPointDefinition[];
+   _height?: string | [number] | FloatPointDefinition[];
 }
 
 /** Chroma Custom Data interface for difficulty custom data. */
