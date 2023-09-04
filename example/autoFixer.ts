@@ -12,7 +12,18 @@
 import { copySync } from 'https://deno.land/std@0.192.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.192.0/flags/mod.ts';
 import { customDataUpdate, dataCorrection, removeOutsidePlayable } from '../patch/mod.ts';
-import { BeatPerMinute, convert, globals, load, logger, save, types, utils, v3 } from '../mod.ts';
+import {
+   BeatPerMinute,
+   convert,
+   globals,
+   load,
+   logger,
+   mmssToFloat,
+   save,
+   toMmss,
+   types,
+   v3,
+} from '../mod.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 
 const args = parse(Deno.args, {
@@ -93,16 +104,11 @@ try {
       if (/^\d+(\.\d+)?$/.test(input)) {
          duration = Math.max(parseFloat(input), 0);
       } else if (/^\d+:(\d){1,2}$/.test(input)) {
-         duration = Math.max(utils.mmssToFloat(input), 0);
+         duration = Math.max(mmssToFloat(input), 0);
       } else {
          duration = 0;
       }
-      logger.info(
-         'Retrieved and parsed input as value',
-         duration,
-         'second(s) |',
-         utils.toMmss(duration),
-      );
+      logger.info('Retrieved and parsed input as value', duration, 'second(s) |', toMmss(duration));
       if (duration && duration < 60) {
          const confirmation = args.y ? 'y' : prompt(
             'Duration seems lower than expected, are you sure with this audio length? (Y/n):',
@@ -146,7 +152,7 @@ try {
             oldChromaConfirm = true;
          }
          if (oldChromaConvert) {
-            convert.ogChromaToChromaV2(d, info?.environmentName);
+            convert.ogChromaToV2Chroma(d, info?.environmentName);
          }
       }
       if (d.basicEvents.some((e) => e.customData._lightGradient)) {
@@ -169,10 +175,7 @@ try {
       dataCorrection.difficulty(d);
    };
 
-   const performDifficultyList = (
-      d: types.wrapper.IWrapDifficulty,
-      dl: types.ILoadInfoData[number],
-   ) => {
+   const performDifficultyList = (d: types.wrapper.IWrapDifficulty, dl: types.ILoadInfoData) => {
       logger.info('Fixing beatmap', dl.characteristic, dl.difficulty);
 
       performSingle(d);

@@ -13,15 +13,15 @@ function tag(name: string): string[] {
 /**
  * Convert old Chroma color value to Chroma 2 custom data.
  * ```ts
- * const newData = convert.ogChromaToChromaV2(oldData);
+ * const newData = convert.ogChromaToV2Chroma(oldData);
  * ```
  */
-export function ogChromaToChromaV2<T extends IWrapDifficulty>(
+export function ogChromaToV2Chroma<T extends IWrapDifficulty>(
    data: T,
    environment: EnvironmentAllName = 'DefaultEnvironment',
 ): T {
    logger.tInfo(
-      tag('ogChromaToChromaV2'),
+      tag('ogChromaToV2Chroma'),
       'Converting old Chroma event value to Chroma event customData',
    );
    const events: IWrapEvent[] = data.basicEvents;

@@ -1,13 +1,13 @@
 import logger from '../logger.ts';
-import { Difficulty as DifficultyV1 } from '../beatmap/v1/difficulty.ts';
-import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
-import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
+import { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
+import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
+import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
 import { Note } from '../beatmap/v1/note.ts';
 import { Event } from '../beatmap/v1/event.ts';
 import { Obstacle } from '../beatmap/v1/obstacle.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IWrapInfo, IWrapInfoDifficulty } from '../types/beatmap/wrapper/info.ts';
-import { Info as InfoV1 } from '../beatmap/v1/info.ts';
+import { Info as IV1nfo } from '../beatmap/v1/info.ts';
 import { deepCopy } from '../utils/misc.ts';
 
 function tag(name: string): string[] {
@@ -22,17 +22,17 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Guess you should know this legacy version does not have modern features.
  */
-export function toV1(
+export function toV1Difficulty(
    data: IWrapDifficulty,
    info: IWrapInfo,
    infoDifficulty: IWrapInfoDifficulty,
-): DifficultyV1 {
-   if (data instanceof DifficultyV1) {
+): V1Difficulty {
+   if (data instanceof V1Difficulty) {
       return data;
    }
 
-   logger.tWarn(tag('toV1'), 'Converting beatmap to v1 may lose certain data!');
-   const template = new DifficultyV1();
+   logger.tWarn(tag('toV1Difficulty'), 'Converting beatmap to v1 may lose certain data!');
+   const template = new V1Difficulty();
    template.filename = data.filename;
 
    template.beatsPerMinute = info.beatsPerMinute;
@@ -41,13 +41,13 @@ export function toV1(
    template.noteJumpSpeed = infoDifficulty.njs;
    template.noteJumpStartBeatOffset = infoDifficulty.njsOffset;
 
-   if (data instanceof DifficultyV2) {
+   if (data instanceof V2Difficulty) {
       template.time = data.customData._time ?? 0;
       template.BPMChanges = data.customData._bpmChanges ?? [];
       template.bookmarks = data.customData._bookmarks ?? [];
    }
 
-   if (data instanceof DifficultyV3) {
+   if (data instanceof V3Difficulty) {
       template.time = data.customData.time ?? 0;
       template.BPMChanges = data.customData.BPMChanges?.map((bpmc) => {
          return {
@@ -69,12 +69,12 @@ export function toV1(
    return template;
 }
 
-export function toInfoV1(data: IWrapInfo): InfoV1 {
-   if (data instanceof InfoV1) {
+export function toIV1nfo(data: IWrapInfo): IV1nfo {
+   if (data instanceof IV1nfo) {
       return data;
    }
 
-   const template = new InfoV1();
+   const template = new IV1nfo();
 
    template.songName = data.songName;
    template.songSubName = data.songSubName;

@@ -6,9 +6,9 @@ import {
 } from './types/bsmap/optimize.ts';
 import { round } from './utils/math.ts';
 import logger from './logger.ts';
-import { IDifficulty as IDifficultyV1 } from './types/beatmap/v1/difficulty.ts';
-import { IDifficulty as IDifficultyV2 } from './types/beatmap/v2/difficulty.ts';
-import { IDifficulty as IDifficultyV3 } from './types/beatmap/v3/difficulty.ts';
+import { IDifficulty as IV1Difficulty } from './types/beatmap/v1/difficulty.ts';
+import { IDifficulty as IV2Difficulty } from './types/beatmap/v2/difficulty.ts';
+import { IDifficulty as IV3Difficulty } from './types/beatmap/v3/difficulty.ts';
 import { isV1, isV2, isV3 } from './beatmap/version.ts';
 import {
    sortV2NoteFn,
@@ -154,7 +154,7 @@ export function info(info: IInfo, options: IOptimizeOptionsInfo = { enabled: tru
    return info;
 }
 
-export function difficulty<T extends IDifficultyV1 | IDifficultyV2 | IDifficultyV3>(
+export function difficulty<T extends IV1Difficulty | IV2Difficulty | IV3Difficulty>(
    difficulty: T,
    options: IOptimizeOptionsDifficulty = { enabled: true },
 ): T {

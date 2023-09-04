@@ -1,5 +1,5 @@
 import { IChromaComponent, IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
-import { IChromaEnvironment as IChromaEnvironmentV2 } from '../../../types/beatmap/v2/custom/chroma.ts';
+import { IChromaEnvironment as IV2ChromaEnvironment } from '../../../types/beatmap/v2/custom/chroma.ts';
 import logger from '../../../logger.ts';
 import { vectorMul } from '../../../utils/vector.ts';
 
@@ -7,7 +7,7 @@ function tag(name: string): string[] {
    return ['chroma', 'environment', name];
 }
 
-export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
+export function envV2ToV3(env: IV2ChromaEnvironment[]): IChromaEnvironment[] {
    return env.map((e) => {
       let components: IChromaComponent = {};
       if (e._lightID) components = { ILightWithId: { lightID: e._lightID } };
@@ -74,7 +74,7 @@ export function envV2toV3(env: IChromaEnvironmentV2[]): IChromaEnvironment[] {
    });
 }
 
-export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
+export function envV3ToV2(env: IChromaEnvironment[]): IV2ChromaEnvironment[] {
    return env.map((e) => {
       if (e.id && e.lookupMethod) {
          return {
@@ -94,7 +94,7 @@ export function envV3toV2(env: IChromaEnvironment[]): IChromaEnvironmentV2[] {
       if (e.geometry) {
          if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
             logger.tWarn(
-               tag('V3toV2'),
+               tag('envV3ToV2'),
                'v2 geometry cannot be made assignable light to specific type',
             );
          }

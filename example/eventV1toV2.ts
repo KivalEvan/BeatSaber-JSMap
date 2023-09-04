@@ -11,7 +11,19 @@
  */
 import { copySync } from 'https://deno.land/std@0.192.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.192.0/flags/mod.ts';
-import { BeatPerMinute, convert, globals, isV2, load, logger, save, types, utils } from '../mod.ts';
+import {
+   BeatPerMinute,
+   clamp,
+   convert,
+   globals,
+   isV2,
+   lerp,
+   load,
+   logger,
+   normalize,
+   save,
+   types,
+} from '../mod.ts';
 
 const args = parse(Deno.args, {
    string: ['d', 't'],
@@ -117,7 +129,7 @@ try {
                oldChromaConfirm = true;
             }
             if (oldChromaConvert) {
-               convert.ogChromaToChromaV2(dl.data, info.environmentName);
+               convert.ogChromaToV2Chroma(dl.data, info.environmentName);
             }
          }
          if (dl.data.basicEvents.some((e) => e.customData._lightGradient)) {
@@ -140,7 +152,7 @@ try {
          bpm.timescale = dl.data.bpmEvents.map((bpme) => bpme.toJSON());
 
          logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
-         const temp = convert.toV2(dl.data);
+         const temp = convert.toV2Difficulty(dl.data);
          if (temp.basicEvents.some((e) => e.isOldChroma())) {
             if (!oldChromaConfirm) {
                const confirmation = args.y ? 'n' : prompt(
@@ -153,7 +165,7 @@ try {
                oldChromaConfirm = true;
             }
             if (oldChromaConvert) {
-               convert.ogChromaToChromaV2(temp, info.environmentName);
+               convert.ogChromaToV2Chroma(temp, info.environmentName);
             }
          }
          if (temp.basicEvents.some((e) => e.customData._lightGradient)) {
@@ -177,7 +189,7 @@ try {
             dl.characteristic,
             dl.difficulty,
          );
-         const temp2 = convert.toV3(temp);
+         const temp2 = convert.toV3Difficulty(temp);
 
          logger.info(
             'Re-inserting events from temporary beatmap',
@@ -208,12 +220,12 @@ try {
                const current = events[i];
                const next = events[parseInt(i) + 1];
                if (next) {
-                  const duration = utils.clamp(
+                  const duration = clamp(
                      bpm.toRealTime(next.time) - bpm.toRealTime(current.time) - 0.001,
                      0,
                      current.isFlash() ? fadeDuration / 10 : fadeDuration,
                   );
-                  const alpha = utils.normalize(
+                  const alpha = normalize(
                      duration,
                      0,
                      current.isFlash() ? fadeDuration / 10 : fadeDuration,
@@ -228,7 +240,7 @@ try {
                         ...current.toJSON(),
                         time: bpm.toBeatTime(bpm.toRealTime(current.time) + duration, true),
                         value: current.value + 3,
-                        floatValue: utils.lerp(alpha, current.floatValue, 0),
+                        floatValue: lerp(alpha, current.floatValue, 0),
                      });
                   }
                   if (current.isFlash()) {
@@ -239,7 +251,7 @@ try {
                         ...current.toJSON(),
                         time: bpm.toBeatTime(bpm.toRealTime(current.time) + duration, true),
                         value: current.value + 3,
-                        floatValue: utils.lerp(alpha, current.floatValue, prev),
+                        floatValue: lerp(alpha, current.floatValue, prev),
                      });
                   }
                } else {

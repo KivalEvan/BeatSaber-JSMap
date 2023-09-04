@@ -1,8 +1,8 @@
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { INote } from '../../types/beatmap/v2/note.ts';
-import { IBaseObject as IBaseObjectV1 } from '../../types/beatmap/v2/object.ts';
-import { IBaseObject as IBaseObjectV3 } from '../../types/beatmap/v3/baseObject.ts';
+import { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object.ts';
+import { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
 import { IWrapBaseNoteAttribute } from '../../types/beatmap/wrapper/baseNote.ts';
 import { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
 import { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
@@ -70,7 +70,7 @@ export function sortNoteFn(a: IWrapBaseNoteAttribute, b: IWrapBaseNoteAttribute)
  * data._events.sort(sortV2ObjectFn);
  * ```
  */
-export function sortV2ObjectFn(a: IBaseObjectV1, b: IBaseObjectV1): number {
+export function sortV2ObjectFn(a: IV2BaseObject, b: IV2BaseObject): number {
    return a._time - b._time;
 }
 
@@ -97,7 +97,7 @@ export function sortV2NoteFn(a: INote, b: INote): number {
  * data.basicBeatmapEvents.sort(sortV3ObjectFn);
  * ```
  */
-export function sortV3ObjectFn(a: IBaseObjectV3, b: IBaseObjectV3): number {
+export function sortV3ObjectFn(a: IV3BaseObject, b: IV3BaseObject): number {
    return a.b - b.b;
 }
 

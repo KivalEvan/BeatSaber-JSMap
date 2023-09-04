@@ -22,7 +22,7 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
 /**
  * Convert Chroma light gradient to transition event.
  * ```ts
- * const newData = convert.ogChromaToChromaV2(oldData);
+ * const newData = convert.V2ogChromaToChroma(oldData);
  * ```
  */
 export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(data: T): T {

@@ -1,9 +1,9 @@
 import { IBPMChangeTime, IBPMTimeScale } from '../../types/beatmap/shared/custom/bpm.ts';
 import {
-   IBPMChange as IBPMChangeV2,
+   IBPMChange as IV2BPMChange,
    IBPMChangeOld,
 } from '../../types/beatmap/v2/custom/bpmChange.ts';
-import { IBPMChange as IBPMChangeV3 } from '../../types/beatmap/v3/custom/bpmChange.ts';
+import { IBPMChange as IV3BPMChange } from '../../types/beatmap/v3/custom/bpmChange.ts';
 import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
 import { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
 import logger from '../../logger.ts';
@@ -22,9 +22,9 @@ export class BeatPerMinute {
    constructor(
       bpm: number,
       bpmChange: (
-         | IBPMChangeV2
+         | IV2BPMChange
          | IBPMChangeOld
-         | IBPMChangeV3
+         | IV3BPMChange
          | IBPMEvent
          | Omit<IWrapBPMEventAttribute, 'customData'>
          | IBPMTimeScale
@@ -44,7 +44,7 @@ export class BeatPerMinute {
                ('BPM' in bc && 'metronomeOffset' in bc) ||
                (('_bpm' in bc || '_BPM' in bc) && '_metronomeOffset' in bc) ||
                ('m' in bc && 'o' in bc),
-         ) as (IBPMChangeV2 | IBPMChangeOld | IBPMChangeV3)[],
+         ) as (IV2BPMChange | IBPMChangeOld | IV3BPMChange)[],
       );
       if (this._timeScale.length && this._bpmChange.length) {
          logger.tWarn(
@@ -63,9 +63,9 @@ export class BeatPerMinute {
    static create = (
       bpm: number,
       bpmChange?: (
-         | IBPMChangeV2
+         | IV2BPMChange
          | IBPMChangeOld
-         | IBPMChangeV3
+         | IV3BPMChange
          | IBPMEvent
          | Omit<IWrapBPMEventAttribute, 'customData'>
          | IBPMTimeScale
@@ -84,7 +84,7 @@ export class BeatPerMinute {
    get change(): IBPMChangeTime[] {
       return this._bpmChange;
    }
-   set change(val: (IBPMChangeTime | IBPMChangeV2 | IBPMChangeOld | IBPMChangeV3)[]) {
+   set change(val: (IBPMChangeTime | IV2BPMChange | IBPMChangeOld | IV3BPMChange)[]) {
       this._bpmChange = this.getBpmChangeTime(val);
    }
    get timescale(): IBPMTimeScale[] {
@@ -107,30 +107,30 @@ export class BeatPerMinute {
     * ```
     */
    private getBpmChangeTime(
-      bpmc: (IBPMChangeTime | IBPMChangeV2 | IBPMChangeOld | IBPMChangeV3)[] = [],
+      bpmc: (IBPMChangeTime | IV2BPMChange | IBPMChangeOld | IV3BPMChange)[] = [],
    ): IBPMChangeTime[] {
       let temp!: IBPMChangeTime;
       const bpmChange: IBPMChangeTime[] = [];
       bpmc = [...bpmc].sort(
          (a, b) =>
-            ((a as IBPMChangeTime).time ?? (a as IBPMChangeV2)._time ?? (a as IBPMChangeV3).b) -
-            ((b as IBPMChangeTime).time ?? (b as IBPMChangeV2)._time ?? (b as IBPMChangeV3).b),
+            ((a as IBPMChangeTime).time ?? (a as IV2BPMChange)._time ?? (a as IV3BPMChange).b) -
+            ((b as IBPMChangeTime).time ?? (b as IV2BPMChange)._time ?? (b as IV3BPMChange).b),
       );
       for (let i = 0; i < bpmc.length; i++) {
          const curBPMC: IBPMChangeTime = {
             time: (bpmc[i] as IBPMChangeTime).time ??
-               (bpmc[i] as IBPMChangeV2)._time ??
-               (bpmc[i] as IBPMChangeV3).b,
+               (bpmc[i] as IV2BPMChange)._time ??
+               (bpmc[i] as IV3BPMChange).b,
             BPM: (bpmc[i] as IBPMChangeTime).BPM ??
-               (bpmc[i] as IBPMChangeV2)._BPM ??
+               (bpmc[i] as IV2BPMChange)._BPM ??
                (bpmc[i] as IBPMChangeOld)._bpm ??
-               (bpmc[i] as IBPMChangeV3).m,
+               (bpmc[i] as IV3BPMChange).m,
             beatsPerBar: (bpmc[i] as IBPMChangeTime).beatsPerBar ??
-               (bpmc[i] as IBPMChangeV2)._beatsPerBar ??
-               (bpmc[i] as IBPMChangeV3).p,
+               (bpmc[i] as IV2BPMChange)._beatsPerBar ??
+               (bpmc[i] as IV3BPMChange).p,
             metronomeOffset: (bpmc[i] as IBPMChangeTime).metronomeOffset ??
-               (bpmc[i] as IBPMChangeV2)._metronomeOffset ??
-               (bpmc[i] as IBPMChangeV3).o,
+               (bpmc[i] as IV2BPMChange)._metronomeOffset ??
+               (bpmc[i] as IV3BPMChange).o,
             newTime: 0,
          };
          if (temp) {
@@ -158,8 +158,8 @@ export class BeatPerMinute {
       return [...bpmc]
          .sort(
             (a, b) =>
-               ((a as IWrapBPMEventAttribute).time ?? (a as IBPMChangeV3).b) -
-               ((b as IWrapBPMEventAttribute).time ?? (b as IBPMChangeV3).b),
+               ((a as IWrapBPMEventAttribute).time ?? (a as IV3BPMChange).b) -
+               ((b as IWrapBPMEventAttribute).time ?? (b as IV3BPMChange).b),
          )
          .map((el) => {
             if ('scale' in el) return el;

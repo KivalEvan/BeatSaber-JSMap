@@ -1,5 +1,5 @@
-import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
-import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
+import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
+import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
 import { isV2, isV3 } from '../beatmap/version.ts';
 import eventToV2 from '../converter/customData/eventToV2.ts';
 import eventToV3 from '../converter/customData/eventToV3.ts';
@@ -15,7 +15,7 @@ function tag(name: string): string[] {
    return ['patch', 'customDataUpdate', name];
 }
 
-function v2(data: DifficultyV2): void {
+function v2(data: V2Difficulty): void {
    logger.tDebug(tag('v2'), ' Patching notes');
    data.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
@@ -37,7 +37,7 @@ function v2(data: DifficultyV2): void {
    });
 }
 
-function v3(data: DifficultyV3): void {
+function v3(data: V3Difficulty): void {
    logger.tDebug(tag('v3'), ' Patching color notes');
    data.colorNotes.forEach((n) => {
       n.customData = objectToV3(n.customData);

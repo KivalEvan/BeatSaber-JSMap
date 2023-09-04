@@ -24,6 +24,7 @@ Couple of optimization work has been done to further improve memory and time eff
 - Custom data color scheme `a` is now optional instead of omitted
 - Removed logging from utils, now throws error instead of warn or error
 - Clarify `difficultyFromInfo` return type
+- Converter function renamed for clarity
 - Color utils renamed for consistency
   - `HsvaToRgba` to `hsvaToRgba`
   - `RgbaToHsva` to `rgbaToHsva`

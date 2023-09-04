@@ -12,11 +12,7 @@ let duration = 0;
 const filterTime = <T extends IWrapBaseObject>(obj: T) =>
    duration ? !(obj.time < 0 || obj.time > duration) : !(obj.time < 0);
 
-export default function (
-   data: IWrapDifficulty,
-   bpm: BeatPerMinute,
-   audioLength: number,
-) {
+export default function (data: IWrapDifficulty, bpm: BeatPerMinute, audioLength: number) {
    duration = bpm.toBeatTime(audioLength, true);
    logger.tDebug(tag(), 'Removing outside playable BPM events');
    data.bpmEvents = data.bpmEvents.filter(filterTime);
@@ -55,9 +51,9 @@ export default function (
       }
       logger.tDebug(tag(), 'Removing outside playable fake chains');
       if (data.customData.fakeBurstSliders) {
-         data.customData.fakeBurstSliders = data.customData.fakeBurstSliders.filter((
-            obj,
-         ) => duration ? !(obj.b < 0 || obj.b > duration) : !(obj.b < 0));
+         data.customData.fakeBurstSliders = data.customData.fakeBurstSliders.filter((obj) =>
+            duration ? !(obj.b < 0 || obj.b > duration) : !(obj.b < 0)
+         );
       }
    }
    logger.tDebug(tag(), 'Removing outside playable basic events');
@@ -67,7 +63,5 @@ export default function (
    logger.tDebug(tag(), 'Removing outside playable light color event box groups');
    data.lightColorEventBoxGroups = data.lightColorEventBoxGroups.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable light rotation event box groups');
-   data.lightRotationEventBoxGroups = data.lightRotationEventBoxGroups.filter(
-      filterTime,
-   );
+   data.lightRotationEventBoxGroups = data.lightRotationEventBoxGroups.filter(filterTime);
 }
