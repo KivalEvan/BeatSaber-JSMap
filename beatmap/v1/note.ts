@@ -56,14 +56,15 @@ export class Note extends WrapColorNote<INote> {
       };
    }
 
-   get color() {
+   // FIXME: this aint ok
+   get color(): 0 | 1 {
       return this._type as 0;
    }
    set color(value: 0 | 1) {
       this._type = value;
    }
 
-   get angleOffset() {
+   get angleOffset(): 0 {
       return 0;
    }
    set angleOffset(_: number) {
@@ -87,9 +88,9 @@ export class Note extends WrapColorNote<INote> {
          default:
             return [
                (this.posX <= -1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 - 1
                   : this.posX) - 2,
                this.posY <= -1000
                   ? this.posY / 1000

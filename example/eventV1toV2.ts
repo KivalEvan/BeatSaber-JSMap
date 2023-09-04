@@ -11,7 +11,19 @@
  */
 import { copySync } from 'https://deno.land/std@0.192.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.192.0/flags/mod.ts';
-import { BeatPerMinute, convert, globals, isV2, load, logger, save, types, utils } from '../mod.ts';
+import {
+   BeatPerMinute,
+   clamp,
+   convert,
+   globals,
+   isV2,
+   lerp,
+   load,
+   logger,
+   normalize,
+   save,
+   types,
+} from '../mod.ts';
 
 const args = parse(Deno.args, {
    string: ['d', 't'],
@@ -61,15 +73,15 @@ if (args.v) {
 }
 
 try {
-   let info: types.IInfo;
+   let info: types.wrapper.IWrapInfo;
    try {
       info = load.infoSync();
    } catch {
       logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
-      info = load.infoSync({ filePath: 'info.dat' });
+      info = load.infoSync(null, { filePath: 'info.dat' });
    }
 
-   const bpm = BeatPerMinute.create(info._beatsPerMinute);
+   const bpm = BeatPerMinute.create(info.beatsPerMinute);
 
    const diffList = load.difficultyFromInfoSync(info);
 
@@ -83,8 +95,8 @@ try {
          logger.info('Backing up beatmap', dl.characteristic, dl.difficulty);
          try {
             copySync(
-               globals.directory + dl.settings._beatmapFilename,
-               globals.directory + dl.settings._beatmapFilename + '.old',
+               globals.directory + dl.settings.filename,
+               globals.directory + dl.settings.filename + '.old',
             );
          } catch (_) {
             const confirmation = args.y ? 'n' : prompt(
@@ -93,8 +105,8 @@ try {
             );
             if (confirmation![0].toLowerCase() === 'y') {
                copySync(
-                  globals.directory + dl.settings._beatmapFilename,
-                  globals.directory + dl.settings._beatmapFilename + '.old',
+                  globals.directory + dl.settings.filename,
+                  globals.directory + dl.settings.filename + '.old',
                   { overwrite: true },
                );
             } else {
@@ -117,7 +129,7 @@ try {
                oldChromaConfirm = true;
             }
             if (oldChromaConvert) {
-               convert.ogChromaToChromaV2(dl.data, info._environmentName);
+               convert.ogChromaToV2Chroma(dl.data, info.environmentName);
             }
          }
          if (dl.data.basicEvents.some((e) => e.customData._lightGradient)) {
@@ -140,7 +152,7 @@ try {
          bpm.timescale = dl.data.bpmEvents.map((bpme) => bpme.toJSON());
 
          logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
-         const temp = convert.toV2(dl.data);
+         const temp = convert.toV2Difficulty(dl.data);
          if (temp.basicEvents.some((e) => e.isOldChroma())) {
             if (!oldChromaConfirm) {
                const confirmation = args.y ? 'n' : prompt(
@@ -153,7 +165,7 @@ try {
                oldChromaConfirm = true;
             }
             if (oldChromaConvert) {
-               convert.ogChromaToChromaV2(temp, info._environmentName);
+               convert.ogChromaToV2Chroma(temp, info.environmentName);
             }
          }
          if (temp.basicEvents.some((e) => e.customData._lightGradient)) {
@@ -177,7 +189,7 @@ try {
             dl.characteristic,
             dl.difficulty,
          );
-         const temp2 = convert.toV3(temp);
+         const temp2 = convert.toV3Difficulty(temp);
 
          logger.info(
             'Re-inserting events from temporary beatmap',
@@ -195,7 +207,7 @@ try {
          dl.data.basicEvents.sort((a, b) => a.type - b.type).sort((a, b) => a.time - b.time);
          const mappedEvent = dl.data.basicEvents
             .map((ev) => ev)
-            .filter((ev) => ev.isLightEvent(info._environmentName))
+            .filter((ev) => ev.isLightEvent(info.environmentName))
             .reduce((obj: { [key: number]: types.wrapper.IWrapEvent[] }, ev) => {
                obj[ev.type] ??= [];
                obj[ev.type].push(ev);
@@ -208,12 +220,12 @@ try {
                const current = events[i];
                const next = events[parseInt(i) + 1];
                if (next) {
-                  const duration = utils.clamp(
+                  const duration = clamp(
                      bpm.toRealTime(next.time) - bpm.toRealTime(current.time) - 0.001,
                      0,
                      current.isFlash() ? fadeDuration / 10 : fadeDuration,
                   );
-                  const alpha = utils.normalize(
+                  const alpha = normalize(
                      duration,
                      0,
                      current.isFlash() ? fadeDuration / 10 : fadeDuration,
@@ -228,7 +240,7 @@ try {
                         ...current.toJSON(),
                         time: bpm.toBeatTime(bpm.toRealTime(current.time) + duration, true),
                         value: current.value + 3,
-                        floatValue: utils.lerp(alpha, current.floatValue, 0),
+                        floatValue: lerp(alpha, current.floatValue, 0),
                      });
                   }
                   if (current.isFlash()) {
@@ -239,7 +251,7 @@ try {
                         ...current.toJSON(),
                         time: bpm.toBeatTime(bpm.toRealTime(current.time) + duration, true),
                         value: current.value + 3,
-                        floatValue: utils.lerp(alpha, current.floatValue, prev),
+                        floatValue: lerp(alpha, current.floatValue, prev),
                      });
                   }
                } else {
@@ -276,7 +288,7 @@ try {
       logger.info('Applying 0 float value to off events');
       dl.data.basicEvents
          .map((ev) => ev)
-         .filter((ev) => ev.isLightEvent(info._environmentName) && ev.isOff())
+         .filter((ev) => ev.isLightEvent(info.environmentName) && ev.isOff())
          .forEach((ev) => (ev.floatValue = 0));
 
       save.difficultySync(dl.data);

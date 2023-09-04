@@ -1,4 +1,6 @@
-/** Utility provided by the library, used in many scenarios that often comes in handy.
+/**
+ * Utility provided by the library, used in many scenarios that often comes in handy
+ * for modcharting, analysis, etc.
  *
  * @module
  */

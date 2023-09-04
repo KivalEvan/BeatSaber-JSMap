@@ -2,10 +2,10 @@
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 import { EnvironmentAllName } from '../shared/environment.ts';
 
-export interface IWrapEventAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseObjectAttribute<T> {
-   /** Event type `<int>` of basic event.
+export interface IWrapEventAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseObjectAttribute<T> {
+   /**
+    * Event type `<int>` of basic event.
     * ```ts
     * 0 -> Back Lasers
     * 1 -> Ring Lights
@@ -47,150 +47,170 @@ export interface IWrapEvent<T extends { [P in keyof T]: T[P] } = Record<string, 
    setValue(value: number): this;
    setFloatValue(value: number): this;
 
-   /** Check if light event is an off event.
+   /**
+    * Check if light event is an off event.
     * ```ts
     * if (event.isOff()) {}
     * ```
-    * ---
+    *
     * This may check non-light event too.
     */
    isOff(): boolean;
 
-   /** Check if light event is an on event.
+   /**
+    * Check if light event is an on event.
     * ```ts
     * if (event.isOn()) {}
     * ```
-    * ---
+    *
     * This may check non-light event too.
     */
    isOn(): boolean;
 
-   /** Check if light event is a flash event.
+   /**
+    * Check if light event is a flash event.
     * ```ts
     * if (event.isFlash()) {}
     * ```
-    * ---
+    *
     * This may check non-light event too.
     */
    isFlash(): boolean;
 
-   /** Check if light event is a fade event.
+   /**
+    * Check if light event is a fade event.
     * ```ts
     * if (event.isFade()) {}
     * ```
-    * ---
+    *
     * This may check non-light event too.
     */
    isFade(): boolean;
 
-   /** Check if light event is a transition event.
+   /**
+    * Check if light event is a transition event.
     * ```ts
     * if (event.isTransition()) {}
     * ```
+    *
     * This may check non-light event too.
     */
    isTransition(): boolean;
 
-   /** Check if light event is a blue light.
+   /**
+    * Check if light event is a blue light.
     * ```ts
     * if (event.isBlue()) {}
     * ```
-    * ---
+    *
     * This may check non-light event too.
     */
    isBlue(): boolean;
 
-   /** Check if light event is a red light.
+   /**
+    * Check if light event is a red light.
     * ```ts
     * if (event.isRed()) {}
     * ```
-    * ---
+    *
     * This may check non-light event too.
     */
    isRed(): boolean;
 
-   /** Check if light event is a white light.
+   /**
+    * Check if light event is a white light.
     * ```ts
     * if (event.isWhite()) {}
     * ```
-    * ---
+    *
     * This may check non-light event too.
     */
    isWhite(): boolean;
 
-   /** Check if event is a light event.
+   /**
+    * Check if event is a light event.
     * ```ts
     * if (event.isLightEvent()) {}
     * ```
     */
    isLightEvent(environment?: EnvironmentAllName): boolean;
 
-   /** Check if event is a boost event.
+   /**
+    * Check if event is a boost event.
     * ```ts
     * if (event.isColorBoost()) {}
     * ```
     */
    isColorBoost(): boolean;
 
-   /** Check if event is a ring event.
+   /**
+    * Check if event is a ring event.
     * ```ts
     * if (event.isRingEvent()) {}
     * ```
-    * ---
+    *
     * This does not check for ring zoom.
     */
    isRingEvent(environment?: EnvironmentAllName): boolean;
 
-   /** Check if event is a laser rotation event.
+   /**
+    * Check if event is a laser rotation event.
     * ```ts
     * if (event.isLaserRotationEvent()) {}
     * ```
     */
    isLaserRotationEvent(environment?: EnvironmentAllName): boolean;
 
-   /** Check if event is a lane rotation event.
+   /**
+    * Check if event is a lane rotation event.
     * ```ts
     * if (event.isLaneRotationEvent()) {}
     * ```
     */
    isLaneRotationEvent(environment?: EnvironmentAllName): boolean;
 
-   /** Check if event is a extra event.
+   /**
+    * Check if event is a extra event.
     * ```ts
     * if (event.isExtraEvent()) {}
     * ```
     */
    isExtraEvent(environment?: EnvironmentAllName): boolean;
 
-   /** Check if event is a special event.
+   /**
+    * Check if event is a special event.
     * ```ts
     * if (event.isSpecialEvent()) {}
     * ```
     */
    isSpecialEvent(environment?: EnvironmentAllName): boolean;
 
-   /** Check if event is a BPM change event.
+   /**
+    * Check if event is a BPM change event.
     * ```ts
     * if (event.isBpmEvent()) {}
     * ```
     */
    isBpmEvent(): boolean;
 
-   /** Not to be confused with `isLightEvent`, this checks for event that affects the environment/lighting.
+   /**
+    * Not to be confused with `isLightEvent`, this checks for event that affects the environment/lighting.
     * ```ts
     * if (event.isLightingEvent()) {}
     * ```
     */
    isLightingEvent(): boolean;
 
-   /** Check if event has old Chroma properties.
+   /**
+    * Check if event has old Chroma properties.
     * ```ts
     * if (event.isOldChroma()) {}
     * ```
     */
    isOldChroma(): boolean;
 
-   /** Check if event is a valid type.
+   /**
+    * Check if event is a valid type.
     * ```ts
     * if (event.isValidType()) {}
     * ```

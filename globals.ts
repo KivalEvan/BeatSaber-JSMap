@@ -8,23 +8,22 @@ function tag(str: string): string[] {
 class Globals {
    #directory = './';
 
-   /** Global source and destination directory.
+   /**
+    * Global source and destination directory.
     *
     * This will be overriden if directory is specified elsewhere.
     */
-   get directory() {
+   get directory(): string {
       return this.#directory;
    }
    set directory(value: string) {
       value = resolve(value.trim());
       this.#directory = value;
-      logger.tInfo(
-         tag('directory'),
-         `Global map directory is set to ${this.#directory}`,
-      );
+      logger.tInfo(tag('directory'), `Global map directory is set to ${this.#directory}`);
    }
 
-   /** Set logging level to filter various information.
+   /**
+    * Set logging level to filter various information.
     * ```ts
     * 0 -> Verbose
     * 1 -> Debug
@@ -34,7 +33,7 @@ class Globals {
     * 5 -> None
     * ```
     */
-   get logLevel() {
+   get logLevel(): number {
       return logger.logLevel;
    }
    set logLevel(value: number) {

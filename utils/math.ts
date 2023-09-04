@@ -1,14 +1,10 @@
-import logger from '../logger.ts';
 import { EasingFunction } from '../types/easings.ts';
 import { Vector3 } from '../types/vector.ts';
 
-function tag(name: string): string[] {
-   return ['utils', 'math', name];
-}
-
-/** Return number in formatted number string.
+/**
+ * Return number in formatted number string.
  * ```ts
- * console.log(formatNumber(12345678)) // 12,345,678
+ * console.log(formatNumber(12345678)); // 12,345,678
  * ```
  */
 export function formatNumber(num: number): string {
@@ -22,11 +18,12 @@ export function formatNumber(num: number): string {
 // Randomly generate seed if not provided.
 const _seed = { ref: hashCode(Math.random()) };
 
-/** Mulberry32 algorithm.
+/**
+ * Mulberry32 algorithm.
  *
  * shamelessly taken from stackoverflow
  */
-function _pRandom(seed: number | { ref: number }) {
+function _pRandom(seed: number | { ref: number }): () => number {
    const _s = typeof seed === 'number' ? { ref: seed } : seed;
    return function () {
       let s = (_s.ref += 0x6d2b79f5);
@@ -63,11 +60,14 @@ function _random(
       : result;
 }
 
-/** Seeded pseudorandom generator.
+/**
+ * Seeded pseudorandom generator.
  *
  * Based on Mulberry32 PRNG algorithm.
  *
- * **NOTE:** This is globally scoped, any random call elsewhere will affect the consequent call. Consider creating instance of pseudorandom with `pRandomFn` if you need consistency across usage. Reset the random seed to retain same randomness if needed.
+ * **NOTE:** This is globally scoped, any random call elsewhere will affect the consequent call.
+ * Consider creating instance of pseudorandom with `pRandomFn` if you need consistency across usage.
+ * Reset the random seed to retain same randomness if needed.
  *
  * **WARNING:** This is not meant to be used for security, rather quick and simple for pseudorandom purpose.
  */
@@ -84,11 +84,13 @@ export function pRandom(
    return _random(min, max, rounding, _instPRandom);
 }
 
-/** Create instance of pseudorandom function.
+/**
+ * Create instance of pseudorandom function.
  * ```ts
  * const pRandom = utils.pRandomFn('seed');
  * console.log(pRandom());
  * ```
+ *
  * **NOTE:** Seed cannot be reset.
  */
 export function pRandomFn(seed: string | number | bigint = Math.random()) {
@@ -103,7 +105,8 @@ export function pRandomFn(seed: string | number | bigint = Math.random()) {
    };
 }
 
-/** Set seed for pseudorandom generator.
+/**
+ * Set seed for pseudorandom generator.
  *
  * Recalling this resets the seed.
  *
@@ -113,10 +116,7 @@ export function pRandomSeed(seed: string | number | bigint): void {
    _seed.ref = hashCode(seed);
 }
 
-/** Generate 32-bit hash with Java implementation.
- *
- * _ly converts primitives to string.
- */
+/** Generate 32-bit hash with Java implementation. */
 export function hashCode(str: string | number | bigint): number {
    str = str.toString();
    let hash = 0;
@@ -127,7 +127,7 @@ export function hashCode(str: string | number | bigint): number {
    return hash;
 }
 
-/** Random number generator using built-in JS Math. */
+/** Random number generator helpers using built-in JS Math. */
 export function random(max: number, int?: boolean): number;
 export function random(int?: boolean): number;
 export function random(min: number, max: number): number;
@@ -211,36 +211,54 @@ export function clamp(value: number, min: number, max: number): number {
    return Math.min(Math.max(min, value), max);
 }
 
-/** Normalize value to 0-1 from given min and max value. */
+/**
+ * Normalize value to 0-1 from given min and max value.
+ *
+ * Returns 1 if `max - min === 0`.
+ */
 export function normalize(value: number, min: number, max: number): number {
-   if (min > max) {
-      logger.tWarn(tag('normalize'), 'Min value is more than max value, returning 1');
-      return 1;
-   }
-   if (min === max) {
-      return 1;
-   }
-   const result = (value - min) / (max - min);
-   logger.tVerbose(tag('normalize'), `Obtained ${result}`);
-   return result;
+   if (max - min === 0) return 1;
+   return (value - min) / (max - min);
 }
 
-/** Linear interpolate between start to end time given alpha value.
- * Alpha value must be around 0-1.
+/**
+ * Linear interpolate between start to end time given alpha value.
+ * ```ts
+ * const num = lerp(0.5, 4, 8); // returns 6
+ * ```
+ *
+ * Alpha value must be in range of `0-1`, otherwise extrapolated.
  */
-export function lerp(alpha: number, start: number, end: number, easing?: EasingFunction): number {
-   if (!easing) {
-      easing = (x) => x;
-   }
-   if (alpha > 1) {
-      logger.tWarn(tag('lerp'), 'Alpha value is larger than 1, may have unintended result');
-   }
-   if (alpha < 0) {
-      logger.tWarn(tag('lerp'), 'Alpha value is smaller than 0, may have unintended result');
-   }
-   const result = start + (end - start) * easing(alpha);
-   logger.tVerbose(tag('lerp'), `Obtained ${result}`);
-   return result;
+export function lerp(alpha: number, from: number, to: number, easing?: EasingFunction): number {
+   if (!easing) easing = (x) => x;
+   return from + (to - from) * easing(alpha);
+}
+
+/**
+ * Returns alpha value from interpolated value.
+ * ```ts
+ * const num = invLerp(6, 4, 8); // returns 0.5
+ * ```
+ */
+export function invLerp(value: number, from: number, to: number): number {
+   return (value - from) / (to - from);
+}
+
+/**
+ * Remap the value from original range to target range.
+ * ```ts
+ * const num = remap(6, 4, 8, 40, 60); // returns 50
+ * ```
+ */
+export function remap(
+   value: number,
+   origFrom: number,
+   origTo: number,
+   targetFrom: number,
+   targetTo: number,
+) {
+   const alpha = invLerp(value, origFrom, origTo);
+   return lerp(alpha, targetFrom, targetTo);
 }
 
 export function equalNear(value: number, compareTo: number, tolerance = Number.EPSILON): boolean {

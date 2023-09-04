@@ -1,7 +1,8 @@
 import { IBaseObject } from './baseObject.ts';
 
 export interface IRotationEvent extends IBaseObject {
-   /** Execution time `<int>` of rotation event.
+   /**
+    * Execution time `<int>` of rotation event.
     * ```ts
     * 0 -> Early
     * 1 -> Late

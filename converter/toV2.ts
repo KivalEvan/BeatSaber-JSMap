@@ -1,9 +1,9 @@
 import logger from '../logger.ts';
-import { Difficulty as DifficultyV1 } from '../beatmap/v1/difficulty.ts';
-import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty.ts';
-import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty.ts';
-import { Info as InfoV1 } from '../beatmap/v1/info.ts';
-import { Info as InfoV2 } from '../beatmap/v2/info.ts';
+import { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
+import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
+import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
+import { Info as IV1nfo } from '../beatmap/v1/info.ts';
+import { Info as IV2nfo } from '../beatmap/v2/info.ts';
 import { clamp } from '../utils/math.ts';
 import { ICustomDataNote } from '../types/beatmap/v2/custom/note.ts';
 import { ICustomDataObstacle } from '../types/beatmap/v2/custom/obstacle.ts';
@@ -26,24 +26,25 @@ function tag(name: string): string[] {
    return ['convert', name];
 }
 
-/** In case you need to go back, who knows why.
+/**
+ * In case you need to go back, who knows why.
  * ```ts
  * const converted = convert.toV2(data);
  * ```
- * ---
+ *
  * **WARNING:** Chain and other new stuff will be gone!
  */
-export function toV2(data: IWrapDifficulty): DifficultyV2 {
-   if (data instanceof DifficultyV2) {
+export function toV2Difficulty(data: IWrapDifficulty): V2Difficulty {
+   if (data instanceof V2Difficulty) {
       return data;
    }
 
-   logger.tWarn(tag('toV2'), 'Converting beatmap to v2 may lose certain data!');
+   logger.tWarn(tag('toV2Difficulty'), 'Converting beatmap to v2 may lose certain data!');
 
-   const template = new DifficultyV2();
+   const template = new V2Difficulty();
    template.filename = data.filename;
 
-   if (data instanceof DifficultyV1) {
+   if (data instanceof V1Difficulty) {
       template.colorNotes = data.colorNotes.map((obj) => new Note(obj));
       template.obstacles = data.obstacles.map((obj) => new Obstacle(obj));
       template.basicEvents = data.basicEvents.map((obj) => new Event(obj));
@@ -53,7 +54,7 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
       template.customData._bookmarks = data.bookmarks;
    }
 
-   if (data instanceof DifficultyV3) {
+   if (data instanceof V3Difficulty) {
       data.colorNotes.forEach((n) => {
          const _customData: ICustomDataNote = objectToV2(n.customData);
          template.colorNotes.push(
@@ -357,7 +358,7 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
                   if (e.geometry) {
                      if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
                         logger.tWarn(
-                           tag('toV2'),
+                           tag('toV2Difficulty'),
                            'v2 geometry cannot be made assignable light to specific type',
                         );
                      }
@@ -484,7 +485,10 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
          for (const ce of customEvents) {
             if (typeof ce._data._track === 'string') {
                if (typeof ce._data._position === 'string') {
-                  logger.tWarn(tag('toV2'), 'Cannot convert point definitions, unknown use.');
+                  logger.tWarn(
+                     tag('toV2Difficulty'),
+                     'Cannot convert point definitions, unknown use.',
+                  );
                } else if (Array.isArray(ce._data._position)) {
                   isVector3(ce._data._position)
                      ? vectorMul(ce._data._position, 0.6)
@@ -497,7 +501,7 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
                }
             } else {
                logger.tWarn(
-                  tag('toV2'),
+                  tag('toV2Difficulty'),
                   'Environment animate track array conversion not yet implemented.',
                );
             }
@@ -508,12 +512,12 @@ export function toV2(data: IWrapDifficulty): DifficultyV2 {
    return template;
 }
 
-export function toInfoV2(data: IWrapInfo): InfoV2 {
-   if (data instanceof InfoV2) {
+export function toIV2nfo(data: IWrapInfo): IV2nfo {
+   if (data instanceof IV2nfo) {
       return data;
    }
 
-   const template = new InfoV2();
+   const template = new IV2nfo();
 
    template.songName = data.songName;
    template.songSubName = data.songSubName;
@@ -529,7 +533,7 @@ export function toInfoV2(data: IWrapInfo): InfoV2 {
    template.environmentName = data.environmentName;
    template.allDirectionsEnvironmentName = data.allDirectionsEnvironmentName;
    template.songTimeOffset = data.songTimeOffset;
-   if (data instanceof InfoV1) {
+   if (data instanceof IV1nfo) {
       template.customData.contributors = data.contributors;
       template.customData.customEnvironment = data.customEnvironment;
       template.customData.customEnvironmentHash = data.customEnvironmentHash;
@@ -537,7 +541,7 @@ export function toInfoV2(data: IWrapInfo): InfoV2 {
       template.customData = deepCopy(data.customData);
    }
 
-   if (data instanceof InfoV1) {
+   if (data instanceof IV1nfo) {
       data.listMap().forEach(([mode, beatmap]) => {
          template.addMap(
             {

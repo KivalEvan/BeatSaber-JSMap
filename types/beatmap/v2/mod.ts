@@ -1,4 +1,5 @@
-/** Beatmap v2 JSON schema.
+/**
+ * Beatmap v2 JSON schema.
  *
  * @module
  */

@@ -78,16 +78,18 @@ export interface IChromaComponent {
 
 /** Chroma interface for Environment Enhancement Base. */
 export interface IChromaEnvironmentBase {
-   /** Look up environment object name.
+   /**
+    * Look up environment object name.
     *
     * This grabs every environment objects that match the string.
     * ```ts
-    * id: 'Environment.[0]GlowLine' // Non-regex
-    * id: 'Environment\.\\[\\d+\\]GlowLine$' // Regex
+    * **id:** 'Environment.[0]GlowLine' // Non-regex
+    * **id:** 'Environment\.\\[\\d+\\]GlowLine$' // Regex
     * ```
     */
    id?: unknown;
-   /** Look-up method to grab the object name.
+   /**
+    * Look-up method to grab the object name.
     *
     * Regex is considered an advanced method and more powerful than other methods.
     */
@@ -95,7 +97,8 @@ export interface IChromaEnvironmentBase {
    geometry?: unknown;
    /** Assign track to the object for animation use. */
    track?: string;
-   /** Duplicate the object by set amount.
+   /**
+    * Duplicate the object by set amount.
     *
     * **WARNING:** You should always duplicate only one at a time unless you know what you are doing.
     */
@@ -110,7 +113,8 @@ export interface IChromaEnvironmentBase {
    components?: IChromaComponent;
 }
 
-/** Chroma interface for Environment Enhancement ID.
+/**
+ * Chroma interface for Environment Enhancement ID.
  *
  * @extends IChromaEnvironmentBase
  */
@@ -120,7 +124,8 @@ export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
    geometry?: never;
 }
 
-/** Chroma interface for Environment Enhancement Geometry.
+/**
+ * Chroma interface for Environment Enhancement Geometry.
  *
  * @extends IChromaEnvironmentBase
  */

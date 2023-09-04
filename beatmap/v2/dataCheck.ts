@@ -11,8 +11,8 @@ import {
    IInfo,
    IInfoColorScheme,
    IInfoColorSchemeData,
+   IInfoDifficulty,
    IInfoSet,
-   IInfoSetDifficulty,
 } from '../../types/beatmap/v2/info.ts';
 import { IColor } from '../../types/colors.ts';
 
@@ -275,7 +275,7 @@ export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck }
    },
 } as const;
 
-export const InfoSetDifficultyCheck: { readonly [key in keyof IInfoSetDifficulty]: DataCheck } = {
+export const InfoSetDifficultyCheck: { readonly [key in keyof IInfoDifficulty]: DataCheck } = {
    _difficulty: {
       type: 'string',
       version: '2.0.0',

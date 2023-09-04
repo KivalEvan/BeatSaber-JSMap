@@ -1,21 +1,21 @@
-import { IDifficultyList } from './types/bsmap/list.ts';
+import { ILoadInfoData } from './types/bsmap/infoDiff.ts';
 import { GenericFileName } from './types/beatmap/shared/filename.ts';
-import { Info as InfoV1, InfoDifficulty } from './beatmap/v1/info.ts';
-import { Info as InfoV2 } from './beatmap/v2/info.ts';
-import { Difficulty as DifficultyV1 } from './beatmap/v1/difficulty.ts';
-import { Difficulty as DifficultyV2 } from './beatmap/v2/difficulty.ts';
-import { Difficulty as DifficultyV3 } from './beatmap/v3/difficulty.ts';
-import { difficulty as parseDifficultyV1, info as parseInfoV1 } from './beatmap/v1/parse.ts';
-import { difficulty as parseDifficultyV2, info as parseInfoV2 } from './beatmap/v2/parse.ts';
-import { difficulty as parseDifficultyV3 } from './beatmap/v3/parse.ts';
+import { Info as IV1nfo, InfoDifficulty } from './beatmap/v1/info.ts';
+import { Info as IV2nfo } from './beatmap/v2/info.ts';
+import { Difficulty as V1Difficulty } from './beatmap/v1/difficulty.ts';
+import { Difficulty as V2Difficulty } from './beatmap/v2/difficulty.ts';
+import { Difficulty as V3Difficulty } from './beatmap/v3/difficulty.ts';
+import { difficulty as parseV1Difficulty, info as parseIV1nfo } from './beatmap/v1/parse.ts';
+import { difficulty as parseV2Difficulty, info as parseIV2nfo } from './beatmap/v2/parse.ts';
+import { difficulty as parseV3Difficulty } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 import { LooseAutocomplete } from './types/utils.ts';
 import { ILoadOptionsDifficulty, ILoadOptionsInfo } from './types/bsmap/load.ts';
 import { resolve } from './deps.ts';
-import { toInfoV1, toV1 } from './converter/toV1.ts';
-import { toInfoV2, toV2 } from './converter/toV2.ts';
-import { toV3 } from './converter/toV3.ts';
+import { toIV1nfo, toV1Difficulty } from './converter/toV1.ts';
+import { toIV2nfo, toV2Difficulty } from './converter/toV2.ts';
+import { toV3Difficulty } from './converter/toV3.ts';
 import { IWrapDifficulty } from './types/beatmap/wrapper/difficulty.ts';
 import { IWrapInfo } from './types/beatmap/wrapper/info.ts';
 
@@ -93,33 +93,35 @@ function _info(version: number | null | undefined, options: ILoadOptionsInfo) {
          version,
       );
       if (jsonVersion === 1) {
-         const n = parseInfoV1(infoJSON, opt.dataCheck).setFileName(opt.filePath);
-         if (version === 2) return toInfoV2(n);
+         const n = parseIV1nfo(infoJSON, opt.dataCheck).setFileName(opt.filePath);
+         if (version === 2) return toIV2nfo(n);
       }
       if (jsonVersion === 2) {
-         const n = parseInfoV2(infoJSON, opt.dataCheck).setFileName(opt.filePath);
+         const n = parseIV2nfo(infoJSON, opt.dataCheck).setFileName(opt.filePath);
          if (version === 1) {
-            return toInfoV1(n);
+            return toIV1nfo(n);
          }
       }
-      return parseInfoV2(infoJSON, opt.dataCheck).setFileName(opt.filePath);
+      return parseIV2nfo(infoJSON, opt.dataCheck).setFileName(opt.filePath);
    } else {
       if (version === 1) {
-         return parseInfoV1(infoJSON, opt.dataCheck).setFileName(opt.filePath);
+         return parseIV1nfo(infoJSON, opt.dataCheck).setFileName(opt.filePath);
       }
-      return parseInfoV2(infoJSON, opt.dataCheck).setFileName(opt.filePath);
+      return parseIV2nfo(infoJSON, opt.dataCheck).setFileName(opt.filePath);
    }
 }
 
-/** Asynchronously load beatmap info file.
+/**
+ * Asynchronously load beatmap info file.
  * ```ts
  * load.info().then((data) => console.log(data));
  * ```
+ *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function info(version?: null, options?: ILoadOptionsInfo): Promise<IWrapInfo>;
-export function info(version: 2, options?: ILoadOptionsInfo): Promise<InfoV2>;
-export function info(version: 1, options?: ILoadOptionsInfo): Promise<InfoV1>;
+export function info(version: 2, options?: ILoadOptionsInfo): Promise<IV2nfo>;
+export function info(version: 1, options?: ILoadOptionsInfo): Promise<IV1nfo>;
 export function info(version?: number | null, options: ILoadOptionsInfo = {}) {
    return new Promise((resolve, reject) => {
       try {
@@ -130,16 +132,18 @@ export function info(version?: number | null, options: ILoadOptionsInfo = {}) {
    });
 }
 
-/** Synchronously load beatmap info file.
+/**
+ * Synchronously load beatmap info file.
  * ```ts
  * const info = load.infoSync();
  * console.log(info);
  * ```
+ *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function infoSync(version?: null, options?: ILoadOptionsInfo): IWrapInfo;
-export function infoSync(version: 2, options?: ILoadOptionsInfo): InfoV2;
-export function infoSync(version: 1, options?: ILoadOptionsInfo): InfoV1;
+export function infoSync(version: 2, options?: ILoadOptionsInfo): IV2nfo;
+export function infoSync(version: 1, options?: ILoadOptionsInfo): IV1nfo;
 export function infoSync(version?: number | null, options: ILoadOptionsInfo = {}) {
    return _info(version, options);
 }
@@ -182,41 +186,42 @@ function _difficulty(
          version,
       );
       if (jsonVersion === 1) {
-         const d = parseDifficultyV1(diffJSON, opt.dataCheck).setFileName(filePath);
-         if (version === 2) return toV2(d);
-         if (version === 3) return toV3(d);
+         const d = parseV1Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
+         if (version === 2) return toV2Difficulty(d);
+         if (version === 3) return toV3Difficulty(d);
       }
       if (jsonVersion === 2) {
-         const d = parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(filePath);
+         const d = parseV2Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
          if (version === 1) {
-            return toV1(d, new InfoV1(), new InfoDifficulty({ jsonPath: filePath }));
+            return toV1Difficulty(d, new IV1nfo(), new InfoDifficulty({ jsonPath: filePath }));
          }
-         if (version === 3) return toV3(d);
+         if (version === 3) return toV3Difficulty(d);
       }
       if (jsonVersion === 3) {
-         const d = parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(filePath);
-         if (version === 2) return toV2(d);
+         const d = parseV3Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
+         if (version === 2) return toV2Difficulty(d);
          if (version === 1) {
-            return toV1(d, new InfoV1(), new InfoDifficulty({ jsonPath: filePath }));
+            return toV1Difficulty(d, new IV1nfo(), new InfoDifficulty({ jsonPath: filePath }));
          }
       }
-      return parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(filePath);
+      return parseV2Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
    } else {
       if (version === 1) {
-         return parseDifficultyV1(diffJSON, opt.dataCheck).setFileName(filePath);
+         return parseV1Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
       }
       if (version === 3) {
-         return parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(filePath);
+         return parseV3Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
       }
-      return parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(filePath);
+      return parseV2Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
    }
 }
 
-/** Asynchronously load beatmap difficulty file.
+/**
+ * Asynchronously load beatmap difficulty file.
  * ```ts
  * load.difficulty('EasyStandard.dat', 3).then((data) => console.log(data));
  * ```
- * ---
+ *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function difficulty(
@@ -228,17 +233,17 @@ export function difficulty(
    filePath: LooseAutocomplete<GenericFileName>,
    version: 3,
    options?: ILoadOptionsDifficulty,
-): Promise<DifficultyV3>;
+): Promise<V3Difficulty>;
 export function difficulty(
    filePath: LooseAutocomplete<GenericFileName>,
    version: 2,
    options?: ILoadOptionsDifficulty,
-): Promise<DifficultyV2>;
+): Promise<V2Difficulty>;
 export function difficulty(
    filePath: LooseAutocomplete<GenericFileName>,
    version: 1,
    options?: ILoadOptionsDifficulty,
-): Promise<DifficultyV1>;
+): Promise<V1Difficulty>;
 export function difficulty(
    filePath: LooseAutocomplete<GenericFileName>,
    version?: number | null,
@@ -253,12 +258,13 @@ export function difficulty(
    });
 }
 
-/** Synchronously load beatmap difficulty file.
+/**
+ * Synchronously load beatmap difficulty file.
  * ```ts
  * const difficulty = load.difficultySync('EasyStandard.dat', 3);
  * console.log(difficulty);
  * ```
- * ---
+ *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function difficultySync(
@@ -270,17 +276,17 @@ export function difficultySync(
    filePath: LooseAutocomplete<GenericFileName>,
    version: 3,
    options?: ILoadOptionsDifficulty,
-): DifficultyV3;
+): V3Difficulty;
 export function difficultySync(
    filePath: LooseAutocomplete<GenericFileName>,
    version: 2,
    options?: ILoadOptionsDifficulty,
-): DifficultyV2;
+): V2Difficulty;
 export function difficultySync(
    filePath: LooseAutocomplete<GenericFileName>,
    version: 1,
    options?: ILoadOptionsDifficulty,
-): DifficultyV1;
+): V1Difficulty;
 export function difficultySync(
    filePath: LooseAutocomplete<GenericFileName>,
    version?: number | null,
@@ -295,7 +301,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
       forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
       dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
    };
-   const lists: IDifficultyList = [];
+   const lists: ILoadInfoData[] = [];
    for (const [mode, beatmap] of info.listMap()) {
       const p = resolve(opt.directory, beatmap.filename);
       try {
@@ -316,7 +322,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
                difficulty: beatmap.difficulty,
                settings: beatmap,
                version: 1,
-               data: parseDifficultyV1(diffJSON, opt.dataCheck).setFileName(beatmap.filename),
+               data: parseV1Difficulty(diffJSON, opt.dataCheck).setFileName(beatmap.filename),
             });
          }
          if (jsonVersion === 2) {
@@ -325,7 +331,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
                difficulty: beatmap.difficulty,
                settings: beatmap,
                version: 2,
-               data: parseDifficultyV2(diffJSON, opt.dataCheck).setFileName(beatmap.filename),
+               data: parseV2Difficulty(diffJSON, opt.dataCheck).setFileName(beatmap.filename),
             });
          }
          if (jsonVersion === 3) {
@@ -334,7 +340,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
                difficulty: beatmap.difficulty,
                settings: beatmap,
                version: 3,
-               data: parseDifficultyV3(diffJSON, opt.dataCheck).setFileName(beatmap.filename),
+               data: parseV3Difficulty(diffJSON, opt.dataCheck).setFileName(beatmap.filename),
             });
          }
       } catch {
@@ -347,19 +353,20 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
    return lists;
 }
 
-/** Asynchronously load multiple beatmap difficulties given beatmap info.
+/**
+ * Asynchronously load multiple beatmap difficulties given beatmap info.
  *
  * Automatically omits difficulty that could not be loaded or does not exist.
  * ```ts
  * load.difficultyFromInfo().then((data) => data.forEach((d) => console.log(d)));
  * ```
- * ---
+ *
  * Info difficulty reference is also given to allow further control.
  */
 export function difficultyFromInfo(
    info: IWrapInfo,
    options: ILoadOptionsDifficulty = {},
-): Promise<IDifficultyList> {
+): Promise<ILoadInfoData[]> {
    logger.tInfo(tag('difficultyFromInfo'), 'Async loading difficulty from map info...');
    return new Promise((resolve, reject) => {
       try {
@@ -370,20 +377,21 @@ export function difficultyFromInfo(
    });
 }
 
-/** Synchronously load multiple beatmap difficulties given beatmap info.
+/**
+ * Synchronously load multiple beatmap difficulties given beatmap info.
  *
  * Automatically omits difficulty that could not be loaded or does not exist.
  * ```ts
  * const difficultyList = load.difficultyFromInfoSync();
  * difficultyList.forEach((d) => console.log(d));
  * ```
- * ---
+ *
  * Info difficulty reference is also given to allow further control.
  */
 export function difficultyFromInfoSync(
    info: IWrapInfo,
    options: ILoadOptionsDifficulty = {},
-): IDifficultyList {
+): ILoadInfoData[] {
    logger.tInfo(tag('difficultyFromInfoSync'), 'Sync loading difficulty from map info...');
    return _difficultyFromInfo(info, options);
 }

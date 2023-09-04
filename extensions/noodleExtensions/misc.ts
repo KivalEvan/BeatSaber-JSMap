@@ -1,6 +1,7 @@
 import { INENote, INEObject } from './types/object.ts';
 
-/** Set uninteractible to object from start to end object.
+/**
+ * Set uninteractible to object from start to end object.
  *
  * This is highly-recommended for any non-interactive object to improve performance.
  */

@@ -156,14 +156,14 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
       };
    }
 
-   get filter() {
+   get filter(): IndexFilter {
       return this._filter as IndexFilter;
    }
    set filter(value: IndexFilter) {
       this._filter = value;
    }
 
-   get events() {
+   get events(): LightRotationBase[] {
       return this._events as LightRotationBase[];
    }
    set events(value: LightRotationBase[]) {

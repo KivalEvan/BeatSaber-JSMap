@@ -129,7 +129,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
       };
    }
 
-   get boxes() {
+   get boxes(): LightTranslationEventBox[] {
       return this._boxes as LightTranslationEventBox[];
    }
    set boxes(value: LightTranslationEventBox[]) {

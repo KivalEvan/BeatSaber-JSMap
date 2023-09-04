@@ -1,7 +1,7 @@
 import { Version } from '../../types/beatmap/shared/version.ts';
 
 /** Internal use, compare beatmap version to another. */
-export function compareVersion(version: Version, compareTo: Version) {
+export function compareVersion(version: Version, compareTo: Version): 'old' | 'new' | 'current' {
    const ver = getVersionArray(version);
    const verCompare = getVersionArray(compareTo);
    for (const num in ver) {

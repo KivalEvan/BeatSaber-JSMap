@@ -63,14 +63,14 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       };
    }
 
-   get type() {
+   get type(): IObstacle['_type'] {
       return this._type;
    }
    set type(value: IObstacle['_type']) {
       this._type = value;
    }
 
-   get posY() {
+   get posY(): 0 | 2 {
       return this.type == 1 ? 2 : 0;
    }
    set posY(value: 0 | 2) {
@@ -83,7 +83,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       }
    }
 
-   get height() {
+   get height(): 3 | 5 {
       return this.type == 1 ? 3 : 5;
    }
    set height(value: 3 | 5) {
@@ -116,9 +116,9 @@ export class Obstacle extends WrapObstacle<IObstacle> {
          default:
             return [
                (this.posX <= -1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 - 1
                   : this.posX) - 2,
                (this.posY <= -1000
                   ? this.posY / 1000

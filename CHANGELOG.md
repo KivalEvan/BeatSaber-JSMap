@@ -1,10 +1,43 @@
 # Changelog
 
-## 1.4.2 [2023-07-xx]
+## 1.5.0 [2023-09-xx]
+
+Couple of optimization work has been done to further improve memory and time efficiency.
+
+### Added
+
+- [New SongCore features](https://github.com/Kylemc1413/SongCore/pull/122) (tags, custom
+  characteristic label, etc.)
+- Info color scheme copy
+- Ensure alpha for `toColorObject`
+- `invLerp`, `remap`, `shallowCopy`, and `lerpVector` utils
+- Missing `offsetPosition` and `offsetWorldRotation` property for `AnimateTrack` and
+  `AssignPathAnimation`
+- Object method comparison now checks for mod type
+
+### Changed
+
+- Utils no longer require namespace
+  - This should reveal more hidden utilities without the need to import `utils` namespace
+- Beatmap Info structure changed to better fit original structure
+  - This also goes for info custom data
+- Beatmap `addObject` method now always create new object instead of keeping reference
+- Custom data color scheme `a` is now optional instead of omitted
+- Removed logging from utils, now throws error instead of warn or error
+- Clarify `difficultyFromInfo` return type
+- Converter function renamed for clarity
+- Color utils renamed for consistency
+  - `HsvaToRgba` to `hsvaToRgba`
+  - `RgbaToHsva` to `rgbaToHsva`
+  - `interpolateColor` to `lerpColor`
+  - And couple others I forgot
 
 ### Fixed
 
+- Mapping Extensions precision placement X position being incorrect
 - Data check should properly skip error
+- To color object should copy the object instead of referencing
+- To hex color properly normalize the value outside of 0-1 range
 
 ## 1.4.1 [2023-06-30]
 

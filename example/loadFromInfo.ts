@@ -1,4 +1,4 @@
-import * as bsmap from 'https://deno.land/x/bsmap@1.4.1/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.5.0/mod.ts';
 
 // YOUR BEAT SABER MAP PATH
 bsmap.globals.directory =

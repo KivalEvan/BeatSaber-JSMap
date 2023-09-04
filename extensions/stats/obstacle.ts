@@ -1,7 +1,8 @@
 import { IObstacleCount } from './types/stats.ts';
 import { Obstacle } from '../../beatmap/v3/obstacle.ts';
 
-/** Count number of type of obstacles with their properties in given array and return a obstacle count object.
+/**
+ * Count number of type of obstacles with their properties in given array and return a obstacle count object.
  * ```ts
  * const list = count(walls);
  * console.log(list);

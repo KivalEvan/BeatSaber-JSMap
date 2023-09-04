@@ -1,4 +1,5 @@
-/** Beatmap v3 classes.
+/**
+ * Beatmap v3 classes.
  *
  * @module
  */

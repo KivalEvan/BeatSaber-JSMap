@@ -62,7 +62,7 @@ export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
       };
    }
 
-   get list() {
+   get list(): BasicEventTypesForKeywords[] {
       return this._list as BasicEventTypesForKeywords[];
    }
    set list(value: BasicEventTypesForKeywords[]) {

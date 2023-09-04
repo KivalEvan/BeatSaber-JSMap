@@ -1,15 +1,17 @@
 import { EnvironmentAllName, EnvironmentName } from '../../types/beatmap/shared/environment.ts';
-import { IInfo, IInfoSet, IInfoSetDifficulty } from '../../types/beatmap/v2/info.ts';
+import { IInfo, IInfoDifficulty, IInfoSet } from '../../types/beatmap/v2/info.ts';
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
-import { WrapInfo, WrapInfoDifficulty } from '../wrapper/info.ts';
+import { WrapInfo, WrapInfoDifficulty, WrapInfoSet } from '../wrapper/info.ts';
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { Environment360Name } from '../../types/beatmap/shared/environment.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import {
+   IWrapInfo,
    IWrapInfoColorScheme,
+   IWrapInfoColorSchemeData,
    IWrapInfoDifficultyAttribute,
 } from '../../types/beatmap/wrapper/info.ts';
 
@@ -32,7 +34,7 @@ export class Info extends WrapInfo<IInfo> {
    allDirectionsEnvironmentName: Environment360Name;
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
-   difficultySets: { [mode in CharacteristicName]?: InfoDifficulty[] } = {};
+   difficultySets: InfoSet[] = [];
 
    constructor(data: Partial<IInfo> = {}) {
       super();
@@ -55,60 +57,74 @@ export class Info extends WrapInfo<IInfo> {
       this.environmentNames = data._environmentNames?.map((e) => e) ?? [];
       this.colorSchemes = data._colorSchemes?.map((e) => {
          return {
-            useOverride: e.useOverride ?? false,
+            useOverride: e.useOverride || false,
             colorScheme: {
-               name: e.colorScheme.colorSchemeId ?? '',
+               name: e.colorScheme?.colorSchemeId || '',
                saberLeftColor: {
-                  r: e.colorScheme.saberAColor.r ?? 0,
-                  g: e.colorScheme.saberAColor.g ?? 0,
-                  b: e.colorScheme.saberAColor.b ?? 0,
-                  a: e.colorScheme.saberAColor.a ?? 1,
+                  r: e.colorScheme?.saberAColor?.r ?? 0,
+                  g: e.colorScheme?.saberAColor?.g ?? 0,
+                  b: e.colorScheme?.saberAColor?.b ?? 0,
+                  a: e.colorScheme?.saberAColor?.a ?? 1,
                },
                saberRightColor: {
-                  r: e.colorScheme.saberBColor.r ?? 0,
-                  g: e.colorScheme.saberBColor.g ?? 0,
-                  b: e.colorScheme.saberBColor.b ?? 0,
-                  a: e.colorScheme.saberBColor.a ?? 1,
+                  r: e.colorScheme?.saberBColor?.r ?? 0,
+                  g: e.colorScheme?.saberBColor?.g ?? 0,
+                  b: e.colorScheme?.saberBColor?.b ?? 0,
+                  a: e.colorScheme?.saberBColor?.a ?? 1,
                },
                environment0Color: {
-                  r: e.colorScheme.environmentColor0.r ?? 0,
-                  g: e.colorScheme.environmentColor0.g ?? 0,
-                  b: e.colorScheme.environmentColor0.b ?? 0,
-                  a: e.colorScheme.environmentColor0.a ?? 1,
+                  r: e.colorScheme?.environmentColor0?.r ?? 0,
+                  g: e.colorScheme?.environmentColor0?.g ?? 0,
+                  b: e.colorScheme?.environmentColor0?.b ?? 0,
+                  a: e.colorScheme?.environmentColor0?.a ?? 1,
                },
                environment1Color: {
-                  r: e.colorScheme.environmentColor1.r ?? 0,
-                  g: e.colorScheme.environmentColor1.g ?? 0,
-                  b: e.colorScheme.environmentColor1.b ?? 0,
-                  a: e.colorScheme.environmentColor1.a ?? 1,
+                  r: e.colorScheme?.environmentColor1?.r ?? 0,
+                  g: e.colorScheme?.environmentColor1?.g ?? 0,
+                  b: e.colorScheme?.environmentColor1?.b ?? 0,
+                  a: e.colorScheme?.environmentColor1?.a ?? 1,
                },
+               environmentWColor: e.colorScheme?.environmentColorW
+                  ? {
+                     r: e.colorScheme?.environmentColorW?.r ?? 0,
+                     g: e.colorScheme?.environmentColorW?.g ?? 0,
+                     b: e.colorScheme?.environmentColorW?.b ?? 0,
+                     a: e.colorScheme?.environmentColorW?.a ?? 1,
+                  }
+                  : undefined,
                obstaclesColor: {
-                  r: e.colorScheme.obstaclesColor.r ?? 0,
-                  g: e.colorScheme.obstaclesColor.g ?? 0,
-                  b: e.colorScheme.obstaclesColor.b ?? 0,
-                  a: e.colorScheme.obstaclesColor.a ?? 1,
+                  r: e.colorScheme?.obstaclesColor?.r ?? 0,
+                  g: e.colorScheme?.obstaclesColor?.g ?? 0,
+                  b: e.colorScheme?.obstaclesColor?.b ?? 0,
+                  a: e.colorScheme?.obstaclesColor?.a ?? 1,
                },
                environment0ColorBoost: {
-                  r: e.colorScheme.environmentColor0Boost.r ?? 0,
-                  g: e.colorScheme.environmentColor0Boost.g ?? 0,
-                  b: e.colorScheme.environmentColor0Boost.b ?? 0,
-                  a: e.colorScheme.environmentColor0Boost.a ?? 1,
+                  r: e.colorScheme?.environmentColor0Boost?.r ?? 0,
+                  g: e.colorScheme?.environmentColor0Boost?.g ?? 0,
+                  b: e.colorScheme?.environmentColor0Boost?.b ?? 0,
+                  a: e.colorScheme?.environmentColor0Boost?.a ?? 1,
                },
                environment1ColorBoost: {
-                  r: e.colorScheme.environmentColor1Boost.r ?? 0,
-                  g: e.colorScheme.environmentColor1Boost.g ?? 0,
-                  b: e.colorScheme.environmentColor1Boost.b ?? 0,
-                  a: e.colorScheme.environmentColor1Boost.a ?? 1,
+                  r: e.colorScheme?.environmentColor1Boost?.r ?? 0,
+                  g: e.colorScheme?.environmentColor1Boost?.g ?? 0,
+                  b: e.colorScheme?.environmentColor1Boost?.b ?? 0,
+                  a: e.colorScheme?.environmentColor1Boost?.a ?? 1,
                },
+               environmentWColorBoost: e.colorScheme?.environmentColorWBoost
+                  ? {
+                     r: e.colorScheme?.environmentColorWBoost?.r ?? 0,
+                     g: e.colorScheme?.environmentColorWBoost?.g ?? 0,
+                     b: e.colorScheme?.environmentColorWBoost?.b ?? 0,
+                     a: e.colorScheme?.environmentColorWBoost?.a ?? 1,
+                  }
+                  : undefined,
             },
          };
       }) ?? [];
       this.customData = deepCopy(data._customData ?? {});
 
       data._difficultyBeatmapSets?.forEach((set) => {
-         this.difficultySets[set._beatmapCharacteristicName] = set._difficultyBeatmaps.map(
-            (beatmap) => new InfoDifficulty(beatmap, set._beatmapCharacteristicName),
-         );
+         this.difficultySets.push(new InfoSet(set));
       });
    }
 
@@ -135,7 +151,7 @@ export class Info extends WrapInfo<IInfo> {
          _allDirectionsEnvironmentName: this.allDirectionsEnvironmentName,
          _environmentNames: this.environmentNames.map((e) => e),
          _colorSchemes: this.colorSchemes.map((e) => {
-            return {
+            const cs: IInfo['_colorSchemes'][number] = {
                useOverride: e.useOverride,
                colorScheme: {
                   colorSchemeId: e.colorScheme.name,
@@ -148,21 +164,18 @@ export class Info extends WrapInfo<IInfo> {
                   environmentColor1Boost: deepCopy(e.colorScheme.environment1ColorBoost),
                },
             };
+            if (e.colorScheme.environmentWColor) {
+               cs.colorScheme.environmentColorW = deepCopy(e.colorScheme.environmentWColor);
+            }
+            if (e.colorScheme.environmentWColorBoost) {
+               cs.colorScheme.environmentColorWBoost = deepCopy(
+                  e.colorScheme.environmentWColorBoost,
+               );
+            }
+            return cs;
          }),
-         _customData: this.customData,
-         _difficultyBeatmapSets: Object.entries(
-            this.listMap().reduce((sets, [mode, beatmap]) => {
-               sets[mode] ??= [];
-               sets[mode].push(beatmap.toJSON());
-               return sets;
-            }, {} as { [key: string]: IInfoSetDifficulty[] }),
-         ).reduce((ary, [mode, beatmaps]) => {
-            ary.push({
-               _beatmapCharacteristicName: mode as CharacteristicName,
-               _difficultyBeatmaps: beatmaps,
-            });
-            return ary;
-         }, [] as IInfoSet[]),
+         _customData: deepCopy(this.customData),
+         _difficultyBeatmapSets: this.difficultySets.map((d) => d.toJSON()),
       };
    }
 
@@ -173,16 +186,19 @@ export class Info extends WrapInfo<IInfo> {
       this._customData = value;
    }
 
-   addMap(data: Partial<IInfoSetDifficulty>, characteristic?: CharacteristicName): this;
+   addMap(data: Partial<IInfoDifficulty>, characteristic?: CharacteristicName): this;
    addMap(data: Partial<IWrapInfoDifficultyAttribute>, characteristic?: CharacteristicName): this;
    addMap(
-      data: Partial<IWrapInfoDifficultyAttribute> & Partial<IInfoSetDifficulty>,
+      data: Partial<IWrapInfoDifficultyAttribute> & Partial<IInfoDifficulty>,
       characteristic?: CharacteristicName,
    ): this {
-      const mode = (characteristic || data.characteristic) ?? 'Standard';
-
-      this.difficultySets[mode] ??= [];
-      this.difficultySets[mode]!.push(new InfoDifficulty(data));
+      const mode = characteristic || data.characteristic || 'Standard';
+      let found = this.difficultySets.find((set) => set.characteristic === mode);
+      if (!found) {
+         found = new InfoSet({ _beatmapCharacteristicName: mode });
+         this.difficultySets.push(found);
+      }
+      found.difficulties.push(new InfoDifficulty(data));
       return this;
    }
 
@@ -195,17 +211,56 @@ export class Info extends WrapInfo<IInfo> {
    }
 }
 
-export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
+export class InfoSet extends WrapInfoSet<IInfoSet> {
+   characteristic: CharacteristicName;
+   difficulties: InfoDifficulty[] = [];
+
+   constructor(data: Partial<IInfoSet>) {
+      super();
+
+      this.characteristic = data._beatmapCharacteristicName || 'Standard';
+      this.difficulties =
+         data._difficultyBeatmaps?.map((bmap) => new InfoDifficulty(bmap, this.characteristic)) ??
+            [];
+
+      this.customData = deepCopy(data._customData ?? {});
+   }
+
+   static create(data: Partial<IInfoSet>) {
+      return new this(data);
+   }
+
+   toJSON(): IInfoSet {
+      return {
+         _beatmapCharacteristicName: this.characteristic,
+         _difficultyBeatmaps: this.difficulties.map((d) => d.toJSON()),
+         _customData: deepCopy(this.customData),
+      };
+   }
+
+   get customData(): NonNullable<IInfoSet['_customData']> {
+      return this._customData;
+   }
+   set customData(value: NonNullable<IInfoSet['_customData']>) {
+      this._customData = value;
+   }
+
+   isValid(): boolean {
+      throw new Error('Method not implemented.');
+   }
+}
+
+export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    readonly characteristic?: CharacteristicName | undefined;
    difficulty: DifficultyName;
-   rank: IInfoSetDifficulty['_difficultyRank'];
+   rank: IInfoDifficulty['_difficultyRank'];
    filename: LooseAutocomplete<GenericFileName>;
    njs: number;
    njsOffset: number;
    colorSchemeId: number;
    environmentId: number;
 
-   constructor(data: Partial<IInfoSetDifficulty>, mode?: CharacteristicName) {
+   constructor(data: Partial<IInfoDifficulty>, mode?: CharacteristicName) {
       super();
 
       this.characteristic = mode;
@@ -219,11 +274,11 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
       this.customData = deepCopy(data._customData ?? {});
    }
 
-   static create(data: Partial<IInfoSetDifficulty>) {
+   static create(data: Partial<IInfoDifficulty>) {
       return new this(data);
    }
 
-   toJSON(): IInfoSetDifficulty {
+   toJSON(): IInfoDifficulty {
       return {
          _difficulty: this.difficulty,
          _difficultyRank: this.rank,
@@ -232,15 +287,78 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
          _noteJumpStartBeatOffset: this.njsOffset,
          _beatmapColorSchemeIdx: this.colorSchemeId,
          _environmentNameIdx: this.environmentId,
-         _customData: this.customData,
+         _customData: deepCopy(this.customData),
       };
    }
 
-   get customData(): NonNullable<IInfoSetDifficulty['_customData']> {
+   get customData(): NonNullable<IInfoDifficulty['_customData']> {
       return this._customData;
    }
-   set customData(value: NonNullable<IInfoSetDifficulty['_customData']>) {
+   set customData(value: NonNullable<IInfoDifficulty['_customData']>) {
       this._customData = value;
+   }
+
+   copyColorScheme(id: number, info: IWrapInfo): this;
+   copyColorScheme(colorScheme: IWrapInfoColorSchemeData): this;
+   copyColorScheme(id: IWrapInfoColorSchemeData | number, info?: IWrapInfo): this {
+      if (typeof id === 'number') {
+         if (info!.colorSchemes.length < id) {
+            return this;
+         }
+         const colorScheme = info!.colorSchemes[id].colorScheme;
+         return this.copyColorScheme(colorScheme);
+      }
+
+      this.customData._colorLeft = Object.entries(id.saberLeftColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._colorRight = Object.entries(id.saberRightColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._envColorLeft = Object.entries(id.environment0Color).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._envColorRight = Object.entries(id.environment1Color).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._envColorLeftBoost = Object.entries(id.environment0ColorBoost).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._envColorRightBoost = Object.entries(id.environment1ColorBoost).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.customData._obstacleColor = Object.entries(id.obstaclesColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      return this;
    }
 
    isValid(): boolean {

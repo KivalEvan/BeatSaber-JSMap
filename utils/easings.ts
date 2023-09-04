@@ -18,12 +18,7 @@ const easeInBounce = (x: number) => 1 - easeOutBounce(1 - x);
 const easeInOutBounce = (x: number) =>
    x < 0.5 ? 0.5 * easeInBounce(x * 2) : 0.5 * easeOutBounce(x * 2 - 1) + 0.5;
 
-/** Easings function methods, able to define own function.
- * ```
- * Call: method.name(number) => number
- * Define: method.name = (x) => x
- * ```
- */
+/** Mapped easings function. */
 export const EasingsFn: {
    readonly [easing in Easings]: EasingFunction;
 } = {
@@ -34,9 +29,7 @@ export const EasingsFn: {
    easeInOutQuad: (x) => (x < 0.5 ? 2 * x * x : -1 + (4 - 2 * x) * x),
    easeInCubic: (x) => Math.pow(x, 3),
    easeOutCubic: (x) => 1 - Math.pow(1 - x, 3),
-   easeInOutCubic: (
-      x,
-   ) => (x < 0.5 ? 4 * Math.pow(x, 3) : (x - 1) * (2 * x - 2) * (2 * x - 2) + 1),
+   easeInOutCubic: (x) => (x < 0.5 ? 4 * Math.pow(x, 3) : (x - 1) * (2 * x - 2) * (2 * x - 2) + 1),
    easeInQuart: (x) => Math.pow(x, 4),
    easeOutQuart: (x) => 1 - Math.pow(1 - x, 4),
    easeInOutQuart: (x) => (x < 0.5 ? 8 * Math.pow(x, 4) : 1 - 8 * Math.pow(1 - x, 4)),
@@ -72,8 +65,7 @@ export const EasingsFn: {
          return 0.5 * Math.sin(13 * HALFPI * (2 * x)) * Math.pow(2, 10 * (2 * x - 1));
       }
 
-      return 0.5 *
-         (Math.sin(-13 * HALFPI * (2 * x)) * Math.pow(2, -10 * (2 * x - 1)) + 2);
+      return 0.5 * (Math.sin(-13 * HALFPI * (2 * x)) * Math.pow(2, -10 * (2 * x - 1)) + 2);
    },
    easeInBack: (x) => x * x * x - x * Math.sin(x * PI),
    easeOutBack: (x) => {

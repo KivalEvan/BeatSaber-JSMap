@@ -42,7 +42,7 @@ To get started, check out the [example folder](./example) for templates you can 
 The bare minimum example:
 
 ```ts
-import * as bsmap from 'https://deno.land/x/bsmap@1.4.1/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.5.0/mod.ts';
 
 const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 3);
 
@@ -109,10 +109,12 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 - General clean-up and restructuring (this has grown far larger than I anticipated)
 - Write JSDoc on every important bit
 - Add more helper for Chroma and Noodle Extensions
-- Observable/decorator for class array
+- Observable/decorator for class array (might lead to performance loss)
+- Proper data optimisation approach
 
 ## Known Issue
 
+- Using wrapper type to handle/modify data, while contain guard rail, can lead to unexpected result
 - Instantiating nested object or array depends on the property and does not allow mix-and-match
   - However, it can still process like normally if you choose to ignore the error
 - Info `addMap` method is incomplete

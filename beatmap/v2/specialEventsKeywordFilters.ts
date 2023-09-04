@@ -60,7 +60,7 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
       };
    }
 
-   get list() {
+   get list(): SpecialEventsKeywordFiltersKeywords[] {
       return this._list as SpecialEventsKeywordFiltersKeywords[];
    }
    set list(value: SpecialEventsKeywordFiltersKeywords[]) {

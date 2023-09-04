@@ -109,10 +109,8 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addBpmEvents(
       ...data: (Partial<IEventBPMChange> & Partial<IWrapBPMEventAttribute<IEventBPMChange>>)[]
    ): void {
-      this.basicEvents.push(
-         ...data.map((obj) => {
-            return obj instanceof Event ? obj : new Event({ ...obj, type: 100, value: obj.bpm });
-         }),
+      data.forEach((obj) =>
+         this.basicEvents.push(new Event({ ...obj, type: 100, value: obj.bpm }))
       );
    }
 
@@ -130,15 +128,15 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          & Partial<IWrapRotationEventAttribute<IEventLaneRotation>>
       )[]
    ): void {
-      this.basicEvents.push(
-         ...data.map((obj) =>
-            obj instanceof Event ? obj : new Event({
+      data.forEach((obj) =>
+         this.basicEvents.push(
+            new Event({
                ...obj,
                type: typeof obj.executionTime === 'number'
                   ? obj.executionTime === 0 ? 14 : 15
                   : obj._type,
-            })
-         ),
+            }),
+         )
       );
       logger.tWarn(tag('addRotationEvents'), 'This may not work correctly');
    }
@@ -147,16 +145,14 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addColorNotes(...data: Partial<INote>[]): void;
    addColorNotes(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): void;
    addColorNotes(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): void {
-      this.colorNotes.push(...data.map((obj) => (obj instanceof Note ? obj : new Note(obj))));
+      data.forEach((obj) => this.colorNotes.push(new Note(obj)));
    }
 
    addBombNotes(...data: Partial<IWrapBombNoteAttribute<INote>>[]): void;
    addBombNotes(...data: Partial<INote>[]): void;
    addBombNotes(...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]): void;
    addBombNotes(...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]): void {
-      this.colorNotes.push(
-         ...data.map((obj) => (obj instanceof Note ? obj : new Note({ ...obj, type: 3 }))),
-      );
+      data.forEach((obj) => this.colorNotes.push(new Note({ ...obj, type: 3 })));
    }
 
    addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): void;
@@ -165,16 +161,14 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addObstacles(
       ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
    ): void {
-      this.obstacles.push(
-         ...data.map((obj) => (obj instanceof Obstacle ? obj : new Obstacle(obj))),
-      );
+      data.forEach((obj) => this.obstacles.push(new Obstacle(obj)));
    }
 
    addArcs(...data: Partial<IWrapArcAttribute<IArc>>[]): void;
    addArcs(...data: Partial<IArc>[]): void;
    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void;
    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void {
-      this.arcs.push(...data.map((obj) => (obj instanceof Arc ? obj : new Arc(obj))));
+      data.forEach((obj) => this.arcs.push(new Arc(obj)));
    }
 
    addChains(..._: never[]): void {
@@ -187,16 +181,14 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addWaypoints(
       ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
    ): void {
-      this.waypoints.push(
-         ...data.map((obj) => (obj instanceof Waypoint ? obj : new Waypoint(obj))),
-      );
+      data.forEach((obj) => this.waypoints.push(new Waypoint(obj)));
    }
 
    addBasicEvents(...data: Partial<IWrapEventAttribute<IEvent>>[]): void;
    addBasicEvents(...data: Partial<IEvent>[]): void;
    addBasicEvents(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): void;
    addBasicEvents(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): void {
-      this.basicEvents.push(...data.map((obj) => (obj instanceof Event ? obj : new Event(obj))));
+      data.forEach((obj) => this.basicEvents.push(new Event(obj)));
    }
 
    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IEventBoost>>[]): void;
@@ -207,10 +199,8 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addColorBoostEvents(
       ...data: (Partial<IEventBoost> & Partial<IWrapColorBoostEventAttribute<IEventBoost>>)[]
    ): void {
-      this.basicEvents.push(
-         ...data.map((obj) =>
-            obj instanceof Event ? obj : new Event({ ...obj, value: obj.toggle ? 1 : obj._value })
-         ),
+      data.forEach((obj) =>
+         this.basicEvents.push(new Event({ ...obj, value: obj.toggle ? 1 : obj._value }))
       );
    }
 

@@ -12,7 +12,18 @@
 import { copySync } from 'https://deno.land/std@0.192.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.192.0/flags/mod.ts';
 import { customDataUpdate, dataCorrection, removeOutsidePlayable } from '../patch/mod.ts';
-import { BeatPerMinute, convert, globals, load, logger, save, types, utils, v3 } from '../mod.ts';
+import {
+   BeatPerMinute,
+   convert,
+   globals,
+   load,
+   logger,
+   mmssToFloat,
+   save,
+   toMmss,
+   types,
+   v3,
+} from '../mod.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 
 const args = parse(Deno.args, {
@@ -50,7 +61,7 @@ if (args.v) {
 }
 
 try {
-   let info: types.IInfo | null = null;
+   let info: types.wrapper.IWrapInfo | null = null;
    let difficulty: IWrapDifficulty | null = null;
    const difficultyName = args.s?.trim();
    if (difficultyName) {
@@ -62,7 +73,7 @@ try {
       } catch {
          logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
          infoFileName = 'info.dat';
-         info = load.infoSync({ filePath: infoFileName });
+         info = load.infoSync(null, { filePath: infoFileName });
       }
       try {
          copySync(globals.directory + infoFileName, globals.directory + infoFileName + '.old');
@@ -93,16 +104,11 @@ try {
       if (/^\d+(\.\d+)?$/.test(input)) {
          duration = Math.max(parseFloat(input), 0);
       } else if (/^\d+:(\d){1,2}$/.test(input)) {
-         duration = Math.max(utils.mmssToFloat(input), 0);
+         duration = Math.max(mmssToFloat(input), 0);
       } else {
          duration = 0;
       }
-      logger.info(
-         'Retrieved and parsed input as value',
-         duration,
-         'second(s) |',
-         utils.toMmss(duration),
-      );
+      logger.info('Retrieved and parsed input as value', duration, 'second(s) |', toMmss(duration));
       if (duration && duration < 60) {
          const confirmation = args.y ? 'y' : prompt(
             'Duration seems lower than expected, are you sure with this audio length? (Y/n):',
@@ -119,7 +125,7 @@ try {
       logger.info('Skipping beyond end audio duration check...');
    }
 
-   const bpm = info?._beatsPerMinute ? BeatPerMinute.create(info._beatsPerMinute) : null;
+   const bpm = info?.beatsPerMinute ? BeatPerMinute.create(info.beatsPerMinute) : null;
 
    let oldChromaConvert = false;
    let oldChromaConfirm = false;
@@ -146,7 +152,7 @@ try {
             oldChromaConfirm = true;
          }
          if (oldChromaConvert) {
-            convert.ogChromaToChromaV2(d, info?._environmentName);
+            convert.ogChromaToV2Chroma(d, info?.environmentName);
          }
       }
       if (d.basicEvents.some((e) => e.customData._lightGradient)) {
@@ -169,10 +175,7 @@ try {
       dataCorrection.difficulty(d);
    };
 
-   const performDifficultyList = (
-      d: types.wrapper.IWrapDifficulty,
-      dl: types.IDifficultyList[number],
-   ) => {
+   const performDifficultyList = (d: types.wrapper.IWrapDifficulty, dl: types.ILoadInfoData) => {
       logger.info('Fixing beatmap', dl.characteristic, dl.difficulty);
 
       performSingle(d);
@@ -184,18 +187,17 @@ try {
          d.chains.some((obj) => obj.isChroma()) ||
          d.obstacles.some((obj) => obj.isChroma());
       if (hasChroma) {
-         dl.settings._customData ??= {};
          if (
-            dl.settings._customData._suggestions &&
-            !dl.settings._customData._requirements?.includes('Chroma')
+            dl.settings.customData._suggestions &&
+            !dl.settings.customData._requirements?.includes('Chroma')
          ) {
-            if (!dl.settings._customData._suggestions.includes('Chroma')) {
+            if (!dl.settings.customData._suggestions.includes('Chroma')) {
                logger.info('Applying Chroma suggestions to', dl.characteristic, dl.difficulty);
-               dl.settings._customData._suggestions.push('Chroma');
+               dl.settings.customData._suggestions.push('Chroma');
             }
-         } else if (!dl.settings._customData._requirements?.includes('Chroma')) {
+         } else if (!dl.settings.customData._requirements?.includes('Chroma')) {
             logger.info('Creating Chroma suggestions to', dl.characteristic, dl.difficulty);
-            dl.settings._customData._suggestions = ['Chroma'];
+            dl.settings.customData._suggestions = ['Chroma'];
          }
       }
 
@@ -206,15 +208,14 @@ try {
          d.chains.some((obj) => obj.isNoodleExtensions()) ||
          d.obstacles.some((obj) => obj.isNoodleExtensions());
       if (hasNoodleExtensions) {
-         dl.settings._customData ??= {};
-         if (dl.settings._customData._requirements) {
-            if (!dl.settings._customData._requirements?.includes('Noodle Extensions')) {
+         if (dl.settings.customData._requirements) {
+            if (!dl.settings.customData._requirements?.includes('Noodle Extensions')) {
                logger.info(
                   'Applying Noodle Extensions requirements to',
                   dl.characteristic,
                   dl.difficulty,
                );
-               dl.settings._customData._requirements.push('Noodle Extensions');
+               dl.settings.customData._requirements.push('Noodle Extensions');
             }
          } else {
             logger.info(
@@ -222,7 +223,7 @@ try {
                dl.characteristic,
                dl.difficulty,
             );
-            dl.settings._customData._requirements = ['Noodle Extensions'];
+            dl.settings.customData._requirements = ['Noodle Extensions'];
          }
       }
    };
@@ -263,8 +264,8 @@ try {
             logger.info('Backing up beatmap', dl.characteristic, dl.difficulty);
             try {
                copySync(
-                  globals.directory + dl.settings._beatmapFilename,
-                  globals.directory + dl.settings._beatmapFilename + '.old',
+                  globals.directory + dl.settings.filename,
+                  globals.directory + dl.settings.filename + '.old',
                );
             } catch (_) {
                const confirmation = args.y ? 'n' : prompt(
@@ -273,8 +274,8 @@ try {
                );
                if (confirmation![0].toLowerCase() === 'y') {
                   copySync(
-                     globals.directory + dl.settings._beatmapFilename,
-                     globals.directory + dl.settings._beatmapFilename + '.old',
+                     globals.directory + dl.settings.filename,
+                     globals.directory + dl.settings.filename + '.old',
                      { overwrite: true },
                   );
                } else {

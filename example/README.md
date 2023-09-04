@@ -18,7 +18,7 @@ add the following on top of the script. No additional file or setup needed, it j
 
 ```ts
 // be sure to check for latest version on 'bsmap@version'
-import * as bsmap from 'https://deno.land/x/bsmap@1.4.1/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.5.0/mod.ts';
 ```
 
 **To first timer:** Make sure to initialise Deno workspace before using the script. If you encounter
@@ -39,12 +39,11 @@ destructuring can be used to obtain certain variables and functions. Helpful tip
 to show list of available variables and functions.
 
 ```ts
-import { load, save, utils, v3 } from 'https://deno.land/x/bsmap@1.4.1/mod.ts';
-const { random, deepCopy } = utils;
+import { deepCopy, load, pRandom, save, v3 } from 'https://deno.land/x/bsmap@1.5.0/mod.ts';
 ```
 
-List of available namespaces from root are `load`, `save`, `v2`, `v3`, `utils`, `globals`,
-`convert`, `optimize`, `logger`, and `types`. Nested namespace is to be expected on an obscure area.
+List of available namespaces from root are `load`, `save`, `v2`, `v3`, `globals`, `convert`,
+`optimize`, `logger`, and `types`. Nested namespace is to be expected on an obscure area.
 
 ## Loading & Saving
 
@@ -198,15 +197,15 @@ third-party library. This provides plentiful of helpers that may be useful for m
 other purposes.
 
 ```ts
-import * as chroma from 'https://deno.land/x/bsmap@1.4.1/extensions/chroma/mod.ts';
-import * as NE from 'https://deno.land/x/bsmap@1.4.1/extensions/NE/mod.ts';
-import * as selector from 'https://deno.land/x/bsmap@1.4.1/extensions/selector/mod.ts';
+import * as chroma from 'https://deno.land/x/bsmap@1.5.0/extensions/chroma/mod.ts';
+import * as NE from 'https://deno.land/x/bsmap@1.5.0/extensions/NE/mod.ts';
+import * as selector from 'https://deno.land/x/bsmap@1.5.0/extensions/selector/mod.ts';
 ```
 
 If you wish to import all of them, do as following:
 
 ```ts
-import * as ext from 'https://deno.land/x/bsmap@1.4.1/extensions/mod.ts';
+import * as ext from 'https://deno.land/x/bsmap@1.5.0/extensions/mod.ts';
 ```
 
 ## Patch
@@ -215,7 +214,7 @@ This module is not included as it is very rarely used and unstable. It contains 
 fix and alter beatmap objects that were potentially broken or contain incompatible data.
 
 ```ts
-import * as patch from 'https://deno.land/x/bsmap@1.4.1/patch/mod.ts';
+import * as patch from 'https://deno.land/x/bsmap@1.5.0/patch/mod.ts';
 ```
 
 ## Addendum
@@ -228,8 +227,8 @@ purpose.
 
 ```ts
 // deps.ts
-export * from 'https://deno.land/x/bsmap@1.4.1/mod.ts';
-export * as ext from 'https://deno.land/x/bsmap@1.4.1/extensions/mod.ts';
+export * from 'https://deno.land/x/bsmap@1.5.0/mod.ts';
+export * as ext from 'https://deno.land/x/bsmap@1.5.0/extensions/mod.ts';
 ```
 
 ```ts
@@ -274,4 +273,75 @@ const difficulty = load.difficultySync('ExpertPlusStandard.dat').toJSON();
 const difficultyJSON = JSON.parse(
    Deno.readTextFileSync('ExpertPlusStandard.dat'),
 ) as types.v3.IDifficulty; // unsafe
+```
+
+### Practices
+
+There is neither correct nor best way to do scripting, but there are several caveats when using this
+module especially surrounding data modification with references (Object, Array, etc.). Whichever
+approach or paradigm you may use, it is the way it is for broader approach and "unopinionated"
+without trying to be too strict on certain standards.
+
+These practices are something you should be aware of, and it should be a second nature once you get
+used to it. Not that I am advocating for these practices, but by design the module behave exactly as
+you would with vanilla JS/TS scripting, so the skill is transferrable even if you do not agree with
+it.
+
+#### Object Data Transferring
+
+If you are unfamiliar with OO programming language, almost everything in this module is an object,
+meaning that you may encounter reference issue or different object inheritance behaviour. This mean
+that transferring array from one to another place will cause side-effects from mutations (changing
+thing in array affects another) or unexpected class behaviour being in the wrong place.
+
+##### Object Referencing
+
+If you plan to modify the object after transferring an object, be aware of reference issue that may
+cause side-effect on 2 or more difficulty using the same object. There are advantages with current
+behaviour (such as performance), but overall it is very easy to make this mistake. If you perfectly
+understood what you are doing, you can ignore this.
+
+```ts
+const lightshow = load.difficultySync('Lightshow.dat', 3);
+const map = load.difficultySync('ExpertStandard.dat', 3);
+
+// DON'T - 1
+map.basicEvents = lightshow.basicEvents;
+map.addBasicEvents({}); // this affects lightshow array
+
+// DON'T - 2
+map.basicEvents = [...lightshow.basicEvents];
+map.basicEvents[0].value = 1; // this also affects lightshow
+map.addBasicEvents({}); // however, lightshow array is unaffected
+
+// DO - 1
+map.basicEvents = lightshow.basicEvents.map((e) => e.clone()); // this correctly copies the class object
+
+// DO - 2
+map.addBasicEvents(...lightshow.basicEvents);
+```
+
+##### Mismatched Class Object Version
+
+Without explicit versioning, it is possible to insert mismatched class version. However, the module
+has special guard-rail that reparse the object to their respective class version and is by default
+on save. It can be explicitly called to reparse the object when needed.
+
+```ts
+const v3map = load.difficultySync('v3map.dat');
+const v2map = load.difficultySync('v2map.dat');
+
+// DON'T
+// this causes v2 note class behaviour to appear in v3 map
+// and may be inconsistent when handling note property
+v3map.colorNotes = v2map.colorNotes;
+
+// DO
+// it copies the object to corresponding map version
+v3map.addColorNotes(...v2map.colorNotes);
+
+// ALTERNATIVE SOLUTION
+// this reparse all objects in this difficulty to respective version,
+// the process may be slow depending on amount of objects
+v3map.reparse();
 ```

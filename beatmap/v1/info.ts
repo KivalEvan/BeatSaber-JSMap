@@ -3,14 +3,18 @@ import { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
 import { IInfo, IInfoDifficulty } from '../../types/beatmap/v1/info.ts';
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
-import { WrapInfo, WrapInfoDifficulty } from '../wrapper/info.ts';
+import { WrapInfo, WrapInfoDifficulty, WrapInfoSet } from '../wrapper/info.ts';
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { IColor } from '../../types/colors.ts';
 import { IContributor } from '../../types/beatmap/shared/custom/contributor.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { IWrapInfoDifficultyAttribute } from '../../types/beatmap/wrapper/info.ts';
+import {
+   IWrapInfo,
+   IWrapInfoColorSchemeData,
+   IWrapInfoDifficultyAttribute,
+} from '../../types/beatmap/wrapper/info.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v1', 'info', name];
@@ -33,7 +37,7 @@ export class Info extends WrapInfo<IInfo> {
    environmentName: EnvironmentName | EnvironmentV3Name;
    allDirectionsEnvironmentName!: never;
    songTimeOffset!: never;
-   difficultySets: { [mode in CharacteristicName]?: InfoDifficulty[] } = {};
+   difficultySets: InfoSet[];
    environmentNames: never[] = [];
    colorSchemes: never[] = [];
 
@@ -54,15 +58,14 @@ export class Info extends WrapInfo<IInfo> {
       this.coverImageFilename = data.coverImagePath ?? 'cover.jpg';
       this.environmentName = data.environmentName ?? 'DefaultEnvironment';
 
+      this.difficultySets = [];
       data.difficultyLevels?.forEach((d) => {
-         this.songFilename ||= d.audioPath;
-         const mode = d.characteristic || 'Standard';
-         this.difficultySets[mode] ||= [];
-         this.difficultySets[mode]!.push(new InfoDifficulty(d));
+         this.addMap(d);
       });
       this.songFilename ||= 'song.ogg';
 
-      this.oneSaber = !!this.difficultySets.OneSaber?.length;
+      this.oneSaber = !!this.difficultySets.find((m) => m.characteristic === 'OneSaber')
+         ?.difficulties.length;
       this.contributors = deepCopy(data.contributors ?? []);
       this.customEnvironment = data.customEnvironment;
       this.customEnvironmentHash = data.customEnvironmentHash;
@@ -86,7 +89,8 @@ export class Info extends WrapInfo<IInfo> {
             sets.push(beatmap.toJSON());
             return sets;
          }, []),
-         oneSaber: !!this.difficultySets.OneSaber?.length,
+         oneSaber: !!this.difficultySets.find((m) => m.characteristic === 'OneSaber')?.difficulties
+            .length,
          contributors: this.contributors,
          customEnvironment: this.customEnvironment,
          customEnvironmentHash: this.customEnvironmentHash,
@@ -106,16 +110,62 @@ export class Info extends WrapInfo<IInfo> {
       data: Partial<IInfoDifficulty> & Partial<IWrapInfoDifficultyAttribute>,
       characteristic?: CharacteristicName,
    ): this {
-      const mode = (characteristic || data.characteristic) ?? 'Standard';
+      const mode = characteristic || data.characteristic || 'Standard';
       data.audioPath ||= this.songFilename;
-
-      this.difficultySets[mode] ??= [];
-      this.difficultySets[mode]!.push(new InfoDifficulty(data));
+      let found = this.difficultySets.find((set) => set.characteristic === mode);
+      if (!found) {
+         found = new InfoSet({ mode, difficulties: [data] });
+         this.difficultySets.push(found);
+      }
+      found.difficulties.push(new InfoDifficulty(data));
       return this;
    }
 
    listMap(): [CharacteristicName, InfoDifficulty][] {
       return super.listMap() as [CharacteristicName, InfoDifficulty][];
+   }
+
+   isValid(): boolean {
+      throw new Error('Method not implemented.');
+   }
+}
+
+export class InfoSet extends WrapInfoSet<{
+   mode?: CharacteristicName;
+   difficulties?: IInfoDifficulty[];
+}> {
+   characteristic: CharacteristicName;
+   difficulties: InfoDifficulty[] = [];
+
+   constructor(
+      data: Partial<{ mode?: CharacteristicName; difficulties?: Partial<IInfoDifficulty>[] }>,
+   ) {
+      super();
+
+      this.characteristic = data.mode || 'Standard';
+      this.difficulties =
+         data.difficulties?.map((bmap) => new InfoDifficulty(bmap, this.characteristic)) ?? [];
+      this.customData = {};
+   }
+
+   static create(
+      data: Partial<{ mode?: CharacteristicName; difficulties?: Partial<IInfoDifficulty>[] }>,
+   ) {
+      return new this(data);
+   }
+
+   toJSON(): { mode: CharacteristicName; difficulties: IInfoDifficulty[] } {
+      return {
+         mode: this.characteristic,
+         difficulties: this.difficulties.map((d) => d.toJSON()),
+      };
+   }
+
+   get customData(): Record<string, never> {
+      return {};
+   }
+   set customData(_: Record<string, never>) {
+      logger.tWarn(tag('customData'), 'Custom data does not exist in beatmap V1');
    }
 
    isValid(): boolean {
@@ -160,7 +210,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
       this.njsOffset = 0;
 
       this.audioPath = songFileName ?? 'song.ogg';
-      this.characteristic = mode ?? 'Standard';
+      this.characteristic = mode || 'Standard';
       this.offset = data.offset;
       this.oldOffset = data.oldOffset;
       this.chromaToggle = data.chromaToggle;
@@ -206,6 +256,55 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    }
    set customData(_: Record<string, never>) {
       logger.tWarn(tag('customData'), 'Custom data does not exist in beatmap V1');
+   }
+
+   copyColorScheme(colorScheme: IWrapInfoColorSchemeData): this;
+   copyColorScheme(id: number, info: IWrapInfo): this;
+   copyColorScheme(id: IWrapInfoColorSchemeData | number, info?: IWrapInfo): this {
+      if (typeof id === 'number') {
+         if (info!.colorSchemes.length < id) {
+            return this;
+         }
+         const colorScheme = info!.colorSchemes[id].colorScheme;
+         return this.copyColorScheme(colorScheme);
+      }
+
+      this.colorLeft = Object.entries(id.saberLeftColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.colorRight = Object.entries(id.saberRightColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.envColorLeft = Object.entries(id.environment0Color).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.envColorRight = Object.entries(id.environment1Color).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      this.obstacleColor = Object.entries(id.obstaclesColor).reduce(
+         (p, v) => {
+            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            return p;
+         },
+         { r: 0, g: 0, b: 0 },
+      );
+      return this;
    }
 
    isValid(): boolean {

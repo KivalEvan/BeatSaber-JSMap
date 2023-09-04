@@ -2,7 +2,7 @@ import logger from '../logger.ts';
 import { Event } from '../beatmap/v2/event.ts';
 import { BasicEvent } from '../beatmap/v3/basicEvent.ts';
 import { EasingsFn } from '../utils/easings.ts';
-import { interpolateColor } from '../utils/colors.ts';
+import { lerpColor } from '../utils/colors.ts';
 import { normalize } from '../utils/math.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IChromaLightGradient } from '../types/beatmap/v2/custom/chroma.ts';
@@ -19,9 +19,10 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
    return typeof obj === 'object' && obj != null && '_startColor' in obj && '_endColor' in obj;
 }
 
-/** Convert Chroma light gradient to transition event.
+/**
+ * Convert Chroma light gradient to transition event.
  * ```ts
- * const newData = convert.ogChromaToChromaV2(oldData);
+ * const newData = convert.V2ogChromaToChroma(oldData);
  * ```
  */
 export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(data: T): T {
@@ -34,7 +35,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
    );
 
    const events = data.basicEvents;
-   const newEvents = [] as typeof data.basicEvents;
+   const newEvents: typeof data.basicEvents = [];
    for (let curr = 0, len = events.length; curr < len; curr++) {
       const ev = events[curr];
       if (!ev.isLightEvent()) {
@@ -88,7 +89,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                      : eig.value >= 5 && eig.value <= 8
                      ? 8
                      : 12;
-                  eig.customData!._color = interpolateColor(
+                  eig.customData!._color = lerpColor(
                      ev.customData._lightGradient._startColor,
                      ev.customData._lightGradient._endColor,
                      normalize(eig.time, ev.time, ev.time + ev.customData._lightGradient._duration),
@@ -109,7 +110,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                                  : 12,
                               floatValue: 1,
                               customData: {
-                                 _color: interpolateColor(
+                                 _color: lerpColor(
                                     ev.customData._lightGradient._startColor,
                                     ev.customData._lightGradient._endColor,
                                     normalize(

@@ -126,14 +126,14 @@ export class LightColorEventBox extends WrapLightColorEventBox<
       };
    }
 
-   get filter() {
+   get filter(): IndexFilter {
       return this._filter as IndexFilter;
    }
    set filter(value: IndexFilter) {
       this._filter = value;
    }
 
-   get events() {
+   get events(): LightColorBase[] {
       return this._events as LightColorBase[];
    }
    set events(value: LightColorBase[]) {

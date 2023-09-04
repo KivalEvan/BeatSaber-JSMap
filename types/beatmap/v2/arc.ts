@@ -2,7 +2,8 @@ import { ICustomDataBase } from '../shared/custom/customData.ts';
 
 /** not a chain. */
 export interface IArc {
-   /** Color type `<int>` of base arc.
+   /**
+    * Color type `<int>` of base arc.
     * ```ts
     * 0 -> Red
     * 1 -> Blue
@@ -14,13 +15,14 @@ export interface IArc {
    _headLineLayer: number;
    /** Head control point length multiplier `<float>` of arc. */
    _headControlPointLengthMultiplier: number;
-   /** Head cut direction `<int>` of arc.
+   /**
+    * Head cut direction `<int>` of arc.
     * ```ts
     * 4 | 0 | 5
     * 2 | 8 | 3
     * 6 | 1 | 7
     * ```
-    * ---
+    *
     * Grid represents cut direction from center.
     */
    _headCutDirection: number;
@@ -29,17 +31,19 @@ export interface IArc {
    _tailLineLayer: number;
    /** Tail control point length multiplier `<float>` of arc. */
    _tailControlPointLengthMultiplier: number;
-   /** Tail cut direction `<int>` of arc.
+   /**
+    * Tail cut direction `<int>` of arc.
     * ```ts
     * 4 | 0 | 5
     * 2 | 8 | 3
     * 6 | 1 | 7
     * ```
-    * ---
+    *
     * Grid represents cut direction from center.
     */
    _tailCutDirection: number;
-   /** Mid anchor mode `<int>` of arc.
+   /**
+    * Mid anchor mode `<int>` of arc.
     * ```ts
     * 0 -> Straight
     * 1 -> Clockwise

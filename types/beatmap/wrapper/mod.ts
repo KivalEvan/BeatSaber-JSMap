@@ -1,4 +1,5 @@
-/** Wrapper interface for abstract class implementation.
+/**
+ * Wrapper interface for abstract class implementation.
  *
  * @module
  */

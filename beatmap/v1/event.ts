@@ -48,7 +48,7 @@ export class Event extends WrapEvent<IEvent> {
       };
    }
 
-   get floatValue() {
+   get floatValue(): number {
       return 1;
    }
    set floatValue(_: number) {

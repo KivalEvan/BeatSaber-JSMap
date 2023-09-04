@@ -1,5 +1,3 @@
-import { IInfoSettingsCustomData } from './heck.ts';
-
 export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
 
 export type GeometryType =
@@ -37,9 +35,15 @@ export type ShaderKeywordsStandard =
    | '_EMISSION'
    | '_ENABLE_FOG_TINT'
    | '_RIMLIGHT_NONE'
-   | '_ZWRITE_ON'
-   | 'REFLECTION_PROBE'
-   | 'LIGHT_FALLOFF';
+   | '_ACES_APPROACH_AFTER_EMISSIVE'
+   | '_DECALBLEND_ALPHABLEND'
+   | '_DISSOLVEAXIS_LOCALX'
+   | '_EMISSIONCOLORTYPE_FLAT'
+   | 'EMISSIONTEXTURE_NONE'
+   | '_ROTATE_UV_NONE'
+   | '_VERTEXMODE_NONE'
+   | 'WHITEBOOSTTYPE_NONE'
+   | 'ZWRITE_ON';
 
 /** Default shader keywords used in opaque light. */
 export type ShaderKeywordsOpaque =
@@ -87,16 +91,3 @@ export type EnvironmentMaterial =
    | 'BillieWater'
    | 'InterscopeConcrete'
    | 'InterscopeCar';
-
-/** Chroma interface for Difficulty Info Custom Data. */
-export interface IChromaInfoCustomData extends IInfoSettingsCustomData {
-   _settings?: {
-      _chroma?: {
-         _disableChromaEvents?: boolean;
-         _disableEnvironmentEnhancements?: boolean;
-         _disableNoteColoring?: boolean;
-         _forceZenModeWall?: boolean;
-      };
-   };
-   _environmentalRemoval?: string[];
-}

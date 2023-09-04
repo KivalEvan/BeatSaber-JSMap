@@ -6,7 +6,8 @@ import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapChain } from '../wrapper/chain.ts';
 
-/** Chain beatmap v3 class object.
+/**
+ * Chain beatmap v3 class object.
  *
  * Also known as burst slider internally.
  */
@@ -128,9 +129,9 @@ export class Chain extends WrapChain<IChain> {
          default:
             return [
                (this.posX <= -1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 - 1
                   : this.posX) - 2,
                this.posY <= -1000
                   ? this.posY / 1000
@@ -168,9 +169,9 @@ export class Chain extends WrapChain<IChain> {
          default:
             return [
                (this.tailPosX <= -1000
-                  ? this.tailPosX / 1000
+                  ? this.tailPosX / 1000 + 1
                   : this.tailPosX >= 1000
-                  ? this.tailPosX / 1000
+                  ? this.tailPosX / 1000 - 1
                   : this.tailPosX) - 2,
                this.tailPosY <= -1000
                   ? this.tailPosY / 1000

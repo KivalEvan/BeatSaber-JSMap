@@ -16,18 +16,33 @@ export function pickRandom<T>(ary: T[], fn = Math.random): T {
    return ary[Math.floor(fn() * ary.length)];
 }
 
-/** Simple old-fashioned deep copy JSON object or JSON array.
+/**
+ * Simple old-fashioned deep copy JSON object or JSON array.
  *
- * Works best with only primitive objects. Use `structuredClone()` for more complicated objects.
+ * Works best with only primitive object. Use `structuredClone()` for more complicated objects, or `clone()` or similar object method if available.
+ *
+ * **WARNING:** Slow and memory intensive operation especially for very large object.
  */
 export function deepCopy<T>(object: T): T {
-   if (
-      typeof object !== 'object' || typeof object === null ||
-      typeof object === undefined
-   ) {
+   if (typeof object !== 'object' || typeof object === null || typeof object === undefined) {
       return object;
    }
    return JSON.parse(JSON.stringify(object));
+}
+
+/**
+ * Fast and simple copy.
+ *
+ * Works best for flat object like `{ name: 'hello' }`, `[0, 1, 2]` or any other primitives.
+ *
+ * **WARNING:** Avoid using if contain nested reference.
+ */
+export function shallowCopy<T>(object: T): T {
+   if (typeof object !== 'object' || typeof object === null || typeof object === undefined) {
+      return object;
+   }
+   if (Array.isArray(object)) return [...object] as T;
+   return { ...object };
 }
 
 export function isHex(hex: string): boolean {

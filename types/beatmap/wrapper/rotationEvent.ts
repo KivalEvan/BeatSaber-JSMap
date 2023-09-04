@@ -4,7 +4,8 @@ import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 export interface IWrapRotationEventAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
 > extends IWrapBaseObjectAttribute<T> {
-   /** Execution time `<int>` of rotation event.
+   /**
+    * Execution time `<int>` of rotation event.
     * ```ts
     * 0 -> Early
     * 1 -> Late
@@ -15,9 +16,8 @@ export interface IWrapRotationEventAttribute<
    rotation: number;
 }
 
-export interface IWrapRotationEvent<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseObject<T>, IWrapRotationEventAttribute<T> {
+export interface IWrapRotationEvent<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseObject<T>, IWrapRotationEventAttribute<T> {
    setExecutionTime(value: 0 | 1): this;
    setRotation(value: number): this;
 }

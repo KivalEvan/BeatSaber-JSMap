@@ -2,7 +2,8 @@ import { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Note. */
 export interface INote extends IBaseObject {
-   /** Note placement on column.
+   /**
+    * Note placement on column.
     * ```ts
     * 0 -> Outer Left
     * 1 -> Middle Left
@@ -11,7 +12,8 @@ export interface INote extends IBaseObject {
     * ```
     */
    _lineIndex: number;
-   /** Note placement on row.
+   /**
+    * Note placement on row.
     * ```ts
     * 0 -> Bottom row
     * 1 -> Middle row
@@ -19,7 +21,8 @@ export interface INote extends IBaseObject {
     * ```
     */
    _lineLayer: number;
-   /** Type of note.
+   /**
+    * Type of note.
     * ```ts
     * 0 -> Red note
     * 1 -> Blue note
@@ -27,7 +30,8 @@ export interface INote extends IBaseObject {
     * ```
     */
    _type: 0 | 1 | 3;
-   /** Cut direction of note.
+   /**
+    * Cut direction of note.
     * ```ts
     * 4 | 0 | 5
     * 2 | 8 | 3

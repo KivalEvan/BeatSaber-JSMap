@@ -88,14 +88,14 @@ try {
       throw new Error('Received empty file path.');
    }
 
-   let info: ReturnType<typeof load.infoSync>;
+   let info: types.wrapper.IWrapInfo;
    let infoFileName = 'Info.dat';
    try {
       info = load.infoSync();
    } catch {
       logger.warn('Could not load Info.dat from folder, retrying with info.dat...');
       infoFileName = 'info.dat';
-      info = load.infoSync({ filePath: infoFileName });
+      info = load.infoSync(null, { filePath: infoFileName });
    }
 
    const diffJSON = JSON.parse(
@@ -105,59 +105,59 @@ try {
       diffJSON._version?.at(0)! ?? parseInt(diffJSON.version?.at(0)! ?? '2'),
    );
 
-   let lightV3!: v3.Difficulty, lightV2!: v2.Difficulty;
+   let V3light!: v3.Difficulty, V2light!: v2.Difficulty;
    if (diffVersion === 3) {
-      lightV3 = beatmapParser
-         .difficultyV3(diffJSON as types.v3.IDifficulty)
+      V3light = beatmapParser
+         .v3Difficulty(diffJSON as types.v3.IDifficulty)
          .setFileName(lightToCopy);
    } else {
-      lightV2 = beatmapParser
-         .difficultyV2(diffJSON as types.v2.IDifficulty)
+      V2light = beatmapParser
+         .v2Difficulty(diffJSON as types.v2.IDifficulty)
          .setFileName(lightToCopy);
-      if (lightV2.basicEvents.some((e) => e.isOldChroma())) {
+      if (V2light.basicEvents.some((e) => e.isOldChroma())) {
          const confirmation = args.y ? 'n' : prompt(
             'Old Chroma detected, do you want to convert this (apply to all)? (y/N):',
             'n',
          );
          if (confirmation![0].toLowerCase() === 'y') {
-            convert.ogChromaToChromaV2(lightV2, info._environmentName);
+            convert.ogChromaToV2Chroma(V2light, info.environmentName);
          }
       }
-      if (lightV2.basicEvents.some((e) => e.customData._lightGradient)) {
+      if (V2light.basicEvents.some((e) => e.customData._lightGradient)) {
          const confirmation = args.y ? 'n' : prompt(
             'Chroma light gradient detected, do you want to convert this (apply to all)? (y/N):',
             'n',
          );
          if (confirmation![0].toLowerCase() === 'y') {
-            convert.chromaLightGradientToVanillaGradient(lightV2);
+            convert.chromaLightGradientToVanillaGradient(V2light);
          }
       }
    }
-   if (lightV3! && !lightV2!) {
-      lightV2 = convert.toV2(lightV3);
+   if (V3light! && !V2light!) {
+      V2light = convert.toV2Difficulty(V3light);
    }
-   if (lightV2! && !lightV3!) {
-      lightV3 = convert.toV3(lightV2);
+   if (V2light! && !V3light!) {
+      V3light = convert.toV3Difficulty(V2light);
    }
 
    if (
-      lightV2.basicEvents.some((ev) => ev.isChroma()) ||
-      lightV3.basicEvents.some((ev) => ev.isChroma())
+      V2light.basicEvents.some((ev) => ev.isChroma()) ||
+      V3light.basicEvents.some((ev) => ev.isChroma())
    ) {
       hasChroma = true;
    }
 
-   if (copyEnvironment && !lightV3.customData.environment && !lightV2.customData._environment) {
+   if (copyEnvironment && !V3light.customData.environment && !V2light.customData._environment) {
       logger.warn('Selected lightshow has no environment enhancement; skipping environment copy');
       copyEnvironment = false;
    }
 
-   if (copyCustomEvent && !lightV3.customData.customEvents && !lightV2.customData._customEvents) {
+   if (copyCustomEvent && !V3light.customData.customEvents && !V2light.customData._customEvents) {
       logger.warn('Selected lightshow has no custom event; skipping custom event copy');
       copyCustomEvent = false;
    }
 
-   if (!copyEnvironment && lightV3.customData.environment && lightV2.customData._environment) {
+   if (!copyEnvironment && V3light.customData.environment && V2light.customData._environment) {
       copyEnvironment = (args.y ? 'n' : prompt(
          'Environment enhancement found in lightshow, would you like to include into copy? (y/N)',
          'n',
@@ -165,7 +165,7 @@ try {
          ?.trim()
          .toLowerCase()) === 'y';
    }
-   if (!copyCustomEvent && lightV3.customData.customEvents && lightV2.customData._customEvents) {
+   if (!copyCustomEvent && V3light.customData.customEvents && V2light.customData._customEvents) {
       copyCustomEvent = (args.y ? 'n' : prompt(
          'Custom event found in lightshow, would you like to include into copy? (y/N)',
          'n',
@@ -178,7 +178,7 @@ try {
 
    let hasCopied = false;
    diffList.forEach((dl) => {
-      if (!args.f && lightToCopy === dl.settings._beatmapFilename) {
+      if (!args.f && lightToCopy === dl.settings.filename) {
          return;
       }
 
@@ -186,8 +186,8 @@ try {
          logger.info('Backing up beatmap', dl.characteristic, dl.difficulty);
          try {
             copySync(
-               globals.directory + dl.settings._beatmapFilename,
-               globals.directory + dl.settings._beatmapFilename + '.old',
+               globals.directory + dl.settings.filename,
+               globals.directory + dl.settings.filename + '.old',
             );
          } catch (_) {
             const confirmation = args.y
@@ -195,8 +195,8 @@ try {
                : prompt('Old backup file detected, do you want to overwrite? (y/N):', 'n');
             if (confirmation![0].toLowerCase() === 'y') {
                copySync(
-                  globals.directory + dl.settings._beatmapFilename,
-                  globals.directory + dl.settings._beatmapFilename + '.old',
+                  globals.directory + dl.settings.filename,
+                  globals.directory + dl.settings.filename + '.old',
                   { overwrite: true },
                );
             } else {
@@ -207,82 +207,81 @@ try {
       }
       logger.info('Copying lightshow to', dl.characteristic, dl.difficulty);
       if (hasChroma) {
-         dl.settings._customData ??= {};
          if (
-            dl.settings._customData._suggestions &&
-            !dl.settings._customData._requirements?.includes('Chroma')
+            dl.settings.customData._suggestions &&
+            !dl.settings.customData._requirements?.includes('Chroma')
          ) {
-            if (!dl.settings._customData._suggestions.includes('Chroma')) {
+            if (!dl.settings.customData._suggestions.includes('Chroma')) {
                logger.info('Applying Chroma suggestions to', dl.characteristic, dl.difficulty);
-               dl.settings._customData._suggestions.push('Chroma');
+               dl.settings.customData._suggestions.push('Chroma');
             }
-         } else if (!dl.settings._customData._requirements?.includes('Chroma')) {
+         } else if (!dl.settings.customData._requirements?.includes('Chroma')) {
             logger.info('Creating Chroma suggestions to', dl.characteristic, dl.difficulty);
-            dl.settings._customData._suggestions = ['Chroma'];
+            dl.settings.customData._suggestions = ['Chroma'];
          }
       }
       if (isV3(dl.data)) {
          if (copyEnvironment) {
-            dl.data.customData.environment = lightV3.customData.environment;
+            dl.data.customData.environment = V3light.customData.environment;
          }
-         if (copyCustomEvent && lightV3.customData.customEvents) {
+         if (copyCustomEvent && V3light.customData.customEvents) {
             if (dl.data.customData.customEvents) {
-               dl.data.customData.customEvents.push(...lightV3.customData.customEvents);
+               dl.data.customData.customEvents.push(...V3light.customData.customEvents);
             } else {
-               dl.data.customData.customEvents = lightV3.customData.customEvents;
+               dl.data.customData.customEvents = V3light.customData.customEvents;
             }
-            if (lightV3.customData.pointDefinitions) {
+            if (V3light.customData.pointDefinitions) {
                if (dl.data.customData.pointDefinitions) {
                   dl.data.customData.pointDefinitions = {
                      ...dl.data.customData.pointDefinitions,
-                     ...lightV3.customData.pointDefinitions,
+                     ...V3light.customData.pointDefinitions,
                   };
                } else {
-                  dl.data.customData.pointDefinitions = lightV3.customData.pointDefinitions;
+                  dl.data.customData.pointDefinitions = V3light.customData.pointDefinitions;
                }
             }
          }
          if (args.m) {
-            dl.data.basicEvents.push(...lightV3.basicEvents);
-            dl.data.colorBoostEvents.push(...lightV3.colorBoostEvents);
-            dl.data.lightColorEventBoxGroups.push(...lightV3.lightColorEventBoxGroups);
-            dl.data.lightRotationEventBoxGroups.push(...lightV3.lightRotationEventBoxGroups);
-            dl.data.lightTranslationEventBoxGroups.push(...lightV3.lightTranslationEventBoxGroups);
+            dl.data.basicEvents.push(...V3light.basicEvents);
+            dl.data.colorBoostEvents.push(...V3light.colorBoostEvents);
+            dl.data.lightColorEventBoxGroups.push(...V3light.lightColorEventBoxGroups);
+            dl.data.lightRotationEventBoxGroups.push(...V3light.lightRotationEventBoxGroups);
+            dl.data.lightTranslationEventBoxGroups.push(...V3light.lightTranslationEventBoxGroups);
          } else {
-            dl.data.basicEvents = lightV3.basicEvents;
-            dl.data.colorBoostEvents = lightV3.colorBoostEvents;
-            dl.data.lightColorEventBoxGroups = lightV3.lightColorEventBoxGroups;
-            dl.data.lightRotationEventBoxGroups = lightV3.lightRotationEventBoxGroups;
-            dl.data.lightTranslationEventBoxGroups = lightV3.lightTranslationEventBoxGroups;
+            dl.data.basicEvents = V3light.basicEvents;
+            dl.data.colorBoostEvents = V3light.colorBoostEvents;
+            dl.data.lightColorEventBoxGroups = V3light.lightColorEventBoxGroups;
+            dl.data.lightRotationEventBoxGroups = V3light.lightRotationEventBoxGroups;
+            dl.data.lightTranslationEventBoxGroups = V3light.lightTranslationEventBoxGroups;
          }
       } else {
          if (copyEnvironment) {
-            dl.data.customData._environment = lightV2.customData._environment;
+            dl.data.customData._environment = V2light.customData._environment;
          }
-         if (copyCustomEvent && lightV2.customData._customEvents) {
+         if (copyCustomEvent && V2light.customData._customEvents) {
             if (dl.data.customData._customEvents) {
-               dl.data.customData._customEvents.push(...lightV2.customData._customEvents);
+               dl.data.customData._customEvents.push(...V2light.customData._customEvents);
             } else {
-               dl.data.customData._customEvents = lightV2.customData._customEvents;
+               dl.data.customData._customEvents = V2light.customData._customEvents;
             }
-            if (lightV2.customData._pointDefinitions) {
+            if (V2light.customData._pointDefinitions) {
                if (dl.data.customData._pointDefinitions) {
                   dl.data.customData._pointDefinitions.push(
-                     ...lightV2.customData._pointDefinitions,
+                     ...V2light.customData._pointDefinitions,
                   );
                } else {
-                  dl.data.customData._pointDefinitions = lightV2.customData._pointDefinitions;
+                  dl.data.customData._pointDefinitions = V2light.customData._pointDefinitions;
                }
             }
          }
          if (args.m) {
-            dl.data.addBasicEvents(...lightV2.basicEvents);
+            dl.data.addBasicEvents(...V2light.basicEvents);
          } else {
             const rotationEvent = dl.data.basicEvents
                .map((ev) => ev)
                .filter((ev) => ev.isLaneRotationEvent());
             dl.data.basicEvents = [];
-            dl.data.addBasicEvents(...lightV2.basicEvents, ...rotationEvent);
+            dl.data.addBasicEvents(...V2light.basicEvents, ...rotationEvent);
          }
       }
 

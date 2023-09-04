@@ -42,7 +42,7 @@ function fixColorObject(val: unknown, req?: boolean) {
    return req ? { r: 0, g: 0, b: 0, a: 1 } : { r: 0, g: 0, b: 0 };
 }
 
-export function info(data: IWrapInfo) {
+export function info(data: IWrapInfo): void {
    logger.tInfo(
       ['patch', 'dataCorrection', 'info'],
       'Verifying and correcting data type for beatmap info...',

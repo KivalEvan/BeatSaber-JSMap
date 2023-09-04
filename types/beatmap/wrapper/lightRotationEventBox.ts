@@ -9,14 +9,16 @@ export interface IWrapLightRotationEventBoxAttribute<
 > extends IWrapEventBoxAttribute<TBox, TBase, TFilter> {
    /** Rotation distribution `<float>` of light rotation event box. */
    rotationDistribution: number;
-   /** Rotation distribution type `<int>` of light rotation event box.
+   /**
+    * Rotation distribution type `<int>` of light rotation event box.
     * ```ts
     * 1 -> Wave // adds up to last ID.
     * 2 -> Step // adds to consequent ID.
     * ```
     */
    rotationDistributionType: 1 | 2;
-   /** Axis `<int>` of light rotation event box.
+   /**
+    * Axis `<int>` of light rotation event box.
     * ```ts
     * 0 -> X
     * 1 -> Y
@@ -40,12 +42,8 @@ export interface IWrapLightRotationEventBox<
    IWrapLightRotationEventBoxAttribute<TBox, TBase, TFilter> {
    events: IWrapLightRotationBase<TBase>[];
 
-   setRotationDistribution(
-      value: IWrapLightRotationEventBox['rotationDistribution'],
-   ): this;
-   setRotationDistributionType(
-      value: IWrapLightRotationEventBox['rotationDistributionType'],
-   ): this;
+   setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']): this;
+   setRotationDistributionType(value: IWrapLightRotationEventBox['rotationDistributionType']): this;
    setAxis(value: IWrapLightRotationEventBox['axis']): this;
    setFlip(value: IWrapLightRotationEventBox['flip']): this;
    setAffectFirst(value: IWrapLightRotationEventBox['affectFirst']): this;

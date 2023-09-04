@@ -1,17 +1,19 @@
 // deno-lint-ignore-file no-explicit-any
+import { ModType } from '../shared/modCheck.ts';
 import { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
-export interface IWrapObstacleAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapGridObjectAttribute<T> {
+export interface IWrapObstacleAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapGridObjectAttribute<T> {
    /** Duration `<float>` of obstacle.*/
    duration: number;
-   /** Width `<int>` of obstacle.
-    * ---
-    * Range: `none`
+   /**
+    * Width `<int>` of obstacle.
+    *
+    * **RANGE:** `none`
     */
    width: number;
-   /** Height `<int>` of obstacle.
+   /**
+    * Height `<int>` of obstacle.
     * ```ts
     * 1 -> Short
     * 2 -> Moderate
@@ -19,8 +21,8 @@ export interface IWrapObstacleAttribute<
     * 4 -> Tall
     * 5 -> Full
     * ```
-    * ---
-    * Range: `1-5`
+    *
+    * **RANGE:** `1-5`
     */
    height: number;
 }
@@ -31,28 +33,32 @@ export interface IWrapObstacle<T extends { [P in keyof T]: T[P] } = Record<strin
    setWidth(value: number): this;
    setHeight(value: number): this;
 
-   /** Check if obstacle is interactive.
+   /**
+    * Check if obstacle is interactive.
     * ```ts
     * if (wall.isInteractive()) {}
     * ```
     */
-   isInteractive(): boolean;
+   isInteractive(type?: ModType): boolean;
 
-   /** Check if current obstacle is longer than previous obstacle.
+   /**
+    * Check if current obstacle is longer than previous obstacle.
     * ```ts
     * if (wall.isLonger(compareWall)) {}
     * ```
     */
-   isLonger(compareTo: IWrapObstacle, prevOffset: number): boolean;
+   isLonger(compareTo: IWrapObstacle, prevOffset: number, type?: ModType): boolean;
 
-   /** Check if obstacle has zero value.
+   /**
+    * Check if obstacle has zero value.
     * ```ts
     * if (wall.hasZero()) {}
     * ```
     */
    hasZero(): boolean;
 
-   /** Check if obstacle has negative value.
+   /**
+    * Check if obstacle has negative value.
     * ```ts
     * if (wall.hasNegative()) {}
     * ```

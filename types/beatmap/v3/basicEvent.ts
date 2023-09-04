@@ -3,7 +3,8 @@ import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from './custom
 import { ICustomDataBase } from '../shared/custom/customData.ts';
 
 export interface IBasicEventBase extends IBaseObject {
-   /** Event type `<int>` of basic event.
+   /**
+    * Event type `<int>` of basic event.
     * ```ts
     * 0 -> Back Lasers
     * 1 -> Ring Lights
@@ -46,7 +47,8 @@ export interface IBasicEventGeneric extends IBasicEventBase {
 
 export interface IBasicEventLight extends IBasicEventBase {
    et: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11;
-   /** State of light event. ( Blue | Red | White )
+   /**
+    * State of light event. ( Blue | Red | White )
     * ```ts
     * 0 -> Off
     * 1 | 5 | 9 -> On
@@ -56,9 +58,10 @@ export interface IBasicEventLight extends IBasicEventBase {
     * ```
     */
    i: number;
-   /** Controls the brightness of the light.
+   /**
+    * Controls the brightness of the light.
     *
-    * Range: `0-1` (0% to 100%), can be more than 1.
+    * **RANGE:** `0-1` (0% to 100%), can be more than 1.
     */
    f: number;
    customData?: IChromaEventLight;
@@ -88,7 +91,8 @@ export interface IBasicEventLaserRotation extends IBasicEventBase {
 export interface IBasicEventLaneRotation extends IBasicEventBase {
    /** @deprecated use `rotationEvents` to apply lane rotation event. */
    et: 14 | 15;
-   /** Amount of angle changed clockwise.
+   /**
+    * Amount of angle changed clockwise.
     * ```ts
     * 0 -> -60 Degree
     * 1 -> -45 Degree
@@ -116,7 +120,8 @@ export interface IBasicEventSpecial extends IBasicEventBase {
 /** @deprecated use `bpmEvents` to apply BPM change. */
 export interface IBasicEventBPMChange extends IBasicEventBase {
    et: 100;
-   /** Changes the BPM to event value.
+   /**
+    * Changes the BPM to event value.
     *
     * @deprecated use `bpmEvents` to apply BPM change.
     */
