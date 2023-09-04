@@ -18,7 +18,7 @@ add the following on top of the script. No additional file or setup needed, it j
 
 ```ts
 // be sure to check for latest version on 'bsmap@version'
-import * as bsmap from 'https://deno.land/x/bsmap@1.4.2/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.5.0/mod.ts';
 ```
 
 **To first timer:** Make sure to initialise Deno workspace before using the script. If you encounter
@@ -39,7 +39,7 @@ destructuring can be used to obtain certain variables and functions. Helpful tip
 to show list of available variables and functions.
 
 ```ts
-import { deepCopy, load, pRandom, save, v3 } from 'https://deno.land/x/bsmap@1.4.2/mod.ts';
+import { deepCopy, load, pRandom, save, v3 } from 'https://deno.land/x/bsmap@1.5.0/mod.ts';
 ```
 
 List of available namespaces from root are `load`, `save`, `v2`, `v3`, `globals`, `convert`,
@@ -197,15 +197,15 @@ third-party library. This provides plentiful of helpers that may be useful for m
 other purposes.
 
 ```ts
-import * as chroma from 'https://deno.land/x/bsmap@1.4.2/extensions/chroma/mod.ts';
-import * as NE from 'https://deno.land/x/bsmap@1.4.2/extensions/NE/mod.ts';
-import * as selector from 'https://deno.land/x/bsmap@1.4.2/extensions/selector/mod.ts';
+import * as chroma from 'https://deno.land/x/bsmap@1.5.0/extensions/chroma/mod.ts';
+import * as NE from 'https://deno.land/x/bsmap@1.5.0/extensions/NE/mod.ts';
+import * as selector from 'https://deno.land/x/bsmap@1.5.0/extensions/selector/mod.ts';
 ```
 
 If you wish to import all of them, do as following:
 
 ```ts
-import * as ext from 'https://deno.land/x/bsmap@1.4.2/extensions/mod.ts';
+import * as ext from 'https://deno.land/x/bsmap@1.5.0/extensions/mod.ts';
 ```
 
 ## Patch
@@ -214,7 +214,7 @@ This module is not included as it is very rarely used and unstable. It contains 
 fix and alter beatmap objects that were potentially broken or contain incompatible data.
 
 ```ts
-import * as patch from 'https://deno.land/x/bsmap@1.4.2/patch/mod.ts';
+import * as patch from 'https://deno.land/x/bsmap@1.5.0/patch/mod.ts';
 ```
 
 ## Addendum
@@ -227,8 +227,8 @@ purpose.
 
 ```ts
 // deps.ts
-export * from 'https://deno.land/x/bsmap@1.4.2/mod.ts';
-export * as ext from 'https://deno.land/x/bsmap@1.4.2/extensions/mod.ts';
+export * from 'https://deno.land/x/bsmap@1.5.0/mod.ts';
+export * as ext from 'https://deno.land/x/bsmap@1.5.0/extensions/mod.ts';
 ```
 
 ```ts

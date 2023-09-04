@@ -3,7 +3,7 @@
  *
  * This library provides beatmap schema, class object, and various toolings to handle Beat Saber map.
  * ```ts
- * import { globals, load, save } from "https://deno.land/x/bsmap@1.4.2/mod.ts";
+ * import { globals, load, save } from "https://deno.land/x/bsmap@1.5.0/mod.ts";
  * globals.directory = '/path/to/map/folder/here'; // uses cwd if not stated
  * const diff = load.difficultySync('ExpertStandard.dat', 3);
  * // ... do what you want here with `diff`
