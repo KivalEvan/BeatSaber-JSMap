@@ -39,12 +39,11 @@ destructuring can be used to obtain certain variables and functions. Helpful tip
 to show list of available variables and functions.
 
 ```ts
-import { load, save, utils, v3 } from 'https://deno.land/x/bsmap@1.4.2/mod.ts';
-const { random, deepCopy } = utils;
+import { deepCopy, load, pRandom, save, v3 } from 'https://deno.land/x/bsmap@1.4.2/mod.ts';
 ```
 
-List of available namespaces from root are `load`, `save`, `v2`, `v3`, `utils`, `globals`,
-`convert`, `optimize`, `logger`, and `types`. Nested namespace is to be expected on an obscure area.
+List of available namespaces from root are `load`, `save`, `v2`, `v3`, `globals`, `convert`,
+`optimize`, `logger`, and `types`. Nested namespace is to be expected on an obscure area.
 
 ## Loading & Saving
 
@@ -280,8 +279,8 @@ const difficultyJSON = JSON.parse(
 
 There is neither correct nor best way to do scripting, but there are several caveats when using this
 module especially surrounding data modification with references (Object, Array, etc.). Whichever
-approach or paradigm you may use, it is the way it is for broader approach without trying to be too
-strict on certain standards.
+approach or paradigm you may use, it is the way it is for broader approach and "unopinionated"
+without trying to be too strict on certain standards.
 
 These practices are something you should be aware of, and it should be a second nature once you get
 used to it. Not that I am advocating for these practices, but by design the module behave exactly as
@@ -299,14 +298,12 @@ thing in array affects another) or unexpected class behaviour being in the wrong
 
 If you plan to modify the object after transferring an object, be aware of reference issue that may
 cause side-effect on 2 or more difficulty using the same object. There are advantages with current
-behaviour (such as performance), but overall
+behaviour (such as performance), but overall it is very easy to make this mistake. If you perfectly
+understood what you are doing, you can ignore this.
 
 ```ts
 const lightshow = load.difficultySync('Lightshow.dat', 3);
 const map = load.difficultySync('ExpertStandard.dat', 3);
-
-// DO
-map.basicEvents = lightshow.basicEvents.map((e) => e.clone()); // this correctly copies the class object
 
 // DON'T - 1
 map.basicEvents = lightshow.basicEvents;
@@ -317,9 +314,11 @@ map.basicEvents = [...lightshow.basicEvents];
 map.basicEvents[0].value = 1; // this also affects lightshow
 map.addBasicEvents({}); // however, lightshow array is unaffected
 
-// DON'T - 3 - may change in the future
-map.basicEvents = [];
-map.addBasicEvents(lightshow.basicEvents); // similar as 2
+// DO - 1
+map.basicEvents = lightshow.basicEvents.map((e) => e.clone()); // this correctly copies the class object
+
+// DO - 2
+map.addBasicEvents(...lightshow.basicEvents);
 ```
 
 ##### Mismatched Class Object Version
@@ -338,10 +337,8 @@ const v2map = load.difficultySync('v2map.dat');
 v3map.colorNotes = v2map.colorNotes;
 
 // DO
-v3map.colorNotes = [];
-// because version is mismatched, instead of inserting as is,
 // it copies the object to corresponding map version
-v3map.addColorNotes(v2map.colorNotes);
+v3map.addColorNotes(...v2map.colorNotes);
 
 // ALTERNATIVE SOLUTION
 // this reparse all objects in this difficulty to respective version,

@@ -159,11 +159,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addBpmEvents(
       ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]
    ): void {
-      this.bpmEvents.push(
-         ...data.map((obj) => {
-            return obj instanceof BPMEvent ? obj : new BPMEvent(obj);
-         }),
-      );
+      data.forEach((obj) => this.bpmEvents.push(new BPMEvent(obj)));
    }
 
    addRotationEvents(...data: Partial<IWrapRotationEventAttribute<IRotationEvent>>[]): void;
@@ -174,9 +170,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addRotationEvents(
       ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
    ): void {
-      this.rotationEvents.push(
-         ...data.map((obj) => (obj instanceof RotationEvent ? obj : new RotationEvent(obj))),
-      );
+      data.forEach((obj) => this.rotationEvents.push(new RotationEvent(obj)));
    }
 
    addColorNotes(...data: Partial<IWrapColorNoteAttribute<IColorNote>>[]): void;
@@ -187,9 +181,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addColorNotes(
       ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
    ): void {
-      this.colorNotes.push(
-         ...data.map((obj) => (obj instanceof ColorNote ? obj : new ColorNote(obj))),
-      );
+      data.forEach((obj) => this.colorNotes.push(new ColorNote(obj)));
    }
 
    addBombNotes(...data: Partial<IWrapBombNoteAttribute<IBombNote>>[]): void;
@@ -200,9 +192,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addBombNotes(
       ...data: (Partial<IBombNote>[] & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
    ): void {
-      this.bombNotes.push(
-         ...data.map((obj) => (obj instanceof BombNote ? obj : new BombNote(obj))),
-      );
+      data.forEach((obj) => this.bombNotes.push(new BombNote(obj)));
    }
 
    addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): void;
@@ -211,23 +201,21 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addObstacles(
       ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
    ): void {
-      this.obstacles.push(
-         ...data.map((obj) => (obj instanceof Obstacle ? obj : new Obstacle(obj))),
-      );
+      data.forEach((obj) => this.obstacles.push(new Obstacle(obj)));
    }
 
    addArcs(...data: Partial<IWrapArcAttribute<IArc>>[]): void;
    addArcs(...data: Partial<IArc>[]): void;
    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void;
    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void {
-      this.arcs.push(...data.map((obj) => (obj instanceof Arc ? obj : new Arc(obj))));
+      data.forEach((obj) => this.arcs.push(new Arc(obj)));
    }
 
    addChains(...data: Partial<IWrapChainAttribute<IChain>>[]): void;
    addChains(...data: Partial<IChain>[]): void;
    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): void;
    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): void {
-      this.chains.push(...data.map((obj) => (obj instanceof Chain ? obj : new Chain(obj))));
+      data.forEach((obj) => this.chains.push(new Chain(obj)));
    }
 
    addWaypoints(...data: Partial<IWrapWaypointAttribute<IWaypoint>>[]): void;
@@ -236,9 +224,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addWaypoints(
       ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
    ): void {
-      this.waypoints.push(
-         ...data.map((obj) => (obj instanceof Waypoint ? obj : new Waypoint(obj))),
-      );
+      data.forEach((obj) => this.waypoints.push(new Waypoint(obj)));
    }
 
    addBasicEvents(...data: Partial<IWrapEventAttribute<IBasicEvent>>[]): void;
@@ -249,9 +235,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addBasicEvents(
       ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<IBasicEvent>>)[]
    ): void {
-      this.basicEvents.push(
-         ...data.map((obj) => (obj instanceof BasicEvent ? obj : new BasicEvent(obj))),
-      );
+      data.forEach((obj) => this.basicEvents.push(new BasicEvent(obj)));
    }
 
    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]): void;
@@ -268,9 +252,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
       )[]
    ): void {
-      this.colorBoostEvents.push(
-         ...data.map((obj) => (obj instanceof ColorBoostEvent ? obj : new ColorBoostEvent(obj))),
-      );
+      data.forEach((obj) => this.colorBoostEvents.push(new ColorBoostEvent(obj)));
    }
 
    addLightColorEventBoxGroups(
@@ -310,11 +292,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          >
       )[]
    ): void {
-      this.lightColorEventBoxGroups.push(
-         ...data.map((obj) =>
-            obj instanceof LightColorEventBoxGroup ? obj : new LightColorEventBoxGroup(obj)
-         ),
-      );
+      data.forEach((obj) => this.lightColorEventBoxGroups.push(new LightColorEventBoxGroup(obj)));
    }
 
    addLightRotationEventBoxGroups(
@@ -354,10 +332,8 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          >
       )[]
    ): void {
-      this.lightRotationEventBoxGroups.push(
-         ...data.map((obj) =>
-            obj instanceof LightRotationEventBoxGroup ? obj : new LightRotationEventBoxGroup(obj)
-         ),
+      data.forEach((obj) =>
+         this.lightRotationEventBoxGroups.push(new LightRotationEventBoxGroup(obj))
       );
    }
 
@@ -398,12 +374,8 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          >
       )[]
    ): void {
-      this.lightTranslationEventBoxGroups.push(
-         ...data.map((obj) =>
-            obj instanceof LightTranslationEventBoxGroup
-               ? obj
-               : new LightTranslationEventBoxGroup(obj)
-         ),
+      data.forEach((obj) =>
+         this.lightTranslationEventBoxGroups.push(new LightTranslationEventBoxGroup(obj))
       );
    }
 

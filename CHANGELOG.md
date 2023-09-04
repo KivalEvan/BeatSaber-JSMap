@@ -21,6 +21,7 @@ Couple of optimization work has been done to further improve memory and time eff
   - This should reveal more hidden utilities without the need to import `utils` namespace
 - Beatmap Info structure changed to better fit original structure
   - This also goes for info custom data
+- Beatmap `addObject` method now always create new object instead of keeping reference
 - Custom data color scheme `a` is now optional instead of omitted
 - Removed logging from utils, now throws error instead of warn or error
 - Clarify `difficultyFromInfo` return type
