@@ -25,13 +25,14 @@ export class ColorNote extends WrapColorNote<IColorNote> {
    constructor(data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? ColorNote.default.b;
-      this._posX = data.posX ?? data.x ?? ColorNote.default.x;
-      this._posY = data.posY ?? data.y ?? ColorNote.default.y;
-      this._color = data.color ??
-         (data.type === 0 || data.type === 1 ? (data.type as 0) : data.c ?? ColorNote.default.c);
-      this._direction = data.direction ?? data.d ?? ColorNote.default.d;
-      this._angleOffset = data.angleOffset ?? data.a ?? ColorNote.default.a;
+      this._time = data.b ?? data.time ?? ColorNote.default.b;
+      this._posX = data.x ?? data.posX ?? ColorNote.default.x;
+      this._posY = data.y ?? data.posY ?? ColorNote.default.y;
+      this._color = data.c ??
+         data.color ??
+         (data.type === 0 || data.type === 1 ? (data.type as 0) : ColorNote.default.c);
+      this._direction = data.d ?? data.direction ?? ColorNote.default.d;
+      this._angleOffset = data.a ?? data.angleOffset ?? ColorNote.default.a;
       this._customData = deepCopy(data.customData ?? ColorNote.default.customData);
    }
 

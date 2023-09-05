@@ -25,11 +25,11 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? LightColorBase.default.b;
-      this._transition = data.transition ?? data.i ?? LightColorBase.default.i;
-      this._color = data.color ?? data.c ?? LightColorBase.default.c;
-      this._brightness = data.brightness ?? data.s ?? LightColorBase.default.s;
-      this._frequency = data.frequency ?? data.f ?? LightColorBase.default.f;
+      this._time = data.b ?? data.time ?? LightColorBase.default.b;
+      this._transition = data.i ?? data.transition ?? LightColorBase.default.i;
+      this._color = data.c ?? data.color ?? LightColorBase.default.c;
+      this._brightness = data.s ?? data.brightness ?? LightColorBase.default.s;
+      this._frequency = data.f ?? data.frequency ?? LightColorBase.default.f;
       this._customData = deepCopy(data.customData ?? LightColorBase.default.customData);
    }
 

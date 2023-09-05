@@ -28,26 +28,26 @@ export class Arc extends WrapArc<IArc> {
    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<IArc>> = {}) {
       super();
 
-      this._color = data.color ?? data._colorType ?? Arc.default._colorType;
-      this._time = data.time ?? data._headTime ?? data._tailTime ?? Arc.default._headTime;
-      this._posX = data.posX ?? data._headLineIndex ?? Arc.default._headLineIndex;
-      this._posY = data.posY ?? data._headLineLayer ?? Arc.default._headLineLayer;
-      this._direction = (data.direction as 0) ?? data._headCutDirection ??
+      this._color = data._colorType ?? data.color ?? Arc.default._colorType;
+      this._time = data._headTime ?? data.time ?? data._tailTime ?? Arc.default._headTime;
+      this._posX = data._headLineIndex ?? data.posX ?? Arc.default._headLineIndex;
+      this._posY = data._headLineLayer ?? data.posY ?? Arc.default._headLineLayer;
+      this._direction = data._headCutDirection ?? (data.direction as 0) ??
          Arc.default._headCutDirection;
-      this._lengthMultiplier = data.lengthMultiplier ??
-         data._headControlPointLengthMultiplier ??
+      this._lengthMultiplier = data._headControlPointLengthMultiplier ??
+         data.lengthMultiplier ??
          Arc.default._headControlPointLengthMultiplier;
-      this._tailTime = data.tailTime ?? data._tailTime ?? data._headTime ?? Arc.default._tailTime;
-      this._tailPosX = data.tailPosX ?? data._tailLineIndex ?? Arc.default._tailLineIndex;
-      this._tailPosY = data.tailPosY ?? data._tailLineLayer ?? Arc.default._tailLineLayer;
-      this._tailDirection = (data.tailDirection as 0) ?? data._tailCutDirection ??
+      this._tailTime = data._tailTime ?? data.tailTime ?? data._headTime ?? Arc.default._tailTime;
+      this._tailPosX = data._tailLineIndex ?? data.tailPosX ?? Arc.default._tailLineIndex;
+      this._tailPosY = data._tailLineLayer ?? data.tailPosY ?? Arc.default._tailLineLayer;
+      this._tailDirection = data._tailCutDirection ?? (data.tailDirection as 0) ??
          Arc.default._tailCutDirection;
-      this._tailLengthMultiplier = data.tailLengthMultiplier ??
-         data._tailControlPointLengthMultiplier ??
+      this._tailLengthMultiplier = data._tailControlPointLengthMultiplier ??
+         data.tailLengthMultiplier ??
          Arc.default._tailControlPointLengthMultiplier;
-      this._midAnchor = data.midAnchor ?? data._sliderMidAnchorMode ??
+      this._midAnchor = data._sliderMidAnchorMode ?? data.midAnchor ??
          Arc.default._sliderMidAnchorMode;
-      this._customData = deepCopy(data.customData ?? data._customData ?? Arc.default._customData);
+      this._customData = deepCopy(data._customData ?? data.customData ?? Arc.default._customData);
    }
 
    static create(): Arc[];

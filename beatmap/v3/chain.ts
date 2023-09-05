@@ -33,16 +33,16 @@ export class Chain extends WrapChain<IChain> {
    constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<IChain>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? data.tb ?? Chain.default.b;
-      this._color = data.color ?? data.c ?? Chain.default.c;
-      this._posX = data.posX ?? data.x ?? Chain.default.x;
-      this._posY = data.posY ?? data.y ?? Chain.default.y;
-      this._direction = data.direction ?? data.d ?? Chain.default.d;
-      this._tailTime = data.tailTime ?? data.tb ?? data.b ?? Chain.default.tb;
-      this._tailPosX = data.tailPosX ?? data.tx ?? Chain.default.tx;
-      this._tailPosY = data.tailPosY ?? data.ty ?? Chain.default.ty;
-      this._sliceCount = data.sliceCount ?? data.sc ?? Chain.default.sc;
-      this._squish = data.squish ?? data.s ?? Chain.default.s;
+      this._time = data.b ?? data.time ?? data.tb ?? Chain.default.b;
+      this._color = data.c ?? data.color ?? Chain.default.c;
+      this._posX = data.x ?? data.posX ?? Chain.default.x;
+      this._posY = data.y ?? data.posY ?? Chain.default.y;
+      this._direction = data.d ?? data.direction ?? Chain.default.d;
+      this._tailTime = data.tb ?? data.tailTime ?? data.b ?? Chain.default.tb;
+      this._tailPosX = data.tx ?? data.tailPosX ?? Chain.default.tx;
+      this._tailPosY = data.ty ?? data.tailPosY ?? Chain.default.ty;
+      this._sliceCount = data.sc ?? data.sliceCount ?? Chain.default.sc;
+      this._squish = data.s ?? data.squish ?? Chain.default.s;
       this._customData = deepCopy(data.customData ?? Chain.default.customData);
    }
 

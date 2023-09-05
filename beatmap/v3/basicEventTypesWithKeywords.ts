@@ -31,7 +31,7 @@ export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
    ) {
       super();
 
-      this._list = (data.list ?? data.d ?? BasicEventTypesWithKeywords.default.d)
+      this._list = (data.d ?? data.list ?? BasicEventTypesWithKeywords.default.d)
          .map((d) => {
             if (d) return new BasicEventTypesForKeywords(d);
          })

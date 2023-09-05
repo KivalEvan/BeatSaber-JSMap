@@ -20,9 +20,9 @@ export class BombNote extends WrapBombNote<IBombNote> {
    constructor(data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? BombNote.default.b;
-      this._posX = data.posX ?? data.x ?? BombNote.default.x;
-      this._posY = data.posY ?? data.y ?? BombNote.default.y;
+      this._time = data.b ?? data.time ?? BombNote.default.b;
+      this._posX = data.x ?? data.posX ?? BombNote.default.x;
+      this._posY = data.y ?? data.posY ?? BombNote.default.y;
       this._customData = deepCopy(data.customData ?? BombNote.default.customData);
    }
 

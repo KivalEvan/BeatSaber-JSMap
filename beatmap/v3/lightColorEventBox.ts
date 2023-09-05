@@ -60,22 +60,22 @@ export class LightColorEventBox extends WrapLightColorEventBox<
       super();
 
       this._filter = new IndexFilter(
-         (data.filter as IIndexFilter) ??
-            (data as ILightColorEventBox).f ??
+         (data as ILightColorEventBox).f ??
+            (data.filter as IIndexFilter) ??
             LightColorEventBox.default.f,
       );
-      this._beatDistribution = data.beatDistribution ?? data.w ?? LightColorEventBox.default.w;
-      this._beatDistributionType = data.beatDistributionType ?? data.d ??
+      this._beatDistribution = data.w ?? data.beatDistribution ?? LightColorEventBox.default.w;
+      this._beatDistributionType = data.d ?? data.beatDistributionType ??
          LightColorEventBox.default.d;
-      this._brightnessDistribution = data.brightnessDistribution ?? data.r ??
+      this._brightnessDistribution = data.r ?? data.brightnessDistribution ??
          LightColorEventBox.default.r;
-      this._brightnessDistributionType = data.brightnessDistributionType ?? data.t ??
+      this._brightnessDistributionType = data.t ?? data.brightnessDistributionType ??
          LightColorEventBox.default.t;
-      this._affectFirst = data.affectFirst ?? data.b ?? LightColorEventBox.default.b;
-      this._easing = data.easing ?? data.i ?? LightColorEventBox.default.i;
+      this._affectFirst = data.b ?? data.affectFirst ?? LightColorEventBox.default.b;
+      this._easing = data.i ?? data.easing ?? LightColorEventBox.default.i;
       this._events = (
-         (data.events as ILightColorBase[]) ??
-            (data as ILightColorEventBox).e ??
+         (data as ILightColorEventBox).e ??
+            (data.events as ILightColorBase[]) ??
             LightColorEventBox.default.e
       ).map((obj) => new LightColorBase(obj));
       this._customData = deepCopy(data.customData ?? LightColorEventBox.default.customData);

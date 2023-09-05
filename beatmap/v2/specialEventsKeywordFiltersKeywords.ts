@@ -30,11 +30,11 @@ export class SpecialEventsKeywordFiltersKeywords
    ) {
       super();
 
-      this._keyword = data.keyword ?? data._keyword ??
+      this._keyword = data._keyword ?? data.keyword ??
          SpecialEventsKeywordFiltersKeywords.default._keyword;
       this._events = (
-         data.events ??
-            data._specialEvents ??
+         data._specialEvents ??
+            data.events ??
             SpecialEventsKeywordFiltersKeywords.default._specialEvents
       ).filter((n) => typeof n === 'number') as number[];
    }

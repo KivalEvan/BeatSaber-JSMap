@@ -23,9 +23,9 @@ export class RotationEvent extends WrapRotationEvent<IRotationEvent> {
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? RotationEvent.default.b;
-      this._executionTime = data.executionTime ?? data.e ?? RotationEvent.default.e;
-      this._rotation = data.rotation ?? data.r ?? RotationEvent.default.r;
+      this._time = data.b ?? data.time ?? RotationEvent.default.b;
+      this._executionTime = data.e ?? data.executionTime ?? RotationEvent.default.e;
+      this._rotation = data.r ?? data.rotation ?? RotationEvent.default.r;
       this._customData = deepCopy(data.customData ?? RotationEvent.default.customData);
    }
 

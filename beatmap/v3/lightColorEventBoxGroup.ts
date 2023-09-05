@@ -60,11 +60,11 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? LightColorEventBoxGroup.default.b;
-      this._id = data.id ?? data.g ?? LightColorEventBoxGroup.default.g;
+      this._time = data.b ?? data.time ?? LightColorEventBoxGroup.default.b;
+      this._id = data.g ?? data.id ?? LightColorEventBoxGroup.default.g;
       this._boxes = (
-         (data.boxes as ILightColorEventBox[]) ??
-            (data.e as unknown as ILightColorEventBox[]) ??
+         (data.e as unknown as ILightColorEventBox[]) ??
+            (data.boxes as ILightColorEventBox[]) ??
             LightColorEventBoxGroup.default.e
       ).map((obj) => new LightColorEventBox(obj));
       this._customData = deepCopy(data.customData ?? LightColorEventBoxGroup.default.customData);

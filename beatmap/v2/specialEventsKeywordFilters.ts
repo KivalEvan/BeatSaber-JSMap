@@ -29,7 +29,7 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
    ) {
       super();
 
-      this._list = (data.list ?? data._keywords ?? SpecialEventsKeywordFilters.default._keywords)
+      this._list = (data._keywords ?? data.list ?? SpecialEventsKeywordFilters.default._keywords)
          .map((d) => {
             if (d) return new SpecialEventsKeywordFiltersKeywords(d);
          })

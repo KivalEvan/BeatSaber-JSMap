@@ -24,8 +24,8 @@ export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEvent> {
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? ColorBoostEvent.default.b;
-      this._toggle = data.toggle ?? data.o ?? ColorBoostEvent.default.o;
+      this._time = data.b ?? data.time ?? ColorBoostEvent.default.b;
+      this._toggle = data.o ?? data.toggle ?? ColorBoostEvent.default.o;
       this._customData = deepCopy(data.customData ?? ColorBoostEvent.default.customData);
    }
 

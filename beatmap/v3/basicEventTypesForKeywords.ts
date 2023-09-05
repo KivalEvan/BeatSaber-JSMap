@@ -29,8 +29,8 @@ export class BasicEventTypesForKeywords
    ) {
       super();
 
-      this._keyword = data.keyword ?? data.k ?? BasicEventTypesForKeywords.default.k;
-      this._events = (data.events ?? data.e ?? BasicEventTypesForKeywords.default.e).filter(
+      this._keyword = data.k ?? data.keyword ?? BasicEventTypesForKeywords.default.k;
+      this._events = (data.e ?? data.events ?? BasicEventTypesForKeywords.default.e).filter(
          (n) => typeof n === 'number',
       ) as number[];
    }

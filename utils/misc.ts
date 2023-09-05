@@ -17,32 +17,41 @@ export function pickRandom<T>(ary: T[], fn = Math.random): T {
 }
 
 /**
+ * Fast and simple copy for flat object like `{ name: 'hello' }`, `[0, 1, 2]` or any other primitives.
+ *
+ * **WARNING:** Avoid using if contain nested object.
+ */
+export function shallowCopy<T>(object: T): T {
+   if (object === null || object === undefined || typeof object !== 'object') return object;
+   if (Array.isArray(object)) return [...object] as T;
+   return Object.assign(object);
+}
+
+/**
+ * Recursive copy, used for nested object.
+ *
+ * Works best with only primitive object. Use `structuredClone()` for more complicated objects, or `clone()` or similar object method if available.
+ */
+export function deepCopy<T>(object: T): T {
+   if (object === null || object === undefined || typeof object !== 'object') return object;
+   // deno-lint-ignore no-explicit-any
+   const newObj: any = Array.isArray(object) ? new Array(object.length) : {};
+   for (const k in object) {
+      newObj[k] = deepCopy(object[k]);
+   }
+   return newObj;
+}
+
+/**
  * Simple old-fashioned deep copy JSON object or JSON array.
  *
  * Works best with only primitive object. Use `structuredClone()` for more complicated objects, or `clone()` or similar object method if available.
  *
- * **WARNING:** Slow and memory intensive operation especially for very large object.
+ * **WARNING:** Memory intensive operation especially for very large object.
  */
-export function deepCopy<T>(object: T): T {
-   if (typeof object !== 'object' || typeof object === null || typeof object === undefined) {
-      return object;
-   }
+export function jsonCopy<T>(object: T): T {
+   if (object === null || object === undefined || typeof object !== 'object') return object;
    return JSON.parse(JSON.stringify(object));
-}
-
-/**
- * Fast and simple copy.
- *
- * Works best for flat object like `{ name: 'hello' }`, `[0, 1, 2]` or any other primitives.
- *
- * **WARNING:** Avoid using if contain nested reference.
- */
-export function shallowCopy<T>(object: T): T {
-   if (typeof object !== 'object' || typeof object === null || typeof object === undefined) {
-      return object;
-   }
-   if (Array.isArray(object)) return [...object] as T;
-   return { ...object };
 }
 
 export function isHex(hex: string): boolean {

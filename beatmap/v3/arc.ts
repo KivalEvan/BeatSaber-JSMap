@@ -35,18 +35,18 @@ export class Arc extends WrapArc<IArc> {
    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<IArc>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? Arc.default.b;
-      this._color = data.color ?? data.c ?? Arc.default.c;
-      this._posX = data.posX ?? data.x ?? Arc.default.x;
-      this._posY = data.posY ?? data.y ?? Arc.default.y;
-      this._direction = data.direction ?? data.d ?? Arc.default.d;
-      this._lengthMultiplier = data.lengthMultiplier ?? data.mu ?? Arc.default.mu;
-      this._tailTime = data.tailTime ?? data.tb ?? Arc.default.tb;
-      this._tailPosX = data.tailPosX ?? data.tx ?? Arc.default.tx;
-      this._tailPosY = data.tailPosY ?? data.ty ?? Arc.default.ty;
-      this._tailDirection = data.tailDirection ?? data.tc ?? Arc.default.tc;
-      this._tailLengthMultiplier = data.tailLengthMultiplier ?? data.tmu ?? Arc.default.tmu;
-      this._midAnchor = data.midAnchor ?? data.m ?? Arc.default.m;
+      this._time = data.b ?? data.time ?? Arc.default.b;
+      this._color = data.c ?? data.color ?? Arc.default.c;
+      this._posX = data.x ?? data.posX ?? Arc.default.x;
+      this._posY = data.y ?? data.posY ?? Arc.default.y;
+      this._direction = data.d ?? data.direction ?? Arc.default.d;
+      this._lengthMultiplier = data.mu ?? data.lengthMultiplier ?? Arc.default.mu;
+      this._tailTime = data.tb ?? data.tailTime ?? Arc.default.tb;
+      this._tailPosX = data.tx ?? data.tailPosX ?? Arc.default.tx;
+      this._tailPosY = data.ty ?? data.tailPosY ?? Arc.default.ty;
+      this._tailDirection = data.tc ?? data.tailDirection ?? Arc.default.tc;
+      this._tailLengthMultiplier = data.tmu ?? data.tailLengthMultiplier ?? Arc.default.tmu;
+      this._midAnchor = data.m ?? data.midAnchor ?? Arc.default.m;
       this._customData = deepCopy(data.customData ?? Arc.default.customData);
    }
 

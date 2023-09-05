@@ -25,12 +25,12 @@ export class Obstacle extends WrapObstacle<IObstacle> {
    constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? Obstacle.default.b;
-      this._posX = data.posX ?? data.x ?? Obstacle.default.x;
-      this._posY = data.posY ?? data.y ?? Obstacle.default.y;
-      this._duration = data.duration ?? data.d ?? Obstacle.default.d;
-      this._width = data.width ?? data.w ?? Obstacle.default.w;
-      this._height = data.height ?? data.h ?? Obstacle.default.h;
+      this._time = data.b ?? data.time ?? Obstacle.default.b;
+      this._posX = data.x ?? data.posX ?? Obstacle.default.x;
+      this._posY = data.y ?? data.posY ?? Obstacle.default.y;
+      this._duration = data.d ?? data.duration ?? Obstacle.default.d;
+      this._width = data.w ?? data.width ?? Obstacle.default.w;
+      this._height = data.h ?? data.height ?? Obstacle.default.h;
       this._customData = deepCopy(data.customData ?? Obstacle.default.customData);
    }
 

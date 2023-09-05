@@ -27,15 +27,15 @@ export class IndexFilter extends WrapIndexFilter<IIndexFilter> {
    ) {
       super();
 
-      this._type = data.type ?? data.f ?? IndexFilter.default.f;
-      this._p0 = data.p0 ?? data.p ?? IndexFilter.default.p;
-      this._p1 = data.p1 ?? data.t ?? IndexFilter.default.t;
-      this._reverse = data.reverse ?? data.r ?? IndexFilter.default.r;
-      this._chunks = data.chunks ?? data.c ?? IndexFilter.default.c;
-      this._random = data.random ?? data.n ?? IndexFilter.default.n;
-      this._seed = data.seed ?? data.s ?? IndexFilter.default.s;
-      this._limit = data.limit ?? data.l ?? IndexFilter.default.l;
-      this._limitAffectsType = data.limitAffectsType ?? data.d ?? IndexFilter.default.d;
+      this._type = data.f ?? data.type ?? IndexFilter.default.f;
+      this._p0 = data.p ?? data.p0 ?? IndexFilter.default.p;
+      this._p1 = data.t ?? data.p1 ?? IndexFilter.default.t;
+      this._reverse = data.r ?? data.reverse ?? IndexFilter.default.r;
+      this._chunks = data.c ?? data.chunks ?? IndexFilter.default.c;
+      this._random = data.n ?? data.random ?? IndexFilter.default.n;
+      this._seed = data.s ?? data.seed ?? IndexFilter.default.s;
+      this._limit = data.l ?? data.limit ?? IndexFilter.default.l;
+      this._limitAffectsType = data.d ?? data.limitAffectsType ?? IndexFilter.default.d;
       this._customData = deepCopy(data.customData ?? IndexFilter.default.customData);
    }
 

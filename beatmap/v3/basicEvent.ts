@@ -27,10 +27,10 @@ export class BasicEvent extends WrapEvent<IBasicEvent> {
    constructor(data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? BasicEvent.default.b;
-      this._type = data.type ?? data.et ?? BasicEvent.default.et;
-      this._value = data.value ?? data.i ?? BasicEvent.default.i;
-      this._floatValue = data.floatValue ?? data.f ?? BasicEvent.default.f;
+      this._time = data.b ?? data.time ?? BasicEvent.default.b;
+      this._type = data.et ?? data.type ?? BasicEvent.default.et;
+      this._value = data.i ?? data.value ?? BasicEvent.default.i;
+      this._floatValue = data.f ?? data.floatValue ?? BasicEvent.default.f;
       this._customData = deepCopy(data.customData ?? BasicEvent.default.customData);
    }
 

@@ -18,8 +18,8 @@ export class BPMEvent extends WrapBPMEvent<IBPMEvent> {
    constructor(data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? BPMEvent.default.b;
-      this._bpm = data.bpm ?? data.m ?? BPMEvent.default.m;
+      this._time = data.b ?? data.time ?? BPMEvent.default.b;
+      this._bpm = data.m ?? data.bpm ?? BPMEvent.default.m;
       this._customData = deepCopy(data.customData ?? BPMEvent.default.customData);
    }
 

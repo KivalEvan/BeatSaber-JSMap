@@ -74,25 +74,25 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
       super();
 
       this._filter = new IndexFilter(
-         (data.filter as IIndexFilter) ??
-            (data as ILightTranslationEventBox).f ??
+         (data as ILightTranslationEventBox).f ??
+            (data.filter as IIndexFilter) ??
             LightTranslationEventBox.default.f,
       );
-      this._beatDistribution = data.beatDistribution ?? data.w ??
+      this._beatDistribution = data.w ?? data.beatDistribution ??
          LightTranslationEventBox.default.w;
-      this._beatDistributionType = data.beatDistributionType ?? data.d ??
+      this._beatDistributionType = data.d ?? data.beatDistributionType ??
          LightTranslationEventBox.default.d;
-      this._translationDistribution = data.translationDistribution ?? data.s ??
+      this._translationDistribution = data.s ?? data.translationDistribution ??
          LightTranslationEventBox.default.s;
-      this._translationDistributionType = data.translationDistributionType ?? data.t ??
+      this._translationDistributionType = data.t ?? data.translationDistributionType ??
          LightTranslationEventBox.default.t;
-      this._axis = data.axis ?? data.a ?? LightTranslationEventBox.default.a;
-      this._flip = data.flip ?? data.r ?? LightTranslationEventBox.default.r;
-      this._affectFirst = data.affectFirst ?? data.b ?? LightTranslationEventBox.default.b;
-      this._easing = data.easing ?? data.i ?? LightTranslationEventBox.default.i;
+      this._axis = data.a ?? data.axis ?? LightTranslationEventBox.default.a;
+      this._flip = data.r ?? data.flip ?? LightTranslationEventBox.default.r;
+      this._affectFirst = data.b ?? data.affectFirst ?? LightTranslationEventBox.default.b;
+      this._easing = data.i ?? data.easing ?? LightTranslationEventBox.default.i;
       this._events = (
-         (data.events as ILightTranslationBase[]) ??
-            (data as ILightTranslationEventBox).l ??
+         (data as ILightTranslationEventBox).l ??
+            (data.events as ILightTranslationBase[]) ??
             LightTranslationEventBox.default.l
       ).map((obj) => new LightTranslationBase(obj));
       this._customData = deepCopy(data.customData ?? LightTranslationEventBox.default.customData);

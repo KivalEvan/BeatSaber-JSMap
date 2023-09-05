@@ -60,11 +60,11 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? LightRotationEventBoxGroup.default.b;
-      this._id = data.id ?? data.g ?? LightRotationEventBoxGroup.default.g;
+      this._time = data.b ?? data.time ?? LightRotationEventBoxGroup.default.b;
+      this._id = data.g ?? data.id ?? LightRotationEventBoxGroup.default.g;
       this._boxes = (
-         (data.boxes as ILightRotationEventBox[]) ??
-            (data.e as unknown as ILightRotationEventBox[]) ??
+         (data.e as unknown as ILightRotationEventBox[]) ??
+            (data.boxes as ILightRotationEventBox[]) ??
             LightRotationEventBoxGroup.default.e
       ).map((obj) => new LightRotationEventBox(obj));
       this._customData = deepCopy(data.customData ?? LightRotationEventBoxGroup.default.customData);

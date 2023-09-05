@@ -28,11 +28,11 @@ export class Event extends WrapEvent<IEvent> {
    constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>> = {}) {
       super();
 
-      this._time = data.time ?? data._time ?? Event.default._time;
-      this._type = data.type ?? data._type ?? Event.default._type;
-      this._value = data.value ?? data._value ?? Event.default._value;
-      this._floatValue = data.floatValue ?? data._floatValue ?? Event.default._floatValue;
-      this._customData = deepCopy(data.customData ?? data._customData ?? Event.default._customData);
+      this._time = data._time ?? data.time ?? Event.default._time;
+      this._type = data._type ?? data.type ?? Event.default._type;
+      this._value = data._value ?? data.value ?? Event.default._value;
+      this._floatValue = data._floatValue ?? data.floatValue ?? Event.default._floatValue;
+      this._customData = deepCopy(data._customData ?? data.customData ?? Event.default._customData);
    }
 
    static create(): Event[];

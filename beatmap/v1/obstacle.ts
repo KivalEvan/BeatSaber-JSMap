@@ -28,11 +28,16 @@ export class Obstacle extends WrapObstacle<IObstacle> {
    constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
       super();
 
-      this._time = data.time ?? data._time ?? Obstacle.default._time;
-      this._type = data._type ?? Obstacle.default._type;
-      this._posX = data.posX ?? data._lineIndex ?? Obstacle.default._lineIndex;
-      this._duration = data.duration ?? data._duration ?? Obstacle.default._duration;
-      this._width = data.width ?? data._width ?? Obstacle.default._width;
+      this._time = data._time ?? data.time ?? Obstacle.default._time;
+      this._type = data._type ??
+         (data.posY === 2 && data.height === 3
+            ? 1
+            : data.posY === 0 && data.height === 5
+            ? 0
+            : Obstacle.default._type);
+      this._posX = data._lineIndex ?? data.posX ?? Obstacle.default._lineIndex;
+      this._duration = data._duration ?? data.duration ?? Obstacle.default._duration;
+      this._width = data._width ?? data.width ?? Obstacle.default._width;
    }
 
    static create(): Obstacle[];

@@ -60,11 +60,11 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? LightTranslationEventBoxGroup.default.b;
-      this._id = data.id ?? data.g ?? LightTranslationEventBoxGroup.default.g;
+      this._time = data.b ?? data.time ?? LightTranslationEventBoxGroup.default.b;
+      this._id = data.g ?? data.id ?? LightTranslationEventBoxGroup.default.g;
       this._boxes = (
-         (data.boxes as ILightTranslationEventBox[]) ??
-            (data.e as unknown as ILightTranslationEventBox[]) ??
+         (data.e as unknown as ILightTranslationEventBox[]) ??
+            (data.boxes as ILightTranslationEventBox[]) ??
             LightTranslationEventBoxGroup.default.e
       ).map((obj) => new LightTranslationEventBox(obj));
       this._customData = deepCopy(

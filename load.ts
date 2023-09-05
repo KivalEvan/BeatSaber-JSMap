@@ -166,7 +166,7 @@ function _difficulty(
       typeof diffJSON._version === 'string'
          ? diffJSON._version.at(0)!
          : typeof diffJSON.version === 'string'
-         ? diffJSON.version?.at(0)!
+         ? diffJSON.version.at(0)!
          : '2',
    );
 
@@ -206,10 +206,10 @@ function _difficulty(
       }
       return parseV2Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
    } else {
-      if (version === 1) {
+      if (jsonVersion === 1) {
          return parseV1Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
       }
-      if (version === 3) {
+      if (jsonVersion === 3) {
          return parseV3Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
       }
       return parseV2Difficulty(diffJSON, opt.dataCheck).setFileName(filePath);
@@ -312,7 +312,7 @@ function _difficultyFromInfo(info: IWrapInfo, options: ILoadOptionsDifficulty) {
             typeof diffJSON._version === 'string'
                ? diffJSON._version.at(0)!
                : typeof diffJSON.version === 'string'
-               ? diffJSON.version?.at(0)!
+               ? diffJSON.version.at(0)!
                : '2',
          );
 

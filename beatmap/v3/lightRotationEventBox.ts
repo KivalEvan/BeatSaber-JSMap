@@ -74,24 +74,24 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
       super();
 
       this._filter = new IndexFilter(
-         (data.filter as IIndexFilter) ??
-            (data as ILightRotationEventBox).f ??
+         (data as ILightRotationEventBox).f ??
+            (data.filter as IIndexFilter) ??
             LightRotationEventBox.default.f,
       );
-      this._beatDistribution = data.beatDistribution ?? data.w ?? LightRotationEventBox.default.w;
-      this._beatDistributionType = data.beatDistributionType ?? data.d ??
+      this._beatDistribution = data.w ?? data.beatDistribution ?? LightRotationEventBox.default.w;
+      this._beatDistributionType = data.d ?? data.beatDistributionType ??
          LightRotationEventBox.default.d;
-      this._rotationDistribution = data.rotationDistribution ?? data.s ??
+      this._rotationDistribution = data.s ?? data.rotationDistribution ??
          LightRotationEventBox.default.s;
-      this._rotationDistributionType = data.rotationDistributionType ?? data.t ??
+      this._rotationDistributionType = data.t ?? data.rotationDistributionType ??
          LightRotationEventBox.default.t;
-      this._axis = data.axis ?? data.a ?? LightRotationEventBox.default.a;
-      this._flip = data.flip ?? data.r ?? LightRotationEventBox.default.r;
-      this._affectFirst = data.affectFirst ?? data.b ?? LightRotationEventBox.default.b;
-      this._easing = data.easing ?? data.i ?? LightRotationEventBox.default.i;
+      this._axis = data.a ?? data.axis ?? LightRotationEventBox.default.a;
+      this._flip = data.r ?? data.flip ?? LightRotationEventBox.default.r;
+      this._affectFirst = data.b ?? data.affectFirst ?? LightRotationEventBox.default.b;
+      this._easing = data.i ?? data.easing ?? LightRotationEventBox.default.i;
       this._events = (
-         (data.events as ILightRotationBase[]) ??
-            (data as ILightRotationEventBox).l ??
+         (data as ILightRotationEventBox).l ??
+            (data.events as ILightRotationBase[]) ??
             LightRotationEventBox.default.l
       ).map((obj) => new LightRotationBase(obj));
       this._customData = deepCopy(data.customData ?? LightRotationEventBox.default.customData);

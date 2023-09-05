@@ -20,10 +20,10 @@ export class Waypoint extends WrapWaypoint<IWaypoint> {
    constructor(data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? Waypoint.default.b;
-      this._posX = data.posX ?? data.x ?? Waypoint.default.x;
-      this._posY = data.posY ?? data.y ?? Waypoint.default.y;
-      this._direction = data.direction ?? data.d ?? Waypoint.default.d;
+      this._time = data.b ?? data.time ?? Waypoint.default.b;
+      this._posX = data.x ?? data.posX ?? Waypoint.default.x;
+      this._posY = data.y ?? data.posY ?? Waypoint.default.y;
+      this._direction = data.d ?? data.direction ?? Waypoint.default.d;
       this._customData = deepCopy(data.customData ?? Waypoint.default.customData);
    }
 

@@ -28,12 +28,12 @@ export class Note extends WrapColorNote<INote> {
    constructor(data: Partial<INote> & Partial<IWrapColorNoteAttribute<INote>> = {}) {
       super();
 
-      this._time = data.time ?? data._time ?? Note.default._time;
-      this._posX = data.posX ?? data._lineIndex ?? Note.default._lineIndex;
-      this._posY = data.posY ?? data._lineLayer ?? Note.default._lineLayer;
-      this._type = data.type ?? data.color ?? data._type ?? Note.default._type;
-      this._direction = data.direction ?? data._cutDirection ?? Note.default._cutDirection;
-      this._customData = deepCopy(data.customData ?? data._customData ?? Note.default._customData);
+      this._time = data._time ?? data.time ?? Note.default._time;
+      this._posX = data._lineIndex ?? data.posX ?? Note.default._lineIndex;
+      this._posY = data._lineLayer ?? data.posY ?? Note.default._lineLayer;
+      this._type = data._type ?? data.type ?? data.color ?? Note.default._type;
+      this._direction = data._cutDirection ?? data.direction ?? Note.default._cutDirection;
+      this._customData = deepCopy(data._customData ?? data.customData ?? Note.default._customData);
    }
 
    static create(): Note[];

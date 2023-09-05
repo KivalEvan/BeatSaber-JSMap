@@ -2,7 +2,9 @@
 
 ## 1.5.0 [2023-09-xx]
 
-Couple of optimization work has been done to further improve memory and time efficiency.
+Couple of optimization work has been done to further improve memory and time efficiency. This
+focuses heavily on speed for faster iteration reason. Overall, it should result in at least 1.6x
+faster in general use case.
 
 ### Added
 
@@ -10,7 +12,7 @@ Couple of optimization work has been done to further improve memory and time eff
   characteristic label, etc.)
 - Info color scheme copy
 - Ensure alpha for `toColorObject`
-- `invLerp`, `remap`, `shallowCopy`, and `lerpVector` utils
+- `invLerp`, `remap`, `lerpVector`, `shallowCopy`, and `jsonCopy` utils
 - Missing `offsetPosition` and `offsetWorldRotation` property for `AnimateTrack` and
   `AssignPathAnimation`
 - Object method comparison now checks for mod type
@@ -21,10 +23,11 @@ Couple of optimization work has been done to further improve memory and time eff
   - This should reveal more hidden utilities without the need to import `utils` namespace
 - Beatmap Info structure changed to better fit original structure
   - This also goes for info custom data
-- Beatmap `addObject` method now always create new object instead of keeping reference
+- Beatmap `addObject` method now always create new instance
 - Custom data color scheme `a` is now optional instead of omitted
 - Removed logging from utils, now throws error instead of warn or error
 - Clarify `difficultyFromInfo` return type
+- `deepCopy` reworked, formerly is now `jsonCopy`
 - Converter function renamed for clarity
 - Color utils renamed for consistency
   - `HsvaToRgba` to `hsvaToRgba`
@@ -36,8 +39,8 @@ Couple of optimization work has been done to further improve memory and time eff
 
 - Mapping Extensions precision placement X position being incorrect
 - Data check should properly skip error
-- To color object should copy the object instead of referencing
-- To hex color properly normalize the value outside of 0-1 range
+- Couple of accidental mutation fix from utils
+- `toHexColor` properly normalize the value outside of 0-1 range
 
 ## 1.4.1 [2023-06-30]
 
