@@ -24,7 +24,7 @@ export function pickRandom<T>(ary: T[], fn = Math.random): T {
 export function shallowCopy<T>(object: T): T {
    if (object === null || object === undefined || typeof object !== 'object') return object;
    if (Array.isArray(object)) return [...object] as T;
-   return Object.assign(object);
+   return { ...object };
 }
 
 /**
@@ -35,7 +35,7 @@ export function shallowCopy<T>(object: T): T {
 export function deepCopy<T>(object: T): T {
    if (object === null || object === undefined || typeof object !== 'object') return object;
    // deno-lint-ignore no-explicit-any
-   const newObj: any = Array.isArray(object) ? new Array(object.length) : {};
+   const newObj: any = Array.isArray(object) ? Array(object.length) : {};
    for (const k in object) {
       newObj[k] = deepCopy(object[k]);
    }
@@ -50,7 +50,6 @@ export function deepCopy<T>(object: T): T {
  * **WARNING:** Memory intensive operation especially for very large object.
  */
 export function jsonCopy<T>(object: T): T {
-   if (object === null || object === undefined || typeof object !== 'object') return object;
    return JSON.parse(JSON.stringify(object));
 }
 

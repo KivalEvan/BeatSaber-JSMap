@@ -1,6 +1,5 @@
 import { IEvent } from '../../types/beatmap/v2/event.ts';
 import { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
-import { deepCopy } from '../../utils/misc.ts';
 import { renameKey } from './_helpers.ts';
 
 export default function (
@@ -9,7 +8,7 @@ export default function (
    if (!customData) {
       return {};
    }
-   const cd = deepCopy(customData);
+   const cd = { ...customData };
    if (!Object.keys(cd).length) {
       return {};
    }

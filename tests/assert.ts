@@ -14,26 +14,18 @@ export function assertClassObjectMatch(
          if (Array.isArray(original)) {
             if (Array.isArray(compare)) {
                if (original.length !== compare.length) {
-                  throw new AssertionError(
-                     msg ?? `expected ${key} array to be same length`,
-                  );
+                  throw new AssertionError(msg ?? `expected ${key} array to be same length`);
                }
                if (
                   original.every(
                      (el) =>
-                        typeof el === 'number' ||
-                        typeof el === 'string' ||
-                        typeof el === 'boolean',
+                        typeof el === 'number' || typeof el === 'string' || typeof el === 'boolean',
                   )
                ) {
                   assertEquals(original, compare, msg?.concat(':', key));
                } else {
                   original.forEach((_, i) =>
-                     assertClassObjectMatch(
-                        original[i],
-                        compare[i],
-                        msg?.concat(':', key),
-                     )
+                     assertClassObjectMatch(original[i], compare[i], msg?.concat(':', key))
                   );
                }
             } else throw new AssertionError(msg ?? `expected ${key} to be array`);

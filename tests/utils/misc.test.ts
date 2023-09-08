@@ -26,30 +26,76 @@ Deno.test('Pick Random', () => {
    assertEquals(misc.pickRandom(ary, rand), 3);
 });
 
+Deno.test('Shallow Copy', () => {
+   // acceptable
+   // deno-lint-ignore no-explicit-any
+   let testCopy: any;
+   testCopy = [];
+   assertEquals(misc.shallowCopy(testCopy), testCopy);
+   assert(misc.shallowCopy(testCopy) !== testCopy);
+   testCopy = {};
+   assertEquals(misc.shallowCopy(testCopy), testCopy);
+   assert(misc.shallowCopy(testCopy) !== testCopy);
+   testCopy = [{}, 0];
+   assertEquals(misc.shallowCopy(testCopy), testCopy);
+   assert(misc.shallowCopy(testCopy) !== testCopy);
+   testCopy = [0, 'lol'];
+   assertEquals(misc.shallowCopy(testCopy), testCopy);
+   assert(misc.shallowCopy(testCopy) !== testCopy);
+   testCopy = [{ yes: '' }];
+   assertEquals(misc.shallowCopy(testCopy), testCopy);
+   assert(misc.shallowCopy(testCopy) !== testCopy);
+   testCopy = {
+      string: 'abc',
+      number: 123.05,
+      boolean: true,
+      array: ['hi'],
+      object: { nested: 'hi' },
+   };
+   assertEquals(misc.shallowCopy(testCopy), testCopy);
+   assert(misc.shallowCopy(testCopy) !== testCopy);
+   testCopy = () => {};
+   assertEquals(misc.shallowCopy(testCopy), testCopy); // function returns as function
+
+   // non object stuff
+   assertEquals(misc.shallowCopy(''), '');
+   assertEquals(misc.shallowCopy(0), 0);
+   assertEquals(misc.shallowCopy(false), false);
+   assertEquals(misc.shallowCopy(Boolean()), Boolean());
+   assertEquals(misc.shallowCopy(undefined), undefined);
+   assertEquals(misc.shallowCopy(null), null);
+});
+
 Deno.test('Deep Copy', () => {
    // acceptable
-   assertEquals(misc.deepCopy([]), []);
-   assertEquals(misc.deepCopy({}), {});
-   assertEquals(misc.deepCopy([{}, 0]), [{}, 0]);
-   assertEquals(misc.deepCopy([0, 'lol']), [0, 'lol']);
-   assertEquals(misc.deepCopy([{ yes: '' }]), [{ yes: '' }]);
-   assertEquals(
-      misc.deepCopy({
-         string: 'abc',
-         number: 123.05,
-         boolean: true,
-         array: ['hi'],
-         object: { nested: 'hi' },
-      }),
-      {
-         string: 'abc',
-         number: 123.05,
-         boolean: true,
-         array: ['hi'],
-         object: { nested: 'hi' },
-      },
-   );
-   assertEquals(misc.deepCopy(null), null); // i mean yea it works and expected
+   // deno-lint-ignore no-explicit-any
+   let testCopy: any;
+   testCopy = [];
+   assertEquals(misc.deepCopy(testCopy), testCopy);
+   assert(misc.deepCopy(testCopy) !== testCopy);
+   testCopy = {};
+   assertEquals(misc.deepCopy(testCopy), testCopy);
+   assert(misc.deepCopy(testCopy) !== testCopy);
+   testCopy = [{}, 0];
+   assertEquals(misc.deepCopy(testCopy), testCopy);
+   assert(misc.deepCopy(testCopy) !== testCopy);
+   testCopy = [0, 'lol'];
+   assertEquals(misc.deepCopy(testCopy), testCopy);
+   assert(misc.deepCopy(testCopy) !== testCopy);
+   testCopy = [{ yes: '' }];
+   assertEquals(misc.deepCopy(testCopy), testCopy);
+   assert(misc.deepCopy(testCopy) !== testCopy);
+   testCopy = {
+      string: 'abc',
+      number: 123.05,
+      boolean: true,
+      array: ['hi'],
+      object: { nested: 'hi' },
+   };
+   assertEquals(misc.deepCopy(testCopy), testCopy);
+   assert(misc.deepCopy(testCopy) !== testCopy);
+   testCopy = () => {};
+   assertEquals(misc.deepCopy(testCopy), testCopy); // function returns as function
 
    // non object stuff
    assertEquals(misc.deepCopy(''), '');
@@ -57,12 +103,44 @@ Deno.test('Deep Copy', () => {
    assertEquals(misc.deepCopy(false), false);
    assertEquals(misc.deepCopy(Boolean()), Boolean());
    assertEquals(misc.deepCopy(undefined), undefined);
-   const fn = () => {};
-   assertEquals(misc.deepCopy(fn), fn);
-   const date = new Date();
-   // assertEquals(misc.deepCopy(date)); // FIXME: figure out if this is even valid
-   const boolean = new Boolean();
-   // assertEquals(misc.deepCopy(boolean), boolean);
+   assertEquals(misc.deepCopy(null), null);
+});
+
+Deno.test('JSON Copy', () => {
+   // acceptable
+   // deno-lint-ignore no-explicit-any
+   let testCopy: any;
+   testCopy = [];
+   assertEquals(misc.jsonCopy(testCopy), testCopy);
+   assert(misc.jsonCopy(testCopy) !== testCopy);
+   testCopy = {};
+   assertEquals(misc.jsonCopy(testCopy), testCopy);
+   assert(misc.jsonCopy(testCopy) !== testCopy);
+   testCopy = [{}, 0];
+   assertEquals(misc.jsonCopy(testCopy), testCopy);
+   assert(misc.jsonCopy(testCopy) !== testCopy);
+   testCopy = [0, 'lol'];
+   assertEquals(misc.jsonCopy(testCopy), testCopy);
+   assert(misc.jsonCopy(testCopy) !== testCopy);
+   testCopy = [{ yes: '' }];
+   assertEquals(misc.jsonCopy(testCopy), testCopy);
+   assert(misc.jsonCopy(testCopy) !== testCopy);
+   testCopy = {
+      string: 'abc',
+      number: 123.05,
+      boolean: true,
+      array: ['hi'],
+      object: { nested: 'hi' },
+   };
+   assertEquals(misc.jsonCopy(testCopy), testCopy);
+   assert(misc.jsonCopy(testCopy) !== testCopy);
+
+   // non object stuff
+   assertEquals(misc.jsonCopy(''), '');
+   assertEquals(misc.jsonCopy(0), 0);
+   assertEquals(misc.jsonCopy(false), false);
+   assertEquals(misc.jsonCopy(Boolean()), Boolean());
+   assertEquals(misc.jsonCopy(null), null);
 });
 
 Deno.test('Is Hexadecimal', () => {

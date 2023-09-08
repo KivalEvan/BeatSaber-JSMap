@@ -1,7 +1,6 @@
 import { ICustomDataBase } from '../../types/beatmap/shared/custom/customData.ts';
 import { ICustomDataNote } from '../../types/beatmap/v2/custom/note.ts';
 import { ICustomDataObstacle } from '../../types/beatmap/v2/custom/obstacle.ts';
-import { deepCopy } from '../../utils/misc.ts';
 import { renameKey } from './_helpers.ts';
 
 export default function <T extends ICustomDataBase>(
@@ -10,7 +9,7 @@ export default function <T extends ICustomDataBase>(
    if (!customData) {
       return {} as T;
    }
-   const cd: ICustomDataBase = deepCopy(customData);
+   const cd = { ...customData };
    if (!Object.keys(cd).length) {
       return {} as T;
    }
