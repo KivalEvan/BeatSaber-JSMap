@@ -78,7 +78,7 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
       format: options.format ?? defaultOptions.info.format,
       optimize: options.optimize ?? defaultOptions.info.optimize,
       validate: options.validate ?? defaultOptions.info.validate,
-      dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
+      dataCheck: options.dataCheck ?? defaultOptions.info.dataCheck,
    };
    const ver = data instanceof IV2nfo ? 2 : 1;
    const objectData = data.toJSON();
@@ -86,6 +86,7 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
       optimize.info(objectData as IInfo, opt.optimize);
    }
    if (opt.dataCheck.enabled) {
+      logger.tInfo(tag('_info'), 'Checking data value');
       if (ver === 1) {
          deepCheck(objectData, IV1nfoCheck, 'difficulty', '1.0.0', opt.dataCheck.throwError);
       }
@@ -128,9 +129,9 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
       directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
       filePath: options.filePath ??
          (data.filename || defaultOptions.difficulty.filePath || 'UnnamedDifficulty.dat'),
-      format: options.format ?? defaultOptions.info.format,
-      optimize: options.optimize ?? defaultOptions.info.optimize,
-      validate: options.validate ?? defaultOptions.info.validate,
+      format: options.format ?? defaultOptions.difficulty.format,
+      optimize: options.optimize ?? defaultOptions.difficulty.optimize,
+      validate: options.validate ?? defaultOptions.difficulty.validate,
       dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
    };
    if (opt.validate.enabled) {
@@ -150,6 +151,7 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
       optimize.difficulty(objectData as IV2Difficulty, opt.optimize);
    }
    if (opt.dataCheck.enabled) {
+      logger.tInfo(tag('_difficulty'), 'Checking data value');
       if (ver.startsWith('1')) {
          deepCheck(objectData, V1DifficultyCheck, 'difficulty', ver, opt.dataCheck.throwError);
       }
@@ -194,17 +196,17 @@ function _difficultyList(difficulties: ILoadInfoData[], options: ISaveOptionsDif
    const opt: Required<ISaveOptionsDifficultyList> = {
       directory: options.directory ??
          (globals.directory || defaultOptions.difficultyList.directory),
-      format: options.format ?? defaultOptions.info.format,
-      optimize: options.optimize ?? defaultOptions.info.optimize,
-      validate: options.validate ?? defaultOptions.info.validate,
-      dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
+      format: options.format ?? defaultOptions.difficultyList.format,
+      optimize: options.optimize ?? defaultOptions.difficultyList.optimize,
+      validate: options.validate ?? defaultOptions.difficultyList.validate,
+      dataCheck: options.dataCheck ?? defaultOptions.difficultyList.dataCheck,
    };
    difficulties.forEach((dl) => {
       logger.tInfo(tag('_difficultyList'), `Saving ${dl.characteristic} ${dl.difficulty}`);
       if (opt.validate.enabled) {
-         logger.tInfo(tag('_difficulty'), 'Validating beatmap');
+         logger.tInfo(tag('_difficultyList'), 'Validating beatmap');
          if (!dl.data.isValid()) {
-            logger.tWarn(tag('_difficulty'), 'Invalid data detected in beatmap');
+            logger.tWarn(tag('_difficultyList'), 'Invalid data detected in beatmap');
             if (opt.validate.reparse) {
                dl.data.reparse();
             } else {
@@ -218,6 +220,7 @@ function _difficultyList(difficulties: ILoadInfoData[], options: ISaveOptionsDif
          optimize.difficulty(objectData, opt.optimize);
       }
       if (opt.dataCheck.enabled) {
+         logger.tInfo(tag('_difficultyList'), 'Checking data value');
          if (ver.startsWith('1')) {
             deepCheck(objectData, V1DifficultyCheck, 'difficulty', ver, opt.dataCheck.throwError);
          }

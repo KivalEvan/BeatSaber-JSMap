@@ -67,7 +67,7 @@ export function deepCheck(
          deepCheck(
             data[key],
             (check[key] as DataCheckObject).check,
-            `${name} ${key}`,
+            `${name}.${key}`,
             version,
             throwError,
          );
@@ -80,7 +80,7 @@ export function deepCheck(
             deepCheck(
                data[key],
                (check[key] as DataCheckObject).check,
-               `${name} ${key}`,
+               `${name}.${key}`,
                version,
                throwError,
             );
@@ -94,8 +94,9 @@ export function deepCheck(
                typeof n === check[key].type ||
                (check[key].type === 'number' &&
                   typeof n === 'number' &&
-                  ((check[key] as DataCheckNumber).int ? n % 1 !== 0 : true) &&
-                  ((check[key] as DataCheckNumber).unsigned ? data[key] < 0 : true)),
+                  (isNaN(n) ||
+                     (((check[key] as DataCheckNumber).int ? n % 1 !== 0 : true) &&
+                        ((check[key] as DataCheckNumber).unsigned ? data[key] < 0 : true)))),
          )
       ) {
          handleError(`${key} is not ${check[key].type} in object ${name}!`, throwError, error);
@@ -110,12 +111,16 @@ export function deepCheck(
          continue;
       }
       if (check[key].type === 'number' && typeof data[key] === 'number') {
+         if (isNaN(data[key])) {
+            handleError(`${name}.${key} is NaN!`, throwError, error);
+            continue;
+         }
          if ((check[key] as DataCheckNumber).int && data[key] % 1 !== 0) {
-            handleError(`${name} ${key} cannot be float!`, false, error);
+            handleError(`${name}.${key} cannot be float!`, false, error);
             continue;
          }
          if ((check[key] as DataCheckNumber).unsigned && data[key] < 0) {
-            handleError(`${name} ${key} cannot be negative!`, false, error);
+            handleError(`${name}.${key} cannot be negative!`, false, error);
             continue;
          }
       }
