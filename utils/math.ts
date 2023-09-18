@@ -153,7 +153,8 @@ export function fixRange(min: number, max: number, inverse?: boolean): [number, 
 }
 
 export function round(num: number, d = 0): number {
-   return Math.round(num * Math.pow(10, d)) / Math.pow(10, d);
+   const r = Math.pow(10, d);
+   return Math.round(num * r) / r;
 }
 
 export function radToDeg(rad: number) {

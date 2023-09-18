@@ -24,7 +24,7 @@ export interface DataCheckObject extends DataCheckBase {
 
 export type DataCheck = DataCheckPrimitive | DataCheckNumber | DataCheckObject;
 
-export interface DataCheckOption {
+export interface IDataCheckOption {
    enabled?: boolean;
    throwError?: boolean;
 }

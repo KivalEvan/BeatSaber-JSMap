@@ -23,6 +23,8 @@ faster in general use case.
   - This should reveal more hidden utilities without the need to import `utils` namespace
 - Beatmap Info structure changed to better fit original structure
   - This also goes for info custom data
+- Optimization reworked, now uses data check for validation
+  - This may be faster or slower depending on the amount of custom data
 - Beatmap `addObject` method now always create new instance
 - Custom data color scheme `a` is now optional instead of omitted
 - Removed logging from utils, now throws error instead of warn or error
@@ -37,6 +39,7 @@ faster in general use case.
 
 ### Fixed
 
+- Data check not picking up `NaN` value
 - Mapping Extensions precision placement X position being incorrect
 - Data check should properly skip error
 - Couple of accidental mutation fix from utils

@@ -1,8 +1,4 @@
-import {
-   DataCheck,
-   DataCheckNumber,
-   DataCheckObject,
-} from '../../types/beatmap/shared/dataCheck.ts';
+import { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
 import logger from '../../logger.ts';
 import { Version } from '../../types/beatmap/shared/version.ts';
 import { compareVersion } from './version.ts';
@@ -11,15 +7,20 @@ function tag(name: string): string[] {
    return ['shared', 'dataCheck', name];
 }
 
-function handleError(text: string, throwError: boolean, error: string[]): void {
+function handleError(text: string, throwError: boolean, errors: string[]): void {
    if (throwError) {
       throw Error(text);
    } else {
       logger.tWarn(tag('deepCheck'), text);
-      error.push(text);
+      errors.push(text);
    }
 }
 
+/**
+ * Deeply check JSON schema given `Data Check` schema.
+ *
+ * Strict null policy. Return error logs as `string[]` for error inspection.
+ */
 export function deepCheck(
    // deno-lint-ignore no-explicit-any
    data: { [key: string]: any },
@@ -27,102 +28,96 @@ export function deepCheck(
    name: string,
    version: Version,
    throwError = true,
-   error: string[] = [],
-) {
+   errors: string[] = [],
+): string[] {
    logger.tVerbose(tag('deepCheck'), `Looking up ${name}`);
    if (Array.isArray(data)) {
-      data.forEach((d, i) => deepCheck(d, check, `${name}[${i}]`, version, throwError));
-      return;
+      data.forEach((d, i) => deepCheck(d, check, `${name}[${i}]`, version, throwError, errors));
+      return errors;
    }
-   const dataCheckKey = Object.keys(check);
-   for (const key in data) {
-      if (!dataCheckKey.length) {
-         break;
-      }
-      if (!dataCheckKey.includes(key)) {
-         handleError(`Unused key ${key} found in ${name}`, false, error);
-         continue;
+
+   // check for existing and/or unknown key
+   const dck = Object.keys(check);
+   if (dck.length) {
+      for (const key in data) {
+         if (!dck.includes(key)) {
+            handleError(`Unused key ${key} found in ${name}`, false, errors);
+            continue;
+         }
       }
    }
+
    for (const key in check) {
-      if (typeof data[key] === 'undefined') {
+      const ch = check[key];
+      const d = data[key];
+
+      if (d === undefined) {
          if (check[key].optional) {
             continue;
          }
-         if (compareVersion(version, check[key].version) === 'old') {
+         if (compareVersion(version, ch.version) === 'old') {
             continue;
          }
-         handleError(`Missing ${key} in object ${name}!`, throwError, error);
+         handleError(`Missing ${key} in object ${name}!`, throwError, errors);
          continue;
       }
-      if (data[key] == null) {
-         handleError(`${key} contain null value in object ${name}!`, throwError, error);
+
+      if (d === null) {
+         handleError(`${key} contain null value in object ${name}!`, throwError, errors);
          continue;
       }
-      if (check[key].type === 'array') {
-         if (!Array.isArray(data[key])) {
-            handleError(`${key} is not an array in object ${name}!`, throwError, error);
-            continue;
+
+      if (ch.type === 'array') {
+         if (!Array.isArray(d)) {
+            handleError(`${key} is not an array in object ${name}!`, throwError, errors);
          }
-         deepCheck(
-            data[key],
-            (check[key] as DataCheckObject).check,
-            `${name}.${key}`,
-            version,
-            throwError,
-         );
+         deepCheck(d, ch.check, `${name}.${key}`, version, throwError, errors);
+         continue;
       }
-      if (check[key].type === 'object') {
-         if (!Array.isArray(data[key]) && !(typeof data[key] === 'object')) {
-            handleError(`${key} is not an object in object ${name}!`, throwError, error);
-            continue;
+
+      if (ch.type === 'object') {
+         if (!Array.isArray(d) && !(typeof d === 'object')) {
+            handleError(`${key} is not an object in object ${name}!`, throwError, errors);
          } else {
-            deepCheck(
-               data[key],
-               (check[key] as DataCheckObject).check,
-               `${name}.${key}`,
-               version,
-               throwError,
-            );
+            deepCheck(d, ch.check, `${name}.${key}`, version, throwError, errors);
          }
+         continue;
       }
+
       if (
-         check[key].array &&
-         Array.isArray(data[key]) &&
-         !data[key].every(
+         ch.array &&
+         Array.isArray(d) &&
+         !d.every(
             (n: unknown) =>
-               typeof n === check[key].type ||
-               (check[key].type === 'number' &&
+               typeof n === ch.type ||
+               (ch.type === 'number' &&
                   typeof n === 'number' &&
-                  (isNaN(n) ||
-                     (((check[key] as DataCheckNumber).int ? n % 1 !== 0 : true) &&
-                        ((check[key] as DataCheckNumber).unsigned ? data[key] < 0 : true)))),
+                  (isNaN(n) || ((ch.int ? n % 1 !== 0 : true) && (ch.unsigned ? n < 0 : true)))),
          )
       ) {
-         handleError(`${key} is not ${check[key].type} in object ${name}!`, throwError, error);
+         handleError(`${key} is not ${ch.type} in object ${name}!`, throwError, errors);
          continue;
       }
-      if (
-         !check[key].array &&
-         check[key].type !== 'array' &&
-         typeof data[key] !== check[key].type
-      ) {
-         handleError(`${key} is not ${check[key].type} in object ${name}!`, throwError, error);
+
+      if (!ch.array && typeof d !== ch.type) {
+         handleError(`${key} is not ${ch.type} in object ${name}!`, throwError, errors);
          continue;
       }
-      if (check[key].type === 'number' && typeof data[key] === 'number') {
-         if (isNaN(data[key])) {
-            handleError(`${name}.${key} is NaN!`, throwError, error);
+
+      if (ch.type === 'number') {
+         if (isNaN(d)) {
+            handleError(`${name}.${key} is NaN!`, throwError, errors);
             continue;
          }
-         if ((check[key] as DataCheckNumber).int && data[key] % 1 !== 0) {
-            handleError(`${name}.${key} cannot be float!`, false, error);
+         if (ch.int && d % 1 !== 0) {
+            handleError(`${name}.${key} cannot be float!`, false, errors);
             continue;
          }
-         if ((check[key] as DataCheckNumber).unsigned && data[key] < 0) {
-            handleError(`${name}.${key} cannot be negative!`, false, error);
+         if (ch.unsigned && d < 0) {
+            handleError(`${name}.${key} cannot be negative!`, false, errors);
             continue;
          }
       }
    }
+   return errors;
 }

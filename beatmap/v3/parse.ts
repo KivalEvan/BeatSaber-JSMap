@@ -4,7 +4,7 @@ import { DifficultyCheck } from './dataCheck.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
 import logger from '../../logger.ts';
 import { sortV3NoteFn, sortV3ObjectFn } from '../shared/helpers.ts';
-import { DataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
+import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
    return ['v3', 'parse', name];
@@ -12,7 +12,7 @@ function tag(name: string): string[] {
 
 export function difficulty(
    data: Partial<IDifficulty>,
-   checkData: DataCheckOption = { enabled: true, throwError: true },
+   checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v3.x.x');
    if (!(data.version === '3.0.0' || data.version === '3.1.0' || data.version === '3.2.0')) {

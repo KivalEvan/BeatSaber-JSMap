@@ -16,6 +16,16 @@ import {
    sortV3NoteFn,
    sortV3ObjectFn,
 } from './beatmap/shared/helpers.ts';
+import { DataCheck } from './types/beatmap/shared/dataCheck.ts';
+import {
+   DifficultyCheck as DifficultyV1Check,
+   InfoCheck as InfoV1Check,
+} from './beatmap/v1/dataCheck.ts';
+import {
+   DifficultyCheck as DifficultyV2Check,
+   InfoCheck as InfoV2Check,
+} from './beatmap/v2/dataCheck.ts';
+import { DifficultyCheck as DifficultyV3Check } from './beatmap/v3/dataCheck.ts';
 
 function tag(name: string): string[] {
    return ['optimize', name];
@@ -26,7 +36,6 @@ const optionsInfo: Required<IOptimizeOptionsInfo> = {
    floatTrim: 4,
    stringTrim: true,
    throwError: true,
-   removeDuplicate: true,
 };
 const optionsDifficulty: Required<IOptimizeOptionsDifficulty> = {
    enabled: true,
@@ -42,80 +51,32 @@ export const defaultOptions = {
    difficulty: optionsDifficulty,
 };
 
-const ignoreObjectRemove = [
-   '_notes',
-   '_sliders',
-   '_events',
-   '_obstacles',
-   '_waypoints',
-   '_difficultyBeatmapSets',
-   'bpmEvents',
-   'rotationEvents',
-   'colorNotes',
-   'bombNotes',
-   'obstacles',
-   'sliders',
-   'burstSliders',
-   'waypoints',
-   'basicBeatmapEvents',
-   'colorBoostBeatmapEvents',
-   'lightColorEventBoxGroups',
-   'lightRotationEventBoxGroups',
-   'lightTranslationEventBoxGroups',
-   'basicEventTypesWithKeywords',
-   'useNormalEventsAsCompatibleEvents',
-   'd',
-   'e',
-   'l',
-   '_environmentNames',
-   '_colorSchemes',
-   '_difficultyBeatmapSets',
-   '_difficultyBeatmaps',
-   'difficultyLevels',
-];
 export function deepClean(
    // deno-lint-ignore no-explicit-any
    obj: { [key: string | number]: any } | any[],
+   check: { [key: string]: DataCheck },
+   name: string,
    options: IOptimizeOptions,
-   name = '',
 ) {
    for (const k in obj) {
-      // shorten number
       if (typeof obj[k] === 'number') {
          obj[k] = round(obj[k], options.floatTrim);
-      }
-      // trim that string space
-      if (typeof obj[k] === 'string' && options.stringTrim) {
-         obj[k] = obj[k].trim();
-      }
-      // recursion
-      if ((typeof obj[k] === 'object' || Array.isArray(obj[k])) && obj[k] !== null) {
-         deepClean(obj[k], options, `${name}.${k}`);
-         // if it's lightID array, sort it
-         if (
-            (k === '_lightID' || k === 'lightID') &&
-            Array.isArray(obj[k]) &&
-            // deno-lint-ignore no-explicit-any
-            obj[k].every((x: any) => typeof x === 'number')
-         ) {
-            obj[k] = obj[k].sort((a: number, b: number) => a - b);
-         }
-      }
-      // remove empty array/object property
-      if (
-         !ignoreObjectRemove.includes(k) &&
-         ((Array.isArray(obj[k]) && !obj[k].length) ||
-            (typeof obj[k] === 'object' &&
-               !Array.isArray(obj[k]) &&
-               JSON.stringify(obj[k]) === '{}'))
-      ) {
-         delete obj[k];
          continue;
       }
-      // throw or remove null
+
+      if (typeof obj[k] === 'string' && options.stringTrim) {
+         obj[k] = obj[k].trim();
+         continue;
+      }
+
+      if (typeof obj[k] === 'boolean') {
+         continue;
+      }
+
+      // throw or default null to 0
       if (obj[k] === null) {
          if (options.throwError) {
-            throw new Error(`null value found in object key ${name}.${k}.`);
+            throw new Error(`null value found in object key ${name}.${k}.}`);
          } else {
             if (Array.isArray(obj)) {
                logger.tError(
@@ -126,11 +87,45 @@ export function deepClean(
             } else {
                logger.tError(
                   tag('deepClean'),
-                  `null value found in object key ${name}.${k}, deleting property...`,
+                  `null value found in object key ${name}.${k}, deleting...`,
                );
                delete obj[k];
             }
          }
+         continue;
+      }
+      // from here we can use data check, if it exist therefore it is mandatory
+      const ch = check[k];
+      // recursion stuff
+      if (typeof obj[k] === 'object') {
+         // filter out undefined in non data check stuff
+         if (!ch && Array.isArray(obj[k])) {
+            const len = obj[k].length;
+            const newAry = obj[k].filter((e: unknown) => e !== undefined);
+            if (len !== newAry.length) {
+               if (options.throwError) {
+                  throw new Error(`undefined found in array key ${name}.${k}.}`);
+               } else {
+                  logger.tError(
+                     tag('deepClean'),
+                     `undefined found in array key ${name}.${k}, replacing array with no undefined...`,
+                  );
+                  obj[k] = newAry;
+               }
+            }
+         }
+         deepClean(
+            obj[k],
+            ch && (ch.type === 'array' || ch.type === 'object') ? ch.check : {},
+            Array.isArray(obj) ? `${name}[${k}]` : `${name}.${k}`,
+            options,
+         );
+      }
+
+      // remove unnecessary empty array/object property if exist and not part of data check
+      if (!ch && ((Array.isArray(obj[k]) && !obj[k].length) || JSON.stringify(obj[k]) === '{}')) {
+         delete obj[k];
+         continue;
       }
    }
 }
@@ -141,7 +136,6 @@ export function info(info: IInfo, options: IOptimizeOptionsInfo = { enabled: tru
       floatTrim: options.floatTrim ?? defaultOptions.info.floatTrim,
       stringTrim: options.stringTrim ?? defaultOptions.info.stringTrim,
       throwError: options.throwError ?? defaultOptions.info.throwError,
-      removeDuplicate: options.removeDuplicate ?? defaultOptions.info.removeDuplicate,
    };
 
    if (!opt.enabled) {
@@ -150,7 +144,13 @@ export function info(info: IInfo, options: IOptimizeOptionsInfo = { enabled: tru
    logger.tInfo(tag('info'), `Optimising info data`);
 
    logger.tDebug(tag('info'), 'Applying deep clean');
-   deepClean(info, opt);
+   const dCheck = info._version?.startsWith('2')
+      ? InfoV2Check
+      : info._version?.startsWith('1')
+      ? InfoV1Check
+      : {};
+   deepClean(info, dCheck, 'info', opt);
+
    return info;
 }
 
@@ -172,7 +172,14 @@ export function difficulty<T extends IV1Difficulty | IV2Difficulty | IV3Difficul
    logger.tInfo(tag('difficulty'), `Optimising difficulty data`);
 
    logger.tDebug(tag('difficulty'), 'Applying deep clean');
-   deepClean(difficulty, opt);
+   const dCheck = (difficulty as IV3Difficulty).version?.startsWith('3')
+      ? DifficultyV3Check
+      : (difficulty as IV2Difficulty)._version?.startsWith('2')
+      ? DifficultyV2Check
+      : (difficulty as IV1Difficulty)._version?.startsWith('1')
+      ? DifficultyV1Check
+      : {};
+   deepClean(difficulty, dCheck, 'difficulty', opt);
 
    if (opt.sort) {
       logger.tDebug(tag('difficulty'), 'Sorting objects');

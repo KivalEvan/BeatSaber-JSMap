@@ -17,14 +17,8 @@ export class EnvironmentBlock {
       return new this(data, anchor);
    }
 
-   place(
-      options: IChromaEnvironmentPlacement,
-      insertTo?: never,
-   ): IChromaEnvironment;
-   place(
-      options: IChromaEnvironmentPlacement,
-      insertTo: IChromaEnvironment[],
-   ): void;
+   place(options: IChromaEnvironmentPlacement, insertTo?: never): IChromaEnvironment;
+   place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
    place(
       options: IChromaEnvironmentPlacement,
       insertTo?: IChromaEnvironment[],
@@ -34,8 +28,8 @@ export class EnvironmentBlock {
          ? ((d.scale ? d.scale : [1, 1, 1]).map((s, i) => s * options.scale![i]) as Vector3)
          : d.scale;
       const position = options.position
-         ? (options.position.map((p, i) =>
-            p + this.anchor[i] * (options.scale?.[i] || 1)
+         ? (options.position.map(
+            (p, i) => p + this.anchor[i] * (options.scale?.[i] || 1),
          ) as Vector3)
          : ((d.position ? d.position : [0, 0, 0]).map(
             (p, i) => p + this.anchor[i] * (options.scale?.[i] ?? 1),
@@ -50,8 +44,10 @@ export class EnvironmentBlock {
          if (typeof options.type === 'number') {
             components.ILightWithId.type = options.type;
          }
-         components.ILightWithId.lightID = EnvironmentBlock.startLightID +
-            EnvironmentBlock.index++;
+         components.ILightWithId.lightID = EnvironmentBlock.startLightID + EnvironmentBlock.index++;
+      }
+      if (options.track) {
+         d.track = options.track;
       }
       const data = {
          ...d,
