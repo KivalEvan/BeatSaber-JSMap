@@ -1,10 +1,13 @@
-export interface IOptimizeOptions {
+// deno-lint-ignore-file no-empty-interface
+import { ICleanOptions } from '../beatmap/shared/clean.ts';
+
+export interface IOptimizeOptions extends ICleanOptions {
    /**
     * Allow JSON optimisation to take place.
     *
     * @default true
     */
-   enabled: boolean;
+   enabled?: boolean;
    /**
     * Round number in JSON by decimal point.
     *
@@ -27,11 +30,4 @@ export interface IOptimizeOptions {
 
 export interface IOptimizeOptionsInfo extends IOptimizeOptions {}
 
-export interface IOptimizeOptionsDifficulty extends IOptimizeOptions {
-   /**
-    * Sort all beatmap objects, recommended if you have added or removed any object entry in array.
-    *
-    * @default true
-    */
-   sort?: boolean;
-}
+export interface IOptimizeOptionsDifficulty extends IOptimizeOptions {}

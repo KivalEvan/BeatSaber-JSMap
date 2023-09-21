@@ -10,6 +10,9 @@ faster in general use case.
 
 - [New SongCore features](https://github.com/Kylemc1413/SongCore/pull/122) (tags, custom
   characteristic label, etc.)
+- Predefined beatmap data clean method
+  - This handles only the known data to be cleanse which is up to 11x faster than deep clean method
+  - This can also avoid sensitive data like BPM Event where floating point must always be precise
 - Info color scheme copy
 - Ensure alpha for `toColorObject`
 - `invLerp`, `remap`, `lerpVector`, `shallowCopy`, and `jsonCopy` utils
@@ -20,11 +23,12 @@ faster in general use case.
 ### Changed
 
 - Utils no longer require namespace
-  - This should reveal more hidden utilities without the need to import `utils` namespace
+  - This should reveal more hidden utilities without the need to import and destructuring `utils`
+    namespace
 - Beatmap Info structure changed to better fit original structure
   - This also goes for info custom data
-- Optimization reworked, now uses data check for validation
-  - This may be faster or slower depending on the amount of custom data
+- Beatmap optimization tweaked
+  - Moved sorting responsibility to saving
 - Beatmap `addObject` method now always create new instance
 - Custom data color scheme `a` is now optional instead of omitted
 - Removed logging from utils, now throws error instead of warn or error

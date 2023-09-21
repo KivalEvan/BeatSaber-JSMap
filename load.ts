@@ -5,9 +5,15 @@ import { Info as IV2nfo } from './beatmap/v2/info.ts';
 import { Difficulty as V1Difficulty } from './beatmap/v1/difficulty.ts';
 import { Difficulty as V2Difficulty } from './beatmap/v2/difficulty.ts';
 import { Difficulty as V3Difficulty } from './beatmap/v3/difficulty.ts';
-import { difficulty as parseV1Difficulty, info as parseIV1nfo } from './beatmap/v1/parse.ts';
-import { difficulty as parseV2Difficulty, info as parseIV2nfo } from './beatmap/v2/parse.ts';
-import { difficulty as parseV3Difficulty } from './beatmap/v3/parse.ts';
+import {
+   parseDifficulty as parseV1Difficulty,
+   parseInfo as parseIV1nfo,
+} from './beatmap/v1/parse.ts';
+import {
+   parseDifficulty as parseV2Difficulty,
+   parseInfo as parseIV2nfo,
+} from './beatmap/v2/parse.ts';
+import { parseDifficulty as parseV3Difficulty } from './beatmap/v3/parse.ts';
 import globals from './globals.ts';
 import logger from './logger.ts';
 import { LooseAutocomplete } from './types/utils.ts';

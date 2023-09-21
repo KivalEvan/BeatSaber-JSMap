@@ -10,7 +10,7 @@ function tag(name: string): string[] {
    return ['v3', 'parse', name];
 }
 
-export function difficulty(
+export function parseDifficulty(
    data: Partial<IDifficulty>,
    checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {

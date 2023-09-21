@@ -14,7 +14,7 @@ function tag(name: string): string[] {
    return ['v2', 'parse', name];
 }
 
-export function difficulty(
+export function parseDifficulty(
    data: Partial<IDifficulty>,
    checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
@@ -36,7 +36,7 @@ export function difficulty(
    return new Difficulty(data);
 }
 
-export function info(
+export function parseInfo(
    data: Partial<IInfo>,
    checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Info {

@@ -14,9 +14,7 @@ export interface ILoadOptionsDifficulty extends IBaseOptions {
 
 export interface ILoadOptionsInfo extends ILoadOptionsDifficulty {
    /**
-    * Set difficulty destination file path.
-    *
-    * **NOTE:** Overrides class file name.
+    * Set info source file path.
     *
     * @default 'Info.dat'
     */
