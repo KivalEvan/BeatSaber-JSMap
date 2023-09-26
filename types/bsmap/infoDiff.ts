@@ -10,22 +10,27 @@ interface ILoadInfoDataBase {
    readonly characteristic: CharacteristicName;
    readonly difficulty: DifficultyName;
    readonly settings: IWrapInfoDifficulty;
+   version: number;
    data: IWrapDifficulty;
 }
 
-interface IV1LoadInfoDifficulty extends ILoadInfoDataBase {
+interface ILoadInfoV1Difficulty extends ILoadInfoDataBase {
    version: 1;
    data: V1Difficulty;
 }
 
-interface IV2LoadInfoDifficulty extends ILoadInfoDataBase {
+interface ILoadInfoV2Difficulty extends ILoadInfoDataBase {
    version: 2;
    data: V2Difficulty;
 }
 
-interface IV3LoadInfoDifficulty extends ILoadInfoDataBase {
+interface ILoadInfoV3Difficulty extends ILoadInfoDataBase {
    version: 3;
    data: V3Difficulty;
 }
 
-export type ILoadInfoData = IV1LoadInfoDifficulty | IV2LoadInfoDifficulty | IV3LoadInfoDifficulty;
+export type ILoadInfoData =
+   | ILoadInfoDataBase
+   | ILoadInfoV1Difficulty
+   | ILoadInfoV2Difficulty
+   | ILoadInfoV3Difficulty;

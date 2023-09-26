@@ -7,7 +7,7 @@ import { Event } from '../beatmap/v1/event.ts';
 import { Obstacle } from '../beatmap/v1/obstacle.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IWrapInfo, IWrapInfoDifficulty } from '../types/beatmap/wrapper/info.ts';
-import { Info as IV1nfo } from '../beatmap/v1/info.ts';
+import { Info as V1Info } from '../beatmap/v1/info.ts';
 import { shallowCopy } from '../utils/misc.ts';
 
 function tag(name: string): string[] {
@@ -69,12 +69,12 @@ export function toV1Difficulty(
    return template;
 }
 
-export function toIV1nfo(data: IWrapInfo): IV1nfo {
-   if (data instanceof IV1nfo) {
+export function toV1Info(data: IWrapInfo): V1Info {
+   if (data instanceof V1Info) {
       return data;
    }
 
-   const template = new IV1nfo();
+   const template = new V1Info();
 
    template.songName = data.songName;
    template.songSubName = data.songSubName;

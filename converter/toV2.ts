@@ -2,8 +2,8 @@ import logger from '../logger.ts';
 import { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
 import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
-import { Info as IV1nfo } from '../beatmap/v1/info.ts';
-import { Info as IV2nfo } from '../beatmap/v2/info.ts';
+import { Info as V1Info } from '../beatmap/v1/info.ts';
+import { Info as V2Info } from '../beatmap/v2/info.ts';
 import { clamp } from '../utils/math.ts';
 import { ICustomDataNote } from '../types/beatmap/v2/custom/note.ts';
 import { ICustomDataObstacle } from '../types/beatmap/v2/custom/obstacle.ts';
@@ -512,12 +512,12 @@ export function toV2Difficulty(data: IWrapDifficulty): V2Difficulty {
    return template;
 }
 
-export function toIV2nfo(data: IWrapInfo): IV2nfo {
-   if (data instanceof IV2nfo) {
+export function toV2Info(data: IWrapInfo): V2Info {
+   if (data instanceof V2Info) {
       return data;
    }
 
-   const template = new IV2nfo();
+   const template = new V2Info();
 
    template.songName = data.songName;
    template.songSubName = data.songSubName;
@@ -533,7 +533,7 @@ export function toIV2nfo(data: IWrapInfo): IV2nfo {
    template.environmentName = data.environmentName;
    template.allDirectionsEnvironmentName = data.allDirectionsEnvironmentName;
    template.songTimeOffset = data.songTimeOffset;
-   if (data instanceof IV1nfo) {
+   if (data instanceof V1Info) {
       template.customData.contributors = data.contributors;
       template.customData.customEnvironment = data.customEnvironment;
       template.customData.customEnvironmentHash = data.customEnvironmentHash;
@@ -541,7 +541,7 @@ export function toIV2nfo(data: IWrapInfo): IV2nfo {
       template.customData = deepCopy(data.customData);
    }
 
-   if (data instanceof IV1nfo) {
+   if (data instanceof V1Info) {
       data.listMap().forEach(([mode, beatmap]) => {
          template.addMap(
             {

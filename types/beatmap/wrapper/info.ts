@@ -33,6 +33,8 @@ export interface IWrapInfoAttribute<T extends { [P in keyof T]: T[P] } = Record<
    colorSchemes: IWrapInfoColorScheme[];
    songTimeOffset: number;
    readonly difficultySets: IWrapInfoSet[];
+
+   filename: string;
 }
 
 export interface IWrapInfoColorScheme {
@@ -55,6 +57,8 @@ export interface IWrapInfoColorSchemeData {
 
 export interface IWrapInfo<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseItem<T>, IWrapInfoAttribute<T> {
+   setFileName(filename: LooseAutocomplete<GenericFileName>): this;
+
    /** Show entries of map inside info. */
    addMap(data: Partial<IWrapInfoDifficultyAttribute>): this;
    listMap(): [CharacteristicName, IWrapInfoDifficulty][];

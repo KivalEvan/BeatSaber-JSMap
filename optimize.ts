@@ -1,9 +1,5 @@
-import { IInfo } from './types/beatmap/v2/info.ts';
 import { IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './types/bsmap/optimize.ts';
 import logger from './logger.ts';
-import { IDifficulty as IV1Difficulty } from './types/beatmap/v1/difficulty.ts';
-import { IDifficulty as IV2Difficulty } from './types/beatmap/v2/difficulty.ts';
-import { IDifficulty as IV3Difficulty } from './types/beatmap/v3/difficulty.ts';
 import {
    cleanDifficulty as cleanV1Difficulty,
    cleanInfo as cleanV1Info,
@@ -38,7 +34,12 @@ export const defaultOptions = {
    difficulty: optionsDifficulty,
 };
 
-export function info(info: IInfo, options: IOptimizeOptionsInfo = {}) {
+export function info(
+   // deno-lint-ignore no-explicit-any
+   info: Record<string, any>,
+   version: number,
+   options: IOptimizeOptionsInfo = {},
+) {
    const opt: Required<IOptimizeOptionsInfo> = {
       enabled: options.enabled ?? defaultOptions.info.enabled,
       floatTrim: options.floatTrim ?? defaultOptions.info.floatTrim,
@@ -49,20 +50,20 @@ export function info(info: IInfo, options: IOptimizeOptionsInfo = {}) {
    logger.tInfo(tag('info'), `Optimising info data`);
 
    // deno-lint-ignore no-explicit-any
-   const clean: (data: any, opt: ICleanOptions) => void = info._version?.startsWith('2')
+   const clean: (data: any, opt: ICleanOptions) => void = version === 2
       ? cleanV2Info
-      : info._version?.startsWith('1')
+      : version === 1
       ? cleanV1Info
       : () => {};
    clean(info, opt);
-
-   return info;
 }
 
-export function difficulty<T extends IV1Difficulty | IV2Difficulty | IV3Difficulty>(
-   difficulty: T,
+export function difficulty(
+   // deno-lint-ignore no-explicit-any
+   difficulty: Record<string, any>,
+   version: number,
    options: IOptimizeOptionsDifficulty = {},
-): T {
+) {
    const opt: Required<IOptimizeOptionsDifficulty> = {
       enabled: options.enabled ?? defaultOptions.difficulty.enabled,
       floatTrim: options.floatTrim ?? defaultOptions.difficulty.floatTrim,
@@ -73,16 +74,12 @@ export function difficulty<T extends IV1Difficulty | IV2Difficulty | IV3Difficul
    logger.tInfo(tag('difficulty'), `Optimising difficulty data`);
 
    // deno-lint-ignore no-explicit-any
-   const clean: (data: any, opt: ICleanOptions) => void = (
-         difficulty as IV3Difficulty
-      ).version?.startsWith('3')
+   const clean: (data: any, opt: ICleanOptions) => void = version === 3
       ? cleanV3Difficulty
-      : (difficulty as IV2Difficulty)._version?.startsWith('2')
+      : version === 2
       ? cleanV2Difficulty
-      : (difficulty as IV1Difficulty)._version?.startsWith('1')
+      : version === 1
       ? cleanV1Difficulty
       : () => {};
    clean(difficulty, opt);
-
-   return difficulty;
 }

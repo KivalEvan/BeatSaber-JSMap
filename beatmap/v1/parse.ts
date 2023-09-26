@@ -26,13 +26,9 @@ export function parseDifficulty(
       deepCheck(data, DifficultyCheck, 'difficulty', data._version, checkData.throwError);
    }
 
-   data._notes = data._notes ?? [];
-   data._obstacles = data._obstacles ?? [];
-   data._events = data._events ?? [];
-
-   data._notes.sort(sortV2NoteFn);
-   data._obstacles.sort(sortV2ObjectFn);
-   data._events.sort(sortV2ObjectFn);
+   data._notes?.sort(sortV2NoteFn);
+   data._obstacles?.sort(sortV2ObjectFn);
+   data._events?.sort(sortV2ObjectFn);
 
    return new Difficulty(data);
 }
