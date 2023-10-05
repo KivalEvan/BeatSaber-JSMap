@@ -15,7 +15,7 @@ scripting development surrounding beatmap.
 
 - **Zero-dependency:** No third-party module used in main with standard module being an exception.
 - **Latest Schema:** Supports all official schema including modded.
-  - Current schema version is v1.5.0, v2.6.0 and v3.2.0.
+  - Current schema version is v1.5.0, v2.6.0 and v3.3.0.
 - **Wrapper Attribute:** Readable and cross-version class attribute for seamless version
   transferring.
 - **Partial Creation:** Define beatmap object partially and let default fill the rest of fields.

@@ -18,8 +18,8 @@ const defaultValue = {
    },
    beatDistribution: 0,
    beatDistributionType: 1,
-   translationDistribution: 0,
-   translationDistributionType: 1,
+   gapDistribution: 0,
+   gapDistributionType: 1,
    axis: 0,
    flip: 0,
    affectFirst: 0,
@@ -33,11 +33,7 @@ Deno.test(`${name} instantiation`, () => {
 
    for (const Class of classList) {
       obj = new Class();
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected default value for ${Class.name}`,
-      );
+      assertClassObjectMatch(obj, defaultValue, `Unexpected default value for ${Class.name}`);
       obj = Class.create()[0];
       assertClassObjectMatch(
          obj,
@@ -66,8 +62,8 @@ Deno.test(`${name} instantiation`, () => {
          },
          beatDistribution: 1,
          beatDistributionType: 2,
-         translationDistribution: 1,
-         translationDistributionType: 2,
+         gapDistribution: 1,
+         gapDistributionType: 2,
          axis: 2,
          flip: 1,
          affectFirst: 1,
@@ -100,8 +96,8 @@ Deno.test(`${name} instantiation`, () => {
             },
             beatDistribution: 1,
             beatDistributionType: 2,
-            translationDistribution: 1,
-            translationDistributionType: 2,
+            gapDistribution: 1,
+            gapDistributionType: 2,
             axis: 2,
             flip: 1,
             affectFirst: 1,
@@ -220,8 +216,8 @@ Deno.test(`${name} instantiation`, () => {
             },
             beatDistribution: 1,
             beatDistributionType: 2,
-            translationDistribution: 1,
-            translationDistributionType: 2,
+            gapDistribution: 1,
+            gapDistributionType: 2,
             axis: 2,
             flip: 1,
             affectFirst: 1,
