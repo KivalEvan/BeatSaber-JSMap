@@ -17,20 +17,18 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
    constructor(data: Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>);
    constructor(data: Partial<ILightTranslationBase>);
    constructor(
-      data:
-         & Partial<ILightTranslationBase>
-         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>,
+      data: Partial<ILightTranslationBase> &
+         Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>
    );
    constructor(
-      data:
-         & Partial<ILightTranslationBase>
-         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>> = {},
+      data: Partial<ILightTranslationBase> &
+         Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>> = {}
    ) {
       super();
 
       this._time = data.b ?? data.time ?? LightTranslationBase.default.b;
-      this._previous = data.p ?? data.previous ?? LightTranslationBase.default.p;
       this._easing = data.e ?? data.easing ?? LightTranslationBase.default.e;
+      this._previous = data.p ?? data.previous ?? LightTranslationBase.default.p;
       this._translation = data.t ?? data.translation ?? LightTranslationBase.default.t;
       this._customData = deepCopy(data.customData ?? LightTranslationBase.default.customData);
    }
@@ -41,16 +39,12 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
    ): LightTranslationBase[];
    static create(...data: Partial<ILightTranslationBase>[]): LightTranslationBase[];
    static create(
-      ...data: (
-         & Partial<ILightTranslationBase>
-         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>
-      )[]
+      ...data: (Partial<ILightTranslationBase> &
+         Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>)[]
    ): LightTranslationBase[];
    static create(
-      ...data: (
-         & Partial<ILightTranslationBase>
-         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>
-      )[]
+      ...data: (Partial<ILightTranslationBase> &
+         Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>)[]
    ): LightTranslationBase[] {
       const result: LightTranslationBase[] = [];
       data.forEach((obj) => result.push(new this(obj)));
@@ -63,8 +57,8 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
    toJSON(): ILightTranslationBase {
       return {
          b: this.time,
-         p: this.previous,
          e: this.easing,
+         p: this.previous,
          t: this.translation,
          customData: deepCopy(this.customData),
       };

@@ -19,23 +19,21 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
    constructor(data: Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>);
    constructor(data: Partial<ILightRotationBase>);
    constructor(
-      data:
-         & Partial<ILightRotationBase>
-         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>,
+      data: Partial<ILightRotationBase> &
+         Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>
    );
    constructor(
-      data:
-         & Partial<ILightRotationBase>
-         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>> = {},
+      data: Partial<ILightRotationBase> &
+         Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>> = {}
    ) {
       super();
 
       this._time = data.b ?? data.time ?? LightRotationBase.default.b;
-      this._previous = data.p ?? data.previous ?? LightRotationBase.default.p;
       this._easing = data.e ?? data.easing ?? LightRotationBase.default.e;
       this._loop = data.l ?? data.loop ?? LightRotationBase.default.l;
-      this._rotation = data.r ?? data.rotation ?? LightRotationBase.default.r;
       this._direction = data.o ?? data.direction ?? LightRotationBase.default.o;
+      this._previous = data.p ?? data.previous ?? LightRotationBase.default.p;
+      this._rotation = data.r ?? data.rotation ?? LightRotationBase.default.r;
       this._customData = deepCopy(data.customData ?? LightRotationBase.default.customData);
    }
 
@@ -45,16 +43,12 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
    ): LightRotationBase[];
    static create(...data: Partial<ILightRotationBase>[]): LightRotationBase[];
    static create(
-      ...data: (
-         & Partial<ILightRotationBase>
-         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>
-      )[]
+      ...data: (Partial<ILightRotationBase> &
+         Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>)[]
    ): LightRotationBase[];
    static create(
-      ...data: (
-         & Partial<ILightRotationBase>
-         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>
-      )[]
+      ...data: (Partial<ILightRotationBase> &
+         Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>)[]
    ): LightRotationBase[] {
       const result: LightRotationBase[] = [];
       data.forEach((obj) => result.push(new this(obj)));
@@ -67,11 +61,11 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
    toJSON(): ILightRotationBase {
       return {
          b: this.time,
-         p: this.previous,
          e: this.easing,
          l: this.loop,
-         r: this.rotation,
          o: this.direction,
+         p: this.previous,
+         r: this.rotation,
          customData: deepCopy(this.customData),
       };
    }

@@ -18,18 +18,18 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
    constructor(data: Partial<IWrapLightColorBaseAttribute<ILightColorBase>>);
    constructor(data: Partial<ILightColorBase>);
    constructor(
-      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>,
+      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>
    );
    constructor(
-      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>> = {},
+      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>> = {}
    ) {
       super();
 
       this._time = data.b ?? data.time ?? LightColorBase.default.b;
-      this._transition = data.i ?? data.transition ?? LightColorBase.default.i;
       this._color = data.c ?? data.color ?? LightColorBase.default.c;
-      this._brightness = data.s ?? data.brightness ?? LightColorBase.default.s;
       this._frequency = data.f ?? data.frequency ?? LightColorBase.default.f;
+      this._transition = data.i ?? data.transition ?? LightColorBase.default.i;
+      this._brightness = data.s ?? data.brightness ?? LightColorBase.default.s;
       this._customData = deepCopy(data.customData ?? LightColorBase.default.customData);
    }
 
@@ -55,10 +55,10 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
    toJSON(): ILightColorBase {
       return {
          b: this.time,
-         i: this.transition,
          c: this.color,
-         s: this.brightness,
          f: this.frequency,
+         i: this.transition,
+         s: this.brightness,
          customData: deepCopy(this.customData),
       };
    }

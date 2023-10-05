@@ -2,12 +2,10 @@
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
 export interface IWrapLightRotationBaseAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
+   T extends { [P in keyof T]: T[P] } = Record<string, any>
 > extends IWrapBaseObjectAttribute<T> {
    /** Relative beat time `<float>` to event box group. */
    time: number;
-   /** Use previous event rotation value `<int>` in light rotation. */
-   previous: 0 | 1;
    /**
     * Ease type `<int>` of light rotation.
     * ```ts
@@ -22,14 +20,6 @@ export interface IWrapLightRotationBaseAttribute<
    /** Loop count `<int>` in light rotation. */
    loop: number;
    /**
-    * Rotation value `<float>` of light rotation.
-    * ```ts
-    * Left-side -> Clockwise
-    * Right-side -> Counter-Clockwise
-    * ```
-    */
-   rotation: number;
-   /**
     * Rotation direction `<int>` of light rotation.
     * ```ts
     * 0 -> Automatic
@@ -38,11 +28,21 @@ export interface IWrapLightRotationBaseAttribute<
     * ```
     */
    direction: 0 | 1 | 2;
+   /** Use previous event rotation value `<int>` in light rotation. */
+   previous: 0 | 1;
+   /**
+    * Rotation value `<float>` of light rotation.
+    * ```ts
+    * Left-side -> Clockwise
+    * Right-side -> Counter-Clockwise
+    * ```
+    */
+   rotation: number;
 }
 
 export interface IWrapLightRotationBase<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObject<T>, IWrapLightRotationBaseAttribute<T> {
-   setTime(value: number): this;
+   extends IWrapBaseObject<T>,
+      IWrapLightRotationBaseAttribute<T> {
    setPrevious(value: 0 | 1): this;
    setEasing(value: -1 | 0 | 1 | 2 | 3): this;
    setLoop(value: number): this;
