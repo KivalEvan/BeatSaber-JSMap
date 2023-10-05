@@ -22,8 +22,13 @@ import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
 import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
 import { IArc } from '../../types/beatmap/v3/arc.ts';
 import { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
+import { IFxEventBox } from '../../types/beatmap/v3/fxEventBox.ts';
+import { IFxEventBoxGroup } from '../../types/beatmap/v3/fxEventBoxGroup.ts';
+import { IFxEventsCollection } from '../../types/beatmap/v3/fxEventsCollection.ts';
+import { IFxEventFloat } from '../../types/beatmap/v3/fxEventFloat.ts';
+import { IFxEventInt } from '../../types/beatmap/v3/fxEventInt.ts';
 
-// FIXME: ALMOST EVERYTHING IS HERE IFUCKIN OPTIONAL REE
+// FIXME: ALMOST EVERYTHING HERE IS IFUCKIN OPTIONAL REE
 export const ColorNoteDataCheck: { readonly [key in keyof IColorNote]: DataCheck } = {
    b: {
       type: 'number',
@@ -723,6 +728,86 @@ export const LightTranslationEventBoxGroupDataCheck: {
    },
 } as const;
 
+export const VfxEventBoxDataCheck: {
+   readonly [key in keyof IFxEventBox]: DataCheck;
+} = {
+   f: {
+      type: 'object',
+      version: '3.3.0',
+      check: IndexFilterDataCheck,
+   },
+   w: {
+      type: 'number',
+      version: '3.3.0',
+   },
+   d: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+   },
+   s: {
+      type: 'number',
+      version: '3.3.0',
+   },
+   t: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+   },
+   l: {
+      type: 'number',
+      int: true,
+      array: true,
+      version: '3.3.0',
+   },
+   b: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+   },
+   i: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+   },
+   customData: {
+      type: 'object',
+      version: '3.0.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
+export const VfxEventBoxGroupDataCheck: {
+   readonly [key in keyof IFxEventBoxGroup]: DataCheck;
+} = {
+   b: {
+      type: 'number',
+      version: '3.3.0',
+   },
+   g: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+   },
+   e: {
+      type: 'array',
+      version: '3.3.0',
+      check: VfxEventBoxDataCheck,
+   },
+   t: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+   },
+   customData: {
+      type: 'object',
+      version: '3.3.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
 export const BasicEventTypesForKeywordsDataCheck: {
    readonly [key in keyof IBasicEventTypesForKeywords]: DataCheck;
 } = {
@@ -746,6 +831,75 @@ export const BasicEventTypesWithKeywordsDataCheck: {
       version: '3.0.0',
       check: BasicEventTypesForKeywordsDataCheck,
       optional: true,
+   },
+} as const;
+
+export const FxEventFloatDataCheck: {
+   readonly [key in keyof IFxEventFloat]: DataCheck;
+} = {
+   b: {
+      type: 'number',
+      version: '3.3.0',
+   },
+   i: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+   },
+   p: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+   },
+   v: {
+      type: 'number',
+      version: '3.3.0',
+   },
+   customData: {
+      type: 'object',
+      version: '3.3.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
+export const FxEventIntDataCheck: {
+   readonly [key in keyof IFxEventInt]: DataCheck;
+} = {
+   b: {
+      type: 'number',
+      version: '3.3.0',
+   },
+   p: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+   },
+   v: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+   },
+   customData: {
+      type: 'object',
+      version: '3.3.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
+export const FxEventsCollectionDataCheck: {
+   readonly [key in keyof IFxEventsCollection]: DataCheck;
+} = {
+   _fl: {
+      type: 'array',
+      version: '3.3.0',
+      check: FxEventFloatDataCheck,
+   },
+   _il: {
+      type: 'array',
+      version: '3.3.0',
+      check: FxEventIntDataCheck,
    },
 } as const;
 
@@ -860,10 +1014,22 @@ export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck }
       check: LightTranslationEventBoxGroupDataCheck,
       optional: true,
    },
+   vfxEventBoxGroups: {
+      type: 'array',
+      version: '3.3.0',
+      check: VfxEventBoxGroupDataCheck,
+      optional: true,
+   },
    basicEventTypesWithKeywords: {
       type: 'object',
       version: '3.0.0',
       check: BasicEventTypesWithKeywordsDataCheck,
+   },
+   _fxEventsCollection: {
+      type: 'object',
+      version: '3.3.0',
+      check: FxEventsCollectionDataCheck,
+      optional: true,
    },
    useNormalEventsAsCompatibleEvents: {
       type: 'boolean',

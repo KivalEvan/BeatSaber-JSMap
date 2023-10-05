@@ -48,7 +48,9 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    lightColorEventBoxGroups: never[] = [];
    lightRotationEventBoxGroups: never[] = [];
    lightTranslationEventBoxGroups: never[] = [];
+   fxEventBoxGroups: never[] = [];
    eventTypesWithKeywords: SpecialEventsKeywordFilters;
+   fxEventsCollection!: never;
    useNormalEventsAsCompatibleEvents = true;
 
    constructor(data: Partial<IDifficulty> = {}) {
@@ -223,6 +225,10 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          tag('addLightTranslationEventBoxGroups'),
          'Light Translation Event Box Group does not exist in beatmap V2',
       );
+   }
+
+   addFxEventBoxGroups(..._: never[]): void {
+      logger.tWarn(tag('addFxEventBoxGroups'), 'FX Event Box Group does not exist in beatmap V2');
    }
 
    isValid(): boolean {

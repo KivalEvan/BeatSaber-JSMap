@@ -5,7 +5,7 @@ import { IWrapLightColorBase, IWrapLightColorBaseAttribute } from './lightColorB
 export interface IWrapLightColorEventBoxAttribute<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
    TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>
+   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
 > extends IWrapEventBoxAttribute<TBox, TBase, TFilter> {
    /**
     * Brightness distribution `<float>` of light color event box.
@@ -27,14 +27,15 @@ export interface IWrapLightColorEventBoxAttribute<
 export interface IWrapLightColorEventBox<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
    TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>
-> extends IWrapEventBox<TBox, TBase, TFilter>,
-      IWrapLightColorEventBoxAttribute<TBox, TBase, TFilter> {
+   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
+> extends
+   IWrapEventBox<TBox, TBase, TFilter>,
+   IWrapLightColorEventBoxAttribute<TBox, TBase, TFilter> {
    events: IWrapLightColorBase<TBase>[];
 
    setBrightnessDistribution(value: IWrapLightColorEventBox['brightnessDistribution']): this;
    setBrightnessDistributionType(
-      value: IWrapLightColorEventBox['brightnessDistributionType']
+      value: IWrapLightColorEventBox['brightnessDistributionType'],
    ): this;
    setAffectFirst(value: IWrapLightColorEventBox['affectFirst']): this;
    setEvents(value: IWrapLightColorBase<TBase>[]): this;

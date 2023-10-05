@@ -18,10 +18,10 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
    constructor(data: Partial<IWrapLightColorBaseAttribute<ILightColorBase>>);
    constructor(data: Partial<ILightColorBase>);
    constructor(
-      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>
+      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>,
    );
    constructor(
-      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>> = {}
+      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>> = {},
    ) {
       super();
 

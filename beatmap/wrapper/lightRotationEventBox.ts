@@ -4,18 +4,16 @@ import { WrapEventBox } from './eventBox.ts';
 
 /** Light rotation event box beatmap class object. */
 export abstract class WrapLightRotationEventBox<
-      TBox extends { [P in keyof TBox]: TBox[P] },
-      TBase extends { [P in keyof TBase]: TBase[P] },
-      TFilter extends { [P in keyof TFilter]: TFilter[P] }
-   >
-   extends WrapEventBox<TBox, TBase, TFilter>
-   implements IWrapLightRotationEventBox<TBox, TBase, TFilter>
-{
+   TBox extends { [P in keyof TBox]: TBox[P] },
+   TBase extends { [P in keyof TBase]: TBase[P] },
+   TFilter extends { [P in keyof TFilter]: TFilter[P] },
+> extends WrapEventBox<TBox, TBase, TFilter>
+   implements IWrapLightRotationEventBox<TBox, TBase, TFilter> {
    protected _rotationDistribution!: IWrapLightRotationEventBox['rotationDistribution'];
    protected _rotationDistributionType!: IWrapLightRotationEventBox['rotationDistributionType'];
    protected _axis!: IWrapLightRotationEventBox['axis'];
    protected _flip!: IWrapLightRotationEventBox['flip'];
-   protected declare _events: IWrapLightRotationBase<TBase>[];
+   declare protected _events: IWrapLightRotationBase<TBase>[];
 
    get rotationDistribution(): IWrapLightRotationEventBox['rotationDistribution'] {
       return this._rotationDistribution;

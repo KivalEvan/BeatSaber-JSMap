@@ -1,13 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapLightTranslationBaseAttribute<
+export interface IWrapFxEventFloatAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
 > extends IWrapBaseObjectAttribute<T> {
    /** Relative beat time `<float>` to event box group. */
    time: number;
    /**
-    * Ease type `<int>` of light translation.
+    * Ease type `<int>` of FX event.
     * ```ts
     * -1 -> Step
     * 0 -> Linear
@@ -17,15 +17,15 @@ export interface IWrapLightTranslationBaseAttribute<
     * ```
     */
    easing: -1 | 0 | 1 | 2 | 3;
-   /** Use previous event translation value `<int>` in light translation. */
+   /** Use previous event value `<int>` in FX event. */
    previous: 0 | 1;
-   /** Translation value `<float>` of light translation. */
-   translation: number;
+   /** Value `<float>` of FX event. */
+   value: number;
 }
 
-export interface IWrapLightTranslationBase<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObject<T>, IWrapLightTranslationBaseAttribute<T> {
+export interface IWrapFxEventFloat<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseObject<T>, IWrapFxEventFloatAttribute<T> {
    setPrevious(value: 0 | 1): this;
    setEasing(value: -1 | 0 | 1 | 2 | 3): this;
-   setTranslation(value: number): this;
+   setValue(value: number): this;
 }

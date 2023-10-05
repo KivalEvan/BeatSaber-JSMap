@@ -5,19 +5,16 @@ import { WrapBaseItem } from './baseItem.ts';
 
 /** Base event box beatmap class object. */
 export abstract class WrapEventBox<
-      TBox extends { [P in keyof TBox]: TBox[P] },
-      TBase extends { [P in keyof TBase]: TBase[P] },
-      TFilter extends { [P in keyof TFilter]: TFilter[P] }
-   >
-   extends WrapBaseItem<TBox>
-   implements IWrapEventBox<TBox, TBase, TFilter>
-{
+   TBox extends { [P in keyof TBox]: TBox[P] },
+   TBase extends { [P in keyof TBase]: TBase[P] },
+   TFilter extends { [P in keyof TFilter]: TFilter[P] },
+> extends WrapBaseItem<TBox> implements IWrapEventBox<TBox, TBase, TFilter> {
    protected _filter!: IWrapIndexFilter<TFilter>;
    protected _beatDistribution!: IWrapEventBox<TBase>['beatDistribution'];
    protected _beatDistributionType!: IWrapEventBox<TBase>['beatDistributionType'];
    protected _easing!: IWrapEventBox<TBase>['easing'];
    protected _affectFirst!: IWrapEventBox<TBase>['affectFirst'];
-   protected _events!: IWrapBaseObject<TBase>[];
+   protected _events!: number[] | IWrapBaseObject<TBase>[];
 
    get filter(): IWrapIndexFilter<TFilter> {
       return this._filter;
@@ -49,10 +46,10 @@ export abstract class WrapEventBox<
    set affectFirst(value: IWrapEventBox<TBase>['affectFirst']) {
       this._affectFirst = value;
    }
-   get events(): IWrapBaseObject<TBase>[] {
+   get events(): number[] | IWrapBaseObject<TBase>[] {
       return this._events;
    }
-   set events(value: IWrapBaseObject<TBase>[]) {
+   set events(value: number[] | IWrapBaseObject<TBase>[]) {
       this._events = value;
    }
 
@@ -76,14 +73,14 @@ export abstract class WrapEventBox<
       this.affectFirst = value;
       return this;
    }
-   abstract setEvents(value: IWrapBaseObject<TBase>[]): this;
+   abstract setEvents(value: number[] | IWrapBaseObject<TBase>[]): this;
 
    isValid(): boolean {
       return (
          (this.beatDistributionType === 1 || this.beatDistributionType === 2) &&
          this.easing >= 0 &&
          this.easing <= 3 &&
-         this.events.every((e) => e.isValid()) &&
+         this.events.every((e) => typeof e === 'number' || e.isValid()) &&
          this.filter.isValid()
       );
    }

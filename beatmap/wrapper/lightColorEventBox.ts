@@ -4,16 +4,14 @@ import { WrapEventBox } from './eventBox.ts';
 
 /** Light color event box beatmap class object. */
 export abstract class WrapLightColorEventBox<
-      TBox extends { [P in keyof TBox]: TBox[P] },
-      TBase extends { [P in keyof TBase]: TBase[P] },
-      TFilter extends { [P in keyof TFilter]: TFilter[P] }
-   >
-   extends WrapEventBox<TBox, TBase, TFilter>
-   implements IWrapLightColorEventBox<TBox, TBase, TFilter>
-{
+   TBox extends { [P in keyof TBox]: TBox[P] },
+   TBase extends { [P in keyof TBase]: TBase[P] },
+   TFilter extends { [P in keyof TFilter]: TFilter[P] },
+> extends WrapEventBox<TBox, TBase, TFilter>
+   implements IWrapLightColorEventBox<TBox, TBase, TFilter> {
    protected _brightnessDistribution!: IWrapLightColorEventBox['brightnessDistribution'];
    protected _brightnessDistributionType!: IWrapLightColorEventBox['brightnessDistributionType'];
-   protected declare _events: IWrapLightColorBase<TBase>[];
+   declare protected _events: IWrapLightColorBase<TBase>[];
 
    get brightnessDistribution(): IWrapLightColorEventBox['brightnessDistribution'] {
       return this._brightnessDistribution;

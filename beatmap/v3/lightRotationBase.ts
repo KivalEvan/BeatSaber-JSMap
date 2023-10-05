@@ -19,12 +19,14 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
    constructor(data: Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>);
    constructor(data: Partial<ILightRotationBase>);
    constructor(
-      data: Partial<ILightRotationBase> &
-         Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>
+      data:
+         & Partial<ILightRotationBase>
+         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>,
    );
    constructor(
-      data: Partial<ILightRotationBase> &
-         Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>> = {}
+      data:
+         & Partial<ILightRotationBase>
+         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>> = {},
    ) {
       super();
 
@@ -43,12 +45,16 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
    ): LightRotationBase[];
    static create(...data: Partial<ILightRotationBase>[]): LightRotationBase[];
    static create(
-      ...data: (Partial<ILightRotationBase> &
-         Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>)[]
+      ...data: (
+         & Partial<ILightRotationBase>
+         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>
+      )[]
    ): LightRotationBase[];
    static create(
-      ...data: (Partial<ILightRotationBase> &
-         Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>)[]
+      ...data: (
+         & Partial<ILightRotationBase>
+         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>
+      )[]
    ): LightRotationBase[] {
       const result: LightRotationBase[] = [];
       data.forEach((obj) => result.push(new this(obj)));

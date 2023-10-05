@@ -28,6 +28,8 @@ import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
 import { GenericFileName } from '../shared/filename.ts';
 import { EventContainer, NoteContainer } from './container.ts';
 import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
+import { IWrapFxEventsCollection } from './fxEventsCollection.ts';
+import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 
 export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseItemAttribute<T> {
@@ -45,7 +47,9 @@ export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = R
    lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
+   fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
+   fxEventsCollection: IWrapFxEventsCollection;
    useNormalEventsAsCompatibleEvents: boolean;
 
    filename: string;
@@ -153,4 +157,5 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
    addLightTranslationEventBoxGroups(
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): void;
+   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): void;
 }

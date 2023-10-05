@@ -39,6 +39,11 @@ import { EventContainer, NoteContainer } from '../../types/beatmap/wrapper/conta
 import { Version } from '../../types/beatmap/shared/version.ts';
 import { WrapBaseItem } from './baseItem.ts';
 import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import { IWrapFxEventsCollection } from '../../types/beatmap/wrapper/fxEventsCollection.ts';
+import {
+   IWrapFxEventBoxGroup,
+   IWrapFxEventBoxGroupAttribute,
+} from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
 
 /** Difficulty beatmap class object. */
 export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
@@ -59,7 +64,9 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
    abstract lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
    abstract lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
    abstract lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
+   abstract fxEventBoxGroups: IWrapFxEventBoxGroup[];
    abstract eventTypesWithKeywords: IWrapEventTypesWithKeywords;
+   abstract fxEventsCollection: IWrapFxEventsCollection;
    abstract useNormalEventsAsCompatibleEvents: boolean;
 
    clone<U extends this>(): U {
@@ -186,4 +193,5 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
    abstract addLightTranslationEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): void;
+   abstract addFxEventBoxGroups(...data: DeepPartialWrapper<IWrapFxEventBoxGroupAttribute>[]): void;
 }

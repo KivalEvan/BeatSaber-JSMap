@@ -14,9 +14,11 @@ import { IBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 import { ILightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 import { ICustomDataDifficulty } from './custom/difficulty.ts';
 import { IBaseItem } from './baseItem.ts';
+import { IFxEventBoxGroup } from './fxEventBoxGroup.ts';
+import { IFxEventsCollection } from './fxEventsCollection.ts';
 
 export interface IDifficulty extends IBaseItem {
-   version: `3.${0 | 1 | 2}.0`;
+   version: `3.${0 | 1 | 2 | 3}.0`;
    bpmEvents: IBPMEvent[];
    rotationEvents: IRotationEvent[];
    colorNotes: IColorNote[];
@@ -30,6 +32,10 @@ export interface IDifficulty extends IBaseItem {
    lightColorEventBoxGroups: ILightColorEventBoxGroup[];
    lightRotationEventBoxGroups: ILightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: ILightTranslationEventBoxGroup[];
+   vfxEventBoxGroups: IFxEventBoxGroup[];
+   // beat games? why the underscore?
+   // does this even exist in schema? i couldnt tell
+   _fxEventsCollection: IFxEventsCollection;
    basicEventTypesWithKeywords: IBasicEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
    customData?: ICustomDataDifficulty;

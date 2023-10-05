@@ -175,12 +175,12 @@ function fixIndexFilter(obj: IndexFilter): void {
 
 function fixLightColorBase(obj: LightColorBase): void {
    obj.time = fixFloat(obj.time, LightColorBase.default.b);
-   obj.transition = fixInt(obj.transition, LightColorBase.default.i, [0, 1, 2]);
+   obj.frequency = fixInt(obj.frequency, LightColorBase.default.f);
    obj.color = obj.transition === 2
       ? fixInt(obj.color, -1, [-1, 0, 1, 2])
       : fixInt(obj.color, LightColorBase.default.c, [0, 1, 2]);
+   obj.transition = fixInt(obj.transition, LightColorBase.default.i, [0, 1, 2]);
    obj.brightness = fixFloat(obj.brightness, LightColorBase.default.s);
-   obj.frequency = fixInt(obj.frequency, LightColorBase.default.f);
 }
 
 function fixLightColorEventBox(obj: LightColorEventBox): void {
@@ -213,11 +213,11 @@ function fixLightColorEventBoxGroup(obj: LightColorEventBoxGroup): void {
 
 function fixLightRotationBase(obj: LightRotationBase): void {
    obj.time = fixFloat(obj.time, LightRotationBase.default.b);
-   obj.previous = fixInt(obj.previous, LightRotationBase.default.p, [0, 1]);
    obj.easing = fixInt(obj.easing, LightRotationBase.default.e, [-1, 0, 1, 2, 3]);
    obj.loop = fixInt(obj.loop, LightRotationBase.default.l);
-   obj.rotation = fixFloat(obj.rotation, LightRotationBase.default.r);
    obj.direction = fixInt(obj.direction, LightRotationBase.default.o, [0, 1, 2]);
+   obj.previous = fixInt(obj.previous, LightRotationBase.default.p, [0, 1]);
+   obj.rotation = fixFloat(obj.rotation, LightRotationBase.default.r);
 }
 
 function fixLightRotationEventBox(obj: LightRotationEventBox): void {
@@ -256,8 +256,8 @@ function fixLightRotationEventBoxGroup(obj: LightRotationEventBoxGroup): void {
 
 function fixLightTranslationBase(obj: LightTranslationBase): void {
    obj.time = fixFloat(obj.time, LightTranslationBase.default.b);
-   obj.previous = fixInt(obj.previous, LightTranslationBase.default.p, [0, 1]);
    obj.easing = fixInt(obj.easing, LightTranslationBase.default.e, [-1, 0, 1, 2, 3]);
+   obj.previous = fixInt(obj.previous, LightTranslationBase.default.p, [0, 1]);
    obj.translation = fixFloat(obj.translation, LightTranslationBase.default.t);
 }
 
@@ -269,12 +269,9 @@ function fixLightTranslationEventBox(obj: LightTranslationEventBox): void {
       LightTranslationEventBox.default.d,
       [1, 2],
    );
-   obj.translationDistribution = fixFloat(
-      obj.translationDistribution,
-      LightTranslationEventBox.default.s,
-   );
-   obj.translationDistributionType = fixInt(
-      obj.translationDistributionType,
+   obj.gapDistribution = fixFloat(obj.gapDistribution, LightTranslationEventBox.default.s);
+   obj.gapDistributionType = fixInt(
+      obj.gapDistributionType,
       LightTranslationEventBox.default.t,
       [1, 2],
    );

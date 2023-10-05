@@ -16,11 +16,11 @@ export abstract class WrapEventTypesWithKeywords<
       this._list = value;
    }
 
-   setData(value: IWrapEventTypesForKeywords<U>[]) {
+   setList(value: IWrapEventTypesForKeywords<U>[]) {
       this.list = value;
       return this;
    }
-   abstract addData(value: IWrapEventTypesForKeywords<U>): this;
+   abstract addList(value: IWrapEventTypesForKeywords<U>): this;
    removeData(value: string) {
       this.list = this.list.filter((d) => d.keyword !== value);
       return this;

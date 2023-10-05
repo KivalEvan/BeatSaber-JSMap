@@ -4,18 +4,15 @@ import { WrapEventBox } from './eventBox.ts';
 
 /** Light translation event box beatmap class object. */
 export abstract class WrapLightTranslationEventBox<
-      TBox extends { [P in keyof TBox]: TBox[P] },
-      TBase extends { [P in keyof TBase]: TBase[P] },
-      TFilter extends { [P in keyof TFilter]: TFilter[P] }
-   >
-   extends WrapEventBox<TBox, TBase, TFilter>
-   implements IWrapLightTranslationEventBox<TBox>
-{
+   TBox extends { [P in keyof TBox]: TBox[P] },
+   TBase extends { [P in keyof TBase]: TBase[P] },
+   TFilter extends { [P in keyof TFilter]: TFilter[P] },
+> extends WrapEventBox<TBox, TBase, TFilter> implements IWrapLightTranslationEventBox<TBox> {
    protected _translationDistribution!: IWrapLightTranslationEventBox['gapDistribution'];
    protected _translationDistributionType!: IWrapLightTranslationEventBox['gapDistributionType'];
    protected _axis!: IWrapLightTranslationEventBox['axis'];
    protected _flip!: IWrapLightTranslationEventBox['flip'];
-   protected declare _events: IWrapLightTranslationBase<TBase>[];
+   declare protected _events: IWrapLightTranslationBase<TBase>[];
 
    get gapDistribution(): IWrapLightTranslationEventBox['gapDistribution'] {
       return this._translationDistribution;

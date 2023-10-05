@@ -17,7 +17,7 @@ export interface IWrapEventTypesWithKeywords<
 > extends ISerializable<T>, IWrapEventTypesWithKeywordsAttribute<T> {
    list: IWrapEventTypesForKeywords[];
 
-   setData(value: IWrapEventTypesForKeywords[]): this;
-   addData(value: IWrapEventTypesForKeywords): this;
+   setList(value: IWrapEventTypesForKeywords[]): this;
+   addList(value: IWrapEventTypesForKeywords): this;
    removeData(value: string): this;
 }

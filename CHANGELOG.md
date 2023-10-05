@@ -8,6 +8,9 @@ faster in general use case.
 
 ### Added
 
+- Updated to beatmap v3.3.0
+  - FX Event Box Group
+  - FX Events Collection
 - [New SongCore features](https://github.com/Kylemc1413/SongCore/pull/122) (tags, custom
   characteristic label, etc.)
 - Predefined beatmap data clean method
@@ -40,6 +43,8 @@ faster in general use case.
   - `RgbaToHsva` to `rgbaToHsva`
   - `interpolateColor` to `lerpColor`
   - And couple others I forgot
+- Renamed `translationDistribution` to `gapDistribution`
+- Shortened constant `Position#` to `Pos#`
 
 ### Fixed
 

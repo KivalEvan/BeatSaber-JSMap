@@ -2,7 +2,7 @@
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
 export interface IWrapLightRotationBaseAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>
+   T extends { [P in keyof T]: T[P] } = Record<string, any>,
 > extends IWrapBaseObjectAttribute<T> {
    /** Relative beat time `<float>` to event box group. */
    time: number;
@@ -41,8 +41,7 @@ export interface IWrapLightRotationBaseAttribute<
 }
 
 export interface IWrapLightRotationBase<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObject<T>,
-      IWrapLightRotationBaseAttribute<T> {
+   extends IWrapBaseObject<T>, IWrapLightRotationBaseAttribute<T> {
    setPrevious(value: 0 | 1): this;
    setEasing(value: -1 | 0 | 1 | 2 | 3): this;
    setLoop(value: number): this;

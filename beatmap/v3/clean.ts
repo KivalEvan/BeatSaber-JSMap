@@ -240,6 +240,45 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
          delete o1.customData;
       }
    }
+   for (const i1 in data.vfxEventBoxGroups) {
+      const o1 = data.vfxEventBoxGroups[i1];
+      if (options.floatTrim) {
+         o1.b = round(o1.b, options.floatTrim);
+      }
+      for (const i2 in o1.e) {
+         const o2 = o1.e[i2];
+         if (options.floatTrim) {
+            o2.s = round(o2.s, options.floatTrim);
+            o2.w = round(o2.w, options.floatTrim);
+            o2.f.l = round(o2.f.l, options.floatTrim);
+         }
+         deepClean(
+            o2.customData!,
+            `difficulty.vfxEventBoxGroups[${i1}].e[${i2}].customData`,
+            options,
+         );
+         if (!Object.keys(o2.customData!).length) {
+            delete o2.customData;
+         }
+      }
+      deepClean(o1.customData!, `difficulty.vfxEventBoxGroups[${i1}].customData`, options);
+      if (!Object.keys(o1.customData!).length) {
+         delete o1.customData;
+      }
+   }
+   for (const i1 in data._fxEventsCollection._fl) {
+      const o1 = data._fxEventsCollection._fl[i1];
+      if (options.floatTrim) {
+         o1.b = round(o1.b, options.floatTrim);
+         o1.v = round(o1.v, options.floatTrim);
+      }
+   }
+   for (const i1 in data._fxEventsCollection._il) {
+      const o1 = data._fxEventsCollection._il[i1];
+      if (options.floatTrim) {
+         o1.b = round(o1.b, options.floatTrim);
+      }
+   }
    for (const o1 of data.basicEventTypesWithKeywords.d) {
       if (options.stringTrim) {
          o1.k = o1.k.trim();

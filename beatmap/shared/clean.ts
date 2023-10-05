@@ -1,5 +1,5 @@
 import logger from '../../logger.ts';
-import { round } from '../../mod.ts';
+import { round } from '../../utils/math.ts';
 import { ICleanOptions } from '../../types/beatmap/shared/clean.ts';
 
 function tag(name: string): string[] {

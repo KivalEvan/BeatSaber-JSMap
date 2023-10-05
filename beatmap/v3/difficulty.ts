@@ -49,10 +49,15 @@ import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslati
 import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
 import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
 import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
+import { IWrapFxEventBoxGroupAttribute } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
+import { IFxEventBox } from '../../types/beatmap/v3/fxEventBox.ts';
+import { IFxEventBoxGroup } from '../../types/beatmap/v3/fxEventBoxGroup.ts';
+import { FxEventBoxGroup } from './fxEventBoxGroup.ts';
+import { FxEventsCollection } from './fxEventsCollection.ts';
 
 /** Difficulty beatmap v3 class object. */
 export class Difficulty extends WrapDifficulty<IDifficulty> {
-   version: `3.${0 | 1 | 2}.0`;
+   version: IDifficulty['version'];
    bpmEvents: BPMEvent[];
    rotationEvents: RotationEvent[];
    colorNotes: ColorNote[];
@@ -66,13 +71,15 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    lightColorEventBoxGroups: LightColorEventBoxGroup[];
    lightRotationEventBoxGroups: LightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: LightTranslationEventBoxGroup[];
+   fxEventBoxGroups: FxEventBoxGroup[];
    eventTypesWithKeywords: BasicEventTypesWithKeywords;
+   fxEventsCollection: FxEventsCollection;
    useNormalEventsAsCompatibleEvents;
 
    constructor(data: Partial<IDifficulty> = {}) {
       super();
 
-      this.version = '3.2.0';
+      this.version = '3.3.0';
       this.bpmEvents = (data.bpmEvents ?? []).map((obj) => new BPMEvent(obj));
       this.rotationEvents = (data.rotationEvents ?? []).map((obj) => new RotationEvent(obj));
       this.colorNotes = (data.colorNotes ?? []).map((obj) => new ColorNote(obj));
@@ -94,9 +101,16 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       this.lightTranslationEventBoxGroups = (data.lightTranslationEventBoxGroups ?? []).map(
          (obj) => new LightTranslationEventBoxGroup(obj),
       );
+      this.fxEventBoxGroups = (data.vfxEventBoxGroups ?? []).map((obj) => new FxEventBoxGroup(obj));
       this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(
          data.basicEventTypesWithKeywords ?? {
             d: [],
+         },
+      );
+      this.fxEventsCollection = new FxEventsCollection(
+         data._fxEventsCollection ?? {
+            _fl: [],
+            _il: [],
          },
       );
       this.useNormalEventsAsCompatibleEvents = data.useNormalEventsAsCompatibleEvents ?? false;
@@ -109,7 +123,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    toJSON(): IDifficulty {
       return {
-         version: '3.2.0',
+         version: '3.3.0',
          bpmEvents: this.bpmEvents.map((obj) => obj.toJSON()),
          rotationEvents: this.rotationEvents.map((obj) => obj.toJSON()),
          colorNotes: this.colorNotes.map((obj) => obj.toJSON()),
@@ -125,7 +139,9 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          lightTranslationEventBoxGroups: this.lightTranslationEventBoxGroups.map((obj) =>
             obj.toJSON()
          ),
+         vfxEventBoxGroups: this.fxEventBoxGroups.map((obj) => obj.toJSON()),
          basicEventTypesWithKeywords: this.eventTypesWithKeywords.toJSON(),
+         _fxEventsCollection: this.fxEventsCollection.toJSON(),
          useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
          customData: deepCopy(this.customData),
       };
@@ -154,6 +170,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       this.bpmEvents = this.bpmEvents.map((obj) => this.createOrKeep(BPMEvent, obj, keepRef));
       this.waypoints = this.waypoints.map((obj) => this.createOrKeep(Waypoint, obj, keepRef));
       this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(this.eventTypesWithKeywords);
+      this.fxEventsCollection = new FxEventsCollection(this.fxEventsCollection);
    }
 
    addBpmEvents(...data: Partial<IWrapBPMEventAttribute<IBPMEvent>>[]): void;
@@ -382,6 +399,29 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       }
    }
 
+   addFxEventBoxGroups(
+      ...data: DeepPartial<
+         IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>
+      >[]
+   ): void;
+   addFxEventBoxGroups(...data: DeepPartial<IFxEventBoxGroup>[]): void;
+   addFxEventBoxGroups(
+      ...data: (
+         & DeepPartial<IFxEventBoxGroup>
+         & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
+      )[]
+   ): void;
+   addFxEventBoxGroups(
+      ...data: (
+         & DeepPartial<IFxEventBoxGroup>
+         & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
+      )[]
+   ): void {
+      for (const obj of data) {
+         this.fxEventBoxGroups.push(new FxEventBoxGroup(obj));
+      }
+   }
+
    isValid(): boolean {
       return (
          this.colorNotes.every((obj) => this.checkClass(ColorNote, obj)) ||
@@ -403,7 +443,9 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          this.lightTranslationEventBoxGroups.every((obj) =>
             this.checkClass(LightTranslationEventBoxGroup, obj)
          ) ||
-         this.eventTypesWithKeywords instanceof BasicEventTypesWithKeywords
+         this.fxEventBoxGroups.every((obj) => this.checkClass(FxEventBoxGroup, obj)) ||
+         this.eventTypesWithKeywords instanceof BasicEventTypesWithKeywords,
+            this.fxEventsCollection instanceof FxEventsCollection
       );
    }
 }

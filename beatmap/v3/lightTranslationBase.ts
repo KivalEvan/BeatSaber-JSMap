@@ -17,12 +17,14 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
    constructor(data: Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>);
    constructor(data: Partial<ILightTranslationBase>);
    constructor(
-      data: Partial<ILightTranslationBase> &
-         Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>
+      data:
+         & Partial<ILightTranslationBase>
+         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>,
    );
    constructor(
-      data: Partial<ILightTranslationBase> &
-         Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>> = {}
+      data:
+         & Partial<ILightTranslationBase>
+         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>> = {},
    ) {
       super();
 
@@ -39,12 +41,16 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
    ): LightTranslationBase[];
    static create(...data: Partial<ILightTranslationBase>[]): LightTranslationBase[];
    static create(
-      ...data: (Partial<ILightTranslationBase> &
-         Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>)[]
+      ...data: (
+         & Partial<ILightTranslationBase>
+         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>
+      )[]
    ): LightTranslationBase[];
    static create(
-      ...data: (Partial<ILightTranslationBase> &
-         Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>)[]
+      ...data: (
+         & Partial<ILightTranslationBase>
+         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>
+      )[]
    ): LightTranslationBase[] {
       const result: LightTranslationBase[] = [];
       data.forEach((obj) => result.push(new this(obj)));

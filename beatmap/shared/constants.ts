@@ -28,14 +28,14 @@ export const enum NoteDirection {
    ANY,
 }
 
-export const enum PositionX {
+export const enum PosX {
    LEFT,
    MIDDLE_LEFT,
    MIDDLE_RIGHT,
    RIGHT,
 }
 
-export const enum PositionY {
+export const enum PosY {
    BOTTOM,
    MIDDLE,
    TOP,
@@ -235,6 +235,13 @@ export const enum Axis {
    X,
    Y,
    Z,
+}
+
+/** Used for FX event box group. */
+export const enum FxType {
+   INT,
+   FLOAT,
+   BOOL,
 }
 
 export const enum LightRotationDirection {
