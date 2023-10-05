@@ -44,6 +44,7 @@ import {
    IWrapFxEventBoxGroup,
    IWrapFxEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
+import { sortNoteFn, sortObjectFn } from '../shared/helpers.ts';
 
 /** Difficulty beatmap class object. */
 export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
@@ -85,7 +86,36 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
       return this;
    }
 
-   abstract reparse(keepRef?: boolean): void;
+   sort(): this {
+      this.bpmEvents.sort(sortObjectFn);
+      this.rotationEvents.sort(sortObjectFn);
+      this.colorNotes.sort(sortNoteFn);
+      this.bombNotes.sort(sortNoteFn);
+      this.obstacles.sort(sortObjectFn);
+      this.arcs.sort(sortNoteFn);
+      this.chains.sort(sortNoteFn);
+      this.waypoints.sort(sortObjectFn);
+      this.basicEvents.sort(sortObjectFn);
+      this.colorBoostEvents.sort(sortObjectFn);
+      this.lightColorEventBoxGroups.sort(sortObjectFn);
+      this.lightRotationEventBoxGroups.sort(sortObjectFn);
+      this.lightTranslationEventBoxGroups.sort(sortObjectFn);
+      this.fxEventBoxGroups.sort(sortObjectFn);
+
+      this.lightColorEventBoxGroups.forEach((gr) =>
+         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
+      );
+      this.lightRotationEventBoxGroups.forEach((gr) =>
+         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
+      );
+      this.lightTranslationEventBoxGroups.forEach((gr) =>
+         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
+      );
+
+      return this;
+   }
+
+   abstract reparse(keepRef?: boolean): this;
 
    protected createOrKeep<T, U>(concrete: { new (data: T | U): U }, obj: U, keep?: boolean): U {
       return keep && obj instanceof concrete ? obj : new concrete(obj);

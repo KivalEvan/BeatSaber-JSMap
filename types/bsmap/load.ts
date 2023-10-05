@@ -10,6 +10,8 @@ export interface ILoadOptionsDifficulty extends IBaseOptions {
    forceConvert?: boolean;
    /** Data check option when loading. */
    dataCheck?: IDataCheckOption;
+   /** Sort object(s) on load. */
+   sort?: boolean;
 }
 
 export interface ILoadOptionsInfo extends ILoadOptionsDifficulty {

@@ -96,10 +96,12 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       logger.tWarn(tag('customData'), 'Custom data does not exist in beatmap V1');
    }
 
-   reparse(keepRef?: boolean): void {
+   reparse(keepRef?: boolean): this {
       this.colorNotes = this.colorNotes.map((obj) => this.createOrKeep(Note, obj, keepRef));
       this.obstacles = this.obstacles.map((obj) => this.createOrKeep(Obstacle, obj, keepRef));
       this.basicEvents = this.basicEvents.map((obj) => this.createOrKeep(Event, obj, keepRef));
+
+      return this;
    }
 
    addBpmEvents(..._: never[]): void {

@@ -89,53 +89,6 @@ function _writeJSONFileSync(data: Record<string, unknown>, path: string, format?
    Deno.writeTextFileSync(path, JSON.stringify(data, null, format));
 }
 
-// deno-lint-ignore no-explicit-any
-function _sortDifficulty(data: Record<string, any>, version: number) {
-   if (version === 1) {
-      const d = data as IV1Difficulty;
-      d._notes.sort(sortV2NoteFn);
-      d._obstacles.sort(sortV2ObjectFn);
-      d._events.sort(sortV2ObjectFn);
-      d._bookmarks?.sort(sortV2ObjectFn);
-      d._BPMChanges?.sort(sortV2ObjectFn);
-   }
-   if (version === 2) {
-      const d = data as IV2Difficulty;
-      d._notes.sort(sortV2NoteFn);
-      d._obstacles.sort(sortV2ObjectFn);
-      d._events.sort(sortV2ObjectFn);
-      d._sliders.sort((a, b) => a._headTime - b._headTime);
-      d._waypoints.sort(sortV2ObjectFn);
-      d._customData?._customEvents?.sort(sortV2ObjectFn);
-      d._customData?._bookmarks?.sort(sortV2ObjectFn);
-      d._customData?._bpmChanges?.sort(sortV2ObjectFn);
-      d._customData?._BPMChanges?.sort(sortV2ObjectFn);
-   }
-   if (version === 3) {
-      const d = data as IV3Difficulty;
-      d.colorNotes.sort(sortV3NoteFn);
-      d.bombNotes.sort(sortV3NoteFn);
-      d.obstacles.sort(sortV3ObjectFn);
-      d.bpmEvents.sort(sortV3ObjectFn);
-      d.rotationEvents.sort(sortV3ObjectFn);
-      d.colorBoostBeatmapEvents.sort(sortV3ObjectFn);
-      d.basicBeatmapEvents.sort(sortV3ObjectFn);
-      d.sliders.sort(sortV3NoteFn);
-      d.burstSliders.sort(sortV3NoteFn);
-      d.lightColorEventBoxGroups.sort(sortV3ObjectFn);
-      d.lightRotationEventBoxGroups.sort(sortV3ObjectFn);
-      d.lightTranslationEventBoxGroups.sort(sortV3ObjectFn);
-      d.waypoints.sort(sortV3NoteFn);
-      d.customData?.customEvents?.sort(sortV3ObjectFn);
-      d.customData?.bookmarks?.sort(sortV3ObjectFn);
-      d.customData?.BPMChanges?.sort(sortV3ObjectFn);
-      d.customData?.fakeColorNotes?.sort(sortV3NoteFn);
-      d.customData?.fakeBombNotes?.sort(sortV3NoteFn);
-      d.customData?.fakeBurstSliders?.sort(sortV3NoteFn);
-      d.customData?.fakeObstacles?.sort(sortV3ObjectFn);
-   }
-}
-
 function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
    const opt: Required<ISaveOptionsInfo> = {
       directory: '',
@@ -219,6 +172,12 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
          }
       }
    }
+
+   if (opt.sort) {
+      logger.tInfo(tag('_difficulty'), 'Sorting beatmap objects');
+      data.sort();
+   }
+
    const ver = parseInt(data.version.at(0) || '0');
    const json = data.toJSON();
 
@@ -236,11 +195,6 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
          ? V1DifficultyCheck
          : {};
       deepCheck(json, dataCheck, 'difficulty', data.version, opt.dataCheck.throwError);
-   }
-
-   if (opt.sort) {
-      logger.tInfo(tag('_difficulty'), 'Sorting beatmap objects');
-      _sortDifficulty(json, ver);
    }
 
    return json;

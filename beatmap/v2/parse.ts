@@ -7,7 +7,6 @@ import { DifficultyCheck, InfoCheck } from './dataCheck.ts';
 import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
 import logger from '../../logger.ts';
-import { sortV2NoteFn, sortV2ObjectFn } from '../shared/helpers.ts';
 import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
@@ -26,12 +25,6 @@ export function parseDifficulty(
    if (checkData.enabled) {
       deepCheck(data, DifficultyCheck, 'difficulty', data._version, checkData.throwError);
    }
-
-   data._notes?.sort(sortV2NoteFn);
-   data._sliders?.sort((a, b) => a._headTime - b._headTime);
-   data._obstacles?.sort(sortV2ObjectFn);
-   data._events?.sort(sortV2ObjectFn);
-   data._waypoints?.sort(sortV2ObjectFn);
 
    return new Difficulty(data);
 }

@@ -94,13 +94,15 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       this._customData = value;
    }
 
-   reparse(keepRef?: boolean): void {
+   reparse(keepRef?: boolean): this {
       this.colorNotes = this.colorNotes.map((obj) => this.createOrKeep(Note, obj, keepRef));
       this.obstacles = this.obstacles.map((obj) => this.createOrKeep(Obstacle, obj, keepRef));
       this.basicEvents = this.basicEvents.map((obj) => this.createOrKeep(Event, obj, keepRef));
       this.waypoints = this.waypoints.map((obj) => this.createOrKeep(Waypoint, obj, keepRef));
       this.arcs = this.arcs.map((obj) => this.createOrKeep(Arc, obj, keepRef));
       this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(this.eventTypesWithKeywords);
+
+      return this;
    }
 
    addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;

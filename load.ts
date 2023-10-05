@@ -37,6 +37,7 @@ const optionsInfo: Required<ILoadOptionsInfo> = {
       enabled: true,
       throwError: true,
    },
+   sort: true,
 };
 
 const optionsDifficulty: Required<ILoadOptionsDifficulty> = {
@@ -46,6 +47,7 @@ const optionsDifficulty: Required<ILoadOptionsDifficulty> = {
       enabled: true,
       throwError: true,
    },
+   sort: true,
 };
 
 const optionsDifficultyList: Required<ILoadOptionsDifficulty> = {
@@ -55,6 +57,7 @@ const optionsDifficultyList: Required<ILoadOptionsDifficulty> = {
       enabled: true,
       throwError: true,
    },
+   sort: true,
 };
 
 /** Set default option value for load function. */
@@ -85,6 +88,7 @@ function _info(
       directory: '',
       forceConvert: options.forceConvert ?? defaultOptions.info.forceConvert,
       dataCheck: options.dataCheck ?? defaultOptions.info.dataCheck,
+      sort: options.sort ?? defaultOptions.info.sort,
    };
 
    const jsonVerStr = typeof json._version === 'string'
@@ -194,6 +198,7 @@ function _difficulty(
       directory: '',
       forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
       dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
+      sort: options.sort ?? defaultOptions.difficulty.sort,
    };
 
    const jsonVerStr = typeof json._version === 'string'
@@ -255,6 +260,8 @@ function _difficulty(
       if (targetVer === 2) data = toV2Difficulty(data);
       if (targetVer === 3) data = toV3Difficulty(data);
    }
+
+   if (opt.sort) data.sort();
 
    return data;
 }
@@ -358,9 +365,11 @@ export async function difficultyFromInfo(
 ): Promise<ILoadInfoData[]> {
    logger.tInfo(tag('difficultyFromInfo'), 'Async loading difficulty from info');
    const opt: Required<ILoadOptionsDifficulty> = {
-      directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
-      forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
-      dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
+      directory: options.directory ??
+         (globals.directory || defaultOptions.difficultyList.directory),
+      forceConvert: options.forceConvert ?? defaultOptions.difficultyList.forceConvert,
+      dataCheck: options.dataCheck ?? defaultOptions.difficultyList.dataCheck,
+      sort: options.sort ?? defaultOptions.difficultyList.sort,
    };
    return await Promise.all(
       info.listMap().map(async ([mode, beatmap]) => {
@@ -414,9 +423,11 @@ export function difficultyFromInfoSync(
 ): ILoadInfoData[] {
    logger.tInfo(tag('difficultyFromInfoSync'), 'Sync loading difficulty from info');
    const opt: Required<ILoadOptionsDifficulty> = {
-      directory: options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
-      forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
-      dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
+      directory: options.directory ??
+         (globals.directory || defaultOptions.difficultyList.directory),
+      forceConvert: options.forceConvert ?? defaultOptions.difficultyList.forceConvert,
+      dataCheck: options.dataCheck ?? defaultOptions.difficultyList.dataCheck,
+      sort: options.sort ?? defaultOptions.difficultyList.sort,
    };
    return info
       .listMap()

@@ -59,6 +59,9 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
    extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
    setFileName(filename: LooseAutocomplete<GenericFileName>): this;
 
+   /** Sort beatmap object(s) accordingly. */
+   sort(): this;
+
    /**
     * Reparse the beatmap to their respective schema class.
     *
@@ -72,7 +75,7 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
     * **NOTE:** This will create a new set of array,
     * `keepRef` allows for already matched object to stay in new array instead of creating new object (this is faster and less memory but can cause reference issue)
     */
-   reparse(keepRef?: boolean): void;
+   reparse(keepRef?: boolean): this;
 
    /**
     * Calculate note per second.

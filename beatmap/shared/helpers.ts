@@ -3,12 +3,12 @@ import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { INote } from '../../types/beatmap/v2/note.ts';
 import { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object.ts';
 import { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
-import { IWrapBaseNoteAttribute } from '../../types/beatmap/wrapper/baseNote.ts';
 import { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
 import { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { LANE_SIZE } from './constants.ts';
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
+import { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
 
 /** Convert grid lane size unit to unity unit. */
 export function gridToUnityUnit(value: number): number {
@@ -46,7 +46,7 @@ export function sortObjectFn(a: IWrapBaseObjectAttribute, b: IWrapBaseObjectAttr
  * data.chains.sort(sortNoteFn);
  * ```
  */
-export function sortNoteFn(a: IWrapBaseNoteAttribute, b: IWrapBaseNoteAttribute): number {
+export function sortNoteFn(a: IWrapGridObjectAttribute, b: IWrapGridObjectAttribute): number {
    if (Array.isArray(a.customData.coordinates) && Array.isArray(b.customData.coordinates)) {
       return (
          a.time - b.time ||
