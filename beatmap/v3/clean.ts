@@ -156,6 +156,15 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
             purgeZeros(o3);
          }
          deepClean(
+            o2.f.customData!,
+            `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
+            options,
+         );
+         if (!Object.keys(o2.f.customData!).length) {
+            delete o2.f.customData;
+         }
+         purgeZeros(o2.f);
+         deepClean(
             o2.customData!,
             `difficulty.lightColorEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
@@ -199,6 +208,15 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
             }
             purgeZeros(o3);
          }
+         deepClean(
+            o2.f.customData!,
+            `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
+            options,
+         );
+         if (!Object.keys(o2.f.customData!).length) {
+            delete o2.f.customData;
+         }
+         purgeZeros(o2.f);
          deepClean(
             o2.customData!,
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
@@ -248,6 +266,15 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
             purgeZeros(o3);
          }
          deepClean(
+            o2.f.customData!,
+            `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
+            options,
+         );
+         if (!Object.keys(o2.f.customData!).length) {
+            delete o2.f.customData;
+         }
+         purgeZeros(o2.f);
+         deepClean(
             o2.customData!,
             `difficulty.lightTranslationEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
@@ -279,6 +306,15 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
             o2.w = round(o2.w, options.floatTrim);
             o2.f.l = round(o2.f.l, options.floatTrim);
          }
+         deepClean(
+            o2.f.customData!,
+            `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
+            options,
+         );
+         if (!Object.keys(o2.f.customData!).length) {
+            delete o2.f.customData;
+         }
+         purgeZeros(o2.f);
          deepClean(
             o2.customData!,
             `difficulty.vfxEventBoxGroups[${i1}].e[${i2}].customData`,
