@@ -11,7 +11,7 @@ export interface IWrapLightTranslationEventBoxAttribute<
    TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
 > extends IWrapEventBoxAttribute<TBox, TBase, TFilter> {
    /** Translation distribution `<float>` of light translation event box. */
-   translationDistribution: number;
+   gapDistribution: number;
    /**
     * Translation distribution type `<int>` of light translation event box.
     * ```ts
@@ -19,7 +19,7 @@ export interface IWrapLightTranslationEventBoxAttribute<
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   translationDistributionType: 1 | 2;
+   gapDistributionType: 1 | 2;
    /**
     * Axis `<int>` of light translation event box.
     * ```ts
@@ -45,12 +45,8 @@ export interface IWrapLightTranslationEventBox<
    IWrapLightTranslationEventBoxAttribute<TBox, TBase, TFilter> {
    events: IWrapLightTranslationBase<TBase>[];
 
-   setTranslationDistribution(
-      value: IWrapLightTranslationEventBox['translationDistribution'],
-   ): this;
-   setTranslationDistributionType(
-      value: IWrapLightTranslationEventBox['translationDistributionType'],
-   ): this;
+   setGapDistribution(value: IWrapLightTranslationEventBox['gapDistribution']): this;
+   setGapDistributionType(value: IWrapLightTranslationEventBox['gapDistributionType']): this;
    setAxis(value: IWrapLightTranslationEventBox['axis']): this;
    setFlip(value: IWrapLightTranslationEventBox['flip']): this;
    setAffectFirst(value: IWrapLightTranslationEventBox['affectFirst']): this;

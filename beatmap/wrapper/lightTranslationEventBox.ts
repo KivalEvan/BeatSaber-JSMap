@@ -8,32 +8,23 @@ export abstract class WrapLightTranslationEventBox<
    TBase extends { [P in keyof TBase]: TBase[P] },
    TFilter extends { [P in keyof TFilter]: TFilter[P] },
 > extends WrapEventBox<TBox, TBase, TFilter> implements IWrapLightTranslationEventBox<TBox> {
-   protected _translationDistribution!: IWrapLightTranslationEventBox['translationDistribution'];
-   protected _translationDistributionType!:
-      IWrapLightTranslationEventBox['translationDistributionType'];
+   protected _translationDistribution!: IWrapLightTranslationEventBox['gapDistribution'];
+   protected _translationDistributionType!: IWrapLightTranslationEventBox['gapDistributionType'];
    protected _axis!: IWrapLightTranslationEventBox['axis'];
    protected _flip!: IWrapLightTranslationEventBox['flip'];
    protected _affectFirst!: IWrapLightTranslationEventBox['affectFirst'];
    declare protected _events: IWrapLightTranslationBase<TBase>[];
 
-   get translationDistribution(): IWrapLightTranslationEventBox[
-      'translationDistribution'
-   ] {
+   get gapDistribution(): IWrapLightTranslationEventBox['gapDistribution'] {
       return this._translationDistribution;
    }
-   set translationDistribution(
-      value: IWrapLightTranslationEventBox['translationDistribution'],
-   ) {
+   set gapDistribution(value: IWrapLightTranslationEventBox['gapDistribution']) {
       this._translationDistribution = value;
    }
-   get translationDistributionType(): IWrapLightTranslationEventBox[
-      'translationDistributionType'
-   ] {
+   get gapDistributionType(): IWrapLightTranslationEventBox['gapDistributionType'] {
       return this._translationDistributionType;
    }
-   set translationDistributionType(
-      value: IWrapLightTranslationEventBox['translationDistributionType'],
-   ) {
+   set gapDistributionType(value: IWrapLightTranslationEventBox['gapDistributionType']) {
       this._translationDistributionType = value;
    }
    get axis(): IWrapLightTranslationEventBox['axis'] {
@@ -61,16 +52,12 @@ export abstract class WrapLightTranslationEventBox<
       this._events = value;
    }
 
-   setTranslationDistribution(
-      value: IWrapLightTranslationEventBox['translationDistribution'],
-   ) {
-      this.translationDistribution = value;
+   setGapDistribution(value: IWrapLightTranslationEventBox['gapDistribution']) {
+      this.gapDistribution = value;
       return this;
    }
-   setTranslationDistributionType(
-      value: IWrapLightTranslationEventBox['translationDistributionType'],
-   ) {
-      this.translationDistributionType = value;
+   setGapDistributionType(value: IWrapLightTranslationEventBox['gapDistributionType']) {
+      this.gapDistributionType = value;
       return this;
    }
    setAxis(value: IWrapLightTranslationEventBox['axis']) {
@@ -90,8 +77,7 @@ export abstract class WrapLightTranslationEventBox<
    isValid(): boolean {
       return (
          super.isValid() &&
-         (this.translationDistributionType === 1 ||
-            this.translationDistributionType === 2) &&
+         (this.gapDistributionType === 1 || this.gapDistributionType === 2) &&
          (this.axis === 0 || this.axis === 1) &&
          (this.flip === 0 || this.flip === 1) &&
          (this.affectFirst === 0 || this.affectFirst === 1)

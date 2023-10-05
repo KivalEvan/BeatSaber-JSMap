@@ -82,9 +82,9 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
          LightTranslationEventBox.default.w;
       this._beatDistributionType = data.d ?? data.beatDistributionType ??
          LightTranslationEventBox.default.d;
-      this._translationDistribution = data.s ?? data.translationDistribution ??
+      this._translationDistribution = data.s ?? data.gapDistribution ??
          LightTranslationEventBox.default.s;
-      this._translationDistributionType = data.t ?? data.translationDistributionType ??
+      this._translationDistributionType = data.t ?? data.gapDistributionType ??
          LightTranslationEventBox.default.t;
       this._axis = data.a ?? data.axis ?? LightTranslationEventBox.default.a;
       this._flip = data.r ?? data.flip ?? LightTranslationEventBox.default.r;
@@ -146,8 +146,8 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
          f: this.filter.toJSON(),
          w: this.beatDistribution,
          d: this.beatDistributionType,
-         s: this.translationDistribution,
-         t: this.translationDistributionType,
+         s: this.gapDistribution,
+         t: this.gapDistributionType,
          a: this.axis,
          r: this.flip,
          b: this.affectFirst,
