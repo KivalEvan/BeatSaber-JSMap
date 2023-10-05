@@ -8,7 +8,7 @@ import {
 export interface IWrapLightTranslationEventBoxAttribute<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
    TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
+   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>
 > extends IWrapEventBoxAttribute<TBox, TBase, TFilter> {
    /** Translation distribution `<float>` of light translation event box. */
    gapDistribution: number;
@@ -31,18 +31,15 @@ export interface IWrapLightTranslationEventBoxAttribute<
    axis: 0 | 1 | 2;
    /** Flip translation `<int>` in light translation event box. */
    flip: 0 | 1;
-   /** Translation distribution should affect first event `<int>` of light translation event box. */
-   affectFirst: 0 | 1;
    events: IWrapLightTranslationBaseAttribute<TBase>[];
 }
 
 export interface IWrapLightTranslationEventBox<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
    TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
-> extends
-   IWrapEventBox<TBox, TBase, TFilter>,
-   IWrapLightTranslationEventBoxAttribute<TBox, TBase, TFilter> {
+   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>
+> extends IWrapEventBox<TBox, TBase, TFilter>,
+      IWrapLightTranslationEventBoxAttribute<TBox, TBase, TFilter> {
    events: IWrapLightTranslationBase<TBase>[];
 
    setGapDistribution(value: IWrapLightTranslationEventBox['gapDistribution']): this;

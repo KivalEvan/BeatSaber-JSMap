@@ -4,16 +4,18 @@ import { WrapEventBox } from './eventBox.ts';
 
 /** Light translation event box beatmap class object. */
 export abstract class WrapLightTranslationEventBox<
-   TBox extends { [P in keyof TBox]: TBox[P] },
-   TBase extends { [P in keyof TBase]: TBase[P] },
-   TFilter extends { [P in keyof TFilter]: TFilter[P] },
-> extends WrapEventBox<TBox, TBase, TFilter> implements IWrapLightTranslationEventBox<TBox> {
+      TBox extends { [P in keyof TBox]: TBox[P] },
+      TBase extends { [P in keyof TBase]: TBase[P] },
+      TFilter extends { [P in keyof TFilter]: TFilter[P] }
+   >
+   extends WrapEventBox<TBox, TBase, TFilter>
+   implements IWrapLightTranslationEventBox<TBox>
+{
    protected _translationDistribution!: IWrapLightTranslationEventBox['gapDistribution'];
    protected _translationDistributionType!: IWrapLightTranslationEventBox['gapDistributionType'];
    protected _axis!: IWrapLightTranslationEventBox['axis'];
    protected _flip!: IWrapLightTranslationEventBox['flip'];
-   protected _affectFirst!: IWrapLightTranslationEventBox['affectFirst'];
-   declare protected _events: IWrapLightTranslationBase<TBase>[];
+   protected declare _events: IWrapLightTranslationBase<TBase>[];
 
    get gapDistribution(): IWrapLightTranslationEventBox['gapDistribution'] {
       return this._translationDistribution;
@@ -39,12 +41,6 @@ export abstract class WrapLightTranslationEventBox<
    set flip(value: IWrapLightTranslationEventBox['flip']) {
       this._flip = value;
    }
-   get affectFirst(): IWrapLightTranslationEventBox['affectFirst'] {
-      return this._affectFirst;
-   }
-   set affectFirst(value: IWrapLightTranslationEventBox['affectFirst']) {
-      this._affectFirst = value;
-   }
    get events(): IWrapLightTranslationBase<TBase>[] {
       return this._events;
    }
@@ -66,10 +62,6 @@ export abstract class WrapLightTranslationEventBox<
    }
    setFlip(value: IWrapLightTranslationEventBox['flip']) {
       this.flip = value;
-      return this;
-   }
-   setAffectFirst(value: IWrapLightTranslationEventBox['affectFirst']) {
-      this.affectFirst = value;
       return this;
    }
    abstract setEvents(value: IWrapLightTranslationBase<TBase>[]): this;

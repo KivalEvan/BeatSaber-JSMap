@@ -5,7 +5,7 @@ import { IWrapLightRotationBase, IWrapLightRotationBaseAttribute } from './light
 export interface IWrapLightRotationEventBoxAttribute<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
    TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
+   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>
 > extends IWrapEventBoxAttribute<TBox, TBase, TFilter> {
    /** Rotation distribution `<float>` of light rotation event box. */
    rotationDistribution: number;
@@ -28,18 +28,15 @@ export interface IWrapLightRotationEventBoxAttribute<
    axis: 0 | 1 | 2;
    /** Flip rotation `<int>` in light rotation event box. */
    flip: 0 | 1;
-   /** Rotation distribution should affect first event `<int>` of light rotation event box. */
-   affectFirst: 0 | 1;
    events: IWrapLightRotationBaseAttribute<TBase>[];
 }
 
 export interface IWrapLightRotationEventBox<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
    TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
-> extends
-   IWrapEventBox<TBox, TBase, TFilter>,
-   IWrapLightRotationEventBoxAttribute<TBox, TBase, TFilter> {
+   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>
+> extends IWrapEventBox<TBox, TBase, TFilter>,
+      IWrapLightRotationEventBoxAttribute<TBox, TBase, TFilter> {
    events: IWrapLightRotationBase<TBase>[];
 
    setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']): this;
