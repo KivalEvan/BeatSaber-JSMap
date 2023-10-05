@@ -33,8 +33,6 @@ export interface IDifficulty extends IBaseItem {
    lightRotationEventBoxGroups: ILightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: ILightTranslationEventBoxGroup[];
    vfxEventBoxGroups: IFxEventBoxGroup[];
-   // beat games? why the underscore?
-   // does this even exist in schema? i couldnt tell
    _fxEventsCollection: IFxEventsCollection;
    basicEventTypesWithKeywords: IBasicEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;

@@ -26,6 +26,7 @@ faster in general use case.
 
 ### Changed
 
+- Beatmap v3 now purge all zero value attributes on optimized save
 - The Weeknd and Panic 2.0 color scheme now shows white color value
 - Utils no longer require namespace
   - This should reveal more hidden utilities without the need to import and destructuring `utils`

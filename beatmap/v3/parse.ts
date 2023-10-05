@@ -15,13 +15,36 @@ export function parseDifficulty(
    checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v3.x.x');
-   if (!(data.version === '3.0.0' || data.version === '3.1.0' || data.version === '3.2.0')) {
+   if (
+      !(
+         data.version === '3.0.0' ||
+         data.version === '3.1.0' ||
+         data.version === '3.2.0' ||
+         data.version === '3.3.0'
+      )
+   ) {
       logger.tWarn(tag('difficulty'), 'Unidentified beatmap version');
       data.version = '3.0.0';
    }
    if (checkData.enabled) {
       deepCheck(data, DifficultyCheck, 'difficulty', data.version, checkData.throwError);
    }
+
+   data.sliders?.forEach((e) => {
+      e.mu ??= 0;
+      e.tmu ??= 0;
+   });
+   data.basicBeatmapEvents?.forEach((e) => {
+      e.f ??= 0;
+   });
+   data.burstSliders?.forEach((e) => {
+      e.s ??= 0;
+   });
+   data.obstacles?.forEach((e) => {
+      e.d ??= 0;
+      e.w ??= 0;
+      e.h ??= 0;
+   });
 
    data.bpmEvents?.sort(sortV3ObjectFn);
    data.rotationEvents?.sort(sortV3ObjectFn);
