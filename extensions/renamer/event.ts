@@ -170,11 +170,13 @@ const environmentType: { [env in EnvironmentAllName]?: { [key: number]: string }
       6: 'Ambient',
       40: 'Silhouettes',
    },
+   LinkinPark2Environment: {
+      3: 'Ambient',
+      40: 'Logos',
+      41: 'Floor Logos',
+   },
 };
 
-export function eventTypeRename(
-   type: number,
-   environment?: EnvironmentAllName,
-): string {
+export function eventTypeRename(type: number, environment?: EnvironmentAllName): string {
    return environmentType[environment!]?.[type] || genericType[type] || 'Unknown';
 }

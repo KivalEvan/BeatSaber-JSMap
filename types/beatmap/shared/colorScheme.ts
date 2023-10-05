@@ -28,4 +28,5 @@ export type ColorSchemeName =
    | 'Rock Mixtape'
    | 'Dragons 2.0'
    | 'Panic 2.0'
-   | 'Queen';
+   | 'Queen'
+   | 'Linkin Park 2.0';

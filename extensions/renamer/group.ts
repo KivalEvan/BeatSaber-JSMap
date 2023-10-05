@@ -231,6 +231,27 @@ const environmentGroup: { [env in EnvironmentAllName]?: { [key: number]: string 
       16: 'Platform Lane Right',
       17: 'Silhouette Contour',
    },
+   LinkinPark2Environment: {
+      0: 'Circular Lasers Global Distant',
+      1: 'Circular Lasers Local Distant',
+      2: 'Circular Lasers Global Close',
+      3: 'Circular Lasers Local Close',
+      4: 'Tunnels Rings',
+      5: 'Big Arcs Local',
+      6: 'Laser Beams Local Left',
+      7: 'Laser Beams Local Right',
+      8: 'Floor Lasers Left',
+      9: 'Floor Lasers Right',
+      10: 'Tunnels Lights',
+      11: 'Logo',
+      12: 'Big Arcs Global',
+      13: 'Spectrograms Floor Left',
+      14: 'Spectrograms Floor Right',
+      15: 'Spectrograms Tunnel Left',
+      16: 'Spectrograms Tunnel Right',
+      17: 'Laser Beams Global Left',
+      18: 'Laser Beams Global Right',
+   },
 };
 
 export function eventGroupRename(id: number, environment?: EnvironmentAllName): string {

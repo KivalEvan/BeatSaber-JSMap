@@ -162,10 +162,12 @@ export const LightIDList: {
    Dragons2Environment: {},
    Panic2Environment: {},
    QueenEnvironment: {},
+   LinkinPark2Environment: {},
    GlassDesertEnvironment: {
       0: Array.from(Array(6), (_, i) => i + 1),
       1: Array.from(Array(8), (_, i) => i + 1),
       2: Array.from(Array(10), (_, i) => i + 1),
       3: Array.from(Array(10), (_, i) => i + 1),
    },
+   MultiplayerEnvironment: {},
 } as const;

@@ -11,6 +11,7 @@ faster in general use case.
 - Updated to beatmap v3.3.0
   - FX Event Box Group
   - FX Events Collection
+- Linkin Park 2.0 environment & color scheme
 - [New SongCore features](https://github.com/Kylemc1413/SongCore/pull/122) (tags, custom
   characteristic label, etc.)
 - Predefined beatmap data clean method
@@ -25,6 +26,7 @@ faster in general use case.
 
 ### Changed
 
+- The Weeknd and Panic 2.0 color scheme now shows white color value
 - Utils no longer require namespace
   - This should reveal more hidden utilities without the need to import and destructuring `utils`
     namespace

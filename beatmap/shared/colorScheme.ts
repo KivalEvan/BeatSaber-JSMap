@@ -39,7 +39,9 @@ export const EnvironmentSchemeName: {
    Dragons2Environment: 'Dragons 2.0',
    Panic2Environment: 'Panic 2.0',
    QueenEnvironment: 'Queen',
+   LinkinPark2Environment: 'Linkin Park 2.0',
    GlassDesertEnvironment: 'Glass Desert',
+   MultiplayerEnvironment: 'Origins',
 } as const;
 
 /** Color Scheme property rename to human readable. */
@@ -253,8 +255,10 @@ export const ColorScheme: {
       _colorRight: { r: 0.2235294, g: 0.2901961, b: 0.3294118 },
       _envColorLeft: { r: 1, g: 0.2979701, b: 0.1411765 },
       _envColorRight: { r: 0.1668743, g: 0.3753689, b: 0.7075472 },
+      _envColorWhite: { r: 0.8773585, g: 0.8773585, b: 0.8773585 },
       _envColorLeftBoost: { r: 0.9568628, g: 0.6039216, b: 0.1215686 },
       _envColorRightBoost: { r: 0.5254902, g: 0.8274511, b: 0.9921569 },
+      _envColorWhiteBoost: { r: 0.9811321, g: 0.9308866, b: 0.8608046 },
       _obstacleColor: { r: 0.9176471, g: 0.2980392, b: 0.007843138 },
    },
    'Rock Mixtape': {
@@ -280,8 +284,10 @@ export const ColorScheme: {
       _colorRight: { r: 0.1529412, g: 0.5568628, b: 0.4862745 },
       _envColorLeft: { r: 0.6980392, g: 0.1137255, b: 0.372549 },
       _envColorRight: { r: 0.1882353, g: 0.6196079, b: 0.6235294 },
+      _envColorWhite: { r: 0.8329412, g: 0.9008105, b: 0.9254902 },
       _envColorLeftBoost: { r: 0.9019608, g: 0.4470589, b: 0.06666667 },
       _envColorRightBoost: { r: 0.6365692, g: 0.4373443, b: 0.8584906 },
+      _envColorWhiteBoost: { r: 0.8803849, g: 0.8313726, b: 0.9254902 },
       _obstacleColor: { r: 0.9686275, g: 0.3803922, b: 0.2745098 },
    },
    Queen: {
@@ -292,6 +298,16 @@ export const ColorScheme: {
       _envColorLeftBoost: { r: 0.7686275, g: 0.145098, b: 0.07450981 },
       _envColorRightBoost: { r: 0.4, g: 0.007843138, b: 0.7254902 },
       _obstacleColor: { r: 0.9333334, g: 0.6392157, b: 0.1215686 },
+   },
+   'Linkin Park 2.0': {
+      _colorLeft: { r: 0.6627451, g: 0.1643608, b: 0.1690187 },
+      _colorRight: { r: 0.3870196, g: 0.5168997, b: 0.5568628 },
+      _envColorLeft: { r: 0.6627451, g: 0.1647059, b: 0.172549 },
+      _envColorRight: { r: 0.6235294, g: 0.6901961, b: 0.7098039 },
+      _envColorWhite: { r: 0.7529413, g: 0.6745098, b: 0.5921569 },
+      _envColorLeftBoost: { r: 0.922, g: 0.5957885, b: 0.255394 },
+      _envColorRightBoost: { r: 0.282353, g: 0.4586275, b: 0.6235294 },
+      _obstacleColor: { r: 0.6627451, g: 0.1647059, b: 0.172549 },
    },
    'Glass Desert': {
       _colorLeft: { r: 0.6792453, g: 0.5712628, b: 0 },

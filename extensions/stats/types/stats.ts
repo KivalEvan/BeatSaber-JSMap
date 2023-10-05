@@ -29,9 +29,10 @@ export interface ICountEvent {
    [key: number]: ICountStatsEvent;
 }
 
-export interface ICountStatsEventBoxGroup extends ICountStatsBase {
-   eventBox: number;
-   base: number;
+export interface ICountStatsEventBoxGroup {
+   groups: number;
+   boxes: number;
+   bases: number;
 }
 
 export interface ICountEventBoxGroup {

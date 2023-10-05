@@ -35,7 +35,9 @@ export const EnvironmentRename: { readonly [key in EnvironmentAllName]: string }
    Dragons2Environment: 'Dragons 2.0',
    Panic2Environment: 'Panic 2.0',
    QueenEnvironment: 'Queen',
+   LinkinPark2Environment: 'Linkin Park 2.0',
    GlassDesertEnvironment: 'Glass Desert',
+   MultiplayerEnvironment: 'Origins',
 } as const;
 
 /** List of available event type in environment. */
@@ -66,6 +68,7 @@ export const EventList: {
    HalloweenEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
    GagaEnvironment: [[0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17], []],
    GlassDesertEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
+   MultiplayerEnvironment: [[4], []],
    WeaveEnvironment: [[], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]],
    PyroEnvironment: [
       [0, 1, 2, 3, 4, 6, 40],
@@ -172,35 +175,14 @@ export const EventList: {
    ],
    Panic2Environment: [
       [3],
-      [
-         0,
-         1,
-         2,
-         3,
-         4,
-         5,
-         6,
-         7,
-         8,
-         9,
-         10,
-         11,
-         12,
-         13,
-         14,
-         15,
-         16,
-         17,
-         18,
-         19,
-         20,
-         21,
-         22,
-         23,
-      ],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
    ],
    QueenEnvironment: [
       [6, 40],
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+   ],
+   LinkinPark2Environment: [
+      [3, 40, 41],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
    ],
 } as const;
