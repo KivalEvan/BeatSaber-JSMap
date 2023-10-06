@@ -1,10 +1,10 @@
 # Changelog
 
-## 1.5.0 [2023-09-xx]
+## 1.5.0 [2023-10-07]
 
 Couple of optimization work has been done to further improve memory and time efficiency. This
-focuses heavily on speed for faster iteration reason. Overall, it should result in at least 1.6x
-faster in general use case.
+focuses heavily on speed for faster iteration reason. Overall, it should result in up to 1.6x faster
+in general use case.
 
 ### Added
 
@@ -16,6 +16,7 @@ faster in general use case.
   characteristic label, etc.)
 - Predefined beatmap data clean method
   - This handles only the known data to be cleanse which is up to 11x faster than deep clean method
+    (2.5x for beatmap v3)
   - This can also avoid sensitive data like BPM Event where floating point must always be precise
 - Info color scheme copy
 - Ensure alpha for `toColorObject`
@@ -26,7 +27,10 @@ faster in general use case.
 
 ### Changed
 
-- Beatmap v3 now purge all zero value attributes on optimized save
+- Beatmap v3 now purge all zero value attributes on optimized save (new in 1.32 editor)
+  - This strips all zero attributes from the object resulting in up to 5x smaller size
+  - Data check now ignores majority of the missing attributes, defaulting to `0` or `false`
+  - Older Beat Saber version down to 1.20 can still load the beatmap with no issue
 - Parsing no longer handle sorting
   - Moved to class method, sorting is done by default on load
 - The Weeknd and Panic 2.0 color scheme now shows white color value
