@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.0 [2023-10-07]
+## 1.5.0 [2023-10-10]
 
 Couple of optimization work has been done to further improve memory and time efficiency. This
 focuses heavily on speed for faster iteration reason. Overall, it should result in up to 1.6x faster

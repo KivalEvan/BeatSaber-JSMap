@@ -31,6 +31,12 @@ import { LightTranslationEventBox } from '../../beatmap/v3/lightTranslationEvent
 import { LightTranslationEventBoxGroup } from '../../beatmap/v3/lightTranslationEventBoxGroup.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
 import { EventLaneRotationValue } from '../../beatmap/shared/constants.ts';
+import { FxEventsCollection } from '../../beatmap/v3/fxEventsCollection.ts';
+import { FxEventFloat } from '../../beatmap/v3/fxEventFloat.ts';
+import { FxEventInt } from '../../beatmap/v3/fxEventInt.ts';
+import { FxEventBox } from '../../beatmap/v3/fxEventBox.ts';
+import { FxEventBoxGroup } from '../../beatmap/v3/fxEventBoxGroup.ts';
+import { IFxEventBox } from '../../types/beatmap/v3/fxEventBox.ts';
 
 function fixBpmEvent(obj: BPMEvent): void {
    obj.time = fixFloat(obj.time, BPMEvent.default.b);
@@ -295,6 +301,40 @@ function fixLightTranslationEventBoxGroup(obj: LightTranslationEventBoxGroup): v
    obj.boxes.forEach(fixLightTranslationEventBox);
 }
 
+function fixFxEventBox(obj: FxEventBox): void {
+   fixIndexFilter(obj.filter);
+   obj.beatDistribution = fixFloat(obj.beatDistribution, FxEventBox.default.w);
+   obj.beatDistributionType = fixInt(obj.beatDistributionType, FxEventBox.default.d, [1, 2]);
+   obj.fxDistribution = fixFloat(obj.fxDistribution, FxEventBox.default.s);
+   obj.fxDistributionType = fixInt(obj.fxDistributionType, FxEventBox.default.t, [1, 2]);
+   obj.affectFirst = fixInt<IFxEventBox['b']>(obj.affectFirst, FxEventBox.default.b, [0, 1]);
+   obj.events.forEach((e, i) => (obj.events[i] = fixInt(e)));
+}
+
+function fixFxEventBoxGroup(obj: FxEventBoxGroup): void {
+   obj.time = fixFloat(obj.time, FxEventBoxGroup.default.b);
+   obj.id = fixInt(obj.id, FxEventBoxGroup.default.g);
+   obj.boxes.forEach(fixFxEventBox);
+}
+
+function fixFxEventInt(obj: FxEventInt): void {
+   obj.time = fixFloat(obj.time, FxEventInt.default.b);
+   obj.previous = fixInt(obj.previous, FxEventInt.default.p, [0, 1]);
+   obj.value = fixFloat(obj.value, FxEventInt.default.v);
+}
+
+function fixFxEventFloat(obj: FxEventFloat): void {
+   obj.time = fixFloat(obj.time, FxEventFloat.default.b);
+   obj.easing = fixInt(obj.easing, FxEventFloat.default.i, [-1, 0, 1, 2, 3]);
+   obj.previous = fixInt(obj.previous, FxEventFloat.default.p, [0, 1]);
+   obj.value = fixFloat(obj.value, FxEventFloat.default.v);
+}
+
+function fixFxEventsCollection(obj: FxEventsCollection): void {
+   obj.intList.forEach(fixFxEventInt);
+   obj.floatList.forEach(fixFxEventFloat);
+}
+
 export function v3(data: Difficulty): void {
    logger.tInfo(
       ['patch', 'dataCorrection', 'difficulty', 'v3'],
@@ -318,6 +358,8 @@ export function v3(data: Difficulty): void {
    data.lightColorEventBoxGroups.forEach(fixLightColorEventBoxGroup);
    data.lightRotationEventBoxGroups.forEach(fixLightRotationEventBoxGroup);
    data.lightTranslationEventBoxGroups.forEach(fixLightTranslationEventBoxGroup);
+   data.fxEventBoxGroups.forEach(fixFxEventBoxGroup);
+   fixFxEventsCollection(data.fxEventsCollection);
    data.useNormalEventsAsCompatibleEvents = fixBoolean(data.useNormalEventsAsCompatibleEvents);
 
    const boost = data.basicEvents.filter((ev) => ev.isLaneRotationEvent());
