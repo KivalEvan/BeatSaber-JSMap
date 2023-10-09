@@ -17,18 +17,9 @@ import {
    InfoCheck as V2InfoCheck,
 } from './beatmap/v2/dataCheck.ts';
 import { DifficultyCheck as V3DifficultyCheck } from './beatmap/v3/dataCheck.ts';
-import { IDifficulty as IV1Difficulty } from './types/beatmap/v1/difficulty.ts';
-import { IDifficulty as IV2Difficulty } from './types/beatmap/v2/difficulty.ts';
-import { IDifficulty as IV3Difficulty } from './types/beatmap/v3/difficulty.ts';
 import { IWrapInfo } from './types/beatmap/wrapper/info.ts';
 import { IWrapDifficulty } from './types/beatmap/wrapper/difficulty.ts';
 import { resolve } from './deps.ts';
-import {
-   sortV2NoteFn,
-   sortV2ObjectFn,
-   sortV3NoteFn,
-   sortV3ObjectFn,
-} from './beatmap/shared/helpers.ts';
 
 function tag(name: string): string[] {
    return ['save', name];
@@ -38,7 +29,13 @@ const optionsInfo: Required<ISaveOptionsInfo> = {
    directory: '',
    filePath: 'Info.dat',
    format: 0,
-   optimize: { enabled: true },
+   optimize: {
+      enabled: true,
+      floatTrim: 4,
+      stringTrim: true,
+      purgeZeros: true,
+      throwError: true,
+   },
    validate: { enabled: true, reparse: true },
    dataCheck: {
       enabled: true,
@@ -51,7 +48,13 @@ const optionsDifficulty: Required<ISaveOptionsDifficulty> = {
    directory: '',
    filePath: 'UnnamedPath.dat',
    format: 0,
-   optimize: { enabled: true },
+   optimize: {
+      enabled: true,
+      floatTrim: 4,
+      stringTrim: true,
+      purgeZeros: true,
+      throwError: true,
+   },
    validate: { enabled: true, reparse: true },
    dataCheck: {
       enabled: true,
@@ -181,6 +184,9 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
    const ver = parseInt(data.version.at(0) || '0');
    const json = data.toJSON();
 
+   if (ver <= 2 && typeof options.optimize?.purgeZeros === 'boolean') {
+      opt.optimize.purgeZeros = options.optimize.purgeZeros;
+   } else opt.optimize.purgeZeros = false;
    if (opt.optimize.enabled) {
       optimize.difficulty(json, ver, opt.optimize);
    }

@@ -2,7 +2,7 @@ import { round } from '../../utils/math.ts';
 import { ICleanOptions } from '../../types/beatmap/shared/clean.ts';
 import { IInfo } from '../../types/beatmap/v2/info.ts';
 import { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
-import { deepClean } from '../shared/clean.ts';
+import { deepClean, purgeZeros } from '../shared/clean.ts';
 
 export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
    for (const i1 in data._notes) {
@@ -14,6 +14,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       if (!Object.keys(o1._customData!).length) {
          delete o1._customData;
       }
+      if (options.purgeZeros) purgeZeros(o1);
    }
    for (const i1 in data._obstacles) {
       const o1 = data._obstacles[i1];
@@ -25,6 +26,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       if (!Object.keys(o1._customData!).length) {
          delete o1._customData;
       }
+      if (options.purgeZeros) purgeZeros(o1);
    }
    for (const i1 in data._sliders) {
       const o1 = data._sliders[i1];
@@ -44,6 +46,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       if (!Object.keys(o1._customData!).length) {
          delete o1._customData;
       }
+      if (options.purgeZeros) purgeZeros(o1);
    }
    for (const i1 in data._waypoints) {
       const o1 = data._waypoints[i1];
@@ -54,6 +57,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       if (!Object.keys(o1._customData!).length) {
          delete o1._customData;
       }
+      if (options.purgeZeros) purgeZeros(o1);
    }
    for (const i1 in data._events) {
       const o1 = data._events[i1];
@@ -65,6 +69,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       if (!Object.keys(o1._customData!).length) {
          delete o1._customData;
       }
+      if (options.purgeZeros) purgeZeros(o1);
    }
    deepClean(data._customData!, 'difficulty._customData', options);
    if (!Object.keys(data._customData!).length) {

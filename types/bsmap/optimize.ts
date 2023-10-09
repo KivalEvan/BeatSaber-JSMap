@@ -21,6 +21,12 @@ export interface IOptimizeOptions extends ICleanOptions {
     */
    stringTrim?: boolean;
    /**
+    * Remove zero-valued attribute in JSON.
+    *
+    * @default true
+    */
+   purgeZeros?: boolean;
+   /**
     * Throw error when encountering null or undefined value.
     *
     * @default true

@@ -31,6 +31,13 @@ in general use case.
   - This strips all zero attributes from the object resulting in up to 5x smaller size
   - Data check now ignores majority of the missing attributes, defaulting to `0` or `false`
   - Older Beat Saber version down to 1.20 can still load the beatmap with no issue
+  - This can be applied for beatmap v2 but must be explicitly enabled with `purgeZeros` attributes
+    in `optimize`
+- All default value changed to `0`, `false` or first enum value in attributes
+  - Arc multiplier, tail multiplier
+  - Chain squish, link count
+  - Event float value
+  - Obstacle duration, width, height
 - Parsing no longer handle sorting
   - Moved to class method, sorting is done by default on load
 - The Weeknd and Panic 2.0 color scheme now shows white color value

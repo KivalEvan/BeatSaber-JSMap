@@ -19,12 +19,14 @@ const optionsInfo: Required<IOptimizeOptionsInfo> = {
    enabled: true,
    floatTrim: 4,
    stringTrim: true,
+   purgeZeros: true,
    throwError: true,
 };
 const optionsDifficulty: Required<IOptimizeOptionsDifficulty> = {
    enabled: true,
    floatTrim: 4,
    stringTrim: true,
+   purgeZeros: true,
    throwError: true,
 };
 
@@ -44,6 +46,7 @@ export function info(
       enabled: options.enabled ?? defaultOptions.info.enabled,
       floatTrim: options.floatTrim ?? defaultOptions.info.floatTrim,
       stringTrim: options.stringTrim ?? defaultOptions.info.stringTrim,
+      purgeZeros: options.purgeZeros ?? defaultOptions.info.purgeZeros,
       throwError: options.throwError ?? defaultOptions.info.throwError,
    };
 
@@ -68,6 +71,7 @@ export function difficulty(
       enabled: options.enabled ?? defaultOptions.difficulty.enabled,
       floatTrim: options.floatTrim ?? defaultOptions.difficulty.floatTrim,
       stringTrim: options.stringTrim ?? defaultOptions.difficulty.stringTrim,
+      purgeZeros: options.purgeZeros ?? defaultOptions.difficulty.purgeZeros,
       throwError: options.throwError ?? defaultOptions.difficulty.throwError,
    };
 

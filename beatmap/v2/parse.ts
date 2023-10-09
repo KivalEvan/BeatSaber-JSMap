@@ -8,6 +8,7 @@ import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
 import logger from '../../logger.ts';
 import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
+import { compareVersion } from '../shared/version.ts';
 
 function tag(name: string): string[] {
    return ['v2', 'parse', name];
@@ -24,6 +25,10 @@ export function parseDifficulty(
    }
    if (checkData.enabled) {
       deepCheck(data, DifficultyCheck, 'difficulty', data._version, checkData.throwError);
+   }
+
+   if (compareVersion(data._version, '2.5.0') === 'old') {
+      data._events?.forEach((e) => (e._floatValue = 1));
    }
 
    return new Difficulty(data);

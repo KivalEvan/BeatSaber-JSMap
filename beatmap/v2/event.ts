@@ -17,7 +17,7 @@ export class Event extends WrapEvent<IEvent> {
       _time: 0,
       _type: 0,
       _value: 0,
-      _floatValue: 1,
+      _floatValue: 0,
       _customData: {},
    };
 
