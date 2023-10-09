@@ -100,12 +100,12 @@ function _info(
    if (jsonVerStr) {
       jsonVer = parseInt(jsonVerStr);
    } else {
+      jsonVer = json.songName ? 1 : 2;
       logger.tWarn(
          tag('_info'),
          'Could not identify info version from JSON, assume implicit version',
-         2,
+         jsonVer,
       );
-      jsonVer = 2;
    }
 
    let data: IWrapInfo;

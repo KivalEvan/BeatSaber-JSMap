@@ -5,10 +5,8 @@ import { LINE_COUNT } from '../shared/constants.ts';
 import { WrapGridObject } from './gridObject.ts';
 
 /** Obstacle beatmap class object. */
-export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }>
-   extends WrapGridObject<T>
-   implements IWrapObstacle<T>
-{
+export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }> extends WrapGridObject<T>
+   implements IWrapObstacle<T> {
    protected _duration!: IWrapObstacle['duration'];
    protected _width!: IWrapObstacle['width'];
    protected _height!: IWrapObstacle['height'];

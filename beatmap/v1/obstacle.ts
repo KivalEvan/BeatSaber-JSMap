@@ -29,8 +29,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       super();
 
       this._time = data._time ?? data.time ?? Obstacle.default._time;
-      this._type =
-         data._type ??
+      this._type = data._type ??
          (data.posY === 2 && data.height === 3
             ? 1
             : data.posY === 0 && data.height === 5
