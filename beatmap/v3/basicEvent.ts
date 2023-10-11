@@ -59,7 +59,7 @@ export class BasicEvent extends WrapEvent<IBasicEvent> {
       ];
    }
 
-   toJSON(): IBasicEvent {
+   toJSON(): Required<IBasicEvent> {
       return {
          b: this.time,
          et: this.type,

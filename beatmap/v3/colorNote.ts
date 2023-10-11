@@ -53,7 +53,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       return [new this()];
    }
 
-   toJSON(): IColorNote {
+   toJSON(): Required<IColorNote> {
       return {
          b: this.time,
          c: this.color,

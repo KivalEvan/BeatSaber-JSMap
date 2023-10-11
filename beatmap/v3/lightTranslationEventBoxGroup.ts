@@ -120,7 +120,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
       return [new this()];
    }
 
-   toJSON(): ILightTranslationEventBoxGroup {
+   toJSON(): Required<ILightTranslationEventBoxGroup> {
       return {
          b: this.time,
          g: this.id,

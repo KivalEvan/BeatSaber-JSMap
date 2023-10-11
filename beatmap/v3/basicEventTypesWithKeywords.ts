@@ -56,7 +56,7 @@ export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
       return new this(data);
    }
 
-   toJSON(): IBasicEventTypesWithKeywords {
+   toJSON(): Required<IBasicEventTypesWithKeywords> {
       return {
          d: this.list.map((d) => d.toJSON()),
       };

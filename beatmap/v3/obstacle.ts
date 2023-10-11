@@ -51,7 +51,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       return [new this()];
    }
 
-   toJSON(): IObstacle {
+   toJSON(): Required<IObstacle> {
       return {
          b: this.time,
          x: this.posX,

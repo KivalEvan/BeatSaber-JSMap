@@ -40,7 +40,7 @@ export class BPMEvent extends WrapBPMEvent<IBPMEvent> {
       return [new this()];
    }
 
-   toJSON(): IBPMEvent {
+   toJSON(): Required<IBPMEvent> {
       return {
          b: this.time,
          m: this.bpm,

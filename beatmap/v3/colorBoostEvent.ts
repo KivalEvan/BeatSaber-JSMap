@@ -54,7 +54,7 @@ export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEvent> {
       return [new this()];
    }
 
-   toJSON(): IColorBoostEvent {
+   toJSON(): Required<IColorBoostEvent> {
       return {
          b: this.time,
          o: this.toggle,

@@ -133,7 +133,7 @@ export class Info extends WrapInfo<IInfo> {
       return new this(data);
    }
 
-   toJSON(): IInfo {
+   toJSON(): Required<IInfo> {
       return {
          _version: this.version,
          _songName: this.songName,
@@ -231,7 +231,7 @@ export class InfoSet extends WrapInfoSet<IInfoSet> {
       return new this(data);
    }
 
-   toJSON(): IInfoSet {
+   toJSON(): Required<IInfoSet> {
       return {
          _beatmapCharacteristicName: this.characteristic,
          _difficultyBeatmaps: this.difficulties.map((d) => d.toJSON()),
@@ -279,7 +279,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
       return new this(data);
    }
 
-   toJSON(): IInfoDifficulty {
+   toJSON(): Required<IInfoDifficulty> {
       return {
          _difficulty: this.difficulty,
          _difficultyRank: this.rank,

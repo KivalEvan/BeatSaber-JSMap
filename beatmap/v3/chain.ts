@@ -59,7 +59,7 @@ export class Chain extends WrapChain<IChain> {
       return [new this()];
    }
 
-   toJSON(): IChain {
+   toJSON(): Required<IChain> {
       return {
          b: this.time,
          c: this.color,

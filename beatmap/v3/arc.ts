@@ -63,7 +63,7 @@ export class Arc extends WrapArc<IArc> {
       return [new this()];
    }
 
-   toJSON(): IArc {
+   toJSON(): Required<IArc> {
       return {
          b: this.time,
          c: this.color,

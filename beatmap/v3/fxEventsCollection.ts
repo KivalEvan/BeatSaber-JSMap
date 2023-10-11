@@ -63,7 +63,7 @@ export class FxEventsCollection extends WrapFxEventsCollection<
       return new this(data);
    }
 
-   toJSON(): IFxEventsCollection {
+   toJSON(): Required<IFxEventsCollection> {
       return {
          _fl: this.floatList.map((d) => d.toJSON()),
          _il: this.intList.map((d) => d.toJSON()),

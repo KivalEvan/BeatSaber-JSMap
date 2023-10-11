@@ -64,7 +64,7 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
       return [new this()];
    }
 
-   toJSON(): ILightRotationBase {
+   toJSON(): Required<ILightRotationBase> {
       return {
          b: this.time,
          e: this.easing,

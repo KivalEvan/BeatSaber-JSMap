@@ -54,7 +54,7 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
       return new this(data);
    }
 
-   toJSON(): ISpecialEventsKeywordFilters {
+   toJSON(): Required<ISpecialEventsKeywordFilters> {
       return {
          _keywords: this.list.map((d) => d.toJSON()),
       };
