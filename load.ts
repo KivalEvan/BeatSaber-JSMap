@@ -142,6 +142,8 @@ function _info(
       if (targetVer === 2) data = toV2Info(data);
    }
 
+   if (opt.sort) data.sort();
+
    return data;
 }
 

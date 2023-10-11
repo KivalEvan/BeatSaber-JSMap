@@ -102,6 +102,12 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
       dataCheck: options.dataCheck ?? defaultOptions.info.dataCheck,
       sort: options.sort ?? defaultOptions.info.sort,
    };
+
+   if (opt.sort) {
+      logger.tInfo(tag('_info'), 'Sorting beatmap objects');
+      data.sort();
+   }
+
    const ver = parseInt(data.version.at(0) || '0');
    const json = data.toJSON();
 
