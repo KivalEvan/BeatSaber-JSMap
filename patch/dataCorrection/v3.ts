@@ -61,7 +61,7 @@ function fixColorNote(obj: ColorNote): void {
 
 function fixFakeColorNote(obj: IColorNote): void {
    obj.b = fixFloat(obj.b, ColorNote.default.b);
-   obj.c = fixInt(obj.c, [0, 1], [0, 1]);
+   obj.c = fixInt<Required<IColorNote>['c']>(obj.c, [0, 1], [0, 1]);
    obj.x = fixInt(obj.x, ColorNote.default.x);
    obj.y = fixInt(obj.y, ColorNote.default.y);
    obj.d = fixInt(obj.d, ColorNote.default.d);
@@ -135,7 +135,7 @@ function fixChain(obj: Chain): void {
 
 function fixFakeChain(obj: IChain): void {
    obj.b = fixFloat(obj.b, Chain.default.b);
-   obj.c = fixInt(obj.c, [0, 1], [0, 1]);
+   obj.c = fixInt<Required<IChain>['c']>(obj.c, [0, 1], [0, 1]);
    obj.x = fixInt(obj.x, Chain.default.x);
    obj.y = fixInt(obj.y, Chain.default.y);
    obj.d = fixInt(obj.d, Chain.default.d);
@@ -203,7 +203,7 @@ function fixLightColorEventBox(obj: LightColorEventBox): void {
       LightColorEventBox.default.t,
       [1, 2],
    );
-   obj.affectFirst = fixInt<ILightColorEventBox['b']>(
+   obj.affectFirst = fixInt<Required<ILightColorEventBox>['b']>(
       obj.affectFirst,
       LightColorEventBox.default.b,
       [0, 1],
@@ -241,12 +241,12 @@ function fixLightRotationEventBox(obj: LightRotationEventBox): void {
       [1, 2],
    );
    obj.axis = fixInt(obj.axis, LightRotationEventBox.default.a, [0, 1, 2]);
-   obj.flip = fixInt<ILightRotationEventBox['r']>(
+   obj.flip = fixInt<Required<ILightRotationEventBox>['r']>(
       obj.flip,
       LightRotationEventBox.default.r,
       [0, 1],
    );
-   obj.affectFirst = fixInt<ILightRotationEventBox['b']>(
+   obj.affectFirst = fixInt<Required<ILightRotationEventBox>['b']>(
       obj.affectFirst,
       LightRotationEventBox.default.b,
       [0, 1],
@@ -282,12 +282,12 @@ function fixLightTranslationEventBox(obj: LightTranslationEventBox): void {
       [1, 2],
    );
    obj.axis = fixInt(obj.axis, LightTranslationEventBox.default.a, [0, 1, 2]);
-   obj.flip = fixInt<ILightTranslationEventBox['r']>(
+   obj.flip = fixInt<Required<ILightTranslationEventBox>['r']>(
       obj.flip,
       LightTranslationEventBox.default.r,
       [0, 1],
    );
-   obj.affectFirst = fixInt<ILightTranslationEventBox['b']>(
+   obj.affectFirst = fixInt<Required<ILightTranslationEventBox>['b']>(
       obj.affectFirst,
       LightTranslationEventBox.default.b,
       [0, 1],
@@ -307,7 +307,11 @@ function fixFxEventBox(obj: FxEventBox): void {
    obj.beatDistributionType = fixInt(obj.beatDistributionType, FxEventBox.default.d, [1, 2]);
    obj.fxDistribution = fixFloat(obj.fxDistribution, FxEventBox.default.s);
    obj.fxDistributionType = fixInt(obj.fxDistributionType, FxEventBox.default.t, [1, 2]);
-   obj.affectFirst = fixInt<IFxEventBox['b']>(obj.affectFirst, FxEventBox.default.b, [0, 1]);
+   obj.affectFirst = fixInt<Required<IFxEventBox>['b']>(
+      obj.affectFirst,
+      FxEventBox.default.b,
+      [0, 1],
+   );
    obj.events.forEach((e, i) => (obj.events[i] = fixInt(e)));
 }
 

@@ -3,7 +3,8 @@ import { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
 import { ICleanOptions } from '../../types/beatmap/shared/clean.ts';
 import { deepClean, purgeZeros } from '../shared/clean.ts';
 
-export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
+// deno-lint-ignore no-explicit-any
+export function cleanDifficulty(data: Record<string, any> | IDifficulty, options: ICleanOptions) {
    for (const i1 in data.bpmEvents) {
       const o1 = data.bpmEvents[i1];
       deepClean(o1.customData!, `difficulty.bpmEvents[${i1}].customData`, options);

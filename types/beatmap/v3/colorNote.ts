@@ -9,7 +9,7 @@ export interface IColorNote extends IGridObject {
     * 1 -> Blue
     * ```
     */
-   c: 0 | 1;
+   c?: 0 | 1;
    /**
     * Cut direction `<int>` of note.
     * ```ts
@@ -22,8 +22,8 @@ export interface IColorNote extends IGridObject {
     *
     * **WARNING:** Dot-directional is not recommended with arcs, assumes down-directional.
     */
-   d: number;
+   d?: number;
    /** Angle offset in degree counter-clockwise `<int>` of note.*/
-   a: number;
+   a?: number;
    customData?: ICustomDataNote;
 }

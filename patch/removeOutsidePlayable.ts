@@ -34,25 +34,25 @@ export default function (data: IWrapDifficulty, bpm: BeatPerMinute, audioLength:
    if (isV3(data)) {
       if (data.customData.fakeColorNotes) {
          data.customData.fakeColorNotes = data.customData.fakeColorNotes.filter((obj) =>
-            duration ? !(obj.b < 0 || obj.b > duration) : !(obj.b < 0)
+            duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)
          );
       }
       logger.tDebug(tag(), 'Removing outside playable fake bomb notes');
       if (data.customData.fakeBombNotes) {
          data.customData.fakeBombNotes = data.customData.fakeBombNotes.filter((obj) =>
-            duration ? !(obj.b < 0 || obj.b > duration) : !(obj.b < 0)
+            duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)
          );
       }
       logger.tDebug(tag(), 'Removing outside playable fake obstacles');
       if (data.customData.fakeObstacles) {
          data.customData.fakeObstacles = data.customData.fakeObstacles.filter((obj) =>
-            duration ? !(obj.b < 0 || obj.b > duration) : !(obj.b < 0)
+            duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)
          );
       }
       logger.tDebug(tag(), 'Removing outside playable fake chains');
       if (data.customData.fakeBurstSliders) {
          data.customData.fakeBurstSliders = data.customData.fakeBurstSliders.filter((obj) =>
-            duration ? !(obj.b < 0 || obj.b > duration) : !(obj.b < 0)
+            duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)
          );
       }
    }

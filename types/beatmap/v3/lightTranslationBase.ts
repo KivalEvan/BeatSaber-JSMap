@@ -2,7 +2,7 @@ import { ICustomDataBase } from '../shared/custom/customData.ts';
 
 export interface ILightTranslationBase {
    /** Relative beat time `<float>` to event box group. */
-   b: number;
+   b?: number;
    /**
     * Ease type `<int>` of light translation.
     * ```ts
@@ -13,10 +13,10 @@ export interface ILightTranslationBase {
     * 3 -> EaseInOutQuad
     * ```
     */
-   e: -1 | 0 | 1 | 2 | 3;
+   e?: -1 | 0 | 1 | 2 | 3;
    /** Use previous event translation value `<int>` in light translation. */
-   p: 0 | 1;
+   p?: 0 | 1;
    /** Translation value `<float>` of light translation. */
-   t: number;
+   t?: number;
    customData?: ICustomDataBase;
 }

@@ -59,6 +59,9 @@ export interface IWrapInfo<T extends { [P in keyof T]: T[P] } = Record<string, a
    extends IWrapBaseItem<T>, IWrapInfoAttribute<T> {
    setFileName(filename: LooseAutocomplete<GenericFileName>): this;
 
+   /** Sort beatmap object(s) accordingly. */
+   sort(): this;
+
    /** Show entries of map inside info. */
    addMap(data: Partial<IWrapInfoDifficultyAttribute>): this;
    listMap(): [CharacteristicName, IWrapInfoDifficulty][];

@@ -68,10 +68,10 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       };
    }
 
-   get type(): IObstacle['_type'] {
+   get type(): Required<IObstacle>['_type'] {
       return this._type;
    }
-   set type(value: IObstacle['_type']) {
+   set type(value: Required<IObstacle>['_type']) {
       this._type = value;
    }
 

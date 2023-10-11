@@ -17,6 +17,7 @@ import {
    IWrapInfoSet,
 } from '../../types/beatmap/wrapper/info.ts';
 import { LooseAutocomplete } from '../../types/utils.ts';
+import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
 /** Difficulty beatmap class object. */
@@ -56,6 +57,17 @@ export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }> extends WrapB
 
    setFileName(filename: LooseAutocomplete<'Info.dat' | 'info.dat'>) {
       this.filename = filename;
+      return this;
+   }
+
+   sort(): this {
+      this.difficultySets?.sort(
+         (a, b) =>
+            (CharacteristicOrder[a.characteristic] || 0) -
+            (CharacteristicOrder[b.characteristic] || 0),
+      );
+      this.difficultySets.forEach((set) => set.difficulties.sort((a, b) => a.rank - b.rank));
+
       return this;
    }
 

@@ -65,10 +65,10 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       };
    }
 
-   get type(): IColorNote['c'] {
+   get type(): Required<IColorNote>['c'] {
       return this._color;
    }
-   set type(value: IColorNote['c']) {
+   set type(value: Required<IColorNote>['c']) {
       this._color = value;
    }
 

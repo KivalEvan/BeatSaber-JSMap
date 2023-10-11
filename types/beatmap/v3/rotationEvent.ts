@@ -8,7 +8,7 @@ export interface IRotationEvent extends IBaseObject {
     * 1 -> Late
     * ```
     */
-   e: 0 | 1;
+   e?: 0 | 1;
    /** Clockwise rotation value `<float>` of rotation event. */
-   r: number;
+   r?: number;
 }

@@ -3,9 +3,9 @@ import { IIndexFilter } from './indexFilter.ts';
 
 export interface IEventBox extends IBaseItem {
    /** Index filter of event box. */
-   f: IIndexFilter;
+   f?: IIndexFilter;
    /** Beat distribution `<float>` of event box. */
-   w: number;
+   w?: number;
    /**
     * Beat distribution type `<int>` of event box.
     * ```ts
@@ -13,7 +13,7 @@ export interface IEventBox extends IBaseItem {
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   d: 1 | 2;
+   d?: 1 | 2;
    /**
     * Easing `<int>` of distribution.
     * ```ts
@@ -23,5 +23,5 @@ export interface IEventBox extends IBaseItem {
     * 3 -> EaseInOutQuad
     * ```
     */
-   i: 0 | 1 | 2 | 3;
+   i?: 0 | 1 | 2 | 3;
 }

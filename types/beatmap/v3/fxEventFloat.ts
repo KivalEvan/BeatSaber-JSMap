@@ -2,7 +2,7 @@ import { ICustomDataBase } from '../shared/custom/customData.ts';
 
 export interface IFxEventFloat {
    /** Relative beat time `<float>` to event box group. */
-   b: number;
+   b?: number;
    /**
     * Ease type `<int>` of FX event.
     * ```ts
@@ -13,10 +13,10 @@ export interface IFxEventFloat {
     * 3 -> EaseInOutQuad
     * ```
     */
-   i: -1 | 0 | 1 | 2 | 3;
+   i?: -1 | 0 | 1 | 2 | 3;
    /** Use previous event value `<int>` in FX event. */
-   p: 0 | 1;
+   p?: 0 | 1;
    /** Value `<float>` of FX event. */
-   v: number;
+   v?: number;
    customData?: ICustomDataBase;
 }

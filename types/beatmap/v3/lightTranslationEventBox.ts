@@ -3,7 +3,7 @@ import { ILightTranslationBase } from './lightTranslationBase.ts';
 
 export interface ILightTranslationEventBox extends IEventBox {
    /** Translation distribution `<float>` of light translation event box. */
-   s: number;
+   s?: number;
    /**
     * Translation distribution type `<int>` of light translation event box.
     * ```ts
@@ -11,7 +11,7 @@ export interface ILightTranslationEventBox extends IEventBox {
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   t: 1 | 2;
+   t?: 1 | 2;
    /**
     * Axis `<int>` of light translation event box.
     * ```ts
@@ -20,11 +20,11 @@ export interface ILightTranslationEventBox extends IEventBox {
     * 2 -> Z
     * ```
     */
-   a: 0 | 1 | 2;
+   a?: 0 | 1 | 2;
    /** Flip translation `<int>` in light translation event box. */
-   r: 0 | 1;
+   r?: 0 | 1;
    /** Translation distribution should affect first event `<int>` of light translation event box. */
-   b: 0 | 1;
+   b?: 0 | 1;
    /** Light translation base data list. */
-   l: ILightTranslationBase[];
+   l?: ILightTranslationBase[];
 }

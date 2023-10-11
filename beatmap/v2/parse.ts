@@ -4,7 +4,6 @@ import { IInfo } from '../../types/beatmap/v2/info.ts';
 import { Info } from './info.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
 import { DifficultyCheck, InfoCheck } from './dataCheck.ts';
-import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
 import logger from '../../logger.ts';
 import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
@@ -47,18 +46,25 @@ export function parseInfo(
    if (checkData.enabled) {
       deepCheck(data, InfoCheck, 'info', data._version, checkData.throwError);
    }
-   data._difficultyBeatmapSets?.sort(
-      (a, b) =>
-         CharacteristicOrder[a._beatmapCharacteristicName] -
-         CharacteristicOrder[b._beatmapCharacteristicName],
-   );
+
    data._difficultyBeatmapSets?.forEach((set) => {
       let num = 0;
-      set._difficultyBeatmaps.forEach((a) => {
-         if (a._difficultyRank - num <= 0) {
-            logger.tWarn(tag('info'), a._difficulty + ' is unordered');
+      set._difficultyBeatmaps?.forEach((a) => {
+         if (typeof a._difficultyRank === 'number') {
+            if (a._difficultyRank - num <= 0) {
+               logger.tWarn(tag('info'), a._difficulty + ' is unordered');
+            }
+         } else if (typeof a._difficulty === 'string') {
+            a._difficultyRank = DifficultyRanking[a._difficulty];
+            if (!a._difficultyRank) {
+               a._difficulty = 'Easy';
+               a._difficultyRank = 1;
+            }
+         } else {
+            a._difficulty = 'Easy';
+            a._difficultyRank = 1;
          }
-         if (DifficultyRanking[a._difficulty] !== a._difficultyRank) {
+         if (DifficultyRanking[a._difficulty!] !== a._difficultyRank) {
             logger.tError(tag('info'), a._difficulty + ' has invalid rank');
          }
          num = a._difficultyRank;
@@ -75,7 +81,6 @@ export function parseInfo(
             delete a._customData._editorOldOffset;
          }
       });
-      set._difficultyBeatmaps.sort((a, b) => a._difficultyRank - b._difficultyRank);
    });
 
    return new Info(data);

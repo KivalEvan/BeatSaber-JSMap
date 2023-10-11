@@ -2,7 +2,7 @@ import { ICustomDataBase } from '../shared/custom/customData.ts';
 
 export interface ILightRotationBase {
    /** Relative beat time `<float>` to event box group. */
-   b: number;
+   b?: number;
    /**
     * Ease type `<int>` of light rotation.
     * ```ts
@@ -13,9 +13,9 @@ export interface ILightRotationBase {
     * 3 -> EaseInOutQuad
     * ```
     */
-   e: -1 | 0 | 1 | 2 | 3;
+   e?: -1 | 0 | 1 | 2 | 3;
    /** Loop count `<int>` in light rotation. */
-   l: number;
+   l?: number;
    /**
     * Rotation direction `<int>` of light rotation.
     * ```ts
@@ -24,9 +24,9 @@ export interface ILightRotationBase {
     * 2 -> Counter-clockwise
     * ```
     */
-   o: 0 | 1 | 2;
+   o?: 0 | 1 | 2;
    /** Use previous event rotation value `<int>` in light rotation. */
-   p: 0 | 1;
+   p?: 0 | 1;
    /**
     * Rotation value `<float>` of light rotation.
     * ```ts
@@ -34,6 +34,6 @@ export interface ILightRotationBase {
     * Right-side -> Counter-Clockwise
     * ```
     */
-   r: number;
+   r?: number;
    customData?: ICustomDataBase;
 }

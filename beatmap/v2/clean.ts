@@ -4,7 +4,8 @@ import { IInfo } from '../../types/beatmap/v2/info.ts';
 import { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
 import { deepClean, purgeZeros } from '../shared/clean.ts';
 
-export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
+// deno-lint-ignore no-explicit-any
+export function cleanDifficulty(data: Record<string, any> | IDifficulty, options: ICleanOptions) {
    for (const i1 in data._notes) {
       const o1 = data._notes[i1];
       if (options.floatTrim) {
@@ -77,7 +78,8 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
    }
 }
 
-export function cleanInfo(data: IInfo, options: ICleanOptions) {
+// deno-lint-ignore no-explicit-any
+export function cleanInfo(data: Record<string, any> | IInfo, options: ICleanOptions) {
    if (options.floatTrim) {
       data._beatsPerMinute = round(data._beatsPerMinute, options.floatTrim);
       data._previewDuration = round(data._previewDuration, options.floatTrim);

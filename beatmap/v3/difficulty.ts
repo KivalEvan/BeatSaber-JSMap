@@ -57,7 +57,7 @@ import { FxEventsCollection } from './fxEventsCollection.ts';
 
 /** Difficulty beatmap v3 class object. */
 export class Difficulty extends WrapDifficulty<IDifficulty> {
-   version: IDifficulty['version'];
+   version: Required<IDifficulty>['version'];
    bpmEvents: BPMEvent[];
    rotationEvents: RotationEvent[];
    colorNotes: ColorNote[];

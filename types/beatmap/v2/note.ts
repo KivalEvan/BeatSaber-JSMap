@@ -12,7 +12,7 @@ export interface INote extends IBaseObject {
     * 3 -> Outer Right
     * ```
     */
-   _lineIndex: number;
+   _lineIndex?: number;
    /**
     * Note placement on row.
     * ```ts
@@ -21,7 +21,7 @@ export interface INote extends IBaseObject {
     * 2 -> Top row
     * ```
     */
-   _lineLayer: number;
+   _lineLayer?: number;
    /**
     * Type of note.
     * ```ts
@@ -30,7 +30,7 @@ export interface INote extends IBaseObject {
     * 3 -> Bomb
     * ```
     */
-   _type: 0 | 1 | 3;
+   _type?: 0 | 1 | 3;
    /**
     * Cut direction of note.
     * ```ts
@@ -39,6 +39,6 @@ export interface INote extends IBaseObject {
     * 6 | 1 | 7
     * ```
     */
-   _cutDirection: number;
+   _cutDirection?: number;
    _customData?: ICustomDataNote;
 }

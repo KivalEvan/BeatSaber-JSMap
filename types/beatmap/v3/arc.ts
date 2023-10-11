@@ -7,13 +7,13 @@ export interface IArc extends IBaseSlider {
     *
     * Offset curve point from origin to the head direction of arc.
     */
-   mu: number;
+   mu?: number;
    /**
     * Tail control point length multiplier `<float>` of arc.
     *
     * Offset curve point to origin from the tail direction of arc.
     */
-   tmu: number;
+   tmu?: number;
    /**
     * Tail cut direction `<int>` of arc.
     * ```ts
@@ -26,7 +26,7 @@ export interface IArc extends IBaseSlider {
     *
     * **WARNING:** Dot-directional is not recommended, assumes down-directional.
     */
-   tc: number;
+   tc?: number;
    /**
     * Mid anchor mode `<int>` of arc.
     * ```ts
@@ -37,6 +37,6 @@ export interface IArc extends IBaseSlider {
     *
     * **NOTE:** The visual will only be applied under specific condition.
     */
-   m: 0 | 1 | 2;
+   m?: 0 | 1 | 2;
    customData?: ICustomDataSlider;
 }

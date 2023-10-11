@@ -55,7 +55,7 @@ export class BPMEvent extends WrapBPMEvent<IBPMEvent> {
       this._customData = value;
    }
 
-   setBPM(value: IBPMEvent['m']) {
+   setBPM(value: number) {
       this.bpm = value;
       return this;
    }

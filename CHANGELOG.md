@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.0 [2023-10-10]
+## 1.5.0 [2023-10-12]
 
 Couple of optimization work has been done to further improve memory and time efficiency. This
 focuses heavily on speed for faster iteration reason. Overall, it should result in up to 1.6x faster
@@ -27,12 +27,14 @@ in general use case.
 
 ### Changed
 
+- All beatmap v3 and v2 schema attributes is now optional
 - Beatmap v3 now purge all zero value attributes on optimized save (new in 1.32 editor)
   - This strips all zero attributes from the object resulting in up to 5x smaller size
   - Data check now ignores majority of the missing attributes, defaulting to `0` or `false`
   - Older Beat Saber version down to 1.20 can still load the beatmap with no issue
-  - This can be applied for beatmap v2 but must be explicitly enabled with `purgeZeros` attributes
-    in `optimize`
+  - Can be applied for beatmap v2 but must be explicitly enabled with `purgeZeros` attributes in
+    `optimize`
+  - Does not apply to beatmap v1 as it require all attributes to be present
 - All default value changed to `0`, `false` or first enum value in attributes
   - Arc multiplier, tail multiplier
   - Chain squish, link count
