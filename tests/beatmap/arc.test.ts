@@ -9,12 +9,12 @@ const defaultValue = {
    posX: 0,
    posY: 0,
    direction: 0,
-   lengthMultiplier: 1,
+   lengthMultiplier: 0,
    tailTime: 0,
    tailPosX: 0,
    tailPosY: 0,
    tailDirection: 0,
-   tailLengthMultiplier: 1,
+   tailLengthMultiplier: 0,
    midAnchor: 0,
    customData: {},
 };
@@ -24,22 +24,18 @@ Deno.test(`${name} instantiation`, () => {
 
    for (const Class of classList) {
       obj = new Class();
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected default value for ${Class.name}`,
-      );
+      assertClassObjectMatch(obj, defaultValue, `Unexpected default value for ${Class.name}`);
       obj = Class.create()[0];
       assertClassObjectMatch(
          obj,
          defaultValue,
-         `Unexpected static create default value for ${Class.name}`,
+         `Unexpected static create default value for ${Class.name}`
       );
       obj = Class.create({}, {})[1];
       assertClassObjectMatch(
          obj,
          defaultValue,
-         `Unexpected static create from array default value for ${Class.name}`,
+         `Unexpected static create from array default value for ${Class.name}`
       );
 
       obj = new Class({
@@ -74,7 +70,7 @@ Deno.test(`${name} instantiation`, () => {
             midAnchor: 1,
             customData: { test: true },
          },
-         `Unexpected instantiated value for ${Class.name}`,
+         `Unexpected instantiated value for ${Class.name}`
       );
 
       obj = new Class({
@@ -94,7 +90,7 @@ Deno.test(`${name} instantiation`, () => {
             tailTime: 3,
             tailPosX: 2,
          },
-         `Unexpected partially instantiated value for ${Class.name}`,
+         `Unexpected partially instantiated value for ${Class.name}`
       );
 
       if (obj instanceof v3.Arc) {
@@ -148,7 +144,7 @@ Deno.test(`${name} instantiation`, () => {
             midAnchor: 1,
             customData: { test: true },
          },
-         `Unexpected instantiated value from JSON object for ${Class.name}`,
+         `Unexpected instantiated value from JSON object for ${Class.name}`
       );
    }
 });
@@ -164,12 +160,12 @@ Deno.test(`${name} to JSON object`, () => {
             x: 0,
             y: 0,
             d: 0,
-            mu: 1,
+            mu: 0,
             tb: 0,
             tx: 0,
             ty: 0,
             tc: 0,
-            tmu: 1,
+            tmu: 0,
             m: 0,
             customData: { test: true },
          });
@@ -181,12 +177,12 @@ Deno.test(`${name} to JSON object`, () => {
             _headLineIndex: 0,
             _headLineLayer: 0,
             _headCutDirection: 0,
-            _headControlPointLengthMultiplier: 1,
+            _headControlPointLengthMultiplier: 0,
             _tailTime: 0,
             _tailLineIndex: 0,
             _tailLineLayer: 0,
             _tailCutDirection: 0,
-            _tailControlPointLengthMultiplier: 1,
+            _tailControlPointLengthMultiplier: 0,
             _sliderMidAnchorMode: 0,
             _customData: { test: true },
          });

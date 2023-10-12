@@ -7,9 +7,9 @@ const defaultValue = {
    time: 0,
    posX: 0,
    posY: 0,
-   duration: 1,
-   width: 1,
-   height: 1,
+   duration: 0,
+   width: 0,
+   height: 0,
    customData: {},
 };
 
@@ -20,20 +20,20 @@ Deno.test(`${name} instantiation`, () => {
       obj = new Class();
       assertClassObjectMatch(
          obj,
-         { ...defaultValue, height: obj instanceof v3.Obstacle ? 1 : 5 },
-         `Unexpected default value for ${Class.name}`,
+         { ...defaultValue, height: obj instanceof v3.Obstacle ? 0 : 5 },
+         `Unexpected default value for ${Class.name}`
       );
       obj = Class.create()[0];
       assertClassObjectMatch(
          obj,
-         { ...defaultValue, height: obj instanceof v3.Obstacle ? 1 : 5 },
-         `Unexpected static create default value for ${Class.name}`,
+         { ...defaultValue, height: obj instanceof v3.Obstacle ? 0 : 5 },
+         `Unexpected static create default value for ${Class.name}`
       );
       obj = Class.create({}, {})[1];
       assertClassObjectMatch(
          obj,
-         { ...defaultValue, height: obj instanceof v3.Obstacle ? 1 : 5 },
-         `Unexpected static create from array default value for ${Class.name}`,
+         { ...defaultValue, height: obj instanceof v3.Obstacle ? 0 : 5 },
+         `Unexpected static create from array default value for ${Class.name}`
       );
 
       obj = new Class({
@@ -57,7 +57,7 @@ Deno.test(`${name} instantiation`, () => {
                height: 5,
                customData: {},
             },
-            `Unexpected instantiated value for ${Class.name}`,
+            `Unexpected instantiated value for ${Class.name}`
          );
       }
       if (obj instanceof v2.Obstacle) {
@@ -72,7 +72,7 @@ Deno.test(`${name} instantiation`, () => {
                height: 5,
                customData: {},
             },
-            `Unexpected instantiated value for ${Class.name}`,
+            `Unexpected instantiated value for ${Class.name}`
          );
       }
       if (obj instanceof v3.Obstacle) {
@@ -87,7 +87,7 @@ Deno.test(`${name} instantiation`, () => {
                height: 5,
                customData: { test: true },
             },
-            `Unexpected instantiated value for ${Class.name}`,
+            `Unexpected instantiated value for ${Class.name}`
          );
       }
 
@@ -103,9 +103,9 @@ Deno.test(`${name} instantiation`, () => {
             time: 1,
             posX: 2,
             width: 2,
-            height: obj instanceof v3.Obstacle ? 1 : 5,
+            height: obj instanceof v3.Obstacle ? 0 : 5,
          },
-         `Unexpected partially instantiated value for ${Class.name}`,
+         `Unexpected partially instantiated value for ${Class.name}`
       );
 
       if (obj instanceof v1.Obstacle) {
@@ -126,7 +126,7 @@ Deno.test(`${name} instantiation`, () => {
                width: 2,
                height: 3,
             },
-            `Unexpected instantiated value from JSON object for ${Class.name}`,
+            `Unexpected instantiated value from JSON object for ${Class.name}`
          );
          continue;
       }
@@ -162,7 +162,7 @@ Deno.test(`${name} instantiation`, () => {
             height: 3,
             customData: { test: true },
          },
-         `Unexpected instantiated value from JSON object for ${Class.name}`,
+         `Unexpected instantiated value from JSON object for ${Class.name}`
       );
    }
 });
@@ -176,9 +176,9 @@ Deno.test(`${name} to JSON object`, () => {
             b: 0,
             x: 0,
             y: 0,
-            d: 1,
-            w: 1,
-            h: 1,
+            d: 0,
+            w: 0,
+            h: 0,
             customData: { test: true },
          });
       }
@@ -187,8 +187,8 @@ Deno.test(`${name} to JSON object`, () => {
             _time: 0,
             _lineIndex: 0,
             _type: 0,
-            _duration: 1,
-            _width: 1,
+            _duration: 0,
+            _width: 0,
             _customData: { test: true },
          });
       }
@@ -197,8 +197,8 @@ Deno.test(`${name} to JSON object`, () => {
             _time: 0,
             _lineIndex: 0,
             _type: 0,
-            _duration: 1,
-            _width: 1,
+            _duration: 0,
+            _width: 0,
          });
       }
    }

@@ -3,7 +3,7 @@ import { assertClassObjectMatch } from '../assert.ts';
 
 const name = 'Event';
 const classList = [v3.BasicEvent, v2.Event, v1.Event];
-const defaultValue = { time: 0, type: 0, value: 0, floatValue: 1, customData: {} };
+const defaultValue = { time: 0, type: 0, value: 0, floatValue: 0, customData: {} };
 
 Deno.test(`${name} instantiation`, () => {
    let obj;
@@ -12,20 +12,20 @@ Deno.test(`${name} instantiation`, () => {
       obj = new Class();
       assertClassObjectMatch(
          obj,
-         defaultValue,
-         `Unexpected default value for ${Class.name}`,
+         { ...defaultValue, floatValue: obj instanceof v1.Event ? 1 : 0 },
+         `Unexpected default value for ${Class.name}`
       );
       obj = Class.create()[0];
       assertClassObjectMatch(
          obj,
-         defaultValue,
-         `Unexpected static create default value for ${Class.name}`,
+         { ...defaultValue, floatValue: obj instanceof v1.Event ? 1 : 0 },
+         `Unexpected static create default value for ${Class.name}`
       );
       obj = Class.create({}, {})[1];
       assertClassObjectMatch(
          obj,
-         defaultValue,
-         `Unexpected static create from array default value for ${Class.name}`,
+         { ...defaultValue, floatValue: obj instanceof v1.Event ? 1 : 0 },
+         `Unexpected static create from array default value for ${Class.name}`
       );
 
       obj = new Class({
@@ -39,21 +39,21 @@ Deno.test(`${name} instantiation`, () => {
          assertClassObjectMatch(
             obj,
             { time: 1, type: 5, value: 1, floatValue: 1, customData: {} },
-            `Unexpected instantiated value for ${Class.name}`,
+            `Unexpected instantiated value for ${Class.name}`
          );
       } else {
          assertClassObjectMatch(
             obj,
             { time: 1, type: 5, value: 1, floatValue: 0.5, customData: { test: true } },
-            `Unexpected instantiated value for ${Class.name}`,
+            `Unexpected instantiated value for ${Class.name}`
          );
       }
 
       obj = new Class({ time: 4, type: 2 });
       assertClassObjectMatch(
          obj,
-         { ...defaultValue, time: 4, type: 2 },
-         `Unexpected partially instantiated value for ${Class.name}`,
+         { ...defaultValue, time: 4, type: 2, floatValue: obj instanceof v1.Event ? 1 : 0 },
+         `Unexpected partially instantiated value for ${Class.name}`
       );
 
       if (obj instanceof v1.Event) {
@@ -61,7 +61,7 @@ Deno.test(`${name} instantiation`, () => {
          assertClassObjectMatch(
             obj,
             { time: 1, type: 4, value: 2, floatValue: 1 },
-            `Unexpected instantiated value from JSON object for ${Class.name}`,
+            `Unexpected instantiated value from JSON object for ${Class.name}`
          );
          continue;
       }
@@ -80,7 +80,7 @@ Deno.test(`${name} instantiation`, () => {
       assertClassObjectMatch(
          obj,
          { time: 1, type: 4, value: 2, floatValue: 0.5, customData: { test: true } },
-         `Unexpected instantiated value from JSON object for ${Class.name}`,
+         `Unexpected instantiated value from JSON object for ${Class.name}`
       );
    }
 });
@@ -90,14 +90,14 @@ Deno.test(`${name} to JSON object`, () => {
       const obj = new Class({ customData: { test: true } });
       const json = obj.toJSON();
       if (obj instanceof v3.BasicEvent) {
-         assertEquals(json, { b: 0, et: 0, i: 0, f: 1, customData: { test: true } });
+         assertEquals(json, { b: 0, et: 0, i: 0, f: 0, customData: { test: true } });
       }
       if (obj instanceof v2.Event) {
          assertEquals(json as types.v2.IEvent, {
             _time: 0,
             _type: 0,
             _value: 0,
-            _floatValue: 1,
+            _floatValue: 0,
             _customData: { test: true },
          });
       }
