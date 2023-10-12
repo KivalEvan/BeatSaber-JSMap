@@ -15,8 +15,8 @@ in general use case.
 - [New SongCore features](https://github.com/Kylemc1413/SongCore/pull/122) (tags, custom
   characteristic label, etc.)
 - Predefined beatmap data clean method
-  - This handles only the known data to be cleanse which is up to 11x faster than deep clean method
-    (2.5x for beatmap v3)
+  - This handles only the known data to be cleanse which is significantly faster than deep clean
+    method
   - This can also avoid sensitive data like BPM Event where floating point must always be precise
 - Info color scheme copy
 - Ensure alpha for `toColorObject`
@@ -40,6 +40,7 @@ in general use case.
   - Chain squish, link count
   - Event float value
   - Obstacle duration, width, height
+  - Class static `default` should no longer be touched unless you know what you are doing
 - Parsing no longer handle sorting
   - Moved to class method, sorting is done by default on load
 - The Weeknd and Panic 2.0 color scheme now shows white color value

@@ -21,19 +21,19 @@ Deno.test(`${name} instantiation`, () => {
       assertClassObjectMatch(
          obj,
          { ...defaultValue, height: obj instanceof v3.Obstacle ? 0 : 5 },
-         `Unexpected default value for ${Class.name}`
+         `Unexpected default value for ${Class.name}`,
       );
       obj = Class.create()[0];
       assertClassObjectMatch(
          obj,
          { ...defaultValue, height: obj instanceof v3.Obstacle ? 0 : 5 },
-         `Unexpected static create default value for ${Class.name}`
+         `Unexpected static create default value for ${Class.name}`,
       );
       obj = Class.create({}, {})[1];
       assertClassObjectMatch(
          obj,
          { ...defaultValue, height: obj instanceof v3.Obstacle ? 0 : 5 },
-         `Unexpected static create from array default value for ${Class.name}`
+         `Unexpected static create from array default value for ${Class.name}`,
       );
 
       obj = new Class({
@@ -57,7 +57,7 @@ Deno.test(`${name} instantiation`, () => {
                height: 5,
                customData: {},
             },
-            `Unexpected instantiated value for ${Class.name}`
+            `Unexpected instantiated value for ${Class.name}`,
          );
       }
       if (obj instanceof v2.Obstacle) {
@@ -72,7 +72,7 @@ Deno.test(`${name} instantiation`, () => {
                height: 5,
                customData: {},
             },
-            `Unexpected instantiated value for ${Class.name}`
+            `Unexpected instantiated value for ${Class.name}`,
          );
       }
       if (obj instanceof v3.Obstacle) {
@@ -87,7 +87,7 @@ Deno.test(`${name} instantiation`, () => {
                height: 5,
                customData: { test: true },
             },
-            `Unexpected instantiated value for ${Class.name}`
+            `Unexpected instantiated value for ${Class.name}`,
          );
       }
 
@@ -105,7 +105,7 @@ Deno.test(`${name} instantiation`, () => {
             width: 2,
             height: obj instanceof v3.Obstacle ? 0 : 5,
          },
-         `Unexpected partially instantiated value for ${Class.name}`
+         `Unexpected partially instantiated value for ${Class.name}`,
       );
 
       if (obj instanceof v1.Obstacle) {
@@ -126,7 +126,7 @@ Deno.test(`${name} instantiation`, () => {
                width: 2,
                height: 3,
             },
-            `Unexpected instantiated value from JSON object for ${Class.name}`
+            `Unexpected instantiated value from JSON object for ${Class.name}`,
          );
          continue;
       }
@@ -162,7 +162,7 @@ Deno.test(`${name} instantiation`, () => {
             height: 3,
             customData: { test: true },
          },
-         `Unexpected instantiated value from JSON object for ${Class.name}`
+         `Unexpected instantiated value from JSON object for ${Class.name}`,
       );
    }
 });
