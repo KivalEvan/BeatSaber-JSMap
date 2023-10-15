@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.1 [2023-10-xx]
+
+### Fixed
+
+- Default brightness for light color base not being `0` is inconsistent with the rest
+
 ## 1.5.0 [2023-10-12]
 
 Couple of optimization work has been done to further improve memory and time efficiency. This

@@ -9,7 +9,7 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
       b: 0,
       i: 0,
       c: 0,
-      s: 1,
+      s: 0,
       f: 0,
       customData: {},
    };
