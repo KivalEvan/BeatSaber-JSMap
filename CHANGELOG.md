@@ -2,6 +2,14 @@
 
 ## 1.5.1 [2023-10-xx]
 
+### Added
+
+- Old v2 custom data parsing outside of custom data
+
+### Changed
+
+- Allow parser to accept any `object` record
+
 ### Fixed
 
 - v3 beatmap not removing default on save (why am I like this?)

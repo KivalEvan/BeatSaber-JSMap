@@ -1,6 +1,4 @@
-import { IDifficulty } from '../../types/beatmap/v1/difficulty.ts';
 import { Difficulty } from './difficulty.ts';
-import { IInfo } from '../../types/beatmap/v1/info.ts';
 import { Info } from './info.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
 import { DifficultyCheck, InfoCheck } from './dataCheck.ts';
@@ -12,7 +10,8 @@ function tag(name: string): string[] {
 }
 
 export function parseDifficulty(
-   data: Partial<IDifficulty>,
+   // deno-lint-ignore no-explicit-any
+   data: Record<string, any>,
    checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v1.x.x');
@@ -28,7 +27,8 @@ export function parseDifficulty(
 }
 
 export function parseInfo(
-   data: Partial<IInfo>,
+   // deno-lint-ignore no-explicit-any
+   data: Record<string, any>,
    checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Info {
    logger.tInfo(tag('info'), 'Parsing beatmap info v1.x.x');
