@@ -13,6 +13,8 @@ import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.t
 import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
 import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import { SpecialEventsKeywordFilters } from './_specialEventsKeywordFilters.ts';
+import { FxEventsCollection } from './_fxEventsCollection.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v1', 'difficulty', name];
@@ -35,8 +37,8 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    lightRotationEventBoxGroups: never[] = [];
    lightTranslationEventBoxGroups: never[] = [];
    fxEventBoxGroups: never[] = [];
-   eventTypesWithKeywords!: never;
-   fxEventsCollection!: never;
+   eventTypesWithKeywords: SpecialEventsKeywordFilters = new SpecialEventsKeywordFilters();
+   fxEventsCollection: FxEventsCollection = new FxEventsCollection();
    useNormalEventsAsCompatibleEvents = true;
 
    beatsPerMinute: number;

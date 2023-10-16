@@ -9,10 +9,13 @@
 ### Changed
 
 - Allow parser to accept any `object` record
+- Non-array `never` type receives dummy class to avoid null error when using alongside wrapper class
+  type
 
 ### Fixed
 
 - v3 beatmap not removing default on save (why am I like this?)
+- Sorting for v2 beatmap causes script to crash
 - Default brightness for light color base not being `0` is inconsistent with the rest
 
 ## 1.5.0 [2023-10-12]

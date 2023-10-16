@@ -31,7 +31,7 @@ export function parseDifficulty(
    if (data._BPMChanges) data._customData_BPMChanges ||= data._BPMChanges;
    if (data._bpmChanges) data._customData_bpmChanges ||= data._bpmChanges;
    if (data._bookmarks) data._customData._bookmarks ||= data._bookmarks;
-   if (data._customEvents) data._customEvents ||= data._customEvents;
+   if (data._customEvents) data._customData._customEvents ||= data._customEvents;
    if (data._time) data._customData._time ||= data._time;
 
    if (compareVersion(data._version, '2.5.0') === 'old') {

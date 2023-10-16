@@ -377,7 +377,8 @@ export async function difficultyFromInfo(
       info.listMap().map(async ([mode, beatmap]) => {
          let p;
          try {
-            const json = await _readJSONFile(resolve(opt.directory, beatmap.filename));
+            p = resolve(opt.directory, beatmap.filename);
+            const json = await _readJSONFile(p);
 
             const jsonVerStr = typeof json._version === 'string'
                ? json._version.at(0)
@@ -436,7 +437,8 @@ export function difficultyFromInfoSync(
       .map(([mode, beatmap]) => {
          let p;
          try {
-            const json = _readJSONFileSync(resolve(opt.directory, beatmap.filename));
+            p = resolve(opt.directory, beatmap.filename);
+            const json = _readJSONFileSync(p);
 
             const jsonVerStr = typeof json._version === 'string'
                ? json._version.at(0)

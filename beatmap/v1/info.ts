@@ -1,5 +1,5 @@
 import logger from '../../logger.ts';
-import { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
+import { Environment360Name, EnvironmentName } from '../../types/beatmap/shared/environment.ts';
 import { IInfo, IInfoDifficulty } from '../../types/beatmap/v1/info.ts';
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
@@ -26,17 +26,17 @@ export class Info extends WrapInfo<IInfo> {
    songName: string;
    songSubName: string;
    songAuthorName: string;
-   levelAuthorName!: never;
+   levelAuthorName = '';
    beatsPerMinute: number;
-   shuffle!: never;
-   shufflePeriod!: never;
+   shuffle = 0;
+   shufflePeriod = 0;
    previewStartTime: number;
    previewDuration: number;
    songFilename: string;
    coverImageFilename: string;
    environmentName: EnvironmentName | EnvironmentV3Name;
-   allDirectionsEnvironmentName!: never;
-   songTimeOffset!: never;
+   allDirectionsEnvironmentName: Environment360Name = 'GlassDesertEnvironment';
+   songTimeOffset = 0;
    difficultySets: InfoSet[];
    environmentNames: never[] = [];
    colorSchemes: never[] = [];
@@ -178,8 +178,8 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    filename: LooseAutocomplete<GenericFileName>;
    njs: number;
    njsOffset: number;
-   colorSchemeId!: never;
-   environmentId!: never;
+   colorSchemeId = 0;
+   environmentId = 0;
 
    audioPath: string;
    characteristic: CharacteristicName;
