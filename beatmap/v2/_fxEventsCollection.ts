@@ -27,6 +27,8 @@ export class FxEventsCollection extends WrapFxEventsCollection<
          & DeepPartial<IWrapFxEventsCollection<Record<string, unknown>>> = {},
    ) {
       super();
+      this.intList = [];
+      this.floatList = [];
    }
 
    static create(): FxEventsCollection;

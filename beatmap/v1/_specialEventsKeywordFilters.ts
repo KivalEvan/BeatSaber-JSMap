@@ -27,6 +27,7 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
          & DeepPartial<IWrapEventTypesWithKeywordsAttribute> = {},
    ) {
       super();
+      this.list = [];
    }
 
    static create(): SpecialEventsKeywordFilters;
