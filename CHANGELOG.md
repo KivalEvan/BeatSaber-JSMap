@@ -4,6 +4,7 @@
 
 ### Fixed
 
+- v3 beatmap not removing default on save (why am I like this?)
 - Default brightness for light color base not being `0` is inconsistent with the rest
 
 ## 1.5.0 [2023-10-12]

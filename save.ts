@@ -190,10 +190,12 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
    const ver = parseInt(data.version.at(0) || '0');
    const json = data.toJSON();
 
-   if (ver <= 2 && typeof options.optimize?.purgeZeros === 'boolean') {
-      opt.optimize.purgeZeros = options.optimize.purgeZeros;
-   } else opt.optimize.purgeZeros = false;
    if (opt.optimize.enabled) {
+      if (ver <= 2) {
+         if (typeof options.optimize?.purgeZeros === 'boolean') {
+            opt.optimize.purgeZeros = options.optimize.purgeZeros;
+         } else opt.optimize.purgeZeros = false;
+      }
       optimize.difficulty(json, ver, opt.optimize);
    }
 
