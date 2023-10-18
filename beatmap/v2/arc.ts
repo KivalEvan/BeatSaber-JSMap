@@ -29,7 +29,7 @@ export class Arc extends WrapArc<IArc> {
       super();
 
       this._color = data._colorType ?? data.color ?? Arc.default._colorType;
-      this._time = data._headTime ?? data.time ?? data._tailTime ?? Arc.default._headTime;
+      this._time = data._headTime ?? data.time ?? Arc.default._headTime;
       this._posX = data._headLineIndex ?? data.posX ?? Arc.default._headLineIndex;
       this._posY = data._headLineLayer ?? data.posY ?? Arc.default._headLineLayer;
       this._direction = data._headCutDirection ?? (data.direction as 0) ??
@@ -37,7 +37,7 @@ export class Arc extends WrapArc<IArc> {
       this._lengthMultiplier = data._headControlPointLengthMultiplier ??
          data.lengthMultiplier ??
          Arc.default._headControlPointLengthMultiplier;
-      this._tailTime = data._tailTime ?? data.tailTime ?? data._headTime ?? Arc.default._tailTime;
+      this._tailTime = data._tailTime ?? data.tailTime ?? Arc.default._tailTime;
       this._tailPosX = data._tailLineIndex ?? data.tailPosX ?? Arc.default._tailLineIndex;
       this._tailPosY = data._tailLineLayer ?? data.tailPosY ?? Arc.default._tailLineLayer;
       this._tailDirection = data._tailCutDirection ?? (data.tailDirection as 0) ??

@@ -33,12 +33,12 @@ export class Chain extends WrapChain<IChain> {
    constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<IChain>> = {}) {
       super();
 
-      this._time = data.b ?? data.time ?? data.tb ?? Chain.default.b;
+      this._time = data.b ?? data.time ?? Chain.default.b;
       this._color = data.c ?? data.color ?? Chain.default.c;
       this._posX = data.x ?? data.posX ?? Chain.default.x;
       this._posY = data.y ?? data.posY ?? Chain.default.y;
       this._direction = data.d ?? data.direction ?? Chain.default.d;
-      this._tailTime = data.tb ?? data.tailTime ?? data.b ?? Chain.default.tb;
+      this._tailTime = data.tb ?? data.tailTime ?? Chain.default.tb;
       this._tailPosX = data.tx ?? data.tailPosX ?? Chain.default.tx;
       this._tailPosY = data.ty ?? data.tailPosY ?? Chain.default.ty;
       this._sliceCount = data.sc ?? data.sliceCount ?? Chain.default.sc;
