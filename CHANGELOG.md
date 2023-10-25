@@ -5,6 +5,7 @@
 ### Changed
 
 - Shallow copy on parse
+- Proper promise for load/save (maybe)
 
 ## 1.5.1 [2023-10-16]
 

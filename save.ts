@@ -82,9 +82,9 @@ export const defaultOptions = {
    difficultyList: optionsDifficultyList,
 };
 
-async function _writeJSONFile(data: Record<string, unknown>, path: string, format?: number) {
+function _writeJSONFile(data: Record<string, unknown>, path: string, format?: number) {
    logger.tInfo(tag('_writeJSONFile'), `Async writing JSON file to ${path}`);
-   await Deno.writeTextFile(path, JSON.stringify(data, null, format));
+   return Deno.writeTextFile(path, JSON.stringify(data, null, format));
 }
 
 function _writeJSONFileSync(data: Record<string, unknown>, path: string, format?: number) {
@@ -130,9 +130,9 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
  * await save.info(info);
  * ```
  */
-export async function info(data: IWrapInfo, options: ISaveOptionsInfo = {}) {
+export function info(data: IWrapInfo, options: ISaveOptionsInfo = {}) {
    logger.tInfo(tag('info'), 'Async saving info');
-   await _writeJSONFile(
+   return _writeJSONFile(
       _info(data, options),
       resolve(
          options.directory ?? (globals.directory || defaultOptions.info.directory),
@@ -220,9 +220,9 @@ function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
  * await save.difficulty(difficulty);
  * ```
  */
-export async function difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty = {}) {
+export function difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty = {}) {
    logger.tInfo(tag('difficulty'), 'Async saving difficulty');
-   await _writeJSONFile(
+   return _writeJSONFile(
       _difficulty(data, options),
       resolve(
          options.directory ?? (globals.directory || defaultOptions.difficulty.directory),
@@ -258,12 +258,12 @@ export function difficultySync(data: IWrapDifficulty, options: ISaveOptionsDiffi
  * await save.difficultyList(difficulties);
  * ```
  */
-export async function difficultyList(
+export function difficultyList(
    difficulties: ILoadInfoData[],
    options: ISaveOptionsDifficultyList = {},
 ) {
    logger.tInfo(tag('difficultyList'), 'Async saving list of difficulty');
-   await Promise.allSettled(
+   return Promise.allSettled(
       difficulties.map(async (dl) => {
          await _writeJSONFile(
             _difficulty(dl.data, options),

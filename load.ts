@@ -67,9 +67,9 @@ export const defaultOptions = {
    difficultyList: optionsDifficultyList,
 };
 
-async function _readJSONFile(path: string) {
+function _readJSONFile(path: string) {
    logger.tInfo(tag('_readJSONFile'), `Async reading JSON file from ${path}`);
-   return JSON.parse(await Deno.readTextFile(path)) as Record<string, unknown>;
+   return Deno.readTextFile(path).then(JSON.parse) as Promise<Record<string, unknown>>;
 }
 
 function _readJSONFileSync(path: string) {
@@ -155,17 +155,17 @@ function _info(
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export async function info(version?: null, options?: ILoadOptionsInfo): Promise<IWrapInfo>;
-export async function info(version: 2, options?: ILoadOptionsInfo): Promise<V2Info>;
-export async function info(version: 1, options?: ILoadOptionsInfo): Promise<V1Info>;
-export async function info(version?: number | null, options: ILoadOptionsInfo = {}) {
+export function info(version?: null, options?: ILoadOptionsInfo): Promise<IWrapInfo>;
+export function info(version: 2, options?: ILoadOptionsInfo): Promise<V2Info>;
+export function info(version: 1, options?: ILoadOptionsInfo): Promise<V1Info>;
+export function info(version?: number | null, options: ILoadOptionsInfo = {}) {
    logger.tInfo(tag('info'), 'Async loading info');
    const filePath = options.filePath ?? defaultOptions.info.filePath;
    const path = resolve(
       options.directory ?? (defaultOptions.info.directory || globals.directory),
       options.filePath ?? defaultOptions.info.filePath,
    );
-   return _info(await _readJSONFile(path), filePath, version, options);
+   return _readJSONFile(path).then((data) => _info(data, filePath, version, options));
 }
 
 /**
@@ -276,27 +276,27 @@ function _difficulty(
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export async function difficulty(
+export function difficulty(
    filePath: LooseAutocomplete<GenericFileName>,
    version?: null,
    options?: ILoadOptionsDifficulty,
 ): Promise<IWrapDifficulty>;
-export async function difficulty(
+export function difficulty(
    filePath: LooseAutocomplete<GenericFileName>,
    version: 3,
    options?: ILoadOptionsDifficulty,
 ): Promise<V3Difficulty>;
-export async function difficulty(
+export function difficulty(
    filePath: LooseAutocomplete<GenericFileName>,
    version: 2,
    options?: ILoadOptionsDifficulty,
 ): Promise<V2Difficulty>;
-export async function difficulty(
+export function difficulty(
    filePath: LooseAutocomplete<GenericFileName>,
    version: 1,
    options?: ILoadOptionsDifficulty,
 ): Promise<V1Difficulty>;
-export async function difficulty(
+export function difficulty(
    filePath: LooseAutocomplete<GenericFileName>,
    version?: number | null,
    options: ILoadOptionsDifficulty = {},
@@ -306,7 +306,7 @@ export async function difficulty(
       options.directory ?? (defaultOptions.difficulty.directory || globals.directory),
       filePath,
    );
-   return _difficulty(await _readJSONFile(path), filePath, version!, options);
+   return _readJSONFile(path).then((data) => _difficulty(data, filePath, version!, options));
 }
 
 /**
@@ -361,7 +361,7 @@ export function difficultySync(
  *
  * Info difficulty reference is also given to allow further control.
  */
-export async function difficultyFromInfo(
+export function difficultyFromInfo(
    info: IWrapInfo,
    options: ILoadOptionsDifficulty = {},
 ): Promise<ILoadInfoData[]> {
@@ -373,7 +373,7 @@ export async function difficultyFromInfo(
       dataCheck: options.dataCheck ?? defaultOptions.difficultyList.dataCheck,
       sort: options.sort ?? defaultOptions.difficultyList.sort,
    };
-   return await Promise.all(
+   return Promise.all(
       info.listMap().map(async ([mode, beatmap]) => {
          let p;
          try {
