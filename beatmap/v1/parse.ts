@@ -4,6 +4,7 @@ import { deepCheck } from '../shared/dataCheck.ts';
 import { DifficultyCheck, InfoCheck } from './dataCheck.ts';
 import logger from '../../logger.ts';
 import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
+import { shallowCopy } from '../../utils/misc.ts';
 
 function tag(name: string): string[] {
    return ['v1', 'parse', name];
@@ -15,6 +16,7 @@ export function parseDifficulty(
    checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v1.x.x');
+   shallowCopy(data);
    if (!data._version?.startsWith('1')) {
       logger.tWarn(tag('difficulty'), 'Unidentified beatmap version');
       data._version = '1.5.0';

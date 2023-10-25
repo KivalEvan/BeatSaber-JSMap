@@ -196,16 +196,16 @@ export function shortRotDistance(a: number, b: number, m: number): number {
    return Math.min(mod(a - b, m), mod(b - a, m));
 }
 
-export function median(numArr: number[]): number {
-   if (numArr.length === 0) {
+export function median(nums: number[]): number {
+   if (nums.length === 0) {
       return 0;
    }
-   numArr.sort((a: number, b: number) => a - b);
-   const mid = Math.floor(numArr.length / 2);
-   if (numArr.length % 2) {
-      return numArr[mid];
+   const ary = nums.toSorted((a: number, b: number) => a - b);
+   const mid = Math.floor(ary.length / 2);
+   if (ary.length % 2) {
+      return ary[mid];
    }
-   return (numArr[mid - 1] + numArr[mid]) / 2;
+   return (ary[mid - 1] + ary[mid]) / 2;
 }
 
 export function clamp(value: number, min: number, max: number): number {

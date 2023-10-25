@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.5.1 [2023-10-xx]
+## 1.5.2 [2023-10-xx]
+
+### Changed
+
+- Shallow copy on parse
+
+## 1.5.1 [2023-10-16]
 
 ### Added
 
