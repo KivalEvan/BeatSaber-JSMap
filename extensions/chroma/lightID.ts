@@ -1169,6 +1169,7 @@ export const LightIDList: {
    Panic2Environment: {},
    QueenEnvironment: {},
    LinkinPark2Environment: {},
+   TheRollingStonesEnvironment: {},
    GlassDesertEnvironment: {
       '0': [1, 2, 3, 4, 5, 6],
       '1': [1, 2, 3, 4, 5, 6, 7, 8],

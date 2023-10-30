@@ -1,6 +1,11 @@
 # Changelog
 
-## 1.5.2 [2023-10-xx]
+## 1.6.0 [2023-11-xx]
+
+### Added
+
+- The Rolling Stones environment & color scheme
+- Beatmap v3 lightshow data
 
 ### Changed
 

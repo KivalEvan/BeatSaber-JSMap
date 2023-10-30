@@ -40,6 +40,7 @@ export const EnvironmentSchemeName: {
    Panic2Environment: 'Panic 2.0',
    QueenEnvironment: 'Queen',
    LinkinPark2Environment: 'Linkin Park 2.0',
+   TheRollingStonesEnvironment: 'The Rolling Stones',
    GlassDesertEnvironment: 'Glass Desert',
    MultiplayerEnvironment: 'Origins',
 } as const;
@@ -308,6 +309,15 @@ export const ColorScheme: {
       _envColorLeftBoost: { r: 0.922, g: 0.5957885, b: 0.255394 },
       _envColorRightBoost: { r: 0.282353, g: 0.4586275, b: 0.6235294 },
       _obstacleColor: { r: 0.6627451, g: 0.1647059, b: 0.172549 },
+   },
+   'The Rolling Stones': {
+      _colorLeft: { r: 0.8980392, g: 0, b: 0.1150319 },
+      _colorRight: { r: 0.5254902, g: 0.1333333, b: 0.6784314 },
+      _envColorLeft: { r: 0.9529412, g: 0.01176471, b: 0.4039216 },
+      _envColorRight: { r: 0.4784314, g: 0.4039216, b: 1 },
+      _envColorLeftBoost: { r: 0.5647059, g: 0.4622677, b: 0 },
+      _envColorRightBoost: { r: 0.003921554, g: 0.6383545, b: 0.6705883 },
+      _obstacleColor: { r: 0.9529412, g: 0.01176471, b: 0.4039216 },
    },
    'Glass Desert': {
       _colorLeft: { r: 0.6792453, g: 0.5712628, b: 0 },
