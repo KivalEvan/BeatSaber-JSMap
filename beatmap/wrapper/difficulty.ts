@@ -101,8 +101,10 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
       this.lightRotationEventBoxGroups.sort(sortObjectFn);
       this.lightTranslationEventBoxGroups.sort(sortObjectFn);
       this.fxEventBoxGroups.sort(sortObjectFn);
-      this.fxEventsCollection.intList.sort(sortObjectFn);
-      this.fxEventsCollection.floatList.sort(sortObjectFn);
+      // sorting these will affect the fx event box groups, i think i get what they are doing here
+      // but best to do it as post-process and after light completion
+      // this.fxEventsCollection.intList.sort(sortObjectFn);
+      // this.fxEventsCollection.floatList.sort(sortObjectFn);
 
       this.lightColorEventBoxGroups.forEach((gr) =>
          gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))

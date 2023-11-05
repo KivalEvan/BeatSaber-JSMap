@@ -9,7 +9,7 @@ function tag(name: string): string[] {
 
 function handleError(text: string, throwError: boolean, errors: string[]): void {
    if (throwError) {
-      throw Error(text);
+      throw new Error(text);
    } else {
       logger.tWarn(tag('deepCheck'), text);
       errors.push(text);
@@ -84,18 +84,22 @@ export function deepCheck(
          continue;
       }
 
-      if (
-         ch.array &&
-         Array.isArray(d) &&
-         !d.every(
-            (n: unknown) =>
-               typeof n === ch.type ||
-               (ch.type === 'number' &&
-                  typeof n === 'number' &&
-                  (isNaN(n) || ((ch.int ? n % 1 !== 0 : true) && (ch.unsigned ? n < 0 : true)))),
-         )
-      ) {
-         handleError(`${key} is not ${ch.type} in object ${name}!`, throwError, errors);
+      if (ch.array) {
+         if (!Array.isArray(d)) {
+            handleError(`${key} is not ${ch.type} in object ${name}!`, throwError, errors);
+            continue;
+         }
+         if (
+            !d.every(
+               (n: unknown) =>
+                  typeof n === ch.type ||
+                  (ch.type === 'number' &&
+                     typeof n === 'number' &&
+                     (isNaN(n) || ((ch.int ? n % 1 !== 0 : true) && (ch.unsigned ? n < 0 : true)))),
+            )
+         ) {
+            handleError(`${key} is not ${ch.type} in object ${name}!`, throwError, errors);
+         }
          continue;
       }
 

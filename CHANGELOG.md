@@ -11,6 +11,11 @@
 
 - Shallow copy on parse
 - Proper promise for load/save (maybe)
+- Disable sorting for VFX events
+
+### Fixed
+
+- Data check not skipping array check
 
 ## 1.5.1 [2023-10-16]
 
