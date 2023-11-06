@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.6.0 [2023-11-xx]
+## 1.5.2 [2023-11-07]
 
 ### Added
 
@@ -11,7 +11,7 @@
 
 - Shallow copy on parse
 - Proper promise for load/save (maybe)
-- Disable sorting for VFX events
+- Remove sorting for FX base events
 
 ### Fixed
 
