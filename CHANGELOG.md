@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.3 [2023-12-07]
+
+### Added
+
+- Lattice environment & color scheme
+- New v3 easings value
+
 ## 1.5.2 [2023-11-07]
 
 ### Added
