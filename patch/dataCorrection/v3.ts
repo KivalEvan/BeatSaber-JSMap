@@ -219,7 +219,7 @@ function fixLightColorEventBoxGroup(obj: LightColorEventBoxGroup): void {
 
 function fixLightRotationBase(obj: LightRotationBase): void {
    obj.time = fixFloat(obj.time, LightRotationBase.default.b);
-   obj.easing = fixInt(obj.easing, LightRotationBase.default.e, [-1, 0, 1, 2, 3]);
+   obj.easing = fixInt(obj.easing, LightRotationBase.default.e);
    obj.loop = fixInt(obj.loop, LightRotationBase.default.l);
    obj.direction = fixInt(obj.direction, LightRotationBase.default.o, [0, 1, 2]);
    obj.previous = fixInt(obj.previous, LightRotationBase.default.p, [0, 1]);
@@ -262,7 +262,7 @@ function fixLightRotationEventBoxGroup(obj: LightRotationEventBoxGroup): void {
 
 function fixLightTranslationBase(obj: LightTranslationBase): void {
    obj.time = fixFloat(obj.time, LightTranslationBase.default.b);
-   obj.easing = fixInt(obj.easing, LightTranslationBase.default.e, [-1, 0, 1, 2, 3]);
+   obj.easing = fixInt(obj.easing, LightTranslationBase.default.e);
    obj.previous = fixInt(obj.previous, LightTranslationBase.default.p, [0, 1]);
    obj.translation = fixFloat(obj.translation, LightTranslationBase.default.t);
 }
@@ -329,7 +329,7 @@ function fixFxEventInt(obj: FxEventInt): void {
 
 function fixFxEventFloat(obj: FxEventFloat): void {
    obj.time = fixFloat(obj.time, FxEventFloat.default.b);
-   obj.easing = fixInt(obj.easing, FxEventFloat.default.i, [-1, 0, 1, 2, 3]);
+   obj.easing = fixInt(obj.easing, FxEventFloat.default.i);
    obj.previous = fixInt(obj.previous, FxEventFloat.default.p, [0, 1]);
    obj.value = fixFloat(obj.value, FxEventFloat.default.v);
 }
