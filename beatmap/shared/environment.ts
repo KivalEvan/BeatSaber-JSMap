@@ -37,6 +37,7 @@ export const EnvironmentRename: { readonly [key in EnvironmentAllName]: string }
    QueenEnvironment: 'Queen',
    LinkinPark2Environment: 'Linkin Park 2.0',
    TheRollingStonesEnvironment: 'The Rolling Stones',
+   LatticeEnvironment: 'Lattice',
    GlassDesertEnvironment: 'Glass Desert',
    MultiplayerEnvironment: 'Origins',
 } as const;
@@ -237,4 +238,5 @@ export const EventList: {
          45,
       ],
    ],
+   LatticeEnvironment: [[], []],
 } as const;

@@ -83,16 +83,10 @@ export function info(
       container: Swing.generate(difficulty.getNoteContainer(), bpm),
    };
    const duration = Math.max(
-      bpm.toRealTime(
-         difficulty.getLastInteractiveTime() -
-            difficulty.getFirstInteractiveTime(),
-      ),
+      bpm.toRealTime(difficulty.getLastInteractiveTime() - difficulty.getFirstInteractiveTime()),
       0,
    );
-   const mapDuration = Math.max(
-      bpm.toRealTime(difficulty.getLastInteractiveTime()),
-      0,
-   );
+   const mapDuration = Math.max(bpm.toRealTime(difficulty.getLastInteractiveTime()), 0);
    const swing = count(difficulty.getNoteContainer(), mapDuration, bpm);
    const swingTotal = swing.left.map((num, i) => num + swing.right[i]);
    if (swingTotal.reduce((a, b) => a + b) === 0) {
@@ -102,30 +96,18 @@ export function info(
    const swingIntervalBlue = [];
    const swingIntervalTotal = [];
 
-   for (
-      let i = 0, len = Math.ceil(swingTotal.length / interval);
-      i < len;
-      i++
-   ) {
+   for (let i = 0, len = Math.ceil(swingTotal.length / interval); i < len; i++) {
       const sliceStart = i * interval;
       let maxInterval = interval;
       if (maxInterval + sliceStart > swingTotal.length) {
          maxInterval = swingTotal.length - sliceStart;
       }
       const sliceRed = swing.left.slice(sliceStart, sliceStart + maxInterval);
-      const sliceBlue = swing.right.slice(
-         sliceStart,
-         sliceStart + maxInterval,
-      );
-      const sliceTotal = swingTotal.slice(
-         sliceStart,
-         sliceStart + maxInterval,
-      );
+      const sliceBlue = swing.right.slice(sliceStart, sliceStart + maxInterval);
+      const sliceTotal = swingTotal.slice(sliceStart, sliceStart + maxInterval);
       swingIntervalRed.push(sliceRed.reduce((a, b) => a + b) / maxInterval);
       swingIntervalBlue.push(sliceBlue.reduce((a, b) => a + b) / maxInterval);
-      swingIntervalTotal.push(
-         sliceTotal.reduce((a, b) => a + b) / maxInterval,
-      );
+      swingIntervalTotal.push(sliceTotal.reduce((a, b) => a + b) / maxInterval);
    }
 
    spsInfo.red.total = swing.left.reduce((a, b) => a + b);
@@ -200,23 +182,9 @@ export function calcSpsTotalPercDrop(spsArray: ISwingAnalysis[]): number {
 }
 
 export function getSpsLowest(spsArray: ISwingAnalysis[]): number {
-   let lowest = Number.MAX_SAFE_INTEGER;
-   spsArray.forEach((spsMap) => {
-      const overall = spsMap.total.average;
-      if (overall > 0) {
-         lowest = Math.min(lowest, overall);
-      }
-   });
-   return lowest;
+   return Math.min(...spsArray.map((e) => e.total.average), Number.MAX_SAFE_INTEGER);
 }
 
 export function getSpsHighest(spsArray: ISwingAnalysis[]): number {
-   let highest = 0;
-   spsArray.forEach((spsMap) => {
-      const overall = spsMap.total.average;
-      if (overall > 0) {
-         highest = Math.max(highest, overall);
-      }
-   });
-   return highest;
+   return Math.max(...spsArray.map((e) => e.total.average), 0);
 }

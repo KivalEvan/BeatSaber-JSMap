@@ -164,6 +164,7 @@ export const LightIDList: {
    QueenEnvironment: {},
    LinkinPark2Environment: {},
    TheRollingStonesEnvironment: {},
+   LatticeEnvironment: {},
    GlassDesertEnvironment: {
       0: Array.from(Array(6), (_, i) => i + 1),
       1: Array.from(Array(8), (_, i) => i + 1),
