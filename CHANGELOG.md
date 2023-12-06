@@ -5,6 +5,7 @@
 ### Added
 
 - Lattice environment & color scheme
+- Add `strobeBrightness` and `strobeFrequency` for v3 light color base
 - New v3 easings value
 
 ## 1.5.2 [2023-11-07]

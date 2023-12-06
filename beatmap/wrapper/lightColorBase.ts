@@ -9,6 +9,8 @@ export abstract class WrapLightColorBase<T extends { [P in keyof T]: T[P] }>
    protected _color!: IWrapLightColorBase['color'];
    protected _brightness!: IWrapLightColorBase['brightness'];
    protected _frequency!: IWrapLightColorBase['frequency'];
+   protected _strobeBrightness!: IWrapLightColorBase['strobeBrightness'];
+   protected _strobeFade!: IWrapLightColorBase['strobeFade'];
 
    get transition(): IWrapLightColorBase['transition'] {
       return this._transition;
@@ -34,6 +36,18 @@ export abstract class WrapLightColorBase<T extends { [P in keyof T]: T[P] }>
    set frequency(value: IWrapLightColorBase['frequency']) {
       this._frequency = value;
    }
+   get strobeBrightness(): IWrapLightColorBase['strobeBrightness'] {
+      return this._strobeBrightness;
+   }
+   set strobeBrightness(value: IWrapLightColorBase['strobeBrightness']) {
+      this._strobeBrightness = value;
+   }
+   get strobeFade(): IWrapLightColorBase['strobeFade'] {
+      return this._strobeFade;
+   }
+   set strobeFade(value: IWrapLightColorBase['strobeFade']) {
+      this._strobeFade = value;
+   }
 
    setTransition(value: IWrapLightColorBase['transition']): this {
       this.transition = value;
@@ -49,6 +63,14 @@ export abstract class WrapLightColorBase<T extends { [P in keyof T]: T[P] }>
    }
    setFrequency(value: IWrapLightColorBase['frequency']): this {
       this.frequency = value;
+      return this;
+   }
+   setStrobeBrightness(value: IWrapLightColorBase['strobeBrightness']): this {
+      this.strobeBrightness = value;
+      return this;
+   }
+   setStrobeFade(value: IWrapLightColorBase['strobeFade']): this {
+      this.strobeFade = value;
       return this;
    }
 

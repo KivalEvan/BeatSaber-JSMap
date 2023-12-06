@@ -450,13 +450,18 @@ export const LightColorBaseDataCheck: {
       version: '3.0.0',
       optional: true,
    },
-   i: {
+   c: {
       type: 'number',
       int: true,
       version: '3.0.0',
       optional: true,
    },
-   c: {
+   f: {
+      type: 'number',
+      version: '3.0.0',
+      optional: true,
+   },
+   i: {
       type: 'number',
       int: true,
       version: '3.0.0',
@@ -467,9 +472,15 @@ export const LightColorBaseDataCheck: {
       version: '3.0.0',
       optional: true,
    },
-   f: {
+   sb: {
       type: 'number',
-      version: '3.0.0',
+      version: '3.3.0',
+      optional: true,
+   },
+   sf: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
       optional: true,
    },
    customData: {

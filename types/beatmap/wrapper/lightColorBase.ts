@@ -37,6 +37,14 @@ export interface IWrapLightColorBaseAttribute<
     * Percentage value `0-1` (0% to 100%), can be more than 1.
     */
    brightness: number;
+   /**
+    * Strobe brightness `<float>` of base light color.
+    *
+    * Percentage value `0-1` (0% to 100%), can be more than 1.
+    */
+   strobeBrightness: number;
+   /** Strobe  fade `<int>` of base light color. */
+   strobeFade: 0 | 1;
 }
 
 export interface IWrapLightColorBase<T extends { [P in keyof T]: T[P] } = Record<string, any>>
@@ -45,4 +53,6 @@ export interface IWrapLightColorBase<T extends { [P in keyof T]: T[P] } = Record
    setColor(value: 0 | 1 | 2): this;
    setBrightness(value: number): this;
    setFrequency(value: number): this;
+   setStrobeBrightness(value: number): this;
+   setStrobeFade(value: 0 | 1): this;
 }

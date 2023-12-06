@@ -34,5 +34,13 @@ export interface ILightColorBase {
     * Percentage value `0-1` (0% to 100%), can be more than 1.
     */
    s?: number;
+   /**
+    * Strobe brightness `<float>` of base light color.
+    *
+    * Percentage value `0-1` (0% to 100%), can be more than 1.
+    */
+   sb?: number;
+   /** Strobe  fade `<int>` of base light color. */
+   sf?: 0 | 1;
    customData?: ICustomDataBase;
 }

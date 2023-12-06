@@ -11,6 +11,8 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
       c: 0,
       s: 0,
       f: 0,
+      sb: 0,
+      sf: 0,
       customData: {},
    };
 
@@ -30,6 +32,8 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
       this._frequency = data.f ?? data.frequency ?? LightColorBase.default.f;
       this._transition = data.i ?? data.transition ?? LightColorBase.default.i;
       this._brightness = data.s ?? data.brightness ?? LightColorBase.default.s;
+      this._strobeBrightness = data.sb ?? data.strobeBrightness ?? LightColorBase.default.sb;
+      this._strobeFade = data.sf ?? data.strobeFade ?? LightColorBase.default.sf;
       this._customData = deepCopy(data.customData ?? LightColorBase.default.customData);
    }
 
@@ -59,6 +63,8 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
          f: this.frequency,
          i: this.transition,
          s: this.brightness,
+         sb: this.strobeBrightness,
+         sf: this.strobeFade,
          customData: deepCopy(this.customData),
       };
    }

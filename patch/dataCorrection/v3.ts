@@ -187,6 +187,8 @@ function fixLightColorBase(obj: LightColorBase): void {
       : fixInt(obj.color, LightColorBase.default.c, [0, 1, 2]);
    obj.transition = fixInt(obj.transition, LightColorBase.default.i, [0, 1, 2]);
    obj.brightness = fixFloat(obj.brightness, LightColorBase.default.s);
+   obj.strobeBrightness = fixFloat(obj.strobeBrightness, LightColorBase.default.sb);
+   obj.strobeFade = fixInt(obj.strobeFade, LightColorBase.default.sf, [0, 1]);
 }
 
 function fixLightColorEventBox(obj: LightColorEventBox): void {
