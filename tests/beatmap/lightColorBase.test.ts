@@ -7,7 +7,7 @@ const defaultValue = {
    time: 0,
    transition: 0,
    color: 0,
-   brightness: 1,
+   brightness: 0,
    frequency: 0,
    customData: {},
 };
@@ -100,8 +100,10 @@ Deno.test(`${name} to JSON object`, () => {
             b: 0,
             i: 0,
             c: 0,
-            s: 1,
+            s: 0,
             f: 0,
+            sb: 0,
+            sf: 0,
             customData: { test: true },
          });
       }

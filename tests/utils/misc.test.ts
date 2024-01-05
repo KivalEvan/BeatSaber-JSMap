@@ -1,6 +1,6 @@
 import * as misc from '../../utils/misc.ts';
 import * as math from '../../utils/math.ts';
-import { assert, assertEquals, assertThrows } from '../deps.ts';
+import { assert, assertEquals } from '../deps.ts';
 
 Deno.test('Shuffle', () => {
    const rand = math.pRandomFn('shuffle');

@@ -165,7 +165,7 @@ Deno.test(`${name} instantiation`, () => {
                         time: 0,
                         transition: 2,
                         color: 0,
-                        brightness: 1,
+                        brightness: 0,
                         frequency: 8,
                         customData: {},
                      },
@@ -263,7 +263,10 @@ Deno.test(`${name} instantiation`, () => {
 
 Deno.test(`${name} to JSON object`, () => {
    for (const Class of classList) {
-      const obj = new Class({ boxes: [{ events: [{}] }], customData: { test: true } });
+      const obj = new Class({
+         boxes: [{ events: [{}] }],
+         customData: { test: true },
+      });
       const json = obj.toJSON();
       if (obj instanceof v3.LightColorEventBoxGroup) {
          assertEquals(json, {
@@ -294,8 +297,10 @@ Deno.test(`${name} to JSON object`, () => {
                         b: 0,
                         i: 0,
                         c: 0,
-                        s: 1,
+                        s: 0,
                         f: 0,
+                        sb: 0,
+                        sf: 0,
                         customData: {},
                      },
                   ],

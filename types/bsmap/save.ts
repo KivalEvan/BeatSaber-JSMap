@@ -1,5 +1,5 @@
 import { IDataCheckOption } from '../beatmap/shared/dataCheck.ts';
-import { IOptimizeOptionsDifficulty, IOptimizeOptionsInfo } from './optimize.ts';
+import { IOptimizeOptionsInfo } from './optimize.ts';
 import { IBaseOptions } from './options.ts';
 
 export interface ISaveBaseOptions extends IBaseOptions {
