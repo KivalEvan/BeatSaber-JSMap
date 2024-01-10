@@ -1,9 +1,9 @@
 {
    "lint": {
-      "exclude": [".git", "cov_profile", "npm", "test", "example"]
+      "exclude": [".git", "coverage", "npm", "test", "example"]
    },
    "fmt": {
-      "exclude": [".git", "cov_profile", "npm"],
+      "exclude": [".git", "coverage", "npm"],
       "indentWidth": 3,
       "lineWidth": 100,
       "singleQuote": true
@@ -13,9 +13,9 @@
       "npm": "deno run -A build_npm.ts",
       "check": "deno check mod.ts && deno check extensions/mod.ts && deno check patch/mod.ts",
       "test": "deno task test:clean || true && deno task test:run && deno task test:coverage",
-      "test:coverage": "deno coverage cov_profile --html",
-      "test:run": "deno test --parallel --allow-read --allow-write --coverage=cov_profile tests/",
+      "test:coverage": "deno coverage --html",
+      "test:run": "deno test --parallel --allow-read --allow-write --coverage tests/",
       "test:serial": "deno test --allow-read --allow-write",
-      "test:clean": "rm -rf cov_profile cov_profile.lcov"
+      "test:clean": "rm -r ./coverage"
    }
 }

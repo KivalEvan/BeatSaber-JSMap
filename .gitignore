@@ -1,4 +1,4 @@
 dist/
 deno.lock
-cov_*
+coverage/
 npm/
