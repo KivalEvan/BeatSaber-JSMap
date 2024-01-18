@@ -44,7 +44,7 @@ export class BasicEvent extends WrapEvent<IBasicEvent> {
       ...data: (Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>>)[]
    ): BasicEvent[] {
       const result: BasicEvent[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      for (let i = 0; i < data.length; i++) result.push(new this(data[i]));
       if (result.length) {
          return result;
       }

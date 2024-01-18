@@ -56,7 +56,7 @@ export class Arc extends WrapArc<IArc> {
    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): Arc[];
    static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): Arc[] {
       const result: Arc[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      for (let i = 0; i < data.length; i++) result.push(new this(data[i]));
       if (result.length) {
          return result;
       }

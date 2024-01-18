@@ -106,22 +106,35 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
       // this.fxEventsCollection.intList.sort(sortObjectFn);
       // this.fxEventsCollection.floatList.sort(sortObjectFn);
 
-      this.lightColorEventBoxGroups.forEach((gr) =>
-         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
-      );
-      this.lightRotationEventBoxGroups.forEach((gr) =>
-         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
-      );
-      this.lightTranslationEventBoxGroups.forEach((gr) =>
-         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
-      );
+      for (let i = 0; i < this.lightColorEventBoxGroups.length; i++) {
+         const group = this.lightColorEventBoxGroups[i];
+         for (let j = 0; j < group.boxes.length; j++) {
+            group.boxes[j].events.sort(sortObjectFn);
+         }
+      }
+      for (let i = 0; i < this.lightRotationEventBoxGroups.length; i++) {
+         const group = this.lightRotationEventBoxGroups[i];
+         for (let j = 0; j < group.boxes.length; j++) {
+            group.boxes[j].events.sort(sortObjectFn);
+         }
+      }
+      for (let i = 0; i < this.lightTranslationEventBoxGroups.length; i++) {
+         const group = this.lightTranslationEventBoxGroups[i];
+         for (let j = 0; j < group.boxes.length; j++) {
+            group.boxes[j].events.sort(sortObjectFn);
+         }
+      }
 
       return this;
    }
 
    abstract reparse(keepRef?: boolean): this;
 
-   protected createOrKeep<T, U>(concrete: { new (data: T | U): U }, obj: U, keep?: boolean): U {
+   protected createOrKeep<T, U>(
+      concrete: { new (data: T | U): U },
+      obj: U,
+      keep?: boolean,
+   ): U {
       return keep && obj instanceof concrete ? obj : new concrete(obj);
    }
 
@@ -141,10 +154,16 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
       const notes = this.getNoteContainer().filter((n) => n.type !== 'bomb');
 
       for (let i = 0; i < notes.length; i++) {
-         while (notes[i].data.time - notes[currentSectionStart].data.time > beat) {
+         while (
+            notes[i].data.time - notes[currentSectionStart].data.time >
+               beat
+         ) {
             currentSectionStart++;
          }
-         peakNPS = Math.max(peakNPS, (i - currentSectionStart + 1) / bpm.toRealTime(beat));
+         peakNPS = Math.max(
+            peakNPS,
+            (i - currentSectionStart + 1) / bpm.toRealTime(beat),
+         );
       }
 
       return peakNPS;
@@ -208,16 +227,32 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
       return ec.sort((a, b) => a.data.time - b.data.time);
    }
 
-   abstract addBpmEvents(...data: PartialWrapper<IWrapBPMEventAttribute>[]): void;
-   abstract addRotationEvents(...data: PartialWrapper<IWrapRotationEventAttribute>[]): void;
-   abstract addColorNotes(...data: PartialWrapper<IWrapColorNoteAttribute>[]): void;
-   abstract addBombNotes(...data: PartialWrapper<IWrapBombNoteAttribute>[]): void;
-   abstract addObstacles(...data: PartialWrapper<IWrapObstacleAttribute>[]): void;
+   abstract addBpmEvents(
+      ...data: PartialWrapper<IWrapBPMEventAttribute>[]
+   ): void;
+   abstract addRotationEvents(
+      ...data: PartialWrapper<IWrapRotationEventAttribute>[]
+   ): void;
+   abstract addColorNotes(
+      ...data: PartialWrapper<IWrapColorNoteAttribute>[]
+   ): void;
+   abstract addBombNotes(
+      ...data: PartialWrapper<IWrapBombNoteAttribute>[]
+   ): void;
+   abstract addObstacles(
+      ...data: PartialWrapper<IWrapObstacleAttribute>[]
+   ): void;
    abstract addArcs(...data: PartialWrapper<IWrapArcAttribute>[]): void;
    abstract addChains(...data: PartialWrapper<IWrapChainAttribute>[]): void;
-   abstract addWaypoints(...data: PartialWrapper<IWrapWaypointAttribute>[]): void;
-   abstract addBasicEvents(...data: PartialWrapper<IWrapEventAttribute>[]): void;
-   abstract addColorBoostEvents(...data: PartialWrapper<IWrapColorBoostEventAttribute>[]): void;
+   abstract addWaypoints(
+      ...data: PartialWrapper<IWrapWaypointAttribute>[]
+   ): void;
+   abstract addBasicEvents(
+      ...data: PartialWrapper<IWrapEventAttribute>[]
+   ): void;
+   abstract addColorBoostEvents(
+      ...data: PartialWrapper<IWrapColorBoostEventAttribute>[]
+   ): void;
    abstract addLightColorEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightColorEventBoxGroupAttribute>[]
    ): void;
@@ -227,5 +262,7 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
    abstract addLightTranslationEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): void;
-   abstract addFxEventBoxGroups(...data: DeepPartialWrapper<IWrapFxEventBoxGroupAttribute>[]): void;
+   abstract addFxEventBoxGroups(
+      ...data: DeepPartialWrapper<IWrapFxEventBoxGroupAttribute>[]
+   ): void;
 }

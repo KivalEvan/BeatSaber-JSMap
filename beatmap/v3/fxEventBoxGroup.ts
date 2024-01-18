@@ -23,55 +23,93 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
 
    constructor();
    constructor(
-      data: DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>,
+      data: DeepPartial<
+         IWrapFxEventBoxGroupAttribute<
+            IFxEventBoxGroup,
+            IFxEventBox,
+            IIndexFilter
+         >
+      >,
    );
    constructor(data: DeepPartial<IFxEventBoxGroup>);
    constructor(
       data:
          & DeepPartial<IFxEventBoxGroup>
-         & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>,
+         & DeepPartial<
+            IWrapFxEventBoxGroupAttribute<
+               IFxEventBoxGroup,
+               IFxEventBox,
+               IIndexFilter
+            >
+         >,
    );
    constructor(
       data:
          & DeepPartial<IFxEventBoxGroup>
          & DeepPartial<
-            IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>
+            IWrapFxEventBoxGroupAttribute<
+               IFxEventBoxGroup,
+               IFxEventBox,
+               IIndexFilter
+            >
          > = {},
    ) {
       super();
 
       this._time = data.b ?? data.time ?? FxEventBoxGroup.default.b;
       this._id = data.g ?? data.id ?? FxEventBoxGroup.default.g;
-      this._boxes = (
-         (data.e as unknown as IFxEventBox[]) ??
-            (data.boxes as IFxEventBox[]) ??
-            FxEventBoxGroup.default.e
-      ).map((obj) => new FxEventBox(obj));
+
+      const temp = (data.e as unknown as IFxEventBox[]) ??
+         (data.boxes as IFxEventBox[]) ??
+         FxEventBoxGroup.default.e;
+      this._boxes = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this._boxes[i] = new FxEventBox(temp[i]);
+      }
+
       this._type = data.t ?? data.type ?? FxEventBoxGroup.default.t;
-      this._customData = deepCopy(data.customData ?? FxEventBoxGroup.default.customData);
+      this._customData = deepCopy(
+         data.customData ?? FxEventBoxGroup.default.customData,
+      );
    }
 
    static create(): FxEventBoxGroup[];
    static create(
       ...data: DeepPartial<
-         IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>
+         IWrapFxEventBoxGroupAttribute<
+            IFxEventBoxGroup,
+            IFxEventBox,
+            IIndexFilter
+         >
       >[]
    ): FxEventBoxGroup[];
    static create(...data: DeepPartial<IFxEventBoxGroup>[]): FxEventBoxGroup[];
    static create(
       ...data: (
          & DeepPartial<IFxEventBoxGroup>
-         & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
+         & DeepPartial<
+            IWrapFxEventBoxGroupAttribute<
+               IFxEventBoxGroup,
+               IFxEventBox,
+               IIndexFilter
+            >
+         >
       )[]
    ): FxEventBoxGroup[];
    static create(
       ...data: (
          & DeepPartial<IFxEventBoxGroup>
-         & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
+         & DeepPartial<
+            IWrapFxEventBoxGroupAttribute<
+               IFxEventBoxGroup,
+               IFxEventBox,
+               IIndexFilter
+            >
+         >
       )[]
    ): FxEventBoxGroup[] {
       const result: FxEventBoxGroup[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      for (let i = 0; i < data.length; i++) result.push(new this(data[i]));
       if (result.length) {
          return result;
       }
@@ -79,13 +117,18 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
    }
 
    toJSON(): Required<IFxEventBoxGroup> {
-      return {
+      const json: Required<IFxEventBoxGroup> = {
          b: this.time,
          g: this.id,
-         e: this.boxes.map((e) => e.toJSON()),
+         e: new Array(this.boxes.length),
          t: this.type,
          customData: deepCopy(this.customData),
       };
+      for (let i = 0; i < this.boxes.length; i++) {
+         json.e[i] = this.boxes[i].toJSON();
+      }
+
+      return json;
    }
 
    get boxes(): FxEventBox[] {

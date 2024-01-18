@@ -83,18 +83,25 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
          LightRotationEventBox.default.d;
       this._rotationDistribution = data.s ?? data.rotationDistribution ??
          LightRotationEventBox.default.s;
-      this._rotationDistributionType = data.t ?? data.rotationDistributionType ??
+      this._rotationDistributionType = data.t ??
+         data.rotationDistributionType ??
          LightRotationEventBox.default.t;
       this._axis = data.a ?? data.axis ?? LightRotationEventBox.default.a;
       this._flip = data.r ?? data.flip ?? LightRotationEventBox.default.r;
       this._affectFirst = data.b ?? data.affectFirst ?? LightRotationEventBox.default.b;
       this._easing = data.i ?? data.easing ?? LightRotationEventBox.default.i;
-      this._events = (
-         (data as ILightRotationEventBox).l ??
-            (data.events as ILightRotationBase[]) ??
-            LightRotationEventBox.default.l
-      ).map((obj) => new LightRotationBase(obj));
-      this._customData = deepCopy(data.customData ?? LightRotationEventBox.default.customData);
+
+      const temp = (data as ILightRotationEventBox).l ??
+         (data.events as ILightRotationBase[]) ??
+         LightRotationEventBox.default.l;
+      this._events = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this._events[i] = new LightRotationBase(temp[i]);
+      }
+
+      this._customData = deepCopy(
+         data.customData ?? LightRotationEventBox.default.customData,
+      );
    }
 
    static create(): LightRotationEventBox[];
@@ -107,7 +114,9 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
          >
       >[]
    ): LightRotationEventBox[];
-   static create(...data: DeepPartial<ILightRotationEventBox>[]): LightRotationEventBox[];
+   static create(
+      ...data: DeepPartial<ILightRotationEventBox>[]
+   ): LightRotationEventBox[];
    static create(
       ...data: (
          & DeepPartial<ILightRotationEventBox>
@@ -133,7 +142,7 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
       )[]
    ): LightRotationEventBox[] {
       const result: LightRotationEventBox[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      for (let i = 0; i < data.length; i++) result.push(new this(data[i]));
       if (result.length) {
          return result;
       }
@@ -141,7 +150,7 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
    }
 
    toJSON(): Required<ILightRotationEventBox> {
-      return {
+      const json: Required<ILightRotationEventBox> = {
          f: this.filter.toJSON(),
          w: this.beatDistribution,
          d: this.beatDistributionType,
@@ -151,9 +160,14 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
          r: this.flip,
          b: this.affectFirst,
          i: this.easing,
-         l: this.events.map((l) => l.toJSON()),
+         l: new Array(this.events.length),
          customData: deepCopy(this.customData),
       };
+      for (let i = 0; i < this.events.length; i++) {
+         json.l[i] = this.events[i].toJSON();
+      }
+
+      return json;
    }
 
    get filter(): IndexFilter {

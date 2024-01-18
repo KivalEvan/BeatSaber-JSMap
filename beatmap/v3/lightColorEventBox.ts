@@ -39,7 +39,11 @@ export class LightColorEventBox extends WrapLightColorEventBox<
    constructor();
    constructor(
       data: DeepPartial<
-         IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+         IWrapLightColorEventBoxAttribute<
+            ILightColorEventBox,
+            ILightColorBase,
+            IIndexFilter
+         >
       >,
    );
    constructor(data: DeepPartial<ILightColorEventBox>);
@@ -47,14 +51,22 @@ export class LightColorEventBox extends WrapLightColorEventBox<
       data:
          & DeepPartial<ILightColorEventBox>
          & DeepPartial<
-            IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+            IWrapLightColorEventBoxAttribute<
+               ILightColorEventBox,
+               ILightColorBase,
+               IIndexFilter
+            >
          >,
    );
    constructor(
       data:
          & DeepPartial<ILightColorEventBox>
          & DeepPartial<
-            IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+            IWrapLightColorEventBoxAttribute<
+               ILightColorEventBox,
+               ILightColorBase,
+               IIndexFilter
+            >
          > = {},
    ) {
       super();
@@ -69,30 +81,47 @@ export class LightColorEventBox extends WrapLightColorEventBox<
          LightColorEventBox.default.d;
       this._brightnessDistribution = data.r ?? data.brightnessDistribution ??
          LightColorEventBox.default.r;
-      this._brightnessDistributionType = data.t ?? data.brightnessDistributionType ??
+      this._brightnessDistributionType = data.t ??
+         data.brightnessDistributionType ??
          LightColorEventBox.default.t;
       this._affectFirst = data.b ?? data.affectFirst ?? LightColorEventBox.default.b;
       this._easing = data.i ?? data.easing ?? LightColorEventBox.default.i;
-      this._events = (
-         (data as ILightColorEventBox).e ??
-            (data.events as ILightColorBase[]) ??
-            LightColorEventBox.default.e
-      ).map((obj) => new LightColorBase(obj));
-      this._customData = deepCopy(data.customData ?? LightColorEventBox.default.customData);
+
+      const temp = (data as ILightColorEventBox).e ??
+         (data.events as ILightColorBase[]) ??
+         LightColorEventBox.default.e;
+      this._events = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this._events[i] = new LightColorBase(temp[i]);
+      }
+
+      this._customData = deepCopy(
+         data.customData ?? LightColorEventBox.default.customData,
+      );
    }
 
    static create(): LightColorEventBox[];
    static create(
       ...data: DeepPartial<
-         IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+         IWrapLightColorEventBoxAttribute<
+            ILightColorEventBox,
+            ILightColorBase,
+            IIndexFilter
+         >
       >[]
    ): LightColorEventBox[];
-   static create(...data: DeepPartial<ILightColorEventBox>[]): LightColorEventBox[];
+   static create(
+      ...data: DeepPartial<ILightColorEventBox>[]
+   ): LightColorEventBox[];
    static create(
       ...data: (
          & DeepPartial<ILightColorEventBox>
          & DeepPartial<
-            IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+            IWrapLightColorEventBoxAttribute<
+               ILightColorEventBox,
+               ILightColorBase,
+               IIndexFilter
+            >
          >
       )[]
    ): LightColorEventBox[];
@@ -100,7 +129,11 @@ export class LightColorEventBox extends WrapLightColorEventBox<
       ...data: (
          & DeepPartial<ILightColorEventBox>
          & DeepPartial<
-            IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+            IWrapLightColorEventBoxAttribute<
+               ILightColorEventBox,
+               ILightColorBase,
+               IIndexFilter
+            >
          >
       )[]
    ): LightColorEventBox[] {
@@ -113,7 +146,7 @@ export class LightColorEventBox extends WrapLightColorEventBox<
    }
 
    toJSON(): Required<ILightColorEventBox> {
-      return {
+      const json: Required<ILightColorEventBox> = {
          f: this.filter.toJSON(),
          w: this.beatDistribution,
          d: this.beatDistributionType,
@@ -121,9 +154,14 @@ export class LightColorEventBox extends WrapLightColorEventBox<
          t: this.brightnessDistributionType,
          b: this.affectFirst,
          i: this.easing,
-         e: this.events.map((e) => e.toJSON()),
+         e: new Array(this.events.length),
          customData: deepCopy(this.customData),
       };
+      for (let i = 0; i < this.events.length; i++) {
+         json.e[i] = this.events[i].toJSON();
+      }
+
+      return json;
    }
 
    get filter(): IndexFilter {

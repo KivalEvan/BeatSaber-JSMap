@@ -56,13 +56,38 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    constructor(data: Partial<IDifficulty> = {}) {
       super();
+      let temp;
 
       this.version = '2.6.0';
-      this.colorNotes = (data._notes ?? []).map((obj) => new Note(obj));
-      this.arcs = (data._sliders ?? []).map((obj) => new Arc(obj));
-      this.obstacles = (data._obstacles ?? []).map((obj) => new Obstacle(obj));
-      this.basicEvents = (data._events ?? []).map((obj) => new Event(obj));
-      this.waypoints = (data._waypoints ?? []).map((obj) => new Waypoint(obj));
+
+      temp = data._notes ?? [];
+      this.colorNotes = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this.colorNotes[i] = new Note(temp[i]);
+      }
+
+      temp = data._sliders ?? [];
+      this.arcs = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) this.arcs[i] = new Arc(temp[i]);
+
+      temp = data._obstacles ?? [];
+      this.obstacles = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this.obstacles[i] = new Obstacle(temp[i]);
+      }
+
+      temp = data._events ?? [];
+      this.basicEvents = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this.basicEvents[i] = new Event(temp[i]);
+      }
+
+      temp = data._waypoints ?? [];
+      this.waypoints = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this.waypoints[i] = new Waypoint(temp[i]);
+      }
+
       this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(
          data._specialEventsKeywordFilters ?? {
             _keywords: [],
@@ -76,16 +101,33 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    }
 
    toJSON(): Required<IDifficulty> {
-      return {
-         _version: '2.6.0',
-         _notes: this.colorNotes.map((obj) => obj.toJSON()),
-         _sliders: this.arcs.map((obj) => obj.toJSON()),
-         _obstacles: this.obstacles.map((obj) => obj.toJSON()),
-         _events: this.basicEvents.map((obj) => obj.toJSON()),
-         _waypoints: this.waypoints.map((obj) => obj.toJSON()),
+      const json: Required<IDifficulty> = {
+         _version: this.version,
+         _notes: new Array(this.colorNotes.length),
+         _sliders: new Array(this.arcs.length),
+         _obstacles: new Array(this.obstacles.length),
+         _events: new Array(this.basicEvents.length),
+         _waypoints: new Array(this.waypoints.length),
          _specialEventsKeywordFilters: this.eventTypesWithKeywords.toJSON(),
          _customData: deepCopy(this.customData),
       };
+      for (let i = 0; i < this.colorNotes.length; i++) {
+         json._notes[i] = this.colorNotes[i].toJSON();
+      }
+      for (let i = 0; i < this.arcs.length; i++) {
+         json._sliders[i] = this.arcs[i].toJSON();
+      }
+      for (let i = 0; i < this.obstacles.length; i++) {
+         json._obstacles[i] = this.obstacles[i].toJSON();
+      }
+      for (let i = 0; i < this.basicEvents.length; i++) {
+         json._events[i] = this.basicEvents[i].toJSON();
+      }
+      for (let i = 0; i < this.waypoints.length; i++) {
+         json._waypoints[i] = this.waypoints[i].toJSON();
+      }
+
+      return json;
    }
 
    get customData(): NonNullable<IDifficulty['_customData']> {
@@ -96,12 +138,25 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    }
 
    reparse(keepRef?: boolean): this {
-      this.colorNotes = this.colorNotes.map((obj) => this.createOrKeep(Note, obj, keepRef));
-      this.obstacles = this.obstacles.map((obj) => this.createOrKeep(Obstacle, obj, keepRef));
-      this.basicEvents = this.basicEvents.map((obj) => this.createOrKeep(Event, obj, keepRef));
-      this.waypoints = this.waypoints.map((obj) => this.createOrKeep(Waypoint, obj, keepRef));
-      this.arcs = this.arcs.map((obj) => this.createOrKeep(Arc, obj, keepRef));
-      this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(this.eventTypesWithKeywords);
+      for (let i = 0; i < this.colorNotes.length; i++) {
+         this.colorNotes[i] = this.createOrKeep(Note, this.colorNotes[i], keepRef);
+      }
+      for (let i = 0; i < this.arcs.length; i++) {
+         this.arcs[i] = this.createOrKeep(Arc, this.arcs[i], keepRef);
+      }
+      for (let i = 0; i < this.obstacles.length; i++) {
+         this.obstacles[i] = this.createOrKeep(Obstacle, this.obstacles[i], keepRef);
+      }
+      for (let i = 0; i < this.basicEvents.length; i++) {
+         this.basicEvents[i] = this.createOrKeep(Event, this.basicEvents[i], keepRef);
+      }
+      for (let i = 0; i < this.waypoints.length; i++) {
+         this.waypoints[i] = this.createOrKeep(Waypoint, this.waypoints[i], keepRef);
+      }
+
+      this.eventTypesWithKeywords = new SpecialEventsKeywordFilters(
+         this.eventTypesWithKeywords,
+      );
 
       return this;
    }
@@ -109,13 +164,21 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;
    addBpmEvents(...data: Partial<IEventBPMChange>[]): void;
    addBpmEvents(
-      ...data: (Partial<IEventBPMChange> & Partial<IWrapBPMEventAttribute<IEventBPMChange>>)[]
+      ...data: (
+         & Partial<IEventBPMChange>
+         & Partial<IWrapBPMEventAttribute<IEventBPMChange>>
+      )[]
    ): void;
    addBpmEvents(
-      ...data: (Partial<IEventBPMChange> & Partial<IWrapBPMEventAttribute<IEventBPMChange>>)[]
+      ...data: (
+         & Partial<IEventBPMChange>
+         & Partial<IWrapBPMEventAttribute<IEventBPMChange>>
+      )[]
    ): void {
-      for (const obj of data) {
-         this.basicEvents.push(new Event({ ...obj, type: 100, value: obj.bpm }));
+      for (let i = 0; i < data.length; i++) {
+         this.basicEvents.push(
+            new Event({ ...data[i], type: 100, value: data[i].bpm }),
+         );
       }
    }
 
@@ -133,13 +196,13 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          & Partial<IWrapRotationEventAttribute<IEventLaneRotation>>
       )[]
    ): void {
-      for (const obj of data) {
+      for (let i = 0; i < data.length; i++) {
          this.basicEvents.push(
             new Event({
-               ...obj,
-               type: typeof obj.executionTime === 'number'
-                  ? obj.executionTime === 0 ? 14 : 15
-                  : obj._type,
+               ...data[i],
+               type: typeof data[i].executionTime === 'number'
+                  ? data[i].executionTime === 0 ? 14 : 15
+                  : data[i]._type,
             }),
          );
       }
@@ -148,32 +211,56 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    addColorNotes(...data: Partial<IWrapColorNoteAttribute<INote>>[]): void;
    addColorNotes(...data: Partial<INote>[]): void;
-   addColorNotes(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): void;
-   addColorNotes(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): void {
-      for (const obj of data) this.colorNotes.push(new Note(obj));
+   addColorNotes(
+      ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]
+   ): void;
+   addColorNotes(
+      ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]
+   ): void {
+      for (let i = 0; i < data.length; i++) {
+         this.colorNotes.push(new Note(data[i]));
+      }
    }
 
    addBombNotes(...data: Partial<IWrapBombNoteAttribute<INote>>[]): void;
    addBombNotes(...data: Partial<INote>[]): void;
-   addBombNotes(...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]): void;
-   addBombNotes(...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]): void {
-      for (const obj of data) this.colorNotes.push(new Note({ ...obj, type: 3 }));
+   addBombNotes(
+      ...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]
+   ): void;
+   addBombNotes(
+      ...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]
+   ): void {
+      for (let i = 0; i < data.length; i++) {
+         this.colorNotes.push(new Note({ ...data[i], type: 3 }));
+      }
    }
 
    addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): void;
    addObstacles(...data: Partial<IObstacle>[]): void;
-   addObstacles(...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]): void;
    addObstacles(
-      ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
+      ...data: (
+         & Partial<IObstacle>
+         & Partial<IWrapObstacleAttribute<IObstacle>>
+      )[]
+   ): void;
+   addObstacles(
+      ...data: (
+         & Partial<IObstacle>
+         & Partial<IWrapObstacleAttribute<IObstacle>>
+      )[]
    ): void {
-      for (const obj of data) this.obstacles.push(new Obstacle(obj));
+      for (let i = 0; i < data.length; i++) {
+         this.obstacles.push(new Obstacle(data[i]));
+      }
    }
 
    addArcs(...data: Partial<IWrapArcAttribute<IArc>>[]): void;
    addArcs(...data: Partial<IArc>[]): void;
    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void;
-   addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void {
-      for (const obj of data) this.arcs.push(new Arc(obj));
+   addArcs(
+      ...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]
+   ): void {
+      for (let i = 0; i < data.length; i++) this.arcs.push(new Arc(data[i]));
    }
 
    addChains(..._: never[]): void {
@@ -182,30 +269,59 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    addWaypoints(...data: Partial<IWrapWaypointAttribute<IWaypoint>>[]): void;
    addWaypoints(...data: Partial<IWaypoint>[]): void;
-   addWaypoints(...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]): void;
    addWaypoints(
-      ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
+      ...data: (
+         & Partial<IWaypoint>
+         & Partial<IWrapWaypointAttribute<IWaypoint>>
+      )[]
+   ): void;
+   addWaypoints(
+      ...data: (
+         & Partial<IWaypoint>
+         & Partial<IWrapWaypointAttribute<IWaypoint>>
+      )[]
    ): void {
-      for (const obj of data) this.waypoints.push(new Waypoint(obj));
+      for (let i = 0; i < data.length; i++) {
+         this.waypoints.push(new Waypoint(data[i]));
+      }
    }
 
    addBasicEvents(...data: Partial<IWrapEventAttribute<IEvent>>[]): void;
    addBasicEvents(...data: Partial<IEvent>[]): void;
-   addBasicEvents(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): void;
-   addBasicEvents(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): void {
-      for (const obj of data) this.basicEvents.push(new Event(obj));
+   addBasicEvents(
+      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
+   ): void;
+   addBasicEvents(
+      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
+   ): void {
+      for (let i = 0; i < data.length; i++) {
+         this.basicEvents.push(new Event(data[i]));
+      }
    }
 
-   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IEventBoost>>[]): void;
+   addColorBoostEvents(
+      ...data: Partial<IWrapColorBoostEventAttribute<IEventBoost>>[]
+   ): void;
    addColorBoostEvents(...data: Partial<IEventBoost>[]): void;
    addColorBoostEvents(
-      ...data: (Partial<IEventBoost> & Partial<IWrapColorBoostEventAttribute<IEventBoost>>)[]
+      ...data: (
+         & Partial<IEventBoost>
+         & Partial<IWrapColorBoostEventAttribute<IEventBoost>>
+      )[]
    ): void;
    addColorBoostEvents(
-      ...data: (Partial<IEventBoost> & Partial<IWrapColorBoostEventAttribute<IEventBoost>>)[]
+      ...data: (
+         & Partial<IEventBoost>
+         & Partial<IWrapColorBoostEventAttribute<IEventBoost>>
+      )[]
    ): void {
-      for (const obj of data) {
-         this.basicEvents.push(new Event({ ...obj, value: obj.toggle ? 1 : obj._value }));
+      for (let i = 0; i < data.length; i++) {
+         this.basicEvents.push(
+            new Event({
+               ...data[i],
+               value: data[i].toggle ? 1 : data[i]._value,
+            }),
+         );
       }
    }
 
@@ -231,17 +347,39 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    }
 
    addFxEventBoxGroups(..._: never[]): void {
-      logger.tWarn(tag('addFxEventBoxGroups'), 'FX Event Box Group does not exist in beatmap V2');
+      logger.tWarn(
+         tag('addFxEventBoxGroups'),
+         'FX Event Box Group does not exist in beatmap V2',
+      );
    }
 
    isValid(): boolean {
-      return (
-         this.colorNotes.every((obj) => this.checkClass(Note, obj)) ||
-         this.obstacles.every((obj) => this.checkClass(Obstacle, obj)) ||
-         this.basicEvents.every((obj) => this.checkClass(Event, obj)) ||
-         this.waypoints.every((obj) => this.checkClass(Waypoint, obj)) ||
-         this.arcs.every((obj) => this.checkClass(Arc, obj)) ||
-         this.eventTypesWithKeywords instanceof SpecialEventsKeywordFilters
-      );
+      for (let i = 0; i < this.colorNotes.length; i++) {
+         if (this.checkClass(Note, this.colorNotes[i]) === false) return false;
+      }
+
+      for (let i = 0; i < this.basicEvents.length; i++) {
+         if (this.checkClass(Event, this.basicEvents[i]) === false) {
+            return false;
+         }
+      }
+
+      for (let i = 0; i < this.waypoints.length; i++) {
+         if (this.checkClass(Waypoint, this.waypoints[i]) === false) {
+            return false;
+         }
+      }
+
+      for (let i = 0; i < this.obstacles.length; i++) {
+         if (this.checkClass(Obstacle, this.obstacles[i]) === false) {
+            return false;
+         }
+      }
+
+      for (let i = 0; i < this.arcs.length; i++) {
+         if (this.checkClass(Arc, this.arcs[i]) === false) return false;
+      }
+
+      return this.eventTypesWithKeywords instanceof SpecialEventsKeywordFilters;
    }
 }

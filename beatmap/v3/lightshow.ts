@@ -42,27 +42,55 @@ export class Lightshow extends WrapLightshow<ILightshow> {
 
    constructor(data: Partial<ILightshow> = {}) {
       super();
+      let temp;
 
-      this.basicEvents = (data.basicBeatmapEvents ?? []).map((obj) => new BasicEvent(obj));
-      this.colorBoostEvents = (data.colorBoostBeatmapEvents ?? []).map(
-         (obj) => new ColorBoostEvent(obj),
-      );
-      this.lightColorEventBoxGroups = (data.lightColorEventBoxGroups ?? []).map(
-         (obj) => new LightColorEventBoxGroup(obj),
-      );
-      this.lightRotationEventBoxGroups = (data.lightRotationEventBoxGroups ?? []).map(
-         (obj) => new LightRotationEventBoxGroup(obj),
-      );
-      this.lightTranslationEventBoxGroups = (data.lightTranslationEventBoxGroups ?? []).map(
-         (obj) => new LightTranslationEventBoxGroup(obj),
-      );
-      this.fxEventBoxGroups = (data.vfxEventBoxGroups ?? []).map((obj) => new FxEventBoxGroup(obj));
+      temp = data.basicBeatmapEvents ?? [];
+      this.basicEvents = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this.basicEvents[i] = new BasicEvent(temp[i]);
+      }
+
+      temp = data.colorBoostBeatmapEvents ?? [];
+      this.colorBoostEvents = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this.colorBoostEvents[i] = new ColorBoostEvent(temp[i]);
+      }
+
+      temp = data.lightColorEventBoxGroups ?? [];
+      this.lightColorEventBoxGroups = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this.lightColorEventBoxGroups[i] = new LightColorEventBoxGroup(
+            temp[i],
+         );
+      }
+
+      temp = data.lightRotationEventBoxGroups ?? [];
+      this.lightRotationEventBoxGroups = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this.lightRotationEventBoxGroups[i] = new LightRotationEventBoxGroup(
+            temp[i],
+         );
+      }
+
+      temp = data.lightTranslationEventBoxGroups ?? [];
+      this.lightTranslationEventBoxGroups = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this.lightTranslationEventBoxGroups[i] = new LightTranslationEventBoxGroup(temp[i]);
+      }
+
+      temp = data.vfxEventBoxGroups ?? [];
+      this.fxEventBoxGroups = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this.fxEventBoxGroups[i] = new FxEventBoxGroup(temp[i]);
+      }
+
       this.fxEventsCollection = new FxEventsCollection(
          data._fxEventsCollection ?? {
             _fl: [],
             _il: [],
          },
       );
+
       this.customData = deepCopy(data.customData ?? {});
    }
 
@@ -71,18 +99,42 @@ export class Lightshow extends WrapLightshow<ILightshow> {
    }
 
    toJSON(): Required<ILightshow> {
-      return {
-         basicBeatmapEvents: this.basicEvents.map((obj) => obj.toJSON()),
-         colorBoostBeatmapEvents: this.colorBoostEvents.map((obj) => obj.toJSON()),
-         lightColorEventBoxGroups: this.lightColorEventBoxGroups.map((obj) => obj.toJSON()),
-         lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map((obj) => obj.toJSON()),
-         lightTranslationEventBoxGroups: this.lightTranslationEventBoxGroups.map((obj) =>
-            obj.toJSON()
+      const json: Required<ILightshow> = {
+         basicBeatmapEvents: new Array(this.basicEvents.length),
+         colorBoostBeatmapEvents: new Array(this.colorBoostEvents.length),
+         lightColorEventBoxGroups: new Array(
+            this.lightColorEventBoxGroups.length,
          ),
-         vfxEventBoxGroups: this.fxEventBoxGroups.map((obj) => obj.toJSON()),
+         lightRotationEventBoxGroups: new Array(
+            this.lightRotationEventBoxGroups.length,
+         ),
+         lightTranslationEventBoxGroups: new Array(
+            this.lightTranslationEventBoxGroups.length,
+         ),
+         vfxEventBoxGroups: new Array(this.fxEventBoxGroups.length),
          _fxEventsCollection: this.fxEventsCollection.toJSON(),
          customData: deepCopy(this.customData),
       };
+      for (let i = 0; i < this.basicEvents.length; i++) {
+         json.basicBeatmapEvents[i] = this.basicEvents[i].toJSON();
+      }
+      for (let i = 0; i < this.colorBoostEvents.length; i++) {
+         json.colorBoostBeatmapEvents[i] = this.colorBoostEvents[i].toJSON();
+      }
+      for (let i = 0; i < this.lightColorEventBoxGroups.length; i++) {
+         json.lightColorEventBoxGroups[i] = this.lightColorEventBoxGroups[i].toJSON();
+      }
+      for (let i = 0; i < this.lightRotationEventBoxGroups.length; i++) {
+         json.lightRotationEventBoxGroups[i] = this.lightRotationEventBoxGroups[i].toJSON();
+      }
+      for (let i = 0; i < this.lightTranslationEventBoxGroups.length; i++) {
+         json.lightTranslationEventBoxGroups[i] = this.lightTranslationEventBoxGroups[i].toJSON();
+      }
+      for (let i = 0; i < this.fxEventBoxGroups.length; i++) {
+         json.vfxEventBoxGroups[i] = this.fxEventBoxGroups[i].toJSON();
+      }
+
+      return json;
    }
 
    get customData(): NonNullable<ILightshow['customData']> {
@@ -93,10 +145,48 @@ export class Lightshow extends WrapLightshow<ILightshow> {
    }
 
    reparse(keepRef?: boolean): this {
-      this.basicEvents = this.basicEvents.map((obj) => this.createOrKeep(BasicEvent, obj, keepRef));
-      this.colorBoostEvents = this.colorBoostEvents.map((obj) =>
-         this.createOrKeep(ColorBoostEvent, obj, keepRef)
-      );
+      for (let i = 0; i < this.basicEvents.length; i++) {
+         this.basicEvents[i] = this.createOrKeep(
+            BasicEvent,
+            this.basicEvents[i],
+            keepRef,
+         );
+      }
+      for (let i = 0; i < this.colorBoostEvents.length; i++) {
+         this.colorBoostEvents[i] = this.createOrKeep(
+            ColorBoostEvent,
+            this.colorBoostEvents[i],
+            keepRef,
+         );
+      }
+      for (let i = 0; i < this.lightColorEventBoxGroups.length; i++) {
+         this.lightColorEventBoxGroups[i] = this.createOrKeep(
+            LightColorEventBoxGroup,
+            this.lightColorEventBoxGroups[i],
+            keepRef,
+         );
+      }
+      for (let i = 0; i < this.lightRotationEventBoxGroups.length; i++) {
+         this.lightRotationEventBoxGroups[i] = this.createOrKeep(
+            LightRotationEventBoxGroup,
+            this.lightRotationEventBoxGroups[i],
+            keepRef,
+         );
+      }
+      for (let i = 0; i < this.lightTranslationEventBoxGroups.length; i++) {
+         this.lightTranslationEventBoxGroups[i] = this.createOrKeep(
+            LightTranslationEventBoxGroup,
+            this.lightTranslationEventBoxGroups[i],
+            keepRef,
+         );
+      }
+      for (let i = 0; i < this.fxEventBoxGroups.length; i++) {
+         this.fxEventBoxGroups[i] = this.createOrKeep(
+            FxEventBoxGroup,
+            this.fxEventBoxGroups[i],
+            keepRef,
+         );
+      }
       this.fxEventsCollection = new FxEventsCollection(this.fxEventsCollection);
 
       return this;
@@ -105,15 +195,25 @@ export class Lightshow extends WrapLightshow<ILightshow> {
    addBasicEvents(...data: Partial<IWrapEventAttribute<IBasicEvent>>[]): void;
    addBasicEvents(...data: Partial<IBasicEvent>[]): void;
    addBasicEvents(
-      ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<IBasicEvent>>)[]
+      ...data: (
+         & Partial<IBasicEvent>[]
+         & Partial<IWrapEventAttribute<IBasicEvent>>
+      )[]
    ): void;
    addBasicEvents(
-      ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<IBasicEvent>>)[]
+      ...data: (
+         & Partial<IBasicEvent>[]
+         & Partial<IWrapEventAttribute<IBasicEvent>>
+      )[]
    ): void {
-      for (const obj of data) this.basicEvents.push(new BasicEvent(obj));
+      for (let i = 0; i < data.length; i++) {
+         this.basicEvents.push(new BasicEvent(data[i]));
+      }
    }
 
-   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]): void;
+   addColorBoostEvents(
+      ...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]
+   ): void;
    addColorBoostEvents(...data: Partial<IColorBoostEvent>[]): void;
    addColorBoostEvents(
       ...data: (
@@ -127,7 +227,9 @@ export class Lightshow extends WrapLightshow<ILightshow> {
          & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
       )[]
    ): void {
-      for (const obj of data) this.colorBoostEvents.push(new ColorBoostEvent(obj));
+      for (let i = 0; i < data.length; i++) {
+         this.colorBoostEvents.push(new ColorBoostEvent(data[i]));
+      }
    }
 
    addLightColorEventBoxGroups(
@@ -140,7 +242,9 @@ export class Lightshow extends WrapLightshow<ILightshow> {
          >
       >[]
    ): void;
-   addLightColorEventBoxGroups(...data: DeepPartial<ILightColorEventBoxGroup>[]): void;
+   addLightColorEventBoxGroups(
+      ...data: DeepPartial<ILightColorEventBoxGroup>[]
+   ): void;
    addLightColorEventBoxGroups(
       ...data: (
          & DeepPartial<ILightColorEventBoxGroup>
@@ -167,7 +271,11 @@ export class Lightshow extends WrapLightshow<ILightshow> {
          >
       )[]
    ): void {
-      for (const obj of data) this.lightColorEventBoxGroups.push(new LightColorEventBoxGroup(obj));
+      for (let i = 0; i < data.length; i++) {
+         this.lightColorEventBoxGroups.push(
+            new LightColorEventBoxGroup(data[i]),
+         );
+      }
    }
 
    addLightRotationEventBoxGroups(
@@ -180,7 +288,9 @@ export class Lightshow extends WrapLightshow<ILightshow> {
          >
       >[]
    ): void;
-   addLightRotationEventBoxGroups(...data: DeepPartial<ILightRotationEventBoxGroup>[]): void;
+   addLightRotationEventBoxGroups(
+      ...data: DeepPartial<ILightRotationEventBoxGroup>[]
+   ): void;
    addLightRotationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightRotationEventBoxGroup>
@@ -207,8 +317,10 @@ export class Lightshow extends WrapLightshow<ILightshow> {
          >
       )[]
    ): void {
-      for (const obj of data) {
-         this.lightRotationEventBoxGroups.push(new LightRotationEventBoxGroup(obj));
+      for (let i = 0; i < data.length; i++) {
+         this.lightRotationEventBoxGroups.push(
+            new LightRotationEventBoxGroup(data[i]),
+         );
       }
    }
 
@@ -222,7 +334,9 @@ export class Lightshow extends WrapLightshow<ILightshow> {
          >
       >[]
    ): void;
-   addLightTranslationEventBoxGroups(...data: DeepPartial<ILightTranslationEventBoxGroup>[]): void;
+   addLightTranslationEventBoxGroups(
+      ...data: DeepPartial<ILightTranslationEventBoxGroup>[]
+   ): void;
    addLightTranslationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightTranslationEventBoxGroup>
@@ -249,49 +363,96 @@ export class Lightshow extends WrapLightshow<ILightshow> {
          >
       )[]
    ): void {
-      for (const obj of data) {
-         this.lightTranslationEventBoxGroups.push(new LightTranslationEventBoxGroup(obj));
+      for (let i = 0; i < data.length; i++) {
+         this.lightTranslationEventBoxGroups.push(
+            new LightTranslationEventBoxGroup(data[i]),
+         );
       }
    }
 
    addFxEventBoxGroups(
       ...data: DeepPartial<
-         IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>
+         IWrapFxEventBoxGroupAttribute<
+            IFxEventBoxGroup,
+            IFxEventBox,
+            IIndexFilter
+         >
       >[]
    ): void;
    addFxEventBoxGroups(...data: DeepPartial<IFxEventBoxGroup>[]): void;
    addFxEventBoxGroups(
       ...data: (
          & DeepPartial<IFxEventBoxGroup>
-         & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
+         & DeepPartial<
+            IWrapFxEventBoxGroupAttribute<
+               IFxEventBoxGroup,
+               IFxEventBox,
+               IIndexFilter
+            >
+         >
       )[]
    ): void;
    addFxEventBoxGroups(
       ...data: (
          & DeepPartial<IFxEventBoxGroup>
-         & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
+         & DeepPartial<
+            IWrapFxEventBoxGroupAttribute<
+               IFxEventBoxGroup,
+               IFxEventBox,
+               IIndexFilter
+            >
+         >
       )[]
    ): void {
-      for (const obj of data) {
-         this.fxEventBoxGroups.push(new FxEventBoxGroup(obj));
+      for (let i = 0; i < data.length; i++) {
+         this.fxEventBoxGroups.push(new FxEventBoxGroup(data[i]));
       }
    }
 
    isValid(): boolean {
-      return (
-         this.basicEvents.every((obj) => this.checkClass(BasicEvent, obj)) ||
-         this.colorBoostEvents.every((obj) => this.checkClass(ColorBoostEvent, obj)) ||
-         this.lightColorEventBoxGroups.every((obj) =>
-            this.checkClass(LightColorEventBoxGroup, obj)
-         ) ||
-         this.lightRotationEventBoxGroups.every((obj) =>
-            this.checkClass(LightRotationEventBoxGroup, obj)
-         ) ||
-         this.lightTranslationEventBoxGroups.every((obj) =>
-            this.checkClass(LightTranslationEventBoxGroup, obj)
-         ) ||
-         this.fxEventBoxGroups.every((obj) => this.checkClass(FxEventBoxGroup, obj)) ||
-         this.fxEventsCollection instanceof FxEventsCollection
-      );
+      for (let i = 0; i < this.basicEvents.length; i++) {
+         if (!this.checkClass(BasicEvent, this.basicEvents[i])) return false;
+      }
+      for (let i = 0; i < this.colorBoostEvents.length; i++) {
+         if (!this.checkClass(ColorBoostEvent, this.colorBoostEvents[i])) {
+            return false;
+         }
+      }
+      for (let i = 0; i < this.lightColorEventBoxGroups.length; i++) {
+         if (
+            !this.checkClass(
+               LightColorEventBoxGroup,
+               this.lightColorEventBoxGroups[i],
+            )
+         ) {
+            return false;
+         }
+      }
+      for (let i = 0; i < this.lightRotationEventBoxGroups.length; i++) {
+         if (
+            !this.checkClass(
+               LightRotationEventBoxGroup,
+               this.lightRotationEventBoxGroups[i],
+            )
+         ) {
+            return false;
+         }
+      }
+      for (let i = 0; i < this.lightTranslationEventBoxGroups.length; i++) {
+         if (
+            !this.checkClass(
+               LightTranslationEventBoxGroup,
+               this.lightTranslationEventBoxGroups[i],
+            )
+         ) {
+            return false;
+         }
+      }
+      for (let i = 0; i < this.fxEventBoxGroups.length; i++) {
+         if (!this.checkClass(FxEventBoxGroup, this.fxEventBoxGroups[i])) {
+            return false;
+         }
+      }
+      return this.fxEventsCollection instanceof FxEventsCollection;
    }
 }

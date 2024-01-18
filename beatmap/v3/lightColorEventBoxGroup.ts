@@ -62,12 +62,18 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
 
       this._time = data.b ?? data.time ?? LightColorEventBoxGroup.default.b;
       this._id = data.g ?? data.id ?? LightColorEventBoxGroup.default.g;
-      this._boxes = (
-         (data.e as unknown as ILightColorEventBox[]) ??
-            (data.boxes as ILightColorEventBox[]) ??
-            LightColorEventBoxGroup.default.e
-      ).map((obj) => new LightColorEventBox(obj));
-      this._customData = deepCopy(data.customData ?? LightColorEventBoxGroup.default.customData);
+
+      const temp = (data.e as unknown as ILightColorEventBox[]) ??
+         (data.boxes as ILightColorEventBox[]) ??
+         LightColorEventBoxGroup.default.e;
+      this._boxes = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this._boxes[i] = new LightColorEventBox(temp[i]);
+      }
+
+      this._customData = deepCopy(
+         data.customData ?? LightColorEventBoxGroup.default.customData,
+      );
    }
 
    static create(): LightColorEventBoxGroup[];
@@ -81,7 +87,9 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
          >
       >[]
    ): LightColorEventBoxGroup[];
-   static create(...data: DeepPartial<ILightColorEventBoxGroup>[]): LightColorEventBoxGroup[];
+   static create(
+      ...data: DeepPartial<ILightColorEventBoxGroup>[]
+   ): LightColorEventBoxGroup[];
    static create(
       ...data: (
          & DeepPartial<ILightColorEventBoxGroup>
@@ -109,7 +117,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
       )[]
    ): LightColorEventBoxGroup[] {
       const result: LightColorEventBoxGroup[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      for (let i = 0; i < data.length; i++) result.push(new this(data[i]));
       if (result.length) {
          return result;
       }
@@ -117,12 +125,17 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
    }
 
    toJSON(): Required<ILightColorEventBoxGroup> {
-      return {
+      const json: Required<ILightColorEventBoxGroup> = {
          b: this.time,
          g: this.id,
-         e: this.boxes.map((e) => e.toJSON()),
+         e: new Array(this.boxes.length),
          customData: deepCopy(this.customData),
       };
+      for (let i = 0; i < this.boxes.length; i++) {
+         json.e[i] = this.boxes[i].toJSON();
+      }
+
+      return json;
    }
 
    get boxes(): LightColorEventBox[] {

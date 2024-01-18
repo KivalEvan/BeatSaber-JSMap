@@ -29,18 +29,22 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
    ) {
       super();
 
-      this._list = (data._keywords ?? data.list ?? SpecialEventsKeywordFilters.default._keywords)
-         .map((d) => {
-            if (d) return new SpecialEventsKeywordFiltersKeywords(d);
-         })
-         .filter((d) => d) as SpecialEventsKeywordFiltersKeywords[];
+      const temp = data._keywords ??
+         data.list ??
+         SpecialEventsKeywordFilters.default._keywords;
+      this._list = new Array(temp.length);
+      for (let i = 0; i < temp.length; i++) {
+         this._list[i] = new SpecialEventsKeywordFiltersKeywords(temp[i]!);
+      }
    }
 
    static create(): SpecialEventsKeywordFilters;
    static create(
       data: DeepPartial<IWrapEventTypesWithKeywordsAttribute>,
    ): SpecialEventsKeywordFilters;
-   static create(data: DeepPartial<ISpecialEventsKeywordFilters>): SpecialEventsKeywordFilters;
+   static create(
+      data: DeepPartial<ISpecialEventsKeywordFilters>,
+   ): SpecialEventsKeywordFilters;
    static create(
       data:
          & DeepPartial<ISpecialEventsKeywordFilters>
@@ -55,9 +59,14 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
    }
 
    toJSON(): Required<ISpecialEventsKeywordFilters> {
-      return {
-         _keywords: this.list.map((d) => d.toJSON()),
+      const json: Required<ISpecialEventsKeywordFilters> = {
+         _keywords: new Array(this.list.length),
       };
+      for (let i = 0; i < this.list.length; i++) {
+         json._keywords[i] = this.list[i].toJSON();
+      }
+
+      return json;
    }
 
    get list(): SpecialEventsKeywordFiltersKeywords[] {

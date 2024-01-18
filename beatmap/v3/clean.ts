@@ -11,7 +11,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.bpmEvents[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -27,7 +27,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.rotationEvents[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -42,7 +42,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.colorNotes[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -57,7 +57,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.bombNotes[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -73,7 +73,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.obstacles[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -91,7 +91,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.sliders[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -108,7 +108,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.burstSliders[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -123,7 +123,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.waypoints[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -139,7 +139,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.basicBeatmapEvents[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -154,7 +154,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.colorBoostBeatmapEvents[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -184,7 +184,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
             deepClean(
                o3.customData!,
                `difficulty.lightColorEventBoxGroups[${i1}].e[${i2}].e[${i3}].customData`,
-               options
+               options,
             );
             if (!Object.keys(o3.customData!).length) {
                delete o3.customData;
@@ -194,7 +194,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
          deepClean(
             o2.f.customData!,
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
-            options
+            options,
          );
          if (!Object.keys(o2.f.customData!).length) {
             delete o2.f.customData;
@@ -203,7 +203,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
          deepClean(
             o2.customData!,
             `difficulty.lightColorEventBoxGroups[${i1}].e[${i2}].customData`,
-            options
+            options,
          );
          if (!Object.keys(o2.customData!).length) {
             delete o2.customData;
@@ -213,7 +213,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.lightColorEventBoxGroups[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -241,7 +241,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
             deepClean(
                o3.customData!,
                `difficulty.lightRotationEventBoxGroups[${i3}].e[${i2}].l[${i3}].customData`,
-               options
+               options,
             );
             if (!Object.keys(o3.customData!).length) {
                delete o3.customData;
@@ -251,7 +251,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
          deepClean(
             o2.f.customData!,
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
-            options
+            options,
          );
          if (!Object.keys(o2.f.customData!).length) {
             delete o2.f.customData;
@@ -260,7 +260,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
          deepClean(
             o2.customData!,
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
-            options
+            options,
          );
          if (!Object.keys(o2.customData!).length) {
             delete o2.customData;
@@ -270,7 +270,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.lightRotationEventBoxGroups[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -298,7 +298,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
             deepClean(
                o3.customData!,
                `difficulty.lightTranslationEventBoxGroups[${i1}].e[${i2}].l[${i3}].customData`,
-               options
+               options,
             );
             if (!Object.keys(o3.customData!).length) {
                delete o3.customData;
@@ -308,7 +308,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
          deepClean(
             o2.f.customData!,
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
-            options
+            options,
          );
          if (!Object.keys(o2.f.customData!).length) {
             delete o2.f.customData;
@@ -317,7 +317,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
          deepClean(
             o2.customData!,
             `difficulty.lightTranslationEventBoxGroups[${i1}].e[${i2}].customData`,
-            options
+            options,
          );
          if (!Object.keys(o2.customData!).length) {
             delete o2.customData;
@@ -327,7 +327,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.lightTranslationEventBoxGroups[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -349,7 +349,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
          deepClean(
             o2.f.customData!,
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
-            options
+            options,
          );
          if (!Object.keys(o2.f.customData!).length) {
             delete o2.f.customData;
@@ -358,7 +358,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
          deepClean(
             o2.customData!,
             `difficulty.vfxEventBoxGroups[${i1}].e[${i2}].customData`,
-            options
+            options,
          );
          if (!Object.keys(o2.customData!).length) {
             delete o2.customData;
@@ -368,7 +368,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty.vfxEventBoxGroups[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -384,7 +384,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty._fxEventsCollection._fl[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
@@ -399,14 +399,15 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       deepClean(
          o1.customData!,
          `difficulty._fxEventsCollection._il[${i1}].customData`,
-         options
+         options,
       );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
    }
-   for (const o1 of d.basicEventTypesWithKeywords.d) {
+   for (let i1 = 0; i1 < d.basicEventTypesWithKeywords.d.length; i1++) {
+      const o1 = d.basicEventTypesWithKeywords.d[i1];
       if (options.stringTrim) {
          o1.k = o1.k.trim();
       }
