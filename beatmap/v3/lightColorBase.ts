@@ -49,7 +49,7 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
       ...data: (Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>)[]
    ): LightColorBase[] {
       const result: LightColorBase[] = [];
-      for (let i = 0; i < data.length; i++) result.push(new this(data[i]));
+      data.forEach((obj) => result.push(new this(obj)));
       if (result.length) {
          return result;
       }

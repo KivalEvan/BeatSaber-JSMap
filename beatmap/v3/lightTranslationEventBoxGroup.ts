@@ -62,15 +62,11 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
 
       this._time = data.b ?? data.time ?? LightTranslationEventBoxGroup.default.b;
       this._id = data.g ?? data.id ?? LightTranslationEventBoxGroup.default.g;
-
-      const temp = (data.e as unknown as ILightTranslationEventBox[]) ??
-         (data.boxes as ILightTranslationEventBox[]) ??
-         LightTranslationEventBoxGroup.default.e;
-      this._boxes = new Array(temp.length);
-      for (let i = 0; i < temp.length; i++) {
-         this._boxes[i] = new LightTranslationEventBox(temp[i]);
-      }
-
+      this._boxes = (
+         (data.e as unknown as ILightTranslationEventBox[]) ??
+            (data.boxes as ILightTranslationEventBox[]) ??
+            LightTranslationEventBoxGroup.default.e
+      ).map((obj) => new LightTranslationEventBox(obj));
       this._customData = deepCopy(
          data.customData ?? LightTranslationEventBoxGroup.default.customData,
       );
@@ -117,7 +113,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
       )[]
    ): LightTranslationEventBoxGroup[] {
       const result: LightTranslationEventBoxGroup[] = [];
-      for (let i = 0; i < data.length; i++) result.push(new this(data[i]));
+      data.forEach((obj) => result.push(new this(obj)));
       if (result.length) {
          return result;
       }
@@ -125,17 +121,12 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
    }
 
    toJSON(): Required<ILightTranslationEventBoxGroup> {
-      const json: Required<ILightTranslationEventBoxGroup> = {
+      return {
          b: this.time,
          g: this.id,
-         e: new Array(this.boxes.length),
+         e: this.boxes.map((e) => e.toJSON()),
          customData: deepCopy(this.customData),
       };
-      for (let i = 0; i < this.boxes.length; i++) {
-         json.e[i] = this.boxes[i].toJSON();
-      }
-
-      return json;
    }
 
    get boxes(): LightTranslationEventBox[] {
@@ -148,15 +139,11 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
    get customData(): NonNullable<ILightTranslationEventBoxGroup['customData']> {
       return this._customData;
    }
-   set customData(
-      value: NonNullable<ILightTranslationEventBoxGroup['customData']>,
-   ) {
+   set customData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>) {
       this._customData = value;
    }
 
-   setCustomData(
-      value: NonNullable<ILightTranslationEventBoxGroup['customData']>,
-   ): this {
+   setCustomData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>): this {
       this.customData = value;
       return this;
    }

@@ -71,24 +71,15 @@ export abstract class WrapLightshow<T extends { [P in keyof T]: T[P] }> extends 
       this.fxEventsCollection.intList.sort(sortObjectFn);
       this.fxEventsCollection.floatList.sort(sortObjectFn);
 
-      for (let i = 0; i < this.lightColorEventBoxGroups.length; i++) {
-         const group = this.lightColorEventBoxGroups[i];
-         for (let j = 0; j < group.boxes.length; j++) {
-            group.boxes[j].events.sort(sortObjectFn);
-         }
-      }
-      for (let i = 0; i < this.lightRotationEventBoxGroups.length; i++) {
-         const group = this.lightRotationEventBoxGroups[i];
-         for (let j = 0; j < group.boxes.length; j++) {
-            group.boxes[j].events.sort(sortObjectFn);
-         }
-      }
-      for (let i = 0; i < this.lightTranslationEventBoxGroups.length; i++) {
-         const group = this.lightTranslationEventBoxGroups[i];
-         for (let j = 0; j < group.boxes.length; j++) {
-            group.boxes[j].events.sort(sortObjectFn);
-         }
-      }
+      this.lightColorEventBoxGroups.forEach((gr) =>
+         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
+      );
+      this.lightRotationEventBoxGroups.forEach((gr) =>
+         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
+      );
+      this.lightTranslationEventBoxGroups.forEach((gr) =>
+         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
+      );
 
       return this;
    }

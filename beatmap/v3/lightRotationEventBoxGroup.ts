@@ -62,18 +62,12 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
 
       this._time = data.b ?? data.time ?? LightRotationEventBoxGroup.default.b;
       this._id = data.g ?? data.id ?? LightRotationEventBoxGroup.default.g;
-
-      const temp = (data.e as unknown as ILightRotationEventBox[]) ??
-         (data.boxes as ILightRotationEventBox[]) ??
-         LightRotationEventBoxGroup.default.e;
-      this._boxes = new Array(temp.length);
-      for (let i = 0; i < temp.length; i++) {
-         this._boxes[i] = new LightRotationEventBox(temp[i]);
-      }
-
-      this._customData = deepCopy(
-         data.customData ?? LightRotationEventBoxGroup.default.customData,
-      );
+      this._boxes = (
+         (data.e as unknown as ILightRotationEventBox[]) ??
+            (data.boxes as ILightRotationEventBox[]) ??
+            LightRotationEventBoxGroup.default.e
+      ).map((obj) => new LightRotationEventBox(obj));
+      this._customData = deepCopy(data.customData ?? LightRotationEventBoxGroup.default.customData);
    }
 
    static create(): LightRotationEventBoxGroup[];
@@ -87,9 +81,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
          >
       >[]
    ): LightRotationEventBoxGroup[];
-   static create(
-      ...data: DeepPartial<ILightRotationEventBoxGroup>[]
-   ): LightRotationEventBoxGroup[];
+   static create(...data: DeepPartial<ILightRotationEventBoxGroup>[]): LightRotationEventBoxGroup[];
    static create(
       ...data: (
          & DeepPartial<ILightRotationEventBoxGroup>
@@ -117,7 +109,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
       )[]
    ): LightRotationEventBoxGroup[] {
       const result: LightRotationEventBoxGroup[] = [];
-      for (let i = 0; i < data.length; i++) result.push(new this(data[i]));
+      data.forEach((obj) => result.push(new this(obj)));
       if (result.length) {
          return result;
       }
@@ -125,17 +117,12 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
    }
 
    toJSON(): Required<ILightRotationEventBoxGroup> {
-      const json: Required<ILightRotationEventBoxGroup> = {
+      return {
          b: this.time,
          g: this.id,
-         e: new Array(this.boxes.length),
+         e: this.boxes.map((e) => e.toJSON()),
          customData: deepCopy(this.customData),
       };
-      for (let i = 0; i < this.boxes.length; i++) {
-         json.e[i] = this.boxes[i].toJSON();
-      }
-
-      return json;
    }
 
    get boxes(): LightRotationEventBox[] {
@@ -148,9 +135,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
    get customData(): NonNullable<ILightRotationEventBoxGroup['customData']> {
       return this._customData;
    }
-   set customData(
-      value: NonNullable<ILightRotationEventBoxGroup['customData']>,
-   ) {
+   set customData(value: NonNullable<ILightRotationEventBoxGroup['customData']>) {
       this._customData = value;
    }
 

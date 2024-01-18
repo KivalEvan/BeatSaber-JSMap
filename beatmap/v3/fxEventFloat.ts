@@ -39,7 +39,7 @@ export class FxEventFloat extends WrapFxEventFloat<IFxEventFloat> {
       ...data: (Partial<IFxEventFloat> & Partial<IWrapFxEventFloatAttribute<IFxEventFloat>>)[]
    ): FxEventFloat[] {
       const result: FxEventFloat[] = [];
-      for (let i = 0; i < data.length; i++) result.push(new this(data[i]));
+      data.forEach((obj) => result.push(new this(obj)));
       if (result.length) {
          return result;
       }

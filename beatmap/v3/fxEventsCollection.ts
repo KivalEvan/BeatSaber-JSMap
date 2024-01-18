@@ -32,19 +32,17 @@ export class FxEventsCollection extends WrapFxEventsCollection<
          & DeepPartial<IWrapFxEventsCollection<IFxEventsCollection>> = {},
    ) {
       super();
-      let temp;
 
-      temp = data.floatList ?? data._fl ?? FxEventsCollection.default._fl;
-      this.floatList = new Array(temp.length);
-      for (let i = 0; i < temp.length; i++) {
-         this.floatList[i] = new FxEventFloat(temp[i]!);
-      }
-
-      temp = data.intList ?? data._il ?? FxEventsCollection.default._il;
-      this.intList = new Array(temp.length);
-      for (let i = 0; i < temp.length; i++) {
-         this.intList[i] = new FxEventInt(temp[i]!);
-      }
+      this.floatList = (data.floatList ?? data._fl ?? FxEventsCollection.default._fl)
+         .map((d) => {
+            if (d) return new FxEventFloat(d);
+         })
+         .filter((d) => d) as FxEventFloat[];
+      this.intList = (data.intList ?? data._il ?? FxEventsCollection.default._il)
+         .map((d) => {
+            if (d) return new FxEventInt(d);
+         })
+         .filter((d) => d) as FxEventInt[];
    }
 
    static create(): FxEventsCollection;
@@ -66,18 +64,10 @@ export class FxEventsCollection extends WrapFxEventsCollection<
    }
 
    toJSON(): Required<IFxEventsCollection> {
-      const json: Required<IFxEventsCollection> = {
-         _fl: new Array(this._floatList.length),
-         _il: new Array(this._intList.length),
+      return {
+         _fl: this.floatList.map((d) => d.toJSON()),
+         _il: this.intList.map((d) => d.toJSON()),
       };
-      for (let i = 0; i < this._floatList.length; i++) {
-         json._fl[i] = this._floatList[i].toJSON();
-      }
-      for (let i = 0; i < this._intList.length; i++) {
-         json._il[i] = this._intList[i].toJSON();
-      }
-
-      return json;
    }
 
    get floatList(): FxEventFloat[] {
