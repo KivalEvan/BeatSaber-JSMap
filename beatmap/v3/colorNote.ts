@@ -45,8 +45,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
    static create(
       ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
    ): ColorNote[] {
-      const result: ColorNote[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: ColorNote[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

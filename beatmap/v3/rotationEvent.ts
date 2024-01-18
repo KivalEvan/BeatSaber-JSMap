@@ -38,8 +38,7 @@ export class RotationEvent extends WrapRotationEvent<IRotationEvent> {
    static create(
       ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
    ): RotationEvent[] {
-      const result: RotationEvent[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: RotationEvent[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

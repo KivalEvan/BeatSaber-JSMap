@@ -40,8 +40,7 @@ export class Event extends WrapEvent<IEvent> {
    static create(...data: Partial<IEvent>[]): Event[];
    static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[];
    static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[] {
-      const result: Event[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: Event[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

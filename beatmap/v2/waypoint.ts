@@ -39,8 +39,7 @@ export class Waypoint extends WrapWaypoint<IWaypoint> {
    static create(
       ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
    ): Waypoint[] {
-      const result: Waypoint[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: Waypoint[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

@@ -7,7 +7,11 @@ function tag(name: string): string[] {
    return ['shared', 'dataCheck', name];
 }
 
-function handleError(text: string, throwError: boolean, errors: string[]): void {
+function handleError(
+   text: string,
+   throwError: boolean,
+   errors: string[],
+): void {
    if (throwError) {
       throw new Error(text);
    } else {
@@ -37,17 +41,17 @@ export function deepCheck(
    }
 
    // check for existing and/or unknown key
-   const dck = Object.keys(check);
-   if (dck.length) {
-      for (const key in data) {
-         if (!dck.includes(key)) {
-            handleError(`Unused key ${key} found in ${name}`, false, errors);
-            continue;
-         }
+   const checkKeys = Object.keys(check);
+   if (!checkKeys.length) return errors;
+
+   for (const key in data) {
+      if (!(key in check)) {
+         handleError(`Unused key ${key} found in ${name}`, false, errors);
       }
    }
 
-   for (const key in check) {
+   for (let i = 0; i < checkKeys.length; i++) {
+      const key = checkKeys[i];
       const ch = check[key];
       const d = data[key];
 
@@ -63,13 +67,21 @@ export function deepCheck(
       }
 
       if (d === null) {
-         handleError(`${key} contain null value in object ${name}!`, throwError, errors);
+         handleError(
+            `${key} contain null value in object ${name}!`,
+            throwError,
+            errors,
+         );
          continue;
       }
 
       if (ch.type === 'array') {
          if (!Array.isArray(d)) {
-            handleError(`${key} is not an array in object ${name}!`, throwError, errors);
+            handleError(
+               `${key} is not an array in object ${name}!`,
+               throwError,
+               errors,
+            );
          }
          deepCheck(d, ch.check, `${name}.${key}`, version, throwError, errors);
          continue;
@@ -77,16 +89,31 @@ export function deepCheck(
 
       if (ch.type === 'object') {
          if (!Array.isArray(d) && !(typeof d === 'object')) {
-            handleError(`${key} is not an object in object ${name}!`, throwError, errors);
+            handleError(
+               `${key} is not an object in object ${name}!`,
+               throwError,
+               errors,
+            );
          } else {
-            deepCheck(d, ch.check, `${name}.${key}`, version, throwError, errors);
+            deepCheck(
+               d,
+               ch.check,
+               `${name}.${key}`,
+               version,
+               throwError,
+               errors,
+            );
          }
          continue;
       }
 
       if (ch.array) {
          if (!Array.isArray(d)) {
-            handleError(`${key} is not ${ch.type} in object ${name}!`, throwError, errors);
+            handleError(
+               `${key} is not ${ch.type} in object ${name}!`,
+               throwError,
+               errors,
+            );
             continue;
          }
          if (
@@ -95,16 +122,26 @@ export function deepCheck(
                   typeof n === ch.type ||
                   (ch.type === 'number' &&
                      typeof n === 'number' &&
-                     (isNaN(n) || ((ch.int ? n % 1 !== 0 : true) && (ch.unsigned ? n < 0 : true)))),
+                     (isNaN(n) ||
+                        ((ch.int ? n % 1 !== 0 : true) &&
+                           (ch.unsigned ? n < 0 : true)))),
             )
          ) {
-            handleError(`${key} is not ${ch.type} in object ${name}!`, throwError, errors);
+            handleError(
+               `${key} is not ${ch.type} in object ${name}!`,
+               throwError,
+               errors,
+            );
          }
          continue;
       }
 
       if (!ch.array && typeof d !== ch.type) {
-         handleError(`${key} is not ${ch.type} in object ${name}!`, throwError, errors);
+         handleError(
+            `${key} is not ${ch.type} in object ${name}!`,
+            throwError,
+            errors,
+         );
          continue;
       }
 

@@ -35,14 +35,12 @@ export class FxEventsCollection extends WrapFxEventsCollection<
 
       this.floatList = (data.floatList ?? data._fl ?? FxEventsCollection.default._fl)
          .map((d) => {
-            if (d) return new FxEventFloat(d);
-         })
-         .filter((d) => d) as FxEventFloat[];
+            return new FxEventFloat(d!);
+         });
       this.intList = (data.intList ?? data._il ?? FxEventsCollection.default._il)
          .map((d) => {
-            if (d) return new FxEventInt(d);
-         })
-         .filter((d) => d) as FxEventInt[];
+            return new FxEventInt(d!);
+         });
    }
 
    static create(): FxEventsCollection;

@@ -34,8 +34,7 @@ export class FxEventInt extends WrapFxEventInt<IFxEventInt> {
    static create(
       ...data: (Partial<IFxEventInt> & Partial<IWrapFxEventIntAttribute<IFxEventInt>>)[]
    ): FxEventInt[] {
-      const result: FxEventInt[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: FxEventInt[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

@@ -46,8 +46,7 @@ export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEvent> {
          & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
       )[]
    ): ColorBoostEvent[] {
-      const result: ColorBoostEvent[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: ColorBoostEvent[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

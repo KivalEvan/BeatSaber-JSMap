@@ -35,8 +35,7 @@ export class BombNote extends WrapBombNote<IBombNote> {
    static create(
       ...data: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
    ): BombNote[] {
-      const result: BombNote[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: BombNote[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

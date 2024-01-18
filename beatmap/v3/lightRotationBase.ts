@@ -56,8 +56,7 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
          & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>
       )[]
    ): LightRotationBase[] {
-      const result: LightRotationBase[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: LightRotationBase[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

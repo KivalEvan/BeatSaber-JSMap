@@ -52,8 +52,7 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
          & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>
       )[]
    ): LightTranslationBase[] {
-      const result: LightTranslationBase[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: LightTranslationBase[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

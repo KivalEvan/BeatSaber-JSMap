@@ -51,8 +51,7 @@ export class Chain extends WrapChain<IChain> {
    static create(...data: Partial<IChain>[]): Chain[];
    static create(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): Chain[];
    static create(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): Chain[] {
-      const result: Chain[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: Chain[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

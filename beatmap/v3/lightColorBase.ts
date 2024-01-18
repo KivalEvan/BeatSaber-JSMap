@@ -48,8 +48,7 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
    static create(
       ...data: (Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>)[]
    ): LightColorBase[] {
-      const result: LightColorBase[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: LightColorBase[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

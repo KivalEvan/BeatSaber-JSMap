@@ -51,8 +51,7 @@ export class BasicEventTypesForKeywords
          & Partial<IWrapEventTypesForKeywordsAttribute<IBasicEventTypesForKeywords>>
       )[]
    ): BasicEventTypesForKeywords[] {
-      const result: BasicEventTypesForKeywords[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: BasicEventTypesForKeywords[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

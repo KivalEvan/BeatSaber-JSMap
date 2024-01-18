@@ -22,7 +22,7 @@ function tag(name: string): string[] {
 
 /** Difficulty beatmap v1 class object. */
 export class Difficulty extends WrapDifficulty<IDifficulty> {
-   version: '1.5.0';
+   version: '1.5.0' = '1.5.0';
    bpmEvents: never[] = [];
    rotationEvents: never[] = [];
    colorNotes: Note[];
@@ -54,7 +54,6 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    constructor(data: Partial<IDifficulty> = {}) {
       super();
 
-      this.version = '1.5.0';
       this.beatsPerMinute = data._beatsPerMinute ?? 120;
       this.beatsPerBar = data._beatsPerBar ?? 4;
       this.shuffle = data._shuffle ?? 0;
@@ -75,7 +74,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    toJSON(): Required<IDifficulty> {
       return {
-         _version: '1.5.0',
+         _version: this.version,
          _beatsPerMinute: this.beatsPerMinute,
          _beatsPerBar: this.beatsPerBar,
          _shuffle: this.shuffle,

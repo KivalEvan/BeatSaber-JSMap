@@ -70,8 +70,7 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
          & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
       )[]
    ): FxEventBoxGroup[] {
-      const result: FxEventBoxGroup[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: FxEventBoxGroup[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }

@@ -35,7 +35,7 @@ function tag(name: string): string[] {
 
 /** Difficulty beatmap v2 class object. */
 export class Difficulty extends WrapDifficulty<IDifficulty> {
-   version: `2.${0 | 2 | 4 | 5 | 6}.0`;
+   version: `2.${0 | 2 | 4 | 5 | 6}.0` = '2.6.0';
    bpmEvents: never[] = [];
    rotationEvents: never[] = [];
    colorNotes: Note[];
@@ -57,7 +57,6 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    constructor(data: Partial<IDifficulty> = {}) {
       super();
 
-      this.version = '2.6.0';
       this.colorNotes = (data._notes ?? []).map((obj) => new Note(obj));
       this.arcs = (data._sliders ?? []).map((obj) => new Arc(obj));
       this.obstacles = (data._obstacles ?? []).map((obj) => new Obstacle(obj));
@@ -77,7 +76,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    toJSON(): Required<IDifficulty> {
       return {
-         _version: '2.6.0',
+         _version: this.version,
          _notes: this.colorNotes.map((obj) => obj.toJSON()),
          _sliders: this.arcs.map((obj) => obj.toJSON()),
          _obstacles: this.obstacles.map((obj) => obj.toJSON()),

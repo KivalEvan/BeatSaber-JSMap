@@ -49,8 +49,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
    static create(
       ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
    ): Obstacle[] {
-      const result: Obstacle[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: Obstacle[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
