@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.6.0 [2024-02-##]
+
+### Added
+
+- Beatmap JSON can now be passed onto `load` instead of just string path
+  - Default file name to `LoadJSON.dat`
+
+### Changed
+
+- Several class method now return itself instead of `void` for chaining
+- Internal logic optimised
+
+### Fixed
+
+- Test case not using the new default value
+- Removed filter in FX collection construction to avoid potential index error
+
 ## 1.5.3 [2023-12-07]
 
 ### Added

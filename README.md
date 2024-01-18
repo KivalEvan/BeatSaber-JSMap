@@ -2,7 +2,8 @@
 
 General-purpose Beat Saber beatmap scripting module using [Deno](https://deno.land/) with
 [TypeScript](https://www.typescriptlang.org/), fully-typed schema and flexible tool designed to ease
-scripting development surrounding beatmap.
+scripting development surrounding beatmap. It is optimised for speed with minimal compromise
+allowing for faster work iteration.
 
 ---
 
@@ -26,7 +27,7 @@ scripting development surrounding beatmap.
 - **Modularity:** Import only what you need, be it classes, functions, and types.
 - **Built-in Utility:** Relevant utilities including math, colour, easings, and more.
 - **Validator & Optimiser:** Customisable tool ensuring beatmap schema is valid to the game and
-  optimised.
+  optimised for storage.
 
 ## Prerequisite
 
@@ -93,12 +94,17 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 ### Guidelines
 
+#### Styling & Documentation
+
 - Use `deno fmt` for standard formatting.
   - Do not change `deno.json` configuration.
 - File names shall use camel case.
 - Exported types, interfaces, fields, and functions should be accompanied by JSDoc comment right
   above its definition.
   - Function/method should provide usage example.
+
+#### Coding
+
 - Top-level function shall use regular function.
 - No third-party dependencies shall be used outside of examples, extensions, and tests. (Exception
   when absolutely necessary is Deno standard module)
@@ -115,6 +121,7 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 ## Known Issue
 
 - Using wrapper type to handle/modify data, while contain guard rail, can lead to unexpected result
+  - This can only be a problem when dealing with multiple beatmap version at once
 - Instantiating nested object or array depends on the property and does not allow mix-and-match
   - However, it can still process like normally if you choose to ignore the error
 - Info `addMap` method is incomplete
@@ -126,3 +133,12 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 - Uninstaller and Qwasyx (improving it) for note swing detection algorithm
 - Top_Cat for math guidance
 - Others for helpful feedback & indirect contribution
+
+## Maintainer Note
+
+While it is true if I'm concerned about speed, I should just use other languages. But I'm also
+concerned about constant iteration and accessibility for everyone, and that beatmap file is in JSON
+format with optional props makes this far easier to handle than any other languages without any
+weird syntax/method to learn. Memory is the least part of the problem here, at least within the
+context of map scripting, it is a fair tradeoff. This makes the language the best choice for the
+job. I may look into JavaScript conversion to further reduce compilation time on cold start.

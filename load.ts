@@ -69,11 +69,16 @@ export const defaultOptions = {
 
 function _readJSONFile(path: string) {
    logger.tInfo(tag('_readJSONFile'), `Async reading JSON file from ${path}`);
-   return Deno.readTextFile(path).then(JSON.parse) as Promise<Record<string, unknown>>;
+   return Deno.readTextFile(path).then(JSON.parse) as Promise<
+      Record<string, unknown>
+   >;
 }
 
 function _readJSONFileSync(path: string) {
-   logger.tInfo(tag('_readJSONFileSync'), `Sync reading JSON file from ${path}`);
+   logger.tInfo(
+      tag('_readJSONFileSync'),
+      `Sync reading JSON file from ${path}`,
+   );
    return JSON.parse(Deno.readTextFileSync(path)) as Record<string, unknown>;
 }
 
@@ -127,7 +132,9 @@ function _info(
 
    if (targetVer && jsonVer !== targetVer) {
       if (!opt.forceConvert) {
-         throw new Error(`Info version unmatched, expected ${targetVer} but received ${jsonVer}`);
+         throw new Error(
+            `Info version unmatched, expected ${targetVer} but received ${jsonVer}`,
+         );
       }
       logger.tWarn(
          tag('_info'),
@@ -155,7 +162,10 @@ function _info(
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export function info(version?: null, options?: ILoadOptionsInfo): Promise<IWrapInfo>;
+export function info(
+   version?: null,
+   options?: ILoadOptionsInfo,
+): Promise<IWrapInfo>;
 export function info(version: 2, options?: ILoadOptionsInfo): Promise<V2Info>;
 export function info(version: 1, options?: ILoadOptionsInfo): Promise<V1Info>;
 export function info(version?: number | null, options: ILoadOptionsInfo = {}) {
@@ -180,7 +190,10 @@ export function info(version?: number | null, options: ILoadOptionsInfo = {}) {
 export function infoSync(version?: null, options?: ILoadOptionsInfo): IWrapInfo;
 export function infoSync(version: 2, options?: ILoadOptionsInfo): V2Info;
 export function infoSync(version: 1, options?: ILoadOptionsInfo): V1Info;
-export function infoSync(version?: number | null, options: ILoadOptionsInfo = {}) {
+export function infoSync(
+   version?: number | null,
+   options: ILoadOptionsInfo = {},
+) {
    logger.tInfo(tag('infoSync'), 'Sync loading info');
    const filePath = options.filePath ?? defaultOptions.info.filePath;
    const path = resolve(
@@ -257,7 +270,11 @@ function _difficulty(
          targetVer,
       );
       if (targetVer === 1) {
-         data = toV1Difficulty(data, new V1Info(), new InfoDifficulty({ jsonPath: filePath }));
+         data = toV1Difficulty(
+            data,
+            new V1Info(),
+            new InfoDifficulty({ jsonPath: filePath }),
+         );
       }
       if (targetVer === 2) data = toV2Difficulty(data);
       if (targetVer === 3) data = toV3Difficulty(data);
@@ -297,16 +314,41 @@ export function difficulty(
    options?: ILoadOptionsDifficulty,
 ): Promise<V1Difficulty>;
 export function difficulty(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: Record<string, unknown>,
+   version?: null,
+   options?: ILoadOptionsDifficulty,
+): Promise<IWrapDifficulty>;
+export function difficulty(
+   filePath: Record<string, unknown>,
+   version: 3,
+   options?: ILoadOptionsDifficulty,
+): Promise<V3Difficulty>;
+export function difficulty(
+   filePath: Record<string, unknown>,
+   version: 2,
+   options?: ILoadOptionsDifficulty,
+): Promise<V2Difficulty>;
+export function difficulty(
+   filePath: Record<string, unknown>,
+   version: 1,
+   options?: ILoadOptionsDifficulty,
+): Promise<V1Difficulty>;
+export function difficulty(
+   src: LooseAutocomplete<GenericFileName> | Record<string, unknown>,
    version?: number | null,
    options: ILoadOptionsDifficulty = {},
 ) {
    logger.tInfo(tag('difficulty'), 'Async loading difficulty');
-   const path = resolve(
-      options.directory ?? (defaultOptions.difficulty.directory || globals.directory),
-      filePath,
-   );
-   return _readJSONFile(path).then((data) => _difficulty(data, filePath, version!, options));
+   if (typeof src === 'string') {
+      const path = resolve(
+         options.directory ??
+            (defaultOptions.difficulty.directory || globals.directory),
+         src,
+      );
+      return _readJSONFile(path).then((data) => _difficulty(data, src, version!, options));
+   } else {
+      return new Promise(() => _difficulty(src, 'LoadJSON.dat', version!, options));
+   }
 }
 
 /**
@@ -339,16 +381,41 @@ export function difficultySync(
    options?: ILoadOptionsDifficulty,
 ): V1Difficulty;
 export function difficultySync(
-   filePath: LooseAutocomplete<GenericFileName>,
+   json: Record<string, unknown>,
+   version?: null,
+   options?: ILoadOptionsDifficulty,
+): IWrapDifficulty;
+export function difficultySync(
+   json: Record<string, unknown>,
+   version: 3,
+   options?: ILoadOptionsDifficulty,
+): V3Difficulty;
+export function difficultySync(
+   json: Record<string, unknown>,
+   version: 2,
+   options?: ILoadOptionsDifficulty,
+): V2Difficulty;
+export function difficultySync(
+   json: Record<string, unknown>,
+   version: 1,
+   options?: ILoadOptionsDifficulty,
+): V1Difficulty;
+export function difficultySync(
+   src: LooseAutocomplete<GenericFileName> | Record<string, unknown>,
    version?: number | null,
    options: ILoadOptionsDifficulty = {},
 ) {
    logger.tInfo(tag('difficultySync'), 'Sync loading difficulty');
-   const path = resolve(
-      options.directory ?? (defaultOptions.difficulty.directory || globals.directory),
-      filePath,
-   );
-   return _difficulty(_readJSONFileSync(path), filePath, version!, options);
+   if (typeof src === 'string') {
+      const path = resolve(
+         options.directory ??
+            (defaultOptions.difficulty.directory || globals.directory),
+         src,
+      );
+      return _difficulty(_readJSONFileSync(path), src, version!, options);
+   } else {
+      return _difficulty(src, 'LoadJSON.dat', version!, options);
+   }
 }
 
 /**
@@ -365,7 +432,10 @@ export function difficultyFromInfo(
    info: IWrapInfo,
    options: ILoadOptionsDifficulty = {},
 ): Promise<ILoadInfoData[]> {
-   logger.tInfo(tag('difficultyFromInfo'), 'Async loading difficulty from info');
+   logger.tInfo(
+      tag('difficultyFromInfo'),
+      'Async loading difficulty from info',
+   );
    const opt: Required<ILoadOptionsDifficulty> = {
       directory: options.directory ??
          (globals.directory || defaultOptions.difficultyList.directory),
@@ -424,7 +494,10 @@ export function difficultyFromInfoSync(
    info: IWrapInfo,
    options: ILoadOptionsDifficulty = {},
 ): ILoadInfoData[] {
-   logger.tInfo(tag('difficultyFromInfoSync'), 'Sync loading difficulty from info');
+   logger.tInfo(
+      tag('difficultyFromInfoSync'),
+      'Sync loading difficulty from info',
+   );
    const opt: Required<ILoadOptionsDifficulty> = {
       directory: options.directory ??
          (globals.directory || defaultOptions.difficultyList.directory),
