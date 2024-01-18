@@ -143,22 +143,22 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
     */
    getEventContainer(): EventContainer[];
 
-   addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;
-   addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): void;
-   addColorNotes(...data: Partial<IWrapColorNoteAttribute>[]): void;
-   addBombNotes(...data: Partial<IWrapBombNoteAttribute>[]): void;
-   addObstacles(...data: Partial<IWrapObstacleAttribute>[]): void;
-   addArcs(...data: Partial<IWrapArcAttribute>[]): void;
-   addChains(...data: Partial<IWrapChainAttribute>[]): void;
-   addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): void;
-   addBasicEvents(...data: Partial<IWrapEventAttribute>[]): void;
-   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): void;
-   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): void;
+   addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): this;
+   addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): this;
+   addColorNotes(...data: Partial<IWrapColorNoteAttribute>[]): this;
+   addBombNotes(...data: Partial<IWrapBombNoteAttribute>[]): this;
+   addObstacles(...data: Partial<IWrapObstacleAttribute>[]): this;
+   addArcs(...data: Partial<IWrapArcAttribute>[]): this;
+   addChains(...data: Partial<IWrapChainAttribute>[]): this;
+   addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
+   addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;
+   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): this;
+   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): this;
    addLightRotationEventBoxGroups(
       ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
-   ): void;
+   ): this;
    addLightTranslationEventBoxGroups(
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
-   ): void;
-   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): void;
+   ): this;
+   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): this;
 }

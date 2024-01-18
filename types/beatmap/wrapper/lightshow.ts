@@ -63,14 +63,14 @@ export interface IWrapLightshow<T extends { [P in keyof T]: T[P] } = Record<stri
     */
    getEventContainer(): EventContainer[];
 
-   addBasicEvents(...data: Partial<IWrapEventAttribute>[]): void;
-   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): void;
-   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): void;
+   addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;
+   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): this;
+   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): this;
    addLightRotationEventBoxGroups(
       ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
-   ): void;
+   ): this;
    addLightTranslationEventBoxGroups(
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
-   ): void;
-   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): void;
+   ): this;
+   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): this;
 }

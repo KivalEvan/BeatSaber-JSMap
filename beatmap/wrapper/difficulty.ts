@@ -208,24 +208,24 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
       return ec.sort((a, b) => a.data.time - b.data.time);
    }
 
-   abstract addBpmEvents(...data: PartialWrapper<IWrapBPMEventAttribute>[]): void;
-   abstract addRotationEvents(...data: PartialWrapper<IWrapRotationEventAttribute>[]): void;
-   abstract addColorNotes(...data: PartialWrapper<IWrapColorNoteAttribute>[]): void;
-   abstract addBombNotes(...data: PartialWrapper<IWrapBombNoteAttribute>[]): void;
-   abstract addObstacles(...data: PartialWrapper<IWrapObstacleAttribute>[]): void;
-   abstract addArcs(...data: PartialWrapper<IWrapArcAttribute>[]): void;
-   abstract addChains(...data: PartialWrapper<IWrapChainAttribute>[]): void;
-   abstract addWaypoints(...data: PartialWrapper<IWrapWaypointAttribute>[]): void;
-   abstract addBasicEvents(...data: PartialWrapper<IWrapEventAttribute>[]): void;
-   abstract addColorBoostEvents(...data: PartialWrapper<IWrapColorBoostEventAttribute>[]): void;
+   abstract addBpmEvents(...data: PartialWrapper<IWrapBPMEventAttribute>[]): this;
+   abstract addRotationEvents(...data: PartialWrapper<IWrapRotationEventAttribute>[]): this;
+   abstract addColorNotes(...data: PartialWrapper<IWrapColorNoteAttribute>[]): this;
+   abstract addBombNotes(...data: PartialWrapper<IWrapBombNoteAttribute>[]): this;
+   abstract addObstacles(...data: PartialWrapper<IWrapObstacleAttribute>[]): this;
+   abstract addArcs(...data: PartialWrapper<IWrapArcAttribute>[]): this;
+   abstract addChains(...data: PartialWrapper<IWrapChainAttribute>[]): this;
+   abstract addWaypoints(...data: PartialWrapper<IWrapWaypointAttribute>[]): this;
+   abstract addBasicEvents(...data: PartialWrapper<IWrapEventAttribute>[]): this;
+   abstract addColorBoostEvents(...data: PartialWrapper<IWrapColorBoostEventAttribute>[]): this;
    abstract addLightColorEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightColorEventBoxGroupAttribute>[]
-   ): void;
+   ): this;
    abstract addLightRotationEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightRotationEventBoxGroupAttribute>[]
-   ): void;
+   ): this;
    abstract addLightTranslationEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightTranslationEventBoxGroupAttribute>[]
-   ): void;
-   abstract addFxEventBoxGroups(...data: DeepPartialWrapper<IWrapFxEventBoxGroupAttribute>[]): void;
+   ): this;
+   abstract addFxEventBoxGroups(...data: DeepPartialWrapper<IWrapFxEventBoxGroupAttribute>[]): this;
 }

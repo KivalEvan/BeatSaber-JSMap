@@ -101,16 +101,16 @@ export abstract class WrapLightshow<T extends { [P in keyof T]: T[P] }> extends 
       return ec.sort((a, b) => a.data.time - b.data.time);
    }
 
-   abstract addBasicEvents(...data: PartialWrapper<IWrapEventAttribute>[]): void;
-   abstract addColorBoostEvents(...data: PartialWrapper<IWrapColorBoostEventAttribute>[]): void;
+   abstract addBasicEvents(...data: PartialWrapper<IWrapEventAttribute>[]): this;
+   abstract addColorBoostEvents(...data: PartialWrapper<IWrapColorBoostEventAttribute>[]): this;
    abstract addLightColorEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightColorEventBoxGroupAttribute>[]
-   ): void;
+   ): this;
    abstract addLightRotationEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightRotationEventBoxGroupAttribute>[]
-   ): void;
+   ): this;
    abstract addLightTranslationEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightTranslationEventBoxGroupAttribute>[]
-   ): void;
-   abstract addFxEventBoxGroups(...data: DeepPartialWrapper<IWrapFxEventBoxGroupAttribute>[]): void;
+   ): this;
+   abstract addFxEventBoxGroups(...data: DeepPartialWrapper<IWrapFxEventBoxGroupAttribute>[]): this;
 }

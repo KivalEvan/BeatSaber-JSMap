@@ -94,7 +94,10 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       return {};
    }
    set customData(_: Record<string, never>) {
-      logger.tWarn(tag('customData'), 'Custom data does not exist in beatmap V1');
+      logger.tWarn(
+         tag('customData'),
+         'Custom data does not exist in beatmap V1',
+      );
    }
 
    reparse(keepRef?: boolean): this {
@@ -105,18 +108,28 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       return this;
    }
 
-   addBpmEvents(..._: never[]): void {
-      logger.tWarn(tag('addBpmEvents'), 'BPM Event does not exist in beatmap V1');
+   addBpmEvents(..._: never[]): this {
+      logger.tWarn(
+         tag('addBpmEvents'),
+         'BPM Event does not exist in beatmap V1',
+      );
+      return this;
    }
 
-   addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): void;
-   addRotationEvents(...data: Partial<IEvent>[]): void;
+   addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): this;
+   addRotationEvents(...data: Partial<IEvent>[]): this;
    addRotationEvents(
-      ...data: (Partial<IEvent> & Partial<IWrapRotationEventAttribute<IEvent>>)[]
-   ): void;
+      ...data: (
+         & Partial<IEvent>
+         & Partial<IWrapRotationEventAttribute<IEvent>>
+      )[]
+   ): this;
    addRotationEvents(
-      ...data: (Partial<IEvent> & Partial<IWrapRotationEventAttribute<IEvent>>)[]
-   ): void {
+      ...data: (
+         & Partial<IEvent>
+         & Partial<IWrapRotationEventAttribute<IEvent>>
+      )[]
+   ): this {
       for (const obj of data) {
          this.basicEvents.push(
             new Event({
@@ -128,86 +141,137 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
          );
       }
       logger.tWarn(tag('addRotationEvents'), 'This may not work correctly');
+      return this;
    }
 
-   addColorNotes(...data: Partial<IWrapColorNoteAttribute<INote>>[]): void;
-   addColorNotes(...data: Partial<INote>[]): void;
-   addColorNotes(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): void;
-   addColorNotes(...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]): void {
+   addColorNotes(...data: Partial<IWrapColorNoteAttribute<INote>>[]): this;
+   addColorNotes(...data: Partial<INote>[]): this;
+   addColorNotes(
+      ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]
+   ): this;
+   addColorNotes(
+      ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]
+   ): this {
       for (const obj of data) this.colorNotes.push(new Note(obj));
+      return this;
    }
 
-   addBombNotes(...data: Partial<IWrapBombNoteAttribute<INote>>[]): void;
-   addBombNotes(...data: Partial<INote>[]): void;
-   addBombNotes(...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]): void;
-   addBombNotes(...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]): void {
-      for (const obj of data) this.colorNotes.push(new Note({ ...obj, type: 3 }));
-   }
-
-   addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): void;
-   addObstacles(...data: Partial<IObstacle>[]): void;
-   addObstacles(...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]): void;
-   addObstacles(
-      ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
-   ): void {
-      for (const obj of data) this.obstacles.push(new Obstacle(obj));
-   }
-
-   addArcs(..._: never[]): void {
-      logger.tWarn(tag('addArcs'), 'Arc does not exist in beatmap V1');
-   }
-
-   addChains(..._: never[]): void {
-      logger.tWarn(tag('addChains'), 'Chain does not exist in beatmap V1');
-   }
-
-   addWaypoints(..._: never[]): void {
-      logger.tWarn(tag('addWaypoints'), 'Waypoint does not exist in beatmap V1');
-   }
-
-   addBasicEvents(...data: Partial<IWrapEventAttribute<IEvent>>[]): void;
-   addBasicEvents(...data: Partial<IEvent>[]): void;
-   addBasicEvents(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): void;
-   addBasicEvents(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): void {
-      for (const obj of data) this.basicEvents.push(new Event(obj));
-   }
-
-   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IEvent>>[]): void;
-   addColorBoostEvents(...data: Partial<IEvent>[]): void;
-   addColorBoostEvents(
-      ...data: (Partial<IEvent> & Partial<IWrapColorBoostEventAttribute<IEvent>>)[]
-   ): void;
-   addColorBoostEvents(
-      ...data: (Partial<IEvent> & Partial<IWrapColorBoostEventAttribute<IEvent>>)[]
-   ): void {
+   addBombNotes(...data: Partial<IWrapBombNoteAttribute<INote>>[]): this;
+   addBombNotes(...data: Partial<INote>[]): this;
+   addBombNotes(
+      ...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]
+   ): this;
+   addBombNotes(
+      ...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]
+   ): this {
       for (const obj of data) {
-         this.basicEvents.push(new Event({ ...obj, value: obj.toggle ? 1 : obj._value }));
+         this.colorNotes.push(new Note({ ...obj, type: 3 }));
       }
+      return this;
    }
 
-   addLightColorEventBoxGroups(..._: never[]): void {
+   addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): this;
+   addObstacles(...data: Partial<IObstacle>[]): this;
+   addObstacles(
+      ...data: (
+         & Partial<IObstacle>
+         & Partial<IWrapObstacleAttribute<IObstacle>>
+      )[]
+   ): this;
+   addObstacles(
+      ...data: (
+         & Partial<IObstacle>
+         & Partial<IWrapObstacleAttribute<IObstacle>>
+      )[]
+   ): this {
+      for (const obj of data) this.obstacles.push(new Obstacle(obj));
+      return this;
+   }
+
+   addArcs(..._: never[]): this {
+      logger.tWarn(tag('addArcs'), 'Arc does not exist in beatmap V1');
+      return this;
+   }
+
+   addChains(..._: never[]): this {
+      logger.tWarn(tag('addChains'), 'Chain does not exist in beatmap V1');
+      return this;
+   }
+
+   addWaypoints(..._: never[]): this {
+      logger.tWarn(
+         tag('addWaypoints'),
+         'Waypoint does not exist in beatmap V1',
+      );
+      return this;
+   }
+
+   addBasicEvents(...data: Partial<IWrapEventAttribute<IEvent>>[]): this;
+   addBasicEvents(...data: Partial<IEvent>[]): this;
+   addBasicEvents(
+      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
+   ): this;
+   addBasicEvents(
+      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
+   ): this {
+      for (const obj of data) this.basicEvents.push(new Event(obj));
+      return this;
+   }
+
+   addColorBoostEvents(
+      ...data: Partial<IWrapColorBoostEventAttribute<IEvent>>[]
+   ): this;
+   addColorBoostEvents(...data: Partial<IEvent>[]): this;
+   addColorBoostEvents(
+      ...data: (
+         & Partial<IEvent>
+         & Partial<IWrapColorBoostEventAttribute<IEvent>>
+      )[]
+   ): this;
+   addColorBoostEvents(
+      ...data: (
+         & Partial<IEvent>
+         & Partial<IWrapColorBoostEventAttribute<IEvent>>
+      )[]
+   ): this {
+      for (const obj of data) {
+         this.basicEvents.push(
+            new Event({ ...obj, value: obj.toggle ? 1 : obj._value }),
+         );
+      }
+      return this;
+   }
+
+   addLightColorEventBoxGroups(..._: never[]): this {
       logger.tWarn(
          tag('addLightColorEventBoxGroups'),
          'Light Color Event Box Group does not exist in beatmap V1',
       );
+      return this;
    }
 
-   addLightRotationEventBoxGroups(..._: never[]): void {
+   addLightRotationEventBoxGroups(..._: never[]): this {
       logger.tWarn(
          tag('addLightRotationEventBoxGroups'),
          'Light Rotation Event Box Group does not exist in beatmap V1',
       );
+      return this;
    }
 
-   addLightTranslationEventBoxGroups(..._: never[]): void {
+   addLightTranslationEventBoxGroups(..._: never[]): this {
       logger.tWarn(
          tag('addLightTranslationEventBoxGroups'),
          'Light Translation Event Box Group does not exist in beatmap V1',
       );
+      return this;
    }
 
-   addFxEventBoxGroups(..._: never[]): void {
-      logger.tWarn(tag('addFxEventBoxGroups'), 'FX Event Box Group does not exist in beatmap V1');
+   addFxEventBoxGroups(..._: never[]): this {
+      logger.tWarn(
+         tag('addFxEventBoxGroups'),
+         'FX Event Box Group does not exist in beatmap V1',
+      );
+      return this;
    }
 
    isValid(): boolean {

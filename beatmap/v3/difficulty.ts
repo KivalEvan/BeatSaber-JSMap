@@ -174,106 +174,116 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       return this;
    }
 
-   addBpmEvents(...data: Partial<IWrapBPMEventAttribute<IBPMEvent>>[]): void;
-   addBpmEvents(...data: Partial<IBPMEvent>[]): void;
-   addBpmEvents(...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]): void;
+   addBpmEvents(...data: Partial<IWrapBPMEventAttribute<IBPMEvent>>[]): this;
+   addBpmEvents(...data: Partial<IBPMEvent>[]): this;
+   addBpmEvents(...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]): this;
    addBpmEvents(
       ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]
-   ): void {
+   ): this {
       for (const obj of data) this.bpmEvents.push(new BPMEvent(obj));
+      return this;
    }
 
-   addRotationEvents(...data: Partial<IWrapRotationEventAttribute<IRotationEvent>>[]): void;
-   addRotationEvents(...data: Partial<IRotationEvent>[]): void;
+   addRotationEvents(...data: Partial<IWrapRotationEventAttribute<IRotationEvent>>[]): this;
+   addRotationEvents(...data: Partial<IRotationEvent>[]): this;
    addRotationEvents(
       ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
-   ): void;
+   ): this;
    addRotationEvents(
       ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
-   ): void {
+   ): this {
       for (const obj of data) this.rotationEvents.push(new RotationEvent(obj));
+      return this;
    }
 
-   addColorNotes(...data: Partial<IWrapColorNoteAttribute<IColorNote>>[]): void;
-   addColorNotes(...data: Partial<IColorNote>[]): void;
+   addColorNotes(...data: Partial<IWrapColorNoteAttribute<IColorNote>>[]): this;
+   addColorNotes(...data: Partial<IColorNote>[]): this;
    addColorNotes(
       ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
-   ): void;
+   ): this;
    addColorNotes(
       ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
-   ): void {
+   ): this {
       for (const obj of data) this.colorNotes.push(new ColorNote(obj));
+      return this;
    }
 
-   addBombNotes(...data: Partial<IWrapBombNoteAttribute<IBombNote>>[]): void;
-   addBombNotes(...data: Partial<IBombNote>[]): void;
+   addBombNotes(...data: Partial<IWrapBombNoteAttribute<IBombNote>>[]): this;
+   addBombNotes(...data: Partial<IBombNote>[]): this;
    addBombNotes(
       ...data: (Partial<IBombNote>[] & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
-   ): void;
+   ): this;
    addBombNotes(
       ...data: (Partial<IBombNote>[] & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
-   ): void {
+   ): this {
       for (const obj of data) this.bombNotes.push(new BombNote(obj));
+      return this;
    }
 
-   addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): void;
-   addObstacles(...data: Partial<IObstacle>[]): void;
-   addObstacles(...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]): void;
+   addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): this;
+   addObstacles(...data: Partial<IObstacle>[]): this;
+   addObstacles(...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]): this;
    addObstacles(
       ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
-   ): void {
+   ): this {
       for (const obj of data) this.obstacles.push(new Obstacle(obj));
+      return this;
    }
 
-   addArcs(...data: Partial<IWrapArcAttribute<IArc>>[]): void;
-   addArcs(...data: Partial<IArc>[]): void;
-   addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void;
-   addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void {
+   addArcs(...data: Partial<IWrapArcAttribute<IArc>>[]): this;
+   addArcs(...data: Partial<IArc>[]): this;
+   addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): this;
+   addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): this {
       for (const obj of data) this.arcs.push(new Arc(obj));
+      return this;
    }
 
-   addChains(...data: Partial<IWrapChainAttribute<IChain>>[]): void;
-   addChains(...data: Partial<IChain>[]): void;
-   addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): void;
-   addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): void {
+   addChains(...data: Partial<IWrapChainAttribute<IChain>>[]): this;
+   addChains(...data: Partial<IChain>[]): this;
+   addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): this;
+   addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): this {
       for (const obj of data) this.chains.push(new Chain(obj));
+      return this;
    }
 
-   addWaypoints(...data: Partial<IWrapWaypointAttribute<IWaypoint>>[]): void;
-   addWaypoints(...data: Partial<IWaypoint>[]): void;
-   addWaypoints(...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]): void;
+   addWaypoints(...data: Partial<IWrapWaypointAttribute<IWaypoint>>[]): this;
+   addWaypoints(...data: Partial<IWaypoint>[]): this;
+   addWaypoints(...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]): this;
    addWaypoints(
       ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
-   ): void {
+   ): this {
       for (const obj of data) this.waypoints.push(new Waypoint(obj));
+      return this;
    }
 
-   addBasicEvents(...data: Partial<IWrapEventAttribute<IBasicEvent>>[]): void;
-   addBasicEvents(...data: Partial<IBasicEvent>[]): void;
+   addBasicEvents(...data: Partial<IWrapEventAttribute<IBasicEvent>>[]): this;
+   addBasicEvents(...data: Partial<IBasicEvent>[]): this;
    addBasicEvents(
       ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<IBasicEvent>>)[]
-   ): void;
+   ): this;
    addBasicEvents(
       ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<IBasicEvent>>)[]
-   ): void {
+   ): this {
       for (const obj of data) this.basicEvents.push(new BasicEvent(obj));
+      return this;
    }
 
-   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]): void;
-   addColorBoostEvents(...data: Partial<IColorBoostEvent>[]): void;
+   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]): this;
+   addColorBoostEvents(...data: Partial<IColorBoostEvent>[]): this;
    addColorBoostEvents(
       ...data: (
          & Partial<IColorBoostEvent>
          & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
       )[]
-   ): void;
+   ): this;
    addColorBoostEvents(
       ...data: (
          & Partial<IColorBoostEvent>
          & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
       )[]
-   ): void {
+   ): this {
       for (const obj of data) this.colorBoostEvents.push(new ColorBoostEvent(obj));
+      return this;
    }
 
    addLightColorEventBoxGroups(
@@ -285,8 +295,8 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             IIndexFilter
          >
       >[]
-   ): void;
-   addLightColorEventBoxGroups(...data: DeepPartial<ILightColorEventBoxGroup>[]): void;
+   ): this;
+   addLightColorEventBoxGroups(...data: DeepPartial<ILightColorEventBoxGroup>[]): this;
    addLightColorEventBoxGroups(
       ...data: (
          & DeepPartial<ILightColorEventBoxGroup>
@@ -299,7 +309,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             >
          >
       )[]
-   ): void;
+   ): this;
    addLightColorEventBoxGroups(
       ...data: (
          & DeepPartial<ILightColorEventBoxGroup>
@@ -312,8 +322,9 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             >
          >
       )[]
-   ): void {
+   ): this {
       for (const obj of data) this.lightColorEventBoxGroups.push(new LightColorEventBoxGroup(obj));
+      return this;
    }
 
    addLightRotationEventBoxGroups(
@@ -325,8 +336,8 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             IIndexFilter
          >
       >[]
-   ): void;
-   addLightRotationEventBoxGroups(...data: DeepPartial<ILightRotationEventBoxGroup>[]): void;
+   ): this;
+   addLightRotationEventBoxGroups(...data: DeepPartial<ILightRotationEventBoxGroup>[]): this;
    addLightRotationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightRotationEventBoxGroup>
@@ -339,7 +350,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             >
          >
       )[]
-   ): void;
+   ): this;
    addLightRotationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightRotationEventBoxGroup>
@@ -352,10 +363,11 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             >
          >
       )[]
-   ): void {
+   ): this {
       for (const obj of data) {
          this.lightRotationEventBoxGroups.push(new LightRotationEventBoxGroup(obj));
       }
+      return this;
    }
 
    addLightTranslationEventBoxGroups(
@@ -367,8 +379,8 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             IIndexFilter
          >
       >[]
-   ): void;
-   addLightTranslationEventBoxGroups(...data: DeepPartial<ILightTranslationEventBoxGroup>[]): void;
+   ): this;
+   addLightTranslationEventBoxGroups(...data: DeepPartial<ILightTranslationEventBoxGroup>[]): this;
    addLightTranslationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightTranslationEventBoxGroup>
@@ -381,7 +393,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             >
          >
       )[]
-   ): void;
+   ): this;
    addLightTranslationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightTranslationEventBoxGroup>
@@ -394,33 +406,35 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             >
          >
       )[]
-   ): void {
+   ): this {
       for (const obj of data) {
          this.lightTranslationEventBoxGroups.push(new LightTranslationEventBoxGroup(obj));
       }
+      return this;
    }
 
    addFxEventBoxGroups(
       ...data: DeepPartial<
          IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>
       >[]
-   ): void;
-   addFxEventBoxGroups(...data: DeepPartial<IFxEventBoxGroup>[]): void;
+   ): this;
+   addFxEventBoxGroups(...data: DeepPartial<IFxEventBoxGroup>[]): this;
    addFxEventBoxGroups(
       ...data: (
          & DeepPartial<IFxEventBoxGroup>
          & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
       )[]
-   ): void;
+   ): this;
    addFxEventBoxGroups(
       ...data: (
          & DeepPartial<IFxEventBoxGroup>
          & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
       )[]
-   ): void {
+   ): this {
       for (const obj of data) {
          this.fxEventBoxGroups.push(new FxEventBoxGroup(obj));
       }
+      return this;
    }
 
    isValid(): boolean {

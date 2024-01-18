@@ -102,32 +102,34 @@ export class Lightshow extends WrapLightshow<ILightshow> {
       return this;
    }
 
-   addBasicEvents(...data: Partial<IWrapEventAttribute<IBasicEvent>>[]): void;
-   addBasicEvents(...data: Partial<IBasicEvent>[]): void;
+   addBasicEvents(...data: Partial<IWrapEventAttribute<IBasicEvent>>[]): this;
+   addBasicEvents(...data: Partial<IBasicEvent>[]): this;
    addBasicEvents(
       ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<IBasicEvent>>)[]
-   ): void;
+   ): this;
    addBasicEvents(
       ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<IBasicEvent>>)[]
-   ): void {
+   ): this {
       for (const obj of data) this.basicEvents.push(new BasicEvent(obj));
+      return this;
    }
 
-   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]): void;
-   addColorBoostEvents(...data: Partial<IColorBoostEvent>[]): void;
+   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]): this;
+   addColorBoostEvents(...data: Partial<IColorBoostEvent>[]): this;
    addColorBoostEvents(
       ...data: (
          & Partial<IColorBoostEvent>
          & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
       )[]
-   ): void;
+   ): this;
    addColorBoostEvents(
       ...data: (
          & Partial<IColorBoostEvent>
          & Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>
       )[]
-   ): void {
+   ): this {
       for (const obj of data) this.colorBoostEvents.push(new ColorBoostEvent(obj));
+      return this;
    }
 
    addLightColorEventBoxGroups(
@@ -139,8 +141,8 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             IIndexFilter
          >
       >[]
-   ): void;
-   addLightColorEventBoxGroups(...data: DeepPartial<ILightColorEventBoxGroup>[]): void;
+   ): this;
+   addLightColorEventBoxGroups(...data: DeepPartial<ILightColorEventBoxGroup>[]): this;
    addLightColorEventBoxGroups(
       ...data: (
          & DeepPartial<ILightColorEventBoxGroup>
@@ -153,7 +155,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             >
          >
       )[]
-   ): void;
+   ): this;
    addLightColorEventBoxGroups(
       ...data: (
          & DeepPartial<ILightColorEventBoxGroup>
@@ -166,8 +168,9 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             >
          >
       )[]
-   ): void {
+   ): this {
       for (const obj of data) this.lightColorEventBoxGroups.push(new LightColorEventBoxGroup(obj));
+      return this;
    }
 
    addLightRotationEventBoxGroups(
@@ -179,8 +182,8 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             IIndexFilter
          >
       >[]
-   ): void;
-   addLightRotationEventBoxGroups(...data: DeepPartial<ILightRotationEventBoxGroup>[]): void;
+   ): this;
+   addLightRotationEventBoxGroups(...data: DeepPartial<ILightRotationEventBoxGroup>[]): this;
    addLightRotationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightRotationEventBoxGroup>
@@ -193,7 +196,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             >
          >
       )[]
-   ): void;
+   ): this;
    addLightRotationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightRotationEventBoxGroup>
@@ -206,10 +209,11 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             >
          >
       )[]
-   ): void {
+   ): this {
       for (const obj of data) {
          this.lightRotationEventBoxGroups.push(new LightRotationEventBoxGroup(obj));
       }
+      return this;
    }
 
    addLightTranslationEventBoxGroups(
@@ -221,8 +225,8 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             IIndexFilter
          >
       >[]
-   ): void;
-   addLightTranslationEventBoxGroups(...data: DeepPartial<ILightTranslationEventBoxGroup>[]): void;
+   ): this;
+   addLightTranslationEventBoxGroups(...data: DeepPartial<ILightTranslationEventBoxGroup>[]): this;
    addLightTranslationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightTranslationEventBoxGroup>
@@ -235,7 +239,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             >
          >
       )[]
-   ): void;
+   ): this;
    addLightTranslationEventBoxGroups(
       ...data: (
          & DeepPartial<ILightTranslationEventBoxGroup>
@@ -248,33 +252,35 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             >
          >
       )[]
-   ): void {
+   ): this {
       for (const obj of data) {
          this.lightTranslationEventBoxGroups.push(new LightTranslationEventBoxGroup(obj));
       }
+      return this;
    }
 
    addFxEventBoxGroups(
       ...data: DeepPartial<
          IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>
       >[]
-   ): void;
-   addFxEventBoxGroups(...data: DeepPartial<IFxEventBoxGroup>[]): void;
+   ): this;
+   addFxEventBoxGroups(...data: DeepPartial<IFxEventBoxGroup>[]): this;
    addFxEventBoxGroups(
       ...data: (
          & DeepPartial<IFxEventBoxGroup>
          & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
       )[]
-   ): void;
+   ): this;
    addFxEventBoxGroups(
       ...data: (
          & DeepPartial<IFxEventBoxGroup>
          & DeepPartial<IWrapFxEventBoxGroupAttribute<IFxEventBoxGroup, IFxEventBox, IIndexFilter>>
       )[]
-   ): void {
+   ): this {
       for (const obj of data) {
          this.fxEventBoxGroups.push(new FxEventBoxGroup(obj));
       }
+      return this;
    }
 
    isValid(): boolean {
