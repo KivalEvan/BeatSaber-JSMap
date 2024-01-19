@@ -6,17 +6,8 @@ export interface IWrapLightRotationBaseAttribute<
 > extends IWrapBaseObjectAttribute<T> {
    /** Relative beat time `<float>` to event box group. */
    time: number;
-   /**
-    * Ease type `<int>` of light rotation.
-    * ```ts
-    * -1 -> Step
-    * 0 -> Linear
-    * 1 -> EaseInQuad
-    * 2 -> EaseOutQuad
-    * 3 -> EaseInOutQuad
-    * ```
-    */
-   easing: -1 | 0 | 1 | 2 | 3;
+   /** Ease type `<int>` of light rotation. */
+   easing: number;
    /** Loop count `<int>` in light rotation. */
    loop: number;
    /**
@@ -43,7 +34,7 @@ export interface IWrapLightRotationBaseAttribute<
 export interface IWrapLightRotationBase<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseObject<T>, IWrapLightRotationBaseAttribute<T> {
    setPrevious(value: 0 | 1): this;
-   setEasing(value: -1 | 0 | 1 | 2 | 3): this;
+   setEasing(value: number): this;
    setLoop(value: number): this;
    setRotation(value: number): this;
    setDirection(value: 0 | 1 | 2): this;

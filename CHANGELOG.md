@@ -4,6 +4,7 @@
 
 ### Added
 
+- Beatmap and Info v4
 - Beatmap JSON can now be passed onto `load` instead of just string path
   - Default file name to `LoadJSON.dat`
 

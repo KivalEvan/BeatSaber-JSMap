@@ -3,17 +3,8 @@ import { ICustomDataBase } from '../shared/custom/customData.ts';
 export interface ILightRotationBase {
    /** Relative beat time `<float>` to event box group. */
    b?: number;
-   /**
-    * Ease type `<int>` of light rotation.
-    * ```ts
-    * -1 -> Step
-    * 0 -> Linear
-    * 1 -> EaseInQuad
-    * 2 -> EaseOutQuad
-    * 3 -> EaseInOutQuad
-    * ```
-    */
-   e?: -1 | 0 | 1 | 2 | 3;
+   /** Ease type `<int>` of light rotation. */
+   e?: number;
    /** Loop count `<int>` in light rotation. */
    l?: number;
    /**

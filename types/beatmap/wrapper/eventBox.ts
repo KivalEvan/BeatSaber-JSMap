@@ -20,16 +20,8 @@ export interface IWrapEventBoxAttribute<
     * ```
     */
    beatDistributionType: 1 | 2;
-   /**
-    * Easing `<int>` of distribution.
-    * ```ts
-    * 0 -> Linear
-    * 1 -> EaseInQuad
-    * 2 -> EaseOutQuad
-    * 3 -> EaseInOutQuad
-    * ```
-    */
-   easing: 0 | 1 | 2 | 3;
+   /** Easing `<int>` of distribution. */
+   easing: number;
    /** Event distribution should affect first event `<int>` of event box. */
    affectFirst: 0 | 1;
    events: number[] | IWrapBaseObjectAttribute<TBase>[];

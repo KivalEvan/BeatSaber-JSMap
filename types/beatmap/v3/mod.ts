@@ -1,6 +1,8 @@
 /**
  * Beatmap v3 JSON schema.
  *
+ * Beatmap model version: 3.3.0
+ *
  * @module
  */
 
