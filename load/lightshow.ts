@@ -1,0 +1,203 @@
+import { GenericFileName } from '../types/beatmap/shared/filename.ts';
+import { Lightshow as V3Lightshow } from '../beatmap/v3/lightshow.ts';
+import { Lightshow as V4Lightshow } from '../beatmap/v4/lightshow.ts';
+import { parseLightshow as parseV3Lightshow } from '../beatmap/v3/parse.ts';
+import { parseLightshow as parseV4Lightshow } from '../beatmap/v4/parse.ts';
+import globals from '../globals.ts';
+import logger from '../logger.ts';
+import { LooseAutocomplete } from '../types/utils.ts';
+import { ILoadOptionsLightshow } from '../types/bsmap/load.ts';
+import { resolve } from '../deps.ts';
+import { toV3Lightshow } from '../converter/toV3.ts';
+import { toV4Lightshow } from '../converter/toV4.ts';
+import { IWrapLightshow } from '../types/beatmap/wrapper/lightshow.ts';
+import { readJSONFile, readJSONFileSync } from '../utils/_fs.ts';
+import { defaultOptions } from './options.ts';
+
+function tag(name: string): string[] {
+   return ['load', name];
+}
+
+function _lightshow(
+   json: Record<string, unknown>,
+   filePath: string,
+   targetVer: number | null | undefined,
+   options: ILoadOptionsLightshow,
+): IWrapLightshow {
+   const opt: Required<ILoadOptionsLightshow> = {
+      directory: '',
+      forceConvert: options.forceConvert ?? defaultOptions.lightshow.forceConvert,
+      dataCheck: options.dataCheck ?? defaultOptions.lightshow.dataCheck,
+      sort: options.sort ?? defaultOptions.lightshow.sort,
+   };
+
+   const jsonVerStr = typeof json._version === 'string'
+      ? json._version.at(0)
+      : typeof json.version === 'string'
+      ? json.version.at(0)
+      : null;
+   let jsonVer: number;
+   if (jsonVerStr) {
+      jsonVer = parseInt(jsonVerStr);
+   } else {
+      logger.tWarn(
+         tag('_lightshow'),
+         'Could not identify beatmap version from JSON, assume implicit version',
+         3,
+      );
+      jsonVer = 3;
+   }
+
+   let data: IWrapLightshow;
+   switch (jsonVer) {
+      case 3: {
+         data = parseV3Lightshow(json, opt.dataCheck).setFileName(filePath);
+         break;
+      }
+      case 4: {
+         data = parseV4Lightshow(json, opt.dataCheck).setFileName(filePath);
+         break;
+      }
+      default: {
+         throw new Error(
+            `Beatmap version ${jsonVer} is not supported, this may be an error in JSON or is newer than currently supported.`,
+         );
+      }
+   }
+
+   if (targetVer && jsonVer !== targetVer) {
+      if (!opt.forceConvert) {
+         throw new Error(
+            `Beatmap version unmatched, expected ${targetVer} but received ${jsonVer}`,
+         );
+      }
+      logger.tWarn(
+         tag('_lightshow'),
+         'Beatmap version unmatched, expected',
+         targetVer,
+         'but received',
+         jsonVer,
+         'for version; Converting to beatmap version',
+         targetVer,
+      );
+      if (targetVer === 3) data = toV3Lightshow(data);
+      if (targetVer === 4) data = toV4Lightshow(data);
+   }
+
+   if (opt.sort) data.sort();
+
+   return data;
+}
+
+/**
+ * Asynchronously load beatmap lightshow file.
+ * ```ts
+ * load.lightshow('EasyStandard.dat', 4).then((data) => console.log(data));
+ * ```
+ *
+ * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
+ */
+export function lightshow(
+   filePath: LooseAutocomplete<GenericFileName>,
+   version?: null,
+   options?: ILoadOptionsLightshow,
+): Promise<IWrapLightshow>;
+export function lightshow(
+   filePath: LooseAutocomplete<GenericFileName>,
+   version: 4,
+   options?: ILoadOptionsLightshow,
+): Promise<V4Lightshow>;
+export function lightshow(
+   filePath: LooseAutocomplete<GenericFileName>,
+   version: 3,
+   options?: ILoadOptionsLightshow,
+): Promise<V3Lightshow>;
+export function lightshow(
+   filePath: Record<string, unknown>,
+   version?: null,
+   options?: ILoadOptionsLightshow,
+): Promise<IWrapLightshow>;
+export function lightshow(
+   filePath: Record<string, unknown>,
+   version: 4,
+   options?: ILoadOptionsLightshow,
+): Promise<V4Lightshow>;
+export function lightshow(
+   filePath: Record<string, unknown>,
+   version: 3,
+   options?: ILoadOptionsLightshow,
+): Promise<V3Lightshow>;
+export function lightshow(
+   src: LooseAutocomplete<GenericFileName> | Record<string, unknown>,
+   version?: number | null,
+   options: ILoadOptionsLightshow = {},
+) {
+   logger.tInfo(tag('lightshow'), 'Async loading lightshow');
+   if (typeof src === 'string') {
+      const path = resolve(
+         options.directory ??
+            (defaultOptions.lightshow.directory || globals.directory),
+         src,
+      );
+      return readJSONFile(path).then((data) => _lightshow(data, src, version!, options));
+   } else {
+      return new Promise(() => _lightshow(src, 'LoadJSON.dat', version!, options));
+   }
+}
+
+/**
+ * Synchronously load beatmap lightshow file.
+ * ```ts
+ * const lightshow = load.lightshowSync('EasyStandard.dat', 4);
+ * console.log(lightshow);
+ * ```
+ *
+ * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
+ */
+export function lightshowSync(
+   filePath: LooseAutocomplete<GenericFileName>,
+   version?: null,
+   options?: ILoadOptionsLightshow,
+): IWrapLightshow;
+export function lightshowSync(
+   filePath: LooseAutocomplete<GenericFileName>,
+   version: 4,
+   options?: ILoadOptionsLightshow,
+): V4Lightshow;
+export function lightshowSync(
+   filePath: LooseAutocomplete<GenericFileName>,
+   version: 3,
+   options?: ILoadOptionsLightshow,
+): V3Lightshow;
+export function lightshowSync(
+   json: Record<string, unknown>,
+   version?: null,
+   options?: ILoadOptionsLightshow,
+): IWrapLightshow;
+export function lightshowSync(
+   json: Record<string, unknown>,
+   version: 4,
+   options?: ILoadOptionsLightshow,
+): V4Lightshow;
+export function lightshowSync(
+   json: Record<string, unknown>,
+   version: 3,
+   options?: ILoadOptionsLightshow,
+): V3Lightshow;
+export function lightshowSync(
+   src: LooseAutocomplete<GenericFileName> | Record<string, unknown>,
+   version?: number | null,
+   options: ILoadOptionsLightshow = {},
+) {
+   logger.tInfo(tag('lightshowSync'), 'Sync loading lightshow');
+   if (typeof src === 'string') {
+      const path = resolve(
+         options.directory ??
+            (defaultOptions.lightshow.directory || globals.directory),
+         src,
+      );
+      return _lightshow(readJSONFileSync(path), src, version!, options);
+   } else {
+      return _lightshow(src, 'LoadJSON.dat', version!, options);
+   }
+}

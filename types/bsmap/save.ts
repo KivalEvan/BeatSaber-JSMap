@@ -60,5 +60,7 @@ export interface ISaveOptionsDifficulty extends ISaveBaseOptions {
    filePath?: string;
 }
 
+export interface ISaveOptionsLightshow extends ISaveOptionsDifficulty {}
+
 // deno-lint-ignore no-empty-interface
-export interface ISaveOptionsDifficultyList extends ISaveBaseOptions {}
+export interface ISaveOptionsList extends ISaveBaseOptions {}

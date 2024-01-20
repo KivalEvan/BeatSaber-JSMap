@@ -14,6 +14,8 @@ export interface ILoadOptionsDifficulty extends IBaseOptions {
    sort?: boolean;
 }
 
+export interface ILoadOptionsLightshow extends ILoadOptionsDifficulty {}
+
 export interface ILoadOptionsInfo extends ILoadOptionsDifficulty {
    /**
     * Set info source file path.

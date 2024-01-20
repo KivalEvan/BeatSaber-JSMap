@@ -1,5 +1,5 @@
 import { IItem } from './item.ts';
 
 export interface IColorBoostEvent extends IItem {
-   b?: number; // float
+   b?: 0 | 1; // int
 }
