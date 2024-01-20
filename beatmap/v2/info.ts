@@ -1,5 +1,5 @@
 import { EnvironmentAllName, EnvironmentName } from '../../types/beatmap/shared/environment.ts';
-import { IInfo, IInfoDifficulty } from '../../types/beatmap/v2/info.ts';
+import { IInfo, IInfoDifficulty, IInfoSet } from '../../types/beatmap/v2/info.ts';
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
 import { WrapInfo, WrapInfoDifficulty } from '../wrapper/info.ts';
@@ -237,7 +237,20 @@ export class Info extends WrapInfo<IInfo> {
             return cs;
          }),
          _customData: deepCopy(this.customData),
-         _difficultyBeatmapSets: this.difficulties.map((d) => d.toJSON()),
+         _difficultyBeatmapSets: this.difficulties.reduce((set, d) => {
+            let found = set.find(
+               (s) => s._beatmapCharacteristicName === d.characteristic,
+            );
+            if (!found) {
+               found = {
+                  _beatmapCharacteristicName: d.characteristic,
+                  _difficultyBeatmaps: [],
+               };
+               set.push(found);
+            }
+            found._difficultyBeatmaps!.push(d.toJSON());
+            return set;
+         }, [] as IInfoSet[]),
       };
    }
 

@@ -82,6 +82,7 @@ export function toV1Info(data: IWrapInfo): V1Info {
    }
 
    const template = new V1Info();
+   template.filename = data.filename;
 
    if (data instanceof V2Info) {
       template.songName = data.songName;

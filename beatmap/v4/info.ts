@@ -223,7 +223,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
          noteJumpMovementSpeed: this.njs,
          noteJumpStartBeatOffset: this.njsOffset,
          beatmapDataFilename: this.filename,
-         lightshowDataFilename: this.filename,
+         lightshowDataFilename: this.lightshowFilename,
          customData: deepCopy(this.customData),
       };
    }
