@@ -37,3 +37,5 @@ export interface IOptimizeOptions extends ICleanOptions {
 export interface IOptimizeOptionsInfo extends IOptimizeOptions {}
 
 export interface IOptimizeOptionsDifficulty extends IOptimizeOptions {}
+
+export interface IOptimizeOptionsLightshow extends IOptimizeOptions {}
