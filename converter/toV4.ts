@@ -52,6 +52,7 @@ export function toV4Info(data: IWrapInfo): V4Info {
          });
       });
    }
+
    if (data instanceof V2Info) {
       template.song.title = data.songName;
       template.song.subTitle = data.songSubName;

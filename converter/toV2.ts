@@ -22,6 +22,8 @@ import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IBPMChangeOld } from '../types/beatmap/v2/custom/bpmChange.ts';
 import { shallowCopy } from '../utils/misc.ts';
 import { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
+import { deepCopy } from '../utils/misc.ts';
+import { DifficultyRanking } from '../beatmap/shared/difficulty.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -582,6 +584,39 @@ export function toV2Info(data: IWrapInfo): V2Info {
                },
             },
             mode,
+         );
+      });
+   }
+
+   if (data instanceof V4Info) {
+      template.songName = data.song.title;
+      template.songSubName = data.song.subTitle;
+      template.songAuthorName = data.song.author;
+
+      template.beatsPerMinute = data.audio.bpm;
+      template.previewStartTime = data.audio.previewStartTime;
+      template.previewDuration = data.audio.previewDuration;
+      template.songFilename = data.audio.filename;
+
+      template.coverImageFilename = data.coverImageFilename;
+      template.songFilename = data.songPreviewFilename;
+      template.environmentNames = [...data.environmentNames];
+      template.colorSchemes = data.colorSchemes.map((d) => shallowCopy(d));
+
+      template.customData = deepCopy(data.customData);
+      data.listMap().forEach(([_, beatmap]) => {
+         template.addMap(
+            {
+               _difficulty: beatmap.difficulty,
+               _difficultyRank: DifficultyRanking[beatmap.difficulty],
+               _beatmapColorSchemeIdx: beatmap.colorSchemeId,
+               _environmentNameIdx: beatmap.environmentId,
+               _noteJumpMovementSpeed: beatmap.njs,
+               _noteJumpStartBeatOffset: beatmap.njsOffset,
+               _beatmapFilename: beatmap.filename,
+               _customData: deepCopy(beatmap.customData),
+            },
+            beatmap.characteristic,
          );
       });
    }

@@ -11,6 +11,7 @@ import { Info as V1Info } from '../beatmap/v1/info.ts';
 import { Info as V2Info } from '../beatmap/v2/info.ts';
 import { Info as V4Info } from '../beatmap/v4/info.ts';
 import { shallowCopy } from '../utils/misc.ts';
+import { DifficultyRanking } from '../beatmap/shared/difficulty.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -127,6 +128,35 @@ export function toV1Info(data: IWrapInfo): V1Info {
       template.contributors = data.customData?._contributors || [];
       template.customEnvironment = data.customData?._customEnvironment;
       template.customEnvironmentHash = data.customData?._customEnvironmentHash;
+   }
+
+   if (data instanceof V4Info) {
+      template.songName = data.song.title;
+      template.songSubName = data.song.subTitle;
+      template.songAuthorName = data.song.author;
+
+      template.beatsPerMinute = data.audio.bpm;
+      template.previewStartTime = data.audio.previewStartTime;
+      template.previewDuration = data.audio.previewDuration;
+      template.songFilename = data.audio.filename;
+
+      template.coverImageFilename = data.coverImageFilename;
+      template.environmentName = data
+         .environmentNames[0] as 'DefaultEnvironment';
+
+      template.contributors = data.customData.contributors;
+      template.customEnvironment = data.customData.customEnvironment;
+      template.customEnvironmentHash = data.customData.customEnvironmentHash;
+
+      data.listMap().forEach(([_, beatmap]) => {
+         template.addMap({
+            characteristic: beatmap.characteristic,
+            difficulty: beatmap.difficulty,
+            difficultyRank: DifficultyRanking[beatmap.difficulty] as 1,
+            audioPath: data.audio.filename,
+            jsonPath: beatmap.filename,
+         });
+      });
    }
 
    return template;
