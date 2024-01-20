@@ -15,6 +15,7 @@ import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEvent
 import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
 import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
 import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
+import { ILightshow } from '../../types/beatmap/v3/lightshow.ts';
 import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
 import { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
@@ -29,7 +30,9 @@ import { IFxEventFloat } from '../../types/beatmap/v3/fxEventFloat.ts';
 import { IFxEventInt } from '../../types/beatmap/v3/fxEventInt.ts';
 
 // FIXME: ALMOST EVERYTHING HERE IS IFUCKIN OPTIONAL REE
-export const ColorNoteDataCheck: { readonly [key in keyof IColorNote]: DataCheck } = {
+export const ColorNoteDataCheck: {
+   readonly [key in keyof IColorNote]: DataCheck;
+} = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -242,7 +245,9 @@ export const ChainDataCheck: { readonly [key in keyof IChain]: DataCheck } = {
    },
 } as const;
 
-export const ObstacleDataCheck: { readonly [key in keyof IObstacle]: DataCheck } = {
+export const ObstacleDataCheck: {
+   readonly [key in keyof IObstacle]: DataCheck;
+} = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -285,7 +290,9 @@ export const ObstacleDataCheck: { readonly [key in keyof IObstacle]: DataCheck }
    },
 } as const;
 
-export const BasicEventDataCheck: { readonly [key in keyof IBasicEvent]: DataCheck } = {
+export const BasicEventDataCheck: {
+   readonly [key in keyof IBasicEvent]: DataCheck;
+} = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -316,7 +323,9 @@ export const BasicEventDataCheck: { readonly [key in keyof IBasicEvent]: DataChe
    },
 } as const;
 
-export const BPMChangeEventDataCheck: { readonly [key in keyof IBPMEvent]: DataCheck } = {
+export const BPMChangeEventDataCheck: {
+   readonly [key in keyof IBPMEvent]: DataCheck;
+} = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -382,7 +391,9 @@ export const ColorBoostEventDataCheck: {
    },
 } as const;
 
-export const IndexFilterDataCheck: { readonly [key in keyof IIndexFilter]: DataCheck } = {
+export const IndexFilterDataCheck: {
+   readonly [key in keyof IIndexFilter]: DataCheck;
+} = {
    f: {
       type: 'number',
       int: true,
@@ -1045,7 +1056,9 @@ export const FxEventsCollectionDataCheck: {
    },
 } as const;
 
-export const WaypointDataCheck: { readonly [key in keyof IWaypoint]: DataCheck } = {
+export const WaypointDataCheck: {
+   readonly [key in keyof IWaypoint]: DataCheck;
+} = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -1077,7 +1090,9 @@ export const WaypointDataCheck: { readonly [key in keyof IWaypoint]: DataCheck }
    },
 } as const;
 
-export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck } = {
+export const DifficultyCheck: {
+   readonly [key in keyof IDifficulty]: DataCheck;
+} = {
    version: {
       type: 'string',
       version: '3.0.0',
@@ -1182,6 +1197,59 @@ export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck }
    useNormalEventsAsCompatibleEvents: {
       type: 'boolean',
       version: '3.0.0',
+      optional: true,
+   },
+   customData: {
+      type: 'object',
+      version: '3.0.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
+export const LightshowCheck: {
+   readonly [key in keyof ILightshow]: DataCheck;
+} = {
+   basicBeatmapEvents: {
+      type: 'array',
+      version: '3.0.0',
+      check: BasicEventDataCheck,
+      optional: true,
+   },
+   colorBoostBeatmapEvents: {
+      type: 'array',
+      version: '3.0.0',
+      check: ColorBoostEventDataCheck,
+      optional: true,
+   },
+   lightColorEventBoxGroups: {
+      type: 'array',
+      version: '3.0.0',
+      check: LightColorEventBoxGroupDataCheck,
+      optional: true,
+   },
+   lightRotationEventBoxGroups: {
+      type: 'array',
+      version: '3.0.0',
+      check: LightRotationEventBoxGroupDataCheck,
+      optional: true,
+   },
+   lightTranslationEventBoxGroups: {
+      type: 'array',
+      version: '3.2.0',
+      check: LightTranslationEventBoxGroupDataCheck,
+      optional: true,
+   },
+   vfxEventBoxGroups: {
+      type: 'array',
+      version: '3.3.0',
+      check: VfxEventBoxGroupDataCheck,
+      optional: true,
+   },
+   _fxEventsCollection: {
+      type: 'object',
+      version: '3.3.0',
+      check: FxEventsCollectionDataCheck,
       optional: true,
    },
    customData: {
