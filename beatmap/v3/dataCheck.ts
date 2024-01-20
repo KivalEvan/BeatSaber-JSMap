@@ -1090,7 +1090,7 @@ export const WaypointDataCheck: {
    },
 } as const;
 
-export const DifficultyCheck: {
+export const DifficultyDataCheck: {
    readonly [key in keyof IDifficulty]: DataCheck;
 } = {
    version: {
@@ -1207,7 +1207,7 @@ export const DifficultyCheck: {
    },
 } as const;
 
-export const LightshowCheck: {
+export const LightshowDataCheck: {
    readonly [key in keyof ILightshow]: DataCheck;
 } = {
    basicBeatmapEvents: {

@@ -1,5 +1,5 @@
 import { Difficulty } from './difficulty.ts';
-import { DifficultyCheck } from './dataCheck.ts';
+import { DifficultyDataCheck } from './dataCheck.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
 import logger from '../../logger.ts';
 import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
@@ -25,7 +25,7 @@ export function parseDifficulty(
    if (checkData.enabled) {
       deepCheck(
          data,
-         DifficultyCheck,
+         DifficultyDataCheck,
          'difficulty',
          data.version,
          checkData.throwError,

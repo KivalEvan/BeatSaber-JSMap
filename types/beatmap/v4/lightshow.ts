@@ -5,6 +5,7 @@ import { IEventBoxGroup } from './eventBoxGroup.ts';
 import { IFxEventBox } from './fxEventBox.ts';
 import { IFxEventFloat } from './fxEventFloat.ts';
 import { IIndexFilter } from './indexFilter.ts';
+import { IItem } from './item.ts';
 import { ILightColorEvent } from './lightColorEvent.ts';
 import { ILightColorEventBox } from './lightColorEventBox.ts';
 import { ILightRotationEvent } from './lightRotationEvent.ts';
@@ -20,7 +21,7 @@ export interface ILightshow {
    content: ILightshowContent;
 }
 
-export interface ILightshowContent {
+export interface ILightshowContent extends IItem {
    waypoints: IObjectLane[];
    waypointsData: IWaypoint[];
    basicEvents: IObject[];

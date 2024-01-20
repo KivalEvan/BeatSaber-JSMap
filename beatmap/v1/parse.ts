@@ -1,7 +1,7 @@
 import { Difficulty } from './difficulty.ts';
 import { Info } from './info.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
-import { DifficultyCheck, InfoCheck } from './dataCheck.ts';
+import { DifficultyDataCheck, InfoDataCheck } from './dataCheck.ts';
 import logger from '../../logger.ts';
 import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 import { shallowCopy } from '../../utils/misc.ts';
@@ -22,7 +22,7 @@ export function parseDifficulty(
       data._version = '1.5.0';
    }
    if (checkData.enabled) {
-      deepCheck(data, DifficultyCheck, 'difficulty', data._version, checkData.throwError);
+      deepCheck(data, DifficultyDataCheck, 'difficulty', data._version, checkData.throwError);
    }
 
    return new Difficulty(data);
@@ -35,7 +35,7 @@ export function parseInfo(
 ): Info {
    logger.tInfo(tag('info'), 'Parsing beatmap info v1.x.x');
    if (checkData.enabled) {
-      deepCheck(data, InfoCheck, 'info', '1.0.0', checkData.throwError);
+      deepCheck(data, InfoDataCheck, 'info', '1.0.0', checkData.throwError);
    }
 
    return new Info(data);

@@ -3,9 +3,10 @@ import * as optimize from '../optimize.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
 import { deepCheck } from '../beatmap/shared/dataCheck.ts';
-import { DifficultyCheck as V1DifficultyCheck } from '../beatmap/v1/dataCheck.ts';
-import { DifficultyCheck as V2DifficultyCheck } from '../beatmap/v2/dataCheck.ts';
-import { DifficultyCheck as V3DifficultyCheck } from '../beatmap/v3/dataCheck.ts';
+import { DifficultyDataCheck as V1DifficultyCheck } from '../beatmap/v1/dataCheck.ts';
+import { DifficultyDataCheck as V2DifficultyCheck } from '../beatmap/v2/dataCheck.ts';
+import { DifficultyDataCheck as V3DifficultyCheck } from '../beatmap/v3/dataCheck.ts';
+import { DifficultyDataCheck as V4DifficultyCheck } from '../beatmap/v4/dataCheck.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../utils/_fs.ts';
@@ -15,7 +16,10 @@ function tag(name: string): string[] {
    return ['save', name];
 }
 
-export function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficulty) {
+export function _difficulty(
+   data: IWrapDifficulty,
+   options: ISaveOptionsDifficulty,
+) {
    const opt: Required<ISaveOptionsDifficulty> = {
       directory: '',
       filePath: '',
@@ -56,7 +60,9 @@ export function _difficulty(data: IWrapDifficulty, options: ISaveOptionsDifficul
 
    if (opt.dataCheck.enabled) {
       logger.tInfo(tag('_difficulty'), 'Checking difficulty data value');
-      const dataCheck = ver === 3
+      const dataCheck = ver === 4
+         ? V4DifficultyCheck
+         : ver === 3
          ? V3DifficultyCheck
          : ver === 2
          ? V2DifficultyCheck
