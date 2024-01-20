@@ -10,13 +10,20 @@
 
 ### Changed
 
-- Several class method now return itself instead of `void` for chaining
+- Major structure change to Info
+- Several class method now return `this` instead of `void` to allow chaining
+- Beatmap version is now read-only
 - Internal logic optimised
 
 ### Fixed
 
 - Test case not using the new default value
 - Removed filter in FX collection construction to avoid potential index error
+- New easings being disallowed to use
+
+### Removed
+
+- Info set object/class, no longer available as of v4
 
 ## 1.5.3 [2023-12-07]
 

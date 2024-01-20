@@ -31,9 +31,10 @@ import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
 import { IWrapFxEventsCollection } from './fxEventsCollection.ts';
 import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 
-export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItemAttribute<T> {
-   version: Version;
+export interface IWrapDifficultyAttribute<
+   T extends { [P in keyof T]: T[P] } = Record<string, any>,
+> extends IWrapBaseItemAttribute<T> {
+   readonly version: Version;
    bpmEvents: IWrapBPMEvent[];
    rotationEvents: IWrapRotationEvent[];
    colorNotes: IWrapColorNote[];
@@ -55,8 +56,9 @@ export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = R
    filename: string;
 }
 
-export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
+export interface IWrapDifficulty<
+   T extends { [P in keyof T]: T[P] } = Record<string, any>,
+> extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
    setFileName(filename: LooseAutocomplete<GenericFileName>): this;
 
    /** Sort beatmap object(s) accordingly. */
@@ -153,12 +155,16 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
    addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
    addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;
    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): this;
-   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): this;
+   addLightColorEventBoxGroups(
+      ...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]
+   ): this;
    addLightRotationEventBoxGroups(
       ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
    ): this;
    addLightTranslationEventBoxGroups(
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): this;
-   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): this;
+   addFxEventBoxGroups(
+      ...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]
+   ): this;
 }

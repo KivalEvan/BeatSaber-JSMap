@@ -1,7 +1,9 @@
-import { ICustomDataBase } from '../shared/custom/customData.ts';
+import { CharacteristicName } from '../shared/characteristic.ts';
 import { EnvironmentAllName } from '../shared/environment.ts';
+import { DifficultyName } from '../shared/difficulty.ts';
+import { IItem } from './item.ts';
 
-export interface IInfo {
+export interface IInfo extends IItem {
    version: '4.0.0';
    contentChecksum: string;
    song: IInfoSong;
@@ -11,7 +13,6 @@ export interface IInfo {
    environmentNames: EnvironmentAllName[];
    colorSchemes: IInfoColorScheme[];
    difficultyBeatmaps: IInfoDifficulty[];
-   customData: ICustomDataBase;
 }
 
 export interface IInfoSong {
@@ -38,8 +39,10 @@ export interface IInfoColorScheme {
    obstaclesColor: string;
    environmentColor0: string;
    environmentColor1: string;
+   environmentColorW?: string;
    environmentColor0Boost: string;
    environmentColor1Boost: string;
+   environmentColorWBoost?: string;
 }
 
 export interface IInfoBeatmapAuthors {
@@ -47,9 +50,9 @@ export interface IInfoBeatmapAuthors {
    lighters: string[];
 }
 
-export interface IInfoDifficulty {
-   characteristic: string;
-   difficulty: string;
+export interface IInfoDifficulty extends IItem {
+   characteristic: CharacteristicName;
+   difficulty: DifficultyName;
    beatmapAuthors: IInfoBeatmapAuthors;
    environmentNameIdx: number; // int
    beatmapColorSchemeIdx: number; // int
@@ -57,5 +60,4 @@ export interface IInfoDifficulty {
    noteJumpStartBeatOffset: number; // float
    lightshowDataFilename: string;
    beatmapDataFilename: string;
-   customData: ICustomDataBase;
 }

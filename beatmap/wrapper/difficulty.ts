@@ -51,7 +51,7 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
    implements IWrapDifficulty<T> {
    private _filename = 'UnnamedDifficulty.dat';
 
-   abstract version: Version;
+   abstract readonly version: Version;
    abstract bpmEvents: IWrapBPMEvent[];
    abstract rotationEvents: IWrapRotationEvent[];
    abstract colorNotes: IWrapColorNote[];

@@ -4,6 +4,7 @@ import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
 import { Info as V1Info } from '../beatmap/v1/info.ts';
 import { Info as V2Info } from '../beatmap/v2/info.ts';
+import { Info as V4Info } from '../beatmap/v4/info.ts';
 import { clamp } from '../utils/math.ts';
 import { ICustomDataNote } from '../types/beatmap/v2/custom/note.ts';
 import { ICustomDataObstacle } from '../types/beatmap/v2/custom/obstacle.ts';
@@ -19,7 +20,7 @@ import { Waypoint } from '../beatmap/v2/waypoint.ts';
 import { isVector3, vectorMul } from '../utils/vector.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { IBPMChangeOld } from '../types/beatmap/v2/custom/bpmChange.ts';
-import { deepCopy, shallowCopy } from '../utils/misc.ts';
+import { shallowCopy } from '../utils/misc.ts';
 import { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
 
 function tag(name: string): string[] {
@@ -39,7 +40,10 @@ export function toV2Difficulty(data: IWrapDifficulty): V2Difficulty {
       return data;
    }
 
-   logger.tWarn(tag('toV2Difficulty'), 'Converting beatmap to v2 may lose certain data!');
+   logger.tWarn(
+      tag('toV2Difficulty'),
+      'Converting beatmap to v2 may lose certain data!',
+   );
 
    const template = new V2Difficulty();
    template.filename = data.filename;
@@ -200,7 +204,10 @@ export function toV2Difficulty(data: IWrapDifficulty): V2Difficulty {
                _time: lr.time,
                _type: lr.executionTime ? 14 : 15,
                _value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
-                  ? Math.max(Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15), 3)
+                  ? Math.max(
+                     Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15),
+                     3,
+                  )
                   : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
                _floatValue: 1,
             }),
@@ -260,7 +267,11 @@ export function toV2Difficulty(data: IWrapDifficulty): V2Difficulty {
                template.customData._customEvents = [];
                for (const ce of data.customData.customEvents!) {
                   if (ce.t === 'AnimateTrack') {
-                     for (let i = 0, repeat = ce.d.repeat ?? 0; i <= repeat; i++) {
+                     for (
+                        let i = 0, repeat = ce.d.repeat ?? 0;
+                        i <= repeat;
+                        i++
+                     ) {
                         template.customData._customEvents.push({
                            _time: ce.b + (ce.d.duration ?? 0) * i,
                            _type: 'AnimateTrack',
@@ -356,7 +367,10 @@ export function toV2Difficulty(data: IWrapDifficulty): V2Difficulty {
                      };
                   }
                   if (e.geometry) {
-                     if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
+                     if (
+                        e.components?.ILightWithId?.type ||
+                        e.components?.ILightWithId?.lightID
+                     ) {
                         logger.tWarn(
                            tag('toV2Difficulty'),
                            'v2 geometry cannot be made assignable light to specific type',
@@ -375,8 +389,10 @@ export function toV2Difficulty(data: IWrapDifficulty): V2Difficulty {
                                  ? e.geometry.material
                                  : {
                                     _shader: e.geometry.material.shader,
-                                    _shaderKeywords: e.geometry.material.shaderKeywords,
-                                    _collision: e.geometry.material.collision,
+                                    _shaderKeywords: e.geometry.material
+                                       .shaderKeywords,
+                                    _collision: e.geometry.material
+                                       .collision,
                                     _track: e.geometry.material.track,
                                     _color: e.geometry.material.color,
                                  },
@@ -388,8 +404,10 @@ export function toV2Difficulty(data: IWrapDifficulty): V2Difficulty {
                                  ? e.geometry.material
                                  : {
                                     _shader: e.geometry.material.shader,
-                                    _shaderKeywords: e.geometry.material.shaderKeywords,
-                                    _collision: e.geometry.material.collision,
+                                    _shaderKeywords: e.geometry.material
+                                       .shaderKeywords,
+                                    _collision: e.geometry.material
+                                       .collision,
                                     _track: e.geometry.material.track,
                                     _color: e.geometry.material.color,
                                  },
@@ -438,14 +456,16 @@ export function toV2Difficulty(data: IWrapDifficulty): V2Difficulty {
                continue;
             }
             if (k === 'BPMChanges') {
-               template.customData._BPMChanges = data.customData[k]?.map((bpmc) => {
-                  return {
-                     _time: bpmc.b,
-                     _BPM: bpmc.m,
-                     _beatsPerBar: bpmc.p,
-                     _metronomeOffset: bpmc.o,
-                  };
-               });
+               template.customData._BPMChanges = data.customData[k]?.map(
+                  (bpmc) => {
+                     return {
+                        _time: bpmc.b,
+                        _BPM: bpmc.m,
+                        _beatsPerBar: bpmc.p,
+                        _metronomeOffset: bpmc.o,
+                     };
+                  },
+               );
                continue;
             }
             if (k === 'bookmarks') {
@@ -469,7 +489,10 @@ export function toV2Difficulty(data: IWrapDifficulty): V2Difficulty {
          if (template.customData._customEvents) {
             for (const ce of template.customData._customEvents) {
                if (ce._type === 'AnimateTrack') {
-                  if (typeof ce._data._track === 'string' && envTracks.includes(ce._data._track)) {
+                  if (
+                     typeof ce._data._track === 'string' &&
+                     envTracks.includes(ce._data._track)
+                  ) {
                      customEvents.push(ce);
                   } else if (Array.isArray(ce._data._track)) {
                      for (const t of ce._data._track) {
@@ -519,29 +542,25 @@ export function toV2Info(data: IWrapInfo): V2Info {
 
    const template = new V2Info();
 
-   template.songName = data.songName;
-   template.songSubName = data.songSubName;
-   template.songAuthorName = data.songAuthorName;
-   template.levelAuthorName = data.levelAuthorName;
-   template.beatsPerMinute = data.beatsPerMinute;
-   template.shuffle = data.shuffle;
-   template.shufflePeriod = data.shufflePeriod;
-   template.previewStartTime = data.previewStartTime;
-   template.previewDuration = data.previewDuration;
-   template.songFilename = data.songFilename;
-   template.coverImageFilename = data.coverImageFilename;
-   template.environmentName = data.environmentName;
-   template.allDirectionsEnvironmentName = data.allDirectionsEnvironmentName;
-   template.songTimeOffset = data.songTimeOffset;
    if (data instanceof V1Info) {
+      template.songName = data.songName;
+      template.songSubName = data.songSubName;
+      template.songAuthorName = data.songAuthorName;
+      template.beatsPerMinute = data.beatsPerMinute;
+      template.shuffle = data.shuffle;
+      template.shufflePeriod = data.shufflePeriod;
+      template.previewStartTime = data.previewStartTime;
+      template.previewDuration = data.previewDuration;
+      template.songFilename = data.songFilename;
+      template.coverImageFilename = data.coverImageFilename;
+      template.environmentName = data.environmentName;
+      template.allDirectionsEnvironmentName = data.allDirectionsEnvironmentName;
+      template.songTimeOffset = data.songTimeOffset;
+
       template.customData.contributors = data.contributors;
       template.customData.customEnvironment = data.customEnvironment;
       template.customData.customEnvironmentHash = data.customEnvironmentHash;
-   } else {
-      template.customData = deepCopy(data.customData);
-   }
 
-   if (data instanceof V1Info) {
       data.listMap().forEach(([mode, beatmap]) => {
          template.addMap(
             {
