@@ -110,6 +110,7 @@ export class Arc extends WrapArc<IArcContainer> {
             tb: this.tailTime,
             ti: 0,
             tr: this.tailLaneRotation,
+            customData: {},
          },
          data: {
             m: this.lengthMultiplier,

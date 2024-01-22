@@ -639,6 +639,7 @@ export function toV3Lightshow(data: IWrapLightshow): V3Lightshow {
    }
 
    const template = new V3Lightshow();
+   template.filename = data.filename;
 
    return template;
 }

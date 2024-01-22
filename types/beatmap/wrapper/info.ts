@@ -75,7 +75,6 @@ export interface IWrapInfo<
 export interface IWrapInfoDifficultyAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
 > extends IWrapBaseItem<T> {
-   /** Loose string to parent characteristic name, cannot be up-to-date when moved */
    characteristic: CharacteristicName;
    difficulty: DifficultyName;
    filename: LooseAutocomplete<GenericFileName>;

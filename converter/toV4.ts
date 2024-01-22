@@ -22,17 +22,55 @@ export function toV4Difficulty(data: IWrapDifficulty): V4Difficulty {
       return data;
    }
 
+   logger.tWarn(
+      tag('toV4Difficulty'),
+      'Converting beatmap to v4 may lose certain data!',
+   );
+
    const template = new V4Difficulty();
+   template.filename = data.filename;
+   template.customData = deepCopy(data.customData);
+
+   if (data instanceof V3Difficulty) {
+      template.addColorNotes(...data.colorNotes);
+      template.addBombNotes(...data.bombNotes);
+      template.addObstacles(...data.obstacles);
+      template.addArcs(...data.arcs);
+      template.addChains(...data.chains);
+   }
 
    return template;
 }
 
-export function toV4Lightshow(data: IWrapLightshow): V4Lightshow {
+export function toV4Lightshow(
+   data: IWrapLightshow | IWrapDifficulty,
+): V4Lightshow {
    if (data instanceof V4Lightshow) {
       return data;
    }
 
+   logger.tWarn(
+      tag('toV4Lightshow'),
+      'Converting beatmap to v4 may lose certain data!',
+   );
+
    const template = new V4Lightshow();
+   template.filename = data.filename;
+   template.customData = deepCopy(data.customData);
+
+   if (data instanceof V3Difficulty) {
+      template.addBasicEvents(...data.basicEvents);
+      template.addColorBoostEvents(...data.colorBoostEvents);
+      template.addLightColorEventBoxGroups(...data.lightColorEventBoxGroups);
+      template.addLightRotationEventBoxGroups(
+         ...data.lightRotationEventBoxGroups,
+      );
+      template.addLightTranslationEventBoxGroups(
+         ...data.lightTranslationEventBoxGroups,
+      );
+      template.addFxEventBoxGroups(...data.fxEventBoxGroups);
+      template.addWaypoints(...data.waypoints);
+   }
 
    return template;
 }

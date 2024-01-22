@@ -149,7 +149,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
    toJSON(): Required<IEventBoxGroupContainer<ILightColorBoxContainer>> {
       return {
          object: {
-            t: EventBoxType.TRANSLATION,
+            t: EventBoxType.COLOR,
             b: this.time,
             g: this.id,
             e: [],

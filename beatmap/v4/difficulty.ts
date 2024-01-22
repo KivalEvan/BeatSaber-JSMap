@@ -130,7 +130,9 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       for (const obj of this.chains) {
          const jsonObj = obj.toJSON();
          json.content.chains.push(jsonObj.object);
-         jsonObj.object.i = json.content.chainsData.length;
+         jsonObj.object.i = json.content.colorNotesData.length;
+         json.content.colorNotesData.push(jsonObj.data);
+         jsonObj.object.ci = json.content.chainsData.length;
          json.content.chainsData.push(jsonObj.chainData);
       }
       return json;

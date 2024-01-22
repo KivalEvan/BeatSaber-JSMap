@@ -82,6 +82,7 @@ export class FxEventBox extends WrapFxEventBox<
       this._fxDistributionType = data.t ?? data.fxDistributionType ?? FxEventBox.default.data.t;
       this._affectFirst = data.b ?? data.affectFirst ?? FxEventBox.default.data.b;
       this._easing = data.i ?? data.easing ?? FxEventBox.default.data.i;
+      this._events = [];
       if (events) {
          for (const n of data.l || []) {
             this._events.push(new FxEventFloat(events[n]));

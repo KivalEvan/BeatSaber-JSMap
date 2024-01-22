@@ -178,6 +178,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
                i: json.content.lightColorEventBoxes.length,
                f: json.content.indexFilters.length,
                l: list,
+               customData: {},
             });
             json.content.lightColorEventBoxes.push(box.data);
             json.content.indexFilters.push(box.filterData);
@@ -198,6 +199,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
                i: json.content.lightRotationEventBoxes.length,
                f: json.content.indexFilters.length,
                l: list,
+               customData: {},
             });
             json.content.lightRotationEventBoxes.push(box.data);
             json.content.indexFilters.push(box.filterData);
@@ -218,6 +220,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
                i: json.content.lightTranslationEventBoxes.length,
                f: json.content.indexFilters.length,
                l: list,
+               customData: {},
             });
             json.content.lightTranslationEventBoxes.push(box.data);
             json.content.indexFilters.push(box.filterData);
@@ -235,6 +238,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
                i: json.content.fxEventBoxes.length,
                f: json.content.indexFilters.length,
                l: list,
+               customData: {},
             });
             json.content.fxEventBoxes.push(box.data);
             json.content.indexFilters.push(box.filterData);

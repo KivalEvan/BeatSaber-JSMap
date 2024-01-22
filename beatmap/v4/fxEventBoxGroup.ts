@@ -149,7 +149,7 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
    toJSON(): Required<IEventBoxGroupContainer<IFxEventFloatBoxContainer>> {
       return {
          object: {
-            t: EventBoxType.TRANSLATION,
+            t: EventBoxType.FX_FLOAT,
             b: this.time,
             g: this.id,
             e: [],

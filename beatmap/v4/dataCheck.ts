@@ -7,6 +7,8 @@ import { IColorBoostEvent } from '../../types/beatmap/v4/colorBoostEvent.ts';
 import { IColorNote } from '../../types/beatmap/v4/colorNote.ts';
 import { IDifficultyContent } from '../../types/beatmap/v4/difficulty.ts';
 import { IDifficulty } from '../../types/beatmap/v4/difficulty.ts';
+import { IEventBox } from '../../types/beatmap/v4/eventBox.ts';
+import { IEventBoxGroup } from '../../types/beatmap/v4/eventBoxGroup.ts';
 import { IFxEventBox } from '../../types/beatmap/v4/fxEventBox.ts';
 import { IFxEventFloat } from '../../types/beatmap/v4/fxEventFloat.ts';
 import { IIndexFilter } from '../../types/beatmap/v4/indexFilter.ts';
@@ -179,6 +181,36 @@ export const ObjectArcDataCheck: {
 export const ColorNoteDataCheck: {
    readonly [key in keyof IColorNote]: DataCheck;
 } = {
+   x: {
+      type: 'number',
+      int: true,
+      version: '4.0.0',
+      optional: true,
+   },
+   y: {
+      type: 'number',
+      int: true,
+      version: '4.0.0',
+      optional: true,
+   },
+   a: {
+      type: 'number',
+      int: true,
+      version: '4.0.0',
+      optional: true,
+   },
+   c: {
+      type: 'number',
+      int: true,
+      version: '4.0.0',
+      optional: true,
+   },
+   d: {
+      type: 'number',
+      int: true,
+      version: '4.0.0',
+      optional: true,
+   },
    customData: {
       type: 'object',
       version: '4.0.0',
@@ -490,6 +522,75 @@ export const ColorBoostEventDataCheck: {
    },
 } as const;
 
+export const EventBoxDataCheck: {
+   readonly [key in keyof IEventBox]: DataCheck;
+} = {
+   i: {
+      type: 'number',
+      int: true,
+      unsigned: true,
+      version: '4.0.0',
+      optional: true,
+   },
+   f: {
+      type: 'number',
+      int: true,
+      unsigned: true,
+      version: '4.0.0',
+      optional: true,
+   },
+   l: {
+      type: 'object',
+      array: true,
+      version: '4.0.0',
+      check: ObjectDataCheck,
+      optional: true,
+   },
+   customData: {
+      type: 'object',
+      version: '4.0.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
+export const EventBoxGroupDataCheck: {
+   readonly [key in keyof IEventBoxGroup]: DataCheck;
+} = {
+   t: {
+      type: 'number',
+      int: true,
+      unsigned: true,
+      version: '4.0.0',
+      optional: true,
+   },
+   b: {
+      type: 'number',
+      version: '4.0.0',
+      optional: true,
+   },
+   g: {
+      type: 'number',
+      int: true,
+      unsigned: true,
+      version: '4.0.0',
+      optional: true,
+   },
+   e: {
+      type: 'object',
+      array: true,
+      version: '4.0.0',
+      check: EventBoxDataCheck,
+      optional: true,
+   },
+   customData: {
+      type: 'object',
+      version: '4.0.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
 export const IndexFilterDataCheck: {
    readonly [key in keyof IIndexFilter]: DataCheck;
 } = {
@@ -538,7 +639,6 @@ export const IndexFilterDataCheck: {
    s: {
       type: 'number',
       int: true,
-      unsigned: true,
       version: '4.0.0',
       optional: true,
    },
@@ -983,7 +1083,7 @@ export const LightshowContentDataCheck: {
       type: 'object',
       array: true,
       version: '4.0.0',
-      check: BasicEventDataCheck,
+      check: EventBoxGroupDataCheck,
       optional: true,
    },
    indexFilters: {
