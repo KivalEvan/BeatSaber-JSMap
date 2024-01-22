@@ -98,7 +98,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             }
             this._boxes.push(
                new LightRotationEventBox(
-                  boxes?.[e.i || 0] || {},
+                  boxes?.[e.e || 0] || {},
                   evts,
                   times,
                   filters?.[e.f || 0],

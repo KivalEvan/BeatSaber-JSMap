@@ -98,7 +98,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
             }
             this._boxes.push(
                new LightTranslationEventBox(
-                  boxes?.[e.i || 0] || {},
+                  boxes?.[e.e || 0] || {},
                   evts,
                   times,
                   filters?.[e.f || 0],

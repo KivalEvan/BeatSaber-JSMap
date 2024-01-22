@@ -98,7 +98,7 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
             }
             this._boxes.push(
                new FxEventBox(
-                  boxes?.[e.i || 0] || {},
+                  boxes?.[e.e || 0] || {},
                   evts,
                   times,
                   filters?.[e.f || 0],

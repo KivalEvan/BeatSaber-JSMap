@@ -98,7 +98,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             }
             this._boxes.push(
                new LightColorEventBox(
-                  boxes?.[e.i || 0] || {},
+                  boxes?.[e.e || 0] || {},
                   evts,
                   times,
                   filters?.[e.f || 0],

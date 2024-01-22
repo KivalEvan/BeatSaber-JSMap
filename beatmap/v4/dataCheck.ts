@@ -525,7 +525,7 @@ export const ColorBoostEventDataCheck: {
 export const EventBoxDataCheck: {
    readonly [key in keyof IEventBox]: DataCheck;
 } = {
-   i: {
+   e: {
       type: 'number',
       int: true,
       unsigned: true,
