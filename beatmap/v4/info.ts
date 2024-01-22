@@ -218,12 +218,12 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
             mappers: [...this.authors.mappers],
             lighters: [...this.authors.lighters],
          },
-         beatmapColorSchemeIdx: this.colorSchemeId,
          environmentNameIdx: this.environmentId,
+         beatmapColorSchemeIdx: this.colorSchemeId,
          noteJumpMovementSpeed: this.njs,
          noteJumpStartBeatOffset: this.njsOffset,
-         beatmapDataFilename: this.filename,
          lightshowDataFilename: this.lightshowFilename,
+         beatmapDataFilename: this.filename,
          customData: deepCopy(this.customData),
       };
    }

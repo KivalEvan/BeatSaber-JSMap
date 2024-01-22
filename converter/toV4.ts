@@ -139,7 +139,7 @@ export function toV4Info(data: IWrapInfo): V4Info {
             characteristic: beatmap.characteristic,
             difficulty: beatmap.difficulty,
             beatmapAuthors: {
-               mappers: [...beatmap.authors.mappers],
+               mappers: [...beatmap.authors.mappers, data.levelAuthorName],
                lighters: [...beatmap.authors.lighters],
             },
             beatmapColorSchemeIdx: beatmap.colorSchemeId,

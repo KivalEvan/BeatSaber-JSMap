@@ -46,7 +46,7 @@ export class Obstacle extends WrapObstacle<IObstacleContainer> {
       super();
 
       this._time = object.b ?? object.time ?? Obstacle.default.object.b;
-      this._time = object.r ?? object.laneRotation ?? Obstacle.default.object.r;
+      this._laneRotation = object.r ?? object.laneRotation ?? Obstacle.default.object.r;
       this._posX = data.x ?? object.posX ?? Obstacle.default.data.x;
       this._posY = data.y ?? object.posY ?? Obstacle.default.data.y;
       this._duration = data.d ?? object.duration ?? Obstacle.default.data.d;

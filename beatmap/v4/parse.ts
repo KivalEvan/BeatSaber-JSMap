@@ -3,7 +3,7 @@ import { deepCheck } from '../shared/dataCheck.ts';
 import logger from '../../logger.ts';
 import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 import { shallowCopy } from '../../utils/misc.ts';
-import { InfoDataCheck } from './dataCheck.ts';
+import { InfoDataCheck, LightshowDataCheck } from './dataCheck.ts';
 import { DifficultyDataCheck } from './dataCheck.ts';
 import { Difficulty } from './difficulty.ts';
 import { Lightshow } from './lightshow.ts';
@@ -72,7 +72,7 @@ export function parseLightshow(
       data.version = '4.0.0';
    }
    if (checkData.enabled) {
-      deepCheck(data, {}, 'lightshow', data.version, checkData.throwError);
+      deepCheck(data, LightshowDataCheck, 'lightshow', data.version, checkData.throwError);
    }
 
    return new Lightshow(data);
