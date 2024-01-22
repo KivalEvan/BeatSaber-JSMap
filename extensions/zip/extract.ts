@@ -1,9 +1,9 @@
 import globals from '../../globals.ts';
 import { zip } from './deps.ts';
-import * as load from '../../load.ts';
+import * as load from '../../load/mod.ts';
 import { fs } from './deps.ts';
 import { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
-import { ILoadInfoData } from '../../types/bsmap/infoDiff.ts';
+import { ILoadInfoData } from '../../types/bsmap/infoBeatmap.ts';
 import { resolve } from '../../deps.ts';
 
 export async function extract(
@@ -23,7 +23,7 @@ export async function extract(
             filePath: 'info.dat',
          });
       }
-      const list = load.difficultyFromInfoSync(info, {
+      const list = load.beatmapFromInfoSync(info, {
          directory: resolve(globals.directory + location),
       });
       return { info, difficulties: list };

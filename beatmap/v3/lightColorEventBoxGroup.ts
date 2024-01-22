@@ -1,5 +1,5 @@
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
-import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
+import { ILightColorEvent } from '../../types/beatmap/v3/lightColorEvent.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
 import { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
@@ -12,7 +12,7 @@ import { LightColorEventBox } from './lightColorEventBox.ts';
 export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
    ILightColorEventBoxGroup,
    ILightColorEventBox,
-   ILightColorBase,
+   ILightColorEvent,
    IIndexFilter
 > {
    static default: Required<ILightColorEventBoxGroup> = {
@@ -28,7 +28,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
          IWrapLightColorEventBoxGroupAttribute<
             ILightColorEventBoxGroup,
             ILightColorEventBox,
-            ILightColorBase,
+            ILightColorEvent,
             IIndexFilter
          >
       >,
@@ -41,7 +41,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             IWrapLightColorEventBoxGroupAttribute<
                ILightColorEventBoxGroup,
                ILightColorEventBox,
-               ILightColorBase,
+               ILightColorEvent,
                IIndexFilter
             >
          >,
@@ -53,7 +53,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             IWrapLightColorEventBoxGroupAttribute<
                ILightColorEventBoxGroup,
                ILightColorEventBox,
-               ILightColorBase,
+               ILightColorEvent,
                IIndexFilter
             >
          > = {},
@@ -76,7 +76,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
          IWrapLightColorEventBoxGroupAttribute<
             ILightColorEventBoxGroup,
             ILightColorEventBox,
-            ILightColorBase,
+            ILightColorEvent,
             IIndexFilter
          >
       >[]
@@ -89,7 +89,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             IWrapLightColorEventBoxGroupAttribute<
                ILightColorEventBoxGroup,
                ILightColorEventBox,
-               ILightColorBase,
+               ILightColorEvent,
                IIndexFilter
             >
          >
@@ -102,7 +102,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
             IWrapLightColorEventBoxGroupAttribute<
                ILightColorEventBoxGroup,
                ILightColorEventBox,
-               ILightColorBase,
+               ILightColorEvent,
                IIndexFilter
             >
          >

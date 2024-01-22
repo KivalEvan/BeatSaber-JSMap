@@ -1,5 +1,12 @@
 // deno-lint-ignore-file ban-types no-explicit-any
-export type Primitive = string | Function | number | boolean | Symbol | undefined | null;
+export type Primitive =
+   | string
+   | Function
+   | number
+   | boolean
+   | Symbol
+   | undefined
+   | null;
 
 export type Only<T, U> =
    & {
@@ -13,6 +20,12 @@ export type Either<T, U> = Only<T, U> | Only<U, T>;
 
 export type DeepPartial<T> = {
    [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
+export type DeepRequiredIgnore<T, Ignore extends string = ''> = {
+   [P in keyof T]-?: T[P] extends object ? P extends Ignore ? T[P]
+      : DeepRequiredIgnore<T[P], Ignore>
+      : T[P];
 };
 
 export type LooseAutocomplete<T extends string | number> = T extends string ? T | (string & {})
@@ -78,7 +91,9 @@ export type DeepExcludeMethod<T> = T extends Primitive ? T
 
 export type PartialWrapper<T> = Partial<DeepOmit<ExcludeMethod<T>, 'data'>>;
 
-export type DeepPartialWrapper<T> = DeepPartial<DeepOmit<DeepExcludeMethod<T>, 'data'>>;
+export type DeepPartialWrapper<T> = DeepPartial<
+   DeepOmit<DeepExcludeMethod<T>, 'data'>
+>;
 
 export type Nullable<T> = T extends Primitive ? T | null
    : {
@@ -86,9 +101,7 @@ export type Nullable<T> = T extends Primitive ? T | null
    };
 
 /** INTERNAL USE ONLY */
-export type _ObtainCustomData<T extends Record<string, unknown>> = T['customData'] extends Record<
-   string,
-   unknown
-> ? T['customData']
+export type _ObtainCustomData<T extends Record<string, unknown>> = T['customData'] extends
+   Record<string, unknown> ? T['customData']
    : T['_customData'] extends Record<string, unknown> ? T['_customData']
    : Record<string, unknown>;

@@ -39,7 +39,6 @@ import { EventContainer, NoteContainer } from '../../types/beatmap/wrapper/conta
 import { Version } from '../../types/beatmap/shared/version.ts';
 import { WrapBaseItem } from './baseItem.ts';
 import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
-import { IWrapFxEventsCollection } from '../../types/beatmap/wrapper/fxEventsCollection.ts';
 import {
    IWrapFxEventBoxGroup,
    IWrapFxEventBoxGroupAttribute,
@@ -67,7 +66,6 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
    abstract lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    abstract fxEventBoxGroups: IWrapFxEventBoxGroup[];
    abstract eventTypesWithKeywords: IWrapEventTypesWithKeywords;
-   abstract fxEventsCollection: IWrapFxEventsCollection;
    abstract useNormalEventsAsCompatibleEvents: boolean;
 
    clone<U extends this>(): U {

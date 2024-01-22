@@ -24,7 +24,7 @@ function tag(name: string): string[] {
 
 /** Difficulty beatmap class object. */
 export class Info extends WrapInfo<IInfo> {
-   readonly version = '1.0.0' as const;
+   readonly version = '1.0.0';
 
    contentChecksum = '';
    song: IWrapInfoSong = {

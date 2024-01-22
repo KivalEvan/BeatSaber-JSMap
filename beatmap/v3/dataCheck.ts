@@ -9,14 +9,14 @@ import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
-import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
+import { ILightColorEvent } from '../../types/beatmap/v3/lightColorEvent.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
-import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
+import { ILightRotationEvent } from '../../types/beatmap/v3/lightRotationEvent.ts';
 import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
 import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
 import { ILightshow } from '../../types/beatmap/v3/lightshow.ts';
-import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
+import { ILightTranslationEvent } from '../../types/beatmap/v3/lightTranslationEvent.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
 import { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
@@ -454,7 +454,7 @@ export const IndexFilterDataCheck: {
 } as const;
 
 export const LightColorBaseDataCheck: {
-   readonly [key in keyof ILightColorBase]: DataCheck;
+   readonly [key in keyof ILightColorEvent]: DataCheck;
 } = {
    b: {
       type: 'number',
@@ -588,7 +588,7 @@ export const LightColorEventBoxGroupDataCheck: {
 } as const;
 
 export const LightRotationBaseDataCheck: {
-   readonly [key in keyof ILightRotationBase]: DataCheck;
+   readonly [key in keyof ILightRotationEvent]: DataCheck;
 } = {
    b: {
       type: 'number',
@@ -729,7 +729,7 @@ export const LightRotationEventBoxGroupDataCheck: {
 } as const;
 
 export const LightTranslationBaseDataCheck: {
-   readonly [key in keyof ILightTranslationBase]: DataCheck;
+   readonly [key in keyof ILightTranslationEvent]: DataCheck;
 } = {
    b: {
       type: 'number',

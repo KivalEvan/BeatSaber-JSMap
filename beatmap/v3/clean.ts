@@ -429,7 +429,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       deepClean(
          o1.customData!,
-         `difficulty.basicBeatmapEvents[${i1}].customData`,
+         `lightshow.basicBeatmapEvents[${i1}].customData`,
          options,
       );
       if (!Object.keys(o1.customData!).length) {
@@ -444,7 +444,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       deepClean(
          o1.customData!,
-         `difficulty.colorBoostBeatmapEvents[${i1}].customData`,
+         `lightshow.colorBoostBeatmapEvents[${i1}].customData`,
          options,
       );
       if (!Object.keys(o1.customData!).length) {
@@ -474,7 +474,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
             }
             deepClean(
                o3.customData!,
-               `difficulty.lightColorEventBoxGroups[${i1}].e[${i2}].e[${i3}].customData`,
+               `lightshow.lightColorEventBoxGroups[${i1}].e[${i2}].e[${i3}].customData`,
                options,
             );
             if (!Object.keys(o3.customData!).length) {
@@ -484,7 +484,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
          }
          deepClean(
             o2.f.customData!,
-            `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
+            `lightshow.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
          if (!Object.keys(o2.f.customData!).length) {
@@ -493,7 +493,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
          if (options.purgeZeros) purgeZeros(o2.f);
          deepClean(
             o2.customData!,
-            `difficulty.lightColorEventBoxGroups[${i1}].e[${i2}].customData`,
+            `lightshow.lightColorEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
          );
          if (!Object.keys(o2.customData!).length) {
@@ -503,7 +503,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       deepClean(
          o1.customData!,
-         `difficulty.lightColorEventBoxGroups[${i1}].customData`,
+         `lightshow.lightColorEventBoxGroups[${i1}].customData`,
          options,
       );
       if (!Object.keys(o1.customData!).length) {
@@ -531,7 +531,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
             }
             deepClean(
                o3.customData!,
-               `difficulty.lightRotationEventBoxGroups[${i3}].e[${i2}].l[${i3}].customData`,
+               `lightshow.lightRotationEventBoxGroups[${i3}].e[${i2}].l[${i3}].customData`,
                options,
             );
             if (!Object.keys(o3.customData!).length) {
@@ -541,7 +541,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
          }
          deepClean(
             o2.f.customData!,
-            `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
+            `lightshow.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
          if (!Object.keys(o2.f.customData!).length) {
@@ -550,7 +550,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
          if (options.purgeZeros) purgeZeros(o2.f);
          deepClean(
             o2.customData!,
-            `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
+            `lightshow.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
          if (!Object.keys(o2.customData!).length) {
@@ -560,7 +560,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       deepClean(
          o1.customData!,
-         `difficulty.lightRotationEventBoxGroups[${i1}].customData`,
+         `lightshow.lightRotationEventBoxGroups[${i1}].customData`,
          options,
       );
       if (!Object.keys(o1.customData!).length) {
@@ -588,7 +588,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
             }
             deepClean(
                o3.customData!,
-               `difficulty.lightTranslationEventBoxGroups[${i1}].e[${i2}].l[${i3}].customData`,
+               `lightshow.lightTranslationEventBoxGroups[${i1}].e[${i2}].l[${i3}].customData`,
                options,
             );
             if (!Object.keys(o3.customData!).length) {
@@ -598,7 +598,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
          }
          deepClean(
             o2.f.customData!,
-            `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
+            `lightshow.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
          if (!Object.keys(o2.f.customData!).length) {
@@ -607,7 +607,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
          if (options.purgeZeros) purgeZeros(o2.f);
          deepClean(
             o2.customData!,
-            `difficulty.lightTranslationEventBoxGroups[${i1}].e[${i2}].customData`,
+            `lightshow.lightTranslationEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
          );
          if (!Object.keys(o2.customData!).length) {
@@ -617,7 +617,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       deepClean(
          o1.customData!,
-         `difficulty.lightTranslationEventBoxGroups[${i1}].customData`,
+         `lightshow.lightTranslationEventBoxGroups[${i1}].customData`,
          options,
       );
       if (!Object.keys(o1.customData!).length) {
@@ -639,7 +639,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
          }
          deepClean(
             o2.f.customData!,
-            `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
+            `lightshow.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
          if (!Object.keys(o2.f.customData!).length) {
@@ -648,7 +648,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
          if (options.purgeZeros) purgeZeros(o2.f);
          deepClean(
             o2.customData!,
-            `difficulty.vfxEventBoxGroups[${i1}].e[${i2}].customData`,
+            `lightshow.vfxEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
          );
          if (!Object.keys(o2.customData!).length) {
@@ -658,7 +658,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       deepClean(
          o1.customData!,
-         `difficulty.vfxEventBoxGroups[${i1}].customData`,
+         `lightshow.vfxEventBoxGroups[${i1}].customData`,
          options,
       );
       if (!Object.keys(o1.customData!).length) {
@@ -674,7 +674,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       deepClean(
          o1.customData!,
-         `difficulty._fxEventsCollection._fl[${i1}].customData`,
+         `lightshow._fxEventsCollection._fl[${i1}].customData`,
          options,
       );
       if (!Object.keys(o1.customData!).length) {
@@ -689,7 +689,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       deepClean(
          o1.customData!,
-         `difficulty._fxEventsCollection._il[${i1}].customData`,
+         `lightshow._fxEventsCollection._il[${i1}].customData`,
          options,
       );
       if (!Object.keys(o1.customData!).length) {
@@ -697,7 +697,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o1);
    }
-   deepClean(d.customData!, `difficulty.customData`, options);
+   deepClean(d.customData!, `lightshow.customData`, options);
    if (!Object.keys(d.customData!).length) {
       delete d.customData;
    }

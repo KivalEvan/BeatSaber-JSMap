@@ -1,11 +1,11 @@
-import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
-import { IWrapLightRotationBaseAttribute } from '../../types/beatmap/wrapper/lightRotationBase.ts';
+import { ILightRotationEvent } from '../../types/beatmap/v3/lightRotationEvent.ts';
+import { IWrapLightRotationEventAttribute } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { WrapLightRotationBase } from '../wrapper/lightRotationBase.ts';
+import { WrapLightRotationEvent } from '../wrapper/lightRotationEvent.ts';
 
 /** Light rotation base beatmap v3 class object. */
-export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase> {
-   static default: Required<ILightRotationBase> = {
+export class LightRotationBase extends WrapLightRotationEvent<ILightRotationEvent> {
+   static default: Required<ILightRotationEvent> = {
       b: 0,
       p: 0,
       e: 0,
@@ -16,17 +16,17 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
    };
 
    constructor();
-   constructor(data: Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>);
-   constructor(data: Partial<ILightRotationBase>);
+   constructor(data: Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>>);
+   constructor(data: Partial<ILightRotationEvent>);
    constructor(
       data:
-         & Partial<ILightRotationBase>
-         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>,
+         & Partial<ILightRotationEvent>
+         & Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>>,
    );
    constructor(
       data:
-         & Partial<ILightRotationBase>
-         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>> = {},
+         & Partial<ILightRotationEvent>
+         & Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>> = {},
    ) {
       super();
 
@@ -41,19 +41,19 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
 
    static create(): LightRotationBase[];
    static create(
-      ...data: Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>[]
+      ...data: Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>>[]
    ): LightRotationBase[];
-   static create(...data: Partial<ILightRotationBase>[]): LightRotationBase[];
+   static create(...data: Partial<ILightRotationEvent>[]): LightRotationBase[];
    static create(
       ...data: (
-         & Partial<ILightRotationBase>
-         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>
+         & Partial<ILightRotationEvent>
+         & Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>>
       )[]
    ): LightRotationBase[];
    static create(
       ...data: (
-         & Partial<ILightRotationBase>
-         & Partial<IWrapLightRotationBaseAttribute<ILightRotationBase>>
+         & Partial<ILightRotationEvent>
+         & Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>>
       )[]
    ): LightRotationBase[] {
       const result: LightRotationBase[] = data.map((obj) => new this(obj));
@@ -63,7 +63,7 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
       return [new this()];
    }
 
-   toJSON(): Required<ILightRotationBase> {
+   toJSON(): Required<ILightRotationEvent> {
       return {
          b: this.time,
          e: this.easing,
@@ -75,10 +75,10 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
       };
    }
 
-   get customData(): NonNullable<ILightRotationBase['customData']> {
+   get customData(): NonNullable<ILightRotationEvent['customData']> {
       return this._customData;
    }
-   set customData(value: NonNullable<ILightRotationBase['customData']>) {
+   set customData(value: NonNullable<ILightRotationEvent['customData']>) {
       this._customData = value;
    }
 }

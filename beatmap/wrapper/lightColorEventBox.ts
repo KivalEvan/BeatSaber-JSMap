@@ -1,4 +1,4 @@
-import { IWrapLightColorBase } from '../../types/beatmap/wrapper/lightColorBase.ts';
+import { IWrapLightColorEvent } from '../../types/beatmap/wrapper/lightColorEvent.ts';
 import { IWrapLightColorEventBox } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
 import { WrapEventBox } from './eventBox.ts';
 
@@ -11,7 +11,7 @@ export abstract class WrapLightColorEventBox<
    implements IWrapLightColorEventBox<TBox, TBase, TFilter> {
    protected _brightnessDistribution!: IWrapLightColorEventBox['brightnessDistribution'];
    protected _brightnessDistributionType!: IWrapLightColorEventBox['brightnessDistributionType'];
-   declare protected _events: IWrapLightColorBase<TBase>[];
+   declare protected _events: IWrapLightColorEvent<TBase>[];
 
    get brightnessDistribution(): IWrapLightColorEventBox['brightnessDistribution'] {
       return this._brightnessDistribution;
@@ -25,10 +25,10 @@ export abstract class WrapLightColorEventBox<
    set brightnessDistributionType(value: IWrapLightColorEventBox['brightnessDistributionType']) {
       this._brightnessDistributionType = value;
    }
-   get events(): IWrapLightColorBase<TBase>[] {
+   get events(): IWrapLightColorEvent<TBase>[] {
       return this._events;
    }
-   set events(value: IWrapLightColorBase<TBase>[]) {
+   set events(value: IWrapLightColorEvent<TBase>[]) {
       this._events = value;
    }
 
@@ -40,7 +40,7 @@ export abstract class WrapLightColorEventBox<
       this.brightnessDistributionType = value;
       return this;
    }
-   abstract setEvents(value: IWrapLightColorBase<TBase>[]): this;
+   abstract setEvents(value: IWrapLightColorEvent<TBase>[]): this;
 
    isValid(): boolean {
       return (

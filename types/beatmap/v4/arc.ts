@@ -1,4 +1,4 @@
-import { ICustomDataBase } from '../shared/custom/customData.ts';
+import { ICustomDataSlider } from '../v3/custom/slider.ts';
 import { IItem } from './item.ts';
 
 export interface IArc extends IItem {
@@ -25,5 +25,5 @@ export interface IArc extends IItem {
     * **NOTE:** The visual will only be applied under specific condition.
     */
    a?: 0 | 1 | 2;
-   customData?: ICustomDataBase;
+   customData?: ICustomDataSlider;
 }

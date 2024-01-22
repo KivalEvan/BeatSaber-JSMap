@@ -6,16 +6,17 @@ import { IWrapFxEventBox } from '../../types/beatmap/wrapper/fxEventBox.ts';
 export abstract class WrapFxEventBoxGroup<
    TGroup extends { [P in keyof TGroup]: TGroup[P] },
    TBox extends { [P in keyof TBox]: TBox[P] },
+   TBase extends { [P in keyof TBase]: TBase[P] },
    TFilter extends { [P in keyof TFilter]: TFilter[P] },
-> extends WrapEventBoxGroup<TGroup, TBox, number, TFilter>
-   implements IWrapFxEventBoxGroup<TGroup, TBox, TFilter> {
+> extends WrapEventBoxGroup<TGroup, TBox, TBase, TFilter>
+   implements IWrapFxEventBoxGroup<TGroup, TBox, TBase, TFilter> {
    protected _type!: IWrapFxEventBoxGroup['type'];
-   declare protected _boxes: IWrapFxEventBox<TBox, TFilter>[];
+   declare protected _boxes: IWrapFxEventBox<TBox, TBase, TFilter>[];
 
-   get boxes(): IWrapFxEventBox<TBox, TFilter>[] {
+   get boxes(): IWrapFxEventBox<TBox, TBase, TFilter>[] {
       return this._boxes;
    }
-   set boxes(value: IWrapFxEventBox<TBox, TFilter>[]) {
+   set boxes(value: IWrapFxEventBox<TBox, TBase, TFilter>[]) {
       this._boxes = value;
    }
 

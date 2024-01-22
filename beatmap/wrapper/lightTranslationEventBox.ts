@@ -1,4 +1,4 @@
-import { IWrapLightTranslationBase } from '../../types/beatmap/wrapper/lightTranslationBase.ts';
+import { IWrapLightTranslationEvent } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import { IWrapLightTranslationEventBox } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 import { WrapEventBox } from './eventBox.ts';
 
@@ -12,7 +12,7 @@ export abstract class WrapLightTranslationEventBox<
    protected _translationDistributionType!: IWrapLightTranslationEventBox['gapDistributionType'];
    protected _axis!: IWrapLightTranslationEventBox['axis'];
    protected _flip!: IWrapLightTranslationEventBox['flip'];
-   declare protected _events: IWrapLightTranslationBase<TBase>[];
+   declare protected _events: IWrapLightTranslationEvent<TBase>[];
 
    get gapDistribution(): IWrapLightTranslationEventBox['gapDistribution'] {
       return this._translationDistribution;
@@ -38,10 +38,10 @@ export abstract class WrapLightTranslationEventBox<
    set flip(value: IWrapLightTranslationEventBox['flip']) {
       this._flip = value;
    }
-   get events(): IWrapLightTranslationBase<TBase>[] {
+   get events(): IWrapLightTranslationEvent<TBase>[] {
       return this._events;
    }
-   set events(value: IWrapLightTranslationBase<TBase>[]) {
+   set events(value: IWrapLightTranslationEvent<TBase>[]) {
       this._events = value;
    }
 
@@ -61,7 +61,7 @@ export abstract class WrapLightTranslationEventBox<
       this.flip = value;
       return this;
    }
-   abstract setEvents(value: IWrapLightTranslationBase<TBase>[]): this;
+   abstract setEvents(value: IWrapLightTranslationEvent<TBase>[]): this;
 
    isValid(): boolean {
       return (

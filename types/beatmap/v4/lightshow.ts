@@ -38,6 +38,6 @@ export interface ILightshowContent extends IItem {
    lightTranslationEvents: ILightTranslationEvent[];
    fxEventBoxes: IFxEventBox[];
    floatFxEvents: IFxEventFloat[];
-   basicEventTypesWithKeywords: IBasicEventTypesWithKeywords[];
+   basicEventTypesWithKeywords: IBasicEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
 }

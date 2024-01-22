@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
-import { IWrapLightRotationBase, IWrapLightRotationBaseAttribute } from './lightRotationBase.ts';
+import { IWrapLightRotationEvent, IWrapLightRotationEventAttribute } from './lightRotationEvent.ts';
 
 export interface IWrapLightRotationEventBoxAttribute<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
@@ -28,7 +28,7 @@ export interface IWrapLightRotationEventBoxAttribute<
    axis: 0 | 1 | 2;
    /** Flip rotation `<int>` in light rotation event box. */
    flip: 0 | 1;
-   events: IWrapLightRotationBaseAttribute<TBase>[];
+   events: IWrapLightRotationEventAttribute<TBase>[];
 }
 
 export interface IWrapLightRotationEventBox<
@@ -38,12 +38,12 @@ export interface IWrapLightRotationEventBox<
 > extends
    IWrapEventBox<TBox, TBase, TFilter>,
    IWrapLightRotationEventBoxAttribute<TBox, TBase, TFilter> {
-   events: IWrapLightRotationBase<TBase>[];
+   events: IWrapLightRotationEvent<TBase>[];
 
    setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']): this;
    setRotationDistributionType(value: IWrapLightRotationEventBox['rotationDistributionType']): this;
    setAxis(value: IWrapLightRotationEventBox['axis']): this;
    setFlip(value: IWrapLightRotationEventBox['flip']): this;
    setAffectFirst(value: IWrapLightRotationEventBox['affectFirst']): this;
-   setEvents(value: IWrapLightRotationBase<TBase>[]): this;
+   setEvents(value: IWrapLightRotationEvent<TBase>[]): this;
 }

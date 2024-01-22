@@ -1,4 +1,4 @@
-import { ICustomDataBase } from '../shared/custom/customData.ts';
+import { ICustomDataNote } from '../v3/custom/note.ts';
 import { IGrid } from './grid.ts';
 
 export interface IColorNote extends IGrid {
@@ -25,5 +25,5 @@ export interface IColorNote extends IGrid {
    d?: number;
    /** Angle offset in degree counter-clockwise `<int>` of note.*/
    a?: number;
-   customData?: ICustomDataBase;
+   customData?: ICustomDataNote;
 }

@@ -20,7 +20,6 @@ export * from './fxEventBox.ts';
 export * from './fxEventBoxGroup.ts';
 export * from './fxEventFloat.ts';
 export * from './fxEventInt.ts';
-export * from './fxEventsCollection.ts';
 export * from './lightColorBase.ts';
 export * from './lightColorEventBox.ts';
 export * from './lightColorEventBoxGroup.ts';

@@ -5,14 +5,14 @@ import { WrapLightTranslationEventBoxGroup } from '../wrapper/lightTranslationEv
 import { deepCopy } from '../../utils/misc.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
-import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
+import { ILightTranslationEvent } from '../../types/beatmap/v3/lightTranslationEvent.ts';
 import { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 
 /** Light translation event box group beatmap v3 class object. */
 export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxGroup<
    ILightTranslationEventBoxGroup,
    ILightTranslationEventBox,
-   ILightTranslationBase,
+   ILightTranslationEvent,
    IIndexFilter
 > {
    static default: Required<ILightTranslationEventBoxGroup> = {
@@ -28,7 +28,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
          IWrapLightTranslationEventBoxGroupAttribute<
             ILightTranslationEventBoxGroup,
             ILightTranslationEventBox,
-            ILightTranslationBase,
+            ILightTranslationEvent,
             IIndexFilter
          >
       >,
@@ -41,7 +41,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
             IWrapLightTranslationEventBoxGroupAttribute<
                ILightTranslationEventBoxGroup,
                ILightTranslationEventBox,
-               ILightTranslationBase,
+               ILightTranslationEvent,
                IIndexFilter
             >
          >,
@@ -53,7 +53,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
             IWrapLightTranslationEventBoxGroupAttribute<
                ILightTranslationEventBoxGroup,
                ILightTranslationEventBox,
-               ILightTranslationBase,
+               ILightTranslationEvent,
                IIndexFilter
             >
          > = {},
@@ -78,7 +78,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
          IWrapLightTranslationEventBoxGroupAttribute<
             ILightTranslationEventBoxGroup,
             ILightTranslationEventBox,
-            ILightTranslationBase,
+            ILightTranslationEvent,
             IIndexFilter
          >
       >[]
@@ -93,7 +93,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
             IWrapLightTranslationEventBoxGroupAttribute<
                ILightTranslationEventBoxGroup,
                ILightTranslationEventBox,
-               ILightTranslationBase,
+               ILightTranslationEvent,
                IIndexFilter
             >
          >
@@ -106,7 +106,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
             IWrapLightTranslationEventBoxGroupAttribute<
                ILightTranslationEventBoxGroup,
                ILightTranslationEventBox,
-               ILightTranslationBase,
+               ILightTranslationEvent,
                IIndexFilter
             >
          >
@@ -140,15 +140,6 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
    }
    set customData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>) {
       this._customData = value;
-   }
-
-   setCustomData(value: NonNullable<ILightTranslationEventBoxGroup['customData']>): this {
-      this.customData = value;
-      return this;
-   }
-   addCustomData(object: ILightTranslationEventBoxGroup['customData']): this {
-      this.customData = { ...this.customData, object };
-      return this;
    }
 
    isValid(): boolean {

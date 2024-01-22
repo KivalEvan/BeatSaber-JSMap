@@ -4,7 +4,7 @@ import { WrapEventTypesWithKeywords } from '../wrapper/eventTypesWithKeywords.ts
 import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
 import { IWrapEventTypesWithKeywordsAttribute } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
 
-/** Dummy special event types with keywords beatmap v1 class object. */
+/** Dummy special event types with keywords beatmap v4 class object. */
 export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
    ISpecialEventsKeywordFilters,
    ISpecialEventsKeywordFiltersKeywords

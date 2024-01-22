@@ -5,78 +5,118 @@ import { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapFxEventBox } from '../wrapper/fxEventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
+import { IFxEventFloat } from '../../types/beatmap/v3/fxEventFloat.ts';
+import { FxEventFloat } from './fxEventFloat.ts';
+import { IFxEventFloatBoxContainer } from '../../types/beatmap/v3/container.ts';
+import { DeepRequiredIgnore } from '../../types/utils.ts';
 
 /** FX event box beatmap v3 class object. */
-export class FxEventBox extends WrapFxEventBox<IFxEventBox, IIndexFilter> {
-   static default: Required<IFxEventBox> = {
-      f: {
-         f: IndexFilter.default.f,
-         p: IndexFilter.default.p,
-         t: IndexFilter.default.t,
-         r: IndexFilter.default.r,
-         c: IndexFilter.default.c,
-         n: IndexFilter.default.n,
-         s: IndexFilter.default.s,
-         l: IndexFilter.default.l,
-         d: IndexFilter.default.d,
+export class FxEventBox extends WrapFxEventBox<
+   IFxEventFloatBoxContainer,
+   IFxEventFloat,
+   IIndexFilter
+> {
+   static default: DeepRequiredIgnore<IFxEventFloatBoxContainer, 'customData'> = {
+      data: {
+         f: { ...IndexFilter.default },
+         w: 0,
+         d: 1,
+         s: 0,
+         t: 1,
+         b: 0,
+         i: 0,
+         l: [],
+         customData: {},
       },
-      w: 0,
-      d: 1,
-      s: 0,
-      t: 1,
-      b: 0,
-      i: 0,
-      l: [],
-      customData: {},
+      eventData: [],
    };
 
    constructor();
-   constructor(data: DeepPartial<IWrapFxEventBoxAttribute<IFxEventBox, IIndexFilter>>);
-   constructor(data: DeepPartial<IFxEventBox>);
    constructor(
-      data:
-         & DeepPartial<IFxEventBox>
-         & DeepPartial<IWrapFxEventBoxAttribute<IFxEventBox, IIndexFilter>>,
+      data: DeepPartial<
+         IWrapFxEventBoxAttribute<
+            IFxEventFloatBoxContainer,
+            IFxEventFloat,
+            IIndexFilter
+         >
+      >,
+   );
+   constructor(
+      data: DeepPartial<IFxEventBox>,
+      events?: Partial<IFxEventFloat>[],
    );
    constructor(
       data:
          & DeepPartial<IFxEventBox>
-         & DeepPartial<IWrapFxEventBoxAttribute<IFxEventBox, IIndexFilter>> = {},
+         & DeepPartial<
+            IWrapFxEventBoxAttribute<
+               IFxEventFloatBoxContainer,
+               IFxEventFloat,
+               IIndexFilter
+            >
+         >,
+      events?: Partial<IFxEventFloat>[],
+   );
+   constructor(
+      data:
+         & DeepPartial<IFxEventBox>
+         & DeepPartial<
+            IWrapFxEventBoxAttribute<
+               IFxEventFloatBoxContainer,
+               IFxEventFloat,
+               IIndexFilter
+            >
+         > = {},
+      events?: Partial<IFxEventFloat>[],
    ) {
       super();
 
       this._filter = new IndexFilter(
-         (data as IFxEventBox).f ?? (data.filter as IIndexFilter) ?? FxEventBox.default.f,
+         (data as IFxEventBox).f ??
+            (data.filter as IIndexFilter) ??
+            FxEventBox.default.data.f,
       );
-      this._beatDistribution = data.w ?? data.beatDistribution ?? FxEventBox.default.w;
-      this._beatDistributionType = data.d ?? data.beatDistributionType ?? FxEventBox.default.d;
-      this._fxDistribution = data.s ?? data.fxDistribution ?? FxEventBox.default.s;
-      this._fxDistributionType = data.t ?? data.fxDistributionType ?? FxEventBox.default.t;
-      this._affectFirst = data.b ?? data.affectFirst ?? FxEventBox.default.b;
-      this._easing = data.i ?? data.easing ?? FxEventBox.default.i;
-      this._events = (
-         (data as IFxEventBox).l ??
-            (data.events as number[]) ??
-            FxEventBox.default.l
-      ).map((obj) => obj);
-      this._customData = deepCopy(data.customData ?? FxEventBox.default.customData);
+      this._beatDistribution = data.w ?? data.beatDistribution ?? FxEventBox.default.data.w;
+      this._beatDistributionType = data.d ?? data.beatDistributionType ?? FxEventBox.default.data.d;
+      this._fxDistribution = data.s ?? data.fxDistribution ?? FxEventBox.default.data.s;
+      this._fxDistributionType = data.t ?? data.fxDistributionType ?? FxEventBox.default.data.t;
+      this._affectFirst = data.b ?? data.affectFirst ?? FxEventBox.default.data.b;
+      this._easing = data.i ?? data.easing ?? FxEventBox.default.data.i;
+      if (events) {
+         for (const n of data.l || []) {
+            this._events.push(new FxEventFloat(events[n]));
+         }
+      } else {
+         this._events = (
+            (data.events as IFxEventFloat[]) ?? FxEventBox.default.eventData
+         ).map((obj) => new FxEventFloat(obj));
+      }
+      this._customData = deepCopy(
+         data.customData ?? FxEventBox.default.data.customData,
+      );
    }
 
    static create(): FxEventBox[];
    static create(
-      ...data: DeepPartial<IWrapFxEventBoxAttribute<IFxEventBox, IIndexFilter>>[]
+      ...data: DeepPartial<
+         IWrapFxEventBoxAttribute<IFxEventBox, IFxEventFloat, IIndexFilter>
+      >[]
    ): FxEventBox[];
    static create(...data: DeepPartial<IFxEventBox>[]): FxEventBox[];
    static create(
       ...data: (
          & DeepPartial<IFxEventBox>
-         & DeepPartial<IWrapFxEventBoxAttribute<IFxEventBox, IIndexFilter>>
+         & DeepPartial<
+            IWrapFxEventBoxAttribute<IFxEventBox, IFxEventFloat, IIndexFilter>
+         >
       )[]
    ): FxEventBox[];
    static create(
       ...data: (
          & DeepPartial<IFxEventBox>
-         & DeepPartial<IWrapFxEventBoxAttribute<IFxEventBox, IIndexFilter>>
+         & DeepPartial<
+            IWrapFxEventBoxAttribute<IFxEventBox, IFxEventFloat, IIndexFilter>
+         >
       )[]
    ): FxEventBox[] {
       const result: FxEventBox[] = data.map((obj) => new this(obj));
@@ -86,17 +126,20 @@ export class FxEventBox extends WrapFxEventBox<IFxEventBox, IIndexFilter> {
       return [new this()];
    }
 
-   toJSON(): Required<IFxEventBox> {
+   toJSON(): Required<IFxEventFloatBoxContainer> {
       return {
-         f: this.filter.toJSON(),
-         w: this.beatDistribution,
-         d: this.beatDistributionType,
-         s: this.fxDistribution,
-         t: this.fxDistributionType,
-         b: this.affectFirst,
-         i: this.easing,
-         l: this.events.map((l) => l),
-         customData: deepCopy(this.customData),
+         data: {
+            f: this.filter.toJSON(),
+            w: this.beatDistribution,
+            d: this.beatDistributionType,
+            s: this.fxDistribution,
+            t: this.fxDistributionType,
+            b: this.affectFirst,
+            i: this.easing,
+            l: [],
+            customData: deepCopy(this.customData),
+         },
+         eventData: this.events.map((l) => l.toJSON()),
       };
    }
 
@@ -107,10 +150,10 @@ export class FxEventBox extends WrapFxEventBox<IFxEventBox, IIndexFilter> {
       this._filter = value;
    }
 
-   get events(): number[] {
-      return this._events as number[];
+   get events(): FxEventFloat[] {
+      return this._events as FxEventFloat[];
    }
-   set events(value: number[]) {
+   set events(value: FxEventFloat[]) {
       this._events = value;
    }
 
@@ -121,7 +164,7 @@ export class FxEventBox extends WrapFxEventBox<IFxEventBox, IIndexFilter> {
       this._customData = value;
    }
 
-   setEvents(value: number[]): this {
+   setEvents(value: FxEventFloat[]): this {
       this.events = value;
       return this;
    }

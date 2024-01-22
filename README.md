@@ -16,7 +16,7 @@ allowing for faster work iteration.
 
 - **Zero-dependency:** No third-party module used in main with standard module being an exception.
 - **Latest Schema:** Supports all official schema including modded.
-  - Current schema version is v1.5.0, v2.6.0 and v3.3.0.
+  - Current schema version is v1.5.0, v2.6.0, v3.3.0 and v4.0.0.
 - **Wrapper Attribute:** Readable and cross-version class attribute for seamless version
   transferring.
 - **Partial Creation:** Define beatmap object partially and let default fill the rest of fields.
@@ -43,9 +43,9 @@ To get started, check out the [example folder](./example) for templates you can 
 The bare minimum example:
 
 ```ts
-import * as bsmap from 'https://deno.land/x/bsmap@1.5.3/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.6.0/mod.ts';
 
-const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 3);
+const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 4);
 
 // ... code to modify difficulty data
 

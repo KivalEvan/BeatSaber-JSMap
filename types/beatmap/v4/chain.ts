@@ -1,4 +1,4 @@
-import { ICustomDataBase } from '../shared/custom/customData.ts';
+import { ICustomDataSlider } from '../v3/custom/slider.ts';
 import { IItem } from './item.ts';
 
 export interface IChain extends IItem {
@@ -42,5 +42,5 @@ export interface IChain extends IItem {
     * **WARNING:** Value `0` will crash the game.
     */
    s?: number;
-   customData?: ICustomDataBase;
+   customData?: ICustomDataSlider;
 }

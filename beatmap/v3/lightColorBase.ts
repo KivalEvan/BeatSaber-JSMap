@@ -1,11 +1,11 @@
-import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
-import { IWrapLightColorBaseAttribute } from '../../types/beatmap/wrapper/lightColorBase.ts';
+import { ILightColorEvent } from '../../types/beatmap/v3/lightColorEvent.ts';
+import { IWrapLightColorEventAttribute } from '../../types/beatmap/wrapper/lightColorEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { WrapLightColorBase } from '../wrapper/lightColorBase.ts';
+import { WrapLightColorEvent } from '../wrapper/lightColorEvent.ts';
 
 /** Light color base beatmap v3 class object. */
-export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
-   static default: Required<ILightColorBase> = {
+export class LightColorBase extends WrapLightColorEvent<ILightColorEvent> {
+   static default: Required<ILightColorEvent> = {
       b: 0,
       i: 0,
       c: 0,
@@ -17,13 +17,17 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
    };
 
    constructor();
-   constructor(data: Partial<IWrapLightColorBaseAttribute<ILightColorBase>>);
-   constructor(data: Partial<ILightColorBase>);
+   constructor(data: Partial<IWrapLightColorEventAttribute<ILightColorEvent>>);
+   constructor(data: Partial<ILightColorEvent>);
    constructor(
-      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>,
+      data:
+         & Partial<ILightColorEvent>
+         & Partial<IWrapLightColorEventAttribute<ILightColorEvent>>,
    );
    constructor(
-      data: Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>> = {},
+      data:
+         & Partial<ILightColorEvent>
+         & Partial<IWrapLightColorEventAttribute<ILightColorEvent>> = {},
    ) {
       super();
 
@@ -34,19 +38,27 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
       this._brightness = data.s ?? data.brightness ?? LightColorBase.default.s;
       this._strobeBrightness = data.sb ?? data.strobeBrightness ?? LightColorBase.default.sb;
       this._strobeFade = data.sf ?? data.strobeFade ?? LightColorBase.default.sf;
-      this._customData = deepCopy(data.customData ?? LightColorBase.default.customData);
+      this._customData = deepCopy(
+         data.customData ?? LightColorBase.default.customData,
+      );
    }
 
    static create(): LightColorBase[];
    static create(
-      ...data: Partial<IWrapLightColorBaseAttribute<ILightColorBase>>[]
+      ...data: Partial<IWrapLightColorEventAttribute<ILightColorEvent>>[]
    ): LightColorBase[];
-   static create(...data: Partial<ILightColorBase>[]): LightColorBase[];
+   static create(...data: Partial<ILightColorEvent>[]): LightColorBase[];
    static create(
-      ...data: (Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>)[]
+      ...data: (
+         & Partial<ILightColorEvent>
+         & Partial<IWrapLightColorEventAttribute<ILightColorEvent>>
+      )[]
    ): LightColorBase[];
    static create(
-      ...data: (Partial<ILightColorBase> & Partial<IWrapLightColorBaseAttribute<ILightColorBase>>)[]
+      ...data: (
+         & Partial<ILightColorEvent>
+         & Partial<IWrapLightColorEventAttribute<ILightColorEvent>>
+      )[]
    ): LightColorBase[] {
       const result: LightColorBase[] = data.map((obj) => new this(obj));
       if (result.length) {
@@ -55,7 +67,7 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
       return [new this()];
    }
 
-   toJSON(): Required<ILightColorBase> {
+   toJSON(): Required<ILightColorEvent> {
       return {
          b: this.time,
          c: this.color,
@@ -68,10 +80,17 @@ export class LightColorBase extends WrapLightColorBase<ILightColorBase> {
       };
    }
 
-   get customData(): NonNullable<ILightColorBase['customData']> {
+   get previous(): 0 | 1 {
+      return this.transition === 2 ? 1 : 0;
+   }
+   set previous(value: 0 | 1) {
+      this.transition = value ? 2 : this.transition;
+   }
+
+   get customData(): NonNullable<ILightColorEvent['customData']> {
       return this._customData;
    }
-   set customData(value: NonNullable<ILightColorBase['customData']>) {
+   set customData(value: NonNullable<ILightColorEvent['customData']>) {
       this._customData = value;
    }
 }

@@ -1,5 +1,5 @@
 import { IGrid } from './grid.ts';
-import { ICustomDataBase } from '../shared/custom/customData.ts';
+import { ICustomDataObstacle } from '../v3/custom/obstacle.ts';
 
 export interface IObstacle extends IGrid {
    /** Duration `<float>` of obstacle.*/
@@ -23,5 +23,5 @@ export interface IObstacle extends IGrid {
     * **RANGE:** `1-5`
     */
    h?: number;
-   customData?: ICustomDataBase;
+   customData?: ICustomDataObstacle;
 }

@@ -28,7 +28,6 @@ import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
 import { GenericFileName } from '../shared/filename.ts';
 import { EventContainer, NoteContainer } from './container.ts';
 import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
-import { IWrapFxEventsCollection } from './fxEventsCollection.ts';
 import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 
 export interface IWrapDifficultyAttribute<
@@ -50,7 +49,6 @@ export interface IWrapDifficultyAttribute<
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
-   fxEventsCollection: IWrapFxEventsCollection;
    useNormalEventsAsCompatibleEvents: boolean;
 
    filename: string;

@@ -1,5 +1,5 @@
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
-import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
+import { ILightColorEvent } from '../../types/beatmap/v3/lightColorEvent.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import { IWrapLightColorEventBoxAttribute } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
 import { DeepPartial } from '../../types/utils.ts';
@@ -11,21 +11,11 @@ import { LightColorBase } from './lightColorBase.ts';
 /** Light color event box beatmap v3 class object. */
 export class LightColorEventBox extends WrapLightColorEventBox<
    ILightColorEventBox,
-   ILightColorBase,
+   ILightColorEvent,
    IIndexFilter
 > {
    static default: Required<ILightColorEventBox> = {
-      f: {
-         f: IndexFilter.default.f,
-         p: IndexFilter.default.p,
-         t: IndexFilter.default.t,
-         r: IndexFilter.default.r,
-         c: IndexFilter.default.c,
-         n: IndexFilter.default.n,
-         s: IndexFilter.default.s,
-         l: IndexFilter.default.l,
-         d: IndexFilter.default.d,
-      },
+      f: { ...IndexFilter.default },
       w: 0,
       d: 1,
       r: 0,
@@ -39,7 +29,11 @@ export class LightColorEventBox extends WrapLightColorEventBox<
    constructor();
    constructor(
       data: DeepPartial<
-         IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+         IWrapLightColorEventBoxAttribute<
+            ILightColorEventBox,
+            ILightColorEvent,
+            IIndexFilter
+         >
       >,
    );
    constructor(data: DeepPartial<ILightColorEventBox>);
@@ -47,14 +41,22 @@ export class LightColorEventBox extends WrapLightColorEventBox<
       data:
          & DeepPartial<ILightColorEventBox>
          & DeepPartial<
-            IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+            IWrapLightColorEventBoxAttribute<
+               ILightColorEventBox,
+               ILightColorEvent,
+               IIndexFilter
+            >
          >,
    );
    constructor(
       data:
          & DeepPartial<ILightColorEventBox>
          & DeepPartial<
-            IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+            IWrapLightColorEventBoxAttribute<
+               ILightColorEventBox,
+               ILightColorEvent,
+               IIndexFilter
+            >
          > = {},
    ) {
       super();
@@ -69,30 +71,43 @@ export class LightColorEventBox extends WrapLightColorEventBox<
          LightColorEventBox.default.d;
       this._brightnessDistribution = data.r ?? data.brightnessDistribution ??
          LightColorEventBox.default.r;
-      this._brightnessDistributionType = data.t ?? data.brightnessDistributionType ??
+      this._brightnessDistributionType = data.t ??
+         data.brightnessDistributionType ??
          LightColorEventBox.default.t;
       this._affectFirst = data.b ?? data.affectFirst ?? LightColorEventBox.default.b;
       this._easing = data.i ?? data.easing ?? LightColorEventBox.default.i;
       this._events = (
          (data as ILightColorEventBox).e ??
-            (data.events as ILightColorBase[]) ??
+            (data.events as ILightColorEvent[]) ??
             LightColorEventBox.default.e
       ).map((obj) => new LightColorBase(obj));
-      this._customData = deepCopy(data.customData ?? LightColorEventBox.default.customData);
+      this._customData = deepCopy(
+         data.customData ?? LightColorEventBox.default.customData,
+      );
    }
 
    static create(): LightColorEventBox[];
    static create(
       ...data: DeepPartial<
-         IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+         IWrapLightColorEventBoxAttribute<
+            ILightColorEventBox,
+            ILightColorEvent,
+            IIndexFilter
+         >
       >[]
    ): LightColorEventBox[];
-   static create(...data: DeepPartial<ILightColorEventBox>[]): LightColorEventBox[];
+   static create(
+      ...data: DeepPartial<ILightColorEventBox>[]
+   ): LightColorEventBox[];
    static create(
       ...data: (
          & DeepPartial<ILightColorEventBox>
          & DeepPartial<
-            IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+            IWrapLightColorEventBoxAttribute<
+               ILightColorEventBox,
+               ILightColorEvent,
+               IIndexFilter
+            >
          >
       )[]
    ): LightColorEventBox[];
@@ -100,12 +115,15 @@ export class LightColorEventBox extends WrapLightColorEventBox<
       ...data: (
          & DeepPartial<ILightColorEventBox>
          & DeepPartial<
-            IWrapLightColorEventBoxAttribute<ILightColorEventBox, ILightColorBase, IIndexFilter>
+            IWrapLightColorEventBoxAttribute<
+               ILightColorEventBox,
+               ILightColorEvent,
+               IIndexFilter
+            >
          >
       )[]
    ): LightColorEventBox[] {
-      const result: LightColorEventBox[] = [];
-      data.forEach((eb) => result.push(new this(eb)));
+      const result: LightColorEventBox[] = data.map((eb) => new this(eb));
       if (result.length) {
          return result;
       }

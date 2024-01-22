@@ -2,6 +2,8 @@ import logger from '../logger.ts';
 import { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
 import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
+import { Lightshow as V3Lightshow } from '../beatmap/v3/lightshow.ts';
+import { Lightshow as V4Lightshow } from '../beatmap/v4/lightshow.ts';
 import { clamp } from '../utils/math.ts';
 import { EventLaneRotationValue } from '../beatmap/shared/constants.ts';
 import { ICustomDataNote } from '../types/beatmap/v3/custom/note.ts';
@@ -21,6 +23,7 @@ import { ColorNote } from '../beatmap/v3/colorNote.ts';
 import { RotationEvent } from '../beatmap/v3/rotationEvent.ts';
 import { isVector3, vectorMul } from '../utils/vector.ts';
 import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import { IWrapLightshow } from '../types/beatmap/wrapper/lightshow.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -39,7 +42,10 @@ export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
       return data;
    }
 
-   logger.tWarn(tag('toV3Difficulty'), 'Converting beatmap to v3 may lose certain data!');
+   logger.tWarn(
+      tag('toV3Difficulty'),
+      'Converting beatmap to v3 may lose certain data!',
+   );
 
    const template = new V3Difficulty();
    template.filename = data.filename;
@@ -76,7 +82,8 @@ export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
                   c: n.type as 0 | 1,
                   x: n.posX,
                   y: n.posY,
-                  d: n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
+                  d: n.direction >= 1000 ||
+                        typeof n.customData._cutDirection === 'number'
                      ? n.direction === 8 ? 8 : 1
                      : clamp(n.direction, 0, 8),
                   a: a,
@@ -154,7 +161,8 @@ export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
                      c: n.type as 0 | 1,
                      x: n.posX,
                      y: n.posY,
-                     d: n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
+                     d: n.direction >= 1000 ||
+                           typeof n.customData._cutDirection === 'number'
                         ? n.direction === 8 ? 8 : 1
                         : clamp(n.direction, 0, 8),
                      a: a,
@@ -168,7 +176,8 @@ export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
                      c: n.type as 0 | 1,
                      x: n.posX,
                      y: n.posY,
-                     d: n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
+                     d: n.direction >= 1000 ||
+                           typeof n.customData._cutDirection === 'number'
                         ? n.direction === 8 ? 8 : 1
                         : clamp(n.direction, 0, 8),
                      a: a,
@@ -264,7 +273,11 @@ export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
                      `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`,
                   );
                }
-               if (e.customData._stepMult || e.customData._propMult || e.customData._speedMult) {
+               if (
+                  e.customData._stepMult ||
+                  e.customData._propMult ||
+                  e.customData._speedMult
+               ) {
                   logger.tWarn(
                      tag('toV3Difficulty'),
                      `events[${i}] at time ${e.time} Chroma _mult will be removed.`,
@@ -447,27 +460,39 @@ export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
                                  uv: e._geometry._mesh._uv,
                                  triangles: e._geometry._mesh._triangles,
                               },
-                              material: typeof e._geometry._material === 'string'
+                              material: typeof e._geometry._material ===
+                                    'string'
                                  ? e._geometry._material
                                  : {
-                                    shader: e._geometry._material._shader,
-                                    shaderKeywords: e._geometry._material._shaderKeywords,
-                                    collision: e._geometry._material._collision,
-                                    track: e._geometry._material._track,
-                                    color: e._geometry._material._color,
+                                    shader: e._geometry._material
+                                       ._shader,
+                                    shaderKeywords: e._geometry._material
+                                       ._shaderKeywords,
+                                    collision: e._geometry._material
+                                       ._collision,
+                                    track: e._geometry._material
+                                       ._track,
+                                    color: e._geometry._material
+                                       ._color,
                                  },
                               collision: e._geometry._collision,
                            }
                            : {
                               type: e._geometry._type,
-                              material: typeof e._geometry._material === 'string'
+                              material: typeof e._geometry._material ===
+                                    'string'
                                  ? e._geometry._material
                                  : {
-                                    shader: e._geometry._material._shader,
-                                    shaderKeywords: e._geometry._material._shaderKeywords,
-                                    collision: e._geometry._material._collision,
-                                    track: e._geometry._material._track,
-                                    color: e._geometry._material._color,
+                                    shader: e._geometry._material
+                                       ._shader,
+                                    shaderKeywords: e._geometry._material
+                                       ._shaderKeywords,
+                                    collision: e._geometry._material
+                                       ._collision,
+                                    track: e._geometry._material
+                                       ._track,
+                                    color: e._geometry._material
+                                       ._color,
                                  },
                               collision: e._geometry._collision,
                            },
@@ -511,35 +536,41 @@ export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
                continue;
             }
             if (k === '_BPMChanges') {
-               template.customData.BPMChanges = data.customData[k]?.map((bpmc) => {
-                  return {
-                     b: bpmc._time,
-                     m: bpmc._BPM,
-                     p: bpmc._beatsPerBar,
-                     o: bpmc._metronomeOffset,
-                  };
-               });
+               template.customData.BPMChanges = data.customData[k]?.map(
+                  (bpmc) => {
+                     return {
+                        b: bpmc._time,
+                        m: bpmc._BPM,
+                        p: bpmc._beatsPerBar,
+                        o: bpmc._metronomeOffset,
+                     };
+                  },
+               );
                continue;
             }
             if (k === '_bpmChanges') {
-               template.customData.BPMChanges = data.customData[k]?.map((bpmc) => {
-                  return {
-                     b: bpmc._time,
-                     m: bpmc._bpm,
-                     p: bpmc._beatsPerBar,
-                     o: bpmc._metronomeOffset,
-                  };
-               });
+               template.customData.BPMChanges = data.customData[k]?.map(
+                  (bpmc) => {
+                     return {
+                        b: bpmc._time,
+                        m: bpmc._bpm,
+                        p: bpmc._beatsPerBar,
+                        o: bpmc._metronomeOffset,
+                     };
+                  },
+               );
                continue;
             }
             if (k === '_bookmarks') {
-               template.customData.bookmarks = data.customData._bookmarks?.map((b) => {
-                  return {
-                     b: b._time,
-                     n: b._name,
-                     c: b._color,
-                  };
-               });
+               template.customData.bookmarks = data.customData._bookmarks?.map(
+                  (b) => {
+                     return {
+                        b: b._time,
+                        n: b._name,
+                        c: b._color,
+                     };
+                  },
+               );
                continue;
             }
             template.customData[k] = data.customData[k];
@@ -557,7 +588,10 @@ export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
          if (template.customData.customEvents) {
             for (const ce of template.customData.customEvents) {
                if (ce.t === 'AnimateTrack') {
-                  if (typeof ce.d.track === 'string' && envTracks.includes(ce.d.track)) {
+                  if (
+                     typeof ce.d.track === 'string' &&
+                     envTracks.includes(ce.d.track)
+                  ) {
                      customEvents.push(ce);
                   } else if (Array.isArray(ce.d.track)) {
                      for (const t of ce.d.track) {
@@ -596,5 +630,15 @@ export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
       }
       template.useNormalEventsAsCompatibleEvents = true;
    }
+   return template;
+}
+
+export function toV3Lightshow(data: IWrapLightshow): V3Lightshow {
+   if (data instanceof V3Lightshow) {
+      return data;
+   }
+
+   const template = new V3Lightshow();
+
    return template;
 }

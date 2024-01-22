@@ -5,14 +5,14 @@ import { WrapLightRotationEventBoxGroup } from '../wrapper/lightRotationEventBox
 import { deepCopy } from '../../utils/misc.ts';
 import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
 import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
-import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
+import { ILightRotationEvent } from '../../types/beatmap/v3/lightRotationEvent.ts';
 import { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
 
 /** Light Rotation event box group beatmap v3 class object. */
 export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
    ILightRotationEventBoxGroup,
    ILightRotationEventBox,
-   ILightRotationBase,
+   ILightRotationEvent,
    IIndexFilter
 > {
    static default: Required<ILightRotationEventBoxGroup> = {
@@ -28,7 +28,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
          IWrapLightRotationEventBoxGroupAttribute<
             ILightRotationEventBoxGroup,
             ILightRotationEventBox,
-            ILightRotationBase,
+            ILightRotationEvent,
             IIndexFilter
          >
       >,
@@ -41,7 +41,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             IWrapLightRotationEventBoxGroupAttribute<
                ILightRotationEventBoxGroup,
                ILightRotationEventBox,
-               ILightRotationBase,
+               ILightRotationEvent,
                IIndexFilter
             >
          >,
@@ -53,7 +53,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             IWrapLightRotationEventBoxGroupAttribute<
                ILightRotationEventBoxGroup,
                ILightRotationEventBox,
-               ILightRotationBase,
+               ILightRotationEvent,
                IIndexFilter
             >
          > = {},
@@ -76,7 +76,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
          IWrapLightRotationEventBoxGroupAttribute<
             ILightRotationEventBoxGroup,
             ILightRotationEventBox,
-            ILightRotationBase,
+            ILightRotationEvent,
             IIndexFilter
          >
       >[]
@@ -89,7 +89,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             IWrapLightRotationEventBoxGroupAttribute<
                ILightRotationEventBoxGroup,
                ILightRotationEventBox,
-               ILightRotationBase,
+               ILightRotationEvent,
                IIndexFilter
             >
          >
@@ -102,7 +102,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
             IWrapLightRotationEventBoxGroupAttribute<
                ILightRotationEventBoxGroup,
                ILightRotationEventBox,
-               ILightRotationBase,
+               ILightRotationEvent,
                IIndexFilter
             >
          >

@@ -1,10 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
 import { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
+import { IWrapFxEventFloat, IWrapFxEventFloatAttribute } from './fxEventFloat.ts';
 
 export interface IWrapFxEventBoxAttribute<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
+   TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
    TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
-> extends IWrapEventBoxAttribute<TBox, number, TFilter> {
+> extends IWrapEventBoxAttribute<TBox, TBase, TFilter> {
    /** FX distribution `<float>` of FX event box. */
    fxDistribution: number;
    /**
@@ -15,18 +17,19 @@ export interface IWrapFxEventBoxAttribute<
     * ```
     */
    fxDistributionType: 1 | 2;
-   /** FX index `<int>` list. */
-   events: number[];
+   /** FX event list. */
+   events: IWrapFxEventFloatAttribute<TBase>[];
 }
 
 export interface IWrapFxEventBox<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
+   TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
    TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
-> extends IWrapEventBox<TBox, number, TFilter>, IWrapFxEventBoxAttribute<TBox, TFilter> {
-   events: number[];
+> extends IWrapEventBox<TBox, TBase, TFilter>, IWrapFxEventBoxAttribute<TBox, TBase, TFilter> {
+   events: IWrapFxEventFloat<TBase>[];
 
    setFxDistribution(value: IWrapFxEventBox['fxDistribution']): this;
    setFxDistributionType(value: IWrapFxEventBox['fxDistributionType']): this;
    setAffectFirst(value: IWrapFxEventBox['affectFirst']): this;
-   setEvents(value: number[]): this;
+   setEvents(value: IWrapFxEventFloat<TBase>[]): this;
 }

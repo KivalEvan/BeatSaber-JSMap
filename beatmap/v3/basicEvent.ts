@@ -22,40 +22,48 @@ export class BasicEvent extends WrapEvent<IBasicEvent> {
 
    constructor();
    constructor(data: Partial<IWrapEventAttribute<IBasicEvent>>);
-   constructor(...data: Partial<IBasicEvent>[]);
-   constructor(data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>>);
-   constructor(data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>> = {}) {
+   constructor(data: Partial<IBasicEvent>);
+   constructor(
+      data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>>,
+   );
+   constructor(
+      data:
+         & Partial<IBasicEvent>
+         & Partial<IWrapEventAttribute<IBasicEvent>> = {},
+   ) {
       super();
 
       this._time = data.b ?? data.time ?? BasicEvent.default.b;
       this._type = data.et ?? data.type ?? BasicEvent.default.et;
       this._value = data.i ?? data.value ?? BasicEvent.default.i;
       this._floatValue = data.f ?? data.floatValue ?? BasicEvent.default.f;
-      this._customData = deepCopy(data.customData ?? BasicEvent.default.customData);
+      this._customData = deepCopy(
+         data.customData ?? BasicEvent.default.customData,
+      );
    }
 
    static create(): BasicEvent[];
-   static create(...data: Partial<IWrapEventAttribute<IBasicEvent>>[]): BasicEvent[];
+   static create(
+      ...data: Partial<IWrapEventAttribute<IBasicEvent>>[]
+   ): BasicEvent[];
    static create(...data: Partial<IBasicEvent>[]): BasicEvent[];
    static create(
-      ...data: (Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>>)[]
+      ...data: (
+         & Partial<IBasicEvent>
+         & Partial<IWrapEventAttribute<IBasicEvent>>
+      )[]
    ): BasicEvent[];
    static create(
-      ...data: (Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>>)[]
+      ...data: (
+         & Partial<IBasicEvent>
+         & Partial<IWrapEventAttribute<IBasicEvent>>
+      )[]
    ): BasicEvent[] {
       const result: BasicEvent[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
-      return [
-         new this({
-            b: BasicEvent.default.b,
-            et: BasicEvent.default.et,
-            i: BasicEvent.default.i,
-            f: BasicEvent.default.f,
-            customData: BasicEvent.default.customData,
-         }),
-      ];
+      return [new this()];
    }
 
    toJSON(): Required<IBasicEvent> {
@@ -83,11 +91,15 @@ export class BasicEvent extends WrapEvent<IBasicEvent> {
       return super.isRingEvent(environment);
    }
 
-   isLaserRotationEvent(environment?: EnvironmentAllName): this is BasicEventLaser {
+   isLaserRotationEvent(
+      environment?: EnvironmentAllName,
+   ): this is BasicEventLaser {
       return super.isLaserRotationEvent(environment);
    }
 
-   isLaneRotationEvent(environment?: EnvironmentAllName): this is BasicEventLaneRotation {
+   isLaneRotationEvent(
+      environment?: EnvironmentAllName,
+   ): this is BasicEventLaneRotation {
       return super.isLaneRotationEvent(environment);
    }
 

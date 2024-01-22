@@ -9,6 +9,7 @@ export abstract class WrapGridObject<T extends { [P in keyof T]: T[P] }> extends
    implements IWrapGridObject<T> {
    protected _posX!: IWrapGridObject['posX'];
    protected _posY!: IWrapGridObject['posY'];
+   protected _laneRotation!: IWrapGridObject['laneRotation'];
 
    get posX(): IWrapGridObject['posX'] {
       return this._posX;
@@ -22,6 +23,12 @@ export abstract class WrapGridObject<T extends { [P in keyof T]: T[P] }> extends
    set posY(value: IWrapGridObject['posY']) {
       this._posY = value;
    }
+   get laneRotation(): IWrapGridObject['laneRotation'] {
+      return this._laneRotation;
+   }
+   set laneRotation(value: IWrapGridObject['laneRotation']) {
+      this._laneRotation = value;
+   }
 
    setPosX(value: number) {
       this.posX = value;
@@ -29,6 +36,10 @@ export abstract class WrapGridObject<T extends { [P in keyof T]: T[P] }> extends
    }
    setPosY(value: number) {
       this.posY = value;
+      return this;
+   }
+   setLaneRotation(value: number) {
+      this.laneRotation = value;
       return this;
    }
 
@@ -69,7 +80,11 @@ export abstract class WrapGridObject<T extends { [P in keyof T]: T[P] }> extends
       return dX === dY;
    }
 
-   isInline(compareTo: IWrapGridObject, lapping?: number | null, type?: ModType) {
+   isInline(
+      compareTo: IWrapGridObject,
+      lapping?: number | null,
+      type?: ModType,
+   ) {
       lapping ??= 0.5;
       return this.getDistance(compareTo, type) <= lapping;
    }
@@ -79,7 +94,11 @@ export abstract class WrapGridObject<T extends { [P in keyof T]: T[P] }> extends
       return d > 0.499 && d < 1.001;
    }
 
-   isWindow(compareTo: IWrapGridObject, distance?: number | null, type?: ModType) {
+   isWindow(
+      compareTo: IWrapGridObject,
+      distance?: number | null,
+      type?: ModType,
+   ) {
       distance ??= 1.8;
       return this.getDistance(compareTo, type) > distance;
    }

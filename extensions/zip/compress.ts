@@ -1,7 +1,7 @@
 import globals from '../../globals.ts';
 import { zip } from './deps.ts';
 import { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
-import * as save from '../../save.ts';
+import * as save from '../../save/mod.ts';
 import { resolve } from '../../deps.ts';
 
 export async function compress(info: IWrapInfo, zipName: string): Promise<boolean> {

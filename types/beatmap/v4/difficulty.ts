@@ -6,7 +6,13 @@ import { IItem } from './item.ts';
 import { IObjectArc, IObjectChain, IObjectLane } from './object.ts';
 import { IObstacle } from './obstacle.ts';
 
-export interface IDifficulty extends IItem {
+export interface IDifficulty {
+   version: '4.0.0';
+   contentChecksum: string;
+   content: IDifficultyContent;
+}
+
+export interface IDifficultyContent extends IItem {
    colorNotes: IObjectLane[];
    bombNotes: IObjectLane[];
    obstacles: IObjectLane[];

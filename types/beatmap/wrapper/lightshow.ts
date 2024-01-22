@@ -17,24 +17,30 @@ import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
 import { GenericFileName } from '../shared/filename.ts';
 import { EventContainer } from './container.ts';
-import { IWrapFxEventsCollection } from './fxEventsCollection.ts';
 import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
+import { IWrapWaypoint } from './waypoint.ts';
+import { IWrapWaypointAttribute } from './waypoint.ts';
+import { Version } from '../shared/version.ts';
 
-export interface IWrapLightshowAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItemAttribute<T> {
+export interface IWrapLightshowAttribute<
+   T extends { [P in keyof T]: T[P] } = Record<string, any>,
+> extends IWrapBaseItemAttribute<T> {
+   readonly version: Version;
+   waypoints: IWrapWaypoint[];
    basicEvents: IWrapEvent[];
    colorBoostEvents: IWrapColorBoostEvent[];
    lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
-   fxEventsCollection: IWrapFxEventsCollection;
+   useNormalEventsAsCompatibleEvents: boolean;
 
    filename: string;
 }
 
-export interface IWrapLightshow<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>, IWrapLightshowAttribute<T> {
+export interface IWrapLightshow<
+   T extends { [P in keyof T]: T[P] } = Record<string, any>,
+> extends IWrapBaseItem<T>, IWrapLightshowAttribute<T> {
    setFileName(filename: LooseAutocomplete<GenericFileName>): this;
 
    /** Sort beatmap object(s) accordingly. */
@@ -63,14 +69,19 @@ export interface IWrapLightshow<T extends { [P in keyof T]: T[P] } = Record<stri
     */
    getEventContainer(): EventContainer[];
 
+   addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
    addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;
    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): this;
-   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): this;
+   addLightColorEventBoxGroups(
+      ...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]
+   ): this;
    addLightRotationEventBoxGroups(
       ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
    ): this;
    addLightTranslationEventBoxGroups(
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): this;
-   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): this;
+   addFxEventBoxGroups(
+      ...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]
+   ): this;
 }

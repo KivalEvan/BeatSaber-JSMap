@@ -5,6 +5,7 @@ import { IBombNote } from '../../types/beatmap/v4/bombNote.ts';
 import { IChain } from '../../types/beatmap/v4/chain.ts';
 import { IColorBoostEvent } from '../../types/beatmap/v4/colorBoostEvent.ts';
 import { IColorNote } from '../../types/beatmap/v4/colorNote.ts';
+import { IDifficultyContent } from '../../types/beatmap/v4/difficulty.ts';
 import { IDifficulty } from '../../types/beatmap/v4/difficulty.ts';
 import { IFxEventBox } from '../../types/beatmap/v4/fxEventBox.ts';
 import { IFxEventFloat } from '../../types/beatmap/v4/fxEventFloat.ts';
@@ -312,8 +313,8 @@ export const ArcDataCheck: {
    },
 };
 
-export const DifficultyDataCheck: {
-   readonly [key in keyof IDifficulty]: DataCheck;
+export const DifficultyContentDataCheck: {
+   readonly [key in keyof IDifficultyContent]: DataCheck;
 } = {
    colorNotes: {
       type: 'object',
@@ -392,6 +393,26 @@ export const DifficultyDataCheck: {
       optional: true,
    },
 };
+
+export const DifficultyDataCheck: {
+   readonly [key in keyof IDifficulty]: DataCheck;
+} = {
+   version: {
+      type: 'string',
+      version: '4.0.0',
+   },
+   contentChecksum: {
+      type: 'string',
+      version: '4.0.0',
+      optional: true,
+   },
+   content: {
+      type: 'object',
+      version: '4.0.0',
+      check: DifficultyContentDataCheck,
+      optional: true,
+   },
+} as const;
 
 export const WaypointDataCheck: {
    readonly [key in keyof IWaypoint]: DataCheck;

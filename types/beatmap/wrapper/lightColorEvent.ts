@@ -1,11 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
+import { EaseType } from '../shared/constants.ts';
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapLightColorBaseAttribute<
+export interface IWrapLightColorEventAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
 > extends IWrapBaseObjectAttribute<T> {
    /** Relative beat time `<float>` to event box group. */
    time: number;
+   previous: 0 | 1;
    /**
     * Color `<int>` of base light color.
     * ```ts
@@ -45,14 +47,18 @@ export interface IWrapLightColorBaseAttribute<
    strobeBrightness: number;
    /** Strobe  fade `<int>` of base light color. */
    strobeFade: 0 | 1;
+   easing: EaseType;
 }
 
-export interface IWrapLightColorBase<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObject<T>, IWrapLightColorBaseAttribute<T> {
+export interface IWrapLightColorEvent<
+   T extends { [P in keyof T]: T[P] } = Record<string, any>,
+> extends IWrapBaseObject<T>, IWrapLightColorEventAttribute<T> {
+   setPrevious(value: 0 | 1): this;
    setTransition(value: 0 | 1 | 2): this;
    setColor(value: 0 | 1 | 2): this;
    setBrightness(value: number): this;
    setFrequency(value: number): this;
    setStrobeBrightness(value: number): this;
    setStrobeFade(value: 0 | 1): this;
+   setStrobeFade(value: EaseType): this;
 }

@@ -4,61 +4,109 @@ import { IBombNote } from './bombNote.ts';
 import { IChain } from './chain.ts';
 import { IColorBoostEvent } from './colorBoostEvent.ts';
 import { IColorNote } from './colorNote.ts';
-import { IEventBox } from './eventBox.ts';
-import { IEventBoxCommon } from './eventBoxCommon.ts';
 import { IEventBoxGroup } from './eventBoxGroup.ts';
+import { IFxEventBox } from './fxEventBox.ts';
+import { IFxEventFloat } from './fxEventFloat.ts';
 import { IIndexFilter } from './indexFilter.ts';
+import { ILightColorEvent } from './lightColorEvent.ts';
+import { ILightColorEventBox } from './lightColorEventBox.ts';
+import { ILightRotationEvent } from './lightRotationEvent.ts';
+import { ILightRotationEventBox } from './lightRotationEventBox.ts';
+import { ILightTranslationEvent } from './lightTranslationEvent.ts';
+import { ILightTranslationEventBox } from './lightTranslationEventBox.ts';
 import { IObjectLane } from './object.ts';
 import { IObject, IObjectArc, IObjectChain } from './object.ts';
 import { IObstacle } from './obstacle.ts';
+import { IWaypoint } from './waypoint.ts';
 
-export interface ArcContainer {
-   arcObject: IObjectArc;
+export interface IArcContainer {
+   object: IObjectArc;
    data: IArc;
    headData: IColorNote;
    tailData: IColorNote;
 }
 
-export interface BasicEventContainer {
+export interface IBasicEventContainer {
    object: IObject;
    data: IBasicEvent;
 }
 
-export interface BombNoteContainer {
+export interface IBombNoteContainer {
    object: IObjectLane;
    data: IBombNote;
 }
 
-export interface ChainContainer {
+export interface IChainContainer {
    object: IObjectChain;
-   data: IChain;
-   headData: IColorNote;
+   data: IColorNote;
+   chainData: IChain;
 }
 
-export interface ColorBoostEventContainer {
+export interface IColorBoostEventContainer {
    object: IObject;
    data: IColorBoostEvent;
 }
 
-export interface ColorNoteContainer {
+export interface IColorNoteContainer {
    object: IObjectLane;
    data: IColorNote;
 }
 
-export interface EventBoxGroupContainer<TEvent, TBox extends IEventBoxCommon = IEventBox> {
-   object: IObject;
-   data: IEventBoxGroup;
-   filterData: IIndexFilter;
-   boxData: TBox;
-   eventData: TEvent[];
+export interface IEventBoxGroupContainer<TEvent> {
+   object: IEventBoxGroup;
+   boxData: TEvent[];
 }
 
-export interface ObstacleContainer {
+export interface ILightColorBoxContainer {
+   data: ILightColorEventBox;
+   filterData: IIndexFilter;
+   eventData: ILightColorEventContainer[];
+}
+
+export interface ILightColorEventContainer {
+   data: ILightColorEvent;
+   time: number;
+}
+
+export interface ILightRotationBoxContainer {
+   data: ILightRotationEventBox;
+   filterData: IIndexFilter;
+   eventData: ILightRotationEventContainer[];
+}
+
+export interface ILightRotationEventContainer {
+   data: ILightRotationEvent;
+   time: number;
+}
+
+export interface ILightTranslationBoxContainer {
+   data: ILightTranslationEventBox;
+   filterData: IIndexFilter;
+   eventData: ILightTranslationEventContainer[];
+}
+
+export interface ILightTranslationEventContainer {
+   data: ILightTranslationEvent;
+   time: number;
+}
+
+export interface IFxEventFloatBoxContainer {
+   data: IFxEventBox;
+   filterData: IIndexFilter;
+   eventData: IFxEventFloatContainer[];
+}
+
+export interface IFxEventFloatContainer {
+   data: IFxEventFloat;
+   time: number;
+}
+
+export interface IObstacleContainer {
    object: IObjectLane;
    data: IObstacle;
 }
 
-export interface WaypointContainer {
+export interface IWaypointContainer {
    object: IObjectLane;
-   data: IColorNote;
+   data: IWaypoint;
 }

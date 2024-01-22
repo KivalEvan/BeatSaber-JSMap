@@ -18,7 +18,7 @@ import {
 
 /** Difficulty beatmap class object. */
 export class Info extends WrapInfo<IInfo> {
-   readonly version = '2.1.0' as const;
+   readonly version = '2.1.0';
 
    contentChecksum = '';
    song: IWrapInfoSong = {

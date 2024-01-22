@@ -1,5 +1,5 @@
 import { IEventBox } from './eventBox.ts';
-import { ILightRotationBase } from './lightRotationBase.ts';
+import { ILightRotationEvent } from './lightRotationEvent.ts';
 
 export interface ILightRotationEventBox extends IEventBox {
    /** Rotation distribution `<float>` of light rotation event box. */
@@ -26,5 +26,5 @@ export interface ILightRotationEventBox extends IEventBox {
    /** Rotation distribution should affect first event `<int>` of light rotation event box. */
    b?: 0 | 1;
    /** Light rotation base data list. */
-   l: ILightRotationBase[];
+   l: ILightRotationEvent[];
 }

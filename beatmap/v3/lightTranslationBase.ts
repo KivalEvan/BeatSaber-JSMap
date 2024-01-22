@@ -1,11 +1,11 @@
-import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
-import { IWrapLightTranslationBaseAttribute } from '../../types/beatmap/wrapper/lightTranslationBase.ts';
+import { ILightTranslationEvent } from '../../types/beatmap/v3/lightTranslationEvent.ts';
+import { IWrapLightTranslationEventAttribute } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { WrapLightTranslationBase } from '../wrapper/lightTranslationBase.ts';
+import { WrapLightTranslationEvent } from '../wrapper/lightTranslationEvent.ts';
 
 /** Light translation base beatmap v3 class object. */
-export class LightTranslationBase extends WrapLightTranslationBase<ILightTranslationBase> {
-   static default: Required<ILightTranslationBase> = {
+export class LightTranslationBase extends WrapLightTranslationEvent<ILightTranslationEvent> {
+   static default: Required<ILightTranslationEvent> = {
       b: 0,
       p: 0,
       e: 0,
@@ -14,17 +14,17 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
    };
 
    constructor();
-   constructor(data: Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>);
-   constructor(data: Partial<ILightTranslationBase>);
+   constructor(data: Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>>);
+   constructor(data: Partial<ILightTranslationEvent>);
    constructor(
       data:
-         & Partial<ILightTranslationBase>
-         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>,
+         & Partial<ILightTranslationEvent>
+         & Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>>,
    );
    constructor(
       data:
-         & Partial<ILightTranslationBase>
-         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>> = {},
+         & Partial<ILightTranslationEvent>
+         & Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>> = {},
    ) {
       super();
 
@@ -37,19 +37,19 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
 
    static create(): LightTranslationBase[];
    static create(
-      ...data: Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>[]
+      ...data: Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>>[]
    ): LightTranslationBase[];
-   static create(...data: Partial<ILightTranslationBase>[]): LightTranslationBase[];
+   static create(...data: Partial<ILightTranslationEvent>[]): LightTranslationBase[];
    static create(
       ...data: (
-         & Partial<ILightTranslationBase>
-         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>
+         & Partial<ILightTranslationEvent>
+         & Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>>
       )[]
    ): LightTranslationBase[];
    static create(
       ...data: (
-         & Partial<ILightTranslationBase>
-         & Partial<IWrapLightTranslationBaseAttribute<ILightTranslationBase>>
+         & Partial<ILightTranslationEvent>
+         & Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>>
       )[]
    ): LightTranslationBase[] {
       const result: LightTranslationBase[] = data.map((obj) => new this(obj));
@@ -59,7 +59,7 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
       return [new this()];
    }
 
-   toJSON(): Required<ILightTranslationBase> {
+   toJSON(): Required<ILightTranslationEvent> {
       return {
          b: this.time,
          e: this.easing,
@@ -69,10 +69,10 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
       };
    }
 
-   get customData(): NonNullable<ILightTranslationBase['customData']> {
+   get customData(): NonNullable<ILightTranslationEvent['customData']> {
       return this._customData;
    }
-   set customData(value: NonNullable<ILightTranslationBase['customData']>) {
+   set customData(value: NonNullable<ILightTranslationEvent['customData']>) {
       this._customData = value;
    }
 }
