@@ -1,4 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
+import { DistributionType } from '../shared/constants.ts';
+import { Axis } from '../shared/constants.ts';
 import { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
 import { IWrapLightRotationEvent, IWrapLightRotationEventAttribute } from './lightRotationEvent.ts';
 
@@ -16,7 +18,7 @@ export interface IWrapLightRotationEventBoxAttribute<
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   rotationDistributionType: 1 | 2;
+   rotationDistributionType: DistributionType;
    /**
     * Axis `<int>` of light rotation event box.
     * ```ts
@@ -25,7 +27,7 @@ export interface IWrapLightRotationEventBoxAttribute<
     * 2 -> Z
     * ```
     */
-   axis: 0 | 1 | 2;
+   axis: Axis;
    /** Flip rotation `<int>` in light rotation event box. */
    flip: 0 | 1;
    events: IWrapLightRotationEventAttribute<TBase>[];

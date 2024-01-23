@@ -1,3 +1,4 @@
+import { SliderMidAnchorMode } from '../shared/constants.ts';
 import { ICustomDataBase } from '../shared/custom/customData.ts';
 
 /** not a chain. */
@@ -50,6 +51,6 @@ export interface IArc {
     * 2 -> Counter-Clockwise
     * ```
     */
-   _sliderMidAnchorMode?: 0 | 1 | 2;
+   _sliderMidAnchorMode?: SliderMidAnchorMode;
    _customData?: ICustomDataBase;
 }

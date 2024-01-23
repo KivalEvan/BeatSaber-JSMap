@@ -1,4 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
+import { Axis } from '../shared/constants.ts';
+import { DistributionType } from '../shared/constants.ts';
 import { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
 import {
    IWrapLightTranslationEvent,
@@ -19,7 +21,7 @@ export interface IWrapLightTranslationEventBoxAttribute<
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   gapDistributionType: 1 | 2;
+   gapDistributionType: DistributionType;
    /**
     * Axis `<int>` of light translation event box.
     * ```ts
@@ -28,7 +30,7 @@ export interface IWrapLightTranslationEventBoxAttribute<
     * 2 -> Z
     * ```
     */
-   axis: 0 | 1 | 2;
+   axis: Axis;
    /** Flip translation `<int>` in light translation event box. */
    flip: 0 | 1;
    events: IWrapLightTranslationEventAttribute<TBase>[];

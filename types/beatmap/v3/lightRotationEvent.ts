@@ -1,10 +1,12 @@
+import { EaseType } from '../shared/constants.ts';
+import { LightRotationDirection } from '../shared/constants.ts';
 import { ICustomDataBase } from '../shared/custom/customData.ts';
 
 export interface ILightRotationEvent {
    /** Relative beat time `<float>` to event box group. */
    b?: number;
    /** Ease type `<int>` of light rotation. */
-   e?: number;
+   e?: EaseType;
    /** Loop count `<int>` in light rotation. */
    l?: number;
    /**
@@ -15,7 +17,7 @@ export interface ILightRotationEvent {
     * 2 -> Counter-clockwise
     * ```
     */
-   o?: 0 | 1 | 2;
+   o?: LightRotationDirection;
    /** Use previous event rotation value `<int>` in light rotation. */
    p?: 0 | 1;
    /**

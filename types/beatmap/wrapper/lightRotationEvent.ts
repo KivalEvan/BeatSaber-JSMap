@@ -1,4 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
+import { EaseType } from '../shared/constants.ts';
+import { LightRotationDirection } from '../shared/constants.ts';
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
 export interface IWrapLightRotationEventAttribute<
@@ -7,7 +9,7 @@ export interface IWrapLightRotationEventAttribute<
    /** Relative beat time `<float>` to event box group. */
    time: number;
    /** Ease type `<int>` of light rotation. */
-   easing: number;
+   easing: EaseType;
    /** Loop count `<int>` in light rotation. */
    loop: number;
    /**
@@ -18,7 +20,7 @@ export interface IWrapLightRotationEventAttribute<
     * 2 -> Counter-clockwise
     * ```
     */
-   direction: 0 | 1 | 2;
+   direction: LightRotationDirection;
    /** Use previous event rotation value `<int>` in light rotation. */
    previous: 0 | 1;
    /**
@@ -34,8 +36,8 @@ export interface IWrapLightRotationEventAttribute<
 export interface IWrapLightRotationEvent<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseObject<T>, IWrapLightRotationEventAttribute<T> {
    setPrevious(value: 0 | 1): this;
-   setEasing(value: number): this;
+   setEasing(value: EaseType): this;
    setLoop(value: number): this;
    setRotation(value: number): this;
-   setDirection(value: 0 | 1 | 2): this;
+   setDirection(value: LightRotationDirection): this;
 }

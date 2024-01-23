@@ -1,3 +1,4 @@
+import { DistributionType } from '../shared/constants.ts';
 import { IEventBox } from './eventBox.ts';
 
 export interface IFxEventBox extends IEventBox {
@@ -10,7 +11,7 @@ export interface IFxEventBox extends IEventBox {
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   t?: 1 | 2;
+   t?: DistributionType;
    /** FX distribution should affect first event `<int>` of FX event box. */
    b?: 0 | 1;
    /** FX index `<int>` list. */

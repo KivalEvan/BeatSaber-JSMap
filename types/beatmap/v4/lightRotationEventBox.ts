@@ -1,3 +1,4 @@
+import { Axis } from '../shared/constants.ts';
 import { IEventBoxCommon } from './eventBoxCommon.ts';
 
 export interface ILightRotationEventBox extends IEventBoxCommon {
@@ -9,7 +10,7 @@ export interface ILightRotationEventBox extends IEventBoxCommon {
     * 2 -> Z
     * ```
     */
-   a?: 0 | 1 | 2;
+   a?: Axis;
    /** Flip rotation `<int>` in light rotation event box. */
    f?: 0 | 1;
 }

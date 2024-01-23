@@ -1,4 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
+import { EventBoxColor } from '../shared/constants.ts';
+import { TransitionType } from '../shared/constants.ts';
 import { EaseType } from '../shared/constants.ts';
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
@@ -17,7 +19,7 @@ export interface IWrapLightColorEventAttribute<
     * 2 -> White
     * ```
     */
-   color: -1 | 0 | 1 | 2;
+   color: EventBoxColor;
    /**
     * Frequency `<int>` of base light color.
     *
@@ -32,7 +34,7 @@ export interface IWrapLightColorEventAttribute<
     * 2 -> Extend
     * ```
     */
-   transition: 0 | 1 | 2;
+   transition: TransitionType;
    /**
     * Brightness `<float>` of base light color.
     *
@@ -54,8 +56,8 @@ export interface IWrapLightColorEvent<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
 > extends IWrapBaseObject<T>, IWrapLightColorEventAttribute<T> {
    setPrevious(value: 0 | 1): this;
-   setTransition(value: 0 | 1 | 2): this;
-   setColor(value: 0 | 1 | 2): this;
+   setTransition(value: TransitionType): this;
+   setColor(value: EventBoxColor): this;
    setBrightness(value: number): this;
    setFrequency(value: number): this;
    setStrobeBrightness(value: number): this;

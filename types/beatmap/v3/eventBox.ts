@@ -1,3 +1,5 @@
+import { EaseType } from '../shared/constants.ts';
+import { DistributionType } from '../shared/constants.ts';
 import { IBaseItem } from './baseItem.ts';
 import { IIndexFilter } from './indexFilter.ts';
 
@@ -13,7 +15,7 @@ export interface IEventBox extends IBaseItem {
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   d?: 1 | 2;
+   d?: DistributionType;
    /** Easing `<int>` of distribution. */
-   i?: number;
+   i?: EaseType;
 }

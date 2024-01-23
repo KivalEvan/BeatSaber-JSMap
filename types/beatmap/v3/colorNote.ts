@@ -1,5 +1,6 @@
 import { IGridObject } from './gridObject.ts';
 import { ICustomDataNote } from './custom/note.ts';
+import { NoteColor } from '../shared/constants.ts';
 
 export interface IColorNote extends IGridObject {
    /**
@@ -9,7 +10,7 @@ export interface IColorNote extends IGridObject {
     * 1 -> Blue
     * ```
     */
-   c?: 0 | 1;
+   c?: NoteColor;
    /**
     * Cut direction `<int>` of note.
     * ```ts

@@ -1,3 +1,6 @@
+import { RandomType } from '../shared/constants.ts';
+import { LimitAlsoAffectsType } from '../shared/constants.ts';
+import { IndexFilterType } from '../shared/constants.ts';
 import { IItem } from './item.ts';
 
 interface IIndexFilterBase extends IItem {
@@ -8,7 +11,7 @@ interface IIndexFilterBase extends IItem {
     * 2 -> Step And Offset
     * ```
     */
-   f?: 1 | 2;
+   f?: IndexFilterType;
    /** Parameter 0 `<int>` in index filter. */
    p?: number;
    /** Parameter 1 `<int>` in index filter. */
@@ -34,7 +37,7 @@ interface IIndexFilterBase extends IItem {
     * 3 -> All
     * ```
     */
-   n?: 0 | 1 | 2 | 3;
+   n?: RandomType;
    /** Random seed `<int>` in index filter. */
    s?: number;
    /**
@@ -56,7 +59,7 @@ interface IIndexFilterBase extends IItem {
     *
     * Adjust to limited ID list and has no effect with `Step` type.
     */
-   d?: 0 | 1 | 2 | 3;
+   d?: LimitAlsoAffectsType;
 }
 
 interface IIndexFilterSection extends IIndexFilterBase {

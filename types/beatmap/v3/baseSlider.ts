@@ -1,3 +1,4 @@
+import { NoteColor } from '../shared/constants.ts';
 import { IGridObject } from './gridObject.ts';
 
 export interface IBaseSlider extends IGridObject {
@@ -8,7 +9,7 @@ export interface IBaseSlider extends IGridObject {
     * 1 -> Blue
     * ```
     */
-   c?: 0 | 1;
+   c?: NoteColor;
    /**
     * Head cut direction `<int>` of base arc.
     * ```ts

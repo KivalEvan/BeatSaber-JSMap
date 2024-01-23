@@ -1,3 +1,4 @@
+import { SliderMidAnchorMode } from '../shared/constants.ts';
 import { IBaseSlider } from './baseSlider.ts';
 import { ICustomDataSlider } from './custom/slider.ts';
 
@@ -37,6 +38,6 @@ export interface IArc extends IBaseSlider {
     *
     * **NOTE:** The visual will only be applied under specific condition.
     */
-   m?: 0 | 1 | 2;
+   m?: SliderMidAnchorMode;
    customData?: ICustomDataSlider;
 }

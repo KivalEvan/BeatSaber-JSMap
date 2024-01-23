@@ -1,3 +1,4 @@
+import { DistributionType } from '../shared/constants.ts';
 import { IEventBox } from './eventBox.ts';
 import { ILightColorEvent } from './lightColorEvent.ts';
 
@@ -15,7 +16,7 @@ export interface ILightColorEventBox extends IEventBox {
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   t?: 1 | 2;
+   t?: DistributionType;
    /** Brightness distribution should affect first event `<int>` of light color event box. */
    b?: 0 | 1;
    /** Light color base data list. */

@@ -1,4 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
+import { NoteColor } from '../shared/constants.ts';
 import { ModType } from '../shared/modCheck.ts';
 import { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
@@ -11,7 +12,7 @@ export interface IWrapBaseNoteAttribute<T extends { [P in keyof T]: T[P] } = Rec
     * 1 -> Blue
     * ```
     */
-   color: 0 | 1;
+   color: NoteColor;
    /**
     * Cut direction `<int>` of note.
     * ```ts
@@ -29,7 +30,7 @@ export interface IWrapBaseNoteAttribute<T extends { [P in keyof T]: T[P] } = Rec
 
 export interface IWrapBaseNote<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapGridObject<T>, IWrapBaseNoteAttribute<T> {
-   setColor(value: 0 | 1): this;
+   setColor(value: NoteColor): this;
    setDirection(value: number): this;
 
    /**

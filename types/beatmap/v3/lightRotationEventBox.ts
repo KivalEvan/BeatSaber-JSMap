@@ -1,3 +1,5 @@
+import { Axis } from '../shared/constants.ts';
+import { DistributionType } from '../shared/constants.ts';
 import { IEventBox } from './eventBox.ts';
 import { ILightRotationEvent } from './lightRotationEvent.ts';
 
@@ -11,7 +13,7 @@ export interface ILightRotationEventBox extends IEventBox {
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   t?: 1 | 2;
+   t?: DistributionType;
    /**
     * Axis `<int>` of light rotation event box.
     * ```ts
@@ -20,7 +22,7 @@ export interface ILightRotationEventBox extends IEventBox {
     * 2 -> Z
     * ```
     */
-   a?: 0 | 1 | 2;
+   a?: Axis;
    /** Flip rotation `<int>` in light rotation event box. */
    r?: 0 | 1;
    /** Rotation distribution should affect first event `<int>` of light rotation event box. */

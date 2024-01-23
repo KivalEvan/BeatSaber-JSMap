@@ -1,4 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
+import { EaseType } from '../shared/constants.ts';
+import { DistributionType } from '../shared/constants.ts';
 import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 import { IWrapIndexFilter, IWrapIndexFilterAttribute } from './indexFilter.ts';
@@ -19,9 +21,9 @@ export interface IWrapEventBoxAttribute<
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   beatDistributionType: 1 | 2;
+   beatDistributionType: DistributionType;
    /** Easing `<int>` of distribution. */
-   easing: number;
+   easing: EaseType;
    /** Event distribution should affect first event `<int>` of event box. */
    affectFirst: 0 | 1;
    events: number[] | IWrapBaseObjectAttribute<TBase>[];

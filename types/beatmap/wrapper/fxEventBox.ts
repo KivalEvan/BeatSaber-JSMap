@@ -1,4 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
+import { DistributionType } from '../shared/constants.ts';
 import { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
 import { IWrapFxEventFloat, IWrapFxEventFloatAttribute } from './fxEventFloat.ts';
 
@@ -16,7 +17,7 @@ export interface IWrapFxEventBoxAttribute<
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   fxDistributionType: 1 | 2;
+   fxDistributionType: DistributionType;
    /** FX event list. */
    events: IWrapFxEventFloatAttribute<TBase>[];
 }

@@ -1,4 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
+import { DistributionType } from '../shared/constants.ts';
 import { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
 import { IWrapLightColorEvent, IWrapLightColorEventAttribute } from './lightColorEvent.ts';
 
@@ -20,7 +21,7 @@ export interface IWrapLightColorEventBoxAttribute<
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   brightnessDistributionType: 1 | 2;
+   brightnessDistributionType: DistributionType;
    events: IWrapLightColorEventAttribute<TBase>[];
 }
 

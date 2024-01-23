@@ -1,3 +1,5 @@
+import { EventBoxColor } from '../shared/constants.ts';
+import { EaseType } from '../shared/constants.ts';
 import { IItem } from './item.ts';
 
 export interface ILightColorEvent extends IItem {
@@ -12,9 +14,9 @@ export interface ILightColorEvent extends IItem {
     * 2 -> White
     * ```
     */
-   c?: -1 | 0 | 1 | 2;
+   c?: EventBoxColor;
    /** Easing type `<int>` of light color. */
-   e?: number;
+   e?: EaseType;
    /**
     * Brightness `<float>` of light color.
     *

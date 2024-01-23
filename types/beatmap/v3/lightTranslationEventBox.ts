@@ -1,3 +1,5 @@
+import { DistributionType } from '../shared/constants.ts';
+import { Axis } from '../shared/constants.ts';
 import { IEventBox } from './eventBox.ts';
 import { ILightTranslationEvent } from './lightTranslationEvent.ts';
 
@@ -11,7 +13,7 @@ export interface ILightTranslationEventBox extends IEventBox {
     * 2 -> Step // adds to consequent ID.
     * ```
     */
-   t?: 1 | 2;
+   t?: DistributionType;
    /**
     * Axis `<int>` of light translation event box.
     * ```ts
@@ -20,7 +22,7 @@ export interface ILightTranslationEventBox extends IEventBox {
     * 2 -> Z
     * ```
     */
-   a?: 0 | 1 | 2;
+   a?: Axis;
    /** Flip translation `<int>` in light translation event box. */
    r?: 0 | 1;
    /** Translation distribution should affect first event `<int>` of light translation event box. */
