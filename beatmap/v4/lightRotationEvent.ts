@@ -1,7 +1,7 @@
 import { ILightRotationEventContainer } from '../../types/beatmap/v4/container.ts';
 import { ILightRotationEvent } from '../../types/beatmap/v4/lightRotationEvent.ts';
 import { IWrapLightRotationEventAttribute } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
-import { DeepRequiredIgnore } from '../../types/mod.ts';
+import { DeepRequiredIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightRotationEvent } from '../wrapper/lightRotationEvent.ts';
 
