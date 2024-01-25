@@ -24,9 +24,12 @@ export function _difficulty(
       directory: '',
       filePath: '',
       format: options.format ?? defaultOptions.difficulty.format,
-      optimize: options.optimize ?? defaultOptions.difficulty.optimize,
-      validate: options.validate ?? defaultOptions.difficulty.validate,
-      dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
+      optimize: { ...defaultOptions.difficulty.optimize, ...options.optimize },
+      validate: { ...defaultOptions.difficulty.validate, ...options.validate },
+      dataCheck: {
+         ...defaultOptions.difficulty.dataCheck,
+         ...options.dataCheck,
+      },
       sort: options.sort ?? defaultOptions.difficulty.sort,
    };
    if (opt.validate.enabled) {

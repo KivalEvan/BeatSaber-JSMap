@@ -34,7 +34,10 @@ export function _difficulty(
    const opt: Required<ILoadOptionsDifficulty> = {
       directory: '',
       forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
-      dataCheck: options.dataCheck ?? defaultOptions.difficulty.dataCheck,
+      dataCheck: {
+         ...defaultOptions.difficulty.dataCheck,
+         ...options.dataCheck,
+      },
       sort: options.sort ?? defaultOptions.difficulty.sort,
    };
 

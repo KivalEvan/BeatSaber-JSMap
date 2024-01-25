@@ -27,6 +27,12 @@ export interface IOptimizeOptions extends ICleanOptions {
     */
    purgeZeros?: boolean;
    /**
+    * Deduplicate object in beatmap V4. (EXPERIMENTAL)
+    *
+    * @default false
+    */
+   deduplicate?: boolean;
+   /**
     * Throw error when encountering null or undefined value.
     *
     * @default true

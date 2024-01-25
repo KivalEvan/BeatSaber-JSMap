@@ -27,7 +27,10 @@ function _lightshow(
    const opt: Required<ILoadOptionsLightshow> = {
       directory: '',
       forceConvert: options.forceConvert ?? defaultOptions.lightshow.forceConvert,
-      dataCheck: options.dataCheck ?? defaultOptions.lightshow.dataCheck,
+      dataCheck: {
+         ...defaultOptions.lightshow.dataCheck,
+         ...options.dataCheck,
+      },
       sort: options.sort ?? defaultOptions.lightshow.sort,
    };
 

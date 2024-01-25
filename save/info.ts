@@ -20,9 +20,12 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
       directory: '',
       filePath: '',
       format: options.format ?? defaultOptions.info.format,
-      optimize: options.optimize ?? defaultOptions.info.optimize,
-      validate: options.validate ?? defaultOptions.info.validate,
-      dataCheck: options.dataCheck ?? defaultOptions.info.dataCheck,
+      optimize: { ...defaultOptions.info.optimize, ...options.optimize },
+      validate: { ...defaultOptions.info.validate, ...options.validate },
+      dataCheck: {
+         ...defaultOptions.info.dataCheck,
+         ...options.dataCheck,
+      },
       sort: options.sort ?? defaultOptions.info.sort,
    };
 

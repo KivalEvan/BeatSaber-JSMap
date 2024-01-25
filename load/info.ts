@@ -29,7 +29,10 @@ function _info(
       filePath: '',
       directory: '',
       forceConvert: options.forceConvert ?? defaultOptions.info.forceConvert,
-      dataCheck: options.dataCheck ?? defaultOptions.info.dataCheck,
+      dataCheck: {
+         ...defaultOptions.info.dataCheck,
+         ...options.dataCheck,
+      },
       sort: options.sort ?? defaultOptions.info.sort,
    };
 

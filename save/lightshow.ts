@@ -19,9 +19,12 @@ function _lightshow(data: IWrapLightshow, options: ISaveOptionsLightshow) {
       directory: '',
       filePath: '',
       format: options.format ?? defaultOptions.lightshow.format,
-      optimize: options.optimize ?? defaultOptions.lightshow.optimize,
-      validate: options.validate ?? defaultOptions.lightshow.validate,
-      dataCheck: options.dataCheck ?? defaultOptions.lightshow.dataCheck,
+      optimize: { ...defaultOptions.lightshow.optimize, ...options.optimize },
+      validate: { ...defaultOptions.lightshow.validate, ...options.validate },
+      dataCheck: {
+         ...defaultOptions.lightshow.dataCheck,
+         ...options.dataCheck,
+      },
       sort: options.sort ?? defaultOptions.lightshow.sort,
    };
    if (opt.validate.enabled) {

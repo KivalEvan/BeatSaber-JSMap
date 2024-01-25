@@ -34,7 +34,10 @@ export function beatmapFromInfo(
       directory: options.directory ??
          (globals.directory || defaultOptions.list.directory),
       forceConvert: options.forceConvert ?? defaultOptions.list.forceConvert,
-      dataCheck: options.dataCheck ?? defaultOptions.list.dataCheck,
+      dataCheck: {
+         ...defaultOptions.list.dataCheck,
+         ...options.dataCheck,
+      },
       sort: options.sort ?? defaultOptions.list.sort,
    };
    return Promise.all(

@@ -5,6 +5,8 @@
 ### Added
 
 - Beatmap Difficulty, Lightshow and Info v4
+  - Deduplication of data for v4 (EXPERIMENTAL)
+    - This only affects the JSON output
 - Beatmap JSON can now be passed onto `load` instead of just string path
   - Default file name to `LoadJSON.dat`
 
@@ -13,6 +15,7 @@
 - Major structure change to Info
 - Minor structure change to Difficulty
   - FX Float event is now part of event box instead of separated entity
+- Nested load and save options now properly spread instead of replace
 - Several class method now return `this` instead of `void` to allow chaining
 - Beatmap version is now read-only
 - Internal logic optimised
