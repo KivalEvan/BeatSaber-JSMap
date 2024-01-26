@@ -11,7 +11,7 @@ import {
    IFxEventFloatBoxContainer,
 } from '../../types/beatmap/v3/container.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';
-import { FxType } from '../shared/constants.ts';
+import { FxType } from '../../types/beatmap/shared/constants.ts';
 import { IFxEventFloat } from '../../types/beatmap/v4/fxEventFloat.ts';
 
 /** FX event box group beatmap v3 class object. */

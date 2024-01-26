@@ -8,7 +8,7 @@ import {
    IEventBoxGroupContainer,
    ILightTranslationEventContainer,
 } from '../../types/beatmap/v4/container.ts';
-import { EventBoxType } from '../shared/constants.ts';
+import { EventBoxType } from '../../types/beatmap/shared/constants.ts';
 import { IEventBoxGroup } from '../../types/beatmap/v4/eventBoxGroup.ts';
 import { ILightTranslationBoxContainer } from '../../types/beatmap/v4/container.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v4/lightTranslationEventBox.ts';

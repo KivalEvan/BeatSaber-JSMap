@@ -8,7 +8,7 @@ import {
    IEventBoxGroupContainer,
    IFxEventFloatContainer,
 } from '../../types/beatmap/v4/container.ts';
-import { EventBoxType } from '../shared/constants.ts';
+import { EventBoxType } from '../../types/beatmap/shared/constants.ts';
 import { IEventBoxGroup } from '../../types/beatmap/v4/eventBoxGroup.ts';
 import { IFxEventFloatBoxContainer } from '../../types/beatmap/v4/container.ts';
 import { IFxEventBox } from '../../types/beatmap/v4/fxEventBox.ts';

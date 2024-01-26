@@ -8,7 +8,7 @@ import {
    IEventBoxGroupContainer,
    ILightColorEventContainer,
 } from '../../types/beatmap/v4/container.ts';
-import { EventBoxType } from '../shared/constants.ts';
+import { EventBoxType } from '../../types/beatmap/shared/constants.ts';
 import { IEventBoxGroup } from '../../types/beatmap/v4/eventBoxGroup.ts';
 import { ILightColorBoxContainer } from '../../types/beatmap/v4/container.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v4/lightColorEventBox.ts';
