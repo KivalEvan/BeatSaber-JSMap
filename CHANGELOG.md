@@ -15,6 +15,9 @@
 - Major structure change to Info
 - Minor structure change to Difficulty
   - FX Float event is now part of event box instead of separated entity
+- Converting beatmap version to same version will now create a copy instead of returning the same
+  data
+- Converting beatmap now preserve custom data
 - Nested load and save options now properly spread instead of replace
 - Several class method now return `this` instead of `void` to allow chaining
 - Beatmap version is now read-only
