@@ -7,10 +7,10 @@ import { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapp
 import {
    IEventBoxGroupContainer,
    ILightColorEventContainer,
-} from '../../types/beatmap/v4/container.ts';
+} from '../../types/beatmap/container/v4.ts';
 import { EventBoxType } from '../../types/beatmap/shared/constants.ts';
 import { IEventBoxGroup } from '../../types/beatmap/v4/eventBoxGroup.ts';
-import { ILightColorBoxContainer } from '../../types/beatmap/v4/container.ts';
+import { ILightColorBoxContainer } from '../../types/beatmap/container/v4.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v4/lightColorEventBox.ts';
 import { ILightColorEvent } from '../../types/beatmap/v4/lightColorEvent.ts';
 

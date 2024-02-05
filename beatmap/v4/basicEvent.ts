@@ -9,7 +9,7 @@ import { deepCopy } from '../../utils/misc.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import { WrapEvent } from '../wrapper/event.ts';
-import { IBasicEventContainer } from '../../types/beatmap/v4/container.ts';
+import { IBasicEventContainer } from '../../types/beatmap/container/v4.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';
 import { IObject } from '../../types/beatmap/v4/object.ts';
 

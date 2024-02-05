@@ -1,7 +1,7 @@
 import {
    IFxEventFloatBoxContainer,
    IFxEventFloatContainer,
-} from '../../types/beatmap/v4/container.ts';
+} from '../../types/beatmap/container/v4.ts';
 import { IIndexFilter } from '../../types/beatmap/v4/indexFilter.ts';
 import { IFxEventFloat } from '../../types/beatmap/v4/fxEventFloat.ts';
 import { IFxEventBox } from '../../types/beatmap/v4/fxEventBox.ts';

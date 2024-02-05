@@ -6,7 +6,7 @@ import { isVector3 } from '../../utils/vector.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { IObjectLane } from '../../types/beatmap/v4/object.ts';
-import { IColorNoteContainer } from '../../types/beatmap/v4/container.ts';
+import { IColorNoteContainer } from '../../types/beatmap/container/v4.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';
 
 /** Color note beatmap v4 class object. */

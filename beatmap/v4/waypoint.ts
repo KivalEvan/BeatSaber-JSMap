@@ -1,4 +1,4 @@
-import { IWaypointContainer } from '../../types/beatmap/v4/container.ts';
+import { IWaypointContainer } from '../../types/beatmap/container/v4.ts';
 import { IObjectLane } from '../../types/beatmap/v4/object.ts';
 import { IWaypoint } from '../../types/beatmap/v4/waypoint.ts';
 import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';

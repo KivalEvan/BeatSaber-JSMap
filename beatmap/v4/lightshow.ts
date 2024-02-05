@@ -30,7 +30,7 @@ import {
    IBasicEventContainer,
    IColorBoostEventContainer,
    IWaypointContainer,
-} from '../../types/beatmap/v4/container.ts';
+} from '../../types/beatmap/container/v4.ts';
 import { EventBoxType } from '../../types/beatmap/shared/constants.ts';
 import { IObject } from '../../types/beatmap/v4/object.ts';
 

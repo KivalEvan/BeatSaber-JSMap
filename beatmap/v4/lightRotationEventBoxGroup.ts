@@ -7,10 +7,10 @@ import { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wr
 import {
    IEventBoxGroupContainer,
    ILightRotationEventContainer,
-} from '../../types/beatmap/v4/container.ts';
+} from '../../types/beatmap/container/v4.ts';
 import { EventBoxType } from '../../types/beatmap/shared/constants.ts';
 import { IEventBoxGroup } from '../../types/beatmap/v4/eventBoxGroup.ts';
-import { ILightRotationBoxContainer } from '../../types/beatmap/v4/container.ts';
+import { ILightRotationBoxContainer } from '../../types/beatmap/container/v4.ts';
 import { ILightRotationEventBox } from '../../types/beatmap/v4/lightRotationEventBox.ts';
 import { ILightRotationEvent } from '../../types/beatmap/v4/lightRotationEvent.ts';
 

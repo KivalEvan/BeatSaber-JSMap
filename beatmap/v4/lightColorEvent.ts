@@ -1,4 +1,4 @@
-import { ILightColorEventContainer } from '../../types/beatmap/v4/container.ts';
+import { ILightColorEventContainer } from '../../types/beatmap/container/v4.ts';
 import { ILightColorEvent } from '../../types/beatmap/v4/lightColorEvent.ts';
 import {
    IWrapLightColorEvent,

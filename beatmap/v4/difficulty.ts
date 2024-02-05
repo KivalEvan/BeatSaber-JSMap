@@ -13,11 +13,11 @@ import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts'
 import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import logger from '../../logger.ts';
 import { DummySpecialEventsKeywordFilters } from './_specialEventsKeywordFilters.ts';
-import { IBombNoteContainer } from '../../types/beatmap/v4/container.ts';
-import { IObstacleContainer } from '../../types/beatmap/v4/container.ts';
-import { IArcContainer } from '../../types/beatmap/v4/container.ts';
-import { IColorNoteContainer } from '../../types/beatmap/v4/container.ts';
-import { IChainContainer } from '../../types/beatmap/v4/container.ts';
+import { IBombNoteContainer } from '../../types/beatmap/container/v4.ts';
+import { IObstacleContainer } from '../../types/beatmap/container/v4.ts';
+import { IArcContainer } from '../../types/beatmap/container/v4.ts';
+import { IColorNoteContainer } from '../../types/beatmap/container/v4.ts';
+import { IChainContainer } from '../../types/beatmap/container/v4.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v4', 'difficulty', name];

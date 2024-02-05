@@ -1,7 +1,7 @@
 import {
    ILightRotationBoxContainer,
    ILightRotationEventContainer,
-} from '../../types/beatmap/v4/container.ts';
+} from '../../types/beatmap/container/v4.ts';
 import { IIndexFilter } from '../../types/beatmap/v4/indexFilter.ts';
 import { ILightRotationEvent } from '../../types/beatmap/v4/lightRotationEvent.ts';
 import { ILightRotationEventBox } from '../../types/beatmap/v4/lightRotationEventBox.ts';

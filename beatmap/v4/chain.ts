@@ -1,7 +1,7 @@
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { IChain } from '../../types/beatmap/v4/chain.ts';
 import { IColorNote } from '../../types/beatmap/v4/colorNote.ts';
-import { IChainContainer } from '../../types/beatmap/v4/container.ts';
+import { IChainContainer } from '../../types/beatmap/container/v4.ts';
 import { IObjectChain } from '../../types/beatmap/v4/object.ts';
 import { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';

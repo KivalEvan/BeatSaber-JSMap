@@ -7,10 +7,10 @@ import { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap
 import {
    IEventBoxGroupContainer,
    ILightTranslationEventContainer,
-} from '../../types/beatmap/v4/container.ts';
+} from '../../types/beatmap/container/v4.ts';
 import { EventBoxType } from '../../types/beatmap/shared/constants.ts';
 import { IEventBoxGroup } from '../../types/beatmap/v4/eventBoxGroup.ts';
-import { ILightTranslationBoxContainer } from '../../types/beatmap/v4/container.ts';
+import { ILightTranslationBoxContainer } from '../../types/beatmap/container/v4.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v4/lightTranslationEventBox.ts';
 import { ILightTranslationEvent } from '../../types/beatmap/v4/lightTranslationEvent.ts';
 

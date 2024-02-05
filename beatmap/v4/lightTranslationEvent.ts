@@ -1,4 +1,4 @@
-import { ILightTranslationEventContainer } from '../../types/beatmap/v4/container.ts';
+import { ILightTranslationEventContainer } from '../../types/beatmap/container/v4.ts';
 import { ILightTranslationEvent } from '../../types/beatmap/v4/lightTranslationEvent.ts';
 import { IWrapLightTranslationEventAttribute } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';

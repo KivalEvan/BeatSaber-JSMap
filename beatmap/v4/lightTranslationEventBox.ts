@@ -1,7 +1,7 @@
 import {
    ILightTranslationBoxContainer,
    ILightTranslationEventContainer,
-} from '../../types/beatmap/v4/container.ts';
+} from '../../types/beatmap/container/v4.ts';
 import { IIndexFilter } from '../../types/beatmap/v4/indexFilter.ts';
 import { ILightTranslationEvent } from '../../types/beatmap/v4/lightTranslationEvent.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v4/lightTranslationEventBox.ts';

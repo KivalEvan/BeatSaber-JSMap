@@ -5,7 +5,7 @@ import { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapArc } from '../wrapper/arc.ts';
-import { IArcContainer } from '../../types/beatmap/v4/container.ts';
+import { IArcContainer } from '../../types/beatmap/container/v4.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';
 import { IColorNote } from '../../types/beatmap/v4/colorNote.ts';
 import { IObjectArc } from '../../types/beatmap/v4/object.ts';

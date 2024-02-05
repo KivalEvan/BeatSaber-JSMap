@@ -1,6 +1,6 @@
 import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { IObstacle } from '../../types/beatmap/v4/obstacle.ts';
-import { IObstacleContainer } from '../../types/beatmap/v4/container.ts';
+import { IObstacleContainer } from '../../types/beatmap/container/v4.ts';
 import { IObjectLane } from '../../types/beatmap/v4/object.ts';
 import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';

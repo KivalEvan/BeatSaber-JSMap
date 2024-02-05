@@ -3,7 +3,7 @@ import { deepCopy } from '../../utils/misc.ts';
 import { WrapBombNote } from '../wrapper/bombNote.ts';
 import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
 import { isVector3 } from '../../utils/vector.ts';
-import { IBombNoteContainer } from '../../types/beatmap/v4/container.ts';
+import { IBombNoteContainer } from '../../types/beatmap/container/v4.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';
 import { IObjectLane } from '../../types/beatmap/v4/object.ts';
 

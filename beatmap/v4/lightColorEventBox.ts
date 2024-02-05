@@ -1,7 +1,7 @@
 import {
    ILightColorBoxContainer,
    ILightColorEventContainer,
-} from '../../types/beatmap/v4/container.ts';
+} from '../../types/beatmap/container/v4.ts';
 import { IIndexFilter } from '../../types/beatmap/v4/indexFilter.ts';
 import { ILightColorEvent } from '../../types/beatmap/v4/lightColorEvent.ts';
 import { ILightColorEventBox } from '../../types/beatmap/v4/lightColorEventBox.ts';

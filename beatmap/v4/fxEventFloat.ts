@@ -1,4 +1,4 @@
-import { IFxEventFloatContainer } from '../../types/beatmap/v4/container.ts';
+import { IFxEventFloatContainer } from '../../types/beatmap/container/v4.ts';
 import { IFxEventFloat } from '../../types/beatmap/v4/fxEventFloat.ts';
 import { IWrapFxEventFloatAttribute } from '../../types/beatmap/wrapper/fxEventFloat.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';

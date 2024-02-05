@@ -1,5 +1,5 @@
 import { IColorBoostEvent } from '../../types/beatmap/v4/colorBoostEvent.ts';
-import { IColorBoostEventContainer } from '../../types/beatmap/v4/container.ts';
+import { IColorBoostEventContainer } from '../../types/beatmap/container/v4.ts';
 import { IObject } from '../../types/beatmap/v4/object.ts';
 import { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';
