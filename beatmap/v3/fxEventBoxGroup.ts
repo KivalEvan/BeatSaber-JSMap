@@ -9,7 +9,7 @@ import { IWrapFxEventBoxGroupAttribute } from '../../types/beatmap/wrapper/fxEve
 import {
    IEventBoxGroupContainer,
    IFxEventFloatBoxContainer,
-} from '../../types/beatmap/v3/container.ts';
+} from '../../types/beatmap/container/v3.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';
 import { FxType } from '../../types/beatmap/shared/constants.ts';
 import { IFxEventFloat } from '../../types/beatmap/v4/fxEventFloat.ts';

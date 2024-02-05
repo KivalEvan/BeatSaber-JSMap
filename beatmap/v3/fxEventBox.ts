@@ -7,7 +7,7 @@ import { WrapFxEventBox } from '../wrapper/fxEventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
 import { IFxEventFloat } from '../../types/beatmap/v3/fxEventFloat.ts';
 import { FxEventFloat } from './fxEventFloat.ts';
-import { IFxEventFloatBoxContainer } from '../../types/beatmap/v3/container.ts';
+import { IFxEventFloatBoxContainer } from '../../types/beatmap/container/v3.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';
 
 /** FX event box beatmap v3 class object. */
