@@ -21,39 +21,41 @@ export class Obstacle extends WrapObstacle<IObstacle> {
 
    protected _type: number;
 
-   constructor();
-   constructor(data: Partial<IWrapObstacleAttribute<IObstacle>>);
-   constructor(data: Partial<IObstacle>);
-   constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>);
-   constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
-      super();
-
-      this._time = data._time ?? data.time ?? Obstacle.default._time;
-      this._type = data._type ??
-         (data.posY === 2 && data.height === 3
-            ? 1
-            : data.posY === 0 && data.height === 5
-            ? 0
-            : Obstacle.default._type);
-      this._posX = data._lineIndex ?? data.posX ?? Obstacle.default._lineIndex;
-      this._duration = data._duration ?? data.duration ?? Obstacle.default._duration;
-      this._width = data._width ?? data.width ?? Obstacle.default._width;
-   }
-
-   static create(): Obstacle[];
-   static create(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): Obstacle[];
-   static create(...data: Partial<IObstacle>[]): Obstacle[];
    static create(
-      ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
-   ): Obstacle[];
-   static create(
-      ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
+      ...data: Partial<IWrapObstacleAttribute<IObstacle>>[]
    ): Obstacle[] {
       const result: Obstacle[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(data: Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
+      super();
+      this._time = data.time ?? Obstacle.default._time;
+      if (data instanceof Obstacle) {
+         this._type = data.type ?? Obstacle.default._type;
+      } else {
+         this._type = data.posY === 2 && data.height === 3
+            ? 1
+            : data.posY === 0 && data.height === 5
+            ? 0
+            : Obstacle.default._type;
+      }
+      this._posX = data.posX ?? Obstacle.default._lineIndex;
+      this._duration = data.duration ?? Obstacle.default._duration;
+      this._width = data.width ?? Obstacle.default._width;
+   }
+
+   static fromJSON(data: Partial<IObstacle> = {}): Obstacle {
+      const d = new this();
+      d._time = data._time ?? Obstacle.default._time;
+      d._type = data._type ?? Obstacle.default._type;
+      d._posX = data._lineIndex ?? Obstacle.default._lineIndex;
+      d._duration = data._duration ?? Obstacle.default._duration;
+      d._width = data._width ?? Obstacle.default._width;
+      return d;
    }
 
    toJSON(): Required<IObstacle> {
@@ -103,7 +105,10 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       return {};
    }
    set customData(_: Record<string, never>) {
-      logger.tWarn(tag('customData'), 'Obstacle custom data does not exist in beatmap V1');
+      logger.tWarn(
+         tag('customData'),
+         'Obstacle custom data does not exist in beatmap V1',
+      );
    }
 
    getPosition(type?: ModType): Vector2 {
@@ -129,6 +134,12 @@ export class Obstacle extends WrapObstacle<IObstacle> {
    }
 
    isMappingExtensions(): boolean {
-      return this.type > 1 || this.posX < 0 || this.posX > 3 || this.width < 0 || this.width > 3;
+      return (
+         this.type > 1 ||
+         this.posX < 0 ||
+         this.posX > 3 ||
+         this.width < 0 ||
+         this.width > 3
+      );
    }
 }

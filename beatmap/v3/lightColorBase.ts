@@ -16,55 +16,45 @@ export class LightColorBase extends WrapLightColorEvent<ILightColorEvent> {
       customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapLightColorEventAttribute<ILightColorEvent>>);
-   constructor(data: Partial<ILightColorEvent>);
-   constructor(
-      data:
-         & Partial<ILightColorEvent>
-         & Partial<IWrapLightColorEventAttribute<ILightColorEvent>>,
-   );
-   constructor(
-      data:
-         & Partial<ILightColorEvent>
-         & Partial<IWrapLightColorEventAttribute<ILightColorEvent>> = {},
-   ) {
-      super();
-
-      this._time = data.b ?? data.time ?? LightColorBase.default.b;
-      this._color = data.c ?? data.color ?? LightColorBase.default.c;
-      this._frequency = data.f ?? data.frequency ?? LightColorBase.default.f;
-      this._transition = data.i ?? data.transition ?? LightColorBase.default.i;
-      this._brightness = data.s ?? data.brightness ?? LightColorBase.default.s;
-      this._strobeBrightness = data.sb ?? data.strobeBrightness ?? LightColorBase.default.sb;
-      this._strobeFade = data.sf ?? data.strobeFade ?? LightColorBase.default.sf;
-      this._customData = deepCopy(
-         data.customData ?? LightColorBase.default.customData,
-      );
-   }
-
-   static create(): LightColorBase[];
    static create(
-      ...data: Partial<IWrapLightColorEventAttribute<ILightColorEvent>>[]
-   ): LightColorBase[];
-   static create(...data: Partial<ILightColorEvent>[]): LightColorBase[];
-   static create(
-      ...data: (
-         & Partial<ILightColorEvent>
-         & Partial<IWrapLightColorEventAttribute<ILightColorEvent>>
-      )[]
-   ): LightColorBase[];
-   static create(
-      ...data: (
-         & Partial<ILightColorEvent>
-         & Partial<IWrapLightColorEventAttribute<ILightColorEvent>>
-      )[]
+      ...data: (Partial<IWrapLightColorEventAttribute<ILightColorEvent>>)[]
    ): LightColorBase[] {
       const result: LightColorBase[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: Partial<IWrapLightColorEventAttribute<ILightColorEvent>> = {},
+   ) {
+      super();
+      this._time = data.time ?? LightColorBase.default.b;
+      this._color = data.color ?? LightColorBase.default.c;
+      this._frequency = data.frequency ?? LightColorBase.default.f;
+      this._transition = data.transition ?? LightColorBase.default.i;
+      this._brightness = data.brightness ?? LightColorBase.default.s;
+      this._strobeBrightness = data.strobeBrightness ?? LightColorBase.default.sb;
+      this._strobeFade = data.strobeFade ?? LightColorBase.default.sf;
+      this._customData = deepCopy(
+         data.customData ?? LightColorBase.default.customData,
+      );
+   }
+
+   static fromJSON(data: Partial<ILightColorEvent> = {}): LightColorBase {
+      const d = new this();
+      d._time = data.b ?? LightColorBase.default.b;
+      d._color = data.c ?? LightColorBase.default.c;
+      d._frequency = data.f ?? LightColorBase.default.f;
+      d._transition = data.i ?? LightColorBase.default.i;
+      d._brightness = data.s ?? LightColorBase.default.s;
+      d._strobeBrightness = data.sb ?? LightColorBase.default.sb;
+      d._strobeFade = data.sf ?? LightColorBase.default.sf;
+      d._customData = deepCopy(
+         data.customData ?? LightColorBase.default.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<ILightColorEvent> {

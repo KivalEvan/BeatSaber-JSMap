@@ -21,30 +21,31 @@ export class Event extends WrapEvent<IEvent> {
       _customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapEventAttribute<IEvent>>);
-   constructor(data: Partial<IEvent>);
-   constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>);
-   constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>> = {}) {
-      super();
-
-      this._time = data._time ?? data.time ?? Event.default._time;
-      this._type = data._type ?? data.type ?? Event.default._type;
-      this._value = data._value ?? data.value ?? Event.default._value;
-      this._floatValue = data._floatValue ?? data.floatValue ?? Event.default._floatValue;
-      this._customData = deepCopy(data._customData ?? data.customData ?? Event.default._customData);
-   }
-
-   static create(): Event[];
-   static create(...data: Partial<IWrapEventAttribute<IEvent>>[]): Event[];
-   static create(...data: Partial<IEvent>[]): Event[];
-   static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[];
-   static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[] {
+   static create(...data: Partial<IWrapEventAttribute<IEvent>>[]): Event[] {
       const result: Event[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(data: Partial<IWrapEventAttribute<IEvent>> = {}) {
+      super();
+      this._time = data.time ?? Event.default._time;
+      this._type = data.type ?? Event.default._type;
+      this._value = data.value ?? Event.default._value;
+      this._floatValue = data.floatValue ?? Event.default._floatValue;
+      this._customData = deepCopy(data.customData ?? Event.default._customData);
+   }
+
+   static fromJSON(data: Partial<IEvent> = {}): Event {
+      const d = new this();
+      d._time = data._time ?? Event.default._time;
+      d._type = data._type ?? Event.default._type;
+      d._value = data._value ?? Event.default._value;
+      d._floatValue = data._floatValue ?? Event.default._floatValue;
+      d._customData = deepCopy(data._customData ?? Event.default._customData);
+      return d;
    }
 
    toJSON(): Required<IEvent> {
@@ -76,7 +77,9 @@ export class Event extends WrapEvent<IEvent> {
       return super.isLaserRotationEvent(environment);
    }
 
-   isLaneRotationEvent(environment?: EnvironmentAllName): this is EventLaneRotation {
+   isLaneRotationEvent(
+      environment?: EnvironmentAllName,
+   ): this is EventLaneRotation {
       return super.isLaneRotationEvent(environment);
    }
 
@@ -120,11 +123,16 @@ export class Event extends WrapEvent<IEvent> {
    }
 
    isNoodleExtensions(): boolean {
-      return this.isLaneRotationEvent() && typeof this.customData._rotation === 'number';
+      return (
+         this.isLaneRotationEvent() &&
+         typeof this.customData._rotation === 'number'
+      );
    }
 
    isMappingExtensions(): boolean {
-      return this.isLaneRotationEvent() && this.value >= 1000 && this.value <= 1720;
+      return (
+         this.isLaneRotationEvent() && this.value >= 1000 && this.value <= 1720
+      );
    }
 }
 

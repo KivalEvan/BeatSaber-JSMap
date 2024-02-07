@@ -35,98 +35,6 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
       boxData: [],
    };
 
-   constructor();
-   constructor(
-      data: DeepPartial<
-         IWrapLightRotationEventBoxGroupAttribute<
-            IEventBoxGroupContainer<ILightRotationBoxContainer>,
-            ILightRotationBoxContainer,
-            ILightRotationEventContainer,
-            IIndexFilter
-         >
-      >,
-   );
-   constructor(
-      data: Partial<IEventBoxGroup>,
-      boxes?: ILightRotationEventBox[],
-      events?: ILightRotationEvent[],
-      filters?: IIndexFilter[],
-   );
-   constructor(
-      data:
-         & Partial<IEventBoxGroup>
-         & DeepPartial<
-            IWrapLightRotationEventBoxGroupAttribute<
-               IEventBoxGroupContainer<ILightRotationBoxContainer>,
-               ILightRotationBoxContainer,
-               ILightRotationEventContainer,
-               IIndexFilter
-            >
-         >,
-      boxes?: ILightRotationEventBox[],
-      events?: ILightRotationEvent[],
-      filters?: IIndexFilter[],
-   );
-   constructor(
-      data:
-         & Partial<IEventBoxGroup>
-         & DeepPartial<
-            IWrapLightRotationEventBoxGroupAttribute<
-               IEventBoxGroupContainer<ILightRotationBoxContainer>,
-               ILightRotationBoxContainer,
-               ILightRotationEventContainer,
-               IIndexFilter
-            >
-         > = {},
-      boxes?: ILightRotationEventBox[],
-      events?: ILightRotationEvent[],
-      filters?: IIndexFilter[],
-   ) {
-      super();
-
-      this._time = data.b ?? data.time ?? LightRotationEventBoxGroup.default.object.b;
-      this._id = data.g ?? data.id ?? LightRotationEventBoxGroup.default.object.g;
-      this._boxes = [];
-      events ||= [];
-      if (data.e) {
-         for (const e of data.e) {
-            const evts: ILightRotationEvent[] = [];
-            const times: number[] = [];
-            for (const l of e.l || []) {
-               times.push(l.b || 0);
-               evts.push(events[l.i || 0]);
-            }
-            this._boxes.push(
-               new LightRotationEventBox(
-                  boxes?.[e.e || 0] || {},
-                  evts,
-                  times,
-                  filters?.[e.f || 0],
-               ),
-            );
-         }
-      } else if (data.boxes) {
-         this._boxes = data.boxes.map(
-            (obj) => new LightRotationEventBox(obj!),
-         );
-      }
-      this._customData = deepCopy(
-         data.customData ??
-            LightRotationEventBoxGroup.default.object.customData,
-      );
-   }
-
-   static create(): LightRotationEventBoxGroup[];
-   static create(
-      ...data: DeepPartial<
-         IWrapLightRotationEventBoxGroupAttribute<
-            IEventBoxGroupContainer<ILightRotationBoxContainer>,
-            ILightRotationBoxContainer,
-            ILightRotationEventContainer,
-            IIndexFilter
-         >
-      >[]
-   ): LightRotationEventBoxGroup[];
    static create(
       ...data: DeepPartial<
          IWrapLightRotationEventBoxGroupAttribute<
@@ -144,6 +52,59 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: DeepPartial<
+         IWrapLightRotationEventBoxGroupAttribute<
+            IEventBoxGroupContainer<ILightRotationBoxContainer>,
+            ILightRotationBoxContainer,
+            ILightRotationEventContainer,
+            IIndexFilter
+         >
+      > = {},
+   ) {
+      super();
+      this._time = data.time ?? LightRotationEventBoxGroup.default.object.b;
+      this._id = data.id ?? LightRotationEventBoxGroup.default.object.g;
+      this._boxes = (data.boxes ?? []).map((obj) => new LightRotationEventBox(obj));
+      this._customData = deepCopy(
+         data.customData ?? LightRotationEventBoxGroup.default.object.customData,
+      );
+   }
+
+   static fromJSON(
+      data: Partial<IEventBoxGroup> = {},
+      boxes?: ILightRotationEventBox[],
+      events?: ILightRotationEvent[],
+      filters?: IIndexFilter[],
+   ): LightRotationEventBoxGroup {
+      const d = new this();
+      d._time = data.b ?? LightRotationEventBoxGroup.default.object.b;
+      d._id = data.g ?? LightRotationEventBoxGroup.default.object.g;
+      events ||= [];
+      if (data.e) {
+         for (const e of data.e) {
+            const evts: ILightRotationEvent[] = [];
+            const times: number[] = [];
+            for (const l of e.l || []) {
+               times.push(l.b || 0);
+               evts.push(events[l.i || 0]);
+            }
+            d._boxes.push(
+               LightRotationEventBox.fromJSON(
+                  boxes?.[e.e || 0] || {},
+                  evts,
+                  times,
+                  filters?.[e.f || 0],
+               ),
+            );
+         }
+      }
+      d._customData = deepCopy(
+         data.customData ?? LightRotationEventBoxGroup.default.object.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IEventBoxGroupContainer<ILightRotationBoxContainer>> {

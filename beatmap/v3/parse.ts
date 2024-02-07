@@ -35,7 +35,7 @@ export function parseDifficulty(
       );
    }
 
-   return new Difficulty(data);
+   return Difficulty.fromJSON(data);
 }
 
 export function parseLightshow(
@@ -58,5 +58,5 @@ export function parseLightshow(
       );
    }
 
-   return new Lightshow(data);
+   return Lightshow.fromJSON(data);
 }

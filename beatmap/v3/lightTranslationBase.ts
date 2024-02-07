@@ -13,50 +13,45 @@ export class LightTranslationBase extends WrapLightTranslationEvent<ILightTransl
       customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>>);
-   constructor(data: Partial<ILightTranslationEvent>);
-   constructor(
-      data:
-         & Partial<ILightTranslationEvent>
-         & Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>>,
-   );
-   constructor(
-      data:
-         & Partial<ILightTranslationEvent>
-         & Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>> = {},
-   ) {
-      super();
-
-      this._time = data.b ?? data.time ?? LightTranslationBase.default.b;
-      this._easing = data.e ?? data.easing ?? LightTranslationBase.default.e;
-      this._previous = data.p ?? data.previous ?? LightTranslationBase.default.p;
-      this._translation = data.t ?? data.translation ?? LightTranslationBase.default.t;
-      this._customData = deepCopy(data.customData ?? LightTranslationBase.default.customData);
-   }
-
-   static create(): LightTranslationBase[];
    static create(
-      ...data: Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>>[]
-   ): LightTranslationBase[];
-   static create(...data: Partial<ILightTranslationEvent>[]): LightTranslationBase[];
-   static create(
-      ...data: (
-         & Partial<ILightTranslationEvent>
-         & Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>>
-      )[]
-   ): LightTranslationBase[];
-   static create(
-      ...data: (
-         & Partial<ILightTranslationEvent>
-         & Partial<IWrapLightTranslationEventAttribute<ILightTranslationEvent>>
-      )[]
+      ...data: Partial<
+         IWrapLightTranslationEventAttribute<ILightTranslationEvent>
+      >[]
    ): LightTranslationBase[] {
       const result: LightTranslationBase[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: Partial<
+         IWrapLightTranslationEventAttribute<ILightTranslationEvent>
+      > = {},
+   ) {
+      super();
+      this._time = data.time ?? LightTranslationBase.default.b;
+      this._easing = data.easing ?? LightTranslationBase.default.e;
+      this._previous = data.previous ?? LightTranslationBase.default.p;
+      this._translation = data.translation ?? LightTranslationBase.default.t;
+      this._customData = deepCopy(
+         data.customData ?? LightTranslationBase.default.customData,
+      );
+   }
+
+   static fromJSON(
+      data: Partial<ILightTranslationEvent> = {},
+   ): LightTranslationBase {
+      const d = new this();
+      d._time = data.b ?? LightTranslationBase.default.b;
+      d._easing = data.e ?? LightTranslationBase.default.e;
+      d._previous = data.p ?? LightTranslationBase.default.p;
+      d._translation = data.t ?? LightTranslationBase.default.t;
+      d._customData = deepCopy(
+         data.customData ?? LightTranslationBase.default.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<ILightTranslationEvent> {

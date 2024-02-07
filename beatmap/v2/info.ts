@@ -15,9 +15,41 @@ import {
    IWrapInfoDifficultyAttribute,
    IWrapInfoSong,
 } from '../../types/beatmap/wrapper/info.ts';
+import { IWrapInfoAttribute } from '../../types/beatmap/wrapper/mod.ts';
+
+export interface IV2ExtraInfo {
+   levelAuthorName: string;
+   songTimeOffset: number;
+   shuffle: number;
+   shufflePeriod: number;
+   environmentName: EnvironmentName | EnvironmentV3Name;
+   allDirectionsEnvironmentName: Environment360Name;
+}
 
 /** Difficulty beatmap class object. */
-export class Info extends WrapInfo<IInfo> {
+export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
+   static default: Required<IInfo> = {
+      _version: '2.1.0',
+      _songName: 'Untitled',
+      _songSubName: '',
+      _songAuthorName: 'NoAuthor',
+      _levelAuthorName: 'NoAuthor',
+      _beatsPerMinute: 120,
+      _shuffle: 0,
+      _shufflePeriod: 0.5,
+      _previewStartTime: 0,
+      _previewDuration: 0,
+      _songFilename: 'song.ogg',
+      _coverImageFilename: 'cover.jpg',
+      _environmentName: 'DefaultEnvironment',
+      _allDirectionsEnvironmentName: 'GlassDesertEnvironment',
+      _environmentNames: [],
+      _colorSchemes: [],
+      _songTimeOffset: 0,
+      _customData: {},
+      _difficultyBeatmapSets: [],
+   };
+
    readonly version = '2.1.0';
 
    contentChecksum = '';
@@ -93,26 +125,123 @@ export class Info extends WrapInfo<IInfo> {
    environmentName: EnvironmentName | EnvironmentV3Name;
    allDirectionsEnvironmentName: Environment360Name;
 
-   constructor(data: Partial<IInfo> = {}) {
-      super();
+   static create(
+      data: Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> & Partial<IV2ExtraInfo> = {},
+   ): Info {
+      return new this(data);
+   }
 
-      this.songName = data._songName ?? 'SongName';
-      this.songSubName = data._songSubName ?? '';
-      this.songAuthorName = data._songAuthorName ?? 'SongAuthor';
-      this.levelAuthorName = data._levelAuthorName ?? '';
-      this.beatsPerMinute = data._beatsPerMinute ?? 120;
-      this.songTimeOffset = data._songTimeOffset ?? 0;
-      this.shuffle = data._shuffle ?? 0;
-      this.shufflePeriod = data._shufflePeriod ?? 0.5;
-      this.previewStartTime = data._previewStartTime ?? 12;
-      this.previewDuration = data._previewDuration ?? 10;
-      this.songFilename = data._songFilename ?? 'song.ogg';
-      this.coverImageFilename = data._coverImageFilename ?? '';
-      this.environmentName = data._environmentName ?? 'DefaultEnvironment';
-      this.allDirectionsEnvironmentName = data._allDirectionsEnvironmentName ??
+   constructor(
+      data: Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> & Partial<IV2ExtraInfo> = {},
+   ) {
+      super();
+      this.songName = data.song?.title ?? Info.default._songName;
+      this.songSubName = data.song?.subTitle ?? Info.default._songSubName;
+      this.songAuthorName = data.song?.author ?? Info.default._songAuthorName;
+      this.levelAuthorName = data.levelAuthorName ?? Info.default._levelAuthorName;
+      this.beatsPerMinute = data.audio?.bpm ?? Info.default._beatsPerMinute;
+      this.songTimeOffset = data.songTimeOffset ?? Info.default._songTimeOffset;
+      this.shuffle = data.shuffle ?? Info.default._shuffle;
+      this.shufflePeriod = data.shufflePeriod ?? Info.default._shufflePeriod;
+      this.previewStartTime = data.audio?.previewStartTime ?? Info.default._previewStartTime;
+      this.previewDuration = data.audio?.previewDuration ?? Info.default._previewDuration;
+      this.songFilename = data.audio?.filename ?? Info.default._songFilename;
+      this.coverImageFilename = data.coverImageFilename ?? Info.default._coverImageFilename;
+      this.environmentName = data.environmentName ?? Info.default._environmentName;
+      this.allDirectionsEnvironmentName = data.allDirectionsEnvironmentName ??
+         Info.default._allDirectionsEnvironmentName;
+      this.environmentNames = data.environmentNames?.map((e) => e) ?? [];
+      this.colorSchemes = data.colorSchemes?.map((e) => {
+         const scheme: IWrapInfoColorScheme = {
+            useOverride: !!e.useOverride,
+            name: e.name || '',
+            saberLeftColor: {
+               r: e.saberLeftColor?.r || 0,
+               g: e.saberLeftColor?.g || 0,
+               b: e.saberLeftColor?.b || 0,
+               a: e.saberLeftColor?.a || 0,
+            },
+            saberRightColor: {
+               r: e.saberRightColor?.r || 0,
+               g: e.saberRightColor?.g || 0,
+               b: e.saberRightColor?.b || 0,
+               a: e.saberRightColor?.a || 0,
+            },
+            environment0Color: {
+               r: e.environment0Color?.r || 0,
+               g: e.environment0Color?.g || 0,
+               b: e.environment0Color?.b || 0,
+               a: e.environment0Color?.a || 0,
+            },
+            environment1Color: {
+               r: e.environment1Color?.r || 0,
+               g: e.environment1Color?.g || 0,
+               b: e.environment1Color?.b || 0,
+               a: e.environment1Color?.a || 0,
+            },
+            obstaclesColor: {
+               r: e.obstaclesColor?.r || 0,
+               g: e.obstaclesColor?.g || 0,
+               b: e.obstaclesColor?.b || 0,
+               a: e.obstaclesColor?.a || 0,
+            },
+            environment0ColorBoost: {
+               r: e.environment0ColorBoost?.r || 0,
+               g: e.environment0ColorBoost?.g || 0,
+               b: e.environment0ColorBoost?.b || 0,
+               a: e.environment0ColorBoost?.a || 0,
+            },
+            environment1ColorBoost: {
+               r: e.environment1ColorBoost?.r || 0,
+               g: e.environment1ColorBoost?.g || 0,
+               b: e.environment1ColorBoost?.b || 0,
+               a: e.environment1ColorBoost?.a || 0,
+            },
+         };
+         if (e.environmentWColor) {
+            scheme.environmentWColor = {
+               r: e.environmentWColor?.r || 0,
+               g: e.environmentWColor?.g || 0,
+               b: e.environmentWColor?.b || 0,
+               a: e.environmentWColor?.a || 0,
+            };
+         }
+         if (e.environmentWColorBoost) {
+            scheme.environmentWColorBoost = {
+               r: e.environmentWColorBoost?.r || 0,
+               g: e.environmentWColorBoost?.g || 0,
+               b: e.environmentWColorBoost?.b || 0,
+               a: e.environmentWColorBoost?.a || 0,
+            };
+         }
+         return scheme;
+      }) ?? [];
+      this.customData = deepCopy(data.customData ?? Info.default._customData);
+
+      data.difficulties?.forEach((d) => {
+         this.addMap(d, d.characteristic);
+      });
+   }
+
+   static fromJSON(data: Partial<IInfo> = {}): Info {
+      const d = new this();
+      d.songName = data._songName ?? 'SongName';
+      d.songSubName = data._songSubName ?? '';
+      d.songAuthorName = data._songAuthorName ?? 'SongAuthor';
+      d.levelAuthorName = data._levelAuthorName ?? '';
+      d.beatsPerMinute = data._beatsPerMinute ?? 120;
+      d.songTimeOffset = data._songTimeOffset ?? 0;
+      d.shuffle = data._shuffle ?? 0;
+      d.shufflePeriod = data._shufflePeriod ?? 0.5;
+      d.previewStartTime = data._previewStartTime ?? 12;
+      d.previewDuration = data._previewDuration ?? 10;
+      d.songFilename = data._songFilename ?? 'song.ogg';
+      d.coverImageFilename = data._coverImageFilename ?? '';
+      d.environmentName = data._environmentName ?? 'DefaultEnvironment';
+      d.allDirectionsEnvironmentName = data._allDirectionsEnvironmentName ??
          'GlassDesertEnvironment';
-      this.environmentNames = data._environmentNames?.map((e) => e) ?? [];
-      this.colorSchemes = data._colorSchemes?.map((e) => {
+      d.environmentNames = data._environmentNames?.map((e) => e) ?? [];
+      d.colorSchemes = data._colorSchemes?.map((e) => {
          const scheme: IWrapInfoColorScheme = {
             useOverride: !!e.useOverride,
             name: e.colorScheme?.colorSchemeId || '',
@@ -177,19 +306,16 @@ export class Info extends WrapInfo<IInfo> {
          }
          return scheme;
       }) ?? [];
-      this.customData = deepCopy(data._customData ?? {});
+      d.customData = deepCopy(data._customData ?? {});
 
       data._difficultyBeatmapSets?.forEach((set) => {
-         set._difficultyBeatmaps?.forEach((d) =>
-            this.difficulties.push(
-               new InfoDifficulty(d, set._beatmapCharacteristicName),
+         set._difficultyBeatmaps?.forEach((diff) =>
+            d.difficulties.push(
+               InfoDifficulty.fromJSON(diff, set._beatmapCharacteristicName),
             )
          );
       });
-   }
-
-   static create(data: Partial<IInfo> = {}): Info {
-      return new this(data);
+      return d;
    }
 
    toJSON(): Required<IInfo> {
@@ -261,13 +387,10 @@ export class Info extends WrapInfo<IInfo> {
       this._customData = value;
    }
 
-   addMap(data: Partial<IInfoDifficulty>, mode?: CharacteristicName): this;
    addMap(
-      data: Partial<IWrapInfoDifficultyAttribute>,
-      mode?: CharacteristicName,
-   ): this;
-   addMap(
-      data: Partial<IWrapInfoDifficultyAttribute> & Partial<IInfoDifficulty>,
+      data:
+         & Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>
+         & Partial<IV2ExtraInfoDifficulty>,
       mode?: CharacteristicName,
    ): this {
       this.difficulties.push(new InfoDifficulty(data, mode));
@@ -283,7 +406,23 @@ export class Info extends WrapInfo<IInfo> {
    }
 }
 
+export interface IV2ExtraInfoDifficulty {
+   rank: Required<IInfoDifficulty>['_difficultyRank'];
+}
+
 export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
+   static default: Required<IInfoDifficulty & IV2ExtraInfoDifficulty> = {
+      _difficulty: 'Easy',
+      _difficultyRank: 1,
+      _beatmapFilename: 'UnnamedFile.dat',
+      _noteJumpMovementSpeed: 0,
+      _noteJumpStartBeatOffset: 0,
+      _beatmapColorSchemeIdx: 0,
+      _environmentNameIdx: 0,
+      _customData: {},
+      rank: 1,
+   };
+
    characteristic: CharacteristicName;
    difficulty: DifficultyName;
    filename: LooseAutocomplete<GenericFileName>;
@@ -297,24 +436,51 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    rank: Required<IInfoDifficulty>['_difficultyRank'];
 
    constructor(
-      data: Partial<IInfoDifficulty>,
+      data:
+         & Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>
+         & Partial<IV2ExtraInfoDifficulty> = {},
       mode: CharacteristicName = 'Standard',
    ) {
       super();
 
       this.characteristic = mode;
-      this.difficulty = data._difficulty ?? 'Easy';
-      this.rank = data._difficultyRank ?? 1;
-      this.filename = data._beatmapFilename ?? 'UnnamedFile.dat';
-      this.njs = data._noteJumpMovementSpeed ?? 0;
-      this.njsOffset = data._noteJumpStartBeatOffset ?? 0;
-      this.colorSchemeId = data._beatmapColorSchemeIdx ?? 0;
-      this.environmentId = data._environmentNameIdx ?? 0;
-      this.customData = deepCopy(data._customData ?? {});
+      this.difficulty = data.difficulty ?? InfoDifficulty.default._difficulty;
+      this.rank = data.rank ?? InfoDifficulty.default.rank;
+      this.filename = data.filename ?? InfoDifficulty.default._beatmapFilename;
+      this.njs = data.njs ?? InfoDifficulty.default._noteJumpMovementSpeed;
+      this.njsOffset = data.njsOffset ?? InfoDifficulty.default._noteJumpStartBeatOffset;
+      this.colorSchemeId = data.colorSchemeId ?? InfoDifficulty.default._beatmapColorSchemeIdx;
+      this.environmentId = data.environmentId ?? InfoDifficulty.default._environmentNameIdx;
+      this.customData = deepCopy(
+         data.customData ?? InfoDifficulty.default._customData,
+      );
    }
 
-   static create(data: Partial<IInfoDifficulty>) {
+   static create(
+      data:
+         & Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>
+         & Partial<IV2ExtraInfoDifficulty> = {},
+   ) {
       return new this(data);
+   }
+
+   static fromJSON(
+      data: Partial<IInfoDifficulty>,
+      mode: CharacteristicName = 'Standard',
+   ): InfoDifficulty {
+      const d = new this();
+      d.characteristic = mode;
+      d.difficulty = data._difficulty ?? InfoDifficulty.default._difficulty;
+      d.rank = data._difficultyRank ?? InfoDifficulty.default._difficultyRank;
+      d.filename = data._beatmapFilename ?? InfoDifficulty.default._beatmapFilename;
+      d.njs = data._noteJumpMovementSpeed ?? InfoDifficulty.default._noteJumpMovementSpeed;
+      d.njsOffset = data._noteJumpStartBeatOffset ??
+         InfoDifficulty.default._noteJumpStartBeatOffset;
+      d.colorSchemeId = data._beatmapColorSchemeIdx ??
+         InfoDifficulty.default._beatmapColorSchemeIdx;
+      d.environmentId = data._environmentNameIdx ?? InfoDifficulty.default._environmentNameIdx;
+      d.customData = deepCopy(data._customData ?? InfoDifficulty.default._customData);
+      return d;
    }
 
    toJSON(): Required<IInfoDifficulty> {

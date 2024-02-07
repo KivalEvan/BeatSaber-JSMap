@@ -14,6 +14,11 @@ import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
 import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
 import { SpecialEventsKeywordFilters } from './_specialEventsKeywordFilters.ts';
+import { IWrapDifficultyAttribute } from '../../types/beatmap/wrapper/difficulty.ts';
+import { IBookmark } from '../../types/beatmap/v2/custom/bookmark.ts';
+import { IBPMChangeOld } from '../../types/beatmap/v2/custom/bpmChange.ts';
+import { mod } from '../../utils/math.ts';
+import { EventValueLaneRotation } from '../shared/constants.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v1', 'difficulty', name];
@@ -21,16 +26,32 @@ function tag(name: string): string[] {
 
 /** Difficulty beatmap v1 class object. */
 export class Difficulty extends WrapDifficulty<IDifficulty> {
+   static default: Required<IDifficulty> = {
+      _version: '1.5.0',
+      _beatsPerMinute: 120,
+      _beatsPerBar: 4,
+      _shuffle: 0,
+      _shufflePeriod: 0,
+      _noteJumpSpeed: 0,
+      _noteJumpStartBeatOffset: 0,
+      _notes: [],
+      _obstacles: [],
+      _events: [],
+      _time: 0,
+      _BPMChanges: [],
+      _bookmarks: [],
+   };
+
    readonly version = '1.5.0';
    bpmEvents: never[] = [];
    rotationEvents: never[] = [];
-   colorNotes: Note[];
+   colorNotes: Note[] = [];
    bombNotes: never[] = [];
-   obstacles: Obstacle[];
+   obstacles: Obstacle[] = [];
    arcs: never[] = [];
    chains: never[] = [];
    waypoints: never[] = [];
-   basicEvents: Event[];
+   basicEvents: Event[] = [];
    colorBoostEvents: never[] = [];
    lightColorEventBoxGroups: never[] = [];
    lightRotationEventBoxGroups: never[] = [];
@@ -39,35 +60,65 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    eventTypesWithKeywords: SpecialEventsKeywordFilters = new SpecialEventsKeywordFilters();
    useNormalEventsAsCompatibleEvents = true;
 
-   beatsPerMinute: number;
-   beatsPerBar: number;
-   shuffle: number;
-   shufflePeriod: number;
-   noteJumpSpeed: number;
-   noteJumpStartBeatOffset: number;
-   time: number;
-   BPMChanges;
-   bookmarks;
+   beatsPerMinute = Difficulty.default._beatsPerMinute;
+   beatsPerBar = Difficulty.default._beatsPerBar;
+   shuffle = Difficulty.default._shuffle;
+   shufflePeriod = Difficulty.default._shufflePeriod;
+   noteJumpSpeed = Difficulty.default._noteJumpSpeed;
+   noteJumpStartBeatOffset = Difficulty.default._noteJumpStartBeatOffset;
+   time = Difficulty.default._time;
+   BPMChanges: Omit<IBPMChangeOld, '_BPM'>[] = Difficulty.default._BPMChanges;
+   bookmarks: IBookmark[] = Difficulty.default._bookmarks;
 
-   constructor(data: Partial<IDifficulty> = {}) {
-      super();
-
-      this.beatsPerMinute = data._beatsPerMinute ?? 120;
-      this.beatsPerBar = data._beatsPerBar ?? 4;
-      this.shuffle = data._shuffle ?? 0;
-      this.shufflePeriod = data._shufflePeriod ?? 0;
-      this.noteJumpSpeed = data._noteJumpSpeed ?? 0;
-      this.noteJumpStartBeatOffset = data._noteJumpStartBeatOffset ?? 0;
-      this.colorNotes = (data._notes ?? []).map((obj) => new Note(obj));
-      this.obstacles = (data._obstacles ?? []).map((obj) => new Obstacle(obj));
-      this.basicEvents = (data._events ?? []).map((obj) => new Event(obj));
-      this.time = data._time ?? 0;
-      this.BPMChanges = data._BPMChanges ?? [];
-      this.bookmarks = data._bookmarks ?? [];
+   static create(data?: Partial<IWrapDifficultyAttribute<IDifficulty>>): Difficulty {
+      return new this(data);
    }
 
-   static create(data: Partial<IDifficulty> = {}): Difficulty {
-      return new this(data);
+   constructor(data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {}) {
+      super();
+      if (data instanceof Difficulty) {
+         this.beatsPerMinute = data.beatsPerMinute;
+         this.beatsPerBar = data.beatsPerBar;
+         this.shuffle = data.shuffle;
+         this.shufflePeriod = data.shufflePeriod;
+         this.noteJumpSpeed = data.noteJumpSpeed;
+         this.noteJumpStartBeatOffset = data.noteJumpStartBeatOffset;
+         this.time = data.time;
+         this.BPMChanges = data.BPMChanges;
+         this.bookmarks = data.bookmarks;
+      }
+      if (data.colorNotes) {
+         this.colorNotes = data.colorNotes.map((obj) => new Note(obj));
+      } else {
+         this.colorNotes = Difficulty.default._notes.map((json) => Note.fromJSON(json));
+      }
+      if (data.obstacles) {
+         this.obstacles = data.obstacles.map((obj) => new Obstacle(obj));
+      } else {
+         this.obstacles = Difficulty.default._obstacles.map((json) => Obstacle.fromJSON(json));
+      }
+      if (data.basicEvents) {
+         this.basicEvents = data.basicEvents.map((obj) => new Event(obj));
+      } else {
+         this.basicEvents = Difficulty.default._events.map((json) => Event.fromJSON(json));
+      }
+   }
+
+   static fromJSON(data: Partial<IDifficulty>): Difficulty {
+      const d = new this();
+      d.beatsPerMinute = data._beatsPerMinute ?? Difficulty.default._beatsPerMinute;
+      d.beatsPerBar = data._beatsPerBar ?? Difficulty.default._beatsPerBar;
+      d.shuffle = data._shuffle ?? Difficulty.default._shuffle;
+      d.shufflePeriod = data._shufflePeriod ?? Difficulty.default._shufflePeriod;
+      d.noteJumpSpeed = data._noteJumpSpeed ?? Difficulty.default._noteJumpSpeed;
+      d.noteJumpStartBeatOffset = data._noteJumpStartBeatOffset ?? 0;
+      d.colorNotes = (data._notes ?? []).map((json) => Note.fromJSON(json));
+      d.obstacles = (data._obstacles ?? []).map((json) => Obstacle.fromJSON(json));
+      d.basicEvents = (data._events ?? []).map((json) => Event.fromJSON(json));
+      d.time = data._time ?? Difficulty.default._time;
+      d.BPMChanges = data._BPMChanges ?? Difficulty.default._BPMChanges;
+      d.bookmarks = data._bookmarks ?? Difficulty.default._bookmarks;
+      return d;
    }
 
    toJSON(): Required<IDifficulty> {
@@ -114,27 +165,16 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       return this;
    }
 
-   addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): this;
-   addRotationEvents(...data: Partial<IEvent>[]): this;
    addRotationEvents(
-      ...data: (
-         & Partial<IEvent>
-         & Partial<IWrapRotationEventAttribute<IEvent>>
-      )[]
-   ): this;
-   addRotationEvents(
-      ...data: (
-         & Partial<IEvent>
-         & Partial<IWrapRotationEventAttribute<IEvent>>
-      )[]
+      ...data: Partial<IWrapRotationEventAttribute<IEvent>>[]
    ): this {
       for (const obj of data) {
          this.basicEvents.push(
             new Event({
                ...obj,
-               type: typeof obj.executionTime === 'number'
-                  ? obj.executionTime === 0 ? 14 : 15
-                  : obj._type,
+               type: obj.executionTime === 0 ? 14 : 15,
+               value: EventValueLaneRotation[(obj.rotation || 0) % 360] ??
+                  mod(obj.rotation || 0, 360) + 1000,
             }),
          );
       }
@@ -142,46 +182,19 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       return this;
    }
 
-   addColorNotes(...data: Partial<IWrapColorNoteAttribute<INote>>[]): this;
-   addColorNotes(...data: Partial<INote>[]): this;
-   addColorNotes(
-      ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]
-   ): this;
-   addColorNotes(
-      ...data: (Partial<INote> & Partial<IWrapColorNoteAttribute<INote>>)[]
-   ): this {
+   addColorNotes(...data: Partial<IWrapColorNoteAttribute<INote>>[]): this {
       for (const obj of data) this.colorNotes.push(new Note(obj));
       return this;
    }
 
-   addBombNotes(...data: Partial<IWrapBombNoteAttribute<INote>>[]): this;
-   addBombNotes(...data: Partial<INote>[]): this;
-   addBombNotes(
-      ...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]
-   ): this;
-   addBombNotes(
-      ...data: (Partial<INote> & Partial<IWrapBombNoteAttribute<INote>>)[]
-   ): this {
+   addBombNotes(...data: Partial<IWrapBombNoteAttribute<INote>>[]): this {
       for (const obj of data) {
          this.colorNotes.push(new Note({ ...obj, type: 3 }));
       }
       return this;
    }
 
-   addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): this;
-   addObstacles(...data: Partial<IObstacle>[]): this;
-   addObstacles(
-      ...data: (
-         & Partial<IObstacle>
-         & Partial<IWrapObstacleAttribute<IObstacle>>
-      )[]
-   ): this;
-   addObstacles(
-      ...data: (
-         & Partial<IObstacle>
-         & Partial<IWrapObstacleAttribute<IObstacle>>
-      )[]
-   ): this {
+   addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): this {
       for (const obj of data) this.obstacles.push(new Obstacle(obj));
       return this;
    }
@@ -204,37 +217,17 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       return this;
    }
 
-   addBasicEvents(...data: Partial<IWrapEventAttribute<IEvent>>[]): this;
-   addBasicEvents(...data: Partial<IEvent>[]): this;
-   addBasicEvents(
-      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
-   ): this;
-   addBasicEvents(
-      ...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]
-   ): this {
+   addBasicEvents(...data: Partial<IWrapEventAttribute<IEvent>>[]): this {
       for (const obj of data) this.basicEvents.push(new Event(obj));
       return this;
    }
 
    addColorBoostEvents(
       ...data: Partial<IWrapColorBoostEventAttribute<IEvent>>[]
-   ): this;
-   addColorBoostEvents(...data: Partial<IEvent>[]): this;
-   addColorBoostEvents(
-      ...data: (
-         & Partial<IEvent>
-         & Partial<IWrapColorBoostEventAttribute<IEvent>>
-      )[]
-   ): this;
-   addColorBoostEvents(
-      ...data: (
-         & Partial<IEvent>
-         & Partial<IWrapColorBoostEventAttribute<IEvent>>
-      )[]
    ): this {
       for (const obj of data) {
          this.basicEvents.push(
-            new Event({ ...obj, value: obj.toggle ? 1 : obj._value }),
+            new Event({ ...obj, value: obj.toggle ? 1 : 0 }),
          );
       }
       return this;

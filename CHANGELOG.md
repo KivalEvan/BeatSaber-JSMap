@@ -7,14 +7,19 @@
 - Beatmap Difficulty, Lightshow and Info v4
   - Deduplication of data for v4 (EXPERIMENTAL)
     - This only affects the JSON output
+- Beatmap object `fromJSON` static method
 - Beatmap JSON can now be passed onto `load` instead of just string path
   - Default file name to `LoadJSON.dat`
 
 ### Changed
 
 - Major structure change to Info
+  - Difficulty characteristic is now part of difficulty
+  - Official color scheme is no longer nested
 - Minor structure change to Difficulty
-  - FX Float event is now part of event box instead of separated entity
+  - FX Float Event is now part of event box instead of separated entity
+- `create` and `constructor` now only accepts wrapper type
+  - Use `fromJSON` static method for loading JSON schema
 - Converting beatmap version to same version will now create a copy instead of returning the same
   data
 - Converting beatmap now preserve custom data
@@ -32,6 +37,8 @@
 ### Removed
 
 - Info set object/class, no longer available as of v4
+- Mix-and-match constructor/create class object
+  - Was complicated and confusing to handle
 
 ## 1.5.3 [2023-12-07]
 

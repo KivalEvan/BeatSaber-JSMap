@@ -21,6 +21,7 @@ import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBo
 import { IWrapWaypoint } from './waypoint.ts';
 import { IWrapWaypointAttribute } from './waypoint.ts';
 import { Version } from '../shared/version.ts';
+import { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
 
 export interface IWrapLightshowAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
@@ -33,6 +34,7 @@ export interface IWrapLightshowAttribute<
    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
+   eventTypesWithKeywords: IWrapEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
 
    filename: string;

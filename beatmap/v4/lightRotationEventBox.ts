@@ -37,93 +37,6 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
       filterData: { ...IndexFilter.default },
    };
 
-   constructor();
-   constructor(
-      data: DeepPartial<
-         IWrapLightRotationEventBoxAttribute<
-            ILightRotationBoxContainer,
-            ILightRotationEventContainer,
-            IIndexFilter
-         >
-      >,
-   );
-   constructor(
-      data: Partial<ILightRotationEventBox>,
-      events?: Partial<ILightRotationEvent>[],
-      times?: number[],
-      filter?: Partial<IIndexFilter>,
-   );
-   constructor(
-      data:
-         & Partial<ILightRotationEventBox>
-         & DeepPartial<
-            IWrapLightRotationEventBoxAttribute<
-               ILightRotationBoxContainer,
-               ILightRotationEventContainer,
-               IIndexFilter
-            >
-         >,
-      events?: Partial<ILightRotationEvent>[],
-      times?: number[],
-      filter?: Partial<IIndexFilter>,
-   );
-   constructor(
-      data:
-         & Partial<ILightRotationEventBox>
-         & DeepPartial<
-            IWrapLightRotationEventBoxAttribute<
-               ILightRotationBoxContainer,
-               ILightRotationEventContainer,
-               IIndexFilter
-            >
-         > = {},
-      events?: Partial<ILightRotationEvent>[],
-      times?: number[],
-      filter?: Partial<IIndexFilter>,
-   ) {
-      super();
-
-      this._filter = new IndexFilter(
-         filter ??
-            (data.filter as IIndexFilter) ??
-            LightRotationEventBox.default.filterData,
-      );
-      this._beatDistribution = data.w ??
-         data.beatDistribution ??
-         LightRotationEventBox.default.data.w;
-      this._beatDistributionType = data.d ??
-         data.beatDistributionType ??
-         LightRotationEventBox.default.data.d;
-      this._rotationDistribution = data.s ??
-         data.rotationDistribution ??
-         LightRotationEventBox.default.data.s;
-      this._rotationDistributionType = data.t ??
-         data.rotationDistributionType ??
-         LightRotationEventBox.default.data.t;
-      this._affectFirst = data.b ?? data.affectFirst ?? LightRotationEventBox.default.data.b;
-      this._easing = data.e ?? data.easing ?? LightRotationEventBox.default.data.e;
-      this._axis = data.a ?? data.axis ?? LightRotationEventBox.default.data.a;
-      this._flip = data.f ?? data.flip ?? LightRotationEventBox.default.data.f;
-      this._events = (
-         events! ??
-            data.events ??
-            LightRotationEventBox.default.eventData
-      ).map((obj, i) => new LightRotationEvent(obj, times?.[i]));
-      this._customData = deepCopy(
-         data.customData ?? LightRotationEventBox.default.data.customData,
-      );
-   }
-
-   static create(): LightRotationEventBox[];
-   static create(
-      ...data: DeepPartial<
-         IWrapLightRotationEventBoxAttribute<
-            ILightRotationBoxContainer,
-            ILightRotationEventContainer,
-            IIndexFilter
-         >
-      >[]
-   ): LightRotationEventBox[];
    static create(
       ...data: DeepPartial<
          IWrapLightRotationEventBoxAttribute<
@@ -133,13 +46,77 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
          >
       >[]
    ): LightRotationEventBox[] {
-      const result: LightRotationEventBox[] = data.map(
-         (obj) => new this(obj),
-      );
+      const result: LightRotationEventBox[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: DeepPartial<
+         IWrapLightRotationEventBoxAttribute<
+            ILightRotationBoxContainer,
+            ILightRotationEventContainer,
+            IIndexFilter
+         >
+      > = {},
+   ) {
+      super();
+      if (data.filter) this._filter = new IndexFilter(data.filter);
+      else {
+         this._filter = IndexFilter.fromJSON(
+            LightRotationEventBox.default.filterData,
+         );
+      }
+      this._beatDistribution = data.beatDistribution ?? LightRotationEventBox.default.data.w;
+      this._beatDistributionType = data.beatDistributionType ??
+         LightRotationEventBox.default.data.d;
+      this._rotationDistribution = data.rotationDistribution ??
+         LightRotationEventBox.default.data.s;
+      this._rotationDistributionType = data.rotationDistributionType ??
+         LightRotationEventBox.default.data.t;
+      this._affectFirst = data.affectFirst ?? LightRotationEventBox.default.data.b;
+      this._easing = data.easing ?? LightRotationEventBox.default.data.e;
+      this._axis = data.axis ?? LightRotationEventBox.default.data.a;
+      this._flip = data.flip ?? LightRotationEventBox.default.data.f;
+      if (data.events) {
+         this._events = data.events.map((obj) => new LightRotationEvent(obj));
+      } else {
+         this._events = LightRotationEventBox.default.eventData.map((json) =>
+            LightRotationEvent.fromJSON(json.data, json.time)
+         );
+      }
+      this._customData = deepCopy(
+         data.customData ?? LightRotationEventBox.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      data: Partial<ILightRotationEventBox> = {},
+      events?: Partial<ILightRotationEvent>[],
+      times?: number[],
+      filter?: Partial<IIndexFilter>,
+   ): LightRotationEventBox {
+      const d = new this();
+      d._filter = IndexFilter.fromJSON(
+         filter ?? LightRotationEventBox.default.filterData,
+      );
+      d._beatDistribution = data.w ?? LightRotationEventBox.default.data.w;
+      d._beatDistributionType = data.d ?? LightRotationEventBox.default.data.d;
+      d._rotationDistribution = data.s ?? LightRotationEventBox.default.data.s;
+      d._rotationDistributionType = data.t ?? LightRotationEventBox.default.data.t;
+      d._affectFirst = data.b ?? LightRotationEventBox.default.data.b;
+      d._easing = data.e ?? LightRotationEventBox.default.data.e;
+      d._axis = data.a ?? LightRotationEventBox.default.data.a;
+      d._flip = data.f ?? LightRotationEventBox.default.data.f;
+      d._events = (events! ?? LightRotationEventBox.default.eventData).map(
+         (obj, i) => LightRotationEvent.fromJSON(obj, times?.[i]),
+      );
+      d._customData = deepCopy(
+         data.customData ?? LightRotationEventBox.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<ILightRotationBoxContainer> {

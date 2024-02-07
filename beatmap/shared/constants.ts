@@ -53,7 +53,9 @@ export const NoteDirectionAngle: { readonly [d in NoteDirection]: number } = {
  * 8 (ANY) -> 8 (ANY)
  * ```
  */
-export const NoteDirectionFlip: { readonly [d in NoteDirection]: NoteDirection } = {
+export const NoteDirectionFlip: {
+   readonly [d in NoteDirection]: NoteDirection;
+} = {
    [NoteDirection.UP]: NoteDirection.DOWN,
    [NoteDirection.DOWN]: NoteDirection.UP,
    [NoteDirection.LEFT]: NoteDirection.RIGHT,
@@ -103,4 +105,16 @@ export const EventLaneRotationValue: { readonly [key: number]: number } = {
    5: 30,
    6: 45,
    7: 60,
+} as const;
+
+/** Unused as of beatmap v3, useful for conversion reason. */
+export const EventValueLaneRotation: { readonly [key: number]: number } = {
+   '-60': 0,
+   '-45': 1,
+   '-30': 2,
+   '-15': 3,
+   '15': 4,
+   '30': 5,
+   '45': 6,
+   '60': 7,
 } as const;

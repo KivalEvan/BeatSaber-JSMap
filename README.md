@@ -122,8 +122,6 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 - Using wrapper type to handle/modify data, while contain guard rail, can lead to unexpected result
   - This can only be a problem when dealing with multiple beatmap version at once
-- Instantiating nested object or array depends on the property and does not allow mix-and-match
-  - However, it can still process like normally if you choose to ignore the error
 - Info `addMap` method is incomplete
 
 ## Credits

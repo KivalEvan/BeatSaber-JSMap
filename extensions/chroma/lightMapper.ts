@@ -31,7 +31,9 @@ export class LightMapper {
    private boosts: ColorBoostEvent[] = [];
 
    constructor(environment: EnvironmentAllName) {
-      this.lightIDMapping = <{ [key: number]: number[] }> structuredClone(LightIDList[environment]);
+      this.lightIDMapping = <{ [key: number]: number[] }> (
+         structuredClone(LightIDList[environment])
+      );
       this.environment = environment;
    }
 
@@ -57,7 +59,8 @@ export class LightMapper {
                      }
                      : {
                         type: 'Division',
-                        divide: (eb.indexFilter as IndexFilterDivision).divide ?? 1,
+                        divide: (eb.indexFilter as IndexFilterDivision).divide ??
+                           1,
                         id: eb.indexFilter.id ?? 0,
                         reverse: eb.indexFilter.reverse ?? false,
                      }
@@ -96,17 +99,17 @@ export class LightMapper {
    }
 
    ring(time: number, type: 8 | 9, customData?: IChromaEventRing) {
-      this.events.push(new BasicEvent({ b: time, et: type, customData }));
+      this.events.push(new BasicEvent({ time, type, customData }));
       return this;
    }
 
    zoom(time: number, customData?: IChromaEventZoom) {
-      this.events.push(new BasicEvent({ b: time, et: 9, customData }));
+      this.events.push(new BasicEvent({ time, type: 9, customData }));
       return this;
    }
 
    boost(time: number, toggle: boolean) {
-      this.boosts.push(new ColorBoostEvent({ b: time, o: toggle }));
+      this.boosts.push(new ColorBoostEvent({ time, toggle: toggle }));
       return this;
    }
 
@@ -132,8 +135,10 @@ export class LightMapper {
             if (eb.indexFilter.type === 'Division') {
                if (eb.indexFilter.divide > 1) {
                   lid = lid.slice(
-                     Math.floor(lid.length / eb.indexFilter.divide) * eb.indexFilter.id,
-                     Math.ceil(lid.length / eb.indexFilter.divide) * (eb.indexFilter.id + 1),
+                     Math.floor(lid.length / eb.indexFilter.divide) *
+                        eb.indexFilter.id,
+                     Math.ceil(lid.length / eb.indexFilter.divide) *
+                        (eb.indexFilter.id + 1),
                   );
                }
             }
@@ -178,10 +183,10 @@ export class LightMapper {
                      return;
                   }
                   const event = new BasicEvent({
-                     b: q.time + ev.time,
-                     et: q.type,
-                     i: this.internalEventValue(ev.color, ev.transition),
-                     f: ev.brightness,
+                     time: q.time + ev.time,
+                     type: q.type,
+                     value: this.internalEventValue(ev.color, ev.transition),
+                     floatValue: ev.brightness,
                      customData: { ...ev.customData, lightID: lid },
                   });
                   events.push(event);
@@ -200,9 +205,9 @@ export class LightMapper {
                   i < lid.length;
                   i++,
                      x = eb.beatDistributionType === 'Division'
-                        ? EasingsFn[eb.beatDistributionEasing ?? 'easeLinear'](
-                           i / (lid.length - 1),
-                        ) * eb.beatDistribution
+                        ? EasingsFn[
+                           eb.beatDistributionEasing ?? 'easeLinear'
+                        ](i / (lid.length - 1)) * eb.beatDistribution
                         : i * (lastEventTime + eb.beatDistribution)
                ) {
                   if (ev.transition === 2 && previousEvent) {
@@ -215,7 +220,9 @@ export class LightMapper {
                            events.push(
                               previousEvent
                                  .clone()
-                                 .setTime(t - 1 / (previousBase.frequency * 2) + x)
+                                 .setTime(
+                                    t - 1 / (previousBase.frequency * 2) + x,
+                                 )
                                  .setValue(0)
                                  .setFloatValue(0),
                               previousEvent.clone().setTime(t),
@@ -244,17 +251,17 @@ export class LightMapper {
                      }
                   }
                   const event = new BasicEvent({
-                     b: q.time + ev.time + x,
-                     et: q.type,
-                     i: this.internalEventValue(ev.color, ev.transition),
-                     f: Math.max(
+                     time: q.time + ev.time + x,
+                     type: q.type,
+                     value: this.internalEventValue(ev.color, ev.transition),
+                     floatValue: Math.max(
                         isFirst
                            ? ev.brightness
                            : eb.brightnessDistributionType === 'Division'
                            ? ev.brightness +
-                              EasingsFn[eb.brightnessDistributionEasing ?? 'easeLinear'](
-                                    i / (lid.length - 1),
-                                 ) *
+                              EasingsFn[
+                                    eb.brightnessDistributionEasing ?? 'easeLinear'
+                                 ](i / (lid.length - 1)) *
                                  eb.brightnessDistribution
                            : ev.brightness + i * eb.brightnessDistribution,
                         0,
@@ -264,23 +271,29 @@ export class LightMapper {
                   if (eb.hueDistribution && event.isLightEvent()) {
                      if (!event.customData.color) {
                         event.customData.color = event.isWhite() ? [1, 1, 1] : colorFrom(
-                           ColorScheme[EnvironmentSchemeName[this.environment]][
+                           ColorScheme[
+                              EnvironmentSchemeName[this.environment]
+                           ][
                               event.isRed() ? '_envColorLeft' : '_envColorRight'
                            ]!,
                         );
                      }
                      if (!isFirst) {
                         event.customData.color = hsvaToRgba(
-                           ...(rgbaToHsva(...event.customData.color).map((v, x) => {
-                              if (!x) {
-                                 v! += eb.hueDistributionType === 'Division'
-                                    ? EasingsFn[eb.hueDistributionEasing ?? 'easeLinear'](
-                                       i / (lid.length - 1),
-                                    ) * eb.hueDistribution
-                                    : i * eb.hueDistribution;
-                              }
-                              return v;
-                           }) as ColorArray),
+                           ...(rgbaToHsva(...event.customData.color).map(
+                              (v, x) => {
+                                 if (!x) {
+                                    v! += eb.hueDistributionType === 'Division'
+                                       ? EasingsFn[
+                                          eb.hueDistributionEasing ??
+                                             'easeLinear'
+                                       ](i / (lid.length - 1)) *
+                                          eb.hueDistribution
+                                       : i * eb.hueDistribution;
+                                 }
+                                 return v;
+                              },
+                           ) as ColorArray),
                         );
                      }
                   }
@@ -333,11 +346,11 @@ export class LightMapper {
             }
             mapData.basicEvents.push(
                new Event({
-                  _time: e.time,
-                  _type: e.type,
-                  _value: e.value,
-                  _floatValue: e.floatValue,
-                  _customData,
+                  time: e.time,
+                  type: e.type,
+                  value: e.value,
+                  floatValue: e.floatValue,
+                  customData: _customData,
                }),
             );
          });

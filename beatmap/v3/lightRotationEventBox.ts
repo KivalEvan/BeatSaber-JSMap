@@ -28,66 +28,6 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
       customData: {},
    };
 
-   constructor();
-   constructor(
-      data: DeepPartial<
-         IWrapLightRotationEventBoxAttribute<
-            ILightRotationEventBox,
-            ILightRotationEvent,
-            IIndexFilter
-         >
-      >,
-   );
-   constructor(data: DeepPartial<ILightRotationEventBox>);
-   constructor(
-      data:
-         & DeepPartial<ILightRotationEventBox>
-         & DeepPartial<
-            IWrapLightRotationEventBoxAttribute<
-               ILightRotationEventBox,
-               ILightRotationEvent,
-               IIndexFilter
-            >
-         >,
-   );
-   constructor(
-      data:
-         & DeepPartial<ILightRotationEventBox>
-         & DeepPartial<
-            IWrapLightRotationEventBoxAttribute<
-               ILightRotationEventBox,
-               ILightRotationEvent,
-               IIndexFilter
-            >
-         > = {},
-   ) {
-      super();
-
-      this._filter = new IndexFilter(
-         (data as ILightRotationEventBox).f ??
-            (data.filter as IIndexFilter) ??
-            LightRotationEventBox.default.f,
-      );
-      this._beatDistribution = data.w ?? data.beatDistribution ?? LightRotationEventBox.default.w;
-      this._beatDistributionType = data.d ?? data.beatDistributionType ??
-         LightRotationEventBox.default.d;
-      this._rotationDistribution = data.s ?? data.rotationDistribution ??
-         LightRotationEventBox.default.s;
-      this._rotationDistributionType = data.t ?? data.rotationDistributionType ??
-         LightRotationEventBox.default.t;
-      this._axis = data.a ?? data.axis ?? LightRotationEventBox.default.a;
-      this._flip = data.r ?? data.flip ?? LightRotationEventBox.default.r;
-      this._affectFirst = data.b ?? data.affectFirst ?? LightRotationEventBox.default.b;
-      this._easing = data.i ?? data.easing ?? LightRotationEventBox.default.i;
-      this._events = (
-         (data as ILightRotationEventBox).l ??
-            (data.events as ILightRotationEvent[]) ??
-            LightRotationEventBox.default.l
-      ).map((obj) => new LightRotationBase(obj));
-      this._customData = deepCopy(data.customData ?? LightRotationEventBox.default.customData);
-   }
-
-   static create(): LightRotationEventBox[];
    static create(
       ...data: DeepPartial<
          IWrapLightRotationEventBoxAttribute<
@@ -96,37 +36,69 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
             IIndexFilter
          >
       >[]
-   ): LightRotationEventBox[];
-   static create(...data: DeepPartial<ILightRotationEventBox>[]): LightRotationEventBox[];
-   static create(
-      ...data: (
-         & DeepPartial<ILightRotationEventBox>
-         & DeepPartial<
-            IWrapLightRotationEventBoxAttribute<
-               ILightRotationEventBox,
-               ILightRotationEvent,
-               IIndexFilter
-            >
-         >
-      )[]
-   ): LightRotationEventBox[];
-   static create(
-      ...data: (
-         & DeepPartial<ILightRotationEventBox>
-         & DeepPartial<
-            IWrapLightRotationEventBoxAttribute<
-               ILightRotationEventBox,
-               ILightRotationEvent,
-               IIndexFilter
-            >
-         >
-      )[]
    ): LightRotationEventBox[] {
       const result: LightRotationEventBox[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: DeepPartial<
+         IWrapLightRotationEventBoxAttribute<
+            ILightRotationEventBox,
+            ILightRotationEvent,
+            IIndexFilter
+         >
+      > = {},
+   ) {
+      super();
+      if (data.filter) this._filter = new IndexFilter(data.filter);
+      else this._filter = IndexFilter.fromJSON(LightRotationEventBox.default.f);
+      this._beatDistribution = data.beatDistribution ?? LightRotationEventBox.default.w;
+      this._beatDistributionType = data.beatDistributionType ?? LightRotationEventBox.default.d;
+      this._rotationDistribution = data.rotationDistribution ?? LightRotationEventBox.default.s;
+      this._rotationDistributionType = data.rotationDistributionType ??
+         LightRotationEventBox.default.t;
+      this._axis = data.axis ?? LightRotationEventBox.default.a;
+      this._flip = data.flip ?? LightRotationEventBox.default.r;
+      this._affectFirst = data.affectFirst ?? LightRotationEventBox.default.b;
+      this._easing = data.easing ?? LightRotationEventBox.default.i;
+      if (data.events) {
+         this._events = data.events.map((obj) => new LightRotationBase(obj));
+      } else {
+         this._events = LightRotationEventBox.default.l.map((json) =>
+            LightRotationBase.fromJSON(json)
+         );
+      }
+      this._customData = deepCopy(
+         data.customData ?? LightRotationEventBox.default.customData,
+      );
+   }
+
+   static fromJSON(
+      data: DeepPartial<ILightRotationEventBox> = {},
+   ): LightRotationEventBox {
+      const d = new this();
+      d._filter = IndexFilter.fromJSON(
+         data.f ?? LightRotationEventBox.default.f,
+      );
+      d._beatDistribution = data.w ?? LightRotationEventBox.default.w;
+      d._beatDistributionType = data.d ?? LightRotationEventBox.default.d;
+      d._rotationDistribution = data.s ?? LightRotationEventBox.default.s;
+      d._rotationDistributionType = data.t ?? LightRotationEventBox.default.t;
+      d._axis = data.a ?? LightRotationEventBox.default.a;
+      d._flip = data.r ?? LightRotationEventBox.default.r;
+      d._affectFirst = data.b ?? LightRotationEventBox.default.b;
+      d._easing = data.i ?? LightRotationEventBox.default.i;
+      d._events = (data.l ?? LightRotationEventBox.default.l).map((json) =>
+         LightRotationBase.fromJSON(json)
+      );
+      d._customData = deepCopy(
+         data.customData ?? LightRotationEventBox.default.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<ILightRotationEventBox> {

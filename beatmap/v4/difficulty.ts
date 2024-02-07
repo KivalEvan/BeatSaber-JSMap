@@ -18,6 +18,8 @@ import { IObstacleContainer } from '../../types/beatmap/container/v4.ts';
 import { IArcContainer } from '../../types/beatmap/container/v4.ts';
 import { IColorNoteContainer } from '../../types/beatmap/container/v4.ts';
 import { IChainContainer } from '../../types/beatmap/container/v4.ts';
+import { IWrapDifficultyAttribute } from '../../types/beatmap/wrapper/difficulty.ts';
+import { DeepPartial, DeepRequiredIgnore } from '../../types/utils.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v4', 'difficulty', name];
@@ -25,8 +27,25 @@ function tag(name: string): string[] {
 
 /** Difficulty beatmap v4 class object. */
 export class Difficulty extends WrapDifficulty<IDifficulty> {
-   readonly version = '4.0.0';
+   static default: DeepRequiredIgnore<IDifficulty, 'customData'> = {
+      version: '4.0.0',
+      contentChecksum: '',
+      content: {
+         colorNotes: [],
+         bombNotes: [],
+         obstacles: [],
+         chains: [],
+         arcs: [],
+         colorNotesData: [],
+         bombNotesData: [],
+         obstaclesData: [],
+         chainsData: [],
+         arcsData: [],
+         customData: {},
+      },
+   };
 
+   readonly version = '4.0.0';
    bpmEvents: never[] = [];
    rotationEvents: never[] = [];
    colorNotes: ColorNote[];
@@ -45,40 +64,105 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       new DummySpecialEventsKeywordFilters();
    useNormalEventsAsCompatibleEvents = false;
 
-   constructor(data: Partial<IDifficulty> = {}) {
-      super();
-
-      this.colorNotes = (data.content?.colorNotes ?? []).map(
-         (obj) => new ColorNote(obj, data.content?.colorNotesData[obj.i || 0]),
-      );
-      this.bombNotes = (data.content?.bombNotes ?? []).map(
-         (obj) => new BombNote(obj, data.content?.bombNotesData[obj.i || 0]),
-      );
-      this.obstacles = (data.content?.obstacles ?? []).map(
-         (obj) => new Obstacle(obj, data.content?.obstaclesData[obj.i || 0]),
-      );
-      this.arcs = (data.content?.arcs ?? []).map(
-         (obj) =>
-            new Arc(
-               obj,
-               data.content?.arcsData[obj.ai || 0],
-               data.content?.colorNotesData[obj.hi || 0],
-               data.content?.colorNotesData[obj.ti || 0],
-            ),
-      );
-      this.chains = (data.content?.chains ?? []).map(
-         (obj) =>
-            new Chain(
-               obj,
-               data.content?.colorNotesData[obj.i || 0],
-               data.content?.chainsData[obj.ci || 0],
-            ),
-      );
-      this.customData = deepCopy(data.content?.customData ?? {});
+   static create(
+      data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {},
+   ): Difficulty {
+      return new this(data);
    }
 
-   static create(data: Partial<IDifficulty> = {}): Difficulty {
-      return new this(data);
+   constructor(data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {}) {
+      super();
+      if (data.colorNotes) {
+         this.colorNotes = data.colorNotes.map((obj) => new ColorNote(obj));
+      } else {
+         this.colorNotes = Difficulty.default.content.colorNotes.map((obj) =>
+            ColorNote.fromJSON(
+               obj,
+               Difficulty.default.content?.colorNotesData?.[obj?.i || 0],
+            )
+         );
+      }
+      if (data.bombNotes) {
+         this.bombNotes = data.bombNotes.map((obj) => new BombNote(obj));
+      } else {
+         this.bombNotes = Difficulty.default.content.bombNotes.map((obj) =>
+            BombNote.fromJSON(
+               obj,
+               Difficulty.default.content?.bombNotesData?.[obj?.i || 0],
+            )
+         );
+      }
+      if (data.obstacles) {
+         this.obstacles = data.obstacles.map((obj) => new Obstacle(obj));
+      } else {
+         this.obstacles = Difficulty.default.content.obstacles.map((obj) =>
+            Obstacle.fromJSON(
+               obj,
+               Difficulty.default.content?.obstaclesData?.[obj?.i || 0],
+            )
+         );
+      }
+      if (data.arcs) this.arcs = data.arcs.map((obj) => new Arc(obj));
+      else {
+         this.arcs = (
+            Difficulty.default.content?.arcs ?? Difficulty.default.content.arcs
+         ).map((obj) =>
+            Arc.fromJSON(
+               obj,
+               Difficulty.default.content?.arcsData?.[obj?.ai || 0],
+               Difficulty.default.content?.colorNotesData?.[obj?.hi || 0],
+               Difficulty.default.content?.colorNotesData?.[obj?.ti || 0],
+            )
+         );
+      }
+      if (data.chains) this.chains = data.chains.map((obj) => new Chain(obj));
+      else {
+         this.chains = Difficulty.default.content.chains.map((obj) =>
+            Chain.fromJSON(
+               obj,
+               Difficulty.default.content?.colorNotesData?.[obj?.i || 0],
+               Difficulty.default.content?.chainsData?.[obj?.ci || 0],
+            )
+         );
+      }
+      this.customData = deepCopy(
+         data.customData ?? Difficulty.default.content.customData,
+      );
+   }
+
+   static fromJSON(data: DeepPartial<IDifficulty> = {}): Difficulty {
+      const d = new this();
+      d.colorNotes = (
+         data.content?.colorNotes ?? Difficulty.default.content.colorNotes
+      ).map((obj) => ColorNote.fromJSON(obj, data.content?.colorNotesData?.[obj?.i || 0]));
+      d.bombNotes = (
+         data.content?.bombNotes ?? Difficulty.default.content.bombNotes
+      ).map((obj) => BombNote.fromJSON(obj, data.content?.bombNotesData?.[obj?.i || 0]));
+      d.obstacles = (
+         data.content?.obstacles ?? Difficulty.default.content.obstacles
+      ).map((obj) => Obstacle.fromJSON(obj, data.content?.obstaclesData?.[obj?.i || 0]));
+      d.arcs = (data.content?.arcs ?? Difficulty.default.content.arcs).map(
+         (obj) =>
+            Arc.fromJSON(
+               obj,
+               data.content?.arcsData?.[obj?.ai || 0],
+               data.content?.colorNotesData?.[obj?.hi || 0],
+               data.content?.colorNotesData?.[obj?.ti || 0],
+            ),
+      );
+      d.chains = (
+         data.content?.chains ?? Difficulty.default.content.chains
+      ).map((obj) =>
+         Chain.fromJSON(
+            obj,
+            data.content?.colorNotesData?.[obj?.i || 0],
+            data.content?.chainsData?.[obj?.ci || 0],
+         )
+      );
+      d.customData = deepCopy(
+         data.content?.customData ?? Difficulty.default.content.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IDifficulty> {
@@ -173,17 +257,11 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    addColorNotes(
       ...data: Partial<IWrapColorNoteAttribute<IColorNoteContainer>>[]
-   ): this;
-   addColorNotes(
-      ...data: Partial<IWrapColorNoteAttribute<IColorNoteContainer>>[]
    ): this {
       for (const obj of data) this.colorNotes.push(new ColorNote(obj));
       return this;
    }
 
-   addBombNotes(
-      ...data: Partial<IWrapBombNoteAttribute<IBombNoteContainer>>[]
-   ): this;
    addBombNotes(
       ...data: Partial<IWrapBombNoteAttribute<IBombNoteContainer>>[]
    ): this {
@@ -193,21 +271,16 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    addObstacles(
       ...data: Partial<IWrapObstacleAttribute<IObstacleContainer>>[]
-   ): this;
-   addObstacles(
-      ...data: Partial<IWrapObstacleAttribute<IObstacleContainer>>[]
    ): this {
       for (const obj of data) this.obstacles.push(new Obstacle(obj));
       return this;
    }
 
-   addArcs(...data: Partial<IWrapArcAttribute<IArcContainer>>[]): this;
    addArcs(...data: Partial<IWrapArcAttribute<IArcContainer>>[]): this {
       for (const obj of data) this.arcs.push(new Arc(obj));
       return this;
    }
 
-   addChains(...data: Partial<IWrapChainAttribute<IChainContainer>>[]): this;
    addChains(...data: Partial<IWrapChainAttribute<IChainContainer>>[]): this {
       for (const obj of data) this.chains.push(new Chain(obj));
       return this;

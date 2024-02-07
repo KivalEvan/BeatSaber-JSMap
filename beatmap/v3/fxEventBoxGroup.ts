@@ -29,84 +29,6 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
       boxData: [],
    };
 
-   constructor();
-   constructor(
-      data: DeepPartial<
-         IWrapFxEventBoxGroupAttribute<
-            IFxEventBoxGroup,
-            IFxEventBox,
-            IFxEventFloat,
-            IIndexFilter
-         >
-      >,
-   );
-   constructor(data: DeepPartial<IFxEventBoxGroup>, events?: Partial<IFxEventFloat>[]);
-   constructor(
-      data:
-         & DeepPartial<IFxEventBoxGroup>
-         & DeepPartial<
-            IWrapFxEventBoxGroupAttribute<
-               IFxEventBoxGroup,
-               IFxEventBox,
-               IFxEventFloat,
-               IIndexFilter
-            >
-         >,
-      events?: Partial<IFxEventFloat>[],
-   );
-   constructor(
-      data:
-         & DeepPartial<IFxEventBoxGroup>
-         & DeepPartial<
-            IWrapFxEventBoxGroupAttribute<
-               IFxEventBoxGroup,
-               IFxEventBox,
-               IFxEventFloat,
-               IIndexFilter
-            >
-         > = {},
-      events?: Partial<IFxEventFloat>[],
-   ) {
-      super();
-
-      this._time = data.b ?? data.time ?? FxEventBoxGroup.default.object.b;
-      this._id = data.g ?? data.id ?? FxEventBoxGroup.default.object.g;
-      this._boxes = (
-         (data.e as unknown as IFxEventBox[]) ??
-            (data.boxes as IFxEventBox[]) ??
-            FxEventBoxGroup.default.boxData
-      ).map((obj) => new FxEventBox(obj, events));
-      this._type = data.t ?? data.type ?? FxType.FLOAT;
-      this._customData = deepCopy(
-         data.customData ?? FxEventBoxGroup.default.object.customData,
-      );
-   }
-
-   static create(): FxEventBoxGroup[];
-   static create(
-      ...data: DeepPartial<
-         IWrapFxEventBoxGroupAttribute<
-            IFxEventBoxGroup,
-            IFxEventBox,
-            IFxEventFloat,
-            IIndexFilter
-         >
-      >[]
-   ): FxEventBoxGroup[];
-   static create(...data: DeepPartial<IFxEventBoxGroup>[]): FxEventBoxGroup[];
-   static create(
-      ...data: (
-         & DeepPartial<IFxEventBoxGroup>
-         & DeepPartial<
-            IWrapFxEventBoxGroupAttribute<
-               IFxEventBoxGroup,
-               IFxEventBox,
-               IFxEventFloat,
-               IIndexFilter
-            >
-         >
-      )[]
-   ): FxEventBoxGroup[];
    static create(
       ...data: (
          & DeepPartial<IFxEventBoxGroup>
@@ -125,6 +47,53 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: DeepPartial<
+         IWrapFxEventBoxGroupAttribute<
+            IFxEventBoxGroup,
+            IFxEventBox,
+            IFxEventFloat,
+            IIndexFilter
+         >
+      > = {},
+   ) {
+      super();
+      this._time = data.time ?? FxEventBoxGroup.default.object.b;
+      this._id = data.id ?? FxEventBoxGroup.default.object.g;
+      if (data.boxes) {
+         this._boxes = data.boxes.map((obj) => new FxEventBox(obj));
+      } else {
+         this._boxes = FxEventBoxGroup.default.boxData.map((obj) =>
+            FxEventBox.fromJSON(obj.data, obj.eventData)
+         );
+      }
+      this._type = data.type ?? FxType.FLOAT;
+      this._customData = deepCopy(
+         data.customData ?? FxEventBoxGroup.default.object.customData,
+      );
+   }
+
+   static fromJSON(
+      data: DeepPartial<IFxEventBoxGroup> = {},
+      events?: Partial<IFxEventFloat>[],
+   ): FxEventBoxGroup {
+      const d = new this();
+      d._time = data.b ?? FxEventBoxGroup.default.object.b;
+      d._id = data.g ?? FxEventBoxGroup.default.object.g;
+      if (data.e) {
+         d._boxes = data.e.map((obj) => FxEventBox.fromJSON(obj, events));
+      } else {
+         d._boxes = FxEventBoxGroup.default.boxData.map((obj) =>
+            FxEventBox.fromJSON(obj.data, events ?? obj.eventData)
+         );
+      }
+      d._type = data.t ?? FxType.FLOAT;
+      d._customData = deepCopy(
+         data.customData ?? FxEventBoxGroup.default.object.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<

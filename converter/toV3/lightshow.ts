@@ -37,7 +37,7 @@ export function toV3Lightshow(
          template.customData = deepCopy(data.customData);
          break;
       case data instanceof V3Lightshow:
-         template = new V3Lightshow(data.toJSON());
+         template = new V3Lightshow(data);
          break;
       case data instanceof V4Lightshow:
          fromV4Lightshow(template, data);

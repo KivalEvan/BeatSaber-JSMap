@@ -18,36 +18,39 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapObstacleAttribute<IObstacle>>);
-   constructor(data: Partial<IObstacle>);
-   constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>);
-   constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
-      super();
-
-      this._time = data.b ?? data.time ?? Obstacle.default.b;
-      this._posX = data.x ?? data.posX ?? Obstacle.default.x;
-      this._posY = data.y ?? data.posY ?? Obstacle.default.y;
-      this._duration = data.d ?? data.duration ?? Obstacle.default.d;
-      this._width = data.w ?? data.width ?? Obstacle.default.w;
-      this._height = data.h ?? data.height ?? Obstacle.default.h;
-      this._customData = deepCopy(data.customData ?? Obstacle.default.customData);
-   }
-
-   static create(): Obstacle[];
-   static create(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): Obstacle[];
-   static create(...data: Partial<IObstacle>[]): Obstacle[];
    static create(
-      ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
-   ): Obstacle[];
-   static create(
-      ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
+      ...data: Partial<IWrapObstacleAttribute<IObstacle>>[]
    ): Obstacle[] {
       const result: Obstacle[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(data: Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
+      super();
+      this._time = data.time ?? Obstacle.default.b;
+      this._posX = data.posX ?? Obstacle.default.x;
+      this._posY = data.posY ?? Obstacle.default.y;
+      this._duration = data.duration ?? Obstacle.default.d;
+      this._width = data.width ?? Obstacle.default.w;
+      this._height = data.height ?? Obstacle.default.h;
+      this._customData = deepCopy(
+         data.customData ?? Obstacle.default.customData,
+      );
+   }
+
+   static fromJSON(data: Partial<IObstacle> = {}): Obstacle {
+      const d = new this();
+      d._time = data.b ?? Obstacle.default.b;
+      d._posX = data.x ?? Obstacle.default.x;
+      d._posY = data.y ?? Obstacle.default.y;
+      d._duration = data.d ?? Obstacle.default.d;
+      d._width = data.w ?? Obstacle.default.w;
+      d._height = data.h ?? Obstacle.default.h;
+      d._customData = deepCopy(data.customData ?? Obstacle.default.customData);
+      return d;
    }
 
    toJSON(): Required<IObstacle> {
@@ -79,7 +82,8 @@ export class Obstacle extends WrapObstacle<IObstacle> {
             if (Array.isArray(this.customData.animation.definitePosition)) {
                if (isVector3(this.customData.animation.definitePosition)) {
                   this.customData.animation.definitePosition[0] =
-                     -this.customData.animation.definitePosition[0] - (this.posX + width - 1);
+                     -this.customData.animation.definitePosition[0] -
+                     (this.posX + width - 1);
                } else {
                   this.customData.animation.definitePosition.forEach((dp) => {
                      dp[0] = -dp[0] - (this.posX + width - 1);
@@ -89,7 +93,8 @@ export class Obstacle extends WrapObstacle<IObstacle> {
             if (Array.isArray(this.customData.animation.offsetPosition)) {
                if (isVector3(this.customData.animation.offsetPosition)) {
                   this.customData.animation.offsetPosition[0] =
-                     -this.customData.animation.offsetPosition[0] - (this.posX + width - 1);
+                     -this.customData.animation.offsetPosition[0] -
+                     (this.posX + width - 1);
                } else {
                   this.customData.animation.offsetPosition.forEach((op) => {
                      op[0] = -op[0] - (this.posX + width - 1);
@@ -107,7 +112,10 @@ export class Obstacle extends WrapObstacle<IObstacle> {
             return super.getPosition();
          case 'ne':
             if (this.customData.coordinates) {
-               return [this.customData.coordinates[0], this.customData.coordinates[1]];
+               return [
+                  this.customData.coordinates[0],
+                  this.customData.coordinates[1],
+               ];
             }
          /** falls through */
          case 'me':

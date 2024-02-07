@@ -26,14 +26,22 @@ export function parseDifficulty(
       data._version = '2.0.0';
    }
    if (checkData.enabled) {
-      deepCheck(data, DifficultyDataCheck, 'difficulty', data._version, checkData.throwError);
+      deepCheck(
+         data,
+         DifficultyDataCheck,
+         'difficulty',
+         data._version,
+         checkData.throwError,
+      );
    }
 
    data._customData = shallowCopy(data._customData || {});
    if (data._BPMChanges) data._customData_BPMChanges ||= data._BPMChanges;
    if (data._bpmChanges) data._customData_bpmChanges ||= data._bpmChanges;
    if (data._bookmarks) data._customData._bookmarks ||= data._bookmarks;
-   if (data._customEvents) data._customData._customEvents ||= data._customEvents;
+   if (data._customEvents) {
+      data._customData._customEvents ||= data._customEvents;
+   }
    if (data._time) data._customData._time ||= data._time;
 
    if (compareVersion(data._version, '2.5.0') === 'old') {
@@ -44,7 +52,7 @@ export function parseDifficulty(
       }) || [];
    }
 
-   return new Difficulty(data);
+   return Difficulty.fromJSON(data);
 }
 
 export function parseInfo(
@@ -59,7 +67,13 @@ export function parseInfo(
       data._version = '2.0.0';
    }
    if (checkData.enabled) {
-      deepCheck(data, InfoDataCheck, 'info', data._version, checkData.throwError);
+      deepCheck(
+         data,
+         InfoDataCheck,
+         'info',
+         data._version,
+         checkData.throwError,
+      );
    }
 
    data._difficultyBeatmapSets =
@@ -83,7 +97,10 @@ export function parseInfo(
                diff._difficultyRank = 1;
             }
             if (DifficultyRanking[diff._difficulty!] !== diff._difficultyRank) {
-               logger.tError(tag('info'), diff._difficulty + ' has invalid rank');
+               logger.tError(
+                  tag('info'),
+                  diff._difficulty + ' has invalid rank',
+               );
             }
             num = diff._difficultyRank;
             diff._customData = shallowCopy(diff._customData || {});
@@ -104,5 +121,5 @@ export function parseInfo(
          return set;
       }) || [];
 
-   return new Info(data);
+   return Info.fromJSON(data);
 }

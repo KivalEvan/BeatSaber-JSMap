@@ -10,6 +10,7 @@ import { IColor } from '../../colors.ts';
 
 export interface IWrapInfoAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
+   TDifficulty extends { [P in keyof TDifficulty]: TDifficulty[P] } = Record<string, any>,
 > extends IWrapBaseItem<T> {
    readonly version: Version;
    contentChecksum: string;
@@ -19,7 +20,7 @@ export interface IWrapInfoAttribute<
    coverImageFilename: string;
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
-   difficulties: IWrapInfoDifficulty[];
+   difficulties: IWrapInfoDifficulty<TDifficulty>[];
 
    filename: string;
 }

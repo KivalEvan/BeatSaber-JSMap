@@ -23,36 +23,6 @@ export class BombNote extends WrapBombNote<IBombNoteContainer> {
       },
    };
 
-   constructor();
-   constructor(object: Partial<IWrapBombNoteAttribute<IBombNoteContainer>>);
-   constructor(object: Partial<IObjectLane>, data?: Partial<IBombNote>);
-   constructor(
-      object:
-         & Partial<IObjectLane>
-         & Partial<IWrapBombNoteAttribute<IBombNoteContainer>>,
-      data?: Partial<IBombNote>,
-   );
-   constructor(
-      object:
-         & Partial<IObjectLane>
-         & Partial<IWrapBombNoteAttribute<IBombNoteContainer>> = {},
-      data: Partial<IBombNote> = {},
-   ) {
-      super();
-
-      this._time = object.b ?? object.time ?? BombNote.default.object.b;
-      this._laneRotation = object.r ?? object.laneRotation ?? BombNote.default.object.r;
-      this._posX = data.x ?? object.posX ?? BombNote.default.data.x;
-      this._posY = data.y ?? object.posY ?? BombNote.default.data.y;
-      this._customData = deepCopy(
-         object.customData ?? BombNote.default.data.customData,
-      );
-   }
-
-   static create(): BombNote[];
-   static create(
-      ...data: Partial<IWrapBombNoteAttribute<IBombNoteContainer>>[]
-   ): BombNote[];
    static create(
       ...data: Partial<IWrapBombNoteAttribute<IBombNoteContainer>>[]
    ): BombNote[] {
@@ -61,6 +31,33 @@ export class BombNote extends WrapBombNote<IBombNoteContainer> {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(data: Partial<IWrapBombNoteAttribute<IBombNoteContainer>> = {}) {
+      super();
+      this._time = data.time ?? BombNote.default.object.b;
+      this._laneRotation = data.laneRotation ?? BombNote.default.object.r;
+      this._posX = data.posX ?? BombNote.default.data.x;
+      this._posY = data.posY ?? BombNote.default.data.y;
+      this._customData = deepCopy(
+         data.customData ?? BombNote.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      object: Partial<IObjectLane> = {},
+      data: Partial<IBombNote> = {},
+   ): BombNote {
+      const d = new this();
+      d._time = object.b ?? BombNote.default.object.b;
+      d._laneRotation = object.r ?? BombNote.default.object.r;
+      d._posX = data.x ?? BombNote.default.data.x;
+      d._posY = data.y ?? BombNote.default.data.y;
+      d._customData = deepCopy(
+         data.customData ??
+            BombNote.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IBombNoteContainer> {

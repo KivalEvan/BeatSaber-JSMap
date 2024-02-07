@@ -107,9 +107,6 @@ use default value to fill the empty spot. This method always return object(s) in
 exception being object that is not placed in array such as difficulty and index filter.
 Alternatively, if you prefer just a single object instantiation, you may use constructor method.
 
-Object creation field can be mixed with either the schema field or the wrapped field, prioritises
-wrapped field when presented.
-
 ```ts
 const bomb = v3.BombNote.create();
 const event = new v3.BasicEvent();
@@ -121,7 +118,6 @@ const notes = v3.ColorNote.create(
       posX: 1,
       posY: 0,
    },
-   { b: 2, color: 1 },
 );
 data.colorNotes.push(...notes);
 ```
@@ -136,8 +132,6 @@ data.addBasicEvents(
    { time: 2, type: 1, value: 3 },
    {
       b: 5,
-      type: 2,
-      value: 7,
       f: 1,
    },
    {},

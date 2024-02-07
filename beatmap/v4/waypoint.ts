@@ -23,37 +23,18 @@ export class Waypoint extends WrapWaypoint<IWaypointContainer> {
       },
    };
 
-   constructor();
-   constructor(object: Partial<IWrapWaypointAttribute<IWaypointContainer>>);
-   constructor(object: Partial<IObjectLane>, data?: Partial<IWaypoint>);
-   constructor(
-      object:
-         & Partial<IObjectLane>
-         & Partial<IWrapWaypointAttribute<IWaypointContainer>>,
-      data?: Partial<IWaypoint>,
-   );
-   constructor(
-      object:
-         & Partial<IObjectLane>
-         & Partial<IWrapWaypointAttribute<IWaypointContainer>> = {},
-      data: Partial<IWaypoint> = {},
-   ) {
+   constructor(data: Partial<IWrapWaypointAttribute<IWaypointContainer>> = {}) {
       super();
-
-      this._time = object.b ?? object.time ?? Waypoint.default.object.b;
-      this._laneRotation = object.r ?? object.laneRotation ?? Waypoint.default.object.r;
-      this._posX = data.x ?? object.posX ?? Waypoint.default.data.x;
-      this._posY = data.y ?? object.posY ?? Waypoint.default.data.y;
-      this._direction = data.d ?? object.direction ?? Waypoint.default.data.d;
+      this._time = data.time ?? Waypoint.default.object.b;
+      this._laneRotation = data.laneRotation ?? Waypoint.default.object.r;
+      this._posX = data.posX ?? Waypoint.default.data.x;
+      this._posY = data.posY ?? Waypoint.default.data.y;
+      this._direction = data.direction ?? Waypoint.default.data.d;
       this._customData = deepCopy(
-         object.customData ?? Waypoint.default.data.customData,
+         data.customData ?? Waypoint.default.data.customData,
       );
    }
 
-   static create(): Waypoint[];
-   static create(
-      ...data: Partial<IWrapWaypointAttribute<IWaypointContainer>>[]
-   ): Waypoint[];
    static create(
       ...data: Partial<IWrapWaypointAttribute<IWaypointContainer>>[]
    ): Waypoint[] {
@@ -62,6 +43,22 @@ export class Waypoint extends WrapWaypoint<IWaypointContainer> {
          return result;
       }
       return [new this()];
+   }
+
+   static fromJSON(
+      object: Partial<IObjectLane> = {},
+      data: Partial<IWaypoint> = {},
+   ): Waypoint {
+      const d = new this();
+      d._time = object.b ?? Waypoint.default.object.b;
+      d._laneRotation = object.r ?? Waypoint.default.object.r;
+      d._posX = data.x ?? Waypoint.default.data.x;
+      d._posY = data.y ?? Waypoint.default.data.y;
+      d._direction = data.d ?? Waypoint.default.data.d;
+      d._customData = deepCopy(
+         data.customData ?? Waypoint.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IWaypointContainer> {

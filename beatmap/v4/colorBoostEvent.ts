@@ -20,40 +20,6 @@ export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEventContain
       },
    };
 
-   constructor();
-   constructor(
-      object: Partial<IWrapColorBoostEventAttribute<IColorBoostEventContainer>>,
-   );
-   constructor(object: Partial<IObject>, data?: Partial<IColorBoostEvent>);
-   constructor(
-      object:
-         & Partial<IObject>
-         & Partial<IWrapColorBoostEventAttribute<IColorBoostEventContainer>>,
-      data?: Partial<IColorBoostEvent>,
-   );
-   constructor(
-      object:
-         & Partial<IObject>
-         & Partial<IWrapColorBoostEventAttribute<IColorBoostEventContainer>> = {},
-      data: Partial<IColorBoostEvent> = {},
-   ) {
-      super();
-
-      this._time = object.b ?? object.time ?? ColorBoostEvent.default.object.b;
-      this._toggle = !!(
-         data.b ??
-            object.toggle ??
-            ColorBoostEvent.default.data.b
-      );
-      this._customData = deepCopy(
-         data.customData ?? ColorBoostEvent.default.data.customData,
-      );
-   }
-
-   static create(): ColorBoostEvent[];
-   static create(
-      ...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]
-   ): ColorBoostEvent[];
    static create(
       ...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]
    ): ColorBoostEvent[] {
@@ -62,6 +28,32 @@ export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEventContain
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: Partial<
+         IWrapColorBoostEventAttribute<IColorBoostEventContainer>
+      > = {},
+   ) {
+      super();
+      this._time = data.time ?? ColorBoostEvent.default.object.b;
+      this._toggle = !!(data.toggle ?? ColorBoostEvent.default.data.b);
+      this._customData = deepCopy(
+         data.customData ?? ColorBoostEvent.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      object: Partial<IObject> = {},
+      data: Partial<IColorBoostEvent> = {},
+   ): ColorBoostEvent {
+      const d = new this();
+      d._time = object.b ?? ColorBoostEvent.default.object.b;
+      d._toggle = !!(data.b ?? ColorBoostEvent.default.data.b);
+      d._customData = deepCopy(
+         data.customData ?? ColorBoostEvent.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IColorBoostEventContainer> {

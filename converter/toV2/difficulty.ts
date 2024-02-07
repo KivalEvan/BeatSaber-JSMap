@@ -40,7 +40,7 @@ export function toV2Difficulty(
          fromV1Difficulty(template, data);
          break;
       case data instanceof V2Difficulty:
-         template = new V2Difficulty(data.toJSON());
+         template = new V2Difficulty(data);
          break;
       case data instanceof V3Difficulty:
          fromV3Difficulty(template, data);
@@ -78,172 +78,130 @@ function fromV1Difficulty(template: V2Difficulty, data: V1Difficulty) {
 function fromV3Difficulty(template: V2Difficulty, data: V3Difficulty) {
    template.customData = deepCopy(data.customData);
    data.colorNotes.forEach((n) => {
-      const _customData: ICustomDataNote = objectToV2(n.customData);
+      const customData: ICustomDataNote = objectToV2(n.customData);
       template.addColorNotes({
-         _time: n.time,
-         _lineIndex: n.posX,
-         _lineLayer: n.posY,
-         _type: n.color,
-         _cutDirection: n.direction,
-         _customData,
+         time: n.time,
+         posX: n.posX,
+         posY: n.posY,
+         type: n.color,
+         direction: n.direction,
+         customData,
       });
    });
 
    data.customData.fakeColorNotes?.forEach((n) => {
-      const _customData: ICustomDataNote = objectToV2(n.customData);
+      const customData: ICustomDataNote = objectToV2(n.customData);
       template.addColorNotes({
-         _time: n.b,
-         _lineIndex: n.x,
-         _lineLayer: n.y,
-         _type: n.c,
-         _cutDirection: n.d,
-         _customData,
+         time: n.b,
+         posX: n.x,
+         posY: n.y,
+         type: n.c,
+         direction: n.d,
+         customData,
       });
    });
 
    data.bombNotes.forEach((b) => {
-      const _customData: ICustomDataNote = objectToV2(b.customData);
+      const customData: ICustomDataNote = objectToV2(b.customData);
       template.addColorNotes({
-         _time: b.time,
-         _lineIndex: b.posX,
-         _lineLayer: b.posY,
-         _type: 3,
-         _cutDirection: 0,
-         _customData,
+         time: b.time,
+         posX: b.posX,
+         posY: b.posY,
+         type: 3,
+         direction: 0,
+         customData,
       });
    });
 
    data.customData.fakeBombNotes?.forEach((b) => {
-      const _customData: ICustomDataNote = objectToV2(b.customData);
+      const customData: ICustomDataNote = objectToV2(b.customData);
       template.addColorNotes({
-         _time: b.b,
-         _lineIndex: b.x,
-         _lineLayer: b.y,
-         _type: 3,
-         _cutDirection: 0,
-         _customData,
+         time: b.b,
+         posX: b.x,
+         posY: b.y,
+         type: 3,
+         direction: 0,
+         customData,
       });
    });
 
    data.obstacles.forEach((o) => {
-      const _customData: ICustomDataObstacle = objectToV2(o.customData);
-      if (o.posY === 2 && o.height === 3) {
-         template.addObstacles({
-            _time: o.time,
-            _lineIndex: o.posX,
-            _type: 1,
-            _duration: o.duration,
-            _width: o.width,
-            _customData,
-         });
-      } else {
-         template.addObstacles({
-            _time: o.time,
-            _lineIndex: o.posX,
-            _type: 0,
-            _duration: o.duration,
-            _width: o.width,
-            _customData,
-         });
-      }
+      const customData: ICustomDataObstacle = objectToV2(o.customData);
+      template.addObstacles({
+         time: o.time,
+         posX: o.posX,
+         posY: o.posY,
+         duration: o.duration,
+         width: o.width,
+         height: o.height,
+         customData,
+      });
    });
 
    data.customData.fakeObstacles?.forEach((o) => {
-      const _customData: ICustomDataObstacle = objectToV2(o.customData);
-      if (o.y === 2 && o.h === 3) {
-         template.addObstacles({
-            _time: o.b,
-            _lineIndex: o.x,
-            _type: 1,
-            _duration: o.d,
-            _width: o.w,
-            _customData,
-         });
-      } else {
-         template.addObstacles({
-            _time: o.b,
-            _lineIndex: o.x,
-            _type: 0,
-            _duration: o.d,
-            _width: o.w,
-            _customData,
-         });
-      }
+      const customData: ICustomDataObstacle = objectToV2(o.customData);
+      template.addObstacles({
+         time: o.b,
+         posX: o.x,
+         posY: o.y,
+         duration: o.d,
+         width: o.w,
+         height: o.h,
+         customData,
+      });
    });
 
    data.basicEvents.forEach((e) => {
-      const _customData = eventToV2(e.customData);
+      const customData = eventToV2(e.customData);
       if (e.isLaserRotationEvent()) {
-         delete _customData?._speed;
+         delete customData?._speed;
       } else {
-         delete _customData?._preciseSpeed;
+         delete customData?._preciseSpeed;
       }
       template.addBasicEvents({
-         _time: e.time,
-         _type: e.type,
-         _value: e.value,
-         _floatValue: e.floatValue,
-         _customData,
+         time: e.time,
+         type: e.type,
+         value: e.value,
+         floatValue: e.floatValue,
+         customData,
       });
    });
 
    data.colorBoostEvents.forEach((b) =>
       template.addBasicEvents({
-         _time: b.time,
-         _type: 5,
-         _value: b.toggle ? 1 : 0,
-         _floatValue: 1,
+         time: b.time,
+         type: 5,
+         value: b.toggle ? 1 : 0,
+         floatValue: 1,
       })
    );
 
    data.rotationEvents.forEach((lr) =>
       template.addBasicEvents({
-         _time: lr.time,
-         _type: lr.executionTime ? 14 : 15,
-         _value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
+         time: lr.time,
+         type: lr.executionTime ? 14 : 15,
+         value: Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) < 6
             ? Math.max(
                Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15),
                3,
             )
             : Math.floor((clamp(lr.rotation, -60, 60) + 60) / 15) - 2,
-         _floatValue: 1,
+         floatValue: 1,
       })
    );
 
    data.bpmEvents.forEach((bpm) =>
       template.addBasicEvents({
-         _time: bpm.time,
-         _type: 100,
-         _value: 1,
-         _floatValue: bpm.bpm,
+         time: bpm.time,
+         type: 100,
+         value: 1,
+         floatValue: bpm.bpm,
       })
    );
 
-   data.arcs.forEach((s) =>
-      template.addArcs({
-         _colorType: s.color,
-         _headTime: s.time,
-         _headLineIndex: s.posX,
-         _headLineLayer: s.posY,
-         _headControlPointLengthMultiplier: s.lengthMultiplier,
-         _headCutDirection: s.direction as 0,
-         _tailTime: s.tailTime,
-         _tailLineIndex: s.tailPosX,
-         _tailLineLayer: s.tailPosY,
-         _tailControlPointLengthMultiplier: s.tailLengthMultiplier,
-         _tailCutDirection: s.tailDirection as 0,
-         _sliderMidAnchorMode: s.midAnchor,
-      })
-   );
+   data.arcs.forEach((s) => template.addArcs(s));
 
-   data.waypoints.forEach((w) =>
-      template.addWaypoints({
-         _time: w.time,
-         _lineIndex: w.posX,
-         _lineLayer: w.posY,
-         _offsetDirection: w.direction,
-      })
-   );
+   data.waypoints.forEach((w) => template.addWaypoints(w));
 
    template.eventTypesWithKeywords = template.eventTypesWithKeywords.constructor({
       _keywords: data.eventTypesWithKeywords.list.map((d) => {
@@ -532,26 +490,26 @@ function fromV4Difficulty(template: V2Difficulty, data: V4Difficulty) {
 
 function fromV3Lightshow(template: V2Difficulty, data: V3Lightshow) {
    data.basicEvents.forEach((e) => {
-      const _customData = eventToV2(e.customData);
+      const customData = eventToV2(e.customData);
       if (e.isLaserRotationEvent()) {
-         delete _customData?._speed;
+         delete customData?._speed;
       } else {
-         delete _customData?._preciseSpeed;
+         delete customData?._preciseSpeed;
       }
       template.addBasicEvents({
-         _time: e.time,
-         _type: e.type,
-         _value: e.value,
-         _floatValue: e.floatValue,
-         _customData,
+         time: e.time,
+         type: e.type,
+         value: e.value,
+         floatValue: e.floatValue,
+         customData,
       });
    });
    data.colorBoostEvents.forEach((b) =>
       template.addBasicEvents({
-         _time: b.time,
-         _type: 5,
-         _value: b.toggle ? 1 : 0,
-         _floatValue: 1,
+         time: b.time,
+         type: 5,
+         value: b.toggle ? 1 : 0,
+         floatValue: 1,
       })
    );
    template.eventTypesWithKeywords = template.eventTypesWithKeywords.constructor(
@@ -563,26 +521,26 @@ function fromV3Lightshow(template: V2Difficulty, data: V3Lightshow) {
 function fromV4Lightshow(template: V2Difficulty, data: V4Lightshow) {
    template.addWaypoints(...data.waypoints);
    data.basicEvents.forEach((e) => {
-      const _customData = eventToV2(e.customData);
+      const customData = eventToV2(e.customData);
       if (e.isLaserRotationEvent()) {
-         delete _customData?._speed;
+         delete customData?._speed;
       } else {
-         delete _customData?._preciseSpeed;
+         delete customData?._preciseSpeed;
       }
       template.addBasicEvents({
-         _time: e.time,
-         _type: e.type,
-         _value: e.value,
-         _floatValue: e.floatValue,
-         _customData,
+         time: e.time,
+         type: e.type,
+         value: e.value,
+         floatValue: e.floatValue,
+         customData,
       });
    });
    data.colorBoostEvents.forEach((b) =>
       template.addBasicEvents({
-         _time: b.time,
-         _type: 5,
-         _value: b.toggle ? 1 : 0,
-         _floatValue: 1,
+         time: b.time,
+         type: 5,
+         value: b.toggle ? 1 : 0,
+         floatValue: 1,
       })
    );
    template.eventTypesWithKeywords = template.eventTypesWithKeywords.constructor(

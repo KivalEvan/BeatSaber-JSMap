@@ -29,32 +29,6 @@ export class BasicEvent extends WrapEvent<IBasicEventContainer> {
       },
    };
 
-   constructor();
-   constructor(object: Partial<IWrapEventAttribute<IBasicEvent>>);
-   constructor(object: Partial<IObject>, data?: Partial<IBasicEvent>);
-   constructor(
-      object: Partial<IObject> & Partial<IWrapEventAttribute<IBasicEvent>>,
-      data?: Partial<IBasicEvent>,
-   );
-   constructor(
-      object: Partial<IObject> & Partial<IWrapEventAttribute<IBasicEvent>> = {},
-      data: Partial<IBasicEvent> = {},
-   ) {
-      super();
-
-      this._time = object.b ?? object.time ?? BasicEvent.default.object.b;
-      this._type = data.t ?? object.type ?? BasicEvent.default.data.t;
-      this._value = data.i ?? object.value ?? BasicEvent.default.data.i;
-      this._floatValue = data.f ?? object.floatValue ?? BasicEvent.default.data.f;
-      this._customData = deepCopy(
-         object.customData ?? BasicEvent.default.data.customData,
-      );
-   }
-
-   static create(): BasicEvent[];
-   static create(
-      ...data: Partial<IWrapEventAttribute<IBasicEventContainer>>[]
-   ): BasicEvent[];
    static create(
       ...data: Partial<IWrapEventAttribute<IBasicEventContainer>>[]
    ): BasicEvent[] {
@@ -63,6 +37,33 @@ export class BasicEvent extends WrapEvent<IBasicEventContainer> {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(data: Partial<IWrapEventAttribute<IBasicEvent>> = {}) {
+      super();
+      this._time = data.time ?? BasicEvent.default.object.b;
+      this._type = data.type ?? BasicEvent.default.data.t;
+      this._value = data.value ?? BasicEvent.default.data.i;
+      this._floatValue = data.floatValue ?? BasicEvent.default.data.f;
+      this._customData = deepCopy(
+         data.customData ?? BasicEvent.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      object: Partial<IObject> = {},
+      data: Partial<IBasicEvent> = {},
+   ): BasicEvent {
+      const d = new this();
+      d._time = object.b ?? BasicEvent.default.object.b;
+      d._type = data.t ?? BasicEvent.default.data.t;
+      d._value = data.i ?? BasicEvent.default.data.i;
+      d._floatValue = data.f ?? BasicEvent.default.data.f;
+      d._customData = deepCopy(
+         data.customData ??
+            BasicEvent.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IBasicEventContainer> {

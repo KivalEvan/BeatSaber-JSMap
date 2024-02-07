@@ -21,7 +21,7 @@ export function toV4Info(data: IWrapInfo): V4Info {
          fromV2Info(template, data);
          break;
       case data instanceof V4Info:
-         template = new V4Info(data.toJSON());
+         template = new V4Info(data);
          break;
       default:
          logger.tWarn(
@@ -55,16 +55,16 @@ function fromV1Info(template: V4Info, data: V1Info) {
       template.addMap({
          characteristic: beatmap.characteristic,
          difficulty: beatmap.difficulty,
-         beatmapAuthors: {
+         authors: {
             mappers: [...beatmap.authors.mappers],
             lighters: [...beatmap.authors.lighters],
          },
-         beatmapColorSchemeIdx: beatmap.colorSchemeId,
-         environmentNameIdx: beatmap.environmentId,
-         noteJumpMovementSpeed: beatmap.njs,
-         noteJumpStartBeatOffset: beatmap.njsOffset,
-         beatmapDataFilename: beatmap.filename,
-         lightshowDataFilename: beatmap.filename,
+         colorSchemeId: beatmap.colorSchemeId,
+         environmentId: beatmap.environmentId,
+         njs: beatmap.njs,
+         njsOffset: beatmap.njsOffset,
+         filename: beatmap.filename,
+         lightshowFilename: beatmap.filename,
       });
    });
 }
@@ -89,16 +89,16 @@ function fromV2Info(template: V4Info, data: V2Info) {
       template.addMap({
          characteristic: beatmap.characteristic,
          difficulty: beatmap.difficulty,
-         beatmapAuthors: {
+         authors: {
             mappers: [...beatmap.authors.mappers, data.levelAuthorName],
             lighters: [...beatmap.authors.lighters],
          },
-         beatmapColorSchemeIdx: beatmap.colorSchemeId,
-         environmentNameIdx: beatmap.environmentId,
-         noteJumpMovementSpeed: beatmap.njs,
-         noteJumpStartBeatOffset: beatmap.njsOffset,
-         beatmapDataFilename: beatmap.filename,
-         lightshowDataFilename: beatmap.filename,
+         colorSchemeId: beatmap.colorSchemeId,
+         environmentId: beatmap.environmentId,
+         njs: beatmap.njs,
+         njsOffset: beatmap.njsOffset,
+         filename: beatmap.filename,
+         lightshowFilename: beatmap.filename,
          customData: deepCopy(beatmap.customData),
       });
    });

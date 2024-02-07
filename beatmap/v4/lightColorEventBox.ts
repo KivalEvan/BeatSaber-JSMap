@@ -32,89 +32,6 @@ export class LightColorEventBox extends WrapLightColorEventBox<
       filterData: { ...IndexFilter.default },
    };
 
-   constructor();
-   constructor(
-      data: DeepPartial<
-         IWrapLightColorEventBoxAttribute<
-            ILightColorBoxContainer,
-            ILightColorEventContainer,
-            IIndexFilter
-         >
-      >,
-   );
-   constructor(
-      data: Partial<ILightColorEventBox>,
-      events?: Partial<ILightColorEvent>[],
-      times?: number[],
-      filter?: Partial<IIndexFilter>,
-   );
-   constructor(
-      data:
-         & Partial<ILightColorEventBox>
-         & DeepPartial<
-            IWrapLightColorEventBoxAttribute<
-               ILightColorBoxContainer,
-               ILightColorEventContainer,
-               IIndexFilter
-            >
-         >,
-      events?: Partial<ILightColorEvent>[],
-      times?: number[],
-      filter?: Partial<IIndexFilter>,
-   );
-   constructor(
-      data:
-         & Partial<ILightColorEventBox>
-         & DeepPartial<
-            IWrapLightColorEventBoxAttribute<
-               ILightColorBoxContainer,
-               ILightColorEventContainer,
-               IIndexFilter
-            >
-         > = {},
-      events?: Partial<ILightColorEvent>[],
-      times?: number[],
-      filter?: Partial<IIndexFilter>,
-   ) {
-      super();
-
-      this._filter = new IndexFilter(
-         filter ??
-            (data.filter as IIndexFilter) ??
-            LightColorEventBox.default.filterData,
-      );
-      this._beatDistribution = data.w ?? data.beatDistribution ?? LightColorEventBox.default.data.w;
-      this._beatDistributionType = data.d ??
-         data.beatDistributionType ??
-         LightColorEventBox.default.data.d;
-      this._brightnessDistribution = data.s ??
-         data.brightnessDistribution ??
-         LightColorEventBox.default.data.s;
-      this._brightnessDistributionType = data.t ??
-         data.brightnessDistributionType ??
-         LightColorEventBox.default.data.t;
-      this._affectFirst = data.b ?? data.affectFirst ?? LightColorEventBox.default.data.b;
-      this._easing = data.e ?? data.easing ?? LightColorEventBox.default.data.e;
-      this._events = (
-         events! ??
-            data.events ??
-            LightColorEventBox.default.eventData
-      ).map((obj, i) => new LightColorEvent(obj, times?.[i]));
-      this._customData = deepCopy(
-         data.customData ?? LightColorEventBox.default.data.customData,
-      );
-   }
-
-   static create(): LightColorEventBox[];
-   static create(
-      ...data: DeepPartial<
-         IWrapLightColorEventBoxAttribute<
-            ILightColorBoxContainer,
-            ILightColorEventContainer,
-            IIndexFilter
-         >
-      >[]
-   ): LightColorEventBox[];
    static create(
       ...data: DeepPartial<
          IWrapLightColorEventBoxAttribute<
@@ -129,6 +46,67 @@ export class LightColorEventBox extends WrapLightColorEventBox<
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: DeepPartial<
+         IWrapLightColorEventBoxAttribute<
+            ILightColorBoxContainer,
+            ILightColorEventContainer,
+            IIndexFilter
+         >
+      > = {},
+   ) {
+      super();
+      if (data.filter) this._filter = new IndexFilter(data.filter);
+      else {
+         this._filter = IndexFilter.fromJSON(
+            LightColorEventBox.default.filterData,
+         );
+      }
+      this._beatDistribution = data.beatDistribution ?? LightColorEventBox.default.data.w;
+      this._beatDistributionType = data.beatDistributionType ?? LightColorEventBox.default.data.d;
+      this._brightnessDistribution = data.brightnessDistribution ??
+         LightColorEventBox.default.data.s;
+      this._brightnessDistributionType = data.brightnessDistributionType ??
+         LightColorEventBox.default.data.t;
+      this._affectFirst = data.affectFirst ?? LightColorEventBox.default.data.b;
+      this._easing = data.easing ?? LightColorEventBox.default.data.e;
+      if (data.events) {
+         this._events = data.events.map((obj) => new LightColorEvent(obj));
+      } else {
+         this._events = LightColorEventBox.default.eventData.map((json) =>
+            LightColorEvent.fromJSON(json.data, json.time)
+         );
+      }
+      this._customData = deepCopy(
+         data.customData ?? LightColorEventBox.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      data: Partial<ILightColorEventBox> = {},
+      events?: Partial<ILightColorEvent>[],
+      times?: number[],
+      filter?: Partial<IIndexFilter>,
+   ): LightColorEventBox {
+      const d = new this();
+      d._filter = IndexFilter.fromJSON(
+         filter ?? LightColorEventBox.default.filterData,
+      );
+      d._beatDistribution = data.w ?? LightColorEventBox.default.data.w;
+      d._beatDistributionType = data.d ?? LightColorEventBox.default.data.d;
+      d._brightnessDistribution = data.s ?? LightColorEventBox.default.data.s;
+      d._brightnessDistributionType = data.t ?? LightColorEventBox.default.data.t;
+      d._affectFirst = data.b ?? LightColorEventBox.default.data.b;
+      d._easing = data.e ?? LightColorEventBox.default.data.e;
+      d._events = (events! ?? LightColorEventBox.default.eventData).map(
+         (obj, i) => LightColorEvent.fromJSON(obj, times?.[i]),
+      );
+      d._customData = deepCopy(
+         data.customData ?? LightColorEventBox.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<ILightColorBoxContainer> {

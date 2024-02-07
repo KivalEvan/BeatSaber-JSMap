@@ -24,45 +24,6 @@ export class LightColorEvent extends WrapLightColorEvent<ILightColorEventContain
       time: 0,
    };
 
-   constructor();
-   constructor(
-      data: Partial<IWrapLightColorEventAttribute<ILightColorEventContainer>>,
-   );
-   constructor(data: Partial<ILightColorEvent>, time?: number);
-   constructor(
-      data:
-         & Partial<ILightColorEvent>
-         & Partial<IWrapLightColorEventAttribute<ILightColorEventContainer>>,
-      time?: number,
-   );
-   constructor(
-      data:
-         & Partial<ILightColorEvent>
-         & Partial<IWrapLightColorEventAttribute<ILightColorEventContainer>> = {},
-      time?: number,
-   ) {
-      super();
-
-      this._time = time ?? data.time ?? LightColorEvent.default.time;
-      this._previous = data.p ?? data.previous ?? LightColorEvent.default.data.p;
-      this._color = data.c ?? data.color ?? LightColorEvent.default.data.c;
-      this._frequency = data.f ?? data.frequency ?? LightColorEvent.default.data.f;
-      this._transition = 0;
-      this._easing = data.e ?? data.easing ?? LightColorEvent.default.data.e;
-      this._brightness = data.b ?? data.brightness ?? LightColorEvent.default.data.b;
-      this._strobeBrightness = data.sb ?? data.strobeBrightness ?? LightColorEvent.default.data.sb;
-      this._strobeFade = data.sf ?? data.strobeFade ?? LightColorEvent.default.data.sf;
-      this._customData = deepCopy(
-         data.customData ?? LightColorEvent.default.data.customData,
-      );
-   }
-
-   static create(): LightColorEvent[];
-   static create(
-      ...data: Partial<
-         IWrapLightColorEventAttribute<ILightColorEventContainer>
-      >[]
-   ): LightColorEvent[];
    static create(
       ...data: Partial<IWrapLightColorEventAttribute<ILightColorEvent>>[]
    ): LightColorEvent[] {
@@ -71,6 +32,46 @@ export class LightColorEvent extends WrapLightColorEvent<ILightColorEventContain
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: Partial<
+         IWrapLightColorEventAttribute<ILightColorEventContainer>
+      > = {},
+   ) {
+      super();
+      this._time = data.time ?? LightColorEvent.default.time;
+      this._previous = data.previous ?? LightColorEvent.default.data.p;
+      this._color = data.color ?? LightColorEvent.default.data.c;
+      this._frequency = data.frequency ?? LightColorEvent.default.data.f;
+      this._transition = 0;
+      this._easing = data.easing ?? LightColorEvent.default.data.e;
+      this._brightness = data.brightness ?? LightColorEvent.default.data.b;
+      this._strobeBrightness = data.strobeBrightness ?? LightColorEvent.default.data.sb;
+      this._strobeFade = data.strobeFade ?? LightColorEvent.default.data.sf;
+      this._customData = deepCopy(
+         data.customData ?? LightColorEvent.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      data: Partial<ILightColorEvent> = {},
+      time?: number,
+   ): LightColorEvent {
+      const d = new this();
+      d._time = time ?? LightColorEvent.default.time;
+      d._previous = data.p ?? LightColorEvent.default.data.p;
+      d._color = data.c ?? LightColorEvent.default.data.c;
+      d._frequency = data.f ?? LightColorEvent.default.data.f;
+      d._transition = 0;
+      d._easing = data.e ?? LightColorEvent.default.data.e;
+      d._brightness = data.b ?? LightColorEvent.default.data.b;
+      d._strobeBrightness = data.sb ?? LightColorEvent.default.data.sb;
+      d._strobeFade = data.sf ?? LightColorEvent.default.data.sf;
+      d._customData = deepCopy(
+         data.customData ?? LightColorEvent.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<ILightColorEventContainer> {

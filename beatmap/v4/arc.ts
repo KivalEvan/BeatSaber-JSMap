@@ -47,57 +47,60 @@ export class Arc extends WrapArc<IArcContainer> {
       },
    };
 
-   constructor();
-   constructor(object: Partial<IWrapArcAttribute<IArcContainer>>);
-   constructor(
-      object: Partial<IObjectArc>,
-      data?: Partial<IArc>,
-      headData?: Partial<IColorNote>,
-      tailData?: Partial<IColorNote>,
-   );
-   constructor(
-      object: Partial<IObjectArc> & Partial<IWrapArcAttribute<IArcContainer>>,
-      data?: Partial<IArc>,
-      headData?: Partial<IColorNote>,
-      tailData?: Partial<IColorNote>,
-   );
-   constructor(
-      object:
-         & Partial<IObjectArc>
-         & Partial<IWrapArcAttribute<IArcContainer>> = {},
-      data: Partial<IArc> = {},
-      headData: Partial<IColorNote> = {},
-      tailData: Partial<IColorNote> = {},
-   ) {
-      super();
-
-      this._time = object.hb ?? object.time ?? Arc.default.object.hb;
-      this._laneRotation = object.hr ?? object.laneRotation ?? Arc.default.object.hr;
-      this._tailTime = object.tb ?? object.tailTime ?? Arc.default.object.tb;
-      this._tailLaneRotation = object.tr ?? object.tailLaneRotation ?? Arc.default.object.tr;
-      this._color = headData.c ?? object.color ?? Arc.default.headData.c;
-      this._posX = headData.x ?? object.posX ?? Arc.default.headData.x;
-      this._posY = headData.y ?? object.posY ?? Arc.default.headData.y;
-      this._direction = headData.d ?? object.direction ?? Arc.default.headData.d;
-      this._lengthMultiplier = data.m ?? object.lengthMultiplier ?? Arc.default.data.m;
-      this._tailPosX = tailData.x ?? object.tailPosX ?? Arc.default.tailData.x;
-      this._tailPosY = tailData.y ?? object.tailPosY ?? Arc.default.tailData.y;
-      this._tailDirection = tailData.d ?? object.tailDirection ?? Arc.default.tailData.c;
-      this._tailLengthMultiplier = data.tm ?? object.tailLengthMultiplier ?? Arc.default.data.tm;
-      this._midAnchor = data.a ?? object.midAnchor ?? Arc.default.data.a;
-      this._customData = deepCopy(
-         object.customData ?? Arc.default.data.customData,
-      );
-   }
-
-   static create(): Arc[];
-   static create(...data: Partial<IWrapArcAttribute<IArcContainer>>[]): Arc[];
    static create(...data: Partial<IWrapArcAttribute<IArcContainer>>[]): Arc[] {
       const result: Arc[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(data: Partial<IWrapArcAttribute<IArcContainer>> = {}) {
+      super();
+      this._time = data.time ?? Arc.default.object.hb;
+      this._laneRotation = data.laneRotation ?? Arc.default.object.hr;
+      this._tailTime = data.tailTime ?? Arc.default.object.tb;
+      this._tailLaneRotation = data.tailLaneRotation ?? Arc.default.object.tr;
+      this._color = data.color ?? Arc.default.headData.c;
+      this._posX = data.posX ?? Arc.default.headData.x;
+      this._posY = data.posY ?? Arc.default.headData.y;
+      this._direction = data.direction ?? Arc.default.headData.d;
+      this._lengthMultiplier = data.lengthMultiplier ?? Arc.default.data.m;
+      this._tailPosX = data.tailPosX ?? Arc.default.tailData.x;
+      this._tailPosY = data.tailPosY ?? Arc.default.tailData.y;
+      this._tailDirection = data.tailDirection ?? Arc.default.tailData.c;
+      this._tailLengthMultiplier = data.tailLengthMultiplier ?? Arc.default.data.tm;
+      this._midAnchor = data.midAnchor ?? Arc.default.data.a;
+      this._customData = deepCopy(
+         data.customData ?? Arc.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      object: Partial<IObjectArc> = {},
+      data: Partial<IArc> = {},
+      headData: Partial<IColorNote> = {},
+      tailData: Partial<IColorNote> = {},
+   ): Arc {
+      const d = new this();
+      d._time = object.hb ?? Arc.default.object.hb;
+      d._laneRotation = object.hr ?? Arc.default.object.hr;
+      d._tailTime = object.tb ?? Arc.default.object.tb;
+      d._tailLaneRotation = object.tr ?? Arc.default.object.tr;
+      d._color = headData.c ?? Arc.default.headData.c;
+      d._posX = headData.x ?? Arc.default.headData.x;
+      d._posY = headData.y ?? Arc.default.headData.y;
+      d._direction = headData.d ?? Arc.default.headData.d;
+      d._lengthMultiplier = data.m ?? Arc.default.data.m;
+      d._tailPosX = tailData.x ?? Arc.default.tailData.x;
+      d._tailPosY = tailData.y ?? Arc.default.tailData.y;
+      d._tailDirection = tailData.d ?? Arc.default.tailData.c;
+      d._tailLengthMultiplier = data.tm ?? Arc.default.data.tm;
+      d._midAnchor = data.a ?? Arc.default.data.a;
+      d._customData = deepCopy(
+         data.customData ?? Arc.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IArcContainer> {

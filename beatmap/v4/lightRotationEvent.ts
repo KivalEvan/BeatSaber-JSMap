@@ -22,48 +22,6 @@ export class LightRotationEvent extends WrapLightRotationEvent<ILightRotationEve
       time: 0,
    };
 
-   constructor();
-   constructor(
-      data: Partial<
-         IWrapLightRotationEventAttribute<ILightRotationEventContainer>
-      >,
-   );
-   constructor(data: Partial<ILightRotationEvent>, time?: number);
-   constructor(
-      data:
-         & Partial<ILightRotationEvent>
-         & Partial<
-            IWrapLightRotationEventAttribute<ILightRotationEventContainer>
-         >,
-      time?: number,
-   );
-   constructor(
-      data:
-         & Partial<ILightRotationEvent>
-         & Partial<
-            IWrapLightRotationEventAttribute<ILightRotationEventContainer>
-         > = {},
-      time?: number,
-   ) {
-      super();
-
-      this._time = time ?? data.time ?? LightRotationEvent.default.time;
-      this._previous = data.p ?? data.previous ?? LightRotationEvent.default.data.p;
-      this._easing = data.e ?? data.easing ?? LightRotationEvent.default.data.e;
-      this._loop = data.l ?? data.loop ?? LightRotationEvent.default.data.l;
-      this._rotation = data.r ?? data.rotation ?? LightRotationEvent.default.data.r;
-      this._direction = data.d ?? data.direction ?? LightRotationEvent.default.data.d;
-      this._customData = deepCopy(
-         data.customData ?? LightRotationEvent.default.data.customData,
-      );
-   }
-
-   static create(): LightRotationEvent[];
-   static create(
-      ...data: Partial<
-         IWrapLightRotationEventAttribute<ILightRotationEventContainer>
-      >[]
-   ): LightRotationEvent[];
    static create(
       ...data: Partial<
          IWrapLightRotationEventAttribute<ILightRotationEventContainer>
@@ -74,6 +32,40 @@ export class LightRotationEvent extends WrapLightRotationEvent<ILightRotationEve
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: Partial<
+         IWrapLightRotationEventAttribute<ILightRotationEventContainer>
+      > = {},
+   ) {
+      super();
+      this._time = data.time ?? LightRotationEvent.default.time;
+      this._previous = data.previous ?? LightRotationEvent.default.data.p;
+      this._easing = data.easing ?? LightRotationEvent.default.data.e;
+      this._loop = data.loop ?? LightRotationEvent.default.data.l;
+      this._rotation = data.rotation ?? LightRotationEvent.default.data.r;
+      this._direction = data.direction ?? LightRotationEvent.default.data.d;
+      this._customData = deepCopy(
+         data.customData ?? LightRotationEvent.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      data: Partial<ILightRotationEvent> = {},
+      time?: number,
+   ): LightRotationEvent {
+      const d = new this();
+      d._time = time ?? LightRotationEvent.default.time;
+      d._previous = data.p ?? LightRotationEvent.default.data.p;
+      d._easing = data.e ?? LightRotationEvent.default.data.e;
+      d._loop = data.l ?? LightRotationEvent.default.data.l;
+      d._rotation = data.r ?? LightRotationEvent.default.data.r;
+      d._direction = data.d ?? LightRotationEvent.default.data.d;
+      d._customData = deepCopy(
+         data.customData ?? LightRotationEvent.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<ILightRotationEventContainer> {

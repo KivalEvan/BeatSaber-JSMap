@@ -15,52 +15,43 @@ export class LightRotationBase extends WrapLightRotationEvent<ILightRotationEven
       customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>>);
-   constructor(data: Partial<ILightRotationEvent>);
-   constructor(
-      data:
-         & Partial<ILightRotationEvent>
-         & Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>>,
-   );
-   constructor(
-      data:
-         & Partial<ILightRotationEvent>
-         & Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>> = {},
-   ) {
-      super();
-
-      this._time = data.b ?? data.time ?? LightRotationBase.default.b;
-      this._easing = data.e ?? data.easing ?? LightRotationBase.default.e;
-      this._loop = data.l ?? data.loop ?? LightRotationBase.default.l;
-      this._direction = data.o ?? data.direction ?? LightRotationBase.default.o;
-      this._previous = data.p ?? data.previous ?? LightRotationBase.default.p;
-      this._rotation = data.r ?? data.rotation ?? LightRotationBase.default.r;
-      this._customData = deepCopy(data.customData ?? LightRotationBase.default.customData);
-   }
-
-   static create(): LightRotationBase[];
    static create(
       ...data: Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>>[]
-   ): LightRotationBase[];
-   static create(...data: Partial<ILightRotationEvent>[]): LightRotationBase[];
-   static create(
-      ...data: (
-         & Partial<ILightRotationEvent>
-         & Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>>
-      )[]
-   ): LightRotationBase[];
-   static create(
-      ...data: (
-         & Partial<ILightRotationEvent>
-         & Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>>
-      )[]
    ): LightRotationBase[] {
       const result: LightRotationBase[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: Partial<IWrapLightRotationEventAttribute<ILightRotationEvent>> = {},
+   ) {
+      super();
+      this._time = data.time ?? LightRotationBase.default.b;
+      this._easing = data.easing ?? LightRotationBase.default.e;
+      this._loop = data.loop ?? LightRotationBase.default.l;
+      this._direction = data.direction ?? LightRotationBase.default.o;
+      this._previous = data.previous ?? LightRotationBase.default.p;
+      this._rotation = data.rotation ?? LightRotationBase.default.r;
+      this._customData = deepCopy(
+         data.customData ?? LightRotationBase.default.customData,
+      );
+   }
+
+   static fromJSON(data: Partial<ILightRotationEvent> = {}): LightRotationBase {
+      const d = new this();
+      d._time = data.b ?? LightRotationBase.default.b;
+      d._easing = data.e ?? LightRotationBase.default.e;
+      d._loop = data.l ?? LightRotationBase.default.l;
+      d._direction = data.o ?? LightRotationBase.default.o;
+      d._previous = data.p ?? LightRotationBase.default.p;
+      d._rotation = data.r ?? LightRotationBase.default.r;
+      d._customData = deepCopy(
+         data.customData ?? LightRotationBase.default.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<ILightRotationEvent> {

@@ -53,7 +53,7 @@ export function toV3Difficulty(
          fromV2Difficulty(template, data);
          break;
       case data instanceof V3Difficulty:
-         template = new V3Difficulty(data.toJSON());
+         template = new V3Difficulty(data);
          break;
       case data instanceof V4Difficulty:
          fromV4Difficulty(template, data);
@@ -78,13 +78,7 @@ export function toV3Difficulty(
 function fromV1Difficulty(template: V3Difficulty, data: V1Difficulty) {
    data.colorNotes.forEach((n) => {
       if (n.isBomb()) {
-         template.bombNotes.push(
-            new BombNote({
-               b: n.time,
-               x: n.posX,
-               y: n.posY,
-            }),
-         );
+         template.bombNotes.push(new BombNote(n));
       }
       if (n.isNote()) {
          let a = 0;
@@ -93,15 +87,15 @@ function fromV1Difficulty(template: V3Difficulty, data: V1Difficulty) {
          }
          template.colorNotes.push(
             new ColorNote({
-               b: n.time,
-               c: n.type as 0 | 1,
-               x: n.posX,
-               y: n.posY,
-               d: n.direction >= 1000 ||
+               time: n.time,
+               type: n.type as 0 | 1,
+               posX: n.posX,
+               posY: n.posY,
+               direction: n.direction >= 1000 ||
                      typeof n.customData._cutDirection === 'number'
                   ? n.direction === 8 ? 8 : 1
                   : clamp(n.direction, 0, 8),
-               a: a,
+               angleOffset: a,
             }),
          );
       }
@@ -144,18 +138,18 @@ function fromV2Difficulty(template: V3Difficulty, data: V2Difficulty) {
          if (n.customData._fake) {
             template.customData.fakeBombNotes!.push(
                new BombNote({
-                  b: n.time,
-                  x: n.posX,
-                  y: n.posY,
+                  time: n.time,
+                  posX: n.posX,
+                  posY: n.posY,
                   customData,
                }).toJSON(),
             );
          } else {
             template.bombNotes.push(
                new BombNote({
-                  b: n.time,
-                  x: n.posX,
-                  y: n.posY,
+                  time: n.time,
+                  posX: n.posX,
+                  posY: n.posY,
                   customData,
                }),
             );
@@ -173,30 +167,30 @@ function fromV2Difficulty(template: V3Difficulty, data: V2Difficulty) {
          if (n.customData._fake) {
             template.customData.fakeColorNotes!.push(
                new ColorNote({
-                  b: n.time,
-                  c: n.type as 0 | 1,
-                  x: n.posX,
-                  y: n.posY,
-                  d: n.direction >= 1000 ||
+                  time: n.time,
+                  type: n.type as 0 | 1,
+                  posX: n.posX,
+                  posY: n.posY,
+                  direction: n.direction >= 1000 ||
                         typeof n.customData._cutDirection === 'number'
                      ? n.direction === 8 ? 8 : 1
                      : clamp(n.direction, 0, 8),
-                  a: a,
+                  angleOffset: a,
                   customData,
                }).toJSON(),
             );
          } else {
             template.colorNotes.push(
                new ColorNote({
-                  b: n.time,
-                  c: n.type as 0 | 1,
-                  x: n.posX,
-                  y: n.posY,
-                  d: n.direction >= 1000 ||
+                  time: n.time,
+                  type: n.type as 0 | 1,
+                  posX: n.posX,
+                  posY: n.posY,
+                  direction: n.direction >= 1000 ||
                         typeof n.customData._cutDirection === 'number'
                      ? n.direction === 8 ? 8 : 1
                      : clamp(n.direction, 0, 8),
-                  a: a,
+                  angleOffset: a,
                   customData,
                }),
             );
@@ -209,24 +203,24 @@ function fromV2Difficulty(template: V3Difficulty, data: V2Difficulty) {
       if (o.customData._fake) {
          template.customData.fakeObstacles!.push(
             new Obstacle({
-               b: o.time,
-               x: o.posX,
-               y: o.type ? 2 : 0,
-               d: o.duration,
-               w: o.width,
-               h: o.type ? 3 : 5,
+               time: o.time,
+               posX: o.posX,
+               posY: o.type ? 2 : 0,
+               duration: o.duration,
+               width: o.width,
+               height: o.type ? 3 : 5,
                customData,
             }).toJSON(),
          );
       } else {
          template.obstacles.push(
             new Obstacle({
-               b: o.time,
-               x: o.posX,
-               y: o.type ? 2 : 0,
-               d: o.duration,
-               w: o.width,
-               h: o.type ? 3 : 5,
+               time: o.time,
+               posX: o.posX,
+               posY: o.type ? 2 : 0,
+               duration: o.duration,
+               width: o.width,
+               height: o.type ? 3 : 5,
                customData,
             }),
          );
@@ -237,16 +231,16 @@ function fromV2Difficulty(template: V3Difficulty, data: V2Difficulty) {
       if (e.isColorBoost()) {
          template.colorBoostEvents.push(
             new ColorBoostEvent({
-               b: e.time,
-               o: e.value ? true : false,
+               time: e.time,
+               toggle: e.value ? true : false,
             }),
          );
       } else if (e.isLaneRotationEvent()) {
          template.rotationEvents.push(
             new RotationEvent({
-               b: e.time,
-               e: e.type === 14 ? 0 : 1,
-               r: typeof e.customData._rotation === 'number'
+               time: e.time,
+               executionTime: e.type === 14 ? 0 : 1,
+               rotation: typeof e.customData._rotation === 'number'
                   ? e.customData._rotation
                   : e.value >= 1000
                   ? (e.value - 1360) % 360
@@ -256,8 +250,8 @@ function fromV2Difficulty(template: V3Difficulty, data: V2Difficulty) {
       } else if (e.isBpmEvent()) {
          template.bpmEvents.push(
             new BPMEvent({
-               b: e.time,
-               m: e.floatValue,
+               time: e.time,
+               bpm: e.floatValue,
             }),
          );
       } else {
@@ -302,10 +296,10 @@ function fromV2Difficulty(template: V3Difficulty, data: V2Difficulty) {
          }
          template.basicEvents.push(
             new BasicEvent({
-               b: e.time,
-               et: e.type,
-               i: e.value,
-               f: e.floatValue,
+               time: e.time,
+               type: e.type,
+               value: e.value,
+               floatValue: e.floatValue,
                customData,
             }),
          );
@@ -313,38 +307,14 @@ function fromV2Difficulty(template: V3Difficulty, data: V2Difficulty) {
    });
 
    data.waypoints.forEach((w) => {
-      template.waypoints.push(
-         new Waypoint({
-            b: w.time,
-            x: w.posX,
-            y: w.posY,
-            d: w.direction,
-         }),
-      );
+      template.waypoints.push(new Waypoint(w));
    });
 
-   data.arcs.forEach((s) =>
-      template.arcs.push(
-         new Arc({
-            c: s.color,
-            b: s.time,
-            x: s.posX,
-            y: s.posY,
-            d: s.direction,
-            mu: s.lengthMultiplier,
-            tb: s.tailTime,
-            tx: s.tailPosX,
-            ty: s.tailPosY,
-            tc: s.tailDirection,
-            tmu: s.tailLengthMultiplier,
-            m: s.midAnchor,
-         }),
-      )
-   );
+   data.arcs.forEach((s) => template.arcs.push(new Arc(s)));
 
    template.eventTypesWithKeywords = new BasicEventTypesWithKeywords({
-      d: data.eventTypesWithKeywords?.list?.map((k) => {
-         return { k: k.keyword, e: k.events };
+      list: data.eventTypesWithKeywords?.list?.map((k) => {
+         return { keyword: k.keyword, events: k.events };
       }) ?? [],
    });
 

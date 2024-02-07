@@ -20,7 +20,7 @@ export function toV2Info(data: IWrapInfo): V2Info {
          fromV1Info(template, data);
          break;
       case data instanceof V2Info:
-         template = new V2Info(data.toJSON());
+         template = new V2Info(data);
          break;
       case data instanceof V4Info:
          fromV4Info(template, data);
@@ -58,12 +58,12 @@ function fromV1Info(template: V2Info, data: V1Info) {
    data.listMap().forEach(([mode, beatmap]) => {
       template.addMap(
          {
-            _difficulty: beatmap.difficulty,
-            _difficultyRank: beatmap.rank as 1,
-            _beatmapFilename: beatmap.filename,
-            _noteJumpMovementSpeed: beatmap.njs,
-            _noteJumpStartBeatOffset: beatmap.njsOffset,
-            _customData: {
+            difficulty: beatmap.difficulty,
+            rank: beatmap.rank as 1,
+            filename: beatmap.filename,
+            njs: beatmap.njs,
+            njsOffset: beatmap.njsOffset,
+            customData: {
                _editorOffset: beatmap.offset,
                _editorOldOffset: beatmap.oldOffset,
                _difficultyLabel: beatmap.difficultyLabel,
@@ -98,14 +98,14 @@ function fromV4Info(template: V2Info, data: V4Info) {
    data.listMap().forEach(([_, beatmap]) => {
       template.addMap(
          {
-            _difficulty: beatmap.difficulty,
-            _difficultyRank: DifficultyRanking[beatmap.difficulty],
-            _beatmapColorSchemeIdx: beatmap.colorSchemeId,
-            _environmentNameIdx: beatmap.environmentId,
-            _noteJumpMovementSpeed: beatmap.njs,
-            _noteJumpStartBeatOffset: beatmap.njsOffset,
-            _beatmapFilename: beatmap.filename,
-            _customData: deepCopy(beatmap.customData),
+            difficulty: beatmap.difficulty,
+            rank: DifficultyRanking[beatmap.difficulty],
+            colorSchemeId: beatmap.colorSchemeId,
+            environmentId: beatmap.environmentId,
+            njs: beatmap.njs,
+            njsOffset: beatmap.njsOffset,
+            filename: beatmap.filename,
+            customData: deepCopy(beatmap.customData),
          },
          beatmap.characteristic,
       );

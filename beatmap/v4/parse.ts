@@ -33,7 +33,7 @@ export function parseInfo(
       );
    }
 
-   return new Info(data);
+   return Info.fromJSON(data);
 }
 
 export function parseDifficulty(
@@ -57,7 +57,7 @@ export function parseDifficulty(
       );
    }
 
-   return new Difficulty(data);
+   return Difficulty.fromJSON(data);
 }
 
 export function parseLightshow(
@@ -75,5 +75,5 @@ export function parseLightshow(
       deepCheck(data, LightshowDataCheck, 'lightshow', data.version, checkData.throwError);
    }
 
-   return new Lightshow(data);
+   return Lightshow.fromJSON(data);
 }

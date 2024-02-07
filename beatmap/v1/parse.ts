@@ -25,7 +25,7 @@ export function parseDifficulty(
       deepCheck(data, DifficultyDataCheck, 'difficulty', data._version, checkData.throwError);
    }
 
-   return new Difficulty(data);
+   return Difficulty.fromJSON(data);
 }
 
 export function parseInfo(
@@ -38,5 +38,5 @@ export function parseInfo(
       deepCheck(data, InfoDataCheck, 'info', '1.0.0', checkData.throwError);
    }
 
-   return new Info(data);
+   return Info.fromJSON(data);
 }

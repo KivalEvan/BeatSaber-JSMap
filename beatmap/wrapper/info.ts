@@ -18,8 +18,10 @@ import { DifficultyRanking } from '../shared/difficulty.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
 /** Difficulty beatmap class object. */
-export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>
-   implements IWrapInfo<T> {
+export abstract class WrapInfo<
+   T extends { [P in keyof T]: T[P] },
+   TDifficulty extends { [P in keyof TDifficulty]: TDifficulty[P] },
+> extends WrapBaseItem<T> implements IWrapInfo<T> {
    private _filename = 'Info.dat';
 
    abstract readonly version: Version;

@@ -17,38 +17,6 @@ export class FxEventFloat extends WrapFxEventFloat<IFxEventFloatContainer> {
       time: 0,
    };
 
-   constructor();
-   constructor(
-      data: Partial<IWrapFxEventFloatAttribute<IFxEventFloatContainer>>,
-   );
-   constructor(data: Partial<IFxEventFloat>, time?: number);
-   constructor(
-      data:
-         & Partial<IFxEventFloat>
-         & Partial<IWrapFxEventFloatAttribute<IFxEventFloatContainer>>,
-      time?: number,
-   );
-   constructor(
-      data:
-         & Partial<IFxEventFloat>
-         & Partial<IWrapFxEventFloatAttribute<IFxEventFloatContainer>> = {},
-      time?: number,
-   ) {
-      super();
-
-      this._time = time ?? data.time ?? FxEventFloat.default.time;
-      this._previous = data.p ?? data.previous ?? FxEventFloat.default.data.p;
-      this._easing = data.e ?? data.easing ?? FxEventFloat.default.data.e;
-      this._value = data.v ?? data.value ?? FxEventFloat.default.data.v;
-      this._customData = deepCopy(
-         data.customData ?? FxEventFloat.default.data.customData,
-      );
-   }
-
-   static create(): FxEventFloat[];
-   static create(
-      ...data: Partial<IWrapFxEventFloatAttribute<IFxEventFloat>>[]
-   ): FxEventFloat[];
    static create(
       ...data: Partial<IWrapFxEventFloatAttribute<IFxEventFloat>>[]
    ): FxEventFloat[] {
@@ -57,6 +25,34 @@ export class FxEventFloat extends WrapFxEventFloat<IFxEventFloatContainer> {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: Partial<IWrapFxEventFloatAttribute<IFxEventFloatContainer>> = {},
+   ) {
+      super();
+      this._time = data.time ?? FxEventFloat.default.time;
+      this._previous = data.previous ?? FxEventFloat.default.data.p;
+      this._easing = data.easing ?? FxEventFloat.default.data.e;
+      this._value = data.value ?? FxEventFloat.default.data.v;
+      this._customData = deepCopy(
+         data.customData ?? FxEventFloat.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      data: Partial<IFxEventFloat> = {},
+      time?: number,
+   ): FxEventFloat {
+      const d = new this();
+      d._time = time ?? FxEventFloat.default.time;
+      d._previous = data.p ?? FxEventFloat.default.data.p;
+      d._easing = data.e ?? FxEventFloat.default.data.e;
+      d._value = data.v ?? FxEventFloat.default.data.v;
+      d._customData = deepCopy(
+         data.customData ?? FxEventFloat.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IFxEventFloatContainer> {

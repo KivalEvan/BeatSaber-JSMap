@@ -26,36 +26,43 @@ export class Chain extends WrapChain<IChain> {
       customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapChainAttribute<IChain>>);
-   constructor(data: Partial<IChain>);
-   constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<IChain>>);
-   constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<IChain>> = {}) {
-      super();
-
-      this._time = data.b ?? data.time ?? Chain.default.b;
-      this._color = data.c ?? data.color ?? Chain.default.c;
-      this._posX = data.x ?? data.posX ?? Chain.default.x;
-      this._posY = data.y ?? data.posY ?? Chain.default.y;
-      this._direction = data.d ?? data.direction ?? Chain.default.d;
-      this._tailTime = data.tb ?? data.tailTime ?? Chain.default.tb;
-      this._tailPosX = data.tx ?? data.tailPosX ?? Chain.default.tx;
-      this._tailPosY = data.ty ?? data.tailPosY ?? Chain.default.ty;
-      this._sliceCount = data.sc ?? data.sliceCount ?? Chain.default.sc;
-      this._squish = data.s ?? data.squish ?? Chain.default.s;
-      this._customData = deepCopy(data.customData ?? Chain.default.customData);
-   }
-
-   static create(): Chain[];
-   static create(...data: Partial<IWrapChainAttribute<IChain>>[]): Chain[];
-   static create(...data: Partial<IChain>[]): Chain[];
-   static create(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): Chain[];
-   static create(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): Chain[] {
+   static create(...data: Partial<IWrapChainAttribute<IChain>>[]): Chain[] {
       const result: Chain[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(data: Partial<IWrapChainAttribute<IChain>> = {}) {
+      super();
+      this._time = data.time ?? Chain.default.b;
+      this._color = data.color ?? Chain.default.c;
+      this._posX = data.posX ?? Chain.default.x;
+      this._posY = data.posY ?? Chain.default.y;
+      this._direction = data.direction ?? Chain.default.d;
+      this._tailTime = data.tailTime ?? Chain.default.tb;
+      this._tailPosX = data.tailPosX ?? Chain.default.tx;
+      this._tailPosY = data.tailPosY ?? Chain.default.ty;
+      this._sliceCount = data.sliceCount ?? Chain.default.sc;
+      this._squish = data.squish ?? Chain.default.s;
+      this._customData = deepCopy(data.customData ?? Chain.default.customData);
+   }
+
+   static fromJSON(data: Partial<IChain> = {}): Chain {
+      const d = new this();
+      d._time = data.b ?? Chain.default.b;
+      d._color = data.c ?? Chain.default.c;
+      d._posX = data.x ?? Chain.default.x;
+      d._posY = data.y ?? Chain.default.y;
+      d._direction = data.d ?? Chain.default.d;
+      d._tailTime = data.tb ?? Chain.default.tb;
+      d._tailPosX = data.tx ?? Chain.default.tx;
+      d._tailPosY = data.ty ?? Chain.default.ty;
+      d._sliceCount = data.sc ?? Chain.default.sc;
+      d._squish = data.s ?? Chain.default.s;
+      d._customData = deepCopy(data.customData ?? Chain.default.customData);
+      return d;
    }
 
    toJSON(): Required<IChain> {
@@ -121,7 +128,10 @@ export class Chain extends WrapChain<IChain> {
             return super.getPosition();
          case 'ne':
             if (this.customData.coordinates) {
-               return [this.customData.coordinates[0], this.customData.coordinates[1]];
+               return [
+                  this.customData.coordinates[0],
+                  this.customData.coordinates[1],
+               ];
             }
          /** falls through */
          case 'me':
@@ -161,7 +171,10 @@ export class Chain extends WrapChain<IChain> {
             return super.getTailPosition();
          case 'ne':
             if (this.customData.tailCoordinates) {
-               return [this.customData.tailCoordinates[0], this.customData.tailCoordinates[1]];
+               return [
+                  this.customData.tailCoordinates[0],
+                  this.customData.tailCoordinates[1],
+               ];
             }
          /** falls through */
          case 'me':

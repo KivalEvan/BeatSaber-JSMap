@@ -43,51 +43,6 @@ export class Chain extends WrapChain<IChainContainer> {
       },
    };
 
-   constructor();
-   constructor(object: Partial<IWrapChainAttribute<IChainContainer>>);
-   constructor(
-      object: Partial<IObjectChain>,
-      data?: Partial<IChain>,
-      headData?: Partial<IColorNote>,
-   );
-   constructor(
-      object:
-         & Partial<IObjectChain>
-         & Partial<IWrapChainAttribute<IChainContainer>>,
-      data?: Partial<IColorNote>,
-      chainData?: Partial<IChain>,
-   );
-   constructor(
-      object:
-         & Partial<IObjectChain>
-         & Partial<IWrapChainAttribute<IChainContainer>> = {},
-      data: Partial<IColorNote> = {},
-      chainData: Partial<IChain> = {},
-   ) {
-      super();
-
-      this._time = object.hb ?? object.time ?? Chain.default.object.hb;
-      this._laneRotation = object.hr ?? object.laneRotation ?? Chain.default.object.hr;
-      this._tailTime = object.tb ?? object.tailTime ?? Chain.default.object.tb;
-      this._tailLaneRotation = object.tr ?? object.tailLaneRotation ?? Chain.default.object.tr;
-      this._color = data.c ?? object.color ?? Chain.default.data.c;
-      this._posX = data.x ?? object.posX ?? Chain.default.data.x;
-      this._posY = data.y ?? object.posY ?? Chain.default.data.y;
-      this._direction = data.d ?? object.direction ?? Chain.default.data.d;
-      this._tailTime = object.tb ?? object.tailTime ?? Chain.default.object.tb;
-      this._tailPosX = chainData.tx ?? object.tailPosX ?? Chain.default.chainData.tx;
-      this._tailPosY = chainData.ty ?? object.tailPosY ?? Chain.default.chainData.ty;
-      this._sliceCount = chainData.c ?? object.sliceCount ?? Chain.default.chainData.c;
-      this._squish = chainData.s ?? object.squish ?? Chain.default.chainData.s;
-      this._customData = deepCopy(
-         chainData.customData ?? Chain.default.chainData.customData,
-      );
-   }
-
-   static create(): Chain[];
-   static create(
-      ...data: Partial<IWrapChainAttribute<IChainContainer>>[]
-   ): Chain[];
    static create(
       ...data: Partial<IWrapChainAttribute<IChainContainer>>[]
    ): Chain[] {
@@ -96,6 +51,51 @@ export class Chain extends WrapChain<IChainContainer> {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(data: Partial<IWrapChainAttribute<IChainContainer>> = {}) {
+      super();
+      this._time = data.time ?? Chain.default.object.hb;
+      this._laneRotation = data.laneRotation ?? Chain.default.object.hr;
+      this._tailTime = data.tailTime ?? Chain.default.object.tb;
+      this._tailLaneRotation = data.tailLaneRotation ?? Chain.default.object.tr;
+      this._color = data.color ?? Chain.default.data.c;
+      this._posX = data.posX ?? Chain.default.data.x;
+      this._posY = data.posY ?? Chain.default.data.y;
+      this._direction = data.direction ?? Chain.default.data.d;
+      this._tailTime = data.tailTime ?? Chain.default.object.tb;
+      this._tailPosX = data.tailPosX ?? Chain.default.chainData.tx;
+      this._tailPosY = data.tailPosY ?? Chain.default.chainData.ty;
+      this._sliceCount = data.sliceCount ?? Chain.default.chainData.c;
+      this._squish = data.squish ?? Chain.default.chainData.s;
+      this._customData = deepCopy(
+         data.customData ?? Chain.default.chainData.customData,
+      );
+   }
+
+   static fromJSON(
+      object: Partial<IObjectChain> = {},
+      data: Partial<IColorNote> = {},
+      chainData: Partial<IChain> = {},
+   ): Chain {
+      const d = new this();
+      d._time = object.hb ?? Chain.default.object.hb;
+      d._laneRotation = object.hr ?? Chain.default.object.hr;
+      d._tailTime = object.tb ?? Chain.default.object.tb;
+      d._tailLaneRotation = object.tr ?? Chain.default.object.tr;
+      d._color = data.c ?? Chain.default.data.c;
+      d._posX = data.x ?? Chain.default.data.x;
+      d._posY = data.y ?? Chain.default.data.y;
+      d._direction = data.d ?? Chain.default.data.d;
+      d._tailTime = object.tb ?? Chain.default.object.tb;
+      d._tailPosX = chainData.tx ?? Chain.default.chainData.tx;
+      d._tailPosY = chainData.ty ?? Chain.default.chainData.ty;
+      d._sliceCount = chainData.c ?? Chain.default.chainData.c;
+      d._squish = chainData.s ?? Chain.default.chainData.s;
+      d._customData = deepCopy(
+         chainData.customData ?? Chain.default.chainData.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IChainContainer> {

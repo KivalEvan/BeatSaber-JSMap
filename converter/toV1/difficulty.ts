@@ -32,7 +32,7 @@ export function toV1Difficulty(
    let template = new V1Difficulty();
    switch (true) {
       case data instanceof V1Difficulty:
-         template = new V1Difficulty(data.toJSON());
+         template = new V1Difficulty(data);
          break;
       case data instanceof V2Difficulty:
          fromV2Difficulty(template, data);

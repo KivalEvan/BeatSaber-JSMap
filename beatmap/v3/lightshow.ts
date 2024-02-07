@@ -30,6 +30,8 @@ import { IFxEventBoxGroup } from '../../types/beatmap/v3/fxEventBoxGroup.ts';
 import { FxEventBoxGroup } from './fxEventBoxGroup.ts';
 import { BasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 import logger from '../../logger.ts';
+import { IFxEventFloat } from '../../types/beatmap/v3/fxEventFloat.ts';
+import { IWrapLightshowAttribute } from '../../types/beatmap/wrapper/lightshow.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v3', 'lightshow', name];
@@ -37,8 +39,17 @@ function tag(name: string): string[] {
 
 /** Lightshow beatmap v3 class object. */
 export class Lightshow extends WrapLightshow<ILightshow> {
+   static default: Required<ILightshow> = {
+      basicBeatmapEvents: [],
+      colorBoostBeatmapEvents: [],
+      lightColorEventBoxGroups: [],
+      lightRotationEventBoxGroups: [],
+      lightTranslationEventBoxGroups: [],
+      vfxEventBoxGroups: [],
+      _fxEventsCollection: { _fl: [], _il: [] },
+      customData: {},
+   };
    readonly version = '3.3.0';
-
    waypoints: never[] = [];
    basicEvents: BasicEvent[];
    colorBoostEvents: ColorBoostEvent[];
@@ -49,32 +60,103 @@ export class Lightshow extends WrapLightshow<ILightshow> {
    eventTypesWithKeywords: BasicEventTypesWithKeywords = new BasicEventTypesWithKeywords();
    useNormalEventsAsCompatibleEvents = true;
 
-   constructor(data: Partial<ILightshow> = {}) {
-      super();
-
-      this.basicEvents = (data.basicBeatmapEvents ?? []).map(
-         (obj) => new BasicEvent(obj),
-      );
-      this.colorBoostEvents = (data.colorBoostBeatmapEvents ?? []).map(
-         (obj) => new ColorBoostEvent(obj),
-      );
-      this.lightColorEventBoxGroups = (data.lightColorEventBoxGroups ?? []).map(
-         (obj) => new LightColorEventBoxGroup(obj),
-      );
-      this.lightRotationEventBoxGroups = (
-         data.lightRotationEventBoxGroups ?? []
-      ).map((obj) => new LightRotationEventBoxGroup(obj));
-      this.lightTranslationEventBoxGroups = (
-         data.lightTranslationEventBoxGroups ?? []
-      ).map((obj) => new LightTranslationEventBoxGroup(obj));
-      this.fxEventBoxGroups = (data.vfxEventBoxGroups ?? []).map(
-         (obj) => new FxEventBoxGroup(obj, data._fxEventsCollection?._fl),
-      );
-      this.customData = deepCopy(data.customData ?? {});
+   static create(
+      data: Partial<IWrapLightshowAttribute<ILightshow>> = {},
+   ): Lightshow {
+      return new this(data);
    }
 
-   static create(data: Partial<ILightshow> = {}): Lightshow {
-      return new this(data);
+   constructor(data: Partial<IWrapLightshowAttribute<ILightshow>> = {}) {
+      super();
+      if (data.basicEvents) {
+         this.basicEvents = data.basicEvents.map((obj) => new BasicEvent(obj));
+      } else {
+         this.basicEvents = Lightshow.default.basicBeatmapEvents.map((json) =>
+            BasicEvent.fromJSON(json)
+         );
+      }
+      if (data.colorBoostEvents) {
+         this.colorBoostEvents = data.colorBoostEvents.map(
+            (obj) => new ColorBoostEvent(obj),
+         );
+      } else {
+         this.colorBoostEvents = Lightshow.default.colorBoostBeatmapEvents.map(
+            (json) => ColorBoostEvent.fromJSON(json),
+         );
+      }
+      if (data.lightColorEventBoxGroups) {
+         this.lightColorEventBoxGroups = data.lightColorEventBoxGroups.map(
+            (obj) => new LightColorEventBoxGroup(obj),
+         );
+      } else {
+         this.lightColorEventBoxGroups = Lightshow.default.lightColorEventBoxGroups.map((json) =>
+            LightColorEventBoxGroup.fromJSON(json)
+         );
+      }
+      if (data.lightRotationEventBoxGroups) {
+         this.lightRotationEventBoxGroups = data.lightRotationEventBoxGroups.map(
+            (obj) => new LightRotationEventBoxGroup(obj),
+         );
+      } else {
+         this.lightRotationEventBoxGroups = Lightshow.default.lightRotationEventBoxGroups.map((
+            json,
+         ) => LightRotationEventBoxGroup.fromJSON(json));
+      }
+      if (data.lightTranslationEventBoxGroups) {
+         this.lightTranslationEventBoxGroups = data.lightTranslationEventBoxGroups.map(
+            (obj) => new LightTranslationEventBoxGroup(obj),
+         );
+      } else {
+         this.lightTranslationEventBoxGroups = Lightshow.default.lightTranslationEventBoxGroups.map(
+            (json) => LightTranslationEventBoxGroup.fromJSON(json),
+         );
+      }
+      if (data.fxEventBoxGroups) {
+         this.fxEventBoxGroups = data.fxEventBoxGroups.map(
+            (obj) => new FxEventBoxGroup(obj),
+         );
+      } else {
+         this.fxEventBoxGroups = Lightshow.default.vfxEventBoxGroups.map(
+            (json) => FxEventBoxGroup.fromJSON(json),
+         );
+      }
+      this.customData = deepCopy(
+         data.customData ?? Lightshow.default.customData,
+      );
+   }
+
+   static fromJSON(data: Partial<ILightshow> = {}) {
+      const d = new this();
+      d.basicEvents = (
+         data.basicBeatmapEvents ?? Lightshow.default.basicBeatmapEvents
+      ).map((obj) => BasicEvent.fromJSON(obj));
+      d.colorBoostEvents = (
+         data.colorBoostBeatmapEvents ??
+            Lightshow.default.colorBoostBeatmapEvents
+      ).map((obj) => ColorBoostEvent.fromJSON(obj));
+      d.lightColorEventBoxGroups = (
+         data.lightColorEventBoxGroups ??
+            Lightshow.default.lightColorEventBoxGroups
+      ).map((obj) => LightColorEventBoxGroup.fromJSON(obj));
+      d.lightRotationEventBoxGroups = (
+         data.lightRotationEventBoxGroups ??
+            Lightshow.default.lightRotationEventBoxGroups
+      ).map((obj) => LightRotationEventBoxGroup.fromJSON(obj));
+      d.lightTranslationEventBoxGroups = (
+         data.lightTranslationEventBoxGroups ??
+            Lightshow.default.lightTranslationEventBoxGroups
+      ).map((obj) => LightTranslationEventBoxGroup.fromJSON(obj));
+      d.fxEventBoxGroups = (
+         data.vfxEventBoxGroups ?? Lightshow.default.vfxEventBoxGroups
+      ).map((obj) =>
+         FxEventBoxGroup.fromJSON(
+            obj,
+            data._fxEventsCollection?._fl ??
+               Lightshow.default._fxEventsCollection._fl,
+         )
+      );
+      d.customData = deepCopy(data.customData ?? Lightshow.default.customData);
+      return d;
    }
 
    toJSON(): Required<ILightshow> {
@@ -341,6 +423,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             IWrapFxEventBoxGroupAttribute<
                IFxEventBoxGroup,
                IFxEventBox,
+               IFxEventFloat,
                IIndexFilter
             >
          >

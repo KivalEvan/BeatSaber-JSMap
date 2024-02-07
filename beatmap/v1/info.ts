@@ -9,9 +9,10 @@ import { LooseAutocomplete } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { IColor } from '../../types/colors.ts';
 import { IContributor } from '../../types/beatmap/shared/custom/contributor.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy, shallowCopy } from '../../utils/misc.ts';
 import {
    IWrapInfo,
+   IWrapInfoAttribute,
    IWrapInfoAudio,
    IWrapInfoColorScheme,
    IWrapInfoDifficultyAttribute,
@@ -22,8 +23,33 @@ function tag(name: string): string[] {
    return ['beatmap', 'v1', 'info', name];
 }
 
+export interface IV1ExtraInfo {
+   environmentName: EnvironmentName | EnvironmentV3Name;
+   difficulties: InfoDifficulty[];
+   oneSaber: boolean;
+   contributors: IContributor[];
+   customEnvironment?: string;
+   customEnvironmentHash?: string;
+}
+
 /** Difficulty beatmap class object. */
-export class Info extends WrapInfo<IInfo> {
+export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
+   static default: Required<IInfo> = {
+      songName: 'Untitled',
+      songSubName: '',
+      authorName: 'NoAuthor',
+      beatsPerMinute: 120,
+      previewStartTime: 0,
+      previewDuration: 0,
+      coverImagePath: 'cover.jpg',
+      environmentName: 'DefaultEnvironment',
+      difficultyLevels: [],
+      oneSaber: false,
+      contributors: [],
+      customEnvironment: '',
+      customEnvironmentHash: '',
+   };
+
    readonly version = '1.0.0';
 
    contentChecksum = '';
@@ -91,32 +117,47 @@ export class Info extends WrapInfo<IInfo> {
 
    songTimeOffset = 0;
    shuffle = 0;
-   shufflePeriod = 0;
+   shufflePeriod = 0.5;
    environmentName: EnvironmentName | EnvironmentV3Name;
    allDirectionsEnvironmentName: Environment360Name = 'GlassDesertEnvironment';
    difficulties: InfoDifficulty[];
    environmentNames: never[] = [];
    colorSchemes: never[] = [];
-
    oneSaber: boolean;
    contributors: IContributor[];
    customEnvironment?: string;
    customEnvironmentHash?: string;
 
-   constructor(data: Partial<IInfo> = {}) {
-      super();
+   static create(
+      data: Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> & Partial<IV1ExtraInfo> = {},
+   ): Info {
+      return new this(data);
+   }
 
-      this.songName = data.songName ?? 'SongName';
-      this.songSubName = data.songSubName ?? '';
-      this.songAuthorName = data.authorName ?? 'SongAuthor';
-      this.beatsPerMinute = data.beatsPerMinute ?? 120;
-      this.previewStartTime = data.previewStartTime ?? 12;
-      this.previewDuration = data.previewDuration ?? 10;
-      this.coverImageFilename = data.coverImagePath ?? 'cover.jpg';
-      this.environmentName = data.environmentName ?? 'DefaultEnvironment';
+   constructor(
+      data:
+         & Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>>
+         & Partial<IV1ExtraInfo> = {},
+   ) {
+      super();
+      this.songName = data.song?.title ?? Info.default.songName;
+      this.songSubName = data.song?.subTitle ?? Info.default.songSubName;
+      this.songAuthorName = data.song?.author ?? Info.default.authorName;
+      this.beatsPerMinute = data.audio?.bpm ?? Info.default.beatsPerMinute;
+      this.previewStartTime = data.audio?.previewStartTime ?? Info.default.previewStartTime;
+      this.previewDuration = data.audio?.previewDuration ?? Info.default.previewDuration;
+      this.coverImageFilename = data.coverImageFilename ?? Info.default.coverImagePath;
+      this.environmentName = data.environmentName ||
+         (data.environmentNames?.[0] as 'DefaultEnvironment') ||
+         'DefaultEnvironment';
+      this.contributors = deepCopy(
+         data.contributors ?? Info.default.contributors,
+      );
+      this.customEnvironment = data.customEnvironment ?? Info.default.customEnvironment;
+      this.customEnvironmentHash = data.customEnvironmentHash ?? Info.default.customEnvironmentHash;
 
       this.difficulties = [];
-      data.difficultyLevels?.forEach((d) => {
+      data.difficulties?.forEach((d) => {
          this.addMap(d);
       });
       this.songFilename ||= 'song.ogg';
@@ -124,13 +165,32 @@ export class Info extends WrapInfo<IInfo> {
       this.oneSaber = this.difficulties.some(
          (m) => m.characteristic === 'OneSaber',
       );
-      this.contributors = deepCopy(data.contributors ?? []);
-      this.customEnvironment = data.customEnvironment;
-      this.customEnvironmentHash = data.customEnvironmentHash;
    }
 
-   static create(data: Partial<IInfo> = {}): Info {
-      return new this(data);
+   static fromJSON(data: Partial<IInfo> = {}): Info {
+      const d = new this();
+      d.songName = data.songName ?? Info.default.songName;
+      d.songSubName = data.songSubName ?? Info.default.songSubName;
+      d.songAuthorName = data.authorName ?? Info.default.authorName;
+      d.beatsPerMinute = data.beatsPerMinute ?? Info.default.beatsPerMinute;
+      d.previewStartTime = data.previewStartTime ?? Info.default.previewStartTime;
+      d.previewDuration = data.previewDuration ?? Info.default.previewDuration;
+      d.coverImageFilename = data.coverImagePath ?? Info.default.coverImagePath;
+      d.environmentName = data.environmentName ?? Info.default.environmentName;
+
+      d.difficulties = [];
+      (data.difficultyLevels ?? Info.default.difficultyLevels).forEach(
+         (level) => {
+            d.addMap(level);
+         },
+      );
+      d.songFilename ||= 'song.ogg';
+
+      d.oneSaber = d.difficulties.some((m) => m.characteristic === 'OneSaber');
+      d.contributors = deepCopy(data.contributors ?? Info.default.contributors);
+      d.customEnvironment = data.customEnvironment ?? Info.default.customEnvironment;
+      d.customEnvironmentHash = data.customEnvironmentHash ?? Info.default.customEnvironmentHash;
+      return d;
    }
 
    toJSON(): IInfo {
@@ -169,13 +229,10 @@ export class Info extends WrapInfo<IInfo> {
       );
    }
 
-   addMap(data: Partial<IInfoDifficulty>, mode?: CharacteristicName): this;
    addMap(
-      data: Partial<IWrapInfoDifficultyAttribute>,
-      mode?: CharacteristicName,
-   ): this;
-   addMap(
-      data: Partial<IInfoDifficulty> & Partial<IWrapInfoDifficultyAttribute>,
+      data:
+         & Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>
+         & Partial<IV1ExtraInfoDifficulty>,
       mode?: CharacteristicName,
    ): this {
       data.audioPath ||= this.songFilename;
@@ -190,6 +247,22 @@ export class Info extends WrapInfo<IInfo> {
    isValid(): boolean {
       throw new Error('Method not implemented.');
    }
+}
+
+export interface IV1ExtraInfoDifficulty {
+   difficultyRank: IInfoDifficulty['difficultyRank'];
+   jsonPath: IInfoDifficulty['jsonPath'];
+   audioPath: string;
+   offset?: number;
+   oldOffset?: number;
+   chromaToggle?: string;
+   customColors?: boolean;
+   difficultyLabel?: string;
+   colorLeft?: Omit<IColor, 'a'>;
+   colorRight?: Omit<IColor, 'a'>;
+   envColorLeft?: Omit<IColor, 'a'>;
+   envColorRight?: Omit<IColor, 'a'>;
+   obstacleColor?: Omit<IColor, 'a'>;
 }
 
 export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
@@ -217,7 +290,9 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    obstacleColor?: Omit<IColor, 'a'>;
 
    constructor(
-      data: Partial<IInfoDifficulty> = {},
+      data:
+         & Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>
+         & Partial<IV1ExtraInfoDifficulty> = {},
       songFileName?: string,
       mode?: CharacteristicName,
    ) {
@@ -244,11 +319,40 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    }
 
    static create(
-      data: Partial<IInfoDifficulty> = {},
+      data:
+         & Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>
+         & Partial<IV1ExtraInfoDifficulty> = {},
       songFileName?: string,
       mode?: CharacteristicName,
    ) {
       return new this(data, songFileName, mode);
+   }
+
+   static fromJSON(
+      data: Partial<IInfoDifficulty> = {},
+      songFileName?: string,
+      mode?: CharacteristicName,
+   ): InfoDifficulty {
+      const d = new this();
+      d.difficulty = data.difficulty ?? 'Easy';
+      d.rank = data.difficultyRank ?? 1;
+      d.filename = data.jsonPath ?? 'UnnamedFile.dat';
+      d.njs = 0;
+      d.njsOffset = 0;
+
+      d.audioPath = songFileName ?? 'song.ogg';
+      d.characteristic = mode || 'Standard';
+      d.offset = data.offset;
+      d.oldOffset = data.oldOffset;
+      d.chromaToggle = data.chromaToggle;
+      d.customColors = data.customColors;
+      d.difficultyLabel = data.difficultyLabel;
+      d.colorLeft = shallowCopy(data.colorLeft);
+      d.colorRight = shallowCopy(data.colorRight);
+      d.envColorLeft = shallowCopy(data.envColorLeft);
+      d.envColorRight = shallowCopy(data.envColorRight);
+      d.obstacleColor = shallowCopy(data.obstacleColor);
+      return d;
    }
 
    toJSON(): IInfoDifficulty {

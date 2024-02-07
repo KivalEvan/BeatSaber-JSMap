@@ -28,41 +28,6 @@ export class ColorNote extends WrapColorNote<IColorNoteContainer> {
       },
    };
 
-   constructor();
-   constructor(object: Partial<IWrapColorNoteAttribute<IColorNoteContainer>>);
-   constructor(object: Partial<IObjectLane>, data?: Partial<IColorNote>);
-   constructor(
-      object:
-         & Partial<IObjectLane>
-         & Partial<IWrapColorNoteAttribute<IColorNoteContainer>>,
-      data?: Partial<IColorNote>,
-   );
-   constructor(
-      object:
-         & Partial<IObjectLane>
-         & Partial<IWrapColorNoteAttribute<IColorNoteContainer>> = {},
-      data: Partial<IColorNote> = {},
-   ) {
-      super();
-
-      this._time = object.b ?? object.time ?? ColorNote.default.object.b;
-      this._laneRotation = object.r ?? object.laneRotation ?? ColorNote.default.object.r;
-      this._posX = data.x ?? object.posX ?? ColorNote.default.data.x;
-      this._posY = data.y ?? object.posY ?? ColorNote.default.data.y;
-      this._color = data.c ??
-         object.color ??
-         (object.type === 0 || object.type === 1 ? (object.type as 0) : ColorNote.default.data.c);
-      this._direction = data.d ?? object.direction ?? ColorNote.default.data.d;
-      this._angleOffset = data.a ?? object.angleOffset ?? ColorNote.default.data.a;
-      this._customData = deepCopy(
-         data.customData ?? ColorNote.default.data.customData,
-      );
-   }
-
-   static create(): ColorNote[];
-   static create(
-      ...data: Partial<IWrapColorNoteAttribute<IColorNote>>[]
-   ): ColorNote[];
    static create(
       ...data: Partial<IWrapColorNoteAttribute<IColorNote>>[]
    ): ColorNote[] {
@@ -71,6 +36,41 @@ export class ColorNote extends WrapColorNote<IColorNoteContainer> {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: Partial<IWrapColorNoteAttribute<IColorNoteContainer>> = {},
+   ) {
+      super();
+      this._time = data.time ?? ColorNote.default.object.b;
+      this._laneRotation = data.laneRotation ?? ColorNote.default.object.r;
+      this._posX = data.posX ?? ColorNote.default.data.x;
+      this._posY = data.posY ?? ColorNote.default.data.y;
+      this._color = data.color ??
+         (data.type === 0 || data.type === 1 ? (data.type as 0) : ColorNote.default.data.c);
+      this._direction = data.direction ?? ColorNote.default.data.d;
+      this._angleOffset = data.angleOffset ?? ColorNote.default.data.a;
+      this._customData = deepCopy(
+         data.customData ?? ColorNote.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      object: Partial<IObjectLane> = {},
+      data: Partial<IColorNote> = {},
+   ): ColorNote {
+      const d = new this();
+      d._time = object.b ?? ColorNote.default.object.b;
+      d._laneRotation = object.r ?? ColorNote.default.object.r;
+      d._posX = data.x ?? ColorNote.default.data.x;
+      d._posY = data.y ?? ColorNote.default.data.y;
+      d._color = data.c ?? ColorNote.default.data.c;
+      d._direction = data.d ?? ColorNote.default.data.d;
+      d._angleOffset = data.a ?? ColorNote.default.data.a;
+      d._customData = deepCopy(
+         data.customData ?? ColorNote.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IColorNoteContainer> {

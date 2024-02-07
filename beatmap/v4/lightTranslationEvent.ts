@@ -16,46 +16,6 @@ export class LightTranslationEvent
       time: 0,
    };
 
-   constructor();
-   constructor(
-      data: Partial<
-         IWrapLightTranslationEventAttribute<ILightTranslationEventContainer>
-      >,
-   );
-   constructor(data: Partial<ILightTranslationEvent>, time?: number);
-   constructor(
-      data:
-         & Partial<ILightTranslationEvent>
-         & Partial<
-            IWrapLightTranslationEventAttribute<ILightTranslationEventContainer>
-         >,
-      time?: number,
-   );
-   constructor(
-      data:
-         & Partial<ILightTranslationEvent>
-         & Partial<
-            IWrapLightTranslationEventAttribute<ILightTranslationEventContainer>
-         > = {},
-      time?: number,
-   ) {
-      super();
-
-      this._time = time ?? data.time ?? 0;
-      this._previous = data.p ?? data.previous ?? LightTranslationEvent.default.data.p;
-      this._easing = data.e ?? data.easing ?? LightTranslationEvent.default.data.e;
-      this._translation = data.t ?? data.translation ?? LightTranslationEvent.default.data.t;
-      this._customData = deepCopy(
-         data.customData ?? LightTranslationEvent.default.data.customData,
-      );
-   }
-
-   static create(): LightTranslationEvent[];
-   static create(
-      ...data: Partial<
-         IWrapLightTranslationEventAttribute<ILightTranslationEvent>
-      >[]
-   ): LightTranslationEvent[];
    static create(
       ...data: Partial<
          IWrapLightTranslationEventAttribute<ILightTranslationEvent>
@@ -66,6 +26,36 @@ export class LightTranslationEvent
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: Partial<
+         IWrapLightTranslationEventAttribute<ILightTranslationEventContainer>
+      > = {},
+   ) {
+      super();
+      this._time = data.time ?? 0;
+      this._previous = data.previous ?? LightTranslationEvent.default.data.p;
+      this._easing = data.easing ?? LightTranslationEvent.default.data.e;
+      this._translation = data.translation ?? LightTranslationEvent.default.data.t;
+      this._customData = deepCopy(
+         data.customData ?? LightTranslationEvent.default.data.customData,
+      );
+   }
+
+   static fromJSON(
+      data: Partial<ILightTranslationEvent> = {},
+      time?: number,
+   ): LightTranslationEvent {
+      const d = new this();
+      d._time = time ?? 0;
+      d._previous = data.p ?? LightTranslationEvent.default.data.p;
+      d._easing = data.e ?? LightTranslationEvent.default.data.e;
+      d._translation = data.t ?? LightTranslationEvent.default.data.t;
+      d._customData = deepCopy(
+         data.customData ?? LightTranslationEvent.default.data.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<ILightTranslationEventContainer> {

@@ -35,98 +35,6 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
       boxData: [],
    };
 
-   constructor();
-   constructor(
-      data: DeepPartial<
-         IWrapFxEventBoxGroupAttribute<
-            IEventBoxGroupContainer<IFxEventFloatBoxContainer>,
-            IFxEventFloatBoxContainer,
-            IFxEventFloatContainer,
-            IIndexFilter
-         >
-      >,
-   );
-   constructor(
-      data: Partial<IEventBoxGroup>,
-      boxes?: IFxEventBox[],
-      events?: IFxEventFloat[],
-      filters?: IIndexFilter[],
-   );
-   constructor(
-      data:
-         & Partial<IEventBoxGroup>
-         & DeepPartial<
-            IWrapFxEventBoxGroupAttribute<
-               IEventBoxGroupContainer<IFxEventFloatBoxContainer>,
-               IFxEventFloatBoxContainer,
-               IFxEventFloatContainer,
-               IIndexFilter
-            >
-         >,
-      boxes?: IFxEventBox[],
-      events?: IFxEventFloat[],
-      filters?: IIndexFilter[],
-   );
-   constructor(
-      data:
-         & Partial<IEventBoxGroup>
-         & DeepPartial<
-            IWrapFxEventBoxGroupAttribute<
-               IEventBoxGroupContainer<IFxEventFloatBoxContainer>,
-               IFxEventFloatBoxContainer,
-               IFxEventFloatContainer,
-               IIndexFilter
-            >
-         > = {},
-      boxes?: IFxEventBox[],
-      events?: IFxEventFloat[],
-      filters?: IIndexFilter[],
-   ) {
-      super();
-
-      this._time = data.b ?? data.time ?? FxEventBoxGroup.default.object.b;
-      this._id = data.g ?? data.id ?? FxEventBoxGroup.default.object.g;
-      this._boxes = [];
-      events ||= [];
-      if (data.e) {
-         for (const e of data.e) {
-            const evts: IFxEventFloat[] = [];
-            const times: number[] = [];
-            for (const l of e.l || []) {
-               times.push(l.b || 0);
-               evts.push(events[l.i || 0]);
-            }
-            this._boxes.push(
-               new FxEventBox(
-                  boxes?.[e.e || 0] || {},
-                  evts,
-                  times,
-                  filters?.[e.f || 0],
-               ),
-            );
-         }
-      } else if (data.boxes) {
-         this._boxes = data.boxes.map(
-            (obj) => new FxEventBox(obj!),
-         );
-      }
-      this._customData = deepCopy(
-         data.customData ??
-            FxEventBoxGroup.default.object.customData,
-      );
-   }
-
-   static create(): FxEventBoxGroup[];
-   static create(
-      ...data: DeepPartial<
-         IWrapFxEventBoxGroupAttribute<
-            IEventBoxGroupContainer<IFxEventFloatBoxContainer>,
-            IFxEventFloatBoxContainer,
-            IFxEventFloatContainer,
-            IIndexFilter
-         >
-      >[]
-   ): FxEventBoxGroup[];
    static create(
       ...data: DeepPartial<
          IWrapFxEventBoxGroupAttribute<
@@ -137,13 +45,64 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
          >
       >[]
    ): FxEventBoxGroup[] {
-      const result: FxEventBoxGroup[] = data.map(
-         (obj) => new this(obj),
-      );
+      const result: FxEventBoxGroup[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
+   }
+
+   constructor(
+      data: DeepPartial<
+         IWrapFxEventBoxGroupAttribute<
+            IEventBoxGroupContainer<IFxEventFloatBoxContainer>,
+            IFxEventFloatBoxContainer,
+            IFxEventFloatContainer,
+            IIndexFilter
+         >
+      > = {},
+   ) {
+      super();
+      this._time = data.time ?? FxEventBoxGroup.default.object.b;
+      this._id = data.id ?? FxEventBoxGroup.default.object.g;
+      this._boxes = (data.boxes ?? []).map((obj) => new FxEventBox(obj));
+      this._customData = deepCopy(
+         data.customData ?? FxEventBoxGroup.default.object.customData,
+      );
+   }
+
+   static fromJSON(
+      data: Partial<IEventBoxGroup> = {},
+      boxes?: IFxEventBox[],
+      events?: IFxEventFloat[],
+      filters?: IIndexFilter[],
+   ): FxEventBoxGroup {
+      const d = new this();
+      d._time = data.b ?? FxEventBoxGroup.default.object.b;
+      d._id = data.g ?? FxEventBoxGroup.default.object.g;
+      events ||= [];
+      if (data.e) {
+         for (const e of data.e) {
+            const evts: IFxEventFloat[] = [];
+            const times: number[] = [];
+            for (const l of e.l || []) {
+               times.push(l.b || 0);
+               evts.push(events[l.i || 0]);
+            }
+            d._boxes.push(
+               FxEventBox.fromJSON(
+                  boxes?.[e.e || 0] || {},
+                  evts,
+                  times,
+                  filters?.[e.f || 0],
+               ),
+            );
+         }
+      }
+      d._customData = deepCopy(
+         data.customData ?? FxEventBoxGroup.default.object.customData,
+      );
+      return d;
    }
 
    toJSON(): Required<IEventBoxGroupContainer<IFxEventFloatBoxContainer>> {
