@@ -38,7 +38,7 @@ export class BasicEventTypesWithKeywords extends WrapEventTypesWithKeywords<
    }
 
    static fromJSON(
-      data: DeepPartial<IBasicEventTypesWithKeywords>,
+      data: DeepPartial<IBasicEventTypesWithKeywords> = {},
    ): BasicEventTypesWithKeywords {
       const d = new this();
       d._list = (data.d ?? BasicEventTypesWithKeywords.default.d).map((d) =>

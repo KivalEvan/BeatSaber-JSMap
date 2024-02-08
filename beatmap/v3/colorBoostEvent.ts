@@ -32,7 +32,7 @@ export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEvent> {
       );
    }
 
-   static fromJSON(data: Partial<IColorBoostEvent>): ColorBoostEvent {
+   static fromJSON(data: Partial<IColorBoostEvent> = {}): ColorBoostEvent {
       const d = new this();
       d._time = data.b ?? ColorBoostEvent.default.b;
       d._toggle = data.o ?? ColorBoostEvent.default.o;

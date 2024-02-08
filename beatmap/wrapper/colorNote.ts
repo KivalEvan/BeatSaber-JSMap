@@ -7,7 +7,7 @@ import { ModType } from '../../types/beatmap/shared/modCheck.ts';
 export abstract class WrapColorNote<T extends { [P in keyof T]: T[P] }> extends WrapBaseNote<T>
    implements IWrapColorNote<T> {
    protected _type!: IWrapColorNote['type'];
-   protected _angleOffset!: IWrapColorNote['angleOffset'];
+   protected _angleOffset: IWrapColorNote['angleOffset'] = 0;
 
    get type(): IWrapColorNote['type'] {
       return this._type;
@@ -45,8 +45,9 @@ export abstract class WrapColorNote<T extends { [P in keyof T]: T[P] }> extends 
 
    getAngle(_type?: ModType) {
       return (
-         (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
-         this.angleOffset
+         (NoteDirectionAngle[
+            this.direction as keyof typeof NoteDirectionAngle
+         ] || 0) + this.angleOffset
       );
    }
 

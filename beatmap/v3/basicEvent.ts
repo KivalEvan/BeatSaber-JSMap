@@ -21,7 +21,7 @@ export class BasicEvent extends WrapEvent<IBasicEvent> {
    };
 
    static create(
-      ...data: (Partial<IWrapEventAttribute<IBasicEvent>>)[]
+      ...data: Partial<IWrapEventAttribute<IBasicEvent>>[]
    ): BasicEvent[] {
       const result: BasicEvent[] = data.map((obj) => new this(obj));
       if (result.length) {
@@ -41,7 +41,7 @@ export class BasicEvent extends WrapEvent<IBasicEvent> {
       );
    }
 
-   static fromJSON(data: Partial<IBasicEvent>): BasicEvent {
+   static fromJSON(data: Partial<IBasicEvent> = {}): BasicEvent {
       const d = new this();
       d._time = data.b ?? BasicEvent.default.b;
       d._type = data.et ?? BasicEvent.default.et;

@@ -37,9 +37,9 @@ export class BombNote extends WrapBombNote<IBombNote> {
       data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>> = {},
    ): BombNote {
       const d = new this();
-      d._time = data.time ?? BombNote.default.b;
-      d._posX = data.posX ?? BombNote.default.x;
-      d._posY = data.posY ?? BombNote.default.y;
+      d._time = data.b ?? BombNote.default.b;
+      d._posX = data.x ?? BombNote.default.x;
+      d._posY = data.y ?? BombNote.default.y;
       d._customData = deepCopy(data.customData ?? BombNote.default.customData);
       return d;
    }
