@@ -10,7 +10,7 @@ export abstract class WrapBaseSlider<T extends { [P in keyof T]: T[P] }> extends
    protected _tailTime!: IWrapBaseSlider['tailTime'];
    protected _tailPosX!: IWrapBaseSlider['tailPosX'];
    protected _tailPosY!: IWrapBaseSlider['tailPosY'];
-   protected _tailLaneRotation!: IWrapBaseSlider['tailLaneRotation'];
+   protected _tailLaneRotation: IWrapBaseSlider['tailLaneRotation'] = 0;
 
    get tailTime(): IWrapBaseSlider['tailTime'] {
       return this._tailTime;

@@ -9,7 +9,7 @@ export abstract class WrapGridObject<T extends { [P in keyof T]: T[P] }> extends
    implements IWrapGridObject<T> {
    protected _posX!: IWrapGridObject['posX'];
    protected _posY!: IWrapGridObject['posY'];
-   protected _laneRotation!: IWrapGridObject['laneRotation'];
+   protected _laneRotation: IWrapGridObject['laneRotation'] = 0;
 
    get posX(): IWrapGridObject['posX'] {
       return this._posX;

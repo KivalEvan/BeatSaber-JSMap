@@ -13,39 +13,20 @@ export class DummySpecialEventsKeywordFilters extends WrapEventTypesWithKeywords
       _keywords: [],
    };
 
-   constructor();
-   constructor(data: DeepPartial<IWrapEventTypesWithKeywordsAttribute>);
-   constructor(data: DeepPartial<ISpecialEventsKeywordFilters>);
-   constructor(
-      data:
-         & DeepPartial<ISpecialEventsKeywordFilters>
-         & DeepPartial<IWrapEventTypesWithKeywordsAttribute>,
-   );
-   constructor(
-      _:
-         & DeepPartial<ISpecialEventsKeywordFilters>
-         & DeepPartial<IWrapEventTypesWithKeywordsAttribute> = {},
-   ) {
+   constructor(_: DeepPartial<IWrapEventTypesWithKeywordsAttribute> = {}) {
       super();
       this.list = [];
    }
 
-   static create(): DummySpecialEventsKeywordFilters;
    static create(
-      data: DeepPartial<IWrapEventTypesWithKeywordsAttribute>,
-   ): DummySpecialEventsKeywordFilters;
-   static create(data: DeepPartial<ISpecialEventsKeywordFilters>): DummySpecialEventsKeywordFilters;
-   static create(
-      data:
-         & DeepPartial<ISpecialEventsKeywordFilters>
-         & DeepPartial<IWrapEventTypesWithKeywordsAttribute>,
-   ): DummySpecialEventsKeywordFilters;
-   static create(
-      data:
-         & DeepPartial<ISpecialEventsKeywordFilters>
-         & DeepPartial<IWrapEventTypesWithKeywordsAttribute> = {},
+      data: DeepPartial<IWrapEventTypesWithKeywordsAttribute> = {},
    ): DummySpecialEventsKeywordFilters {
       return new this(data);
+   }
+
+   // deno-lint-ignore no-explicit-any
+   static fromJSON(_: Record<string, any>): DummySpecialEventsKeywordFilters {
+      return new this();
    }
 
    toJSON(): Required<ISpecialEventsKeywordFilters> {
