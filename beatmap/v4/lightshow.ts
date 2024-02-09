@@ -347,10 +347,24 @@ export class Lightshow extends WrapLightshow<ILightshow> {
    }
 
    reparse(keepRef?: boolean): this {
+      this.waypoints = this.waypoints.map((obj) => this.createOrKeep(Waypoint, obj, keepRef));
       this.basicEvents = this.basicEvents.map((obj) => this.createOrKeep(BasicEvent, obj, keepRef));
       this.colorBoostEvents = this.colorBoostEvents.map((obj) =>
          this.createOrKeep(ColorBoostEvent, obj, keepRef)
       );
+      this.lightColorEventBoxGroups = this.lightColorEventBoxGroups.map((obj) =>
+         this.createOrKeep(LightColorEventBoxGroup, obj, keepRef)
+      );
+      this.lightRotationEventBoxGroups = this.lightRotationEventBoxGroups.map((obj) =>
+         this.createOrKeep(LightRotationEventBoxGroup, obj, keepRef)
+      );
+      this.lightTranslationEventBoxGroups = this.lightTranslationEventBoxGroups.map((obj) =>
+         this.createOrKeep(LightTranslationEventBoxGroup, obj, keepRef)
+      );
+      this.fxEventBoxGroups = this.fxEventBoxGroups.map((obj) =>
+         this.createOrKeep(FxEventBoxGroup, obj, keepRef)
+      );
+      this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(this.eventTypesWithKeywords);
 
       return this;
    }

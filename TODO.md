@@ -6,9 +6,5 @@ This is just temporary thing to handle new stuff from 1.34.4
 - Figure out what is optional props in v4
 - Figure out where to place custom data
 - Fix conversion to and from V4 for custom data
-- Update add object in difficulty/lightshow for v4
-- Update reparsing for lightshow
 - Add rotation to object when converting to v4
 - Fix default data for v4 light
-- Do test for v4
-  - Test only exist to ensure the loaded and output schema is correct

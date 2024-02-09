@@ -204,6 +204,18 @@ export class Lightshow extends WrapLightshow<ILightshow> {
       this.colorBoostEvents = this.colorBoostEvents.map((obj) =>
          this.createOrKeep(ColorBoostEvent, obj, keepRef)
       );
+      this.lightColorEventBoxGroups = this.lightColorEventBoxGroups.map((obj) =>
+         this.createOrKeep(LightColorEventBoxGroup, obj, keepRef)
+      );
+      this.lightRotationEventBoxGroups = this.lightRotationEventBoxGroups.map((obj) =>
+         this.createOrKeep(LightRotationEventBoxGroup, obj, keepRef)
+      );
+      this.lightTranslationEventBoxGroups = this.lightTranslationEventBoxGroups.map((obj) =>
+         this.createOrKeep(LightTranslationEventBoxGroup, obj, keepRef)
+      );
+      this.fxEventBoxGroups = this.fxEventBoxGroups.map((obj) =>
+         this.createOrKeep(FxEventBoxGroup, obj, keepRef)
+      );
 
       return this;
    }
