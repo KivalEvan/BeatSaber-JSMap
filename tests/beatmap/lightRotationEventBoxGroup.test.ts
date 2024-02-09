@@ -1,35 +1,40 @@
-import { assertEquals, v3 } from '../deps.ts';
+import { assertEquals, types, v3, v4 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
-const name = 'Light Rotation Event Box';
-const classList = [v3.LightRotationEventBoxGroup];
+const classList = [
+   [v4.LightRotationEventBoxGroup, 'V4 Light Rotation Event Box Group'],
+   [v3.LightRotationEventBoxGroup, 'V3 Light Rotation Event Box Group'],
+] as const;
 const defaultValue = {
    time: 0,
    id: 0,
    boxes: [],
+   customData: {},
 };
 
-Deno.test(`${name} instantiation`, () => {
-   let obj;
-
-   for (const Class of classList) {
-      obj = new Class();
+for (const tup of classList) {
+   const nameTag = tup[1];
+   const Class = tup[0];
+   Deno.test(`${nameTag} constructor & create instantiation`, () => {
+      let obj = new Class();
       assertClassObjectMatch(
          obj,
          defaultValue,
-         `Unexpected default value for ${Class.name}`,
+         `Unexpected default value for ${nameTag}`,
       );
+
       obj = Class.create()[0];
       assertClassObjectMatch(
          obj,
          defaultValue,
-         `Unexpected static create default value for ${Class.name}`,
+         `Unexpected static create default value for ${nameTag}`,
       );
+
       obj = Class.create({}, {})[1];
       assertClassObjectMatch(
          obj,
          defaultValue,
-         `Unexpected static create from array default value for ${Class.name}`,
+         `Unexpected static create from array default value for ${nameTag}`,
       );
 
       obj = new Class({
@@ -116,7 +121,7 @@ Deno.test(`${name} instantiation`, () => {
             ],
             customData: { test: true },
          },
-         `Unexpected instantiated value for ${Class.name}`,
+         `Unexpected instantiated value for ${nameTag}`,
       );
 
       obj = new Class({
@@ -185,16 +190,68 @@ Deno.test(`${name} instantiation`, () => {
             ],
             customData: {},
          },
-         `Unexpected partially instantiated value for ${Class.name}`,
+         `Unexpected partially instantiated value for ${nameTag}`,
+      );
+   });
+
+   Deno.test(`${nameTag} from JSON instantiation`, () => {
+      let obj;
+      switch (Class) {
+         case v4.LightRotationEventBoxGroup:
+            obj = Class.fromJSON();
+            break;
+         case v3.LightRotationEventBoxGroup:
+            obj = Class.fromJSON();
+            break;
+      }
+      assertClassObjectMatch(
+         obj!,
+         defaultValue,
+         `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      if (obj instanceof v3.LightRotationEventBoxGroup) {
-         obj = new Class({
-            b: 1,
-            g: 2,
-            e: [
+      switch (Class) {
+         case v4.LightRotationEventBoxGroup:
+            obj = Class.fromJSON(
                {
-                  f: {
+                  t: types.EventBoxType.COLOR,
+                  b: 1,
+                  g: 2,
+                  e: [
+                     {
+                        e: 0,
+                        f: 0,
+                        l: [{ b: 1, i: 0, customData: {} }],
+                        customData: {},
+                     },
+                  ],
+                  customData: { test: true },
+               },
+               [
+                  {
+                     w: 1,
+                     d: 2,
+                     s: 1,
+                     t: 2,
+                     b: 1,
+                     e: 2,
+                     a: 2,
+                     f: 1,
+                     customData: { test: true },
+                  },
+               ],
+               [
+                  {
+                     p: 1,
+                     e: 3,
+                     r: 120,
+                     d: 1,
+                     l: 1,
+                     customData: { test2: true },
+                  },
+               ],
+               [
+                  {
                      f: 2,
                      p: 1,
                      t: 2,
@@ -206,32 +263,54 @@ Deno.test(`${name} instantiation`, () => {
                      d: 3,
                      customData: { test1: true },
                   },
-                  w: 1,
-                  d: 2,
-                  s: 1,
-                  t: 2,
-                  a: 2,
-                  r: 1,
-                  b: 1,
-                  i: 2,
-                  l: [
-                     {
-                        b: 1,
+               ],
+            );
+            break;
+         case v3.LightRotationEventBoxGroup:
+            obj = Class.fromJSON({
+               b: 1,
+               g: 2,
+               e: [
+                  {
+                     f: {
+                        f: 2,
                         p: 1,
-                        e: 3,
+                        t: 2,
+                        r: 1,
+                        c: 4,
+                        n: 2,
+                        s: 12345,
                         l: 1,
-                        r: 120,
-                        o: 1,
-                        customData: { test2: true },
+                        d: 3,
+                        customData: { test1: true },
                      },
-                  ],
-                  customData: { test: true },
-               },
-            ],
-         });
+                     w: 1,
+                     d: 2,
+                     s: 1,
+                     t: 2,
+                     a: 2,
+                     r: 1,
+                     b: 1,
+                     i: 2,
+                     l: [
+                        {
+                           b: 1,
+                           p: 1,
+                           e: 3,
+                           l: 1,
+                           r: 120,
+                           o: 1,
+                           customData: { test2: true },
+                        },
+                     ],
+                     customData: { test: true },
+                  },
+               ],
+            });
+            break;
       }
       assertClassObjectMatch(
-         obj,
+         obj!,
          {
             time: 1,
             id: 2,
@@ -271,58 +350,218 @@ Deno.test(`${name} instantiation`, () => {
                   customData: { test: true },
                },
             ],
+            customData: {},
          },
-         `Unexpected instantiated value from JSON object for ${Class.name}`,
+         `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
-   }
-});
 
-Deno.test(`${name} to JSON object`, () => {
-   for (const Class of classList) {
-      const obj = new Class({ boxes: [{ events: [{}] }], customData: { test: true } });
-      const json = obj.toJSON();
-      if (obj instanceof v3.LightRotationEventBoxGroup) {
-         assertEquals(json, {
-            b: 0,
-            g: 0,
-            e: [
+      switch (Class) {
+         case v4.LightRotationEventBoxGroup:
+            obj = Class.fromJSON(
                {
-                  f: {
-                     f: 1,
-                     p: 0,
-                     t: 0,
-                     r: 0,
-                     c: 0,
-                     n: 0,
-                     s: 0,
-                     l: 0,
-                     d: 0,
+                  t: types.EventBoxType.COLOR,
+                  b: 1,
+                  e: [
+                     {
+                        l: [{ b: 1 }],
+                     },
+                  ],
+               },
+               [
+                  {
+                     w: 1,
+                     b: 1,
+                     e: 2,
+                  },
+               ],
+               [
+                  {
+                     e: 3,
+                     r: 120,
+                  },
+               ],
+               [
+                  {
+                     f: 2,
+                     r: 1,
+                     c: 4,
+                     d: 3,
+                  },
+               ],
+            );
+            break;
+         case v3.LightRotationEventBoxGroup:
+            obj = Class.fromJSON({
+               b: 1,
+               e: [
+                  {
+                     f: {
+                        f: 2,
+                        r: 1,
+                        c: 4,
+                        d: 3,
+                     },
+                     w: 1,
+                     b: 1,
+                     i: 2,
+                     l: [
+                        {
+                           b: 1,
+                           e: 3,
+                           r: 120,
+                        },
+                     ],
+                  },
+               ],
+            });
+            break;
+      }
+      assertClassObjectMatch(
+         obj!,
+         {
+            time: 1,
+            id: 0,
+            boxes: [
+               {
+                  filter: {
+                     type: 2,
+                     p0: 0,
+                     p1: 0,
+                     reverse: 1,
+                     chunks: 4,
+                     random: 0,
+                     seed: 0,
+                     limit: 0,
+                     limitAffectsType: 3,
                      customData: {},
                   },
-                  w: 0,
-                  d: 1,
-                  s: 0,
-                  t: 1,
-                  a: 0,
-                  r: 0,
-                  b: 0,
-                  i: 0,
-                  l: [
+                  beatDistribution: 1,
+                  beatDistributionType: 1,
+                  rotationDistribution: 0,
+                  rotationDistributionType: 1,
+                  affectFirst: 1,
+                  easing: 2,
+                  events: [
                      {
-                        b: 0,
-                        p: 0,
-                        e: 0,
-                        l: 0,
-                        r: 0,
-                        o: 0,
+                        time: 1,
+                        previous: 0,
+                        easing: 3,
+                        loop: 0,
+                        rotation: 120,
+                        direction: 0,
                         customData: {},
                      },
                   ],
                   customData: {},
                },
             ],
-            customData: { test: true },
-         });
+            customData: {},
+         },
+         `Unexpected partially instantiated value from JSON object for ${nameTag}`,
+      );
+   });
+
+   Deno.test(`${nameTag} to JSON object`, () => {
+      const obj = new Class({
+         boxes: [{ events: [{}] }],
+         customData: { test: true },
+      });
+      const json = obj.toJSON();
+      switch (Class) {
+         case v4.LightRotationEventBoxGroup:
+            assertEquals(json, {
+               object: {
+                  t: types.EventBoxType.ROTATION,
+                  b: 0,
+                  g: 0,
+                  e: [],
+                  customData: { test: true },
+               },
+               boxData: [
+                  {
+                     filterData: {
+                        f: 1,
+                        p: 0,
+                        t: 0,
+                        r: 0,
+                        c: 0,
+                        n: 0,
+                        s: 0,
+                        l: 0,
+                        d: 0,
+                        customData: {},
+                     },
+                     data: {
+                        w: 0,
+                        d: 1,
+                        s: 0,
+                        t: 1,
+                        b: 0,
+                        e: 0,
+                        f: 0,
+                        a: 0,
+                        customData: {},
+                     },
+                     eventData: [
+                        {
+                           time: 0,
+                           data: {
+                              p: 0,
+                              e: 0,
+                              l: 0,
+                              r: 0,
+                              d: 0,
+                              customData: {},
+                           },
+                        },
+                     ],
+                  },
+               ],
+            });
+            break;
+         case v3.LightRotationEventBoxGroup:
+            assertEquals(json, {
+               b: 0,
+               g: 0,
+               e: [
+                  {
+                     f: {
+                        f: 1,
+                        p: 0,
+                        t: 0,
+                        r: 0,
+                        c: 0,
+                        n: 0,
+                        s: 0,
+                        l: 0,
+                        d: 0,
+                        customData: {},
+                     },
+                     w: 0,
+                     d: 1,
+                     s: 0,
+                     t: 1,
+                     a: 0,
+                     r: 0,
+                     b: 0,
+                     i: 0,
+                     l: [
+                        {
+                           b: 0,
+                           p: 0,
+                           e: 0,
+                           l: 0,
+                           r: 0,
+                           o: 0,
+                           customData: {},
+                        },
+                     ],
+                     customData: {},
+                  },
+               ],
+               customData: { test: true },
+            });
+            break;
       }
-   }
-});
+   });
+}

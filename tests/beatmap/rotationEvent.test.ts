@@ -1,31 +1,32 @@
 import { assertEquals, v3 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
-const name = 'Rotation Event';
-const classList = [v3.RotationEvent];
+const classList = [[v3.RotationEvent, 'V3 Rotation Event']] as const;
 const defaultValue = { time: 0, executionTime: 0, rotation: 0, customData: {} };
 
-Deno.test(`${name} instantiation`, () => {
-   let obj;
-
-   for (const Class of classList) {
-      obj = new Class();
+for (const tup of classList) {
+   const nameTag = tup[1];
+   const Class = tup[0];
+   Deno.test(`${nameTag} constructor & create instantiation`, () => {
+      let obj = new Class();
       assertClassObjectMatch(
          obj,
          defaultValue,
-         `Unexpected default value for ${Class.name}`,
+         `Unexpected default value for ${nameTag}`,
       );
+
       obj = Class.create()[0];
       assertClassObjectMatch(
          obj,
          defaultValue,
-         `Unexpected static create default value for ${Class.name}`,
+         `Unexpected static create default value for ${nameTag}`,
       );
+
       obj = Class.create({}, {})[1];
       assertClassObjectMatch(
          obj,
          defaultValue,
-         `Unexpected static create from array default value for ${Class.name}`,
+         `Unexpected static create from array default value for ${nameTag}`,
       );
 
       obj = new Class({
@@ -36,34 +37,85 @@ Deno.test(`${name} instantiation`, () => {
       });
       assertClassObjectMatch(
          obj,
-         { time: 1, executionTime: 1, rotation: 15, customData: { test: true } },
-         `Unexpected instantiated value for ${Class.name}`,
+         {
+            time: 1,
+            executionTime: 1,
+            rotation: 15,
+            customData: { test: true },
+         },
+         `Unexpected instantiated value for ${nameTag}`,
       );
 
       obj = new Class({ rotation: 15 });
       assertClassObjectMatch(
          obj,
          { ...defaultValue, rotation: 15 },
-         `Unexpected partially instantiated value for ${Class.name}`,
+         `Unexpected partially instantiated value for ${nameTag}`,
       );
+   });
 
-      if (obj instanceof v3.RotationEvent) {
-         obj = new Class({ b: 1, e: 1, r: 15, customData: { test: true } });
+   Deno.test(`${nameTag} from JSON instantiation`, () => {
+      let obj;
+      switch (Class) {
+         case v3.RotationEvent:
+            obj = Class.fromJSON({});
+            break;
       }
       assertClassObjectMatch(
-         obj,
-         { time: 1, executionTime: 1, rotation: 15, customData: { test: true } },
-         `Unexpected instantiated value from JSON object for ${Class.name}`,
+         obj!,
+         defaultValue,
+         `Unexpected default value from empty JSON object for ${nameTag}`,
       );
-   }
-});
 
-Deno.test(`${name} to JSON object`, () => {
-   for (const Class of classList) {
+      switch (Class) {
+         case v3.RotationEvent:
+            obj = Class.fromJSON({
+               b: 1,
+               e: 1,
+               r: 15,
+               customData: { test: true },
+            });
+            break;
+      }
+      assertClassObjectMatch(
+         obj!,
+         {
+            time: 1,
+            executionTime: 1,
+            rotation: 15,
+            customData: { test: true },
+         },
+         `Unexpected instantiated value from JSON object for ${nameTag}`,
+      );
+
+      switch (Class) {
+         case v3.RotationEvent:
+            obj = Class.fromJSON({
+               r: 15,
+            });
+            break;
+      }
+      assertClassObjectMatch(
+         obj!,
+         {
+            ...defaultValue,
+            rotation: 15,
+         },
+         `Unexpected partially instantiated value from JSON object for ${nameTag}`,
+      );
+   });
+
+   Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new Class({ customData: { test: true } });
       const json = obj.toJSON();
-      if (obj instanceof v3.RotationEvent) {
-         assertEquals(json, { b: 0, e: 0, r: 0, customData: { test: true } });
+      switch (Class) {
+         case v3.RotationEvent:
+            assertEquals(json, {
+               b: 0,
+               e: 0,
+               r: 0,
+               customData: { test: true },
+            });
       }
-   }
-});
+   });
+}
