@@ -12,7 +12,7 @@ export abstract class WrapLightColorEvent<T extends { [P in keyof T]: T[P] }>
    protected _frequency!: IWrapLightColorEvent['frequency'];
    protected _strobeBrightness!: IWrapLightColorEvent['strobeBrightness'];
    protected _strobeFade!: IWrapLightColorEvent['strobeFade'];
-   protected _easing!: IWrapLightColorEvent['easing'];
+   protected _easing: IWrapLightColorEvent['easing'] = 0;
 
    get previous(): IWrapLightColorEvent['previous'] {
       return this._previous;

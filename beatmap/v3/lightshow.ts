@@ -68,6 +68,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
 
    constructor(data: Partial<IWrapLightshowAttribute<ILightshow>> = {}) {
       super();
+      this.filename = data.filename ?? this.filename;
       if (data.basicEvents) {
          this.basicEvents = data.basicEvents.map((obj) => new BasicEvent(obj));
       } else {

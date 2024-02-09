@@ -73,9 +73,9 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
 
    static fromJSON(
       data: Partial<IEventBoxGroup> = {},
-      boxes?: IFxEventBox[],
-      events?: IFxEventFloat[],
-      filters?: IIndexFilter[],
+      boxes?: Partial<IFxEventBox>[],
+      events?: Partial<IFxEventFloat>[],
+      filters?: Partial<IIndexFilter>[],
    ): FxEventBoxGroup {
       const d = new this();
       d._time = data.b ?? FxEventBoxGroup.default.object.b;

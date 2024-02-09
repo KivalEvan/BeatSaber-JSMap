@@ -2,6 +2,7 @@ export * from './custom/mod.ts';
 export * from './characteristic.ts';
 export * from './clean.ts';
 export * from './colorScheme.ts';
+export * from './constants.ts';
 export * from './dataCheck.ts';
 export * from './difficulty.ts';
 export * from './environment.ts';

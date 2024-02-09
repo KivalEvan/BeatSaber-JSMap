@@ -106,6 +106,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    constructor(data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {}) {
       super();
+      this.filename = data.filename ?? this.filename;
       if (data.bpmEvents) {
          this.bpmEvents = data.bpmEvents.map((obj) => new BPMEvent(obj));
       } else {

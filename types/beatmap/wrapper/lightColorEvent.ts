@@ -62,5 +62,5 @@ export interface IWrapLightColorEvent<
    setFrequency(value: number): this;
    setStrobeBrightness(value: number): this;
    setStrobeFade(value: 0 | 1): this;
-   setStrobeFade(value: EaseType): this;
+   setEasing(value: EaseType): this;
 }

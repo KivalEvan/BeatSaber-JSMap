@@ -75,9 +75,9 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
 
    static fromJSON(
       data: Partial<IEventBoxGroup> = {},
-      boxes?: ILightColorEventBox[],
-      events?: ILightColorEvent[],
-      filters?: IIndexFilter[],
+      boxes?: Partial<ILightColorEventBox>[],
+      events?: Partial<ILightColorEvent>[],
+      filters?: Partial<IIndexFilter>[],
    ): LightColorEventBoxGroup {
       const d = new this();
       d._time = data.b ?? LightColorEventBoxGroup.default.object.b;

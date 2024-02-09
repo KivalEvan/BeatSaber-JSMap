@@ -75,9 +75,9 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
 
    static fromJSON(
       data: Partial<IEventBoxGroup> = {},
-      boxes?: ILightTranslationEventBox[],
-      events?: ILightTranslationEvent[],
-      filters?: IIndexFilter[],
+      boxes?: Partial<ILightTranslationEventBox>[],
+      events?: Partial<ILightTranslationEvent>[],
+      filters?: Partial<IIndexFilter>[],
    ): LightTranslationEventBoxGroup {
       const d = new this();
       d._time = data.b ?? LightTranslationEventBoxGroup.default.object.b;

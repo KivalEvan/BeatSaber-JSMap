@@ -72,6 +72,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    constructor(data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {}) {
       super();
+      this.filename = data.filename ?? this.filename;
       if (data.colorNotes) {
          this.colorNotes = data.colorNotes.map((obj) => new Note(obj));
       } else {

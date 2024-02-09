@@ -75,9 +75,9 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
 
    static fromJSON(
       data: Partial<IEventBoxGroup> = {},
-      boxes?: ILightRotationEventBox[],
-      events?: ILightRotationEvent[],
-      filters?: IIndexFilter[],
+      boxes?: Partial<ILightRotationEventBox>[],
+      events?: Partial<ILightRotationEvent>[],
+      filters?: Partial<IIndexFilter>[],
    ): LightRotationEventBoxGroup {
       const d = new this();
       d._time = data.b ?? LightRotationEventBoxGroup.default.object.b;

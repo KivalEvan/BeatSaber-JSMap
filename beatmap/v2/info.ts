@@ -135,6 +135,7 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
       data: Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> & Partial<IV2ExtraInfo> = {},
    ) {
       super();
+      this.filename = data.filename ?? this.filename;
       this.songName = data.song?.title ?? Info.default._songName;
       this.songSubName = data.song?.subTitle ?? Info.default._songSubName;
       this.songAuthorName = data.song?.author ?? Info.default._songAuthorName;

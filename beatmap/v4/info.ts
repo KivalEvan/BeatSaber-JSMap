@@ -74,6 +74,7 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
 
    constructor(data: Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> = {}) {
       super();
+      this.filename = data.filename ?? this.filename;
 
       this.contentChecksum = data.contentChecksum || Info.default.contentChecksum;
       this.song.author = data.song?.author || Info.default.song.author;

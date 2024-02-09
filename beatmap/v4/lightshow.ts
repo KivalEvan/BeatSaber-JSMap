@@ -84,6 +84,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
 
    constructor(data: Partial<IWrapLightshowAttribute<ILightshow>> = {}) {
       super();
+      this.filename = data.filename ?? this.filename;
       if (data.waypoints) {
          this.waypoints = data.waypoints.map((obj) => new Waypoint(obj));
       } else {

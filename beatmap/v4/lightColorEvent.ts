@@ -44,7 +44,7 @@ export class LightColorEvent extends WrapLightColorEvent<ILightColorEventContain
       this._previous = data.previous ?? LightColorEvent.default.data.p;
       this._color = data.color ?? LightColorEvent.default.data.c;
       this._frequency = data.frequency ?? LightColorEvent.default.data.f;
-      this._transition = 0;
+      this.transition = data.transition ?? data.previous ?? 0;
       this._easing = data.easing ?? LightColorEvent.default.data.e;
       this._brightness = data.brightness ?? LightColorEvent.default.data.b;
       this._strobeBrightness = data.strobeBrightness ?? LightColorEvent.default.data.sb;
@@ -63,7 +63,6 @@ export class LightColorEvent extends WrapLightColorEvent<ILightColorEventContain
       d._previous = data.p ?? LightColorEvent.default.data.p;
       d._color = data.c ?? LightColorEvent.default.data.c;
       d._frequency = data.f ?? LightColorEvent.default.data.f;
-      d._transition = 0;
       d._easing = data.e ?? LightColorEvent.default.data.e;
       d._brightness = data.b ?? LightColorEvent.default.data.b;
       d._strobeBrightness = data.sb ?? LightColorEvent.default.data.sb;
@@ -91,7 +90,7 @@ export class LightColorEvent extends WrapLightColorEvent<ILightColorEventContain
    }
 
    get transition(): IWrapLightColorEvent['transition'] {
-      return this.previous ? 2 : this.easing === -1 ? 1 : 0;
+      return this.previous ? 2 : this.easing === -1 ? 0 : 1;
    }
    set transition(value: IWrapLightColorEvent['transition']) {
       if (value === 0) this.easing = -1;
