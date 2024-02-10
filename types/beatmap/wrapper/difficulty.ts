@@ -21,7 +21,10 @@ import {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from './lightTranslationEventBoxGroup.ts';
-import { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
+import {
+   IWrapEventTypesWithKeywords,
+   IWrapEventTypesWithKeywordsAttribute,
+} from './eventTypesWithKeywords.ts';
 import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import { Version } from '../shared/version.ts';
 import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
@@ -34,6 +37,29 @@ export interface IWrapDifficultyAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
 > extends IWrapBaseItemAttribute<T> {
    readonly version: Version;
+   bpmEvents: IWrapBPMEventAttribute[];
+   rotationEvents: IWrapRotationEventAttribute[];
+   colorNotes: IWrapColorNoteAttribute[];
+   bombNotes: IWrapBombNoteAttribute[];
+   obstacles: IWrapObstacleAttribute[];
+   arcs: IWrapArcAttribute[];
+   chains: IWrapChainAttribute[];
+   waypoints: IWrapWaypointAttribute[];
+   basicEvents: IWrapEventAttribute[];
+   colorBoostEvents: IWrapColorBoostEventAttribute[];
+   lightColorEventBoxGroups: IWrapLightColorEventBoxGroupAttribute[];
+   lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroupAttribute[];
+   lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroupAttribute[];
+   fxEventBoxGroups: IWrapFxEventBoxGroupAttribute[];
+   eventTypesWithKeywords: IWrapEventTypesWithKeywordsAttribute;
+   useNormalEventsAsCompatibleEvents: boolean;
+
+   filename: string;
+}
+
+export interface IWrapDifficulty<
+   T extends { [P in keyof T]: T[P] } = Record<string, any>,
+> extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
    bpmEvents: IWrapBPMEvent[];
    rotationEvents: IWrapRotationEvent[];
    colorNotes: IWrapColorNote[];
@@ -49,14 +75,7 @@ export interface IWrapDifficultyAttribute<
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
-   useNormalEventsAsCompatibleEvents: boolean;
 
-   filename: string;
-}
-
-export interface IWrapDifficulty<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
    setFileName(filename: LooseAutocomplete<GenericFileName>): this;
 
    /** Sort beatmap object(s) accordingly. */

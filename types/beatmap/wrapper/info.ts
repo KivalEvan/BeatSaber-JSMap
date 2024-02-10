@@ -10,7 +10,10 @@ import { IColor } from '../../colors.ts';
 
 export interface IWrapInfoAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
-   TDifficulty extends { [P in keyof TDifficulty]: TDifficulty[P] } = Record<string, any>,
+   TDifficulty extends { [P in keyof TDifficulty]: TDifficulty[P] } = Record<
+      string,
+      any
+   >,
 > extends IWrapBaseItem<T> {
    readonly version: Version;
    contentChecksum: string;
@@ -20,7 +23,7 @@ export interface IWrapInfoAttribute<
    coverImageFilename: string;
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
-   difficulties: IWrapInfoDifficulty<TDifficulty>[];
+   difficulties: IWrapInfoDifficultyAttribute<TDifficulty>[];
 
    filename: string;
 }
@@ -62,7 +65,12 @@ export interface IWrapInfoBeatmapAuthors {
 
 export interface IWrapInfo<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItem<T>, IWrapInfoAttribute<T> {
+   TDifficulty extends { [P in keyof TDifficulty]: TDifficulty[P] } = Record<
+      string,
+      any
+   >,
+> extends IWrapBaseItem<T>, IWrapInfoAttribute<T, TDifficulty> {
+   difficulties: IWrapInfoDifficulty<TDifficulty>[];
    setFileName(filename: LooseAutocomplete<GenericFileName>): this;
 
    /** Sort beatmap object(s) accordingly. */

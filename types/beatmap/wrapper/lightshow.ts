@@ -21,20 +21,23 @@ import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBo
 import { IWrapWaypoint } from './waypoint.ts';
 import { IWrapWaypointAttribute } from './waypoint.ts';
 import { Version } from '../shared/version.ts';
-import { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
+import {
+   IWrapEventTypesWithKeywords,
+   IWrapEventTypesWithKeywordsAttribute,
+} from './eventTypesWithKeywords.ts';
 
 export interface IWrapLightshowAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
 > extends IWrapBaseItemAttribute<T> {
    readonly version: Version;
-   waypoints: IWrapWaypoint[];
-   basicEvents: IWrapEvent[];
-   colorBoostEvents: IWrapColorBoostEvent[];
-   lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
-   lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
-   lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
-   fxEventBoxGroups: IWrapFxEventBoxGroup[];
-   eventTypesWithKeywords: IWrapEventTypesWithKeywords;
+   waypoints: IWrapWaypointAttribute[];
+   basicEvents: IWrapEventAttribute[];
+   colorBoostEvents: IWrapColorBoostEventAttribute[];
+   lightColorEventBoxGroups: IWrapLightColorEventBoxGroupAttribute[];
+   lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroupAttribute[];
+   lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroupAttribute[];
+   fxEventBoxGroups: IWrapFxEventBoxGroupAttribute[];
+   eventTypesWithKeywords: IWrapEventTypesWithKeywordsAttribute;
    useNormalEventsAsCompatibleEvents: boolean;
 
    filename: string;
@@ -43,6 +46,15 @@ export interface IWrapLightshowAttribute<
 export interface IWrapLightshow<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
 > extends IWrapBaseItem<T>, IWrapLightshowAttribute<T> {
+   waypoints: IWrapWaypoint[];
+   basicEvents: IWrapEvent[];
+   colorBoostEvents: IWrapColorBoostEvent[];
+   lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
+   lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
+   lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
+   fxEventBoxGroups: IWrapFxEventBoxGroup[];
+   eventTypesWithKeywords: IWrapEventTypesWithKeywords;
+
    setFileName(filename: LooseAutocomplete<GenericFileName>): this;
 
    /** Sort beatmap object(s) accordingly. */
