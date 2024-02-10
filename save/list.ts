@@ -25,18 +25,21 @@ export function beatmapList(
    return Promise.allSettled(
       difficulties.map((dl) => {
          const json = _difficulty(dl.data, options);
-         return writeJSONFile(
-            json,
-            resolve(
-               options.directory ??
-                  (globals.directory || defaultOptions.difficulty.directory),
-               dl.settings.filename ||
-                  dl.data.filename ||
-                  defaultOptions.difficulty.filePath ||
-                  'UnnamedDifficulty.dat',
-            ),
-            options.format,
-         ).then(() => json);
+         if (options.write ?? defaultOptions.difficulty.write) {
+            return writeJSONFile(
+               json,
+               resolve(
+                  options.directory ??
+                     (globals.directory || defaultOptions.difficulty.directory),
+                  dl.settings.filename ||
+                     dl.data.filename ||
+                     defaultOptions.difficulty.filePath ||
+                     'UnnamedDifficulty.dat',
+               ),
+               options.format,
+            ).then(() => json);
+         }
+         return new Promise(() => json);
       }),
    );
 }
@@ -55,18 +58,20 @@ export function beatmapListSync(
    const ary = [];
    for (const dl of difficulties) {
       const json = _difficulty(dl.data, options);
-      writeJSONFileSync(
-         json,
-         resolve(
-            options.directory ??
-               (globals.directory || defaultOptions.difficulty.directory),
-            dl.settings.filename ||
-               dl.data.filename ||
-               defaultOptions.difficulty.filePath ||
-               'UnnamedDifficulty.dat',
-         ),
-         options.format,
-      );
+      if (options.write ?? defaultOptions.difficulty.write) {
+         writeJSONFileSync(
+            json,
+            resolve(
+               options.directory ??
+                  (globals.directory || defaultOptions.difficulty.directory),
+               dl.settings.filename ||
+                  dl.data.filename ||
+                  defaultOptions.difficulty.filePath ||
+                  'UnnamedDifficulty.dat',
+            ),
+            options.format,
+         );
+      }
       ary.push(json);
    }
    return ary;
