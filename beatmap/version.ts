@@ -3,12 +3,16 @@ import { IDifficulty as IV1Difficulty } from '../types/beatmap/v1/difficulty.ts'
 import { IDifficulty as IV2Difficulty } from '../types/beatmap/v2/difficulty.ts';
 import { IDifficulty as IV3Difficulty } from '../types/beatmap/v3/difficulty.ts';
 import { IDifficulty as IV4Difficulty } from '../types/beatmap/v4/difficulty.ts';
+import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { Difficulty as V1Difficulty } from './v1/difficulty.ts';
 import { Difficulty as V2Difficulty } from './v2/difficulty.ts';
 import { Difficulty as V3Difficulty } from './v3/difficulty.ts';
 import { Difficulty as V4Difficulty } from './v4/difficulty.ts';
 import { WrapDifficulty } from './wrapper/difficulty.ts';
 
+export function isV1(
+   data: IWrapDifficulty,
+): data is V1Difficulty;
 export function isV1(
    data: WrapDifficulty<Record<string, any>>,
 ): data is V1Difficulty;
@@ -25,6 +29,9 @@ export function isV1(data: unknown) {
 }
 
 export function isV2(
+   data: IWrapDifficulty,
+): data is V2Difficulty;
+export function isV2(
    data: WrapDifficulty<Record<string, any>>,
 ): data is V2Difficulty;
 export function isV2(data: { [key: string]: any }): data is IV2Difficulty;
@@ -40,6 +47,9 @@ export function isV2(data: unknown) {
 }
 
 export function isV3(
+   data: IWrapDifficulty,
+): data is V3Difficulty;
+export function isV3(
    data: WrapDifficulty<Record<string, any>>,
 ): data is V3Difficulty;
 export function isV3(data: { [key: string]: any }): data is IV3Difficulty;
@@ -54,6 +64,9 @@ export function isV3(data: unknown) {
    );
 }
 
+export function isV4(
+   data: IWrapDifficulty,
+): data is V4Difficulty;
 export function isV4(
    data: WrapDifficulty<Record<string, any>>,
 ): data is V4Difficulty;
