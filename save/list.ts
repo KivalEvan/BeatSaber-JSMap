@@ -23,9 +23,10 @@ export function beatmapList(
 ) {
    logger.tInfo(tag('beatmapList'), 'Async saving list of difficulty');
    return Promise.allSettled(
-      difficulties.map(async (dl) => {
-         await writeJSONFile(
-            _difficulty(dl.data, options),
+      difficulties.map((dl) => {
+         const json = _difficulty(dl.data, options);
+         return writeJSONFile(
+            json,
             resolve(
                options.directory ??
                   (globals.directory || defaultOptions.difficulty.directory),
@@ -35,7 +36,7 @@ export function beatmapList(
                   'UnnamedDifficulty.dat',
             ),
             options.format,
-         );
+         ).then(() => json);
       }),
    );
 }
@@ -51,9 +52,11 @@ export function beatmapListSync(
    options: ISaveOptionsList = {},
 ) {
    logger.tInfo(tag('beatmapListSync'), 'Sync saving list of difficulty');
+   const ary = [];
    for (const dl of difficulties) {
+      const json = _difficulty(dl.data, options);
       writeJSONFileSync(
-         _difficulty(dl.data, options),
+         json,
          resolve(
             options.directory ??
                (globals.directory || defaultOptions.difficulty.directory),
@@ -64,5 +67,7 @@ export function beatmapListSync(
          ),
          options.format,
       );
+      ary.push(json);
    }
+   return ary;
 }

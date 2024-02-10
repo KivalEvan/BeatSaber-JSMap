@@ -23,6 +23,7 @@ const optionsInfo: Required<ISaveOptionsInfo> = {
       throwError: true,
    },
    sort: true,
+   write: true,
 };
 
 const optionsDifficulty: Required<ISaveOptionsDifficulty> = {
@@ -43,6 +44,7 @@ const optionsDifficulty: Required<ISaveOptionsDifficulty> = {
       throwError: true,
    },
    sort: true,
+   write: true,
 };
 
 const optionsLightshow: Required<ISaveOptionsLightshow> = {
@@ -63,6 +65,7 @@ const optionsLightshow: Required<ISaveOptionsLightshow> = {
       throwError: true,
    },
    sort: true,
+   write: true,
 };
 
 const optionsList: Required<ISaveOptionsList> = {
@@ -75,6 +78,7 @@ const optionsList: Required<ISaveOptionsList> = {
       throwError: true,
    },
    sort: true,
+   write: true,
 };
 
 /** Set default option value for save function. */

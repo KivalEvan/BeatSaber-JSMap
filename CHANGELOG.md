@@ -20,6 +20,7 @@
   - FX Float Event is now part of event box instead of separated entity
 - `create` and `constructor` now only accepts wrapper type
   - Use `fromJSON` static method for loading JSON schema
+- `save` now return resulting JSON
 - Converting beatmap version to same version will now create a copy instead of returning the same
   data
 - Converting beatmap now preserve custom data

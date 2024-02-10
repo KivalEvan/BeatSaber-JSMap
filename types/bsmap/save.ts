@@ -24,6 +24,12 @@ export interface ISaveBaseOptions extends IBaseOptions {
     * @default true
     */
    sort?: boolean;
+   /**
+    * Write the output to file.
+    *
+    * @default true
+    */
+   write?: boolean;
 }
 
 export interface ISaveValidate {
