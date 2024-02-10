@@ -7,7 +7,7 @@ const classList = [
    [v2.Event, 'V2 Event'],
    [v1.Event, 'V1 Event'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapEventAttribute = {
    time: 0,
    type: 0,
    value: 0,
@@ -81,23 +81,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v4.BasicEvent:
-            obj = Class.fromJSON();
-            break;
-         case v3.BasicEvent:
-            obj = Class.fromJSON();
-            break;
-         case v2.Event:
-            obj = Class.fromJSON();
-            break;
-         case v1.Event:
-            obj = Class.fromJSON();
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          { ...defaultValue, floatValue: Class === v1.Event ? 1 : 0 },
          `Unexpected default value from JSON object for ${nameTag}`,
       );
@@ -140,7 +126,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 1,
             type: 4,
@@ -179,7 +165,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             ...defaultValue,
             time: 1,

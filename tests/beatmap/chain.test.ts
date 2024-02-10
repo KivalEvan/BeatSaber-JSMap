@@ -1,11 +1,11 @@
-import { assertEquals, v3, v4 } from '../deps.ts';
+import { assertEquals, types, v3, v4 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
 const classList = [
    [v4.Chain, 'V4 Chain'],
    [v3.Chain, 'V3 Chain'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapChainAttribute = {
    time: 0,
    color: 0,
    posX: 0,
@@ -105,17 +105,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v4.Chain:
-            obj = Class.fromJSON();
-            break;
-         case v3.Chain:
-            obj = Class.fromJSON();
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
@@ -166,7 +158,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 1,
             color: 1,
@@ -216,7 +208,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             ...defaultValue,
             posX: 2,

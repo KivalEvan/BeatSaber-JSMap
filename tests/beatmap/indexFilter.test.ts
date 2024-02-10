@@ -1,11 +1,11 @@
-import { assertEquals, v3, v4 } from '../deps.ts';
+import { assertEquals, types, v3, v4 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
 const classList = [
    [v4.IndexFilter, 'V4 Index Filter'],
    [v3.IndexFilter, 'V3 Index Filter'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapIndexFilterAttribute = {
    type: 1,
    p0: 0,
    p1: 0,
@@ -85,15 +85,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v4.IndexFilter:
-         case v3.IndexFilter:
-            obj = Class.fromJSON({});
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
@@ -116,7 +110,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             type: 2,
             p0: 1,
@@ -143,7 +137,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             ...defaultValue,
             type: 2,

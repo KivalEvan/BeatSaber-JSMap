@@ -5,7 +5,7 @@ const classList = [
    [v4.LightTranslationEventBoxGroup, 'V4 Light Translation Event Box Group'],
    [v3.LightTranslationEventBoxGroup, 'V3 Light Translation Event Box Group'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapLightTranslationEventBoxGroupAttribute = {
    time: 0,
    id: 0,
    boxes: [],
@@ -188,17 +188,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v4.LightTranslationEventBoxGroup:
-            obj = Class.fromJSON();
-            break;
-         case v3.LightTranslationEventBoxGroup:
-            obj = Class.fromJSON();
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
@@ -299,7 +291,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 1,
             id: 2,
@@ -403,7 +395,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 1,
             id: 0,

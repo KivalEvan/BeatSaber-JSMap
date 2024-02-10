@@ -7,9 +7,10 @@ const classList = [
    [v2.Note, 'V2 Note'],
    [v1.Note, 'V1 Note'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapColorNoteAttribute = {
    time: 0,
    color: 0,
+   type: 0,
    posX: 0,
    posY: 0,
    direction: 0,
@@ -81,23 +82,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v4.ColorNote:
-            obj = Class.fromJSON();
-            break;
-         case v3.ColorNote:
-            obj = Class.fromJSON();
-            break;
-         case v2.Note:
-            obj = Class.fromJSON();
-            break;
-         case v1.Note:
-            obj = Class.fromJSON();
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
@@ -152,7 +139,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 1,
             color: 1,
@@ -201,7 +188,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             ...defaultValue,
             time: 1,

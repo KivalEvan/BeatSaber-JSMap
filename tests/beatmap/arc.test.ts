@@ -1,4 +1,4 @@
-import { assertEquals, v2, v3, v4 } from '../deps.ts';
+import { assertEquals, types, v2, v3, v4 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
 const classList = [
@@ -6,7 +6,7 @@ const classList = [
    [v3.Arc, 'V3 Arc'],
    [v2.Arc, 'V2 Arc'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapArcAttribute = {
    time: 0,
    color: 0,
    posX: 0,
@@ -110,7 +110,13 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
+      let obj = Class.fromJSON();
+      assertClassObjectMatch(
+         obj,
+         defaultValue,
+         `Unexpected default value from JSON object for ${nameTag}`,
+      );
+
       switch (Class) {
          case v4.Arc:
             obj = Class.fromJSON(
@@ -165,7 +171,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 2.5,
             color: 1,
@@ -184,6 +190,50 @@ for (const tup of classList) {
             customData: { test: true },
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
+      );
+
+      switch (Class) {
+         case v4.Arc:
+            obj = Class.fromJSON(
+               {
+                  hb: 2.5,
+                  tb: 3,
+               },
+               { m: 0.5 },
+               { c: 1 },
+               { x: 2 },
+            );
+            break;
+         case v3.Arc:
+            obj = Class.fromJSON({
+               b: 2.5,
+               c: 1,
+               mu: 0.5,
+               tb: 3,
+               tx: 2,
+            });
+            break;
+         case v2.Arc:
+            obj = Class.fromJSON({
+               _colorType: 1,
+               _headTime: 2.5,
+               _headControlPointLengthMultiplier: 0.5,
+               _tailTime: 3,
+               _tailLineIndex: 2,
+            });
+            break;
+      }
+      assertClassObjectMatch(
+         obj,
+         {
+            ...defaultValue,
+            time: 2.5,
+            color: 1,
+            lengthMultiplier: 0.5,
+            tailTime: 3,
+            tailPosX: 2,
+         },
+         `Unexpected partially instantiated value from JSON object for ${nameTag}`,
       );
    });
 

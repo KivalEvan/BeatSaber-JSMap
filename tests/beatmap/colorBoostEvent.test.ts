@@ -1,11 +1,15 @@
-import { assertEquals, v3, v4 } from '../deps.ts';
+import { assertEquals, types, v3, v4 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
 const classList = [
    [v4.ColorBoostEvent, 'V4 Color Boost Event'],
    [v3.ColorBoostEvent, 'V3 Color Boost Event'],
 ] as const;
-const defaultValue = { time: 0, toggle: false, customData: {} };
+const defaultValue: types.wrapper.IWrapColorBoostEventAttribute = {
+   time: 0,
+   toggle: false,
+   customData: {},
+};
 
 for (const tup of classList) {
    const nameTag = tup[1];
@@ -48,17 +52,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v4.ColorBoostEvent:
-            obj = Class.fromJSON();
-            break;
-         case v3.ColorBoostEvent:
-            obj = Class.fromJSON();
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
@@ -75,7 +71,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          { time: 1, toggle: true, customData: { test: true } },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
@@ -89,7 +85,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          { ...defaultValue, time: 1 },
          `Unexpected partially instantiated value from JSON object for ${nameTag}`,
       );

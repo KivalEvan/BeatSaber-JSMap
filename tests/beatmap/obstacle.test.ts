@@ -7,7 +7,7 @@ const classList = [
    [v2.Obstacle, 'V2 Obstacle'],
    [v1.Obstacle, 'V1 Obstacle'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapObstacleAttribute = {
    time: 0,
    posX: 0,
    posY: 0,
@@ -96,23 +96,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v4.Obstacle:
-            obj = Class.fromJSON({}, {});
-            break;
-         case v3.Obstacle:
-            obj = Class.fromJSON({});
-            break;
-         case v2.Obstacle:
-            obj = Class.fromJSON({});
-            break;
-         case v1.Obstacle:
-            obj = Class.fromJSON({});
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             ...defaultValue,
             height: Class === v3.Obstacle || Class === v4.Obstacle ? 0 : 5,
@@ -159,7 +145,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 1,
             posX: 2,
@@ -197,7 +183,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             ...defaultValue,
             time: 1,

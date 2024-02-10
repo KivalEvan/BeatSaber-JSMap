@@ -1,8 +1,13 @@
-import { assertEquals, v3 } from '../deps.ts';
+import { assertEquals, types, v3 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
 const classList = [[v3.RotationEvent, 'V3 Rotation Event']] as const;
-const defaultValue = { time: 0, executionTime: 0, rotation: 0, customData: {} };
+const defaultValue: types.wrapper.IWrapRotationEventAttribute = {
+   time: 0,
+   executionTime: 0,
+   rotation: 0,
+   customData: {},
+};
 
 for (const tup of classList) {
    const nameTag = tup[1];
@@ -55,14 +60,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v3.RotationEvent:
-            obj = Class.fromJSON({});
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from empty JSON object for ${nameTag}`,
       );
@@ -78,7 +78,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 1,
             executionTime: 1,
@@ -96,7 +96,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             ...defaultValue,
             rotation: 15,

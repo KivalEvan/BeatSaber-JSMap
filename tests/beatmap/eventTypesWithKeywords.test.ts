@@ -1,11 +1,11 @@
-import { assertEquals, v2, v3 } from '../deps.ts';
+import { assertEquals, types, v2, v3 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
 const classList = [
    [v3.BasicEventTypesWithKeywords, 'V3 Basic Event Types With Keywords'],
    [v2.SpecialEventsKeywordFilters, 'V2 Special Events Keyword Filters'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapEventTypesWithKeywordsAttribute = {
    list: [],
 };
 
@@ -43,17 +43,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v3.BasicEventTypesWithKeywords:
-            obj = Class.fromJSON();
-            break;
-         case v2.SpecialEventsKeywordFilters:
-            obj = Class.fromJSON();
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
@@ -69,7 +61,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          { list: [{ keyword: 'test', events: [1, 2] }] },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
@@ -85,7 +77,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          { list: [{ keyword: '', events: [1, 2] }] },
          `Unexpected partially value from JSON object for ${nameTag}`,
       );

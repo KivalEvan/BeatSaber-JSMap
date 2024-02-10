@@ -1,11 +1,11 @@
-import { assertEquals, v3, v4 } from '../deps.ts';
+import { assertEquals, types, v3, v4 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
 const classList = [
    [v4.BombNote, 'V4 Bomb Note'],
    [v3.BombNote, 'V3 Bomb Note'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapBombNoteAttribute = {
    time: 0,
    posX: 0,
    posY: 0,
@@ -59,17 +59,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v4.BombNote:
-            obj = Class.fromJSON();
-            break;
-         case v3.BombNote:
-            obj = Class.fromJSON();
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
@@ -91,7 +83,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 1,
             posX: 3,
@@ -115,7 +107,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             ...defaultValue,
             time: 1,

@@ -1,8 +1,12 @@
-import { assertEquals, v3 } from '../deps.ts';
+import { assertEquals, types, v3 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
 const classList = [[v3.BPMEvent, 'V3 BPM Event']] as const;
-const defaultValue = { time: 0, bpm: 0, customData: {} };
+const defaultValue: types.wrapper.IWrapBPMEventAttribute = {
+   time: 0,
+   bpm: 0,
+   customData: {},
+};
 
 for (const tup of classList) {
    const nameTag = tup[1];
@@ -45,14 +49,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v3.BPMEvent:
-            obj = Class.fromJSON();
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
@@ -63,7 +62,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          { time: 1, bpm: 120, customData: { test: true } },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
@@ -74,7 +73,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          { ...defaultValue, bpm: 120 },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );

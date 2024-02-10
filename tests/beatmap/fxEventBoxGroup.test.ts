@@ -5,7 +5,8 @@ const classList = [
    [v4.FxEventBoxGroup, 'V4 Fx Event Event Box Group'],
    [v3.FxEventBoxGroup, 'V3 Fx Event Event Box Group'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapFxEventBoxGroupAttribute = {
+   type: 0,
    time: 0,
    id: 0,
    boxes: [],
@@ -181,17 +182,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v4.FxEventBoxGroup:
-            obj = Class.fromJSON();
-            break;
-         case v3.FxEventBoxGroup:
-            obj = Class.fromJSON();
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
@@ -291,7 +284,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 1,
             id: 2,
@@ -394,7 +387,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 1,
             id: 0,

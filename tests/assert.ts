@@ -4,7 +4,7 @@ import { EPSILON } from './constants.ts';
 
 export function assertClassObjectMatch(
    actual: Record<PropertyKey, any>,
-   expected: Record<PropertyKey, unknown>,
+   expected: Record<PropertyKey, any>,
    msg?: string,
 ): void {
    try {

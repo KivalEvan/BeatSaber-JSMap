@@ -1,4 +1,4 @@
-import { assertEquals, v2, v3, v4 } from '../deps.ts';
+import { assertEquals, types, v2, v3, v4 } from '../deps.ts';
 import { assertClassObjectMatch } from '../assert.ts';
 
 const classList = [
@@ -6,7 +6,7 @@ const classList = [
    [v3.Waypoint, 'V3 Waypoint'],
    [v2.Waypoint, 'V2 Waypoint'],
 ] as const;
-const defaultValue = {
+const defaultValue: types.wrapper.IWrapWaypointAttribute = {
    time: 0,
    posX: 0,
    posY: 0,
@@ -73,20 +73,9 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj;
-      switch (Class) {
-         case v4.Waypoint:
-            obj = Class.fromJSON({}, {});
-            break;
-         case v3.Waypoint:
-            obj = Class.fromJSON({});
-            break;
-         case v2.Waypoint:
-            obj = Class.fromJSON({});
-            break;
-      }
+      let obj = Class.fromJSON();
       assertClassObjectMatch(
-         obj!,
+         obj,
          defaultValue,
          `Unexpected default value from empty JSON object for ${nameTag}`,
       );
@@ -118,7 +107,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             time: 2.5,
             posX: 2,
@@ -148,7 +137,7 @@ for (const tup of classList) {
             break;
       }
       assertClassObjectMatch(
-         obj!,
+         obj,
          {
             ...defaultValue,
             posY: 1,
