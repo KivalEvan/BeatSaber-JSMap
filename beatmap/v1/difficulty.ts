@@ -105,7 +105,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       }
    }
 
-   static fromJSON(data: Partial<IDifficulty>): Difficulty {
+   static fromJSON(data: Partial<IDifficulty> = {}): Difficulty {
       const d = new this();
       d.beatsPerMinute = data._beatsPerMinute ?? Difficulty.default._beatsPerMinute;
       d.beatsPerBar = data._beatsPerBar ?? Difficulty.default._beatsPerBar;
