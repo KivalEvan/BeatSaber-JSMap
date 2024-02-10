@@ -1,14 +1,15 @@
 # Beat Saber Deno
 
 General-purpose Beat Saber beatmap scripting module using [Deno](https://deno.land/) with
-[TypeScript](https://www.typescriptlang.org/), fully-typed schema and flexible tool designed to ease
-scripting development surrounding beatmap. It is optimised for speed with minimal compromise
-allowing for faster work iteration.
+[TypeScript](https://www.typescriptlang.org/), fully-typed schema and flexible tool to ease
+scripting development surrounding beatmap.
+
+It is designed to be simple and familiar with traditional scripting with barely hidden layer of
+abstraction. It is optimised for speed with minimal compromise allowing for faster work iteration.
 
 ---
 
-> ⚠️ Work in progress. Breaking changes is to be expected. To be honest, would've started with v0.x
-> but it was usable and complete from the start with more features added on top.
+> ⚠️ **Work-in-progress**: Breaking changes is to be expected in new minor version release.
 
 ---
 
@@ -37,12 +38,15 @@ allowing for faster work iteration.
 
 ## Getting Started
 
-To get started, check out the [example folder](./example) for templates you can use and read
-[the guide](./example/README.md) for more detail.
+To get started, simply create a `.ts` file anywhere, preferably inside map folder for simpler setup,
+and import the module. That's it, no installation needed. Do check out the
+[example folder](./example) for templates you can use and read [the guide](./example/README.md) for
+more detail.
 
 The bare minimum example:
 
 ```ts
+// ./Beat Saber/Beat_Saber Data/CustomWIPLevels/MAP_FOLDER/script.ts
 import * as bsmap from 'https://deno.land/x/bsmap@1.6.0/mod.ts';
 
 const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 4);
@@ -52,13 +56,12 @@ const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 4);
 bsmap.save.difficultySync(data);
 ```
 
-**NOTE:** Recommended to use `https://deno.land/x/bsmap@version/mod.ts` to lock version to ensure
-the script works without breaking from newer update. For rolling release, visit
-[GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw file directly from there
-(`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`), you may need to
-occasionally add `--reload` tag for latest update.
+**NOTE:** Recommended to lock version to ensure the script works without breaking from newer update.
+For rolling release, visit [GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw
+file directly from there (`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`),
+you may need to occasionally add `--reload` tag for latest update.
 
-You may also clone the module and import it locally to make any modification as you wish.
+You may also clone the module to store and import locally, and make any modification as you wish.
 
 If you are using the script outside of map directory, you can specify the map directory without the
 need to explicitly apply `directory` on IO function. This can be any valid directory as long as it
@@ -71,8 +74,8 @@ bsmap.globals.directory = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 ## Usage
 
 Run the script by running this command in terminal `deno run yourscriptpath.ts`. For more advanced
-use, you may do `deno run --allow-read --allow-write --watch yourscriptpath.ts` to automatically
-allow for read and write while watching for change in script.
+use, you may do, as an example, `deno run --allow-read --allow-write --watch yourscriptpath.ts` to
+automatically allow for read and write while watching for change in script.
 
 For further explanation, see [Deno Manual](https://deno.land/manual).
 
@@ -96,19 +99,19 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 #### Styling & Documentation
 
-- Use `deno fmt` for standard formatting.
-  - Do not change `deno.json` configuration.
-- File names shall use camel case.
+- Use `deno fmt` for standard formatting
+  - Do not change `deno.json` configuration
+- File names shall use camel case
 - Exported types, interfaces, fields, and functions should be accompanied by JSDoc comment right
-  above its definition.
-  - Function/method should provide usage example.
+  above its definition
+  - Function/method should provide usage example
 
 #### Coding
 
-- Top-level function shall use regular function.
-- No third-party dependencies shall be used outside of examples, extensions, and tests. (Exception
+- Top-level function shall use regular function
+- No third-party dependencies shall be used outside of examples, extensions, and tests (Exception
   when absolutely necessary is Deno standard module)
-- Avoid circular imports.
+- Avoid circular imports
 
 ## Planned
 

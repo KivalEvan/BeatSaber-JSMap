@@ -18,7 +18,7 @@ add the following on top of the script. No additional file or setup needed, it j
 
 ```ts
 // be sure to check for latest version on 'bsmap@version'
-import * as bsmap from 'https://deno.land/x/bsmap@1.5.3/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@1.6.0/mod.ts';
 ```
 
 **To first timer:** Make sure to initialise Deno workspace before using the script. If you encounter
@@ -39,7 +39,7 @@ destructuring can be used to obtain certain variables and functions. Helpful tip
 to show list of available variables and functions.
 
 ```ts
-import { deepCopy, load, pRandom, save, v3 } from 'https://deno.land/x/bsmap@1.5.3/mod.ts';
+import { deepCopy, load, pRandom, save, v3 } from 'https://deno.land/x/bsmap@1.6.0/mod.ts';
 ```
 
 List of available namespaces from root are `load`, `save`, `v2`, `v3`, `globals`, `convert`,
@@ -54,9 +54,11 @@ and difficulty file.
 const info = load.infoSync(); // not required
 
 // undefined version, return base wrapper class
-// can be either version 1, 2 or 3
-// pass it to isV3 or similar function for type predicate
+// can be either version 1, 2, 3 or 4
+// pass it to isV4 or similar function for type predicate
+// or use `instanceof` operator
 const data = load.difficultySync('HardStandard.dat');
+
 // explicit version, return (and convert to) difficulty version
 const data2 = await load.difficulty('ExpertStandard.dat', 2, {
    directory: '/somewhere/else',
@@ -73,7 +75,8 @@ await save.difficulty(data2, {
 }); // advanced use
 ```
 
-Difficulty file name is saved directly in difficulty class and can be changed.
+Difficulty filename is saved directly in difficulty class, as with info, lightshow, and any other
+writable object, and can be changed.
 
 ```ts
 data.filename = 'ExpertPlusStandard.dat';
@@ -112,28 +115,24 @@ const bomb = v3.BombNote.create();
 const event = new v3.BasicEvent();
 const notes = v3.ColorNote.create(
    {},
-   { b: 1, x: 0, y: 1 },
    {
       time: 2,
       posX: 1,
       posY: 0,
    },
 );
+const obstacle = v3.Obstacle.fromJSON(
+   { b: 1, h: 1, w: 1, d: 1 },
+);
 data.colorNotes.push(...notes);
 ```
 
 Difficulty class has a built-in method that allows instantiating of an object directly and insert
-into an array. This also allows insertion of an already instantiated object; preferrably clone the
-object before passing it here to avoid unnecessary mutation.
+into an array. This creates a new object instead of reusing existing object.
 
 ```ts
 data.addBasicEvents(
-   { et: 3 },
    { time: 2, type: 1, value: 3 },
-   {
-      b: 5,
-      f: 1,
-   },
    {},
 );
 data.addBasicEvents(...events);
@@ -169,13 +168,13 @@ The library provide constant variables in form of `PascalCase` or `SCREAMING_SNA
 used to make your script slightly more readable but it is not necessarily needed.
 
 ```ts
-const note = v3.ColorNotes.create({
+const note = v3.ColorNotes.fromJSON({
    b: 24,
    c: NoteColor.RED,
    d: NoteDirection.ANY,
    x: PositionX.MIDDLE_LEFT,
    y: PositionY.BOTTOM,
-})[0];
+});
 
 data.addBasicEvents({
    time: 10,
@@ -191,15 +190,15 @@ third-party library. This provides plentiful of helpers that may be useful for m
 other purposes.
 
 ```ts
-import * as chroma from 'https://deno.land/x/bsmap@1.5.3/extensions/chroma/mod.ts';
-import * as NE from 'https://deno.land/x/bsmap@1.5.3/extensions/NE/mod.ts';
-import * as selector from 'https://deno.land/x/bsmap@1.5.3/extensions/selector/mod.ts';
+import * as chroma from 'https://deno.land/x/bsmap@1.6.0/extensions/chroma/mod.ts';
+import * as NE from 'https://deno.land/x/bsmap@1.6.0/extensions/NE/mod.ts';
+import * as selector from 'https://deno.land/x/bsmap@1.6.0/extensions/selector/mod.ts';
 ```
 
 If you wish to import all of them, do as following:
 
 ```ts
-import * as ext from 'https://deno.land/x/bsmap@1.5.3/extensions/mod.ts';
+import * as ext from 'https://deno.land/x/bsmap@1.6.0/extensions/mod.ts';
 ```
 
 ## Patch
@@ -208,7 +207,7 @@ This module is not included as it is very rarely used and unstable. It contains 
 fix and alter beatmap objects that were potentially broken or contain incompatible data.
 
 ```ts
-import * as patch from 'https://deno.land/x/bsmap@1.5.3/patch/mod.ts';
+import * as patch from 'https://deno.land/x/bsmap@1.6.0/patch/mod.ts';
 ```
 
 ## Addendum
@@ -221,8 +220,8 @@ purpose.
 
 ```ts
 // deps.ts
-export * from 'https://deno.land/x/bsmap@1.5.3/mod.ts';
-export * as ext from 'https://deno.land/x/bsmap@1.5.3/extensions/mod.ts';
+export * from 'https://deno.land/x/bsmap@1.6.0/mod.ts';
+export * as ext from 'https://deno.land/x/bsmap@1.6.0/extensions/mod.ts';
 ```
 
 ```ts
