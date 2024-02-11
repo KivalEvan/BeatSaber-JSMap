@@ -9,15 +9,6 @@ export interface IWrapFxEventBoxGroupAttribute<
    TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
 > extends IWrapEventBoxGroupAttribute<TGroup, TBox, TBase, TFilter> {
    boxes: IWrapFxEventBoxAttribute<TBox, TBase, TFilter>[];
-   /**
-    * Type `<int>` of FX event.
-    * ```ts
-    * 0 -> Int
-    * 1 -> Float
-    * 2 -> Bool
-    * ```
-    */
-   type: 0 | 1 | 2;
 }
 
 export interface IWrapFxEventBoxGroup<
