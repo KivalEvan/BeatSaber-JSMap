@@ -44,7 +44,6 @@ interface ILoadInfoBeatmapV4 extends ILoadInfoBeatmapBase {
 }
 
 export type ILoadInfoData =
-   | ILoadInfoBeatmapBase
    | ILoadInfoBeatmapV1
    | ILoadInfoBeatmapV2
    | ILoadInfoBeatmapV3

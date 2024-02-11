@@ -2,6 +2,12 @@
 
 ## 1.6.0 [2024-02-##]
 
+**IMPORTANT:** This update removes the ability to instantiate from JSON using `constructor` and
+`create` static method, which also includes the ability to mix-and-match between JSON and wrapper
+attribute. While the simple fix for `constructor` is to use `fromJSON` static method, `create` may
+require effort to fix by transforming it into array and map into `fromJSON`. Apologies for the
+inconvenience as this move is deemed necessary when moving towards beatmap V4.
+
 ### Added
 
 - Beatmap Difficulty, Lightshow and Info v4
