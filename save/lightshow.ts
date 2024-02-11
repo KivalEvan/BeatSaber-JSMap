@@ -121,7 +121,7 @@ export function lightshow(
          options.format,
       ).then(() => json);
    }
-   return new Promise(() => json);
+   return new Promise((resolve) => resolve(json));
 }
 
 /**

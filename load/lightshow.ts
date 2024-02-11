@@ -144,7 +144,7 @@ export function lightshow(
       );
       return readJSONFile(path).then((data) => _lightshow(data, src, version!, options));
    } else {
-      return new Promise(() => _lightshow(src, 'LoadJSON.dat', version!, options));
+      return new Promise((resolve) => resolve(_lightshow(src, 'LoadJSON.dat', version!, options)));
    }
 }
 

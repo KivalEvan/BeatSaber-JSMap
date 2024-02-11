@@ -39,7 +39,7 @@ export function beatmapList(
                options.format,
             ).then(() => json);
          }
-         return new Promise(() => json);
+         return new Promise((resolve) => resolve(json));
       }),
    );
 }
