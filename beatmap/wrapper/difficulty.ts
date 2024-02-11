@@ -69,7 +69,7 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
    abstract useNormalEventsAsCompatibleEvents: boolean;
 
    clone<U extends this>(): U {
-      return super.clone().setFileName(this.filename) as U;
+      return super.clone().setFilename(this.filename) as U;
    }
 
    set filename(name: LooseAutocomplete<GenericFileName>) {
@@ -79,7 +79,7 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }> extends
       return this._filename;
    }
 
-   setFileName(filename: LooseAutocomplete<GenericFileName>) {
+   setFilename(filename: LooseAutocomplete<GenericFileName>) {
       this.filename = filename;
       return this;
    }

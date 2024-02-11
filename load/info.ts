@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { Info as V1Info } from '../beatmap/v1/info.ts';
 import { Info as V2Info } from '../beatmap/v2/info.ts';
 import { Info as V4Info } from '../beatmap/v4/info.ts';
@@ -19,6 +20,17 @@ function tag(name: string): string[] {
    return ['load', name];
 }
 
+const parseMap: Record<number, any> = {
+   1: parseV1Info,
+   2: parseV2Info,
+   4: parseV4Info,
+} as const;
+const convertMap: Record<number, any> = {
+   1: toV1Info,
+   2: toV2Info,
+   4: toV4Info,
+} as const;
+
 function _info(
    json: Record<string, unknown>,
    filePath: string,
@@ -38,10 +50,7 @@ function _info(
       postprocess: options.postprocess ?? defaultOptions.info.postprocess,
    };
    opt.preprocess.forEach((fn, i) => {
-      logger.tInfo(
-         tag('_info'),
-         'Running preprocess function #' + (i + 1),
-      );
+      logger.tInfo(tag('_info'), 'Running preprocess function #' + (i + 1));
       json = fn(json);
    });
 
@@ -63,24 +72,12 @@ function _info(
    }
 
    let data: IWrapInfo;
-   switch (jsonVer) {
-      case 1: {
-         data = parseV1Info(json, opt.dataCheck).setFileName(filePath);
-         break;
-      }
-      case 2: {
-         data = parseV2Info(json, opt.dataCheck).setFileName(filePath);
-         break;
-      }
-      case 4: {
-         data = parseV4Info(json, opt.dataCheck).setFileName(filePath);
-         break;
-      }
-      default: {
-         throw new Error(
-            `Info version ${jsonVer} is not supported, this may be an error in JSON or is newer than currently supported.`,
-         );
-      }
+   const parser = parseMap[jsonVer];
+   if (parser) data = parser(json).setFilename(filePath);
+   else {
+      throw new Error(
+         `Info version ${jsonVer} is not supported, this may be an error in JSON or is newer than currently supported.`,
+      );
    }
 
    if (targetVer && jsonVer !== targetVer) {
@@ -98,18 +95,13 @@ function _info(
          'for version; Converting to info version',
          targetVer,
       );
-      if (targetVer === 1) data = toV1Info(data);
-      if (targetVer === 2) data = toV2Info(data);
-      if (targetVer === 4) data = toV4Info(data);
+      data = convertMap[targetVer](data);
    }
 
    if (opt.sort) data.sort();
 
    opt.postprocess.forEach((fn, i) => {
-      logger.tInfo(
-         tag('_info'),
-         'Running postprocess function #' + (i + 1),
-      );
+      logger.tInfo(tag('_info'), 'Running postprocess function #' + (i + 1));
       data = fn(data);
    });
    return data;

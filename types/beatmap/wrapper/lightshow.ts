@@ -55,7 +55,7 @@ export interface IWrapLightshow<
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
 
-   setFileName(filename: LooseAutocomplete<GenericFileName>): this;
+   setFilename(filename: LooseAutocomplete<GenericFileName>): this;
 
    /** Sort beatmap object(s) accordingly. */
    sort(): this;

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { GenericFileName } from '../types/beatmap/shared/filename.ts';
 import { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
 import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
@@ -24,6 +25,22 @@ import { readJSONFile, readJSONFileSync } from '../utils/_fs.ts';
 function tag(name: string): string[] {
    return ['load', name];
 }
+
+const parseMap: Record<number, any> = {
+   1: parseV1Difficulty,
+   2: parseV2Difficulty,
+   3: parseV3Difficulty,
+   4: parseV4Difficulty,
+} as const;
+const convertMap: Record<number, any> = {
+   1: toV1Difficulty,
+   2: toV2Difficulty,
+   3: toV3Difficulty,
+   4: toV4Difficulty,
+} as const;
+
+const dummyInfo = new Info();
+const dummyInfoDiff = new InfoDifficulty();
 
 export function _difficulty(
    json: Record<string, unknown>,
@@ -68,28 +85,12 @@ export function _difficulty(
    }
 
    let data: IWrapDifficulty;
-   switch (jsonVer) {
-      case 1: {
-         data = parseV1Difficulty(json, opt.dataCheck).setFileName(filePath);
-         break;
-      }
-      case 2: {
-         data = parseV2Difficulty(json, opt.dataCheck).setFileName(filePath);
-         break;
-      }
-      case 3: {
-         data = parseV3Difficulty(json, opt.dataCheck).setFileName(filePath);
-         break;
-      }
-      case 4: {
-         data = parseV4Difficulty(json, opt.dataCheck).setFileName(filePath);
-         break;
-      }
-      default: {
-         throw new Error(
-            `Beatmap version ${jsonVer} is not supported, this may be an error in JSON or is newer than currently supported.`,
-         );
-      }
+   const parser = parseMap[jsonVer];
+   if (parser) data = parser(json).setFilename(filePath);
+   else {
+      throw new Error(
+         `Beatmap version ${jsonVer} is not supported, this may be an error in JSON or is newer than currently supported.`,
+      );
    }
 
    if (targetVer && jsonVer !== targetVer) {
@@ -107,16 +108,8 @@ export function _difficulty(
          'for version; Converting to beatmap version',
          targetVer,
       );
-      if (targetVer === 1) {
-         data = toV1Difficulty(
-            data,
-            new Info(),
-            new InfoDifficulty({ jsonPath: filePath }),
-         );
-      }
-      if (targetVer === 2) data = toV2Difficulty(data);
-      if (targetVer === 3) data = toV3Difficulty(data);
-      if (targetVer === 4) data = toV4Difficulty(data);
+      dummyInfoDiff.filename = filePath;
+      data = convertMap[targetVer](data, dummyInfo, dummyInfoDiff);
    }
 
    if (opt.sort) data.sort();

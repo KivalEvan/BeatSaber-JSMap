@@ -71,7 +71,7 @@ export interface IWrapInfo<
    >,
 > extends IWrapBaseItem<T>, IWrapInfoAttribute<T, TDifficulty> {
    difficulties: IWrapInfoDifficulty<TDifficulty>[];
-   setFileName(filename: LooseAutocomplete<GenericFileName>): this;
+   setFilename(filename: LooseAutocomplete<GenericFileName>): this;
 
    /** Sort beatmap object(s) accordingly. */
    sort(): this;

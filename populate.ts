@@ -9,21 +9,21 @@ import { Lightshow as V3Lightshow } from './beatmap/v3/lightshow.ts';
 import { Lightshow as V4Lightshow } from './beatmap/v4/lightshow.ts';
 import { save } from './mod.ts';
 
-save.infoSync(new V1Info().setFileName('Info.dat'), {
+save.infoSync(new V1Info().setFilename('Info.dat'), {
    directory: './tests/resources/empty_filled/v1/',
 });
-save.difficultySync(new V1Difficulty().setFileName('Difficulty.dat'), {
+save.difficultySync(new V1Difficulty().setFilename('Difficulty.dat'), {
    directory: './tests/resources/empty_filled/v1/',
 });
 
-save.infoSync(new V2Info().setFileName('Info.dat'), {
+save.infoSync(new V2Info().setFilename('Info.dat'), {
    directory: './tests/resources/empty_filled/v2/',
 });
-save.difficultySync(new V2Difficulty().setFileName('Difficulty.dat'), {
+save.difficultySync(new V2Difficulty().setFilename('Difficulty.dat'), {
    directory: './tests/resources/empty_filled/v2/',
 });
 
-save.difficultySync(new V3Difficulty().setFileName('Difficulty.dat'), {
+save.difficultySync(new V3Difficulty().setFilename('Difficulty.dat'), {
    directory: './tests/resources/empty_filled/v3/',
    optimize: { enabled: false },
 });
@@ -37,18 +37,18 @@ save.lightshowSync(
       lightTranslationEventBoxGroups: [{ boxes: [{ events: [{}] }] }],
       fxEventBoxGroups: [{ boxes: [{ events: [{}] }] }],
       eventTypesWithKeywords: { list: [{}] },
-   }).setFileName('Lightshow.dat'),
+   }).setFilename('Lightshow.dat'),
    {
       directory: './tests/resources/empty_filled/v3/',
       optimize: { enabled: false },
    },
 );
 
-save.infoSync(new V4Info().setFileName('Info.dat'), {
+save.infoSync(new V4Info().setFilename('Info.dat'), {
    directory: './tests/resources/empty_filled/v4/',
    optimize: { enabled: false },
 });
-save.difficultySync(new V4Difficulty().setFileName('Difficulty.dat'), {
+save.difficultySync(new V4Difficulty().setFilename('Difficulty.dat'), {
    directory: './tests/resources/empty_filled/v4/',
    optimize: { enabled: false },
 });
@@ -62,7 +62,7 @@ save.lightshowSync(
       lightTranslationEventBoxGroups: [{ boxes: [{ events: [{}] }] }],
       fxEventBoxGroups: [{ boxes: [{ events: [{}] }] }],
       eventTypesWithKeywords: { list: [{}] },
-   }).setFileName('Lightshow.dat'),
+   }).setFilename('Lightshow.dat'),
    {
       directory: './tests/resources/empty_filled/v4/',
       optimize: { enabled: false },

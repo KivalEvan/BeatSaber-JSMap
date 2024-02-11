@@ -35,6 +35,7 @@ inconvenience as this move is deemed necessary when moving towards beatmap V4.
   - `save` options allows user to prevent file from being written
 - `clone` method no longer uses `toJSON` when cloning
   - This should result in much faster cloning
+- Renamed `setFileName` to `setFilename` for consistency
 - Converting beatmap version to same version will now create a copy instead of returning the same
   data
 - Converting beatmap now preserve custom data

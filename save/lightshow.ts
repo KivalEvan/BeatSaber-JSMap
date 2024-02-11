@@ -19,7 +19,7 @@ function tag(name: string): string[] {
    return ['save', name];
 }
 
-const dataCheckList: Record<number, Record<string, DataCheck>> = {
+const dataCheckMap: Record<number, Record<string, DataCheck>> = {
    3: V3LightshowCheck,
    4: V4LightshowCheck,
 };
@@ -79,7 +79,7 @@ function _lightshow(data: IWrapLightshow, options: ISaveOptionsLightshow) {
 
    if (opt.dataCheck.enabled) {
       logger.tInfo(tag('_lightshow'), 'Checking lightshow data value');
-      const dataCheck = dataCheckList[ver] ?? {};
+      const dataCheck = dataCheckMap[ver] ?? {};
       deepCheck(
          json,
          dataCheck,

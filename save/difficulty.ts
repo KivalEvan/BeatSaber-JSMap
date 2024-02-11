@@ -25,7 +25,7 @@ function tag(name: string): string[] {
    return ['save', name];
 }
 
-const dataCheckList: Record<number, Record<string, DataCheck>> = {
+const dataCheckMap: Record<number, Record<string, DataCheck>> = {
    1: V1DifficultyCheck,
    2: V2DifficultyCheck,
    3: V3DifficultyCheck,
@@ -90,7 +90,7 @@ export function _difficulty(
 
    if (opt.dataCheck.enabled) {
       logger.tInfo(tag('_difficulty'), 'Checking difficulty data value');
-      const dataCheck = dataCheckList[ver] ?? {};
+      const dataCheck = dataCheckMap[ver] ?? {};
       deepCheck(
          json,
          dataCheck,

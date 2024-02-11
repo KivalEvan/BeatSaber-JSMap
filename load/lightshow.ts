@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { GenericFileName } from '../types/beatmap/shared/filename.ts';
 import { Lightshow as V3Lightshow } from '../beatmap/v3/lightshow.ts';
 import { Lightshow as V4Lightshow } from '../beatmap/v4/lightshow.ts';
@@ -17,6 +18,15 @@ import { defaultOptions } from './options.ts';
 function tag(name: string): string[] {
    return ['load', name];
 }
+
+const parseMap: Record<number, any> = {
+   3: parseV3Lightshow,
+   4: parseV4Lightshow,
+} as const;
+const convertMap: Record<number, any> = {
+   3: toV3Lightshow,
+   4: toV4Lightshow,
+} as const;
 
 function _lightshow(
    json: Record<string, unknown>,
@@ -61,20 +71,12 @@ function _lightshow(
    }
 
    let data: IWrapLightshow;
-   switch (jsonVer) {
-      case 3: {
-         data = parseV3Lightshow(json, opt.dataCheck).setFileName(filePath);
-         break;
-      }
-      case 4: {
-         data = parseV4Lightshow(json, opt.dataCheck).setFileName(filePath);
-         break;
-      }
-      default: {
-         throw new Error(
-            `Beatmap version ${jsonVer} is not supported, this may be an error in JSON or is newer than currently supported.`,
-         );
-      }
+   const parser = parseMap[jsonVer];
+   if (parser) data = parser(json).setFilename(filePath);
+   else {
+      throw new Error(
+         `Beatmap version ${jsonVer} is not supported, this may be an error in JSON or is newer than currently supported.`,
+      );
    }
 
    if (targetVer && jsonVer !== targetVer) {
@@ -92,8 +94,7 @@ function _lightshow(
          'for version; Converting to beatmap version',
          targetVer,
       );
-      if (targetVer === 3) data = toV3Lightshow(data);
-      if (targetVer === 4) data = toV4Lightshow(data);
+      data = convertMap[targetVer](data);
    }
 
    if (opt.sort) data.sort();

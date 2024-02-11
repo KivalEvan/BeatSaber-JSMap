@@ -35,7 +35,7 @@ export abstract class WrapInfo<
    abstract difficulties: IWrapInfoDifficulty[];
 
    clone<U extends this>(): U {
-      return super.clone().setFileName(this.filename) as U;
+      return super.clone().setFilename(this.filename) as U;
    }
 
    set filename(name: LooseAutocomplete<'Info.dat' | 'info.dat'>) {
@@ -45,7 +45,7 @@ export abstract class WrapInfo<
       return this._filename;
    }
 
-   setFileName(filename: LooseAutocomplete<'Info.dat' | 'info.dat'>) {
+   setFilename(filename: LooseAutocomplete<'Info.dat' | 'info.dat'>) {
       this.filename = filename;
       return this;
    }

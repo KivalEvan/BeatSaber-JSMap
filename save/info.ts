@@ -22,7 +22,7 @@ function tag(name: string): string[] {
    return ['save', name];
 }
 
-const dataCheckList: Record<number, Record<string, DataCheck>> = {
+const dataCheckMap: Record<number, Record<string, DataCheck>> = {
    1: V1InfoCheck,
    2: V2InfoCheck,
    4: V4InfoCheck,
@@ -66,7 +66,7 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
 
    if (opt.dataCheck.enabled) {
       logger.tInfo(tag('_info'), 'Checking info data value');
-      const dataCheck = dataCheckList[ver] ?? {};
+      const dataCheck = dataCheckMap[ver] ?? {};
       deepCheck(
          json,
          dataCheck,
