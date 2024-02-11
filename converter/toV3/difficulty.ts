@@ -25,7 +25,7 @@ import { RotationEvent } from '../../beatmap/v3/rotationEvent.ts';
 import { isVector3, vectorMul } from '../../utils/vector.ts';
 import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
-import { deepCopy } from '../../mod.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV3Difficulty', name];

@@ -8,7 +8,7 @@ import { Lightshow as V4Lightshow } from '../../beatmap/v4/lightshow.ts';
 import { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
 import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import eventToV3 from '../customData/eventToV3.ts';
-import { deepCopy } from '../../mod.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV4Lightshow', name];

@@ -15,7 +15,7 @@ import {
    IWrapInfoDifficultyAttribute,
    IWrapInfoSong,
 } from '../../types/beatmap/wrapper/info.ts';
-import { IWrapInfoAttribute } from '../../types/beatmap/wrapper/mod.ts';
+import { IWrapInfoAttribute } from '../../types/beatmap/wrapper/info.ts';
 
 export interface IV2ExtraInfo {
    levelAuthorName: string;
