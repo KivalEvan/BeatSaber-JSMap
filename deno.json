@@ -14,8 +14,8 @@
       "check": "deno check mod.ts && deno check extensions/mod.ts && deno check patch/mod.ts",
       "test": "deno task test:clean || true && deno task test:run && deno task test:coverage",
       "test:coverage": "deno coverage --html",
-      "test:run": "deno test --parallel --allow-read --allow-write --coverage tests/",
-      "test:serial": "deno test --allow-read --allow-write",
+      "test:run": "deno test --parallel --allow-read --coverage tests/",
+      "test:serial": "deno test --allow-read",
       "test:clean": "rm -r ./coverage"
    }
 }

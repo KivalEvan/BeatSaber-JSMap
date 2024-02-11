@@ -5,7 +5,7 @@ import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts
 import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
 import { WrapInfo, WrapInfoDifficulty } from '../wrapper/info.ts';
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
-import { LooseAutocomplete } from '../../types/utils.ts';
+import { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { IColor } from '../../types/colors.ts';
 import { IContributor } from '../../types/beatmap/shared/custom/contributor.ts';
@@ -129,14 +129,16 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
    customEnvironmentHash?: string;
 
    static create(
-      data: Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> & Partial<IV1ExtraInfo> = {},
+      data:
+         & DeepPartial<IWrapInfoAttribute<IInfo, IInfoDifficulty>>
+         & Partial<IV1ExtraInfo> = {},
    ): Info {
       return new this(data);
    }
 
    constructor(
       data:
-         & Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>>
+         & DeepPartial<IWrapInfoAttribute<IInfo, IInfoDifficulty>>
          & Partial<IV1ExtraInfo> = {},
    ) {
       super();
@@ -159,7 +161,7 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
 
       this.difficulties = [];
       data.difficulties?.forEach((d) => {
-         this.addMap(d);
+         this.addMap(d as IWrapInfoDifficultyAttribute<IInfoDifficulty>);
       });
       this.songFilename ||= 'song.ogg';
 
@@ -168,7 +170,7 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
       );
    }
 
-   static fromJSON(data: Partial<IInfo> = {}): Info {
+   static fromJSON(data: DeepPartial<IInfo> = {}): Info {
       const d = new this();
       d.songName = data.songName ?? Info.default.songName;
       d.songSubName = data.songSubName ?? Info.default.songSubName;
@@ -182,7 +184,7 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
       d.difficulties = [];
       (data.difficultyLevels ?? Info.default.difficultyLevels).forEach(
          (level) => {
-            d.addMap(level);
+            d.addMap(level!);
          },
       );
       d.songFilename ||= 'song.ogg';

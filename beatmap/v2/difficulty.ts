@@ -30,6 +30,7 @@ import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts'
 import { mod } from '../../utils/math.ts';
 import { EventValueLaneRotation } from '../shared/constants.ts';
 import { IWrapDifficultyAttribute } from '../../types/beatmap/wrapper/difficulty.ts';
+import { DeepPartial } from '../../types/utils.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v2', 'difficulty', name];
@@ -66,11 +67,11 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    eventTypesWithKeywords: SpecialEventsKeywordFilters;
    useNormalEventsAsCompatibleEvents = true;
 
-   static create(data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {}): Difficulty {
+   static create(data: DeepPartial<IWrapDifficultyAttribute<IDifficulty>> = {}): Difficulty {
       return new this(data);
    }
 
-   constructor(data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {}) {
+   constructor(data: DeepPartial<IWrapDifficultyAttribute<IDifficulty>> = {}) {
       super();
       this.filename = data.filename ?? this.filename;
       if (data.colorNotes) {
@@ -111,7 +112,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       );
    }
 
-   static fromJSON(data: Partial<IDifficulty> = {}): Difficulty {
+   static fromJSON(data: DeepPartial<IDifficulty> = {}): Difficulty {
       const d = new this();
       d.colorNotes = (data._notes ?? Difficulty.default._notes).map((json) => Note.fromJSON(json));
       d.arcs = (data._sliders ?? Difficulty.default._sliders).map((json) => Arc.fromJSON(json));
@@ -280,11 +281,11 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    isValid(): boolean {
       return (
-         this.colorNotes.every((obj) => this.checkClass(Note, obj)) ||
-         this.obstacles.every((obj) => this.checkClass(Obstacle, obj)) ||
-         this.basicEvents.every((obj) => this.checkClass(Event, obj)) ||
-         this.waypoints.every((obj) => this.checkClass(Waypoint, obj)) ||
-         this.arcs.every((obj) => this.checkClass(Arc, obj)) ||
+         this.colorNotes.every((obj) => this.checkClass(Note, obj)) &&
+         this.obstacles.every((obj) => this.checkClass(Obstacle, obj)) &&
+         this.basicEvents.every((obj) => this.checkClass(Event, obj)) &&
+         this.waypoints.every((obj) => this.checkClass(Waypoint, obj)) &&
+         this.arcs.every((obj) => this.checkClass(Arc, obj)) &&
          this.eventTypesWithKeywords instanceof SpecialEventsKeywordFilters
       );
    }

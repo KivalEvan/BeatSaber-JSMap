@@ -16,6 +16,7 @@ import {
 } from '../../types/beatmap/wrapper/info.ts';
 import { hexToRgba, toColorObject } from '../../utils/colors.ts';
 import { colorToHex } from '../../utils/colors.ts';
+import { DeepPartial } from '../../types/utils.ts';
 
 /** Difficulty beatmap class object. */
 export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
@@ -67,12 +68,12 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
    difficulties: InfoDifficulty[] = [];
 
    static create(
-      data: Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> = {},
+      data: DeepPartial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> = {},
    ): Info {
       return new this(data);
    }
 
-   constructor(data: Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> = {}) {
+   constructor(data: DeepPartial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> = {}) {
       super();
       this.filename = data.filename ?? this.filename;
 
@@ -97,19 +98,20 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
 
       this.environmentNames = (
          data.environmentNames ?? Info.default.environmentNames
-      ).map((e) => e);
+      ).map((e) => e!);
       if (data.colorSchemes) {
          this.colorSchemes = data.colorSchemes.map((e) => {
+            e = e!;
             const scheme: IWrapInfoColorScheme = {
                useOverride: !!e.useOverride,
                name: e.name || '',
-               saberLeftColor: shallowCopy(e.saberLeftColor),
-               saberRightColor: shallowCopy(e.saberRightColor),
-               environment0Color: shallowCopy(e.environment0Color),
-               environment1Color: shallowCopy(e.environment1Color),
-               obstaclesColor: shallowCopy(e.obstaclesColor),
-               environment0ColorBoost: shallowCopy(e.environment0ColorBoost),
-               environment1ColorBoost: shallowCopy(e.environment1ColorBoost),
+               saberLeftColor: { r: 0, g: 0, b: 0, a: 0, ...e.saberLeftColor },
+               saberRightColor: { r: 0, g: 0, b: 0, a: 0, ...e.saberRightColor },
+               environment0Color: { r: 0, g: 0, b: 0, a: 0, ...e.environment0Color },
+               environment1Color: { r: 0, g: 0, b: 0, a: 0, ...e.environment1Color },
+               obstaclesColor: { r: 0, g: 0, b: 0, a: 0, ...e.obstaclesColor },
+               environment0ColorBoost: { r: 0, g: 0, b: 0, a: 0, ...e.environment0ColorBoost },
+               environment1ColorBoost: { r: 0, g: 0, b: 0, a: 0, ...e.environment1ColorBoost },
             };
             if (e.environmentWColor) {
                scheme.environmentWColor = shallowCopy(e.environmentWColor);
@@ -165,10 +167,10 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
 
       this.difficulties = (
          data.difficulties ?? Info.default.difficultyBeatmaps
-      ).map((d) => new InfoDifficulty(d));
+      ).map((d) => new InfoDifficulty(d as IWrapInfoDifficultyAttribute<IInfoDifficulty>));
    }
 
-   static fromJSON(data: Partial<IInfo> = {}): Info {
+   static fromJSON(data: DeepPartial<IInfo> = {}): Info {
       const d = new this();
 
       d.contentChecksum = data.contentChecksum || Info.default.contentChecksum;
@@ -191,29 +193,30 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
 
       d.environmentNames = (
          data.environmentNames ?? Info.default.environmentNames
-      ).map((e) => e);
+      ).map((e) => e!);
       d.colorSchemes = (data.colorSchemes ?? Info.default.colorSchemes).map(
          (e) => {
+            e = e!;
             const scheme: IWrapInfoColorScheme = {
                useOverride: !!e.useOverride,
                name: e.colorSchemeName || '',
-               saberLeftColor: toColorObject(hexToRgba(e.saberAColor), true),
-               saberRightColor: toColorObject(hexToRgba(e.saberBColor), true),
+               saberLeftColor: toColorObject(hexToRgba(e.saberAColor!), true),
+               saberRightColor: toColorObject(hexToRgba(e.saberBColor!), true),
                environment0Color: toColorObject(
-                  hexToRgba(e.environmentColor0),
+                  hexToRgba(e.environmentColor0!),
                   true,
                ),
                environment1Color: toColorObject(
-                  hexToRgba(e.environmentColor1),
+                  hexToRgba(e.environmentColor1!),
                   true,
                ),
-               obstaclesColor: toColorObject(hexToRgba(e.obstaclesColor), true),
+               obstaclesColor: toColorObject(hexToRgba(e.obstaclesColor!), true),
                environment0ColorBoost: toColorObject(
-                  hexToRgba(e.environmentColor0Boost),
+                  hexToRgba(e.environmentColor0Boost!),
                   true,
                ),
                environment1ColorBoost: toColorObject(
-                  hexToRgba(e.environmentColor1Boost),
+                  hexToRgba(e.environmentColor1Boost!),
                   true,
                ),
             };

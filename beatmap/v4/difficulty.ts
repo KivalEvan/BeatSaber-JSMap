@@ -65,12 +65,12 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    useNormalEventsAsCompatibleEvents = false;
 
    static create(
-      data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {},
+      data: DeepPartial<IWrapDifficultyAttribute<IDifficulty>> = {},
    ): Difficulty {
       return new this(data);
    }
 
-   constructor(data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {}) {
+   constructor(data: DeepPartial<IWrapDifficultyAttribute<IDifficulty>> = {}) {
       super();
       this.filename = data.filename ?? this.filename;
       if (data.colorNotes) {
@@ -345,10 +345,10 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    isValid(): boolean {
       return (
-         this.colorNotes.every((obj) => this.checkClass(ColorNote, obj)) ||
-         this.bombNotes.every((obj) => this.checkClass(BombNote, obj)) ||
-         this.arcs.every((obj) => this.checkClass(Arc, obj)) ||
-         this.chains.every((obj) => this.checkClass(Chain, obj)) ||
+         this.colorNotes.every((obj) => this.checkClass(ColorNote, obj)) &&
+         this.bombNotes.every((obj) => this.checkClass(BombNote, obj)) &&
+         this.arcs.every((obj) => this.checkClass(Arc, obj)) &&
+         this.chains.every((obj) => this.checkClass(Chain, obj)) &&
          this.obstacles.every((obj) => this.checkClass(Obstacle, obj))
       );
    }

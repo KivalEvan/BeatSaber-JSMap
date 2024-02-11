@@ -61,12 +61,12 @@ export class Lightshow extends WrapLightshow<ILightshow> {
    useNormalEventsAsCompatibleEvents = true;
 
    static create(
-      data: Partial<IWrapLightshowAttribute<ILightshow>> = {},
+      data: DeepPartial<IWrapLightshowAttribute<ILightshow>> = {},
    ): Lightshow {
       return new this(data);
    }
 
-   constructor(data: Partial<IWrapLightshowAttribute<ILightshow>> = {}) {
+   constructor(data: DeepPartial<IWrapLightshowAttribute<ILightshow>> = {}) {
       super();
       this.filename = data.filename ?? this.filename;
       if (data.basicEvents) {
@@ -126,7 +126,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
       );
    }
 
-   static fromJSON(data: Partial<ILightshow> = {}) {
+   static fromJSON(data: DeepPartial<ILightshow> = {}) {
       const d = new this();
       d.basicEvents = (
          data.basicBeatmapEvents ?? Lightshow.default.basicBeatmapEvents
@@ -454,17 +454,17 @@ export class Lightshow extends WrapLightshow<ILightshow> {
 
    isValid(): boolean {
       return (
-         this.basicEvents.every((obj) => this.checkClass(BasicEvent, obj)) ||
-         this.colorBoostEvents.every((obj) => this.checkClass(ColorBoostEvent, obj)) ||
+         this.basicEvents.every((obj) => this.checkClass(BasicEvent, obj)) &&
+         this.colorBoostEvents.every((obj) => this.checkClass(ColorBoostEvent, obj)) &&
          this.lightColorEventBoxGroups.every((obj) =>
             this.checkClass(LightColorEventBoxGroup, obj)
-         ) ||
+         ) &&
          this.lightRotationEventBoxGroups.every((obj) =>
             this.checkClass(LightRotationEventBoxGroup, obj)
-         ) ||
+         ) &&
          this.lightTranslationEventBoxGroups.every((obj) =>
             this.checkClass(LightTranslationEventBoxGroup, obj)
-         ) ||
+         ) &&
          this.fxEventBoxGroups.every((obj) => this.checkClass(FxEventBoxGroup, obj))
       );
    }

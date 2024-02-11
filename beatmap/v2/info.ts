@@ -4,7 +4,7 @@ import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts
 import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
 import { WrapInfo, WrapInfoDifficulty } from '../wrapper/info.ts';
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
-import { LooseAutocomplete } from '../../types/utils.ts';
+import { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
 import { Environment360Name } from '../../types/beatmap/shared/environment.ts';
 import { deepCopy, shallowCopy } from '../../utils/misc.ts';
@@ -126,13 +126,17 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
    allDirectionsEnvironmentName: Environment360Name;
 
    static create(
-      data: Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> & Partial<IV2ExtraInfo> = {},
+      data:
+         & DeepPartial<IWrapInfoAttribute<IInfo, IInfoDifficulty>>
+         & Partial<IV2ExtraInfo> = {},
    ): Info {
       return new this(data);
    }
 
    constructor(
-      data: Partial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> & Partial<IV2ExtraInfo> = {},
+      data:
+         & DeepPartial<IWrapInfoAttribute<IInfo, IInfoDifficulty>>
+         & Partial<IV2ExtraInfo> = {},
    ) {
       super();
       this.filename = data.filename ?? this.filename;
@@ -151,8 +155,9 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
       this.environmentName = data.environmentName ?? Info.default._environmentName;
       this.allDirectionsEnvironmentName = data.allDirectionsEnvironmentName ??
          Info.default._allDirectionsEnvironmentName;
-      this.environmentNames = data.environmentNames?.map((e) => e) ?? [];
+      this.environmentNames = data.environmentNames?.map((e) => e!) ?? [];
       this.colorSchemes = data.colorSchemes?.map((e) => {
+         e = e!;
          const scheme: IWrapInfoColorScheme = {
             useOverride: !!e.useOverride,
             name: e.name || '',
@@ -220,11 +225,14 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
       this.customData = deepCopy(data.customData ?? Info.default._customData);
 
       data.difficulties?.forEach((d) => {
-         this.addMap(d, d.characteristic);
+         this.addMap(
+            d as IWrapInfoDifficultyAttribute<IInfoDifficulty>,
+            d!.characteristic,
+         );
       });
    }
 
-   static fromJSON(data: Partial<IInfo> = {}): Info {
+   static fromJSON(data: DeepPartial<IInfo> = {}): Info {
       const d = new this();
       d.songName = data._songName ?? 'SongName';
       d.songSubName = data._songSubName ?? '';
@@ -474,13 +482,16 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
       d.difficulty = data._difficulty ?? InfoDifficulty.default._difficulty;
       d.rank = data._difficultyRank ?? InfoDifficulty.default._difficultyRank;
       d.filename = data._beatmapFilename ?? InfoDifficulty.default._beatmapFilename;
-      d.njs = data._noteJumpMovementSpeed ?? InfoDifficulty.default._noteJumpMovementSpeed;
+      d.njs = data._noteJumpMovementSpeed ??
+         InfoDifficulty.default._noteJumpMovementSpeed;
       d.njsOffset = data._noteJumpStartBeatOffset ??
          InfoDifficulty.default._noteJumpStartBeatOffset;
       d.colorSchemeId = data._beatmapColorSchemeIdx ??
          InfoDifficulty.default._beatmapColorSchemeIdx;
       d.environmentId = data._environmentNameIdx ?? InfoDifficulty.default._environmentNameIdx;
-      d.customData = deepCopy(data._customData ?? InfoDifficulty.default._customData);
+      d.customData = deepCopy(
+         data._customData ?? InfoDifficulty.default._customData,
+      );
       return d;
    }
 

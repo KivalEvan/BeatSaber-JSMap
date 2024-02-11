@@ -4,6 +4,7 @@ export {
    assertArrayIncludes,
    assertEquals,
    assertExists,
+   assertInstanceOf,
    AssertionError,
    assertIsError,
    assertNotEquals,

@@ -99,12 +99,12 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    useNormalEventsAsCompatibleEvents;
 
    static create(
-      data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {},
+      data: DeepPartial<IWrapDifficultyAttribute<IDifficulty>> = {},
    ): Difficulty {
       return new this(data);
    }
 
-   constructor(data: Partial<IWrapDifficultyAttribute<IDifficulty>> = {}) {
+   constructor(data: DeepPartial<IWrapDifficultyAttribute<IDifficulty>> = {}) {
       super();
       this.filename = data.filename ?? this.filename;
       if (data.bpmEvents) {
@@ -216,7 +216,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       );
    }
 
-   static fromJSON(data: Partial<IDifficulty> = {}): Difficulty {
+   static fromJSON(data: DeepPartial<IDifficulty> = {}): Difficulty {
       const d = new this();
       d.bpmEvents = (data.bpmEvents ?? Difficulty.default.bpmEvents).map(
          (obj) => BPMEvent.fromJSON(obj),
@@ -478,26 +478,26 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
 
    isValid(): boolean {
       return (
-         this.colorNotes.every((obj) => this.checkClass(ColorNote, obj)) ||
-         this.bombNotes.every((obj) => this.checkClass(BombNote, obj)) ||
-         this.arcs.every((obj) => this.checkClass(Arc, obj)) ||
-         this.chains.every((obj) => this.checkClass(Chain, obj)) ||
-         this.obstacles.every((obj) => this.checkClass(Obstacle, obj)) ||
-         this.basicEvents.every((obj) => this.checkClass(BasicEvent, obj)) ||
-         this.colorBoostEvents.every((obj) => this.checkClass(ColorBoostEvent, obj)) ||
-         this.rotationEvents.every((obj) => this.checkClass(RotationEvent, obj)) ||
-         this.bpmEvents.every((obj) => this.checkClass(BPMEvent, obj)) ||
-         this.waypoints.every((obj) => this.checkClass(Waypoint, obj)) ||
+         this.colorNotes.every((obj) => this.checkClass(ColorNote, obj)) &&
+         this.bombNotes.every((obj) => this.checkClass(BombNote, obj)) &&
+         this.arcs.every((obj) => this.checkClass(Arc, obj)) &&
+         this.chains.every((obj) => this.checkClass(Chain, obj)) &&
+         this.obstacles.every((obj) => this.checkClass(Obstacle, obj)) &&
+         this.basicEvents.every((obj) => this.checkClass(BasicEvent, obj)) &&
+         this.colorBoostEvents.every((obj) => this.checkClass(ColorBoostEvent, obj)) &&
+         this.rotationEvents.every((obj) => this.checkClass(RotationEvent, obj)) &&
+         this.bpmEvents.every((obj) => this.checkClass(BPMEvent, obj)) &&
+         this.waypoints.every((obj) => this.checkClass(Waypoint, obj)) &&
          this.lightColorEventBoxGroups.every((obj) =>
             this.checkClass(LightColorEventBoxGroup, obj)
-         ) ||
+         ) &&
          this.lightRotationEventBoxGroups.every((obj) =>
             this.checkClass(LightRotationEventBoxGroup, obj)
-         ) ||
+         ) &&
          this.lightTranslationEventBoxGroups.every((obj) =>
             this.checkClass(LightTranslationEventBoxGroup, obj)
-         ) ||
-         this.fxEventBoxGroups.every((obj) => this.checkClass(FxEventBoxGroup, obj)) ||
+         ) &&
+         this.fxEventBoxGroups.every((obj) => this.checkClass(FxEventBoxGroup, obj)) &&
          this.eventTypesWithKeywords instanceof BasicEventTypesWithKeywords
       );
    }

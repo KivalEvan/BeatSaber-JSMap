@@ -1,0 +1,365 @@
+{
+  "_version": "2.0.0",
+  "_songName": "Vagueness & JOURNEY",
+  "_songSubName": "",
+  "_songAuthorName": "FELT",
+  "_levelAuthorName": "Kival Evan",
+  "_beatsPerMinute": 185,
+  "_shuffle": 0,
+  "_shufflePeriod": 0.5,
+  "_previewStartTime": 250.9688,
+  "_previewDuration": 22.5,
+  "_songFilename": "JOURNEY.egg",
+  "_coverImageFilename": "cover.jpg",
+  "_environmentName": "BTSEnvironment",
+  "_allDirectionsEnvironmentName": "GlassDesertEnvironment",
+  "_songTimeOffset": 0,
+  "_customData": {
+    "_contributors": [
+      {
+        "_role": "Mapper",
+        "_name": "Kival Evan",
+        "_iconPath": "iconKivalEvan.png"
+      }
+    ],
+    "_editors": {
+      "_lastEditedBy": "ChroMapper",
+      "MMA2": {
+        "version": "4.8.0"
+      },
+      "ChroMapper": {
+        "version": "0.8.0"
+      }
+    }
+  },
+  "_difficultyBeatmapSets": [
+    {
+      "_beatmapCharacteristicName": "OneSaber",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "ExpertPlus",
+          "_difficultyRank": 9,
+          "_beatmapFilename": "ExpertPlusOneSaber.dat",
+          "_noteJumpMovementSpeed": 17,
+          "_noteJumpStartBeatOffset": 0,
+          "_customData": {
+            "_difficultyLabel": "Hisou no Tsurugi",
+            "_information": [
+              "Tenshi Hinanawi",
+              "Sword of Scarlet Perception",
+              "Catastrophe in Bhavaagra ~ Wonderful Heaven",
+              "1st & 2nd track of album Rising Nebula"
+            ],
+            "_suggestions": [
+              "Chroma"
+            ],
+            "_obstacleColor": {
+              "r": 0.312,
+              "g": 0.625,
+              "b": 0.719
+            },
+            "_envColorRightBoost": {
+              "r": 0.094,
+              "g": 0.469,
+              "b": 0.727
+            },
+            "_envColorLeftBoost": {
+              "r": 0.656,
+              "g": 0.375,
+              "b": 0.094
+            },
+            "_envColorRight": {
+              "r": 0.047,
+              "g": 0.422,
+              "b": 0.609
+            },
+            "_envColorLeft": {
+              "r": 0.328,
+              "g": 0.469,
+              "b": 0.469
+            },
+            "_colorRight": {
+              "r": 0.125,
+              "g": 0.562,
+              "b": 0.844
+            },
+            "_colorLeft": {
+              "r": 0.812,
+              "g": 0.5,
+              "b": 0.25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "_beatmapCharacteristicName": "Standard",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "Easy",
+          "_difficultyRank": 1,
+          "_beatmapFilename": "EasyStandard.dat",
+          "_noteJumpMovementSpeed": 10,
+          "_noteJumpStartBeatOffset": 0,
+          "_customData": {
+            "_information": [
+              "Tenshi Hinanawi",
+              "Catastrophe in Bhavaagra ~ Wonderful Heaven",
+              "1st & 2nd track of album Rising Nebula"
+            ],
+            "_suggestions": [
+              "Chroma"
+            ],
+            "_obstacleColor": {
+              "r": 0.312,
+              "g": 0.625,
+              "b": 0.719
+            },
+            "_envColorRightBoost": {
+              "r": 0.094,
+              "g": 0.469,
+              "b": 0.727
+            },
+            "_envColorLeftBoost": {
+              "r": 0.656,
+              "g": 0.375,
+              "b": 0.094
+            },
+            "_envColorRight": {
+              "r": 0.047,
+              "g": 0.422,
+              "b": 0.609
+            },
+            "_envColorLeft": {
+              "r": 0.328,
+              "g": 0.469,
+              "b": 0.469
+            },
+            "_colorRight": {
+              "r": 0.125,
+              "g": 0.562,
+              "b": 0.844
+            },
+            "_colorLeft": {
+              "r": 0.812,
+              "g": 0.5,
+              "b": 0.25
+            }
+          }
+        },
+        {
+          "_difficulty": "Normal",
+          "_difficultyRank": 3,
+          "_beatmapFilename": "NormalStandard.dat",
+          "_noteJumpMovementSpeed": 12,
+          "_noteJumpStartBeatOffset": -0.75,
+          "_customData": {
+            "_information": [
+              "Tenshi Hinanawi",
+              "Catastrophe in Bhavaagra ~ Wonderful Heaven",
+              "1st & 2nd track of album Rising Nebula"
+            ],
+            "_suggestions": [
+              "Chroma"
+            ],
+            "_obstacleColor": {
+              "r": 0.312,
+              "g": 0.625,
+              "b": 0.719
+            },
+            "_envColorRightBoost": {
+              "r": 0.094,
+              "g": 0.469,
+              "b": 0.727
+            },
+            "_envColorLeftBoost": {
+              "r": 0.656,
+              "g": 0.375,
+              "b": 0.094
+            },
+            "_envColorRight": {
+              "r": 0.047,
+              "g": 0.422,
+              "b": 0.609
+            },
+            "_envColorLeft": {
+              "r": 0.328,
+              "g": 0.469,
+              "b": 0.469
+            },
+            "_colorRight": {
+              "r": 0.125,
+              "g": 0.562,
+              "b": 0.844
+            },
+            "_colorLeft": {
+              "r": 0.812,
+              "g": 0.5,
+              "b": 0.25
+            }
+          }
+        },
+        {
+          "_difficulty": "Hard",
+          "_difficultyRank": 5,
+          "_beatmapFilename": "HardStandard.dat",
+          "_noteJumpMovementSpeed": 15,
+          "_noteJumpStartBeatOffset": 0.5,
+          "_customData": {
+            "_information": [
+              "Tenshi Hinanawi",
+              "Catastrophe in Bhavaagra ~ Wonderful Heaven",
+              "1st & 2nd track of album Rising Nebula"
+            ],
+            "_suggestions": [
+              "Chroma"
+            ],
+            "_obstacleColor": {
+              "r": 0.312,
+              "g": 0.625,
+              "b": 0.719
+            },
+            "_envColorRightBoost": {
+              "r": 0.094,
+              "g": 0.469,
+              "b": 0.727
+            },
+            "_envColorLeftBoost": {
+              "r": 0.656,
+              "g": 0.375,
+              "b": 0.094
+            },
+            "_envColorRight": {
+              "r": 0.047,
+              "g": 0.422,
+              "b": 0.609
+            },
+            "_envColorLeft": {
+              "r": 0.328,
+              "g": 0.469,
+              "b": 0.469
+            },
+            "_colorRight": {
+              "r": 0.125,
+              "g": 0.562,
+              "b": 0.844
+            },
+            "_colorLeft": {
+              "r": 0.812,
+              "g": 0.5,
+              "b": 0.25
+            }
+          }
+        },
+        {
+          "_difficulty": "Expert",
+          "_difficultyRank": 7,
+          "_beatmapFilename": "ExpertStandard.dat",
+          "_noteJumpMovementSpeed": 17,
+          "_noteJumpStartBeatOffset": 0,
+          "_customData": {
+            "_difficultyLabel": "Lunatic",
+            "_information": [
+              "Tenshi Hinanawi",
+              "Heaven & Earth \"Land that Oversees the Distant World Below\"",
+              "Catastrophe in Bhavaagra ~ Wonderful Heaven",
+              "1st & 2nd track of album Rising Nebula"
+            ],
+            "_suggestions": [
+              "Chroma"
+            ],
+            "_obstacleColor": {
+              "r": 0.312,
+              "g": 0.625,
+              "b": 0.719
+            },
+            "_envColorRightBoost": {
+              "r": 0.094,
+              "g": 0.469,
+              "b": 0.727
+            },
+            "_envColorLeftBoost": {
+              "r": 0.656,
+              "g": 0.375,
+              "b": 0.094
+            },
+            "_envColorRight": {
+              "r": 0.047,
+              "g": 0.422,
+              "b": 0.609
+            },
+            "_envColorLeft": {
+              "r": 0.328,
+              "g": 0.469,
+              "b": 0.469
+            },
+            "_colorRight": {
+              "r": 0.125,
+              "g": 0.562,
+              "b": 0.844
+            },
+            "_colorLeft": {
+              "r": 0.812,
+              "g": 0.5,
+              "b": 0.25
+            }
+          }
+        },
+        {
+          "_difficulty": "ExpertPlus",
+          "_difficultyRank": 9,
+          "_beatmapFilename": "ExpertPlusStandard.dat",
+          "_noteJumpMovementSpeed": 19,
+          "_noteJumpStartBeatOffset": -0.25,
+          "_customData": {
+            "_difficultyLabel": "Extra Stage",
+            "_information": [
+              "Tenshi Hinanawi",
+              "\"Sky of Scarlet Perception of All Humankind\"",
+              "Catastrophe in Bhavaagra ~ Wonderful Heaven",
+              "1st & 2nd track of album Rising Nebula"
+            ],
+            "_suggestions": [
+              "Chroma"
+            ],
+            "_obstacleColor": {
+              "r": 0.312,
+              "g": 0.625,
+              "b": 0.719
+            },
+            "_envColorRightBoost": {
+              "r": 0.094,
+              "g": 0.469,
+              "b": 0.727
+            },
+            "_envColorLeftBoost": {
+              "r": 0.656,
+              "g": 0.375,
+              "b": 0.094
+            },
+            "_envColorRight": {
+              "r": 0.047,
+              "g": 0.422,
+              "b": 0.609
+            },
+            "_envColorLeft": {
+              "r": 0.328,
+              "g": 0.469,
+              "b": 0.469
+            },
+            "_colorRight": {
+              "r": 0.125,
+              "g": 0.562,
+              "b": 0.844
+            },
+            "_colorLeft": {
+              "r": 0.812,
+              "g": 0.5,
+              "b": 0.25
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

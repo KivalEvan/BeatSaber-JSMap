@@ -6,7 +6,6 @@ const classList = [
    [v3.FxEventBoxGroup, 'V3 Fx Event Event Box Group'],
 ] as const;
 const defaultValue: types.wrapper.IWrapFxEventBoxGroupAttribute = {
-   type: 0,
    time: 0,
    id: 0,
    boxes: [],

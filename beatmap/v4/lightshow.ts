@@ -34,6 +34,7 @@ import {
 import { EventBoxType } from '../../types/beatmap/shared/constants.ts';
 import { IObject } from '../../types/beatmap/v4/object.ts';
 import { IWrapLightshowAttribute } from '../../types/beatmap/wrapper/lightshow.ts';
+import { IFxEventFloat } from '../../types/beatmap/v4/fxEventFloat.ts';
 
 /** Lightshow beatmap v4 class object. */
 export class Lightshow extends WrapLightshow<ILightshow> {
@@ -77,12 +78,12 @@ export class Lightshow extends WrapLightshow<ILightshow> {
    useNormalEventsAsCompatibleEvents: boolean;
 
    static create(
-      data: Partial<IWrapLightshowAttribute<ILightshow>> = {},
+      data: DeepPartial<IWrapLightshowAttribute<ILightshow>> = {},
    ): Lightshow {
       return new this(data);
    }
 
-   constructor(data: Partial<IWrapLightshowAttribute<ILightshow>> = {}) {
+   constructor(data: DeepPartial<IWrapLightshowAttribute<ILightshow>> = {}) {
       super();
       this.filename = data.filename ?? this.filename;
       if (data.waypoints) {
@@ -143,29 +144,31 @@ export class Lightshow extends WrapLightshow<ILightshow> {
       this.customData = deepCopy(data.customData ?? {});
    }
 
-   static fromJSON(data: Partial<ILightshow> = {}): Lightshow {
+   static fromJSON(data: DeepPartial<ILightshow> = {}): Lightshow {
       const d = new this();
       d.waypoints = (data.content?.waypoints ?? []).map((obj) =>
-         Waypoint.fromJSON(obj, data.content?.waypointsData[obj.i || 0])
+         Waypoint.fromJSON(obj, data.content?.waypointsData?.[obj?.i || 0])
       );
       d.basicEvents = (data.content?.basicEvents ?? []).map((obj) =>
-         BasicEvent.fromJSON(obj, data.content?.basicEventsData[obj.i || 0])
+         BasicEvent.fromJSON(obj, data.content?.basicEventsData?.[obj?.i || 0])
       );
       d.colorBoostEvents = (data.content?.colorBoostEvents ?? []).map((obj) =>
          ColorBoostEvent.fromJSON(
             obj,
-            data.content?.colorBoostEventsData[obj.i || 0],
+            data.content?.colorBoostEventsData?.[obj?.i || 0],
          )
       );
       for (const ebg of data.content?.eventBoxGroups || []) {
-         switch (ebg.t) {
+         const t = ebg?.t || 0;
+         switch (t) {
             case EventBoxType.COLOR:
                d.lightColorEventBoxGroups.push(
                   LightColorEventBoxGroup.fromJSON(
                      ebg,
-                     data.content?.lightColorEventBoxes,
-                     data.content?.lightColorEvents,
-                     data.content?.indexFilters,
+                     data.content
+                        ?.lightColorEventBoxes as ILightColorEventBox[],
+                     data.content?.lightColorEvents as ILightColorEvent[],
+                     data.content?.indexFilters as IIndexFilter[],
                   ),
                );
                break;
@@ -173,9 +176,10 @@ export class Lightshow extends WrapLightshow<ILightshow> {
                d.lightRotationEventBoxGroups.push(
                   LightRotationEventBoxGroup.fromJSON(
                      ebg,
-                     data.content?.lightRotationEventBoxes,
-                     data.content?.lightRotationEvents,
-                     data.content?.indexFilters,
+                     data.content
+                        ?.lightRotationEventBoxes as ILightRotationEventBox[],
+                     data.content?.lightRotationEvents as ILightRotationEvent[],
+                     data.content?.indexFilters as IIndexFilter[],
                   ),
                );
                break;
@@ -183,9 +187,11 @@ export class Lightshow extends WrapLightshow<ILightshow> {
                d.lightTranslationEventBoxGroups.push(
                   LightTranslationEventBoxGroup.fromJSON(
                      ebg,
-                     data.content?.lightTranslationEventBoxes,
-                     data.content?.lightTranslationEvents,
-                     data.content?.indexFilters,
+                     data.content
+                        ?.lightTranslationEventBoxes as ILightTranslationEventBox[],
+                     data.content
+                        ?.lightTranslationEvents as ILightTranslationEvent[],
+                     data.content?.indexFilters as IIndexFilter[],
                   ),
                );
                break;
@@ -193,9 +199,9 @@ export class Lightshow extends WrapLightshow<ILightshow> {
                d.fxEventBoxGroups.push(
                   FxEventBoxGroup.fromJSON(
                      ebg,
-                     data.content?.fxEventBoxes,
-                     data.content?.floatFxEvents,
-                     data.content?.indexFilters,
+                     data.content?.fxEventBoxes as IFxEventBox[],
+                     data.content?.floatFxEvents as IFxEventFloat[],
+                     data.content?.indexFilters as IIndexFilter[],
                   ),
                );
                break;
@@ -355,8 +361,8 @@ export class Lightshow extends WrapLightshow<ILightshow> {
       this.lightColorEventBoxGroups = this.lightColorEventBoxGroups.map((obj) =>
          this.createOrKeep(LightColorEventBoxGroup, obj, keepRef)
       );
-      this.lightRotationEventBoxGroups = this.lightRotationEventBoxGroups.map((obj) =>
-         this.createOrKeep(LightRotationEventBoxGroup, obj, keepRef)
+      this.lightRotationEventBoxGroups = this.lightRotationEventBoxGroups.map(
+         (obj) => this.createOrKeep(LightRotationEventBoxGroup, obj, keepRef),
       );
       this.lightTranslationEventBoxGroups = this.lightTranslationEventBoxGroups.map((obj) =>
          this.createOrKeep(LightTranslationEventBoxGroup, obj, keepRef)
@@ -364,7 +370,9 @@ export class Lightshow extends WrapLightshow<ILightshow> {
       this.fxEventBoxGroups = this.fxEventBoxGroups.map((obj) =>
          this.createOrKeep(FxEventBoxGroup, obj, keepRef)
       );
-      this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(this.eventTypesWithKeywords);
+      this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(
+         this.eventTypesWithKeywords,
+      );
 
       return this;
    }
@@ -451,6 +459,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
          IWrapFxEventBoxGroupAttribute<
             IEventBoxGroup,
             IFxEventBox,
+            IFxEventFloat,
             IIndexFilter
          >
       >[]
@@ -463,19 +472,19 @@ export class Lightshow extends WrapLightshow<ILightshow> {
 
    isValid(): boolean {
       return (
-         this.waypoints.every((obj) => this.checkClass(Waypoint, obj)) ||
-         this.basicEvents.every((obj) => this.checkClass(BasicEvent, obj)) ||
-         this.colorBoostEvents.every((obj) => this.checkClass(ColorBoostEvent, obj)) ||
+         this.waypoints.every((obj) => this.checkClass(Waypoint, obj)) &&
+         this.basicEvents.every((obj) => this.checkClass(BasicEvent, obj)) &&
+         this.colorBoostEvents.every((obj) => this.checkClass(ColorBoostEvent, obj)) &&
          this.lightColorEventBoxGroups.every((obj) =>
             this.checkClass(LightColorEventBoxGroup, obj)
-         ) ||
+         ) &&
          this.lightRotationEventBoxGroups.every((obj) =>
             this.checkClass(LightRotationEventBoxGroup, obj)
-         ) ||
+         ) &&
          this.lightTranslationEventBoxGroups.every((obj) =>
             this.checkClass(LightTranslationEventBoxGroup, obj)
-         ) ||
-         this.fxEventBoxGroups.every((obj) => this.checkClass(FxEventBoxGroup, obj)) ||
+         ) &&
+         this.fxEventBoxGroups.every((obj) => this.checkClass(FxEventBoxGroup, obj)) &&
          this.eventTypesWithKeywords instanceof BasicEventTypesWithKeywords
       );
    }

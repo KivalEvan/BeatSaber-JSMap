@@ -1,0 +1,173 @@
+{
+  "_version": "2.0.0",
+  "_songName": "I Bet You'll Forget That Even If You Noticed That",
+  "_songSubName": "(I Was Still There)",
+  "_songAuthorName": "Foreground Eclipse",
+  "_levelAuthorName": "Kival Evan",
+  "_beatsPerMinute": 195,
+  "_shuffle": 0,
+  "_shufflePeriod": 0.5,
+  "_previewStartTime": 107.3125,
+  "_previewDuration": 11.5,
+  "_songFilename": "verylongname.egg",
+  "_coverImageFilename": "cover.jpg",
+  "_environmentName": "RockMixtapeEnvironment",
+  "_allDirectionsEnvironmentName": "GlassDesertEnvironment",
+  "_songTimeOffset": 0,
+  "_customData": {
+    "_contributors": [
+      {
+        "_role": "Mapper",
+        "_name": "Kival Evan",
+        "_iconPath": "iconKivalEvan.png"
+      }
+    ],
+    "_editors": {
+      "_lastEditedBy": "ChroMapper",
+      "ChroMapper": {
+        "version": "0.8.599"
+      }
+    }
+  },
+  "_difficultyBeatmapSets": [
+    {
+      "_beatmapCharacteristicName": "Standard",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "Easy",
+          "_difficultyRank": 1,
+          "_beatmapFilename": "EasyStandard.dat",
+          "_noteJumpMovementSpeed": 10.101,
+          "_noteJumpStartBeatOffset": 0.111,
+          "_customData": {
+            "_information": [
+              "Fujiwara no Mokou",
+              "Extend Ash ~ Person of Hourai",
+              "4th track of album Each And Every Word Leaves Me Here Alone",
+              "10th track disc 1 rearranged in album Touhou Illusionary Play of Sounds ~fANTASIAsPIRALoVERdRIVE~"
+            ]
+          }
+        },
+        {
+          "_difficulty": "Normal",
+          "_difficultyRank": 3,
+          "_beatmapFilename": "NormalStandard.dat",
+          "_noteJumpMovementSpeed": 12.345,
+          "_noteJumpStartBeatOffset": -0.888,
+          "_customData": {
+            "_information": [
+              "Fujiwara no Mokou",
+              "Extend Ash ~ Person of Hourai",
+              "4th track of album Each And Every Word Leaves Me Here Alone",
+              "10th track disc 1 rearranged in album Touhou Illusionary Play of Sounds ~fANTASIAsPIRALoVERdRIVE~"
+            ]
+          }
+        },
+        {
+          "_difficulty": "Hard",
+          "_difficultyRank": 5,
+          "_beatmapFilename": "HardStandard.dat",
+          "_noteJumpMovementSpeed": 13.876,
+          "_noteJumpStartBeatOffset": -1.337,
+          "_customData": {
+            "_information": [
+              "Fujiwara no Mokou",
+              "Extend Ash ~ Person of Hourai",
+              "4th track of album Each And Every Word Leaves Me Here Alone",
+              "10th track disc 1 rearranged in album Touhou Illusionary Play of Sounds ~fANTASIAsPIRALoVERdRIVE~"
+            ]
+          }
+        },
+        {
+          "_difficulty": "Expert",
+          "_difficultyRank": 7,
+          "_beatmapFilename": "ExpertStandard.dat",
+          "_noteJumpMovementSpeed": 16.421,
+          "_noteJumpStartBeatOffset": 0.012,
+          "_customData": {
+            "_difficultyLabel": "Lunatic",
+            "_information": [
+              "Fujiwara no Mokou",
+              "Inextinguishable \"Phoenix's Tail\"",
+              "Extend Ash ~ Person of Hourai",
+              "4th track of album Each And Every Word Leaves Me Here Alone",
+              "10th track disc 1 rearranged in album Touhou Illusionary Play of Sounds ~fANTASIAsPIRALoVERdRIVE~"
+            ]
+          }
+        },
+        {
+          "_difficulty": "ExpertPlus",
+          "_difficultyRank": 9,
+          "_beatmapFilename": "ExpertPlusStandard.dat",
+          "_noteJumpMovementSpeed": 18.105,
+          "_noteJumpStartBeatOffset": -0.242,
+          "_customData": {
+            "_difficultyLabel": "Farewell",
+            "_information": [
+              "Fujiwara no Mokou",
+              "\"Phoenix Rebirth\"",
+              "Extend Ash ~ Person of Hourai",
+              "4th track of album Each And Every Word Leaves Me Here Alone",
+              "10th track disc 1 rearranged in album Touhou Illusionary Play of Sounds ~fANTASIAsPIRALoVERdRIVE~"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "_beatmapCharacteristicName": "OneSaber",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "Normal",
+          "_difficultyRank": 3,
+          "_beatmapFilename": "NormalOneSaber.dat",
+          "_noteJumpMovementSpeed": 11.111,
+          "_noteJumpStartBeatOffset": -0.543,
+          "_customData": {
+            "_difficultyLabel": "Each and Every Word",
+            "_information": [
+              "Fujiwara no Mokou",
+              "Extend Ash ~ Person of Hourai",
+              "4th track of album Each And Every Word Leaves Me Here Alone",
+              "10th track disc 1 rearranged in album Touhou Illusionary Play of Sounds ~fANTASIAsPIRALoVERdRIVE~"
+            ]
+          }
+        },
+        {
+          "_difficulty": "Expert",
+          "_difficultyRank": 7,
+          "_beatmapFilename": "ExpertOneSaber.dat",
+          "_noteJumpMovementSpeed": 14.321,
+          "_noteJumpStartBeatOffset": -1.432,
+          "_customData": {
+            "_difficultyLabel": "Leaves Me Here",
+            "_information": [
+              "Fujiwara no Mokou",
+              "\"Until This Life, Repeated Countless Times, Burns Away\"",
+              "Extend Ash ~ Person of Hourai",
+              "4th track of album Each And Every Word Leaves Me Here Alone",
+              "10th track disc 1 rearranged in album Touhou Illusionary Play of Sounds ~fANTASIAsPIRALoVERdRIVE~"
+            ]
+          }
+        },
+        {
+          "_difficulty": "ExpertPlus",
+          "_difficultyRank": 9,
+          "_beatmapFilename": "ExpertPlusOneSaber.dat",
+          "_noteJumpMovementSpeed": 17.892,
+          "_noteJumpStartBeatOffset": -0.143,
+          "_customData": {
+            "_difficultyLabel": "Alone",
+            "_information": [
+              "Fujiwara no Mokou",
+              "*Let This Whole World Burn Away to Nothing!*",
+              "Extend Ash ~ Person of Hourai",
+              "4th track of album Each And Every Word Leaves Me Here Alone",
+              "10th track disc 1 rearranged in album Touhou Illusionary Play of Sounds ~fANTASIAsPIRALoVERdRIVE~"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

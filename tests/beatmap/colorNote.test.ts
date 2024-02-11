@@ -76,7 +76,7 @@ for (const tup of classList) {
       });
       assertClassObjectMatch(
          obj,
-         { ...defaultValue, time: 4, color: 1, direction: 2 },
+         { ...defaultValue, time: 4, color: 1, type: 1, direction: 2 },
          `Unexpected partially instantiated value for ${nameTag}`,
       );
    });
