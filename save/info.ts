@@ -99,7 +99,7 @@ export function info(data: IWrapInfo, options: ISaveOptionsInfo = {}) {
          options.format,
       );
    }
-   return new Promise((resolve) => resolve(json));
+   return new Promise<typeof json>((resolve) => resolve(json));
 }
 
 /**

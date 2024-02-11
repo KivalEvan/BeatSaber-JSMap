@@ -187,7 +187,9 @@ export function difficulty(
       );
       return readJSONFile(path).then((data) => _difficulty(data, src, version!, options));
    } else {
-      return new Promise((resolve) => resolve(_difficulty(src, 'LoadJSON.dat', version!, options)));
+      return new Promise<IWrapDifficulty>((resolve) =>
+         resolve(_difficulty(src, 'LoadJSON.dat', version!, options))
+      );
    }
 }
 

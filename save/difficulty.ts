@@ -140,7 +140,7 @@ export function difficulty(
          options.format,
       ).then(() => json);
    }
-   return new Promise((resolve) => resolve(json));
+   return new Promise<typeof json>((resolve) => resolve(json));
 }
 
 /**
