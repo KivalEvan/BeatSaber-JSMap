@@ -16,6 +16,7 @@ import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { IBPMChangeOld } from '../../types/beatmap/v2/custom/bpmChange.ts';
 import { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { SpecialEventsKeywordFilters } from '../../beatmap/v2/specialEventsKeywordFilters.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV2Difficulty', name];
@@ -203,11 +204,7 @@ function fromV3Difficulty(template: V2Difficulty, data: V3Difficulty) {
 
    data.waypoints.forEach((w) => template.addWaypoints(w));
 
-   template.eventTypesWithKeywords = template.eventTypesWithKeywords.constructor({
-      _keywords: data.eventTypesWithKeywords.list.map((d) => {
-         return { _keyword: d.keyword, _specialEvents: d.events };
-      }) ?? [],
-   });
+   template.eventTypesWithKeywords = new SpecialEventsKeywordFilters(data.eventTypesWithKeywords);
 
    for (const k in data.customData) {
       if (k === 'customEvents') {

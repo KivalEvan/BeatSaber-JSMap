@@ -10,7 +10,6 @@ export abstract class WrapFxEventBoxGroup<
    TFilter extends { [P in keyof TFilter]: TFilter[P] },
 > extends WrapEventBoxGroup<TGroup, TBox, TBase, TFilter>
    implements IWrapFxEventBoxGroup<TGroup, TBox, TBase, TFilter> {
-   protected _type!: IWrapFxEventBoxGroup['type'];
    declare protected _boxes: IWrapFxEventBox<TBox, TBase, TFilter>[];
 
    get boxes(): IWrapFxEventBox<TBox, TBase, TFilter>[] {
@@ -18,12 +17,5 @@ export abstract class WrapFxEventBoxGroup<
    }
    set boxes(value: IWrapFxEventBox<TBox, TBase, TFilter>[]) {
       this._boxes = value;
-   }
-
-   get type(): IWrapFxEventBoxGroup['type'] {
-      return this._type;
-   }
-   set type(value: IWrapFxEventBoxGroup['type']) {
-      this._type = value;
    }
 }
