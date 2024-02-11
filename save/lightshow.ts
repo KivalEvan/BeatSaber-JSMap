@@ -37,7 +37,17 @@ function _lightshow(data: IWrapLightshow, options: ISaveOptionsLightshow) {
       },
       sort: options.sort ?? defaultOptions.lightshow.sort,
       write: true,
+      preprocess: options.preprocess ?? defaultOptions.lightshow.preprocess,
+      postprocess: options.postprocess ?? defaultOptions.lightshow.postprocess,
    };
+   opt.preprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_lightshow'),
+         'Running preprocess function #' + (i + 1),
+      );
+      data = fn(data);
+   });
+
    if (opt.validate.enabled) {
       logger.tInfo(tag('_lightshow'), 'Validating beatmap');
       if (!data.isValid()) {
@@ -56,7 +66,7 @@ function _lightshow(data: IWrapLightshow, options: ISaveOptionsLightshow) {
    }
 
    const ver = parseInt(data.version.at(0) || '0');
-   const json = data.toJSON();
+   let json = data.toJSON();
 
    if (opt.optimize.enabled) {
       if (ver <= 2) {
@@ -79,6 +89,13 @@ function _lightshow(data: IWrapLightshow, options: ISaveOptionsLightshow) {
       );
    }
 
+   opt.postprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_lightshow'),
+         'Running postprocess function #' + (i + 1),
+      );
+      json = fn(json);
+   });
    return json;
 }
 

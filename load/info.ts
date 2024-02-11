@@ -34,7 +34,16 @@ function _info(
          ...options.dataCheck,
       },
       sort: options.sort ?? defaultOptions.info.sort,
+      preprocess: options.preprocess ?? defaultOptions.info.preprocess,
+      postprocess: options.postprocess ?? defaultOptions.info.postprocess,
    };
+   opt.preprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_info'),
+         'Running preprocess function #' + (i + 1),
+      );
+      json = fn(json);
+   });
 
    const jsonVerStr = typeof json._version === 'string'
       ? json._version.at(0)
@@ -96,6 +105,13 @@ function _info(
 
    if (opt.sort) data.sort();
 
+   opt.postprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_info'),
+         'Running postprocess function #' + (i + 1),
+      );
+      data = fn(data);
+   });
    return data;
 }
 

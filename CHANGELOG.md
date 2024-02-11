@@ -16,10 +16,15 @@ inconvenience as this move is deemed necessary when moving towards beatmap V4.
 - Beatmap object `fromJSON` static method
 - Beatmap JSON can now be passed onto `load` instead of just string path
   - Default file name to `LoadJSON.dat`
+- Preprocessing and postprocessing options in `load` and `save`
+  - This allows for arbitrary processing pipeline
+  - `load` preprocess and postprocess handles JSON and resulting class object respectively
+    - The reverse is true for `save`
 
 ### Changed
 
 - Major structure change to Info
+  - Uses V4 info as baseline
   - Difficulty characteristic is now part of difficulty
   - Official color scheme is no longer nested
 - Minor structure change to Difficulty
@@ -27,6 +32,7 @@ inconvenience as this move is deemed necessary when moving towards beatmap V4.
 - `create` and `constructor` now only accepts wrapper type
   - Use `fromJSON` static method for loading JSON schema
 - `save` now return resulting JSON
+  - `save` options allows user to prevent file from being written
 - `clone` method no longer uses `toJSON` when cloning
   - This should result in much faster cloning
 - Converting beatmap version to same version will now create a copy instead of returning the same

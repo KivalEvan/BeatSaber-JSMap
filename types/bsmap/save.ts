@@ -1,11 +1,15 @@
+// deno-lint-ignore-file no-explicit-any
 import { IDataCheckOption } from '../beatmap/shared/dataCheck.ts';
+import { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
+import { IWrapInfo } from '../beatmap/wrapper/info.ts';
+import { IWrapLightshow } from '../beatmap/wrapper/lightshow.ts';
 import { IOptimizeOptionsDifficulty } from './optimize.ts';
 import { IOptimizeOptionsInfo } from './optimize.ts';
 import { IOptimizeOptionsLightshow } from './optimize.ts';
 import { IOptimizeOptions } from './optimize.ts';
 import { IBaseOptions } from './options.ts';
 
-export interface ISaveBaseOptions extends IBaseOptions {
+export interface ISaveOptionsBase<T = Record<string, any>> extends IBaseOptions {
    /**
     * Prettify format JSON.
     *
@@ -30,6 +34,20 @@ export interface ISaveBaseOptions extends IBaseOptions {
     * @default true
     */
    write?: boolean;
+   /**
+    * Perform any preprocessing to object before transformed into JSON.
+    *
+    * **Warning**: This may result in side-effects.
+    *
+    * @default []
+    */
+   preprocess?: ((data: T) => T)[];
+   /**
+    * Perform any postprocessing after transformed into JSON.
+    *
+    * @default []
+    */
+   postprocess?: ((data: Record<string, any>) => Record<string, any>)[];
 }
 
 export interface ISaveValidate {
@@ -47,7 +65,7 @@ export interface ISaveValidate {
    reparse?: boolean;
 }
 
-export interface ISaveOptionsInfo extends ISaveBaseOptions {
+export interface ISaveOptionsInfo extends ISaveOptionsBase<IWrapInfo> {
    /**
     * Set info destination file path/name.
     *
@@ -59,7 +77,7 @@ export interface ISaveOptionsInfo extends ISaveBaseOptions {
    optimize?: IOptimizeOptionsInfo;
 }
 
-export interface ISaveOptionsDifficulty extends ISaveBaseOptions {
+export interface ISaveOptionsDifficulty extends ISaveOptionsBase<IWrapDifficulty> {
    /**
     * Set difficulty destination file path.
     *
@@ -71,7 +89,7 @@ export interface ISaveOptionsDifficulty extends ISaveBaseOptions {
    optimize?: IOptimizeOptionsDifficulty;
 }
 
-export interface ISaveOptionsLightshow extends ISaveOptionsDifficulty {
+export interface ISaveOptionsLightshow extends ISaveOptionsBase<IWrapLightshow> {
    /**
     * Set difficulty destination file path.
     *
@@ -84,4 +102,4 @@ export interface ISaveOptionsLightshow extends ISaveOptionsDifficulty {
 }
 
 // deno-lint-ignore no-empty-interface
-export interface ISaveOptionsList extends ISaveBaseOptions {}
+export interface ISaveOptionsList extends ISaveOptionsDifficulty {}

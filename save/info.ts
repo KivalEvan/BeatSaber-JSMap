@@ -41,7 +41,16 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
       },
       sort: options.sort ?? defaultOptions.info.sort,
       write: true,
+      preprocess: options.preprocess ?? defaultOptions.info.preprocess,
+      postprocess: options.postprocess ?? defaultOptions.info.postprocess,
    };
+   opt.preprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_info'),
+         'Running preprocess function #' + (i + 1),
+      );
+      data = fn(data);
+   });
 
    if (opt.sort) {
       logger.tInfo(tag('_info'), 'Sorting beatmap objects');
@@ -49,7 +58,7 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
    }
 
    const ver = parseInt(data.version.at(0) || '0');
-   const json = data.toJSON();
+   let json = data.toJSON();
 
    if (opt.optimize.enabled) {
       optimize.info(json, ver, opt.optimize);
@@ -67,6 +76,13 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
       );
    }
 
+   opt.postprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_info'),
+         'Running postprocess function #' + (i + 1),
+      );
+      json = fn(json);
+   });
    return json;
 }
 

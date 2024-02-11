@@ -39,6 +39,8 @@ export function beatmapFromInfo(
          ...options.dataCheck,
       },
       sort: options.sort ?? defaultOptions.list.sort,
+      preprocess: options.preprocess ?? defaultOptions.list.preprocess,
+      postprocess: options.postprocess ?? defaultOptions.list.postprocess,
    };
    return Promise.all(
       info.listMap().map(async ([mode, beatmap]) => {
@@ -59,12 +61,13 @@ export function beatmapFromInfo(
                jsonVer = 2;
             }
 
+            const data = _difficulty(json, beatmap.filename, jsonVer, opt);
             return {
                characteristic: mode,
                difficulty: beatmap.difficulty,
                settings: beatmap,
                version: jsonVer,
-               data: _difficulty(json, beatmap.filename, jsonVer, opt),
+               data: data,
             };
          } catch {
             logger.tWarn(
@@ -101,6 +104,8 @@ export function beatmapFromInfoSync(
       forceConvert: options.forceConvert ?? defaultOptions.list.forceConvert,
       dataCheck: options.dataCheck ?? defaultOptions.list.dataCheck,
       sort: options.sort ?? defaultOptions.list.sort,
+      preprocess: options.preprocess ?? defaultOptions.list.preprocess,
+      postprocess: options.postprocess ?? defaultOptions.list.postprocess,
    };
    return info
       .listMap()
@@ -122,12 +127,13 @@ export function beatmapFromInfoSync(
                jsonVer = 2;
             }
 
+            const data = _difficulty(json, beatmap.filename, jsonVer, opt);
             return {
                characteristic: mode,
                difficulty: beatmap.difficulty,
                settings: beatmap,
                version: jsonVer,
-               data: _difficulty(json, beatmap.filename, jsonVer, opt),
+               data: data,
             };
          } catch {
             logger.tWarn(

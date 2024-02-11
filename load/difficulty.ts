@@ -39,7 +39,16 @@ export function _difficulty(
          ...options.dataCheck,
       },
       sort: options.sort ?? defaultOptions.difficulty.sort,
+      preprocess: options.preprocess ?? defaultOptions.difficulty.preprocess,
+      postprocess: options.postprocess ?? defaultOptions.difficulty.postprocess,
    };
+   opt.preprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_difficulty'),
+         'Running preprocess function #' + (i + 1),
+      );
+      json = fn(json);
+   });
 
    const jsonVerStr = typeof json._version === 'string'
       ? json._version.at(0)
@@ -112,6 +121,13 @@ export function _difficulty(
 
    if (opt.sort) data.sort();
 
+   opt.postprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_difficulty'),
+         'Running postprocess function #' + (i + 1),
+      );
+      data = fn(data);
+   });
    return data;
 }
 

@@ -48,7 +48,17 @@ export function _difficulty(
       },
       sort: options.sort ?? defaultOptions.difficulty.sort,
       write: true,
+      preprocess: options.preprocess ?? defaultOptions.difficulty.preprocess,
+      postprocess: options.postprocess ?? defaultOptions.difficulty.postprocess,
    };
+   opt.preprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_difficulty'),
+         'Running preprocess function #' + (i + 1),
+      );
+      data = fn(data);
+   });
+
    if (opt.validate.enabled) {
       logger.tInfo(tag('_difficulty'), 'Validating beatmap');
       if (!data.isValid()) {
@@ -67,7 +77,7 @@ export function _difficulty(
    }
 
    const ver = parseInt(data.version.at(0) || '0');
-   const json = data.toJSON();
+   let json = data.toJSON();
 
    if (opt.optimize.enabled) {
       if (ver <= 2) {
@@ -90,6 +100,13 @@ export function _difficulty(
       );
    }
 
+   opt.postprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_difficulty'),
+         'Running postprocess function #' + (i + 1),
+      );
+      json = fn(json);
+   });
    return json;
 }
 

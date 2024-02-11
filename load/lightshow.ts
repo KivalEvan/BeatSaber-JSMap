@@ -32,7 +32,16 @@ function _lightshow(
          ...options.dataCheck,
       },
       sort: options.sort ?? defaultOptions.lightshow.sort,
+      preprocess: options.preprocess ?? defaultOptions.lightshow.preprocess,
+      postprocess: options.postprocess ?? defaultOptions.lightshow.postprocess,
    };
+   opt.preprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_lightshow'),
+         'Running preprocess function #' + (i + 1),
+      );
+      json = fn(json);
+   });
 
    const jsonVerStr = typeof json._version === 'string'
       ? json._version.at(0)
@@ -89,6 +98,13 @@ function _lightshow(
 
    if (opt.sort) data.sort();
 
+   opt.postprocess.forEach((fn, i) => {
+      logger.tInfo(
+         tag('_lightshow'),
+         'Running postprocess function #' + (i + 1),
+      );
+      data = fn(data);
+   });
    return data;
 }
 

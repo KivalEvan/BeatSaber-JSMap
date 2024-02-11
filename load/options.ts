@@ -13,6 +13,8 @@ const optionsInfo: Required<ILoadOptionsInfo> = {
       throwError: true,
    },
    sort: true,
+   preprocess: [],
+   postprocess: [],
 };
 
 const optionsDifficulty: Required<ILoadOptionsDifficulty> = {
@@ -23,6 +25,8 @@ const optionsDifficulty: Required<ILoadOptionsDifficulty> = {
       throwError: true,
    },
    sort: true,
+   preprocess: [],
+   postprocess: [],
 };
 
 const optionsLightshow: Required<ILoadOptionsLightshow> = {
@@ -33,6 +37,8 @@ const optionsLightshow: Required<ILoadOptionsLightshow> = {
       throwError: true,
    },
    sort: true,
+   preprocess: [],
+   postprocess: [],
 };
 
 const optionsList: Required<ILoadOptionsDifficulty> = {
@@ -43,6 +49,8 @@ const optionsList: Required<ILoadOptionsDifficulty> = {
       throwError: true,
    },
    sort: true,
+   preprocess: [],
+   postprocess: [],
 };
 
 /** Set default option value for load function. */

@@ -24,6 +24,8 @@ const optionsInfo: Required<ISaveOptionsInfo> = {
    },
    sort: true,
    write: true,
+   preprocess: [],
+   postprocess: [],
 };
 
 const optionsDifficulty: Required<ISaveOptionsDifficulty> = {
@@ -45,6 +47,8 @@ const optionsDifficulty: Required<ISaveOptionsDifficulty> = {
    },
    sort: true,
    write: true,
+   preprocess: [],
+   postprocess: [],
 };
 
 const optionsLightshow: Required<ISaveOptionsLightshow> = {
@@ -66,10 +70,13 @@ const optionsLightshow: Required<ISaveOptionsLightshow> = {
    },
    sort: true,
    write: true,
+   preprocess: [],
+   postprocess: [],
 };
 
 const optionsList: Required<ISaveOptionsList> = {
    directory: '',
+   filePath: 'UnnamedPath.dat',
    format: 0,
    optimize: { enabled: true },
    validate: { enabled: true, reparse: true },
@@ -79,6 +86,8 @@ const optionsList: Required<ISaveOptionsList> = {
    },
    sort: true,
    write: true,
+   preprocess: [],
+   postprocess: [],
 };
 
 /** Set default option value for save function. */
