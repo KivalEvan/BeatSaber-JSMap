@@ -12,6 +12,7 @@ import {
 } from '../../types/beatmap/container/v3.ts';
 import { DeepRequiredIgnore } from '../../types/utils.ts';
 import { IFxEventFloat } from '../../types/beatmap/v3/fxEventFloat.ts';
+import { FxType } from '../../types/beatmap/shared/constants.ts';
 
 /** FX event box group beatmap v3 class object. */
 export class FxEventBoxGroup extends WrapFxEventBoxGroup<
@@ -24,7 +25,7 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
       IEventBoxGroupContainer<IFxEventBox, IFxEventFloatBoxContainer>,
       'customData'
    > = {
-      object: { b: 0, g: 0, e: [], customData: {} },
+      object: { t: FxType.FLOAT, b: 0, g: 0, e: [], customData: {} },
       boxData: [],
    };
 
@@ -98,6 +99,7 @@ export class FxEventBoxGroup extends WrapFxEventBoxGroup<
    > {
       return {
          object: {
+            t: FxType.FLOAT,
             b: this.time,
             g: this.id,
             e: [],

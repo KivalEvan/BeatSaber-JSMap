@@ -485,6 +485,7 @@ for (const tup of classList) {
          case v3.FxEventBoxGroup:
             assertEquals(json, {
                object: {
+                  t: types.FxType.FLOAT,
                   b: 0,
                   g: 0,
                   e: [],

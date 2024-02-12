@@ -1,8 +1,8 @@
 import { assertClassObjectMatch } from './assert.ts';
-import { assertEquals, assertInstanceOf, load, save, v2, v3 } from './deps.ts';
+import { assertEquals, assertInstanceOf, load, save, types, v2, v3 } from './deps.ts';
 
 Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
-   let info;
+   let info: types.wrapper.IWrapInfo;
    await t.step('Able to correctly load V2 info', async () => {
       info = await load.info(null, {
          directory: './tests/resources/examples/werewolf howls./',
@@ -30,11 +30,13 @@ Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
          assertEquals(o._version, '2.6.0');
          assertClassObjectMatch(beatmapList[i].data.toJSON(), o);
       });
+
+      assertEquals((await save.info(info, { write: false }))._version, '2.1.0');
    });
 });
 
 Deno.test('Load V3 beatmap implicitly', async (t) => {
-   let info;
+   let info: types.wrapper.IWrapInfo;
    await t.step('Able to correctly load V2 info', () => {
       info = load.infoSync(null, {
          directory: "./tests/resources/examples/I Bet You'll Forget That Even If You Noticed That/",
@@ -61,6 +63,8 @@ Deno.test('Load V3 beatmap implicitly', async (t) => {
          assertEquals(o.version, '3.3.0');
          assertClassObjectMatch(beatmapList[i].data.toJSON(), o);
       });
+
+      assertEquals(save.infoSync(info, { write: false })._version, '2.1.0');
    });
 });
 
