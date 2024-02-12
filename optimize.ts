@@ -126,39 +126,39 @@ export function difficulty(
       logger.tInfo(tag('difficulty'), 'Deduplicating beatmap object data');
       const data = difficulty as IDifficulty;
       const [newNoteColorData, remapColorNoteIdx] = remapDedupe(
-         data.content.colorNotesData,
+         data.colorNotesData,
       );
       const [newBombNoteData, remapBombNoteIdx] = remapDedupe(
-         data.content.bombNotesData,
+         data.bombNotesData,
       );
       const [newObstacleData, remapObstacleIdx] = remapDedupe(
-         data.content.obstaclesData,
+         data.obstaclesData,
       );
       const [newChainData, remapChainIdx] = remapDedupe(
-         data.content.chainsData,
+         data.chainsData,
       );
-      const [newArcData, remapArcIdx] = remapDedupe(data.content.arcsData);
+      const [newArcData, remapArcIdx] = remapDedupe(data.arcsData);
 
-      data.content.colorNotes.forEach(
+      data.colorNotes.forEach(
          (d) => (d.i = remapColorNoteIdx.get(d.i!)),
       );
-      data.content.bombNotes.forEach((d) => (d.i = remapBombNoteIdx.get(d.i!)));
-      data.content.obstacles.forEach((d) => (d.i = remapObstacleIdx.get(d.i!)));
-      data.content.chains.forEach((d) => {
+      data.bombNotes.forEach((d) => (d.i = remapBombNoteIdx.get(d.i!)));
+      data.obstacles.forEach((d) => (d.i = remapObstacleIdx.get(d.i!)));
+      data.chains.forEach((d) => {
          d.ci = remapChainIdx.get(d.ci!);
          d.i = remapColorNoteIdx.get(d.i!);
       });
-      data.content.arcs.forEach((d) => {
+      data.arcs.forEach((d) => {
          d.ai = remapArcIdx.get(d.ai!);
          d.hi = remapColorNoteIdx.get(d.hi!);
          d.ti = remapColorNoteIdx.get(d.ti!);
       });
 
-      data.content.colorNotesData = newNoteColorData;
-      data.content.bombNotesData = newBombNoteData;
-      data.content.obstaclesData = newObstacleData;
-      data.content.chainsData = newChainData;
-      data.content.arcsData = newArcData;
+      data.colorNotesData = newNoteColorData;
+      data.bombNotesData = newBombNoteData;
+      data.obstaclesData = newObstacleData;
+      data.chainsData = newChainData;
+      data.arcsData = newArcData;
    }
 
    // deno-lint-ignore no-explicit-any
@@ -195,53 +195,53 @@ export function lightshow(
       logger.tInfo(tag('lightshow'), 'Deduplicating beatmap object data');
       const data = lightshow as ILightshow;
       const [newBasicEventsData, remapBasicEventsIdx] = remapDedupe(
-         data.content.basicEventsData,
+         data.basicEventsData,
       );
       const [newColorBoostEventsData, remapColorBoostEventsIdx] = remapDedupe(
-         data.content.colorBoostEventsData,
+         data.colorBoostEventsData,
       );
       const [newWaypointsData, remapWaypointsIdx] = remapDedupe(
-         data.content.waypointsData,
+         data.waypointsData,
       );
       const [newIndexFilters, remapIndexFiltersIdx] = remapDedupe(
-         data.content.indexFilters,
+         data.indexFilters,
       );
       const [newLightColorEventBoxes, remapLightColorEventBoxesIdx] = remapDedupe(
-         data.content.lightColorEventBoxes,
+         data.lightColorEventBoxes,
       );
       const [newLightColorEvents, remapLightColorEventsIdx] = remapDedupe(
-         data.content.lightColorEvents,
+         data.lightColorEvents,
       );
       const [newLightRotationEventBoxes, remapLightRotationEventBoxesIdx] = remapDedupe(
-         data.content.lightRotationEventBoxes,
+         data.lightRotationEventBoxes,
       );
       const [newLightRotationEvents, remapLightRotationEventsIdx] = remapDedupe(
-         data.content.lightRotationEvents,
+         data.lightRotationEvents,
       );
       const [
          newLightTranslationEventBoxes,
          remapLightTranslationEventBoxesIdx,
-      ] = remapDedupe(data.content.lightTranslationEventBoxes);
+      ] = remapDedupe(data.lightTranslationEventBoxes);
       const [newLightTranslationEvents, remapLightTranslationEventsIdx] = remapDedupe(
-         data.content.lightTranslationEvents,
+         data.lightTranslationEvents,
       );
       const [newFxEventBoxes, remapFxEventBoxesIdx] = remapDedupe(
-         data.content.fxEventBoxes,
+         data.fxEventBoxes,
       );
       const [newFloatFxEvents, remapFloatFxEventsIdx] = remapDedupe(
-         data.content.floatFxEvents,
+         data.floatFxEvents,
       );
 
-      data.content.basicEvents.forEach(
+      data.basicEvents.forEach(
          (d) => (d.i = remapBasicEventsIdx.get(d.i!)),
       );
-      data.content.colorBoostEvents.forEach(
+      data.colorBoostEvents.forEach(
          (d) => (d.i = remapColorBoostEventsIdx.get(d.i!)),
       );
-      data.content.waypoints.forEach(
+      data.waypoints.forEach(
          (d) => (d.i = remapWaypointsIdx.get(d.i!)),
       );
-      for (const ebg of data.content.eventBoxGroups) {
+      for (const ebg of data.eventBoxGroups) {
          for (const evt of ebg.e!) {
             evt.f = remapIndexFiltersIdx.get(evt.f!);
             switch (ebg.t) {
@@ -272,18 +272,18 @@ export function lightshow(
          }
       }
 
-      data.content.basicEventsData = newBasicEventsData;
-      data.content.colorBoostEventsData = newColorBoostEventsData;
-      data.content.waypointsData = newWaypointsData;
-      data.content.indexFilters = newIndexFilters;
-      data.content.lightColorEventBoxes = newLightColorEventBoxes;
-      data.content.lightColorEvents = newLightColorEvents;
-      data.content.lightRotationEventBoxes = newLightRotationEventBoxes;
-      data.content.lightRotationEvents = newLightRotationEvents;
-      data.content.lightTranslationEventBoxes = newLightTranslationEventBoxes;
-      data.content.lightTranslationEvents = newLightTranslationEvents;
-      data.content.fxEventBoxes = newFxEventBoxes;
-      data.content.floatFxEvents = newFloatFxEvents;
+      data.basicEventsData = newBasicEventsData;
+      data.colorBoostEventsData = newColorBoostEventsData;
+      data.waypointsData = newWaypointsData;
+      data.indexFilters = newIndexFilters;
+      data.lightColorEventBoxes = newLightColorEventBoxes;
+      data.lightColorEvents = newLightColorEvents;
+      data.lightRotationEventBoxes = newLightRotationEventBoxes;
+      data.lightRotationEvents = newLightRotationEvents;
+      data.lightTranslationEventBoxes = newLightTranslationEventBoxes;
+      data.lightTranslationEvents = newLightTranslationEvents;
+      data.fxEventBoxes = newFxEventBoxes;
+      data.floatFxEvents = newFloatFxEvents;
    }
 
    // deno-lint-ignore no-explicit-any

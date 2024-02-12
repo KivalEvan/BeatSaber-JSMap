@@ -40,30 +40,27 @@ import { IFxEventFloat } from '../../types/beatmap/v4/fxEventFloat.ts';
 export class Lightshow extends WrapLightshow<ILightshow> {
    static default: DeepRequiredIgnore<ILightshow, 'customData'> = {
       version: '4.0.0',
-      contentChecksum: '',
-      content: {
-         waypoints: [],
-         waypointsData: [],
-         basicEvents: [],
-         basicEventsData: [],
-         colorBoostEvents: [],
-         colorBoostEventsData: [],
-         eventBoxGroups: [],
-         indexFilters: [],
-         lightColorEvents: [],
-         lightColorEventBoxes: [],
-         lightRotationEvents: [],
-         lightRotationEventBoxes: [],
-         lightTranslationEvents: [],
-         lightTranslationEventBoxes: [],
-         floatFxEvents: [],
-         fxEventBoxes: [],
-         basicEventTypesWithKeywords: {
-            ...BasicEventTypesWithKeywords.default,
-         },
-         useNormalEventsAsCompatibleEvents: false,
-         customData: {},
+      waypoints: [],
+      waypointsData: [],
+      basicEvents: [],
+      basicEventsData: [],
+      colorBoostEvents: [],
+      colorBoostEventsData: [],
+      eventBoxGroups: [],
+      indexFilters: [],
+      lightColorEvents: [],
+      lightColorEventBoxes: [],
+      lightRotationEvents: [],
+      lightRotationEventBoxes: [],
+      lightTranslationEvents: [],
+      lightTranslationEventBoxes: [],
+      floatFxEvents: [],
+      fxEventBoxes: [],
+      basicEventTypesWithKeywords: {
+         ...BasicEventTypesWithKeywords.default,
       },
+      useNormalEventsAsCompatibleEvents: false,
+      customData: {},
    };
 
    readonly version = '4.0.0';
@@ -89,20 +86,20 @@ export class Lightshow extends WrapLightshow<ILightshow> {
       if (data.waypoints) {
          this.waypoints = data.waypoints.map((obj) => new Waypoint(obj));
       } else {
-         this.waypoints = Lightshow.default.content.waypoints.map((json) =>
+         this.waypoints = Lightshow.default.waypoints.map((json) =>
             Waypoint.fromJSON(
                json,
-               Lightshow.default.content.waypointsData[json.i || 0],
+               Lightshow.default.waypointsData[json.i || 0],
             )
          );
       }
       if (data.basicEvents) {
          this.basicEvents = data.basicEvents.map((obj) => new BasicEvent(obj));
       } else {
-         this.basicEvents = Lightshow.default.content.basicEvents.map((json) =>
+         this.basicEvents = Lightshow.default.basicEvents.map((json) =>
             BasicEvent.fromJSON(
                json,
-               Lightshow.default.content.basicEventsData[json.i || 0],
+               Lightshow.default.basicEventsData[json.i || 0],
             )
          );
       }
@@ -111,11 +108,11 @@ export class Lightshow extends WrapLightshow<ILightshow> {
             (obj) => new ColorBoostEvent(obj),
          );
       } else {
-         this.colorBoostEvents = Lightshow.default.content.colorBoostEvents.map(
+         this.colorBoostEvents = Lightshow.default.colorBoostEvents.map(
             (json) =>
                ColorBoostEvent.fromJSON(
                   json,
-                  Lightshow.default.content.colorBoostEventsData[json.i || 0],
+                  Lightshow.default.colorBoostEventsData[json.i || 0],
                ),
          );
       }
@@ -137,7 +134,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
          );
       } else {
          this.eventTypesWithKeywords = BasicEventTypesWithKeywords.fromJSON(
-            Lightshow.default.content.basicEventTypesWithKeywords,
+            Lightshow.default.basicEventTypesWithKeywords,
          );
       }
       this.useNormalEventsAsCompatibleEvents = !!data.useNormalEventsAsCompatibleEvents;
@@ -146,29 +143,28 @@ export class Lightshow extends WrapLightshow<ILightshow> {
 
    static fromJSON(data: DeepPartial<ILightshow> = {}): Lightshow {
       const d = new this();
-      d.waypoints = (data.content?.waypoints ?? []).map((obj) =>
-         Waypoint.fromJSON(obj, data.content?.waypointsData?.[obj?.i || 0])
+      d.waypoints = (data?.waypoints ?? []).map((obj) =>
+         Waypoint.fromJSON(obj, data?.waypointsData?.[obj?.i || 0])
       );
-      d.basicEvents = (data.content?.basicEvents ?? []).map((obj) =>
-         BasicEvent.fromJSON(obj, data.content?.basicEventsData?.[obj?.i || 0])
+      d.basicEvents = (data?.basicEvents ?? []).map((obj) =>
+         BasicEvent.fromJSON(obj, data?.basicEventsData?.[obj?.i || 0])
       );
-      d.colorBoostEvents = (data.content?.colorBoostEvents ?? []).map((obj) =>
+      d.colorBoostEvents = (data?.colorBoostEvents ?? []).map((obj) =>
          ColorBoostEvent.fromJSON(
             obj,
-            data.content?.colorBoostEventsData?.[obj?.i || 0],
+            data?.colorBoostEventsData?.[obj?.i || 0],
          )
       );
-      for (const ebg of data.content?.eventBoxGroups || []) {
+      for (const ebg of data?.eventBoxGroups || []) {
          const t = ebg?.t || 0;
          switch (t) {
             case EventBoxType.COLOR:
                d.lightColorEventBoxGroups.push(
                   LightColorEventBoxGroup.fromJSON(
                      ebg,
-                     data.content
-                        ?.lightColorEventBoxes as ILightColorEventBox[],
-                     data.content?.lightColorEvents as ILightColorEvent[],
-                     data.content?.indexFilters as IIndexFilter[],
+                     data?.lightColorEventBoxes as ILightColorEventBox[],
+                     data?.lightColorEvents as ILightColorEvent[],
+                     data?.indexFilters as IIndexFilter[],
                   ),
                );
                break;
@@ -176,10 +172,9 @@ export class Lightshow extends WrapLightshow<ILightshow> {
                d.lightRotationEventBoxGroups.push(
                   LightRotationEventBoxGroup.fromJSON(
                      ebg,
-                     data.content
-                        ?.lightRotationEventBoxes as ILightRotationEventBox[],
-                     data.content?.lightRotationEvents as ILightRotationEvent[],
-                     data.content?.indexFilters as IIndexFilter[],
+                     data?.lightRotationEventBoxes as ILightRotationEventBox[],
+                     data?.lightRotationEvents as ILightRotationEvent[],
+                     data?.indexFilters as IIndexFilter[],
                   ),
                );
                break;
@@ -187,11 +182,9 @@ export class Lightshow extends WrapLightshow<ILightshow> {
                d.lightTranslationEventBoxGroups.push(
                   LightTranslationEventBoxGroup.fromJSON(
                      ebg,
-                     data.content
-                        ?.lightTranslationEventBoxes as ILightTranslationEventBox[],
-                     data.content
-                        ?.lightTranslationEvents as ILightTranslationEvent[],
-                     data.content?.indexFilters as IIndexFilter[],
+                     data?.lightTranslationEventBoxes as ILightTranslationEventBox[],
+                     data?.lightTranslationEvents as ILightTranslationEvent[],
+                     data?.indexFilters as IIndexFilter[],
                   ),
                );
                break;
@@ -199,156 +192,153 @@ export class Lightshow extends WrapLightshow<ILightshow> {
                d.fxEventBoxGroups.push(
                   FxEventBoxGroup.fromJSON(
                      ebg,
-                     data.content?.fxEventBoxes as IFxEventBox[],
-                     data.content?.floatFxEvents as IFxEventFloat[],
-                     data.content?.indexFilters as IIndexFilter[],
+                     data?.fxEventBoxes as IFxEventBox[],
+                     data?.floatFxEvents as IFxEventFloat[],
+                     data?.indexFilters as IIndexFilter[],
                   ),
                );
                break;
          }
       }
       d.eventTypesWithKeywords = BasicEventTypesWithKeywords.fromJSON(
-         data.content?.basicEventTypesWithKeywords ||
-            Lightshow.default.content.basicEventTypesWithKeywords,
+         data?.basicEventTypesWithKeywords ||
+            Lightshow.default.basicEventTypesWithKeywords,
       );
-      d.useNormalEventsAsCompatibleEvents = !!data.content?.useNormalEventsAsCompatibleEvents;
-      d.customData = deepCopy(data.content?.customData ?? {});
+      d.useNormalEventsAsCompatibleEvents = !!data?.useNormalEventsAsCompatibleEvents;
+      d.customData = deepCopy(data?.customData ?? {});
       return d;
    }
 
    toJSON(): Required<ILightshow> {
       const json: Required<ILightshow> = {
          version: this.version,
-         contentChecksum: '',
-         content: {
-            waypoints: [],
-            waypointsData: [],
-            basicEvents: [],
-            basicEventsData: [],
-            colorBoostEvents: [],
-            colorBoostEventsData: [],
-            eventBoxGroups: [],
-            indexFilters: [],
-            lightColorEventBoxes: [],
-            lightColorEvents: [],
-            lightRotationEventBoxes: [],
-            lightRotationEvents: [],
-            lightTranslationEventBoxes: [],
-            lightTranslationEvents: [],
-            fxEventBoxes: [],
-            floatFxEvents: [],
-            basicEventTypesWithKeywords: this.eventTypesWithKeywords.toJSON(),
-            useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
-            customData: deepCopy(this.customData),
-         },
+         waypoints: [],
+         waypointsData: [],
+         basicEvents: [],
+         basicEventsData: [],
+         colorBoostEvents: [],
+         colorBoostEventsData: [],
+         eventBoxGroups: [],
+         indexFilters: [],
+         lightColorEventBoxes: [],
+         lightColorEvents: [],
+         lightRotationEventBoxes: [],
+         lightRotationEvents: [],
+         lightTranslationEventBoxes: [],
+         lightTranslationEvents: [],
+         fxEventBoxes: [],
+         floatFxEvents: [],
+         basicEventTypesWithKeywords: this.eventTypesWithKeywords.toJSON(),
+         useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
+         customData: deepCopy(this.customData),
       };
       for (const obj of this.waypoints) {
          const jsonObj = obj.toJSON();
-         json.content.waypoints.push(jsonObj.object);
-         jsonObj.object.i = json.content.waypointsData.length;
-         json.content.waypointsData.push(jsonObj.data);
+         json.waypoints.push(jsonObj.object);
+         jsonObj.object.i = json.waypointsData.length;
+         json.waypointsData.push(jsonObj.data);
       }
       for (const obj of this.basicEvents) {
          const jsonObj = obj.toJSON();
-         json.content.basicEvents.push(jsonObj.object);
-         jsonObj.object.i = json.content.basicEventsData.length;
-         json.content.basicEventsData.push(jsonObj.data);
+         json.basicEvents.push(jsonObj.object);
+         jsonObj.object.i = json.basicEventsData.length;
+         json.basicEventsData.push(jsonObj.data);
       }
       for (const obj of this.colorBoostEvents) {
          const jsonObj = obj.toJSON();
-         json.content.colorBoostEvents.push(jsonObj.object);
-         jsonObj.object.i = json.content.colorBoostEventsData.length;
-         json.content.colorBoostEventsData.push(jsonObj.data);
+         json.colorBoostEvents.push(jsonObj.object);
+         jsonObj.object.i = json.colorBoostEventsData.length;
+         json.colorBoostEventsData.push(jsonObj.data);
       }
       for (const obj of this.lightColorEventBoxGroups.map((obj) => obj.toJSON())) {
-         json.content.eventBoxGroups.push(obj.object);
+         json.eventBoxGroups.push(obj.object);
          for (const box of obj.boxData) {
             const list: IObject[] = [];
             for (const evt of box.eventData) {
                list.push({
                   b: evt.time,
-                  i: json.content.lightColorEvents.length,
+                  i: json.lightColorEvents.length,
                });
-               json.content.lightColorEvents.push(evt.data);
+               json.lightColorEvents.push(evt.data);
             }
             obj.object.e!.push({
-               e: json.content.lightColorEventBoxes.length,
-               f: json.content.indexFilters.length,
+               e: json.lightColorEventBoxes.length,
+               f: json.indexFilters.length,
                l: list,
                customData: {},
             });
-            json.content.lightColorEventBoxes.push(box.data);
-            json.content.indexFilters.push(box.filterData);
+            json.lightColorEventBoxes.push(box.data);
+            json.indexFilters.push(box.filterData);
          }
       }
       for (const obj of this.lightRotationEventBoxGroups.map((obj) => obj.toJSON())) {
-         json.content.eventBoxGroups.push(obj.object);
+         json.eventBoxGroups.push(obj.object);
          for (const box of obj.boxData) {
             const list: IObject[] = [];
             for (const evt of box.eventData) {
                list.push({
                   b: evt.time,
-                  i: json.content.lightRotationEvents.length,
+                  i: json.lightRotationEvents.length,
                });
-               json.content.lightRotationEvents.push(evt.data);
+               json.lightRotationEvents.push(evt.data);
             }
             obj.object.e!.push({
-               e: json.content.lightRotationEventBoxes.length,
-               f: json.content.indexFilters.length,
+               e: json.lightRotationEventBoxes.length,
+               f: json.indexFilters.length,
                l: list,
                customData: {},
             });
-            json.content.lightRotationEventBoxes.push(box.data);
-            json.content.indexFilters.push(box.filterData);
+            json.lightRotationEventBoxes.push(box.data);
+            json.indexFilters.push(box.filterData);
          }
       }
       for (const obj of this.lightTranslationEventBoxGroups.map((obj) => obj.toJSON())) {
-         json.content.eventBoxGroups.push(obj.object);
+         json.eventBoxGroups.push(obj.object);
          for (const box of obj.boxData) {
             const list: IObject[] = [];
             for (const evt of box.eventData) {
                list.push({
                   b: evt.time,
-                  i: json.content.lightTranslationEvents.length,
+                  i: json.lightTranslationEvents.length,
                });
-               json.content.lightTranslationEvents.push(evt.data);
+               json.lightTranslationEvents.push(evt.data);
             }
             obj.object.e!.push({
-               e: json.content.lightTranslationEventBoxes.length,
-               f: json.content.indexFilters.length,
+               e: json.lightTranslationEventBoxes.length,
+               f: json.indexFilters.length,
                l: list,
                customData: {},
             });
-            json.content.lightTranslationEventBoxes.push(box.data);
-            json.content.indexFilters.push(box.filterData);
+            json.lightTranslationEventBoxes.push(box.data);
+            json.indexFilters.push(box.filterData);
          }
       }
       for (const obj of this.fxEventBoxGroups.map((obj) => obj.toJSON())) {
-         json.content.eventBoxGroups.push(obj.object);
+         json.eventBoxGroups.push(obj.object);
          for (const box of obj.boxData) {
             const list: IObject[] = [];
             for (const evt of box.eventData) {
-               list.push({ b: evt.time, i: json.content.floatFxEvents.length });
-               json.content.floatFxEvents.push(evt.data);
+               list.push({ b: evt.time, i: json.floatFxEvents.length });
+               json.floatFxEvents.push(evt.data);
             }
             obj.object.e!.push({
-               e: json.content.fxEventBoxes.length,
-               f: json.content.indexFilters.length,
+               e: json.fxEventBoxes.length,
+               f: json.indexFilters.length,
                l: list,
                customData: {},
             });
-            json.content.fxEventBoxes.push(box.data);
-            json.content.indexFilters.push(box.filterData);
+            json.fxEventBoxes.push(box.data);
+            json.indexFilters.push(box.filterData);
          }
       }
 
       return json;
    }
 
-   get customData(): NonNullable<ILightshow['content']['customData']> {
+   get customData(): NonNullable<ILightshow['customData']> {
       return this._customData;
    }
-   set customData(value: NonNullable<ILightshow['content']['customData']>) {
+   set customData(value: NonNullable<ILightshow['customData']>) {
       this._customData = value;
    }
 

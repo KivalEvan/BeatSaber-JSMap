@@ -22,18 +22,17 @@ import { DeepPartial } from '../../types/utils.ts';
 export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
    static default: DeepRequiredIgnore<IInfo, 'customData'> = {
       version: '4.0.0',
-      contentChecksum: '',
       song: {
          author: '',
          title: '',
          subTitle: '',
       },
       audio: {
-         songChecksum: '',
          songFilename: '',
          songDuration: 0,
          audioDataFilename: '',
          bpm: 0,
+         lufs: 0,
          previewStartTime: 0,
          previewDuration: 0,
       },
@@ -46,18 +45,17 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
    };
 
    readonly version = '4.0.0' as const;
-   contentChecksum = '';
    song: IWrapInfoSong = {
       title: '',
       subTitle: '',
       author: '',
    };
    audio: IWrapInfoAudio = {
-      checksum: '',
       filename: '',
       duration: 0,
       audioDataFilename: '',
       bpm: 0,
+      lufs: 0,
       previewStartTime: 0,
       previewDuration: 0,
    };
@@ -73,21 +71,22 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
       return new this(data);
    }
 
-   constructor(data: DeepPartial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> = {}) {
+   constructor(
+      data: DeepPartial<IWrapInfoAttribute<IInfo, IInfoDifficulty>> = {},
+   ) {
       super();
       this.filename = data.filename ?? this.filename;
 
-      this.contentChecksum = data.contentChecksum || Info.default.contentChecksum;
       this.song.author = data.song?.author || Info.default.song.author;
       this.song.title = data.song?.title || Info.default.song.title;
       this.song.subTitle = data.song?.subTitle || Info.default.song.subTitle;
 
-      this.audio.checksum = data.audio?.checksum || Info.default.audio.songChecksum;
       this.audio.filename = data.audio?.filename || Info.default.audio.songFilename;
       this.audio.duration = data.audio?.duration || Info.default.audio.songDuration;
       this.audio.audioDataFilename = data.audio?.audioDataFilename ||
          Info.default.audio.audioDataFilename;
       this.audio.bpm = data.audio?.bpm || Info.default.audio.bpm;
+      this.audio.lufs = data.audio?.lufs || Info.default.audio.lufs;
       this.audio.previewStartTime = data.audio?.previewStartTime ||
          Info.default.audio.previewStartTime;
       this.audio.previewDuration = data.audio?.previewDuration ||
@@ -106,12 +105,42 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
                useOverride: !!e.useOverride,
                name: e.name || '',
                saberLeftColor: { r: 0, g: 0, b: 0, a: 0, ...e.saberLeftColor },
-               saberRightColor: { r: 0, g: 0, b: 0, a: 0, ...e.saberRightColor },
-               environment0Color: { r: 0, g: 0, b: 0, a: 0, ...e.environment0Color },
-               environment1Color: { r: 0, g: 0, b: 0, a: 0, ...e.environment1Color },
+               saberRightColor: {
+                  r: 0,
+                  g: 0,
+                  b: 0,
+                  a: 0,
+                  ...e.saberRightColor,
+               },
+               environment0Color: {
+                  r: 0,
+                  g: 0,
+                  b: 0,
+                  a: 0,
+                  ...e.environment0Color,
+               },
+               environment1Color: {
+                  r: 0,
+                  g: 0,
+                  b: 0,
+                  a: 0,
+                  ...e.environment1Color,
+               },
                obstaclesColor: { r: 0, g: 0, b: 0, a: 0, ...e.obstaclesColor },
-               environment0ColorBoost: { r: 0, g: 0, b: 0, a: 0, ...e.environment0ColorBoost },
-               environment1ColorBoost: { r: 0, g: 0, b: 0, a: 0, ...e.environment1ColorBoost },
+               environment0ColorBoost: {
+                  r: 0,
+                  g: 0,
+                  b: 0,
+                  a: 0,
+                  ...e.environment0ColorBoost,
+               },
+               environment1ColorBoost: {
+                  r: 0,
+                  g: 0,
+                  b: 0,
+                  a: 0,
+                  ...e.environment1ColorBoost,
+               },
             };
             if (e.environmentWColor) {
                scheme.environmentWColor = shallowCopy(e.environmentWColor);
@@ -167,23 +196,27 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
 
       this.difficulties = (
          data.difficulties ?? Info.default.difficultyBeatmaps
-      ).map((d) => new InfoDifficulty(d as IWrapInfoDifficultyAttribute<IInfoDifficulty>));
+      ).map(
+         (d) =>
+            new InfoDifficulty(
+               d as IWrapInfoDifficultyAttribute<IInfoDifficulty>,
+            ),
+      );
    }
 
    static fromJSON(data: DeepPartial<IInfo> = {}): Info {
       const d = new this();
 
-      d.contentChecksum = data.contentChecksum || Info.default.contentChecksum;
       d.song.author = data.song?.author || Info.default.song.author;
       d.song.title = data.song?.title || Info.default.song.title;
       d.song.subTitle = data.song?.subTitle || Info.default.song.subTitle;
 
-      d.audio.checksum = data.audio?.songChecksum || Info.default.audio.songChecksum;
       d.audio.filename = data.audio?.songFilename || Info.default.audio.songFilename;
       d.audio.duration = data.audio?.songDuration || Info.default.audio.songDuration;
       d.audio.audioDataFilename = data.audio?.audioDataFilename ||
          Info.default.audio.audioDataFilename;
       d.audio.bpm = data.audio?.bpm || Info.default.audio.bpm;
+      d.audio.lufs = data.audio?.lufs || Info.default.audio.lufs;
       d.audio.previewStartTime = data.audio?.previewStartTime ||
          Info.default.audio.previewStartTime;
       d.audio.previewDuration = data.audio?.previewDuration || Info.default.audio.previewDuration;
@@ -210,7 +243,10 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
                   hexToRgba(e.environmentColor1!),
                   true,
                ),
-               obstaclesColor: toColorObject(hexToRgba(e.obstaclesColor!), true),
+               obstaclesColor: toColorObject(
+                  hexToRgba(e.obstaclesColor!),
+                  true,
+               ),
                environment0ColorBoost: toColorObject(
                   hexToRgba(e.environmentColor0Boost!),
                   true,
@@ -247,18 +283,17 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
    toJSON(): Required<IInfo> {
       return {
          version: this.version,
-         contentChecksum: this.contentChecksum,
          song: {
             author: this.song.author,
             title: this.song.title,
             subTitle: this.song.subTitle,
          },
          audio: {
-            songChecksum: this.audio.checksum,
             songFilename: this.audio.filename,
             songDuration: this.audio.duration,
             audioDataFilename: this.audio.audioDataFilename,
             bpm: this.audio.bpm,
+            lufs: this.audio.lufs,
             previewStartTime: this.audio.previewStartTime,
             previewDuration: this.audio.previewDuration,
          },

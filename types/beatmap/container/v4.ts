@@ -17,6 +17,7 @@ import { ILightTranslationEventBox } from '../v4/lightTranslationEventBox.ts';
 import { IObjectLane } from '../v4/object.ts';
 import { IObject, IObjectArc, IObjectChain } from '../v4/object.ts';
 import { IObstacle } from '../v4/obstacle.ts';
+import { ISpawnRotation } from '../v4/spawnRotation.ts';
 import { IWaypoint } from '../v4/waypoint.ts';
 
 export interface IArcContainer {
@@ -104,6 +105,11 @@ export interface IFxEventFloatContainer {
 export interface IObstacleContainer {
    object: IObjectLane;
    data: IObstacle;
+}
+
+export interface ISpawnRotationContainer {
+   object: IObject;
+   data: ISpawnRotation;
 }
 
 export interface IWaypointContainer {

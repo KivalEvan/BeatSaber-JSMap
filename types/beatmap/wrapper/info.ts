@@ -16,7 +16,6 @@ export interface IWrapInfoAttribute<
    >,
 > extends IWrapBaseItem<T> {
    readonly version: Version;
-   contentChecksum: string;
    song: IWrapInfoSong;
    audio: IWrapInfoAudio;
    songPreviewFilename: string;
@@ -35,11 +34,11 @@ export interface IWrapInfoSong {
 }
 
 export interface IWrapInfoAudio {
-   checksum: string;
    filename: string;
    duration: number; // float
    audioDataFilename: string;
    bpm: number; // float
+   lufs: number; // float
    previewStartTime: number; // float
    previewDuration: number; // float
 }

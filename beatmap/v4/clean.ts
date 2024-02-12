@@ -6,8 +6,8 @@ import { ILightshow } from '../../types/beatmap/v4/lightshow.ts';
 import { deepClean, purgeZeros } from '../shared/clean.ts';
 
 export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
-   for (let i = 0; i < data.content.arcs.length; i++) {
-      const o = data.content.arcs[i];
+   for (let i = 0; i < data.arcs.length; i++) {
+      const o = data.arcs[i];
       if (options.floatTrim) {
          o.hb = round(o.hb!, options.floatTrim);
          o.hr = round(o.hr!, options.floatTrim);
@@ -16,7 +16,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       deepClean(
          o.customData!,
-         `difficulty.content.arcs[${i}].customData`,
+         `difficulty.arcs[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -24,15 +24,15 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.arcsData.length; i++) {
-      const o = data.content.arcsData[i];
+   for (let i = 0; i < data.arcsData.length; i++) {
+      const o = data.arcsData[i];
       if (options.floatTrim) {
          o.m = round(o.m!, options.floatTrim);
          o.tm = round(o.tm!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.arcsData[${i}].customData`,
+         `difficulty.arcsData[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -40,14 +40,14 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.bombNotes.length; i++) {
-      const o = data.content.bombNotes[i];
+   for (let i = 0; i < data.bombNotes.length; i++) {
+      const o = data.bombNotes[i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.bombNotes[${i}].customData`,
+         `difficulty.bombNotes[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -55,11 +55,11 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.bombNotesData.length; i++) {
-      const o = data.content.bombNotesData[i];
+   for (let i = 0; i < data.bombNotesData.length; i++) {
+      const o = data.bombNotesData[i];
       deepClean(
          o.customData!,
-         `difficulty.content.bombNotesData[${i}].customData`,
+         `difficulty.bombNotesData[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -67,8 +67,8 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.chains.length; i++) {
-      const o = data.content.chains[i];
+   for (let i = 0; i < data.chains.length; i++) {
+      const o = data.chains[i];
       if (options.floatTrim) {
          o.hb = round(o.hb!, options.floatTrim);
          o.hr = round(o.hr!, options.floatTrim);
@@ -77,7 +77,7 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       deepClean(
          o.customData!,
-         `difficulty.content.chains[${i}].customData`,
+         `difficulty.chains[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -85,14 +85,14 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.chainsData.length; i++) {
-      const o = data.content.chainsData[i];
+   for (let i = 0; i < data.chainsData.length; i++) {
+      const o = data.chainsData[i];
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.chainsData[${i}].customData`,
+         `difficulty.chainsData[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -100,15 +100,15 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.colorNotes.length; i++) {
-      const o = data.content.colorNotes[i];
+   for (let i = 0; i < data.colorNotes.length; i++) {
+      const o = data.colorNotes[i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
          o.r = round(o.r!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.colorNotes[${i}].customData`,
+         `difficulty.colorNotes[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -116,14 +116,14 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.colorNotesData.length; i++) {
-      const o = data.content.colorNotesData[i];
+   for (let i = 0; i < data.colorNotesData.length; i++) {
+      const o = data.colorNotesData[i];
       if (options.floatTrim) {
          o.a = round(o.a!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.colorNotesData[${i}].customData`,
+         `difficulty.colorNotesData[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -131,15 +131,15 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.obstacles.length; i++) {
-      const o = data.content.obstacles[i];
+   for (let i = 0; i < data.obstacles.length; i++) {
+      const o = data.obstacles[i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
          o.r = round(o.r!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.obstacles[${i}].customData`,
+         `difficulty.obstacles[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -147,14 +147,14 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.obstaclesData.length; i++) {
-      const o = data.content.obstaclesData[i];
+   for (let i = 0; i < data.obstaclesData.length; i++) {
+      const o = data.obstaclesData[i];
       if (options.floatTrim) {
          o.d = round(o.d!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.obstaclesData[${i}].customData`,
+         `difficulty.obstaclesData[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -163,25 +163,25 @@ export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {
       if (options.purgeZeros) purgeZeros(o);
    }
    deepClean(
-      data.content.customData!,
-      `difficulty.content.customData`,
+      data.customData!,
+      `difficulty.customData`,
       options,
    );
-   if (!Object.keys(data.content.customData!).length) {
-      delete data.content.customData;
+   if (!Object.keys(data.customData!).length) {
+      delete data.customData;
    }
 }
 
 export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
-   for (let i = 0; i < data.content.waypoints.length; i++) {
-      const o = data.content.waypoints[i];
+   for (let i = 0; i < data.waypoints.length; i++) {
+      const o = data.waypoints[i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
          o.r = round(o.r!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.waypoints[${i}].customData`,
+         `difficulty.waypoints[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -189,11 +189,11 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.waypointsData.length; i++) {
-      const o = data.content.waypointsData[i];
+   for (let i = 0; i < data.waypointsData.length; i++) {
+      const o = data.waypointsData[i];
       deepClean(
          o.customData!,
-         `difficulty.content.waypointsData[${i}].customData`,
+         `difficulty.waypointsData[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -201,14 +201,14 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.basicEvents.length; i++) {
-      const o = data.content.basicEvents[i];
+   for (let i = 0; i < data.basicEvents.length; i++) {
+      const o = data.basicEvents[i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.basicEvents[${i}].customData`,
+         `difficulty.basicEvents[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -216,14 +216,14 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.basicEventsData.length; i++) {
-      const o = data.content.basicEventsData[i];
+   for (let i = 0; i < data.basicEventsData.length; i++) {
+      const o = data.basicEventsData[i];
       if (options.floatTrim) {
          o.f = round(o.f!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.basicEventsData[${i}].customData`,
+         `difficulty.basicEventsData[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -231,14 +231,14 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.colorBoostEvents.length; i++) {
-      const o = data.content.colorBoostEvents[i];
+   for (let i = 0; i < data.colorBoostEvents.length; i++) {
+      const o = data.colorBoostEvents[i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.colorBoostEvents[${i}].customData`,
+         `difficulty.colorBoostEvents[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -246,11 +246,11 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.colorBoostEventsData.length; i++) {
-      const o = data.content.colorBoostEventsData[i];
+   for (let i = 0; i < data.colorBoostEventsData.length; i++) {
+      const o = data.colorBoostEventsData[i];
       deepClean(
          o.customData!,
-         `difficulty.content.colorBoostEventsData[${i}].customData`,
+         `difficulty.colorBoostEventsData[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -258,8 +258,8 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.eventBoxGroups.length; i++) {
-      const o = data.content.eventBoxGroups[i];
+   for (let i = 0; i < data.eventBoxGroups.length; i++) {
+      const o = data.eventBoxGroups[i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
       }
@@ -267,7 +267,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
          const o2 = o.e![j];
          deepClean(
             o2.customData!,
-            `lightshow.content.eventBoxGroups[${i}].e[${j}].customData`,
+            `lightshow.eventBoxGroups[${i}].e[${j}].customData`,
             options,
          );
          if (!Object.keys(o2.customData!).length) {
@@ -276,7 +276,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       deepClean(
          o.customData!,
-         `difficulty.content.eventBoxGroups[${i}].customData`,
+         `difficulty.eventBoxGroups[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -284,14 +284,14 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.indexFilters.length; i++) {
-      const o = data.content.indexFilters[i];
+   for (let i = 0; i < data.indexFilters.length; i++) {
+      const o = data.indexFilters[i];
       if (options.floatTrim) {
          o.l = round(o.l!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.indexFilters[${i}].customData`,
+         `difficulty.indexFilters[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -299,15 +299,15 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.lightColorEventBoxes.length; i++) {
-      const o = data.content.lightColorEventBoxes[i];
+   for (let i = 0; i < data.lightColorEventBoxes.length; i++) {
+      const o = data.lightColorEventBoxes[i];
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
          o.w = round(o.w!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.lightColorEventBoxes[${i}].customData`,
+         `difficulty.lightColorEventBoxes[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -315,15 +315,15 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.lightColorEvents.length; i++) {
-      const o = data.content.lightColorEvents[i];
+   for (let i = 0; i < data.lightColorEvents.length; i++) {
+      const o = data.lightColorEvents[i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
          o.sb = round(o.sb!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.lightColorEvents[${i}].customData`,
+         `difficulty.lightColorEvents[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -331,15 +331,15 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.lightRotationEventBoxes.length; i++) {
-      const o = data.content.lightRotationEventBoxes[i];
+   for (let i = 0; i < data.lightRotationEventBoxes.length; i++) {
+      const o = data.lightRotationEventBoxes[i];
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
          o.w = round(o.w!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.lightRotationEventBoxes[${i}].customData`,
+         `difficulty.lightRotationEventBoxes[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -347,14 +347,14 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.lightRotationEvents.length; i++) {
-      const o = data.content.lightRotationEvents[i];
+   for (let i = 0; i < data.lightRotationEvents.length; i++) {
+      const o = data.lightRotationEvents[i];
       if (options.floatTrim) {
          o.r = round(o.r!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.lightRotationEvents[${i}].customData`,
+         `difficulty.lightRotationEvents[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -362,15 +362,15 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.lightTranslationEventBoxes.length; i++) {
-      const o = data.content.lightTranslationEventBoxes[i];
+   for (let i = 0; i < data.lightTranslationEventBoxes.length; i++) {
+      const o = data.lightTranslationEventBoxes[i];
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
          o.w = round(o.w!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.lightTranslationEventBoxes[${i}].customData`,
+         `difficulty.lightTranslationEventBoxes[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -378,14 +378,14 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.lightTranslationEvents.length; i++) {
-      const o = data.content.lightTranslationEvents[i];
+   for (let i = 0; i < data.lightTranslationEvents.length; i++) {
+      const o = data.lightTranslationEvents[i];
       if (options.floatTrim) {
          o.t = round(o.t!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.lightTranslationEvents[${i}].customData`,
+         `difficulty.lightTranslationEvents[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -393,15 +393,15 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.fxEventBoxes.length; i++) {
-      const o = data.content.fxEventBoxes[i];
+   for (let i = 0; i < data.fxEventBoxes.length; i++) {
+      const o = data.fxEventBoxes[i];
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
          o.w = round(o.w!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.fxEventBoxes[${i}].customData`,
+         `difficulty.fxEventBoxes[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -409,14 +409,14 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.content.floatFxEvents.length; i++) {
-      const o = data.content.floatFxEvents[i];
+   for (let i = 0; i < data.floatFxEvents.length; i++) {
+      const o = data.floatFxEvents[i];
       if (options.floatTrim) {
          o.v = round(o.v!, options.floatTrim);
       }
       deepClean(
          o.customData!,
-         `difficulty.content.floatFxEvents[${i}].customData`,
+         `difficulty.floatFxEvents[${i}].customData`,
          options,
       );
       if (!Object.keys(o.customData!).length) {
@@ -424,14 +424,14 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (const o1 of data.content.basicEventTypesWithKeywords.d!) {
+   for (const o1 of data.basicEventTypesWithKeywords.d!) {
       if (options.stringTrim) {
          o1.k = o1.k!.trim();
       }
    }
-   deepClean(data.content.customData!, `lightshow.content.customData`, options);
-   if (!Object.keys(data.content.customData!).length) {
-      delete data.content.customData;
+   deepClean(data.customData!, `lightshow.customData`, options);
+   if (!Object.keys(data.customData!).length) {
+      delete data.customData;
    }
 }
 

@@ -59,11 +59,11 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
       author: '',
    };
    audio: IWrapInfoAudio = {
-      checksum: '',
       filename: '',
       duration: 0,
       audioDataFilename: '',
       bpm: 0,
+      lufs: 0,
       previewStartTime: 0,
       previewDuration: 0,
    };

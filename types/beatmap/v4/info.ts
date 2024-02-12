@@ -5,7 +5,6 @@ import { IItem } from './item.ts';
 
 export interface IInfo extends IItem {
    version: '4.0.0';
-   contentChecksum: string;
    song: IInfoSong;
    audio: IInfoAudio;
    songPreviewFilename: string;
@@ -22,11 +21,11 @@ export interface IInfoSong {
 }
 
 export interface IInfoAudio {
-   songChecksum: string;
    songFilename: string;
    songDuration: number; // float
    audioDataFilename: string;
    bpm: number; // float
+   lufs: number; // float
    previewStartTime: number; // float
    previewDuration: number; // float
 }

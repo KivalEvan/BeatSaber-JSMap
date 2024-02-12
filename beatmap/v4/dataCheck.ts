@@ -5,7 +5,6 @@ import { IBombNote } from '../../types/beatmap/v4/bombNote.ts';
 import { IChain } from '../../types/beatmap/v4/chain.ts';
 import { IColorBoostEvent } from '../../types/beatmap/v4/colorBoostEvent.ts';
 import { IColorNote } from '../../types/beatmap/v4/colorNote.ts';
-import { IDifficultyContent } from '../../types/beatmap/v4/difficulty.ts';
 import { IDifficulty } from '../../types/beatmap/v4/difficulty.ts';
 import { IEventBox } from '../../types/beatmap/v4/eventBox.ts';
 import { IEventBoxGroup } from '../../types/beatmap/v4/eventBoxGroup.ts';
@@ -26,9 +25,10 @@ import { ILightRotationEvent } from '../../types/beatmap/v4/lightRotationEvent.t
 import { ILightRotationEventBox } from '../../types/beatmap/v4/lightRotationEventBox.ts';
 import { ILightTranslationEvent } from '../../types/beatmap/v4/lightTranslationEvent.ts';
 import { ILightTranslationEventBox } from '../../types/beatmap/v4/lightTranslationEventBox.ts';
-import { ILightshow, ILightshowContent } from '../../types/beatmap/v4/lightshow.ts';
+import { ILightshow } from '../../types/beatmap/v4/lightshow.ts';
 import { IObject, IObjectArc, IObjectChain, IObjectLane } from '../../types/beatmap/v4/object.ts';
 import { IObstacle } from '../../types/beatmap/v4/obstacle.ts';
+import { ISpawnRotation } from '../../types/beatmap/v4/spawnRotation.ts';
 import { IWaypoint } from '../../types/beatmap/v4/waypoint.ts';
 import { BasicEventTypesWithKeywordsDataCheck } from '../v3/dataCheck.ts';
 
@@ -345,9 +345,35 @@ export const ArcDataCheck: {
    },
 };
 
-export const DifficultyContentDataCheck: {
-   readonly [key in keyof IDifficultyContent]: DataCheck;
+export const SpawnRotationDataCheck: {
+   readonly [key in keyof ISpawnRotation]: DataCheck;
 } = {
+   e: {
+      type: 'number',
+      int: true,
+      version: '4.0.0',
+      optional: true,
+   },
+   r: {
+      type: 'number',
+      version: '4.0.0',
+      optional: true,
+   },
+   customData: {
+      type: 'object',
+      version: '4.0.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
+export const DifficultyDataCheck: {
+   readonly [key in keyof IDifficulty]: DataCheck;
+} = {
+   version: {
+      type: 'string',
+      version: '4.0.0',
+   },
    colorNotes: {
       type: 'object',
       array: true,
@@ -377,6 +403,13 @@ export const DifficultyContentDataCheck: {
       optional: true,
    },
    arcs: {
+      type: 'object',
+      array: true,
+      version: '4.0.0',
+      check: ObjectArcDataCheck,
+      optional: true,
+   },
+   spawnRotations: {
       type: 'object',
       array: true,
       version: '4.0.0',
@@ -418,30 +451,17 @@ export const DifficultyContentDataCheck: {
       check: ArcDataCheck,
       optional: true,
    },
+   spawnRotationsData: {
+      type: 'object',
+      array: true,
+      version: '4.0.0',
+      check: SpawnRotationDataCheck,
+      optional: true,
+   },
    customData: {
       type: 'object',
       version: '4.0.0',
       check: {},
-      optional: true,
-   },
-};
-
-export const DifficultyDataCheck: {
-   readonly [key in keyof IDifficulty]: DataCheck;
-} = {
-   version: {
-      type: 'string',
-      version: '4.0.0',
-   },
-   contentChecksum: {
-      type: 'string',
-      version: '4.0.0',
-      optional: true,
-   },
-   content: {
-      type: 'object',
-      version: '4.0.0',
-      check: DifficultyContentDataCheck,
       optional: true,
    },
 } as const;
@@ -1034,9 +1054,13 @@ export const FXEventFloatDataCheck: {
    },
 } as const;
 
-export const LightshowContentDataCheck: {
-   readonly [key in keyof ILightshowContent]: DataCheck;
+export const LightshowDataCheck: {
+   readonly [key in keyof ILightshow]: DataCheck;
 } = {
+   version: {
+      type: 'string',
+      version: '4.0.0',
+   },
    waypoints: {
       type: 'object',
       array: true,
@@ -1167,26 +1191,6 @@ export const LightshowContentDataCheck: {
    },
 } as const;
 
-export const LightshowDataCheck: {
-   readonly [key in keyof ILightshow]: DataCheck;
-} = {
-   version: {
-      type: 'string',
-      version: '4.0.0',
-   },
-   contentChecksum: {
-      type: 'string',
-      version: '4.0.0',
-      optional: true,
-   },
-   content: {
-      type: 'object',
-      version: '4.0.0',
-      check: LightshowContentDataCheck,
-      optional: true,
-   },
-} as const;
-
 export const InfoSongDataCheck: {
    readonly [key in keyof IInfoSong]: DataCheck;
 } = {
@@ -1210,11 +1214,6 @@ export const InfoSongDataCheck: {
 export const InfoAudioDataCheck: {
    readonly [key in keyof IInfoAudio]: DataCheck;
 } = {
-   songChecksum: {
-      type: 'string',
-      version: '4.0.0',
-      optional: true,
-   },
    songFilename: {
       type: 'string',
       version: '4.0.0',
@@ -1231,6 +1230,10 @@ export const InfoAudioDataCheck: {
       optional: true,
    },
    bpm: {
+      type: 'number',
+      version: '4.0.0',
+   },
+   lufs: {
       type: 'number',
       version: '4.0.0',
    },
@@ -1382,10 +1385,6 @@ export const InfoDifficultyDataCheck: {
 
 export const InfoDataCheck: { readonly [key in keyof IInfo]: DataCheck } = {
    version: {
-      type: 'string',
-      version: '4.0.0',
-   },
-   contentChecksum: {
       type: 'string',
       version: '4.0.0',
    },

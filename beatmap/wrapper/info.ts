@@ -25,7 +25,6 @@ export abstract class WrapInfo<
    private _filename = 'Info.dat';
 
    abstract readonly version: Version;
-   abstract contentChecksum: string;
    abstract song: IWrapInfoSong;
    abstract audio: IWrapInfoAudio;
    abstract songPreviewFilename: string;

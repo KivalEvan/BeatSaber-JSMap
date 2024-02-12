@@ -170,5 +170,6 @@ function fromV3Difficulty(template: V4Difficulty, data: V3Difficulty) {
    template.addObstacles(...data.obstacles);
    template.addArcs(...data.arcs);
    template.addChains(...data.chains);
+   template.addRotationEvents(...data.rotationEvents);
    template.customData = deepCopy(data.customData);
 }

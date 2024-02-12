@@ -1,14 +1,9 @@
 export interface IAudio {
    version: '4.0.0';
-   contentChecksum: string;
-   content: IAudioContent;
-}
-
-export interface IAudioContent {
+   songChecksum: string;
    songSampleCount: number; // int
    songFrequency: number; // int
    bpmData: IAudioBPM[];
-   integratedLufs: number; // float
    lufsData: IAudioLUFS[];
 }
 

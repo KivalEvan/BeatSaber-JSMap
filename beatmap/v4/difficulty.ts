@@ -13,13 +13,15 @@ import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts'
 import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import logger from '../../logger.ts';
 import { DummySpecialEventsKeywordFilters } from './_specialEventsKeywordFilters.ts';
-import { IBombNoteContainer } from '../../types/beatmap/container/v4.ts';
+import { IBombNoteContainer, ISpawnRotationContainer } from '../../types/beatmap/container/v4.ts';
 import { IObstacleContainer } from '../../types/beatmap/container/v4.ts';
 import { IArcContainer } from '../../types/beatmap/container/v4.ts';
 import { IColorNoteContainer } from '../../types/beatmap/container/v4.ts';
 import { IChainContainer } from '../../types/beatmap/container/v4.ts';
 import { IWrapDifficultyAttribute } from '../../types/beatmap/wrapper/difficulty.ts';
 import { DeepPartial, DeepRequiredIgnore } from '../../types/utils.ts';
+import { SpawnRotation } from './rotationEvent.ts';
+import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v4', 'difficulty', name];
@@ -29,25 +31,24 @@ function tag(name: string): string[] {
 export class Difficulty extends WrapDifficulty<IDifficulty> {
    static default: DeepRequiredIgnore<IDifficulty, 'customData'> = {
       version: '4.0.0',
-      contentChecksum: '',
-      content: {
-         colorNotes: [],
-         bombNotes: [],
-         obstacles: [],
-         chains: [],
-         arcs: [],
-         colorNotesData: [],
-         bombNotesData: [],
-         obstaclesData: [],
-         chainsData: [],
-         arcsData: [],
-         customData: {},
-      },
+      colorNotes: [],
+      bombNotes: [],
+      obstacles: [],
+      chains: [],
+      arcs: [],
+      spawnRotations: [],
+      colorNotesData: [],
+      bombNotesData: [],
+      obstaclesData: [],
+      chainsData: [],
+      arcsData: [],
+      spawnRotationsData: [],
+      customData: {},
    };
 
    readonly version = '4.0.0';
    bpmEvents: never[] = [];
-   rotationEvents: never[] = [];
+   rotationEvents: SpawnRotation[] = [];
    colorNotes: ColorNote[];
    bombNotes: BombNote[];
    obstacles: Obstacle[];
@@ -76,92 +77,88 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       if (data.colorNotes) {
          this.colorNotes = data.colorNotes.map((obj) => new ColorNote(obj));
       } else {
-         this.colorNotes = Difficulty.default.content.colorNotes.map((obj) =>
+         this.colorNotes = Difficulty.default.colorNotes.map((obj) =>
             ColorNote.fromJSON(
                obj,
-               Difficulty.default.content?.colorNotesData?.[obj?.i || 0],
+               Difficulty.default?.colorNotesData?.[obj?.i || 0],
             )
          );
       }
       if (data.bombNotes) {
          this.bombNotes = data.bombNotes.map((obj) => new BombNote(obj));
       } else {
-         this.bombNotes = Difficulty.default.content.bombNotes.map((obj) =>
+         this.bombNotes = Difficulty.default.bombNotes.map((obj) =>
             BombNote.fromJSON(
                obj,
-               Difficulty.default.content?.bombNotesData?.[obj?.i || 0],
+               Difficulty.default?.bombNotesData?.[obj?.i || 0],
             )
          );
       }
       if (data.obstacles) {
          this.obstacles = data.obstacles.map((obj) => new Obstacle(obj));
       } else {
-         this.obstacles = Difficulty.default.content.obstacles.map((obj) =>
+         this.obstacles = Difficulty.default.obstacles.map((obj) =>
             Obstacle.fromJSON(
                obj,
-               Difficulty.default.content?.obstaclesData?.[obj?.i || 0],
+               Difficulty.default?.obstaclesData?.[obj?.i || 0],
             )
          );
       }
       if (data.arcs) this.arcs = data.arcs.map((obj) => new Arc(obj));
       else {
-         this.arcs = (
-            Difficulty.default.content?.arcs ?? Difficulty.default.content.arcs
-         ).map((obj) =>
-            Arc.fromJSON(
-               obj,
-               Difficulty.default.content?.arcsData?.[obj?.ai || 0],
-               Difficulty.default.content?.colorNotesData?.[obj?.hi || 0],
-               Difficulty.default.content?.colorNotesData?.[obj?.ti || 0],
-            )
+         this.arcs = (Difficulty.default?.arcs ?? Difficulty.default.arcs).map(
+            (obj) =>
+               Arc.fromJSON(
+                  obj,
+                  Difficulty.default?.arcsData?.[obj?.ai || 0],
+                  Difficulty.default?.colorNotesData?.[obj?.hi || 0],
+                  Difficulty.default?.colorNotesData?.[obj?.ti || 0],
+               ),
          );
       }
       if (data.chains) this.chains = data.chains.map((obj) => new Chain(obj));
       else {
-         this.chains = Difficulty.default.content.chains.map((obj) =>
+         this.chains = Difficulty.default.chains.map((obj) =>
             Chain.fromJSON(
                obj,
-               Difficulty.default.content?.colorNotesData?.[obj?.i || 0],
-               Difficulty.default.content?.chainsData?.[obj?.ci || 0],
+               Difficulty.default?.colorNotesData?.[obj?.i || 0],
+               Difficulty.default?.chainsData?.[obj?.ci || 0],
             )
          );
       }
       this.customData = deepCopy(
-         data.customData ?? Difficulty.default.content.customData,
+         data.customData ?? Difficulty.default.customData,
       );
    }
 
    static fromJSON(data: DeepPartial<IDifficulty> = {}): Difficulty {
       const d = new this();
-      d.colorNotes = (
-         data.content?.colorNotes ?? Difficulty.default.content.colorNotes
-      ).map((obj) => ColorNote.fromJSON(obj, data.content?.colorNotesData?.[obj?.i || 0]));
-      d.bombNotes = (
-         data.content?.bombNotes ?? Difficulty.default.content.bombNotes
-      ).map((obj) => BombNote.fromJSON(obj, data.content?.bombNotesData?.[obj?.i || 0]));
-      d.obstacles = (
-         data.content?.obstacles ?? Difficulty.default.content.obstacles
-      ).map((obj) => Obstacle.fromJSON(obj, data.content?.obstaclesData?.[obj?.i || 0]));
-      d.arcs = (data.content?.arcs ?? Difficulty.default.content.arcs).map(
-         (obj) =>
-            Arc.fromJSON(
-               obj,
-               data.content?.arcsData?.[obj?.ai || 0],
-               data.content?.colorNotesData?.[obj?.hi || 0],
-               data.content?.colorNotesData?.[obj?.ti || 0],
-            ),
+      d.colorNotes = (data?.colorNotes ?? Difficulty.default.colorNotes).map(
+         (obj) => ColorNote.fromJSON(obj, data?.colorNotesData?.[obj?.i || 0]),
       );
-      d.chains = (
-         data.content?.chains ?? Difficulty.default.content.chains
-      ).map((obj) =>
+      d.bombNotes = (data?.bombNotes ?? Difficulty.default.bombNotes).map(
+         (obj) => BombNote.fromJSON(obj, data?.bombNotesData?.[obj?.i || 0]),
+      );
+      d.obstacles = (data?.obstacles ?? Difficulty.default.obstacles).map(
+         (obj) => Obstacle.fromJSON(obj, data?.obstaclesData?.[obj?.i || 0]),
+      );
+      d.arcs = (data?.arcs ?? Difficulty.default.arcs).map((obj) =>
+         Arc.fromJSON(
+            obj,
+            data?.arcsData?.[obj?.ai || 0],
+            data?.colorNotesData?.[obj?.hi || 0],
+            data?.colorNotesData?.[obj?.ti || 0],
+         )
+      );
+      d.chains = (data?.chains ?? Difficulty.default.chains).map((obj) =>
          Chain.fromJSON(
             obj,
-            data.content?.colorNotesData?.[obj?.i || 0],
-            data.content?.chainsData?.[obj?.ci || 0],
+            data?.colorNotesData?.[obj?.i || 0],
+            data?.chainsData?.[obj?.ci || 0],
          )
       );
       d.customData = deepCopy(
-         data.content?.customData ?? Difficulty.default.content.customData,
+         data?.customData ?? Difficulty.default.customData,
       );
       return d;
    }
@@ -169,64 +166,69 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    toJSON(): Required<IDifficulty> {
       const json: Required<IDifficulty> = {
          version: this.version,
-         contentChecksum: '',
-         content: {
-            colorNotes: [],
-            bombNotes: [],
-            obstacles: [],
-            chains: [],
-            arcs: [],
-            colorNotesData: [],
-            bombNotesData: [],
-            obstaclesData: [],
-            chainsData: [],
-            arcsData: [],
-            customData: deepCopy(this.customData),
-         },
+         colorNotes: [],
+         bombNotes: [],
+         obstacles: [],
+         chains: [],
+         arcs: [],
+         spawnRotations: [],
+         colorNotesData: [],
+         bombNotesData: [],
+         obstaclesData: [],
+         chainsData: [],
+         arcsData: [],
+         spawnRotationsData: [],
+         customData: deepCopy(this.customData),
       };
       for (const obj of this.colorNotes) {
          const jsonObj = obj.toJSON();
-         json.content.colorNotes.push(jsonObj.object);
-         jsonObj.object.i = json.content.colorNotesData.length;
-         json.content.colorNotesData.push(jsonObj.data);
+         json.colorNotes.push(jsonObj.object);
+         jsonObj.object.i = json.colorNotesData.length;
+         json.colorNotesData.push(jsonObj.data);
       }
       for (const obj of this.bombNotes) {
          const jsonObj = obj.toJSON();
-         json.content.bombNotes.push(jsonObj.object);
-         jsonObj.object.i = json.content.bombNotesData.length;
-         json.content.bombNotesData.push(jsonObj.data);
+         json.bombNotes.push(jsonObj.object);
+         jsonObj.object.i = json.bombNotesData.length;
+         json.bombNotesData.push(jsonObj.data);
       }
       for (const obj of this.obstacles) {
          const jsonObj = obj.toJSON();
-         json.content.obstacles.push(jsonObj.object);
-         jsonObj.object.i = json.content.obstaclesData.length;
-         json.content.obstaclesData.push(jsonObj.data);
+         json.obstacles.push(jsonObj.object);
+         jsonObj.object.i = json.obstaclesData.length;
+         json.obstaclesData.push(jsonObj.data);
       }
       for (const obj of this.arcs) {
          const jsonObj = obj.toJSON();
-         json.content.arcs.push(jsonObj.object);
-         jsonObj.object.ai = json.content.arcsData.length;
-         json.content.arcsData.push(jsonObj.data);
-         jsonObj.object.hi = json.content.colorNotesData.length;
-         json.content.colorNotesData.push(jsonObj.headData);
-         jsonObj.object.ti = json.content.colorNotesData.length;
-         json.content.colorNotesData.push(jsonObj.tailData);
+         json.arcs.push(jsonObj.object);
+         jsonObj.object.ai = json.arcsData.length;
+         json.arcsData.push(jsonObj.data);
+         jsonObj.object.hi = json.colorNotesData.length;
+         json.colorNotesData.push(jsonObj.headData);
+         jsonObj.object.ti = json.colorNotesData.length;
+         json.colorNotesData.push(jsonObj.tailData);
       }
       for (const obj of this.chains) {
          const jsonObj = obj.toJSON();
-         json.content.chains.push(jsonObj.object);
-         jsonObj.object.i = json.content.colorNotesData.length;
-         json.content.colorNotesData.push(jsonObj.data);
-         jsonObj.object.ci = json.content.chainsData.length;
-         json.content.chainsData.push(jsonObj.chainData);
+         json.chains.push(jsonObj.object);
+         jsonObj.object.i = json.colorNotesData.length;
+         json.colorNotesData.push(jsonObj.data);
+         jsonObj.object.ci = json.chainsData.length;
+         json.chainsData.push(jsonObj.chainData);
+      }
+      for (const obj of this.rotationEvents) {
+         const jsonObj = obj.toJSON();
+         json.spawnRotations.push(jsonObj.object);
+         jsonObj.object.i = json.spawnRotationsData.length;
+         json.spawnRotationsData.push(jsonObj.data);
       }
       return json;
    }
 
-   get customData(): NonNullable<IDifficulty['content']['customData']> {
+   get customData(): NonNullable<IDifficulty['customData']> {
       return this._customData;
    }
-   set customData(value: NonNullable<IDifficulty['content']['customData']>) {
+   set customData(value: NonNullable<IDifficulty['customData']>) {
       this._customData = value;
    }
 
@@ -248,11 +250,10 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       return this;
    }
 
-   addRotationEvents(..._: never[]): this {
-      logger.tWarn(
-         tag('addRotationEvents'),
-         'Rotation Event does not exist in difficulty V4',
-      );
+   addRotationEvents(
+      ...data: Partial<IWrapRotationEventAttribute<ISpawnRotationContainer>>[]
+   ): this {
+      for (const obj of data) this.rotationEvents.push(new SpawnRotation(obj));
       return this;
    }
 
