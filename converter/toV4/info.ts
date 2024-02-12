@@ -56,8 +56,8 @@ function fromV1Info(template: V4Info, data: V1Info) {
          characteristic: beatmap.characteristic,
          difficulty: beatmap.difficulty,
          authors: {
-            mappers: [...beatmap.authors.mappers],
-            lighters: [...beatmap.authors.lighters],
+            mappers: [],
+            lighters: [],
          },
          colorSchemeId: beatmap.colorSchemeId,
          environmentId: beatmap.environmentId,
@@ -90,8 +90,8 @@ function fromV2Info(template: V4Info, data: V2Info) {
          characteristic: beatmap.characteristic,
          difficulty: beatmap.difficulty,
          authors: {
-            mappers: [...beatmap.authors.mappers, data.levelAuthorName],
-            lighters: [...beatmap.authors.lighters],
+            mappers: [data.levelAuthorName],
+            lighters: [],
          },
          colorSchemeId: beatmap.colorSchemeId,
          environmentId: beatmap.environmentId,

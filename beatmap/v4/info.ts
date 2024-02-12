@@ -273,8 +273,8 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
       );
       d.customData = deepCopy(data.customData ?? Info.default.customData);
 
-      d.difficulties = (data.difficultyBeatmaps ?? []).map(
-         (d) => new InfoDifficulty(d),
+      d.difficulties = (data.difficultyBeatmaps ?? []).map((d) =>
+         InfoDifficulty.fromJSON(d as IInfoDifficulty)
       );
 
       return d;
@@ -364,7 +364,10 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    difficulty: DifficultyName;
    filename: LooseAutocomplete<GenericFileName>;
    lightshowFilename: LooseAutocomplete<GenericFileName>;
-   authors = { mappers: [], lighters: [] };
+   authors: { mappers: string[]; lighters: string[] } = {
+      mappers: [],
+      lighters: [],
+   };
    njs: number;
    njsOffset: number;
    colorSchemeId: number;
@@ -380,6 +383,13 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
       super();
       this.characteristic = data.characteristic ?? InfoDifficulty.default.characteristic;
       this.difficulty = data.difficulty ?? InfoDifficulty.default.difficulty;
+      this.authors.mappers = (
+         data.authors?.mappers ?? InfoDifficulty.default.beatmapAuthors.mappers
+      ).map((s) => s);
+      this.authors.lighters = (
+         data.authors?.lighters ??
+            InfoDifficulty.default.beatmapAuthors.lighters
+      ).map((s) => s);
       this.filename = data.filename ?? InfoDifficulty.default.beatmapDataFilename;
       this.lightshowFilename = data.lightshowFilename ??
          InfoDifficulty.default.lightshowDataFilename;
@@ -396,6 +406,14 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
       const d = new this();
       d.characteristic = data.characteristic ?? InfoDifficulty.default.characteristic;
       d.difficulty = data.difficulty ?? InfoDifficulty.default.difficulty;
+      d.authors.mappers = (
+         data.beatmapAuthors?.mappers ??
+            InfoDifficulty.default.beatmapAuthors.mappers
+      ).map((s) => s);
+      d.authors.lighters = (
+         data.beatmapAuthors?.lighters ??
+            InfoDifficulty.default.beatmapAuthors.lighters
+      ).map((s) => s);
       d.filename = data.beatmapDataFilename ?? InfoDifficulty.default.beatmapDataFilename;
       d.lightshowFilename = data.lightshowDataFilename ??
          InfoDifficulty.default.lightshowDataFilename;
