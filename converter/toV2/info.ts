@@ -91,6 +91,8 @@ function fromV4Info(template: V2Info, data: V4Info) {
 
    template.coverImageFilename = data.coverImageFilename;
    template.songFilename = data.songPreviewFilename;
+   template.environmentName = (data.environmentNames[0] as 'DefaultEnvironment') ||
+      'DefaultEnvironment';
    template.environmentNames = [...data.environmentNames];
    template.colorSchemes = data.colorSchemes.map((d) => shallowCopy(d));
 
@@ -109,6 +111,9 @@ function fromV4Info(template: V2Info, data: V4Info) {
          },
          beatmap.characteristic,
       );
-      template.levelAuthorName = beatmap.authors.mappers.join(', ');
+      template.levelAuthorName = [
+         ...beatmap.authors.mappers,
+         ...beatmap.authors.lighters,
+      ].join(', ');
    });
 }

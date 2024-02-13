@@ -82,10 +82,17 @@ function fromV2Info(template: V4Info, data: V2Info) {
    template.coverImageFilename = data.coverImageFilename;
    template.songPreviewFilename = data.songFilename;
    template.environmentNames = [...data.environmentNames];
+   if (!template.environmentNames.includes(data.environmentName)) {
+      template.environmentNames.push(data.environmentName);
+   }
    template.colorSchemes = data.colorSchemes.map((d) => shallowCopy(d));
 
    template.customData = deepCopy(data.customData);
    data.listMap().forEach(([_, beatmap]) => {
+      let id = beatmap.environmentId;
+      if (template.environmentNames.length - id <= 0) {
+         id = 0;
+      }
       template.addMap({
          characteristic: beatmap.characteristic,
          difficulty: beatmap.difficulty,
@@ -94,7 +101,7 @@ function fromV2Info(template: V4Info, data: V2Info) {
             lighters: [],
          },
          colorSchemeId: beatmap.colorSchemeId,
-         environmentId: beatmap.environmentId,
+         environmentId: id,
          njs: beatmap.njs,
          njsOffset: beatmap.njsOffset,
          filename: beatmap.filename,

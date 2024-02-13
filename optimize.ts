@@ -134,14 +134,11 @@ export function difficulty(
       const [newObstacleData, remapObstacleIdx] = remapDedupe(
          data.obstaclesData,
       );
-      const [newChainData, remapChainIdx] = remapDedupe(
-         data.chainsData,
-      );
+      const [newChainData, remapChainIdx] = remapDedupe(data.chainsData);
       const [newArcData, remapArcIdx] = remapDedupe(data.arcsData);
+      const [newSRData, remapSRIdx] = remapDedupe(data.spawnRotationsData);
 
-      data.colorNotes.forEach(
-         (d) => (d.i = remapColorNoteIdx.get(d.i!)),
-      );
+      data.colorNotes.forEach((d) => (d.i = remapColorNoteIdx.get(d.i!)));
       data.bombNotes.forEach((d) => (d.i = remapBombNoteIdx.get(d.i!)));
       data.obstacles.forEach((d) => (d.i = remapObstacleIdx.get(d.i!)));
       data.chains.forEach((d) => {
@@ -153,12 +150,14 @@ export function difficulty(
          d.hi = remapColorNoteIdx.get(d.hi!);
          d.ti = remapColorNoteIdx.get(d.ti!);
       });
+      data.spawnRotations.forEach((d) => (d.i = remapSRIdx.get(d.i!)));
 
       data.colorNotesData = newNoteColorData;
       data.bombNotesData = newBombNoteData;
       data.obstaclesData = newObstacleData;
       data.chainsData = newChainData;
       data.arcsData = newArcData;
+      data.spawnRotationsData = newSRData;
    }
 
    // deno-lint-ignore no-explicit-any
@@ -232,15 +231,11 @@ export function lightshow(
          data.floatFxEvents,
       );
 
-      data.basicEvents.forEach(
-         (d) => (d.i = remapBasicEventsIdx.get(d.i!)),
-      );
+      data.basicEvents.forEach((d) => (d.i = remapBasicEventsIdx.get(d.i!)));
       data.colorBoostEvents.forEach(
          (d) => (d.i = remapColorBoostEventsIdx.get(d.i!)),
       );
-      data.waypoints.forEach(
-         (d) => (d.i = remapWaypointsIdx.get(d.i!)),
-      );
+      data.waypoints.forEach((d) => (d.i = remapWaypointsIdx.get(d.i!)));
       for (const ebg of data.eventBoxGroups) {
          for (const evt of ebg.e!) {
             evt.f = remapIndexFiltersIdx.get(evt.f!);
