@@ -468,14 +468,14 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
 
       this.customData._colorLeft = Object.entries(id.saberLeftColor).reduce(
          (p, v) => {
-            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            p[v[0] as 'r'] = v[1];
             return p;
          },
          { r: 0, g: 0, b: 0 },
       );
       this.customData._colorRight = Object.entries(id.saberRightColor).reduce(
          (p, v) => {
-            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            p[v[0] as 'r'] = v[1];
             return p;
          },
          { r: 0, g: 0, b: 0 },
@@ -484,7 +484,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
          id.environment0Color,
       ).reduce(
          (p, v) => {
-            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            p[v[0] as 'r'] = v[1];
             return p;
          },
          { r: 0, g: 0, b: 0 },
@@ -493,7 +493,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
          id.environment1Color,
       ).reduce(
          (p, v) => {
-            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            p[v[0] as 'r'] = v[1];
             return p;
          },
          { r: 0, g: 0, b: 0 },
@@ -502,7 +502,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
          id.environment0ColorBoost,
       ).reduce(
          (p, v) => {
-            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            p[v[0] as 'r'] = v[1];
             return p;
          },
          { r: 0, g: 0, b: 0 },
@@ -511,14 +511,14 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
          id.environment1ColorBoost,
       ).reduce(
          (p, v) => {
-            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            p[v[0] as 'r'] = v[1];
             return p;
          },
          { r: 0, g: 0, b: 0 },
       );
       this.customData._obstacleColor = Object.entries(id.obstaclesColor).reduce(
          (p, v) => {
-            if (v[0] !== 'a') p[v[0] as 'r'] = v[1];
+            p[v[0] as 'r'] = v[1];
             return p;
          },
          { r: 0, g: 0, b: 0 },
