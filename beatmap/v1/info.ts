@@ -236,10 +236,10 @@ export class Info extends WrapInfo<IInfo, IInfoDifficulty> {
       data:
          & Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>
          & Partial<IV1ExtraInfoDifficulty>,
-      mode?: CharacteristicName,
+      characteristic?: CharacteristicName,
    ): this {
       data.audioPath ||= this.songFilename;
-      this.difficulties.push(new InfoDifficulty(data, mode));
+      this.difficulties.push(new InfoDifficulty(data, characteristic));
       return this;
    }
 
@@ -297,7 +297,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
          & Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>
          & Partial<IV1ExtraInfoDifficulty> = {},
       songFileName?: string,
-      mode?: CharacteristicName,
+      characteristic?: CharacteristicName,
    ) {
       super();
 
@@ -308,7 +308,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
       this.njsOffset = 0;
 
       this.audioPath = songFileName ?? 'song.ogg';
-      this.characteristic = mode || 'Standard';
+      this.characteristic = characteristic || 'Standard';
       this.offset = data.offset;
       this.oldOffset = data.oldOffset;
       this.chromaToggle = data.chromaToggle;
@@ -326,15 +326,15 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
          & Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>
          & Partial<IV1ExtraInfoDifficulty> = {},
       songFileName?: string,
-      mode?: CharacteristicName,
+      characteristic?: CharacteristicName,
    ) {
-      return new this(data, songFileName, mode);
+      return new this(data, songFileName, characteristic);
    }
 
    static fromJSON(
       data: Partial<IInfoDifficulty> = {},
       songFileName?: string,
-      mode?: CharacteristicName,
+      characteristic?: CharacteristicName,
    ): InfoDifficulty {
       const d = new this();
       d.difficulty = data.difficulty ?? 'Easy';
@@ -344,7 +344,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
       d.njsOffset = 0;
 
       d.audioPath = songFileName ?? 'song.ogg';
-      d.characteristic = mode || 'Standard';
+      d.characteristic = characteristic || 'Standard';
       d.offset = data.offset;
       d.oldOffset = data.oldOffset;
       d.chromaToggle = data.chromaToggle;

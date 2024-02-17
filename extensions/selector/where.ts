@@ -1,6 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
 import { IFilter } from './types/filter.ts';
-import { Difficulty } from '../../beatmap/v3/difficulty.ts';
 import { DeepPartialWrapper } from '../../types/utils.ts';
 import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
@@ -73,7 +72,3 @@ export function where<T extends IWrapBaseObject, U extends DeepPartialWrapper<T>
          return !result;
       });
 }
-
-const d = new Difficulty();
-
-where(d.obstacles, { include: {} });

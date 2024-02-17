@@ -1,6 +1,6 @@
-import { BombNote } from '../../../beatmap/v3/bombNote.ts';
-import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
-import { Chain } from '../../../beatmap/v3/chain.ts';
-import { Arc } from '../../../beatmap/v3/arc.ts';
+import { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
+import { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import { IWrapChain } from '../../../types/beatmap/wrapper/chain.ts';
+import { IWrapArc } from '../../../types/beatmap/wrapper/arc.ts';
 
-export type IChromaNote = ColorNote | BombNote | Chain | Arc;
+export type IChromaNote = IWrapColorNote | IWrapBombNote | IWrapChain | IWrapArc;

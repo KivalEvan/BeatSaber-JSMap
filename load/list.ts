@@ -43,7 +43,7 @@ export function beatmapFromInfo(
       postprocess: options.postprocess ?? defaultOptions.list.postprocess,
    };
    return Promise.all(
-      info.listMap().map(async ([mode, beatmap]) => {
+      info.listMap().map(async ([characteristic, beatmap]) => {
          let p;
          try {
             p = resolve(opt.directory, beatmap.filename);
@@ -63,7 +63,7 @@ export function beatmapFromInfo(
 
             const data = _difficulty(json, beatmap.filename, jsonVer, opt);
             return {
-               characteristic: mode,
+               characteristic: characteristic,
                difficulty: beatmap.difficulty,
                settings: beatmap,
                version: jsonVer,
@@ -109,7 +109,7 @@ export function beatmapFromInfoSync(
    };
    return info
       .listMap()
-      .map(([mode, beatmap]) => {
+      .map(([characteristic, beatmap]) => {
          let p;
          try {
             p = resolve(opt.directory, beatmap.filename);
@@ -129,7 +129,7 @@ export function beatmapFromInfoSync(
 
             const data = _difficulty(json, beatmap.filename, jsonVer, opt);
             return {
-               characteristic: mode,
+               characteristic: characteristic,
                difficulty: beatmap.difficulty,
                settings: beatmap,
                version: jsonVer,

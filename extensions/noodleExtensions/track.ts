@@ -42,9 +42,9 @@ export function removeTrack(
          return;
       } else if (Array.isArray(objects.customData.track)) {
          if (objects.customData.track.includes(track)) {
-            objects.customData.track = objects.customData.track.filter((
-               t,
-            ) => t !== track);
+            objects.customData.track = objects.customData.track.filter(
+               (t: string) => t !== track,
+            );
             if (objects.customData.track.length === 1) {
                objects.customData.track = objects.customData.track[0];
             }

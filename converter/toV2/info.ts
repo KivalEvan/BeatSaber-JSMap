@@ -55,7 +55,7 @@ function fromV1Info(template: V2Info, data: V1Info) {
    template.customData.customEnvironment = data.customEnvironment;
    template.customData.customEnvironmentHash = data.customEnvironmentHash;
 
-   data.listMap().forEach(([mode, beatmap]) => {
+   data.listMap().forEach(([characteristic, beatmap]) => {
       template.addMap(
          {
             difficulty: beatmap.difficulty,
@@ -74,7 +74,7 @@ function fromV1Info(template: V2Info, data: V1Info) {
                _obstacleColor: shallowCopy(beatmap.obstacleColor),
             },
          },
-         mode,
+         characteristic,
       );
    });
 }

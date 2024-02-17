@@ -1,11 +1,11 @@
-import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
-import { Obstacle } from '../../../beatmap/v3/obstacle.ts';
-import { BasicEvent } from '../../../beatmap/v3/basicEvent.ts';
+import { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
+import { IWrapEvent } from '../../../types/beatmap/wrapper/event.ts';
 import { Easings } from '../../../types/easings.ts';
 import { ColorArray, ColorInput, ColorType } from '../../../types/colors.ts';
 import { SetOptions } from './options.ts';
 
-export type IChromaObject = ColorNote | Obstacle | BasicEvent;
+export type IChromaObject = IWrapColorNote | IWrapObstacle | IWrapEvent;
 
 export interface SetColorOptions {
    color: ColorInput;
@@ -46,14 +46,14 @@ export interface ShiftColorGradientOptions extends ShiftColorBaseOptions {
 
 export interface ApplyEasingsOptions {
    easing: Easings;
-   type?: BasicEvent['type'];
+   type?: IWrapEvent['type'];
 }
 
 export interface pRandomLightIDOptions {
    colorStart: ColorArray;
    colorEnd: ColorArray;
    colorType?: 'rgba' | 'long hsva' | 'short hsva';
-   type: BasicEvent['type'];
+   type: IWrapEvent['type'];
    duration: number;
    length: number;
    precision: number;
@@ -77,7 +77,7 @@ export interface pRandomLightI2DOptions {
    step: number;
    lightOff: boolean;
    offStrobe: boolean;
-   lightID: [BasicEvent['type'], number][];
+   lightID: [IWrapEvent['type'], number][];
    lightIDMulti?: number;
    offsetEnd?: boolean;
    easingColor?: (x: number) => number;

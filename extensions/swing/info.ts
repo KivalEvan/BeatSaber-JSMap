@@ -1,11 +1,11 @@
 import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
-import { Difficulty } from '../../beatmap/v3/difficulty.ts';
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { NoteContainer } from '../../types/beatmap/wrapper/container.ts';
 import { ISwingAnalysis, ISwingCount } from './types/swing.ts';
 import { median } from '../../utils/math.ts';
 import Swing from './swing.ts';
+import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 
 // derived from Uninstaller's Swings Per Second tool
 // some variable or function may have been modified
@@ -68,7 +68,7 @@ function calcMaxRollingSps(swingArray: number[], x: number): number {
 }
 
 export function info(
-   difficulty: Difficulty,
+   difficulty: IWrapDifficulty,
    bpm: BeatPerMinute,
    charName: CharacteristicName,
    diffName: DifficultyName,

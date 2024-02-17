@@ -15,7 +15,7 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
    };
 
    static create(
-      data: DeepPartial<IWrapEventTypesWithKeywordsAttribute> = {}
+      data: DeepPartial<IWrapEventTypesWithKeywordsAttribute> = {},
    ): SpecialEventsKeywordFilters {
       return new this(data);
    }
@@ -24,17 +24,17 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
       super();
       if (data.list) {
          this._list = data.list.map(
-            (d) => new SpecialEventsKeywordFiltersKeywords(d)
+            (d) => new SpecialEventsKeywordFiltersKeywords(d),
          );
       } else {
          this._list = SpecialEventsKeywordFilters.default._keywords.map(
-            (json) => SpecialEventsKeywordFiltersKeywords.fromJSON(json)
+            (json) => SpecialEventsKeywordFiltersKeywords.fromJSON(json),
          );
       }
    }
 
    static fromJSON(
-      data: DeepPartial<ISpecialEventsKeywordFilters> = {}
+      data: DeepPartial<ISpecialEventsKeywordFilters> = {},
    ): SpecialEventsKeywordFilters {
       const d = new this();
       d._list = (
