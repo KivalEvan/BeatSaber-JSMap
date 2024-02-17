@@ -7,6 +7,8 @@ import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { clamp } from '../../utils/math.ts';
 import objectToV3 from '../customData/objectToV3.ts';
+import { SpawnRotation } from '../../beatmap/v4/rotationEvent.ts';
+import { EventLaneRotationValue } from '../../types/beatmap/shared/constants.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV4Difficulty', name];
@@ -66,6 +68,21 @@ function fromV1Difficulty(template: V4Difficulty, data: V1Difficulty) {
       }
    });
    template.addObstacles(...data.obstacles);
+   data.basicEvents.forEach((e) => {
+      if (e.isLaneRotationEvent()) {
+         template.rotationEvents.push(
+            new SpawnRotation({
+               time: e.time,
+               executionTime: e.type === 14 ? 0 : 1,
+               rotation: typeof e.customData._rotation === 'number'
+                  ? e.customData._rotation
+                  : e.value >= 1000
+                  ? (e.value - 1360) % 360
+                  : EventLaneRotationValue[e.value] ?? 0,
+            }),
+         );
+      }
+   });
 }
 
 function fromV2Difficulty(template: V4Difficulty, data: V2Difficulty) {
@@ -162,6 +179,21 @@ function fromV2Difficulty(template: V4Difficulty, data: V2Difficulty) {
       }
    });
    template.addArcs(...data.arcs);
+   data.basicEvents.forEach((e) => {
+      if (e.isLaneRotationEvent()) {
+         template.rotationEvents.push(
+            new SpawnRotation({
+               time: e.time,
+               executionTime: e.type === 14 ? 0 : 1,
+               rotation: typeof e.customData._rotation === 'number'
+                  ? e.customData._rotation
+                  : e.value >= 1000
+                  ? (e.value - 1360) % 360
+                  : EventLaneRotationValue[e.value] ?? 0,
+            }),
+         );
+      }
+   });
 }
 
 function fromV3Difficulty(template: V4Difficulty, data: V3Difficulty) {
