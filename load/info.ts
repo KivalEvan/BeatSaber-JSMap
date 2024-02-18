@@ -73,7 +73,7 @@ function _info(
 
    let data: IWrapInfo;
    const parser = parseMap[jsonVer];
-   if (parser) data = parser(json).setFilename(filePath);
+   if (parser) data = parser(json, opt.dataCheck).setFilename(filePath);
    else {
       throw new Error(
          `Info version ${jsonVer} is not supported, this may be an error in JSON or is newer than currently supported.`,

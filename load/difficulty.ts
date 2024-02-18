@@ -86,7 +86,7 @@ export function _difficulty(
 
    let data: IWrapDifficulty;
    const parser = parseMap[jsonVer];
-   if (parser) data = parser(json).setFilename(filePath);
+   if (parser) data = parser(json, opt.dataCheck).setFilename(filePath);
    else {
       throw new Error(
          `Beatmap version ${jsonVer} is not supported, this may be an error in JSON or is newer than currently supported.`,
