@@ -7,11 +7,11 @@ scripting development surrounding beatmap.
 It is designed to be simple and familiar with traditional scripting with barely hidden layer of
 abstraction. It is optimised for speed with minimal compromise allowing for faster work iteration.
 
----
-
-> ⚠️ **Work-in-progress**: Breaking changes is to be expected in new minor version release.
-
----
+> [!WARNING]
+>
+> API changes, structural changes, or game updates that require restructuring may result in breaking
+> changes in future update. Many work has been placed in order to minimise the breakage on minor
+> version update.
 
 ## Features
 
@@ -56,10 +56,13 @@ const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 4);
 bsmap.save.difficultySync(data);
 ```
 
-**NOTE:** Recommended to lock version to ensure the script works without breaking from newer update.
-For rolling release, visit [GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw
-file directly from there (`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`),
-you may need to occasionally add `--reload` tag for latest update.
+> [!TIP]
+>
+> Recommended to lock version to ensure the script works without breaking from newer update. For
+> rolling release, visit [GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw
+> file directly from there
+> (`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`), you may need to
+> occasionally add `--reload` tag for latest update.
 
 You may also clone the module to store and import locally, and make any modification as you wish.
 
@@ -79,12 +82,14 @@ automatically allow for read and write while watching for change in script.
 
 For further explanation, see [Deno Manual](https://deno.land/manual).
 
-**To first timer:** Make sure to initialise Deno workspace before using the script. If you encounter
-import error, you can ignore and run the (empty) script then it will automatically fetch the URL for
-you. Alternatively, `Alt+.` on the error message may reveal fix problem solution. If you are having
-issue of not being able to retrieve module, then cache or reload the module to fix it. To reload or
-cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno server if necessary.
-If it still does not work, change to a different workspace.
+> [!NOTE]
+>
+> **For first timer:** Make sure to initialise Deno workspace before using the script. If you
+> encounter import error, you can ignore and run the (empty) script then it will automatically fetch
+> the URL for you. Alternatively, `Alt+.` on the error message may reveal fix problem solution. If
+> you are having issue of not being able to retrieve module, then cache or reload the module to fix
+> it. To reload or cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno
+> server if necessary. If it still does not work, change to a different workspace.
 
 If you are using GitHub version and want to update to newer version, simply run
 `deno run --reload yourscriptpath.ts`; do note that it may break existing part of your code that

@@ -21,12 +21,14 @@ add the following on top of the script. No additional file or setup needed, it j
 import * as bsmap from 'https://deno.land/x/bsmap@1.6.0/mod.ts';
 ```
 
-**To first timer:** Make sure to initialise Deno workspace before using the script. If you encounter
-import error, you can ignore and run the (empty) script then it will automatically fetch the URL for
-you. Alternatively, `Alt+.` on the error message may reveal fix problem solution. If you are having
-issue of not being able to retrieve module, then cache or reload the module to fix it. To reload or
-cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno server if necessary.
-If it still does not work, change to a different workspace.
+> [!NOTE]
+>
+> **For first timer:** Make sure to initialise Deno workspace before using the script. If you
+> encounter import error, you can ignore and run the (empty) script then it will automatically fetch
+> the URL for you. Alternatively, `Alt+.` on the error message may reveal fix problem solution. If
+> you are having issue of not being able to retrieve module, then cache or reload the module to fix
+> it. To reload or cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno
+> server if necessary. If it still does not work, change to a different workspace.
 
 For rolling release, visit [GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw
 file directly from there (`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`),
@@ -89,12 +91,16 @@ source folder and saving to target the folder. You may change this anytime whene
 globals.directory = './YOUR/MAP/FOLDER/PATH/';
 ```
 
-**NOTE:** Directory and file path will be overridden if explicitly provided in one of the following
-load and save functions.
+> [!IMPORTANT]
+>
+> Directory and file path will be overridden if explicitly provided in one of the following load and
+> save functions.
 
-**To new coder:** Windows typically uses `\` instead of `/` in path, this actually means escape
-character in programming and would result in error. You may need to change the slash or escape
-character.
+> [!TIP]
+>
+> **To new coder:** Windows typically uses `\` instead of `/` in path, this actually means escape
+> character in programming world and would result in error. You may need to change the slash or
+> escape character.
 
 ## Beatmap Object
 
@@ -104,11 +110,12 @@ directly from class object. Custom data is always available and require no check
 
 ### Creation
 
-Each beatmap object including difficulty contain a static method `create` which allows you to
-instantiate one or more objects. Partial or no data can be used to instantiate an object and will
-use default value to fill the empty spot. This method always return object(s) in an array with an
-exception being object that is not placed in array such as difficulty and index filter.
-Alternatively, if you prefer just a single object instantiation, you may use constructor method.
+Each beatmap object including difficulty can be constructed using regular constructor or using
+static method `create` which allows you to instantiate one or more objects. Partial or no data can
+be used to instantiate an object and will use default value to fill the empty spot. This method
+always return object(s) in an array with an exception being object that is not placed in array such
+as difficulty and index filter. Alternatively, if you prefer just a single object instantiation, you
+may use constructor method.
 
 ```ts
 const bomb = v3.BombNote.create();
@@ -121,9 +128,7 @@ const notes = v3.ColorNote.create(
       posY: 0,
    },
 );
-const obstacle = v3.Obstacle.fromJSON(
-   { b: 1, h: 1, w: 1, d: 1 },
-);
+const obstacle = v3.Obstacle.fromJSON({ b: 1, h: 1, w: 1, d: 1 });
 data.colorNotes.push(...notes);
 ```
 
@@ -131,10 +136,7 @@ Difficulty class has a built-in method that allows instantiating of an object di
 into an array. This creates a new object instead of reusing existing object.
 
 ```ts
-data.addBasicEvents(
-   { time: 2, type: 1, value: 3 },
-   {},
-);
+data.addBasicEvents({ time: 2, type: 1, value: 3 }, {});
 data.addBasicEvents(...events);
 ```
 
@@ -237,7 +239,10 @@ used extensively in the library and is encouraged to explore further into it by 
 casting. This is an intermediate knowledge of TypeScript but should be relatively easy to grasp.
 
 ```ts
-const event = [{ c: 2 }, { b: 0.25, s: 0, i: 1 }] as Partial<types.v3.LightColorBase>[];
+const event = [
+   { c: 2 },
+   { b: 0.25, s: 0, i: 1 },
+] as Partial<types.v3.LightColorBase>[];
 data.addLightColorEventBoxGroup({ e: [{ e: event }] });
 ```
 
