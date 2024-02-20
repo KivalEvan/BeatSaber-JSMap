@@ -117,11 +117,6 @@ export function _difficulty(
  * ```
  */
 export function difficulty(
-   data: IWrapDifficulty,
-   options?: ISaveOptionsDifficulty,
-   // deno-lint-ignore no-explicit-any
-): Promise<Record<string, any>>;
-export function difficulty(
    data: V1Difficulty,
    options?: ISaveOptionsDifficulty,
 ): Promise<IV1Difficulty>;
@@ -137,6 +132,11 @@ export function difficulty(
    data: V4Difficulty,
    options?: ISaveOptionsDifficulty,
 ): Promise<IV4Difficulty>;
+export function difficulty(
+   data: IWrapDifficulty,
+   options?: ISaveOptionsDifficulty,
+   // deno-lint-ignore no-explicit-any
+): Promise<Record<string, any>>;
 export function difficulty(
    data: IWrapDifficulty,
    options: ISaveOptionsDifficulty = {},
@@ -167,11 +167,6 @@ export function difficulty(
  * ```
  */
 export function difficultySync(
-   data: IWrapDifficulty,
-   options?: ISaveOptionsDifficulty,
-   // deno-lint-ignore no-explicit-any
-): Record<string, any>;
-export function difficultySync(
    data: V1Difficulty,
    options?: ISaveOptionsDifficulty,
 ): IV1Difficulty;
@@ -187,6 +182,11 @@ export function difficultySync(
    data: V4Difficulty,
    options?: ISaveOptionsDifficulty,
 ): IV4Difficulty;
+export function difficultySync(
+   data: IWrapDifficulty,
+   options?: ISaveOptionsDifficulty,
+   // deno-lint-ignore no-explicit-any
+): Record<string, any>;
 export function difficultySync(
    data: IWrapDifficulty,
    options: ISaveOptionsDifficulty = {},

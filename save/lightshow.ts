@@ -106,11 +106,6 @@ function _lightshow(data: IWrapLightshow, options: ISaveOptionsLightshow) {
  * ```
  */
 export function lightshow(
-   data: IWrapLightshow,
-   options?: ISaveOptionsLightshow,
-   // deno-lint-ignore no-explicit-any
-): Promise<Record<string, any>>;
-export function lightshow(
    data: V3Lightshow,
    options?: ISaveOptionsLightshow,
 ): Promise<IV3Lightshow>;
@@ -118,6 +113,11 @@ export function lightshow(
    data: V4Lightshow,
    options?: ISaveOptionsLightshow,
 ): Promise<IV4Lightshow>;
+export function lightshow(
+   data: IWrapLightshow,
+   options?: ISaveOptionsLightshow,
+   // deno-lint-ignore no-explicit-any
+): Promise<Record<string, any>>;
 export function lightshow(
    data: IWrapLightshow,
    options: ISaveOptionsLightshow = {},
@@ -148,11 +148,6 @@ export function lightshow(
  * ```
  */
 export function lightshowSync(
-   data: IWrapLightshow,
-   options?: ISaveOptionsLightshow,
-   // deno-lint-ignore no-explicit-any
-): Record<string, any>;
-export function lightshowSync(
    data: V3Lightshow,
    options?: ISaveOptionsLightshow,
 ): IV3Lightshow;
@@ -160,6 +155,11 @@ export function lightshowSync(
    data: V4Lightshow,
    options?: ISaveOptionsLightshow,
 ): IV4Lightshow;
+export function lightshowSync(
+   data: IWrapLightshow,
+   options?: ISaveOptionsLightshow,
+   // deno-lint-ignore no-explicit-any
+): Record<string, any>;
 export function lightshowSync(
    data: IWrapLightshow,
    options: ISaveOptionsLightshow = {},

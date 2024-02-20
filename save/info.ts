@@ -92,14 +92,14 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
  * await save.info(info);
  * ```
  */
+export function info(data: V1Info, options?: ISaveOptionsInfo): Promise<IV1Info>;
+export function info(data: V2Info, options?: ISaveOptionsInfo): Promise<IV2Info>;
+export function info(data: V4Info, options?: ISaveOptionsInfo): Promise<IV4Info>;
 export function info(
    data: IWrapInfo,
    options?: ISaveOptionsInfo,
    // deno-lint-ignore no-explicit-any
 ): Promise<Record<string, any>>;
-export function info(data: V1Info, options?: ISaveOptionsInfo): Promise<IV1Info>;
-export function info(data: V2Info, options?: ISaveOptionsInfo): Promise<IV2Info>;
-export function info(data: V4Info, options?: ISaveOptionsInfo): Promise<IV4Info>;
 export function info(data: IWrapInfo, options: ISaveOptionsInfo = {}) {
    logger.tInfo(tag('info'), 'Async saving info');
    const json = _info(data, options);
@@ -124,14 +124,14 @@ export function info(data: IWrapInfo, options: ISaveOptionsInfo = {}) {
  * save.infoSync(info);
  * ```
  */
+export function infoSync(data: V1Info, options?: ISaveOptionsInfo): IV1Info;
+export function infoSync(data: V2Info, options?: ISaveOptionsInfo): IV2Info;
+export function infoSync(data: V4Info, options?: ISaveOptionsInfo): IV4Info;
 export function infoSync(
    data: IWrapInfo,
    options?: ISaveOptionsInfo,
    // deno-lint-ignore no-explicit-any
 ): Record<string, any>;
-export function infoSync(data: V1Info, options?: ISaveOptionsInfo): IV1Info;
-export function infoSync(data: V2Info, options?: ISaveOptionsInfo): IV2Info;
-export function infoSync(data: V4Info, options?: ISaveOptionsInfo): IV4Info;
 export function infoSync(data: IWrapInfo, options: ISaveOptionsInfo = {}) {
    logger.tInfo(tag('infoSync'), 'Sync saving info');
    const json = _info(data, options);
