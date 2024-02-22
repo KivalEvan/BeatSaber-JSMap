@@ -1,5 +1,5 @@
 import { ISaveOptionsList } from '../types/bsmap/save.ts';
-import { ILoadInfoData } from '../types/bsmap/infoBeatmap.ts';
+import { IBeatmapData } from '../types/bsmap/beatmap.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
 import { resolve } from '../deps.ts';
@@ -18,7 +18,7 @@ function tag(name: string): string[] {
  * ```
  */
 export function beatmapList(
-   difficulties: ILoadInfoData[],
+   difficulties: IBeatmapData[],
    options: ISaveOptionsList = {},
 ) {
    logger.tInfo(tag('beatmapList'), 'Async saving list of difficulty');
@@ -51,7 +51,7 @@ export function beatmapList(
  * ```
  */
 export function beatmapListSync(
-   difficulties: ILoadInfoData[],
+   difficulties: IBeatmapData[],
    options: ISaveOptionsList = {},
 ) {
    logger.tInfo(tag('beatmapListSync'), 'Sync saving list of difficulty');

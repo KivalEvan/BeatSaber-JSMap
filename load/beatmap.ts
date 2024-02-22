@@ -1,4 +1,4 @@
-import { ILoadInfoData } from '../types/bsmap/infoBeatmap.ts';
+import { IBeatmapData } from '../types/bsmap/beatmap.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
 import { ILoadOptionsDifficulty } from '../types/bsmap/load.ts';
@@ -24,14 +24,12 @@ function tag(name: string): string[] {
  */
 export function beatmapFromInfo(
    info: IWrapInfo,
-   options: ILoadOptionsDifficulty = {},
-): Promise<ILoadInfoData[]> {
-   logger.tInfo(
-      tag('beatmapFromInfo'),
-      'Async loading difficulty from info',
-   );
+   options: ILoadOptionsDifficulty = {}
+): Promise<IBeatmapData[]> {
+   logger.tInfo(tag('beatmapFromInfo'), 'Async loading difficulty from info');
    const opt: Required<ILoadOptionsDifficulty> = {
-      directory: options.directory ??
+      directory:
+         options.directory ??
          (globals.directory || defaultOptions.list.directory),
       forceConvert: options.forceConvert ?? defaultOptions.list.forceConvert,
       dataCheck: {
@@ -43,17 +41,18 @@ export function beatmapFromInfo(
       postprocess: options.postprocess ?? defaultOptions.list.postprocess,
    };
    return Promise.all(
-      info.listMap().map(async ([characteristic, beatmap]) => {
+      info.listMap().map(async ([_, beatmapInfo]) => {
          let p;
          try {
-            p = resolve(opt.directory, beatmap.filename);
+            p = resolve(opt.directory, beatmapInfo.filename);
             const json = await readJSONFile(p);
 
-            const jsonVerStr = typeof json._version === 'string'
-               ? json._version.at(0)
-               : typeof json.version === 'string'
-               ? json.version.at(0)
-               : null;
+            const jsonVerStr =
+               typeof json._version === 'string'
+                  ? json._version.at(0)
+                  : typeof json.version === 'string'
+                  ? json.version.at(0)
+                  : null;
             let jsonVer: number;
             if (jsonVerStr) {
                jsonVer = parseInt(jsonVerStr);
@@ -61,22 +60,20 @@ export function beatmapFromInfo(
                jsonVer = 2;
             }
 
-            const data = _difficulty(json, beatmap.filename, jsonVer, opt);
+            const data = _difficulty(json, beatmapInfo.filename, jsonVer, opt);
             return {
-               characteristic: characteristic,
-               difficulty: beatmap.difficulty,
-               settings: beatmap,
+               settings: beatmapInfo,
                version: jsonVer,
                data: data,
             };
          } catch {
             logger.tWarn(
                tag('beatmapFromInfo'),
-               `Could not load difficulty from ${p}, skipping...`,
+               `Could not load difficulty from ${p}, skipping...`
             );
          }
-      }),
-   ).then((d) => d.filter((e) => e) as ILoadInfoData[]);
+      })
+   ).then((d) => d.filter((e) => e) as IBeatmapData[]);
 }
 
 /**
@@ -92,14 +89,15 @@ export function beatmapFromInfo(
  */
 export function beatmapFromInfoSync(
    info: IWrapInfo,
-   options: ILoadOptionsDifficulty = {},
-): ILoadInfoData[] {
+   options: ILoadOptionsDifficulty = {}
+): IBeatmapData[] {
    logger.tInfo(
       tag('beatmapFromInfoSync'),
-      'Sync loading difficulty from info',
+      'Sync loading difficulty from info'
    );
    const opt: Required<ILoadOptionsDifficulty> = {
-      directory: options.directory ??
+      directory:
+         options.directory ??
          (globals.directory || defaultOptions.list.directory),
       forceConvert: options.forceConvert ?? defaultOptions.list.forceConvert,
       dataCheck: options.dataCheck ?? defaultOptions.list.dataCheck,
@@ -109,17 +107,18 @@ export function beatmapFromInfoSync(
    };
    return info
       .listMap()
-      .map(([characteristic, beatmap]) => {
+      .map(([_, beatmapInfo]) => {
          let p;
          try {
-            p = resolve(opt.directory, beatmap.filename);
+            p = resolve(opt.directory, beatmapInfo.filename);
             const json = readJSONFileSync(p);
 
-            const jsonVerStr = typeof json._version === 'string'
-               ? json._version.at(0)
-               : typeof json.version === 'string'
-               ? json.version.at(0)
-               : null;
+            const jsonVerStr =
+               typeof json._version === 'string'
+                  ? json._version.at(0)
+                  : typeof json.version === 'string'
+                  ? json.version.at(0)
+                  : null;
             let jsonVer: number;
             if (jsonVerStr) {
                jsonVer = parseInt(jsonVerStr);
@@ -127,20 +126,18 @@ export function beatmapFromInfoSync(
                jsonVer = 2;
             }
 
-            const data = _difficulty(json, beatmap.filename, jsonVer, opt);
+            const data = _difficulty(json, beatmapInfo.filename, jsonVer, opt);
             return {
-               characteristic: characteristic,
-               difficulty: beatmap.difficulty,
-               settings: beatmap,
+               settings: beatmapInfo,
                version: jsonVer,
                data: data,
             };
          } catch {
             logger.tWarn(
                tag('beatmapFromInfoSync'),
-               `Could not load difficulty from ${p}, skipping...`,
+               `Could not load difficulty from ${p}, skipping...`
             );
          }
       })
-      .filter((e) => e) as ILoadInfoData[];
+      .filter((e) => e) as IBeatmapData[];
 }

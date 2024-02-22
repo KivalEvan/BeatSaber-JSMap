@@ -83,7 +83,7 @@ Deno.test('Load mixed beatmap implicitly', async (t) => {
          directory: './tests/resources/examples/JOURNEY/',
       });
       for (const bl of beatmapList) {
-         if (bl.characteristic === 'OneSaber') {
+         if (bl.settings.characteristic === 'OneSaber') {
             assertEquals(bl.version, 3);
             assertInstanceOf(bl.data, v3.Difficulty);
          } else {

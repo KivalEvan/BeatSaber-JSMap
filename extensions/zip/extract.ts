@@ -3,12 +3,12 @@ import { zip } from './deps.ts';
 import * as load from '../../load/mod.ts';
 import { fs } from './deps.ts';
 import { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
-import { ILoadInfoData } from '../../types/bsmap/infoBeatmap.ts';
+import { IBeatmapData } from '../../types/bsmap/beatmap.ts';
 import { resolve } from '../../deps.ts';
 
 export async function extract(
    zipPath: string,
-): Promise<{ info: IWrapInfo; difficulties: ILoadInfoData[] }> {
+): Promise<{ info: IWrapInfo; difficulties: IBeatmapData[] }> {
    try {
       fs.ensureDirSync(globals.directory + 'temp_bsmap_extract');
       const location = await zip.decompress(zipPath, globals.directory + 'temp_bsmap_extract', {

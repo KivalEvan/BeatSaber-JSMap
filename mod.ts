@@ -3,16 +3,18 @@
  *
  * This library provides beatmap schema, class object, and various toolings to handle Beat Saber map.
  * ```ts
- * import { globals, load, save } from "https://deno.land/x/bsmap@1.5.0/mod.ts";
+ * import { globals, load, save } from "https://deno.land/x/bsmap@1.6.0/mod.ts";
  * globals.directory = '/path/to/map/folder/here'; // uses cwd if not stated
- * const diff = load.difficultySync('ExpertStandard.dat', 3);
- * // ... do what you want here with `diff`
- * save.difficultySync(diff);
+ * const data = load.difficultySync('ExpertStandard.dat', 3);
+ * // ... do what you want here with `data`
+ * save.difficultySync(data);
  * ```
  *
  * `globals` module only affects the root-level script and the script being run in the current process.
  *
  * `extensions` module is omitted from the main module as it is unstable and contain 3rd-party library.
+ * 
+ * If you wish to only use `types` module for schema, you are free to import it directly.
  *
  * @module
  */
