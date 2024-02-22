@@ -322,7 +322,8 @@ function fixFxEventBoxGroup(obj: FxEventBoxGroup): void {
    obj.boxes.forEach(fixFxEventBox);
 }
 
-function fixFxEventInt(obj: FxEventInt): void {
+// FIXME: prolly never gonna be used
+function _fixFxEventInt(obj: FxEventInt): void {
    obj.time = fixFloat(obj.time, FxEventInt.default.b);
    obj.previous = fixInt(obj.previous, FxEventInt.default.p, [0, 1]);
    obj.value = fixFloat(obj.value, FxEventInt.default.v);

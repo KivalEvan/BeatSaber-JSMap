@@ -4,8 +4,8 @@ import { IInfo } from '../../types/beatmap/v2/info.ts';
 import { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
 import { deepClean, purgeZeros } from '../shared/clean.ts';
 
-// deno-lint-ignore no-explicit-any
 export function cleanDifficulty(
+   // deno-lint-ignore no-explicit-any
    data: Record<string, any> | IDifficulty,
    options: ICleanOptions,
 ) {
@@ -101,8 +101,8 @@ export function cleanDifficulty(
    }
 }
 
-// deno-lint-ignore no-explicit-any
 export function cleanInfo(
+   // deno-lint-ignore no-explicit-any
    data: Record<string, any> | IInfo,
    options: ICleanOptions,
 ) {

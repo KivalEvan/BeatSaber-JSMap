@@ -1,10 +1,7 @@
-import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import { INote } from '../../types/beatmap/v2/note.ts';
 import { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object.ts';
 import { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
 import { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
-import { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import { Vector2 } from '../../types/vector.ts';
 import { LANE_SIZE } from './constants.ts';
 import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
@@ -19,16 +16,6 @@ export function gridToUnityUnit(value: number): number {
 export function unityToGridUnit(value: number): number {
    return value / LANE_SIZE;
 }
-
-// export function currentEnvironment(
-//    info: IWrapInfo,
-//    characteristic?: CharacteristicName,
-// ): EnvironmentAllName {
-//    if (characteristic === '360Degree' || characteristic === '90Degree') {
-//       return info.allDirectionsEnvironmentName;
-//    }
-//    return info.environmentName;
-// }
 
 /**
  * Pass this to wrapper object array `sort` function as an argument.
