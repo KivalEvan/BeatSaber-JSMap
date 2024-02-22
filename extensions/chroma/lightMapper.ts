@@ -280,20 +280,18 @@ export class LightMapper {
                      }
                      if (!isFirst) {
                         event.customData.color = hsvaToRgba(
-                           ...(rgbaToHsva(...event.customData.color).map(
-                              (v, x) => {
-                                 if (!x) {
-                                    v! += eb.hueDistributionType === 'Division'
-                                       ? EasingsFn[
-                                          eb.hueDistributionEasing ??
-                                             'easeLinear'
-                                       ](i / (lid.length - 1)) *
-                                          eb.hueDistribution
-                                       : i * eb.hueDistribution;
-                                 }
-                                 return v;
-                              },
-                           ) as ColorArray),
+                           rgbaToHsva(event.customData.color).map((v, x) => {
+                              if (!x) {
+                                 v! += eb.hueDistributionType === 'Division'
+                                    ? EasingsFn[
+                                       eb.hueDistributionEasing ??
+                                          'easeLinear'
+                                    ](i / (lid.length - 1)) *
+                                       eb.hueDistribution
+                                    : i * eb.hueDistribution;
+                              }
+                              return v;
+                           }) as ColorArray,
                         );
                      }
                   }
