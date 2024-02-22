@@ -1,4 +1,10 @@
 {
+   "name": "bsmap",
+   "version": "1.6.0",
+   "exports":{
+      ".": "./mod.ts",
+      "./types": "./types/mod.ts"
+   },
    "lint": {
       "exclude": [".git", "coverage", "npm", "test", "example"]
    },
