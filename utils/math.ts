@@ -200,7 +200,7 @@ export function median(nums: number[]): number {
    if (nums.length === 0) {
       return 0;
    }
-   const ary = nums.toSorted((a: number, b: number) => a - b);
+   const ary = nums.map((n: number) => n).sort((a: number, b: number) => a - b);
    const mid = Math.floor(ary.length / 2);
    if (ary.length % 2) {
       return ary[mid];

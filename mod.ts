@@ -13,8 +13,8 @@
  * `globals` module only affects the root-level script and the script being run in the current process.
  *
  * `extensions` module is omitted from the main module as it is unstable and contain 3rd-party library.
- * 
- * If you wish to only use `types` module for schema, you are free to import it directly.
+ *
+ * If you wish to only use schema, you are free to import it directly.
  *
  * @module
  */

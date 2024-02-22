@@ -32,16 +32,16 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 
 ## Prerequisite
 
-- Deno 1.34.0 or latest
+- Deno 1.40.0 or latest
 - Basic JavaScript or TypeScript knowledge
   - Module is entirely TypeScript, but for common use case you do not need in-depth knowledge.
 
 ## Getting Started
 
 To get started, simply create a `.ts` file anywhere, preferably inside map folder for simpler setup,
-and import the module. That's it, no installation needed. Do check out the
-[example folder](./example) for templates you can use and read [the guide](./example/README.md) for
-more detail.
+import the module and arbitrary code, then run the script. That's it, no installation needed. Do
+check out the [example folder](./example) for templates you can use and read
+[the guide](./example/README.md) for more detail.
 
 The bare minimum example:
 
@@ -110,6 +110,8 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 - Exported types, interfaces, fields, and functions should be accompanied by JSDoc comment right
   above its definition
   - Function/method should provide usage example
+- Interfaces that are exposed to user must use `I` prefix to indicate interface rather than
+  instantiable object.
 
 #### Coding
 
@@ -132,19 +134,10 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
   - This can only be a problem when dealing with multiple beatmap version at once
 - Info `addMap` method is incomplete
 
-## Credits
+## Credits & References
 
 - [HSV conversion algorithm](https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c)
 - [CIE-L\*ab and Delta E2000 algorithm](https://www.easyrgb.com/)
 - Uninstaller and Qwasyx (improving it) for note swing detection algorithm
 - Top_Cat for math guidance
 - Others for helpful feedback & indirect contribution
-
-## Maintainer Note
-
-While it is true if I'm concerned about speed, I should just use other languages. But I'm also
-concerned about constant iteration and accessibility for everyone, and that beatmap file is in JSON
-format with optional props makes this far easier to handle than any other languages without any
-weird syntax/method to learn. Memory is the least part of the problem here, at least within the
-context of map scripting, it is a fair tradeoff. This makes the language the best choice for the
-job. I may look into JavaScript conversion to further reduce compilation time on cold start.

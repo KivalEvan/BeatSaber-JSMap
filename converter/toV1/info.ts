@@ -19,10 +19,10 @@ export function toV1Info(data: IWrapInfo): V1Info {
          template = new V1Info(data.toJSON());
          break;
       case data instanceof V2Info:
-         fromV2Info(template, data);
+         fromV2Info(template, data as V2Info);
          break;
       case data instanceof V4Info:
-         fromV4Info(template, data);
+         fromV4Info(template, data as V4Info);
          break;
       default:
          logger.tWarn(

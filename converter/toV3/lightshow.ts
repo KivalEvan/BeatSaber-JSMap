@@ -24,13 +24,13 @@ export function toV3Lightshow(
 
    switch (true) {
       case data instanceof V1Difficulty:
-         fromV1Difficulty(template, data);
+         fromV1Difficulty(template, data as V1Difficulty);
          break;
       case data instanceof V2Difficulty:
-         fromV2Difficulty(template, data);
+         fromV2Difficulty(template, data as V2Difficulty);
          break;
       case data instanceof V3Difficulty:
-         fromV3Difficulty(template, data);
+         fromV3Difficulty(template, data as V3Difficulty);
          break;
       case data instanceof V4Difficulty:
          // it really doesnt have anything to do with lightshow
@@ -40,7 +40,7 @@ export function toV3Lightshow(
          template = new V3Lightshow(data);
          break;
       case data instanceof V4Lightshow:
-         fromV4Lightshow(template, data);
+         fromV4Lightshow(template, data as V4Lightshow);
          break;
       default:
          logger.tWarn(

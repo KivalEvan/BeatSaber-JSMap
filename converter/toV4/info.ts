@@ -15,10 +15,10 @@ export function toV4Info(data: IWrapInfo): V4Info {
    let template = new V4Info();
    switch (true) {
       case data instanceof V1Info:
-         fromV1Info(template, data);
+         fromV1Info(template, data as V1Info);
          break;
       case data instanceof V2Info:
-         fromV2Info(template, data);
+         fromV2Info(template, data as V2Info);
          break;
       case data instanceof V4Info:
          template = new V4Info(data);

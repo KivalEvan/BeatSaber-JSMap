@@ -9,7 +9,7 @@
 
 export * from './custom/mod.ts';
 export * from './arc.ts';
-export * from './bpmInfo.ts'
+export * from './bpmInfo.ts';
 export * from './difficulty.ts';
 export * from './event.ts';
 export * from './info.ts';

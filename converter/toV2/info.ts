@@ -17,13 +17,13 @@ export function toV2Info(data: IWrapInfo): V2Info {
    let template = new V2Info();
    switch (true) {
       case data instanceof V1Info:
-         fromV1Info(template, data);
+         fromV1Info(template, data as V1Info);
          break;
       case data instanceof V2Info:
          template = new V2Info(data);
          break;
       case data instanceof V4Info:
-         fromV4Info(template, data);
+         fromV4Info(template, data as V4Info);
          break;
       default:
          logger.tWarn(

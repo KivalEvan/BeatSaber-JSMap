@@ -52,10 +52,11 @@ interface ILoadLightshowV4 extends ILoadLightshowBase {
    lightshow: V4Lightshow;
 }
 
-export type IBeatmapData = (
-   | ILoadDataV1
-   | ILoadDataV2
-   | ILoadDataV3
-   | ILoadDataV4
-) &
-   (ILoadLightshowV3 | ILoadLightshowV4);
+export type IBeatmapData =
+   & (
+      | ILoadDataV1
+      | ILoadDataV2
+      | ILoadDataV3
+      | ILoadDataV4
+   )
+   & (ILoadLightshowV3 | ILoadLightshowV4);
