@@ -1,6 +1,6 @@
 import { ColorArray } from '../../types/colors.ts';
 import * as colors from '../../utils/colors.ts';
-import { equalNear } from '../../utils/math.ts';
+import { nearEqual } from '../../utils/math.ts';
 import { EPSILON } from '../constants.ts';
 import { assert, assertAlmostEquals, assertEquals, assertThrows } from '../deps.ts';
 
@@ -460,21 +460,21 @@ Deno.test('Color to Lab', () => {
    const blueLab = [32.302586667249486, 79.19666178930935, -107.8636810449517];
    const magentaLab = [60.319933664076004, 98.25421868616108, -60.84298422386232];
 
-   assert(colors.rgbaToLabA(black).every((v, idx) => equalNear(v!, blackLab[idx], EPSILON)));
-   assert(colors.rgbaToLabA(gray).every((v, idx) => equalNear(v!, grayLab[idx], EPSILON)));
-   assert(colors.rgbaToLabA(white).every((v, idx) => equalNear(v!, whiteLab[idx], EPSILON)));
+   assert(colors.rgbaToLabA(black).every((v, idx) => nearEqual(v!, blackLab[idx], EPSILON)));
+   assert(colors.rgbaToLabA(gray).every((v, idx) => nearEqual(v!, grayLab[idx], EPSILON)));
+   assert(colors.rgbaToLabA(white).every((v, idx) => nearEqual(v!, whiteLab[idx], EPSILON)));
    assert(
-      colors.rgbaToLabA(translucent).every((v, idx) => equalNear(v!, translucentLab[idx], EPSILON)),
+      colors.rgbaToLabA(translucent).every((v, idx) => nearEqual(v!, translucentLab[idx], EPSILON)),
    );
    assert(
-      colors.rgbaToLabA(transparent).every((v, idx) => equalNear(v!, transparentLab[idx], EPSILON)),
+      colors.rgbaToLabA(transparent).every((v, idx) => nearEqual(v!, transparentLab[idx], EPSILON)),
    );
-   assert(colors.rgbaToLabA(red).every((v, idx) => equalNear(v!, redLab[idx], EPSILON)));
-   assert(colors.rgbaToLabA(yellow).every((v, idx) => equalNear(v!, yellowLab[idx], EPSILON)));
-   assert(colors.rgbaToLabA(green).every((v, idx) => equalNear(v!, greenLab[idx], EPSILON)));
-   assert(colors.rgbaToLabA(cyan).every((v, idx) => equalNear(v!, cyanLab[idx], EPSILON)));
-   assert(colors.rgbaToLabA(blue).every((v, idx) => equalNear(v!, blueLab[idx], EPSILON)));
-   assert(colors.rgbaToLabA(magenta).every((v, idx) => equalNear(v!, magentaLab[idx], EPSILON)));
+   assert(colors.rgbaToLabA(red).every((v, idx) => nearEqual(v!, redLab[idx], EPSILON)));
+   assert(colors.rgbaToLabA(yellow).every((v, idx) => nearEqual(v!, yellowLab[idx], EPSILON)));
+   assert(colors.rgbaToLabA(green).every((v, idx) => nearEqual(v!, greenLab[idx], EPSILON)));
+   assert(colors.rgbaToLabA(cyan).every((v, idx) => nearEqual(v!, cyanLab[idx], EPSILON)));
+   assert(colors.rgbaToLabA(blue).every((v, idx) => nearEqual(v!, blueLab[idx], EPSILON)));
+   assert(colors.rgbaToLabA(magenta).every((v, idx) => nearEqual(v!, magentaLab[idx], EPSILON)));
 });
 
 Deno.test('Color to Lab', () => {

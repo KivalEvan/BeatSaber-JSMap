@@ -53,10 +53,13 @@ function _random(
       }
       return result;
    }
-   [min, max] = fixRange(min, max);
+   [min, max] = rearrangeTuple(min, max);
    const result = fn() * (max - min) + min;
    return rounding
-      ? round(result, typeof rounding === 'number' && rounding > 0 ? rounding : 0)
+      ? round(
+         result,
+         typeof rounding === 'number' && rounding > 0 ? rounding : 0,
+      )
       : result;
 }
 
@@ -142,7 +145,11 @@ export function random(
 }
 
 /** Return number tuple in order. */
-export function fixRange(min: number, max: number, inverse?: boolean): [number, number] {
+export function rearrangeTuple(
+   min: number,
+   max: number,
+   inverse?: boolean,
+): [number, number] {
    if (!inverse && min > max) {
       return [max, min];
    }
@@ -157,6 +164,59 @@ export function round(num: number, d = 0): number {
    return Math.round(num * r) / r;
 }
 
+/**
+ * Return array of numbers given arguments.
+ * ```ts
+ * range(5); // [0, 1, 2, 3, 4]
+ * range(5, true); // [0, 1, 2, 3, 4, 5]
+ * range(5, 10); // [5, 6, 7, 8, 9]
+ * range(5, 10, true); // [5, 6, 7, 8, 9, 10]
+ * range(5, 10, 2); // [5, 7, 9]
+ * ```
+ */
+export function range(n: number, inclusive?: boolean): number[];
+export function range(
+   start: number,
+   end: number,
+   inclusive?: boolean,
+): number[];
+export function range(
+   start: number,
+   end: number,
+   step: number,
+   inclusive?: boolean,
+): number[];
+export function range(
+   arg0: number,
+   arg1?: number | boolean,
+   arg2?: number | boolean,
+   arg3?: boolean,
+): number[] {
+   let start = arg0;
+   let inc = arg3;
+   let end!: number;
+   let step!: number;
+   if (typeof arg1 === 'boolean') {
+      inc = arg1;
+   } else if (typeof arg1 === 'number') {
+      end = arg1;
+   } else {
+      end = start;
+      start = 0;
+   }
+   if (typeof arg2 === 'boolean') {
+      inc = arg2;
+   } else {
+      step = arg2!;
+   }
+   if (!step) step = start > end ? -1 : 1;
+   const ary = new Array(Math.floor((end - start) / step) + (inc ? 1 : 0));
+   for (let i = 0; i < ary.length; i++) {
+      ary[i] = start + i * step;
+   }
+   return ary;
+}
+
 export function radToDeg(rad: number) {
    return rad * (180 / Math.PI);
 }
@@ -166,9 +226,17 @@ export function degToRad(deg: number) {
 }
 
 /** Return [radius, theta, phi] */
-export function cartesianCoordToSphericalCoord(x: number, y: number, z: number): Vector3 {
+export function cartesianCoordToSphericalCoord(
+   x: number,
+   y: number,
+   z: number,
+): Vector3 {
    const radius = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-   return [radius, Math.acos(z / radius), (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI)];
+   return [
+      radius,
+      Math.acos(z / radius),
+      (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI),
+   ];
 }
 
 /** Return [x, y, z] */
@@ -215,7 +283,7 @@ export function clamp(value: number, min: number, max: number): number {
 /**
  * Normalize value to 0-1 from given min and max value.
  *
- * Returns 1 if `max - min === 0`.
+ * Returns 1 if `max - min === 0`, values beyond will be extrapolated.
  */
 export function normalize(value: number, min: number, max: number): number {
    if (max - min === 0) return 1;
@@ -230,7 +298,12 @@ export function normalize(value: number, min: number, max: number): number {
  *
  * Alpha value must be in range of `0-1`, otherwise extrapolated.
  */
-export function lerp(alpha: number, from: number, to: number, easing?: EasingFunction): number {
+export function lerp(
+   alpha: number,
+   from: number,
+   to: number,
+   easing?: EasingFunction,
+): number {
    if (!easing) easing = (x) => x;
    return from + (to - from) * easing(alpha);
 }
@@ -262,6 +335,11 @@ export function remap(
    return lerp(alpha, targetFrom, targetTo);
 }
 
-export function equalNear(value: number, compareTo: number, tolerance = Number.EPSILON): boolean {
-   return Math.abs(value - compareTo) <= tolerance;
+/**Returns true if both value are approximately equal within given tolerance. */
+export function nearEqual(
+   n1: number,
+   n2: number,
+   tolerance = Number.EPSILON,
+): boolean {
+   return Math.abs(n1 - n2) <= tolerance;
 }

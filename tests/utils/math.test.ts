@@ -182,24 +182,24 @@ Deno.test('Remap helper', () => {
 });
 
 Deno.test('Fix range helper', () => {
-   assertEquals(math.fixRange(10, 0), [0, 10]);
-   assertEquals(math.fixRange(10, -10), [-10, 10]);
-   assertEquals(math.fixRange(0, 420), [0, 420]);
-   assertEquals(math.fixRange(420, 0), [0, 420]);
-   assertEquals(math.fixRange(420, 6.9, false), [6.9, 420]);
-   assertEquals(math.fixRange(420, 6.9, true), [420, 6.9]);
-   assertEquals(math.fixRange(6.9, 420, false), [6.9, 420]);
-   assertEquals(math.fixRange(6.9, 420, true), [420, 6.9]);
+   assertEquals(math.rearrangeTuple(10, 0), [0, 10]);
+   assertEquals(math.rearrangeTuple(10, -10), [-10, 10]);
+   assertEquals(math.rearrangeTuple(0, 420), [0, 420]);
+   assertEquals(math.rearrangeTuple(420, 0), [0, 420]);
+   assertEquals(math.rearrangeTuple(420, 6.9, false), [6.9, 420]);
+   assertEquals(math.rearrangeTuple(420, 6.9, true), [420, 6.9]);
+   assertEquals(math.rearrangeTuple(6.9, 420, false), [6.9, 420]);
+   assertEquals(math.rearrangeTuple(6.9, 420, true), [420, 6.9]);
 });
 
 Deno.test('Near Equality', () => {
-   assert(math.equalNear(0, 0));
-   assert(math.equalNear(Number.EPSILON, Number.EPSILON));
-   assert(math.equalNear(0, Number.EPSILON));
-   assert(math.equalNear(0.001, Number.EPSILON, 0.001));
-   assert(!math.equalNear(0, 10));
-   assert(!math.equalNear(-10, 10));
-   assert(math.equalNear(-10, 10, 20));
+   assert(math.nearEqual(0, 0));
+   assert(math.nearEqual(Number.EPSILON, Number.EPSILON));
+   assert(math.nearEqual(0, Number.EPSILON));
+   assert(math.nearEqual(0.001, Number.EPSILON, 0.001));
+   assert(!math.nearEqual(0, 10));
+   assert(!math.nearEqual(-10, 10));
+   assert(math.nearEqual(-10, 10, 20));
 });
 
 Deno.test('Radian to Degree', () => {

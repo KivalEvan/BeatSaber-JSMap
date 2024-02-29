@@ -20,6 +20,7 @@ inconvenience as this move is deemed necessary when moving towards beatmap V4.
   - This allows for arbitrary processing pipeline
   - `load` preprocess and postprocess handles JSON and resulting class object respectively
     - The reverse is true for `save`
+- `range` utils function
 
 ### Changed
 
@@ -43,6 +44,9 @@ inconvenience as this move is deemed necessary when moving towards beatmap V4.
 - Several class method now return `this` instead of `void` to allow chaining
 - Beatmap version is now read-only
 - Internal logic optimised
+- Utils rename for clarity
+  - `equalNear` -> `nearEqual`
+  - `fixRange` -> `rearrangeTuple` (this may as well be removed or properly renamed)
 
 ### Fixed
 
