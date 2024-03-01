@@ -14,7 +14,7 @@ enum LogLevels {
 export class Logger {
    static readonly LogLevels = LogLevels;
 
-   static LogPrefixes = new Map<LogLevels, string>([
+   static LogPrefixes: Map<LogLevels, string> = new Map<LogLevels, string>([
       [LogLevels.VERBOSE, 'VERBOSE'],
       [LogLevels.DEBUG, 'DEBUG'],
       [LogLevels.INFO, 'INFO'],
@@ -30,7 +30,10 @@ export class Logger {
 
    set logLevel(value: LogLevels) {
       this.#logLevel = value;
-      this.tInfo(['logger', 'logLevel'], `Log level set to ${Logger.LogPrefixes.get(value)}`);
+      this.tInfo(
+         ['logger', 'logLevel'],
+         `Log level set to ${Logger.LogPrefixes.get(value)}`,
+      );
    }
    get logLevel(): LogLevels {
       return this.#logLevel;
@@ -46,7 +49,10 @@ export class Logger {
 
    set untagged(value: string) {
       this.#untagged = value.trim();
-      this.tInfo(['logger', 'untagged'], `Update untagged string to ${this.#untagged}`);
+      this.tInfo(
+         ['logger', 'untagged'],
+         `Update untagged string to ${this.#untagged}`,
+      );
    }
    get untagged(): string {
       return this.#untagged;
@@ -86,7 +92,10 @@ export class Logger {
    setLevel(level: LogLevels) {
       level = Math.min(Math.max(level, 0), 5);
       this.#logLevel = level;
-      this.tInfo(['logger', 'setLevel'], `Log level set to ${Logger.LogPrefixes.get(level)}`);
+      this.tInfo(
+         ['logger', 'setLevel'],
+         `Log level set to ${Logger.LogPrefixes.get(level)}`,
+      );
    }
 
    tVerbose(tags: string[], ...args: any[]) {
@@ -130,5 +139,6 @@ export class Logger {
    }
 }
 
+const globalLog: Logger = new Logger();
 /** Simple logging system. */
-export default new Logger();
+export default globalLog;

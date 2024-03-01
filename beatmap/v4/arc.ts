@@ -147,7 +147,7 @@ export class Arc extends WrapArc<IArcContainer> {
       this._customData = value;
    }
 
-   mirror(flipColor = true, flipNoodle?: boolean) {
+   mirror(flipColor = true, flipNoodle?: boolean): this {
       if (flipNoodle) {
          if (this.customData.coordinates) {
             this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
@@ -210,7 +210,7 @@ export class Arc extends WrapArc<IArcContainer> {
       }
    }
 
-   getAngle(type?: ModType) {
+   getAngle(type?: ModType): number {
       switch (type) {
          case 'vanilla':
          case 'ne':
@@ -253,7 +253,7 @@ export class Arc extends WrapArc<IArcContainer> {
       }
    }
 
-   getTailAngle(type?: ModType) {
+   getTailAngle(type?: ModType): number {
       switch (type) {
          case 'vanilla':
          case 'ne':

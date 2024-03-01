@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.6.0 [2024-02-##]
+## 1.6.0 [2024-03-##]
 
 **IMPORTANT:** This update removes the ability to instantiate from JSON using `constructor` and
 `create` static method, which also includes the ability to mix-and-match between JSON and wrapper
@@ -21,6 +21,7 @@ inconvenience as this move is deemed necessary when moving towards beatmap V4.
   - `load` preprocess and postprocess handles JSON and resulting class object respectively
     - The reverse is true for `save`
 - `range` utils function
+- `Writable` and `DeepWritable` type utils
 
 ### Changed
 

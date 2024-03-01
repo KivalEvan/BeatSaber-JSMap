@@ -2,7 +2,11 @@ import { Vector2 } from '../../types/vector.ts';
 import { degToRad, radToDeg } from '../../utils/math.ts';
 
 /** Create points around circle, higher precision is more accurate. */
-export function createCircle(radius: number, precision: number, angleOffset?: number) {
+export function createCircle(
+   radius: number,
+   precision: number,
+   angleOffset?: number,
+): Vector2[] {
    const points: Vector2[] = [];
    angleOffset = angleOffset || 0;
    const offset = degToRad(angleOffset % 360);
@@ -19,7 +23,11 @@ export function drawPolygon(
    radius: number,
    sides: number,
    options?: { angleOffset?: number; type?: 'inscribed' | 'circumscribed' },
-) {
+): {
+   coordinates: Vector2[];
+   rotations: number[];
+   sizes: number[];
+} {
    const opt = {
       angleOffset: options?.angleOffset ?? 0,
       type: options?.type ?? 'inscribed',
@@ -49,7 +57,10 @@ export function drawPolygon(
       ];
       const rotation = (-90 +
          radToDeg(
-            Math.atan2(coordinateNext[1] - coordinate[1], coordinateNext[0] - coordinate[0]),
+            Math.atan2(
+               coordinateNext[1] - coordinate[1],
+               coordinateNext[0] - coordinate[0],
+            ),
          ) +
          360) %
          360;
@@ -74,7 +85,10 @@ export function drawPath(path: Vector2[]): {
       coordinateNext = [path[i + 1][0], path[i + 1][1]];
       const rotation = (-90 +
          radToDeg(
-            Math.atan2(coordinateNext[1] - coordinate[1], coordinateNext[0] - coordinate[0]),
+            Math.atan2(
+               coordinateNext[1] - coordinate[1],
+               coordinateNext[0] - coordinate[0],
+            ),
          ) +
          360) %
          360;

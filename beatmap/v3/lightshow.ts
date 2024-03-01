@@ -126,7 +126,7 @@ export class Lightshow extends WrapLightshow<ILightshow> {
       );
    }
 
-   static fromJSON(data: DeepPartial<ILightshow> = {}) {
+   static fromJSON(data: DeepPartial<ILightshow> = {}): Lightshow {
       const d = new this();
       d.basicEvents = (
          data.basicBeatmapEvents ?? Lightshow.default.basicBeatmapEvents
@@ -207,8 +207,8 @@ export class Lightshow extends WrapLightshow<ILightshow> {
       this.lightColorEventBoxGroups = this.lightColorEventBoxGroups.map((obj) =>
          this.createOrKeep(LightColorEventBoxGroup, obj, keepRef)
       );
-      this.lightRotationEventBoxGroups = this.lightRotationEventBoxGroups.map((obj) =>
-         this.createOrKeep(LightRotationEventBoxGroup, obj, keepRef)
+      this.lightRotationEventBoxGroups = this.lightRotationEventBoxGroups.map(
+         (obj) => this.createOrKeep(LightRotationEventBoxGroup, obj, keepRef),
       );
       this.lightTranslationEventBoxGroups = this.lightTranslationEventBoxGroups.map((obj) =>
          this.createOrKeep(LightTranslationEventBoxGroup, obj, keepRef)

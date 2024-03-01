@@ -80,7 +80,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       this._customData = value;
    }
 
-   mirror(flipColor = true, flipNoodle?: boolean) {
+   mirror(flipColor = true, flipNoodle?: boolean): this {
       if (flipNoodle) {
          if (this.customData.coordinates) {
             this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
@@ -143,7 +143,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       }
    }
 
-   getAngle(type?: ModType) {
+   getAngle(type?: ModType): number {
       switch (type) {
          case 'vanilla':
          case 'ne':

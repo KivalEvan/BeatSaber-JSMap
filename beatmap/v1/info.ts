@@ -327,7 +327,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
          & Partial<IV1ExtraInfoDifficulty> = {},
       songFileName?: string,
       characteristic?: CharacteristicName,
-   ) {
+   ): InfoDifficulty {
       return new this(data, songFileName, characteristic);
    }
 

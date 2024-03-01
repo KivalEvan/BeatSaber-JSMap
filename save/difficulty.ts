@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { ISaveOptionsDifficulty } from '../types/bsmap/save.ts';
 import * as optimize from '../optimize.ts';
 import globals from '../globals.ts';
@@ -35,7 +36,7 @@ const dataCheckMap: Record<number, Record<string, DataCheck>> = {
 export function _difficulty(
    data: IWrapDifficulty,
    options: ISaveOptionsDifficulty,
-) {
+): Record<string, any> {
    const opt: Required<ISaveOptionsDifficulty> = {
       directory: '',
       filePath: '',
@@ -135,7 +136,6 @@ export function difficulty(
 export function difficulty(
    data: IWrapDifficulty,
    options?: ISaveOptionsDifficulty,
-   // deno-lint-ignore no-explicit-any
 ): Promise<Record<string, any>>;
 export function difficulty(
    data: IWrapDifficulty,
@@ -185,7 +185,6 @@ export function difficultySync(
 export function difficultySync(
    data: IWrapDifficulty,
    options?: ISaveOptionsDifficulty,
-   // deno-lint-ignore no-explicit-any
 ): Record<string, any>;
 export function difficultySync(
    data: IWrapDifficulty,

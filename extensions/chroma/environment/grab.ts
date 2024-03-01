@@ -23,13 +23,16 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
       }
    }
 
-   static Preset = {
+   static Preset: Record<string, EnvironmentGrabEnd> = {
       ENVIRONMENT: new EnvironmentGrab().child().name('Environment').end(),
-      CONSTRUCTION: new EnvironmentGrab('Environment').child().name('Construction').end(),
+      CONSTRUCTION: new EnvironmentGrab('Environment')
+         .child()
+         .name('Construction')
+         .end(),
       SMOKE: new EnvironmentGrab().child().name('BigSmokePS').end(),
    } as const;
 
-   static create(value?: string) {
+   static create(value?: string): EnvironmentGrab | EnvironmentGrabNamed {
       if (value) {
          return new this(value) as EnvironmentGrabNamed;
       }
@@ -64,7 +67,7 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
    }
 
    /** Add spaces. */
-   space(count = 1) {
+   space(count = 1): this {
       for (let i = 0; i < count; i++) {
          this._string += ' ';
          this._regex += ' ';
@@ -98,51 +101,51 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
 abstract class EnvironmentGrabEnd extends EnvironmentGrabBase {}
 
 abstract class EnvironmentGrabChild extends EnvironmentGrabBase {
-   name(value: string) {
+   name(value: string): EnvironmentGrabNamed {
       return this as unknown as EnvironmentGrabNamed;
    }
 
-   space(count = 1) {
+   space(count = 1): this {
       return this;
    }
 }
 
 abstract class EnvironmentGrabNamed extends EnvironmentGrabBase {
-   id(id: number | null, optional?: boolean) {
+   id(id: number | null, optional?: boolean): EnvironmentGrabNamedID {
       return this as unknown as EnvironmentGrabNamedID;
    }
 
-   clone(count = 1) {
+   clone(count = 1): EnvironmentGrabEnd {
       return this as EnvironmentGrabEnd;
    }
 
-   end() {
+   end(): EnvironmentGrabEnd {
       return this as EnvironmentGrabEnd;
    }
 
-   child(id?: number) {
+   child(id?: number): EnvironmentGrabChild {
       return this as unknown as EnvironmentGrabChild;
    }
 
-   space(count = 1) {
+   space(count = 1): this {
       return this;
    }
 }
 
 abstract class EnvironmentGrabNamedID extends EnvironmentGrabBase {
-   clone(count = 1) {
+   clone(count = 1): this {
       return this;
    }
 
-   end() {
+   end(): EnvironmentGrabEnd {
       return this as EnvironmentGrabEnd;
    }
 
-   child(id?: number) {
+   child(id?: number): EnvironmentGrabChild {
       return this as unknown as EnvironmentGrabChild;
    }
 
-   space(count = 1) {
+   space(count = 1): this {
       return this;
    }
 }

@@ -469,7 +469,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
       data:
          & Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>
          & Partial<IV2ExtraInfoDifficulty> = {},
-   ) {
+   ): InfoDifficulty {
       return new this(data);
    }
 

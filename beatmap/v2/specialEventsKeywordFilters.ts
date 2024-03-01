@@ -56,7 +56,7 @@ export class SpecialEventsKeywordFilters extends WrapEventTypesWithKeywords<
       this._list = value;
    }
 
-   addList(value: SpecialEventsKeywordFiltersKeywords) {
+   addList(value: SpecialEventsKeywordFiltersKeywords): this {
       this._list.push(value);
       return this;
    }

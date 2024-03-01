@@ -373,7 +373,7 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    colorSchemeId: number;
    environmentId: number;
 
-   static create(data: Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>) {
+   static create(data: Partial<IWrapInfoDifficultyAttribute<IInfoDifficulty>>): InfoDifficulty {
       return new this(data);
    }
 

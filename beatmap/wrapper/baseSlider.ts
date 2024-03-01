@@ -37,24 +37,24 @@ export abstract class WrapBaseSlider<T extends { [P in keyof T]: T[P] }> extends
       this._tailLaneRotation = value;
    }
 
-   setTailTime(value: IWrapBaseSlider['tailTime']) {
+   setTailTime(value: IWrapBaseSlider['tailTime']): this {
       this.tailTime = value;
       return this;
    }
-   setTailPosX(value: IWrapBaseSlider['tailPosX']) {
+   setTailPosX(value: IWrapBaseSlider['tailPosX']): this {
       this.tailPosX = value;
       return this;
    }
-   setTailPosY(value: IWrapBaseSlider['tailPosY']) {
+   setTailPosY(value: IWrapBaseSlider['tailPosY']): this {
       this.tailPosY = value;
       return this;
    }
-   setTailLaneRotation(value: IWrapBaseSlider['tailLaneRotation']) {
+   setTailLaneRotation(value: IWrapBaseSlider['tailLaneRotation']): this {
       this.tailLaneRotation = value;
       return this;
    }
 
-   mirror(flipColor = true, _flipNoodle?: boolean) {
+   mirror(flipColor = true, _flipNoodle?: boolean): this {
       this.tailPosX = LINE_COUNT - 1 - this.tailPosX;
       return super.mirror(flipColor);
    }
@@ -63,7 +63,7 @@ export abstract class WrapBaseSlider<T extends { [P in keyof T]: T[P] }> extends
       return [this.tailPosX - 2, this.tailPosY];
    }
 
-   isInverse() {
+   isInverse(): boolean {
       return this.time > this.tailTime;
    }
 }

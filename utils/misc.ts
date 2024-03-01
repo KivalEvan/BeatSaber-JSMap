@@ -1,3 +1,6 @@
+import { Writable } from '../types/utils.ts';
+import { DeepWritable } from '../types/utils.ts';
+
 /** Fisher–Yates shuffle algorithm. */
 export function shuffle<T>(array: T[], fn = Math.random): void {
    for (let i = array.length - 1; i > 0; i--) {
@@ -21,8 +24,13 @@ export function pickRandom<T>(ary: T[], fn = Math.random): T {
  *
  * **WARNING:** Avoid using if contain nested object.
  */
-export function shallowCopy<T>(object: T): T {
-   if (object === null || object === undefined || typeof object !== 'object') return object;
+export function shallowCopy<T>(object: T): T;
+export function shallowCopy<T>(object: T, omitReadonly: true): Writable<T>;
+export function shallowCopy<T>(object: T, omitReadonly: boolean): T;
+export function shallowCopy<T>(object: T) {
+   if (object === null || object === undefined || typeof object !== 'object') {
+      return object;
+   }
    if (Array.isArray(object)) return [...object] as T;
    return { ...object };
 }
@@ -32,8 +40,13 @@ export function shallowCopy<T>(object: T): T {
  *
  * Works best with only primitive object. Use `structuredClone()` for more complicated objects, or `clone()` or similar object method if available.
  */
-export function deepCopy<T>(object: T): T {
-   if (object === null || object === undefined || typeof object !== 'object') return object;
+export function deepCopy<T>(object: T): T;
+export function deepCopy<T>(object: T, omitReadonly: true): DeepWritable<T>;
+export function deepCopy<T>(object: T, omitReadonly: boolean): T;
+export function deepCopy<T>(object: T) {
+   if (object === null || object === undefined || typeof object !== 'object') {
+      return object;
+   }
    // deno-lint-ignore no-explicit-any
    const newObj: any = Array.isArray(object) ? Array(object.length) : {};
    for (const k in object) {
@@ -49,7 +62,10 @@ export function deepCopy<T>(object: T): T {
  *
  * **WARNING:** Memory intensive operation especially for very large object.
  */
-export function jsonCopy<T>(object: T): T {
+export function jsonCopy<T>(object: T): T;
+export function jsonCopy<T>(object: T, omitReadonly: true): DeepWritable<T>;
+export function jsonCopy<T>(object: T, omitReadonly: boolean): T;
+export function jsonCopy<T>(object: T): DeepWritable<T> {
    return JSON.parse(JSON.stringify(object));
 }
 

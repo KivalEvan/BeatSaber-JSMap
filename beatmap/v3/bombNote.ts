@@ -60,7 +60,7 @@ export class BombNote extends WrapBombNote<IBombNote> {
       this._customData = value;
    }
 
-   mirror(_?: boolean, flipNoodle?: boolean) {
+   mirror(_?: boolean, flipNoodle?: boolean): this {
       if (flipNoodle) {
          if (this.customData.coordinates) {
             this.customData.coordinates[0] = -1 - this.customData.coordinates[0];

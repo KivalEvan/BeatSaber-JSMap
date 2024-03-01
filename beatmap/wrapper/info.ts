@@ -44,7 +44,7 @@ export abstract class WrapInfo<
       return this._filename;
    }
 
-   setFilename(filename: LooseAutocomplete<'Info.dat' | 'info.dat'>) {
+   setFilename(filename: LooseAutocomplete<'Info.dat' | 'info.dat'>): this {
       this.filename = filename;
       return this;
    }

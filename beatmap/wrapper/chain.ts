@@ -24,16 +24,16 @@ export abstract class WrapChain<T extends { [P in keyof T]: T[P] }> extends Wrap
       this._squish = value;
    }
 
-   setSliceCount(value: IWrapChain['sliceCount']) {
+   setSliceCount(value: IWrapChain['sliceCount']): this {
       this.sliceCount = value;
       return this;
    }
-   setSquish(value: IWrapChain['squish']) {
+   setSquish(value: IWrapChain['squish']): this {
       this.squish = value;
       return this;
    }
 
-   isMappingExtensions() {
+   isMappingExtensions(): boolean {
       return (
          this.posY > 2 ||
          this.posY < 0 ||
@@ -43,7 +43,7 @@ export abstract class WrapChain<T extends { [P in keyof T]: T[P] }> extends Wrap
       );
    }
 
-   isValid() {
+   isValid(): boolean {
       return (
          !(
             this.isMappingExtensions() ||

@@ -13,6 +13,7 @@ import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
 import { ColorArray } from '../../types/colors.ts';
 import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /**
  * This uses new lighting lighting syntax for v2 lighting including support for color and easing.
@@ -24,16 +25,14 @@ import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
  * Not all functionality works here however, there are quirks that may not work too well.
  */
 export class LightMapper {
-   lightIDMapping;
-   readonly environment;
+   lightIDMapping: Record<number, number[]>;
+   readonly environment: EnvironmentAllName;
    private queue: EventBoxType[] = [];
    private events: BasicEvent[] = [];
    private boosts: ColorBoostEvent[] = [];
 
    constructor(environment: EnvironmentAllName) {
-      this.lightIDMapping = <{ [key: number]: number[] }> (
-         structuredClone(LightIDList[environment])
-      );
+      this.lightIDMapping = deepCopy(LightIDList[environment], true);
       this.environment = environment;
    }
 
@@ -42,7 +41,7 @@ export class LightMapper {
       type: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11,
       eventBox: DeepPartial<EventBox>[],
       lightID?: number[],
-   ) {
+   ): this {
       this.queue.push({
          time,
          type,
@@ -98,22 +97,22 @@ export class LightMapper {
       return this;
    }
 
-   ring(time: number, type: 8 | 9, customData?: IChromaEventRing) {
+   ring(time: number, type: 8 | 9, customData?: IChromaEventRing): this {
       this.events.push(new BasicEvent({ time, type, customData }));
       return this;
    }
 
-   zoom(time: number, customData?: IChromaEventZoom) {
+   zoom(time: number, customData?: IChromaEventZoom): this {
       this.events.push(new BasicEvent({ time, type: 9, customData }));
       return this;
    }
 
-   boost(time: number, toggle: boolean) {
+   boost(time: number, toggle: boolean): this {
       this.boosts.push(new ColorBoostEvent({ time, toggle: toggle }));
       return this;
    }
 
-   private internalEventValue(color: number, transition: number) {
+   private internalEventValue(color: number, transition: number): number {
       const transitionValue: { [key: number]: number } = {
          0: 0,
          1: 3,
@@ -123,7 +122,7 @@ export class LightMapper {
       return 1 + color * 4 + transitionValue[transition];
    }
 
-   process(mapData: IWrapDifficulty, overwrite = true) {
+   process(mapData: IWrapDifficulty, overwrite = true): void {
       const events: BasicEvent[] = [...this.events];
       this.queue.sort((a, b) => a.time - b.time);
       for (const q of this.queue) {

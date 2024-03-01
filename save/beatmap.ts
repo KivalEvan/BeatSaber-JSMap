@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { ISaveOptionsList } from '../types/bsmap/save.ts';
 import { IBeatmapData } from '../types/bsmap/beatmap.ts';
 import globals from '../globals.ts';
@@ -20,7 +21,7 @@ function tag(name: string): string[] {
 export function beatmapList(
    difficulties: IBeatmapData[],
    options: ISaveOptionsList = {},
-) {
+): Promise<PromiseSettledResult<Record<string, any>>[]> {
    logger.tInfo(tag('beatmapList'), 'Async saving list of difficulty');
    return Promise.allSettled(
       difficulties.map((dl) => {
@@ -53,7 +54,7 @@ export function beatmapList(
 export function beatmapListSync(
    difficulties: IBeatmapData[],
    options: ISaveOptionsList = {},
-) {
+): Record<string, any>[] {
    logger.tInfo(tag('beatmapListSync'), 'Sync saving list of difficulty');
    const ary = [];
    for (const dl of difficulties) {

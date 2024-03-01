@@ -61,7 +61,7 @@ export abstract class WrapLightshow<T extends { [P in keyof T]: T[P] }> extends 
       return this._filename;
    }
 
-   setFilename(filename: LooseAutocomplete<GenericFileName>) {
+   setFilename(filename: LooseAutocomplete<GenericFileName>): this {
       this.filename = filename;
       return this;
    }

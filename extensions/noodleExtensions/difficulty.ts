@@ -7,14 +7,14 @@ import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import { IChain } from '../../types/beatmap/v3/chain.ts';
 import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
-import { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
+import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 
 export class NoodleDifficulty {
    fakeColorNotes: ColorNote[];
    fakeBombNotes: BombNote[];
    fakeObstacles: Obstacle[];
    fakeChains: Chain[];
-   readonly base;
+   readonly base: IWrapDifficulty;
 
    constructor(base: Difficulty) {
       this.base = base;
@@ -36,7 +36,8 @@ export class NoodleDifficulty {
       }
    }
 
-   toJSON(): Required<IDifficulty> {
+   // deno-lint-ignore no-explicit-any
+   toJSON(): Required<Record<string, any>> {
       this.base.customData.fakeColorNotes = this.fakeColorNotes.map((n) => n.toJSON());
       this.base.customData.fakeBombNotes = this.fakeBombNotes.map((b) => b.toJSON());
       this.base.customData.fakeChains = this.fakeChains.map((bs) => bs.toJSON());

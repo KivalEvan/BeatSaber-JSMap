@@ -41,5 +41,6 @@ class Globals {
    }
 }
 
+const globals: Globals = new Globals();
 /** Global settings. */
-export default new Globals();
+export default globals;

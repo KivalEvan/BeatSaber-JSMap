@@ -20,11 +20,11 @@ export abstract class WrapFxEventInt<T extends { [P in keyof T]: T[P] }> extends
       this._value = value;
    }
 
-   setPrevious(value: IWrapFxEventInt['previous']) {
+   setPrevious(value: IWrapFxEventInt['previous']): this {
       this.previous = value;
       return this;
    }
-   setValue(value: IWrapFxEventInt['value']) {
+   setValue(value: IWrapFxEventInt['value']): this {
       this.value = value;
       return this;
    }

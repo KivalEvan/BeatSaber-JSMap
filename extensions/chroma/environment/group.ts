@@ -8,16 +8,26 @@ import { degToRad } from '../../../utils/math.ts';
 export class EnvironmentGroup {
    data: IChromaEnvironment[];
    anchor: Vector3;
-   protected constructor(data: IChromaEnvironment[], anchor: Vector3 = [0, 0, 0]) {
+   protected constructor(
+      data: IChromaEnvironment[],
+      anchor: Vector3 = [0, 0, 0],
+   ) {
       this.data = data;
       this.anchor = anchor;
    }
-   static create(data: IChromaEnvironment[], anchor: Vector3 = [0, 0, 0]) {
+
+   static create(
+      data: IChromaEnvironment[],
+      anchor: Vector3 = [0, 0, 0],
+   ): EnvironmentGroup {
       return new this(data, anchor);
    }
 
    place(options: IChromaEnvironmentPlacement): IChromaEnvironment[];
-   place(options: IChromaEnvironmentPlacement, insertTo: IChromaEnvironment[]): void;
+   place(
+      options: IChromaEnvironmentPlacement,
+      insertTo: IChromaEnvironment[],
+   ): void;
    place(
       options: IChromaEnvironmentPlacement,
       insertTo?: IChromaEnvironment[],
@@ -44,7 +54,8 @@ export class EnvironmentGroup {
          d.position ??= this.anchor;
          d.position = d.position.map(
             (p, i) =>
-               (this.anchor[i] + p) * (options.scale?.[i] ?? 1) + (options.position?.[i] ?? 0),
+               (this.anchor[i] + p) * (options.scale?.[i] ?? 1) +
+               (options.position?.[i] ?? 0),
          ) as Vector3;
 
          d.scale = vectorMul(d.scale, options.scale);

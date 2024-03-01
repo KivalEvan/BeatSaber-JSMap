@@ -96,14 +96,20 @@ export function pRandom(
  *
  * **NOTE:** Seed cannot be reset.
  */
-export function pRandomFn(seed: string | number | bigint = Math.random()) {
+export function pRandomFn(
+   seed: string | number | bigint = Math.random(),
+): (
+   min?: number | boolean,
+   max?: number | boolean,
+   rounding?: number | boolean,
+) => number {
    const _seed = hashCode(seed);
    const _func = _pRandom(_seed);
    return function (
       min?: number | boolean,
       max?: number | boolean,
       rounding: number | boolean = false,
-   ) {
+   ): number {
       return _random(min, max, rounding, _func);
    };
 }
@@ -217,11 +223,11 @@ export function range(
    return ary;
 }
 
-export function radToDeg(rad: number) {
+export function radToDeg(rad: number): number {
    return rad * (180 / Math.PI);
 }
 
-export function degToRad(deg: number) {
+export function degToRad(deg: number): number {
    return deg * (Math.PI / 180);
 }
 
@@ -330,7 +336,7 @@ export function remap(
    origTo: number,
    targetFrom: number,
    targetTo: number,
-) {
+): number {
    const alpha = invLerp(value, origFrom, origTo);
    return lerp(alpha, targetFrom, targetTo);
 }

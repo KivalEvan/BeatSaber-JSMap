@@ -30,20 +30,20 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }> extends W
       this._height = value;
    }
 
-   setDuration(value: IWrapObstacle['duration']) {
+   setDuration(value: IWrapObstacle['duration']): this {
       this.duration = value;
       return this;
    }
-   setWidth(value: IWrapObstacle['width']) {
+   setWidth(value: IWrapObstacle['width']): this {
       this.width = value;
       return this;
    }
-   setHeight(value: IWrapObstacle['height']) {
+   setHeight(value: IWrapObstacle['height']): this {
       this.height = value;
       return this;
    }
 
-   mirror(_flipAlt?: boolean, _flipNoodle?: boolean) {
+   mirror(_flipAlt?: boolean, _flipNoodle?: boolean): this {
       this.posX = LINE_COUNT - 1 - (this.posX + this.width - 1);
       return this;
    }
@@ -53,7 +53,7 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }> extends W
    }
 
    // FIXME: there are a lot more other variables
-   isInteractive(_type?: ModType) {
+   isInteractive(_type?: ModType): boolean {
       return (
          (this.posX < 0 && this.width > 1 - this.posX) ||
          (this.posX === 0 && this.width > 1) ||
@@ -66,11 +66,11 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }> extends W
       return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
    }
 
-   hasZero() {
+   hasZero(): boolean {
       return this.duration === 0 || this.width === 0 || this.height === 0;
    }
 
-   hasNegative() {
+   hasNegative(): boolean {
       return this.posY < 0 || this.duration < 0 || this.width < 0 || this.height < 0;
    }
 

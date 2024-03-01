@@ -32,11 +32,13 @@ export abstract class WrapLightColorEventBox<
       this._events = value;
    }
 
-   setBrightnessDistribution(value: IWrapLightColorEventBox['brightnessDistribution']) {
+   setBrightnessDistribution(value: IWrapLightColorEventBox['brightnessDistribution']): this {
       this.brightnessDistribution = value;
       return this;
    }
-   setBrightnessDistributionType(value: IWrapLightColorEventBox['brightnessDistributionType']) {
+   setBrightnessDistributionType(
+      value: IWrapLightColorEventBox['brightnessDistributionType'],
+   ): this {
       this.brightnessDistributionType = value;
       return this;
    }
