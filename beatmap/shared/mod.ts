@@ -7,4 +7,5 @@ export * from './difficulty.ts';
 export * from './environment.ts';
 export * from './helpers.ts';
 export * from './njs.ts';
+export * from './serializable.ts';
 export * from './version.ts';

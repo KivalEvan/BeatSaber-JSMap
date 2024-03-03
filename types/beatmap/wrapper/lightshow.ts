@@ -15,7 +15,7 @@ import {
 } from './lightTranslationEventBoxGroup.ts';
 import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
-import { GenericFileName } from '../shared/filename.ts';
+import { GenericFilename, IFileInfo } from '../shared/filename.ts';
 import { EventContainer } from './container.ts';
 import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 import { IWrapWaypoint } from './waypoint.ts';
@@ -28,7 +28,7 @@ import {
 
 export interface IWrapLightshowAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItemAttribute<T> {
+> extends IWrapBaseItemAttribute<T>, IFileInfo {
    readonly version: Version;
    waypoints: IWrapWaypointAttribute[];
    basicEvents: IWrapEventAttribute[];
@@ -39,8 +39,6 @@ export interface IWrapLightshowAttribute<
    fxEventBoxGroups: IWrapFxEventBoxGroupAttribute[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywordsAttribute;
    useNormalEventsAsCompatibleEvents: boolean;
-
-   filename: string;
 }
 
 export interface IWrapLightshow<
@@ -55,7 +53,7 @@ export interface IWrapLightshow<
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
 
-   setFilename(filename: LooseAutocomplete<GenericFileName>): this;
+   setFilename(filename: LooseAutocomplete<GenericFilename>): this;
 
    /** Sort beatmap object(s) accordingly. */
    sort(): this;

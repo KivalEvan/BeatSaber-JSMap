@@ -28,14 +28,15 @@ import {
 import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import { Version } from '../shared/version.ts';
 import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
-import { GenericFileName } from '../shared/filename.ts';
+import { GenericFilename } from '../shared/filename.ts';
 import { EventContainer, NoteContainer } from './container.ts';
 import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
 import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
+import { IFileInfo } from '../shared/filename.ts';
 
 export interface IWrapDifficultyAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItemAttribute<T> {
+> extends IWrapBaseItemAttribute<T>, IFileInfo {
    readonly version: Version;
    bpmEvents: IWrapBPMEventAttribute[];
    rotationEvents: IWrapRotationEventAttribute[];
@@ -53,8 +54,6 @@ export interface IWrapDifficultyAttribute<
    fxEventBoxGroups: IWrapFxEventBoxGroupAttribute[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywordsAttribute;
    useNormalEventsAsCompatibleEvents: boolean;
-
-   filename: string;
 }
 
 export interface IWrapDifficulty<
@@ -76,7 +75,7 @@ export interface IWrapDifficulty<
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
 
-   setFilename(filename: LooseAutocomplete<GenericFileName>): this;
+   setFilename(filename: LooseAutocomplete<GenericFilename>): this;
 
    /** Sort beatmap object(s) accordingly. */
    sort(): this;

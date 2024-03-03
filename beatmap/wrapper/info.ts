@@ -1,7 +1,7 @@
 import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
+import { GenericFilename } from '../../types/beatmap/shared/filename.ts';
 import { Version } from '../../types/beatmap/shared/version.ts';
 import { IInfoBeatmapAuthors } from '../../types/beatmap/v4/info.ts';
 import {
@@ -77,8 +77,8 @@ export abstract class WrapInfoDifficulty<T extends { [P in keyof T]: T[P] }> ext
    implements IWrapInfoDifficulty<T> {
    abstract characteristic: CharacteristicName;
    abstract difficulty: DifficultyName;
-   abstract filename: LooseAutocomplete<GenericFileName>;
-   abstract lightshowFilename: LooseAutocomplete<GenericFileName>;
+   abstract filename: LooseAutocomplete<GenericFilename>;
+   abstract lightshowFilename: LooseAutocomplete<GenericFilename>;
    abstract authors: IInfoBeatmapAuthors;
    abstract njs: number;
    abstract njsOffset: number;

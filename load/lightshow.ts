@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { GenericFileName } from '../types/beatmap/shared/filename.ts';
+import { GenericFilename } from '../types/beatmap/shared/filename.ts';
 import { Lightshow as V3Lightshow } from '../beatmap/v3/lightshow.ts';
 import { Lightshow as V4Lightshow } from '../beatmap/v4/lightshow.ts';
 import { parseLightshow as parseV3Lightshow } from '../beatmap/v3/parse.ts';
@@ -118,17 +118,17 @@ function _lightshow(
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function lightshow(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version?: null,
    options?: ILoadOptionsLightshow,
 ): Promise<IWrapLightshow>;
 export function lightshow(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 4,
    options?: ILoadOptionsLightshow,
 ): Promise<V4Lightshow>;
 export function lightshow(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 3,
    options?: ILoadOptionsLightshow,
 ): Promise<V3Lightshow>;
@@ -148,7 +148,7 @@ export function lightshow(
    options?: ILoadOptionsLightshow,
 ): Promise<V3Lightshow>;
 export function lightshow(
-   src: LooseAutocomplete<GenericFileName> | Record<string, unknown>,
+   src: LooseAutocomplete<GenericFilename> | Record<string, unknown>,
    version?: number | null,
    options: ILoadOptionsLightshow = {},
 ) {
@@ -177,17 +177,17 @@ export function lightshow(
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function lightshowSync(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version?: null,
    options?: ILoadOptionsLightshow,
 ): IWrapLightshow;
 export function lightshowSync(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 4,
    options?: ILoadOptionsLightshow,
 ): V4Lightshow;
 export function lightshowSync(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 3,
    options?: ILoadOptionsLightshow,
 ): V3Lightshow;
@@ -207,7 +207,7 @@ export function lightshowSync(
    options?: ILoadOptionsLightshow,
 ): V3Lightshow;
 export function lightshowSync(
-   src: LooseAutocomplete<GenericFileName> | Record<string, unknown>,
+   src: LooseAutocomplete<GenericFilename> | Record<string, unknown>,
    version?: number | null,
    options: ILoadOptionsLightshow = {},
 ) {

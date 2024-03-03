@@ -21,7 +21,7 @@ import {
    LooseAutocomplete,
    PartialWrapper,
 } from '../../types/utils.ts';
-import { GenericFileName } from '../../types/beatmap/shared/filename.ts';
+import { GenericFilename } from '../../types/beatmap/shared/filename.ts';
 import { EventContainer } from '../../types/beatmap/wrapper/container.ts';
 import { WrapBaseItem } from './baseItem.ts';
 import { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
@@ -54,14 +54,14 @@ export abstract class WrapLightshow<T extends { [P in keyof T]: T[P] }> extends 
       return super.clone().setFilename(this.filename) as U;
    }
 
-   set filename(name: LooseAutocomplete<GenericFileName>) {
+   set filename(name: LooseAutocomplete<GenericFilename>) {
       this._filename = name.trim();
    }
    get filename(): string {
       return this._filename;
    }
 
-   setFilename(filename: LooseAutocomplete<GenericFileName>): this {
+   setFilename(filename: LooseAutocomplete<GenericFilename>): this {
       this.filename = filename;
       return this;
    }

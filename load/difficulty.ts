@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { GenericFileName } from '../types/beatmap/shared/filename.ts';
+import { GenericFilename } from '../types/beatmap/shared/filename.ts';
 import { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
 import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
 import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
@@ -133,27 +133,27 @@ export function _difficulty(
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function difficulty(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version?: null,
    options?: ILoadOptionsDifficulty,
 ): Promise<IWrapDifficulty>;
 export function difficulty(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 4,
    options?: ILoadOptionsDifficulty,
 ): Promise<V4Difficulty>;
 export function difficulty(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 3,
    options?: ILoadOptionsDifficulty,
 ): Promise<V3Difficulty>;
 export function difficulty(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 2,
    options?: ILoadOptionsDifficulty,
 ): Promise<V2Difficulty>;
 export function difficulty(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 1,
    options?: ILoadOptionsDifficulty,
 ): Promise<V1Difficulty>;
@@ -183,7 +183,7 @@ export function difficulty(
    options?: ILoadOptionsDifficulty,
 ): Promise<V1Difficulty>;
 export function difficulty(
-   src: LooseAutocomplete<GenericFileName> | Record<string, unknown>,
+   src: LooseAutocomplete<GenericFilename> | Record<string, unknown>,
    version?: number | null,
    options: ILoadOptionsDifficulty = {},
 ) {
@@ -212,27 +212,27 @@ export function difficulty(
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function difficultySync(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version?: null,
    options?: ILoadOptionsDifficulty,
 ): IWrapDifficulty;
 export function difficultySync(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 4,
    options?: ILoadOptionsDifficulty,
 ): V4Difficulty;
 export function difficultySync(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 3,
    options?: ILoadOptionsDifficulty,
 ): V3Difficulty;
 export function difficultySync(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 2,
    options?: ILoadOptionsDifficulty,
 ): V2Difficulty;
 export function difficultySync(
-   filePath: LooseAutocomplete<GenericFileName>,
+   filePath: LooseAutocomplete<GenericFilename>,
    version: 1,
    options?: ILoadOptionsDifficulty,
 ): V1Difficulty;
@@ -262,7 +262,7 @@ export function difficultySync(
    options?: ILoadOptionsDifficulty,
 ): V1Difficulty;
 export function difficultySync(
-   src: LooseAutocomplete<GenericFileName> | Record<string, unknown>,
+   src: LooseAutocomplete<GenericFilename> | Record<string, unknown>,
    version?: number | null,
    options: ILoadOptionsDifficulty = {},
 ) {
