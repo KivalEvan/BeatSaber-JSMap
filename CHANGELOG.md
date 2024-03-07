@@ -10,6 +10,7 @@ inconvenience as this move is deemed necessary when moving towards beatmap V4.
 
 ### Added
 
+- Daft Punk environment & color scheme
 - Beatmap Difficulty, Lightshow and Info v4
   - Deduplication of data for v4 (EXPERIMENTAL)
     - This only affects the JSON output

@@ -3,7 +3,9 @@
 import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
 export const LightIDList: {
-   readonly [key in EnvironmentAllName]: { readonly [key: number]: readonly number[] };
+   readonly [key in EnvironmentAllName]: {
+      readonly [key: number]: readonly number[];
+   };
 } = {
    DefaultEnvironment: {
       0: Array.from(Array(10), (_, i) => i + 1),
@@ -165,6 +167,7 @@ export const LightIDList: {
    LinkinPark2Environment: {},
    TheRollingStonesEnvironment: {},
    LatticeEnvironment: {},
+   DaftPunkEnvironment: {},
    GlassDesertEnvironment: {
       0: Array.from(Array(6), (_, i) => i + 1),
       1: Array.from(Array(8), (_, i) => i + 1),

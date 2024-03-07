@@ -182,6 +182,13 @@ const environmentType: { [env in EnvironmentAllName]?: { [key: number]: string }
    LatticeEnvironment: {
       6: 'Ambient',
    },
+   DaftPunkEnvironment: {
+      6: 'Ambient',
+      40: 'Helmet 01 Switch',
+      41: 'Helmet 02 Switch',
+      42: 'Helmet 01 Text',
+      43: 'Helmet 02 Text',
+   },
 };
 
 export function eventTypeRename(type: number, environment?: EnvironmentAllName): string {

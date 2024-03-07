@@ -132,12 +132,18 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 - Using wrapper type to handle/modify data, while contain guard rail, can lead to unexpected result
   - This can only be a problem when dealing with multiple beatmap version at once
-- Info `addMap` method is incomplete
+- Beatmap across different version contain different behaviour which can be confusing for anyone
+  unfamiliar with beatmap structure
+  - Example being `v2` having both bomb note and color note in color note array as opposed to `v3`
+    being separated
+  - `v2` and `v3` custom position has different scaling, etc.
+  - May need documentation on the difference across version
 
 ## Credits & References
 
 - [HSV conversion algorithm](https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c)
 - [CIE-L\*ab and Delta E2000 algorithm](https://www.easyrgb.com/)
-- Uninstaller and Qwasyx (improving it) for note swing detection algorithm
-- Top_Cat for math guidance
+- Uninstaller and [Qwasyx](https://github.com/Qwasyx/) (improving it) for note swing detection
+  algorithm
+- [Top_Cat](https://github.com/Top-Cat/) for math guidance
 - Others for helpful feedback & indirect contribution
