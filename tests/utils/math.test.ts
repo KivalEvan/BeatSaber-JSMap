@@ -181,7 +181,7 @@ Deno.test('Remap helper', () => {
    assertAlmostEquals(math.remap(300, 100, 200, 10, 20), 30, EPSILON);
 });
 
-Deno.test('Fix range helper', () => {
+Deno.test('Rearrange tuple range helper', () => {
    assertEquals(math.rearrangeTuple(10, 0), [0, 10]);
    assertEquals(math.rearrangeTuple(10, -10), [-10, 10]);
    assertEquals(math.rearrangeTuple(0, 420), [0, 420]);
@@ -190,6 +190,26 @@ Deno.test('Fix range helper', () => {
    assertEquals(math.rearrangeTuple(420, 6.9, true), [420, 6.9]);
    assertEquals(math.rearrangeTuple(6.9, 420, false), [6.9, 420]);
    assertEquals(math.rearrangeTuple(6.9, 420, true), [420, 6.9]);
+});
+
+Deno.test('Range helper', () => {
+   assertEquals(math.range(0), []);
+   assertEquals(math.range(10), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+   assertEquals(math.range(-10), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]);
+   assertEquals(math.range(0, 10), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+   assertEquals(math.range(0, -10), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]);
+   assertEquals(
+      math.range(-10, 10),
+      [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+   );
+   assertEquals(math.range(10, 0), [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+   assertEquals(math.range(-10, 0), [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1]);
+   assertEquals(math.range(0, 10, 2), [0, 2, 4, 6, 8]);
+   assertEquals(math.range(0, 10, -2), [0, -2, -4, -6, -8]);
+   assertEquals(math.range(-1, -1), []);
+   assertEquals(math.range(-1, 1, 2), [-1]);
+   assertEquals(math.range(-1, 2, 2), [-1, 1]);
+   assertEquals(math.range(-1, 1, 2, true), [-1, 1]);
 });
 
 Deno.test('Near Equality', () => {

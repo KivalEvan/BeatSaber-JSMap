@@ -216,7 +216,9 @@ export function range(
       step = arg2!;
    }
    if (!step) step = start > end ? -1 : 1;
-   const ary = new Array(Math.floor((end - start) / step) + (inc ? 1 : 0));
+   const ary = new Array(
+      Math.abs(Math.ceil((end - start) / step)) + (inc ? 1 : 0),
+   );
    for (let i = 0; i < ary.length; i++) {
       ary[i] = start + i * step;
    }
@@ -341,7 +343,7 @@ export function remap(
    return lerp(alpha, targetFrom, targetTo);
 }
 
-/**Returns true if both value are approximately equal within given tolerance. */
+/** Returns true if both value are approximately equal within given tolerance. */
 export function nearEqual(
    n1: number,
    n2: number,
