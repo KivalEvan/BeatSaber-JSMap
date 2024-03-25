@@ -1,4 +1,5 @@
 export * from './arc.ts';
+export * from './bpmInfo.ts';
 export * from './clean.ts';
 export * from './difficulty.ts';
 export * from './event.ts';

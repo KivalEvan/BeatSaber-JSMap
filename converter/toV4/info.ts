@@ -64,7 +64,7 @@ function fromV1Info(template: V4Info, data: V1Info) {
          njs: beatmap.njs,
          njsOffset: beatmap.njsOffset,
          filename: beatmap.filename,
-         lightshowFilename: beatmap.filename,
+         lightshowFilename: '',
       });
    });
 }
@@ -105,7 +105,7 @@ function fromV2Info(template: V4Info, data: V2Info) {
          njs: beatmap.njs,
          njsOffset: beatmap.njsOffset,
          filename: beatmap.filename,
-         lightshowFilename: beatmap.filename,
+         lightshowFilename: '',
          customData: deepCopy(beatmap.customData),
       });
    });

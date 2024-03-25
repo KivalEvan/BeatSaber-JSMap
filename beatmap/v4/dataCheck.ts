@@ -1,5 +1,6 @@
 import { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
 import { IArc } from '../../types/beatmap/v4/arc.ts';
+import { IAudio, IAudioBPM, IAudioLUFS } from '../../types/beatmap/v4/audioData.ts';
 import { IBasicEvent } from '../../types/beatmap/v4/basicEvent.ts';
 import { IBombNote } from '../../types/beatmap/v4/bombNote.ts';
 import { IChain } from '../../types/beatmap/v4/chain.ts';
@@ -1432,3 +1433,84 @@ export const InfoDataCheck: { readonly [key in keyof IInfo]: DataCheck } = {
       optional: true,
    },
 } as const;
+
+export const AudioDataBPMDataCheck: {
+   readonly [key in keyof IAudioBPM]: DataCheck;
+} = {
+   si: {
+      type: 'number',
+      version: '4.0.0',
+      int: true,
+      unsigned: true,
+   },
+   ei: {
+      type: 'number',
+      version: '4.0.0',
+      int: true,
+      unsigned: true,
+   },
+   sb: {
+      type: 'number',
+      version: '4.0.0',
+   },
+   eb: {
+      type: 'number',
+      version: '4.0.0',
+   },
+};
+
+export const AudioDataLUFSDataCheck: {
+   readonly [key in keyof IAudioLUFS]: DataCheck;
+} = {
+   si: {
+      type: 'number',
+      version: '4.0.0',
+      int: true,
+      unsigned: true,
+   },
+   ei: {
+      type: 'number',
+      version: '4.0.0',
+      int: true,
+      unsigned: true,
+   },
+   l: {
+      type: 'number',
+      version: '4.0.0',
+   },
+};
+
+export const AudioDataCheck: { readonly [key in keyof IAudio]: DataCheck } = {
+   version: {
+      type: 'string',
+      version: '4.0.0',
+   },
+   songChecksum: {
+      type: 'string',
+      version: '4.0.0',
+   },
+   songSampleCount: {
+      type: 'number',
+      version: '4.0.0',
+      int: true,
+      unsigned: true,
+   },
+   songFrequency: {
+      type: 'number',
+      version: '4.0.0',
+      int: true,
+      unsigned: true,
+   },
+   bpmData: {
+      type: 'object',
+      version: '4.0.0',
+      check: AudioDataBPMDataCheck,
+      array: true,
+   },
+   lufsData: {
+      type: 'object',
+      version: '4.0.0',
+      check: AudioDataLUFSDataCheck,
+      array: true,
+   },
+};

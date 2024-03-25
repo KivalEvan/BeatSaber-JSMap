@@ -509,7 +509,7 @@ function fromV3Lightshow(template: V2Difficulty, data: V3Lightshow) {
          floatValue: 1,
       })
    );
-   template.eventTypesWithKeywords = template.eventTypesWithKeywords.constructor(
+   template.eventTypesWithKeywords = new SpecialEventsKeywordFilters(
       data.eventTypesWithKeywords,
    );
    template.customData = deepCopy(data.customData);
@@ -540,7 +540,7 @@ function fromV4Lightshow(template: V2Difficulty, data: V4Lightshow) {
          floatValue: 1,
       })
    );
-   template.eventTypesWithKeywords = template.eventTypesWithKeywords.constructor(
+   template.eventTypesWithKeywords = new SpecialEventsKeywordFilters(
       data.eventTypesWithKeywords,
    );
    template.customData = deepCopy(data.customData);

@@ -1,3 +1,4 @@
+import { ISaveOptionsAudioData } from '../types/bsmap/save.ts';
 import {
    ISaveOptionsDifficulty,
    ISaveOptionsInfo,
@@ -74,6 +75,29 @@ const optionsLightshow: Required<ISaveOptionsLightshow> = {
    postprocess: [],
 };
 
+const optionsAudioData: Required<ISaveOptionsAudioData> = {
+   directory: '',
+   filePath: 'UnnamedPath.dat',
+   format: 0,
+   optimize: {
+      enabled: true,
+      floatTrim: 4,
+      stringTrim: true,
+      purgeZeros: true,
+      deduplicate: false,
+      throwError: true,
+   },
+   validate: { enabled: true, reparse: true },
+   dataCheck: {
+      enabled: true,
+      throwError: true,
+   },
+   sort: true,
+   write: true,
+   preprocess: [],
+   postprocess: [],
+};
+
 const optionsList: Required<ISaveOptionsList> = {
    directory: '',
    filePath: 'UnnamedPath.dat',
@@ -93,6 +117,7 @@ const optionsList: Required<ISaveOptionsList> = {
 /** Set default option value for save function. */
 export const defaultOptions = {
    info: optionsInfo,
+   audioData: optionsAudioData,
    difficulty: optionsDifficulty,
    lightshow: optionsLightshow,
    list: optionsList,

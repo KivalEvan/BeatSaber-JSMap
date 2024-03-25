@@ -26,9 +26,8 @@ import {
    IWrapEventTypesWithKeywordsAttribute,
 } from './eventTypesWithKeywords.ts';
 
-export interface IWrapLightshowAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItemAttribute<T>, IFileInfo {
+export interface IWrapLightshowAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItemAttribute<T>, IFileInfo {
    readonly version: Version;
    waypoints: IWrapWaypointAttribute[];
    basicEvents: IWrapEventAttribute[];
@@ -41,9 +40,8 @@ export interface IWrapLightshowAttribute<
    useNormalEventsAsCompatibleEvents: boolean;
 }
 
-export interface IWrapLightshow<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItem<T>, IWrapLightshowAttribute<T> {
+export interface IWrapLightshow<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItem<T>, IWrapLightshowAttribute<T> {
    waypoints: IWrapWaypoint[];
    basicEvents: IWrapEvent[];
    colorBoostEvents: IWrapColorBoostEvent[];
@@ -84,16 +82,12 @@ export interface IWrapLightshow<
    addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
    addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;
    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): this;
-   addLightColorEventBoxGroups(
-      ...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]
-   ): this;
+   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): this;
    addLightRotationEventBoxGroups(
       ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
    ): this;
    addLightTranslationEventBoxGroups(
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): this;
-   addFxEventBoxGroups(
-      ...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]
-   ): this;
+   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): this;
 }

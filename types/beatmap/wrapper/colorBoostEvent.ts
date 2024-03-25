@@ -8,8 +8,7 @@ export interface IWrapColorBoostEventAttribute<
    toggle: boolean;
 }
 
-export interface IWrapColorBoostEvent<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseObject<T>, IWrapColorBoostEventAttribute<T> {
+export interface IWrapColorBoostEvent<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseObject<T>, IWrapColorBoostEventAttribute<T> {
    setToggle(value: boolean): this;
 }

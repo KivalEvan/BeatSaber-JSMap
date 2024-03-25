@@ -11,9 +11,11 @@ inconvenience as this move is deemed necessary when moving towards beatmap V4.
 ### Added
 
 - Daft Punk environment & color scheme
-- Beatmap Difficulty, Lightshow and Info v4
+- Beatmap Difficulty, Lightshow, Info and Audio Data v4
   - Deduplication of data for v4 (EXPERIMENTAL)
     - This only affects the JSON output
+- BPM Info/Audio Data class (subject to change)
+  - Includes loading and saving
 - Beatmap object `fromJSON` static method
 - Beatmap JSON can now be passed onto `load` instead of just string path
   - Default file name to `LoadJSON.dat`

@@ -644,9 +644,7 @@ function fromV4Lightshow(template: V3Difficulty, data: V4Lightshow) {
       ...data.lightTranslationEventBoxGroups,
    );
    template.addFxEventBoxGroups(...data.fxEventBoxGroups);
-   template.eventTypesWithKeywords = template.eventTypesWithKeywords.constructor(
-      data.eventTypesWithKeywords,
-   );
+   template.eventTypesWithKeywords = data.eventTypesWithKeywords.clone();
    template.useNormalEventsAsCompatibleEvents = data.useNormalEventsAsCompatibleEvents;
    template.customData = deepCopy(data.customData);
 }

@@ -1,4 +1,5 @@
 import {
+   ILoadOptionsAudioData,
    ILoadOptionsDifficulty,
    ILoadOptionsInfo,
    ILoadOptionsLightshow,
@@ -7,6 +8,18 @@ import {
 const optionsInfo: Required<ILoadOptionsInfo> = {
    directory: '',
    filePath: 'Info.dat',
+   forceConvert: true,
+   dataCheck: {
+      enabled: true,
+      throwError: true,
+   },
+   sort: true,
+   preprocess: [],
+   postprocess: [],
+};
+
+const optionsAudioData: Required<ILoadOptionsAudioData> = {
+   directory: '',
    forceConvert: true,
    dataCheck: {
       enabled: true,
@@ -56,6 +69,7 @@ const optionsList: Required<ILoadOptionsDifficulty> = {
 /** Set default option value for load function. */
 export const defaultOptions = {
    info: optionsInfo,
+   audioData: optionsAudioData,
    difficulty: optionsDifficulty,
    lightshow: optionsLightshow,
    list: optionsList,

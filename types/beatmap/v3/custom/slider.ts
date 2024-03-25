@@ -4,9 +4,4 @@ import { IChromaNote } from './chroma.ts';
 import { IHeckBase } from './heck.ts';
 import { INESlider } from './noodleExtensions.ts';
 
-export type ICustomDataSlider =
-   & ICustomDataBase
-   & IHeckBase
-   & IChromaNote
-   & INESlider
-   & IAnimation;
+export type ICustomDataSlider = ICustomDataBase & IHeckBase & IChromaNote & INESlider & IAnimation;

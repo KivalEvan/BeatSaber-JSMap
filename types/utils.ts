@@ -1,12 +1,5 @@
 // deno-lint-ignore-file ban-types no-explicit-any
-export type Primitive =
-   | string
-   | Function
-   | number
-   | boolean
-   | Symbol
-   | undefined
-   | null;
+export type Primitive = string | Function | number | boolean | Symbol | undefined | null;
 
 export type Only<T, U> =
    & {
@@ -97,9 +90,7 @@ export type DeepExcludeMethod<T> = T extends Primitive ? T
 
 export type PartialWrapper<T> = Partial<DeepOmit<ExcludeMethod<T>, 'data'>>;
 
-export type DeepPartialWrapper<T> = DeepPartial<
-   DeepOmit<DeepExcludeMethod<T>, 'data'>
->;
+export type DeepPartialWrapper<T> = DeepPartial<DeepOmit<DeepExcludeMethod<T>, 'data'>>;
 
 export type Nullable<T> = T extends Primitive ? T | null
    : {

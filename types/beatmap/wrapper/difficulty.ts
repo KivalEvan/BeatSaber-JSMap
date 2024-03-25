@@ -34,9 +34,8 @@ import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
 import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 import { IFileInfo } from '../shared/filename.ts';
 
-export interface IWrapDifficultyAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItemAttribute<T>, IFileInfo {
+export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItemAttribute<T>, IFileInfo {
    readonly version: Version;
    bpmEvents: IWrapBPMEventAttribute[];
    rotationEvents: IWrapRotationEventAttribute[];
@@ -56,9 +55,8 @@ export interface IWrapDifficultyAttribute<
    useNormalEventsAsCompatibleEvents: boolean;
 }
 
-export interface IWrapDifficulty<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
+export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItem<T>, IWrapDifficultyAttribute<T> {
    bpmEvents: IWrapBPMEvent[];
    rotationEvents: IWrapRotationEvent[];
    colorNotes: IWrapColorNote[];
@@ -171,16 +169,12 @@ export interface IWrapDifficulty<
    addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
    addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;
    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): this;
-   addLightColorEventBoxGroups(
-      ...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]
-   ): this;
+   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): this;
    addLightRotationEventBoxGroups(
       ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
    ): this;
    addLightTranslationEventBoxGroups(
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): this;
-   addFxEventBoxGroups(
-      ...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]
-   ): this;
+   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): this;
 }

@@ -1,4 +1,5 @@
 import {
+   IOptimizeOptionsAudioData,
    IOptimizeOptionsDifficulty,
    IOptimizeOptionsInfo,
    IOptimizeOptionsLightshow,
@@ -54,10 +55,19 @@ const optionsLightshow: Required<IOptimizeOptionsLightshow> = {
    deduplicate: false,
    throwError: true,
 };
+const optionsAudioData: Required<IOptimizeOptionsAudioData> = {
+   enabled: true,
+   floatTrim: 4,
+   stringTrim: true,
+   purgeZeros: true,
+   deduplicate: false,
+   throwError: true,
+};
 
 /** Set default option value for optimize function. */
 export const defaultOptions = {
    info: optionsInfo,
+   audioData: optionsAudioData,
    difficulty: optionsDifficulty,
    lightshow: optionsLightshow,
 };
@@ -288,4 +298,22 @@ export function lightshow(
       ? cleanV3Lightshow
       : () => {};
    clean(lightshow, opt);
+}
+
+export function audioData(
+   // deno-lint-ignore no-explicit-any
+   _audioData: Record<string, any>,
+   _version: number,
+   options: IOptimizeOptionsAudioData = {},
+) {
+   const _opt: Required<IOptimizeOptionsAudioData> = {
+      enabled: options.enabled ?? defaultOptions.audioData.enabled,
+      floatTrim: options.floatTrim ?? defaultOptions.audioData.floatTrim,
+      stringTrim: options.stringTrim ?? defaultOptions.audioData.stringTrim,
+      purgeZeros: options.purgeZeros ?? defaultOptions.audioData.purgeZeros,
+      deduplicate: options.deduplicate ?? defaultOptions.audioData.deduplicate,
+      throwError: options.throwError ?? defaultOptions.audioData.throwError,
+   };
+
+   logger.tInfo(tag('audioData'), `Optimising audio data`);
 }

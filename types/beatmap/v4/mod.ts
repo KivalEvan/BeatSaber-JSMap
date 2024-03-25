@@ -8,7 +8,7 @@
  */
 
 export * from './arc.ts';
-export * from './audio.ts';
+export * from './audioData.ts';
 export * from './bombNote.ts';
 export * from './chain.ts';
 export * from './colorNote.ts';

@@ -1,4 +1,5 @@
 export * from './arc.ts';
+export * from './audioData.ts';
 export * from './baseItem.ts';
 export * from './baseNote.ts';
 export * from './baseSlider.ts';

@@ -45,3 +45,5 @@ export interface IOptimizeOptionsInfo extends IOptimizeOptions {}
 export interface IOptimizeOptionsDifficulty extends IOptimizeOptions {}
 
 export interface IOptimizeOptionsLightshow extends IOptimizeOptions {}
+
+export interface IOptimizeOptionsAudioData extends IOptimizeOptions {}

@@ -1,3 +1,4 @@
+export * from './audioData.ts';
 export * from './beatmap.ts';
 export { difficulty, difficultySync } from './difficulty.ts';
 export * from './info.ts';

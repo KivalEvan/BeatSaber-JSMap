@@ -2,13 +2,14 @@ import { Difficulty } from './difficulty.ts';
 import { IInfoSet } from '../../types/beatmap/v2/info.ts';
 import { Info } from './info.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
-import { DifficultyDataCheck, InfoDataCheck } from './dataCheck.ts';
+import { BPMInfoDataCheck, DifficultyDataCheck, InfoDataCheck } from './dataCheck.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
 import logger from '../../logger.ts';
 import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 import { compareVersion } from '../shared/version.ts';
 import { IEvent } from '../../types/beatmap/v2/event.ts';
 import { shallowCopy } from '../../utils/misc.ts';
+import { BPMInfo } from './bpmInfo.ts';
 
 function tag(name: string): string[] {
    return ['v2', 'parse', name];
@@ -122,4 +123,28 @@ export function parseInfo(
       }) || [];
 
    return Info.fromJSON(data);
+}
+
+export function parseAudio(
+   // deno-lint-ignore no-explicit-any
+   data: Record<string, any>,
+   checkData: IDataCheckOption = { enabled: true, throwError: true },
+): BPMInfo {
+   logger.tInfo(tag('audio'), 'Parsing beatmap audio data v2.x.x');
+   data = shallowCopy(data);
+   if (!data._version?.startsWith('2')) {
+      logger.tWarn(tag('audio'), 'Unidentified beatmap version');
+      data._version = '2.0.0';
+   }
+   if (checkData.enabled) {
+      deepCheck(
+         data,
+         BPMInfoDataCheck,
+         'audio',
+         data._version,
+         checkData.throwError,
+      );
+   }
+
+   return BPMInfo.fromJSON(data);
 }

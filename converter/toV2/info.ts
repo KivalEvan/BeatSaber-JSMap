@@ -112,8 +112,7 @@ function fromV4Info(template: V2Info, data: V4Info) {
          beatmap.characteristic,
       );
       template.levelAuthorName = [
-         ...beatmap.authors.mappers,
-         ...beatmap.authors.lighters,
+         ...new Set([...beatmap.authors.mappers, ...beatmap.authors.lighters]),
       ].join(', ');
    });
 }

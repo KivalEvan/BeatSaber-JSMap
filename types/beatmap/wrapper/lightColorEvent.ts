@@ -52,9 +52,8 @@ export interface IWrapLightColorEventAttribute<
    easing: EaseType;
 }
 
-export interface IWrapLightColorEvent<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseObject<T>, IWrapLightColorEventAttribute<T> {
+export interface IWrapLightColorEvent<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseObject<T>, IWrapLightColorEventAttribute<T> {
    setPrevious(value: 0 | 1): this;
    setTransition(value: TransitionType): this;
    setColor(value: EventBoxColor): this;

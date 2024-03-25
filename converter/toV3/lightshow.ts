@@ -9,6 +9,7 @@ import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import eventToV3 from '../customData/eventToV3.ts';
+import { BasicEventTypesWithKeywords } from '../../beatmap/v3/basicEventTypesWithKeywords.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV3Lightshow', name];
@@ -121,7 +122,7 @@ function fromV2Difficulty(template: V3Lightshow, data: V2Difficulty) {
          });
       }
    });
-   template.eventTypesWithKeywords = template.eventTypesWithKeywords.constructor(
+   template.eventTypesWithKeywords = new BasicEventTypesWithKeywords(
       data.eventTypesWithKeywords,
    );
    template.customData = deepCopy(data.customData);
@@ -149,7 +150,7 @@ function fromV4Lightshow(template: V3Lightshow, data: V4Lightshow) {
       ...data.lightTranslationEventBoxGroups,
    );
    template.addFxEventBoxGroups(...data.fxEventBoxGroups);
-   template.eventTypesWithKeywords = template.eventTypesWithKeywords.constructor(
+   template.eventTypesWithKeywords = new BasicEventTypesWithKeywords(
       data.eventTypesWithKeywords,
    );
    template.customData = deepCopy(data.customData);

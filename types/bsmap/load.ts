@@ -1,5 +1,6 @@
 // deno-lint-ignore-file no-explicit-any no-empty-interface
 import { IDataCheckOption } from '../beatmap/shared/dataCheck.ts';
+import { IWrapAudio } from '../beatmap/wrapper/audioData.ts';
 import { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
 import { IWrapInfo } from '../beatmap/wrapper/info.ts';
 import { IWrapLightshow } from '../beatmap/wrapper/lightshow.ts';
@@ -43,4 +44,7 @@ export interface ILoadOptionsInfo extends ILoadOptionsBase<IWrapInfo> {
     * @default 'Info.dat'
     */
    filePath?: string;
+}
+
+export interface ILoadOptionsAudioData extends ILoadOptionsBase<IWrapAudio> {
 }
