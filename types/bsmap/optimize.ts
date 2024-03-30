@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-empty-interface
 import type { ICleanOptions } from '../beatmap/shared/clean.ts';
 
 export interface IOptimizeOptions extends ICleanOptions {

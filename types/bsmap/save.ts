@@ -114,5 +114,4 @@ export interface ISaveOptionsAudioData extends ISaveOptionsBase<IWrapAudio> {
    optimize?: IOptimizeOptionsAudioData;
 }
 
-// deno-lint-ignore no-empty-interface
 export interface ISaveOptionsList extends ISaveOptionsDifficulty {}

@@ -1,4 +1,4 @@
-// deno-lint-ignore-file no-explicit-any no-empty-interface
+// deno-lint-ignore-file no-explicit-any
 import type { IDataCheckOption } from '../beatmap/shared/dataCheck.ts';
 import type { IWrapAudio } from '../beatmap/wrapper/audioData.ts';
 import type { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
