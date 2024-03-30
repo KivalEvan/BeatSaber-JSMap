@@ -97,9 +97,7 @@ export class Arc extends WrapArc<IArcContainer> {
       d._tailDirection = tailData.d ?? Arc.default.tailData.c;
       d._tailLengthMultiplier = data.tm ?? Arc.default.data.tm;
       d._midAnchor = data.a ?? Arc.default.data.a;
-      d._customData = deepCopy(
-         data.customData ?? Arc.default.data.customData,
-      );
+      d._customData = deepCopy(data.customData ?? Arc.default.data.customData);
       return d;
    }
 
@@ -162,7 +160,7 @@ export class Arc extends WrapArc<IArcContainer> {
                      .definitePosition[0];
                } else {
                   this.customData.animation.definitePosition.forEach((dp) => {
-                     dp[0] = -dp[0];
+                     if (Array.isArray(dp)) dp[0] = -dp[0];
                   });
                }
             }
@@ -172,7 +170,7 @@ export class Arc extends WrapArc<IArcContainer> {
                      .offsetPosition[0];
                } else {
                   this.customData.animation.offsetPosition.forEach((op) => {
-                     op[0] = -op[0];
+                     if (Array.isArray(op)) op[0] = -op[0];
                   });
                }
             }

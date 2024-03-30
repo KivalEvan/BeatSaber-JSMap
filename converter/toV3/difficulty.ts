@@ -595,6 +595,7 @@ function fromV2Difficulty(template: V3Difficulty, data: V2Difficulty) {
                isVector3(ce.d.position)
                   ? vectorMul(ce.d.position, 0.6)
                   : ce.d.position.forEach((point) => {
+                     if (typeof point === 'string') return;
                      point[0] *= 0.6;
                      point[1] *= 0.6;
                      point[2] *= 0.6;

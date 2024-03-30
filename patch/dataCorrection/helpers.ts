@@ -32,7 +32,11 @@ export function fixBoolean(value: unknown, defaultValue?: boolean): boolean {
 
 export function fixInt<T extends number>(value: unknown): T;
 export function fixInt<T extends number>(value: unknown, defaultValue: T): T;
-export function fixInt<T extends number>(value: unknown, defaultValue: T | [T, T], range: T[]): T;
+export function fixInt<T extends number>(
+   value: unknown,
+   defaultValue: T | [T, T],
+   range: T[],
+): T;
 export function fixInt<T extends number>(
    value: unknown,
    defaultValue?: T | [T, T],
@@ -41,8 +45,13 @@ export function fixInt<T extends number>(
    if (typeof defaultValue === 'number' && !Number.isInteger(defaultValue)) {
       throw new TypeError(`Default value must be integer; received ${value}`);
    }
-   if (Array.isArray(defaultValue) && defaultValue.some((dv) => !Number.isInteger(dv))) {
-      throw new TypeError(`Default value in array must be integer; received ${defaultValue}`);
+   if (
+      Array.isArray(defaultValue) &&
+      defaultValue.some((dv) => !Number.isInteger(dv))
+   ) {
+      throw new TypeError(
+         `Default value in array must be integer; received ${defaultValue}`,
+      );
    }
    if (range && range.some((n) => !Number.isInteger(n))) {
       throw new TypeError(`Range value must be integer; received ${range}`);
@@ -56,7 +65,11 @@ export function fixInt<T extends number>(
                } else if (Array.isArray(defaultValue)) {
                   value = clamp(value as T, defaultValue[0], defaultValue[1]);
                } else {
-                  value = clamp(value as T, range.at(0) ?? 0, range.at(-1) ?? 0);
+                  value = clamp(
+                     value as T,
+                     range.at(0) ?? 0,
+                     range.at(-1) ?? 0,
+                  );
                }
                return value as T;
             }
@@ -112,7 +125,12 @@ export function fixInt<T extends number>(
 
 export function fixFloat(value: unknown): number;
 export function fixFloat(value: unknown, defaultValue: number): number;
-export function fixFloat(value: unknown, defaultValue: number, min: number, max: number): number;
+export function fixFloat(
+   value: unknown,
+   defaultValue: number,
+   min: number,
+   max: number,
+): number;
 export function fixFloat(
    value: unknown,
    defaultValue?: number,
@@ -153,7 +171,10 @@ export function fixFloat(
 
 export function fixString<T extends string>(value: unknown): T;
 export function fixString<T extends string>(value: unknown, defaultValue: T): T;
-export function fixString<T extends string>(value: unknown, defaultValue?: T): T {
+export function fixString<T extends string>(
+   value: unknown,
+   defaultValue?: T,
+): T {
    if (typeof defaultValue === 'string' && !defaultValue.trim()) {
       throw new TypeError(`Default string cannot be empty`);
    }
@@ -180,11 +201,20 @@ export function fixStringAry(value: unknown[], defaultValue: string): string[] {
 }
 
 const easingsList = Object.keys(EasingsFn) as Easings[];
-const modifiersList: PointModifier[] = ['opNone', 'opAdd', 'opSub', 'opMul', 'opMul'];
+const modifiersList: PointModifier[] = [
+   'opNone',
+   'opAdd',
+   'opSub',
+   'opMul',
+   'opMul',
+];
 
 export function fixVector2(value: unknown, defaultValue: Vector2): Vector2 {
    return Array.isArray(value)
-      ? [fixFloat(value.at(0), defaultValue[0]), fixFloat(value.at(1), defaultValue[1])]
+      ? [
+         fixFloat(value.at(0), defaultValue[0]),
+         fixFloat(value.at(1), defaultValue[1]),
+      ]
       : defaultValue;
 }
 
@@ -258,14 +288,15 @@ export function fixVector3PointDefinition(
 ): Vector3PointDefinition[] {
    return Array.isArray(value)
       ? value
-         .filter((ary) => Array.isArray(ary))
+         .filter((ary) => Array.isArray(ary) || typeof ary === 'string')
          .map((elm: unknown[]) => {
+            if (typeof elm === 'string') return elm;
             const temp = [
                fixFloat(elm.at(0), defaultValue[0]),
                fixFloat(elm.at(1), defaultValue[1]),
                fixFloat(elm.at(2), defaultValue[2]),
                fixFloat(elm.at(3), 1, 0, 1),
-            ] as Vector3PointDefinition;
+            ] as Exclude<Vector3PointDefinition, string>;
             if (elm.length > 4) {
                const attr = elm.slice(4).filter((e) => typeof e === 'string');
                const ease = attr.find((e) => easingsList.includes(e as Easings));
@@ -293,15 +324,16 @@ export function fixVector4PointDefinition(
 ): Vector4PointDefinition[] {
    return Array.isArray(value)
       ? value
-         .filter((ary) => Array.isArray(ary))
+         .filter((ary) => Array.isArray(ary) || typeof ary === 'string')
          .map((elm: unknown[]) => {
+            if (typeof elm === 'string') return elm;
             const temp = [
                fixFloat(value.at(0), defaultValue[0]),
                fixFloat(value.at(1), defaultValue[1]),
                fixFloat(value.at(2), defaultValue[2]),
                fixFloat(value.at(3), defaultValue[3]),
                fixFloat(elm.at(4), 1, 0, 1),
-            ] as Vector4PointDefinition;
+            ] as Exclude<Vector4PointDefinition, string>;
             if (elm.length > 5) {
                const attr = elm.slice(5).filter((e) => typeof e === 'string');
                const ease = attr.find((e) => easingsList.includes(e as Easings));

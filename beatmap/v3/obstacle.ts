@@ -86,7 +86,9 @@ export class Obstacle extends WrapObstacle<IObstacle> {
                      (this.posX + width - 1);
                } else {
                   this.customData.animation.definitePosition.forEach((dp) => {
-                     dp[0] = -dp[0] - (this.posX + width - 1);
+                     if (Array.isArray(dp)) {
+                        dp[0] = -dp[0] - (this.posX + width - 1);
+                     }
                   });
                }
             }
@@ -97,7 +99,9 @@ export class Obstacle extends WrapObstacle<IObstacle> {
                      (this.posX + width - 1);
                } else {
                   this.customData.animation.offsetPosition.forEach((op) => {
-                     op[0] = -op[0] - (this.posX + width - 1);
+                     if (Array.isArray(op)) {
+                        op[0] = -op[0] - (this.posX + width - 1);
+                     }
                   });
                }
             }
