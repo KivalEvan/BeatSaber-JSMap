@@ -1,21 +1,21 @@
-import { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
-import { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
-import { IEvent } from '../../types/beatmap/v2/event.ts';
-import { INote } from '../../types/beatmap/v2/note.ts';
-import { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
-import { IArc } from '../../types/beatmap/v2/arc.ts';
-import { ISpecialEventsKeywordFilters } from '../../types/beatmap/v2/specialEventsKeywordFilters.ts';
-import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
-import { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
-import {
+import type { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
+import type { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
+import type { IEvent } from '../../types/beatmap/v2/event.ts';
+import type { INote } from '../../types/beatmap/v2/note.ts';
+import type { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
+import type { IArc } from '../../types/beatmap/v2/arc.ts';
+import type { ISpecialEventsKeywordFilters } from '../../types/beatmap/v2/specialEventsKeywordFilters.ts';
+import type { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
+import type { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
+import type {
    IInfo,
    IInfoColorScheme,
    IInfoColorSchemeData,
    IInfoDifficulty,
    IInfoSet,
 } from '../../types/beatmap/v2/info.ts';
-import { IColor } from '../../types/colors.ts';
-import { IBPMInfo, IBPMInfoRegion } from '../../types/beatmap/v2/bpmInfo.ts';
+import type { IColor } from '../../types/colors.ts';
+import type { IBPMInfo, IBPMInfoRegion } from '../../types/beatmap/v2/bpmInfo.ts';
 
 export const NoteDataCheck: { readonly [key in keyof INote]: DataCheck } = {
    _time: {

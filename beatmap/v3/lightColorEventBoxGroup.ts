@@ -1,9 +1,9 @@
-import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
-import { ILightColorEvent } from '../../types/beatmap/v3/lightColorEvent.ts';
-import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
-import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
-import { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import { DeepPartial } from '../../types/utils.ts';
+import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import type { ILightColorEvent } from '../../types/beatmap/v3/lightColorEvent.ts';
+import type { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
+import type { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
+import type { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightColorEventBoxGroup } from '../wrapper/lightColorEventBoxGroup.ts';
 import { LightColorEventBox } from './lightColorEventBox.ts';

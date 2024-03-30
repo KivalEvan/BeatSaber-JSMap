@@ -1,9 +1,9 @@
-import { IBeatmapData } from '../types/bsmap/beatmap.ts';
+import type { IBeatmapData } from '../types/bsmap/beatmap.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
-import { ILoadOptionsDifficulty } from '../types/bsmap/load.ts';
+import type { ILoadOptionsDifficulty } from '../types/bsmap/load.ts';
 import { resolve } from '../deps.ts';
-import { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
+import type { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
 import { defaultOptions } from './options.ts';
 import { readJSONFile, readJSONFileSync } from '../utils/_fs.ts';
 import { _difficulty } from './difficulty.ts';

@@ -1,8 +1,8 @@
-import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
-import { ILightTranslationEvent } from '../../types/beatmap/v3/lightTranslationEvent.ts';
-import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
-import { IWrapLightTranslationEventBoxAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
-import { DeepPartial } from '../../types/utils.ts';
+import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import type { ILightTranslationEvent } from '../../types/beatmap/v3/lightTranslationEvent.ts';
+import type { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
+import type { IWrapLightTranslationEventBoxAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightTranslationEventBox } from '../wrapper/lightTranslationEventBox.ts';
 import { IndexFilter } from './indexFilter.ts';

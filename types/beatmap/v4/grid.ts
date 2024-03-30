@@ -1,4 +1,4 @@
-import { IItem } from './item.ts';
+import type { IItem } from './item.ts';
 
 export interface IGrid extends IItem {
    /**

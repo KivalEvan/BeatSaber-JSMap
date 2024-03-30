@@ -2,8 +2,8 @@ import globals from '../../globals.ts';
 import { zip } from './deps.ts';
 import * as load from '../../load/mod.ts';
 import { fs } from './deps.ts';
-import { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
-import { IBeatmapData } from '../../types/bsmap/beatmap.ts';
+import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
+import type { IBeatmapData } from '../../types/bsmap/beatmap.ts';
 import { resolve } from '../../deps.ts';
 
 export async function extract(

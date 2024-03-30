@@ -1,8 +1,8 @@
 import { isV3 } from '../beatmap/version.ts';
 import logger from '../logger.ts';
-import { BeatPerMinute } from '../beatmap/shared/bpm.ts';
-import { IWrapBaseObject } from '../types/beatmap/wrapper/baseObject.ts';
-import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { BeatPerMinute } from '../beatmap/shared/bpm.ts';
+import type { IWrapBaseObject } from '../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 
 function tag(): string[] {
    return ['patch', 'removeOutsidePlayable'];

@@ -1,12 +1,12 @@
-import {
+import type {
    FloatPointDefinition,
    Vector3PointDefinition,
    Vector4PointDefinition,
 } from '../../types/beatmap/shared/custom/heck.ts';
-import { ColorArray } from '../../types/colors.ts';
-import { Easings } from '../../types/easings.ts';
-import { PointModifier } from '../../types/beatmap/shared/custom/heck.ts';
-import { Vector2, Vector3, Vector4 } from '../../types/vector.ts';
+import type { ColorArray } from '../../types/colors.ts';
+import type { Easings } from '../../types/easings.ts';
+import type { PointModifier } from '../../types/beatmap/shared/custom/heck.ts';
+import type { Vector2, Vector3, Vector4 } from '../../types/vector.ts';
 import { EasingsFn } from '../../utils/easings.ts';
 import { clamp } from '../../utils/math.ts';
 

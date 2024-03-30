@@ -1,8 +1,8 @@
-import { Vector2 } from '../../types/vector.ts';
-import { IObstacle } from '../../types/beatmap/v1/obstacle.ts';
-import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { Vector2 } from '../../types/vector.ts';
+import type { IObstacle } from '../../types/beatmap/v1/obstacle.ts';
+import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import logger from '../../logger.ts';
 
 function tag(name: string): string[] {

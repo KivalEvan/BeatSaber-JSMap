@@ -7,9 +7,9 @@ import { Lightshow as V3Lightshow } from '../../beatmap/v3/lightshow.ts';
 import { Lightshow as V4Lightshow } from '../../beatmap/v4/lightshow.ts';
 import { clamp } from '../../utils/math.ts';
 import { EventLaneRotationValue } from '../../beatmap/shared/constants.ts';
-import { ICustomDataNote } from '../../types/beatmap/v3/custom/note.ts';
-import { ICustomDataObstacle } from '../../types/beatmap/v3/custom/obstacle.ts';
-import { IChromaComponent, IChromaMaterial } from '../../types/beatmap/v3/custom/chroma.ts';
+import type { ICustomDataNote } from '../../types/beatmap/v3/custom/note.ts';
+import type { ICustomDataObstacle } from '../../types/beatmap/v3/custom/obstacle.ts';
+import type { IChromaComponent, IChromaMaterial } from '../../types/beatmap/v3/custom/chroma.ts';
 import objectToV3 from '../customData/objectToV3.ts';
 import eventToV3 from '../customData/eventToV3.ts';
 import { Obstacle } from '../../beatmap/v3/obstacle.ts';
@@ -23,8 +23,8 @@ import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent.ts';
 import { ColorNote } from '../../beatmap/v3/colorNote.ts';
 import { RotationEvent } from '../../beatmap/v3/rotationEvent.ts';
 import { isVector3, vectorMul } from '../../utils/vector.ts';
-import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
-import { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
+import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 function tag(name: string): string[] {

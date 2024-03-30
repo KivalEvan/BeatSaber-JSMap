@@ -1,11 +1,11 @@
-import { INote } from '../../types/beatmap/v2/note.ts';
-import { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object.ts';
-import { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
-import { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
-import { Vector2 } from '../../types/vector.ts';
+import type { INote } from '../../types/beatmap/v2/note.ts';
+import type { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object.ts';
+import type { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
+import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { Vector2 } from '../../types/vector.ts';
 import { LANE_SIZE } from './constants.ts';
-import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
-import { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
+import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
+import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
 
 /** Convert grid lane size unit to unity unit. */
 export function gridToUnityUnit(value: number): number {

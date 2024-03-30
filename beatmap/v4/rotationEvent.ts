@@ -1,8 +1,8 @@
-import { ISpawnRotationContainer } from '../../types/beatmap/container/v4.ts';
-import { IObject } from '../../types/beatmap/v4/object.ts';
-import { ISpawnRotation } from '../../types/beatmap/v4/spawnRotation.ts';
-import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import { DeepRequiredIgnore } from '../../types/utils.ts';
+import type { ISpawnRotationContainer } from '../../types/beatmap/container/v4.ts';
+import type { IObject } from '../../types/beatmap/v4/object.ts';
+import type { ISpawnRotation } from '../../types/beatmap/v4/spawnRotation.ts';
+import type { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import type { DeepRequiredIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapRotationEvent } from '../wrapper/rotationEvent.ts';
 

@@ -1,5 +1,5 @@
-import { ICustomDataSlider } from '../v3/custom/slider.ts';
-import { IItem } from './item.ts';
+import type { ICustomDataSlider } from '../v3/custom/slider.ts';
+import type { IItem } from './item.ts';
 
 export interface IChain extends IItem {
    /**

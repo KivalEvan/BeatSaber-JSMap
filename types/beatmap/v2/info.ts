@@ -1,15 +1,19 @@
-import { IColor } from '../../colors.ts';
-import { LooseAutocomplete } from '../../utils.ts';
-import { CharacteristicName } from '../shared/characteristic.ts';
-import { ICustomDataInfo, ICustomDataInfoDifficulty, ICustomDataInfoSet } from './custom/info.ts';
-import { DifficultyName, DifficultyRank } from '../shared/difficulty.ts';
-import {
+import type { IColor } from '../../colors.ts';
+import type { LooseAutocomplete } from '../../utils.ts';
+import type { CharacteristicName } from '../shared/characteristic.ts';
+import type {
+   ICustomDataInfo,
+   ICustomDataInfoDifficulty,
+   ICustomDataInfoSet,
+} from './custom/info.ts';
+import type { DifficultyName, DifficultyRank } from '../shared/difficulty.ts';
+import type {
    Environment360Name,
    EnvironmentAllName,
    EnvironmentName,
    EnvironmentV3Name,
 } from '../shared/environment.ts';
-import { GenericFilename } from '../shared/filename.ts';
+import type { GenericFilename } from '../shared/filename.ts';
 
 export interface IInfo {
    _version?: `2.${0 | 1}.0`;

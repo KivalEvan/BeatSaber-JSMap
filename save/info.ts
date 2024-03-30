@@ -1,4 +1,4 @@
-import { ISaveOptionsInfo } from '../types/bsmap/save.ts';
+import type { ISaveOptionsInfo } from '../types/bsmap/save.ts';
 import * as optimize from '../optimize.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
@@ -6,17 +6,17 @@ import { deepCheck } from '../beatmap/shared/dataCheck.ts';
 import { InfoDataCheck as V1InfoCheck } from '../beatmap/v1/dataCheck.ts';
 import { InfoDataCheck as V2InfoCheck } from '../beatmap/v2/dataCheck.ts';
 import { InfoDataCheck as V4InfoCheck } from '../beatmap/v4/dataCheck.ts';
-import { Info as V1Info } from '../beatmap/v1/info.ts';
-import { Info as V2Info } from '../beatmap/v2/info.ts';
-import { Info as V4Info } from '../beatmap/v4/info.ts';
-import { IInfo as IV1Info } from '../types/beatmap/v1/info.ts';
-import { IInfo as IV2Info } from '../types/beatmap/v2/info.ts';
-import { IInfo as IV4Info } from '../types/beatmap/v4/info.ts';
-import { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
+import type { Info as V1Info } from '../beatmap/v1/info.ts';
+import type { Info as V2Info } from '../beatmap/v2/info.ts';
+import type { Info as V4Info } from '../beatmap/v4/info.ts';
+import type { IInfo as IV1Info } from '../types/beatmap/v1/info.ts';
+import type { IInfo as IV2Info } from '../types/beatmap/v2/info.ts';
+import type { IInfo as IV4Info } from '../types/beatmap/v4/info.ts';
+import type { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
 import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../utils/_fs.ts';
 import { defaultOptions } from './options.ts';
-import { DataCheck } from '../types/beatmap/shared/dataCheck.ts';
+import type { DataCheck } from '../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
    return ['save', name];

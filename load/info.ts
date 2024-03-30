@@ -1,18 +1,18 @@
 // deno-lint-ignore-file no-explicit-any
-import { Info as V1Info } from '../beatmap/v1/info.ts';
-import { Info as V2Info } from '../beatmap/v2/info.ts';
-import { Info as V4Info } from '../beatmap/v4/info.ts';
+import type { Info as V1Info } from '../beatmap/v1/info.ts';
+import type { Info as V2Info } from '../beatmap/v2/info.ts';
+import type { Info as V4Info } from '../beatmap/v4/info.ts';
 import { parseInfo as parseV1Info } from '../beatmap/v1/parse.ts';
 import { parseInfo as parseV2Info } from '../beatmap/v2/parse.ts';
 import { parseInfo as parseV4Info } from '../beatmap/v4/parse.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
-import { ILoadOptionsInfo } from '../types/bsmap/load.ts';
+import type { ILoadOptionsInfo } from '../types/bsmap/load.ts';
 import { resolve } from '../deps.ts';
 import { toV1Info } from '../converter/toV1/info.ts';
 import { toV2Info } from '../converter/toV2/info.ts';
 import { toV4Info } from '../converter/toV4/info.ts';
-import { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
+import type { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
 import { defaultOptions } from './options.ts';
 import { readJSONFile, readJSONFileSync } from '../utils/_fs.ts';
 

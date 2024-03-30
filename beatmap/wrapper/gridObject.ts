@@ -1,8 +1,8 @@
 import { WrapBaseObject } from './baseObject.ts';
-import { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
+import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
-import { Vector2 } from '../../types/vector.ts';
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { Vector2 } from '../../types/vector.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Beatmap grid class object. */
 export abstract class WrapGridObject<T extends { [P in keyof T]: T[P] }> extends WrapBaseObject<T>

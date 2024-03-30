@@ -1,4 +1,4 @@
-import { IDifficulty } from '../../types/beatmap/v4/difficulty.ts';
+import type { IDifficulty } from '../../types/beatmap/v4/difficulty.ts';
 import { BombNote } from './bombNote.ts';
 import { Chain } from './chain.ts';
 import { ColorNote } from './colorNote.ts';
@@ -6,22 +6,25 @@ import { Obstacle } from './obstacle.ts';
 import { Arc } from './arc.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapDifficulty } from '../wrapper/difficulty.ts';
-import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
-import { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
-import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
-import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
-import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
+import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import logger from '../../logger.ts';
 import { DummySpecialEventsKeywordFilters } from './_specialEventsKeywordFilters.ts';
-import { IBombNoteContainer, ISpawnRotationContainer } from '../../types/beatmap/container/v4.ts';
-import { IObstacleContainer } from '../../types/beatmap/container/v4.ts';
-import { IArcContainer } from '../../types/beatmap/container/v4.ts';
-import { IColorNoteContainer } from '../../types/beatmap/container/v4.ts';
-import { IChainContainer } from '../../types/beatmap/container/v4.ts';
-import { IWrapDifficultyAttribute } from '../../types/beatmap/wrapper/difficulty.ts';
-import { DeepPartial, DeepRequiredIgnore } from '../../types/utils.ts';
+import type {
+   IBombNoteContainer,
+   ISpawnRotationContainer,
+} from '../../types/beatmap/container/v4.ts';
+import type { IObstacleContainer } from '../../types/beatmap/container/v4.ts';
+import type { IArcContainer } from '../../types/beatmap/container/v4.ts';
+import type { IColorNoteContainer } from '../../types/beatmap/container/v4.ts';
+import type { IChainContainer } from '../../types/beatmap/container/v4.ts';
+import type { IWrapDifficultyAttribute } from '../../types/beatmap/wrapper/difficulty.ts';
+import type { DeepPartial, DeepRequiredIgnore } from '../../types/utils.ts';
 import { SpawnRotation } from './rotationEvent.ts';
-import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import type { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v4', 'difficulty', name];

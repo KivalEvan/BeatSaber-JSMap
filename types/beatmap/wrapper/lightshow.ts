@@ -1,27 +1,27 @@
 // deno-lint-ignore-file no-explicit-any
-import { IWrapEvent, IWrapEventAttribute } from './event.ts';
-import { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
-import {
+import type { IWrapEvent, IWrapEventAttribute } from './event.ts';
+import type { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
+import type {
    IWrapLightColorEventBoxGroup,
    IWrapLightColorEventBoxGroupAttribute,
 } from './lightColorEventBoxGroup.ts';
-import {
+import type {
    IWrapLightRotationEventBoxGroup,
    IWrapLightRotationEventBoxGroupAttribute,
 } from './lightRotationEventBoxGroup.ts';
-import {
+import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from './lightTranslationEventBoxGroup.ts';
-import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
-import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
-import { GenericFilename, IFileInfo } from '../shared/filename.ts';
-import { EventContainer } from './container.ts';
-import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
-import { IWrapWaypoint } from './waypoint.ts';
-import { IWrapWaypointAttribute } from './waypoint.ts';
-import { Version } from '../shared/version.ts';
-import {
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
+import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
+import type { GenericFilename, IFileInfo } from '../shared/filename.ts';
+import type { EventContainer } from './container.ts';
+import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
+import type { IWrapWaypoint } from './waypoint.ts';
+import type { IWrapWaypointAttribute } from './waypoint.ts';
+import type { Version } from '../shared/version.ts';
+import type {
    IWrapEventTypesWithKeywords,
    IWrapEventTypesWithKeywordsAttribute,
 } from './eventTypesWithKeywords.ts';

@@ -1,10 +1,10 @@
-import { ILightColorEventContainer } from '../../types/beatmap/container/v4.ts';
-import { ILightColorEvent } from '../../types/beatmap/v4/lightColorEvent.ts';
-import {
+import type { ILightColorEventContainer } from '../../types/beatmap/container/v4.ts';
+import type { ILightColorEvent } from '../../types/beatmap/v4/lightColorEvent.ts';
+import type {
    IWrapLightColorEvent,
    IWrapLightColorEventAttribute,
 } from '../../types/beatmap/wrapper/lightColorEvent.ts';
-import { DeepRequiredIgnore } from '../../types/utils.ts';
+import type { DeepRequiredIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightColorEvent } from '../wrapper/lightColorEvent.ts';
 

@@ -1,13 +1,13 @@
-import { IColorNote } from '../../types/beatmap/v4/colorNote.ts';
+import type { IColorNote } from '../../types/beatmap/v4/colorNote.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
-import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
 import { isVector3 } from '../../utils/vector.ts';
-import { Vector2 } from '../../types/vector.ts';
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import { IObjectLane } from '../../types/beatmap/v4/object.ts';
-import { IColorNoteContainer } from '../../types/beatmap/container/v4.ts';
-import { DeepRequiredIgnore } from '../../types/utils.ts';
+import type { Vector2 } from '../../types/vector.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { IObjectLane } from '../../types/beatmap/v4/object.ts';
+import type { IColorNoteContainer } from '../../types/beatmap/container/v4.ts';
+import type { DeepRequiredIgnore } from '../../types/utils.ts';
 
 /** Color note beatmap v4 class object. */
 export class ColorNote extends WrapColorNote<IColorNoteContainer> {

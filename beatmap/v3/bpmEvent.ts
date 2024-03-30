@@ -1,5 +1,5 @@
-import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
-import { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
+import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapBPMEvent } from '../wrapper/bpmEvent.ts';
 

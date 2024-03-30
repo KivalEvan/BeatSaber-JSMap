@@ -1,5 +1,5 @@
-import { IWrapEventBox } from '../../types/beatmap/wrapper/eventBox.ts';
-import { IWrapEventBoxGroup } from '../../types/beatmap/wrapper/eventBoxGroup.ts';
+import type { IWrapEventBox } from '../../types/beatmap/wrapper/eventBox.ts';
+import type { IWrapEventBoxGroup } from '../../types/beatmap/wrapper/eventBoxGroup.ts';
 import { WrapBaseObject } from './baseObject.ts';
 
 /** Base event box group beatmap class object. */

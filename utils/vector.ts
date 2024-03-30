@@ -1,5 +1,5 @@
-import { EasingFunction } from '../types/easings.ts';
-import {
+import type { EasingFunction } from '../types/easings.ts';
+import type {
    Vector2,
    Vector2Object,
    Vector3,

@@ -1,4 +1,4 @@
-import { IBaseObject } from './object.ts';
+import type { IBaseObject } from './object.ts';
 
 export interface IEvent extends IBaseObject {
    _type: number;

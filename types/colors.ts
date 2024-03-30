@@ -1,4 +1,4 @@
-import { Vector3, Vector4 } from './vector.ts';
+import type { Vector3, Vector4 } from './vector.ts';
 
 /** Standard color object. */
 export interface IColor {

@@ -1,7 +1,7 @@
-import { IFxEventFloatContainer } from '../../types/beatmap/container/v4.ts';
-import { IFxEventFloat } from '../../types/beatmap/v4/fxEventFloat.ts';
-import { IWrapFxEventFloatAttribute } from '../../types/beatmap/wrapper/fxEventFloat.ts';
-import { DeepRequiredIgnore } from '../../types/utils.ts';
+import type { IFxEventFloatContainer } from '../../types/beatmap/container/v4.ts';
+import type { IFxEventFloat } from '../../types/beatmap/v4/fxEventFloat.ts';
+import type { IWrapFxEventFloatAttribute } from '../../types/beatmap/wrapper/fxEventFloat.ts';
+import type { DeepRequiredIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapFxEventFloat } from '../wrapper/fxEventFloat.ts';
 

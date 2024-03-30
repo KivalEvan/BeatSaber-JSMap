@@ -1,6 +1,6 @@
-import { IEvent } from '../../types/beatmap/v1/event.ts';
+import type { IEvent } from '../../types/beatmap/v1/event.ts';
 import { WrapEvent } from '../wrapper/event.ts';
-import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
+import type { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import logger from '../../logger.ts';
 
 function tag(name: string): string[] {

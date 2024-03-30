@@ -1,5 +1,5 @@
-import { ISaveOptionsAudioData } from '../types/bsmap/save.ts';
-import {
+import type { ISaveOptionsAudioData } from '../types/bsmap/save.ts';
+import type {
    ISaveOptionsDifficulty,
    ISaveOptionsInfo,
    ISaveOptionsLightshow,

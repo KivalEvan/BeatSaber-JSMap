@@ -1,38 +1,38 @@
 // deno-lint-ignore-file no-explicit-any
-import { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent.ts';
-import { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent.ts';
-import { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
-import { IWrapBombNote, IWrapBombNoteAttribute } from './bombNote.ts';
-import { IWrapObstacle, IWrapObstacleAttribute } from './obstacle.ts';
-import { IWrapArc, IWrapArcAttribute } from './arc.ts';
-import { IWrapChain, IWrapChainAttribute } from './chain.ts';
-import { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
-import { IWrapEvent, IWrapEventAttribute } from './event.ts';
-import { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
-import {
+import type { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent.ts';
+import type { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent.ts';
+import type { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
+import type { IWrapBombNote, IWrapBombNoteAttribute } from './bombNote.ts';
+import type { IWrapObstacle, IWrapObstacleAttribute } from './obstacle.ts';
+import type { IWrapArc, IWrapArcAttribute } from './arc.ts';
+import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
+import type { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
+import type { IWrapEvent, IWrapEventAttribute } from './event.ts';
+import type { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
+import type {
    IWrapLightColorEventBoxGroup,
    IWrapLightColorEventBoxGroupAttribute,
 } from './lightColorEventBoxGroup.ts';
-import {
+import type {
    IWrapLightRotationEventBoxGroup,
    IWrapLightRotationEventBoxGroupAttribute,
 } from './lightRotationEventBoxGroup.ts';
-import {
+import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from './lightTranslationEventBoxGroup.ts';
-import {
+import type {
    IWrapEventTypesWithKeywords,
    IWrapEventTypesWithKeywordsAttribute,
 } from './eventTypesWithKeywords.ts';
-import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
-import { Version } from '../shared/version.ts';
-import { DeepPartial, LooseAutocomplete } from '../../utils.ts';
-import { GenericFilename } from '../shared/filename.ts';
-import { EventContainer, NoteContainer } from './container.ts';
-import { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
-import { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
-import { IFileInfo } from '../shared/filename.ts';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
+import type { Version } from '../shared/version.ts';
+import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
+import type { GenericFilename } from '../shared/filename.ts';
+import type { EventContainer, NoteContainer } from './container.ts';
+import type { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
+import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
+import type { IFileInfo } from '../shared/filename.ts';
 
 export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseItemAttribute<T>, IFileInfo {

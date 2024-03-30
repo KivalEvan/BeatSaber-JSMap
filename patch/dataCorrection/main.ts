@@ -1,5 +1,5 @@
 import { isV2, isV3 } from '../../beatmap/version.ts';
-import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { v2 } from './v2.ts';
 import { v3 } from './v3.ts';
 

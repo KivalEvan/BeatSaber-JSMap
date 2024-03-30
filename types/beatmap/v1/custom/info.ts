@@ -1,5 +1,5 @@
-import { IColor } from '../../../colors.ts';
-import { IContributor } from '../../shared/custom/contributor.ts';
+import type { IColor } from '../../../colors.ts';
+import type { IContributor } from '../../shared/custom/contributor.ts';
 
 export interface ICustomInfo {
    contributors?: IContributor[];

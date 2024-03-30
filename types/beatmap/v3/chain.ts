@@ -1,5 +1,5 @@
-import { IBaseSlider } from './baseSlider.ts';
-import { ICustomDataSlider } from './custom/slider.ts';
+import type { IBaseSlider } from './baseSlider.ts';
+import type { ICustomDataSlider } from './custom/slider.ts';
 
 export interface IChain extends IBaseSlider {
    /**

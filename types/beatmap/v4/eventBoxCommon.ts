@@ -1,6 +1,6 @@
-import { DistributionType } from '../shared/constants.ts';
-import { EaseType } from '../shared/constants.ts';
-import { IItem } from './item.ts';
+import type { DistributionType } from '../shared/constants.ts';
+import type { EaseType } from '../shared/constants.ts';
+import type { IItem } from './item.ts';
 
 export interface IEventBoxCommon extends IItem {
    /** Beat distribution `<float>` of event box. */

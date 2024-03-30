@@ -1,5 +1,8 @@
-import { IChromaComponent, IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
-import { IChromaEnvironment as IV2ChromaEnvironment } from '../../../types/beatmap/v2/custom/chroma.ts';
+import type {
+   IChromaComponent,
+   IChromaEnvironment,
+} from '../../../types/beatmap/v3/custom/chroma.ts';
+import type { IChromaEnvironment as IV2ChromaEnvironment } from '../../../types/beatmap/v2/custom/chroma.ts';
 import logger from '../../../logger.ts';
 import { vectorMul } from '../../../utils/vector.ts';
 

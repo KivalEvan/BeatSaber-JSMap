@@ -1,9 +1,9 @@
-import { Vector2 } from '../../types/vector.ts';
-import { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
-import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { Vector2 } from '../../types/vector.ts';
+import type { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
+import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Obstacle beatmap v2 class object. */
 export class Obstacle extends WrapObstacle<IObstacle> {

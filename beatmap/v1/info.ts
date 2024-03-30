@@ -1,16 +1,19 @@
 import logger from '../../logger.ts';
-import { Environment360Name, EnvironmentName } from '../../types/beatmap/shared/environment.ts';
-import { IInfo, IInfoDifficulty } from '../../types/beatmap/v1/info.ts';
-import { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
-import { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
+import type {
+   Environment360Name,
+   EnvironmentName,
+} from '../../types/beatmap/shared/environment.ts';
+import type { IInfo, IInfoDifficulty } from '../../types/beatmap/v1/info.ts';
+import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
+import type { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
 import { WrapInfo, WrapInfoDifficulty } from '../wrapper/info.ts';
-import { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
-import { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
-import { GenericFilename } from '../../types/beatmap/shared/filename.ts';
-import { IColor } from '../../types/colors.ts';
-import { IContributor } from '../../types/beatmap/shared/custom/contributor.ts';
+import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
+import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
+import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
+import type { IColor } from '../../types/colors.ts';
+import type { IContributor } from '../../types/beatmap/shared/custom/contributor.ts';
 import { deepCopy, shallowCopy } from '../../utils/misc.ts';
-import {
+import type {
    IWrapInfo,
    IWrapInfoAttribute,
    IWrapInfoAudio,

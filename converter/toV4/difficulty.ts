@@ -3,7 +3,7 @@ import { Difficulty as V1Difficulty } from '../../beatmap/v1/difficulty.ts';
 import { Difficulty as V2Difficulty } from '../../beatmap/v2/difficulty.ts';
 import { Difficulty as V3Difficulty } from '../../beatmap/v3/difficulty.ts';
 import { Difficulty as V4Difficulty } from '../../beatmap/v4/difficulty.ts';
-import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { clamp } from '../../utils/math.ts';
 import objectToV3 from '../customData/objectToV3.ts';

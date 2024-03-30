@@ -1,6 +1,6 @@
-import { EaseType } from '../shared/constants.ts';
-import { LightRotationDirection } from '../shared/constants.ts';
-import { IItem } from './item.ts';
+import type { EaseType } from '../shared/constants.ts';
+import type { LightRotationDirection } from '../shared/constants.ts';
+import type { IItem } from './item.ts';
 
 export interface ILightRotationEvent extends IItem {
    /** Use previous event rotation value `<int>` in light rotation. */

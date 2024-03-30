@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
-import { DistributionType } from '../shared/constants.ts';
-import { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
-import { IWrapFxEventFloat, IWrapFxEventFloatAttribute } from './fxEventFloat.ts';
+import type { DistributionType } from '../shared/constants.ts';
+import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
+import type { IWrapFxEventFloat, IWrapFxEventFloatAttribute } from './fxEventFloat.ts';
 
 export interface IWrapFxEventBoxAttribute<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,

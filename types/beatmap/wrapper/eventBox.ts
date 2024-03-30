@@ -1,9 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
-import { EaseType } from '../shared/constants.ts';
-import { DistributionType } from '../shared/constants.ts';
-import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
-import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
-import { IWrapIndexFilter, IWrapIndexFilterAttribute } from './indexFilter.ts';
+import type { EaseType } from '../shared/constants.ts';
+import type { DistributionType } from '../shared/constants.ts';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
+import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
+import type { IWrapIndexFilter, IWrapIndexFilterAttribute } from './indexFilter.ts';
 
 export interface IWrapEventBoxAttribute<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,

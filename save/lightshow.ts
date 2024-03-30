@@ -1,19 +1,19 @@
-import { ISaveOptionsLightshow } from '../types/bsmap/save.ts';
+import type { ISaveOptionsLightshow } from '../types/bsmap/save.ts';
 import * as optimize from '../optimize.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
 import { deepCheck } from '../beatmap/shared/dataCheck.ts';
 import { LightshowDataCheck as V3LightshowCheck } from '../beatmap/v3/dataCheck.ts';
 import { LightshowDataCheck as V4LightshowCheck } from '../beatmap/v4/dataCheck.ts';
-import { Lightshow as V3Lightshow } from '../beatmap/v3/lightshow.ts';
-import { Lightshow as V4Lightshow } from '../beatmap/v4/lightshow.ts';
-import { ILightshow as IV3Lightshow } from '../types/beatmap/v3/lightshow.ts';
-import { ILightshow as IV4Lightshow } from '../types/beatmap/v4/lightshow.ts';
-import { IWrapLightshow } from '../types/beatmap/wrapper/lightshow.ts';
+import type { Lightshow as V3Lightshow } from '../beatmap/v3/lightshow.ts';
+import type { Lightshow as V4Lightshow } from '../beatmap/v4/lightshow.ts';
+import type { ILightshow as IV3Lightshow } from '../types/beatmap/v3/lightshow.ts';
+import type { ILightshow as IV4Lightshow } from '../types/beatmap/v4/lightshow.ts';
+import type { IWrapLightshow } from '../types/beatmap/wrapper/lightshow.ts';
 import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../utils/_fs.ts';
 import { defaultOptions } from './options.ts';
-import { DataCheck } from '../types/beatmap/shared/dataCheck.ts';
+import type { DataCheck } from '../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
    return ['save', name];

@@ -1,12 +1,12 @@
-import {
+import type {
    ILightRotationBoxContainer,
    ILightRotationEventContainer,
 } from '../../types/beatmap/container/v4.ts';
-import { IIndexFilter } from '../../types/beatmap/v4/indexFilter.ts';
-import { ILightRotationEvent } from '../../types/beatmap/v4/lightRotationEvent.ts';
-import { ILightRotationEventBox } from '../../types/beatmap/v4/lightRotationEventBox.ts';
-import { IWrapLightRotationEventBoxAttribute } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
-import { DeepPartial, DeepRequiredIgnore } from '../../types/utils.ts';
+import type { IIndexFilter } from '../../types/beatmap/v4/indexFilter.ts';
+import type { ILightRotationEvent } from '../../types/beatmap/v4/lightRotationEvent.ts';
+import type { ILightRotationEventBox } from '../../types/beatmap/v4/lightRotationEventBox.ts';
+import type { IWrapLightRotationEventBoxAttribute } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
+import type { DeepPartial, DeepRequiredIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightRotationEventBox } from '../wrapper/lightRotationEventBox.ts';
 import { IndexFilter } from './indexFilter.ts';

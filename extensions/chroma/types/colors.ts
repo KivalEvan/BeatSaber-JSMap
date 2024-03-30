@@ -1,9 +1,9 @@
-import { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
-import { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
-import { IWrapEvent } from '../../../types/beatmap/wrapper/event.ts';
-import { Easings } from '../../../types/easings.ts';
-import { ColorArray, ColorInput, ColorType } from '../../../types/colors.ts';
-import { SetOptions } from './options.ts';
+import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapEvent } from '../../../types/beatmap/wrapper/event.ts';
+import type { Easings } from '../../../types/easings.ts';
+import type { ColorArray, ColorInput, ColorType } from '../../../types/colors.ts';
+import type { SetOptions } from './options.ts';
 
 export type IChromaObject = IWrapColorNote | IWrapObstacle | IWrapEvent;
 

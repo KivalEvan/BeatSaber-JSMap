@@ -1,5 +1,5 @@
-import { IFxEventFloat } from './fxEventFloat.ts';
-import { IFxEventInt } from './fxEventInt.ts';
+import type { IFxEventFloat } from './fxEventFloat.ts';
+import type { IFxEventInt } from './fxEventInt.ts';
 
 export interface IFxEventsCollection {
    _fl?: IFxEventFloat[];

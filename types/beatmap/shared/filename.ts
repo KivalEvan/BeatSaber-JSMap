@@ -1,5 +1,5 @@
-import { CharacteristicName } from './characteristic.ts';
-import { DifficultyName } from './difficulty.ts';
+import type { CharacteristicName } from './characteristic.ts';
+import type { DifficultyName } from './difficulty.ts';
 
 export interface IFileInfo {
    filename: string;

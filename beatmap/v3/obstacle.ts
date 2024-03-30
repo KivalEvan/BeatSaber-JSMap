@@ -1,7 +1,7 @@
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
-import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
-import { Vector2 } from '../../types/vector.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
+import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';

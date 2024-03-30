@@ -1,6 +1,6 @@
-import { ICustomDataBase } from '../../types/beatmap/shared/custom/customData.ts';
-import { ICustomDataNote } from '../../types/beatmap/v2/custom/note.ts';
-import { ICustomDataObstacle } from '../../types/beatmap/v2/custom/obstacle.ts';
+import type { ICustomDataBase } from '../../types/beatmap/shared/custom/customData.ts';
+import type { ICustomDataNote } from '../../types/beatmap/v2/custom/note.ts';
+import type { ICustomDataObstacle } from '../../types/beatmap/v2/custom/obstacle.ts';
 import { renameKey } from './_helpers.ts';
 
 export default function <T extends ICustomDataBase>(

@@ -1,5 +1,5 @@
-import { Easings } from '../../../easings.ts';
-import { Vector3, Vector4 } from '../../../vector.ts';
+import type { Easings } from '../../../easings.ts';
+import type { Vector3, Vector4 } from '../../../vector.ts';
 export type FloatPointDefinition = [
    percent: number,
    time: number,

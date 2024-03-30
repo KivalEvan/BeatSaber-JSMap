@@ -2,17 +2,22 @@ import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
 import { Event } from '../../beatmap/v2/event.ts';
 import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent.ts';
 import { isV3 } from '../../beatmap/version.ts';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import { IEvent } from '../../types/beatmap/v2/event.ts';
-import { IChromaEventRing, IChromaEventZoom } from '../../types/beatmap/v3/custom/chroma.ts';
-import { DeepPartial } from '../../types/utils.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { IEvent } from '../../types/beatmap/v2/event.ts';
+import type { IChromaEventRing, IChromaEventZoom } from '../../types/beatmap/v3/custom/chroma.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { LightIDList } from './lightID.ts';
-import { EventBase, EventBox, EventBoxType, IndexFilterDivision } from './types/lightMapper.ts';
+import type {
+   EventBase,
+   EventBox,
+   EventBoxType,
+   IndexFilterDivision,
+} from './types/lightMapper.ts';
 import { EasingsFn } from '../../utils/easings.ts';
 import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
-import { ColorArray } from '../../types/colors.ts';
-import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import type { ColorArray } from '../../types/colors.ts';
+import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 /**

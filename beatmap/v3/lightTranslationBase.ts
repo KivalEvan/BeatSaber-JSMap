@@ -1,5 +1,5 @@
-import { ILightTranslationEvent } from '../../types/beatmap/v3/lightTranslationEvent.ts';
-import { IWrapLightTranslationEventAttribute } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
+import type { ILightTranslationEvent } from '../../types/beatmap/v3/lightTranslationEvent.ts';
+import type { IWrapLightTranslationEventAttribute } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapLightTranslationEvent } from '../wrapper/lightTranslationEvent.ts';
 

@@ -1,14 +1,14 @@
 // deno-lint-ignore-file no-explicit-any
-import { IDataCheckOption } from '../beatmap/shared/dataCheck.ts';
-import { IWrapAudio } from '../beatmap/wrapper/audioData.ts';
-import { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
-import { IWrapInfo } from '../beatmap/wrapper/info.ts';
-import { IWrapLightshow } from '../beatmap/wrapper/lightshow.ts';
-import { IOptimizeOptionsAudioData, IOptimizeOptionsDifficulty } from './optimize.ts';
-import { IOptimizeOptionsInfo } from './optimize.ts';
-import { IOptimizeOptionsLightshow } from './optimize.ts';
-import { IOptimizeOptions } from './optimize.ts';
-import { IBaseOptions } from './options.ts';
+import type { IDataCheckOption } from '../beatmap/shared/dataCheck.ts';
+import type { IWrapAudio } from '../beatmap/wrapper/audioData.ts';
+import type { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
+import type { IWrapInfo } from '../beatmap/wrapper/info.ts';
+import type { IWrapLightshow } from '../beatmap/wrapper/lightshow.ts';
+import type { IOptimizeOptionsAudioData, IOptimizeOptionsDifficulty } from './optimize.ts';
+import type { IOptimizeOptionsInfo } from './optimize.ts';
+import type { IOptimizeOptionsLightshow } from './optimize.ts';
+import type { IOptimizeOptions } from './optimize.ts';
+import type { IBaseOptions } from './options.ts';
 
 export interface ISaveOptionsBase<T = Record<string, any>> extends IBaseOptions {
    /**

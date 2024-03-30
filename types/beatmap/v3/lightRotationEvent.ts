@@ -1,6 +1,6 @@
-import { EaseType } from '../shared/constants.ts';
-import { LightRotationDirection } from '../shared/constants.ts';
-import { ICustomDataBase } from '../shared/custom/customData.ts';
+import type { EaseType } from '../shared/constants.ts';
+import type { LightRotationDirection } from '../shared/constants.ts';
+import type { ICustomDataBase } from '../shared/custom/customData.ts';
 
 export interface ILightRotationEvent {
    /** Relative beat time `<float>` to event box group. */

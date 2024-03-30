@@ -1,6 +1,6 @@
-import { IBaseObject } from './baseObject.ts';
-import { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from './custom/chroma.ts';
-import { ICustomDataBase } from '../shared/custom/customData.ts';
+import type { IBaseObject } from './baseObject.ts';
+import type { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from './custom/chroma.ts';
+import type { ICustomDataBase } from '../shared/custom/customData.ts';
 
 export interface IBasicEventBase extends IBaseObject {
    /**

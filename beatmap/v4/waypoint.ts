@@ -1,8 +1,8 @@
-import { IWaypointContainer } from '../../types/beatmap/container/v4.ts';
-import { IObjectLane } from '../../types/beatmap/v4/object.ts';
-import { IWaypoint } from '../../types/beatmap/v4/waypoint.ts';
-import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
-import { DeepRequiredIgnore } from '../../types/utils.ts';
+import type { IWaypointContainer } from '../../types/beatmap/container/v4.ts';
+import type { IObjectLane } from '../../types/beatmap/v4/object.ts';
+import type { IWaypoint } from '../../types/beatmap/v4/waypoint.ts';
+import type { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
+import type { DeepRequiredIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapWaypoint } from '../wrapper/waypoint.ts';
 

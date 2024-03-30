@@ -1,5 +1,5 @@
-import { IEventBoxGroup } from './eventBoxGroup.ts';
-import { IFxEventBox } from './fxEventBox.ts';
+import type { IEventBoxGroup } from './eventBoxGroup.ts';
+import type { IFxEventBox } from './fxEventBox.ts';
 
 export interface IFxEventBoxGroup extends IEventBoxGroup<IFxEventBox> {
    /**

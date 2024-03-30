@@ -1,6 +1,6 @@
 // deno-lint-ignore-file prefer-const
-import { ColorArray, ColorInput, ColorObject, ColorType, IColor } from '../types/colors.ts';
-import { EasingFunction } from '../types/easings.ts';
+import type { ColorArray, ColorInput, ColorObject, ColorType, IColor } from '../types/colors.ts';
+import type { EasingFunction } from '../types/easings.ts';
 import { degToRad, lerp, radToDeg, round } from './math.ts';
 import { hexToDec, isHex } from './misc.ts';
 

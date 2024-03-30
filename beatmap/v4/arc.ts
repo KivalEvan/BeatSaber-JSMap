@@ -1,14 +1,14 @@
-import { IArc } from '../../types/beatmap/v4/arc.ts';
-import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import { Vector2 } from '../../types/vector.ts';
+import type { IArc } from '../../types/beatmap/v4/arc.ts';
+import type { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapArc } from '../wrapper/arc.ts';
-import { IArcContainer } from '../../types/beatmap/container/v4.ts';
-import { DeepRequiredIgnore } from '../../types/utils.ts';
-import { IColorNote } from '../../types/beatmap/v4/colorNote.ts';
-import { IObjectArc } from '../../types/beatmap/v4/object.ts';
+import type { IArcContainer } from '../../types/beatmap/container/v4.ts';
+import type { DeepRequiredIgnore } from '../../types/utils.ts';
+import type { IColorNote } from '../../types/beatmap/v4/colorNote.ts';
+import type { IObjectArc } from '../../types/beatmap/v4/object.ts';
 
 /** Arc beatmap v4 class object. */
 export class Arc extends WrapArc<IArcContainer> {

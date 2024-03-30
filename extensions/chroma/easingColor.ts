@@ -1,6 +1,6 @@
-import { ApplyEasingsOptions } from './types/colors.ts';
-import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
-import { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
+import type { ApplyEasingsOptions } from './types/colors.ts';
+import type { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
+import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 
 export function applyEasingsTransition(events: BasicEvent[], options: ApplyEasingsOptions): void {
    let filteredEvents = events.filter((ev) => ev.isLightEvent() && ev.isOn());

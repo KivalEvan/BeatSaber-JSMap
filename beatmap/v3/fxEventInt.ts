@@ -1,5 +1,5 @@
-import { IFxEventInt } from '../../types/beatmap/v3/fxEventInt.ts';
-import { IWrapFxEventIntAttribute } from '../../types/beatmap/wrapper/fxEventInt.ts';
+import type { IFxEventInt } from '../../types/beatmap/v3/fxEventInt.ts';
+import type { IWrapFxEventIntAttribute } from '../../types/beatmap/wrapper/fxEventInt.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapFxEventInt } from '../wrapper/fxEventInt.ts';
 

@@ -1,8 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
-import { Axis } from '../shared/constants.ts';
-import { DistributionType } from '../shared/constants.ts';
-import { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
-import {
+import type { Axis } from '../shared/constants.ts';
+import type { DistributionType } from '../shared/constants.ts';
+import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
+import type {
    IWrapLightTranslationEvent,
    IWrapLightTranslationEventAttribute,
 } from './lightTranslationEvent.ts';

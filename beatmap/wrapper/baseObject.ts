@@ -1,4 +1,4 @@
-import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
 /** Basic building block of beatmap object. */

@@ -1,6 +1,6 @@
-import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
-import { IWrapEventTypesForKeywordsAttribute } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
-import { DeepPartial } from '../../types/utils.ts';
+import type { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
+import type { IWrapEventTypesForKeywordsAttribute } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
 
 /**

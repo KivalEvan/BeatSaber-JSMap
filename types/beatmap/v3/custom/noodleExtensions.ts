@@ -1,8 +1,8 @@
-import { Nullable } from '../../../utils.ts';
-import { Vector2, Vector3 } from '../../../vector.ts';
-import { FloatPointDefinition, Vector3PointDefinition } from '../../shared/custom/heck.ts';
-import { PlayerObject } from '../../shared/custom/noodleExtensions.ts';
-import { IHeckBase } from './heck.ts';
+import type { Nullable } from '../../../utils.ts';
+import type { Vector2, Vector3 } from '../../../vector.ts';
+import type { FloatPointDefinition, Vector3PointDefinition } from '../../shared/custom/heck.ts';
+import type { PlayerObject } from '../../shared/custom/noodleExtensions.ts';
+import type { IHeckBase } from './heck.ts';
 
 /** Noodle Extensions Object interface for Beatmap Object. */
 interface INEObject {

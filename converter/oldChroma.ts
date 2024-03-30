@@ -1,10 +1,10 @@
 import logger from '../logger.ts';
-import { ColorArray } from '../types/colors.ts';
+import type { ColorArray } from '../types/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../beatmap/shared/colorScheme.ts';
-import { EnvironmentAllName } from '../types/beatmap/shared/environment.ts';
+import type { EnvironmentAllName } from '../types/beatmap/shared/environment.ts';
 import { isV2 } from '../beatmap/version.ts';
-import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
-import { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
+import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];

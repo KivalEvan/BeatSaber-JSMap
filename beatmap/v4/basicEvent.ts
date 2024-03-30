@@ -1,17 +1,17 @@
 // deno-lint-ignore-file no-unused-vars
-import { IBasicEvent } from '../../types/beatmap/v4/basicEvent.ts';
-import {
+import type { IBasicEvent } from '../../types/beatmap/v4/basicEvent.ts';
+import type {
    IChromaEventLaser,
    IChromaEventLight,
    IChromaEventRing,
 } from '../../types/beatmap/v3/custom/chroma.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import { WrapEvent } from '../wrapper/event.ts';
-import { IBasicEventContainer } from '../../types/beatmap/container/v4.ts';
-import { DeepRequiredIgnore } from '../../types/utils.ts';
-import { IObject } from '../../types/beatmap/v4/object.ts';
+import type { IBasicEventContainer } from '../../types/beatmap/container/v4.ts';
+import type { DeepRequiredIgnore } from '../../types/utils.ts';
+import type { IObject } from '../../types/beatmap/v4/object.ts';
 
 /** Basic event beatmap v4 class object. */
 export class BasicEvent extends WrapEvent<IBasicEventContainer> {

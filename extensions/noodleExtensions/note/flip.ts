@@ -1,5 +1,5 @@
-import { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
-import { Vector2 } from '../../../types/vector.ts';
+import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { Vector2 } from '../../../types/vector.ts';
 import { random } from '../../../utils/math.ts';
 
 /**

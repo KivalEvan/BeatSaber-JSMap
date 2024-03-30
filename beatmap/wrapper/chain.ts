@@ -1,5 +1,5 @@
 import { WrapBaseSlider } from './baseSlider.ts';
-import { IWrapChain } from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapChain } from '../../types/beatmap/wrapper/chain.ts';
 
 /**
  * Chain beatmap class object.

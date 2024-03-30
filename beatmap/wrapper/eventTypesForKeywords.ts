@@ -1,4 +1,4 @@
-import { IWrapEventTypesForKeywords } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
+import type { IWrapEventTypesForKeywords } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
 import { Serializable } from '../shared/serializable.ts';
 
 /**

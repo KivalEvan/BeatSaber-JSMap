@@ -1,4 +1,4 @@
-import {
+import type {
    IOptimizeOptionsAudioData,
    IOptimizeOptionsDifficulty,
    IOptimizeOptionsInfo,
@@ -22,10 +22,10 @@ import {
    cleanInfo as cleanV4Info,
    cleanLightshow as cleanV4Lightshow,
 } from './beatmap/v4/clean.ts';
-import { ICleanOptions } from './types/beatmap/shared/clean.ts';
-import { ILightshow } from './types/beatmap/v4/lightshow.ts';
+import type { ICleanOptions } from './types/beatmap/shared/clean.ts';
+import type { ILightshow } from './types/beatmap/v4/lightshow.ts';
 import { EventBoxType } from './types/beatmap/shared/constants.ts';
-import { IDifficulty } from './types/beatmap/v4/difficulty.ts';
+import type { IDifficulty } from './types/beatmap/v4/difficulty.ts';
 
 function tag(name: string): string[] {
    return ['optimize', name];

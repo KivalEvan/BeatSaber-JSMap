@@ -1,4 +1,4 @@
-import { IGrid } from './grid.ts';
+import type { IGrid } from './grid.ts';
 
 export interface IWaypoint extends IGrid {
    /**

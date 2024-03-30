@@ -1,4 +1,4 @@
-import { Vector2 } from '../../types/vector.ts';
+import type { Vector2 } from '../../types/vector.ts';
 import { degToRad, radToDeg } from '../../utils/math.ts';
 
 /** Create points around circle, higher precision is more accurate. */

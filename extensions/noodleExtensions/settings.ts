@@ -1,5 +1,5 @@
-import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
-import { NoteJumpSpeed } from '../../beatmap/shared/njs.ts';
+import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { NoteJumpSpeed } from '../../beatmap/shared/njs.ts';
 
 export const settings: {
    BPM: BeatPerMinute | null;

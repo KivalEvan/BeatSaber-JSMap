@@ -1,6 +1,6 @@
-import { IBasicEventTypesForKeywords } from '../../types/beatmap/v3/basicEventTypesForKeywords.ts';
-import { IWrapEventTypesForKeywordsAttribute } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
-import { DeepPartial } from '../../types/utils.ts';
+import type { IBasicEventTypesForKeywords } from '../../types/beatmap/v3/basicEventTypesForKeywords.ts';
+import type { IWrapEventTypesForKeywordsAttribute } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
 
 /**

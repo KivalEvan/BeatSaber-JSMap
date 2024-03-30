@@ -1,12 +1,12 @@
-import { IWrapInfoDifficulty } from '../beatmap/wrapper/info.ts';
-import { Difficulty as V1Difficulty } from '../../beatmap/v1/difficulty.ts';
-import { Difficulty as V2Difficulty } from '../../beatmap/v2/difficulty.ts';
-import { Difficulty as V3Difficulty } from '../../beatmap/v3/difficulty.ts';
-import { Difficulty as V4Difficulty } from '../../beatmap/v4/difficulty.ts';
-import { Lightshow as V3Lightshow } from '../../beatmap/v3/lightshow.ts';
-import { Lightshow as V4Lightshow } from '../../beatmap/v4/lightshow.ts';
-import { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
-import { IWrapLightshow } from '../beatmap/wrapper/lightshow.ts';
+import type { IWrapInfoDifficulty } from '../beatmap/wrapper/info.ts';
+import type { Difficulty as V1Difficulty } from '../../beatmap/v1/difficulty.ts';
+import type { Difficulty as V2Difficulty } from '../../beatmap/v2/difficulty.ts';
+import type { Difficulty as V3Difficulty } from '../../beatmap/v3/difficulty.ts';
+import type { Difficulty as V4Difficulty } from '../../beatmap/v4/difficulty.ts';
+import type { Lightshow as V3Lightshow } from '../../beatmap/v3/lightshow.ts';
+import type { Lightshow as V4Lightshow } from '../../beatmap/v4/lightshow.ts';
+import type { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
+import type { IWrapLightshow } from '../beatmap/wrapper/lightshow.ts';
 
 interface ILoadBeatmapBase {
    readonly settings: IWrapInfoDifficulty;

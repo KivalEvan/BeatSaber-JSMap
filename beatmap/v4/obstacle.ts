@@ -1,10 +1,10 @@
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import { IObstacle } from '../../types/beatmap/v4/obstacle.ts';
-import { IObstacleContainer } from '../../types/beatmap/container/v4.ts';
-import { IObjectLane } from '../../types/beatmap/v4/object.ts';
-import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
-import { DeepRequiredIgnore } from '../../types/utils.ts';
-import { Vector2 } from '../../types/vector.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { IObstacle } from '../../types/beatmap/v4/obstacle.ts';
+import type { IObstacleContainer } from '../../types/beatmap/container/v4.ts';
+import type { IObjectLane } from '../../types/beatmap/v4/object.ts';
+import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { DeepRequiredIgnore } from '../../types/utils.ts';
+import type { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapObstacle } from '../wrapper/obstacle.ts';

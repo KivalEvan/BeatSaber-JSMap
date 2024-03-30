@@ -1,4 +1,4 @@
-import {
+import type {
    IChromaObject,
    SetColorGradientOptions,
    SetColorOptions,
@@ -6,7 +6,7 @@ import {
 } from './types/colors.ts';
 import { convertColorType, lerpColor } from '../../utils/colors.ts';
 import { normalize } from '../../utils/math.ts';
-import { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
+import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 import { settings } from './settings.ts';
 import logger from '../../logger.ts';
 

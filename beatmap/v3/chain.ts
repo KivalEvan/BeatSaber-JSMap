@@ -1,7 +1,7 @@
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import { IChain } from '../../types/beatmap/v3/chain.ts';
-import { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
-import { Vector2 } from '../../types/vector.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { IChain } from '../../types/beatmap/v3/chain.ts';
+import type { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
+import type { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { isVector3 } from '../../utils/vector.ts';
 import { WrapChain } from '../wrapper/chain.ts';

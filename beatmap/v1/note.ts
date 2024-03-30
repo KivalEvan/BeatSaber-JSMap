@@ -1,8 +1,8 @@
 import logger from '../../logger.ts';
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import { INote } from '../../types/beatmap/v1/note.ts';
-import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
-import { Vector2 } from '../../types/vector.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { INote } from '../../types/beatmap/v1/note.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { Vector2 } from '../../types/vector.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
 
 function tag(name: string): string[] {

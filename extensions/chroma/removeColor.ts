@@ -1,4 +1,4 @@
-import { IChromaObject } from './types/colors.ts';
+import type { IChromaObject } from './types/colors.ts';
 
 export function removeColor(objects: IChromaObject[]): void {
    objects.forEach((obj) => {

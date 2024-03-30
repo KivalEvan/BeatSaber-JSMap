@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
-import { IFilter } from './types/filter.ts';
-import { DeepPartialWrapper } from '../../types/utils.ts';
-import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { IFilter } from './types/filter.ts';
+import type { DeepPartialWrapper } from '../../types/utils.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
 /**
  * Query function on class object array.

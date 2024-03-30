@@ -1,14 +1,14 @@
-import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
-import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
+import type { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
+import type { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
 import { isV2, isV3 } from '../beatmap/version.ts';
 import eventToV2 from '../converter/customData/eventToV2.ts';
 import eventToV3 from '../converter/customData/eventToV3.ts';
 import objectToV2 from '../converter/customData/objectToV2.ts';
 import objectToV3 from '../converter/customData/objectToV3.ts';
 import logger from '../logger.ts';
-import { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition.ts';
-import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
-import { ColorArray } from '../types/colors.ts';
+import type { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition.ts';
+import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { ColorArray } from '../types/colors.ts';
 import { colorFrom } from '../utils/colors.ts';
 
 function tag(name: string): string[] {

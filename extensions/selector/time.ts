@@ -1,6 +1,6 @@
-import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 import { settings } from './settings.ts';
-import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
 /**
  * Return objects at given time, adjusted by BPM change if provided.

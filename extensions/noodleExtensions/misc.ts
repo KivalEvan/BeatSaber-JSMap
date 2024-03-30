@@ -1,4 +1,4 @@
-import { INENote, INEObject } from './types/object.ts';
+import type { INENote, INEObject } from './types/object.ts';
 
 /**
  * Set uninteractible to object from start to end object.

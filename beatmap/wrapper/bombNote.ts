@@ -1,5 +1,5 @@
 import { WrapGridObject } from './gridObject.ts';
-import { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
 
 /** Bomb note beatmap class object. */
 export abstract class WrapBombNote<T extends { [P in keyof T]: T[P] }> extends WrapGridObject<T>

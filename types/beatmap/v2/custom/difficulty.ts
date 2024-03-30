@@ -1,9 +1,9 @@
-import { IBookmark } from './bookmark.ts';
-import { IBPMChange, IBPMChangeOld } from './bpmChange.ts';
-import { IChromaCustomData } from './chroma.ts';
-import { ICustomDataBase } from '../../shared/custom/customData.ts';
-import { IPointDefinition } from './pointDefinition.ts';
-import { ICustomEvent } from './customEvent.ts';
+import type { IBookmark } from './bookmark.ts';
+import type { IBPMChange, IBPMChangeOld } from './bpmChange.ts';
+import type { IChromaCustomData } from './chroma.ts';
+import type { ICustomDataBase } from '../../shared/custom/customData.ts';
+import type { IPointDefinition } from './pointDefinition.ts';
+import type { ICustomEvent } from './customEvent.ts';
 
 /**
  * Custom Data interface for difficulty file.

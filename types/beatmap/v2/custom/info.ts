@@ -1,11 +1,11 @@
-import { IContributor } from '../../shared/custom/contributor.ts';
-import { IEditor } from './editor.ts';
-import { IColorScheme } from './colorScheme.ts';
-import { IHeckInfoCustomData, IInfoSettingsCustomData } from './heck.ts';
-import { IChromaInfoCustomData } from './chroma.ts';
-import { LooseAutocomplete } from '../../../utils.ts';
-import { ICustomDataBase } from '../../shared/custom/customData.ts';
-import { ModRequirements, ModSuggestions } from '../../shared/modCheck.ts';
+import type { IContributor } from '../../shared/custom/contributor.ts';
+import type { IEditor } from './editor.ts';
+import type { IColorScheme } from './colorScheme.ts';
+import type { IHeckInfoCustomData, IInfoSettingsCustomData } from './heck.ts';
+import type { IChromaInfoCustomData } from './chroma.ts';
+import type { LooseAutocomplete } from '../../../utils.ts';
+import type { ICustomDataBase } from '../../shared/custom/customData.ts';
+import type { ModRequirements, ModSuggestions } from '../../shared/modCheck.ts';
 
 /**
  * Custom Data interface for info.

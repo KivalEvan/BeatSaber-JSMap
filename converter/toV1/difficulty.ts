@@ -5,10 +5,10 @@ import { Difficulty as V3Difficulty } from '../../beatmap/v3/difficulty.ts';
 import { Difficulty as V4Difficulty } from '../../beatmap/v4/difficulty.ts';
 import { Lightshow as V3Lightshow } from '../../beatmap/v3/lightshow.ts';
 import { Lightshow as V4Lightshow } from '../../beatmap/v4/lightshow.ts';
-import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
-import { IWrapInfo, IWrapInfoDifficulty } from '../../types/beatmap/wrapper/info.ts';
+import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapInfo, IWrapInfoDifficulty } from '../../types/beatmap/wrapper/info.ts';
 import { Info as V2Info } from '../../beatmap/v2/info.ts';
-import { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
+import type { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV1Difficulty', name];

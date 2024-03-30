@@ -1,5 +1,5 @@
 import { WrapBaseObject } from './baseObject.ts';
-import { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
 
 /** BPM change event beatmap class object. */
 export abstract class WrapBPMEvent<T extends { [P in keyof T]: T[P] }> extends WrapBaseObject<T>

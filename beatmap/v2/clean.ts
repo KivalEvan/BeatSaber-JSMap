@@ -1,7 +1,7 @@
 import { round } from '../../utils/math.ts';
-import { ICleanOptions } from '../../types/beatmap/shared/clean.ts';
-import { IInfo } from '../../types/beatmap/v2/info.ts';
-import { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
+import type { ICleanOptions } from '../../types/beatmap/shared/clean.ts';
+import type { IInfo } from '../../types/beatmap/v2/info.ts';
+import type { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
 import { deepClean, purgeZeros } from '../shared/clean.ts';
 
 export function cleanDifficulty(

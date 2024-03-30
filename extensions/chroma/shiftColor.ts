@@ -1,8 +1,8 @@
 import { hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
-import { ColorArray } from '../../types/colors.ts';
+import type { ColorArray } from '../../types/colors.ts';
 import { clamp } from '../../utils/math.ts';
-import { IChromaObject, ShiftColorOptions } from './types/colors.ts';
-import { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
+import type { IChromaObject, ShiftColorOptions } from './types/colors.ts';
+import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 
 export function shiftColor(
    objects: IChromaObject[],

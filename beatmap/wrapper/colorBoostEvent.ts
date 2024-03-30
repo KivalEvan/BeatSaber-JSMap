@@ -1,5 +1,5 @@
 import { WrapBaseObject } from './baseObject.ts';
-import { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
 
 /** Boost event beatmap class object. */
 export abstract class WrapColorBoostEvent<T extends { [P in keyof T]: T[P] }>

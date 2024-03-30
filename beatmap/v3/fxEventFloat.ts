@@ -1,5 +1,5 @@
-import { IFxEventFloat } from '../../types/beatmap/v3/fxEventFloat.ts';
-import { IWrapFxEventFloatAttribute } from '../../types/beatmap/wrapper/fxEventFloat.ts';
+import type { IFxEventFloat } from '../../types/beatmap/v3/fxEventFloat.ts';
+import type { IWrapFxEventFloatAttribute } from '../../types/beatmap/wrapper/fxEventFloat.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapFxEventFloat } from '../wrapper/fxEventFloat.ts';
 

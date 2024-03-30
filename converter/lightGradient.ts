@@ -4,12 +4,12 @@ import { BasicEvent } from '../beatmap/v3/basicEvent.ts';
 import { EasingsFn } from '../utils/easings.ts';
 import { lerpColor } from '../utils/colors.ts';
 import { normalize } from '../utils/math.ts';
-import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
-import { IChromaLightGradient } from '../types/beatmap/v2/custom/chroma.ts';
-import { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
+import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { IChromaLightGradient } from '../types/beatmap/v2/custom/chroma.ts';
+import type { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
 import { isV2, isV3 } from '../beatmap/version.ts';
 import eventToV3 from './customData/eventToV3.ts';
-import { Easings } from '../types/easings.ts';
+import type { Easings } from '../types/easings.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];

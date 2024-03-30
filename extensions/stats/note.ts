@@ -1,8 +1,8 @@
-import { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
-import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
-import { IWrapBaseSlider } from '../../types/beatmap/wrapper/baseSlider.ts';
-import { NoteContainer } from '../../types/beatmap/wrapper/container.ts';
-import { ICountNote, ICountStatsNote } from './types/stats.ts';
+import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapBaseSlider } from '../../types/beatmap/wrapper/baseSlider.ts';
+import type { NoteContainer } from '../../types/beatmap/wrapper/container.ts';
+import type { ICountNote, ICountStatsNote } from './types/stats.ts';
 
 /**
  * Count number of red, blue, and bomb notes with their properties in given array and return a note count object.

@@ -1,17 +1,17 @@
 // deno-lint-ignore-file no-explicit-any
-import { GenericFilename } from '../types/beatmap/shared/filename.ts';
-import { Lightshow as V3Lightshow } from '../beatmap/v3/lightshow.ts';
-import { Lightshow as V4Lightshow } from '../beatmap/v4/lightshow.ts';
+import type { GenericFilename } from '../types/beatmap/shared/filename.ts';
+import type { Lightshow as V3Lightshow } from '../beatmap/v3/lightshow.ts';
+import type { Lightshow as V4Lightshow } from '../beatmap/v4/lightshow.ts';
 import { parseLightshow as parseV3Lightshow } from '../beatmap/v3/parse.ts';
 import { parseLightshow as parseV4Lightshow } from '../beatmap/v4/parse.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
-import { LooseAutocomplete } from '../types/utils.ts';
-import { ILoadOptionsLightshow } from '../types/bsmap/load.ts';
+import type { LooseAutocomplete } from '../types/utils.ts';
+import type { ILoadOptionsLightshow } from '../types/bsmap/load.ts';
 import { resolve } from '../deps.ts';
 import { toV3Lightshow } from '../converter/toV3/lightshow.ts';
 import { toV4Lightshow } from '../converter/toV4/lightshow.ts';
-import { IWrapLightshow } from '../types/beatmap/wrapper/lightshow.ts';
+import type { IWrapLightshow } from '../types/beatmap/wrapper/lightshow.ts';
 import { readJSONFile, readJSONFileSync } from '../utils/_fs.ts';
 import { defaultOptions } from './options.ts';
 

@@ -1,6 +1,6 @@
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
-import { Vector2 } from '../../types/vector.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { Vector2 } from '../../types/vector.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { WrapGridObject } from './gridObject.ts';
 

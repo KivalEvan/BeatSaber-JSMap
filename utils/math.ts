@@ -1,5 +1,5 @@
-import { EasingFunction } from '../types/easings.ts';
-import { Vector3 } from '../types/vector.ts';
+import type { EasingFunction } from '../types/easings.ts';
+import type { Vector3 } from '../types/vector.ts';
 
 /**
  * Return number in formatted number string.

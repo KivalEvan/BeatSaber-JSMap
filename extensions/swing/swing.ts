@@ -1,9 +1,9 @@
-import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
-import { ISwingContainer } from './types/swing.ts';
-import { NoteContainer, NoteContainerNote } from '../../types/beatmap/wrapper/container.ts';
+import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { ISwingContainer } from './types/swing.ts';
+import type { NoteContainer, NoteContainerNote } from '../../types/beatmap/wrapper/container.ts';
 import { checkDirection } from '../placement/note.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
-import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
 export default class Swing implements ISwingContainer {
    time: number;

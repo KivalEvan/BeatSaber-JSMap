@@ -1,4 +1,4 @@
-import { Vector2 } from '../../types/vector.ts';
+import type { Vector2 } from '../../types/vector.ts';
 import { NoteDirection } from '../../types/beatmap/shared/constants.ts';
 export * from '../../types/beatmap/shared/constants.ts';
 

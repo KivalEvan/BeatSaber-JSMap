@@ -1,5 +1,5 @@
-import { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
-import { IObstacleCount } from './types/stats.ts';
+import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { IObstacleCount } from './types/stats.ts';
 
 /**
  * Count number of type of obstacles with their properties in given array and return a obstacle count object.

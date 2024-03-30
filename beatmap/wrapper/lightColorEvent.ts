@@ -1,4 +1,4 @@
-import { IWrapLightColorEvent } from '../../types/beatmap/wrapper/lightColorEvent.ts';
+import type { IWrapLightColorEvent } from '../../types/beatmap/wrapper/lightColorEvent.ts';
 import { WrapBaseObject } from './baseObject.ts';
 
 /** Light color base beatmap class object. */

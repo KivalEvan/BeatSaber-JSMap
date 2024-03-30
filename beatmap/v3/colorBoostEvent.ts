@@ -1,5 +1,5 @@
-import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
-import { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
+import type { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorBoostEvent } from '../wrapper/colorBoostEvent.ts';
 

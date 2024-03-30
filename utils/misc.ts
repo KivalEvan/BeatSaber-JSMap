@@ -1,5 +1,5 @@
-import { Writable } from '../types/utils.ts';
-import { DeepWritable } from '../types/utils.ts';
+import type { Writable } from '../types/utils.ts';
+import type { DeepWritable } from '../types/utils.ts';
 
 /** Fisher–Yates shuffle algorithm. */
 export function shuffle<T>(array: T[], fn = Math.random): void {

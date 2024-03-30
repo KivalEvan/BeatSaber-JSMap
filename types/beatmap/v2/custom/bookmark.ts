@@ -1,4 +1,4 @@
-import { ColorArray } from '../../../colors.ts';
+import type { ColorArray } from '../../../colors.ts';
 
 /** Beatmap difficulty custom data interface for Bookmark. */
 export interface IBookmark {

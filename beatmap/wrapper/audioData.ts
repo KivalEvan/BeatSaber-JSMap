@@ -1,12 +1,12 @@
-import { GenericFilename } from '../../types/beatmap/shared/filename.ts';
-import { Version } from '../../types/beatmap/shared/version.ts';
-import {
+import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
+import type { Version } from '../../types/beatmap/shared/version.ts';
+import type {
    IWrapAudio,
    IWrapAudioBPM,
    IWrapAudioLUFS,
 } from '../../types/beatmap/wrapper/audioData.ts';
-import { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import { LooseAutocomplete } from '../../types/utils.ts';
+import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { LooseAutocomplete } from '../../types/utils.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
 export abstract class WrapAudioData<T extends { [P in keyof T]: T[P] }> extends WrapBaseItem<T>

@@ -1,5 +1,5 @@
-import { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
-import { IWrapIndexFilterAttribute } from '../../types/beatmap/wrapper/indexFilter.ts';
+import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import type { IWrapIndexFilterAttribute } from '../../types/beatmap/wrapper/indexFilter.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapIndexFilter } from '../wrapper/indexFilter.ts';
 

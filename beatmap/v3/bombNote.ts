@@ -1,7 +1,7 @@
-import { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
+import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapBombNote } from '../wrapper/bombNote.ts';
-import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
 import { isVector3 } from '../../utils/vector.ts';
 
 /** Bomb note beatmap v3 class object. */

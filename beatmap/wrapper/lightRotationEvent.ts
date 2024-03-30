@@ -1,4 +1,4 @@
-import { IWrapLightRotationEvent } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
+import type { IWrapLightRotationEvent } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
 import { WrapBaseObject } from './baseObject.ts';
 
 /** Light rotation base beatmap class object. */

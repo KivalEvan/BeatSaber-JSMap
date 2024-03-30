@@ -1,10 +1,10 @@
-import { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
+import type { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapColorNote } from '../wrapper/colorNote.ts';
-import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
 import { isVector3 } from '../../utils/vector.ts';
-import { Vector2 } from '../../types/vector.ts';
-import { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { Vector2 } from '../../types/vector.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Color note beatmap v3 class object. */
 export class ColorNote extends WrapColorNote<IColorNote> {

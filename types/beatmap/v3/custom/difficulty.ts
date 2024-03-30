@@ -1,14 +1,14 @@
-import { IBookmark } from './bookmark.ts';
-import { IBPMChange } from './bpmChange.ts';
-import { IHeckCustomData } from './heck.ts';
-import { IChromaCustomData } from './chroma.ts';
-import { ICustomEvent } from './customEvent.ts';
-import { ICustomDataBase } from '../../shared/custom/customData.ts';
-import { IPointDefinition } from './pointDefinition.ts';
-import { IColorNote } from '../colorNote.ts';
-import { IChain } from '../chain.ts';
-import { IBombNote } from '../bombNote.ts';
-import { IObstacle } from '../obstacle.ts';
+import type { IBookmark } from './bookmark.ts';
+import type { IBPMChange } from './bpmChange.ts';
+import type { IHeckCustomData } from './heck.ts';
+import type { IChromaCustomData } from './chroma.ts';
+import type { ICustomEvent } from './customEvent.ts';
+import type { ICustomDataBase } from '../../shared/custom/customData.ts';
+import type { IPointDefinition } from './pointDefinition.ts';
+import type { IColorNote } from '../colorNote.ts';
+import type { IChain } from '../chain.ts';
+import type { IBombNote } from '../bombNote.ts';
+import type { IObstacle } from '../obstacle.ts';
 
 /**
  * Custom Data interface for difficulty file.

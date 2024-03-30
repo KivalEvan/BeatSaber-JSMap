@@ -1,11 +1,11 @@
-import { IBombNote } from '../../types/beatmap/v4/bombNote.ts';
+import type { IBombNote } from '../../types/beatmap/v4/bombNote.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapBombNote } from '../wrapper/bombNote.ts';
-import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
 import { isVector3 } from '../../utils/vector.ts';
-import { IBombNoteContainer } from '../../types/beatmap/container/v4.ts';
-import { DeepRequiredIgnore } from '../../types/utils.ts';
-import { IObjectLane } from '../../types/beatmap/v4/object.ts';
+import type { IBombNoteContainer } from '../../types/beatmap/container/v4.ts';
+import type { DeepRequiredIgnore } from '../../types/utils.ts';
+import type { IObjectLane } from '../../types/beatmap/v4/object.ts';
 
 /** Bomb note beatmap v4 class object. */
 export class BombNote extends WrapBombNote<IBombNoteContainer> {

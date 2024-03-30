@@ -1,4 +1,4 @@
-import { IWrapLightTranslationEvent } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
+import type { IWrapLightTranslationEvent } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import { WrapBaseObject } from './baseObject.ts';
 
 /** Light translation base beatmap class object. */

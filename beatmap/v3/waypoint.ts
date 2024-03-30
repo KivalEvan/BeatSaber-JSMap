@@ -1,5 +1,5 @@
-import { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
-import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
+import type { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
+import type { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapWaypoint } from '../wrapper/waypoint.ts';
 

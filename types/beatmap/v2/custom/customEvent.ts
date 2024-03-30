@@ -1,13 +1,13 @@
-import {
+import type {
    IChromaCustomEventDataAnimateTrack,
    IChromaCustomEventDataAssignFogTrack,
    IChromaCustomEventDataAssignPathAnimation,
 } from './chroma.ts';
-import {
+import type {
    IHeckCustomEventDataAnimateTrack,
    IHeckCustomEventDataAssignPathAnimation,
 } from './heck.ts';
-import {
+import type {
    INECustomEventDataAnimateTrack,
    INECustomEventDataAssignPathAnimation,
    INECustomEventDataAssignPlayerToTrack,

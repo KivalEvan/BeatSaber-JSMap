@@ -1,6 +1,6 @@
-import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
-import { IWrapEventBox } from '../../types/beatmap/wrapper/eventBox.ts';
-import { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapEventBox } from '../../types/beatmap/wrapper/eventBox.ts';
+import type { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
 import { WrapBaseItem } from './baseItem.ts';
 
 /** Base event box beatmap class object. */

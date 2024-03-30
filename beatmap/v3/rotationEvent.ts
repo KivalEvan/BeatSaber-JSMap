@@ -1,5 +1,5 @@
-import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
-import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import type { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
+import type { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { WrapRotationEvent } from '../wrapper/rotationEvent.ts';
 

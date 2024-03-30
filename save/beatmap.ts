@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
-import { ISaveOptionsList } from '../types/bsmap/save.ts';
-import { IBeatmapData } from '../types/bsmap/beatmap.ts';
+import type { ISaveOptionsList } from '../types/bsmap/save.ts';
+import type { IBeatmapData } from '../types/bsmap/beatmap.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
 import { resolve } from '../deps.ts';

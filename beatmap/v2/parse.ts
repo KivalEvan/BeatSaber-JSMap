@@ -1,13 +1,13 @@
 import { Difficulty } from './difficulty.ts';
-import { IInfoSet } from '../../types/beatmap/v2/info.ts';
+import type { IInfoSet } from '../../types/beatmap/v2/info.ts';
 import { Info } from './info.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
 import { BPMInfoDataCheck, DifficultyDataCheck, InfoDataCheck } from './dataCheck.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
 import logger from '../../logger.ts';
-import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
+import type { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 import { compareVersion } from '../shared/version.ts';
-import { IEvent } from '../../types/beatmap/v2/event.ts';
+import type { IEvent } from '../../types/beatmap/v2/event.ts';
 import { shallowCopy } from '../../utils/misc.ts';
 import { BPMInfo } from './bpmInfo.ts';
 

@@ -1,4 +1,4 @@
-import { INEObject } from './types/object.ts';
+import type { INEObject } from './types/object.ts';
 
 export function addTrack(objects: INEObject[], track: string): void;
 export function addTrack(objects: INEObject, track: string): void;

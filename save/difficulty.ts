@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { ISaveOptionsDifficulty } from '../types/bsmap/save.ts';
+import type { ISaveOptionsDifficulty } from '../types/bsmap/save.ts';
 import * as optimize from '../optimize.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
@@ -8,19 +8,19 @@ import { DifficultyDataCheck as V1DifficultyCheck } from '../beatmap/v1/dataChec
 import { DifficultyDataCheck as V2DifficultyCheck } from '../beatmap/v2/dataCheck.ts';
 import { DifficultyDataCheck as V3DifficultyCheck } from '../beatmap/v3/dataCheck.ts';
 import { DifficultyDataCheck as V4DifficultyCheck } from '../beatmap/v4/dataCheck.ts';
-import { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
-import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
-import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
-import { Difficulty as V4Difficulty } from '../beatmap/v4/difficulty.ts';
-import { IDifficulty as IV1Difficulty } from '../types/beatmap/v1/difficulty.ts';
-import { IDifficulty as IV2Difficulty } from '../types/beatmap/v2/difficulty.ts';
-import { IDifficulty as IV3Difficulty } from '../types/beatmap/v3/difficulty.ts';
-import { IDifficulty as IV4Difficulty } from '../types/beatmap/v4/difficulty.ts';
-import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
+import type { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
+import type { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
+import type { Difficulty as V4Difficulty } from '../beatmap/v4/difficulty.ts';
+import type { IDifficulty as IV1Difficulty } from '../types/beatmap/v1/difficulty.ts';
+import type { IDifficulty as IV2Difficulty } from '../types/beatmap/v2/difficulty.ts';
+import type { IDifficulty as IV3Difficulty } from '../types/beatmap/v3/difficulty.ts';
+import type { IDifficulty as IV4Difficulty } from '../types/beatmap/v4/difficulty.ts';
+import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../utils/_fs.ts';
 import { defaultOptions } from './options.ts';
-import { DataCheck } from '../types/beatmap/shared/dataCheck.ts';
+import type { DataCheck } from '../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
    return ['save', name];

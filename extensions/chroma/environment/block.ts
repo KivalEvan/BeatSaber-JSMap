@@ -1,6 +1,6 @@
-import { Vector3 } from '../../../types/vector.ts';
-import { IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
-import { IChromaEnvironmentPlacement } from '../types/environment.ts';
+import type { Vector3 } from '../../../types/vector.ts';
+import type { IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
+import type { IChromaEnvironmentPlacement } from '../types/environment.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
 /** **IMPORTANT:** Manually adjust block to be exactly 1x1x1 unity unit (1x1x1 scale does usually not work) */

@@ -1,7 +1,7 @@
-import { EaseType } from '../shared/constants.ts';
-import { DistributionType } from '../shared/constants.ts';
-import { IBaseItem } from './baseItem.ts';
-import { IIndexFilter } from './indexFilter.ts';
+import type { EaseType } from '../shared/constants.ts';
+import type { DistributionType } from '../shared/constants.ts';
+import type { IBaseItem } from './baseItem.ts';
+import type { IIndexFilter } from './indexFilter.ts';
 
 export interface IEventBox extends IBaseItem {
    /** Index filter of event box. */

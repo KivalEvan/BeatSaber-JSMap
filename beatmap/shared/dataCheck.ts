@@ -1,6 +1,6 @@
-import { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
+import type { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
 import logger from '../../logger.ts';
-import { Version } from '../../types/beatmap/shared/version.ts';
+import type { Version } from '../../types/beatmap/shared/version.ts';
 import { compareVersion } from './version.ts';
 
 function tag(name: string): string[] {

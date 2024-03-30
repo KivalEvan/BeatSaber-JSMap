@@ -1,10 +1,10 @@
 // deno-lint-ignore-file no-explicit-any no-empty-interface
-import { IDataCheckOption } from '../beatmap/shared/dataCheck.ts';
-import { IWrapAudio } from '../beatmap/wrapper/audioData.ts';
-import { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
-import { IWrapInfo } from '../beatmap/wrapper/info.ts';
-import { IWrapLightshow } from '../beatmap/wrapper/lightshow.ts';
-import { IBaseOptions } from './options.ts';
+import type { IDataCheckOption } from '../beatmap/shared/dataCheck.ts';
+import type { IWrapAudio } from '../beatmap/wrapper/audioData.ts';
+import type { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
+import type { IWrapInfo } from '../beatmap/wrapper/info.ts';
+import type { IWrapLightshow } from '../beatmap/wrapper/lightshow.ts';
+import type { IBaseOptions } from './options.ts';
 
 export interface ILoadOptionsBase<T = Record<string, any>> extends IBaseOptions {
    /**

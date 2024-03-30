@@ -1,11 +1,11 @@
-import { IArc } from './arc.ts';
-import { IBombNote } from './bombNote.ts';
-import { IChain } from './chain.ts';
-import { IColorNote } from './colorNote.ts';
-import { IItem } from './item.ts';
-import { IObject, IObjectArc, IObjectChain, IObjectLane } from './object.ts';
-import { IObstacle } from './obstacle.ts';
-import { ISpawnRotation } from './spawnRotation.ts';
+import type { IArc } from './arc.ts';
+import type { IBombNote } from './bombNote.ts';
+import type { IChain } from './chain.ts';
+import type { IColorNote } from './colorNote.ts';
+import type { IItem } from './item.ts';
+import type { IObject, IObjectArc, IObjectChain, IObjectLane } from './object.ts';
+import type { IObstacle } from './obstacle.ts';
+import type { ISpawnRotation } from './spawnRotation.ts';
 
 export interface IDifficulty extends IItem {
    version: '4.0.0';

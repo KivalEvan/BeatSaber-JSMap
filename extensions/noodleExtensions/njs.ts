@@ -1,8 +1,8 @@
 import { NoteJumpSpeed } from '../../beatmap/shared/njs.ts';
-import { INEObject } from './types/object.ts';
+import type { INEObject } from './types/object.ts';
 import { settings } from './settings.ts';
-import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
-import { EasingFunction } from '../../types/easings.ts';
+import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { EasingFunction } from '../../types/easings.ts';
 import { lerp, normalize } from '../../utils/math.ts';
 import logger from '../../logger.ts';
 

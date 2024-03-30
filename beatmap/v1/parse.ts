@@ -3,7 +3,7 @@ import { Info } from './info.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
 import { DifficultyDataCheck, InfoDataCheck } from './dataCheck.ts';
 import logger from '../../logger.ts';
-import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
+import type { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 import { shallowCopy } from '../../utils/misc.ts';
 
 function tag(name: string): string[] {

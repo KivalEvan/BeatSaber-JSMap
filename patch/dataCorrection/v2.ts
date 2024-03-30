@@ -1,4 +1,4 @@
-import { Difficulty } from '../../beatmap/v2/difficulty.ts';
+import type { Difficulty } from '../../beatmap/v2/difficulty.ts';
 import { Note } from '../../beatmap/v2/note.ts';
 import { Obstacle } from '../../beatmap/v2/obstacle.ts';
 import { Event } from '../../beatmap/v2/event.ts';

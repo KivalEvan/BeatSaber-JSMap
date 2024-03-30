@@ -1,6 +1,6 @@
-import { NoteColor } from '../shared/constants.ts';
-import { ICustomDataNote } from './custom/note.ts';
-import { IBaseObject } from './object.ts';
+import type { NoteColor } from '../shared/constants.ts';
+import type { ICustomDataNote } from './custom/note.ts';
+import type { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Note. */
 export interface INote extends IBaseObject {

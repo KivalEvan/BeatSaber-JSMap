@@ -1,7 +1,7 @@
 import { Info } from './info.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
 import logger from '../../logger.ts';
-import { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
+import type { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 import { shallowCopy } from '../../utils/misc.ts';
 import { AudioDataCheck, InfoDataCheck, LightshowDataCheck } from './dataCheck.ts';
 import { DifficultyDataCheck } from './dataCheck.ts';

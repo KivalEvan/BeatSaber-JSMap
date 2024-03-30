@@ -1,7 +1,7 @@
-import { CharacteristicName } from '../shared/characteristic.ts';
-import { EnvironmentAllName } from '../shared/environment.ts';
-import { DifficultyName } from '../shared/difficulty.ts';
-import { IItem } from './item.ts';
+import type { CharacteristicName } from '../shared/characteristic.ts';
+import type { EnvironmentAllName } from '../shared/environment.ts';
+import type { DifficultyName } from '../shared/difficulty.ts';
+import type { IItem } from './item.ts';
 
 export interface IInfo extends IItem {
    version: '4.0.0';

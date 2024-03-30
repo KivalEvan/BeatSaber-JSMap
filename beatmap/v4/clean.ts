@@ -1,8 +1,8 @@
 import { round } from '../../utils/math.ts';
-import { ICleanOptions } from '../../types/beatmap/shared/clean.ts';
-import { IInfo } from '../../types/beatmap/v4/info.ts';
-import { IDifficulty } from '../../types/beatmap/v4/difficulty.ts';
-import { ILightshow } from '../../types/beatmap/v4/lightshow.ts';
+import type { ICleanOptions } from '../../types/beatmap/shared/clean.ts';
+import type { IInfo } from '../../types/beatmap/v4/info.ts';
+import type { IDifficulty } from '../../types/beatmap/v4/difficulty.ts';
+import type { ILightshow } from '../../types/beatmap/v4/lightshow.ts';
 import { deepClean, purgeZeros } from '../shared/clean.ts';
 
 export function cleanDifficulty(data: IDifficulty, options: ICleanOptions) {

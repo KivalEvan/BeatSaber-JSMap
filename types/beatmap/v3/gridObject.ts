@@ -1,4 +1,4 @@
-import { IBaseObject } from './baseObject.ts';
+import type { IBaseObject } from './baseObject.ts';
 
 export interface IGridObject extends IBaseObject {
    /**

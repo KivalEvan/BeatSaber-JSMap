@@ -1,8 +1,8 @@
 import { EventList } from '../../beatmap/shared/environment.ts';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
-import { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
-import { ICountEvent } from './types/stats.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
+import type { ICountEvent } from './types/stats.ts';
 
 /**
  * Count number of type of events with their properties in given array and return a event count object.

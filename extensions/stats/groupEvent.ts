@@ -1,7 +1,7 @@
 import { EventList } from '../../beatmap/shared/environment.ts';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import { IWrapEventBoxGroup } from '../../types/beatmap/wrapper/eventBoxGroup.ts';
-import { ICountEventBoxGroup } from './types/stats.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { IWrapEventBoxGroup } from '../../types/beatmap/wrapper/eventBoxGroup.ts';
+import type { ICountEventBoxGroup } from './types/stats.ts';
 
 /**
  * Count number of type of events with their properties in given array and return a event count object.

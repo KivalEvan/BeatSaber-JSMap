@@ -1,5 +1,5 @@
 // taken from Aeroluna's Heck easing animation
-import { EasingFunction, Easings } from '../types/easings.ts';
+import type { EasingFunction, Easings } from '../types/easings.ts';
 
 const PI = Math.PI;
 const HALFPI = Math.PI / 2;

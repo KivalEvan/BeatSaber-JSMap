@@ -1,12 +1,12 @@
 import { fixBoolean, fixFloat, fixInt, fixString } from './helpers.ts';
-import { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import { EnvironmentRename } from '../../beatmap/shared/environment.ts';
-import { IColor } from '../../types/colors.ts';
+import type { IColor } from '../../types/colors.ts';
 import logger from '../../logger.ts';
 import { clamp } from '../../utils/math.ts';
 import { Info as V1Info } from '../../beatmap/v1/info.ts';
 import { Info as V2Info } from '../../beatmap/v2/info.ts';
-import { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
+import type { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
 
 function fixEnvironment(str: unknown, all = false): EnvironmentName {
    if (typeof str === 'string') {

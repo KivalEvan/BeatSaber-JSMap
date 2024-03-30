@@ -1,7 +1,7 @@
-import { ColorSchemeName } from '../../types/beatmap/shared/colorScheme.ts';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import { IColorScheme } from '../../types/beatmap/v2/custom/colorScheme.ts';
-import { IWrapInfoColorScheme } from '../../types/beatmap/wrapper/info.ts';
+import type { ColorSchemeName } from '../../types/beatmap/shared/colorScheme.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { IColorScheme } from '../../types/beatmap/v2/custom/colorScheme.ts';
+import type { IWrapInfoColorScheme } from '../../types/beatmap/wrapper/info.ts';
 
 /** Record of Environment Color to Color Scheme. */
 export const EnvironmentSchemeName: {

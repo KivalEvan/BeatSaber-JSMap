@@ -1,5 +1,5 @@
-import { NoteColor } from '../shared/constants.ts';
-import { IGridObject } from './gridObject.ts';
+import type { NoteColor } from '../shared/constants.ts';
+import type { IGridObject } from './gridObject.ts';
 
 export interface IBaseSlider extends IGridObject {
    /**
