@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ISaveOptionsDifficulty } from '../types/bsmap/save.ts';
-import * as optimize from '../optimize.ts';
+import * as optimize from '../optimize/mod.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
 import { deepCheck } from '../beatmap/shared/dataCheck.ts';
