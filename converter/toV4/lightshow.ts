@@ -37,7 +37,7 @@ export function toV4Lightshow(
          fromV3Lightshow(template, data as V3Lightshow);
          break;
       case data instanceof V4Lightshow:
-         template = new V4Lightshow(data.toJSON());
+         template = new V4Lightshow(data);
          break;
       default:
          logger.tWarn(

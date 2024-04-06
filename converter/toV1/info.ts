@@ -16,7 +16,7 @@ export function toV1Info(data: IWrapInfo): V1Info {
    let template = new V1Info();
    switch (true) {
       case data instanceof V1Info:
-         template = new V1Info(data.toJSON());
+         template = new V1Info(data);
          break;
       case data instanceof V2Info:
          fromV2Info(template, data as V2Info);

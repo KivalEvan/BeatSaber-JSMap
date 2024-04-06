@@ -29,7 +29,7 @@ export function toV4Difficulty(data: IWrapDifficulty): V4Difficulty {
          fromV3Difficulty(template, data as V3Difficulty);
          break;
       case data instanceof V4Difficulty:
-         template = new V4Difficulty(data.toJSON());
+         template = new V4Difficulty(data);
          break;
       default:
          logger.tWarn(
