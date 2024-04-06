@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.6.0 [2024-03-##]
+## 1.6.0 [2024-04-##]
 
 **IMPORTANT:** This update removes the ability to instantiate from JSON using `constructor` and
 `create` static method, which also includes the ability to mix-and-match between JSON and wrapper
