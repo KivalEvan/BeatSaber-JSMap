@@ -10,7 +10,9 @@ inconvenience as this move is deemed necessary when moving towards beatmap V4.
 
 ### Added
 
-- Daft Punk environment & color scheme
+- New environment & color scheme
+  - Daft Punk
+  - Hip Hop Mixtape
 - Beatmap Difficulty, Lightshow, Info and Audio Data v4
   - Deduplication of data for v4 (EXPERIMENTAL)
     - This only affects the JSON output
