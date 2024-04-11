@@ -28,7 +28,7 @@ export interface IOptimizeOptions extends ICleanOptions {
    /**
     * Deduplicate object in beatmap V4. (EXPERIMENTAL)
     *
-    * @default false
+    * @default true
     */
    deduplicate?: boolean;
    /**

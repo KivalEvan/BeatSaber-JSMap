@@ -10,7 +10,7 @@ const optionsInfo: Required<IOptimizeOptionsInfo> = {
    floatTrim: 4,
    stringTrim: true,
    purgeZeros: true,
-   deduplicate: false,
+   deduplicate: true,
    throwError: true,
 };
 const optionsDifficulty: Required<IOptimizeOptionsDifficulty> = {
@@ -18,7 +18,7 @@ const optionsDifficulty: Required<IOptimizeOptionsDifficulty> = {
    floatTrim: 4,
    stringTrim: true,
    purgeZeros: true,
-   deduplicate: false,
+   deduplicate: true,
    throwError: true,
 };
 const optionsLightshow: Required<IOptimizeOptionsLightshow> = {
@@ -26,7 +26,7 @@ const optionsLightshow: Required<IOptimizeOptionsLightshow> = {
    floatTrim: 4,
    stringTrim: true,
    purgeZeros: true,
-   deduplicate: false,
+   deduplicate: true,
    throwError: true,
 };
 const optionsAudioData: Required<IOptimizeOptionsAudioData> = {
@@ -34,7 +34,7 @@ const optionsAudioData: Required<IOptimizeOptionsAudioData> = {
    floatTrim: 4,
    stringTrim: true,
    purgeZeros: true,
-   deduplicate: false,
+   deduplicate: true,
    throwError: true,
 };
 
