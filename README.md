@@ -17,7 +17,8 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 
 - **Zero-dependency:** No third-party module used in main with standard module being an exception.
 - **Latest Schema:** Supports all official schema including modded.
-  - Current schema version is v1.5.0, v2.6.0, v3.3.0 and v4.0.0.
+  - Current schema version is v4.0.0, v3.3.0, v2.6.0, v1.5.0.
+  - Backport minor version is not supported but can be done through custom postproccessing.
 - **Wrapper Attribute:** Readable and cross-version class attribute for seamless version
   transferring.
 - **Partial Creation:** Define beatmap object partially and let default fill the rest of fields.
@@ -122,12 +123,15 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 ## Planned
 
+- V2 rewrite plan
+  - Strip `Deno` and other vendor specific, shim when necessary (compatibility at all cost)
+  - Restructure such that user does not need to worry about version specific case nor needing
+    specific object version for specific structure
 - NPM and JSR release
 - General clean-up and restructuring (this has grown far larger than I anticipated)
 - Write JSDoc on every important bit
 - Add more helper for Chroma and Noodle Extensions
-- Observable/decorator for class array (might lead to performance loss)
-- Proper data optimisation approach
+- Proper data optimisation approach while not sacrificing speed in the process
 
 ## Known Issue
 
@@ -135,9 +139,14 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
   - This can only be a problem when dealing with multiple beatmap version at once
 - Beatmap across different version contain different behaviour which can be confusing for anyone
   unfamiliar with beatmap structure
-  - Example being `v2` having both bomb note and color note in color note array as opposed to `v3`
-    being separated
-  - `v2` and `v3` custom position has different scaling, etc.
+  - This can cause issue when handling multiple version of the map at the same time within the same
+    body
+  - Example being:
+    - `v2` having both bomb note and color note in color note array as opposed to `v3` being
+      separated
+    - `v2` and `v3` having different attribute to handle pos Y & height, type, etc.
+    - `v2` and `v3` custom position has different scaling, etc.
+    - `v3` and `v4` light attribute behaviour change
   - May need documentation on the difference across version
 
 ## Credits & References
