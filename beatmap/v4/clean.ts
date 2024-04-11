@@ -273,6 +273,7 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
          if (!Object.keys(o2.customData!).length) {
             delete o2.customData;
          }
+         if (options.purgeZeros) purgeZeros(o2);
       }
       deepClean(
          o.customData!,
