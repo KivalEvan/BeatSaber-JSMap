@@ -274,6 +274,13 @@ export function cleanLightshow(data: ILightshow, options: ICleanOptions) {
             delete o2.customData;
          }
          if (options.purgeZeros) purgeZeros(o2);
+         for (let k = 0; k < o2.l!.length; k++) {
+            const o3 = o2.l![k];
+            if (options.floatTrim) {
+               o3.b = round(o3.b!, options.floatTrim);
+            }
+            if (options.purgeZeros) purgeZeros(o3);
+         }
       }
       deepClean(
          o.customData!,
