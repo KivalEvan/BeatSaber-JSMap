@@ -5,13 +5,10 @@ import { cleanDifficulty as cleanV2Difficulty } from '../beatmap/v2/clean.ts';
 import { cleanDifficulty as cleanV3Difficulty } from '../beatmap/v3/clean.ts';
 import { cleanDifficulty as cleanV4Difficulty } from '../beatmap/v4/clean.ts';
 import type { ICleanOptions } from '../types/beatmap/shared/clean.ts';
-import type { IDifficulty } from '../types/beatmap/v4/difficulty.ts';
+import type { IDifficulty as IDifficultyV3 } from '../types/beatmap/v3/difficulty.ts';
+import type { IDifficulty as IDifficultyV4 } from '../types/beatmap/v4/difficulty.ts';
 import { defaultOptions } from './options.ts';
-import { remapDedupe } from './_common.ts';
-
-function tag(name: string): string[] {
-   return ['optimize', name];
-}
+import { remapDedupe, tag } from './_common.ts';
 
 export function difficulty(
    // deno-lint-ignore no-explicit-any
@@ -30,9 +27,25 @@ export function difficulty(
 
    logger.tInfo(tag('difficulty'), `Optimising difficulty data`);
 
+   if (version === 3 && opt.deduplicate) {
+      logger.tInfo(tag('difficulty'), 'Deduplicating beatmap object data');
+      const data = difficulty as IDifficultyV3;
+      const [newFloatFxEvents, remapFloatFxEventsIdx] = remapDedupe(
+         data._fxEventsCollection!._fl!,
+      );
+
+      data.vfxEventBoxGroups?.forEach((d) => {
+         d.e?.forEach(
+            (e) => (e.l = e.l?.map((i) => remapFloatFxEventsIdx.get(i) || 0) ?? []),
+         );
+      });
+
+      data._fxEventsCollection!._fl = newFloatFxEvents;
+   }
+
    if (version === 4 && opt.deduplicate) {
       logger.tInfo(tag('difficulty'), 'Deduplicating beatmap object data');
-      const data = difficulty as IDifficulty;
+      const data = difficulty as IDifficultyV4;
       const [newNoteColorData, remapColorNoteIdx] = remapDedupe(
          data.colorNotesData,
       );
