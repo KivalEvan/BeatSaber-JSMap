@@ -96,9 +96,3 @@ export type Nullable<T> = T extends Primitive ? T | null
    : {
       [P in keyof T]?: Nullable<T[P]>;
    };
-
-/** INTERNAL USE ONLY */
-export type _ObtainCustomData<T extends Record<string, unknown>> = T['customData'] extends
-   Record<string, unknown> ? T['customData']
-   : T['_customData'] extends Record<string, unknown> ? T['_customData']
-   : Record<string, unknown>;

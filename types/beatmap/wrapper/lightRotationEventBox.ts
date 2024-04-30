@@ -7,11 +7,7 @@ import type {
    IWrapLightRotationEventAttribute,
 } from './lightRotationEvent.ts';
 
-export interface IWrapLightRotationEventBoxAttribute<
-   TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
-   TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
-> extends IWrapEventBoxAttribute<TBox, TBase, TFilter> {
+export interface IWrapLightRotationEventBoxAttribute extends IWrapEventBoxAttribute {
    /** Rotation distribution `<float>` of light rotation event box. */
    rotationDistribution: number;
    /**
@@ -33,22 +29,18 @@ export interface IWrapLightRotationEventBoxAttribute<
    axis: Axis;
    /** Flip rotation `<int>` in light rotation event box. */
    flip: 0 | 1;
-   events: IWrapLightRotationEventAttribute<TBase>[];
+   events: IWrapLightRotationEventAttribute[];
 }
 
 export interface IWrapLightRotationEventBox<
-   TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
-   TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
-> extends
-   IWrapEventBox<TBox, TBase, TFilter>,
-   IWrapLightRotationEventBoxAttribute<TBox, TBase, TFilter> {
-   events: IWrapLightRotationEvent<TBase>[];
+   T extends Record<string, any> = IWrapLightRotationEventBoxAttribute,
+> extends IWrapEventBox<T>, IWrapLightRotationEventBoxAttribute {
+   events: IWrapLightRotationEvent[];
 
    setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']): this;
    setRotationDistributionType(value: IWrapLightRotationEventBox['rotationDistributionType']): this;
    setAxis(value: IWrapLightRotationEventBox['axis']): this;
    setFlip(value: IWrapLightRotationEventBox['flip']): this;
    setAffectFirst(value: IWrapLightRotationEventBox['affectFirst']): this;
-   setEvents(value: IWrapLightRotationEvent<TBase>[]): this;
+   setEvents(value: IWrapLightRotationEvent[]): this;
 }

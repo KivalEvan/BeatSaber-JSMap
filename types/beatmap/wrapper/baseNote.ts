@@ -3,8 +3,7 @@ import type { NoteColor } from '../shared/constants.ts';
 import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
-export interface IWrapBaseNoteAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapGridObjectAttribute<T> {
+export interface IWrapBaseNoteAttribute extends IWrapGridObjectAttribute {
    /**
     * Color `<int>` of note.
     * ```ts
@@ -28,8 +27,9 @@ export interface IWrapBaseNoteAttribute<T extends { [P in keyof T]: T[P] } = Rec
    direction: number;
 }
 
-export interface IWrapBaseNote<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapGridObject<T>, IWrapBaseNoteAttribute<T> {
+export interface IWrapBaseNote<
+   T extends { [key: string]: any } = IWrapBaseNoteAttribute,
+> extends IWrapGridObject<T>, IWrapBaseNoteAttribute {
    setColor(value: NoteColor): this;
    setDirection(value: number): this;
 

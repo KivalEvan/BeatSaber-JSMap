@@ -3,7 +3,7 @@ import type { EnvironmentAllName } from '../shared/environment.ts';
 import type { DifficultyName } from '../shared/difficulty.ts';
 import type { IItem } from './item.ts';
 import type { ICustomDataInfo } from './custom/info.ts';
-import { ICustomDataInfoBeatmap } from './custom/info.ts';
+import type { ICustomDataInfoBeatmap } from './custom/info.ts';
 
 export interface IInfo extends IItem {
    version: '4.0.0';

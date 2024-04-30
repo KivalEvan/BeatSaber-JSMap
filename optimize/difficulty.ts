@@ -1,9 +1,9 @@
 import type { IOptimizeOptionsDifficulty } from '../types/bsmap/optimize.ts';
 import logger from '../logger.ts';
-import { cleanDifficulty as cleanV1Difficulty } from '../beatmap/v1/clean.ts';
-import { cleanDifficulty as cleanV2Difficulty } from '../beatmap/v2/clean.ts';
-import { cleanDifficulty as cleanV3Difficulty } from '../beatmap/v3/clean.ts';
-import { cleanDifficulty as cleanV4Difficulty } from '../beatmap/v4/clean.ts';
+import { cleanDifficulty as cleanV1Difficulty } from '../beatmap/schema/v1/clean.ts';
+import { cleanDifficulty as cleanV2Difficulty } from '../beatmap/schema/v2/clean.ts';
+import { cleanDifficulty as cleanV3Difficulty } from '../beatmap/schema/v3/clean.ts';
+import { cleanDifficulty as cleanV4Difficulty } from '../beatmap/schema/v4/clean.ts';
 import type { ICleanOptions } from '../types/beatmap/shared/clean.ts';
 import type { IDifficulty as IDifficultyV3 } from '../types/beatmap/v3/difficulty.ts';
 import type { IDifficulty as IDifficultyV4 } from '../types/beatmap/v4/difficulty.ts';

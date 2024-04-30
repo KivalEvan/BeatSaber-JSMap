@@ -1,25 +1,20 @@
 // deno-lint-ignore-file no-explicit-any
 import type { LooseAutocomplete } from '../../utils.ts';
-import type { Version } from '../shared/version.ts';
 import type { CharacteristicName } from '../shared/characteristic.ts';
 import type { DifficultyName } from '../shared/difficulty.ts';
 import type { EnvironmentAllName } from '../shared/environment.ts';
 import type { GenericFilename, IFileInfo } from '../shared/filename.ts';
-import type { IWrapBaseItem } from './baseItem.ts';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import type { IColor } from '../../colors.ts';
 
-export interface IWrapInfoAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-   TDifficulty extends { [P in keyof TDifficulty]: TDifficulty[P] } = Record<string, any>,
-> extends IWrapBaseItem<T>, IFileInfo {
-   readonly version: Version;
+export interface IWrapInfoAttribute extends IWrapBaseItemAttribute, IFileInfo {
    song: IWrapInfoSong;
    audio: IWrapInfoAudio;
    songPreviewFilename: string;
    coverImageFilename: string;
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
-   difficulties: IWrapInfoDifficultyAttribute<TDifficulty>[];
+   difficulties: IWrapInfoBeatmapAttribute[];
 }
 
 export interface IWrapInfoSong {
@@ -39,7 +34,10 @@ export interface IWrapInfoAudio {
 }
 
 export interface IWrapInfoColorScheme {
-   useOverride: boolean;
+   /**
+    * For use in v2 info, true by default.
+    */
+   useOverride?: boolean;
    name: string;
    saberLeftColor: Required<IColor>;
    saberRightColor: Required<IColor>;
@@ -58,23 +56,18 @@ export interface IWrapInfoBeatmapAuthors {
 }
 
 export interface IWrapInfo<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-   TDifficulty extends { [P in keyof TDifficulty]: TDifficulty[P] } = Record<string, any>,
-> extends IWrapBaseItem<T>, IWrapInfoAttribute<T, TDifficulty> {
-   difficulties: IWrapInfoDifficulty<TDifficulty>[];
+   T extends Record<string, any> = IWrapInfoAttribute,
+> extends IWrapBaseItem<T>, IWrapInfoAttribute {
+   difficulties: IWrapInfoBeatmap[];
    setFilename(filename: LooseAutocomplete<GenericFilename>): this;
 
    /** Sort beatmap object(s) accordingly. */
    sort(): this;
 
-   /** Show entries of map inside info. */
-   addMap(data: Partial<IWrapInfoDifficultyAttribute>): this;
-   listMap(): [CharacteristicName, IWrapInfoDifficulty][];
+   addMap(data: Partial<IWrapInfoBeatmapAttribute>): this;
 }
 
-export interface IWrapInfoDifficultyAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItem<T> {
+export interface IWrapInfoBeatmapAttribute extends IWrapBaseItemAttribute {
    characteristic: CharacteristicName;
    difficulty: DifficultyName;
    filename: LooseAutocomplete<GenericFilename>;
@@ -86,8 +79,7 @@ export interface IWrapInfoDifficultyAttribute<
    environmentId: number;
 }
 
-export interface IWrapInfoDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>, IWrapInfoDifficultyAttribute<T> {
+export interface IWrapInfoBeatmap extends IWrapBaseItem, IWrapInfoBeatmapAttribute {
    copyColorScheme(colorScheme: IWrapInfoColorScheme): this;
    copyColorScheme(id: number, info: IWrapInfo): this;
 }

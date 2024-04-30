@@ -1,13 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
 import type { GenericFilename } from '../types/beatmap/shared/filename.ts';
-import type { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
+import type { Difficulty as V1Difficulty } from '../beatmap/schema/v1/schema/difficulty.ts';
 import type { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
 import type { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
 import type { Difficulty as V4Difficulty } from '../beatmap/v4/difficulty.ts';
-import { parseDifficulty as parseV1Difficulty } from '../beatmap/v1/parse.ts';
-import { parseDifficulty as parseV2Difficulty } from '../beatmap/v2/parse.ts';
-import { parseDifficulty as parseV3Difficulty } from '../beatmap/v3/parse.ts';
-import { parseDifficulty as parseV4Difficulty } from '../beatmap/v4/parse.ts';
+import { parseDifficulty as parseV1Difficulty } from '../beatmap/schema/v1/parse.ts';
+import { parseDifficulty as parseV2Difficulty } from '../beatmap/schema/v2/parse.ts';
+import { parseDifficulty as parseV3Difficulty } from '../beatmap/schema/v3/parse.ts';
+import { parseDifficulty as parseV4Difficulty } from '../beatmap/schema/parse.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
@@ -19,7 +19,7 @@ import { toV3Difficulty } from '../converter/toV3/difficulty.ts';
 import { toV4Difficulty } from '../converter/toV4/difficulty.ts';
 import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import { defaultOptions } from './options.ts';
-import { Info, InfoDifficulty } from '../beatmap/v1/info.ts';
+import { Info, InfoDifficulty } from '../beatmap/schema/v1/schema/info.ts';
 import { readJSONFile, readJSONFileSync } from '../utils/_fs.ts';
 
 function tag(name: string): string[] {

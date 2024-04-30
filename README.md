@@ -15,7 +15,7 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 
 ## Features
 
-- **Zero-dependency:** No third-party module used in main with standard module being an exception.
+- **Zero-dependency:** No dependency, run on any platform.
 - **Latest Schema:** Supports all official schema including modded.
   - Current schema version is v4.0.0, v3.3.0, v2.6.0, v1.5.0.
   - Backport minor version is not supported but can be done through custom postproccessing.
@@ -48,13 +48,13 @@ The bare minimum example:
 
 ```ts
 // ./Beat Saber/Beat_Saber Data/CustomWIPLevels/MAP_FOLDER/script.ts
-import * as bsmap from 'https://deno.land/x/bsmap@1.6.0/mod.ts';
+import * as bsmap from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
 
-const data = bsmap.load.difficultySync('ExpertPlusStandard.dat', 4);
+const data = bsmap.load.beatmapSync('ExpertPlusStandard.dat', 4);
 
 // ... code to modify difficulty data
 
-bsmap.save.difficultySync(data);
+bsmap.save.beatmapSync(data);
 ```
 
 > [!TIP]
@@ -125,8 +125,10 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 - V2 rewrite plan
   - Strip `Deno` and other vendor specific, shim when necessary (compatibility at all cost)
+    - Loading and saving should only take in `string` or `JSON` instead of reading/writing file
   - Restructure such that user does not need to worry about version specific case nor needing
     specific object version for specific structure
+    - This may require tedious amount of revision
 - NPM and JSR release
 - General clean-up and restructuring (this has grown far larger than I anticipated)
 - Write JSDoc on every important bit

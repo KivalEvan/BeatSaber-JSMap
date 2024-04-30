@@ -1,25 +1,32 @@
 // deno-lint-ignore-file no-explicit-any
-import type { _ObtainCustomData } from '../../utils.ts';
+import type { ICustomDataBase } from '../shared/custom/customData.ts';
 import type { ISerializable } from '../shared/serializable.ts';
 
-export interface IWrapBaseItemAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>> {
+export interface IWrapBaseItemAttribute {
    /**
     * Custom data `<object>` of beatmap object.
     *
     * This has no type-safety for unsupported data.
     */
-   customData: _ObtainCustomData<T>;
+   customData: ICustomDataBase;
+   /**
+    * Old data `<object>` of beatmap object.
+    *
+    * Recommended to not modify or use as this is used to handle old data represented as other attribute.
+    */
+   _deprData: Record<string, unknown>;
 }
 
-export interface IWrapBaseItem<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends ISerializable<T>, IWrapBaseItemAttribute<T> {
-   setCustomData(value: _ObtainCustomData<T>): this;
+export interface IWrapBaseItem<
+   T extends Record<string, any> = IWrapBaseItemAttribute,
+> extends IWrapBaseItemAttribute, ISerializable<T> {
+   setCustomData(value: ICustomDataBase): this;
    resetCustomData(): this;
    removeCustomData(key: string): this;
-   addCustomData(object: _ObtainCustomData<T>): this;
+   addCustomData(object: ICustomDataBase): this;
 
    /** Allow for advanced custom function. */
-   func(fn: (object: this, ...args: any[]) => void, ...args: any[]): this;
+   func(fn: (object: this) => void): this;
 
    /**
     * Check if object is valid in vanilla game.

@@ -1,18 +1,14 @@
-// deno-lint-ignore-file no-explicit-any
-import type { ISerializable } from '../shared/serializable.ts';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
-export interface IWrapEventTypesForKeywordsAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> {
+export interface IWrapEventTypesForKeywordsAttribute extends IWrapBaseItemAttribute {
    /** Keyword `<string>` of event types for keywords. */
    keyword: string;
    /** Event type `<int[]>` of event types for keywords. */
    events: number[];
 }
 
-export interface IWrapEventTypesForKeywords<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends ISerializable<T>, IWrapEventTypesForKeywordsAttribute<T> {
+export interface IWrapEventTypesForKeywords
+   extends IWrapBaseItem<IWrapEventTypesForKeywordsAttribute>, IWrapEventTypesForKeywordsAttribute {
    setKeyword(value: IWrapEventTypesForKeywords['keyword']): this;
    setEvents(value: IWrapEventTypesForKeywords['events']): this;
 

@@ -1,8 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
 
-export interface IWrapBaseSliderAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseNoteAttribute<T> {
+export interface IWrapBaseSliderAttribute extends IWrapBaseNoteAttribute {
    /** Tail beat time `<float>` of base arc. */
    tailTime: number;
    /**
@@ -32,8 +31,8 @@ export interface IWrapBaseSliderAttribute<T extends { [P in keyof T]: T[P] } = R
    tailLaneRotation: number;
 }
 
-export interface IWrapBaseSlider<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseNote<T>, IWrapBaseSliderAttribute<T> {
+export interface IWrapBaseSlider<T extends { [key: string]: any } = IWrapBaseSliderAttribute>
+   extends IWrapBaseNote<T>, IWrapBaseSliderAttribute {
    setDirection(value: number): this;
    setTailTime(value: number): this;
    setTailPosX(value: number): this;

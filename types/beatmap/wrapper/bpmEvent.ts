@@ -1,13 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapBPMEventAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObjectAttribute<T> {
+export interface IWrapBPMEventAttribute extends IWrapBaseObjectAttribute {
    /** Value `<float>` of BPM change event. */
    bpm: number;
 }
 
-export interface IWrapBPMEvent<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObject<T>, IWrapBPMEventAttribute<T> {
+export interface IWrapBPMEvent<
+   T extends Record<string, any> = IWrapBPMEventAttribute,
+> extends IWrapBaseObject<T>, IWrapBPMEventAttribute {
    setBPM(value: number): this;
 }

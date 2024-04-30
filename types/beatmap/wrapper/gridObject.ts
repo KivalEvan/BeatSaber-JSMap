@@ -3,8 +3,7 @@ import type { Vector2 } from '../../vector.ts';
 import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapGridObjectAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObjectAttribute<T> {
+export interface IWrapGridObjectAttribute extends IWrapBaseObjectAttribute {
    /**
     * Position x `<int>` of base obj.
     * ```ts
@@ -28,13 +27,12 @@ export interface IWrapGridObjectAttribute<T extends { [P in keyof T]: T[P] } = R
     * **RANGE:** `0-2`
     */
    posY: number;
-   /** V4 only features. */
-   // FIXME: warn non-v4
    laneRotation: number;
 }
 
-export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObject<T>, IWrapGridObjectAttribute<T> {
+export interface IWrapGridObject<
+   T extends { [key: string]: any } = IWrapGridObjectAttribute,
+> extends IWrapBaseObject<T>, IWrapGridObjectAttribute {
    setPosX(value: number): this;
    setPosY(value: number): this;
    setLaneRotation(value: number): this;
@@ -95,7 +93,11 @@ export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<str
     * if (obj.isInline(objCompare)) {}
     * ```
     */
-   isInline(compareTo: IWrapGridObject, lapping?: number | null, type?: ModType): boolean;
+   isInline(
+      compareTo: IWrapGridObject,
+      lapping?: number | null,
+      type?: ModType,
+   ): boolean;
 
    /**
     * Compare two objects and return if the objects is adjacent.
@@ -111,7 +113,11 @@ export interface IWrapGridObject<T extends { [P in keyof T]: T[P] } = Record<str
     * if (obj.isWindow(objCompare)) {}
     * ```
     */
-   isWindow(compareTo: IWrapGridObject, distance?: number | null, type?: ModType): boolean;
+   isWindow(
+      compareTo: IWrapGridObject,
+      distance?: number | null,
+      type?: ModType,
+   ): boolean;
 
    /**
     * Compare two objects and return if the objects is a slanted window.

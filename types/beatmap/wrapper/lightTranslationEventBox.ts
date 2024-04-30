@@ -7,11 +7,7 @@ import type {
    IWrapLightTranslationEventAttribute,
 } from './lightTranslationEvent.ts';
 
-export interface IWrapLightTranslationEventBoxAttribute<
-   TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
-   TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
-> extends IWrapEventBoxAttribute<TBox, TBase, TFilter> {
+export interface IWrapLightTranslationEventBoxAttribute extends IWrapEventBoxAttribute {
    /** Translation distribution `<float>` of light translation event box. */
    gapDistribution: number;
    /**
@@ -33,22 +29,22 @@ export interface IWrapLightTranslationEventBoxAttribute<
    axis: Axis;
    /** Flip translation `<int>` in light translation event box. */
    flip: 0 | 1;
-   events: IWrapLightTranslationEventAttribute<TBase>[];
+   events: IWrapLightTranslationEventAttribute[];
 }
 
 export interface IWrapLightTranslationEventBox<
-   TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
-   TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
-> extends
-   IWrapEventBox<TBox, TBase, TFilter>,
-   IWrapLightTranslationEventBoxAttribute<TBox, TBase, TFilter> {
-   events: IWrapLightTranslationEvent<TBase>[];
+   T extends Record<string, any> = IWrapLightTranslationEventBoxAttribute,
+> extends IWrapEventBox<T>, IWrapLightTranslationEventBoxAttribute {
+   events: IWrapLightTranslationEvent[];
 
-   setGapDistribution(value: IWrapLightTranslationEventBox['gapDistribution']): this;
-   setGapDistributionType(value: IWrapLightTranslationEventBox['gapDistributionType']): this;
+   setGapDistribution(
+      value: IWrapLightTranslationEventBox['gapDistribution'],
+   ): this;
+   setGapDistributionType(
+      value: IWrapLightTranslationEventBox['gapDistributionType'],
+   ): this;
    setAxis(value: IWrapLightTranslationEventBox['axis']): this;
    setFlip(value: IWrapLightTranslationEventBox['flip']): this;
    setAffectFirst(value: IWrapLightTranslationEventBox['affectFirst']): this;
-   setEvents(value: IWrapLightTranslationEvent<TBase>[]): this;
+   setEvents(value: IWrapLightTranslationEvent[]): this;
 }

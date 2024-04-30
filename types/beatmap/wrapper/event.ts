@@ -2,8 +2,7 @@
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 import type { EnvironmentAllName } from '../shared/environment.ts';
 
-export interface IWrapEventAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObjectAttribute<T> {
+export interface IWrapEventAttribute extends IWrapBaseObjectAttribute {
    /**
     * Event type `<int>` of basic event.
     * ```ts
@@ -41,8 +40,9 @@ export interface IWrapEventAttribute<T extends { [P in keyof T]: T[P] } = Record
    floatValue: number;
 }
 
-export interface IWrapEvent<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObject<T>, IWrapEventAttribute<T> {
+export interface IWrapEvent<
+   T extends Record<string, any> = IWrapEventAttribute,
+> extends IWrapBaseObject<T>, IWrapEventAttribute {
    setType(value: number): this;
    setValue(value: number): this;
    setFloatValue(value: number): this;
@@ -167,7 +167,7 @@ export interface IWrapEvent<T extends { [P in keyof T]: T[P] } = Record<string, 
     * if (event.isLaneRotationEvent()) {}
     * ```
     */
-   isLaneRotationEvent(environment?: EnvironmentAllName): boolean;
+   isLaneRotationEvent(): boolean;
 
    /**
     * Check if event is a extra event.

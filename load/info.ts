@@ -1,10 +1,10 @@
 // deno-lint-ignore-file no-explicit-any
-import type { Info as V1Info } from '../beatmap/v1/info.ts';
-import type { Info as V2Info } from '../beatmap/v2/info.ts';
+import type { Info as V1Info } from '../beatmap/schema/v1/schema/info.ts';
+import type { Info as V2Info } from '../beatmap/schema/v2/info.ts';
 import type { Info as V4Info } from '../beatmap/v4/info.ts';
-import { parseInfo as parseV1Info } from '../beatmap/v1/parse.ts';
-import { parseInfo as parseV2Info } from '../beatmap/v2/parse.ts';
-import { parseInfo as parseV4Info } from '../beatmap/v4/parse.ts';
+import { parseInfo as parseV1Info } from '../beatmap/schema/v1/parse.ts';
+import { parseInfo as parseV2Info } from '../beatmap/schema/v2/parse.ts';
+import { parseInfo as parseV4Info } from '../beatmap/schema/parse.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
 import type { ILoadOptionsInfo } from '../types/bsmap/load.ts';

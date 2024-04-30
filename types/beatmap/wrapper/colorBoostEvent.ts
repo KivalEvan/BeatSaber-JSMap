@@ -1,14 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapColorBoostEventAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseObjectAttribute<T> {
+export interface IWrapColorBoostEventAttribute extends IWrapBaseObjectAttribute {
    /** Toggle `<boolean>` of boost event. */
    toggle: boolean;
 }
 
-export interface IWrapColorBoostEvent<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObject<T>, IWrapColorBoostEventAttribute<T> {
+export interface IWrapColorBoostEvent<
+   T extends Record<string, any> = IWrapColorBoostEventAttribute,
+> extends IWrapBaseObject<T>, IWrapColorBoostEventAttribute {
    setToggle(value: boolean): this;
 }

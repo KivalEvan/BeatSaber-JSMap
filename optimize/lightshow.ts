@@ -1,7 +1,7 @@
 import type { IOptimizeOptionsLightshow } from '../types/bsmap/optimize.ts';
 import logger from '../logger.ts';
-import { cleanLightshow as cleanV3Lightshow } from '../beatmap/v3/clean.ts';
-import { cleanLightshow as cleanV4Lightshow } from '../beatmap/v4/clean.ts';
+import { cleanLightshow as cleanV3Lightshow } from '../beatmap/schema/v3/clean.ts';
+import { cleanLightshow as cleanV4Lightshow } from '../beatmap/schema/v4/clean.ts';
 import type { ICleanOptions } from '../types/beatmap/shared/clean.ts';
 import type { ILightshow } from '../types/beatmap/v4/lightshow.ts';
 import { EventBoxType } from '../types/beatmap/shared/constants.ts';

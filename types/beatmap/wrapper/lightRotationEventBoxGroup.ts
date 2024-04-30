@@ -5,22 +5,12 @@ import type {
    IWrapLightRotationEventBoxAttribute,
 } from './lightRotationEventBox.ts';
 
-export interface IWrapLightRotationEventBoxGroupAttribute<
-   TGroup extends { [P in keyof TGroup]: TGroup[P] } = Record<string, any>,
-   TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
-   TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
-> extends IWrapEventBoxGroupAttribute<TGroup, TBox, TBase, TFilter> {
-   boxes: IWrapLightRotationEventBoxAttribute<TBox, TBase, TFilter>[];
+export interface IWrapLightRotationEventBoxGroupAttribute extends IWrapEventBoxGroupAttribute {
+   boxes: IWrapLightRotationEventBoxAttribute[];
 }
 
 export interface IWrapLightRotationEventBoxGroup<
-   TGroup extends { [P in keyof TGroup]: TGroup[P] } = Record<string, any>,
-   TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
-   TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
-   TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
-> extends
-   IWrapEventBoxGroup<TGroup, TBox, TBase, TFilter>,
-   IWrapLightRotationEventBoxGroupAttribute<TGroup, TBox, TBase, TFilter> {
-   boxes: IWrapLightRotationEventBox<TBox, TBase, TFilter>[];
+   T extends Record<string, any> = IWrapLightRotationEventBoxGroupAttribute,
+> extends IWrapEventBoxGroup<T>, IWrapLightRotationEventBoxGroupAttribute {
+   boxes: IWrapLightRotationEventBox[];
 }

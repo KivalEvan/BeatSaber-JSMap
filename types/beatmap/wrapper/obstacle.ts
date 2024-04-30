@@ -2,8 +2,7 @@
 import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
-export interface IWrapObstacleAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapGridObjectAttribute<T> {
+export interface IWrapObstacleAttribute extends IWrapGridObjectAttribute {
    /** Duration `<float>` of obstacle.*/
    duration: number;
    /**
@@ -27,8 +26,9 @@ export interface IWrapObstacleAttribute<T extends { [P in keyof T]: T[P] } = Rec
    height: number;
 }
 
-export interface IWrapObstacle<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapGridObject<T>, IWrapObstacleAttribute<T> {
+export interface IWrapObstacle<
+   T extends { [key: string]: any } = IWrapObstacleAttribute,
+> extends IWrapGridObject<T>, IWrapObstacleAttribute {
    setDuration(value: number): this;
    setWidth(value: number): this;
    setHeight(value: number): this;
@@ -47,7 +47,11 @@ export interface IWrapObstacle<T extends { [P in keyof T]: T[P] } = Record<strin
     * if (wall.isLonger(compareWall)) {}
     * ```
     */
-   isLonger(compareTo: IWrapObstacle, prevOffset: number, type?: ModType): boolean;
+   isLonger(
+      compareTo: IWrapObstacle,
+      prevOffset: number,
+      type?: ModType,
+   ): boolean;
 
    /**
     * Check if obstacle has zero value.

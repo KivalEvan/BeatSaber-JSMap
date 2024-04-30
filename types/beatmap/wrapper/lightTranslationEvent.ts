@@ -2,9 +2,7 @@
 import type { EaseType } from '../shared/constants.ts';
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
-export interface IWrapLightTranslationEventAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseObjectAttribute<T> {
+export interface IWrapLightTranslationEventAttribute extends IWrapBaseObjectAttribute {
    /** Relative beat time `<float>` to event box group. */
    time: number;
    /** Ease type `<int>` of light translation. */
@@ -16,8 +14,8 @@ export interface IWrapLightTranslationEventAttribute<
 }
 
 export interface IWrapLightTranslationEvent<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseObject<T>, IWrapLightTranslationEventAttribute<T> {
+   T extends Record<string, any> = IWrapLightTranslationEventAttribute,
+> extends IWrapBaseObject<T>, IWrapLightTranslationEventAttribute {
    setPrevious(value: 0 | 1): this;
    setEasing(value: EaseType): this;
    setTranslation(value: number): this;

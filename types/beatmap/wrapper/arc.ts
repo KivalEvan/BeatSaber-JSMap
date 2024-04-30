@@ -3,8 +3,7 @@ import type { SliderMidAnchorMode } from '../shared/constants.ts';
 import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
 
-export interface IWrapArcAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseSliderAttribute<T> {
+export interface IWrapArcAttribute extends IWrapBaseSliderAttribute {
    /**
     * Head control point length multiplier `<float>` of arc.
     *
@@ -43,8 +42,8 @@ export interface IWrapArcAttribute<T extends { [P in keyof T]: T[P] } = Record<s
    midAnchor: SliderMidAnchorMode;
 }
 
-export interface IWrapArc<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseSlider<T>, IWrapArcAttribute<T> {
+export interface IWrapArc<T extends { [key: string]: any } = IWrapArcAttribute>
+   extends IWrapBaseSlider<T>, IWrapArcAttribute {
    setLengthMultiplier(value: number): this;
    setTailLengthMultiplier(value: number): this;
    setTailDirection(value: number): this;

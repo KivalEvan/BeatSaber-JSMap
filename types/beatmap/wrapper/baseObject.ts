@@ -1,13 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
-export interface IWrapBaseObjectAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItemAttribute<T> {
+export interface IWrapBaseObjectAttribute extends IWrapBaseItemAttribute {
    /** Beat time `<float>` of beatmap object. */
    time: number;
 }
 
-export interface IWrapBaseObject<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>, IWrapBaseObjectAttribute<T> {
+export interface IWrapBaseObject<
+   T extends { [key: string]: any } = IWrapBaseObjectAttribute,
+> extends IWrapBaseItem<T>, IWrapBaseObjectAttribute {
    setTime(value: number): this;
 }

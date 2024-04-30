@@ -1,5 +1,5 @@
 import logger from '../../logger.ts';
-import { Difficulty as V1Difficulty } from '../../beatmap/v1/difficulty.ts';
+import { Difficulty as V1Difficulty } from '../../beatmap/schema/v1/schema/difficulty.ts';
 import { Difficulty as V2Difficulty } from '../../beatmap/v2/difficulty.ts';
 import { Difficulty as V3Difficulty } from '../../beatmap/v3/difficulty.ts';
 import { Difficulty as V4Difficulty } from '../../beatmap/v4/difficulty.ts';

@@ -1,8 +1,8 @@
 import type { IOptimizeOptionsInfo } from '../types/bsmap/optimize.ts';
 import logger from '../logger.ts';
-import { cleanInfo as cleanV1Info } from '../beatmap/v1/clean.ts';
-import { cleanInfo as cleanV2Info } from '../beatmap/v2/clean.ts';
-import { cleanInfo as cleanV4Info } from '../beatmap/v4/clean.ts';
+import { cleanInfo as cleanV1Info } from '../beatmap/schema/v1/clean.ts';
+import { cleanInfo as cleanV2Info } from '../beatmap/schema/v2/clean.ts';
+import { cleanInfo as cleanV4Info } from '../beatmap/schema/v4/clean.ts';
 import type { ICleanOptions } from '../types/beatmap/shared/clean.ts';
 import { defaultOptions } from './options.ts';
 import { tag } from './_common.ts';

@@ -1,25 +1,25 @@
 import type { Version } from './version.ts';
 
 interface DataCheckBase {
-   type: string | string[]; // string array because there'll soon be having to check both
-   version: Version;
-   array?: boolean;
-   optional?: boolean;
+   readonly type: string | string[]; // string array because there'll soon be having to check both
+   readonly version: Version;
+   readonly array?: boolean;
+   readonly optional?: boolean;
 }
 
 export interface DataCheckPrimitive extends DataCheckBase {
-   type: 'string' | 'boolean';
+   readonly type: 'string' | 'boolean';
 }
 
 export interface DataCheckNumber extends DataCheckBase {
-   type: 'number';
-   int?: boolean;
-   unsigned?: boolean;
+   readonly type: 'number';
+   readonly int?: boolean;
+   readonly unsigned?: boolean;
 }
 
 export interface DataCheckObject extends DataCheckBase {
-   type: 'object' | 'array';
-   check: { [key: string]: DataCheck };
+   readonly type: 'object' | 'array';
+   readonly check: { [key: string]: DataCheck };
 }
 
 export type DataCheck = DataCheckPrimitive | DataCheckNumber | DataCheckObject;

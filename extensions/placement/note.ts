@@ -1,5 +1,5 @@
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
-import { WrapColorNote } from '../../beatmap/wrapper/colorNote.ts';
+import { WrapColorNote } from '../../beatmap/core/colorNote.ts';
 import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
 import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
 import { radToDeg, shortRotDistance } from '../../utils/math.ts';

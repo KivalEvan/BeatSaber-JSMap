@@ -1,15 +1,12 @@
 import logger from '../logger.ts';
-import { Event } from '../beatmap/v2/event.ts';
-import { BasicEvent } from '../beatmap/v3/basicEvent.ts';
 import { EasingsFn } from '../utils/easings.ts';
 import { lerpColor } from '../utils/colors.ts';
 import { normalize } from '../utils/math.ts';
-import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 import type { IChromaLightGradient } from '../types/beatmap/v2/custom/chroma.ts';
 import type { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
-import { isV2, isV3 } from '../beatmap/version.ts';
-import eventToV3 from './customData/eventToV3.ts';
 import type { Easings } from '../types/easings.ts';
+import { BasicEvent } from '../../../../../home/kival/GitRepository/BeatSaber-Deno/beatmap/core/event.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -25,10 +22,7 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
  * const newData = convert.V2ogChromaToChroma(oldData);
  * ```
  */
-export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(data: T): T {
-   if (!(isV2(data) || isV3(data))) return data;
-
-   const EventClass = isV3(data) ? BasicEvent : Event;
+export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(data: T): T {
    logger.tWarn(
       tag('chromaLightGradientToVanillaGradient'),
       'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
@@ -63,7 +57,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
             for (const eig of eventInGradient) {
                if (!hasOff && eig.time > ev.time + ev.customData._lightGradient._duration - 0.001) {
                   newEvents.push(
-                     new EventClass({
+                     new BasicEvent({
                         time: ev.time + ev.customData._lightGradient._duration - 0.001,
                         type: ev.type,
                         value: ev.value >= 1 && ev.value <= 4
@@ -100,7 +94,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
                      eig.removeCustomData('_color');
                      if (!hasOff) {
                         newEvents.push(
-                           new EventClass({
+                           new BasicEvent({
                               time: eig.time - 0.001,
                               type: ev.type,
                               value: previousEvent.value >= 1 && previousEvent.value <= 4
@@ -138,7 +132,7 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
             ev.customData._easing = ev.customData._lightGradient._easing;
             ev.value = ev.value >= 1 && ev.value <= 4 ? 1 : ev.value >= 5 && ev.value <= 8 ? 5 : 9;
             newEvents.push(
-               new EventClass({
+               new BasicEvent({
                   time: ev.time + ev.customData._lightGradient._duration,
                   type: ev.type,
                   value: ev.value >= 1 && ev.value <= 4
@@ -158,8 +152,5 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapDifficulty>(
       newEvents.push(ev);
    }
    data.basicEvents = newEvents;
-   if (isV3(data)) {
-      data.basicEvents.forEach((ev) => eventToV3(ev.customData));
-   }
    return data;
 }
