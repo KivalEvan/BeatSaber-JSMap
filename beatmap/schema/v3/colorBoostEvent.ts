@@ -20,7 +20,7 @@ export const colorBoostEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<IColorBoostEvent> = {}
+      data: Partial<IColorBoostEvent> = {},
    ): Partial<IWrapColorBoostEventAttribute> {
       return {
          time: data.b ?? this.defaultValue.b,
@@ -31,13 +31,13 @@ export const colorBoostEvent: ISchemaContainer<
    isValid(data: IWrapColorBoostEventAttribute): boolean {
       return true;
    },
-   isChroma (data: IWrapColorBoostEventAttribute): boolean {
-   return false;
+   isChroma(data: IWrapColorBoostEventAttribute): boolean {
+      return false;
    },
-   isNoodleExtensions (data: IWrapColorBoostEventAttribute): boolean {
-   return false;
+   isNoodleExtensions(data: IWrapColorBoostEventAttribute): boolean {
+      return false;
    },
-   isMappingExtensions (data: IWrapColorBoostEventAttribute): boolean {
-   return false;
-   }
+   isMappingExtensions(data: IWrapColorBoostEventAttribute): boolean {
+      return false;
+   },
 };

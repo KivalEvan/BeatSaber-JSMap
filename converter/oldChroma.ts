@@ -1,9 +1,6 @@
 import logger from '../logger.ts';
 import type { ColorArray } from '../types/colors.ts';
-import {
-   ColorScheme,
-   EnvironmentSchemeName,
-} from '../beatmap/shared/colorScheme.ts';
+import { ColorScheme, EnvironmentSchemeName } from '../beatmap/shared/colorScheme.ts';
 import type { EnvironmentAllName } from '../types/beatmap/shared/environment.ts';
 import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
@@ -20,11 +17,11 @@ function tag(name: string): string[] {
  */
 export function ogChromaToV2Chroma<T extends IWrapBeatmap>(
    data: T,
-   environment: EnvironmentAllName = 'DefaultEnvironment'
+   environment: EnvironmentAllName = 'DefaultEnvironment',
 ): T {
    logger.tInfo(
       tag('ogChromaToV2Chroma'),
-      'Converting old Chroma event value to Chroma event customData'
+      'Converting old Chroma event value to Chroma event customData',
    );
    const events: IWrapEvent[] = data.basicEvents;
    const newEvents: IWrapEvent[] = [];
@@ -54,12 +51,11 @@ export function ogChromaToV2Chroma<T extends IWrapBeatmap>(
       }
       if (!currentColor[ev.type]) {
          noChromaColor = true;
-         currentColor[ev.type] =
-            ev.value >= 1 && ev.value <= 4
-               ? defaultRightLight
-               : ev.value >= 5 && ev.value <= 8
-               ? defaultLeftLight
-               : [1, 1, 1];
+         currentColor[ev.type] = ev.value >= 1 && ev.value <= 4
+            ? defaultRightLight
+            : ev.value >= 5 && ev.value <= 8
+            ? defaultLeftLight
+            : [1, 1, 1];
       }
       if (ev.value === 4) {
          ev.value = 0;

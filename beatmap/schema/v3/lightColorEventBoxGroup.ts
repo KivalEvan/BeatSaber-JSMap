@@ -19,7 +19,7 @@ export const lightColorEventBoxGroup: ISchemaContainer<
       customData: {},
    } as Required<ILightColorEventBoxGroup>,
    serialize(
-      data: IWrapLightColorEventBoxGroupAttribute
+      data: IWrapLightColorEventBoxGroupAttribute,
    ): ILightColorEventBoxGroup {
       return {
          b: data.time,
@@ -29,13 +29,13 @@ export const lightColorEventBoxGroup: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ILightColorEventBoxGroup> = {}
+      data: DeepPartial<ILightColorEventBoxGroup> = {},
    ): DeepPartial<IWrapLightColorEventBoxGroupAttribute> {
       return {
          time: data.b ?? this.defaultValue.b,
          id: data.g ?? this.defaultValue.g,
          boxes: (data.e ?? this.defaultValue.e).map(
-            lightColorEventBox.deserialize
+            lightColorEventBox.deserialize,
          ),
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
@@ -47,12 +47,12 @@ export const lightColorEventBoxGroup: ISchemaContainer<
       return false;
    },
    isNoodleExtensions: function (
-      data: IWrapLightColorEventBoxGroupAttribute
+      data: IWrapLightColorEventBoxGroupAttribute,
    ): boolean {
       return false;
    },
    isMappingExtensions: function (
-      data: IWrapLightColorEventBoxGroupAttribute
+      data: IWrapLightColorEventBoxGroupAttribute,
    ): boolean {
       return false;
    },

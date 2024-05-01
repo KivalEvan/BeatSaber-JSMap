@@ -38,7 +38,7 @@ export const basicEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<IBasicEventContainer> = {}
+      data: DeepPartial<IBasicEventContainer> = {},
    ): DeepPartial<IWrapEventAttribute> {
       return {
          time: data.object?.b ?? this.defaultValue.object.b,
@@ -46,7 +46,7 @@ export const basicEvent: ISchemaContainer<
          value: data.data?.i ?? this.defaultValue.data.i,
          floatValue: data.data?.f ?? this.defaultValue.data.f,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

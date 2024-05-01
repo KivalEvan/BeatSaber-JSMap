@@ -26,7 +26,7 @@ export const lightTranslationEventBox: ISchemaContainer<
       filterData: { ...indexFilter.defaultValue },
    } as DeepRequiredIgnore<ILightTranslationBoxContainer, 'customData'>,
    serialize(
-      data: IWrapLightTranslationEventBoxAttribute
+      data: IWrapLightTranslationEventBoxAttribute,
    ): ILightTranslationBoxContainer {
       return {
          data: {
@@ -45,11 +45,11 @@ export const lightTranslationEventBox: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ILightTranslationBoxContainer> = {}
+      data: DeepPartial<ILightTranslationBoxContainer> = {},
    ): DeepPartial<IWrapLightTranslationEventBoxAttribute> {
       return {
          filter: indexFilter.deserialize(
-            data.filterData ?? this.defaultValue.filterData
+            data.filterData ?? this.defaultValue.filterData,
          ),
          beatDistribution: data.data?.w ?? this.defaultValue.data.w,
          beatDistributionType: data.data?.d ?? this.defaultValue.data.d,
@@ -60,10 +60,10 @@ export const lightTranslationEventBox: ISchemaContainer<
          axis: data.data?.a ?? this.defaultValue.data.a,
          flip: data.data?.f ?? this.defaultValue.data.f,
          events: (data.eventData ?? this.defaultValue.eventData).map(
-            lightTranslationEvent.deserialize
+            lightTranslationEvent.deserialize,
          ),
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

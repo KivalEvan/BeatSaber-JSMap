@@ -30,7 +30,7 @@ export const lightColorEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<ILightColorEvent> = {}
+      data: Partial<ILightColorEvent> = {},
    ): Partial<IWrapLightColorEventAttribute> {
       return {
          time: data.b ?? this.defaultValue.b,

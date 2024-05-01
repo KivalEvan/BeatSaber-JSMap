@@ -44,7 +44,7 @@ export const colorNote: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<IColorNoteContainer> = {}
+      data: DeepPartial<IColorNoteContainer> = {},
    ): Partial<IWrapColorNoteAttribute> {
       return {
          time: data.object?.b ?? this.defaultValue.object.b,
@@ -55,7 +55,7 @@ export const colorNote: ISchemaContainer<
          direction: data.data?.d ?? this.defaultValue.data.d,
          angleOffset: data.data?.a ?? this.defaultValue.data.a,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

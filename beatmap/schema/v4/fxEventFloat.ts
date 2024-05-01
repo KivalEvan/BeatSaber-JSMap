@@ -29,7 +29,7 @@ export const fxEventFloat: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<IFxEventFloatContainer> = {}
+      data: DeepPartial<IFxEventFloatContainer> = {},
    ): Partial<IWrapFxEventFloatAttribute> {
       return {
          time: data.time ?? this.defaultValue.time,
@@ -37,7 +37,7 @@ export const fxEventFloat: ISchemaContainer<
          easing: data.data?.e ?? this.defaultValue.data.e,
          value: data.data?.v ?? this.defaultValue.data.v,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

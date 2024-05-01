@@ -38,7 +38,7 @@ export const lightColorEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ILightColorEventContainer> = {}
+      data: DeepPartial<ILightColorEventContainer> = {},
    ): Partial<IWrapLightColorEventAttribute> {
       return {
          time: data.time ?? this.defaultValue.time,
@@ -50,7 +50,7 @@ export const lightColorEvent: ISchemaContainer<
          strobeBrightness: data.data?.sb ?? this.defaultValue.data.sb,
          strobeFade: data.data?.sf ?? this.defaultValue.data.sf,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

@@ -39,11 +39,11 @@ export const fxEventBox: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<IFxEventFloatBoxContainer> = {}
+      data: DeepPartial<IFxEventFloatBoxContainer> = {},
    ): DeepPartial<IWrapFxEventBoxAttribute> {
       return {
          filter: indexFilter.deserialize(
-            data.filterData ?? this.defaultValue.filterData
+            data.filterData ?? this.defaultValue.filterData,
          ),
          beatDistribution: data.data?.w ?? this.defaultValue.data.w,
          beatDistributionType: data.data?.d ?? this.defaultValue.data.d,
@@ -52,10 +52,10 @@ export const fxEventBox: ISchemaContainer<
          affectFirst: data.data?.b ?? this.defaultValue.data.b,
          easing: data.data?.e ?? this.defaultValue.data.e,
          events: (data.eventData ?? this.defaultValue.eventData).map(
-            fxEventFloat.deserialize
+            fxEventFloat.deserialize,
          ),
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

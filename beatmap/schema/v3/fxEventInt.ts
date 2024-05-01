@@ -22,7 +22,7 @@ export const fxEventInt: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<IFxEventInt> = {}
+      data: Partial<IFxEventInt> = {},
    ): Partial<IWrapFxEventIntAttribute> {
       return {
          time: data.b ?? this.defaultValue.b,

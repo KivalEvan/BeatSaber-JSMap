@@ -39,7 +39,7 @@ export const waypoint: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<IWaypointContainer> = {}
+      data: DeepPartial<IWaypointContainer> = {},
    ): Partial<IWrapWaypointAttribute> {
       return {
          time: data.object?.b ?? this.defaultValue.object.b,
@@ -48,7 +48,7 @@ export const waypoint: ISchemaContainer<
          posY: data.data?.y ?? this.defaultValue.data.y,
          direction: data.data?.d ?? this.defaultValue.data.d,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

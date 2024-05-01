@@ -29,7 +29,7 @@ export const infoDifficulty: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<IInfoDifficulty> = {}
+      data: Partial<IInfoDifficulty> = {},
    ): Partial<IWrapInfoBeatmapAttribute> {
       return {
          difficulty: data.difficulty ?? 'Easy',

@@ -1,9 +1,7 @@
 import type { IInfo } from '../../../types/beatmap/v1/info.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import type { deepCopy } from '../../../utils/misc.ts';
-import type {
-   IWrapInfoAttribute,
-} from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfoAttribute } from '../../../types/beatmap/wrapper/info.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import { infoDifficulty } from './infoDifficulty.ts';
 
@@ -36,7 +34,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          environmentName: data.environmentName,
          difficultyLevels: data.difficulties.map(infoDifficulty.serialize),
          oneSaber: data.difficulties.some(
-            (m) => m.characteristic === 'OneSaber'
+            (m) => m.characteristic === 'OneSaber',
          ),
          contributors: deepCopy(data.customData._contributors),
          customEnvironment: data.customData._customEnvironment,
@@ -52,15 +50,11 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          },
          audio: {
             bpm: data.beatsPerMinute ?? this.defaultValue.beatsPerMinute,
-            previewStartTime:
-               data.previewStartTime ?? this.defaultValue.previewStartTime,
-            previewDuration:
-               data.previewDuration ?? this.defaultValue.previewDuration,
+            previewStartTime: data.previewStartTime ?? this.defaultValue.previewStartTime,
+            previewDuration: data.previewDuration ?? this.defaultValue.previewDuration,
          },
-         coverImageFilename:
-            data.coverImagePath ?? this.defaultValue.coverImagePath,
-         environmentName:
-            data.environmentName ?? this.defaultValue.environmentName,
+         coverImageFilename: data.coverImagePath ?? this.defaultValue.coverImagePath,
+         environmentName: data.environmentName ?? this.defaultValue.environmentName,
 
          difficulties: (
             data.difficultyLevels ?? this.defaultValue.difficultyLevels
@@ -71,12 +65,10 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             data.difficultyLevels ?? this.defaultValue.difficultyLevels
          ).some((m) => m?.characteristic === 'OneSaber'),
          contributors: deepCopy(
-            data.contributors ?? this.defaultValue.contributors
+            data.contributors ?? this.defaultValue.contributors,
          ),
-         customEnvironment:
-            data.customEnvironment ?? this.defaultValue.customEnvironment,
-         customEnvironmentHash:
-            data.customEnvironmentHash ??
+         customEnvironment: data.customEnvironment ?? this.defaultValue.customEnvironment,
+         customEnvironmentHash: data.customEnvironmentHash ??
             this.defaultValue.customEnvironmentHash,
       };
    },

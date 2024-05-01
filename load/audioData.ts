@@ -1,10 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
-import { parseAudio as parseV2Audio } from '../beatmap/schema/v2/parse.ts';
-import { parseAudio as parseV4Audio } from '../beatmap/schema/parse.ts';
 import { toV2Audio } from '../converter/toV2/audioData.ts';
 import { toV4Audio } from '../converter/toV4/audioData.ts';
-import type { BPMInfo as V2Audio } from '../beatmap/v2/bpmInfo.ts';
-import type { AudioData as V4Audio } from '../beatmap/v4/audioData.ts';
 import { resolve } from '../deps.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';

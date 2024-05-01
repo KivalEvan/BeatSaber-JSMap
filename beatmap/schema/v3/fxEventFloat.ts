@@ -24,7 +24,7 @@ export const fxEventFloat: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<IFxEventFloat> = {}
+      data: Partial<IFxEventFloat> = {},
    ): Partial<IWrapFxEventFloatAttribute> {
       return {
          time: data.b ?? this.defaultValue.b,

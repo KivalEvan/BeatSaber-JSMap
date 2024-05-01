@@ -42,11 +42,11 @@ export const fxEventBox: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<IFxEventFloatBoxContainer> = {}
+      data: DeepPartial<IFxEventFloatBoxContainer> = {},
    ): DeepPartial<IWrapFxEventBoxAttribute> {
       const d: DeepPartial<IWrapFxEventBoxAttribute> = {
          filter: indexFilter.deserialize(
-            data.data?.f ?? this.defaultValue.data.f
+            data.data?.f ?? this.defaultValue.data.f,
          ),
          beatDistribution: data.data?.w ?? this.defaultValue.data.w,
          beatDistributionType: data.data?.d ?? this.defaultValue.data.d,
@@ -56,7 +56,7 @@ export const fxEventBox: ISchemaContainer<
          easing: data.data?.i ?? this.defaultValue.data.i,
          events: [],
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
 
@@ -65,9 +65,7 @@ export const fxEventBox: ISchemaContainer<
             d._events.push(fxEventFloat.deserialize(events[n]));
          }
       } else {
-         d._events = this.defaultValue.eventData.map((json) =>
-            fxEventFloat.deserialize
-         );
+         d._events = this.defaultValue.eventData.map((json) => fxEventFloat.deserialize);
       }
       return d;
    },

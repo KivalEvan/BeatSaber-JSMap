@@ -5,8 +5,6 @@ import logger from '../logger.ts';
 import { deepCheck } from '../beatmap/shared/dataCheck.ts';
 import { LightshowDataCheck as V3LightshowCheck } from '../beatmap/schema/v3/dataCheck.ts';
 import { LightshowDataCheck as V4LightshowCheck } from '../beatmap/schema/v4/dataCheck.ts';
-import type { Lightshow as V3Lightshow } from '../beatmap/v3/lightshow.ts';
-import type { Lightshow as V4Lightshow } from '../beatmap/v4/lightshow.ts';
 import type { ILightshow as IV3Lightshow } from '../types/beatmap/v3/lightshow.ts';
 import type { ILightshow as IV4Lightshow } from '../types/beatmap/v4/lightshow.ts';
 import type { IWrapLightshow } from '../types/beatmap/wrapper/lightshow.ts';

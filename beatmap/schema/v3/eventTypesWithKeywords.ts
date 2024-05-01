@@ -12,18 +12,18 @@ export const eventTypesWithKeywords: ISchemaContainer<
       d: [],
    } as Required<IBasicEventTypesWithKeywords>,
    serialize(
-      data: IWrapEventTypesWithKeywordsAttribute
+      data: IWrapEventTypesWithKeywordsAttribute,
    ): Required<IBasicEventTypesWithKeywords> {
       return {
          d: data.list.map(eventTypesForKeywords.serialize),
       };
    },
    deserialize(
-      data: DeepPartial<IBasicEventTypesWithKeywords> = {}
+      data: DeepPartial<IBasicEventTypesWithKeywords> = {},
    ): DeepPartial<IWrapEventTypesWithKeywordsAttribute> {
       return {
          list: (data.d ?? this.defaultValue.d).map(
-            eventTypesForKeywords.deserialize
+            eventTypesForKeywords.deserialize,
          ),
       };
    },

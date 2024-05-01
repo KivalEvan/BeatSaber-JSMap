@@ -28,7 +28,7 @@ export const lightRotationEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<ILightRotationEvent> = {}
+      data: Partial<ILightRotationEvent> = {},
    ): Partial<IWrapLightRotationEventAttribute> {
       return {
          time: data.b ?? this.defaultValue.b,

@@ -1,9 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
 import type { GenericFilename } from '../types/beatmap/shared/filename.ts';
-import type { Lightshow as V3Lightshow } from '../beatmap/v3/lightshow.ts';
-import type { Lightshow as V4Lightshow } from '../beatmap/v4/lightshow.ts';
-import { parseLightshow as parseV3Lightshow } from '../beatmap/schema/v3/parse.ts';
-import { parseLightshow as parseV4Lightshow } from '../beatmap/schema/parse.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';

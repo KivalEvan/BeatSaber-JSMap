@@ -13,7 +13,7 @@ export const lightTranslationEvent: ISchemaContainer<
       time: 0,
    } as DeepRequiredIgnore<ILightTranslationEventContainer, 'customData'>,
    serialize(
-      data: IWrapLightTranslationEventAttribute
+      data: IWrapLightTranslationEventAttribute,
    ): ILightTranslationEventContainer {
       return {
          data: {
@@ -26,7 +26,7 @@ export const lightTranslationEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ILightTranslationEventContainer> = {}
+      data: DeepPartial<ILightTranslationEventContainer> = {},
    ): Partial<IWrapLightTranslationEventAttribute> {
       return {
          time: data.time ?? 0,
@@ -34,7 +34,7 @@ export const lightTranslationEvent: ISchemaContainer<
          easing: data.data?.e ?? this.defaultValue.data.e,
          translation: data.data?.t ?? this.defaultValue.data.t,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

@@ -5,8 +5,6 @@ import logger from '../logger.ts';
 import { deepCheck } from '../beatmap/shared/dataCheck.ts';
 import { BPMInfoDataCheck as V2AudioCheck } from '../beatmap/schema/v2/dataCheck.ts';
 import { AudioDataCheck as V4AudioCheck } from '../beatmap/schema/v4/dataCheck.ts';
-import type { BPMInfo as V2Audio } from '../beatmap/v2/bpmInfo.ts';
-import type { AudioData as V4Audio } from '../beatmap/v4/audioData.ts';
 import type { IBPMInfo as IV2Audio } from '../types/beatmap/v2/bpmInfo.ts';
 import type { IAudio as IV4Audio } from '../types/beatmap/v4/audioData.ts';
 import type { IWrapAudio } from '../types/beatmap/wrapper/audioData.ts';

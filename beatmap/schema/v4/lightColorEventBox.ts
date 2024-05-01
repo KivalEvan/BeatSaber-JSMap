@@ -1,7 +1,5 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type {
-   ILightColorBoxContainer,
-} from '../../../types/beatmap/container/v4.ts';
+import type { ILightColorBoxContainer } from '../../../types/beatmap/container/v4.ts';
 import type { IWrapLightColorEventBoxAttribute } from '../../../types/beatmap/wrapper/lightColorEventBox.ts';
 import type { DeepPartial, DeepRequiredIgnore } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
@@ -41,11 +39,11 @@ export const lightColorEventBox: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ILightColorBoxContainer> = {}
+      data: DeepPartial<ILightColorBoxContainer> = {},
    ): DeepPartial<IWrapLightColorEventBoxAttribute> {
       return {
          filter: indexFilter.deserialize(
-            data.filterData ?? this.defaultValue.filterData
+            data.filterData ?? this.defaultValue.filterData,
          ),
          beatDistribution: data.data?.w ?? this.defaultValue.data.w,
          beatDistributionType: data.data?.d ?? this.defaultValue.data.d,
@@ -54,10 +52,10 @@ export const lightColorEventBox: ISchemaContainer<
          affectFirst: data.data?.b ?? this.defaultValue.data.b,
          easing: data.data?.e ?? this.defaultValue.data.e,
          events: (data.eventData ?? this.defaultValue.eventData).map(
-            lightColorEvent.deserialize
+            lightColorEvent.deserialize,
          ),
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

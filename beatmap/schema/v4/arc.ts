@@ -92,7 +92,7 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArcContainer> = {
          tailLengthMultiplier: data.data?.tm ?? this.defaultValue.data.tm,
          midAnchor: data.data?.a ?? this.defaultValue.data.a,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

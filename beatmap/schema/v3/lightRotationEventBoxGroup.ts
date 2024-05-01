@@ -16,7 +16,7 @@ export const lightRotationEventBoxGroup: ISchemaContainer<
       customData: {},
    } as Required<ILightRotationEventBoxGroup>,
    serialize(
-      data: IWrapLightRotationEventBoxGroupAttribute
+      data: IWrapLightRotationEventBoxGroupAttribute,
    ): ILightRotationEventBoxGroup {
       return {
          b: data.time,
@@ -26,13 +26,13 @@ export const lightRotationEventBoxGroup: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ILightRotationEventBoxGroup> = {}
+      data: DeepPartial<ILightRotationEventBoxGroup> = {},
    ): DeepPartial<IWrapLightRotationEventBoxGroupAttribute> {
       return {
          time: data.b ?? this.defaultValue.b,
          id: data.g ?? this.defaultValue.g,
          boxes: (data.e ?? this.defaultValue.e).map(
-            lightRotationEventBox.deserialize
+            lightRotationEventBox.deserialize,
          ),
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
@@ -47,7 +47,7 @@ export const lightRotationEventBoxGroup: ISchemaContainer<
       return false;
    },
    isMappingExtensions(
-      data: IWrapLightRotationEventBoxGroupAttribute
+      data: IWrapLightRotationEventBoxGroupAttribute,
    ): boolean {
       return false;
    },

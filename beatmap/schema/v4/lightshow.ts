@@ -9,18 +9,9 @@ import { lightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.t
 import { fxEventBoxGroup } from './fxEventBoxGroup.ts';
 import type { DeepPartial, DeepRequiredIgnore } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
-import type { IIndexFilter } from '../../../types/beatmap/v4/indexFilter.ts';
-import type { ILightColorEventBox } from '../../../types/beatmap/v4/lightColorEventBox.ts';
-import type { ILightRotationEventBox } from '../../../types/beatmap/v4/lightRotationEventBox.ts';
-import type { ILightTranslationEventBox } from '../../../types/beatmap/v4/lightTranslationEventBox.ts';
-import type { IFxEventBox } from '../../../types/beatmap/v4/fxEventBox.ts';
-import type { ILightColorEvent } from '../../../types/beatmap/v4/lightColorEvent.ts';
-import type { ILightRotationEvent } from '../../../types/beatmap/v4/lightRotationEvent.ts';
-import type { ILightTranslationEvent } from '../../../types/beatmap/v4/lightTranslationEvent.ts';
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { IObject } from '../../../types/beatmap/v4/object.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { IFxEventFloat } from '../../../types/beatmap/v4/fxEventFloat.ts';
 import { eventTypesWithKeywords } from '../v3/eventTypesWithKeywords.ts';
 
 export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
@@ -68,10 +59,9 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
          fxEventBoxes: [],
          floatFxEvents: [],
          basicEventTypesWithKeywords: eventTypesWithKeywords.serialize(
-            data.lightshow.eventTypesWithKeywords
+            data.lightshow.eventTypesWithKeywords,
          ),
-         useNormalEventsAsCompatibleEvents:
-            data.lightshow.useNormalEventsAsCompatibleEvents,
+         useNormalEventsAsCompatibleEvents: data.lightshow.useNormalEventsAsCompatibleEvents,
          customData: deepCopy(data.customData),
       };
       for (const jsonObj of data.lightshow.waypoints.map(waypoint.serialize)) {
@@ -79,23 +69,29 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
          jsonObj.object.i = json.waypointsData.length;
          json.waypointsData.push(jsonObj.data);
       }
-      for (const jsonObj of data.lightshow.basicEvents.map(
-         basicEvent.serialize
-      )) {
+      for (
+         const jsonObj of data.lightshow.basicEvents.map(
+            basicEvent.serialize,
+         )
+      ) {
          json.basicEvents.push(jsonObj.object);
          jsonObj.object.i = json.basicEventsData.length;
          json.basicEventsData.push(jsonObj.data);
       }
-      for (const jsonObj of data.lightshow.colorBoostEvents.map(
-         colorBoostEvent.serialize
-      )) {
+      for (
+         const jsonObj of data.lightshow.colorBoostEvents.map(
+            colorBoostEvent.serialize,
+         )
+      ) {
          json.colorBoostEvents.push(jsonObj.object);
          jsonObj.object.i = json.colorBoostEventsData.length;
          json.colorBoostEventsData.push(jsonObj.data);
       }
-      for (const obj of data.lightshow.lightColorEventBoxGroups.map(
-         lightColorEventBoxGroup.serialize
-      )) {
+      for (
+         const obj of data.lightshow.lightColorEventBoxGroups.map(
+            lightColorEventBoxGroup.serialize,
+         )
+      ) {
          json.eventBoxGroups.push(obj.object);
          for (const box of obj.boxData) {
             const list: IObject[] = [];
@@ -116,9 +112,11 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
             json.indexFilters.push(box.filterData);
          }
       }
-      for (const obj of data.lightshow.lightRotationEventBoxGroups.map(
-         lightRotationEventBoxGroup.serialize
-      )) {
+      for (
+         const obj of data.lightshow.lightRotationEventBoxGroups.map(
+            lightRotationEventBoxGroup.serialize,
+         )
+      ) {
          json.eventBoxGroups.push(obj.object);
          for (const box of obj.boxData) {
             const list: IObject[] = [];
@@ -139,9 +137,11 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
             json.indexFilters.push(box.filterData);
          }
       }
-      for (const obj of data.lightshow.lightTranslationEventBoxGroups.map(
-         lightTranslationEventBoxGroup.serialize
-      )) {
+      for (
+         const obj of data.lightshow.lightTranslationEventBoxGroups.map(
+            lightTranslationEventBoxGroup.serialize,
+         )
+      ) {
          json.eventBoxGroups.push(obj.object);
          for (const box of obj.boxData) {
             const list: IObject[] = [];
@@ -162,9 +162,11 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
             json.indexFilters.push(box.filterData);
          }
       }
-      for (const obj of data.lightshow.fxEventBoxGroups.map(
-         fxEventBoxGroup.serialize
-      )) {
+      for (
+         const obj of data.lightshow.fxEventBoxGroups.map(
+            fxEventBoxGroup.serialize,
+         )
+      ) {
          json.eventBoxGroups.push(obj.object);
          for (const box of obj.boxData) {
             const list: IObject[] = [];
@@ -186,72 +188,118 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
       return json;
    },
    deserialize(
-      data: DeepPartial<ILightshow> = {}
+      data: DeepPartial<ILightshow> = {},
    ): DeepPartial<IWrapBeatmapAttribute> {
-      d.waypoints = (data?.waypoints ?? []).map((obj) =>
-         waypoint.deserialize({object:obj,data: data?.waypointsData?.[obj?.i || 0]})
+      const d: DeepPartial<IWrapBeatmapAttribute> = {
+         lightshow: {
+            lightColorEventBoxGroups: [],
+            lightRotationEventBoxGroups: [],
+            lightTranslationEventBoxGroups: [],
+            fxEventBoxGroups: [],
+         },
+      };
+      d.lightshow!.waypoints = (data?.waypoints ?? []).map((obj) =>
+         waypoint.deserialize({
+            object: obj,
+            data: data?.waypointsData?.[obj?.i || 0],
+         })
       );
-      d.basicEvents = (data?.basicEvents ?? []).map((obj) =>
-         basicEvent.deserialize({object:obj,data: data?.basicEventsData?.[obj?.i || 0]})
+      d.lightshow!.basicEvents = (data?.basicEvents ?? []).map((obj) =>
+         basicEvent.deserialize({
+            object: obj,
+            data: data?.basicEventsData?.[obj?.i || 0],
+         })
       );
-      d.colorBoostEvents = (data?.colorBoostEvents ?? []).map((obj) =>
-         colorBoostEvent.deserialize({
-            object:obj,
-            data:data?.colorBoostEventsData?.[obj?.i || 0]}
-         )
+      d.lightshow!.colorBoostEvents = (data?.colorBoostEvents ?? []).map(
+         (obj) =>
+            colorBoostEvent.deserialize({
+               object: obj,
+               data: data?.colorBoostEventsData?.[obj?.i || 0],
+            }),
       );
+      const indFil = data?.indexFilters ?? [];
+      const lceb = data?.lightColorEventBoxes ?? [];
+      const lce = data?.lightColorEvents ?? [];
+      const lreb = data?.lightRotationEventBoxes ?? [];
+      const lre = data?.lightRotationEvents ?? [];
+      const lteb = data?.lightTranslationEventBoxes ?? [];
+      const lte = data?.lightTranslationEvents ?? [];
+      const fxb = data?.fxEventBoxes ?? [];
+      const fx = data?.floatFxEvents ?? [];
       for (const ebg of data?.eventBoxGroups || []) {
          const t = ebg?.t || 0;
          switch (t) {
             case EventBoxType.COLOR:
-               d.lightColorEventBoxGroups.push(
-                  lightColorEventBoxGroup.deserialize(
-                     ebg,
-                     data?.lightColorEventBoxes as ILightColorEventBox[],
-                     data?.lightColorEvents as ILightColorEvent[],
-                     data?.indexFilters as IIndexFilter[]
-                  )
+               d.lightshow!.lightColorEventBoxGroups!.push(
+                  lightColorEventBoxGroup.deserialize({
+                     object: ebg,
+                     boxData: ebg?.e?.map((e) => ({
+                        data: lceb[e.e || 0],
+                        filterData: indFil[e.f || 0],
+                        eventData: e.l?.map((l) => ({
+                           time: l.b,
+                           data: lce[l.i || 0],
+                        })),
+                     })),
+                  }),
                );
                break;
             case EventBoxType.ROTATION:
-               d.lightRotationEventBoxGroups.push(
-                  lightRotationEventBoxGroup.deserialize(
-                     ebg,
-                     data?.lightRotationEventBoxes as ILightRotationEventBox[],
-                     data?.lightRotationEvents as ILightRotationEvent[],
-                     data?.indexFilters as IIndexFilter[]
-                  )
+               d.lightshow!.lightRotationEventBoxGroups!.push(
+                  lightRotationEventBoxGroup.deserialize({
+                     object: ebg,
+                     boxData: ebg?.e?.map((e) => ({
+                        data: lreb[e.e || 0],
+                        filterData: indFil[e.f || 0],
+                        eventData: e.l?.map((l) => ({
+                           time: l.b,
+                           data: lre[l.i || 0],
+                        })),
+                     })),
+                  }),
                );
                break;
             case EventBoxType.TRANSLATION:
-               d.lightTranslationEventBoxGroups.push(
-                  lightTranslationEventBoxGroup.deserialize(
-                     ebg,
-                     data?.lightTranslationEventBoxes as ILightTranslationEventBox[],
-                     data?.lightTranslationEvents as ILightTranslationEvent[],
-                     data?.indexFilters as IIndexFilter[]
-                  )
+               d.lightshow!.lightTranslationEventBoxGroups!.push(
+                  lightTranslationEventBoxGroup.deserialize({
+                     object: ebg,
+                     boxData: ebg?.e?.map((e) => ({
+                        data: lteb[e.e || 0],
+                        filterData: indFil[e.f || 0],
+                        eventData: e.l?.map((l) => ({
+                           time: l.b,
+                           data: lte[l.i || 0],
+                        })),
+                     })),
+                  }),
                );
                break;
             case EventBoxType.FX_FLOAT:
-               d.fxEventBoxGroups.push(
-                  fxEventBoxGroup.deserialize(
-                     ebg,
-                     data?.fxEventBoxes as IFxEventBox[],
-                     data?.floatFxEvents as IFxEventFloat[],
-                     data?.indexFilters as IIndexFilter[]
-                  )
+               d.lightshow!.fxEventBoxGroups!.push(
+                  fxEventBoxGroup.deserialize({
+                     object: ebg,
+                     boxData: ebg?.e?.map((e) => ({
+                        data: fxb[e.e || 0],
+                        filterData: indFil[e.f || 0],
+                        eventData: e.l?.map((l) => ({
+                           time: l.b,
+                           data: fx[l.i || 0],
+                        })),
+                     })),
+                  }),
                );
                break;
          }
       }
-      d.eventTypesWithKeywords = eventTypesWithKeywords.deserialize(
+      d.lightshow!.eventTypesWithKeywords = eventTypesWithKeywords.deserialize(
          data?.basicEventTypesWithKeywords ||
-            this.defaultValue.basicEventTypesWithKeywords
+            this.defaultValue.basicEventTypesWithKeywords,
       );
-      d.useNormalEventsAsCompatibleEvents =
-         !!data?.useNormalEventsAsCompatibleEvents;
-      d.customData = deepCopy(data?.customData ?? {});
+      d.lightshow!.useNormalEventsAsCompatibleEvents = !!(
+         data?.useNormalEventsAsCompatibleEvents ??
+            this.defaultValue.useNormalEventsAsCompatibleEvents
+      );
+      d.lightshow!.customData = deepCopy(data?.customData ?? {});
       return d;
    },
    isValid(data: IWrapBeatmapAttribute): boolean {
@@ -260,13 +308,13 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
          data.lightshow.basicEvents.every(basicEvent.isValid) &&
          data.lightshow.colorBoostEvents.every(colorBoostEvent.isValid) &&
          data.lightshow.lightColorEventBoxGroups.every(
-            lightColorEventBoxGroup.isValid
+            lightColorEventBoxGroup.isValid,
          ) &&
          data.lightshow.lightRotationEventBoxGroups.every(
-            lightRotationEventBoxGroup.isValid
+            lightRotationEventBoxGroup.isValid,
          ) &&
          data.lightshow.lightTranslationEventBoxGroups.every(
-            lightTranslationEventBoxGroup.isValid
+            lightTranslationEventBoxGroup.isValid,
          ) &&
          data.lightshow.fxEventBoxGroups.every(fxEventBoxGroup.isValid) &&
          eventTypesWithKeywords.isValid(data.lightshow.eventTypesWithKeywords)
@@ -278,13 +326,13 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
          data.lightshow.basicEvents.some(basicEvent.isChroma) ||
          data.lightshow.colorBoostEvents.some(colorBoostEvent.isChroma) ||
          data.lightshow.lightColorEventBoxGroups.some(
-            lightColorEventBoxGroup.isChroma
+            lightColorEventBoxGroup.isChroma,
          ) ||
          data.lightshow.lightRotationEventBoxGroups.some(
-            lightRotationEventBoxGroup.isChroma
+            lightRotationEventBoxGroup.isChroma,
          ) ||
          data.lightshow.lightTranslationEventBoxGroups.some(
-            lightTranslationEventBoxGroup.isChroma
+            lightTranslationEventBoxGroup.isChroma,
          ) ||
          data.lightshow.fxEventBoxGroups.some(fxEventBoxGroup.isChroma) ||
          eventTypesWithKeywords.isChroma(data.lightshow.eventTypesWithKeywords)
@@ -294,36 +342,48 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
       return (
          data.lightshow.waypoints.some(waypoint.isNoodleExtensions) ||
          data.lightshow.basicEvents.some(basicEvent.isNoodleExtensions) ||
-         data.lightshow.colorBoostEvents.some(colorBoostEvent.isNoodleExtensions) ||
+         data.lightshow.colorBoostEvents.some(
+            colorBoostEvent.isNoodleExtensions,
+         ) ||
          data.lightshow.lightColorEventBoxGroups.some(
-            lightColorEventBoxGroup.isNoodleExtensions
+            lightColorEventBoxGroup.isNoodleExtensions,
          ) ||
          data.lightshow.lightRotationEventBoxGroups.some(
-            lightRotationEventBoxGroup.isNoodleExtensions
+            lightRotationEventBoxGroup.isNoodleExtensions,
          ) ||
          data.lightshow.lightTranslationEventBoxGroups.some(
-            lightTranslationEventBoxGroup.isNoodleExtensions
+            lightTranslationEventBoxGroup.isNoodleExtensions,
          ) ||
-         data.lightshow.fxEventBoxGroups.some(fxEventBoxGroup.isNoodleExtensions) ||
-         eventTypesWithKeywords.isNoodleExtensions(data.lightshow.eventTypesWithKeywords)
+         data.lightshow.fxEventBoxGroups.some(
+            fxEventBoxGroup.isNoodleExtensions,
+         ) ||
+         eventTypesWithKeywords.isNoodleExtensions(
+            data.lightshow.eventTypesWithKeywords,
+         )
       );
    },
    isMappingExtensions(data: IWrapBeatmapAttribute): boolean {
       return (
          data.lightshow.waypoints.some(waypoint.isMappingExtensions) ||
          data.lightshow.basicEvents.some(basicEvent.isMappingExtensions) ||
-         data.lightshow.colorBoostEvents.some(colorBoostEvent.isMappingExtensions) ||
+         data.lightshow.colorBoostEvents.some(
+            colorBoostEvent.isMappingExtensions,
+         ) ||
          data.lightshow.lightColorEventBoxGroups.some(
-            lightColorEventBoxGroup.isMappingExtensions
+            lightColorEventBoxGroup.isMappingExtensions,
          ) ||
          data.lightshow.lightRotationEventBoxGroups.some(
-            lightRotationEventBoxGroup.isMappingExtensions
+            lightRotationEventBoxGroup.isMappingExtensions,
          ) ||
          data.lightshow.lightTranslationEventBoxGroups.some(
-            lightTranslationEventBoxGroup.isMappingExtensions
+            lightTranslationEventBoxGroup.isMappingExtensions,
          ) ||
-         data.lightshow.fxEventBoxGroups.some(fxEventBoxGroup.isMappingExtensions) ||
-         eventTypesWithKeywords.isMappingExtensions(data.lightshow.eventTypesWithKeywords)
+         data.lightshow.fxEventBoxGroups.some(
+            fxEventBoxGroup.isMappingExtensions,
+         ) ||
+         eventTypesWithKeywords.isMappingExtensions(
+            data.lightshow.eventTypesWithKeywords,
+         )
       );
    },
 };

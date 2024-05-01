@@ -24,7 +24,7 @@ export const lightTranslationEventBox: ISchemaContainer<
       customData: {},
    } as Required<ILightTranslationEventBox>,
    serialize(
-      data: IWrapLightTranslationEventBoxAttribute
+      data: IWrapLightTranslationEventBoxAttribute,
    ): ILightTranslationEventBox {
       return {
          f: indexFilter.serialize(data.filter),
@@ -41,7 +41,7 @@ export const lightTranslationEventBox: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ILightTranslationEventBox> = {}
+      data: DeepPartial<ILightTranslationEventBox> = {},
    ): DeepPartial<IWrapLightTranslationEventBoxAttribute> {
       return {
          filter: indexFilter.deserialize(data.f ?? this.defaultValue.f),
@@ -54,7 +54,7 @@ export const lightTranslationEventBox: ISchemaContainer<
          affectFirst: data.b ?? this.defaultValue.b,
          easing: data.i ?? this.defaultValue.i,
          events: (data.l ?? this.defaultValue.l).map(
-            lightTranslationEvent.deserialize
+            lightTranslationEvent.deserialize,
          ),
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };

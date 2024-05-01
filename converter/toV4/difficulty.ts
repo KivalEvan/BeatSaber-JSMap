@@ -1,13 +1,8 @@
 import logger from '../../logger.ts';
-import { Difficulty as V1Difficulty } from '../../beatmap/schema/v1/schema/difficulty.ts';
-import { Difficulty as V2Difficulty } from '../../beatmap/v2/difficulty.ts';
-import { Difficulty as V3Difficulty } from '../../beatmap/v3/difficulty.ts';
-import { Difficulty as V4Difficulty } from '../../beatmap/v4/difficulty.ts';
 import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { clamp } from '../../utils/math.ts';
 import objectToV3 from '../customData/objectToV3.ts';
-import { SpawnRotation } from '../../beatmap/v4/rotationEvent.ts';
 import { EventLaneRotationValue } from '../../types/beatmap/shared/constants.ts';
 
 function tag(name: string): string[] {

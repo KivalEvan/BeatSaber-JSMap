@@ -15,7 +15,7 @@ export const lightTranslationEvent: ISchemaContainer<
       customData: {},
    } as Required<ILightTranslationEvent>,
    serialize(
-      data: IWrapLightTranslationEventAttribute
+      data: IWrapLightTranslationEventAttribute,
    ): ILightTranslationEvent {
       return {
          b: data.time,
@@ -26,7 +26,7 @@ export const lightTranslationEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<ILightTranslationEvent> = {}
+      data: Partial<ILightTranslationEvent> = {},
    ): Partial<IWrapLightTranslationEventAttribute> {
       return {
          time: data.b ?? this.defaultValue.b,

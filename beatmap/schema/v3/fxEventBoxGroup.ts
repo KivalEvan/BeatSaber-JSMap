@@ -1,16 +1,13 @@
-import type { IFxEventBoxGroup } from '../../../types/beatmap/v3/fxEventBoxGroup.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { fxEventBox } from './fxEventBox.ts';
+import { fxEventBox } from './fxEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { IFxEventBox } from '../../../types/beatmap/v3/fxEventBox.ts';
-import type { IIndexFilter } from '../../../types/beatmap/v3/indexFilter.ts';
 import type { IWrapFxEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/fxEventBoxGroup.ts';
 import type {
    IEventBoxGroupContainer,
    IFxEventFloatBoxContainer,
 } from '../../../types/beatmap/container/v3.ts';
 import type { DeepRequiredIgnore } from '../../../types/utils.ts';
-import type { IFxEventFloat } from '../../../types/beatmap/v3/fxEventFloat.ts';
 import { FxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
@@ -26,7 +23,7 @@ export const fxEventBoxGroup: ISchemaContainer<
       'customData'
    >,
    serialize(
-      data: IWrapFxEventBoxGroupAttribute
+      data: IWrapFxEventBoxGroupAttribute,
    ): IEventBoxGroupContainer<IFxEventBox, IFxEventFloatBoxContainer> {
       return {
          object: {
@@ -36,26 +33,22 @@ export const fxEventBoxGroup: ISchemaContainer<
             e: [],
             customData: deepCopy(data.customData),
          },
-         boxData: this.boxes.map((e) => e.serialize()),
+         boxData: data.boxes.map(fxEventBox.serialize),
       };
    },
    deserialize(
       data: DeepPartial<
          IEventBoxGroupContainer<IFxEventBox, IFxEventFloatBoxContainer>
-      > = {}
+      > = {},
    ): DeepPartial<IWrapFxEventBoxGroupAttribute> {
       const d: DeepPartial<IWrapFxEventBoxGroupAttribute> = {};
-      d._time = data.b ?? this.defaultValue.object.b;
-      d._id = data.g ?? this.defaultValue.object.g;
-      if (data.e) {
-         d._boxes = data.e.map((obj) => FxEventBox.deserialize(obj, events));
-      } else {
-         d._boxes = this.defaultValue.boxData.map((obj) =>
-            FxEventBox.deserialize(obj.data, events ?? obj.eventData)
-         );
-      }
-      d._customData = deepCopy(
-         data.customData ?? this.defaultValue.object.customData
+      d.time = data.object?.b ?? this.defaultValue.object.b;
+      d.id = data.object?.g ?? this.defaultValue.object.g;
+      d.boxes = (data.boxData ?? this.defaultValue.boxData).map(
+         fxEventBox.deserialize,
+      );
+      d.customData = deepCopy(
+         data.object?.customData ?? this.defaultValue.object.customData,
       );
       return d;
    },

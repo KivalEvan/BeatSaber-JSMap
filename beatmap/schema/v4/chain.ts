@@ -60,7 +60,7 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
       };
    },
    deserialize(
-      data: Partial<IChainContainer> = {}
+      data: Partial<IChainContainer> = {},
    ): Partial<IWrapChainAttribute> {
       return {
          time: data.object?.hb ?? this.defaultValue.object.hb,
@@ -76,7 +76,7 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
          sliceCount: data.chainData?.c ?? this.defaultValue.chainData.c,
          squish: data.chainData?.s ?? this.defaultValue.chainData.s,
          customData: deepCopy(
-            data.chainData?.customData ?? this.defaultValue.chainData.customData
+            data.chainData?.customData ?? this.defaultValue.chainData.customData,
          ),
       };
    },

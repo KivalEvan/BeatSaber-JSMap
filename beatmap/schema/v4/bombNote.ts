@@ -37,7 +37,7 @@ export const bombNote: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<IBombNoteContainer> = {}
+      data: DeepPartial<IBombNoteContainer> = {},
    ): Partial<IWrapBombNoteAttribute> {
       return {
          time: data.object?.b ?? this.defaultValue.object.b,
@@ -45,7 +45,7 @@ export const bombNote: ISchemaContainer<
          posX: data.data?.x ?? this.defaultValue.data.x,
          posY: data.data?.y ?? this.defaultValue.data.y,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

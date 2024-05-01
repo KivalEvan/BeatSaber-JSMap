@@ -44,7 +44,7 @@ export const obstacle: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<IObstacleContainer> = {}
+      data: DeepPartial<IObstacleContainer> = {},
    ): Partial<IWrapObstacleAttribute> {
       return {
          time: data.object?.b ?? this.defaultValue.object.b,
@@ -55,7 +55,7 @@ export const obstacle: ISchemaContainer<
          width: data.data?.w ?? this.defaultValue.data.w,
          height: data.data?.h ?? this.defaultValue.data.h,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

@@ -23,14 +23,14 @@ export const rotationEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ISpawnRotationContainer> = {}
+      data: DeepPartial<ISpawnRotationContainer> = {},
    ): Partial<IWrapRotationEventAttribute> {
       return {
          time: data.object?.b ?? this.defaultValue.object.b,
          executionTime: data.data?.e ?? this.defaultValue.data.e,
          rotation: data.data?.r ?? this.defaultValue.data.r,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

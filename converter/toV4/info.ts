@@ -1,7 +1,4 @@
 import logger from '../../logger.ts';
-import { Info as V1Info } from '../../beatmap/schema/v1/schema/info.ts';
-import { Info as V2Info } from '../../beatmap/schema/v2/info.ts';
-import { Info as V4Info } from '../../beatmap/v4/info.ts';
 import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import { deepCopy, shallowCopy } from '../../utils/misc.ts';
 

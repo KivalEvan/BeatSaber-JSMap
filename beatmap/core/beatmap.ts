@@ -1,8 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import type {
-   IWrapEvent,
-   IWrapEventAttribute,
-} from '../../types/beatmap/wrapper/event.ts';
+import type { IWrapEvent, IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import type { IWrapEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
 import type {
    IWrapBombNote,
@@ -12,10 +9,7 @@ import type {
    IWrapBPMEvent,
    IWrapBPMEventAttribute,
 } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import type {
-   IWrapChain,
-   IWrapChainAttribute,
-} from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapChain, IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
 import type {
    IWrapColorBoostEvent,
    IWrapColorBoostEventAttribute,
@@ -44,20 +38,14 @@ import type {
    IWrapRotationEvent,
    IWrapRotationEventAttribute,
 } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import type {
-   IWrapArc,
-   IWrapArcAttribute,
-} from '../../types/beatmap/wrapper/arc.ts';
+import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import type {
    IWrapWaypoint,
    IWrapWaypointAttribute,
 } from '../../types/beatmap/wrapper/waypoint.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { BaseItem } from './abstract/baseItem.ts';
-import type {
-   IWrapBeatmap,
-   IWrapBeatmapAttribute,
-} from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmap, IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
 import type {
    IWrapFxEventBoxGroup,
    IWrapFxEventBoxGroupAttribute,
@@ -107,13 +95,13 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       super();
       this.data = new Difficulty(data.data ?? Beatmap.defaultValue.data);
       this.lightshow = new Lightshow(
-         data.lightshow ?? Beatmap.defaultValue.lightshow
+         data.lightshow ?? Beatmap.defaultValue.lightshow,
       );
       this.customData = deepCopy(
-         data.customData ?? Beatmap.defaultValue.customData
+         data.customData ?? Beatmap.defaultValue.customData,
       );
       this._deprData = deepCopy(
-         data._deprData ?? Beatmap.defaultValue._deprData
+         data._deprData ?? Beatmap.defaultValue._deprData,
       );
    }
    static fromJSON(data: Record<string, any>, version: number): Beatmap {
@@ -130,8 +118,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    } {
       return {
          data: Difficulty.schema[version || 0]?.serialize(this.data) || {},
-         lightshow:
-            Lightshow.schema[version || 0]?.serialize(this.lightshow) || {},
+         lightshow: Lightshow.schema[version || 0]?.serialize(this.lightshow) || {},
       };
    }
    toJSON(): IWrapBeatmapAttribute {
@@ -225,7 +212,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return this.lightshow.lightTranslationEventBoxGroups;
    }
    set lightTranslationEventBoxGroups(
-      value: this['lightTranslationEventBoxGroups']
+      value: this['lightTranslationEventBoxGroups'],
    ) {
       this.lightshow.lightTranslationEventBoxGroups = value;
    }
@@ -245,7 +232,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return this.lightshow.useNormalEventsAsCompatibleEvents;
    }
    set useNormalEventsAsCompatibleEvents(
-      value: this['useNormalEventsAsCompatibleEvents']
+      value: this['useNormalEventsAsCompatibleEvents'],
    ) {
       this.lightshow.useNormalEventsAsCompatibleEvents = value;
    }

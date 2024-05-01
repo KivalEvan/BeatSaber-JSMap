@@ -20,7 +20,7 @@ export const lightRotationEvent: ISchemaContainer<
       time: 0,
    } as DeepRequiredIgnore<ILightRotationEventContainer, 'customData'>,
    serialize(
-      data: IWrapLightRotationEventAttribute
+      data: IWrapLightRotationEventAttribute,
    ): ILightRotationEventContainer {
       return {
          data: {
@@ -35,7 +35,7 @@ export const lightRotationEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ILightRotationEventContainer> = {}
+      data: DeepPartial<ILightRotationEventContainer> = {},
    ): Partial<IWrapLightRotationEventAttribute> {
       return {
          time: data.time ?? this.defaultValue.time,
@@ -45,7 +45,7 @@ export const lightRotationEvent: ISchemaContainer<
          rotation: data.data?.r ?? this.defaultValue.data.r,
          direction: data.data?.d ?? this.defaultValue.data.d,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

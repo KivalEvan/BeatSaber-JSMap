@@ -32,13 +32,11 @@ export const audioData: ISchemaContainer<IWrapAudioAttribute, IAudio> = {
       };
    },
    deserialize(
-      data: DeepPartial<IAudio> = {}
+      data: DeepPartial<IAudio> = {},
    ): DeepPartial<IWrapAudioAttribute> {
       return {
-         audioChecksum:
-            data.songChecksum ?? audioData.defaultValue.songChecksum,
-         sampleCount:
-            data.songSampleCount ?? audioData.defaultValue.songSampleCount,
+         audioChecksum: data.songChecksum ?? audioData.defaultValue.songChecksum,
+         sampleCount: data.songSampleCount ?? audioData.defaultValue.songSampleCount,
          frequency: data.songFrequency ?? audioData.defaultValue.songFrequency,
          bpmData: (data.bpmData ?? audioData.defaultValue.bpmData).map(
             (bd) => ({
@@ -46,14 +44,14 @@ export const audioData: ISchemaContainer<IWrapAudioAttribute, IAudio> = {
                endBeat: bd?.eb || 0,
                startSampleIndex: bd?.si || 0,
                endSampleIndex: bd?.ei || 0,
-            })
+            }),
          ),
          lufsData: (data.lufsData ?? audioData.defaultValue.lufsData).map(
             (l) => ({
                lufs: l?.l || 0,
                startSampleIndex: l?.si || 0,
                endSampleIndex: l?.ei || 0,
-            })
+            }),
          ),
       };
    },

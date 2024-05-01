@@ -20,7 +20,7 @@ export const colorBoostEvent: ISchemaContainer<
       },
    } as DeepRequiredIgnore<IColorBoostEventContainer, 'customData'>,
    serialize(
-      data: IWrapColorBoostEventAttribute
+      data: IWrapColorBoostEventAttribute,
    ): Required<IColorBoostEventContainer> {
       return {
          object: {
@@ -35,13 +35,13 @@ export const colorBoostEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<IColorBoostEventContainer> = {}
+      data: Partial<IColorBoostEventContainer> = {},
    ): Partial<IWrapColorBoostEventAttribute> {
       return {
          time: data.object?.b ?? this.defaultValue.object.b,
          toggle: !!(data.data?.b ?? this.defaultValue.data.b),
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData
+            data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
    },

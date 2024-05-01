@@ -22,7 +22,7 @@ export const rotationEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<IRotationEvent> = {}
+      data: Partial<IRotationEvent> = {},
    ): Partial<IWrapRotationEventAttribute> {
       return {
          time: data.b ?? this.defaultValue.b,

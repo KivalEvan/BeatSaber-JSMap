@@ -35,7 +35,7 @@ export const lightColorEventBox: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ILightColorEventBox> = {}
+      data: DeepPartial<ILightColorEventBox> = {},
    ): DeepPartial<IWrapLightColorEventBoxAttribute> {
       return {
          filter: indexFilter.deserialize(data.f ?? this.defaultValue.f),
@@ -46,7 +46,7 @@ export const lightColorEventBox: ISchemaContainer<
          affectFirst: data.b ?? this.defaultValue.b,
          easing: data.i ?? this.defaultValue.i,
          events: (data.e ?? this.defaultValue.e).map(
-            lightColorEvent.deserialize
+            lightColorEvent.deserialize,
          ),
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };

@@ -24,7 +24,7 @@ export const lightRotationEventBox: ISchemaContainer<
       customData: {},
    } as Required<ILightRotationEventBox>,
    serialize(
-      data: IWrapLightRotationEventBoxAttribute
+      data: IWrapLightRotationEventBoxAttribute,
    ): ILightRotationEventBox {
       return {
          f: indexFilter.serialize(data.filter),
@@ -41,7 +41,7 @@ export const lightRotationEventBox: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<ILightRotationEventBox> = {}
+      data: DeepPartial<ILightRotationEventBox> = {},
    ): DeepPartial<IWrapLightRotationEventBoxAttribute> {
       return {
          filter: indexFilter.deserialize(data.f ?? this.defaultValue.f),
@@ -54,7 +54,7 @@ export const lightRotationEventBox: ISchemaContainer<
          affectFirst: data.b ?? this.defaultValue.b,
          easing: data.i ?? this.defaultValue.i,
          events: (data.l ?? this.defaultValue.l).map(
-            lightRotationEvent.deserialize
+            lightRotationEvent.deserialize,
          ),
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };

@@ -12,7 +12,7 @@ export const eventTypesForKeywords: ISchemaContainer<
       e: [],
    } as Required<IBasicEventTypesForKeywords>,
    serialize(
-      data: IWrapEventTypesForKeywordsAttribute
+      data: IWrapEventTypesForKeywordsAttribute,
    ): IBasicEventTypesForKeywords {
       return {
          k: data.keyword,
@@ -20,7 +20,7 @@ export const eventTypesForKeywords: ISchemaContainer<
       };
    },
    deserialize(
-      data: DeepPartial<IBasicEventTypesForKeywords> = {}
+      data: DeepPartial<IBasicEventTypesForKeywords> = {},
    ): DeepPartial<IWrapEventTypesForKeywordsAttribute> {
       return {
          keyword: data.k ?? this.defaultValue.k,

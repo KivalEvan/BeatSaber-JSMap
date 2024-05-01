@@ -34,7 +34,7 @@ export const indexFilter: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<IIndexFilter> = {}
+      data: Partial<IIndexFilter> = {},
    ): Partial<IWrapIndexFilterAttribute> {
       return {
          type: data.f ?? this.defaultValue.f,
