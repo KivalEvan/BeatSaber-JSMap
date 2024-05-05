@@ -1,2 +1,1 @@
-export * from './difficulty.ts';
-export * from './lightshow.ts';
+export * from './beatmap.ts';

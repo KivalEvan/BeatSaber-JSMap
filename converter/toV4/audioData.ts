@@ -5,24 +5,21 @@ function tag(name: string): string[] {
    return ['convert', 'toV4Audio', name];
 }
 
-export function toV4Audio(data: IWrapAudio): V4AudioData {
+export function toV4Audio(data: IWrapAudio, fromVersion: number): IWrapAudio {
    logger.tWarn(tag('main'), 'Converting to beatmap v4 may lose certain data!');
 
-   let template = new V4AudioData();
-   switch (true) {
-      case data instanceof V2AudioData:
-         template = new V4AudioData(data);
-         break;
-      case data instanceof V4AudioData:
-         template = new V4AudioData(data);
+   switch (fromVersion) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
          break;
       default:
          logger.tWarn(
             tag('main'),
-            'Unknown beatmap data, returning empty template',
+            'Unknown version: version not supported; misinput? Returning cloned original data.',
          );
    }
-   template.filename = data.filename;
 
-   return template;
+   return data;
 }

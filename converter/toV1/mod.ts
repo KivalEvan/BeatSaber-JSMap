@@ -1,2 +1,2 @@
-export * from './difficulty.ts';
+export * from './beatmap.ts';
 export * from './info.ts';

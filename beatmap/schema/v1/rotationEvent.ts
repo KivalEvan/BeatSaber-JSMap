@@ -1,6 +1,8 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IEvent } from '../../../types/beatmap/v1/event.ts';
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
+import { clamp } from '../../../utils/math.ts';
+import { EventLaneRotationValue } from '../../shared/constants.ts';
 
 export const rotationEvent: ISchemaContainer<
    IWrapRotationEventAttribute,
@@ -16,16 +18,22 @@ export const rotationEvent: ISchemaContainer<
       return {
          _time: data.time,
          _type: data.executionTime === 1 ? 15 : 14,
-         _value: data.rotation,
+         _value: Math.floor((clamp(data.rotation, -60, 60) + 60) / 15) < 6
+            ? Math.max(
+               Math.floor((clamp(data.rotation, -60, 60) + 60) / 15),
+               3,
+            )
+            : Math.floor((clamp(data.rotation, -60, 60) + 60) / 15) - 2,
       };
    },
    deserialize(
       data: Partial<IEvent> = {},
    ): Partial<IWrapRotationEventAttribute> {
+      const value = data._value ?? this.defaultValue._value;
       return {
          time: data._time ?? this.defaultValue._time,
-         executionTime: (data._type ?? this.defaultValue._type) === 15 ? 1 : 0,
-         rotation: data._value ?? this.defaultValue._value,
+         executionTime: data._type === 14 ? 0 : 1,
+         rotation: value >= 1000 ? (value - 1360) % 360 : EventLaneRotationValue[value] ?? 0,
       };
    },
    isValid(_: IWrapRotationEventAttribute): boolean {
