@@ -134,10 +134,10 @@ try {
       }
    }
    if (V3light! && !V2light!) {
-      V2light = convert.toV2Difficulty(V3light);
+      V2light = convert.toV2Beatmap(V3light);
    }
    if (V2light! && !V3light!) {
-      V3light = convert.toV3Difficulty(V2light);
+      V3light = convert.toV3Beatmap(V2light);
    }
 
    if (

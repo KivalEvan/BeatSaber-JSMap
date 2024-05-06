@@ -13,13 +13,13 @@ import { copySync } from 'https://deno.land/std@0.192.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.192.0/flags/mod.ts';
 import { customDataUpdate, dataCorrection, removeOutsidePlayable } from '../patch/mod.ts';
 import {
-   BeatPerMinute,
    convert,
    globals,
    load,
    logger,
    mmssToFloat,
    save,
+   TimeProcessor,
    toMmss,
    types,
    v3,
@@ -125,7 +125,7 @@ try {
       logger.info('Skipping beyond end audio duration check...');
    }
 
-   const bpm = info?.beatsPerMinute ? BeatPerMinute.create(info.beatsPerMinute) : null;
+   const bpm = info?.beatsPerMinute ? TimeProcessor.create(info.beatsPerMinute) : null;
 
    let oldChromaConvert = false;
    let oldChromaConfirm = false;

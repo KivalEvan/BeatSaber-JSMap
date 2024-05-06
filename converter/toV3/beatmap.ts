@@ -7,9 +7,9 @@ import objectToV3 from '../customData/objectToV3.ts';
 import eventToV3 from '../customData/eventToV3.ts';
 import { isVector3, vectorMul } from '../../utils/vector.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
-import { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
-import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
-import { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV3Beatmap', name];

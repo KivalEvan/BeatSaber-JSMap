@@ -143,7 +143,7 @@ try {
                }
             }
             logger.info('Converting beatmap to v3');
-            save.difficultySync(convert.toV3Difficulty(diff));
+            save.difficultySync(convert.toV3Beatmap(diff));
             isConverted = true;
          }
       }
@@ -175,7 +175,7 @@ try {
             }
          }
          if (!skipped) {
-            diff = convert.toV2Difficulty(
+            diff = convert.toV2Beatmap(
                beatmapParser.v1Difficulty(diffJSON).setFileName(diffFilePath),
             );
             if (diff.basicEvents.some((e) => e.isOldChroma())) {
@@ -197,7 +197,7 @@ try {
                }
             }
             logger.info('Converting beatmap to v3');
-            save.difficultySync(convert.toV3Difficulty(diff));
+            save.difficultySync(convert.toV3Beatmap(diff));
             isConverted = true;
          }
       }
@@ -238,7 +238,7 @@ try {
                }
             }
             if (isV1(dl.data)) {
-               dl.data = convert.toV2Difficulty(dl.data);
+               dl.data = convert.toV2Beatmap(dl.data);
             }
             if (dl.data.basicEvents.some((e) => e.isOldChroma())) {
                if (!oldChromaConfirm) {
@@ -271,7 +271,7 @@ try {
                }
             }
             logger.info('Converting beatmap', dl.characteristic, dl.difficulty, 'to v3');
-            dl.data = convert.toV3Difficulty(dl.data);
+            dl.data = convert.toV3Beatmap(dl.data);
             save.difficultySync(dl.data);
             isConverted = true;
          }

@@ -12,7 +12,6 @@
 import { copySync } from 'https://deno.land/std@0.192.0/fs/mod.ts';
 import { parse } from 'https://deno.land/std@0.192.0/flags/mod.ts';
 import {
-   BeatPerMinute,
    clamp,
    convert,
    globals,
@@ -22,6 +21,7 @@ import {
    logger,
    normalize,
    save,
+   TimeProcessor,
    types,
 } from '../mod.ts';
 
@@ -81,7 +81,7 @@ try {
       info = load.infoSync(null, { filePath: 'info.dat' });
    }
 
-   const bpm = BeatPerMinute.create(info.beatsPerMinute);
+   const bpm = TimeProcessor.create(info.beatsPerMinute);
 
    const diffList = load.difficultyFromInfoSync(info);
 
@@ -152,7 +152,7 @@ try {
          bpm.timescale = dl.data.bpmEvents.map((bpme) => bpme.toJSON());
 
          logger.info('Temporarily converting beatmap v2 copy', dl.characteristic, dl.difficulty);
-         const temp = convert.toV2Difficulty(dl.data);
+         const temp = convert.toV2Beatmap(dl.data);
          if (temp.basicEvents.some((e) => e.isOldChroma())) {
             if (!oldChromaConfirm) {
                const confirmation = args.y ? 'n' : prompt(
@@ -189,7 +189,7 @@ try {
             dl.characteristic,
             dl.difficulty,
          );
-         const temp2 = convert.toV3Difficulty(temp);
+         const temp2 = convert.toV3Beatmap(temp);
 
          logger.info(
             'Re-inserting events from temporary beatmap',
