@@ -54,7 +54,7 @@ function _audioData(
    if (jsonVerStr) {
       jsonVer = parseInt(jsonVerStr);
    } else {
-      jsonVer = json.songName ? 1 : 2;
+      jsonVer = 2;
       logger.tWarn(
          tag('_audioData'),
          'Could not identify audio version from JSON, assume implicit version',
@@ -108,16 +108,6 @@ function _audioData(
  */
 export function audioData(
    filePath: LooseAutocomplete<'Audio.dat' | 'BPMInfo.dat'>,
-   version?: 2,
-   options?: ILoadOptionsAudioData,
-): Promise<V2Audio>;
-export function audioData(
-   filePath: LooseAutocomplete<'Audio.dat' | 'BPMInfo.dat'>,
-   version?: 4,
-   options?: ILoadOptionsAudioData,
-): Promise<V4Audio>;
-export function audioData(
-   filePath: LooseAutocomplete<'Audio.dat' | 'BPMInfo.dat'>,
    version?: number,
    options?: ILoadOptionsAudioData,
 ): Promise<IWrapAudio>;
@@ -144,16 +134,6 @@ export function audioData(
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export function audioDataSync(
-   filePath: LooseAutocomplete<'Audio.dat' | 'BPMInfo.dat'>,
-   version?: 2,
-   options?: ILoadOptionsAudioData,
-): V2Audio;
-export function audioDataSync(
-   filePath: LooseAutocomplete<'Audio.dat' | 'BPMInfo.dat'>,
-   version?: 4,
-   options?: ILoadOptionsAudioData,
-): V4Audio;
 export function audioDataSync(
    filePath: LooseAutocomplete<'Audio.dat' | 'BPMInfo.dat'>,
    version?: number,

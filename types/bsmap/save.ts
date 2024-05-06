@@ -1,9 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IDataCheckOption } from '../beatmap/shared/dataCheck.ts';
 import type { IWrapAudio } from '../beatmap/wrapper/audioData.ts';
-import type { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
+import type { IWrapBeatmap } from '../beatmap/wrapper/beatmap.ts';
 import type { IWrapInfo } from '../beatmap/wrapper/info.ts';
-import type { IWrapLightshow } from '../beatmap/wrapper/lightshow.ts';
 import type { IOptimizeOptionsAudioData, IOptimizeOptionsDifficulty } from './optimize.ts';
 import type { IOptimizeOptionsInfo } from './optimize.ts';
 import type { IOptimizeOptionsLightshow } from './optimize.ts';
@@ -78,7 +77,7 @@ export interface ISaveOptionsInfo extends ISaveOptionsBase<IWrapInfo> {
    optimize?: IOptimizeOptionsInfo;
 }
 
-export interface ISaveOptionsDifficulty extends ISaveOptionsBase<IWrapDifficulty> {
+export interface ISaveOptionsDifficulty extends ISaveOptionsBase<IWrapBeatmap> {
    /**
     * Set difficulty destination file path.
     *
@@ -90,7 +89,7 @@ export interface ISaveOptionsDifficulty extends ISaveOptionsBase<IWrapDifficulty
    optimize?: IOptimizeOptionsDifficulty;
 }
 
-export interface ISaveOptionsLightshow extends ISaveOptionsBase<IWrapLightshow> {
+export interface ISaveOptionsLightshow extends ISaveOptionsBase<IWrapBeatmap> {
    /**
     * Set difficulty destination file path.
     *

@@ -113,9 +113,6 @@ export function info(
    version?: null,
    options?: ILoadOptionsInfo,
 ): Promise<IWrapInfo>;
-export function info(version: 4, options?: ILoadOptionsInfo): Promise<V4Info>;
-export function info(version: 2, options?: ILoadOptionsInfo): Promise<V2Info>;
-export function info(version: 1, options?: ILoadOptionsInfo): Promise<V1Info>;
 export function info(version?: number | null, options: ILoadOptionsInfo = {}) {
    logger.tInfo(tag('info'), 'Async loading info');
    const filePath = options.filePath ?? defaultOptions.info.filePath;
@@ -136,9 +133,6 @@ export function info(version?: number | null, options: ILoadOptionsInfo = {}) {
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function infoSync(version?: null, options?: ILoadOptionsInfo): IWrapInfo;
-export function infoSync(version: 4, options?: ILoadOptionsInfo): V4Info;
-export function infoSync(version: 2, options?: ILoadOptionsInfo): V2Info;
-export function infoSync(version: 1, options?: ILoadOptionsInfo): V1Info;
 export function infoSync(
    version?: number | null,
    options: ILoadOptionsInfo = {},

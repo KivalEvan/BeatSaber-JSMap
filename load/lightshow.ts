@@ -5,9 +5,7 @@ import logger from '../logger.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
 import type { ILoadOptionsLightshow } from '../types/bsmap/load.ts';
 import { resolve } from '../deps.ts';
-import { toV3Lightshow } from '../converter/toV3/lightshow.ts';
-import { toV4Lightshow } from '../converter/toV4/lightshow.ts';
-import type { IWrapLightshow } from '../types/beatmap/wrapper/lightshow.ts';
+import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 import { readJSONFile, readJSONFileSync } from '../utils/_fs.ts';
 import { defaultOptions } from './options.ts';
 
@@ -29,7 +27,7 @@ function _lightshow(
    filePath: string,
    targetVer: number | null | undefined,
    options: ILoadOptionsLightshow,
-): IWrapLightshow {
+): IWrapBeatmap {
    const opt: Required<ILoadOptionsLightshow> = {
       directory: '',
       forceConvert: options.forceConvert ?? defaultOptions.lightshow.forceConvert,
@@ -66,7 +64,7 @@ function _lightshow(
       jsonVer = 3;
    }
 
-   let data: IWrapLightshow;
+   let data: IWrapBeatmap;
    const parser = parseMap[jsonVer];
    if (parser) data = parser(json, opt.dataCheck).setFilename(filePath);
    else {
@@ -117,32 +115,12 @@ export function lightshow(
    filePath: LooseAutocomplete<GenericFilename>,
    version?: null,
    options?: ILoadOptionsLightshow,
-): Promise<IWrapLightshow>;
-export function lightshow(
-   filePath: LooseAutocomplete<GenericFilename>,
-   version: 4,
-   options?: ILoadOptionsLightshow,
-): Promise<V4Lightshow>;
-export function lightshow(
-   filePath: LooseAutocomplete<GenericFilename>,
-   version: 3,
-   options?: ILoadOptionsLightshow,
-): Promise<V3Lightshow>;
+): Promise<IWrapBeatmap>;
 export function lightshow(
    filePath: Record<string, unknown>,
    version?: null,
    options?: ILoadOptionsLightshow,
-): Promise<IWrapLightshow>;
-export function lightshow(
-   filePath: Record<string, unknown>,
-   version: 4,
-   options?: ILoadOptionsLightshow,
-): Promise<V4Lightshow>;
-export function lightshow(
-   filePath: Record<string, unknown>,
-   version: 3,
-   options?: ILoadOptionsLightshow,
-): Promise<V3Lightshow>;
+): Promise<IWrapBeatmap>;
 export function lightshow(
    src: LooseAutocomplete<GenericFilename> | Record<string, unknown>,
    version?: number | null,
@@ -157,7 +135,7 @@ export function lightshow(
       );
       return readJSONFile(path).then((data) => _lightshow(data, src, version!, options));
    } else {
-      return new Promise<IWrapLightshow>((resolve) =>
+      return new Promise<IWrapBeatmap>((resolve) =>
          resolve(_lightshow(src, 'LoadJSON.dat', version!, options))
       );
    }
@@ -176,32 +154,12 @@ export function lightshowSync(
    filePath: LooseAutocomplete<GenericFilename>,
    version?: null,
    options?: ILoadOptionsLightshow,
-): IWrapLightshow;
-export function lightshowSync(
-   filePath: LooseAutocomplete<GenericFilename>,
-   version: 4,
-   options?: ILoadOptionsLightshow,
-): V4Lightshow;
-export function lightshowSync(
-   filePath: LooseAutocomplete<GenericFilename>,
-   version: 3,
-   options?: ILoadOptionsLightshow,
-): V3Lightshow;
+): IWrapBeatmap;
 export function lightshowSync(
    json: Record<string, unknown>,
    version?: null,
    options?: ILoadOptionsLightshow,
-): IWrapLightshow;
-export function lightshowSync(
-   json: Record<string, unknown>,
-   version: 4,
-   options?: ILoadOptionsLightshow,
-): V4Lightshow;
-export function lightshowSync(
-   json: Record<string, unknown>,
-   version: 3,
-   options?: ILoadOptionsLightshow,
-): V3Lightshow;
+): IWrapBeatmap;
 export function lightshowSync(
    src: LooseAutocomplete<GenericFilename> | Record<string, unknown>,
    version?: number | null,

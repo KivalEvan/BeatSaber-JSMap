@@ -6,9 +6,6 @@ import { deepCheck } from '../beatmap/shared/dataCheck.ts';
 import { InfoDataCheck as V1InfoCheck } from '../beatmap/schema/v1/dataCheck.ts';
 import { InfoDataCheck as V2InfoCheck } from '../beatmap/schema/v2/dataCheck.ts';
 import { InfoDataCheck as V4InfoCheck } from '../beatmap/schema/v4/dataCheck.ts';
-import type { IInfo as IV1Info } from '../types/beatmap/v1/info.ts';
-import type { IInfo as IV2Info } from '../types/beatmap/v2/info.ts';
-import type { IInfo as IV4Info } from '../types/beatmap/v4/info.ts';
 import type { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
 import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../utils/_fs.ts';
@@ -89,9 +86,6 @@ function _info(data: IWrapInfo, options: ISaveOptionsInfo) {
  * await save.info(info);
  * ```
  */
-export function info(data: V1Info, options?: ISaveOptionsInfo): Promise<IV1Info>;
-export function info(data: V2Info, options?: ISaveOptionsInfo): Promise<IV2Info>;
-export function info(data: V4Info, options?: ISaveOptionsInfo): Promise<IV4Info>;
 export function info(
    data: IWrapInfo,
    options?: ISaveOptionsInfo,
@@ -121,9 +115,6 @@ export function info(data: IWrapInfo, options: ISaveOptionsInfo = {}) {
  * save.infoSync(info);
  * ```
  */
-export function infoSync(data: V1Info, options?: ISaveOptionsInfo): IV1Info;
-export function infoSync(data: V2Info, options?: ISaveOptionsInfo): IV2Info;
-export function infoSync(data: V4Info, options?: ISaveOptionsInfo): IV4Info;
 export function infoSync(
    data: IWrapInfo,
    options?: ISaveOptionsInfo,

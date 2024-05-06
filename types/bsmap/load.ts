@@ -1,9 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IDataCheckOption } from '../beatmap/shared/dataCheck.ts';
 import type { IWrapAudio } from '../beatmap/wrapper/audioData.ts';
-import type { IWrapDifficulty } from '../beatmap/wrapper/difficulty.ts';
+import type { IWrapBeatmap } from '../beatmap/wrapper/beatmap.ts';
 import type { IWrapInfo } from '../beatmap/wrapper/info.ts';
-import type { IWrapLightshow } from '../beatmap/wrapper/lightshow.ts';
 import type { IBaseOptions } from './options.ts';
 
 export interface ILoadOptionsBase<T = Record<string, any>> extends IBaseOptions {
@@ -33,9 +32,9 @@ export interface ILoadOptionsBase<T = Record<string, any>> extends IBaseOptions 
    postprocess?: ((data: T) => T)[];
 }
 
-export interface ILoadOptionsDifficulty extends ILoadOptionsBase<IWrapDifficulty> {}
+export interface ILoadOptionsDifficulty extends ILoadOptionsBase<IWrapBeatmap> {}
 
-export interface ILoadOptionsLightshow extends ILoadOptionsBase<IWrapLightshow> {}
+export interface ILoadOptionsLightshow extends ILoadOptionsBase<IWrapBeatmap> {}
 
 export interface ILoadOptionsInfo extends ILoadOptionsBase<IWrapInfo> {
    /**

@@ -2,25 +2,14 @@ import type { ISaveOptionsAudioData } from '../types/bsmap/save.ts';
 import * as optimize from '../optimize/mod.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
-import { deepCheck } from '../beatmap/shared/dataCheck.ts';
-import { BPMInfoDataCheck as V2AudioCheck } from '../beatmap/schema/v2/dataCheck.ts';
-import { AudioDataCheck as V4AudioCheck } from '../beatmap/schema/v4/dataCheck.ts';
-import type { IBPMInfo as IV2Audio } from '../types/beatmap/v2/bpmInfo.ts';
-import type { IAudio as IV4Audio } from '../types/beatmap/v4/audioData.ts';
 import type { IWrapAudio } from '../types/beatmap/wrapper/audioData.ts';
 import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../utils/_fs.ts';
 import { defaultOptions } from './options.ts';
-import type { DataCheck } from '../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
    return ['save', name];
 }
-
-const dataCheckMap: Record<number, Record<string, DataCheck>> = {
-   2: V2AudioCheck,
-   4: V4AudioCheck,
-};
 
 function _audioData(data: IWrapAudio, options: ISaveOptionsAudioData) {
    const opt: Required<ISaveOptionsAudioData> = {
@@ -60,14 +49,7 @@ function _audioData(data: IWrapAudio, options: ISaveOptionsAudioData) {
 
    if (opt.dataCheck.enabled) {
       logger.tInfo(tag('_audioData'), 'Checking audio data value');
-      const dataCheck = dataCheckMap[ver] ?? {};
-      deepCheck(
-         json,
-         dataCheck,
-         'audio',
-         data.version,
-         opt.dataCheck.throwError,
-      );
+      validateAudioData(json, ver, opt.dataCheck);
    }
 
    opt.postprocess.forEach((fn, i) => {
@@ -86,8 +68,6 @@ function _audioData(data: IWrapAudio, options: ISaveOptionsAudioData) {
  * await save.audioData(audio);
  * ```
  */
-export function audioData(data: V2Audio, options?: ISaveOptionsAudioData): Promise<IV2Audio>;
-export function audioData(data: V4Audio, options?: ISaveOptionsAudioData): Promise<IV4Audio>;
 export function audioData(
    data: IWrapAudio,
    options?: ISaveOptionsAudioData,
@@ -117,8 +97,6 @@ export function audioData(data: IWrapAudio, options: ISaveOptionsAudioData = {})
  * save.audioDataSync(audio);
  * ```
  */
-export function audioDataSync(data: V2Audio, options?: ISaveOptionsAudioData): IV2Audio;
-export function audioDataSync(data: V4Audio, options?: ISaveOptionsAudioData): IV4Audio;
 export function audioDataSync(
    data: IWrapAudio,
    options?: ISaveOptionsAudioData,

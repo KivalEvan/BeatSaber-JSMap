@@ -5,9 +5,7 @@ import logger from '../logger.ts';
 import { deepCheck } from '../beatmap/shared/dataCheck.ts';
 import { LightshowDataCheck as V3LightshowCheck } from '../beatmap/schema/v3/dataCheck.ts';
 import { LightshowDataCheck as V4LightshowCheck } from '../beatmap/schema/v4/dataCheck.ts';
-import type { ILightshow as IV3Lightshow } from '../types/beatmap/v3/lightshow.ts';
-import type { ILightshow as IV4Lightshow } from '../types/beatmap/v4/lightshow.ts';
-import type { IWrapLightshow } from '../types/beatmap/wrapper/lightshow.ts';
+import type { IWrapBeatmap } from '../types/beatmap/wrapper/lightshow.ts';
 import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../utils/_fs.ts';
 import { defaultOptions } from './options.ts';
@@ -22,7 +20,7 @@ const dataCheckMap: Record<number, Record<string, DataCheck>> = {
    4: V4LightshowCheck,
 };
 
-function _lightshow(data: IWrapLightshow, options: ISaveOptionsLightshow) {
+function _lightshow(data: IWrapBeatmap, options: ISaveOptionsLightshow) {
    const opt: Required<ISaveOptionsLightshow> = {
       directory: '',
       filePath: '',
@@ -104,20 +102,12 @@ function _lightshow(data: IWrapLightshow, options: ISaveOptionsLightshow) {
  * ```
  */
 export function lightshow(
-   data: V3Lightshow,
-   options?: ISaveOptionsLightshow,
-): Promise<IV3Lightshow>;
-export function lightshow(
-   data: V4Lightshow,
-   options?: ISaveOptionsLightshow,
-): Promise<IV4Lightshow>;
-export function lightshow(
-   data: IWrapLightshow,
+   data: IWrapBeatmap,
    options?: ISaveOptionsLightshow,
    // deno-lint-ignore no-explicit-any
 ): Promise<Record<string, any>>;
 export function lightshow(
-   data: IWrapLightshow,
+   data: IWrapBeatmap,
    options: ISaveOptionsLightshow = {},
 ) {
    logger.tInfo(tag('lightshow'), 'Async saving lightshow');
@@ -146,20 +136,12 @@ export function lightshow(
  * ```
  */
 export function lightshowSync(
-   data: V3Lightshow,
-   options?: ISaveOptionsLightshow,
-): IV3Lightshow;
-export function lightshowSync(
-   data: V4Lightshow,
-   options?: ISaveOptionsLightshow,
-): IV4Lightshow;
-export function lightshowSync(
-   data: IWrapLightshow,
+   data: IWrapBeatmap,
    options?: ISaveOptionsLightshow,
    // deno-lint-ignore no-explicit-any
 ): Record<string, any>;
 export function lightshowSync(
-   data: IWrapLightshow,
+   data: IWrapBeatmap,
    options: ISaveOptionsLightshow = {},
 ) {
    logger.tInfo(tag('lightshowSync'), 'Sync saving lightshow');

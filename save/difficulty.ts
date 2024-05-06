@@ -4,15 +4,11 @@ import * as optimize from '../optimize/mod.ts';
 import globals from '../globals.ts';
 import logger from '../logger.ts';
 import { deepCheck } from '../beatmap/shared/dataCheck.ts';
-import { DifficultyDataCheck as V1DifficultyCheck } from '../beatmap/schema/v1/dataCheck.ts';
-import { DifficultyDataCheck as V2DifficultyCheck } from '../beatmap/schema/v2/dataCheck.ts';
-import { DifficultyDataCheck as V3DifficultyCheck } from '../beatmap/schema/v3/dataCheck.ts';
-import { DifficultyDataCheck as V4DifficultyCheck } from '../beatmap/schema/v4/dataCheck.ts';
-import type { IDifficulty as IV1Difficulty } from '../types/beatmap/v1/difficulty.ts';
-import type { IDifficulty as IV2Difficulty } from '../types/beatmap/v2/difficulty.ts';
-import type { IDifficulty as IV3Difficulty } from '../types/beatmap/v3/difficulty.ts';
-import type { IDifficulty as IV4Difficulty } from '../types/beatmap/v4/difficulty.ts';
-import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { DifficultyDataCheck as V1DifficultyCheck } from '../beatmap/schema/v1/dataCheck.ts';
+import type { DifficultyDataCheck as V2DifficultyCheck } from '../beatmap/schema/v2/dataCheck.ts';
+import type { DifficultyDataCheck as V3DifficultyCheck } from '../beatmap/schema/v3/dataCheck.ts';
+import type { DifficultyDataCheck as V4DifficultyCheck } from '../beatmap/schema/v4/dataCheck.ts';
+import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../utils/_fs.ts';
 import { defaultOptions } from './options.ts';
@@ -22,15 +18,8 @@ function tag(name: string): string[] {
    return ['save', name];
 }
 
-const dataCheckMap: Record<number, Record<string, DataCheck>> = {
-   1: V1DifficultyCheck,
-   2: V2DifficultyCheck,
-   3: V3DifficultyCheck,
-   4: V4DifficultyCheck,
-};
-
 export function _difficulty(
-   data: IWrapDifficulty,
+   data: IWrapBeatmap,
    options: ISaveOptionsDifficulty,
 ): Record<string, any> {
    const opt: Required<ISaveOptionsDifficulty> = {
@@ -114,27 +103,11 @@ export function _difficulty(
  * ```
  */
 export function difficulty(
-   data: V1Difficulty,
-   options?: ISaveOptionsDifficulty,
-): Promise<IV1Difficulty>;
-export function difficulty(
-   data: V2Difficulty,
-   options?: ISaveOptionsDifficulty,
-): Promise<IV2Difficulty>;
-export function difficulty(
-   data: V3Difficulty,
-   options?: ISaveOptionsDifficulty,
-): Promise<IV3Difficulty>;
-export function difficulty(
-   data: V4Difficulty,
-   options?: ISaveOptionsDifficulty,
-): Promise<IV4Difficulty>;
-export function difficulty(
-   data: IWrapDifficulty,
+   data: IWrapBeatmap,
    options?: ISaveOptionsDifficulty,
 ): Promise<Record<string, any>>;
 export function difficulty(
-   data: IWrapDifficulty,
+   data: IWrapBeatmap,
    options: ISaveOptionsDifficulty = {},
 ) {
    logger.tInfo(tag('difficulty'), 'Async saving difficulty');
@@ -163,27 +136,11 @@ export function difficulty(
  * ```
  */
 export function difficultySync(
-   data: V1Difficulty,
-   options?: ISaveOptionsDifficulty,
-): IV1Difficulty;
-export function difficultySync(
-   data: V2Difficulty,
-   options?: ISaveOptionsDifficulty,
-): IV2Difficulty;
-export function difficultySync(
-   data: V3Difficulty,
-   options?: ISaveOptionsDifficulty,
-): IV3Difficulty;
-export function difficultySync(
-   data: V4Difficulty,
-   options?: ISaveOptionsDifficulty,
-): IV4Difficulty;
-export function difficultySync(
-   data: IWrapDifficulty,
+   data: IWrapBeatmap,
    options?: ISaveOptionsDifficulty,
 ): Record<string, any>;
 export function difficultySync(
-   data: IWrapDifficulty,
+   data: IWrapBeatmap,
    options: ISaveOptionsDifficulty = {},
 ) {
    logger.tInfo(tag('difficultySync'), 'Sync saving difficulty');

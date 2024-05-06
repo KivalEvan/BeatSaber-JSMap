@@ -5,13 +5,14 @@ import logger from '../logger.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
 import type { ILoadOptionsDifficulty } from '../types/bsmap/load.ts';
 import { resolve } from '../deps.ts';
-import { toV1Difficulty } from '../converter/toV1/difficulty.ts';
-import { toV2Difficulty } from '../converter/toV2/difficulty.ts';
-import { toV3Difficulty } from '../converter/toV3/difficulty.ts';
-import { toV4Difficulty } from '../converter/toV4/difficulty.ts';
-import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import { toV1Beatmap } from '../converter/toV1/beatmap.ts';
+import { toV2Beatmap } from '../converter/toV2/beatmap.ts';
+import { toV3Beatmap } from '../converter/toV3/beatmap.ts';
+import { toV4Beatmap } from '../converter/toV4/beatmap.ts';
+import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 import { defaultOptions } from './options.ts';
 import { readJSONFile, readJSONFileSync } from '../utils/_fs.ts';
+import { retrieveVersion } from '../beatmap/shared/version.ts';
 
 function tag(name: string): string[] {
    return ['load', name];
@@ -24,21 +25,18 @@ const parseMap: Record<number, any> = {
    4: parseV4Difficulty,
 } as const;
 const convertMap: Record<number, any> = {
-   1: toV1Difficulty,
-   2: toV2Difficulty,
-   3: toV3Difficulty,
-   4: toV4Difficulty,
+   1: toV1Beatmap,
+   2: toV2Beatmap,
+   3: toV3Beatmap,
+   4: toV4Beatmap,
 } as const;
-
-const dummyInfo = new Info();
-const dummyInfoDiff = new InfoDifficulty();
 
 export function _difficulty(
    json: Record<string, unknown>,
    filePath: string,
    targetVer: number | null | undefined,
    options: ILoadOptionsDifficulty,
-): IWrapDifficulty {
+): IWrapBeatmap {
    const opt: Required<ILoadOptionsDifficulty> = {
       directory: '',
       forceConvert: options.forceConvert ?? defaultOptions.difficulty.forceConvert,
@@ -58,11 +56,7 @@ export function _difficulty(
       json = fn(json);
    });
 
-   const jsonVerStr = typeof json._version === 'string'
-      ? json._version.at(0)
-      : typeof json.version === 'string'
-      ? json.version.at(0)
-      : null;
+   const jsonVerStr = retrieveVersion(json)?.at(0);
    let jsonVer: number;
    if (jsonVerStr) {
       jsonVer = parseInt(jsonVerStr);
@@ -75,7 +69,7 @@ export function _difficulty(
       jsonVer = 2;
    }
 
-   let data: IWrapDifficulty;
+   let data: IWrapBeatmap;
    const parser = parseMap[jsonVer];
    if (parser) data = parser(json, opt.dataCheck).setFilename(filePath);
    else {
@@ -99,8 +93,7 @@ export function _difficulty(
          'for version; Converting to beatmap version',
          targetVer,
       );
-      dummyInfoDiff.filename = filePath;
-      data = convertMap[targetVer](data, dummyInfo, dummyInfoDiff);
+      data = convertMap[targetVer](data, targetVer);
    }
 
    if (opt.sort) data.sort();
@@ -127,12 +120,12 @@ export function difficulty(
    filePath: LooseAutocomplete<GenericFilename>,
    version?: null,
    options?: ILoadOptionsDifficulty,
-): Promise<IWrapDifficulty>;
+): Promise<IWrapBeatmap>;
 export function difficulty(
    filePath: Record<string, unknown>,
    version?: null,
    options?: ILoadOptionsDifficulty,
-): Promise<IWrapDifficulty>;
+): Promise<IWrapBeatmap>;
 export function difficulty(
    src: LooseAutocomplete<GenericFilename> | Record<string, unknown>,
    version?: number | null,
@@ -147,7 +140,7 @@ export function difficulty(
       );
       return readJSONFile(path).then((data) => _difficulty(data, src, version!, options));
    } else {
-      return new Promise<IWrapDifficulty>((resolve) =>
+      return new Promise<IWrapBeatmap>((resolve) =>
          resolve(_difficulty(src, 'LoadJSON.dat', version!, options))
       );
    }
@@ -166,12 +159,12 @@ export function difficultySync(
    filePath: LooseAutocomplete<GenericFilename>,
    version?: null,
    options?: ILoadOptionsDifficulty,
-): IWrapDifficulty;
+): IWrapBeatmap;
 export function difficultySync(
    json: Record<string, unknown>,
    version?: null,
    options?: ILoadOptionsDifficulty,
-): IWrapDifficulty;
+): IWrapBeatmap;
 export function difficultySync(
    src: LooseAutocomplete<GenericFilename> | Record<string, unknown>,
    version?: number | null,
