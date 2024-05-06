@@ -1,11 +1,10 @@
 {
    "name": "@kival/bsmap",
-   "version": "1.6.0",
+   "version": "2.0.0",
    "exports": {
       ".": "./mod.ts",
-      "./ext": "./extensions/mod.ts",
-      "./patch": "./patch/mod.ts",
-      "./schema": "./types/beatmap/mod.ts"
+      "./extensions": "./extensions/mod.ts",
+      "./patch": "./patch/mod.ts"
    },
    "lint": {
       "exclude": [".git", "coverage", "npm", "tests", "example"]
