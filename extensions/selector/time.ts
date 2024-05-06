@@ -1,4 +1,4 @@
-import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
 import { settings } from './settings.ts';
 import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
@@ -12,7 +12,7 @@ import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts'
 export function at<T extends IWrapBaseObject>(
    objects: T[],
    times: number | number[],
-   bpm?: BeatPerMinute | null,
+   bpm?: TimeProcessor | null,
 ): T[] {
    bpm = bpm ?? settings.BPM;
    if (Array.isArray(times)) {
@@ -34,7 +34,7 @@ export function between<T extends IWrapBaseObject>(
    objects: T[],
    from: number,
    to: number,
-   bpm?: BeatPerMinute | null,
+   bpm?: TimeProcessor | null,
 ): T[] {
    bpm = bpm ?? settings.BPM;
    return objects.filter((o) =>
@@ -54,7 +54,7 @@ export function between<T extends IWrapBaseObject>(
 export function before<T extends IWrapBaseObject>(
    objects: T[],
    before: number,
-   bpm?: BeatPerMinute | null,
+   bpm?: TimeProcessor | null,
 ): T[] {
    bpm = bpm ?? settings.BPM;
    return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > before : o.time > before));
@@ -70,7 +70,7 @@ export function before<T extends IWrapBaseObject>(
 export function after<T extends IWrapBaseObject>(
    objects: T[],
    after: number,
-   bpm?: BeatPerMinute | null,
+   bpm?: TimeProcessor | null,
 ): T[] {
    bpm = bpm ?? settings.BPM;
    return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > after : o.time > after));

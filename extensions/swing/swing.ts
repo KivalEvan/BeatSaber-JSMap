@@ -1,4 +1,4 @@
-import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
 import type { ISwingContainer } from './types/swing.ts';
 import type { NoteContainer, NoteContainerNote } from '../../types/beatmap/wrapper/container.ts';
 import { checkDirection } from '../placement/note.ts';
@@ -24,7 +24,7 @@ export default class Swing implements ISwingContainer {
       this.data = sc.data;
    }
 
-   static generate(nc: NoteContainer[], bpm: BeatPerMinute): ISwingContainer[] {
+   static generate(nc: NoteContainer[], bpm: TimeProcessor): ISwingContainer[] {
       const sc: ISwingContainer[] = [];
       let ebpm = 0;
       let ebpmSwing = 0;
@@ -96,7 +96,7 @@ export default class Swing implements ISwingContainer {
    static next(
       currNote: NoteContainer,
       prevNote: NoteContainer,
-      bpm: BeatPerMinute,
+      bpm: TimeProcessor,
       context?: NoteContainer[],
    ): boolean {
       if (currNote.type === 'bomb' || prevNote.type === 'bomb') {
@@ -136,7 +136,7 @@ export default class Swing implements ISwingContainer {
    static calcEBPMBetweenObject(
       currObj: IWrapBaseObject,
       prevObj: IWrapBaseObject,
-      bpm: BeatPerMinute,
+      bpm: TimeProcessor,
    ): number {
       return (
          bpm.value /
@@ -144,7 +144,7 @@ export default class Swing implements ISwingContainer {
       );
    }
 
-   private static calcMinSliderSpeed(notes: NoteContainer[], bpm: BeatPerMinute): number {
+   private static calcMinSliderSpeed(notes: NoteContainer[], bpm: TimeProcessor): number {
       let hasStraight = false;
       let hasDiagonal = false;
       let curvedSpeed = 0;
@@ -179,7 +179,7 @@ export default class Swing implements ISwingContainer {
       return speed;
    }
 
-   private static calcMaxSliderSpeed(notes: NoteContainer[], bpm: BeatPerMinute): number {
+   private static calcMaxSliderSpeed(notes: NoteContainer[], bpm: TimeProcessor): number {
       let hasStraight = false;
       let hasDiagonal = false;
       let curvedSpeed = Number.MAX_SAFE_INTEGER;

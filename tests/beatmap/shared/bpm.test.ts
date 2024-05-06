@@ -1,20 +1,20 @@
 import { EPSILON } from '../../constants.ts';
-import { assertAlmostEquals, assertEquals, BeatPerMinute, types } from '../../deps.ts';
+import { assertAlmostEquals, assertEquals, TimeProcessor, types } from '../../deps.ts';
 
 Deno.test('BPM create instance from constructor', () => {
-   const bpm0 = new BeatPerMinute(128);
+   const bpm0 = new TimeProcessor(128);
    assertEquals(bpm0.value, 128);
    assertEquals(bpm0.offset, 0);
    assertEquals(bpm0.timescale, []);
    assertEquals(bpm0.change, []);
 
-   const bpm1 = new BeatPerMinute(128, []);
+   const bpm1 = new TimeProcessor(128, []);
    assertEquals(bpm1.value, 128);
    assertEquals(bpm1.offset, 0);
    assertEquals(bpm1.timescale, []);
    assertEquals(bpm1.change, []);
 
-   const bpm2 = new BeatPerMinute(
+   const bpm2 = new TimeProcessor(
       128,
       [
          { b: 0, m: 64 },
@@ -30,7 +30,7 @@ Deno.test('BPM create instance from constructor', () => {
    ]);
    assertEquals(bpm2.change, []);
 
-   const bpm3 = new BeatPerMinute(
+   const bpm3 = new TimeProcessor(
       128,
       [
          { _time: 0, _BPM: 64, _beatsPerBar: 4, _metronomeOffset: 4 },
@@ -55,19 +55,19 @@ Deno.test('BPM create instance from constructor', () => {
 });
 
 Deno.test('BPM create instance from static create', () => {
-   const bpm0 = BeatPerMinute.create(128);
+   const bpm0 = TimeProcessor.create(128);
    assertEquals(bpm0.value, 128);
    assertEquals(bpm0.offset, 0);
    assertEquals(bpm0.timescale, []);
    assertEquals(bpm0.change, []);
 
-   const bpm1 = BeatPerMinute.create(128, []);
+   const bpm1 = TimeProcessor.create(128, []);
    assertEquals(bpm1.value, 128);
    assertEquals(bpm1.offset, 0);
    assertEquals(bpm1.timescale, []);
    assertEquals(bpm1.change, []);
 
-   const bpm2 = BeatPerMinute.create(
+   const bpm2 = TimeProcessor.create(
       128,
       [
          { b: 0, m: 64 },
@@ -83,7 +83,7 @@ Deno.test('BPM create instance from static create', () => {
    ]);
    assertEquals(bpm2.change, []);
 
-   const bpm3 = BeatPerMinute.create(
+   const bpm3 = TimeProcessor.create(
       128,
       [
          { _time: 0, _BPM: 64, _beatsPerBar: 4, _metronomeOffset: 4 },
@@ -108,7 +108,7 @@ Deno.test('BPM create instance from static create', () => {
 });
 
 Deno.test('BPM getter/setter', () => {
-   const bpm = BeatPerMinute.create(
+   const bpm = TimeProcessor.create(
       128,
       [
          { _time: 0, _BPM: 64, _beatsPerBar: 4, _metronomeOffset: 4 },
@@ -156,7 +156,7 @@ Deno.test('BPM getter/setter', () => {
 });
 
 Deno.test('BPM adjust beat time', () => {
-   const bpm = new BeatPerMinute(
+   const bpm = new TimeProcessor(
       120,
       [{ _time: 10, _BPM: 60, _beatsPerBar: 4, _metronomeOffset: 4 }],
       100,
@@ -167,7 +167,7 @@ Deno.test('BPM adjust beat time', () => {
 });
 
 Deno.test('BPM to JSON time', () => {
-   const bpm = new BeatPerMinute(
+   const bpm = new TimeProcessor(
       120,
       [{ _time: 10, _BPM: 60, _beatsPerBar: 4, _metronomeOffset: 4 }],
       100,
@@ -178,7 +178,7 @@ Deno.test('BPM to JSON time', () => {
 });
 
 Deno.test('BPM to beat time', () => {
-   const bpm = BeatPerMinute.create(
+   const bpm = TimeProcessor.create(
       128,
       [
          { _time: 0, _BPM: 64, _beatsPerBar: 4, _metronomeOffset: 4 },
@@ -216,7 +216,7 @@ Deno.test('BPM to beat time', () => {
 });
 
 Deno.test('BPM to real time', () => {
-   const bpm = BeatPerMinute.create(
+   const bpm = TimeProcessor.create(
       128,
       [
          { _time: 0, _BPM: 64, _beatsPerBar: 4, _metronomeOffset: 4 },

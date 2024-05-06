@@ -1,5 +1,5 @@
 import { EPSILON } from '../../constants.ts';
-import { assertAlmostEquals, assertEquals, BeatPerMinute, NoteJumpSpeed } from '../../deps.ts';
+import { assertAlmostEquals, assertEquals, NoteJumpSpeed, TimeProcessor } from '../../deps.ts';
 
 Deno.test('NJS create instance from constructor', () => {
    const njs0 = new NoteJumpSpeed(120);
@@ -10,7 +10,7 @@ Deno.test('NJS create instance from constructor', () => {
    assertEquals(njs0.reactionTime, 1);
    assertEquals(njs0.bpm.value, 120);
 
-   const njs1 = new NoteJumpSpeed(new BeatPerMinute(120));
+   const njs1 = new NoteJumpSpeed(new TimeProcessor(120));
    assertEquals(njs1.value, 10);
    assertEquals(njs1.offset, 0);
    assertEquals(njs1.hjd, 2);
@@ -42,7 +42,7 @@ Deno.test('NJS create instance from static create', () => {
    assertEquals(njs0.reactionTime, 1);
    assertEquals(njs0.bpm.value, 120);
 
-   const njs1 = NoteJumpSpeed.create(new BeatPerMinute(120));
+   const njs1 = NoteJumpSpeed.create(new TimeProcessor(120));
    assertEquals(njs1.value, 10);
    assertEquals(njs1.offset, 0);
    assertEquals(njs1.hjd, 2);

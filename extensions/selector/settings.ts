@@ -1,7 +1,7 @@
-import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
 
 export const settings: {
-   BPM: BeatPerMinute | null;
+   BPM: TimeProcessor | null;
 } = {
    BPM: null,
 };

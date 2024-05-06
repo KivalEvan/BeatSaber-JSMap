@@ -1,17 +1,16 @@
 import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
-import { BeatPerMinute } from './bpm.ts';
 
 /** NJS class for various utility around jump distance, reaction time, etc. */
 export class NoteJumpSpeed {
    static readonly HJD_START: number = 4;
    static readonly HJD_MIN: number = 0.25;
 
-   private _bpm: BeatPerMinute;
+   private _bpm: number;
    private _njs: number;
    private _sdm: number;
 
-   constructor(bpm: BeatPerMinute | number, njs = 10, sdm = 0) {
-      this._bpm = typeof bpm === 'number' ? new BeatPerMinute(bpm) : bpm;
+   constructor(bpm: number, njs = 10, sdm = 0) {
+      this._bpm = bpm;
       this._njs = njs;
       this._sdm = sdm;
    }
@@ -19,10 +18,10 @@ export class NoteJumpSpeed {
    /**
     * Create and return new instance of NJS class.
     * ```ts
-    * const njs = NoteJumpSpeed.create(BPM ?? 128, 16, 0);
+    * const njs = NoteJumpSpeed.create(128, 16, 0);
     * ```
     */
-   static create(bpm: BeatPerMinute | number, njs?: number, sdm?: number): NoteJumpSpeed {
+   static create(bpm: number, njs?: number, sdm?: number): NoteJumpSpeed {
       return new NoteJumpSpeed(bpm, njs, sdm);
    }
 
@@ -67,7 +66,7 @@ export class NoteJumpSpeed {
    get reactionTime(): number {
       return this.calcRtFromHjd();
    }
-   get bpm(): BeatPerMinute {
+   get bpm(): number {
       return this._bpm;
    }
 
@@ -81,7 +80,7 @@ export class NoteJumpSpeed {
     */
    calcHjd(offset: number = this.offset): number {
       const maxHalfJump = 17.999; // Beat Games, this is not how you fix float inconsistencies
-      const num = 60 / this._bpm.value;
+      const num = 60 / this._bpm;
       let hjd = NoteJumpSpeed.HJD_START;
       while (this._njs * num * hjd > maxHalfJump) hjd /= 2;
       if (hjd < 1) hjd = 1;
@@ -97,7 +96,7 @@ export class NoteJumpSpeed {
     * ```
     */
    calcHjdFromJd(jd: number = this.calcJd()): number {
-      return jd / ((60 / this._bpm.value) * this._njs * 2);
+      return jd / ((60 / this._bpm) * this._njs * 2);
    }
 
    /**
@@ -108,7 +107,7 @@ export class NoteJumpSpeed {
     * ```
     */
    calcHjdFromRt(rt: number = this.calcRtFromHjd()): number {
-      return rt / (60 / this._bpm.value);
+      return rt / (60 / this._bpm);
    }
 
    /**
@@ -119,7 +118,7 @@ export class NoteJumpSpeed {
     * ```
     */
    calcJd(hjd: number = this.calcHjd()): number {
-      return this._njs * (60 / this._bpm.value) * hjd * 2;
+      return this._njs * (60 / this._bpm) * hjd * 2;
    }
 
    /**
@@ -151,7 +150,7 @@ export class NoteJumpSpeed {
     * ```
     */
    calcRtFromHjd(hjd: number = this.calcHjd()): number {
-      return (60 / this._bpm.value) * hjd;
+      return (60 / this._bpm) * hjd;
    }
 
    /**
@@ -161,6 +160,6 @@ export class NoteJumpSpeed {
     * ```
     */
    calcDistance(beat: number): number {
-      return ((this._njs * 60) / this._bpm.value) * beat * 2;
+      return ((this._njs * 60) / this._bpm) * beat * 2;
    }
 }

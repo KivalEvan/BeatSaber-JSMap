@@ -1,4 +1,4 @@
-import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
 import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import type { NoteContainer } from '../../types/beatmap/wrapper/container.ts';
@@ -14,7 +14,7 @@ import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts'
 export function count(
    noteContainer: NoteContainer[],
    duration: number,
-   bpm: BeatPerMinute,
+   bpm: TimeProcessor,
 ): ISwingCount {
    const swingCount: ISwingCount = {
       left: new Array(Math.floor(duration + 1)).fill(0),
@@ -69,7 +69,7 @@ function calcMaxRollingSps(swingArray: number[], x: number): number {
 
 export function info(
    difficulty: IWrapDifficulty,
-   bpm: BeatPerMinute,
+   bpm: TimeProcessor,
    charName: CharacteristicName,
    diffName: DifficultyName,
 ): ISwingAnalysis {

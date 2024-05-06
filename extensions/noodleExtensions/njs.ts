@@ -1,7 +1,7 @@
 import { NoteJumpSpeed } from '../../beatmap/shared/njs.ts';
 import type { INEObject } from './types/object.ts';
 import { settings } from './settings.ts';
-import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
 import type { EasingFunction } from '../../types/easings.ts';
 import { lerp, normalize } from '../../utils/math.ts';
 import logger from '../../logger.ts';
@@ -18,7 +18,7 @@ function tag(name: string): string[] {
 export function setNjs(
    objects: INEObject[],
    options: {
-      bpm: BeatPerMinute;
+      bpm: TimeProcessor;
       njs: NoteJumpSpeed | number;
       offset?: number;
       jd?: number;
@@ -48,7 +48,7 @@ export function setNjs(
 export function simultaneousSpawn(
    objects: INEObject[],
    options: {
-      bpm: BeatPerMinute;
+      bpm: TimeProcessor;
       njs: NoteJumpSpeed | number;
       njsOverride?: boolean;
       jd?: number;
@@ -89,7 +89,7 @@ export function simultaneousSpawn(
 export function gradientNjs(
    objects: INEObject[],
    options: {
-      bpm: BeatPerMinute | number;
+      bpm: TimeProcessor | number;
       njsStart: number;
       njsEnd: number;
       njsOffset?: NoteJumpSpeed | number | null;

@@ -1,6 +1,6 @@
 import { isV3 } from '../beatmap/version.ts';
 import logger from '../logger.ts';
-import type { BeatPerMinute } from '../beatmap/shared/bpm.ts';
+import type { TimeProcessor } from '../beatmap/shared/timeProcessor.ts';
 import type { IWrapBaseObject } from '../types/beatmap/wrapper/baseObject.ts';
 import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 
@@ -12,7 +12,7 @@ let duration = 0;
 const filterTime = <T extends IWrapBaseObject>(obj: T) =>
    duration ? !(obj.time < 0 || obj.time > duration) : !(obj.time < 0);
 
-export default function (data: IWrapDifficulty, bpm: BeatPerMinute, audioLength: number) {
+export default function (data: IWrapDifficulty, bpm: TimeProcessor, audioLength: number) {
    duration = bpm.toBeatTime(audioLength, true);
    logger.tDebug(tag(), 'Removing outside playable BPM events');
    data.bpmEvents = data.bpmEvents.filter(filterTime);

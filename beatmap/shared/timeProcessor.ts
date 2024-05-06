@@ -9,11 +9,11 @@ import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEven
 import logger from '../../logger.ts';
 
 function tag(name: string): string[] {
-   return ['beatmap', 'shared', 'bpm', name];
+   return ['beatmap', 'shared', 'timeProcessor', name];
 }
 
 /** BPM class for various utility around adjusted beat time, JSON time, reaction time, etc. */
-export class BeatPerMinute {
+export class TimeProcessor {
    private _bpm: number;
    private _bpmChange: IBPMChangeTime[];
    private _timeScale: IBPMTimeScale[];
@@ -71,8 +71,8 @@ export class BeatPerMinute {
          | IBPMTimeScale
       )[],
       offset?: number,
-   ): BeatPerMinute => {
-      return new BeatPerMinute(bpm, bpmChange, offset);
+   ): TimeProcessor => {
+      return new TimeProcessor(bpm, bpmChange, offset);
    };
 
    get value(): number {

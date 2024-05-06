@@ -1,8 +1,8 @@
-import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
 import type { ColorType } from '../../types/colors.ts';
 
 export const settings: {
-   BPM: BeatPerMinute | null;
+   BPM: TimeProcessor | null;
    colorType: ColorType | null;
 } = {
    BPM: null,
