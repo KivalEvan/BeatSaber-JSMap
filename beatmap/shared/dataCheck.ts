@@ -1,4 +1,4 @@
-import type { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
+import type { DataCheck, IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 import logger from '../../logger.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
 import { compareVersion } from './version.ts';
@@ -9,10 +9,10 @@ function tag(name: string): string[] {
 
 function handleError(
    text: string,
-   throwError: boolean,
+   doThrow: boolean | undefined,
    errors: string[],
 ): void {
-   if (throwError) {
+   if (doThrow) {
       throw new Error(text);
    } else {
       logger.tWarn(tag('deepCheck'), text);
@@ -29,24 +29,30 @@ export function deepCheck(
    // deno-lint-ignore no-explicit-any
    data: { [key: string]: any },
    check: { [key: string]: DataCheck },
-   name: string,
+   label: string,
    version: Version,
-   throwError = true,
-   errors: string[] = [],
+   throwOn: IDataCheckOption['throwOn'],
+   _errors: string[] = [],
 ): string[] {
-   logger.tVerbose(tag('deepCheck'), `Looking up ${name}`);
+   logger.tVerbose(tag('deepCheck'), `Looking up ${label}`);
    if (Array.isArray(data)) {
-      data.forEach((d, i) => deepCheck(d, check, `${name}[${i}]`, version, throwError, errors));
-      return errors;
+      for (let i = 0; i < data.length; i++) {
+         deepCheck(data[i], check, `${label}[${i}]`, version, throwOn, _errors);
+      }
+      return _errors;
    }
 
    // check for existing and/or unknown key
    const checkKeys = Object.keys(check);
-   if (!checkKeys.length) return errors;
+   if (!checkKeys.length) return _errors;
 
    for (const key in data) {
       if (!(key in check)) {
-         handleError(`Unused key ${key} found in ${name}`, false, errors);
+         handleError(
+            `Unused key ${key} found in ${label}`,
+            throwOn.unused,
+            _errors,
+         );
       }
    }
 
@@ -56,21 +62,25 @@ export function deepCheck(
       const d = data[key];
 
       if (d === undefined) {
-         if (check[key].optional) {
+         if (!throwOn.ignoreOptional && check[key].optional) {
             continue;
          }
-         if (compareVersion(version, ch.version) === 'old') {
+         if (compareVersion(version, ch.version) === -1) {
             continue;
          }
-         handleError(`Missing ${key} in object ${name}!`, throwError, errors);
+         handleError(
+            `Missing ${key} in object ${label}!`,
+            throwOn.missing,
+            _errors,
+         );
          continue;
       }
 
       if (d === null) {
          handleError(
-            `${key} contain null value in object ${name}!`,
-            throwError,
-            errors,
+            `${key} contain null value in object ${label}!`,
+            throwOn.nullish,
+            _errors,
          );
          continue;
       }
@@ -78,31 +88,24 @@ export function deepCheck(
       if (ch.type === 'array') {
          if (!Array.isArray(d)) {
             handleError(
-               `${key} is not an array in object ${name}!`,
-               throwError,
-               errors,
+               `${key} is not an array in object ${label}!`,
+               throwOn.wrongType,
+               _errors,
             );
          }
-         deepCheck(d, ch.check, `${name}.${key}`, version, throwError, errors);
+         deepCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
          continue;
       }
 
       if (ch.type === 'object') {
          if (!Array.isArray(d) && !(typeof d === 'object')) {
             handleError(
-               `${key} is not an object in object ${name}!`,
-               throwError,
-               errors,
+               `${key} is not an object in object ${label}!`,
+               throwOn.wrongType,
+               _errors,
             );
          } else {
-            deepCheck(
-               d,
-               ch.check,
-               `${name}.${key}`,
-               version,
-               throwError,
-               errors,
-            );
+            deepCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
          }
          continue;
       }
@@ -110,9 +113,9 @@ export function deepCheck(
       if (ch.array) {
          if (!Array.isArray(d)) {
             handleError(
-               `${key} is not ${ch.type} in object ${name}!`,
-               throwError,
-               errors,
+               `${key} is not ${ch.type} in object ${label}!`,
+               throwOn.wrongType,
+               _errors,
             );
             continue;
          }
@@ -128,9 +131,9 @@ export function deepCheck(
             )
          ) {
             handleError(
-               `${key} is not ${ch.type} in object ${name}!`,
-               throwError,
-               errors,
+               `${key} is not ${ch.type} in object ${label}!`,
+               throwOn.wrongType,
+               _errors,
             );
          }
          continue;
@@ -138,27 +141,35 @@ export function deepCheck(
 
       if (!ch.array && typeof d !== ch.type) {
          handleError(
-            `${key} is not ${ch.type} in object ${name}!`,
-            throwError,
-            errors,
+            `${key} is not ${ch.type} in object ${label}!`,
+            throwOn.wrongType,
+            _errors,
          );
          continue;
       }
 
       if (ch.type === 'number') {
          if (isNaN(d)) {
-            handleError(`${name}.${key} is NaN!`, throwError, errors);
+            handleError(`${label}.${key} is NaN!`, throwOn.nullish, _errors);
             continue;
          }
          if (ch.int && d % 1 !== 0) {
-            handleError(`${name}.${key} cannot be float!`, false, errors);
+            handleError(
+               `${label}.${key} cannot be float!`,
+               throwOn.notInt,
+               _errors,
+            );
             continue;
          }
          if (ch.unsigned && d < 0) {
-            handleError(`${name}.${key} cannot be negative!`, false, errors);
+            handleError(
+               `${label}.${key} cannot be negative!`,
+               throwOn.notUnsigned,
+               _errors,
+            );
             continue;
          }
       }
    }
-   return errors;
+   return _errors;
 }
