@@ -1,4 +1,4 @@
-import type { DataCheck } from '../../../types/beatmap/shared/dataCheck.ts';
+import type { IDataCheck } from '../../../types/beatmap/shared/dataCheck.ts';
 import type { IBasicEvent } from '../../../types/beatmap/v3/basicEvent.ts';
 import type { IBasicEventTypesForKeywords } from '../../../types/beatmap/v3/basicEventTypesForKeywords.ts';
 import type { IBasicEventTypesWithKeywords } from '../../../types/beatmap/v3/basicEventTypesWithKeywords.ts';
@@ -31,7 +31,7 @@ import type { IFxEventInt } from '../../../types/beatmap/v3/fxEventInt.ts';
 
 // FIXME: ALMOST EVERYTHING HERE IS IFUCKIN OPTIONAL REE
 export const ColorNoteDataCheck: {
-   readonly [key in keyof IColorNote]: DataCheck;
+   readonly [key in keyof IColorNote]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -76,7 +76,7 @@ export const ColorNoteDataCheck: {
    },
 } as const;
 
-export const BombDataCheck: { readonly [key in keyof IBombNote]: DataCheck } = {
+export const BombDataCheck: { readonly [key in keyof IBombNote]: IDataCheck } = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -102,7 +102,7 @@ export const BombDataCheck: { readonly [key in keyof IBombNote]: DataCheck } = {
    },
 } as const;
 
-export const ArcDataCheck: { readonly [key in keyof IArc]: DataCheck } = {
+export const ArcDataCheck: { readonly [key in keyof IArc]: IDataCheck } = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -179,7 +179,7 @@ export const ArcDataCheck: { readonly [key in keyof IArc]: DataCheck } = {
    },
 } as const;
 
-export const ChainDataCheck: { readonly [key in keyof IChain]: DataCheck } = {
+export const ChainDataCheck: { readonly [key in keyof IChain]: IDataCheck } = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -246,7 +246,7 @@ export const ChainDataCheck: { readonly [key in keyof IChain]: DataCheck } = {
 } as const;
 
 export const ObstacleDataCheck: {
-   readonly [key in keyof IObstacle]: DataCheck;
+   readonly [key in keyof IObstacle]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -291,7 +291,7 @@ export const ObstacleDataCheck: {
 } as const;
 
 export const BasicEventDataCheck: {
-   readonly [key in keyof IBasicEvent]: DataCheck;
+   readonly [key in keyof IBasicEvent]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -324,7 +324,7 @@ export const BasicEventDataCheck: {
 } as const;
 
 export const BPMChangeEventDataCheck: {
-   readonly [key in keyof IBPMEvent]: DataCheck;
+   readonly [key in keyof IBPMEvent]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -344,7 +344,7 @@ export const BPMChangeEventDataCheck: {
 } as const;
 
 export const RotationEventDataCheck: {
-   readonly [key in keyof IRotationEvent]: DataCheck;
+   readonly [key in keyof IRotationEvent]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -371,7 +371,7 @@ export const RotationEventDataCheck: {
 } as const;
 
 export const ColorBoostEventDataCheck: {
-   readonly [key in keyof IColorBoostEvent]: DataCheck;
+   readonly [key in keyof IColorBoostEvent]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -392,7 +392,7 @@ export const ColorBoostEventDataCheck: {
 } as const;
 
 export const IndexFilterDataCheck: {
-   readonly [key in keyof IIndexFilter]: DataCheck;
+   readonly [key in keyof IIndexFilter]: IDataCheck;
 } = {
    f: {
       type: 'number',
@@ -454,7 +454,7 @@ export const IndexFilterDataCheck: {
 } as const;
 
 export const LightColorBaseDataCheck: {
-   readonly [key in keyof ILightColorEvent]: DataCheck;
+   readonly [key in keyof ILightColorEvent]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -503,7 +503,7 @@ export const LightColorBaseDataCheck: {
 } as const;
 
 export const LightColorEventBoxDataCheck: {
-   readonly [key in keyof ILightColorEventBox]: DataCheck;
+   readonly [key in keyof ILightColorEventBox]: IDataCheck;
 } = {
    f: {
       type: 'object',
@@ -560,7 +560,7 @@ export const LightColorEventBoxDataCheck: {
 } as const;
 
 export const LightColorEventBoxGroupDataCheck: {
-   readonly [key in keyof ILightColorEventBoxGroup]: DataCheck;
+   readonly [key in keyof ILightColorEventBoxGroup]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -588,7 +588,7 @@ export const LightColorEventBoxGroupDataCheck: {
 } as const;
 
 export const LightRotationBaseDataCheck: {
-   readonly [key in keyof ILightRotationEvent]: DataCheck;
+   readonly [key in keyof ILightRotationEvent]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -632,7 +632,7 @@ export const LightRotationBaseDataCheck: {
 } as const;
 
 export const LightRotationEventBoxDataCheck: {
-   readonly [key in keyof ILightRotationEventBox]: DataCheck;
+   readonly [key in keyof ILightRotationEventBox]: IDataCheck;
 } = {
    f: {
       type: 'object',
@@ -701,7 +701,7 @@ export const LightRotationEventBoxDataCheck: {
 } as const;
 
 export const LightRotationEventBoxGroupDataCheck: {
-   readonly [key in keyof ILightRotationEventBoxGroup]: DataCheck;
+   readonly [key in keyof ILightRotationEventBoxGroup]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -729,7 +729,7 @@ export const LightRotationEventBoxGroupDataCheck: {
 } as const;
 
 export const LightTranslationBaseDataCheck: {
-   readonly [key in keyof ILightTranslationEvent]: DataCheck;
+   readonly [key in keyof ILightTranslationEvent]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -762,7 +762,7 @@ export const LightTranslationBaseDataCheck: {
 } as const;
 
 export const LightTranslationEventBoxDataCheck: {
-   readonly [key in keyof ILightTranslationEventBox]: DataCheck;
+   readonly [key in keyof ILightTranslationEventBox]: IDataCheck;
 } = {
    f: {
       type: 'object',
@@ -831,7 +831,7 @@ export const LightTranslationEventBoxDataCheck: {
 } as const;
 
 export const LightTranslationEventBoxGroupDataCheck: {
-   readonly [key in keyof ILightTranslationEventBoxGroup]: DataCheck;
+   readonly [key in keyof ILightTranslationEventBoxGroup]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -859,7 +859,7 @@ export const LightTranslationEventBoxGroupDataCheck: {
 } as const;
 
 export const VfxEventBoxDataCheck: {
-   readonly [key in keyof IFxEventBox]: DataCheck;
+   readonly [key in keyof IFxEventBox]: IDataCheck;
 } = {
    f: {
       type: 'object',
@@ -917,7 +917,7 @@ export const VfxEventBoxDataCheck: {
 } as const;
 
 export const VfxEventBoxGroupDataCheck: {
-   readonly [key in keyof IFxEventBoxGroup]: DataCheck;
+   readonly [key in keyof IFxEventBoxGroup]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -951,7 +951,7 @@ export const VfxEventBoxGroupDataCheck: {
 } as const;
 
 export const BasicEventTypesForKeywordsDataCheck: {
-   readonly [key in keyof IBasicEventTypesForKeywords]: DataCheck;
+   readonly [key in keyof IBasicEventTypesForKeywords]: IDataCheck;
 } = {
    k: {
       type: 'string',
@@ -968,7 +968,7 @@ export const BasicEventTypesForKeywordsDataCheck: {
 } as const;
 
 export const BasicEventTypesWithKeywordsDataCheck: {
-   readonly [key in keyof IBasicEventTypesWithKeywords]: DataCheck;
+   readonly [key in keyof IBasicEventTypesWithKeywords]: IDataCheck;
 } = {
    d: {
       type: 'array',
@@ -979,7 +979,7 @@ export const BasicEventTypesWithKeywordsDataCheck: {
 } as const;
 
 export const FxEventFloatDataCheck: {
-   readonly [key in keyof IFxEventFloat]: DataCheck;
+   readonly [key in keyof IFxEventFloat]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -1012,7 +1012,7 @@ export const FxEventFloatDataCheck: {
 } as const;
 
 export const FxEventIntDataCheck: {
-   readonly [key in keyof IFxEventInt]: DataCheck;
+   readonly [key in keyof IFxEventInt]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -1040,7 +1040,7 @@ export const FxEventIntDataCheck: {
 } as const;
 
 export const FxEventsCollectionDataCheck: {
-   readonly [key in keyof IFxEventsCollection]: DataCheck;
+   readonly [key in keyof IFxEventsCollection]: IDataCheck;
 } = {
    _fl: {
       type: 'array',
@@ -1057,7 +1057,7 @@ export const FxEventsCollectionDataCheck: {
 } as const;
 
 export const WaypointDataCheck: {
-   readonly [key in keyof IWaypoint]: DataCheck;
+   readonly [key in keyof IWaypoint]: IDataCheck;
 } = {
    b: {
       type: 'number',
@@ -1091,7 +1091,7 @@ export const WaypointDataCheck: {
 } as const;
 
 export const DifficultyDataCheck: {
-   readonly [key in keyof IDifficulty]: DataCheck;
+   readonly [key in keyof IDifficulty]: IDataCheck;
 } = {
    version: {
       type: 'string',
@@ -1208,7 +1208,7 @@ export const DifficultyDataCheck: {
 } as const;
 
 export const LightshowDataCheck: {
-   readonly [key in keyof ILightshow]: DataCheck;
+   readonly [key in keyof ILightshow]: IDataCheck;
 } = {
    basicBeatmapEvents: {
       type: 'array',

@@ -1,4 +1,4 @@
-import type { DataCheck } from '../../../types/beatmap/shared/dataCheck.ts';
+import type { IDataCheck } from '../../../types/beatmap/shared/dataCheck.ts';
 import {
    DifficultyDataCheck as V1DifficultyDataCheck,
    InfoDataCheck as V1InfoDataCheck,
@@ -19,25 +19,25 @@ import {
    LightshowDataCheck as V4LightshowDataCheck,
 } from '../v4/dataCheck.ts';
 
-export const infoCheckMap: Record<number, Record<string, DataCheck>> = {
+export const infoCheckMap: Record<number, Record<string, IDataCheck>> = {
    1: V1InfoDataCheck,
    2: V2InfoDataCheck,
    4: V4InfoDataCheck,
 };
 
-export const audioDataCheckMap: Record<number, Record<string, DataCheck>> = {
+export const audioDataCheckMap: Record<number, Record<string, IDataCheck>> = {
    2: V2AudioDataCheck,
    4: V4AudioDataCheck,
 };
 
-export const difficultyCheckMap: Record<number, Record<string, DataCheck>> = {
+export const difficultyCheckMap: Record<number, Record<string, IDataCheck>> = {
    1: V1DifficultyDataCheck,
    2: V2DifficultyDataCheck,
    3: V3DifficultyDataCheck,
    4: V4DifficultyDataCheck,
 };
 
-export const lightshowCheckMap: Record<number, Record<string, DataCheck>> = {
+export const lightshowCheckMap: Record<number, Record<string, IDataCheck>> = {
    3: V3LightshowDataCheck,
    4: V4LightshowDataCheck,
 };

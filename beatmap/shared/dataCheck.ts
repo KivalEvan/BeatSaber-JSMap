@@ -1,4 +1,4 @@
-import type { DataCheck, IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
+import type { IDataCheck, IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 import logger from '../../logger.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
 import { compareVersion } from './version.ts';
@@ -28,7 +28,7 @@ function handleError(
 export function deepCheck(
    // deno-lint-ignore no-explicit-any
    data: { [key: string]: any },
-   check: { [key: string]: DataCheck },
+   check: { [key: string]: IDataCheck },
    label: string,
    version: Version,
    throwOn: IDataCheckOption['throwOn'],

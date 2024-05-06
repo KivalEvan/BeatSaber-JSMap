@@ -1,4 +1,4 @@
-import type { DataCheck } from '../../../types/beatmap/shared/dataCheck.ts';
+import type { IDataCheck } from '../../../types/beatmap/shared/dataCheck.ts';
 import type { IDifficulty } from '../../../types/beatmap/v2/difficulty.ts';
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import type { INote } from '../../../types/beatmap/v2/note.ts';
@@ -17,7 +17,7 @@ import type {
 import type { IColor } from '../../../types/colors.ts';
 import type { IBPMInfo, IBPMInfoRegion } from '../../../types/beatmap/v2/bpmInfo.ts';
 
-export const NoteDataCheck: { readonly [key in keyof INote]: DataCheck } = {
+export const NoteDataCheck: { readonly [key in keyof INote]: IDataCheck } = {
    _time: {
       type: 'number',
       version: '2.0.0',
@@ -57,7 +57,7 @@ export const NoteDataCheck: { readonly [key in keyof INote]: DataCheck } = {
    },
 } as const;
 
-export const ArcDataCheck: { readonly [key in keyof IArc]: DataCheck } = {
+export const ArcDataCheck: { readonly [key in keyof IArc]: IDataCheck } = {
    _colorType: {
       type: 'number',
       version: '2.0.0',
@@ -135,7 +135,7 @@ export const ArcDataCheck: { readonly [key in keyof IArc]: DataCheck } = {
 } as const;
 
 export const ObstacleDataCheck: {
-   readonly [key in keyof IObstacle]: DataCheck;
+   readonly [key in keyof IObstacle]: IDataCheck;
 } = {
    _time: {
       type: 'number',
@@ -174,7 +174,7 @@ export const ObstacleDataCheck: {
    },
 } as const;
 
-export const EventDataCheck: { readonly [key in keyof IEvent]: DataCheck } = {
+export const EventDataCheck: { readonly [key in keyof IEvent]: IDataCheck } = {
    _time: {
       type: 'number',
       version: '2.0.0',
@@ -206,7 +206,7 @@ export const EventDataCheck: { readonly [key in keyof IEvent]: DataCheck } = {
 } as const;
 
 export const WaypointDataCheck: {
-   readonly [key in keyof IWaypoint]: DataCheck;
+   readonly [key in keyof IWaypoint]: IDataCheck;
 } = {
    _time: {
       type: 'number',
@@ -240,7 +240,7 @@ export const WaypointDataCheck: {
 } as const;
 
 export const SpecialEventsKeywordFiltersKeywordsDataCheck: {
-   readonly [key in keyof ISpecialEventsKeywordFiltersKeywords]: DataCheck;
+   readonly [key in keyof ISpecialEventsKeywordFiltersKeywords]: IDataCheck;
 } = {
    _keyword: {
       type: 'string',
@@ -257,7 +257,7 @@ export const SpecialEventsKeywordFiltersKeywordsDataCheck: {
 } as const;
 
 export const SpecialEventsKeywordFiltersDataCheck: {
-   readonly [key in keyof ISpecialEventsKeywordFilters]: DataCheck;
+   readonly [key in keyof ISpecialEventsKeywordFilters]: IDataCheck;
 } = {
    _keywords: {
       type: 'array',
@@ -268,7 +268,7 @@ export const SpecialEventsKeywordFiltersDataCheck: {
 } as const;
 
 export const DifficultyDataCheck: {
-   readonly [key in keyof IDifficulty]: DataCheck;
+   readonly [key in keyof IDifficulty]: IDataCheck;
 } = {
    _version: {
       type: 'string',
@@ -320,7 +320,7 @@ export const DifficultyDataCheck: {
 } as const;
 
 export const InfoSetDifficultyDataCheck: {
-   readonly [key in keyof IInfoDifficulty]: DataCheck;
+   readonly [key in keyof IInfoDifficulty]: IDataCheck;
 } = {
    _difficulty: {
       type: 'string',
@@ -358,7 +358,7 @@ export const InfoSetDifficultyDataCheck: {
    },
 };
 
-export const InfoSetDataCheck: { readonly [key in keyof IInfoSet]: DataCheck } = {
+export const InfoSetDataCheck: { readonly [key in keyof IInfoSet]: IDataCheck } = {
    _beatmapCharacteristicName: {
       type: 'string',
       version: '2.0.0',
@@ -371,7 +371,7 @@ export const InfoSetDataCheck: { readonly [key in keyof IInfoSet]: DataCheck } =
 };
 
 export const ColorObjectDataCheck: {
-   readonly [key in keyof IColor]: DataCheck;
+   readonly [key in keyof IColor]: IDataCheck;
 } = {
    r: {
       type: 'number',
@@ -392,7 +392,7 @@ export const ColorObjectDataCheck: {
 };
 
 export const InfoColorSchemeDataDataCheck: {
-   readonly [key in keyof IInfoColorSchemeData]: DataCheck;
+   readonly [key in keyof IInfoColorSchemeData]: IDataCheck;
 } = {
    colorSchemeId: {
       type: 'string',
@@ -436,7 +436,7 @@ export const InfoColorSchemeDataDataCheck: {
 };
 
 export const InfoColorSchemeDataCheck: {
-   readonly [key in keyof IInfoColorScheme]: DataCheck;
+   readonly [key in keyof IInfoColorScheme]: IDataCheck;
 } = {
    useOverride: {
       type: 'boolean',
@@ -449,7 +449,7 @@ export const InfoColorSchemeDataCheck: {
    },
 };
 
-export const InfoDataCheck: { readonly [key in keyof IInfo]: DataCheck } = {
+export const InfoDataCheck: { readonly [key in keyof IInfo]: IDataCheck } = {
    _version: {
       type: 'string',
       version: '2.0.0',
@@ -535,7 +535,7 @@ export const InfoDataCheck: { readonly [key in keyof IInfo]: DataCheck } = {
    },
 };
 
-export const BPMInfoRegionDataCheck: { readonly [key in keyof IBPMInfoRegion]: DataCheck } = {
+export const BPMInfoRegionDataCheck: { readonly [key in keyof IBPMInfoRegion]: IDataCheck } = {
    _startSampleIndex: {
       type: 'number',
       version: '2.0.0',
@@ -558,7 +558,7 @@ export const BPMInfoRegionDataCheck: { readonly [key in keyof IBPMInfoRegion]: D
    },
 };
 
-export const BPMInfoDataCheck: { readonly [key in keyof IBPMInfo]: DataCheck } = {
+export const BPMInfoDataCheck: { readonly [key in keyof IBPMInfo]: IDataCheck } = {
    _version: {
       type: 'string',
       version: '2.0.0',

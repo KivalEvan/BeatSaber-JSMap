@@ -1,10 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { deepCheck } from '../../shared/dataCheck.ts';
 import logger from '../../../logger.ts';
-import type {
-   DataCheck,
-   IDataCheckOption,
-} from '../../../types/beatmap/shared/dataCheck.ts';
+import type { DatIDataCheckDataCheckOption } from '../../../types/beatmap/shared/dataCheck.ts';
 import {
    audioDataCheckMap,
    difficultyCheckMap,
@@ -27,23 +24,23 @@ const defaultOptions: IDataCheckOption = {
       notInt: false,
       notUnsigned: false,
    },
-}
+};
 
 export function validateJSON<
-   T extends Record<string, any> = Record<string, any>
+   T extends Record<string, any> = Record<string, any>,
 >(
    data: T,
    type: 'info' | 'audioData' | 'difficulty' | 'lightshow',
    version: number,
-   options?: Partial<IDataCheckOption>
+   options?: Partial<IDataCheckOption>,
 ): T {
    const opt: Required<IDataCheckOption> = {
       throwOn: {
          ...defaultOptions.throwOn,
          ...options?.throwOn,
-      }
-   }
-   let dataCheckMap: Record<number, Record<string, DataCheck>> = {};
+      },
+   };
+   let dataCheckMap: Record<number, Record<string, DaIDataCheck = {};
    switch (type) {
       case 'info':
          dataCheckMap = infoCheckMap;
@@ -75,7 +72,7 @@ export function validateJSON<
    }
    logger.tInfo(
       tag('validateJSON'),
-      'Validating beatmap JSON for ' + type + ' with version ' + version
+      'Validating beatmap JSON for ' + type + ' with version ' + version,
    );
    deepCheck(data, dataCheckMap[version], type, ver, opt.throwOn);
 
