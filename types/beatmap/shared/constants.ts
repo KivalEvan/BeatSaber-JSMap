@@ -1,4 +1,5 @@
 export const enum NoteColor {
+   NONE = -1,
    RED,
    BLUE,
 }

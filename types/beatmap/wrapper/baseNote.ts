@@ -7,6 +7,7 @@ export interface IWrapBaseNoteAttribute extends IWrapGridObjectAttribute {
    /**
     * Color `<int>` of note.
     * ```ts
+    * -1 -> None
     * 0 -> Red
     * 1 -> Blue
     * ```

@@ -23,6 +23,7 @@ import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
 import type { GenericFilename } from '../shared/filename.ts';
 import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 import type { IFileInfo } from '../shared/filename.ts';
+import type { ICustomDataDifficulty } from './custom/difficulty.ts';
 
 export interface IWrapLightshowAttribute extends IWrapBaseItemAttribute, IFileInfo {
    waypoints: IWrapWaypointAttribute[];
@@ -34,11 +35,12 @@ export interface IWrapLightshowAttribute extends IWrapBaseItemAttribute, IFileIn
    fxEventBoxGroups: IWrapFxEventBoxGroupAttribute[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywordsAttribute;
    useNormalEventsAsCompatibleEvents: boolean;
+   customData: ICustomDataDifficulty;
 }
 
 export interface IWrapLightshow<
    T extends Record<string, any> = IWrapLightshowAttribute,
-> extends IWrapBaseItem<T>, IWrapLightshowAttribute {
+> extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapLightshowAttribute {
    waypoints: IWrapWaypoint[];
    basicEvents: IWrapEvent[];
    colorBoostEvents: IWrapColorBoostEvent[];
@@ -49,6 +51,9 @@ export interface IWrapLightshow<
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
 
    setFilename(filename: LooseAutocomplete<GenericFilename>): this;
+
+   setCustomData(object: T['customData']): this;
+   addCustomData(object: T['customData']): this;
 
    /** Sort beatmap object(s) accordingly. */
    sort(): this;

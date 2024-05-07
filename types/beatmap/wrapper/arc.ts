@@ -2,6 +2,7 @@
 import type { SliderMidAnchorMode } from '../shared/constants.ts';
 import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
+import type { ICustomDataSlider } from './custom/slider.ts';
 
 export interface IWrapArcAttribute extends IWrapBaseSliderAttribute {
    /**
@@ -40,10 +41,14 @@ export interface IWrapArcAttribute extends IWrapBaseSliderAttribute {
     * **NOTE:** The visual will only be applied under specific condition.
     */
    midAnchor: SliderMidAnchorMode;
+   customData: ICustomDataSlider;
 }
 
 export interface IWrapArc<T extends { [key: string]: any } = IWrapArcAttribute>
-   extends IWrapBaseSlider<T>, IWrapArcAttribute {
+   extends Omit<IWrapBaseSlider<T>, 'customData'>, IWrapArcAttribute {
+   setCustomData(object: T['customData']): this;
+   addCustomData(object: T['customData']): this;
+
    setLengthMultiplier(value: number): this;
    setTailLengthMultiplier(value: number): this;
    setTailDirection(value: number): this;

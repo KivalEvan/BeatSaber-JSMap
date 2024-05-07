@@ -1,5 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ModType } from '../shared/modCheck.ts';
+import type { ICustomDataObstacle } from './custom/obstacle.ts';
 import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
 export interface IWrapObstacleAttribute extends IWrapGridObjectAttribute {
@@ -24,11 +25,15 @@ export interface IWrapObstacleAttribute extends IWrapGridObjectAttribute {
     * **RANGE:** `1-5`
     */
    height: number;
+   customData: ICustomDataObstacle;
 }
 
 export interface IWrapObstacle<
    T extends { [key: string]: any } = IWrapObstacleAttribute,
-> extends IWrapGridObject<T>, IWrapObstacleAttribute {
+> extends Omit<IWrapGridObject<T>, 'customData'>, IWrapObstacleAttribute {
+   setCustomData(object: T['customData']): this;
+   addCustomData(object: T['customData']): this;
+
    setDuration(value: number): this;
    setWidth(value: number): this;
    setHeight(value: number): this;

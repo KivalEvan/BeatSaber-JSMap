@@ -20,10 +20,10 @@ export interface IWrapBaseItemAttribute {
 export interface IWrapBaseItem<
    T extends Record<string, any> = IWrapBaseItemAttribute,
 > extends IWrapBaseItemAttribute, ISerializable<T> {
-   setCustomData(value: ICustomDataBase): this;
+   setCustomData(value: this['customData']): this;
    resetCustomData(): this;
    removeCustomData(key: string): this;
-   addCustomData(object: ICustomDataBase): this;
+   addCustomData(object: this['customData']): this;
 
    /** Allow for advanced custom function. */
    func(fn: (object: this) => void): this;

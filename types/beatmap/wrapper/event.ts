@@ -1,6 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 import type { EnvironmentAllName } from '../shared/environment.ts';
+import type { ICustomDataEvent } from './custom/event.ts';
 
 export interface IWrapEventAttribute extends IWrapBaseObjectAttribute {
    /**
@@ -38,11 +39,14 @@ export interface IWrapEventAttribute extends IWrapBaseObjectAttribute {
    value: number;
    /** Float value `<float>` of basic event. */
    floatValue: number;
+   customData: ICustomDataEvent;
 }
 
-export interface IWrapEvent<
-   T extends Record<string, any> = IWrapEventAttribute,
-> extends IWrapBaseObject<T>, IWrapEventAttribute {
+export interface IWrapEvent<T extends Record<string, any> = IWrapEventAttribute>
+   extends Omit<IWrapBaseObject<T>, 'customData'>, IWrapEventAttribute {
+   setCustomData(object: T['customData']): this;
+   addCustomData(object: T['customData']): this;
+
    setType(value: number): this;
    setValue(value: number): this;
    setFloatValue(value: number): this;
