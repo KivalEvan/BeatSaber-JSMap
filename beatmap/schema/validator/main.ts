@@ -1,14 +1,10 @@
 // deno-lint-ignore-file no-explicit-any
 import { deepCheck } from '../../shared/dataCheck.ts';
 import logger from '../../../logger.ts';
-import type { DatIDataCheckDataCheckOption } from '../../../types/beatmap/shared/dataCheck.ts';
-import {
-   audioDataCheckMap,
-   difficultyCheckMap,
-   infoCheckMap,
-   lightshowCheckMap,
-} from './dataCheckMap.ts';
+import type { IDataCheck, IDataCheckOption } from '../../../types/beatmap/shared/dataCheck.ts';
+import { audioDataCheckMap, difficultyCheckMap, infoCheckMap, lightshowCheckMap } from './map.ts';
 import { retrieveVersion } from '../../shared/version.ts';
+import type { BeatmapFileType } from '../../../types/beatmap/shared/schema.ts';
 
 function tag(name: string): string[] {
    return ['validator', name];
@@ -29,8 +25,8 @@ const defaultOptions: IDataCheckOption = {
 export function validateJSON<
    T extends Record<string, any> = Record<string, any>,
 >(
+   type: BeatmapFileType,
    data: T,
-   type: 'info' | 'audioData' | 'difficulty' | 'lightshow',
    version: number,
    options?: Partial<IDataCheckOption>,
 ): T {
@@ -40,7 +36,7 @@ export function validateJSON<
          ...options?.throwOn,
       },
    };
-   let dataCheckMap: Record<number, Record<string, DaIDataCheck = {};
+   let dataCheckMap: Record<number, Record<string, IDataCheck>> = {};
    switch (type) {
       case 'info':
          dataCheckMap = infoCheckMap;

@@ -1,5 +1,5 @@
 export * from './characteristic.ts';
-export * from './clean.ts';
+export * from './optimize.ts';
 export * from './colorScheme.ts';
 export * from './constants.ts';
 export * from './difficulty.ts';

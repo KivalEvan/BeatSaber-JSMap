@@ -22,11 +22,9 @@
  */
 
 export * from './beatmap/mod.ts';
-export * as types from './types/mod.ts';
-export * as convert from './converter/mod.ts';
-export * as load from './load/mod.ts';
-export * as save from './save/mod.ts';
-export * as optimize from './optimize/mod.ts';
+export * from './read/mod.ts';
+export * from './write/mod.ts';
 export * from './utils/mod.ts';
+export * as types from './types/mod.ts';
 export { default as logger, Logger } from './logger.ts';
 export { default as globals } from './globals.ts';

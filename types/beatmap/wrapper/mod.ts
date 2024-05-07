@@ -4,6 +4,7 @@
  * @module
  */
 
+export * from './custom/mod.ts';
 export * from './arc.ts';
 export * from './audioData.ts';
 export * from './baseItem.ts';

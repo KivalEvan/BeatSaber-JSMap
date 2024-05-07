@@ -3,7 +3,7 @@ export * from './basicEvent.ts';
 export * from './bombNote.ts';
 export * from './bpmEvent.ts';
 export * from './bpmInfo.ts';
-export * from './clean.ts';
+export * from './optimize.ts';
 export * from './colorBoostEvent.ts';
 export * from './colorNote.ts';
 export * from './dataCheck.ts';

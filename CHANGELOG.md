@@ -4,6 +4,10 @@
 
 ### Added
 
+- `read` and `write` module
+  - This require user to supply `fs` function from respective vendor in order to function, throws
+    error if not presented
+  - This is to separate loading and saving functionality from including `fs`
 - `Beatmap` class object
   - Contains both `Difficulty` and `Lightshow`, separating respective object to supposed category
   - Loading and saving will now use `Beatmap` object rather than individual class above
@@ -25,7 +29,6 @@
 
 ### Removed
 
-- `globals` object
 - Ability to read/write files from load/save function
   - The file data should be supplied by respective vendor (Node.js, Deno, Bun, Browser, etc.)
   - This is done to allow compatibility on every platform
