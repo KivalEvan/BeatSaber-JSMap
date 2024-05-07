@@ -30,7 +30,7 @@ export interface IOptimizeOptions {
     */
    throwNullish?: boolean;
    /**
-    * Deduplicate object in beatmap V4. (EXPERIMENTAL)
+    * Deduplicate object in beatmap V4.
     *
     * @default true
     */

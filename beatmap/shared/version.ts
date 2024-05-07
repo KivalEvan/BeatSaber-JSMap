@@ -1,4 +1,17 @@
+import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
+
+export function implicitVersion(type: BeatmapFileType) {
+   switch (type) {
+      case 'info':
+      case 'difficulty':
+         return '2.0.0';
+      case 'lightshow':
+         return '3.0.0';
+      default:
+         return '4.0.0';
+   }
+}
 
 export function retrieveVersion(json: Record<string, unknown>): Version | null {
    const ver = json._version ?? json.version;

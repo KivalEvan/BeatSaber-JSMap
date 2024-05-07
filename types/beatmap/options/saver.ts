@@ -2,7 +2,7 @@
 import type { IDataCheckOption } from '../shared/dataCheck.ts';
 import type { IOptimizeOptions } from './optimize.ts';
 
-export interface ISaveOptions<T extends Record<string, any> = Record<string, any>>  {
+export interface ISaveOptions<T extends Record<string, any> = Record<string, any>> {
    /**
     * Prettify format JSON.
     *
@@ -10,9 +10,9 @@ export interface ISaveOptions<T extends Record<string, any> = Record<string, any
     */
    format?: number;
    /** Validate class object integrity when saving. */
-   validate?: ISaveValidate;
+   validate?: Partial<ISaveValidate>;
    /** Optimization option when saving. */
-   optimize?: IOptimizeOptions;
+   optimize?: Partial<IOptimizeOptions>;
    /**
     * Sort the objects in array with the correct order.
     *
@@ -47,7 +47,7 @@ export interface ISaveValidate {
     *
     * @default true
     */
-   enabled: boolean;
+   enabled?: boolean;
    /**
     * Check if beatmap is valid in vanilla.
     *
@@ -56,4 +56,3 @@ export interface ISaveValidate {
    vanilla?: boolean;
    dataCheck?: IDataCheckOption;
 }
-

@@ -13,7 +13,7 @@ import { handleWrite, handleWriteSync, tag } from './_common.ts';
 export function writeDifficultyFile(
    data: IWrapBeatmap,
    version: number,
-   options?: IWriteOptions<IWrapBeatmap>
+   options?: IWriteOptions<IWrapBeatmap>,
 ): Promise<Record<string, any>> {
    logger.tInfo(tag('writeDifficultyFile'), 'Async writing difficulty file');
    return handleWrite('difficulty', data, version, options);
@@ -28,7 +28,7 @@ export function writeDifficultyFile(
 export function writeDifficultyFileSync(
    data: IWrapBeatmap,
    version: number,
-   options?: IWriteOptions<IWrapBeatmap>
+   options?: IWriteOptions<IWrapBeatmap>,
 ): Record<string, any> {
    logger.tInfo(tag('writeDifficultyFileSync'), 'Sync writing difficulty file');
    return handleWriteSync('difficulty', data, version, options);

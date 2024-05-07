@@ -16,16 +16,16 @@ import { handleRead, handleReadSync, tag } from './_common.ts';
 export function readInfoFile(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null,
-   options?: IReadOptions<IWrapInfo>
-): Promise<IWrapInfo>
+   options?: IReadOptions<IWrapInfo>,
+): Promise<IWrapInfo>;
 export function readInfoFile(
    path: LooseAutocomplete<GenericFilename>,
-   options?: IReadOptions<IWrapInfo>
-): Promise<IWrapInfo>
+   options?: IReadOptions<IWrapInfo>,
+): Promise<IWrapInfo>;
 export function readInfoFile(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null | IReadOptions<IWrapInfo>,
-   options?: IReadOptions<IWrapInfo>
+   options?: IReadOptions<IWrapInfo>,
 ): Promise<IWrapInfo> {
    logger.tInfo(tag('readInfoFile'), 'Async reading info file');
    return handleRead('info', path, version, options);
@@ -43,16 +43,16 @@ export function readInfoFile(
 export function readInfoFileSync(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null,
-   options?: IReadOptions<IWrapInfo>
-): IWrapInfo
+   options?: IReadOptions<IWrapInfo>,
+): IWrapInfo;
 export function readInfoFileSync(
    path: LooseAutocomplete<GenericFilename>,
-   options?: IReadOptions<IWrapInfo>
-): IWrapInfo
+   options?: IReadOptions<IWrapInfo>,
+): IWrapInfo;
 export function readInfoFileSync(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null | IReadOptions<IWrapInfo>,
-   options?: IReadOptions<IWrapInfo>
+   options?: IReadOptions<IWrapInfo>,
 ): IWrapInfo {
    logger.tInfo(tag('readInfoFileSync'), 'Sync reading info file');
    return handleReadSync('info', path, version, options);

@@ -13,7 +13,7 @@ import { handleWrite, handleWriteSync, tag } from './_common.ts';
 export function writeAudioDataFile(
    data: IWrapAudio,
    version: number,
-   options?: IWriteOptions<IWrapAudio>
+   options?: IWriteOptions<IWrapAudio>,
 ): Promise<Record<string, any>> {
    logger.tInfo(tag('writeAudioDataFile'), 'Async writing audio data file');
    return handleWrite('audioData', data, version, options);
@@ -28,7 +28,7 @@ export function writeAudioDataFile(
 export function writeAudioDataFileSync(
    data: IWrapAudio,
    version: number,
-   options?: IWriteOptions<IWrapAudio>
+   options?: IWriteOptions<IWrapAudio>,
 ): Record<string, any> {
    logger.tInfo(tag('writeAudioDataFileSync'), 'Sync writing audio data file');
    return handleWriteSync('audioData', data, version, options);

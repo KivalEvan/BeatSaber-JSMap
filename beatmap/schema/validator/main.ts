@@ -2,8 +2,13 @@
 import { deepCheck } from '../../shared/dataCheck.ts';
 import logger from '../../../logger.ts';
 import type { IDataCheck, IDataCheckOption } from '../../../types/beatmap/shared/dataCheck.ts';
-import { audioDataCheckMap, difficultyCheckMap, infoCheckMap, lightshowCheckMap } from './map.ts';
-import { retrieveVersion } from '../../shared/version.ts';
+import {
+   audioDataCheckMap,
+   difficultyCheckMap,
+   infoCheckMap,
+   lightshowCheckMap,
+} from './verMap.ts';
+import { implicitVersion, retrieveVersion } from '../../shared/version.ts';
 import type { BeatmapFileType } from '../../../types/beatmap/shared/schema.ts';
 
 function tag(name: string): string[] {
@@ -52,20 +57,7 @@ export function validateJSON<
          break;
    }
 
-   let ver = retrieveVersion(data);
-   if (!ver) {
-      switch (type) {
-         case 'info':
-         case 'difficulty':
-            ver = '2.0.0';
-            break;
-         case 'lightshow':
-            ver = '3.0.0';
-            break;
-         default:
-            ver = '4.0.0';
-      }
-   }
+   const ver = retrieveVersion(data) ?? implicitVersion(type);
    logger.tInfo(
       tag('validateJSON'),
       'Validating beatmap JSON for ' + type + ' with version ' + version,

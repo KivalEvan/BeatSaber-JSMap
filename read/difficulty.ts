@@ -16,16 +16,16 @@ import { handleRead, handleReadSync, tag } from './_common.ts';
 export function readDifficultyFile(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null,
-   options?: IReadOptions<IWrapBeatmap>
-): Promise<IWrapBeatmap>
+   options?: IReadOptions<IWrapBeatmap>,
+): Promise<IWrapBeatmap>;
 export function readDifficultyFile(
    path: LooseAutocomplete<GenericFilename>,
-   options?: IReadOptions<IWrapBeatmap>
-): Promise<IWrapBeatmap>
+   options?: IReadOptions<IWrapBeatmap>,
+): Promise<IWrapBeatmap>;
 export function readDifficultyFile(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null | IReadOptions<IWrapBeatmap>,
-   options?: IReadOptions<IWrapBeatmap>
+   options?: IReadOptions<IWrapBeatmap>,
 ): Promise<IWrapBeatmap> {
    logger.tInfo(tag('readDifficultyFile'), 'Async reading difficulty file');
    return handleRead('difficulty', path, version, options);
@@ -43,16 +43,16 @@ export function readDifficultyFile(
 export function readDifficultyFileSync(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null,
-   options?: IReadOptions<IWrapBeatmap>
-): IWrapBeatmap
+   options?: IReadOptions<IWrapBeatmap>,
+): IWrapBeatmap;
 export function readDifficultyFileSync(
    path: LooseAutocomplete<GenericFilename>,
-   options?: IReadOptions<IWrapBeatmap>
-): IWrapBeatmap
+   options?: IReadOptions<IWrapBeatmap>,
+): IWrapBeatmap;
 export function readDifficultyFileSync(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null | IReadOptions<IWrapBeatmap>,
-   options?: IReadOptions<IWrapBeatmap>
+   options?: IReadOptions<IWrapBeatmap>,
 ): IWrapBeatmap {
    logger.tInfo(tag('readDifficultyFileSync'), 'Sync reading difficulty file');
    return handleReadSync('difficulty', path, version, options);

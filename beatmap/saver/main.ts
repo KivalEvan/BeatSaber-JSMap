@@ -1,45 +1,83 @@
 // deno-lint-ignore-file no-explicit-any
-import type { ISaveOptionsDifficulty } from '../types/bsmap/save.ts';
-import * as optimize from './optimize/mod.ts';
-import globals from '../globals.ts';
-import logger from '../logger.ts';
-import { deepCheck } from '../beatmap/shared/dataCheck.ts';
-import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
-import { resolve } from '../deps.ts';
-import { writeJSONFile, writeJSONFileSync } from '../fs/_json.ts';
-import { defaultOptions } from './options.ts';
+import logger from '../../logger.ts';
+import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
+import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
+import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
+import type { IWrapAudio } from '../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBaseItem } from '../../types/beatmap/wrapper/baseItem.ts';
 
 function tag(name: string): string[] {
    return ['save', name];
 }
 
-export function _difficulty(
+const defaultOptions: Required<ISaveOptions> = {
+   format: 0,
+   optimize: {},
+   validate: {},
+   sort: true,
+   write: true,
+   preprocess: [],
+   postprocess: [],
+};
+
+export function saveBeatmap<T extends Record<string, any>>(
+   type: BeatmapFileType,
+   data: IWrapBaseItem,
+   version: number,
+   options?: ISaveOptions<T>,
+): T;
+export function saveBeatmap(
+   type: 'info',
+   data: IWrapInfo,
+   version: number,
+   options?: ISaveOptions<IWrapInfo>,
+): Record<string, any>;
+export function saveBeatmap(
+   type: 'audioData',
+   data: IWrapAudio,
+   version: number,
+   options?: ISaveOptions<IWrapAudio>,
+): Record<string, any>;
+export function saveBeatmap(
+   type: 'lightshow',
    data: IWrapBeatmap,
-   options: ISaveOptionsDifficulty,
+   version: number,
+   options?: ISaveOptions<IWrapBeatmap>,
+): Record<string, any>;
+export function saveBeatmap(
+   type: 'difficulty',
+   data: IWrapBeatmap,
+   version: number,
+   options?: ISaveOptions<IWrapBeatmap>,
+): Record<string, any>;
+export function saveBeatmap<T extends Record<string, any>>(
+   type: BeatmapFileType,
+   data: IWrapBaseItem,
+   version: number,
+   options: ISaveOptions<any> = {},
 ): Record<string, any> {
-   const opt: Required<ISaveOptionsDifficulty> = {
-      directory: '',
-      filePath: '',
-      format: options.format ?? defaultOptions.difficulty.format,
-      optimize: { ...defaultOptions.difficulty.optimize, ...options.optimize },
-      validate: { ...defaultOptions.difficulty.validate, ...options.validate },
-      sort: options.sort ?? defaultOptions.difficulty.sort,
+   const opt: Required<ISaveOptions<any>> = {
+      format: options.format ?? defaultOptions.format,
+      optimize: { ...defaultOptions.optimize, ...options.optimize },
+      validate: { ...defaultOptions.validate, ...options.validate },
+      sort: options.sort ?? defaultOptions.sort,
       write: true,
-      preprocess: options.preprocess ?? defaultOptions.difficulty.preprocess,
-      postprocess: options.postprocess ?? defaultOptions.difficulty.postprocess,
+      preprocess: options.preprocess ?? defaultOptions.preprocess,
+      postprocess: options.postprocess ?? defaultOptions.postprocess,
    };
    opt.preprocess.forEach((fn, i) => {
       logger.tInfo(
-         tag('_difficulty'),
+         tag('saveBeatmap'),
          'Running preprocess function #' + (i + 1),
       );
       data = fn(data);
    });
 
    if (opt.validate.enabled) {
-      logger.tInfo(tag('_difficulty'), 'Validating beatmap');
+      logger.tInfo(tag('saveBeatmap'), 'Validating beatmap');
       if (!data.isValid()) {
-         logger.tWarn(tag('_difficulty'), 'Invalid data detected in beatmap');
+         logger.tWarn(tag('saveBeatmap'), 'Invalid data detected in beatmap');
          if (opt.validate.reparse) {
             data.reparse();
          } else {
@@ -49,12 +87,12 @@ export function _difficulty(
    }
 
    if (opt.sort) {
-      logger.tInfo(tag('_difficulty'), 'Sorting beatmap objects');
+      logger.tInfo(tag('saveBeatmap'), 'Sorting beatmap objects');
       data.sort();
    }
 
    const ver = parseInt(data.version.at(0) || '0');
-   let json = data.toJSON();
+   let json = data.toSchema(version);
 
    if (opt.optimize.enabled) {
       if (ver <= 2) {
@@ -66,12 +104,12 @@ export function _difficulty(
    }
 
    if (opt.dataCheck.enabled) {
-      logger.tInfo(tag('_difficulty'), 'Checking difficulty data value');
+      logger.tInfo(tag('saveBeatmap'), 'Checking data value');
       const dataCheck = dataCheckMap[ver] ?? {};
       deepCheck(
          json,
          dataCheck,
-         'difficulty',
+         type,
          data.version,
          opt.dataCheck.throwError,
       );
@@ -79,7 +117,7 @@ export function _difficulty(
 
    opt.postprocess.forEach((fn, i) => {
       logger.tInfo(
-         tag('_difficulty'),
+         tag('saveBeatmap'),
          'Running postprocess function #' + (i + 1),
       );
       json = fn(json);

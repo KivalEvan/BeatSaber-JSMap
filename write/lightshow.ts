@@ -13,7 +13,7 @@ import { handleWrite, handleWriteSync, tag } from './_common.ts';
 export function writeLightshowFile(
    data: IWrapBeatmap,
    version: number,
-   options?: IWriteOptions<IWrapBeatmap>
+   options?: IWriteOptions<IWrapBeatmap>,
 ): Promise<Record<string, any>> {
    logger.tInfo(tag('writeLightshowFile'), 'Async writing lightshow file');
    return handleWrite('lightshow', data, version, options);
@@ -28,7 +28,7 @@ export function writeLightshowFile(
 export function writeLightshowFileSync(
    data: IWrapBeatmap,
    version: number,
-   options?: IWriteOptions<IWrapBeatmap>
+   options?: IWriteOptions<IWrapBeatmap>,
 ): Record<string, any> {
    logger.tInfo(tag('writeLightshowFileSync'), 'Sync writing lightshow file');
    return handleWriteSync('lightshow', data, version, options);

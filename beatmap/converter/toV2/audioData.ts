@@ -1,5 +1,5 @@
-import logger from '../../../../logger.ts';
-import type { IWrapAudio } from '../../../../types/beatmap/wrapper/audioData.ts';
+import logger from '../../../logger.ts';
+import type { IWrapAudio } from '../../../types/beatmap/wrapper/audioData.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV2Audio', name];
@@ -17,7 +17,7 @@ export function toV2Audio(data: IWrapAudio, fromVersion: number): IWrapAudio {
       default:
          logger.tWarn(
             tag('main'),
-            'Unknown version: version not supported; misinput? Returning cloned original data.',
+            'Unknown version: version not supported; misinput? Returning original data.',
          );
    }
 

@@ -16,16 +16,16 @@ import { handleRead, handleReadSync, tag } from './_common.ts';
 export function readAudioDataFile(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null,
-   options?: IReadOptions<IWrapAudio>
-): Promise<IWrapAudio>
+   options?: IReadOptions<IWrapAudio>,
+): Promise<IWrapAudio>;
 export function readAudioDataFile(
    path: LooseAutocomplete<GenericFilename>,
-   options?: IReadOptions<IWrapAudio>
-): Promise<IWrapAudio>
+   options?: IReadOptions<IWrapAudio>,
+): Promise<IWrapAudio>;
 export function readAudioDataFile(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null | IReadOptions<IWrapAudio>,
-   options?: IReadOptions<IWrapAudio>
+   options?: IReadOptions<IWrapAudio>,
 ): Promise<IWrapAudio> {
    logger.tInfo(tag('readAudioDataFile'), 'Async reading audioData file');
    return handleRead('audioData', path, version, options);
@@ -43,16 +43,16 @@ export function readAudioDataFile(
 export function readAudioDataFileSync(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null,
-   options?: IReadOptions<IWrapAudio>
-): IWrapAudio
+   options?: IReadOptions<IWrapAudio>,
+): IWrapAudio;
 export function readAudioDataFileSync(
    path: LooseAutocomplete<GenericFilename>,
-   options?: IReadOptions<IWrapAudio>
-): IWrapAudio
+   options?: IReadOptions<IWrapAudio>,
+): IWrapAudio;
 export function readAudioDataFileSync(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null | IReadOptions<IWrapAudio>,
-   options?: IReadOptions<IWrapAudio>
+   options?: IReadOptions<IWrapAudio>,
 ): IWrapAudio {
    logger.tInfo(tag('readAudioDataFileSync'), 'Sync reading audioData file');
    return handleReadSync('audioData', path, version, options);

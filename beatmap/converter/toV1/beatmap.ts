@@ -1,5 +1,5 @@
-import logger from '../../../../logger.ts';
-import type { IWrapBeatmap } from '../../../../types/beatmap/wrapper/beatmap.ts';
+import logger from '../../../logger.ts';
+import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV1Beatmap', name];
@@ -32,7 +32,7 @@ export function toV1Beatmap(
       default:
          logger.tWarn(
             tag('main'),
-            'Unknown version: version not supported; misinput? Returning cloned original data.',
+            'Unknown version: version not supported; misinput? Returning original data.',
          );
    }
 

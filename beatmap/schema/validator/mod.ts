@@ -1,2 +1,2 @@
-export * from './map.ts';
+export * from './verMap.ts';
 export * from './main.ts';

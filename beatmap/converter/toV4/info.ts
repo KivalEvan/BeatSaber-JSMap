@@ -1,5 +1,5 @@
-import logger from '../../../../logger.ts';
-import type { IWrapInfo } from '../../../../types/beatmap/wrapper/info.ts';
+import logger from '../../../logger.ts';
+import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV4Info', name];
@@ -17,7 +17,7 @@ export function toV4Info(data: IWrapInfo, fromVersion: number): IWrapInfo {
       default:
          logger.tWarn(
             tag('main'),
-            'Unknown version: version not supported; misinput? Returning cloned original data.',
+            'Unknown version: version not supported; misinput? Returning original data.',
          );
    }
 

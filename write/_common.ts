@@ -1,8 +1,10 @@
 // deno-lint-ignore-file no-explicit-any
+import { saveBeatmap } from '../beatmap/saver/main.ts';
 import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../fs/_json.ts';
 import globals from '../globals.ts';
 import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
+import type { IWrapBaseItem } from '../types/beatmap/wrapper/baseItem.ts';
 import type { IWriteOptions } from '../types/bsmap/writer.ts';
 
 const defaultOptions: Required<IWriteOptions> = {
@@ -18,35 +20,35 @@ export function tag(name: string): string[] {
 
 export function handleWrite<T extends Record<string, any>>(
    type: BeatmapFileType,
-   data: Record<string, any>,
+   data: IWrapBaseItem,
    version: number,
-   options: IWriteOptions<T> = {}
+   options: IWriteOptions<T> = {},
 ): Promise<Record<string, any>> {
    const json = saveBeatmap(type, data, version, options.save);
    return writeJSONFile(
       resolve(
          options.directory ?? (globals.directory || defaultOptions.directory),
-         options.filename ?? (data.filename || defaultOptions.filename)
+         options.filename ?? (data.filename || defaultOptions.filename),
       ),
       json,
-      options.format
+      options.format,
    ).then(() => json);
 }
 
 export function handleWriteSync<T extends Record<string, any>>(
    type: BeatmapFileType,
-   data: Record<string, any>,
+   data: IWrapBaseItem,
    version: number,
-   options: IWriteOptions<T> = {}
+   options: IWriteOptions<T> = {},
 ): Record<string, any> {
    const json = saveBeatmap(type, data, version, options.save);
    writeJSONFileSync(
       resolve(
          options.directory ?? (globals.directory || defaultOptions.directory),
-         options.filename ?? (data.filename || defaultOptions.filename)
+         options.filename ?? (data.filename || defaultOptions.filename),
       ),
       json,
-      options.format
+      options.format,
    );
    return json;
 }

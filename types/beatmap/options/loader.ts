@@ -2,7 +2,7 @@
 import type { IDataCheckOption } from '../shared/dataCheck.ts';
 
 export interface ILoadOptions<
-   T extends Record<string, any> = Record<string, any>
+   T extends Record<string, any> = Record<string, any>,
 > {
    /**
     * Force version conversion if loaded difficulty version is mismatched.
@@ -11,8 +11,12 @@ export interface ILoadOptions<
     */
    forceConvert?: boolean;
    /** Data check option when loading. */
-   dataCheck?: IDataCheckOption;
-   /** Sort object(s) on load. */
+   dataCheck?: Partial<IDataCheckOption>;
+   /**
+    * Sort object(s) on load.
+    *
+    * @default true
+    */
    sort?: boolean;
    /**
     * Perform any preprocessing when JSON is created or passed.

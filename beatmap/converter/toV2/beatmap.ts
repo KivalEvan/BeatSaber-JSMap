@@ -1,11 +1,11 @@
-import logger from '../../../../logger.ts';
-import type { ICustomDataNote } from '../../../../types/beatmap/v2/custom/note.ts';
-import type { ICustomDataObstacle } from '../../../../types/beatmap/v2/custom/obstacle.ts';
-import type { IChromaMaterial } from '../../../../types/beatmap/v2/custom/chroma.ts';
+import logger from '../../../logger.ts';
+import type { ICustomDataNote } from '../../../types/beatmap/v2/custom/note.ts';
+import type { ICustomDataObstacle } from '../../../types/beatmap/v2/custom/obstacle.ts';
+import type { IChromaMaterial } from '../../../types/beatmap/v2/custom/chroma.ts';
 import objectToV2 from '../customData/objectToV2.ts';
 import eventToV2 from '../customData/eventToV2.ts';
-import { isVector3, vectorMul } from '../../../../utils/vector.ts';
-import type { IWrapBeatmap } from '../../../../types/beatmap/wrapper/beatmap.ts';
+import { isVector3, vectorMul } from '../../../utils/vector.ts';
+import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV2Beatmap', name];
@@ -39,7 +39,7 @@ export function toV2Beatmap(
       default:
          logger.tWarn(
             tag('main'),
-            'Unknown version: version not supported; misinput? Returning data original data.',
+            'Unknown version: version not supported; misinput? Returning original data.',
          );
    }
 

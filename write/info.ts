@@ -13,7 +13,7 @@ import { handleWrite, handleWriteSync, tag } from './_common.ts';
 export function writeInfoFile(
    data: IWrapBeatmap,
    version: number,
-   options?: IWriteOptions<IWrapBeatmap>
+   options?: IWriteOptions<IWrapBeatmap>,
 ): Promise<Record<string, any>> {
    logger.tInfo(tag('writeInfoFile'), 'Async writing info file');
    return handleWrite('info', data, version, options);
@@ -28,7 +28,7 @@ export function writeInfoFile(
 export function writeInfoFileSync(
    data: IWrapBeatmap,
    version: number,
-   options?: IWriteOptions<IWrapBeatmap>
+   options?: IWriteOptions<IWrapBeatmap>,
 ): Record<string, any> {
    logger.tInfo(tag('writeInfoFileSync'), 'Sync writing info file');
    return handleWriteSync('info', data, version, options);

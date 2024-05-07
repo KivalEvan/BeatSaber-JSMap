@@ -16,16 +16,16 @@ import { handleRead, handleReadSync, tag } from './_common.ts';
 export function readLightshowFile(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null,
-   options?: IReadOptions<IWrapBeatmap>
-): Promise<IWrapBeatmap>
+   options?: IReadOptions<IWrapBeatmap>,
+): Promise<IWrapBeatmap>;
 export function readLightshowFile(
    path: LooseAutocomplete<GenericFilename>,
-   options?: IReadOptions<IWrapBeatmap>
-): Promise<IWrapBeatmap>
+   options?: IReadOptions<IWrapBeatmap>,
+): Promise<IWrapBeatmap>;
 export function readLightshowFile(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null | IReadOptions<IWrapBeatmap>,
-   options?: IReadOptions<IWrapBeatmap>
+   options?: IReadOptions<IWrapBeatmap>,
 ): Promise<IWrapBeatmap> {
    logger.tInfo(tag('readLightshowFile'), 'Async reading lightshow file');
    return handleRead('lightshow', path, version, options);
@@ -43,16 +43,16 @@ export function readLightshowFile(
 export function readLightshowFileSync(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null,
-   options?: IReadOptions<IWrapBeatmap>
-): IWrapBeatmap
+   options?: IReadOptions<IWrapBeatmap>,
+): IWrapBeatmap;
 export function readLightshowFileSync(
    path: LooseAutocomplete<GenericFilename>,
-   options?: IReadOptions<IWrapBeatmap>
-): IWrapBeatmap
+   options?: IReadOptions<IWrapBeatmap>,
+): IWrapBeatmap;
 export function readLightshowFileSync(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null | IReadOptions<IWrapBeatmap>,
-   options?: IReadOptions<IWrapBeatmap>
+   options?: IReadOptions<IWrapBeatmap>,
 ): IWrapBeatmap {
    logger.tInfo(tag('readLightshowFileSync'), 'Sync reading lightshow file');
    return handleReadSync('lightshow', path, version, options);

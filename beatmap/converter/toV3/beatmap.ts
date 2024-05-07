@@ -1,15 +1,15 @@
-import logger from '../../../../logger.ts';
-import { clamp } from '../../../../utils/math.ts';
-import type { ICustomDataNote } from '../../../../types/beatmap/v3/custom/note.ts';
-import type { ICustomDataObstacle } from '../../../../types/beatmap/v3/custom/obstacle.ts';
-import type { IChromaComponent, IChromaMaterial } from '../../../../types/beatmap/v3/custom/chroma.ts';
+import logger from '../../../logger.ts';
+import { clamp } from '../../../utils/math.ts';
+import type { ICustomDataNote } from '../../../types/beatmap/v3/custom/note.ts';
+import type { ICustomDataObstacle } from '../../../types/beatmap/v3/custom/obstacle.ts';
+import type { IChromaComponent, IChromaMaterial } from '../../../types/beatmap/v3/custom/chroma.ts';
 import objectToV3 from '../customData/objectToV3.ts';
 import eventToV3 from '../customData/eventToV3.ts';
-import { isVector3, vectorMul } from '../../../../utils/vector.ts';
-import type { IWrapBeatmap } from '../../../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapObstacle } from '../../../../types/beatmap/wrapper/obstacle.ts';
-import type { IWrapColorNote } from '../../../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapBombNote } from '../../../../types/beatmap/wrapper/bombNote.ts';
+import { isVector3, vectorMul } from '../../../utils/vector.ts';
+import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV3Beatmap', name];
@@ -42,7 +42,7 @@ export function toV3Beatmap(
       default:
          logger.tWarn(
             tag('main'),
-            'Unknown version: version not supported; misinput? Returning data original data.',
+            'Unknown version: version not supported; misinput? Returning original data.',
          );
    }
 
@@ -61,17 +61,17 @@ function fromV1(bm: IWrapBeatmap) {
    });
 
    bm.data.customData.time = bm.data.customData._time;
-   bm.data.customData.BPMChanges = bm.data.customData._BPMChanges.map(
+   bm.data.customData.BPMChanges = bm.data.customData._BPMChanges?.map(
       (bpmc) => {
          return {
             b: bpmc._time,
-            m: bpmc._bpm,
+            m: bpmc._bpm ?? bpmc._BPM,
             p: bpmc._beatsPerBar,
             o: bpmc._metronomeOffset,
          };
       },
    );
-   bm.data.customData.bookmarks = bm.data.customData.bookmarks.map((b) => {
+   bm.data.customData.bookmarks = bm.data.customData._bookmarks?.map((b) => {
       return {
          b: b._time,
          n: b._name,
