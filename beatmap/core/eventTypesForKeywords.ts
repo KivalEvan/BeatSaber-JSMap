@@ -17,7 +17,6 @@ export class EventTypesForKeywords extends BaseItem implements IWrapEventTypesFo
       keyword: '',
       events: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -33,9 +32,6 @@ export class EventTypesForKeywords extends BaseItem implements IWrapEventTypesFo
          .filter((e) => e) as number[];
       this.customData = deepCopy(
          data.customData ?? EventTypesForKeywords.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? EventTypesForKeywords.defaultValue._deprData,
       );
    }
    static fromJSON(
@@ -53,7 +49,6 @@ export class EventTypesForKeywords extends BaseItem implements IWrapEventTypesFo
          keyword: this.keyword,
          events: this.events.map((e) => e),
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
    isValid(): boolean {

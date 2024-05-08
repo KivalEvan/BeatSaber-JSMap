@@ -20,7 +20,6 @@ export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGro
       id: 0,
       boxes: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -37,9 +36,6 @@ export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGro
       );
       this.customData = deepCopy(
          data.customData ?? FxEventBoxGroup.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? FxEventBoxGroup.defaultValue._deprData,
       );
    }
    static fromJSON(
@@ -58,7 +54,6 @@ export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGro
          id: this.id,
          boxes: this.boxes.map((e) => e.toJSON()),
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

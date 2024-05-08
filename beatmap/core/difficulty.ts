@@ -51,7 +51,6 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       arcs: [],
       chains: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: DeepPartial<IWrapDifficultyAttribute>[]): Difficulty[] {
@@ -84,9 +83,6 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       this.customData = deepCopy(
          data.customData ?? Difficulty.defaultValue.customData,
       );
-      this._deprData = deepCopy(
-         data._deprData ?? Difficulty.defaultValue._deprData,
-      );
    }
    static fromJSON(data: Record<string, any>, version: number): Difficulty {
       return new this(Difficulty.schema[version]?.deserialize(data));
@@ -106,7 +102,6 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
          arcs: this.arcs.map((e) => e.toJSON()),
          chains: this.chains.map((e) => e.toJSON()),
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
    isValid(): boolean {

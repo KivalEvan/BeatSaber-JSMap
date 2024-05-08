@@ -14,7 +14,6 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
       previous: 0,
       value: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapFxEventIntAttribute>[]): FxEventInt[] {
@@ -27,9 +26,6 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
       this.value = data.value ?? FxEventInt.defaultValue.value;
       this.customData = deepCopy(
          data.customData ?? FxEventInt.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? FxEventInt.defaultValue._deprData,
       );
    }
    static fromJSON(data: Record<string, any>, version: number): FxEventInt {
@@ -45,7 +41,6 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
          previous: this.previous,
          value: this.value,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

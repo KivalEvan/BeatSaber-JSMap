@@ -17,7 +17,6 @@ export class RotationEvent extends BaseObject implements IWrapRotationEvent {
       executionTime: 0,
       rotation: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -33,9 +32,6 @@ export class RotationEvent extends BaseObject implements IWrapRotationEvent {
       this.customData = deepCopy(
          data.customData ?? RotationEvent.defaultValue.customData,
       );
-      this._deprData = deepCopy(
-         data._deprData ?? RotationEvent.defaultValue._deprData,
-      );
    }
    static fromJSON(data: Record<string, any>, version: number): RotationEvent {
       return new this(RotationEvent.schema[version]?.deserialize(data));
@@ -50,7 +46,6 @@ export class RotationEvent extends BaseObject implements IWrapRotationEvent {
          executionTime: this.executionTime,
          rotation: this.rotation,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

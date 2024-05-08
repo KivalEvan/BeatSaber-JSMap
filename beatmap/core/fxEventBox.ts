@@ -25,7 +25,6 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
          limit: 0,
          limitAffectsType: 0,
          customData: {},
-         _deprData: {},
       },
       beatDistribution: 0,
       beatDistributionType: 1,
@@ -35,7 +34,6 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
       easing: 0,
       events: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapFxEventBoxAttribute>[]): FxEventBox[] {
@@ -60,9 +58,6 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
       this.customData = deepCopy(
          data.customData ?? FxEventBox.defaultValue.customData,
       );
-      this._deprData = deepCopy(
-         data._deprData ?? FxEventBox.defaultValue._deprData,
-      );
    }
    static fromJSON(data: Record<string, any>, version: number): FxEventBox {
       return new this(FxEventBox.schema[version]?.deserialize(data));
@@ -82,7 +77,6 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
          easing: this.easing,
          events: this.events.map((obj) => obj.toJSON()),
          customData: this.customData,
-         _deprData: this._deprData,
       };
    }
 

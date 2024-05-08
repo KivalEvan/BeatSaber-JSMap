@@ -9,21 +9,23 @@ export interface IWrapBaseItemAttribute {
     * This has no type-safety for unsupported data.
     */
    customData: ICustomDataBase;
-   /**
-    * Old data `<object>` of beatmap object.
-    *
-    * Recommended to not modify or use as this is used to handle old data represented as other attribute.
-    */
-   _deprData: Record<string, unknown>;
 }
 
 export interface IWrapBaseItem<
-   T extends Record<string, any> = IWrapBaseItemAttribute,
-> extends IWrapBaseItemAttribute, ISerializable<T> {
+   T extends Record<string, any> = IWrapBaseItemAttribute
+> extends ISerializable<T>,
+      IWrapBaseItemAttribute {
    setCustomData(value: this['customData']): this;
    resetCustomData(): this;
    removeCustomData(key: string): this;
    addCustomData(object: this['customData']): this;
+
+   /**
+    * Sort beatmap object(s) accordingly.
+    *
+    * Certain objects may not contain sortable array.
+    */
+   sort(fn?: (a: this, b: this) => number): this;
 
    /** Allow for advanced custom function. */
    func(fn: (object: this) => void): this;

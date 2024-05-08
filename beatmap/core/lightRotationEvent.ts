@@ -20,7 +20,6 @@ export class LightRotationEvent extends BaseObject implements IWrapLightRotation
       previous: 0,
       rotation: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -38,9 +37,6 @@ export class LightRotationEvent extends BaseObject implements IWrapLightRotation
       this.rotation = data.rotation ?? LightRotationEvent.defaultValue.rotation;
       this.customData = deepCopy(
          data.customData ?? LightRotationEvent.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? LightRotationEvent.defaultValue._deprData,
       );
    }
    static fromJSON(
@@ -62,7 +58,6 @@ export class LightRotationEvent extends BaseObject implements IWrapLightRotation
          previous: this.previous,
          rotation: this.rotation,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

@@ -16,7 +16,7 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
          _lineIndex: data.posX,
          _lineLayer: data.posY,
          _type: 3,
-         _cutDirection: data._deprData._cutDirection as number,
+         _cutDirection: data.direction,
       };
    },
    deserialize(data: Partial<INote> = {}): Partial<IWrapBombNoteAttribute> {
@@ -24,9 +24,7 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
          time: data._time ?? this.defaultValue._time,
          posX: data._lineIndex ?? this.defaultValue._lineIndex,
          posY: data._lineLayer ?? this.defaultValue._lineLayer,
-         _deprData: {
-            direction: data._cutDirection ?? this.defaultValue._cutDirection,
-         },
+         direction: data.direction
       };
    },
    isValid(_: IWrapBombNoteAttribute): boolean {

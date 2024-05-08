@@ -13,7 +13,6 @@ export class ColorBoostEvent extends BaseObject implements IWrapColorBoostEvent 
       time: 0,
       toggle: false,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapColorBoostEventAttribute>[]): ColorBoostEvent[] {
@@ -25,9 +24,6 @@ export class ColorBoostEvent extends BaseObject implements IWrapColorBoostEvent 
       this.toggle = data.toggle ?? ColorBoostEvent.defaultValue.toggle;
       this.customData = deepCopy(
          data.customData ?? ColorBoostEvent.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? ColorBoostEvent.defaultValue._deprData,
       );
    }
    static fromJSON(data: Record<string, any>, version: number): ColorBoostEvent {
@@ -41,7 +37,6 @@ export class ColorBoostEvent extends BaseObject implements IWrapColorBoostEvent 
          time: this.time,
          toggle: this.toggle,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

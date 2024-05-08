@@ -6,6 +6,7 @@ import type {
    IWrapLightTranslationEventBoxAttribute,
 } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 import type { DeepPartial } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
 import { LightTranslationEvent } from './lightTranslationEvent.ts';
@@ -27,7 +28,6 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
          limit: 0,
          limitAffectsType: 0,
          customData: {},
-         _deprData: {},
       },
       axis: 0,
       flip: 0,
@@ -39,7 +39,6 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
       easing: 0,
       events: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -67,8 +66,7 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
       this.events = (
          data.events ?? LightTranslationEventBox.defaultValue.events
       ).map((obj) => new LightTranslationEvent(obj));
-      this.customData = data.customData ?? LightTranslationEventBox.defaultValue.customData;
-      this._deprData = data._deprData ?? LightTranslationEventBox.defaultValue._deprData;
+      this.customData = deepCopy(data.customData ?? LightTranslationEventBox.defaultValue.customData);
    }
    static fromJSON(
       data: Record<string, any>,
@@ -94,8 +92,7 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
          affectFirst: this.affectFirst,
          easing: this.easing,
          events: this.events.map((obj) => obj.toJSON()),
-         customData: this.customData,
-         _deprData: this._deprData,
+         customData: deepCopy(this.customData),
       };
    }
 

@@ -20,7 +20,6 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       angleOffset: 0,
       laneRotation: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapColorNoteAttribute>[]): ColorNote[] {
@@ -37,9 +36,6 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       this.laneRotation = data.laneRotation ?? ColorNote.defaultValue.laneRotation;
       this.customData = deepCopy(
          data.customData ?? ColorNote.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? ColorNote.defaultValue._deprData,
       );
    }
    static fromJSON(data: Record<string, any>, version: number): ColorNote {
@@ -58,7 +54,6 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
          angleOffset: this.angleOffset,
          laneRotation: this.laneRotation,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

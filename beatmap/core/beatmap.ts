@@ -50,7 +50,6 @@ import type {
    IWrapFxEventBoxGroup,
    IWrapFxEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
-import { deepCopy } from '../../utils/misc.ts';
 import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import type { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
 import { Difficulty } from './difficulty.ts';
@@ -68,7 +67,6 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
          arcs: [],
          chains: [],
          customData: {},
-         _deprData: {},
       },
       lightshow: {
          filename: 'Unnamed.lightshow.dat',
@@ -82,10 +80,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
          eventTypesWithKeywords: { list: [] },
          useNormalEventsAsCompatibleEvents: false,
          customData: {},
-         _deprData: {},
       },
-      customData: {},
-      _deprData: {},
    };
 
    static create(...data: DeepPartial<IWrapBeatmapAttribute>[]): Beatmap[] {
@@ -97,19 +92,11 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       this.lightshow = new Lightshow(
          data.lightshow ?? Beatmap.defaultValue.lightshow,
       );
-      this.customData = deepCopy(
-         data.customData ?? Beatmap.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? Beatmap.defaultValue._deprData,
-      );
    }
    static fromJSON(data: Record<string, any>, version: number): Beatmap {
       return new this({
          data: Difficulty.schema[version]?.deserialize(data.data),
          lightshow: Lightshow.schema[version]?.deserialize(data.lightshow),
-         customData: data.customData,
-         _deprData: data._deprData,
       });
    }
    toSchema(version?: number): {
@@ -125,8 +112,6 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return {
          data: this.data.toJSON(),
          lightshow: this.lightshow.toJSON(),
-         customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
    isValid(): boolean {

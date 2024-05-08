@@ -22,7 +22,6 @@ export class AudioData extends BaseItem implements IWrapAudio {
       bpmData: [],
       lufsData: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapAudioAttribute>[]): AudioData[] {
@@ -52,9 +51,6 @@ export class AudioData extends BaseItem implements IWrapAudio {
       this.customData = deepCopy(
          data.customData ?? AudioData.defaultValue.customData,
       );
-      this._deprData = deepCopy(
-         data._deprData ?? AudioData.defaultValue._deprData,
-      );
    }
    static fromJSON(data: Record<string, any>, version: number): AudioData {
       return new this(AudioData.schema[version]?.deserialize(data));
@@ -72,7 +68,6 @@ export class AudioData extends BaseItem implements IWrapAudio {
          bpmData: this.bpmData,
          lufsData: this.lufsData,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
    isValid(): boolean {
@@ -145,7 +140,6 @@ export class AudioData extends BaseItem implements IWrapAudio {
             time: bd.startBeat,
             bpm,
             customData: {},
-            _deprData: {},
          };
       });
    }

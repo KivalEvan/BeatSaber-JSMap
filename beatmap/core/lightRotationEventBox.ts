@@ -28,7 +28,6 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
          limit: 0,
          limitAffectsType: 0,
          customData: {},
-         _deprData: {},
       },
       axis: 0,
       flip: 0,
@@ -40,7 +39,6 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
       easing: 0,
       events: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -71,9 +69,6 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
       this.customData = deepCopy(
          data.customData ?? LightRotationEventBox.defaultValue.customData,
       );
-      this._deprData = deepCopy(
-         data._deprData ?? LightRotationEventBox.defaultValue._deprData,
-      );
    }
    static fromJSON(
       data: Record<string, any>,
@@ -98,7 +93,6 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
          easing: this.easing,
          events: this.events.map((e) => e.toJSON()),
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

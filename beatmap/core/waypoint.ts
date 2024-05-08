@@ -17,7 +17,6 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
       direction: 0,
       laneRotation: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapWaypointAttribute>[]): Waypoint[] {
@@ -32,9 +31,6 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
       this.laneRotation = data.laneRotation ?? Waypoint.defaultValue.laneRotation;
       this.customData = deepCopy(
          data.customData ?? Waypoint.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? Waypoint.defaultValue._deprData,
       );
    }
    static fromJSON(data: Record<string, any>, version: number): Waypoint {
@@ -52,7 +48,6 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
          direction: this.direction,
          laneRotation: this.laneRotation,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

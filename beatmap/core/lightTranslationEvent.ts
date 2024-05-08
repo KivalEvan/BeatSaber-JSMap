@@ -18,7 +18,6 @@ export class LightTranslationEvent extends BaseObject implements IWrapLightTrans
       previous: 0,
       translation: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -34,9 +33,6 @@ export class LightTranslationEvent extends BaseObject implements IWrapLightTrans
       this.translation = data.translation ?? LightTranslationEvent.defaultValue.translation;
       this.customData = deepCopy(
          data.customData ?? LightTranslationEvent.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? LightTranslationEvent.defaultValue._deprData,
       );
    }
    static fromJSON(
@@ -56,7 +52,6 @@ export class LightTranslationEvent extends BaseObject implements IWrapLightTrans
          previous: this.previous,
          translation: this.translation,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

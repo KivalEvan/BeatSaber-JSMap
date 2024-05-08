@@ -23,7 +23,6 @@ export class LightRotationEventBoxGroup extends EventBoxGroup
       id: 0,
       boxes: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -42,9 +41,6 @@ export class LightRotationEventBoxGroup extends EventBoxGroup
       ).map((e) => new LightRotationEventBox(e));
       this.customData = deepCopy(
          data.customData ?? LightRotationEventBoxGroup.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? LightRotationEventBoxGroup.defaultValue._deprData,
       );
    }
    static fromJSON(
@@ -66,7 +62,6 @@ export class LightRotationEventBoxGroup extends EventBoxGroup
          id: this.id,
          boxes: this.boxes.map((e) => e.toJSON()),
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

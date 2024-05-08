@@ -19,7 +19,6 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
       strobeFade: 0,
       easing: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapLightColorEventAttribute>[]): LightColorEvent[] {
@@ -39,9 +38,6 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
       this.customData = deepCopy(
          data.customData ?? LightColorEvent.defaultValue.customData,
       );
-      this._deprData = deepCopy(
-         data._deprData ?? LightColorEvent.defaultValue._deprData,
-      );
    }
    static fromJSON(data: Record<string, any>, version: number): LightColorEvent {
       return new this(LightColorEvent.schema[version]?.deserialize(data));
@@ -60,7 +56,6 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
          strobeFade: this.strobeFade,
          easing: this.easing,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

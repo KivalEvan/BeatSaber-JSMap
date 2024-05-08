@@ -15,7 +15,6 @@ export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
       previous: 0,
       value: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapFxEventFloatAttribute>[]): FxEventFloat[] {
@@ -29,9 +28,6 @@ export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
       this.value = data.value ?? FxEventFloat.defaultValue.value;
       this.customData = deepCopy(
          data.customData ?? FxEventFloat.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? FxEventFloat.defaultValue._deprData,
       );
    }
    static fromJSON(data: Record<string, any>, version: number): FxEventFloat {
@@ -47,7 +43,6 @@ export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
          previous: this.previous,
          value: this.value,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

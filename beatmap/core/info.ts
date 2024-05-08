@@ -44,7 +44,6 @@ export class Info extends BaseItem implements IWrapInfo {
       colorSchemes: [],
       difficulties: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: DeepPartial<IWrapInfoAttribute>[]): Info[] {
@@ -140,7 +139,6 @@ export class Info extends BaseItem implements IWrapInfo {
       this.customData = deepCopy(
          data.customData ?? Info.defaultValue.customData,
       );
-      this._deprData = deepCopy(data._deprData ?? Info.defaultValue._deprData);
    }
    static fromJSON(data: Record<string, any>, version: number): Info {
       return new this(Info.schema[version]?.deserialize(data));
@@ -159,7 +157,6 @@ export class Info extends BaseItem implements IWrapInfo {
          colorSchemes: this.colorSchemes,
          difficulties: this.difficulties,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
    isValid(): boolean {
@@ -228,7 +225,6 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
       colorSchemeId: 0,
       environmentId: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -257,9 +253,6 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
       this.customData = deepCopy(
          data.customData ?? InfoBeatmap.defaultValue.customData,
       );
-      this._deprData = deepCopy(
-         data._deprData ?? InfoBeatmap.defaultValue._deprData,
-      );
    }
    static fromJSON(data: Record<string, any>, version: number): InfoBeatmap {
       return new this(InfoBeatmap.schema[version]?.deserialize(data));
@@ -283,7 +276,6 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
          colorSchemeId: this.colorSchemeId,
          environmentId: this.environmentId,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
    isValid(): boolean {

@@ -18,7 +18,7 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
          _type: 3,
          _lineIndex: data.posX,
          _lineLayer: data.posY,
-         _cutDirection: data._deprData._cutDirection as number ?? 0,
+         _cutDirection: data.direction,
          _customData: deepCopy(data.customData),
       };
    },
@@ -30,9 +30,6 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
          customData: deepCopy(
             data._customData ?? this.defaultValue._customData,
          ),
-         _deprData: {
-            _cutDirection: data._cutDirection ?? this.defaultValue._cutDirection,
-         },
       };
    },
    isValid(data: IWrapBombNoteAttribute): boolean {

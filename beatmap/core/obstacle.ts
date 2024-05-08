@@ -21,7 +21,6 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       duration: 0,
       laneRotation: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapObstacleAttribute>[]): Obstacle[] {
@@ -37,7 +36,6 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       this.duration = data.duration ?? Obstacle.defaultValue.duration;
       this.laneRotation = data.laneRotation ?? Obstacle.defaultValue.laneRotation;
       this.customData = deepCopy(data.customData ?? Obstacle.defaultValue.customData);
-      this._deprData = deepCopy(data._deprData ?? Obstacle.defaultValue._deprData);
    }
    static fromJSON(data: Record<string, any>, version: number): Obstacle {
       return new this(Obstacle.schema[version]?.deserialize(data));
@@ -55,7 +53,6 @@ export class Obstacle extends GridObject implements IWrapObstacle {
          duration: this.duration,
          laneRotation: this.laneRotation,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

@@ -20,7 +20,6 @@ export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLight
       id: 0,
       boxes: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -37,9 +36,6 @@ export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLight
       ).map((e) => new LightColorEventBox(e));
       this.customData = deepCopy(
          data.customData ?? LightColorEventBoxGroup.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? LightColorEventBoxGroup.defaultValue._deprData,
       );
    }
    static fromJSON(
@@ -60,7 +56,6 @@ export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLight
          id: this.id,
          boxes: this.boxes.map((e) => e.toJSON()),
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

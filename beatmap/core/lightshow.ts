@@ -58,7 +58,6 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       eventTypesWithKeywords: { list: [] },
       useNormalEventsAsCompatibleEvents: false,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: DeepPartial<IWrapLightshowAttribute>[]): Lightshow[] {
@@ -101,9 +100,6 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       this.customData = deepCopy(
          data.customData ?? Lightshow.defaultValue.customData,
       );
-      this._deprData = deepCopy(
-         data._deprData ?? Lightshow.defaultValue._deprData,
-      );
    }
    static fromJSON(data: Record<string, any>, version: number): Lightshow {
       return new this(Lightshow.schema[version]?.deserialize(data));
@@ -129,7 +125,6 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
          },
          useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
    isValid(): boolean {

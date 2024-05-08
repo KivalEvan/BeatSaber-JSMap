@@ -16,7 +16,7 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
             ? 1
             : data.posY === 0 && data.height === 5
             ? 0
-            : (data._deprData._type as number) ?? 0,
+            : 0, // FIXME: implicit ME conversion
          _lineIndex: data.posX,
          _duration: data.duration,
          _width: data.width,
@@ -32,10 +32,6 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          duration: data._duration ?? this.defaultValue._duration,
          width: data._width ?? this.defaultValue._width,
          height: type === 1 ? 3 : 5,
-         _deprData: {
-            _isMappingExtensions: type !== 0 && type !== 1,
-            _type: type,
-         },
       };
    },
    isValid(_: IWrapObstacleAttribute): boolean {

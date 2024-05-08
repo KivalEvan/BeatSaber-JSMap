@@ -1,10 +1,6 @@
 import type { CharacteristicName } from './characteristic.ts';
 import type { DifficultyName } from './difficulty.ts';
 
-export interface IFileInfo {
-   filename: string;
-}
-
 // excluded here is official editor way of saving things, otherwise may be saved by 3rd party editor
 export type GenericFilename =
    | 'Info.dat'

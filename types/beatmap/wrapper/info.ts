@@ -3,13 +3,14 @@ import type { LooseAutocomplete } from '../../utils.ts';
 import type { CharacteristicName } from '../shared/characteristic.ts';
 import type { DifficultyName } from '../shared/difficulty.ts';
 import type { EnvironmentAllName } from '../shared/environment.ts';
-import type { GenericFilename, IFileInfo } from '../shared/filename.ts';
-import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import type { IColor } from '../../colors.ts';
 import type { ICustomDataInfo } from './custom/info.ts';
 import type { ICustomDataInfoBeatmap } from '../v4/custom/info.ts';
+import type { IWrapBaseFile, IWrapBaseFileAttribute } from './baseFile.ts';
+import type { GenericFilename } from '../shared/filename.ts';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
-export interface IWrapInfoAttribute extends IWrapBaseItemAttribute, IFileInfo {
+export interface IWrapInfoAttribute extends IWrapBaseFileAttribute {
    song: IWrapInfoSong;
    audio: IWrapInfoAudio;
    songPreviewFilename: string;
@@ -59,9 +60,8 @@ export interface IWrapInfoBeatmapAuthors {
 }
 
 export interface IWrapInfo<T extends Record<string, any> = IWrapInfoAttribute>
-   extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapInfoAttribute {
+   extends Omit<IWrapBaseFile<T>, 'customData'>, IWrapInfoAttribute {
    difficulties: IWrapInfoBeatmap[];
-   setFilename(filename: LooseAutocomplete<GenericFilename>): this;
 
    setCustomData(object: T['customData']): this;
    addCustomData(object: T['customData']): this;

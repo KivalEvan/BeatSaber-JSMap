@@ -15,7 +15,6 @@ export class BombNote extends GridObject implements IWrapBombNote {
       posY: 0,
       laneRotation: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapBombNoteAttribute>[]): BombNote[] {
@@ -28,7 +27,6 @@ export class BombNote extends GridObject implements IWrapBombNote {
       this.posY = data.posY ?? BombNote.defaultValue.posY;
       this.laneRotation = data.laneRotation ?? BombNote.defaultValue.laneRotation;
       this.customData = deepCopy(data.customData ?? BombNote.defaultValue.customData);
-      this._deprData = deepCopy(data._deprData ?? BombNote.defaultValue._deprData);
    }
    static fromJSON(data: Record<string, any>, version: number): BombNote {
       return new this(BombNote.schema[version]?.deserialize(data));
@@ -43,7 +41,6 @@ export class BombNote extends GridObject implements IWrapBombNote {
          posY: this.posY,
          laneRotation: this.laneRotation,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

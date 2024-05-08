@@ -24,7 +24,6 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
       value: 0,
       floatValue: 0,
       customData: {},
-      _deprData: {},
    };
    static create(...data: Partial<IWrapEventAttribute>[]): BasicEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
@@ -37,9 +36,6 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
       this.floatValue = data.floatValue ?? BasicEvent.defaultValue.floatValue;
       this.customData = deepCopy(
          data.customData ?? BasicEvent.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? BasicEvent.defaultValue._deprData,
       );
    }
    static fromJSON(data: Record<string, any>, version: number): BasicEvent {
@@ -55,7 +51,6 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
          value: this.value,
          floatValue: this.floatValue,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

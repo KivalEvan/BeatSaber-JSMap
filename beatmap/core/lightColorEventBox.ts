@@ -28,7 +28,6 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
          limit: 0,
          limitAffectsType: 0,
          customData: {},
-         _deprData: {},
       },
       beatDistribution: 0,
       beatDistributionType: 1,
@@ -38,7 +37,6 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
       easing: 0,
       events: [],
       customData: {},
-      _deprData: {},
    };
 
    static create(
@@ -67,9 +65,6 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
       this.customData = deepCopy(
          data.customData ?? LightColorEventBox.defaultValue.customData,
       );
-      this._deprData = deepCopy(
-         data._deprData ?? LightColorEventBox.defaultValue._deprData,
-      );
    }
    static fromJSON(
       data: Record<string, any>,
@@ -92,7 +87,6 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
          easing: this.easing,
          events: this.events.map((e) => e.toJSON()),
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

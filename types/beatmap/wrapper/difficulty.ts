@@ -6,13 +6,10 @@ import type { IWrapBombNote, IWrapBombNoteAttribute } from './bombNote.ts';
 import type { IWrapObstacle, IWrapObstacleAttribute } from './obstacle.ts';
 import type { IWrapArc, IWrapArcAttribute } from './arc.ts';
 import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
-import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
-import type { LooseAutocomplete } from '../../utils.ts';
-import type { GenericFilename } from '../shared/filename.ts';
-import type { IFileInfo } from '../shared/filename.ts';
 import type { ICustomDataDifficulty } from './custom/difficulty.ts';
+import type { IWrapBaseFile, IWrapBaseFileAttribute } from './baseFile.ts';
 
-export interface IWrapDifficultyAttribute extends IWrapBaseItemAttribute, IFileInfo {
+export interface IWrapDifficultyAttribute extends IWrapBaseFileAttribute {
    bpmEvents: IWrapBPMEventAttribute[];
    rotationEvents: IWrapRotationEventAttribute[];
    colorNotes: IWrapColorNoteAttribute[];
@@ -25,7 +22,7 @@ export interface IWrapDifficultyAttribute extends IWrapBaseItemAttribute, IFileI
 
 export interface IWrapDifficulty<
    T extends Record<string, any> = IWrapDifficultyAttribute,
-> extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapDifficultyAttribute {
+> extends Omit<IWrapBaseFile<T>, 'customData'>, IWrapDifficultyAttribute {
    bpmEvents: IWrapBPMEvent[];
    rotationEvents: IWrapRotationEvent[];
    colorNotes: IWrapColorNote[];
@@ -34,13 +31,8 @@ export interface IWrapDifficulty<
    arcs: IWrapArc[];
    chains: IWrapChain[];
 
-   setFilename(filename: LooseAutocomplete<GenericFilename>): this;
-
    setCustomData(object: T['customData']): this;
    addCustomData(object: T['customData']): this;
-
-   /** Sort beatmap object(s) accordingly. */
-   sort(): this;
 
    addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): this;
    addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): this;

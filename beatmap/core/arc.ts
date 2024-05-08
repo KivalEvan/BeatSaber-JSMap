@@ -31,7 +31,6 @@ export class Arc extends BaseSlider implements IWrapArc {
       laneRotation: 0,
       tailLaneRotation: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapArcAttribute>[]): Arc[] {
@@ -55,7 +54,6 @@ export class Arc extends BaseSlider implements IWrapArc {
       this.laneRotation = data.laneRotation ?? Arc.defaultValue.laneRotation;
       this.tailLaneRotation = data.tailLaneRotation ?? Arc.defaultValue.tailLaneRotation;
       this.customData = deepCopy(data.customData ?? Arc.defaultValue.customData);
-      this._deprData = deepCopy(data._deprData ?? Arc.defaultValue._deprData);
    }
    static fromJSON(data: Record<string, any>, version: number): Arc {
       return new this(Arc.schema[version]?.deserialize(data));
@@ -80,7 +78,6 @@ export class Arc extends BaseSlider implements IWrapArc {
          laneRotation: this.laneRotation,
          tailLaneRotation: this.tailLaneRotation,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

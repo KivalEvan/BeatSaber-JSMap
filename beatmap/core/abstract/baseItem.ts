@@ -5,7 +5,6 @@ import { Serializable } from '../../shared/serializable.ts';
 /** Basic building block of beatmap object. */
 export abstract class BaseItem extends Serializable implements IWrapBaseItem {
    customData: ICustomDataBase = {};
-   _deprData: Record<string, unknown> = {};
 
    setCustomData(value: this['customData']): this {
       this.customData = value;
@@ -30,11 +29,18 @@ export abstract class BaseItem extends Serializable implements IWrapBaseItem {
       return this;
    }
 
+   sort(_fn?: ((a: this, b: this) => number) | undefined): this {
+      return this;
+   }
+
    func(fn: (object: this) => void): this {
       fn(this);
       return this;
    }
 
+   // shut the fuck up, ts
+   // deno-lint-ignore no-explicit-any
+   abstract toJSON(): any;
    abstract isValid(): boolean;
 
    isChroma(): boolean {

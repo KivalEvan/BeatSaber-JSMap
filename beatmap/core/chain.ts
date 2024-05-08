@@ -20,7 +20,6 @@ export class Chain extends BaseSlider implements IWrapChain {
       sliceCount: 0,
       squish: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapChainAttribute>[]): Chain[] {
@@ -41,7 +40,6 @@ export class Chain extends BaseSlider implements IWrapChain {
       this.sliceCount = data.sliceCount ?? Chain.defaultValue.sliceCount;
       this.squish = data.squish ?? Chain.defaultValue.squish;
       this.customData = deepCopy(data.customData ?? Chain.defaultValue.customData);
-      this._deprData = deepCopy(data._deprData ?? Chain.defaultValue._deprData);
    }
    static fromJSON(data: Record<string, any>, version: number): Chain {
       return new this(Chain.schema[version]?.deserialize(data));
@@ -65,7 +63,6 @@ export class Chain extends BaseSlider implements IWrapChain {
          sliceCount: this.sliceCount,
          squish: this.squish,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

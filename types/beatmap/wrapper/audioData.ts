@@ -1,9 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
-import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
-import type { IFileInfo } from '../shared/filename.ts';
+import type { IWrapBaseFile, IWrapBaseFileAttribute } from './baseFile.ts';
 import type { IWrapBPMEventAttribute } from './bpmEvent.ts';
 
-export interface IWrapAudioAttribute extends IWrapBaseItemAttribute, IFileInfo {
+export interface IWrapAudioAttribute extends IWrapBaseFileAttribute {
    audioChecksum: string;
    sampleCount: number; // int
    frequency: number; // int
@@ -25,7 +24,7 @@ export interface IWrapAudioLUFS {
 }
 
 export interface IWrapAudio<T extends { [key: string]: any } = IWrapAudioAttribute>
-   extends IWrapBaseItem<T>, IWrapAudioAttribute {
+   extends IWrapBaseFile<T>, IWrapAudioAttribute {
    setFilename(filename: string): this;
    setSampleCount(value: number): this;
    setFrequency(value: number): this;
@@ -36,7 +35,4 @@ export interface IWrapAudio<T extends { [key: string]: any } = IWrapAudioAttribu
       sampleCount?: number,
    ): this;
    getBpmEvents(): IWrapBPMEventAttribute[];
-
-   /** Sort beatmap object(s) accordingly. */
-   sort(): this;
 }

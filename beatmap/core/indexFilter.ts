@@ -21,7 +21,6 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
       limit: 0,
       limitAffectsType: 0,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapIndexFilterAttribute>[]): IndexFilter[] {
@@ -40,9 +39,6 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
       this.limitAffectsType = data.limitAffectsType ?? IndexFilter.defaultValue.limitAffectsType;
       this.customData = deepCopy(
          data.customData ?? IndexFilter.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? IndexFilter.defaultValue._deprData,
       );
    }
    static fromJSON(data: Record<string, any>, version: number): IndexFilter {
@@ -63,7 +59,6 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
          limit: this.limit,
          limitAffectsType: this.limitAffectsType,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

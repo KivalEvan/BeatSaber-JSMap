@@ -13,7 +13,6 @@ export class BPMEvent extends BaseObject implements IWrapBPMEvent {
       time: 0,
       bpm: 120,
       customData: {},
-      _deprData: {},
    };
 
    static create(...data: Partial<IWrapBPMEventAttribute>[]): BPMEvent[] {
@@ -25,9 +24,6 @@ export class BPMEvent extends BaseObject implements IWrapBPMEvent {
       this.bpm = data.bpm ?? BPMEvent.defaultValue.bpm;
       this.customData = deepCopy(
          data.customData ?? BPMEvent.defaultValue.customData,
-      );
-      this._deprData = deepCopy(
-         data._deprData ?? BPMEvent.defaultValue._deprData,
       );
    }
    static fromJSON(data: Record<string, any>, version: number): BPMEvent {
@@ -41,7 +37,6 @@ export class BPMEvent extends BaseObject implements IWrapBPMEvent {
          time: this.time,
          bpm: this.bpm,
          customData: deepCopy(this.customData),
-         _deprData: deepCopy(this._deprData),
       };
    }
 

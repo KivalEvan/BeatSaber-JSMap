@@ -91,9 +91,7 @@ export function saveBeatmap<T extends Record<string, any>>(
       data.sort();
    }
 
-   const ver = parseInt(data.version.at(0) || '0');
    let json = data.toSchema(version);
-
    if (opt.optimize.enabled) {
       if (ver <= 2) {
          if (typeof options.optimize?.purgeZeros === 'boolean') {

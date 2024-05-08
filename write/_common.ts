@@ -4,7 +4,7 @@ import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../fs/_json.ts';
 import globals from '../globals.ts';
 import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
-import type { IWrapBaseItem } from '../types/beatmap/wrapper/baseItem.ts';
+import type { IWrapBaseFile } from '../types/beatmap/wrapper/baseFile.ts';
 import type { IWriteOptions } from '../types/bsmap/writer.ts';
 
 const defaultOptions: Required<IWriteOptions> = {
@@ -20,7 +20,7 @@ export function tag(name: string): string[] {
 
 export function handleWrite<T extends Record<string, any>>(
    type: BeatmapFileType,
-   data: IWrapBaseItem,
+   data: IWrapBaseFile,
    version: number,
    options: IWriteOptions<T> = {},
 ): Promise<Record<string, any>> {
@@ -37,7 +37,7 @@ export function handleWrite<T extends Record<string, any>>(
 
 export function handleWriteSync<T extends Record<string, any>>(
    type: BeatmapFileType,
-   data: IWrapBaseItem,
+   data: IWrapBaseFile,
    version: number,
    options: IWriteOptions<T> = {},
 ): Record<string, any> {

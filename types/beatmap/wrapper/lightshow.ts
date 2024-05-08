@@ -18,14 +18,12 @@ import type {
    IWrapEventTypesWithKeywords,
    IWrapEventTypesWithKeywordsAttribute,
 } from './eventTypesWithKeywords.ts';
-import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
-import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
-import type { GenericFilename } from '../shared/filename.ts';
+import type { DeepPartial } from '../../utils.ts';
 import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
-import type { IFileInfo } from '../shared/filename.ts';
 import type { ICustomDataDifficulty } from './custom/difficulty.ts';
+import type { IWrapBaseFile, IWrapBaseFileAttribute } from './baseFile.ts';
 
-export interface IWrapLightshowAttribute extends IWrapBaseItemAttribute, IFileInfo {
+export interface IWrapLightshowAttribute extends IWrapBaseFileAttribute {
    waypoints: IWrapWaypointAttribute[];
    basicEvents: IWrapEventAttribute[];
    colorBoostEvents: IWrapColorBoostEventAttribute[];
@@ -40,7 +38,7 @@ export interface IWrapLightshowAttribute extends IWrapBaseItemAttribute, IFileIn
 
 export interface IWrapLightshow<
    T extends Record<string, any> = IWrapLightshowAttribute,
-> extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapLightshowAttribute {
+> extends Omit<IWrapBaseFile<T>, 'customData'>, IWrapLightshowAttribute {
    waypoints: IWrapWaypoint[];
    basicEvents: IWrapEvent[];
    colorBoostEvents: IWrapColorBoostEvent[];
@@ -50,13 +48,8 @@ export interface IWrapLightshow<
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
 
-   setFilename(filename: LooseAutocomplete<GenericFilename>): this;
-
    setCustomData(object: T['customData']): this;
    addCustomData(object: T['customData']): this;
-
-   /** Sort beatmap object(s) accordingly. */
-   sort(): this;
 
    addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
    addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;
