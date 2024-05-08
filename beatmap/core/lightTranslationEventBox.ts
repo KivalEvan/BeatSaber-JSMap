@@ -66,7 +66,9 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
       this.events = (
          data.events ?? LightTranslationEventBox.defaultValue.events
       ).map((obj) => new LightTranslationEvent(obj));
-      this.customData = deepCopy(data.customData ?? LightTranslationEventBox.defaultValue.customData);
+      this.customData = deepCopy(
+         data.customData ?? LightTranslationEventBox.defaultValue.customData,
+      );
    }
    static fromJSON(
       data: Record<string, any>,

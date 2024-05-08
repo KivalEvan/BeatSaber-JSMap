@@ -1,9 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent.ts';
-import type {
-   IWrapRotationEvent,
-   IWrapRotationEventAttribute,
-} from './rotationEvent.ts';
+import type { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent.ts';
 import type { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
 import type { IWrapBombNote, IWrapBombNoteAttribute } from './bombNote.ts';
 import type { IWrapObstacle, IWrapObstacleAttribute } from './obstacle.ts';
@@ -11,10 +8,7 @@ import type { IWrapArc, IWrapArcAttribute } from './arc.ts';
 import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
 import type { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
 import type { IWrapEvent, IWrapEventAttribute } from './event.ts';
-import type {
-   IWrapColorBoostEvent,
-   IWrapColorBoostEventAttribute,
-} from './colorBoostEvent.ts';
+import type { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
 import type {
    IWrapLightColorEventBoxGroup,
    IWrapLightColorEventBoxGroupAttribute,
@@ -29,14 +23,8 @@ import type {
 } from './lightTranslationEventBoxGroup.ts';
 import type { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
 import type { DeepPartial } from '../../utils.ts';
-import type {
-   IWrapFxEventBoxGroup,
-   IWrapFxEventBoxGroupAttribute,
-} from './fxEventBoxGroup.ts';
-import type {
-   IWrapDifficulty,
-   IWrapDifficultyAttribute,
-} from './difficulty.ts';
+import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
+import type { IWrapDifficulty, IWrapDifficultyAttribute } from './difficulty.ts';
 import type { IWrapLightshow, IWrapLightshowAttribute } from './lightshow.ts';
 import type { ISerializable } from '../shared/serializable.ts';
 
@@ -46,7 +34,7 @@ export interface IWrapBeatmapAttribute {
 }
 
 export interface IWrapBeatmap<
-   T extends Record<string, any> = IWrapBeatmapAttribute
+   T extends Record<string, any> = IWrapBeatmapAttribute,
 > extends ISerializable<T> {
    data: IWrapDifficulty;
    lightshow: IWrapLightshow;

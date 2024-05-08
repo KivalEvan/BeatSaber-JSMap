@@ -8,7 +8,6 @@ export interface IWrapBaseFileAttribute extends IWrapBaseItemAttribute {
 }
 
 export interface IWrapBaseFile<T extends Record<string, any> = IWrapBaseFileAttribute>
-   extends IWrapBaseItem<T>,
-      IWrapBaseFileAttribute {
+   extends IWrapBaseItem<T>, IWrapBaseFileAttribute {
    setFilename(filename: LooseAutocomplete<GenericFilename>): this;
 }

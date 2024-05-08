@@ -24,7 +24,7 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
          time: data._time ?? this.defaultValue._time,
          posX: data._lineIndex ?? this.defaultValue._lineIndex,
          posY: data._lineLayer ?? this.defaultValue._lineLayer,
-         direction: data.direction
+         direction: data._cutDirection ?? this.defaultValue._cutDirection,
       };
    },
    isValid(_: IWrapBombNoteAttribute): boolean {

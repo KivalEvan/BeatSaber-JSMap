@@ -1,18 +1,20 @@
 // deno-lint-ignore-file no-explicit-any
-import { GridObject } from './abstract/gridObject.ts';
 import type {
    IWrapBombNote,
    IWrapBombNoteAttribute,
 } from '../../types/beatmap/wrapper/bombNote.ts';
 import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { BaseNote } from './abstract/baseNote.ts';
 
-export class BombNote extends GridObject implements IWrapBombNote {
+export class BombNote extends BaseNote implements IWrapBombNote {
    static schema: Record<number, ISchemaContainer<IWrapBombNoteAttribute>> = {};
    static defaultValue: IWrapBombNoteAttribute = {
       time: 0,
       posX: 0,
       posY: 0,
+      color: -1,
+      direction: 0,
       laneRotation: 0,
       customData: {},
    };
@@ -25,20 +27,27 @@ export class BombNote extends GridObject implements IWrapBombNote {
       this.time = data.time ?? BombNote.defaultValue.time;
       this.posX = data.posX ?? BombNote.defaultValue.posX;
       this.posY = data.posY ?? BombNote.defaultValue.posY;
+      this.color = -1;
+      this.direction = data.direction ?? BombNote.defaultValue.direction;
       this.laneRotation = data.laneRotation ?? BombNote.defaultValue.laneRotation;
-      this.customData = deepCopy(data.customData ?? BombNote.defaultValue.customData);
+      this.customData = deepCopy(
+         data.customData ?? BombNote.defaultValue.customData,
+      );
    }
    static fromJSON(data: Record<string, any>, version: number): BombNote {
       return new this(BombNote.schema[version]?.deserialize(data));
    }
    toSchema<T extends Record<string, any>>(version?: number): T {
-      return (BombNote.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
+      return (BombNote.schema[version || 0]?.serialize(this) ||
+         this.toJSON()) as T;
    }
    toJSON(): IWrapBombNoteAttribute {
       return {
          time: this.time,
          posX: this.posX,
          posY: this.posY,
+         color: -1,
+         direction: this.direction,
          laneRotation: this.laneRotation,
          customData: deepCopy(this.customData),
       };

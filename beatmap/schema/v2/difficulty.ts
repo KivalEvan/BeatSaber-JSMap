@@ -53,7 +53,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          _specialEventsKeywordFilters: eventTypesWithKeywords.serialize(
             data.lightshow.eventTypesWithKeywords,
          ),
-         _customData: deepCopy(data.customData),
+         _customData: deepCopy(data.data.customData),
       };
    },
    deserialize(
