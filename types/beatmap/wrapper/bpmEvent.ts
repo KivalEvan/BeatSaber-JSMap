@@ -7,7 +7,7 @@ export interface IWrapBPMEventAttribute extends IWrapBaseObjectAttribute {
 }
 
 export interface IWrapBPMEvent<
-   T extends Record<string, any> = IWrapBPMEventAttribute,
+   T extends { [key: string]: any } = IWrapBPMEventAttribute,
 > extends IWrapBaseObject<T>, IWrapBPMEventAttribute {
    setBPM(value: number): this;
 }

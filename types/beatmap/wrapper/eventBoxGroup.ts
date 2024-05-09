@@ -9,7 +9,7 @@ export interface IWrapEventBoxGroupAttribute extends IWrapBaseObjectAttribute {
 }
 
 export interface IWrapEventBoxGroup<
-   T extends Record<string, any> = IWrapEventBoxGroupAttribute,
+   T extends { [key: string]: any } = IWrapEventBoxGroupAttribute,
 > extends IWrapBaseObject<T>, IWrapEventBoxGroupAttribute {
    boxes: IWrapEventBox[];
 }

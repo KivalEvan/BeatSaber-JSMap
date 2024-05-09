@@ -1,178 +1,99 @@
-import { round } from '../../../utils/math.ts';
-import type { IOptimizeOptions } from '../../../types/beatmap/options/optimize.ts';
-import type { IInfo } from '../../../types/beatmap/v4/info.ts';
-import type { IDifficulty } from '../../../types/beatmap/v4/difficulty.ts';
-import type { ILightshow } from '../../../types/beatmap/v4/lightshow.ts';
-import { deepClean, purgeZeros } from '../../shared/optimize.ts';
-
-export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions) {
-   for (let i = 0; i < data.arcs.length; i++) {
-      const o = data.arcs[i];
-      if (options.floatTrim) {
-         o.hb = round(o.hb!, options.floatTrim);
-         o.hr = round(o.hr!, options.floatTrim);
-         o.tb = round(o.tb!, options.floatTrim);
-         o.tr = round(o.tr!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.arcs[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.arcsData.length; i++) {
-      const o = data.arcsData[i];
-      if (options.floatTrim) {
-         o.m = round(o.m!, options.floatTrim);
-         o.tm = round(o.tm!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.arcsData[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.bombNotes.length; i++) {
-      const o = data.bombNotes[i];
-      if (options.floatTrim) {
-         o.b = round(o.b!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.bombNotes[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.bombNotesData.length; i++) {
-      const o = data.bombNotesData[i];
-      deepClean(
-         o.customData!,
-         `difficulty.bombNotesData[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.chains.length; i++) {
-      const o = data.chains[i];
-      if (options.floatTrim) {
-         o.hb = round(o.hb!, options.floatTrim);
-         o.hr = round(o.hr!, options.floatTrim);
-         o.tb = round(o.tb!, options.floatTrim);
-         o.tr = round(o.tr!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.chains[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.chainsData.length; i++) {
-      const o = data.chainsData[i];
-      if (options.floatTrim) {
-         o.s = round(o.s!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.chainsData[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.colorNotes.length; i++) {
-      const o = data.colorNotes[i];
-      if (options.floatTrim) {
-         o.b = round(o.b!, options.floatTrim);
-         o.r = round(o.r!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.colorNotes[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.colorNotesData.length; i++) {
-      const o = data.colorNotesData[i];
-      if (options.floatTrim) {
-         o.a = round(o.a!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.colorNotesData[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.obstacles.length; i++) {
-      const o = data.obstacles[i];
-      if (options.floatTrim) {
-         o.b = round(o.b!, options.floatTrim);
-         o.r = round(o.r!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.obstacles[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.obstaclesData.length; i++) {
-      const o = data.obstaclesData[i];
-      if (options.floatTrim) {
-         o.d = round(o.d!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.obstaclesData[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   deepClean(
-      data.customData!,
-      `difficulty.customData`,
-      options,
-   );
-   if (!Object.keys(data.customData!).length) {
-      delete data.customData;
-   }
-}
+import { round } from '../../../../utils/math.ts';
+import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
+import type { ILightshow } from '../../../../types/beatmap/v4/lightshow.ts';
+import { deepClean, purgeZeros, remapDedupe } from '../../../shared/optimize.ts';
+import { EventBoxType } from '../../../shared/constants.ts';
 
 export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
+   if (options.deduplicate) {
+      const [newBasicEventsData, remapBasicEventsIdx] = remapDedupe(
+         data.basicEventsData,
+      );
+      const [newColorBoostEventsData, remapColorBoostEventsIdx] = remapDedupe(
+         data.colorBoostEventsData,
+      );
+      const [newWaypointsData, remapWaypointsIdx] = remapDedupe(
+         data.waypointsData,
+      );
+      const [newIndexFilters, remapIndexFiltersIdx] = remapDedupe(
+         data.indexFilters,
+      );
+      const [newLightColorEventBoxes, remapLightColorEventBoxesIdx] = remapDedupe(
+         data.lightColorEventBoxes,
+      );
+      const [newLightColorEvents, remapLightColorEventsIdx] = remapDedupe(
+         data.lightColorEvents,
+      );
+      const [newLightRotationEventBoxes, remapLightRotationEventBoxesIdx] = remapDedupe(
+         data.lightRotationEventBoxes,
+      );
+      const [newLightRotationEvents, remapLightRotationEventsIdx] = remapDedupe(
+         data.lightRotationEvents,
+      );
+      const [
+         newLightTranslationEventBoxes,
+         remapLightTranslationEventBoxesIdx,
+      ] = remapDedupe(data.lightTranslationEventBoxes);
+      const [newLightTranslationEvents, remapLightTranslationEventsIdx] = remapDedupe(
+         data.lightTranslationEvents,
+      );
+      const [newFxEventBoxes, remapFxEventBoxesIdx] = remapDedupe(
+         data.fxEventBoxes,
+      );
+      const [newFloatFxEvents, remapFloatFxEventsIdx] = remapDedupe(
+         data.floatFxEvents,
+      );
+
+      data.basicEvents.forEach((d) => (d.i = remapBasicEventsIdx.get(d.i!)));
+      data.colorBoostEvents.forEach(
+         (d) => (d.i = remapColorBoostEventsIdx.get(d.i!)),
+      );
+      data.waypoints.forEach((d) => (d.i = remapWaypointsIdx.get(d.i!)));
+      for (const ebg of data.eventBoxGroups) {
+         for (const evt of ebg.e!) {
+            evt.f = remapIndexFiltersIdx.get(evt.f!);
+            switch (ebg.t) {
+               case EventBoxType.COLOR:
+                  evt.e = remapLightColorEventBoxesIdx.get(evt.e!);
+                  evt.l?.forEach(
+                     (l) => (l.i = remapLightColorEventsIdx.get(l.i!)),
+                  );
+                  break;
+               case EventBoxType.ROTATION:
+                  evt.e = remapLightRotationEventBoxesIdx.get(evt.e!);
+                  evt.l?.forEach(
+                     (l) => (l.i = remapLightRotationEventsIdx.get(l.i!)),
+                  );
+                  break;
+               case EventBoxType.TRANSLATION:
+                  evt.e = remapLightTranslationEventBoxesIdx.get(evt.e!);
+                  evt.l?.forEach(
+                     (l) => (l.i = remapLightTranslationEventsIdx.get(l.i!)),
+                  );
+                  break;
+               case EventBoxType.FX_FLOAT:
+                  evt.e = remapFxEventBoxesIdx.get(evt.e!);
+                  evt.l?.forEach(
+                     (l) => (l.i = remapFloatFxEventsIdx.get(l.i!)),
+                  );
+            }
+         }
+      }
+
+      data.basicEventsData = newBasicEventsData;
+      data.colorBoostEventsData = newColorBoostEventsData;
+      data.waypointsData = newWaypointsData;
+      data.indexFilters = newIndexFilters;
+      data.lightColorEventBoxes = newLightColorEventBoxes;
+      data.lightColorEvents = newLightColorEvents;
+      data.lightRotationEventBoxes = newLightRotationEventBoxes;
+      data.lightRotationEvents = newLightRotationEvents;
+      data.lightTranslationEventBoxes = newLightTranslationEventBoxes;
+      data.lightTranslationEvents = newLightTranslationEvents;
+      data.fxEventBoxes = newFxEventBoxes;
+      data.floatFxEvents = newFloatFxEvents;
+   }
+
    for (let i = 0; i < data.waypoints.length; i++) {
       const o = data.waypoints[i];
       if (options.floatTrim) {
@@ -438,62 +359,6 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
    }
    deepClean(data.customData!, `lightshow.customData`, options);
-   if (!Object.keys(data.customData!).length) {
-      delete data.customData;
-   }
-}
-
-export function optimizeInfo(data: IInfo, options: IOptimizeOptions) {
-   if (options.floatTrim) {
-      data.audio.bpm = round(data.audio.bpm, options.floatTrim);
-      data.audio.previewDuration = round(
-         data.audio.previewDuration,
-         options.floatTrim,
-      );
-      data.audio.previewStartTime = round(
-         data.audio.previewStartTime,
-         options.floatTrim,
-      );
-      data.audio.songDuration = round(
-         data.audio.songDuration,
-         options.floatTrim,
-      );
-   }
-
-   if (options.stringTrim) {
-      data.song.author = data.song.author.trim();
-      data.song.title = data.song.title.trim();
-      data.song.subTitle = data.song.subTitle.trim();
-   }
-
-   for (let i = 0; i < data.difficultyBeatmaps!.length; i++) {
-      const diff = data.difficultyBeatmaps[i];
-      if (options.floatTrim) {
-         diff.noteJumpMovementSpeed = round(
-            diff.noteJumpMovementSpeed,
-            options.floatTrim,
-         );
-         diff.noteJumpStartBeatOffset = round(
-            diff.noteJumpStartBeatOffset,
-            options.floatTrim,
-         );
-      }
-      if (options.stringTrim) {
-         diff.beatmapAuthors.lighters = diff.beatmapAuthors.lighters.map((s) => s.trim());
-         diff.beatmapAuthors.mappers = diff.beatmapAuthors.mappers.map((s) => s.trim());
-      }
-
-      deepClean(
-         diff.customData!,
-         `info.difficultyBeatmaps[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(diff.customData!).length) {
-         delete diff.customData;
-      }
-   }
-
-   deepClean(data.customData!, `info.customData`, options);
    if (!Object.keys(data.customData!).length) {
       delete data.customData;
    }

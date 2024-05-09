@@ -15,7 +15,7 @@ import type {
    IWrapInfoSong,
 } from '../../types/beatmap/wrapper/info.ts';
 import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy, shallowCopy } from '../../utils/misc.ts';
 import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
 import { BaseItem } from './abstract/baseItem.ts';
@@ -37,6 +37,9 @@ export class Info extends BaseItem implements IWrapInfo {
          lufs: 0,
          previewStartTime: 0,
          previewDuration: 0,
+         audioOffset: 0,
+         shuffle: 0,
+         shufflePeriod: 0.5,
       },
       songPreviewFilename: '',
       coverImageFilename: '',
@@ -67,6 +70,9 @@ export class Info extends BaseItem implements IWrapInfo {
             Info.defaultValue.audio.previewStartTime,
          previewDuration: data.audio?.previewDuration ??
             Info.defaultValue.audio.previewDuration,
+         audioOffset: data.audio?.audioOffset ?? Info.defaultValue.audio.audioOffset,
+         shuffle: data.audio?.shuffle ?? Info.defaultValue.audio.shuffle,
+         shufflePeriod: data.audio?.shufflePeriod ?? Info.defaultValue.audio.shufflePeriod,
       };
       this.songPreviewFilename = data.songPreviewFilename ?? Info.defaultValue.songPreviewFilename;
       this.coverImageFilename = data.coverImageFilename ?? Info.defaultValue.coverImageFilename;
@@ -140,22 +146,22 @@ export class Info extends BaseItem implements IWrapInfo {
          data.customData ?? Info.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): Info {
+   static fromJSON(data: { [key: string]: any }, version: number): Info {
       return new this(Info.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (Info.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
    }
    toJSON(): IWrapInfoAttribute {
       return {
          filename: this.filename,
-         song: this.song,
-         audio: this.audio,
+         song: shallowCopy(this.song),
+         audio: shallowCopy(this.audio),
          songPreviewFilename: this.songPreviewFilename,
          coverImageFilename: this.coverImageFilename,
          environmentNames: this.environmentNames,
          colorSchemes: this.colorSchemes,
-         difficulties: this.difficulties,
+         difficulties: this.difficulties.map((e) => e.toJSON()),
          customData: deepCopy(this.customData),
       };
    }
@@ -254,10 +260,10 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
          data.customData ?? InfoBeatmap.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): InfoBeatmap {
+   static fromJSON(data: { [key: string]: any }, version: number): InfoBeatmap {
       return new this(InfoBeatmap.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (InfoBeatmap.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

@@ -7,7 +7,7 @@ export interface IWrapColorBoostEventAttribute extends IWrapBaseObjectAttribute 
 }
 
 export interface IWrapColorBoostEvent<
-   T extends Record<string, any> = IWrapColorBoostEventAttribute,
+   T extends { [key: string]: any } = IWrapColorBoostEventAttribute,
 > extends IWrapBaseObject<T>, IWrapColorBoostEventAttribute {
    setToggle(value: boolean): this;
 }

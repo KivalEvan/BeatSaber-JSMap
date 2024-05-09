@@ -209,7 +209,7 @@ function fromV2(bm: IWrapBeatmap) {
       e.customData = customData;
    });
 
-   for (const k in bm.customData) {
+   for (const k in bm.data.customData) {
       if (k === '_customEvents') {
          bm.data.customData.customEvents = [];
          bm.data.customData._customEvents!.forEach((ce) => {
@@ -404,12 +404,12 @@ function fromV2(bm: IWrapBeatmap) {
          continue;
       }
       if (k === '_time') {
-         bm.data.customData.time = bm.customData[k];
+         bm.data.customData.time = bm.data.customData[k];
          delete bm.data.customData._time;
          continue;
       }
       if (k === '_BPMChanges') {
-         bm.data.customData.BPMChanges = bm.customData[k]?.map((bpmc) => {
+         bm.data.customData.BPMChanges = bm.data.customData[k]?.map((bpmc) => {
             return {
                b: bpmc._time,
                m: bpmc._BPM,
@@ -421,7 +421,7 @@ function fromV2(bm: IWrapBeatmap) {
          continue;
       }
       if (k === '_bpmChanges') {
-         bm.data.customData.BPMChanges = bm.customData[k]?.map((bpmc) => {
+         bm.data.customData.BPMChanges = bm.data.customData[k]?.map((bpmc) => {
             return {
                b: bpmc._time,
                m: bpmc._bpm,

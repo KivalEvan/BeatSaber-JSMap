@@ -21,8 +21,7 @@ import type {
    IWrapRotationEventAttribute,
 } from '../../types/beatmap/wrapper/rotationEvent.ts';
 import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
-import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
-import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import type {
    IWrapDifficulty,
@@ -42,7 +41,6 @@ import { deepCopy } from '../../utils/misc.ts';
 export class Difficulty extends BaseItem implements IWrapDifficulty {
    static schema: Record<number, ISchemaContainer<IWrapDifficultyAttribute>> = {};
    static defaultValue: IWrapDifficultyAttribute = {
-      filename: 'Unnamed.beatmap.dat',
       bpmEvents: [],
       rotationEvents: [],
       colorNotes: [],
@@ -58,7 +56,6 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
    }
    constructor(data: DeepPartial<IWrapDifficultyAttribute> = {}) {
       super();
-      this.filename = data.filename ?? 'Unnamed.beatmap.dat';
       this.bpmEvents = (data.bpmEvents ?? Difficulty.defaultValue.bpmEvents).map(
          (e) => new BPMEvent(e),
       );
@@ -84,16 +81,15 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
          data.customData ?? Difficulty.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): Difficulty {
+   static fromJSON(data: { [key: string]: any }, version: number): Difficulty {
       return new this(Difficulty.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (Difficulty.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }
    toJSON(): IWrapDifficultyAttribute {
       return {
-         filename: this.filename,
          bpmEvents: this.bpmEvents.map((e) => e.toJSON()),
          rotationEvents: this.rotationEvents.map((e) => e.toJSON()),
          colorNotes: this.colorNotes.map((e) => e.toJSON()),
@@ -108,8 +104,6 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       return true;
    }
 
-   filename = 'Unnamed.beatmap.dat';
-
    bpmEvents: IWrapBPMEvent[];
    rotationEvents: IWrapRotationEvent[];
    colorNotes: IWrapColorNote[];
@@ -117,11 +111,6 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
    obstacles: IWrapObstacle[];
    arcs: IWrapArc[];
    chains: IWrapChain[];
-
-   setFilename(filename: LooseAutocomplete<GenericFilename>): this {
-      this.filename = filename;
-      return this;
-   }
 
    sort(): this {
       this.bpmEvents.sort(sortObjectFn);

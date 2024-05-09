@@ -53,9 +53,9 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          _songAuthorName: data.song.author,
          _levelAuthorName: '',
          _beatsPerMinute: data.audio.bpm,
-         _songTimeOffset: data.songTimeOffset, //FIXME: why
-         _shuffle: data.shuffle, // FIXME: ree
-         _shufflePeriod: data.shufflePeriod, // FIXME: ree
+         _songTimeOffset: data.audio.audioOffset,
+         _shuffle: data.audio.shuffle,
+         _shufflePeriod: data.audio.shufflePeriod,
          _previewStartTime: data.audio.previewStartTime,
          _previewDuration: data.audio.previewDuration,
          _songFilename: data.audio.filename,
@@ -132,6 +132,9 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             previewStartTime: data._previewStartTime ?? this.defaultValue._previewStartTime,
             previewDuration: data._previewDuration ?? this.defaultValue._previewDuration,
             filename: data._songFilename ?? this.defaultValue._songFilename,
+            audioOffset: data._songTimeOffset ?? this.defaultValue._songTimeOffset,
+            shuffle: data._shuffle ?? this.defaultValue._shuffle,
+            shufflePeriod: data._shufflePeriod ?? this.defaultValue._shufflePeriod,
          },
          coverImageFilename: data._coverImageFilename ?? this.defaultValue._coverImageFilename,
          environmentNames: [
@@ -234,10 +237,6 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             data._customData ?? this.defaultValue._customData,
          ),
       };
-
-      d.songTimeOffset = data._songTimeOffset ?? this.defaultValue._songTimeOffset;
-      d.shuffle = data._shuffle ?? this.defaultValue._shuffle;
-      d.shufflePeriod = data._shufflePeriod ?? this.defaultValue._shufflePeriod;
 
       return d;
    },

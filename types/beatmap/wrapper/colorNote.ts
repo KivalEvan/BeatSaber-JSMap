@@ -9,7 +9,7 @@ export interface IWrapColorNoteAttribute extends IWrapBaseNoteAttribute {
 }
 
 export interface IWrapColorNote<
-   T extends Record<string, any> = IWrapColorNoteAttribute,
+   T extends { [key: string]: any } = IWrapColorNoteAttribute,
 > extends Omit<IWrapBaseNote<T>, 'customData'>, IWrapColorNoteAttribute {
    setCustomData(object: T['customData']): this;
    addCustomData(object: T['customData']): this;

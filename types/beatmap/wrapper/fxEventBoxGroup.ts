@@ -7,7 +7,7 @@ export interface IWrapFxEventBoxGroupAttribute extends IWrapEventBoxGroupAttribu
 }
 
 export interface IWrapFxEventBoxGroup<
-   T extends Record<string, any> = IWrapFxEventBoxGroupAttribute,
+   T extends { [key: string]: any } = IWrapFxEventBoxGroupAttribute,
 > extends IWrapEventBoxGroup<T>, IWrapFxEventBoxGroupAttribute {
    boxes: IWrapFxEventBox[];
 }

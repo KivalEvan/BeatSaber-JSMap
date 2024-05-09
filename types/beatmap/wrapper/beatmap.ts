@@ -22,20 +22,25 @@ import type {
    IWrapLightTranslationEventBoxGroupAttribute,
 } from './lightTranslationEventBoxGroup.ts';
 import type { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
-import type { DeepPartial } from '../../utils.ts';
+import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
 import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 import type { IWrapDifficulty, IWrapDifficultyAttribute } from './difficulty.ts';
 import type { IWrapLightshow, IWrapLightshowAttribute } from './lightshow.ts';
-import type { ISerializable } from '../shared/serializable.ts';
+import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
+import type { GenericFilename } from '../shared/filename.ts';
+import type { IWrapBaseItemAttribute } from './baseItem.ts';
 
-export interface IWrapBeatmapAttribute {
+export interface IWrapBeatmapAttribute extends IWrapBaseItemAttribute, IWrapBaseFileAttribute {
    data: IWrapDifficultyAttribute;
    lightshow: IWrapLightshowAttribute;
+
+   // this honestly feels like hack but i need to figure out best way to handle this
+   lightshowFilename: LooseAutocomplete<GenericFilename>;
 }
 
 export interface IWrapBeatmap<
-   T extends Record<string, any> = IWrapBeatmapAttribute,
-> extends ISerializable<T> {
+   T extends { [key: string]: any } = IWrapBeatmapAttribute,
+> extends IWrapBeatmapFile<T>, IWrapBeatmapAttribute {
    data: IWrapDifficulty;
    lightshow: IWrapLightshow;
 
@@ -54,6 +59,8 @@ export interface IWrapBeatmap<
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
+
+   setLightshowFilename(filename: LooseAutocomplete<GenericFilename>): this;
 
    addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): this;
    addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): this;

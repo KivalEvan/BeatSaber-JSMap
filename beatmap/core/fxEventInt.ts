@@ -28,10 +28,10 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
          data.customData ?? FxEventInt.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): FxEventInt {
+   static fromJSON(data: { [key: string]: any }, version: number): FxEventInt {
       return new this(FxEventInt.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (FxEventInt.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

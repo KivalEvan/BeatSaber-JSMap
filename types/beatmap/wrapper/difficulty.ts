@@ -7,9 +7,9 @@ import type { IWrapObstacle, IWrapObstacleAttribute } from './obstacle.ts';
 import type { IWrapArc, IWrapArcAttribute } from './arc.ts';
 import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
 import type { ICustomDataDifficulty } from './custom/difficulty.ts';
-import type { IWrapBaseFile, IWrapBaseFileAttribute } from './baseFile.ts';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
-export interface IWrapDifficultyAttribute extends IWrapBaseFileAttribute {
+export interface IWrapDifficultyAttribute extends IWrapBaseItemAttribute {
    bpmEvents: IWrapBPMEventAttribute[];
    rotationEvents: IWrapRotationEventAttribute[];
    colorNotes: IWrapColorNoteAttribute[];
@@ -21,8 +21,8 @@ export interface IWrapDifficultyAttribute extends IWrapBaseFileAttribute {
 }
 
 export interface IWrapDifficulty<
-   T extends Record<string, any> = IWrapDifficultyAttribute,
-> extends Omit<IWrapBaseFile<T>, 'customData'>, IWrapDifficultyAttribute {
+   T extends { [key: string]: any } = IWrapDifficultyAttribute,
+> extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapDifficultyAttribute {
    bpmEvents: IWrapBPMEvent[];
    rotationEvents: IWrapRotationEvent[];
    colorNotes: IWrapColorNote[];

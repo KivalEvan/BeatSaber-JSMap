@@ -11,7 +11,7 @@ export interface IWrapFxEventIntAttribute extends IWrapBaseObjectAttribute {
 }
 
 export interface IWrapFxEventInt<
-   T extends Record<string, any> = IWrapFxEventIntAttribute,
+   T extends { [key: string]: any } = IWrapFxEventIntAttribute,
 > extends IWrapBaseObject<T>, IWrapFxEventIntAttribute {
    setPrevious(value: 0 | 1): this;
    setValue(value: number): this;

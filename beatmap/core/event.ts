@@ -38,10 +38,10 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
          data.customData ?? BasicEvent.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): BasicEvent {
+   static fromJSON(data: { [key: string]: any }, version: number): BasicEvent {
       return new this(BasicEvent.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (BasicEvent.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
    }
    toJSON(): IWrapEventAttribute {

@@ -76,7 +76,7 @@ export interface IWrapIndexFilterAttribute extends IWrapBaseItemAttribute {
 }
 
 export interface IWrapIndexFilter<
-   T extends Record<string, any> = IWrapIndexFilterAttribute,
+   T extends { [key: string]: any } = IWrapIndexFilterAttribute,
 > extends IWrapBaseItem<T>, IWrapIndexFilterAttribute {
    setType(value: IndexFilterType): this;
    setP0(value: number): this;

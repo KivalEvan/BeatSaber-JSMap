@@ -35,13 +35,14 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
    serialize(data: IWrapBeatmapAttribute): IDifficulty {
       return {
          _version: '1.5.0',
-         _beatsPerMinute: data._deprData.beatsPerMinute as number,
-         _beatsPerBar: data._deprData.beatsPerBar as number,
-         _shuffle: data._deprData.shuffle as number,
-         _shufflePeriod: data._deprData.shufflePeriod as number,
-         _noteJumpSpeed: data._deprData.noteJumpSpeed as number,
-         _noteJumpStartBeatOffset: data._deprData
-            .noteJumpStartBeatOffset as number,
+         // FIXME: none of these shouldve ever existed, why
+         _beatsPerMinute: 120,
+         _beatsPerBar: 4,
+         _shuffle: 0,
+         _shufflePeriod: 0.5,
+         _noteJumpSpeed: 10,
+         _noteJumpStartBeatOffset: 0,
+         //
          _notes: [
             ...data.data.colorNotes.map(colorNote.serialize),
             ...data.data.bombNotes.map(bombNote.serialize),
@@ -55,9 +56,9 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             ...data.data.rotationEvents.map(rotationEvent.serialize),
             ...data.data.bpmEvents.map(bpmEvent.serialize),
          ],
-         _time: data.customData._time,
-         _BPMChanges: data.customData._BPMChanges,
-         _bookmarks: data.customData._bookmarks,
+         _time: data.data.customData._time,
+         _BPMChanges: data.data.customData._bpmChanges,
+         _bookmarks: data.data.customData._bookmarks,
       };
    },
    deserialize(
@@ -103,17 +104,9 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             bpmEvents,
             rotationEvents,
             customData: {
-               _BPMChanges: data._BPMChanges ?? this.defaultValue._BPMChanges,
+               _bpmChanges: data._BPMChanges ?? this.defaultValue._BPMChanges,
                _bookmarks: data._bookmarks ?? this.defaultValue._bookmarks,
                _time: data._time ?? this.defaultValue._time,
-            },
-            _deprData: {
-               beatsPerMinute: data._beatsPerMinute ?? this.defaultValue._beatsPerMinute,
-               beatsPerBar: data._beatsPerBar ?? this.defaultValue._beatsPerBar,
-               shuffle: data._shuffle ?? this.defaultValue._shuffle,
-               shufflePeriod: data._shufflePeriod ?? this.defaultValue._shufflePeriod,
-               noteJumpSpeed: data._noteJumpSpeed ?? this.defaultValue._noteJumpSpeed,
-               noteJumpStartBeatOffset: data._noteJumpStartBeatOffset ?? 0,
             },
          },
          lightshow: {

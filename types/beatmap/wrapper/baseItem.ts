@@ -12,7 +12,7 @@ export interface IWrapBaseItemAttribute {
 }
 
 export interface IWrapBaseItem<
-   T extends Record<string, any> = IWrapBaseItemAttribute,
+   T extends { [key: string]: any } = IWrapBaseItemAttribute,
 > extends ISerializable<T>, IWrapBaseItemAttribute {
    setCustomData(value: this['customData']): this;
    resetCustomData(): this;

@@ -36,12 +36,12 @@ export class LightTranslationEvent extends BaseObject implements IWrapLightTrans
       );
    }
    static fromJSON(
-      data: Record<string, any>,
+      data: { [key: string]: any },
       version: number,
    ): LightTranslationEvent {
       return new this(LightTranslationEvent.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (LightTranslationEvent.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

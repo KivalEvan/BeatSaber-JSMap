@@ -7,7 +7,7 @@ export interface IWrapBombNoteAttribute extends IWrapBaseNoteAttribute {
 }
 
 export interface IWrapBombNote<
-   T extends Record<string, any> = IWrapBombNoteAttribute,
+   T extends { [key: string]: any } = IWrapBombNoteAttribute,
 > extends Omit<IWrapBaseNote<T>, 'customData'>, IWrapBombNoteAttribute {
    setCustomData(object: T['customData']): this;
    addCustomData(object: T['customData']): this;

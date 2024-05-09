@@ -41,10 +41,10 @@ export class Chain extends BaseSlider implements IWrapChain {
       this.squish = data.squish ?? Chain.defaultValue.squish;
       this.customData = deepCopy(data.customData ?? Chain.defaultValue.customData);
    }
-   static fromJSON(data: Record<string, any>, version: number): Chain {
+   static fromJSON(data: { [key: string]: any }, version: number): Chain {
       return new this(Chain.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (Chain.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

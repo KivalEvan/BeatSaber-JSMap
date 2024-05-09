@@ -41,10 +41,10 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
          data.customData ?? IndexFilter.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): IndexFilter {
+   static fromJSON(data: { [key: string]: any }, version: number): IndexFilter {
       return new this(IndexFilter.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (IndexFilter.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
    }
    toJSON(): IWrapIndexFilterAttribute {

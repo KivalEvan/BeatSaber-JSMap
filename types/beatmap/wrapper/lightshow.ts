@@ -21,9 +21,9 @@ import type {
 import type { DeepPartial } from '../../utils.ts';
 import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 import type { ICustomDataDifficulty } from './custom/difficulty.ts';
-import type { IWrapBaseFile, IWrapBaseFileAttribute } from './baseFile.ts';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
-export interface IWrapLightshowAttribute extends IWrapBaseFileAttribute {
+export interface IWrapLightshowAttribute extends IWrapBaseItemAttribute {
    waypoints: IWrapWaypointAttribute[];
    basicEvents: IWrapEventAttribute[];
    colorBoostEvents: IWrapColorBoostEventAttribute[];
@@ -37,8 +37,8 @@ export interface IWrapLightshowAttribute extends IWrapBaseFileAttribute {
 }
 
 export interface IWrapLightshow<
-   T extends Record<string, any> = IWrapLightshowAttribute,
-> extends Omit<IWrapBaseFile<T>, 'customData'>, IWrapLightshowAttribute {
+   T extends { [key: string]: any } = IWrapLightshowAttribute,
+> extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapLightshowAttribute {
    waypoints: IWrapWaypoint[];
    basicEvents: IWrapEvent[];
    colorBoostEvents: IWrapColorBoostEvent[];

@@ -33,10 +33,10 @@ export class RotationEvent extends BaseObject implements IWrapRotationEvent {
          data.customData ?? RotationEvent.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): RotationEvent {
+   static fromJSON(data: { [key: string]: any }, version: number): RotationEvent {
       return new this(RotationEvent.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (RotationEvent.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

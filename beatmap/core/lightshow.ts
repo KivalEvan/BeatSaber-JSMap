@@ -21,8 +21,7 @@ import type {
    IWrapWaypoint,
    IWrapWaypointAttribute,
 } from '../../types/beatmap/wrapper/waypoint.ts';
-import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
-import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import type {
    IWrapLightshow,
@@ -47,7 +46,6 @@ import { deepCopy } from '../../utils/misc.ts';
 export class Lightshow extends BaseItem implements IWrapLightshow {
    static schema: Record<number, ISchemaContainer<IWrapLightshowAttribute>> = {};
    static defaultValue: IWrapLightshowAttribute = {
-      filename: 'Unnamed.lightshow.dat',
       waypoints: [],
       basicEvents: [],
       colorBoostEvents: [],
@@ -65,7 +63,6 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
    }
    constructor(data: DeepPartial<IWrapLightshowAttribute> = {}) {
       super();
-      this.filename = data.filename ?? 'Unnamed.lightshow.dat';
       this.waypoints = (data.waypoints ?? Lightshow.defaultValue.waypoints).map(
          (e) => new Waypoint(e),
       );
@@ -101,16 +98,15 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
          data.customData ?? Lightshow.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): Lightshow {
+   static fromJSON(data: { [key: string]: any }, version: number): Lightshow {
       return new this(Lightshow.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (Lightshow.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }
    toJSON(): IWrapLightshowAttribute {
       return {
-         filename: this.filename,
          waypoints: this.waypoints.map((e) => e.toJSON()),
          basicEvents: this.basicEvents.map((e) => e.toJSON()),
          colorBoostEvents: this.colorBoostEvents.map((e) => e.toJSON()),
@@ -131,8 +127,6 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return true;
    }
 
-   filename = 'Unnamed.lightshow.dat';
-
    waypoints: IWrapWaypoint[];
    basicEvents: IWrapEvent[];
    colorBoostEvents: IWrapColorBoostEvent[];
@@ -142,11 +136,6 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
-
-   setFilename(filename: LooseAutocomplete<GenericFilename>): this {
-      this.filename = filename;
-      return this;
-   }
 
    sort(): this {
       this.waypoints.sort(sortObjectFn);

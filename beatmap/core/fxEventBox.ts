@@ -59,10 +59,10 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
          data.customData ?? FxEventBox.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): FxEventBox {
+   static fromJSON(data: { [key: string]: any }, version: number): FxEventBox {
       return new this(FxEventBox.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (FxEventBox.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

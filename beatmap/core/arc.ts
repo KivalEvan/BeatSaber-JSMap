@@ -55,10 +55,10 @@ export class Arc extends BaseSlider implements IWrapArc {
       this.tailLaneRotation = data.tailLaneRotation ?? Arc.defaultValue.tailLaneRotation;
       this.customData = deepCopy(data.customData ?? Arc.defaultValue.customData);
    }
-   static fromJSON(data: Record<string, any>, version: number): Arc {
+   static fromJSON(data: { [key: string]: any }, version: number): Arc {
       return new this(Arc.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (Arc.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
    }
    toJSON(): IWrapArcAttribute {

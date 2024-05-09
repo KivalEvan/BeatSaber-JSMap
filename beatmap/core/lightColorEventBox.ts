@@ -67,12 +67,12 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
       );
    }
    static fromJSON(
-      data: Record<string, any>,
+      data: { [key: string]: any },
       version: number,
    ): LightColorEventBox {
       return new this(LightColorEventBox.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (LightColorEventBox.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

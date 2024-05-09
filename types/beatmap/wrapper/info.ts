@@ -6,11 +6,11 @@ import type { EnvironmentAllName } from '../shared/environment.ts';
 import type { IColor } from '../../colors.ts';
 import type { ICustomDataInfo } from './custom/info.ts';
 import type { ICustomDataInfoBeatmap } from '../v4/custom/info.ts';
-import type { IWrapBaseFile, IWrapBaseFileAttribute } from './baseFile.ts';
+import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
 import type { GenericFilename } from '../shared/filename.ts';
 import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
-export interface IWrapInfoAttribute extends IWrapBaseFileAttribute {
+export interface IWrapInfoAttribute extends IWrapBaseItemAttribute, IWrapBaseFileAttribute {
    song: IWrapInfoSong;
    audio: IWrapInfoAudio;
    songPreviewFilename: string;
@@ -35,6 +35,26 @@ export interface IWrapInfoAudio {
    lufs: number; // float
    previewStartTime: number; // float
    previewDuration: number; // float
+   /**
+    * Exist for backport compatibility.
+    *
+    * Highly recommended to not use offset as it causes audio syncing issue.
+    *
+    * @deprecated
+    */
+   audioOffset: number;
+   /**
+    * Exist for backport compatibility.
+    *
+    * @deprecated
+    */
+   shuffle: number;
+   /**
+    * Exist for backport compatibility.
+    *
+    * @deprecated
+    */
+   shufflePeriod: number;
 }
 
 export interface IWrapInfoColorScheme {
@@ -59,8 +79,8 @@ export interface IWrapInfoBeatmapAuthors {
    lighters: string[];
 }
 
-export interface IWrapInfo<T extends Record<string, any> = IWrapInfoAttribute>
-   extends Omit<IWrapBaseFile<T>, 'customData'>, IWrapInfoAttribute {
+export interface IWrapInfo<T extends { [key: string]: any } = IWrapInfoAttribute>
+   extends Omit<IWrapBeatmapFile<T>, 'customData'>, IWrapInfoAttribute {
    difficulties: IWrapInfoBeatmap[];
 
    setCustomData(object: T['customData']): this;
@@ -85,8 +105,9 @@ export interface IWrapInfoBeatmapAttribute extends IWrapBaseItemAttribute {
    customData: ICustomDataInfoBeatmap;
 }
 
-export interface IWrapInfoBeatmap<T extends Record<string, any> = IWrapInfoBeatmapAttribute>
-   extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapInfoBeatmapAttribute {
+export interface IWrapInfoBeatmap<
+   T extends { [key: string]: any } = IWrapInfoBeatmapAttribute,
+> extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapInfoBeatmapAttribute {
    setCustomData(object: T['customData']): this;
    addCustomData(object: T['customData']): this;
 

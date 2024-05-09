@@ -24,7 +24,7 @@ export interface IWrapChainAttribute extends IWrapBaseSliderAttribute {
 }
 
 export interface IWrapChain<
-   T extends Record<string, any> = IWrapChainAttribute,
+   T extends { [key: string]: any } = IWrapChainAttribute,
 > extends Omit<IWrapBaseSlider<T>, 'customData'>, IWrapChainAttribute {
    setCustomData(object: T['customData']): this;
    addCustomData(object: T['customData']): this;

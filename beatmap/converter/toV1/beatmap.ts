@@ -39,27 +39,27 @@ export function toV1Beatmap(
    return data;
 }
 
-function fromV3(data: IWrapBeatmap) {
-   data.data.customData._time = data.data.customData.time;
-   data.data.customData._BPMChanges = data.data.customData.BPMChanges?.map(
+function fromV3(bm: IWrapBeatmap) {
+   bm.data.customData._time = bm.data.customData.time;
+   bm.data.customData._BPMChanges = bm.data.customData.BPMChanges?.map(
       (bpmc) => {
          return {
             _time: bpmc.b,
-            _bpm: bpmc.m,
+            _BPM: bpmc.m,
             _beatsPerBar: bpmc.p,
             _metronomeOffset: bpmc.o,
          };
       },
    );
-   data.data.customData._bookmarks = data.data.customData.bookmarks?.map(
+   bm.data.customData._bookmarks = bm.data.customData.bookmarks?.map(
       (b) => {
          return { _time: b.b, _name: b.n };
       },
    );
 
-   delete data.data.customData.time;
-   delete data.data.customData.BPMChanges;
-   delete data.data.customData.bookmarks;
+   delete bm.data.customData.time;
+   delete bm.data.customData.BPMChanges;
+   delete bm.data.customData.bookmarks;
 }
 
 function fromV4(data: IWrapBeatmap) {

@@ -19,7 +19,7 @@ export interface IWrapFxEventBoxAttribute extends IWrapEventBoxAttribute {
 }
 
 export interface IWrapFxEventBox<
-   T extends Record<string, any> = IWrapFxEventBoxAttribute,
+   T extends { [key: string]: any } = IWrapFxEventBoxAttribute,
 > extends IWrapEventBox<T>, IWrapFxEventBoxAttribute {
    events: IWrapFxEventFloat[];
 

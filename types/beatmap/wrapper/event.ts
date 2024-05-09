@@ -42,7 +42,7 @@ export interface IWrapEventAttribute extends IWrapBaseObjectAttribute {
    customData: ICustomDataEvent;
 }
 
-export interface IWrapEvent<T extends Record<string, any> = IWrapEventAttribute>
+export interface IWrapEvent<T extends { [key: string]: any } = IWrapEventAttribute>
    extends Omit<IWrapBaseObject<T>, 'customData'>, IWrapEventAttribute {
    setCustomData(object: T['customData']): this;
    addCustomData(object: T['customData']): this;

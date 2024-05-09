@@ -5,7 +5,14 @@ import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
 import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import type { IWrapAudio } from '../../types/beatmap/wrapper/audioData.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapBaseItem } from '../../types/beatmap/wrapper/baseItem.ts';
+import type { IWrapBeatmapFile } from '../../types/beatmap/wrapper/baseFile.ts';
+import { validateJSON } from '../schema/validator/main.ts';
+import { IOptimizeOptions } from '../../types/beatmap/options/optimize.ts';
+import {
+   difficultyOptimizeMap,
+   infoOptimizeMap,
+   lightshowOptimizeMap,
+} from './optMap.ts';
 
 function tag(name: string): string[] {
    return ['save', name];
@@ -21,42 +28,42 @@ const defaultOptions: Required<ISaveOptions> = {
    postprocess: [],
 };
 
-export function saveBeatmap<T extends Record<string, any>>(
+export function saveBeatmap<T extends { [key: string]: any }>(
    type: BeatmapFileType,
-   data: IWrapBaseItem,
+   data: IWrapBeatmapFile,
    version: number,
-   options?: ISaveOptions<T>,
+   options?: ISaveOptions<T>
 ): T;
 export function saveBeatmap(
    type: 'info',
    data: IWrapInfo,
    version: number,
-   options?: ISaveOptions<IWrapInfo>,
+   options?: ISaveOptions<IWrapInfo>
 ): Record<string, any>;
 export function saveBeatmap(
    type: 'audioData',
    data: IWrapAudio,
    version: number,
-   options?: ISaveOptions<IWrapAudio>,
+   options?: ISaveOptions<IWrapAudio>
 ): Record<string, any>;
 export function saveBeatmap(
    type: 'lightshow',
    data: IWrapBeatmap,
    version: number,
-   options?: ISaveOptions<IWrapBeatmap>,
+   options?: ISaveOptions<IWrapBeatmap>
 ): Record<string, any>;
 export function saveBeatmap(
    type: 'difficulty',
    data: IWrapBeatmap,
    version: number,
-   options?: ISaveOptions<IWrapBeatmap>,
+   options?: ISaveOptions<IWrapBeatmap>
 ): Record<string, any>;
-export function saveBeatmap<T extends Record<string, any>>(
+export function saveBeatmap<T extends { [key: string]: any }>(
    type: BeatmapFileType,
-   data: IWrapBaseItem,
+   data: IWrapBeatmapFile,
    version: number,
-   options: ISaveOptions<any> = {},
-): Record<string, any> {
+   options: ISaveOptions<any> = {}
+): T {
    const opt: Required<ISaveOptions<any>> = {
       format: options.format ?? defaultOptions.format,
       optimize: { ...defaultOptions.optimize, ...options.optimize },
@@ -66,10 +73,27 @@ export function saveBeatmap<T extends Record<string, any>>(
       preprocess: options.preprocess ?? defaultOptions.preprocess,
       postprocess: options.postprocess ?? defaultOptions.postprocess,
    };
+   let optMap: Record<number, (data: any, options: IOptimizeOptions) => void> =
+      {};
+   switch (type) {
+      case 'info':
+         optMap = infoOptimizeMap;
+         break;
+      case 'audioData':
+         optMap = {};
+         break;
+      case 'difficulty':
+         optMap = difficultyOptimizeMap;
+         break;
+      case 'lightshow':
+         optMap = lightshowOptimizeMap;
+         break;
+   }
+
    opt.preprocess.forEach((fn, i) => {
       logger.tInfo(
          tag('saveBeatmap'),
-         'Running preprocess function #' + (i + 1),
+         'Running preprocess function #' + (i + 1)
       );
       data = fn(data);
    });
@@ -78,11 +102,6 @@ export function saveBeatmap<T extends Record<string, any>>(
       logger.tInfo(tag('saveBeatmap'), 'Validating beatmap');
       if (!data.isValid()) {
          logger.tWarn(tag('saveBeatmap'), 'Invalid data detected in beatmap');
-         if (opt.validate.reparse) {
-            data.reparse();
-         } else {
-            throw new Error('Preventing save of beatmap');
-         }
       }
    }
 
@@ -93,32 +112,20 @@ export function saveBeatmap<T extends Record<string, any>>(
 
    let json = data.toSchema(version);
    if (opt.optimize.enabled) {
-      if (ver <= 2) {
-         if (typeof options.optimize?.purgeZeros === 'boolean') {
-            opt.optimize.purgeZeros = options.optimize.purgeZeros;
-         } else opt.optimize.purgeZeros = false;
-      }
-      optimize.difficulty(json, ver, opt.optimize);
+      optMap[version]?.(json, opt.optimize);
    }
 
-   if (opt.dataCheck.enabled) {
-      logger.tInfo(tag('saveBeatmap'), 'Checking data value');
-      const dataCheck = dataCheckMap[ver] ?? {};
-      deepCheck(
-         json,
-         dataCheck,
-         type,
-         data.version,
-         opt.dataCheck.throwError,
-      );
+   if (opt.validate.enabled) {
+      validateJSON(type, json, version, opt.validate?.dataCheck);
    }
 
    opt.postprocess.forEach((fn, i) => {
       logger.tInfo(
          tag('saveBeatmap'),
-         'Running postprocess function #' + (i + 1),
+         'Running postprocess function #' + (i + 1)
       );
       json = fn(json);
    });
-   return json;
+
+   return json as T;
 }

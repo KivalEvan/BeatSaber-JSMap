@@ -71,12 +71,12 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
       );
    }
    static fromJSON(
-      data: Record<string, any>,
+      data: { [key: string]: any },
       version: number,
    ): LightRotationEventBox {
       return new this(LightRotationEventBox.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (LightRotationEventBox.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

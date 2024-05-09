@@ -26,10 +26,10 @@ export class ColorBoostEvent extends BaseObject implements IWrapColorBoostEvent 
          data.customData ?? ColorBoostEvent.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): ColorBoostEvent {
+   static fromJSON(data: { [key: string]: any }, version: number): ColorBoostEvent {
       return new this(ColorBoostEvent.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (ColorBoostEvent.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
    }
    toJSON(): IWrapColorBoostEventAttribute {

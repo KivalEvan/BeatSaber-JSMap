@@ -1,5 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
-import type { IWrapEvent, IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
+import type {
+   IWrapEvent,
+   IWrapEventAttribute,
+} from '../../types/beatmap/wrapper/event.ts';
 import type { IWrapEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
 import type {
    IWrapBombNote,
@@ -9,7 +12,10 @@ import type {
    IWrapBPMEvent,
    IWrapBPMEventAttribute,
 } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import type { IWrapChain, IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
+import type {
+   IWrapChain,
+   IWrapChainAttribute,
+} from '../../types/beatmap/wrapper/chain.ts';
 import type {
    IWrapColorBoostEvent,
    IWrapColorBoostEventAttribute,
@@ -38,14 +44,20 @@ import type {
    IWrapRotationEvent,
    IWrapRotationEventAttribute,
 } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
+import type {
+   IWrapArc,
+   IWrapArcAttribute,
+} from '../../types/beatmap/wrapper/arc.ts';
 import type {
    IWrapWaypoint,
    IWrapWaypointAttribute,
 } from '../../types/beatmap/wrapper/waypoint.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { BaseItem } from './abstract/baseItem.ts';
-import type { IWrapBeatmap, IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
+import type {
+   IWrapBeatmap,
+   IWrapBeatmapAttribute,
+} from '../../types/beatmap/wrapper/beatmap.ts';
 import type {
    IWrapFxEventBoxGroup,
    IWrapFxEventBoxGroupAttribute,
@@ -54,11 +66,15 @@ import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts'
 import type { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
 import { Difficulty } from './difficulty.ts';
 import { Lightshow } from './lightshow.ts';
+import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
 
 export class Beatmap extends BaseItem implements IWrapBeatmap {
    static defaultValue: IWrapBeatmapAttribute = {
+      filename: 'Unnamed.beatmap.dat',
+      lightshowFilename: 'Unnamed.lightshow.dat',
+      customData: {},
+
       data: {
-         filename: 'Unnamed.beatmap.dat',
          bpmEvents: [],
          rotationEvents: [],
          colorNotes: [],
@@ -69,7 +85,6 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
          customData: {},
       },
       lightshow: {
-         filename: 'Unnamed.lightshow.dat',
          waypoints: [],
          basicEvents: [],
          colorBoostEvents: [],
@@ -88,12 +103,16 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    }
    constructor(data: DeepPartial<IWrapBeatmapAttribute> = {}) {
       super();
+      this.filename = data.filename ?? Beatmap.defaultValue.filename;
+      this.lightshowFilename =
+         data.lightshowFilename ?? Beatmap.defaultValue.lightshowFilename;
       this.data = new Difficulty(data.data ?? Beatmap.defaultValue.data);
       this.lightshow = new Lightshow(
-         data.lightshow ?? Beatmap.defaultValue.lightshow,
+         data.lightshow ?? Beatmap.defaultValue.lightshow
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): Beatmap {
+
+   static fromJSON(data: { [key: string]: any }, version: number): Beatmap {
       return new this({
          data: Difficulty.schema[version]?.deserialize(data.data),
          lightshow: Lightshow.schema[version]?.deserialize(data.lightshow),
@@ -105,13 +124,17 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    } {
       return {
          data: Difficulty.schema[version || 0]?.serialize(this.data) || {},
-         lightshow: Lightshow.schema[version || 0]?.serialize(this.lightshow) || {},
+         lightshow:
+            Lightshow.schema[version || 0]?.serialize(this.lightshow) || {},
       };
    }
    toJSON(): IWrapBeatmapAttribute {
       return {
+         filename: this.filename,
+         lightshowFilename: this.lightshowFilename,
          data: this.data.toJSON(),
          lightshow: this.lightshow.toJSON(),
+         customData: this.customData,
       };
    }
    isValid(): boolean {
@@ -120,6 +143,9 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
 
    data: IWrapDifficulty;
    lightshow: IWrapLightshow;
+
+   filename: LooseAutocomplete<GenericFilename>;
+   lightshowFilename: LooseAutocomplete<GenericFilename>;
 
    get bpmEvents(): IWrapBPMEvent[] {
       return this.data.bpmEvents;
@@ -197,7 +223,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return this.lightshow.lightTranslationEventBoxGroups;
    }
    set lightTranslationEventBoxGroups(
-      value: this['lightTranslationEventBoxGroups'],
+      value: this['lightTranslationEventBoxGroups']
    ) {
       this.lightshow.lightTranslationEventBoxGroups = value;
    }
@@ -217,9 +243,18 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return this.lightshow.useNormalEventsAsCompatibleEvents;
    }
    set useNormalEventsAsCompatibleEvents(
-      value: this['useNormalEventsAsCompatibleEvents'],
+      value: this['useNormalEventsAsCompatibleEvents']
    ) {
       this.lightshow.useNormalEventsAsCompatibleEvents = value;
+   }
+
+   setLightshowFilename(filename: LooseAutocomplete<GenericFilename>): this {
+      this.lightshowFilename = filename;
+      return this;
+   }
+   setFilename(filename: LooseAutocomplete<GenericFilename>): this {
+      this.filename = filename;
+      return this;
    }
 
    sort(): this {

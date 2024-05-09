@@ -52,10 +52,10 @@ export class AudioData extends BaseItem implements IWrapAudio {
          data.customData ?? AudioData.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): AudioData {
+   static fromJSON(data: { [key: string]: any }, version: number): AudioData {
       return new this(AudioData.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (AudioData.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

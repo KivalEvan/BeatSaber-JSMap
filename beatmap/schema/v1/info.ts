@@ -1,9 +1,10 @@
 import type { IInfo } from '../../../types/beatmap/v1/info.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapInfoAttribute } from '../../../types/beatmap/wrapper/info.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import { infoDifficulty } from './infoDifficulty.ts';
+import type { EnvironmentName } from '../../../types/beatmap/shared/environment.ts';
 
 /** Difficulty beatmap class object. */
 export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
@@ -31,7 +32,8 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          previewStartTime: data.audio.previewStartTime,
          previewDuration: data.audio.previewDuration,
          coverImagePath: data.coverImageFilename,
-         environmentName: data.environmentName,
+         environmentName: data.environmentNames[0] as EnvironmentName ??
+            this.defaultValue.environmentName,
          difficultyLevels: data.difficulties.map(infoDifficulty.serialize),
          oneSaber: data.difficulties.some(
             (m) => m.characteristic === 'OneSaber',
@@ -49,27 +51,30 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             author: data.authorName ?? this.defaultValue.authorName,
          },
          audio: {
+            filename: (
+               data.difficultyLevels ?? this.defaultValue.difficultyLevels
+            ).find((e) => e?.audioPath)?.audioPath,
             bpm: data.beatsPerMinute ?? this.defaultValue.beatsPerMinute,
             previewStartTime: data.previewStartTime ?? this.defaultValue.previewStartTime,
             previewDuration: data.previewDuration ?? this.defaultValue.previewDuration,
          },
          coverImageFilename: data.coverImagePath ?? this.defaultValue.coverImagePath,
-         environmentName: data.environmentName ?? this.defaultValue.environmentName,
+         environmentNames: [
+            data.environmentName ?? this.defaultValue.environmentName,
+         ],
 
          difficulties: (
             data.difficultyLevels ?? this.defaultValue.difficultyLevels
          ).map(infoDifficulty.deserialize),
-         songFilename: 'song.ogg',
 
-         oneSaber: (
-            data.difficultyLevels ?? this.defaultValue.difficultyLevels
-         ).some((m) => m?.characteristic === 'OneSaber'),
-         contributors: deepCopy(
-            data.contributors ?? this.defaultValue.contributors,
-         ),
-         customEnvironment: data.customEnvironment ?? this.defaultValue.customEnvironment,
-         customEnvironmentHash: data.customEnvironmentHash ??
-            this.defaultValue.customEnvironmentHash,
+         customData: {
+            _contributors: deepCopy(
+               data.contributors ?? this.defaultValue.contributors,
+            ),
+            _customEnvironment: data.customEnvironment ?? this.defaultValue.customEnvironment,
+            _customEnvironmentHash: data.customEnvironmentHash ??
+               this.defaultValue.customEnvironmentHash,
+         },
       };
    },
    isValid(_: IWrapInfoAttribute): boolean {

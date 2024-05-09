@@ -14,7 +14,7 @@ export interface IWrapLightTranslationEventAttribute extends IWrapBaseObjectAttr
 }
 
 export interface IWrapLightTranslationEvent<
-   T extends Record<string, any> = IWrapLightTranslationEventAttribute,
+   T extends { [key: string]: any } = IWrapLightTranslationEventAttribute,
 > extends IWrapBaseObject<T>, IWrapLightTranslationEventAttribute {
    setPrevious(value: 0 | 1): this;
    setEasing(value: EaseType): this;

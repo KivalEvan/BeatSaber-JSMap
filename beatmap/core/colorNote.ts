@@ -38,10 +38,10 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
          data.customData ?? ColorNote.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): ColorNote {
+   static fromJSON(data: { [key: string]: any }, version: number): ColorNote {
       return new this(ColorNote.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (ColorNote.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
    }
    toJSON(): IWrapColorNoteAttribute {

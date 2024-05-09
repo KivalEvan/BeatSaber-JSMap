@@ -37,10 +37,10 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       this.laneRotation = data.laneRotation ?? Obstacle.defaultValue.laneRotation;
       this.customData = deepCopy(data.customData ?? Obstacle.defaultValue.customData);
    }
-   static fromJSON(data: Record<string, any>, version: number): Obstacle {
+   static fromJSON(data: { [key: string]: any }, version: number): Obstacle {
       return new this(Obstacle.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (Obstacle.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
    }
    toJSON(): IWrapObstacleAttribute {

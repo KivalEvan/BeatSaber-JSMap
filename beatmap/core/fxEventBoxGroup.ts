@@ -39,12 +39,12 @@ export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGro
       );
    }
    static fromJSON(
-      data: Record<string, any>,
+      data: { [key: string]: any },
       version: number,
    ): FxEventBoxGroup {
       return new this(FxEventBoxGroup.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (FxEventBoxGroup.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

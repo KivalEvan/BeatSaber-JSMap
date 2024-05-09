@@ -93,15 +93,15 @@ function fromV3(bm: IWrapBeatmap) {
    });
 
    bm.basicEvents.forEach((e) => {
-      bm.customData = eventToV2(e.customData);
+      e.customData = eventToV2(e.customData);
       if (e.isLaserRotationEvent()) {
-         delete bm.data.customData._speed;
+         delete e.customData._speed;
       } else {
-         delete bm.data.customData._preciseSpeed;
+         delete e.customData._preciseSpeed;
       }
    });
 
-   for (const k in bm.customData) {
+   for (const k in bm.data.customData) {
       if (k === 'customEvents') {
          bm.data.customData._customEvents = [];
          for (const ce of bm.data.customData.customEvents!) {
@@ -291,12 +291,12 @@ function fromV3(bm: IWrapBeatmap) {
          continue;
       }
       if (k === 'time') {
-         bm.data.customData._time = bm.customData[k];
+         bm.data.customData._time = bm.data.customData[k];
          delete bm.data.customData.time;
          continue;
       }
       if (k === 'BPMChanges') {
-         bm.data.customData._BPMChanges = bm.customData[k]?.map((bpmc) => {
+         bm.data.customData._BPMChanges = bm.data.customData[k]?.map((bpmc) => {
             return {
                _time: bpmc.b,
                _BPM: bpmc.m,
@@ -308,7 +308,7 @@ function fromV3(bm: IWrapBeatmap) {
          continue;
       }
       if (k === 'bookmarks') {
-         bm.data.customData._bookmarks = bm.customData[k]?.map((b) => {
+         bm.data.customData._bookmarks = bm.data.customData[k]?.map((b) => {
             return { _time: b.b, _name: b.n, _color: b.c };
          });
          delete bm.data.customData.bookmarks;

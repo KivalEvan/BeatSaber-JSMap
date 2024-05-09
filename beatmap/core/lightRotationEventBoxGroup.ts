@@ -44,14 +44,14 @@ export class LightRotationEventBoxGroup extends EventBoxGroup
       );
    }
    static fromJSON(
-      data: Record<string, any>,
+      data: { [key: string]: any },
       version: number,
    ): LightRotationEventBoxGroup {
       return new this(
          LightRotationEventBoxGroup.schema[version]?.deserialize(data),
       );
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (LightRotationEventBoxGroup.schema[version || 0]?.serialize(
          this,
       ) || this.toJSON()) as T;

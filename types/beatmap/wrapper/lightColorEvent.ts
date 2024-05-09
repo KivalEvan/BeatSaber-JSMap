@@ -41,7 +41,7 @@ export interface IWrapLightColorEventAttribute extends IWrapBaseObjectAttribute 
 }
 
 export interface IWrapLightColorEvent<
-   T extends Record<string, any> = IWrapLightColorEventAttribute,
+   T extends { [key: string]: any } = IWrapLightColorEventAttribute,
 > extends IWrapBaseObject<T>, IWrapLightColorEventAttribute {
    setPrevious(value: 0 | 1): this;
    setColor(value: EventBoxColor): this;

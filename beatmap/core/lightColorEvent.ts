@@ -39,10 +39,10 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
          data.customData ?? LightColorEvent.defaultValue.customData,
       );
    }
-   static fromJSON(data: Record<string, any>, version: number): LightColorEvent {
+   static fromJSON(data: { [key: string]: any }, version: number): LightColorEvent {
       return new this(LightColorEvent.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (LightColorEvent.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
    }
    toJSON(): IWrapLightColorEventAttribute {

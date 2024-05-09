@@ -10,7 +10,7 @@ export interface IWrapLightColorEventBoxGroupAttribute extends IWrapEventBoxGrou
 }
 
 export interface IWrapLightColorEventBoxGroup<
-   T extends Record<string, any> = IWrapLightColorEventBoxGroupAttribute,
+   T extends { [key: string]: any } = IWrapLightColorEventBoxGroupAttribute,
 > extends IWrapEventBoxGroup<T>, IWrapLightColorEventBoxGroupAttribute {
    boxes: IWrapLightColorEventBox[];
 }

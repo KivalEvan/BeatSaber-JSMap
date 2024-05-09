@@ -40,12 +40,12 @@ export class LightRotationEvent extends BaseObject implements IWrapLightRotation
       );
    }
    static fromJSON(
-      data: Record<string, any>,
+      data: { [key: string]: any },
       version: number,
    ): LightRotationEvent {
       return new this(LightRotationEvent.schema[version]?.deserialize(data));
    }
-   toSchema<T extends Record<string, any>>(version?: number): T {
+   toSchema<T extends { [key: string]: any }>(version?: number): T {
       return (LightRotationEvent.schema[version || 0]?.serialize(this) ||
          this.toJSON()) as T;
    }

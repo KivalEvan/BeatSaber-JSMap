@@ -14,7 +14,7 @@ export interface IWrapFxEventFloatAttribute extends IWrapBaseObjectAttribute {
 }
 
 export interface IWrapFxEventFloat<
-   T extends Record<string, any> = IWrapFxEventFloatAttribute,
+   T extends { [key: string]: any } = IWrapFxEventFloatAttribute,
 > extends IWrapBaseObject<T>, IWrapFxEventFloatAttribute {
    setPrevious(value: 0 | 1): this;
    setEasing(value: EaseType): this;

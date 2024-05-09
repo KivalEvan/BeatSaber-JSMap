@@ -1,4 +1,4 @@
-import type { SliderMidAnchorMode } from '../shared/constants.ts';
+import type { NoteColor, SliderMidAnchorMode } from '../shared/constants.ts';
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 
 /** not a chain. */
@@ -10,7 +10,7 @@ export interface IArc {
     * 1 -> Blue
     * ```
     */
-   _colorType?: 0 | 1;
+   _colorType?: NoteColor;
    _headTime?: number;
    _headLineIndex?: number;
    _headLineLayer?: number;

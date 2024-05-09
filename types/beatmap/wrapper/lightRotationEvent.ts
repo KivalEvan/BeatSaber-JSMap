@@ -32,7 +32,7 @@ export interface IWrapLightRotationEventAttribute extends IWrapBaseObjectAttribu
 }
 
 export interface IWrapLightRotationEvent<
-   T extends Record<string, any> = IWrapLightRotationEventAttribute,
+   T extends { [key: string]: any } = IWrapLightRotationEventAttribute,
 > extends IWrapBaseObject<T>, IWrapLightRotationEventAttribute {
    setPrevious(value: 0 | 1): this;
    setEasing(value: EaseType): this;
