@@ -52,16 +52,16 @@ export const fxEventBoxGroup: ISchemaContainer<
       );
       return d;
    },
-   isValid(data: IWrapFxEventBoxGroupAttribute): boolean {
+   isValid(_: IWrapFxEventBoxGroupAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapFxEventBoxGroupAttribute): boolean {
+   isChroma(_: IWrapFxEventBoxGroupAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapFxEventBoxGroupAttribute): boolean {
+   isNoodleExtensions(_: IWrapFxEventBoxGroupAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapFxEventBoxGroupAttribute): boolean {
+   isMappingExtensions(_: IWrapFxEventBoxGroupAttribute): boolean {
       return false;
    },
 };

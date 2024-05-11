@@ -37,17 +37,17 @@ export const lightRotationEventBoxGroup: ISchemaContainer<
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
    },
-   isValid(data: IWrapLightRotationEventBoxGroupAttribute): boolean {
+   isValid(_: IWrapLightRotationEventBoxGroupAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapLightRotationEventBoxGroupAttribute): boolean {
+   isChroma(_: IWrapLightRotationEventBoxGroupAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapLightRotationEventBoxGroupAttribute): boolean {
+   isNoodleExtensions(_: IWrapLightRotationEventBoxGroupAttribute): boolean {
       return false;
    },
    isMappingExtensions(
-      data: IWrapLightRotationEventBoxGroupAttribute,
+      _: IWrapLightRotationEventBoxGroupAttribute,
    ): boolean {
       return false;
    },

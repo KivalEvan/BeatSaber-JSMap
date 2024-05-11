@@ -49,7 +49,7 @@ export const bombNote: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapBombNoteAttribute): boolean {
+   isValid(_: IWrapBombNoteAttribute): boolean {
       return true;
    },
    isChroma(data: IWrapBombNoteAttribute): boolean {
@@ -78,7 +78,7 @@ export const bombNote: ISchemaContainer<
          typeof data.customData.link === 'string'
       );
    },
-   isMappingExtensions(data: IWrapBombNoteAttribute): boolean {
+   isMappingExtensions(_: IWrapBombNoteAttribute): boolean {
       return false;
    },
 };

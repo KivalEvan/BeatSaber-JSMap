@@ -59,16 +59,16 @@ export const lightTranslationEventBox: ISchemaContainer<
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
    },
-   isValid(data: IWrapLightTranslationEventBoxAttribute): boolean {
+   isValid(_: IWrapLightTranslationEventBoxAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapLightTranslationEventBoxAttribute): boolean {
+   isChroma(_: IWrapLightTranslationEventBoxAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapLightTranslationEventBoxAttribute): boolean {
+   isNoodleExtensions(_: IWrapLightTranslationEventBoxAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapLightTranslationEventBoxAttribute): boolean {
+   isMappingExtensions(_: IWrapLightTranslationEventBoxAttribute): boolean {
       return false;
    },
 };

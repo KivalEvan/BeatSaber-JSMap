@@ -5,7 +5,7 @@ import type {
    IWrapLightTranslationEventBox,
    IWrapLightTranslationEventBoxAttribute,
 } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
@@ -46,7 +46,7 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
    ): LightTranslationEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartial<IWrapLightTranslationEventBoxAttribute> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapLightTranslationEventBoxAttribute, 'customData'> = {}) {
       super();
       this.filter = new IndexFilter(
          data.filter ?? LightTranslationEventBox.defaultValue.filter,

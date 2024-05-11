@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-unused-vars
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
@@ -30,16 +29,16 @@ export const bpmEvent: ISchemaContainer<IWrapBPMEventAttribute, IEvent> = {
          ),
       };
    },
-   isValid(data: IWrapBPMEventAttribute): boolean {
+   isValid(_: IWrapBPMEventAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapBPMEventAttribute): boolean {
+   isChroma(_: IWrapBPMEventAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapBPMEventAttribute): boolean {
+   isNoodleExtensions(_: IWrapBPMEventAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapBPMEventAttribute): boolean {
+   isMappingExtensions(_: IWrapBPMEventAttribute): boolean {
       return false;
    },
 };

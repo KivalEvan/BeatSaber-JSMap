@@ -47,7 +47,7 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChain> = {
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
    },
-   isValid(data: IWrapChainAttribute) {
+   isValid(_: IWrapChainAttribute) {
       return true;
    },
    isChroma(data: IWrapChainAttribute): boolean {
@@ -77,7 +77,7 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChain> = {
          typeof data.customData.link === 'string'
       );
    },
-   isMappingExtensions(data: IWrapChainAttribute): boolean {
+   isMappingExtensions(_: IWrapChainAttribute): boolean {
       return false;
    },
 };

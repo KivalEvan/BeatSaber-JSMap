@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-unused-vars
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
@@ -30,16 +29,16 @@ export const colorBoostEvent: ISchemaContainer<IWrapColorBoostEventAttribute, IE
          ),
       };
    },
-   isValid(data: IWrapColorBoostEventAttribute): boolean {
+   isValid(_: IWrapColorBoostEventAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapColorBoostEventAttribute): boolean {
+   isChroma(_: IWrapColorBoostEventAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapColorBoostEventAttribute): boolean {
+   isNoodleExtensions(_: IWrapColorBoostEventAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapColorBoostEventAttribute): boolean {
+   isMappingExtensions(_: IWrapColorBoostEventAttribute): boolean {
       return false;
    },
 };

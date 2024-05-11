@@ -37,21 +37,21 @@ export const lightTranslationEventBoxGroup: ISchemaContainer<
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
    },
-   isValid(data: IWrapLightTranslationEventBoxGroupAttribute): boolean {
+   isValid(_: IWrapLightTranslationEventBoxGroupAttribute): boolean {
       return true;
    },
    isChroma: function (
-      data: IWrapLightTranslationEventBoxGroupAttribute,
+      _: IWrapLightTranslationEventBoxGroupAttribute,
    ): boolean {
       return false;
    },
    isNoodleExtensions: function (
-      data: IWrapLightTranslationEventBoxGroupAttribute,
+      _: IWrapLightTranslationEventBoxGroupAttribute,
    ): boolean {
       return false;
    },
    isMappingExtensions: function (
-      data: IWrapLightTranslationEventBoxGroupAttribute,
+      _: IWrapLightTranslationEventBoxGroupAttribute,
    ): boolean {
       return false;
    },

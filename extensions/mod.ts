@@ -14,4 +14,3 @@ export * as renamer from './renamer/mod.ts';
 export * as selector from './selector/mod.ts';
 export * as stats from './stats/mod.ts';
 export * as swing from './swing/mod.ts';
-export * as zip from './zip/mod.ts';

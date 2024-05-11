@@ -49,16 +49,16 @@ export const lightRotationEvent: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapLightRotationEventAttribute): boolean {
+   isValid(_: IWrapLightRotationEventAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapLightRotationEventAttribute): boolean {
+   isChroma(_: IWrapLightRotationEventAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapLightRotationEventAttribute): boolean {
+   isNoodleExtensions(_: IWrapLightRotationEventAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapLightRotationEventAttribute): boolean {
+   isMappingExtensions(_: IWrapLightRotationEventAttribute): boolean {
       return false;
    },
 };

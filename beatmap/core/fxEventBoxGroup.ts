@@ -6,7 +6,7 @@ import type {
 } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
 import type { IWrapFxEventBox } from '../../types/beatmap/wrapper/fxEventBox.ts';
 import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { FxEventBox } from './fxEventBox.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
@@ -23,11 +23,11 @@ export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGro
    };
 
    static create(
-      ...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]
+      ...data: DeepPartialIgnore<IWrapFxEventBoxGroupAttribute, 'customData'>[]
    ): FxEventBoxGroup[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartial<IWrapFxEventBoxGroupAttribute> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapFxEventBoxGroupAttribute, 'customData'> = {}) {
       super();
       this.time = data.time ?? FxEventBoxGroup.defaultValue.time;
       this.id = data.id ?? FxEventBoxGroup.defaultValue.id;

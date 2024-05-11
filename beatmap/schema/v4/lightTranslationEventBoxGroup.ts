@@ -54,19 +54,19 @@ export const lightTranslationEventBoxGroup: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapLightTranslationEventBoxGroupAttribute): boolean {
+   isValid(_: IWrapLightTranslationEventBoxGroupAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapLightTranslationEventBoxGroupAttribute): boolean {
+   isChroma(_: IWrapLightTranslationEventBoxGroupAttribute): boolean {
       return false;
    },
    isNoodleExtensions(
-      data: IWrapLightTranslationEventBoxGroupAttribute,
+      _: IWrapLightTranslationEventBoxGroupAttribute,
    ): boolean {
       return false;
    },
    isMappingExtensions(
-      data: IWrapLightTranslationEventBoxGroupAttribute,
+      _: IWrapLightTranslationEventBoxGroupAttribute,
    ): boolean {
       return false;
    },

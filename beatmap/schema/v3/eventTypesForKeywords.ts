@@ -27,16 +27,16 @@ export const eventTypesForKeywords: ISchemaContainer<
          events: (data.e ?? this.defaultValue.e).map((e) => e),
       };
    },
-   isValid(data: IWrapEventTypesForKeywordsAttribute): boolean {
+   isValid(_: IWrapEventTypesForKeywordsAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapEventTypesForKeywordsAttribute): boolean {
+   isChroma(_: IWrapEventTypesForKeywordsAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapEventTypesForKeywordsAttribute): boolean {
+   isNoodleExtensions(_: IWrapEventTypesForKeywordsAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapEventTypesForKeywordsAttribute): boolean {
+   isMappingExtensions(_: IWrapEventTypesForKeywordsAttribute): boolean {
       return false;
    },
 };

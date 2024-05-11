@@ -1,6 +1,5 @@
-// deno-lint-ignore-file no-unused-vars no-explicit-any
+// deno-lint-ignore-file no-explicit-any
 import { BaseObject } from './abstract/baseObject.ts';
-import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import type { IWrapEvent, IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import { EventType } from '../shared/constants.ts';
 import { EventLightValue } from '../shared/constants.ts';
@@ -42,7 +41,8 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
       return new this(BasicEvent.schema[version]?.deserialize(data));
    }
    toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (BasicEvent.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
+      return (BasicEvent.schema[version || 0]?.serialize(this) ||
+         this.toJSON()) as T;
    }
    toJSON(): IWrapEventAttribute {
       return {
@@ -127,61 +127,33 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
       );
    }
 
-   isLightEvent(environment?: EnvironmentAllName): boolean {
-      switch (environment) {
-         case 'LizzoEnvironment':
-            return (
-               this.type === 0 ||
-               this.type === 1 ||
-               this.type === 2 ||
-               this.type === 3 ||
-               this.type === 4 ||
-               this.type === 6 ||
-               this.type === 7 ||
-               this.type === 8 ||
-               this.type === 9 ||
-               this.type === 10 ||
-               this.type === 11 ||
-               this.type === 12
-            );
-         default:
-            return (
-               this.type === 0 ||
-               this.type === 1 ||
-               this.type === 2 ||
-               this.type === 3 ||
-               this.type === 4 ||
-               this.type === 6 ||
-               this.type === 7 ||
-               this.type === 10 ||
-               this.type === 11
-            );
-      }
+   isLightEvent(): boolean {
+      return (
+         this.type === 0 ||
+         this.type === 1 ||
+         this.type === 2 ||
+         this.type === 3 ||
+         this.type === 4 ||
+         this.type === 6 ||
+         this.type === 7 ||
+         this.type === 10 ||
+         this.type === 11
+      );
    }
    isColorBoost(): boolean {
       return this.type === EventType.COLOR_BOOST;
    }
-   isRingEvent(environment?: EnvironmentAllName): boolean {
-      switch (environment) {
-         case 'LizzoEnvironment':
-            return false;
-         default:
-            return (
-               this.type === EventType.RING_ROTATION ||
-               this.type === EventType.RING_ZOOM
-            );
-      }
+   isRingEvent(): boolean {
+      return (
+         this.type === EventType.RING_ROTATION ||
+         this.type === EventType.RING_ZOOM
+      );
    }
-   isLaserRotationEvent(environment?: EnvironmentAllName): boolean {
-      switch (environment) {
-         case 'LizzoEnvironment':
-            return false;
-         default:
-            return (
-               this.type === EventType.LEFT_LASER_ROTATION ||
-               this.type === EventType.RIGHT_LASER_ROTATION
-            );
-      }
+   isLaserRotationEvent(): boolean {
+      return (
+         this.type === EventType.LEFT_LASER_ROTATION ||
+         this.type === EventType.RIGHT_LASER_ROTATION
+      );
    }
    isLaneRotationEvent(): boolean {
       return (
@@ -189,7 +161,7 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
          this.type === EventType.LATE_LANE_ROTATION
       );
    }
-   isExtraEvent(environment?: EnvironmentAllName): boolean {
+   isExtraEvent(): boolean {
       return (
          this.type === EventType.UTILITY_EVENT_0 ||
          this.type === EventType.UTILITY_EVENT_1 ||
@@ -197,7 +169,7 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
          this.type === EventType.UTILITY_EVENT_3
       );
    }
-   isSpecialEvent(environment?: EnvironmentAllName): boolean {
+   isSpecialEvent(): boolean {
       return (
          this.type === EventType.SPECIAL_EVENT_0 ||
          this.type === EventType.SPECIAL_EVENT_1 ||
@@ -208,13 +180,12 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
    isBpmEvent(): boolean {
       return this.type === EventType.BPM_CHANGE;
    }
-
-   isLightingEvent(environment?: EnvironmentAllName): boolean {
+   isLightingEvent(): boolean {
       return (
-         this.isLightEvent(environment) ||
-         this.isRingEvent(environment) ||
-         this.isLaserRotationEvent(environment) ||
-         this.isExtraEvent(environment)
+         this.isLightEvent() ||
+         this.isRingEvent() ||
+         this.isLaserRotationEvent() ||
+         this.isExtraEvent()
       );
    }
    isOldChroma(): boolean {

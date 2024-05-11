@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-unused-vars
 import { deepCopy } from '../../../utils/misc.ts';
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import type { IWrapEventAttribute } from '../../../types/beatmap/wrapper/event.ts';
@@ -32,10 +31,10 @@ export const basicEvent: ISchemaContainer<IWrapEventAttribute, IEvent> = {
          ),
       };
    },
-   isValid(data: IWrapEventAttribute): boolean {
+   isValid(_: IWrapEventAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapEventAttribute): boolean {
+   isChroma(_: IWrapEventAttribute): boolean {
       // FIXME: well now i have to properly check
       // if (data.isLightEvent()) {
       //    return (
@@ -73,10 +72,10 @@ export const basicEvent: ISchemaContainer<IWrapEventAttribute, IEvent> = {
       // }
       return false;
    },
-   isNoodleExtensions(data: IWrapEventAttribute): boolean {
+   isNoodleExtensions(_: IWrapEventAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapEventAttribute): boolean {
+   isMappingExtensions(_: IWrapEventAttribute): boolean {
       return false;
    },
 };

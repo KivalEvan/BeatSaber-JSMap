@@ -14,7 +14,7 @@ import type {
    IWrapInfoColorScheme,
    IWrapInfoSong,
 } from '../../types/beatmap/wrapper/info.ts';
-import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
+import type { DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy, shallowCopy } from '../../utils/misc.ts';
 import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
@@ -49,10 +49,10 @@ export class Info extends BaseItem implements IWrapInfo {
       customData: {},
    };
 
-   static create(...data: DeepPartial<IWrapInfoAttribute>[]): Info[] {
+   static create(...data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'>[]): Info[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartial<IWrapInfoAttribute> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'> = {}) {
       super();
       this.song = {
          title: data.song?.title ?? Info.defaultValue.song.title,
@@ -209,7 +209,7 @@ export class Info extends BaseItem implements IWrapInfo {
       return this;
    }
 
-   addMap(data: DeepPartial<IWrapInfoBeatmapAttribute>): this {
+   addMap(data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>): this {
       this.difficulties.push(new InfoBeatmap(data));
       return this;
    }
@@ -234,11 +234,11 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
    };
 
    static create(
-      ...data: DeepPartial<IWrapInfoBeatmapAttribute>[]
+      ...data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>[]
    ): InfoBeatmap[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartial<IWrapInfoBeatmapAttribute> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'> = {}) {
       super();
       this.characteristic = data.characteristic ?? InfoBeatmap.defaultValue.characteristic;
       this.difficulty = data.difficulty ?? InfoBeatmap.defaultValue.difficulty;

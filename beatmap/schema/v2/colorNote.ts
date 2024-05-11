@@ -34,7 +34,7 @@ export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, INote> = {
          ),
       };
    },
-   isValid(data: IWrapColorNoteAttribute) {
+   isValid(_: IWrapColorNoteAttribute) {
       return true;
    },
    isChroma(data: IWrapColorNoteAttribute): boolean {
@@ -59,7 +59,7 @@ export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, INote> = {
          Array.isArray(data.customData._rotation)
       );
    },
-   isMappingExtensions(data: IWrapColorNoteAttribute) {
+   isMappingExtensions(_: IWrapColorNoteAttribute) {
       return false;
    },
 };

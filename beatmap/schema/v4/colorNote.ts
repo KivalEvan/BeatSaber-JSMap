@@ -59,7 +59,7 @@ export const colorNote: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapColorNoteAttribute): boolean {
+   isValid(_: IWrapColorNoteAttribute): boolean {
       return true;
    },
    isChroma(data: IWrapColorNoteAttribute): boolean {
@@ -88,7 +88,7 @@ export const colorNote: ISchemaContainer<
          typeof data.customData.link === 'string'
       );
    },
-   isMappingExtensions(data: IWrapColorNoteAttribute): boolean {
+   isMappingExtensions(_: IWrapColorNoteAttribute): boolean {
       return true;
    },
 };

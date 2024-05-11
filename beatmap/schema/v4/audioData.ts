@@ -58,13 +58,13 @@ export const audioData: ISchemaContainer<IWrapAudioAttribute, IAudio> = {
    isValid(): boolean {
       return true;
    },
-   isChroma(data: IWrapAudioAttribute): boolean {
+   isChroma(_: IWrapAudioAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapAudioAttribute): boolean {
+   isNoodleExtensions(_: IWrapAudioAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapAudioAttribute): boolean {
+   isMappingExtensions(_: IWrapAudioAttribute): boolean {
       return false;
    },
 };

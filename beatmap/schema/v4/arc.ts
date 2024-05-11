@@ -96,7 +96,7 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArcContainer> = {
          ),
       };
    },
-   isValid(data: IWrapArcAttribute): boolean {
+   isValid(_: IWrapArcAttribute): boolean {
       return true;
    },
    isChroma(data: IWrapArcAttribute): boolean {
@@ -126,7 +126,7 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArcContainer> = {
          typeof data.customData.link === 'string'
       );
    },
-   isMappingExtensions(data: IWrapArcAttribute): boolean {
+   isMappingExtensions(_: IWrapArcAttribute): boolean {
       return false;
    },
 };

@@ -32,7 +32,7 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
          ),
       };
    },
-   isValid(data: IWrapBombNoteAttribute): boolean {
+   isValid(_: IWrapBombNoteAttribute): boolean {
       return true;
    },
    isChroma(data: IWrapBombNoteAttribute): boolean {
@@ -57,7 +57,7 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
          Array.isArray(data.customData._rotation)
       );
    },
-   isMappingExtensions(data: IWrapBombNoteAttribute): boolean {
+   isMappingExtensions(_: IWrapBombNoteAttribute): boolean {
       return false;
    },
 };

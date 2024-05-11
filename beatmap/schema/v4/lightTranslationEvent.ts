@@ -38,16 +38,16 @@ export const lightTranslationEvent: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapLightTranslationEventAttribute): boolean {
+   isValid(_: IWrapLightTranslationEventAttribute): boolean {
       return false;
    },
-   isChroma(data: IWrapLightTranslationEventAttribute): boolean {
+   isChroma(_: IWrapLightTranslationEventAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapLightTranslationEventAttribute): boolean {
+   isNoodleExtensions(_: IWrapLightTranslationEventAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapLightTranslationEventAttribute): boolean {
+   isMappingExtensions(_: IWrapLightTranslationEventAttribute): boolean {
       return false;
    },
 };

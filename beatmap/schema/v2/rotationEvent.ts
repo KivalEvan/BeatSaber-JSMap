@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-unused-vars
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
@@ -49,10 +48,10 @@ export const rotationEvent: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapRotationEventAttribute): boolean {
+   isValid(_: IWrapRotationEventAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapRotationEventAttribute): boolean {
+   isChroma(_: IWrapRotationEventAttribute): boolean {
       return false;
    },
    isNoodleExtensions(data: IWrapRotationEventAttribute): boolean {

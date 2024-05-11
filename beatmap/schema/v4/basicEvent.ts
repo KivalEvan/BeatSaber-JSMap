@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-unused-vars
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapEventAttribute } from '../../../types/beatmap/wrapper/event.ts';
@@ -50,42 +49,43 @@ export const basicEvent: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapEventAttribute): boolean {
+   isValid(_: IWrapEventAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapEventAttribute): boolean {
-      if (data.isLightEvent()) {
-         return (
-            Array.isArray(data.customData.color) ||
-            typeof data.customData.lightID === 'number' ||
-            Array.isArray(data.customData.lightID) ||
-            typeof data.customData.easing === 'string' ||
-            typeof data.customData.lerpType === 'string'
-         );
-      }
-      if (data.isRingEvent()) {
-         return (
-            typeof data.customData.nameFilter === 'string' ||
-            typeof data.customData.rotation === 'number' ||
-            typeof data.customData.step === 'number' ||
-            typeof data.customData.prop === 'number' ||
-            typeof data.customData.speed === 'number' ||
-            typeof data.customData.direction === 'number'
-         );
-      }
-      if (data.isLaserRotationEvent()) {
-         return (
-            typeof data.customData.lockRotation === 'boolean' ||
-            typeof data.customData.speed === 'number' ||
-            typeof data.customData.direction === 'number'
-         );
-      }
+   isChroma(_: IWrapEventAttribute): boolean {
+      // FIXME: chroma
+      // if (data.isLightEvent()) {
+      //    return (
+      //       Array.isArray(data.customData.color) ||
+      //       typeof data.customData.lightID === 'number' ||
+      //       Array.isArray(data.customData.lightID) ||
+      //       typeof data.customData.easing === 'string' ||
+      //       typeof data.customData.lerpType === 'string'
+      //    );
+      // }
+      // if (data.isRingEvent()) {
+      //    return (
+      //       typeof data.customData.nameFilter === 'string' ||
+      //       typeof data.customData.rotation === 'number' ||
+      //       typeof data.customData.step === 'number' ||
+      //       typeof data.customData.prop === 'number' ||
+      //       typeof data.customData.speed === 'number' ||
+      //       typeof data.customData.direction === 'number'
+      //    );
+      // }
+      // if (data.isLaserRotationEvent()) {
+      //    return (
+      //       typeof data.customData.lockRotation === 'boolean' ||
+      //       typeof data.customData.speed === 'number' ||
+      //       typeof data.customData.direction === 'number'
+      //    );
+      // }
       return false;
    },
-   isNoodleExtensions(data: IWrapEventAttribute): boolean {
+   isNoodleExtensions(_: IWrapEventAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapEventAttribute): boolean {
+   isMappingExtensions(_: IWrapEventAttribute): boolean {
       return false;
    },
 };

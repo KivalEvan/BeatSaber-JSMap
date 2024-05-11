@@ -5,7 +5,7 @@ import type {
    IWrapFxEventBoxAttribute,
 } from '../../types/beatmap/wrapper/fxEventBox.ts';
 import type { IWrapFxEventFloat } from '../../types/beatmap/wrapper/fxEventFloat.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
 import { FxEventFloat } from './fxEventFloat.ts';
@@ -39,7 +39,7 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
    static create(...data: Partial<IWrapFxEventBoxAttribute>[]): FxEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartial<IWrapFxEventBoxAttribute> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapFxEventBoxAttribute, 'customData'> = {}) {
       super();
       this.filter = new IndexFilter(
          data.filter ?? FxEventBox.defaultValue.filter,

@@ -17,7 +17,6 @@ export * from './bpmEvent.ts';
 export * from './chain.ts';
 export * from './colorBoostEvent.ts';
 export * from './colorNote.ts';
-export * from './container.ts';
 export * from './event.ts';
 export * from './eventBox.ts';
 export * from './eventBoxGroup.ts';

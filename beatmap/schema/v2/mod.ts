@@ -1,3 +1,4 @@
+export * from './optimize/mod.ts';
 export * from './arc.ts';
 export * from './basicEvent.ts';
 export * from './bombNote.ts';
@@ -11,6 +12,5 @@ export * from './eventTypesForKeywords.ts';
 export * from './eventTypesWithKeywords.ts';
 export * from './info.ts';
 export * from './obstacle.ts';
-export * from './optimize/mod.ts';
 export * from './rotationEvent.ts';
 export * from './waypoint.ts';

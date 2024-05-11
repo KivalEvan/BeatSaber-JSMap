@@ -1,9 +1,9 @@
 import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
 import type { ISwingContainer } from './types/swing.ts';
-import type { NoteContainer, NoteContainerNote } from '../../types/beatmap/wrapper/container.ts';
 import { checkDirection } from '../placement/note.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
 import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 
 export default class Swing implements ISwingContainer {
    time: number;
@@ -12,7 +12,7 @@ export default class Swing implements ISwingContainer {
    maxSpeed: number;
    ebpm: number;
    ebpmSwing: number;
-   data: NoteContainer[];
+   data: IWrapColorNote[];
 
    protected constructor(sc: ISwingContainer) {
       this.time = sc.time;
@@ -24,51 +24,48 @@ export default class Swing implements ISwingContainer {
       this.data = sc.data;
    }
 
-   static generate(nc: NoteContainer[], bpm: TimeProcessor): ISwingContainer[] {
+   static generate(nc: IWrapColorNote[], bpm: TimeProcessor): ISwingContainer[] {
       const sc: ISwingContainer[] = [];
       let ebpm = 0;
       let ebpmSwing = 0;
       let minSpeed: number;
       let maxSpeed: number;
-      const firstNote: { [key: number]: NoteContainerNote } = {};
-      const lastNote: { [key: number]: NoteContainerNote } = {};
-      const swingNoteArray: { [key: number]: NoteContainer[] } = {
+      const firstNote: { [key: number]: IWrapColorNote } = {};
+      const lastNote: { [key: number]: IWrapColorNote } = {};
+      const swingNoteArray: { [key: number]: IWrapColorNote[] } = {
          0: [],
          1: [],
       };
       for (const n of nc) {
-         if (n.type !== 'note') {
-            continue;
-         }
          minSpeed = 0;
          maxSpeed = Number.MAX_SAFE_INTEGER;
-         if (lastNote[n.data.color]) {
-            if (this.next(n, lastNote[n.data.color], bpm, swingNoteArray[n.data.color])) {
-               minSpeed = this.calcMinSliderSpeed(swingNoteArray[n.data.color], bpm);
-               maxSpeed = this.calcMaxSliderSpeed(swingNoteArray[n.data.color], bpm);
+         if (lastNote[n.color]) {
+            if (this.next(n, lastNote[n.color], bpm, swingNoteArray[n.color])) {
+               minSpeed = this.calcMinSliderSpeed(swingNoteArray[n.color], bpm);
+               maxSpeed = this.calcMaxSliderSpeed(swingNoteArray[n.color], bpm);
                if (!(minSpeed > 0 && maxSpeed !== Infinity)) {
                   minSpeed = 0;
                   maxSpeed = 0;
                }
-               ebpmSwing = this.calcEBPMBetweenObject(n.data, firstNote[n.data.color].data, bpm);
-               ebpm = this.calcEBPMBetweenObject(n.data, lastNote[n.data.color].data, bpm);
+               ebpmSwing = this.calcEBPMBetweenObject(n, firstNote[n.color], bpm);
+               ebpm = this.calcEBPMBetweenObject(n, lastNote[n.color], bpm);
                sc.push({
-                  time: firstNote[n.data.color].data.time,
-                  duration: lastNote[n.data.color].data.time - firstNote[n.data.color].data.time,
-                  data: swingNoteArray[n.data.color],
+                  time: firstNote[n.color].time,
+                  duration: lastNote[n.color].time - firstNote[n.color].time,
+                  data: swingNoteArray[n.color],
                   ebpm,
                   ebpmSwing,
                   maxSpeed,
                   minSpeed,
                });
-               firstNote[n.data.color] = n;
-               swingNoteArray[n.data.color] = [];
+               firstNote[n.color] = n;
+               swingNoteArray[n.color] = [];
             }
          } else {
-            firstNote[n.data.color] = n;
+            firstNote[n.color] = n;
          }
-         lastNote[n.data.color] = n;
-         swingNoteArray[n.data.color].push(n);
+         lastNote[n.color] = n;
+         swingNoteArray[n.color].push(n);
       }
       for (let color = 0; color < 2; color++) {
          if (lastNote[color]) {
@@ -79,8 +76,8 @@ export default class Swing implements ISwingContainer {
                maxSpeed = 0;
             }
             sc.push({
-               time: firstNote[color].data.time,
-               duration: lastNote[color].data.time - firstNote[color].data.time,
+               time: firstNote[color].time,
+               duration: lastNote[color].time - firstNote[color].time,
                data: swingNoteArray[color],
                ebpm,
                ebpmSwing,
@@ -94,42 +91,37 @@ export default class Swing implements ISwingContainer {
 
    // Thanks Qwasyx#3000 for improved swing detection
    static next(
-      currNote: NoteContainer,
-      prevNote: NoteContainer,
+      currNote: IWrapColorNote,
+      prevNote: IWrapColorNote,
       bpm: TimeProcessor,
-      context?: NoteContainer[],
+      context?: IWrapColorNote[],
    ): boolean {
-      if (currNote.type === 'bomb' || prevNote.type === 'bomb') {
-         throw new Error('Invalid type');
-      }
       if (
          context &&
          context.length > 0 &&
-         bpm.toRealTime(prevNote.data.time) + 0.005 < bpm.toRealTime(currNote.data.time) &&
-         currNote.data.direction !== NoteDirection.ANY
+         bpm.toRealTime(prevNote.time) + 0.005 < bpm.toRealTime(currNote.time) &&
+         currNote.direction !== NoteDirection.ANY
       ) {
          for (const n of context) {
-            if (n.type === 'note') {
-               if (
-                  n.data.direction !== NoteDirection.ANY &&
-                  checkDirection(currNote.data, n.data, 90, false)
-               ) {
-                  return true;
-               }
+            if (
+               n.direction !== NoteDirection.ANY &&
+               checkDirection(currNote, n, 90, false)
+            ) {
+               return true;
             }
          }
       }
       if (context && context.length > 0) {
          for (const other of context) {
-            if (other.type === 'note' && currNote.data.isInline(other.data)) {
+            if (currNote.isInline(other)) {
                return true;
             }
          }
       }
       return (
-         (currNote.data.isWindow(prevNote.data) &&
-            bpm.toRealTime(currNote.data.time - prevNote.data.time) > 0.08) ||
-         bpm.toRealTime(currNote.data.time - prevNote.data.time) > 0.07
+         (currNote.isWindow(prevNote) &&
+            bpm.toRealTime(currNote.time - prevNote.time) > 0.08) ||
+         bpm.toRealTime(currNote.time - prevNote.time) > 0.07
       );
    }
 
@@ -144,7 +136,7 @@ export default class Swing implements ISwingContainer {
       );
    }
 
-   private static calcMinSliderSpeed(notes: NoteContainer[], bpm: TimeProcessor): number {
+   private static calcMinSliderSpeed(notes: IWrapColorNote[], bpm: TimeProcessor): number {
       let hasStraight = false;
       let hasDiagonal = false;
       let curvedSpeed = 0;
@@ -155,20 +147,20 @@ export default class Swing implements ISwingContainer {
                   return 0;
                }
                if (
-                  (notes[i].data.isHorizontal(notes[i - 1].data) ||
-                     notes[i].data.isVertical(notes[i - 1].data)) &&
+                  (notes[i].isHorizontal(notes[i - 1]) ||
+                     notes[i].isVertical(notes[i - 1])) &&
                   !hasStraight
                ) {
                   hasStraight = true;
-                  curvedSpeed = (notes[i].data.time - notes[i - 1].data.time) /
-                     (notes[i].data.getDistance(notes[i - 1].data) || 1);
+                  curvedSpeed = (notes[i].time - notes[i - 1].time) /
+                     (notes[i].getDistance(notes[i - 1]) || 1);
                }
-               hasDiagonal = notes[i].data.isDiagonal(notes[i - 1].data) ||
-                  notes[i].data.isSlantedWindow(notes[i - 1].data) ||
+               hasDiagonal = notes[i].isDiagonal(notes[i - 1]) ||
+                  notes[i].isSlantedWindow(notes[i - 1]) ||
                   hasDiagonal;
                return (
-                  (notes[i].data.time - notes[i - 1].data.time) /
-                  (notes[i].data.getDistance(notes[i - 1].data) || 1)
+                  (notes[i].time - notes[i - 1].time) /
+                  (notes[i].getDistance(notes[i - 1]) || 1)
                );
             }),
          ),
@@ -179,7 +171,7 @@ export default class Swing implements ISwingContainer {
       return speed;
    }
 
-   private static calcMaxSliderSpeed(notes: NoteContainer[], bpm: TimeProcessor): number {
+   private static calcMaxSliderSpeed(notes: IWrapColorNote[], bpm: TimeProcessor): number {
       let hasStraight = false;
       let hasDiagonal = false;
       let curvedSpeed = Number.MAX_SAFE_INTEGER;
@@ -190,20 +182,20 @@ export default class Swing implements ISwingContainer {
                   return Number.MAX_SAFE_INTEGER;
                }
                if (
-                  (notes[i].data.isHorizontal(notes[i - 1].data) ||
-                     notes[i].data.isVertical(notes[i - 1].data)) &&
+                  (notes[i].isHorizontal(notes[i - 1]) ||
+                     notes[i].isVertical(notes[i - 1])) &&
                   !hasStraight
                ) {
                   hasStraight = true;
-                  curvedSpeed = (notes[i].data.time - notes[i - 1].data.time) /
-                     (notes[i].data.getDistance(notes[i - 1].data) || 1);
+                  curvedSpeed = (notes[i].time - notes[i - 1].time) /
+                     (notes[i].getDistance(notes[i - 1]) || 1);
                }
-               hasDiagonal = notes[i].data.isDiagonal(notes[i - 1].data) ||
-                  notes[i].data.isSlantedWindow(notes[i - 1].data) ||
+               hasDiagonal = notes[i].isDiagonal(notes[i - 1]) ||
+                  notes[i].isSlantedWindow(notes[i - 1]) ||
                   hasDiagonal;
                return (
-                  (notes[i].data.time - notes[i - 1].data.time) /
-                  (notes[i].data.getDistance(notes[i - 1].data) || 1)
+                  (notes[i].time - notes[i - 1].time) /
+                  (notes[i].getDistance(notes[i - 1]) || 1)
                );
             }),
          ),

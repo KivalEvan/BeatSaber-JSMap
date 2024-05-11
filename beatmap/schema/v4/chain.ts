@@ -80,7 +80,7 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
          ),
       };
    },
-   isValid(data: IWrapChainAttribute): boolean {
+   isValid(_: IWrapChainAttribute): boolean {
       return true;
    },
    isChroma(data: IWrapChainAttribute): boolean {
@@ -110,7 +110,7 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
          typeof data.customData.link === 'string'
       );
    },
-   isMappingExtensions(data: IWrapChainAttribute): boolean {
+   isMappingExtensions(_: IWrapChainAttribute): boolean {
       return false;
    },
 };

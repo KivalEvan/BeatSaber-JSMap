@@ -21,7 +21,7 @@ import type {
    IWrapWaypoint,
    IWrapWaypointAttribute,
 } from '../../types/beatmap/wrapper/waypoint.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import type {
    IWrapLightshow,
@@ -58,10 +58,10 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       customData: {},
    };
 
-   static create(...data: DeepPartial<IWrapLightshowAttribute>[]): Lightshow[] {
+   static create(...data: DeepPartialIgnore<IWrapLightshowAttribute, 'customData'>[]): Lightshow[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartial<IWrapLightshowAttribute> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapLightshowAttribute, 'customData'> = {}) {
       super();
       this.waypoints = (data.waypoints ?? Lightshow.defaultValue.waypoints).map(
          (e) => new Waypoint(e),
@@ -69,6 +69,9 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       this.basicEvents = (
          data.basicEvents ?? Lightshow.defaultValue.basicEvents
       ).map((e) => new BasicEvent(e));
+      // shut the fuck up, ts, it's not that deep
+      // deno-lint-ignore ban-ts-comment
+      // @ts-ignore
       this.colorBoostEvents = (
          data.colorBoostEvents ?? Lightshow.defaultValue.colorBoostEvents
       ).map((e) => new ColorBoostEvent(e));
@@ -160,20 +163,20 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
 
-   addWaypoints(...data: DeepPartial<IWrapWaypointAttribute>[]): this {
+   addWaypoints(...data: DeepPartialIgnore<IWrapWaypointAttribute, 'customData'>[]): this {
       for (const d of data) {
          this.waypoints.push(new Waypoint(d));
       }
       return this;
    }
-   addBasicEvents(...data: DeepPartial<IWrapEventAttribute>[]): this {
+   addBasicEvents(...data: DeepPartialIgnore<IWrapEventAttribute, 'customData'>[]): this {
       for (const d of data) {
          this.basicEvents.push(new BasicEvent(d));
       }
       return this;
    }
    addColorBoostEvents(
-      ...data: DeepPartial<IWrapColorBoostEventAttribute>[]
+      ...data: DeepPartialIgnore<IWrapColorBoostEventAttribute, 'customData'>[]
    ): this {
       for (const d of data) {
          this.colorBoostEvents.push(new ColorBoostEvent(d));
@@ -181,7 +184,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightColorEventBoxGroups(
-      ...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]
+      ...data: DeepPartialIgnore<IWrapLightColorEventBoxGroupAttribute, 'customData'>[]
    ): this {
       for (const d of data) {
          this.lightColorEventBoxGroups.push(new LightColorEventBoxGroup(d));
@@ -189,7 +192,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightRotationEventBoxGroups(
-      ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
+      ...data: DeepPartialIgnore<IWrapLightRotationEventBoxGroupAttribute, 'customData'>[]
    ): this {
       for (const d of data) {
          this.lightRotationEventBoxGroups.push(new LightRotationEventBoxGroup(d));
@@ -197,7 +200,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightTranslationEventBoxGroups(
-      ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
+      ...data: DeepPartialIgnore<IWrapLightTranslationEventBoxGroupAttribute, 'customData'>[]
    ): this {
       for (const d of data) {
          this.lightTranslationEventBoxGroups.push(new LightTranslationEventBoxGroup(d));
@@ -205,7 +208,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addFxEventBoxGroups(
-      ...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]
+      ...data: DeepPartialIgnore<IWrapFxEventBoxGroupAttribute, 'customData'>[]
    ): this {
       for (const d of data) {
          this.fxEventBoxGroups.push(new FxEventBoxGroup(d));

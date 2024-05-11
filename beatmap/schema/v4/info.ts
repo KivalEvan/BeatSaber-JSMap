@@ -153,16 +153,16 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
    },
-   isValid(data: IWrapInfoAttribute): boolean {
+   isValid(_: IWrapInfoAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapInfoAttribute): boolean {
+   isChroma(_: IWrapInfoAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapInfoAttribute): boolean {
+   isNoodleExtensions(_: IWrapInfoAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapInfoAttribute): boolean {
+   isMappingExtensions(_: IWrapInfoAttribute): boolean {
       return false;
    },
 };
@@ -229,16 +229,16 @@ export const infoDifficulty: ISchemaContainer<
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
    },
-   isValid(data: IWrapInfoBeatmapAttribute): boolean {
+   isValid(_: IWrapInfoBeatmapAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapInfoBeatmapAttribute): boolean {
+   isChroma(_: IWrapInfoBeatmapAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapInfoBeatmapAttribute): boolean {
+   isNoodleExtensions(_: IWrapInfoBeatmapAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapInfoBeatmapAttribute): boolean {
+   isMappingExtensions(_: IWrapInfoBeatmapAttribute): boolean {
       return false;
    },
 };

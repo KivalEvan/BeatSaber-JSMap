@@ -59,7 +59,7 @@ export const obstacle: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapObstacleAttribute): boolean {
+   isValid(_: IWrapObstacleAttribute): boolean {
       return true;
    },
    isChroma(data: IWrapObstacleAttribute): boolean {

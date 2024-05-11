@@ -1,8 +1,8 @@
-import { BombNote } from '../../beatmap/v3/bombNote.ts';
-import { Chain } from '../../beatmap/v3/chain.ts';
-import { ColorNote } from '../../beatmap/v3/colorNote.ts';
-import { Obstacle } from '../../beatmap/v3/obstacle.ts';
-import type { Difficulty } from '../../beatmap/v3/difficulty.ts';
+import { BombNote } from '../../beatmap/core/bombNote.ts';
+import { Chain } from '../../beatmap/core/chain.ts';
+import { ColorNote } from '../../beatmap/core/colorNote.ts';
+import { Obstacle } from '../../beatmap/core/obstacle.ts';
+import type { Difficulty } from '../../beatmap/core/difficulty.ts';
 import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import type { IChain } from '../../types/beatmap/v3/chain.ts';
 import type { IColorNote } from '../../types/beatmap/v3/colorNote.ts';

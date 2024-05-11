@@ -8,7 +8,7 @@ import type {
    IWrapLightTranslationEventBox,
 } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { LightTranslationEventBox } from './lightTranslationEventBox.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
@@ -26,12 +26,12 @@ export class LightTranslationEventBoxGroup extends EventBoxGroup
    };
 
    static create(
-      ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
+      ...data: DeepPartialIgnore<IWrapLightTranslationEventBoxGroupAttribute, 'customData'>[]
    ): LightTranslationEventBoxGroup[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(
-      data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute> = {},
+      data: DeepPartialIgnore<IWrapLightTranslationEventBoxGroupAttribute, 'customData'> = {},
    ) {
       super();
       this.time = data.time ?? LightTranslationEventBoxGroup.defaultValue.time;

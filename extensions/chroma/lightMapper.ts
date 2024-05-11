@@ -1,9 +1,4 @@
-import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
-import { Event } from '../../beatmap/v2/event.ts';
-import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent.ts';
-import { isV3 } from '../../beatmap/version.ts';
 import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import type { IEvent } from '../../types/beatmap/v2/event.ts';
 import type { IChromaEventRing, IChromaEventZoom } from '../../types/beatmap/v3/custom/chroma.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { LightIDList } from './lightID.ts';
@@ -17,8 +12,10 @@ import { EasingsFn } from '../../utils/easings.ts';
 import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
 import type { ColorArray } from '../../types/colors.ts';
-import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { BasicEvent } from '../../beatmap/core/event.ts';
+import { ColorBoostEvent } from '../../beatmap/core/colorBoostEvent.ts';
+import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 
 /**
  * This uses new lighting lighting syntax for v2 lighting including support for color and easing.
@@ -127,7 +124,7 @@ export class LightMapper {
       return 1 + color * 4 + transitionValue[transition];
    }
 
-   process(mapData: IWrapDifficulty, overwrite = true): void {
+   process(mapData: IWrapBeatmap, overwrite = true): void {
       const events: BasicEvent[] = [...this.events];
       this.queue.sort((a, b) => a.time - b.time);
       for (const q of this.queue) {
@@ -308,54 +305,9 @@ export class LightMapper {
          });
       }
 
-      if (isV3(mapData)) {
-         if (overwrite) {
-            mapData.basicEvents = [];
-         }
-         mapData.basicEvents.push(...events);
-      } else {
-         if (overwrite) {
-            mapData.basicEvents = [];
-         }
-         events.forEach((e) => {
-            let _customData!: IEvent['_customData'];
-            if (e.customData) {
-               if (e.isLightEvent()) {
-                  _customData = {
-                     _color: e.customData.color,
-                     _lightID: e.customData.lightID,
-                     _easing: e.customData.easing,
-                     _lerpType: e.customData.lerpType,
-                  };
-               }
-               if (e.isRingEvent()) {
-                  _customData = {
-                     _nameFilter: e.customData.nameFilter,
-                     _rotation: e.customData.rotation,
-                     _step: e.customData.step,
-                     _prop: e.customData.prop,
-                     _speed: e.customData.speed,
-                     _direction: e.customData.direction,
-                  };
-               }
-               if (e.isLaserRotationEvent()) {
-                  _customData = {
-                     _lockPosition: e.customData.lockRotation,
-                     _direction: e.customData.direction,
-                     _preciseSpeed: e.customData.speed,
-                  };
-               }
-            }
-            mapData.basicEvents.push(
-               new Event({
-                  time: e.time,
-                  type: e.type,
-                  value: e.value,
-                  floatValue: e.floatValue,
-                  customData: _customData,
-               }),
-            );
-         });
+      if (overwrite) {
+         mapData.basicEvents = [];
       }
+      mapData.basicEvents.push(...events);
    }
 }

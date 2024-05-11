@@ -52,16 +52,16 @@ export const waypoint: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapWaypointAttribute): boolean {
+   isValid(_: IWrapWaypointAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapWaypointAttribute): boolean {
+   isChroma(_: IWrapWaypointAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapWaypointAttribute): boolean {
+   isNoodleExtensions(_: IWrapWaypointAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapWaypointAttribute): boolean {
+   isMappingExtensions(_: IWrapWaypointAttribute): boolean {
       return false;
    },
 };

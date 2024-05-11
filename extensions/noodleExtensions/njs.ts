@@ -29,7 +29,7 @@ export function setNjs(
       return;
    }
    const njs = typeof options.njs === 'number'
-      ? new NoteJumpSpeed(options.bpm, options.njs, options.offset)
+      ? new NoteJumpSpeed(options.bpm.value, options.njs, options.offset)
       : options.njs;
    const offset = njs.calcHjdFromJd(options.jd) - njs.calcHjd(0);
    objects.forEach((o) => {
@@ -71,7 +71,7 @@ export function simultaneousSpawn(
       o.customData.noteJumpMovementSpeed = options.njsOverride
          ? o.customData.noteJumpMovementSpeed ?? njs
          : njs;
-      const currentNJS = new NoteJumpSpeed(options.bpm, o.customData.noteJumpMovementSpeed);
+      const currentNJS = new NoteJumpSpeed(options.bpm.value, o.customData.noteJumpMovementSpeed);
       const offset = currentNJS.calcHjdFromJd(options.jd) - currentNJS.calcHjd(0);
       o.customData.noteJumpStartBeatOffset = options.spawnBeatOffset! +
          offset +

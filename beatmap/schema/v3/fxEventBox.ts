@@ -44,7 +44,7 @@ export const fxEventBox: ISchemaContainer<
    deserialize(
       data: DeepPartial<IFxEventFloatBoxContainer> = {},
    ): DeepPartial<IWrapFxEventBoxAttribute> {
-      const d: DeepPartial<IWrapFxEventBoxAttribute> = {
+      return {
          filter: indexFilter.deserialize(
             data.data?.f ?? this.defaultValue.data.f,
          ),
@@ -54,31 +54,22 @@ export const fxEventBox: ISchemaContainer<
          fxDistributionType: data.data?.t ?? this.defaultValue.data.t,
          affectFirst: data.data?.b ?? this.defaultValue.data.b,
          easing: data.data?.i ?? this.defaultValue.data.i,
-         events: [],
+         events: (data.eventData ?? this.defaultValue.eventData).map(fxEventFloat.deserialize),
          customData: deepCopy(
             data.data?.customData ?? this.defaultValue.data.customData,
          ),
       };
-
-      if (events) {
-         for (const n of data.l || []) {
-            d._events.push(fxEventFloat.deserialize(events[n]));
-         }
-      } else {
-         d._events = this.defaultValue.eventData.map((json) => fxEventFloat.deserialize);
-      }
-      return d;
    },
-   isValid(data: IWrapFxEventBoxAttribute): boolean {
+   isValid(_: IWrapFxEventBoxAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapFxEventBoxAttribute): boolean {
+   isChroma(_: IWrapFxEventBoxAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapFxEventBoxAttribute): boolean {
+   isNoodleExtensions(_: IWrapFxEventBoxAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapFxEventBoxAttribute): boolean {
+   isMappingExtensions(_: IWrapFxEventBoxAttribute): boolean {
       return false;
    },
 };

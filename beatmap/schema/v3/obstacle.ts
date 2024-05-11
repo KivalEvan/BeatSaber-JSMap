@@ -35,7 +35,7 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
    },
-   isValid(data: IWrapObstacleAttribute): boolean {
+   isValid(_: IWrapObstacleAttribute): boolean {
       return true;
    },
    isChroma(data: IWrapObstacleAttribute): boolean {

@@ -8,7 +8,7 @@ import type {
    IWrapAudioLUFS,
 } from '../../types/beatmap/wrapper/audioData.ts';
 import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
+import type { DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
@@ -24,10 +24,10 @@ export class AudioData extends BaseItem implements IWrapAudio {
       customData: {},
    };
 
-   static create(...data: Partial<IWrapAudioAttribute>[]): AudioData[] {
+   static create(...data: DeepPartialIgnore<IWrapAudioAttribute, 'customData'>[]): AudioData[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartial<IWrapAudioAttribute> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapAudioAttribute, 'customData'> = {}) {
       super();
       this.filename = data.filename ?? AudioData.defaultValue.filename;
       this.audioChecksum = data.audioChecksum ?? AudioData.defaultValue.audioChecksum;

@@ -1,7 +1,4 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IIndexFilter } from '../../../types/beatmap/v3/indexFilter.ts';
-import type { ILightColorEvent } from '../../../types/beatmap/v3/lightColorEvent.ts';
-import type { ILightColorEventBox } from '../../../types/beatmap/v3/lightColorEventBox.ts';
 import type { ILightColorEventBoxGroup } from '../../../types/beatmap/v3/lightColorEventBoxGroup.ts';
 import type { IWrapLightColorEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
@@ -40,19 +37,19 @@ export const lightColorEventBoxGroup: ISchemaContainer<
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
    },
-   isValid(data: IWrapLightColorEventBoxGroupAttribute): boolean {
+   isValid(_: IWrapLightColorEventBoxGroupAttribute): boolean {
       return true;
    },
-   isChroma: function (data: IWrapLightColorEventBoxGroupAttribute): boolean {
+   isChroma: function (_: IWrapLightColorEventBoxGroupAttribute): boolean {
       return false;
    },
    isNoodleExtensions: function (
-      data: IWrapLightColorEventBoxGroupAttribute,
+      _: IWrapLightColorEventBoxGroupAttribute,
    ): boolean {
       return false;
    },
    isMappingExtensions: function (
-      data: IWrapLightColorEventBoxGroupAttribute,
+      _: IWrapLightColorEventBoxGroupAttribute,
    ): boolean {
       return false;
    },

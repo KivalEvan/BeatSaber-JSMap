@@ -31,16 +31,16 @@ export const rotationEvent: ISchemaContainer<
          customData: deepCopy(data.customData ?? this.defaultValue.customData),
       };
    },
-   isValid(data: IWrapRotationEventAttribute): boolean {
+   isValid(_: IWrapRotationEventAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapRotationEventAttribute): boolean {
+   isChroma(_: IWrapRotationEventAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapRotationEventAttribute): boolean {
+   isNoodleExtensions(_: IWrapRotationEventAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapRotationEventAttribute): boolean {
+   isMappingExtensions(_: IWrapRotationEventAttribute): boolean {
       return false;
    },
 };

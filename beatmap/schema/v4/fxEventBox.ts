@@ -59,16 +59,16 @@ export const fxEventBox: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapFxEventBoxAttribute): boolean {
+   isValid(_: IWrapFxEventBoxAttribute): boolean {
       return true;
    },
-   isChroma(data: IWrapFxEventBoxAttribute): boolean {
+   isChroma(_: IWrapFxEventBoxAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(data: IWrapFxEventBoxAttribute): boolean {
+   isNoodleExtensions(_: IWrapFxEventBoxAttribute): boolean {
       return false;
    },
-   isMappingExtensions(data: IWrapFxEventBoxAttribute): boolean {
+   isMappingExtensions(_: IWrapFxEventBoxAttribute): boolean {
       return false;
    },
 };

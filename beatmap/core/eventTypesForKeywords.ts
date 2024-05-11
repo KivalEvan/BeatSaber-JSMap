@@ -4,7 +4,7 @@ import type {
    IWrapEventTypesForKeywords,
    IWrapEventTypesForKeywordsAttribute,
 } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
@@ -24,7 +24,7 @@ export class EventTypesForKeywords extends BaseItem implements IWrapEventTypesFo
    ): EventTypesForKeywords[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartial<IWrapEventTypesForKeywordsAttribute> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapEventTypesForKeywordsAttribute, 'customData'> = {}) {
       super();
       this.keyword = data.keyword ?? EventTypesForKeywords.defaultValue.keyword;
       this.events = (data.events ?? EventTypesForKeywords.defaultValue.events)

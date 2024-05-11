@@ -148,7 +148,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          data.lightTranslationEventBoxGroups ??
             this.defaultValue.lightTranslationEventBoxGroups
       ).map(lightTranslationEventBoxGroup.deserialize);
-      const fx = data._fxEventsCollection?._fl ?? [];
+      const fx = data._fxEventsCollection?._fl ?? this.defaultValue._fxEventsCollection._fl!;
       d.lightshow!.fxEventBoxGroups = (
          data.vfxEventBoxGroups ?? this.defaultValue.vfxEventBoxGroups
       ).map((obj) =>
