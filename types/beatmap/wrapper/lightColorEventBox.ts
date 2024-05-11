@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { DistributionType } from '../shared/constants.ts';
 import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
 import type { IWrapLightColorEvent, IWrapLightColorEventAttribute } from './lightColorEvent.ts';
@@ -21,9 +20,7 @@ export interface IWrapLightColorEventBoxAttribute extends IWrapEventBoxAttribute
    events: IWrapLightColorEventAttribute[];
 }
 
-export interface IWrapLightColorEventBox<
-   T extends { [key: string]: any } = IWrapLightColorEventBoxAttribute,
-> extends IWrapEventBox<T>, IWrapLightColorEventBoxAttribute {
+export interface IWrapLightColorEventBox extends IWrapEventBox, IWrapLightColorEventBoxAttribute {
    events: IWrapLightColorEvent[];
 
    setBrightnessDistribution(

@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type {
    IWrapEventTypesForKeywords,
    IWrapEventTypesForKeywordsAttribute,
@@ -9,10 +7,6 @@ import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export class EventTypesForKeywords extends BaseItem implements IWrapEventTypesForKeywords {
-   static schema: Record<
-      number,
-      ISchemaContainer<IWrapEventTypesForKeywordsAttribute>
-   > = {};
    static defaultValue: IWrapEventTypesForKeywordsAttribute = {
       keyword: '',
       events: [],
@@ -34,29 +28,13 @@ export class EventTypesForKeywords extends BaseItem implements IWrapEventTypesFo
          data.customData ?? EventTypesForKeywords.defaultValue.customData,
       );
    }
-   static fromJSON(
-      data: { [key: string]: any },
-      version: number,
-   ): EventTypesForKeywords {
-      return new this(EventTypesForKeywords.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (EventTypesForKeywords.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapEventTypesForKeywordsAttribute {
-      return {
-         keyword: this.keyword,
-         events: this.events.map((e) => e),
-         customData: deepCopy(this.customData),
-      };
-   }
+
    isValid(): boolean {
       return true;
    }
 
-   keyword: IWrapEventTypesForKeywords['keyword'] = '';
-   events!: IWrapEventTypesForKeywords['events'];
+   keyword: IWrapEventTypesForKeywords['keyword'];
+   events: IWrapEventTypesForKeywords['events'];
 
    setKeyword(value: this['keyword']): this {
       this.keyword = value;

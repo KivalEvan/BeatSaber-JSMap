@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type {
    IWrapLightColorEvent,
    IWrapLightColorEventAttribute,
@@ -8,7 +6,6 @@ import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export class LightColorEvent extends BaseObject implements IWrapLightColorEvent {
-   static schema: Record<number, ISchemaContainer<IWrapLightColorEventAttribute>> = {};
    static defaultValue: IWrapLightColorEventAttribute = {
       time: 0,
       previous: 0,
@@ -21,7 +18,9 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
       customData: {},
    };
 
-   static create(...data: Partial<IWrapLightColorEventAttribute>[]): LightColorEvent[] {
+   static create(
+      ...data: Partial<IWrapLightColorEventAttribute>[]
+   ): LightColorEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: Partial<IWrapLightColorEventAttribute> = {}) {
@@ -39,33 +38,14 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
          data.customData ?? LightColorEvent.defaultValue.customData,
       );
    }
-   static fromJSON(data: { [key: string]: any }, version: number): LightColorEvent {
-      return new this(LightColorEvent.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (LightColorEvent.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
-   }
-   toJSON(): IWrapLightColorEventAttribute {
-      return {
-         time: this.time,
-         previous: this.previous,
-         color: this.color,
-         frequency: this.frequency,
-         brightness: this.brightness,
-         strobeBrightness: this.strobeBrightness,
-         strobeFade: this.strobeFade,
-         easing: this.easing,
-         customData: deepCopy(this.customData),
-      };
-   }
 
-   previous: IWrapLightColorEvent['previous'] = 0;
-   color: IWrapLightColorEvent['color'] = 0;
-   brightness: IWrapLightColorEvent['brightness'] = 0;
-   frequency: IWrapLightColorEvent['frequency'] = 0;
-   strobeBrightness: IWrapLightColorEvent['strobeBrightness'] = 0;
-   strobeFade: IWrapLightColorEvent['strobeFade'] = 0;
-   easing: IWrapLightColorEvent['easing'] = 0;
+   previous: IWrapLightColorEvent['previous'];
+   color: IWrapLightColorEvent['color'];
+   brightness: IWrapLightColorEvent['brightness'];
+   frequency: IWrapLightColorEvent['frequency'];
+   strobeBrightness: IWrapLightColorEvent['strobeBrightness'];
+   strobeFade: IWrapLightColorEvent['strobeFade'];
+   easing: IWrapLightColorEvent['easing'];
 
    setPrevious(value: this['previous']): this {
       this.previous = value;

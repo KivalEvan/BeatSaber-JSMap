@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type { IWrapLightRotationEvent } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
 import type {
    IWrapLightRotationEventBox,
@@ -12,10 +10,6 @@ import { IndexFilter } from './indexFilter.ts';
 import { LightRotationEvent } from './lightRotationEvent.ts';
 
 export class LightRotationEventBox extends EventBox implements IWrapLightRotationEventBox {
-   static schema: Record<
-      number,
-      ISchemaContainer<IWrapLightRotationEventBoxAttribute>
-   > = {};
    static defaultValue: IWrapLightRotationEventBoxAttribute = {
       filter: {
          type: 1,
@@ -70,37 +64,12 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
          data.customData ?? LightRotationEventBox.defaultValue.customData,
       );
    }
-   static fromJSON(
-      data: { [key: string]: any },
-      version: number,
-   ): LightRotationEventBox {
-      return new this(LightRotationEventBox.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (LightRotationEventBox.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapLightRotationEventBoxAttribute {
-      return {
-         filter: this.filter.toJSON(),
-         axis: this.axis,
-         flip: this.flip,
-         beatDistribution: this.beatDistribution,
-         beatDistributionType: this.beatDistributionType,
-         rotationDistribution: this.rotationDistribution,
-         rotationDistributionType: this.rotationDistributionType,
-         affectFirst: this.affectFirst,
-         easing: this.easing,
-         events: this.events.map((e) => e.toJSON()),
-         customData: deepCopy(this.customData),
-      };
-   }
 
-   rotationDistribution: IWrapLightRotationEventBox['rotationDistribution'] = 0;
-   rotationDistributionType: IWrapLightRotationEventBox['rotationDistributionType'] = 1;
-   axis: IWrapLightRotationEventBox['axis'] = 0;
-   flip: IWrapLightRotationEventBox['flip'] = 0;
-   events!: IWrapLightRotationEvent[];
+   rotationDistribution: IWrapLightRotationEventBox['rotationDistribution'];
+   rotationDistributionType: IWrapLightRotationEventBox['rotationDistributionType'];
+   axis: IWrapLightRotationEventBox['axis'];
+   flip: IWrapLightRotationEventBox['flip'];
+   events: IWrapLightRotationEvent[];
 
    setRotationDistribution(value: this['rotationDistribution']): this {
       this.rotationDistribution = value;

@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { SliderMidAnchorMode } from '../shared/constants.ts';
 import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
@@ -44,10 +43,9 @@ export interface IWrapArcAttribute extends IWrapBaseSliderAttribute {
    customData: ICustomDataSlider;
 }
 
-export interface IWrapArc<T extends { [key: string]: any } = IWrapArcAttribute>
-   extends Omit<IWrapBaseSlider<T>, 'customData'>, IWrapArcAttribute {
-   setCustomData(object: T['customData']): this;
-   addCustomData(object: T['customData']): this;
+export interface IWrapArc extends Omit<IWrapBaseSlider, 'customData'>, IWrapArcAttribute {
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
 
    setLengthMultiplier(value: number): this;
    setTailLengthMultiplier(value: number): this;

@@ -1,6 +1,5 @@
-// deno-lint-ignore-file no-explicit-any
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
-import type { ISerializable } from '../shared/serializable.ts';
+import type { ICloneable } from '../shared/cloneable.ts';
 
 export interface IWrapBaseItemAttribute {
    /**
@@ -11,9 +10,7 @@ export interface IWrapBaseItemAttribute {
    customData: ICustomDataBase;
 }
 
-export interface IWrapBaseItem<
-   T extends { [key: string]: any } = IWrapBaseItemAttribute,
-> extends ISerializable<T>, IWrapBaseItemAttribute {
+export interface IWrapBaseItem extends ICloneable, IWrapBaseItemAttribute {
    setCustomData(value: this['customData']): this;
    resetCustomData(): this;
    removeCustomData(key: string): this;

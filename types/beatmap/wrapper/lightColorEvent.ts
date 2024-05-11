@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { EventBoxColor } from '../shared/constants.ts';
 import type { EaseType } from '../shared/constants.ts';
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
@@ -40,9 +39,7 @@ export interface IWrapLightColorEventAttribute extends IWrapBaseObjectAttribute 
    easing: EaseType;
 }
 
-export interface IWrapLightColorEvent<
-   T extends { [key: string]: any } = IWrapLightColorEventAttribute,
-> extends IWrapBaseObject<T>, IWrapLightColorEventAttribute {
+export interface IWrapLightColorEvent extends IWrapBaseObject, IWrapLightColorEventAttribute {
    setPrevious(value: 0 | 1): this;
    setColor(value: EventBoxColor): this;
    setBrightness(value: number): this;

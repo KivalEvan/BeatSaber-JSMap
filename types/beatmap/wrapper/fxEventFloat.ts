@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { EaseType } from '../../../beatmap/shared/constants.ts';
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
@@ -13,9 +12,7 @@ export interface IWrapFxEventFloatAttribute extends IWrapBaseObjectAttribute {
    value: number;
 }
 
-export interface IWrapFxEventFloat<
-   T extends { [key: string]: any } = IWrapFxEventFloatAttribute,
-> extends IWrapBaseObject<T>, IWrapFxEventFloatAttribute {
+export interface IWrapFxEventFloat extends IWrapBaseObject, IWrapFxEventFloatAttribute {
    setPrevious(value: 0 | 1): this;
    setEasing(value: EaseType): this;
    setValue(value: number): this;

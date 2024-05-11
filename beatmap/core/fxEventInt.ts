@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type {
    IWrapFxEventInt,
    IWrapFxEventIntAttribute,
@@ -8,7 +6,6 @@ import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export class FxEventInt extends BaseObject implements IWrapFxEventInt {
-   static schema: Record<number, ISchemaContainer<IWrapFxEventIntAttribute>> = {};
    static defaultValue: IWrapFxEventIntAttribute = {
       time: 0,
       previous: 0,
@@ -27,21 +24,6 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
       this.customData = deepCopy(
          data.customData ?? FxEventInt.defaultValue.customData,
       );
-   }
-   static fromJSON(data: { [key: string]: any }, version: number): FxEventInt {
-      return new this(FxEventInt.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (FxEventInt.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapFxEventIntAttribute {
-      return {
-         time: this.time,
-         previous: this.previous,
-         value: this.value,
-         customData: deepCopy(this.customData),
-      };
    }
 
    previous: IWrapFxEventInt['previous'] = 0;

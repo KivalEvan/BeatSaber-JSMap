@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type {
    IWrapBombNote,
    IWrapBombNoteAttribute,
@@ -28,7 +27,6 @@ import type {
    IWrapDifficultyAttribute,
 } from '../../types/beatmap/wrapper/difficulty.ts';
 import { sortNoteFn, sortObjectFn } from '../shared/helpers.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import { BPMEvent } from './bpmEvent.ts';
 import { RotationEvent } from './rotationEvent.ts';
 import { ColorNote } from './colorNote.ts';
@@ -39,7 +37,6 @@ import { Chain } from './chain.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 export class Difficulty extends BaseItem implements IWrapDifficulty {
-   static schema: Record<number, ISchemaContainer<IWrapDifficultyAttribute>> = {};
    static defaultValue: IWrapDifficultyAttribute = {
       bpmEvents: [],
       rotationEvents: [],
@@ -86,25 +83,7 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
          data.customData ?? Difficulty.defaultValue.customData,
       );
    }
-   static fromJSON(data: { [key: string]: any }, version: number): Difficulty {
-      return new this(Difficulty.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (Difficulty.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapDifficultyAttribute {
-      return {
-         bpmEvents: this.bpmEvents.map((e) => e.toJSON()),
-         rotationEvents: this.rotationEvents.map((e) => e.toJSON()),
-         colorNotes: this.colorNotes.map((e) => e.toJSON()),
-         bombNotes: this.bombNotes.map((e) => e.toJSON()),
-         obstacles: this.obstacles.map((e) => e.toJSON()),
-         arcs: this.arcs.map((e) => e.toJSON()),
-         chains: this.chains.map((e) => e.toJSON()),
-         customData: deepCopy(this.customData),
-      };
-   }
+
    isValid(): boolean {
       return true;
    }

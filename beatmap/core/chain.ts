@@ -1,11 +1,8 @@
-// deno-lint-ignore-file no-explicit-any
 import { BaseSlider } from './abstract/baseSlider.ts';
 import type { IWrapChain, IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 export class Chain extends BaseSlider implements IWrapChain {
-   static schema: Record<number, ISchemaContainer<IWrapChainAttribute>> = {};
    static defaultValue: IWrapChainAttribute = {
       time: 0,
       posX: 0,
@@ -41,39 +38,15 @@ export class Chain extends BaseSlider implements IWrapChain {
       this.squish = data.squish ?? Chain.defaultValue.squish;
       this.customData = deepCopy(data.customData ?? Chain.defaultValue.customData);
    }
-   static fromJSON(data: { [key: string]: any }, version: number): Chain {
-      return new this(Chain.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (Chain.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapChainAttribute {
-      return {
-         time: this.time,
-         posX: this.posX,
-         posY: this.posY,
-         color: this.color,
-         direction: this.direction,
-         laneRotation: this.laneRotation,
-         tailTime: this.tailTime,
-         tailPosX: this.tailPosX,
-         tailPosY: this.tailPosY,
-         tailLaneRotation: this.tailLaneRotation,
-         sliceCount: this.sliceCount,
-         squish: this.squish,
-         customData: deepCopy(this.customData),
-      };
-   }
 
-   sliceCount: this['sliceCount'] = 0;
-   squish: this['squish'] = 0;
+   sliceCount: IWrapChain['sliceCount'];
+   squish: IWrapChain['squish'];
 
-   setSliceCount(value: IWrapChain['sliceCount']): this {
+   setSliceCount(value: this['sliceCount']): this {
       this.sliceCount = value;
       return this;
    }
-   setSquish(value: IWrapChain['squish']): this {
+   setSquish(value: this['squish']): this {
       this.squish = value;
       return this;
    }

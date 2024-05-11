@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { LooseAutocomplete } from '../../utils.ts';
 import type { CharacteristicName } from '../shared/characteristic.ts';
 import type { DifficultyName } from '../shared/difficulty.ts';
@@ -79,12 +78,11 @@ export interface IWrapInfoBeatmapAuthors {
    lighters: string[];
 }
 
-export interface IWrapInfo<T extends { [key: string]: any } = IWrapInfoAttribute>
-   extends Omit<IWrapBeatmapFile<T>, 'customData'>, IWrapInfoAttribute {
+export interface IWrapInfo extends Omit<IWrapBeatmapFile, 'customData'>, IWrapInfoAttribute {
    difficulties: IWrapInfoBeatmap[];
 
-   setCustomData(object: T['customData']): this;
-   addCustomData(object: T['customData']): this;
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
 
    /** Sort beatmap object(s) accordingly. */
    sort(): this;
@@ -105,11 +103,10 @@ export interface IWrapInfoBeatmapAttribute extends IWrapBaseItemAttribute {
    customData: ICustomDataInfoBeatmap;
 }
 
-export interface IWrapInfoBeatmap<
-   T extends { [key: string]: any } = IWrapInfoBeatmapAttribute,
-> extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapInfoBeatmapAttribute {
-   setCustomData(object: T['customData']): this;
-   addCustomData(object: T['customData']): this;
+export interface IWrapInfoBeatmap
+   extends Omit<IWrapBaseItem, 'customData'>, IWrapInfoBeatmapAttribute {
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
 
    copyColorScheme(colorScheme: IWrapInfoColorScheme): this;
    copyColorScheme(id: number, info: IWrapInfo): this;

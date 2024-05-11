@@ -1,22 +1,10 @@
-// deno-lint-ignore-file no-explicit-any
 import { BaseObject } from './abstract/baseObject.ts';
 import type { IWrapEvent, IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import { EventType } from '../shared/constants.ts';
 import { EventLightValue } from '../shared/constants.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
-import { basicEvent as v1BasicEvent } from '../schema/v1/basicEvent.ts';
-import { basicEvent as v2BasicEvent } from '../schema/v2/basicEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
-// import { basicEvent as v3BasicEvent } from '../schema/v3/basicEvent.ts';
-// import { basicEvent as v4BasicEvent } from '../schema/v4/basicEvent.ts';
 
 export class BasicEvent extends BaseObject implements IWrapEvent {
-   static schema: Record<number, ISchemaContainer<IWrapEvent>> = {
-      1: v1BasicEvent,
-      2: v2BasicEvent,
-      // 3: v3BasicEvent,
-      // 4: v4BasicEvent,
-   };
    static defaultValue: Required<IWrapEventAttribute> = {
       time: 0,
       type: 0,
@@ -37,26 +25,10 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
          data.customData ?? BasicEvent.defaultValue.customData,
       );
    }
-   static fromJSON(data: { [key: string]: any }, version: number): BasicEvent {
-      return new this(BasicEvent.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (BasicEvent.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapEventAttribute {
-      return {
-         time: this.time,
-         type: this.type,
-         value: this.value,
-         floatValue: this.floatValue,
-         customData: deepCopy(this.customData),
-      };
-   }
 
-   type: IWrapEvent['type'] = 0;
-   value: IWrapEvent['value'] = 0;
-   floatValue: IWrapEvent['floatValue'] = 0;
+   type: IWrapEvent['type'];
+   value: IWrapEvent['value'];
+   floatValue: IWrapEvent['floatValue'];
 
    setType(value: this['type']): this {
       this.type = value;

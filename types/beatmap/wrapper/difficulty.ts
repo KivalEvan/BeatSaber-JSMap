@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent.ts';
 import type { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent.ts';
 import type { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
@@ -20,9 +19,8 @@ export interface IWrapDifficultyAttribute extends IWrapBaseItemAttribute {
    customData: ICustomDataDifficulty;
 }
 
-export interface IWrapDifficulty<
-   T extends { [key: string]: any } = IWrapDifficultyAttribute,
-> extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapDifficultyAttribute {
+export interface IWrapDifficulty
+   extends Omit<IWrapBaseItem, 'customData'>, IWrapDifficultyAttribute {
    bpmEvents: IWrapBPMEvent[];
    rotationEvents: IWrapRotationEvent[];
    colorNotes: IWrapColorNote[];
@@ -31,8 +29,8 @@ export interface IWrapDifficulty<
    arcs: IWrapArc[];
    chains: IWrapChain[];
 
-   setCustomData(object: T['customData']): this;
-   addCustomData(object: T['customData']): this;
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
 
    addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): this;
    addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): this;

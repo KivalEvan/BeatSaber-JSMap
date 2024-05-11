@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import { NoteDirectionAngle } from '../shared/constants.ts';
 import type {
    IWrapColorNote,
@@ -6,11 +5,9 @@ import type {
 } from '../../types/beatmap/wrapper/colorNote.ts';
 import { BaseNote } from './abstract/baseNote.ts';
 import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 export class ColorNote extends BaseNote implements IWrapColorNote {
-   static schema: Record<number, ISchemaContainer<IWrapColorNoteAttribute>> = {};
    static defaultValue: IWrapColorNoteAttribute = {
       time: 0,
       posX: 0,
@@ -37,24 +34,6 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       this.customData = deepCopy(
          data.customData ?? ColorNote.defaultValue.customData,
       );
-   }
-   static fromJSON(data: { [key: string]: any }, version: number): ColorNote {
-      return new this(ColorNote.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (ColorNote.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
-   }
-   toJSON(): IWrapColorNoteAttribute {
-      return {
-         time: this.time,
-         posX: this.posX,
-         posY: this.posY,
-         color: this.color,
-         direction: this.direction,
-         angleOffset: this.angleOffset,
-         laneRotation: this.laneRotation,
-         customData: deepCopy(this.customData),
-      };
    }
 
    angleOffset: IWrapColorNote['angleOffset'] = 0;

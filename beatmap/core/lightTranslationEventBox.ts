@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type { IWrapLightTranslationEvent } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import type {
    IWrapLightTranslationEventBox,
@@ -12,10 +10,6 @@ import { IndexFilter } from './indexFilter.ts';
 import { LightTranslationEvent } from './lightTranslationEvent.ts';
 
 export class LightTranslationEventBox extends EventBox implements IWrapLightTranslationEventBox {
-   static schema: Record<
-      number,
-      ISchemaContainer<IWrapLightTranslationEventBoxAttribute>
-   > = {};
    static defaultValue: IWrapLightTranslationEventBoxAttribute = {
       filter: {
          type: 1,
@@ -70,39 +64,12 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
          data.customData ?? LightTranslationEventBox.defaultValue.customData,
       );
    }
-   static fromJSON(
-      data: { [key: string]: any },
-      version: number,
-   ): LightTranslationEventBox {
-      return new this(
-         LightTranslationEventBox.schema[version]?.deserialize(data),
-      );
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (LightTranslationEventBox.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapLightTranslationEventBoxAttribute {
-      return {
-         filter: this.filter.toJSON(),
-         axis: this.axis,
-         flip: this.flip,
-         beatDistribution: this.beatDistribution,
-         beatDistributionType: this.beatDistributionType,
-         gapDistribution: this.gapDistribution,
-         gapDistributionType: this.gapDistributionType,
-         affectFirst: this.affectFirst,
-         easing: this.easing,
-         events: this.events.map((obj) => obj.toJSON()),
-         customData: deepCopy(this.customData),
-      };
-   }
 
-   gapDistribution: IWrapLightTranslationEventBox['gapDistribution'] = 0;
-   gapDistributionType: IWrapLightTranslationEventBox['gapDistributionType'] = 1;
-   axis: IWrapLightTranslationEventBox['axis'] = 0;
-   flip: IWrapLightTranslationEventBox['flip'] = 0;
-   events!: IWrapLightTranslationEvent[];
+   gapDistribution: IWrapLightTranslationEventBox['gapDistribution'];
+   gapDistributionType: IWrapLightTranslationEventBox['gapDistributionType'];
+   axis: IWrapLightTranslationEventBox['axis'];
+   flip: IWrapLightTranslationEventBox['flip'];
+   events: IWrapLightTranslationEvent[];
 
    setGapDistribution(value: this['gapDistribution']): this {
       this.gapDistribution = value;

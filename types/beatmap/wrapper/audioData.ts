@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
 import type { IWrapBaseItemAttribute } from './baseItem.ts';
 import type { IWrapBPMEventAttribute } from './bpmEvent.ts';
@@ -24,9 +23,7 @@ export interface IWrapAudioLUFS {
    lufs: number; // float
 }
 
-export interface IWrapAudio<
-   T extends { [key: string]: any } = IWrapAudioAttribute,
-> extends IWrapBeatmapFile<T>, IWrapAudioAttribute {
+export interface IWrapAudio extends IWrapBeatmapFile, IWrapAudioAttribute {
    setFilename(filename: string): this;
    setSampleCount(value: number): this;
    setFrequency(value: number): this;

@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
 import type { ICustomDataNote } from './custom/note.ts';
 
@@ -8,11 +7,9 @@ export interface IWrapColorNoteAttribute extends IWrapBaseNoteAttribute {
    customData: ICustomDataNote;
 }
 
-export interface IWrapColorNote<
-   T extends { [key: string]: any } = IWrapColorNoteAttribute,
-> extends Omit<IWrapBaseNote<T>, 'customData'>, IWrapColorNoteAttribute {
-   setCustomData(object: T['customData']): this;
-   addCustomData(object: T['customData']): this;
+export interface IWrapColorNote extends Omit<IWrapBaseNote, 'customData'>, IWrapColorNoteAttribute {
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
 
    setAngleOffset(value: number): this;
 }

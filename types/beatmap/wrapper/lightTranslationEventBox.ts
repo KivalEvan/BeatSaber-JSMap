@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { Axis } from '../shared/constants.ts';
 import type { DistributionType } from '../shared/constants.ts';
 import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
@@ -32,9 +31,8 @@ export interface IWrapLightTranslationEventBoxAttribute extends IWrapEventBoxAtt
    events: IWrapLightTranslationEventAttribute[];
 }
 
-export interface IWrapLightTranslationEventBox<
-   T extends { [key: string]: any } = IWrapLightTranslationEventBoxAttribute,
-> extends IWrapEventBox<T>, IWrapLightTranslationEventBoxAttribute {
+export interface IWrapLightTranslationEventBox
+   extends IWrapEventBox, IWrapLightTranslationEventBoxAttribute {
    events: IWrapLightTranslationEvent[];
 
    setGapDistribution(

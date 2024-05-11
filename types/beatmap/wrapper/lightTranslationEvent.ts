@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { EaseType } from '../shared/constants.ts';
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
@@ -13,9 +12,8 @@ export interface IWrapLightTranslationEventAttribute extends IWrapBaseObjectAttr
    translation: number;
 }
 
-export interface IWrapLightTranslationEvent<
-   T extends { [key: string]: any } = IWrapLightTranslationEventAttribute,
-> extends IWrapBaseObject<T>, IWrapLightTranslationEventAttribute {
+export interface IWrapLightTranslationEvent
+   extends IWrapBaseObject, IWrapLightTranslationEventAttribute {
    setPrevious(value: 0 | 1): this;
    setEasing(value: EaseType): this;
    setTranslation(value: number): this;

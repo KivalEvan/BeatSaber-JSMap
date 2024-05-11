@@ -8,5 +8,5 @@ export * from './difficulty.ts';
 export * from './environment.ts';
 export * from './filename.ts';
 export * from './modCheck.ts';
-export * from './serializable.ts';
+export * from './cloneable.ts';
 export * from './version.ts';

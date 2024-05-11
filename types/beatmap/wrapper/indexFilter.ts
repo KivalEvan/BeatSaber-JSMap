@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { RandomType } from '../shared/constants.ts';
 import type { IndexFilterType } from '../shared/constants.ts';
 import type { LimitAlsoAffectsType } from '../shared/constants.ts';
@@ -75,9 +74,7 @@ export interface IWrapIndexFilterAttribute extends IWrapBaseItemAttribute {
    limitAffectsType: LimitAlsoAffectsType;
 }
 
-export interface IWrapIndexFilter<
-   T extends { [key: string]: any } = IWrapIndexFilterAttribute,
-> extends IWrapBaseItem<T>, IWrapIndexFilterAttribute {
+export interface IWrapIndexFilter extends IWrapBaseItem, IWrapIndexFilterAttribute {
    setType(value: IndexFilterType): this;
    setP0(value: number): this;
    setP1(value: number): this;

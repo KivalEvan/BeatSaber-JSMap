@@ -1,20 +1,10 @@
-// deno-lint-ignore-file no-explicit-any
 import { BaseSlider } from './abstract/baseSlider.ts';
 import { NoteDirectionAngle } from '../shared/constants.ts';
 import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { arc as v2Arc } from '../schema/v2/arc.ts';
-// import { arc as v3Arc } from '../schema/v3/arc.ts';
-// import { arc as v4Arc } from '../schema/v4/arc.ts';
 
 export class Arc extends BaseSlider implements IWrapArc {
-   static schema: Record<number, ISchemaContainer<IWrapArcAttribute>> = {
-      2: v2Arc,
-      // 3: v3Arc,
-      // 4: v4Arc,
-   };
    static defaultValue: IWrapArcAttribute = {
       time: 0,
       posX: 0,
@@ -54,31 +44,6 @@ export class Arc extends BaseSlider implements IWrapArc {
       this.laneRotation = data.laneRotation ?? Arc.defaultValue.laneRotation;
       this.tailLaneRotation = data.tailLaneRotation ?? Arc.defaultValue.tailLaneRotation;
       this.customData = deepCopy(data.customData ?? Arc.defaultValue.customData);
-   }
-   static fromJSON(data: { [key: string]: any }, version: number): Arc {
-      return new this(Arc.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (Arc.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
-   }
-   toJSON(): IWrapArcAttribute {
-      return {
-         time: this.time,
-         posX: this.posX,
-         posY: this.posY,
-         color: this.color,
-         direction: this.direction,
-         lengthMultiplier: this.lengthMultiplier,
-         tailTime: this.tailTime,
-         tailPosX: this.tailPosX,
-         tailPosY: this.tailPosY,
-         tailDirection: this.tailDirection,
-         tailLengthMultiplier: this.tailLengthMultiplier,
-         midAnchor: this.midAnchor,
-         laneRotation: this.laneRotation,
-         tailLaneRotation: this.tailLaneRotation,
-         customData: deepCopy(this.customData),
-      };
    }
 
    lengthMultiplier: IWrapArc['lengthMultiplier'];

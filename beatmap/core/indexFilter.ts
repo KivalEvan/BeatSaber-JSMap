@@ -1,15 +1,12 @@
-// deno-lint-ignore-file no-explicit-any
 import type {
    IWrapIndexFilter,
    IWrapIndexFilterAttribute,
 } from '../../types/beatmap/wrapper/indexFilter.ts';
 import { LimitAlsoAffectsType, RandomType } from '../../types/beatmap/shared/constants.ts';
 import { BaseItem } from './abstract/baseItem.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 export class IndexFilter extends BaseItem implements IWrapIndexFilter {
-   static schema: Record<number, ISchemaContainer<IWrapIndexFilterAttribute>> = {};
    static defaultValue: IWrapIndexFilterAttribute = {
       type: 1,
       p0: 0,
@@ -41,36 +38,16 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
          data.customData ?? IndexFilter.defaultValue.customData,
       );
    }
-   static fromJSON(data: { [key: string]: any }, version: number): IndexFilter {
-      return new this(IndexFilter.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (IndexFilter.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
-   }
-   toJSON(): IWrapIndexFilterAttribute {
-      return {
-         type: this.type,
-         p0: this.p0,
-         p1: this.p1,
-         reverse: this.reverse,
-         chunks: this.chunks,
-         random: this.random,
-         seed: this.seed,
-         limit: this.limit,
-         limitAffectsType: this.limitAffectsType,
-         customData: deepCopy(this.customData),
-      };
-   }
 
-   type: IWrapIndexFilter['type'] = 1;
-   p0: IWrapIndexFilter['p0'] = 0;
-   p1: IWrapIndexFilter['p1'] = 0;
-   reverse: IWrapIndexFilter['reverse'] = 0;
-   chunks: IWrapIndexFilter['chunks'] = 0;
-   limit: IWrapIndexFilter['limit'] = 0;
-   limitAffectsType: IWrapIndexFilter['limitAffectsType'] = 0;
-   random: IWrapIndexFilter['random'] = 0;
-   seed: IWrapIndexFilter['seed'] = 0;
+   type: IWrapIndexFilter['type'];
+   p0: IWrapIndexFilter['p0'];
+   p1: IWrapIndexFilter['p1'];
+   reverse: IWrapIndexFilter['reverse'];
+   chunks: IWrapIndexFilter['chunks'];
+   limit: IWrapIndexFilter['limit'];
+   limitAffectsType: IWrapIndexFilter['limitAffectsType'];
+   random: IWrapIndexFilter['random'];
+   seed: IWrapIndexFilter['seed'];
 
    setType(value: this['type']): this {
       this.type = value;

@@ -1,10 +1,9 @@
-import type { ICustomDataBase } from '../../../types/beatmap/shared/custom/customData.ts';
 import type { IWrapBaseItem } from '../../../types/beatmap/wrapper/baseItem.ts';
-import { Serializable } from '../../shared/serializable.ts';
+import { Cloneable } from '../../shared/cloneable.ts';
 
 /** Basic building block of beatmap object. */
-export abstract class BaseItem extends Serializable implements IWrapBaseItem {
-   customData: ICustomDataBase = {};
+export abstract class BaseItem extends Cloneable implements IWrapBaseItem {
+   customData: IWrapBaseItem['customData'] = {};
 
    setCustomData(value: this['customData']): this {
       this.customData = value;
@@ -38,9 +37,6 @@ export abstract class BaseItem extends Serializable implements IWrapBaseItem {
       return this;
    }
 
-   // shut the fuck up, ts
-   // deno-lint-ignore no-explicit-any
-   abstract toJSON(): any;
    abstract isValid(): boolean;
 
    isChroma(): boolean {

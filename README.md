@@ -17,7 +17,7 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 
 - **Zero-dependency:** No dependency, run on any platform.
 - **Latest Schema:** Supports all official schema including modded.
-  - Current schema version is v4.0.0, v3.3.0, v2.6.0, v1.5.0.
+  - Supported beatmap versions are v4.0.0, v3.3.0, v2.6.0, v1.5.0.
   - Backport minor version is not supported but can be done through custom postproccessing.
 - **Wrapper Attribute:** Readable and cross-version class attribute for seamless version
   transferring.

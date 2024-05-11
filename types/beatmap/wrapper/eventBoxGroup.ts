@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
 
@@ -8,8 +7,6 @@ export interface IWrapEventBoxGroupAttribute extends IWrapBaseObjectAttribute {
    boxes: IWrapEventBoxAttribute[];
 }
 
-export interface IWrapEventBoxGroup<
-   T extends { [key: string]: any } = IWrapEventBoxGroupAttribute,
-> extends IWrapBaseObject<T>, IWrapEventBoxGroupAttribute {
+export interface IWrapEventBoxGroup extends IWrapBaseObject, IWrapEventBoxGroupAttribute {
    boxes: IWrapEventBox[];
 }

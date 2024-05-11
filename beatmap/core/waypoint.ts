@@ -1,15 +1,12 @@
-// deno-lint-ignore-file no-explicit-any
 import { LINE_COUNT } from '../shared/constants.ts';
 import type {
    IWrapWaypoint,
    IWrapWaypointAttribute,
 } from '../../types/beatmap/wrapper/waypoint.ts';
 import { GridObject } from './abstract/gridObject.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 export class Waypoint extends GridObject implements IWrapWaypoint {
-   static schema: Record<number, ISchemaContainer<IWrapWaypointAttribute>> = {};
    static defaultValue: IWrapWaypointAttribute = {
       time: 0,
       posX: 0,
@@ -32,23 +29,6 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
       this.customData = deepCopy(
          data.customData ?? Waypoint.defaultValue.customData,
       );
-   }
-   static fromJSON(data: { [key: string]: any }, version: number): Waypoint {
-      return new this(Waypoint.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (Waypoint.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapWaypointAttribute {
-      return {
-         time: this.time,
-         posX: this.posX,
-         posY: this.posY,
-         direction: this.direction,
-         laneRotation: this.laneRotation,
-         customData: deepCopy(this.customData),
-      };
    }
 
    direction: IWrapWaypoint['direction'] = 0;

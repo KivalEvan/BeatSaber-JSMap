@@ -1,9 +1,7 @@
-// deno-lint-ignore-file no-explicit-any
 import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type { IInfoBeatmapAuthors } from '../../types/beatmap/v4/info.ts';
 import type {
    IWrapInfo,
@@ -15,13 +13,12 @@ import type {
    IWrapInfoSong,
 } from '../../types/beatmap/wrapper/info.ts';
 import type { DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
-import { deepCopy, shallowCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export class Info extends BaseItem implements IWrapInfo {
-   static schema: Record<number, ISchemaContainer<IWrapInfoAttribute>> = {};
    static defaultValue: IWrapInfoAttribute = {
       filename: 'Info.dat',
       song: {
@@ -146,25 +143,7 @@ export class Info extends BaseItem implements IWrapInfo {
          data.customData ?? Info.defaultValue.customData,
       );
    }
-   static fromJSON(data: { [key: string]: any }, version: number): Info {
-      return new this(Info.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (Info.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
-   }
-   toJSON(): IWrapInfoAttribute {
-      return {
-         filename: this.filename,
-         song: shallowCopy(this.song),
-         audio: shallowCopy(this.audio),
-         songPreviewFilename: this.songPreviewFilename,
-         coverImageFilename: this.coverImageFilename,
-         environmentNames: this.environmentNames,
-         colorSchemes: this.colorSchemes,
-         difficulties: this.difficulties.map((e) => e.toJSON()),
-         customData: deepCopy(this.customData),
-      };
-   }
+
    isValid(): boolean {
       return true;
    }
@@ -216,7 +195,6 @@ export class Info extends BaseItem implements IWrapInfo {
 }
 
 export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
-   static schema: Record<number, ISchemaContainer<IWrapInfoBeatmapAttribute>> = {};
    static defaultValue: IWrapInfoBeatmapAttribute = {
       characteristic: 'Standard',
       difficulty: 'Easy',
@@ -260,30 +238,7 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
          data.customData ?? InfoBeatmap.defaultValue.customData,
       );
    }
-   static fromJSON(data: { [key: string]: any }, version: number): InfoBeatmap {
-      return new this(InfoBeatmap.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (InfoBeatmap.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapInfoBeatmapAttribute {
-      return {
-         characteristic: this.characteristic,
-         difficulty: this.difficulty,
-         filename: this.filename,
-         lightshowFilename: this.lightshowFilename,
-         authors: {
-            mappers: this.authors.mappers.map((e) => e),
-            lighters: this.authors.lighters.map((e) => e),
-         },
-         njs: this.njs,
-         njsOffset: this.njsOffset,
-         colorSchemeId: this.colorSchemeId,
-         environmentId: this.environmentId,
-         customData: deepCopy(this.customData),
-      };
-   }
+
    isValid(): boolean {
       return true;
    }

@@ -8,7 +8,7 @@ export interface IWrapEventTypesForKeywordsAttribute extends IWrapBaseItemAttrib
 }
 
 export interface IWrapEventTypesForKeywords
-   extends IWrapBaseItem<IWrapEventTypesForKeywordsAttribute>, IWrapEventTypesForKeywordsAttribute {
+   extends IWrapBaseItem, IWrapEventTypesForKeywordsAttribute {
    setKeyword(value: IWrapEventTypesForKeywords['keyword']): this;
    setEvents(value: IWrapEventTypesForKeywords['events']): this;
 

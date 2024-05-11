@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { ExecutionTime } from '../shared/constants.ts';
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
@@ -15,8 +14,7 @@ export interface IWrapRotationEventAttribute extends IWrapBaseObjectAttribute {
    rotation: number;
 }
 
-export interface IWrapRotationEvent<T extends { [key: string]: any } = IWrapRotationEventAttribute>
-   extends IWrapBaseObject<T>, IWrapRotationEventAttribute {
+export interface IWrapRotationEvent extends IWrapBaseObject, IWrapRotationEventAttribute {
    setExecutionTime(value: ExecutionTime): this;
    setRotation(value: number): this;
 }

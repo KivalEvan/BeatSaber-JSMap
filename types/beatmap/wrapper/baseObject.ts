@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
 export interface IWrapBaseObjectAttribute extends IWrapBaseItemAttribute {
@@ -6,8 +5,6 @@ export interface IWrapBaseObjectAttribute extends IWrapBaseItemAttribute {
    time: number;
 }
 
-export interface IWrapBaseObject<
-   T extends { [key: string]: any } = IWrapBaseObjectAttribute,
-> extends IWrapBaseItem<T>, IWrapBaseObjectAttribute {
+export interface IWrapBaseObject extends IWrapBaseItem, IWrapBaseObjectAttribute {
    setTime(value: number): this;
 }

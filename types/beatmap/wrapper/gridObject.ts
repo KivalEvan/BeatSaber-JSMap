@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { Vector2 } from '../../vector.ts';
 import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
@@ -30,9 +29,7 @@ export interface IWrapGridObjectAttribute extends IWrapBaseObjectAttribute {
    laneRotation: number;
 }
 
-export interface IWrapGridObject<
-   T extends { [key: string]: any } = IWrapGridObjectAttribute,
-> extends IWrapBaseObject<T>, IWrapGridObjectAttribute {
+export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribute {
    setPosX(value: number): this;
    setPosY(value: number): this;
    setLaneRotation(value: number): this;

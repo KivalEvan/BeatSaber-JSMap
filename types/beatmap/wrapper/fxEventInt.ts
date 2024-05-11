@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
 export interface IWrapFxEventIntAttribute extends IWrapBaseObjectAttribute {
@@ -10,9 +9,7 @@ export interface IWrapFxEventIntAttribute extends IWrapBaseObjectAttribute {
    value: number;
 }
 
-export interface IWrapFxEventInt<
-   T extends { [key: string]: any } = IWrapFxEventIntAttribute,
-> extends IWrapBaseObject<T>, IWrapFxEventIntAttribute {
+export interface IWrapFxEventInt extends IWrapBaseObject, IWrapFxEventIntAttribute {
    setPrevious(value: 0 | 1): this;
    setValue(value: number): this;
 }

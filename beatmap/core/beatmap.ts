@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapEvent, IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import type { IWrapEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
 import type {
@@ -99,30 +98,6 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       );
    }
 
-   static fromJSON(data: { [key: string]: any }, version: number): Beatmap {
-      return new this({
-         data: Difficulty.schema[version]?.deserialize(data.data),
-         lightshow: Lightshow.schema[version]?.deserialize(data.lightshow),
-      });
-   }
-   toSchema(version?: number): {
-      data: { [key: string]: any };
-      lightshow: { [key: string]: any };
-   } {
-      return {
-         data: Difficulty.schema[version || 0]?.serialize(this.data) || {},
-         lightshow: Lightshow.schema[version || 0]?.serialize(this.lightshow) || {},
-      };
-   }
-   toJSON(): IWrapBeatmapAttribute {
-      return {
-         filename: this.filename,
-         lightshowFilename: this.lightshowFilename,
-         data: this.data.toJSON(),
-         lightshow: this.lightshow.toJSON(),
-         customData: this.customData,
-      };
-   }
    isValid(): boolean {
       return this.data.isValid() && this.lightshow.isValid();
    }

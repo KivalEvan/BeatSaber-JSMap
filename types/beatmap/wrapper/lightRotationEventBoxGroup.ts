@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapEventBoxGroup, IWrapEventBoxGroupAttribute } from './eventBoxGroup.ts';
 import type {
    IWrapLightRotationEventBox,
@@ -9,8 +8,7 @@ export interface IWrapLightRotationEventBoxGroupAttribute extends IWrapEventBoxG
    boxes: IWrapLightRotationEventBoxAttribute[];
 }
 
-export interface IWrapLightRotationEventBoxGroup<
-   T extends { [key: string]: any } = IWrapLightRotationEventBoxGroupAttribute,
-> extends IWrapEventBoxGroup<T>, IWrapLightRotationEventBoxGroupAttribute {
+export interface IWrapLightRotationEventBoxGroup
+   extends IWrapEventBoxGroup, IWrapLightRotationEventBoxGroupAttribute {
    boxes: IWrapLightRotationEventBox[];
 }

@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
 import type { IWrapEvent, IWrapEventAttribute } from './event.ts';
 import type { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
@@ -36,9 +35,7 @@ export interface IWrapLightshowAttribute extends IWrapBaseItemAttribute {
    customData: ICustomDataDifficulty;
 }
 
-export interface IWrapLightshow<
-   T extends { [key: string]: any } = IWrapLightshowAttribute,
-> extends Omit<IWrapBaseItem<T>, 'customData'>, IWrapLightshowAttribute {
+export interface IWrapLightshow extends Omit<IWrapBaseItem, 'customData'>, IWrapLightshowAttribute {
    waypoints: IWrapWaypoint[];
    basicEvents: IWrapEvent[];
    colorBoostEvents: IWrapColorBoostEvent[];
@@ -48,8 +45,8 @@ export interface IWrapLightshow<
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
 
-   setCustomData(object: T['customData']): this;
-   addCustomData(object: T['customData']): this;
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
 
    addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
    addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;

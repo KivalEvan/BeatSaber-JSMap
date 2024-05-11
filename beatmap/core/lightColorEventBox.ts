@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type { IWrapLightColorEvent } from '../../types/beatmap/wrapper/lightColorEvent.ts';
 import type {
    IWrapLightColorEventBox,
@@ -12,10 +10,6 @@ import { IndexFilter } from './indexFilter.ts';
 import { LightColorEvent } from './lightColorEvent.ts';
 
 export class LightColorEventBox extends EventBox implements IWrapLightColorEventBox {
-   static schema: Record<
-      number,
-      ISchemaContainer<IWrapLightColorEventBoxAttribute>
-   > = {};
    static defaultValue: IWrapLightColorEventBoxAttribute = {
       filter: {
          type: 1,
@@ -66,33 +60,10 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
          data.customData ?? LightColorEventBox.defaultValue.customData,
       );
    }
-   static fromJSON(
-      data: { [key: string]: any },
-      version: number,
-   ): LightColorEventBox {
-      return new this(LightColorEventBox.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (LightColorEventBox.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapLightColorEventBoxAttribute {
-      return {
-         filter: this.filter.toJSON(),
-         beatDistribution: this.beatDistribution,
-         beatDistributionType: this.beatDistributionType,
-         brightnessDistribution: this.brightnessDistribution,
-         brightnessDistributionType: this.brightnessDistributionType,
-         affectFirst: this.affectFirst,
-         easing: this.easing,
-         events: this.events.map((e) => e.toJSON()),
-         customData: deepCopy(this.customData),
-      };
-   }
 
-   brightnessDistribution: IWrapLightColorEventBox['brightnessDistribution'] = 0;
-   brightnessDistributionType: IWrapLightColorEventBox['brightnessDistributionType'] = 1;
-   events!: IWrapLightColorEvent[];
+   brightnessDistribution: IWrapLightColorEventBox['brightnessDistribution'];
+   brightnessDistributionType: IWrapLightColorEventBox['brightnessDistributionType'];
+   events: IWrapLightColorEvent[];
 
    setBrightnessDistribution(value: this['brightnessDistribution']): this {
       this.brightnessDistribution = value;

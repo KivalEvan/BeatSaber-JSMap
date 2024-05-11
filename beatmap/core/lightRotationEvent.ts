@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type {
    IWrapLightRotationEvent,
    IWrapLightRotationEventAttribute,
@@ -8,10 +6,6 @@ import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export class LightRotationEvent extends BaseObject implements IWrapLightRotationEvent {
-   static schema: Record<
-      number,
-      ISchemaContainer<IWrapLightRotationEventAttribute>
-   > = {};
    static defaultValue: IWrapLightRotationEventAttribute = {
       time: 0,
       easing: 0,
@@ -38,27 +32,6 @@ export class LightRotationEvent extends BaseObject implements IWrapLightRotation
       this.customData = deepCopy(
          data.customData ?? LightRotationEvent.defaultValue.customData,
       );
-   }
-   static fromJSON(
-      data: { [key: string]: any },
-      version: number,
-   ): LightRotationEvent {
-      return new this(LightRotationEvent.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (LightRotationEvent.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapLightRotationEventAttribute {
-      return {
-         time: this.time,
-         easing: this.easing,
-         loop: this.loop,
-         direction: this.direction,
-         previous: this.previous,
-         rotation: this.rotation,
-         customData: deepCopy(this.customData),
-      };
    }
 
    previous: IWrapLightRotationEvent['previous'] = 0;

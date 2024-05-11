@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapEvent, IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 import type { IWrapEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
 import type {
@@ -32,7 +31,6 @@ import type {
    IWrapFxEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
 import { sortObjectFn } from '../shared/helpers.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import { Waypoint } from './waypoint.ts';
 import { BasicEvent } from './event.ts';
 import { ColorBoostEvent } from './colorBoostEvent.ts';
@@ -44,7 +42,6 @@ import { EventTypesForKeywords } from './eventTypesForKeywords.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 export class Lightshow extends BaseItem implements IWrapLightshow {
-   static schema: Record<number, ISchemaContainer<IWrapLightshowAttribute>> = {};
    static defaultValue: IWrapLightshowAttribute = {
       waypoints: [],
       basicEvents: [],
@@ -101,31 +98,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
          data.customData ?? Lightshow.defaultValue.customData,
       );
    }
-   static fromJSON(data: { [key: string]: any }, version: number): Lightshow {
-      return new this(Lightshow.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (Lightshow.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapLightshowAttribute {
-      return {
-         waypoints: this.waypoints.map((e) => e.toJSON()),
-         basicEvents: this.basicEvents.map((e) => e.toJSON()),
-         colorBoostEvents: this.colorBoostEvents.map((e) => e.toJSON()),
-         lightColorEventBoxGroups: this.lightColorEventBoxGroups.map((e) => e.toJSON()),
-         lightRotationEventBoxGroups: this.lightRotationEventBoxGroups.map(
-            (e) => e.toJSON(),
-         ),
-         lightTranslationEventBoxGroups: this.lightTranslationEventBoxGroups.map((e) => e.toJSON()),
-         fxEventBoxGroups: this.fxEventBoxGroups.map((e) => e.toJSON()),
-         eventTypesWithKeywords: {
-            list: this.eventTypesWithKeywords.list.map((e) => e.toJSON()),
-         },
-         useNormalEventsAsCompatibleEvents: this.useNormalEventsAsCompatibleEvents,
-         customData: deepCopy(this.customData),
-      };
-   }
+
    isValid(): boolean {
       return true;
    }

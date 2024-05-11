@@ -1,7 +1,6 @@
 import { ColorNote } from '../../beatmap/core/colorNote.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
 import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
-import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
 import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 
 // TODO: update with new position/rotation system

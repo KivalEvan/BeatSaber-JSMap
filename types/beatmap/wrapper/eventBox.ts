@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { EaseType } from '../shared/constants.ts';
 import type { DistributionType } from '../shared/constants.ts';
 import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
@@ -25,9 +24,7 @@ export interface IWrapEventBoxAttribute extends IWrapBaseItemAttribute {
    events: IWrapBaseObjectAttribute[];
 }
 
-export interface IWrapEventBox<
-   T extends { [key: string]: any } = IWrapEventBoxAttribute,
-> extends IWrapBaseItem<T>, IWrapEventBoxAttribute {
+export interface IWrapEventBox extends IWrapBaseItem, IWrapEventBoxAttribute {
    events: IWrapBaseObject[];
 
    setFilter(value: IWrapIndexFilter): this;

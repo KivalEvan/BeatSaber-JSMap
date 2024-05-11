@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import logger from '../../logger.ts';
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';

@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent.ts';
 import type { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent.ts';
 import type { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
@@ -38,9 +37,7 @@ export interface IWrapBeatmapAttribute extends IWrapBaseItemAttribute, IWrapBase
    lightshowFilename: LooseAutocomplete<GenericFilename>;
 }
 
-export interface IWrapBeatmap<
-   T extends { [key: string]: any } = IWrapBeatmapAttribute,
-> extends IWrapBeatmapFile<T>, IWrapBeatmapAttribute {
+export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {
    data: IWrapDifficulty;
    lightshow: IWrapLightshow;
 

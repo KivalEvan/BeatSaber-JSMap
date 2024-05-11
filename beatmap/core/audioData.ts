@@ -1,6 +1,4 @@
-// deno-lint-ignore-file no-explicit-any
 import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type {
    IWrapAudio,
    IWrapAudioAttribute,
@@ -13,7 +11,6 @@ import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export class AudioData extends BaseItem implements IWrapAudio {
-   static schema: Record<number, ISchemaContainer<IWrapAudioAttribute>> = {};
    static defaultValue: IWrapAudioAttribute = {
       filename: 'AudioData.dat',
       audioChecksum: '',
@@ -52,24 +49,7 @@ export class AudioData extends BaseItem implements IWrapAudio {
          data.customData ?? AudioData.defaultValue.customData,
       );
    }
-   static fromJSON(data: { [key: string]: any }, version: number): AudioData {
-      return new this(AudioData.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (AudioData.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapAudioAttribute {
-      return {
-         filename: this.filename,
-         audioChecksum: this.audioChecksum,
-         sampleCount: this.sampleCount,
-         frequency: this.frequency,
-         bpmData: this.bpmData,
-         lufsData: this.lufsData,
-         customData: deepCopy(this.customData),
-      };
-   }
+
    isValid(): boolean {
       return true;
    }

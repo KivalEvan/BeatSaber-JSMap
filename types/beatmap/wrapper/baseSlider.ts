@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
 
 export interface IWrapBaseSliderAttribute extends IWrapBaseNoteAttribute {
@@ -31,8 +30,7 @@ export interface IWrapBaseSliderAttribute extends IWrapBaseNoteAttribute {
    tailLaneRotation: number;
 }
 
-export interface IWrapBaseSlider<T extends { [key: string]: any } = IWrapBaseSliderAttribute>
-   extends IWrapBaseNote<T>, IWrapBaseSliderAttribute {
+export interface IWrapBaseSlider extends IWrapBaseNote, IWrapBaseSliderAttribute {
    setDirection(value: number): this;
    setTailTime(value: number): this;
    setTailPosX(value: number): this;

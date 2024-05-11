@@ -1,14 +1,11 @@
-// deno-lint-ignore-file no-explicit-any
 import type {
    IWrapBombNote,
    IWrapBombNoteAttribute,
 } from '../../types/beatmap/wrapper/bombNote.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseNote } from './abstract/baseNote.ts';
 
 export class BombNote extends BaseNote implements IWrapBombNote {
-   static schema: Record<number, ISchemaContainer<IWrapBombNoteAttribute>> = {};
    static defaultValue: IWrapBombNoteAttribute = {
       time: 0,
       posX: 0,
@@ -33,24 +30,6 @@ export class BombNote extends BaseNote implements IWrapBombNote {
       this.customData = deepCopy(
          data.customData ?? BombNote.defaultValue.customData,
       );
-   }
-   static fromJSON(data: { [key: string]: any }, version: number): BombNote {
-      return new this(BombNote.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (BombNote.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapBombNoteAttribute {
-      return {
-         time: this.time,
-         posX: this.posX,
-         posY: this.posY,
-         color: -1,
-         direction: this.direction,
-         laneRotation: this.laneRotation,
-         customData: deepCopy(this.customData),
-      };
    }
 
    isMappingExtensions(): boolean {

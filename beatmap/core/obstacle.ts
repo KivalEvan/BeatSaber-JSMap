@@ -1,6 +1,4 @@
-// deno-lint-ignore-file no-explicit-any
 import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type {
    IWrapObstacle,
    IWrapObstacleAttribute,
@@ -11,7 +9,6 @@ import { LINE_COUNT } from '../shared/constants.ts';
 import { GridObject } from './abstract/gridObject.ts';
 
 export class Obstacle extends GridObject implements IWrapObstacle {
-   static schema: Record<number, ISchemaContainer<IWrapObstacleAttribute>> = {};
    static defaultValue: IWrapObstacleAttribute = {
       time: 0,
       posX: 0,
@@ -36,24 +33,6 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       this.duration = data.duration ?? Obstacle.defaultValue.duration;
       this.laneRotation = data.laneRotation ?? Obstacle.defaultValue.laneRotation;
       this.customData = deepCopy(data.customData ?? Obstacle.defaultValue.customData);
-   }
-   static fromJSON(data: { [key: string]: any }, version: number): Obstacle {
-      return new this(Obstacle.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (Obstacle.schema[version || 0]?.serialize(this) || this.toJSON()) as T;
-   }
-   toJSON(): IWrapObstacleAttribute {
-      return {
-         time: this.time,
-         posX: this.posX,
-         posY: this.posY,
-         width: this.width,
-         height: this.height,
-         duration: this.duration,
-         laneRotation: this.laneRotation,
-         customData: deepCopy(this.customData),
-      };
    }
 
    duration: IWrapObstacle['duration'] = 0;

@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { NoteColor } from '../shared/constants.ts';
 import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
@@ -28,9 +27,7 @@ export interface IWrapBaseNoteAttribute extends IWrapGridObjectAttribute {
    direction: number;
 }
 
-export interface IWrapBaseNote<
-   T extends { [key: string]: any } = IWrapBaseNoteAttribute,
-> extends IWrapGridObject<T>, IWrapBaseNoteAttribute {
+export interface IWrapBaseNote extends IWrapGridObject, IWrapBaseNoteAttribute {
    setColor(value: NoteColor): this;
    setDirection(value: number): this;
 

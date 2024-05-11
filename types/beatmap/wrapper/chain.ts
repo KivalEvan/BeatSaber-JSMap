@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
 import type { ICustomDataSlider } from './custom/slider.ts';
 
@@ -23,11 +22,9 @@ export interface IWrapChainAttribute extends IWrapBaseSliderAttribute {
    customData: ICustomDataSlider;
 }
 
-export interface IWrapChain<
-   T extends { [key: string]: any } = IWrapChainAttribute,
-> extends Omit<IWrapBaseSlider<T>, 'customData'>, IWrapChainAttribute {
-   setCustomData(object: T['customData']): this;
-   addCustomData(object: T['customData']): this;
+export interface IWrapChain extends Omit<IWrapBaseSlider, 'customData'>, IWrapChainAttribute {
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
 
    setSliceCount(value: number): this;
    setSquish(value: number): this;

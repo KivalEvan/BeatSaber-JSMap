@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import type { DistributionType } from '../shared/constants.ts';
 import type { Axis } from '../shared/constants.ts';
 import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
@@ -32,9 +31,8 @@ export interface IWrapLightRotationEventBoxAttribute extends IWrapEventBoxAttrib
    events: IWrapLightRotationEventAttribute[];
 }
 
-export interface IWrapLightRotationEventBox<
-   T extends { [key: string]: any } = IWrapLightRotationEventBoxAttribute,
-> extends IWrapEventBox<T>, IWrapLightRotationEventBoxAttribute {
+export interface IWrapLightRotationEventBox
+   extends IWrapEventBox, IWrapLightRotationEventBoxAttribute {
    events: IWrapLightRotationEvent[];
 
    setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']): this;

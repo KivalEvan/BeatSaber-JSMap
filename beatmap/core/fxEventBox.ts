@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type {
    IWrapFxEventBox,
    IWrapFxEventBoxAttribute,
@@ -12,7 +10,6 @@ import { FxEventFloat } from './fxEventFloat.ts';
 import { IndexFilter } from './indexFilter.ts';
 
 export class FxEventBox extends EventBox implements IWrapFxEventBox {
-   static schema: Record<number, ISchemaContainer<IWrapFxEventBoxAttribute>> = {};
    static defaultValue: IWrapFxEventBoxAttribute = {
       filter: {
          type: 1,
@@ -59,30 +56,10 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
          data.customData ?? FxEventBox.defaultValue.customData,
       );
    }
-   static fromJSON(data: { [key: string]: any }, version: number): FxEventBox {
-      return new this(FxEventBox.schema[version]?.deserialize(data));
-   }
-   toSchema<T extends { [key: string]: any }>(version?: number): T {
-      return (FxEventBox.schema[version || 0]?.serialize(this) ||
-         this.toJSON()) as T;
-   }
-   toJSON(): IWrapFxEventBoxAttribute {
-      return {
-         filter: this.filter.toJSON(),
-         beatDistribution: this.beatDistribution,
-         beatDistributionType: this.beatDistributionType,
-         fxDistribution: this.fxDistribution,
-         fxDistributionType: this.fxDistributionType,
-         affectFirst: this.affectFirst,
-         easing: this.easing,
-         events: this.events.map((obj) => obj.toJSON()),
-         customData: this.customData,
-      };
-   }
 
-   fxDistribution: IWrapFxEventBox['fxDistribution'] = 0;
-   fxDistributionType: IWrapFxEventBox['fxDistributionType'] = 1;
-   events!: IWrapFxEventFloat[];
+   fxDistribution: IWrapFxEventBox['fxDistribution'];
+   fxDistributionType: IWrapFxEventBox['fxDistributionType'];
+   events: IWrapFxEventFloat[];
 
    setFxDistribution(value: this['fxDistribution']): this {
       this.fxDistribution = value;
