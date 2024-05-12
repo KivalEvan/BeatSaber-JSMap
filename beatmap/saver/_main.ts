@@ -26,8 +26,15 @@ export function tag(name: string): string[] {
 
 const defaultOptions: Required<ISaveOptions> = {
    format: 0,
-   optimize: {},
-   validate: {},
+   optimize: {
+      enabled: true,
+      deduplicate: true,
+      floatTrim: 4,
+      purgeZeros: true,
+      stringTrim: true,
+      throwNullish: true,
+   },
+   validate: { enabled: true },
    sort: true,
    write: true,
    preprocess: [],
@@ -125,8 +132,11 @@ export function saveBeatmap<
       data.sort();
    }
 
+   logger.tInfo(tag('saveBeatmap'), 'Serializing beatmap');
    let json = schemaMap[version]?.serialize(data as any) ?? {};
+
    if (opt.optimize.enabled) {
+      logger.tInfo(tag('saveBeatmap'), 'Optimizing beatmap JSON');
       optMap[version]?.(json, opt.optimize);
    }
 

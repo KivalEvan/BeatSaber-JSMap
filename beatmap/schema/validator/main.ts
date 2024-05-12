@@ -60,7 +60,8 @@ export function validateJSON<
    const ver = retrieveVersion(data) ?? implicitVersion(type);
    logger.tInfo(
       tag('validateJSON'),
-      'Validating beatmap JSON for ' + type + ' with version ' + version,
+      'Validating beatmap JSON for ' + type + ' with version',
+      version,
    );
    deepCheck(data, dataCheckMap[version], type, ver, opt.throwOn);
 

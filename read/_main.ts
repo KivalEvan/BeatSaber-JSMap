@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { loadBeatmap } from '../beatmap/loader/_main.ts';
-import { resolve } from '../deps.ts';
+import { basename, resolve } from '../deps.ts';
 import { readJSONFile, readJSONFileSync } from '../fs/_json.ts';
 import globals from '../globals.ts';
 import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
@@ -27,7 +27,9 @@ export function handleRead<T extends Record<string, any>>(
       opt.directory ?? (defaultOptions.directory || globals.directory),
       src,
    );
-   return readJSONFile(path).then((data) => loadBeatmap(type, data, ver, opt.load));
+   return readJSONFile(path).then((data) =>
+      loadBeatmap(type, data, ver, opt.load).setFilename(basename(path))
+   );
 }
 
 export function handleReadSync<T extends Record<string, any>>(
@@ -42,5 +44,5 @@ export function handleReadSync<T extends Record<string, any>>(
       opt.directory ?? (defaultOptions.directory || globals.directory),
       src,
    );
-   return loadBeatmap(type, readJSONFileSync(path), ver, opt.load);
+   return loadBeatmap(type, readJSONFileSync(path), ver, opt.load).setFilename(basename(path));
 }

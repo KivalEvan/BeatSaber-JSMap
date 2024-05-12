@@ -27,7 +27,7 @@ export function readAudioDataFile(
    version?: number | null | IReadOptions<IWrapAudio>,
    options?: IReadOptions<IWrapAudio>,
 ): Promise<IWrapAudio> {
-   logger.tInfo(tag('readAudioDataFile'), 'Async reading audioData file');
+   logger.tInfo(tag('readAudioDataFile'), 'Async reading audio data file');
    return handleRead('audioData', path, version, options);
 }
 
@@ -54,6 +54,6 @@ export function readAudioDataFileSync(
    version?: number | null | IReadOptions<IWrapAudio>,
    options?: IReadOptions<IWrapAudio>,
 ): IWrapAudio {
-   logger.tInfo(tag('readAudioDataFileSync'), 'Sync reading audioData file');
+   logger.tInfo(tag('readAudioDataFileSync'), 'Sync reading audio data file');
    return handleReadSync('audioData', path, version, options);
 }
