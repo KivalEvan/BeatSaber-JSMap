@@ -252,13 +252,4 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
    njsOffset: number;
    colorSchemeId: number;
    environmentId: number;
-
-   copyColorScheme(colorScheme: IWrapInfoColorScheme): this;
-   copyColorScheme(id: number, info: IWrapInfo): this;
-   copyColorScheme(
-      idOrColorScheme: number | IWrapInfoColorScheme,
-      info?: IWrapInfo,
-   ): this {
-      throw new Error('Method not implemented');
-   }
 }

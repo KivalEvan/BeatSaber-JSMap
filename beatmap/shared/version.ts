@@ -1,7 +1,7 @@
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
 
-export function implicitVersion(type: BeatmapFileType) {
+export function implicitVersion(type: BeatmapFileType): Version {
    switch (type) {
       case 'info':
       case 'difficulty':
