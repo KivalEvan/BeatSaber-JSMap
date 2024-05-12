@@ -1,16 +1,12 @@
-import type { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
-import type { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
-import { isV2, isV3 } from '../beatmap/version.ts';
-import eventToV2 from '../beatmap/schema/converter/customData/eventToV2.ts';
-import eventToV3 from '../beatmap/schema/converter/customData/eventToV3.ts';
-import objectToV2 from '../beatmap/schema/converter/customData/objectToV2.ts';
-import objectToV3 from '../beatmap/schema/converter/customData/objectToV3.ts';
+import eventToV2 from '../beatmap/converter/customData/eventToV2.ts';
+import eventToV3 from '../beatmap/converter/customData/eventToV3.ts';
+import objectToV2 from '../beatmap/converter/customData/objectToV2.ts';
+import objectToV3 from '../beatmap/converter/customData/objectToV3.ts';
 import logger from '../logger.ts';
 import type { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition.ts';
-import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import type { ColorArray } from '../types/colors.ts';
 import { colorFrom } from '../utils/colors.ts';
-import { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 
 function tag(name: string): string[] {
    return ['patch', 'customDataUpdate', name];
@@ -19,6 +15,9 @@ function tag(name: string): string[] {
 function v2(data: IWrapBeatmap): void {
    logger.tDebug(tag('v2'), ' Patching notes');
    data.colorNotes.forEach((n) => {
+      n.customData = objectToV2(n.customData);
+   });
+   data.bombNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
    });
    logger.tDebug(tag('v2'), ' Patching obstacles');
@@ -38,7 +37,7 @@ function v2(data: IWrapBeatmap): void {
    });
 }
 
-function v3(data: V3Difficulty): void {
+function v3(data: IWrapBeatmap): void {
    logger.tDebug(tag('v3'), ' Patching color notes');
    data.colorNotes.forEach((n) => {
       n.customData = objectToV3(n.customData);
@@ -52,15 +51,15 @@ function v3(data: V3Difficulty): void {
       o.customData = objectToV3(o.customData);
    });
    logger.tDebug(tag('v3'), ' Patching fake color notes');
-   data.customData.fakeColorNotes?.forEach((n) => {
+   data.data.customData.fakeColorNotes?.forEach((n) => {
       n.customData = objectToV3(n.customData);
    });
    logger.tDebug(tag('v3'), ' Patching fake bomb notes');
-   data.customData.fakeBombNotes?.forEach((b) => {
+   data.data.customData.fakeBombNotes?.forEach((b) => {
       b.customData = objectToV3(b.customData);
    });
    logger.tDebug(tag('v3'), ' Patching fake obstacles');
-   data.customData.fakeObstacles?.forEach((o) => {
+   data.data.customData.fakeObstacles?.forEach((o) => {
       o.customData = objectToV3(o.customData);
    });
    logger.tDebug(tag('v3'), ' Patching basic events');
@@ -68,7 +67,7 @@ function v3(data: V3Difficulty): void {
       e.customData = eventToV3(e.customData);
    });
    logger.tDebug(tag('v3'), ' Patching bookmarks');
-   data.customData.bookmarks?.forEach((b) => {
+   data.data.customData.bookmarks?.forEach((b) => {
       if ('_time' in b && typeof b._time === 'number') {
          b.b ??= b._time as number;
          delete b._time;
@@ -87,7 +86,7 @@ function v3(data: V3Difficulty): void {
       }
    });
    logger.tDebug(tag('v3'), ' Patching BPM changes');
-   data.customData.BPMChanges?.forEach((bpmc) => {
+   data.data.customData.BPMChanges?.forEach((bpmc) => {
       if ('_time' in bpmc && typeof bpmc._time === 'number') {
          bpmc.b ??= bpmc._time;
          delete bpmc._time;
@@ -109,7 +108,7 @@ function v3(data: V3Difficulty): void {
       }
    });
    logger.tDebug(tag('v3'), ' Patching environment');
-   data.customData.environment?.forEach((env) => {
+   data.data.customData.environment?.forEach((env) => {
       if ('lightID' in env && typeof env.lightID === 'number') {
          const id = env.lightID as number;
          if (env.components) {

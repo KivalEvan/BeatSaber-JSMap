@@ -4,8 +4,9 @@ import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import type { ISwingAnalysis, ISwingCount } from './types/swing.ts';
 import { median } from '../../utils/math.ts';
 import Swing from './swing.ts';
-import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
-import { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import { sortNoteFn } from '../../beatmap/shared/helpers.ts';
 
 // derived from Uninstaller's Swings Per Second tool
 // some variable or function may have been modified
@@ -187,9 +188,43 @@ export function getSpsHighest(spsArray: ISwingAnalysis[]): number {
 }
 
 function getLastInteractiveTime(bm: IWrapBeatmap): number {
-   throw new Error('Function not implemented.');
+   const notes = [...bm.colorNotes, ...bm.chains, ...bm.bombNotes].sort(sortNoteFn);
+   let lastNoteTime = 0;
+   if (notes.length > 0) {
+      lastNoteTime = notes[notes.length - 1].time;
+   }
+   const lastInteractiveObstacleTime = findLastInteractiveObstacleTime(bm);
+   return Math.max(lastNoteTime, lastInteractiveObstacleTime);
 }
 
 function getFirstInteractiveTime(bm: IWrapBeatmap): number {
-   throw new Error('Function not implemented.');
+   const notes = [...bm.colorNotes, ...bm.chains, ...bm.bombNotes].sort(sortNoteFn);
+   let firstNoteTime = Number.MAX_VALUE;
+   if (notes.length > 0) {
+      firstNoteTime = notes[0].time;
+   }
+   const firstInteractiveObstacleTime = findFirstInteractiveObstacleTime(bm);
+   return Math.min(firstNoteTime, firstInteractiveObstacleTime);
+}
+
+function findFirstInteractiveObstacleTime(bm: IWrapBeatmap): number {
+   for (let i = 0, len = bm.obstacles.length; i < len; i++) {
+      if (bm.obstacles[i].isInteractive()) {
+         return bm.obstacles[i].time;
+      }
+   }
+   return Number.MAX_VALUE;
+}
+
+function findLastInteractiveObstacleTime(bm: IWrapBeatmap): number {
+   let obstacleEnd = 0;
+   for (let i = bm.obstacles.length - 1; i >= 0; i--) {
+      if (bm.obstacles[i].isInteractive()) {
+         obstacleEnd = Math.max(
+            obstacleEnd,
+            bm.obstacles[i].time + bm.obstacles[i].duration,
+         );
+      }
+   }
+   return obstacleEnd;
 }

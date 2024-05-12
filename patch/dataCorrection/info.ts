@@ -4,8 +4,6 @@ import { EnvironmentRename } from '../../beatmap/shared/environment.ts';
 import type { IColor } from '../../types/colors.ts';
 import logger from '../../logger.ts';
 import { clamp } from '../../utils/math.ts';
-import { Info as V1Info } from '../../beatmap/v1/info.ts';
-import { Info as V2Info } from '../../beatmap/v2/info.ts';
 import type { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
 
 function fixEnvironment(str: unknown, all = false): EnvironmentName {
@@ -50,24 +48,18 @@ export function info(data: IWrapInfo): void {
       ['patch', 'dataCorrection', 'info'],
       'Verifying and correcting data type for beatmap info...',
    );
-   if (data instanceof V2Info || data instanceof V1Info) {
-      data.songName = fixString(data.songName, 'Unknown');
-      data.songSubName = fixString(data.songSubName, 'Unknown');
-      data.songAuthorName = fixString(data.songAuthorName, 'Unknown');
-      if (data instanceof V2Info) {
-         data.levelAuthorName = fixString(data.levelAuthorName, 'Unknown');
-      }
-      data.beatsPerMinute = fixFloat(data.beatsPerMinute, 120);
-      data.songTimeOffset = fixFloat(data.songTimeOffset, 0);
-      data.shuffle = fixFloat(data.shuffle);
-      data.shufflePeriod = fixFloat(data.shufflePeriod);
-      data.previewStartTime = fixFloat(data.previewStartTime, 12);
-      data.previewDuration = fixFloat(data.previewDuration, 10);
-      data.songFilename = fixString(data.songFilename, 'song.ogg');
-      data.coverImageFilename = fixString(data.coverImageFilename, 'cover.png');
-      data.environmentName = fixEnvironment(data.environmentName);
-      data.allDirectionsEnvironmentName = 'GlassDesertEnvironment';
-   }
+   data.song.title = fixString(data.song.title, 'Unknown');
+   data.song.subTitle = fixString(data.song.subTitle, 'Unknown');
+   data.song.author = fixString(data.song.author, 'Unknown');
+   data.audio.bpm = fixFloat(data.audio.bpm, 120);
+   data.audio.audioOffset = fixFloat(data.audio.audioOffset, 0);
+   data.audio.shuffle = fixFloat(data.audio.shuffle);
+   data.audio.shufflePeriod = fixFloat(data.audio.shufflePeriod);
+   data.audio.previewStartTime = fixFloat(data.audio.previewStartTime, 12);
+   data.audio.previewDuration = fixFloat(data.audio.previewDuration, 10);
+   data.audio.filename = fixString(data.audio.filename, 'song.ogg');
+   data.coverImageFilename = fixString(data.coverImageFilename, 'cover.png');
+   data.environmentNames = data.environmentNames.map((n) => fixEnvironment(n, true));
    if (Array.isArray(data.environmentNames)) {
       data.environmentNames = data.environmentNames
          .filter((v) => v)
@@ -95,7 +87,7 @@ export function info(data: IWrapInfo): void {
             return v;
          });
    } else data.colorSchemes = [];
-   for (const [_, d] of data.listMap()) {
+   for (const d of data.difficulties) {
       d.colorSchemeId = clamp(
          fixInt(d.colorSchemeId, 0),
          0,
