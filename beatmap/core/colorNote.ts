@@ -54,15 +54,4 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
          ] || 0) + this.angleOffset
       );
    }
-
-   isMappingExtensions(): boolean {
-      return (
-         this.posX > 3 ||
-         this.posX < 0 ||
-         this.posY > 2 ||
-         this.posY < 0 ||
-         (this.direction >= 1000 && this.direction <= 1360) ||
-         (this.direction >= 2000 && this.direction <= 2360)
-      );
-   }
 }

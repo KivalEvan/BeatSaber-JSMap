@@ -84,6 +84,6 @@ export class Obstacle extends GridObject implements IWrapObstacle {
    }
 
    isValid(): boolean {
-      return !this.isMappingExtensions() && !this.hasZero() && !this.hasNegative();
+      return !this.hasZero() && !this.hasNegative();
    }
 }

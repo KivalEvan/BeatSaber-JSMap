@@ -1,8 +1,8 @@
 import { BaseSlider } from './abstract/baseSlider.ts';
 import { NoteDirectionAngle } from '../shared/constants.ts';
 import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
-import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { ObjectAngleFn } from '../../types/beatmap/shared/functions.ts';
 
 export class Arc extends BaseSlider implements IWrapArc {
    static defaultValue: IWrapArcAttribute = {
@@ -95,28 +95,17 @@ export class Arc extends BaseSlider implements IWrapArc {
       return super.mirror(flipColor);
    }
 
-   getTailAngle(_type?: ModType): number {
+   getTailAngle(fn?: ObjectAngleFn<this>): number {
       return (
+         fn?.(this) ||
          NoteDirectionAngle[
             this.tailDirection as keyof typeof NoteDirectionAngle
          ] || 0
       );
    }
 
-   isMappingExtensions(): boolean {
-      return (
-         this.posY > 2 ||
-         this.posY < 0 ||
-         this.posX <= -1000 ||
-         this.posX >= 1000 ||
-         (this.direction >= 1000 && this.direction <= 1360) ||
-         (this.tailDirection >= 1000 && this.tailDirection <= 1360)
-      );
-   }
-
    isValid(): boolean {
       return !(
-         this.isMappingExtensions() ||
          this.isInverse() ||
          this.posX < 0 ||
          this.posX > 3 ||

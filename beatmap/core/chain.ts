@@ -1,5 +1,8 @@
 import { BaseSlider } from './abstract/baseSlider.ts';
-import type { IWrapChain, IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
+import type {
+   IWrapChain,
+   IWrapChainAttribute,
+} from '../../types/beatmap/wrapper/chain.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 export class Chain extends BaseSlider implements IWrapChain {
@@ -33,10 +36,13 @@ export class Chain extends BaseSlider implements IWrapChain {
       this.tailTime = data.tailTime ?? Chain.defaultValue.tailTime;
       this.tailPosX = data.tailPosX ?? Chain.defaultValue.tailPosX;
       this.tailPosY = data.tailPosY ?? Chain.defaultValue.tailPosY;
-      this.tailLaneRotation = data.tailLaneRotation ?? Chain.defaultValue.tailLaneRotation;
+      this.tailLaneRotation =
+         data.tailLaneRotation ?? Chain.defaultValue.tailLaneRotation;
       this.sliceCount = data.sliceCount ?? Chain.defaultValue.sliceCount;
       this.squish = data.squish ?? Chain.defaultValue.squish;
-      this.customData = deepCopy(data.customData ?? Chain.defaultValue.customData);
+      this.customData = deepCopy(
+         data.customData ?? Chain.defaultValue.customData
+      );
    }
 
    sliceCount: IWrapChain['sliceCount'];
@@ -51,26 +57,13 @@ export class Chain extends BaseSlider implements IWrapChain {
       return this;
    }
 
-   isMappingExtensions(): boolean {
-      return (
-         this.posY > 2 ||
-         this.posY < 0 ||
-         this.posX <= -1000 ||
-         this.posX >= 1000 ||
-         (this.direction >= 1000 && this.direction <= 1360)
-      );
-   }
-
    isValid(): boolean {
       return (
-         !(
-            this.isMappingExtensions() ||
-            this.isInverse() ||
-            this.posX < 0 ||
-            this.posX > 3 ||
-            this.tailPosX < 0 ||
-            this.tailPosX > 3
-         ) && !(this.posX === this.tailPosX && this.posY === this.tailPosY)
+         !this.isInverse() ||
+         this.posY >= 0 ||
+         this.posY <= 2 ||
+         this.tailPosY >= 0 ||
+         this.tailPosY <= 2
       );
    }
 }

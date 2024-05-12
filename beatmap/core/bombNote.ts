@@ -32,11 +32,7 @@ export class BombNote extends BaseNote implements IWrapBombNote {
       );
    }
 
-   isMappingExtensions(): boolean {
-      return this.posX > 3 || this.posX < 0 || this.posY > 2 || this.posY < 0;
-   }
-
    isValid(): boolean {
-      return !this.isMappingExtensions();
+      return this.posX >= 0 && this.posX <= 3 && this.posY >= 0 && this.posY <= 2;
    }
 }
