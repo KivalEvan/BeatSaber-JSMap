@@ -8,8 +8,6 @@ import logger from '../../logger.ts';
 import { implicitVersion, retrieveVersion } from '../shared/version.ts';
 import { Info } from '../core/info.ts';
 import { AudioData } from '../core/audioData.ts';
-import { Lightshow } from '../core/lightshow.ts';
-import { Difficulty } from '../core/difficulty.ts';
 import { audioDataConvertMap, beatmapConvertMap, infoConvertMap } from '../mapping/converter.ts';
 import {
    audioDataSchemaMap,
@@ -18,6 +16,7 @@ import {
    lightshowSchemaMap,
 } from '../mapping/schema.ts';
 import { validateJSON } from '../schema/validator/main.ts';
+import { Beatmap } from '../core/beatmap.ts';
 
 export function tag(name: string): string[] {
    return ['loader', name];
@@ -92,12 +91,12 @@ export function loadBeatmap<T extends Record<string, any>>(
          convertMap = audioDataConvertMap;
          break;
       case 'difficulty':
-         coreClass = Difficulty;
+         coreClass = Beatmap;
          schemaMap = difficultySchemaMap;
          convertMap = beatmapConvertMap;
          break;
       case 'lightshow':
-         coreClass = Lightshow;
+         coreClass = Beatmap;
          schemaMap = lightshowSchemaMap;
          convertMap = beatmapConvertMap;
          break;
