@@ -1,4 +1,4 @@
-import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { GetPositionFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type {
    IWrapObstacle,
    IWrapObstacleAttribute,
@@ -52,17 +52,18 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       return this;
    }
 
-   mirror(_flipAlt?: boolean, _flipNoodle?: boolean): this {
+   mirror(_flipAlt?: boolean, fn?: MirrorFn<this>): this {
+      fn?.(this);
       this.posX = LINE_COUNT - 1 - (this.posX + this.width - 1);
       return this;
    }
 
-   getPosition(_type?: ModType): Vector2 {
-      return [this.posX - 2, this.posY - 0.5];
+   getPosition(fn?: GetPositionFn<this>): Vector2 {
+      return fn?.(this) ?? [this.posX - 2, this.posY - 0.5];
    }
 
    // FIXME: there are a lot more other variables
-   isInteractive(_type?: ModType): boolean {
+   isInteractive(): boolean {
       return (
          (this.posX < 0 && this.width > 1 - this.posX) ||
          (this.posX === 0 && this.width > 1) ||
@@ -71,7 +72,7 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       );
    }
 
-   isLonger(compareTo: IWrapObstacle, prevOffset = 0, _type?: ModType): boolean {
+   isLonger(compareTo: IWrapObstacle, prevOffset = 0): boolean {
       return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
    }
 

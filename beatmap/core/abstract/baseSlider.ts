@@ -1,8 +1,8 @@
 import { LINE_COUNT } from '../../shared/constants.ts';
 import type { IWrapBaseSlider } from '../../../types/beatmap/wrapper/baseSlider.ts';
 import { BaseNote } from './baseNote.ts';
-import type { ModType } from '../../../types/beatmap/shared/modCheck.ts';
 import type { Vector2 } from '../../../types/vector.ts';
+import type { GetPositionFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
 
 /** Base slider beatmap class object. */
 export abstract class BaseSlider extends BaseNote implements IWrapBaseSlider {
@@ -28,13 +28,14 @@ export abstract class BaseSlider extends BaseNote implements IWrapBaseSlider {
       return this;
    }
 
-   mirror(flipColor = true, _flipNoodle?: boolean): this {
+   mirror(flipColor = true, fn?: MirrorFn<this>): this {
+      fn?.(this);
       this.tailPosX = LINE_COUNT - 1 - this.tailPosX;
       return super.mirror(flipColor);
    }
 
-   getTailPosition(_type?: ModType): Vector2 {
-      return [this.tailPosX - 2, this.tailPosY];
+   getTailPosition(fn?: GetPositionFn<this>): Vector2 {
+      return fn?.(this) ?? [this.tailPosX - 2, this.tailPosY];
    }
 
    isInverse(): boolean {

@@ -20,14 +20,18 @@ export interface IWrapBaseItem extends ICloneable, IWrapBaseItemAttribute {
     * Sort beatmap object(s) accordingly.
     *
     * Certain objects may not contain sortable array.
+    * 
+    * Custom function can be provided and will run after base implemention.
     */
-   sort(fn?: (a: this, b: this) => number): this;
+   sort(fn?: (object: this) => void): this;
 
    /** Allow for advanced custom function. */
    func(fn: (object: this) => void): this;
 
    /**
     * Check if object is valid in vanilla game.
+    * 
+    * @example
     * ```ts
     * if (obj.isValid()) {}
     * ```
@@ -36,6 +40,8 @@ export interface IWrapBaseItem extends ICloneable, IWrapBaseItemAttribute {
 
    /**
     * Check if object has Chroma properties.
+    * 
+    * @example
     * ```ts
     * if (obj.isChroma()) {}
     * ```
@@ -44,6 +50,8 @@ export interface IWrapBaseItem extends ICloneable, IWrapBaseItemAttribute {
 
    /**
     * Check if object has Noodle Extensions properties.
+    * 
+    * @example
     * ```ts
     * if (obj.isNoodleExtensions()) {}
     * ```
@@ -52,6 +60,8 @@ export interface IWrapBaseItem extends ICloneable, IWrapBaseItemAttribute {
 
    /**
     * Check if object has Mapping Extensions properties.
+    * 
+    * @example
     * ```ts
     * if (obj.isMappingExtensions()) {}
     * ```

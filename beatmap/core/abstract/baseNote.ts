@@ -1,7 +1,7 @@
 import { NoteDirectionAngle } from '../../shared/constants.ts';
 import { GridObject } from './gridObject.ts';
 import type { IWrapBaseNote } from '../../../types/beatmap/wrapper/baseNote.ts';
-import type { ModType } from '../../../types/beatmap/shared/modCheck.ts';
+import type { GetAngleFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
 
 /** Color note beatmap class object. */
 export abstract class BaseNote extends GridObject implements IWrapBaseNote {
@@ -17,7 +17,8 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
       return this;
    }
 
-   mirror(flipColor = true, _flipNoodle?: boolean): this {
+   mirror(flipColor = true, fn?: MirrorFn<this>): this {
+      fn?.(this);
       if (flipColor) {
          this.color = ((1 + this.color) % 2) as typeof this.color;
       }
@@ -52,8 +53,14 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
       return this.color === 1;
    }
 
-   getAngle(_type?: ModType): number {
-      return NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0;
+   getAngle(fn?: GetAngleFn<this>): number {
+      return (
+         fn?.(this) ??
+         (NoteDirectionAngle[
+            this.direction as keyof typeof NoteDirectionAngle
+         ] ||
+         0)
+      );
    }
 
    isDouble(compareTo: IWrapBaseNote, tolerance = 0.01): boolean {
@@ -64,11 +71,7 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
       );
    }
 
-   isValidDirection(): boolean {
-      return this.direction >= 0 && this.direction <= 8;
-   }
-
    isValid(): boolean {
-      return !this.isMappingExtensions() && this.isValidDirection();
+      return this.direction >= 0 && this.direction <= 8;
    }
 }

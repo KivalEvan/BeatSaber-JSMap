@@ -218,10 +218,10 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return this;
    }
 
-   sort(): this {
+   sort(fn?: ((object: this) => void)): this {
       this.data.sort();
       this.lightshow.sort();
-      return this;
+      return super.sort(fn);
    }
 
    addBpmEvents(...data: DeepPartialIgnore<IWrapBPMEventAttribute, 'customData'>[]): this {

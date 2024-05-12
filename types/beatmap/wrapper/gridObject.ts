@@ -1,6 +1,9 @@
 import type { Vector2 } from '../../vector.ts';
-import type { ModType } from '../shared/modCheck.ts';
-import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
+import type { GetPositionFn, MirrorFn } from '../shared/functions.ts';
+import type {
+   IWrapBaseObject,
+   IWrapBaseObjectAttribute,
+} from './baseObject.ts';
 
 export interface IWrapGridObjectAttribute extends IWrapBaseObjectAttribute {
    /**
@@ -29,7 +32,9 @@ export interface IWrapGridObjectAttribute extends IWrapBaseObjectAttribute {
    laneRotation: number;
 }
 
-export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribute {
+export interface IWrapGridObject
+   extends IWrapBaseObject,
+      IWrapGridObjectAttribute {
    setPosX(value: number): this;
    setPosY(value: number): this;
    setLaneRotation(value: number): this;
@@ -37,90 +42,124 @@ export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribu
    /**
     * Mirror a grid object, apply alternative flip and Noodle Extensions if available.
     * ```ts
-    * obj.mirror();
+    * obj.mirror(false, optionalFn);
     * ```
     *
     * Alternative flip is true by default. This implementation is typically used to flip color of note.
     */
-   mirror(flipAlt?: boolean, flipNoodle?: boolean): this;
+   mirror(flipAlt?: boolean | null, fn?: MirrorFn<this>): this;
 
    /**
     * Get object position and return the Beatwalls' position x and y value in tuple.
     * ```ts
-    * const objPos = obj.getPosition();
+    * const objPos = obj.getPosition(optionalFn);
     * ```
     */
-   getPosition(type?: ModType): Vector2;
+   getPosition(fn?: GetPositionFn<this>): Vector2;
 
    /**
     * Get two objects and return the distance between two objects.
     * ```ts
-    * if (obj.getDistance(objCompare)) {}
+    * if (obj.getDistance(objCompare, optionalFn)) {}
     * ```
     */
-   getDistance(compareTo: IWrapGridObject, type?: ModType): number;
+   getDistance(compareTo: this, fn?: GetPositionFn<this>): number;
+   getDistance(
+      compareTo: IWrapGridObject,
+      fn?: GetPositionFn<IWrapGridObject>
+   ): number;
 
    /**
     * Compare two objects and return if the objects is in vertical alignment.
     * ```ts
-    * if (obj.isVertical(objCompare)) {}
+    * if (obj.isVertical(objCompare, optionalFn)) {}
     * ```
     */
-   isVertical(compareTo: IWrapGridObject, type?: ModType): boolean;
+   isVertical(compareTo: this, fn?: GetPositionFn<this>): boolean;
+   isVertical(
+      compareTo: IWrapGridObject,
+      fn?: GetPositionFn<IWrapGridObject>
+   ): boolean;
 
    /**
     * Compare two objects and return if the objects is in horizontal alignment.
     * ```ts
-    * if (obj.isHorizontal(objCompare)) {}
+    * if (obj.isHorizontal(objCompare, optionalFn)) {}
     * ```
     */
-   isHorizontal(compareTo: IWrapGridObject, type?: ModType): boolean;
+   isHorizontal(compareTo: this, fn?: GetPositionFn<this>): boolean;
+   isHorizontal(
+      compareTo: IWrapGridObject,
+      fn?: GetPositionFn<IWrapGridObject>
+   ): boolean;
 
    /**
     * Compare two objects and return if the objects is in diagonal alignment.
     * ```ts
-    * if (obj.isDiagonal(objCompare)) {}
+    * if (obj.isDiagonal(objCompare, optionalFn)) {}
     * ```
     */
-   isDiagonal(compareTo: IWrapGridObject, type?: ModType): boolean;
+   isDiagonal(compareTo: this, fn?: GetPositionFn<this>): boolean;
+   isDiagonal(
+      compareTo: IWrapGridObject,
+      fn?: GetPositionFn<IWrapGridObject>
+   ): boolean;
 
    /**
     * Compare two  objects and return if the  objects is an inline.
     * ```ts
-    * if (obj.isInline(objCompare)) {}
+    * if (obj.isInline(objCompare, optionalLapping, optionalFn)) {}
     * ```
     */
    isInline(
+      compareTo: this,
+      lapping?: number | null,
+      fn?: GetPositionFn<this>
+   ): boolean;
+   isInline(
       compareTo: IWrapGridObject,
       lapping?: number | null,
-      type?: ModType,
+      fn?: GetPositionFn<IWrapGridObject>
    ): boolean;
 
    /**
     * Compare two objects and return if the objects is adjacent.
     * ```ts
-    * if (obj.isAdjacent(objCompare)) {}
+    * if (obj.isAdjacent(objCompare, optionalFn)) {}
     * ```
     */
-   isAdjacent(compareTo: IWrapGridObject, type?: ModType): boolean;
+   isAdjacent(compareTo: this, fn?: GetPositionFn<this>): boolean;
+   isAdjacent(
+      compareTo: IWrapGridObject,
+      fn?: GetPositionFn<IWrapGridObject>
+   ): boolean;
 
    /**
     * Compare two objects and return if the objects is a window.
     * ```ts
-    * if (obj.isWindow(objCompare)) {}
+    * if (obj.isWindow(objCompare, optionalDistance, optionalFn)) {}
     * ```
     */
    isWindow(
+      compareTo: this,
+      distance?: number | null,
+      fn?: GetPositionFn<this>
+   ): boolean;
+   isWindow(
       compareTo: IWrapGridObject,
       distance?: number | null,
-      type?: ModType,
+      fn?: GetPositionFn<IWrapGridObject>
    ): boolean;
 
    /**
     * Compare two objects and return if the objects is a slanted window.
     * ```ts
-    * if (obj.isSlantedWindow(objCompare)) {}
+    * if (obj.isSlantedWindow(objCompare, distance, optionalFn)) {}
     * ```
     */
-   isSlantedWindow(compareTo: IWrapGridObject, type?: ModType): boolean;
+   isSlantedWindow(compareTo: this, fn?: GetPositionFn<this>): boolean;
+   isSlantedWindow(
+      compareTo: IWrapGridObject,
+      fn?: GetPositionFn<IWrapGridObject>
+   ): boolean;
 }

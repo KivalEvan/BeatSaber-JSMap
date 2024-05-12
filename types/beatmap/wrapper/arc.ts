@@ -1,7 +1,7 @@
 import type { SliderMidAnchorMode } from '../shared/constants.ts';
-import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
 import type { ICustomDataSlider } from './custom/slider.ts';
+import type { GetAngleFn } from '../shared/functions.ts';
 
 export interface IWrapArcAttribute extends IWrapBaseSliderAttribute {
    /**
@@ -53,10 +53,17 @@ export interface IWrapArc extends Omit<IWrapBaseSlider, 'customData'>, IWrapArcA
    setMidAnchor(value: SliderMidAnchorMode): this;
 
    /**
-    * Get arc and return standardised tail note angle.
+    * Get standardised tail note angle.
+    * 
+    * @example
     * ```ts
-    * const arcTailAngle = arc.getTailAngle();
+    * import type { IWrapArc } from './arc.ts';
+    * let arc!: IWrapArc;
+    * const optionalFn = (object: IWrapArc) => object.customData.value;
+    * const arcTailAngle = arc.getTailAngle(optionalFn);
     * ```
+    * 
+    * Custom function are used to return any arbitrary data first if value exist, otherwise returns base value.
     */
-   getTailAngle(type?: ModType): number;
+   getTailAngle(fn?: GetAngleFn<this>): number;
 }

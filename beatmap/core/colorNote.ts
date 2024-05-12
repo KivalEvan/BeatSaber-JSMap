@@ -4,8 +4,8 @@ import type {
    IWrapColorNoteAttribute,
 } from '../../types/beatmap/wrapper/colorNote.ts';
 import { BaseNote } from './abstract/baseNote.ts';
-import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 
 export class ColorNote extends BaseNote implements IWrapColorNote {
    static defaultValue: IWrapColorNoteAttribute = {
@@ -30,9 +30,10 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       this.color = data.color ?? ColorNote.defaultValue.color;
       this.direction = data.direction ?? ColorNote.defaultValue.direction;
       this.angleOffset = data.angleOffset ?? ColorNote.defaultValue.angleOffset;
-      this.laneRotation = data.laneRotation ?? ColorNote.defaultValue.laneRotation;
+      this.laneRotation =
+         data.laneRotation ?? ColorNote.defaultValue.laneRotation;
       this.customData = deepCopy(
-         data.customData ?? ColorNote.defaultValue.customData,
+         data.customData ?? ColorNote.defaultValue.customData
       );
    }
 
@@ -43,12 +44,14 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       return this;
    }
 
-   mirror(flipColor = true, _flipNoodle?: boolean): this {
+   mirror(flipColor = true, fn?: MirrorFn<this>): this {
+      fn?.(this);
       return super.mirror(flipColor);
    }
 
-   getAngle(_type?: ModType): number {
+   getAngle(fn?: GetAngleFn<this>): number {
       return (
+         fn?.(this) ??
          (NoteDirectionAngle[
             this.direction as keyof typeof NoteDirectionAngle
          ] || 0) + this.angleOffset

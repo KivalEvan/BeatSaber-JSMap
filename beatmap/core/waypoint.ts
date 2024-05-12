@@ -5,6 +5,7 @@ import type {
 } from '../../types/beatmap/wrapper/waypoint.ts';
 import { GridObject } from './abstract/gridObject.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import type { MirrorFn } from '../../types/beatmap/shared/functions.ts';
 
 export class Waypoint extends GridObject implements IWrapWaypoint {
    static defaultValue: IWrapWaypointAttribute = {
@@ -38,7 +39,8 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
       return this;
    }
 
-   mirror(_flipAlt?: boolean, _flipNoodle?: boolean): this {
+   mirror(_flipAlt?: boolean, fn?: MirrorFn<this>): this {
+      fn?.(this);
       this.posX = LINE_COUNT - 1 - this.posX;
       switch (this.direction) {
          case 2:

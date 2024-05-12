@@ -1,4 +1,4 @@
-import type { ModType } from '../shared/modCheck.ts';
+import type { GetPositionFn } from '../shared/functions.ts';
 import type { ICustomDataObstacle } from './custom/obstacle.ts';
 import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
@@ -41,7 +41,7 @@ export interface IWrapObstacle extends Omit<IWrapGridObject, 'customData'>, IWra
     * if (wall.isInteractive()) {}
     * ```
     */
-   isInteractive(type?: ModType): boolean;
+   isInteractive(fn?: GetPositionFn<this>): boolean;
 
    /**
     * Check if current obstacle is longer than previous obstacle.
@@ -50,9 +50,9 @@ export interface IWrapObstacle extends Omit<IWrapGridObject, 'customData'>, IWra
     * ```
     */
    isLonger(
-      compareTo: IWrapObstacle,
+      compareTo: this,
       prevOffset: number,
-      type?: ModType,
+      fn?: GetPositionFn<this>,
    ): boolean;
 
    /**

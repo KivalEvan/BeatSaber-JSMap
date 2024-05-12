@@ -1,3 +1,5 @@
+import type { Vector2 } from '../../vector.ts';
+import type { GetPositionFn, MirrorFn } from '../shared/functions.ts';
 import type { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
 
 export interface IWrapBaseSliderAttribute extends IWrapBaseNoteAttribute {
@@ -36,4 +38,7 @@ export interface IWrapBaseSlider extends IWrapBaseNote, IWrapBaseSliderAttribute
    setTailPosX(value: number): this;
    setTailPosY(value: number): this;
    setTailLaneRotation(value: number): this;
+
+   mirror(flipColor?: boolean, fn?: MirrorFn<this>): this
+   getTailPosition(fn?: GetPositionFn<this>): Vector2 
 }

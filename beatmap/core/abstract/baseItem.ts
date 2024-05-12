@@ -28,7 +28,8 @@ export abstract class BaseItem extends Cloneable implements IWrapBaseItem {
       return this;
    }
 
-   sort(_fn?: ((a: this, b: this) => number) | undefined): this {
+   sort(fn?: ((object: this) => void)): this {
+      fn?.(this);
       return this;
    }
 
@@ -38,16 +39,13 @@ export abstract class BaseItem extends Cloneable implements IWrapBaseItem {
    }
 
    abstract isValid(): boolean;
-
    isChroma(): boolean {
-      return false;
+      throw new Error('Method not implemented.');
    }
-
    isNoodleExtensions(): boolean {
-      return false;
+      throw new Error('Method not implemented.');
    }
-
    isMappingExtensions(): boolean {
-      return false;
+      throw new Error('Method not implemented.');
    }
 }
