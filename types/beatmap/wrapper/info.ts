@@ -107,7 +107,4 @@ export interface IWrapInfoBeatmap
    extends Omit<IWrapBaseItem, 'customData'>, IWrapInfoBeatmapAttribute {
    setCustomData(object: this['customData']): this;
    addCustomData(object: this['customData']): this;
-
-   copyColorScheme(colorScheme: IWrapInfoColorScheme): this;
-   copyColorScheme(id: number, info: IWrapInfo): this;
 }
