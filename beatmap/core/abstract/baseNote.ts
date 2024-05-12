@@ -56,10 +56,10 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
    getAngle(fn?: GetAngleFn<this>): number {
       return (
          fn?.(this) ??
-         (NoteDirectionAngle[
-            this.direction as keyof typeof NoteDirectionAngle
-         ] ||
-         0)
+            (NoteDirectionAngle[
+               this.direction as keyof typeof NoteDirectionAngle
+            ] ||
+               0)
       );
    }
 

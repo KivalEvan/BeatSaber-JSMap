@@ -218,7 +218,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return this;
    }
 
-   sort(fn?: ((object: this) => void)): this {
+   sort(fn?: (object: this) => void): this {
       this.data.sort();
       this.lightshow.sort();
       return super.sort(fn);

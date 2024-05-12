@@ -10,12 +10,13 @@ import type { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinitio
 import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 import type { ColorArray } from '../types/colors.ts';
 import { colorFrom } from '../utils/colors.ts';
+import { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 
 function tag(name: string): string[] {
    return ['patch', 'customDataUpdate', name];
 }
 
-function v2(data: V2Difficulty): void {
+function v2(data: IWrapBeatmap): void {
    logger.tDebug(tag('v2'), ' Patching notes');
    data.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
@@ -99,7 +100,10 @@ function v3(data: V3Difficulty): void {
          bpmc.p ??= bpmc._beatsPerBar;
          delete bpmc._beatsPerBar;
       }
-      if ('_metronomeOffset' in bpmc && typeof bpmc._metronomeOffset === 'number') {
+      if (
+         '_metronomeOffset' in bpmc &&
+         typeof bpmc._metronomeOffset === 'number'
+      ) {
          bpmc.o ??= bpmc._metronomeOffset;
          delete bpmc._metronomeOffset;
       }
@@ -123,17 +127,24 @@ function v3(data: V3Difficulty): void {
    logger.tDebug(tag('v3'), ' Patching point definitions');
    if (Array.isArray(data.customData.pointDefinitions)) {
       const fixedObj: IPointDefinition = {};
-      data.customData.pointDefinitions.forEach((pd) => (fixedObj[pd.name as string] = pd.points));
+      data.customData.pointDefinitions.forEach(
+         (pd) => (fixedObj[pd.name as string] = pd.points),
+      );
       data.customData.pointDefinitions = fixedObj;
    }
 }
 
-export default function (data: IWrapDifficulty) {
-   if (isV2(data)) {
-      logger.tInfo(['patch', 'customDataUpdate'], 'Patching custom data for beatmap v2...');
-      v2(data);
-   } else if (isV3(data)) {
-      logger.tInfo(['patch', 'customDataUpdate'], 'Patching custom data for beatmap v3...');
-      v3(data);
+export default function (data: IWrapBeatmap, version: number) {
+   logger.tInfo(
+      ['patch', 'customDataUpdate'],
+      'Patching custom data for beatmap v' + version + '...',
+   );
+   switch (version) {
+      case 2:
+         v2(data);
+         break;
+      case 3:
+         v3(data);
+         break;
    }
 }

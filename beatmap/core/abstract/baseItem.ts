@@ -28,7 +28,7 @@ export abstract class BaseItem extends Cloneable implements IWrapBaseItem {
       return this;
    }
 
-   sort(fn?: ((object: this) => void)): this {
+   sort(fn?: (object: this) => void): this {
       fn?.(this);
       return this;
    }

@@ -1,14 +1,8 @@
 import { BaseSlider } from './abstract/baseSlider.ts';
 import { NoteDirectionAngle } from '../shared/constants.ts';
-import type {
-   IWrapArc,
-   IWrapArcAttribute,
-} from '../../types/beatmap/wrapper/arc.ts';
+import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import type {
-   GetAngleFn,
-   MirrorFn,
-} from '../../types/beatmap/shared/functions.ts';
+import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 
 export class Arc extends BaseSlider implements IWrapArc {
    static defaultValue: IWrapArcAttribute = {
@@ -39,20 +33,18 @@ export class Arc extends BaseSlider implements IWrapArc {
       this.posY = data.posY ?? Arc.defaultValue.posY;
       this.color = data.color ?? Arc.defaultValue.color;
       this.direction = data.direction ?? Arc.defaultValue.direction;
-      this.lengthMultiplier =
-         data.lengthMultiplier ?? Arc.defaultValue.lengthMultiplier;
+      this.lengthMultiplier = data.lengthMultiplier ?? Arc.defaultValue.lengthMultiplier;
       this.tailTime = data.tailTime ?? Arc.defaultValue.tailTime;
       this.tailPosX = data.tailPosX ?? Arc.defaultValue.tailPosX;
       this.tailPosY = data.tailPosY ?? Arc.defaultValue.tailPosY;
       this.tailDirection = data.tailDirection ?? Arc.defaultValue.tailDirection;
-      this.tailLengthMultiplier =
-         data.tailLengthMultiplier ?? Arc.defaultValue.tailLengthMultiplier;
+      this.tailLengthMultiplier = data.tailLengthMultiplier ??
+         Arc.defaultValue.tailLengthMultiplier;
       this.midAnchor = data.midAnchor ?? Arc.defaultValue.midAnchor;
       this.laneRotation = data.laneRotation ?? Arc.defaultValue.laneRotation;
-      this.tailLaneRotation =
-         data.tailLaneRotation ?? Arc.defaultValue.tailLaneRotation;
+      this.tailLaneRotation = data.tailLaneRotation ?? Arc.defaultValue.tailLaneRotation;
       this.customData = deepCopy(
-         data.customData ?? Arc.defaultValue.customData
+         data.customData ?? Arc.defaultValue.customData,
       );
    }
 

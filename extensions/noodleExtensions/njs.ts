@@ -1,7 +1,7 @@
 import { NoteJumpSpeed } from '../../beatmap/shared/njs.ts';
 import type { INEObject } from './types/object.ts';
 import { settings } from './settings.ts';
-import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
+import { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
 import type { EasingFunction } from '../../types/easings.ts';
 import { lerp, normalize } from '../../utils/math.ts';
 import logger from '../../logger.ts';
@@ -71,7 +71,10 @@ export function simultaneousSpawn(
       o.customData.noteJumpMovementSpeed = options.njsOverride
          ? o.customData.noteJumpMovementSpeed ?? njs
          : njs;
-      const currentNJS = new NoteJumpSpeed(options.bpm.value, o.customData.noteJumpMovementSpeed);
+      const currentNJS = new NoteJumpSpeed(
+         options.bpm.value,
+         o.customData.noteJumpMovementSpeed,
+      );
       const offset = currentNJS.calcHjdFromJd(options.jd) - currentNJS.calcHjd(0);
       o.customData.noteJumpStartBeatOffset = options.spawnBeatOffset! +
          offset +
@@ -125,7 +128,11 @@ export function gradientNjs(
          options.easing,
       );
       if (typeof options.jd === 'number') {
-         const currNJS = new NoteJumpSpeed(options.bpm, o.customData.noteJumpMovementSpeed, offset);
+         const currNJS = new NoteJumpSpeed(
+            options.bpm instanceof TimeProcessor ? options.bpm.value : options.bpm,
+            o.customData.noteJumpMovementSpeed,
+            offset,
+         );
          o.customData.noteJumpStartBeatOffset = currNJS.calcHjdFromJd(options.jd) -
             currNJS.calcHjd(0);
       }

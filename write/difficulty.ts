@@ -2,7 +2,7 @@
 import logger from '../logger.ts';
 import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 import type { IWriteOptions } from '../types/mod.ts';
-import { handleWrite, handleWriteSync, tag } from './_common.ts';
+import { handleWrite, handleWriteSync, tag } from './_main.ts';
 
 /**
  * Asynchronously write beatmap difficulty file.

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import logger from '../../logger.ts';
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
@@ -7,10 +8,20 @@ import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapBeatmapFile } from '../../types/beatmap/wrapper/baseFile.ts';
 import { validateJSON } from '../schema/validator/main.ts';
 import type { IOptimizeOptions } from '../../types/beatmap/options/optimize.ts';
-import { difficultyOptimizeMap, infoOptimizeMap, lightshowOptimizeMap } from './optMap.ts';
+import {
+   difficultyOptimizeMap,
+   infoOptimizeMap,
+   lightshowOptimizeMap,
+} from '../mapping/optimizer.ts';
+import {
+   audioDataSchemaMap,
+   difficultySchemaMap,
+   infoSchemaMap,
+   lightshowSchemaMap,
+} from '../mapping/schema.ts';
 
-function tag(name: string): string[] {
-   return ['save', name];
+export function tag(name: string): string[] {
+   return ['saver', name];
 }
 
 const defaultOptions: Required<ISaveOptions> = {
@@ -23,42 +34,48 @@ const defaultOptions: Required<ISaveOptions> = {
    postprocess: [],
 };
 
-export function saveBeatmap<T extends { [key: string]: any }>(
+export function saveBeatmap<
+   TSerial extends { [key: string]: any },
+   TWrap extends { [key: string]: any },
+>(
    type: BeatmapFileType,
    data: IWrapBeatmapFile,
    version: number,
-   options?: ISaveOptions<T>,
-): T;
-export function saveBeatmap(
+   options?: ISaveOptions<TWrap>,
+): TSerial;
+export function saveBeatmap<TSerial extends { [key: string]: any }>(
    type: 'info',
    data: IWrapInfo,
    version: number,
    options?: ISaveOptions<IWrapInfo>,
-): Record<string, any>;
-export function saveBeatmap(
+): TSerial;
+export function saveBeatmap<TSerial extends { [key: string]: any }>(
    type: 'audioData',
    data: IWrapAudio,
    version: number,
    options?: ISaveOptions<IWrapAudio>,
-): Record<string, any>;
-export function saveBeatmap(
+): TSerial;
+export function saveBeatmap<TSerial extends { [key: string]: any }>(
    type: 'lightshow',
    data: IWrapBeatmap,
    version: number,
    options?: ISaveOptions<IWrapBeatmap>,
-): Record<string, any>;
-export function saveBeatmap(
+): TSerial;
+export function saveBeatmap<TSerial extends { [key: string]: any }>(
    type: 'difficulty',
    data: IWrapBeatmap,
    version: number,
    options?: ISaveOptions<IWrapBeatmap>,
-): Record<string, any>;
-export function saveBeatmap<T extends { [key: string]: any }>(
+): TSerial;
+export function saveBeatmap<
+   TSerial extends { [key: string]: any },
+   TWrap extends { [key: string]: any },
+>(
    type: BeatmapFileType,
    data: IWrapBeatmapFile,
    version: number,
-   options: ISaveOptions<any> = {},
-): T {
+   options: ISaveOptions<TWrap> = {},
+): TSerial {
    const opt: Required<ISaveOptions<any>> = {
       format: options.format ?? defaultOptions.format,
       optimize: { ...defaultOptions.optimize, ...options.optimize },
@@ -68,19 +85,23 @@ export function saveBeatmap<T extends { [key: string]: any }>(
       preprocess: options.preprocess ?? defaultOptions.preprocess,
       postprocess: options.postprocess ?? defaultOptions.postprocess,
    };
+   let schemaMap;
    let optMap: Record<number, (data: any, options: IOptimizeOptions) => void> = {};
    switch (type) {
       case 'info':
          optMap = infoOptimizeMap;
+         schemaMap = infoSchemaMap;
          break;
       case 'audioData':
-         optMap = {};
+         schemaMap = audioDataSchemaMap;
          break;
       case 'difficulty':
          optMap = difficultyOptimizeMap;
+         schemaMap = difficultySchemaMap;
          break;
       case 'lightshow':
          optMap = lightshowOptimizeMap;
+         schemaMap = lightshowSchemaMap;
          break;
    }
 
@@ -104,7 +125,7 @@ export function saveBeatmap<T extends { [key: string]: any }>(
       data.sort();
    }
 
-   let json = data.toSchema(version);
+   let json = schemaMap[version]?.serialize(data as any) ?? {};
    if (opt.optimize.enabled) {
       optMap[version]?.(json, opt.optimize);
    }
@@ -121,5 +142,5 @@ export function saveBeatmap<T extends { [key: string]: any }>(
       json = fn(json);
    });
 
-   return json as T;
+   return json as TSerial;
 }

@@ -1,9 +1,6 @@
 import type { Vector2 } from '../../vector.ts';
 import type { GetPositionFn, MirrorFn } from '../shared/functions.ts';
-import type {
-   IWrapBaseObject,
-   IWrapBaseObjectAttribute,
-} from './baseObject.ts';
+import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
 export interface IWrapGridObjectAttribute extends IWrapBaseObjectAttribute {
    /**
@@ -32,9 +29,7 @@ export interface IWrapGridObjectAttribute extends IWrapBaseObjectAttribute {
    laneRotation: number;
 }
 
-export interface IWrapGridObject
-   extends IWrapBaseObject,
-      IWrapGridObjectAttribute {
+export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribute {
    setPosX(value: number): this;
    setPosY(value: number): this;
    setLaneRotation(value: number): this;
@@ -66,7 +61,7 @@ export interface IWrapGridObject
    getDistance(compareTo: this, fn?: GetPositionFn<this>): number;
    getDistance(
       compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>
+      fn?: GetPositionFn<IWrapGridObject>,
    ): number;
 
    /**
@@ -78,7 +73,7 @@ export interface IWrapGridObject
    isVertical(compareTo: this, fn?: GetPositionFn<this>): boolean;
    isVertical(
       compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>
+      fn?: GetPositionFn<IWrapGridObject>,
    ): boolean;
 
    /**
@@ -90,7 +85,7 @@ export interface IWrapGridObject
    isHorizontal(compareTo: this, fn?: GetPositionFn<this>): boolean;
    isHorizontal(
       compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>
+      fn?: GetPositionFn<IWrapGridObject>,
    ): boolean;
 
    /**
@@ -102,7 +97,7 @@ export interface IWrapGridObject
    isDiagonal(compareTo: this, fn?: GetPositionFn<this>): boolean;
    isDiagonal(
       compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>
+      fn?: GetPositionFn<IWrapGridObject>,
    ): boolean;
 
    /**
@@ -114,12 +109,12 @@ export interface IWrapGridObject
    isInline(
       compareTo: this,
       lapping?: number | null,
-      fn?: GetPositionFn<this>
+      fn?: GetPositionFn<this>,
    ): boolean;
    isInline(
       compareTo: IWrapGridObject,
       lapping?: number | null,
-      fn?: GetPositionFn<IWrapGridObject>
+      fn?: GetPositionFn<IWrapGridObject>,
    ): boolean;
 
    /**
@@ -131,7 +126,7 @@ export interface IWrapGridObject
    isAdjacent(compareTo: this, fn?: GetPositionFn<this>): boolean;
    isAdjacent(
       compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>
+      fn?: GetPositionFn<IWrapGridObject>,
    ): boolean;
 
    /**
@@ -143,12 +138,12 @@ export interface IWrapGridObject
    isWindow(
       compareTo: this,
       distance?: number | null,
-      fn?: GetPositionFn<this>
+      fn?: GetPositionFn<this>,
    ): boolean;
    isWindow(
       compareTo: IWrapGridObject,
       distance?: number | null,
-      fn?: GetPositionFn<IWrapGridObject>
+      fn?: GetPositionFn<IWrapGridObject>,
    ): boolean;
 
    /**
@@ -160,6 +155,6 @@ export interface IWrapGridObject
    isSlantedWindow(compareTo: this, fn?: GetPositionFn<this>): boolean;
    isSlantedWindow(
       compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>
+      fn?: GetPositionFn<IWrapGridObject>,
    ): boolean;
 }

@@ -15,7 +15,9 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
    } as Required<IObstacle>,
    serialize(data: IWrapObstacleAttribute): IObstacle {
       let type = 0;
-      if (data.height >= 0 && data.posY >= 0) type = Math.floor(data.height * 1000 + data.posY + 4001);
+      if (data.height >= 0 && data.posY >= 0) {
+         type = Math.floor(data.height * 1000 + data.posY + 4001);
+      }
       return {
          _time: data.time,
          _type: data.posY === 2 && data.height === 3
@@ -31,20 +33,18 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
    },
    deserialize(data: Partial<IObstacle> = {}): Partial<IWrapObstacleAttribute> {
       const type = data._type ?? this.defaultValue._type;
-      const height =
-         type === 1
-            ? 3
-            : type >= 1000 && type <= 4000
-            ? remap(type, 1000, 4000, 0, 15)
-            : type > 4000 && type <= 4005000
-            ? 0
-            : 5;
-      const posY =
-         type === 1
-            ? 2
-            : type > 4000 && type <= 4005000
-            ? Math.floor((type - 4001) / 1000)
-            : 0;
+      const height = type === 1
+         ? 3
+         : type >= 1000 && type <= 4000
+         ? remap(type, 1000, 4000, 0, 15)
+         : type > 4000 && type <= 4005000
+         ? 0
+         : 5;
+      const posY = type === 1
+         ? 2
+         : type > 4000 && type <= 4005000
+         ? Math.floor((type - 4001) / 1000)
+         : 0;
       return {
          time: data._time ?? this.defaultValue._time,
          posY,

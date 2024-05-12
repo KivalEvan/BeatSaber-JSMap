@@ -7,7 +7,7 @@ import {
    difficultyCheckMap,
    infoCheckMap,
    lightshowCheckMap,
-} from './verMap.ts';
+} from '../../mapping/validator.ts';
 import { implicitVersion, retrieveVersion } from '../../shared/version.ts';
 import type { BeatmapFileType } from '../../../types/beatmap/shared/schema.ts';
 

@@ -54,7 +54,7 @@ export interface IWrapArc extends Omit<IWrapBaseSlider, 'customData'>, IWrapArcA
 
    /**
     * Get standardised tail note angle.
-    * 
+    *
     * @example
     * ```ts
     * import type { IWrapArc } from './arc.ts';
@@ -62,7 +62,7 @@ export interface IWrapArc extends Omit<IWrapBaseSlider, 'customData'>, IWrapArcA
     * const optionalFn = (object: IWrapArc) => object.customData.value;
     * const arcTailAngle = arc.getTailAngle(optionalFn);
     * ```
-    * 
+    *
     * Custom function are used to return any arbitrary data first if value exist, otherwise returns base value.
     */
    getTailAngle(fn?: GetAngleFn<this>): number;

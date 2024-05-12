@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import type { IWrapAudio } from '../../types/beatmap/wrapper/audioData.ts';
@@ -9,11 +10,16 @@ import { Info } from '../core/info.ts';
 import { AudioData } from '../core/audioData.ts';
 import { Lightshow } from '../core/lightshow.ts';
 import { Difficulty } from '../core/difficulty.ts';
-import { audioDataConvertMap, beatmapConvertMap } from '../converter/verMap.ts';
-import { infoConvertMap } from '../converter/verMap.ts';
+import { audioDataConvertMap, beatmapConvertMap, infoConvertMap } from '../mapping/converter.ts';
+import {
+   audioDataSchemaMap,
+   difficultySchemaMap,
+   infoSchemaMap,
+   lightshowSchemaMap,
+} from '../mapping/schema.ts';
 import { validateJSON } from '../schema/validator/main.ts';
 
-function tag(name: string): string[] {
+export function tag(name: string): string[] {
    return ['loader', name];
 }
 
@@ -72,22 +78,27 @@ export function loadBeatmap<T extends Record<string, any>>(
       postprocess: options.postprocess ?? defaultOptions.postprocess,
    };
    let coreClass;
+   let schemaMap;
    let convertMap;
    switch (type) {
       case 'info':
          coreClass = Info;
+         schemaMap = infoSchemaMap;
          convertMap = infoConvertMap;
          break;
       case 'audioData':
          coreClass = AudioData;
+         schemaMap = audioDataSchemaMap;
          convertMap = audioDataConvertMap;
          break;
       case 'difficulty':
          coreClass = Difficulty;
+         schemaMap = difficultySchemaMap;
          convertMap = beatmapConvertMap;
          break;
       case 'lightshow':
          coreClass = Lightshow;
+         schemaMap = lightshowSchemaMap;
          convertMap = beatmapConvertMap;
          break;
    }
@@ -114,10 +125,10 @@ export function loadBeatmap<T extends Record<string, any>>(
    }
 
    let data: any;
-   const schema = coreClass.schema[jsonVer];
+   const schema = schemaMap[jsonVer];
    if (schema) {
       validateJSON(type, json, jsonVer, opt.dataCheck);
-      data = coreClass.fromJSON(json, jsonVer);
+      data = new coreClass(schema.deserialize(json));
    } else {
       throw new Error(
          `Beatmap version ${jsonVer} is not supported, this may be an error in JSON or is newer than currently supported.`,

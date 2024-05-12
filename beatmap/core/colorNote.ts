@@ -30,10 +30,9 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       this.color = data.color ?? ColorNote.defaultValue.color;
       this.direction = data.direction ?? ColorNote.defaultValue.direction;
       this.angleOffset = data.angleOffset ?? ColorNote.defaultValue.angleOffset;
-      this.laneRotation =
-         data.laneRotation ?? ColorNote.defaultValue.laneRotation;
+      this.laneRotation = data.laneRotation ?? ColorNote.defaultValue.laneRotation;
       this.customData = deepCopy(
-         data.customData ?? ColorNote.defaultValue.customData
+         data.customData ?? ColorNote.defaultValue.customData,
       );
    }
 
@@ -52,9 +51,9 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
    getAngle(fn?: GetAngleFn<this>): number {
       return (
          fn?.(this) ??
-         (NoteDirectionAngle[
-            this.direction as keyof typeof NoteDirectionAngle
-         ] || 0) + this.angleOffset
+            (NoteDirectionAngle[
+                  this.direction as keyof typeof NoteDirectionAngle
+               ] || 0) + this.angleOffset
       );
    }
 }

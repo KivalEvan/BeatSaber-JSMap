@@ -39,6 +39,6 @@ export interface IWrapBaseSlider extends IWrapBaseNote, IWrapBaseSliderAttribute
    setTailPosY(value: number): this;
    setTailLaneRotation(value: number): this;
 
-   mirror(flipColor?: boolean, fn?: MirrorFn<this>): this
-   getTailPosition(fn?: GetPositionFn<this>): Vector2 
+   mirror(flipColor?: boolean, fn?: MirrorFn<this>): this;
+   getTailPosition(fn?: GetPositionFn<this>): Vector2;
 }

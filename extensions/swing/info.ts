@@ -4,15 +4,15 @@ import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import type { ISwingAnalysis, ISwingCount } from './types/swing.ts';
 import { median } from '../../utils/math.ts';
 import Swing from './swing.ts';
-import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
-import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
+import { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 
 // derived from Uninstaller's Swings Per Second tool
 // some variable or function may have been modified
 // translating from Python to JavaScript is hard
 // this is special function SPS used by ScoreSaber
 export function count(
-   noteContainer: IWrapBaseNote[],
+   colorNotes: IWrapColorNote[],
    duration: number,
    bpm: TimeProcessor,
 ): ISwingCount {
@@ -20,9 +20,9 @@ export function count(
       left: new Array(Math.floor(duration + 1)).fill(0),
       right: new Array(Math.floor(duration + 1)).fill(0),
    };
-   let lastRed!: IWrapBaseNote;
-   let lastBlue!: IWrapBaseNote;
-   for (const nc of noteContainer) {
+   let lastRed!: IWrapColorNote;
+   let lastBlue!: IWrapColorNote;
+   for (const nc of colorNotes) {
       const realTime = bpm.toRealTime(nc.time);
       if (nc.color === 0) {
          if (lastRed) {
@@ -65,7 +65,7 @@ function calcMaxRollingSps(swingArray: number[], x: number): number {
 }
 
 export function info(
-   difficulty: IWrapDifficulty,
+   difficulty: IWrapBeatmap,
    bpm: TimeProcessor,
    charName: CharacteristicName,
    diffName: DifficultyName,
@@ -80,10 +80,10 @@ export function info(
       container: Swing.generate(difficulty.colorNotes, bpm),
    };
    const duration = Math.max(
-      bpm.toRealTime(difficulty.getLastInteractiveTime() - difficulty.getFirstInteractiveTime()),
+      bpm.toRealTime(getLastInteractiveTime(difficulty) - getFirstInteractiveTime(difficulty)),
       0,
    );
-   const mapDuration = Math.max(bpm.toRealTime(difficulty.getLastInteractiveTime()), 0);
+   const mapDuration = Math.max(bpm.toRealTime(getLastInteractiveTime(difficulty)), 0);
    const swing = count(difficulty.colorNotes, mapDuration, bpm);
    const swingTotal = swing.left.map((num, i) => num + swing.right[i]);
    if (swingTotal.reduce((a, b) => a + b) === 0) {
@@ -184,4 +184,12 @@ export function getSpsLowest(spsArray: ISwingAnalysis[]): number {
 
 export function getSpsHighest(spsArray: ISwingAnalysis[]): number {
    return Math.max(...spsArray.map((e) => e.total.average), 0);
+}
+
+function getLastInteractiveTime(bm: IWrapBeatmap): number {
+   throw new Error('Function not implemented.');
+}
+
+function getFirstInteractiveTime(bm: IWrapBeatmap): number {
+   throw new Error('Function not implemented.');
 }

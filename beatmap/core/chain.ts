@@ -1,8 +1,5 @@
 import { BaseSlider } from './abstract/baseSlider.ts';
-import type {
-   IWrapChain,
-   IWrapChainAttribute,
-} from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapChain, IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 export class Chain extends BaseSlider implements IWrapChain {
@@ -36,12 +33,11 @@ export class Chain extends BaseSlider implements IWrapChain {
       this.tailTime = data.tailTime ?? Chain.defaultValue.tailTime;
       this.tailPosX = data.tailPosX ?? Chain.defaultValue.tailPosX;
       this.tailPosY = data.tailPosY ?? Chain.defaultValue.tailPosY;
-      this.tailLaneRotation =
-         data.tailLaneRotation ?? Chain.defaultValue.tailLaneRotation;
+      this.tailLaneRotation = data.tailLaneRotation ?? Chain.defaultValue.tailLaneRotation;
       this.sliceCount = data.sliceCount ?? Chain.defaultValue.sliceCount;
       this.squish = data.squish ?? Chain.defaultValue.squish;
       this.customData = deepCopy(
-         data.customData ?? Chain.defaultValue.customData
+         data.customData ?? Chain.defaultValue.customData,
       );
    }
 

@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { loadBeatmap } from '../beatmap/loader/main.ts';
+import { loadBeatmap } from '../beatmap/loader/_main.ts';
 import { resolve } from '../deps.ts';
 import { readJSONFile, readJSONFileSync } from '../fs/_json.ts';
 import globals from '../globals.ts';

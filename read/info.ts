@@ -3,7 +3,7 @@ import logger from '../logger.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
 import type { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';
-import { handleRead, handleReadSync, tag } from './_common.ts';
+import { handleRead, handleReadSync, tag } from './_main.ts';
 
 /**
  * Asynchronously read beatmap info file.

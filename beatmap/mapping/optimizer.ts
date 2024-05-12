@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { optimizeInfo as optimizeV1Info } from '../schema/v1/optimize/info.ts';
 import { optimizeInfo as optimizeV2Info } from '../schema/v2/optimize/info.ts';
 import { optimizeInfo as optimizeV4Info } from '../schema/v4/optimize/info.ts';
@@ -18,14 +19,6 @@ export const infoOptimizeMap: Record<
    4: optimizeV4Info,
 };
 
-export const lightshowOptimizeMap: Record<
-   number,
-   (data: any, options: IOptimizeOptions) => void
-> = {
-   2: optimizeV3Lightshow,
-   4: optimizeV4Lightshow,
-};
-
 export const difficultyOptimizeMap: Record<
    number,
    (data: any, options: IOptimizeOptions) => void
@@ -34,4 +27,12 @@ export const difficultyOptimizeMap: Record<
    2: optimizeV2Difficulty,
    3: optimizeV3Difficulty,
    4: optimizeV4Difficulty,
+};
+
+export const lightshowOptimizeMap: Record<
+   number,
+   (data: any, options: IOptimizeOptions) => void
+> = {
+   3: optimizeV3Lightshow,
+   4: optimizeV4Lightshow,
 };

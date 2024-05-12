@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { saveBeatmap } from '../beatmap/saver/main.ts';
+import { saveBeatmap } from '../beatmap/saver/_main.ts';
 import { resolve } from '../deps.ts';
 import { writeJSONFile, writeJSONFileSync } from '../fs/_json.ts';
 import globals from '../globals.ts';

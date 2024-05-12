@@ -33,7 +33,7 @@ export interface IWrapBaseNote extends IWrapGridObject, IWrapBaseNoteAttribute {
 
    /**
     * Get standardised note angle.
-    * 
+    *
     * @example
     * ```ts
     * import type { IWrapBaseNote } from './baseNote.ts';
@@ -41,7 +41,7 @@ export interface IWrapBaseNote extends IWrapGridObject, IWrapBaseNoteAttribute {
     * const optionalFn = (object: IWrapBaseNote) => object.customData.value;
     * const tailAngle = note.getTailAngle(optionalFn);
     * ```
-    * 
+    *
     * Custom function are used to return any arbitrary data first if value exist, otherwise returns base value.
     */
    getAngle(fn?: GetAngleFn<this>): number;
