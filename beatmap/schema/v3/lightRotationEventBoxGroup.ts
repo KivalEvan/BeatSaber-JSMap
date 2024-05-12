@@ -5,16 +5,17 @@ import { lightRotationEventBox } from './lightRotationEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapLightRotationEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
 
+const defaultValue = {
+   b: 0,
+   g: 0,
+   e: [],
+   customData: {},
+} as Required<ILightRotationEventBoxGroup>;
 export const lightRotationEventBoxGroup: ISchemaContainer<
    IWrapLightRotationEventBoxGroupAttribute,
    ILightRotationEventBoxGroup
 > = {
-   defaultValue: {
-      b: 0,
-      g: 0,
-      e: [],
-      customData: {},
-   } as Required<ILightRotationEventBoxGroup>,
+   defaultValue,
    serialize(
       data: IWrapLightRotationEventBoxGroupAttribute,
    ): ILightRotationEventBoxGroup {
@@ -29,12 +30,12 @@ export const lightRotationEventBoxGroup: ISchemaContainer<
       data: DeepPartial<ILightRotationEventBoxGroup> = {},
    ): DeepPartial<IWrapLightRotationEventBoxGroupAttribute> {
       return {
-         time: data.b ?? this.defaultValue.b,
-         id: data.g ?? this.defaultValue.g,
-         boxes: (data.e ?? this.defaultValue.e).map(
+         time: data.b ?? defaultValue.b,
+         id: data.g ?? defaultValue.g,
+         boxes: (data.e ?? defaultValue.e).map(
             lightRotationEventBox.deserialize,
          ),
-         customData: deepCopy(data.customData ?? this.defaultValue.customData),
+         customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
    isValid(_: IWrapLightRotationEventBoxGroupAttribute): boolean {

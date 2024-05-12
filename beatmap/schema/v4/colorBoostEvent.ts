@@ -4,21 +4,22 @@ import type { IWrapColorBoostEventAttribute } from '../../../types/beatmap/wrapp
 import type { DeepRequiredIgnore } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+const defaultValue = {
+   object: {
+      b: 0,
+      i: 0,
+      customData: {},
+   },
+   data: {
+      b: 0,
+      customData: {},
+   },
+} as DeepRequiredIgnore<IColorBoostEventContainer, 'customData'>;
 export const colorBoostEvent: ISchemaContainer<
    IWrapColorBoostEventAttribute,
    IColorBoostEventContainer
 > = {
-   defaultValue: {
-      object: {
-         b: 0,
-         i: 0,
-         customData: {},
-      },
-      data: {
-         b: 0,
-         customData: {},
-      },
-   } as DeepRequiredIgnore<IColorBoostEventContainer, 'customData'>,
+   defaultValue,
    serialize(
       data: IWrapColorBoostEventAttribute,
    ): Required<IColorBoostEventContainer> {
@@ -38,10 +39,10 @@ export const colorBoostEvent: ISchemaContainer<
       data: Partial<IColorBoostEventContainer> = {},
    ): Partial<IWrapColorBoostEventAttribute> {
       return {
-         time: data.object?.b ?? this.defaultValue.object.b,
-         toggle: !!(data.data?.b ?? this.defaultValue.data.b),
+         time: data.object?.b ?? defaultValue.object.b,
+         toggle: !!(data.data?.b ?? defaultValue.data.b),
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData,
+            data.data?.customData ?? defaultValue.data.customData,
          ),
       };
    },

@@ -5,17 +5,18 @@ import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper
 import { clamp } from '../../../utils/math.ts';
 import { EventLaneRotationValue } from '../../shared/constants.ts';
 
+const defaultValue = {
+   _time: 0,
+   _type: 14,
+   _value: 0,
+   _floatValue: 0,
+   _customData: {},
+} as Required<IEvent>;
 export const rotationEvent: ISchemaContainer<
    IWrapRotationEventAttribute,
    IEvent
 > = {
-   defaultValue: {
-      _time: 0,
-      _type: 14,
-      _value: 0,
-      _floatValue: 0,
-      _customData: {},
-   } as Required<IEvent>,
+   defaultValue,
    // FIXME: Rotation event rotation value fix
    serialize(data: IWrapRotationEventAttribute): IEvent {
       return {
@@ -34,7 +35,7 @@ export const rotationEvent: ISchemaContainer<
    deserialize(
       data: Partial<IEvent> = {},
    ): Partial<IWrapRotationEventAttribute> {
-      const value = data._value ?? this.defaultValue._value;
+      const value = data._value ?? defaultValue._value;
       return {
          time: data._time,
          executionTime: data._type === 14 ? 0 : 1,
@@ -44,7 +45,7 @@ export const rotationEvent: ISchemaContainer<
             ? (value - 1360) % 360
             : EventLaneRotationValue[value] ?? 0,
          customData: deepCopy(
-            data._customData ?? this.defaultValue._customData,
+            data._customData ?? defaultValue._customData,
          ),
       };
    },

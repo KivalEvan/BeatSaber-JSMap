@@ -7,23 +7,24 @@ import type { IEventBoxGroupContainer } from '../../../types/beatmap/container/v
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ILightTranslationBoxContainer } from '../../../types/beatmap/container/v4.ts';
 
+const defaultValue = {
+   object: {
+      t: EventBoxType.TRANSLATION,
+      b: 0,
+      g: 0,
+      e: [],
+      customData: {},
+   },
+   boxData: [],
+} as DeepRequiredIgnore<
+   IEventBoxGroupContainer<ILightTranslationBoxContainer>,
+   'customData'
+>;
 export const lightTranslationEventBoxGroup: ISchemaContainer<
    IWrapLightTranslationEventBoxGroupAttribute,
    IEventBoxGroupContainer<ILightTranslationBoxContainer>
 > = {
-   defaultValue: {
-      object: {
-         t: EventBoxType.TRANSLATION,
-         b: 0,
-         g: 0,
-         e: [],
-         customData: {},
-      },
-      boxData: [],
-   } as DeepRequiredIgnore<
-      IEventBoxGroupContainer<ILightTranslationBoxContainer>,
-      'customData'
-   >,
+   defaultValue,
    serialize(
       data: IWrapLightTranslationEventBoxGroupAttribute,
    ): IEventBoxGroupContainer<ILightTranslationBoxContainer> {
@@ -44,13 +45,13 @@ export const lightTranslationEventBoxGroup: ISchemaContainer<
       > = {},
    ): DeepPartial<IWrapLightTranslationEventBoxGroupAttribute> {
       return {
-         time: data.object?.b ?? this.defaultValue.object.b,
-         id: data.object?.g ?? this.defaultValue.object.g,
-         boxes: (data.boxData ?? this.defaultValue.boxData).map(
+         time: data.object?.b ?? defaultValue.object.b,
+         id: data.object?.g ?? defaultValue.object.g,
+         boxes: (data.boxData ?? defaultValue.boxData).map(
             lightTranslationEventBox.deserialize,
          ),
          customData: deepCopy(
-            data.object?.customData ?? this.defaultValue.object.customData,
+            data.object?.customData ?? defaultValue.object.customData,
          ),
       };
    },

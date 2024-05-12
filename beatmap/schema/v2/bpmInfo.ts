@@ -3,13 +3,14 @@ import type { IBPMInfo } from '../../../types/beatmap/v2/bpmInfo.ts';
 import type { IWrapAudioAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
+const defaultValue = {
+   _version: '2.0.0',
+   _songSampleCount: 44100,
+   _songFrequency: 0,
+   _regions: [],
+} as Required<IBPMInfo>;
 export const audioData: ISchemaContainer<IWrapAudioAttribute, IBPMInfo> = {
-   defaultValue: {
-      _version: '2.0.0',
-      _songSampleCount: 44100,
-      _songFrequency: 0,
-      _regions: [],
-   } as Required<IBPMInfo>,
+   defaultValue,
    serialize(data: IWrapAudioAttribute): IBPMInfo {
       return {
          _version: '2.0.0',
@@ -27,9 +28,9 @@ export const audioData: ISchemaContainer<IWrapAudioAttribute, IBPMInfo> = {
       data: DeepPartial<IBPMInfo> = {},
    ): DeepPartial<IWrapAudioAttribute> {
       return {
-         sampleCount: data._songSampleCount ?? this.defaultValue._songSampleCount,
-         frequency: data._songFrequency ?? this.defaultValue._songFrequency,
-         bpmData: (data._regions ?? this.defaultValue._regions).map((bd) => ({
+         sampleCount: data._songSampleCount ?? defaultValue._songSampleCount,
+         frequency: data._songFrequency ?? defaultValue._songFrequency,
+         bpmData: (data._regions ?? defaultValue._regions).map((bd) => ({
             startBeat: bd?._startBeat || 0,
             endBeat: bd?._endBeat || 0,
             startSampleIndex: bd?._startSampleIndex || 0,

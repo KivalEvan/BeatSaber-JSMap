@@ -3,13 +3,14 @@ import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
+const defaultValue = {
+   b: 0,
+   x: 0,
+   y: 0,
+   customData: {},
+} as Required<IBombNote>;
 export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, IBombNote> = {
-   defaultValue: {
-      b: 0,
-      x: 0,
-      y: 0,
-      customData: {},
-   } as Required<IBombNote>,
+   defaultValue,
    serialize(data: IWrapBombNoteAttribute): IBombNote {
       return {
          b: data.time,
@@ -20,10 +21,10 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, IBombNote> = {
    },
    deserialize(data: Partial<IBombNote> = {}): Partial<IWrapBombNoteAttribute> {
       return {
-         time: data.b ?? this.defaultValue.b,
-         posX: data.x ?? this.defaultValue.x,
-         posY: data.y ?? this.defaultValue.y,
-         customData: deepCopy(data.customData ?? this.defaultValue.customData),
+         time: data.b ?? defaultValue.b,
+         posX: data.x ?? defaultValue.x,
+         posY: data.y ?? defaultValue.y,
+         customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
    isValid(_: IWrapBombNoteAttribute) {

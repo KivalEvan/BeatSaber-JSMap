@@ -5,26 +5,27 @@ import type { DeepRequiredIgnore } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
+const defaultValue = {
+   object: {
+      b: 0,
+      i: 0,
+      r: 0,
+      customData: {},
+   },
+   data: {
+      x: 0,
+      y: 0,
+      d: 0,
+      w: 0,
+      h: 0,
+      customData: {},
+   },
+} as DeepRequiredIgnore<IObstacleContainer, 'customData'>;
 export const obstacle: ISchemaContainer<
    IWrapObstacleAttribute,
    IObstacleContainer
 > = {
-   defaultValue: {
-      object: {
-         b: 0,
-         i: 0,
-         r: 0,
-         customData: {},
-      },
-      data: {
-         x: 0,
-         y: 0,
-         d: 0,
-         w: 0,
-         h: 0,
-         customData: {},
-      },
-   } as DeepRequiredIgnore<IObstacleContainer, 'customData'>,
+   defaultValue,
    serialize(data: IWrapObstacleAttribute): IObstacleContainer {
       return {
          object: {
@@ -47,15 +48,15 @@ export const obstacle: ISchemaContainer<
       data: DeepPartial<IObstacleContainer> = {},
    ): Partial<IWrapObstacleAttribute> {
       return {
-         time: data.object?.b ?? this.defaultValue.object.b,
-         laneRotation: data.object?.r ?? this.defaultValue.object.r,
-         posX: data.data?.x ?? this.defaultValue.data.x,
-         posY: data.data?.y ?? this.defaultValue.data.y,
-         duration: data.data?.d ?? this.defaultValue.data.d,
-         width: data.data?.w ?? this.defaultValue.data.w,
-         height: data.data?.h ?? this.defaultValue.data.h,
+         time: data.object?.b ?? defaultValue.object.b,
+         laneRotation: data.object?.r ?? defaultValue.object.r,
+         posX: data.data?.x ?? defaultValue.data.x,
+         posY: data.data?.y ?? defaultValue.data.y,
+         duration: data.data?.d ?? defaultValue.data.d,
+         width: data.data?.w ?? defaultValue.data.w,
+         height: data.data?.h ?? defaultValue.data.h,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData,
+            data.data?.customData ?? defaultValue.data.customData,
          ),
       };
    },

@@ -11,17 +11,18 @@ import type { DeepRequiredIgnore } from '../../../types/utils.ts';
 import { FxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
+const defaultValue = {
+   object: { t: FxType.FLOAT, b: 0, g: 0, e: [], customData: {} },
+   boxData: [],
+} as DeepRequiredIgnore<
+   IEventBoxGroupContainer<IFxEventBox, IFxEventFloatBoxContainer>,
+   'customData'
+>;
 export const fxEventBoxGroup: ISchemaContainer<
    IWrapFxEventBoxGroupAttribute,
    IEventBoxGroupContainer<IFxEventBox, IFxEventFloatBoxContainer>
 > = {
-   defaultValue: {
-      object: { t: FxType.FLOAT, b: 0, g: 0, e: [], customData: {} },
-      boxData: [],
-   } as DeepRequiredIgnore<
-      IEventBoxGroupContainer<IFxEventBox, IFxEventFloatBoxContainer>,
-      'customData'
-   >,
+   defaultValue,
    serialize(
       data: IWrapFxEventBoxGroupAttribute,
    ): IEventBoxGroupContainer<IFxEventBox, IFxEventFloatBoxContainer> {
@@ -42,13 +43,13 @@ export const fxEventBoxGroup: ISchemaContainer<
       > = {},
    ): DeepPartial<IWrapFxEventBoxGroupAttribute> {
       const d: DeepPartial<IWrapFxEventBoxGroupAttribute> = {};
-      d.time = data.object?.b ?? this.defaultValue.object.b;
-      d.id = data.object?.g ?? this.defaultValue.object.g;
-      d.boxes = (data.boxData ?? this.defaultValue.boxData).map(
+      d.time = data.object?.b ?? defaultValue.object.b;
+      d.id = data.object?.g ?? defaultValue.object.g;
+      d.boxes = (data.boxData ?? defaultValue.boxData).map(
          fxEventBox.deserialize,
       );
       d.customData = deepCopy(
-         data.object?.customData ?? this.defaultValue.object.customData,
+         data.object?.customData ?? defaultValue.object.customData,
       );
       return d;
    },

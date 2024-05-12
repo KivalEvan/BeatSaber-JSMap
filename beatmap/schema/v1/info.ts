@@ -6,23 +6,23 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import { infoDifficulty } from './infoDifficulty.ts';
 import type { EnvironmentName } from '../../../types/beatmap/shared/environment.ts';
 
-/** Difficulty beatmap class object. */
+const defaultValue = {
+   songName: 'Untitled',
+   songSubName: '',
+   authorName: 'NoAuthor',
+   beatsPerMinute: 120,
+   previewStartTime: 0,
+   previewDuration: 0,
+   coverImagePath: 'cover.jpg',
+   environmentName: 'DefaultEnvironment',
+   difficultyLevels: [],
+   oneSaber: false,
+   contributors: [],
+   customEnvironment: '',
+   customEnvironmentHash: '',
+} as Required<IInfo>;
 export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
-   defaultValue: {
-      songName: 'Untitled',
-      songSubName: '',
-      authorName: 'NoAuthor',
-      beatsPerMinute: 120,
-      previewStartTime: 0,
-      previewDuration: 0,
-      coverImagePath: 'cover.jpg',
-      environmentName: 'DefaultEnvironment',
-      difficultyLevels: [],
-      oneSaber: false,
-      contributors: [],
-      customEnvironment: '',
-      customEnvironmentHash: '',
-   } as Required<IInfo>,
+   defaultValue,
    serialize(data: IWrapInfoAttribute): IInfo {
       return {
          songName: data.song.title,
@@ -33,7 +33,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          previewDuration: data.audio.previewDuration,
          coverImagePath: data.coverImageFilename,
          environmentName: data.environmentNames[0] as EnvironmentName ??
-            this.defaultValue.environmentName,
+            defaultValue.environmentName,
          difficultyLevels: data.difficulties.map(infoDifficulty.serialize),
          oneSaber: data.difficulties.some(
             (m) => m.characteristic === 'OneSaber',
@@ -46,34 +46,34 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
    deserialize(data: DeepPartial<IInfo> = {}): DeepPartial<IWrapInfoAttribute> {
       return {
          song: {
-            title: data.songName ?? this.defaultValue.songName,
-            subTitle: data.songSubName ?? this.defaultValue.songSubName,
-            author: data.authorName ?? this.defaultValue.authorName,
+            title: data.songName ?? defaultValue.songName,
+            subTitle: data.songSubName ?? defaultValue.songSubName,
+            author: data.authorName ?? defaultValue.authorName,
          },
          audio: {
             filename: (
-               data.difficultyLevels ?? this.defaultValue.difficultyLevels
+               data.difficultyLevels ?? defaultValue.difficultyLevels
             ).find((e) => e?.audioPath)?.audioPath,
-            bpm: data.beatsPerMinute ?? this.defaultValue.beatsPerMinute,
-            previewStartTime: data.previewStartTime ?? this.defaultValue.previewStartTime,
-            previewDuration: data.previewDuration ?? this.defaultValue.previewDuration,
+            bpm: data.beatsPerMinute ?? defaultValue.beatsPerMinute,
+            previewStartTime: data.previewStartTime ?? defaultValue.previewStartTime,
+            previewDuration: data.previewDuration ?? defaultValue.previewDuration,
          },
-         coverImageFilename: data.coverImagePath ?? this.defaultValue.coverImagePath,
+         coverImageFilename: data.coverImagePath ?? defaultValue.coverImagePath,
          environmentNames: [
-            data.environmentName ?? this.defaultValue.environmentName,
+            data.environmentName ?? defaultValue.environmentName,
          ],
 
          difficulties: (
-            data.difficultyLevels ?? this.defaultValue.difficultyLevels
+            data.difficultyLevels ?? defaultValue.difficultyLevels
          ).map(infoDifficulty.deserialize),
 
          customData: {
             _contributors: deepCopy(
-               data.contributors ?? this.defaultValue.contributors,
+               data.contributors ?? defaultValue.contributors,
             ),
-            _customEnvironment: data.customEnvironment ?? this.defaultValue.customEnvironment,
+            _customEnvironment: data.customEnvironment ?? defaultValue.customEnvironment,
             _customEnvironmentHash: data.customEnvironmentHash ??
-               this.defaultValue.customEnvironmentHash,
+               defaultValue.customEnvironmentHash,
          },
       };
    },

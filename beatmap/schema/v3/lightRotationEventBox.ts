@@ -6,23 +6,24 @@ import { deepCopy } from '../../../utils/misc.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightRotationEvent } from './lightRotationEvent.ts';
 
+const defaultValue = {
+   f: { ...indexFilter.defaultValue },
+   w: 0,
+   d: 1,
+   s: 0,
+   t: 1,
+   a: 0,
+   r: 0,
+   b: 0,
+   i: 0,
+   l: [],
+   customData: {},
+} as Required<ILightRotationEventBox>;
 export const lightRotationEventBox: ISchemaContainer<
    IWrapLightRotationEventBoxAttribute,
    ILightRotationEventBox
 > = {
-   defaultValue: {
-      f: { ...indexFilter.defaultValue },
-      w: 0,
-      d: 1,
-      s: 0,
-      t: 1,
-      a: 0,
-      r: 0,
-      b: 0,
-      i: 0,
-      l: [],
-      customData: {},
-   } as Required<ILightRotationEventBox>,
+   defaultValue,
    serialize(
       data: IWrapLightRotationEventBoxAttribute,
    ): ILightRotationEventBox {
@@ -44,19 +45,19 @@ export const lightRotationEventBox: ISchemaContainer<
       data: DeepPartial<ILightRotationEventBox> = {},
    ): DeepPartial<IWrapLightRotationEventBoxAttribute> {
       return {
-         filter: indexFilter.deserialize(data.f ?? this.defaultValue.f),
-         beatDistribution: data.w ?? this.defaultValue.w,
-         beatDistributionType: data.d ?? this.defaultValue.d,
-         rotationDistribution: data.s ?? this.defaultValue.s,
-         rotationDistributionType: data.t ?? this.defaultValue.t,
-         axis: data.a ?? this.defaultValue.a,
-         flip: data.r ?? this.defaultValue.r,
-         affectFirst: data.b ?? this.defaultValue.b,
-         easing: data.i ?? this.defaultValue.i,
-         events: (data.l ?? this.defaultValue.l).map(
+         filter: indexFilter.deserialize(data.f ?? defaultValue.f),
+         beatDistribution: data.w ?? defaultValue.w,
+         beatDistributionType: data.d ?? defaultValue.d,
+         rotationDistribution: data.s ?? defaultValue.s,
+         rotationDistributionType: data.t ?? defaultValue.t,
+         axis: data.a ?? defaultValue.a,
+         flip: data.r ?? defaultValue.r,
+         affectFirst: data.b ?? defaultValue.b,
+         easing: data.i ?? defaultValue.i,
+         events: (data.l ?? defaultValue.l).map(
             lightRotationEvent.deserialize,
          ),
-         customData: deepCopy(data.customData ?? this.defaultValue.customData),
+         customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
    isValid(_: IWrapLightRotationEventBoxAttribute): boolean {

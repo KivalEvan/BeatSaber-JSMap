@@ -2,14 +2,15 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { INote } from '../../../types/beatmap/v1/note.ts';
 import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
 
+const defaultValue = {
+   _time: 0,
+   _lineIndex: 0,
+   _lineLayer: 0,
+   _type: 3,
+   _cutDirection: 0,
+} as Required<INote>;
 export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
-   defaultValue: {
-      _time: 0,
-      _lineIndex: 0,
-      _lineLayer: 0,
-      _type: 3,
-      _cutDirection: 0,
-   } as Required<INote>,
+   defaultValue,
    serialize(data: IWrapBombNoteAttribute): INote {
       return {
          _time: data.time,
@@ -21,10 +22,10 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
    },
    deserialize(data: Partial<INote> = {}): Partial<IWrapBombNoteAttribute> {
       return {
-         time: data._time ?? this.defaultValue._time,
-         posX: data._lineIndex ?? this.defaultValue._lineIndex,
-         posY: data._lineLayer ?? this.defaultValue._lineLayer,
-         direction: data._cutDirection ?? this.defaultValue._cutDirection,
+         time: data._time ?? defaultValue._time,
+         posX: data._lineIndex ?? defaultValue._lineIndex,
+         posY: data._lineLayer ?? defaultValue._lineLayer,
+         direction: data._cutDirection ?? defaultValue._cutDirection,
       };
    },
    isValid(_: IWrapBombNoteAttribute): boolean {

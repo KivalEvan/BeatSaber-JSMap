@@ -6,25 +6,26 @@ import { deepCopy } from '../../../utils/misc.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightTranslationEvent } from './lightTranslationEvent.ts';
 
+const defaultValue = {
+   data: {
+      w: 0,
+      d: 1,
+      s: 0,
+      t: 1,
+      b: 0,
+      e: 0,
+      f: 0,
+      a: 0,
+      customData: {},
+   },
+   eventData: [],
+   filterData: { ...indexFilter.defaultValue },
+} as DeepRequiredIgnore<ILightTranslationBoxContainer, 'customData'>;
 export const lightTranslationEventBox: ISchemaContainer<
    IWrapLightTranslationEventBoxAttribute,
    ILightTranslationBoxContainer
 > = {
-   defaultValue: {
-      data: {
-         w: 0,
-         d: 1,
-         s: 0,
-         t: 1,
-         b: 0,
-         e: 0,
-         f: 0,
-         a: 0,
-         customData: {},
-      },
-      eventData: [],
-      filterData: { ...indexFilter.defaultValue },
-   } as DeepRequiredIgnore<ILightTranslationBoxContainer, 'customData'>,
+   defaultValue,
    serialize(
       data: IWrapLightTranslationEventBoxAttribute,
    ): ILightTranslationBoxContainer {
@@ -49,21 +50,21 @@ export const lightTranslationEventBox: ISchemaContainer<
    ): DeepPartial<IWrapLightTranslationEventBoxAttribute> {
       return {
          filter: indexFilter.deserialize(
-            data.filterData ?? this.defaultValue.filterData,
+            data.filterData ?? defaultValue.filterData,
          ),
-         beatDistribution: data.data?.w ?? this.defaultValue.data.w,
-         beatDistributionType: data.data?.d ?? this.defaultValue.data.d,
-         gapDistribution: data.data?.s ?? this.defaultValue.data.s,
-         gapDistributionType: data.data?.t ?? this.defaultValue.data.t,
-         affectFirst: data.data?.b ?? this.defaultValue.data.b,
-         easing: data.data?.e ?? this.defaultValue.data.e,
-         axis: data.data?.a ?? this.defaultValue.data.a,
-         flip: data.data?.f ?? this.defaultValue.data.f,
-         events: (data.eventData ?? this.defaultValue.eventData).map(
+         beatDistribution: data.data?.w ?? defaultValue.data.w,
+         beatDistributionType: data.data?.d ?? defaultValue.data.d,
+         gapDistribution: data.data?.s ?? defaultValue.data.s,
+         gapDistributionType: data.data?.t ?? defaultValue.data.t,
+         affectFirst: data.data?.b ?? defaultValue.data.b,
+         easing: data.data?.e ?? defaultValue.data.e,
+         axis: data.data?.a ?? defaultValue.data.a,
+         flip: data.data?.f ?? defaultValue.data.f,
+         events: (data.eventData ?? defaultValue.eventData).map(
             lightTranslationEvent.deserialize,
          ),
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData,
+            data.data?.customData ?? defaultValue.data.customData,
          ),
       };
    },

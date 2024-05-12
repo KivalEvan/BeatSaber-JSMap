@@ -3,14 +3,15 @@ import type { IWaypoint } from '../../../types/beatmap/v3/waypoint.ts';
 import type { IWrapWaypointAttribute } from '../../../types/beatmap/wrapper/waypoint.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+const defaultValue = {
+   b: 0,
+   x: 0,
+   y: 0,
+   d: 0,
+   customData: {},
+} as Required<IWaypoint>;
 export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypoint> = {
-   defaultValue: {
-      b: 0,
-      x: 0,
-      y: 0,
-      d: 0,
-      customData: {},
-   } as Required<IWaypoint>,
+   defaultValue,
    serialize(data: IWrapWaypointAttribute): IWaypoint {
       return {
          b: data.time,
@@ -22,11 +23,11 @@ export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypoint> = {
    },
    deserialize(data: Partial<IWaypoint> = {}): Partial<IWrapWaypointAttribute> {
       return {
-         time: data.b ?? this.defaultValue.b,
-         posX: data.x ?? this.defaultValue.x,
-         posY: data.y ?? this.defaultValue.y,
-         direction: data.d ?? this.defaultValue.d,
-         customData: deepCopy(data.customData ?? this.defaultValue.customData),
+         time: data.b ?? defaultValue.b,
+         posX: data.x ?? defaultValue.x,
+         posY: data.y ?? defaultValue.y,
+         direction: data.d ?? defaultValue.d,
+         customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
    isValid(_: IWrapWaypointAttribute): boolean {

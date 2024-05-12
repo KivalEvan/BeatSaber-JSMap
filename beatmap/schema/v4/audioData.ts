@@ -3,15 +3,16 @@ import type { IAudio } from '../../../types/beatmap/v4/audioData.ts';
 import type { IWrapAudioAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
+const defaultValue = {
+   version: '4.0.0',
+   songChecksum: '',
+   songSampleCount: 0,
+   songFrequency: 44100,
+   bpmData: [],
+   lufsData: [],
+} as Required<IAudio>;
 export const audioData: ISchemaContainer<IWrapAudioAttribute, IAudio> = {
-   defaultValue: {
-      version: '4.0.0',
-      songChecksum: '',
-      songSampleCount: 0,
-      songFrequency: 44100,
-      bpmData: [],
-      lufsData: [],
-   },
+   defaultValue,
    serialize(data: IWrapAudioAttribute): IAudio {
       return {
          version: '4.0.0',

@@ -10,23 +10,24 @@ import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import type { DeepPartial, DeepRequiredIgnore } from '../../../types/utils.ts';
 
+const defaultValue = {
+   version: '4.0.0',
+   colorNotes: [],
+   bombNotes: [],
+   obstacles: [],
+   chains: [],
+   arcs: [],
+   spawnRotations: [],
+   colorNotesData: [],
+   bombNotesData: [],
+   obstaclesData: [],
+   chainsData: [],
+   arcsData: [],
+   spawnRotationsData: [],
+   customData: {},
+} as DeepRequiredIgnore<IDifficulty, 'customData'>;
 export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = {
-   defaultValue: {
-      version: '4.0.0',
-      colorNotes: [],
-      bombNotes: [],
-      obstacles: [],
-      chains: [],
-      arcs: [],
-      spawnRotations: [],
-      colorNotesData: [],
-      bombNotesData: [],
-      obstaclesData: [],
-      chainsData: [],
-      arcsData: [],
-      spawnRotationsData: [],
-      customData: {},
-   } as DeepRequiredIgnore<IDifficulty, 'customData'>,
+   defaultValue,
    serialize(data: IWrapBeatmapAttribute): IDifficulty {
       const json: Required<IDifficulty> = {
          version: '4.0.0',
@@ -92,28 +93,28 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       return {
          data: {
             colorNotes: (
-               data?.colorNotes ?? this.defaultValue.colorNotes
+               data?.colorNotes ?? defaultValue.colorNotes
             ).map((obj) =>
                colorNote.deserialize({
                   object: obj,
                   data: data?.colorNotesData?.[obj?.i || 0],
                })
             ),
-            bombNotes: (data?.bombNotes ?? this.defaultValue.bombNotes).map(
+            bombNotes: (data?.bombNotes ?? defaultValue.bombNotes).map(
                (obj) =>
                   bombNote.deserialize({
                      object: obj,
                      data: data?.bombNotesData?.[obj?.i || 0],
                   }),
             ),
-            obstacles: (data?.obstacles ?? this.defaultValue.obstacles).map(
+            obstacles: (data?.obstacles ?? defaultValue.obstacles).map(
                (obj) =>
                   obstacle.deserialize({
                      object: obj,
                      data: data?.obstaclesData?.[obj?.i || 0],
                   }),
             ),
-            arcs: (data?.arcs ?? this.defaultValue.arcs).map((obj) =>
+            arcs: (data?.arcs ?? defaultValue.arcs).map((obj) =>
                arc.deserialize({
                   object: obj,
                   data: data?.arcsData?.[obj?.ai || 0],
@@ -121,7 +122,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
                   tailData: data?.colorNotesData?.[obj?.ti || 0],
                })
             ),
-            chains: (data?.chains ?? this.defaultValue.chains).map((obj) =>
+            chains: (data?.chains ?? defaultValue.chains).map((obj) =>
                chain.deserialize({
                   object: obj,
                   data: data?.colorNotesData?.[obj?.i || 0],
@@ -129,7 +130,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
                })
             ),
             rotationEvents: (
-               data?.spawnRotations ?? this.defaultValue.spawnRotations
+               data?.spawnRotations ?? defaultValue.spawnRotations
             ).map((obj) =>
                rotationEvent.deserialize({
                   object: obj,
@@ -137,7 +138,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
                })
             ),
             customData: deepCopy(
-               data?.customData ?? this.defaultValue.customData,
+               data?.customData ?? defaultValue.customData,
             ),
          },
       };

@@ -56,6 +56,7 @@ export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
+   useNormalEventsAsCompatibleEvents: boolean;
 
    setLightshowFilename(filename: LooseAutocomplete<GenericFilename>): this;
 

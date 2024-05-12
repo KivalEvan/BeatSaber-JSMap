@@ -3,14 +3,15 @@ import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import type { IWrapEventAttribute } from '../../../types/beatmap/wrapper/event.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
+const defaultValue = {
+   _time: 0,
+   _type: 0,
+   _value: 0,
+   _floatValue: 0,
+   _customData: {},
+} as Required<IEvent>;
 export const basicEvent: ISchemaContainer<IWrapEventAttribute, IEvent> = {
-   defaultValue: {
-      _time: 0,
-      _type: 0,
-      _value: 0,
-      _floatValue: 0,
-      _customData: {},
-   } as Required<IEvent>,
+   defaultValue,
    serialize(data: IWrapEventAttribute): IEvent {
       return {
          _time: data.time,
@@ -22,12 +23,12 @@ export const basicEvent: ISchemaContainer<IWrapEventAttribute, IEvent> = {
    },
    deserialize(data: Partial<IEvent> = {}): Partial<IWrapEventAttribute> {
       return {
-         time: data._time ?? this.defaultValue._time,
-         type: data._type ?? this.defaultValue._type,
-         value: data._value ?? this.defaultValue._value,
-         floatValue: data._floatValue ?? this.defaultValue._floatValue,
+         time: data._time ?? defaultValue._time,
+         type: data._type ?? defaultValue._type,
+         value: data._value ?? defaultValue._value,
+         floatValue: data._floatValue ?? defaultValue._floatValue,
          customData: deepCopy(
-            data._customData ?? this.defaultValue._customData,
+            data._customData ?? defaultValue._customData,
          ),
       };
    },

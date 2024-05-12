@@ -21,17 +21,18 @@ import { rotationEvent } from './rotationEvent.ts';
 import { bpmEvent } from './bpmEvent.ts';
 import { sortV2NoteFn, sortV2ObjectFn } from '../../shared/helpers.ts';
 
+const defaultValue = {
+   _version: '2.6.0',
+   _notes: [],
+   _sliders: [],
+   _obstacles: [],
+   _events: [],
+   _waypoints: [],
+   _specialEventsKeywordFilters: {},
+   _customData: {},
+} as Required<IDifficulty>;
 export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = {
-   defaultValue: {
-      _version: '2.6.0',
-      _notes: [],
-      _sliders: [],
-      _obstacles: [],
-      _events: [],
-      _waypoints: [],
-      _specialEventsKeywordFilters: {},
-      _customData: {},
-   } as Required<IDifficulty>,
+   defaultValue,
    serialize(data: IWrapBeatmapAttribute): IDifficulty {
       return {
          _version: '2.6.0',
@@ -61,7 +62,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
    ): DeepPartial<IWrapBeatmapAttribute> {
       const colorNotes: Partial<IWrapColorNoteAttribute>[] = [];
       const bombNotes: Partial<IWrapBombNoteAttribute>[] = [];
-      (data._notes ?? this.defaultValue._notes).forEach((obj) => {
+      (data._notes ?? defaultValue._notes).forEach((obj) => {
          if (obj?._type === 3) {
             bombNotes.push(bombNote.deserialize(obj));
          } else {
@@ -73,7 +74,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       const colorBoostEvents: Partial<IWrapColorBoostEventAttribute>[] = [];
       const rotationEvents: Partial<IWrapRotationEventAttribute>[] = [];
       const bpmEvents: Partial<IWrapBPMEventAttribute>[] = [];
-      (data._events ?? this.defaultValue._events).forEach((obj) => {
+      (data._events ?? defaultValue._events).forEach((obj) => {
          switch (obj?._type) {
             case 5:
                colorBoostEvents.push(colorBoostEvent.deserialize(obj));
@@ -99,18 +100,18 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             bpmEvents,
             rotationEvents,
             customData: deepCopy(
-               data._customData ?? this.defaultValue._customData,
+               data._customData ?? defaultValue._customData,
             ),
          },
          lightshow: {
             basicEvents,
             colorBoostEvents,
-            waypoints: (data._waypoints ?? this.defaultValue._waypoints).map(
+            waypoints: (data._waypoints ?? defaultValue._waypoints).map(
                waypoint.deserialize,
             ),
             eventTypesWithKeywords: eventTypesWithKeywords.deserialize(
                data._specialEventsKeywordFilters ??
-                  this.defaultValue._specialEventsKeywordFilters,
+                  defaultValue._specialEventsKeywordFilters,
             ),
          },
       };

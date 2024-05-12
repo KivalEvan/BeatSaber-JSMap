@@ -4,24 +4,25 @@ import type { IWrapWaypointAttribute } from '../../../types/beatmap/wrapper/wayp
 import type { DeepPartial, DeepRequiredIgnore } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+const defaultValue = {
+   object: {
+      b: 0,
+      i: 0,
+      r: 0,
+      customData: {},
+   },
+   data: {
+      x: 0,
+      y: 0,
+      d: 0,
+      customData: {},
+   },
+} as DeepRequiredIgnore<IWaypointContainer, 'customData'>;
 export const waypoint: ISchemaContainer<
    IWrapWaypointAttribute,
    IWaypointContainer
 > = {
-   defaultValue: {
-      object: {
-         b: 0,
-         i: 0,
-         r: 0,
-         customData: {},
-      },
-      data: {
-         x: 0,
-         y: 0,
-         d: 0,
-         customData: {},
-      },
-   } as DeepRequiredIgnore<IWaypointContainer, 'customData'>,
+   defaultValue,
    serialize(data: IWrapWaypointAttribute): Required<IWaypointContainer> {
       return {
          object: {
@@ -42,13 +43,13 @@ export const waypoint: ISchemaContainer<
       data: DeepPartial<IWaypointContainer> = {},
    ): Partial<IWrapWaypointAttribute> {
       return {
-         time: data.object?.b ?? this.defaultValue.object.b,
-         laneRotation: data.object?.r ?? this.defaultValue.object.r,
-         posX: data.data?.x ?? this.defaultValue.data.x,
-         posY: data.data?.y ?? this.defaultValue.data.y,
-         direction: data.data?.d ?? this.defaultValue.data.d,
+         time: data.object?.b ?? defaultValue.object.b,
+         laneRotation: data.object?.r ?? defaultValue.object.r,
+         posX: data.data?.x ?? defaultValue.data.x,
+         posY: data.data?.y ?? defaultValue.data.y,
+         direction: data.data?.d ?? defaultValue.data.d,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData,
+            data.data?.customData ?? defaultValue.data.customData,
          ),
       };
    },

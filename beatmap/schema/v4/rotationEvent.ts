@@ -4,14 +4,15 @@ import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper
 import type { DeepPartial, DeepRequiredIgnore } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+const defaultValue = {
+   object: { b: 0, i: 0, customData: {} },
+   data: { e: 0, r: 0, customData: {} },
+} as DeepRequiredIgnore<ISpawnRotationContainer, 'customData'>;
 export const rotationEvent: ISchemaContainer<
    IWrapRotationEventAttribute,
    ISpawnRotationContainer
 > = {
-   defaultValue: {
-      object: { b: 0, i: 0, customData: {} },
-      data: { e: 0, r: 0, customData: {} },
-   } as DeepRequiredIgnore<ISpawnRotationContainer, 'customData'>,
+   defaultValue,
    serialize(data: IWrapRotationEventAttribute): ISpawnRotationContainer {
       return {
          object: { b: data.time },
@@ -26,11 +27,11 @@ export const rotationEvent: ISchemaContainer<
       data: DeepPartial<ISpawnRotationContainer> = {},
    ): Partial<IWrapRotationEventAttribute> {
       return {
-         time: data.object?.b ?? this.defaultValue.object.b,
-         executionTime: data.data?.e ?? this.defaultValue.data.e,
-         rotation: data.data?.r ?? this.defaultValue.data.r,
+         time: data.object?.b ?? defaultValue.object.b,
+         executionTime: data.data?.e ?? defaultValue.data.e,
+         rotation: data.data?.r ?? defaultValue.data.r,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData,
+            data.data?.customData ?? defaultValue.data.customData,
          ),
       };
    },

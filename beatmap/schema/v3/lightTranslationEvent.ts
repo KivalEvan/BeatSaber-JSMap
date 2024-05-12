@@ -3,17 +3,18 @@ import type { ILightTranslationEvent } from '../../../types/beatmap/v3/lightTran
 import type { IWrapLightTranslationEventAttribute } from '../../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+const defaultValue = {
+   b: 0,
+   p: 0,
+   e: 0,
+   t: 0,
+   customData: {},
+} as Required<ILightTranslationEvent>;
 export const lightTranslationEvent: ISchemaContainer<
    IWrapLightTranslationEventAttribute,
    ILightTranslationEvent
 > = {
-   defaultValue: {
-      b: 0,
-      p: 0,
-      e: 0,
-      t: 0,
-      customData: {},
-   } as Required<ILightTranslationEvent>,
+   defaultValue,
    serialize(
       data: IWrapLightTranslationEventAttribute,
    ): ILightTranslationEvent {
@@ -29,11 +30,11 @@ export const lightTranslationEvent: ISchemaContainer<
       data: Partial<ILightTranslationEvent> = {},
    ): Partial<IWrapLightTranslationEventAttribute> {
       return {
-         time: data.b ?? this.defaultValue.b,
-         easing: data.e ?? this.defaultValue.e,
-         previous: data.p ?? this.defaultValue.p,
-         translation: data.t ?? this.defaultValue.t,
-         customData: deepCopy(data.customData ?? this.defaultValue.customData),
+         time: data.b ?? defaultValue.b,
+         easing: data.e ?? defaultValue.e,
+         previous: data.p ?? defaultValue.p,
+         translation: data.t ?? defaultValue.t,
+         customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
    isValid(_: IWrapLightTranslationEventAttribute): boolean {

@@ -4,23 +4,24 @@ import type { IWrapEventAttribute } from '../../../types/beatmap/wrapper/event.t
 import type { IBasicEventContainer } from '../../../types/beatmap/container/v4.ts';
 import type { DeepPartial, DeepRequiredIgnore } from '../../../types/utils.ts';
 
+const defaultValue = {
+   object: {
+      b: 0,
+      i: 0,
+      customData: {},
+   },
+   data: {
+      t: 0,
+      i: 0,
+      f: 0,
+      customData: {},
+   },
+} as DeepRequiredIgnore<IBasicEventContainer, 'customData'>;
 export const basicEvent: ISchemaContainer<
    IWrapEventAttribute,
    IBasicEventContainer
 > = {
-   defaultValue: {
-      object: {
-         b: 0,
-         i: 0,
-         customData: {},
-      },
-      data: {
-         t: 0,
-         i: 0,
-         f: 0,
-         customData: {},
-      },
-   } as DeepRequiredIgnore<IBasicEventContainer, 'customData'>,
+   defaultValue,
    serialize(data: IWrapEventAttribute): IBasicEventContainer {
       return {
          object: {
@@ -40,12 +41,12 @@ export const basicEvent: ISchemaContainer<
       data: DeepPartial<IBasicEventContainer> = {},
    ): DeepPartial<IWrapEventAttribute> {
       return {
-         time: data.object?.b ?? this.defaultValue.object.b,
-         type: data.data?.t ?? this.defaultValue.data.t,
-         value: data.data?.i ?? this.defaultValue.data.i,
-         floatValue: data.data?.f ?? this.defaultValue.data.f,
+         time: data.object?.b ?? defaultValue.object.b,
+         type: data.data?.t ?? defaultValue.data.t,
+         value: data.data?.i ?? defaultValue.data.i,
+         floatValue: data.data?.f ?? defaultValue.data.f,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData,
+            data.data?.customData ?? defaultValue.data.customData,
          ),
       };
    },

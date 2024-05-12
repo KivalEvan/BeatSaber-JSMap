@@ -7,7 +7,7 @@ export interface ISchemaContainer<
    TWrap = { [key: string]: any },
    TSerial = { [key: string]: any },
 > {
-   defaultValue: Required<TSerial>;
+   readonly defaultValue: Required<TSerial>;
    serialize: (data: TWrap) => TSerial;
    deserialize: (data?: DeepPartial<TSerial>) => DeepPartial<TWrap>;
    isValid: (data: TWrap) => boolean;

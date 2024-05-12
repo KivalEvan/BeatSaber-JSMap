@@ -13,37 +13,29 @@ import type {
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import { infoDifficulty } from './infoDifficulty.ts';
 
-export interface IV2ExtraInfo {
-   levelAuthorName: string;
-   songTimeOffset: number;
-   shuffle: number;
-   shufflePeriod: number;
-   environmentName: EnvironmentName | EnvironmentV3Name;
-   allDirectionsEnvironmentName: Environment360Name;
-}
-
+const defaultValue = {
+   _version: '2.1.0',
+   _songName: 'Untitled',
+   _songSubName: '',
+   _songAuthorName: 'NoAuthor',
+   _levelAuthorName: 'NoAuthor',
+   _beatsPerMinute: 120,
+   _shuffle: 0,
+   _shufflePeriod: 0.5,
+   _previewStartTime: 0,
+   _previewDuration: 0,
+   _songFilename: 'song.ogg',
+   _coverImageFilename: 'cover.jpg',
+   _environmentName: 'DefaultEnvironment',
+   _allDirectionsEnvironmentName: 'GlassDesertEnvironment',
+   _environmentNames: [],
+   _colorSchemes: [],
+   _songTimeOffset: 0,
+   _customData: {},
+   _difficultyBeatmapSets: [],
+} as Required<IInfo>;
 export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
-   defaultValue: {
-      _version: '2.1.0',
-      _songName: 'Untitled',
-      _songSubName: '',
-      _songAuthorName: 'NoAuthor',
-      _levelAuthorName: 'NoAuthor',
-      _beatsPerMinute: 120,
-      _shuffle: 0,
-      _shufflePeriod: 0.5,
-      _previewStartTime: 0,
-      _previewDuration: 0,
-      _songFilename: 'song.ogg',
-      _coverImageFilename: 'cover.jpg',
-      _environmentName: 'DefaultEnvironment',
-      _allDirectionsEnvironmentName: 'GlassDesertEnvironment',
-      _environmentNames: [],
-      _colorSchemes: [],
-      _songTimeOffset: 0,
-      _customData: {},
-      _difficultyBeatmapSets: [],
-   } as Required<IInfo>,
+   defaultValue,
    serialize(data: IWrapInfoAttribute): IInfo {
       const authorSet = new Set();
       const d: IInfo = {
@@ -65,13 +57,13 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
                e !== 'GlassDesertEnvironment' &&
                e !== 'MultiplayerEnvironment',
          ) as EnvironmentName & EnvironmentV3Name) ??
-            this.defaultValue._environmentName,
+            defaultValue._environmentName,
          _allDirectionsEnvironmentName: (data.environmentNames.find(
             (e) =>
                e === 'GlassDesertEnvironment' ||
                e === 'MultiplayerEnvironment',
          ) as Environment360Name) ??
-            this.defaultValue._allDirectionsEnvironmentName,
+            defaultValue._allDirectionsEnvironmentName,
          _environmentNames: data.environmentNames.map((e) => e),
          _colorSchemes: data.colorSchemes.map((e) => {
             const cs: Required<IInfo>['_colorSchemes'][number] = {
@@ -123,31 +115,31 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
    deserialize(data: DeepPartial<IInfo> = {}): DeepPartial<IWrapInfoAttribute> {
       const d: DeepPartial<IWrapInfoAttribute> = {
          song: {
-            title: data._songName ?? this.defaultValue._songName,
-            subTitle: data._songSubName ?? this.defaultValue._songSubName,
-            author: data._songAuthorName ?? this.defaultValue._songAuthorName,
+            title: data._songName ?? defaultValue._songName,
+            subTitle: data._songSubName ?? defaultValue._songSubName,
+            author: data._songAuthorName ?? defaultValue._songAuthorName,
          },
          audio: {
-            bpm: data._beatsPerMinute ?? this.defaultValue._beatsPerMinute,
-            previewStartTime: data._previewStartTime ?? this.defaultValue._previewStartTime,
-            previewDuration: data._previewDuration ?? this.defaultValue._previewDuration,
-            filename: data._songFilename ?? this.defaultValue._songFilename,
-            audioOffset: data._songTimeOffset ?? this.defaultValue._songTimeOffset,
-            shuffle: data._shuffle ?? this.defaultValue._shuffle,
-            shufflePeriod: data._shufflePeriod ?? this.defaultValue._shufflePeriod,
+            bpm: data._beatsPerMinute ?? defaultValue._beatsPerMinute,
+            previewStartTime: data._previewStartTime ?? defaultValue._previewStartTime,
+            previewDuration: data._previewDuration ?? defaultValue._previewDuration,
+            filename: data._songFilename ?? defaultValue._songFilename,
+            audioOffset: data._songTimeOffset ?? defaultValue._songTimeOffset,
+            shuffle: data._shuffle ?? defaultValue._shuffle,
+            shufflePeriod: data._shufflePeriod ?? defaultValue._shufflePeriod,
          },
-         coverImageFilename: data._coverImageFilename ?? this.defaultValue._coverImageFilename,
+         coverImageFilename: data._coverImageFilename ?? defaultValue._coverImageFilename,
          environmentNames: [
             ...new Set([
                ...(data._environmentNames ??
-                  this.defaultValue._environmentNames),
-               data._environmentName ?? this.defaultValue._environmentName,
+                  defaultValue._environmentNames),
+               data._environmentName ?? defaultValue._environmentName,
                data._allDirectionsEnvironmentName ??
-                  this.defaultValue._allDirectionsEnvironmentName,
+                  defaultValue._allDirectionsEnvironmentName,
             ]),
          ],
          colorSchemes: (
-            data._colorSchemes ?? this.defaultValue._colorSchemes
+            data._colorSchemes ?? defaultValue._colorSchemes
          ).map((e) => {
             const scheme: IWrapInfoColorScheme = {
                useOverride: !!e.useOverride,
@@ -215,7 +207,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          }),
          difficulties: (
             data._difficultyBeatmapSets ??
-               this.defaultValue._difficultyBeatmapSets
+               defaultValue._difficultyBeatmapSets
          ).flatMap((set) =>
             set._difficultyBeatmaps?.map((diff) => {
                const m = infoDifficulty.deserialize(diff);
@@ -223,18 +215,18 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
                m.authors = {
                   mappers: [
                      data._levelAuthorName ??
-                        this.defaultValue._levelAuthorName,
+                        defaultValue._levelAuthorName,
                   ],
                   lighters: [
                      data._levelAuthorName ??
-                        this.defaultValue._levelAuthorName,
+                        defaultValue._levelAuthorName,
                   ],
                };
                return m;
             })
          ),
          customData: deepCopy(
-            data._customData ?? this.defaultValue._customData,
+            data._customData ?? defaultValue._customData,
          ),
       };
 

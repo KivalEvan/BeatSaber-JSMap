@@ -6,21 +6,22 @@ import { deepCopy } from '../../../utils/misc.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightColorEvent } from './lightColorEvent.ts';
 
+const defaultValue = {
+   f: { ...indexFilter.defaultValue },
+   w: 0,
+   d: 1,
+   r: 0,
+   t: 1,
+   b: 0,
+   i: 0,
+   e: [],
+   customData: {},
+} as Required<ILightColorEventBox>;
 export const lightColorEventBox: ISchemaContainer<
    IWrapLightColorEventBoxAttribute,
    ILightColorEventBox
 > = {
-   defaultValue: {
-      f: { ...indexFilter.defaultValue },
-      w: 0,
-      d: 1,
-      r: 0,
-      t: 1,
-      b: 0,
-      i: 0,
-      e: [],
-      customData: {},
-   } as Required<ILightColorEventBox>,
+   defaultValue,
    serialize(data: IWrapLightColorEventBoxAttribute): ILightColorEventBox {
       return {
          f: indexFilter.serialize(data.filter),
@@ -38,17 +39,17 @@ export const lightColorEventBox: ISchemaContainer<
       data: DeepPartial<ILightColorEventBox> = {},
    ): DeepPartial<IWrapLightColorEventBoxAttribute> {
       return {
-         filter: indexFilter.deserialize(data.f ?? this.defaultValue.f),
-         beatDistribution: data.w ?? this.defaultValue.w,
-         beatDistributionType: data.d ?? this.defaultValue.d,
-         brightnessDistribution: data.r ?? this.defaultValue.r,
-         brightnessDistributionType: data.t ?? this.defaultValue.t,
-         affectFirst: data.b ?? this.defaultValue.b,
-         easing: data.i ?? this.defaultValue.i,
-         events: (data.e ?? this.defaultValue.e).map(
+         filter: indexFilter.deserialize(data.f ?? defaultValue.f),
+         beatDistribution: data.w ?? defaultValue.w,
+         beatDistributionType: data.d ?? defaultValue.d,
+         brightnessDistribution: data.r ?? defaultValue.r,
+         brightnessDistributionType: data.t ?? defaultValue.t,
+         affectFirst: data.b ?? defaultValue.b,
+         easing: data.i ?? defaultValue.i,
+         events: (data.e ?? defaultValue.e).map(
             lightColorEvent.deserialize,
          ),
-         customData: deepCopy(data.customData ?? this.defaultValue.customData),
+         customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
    isValid(_: IWrapLightColorEventBoxAttribute): boolean {

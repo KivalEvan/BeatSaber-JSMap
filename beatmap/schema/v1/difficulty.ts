@@ -16,22 +16,23 @@ import { bpmEvent } from './bpmEvent.ts';
 import { obstacle } from './obstacle.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
+const defaultValue = {
+   _version: '1.5.0',
+   _beatsPerMinute: 120,
+   _beatsPerBar: 4,
+   _shuffle: 0,
+   _shufflePeriod: 0,
+   _noteJumpSpeed: 0,
+   _noteJumpStartBeatOffset: 0,
+   _notes: [],
+   _obstacles: [],
+   _events: [],
+   _time: 0,
+   _BPMChanges: [],
+   _bookmarks: [],
+} as Required<IDifficulty>;
 export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = {
-   defaultValue: {
-      _version: '1.5.0',
-      _beatsPerMinute: 120,
-      _beatsPerBar: 4,
-      _shuffle: 0,
-      _shufflePeriod: 0,
-      _noteJumpSpeed: 0,
-      _noteJumpStartBeatOffset: 0,
-      _notes: [],
-      _obstacles: [],
-      _events: [],
-      _time: 0,
-      _BPMChanges: [],
-      _bookmarks: [],
-   },
+   defaultValue,
    serialize(data: IWrapBeatmapAttribute): IDifficulty {
       return {
          _version: '1.5.0',
@@ -66,7 +67,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
    ): DeepPartial<IWrapBeatmapAttribute> {
       const colorNotes: Partial<IWrapColorNoteAttribute>[] = [];
       const bombNotes: Partial<IWrapBombNoteAttribute>[] = [];
-      (data._notes ?? this.defaultValue._notes).forEach((obj) => {
+      (data._notes ?? defaultValue._notes).forEach((obj) => {
          if (obj?._type === 3) {
             bombNotes.push(bombNote.deserialize(obj));
          } else {
@@ -78,7 +79,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       const colorBoostEvents: Partial<IWrapColorBoostEventAttribute>[] = [];
       const rotationEvents: Partial<IWrapRotationEventAttribute>[] = [];
       const bpmEvents: Partial<IWrapBPMEventAttribute>[] = [];
-      (data._events ?? this.defaultValue._events).forEach((obj) => {
+      (data._events ?? defaultValue._events).forEach((obj) => {
          switch (obj?._type) {
             case 5:
                colorBoostEvents.push(colorBoostEvent.deserialize(obj));
@@ -104,9 +105,9 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             bpmEvents,
             rotationEvents,
             customData: {
-               _bpmChanges: data._BPMChanges ?? this.defaultValue._BPMChanges,
-               _bookmarks: data._bookmarks ?? this.defaultValue._bookmarks,
-               _time: data._time ?? this.defaultValue._time,
+               _bpmChanges: data._BPMChanges ?? defaultValue._BPMChanges,
+               _bookmarks: data._bookmarks ?? defaultValue._bookmarks,
+               _time: data._time ?? defaultValue._time,
             },
          },
          lightshow: {

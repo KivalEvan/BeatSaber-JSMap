@@ -3,14 +3,15 @@ import type { IBasicEventTypesForKeywords } from '../../../types/beatmap/v3/basi
 import type { IWrapEventTypesForKeywordsAttribute } from '../../../types/beatmap/wrapper/eventTypesForKeywords.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
+const defaultValue = {
+   k: '',
+   e: [],
+} as Required<IBasicEventTypesForKeywords>;
 export const eventTypesForKeywords: ISchemaContainer<
    IWrapEventTypesForKeywordsAttribute,
    IBasicEventTypesForKeywords
 > = {
-   defaultValue: {
-      k: '',
-      e: [],
-   } as Required<IBasicEventTypesForKeywords>,
+   defaultValue,
    serialize(
       data: IWrapEventTypesForKeywordsAttribute,
    ): IBasicEventTypesForKeywords {
@@ -23,8 +24,8 @@ export const eventTypesForKeywords: ISchemaContainer<
       data: DeepPartial<IBasicEventTypesForKeywords> = {},
    ): DeepPartial<IWrapEventTypesForKeywordsAttribute> {
       return {
-         keyword: data.k ?? this.defaultValue.k,
-         events: (data.e ?? this.defaultValue.e).map((e) => e),
+         keyword: data.k ?? defaultValue.k,
+         events: (data.e ?? defaultValue.e).map((e) => e),
       };
    },
    isValid(_: IWrapEventTypesForKeywordsAttribute): boolean {

@@ -4,13 +4,14 @@ import type { IWrapEventTypesWithKeywordsAttribute } from '../../../types/beatma
 import type { DeepPartial } from '../../../types/utils.ts';
 import { eventTypesForKeywords } from './eventTypesForKeywords.ts';
 
+const defaultValue = {
+   d: [],
+} as Required<IBasicEventTypesWithKeywords>;
 export const eventTypesWithKeywords: ISchemaContainer<
    IWrapEventTypesWithKeywordsAttribute,
    IBasicEventTypesWithKeywords
 > = {
-   defaultValue: {
-      d: [],
-   } as Required<IBasicEventTypesWithKeywords>,
+   defaultValue,
    serialize(
       data: IWrapEventTypesWithKeywordsAttribute,
    ): Required<IBasicEventTypesWithKeywords> {
@@ -22,7 +23,7 @@ export const eventTypesWithKeywords: ISchemaContainer<
       data: DeepPartial<IBasicEventTypesWithKeywords> = {},
    ): DeepPartial<IWrapEventTypesWithKeywordsAttribute> {
       return {
-         list: (data.d ?? this.defaultValue.d).map(
+         list: (data.d ?? defaultValue.d).map(
             eventTypesForKeywords.deserialize,
          ),
       };

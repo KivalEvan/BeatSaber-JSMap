@@ -3,15 +3,16 @@ import type { IColorBoostEvent } from '../../../types/beatmap/v3/colorBoostEvent
 import type { IWrapColorBoostEventAttribute } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+const defaultValue = {
+   b: 0,
+   o: false,
+   customData: {},
+} as Required<IColorBoostEvent>;
 export const colorBoostEvent: ISchemaContainer<
    IWrapColorBoostEventAttribute,
    IColorBoostEvent
 > = {
-   defaultValue: {
-      b: 0,
-      o: false,
-      customData: {},
-   } as Required<IColorBoostEvent>,
+   defaultValue,
    serialize(data: IWrapColorBoostEventAttribute): IColorBoostEvent {
       return {
          b: data.time,
@@ -23,9 +24,9 @@ export const colorBoostEvent: ISchemaContainer<
       data: Partial<IColorBoostEvent> = {},
    ): Partial<IWrapColorBoostEventAttribute> {
       return {
-         time: data.b ?? this.defaultValue.b,
-         toggle: data.o ?? this.defaultValue.o,
-         customData: deepCopy(data.customData ?? this.defaultValue.customData),
+         time: data.b ?? defaultValue.b,
+         toggle: data.o ?? defaultValue.o,
+         customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
    isValid(_: IWrapColorBoostEventAttribute): boolean {

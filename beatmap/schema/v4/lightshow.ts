@@ -14,31 +14,32 @@ import type { IObject } from '../../../types/beatmap/v4/object.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { eventTypesWithKeywords } from '../v3/eventTypesWithKeywords.ts';
 
+const defaultValue = {
+   version: '4.0.0',
+   waypoints: [],
+   waypointsData: [],
+   basicEvents: [],
+   basicEventsData: [],
+   colorBoostEvents: [],
+   colorBoostEventsData: [],
+   eventBoxGroups: [],
+   indexFilters: [],
+   lightColorEvents: [],
+   lightColorEventBoxes: [],
+   lightRotationEvents: [],
+   lightRotationEventBoxes: [],
+   lightTranslationEvents: [],
+   lightTranslationEventBoxes: [],
+   floatFxEvents: [],
+   fxEventBoxes: [],
+   basicEventTypesWithKeywords: {
+      ...eventTypesWithKeywords.defaultValue,
+   },
+   useNormalEventsAsCompatibleEvents: false,
+   customData: {},
+} as DeepRequiredIgnore<ILightshow, 'customData'>;
 export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
-   defaultValue: {
-      version: '4.0.0',
-      waypoints: [],
-      waypointsData: [],
-      basicEvents: [],
-      basicEventsData: [],
-      colorBoostEvents: [],
-      colorBoostEventsData: [],
-      eventBoxGroups: [],
-      indexFilters: [],
-      lightColorEvents: [],
-      lightColorEventBoxes: [],
-      lightRotationEvents: [],
-      lightRotationEventBoxes: [],
-      lightTranslationEvents: [],
-      lightTranslationEventBoxes: [],
-      floatFxEvents: [],
-      fxEventBoxes: [],
-      basicEventTypesWithKeywords: {
-         ...eventTypesWithKeywords.defaultValue,
-      },
-      useNormalEventsAsCompatibleEvents: false,
-      customData: {},
-   } as DeepRequiredIgnore<ILightshow, 'customData'>,
+   defaultValue,
    serialize(data: IWrapBeatmapAttribute): ILightshow {
       const json: Required<ILightshow> = {
          version: '4.0.0',
@@ -293,11 +294,11 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
       }
       d.lightshow!.eventTypesWithKeywords = eventTypesWithKeywords.deserialize(
          data?.basicEventTypesWithKeywords ||
-            this.defaultValue.basicEventTypesWithKeywords,
+            defaultValue.basicEventTypesWithKeywords,
       );
       d.lightshow!.useNormalEventsAsCompatibleEvents = !!(
          data?.useNormalEventsAsCompatibleEvents ??
-            this.defaultValue.useNormalEventsAsCompatibleEvents
+            defaultValue.useNormalEventsAsCompatibleEvents
       );
       d.lightshow!.customData = deepCopy(data?.customData ?? {});
       return d;

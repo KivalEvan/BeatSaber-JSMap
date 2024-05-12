@@ -4,21 +4,22 @@ import type { IWrapLightRotationEventAttribute } from '../../../types/beatmap/wr
 import type { DeepPartial, DeepRequiredIgnore } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+const defaultValue = {
+   data: {
+      p: 0,
+      e: 0,
+      l: 0,
+      r: 0,
+      d: 0,
+      customData: {},
+   },
+   time: 0,
+} as DeepRequiredIgnore<ILightRotationEventContainer, 'customData'>;
 export const lightRotationEvent: ISchemaContainer<
    IWrapLightRotationEventAttribute,
    ILightRotationEventContainer
 > = {
-   defaultValue: {
-      data: {
-         p: 0,
-         e: 0,
-         l: 0,
-         r: 0,
-         d: 0,
-         customData: {},
-      },
-      time: 0,
-   } as DeepRequiredIgnore<ILightRotationEventContainer, 'customData'>,
+   defaultValue,
    serialize(
       data: IWrapLightRotationEventAttribute,
    ): ILightRotationEventContainer {
@@ -38,14 +39,14 @@ export const lightRotationEvent: ISchemaContainer<
       data: DeepPartial<ILightRotationEventContainer> = {},
    ): Partial<IWrapLightRotationEventAttribute> {
       return {
-         time: data.time ?? this.defaultValue.time,
-         previous: data.data?.p ?? this.defaultValue.data.p,
-         easing: data.data?.e ?? this.defaultValue.data.e,
-         loop: data.data?.l ?? this.defaultValue.data.l,
-         rotation: data.data?.r ?? this.defaultValue.data.r,
-         direction: data.data?.d ?? this.defaultValue.data.d,
+         time: data.time ?? defaultValue.time,
+         previous: data.data?.p ?? defaultValue.data.p,
+         easing: data.data?.e ?? defaultValue.data.e,
+         loop: data.data?.l ?? defaultValue.data.l,
+         rotation: data.data?.r ?? defaultValue.data.r,
+         direction: data.data?.d ?? defaultValue.data.d,
          customData: deepCopy(
-            data.data?.customData ?? this.defaultValue.data.customData,
+            data.data?.customData ?? defaultValue.data.customData,
          ),
       };
    },

@@ -19,30 +19,31 @@ import { fxEventBoxGroup } from './fxEventBoxGroup.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
+const defaultValue = {
+   version: '3.3.0',
+   bpmEvents: [],
+   rotationEvents: [],
+   colorNotes: [],
+   bombNotes: [],
+   obstacles: [],
+   sliders: [],
+   burstSliders: [],
+   waypoints: [],
+   basicBeatmapEvents: [],
+   colorBoostBeatmapEvents: [],
+   lightColorEventBoxGroups: [],
+   lightRotationEventBoxGroups: [],
+   lightTranslationEventBoxGroups: [],
+   vfxEventBoxGroups: [],
+   _fxEventsCollection: { _fl: [], _il: [] },
+   basicEventTypesWithKeywords: {
+      d: [],
+   },
+   useNormalEventsAsCompatibleEvents: false,
+   customData: {},
+} as Required<IDifficulty>;
 export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = {
-   defaultValue: {
-      version: '3.3.0',
-      bpmEvents: [],
-      rotationEvents: [],
-      colorNotes: [],
-      bombNotes: [],
-      obstacles: [],
-      sliders: [],
-      burstSliders: [],
-      waypoints: [],
-      basicBeatmapEvents: [],
-      colorBoostBeatmapEvents: [],
-      lightColorEventBoxGroups: [],
-      lightRotationEventBoxGroups: [],
-      lightTranslationEventBoxGroups: [],
-      vfxEventBoxGroups: [],
-      _fxEventsCollection: { _fl: [], _il: [] },
-      basicEventTypesWithKeywords: {
-         d: [],
-      },
-      useNormalEventsAsCompatibleEvents: false,
-      customData: {},
-   } as Required<IDifficulty>,
+   defaultValue,
    serialize(data: IWrapBeatmapAttribute): Required<IDifficulty> {
       const json: Required<IDifficulty> = {
          version: '3.3.0',
@@ -98,7 +99,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       }
       return json;
    },
-   deserialize(
+   deserialize: function (
       data: DeepPartial<IDifficulty> = {},
    ): DeepPartial<IWrapBeatmapAttribute> {
       const d: DeepPartial<IWrapBeatmapAttribute> = {
@@ -106,51 +107,51 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          lightshow: {},
       };
       d.data!.bpmEvents = (
-         data.bpmEvents ?? this.defaultValue.bpmEvents
+         data.bpmEvents ?? defaultValue.bpmEvents
       ).map(bpmEvent.deserialize);
       d.data!.rotationEvents = (
-         data.rotationEvents ?? this.defaultValue.rotationEvents
+         data.rotationEvents ?? defaultValue.rotationEvents
       ).map(rotationEvent.deserialize);
       d.data!.colorNotes = (
-         data.colorNotes ?? this.defaultValue.colorNotes
+         data.colorNotes ?? defaultValue.colorNotes
       ).map(colorNote.deserialize);
       d.data!.bombNotes = (
-         data.bombNotes ?? this.defaultValue.bombNotes
+         data.bombNotes ?? defaultValue.bombNotes
       ).map(bombNote.deserialize);
       d.data!.obstacles = (
-         data.obstacles ?? this.defaultValue.obstacles
+         data.obstacles ?? defaultValue.obstacles
       ).map(obstacle.deserialize);
-      d.data!.arcs = (data.sliders ?? this.defaultValue.sliders).map(
+      d.data!.arcs = (data.sliders ?? defaultValue.sliders).map(
          arc.deserialize,
       );
       d.data!.chains = (
-         data.burstSliders ?? this.defaultValue.burstSliders
+         data.burstSliders ?? defaultValue.burstSliders
       ).map(chain.deserialize);
       d.lightshow!.waypoints = (
-         data.waypoints ?? this.defaultValue.waypoints
+         data.waypoints ?? defaultValue.waypoints
       ).map(waypoint.deserialize);
       d.lightshow!.basicEvents = (
-         data.basicBeatmapEvents ?? this.defaultValue.basicBeatmapEvents
+         data.basicBeatmapEvents ?? defaultValue.basicBeatmapEvents
       ).map(basicEvent.deserialize);
       d.lightshow!.colorBoostEvents = (
          data.colorBoostBeatmapEvents ??
-            this.defaultValue.colorBoostBeatmapEvents
+            defaultValue.colorBoostBeatmapEvents
       ).map(colorBoostEvent.deserialize);
       d.lightshow!.lightColorEventBoxGroups = (
          data.lightColorEventBoxGroups ??
-            this.defaultValue.lightColorEventBoxGroups
+            defaultValue.lightColorEventBoxGroups
       ).map(lightColorEventBoxGroup.deserialize);
       d.lightshow!.lightRotationEventBoxGroups = (
          data.lightRotationEventBoxGroups ??
-            this.defaultValue.lightRotationEventBoxGroups
+            defaultValue.lightRotationEventBoxGroups
       ).map(lightRotationEventBoxGroup.deserialize);
       d.lightshow!.lightTranslationEventBoxGroups = (
          data.lightTranslationEventBoxGroups ??
-            this.defaultValue.lightTranslationEventBoxGroups
+            defaultValue.lightTranslationEventBoxGroups
       ).map(lightTranslationEventBoxGroup.deserialize);
-      const fx = data._fxEventsCollection?._fl ?? this.defaultValue._fxEventsCollection._fl!;
+      const fx = data._fxEventsCollection?._fl ?? defaultValue._fxEventsCollection._fl!;
       d.lightshow!.fxEventBoxGroups = (
-         data.vfxEventBoxGroups ?? this.defaultValue.vfxEventBoxGroups
+         data.vfxEventBoxGroups ?? defaultValue.vfxEventBoxGroups
       ).map((obj) =>
          fxEventBoxGroup.deserialize({
             object: obj,
@@ -162,12 +163,12 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       );
       d.lightshow!.eventTypesWithKeywords = eventTypesWithKeywords.deserialize(
          data.basicEventTypesWithKeywords ??
-            this.defaultValue.basicEventTypesWithKeywords,
+            defaultValue.basicEventTypesWithKeywords,
       );
       d.lightshow!.useNormalEventsAsCompatibleEvents = data.useNormalEventsAsCompatibleEvents ??
-         this.defaultValue.useNormalEventsAsCompatibleEvents;
+         defaultValue.useNormalEventsAsCompatibleEvents;
       d.customData = deepCopy(
-         data.customData ?? this.defaultValue.customData,
+         data.customData ?? defaultValue.customData,
       );
       return d;
    },
