@@ -1,2 +1,2 @@
-export { dim, gray, red, yellow } from 'https://deno.land/std@0.217.0/fmt/colors.ts';
-export { resolve } from 'https://deno.land/std@0.217.0/path/mod.ts';
+export { dim, gray, red, yellow } from 'jsr:@std/fmt@0.224.0/colors';
+export { resolve } from 'jsr:@std/path@0.224.0/resolve';

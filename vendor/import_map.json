@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "jsr:@std/fmt@0.224.0/colors": "./jsr.io/@std/fmt/0.224.0/colors.ts",
+    "jsr:@std/path@0.224.0/resolve": "./jsr.io/@std/path/0.224.0/resolve.ts",
+    "https://jsr.io/": "./jsr.io/"
+  }
+}

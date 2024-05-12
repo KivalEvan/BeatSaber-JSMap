@@ -16,17 +16,16 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 ## Features
 
 - **Zero-dependency:** No dependency, run on any platform.
-- **Latest Schema:** Supports all official schema including modded.
-  - Supported beatmap versions are v4.0.0, v3.3.0, v2.6.0, v1.5.0.
-  - Backport minor version is not supported but can be done through custom postproccessing.
-- **Wrapper Attribute:** Readable and cross-version class attribute for seamless version
+- **Latest Schema:** Supports all official schema including modded features.
+  - Supported version: v4.0.0, v3.3.0, v2.6.0, v1.5.0.
+- **Version-agnostic Wrapper:** Readable and cross-version core allows for seamless version
   transferring.
 - **Partial Creation:** Define beatmap object partially and let default fill the rest of fields.
 - **Mod Compatible:** Chroma, Cinema, Noodle Extensions, and Mapping Extensions is supported out of
   the box.
-  - All helpers and classes (excluding method) around modded is only available in extensions
-    category.
-- **Modularity:** Import only what you need, be it classes, functions, and types.
+  - Helpers are available in main for essentials such as getting modded position.
+  - Class method may contain function parameter to access any arbitrary data.
+- **Tree-shakeable:** Modularity approach minimise build size.
 - **Built-in Utility:** Relevant utilities including math, colour, easings, and more.
 - **Validator & Optimiser:** Customisable tool ensuring beatmap schema is valid to the game and
   optimised for storage.
@@ -50,11 +49,11 @@ The bare minimum example:
 // ./Beat Saber/Beat_Saber Data/CustomWIPLevels/MAP_FOLDER/script.ts
 import * as bsmap from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
 
-const data = bsmap.load.beatmapSync('ExpertPlusStandard.dat', 4);
+const data = bsmap.readDifficultyFileSync('ExpertPlusStandard.dat', 4);
 
 // ... code to modify difficulty data
 
-bsmap.save.beatmapSync(data);
+bsmap.writeBeatmapFileSync(data, 4);
 ```
 
 > [!TIP]
@@ -130,7 +129,9 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 ## Known Issue
 
 - As beatmap module here is version agnostic, certain data such as bomb direction, info set custom
-  data, etc. are either renamed, restructured or unavailable
+  data, etc. are either renamed, restructured or unavailable.
+  - Certain beatmap version do not contain certain information in schema and are therefore not
+    present in-game.
 
 ## Credits & References
 

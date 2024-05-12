@@ -15,3 +15,13 @@ export const fs: IFileSystem = {
 };
 
 export default fs;
+
+// deno-lint-ignore no-explicit-any
+declare let Deno: any;
+// FIXME: this may need to be separated out in the future
+if (typeof Deno !== 'undefined') {
+   fs.readTextFile = Deno.readTextFile;
+   fs.readTextFileSync = Deno.readTextFileSync;
+   fs.writeTextFile = Deno.writeTextFile;
+   fs.writeTextFileSync = Deno.writeTextFileSync;
+}
