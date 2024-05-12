@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import logger from '../logger.ts';
-import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
 import type { IWriteOptions } from '../types/mod.ts';
 import { handleWrite, handleWriteSync, tag } from './_main.ts';
 
@@ -11,9 +11,9 @@ import { handleWrite, handleWriteSync, tag } from './_main.ts';
  * ```
  */
 export function writeInfoFile(
-   data: IWrapBeatmap,
+   data: IWrapInfo,
    version: number,
-   options?: IWriteOptions<IWrapBeatmap>,
+   options?: IWriteOptions<IWrapInfo>,
 ): Promise<Record<string, any>> {
    logger.tInfo(tag('writeInfoFile'), 'Async writing info file');
    return handleWrite('info', data, version, options);
@@ -26,9 +26,9 @@ export function writeInfoFile(
  * ```
  */
 export function writeInfoFileSync(
-   data: IWrapBeatmap,
+   data: IWrapInfo,
    version: number,
-   options?: IWriteOptions<IWrapBeatmap>,
+   options?: IWriteOptions<IWrapInfo>,
 ): Record<string, any> {
    logger.tInfo(tag('writeInfoFileSync'), 'Sync writing info file');
    return handleWriteSync('info', data, version, options);
