@@ -27,9 +27,13 @@ export function handleRead<T extends Record<string, any>>(
       opt.directory ?? (defaultOptions.directory || globals.directory),
       src,
    );
-   return readJSONFile(path).then((data) =>
-      loadBeatmap(type, data, ver, opt.load).setFilename(basename(path))
-   );
+   return readJSONFile(path)
+      .then((data) => loadBeatmap(type, data, ver, opt.load))
+      .then((d) => {
+         if (type === 'lightshow') d.setLightshowFilename(basename(path));
+         else d.setFilename(basename(path));
+         return d;
+      });
 }
 
 export function handleReadSync<T extends Record<string, any>>(
@@ -44,5 +48,13 @@ export function handleReadSync<T extends Record<string, any>>(
       opt.directory ?? (defaultOptions.directory || globals.directory),
       src,
    );
-   return loadBeatmap(type, readJSONFileSync(path), ver, opt.load).setFilename(basename(path));
+   const d = loadBeatmap(
+      type,
+      readJSONFileSync(path),
+      ver,
+      opt.load,
+   ).setFilename(basename(path));
+   if (type === 'lightshow') d.setLightshowFilename(basename(path));
+   else d.setFilename(basename(path));
+   return d;
 }
