@@ -1,17 +1,17 @@
 import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
 import type {
-   IWrapAudio,
-   IWrapAudioAttribute,
-   IWrapAudioBPM,
-   IWrapAudioLUFS,
+   IWrapAudioData,
+   IWrapAudioDataAttribute,
+   IWrapAudioDataBPM,
+   IWrapAudioDataLUFS,
 } from '../../types/beatmap/wrapper/audioData.ts';
 import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
 import type { DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
-export class AudioData extends BaseItem implements IWrapAudio {
-   static defaultValue: IWrapAudioAttribute = {
+export class AudioData extends BaseItem implements IWrapAudioData {
+   static defaultValue: IWrapAudioDataAttribute = {
       filename: 'AudioData.dat',
       audioChecksum: '',
       sampleCount: 44100,
@@ -21,10 +21,10 @@ export class AudioData extends BaseItem implements IWrapAudio {
       customData: {},
    };
 
-   static create(...data: DeepPartialIgnore<IWrapAudioAttribute, 'customData'>[]): AudioData[] {
+   static create(...data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'>[]): AudioData[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapAudioAttribute, 'customData'> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'> = {}) {
       super();
       this.filename = data.filename ?? AudioData.defaultValue.filename;
       this.audioChecksum = data.audioChecksum ?? AudioData.defaultValue.audioChecksum;
@@ -58,8 +58,8 @@ export class AudioData extends BaseItem implements IWrapAudio {
    audioChecksum: string;
    sampleCount: number;
    frequency: number;
-   bpmData: IWrapAudioBPM[];
-   lufsData: IWrapAudioLUFS[];
+   bpmData: IWrapAudioDataBPM[];
+   lufsData: IWrapAudioDataLUFS[];
 
    setFilename(filename: LooseAutocomplete<GenericFilename>): this {
       this.filename = filename;

@@ -1,7 +1,7 @@
 import type { GenericFilename } from '../types/beatmap/shared/filename.ts';
 import logger from '../logger.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
-import type { IWrapAudio } from '../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioData } from '../types/beatmap/wrapper/audioData.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';
 import { handleRead, handleReadSync, tag } from './_main.ts';
 
@@ -16,17 +16,17 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
 export function readAudioDataFile(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null,
-   options?: IReadOptions<IWrapAudio>,
-): Promise<IWrapAudio>;
+   options?: IReadOptions<IWrapAudioData>,
+): Promise<IWrapAudioData>;
 export function readAudioDataFile(
    path: LooseAutocomplete<GenericFilename>,
-   options?: IReadOptions<IWrapAudio>,
-): Promise<IWrapAudio>;
+   options?: IReadOptions<IWrapAudioData>,
+): Promise<IWrapAudioData>;
 export function readAudioDataFile(
    path: LooseAutocomplete<GenericFilename>,
-   version?: number | null | IReadOptions<IWrapAudio>,
-   options?: IReadOptions<IWrapAudio>,
-): Promise<IWrapAudio> {
+   version?: number | null | IReadOptions<IWrapAudioData>,
+   options?: IReadOptions<IWrapAudioData>,
+): Promise<IWrapAudioData> {
    logger.tInfo(tag('readAudioDataFile'), 'Async reading audio data file');
    return handleRead('audioData', path, version, options);
 }
@@ -43,17 +43,17 @@ export function readAudioDataFile(
 export function readAudioDataFileSync(
    path: LooseAutocomplete<GenericFilename>,
    version?: number | null,
-   options?: IReadOptions<IWrapAudio>,
-): IWrapAudio;
+   options?: IReadOptions<IWrapAudioData>,
+): IWrapAudioData;
 export function readAudioDataFileSync(
    path: LooseAutocomplete<GenericFilename>,
-   options?: IReadOptions<IWrapAudio>,
-): IWrapAudio;
+   options?: IReadOptions<IWrapAudioData>,
+): IWrapAudioData;
 export function readAudioDataFileSync(
    path: LooseAutocomplete<GenericFilename>,
-   version?: number | null | IReadOptions<IWrapAudio>,
-   options?: IReadOptions<IWrapAudio>,
-): IWrapAudio {
+   version?: number | null | IReadOptions<IWrapAudioData>,
+   options?: IReadOptions<IWrapAudioData>,
+): IWrapAudioData {
    logger.tInfo(tag('readAudioDataFileSync'), 'Sync reading audio data file');
    return handleReadSync('audioData', path, version, options);
 }

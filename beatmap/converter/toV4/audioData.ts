@@ -1,11 +1,11 @@
 import logger from '../../../logger.ts';
-import type { IWrapAudio } from '../../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioData } from '../../../types/beatmap/wrapper/audioData.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV4Audio', name];
 }
 
-export function toV4Audio(data: IWrapAudio, fromVersion: number): IWrapAudio {
+export function toV4Audio(data: IWrapAudioData, fromVersion: number): IWrapAudioData {
    logger.tWarn(tag('main'), 'Converting to beatmap v4 may lose certain data!');
 
    switch (fromVersion) {

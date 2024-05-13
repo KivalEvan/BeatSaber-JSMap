@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
-import type { IWrapAudio } from '../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
 import type { ILoadOptions } from '../../types/beatmap/options/loader.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import logger from '../../logger.ts';
@@ -46,8 +46,8 @@ export function loadBeatmap(
    type: 'audioData',
    json: Record<string, unknown>,
    targetVer?: number | null,
-   options?: ILoadOptions<IWrapAudio>,
-): IWrapAudio;
+   options?: ILoadOptions<IWrapAudioData>,
+): IWrapAudioData;
 export function loadBeatmap(
    type: 'lightshow',
    json: Record<string, unknown>,

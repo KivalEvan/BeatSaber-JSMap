@@ -1,6 +1,6 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IAudio } from '../../../types/beatmap/v4/audioData.ts';
-import type { IWrapAudioAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioDataAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
 const defaultValue = {
@@ -11,9 +11,9 @@ const defaultValue = {
    bpmData: [],
    lufsData: [],
 } as Required<IAudio>;
-export const audioData: ISchemaContainer<IWrapAudioAttribute, IAudio> = {
+export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IAudio> = {
    defaultValue,
-   serialize(data: IWrapAudioAttribute): IAudio {
+   serialize(data: IWrapAudioDataAttribute): IAudio {
       return {
          version: '4.0.0',
          songChecksum: data.audioChecksum,
@@ -34,7 +34,7 @@ export const audioData: ISchemaContainer<IWrapAudioAttribute, IAudio> = {
    },
    deserialize(
       data: DeepPartial<IAudio> = {},
-   ): DeepPartial<IWrapAudioAttribute> {
+   ): DeepPartial<IWrapAudioDataAttribute> {
       return {
          audioChecksum: data.songChecksum ?? audioData.defaultValue.songChecksum,
          sampleCount: data.songSampleCount ?? audioData.defaultValue.songSampleCount,
@@ -59,13 +59,13 @@ export const audioData: ISchemaContainer<IWrapAudioAttribute, IAudio> = {
    isValid(): boolean {
       return true;
    },
-   isChroma(_: IWrapAudioAttribute): boolean {
+   isChroma(_: IWrapAudioDataAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(_: IWrapAudioAttribute): boolean {
+   isNoodleExtensions(_: IWrapAudioDataAttribute): boolean {
       return false;
    },
-   isMappingExtensions(_: IWrapAudioAttribute): boolean {
+   isMappingExtensions(_: IWrapAudioDataAttribute): boolean {
       return false;
    },
 };

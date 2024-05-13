@@ -1,6 +1,6 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IBPMInfo } from '../../../types/beatmap/v2/bpmInfo.ts';
-import type { IWrapAudioAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioDataAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
 const defaultValue = {
@@ -9,9 +9,9 @@ const defaultValue = {
    _songFrequency: 0,
    _regions: [],
 } as Required<IBPMInfo>;
-export const audioData: ISchemaContainer<IWrapAudioAttribute, IBPMInfo> = {
+export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IBPMInfo> = {
    defaultValue,
-   serialize(data: IWrapAudioAttribute): IBPMInfo {
+   serialize(data: IWrapAudioDataAttribute): IBPMInfo {
       return {
          _version: '2.0.0',
          _songSampleCount: data.sampleCount,
@@ -26,7 +26,7 @@ export const audioData: ISchemaContainer<IWrapAudioAttribute, IBPMInfo> = {
    },
    deserialize(
       data: DeepPartial<IBPMInfo> = {},
-   ): DeepPartial<IWrapAudioAttribute> {
+   ): DeepPartial<IWrapAudioDataAttribute> {
       return {
          sampleCount: data._songSampleCount ?? defaultValue._songSampleCount,
          frequency: data._songFrequency ?? defaultValue._songFrequency,
@@ -38,16 +38,16 @@ export const audioData: ISchemaContainer<IWrapAudioAttribute, IBPMInfo> = {
          })),
       };
    },
-   isValid(_: IWrapAudioAttribute): boolean {
+   isValid(_: IWrapAudioDataAttribute): boolean {
       return true;
    },
-   isChroma(_: IWrapAudioAttribute): boolean {
+   isChroma(_: IWrapAudioDataAttribute): boolean {
       return false;
    },
-   isNoodleExtensions(_: IWrapAudioAttribute): boolean {
+   isNoodleExtensions(_: IWrapAudioDataAttribute): boolean {
       return false;
    },
-   isMappingExtensions(_: IWrapAudioAttribute): boolean {
+   isMappingExtensions(_: IWrapAudioDataAttribute): boolean {
       return false;
    },
 };

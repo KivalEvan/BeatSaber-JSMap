@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import logger from '../../logger.ts';
-import type { IWrapAudio } from '../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
 import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
 import { saveBeatmap, tag } from './_main.ts';
 
@@ -14,9 +14,9 @@ import { saveBeatmap, tag } from './_main.ts';
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function saveAudioData<T extends Record<string, any>>(
-   data: IWrapAudio,
+   data: IWrapAudioData,
    version: number,
-   options?: ISaveOptions<IWrapAudio>,
+   options?: ISaveOptions<IWrapAudioData>,
 ): T {
    logger.tInfo(tag('saveAudioData'), 'Saving audio data to JSON');
    return saveBeatmap<T>('audioData', data, version, options);

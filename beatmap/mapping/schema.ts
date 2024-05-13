@@ -12,7 +12,7 @@ import { lightshow as V4Lightshow } from '../schema/v4/lightshow.ts';
 import type { ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
 import type { IWrapInfoAttribute } from '../../types/beatmap/wrapper/info.ts';
 import type { IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapAudioAttribute } from '../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioDataAttribute } from '../../types/beatmap/wrapper/audioData.ts';
 
 export const infoSchemaMap: Record<
    number,
@@ -25,7 +25,7 @@ export const infoSchemaMap: Record<
 
 export const audioDataSchemaMap: Record<
    number,
-   ISchemaContainer<IWrapAudioAttribute>
+   ISchemaContainer<IWrapAudioDataAttribute>
 > = {
    2: V2AudioData,
    4: V4AudioData,

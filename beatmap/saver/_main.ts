@@ -3,7 +3,7 @@ import logger from '../../logger.ts';
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
 import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
-import type { IWrapAudio } from '../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapBeatmapFile } from '../../types/beatmap/wrapper/baseFile.ts';
 import { validateJSON } from '../schema/validator/main.ts';
@@ -58,9 +58,9 @@ export function saveBeatmap<TSerial extends { [key: string]: any }>(
 ): TSerial;
 export function saveBeatmap<TSerial extends { [key: string]: any }>(
    type: 'audioData',
-   data: IWrapAudio,
+   data: IWrapAudioData,
    version: number,
-   options?: ISaveOptions<IWrapAudio>,
+   options?: ISaveOptions<IWrapAudioData>,
 ): TSerial;
 export function saveBeatmap<TSerial extends { [key: string]: any }>(
    type: 'lightshow',
