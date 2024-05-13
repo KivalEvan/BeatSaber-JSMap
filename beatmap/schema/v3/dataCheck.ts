@@ -29,7 +29,6 @@ import type { IFxEventsCollection } from '../../../types/beatmap/v3/fxEventsColl
 import type { IFxEventFloat } from '../../../types/beatmap/v3/fxEventFloat.ts';
 import type { IFxEventInt } from '../../../types/beatmap/v3/fxEventInt.ts';
 
-// FIXME: ALMOST EVERYTHING HERE IS IFUCKIN OPTIONAL REE
 export const ColorNoteDataCheck: {
    readonly [key in keyof IColorNote]: IDataCheck;
 } = {

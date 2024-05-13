@@ -81,7 +81,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             _il: [],
          },
          useNormalEventsAsCompatibleEvents: data.lightshow.useNormalEventsAsCompatibleEvents,
-         customData: deepCopy(data.customData),
+         customData: deepCopy(data.data.customData),
       };
       for (
          const obj of data.lightshow.fxEventBoxGroups.map(
