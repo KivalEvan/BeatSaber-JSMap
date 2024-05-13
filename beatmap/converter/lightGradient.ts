@@ -1,12 +1,12 @@
-import logger from '../../../logger.ts';
-import { EasingsFn } from '../../../utils/easings.ts';
-import { lerpColor } from '../../../utils/colors.ts';
-import { normalize } from '../../../utils/math.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { IChromaLightGradient } from '../../../types/beatmap/v2/custom/chroma.ts';
-import type { IWrapEvent } from '../../../types/beatmap/wrapper/event.ts';
-import type { Easings } from '../../../types/easings.ts';
-import { BasicEvent } from '../../core/event.ts';
+import logger from '../../logger.ts';
+import { EasingsFn } from '../../utils/easings.ts';
+import { lerpColor } from '../../utils/colors.ts';
+import { normalize } from '../../utils/math.ts';
+import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IChromaLightGradient } from '../../types/beatmap/v2/custom/chroma.ts';
+import type { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
+import type { Easings } from '../../types/easings.ts';
+import { BasicEvent } from '../core/event.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];

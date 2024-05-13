@@ -1,9 +1,9 @@
-import logger from '../../../logger.ts';
-import type { ColorArray } from '../../../types/colors.ts';
-import { ColorScheme, EnvironmentSchemeName } from '../../shared/colorScheme.ts';
-import type { EnvironmentAllName } from '../../../types/beatmap/shared/environment.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapEvent } from '../../../types/beatmap/wrapper/event.ts';
+import logger from '../../logger.ts';
+import type { ColorArray } from '../../types/colors.ts';
+import { ColorScheme, EnvironmentSchemeName } from '../shared/colorScheme.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapEvent } from '../../types/beatmap/wrapper/event.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -62,10 +62,10 @@ export function ogChromaToV2Chroma<T extends IWrapBeatmap>(
       }
       if (ev.value !== 0 && !(ev.value >= 2000000000)) {
          if (ev.customData && !ev.customData._color) {
-            ev.customData.color = currentColor[ev.type];
+            ev.customData.color = currentColor[ev.type]!;
          }
          if (!ev.customData) {
-            ev.customData = { color: currentColor[ev.type] };
+            ev.customData = { color: currentColor[ev.type]! };
          }
       }
       if (!(ev.value >= 2000000000)) {

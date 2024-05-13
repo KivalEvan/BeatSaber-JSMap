@@ -1,3 +1,4 @@
+export * from './abstract/mod.ts';
 export * from './arc.ts';
 export * from './audioData.ts';
 export * from './abstract/baseNote.ts';

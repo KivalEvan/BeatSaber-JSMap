@@ -4,6 +4,7 @@
  * @module
  */
 
+export * from './converter/mod.ts';
 export * from './core/mod.ts';
 export * from './loader/mod.ts';
 export * as mapping from './mapping/mod.ts';
