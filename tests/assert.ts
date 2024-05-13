@@ -2,7 +2,7 @@
 import { assertAlmostEquals, assertEquals, AssertionError } from './deps.ts';
 import { EPSILON } from './constants.ts';
 
-export function assertClassObjectMatch(
+export function assertObjectMatch(
    actual: Record<PropertyKey, any>,
    expected: Record<PropertyKey, any>,
    msg?: string,
@@ -25,7 +25,7 @@ export function assertClassObjectMatch(
                   assertEquals(original, compare, msg?.concat(':', key));
                } else {
                   original.forEach((_, i) =>
-                     assertClassObjectMatch(original[i], compare[i], msg?.concat(':', key))
+                     assertObjectMatch(original[i], compare[i], msg?.concat(':', key))
                   );
                }
             } else throw new AssertionError(msg ?? `expected ${key} to be array`);
@@ -33,7 +33,7 @@ export function assertClassObjectMatch(
          }
          if (!Array.isArray(original) && typeof original === 'object') {
             if (!Array.isArray(compare) && typeof compare === 'object') {
-               assertClassObjectMatch(original, compare, msg);
+               assertObjectMatch(original, compare, msg);
             } else throw new AssertionError(msg ?? `expected ${key} to be object`);
             continue;
          }

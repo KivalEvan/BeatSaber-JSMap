@@ -1,42 +1,44 @@
-import { assertEquals, types, v3, v4 } from '../deps.ts';
-import { assertClassObjectMatch } from '../assert.ts';
+import { IndexFilter, assertEquals, v3, v4 } from '../deps.ts';
+import { assertObjectMatch } from '../assert.ts';
 
-const classList = [
-   [v4.IndexFilter, 'V4 Index Filter'],
-   [v3.IndexFilter, 'V3 Index Filter'],
+const schemaList = [
+   [v4.indexFilter, 'V4 Index Filter'],
+   [v3.indexFilter, 'V3 Index Filter'],
 ] as const;
-const defaultValue: types.wrapper.IWrapIndexFilterAttribute = {
-   type: 1,
-   p0: 0,
-   p1: 0,
-   reverse: 0,
-   chunks: 0,
-   random: 0,
-   seed: 0,
-   limit: 0,
-   limitAffectsType: 0,
-   customData: {},
-};
+const BaseClass = IndexFilter;
+const defaultValue = IndexFilter.defaultValue;
+const nameTag = 'Index Filter';
 
-for (const tup of classList) {
-   const nameTag = tup[1];
-   const Class = tup[0];
-   Deno.test(`${nameTag} constructor & create instantiation`, () => {
-      let obj = new Class();
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected default value for ${nameTag}`,
-      );
+Deno.test(`${nameTag} constructor & create instantiation`, () => {
+   let obj = new BaseClass();
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected default value for ${nameTag}`,
+   );
 
-      obj = Class.create();
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected static create default value for ${nameTag}`,
-      );
+   obj = BaseClass.create()[0];
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected static create default value for ${nameTag}`,
+   );
 
-      obj = new Class({
+   obj = new BaseClass({
+      type: 2,
+      p0: 1,
+      p1: 2,
+      reverse: 1,
+      chunks: 4,
+      random: 2,
+      seed: 12345,
+      limit: 1,
+      limitAffectsType: 3,
+      customData: { test: true },
+   });
+   assertObjectMatch(
+      obj,
+      {
          type: 2,
          p0: 1,
          p1: 2,
@@ -47,55 +49,44 @@ for (const tup of classList) {
          limit: 1,
          limitAffectsType: 3,
          customData: { test: true },
-      });
-      assertClassObjectMatch(
-         obj,
-         {
-            type: 2,
-            p0: 1,
-            p1: 2,
-            reverse: 1,
-            chunks: 4,
-            random: 2,
-            seed: 12345,
-            limit: 1,
-            limitAffectsType: 3,
-            customData: { test: true },
-         },
-         `Unexpected instantiated value for ${nameTag}`,
-      );
+      },
+      `Unexpected instantiated value for ${nameTag}`,
+   );
 
-      obj = new Class({
+   obj = new BaseClass({
+      type: 2,
+      reverse: 1,
+      chunks: 4,
+      limitAffectsType: 3,
+   });
+   assertObjectMatch(
+      obj,
+      {
+         ...defaultValue,
          type: 2,
          reverse: 1,
          chunks: 4,
          limitAffectsType: 3,
-      });
-      assertClassObjectMatch(
-         obj,
-         {
-            ...defaultValue,
-            type: 2,
-            reverse: 1,
-            chunks: 4,
-            limitAffectsType: 3,
-         },
-         `Unexpected partially instantiated value for ${nameTag}`,
-      );
-   });
+      },
+      `Unexpected partially instantiated value for ${nameTag}`,
+   );
+});
 
+for (const tup of schemaList) {
+   const nameTag = tup[1];
+   const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = Class.fromJSON();
-      assertClassObjectMatch(
+      let obj = new BaseClass(schema.deserialize());
+      assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (Class) {
-         case v4.IndexFilter:
-         case v3.IndexFilter:
-            obj = Class.fromJSON({
+      switch (schema) {
+         case v4.indexFilter:
+         case v3.indexFilter:
+            obj = new BaseClass(schema.deserialize({
                f: 2,
                p: 1,
                t: 2,
@@ -106,10 +97,10 @@ for (const tup of classList) {
                l: 1,
                d: 3,
                customData: { test: true },
-            });
+            }));
             break;
       }
-      assertClassObjectMatch(
+      assertObjectMatch(
          obj,
          {
             type: 2,
@@ -126,17 +117,17 @@ for (const tup of classList) {
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (Class) {
-         case v4.IndexFilter:
-         case v3.IndexFilter:
-            obj = Class.fromJSON({
+      switch (schema) {
+         case v4.indexFilter:
+         case v3.indexFilter:
+            obj = new BaseClass(schema.deserialize({
                f: 2,
                p: 1,
                n: 2,
-            });
+            }));
             break;
       }
-      assertClassObjectMatch(
+      assertObjectMatch(
          obj,
          {
             ...defaultValue,
@@ -149,11 +140,11 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} to JSON object`, () => {
-      const obj = new Class({ customData: { test: true } });
-      const json = obj.toJSON();
-      switch (Class) {
-         case v4.IndexFilter:
-         case v3.IndexFilter:
+      const obj = new BaseClass({ customData: { test: true } });
+      const json = schema.serialize(obj);
+      switch (schema) {
+         case v4.indexFilter:
+         case v3.indexFilter:
             assertEquals(json, {
                f: 1,
                p: 0,

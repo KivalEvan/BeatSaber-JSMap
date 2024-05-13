@@ -1,186 +1,188 @@
-import { assertEquals, types, v1, v2, v3, v4 } from '../deps.ts';
-import { assertClassObjectMatch } from '../assert.ts';
+import { assertEquals, BasicEvent, v1, v2, v3, v4 } from '../deps.ts';
+import { assertObjectMatch } from '../assert.ts';
 
-const classList = [
-   [v4.BasicEvent, 'V4 Basic Event'],
-   [v3.BasicEvent, 'V3 Basic Event'],
-   [v2.Event, 'V2 Event'],
-   [v1.Event, 'V1 Event'],
+const schemaList = [
+   [v4.basicEvent, 'V4 Basic Event'],
+   [v3.basicEvent, 'V3 Basic Event'],
+   [v2.basicEvent, 'V2 Event'],
+   [v1.basicEvent, 'V1 Event'],
 ] as const;
-const defaultValue: types.wrapper.IWrapEventAttribute = {
-   time: 0,
-   type: 0,
-   value: 0,
-   floatValue: 0,
-   customData: {},
-};
+const BaseClass = BasicEvent;
+const defaultValue = BasicEvent.defaultValue;
+const nameTag = 'Basic Event';
 
-for (const tup of classList) {
-   const nameTag = tup[1];
-   const Class = tup[0];
-   Deno.test(`${nameTag} constructor & create instantiation`, () => {
-      let obj = new Class();
-      assertClassObjectMatch(
-         obj,
-         { ...defaultValue, floatValue: obj instanceof v1.Event ? 1 : 0 },
-         `Unexpected default value for ${nameTag}`,
-      );
+Deno.test(`${nameTag} constructor & create instantiation`, () => {
+   let obj = new BaseClass();
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected default value for ${nameTag}`,
+   );
 
-      obj = Class.create()[0];
-      assertClassObjectMatch(
-         obj,
-         { ...defaultValue, floatValue: obj instanceof v1.Event ? 1 : 0 },
-         `Unexpected static create default value for ${nameTag}`,
-      );
+   obj = BaseClass.create()[0];
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected static create default value for ${nameTag}`,
+   );
 
-      obj = Class.create({}, {})[1];
-      assertClassObjectMatch(
-         obj,
-         { ...defaultValue, floatValue: obj instanceof v1.Event ? 1 : 0 },
-         `Unexpected static create from array default value for ${nameTag}`,
-      );
+   obj = BaseClass.create({}, {})[1];
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected static create from array default value for ${nameTag}`,
+   );
 
-      obj = new Class({
+   obj = new BaseClass({
+      time: 1,
+      type: 5,
+      value: 1,
+      floatValue: 0.5,
+      customData: { test: true },
+   });
+   assertObjectMatch(
+      obj,
+      {
          time: 1,
          type: 5,
          value: 1,
          floatValue: 0.5,
          customData: { test: true },
-      });
-      if (obj instanceof v1.Event) {
-         assertClassObjectMatch(
-            obj,
-            { time: 1, type: 5, value: 1, floatValue: 1, customData: {} },
-            `Unexpected instantiated value for ${nameTag}`,
-         );
-      } else {
-         assertClassObjectMatch(
-            obj,
-            {
-               time: 1,
-               type: 5,
-               value: 1,
-               floatValue: 0.5,
-               customData: { test: true },
-            },
-            `Unexpected instantiated value for ${nameTag}`,
-         );
-      }
+      },
+      `Unexpected instantiated value for ${nameTag}`,
+   );
 
-      obj = new Class({ time: 4, type: 2 });
-      assertClassObjectMatch(
-         obj,
-         {
-            ...defaultValue,
-            time: 4,
-            type: 2,
-            floatValue: Class === v1.Event ? 1 : 0,
-         },
-         `Unexpected partially instantiated value for ${nameTag}`,
-      );
-   });
+   obj = new BaseClass({ time: 4, type: 2 });
+   assertObjectMatch(
+      obj,
+      {
+         ...defaultValue,
+         time: 4,
+         type: 2,
+         floatValue: 0,
+      },
+      `Unexpected partially instantiated value for ${nameTag}`,
+   );
+});
 
+for (const tup of schemaList) {
+   const nameTag = tup[1];
+   const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = Class.fromJSON();
-      assertClassObjectMatch(
+      let obj = new BaseClass(schema.deserialize());
+      assertObjectMatch(
          obj,
-         { ...defaultValue, floatValue: Class === v1.Event ? 1 : 0 },
+         { ...defaultValue, floatValue: schema === v1.basicEvent ? 1 : 0 },
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (Class) {
-         case v4.BasicEvent:
-            obj = Class.fromJSON(
-               {
+      switch (schema) {
+         case v4.basicEvent:
+            obj = new BaseClass(
+               schema.deserialize({
+                  object: {
+                     b: 1,
+                     i: 0,
+                  },
+                  data: {
+                     t: 4,
+                     i: 2,
+                     f: 0.5,
+                     customData: { test: true },
+                  },
+               }),
+            );
+            break;
+         case v3.basicEvent:
+            obj = new BaseClass(
+               schema.deserialize({
                   b: 1,
-                  i: 0,
-               },
-               {
-                  t: 4,
+                  et: 4,
                   i: 2,
                   f: 0.5,
                   customData: { test: true },
-               },
+               }),
             );
             break;
-         case v3.BasicEvent:
-            obj = Class.fromJSON({
-               b: 1,
-               et: 4,
-               i: 2,
-               f: 0.5,
-               customData: { test: true },
-            });
+         case v2.basicEvent:
+            obj = new BaseClass(
+               schema.deserialize({
+                  _time: 1,
+                  _type: 4,
+                  _value: 2,
+                  _floatValue: 0.5,
+                  _customData: { test: true },
+               }),
+            );
             break;
-         case v2.Event:
-            obj = Class.fromJSON({
-               _time: 1,
-               _type: 4,
-               _value: 2,
-               _floatValue: 0.5,
-               _customData: { test: true },
-            });
-            break;
-         case v1.Event:
-            obj = Class.fromJSON({ _time: 1, _type: 4, _value: 2 });
+         case v1.basicEvent:
+            obj = new BaseClass(
+               schema.deserialize({ _time: 1, _type: 4, _value: 2 }),
+            );
             break;
       }
-      assertClassObjectMatch(
+      assertObjectMatch(
          obj,
          {
             time: 1,
             type: 4,
             value: 2,
-            floatValue: Class === v1.Event ? 1 : 0.5,
-            customData: Class === v1.Event ? {} : { test: true },
+            floatValue: schema === v1.basicEvent ? 1 : 0.5,
+            customData: schema === v1.basicEvent ? {} : { test: true },
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (Class) {
-         case v4.BasicEvent:
-            obj = Class.fromJSON(
-               {
-                  b: 1,
-               },
-               {
-                  t: 4,
-               },
+      switch (schema) {
+         case v4.basicEvent:
+            obj = new BaseClass(
+               schema.deserialize({
+                  object: {
+                     b: 1,
+                  },
+                  data: {
+                     t: 4,
+                  },
+               }),
             );
             break;
-         case v3.BasicEvent:
-            obj = Class.fromJSON({
-               b: 1,
-               et: 4,
-            });
+         case v3.basicEvent:
+            obj = new BaseClass(
+               schema.deserialize({
+                  b: 1,
+                  et: 4,
+               }),
+            );
             break;
-         case v2.Event:
-            obj = Class.fromJSON({
-               _time: 1,
-               _type: 4,
-            });
+         case v2.basicEvent:
+            obj = new BaseClass(
+               schema.deserialize({
+                  _time: 1,
+                  _type: 4,
+               }),
+            );
             break;
-         case v1.Event:
-            obj = Class.fromJSON({ _time: 1, _type: 4 });
+         case v1.basicEvent:
+            obj = new BaseClass(schema.deserialize({ _time: 1, _type: 4 }));
             break;
       }
-      assertClassObjectMatch(
+      assertObjectMatch(
          obj,
          {
             ...defaultValue,
             time: 1,
             type: 4,
-            floatValue: obj instanceof v1.Event ? 1 : 0,
+            floatValue: schema === v1.basicEvent ? 1 : 0,
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
    });
 
    Deno.test(`${nameTag} to JSON object`, () => {
-      const obj = new Class({ customData: { test: true } });
-      const json = obj.toJSON();
-      switch (Class) {
-         case v4.BasicEvent:
+      const obj = new BaseClass({ customData: { test: true } });
+      const json = schema.serialize(obj);
+      switch (schema) {
+         case v4.basicEvent:
             assertEquals(json, {
                object: { b: 0, i: 0, customData: {} },
                data: {
@@ -191,7 +193,7 @@ for (const tup of classList) {
                },
             });
             break;
-         case v3.BasicEvent:
+         case v3.basicEvent:
             assertEquals(json, {
                b: 0,
                et: 0,
@@ -200,8 +202,8 @@ for (const tup of classList) {
                customData: { test: true },
             });
             break;
-         case v2.Event:
-            assertEquals(json as types.v2.IEvent, {
+         case v2.basicEvent:
+            assertEquals(json, {
                _time: 0,
                _type: 0,
                _value: 0,
@@ -209,7 +211,7 @@ for (const tup of classList) {
                _customData: { test: true },
             });
             break;
-         case v1.Event:
+         case v1.basicEvent:
             assertEquals(json, { _time: 0, _type: 0, _value: 0 });
             break;
       }

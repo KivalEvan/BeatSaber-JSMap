@@ -1,5 +1,5 @@
 import { EPSILON } from '../../constants.ts';
-import { assertAlmostEquals, assertEquals, TimeProcessor, types } from '../../deps.ts';
+import { assertAlmostEquals, assertEquals, TimeProcessor, type types } from '../../deps.ts';
 
 Deno.test('BPM create instance from constructor', () => {
    const bpm0 = new TimeProcessor(128);

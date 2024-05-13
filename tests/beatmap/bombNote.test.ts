@@ -1,112 +1,137 @@
-import { assertEquals, types, v3, v4 } from '../deps.ts';
-import { assertClassObjectMatch } from '../assert.ts';
+import { assertEquals, BombNote, v1, v2, v3, v4 } from '../deps.ts';
+import { assertObjectMatch } from '../assert.ts';
 
-const classList = [
-   [v4.BombNote, 'V4 Bomb Note'],
-   [v3.BombNote, 'V3 Bomb Note'],
+const schemaList = [
+   [v4.bombNote, 'V4 Bomb Note'],
+   [v3.bombNote, 'V3 Bomb Note'],
+   [v2.bombNote, 'V2 Bomb Note'],
+   [v1.bombNote, 'V1 Bomb Note'],
 ] as const;
-const defaultValue: types.wrapper.IWrapBombNoteAttribute = {
-   time: 0,
-   posX: 0,
-   posY: 0,
-   laneRotation: 0,
-   customData: {},
-};
+const BaseClass = BombNote;
+const defaultValue = BombNote.defaultValue;
+const nameTag = 'Bomb Note';
 
-for (const tup of classList) {
-   const nameTag = tup[1];
-   const Class = tup[0];
-   Deno.test(`${nameTag} constructor & create instantiation`, () => {
-      let obj = new Class();
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected default value for ${nameTag}`,
-      );
+Deno.test(`${nameTag} constructor & create instantiation`, () => {
+   let obj = new BaseClass();
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected default value for ${nameTag}`,
+   );
 
-      obj = Class.create()[0];
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected static create default value for ${nameTag}`,
-      );
+   obj = BaseClass.create()[0];
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected static create default value for ${nameTag}`,
+   );
 
-      obj = Class.create({}, {})[1];
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected static create from array default value for ${nameTag}`,
-      );
+   obj = BaseClass.create({}, {})[1];
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected static create from array default value for ${nameTag}`,
+   );
 
-      obj = new Class({
-         time: 1,
-         posX: 3,
-         posY: 4,
-         customData: { test: true },
-      });
-      assertClassObjectMatch(
-         obj,
-         { time: 1, posX: 3, posY: 4, customData: { test: true } },
-         `Unexpected instantiated value for ${nameTag}`,
-      );
-
-      obj = new Class({ time: 4, posY: 2 });
-      assertClassObjectMatch(
-         obj,
-         { ...defaultValue, time: 4, posY: 2 },
-         `Unexpected partially instantiated value for ${nameTag}`,
-      );
+   obj = new BaseClass({
+      time: 1,
+      posX: 3,
+      posY: 4,
+      customData: { test: true },
    });
+   assertObjectMatch(
+      obj,
+      { time: 1, posX: 3, posY: 4, customData: { test: true } },
+      `Unexpected instantiated value for ${nameTag}`,
+   );
 
+   obj = new BaseClass({ time: 4, posY: 2 });
+   assertObjectMatch(
+      obj,
+      { ...defaultValue, time: 4, posY: 2 },
+      `Unexpected partially instantiated value for ${nameTag}`,
+   );
+});
+
+for (const tup of schemaList) {
+   const nameTag = tup[1];
+   const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = Class.fromJSON();
-      assertClassObjectMatch(
+      let obj = new BaseClass(schema.deserialize());
+      assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (Class) {
-         case v4.BombNote:
-            obj = Class.fromJSON(
-               { b: 1, i: 0, r: 15 },
-               { x: 3, y: 4, customData: { test: true } },
+      switch (schema) {
+         case v4.bombNote:
+            obj = new BaseClass(
+               schema.deserialize({
+                  object: { b: 1, i: 0, r: 15 },
+                  data: { x: 3, y: 4, customData: { test: true } },
+               }),
             );
             break;
-         case v3.BombNote:
-            obj = Class.fromJSON({
-               b: 1,
-               x: 3,
-               y: 4,
-               customData: { test: true },
-            });
+         case v3.bombNote:
+            obj = new BaseClass(
+               schema.deserialize({
+                  b: 1,
+                  x: 3,
+                  y: 4,
+                  customData: { test: true },
+               }),
+            );
+            break;
+         case v2.bombNote:
+         case v1.bombNote:
+            obj = new BaseClass(
+               schema.deserialize({
+                  _time: 1,
+                  _lineIndex: 3,
+                  _lineLayer: 4,
+                  _customData: { test: true },
+               }),
+            );
             break;
       }
-      assertClassObjectMatch(
+      assertObjectMatch(
          obj,
          {
             time: 1,
             posX: 3,
             posY: 4,
-            laneRotation: Class === v3.BombNote ? 0 : 15,
-            customData: { test: true },
+            laneRotation: schema === v4.bombNote ? 15 : 0,
+            customData: schema === v1.bombNote ? {} : { test: true },
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (Class) {
-         case v4.BombNote:
-            obj = Class.fromJSON({ b: 1 }, { x: 3 });
+      switch (schema) {
+         case v4.bombNote:
+            obj = new BaseClass(
+               schema.deserialize({ object: { b: 1 }, data: { x: 3 } }),
+            );
             break;
-         case v3.BombNote:
-            obj = Class.fromJSON({
-               b: 1,
-               x: 3,
-               customData: { test: true },
-            });
+         case v3.bombNote:
+            obj = new BaseClass(
+               schema.deserialize({
+                  b: 1,
+                  x: 3,
+               }),
+            );
+            break;
+         case v2.bombNote:
+         case v1.bombNote:
+            obj = new BaseClass(
+               schema.deserialize({
+                  _time: 1,
+                  _lineIndex: 3,
+               }),
+            );
             break;
       }
-      assertClassObjectMatch(
+      assertObjectMatch(
          obj,
          {
             ...defaultValue,
@@ -118,21 +143,40 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} to JSON object`, () => {
-      const obj = new Class({ customData: { test: true } });
-      const json = obj.toJSON();
-      switch (Class) {
-         case v4.BombNote:
+      const obj = new BaseClass({ customData: { test: true } });
+      const json = schema.serialize(obj);
+      switch (schema) {
+         case v4.bombNote:
             assertEquals(json, {
                object: { b: 0, i: 0, r: 0, customData: {} },
                data: { x: 0, y: 0, customData: { test: true } },
             });
             break;
-         case v3.BombNote:
+         case v3.bombNote:
             assertEquals(json, {
                b: 0,
                x: 0,
                y: 0,
                customData: { test: true },
+            });
+            break;
+         case v2.bombNote:
+            assertEquals(json, {
+               _time: 0,
+               _lineIndex: 0,
+               _lineLayer: 0,
+               _type: 3,
+               _cutDirection: 0,
+               _customData: { test: true },
+            });
+            break;
+         case v1.bombNote:
+            assertEquals(json, {
+               _time: 0,
+               _lineIndex: 0,
+               _lineLayer: 0,
+               _type: 3,
+               _cutDirection: 0,
             });
             break;
       }

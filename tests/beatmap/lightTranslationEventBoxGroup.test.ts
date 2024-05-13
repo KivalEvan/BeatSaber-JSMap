@@ -1,43 +1,84 @@
-import { assertEquals, types, v3, v4 } from '../deps.ts';
-import { assertClassObjectMatch } from '../assert.ts';
+import {
+   LightTranslationEventBoxGroup,
+   assertEquals,
+   types,
+   v3,
+   v4,
+} from '../deps.ts';
+import { assertObjectMatch } from '../assert.ts';
 
-const classList = [
-   [v4.LightTranslationEventBoxGroup, 'V4 Light Translation Event Box Group'],
-   [v3.LightTranslationEventBoxGroup, 'V3 Light Translation Event Box Group'],
+const schemaList = [
+   [v4.lightTranslationEventBoxGroup, 'V4 Light Translation Event Box Group'],
+   [v3.lightTranslationEventBoxGroup, 'V3 Light Translation Event Box Group'],
 ] as const;
-const defaultValue: types.wrapper.IWrapLightTranslationEventBoxGroupAttribute = {
-   time: 0,
-   id: 0,
-   boxes: [],
-   customData: {},
-};
+const BaseClass = LightTranslationEventBoxGroup;
+const defaultValue = LightTranslationEventBoxGroup.defaultValue;
+const nameTag = 'Light Translation Event Box Group';
 
-for (const tup of classList) {
-   const nameTag = tup[1];
-   const Class = tup[0];
-   Deno.test(`${nameTag} constructor & create instantiation`, () => {
-      let obj = new Class();
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected default value for ${nameTag}`,
-      );
+Deno.test(`${nameTag} constructor & create instantiation`, () => {
+   let obj = new BaseClass();
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected default value for ${nameTag}`
+   );
 
-      obj = Class.create()[0];
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected static create default value for ${nameTag}`,
-      );
+   obj = BaseClass.create()[0];
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected static create default value for ${nameTag}`
+   );
 
-      obj = Class.create({}, {})[1];
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected static create from array default value for ${nameTag}`,
-      );
+   obj = BaseClass.create({}, {})[1];
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected static create from array default value for ${nameTag}`
+   );
 
-      obj = new Class({
+   obj = new BaseClass({
+      time: 1,
+      id: 2,
+      boxes: [
+         {
+            filter: {
+               type: 2,
+               p0: 1,
+               p1: 2,
+               reverse: 1,
+               chunks: 4,
+               random: 2,
+               seed: 12345,
+               limit: 1,
+               limitAffectsType: 3,
+               customData: { test1: true },
+            },
+            beatDistribution: 1,
+            beatDistributionType: 2,
+            gapDistribution: 1,
+            gapDistributionType: 2,
+            axis: 2,
+            flip: 1,
+            affectFirst: 1,
+            easing: 2,
+            events: [
+               {
+                  time: 1,
+                  previous: 1,
+                  easing: 2,
+                  translation: 100,
+                  customData: { test2: true },
+               },
+            ],
+            customData: { test3: true },
+         },
+      ],
+      customData: { test: true },
+   });
+   assertObjectMatch(
+      obj,
+      {
          time: 1,
          id: 2,
          boxes: [
@@ -75,222 +116,190 @@ for (const tup of classList) {
             },
          ],
          customData: { test: true },
-      });
-      assertClassObjectMatch(
-         obj,
+      },
+      `Unexpected instantiated value for ${nameTag}`
+   );
+
+   obj = new BaseClass({
+      time: 1,
+      boxes: [
          {
-            time: 1,
-            id: 2,
-            boxes: [
+            filter: {
+               type: 2,
+               reverse: 1,
+               chunks: 4,
+               limitAffectsType: 3,
+            },
+            beatDistribution: 1,
+            affectFirst: 1,
+            easing: 2,
+            events: [
                {
-                  filter: {
-                     type: 2,
-                     p0: 1,
-                     p1: 2,
-                     reverse: 1,
-                     chunks: 4,
-                     random: 2,
-                     seed: 12345,
-                     limit: 1,
-                     limitAffectsType: 3,
-                     customData: { test1: true },
-                  },
-                  beatDistribution: 1,
-                  beatDistributionType: 2,
-                  gapDistribution: 1,
-                  gapDistributionType: 2,
-                  axis: 2,
-                  flip: 1,
-                  affectFirst: 1,
-                  easing: 2,
-                  events: [
-                     {
-                        time: 1,
-                        previous: 1,
-                        easing: 2,
-                        translation: 100,
-                        customData: { test2: true },
-                     },
-                  ],
-                  customData: { test3: true },
+                  time: 2,
+                  translation: 200,
                },
             ],
-            customData: { test: true },
          },
-         `Unexpected instantiated value for ${nameTag}`,
-      );
-
-      obj = new Class({
+      ],
+   });
+   assertObjectMatch(
+      obj,
+      {
          time: 1,
+         id: 0,
          boxes: [
             {
                filter: {
                   type: 2,
+                  p0: 0,
+                  p1: 0,
                   reverse: 1,
                   chunks: 4,
+                  random: 0,
+                  seed: 0,
+                  limit: 0,
                   limitAffectsType: 3,
+                  customData: {},
                },
                beatDistribution: 1,
+               beatDistributionType: 1,
+               gapDistribution: 0,
+               gapDistributionType: 1,
+               axis: 0,
+               flip: 0,
                affectFirst: 1,
                easing: 2,
                events: [
                   {
                      time: 2,
+                     previous: 0,
+                     easing: 0,
                      translation: 200,
-                  },
-               ],
-            },
-         ],
-      });
-      assertClassObjectMatch(
-         obj,
-         {
-            time: 1,
-            id: 0,
-            boxes: [
-               {
-                  filter: {
-                     type: 2,
-                     p0: 0,
-                     p1: 0,
-                     reverse: 1,
-                     chunks: 4,
-                     random: 0,
-                     seed: 0,
-                     limit: 0,
-                     limitAffectsType: 3,
                      customData: {},
                   },
-                  beatDistribution: 1,
-                  beatDistributionType: 1,
-                  gapDistribution: 0,
-                  gapDistributionType: 1,
-                  axis: 0,
-                  flip: 0,
-                  affectFirst: 1,
-                  easing: 2,
-                  events: [
-                     {
-                        time: 2,
-                        previous: 0,
-                        easing: 0,
-                        translation: 200,
-                        customData: {},
-                     },
-                  ],
-                  customData: {},
-               },
-            ],
-            customData: {},
-         },
-         `Unexpected partially instantiated value for ${nameTag}`,
-      );
-   });
+               ],
+               customData: {},
+            },
+         ],
+         customData: {},
+      },
+      `Unexpected partially instantiated value for ${nameTag}`
+   );
+});
 
+for (const tup of schemaList) {
+   const nameTag = tup[1];
+   const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = Class.fromJSON();
-      assertClassObjectMatch(
+      let obj = new BaseClass(schema.deserialize());
+      assertObjectMatch(
          obj,
          defaultValue,
-         `Unexpected default value from JSON object for ${nameTag}`,
+         `Unexpected default value from JSON object for ${nameTag}`
       );
 
-      switch (Class) {
-         case v4.LightTranslationEventBoxGroup:
-            obj = Class.fromJSON(
-               {
-                  t: types.EventBoxType.COLOR,
-                  b: 1,
-                  g: 2,
-                  e: [
-                     {
-                        e: 0,
-                        f: 0,
-                        l: [{ b: 1, i: 0, customData: {} }],
-                        customData: {},
-                     },
-                  ],
-                  customData: { test: true },
-               },
-               [
-                  {
-                     w: 1,
-                     d: 2,
-                     s: 1,
-                     t: 2,
+      switch (schema) {
+         case v4.lightTranslationEventBoxGroup:
+            obj = new BaseClass(
+               schema.deserialize({
+                  object: {
                      b: 1,
-                     e: 2,
-                     a: 2,
-                     f: 1,
-                     customData: { test: true },
-                  },
-               ],
-               [
-                  {
-                     p: 1,
-                     e: 3,
-                     t: 120,
-                     customData: { test2: true },
-                  },
-               ],
-               [
-                  {
-                     f: 2,
-                     p: 1,
-                     t: 2,
-                     r: 1,
-                     c: 4,
-                     n: 2,
-                     s: 12345,
-                     l: 1,
-                     d: 3,
-                     customData: { test1: true },
-                  },
-               ],
-            );
-            break;
-         case v3.LightTranslationEventBoxGroup:
-            obj = Class.fromJSON({
-               b: 1,
-               g: 2,
-               e: [
-                  {
-                     f: {
-                        f: 2,
-                        p: 1,
-                        t: 2,
-                        r: 1,
-                        c: 4,
-                        n: 2,
-                        s: 12345,
-                        l: 1,
-                        d: 3,
-                        customData: { test1: true },
-                     },
-                     w: 1,
-                     d: 2,
-                     s: 1,
-                     t: 2,
-                     a: 2,
-                     r: 1,
-                     b: 1,
-                     i: 2,
-                     l: [
+                     g: 2,
+                     e: [
                         {
-                           b: 1,
-                           p: 1,
-                           e: 3,
-                           t: 120,
-                           customData: { test2: true },
+                           e: 0,
+                           f: 0,
+                           l: [{ b: 0, i: 0, customData: {} }],
+                           customData: {},
                         },
                      ],
                      customData: { test: true },
                   },
-               ],
-            });
+                  boxData: [
+                     {
+                        data: {
+                           w: 1,
+                           d: 2,
+                           s: 1,
+                           t: 2,
+                           b: 1,
+                           e: 2,
+                           a: 2,
+                           f: 1,
+                           customData: { test: true },
+                        },
+                        eventData: [
+                           {
+                              time: 1,
+                              data: {
+                                 p: 1,
+                                 e: 3,
+                                 t: 120,
+                                 customData: { test2: true },
+                              },
+                           },
+                        ],
+                        filterData: {
+                           f: 2,
+                           p: 1,
+                           t: 2,
+                           r: 1,
+                           c: 4,
+                           n: 2,
+                           s: 12345,
+                           l: 1,
+                           d: 3,
+                           customData: { test1: true },
+                        },
+                     },
+                  ],
+               })
+            );
+            break;
+         case v3.lightTranslationEventBoxGroup:
+            obj = new BaseClass(
+               schema.deserialize({
+                  b: 1,
+                  g: 2,
+                  e: [
+                     {
+                        f: {
+                           f: 2,
+                           p: 1,
+                           t: 2,
+                           r: 1,
+                           c: 4,
+                           n: 2,
+                           s: 12345,
+                           l: 1,
+                           d: 3,
+                           customData: { test1: true },
+                        },
+                        w: 1,
+                        d: 2,
+                        s: 1,
+                        t: 2,
+                        a: 2,
+                        r: 1,
+                        b: 1,
+                        i: 2,
+                        l: [
+                           {
+                              b: 1,
+                              p: 1,
+                              e: 3,
+                              t: 120,
+                              customData: { test2: true },
+                           },
+                        ],
+                        customData: { test: true },
+                     },
+                  ],
+               })
+            );
             break;
       }
-      assertClassObjectMatch(
+      assertObjectMatch(
          obj,
          {
             time: 1,
@@ -330,71 +339,73 @@ for (const tup of classList) {
                },
             ],
          },
-         `Unexpected instantiated value from JSON object for ${nameTag}`,
+         `Unexpected instantiated value from JSON object for ${nameTag}`
       );
 
-      switch (Class) {
-         case v4.LightTranslationEventBoxGroup:
-            obj = Class.fromJSON(
-               {
-                  t: types.EventBoxType.COLOR,
+      switch (schema) {
+         case v4.lightTranslationEventBoxGroup:
+            obj = new BaseClass(
+               schema.deserialize({
+                  object: {
+                     b: 1,
+                  },
+                  boxData: [
+                     {
+                        data: {
+                           w: 1,
+                           b: 1,
+                           e: 2,
+                        },
+
+                        eventData: [
+                           {
+                              time: 1,
+                              data: {
+                                 e: 3,
+                                 t: 120,
+                              },
+                           },
+                        ],
+                        filterData: {
+                           f: 2,
+                           r: 1,
+                           c: 4,
+                           d: 3,
+                        },
+                     },
+                  ],
+               })
+            );
+            break;
+         case v3.lightTranslationEventBoxGroup:
+            obj = new BaseClass(
+               schema.deserialize({
                   b: 1,
                   e: [
                      {
-                        l: [{ b: 1 }],
+                        f: {
+                           f: 2,
+                           r: 1,
+                           c: 4,
+                           d: 3,
+                        },
+                        w: 1,
+                        b: 1,
+                        i: 2,
+                        l: [
+                           {
+                              b: 1,
+                              e: 3,
+                              t: 120,
+                           },
+                        ],
                      },
                   ],
-               },
-               [
-                  {
-                     w: 1,
-                     b: 1,
-                     e: 2,
-                  },
-               ],
-               [
-                  {
-                     e: 3,
-                     t: 120,
-                  },
-               ],
-               [
-                  {
-                     f: 2,
-                     r: 1,
-                     c: 4,
-                     d: 3,
-                  },
-               ],
+               })
             );
             break;
-         case v3.LightTranslationEventBoxGroup:
-            obj = Class.fromJSON({
-               b: 1,
-               e: [
-                  {
-                     f: {
-                        f: 2,
-                        r: 1,
-                        c: 4,
-                        d: 3,
-                     },
-                     w: 1,
-                     b: 1,
-                     i: 2,
-                     l: [
-                        {
-                           b: 1,
-                           e: 3,
-                           t: 120,
-                        },
-                     ],
-                  },
-               ],
-            });
-            break;
       }
-      assertClassObjectMatch(
+      assertObjectMatch(
          obj,
          {
             time: 1,
@@ -433,18 +444,18 @@ for (const tup of classList) {
             ],
             customData: {},
          },
-         `Unexpected partially instantiated value from JSON object for ${nameTag}`,
+         `Unexpected partially instantiated value from JSON object for ${nameTag}`
       );
    });
 
    Deno.test(`${nameTag} to JSON object`, () => {
-      const obj = new Class({
+      const obj = new BaseClass({
          boxes: [{ events: [{}] }],
          customData: { test: true },
       });
-      const json = obj.toJSON();
-      switch (Class) {
-         case v4.LightTranslationEventBoxGroup:
+      const json = schema.serialize(obj);
+      switch (schema) {
+         case v4.lightTranslationEventBoxGroup:
             assertEquals(json, {
                object: {
                   t: types.EventBoxType.TRANSLATION,
@@ -493,7 +504,7 @@ for (const tup of classList) {
                ],
             });
             break;
-         case v3.LightTranslationEventBoxGroup:
+         case v3.lightTranslationEventBoxGroup:
             assertEquals(json, {
                b: 0,
                g: 0,

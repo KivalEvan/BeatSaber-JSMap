@@ -1,5 +1,5 @@
 import { EPSILON } from '../../constants.ts';
-import { assertAlmostEquals, assertEquals, NoteJumpSpeed, TimeProcessor } from '../../deps.ts';
+import { assertAlmostEquals, assertEquals, NoteJumpSpeed } from '../../deps.ts';
 
 Deno.test('NJS create instance from constructor', () => {
    const njs0 = new NoteJumpSpeed(120);
@@ -8,15 +8,7 @@ Deno.test('NJS create instance from constructor', () => {
    assertEquals(njs0.hjd, 2);
    assertEquals(njs0.jd, 20);
    assertEquals(njs0.reactionTime, 1);
-   assertEquals(njs0.bpm.value, 120);
-
-   const njs1 = new NoteJumpSpeed(new TimeProcessor(120));
-   assertEquals(njs1.value, 10);
-   assertEquals(njs1.offset, 0);
-   assertEquals(njs1.hjd, 2);
-   assertEquals(njs1.jd, 20);
-   assertEquals(njs1.reactionTime, 1);
-   assertEquals(njs1.bpm.value, 120);
+   assertEquals(njs0.bpm, 120);
 
    const njs2 = new NoteJumpSpeed(120, 16);
    assertEquals(njs2.value, 16);
@@ -40,15 +32,7 @@ Deno.test('NJS create instance from static create', () => {
    assertEquals(njs0.hjd, 2);
    assertEquals(njs0.jd, 20);
    assertEquals(njs0.reactionTime, 1);
-   assertEquals(njs0.bpm.value, 120);
-
-   const njs1 = NoteJumpSpeed.create(new TimeProcessor(120));
-   assertEquals(njs1.value, 10);
-   assertEquals(njs1.offset, 0);
-   assertEquals(njs1.hjd, 2);
-   assertEquals(njs1.jd, 20);
-   assertEquals(njs1.reactionTime, 1);
-   assertEquals(njs1.bpm.value, 120);
+   assertEquals(njs0.bpm, 120);
 
    const njs2 = NoteJumpSpeed.create(120, 16);
    assertEquals(njs2.value, 16);
@@ -72,7 +56,7 @@ Deno.test('NJS getter/setter', () => {
    assertEquals(njs.hjd, 2);
    assertEquals(njs.jd, 20);
    assertEquals(njs.reactionTime, 1);
-   assertEquals(njs.bpm.value, 120);
+   assertEquals(njs.bpm, 120);
 
    njs.value = 16;
    assertEquals(njs.value, 16);

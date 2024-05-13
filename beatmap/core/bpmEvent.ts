@@ -8,7 +8,7 @@ import { deepCopy } from '../../utils/misc.ts';
 export class BPMEvent extends BaseObject implements IWrapBPMEvent {
    static defaultValue: IWrapBPMEventAttribute = {
       time: 0,
-      bpm: 120,
+      bpm: 0,
       customData: {},
    };
 

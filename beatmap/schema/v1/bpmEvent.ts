@@ -5,7 +5,7 @@ import type { IWrapBPMEventAttribute } from '../../../types/beatmap/wrapper/bpmE
 const defaultValue = {
    _time: 0,
    _type: 100,
-   _value: 120,
+   _value: 0,
 } as Required<IEvent>;
 export const bpmEvent: ISchemaContainer<IWrapBPMEventAttribute, IEvent> = {
    defaultValue,

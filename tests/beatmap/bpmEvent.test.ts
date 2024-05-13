@@ -1,78 +1,100 @@
-import { assertEquals, types, v3 } from '../deps.ts';
-import { assertClassObjectMatch } from '../assert.ts';
+import { assertEquals, BPMEvent, v1, v2, v3 } from '../deps.ts';
+import { assertObjectMatch } from '../assert.ts';
 
-const classList = [[v3.BPMEvent, 'V3 BPM Event']] as const;
-const defaultValue: types.wrapper.IWrapBPMEventAttribute = {
-   time: 0,
-   bpm: 0,
-   customData: {},
-};
+const schemaList = [
+   [v3.bpmEvent, 'V3 BPM Event'],
+   [v2.bpmEvent, 'V2 BPM Event'],
+   [v1.bpmEvent, 'V1 BPM Event'],
+] as const;
+const BaseClass = BPMEvent;
+const defaultValue = BPMEvent.defaultValue;
+const nameTag = 'BPM Event';
 
-for (const tup of classList) {
+Deno.test(`${nameTag} constructor & create instantiation`, () => {
+   let obj = new BaseClass();
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected default value for ${nameTag}`,
+   );
+
+   obj = BaseClass.create()[0];
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected static create default value for ${nameTag}`,
+   );
+
+   obj = BaseClass.create({}, {})[1];
+   assertObjectMatch(
+      obj,
+      defaultValue,
+      `Unexpected static create from array default value for ${nameTag}`,
+   );
+
+   obj = new BaseClass({ time: 1, bpm: 120, customData: { test: true } });
+   assertObjectMatch(
+      obj,
+      { time: 1, bpm: 120, customData: { test: true } },
+      `Unexpected instantiated value for ${nameTag}`,
+   );
+
+   obj = new BaseClass({ bpm: 200 });
+   assertObjectMatch(
+      obj,
+      { ...defaultValue, bpm: 200 },
+      `Unexpected partially instantiated value for ${nameTag}`,
+   );
+});
+
+for (const tup of schemaList) {
    const nameTag = tup[1];
-   const Class = tup[0];
-   Deno.test(`${nameTag} constructor & create instantiation`, () => {
-      let obj = new Class();
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected default value for ${nameTag}`,
-      );
-
-      obj = Class.create()[0];
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected static create default value for ${nameTag}`,
-      );
-
-      obj = Class.create({}, {})[1];
-      assertClassObjectMatch(
-         obj,
-         defaultValue,
-         `Unexpected static create from array default value for ${nameTag}`,
-      );
-
-      obj = new Class({ time: 1, bpm: 120, customData: { test: true } });
-      assertClassObjectMatch(
-         obj,
-         { time: 1, bpm: 120, customData: { test: true } },
-         `Unexpected instantiated value for ${nameTag}`,
-      );
-
-      obj = new Class({ bpm: 200 });
-      assertClassObjectMatch(
-         obj,
-         { ...defaultValue, bpm: 200 },
-         `Unexpected partially instantiated value for ${nameTag}`,
-      );
-   });
-
+   const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = Class.fromJSON();
-      assertClassObjectMatch(
+      let obj = new BaseClass(schema.deserialize());
+      assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (Class) {
-         case v3.BPMEvent:
-            obj = Class.fromJSON({ b: 1, m: 120, customData: { test: true } });
+      switch (schema) {
+         case v3.bpmEvent:
+            obj = new BaseClass(
+               schema.deserialize({ b: 1, m: 120, customData: { test: true } }),
+            );
+            break;
+         case v2.bpmEvent:
+            obj = new BaseClass(
+               schema.deserialize({
+                  _time: 1,
+                  _floatValue: 120,
+                  _customData: { test: true },
+               }),
+            );
+            break;
+         case v1.bpmEvent:
+            obj = new BaseClass(schema.deserialize({ _time: 1, _value: 120 }));
             break;
       }
-      assertClassObjectMatch(
+      assertObjectMatch(
          obj,
-         { time: 1, bpm: 120, customData: { test: true } },
+         { time: 1, bpm: 120, customData: schema === v1.bpmEvent ? {} : { test: true } },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (Class) {
-         case v3.BPMEvent:
-            obj = Class.fromJSON({ m: 120 });
+      switch (schema) {
+         case v3.bpmEvent:
+            obj = new BaseClass(schema.deserialize({ m: 120 }));
+            break;
+         case v2.bpmEvent:
+            obj = new BaseClass(schema.deserialize({ _floatValue: 120 }));
+            break;
+         case v1.bpmEvent:
+            obj = new BaseClass(schema.deserialize({ _value: 120 }));
             break;
       }
-      assertClassObjectMatch(
+      assertObjectMatch(
          obj,
          { ...defaultValue, bpm: 120 },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
@@ -80,11 +102,23 @@ for (const tup of classList) {
    });
 
    Deno.test(`${nameTag} to JSON object`, () => {
-      const obj = new Class({ customData: { test: true } });
-      const json = obj.toJSON();
-      switch (Class) {
-         case v3.BPMEvent:
+      const obj = new BaseClass({ customData: { test: true } });
+      const json = schema.serialize(obj);
+      switch (schema) {
+         case v3.bpmEvent:
             assertEquals(json, { b: 0, m: 0, customData: { test: true } });
+            break;
+         case v2.bpmEvent:
+            assertEquals(json, {
+               _time: 0,
+               _type: 100,
+               _value: 0,
+               _floatValue: 0,
+               _customData: { test: true },
+            });
+            break;
+         case v1.bpmEvent:
+            assertEquals(json, { _time: 0, _type: 100, _value: 0 });
             break;
       }
    });

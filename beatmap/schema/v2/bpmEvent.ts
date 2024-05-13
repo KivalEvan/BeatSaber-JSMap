@@ -7,7 +7,7 @@ const defaultValue = {
    _time: 0,
    _type: 100,
    _value: 0,
-   _floatValue: 120,
+   _floatValue: 0,
    _customData: {},
 } as Required<IEvent>;
 export const bpmEvent: ISchemaContainer<IWrapBPMEventAttribute, IEvent> = {
