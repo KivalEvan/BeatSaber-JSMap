@@ -128,6 +128,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             shuffle: data._shuffle ?? defaultValue._shuffle,
             shufflePeriod: data._shufflePeriod ?? defaultValue._shufflePeriod,
          },
+         songPreviewFilename: data._songFilename ?? defaultValue._songFilename,
          coverImageFilename: data._coverImageFilename ?? defaultValue._coverImageFilename,
          environmentNames: [
             ...new Set([

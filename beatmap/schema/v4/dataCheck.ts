@@ -1258,11 +1258,6 @@ export const InfoAudioDataCheck: {
 export const InfoColorSchemeDataCheck: {
    readonly [key in keyof IInfoColorScheme]: IDataCheck;
 } = {
-   useOverride: {
-      type: 'boolean',
-      version: '4.0.0',
-      optional: true,
-   },
    colorSchemeName: {
       type: 'string',
       version: '4.0.0',

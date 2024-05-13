@@ -34,7 +34,6 @@ export interface IInfoAudio {
 }
 
 export interface IInfoColorScheme {
-   useOverride: boolean;
    colorSchemeName: string;
    saberAColor: string; // hex, all of them below
    saberBColor: string;

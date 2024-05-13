@@ -32,7 +32,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          previewStartTime: data.audio.previewStartTime,
          previewDuration: data.audio.previewDuration,
          coverImagePath: data.coverImageFilename,
-         environmentName: data.environmentNames[0] as EnvironmentName ??
+         environmentName: (data.environmentNames[0] as EnvironmentName) ??
             defaultValue.environmentName,
          difficultyLevels: data.difficulties.map(infoDifficulty.serialize),
          oneSaber: data.difficulties.some(
@@ -58,6 +58,9 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             previewStartTime: data.previewStartTime ?? defaultValue.previewStartTime,
             previewDuration: data.previewDuration ?? defaultValue.previewDuration,
          },
+         songPreviewFilename: (
+            data.difficultyLevels ?? defaultValue.difficultyLevels
+         ).find((e) => e?.audioPath)?.audioPath,
          coverImageFilename: data.coverImagePath ?? defaultValue.coverImagePath,
          environmentNames: [
             data.environmentName ?? defaultValue.environmentName,

@@ -58,7 +58,6 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          environmentNames: data.environmentNames.map((e) => e),
          colorSchemes: data.colorSchemes.map((e) => {
             const cs: Required<IInfo>['colorSchemes'][number] = {
-               useOverride: true,
                colorSchemeName: e.name,
                saberAColor: colorToHex(e.saberLeftColor),
                saberBColor: colorToHex(e.saberRightColor),
@@ -108,7 +107,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             (e) => {
                e = e!;
                const scheme: IWrapInfoColorScheme = {
-                  useOverride: !!e.useOverride,
+                  useOverride: true,
                   name: e.colorSchemeName || '',
                   saberLeftColor: toColorObject(
                      hexToRgba(e.saberAColor!),
