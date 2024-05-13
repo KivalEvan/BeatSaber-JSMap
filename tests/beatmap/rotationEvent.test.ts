@@ -16,21 +16,21 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected default value for ${nameTag}`
+      `Unexpected default value for ${nameTag}`,
    );
 
    obj = BaseClass.create()[0];
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected static create default value for ${nameTag}`
+      `Unexpected static create default value for ${nameTag}`,
    );
 
    obj = BaseClass.create({}, {})[1];
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected static create from array default value for ${nameTag}`
+      `Unexpected static create from array default value for ${nameTag}`,
    );
 
    obj = new BaseClass({
@@ -47,14 +47,14 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
          rotation: 15,
          customData: { test: true },
       },
-      `Unexpected instantiated value for ${nameTag}`
+      `Unexpected instantiated value for ${nameTag}`,
    );
 
    obj = new BaseClass({ rotation: 15 });
    assertObjectMatch(
       obj,
       { ...defaultValue, rotation: 15 },
-      `Unexpected partially instantiated value for ${nameTag}`
+      `Unexpected partially instantiated value for ${nameTag}`,
    );
 });
 
@@ -67,12 +67,9 @@ for (const tup of schemaList) {
          obj,
          {
             ...defaultValue,
-            rotation:
-               schema === v1.rotationEvent || schema === v2.rotationEvent
-                  ? -60
-                  : 0,
+            rotation: schema === v1.rotationEvent || schema === v2.rotationEvent ? -60 : 0,
          },
-         `Unexpected default value from empty JSON object for ${nameTag}`
+         `Unexpected default value from empty JSON object for ${nameTag}`,
       );
 
       switch (schema) {
@@ -81,7 +78,7 @@ for (const tup of schemaList) {
                schema.deserialize({
                   object: { b: 1 },
                   data: { e: 1, r: 15, customData: { test: true } },
-               })
+               }),
             );
             break;
          case v3.rotationEvent:
@@ -91,7 +88,7 @@ for (const tup of schemaList) {
                   e: 1,
                   r: 15,
                   customData: { test: true },
-               })
+               }),
             );
             break;
          case v2.rotationEvent:
@@ -101,7 +98,7 @@ for (const tup of schemaList) {
                   _type: 15,
                   _value: 4,
                   _customData: { test: true },
-               })
+               }),
             );
             break;
          case v1.rotationEvent:
@@ -110,7 +107,7 @@ for (const tup of schemaList) {
                   _time: 1,
                   _type: 15,
                   _value: 4,
-               })
+               }),
             );
             break;
       }
@@ -122,7 +119,7 @@ for (const tup of schemaList) {
             rotation: 15,
             customData: schema === v1.rotationEvent ? {} : { test: true },
          },
-         `Unexpected instantiated value from JSON object for ${nameTag}`
+         `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
       switch (schema) {
@@ -130,28 +127,28 @@ for (const tup of schemaList) {
             obj = new BaseClass(
                schema.deserialize({
                   data: { r: 15 },
-               })
+               }),
             );
             break;
          case v3.rotationEvent:
             obj = new BaseClass(
                schema.deserialize({
                   r: 15,
-               })
+               }),
             );
             break;
          case v2.rotationEvent:
             obj = new BaseClass(
                schema.deserialize({
                   _value: 4,
-               })
+               }),
             );
             break;
          case v1.rotationEvent:
             obj = new BaseClass(
                schema.deserialize({
                   _value: 4,
-               })
+               }),
             );
             break;
       }
@@ -161,7 +158,7 @@ for (const tup of schemaList) {
             ...defaultValue,
             rotation: 15,
          },
-         `Unexpected partially instantiated value from JSON object for ${nameTag}`
+         `Unexpected partially instantiated value from JSON object for ${nameTag}`,
       );
    });
 

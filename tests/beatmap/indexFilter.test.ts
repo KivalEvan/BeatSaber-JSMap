@@ -1,4 +1,4 @@
-import { IndexFilter, assertEquals, v3, v4 } from '../deps.ts';
+import { assertEquals, IndexFilter, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
 
 const schemaList = [

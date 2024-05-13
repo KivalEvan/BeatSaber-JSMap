@@ -1,4 +1,4 @@
-import { EventTypesForKeywords, assertEquals, v2, v3 } from '../deps.ts';
+import { assertEquals, EventTypesForKeywords, v2, v3 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
 
 const schemaList = [
@@ -14,28 +14,28 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected default value for ${nameTag}`
+      `Unexpected default value for ${nameTag}`,
    );
 
    obj = BaseClass.create()[0];
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected static create default value for ${nameTag}`
+      `Unexpected static create default value for ${nameTag}`,
    );
 
    obj = new BaseClass({ keyword: 'test', events: [1, 2] });
    assertObjectMatch(
       obj,
       { keyword: 'test', events: [1, 2] },
-      `Unexpected instantiated value for ${nameTag}`
+      `Unexpected instantiated value for ${nameTag}`,
    );
 
    obj = new BaseClass({ keyword: 'test' });
    assertObjectMatch(
       obj,
       { keyword: 'test', events: [] },
-      `Unexpected partially instantiated value for ${nameTag}`
+      `Unexpected partially instantiated value for ${nameTag}`,
    );
 });
 
@@ -47,7 +47,7 @@ for (const tup of schemaList) {
       assertObjectMatch(
          obj,
          defaultValue,
-         `Unexpected default value from JSON object for ${nameTag}`
+         `Unexpected default value from JSON object for ${nameTag}`,
       );
 
       switch (schema) {
@@ -56,14 +56,14 @@ for (const tup of schemaList) {
             break;
          case v2.eventTypesForKeywords:
             obj = new BaseClass(
-               schema.deserialize({ _keyword: 'test', _specialEvents: [1, 2] })
+               schema.deserialize({ _keyword: 'test', _specialEvents: [1, 2] }),
             );
             break;
       }
       assertObjectMatch(
          obj,
          { keyword: 'test', events: [1, 2] },
-         `Unexpected instantiated value from JSON object for ${nameTag}`
+         `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
       switch (schema) {
@@ -74,14 +74,14 @@ for (const tup of schemaList) {
             obj = new BaseClass(
                schema.deserialize({
                   _specialEvents: [1, 2],
-               })
+               }),
             );
             break;
       }
       assertObjectMatch(
          obj,
          { keyword: '', events: [1, 2] },
-         `Unexpected partially value from JSON object for ${nameTag}`
+         `Unexpected partially value from JSON object for ${nameTag}`,
       );
    });
 

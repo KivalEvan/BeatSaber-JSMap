@@ -30,18 +30,17 @@ export const rotationEvent: ISchemaContainer<
       };
    },
    deserialize(
-      data: Partial<IEvent> = {}
+      data: Partial<IEvent> = {},
    ): Partial<IWrapRotationEventAttribute> {
       const value = data._value ?? defaultValue._value;
       return {
          time: data._time,
          executionTime: data._type === 15 ? 1 : 0,
-         rotation:
-            typeof data._customData?._rotation === 'number'
-               ? data._customData._rotation
-               : value >= 1000
-               ? (value - 1360) % 360
-               : EventLaneRotationValue[value] ?? 0,
+         rotation: typeof data._customData?._rotation === 'number'
+            ? data._customData._rotation
+            : value >= 1000
+            ? (value - 1360) % 360
+            : EventLaneRotationValue[value] ?? 0,
          customData: deepCopy(data._customData ?? defaultValue._customData),
       };
    },

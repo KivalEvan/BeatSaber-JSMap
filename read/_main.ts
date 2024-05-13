@@ -6,7 +6,7 @@ import globals from '../globals.ts';
 import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';
 
-const defaultOptions: Required<IReadOptions> = {
+export const defaultOptions: Required<IReadOptions> = {
    directory: '',
    load: {},
 };

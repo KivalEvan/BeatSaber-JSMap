@@ -16,35 +16,35 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected default value for ${nameTag}`
+      `Unexpected default value for ${nameTag}`,
    );
 
    obj = BaseClass.create()[0];
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected static create default value for ${nameTag}`
+      `Unexpected static create default value for ${nameTag}`,
    );
 
    obj = BaseClass.create({}, {})[1];
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected static create from array default value for ${nameTag}`
+      `Unexpected static create from array default value for ${nameTag}`,
    );
 
    obj = new BaseClass({ time: 1, toggle: true, customData: { test: true } });
    assertObjectMatch(
       obj,
       { time: 1, toggle: true, customData: { test: true } },
-      `Unexpected instantiated value for ${nameTag}`
+      `Unexpected instantiated value for ${nameTag}`,
    );
 
    obj = new BaseClass({ toggle: true });
    assertObjectMatch(
       obj,
       { ...defaultValue, toggle: true },
-      `Unexpected partially instantiated value for ${nameTag}`
+      `Unexpected partially instantiated value for ${nameTag}`,
    );
 });
 
@@ -56,7 +56,7 @@ for (const tup of schemaList) {
       assertObjectMatch(
          obj,
          defaultValue,
-         `Unexpected default value from JSON object for ${nameTag}`
+         `Unexpected default value from JSON object for ${nameTag}`,
       );
 
       switch (schema) {
@@ -65,12 +65,12 @@ for (const tup of schemaList) {
                schema.deserialize({
                   object: { b: 1 },
                   data: { b: 1, customData: { test: true } },
-               })
+               }),
             );
             break;
          case v3.colorBoostEvent:
             obj = new BaseClass(
-               schema.deserialize({ b: 1, o: true, customData: { test: true } })
+               schema.deserialize({ b: 1, o: true, customData: { test: true } }),
             );
             break;
          case v2.colorBoostEvent:
@@ -81,12 +81,12 @@ for (const tup of schemaList) {
                   _value: 1,
                   _floatValue: 0,
                   _customData: { test: true },
-               })
+               }),
             );
             break;
          case v1.colorBoostEvent:
             obj = new BaseClass(
-               schema.deserialize({ _time: 1, _type: 5, _value: 1 })
+               schema.deserialize({ _time: 1, _type: 5, _value: 1 }),
             );
             break;
       }
@@ -97,7 +97,7 @@ for (const tup of schemaList) {
             toggle: true,
             customData: schema === v1.colorBoostEvent ? {} : { test: true },
          },
-         `Unexpected instantiated value from JSON object for ${nameTag}`
+         `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
       switch (schema) {
@@ -107,17 +107,17 @@ for (const tup of schemaList) {
          case v3.colorBoostEvent:
             obj = new BaseClass(schema.deserialize({ b: 1 }));
             break;
-            case v2.colorBoostEvent:
-               obj = new BaseClass(schema.deserialize({ _time: 1 }));
-               break;
-               case v1.colorBoostEvent:
-                  obj = new BaseClass(schema.deserialize({ _time: 1 }));
-                  break;
+         case v2.colorBoostEvent:
+            obj = new BaseClass(schema.deserialize({ _time: 1 }));
+            break;
+         case v1.colorBoostEvent:
+            obj = new BaseClass(schema.deserialize({ _time: 1 }));
+            break;
       }
       assertObjectMatch(
          obj,
          { ...defaultValue, time: 1 },
-         `Unexpected partially instantiated value from JSON object for ${nameTag}`
+         `Unexpected partially instantiated value from JSON object for ${nameTag}`,
       );
    });
 

@@ -1,4 +1,4 @@
-import { Obstacle, assertEquals, v1, v2, v3, v4 } from '../deps.ts';
+import { assertEquals, Obstacle, v1, v2, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
 
 const schemaList = [
@@ -16,21 +16,21 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected default value for ${nameTag}`
+      `Unexpected default value for ${nameTag}`,
    );
 
    obj = BaseClass.create()[0];
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected static create default value for ${nameTag}`
+      `Unexpected static create default value for ${nameTag}`,
    );
 
    obj = BaseClass.create({}, {})[1];
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected static create from array default value for ${nameTag}`
+      `Unexpected static create from array default value for ${nameTag}`,
    );
 
    obj = new BaseClass({
@@ -55,7 +55,7 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
          laneRotation: 15,
          customData: { test: true },
       },
-      `Unexpected instantiated value for ${nameTag}`
+      `Unexpected instantiated value for ${nameTag}`,
    );
 
    obj = new BaseClass({
@@ -71,7 +71,7 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
          posX: 2,
          width: 2,
       },
-      `Unexpected partially instantiated value for ${nameTag}`
+      `Unexpected partially instantiated value for ${nameTag}`,
    );
 });
 
@@ -86,7 +86,7 @@ for (const tup of schemaList) {
             ...defaultValue,
             height: schema === v3.obstacle || schema === v4.obstacle ? 0 : 5,
          },
-         `Unexpected default value from empty JSON object for ${nameTag}`
+         `Unexpected default value from empty JSON object for ${nameTag}`,
       );
 
       switch (schema) {
@@ -102,7 +102,7 @@ for (const tup of schemaList) {
                      h: 3,
                      customData: { test: true },
                   },
-               })
+               }),
             );
             break;
          case v3.obstacle:
@@ -115,7 +115,7 @@ for (const tup of schemaList) {
                   w: 2,
                   h: 3,
                   customData: { test: true },
-               })
+               }),
             );
             break;
          case v2.obstacle:
@@ -127,7 +127,7 @@ for (const tup of schemaList) {
                   _duration: 1,
                   _width: 2,
                   _customData: { test: true },
-               })
+               }),
             );
             break;
          case v1.obstacle:
@@ -138,7 +138,7 @@ for (const tup of schemaList) {
                   _type: 1,
                   _duration: 1,
                   _width: 2,
-               })
+               }),
             );
             break;
       }
@@ -154,13 +154,13 @@ for (const tup of schemaList) {
             laneRotation: schema === v4.obstacle ? 15 : 0,
             customData: schema === v1.obstacle ? {} : { test: true },
          },
-         `Unexpected instantiated value from JSON object for ${nameTag}`
+         `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
       switch (schema) {
          case v4.obstacle:
             obj = new BaseClass(
-               schema.deserialize({ object: { b: 1 }, data: { w: 2 } })
+               schema.deserialize({ object: { b: 1 }, data: { w: 2 } }),
             );
             break;
          case v3.obstacle:
@@ -168,7 +168,7 @@ for (const tup of schemaList) {
                schema.deserialize({
                   b: 1,
                   w: 2,
-               })
+               }),
             );
             break;
          case v2.obstacle:
@@ -176,7 +176,7 @@ for (const tup of schemaList) {
                schema.deserialize({
                   _time: 1,
                   _width: 2,
-               })
+               }),
             );
             break;
          case v1.obstacle:
@@ -184,7 +184,7 @@ for (const tup of schemaList) {
                schema.deserialize({
                   _time: 1,
                   _width: 2,
-               })
+               }),
             );
             break;
       }
@@ -196,7 +196,7 @@ for (const tup of schemaList) {
             width: 2,
             height: schema === v3.obstacle || schema === v4.obstacle ? 0 : 5,
          },
-         `Unexpected partially instantiated value from JSON object for ${nameTag}`
+         `Unexpected partially instantiated value from JSON object for ${nameTag}`,
       );
    });
 

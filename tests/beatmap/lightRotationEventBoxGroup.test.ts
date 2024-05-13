@@ -1,10 +1,4 @@
-import {
-   LightRotationEventBoxGroup,
-   assertEquals,
-   types,
-   v3,
-   v4,
-} from '../deps.ts';
+import { assertEquals, LightRotationEventBoxGroup, types, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
 
 const schemaList = [
@@ -20,21 +14,21 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected default value for ${nameTag}`
+      `Unexpected default value for ${nameTag}`,
    );
 
    obj = BaseClass.create()[0];
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected static create default value for ${nameTag}`
+      `Unexpected static create default value for ${nameTag}`,
    );
 
    obj = BaseClass.create({}, {})[1];
    assertObjectMatch(
       obj,
       defaultValue,
-      `Unexpected static create from array default value for ${nameTag}`
+      `Unexpected static create from array default value for ${nameTag}`,
    );
 
    obj = new BaseClass({
@@ -121,7 +115,7 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
          ],
          customData: { test: true },
       },
-      `Unexpected instantiated value for ${nameTag}`
+      `Unexpected instantiated value for ${nameTag}`,
    );
 
    obj = new BaseClass({
@@ -190,7 +184,7 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
          ],
          customData: {},
       },
-      `Unexpected partially instantiated value for ${nameTag}`
+      `Unexpected partially instantiated value for ${nameTag}`,
    );
 });
 
@@ -202,7 +196,7 @@ for (const tup of schemaList) {
       assertObjectMatch(
          obj,
          defaultValue,
-         `Unexpected default value from JSON object for ${nameTag}`
+         `Unexpected default value from JSON object for ${nameTag}`,
       );
 
       switch (schema) {
@@ -263,7 +257,7 @@ for (const tup of schemaList) {
                         },
                      },
                   ],
-               })
+               }),
             );
             break;
          case v3.lightRotationEventBoxGroup:
@@ -307,7 +301,7 @@ for (const tup of schemaList) {
                         customData: { test: true },
                      },
                   ],
-               })
+               }),
             );
             break;
       }
@@ -354,7 +348,7 @@ for (const tup of schemaList) {
             ],
             customData: {},
          },
-         `Unexpected instantiated value from JSON object for ${nameTag}`
+         `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
       switch (schema) {
@@ -389,7 +383,7 @@ for (const tup of schemaList) {
                         },
                      },
                   ],
-               })
+               }),
             );
             break;
          case v3.lightRotationEventBoxGroup:
@@ -416,7 +410,7 @@ for (const tup of schemaList) {
                         ],
                      },
                   ],
-               })
+               }),
             );
             break;
       }
@@ -461,7 +455,7 @@ for (const tup of schemaList) {
             ],
             customData: {},
          },
-         `Unexpected partially instantiated value from JSON object for ${nameTag}`
+         `Unexpected partially instantiated value from JSON object for ${nameTag}`,
       );
    });
 
