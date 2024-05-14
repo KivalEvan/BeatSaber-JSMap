@@ -93,6 +93,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       });
 
       return {
+         version: 2,
          data: {
             colorNotes,
             bombNotes,

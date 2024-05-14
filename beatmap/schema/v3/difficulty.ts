@@ -103,6 +103,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       data: DeepPartial<IDifficulty> = {},
    ): DeepPartial<IWrapBeatmapAttribute> {
       const d: DeepPartial<IWrapBeatmapAttribute> = {
+         version: 3,
          data: {},
          lightshow: {},
       };

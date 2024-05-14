@@ -1,7 +1,7 @@
 import { info as V1Info } from '../schema/v1/info.ts';
 import { info as V2Info } from '../schema/v2/info.ts';
 import { info as V4Info } from '../schema/v4/info.ts';
-import { audioData as V2AudioData } from '../schema/v2/bpmInfo.ts';
+import { audioData as V2AudioData } from '../schema/v2/audioData.ts';
 import { audioData as V4AudioData } from '../schema/v4/audioData.ts';
 import { difficulty as V1Difficulty } from '../schema/v1/difficulty.ts';
 import { difficulty as V2Difficulty } from '../schema/v2/difficulty.ts';

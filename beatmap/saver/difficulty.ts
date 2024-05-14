@@ -15,7 +15,16 @@ import { saveBeatmap, tag } from './_main.ts';
  */
 export function saveDifficulty<T extends Record<string, any>>(
    data: IWrapBeatmap,
-   version: number,
+   version?: number | null,
+   options?: ISaveOptions<IWrapBeatmap>,
+): T;
+export function saveDifficulty<T extends Record<string, any>>(
+   data: IWrapBeatmap,
+   options?: ISaveOptions<IWrapBeatmap>,
+): T;
+export function saveDifficulty<T extends Record<string, any>>(
+   data: IWrapBeatmap,
+   version?: number | null | ISaveOptions<IWrapBeatmap>,
    options?: ISaveOptions<IWrapBeatmap>,
 ): T {
    logger.tInfo(tag('saveDifficulty'), 'Saving difficulty to JSON');

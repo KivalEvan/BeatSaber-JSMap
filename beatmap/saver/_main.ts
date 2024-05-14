@@ -47,31 +47,31 @@ export function saveBeatmap<
 >(
    type: BeatmapFileType,
    data: IWrapBeatmapFile,
-   version: number,
+   version?: number | null | ISaveOptions<TWrap>,
    options?: ISaveOptions<TWrap>,
 ): TSerial;
 export function saveBeatmap<TSerial extends { [key: string]: any }>(
    type: 'info',
    data: IWrapInfo,
-   version: number,
+   version?: number | null | ISaveOptions<IWrapInfo>,
    options?: ISaveOptions<IWrapInfo>,
 ): TSerial;
 export function saveBeatmap<TSerial extends { [key: string]: any }>(
    type: 'audioData',
    data: IWrapAudioData,
-   version: number,
+   version?: number | null | ISaveOptions<IWrapAudioData>,
    options?: ISaveOptions<IWrapAudioData>,
 ): TSerial;
 export function saveBeatmap<TSerial extends { [key: string]: any }>(
    type: 'lightshow',
    data: IWrapBeatmap,
-   version: number,
+   version?: number | null | ISaveOptions<IWrapBeatmap>,
    options?: ISaveOptions<IWrapBeatmap>,
 ): TSerial;
 export function saveBeatmap<TSerial extends { [key: string]: any }>(
    type: 'difficulty',
    data: IWrapBeatmap,
-   version: number,
+   version?: number | null | ISaveOptions<IWrapBeatmap>,
    options?: ISaveOptions<IWrapBeatmap>,
 ): TSerial;
 export function saveBeatmap<
@@ -80,17 +80,25 @@ export function saveBeatmap<
 >(
    type: BeatmapFileType,
    data: IWrapBeatmapFile,
-   version: number,
+   version?: number | null | ISaveOptions<TWrap>,
    options: ISaveOptions<TWrap> = {},
 ): TSerial {
+   let ver: number;
+   if (typeof version === 'number') {
+      ver = version;
+   } else {
+      ver = data.version;
+      logger.tInfo(tag('saveBeatmap'), 'Implicitly saving as version', ver);
+   }
+   const optD = (typeof version !== 'number' ? version : options) ?? {};
    const opt: Required<ISaveOptions<any>> = {
-      format: options.format ?? defaultOptions.format,
-      optimize: { ...defaultOptions.optimize, ...options.optimize },
-      validate: { ...defaultOptions.validate, ...options.validate },
-      sort: options.sort ?? defaultOptions.sort,
+      format: optD.format ?? defaultOptions.format,
+      optimize: { ...defaultOptions.optimize, ...optD.optimize },
+      validate: { ...defaultOptions.validate, ...optD.validate },
+      sort: optD.sort ?? defaultOptions.sort,
       write: true,
-      preprocess: options.preprocess ?? defaultOptions.preprocess,
-      postprocess: options.postprocess ?? defaultOptions.postprocess,
+      preprocess: optD.preprocess ?? defaultOptions.preprocess,
+      postprocess: optD.postprocess ?? defaultOptions.postprocess,
    };
    let schemaMap;
    let optMap: Record<number, (data: any, options: IOptimizeOptions) => void> = {};
@@ -133,15 +141,15 @@ export function saveBeatmap<
    }
 
    logger.tInfo(tag('saveBeatmap'), 'Serializing beatmap');
-   let json = schemaMap[version]?.serialize(data as any) ?? {};
+   let json = schemaMap[ver]?.serialize(data as any) ?? {};
 
    if (opt.optimize.enabled) {
       logger.tInfo(tag('saveBeatmap'), 'Optimizing beatmap JSON');
-      optMap[version]?.(json, opt.optimize);
+      optMap[ver]?.(json, opt.optimize);
    }
 
    if (opt.validate.enabled) {
-      validateJSON(type, json, version, opt.validate?.dataCheck);
+      validateJSON(type, json, ver, opt.validate?.dataCheck);
    }
 
    opt.postprocess.forEach((fn, i) => {

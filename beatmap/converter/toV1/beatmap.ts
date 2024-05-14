@@ -22,11 +22,14 @@ export function toV1Beatmap(
    switch (fromVersion) {
       case 1:
       case 2:
+         data.version = 1;
          break;
       case 3:
+         data.version = 1;
          fromV3(data);
          break;
       case 4:
+         data.version = 1;
          fromV4(data);
          break;
       default:

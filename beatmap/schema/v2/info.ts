@@ -114,6 +114,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
    },
    deserialize(data: DeepPartial<IInfo> = {}): DeepPartial<IWrapInfoAttribute> {
       const d: DeepPartial<IWrapInfoAttribute> = {
+         version: 2,
          song: {
             title: data._songName ?? defaultValue._songName,
             subTitle: data._songSubName ?? defaultValue._songSubName,

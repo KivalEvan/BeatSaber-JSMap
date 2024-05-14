@@ -80,17 +80,18 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
    deserialize(
       data: DeepPartial<ILightshow> = {},
    ): DeepPartial<IWrapBeatmapAttribute> {
-      const d: DeepPartial<IWrapBeatmapAttribute> = { lightshow: {} };
+      const d: DeepPartial<IWrapBeatmapAttribute> = {
+         version: 3,
+         lightshow: {},
+      };
       d.lightshow!.basicEvents = (
          data.basicBeatmapEvents ?? defaultValue.basicBeatmapEvents
       ).map(basicEvent.deserialize);
       d.lightshow!.colorBoostEvents = (
-         data.colorBoostBeatmapEvents ??
-            defaultValue.colorBoostBeatmapEvents
+         data.colorBoostBeatmapEvents ?? defaultValue.colorBoostBeatmapEvents
       ).map(colorBoostEvent.deserialize);
       d.lightshow!.lightColorEventBoxGroups = (
-         data.lightColorEventBoxGroups ??
-            defaultValue.lightColorEventBoxGroups
+         data.lightColorEventBoxGroups ?? defaultValue.lightColorEventBoxGroups
       ).map(lightColorEventBoxGroup.deserialize);
       d.lightshow!.lightRotationEventBoxGroups = (
          data.lightRotationEventBoxGroups ??

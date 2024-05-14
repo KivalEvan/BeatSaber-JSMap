@@ -31,13 +31,16 @@ export function toV3Beatmap(
 
    switch (fromVersion) {
       case 1:
+         data.version = 3;
          fromV1(data);
          break;
       case 2:
+         data.version = 3;
          fromV2(data);
          break;
       case 3:
       case 4:
+         data.version = 3;
          break;
       default:
          logger.tWarn(

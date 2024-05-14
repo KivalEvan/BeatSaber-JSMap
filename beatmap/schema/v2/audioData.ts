@@ -28,6 +28,7 @@ export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IBPMInfo> = {
       data: DeepPartial<IBPMInfo> = {},
    ): DeepPartial<IWrapAudioDataAttribute> {
       return {
+         version: 2,
          sampleCount: data._songSampleCount ?? defaultValue._songSampleCount,
          frequency: data._songFrequency ?? defaultValue._songFrequency,
          bpmData: (data._regions ?? defaultValue._regions).map((bd) => ({

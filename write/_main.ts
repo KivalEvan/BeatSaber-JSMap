@@ -30,10 +30,12 @@ function getFileName(type: BeatmapFileType, data: Record<string, any>): string {
 export function handleWrite<T extends Record<string, any>>(
    type: BeatmapFileType,
    data: IWrapBeatmapFile,
-   version: number,
+   version?: number | null | IWriteOptions<T>,
    options: IWriteOptions<T> = {},
 ): Promise<Record<string, any>> {
-   const json = saveBeatmap(type, data, version, options.save);
+   const ver = typeof version === 'number' ? version : null;
+   const opt = (typeof version !== 'number' ? version : options) ?? {};
+   const json = saveBeatmap(type, data, ver, opt.save);
    return writeJSONFile(
       resolve(
          options.directory ?? (globals.directory || defaultOptions.directory),
@@ -48,10 +50,12 @@ export function handleWrite<T extends Record<string, any>>(
 export function handleWriteSync<T extends Record<string, any>>(
    type: BeatmapFileType,
    data: IWrapBeatmapFile,
-   version: number,
+   version?: number | null | IWriteOptions<T>,
    options: IWriteOptions<T> = {},
 ): Record<string, any> {
-   const json = saveBeatmap(type, data, version, options.save);
+   const ver = typeof version === 'number' ? version : null;
+   const opt = (typeof version !== 'number' ? version : options) ?? {};
+   const json = saveBeatmap(type, data, ver, opt.save);
    writeJSONFileSync(
       resolve(
          options.directory ?? (globals.directory || defaultOptions.directory),

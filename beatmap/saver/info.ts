@@ -15,7 +15,16 @@ import { saveBeatmap, tag } from './_main.ts';
  */
 export function saveInfo<T extends Record<string, any>>(
    data: IWrapInfo,
-   version: number,
+   version?: number | null,
+   options?: ISaveOptions<IWrapInfo>,
+): T;
+export function saveInfo<T extends Record<string, any>>(
+   data: IWrapInfo,
+   options?: ISaveOptions<IWrapInfo>,
+): T;
+export function saveInfo<T extends Record<string, any>>(
+   data: IWrapInfo,
+   version?: number | null | ISaveOptions<IWrapInfo>,
    options?: ISaveOptions<IWrapInfo>,
 ): T {
    logger.tInfo(tag('saveInfo'), 'Saving info to JSON');

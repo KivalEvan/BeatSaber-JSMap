@@ -28,6 +28,7 @@ import type { IWrapLightshow, IWrapLightshowAttribute } from './lightshow.ts';
 import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
 import type { GenericFilename } from '../shared/filename.ts';
 import type { IWrapBaseItemAttribute } from './baseItem.ts';
+import type { ICustomDataBase } from '../shared/custom/customData.ts';
 
 export interface IWrapBeatmapAttribute extends IWrapBaseItemAttribute, IWrapBaseFileAttribute {
    data: IWrapDifficultyAttribute;
@@ -35,6 +36,15 @@ export interface IWrapBeatmapAttribute extends IWrapBaseItemAttribute, IWrapBase
 
    // this honestly feels like hack but i need to figure out best way to handle this
    lightshowFilename: LooseAutocomplete<GenericFilename>;
+
+   /**
+    * This custom data does not contain the actual custom data from difficulty file, rather an arbitrary placement.
+    *
+    * If you need to handle custom data from actual beatmap, use `customData` inside `data` instead.
+    *
+    * @deprecated this is used as a warning, unless you know what you are doing.
+    */
+   customData: ICustomDataBase;
 }
 
 export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {

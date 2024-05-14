@@ -13,6 +13,7 @@ export function toV2Audio(data: IWrapAudioData, fromVersion: number): IWrapAudio
       case 2:
       case 3:
       case 4:
+         data.version = 2;
          break;
       default:
          logger.tWarn(

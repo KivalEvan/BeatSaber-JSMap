@@ -192,6 +192,7 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
       data: DeepPartial<ILightshow> = {},
    ): DeepPartial<IWrapBeatmapAttribute> {
       const d: DeepPartial<IWrapBeatmapAttribute> = {
+         version: 4,
          lightshow: {
             lightColorEventBoxGroups: [],
             lightRotationEventBoxGroups: [],

@@ -20,6 +20,7 @@ import { BaseItem } from './abstract/baseItem.ts';
 
 export class Info extends BaseItem implements IWrapInfo {
    static defaultValue: IWrapInfoAttribute = {
+      version: -1,
       filename: 'Info.dat',
       song: {
          title: 'Untitled',
@@ -46,11 +47,16 @@ export class Info extends BaseItem implements IWrapInfo {
       customData: {},
    };
 
-   static create(...data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'>[]): Info[] {
+   static create(
+      ...data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'>[]
+   ): Info[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'> = {}) {
       super();
+      this.version = data.version ?? Info.defaultValue.version;
+      this.filename = data.filename ?? Info.defaultValue.filename;
+
       this.song = {
          title: data.song?.title ?? Info.defaultValue.song.title,
          subTitle: data.song?.subTitle ?? Info.defaultValue.song.subTitle,
@@ -148,7 +154,8 @@ export class Info extends BaseItem implements IWrapInfo {
       return true;
    }
 
-   private _filename = 'Info.dat';
+   version: number;
+   filename: LooseAutocomplete<'Info.dat' | 'info.dat'>;
 
    song: IWrapInfoSong;
    audio: IWrapInfoAudio;
@@ -160,13 +167,6 @@ export class Info extends BaseItem implements IWrapInfo {
 
    clone<U extends this>(): U {
       return super.clone().setFilename(this.filename) as U;
-   }
-
-   set filename(name: LooseAutocomplete<'Info.dat' | 'info.dat'>) {
-      this._filename = name.trim();
-   }
-   get filename(): string {
-      return this._filename;
    }
 
    setFilename(filename: LooseAutocomplete<'Info.dat' | 'info.dat'>): this {
@@ -188,7 +188,9 @@ export class Info extends BaseItem implements IWrapInfo {
       return this;
    }
 
-   addMap(data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>): this {
+   addMap(
+      data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>,
+   ): this {
       this.difficulties.push(new InfoBeatmap(data));
       return this;
    }
@@ -216,7 +218,9 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
    ): InfoBeatmap[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'> = {}) {
+   constructor(
+      data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'> = {},
+   ) {
       super();
       this.characteristic = data.characteristic ?? InfoBeatmap.defaultValue.characteristic;
       this.difficulty = data.difficulty ?? InfoBeatmap.defaultValue.difficulty;

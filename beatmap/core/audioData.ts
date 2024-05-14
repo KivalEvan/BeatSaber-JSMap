@@ -12,6 +12,7 @@ import { BaseItem } from './abstract/baseItem.ts';
 
 export class AudioData extends BaseItem implements IWrapAudioData {
    static defaultValue: IWrapAudioDataAttribute = {
+      version: -1,
       filename: 'AudioData.dat',
       audioChecksum: '',
       sampleCount: 44100,
@@ -26,6 +27,7 @@ export class AudioData extends BaseItem implements IWrapAudioData {
    }
    constructor(data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'> = {}) {
       super();
+      this.version = data.version ?? AudioData.defaultValue.version;
       this.filename = data.filename ?? AudioData.defaultValue.filename;
       this.audioChecksum = data.audioChecksum ?? AudioData.defaultValue.audioChecksum;
       this.sampleCount = data.sampleCount ?? AudioData.defaultValue.sampleCount;
@@ -54,7 +56,9 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       return true;
    }
 
+   version: number;
    filename: string;
+
    audioChecksum: string;
    sampleCount: number;
    frequency: number;

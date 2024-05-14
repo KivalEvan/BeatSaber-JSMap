@@ -27,13 +27,15 @@ export function toV2Beatmap(
 
    switch (fromVersion) {
       case 1:
-         break;
       case 2:
+         data.version = 2;
          break;
       case 3:
+         data.version = 2;
          fromV3(data);
          break;
       case 4:
+         data.version = 2;
          fromV3(data); // because they're the same anyway
          break;
       default:

@@ -12,7 +12,16 @@ import { handleWrite, handleWriteSync, tag } from './_main.ts';
  */
 export function writeLightshowFile(
    data: IWrapBeatmap,
-   version: number,
+   version?: number | null,
+   options?: IWriteOptions<IWrapBeatmap>,
+): Promise<Record<string, any>>;
+export function writeLightshowFile(
+   data: IWrapBeatmap,
+   options?: IWriteOptions<IWrapBeatmap>,
+): Promise<Record<string, any>>;
+export function writeLightshowFile(
+   data: IWrapBeatmap,
+   version?: number | null | IWriteOptions<IWrapBeatmap>,
    options?: IWriteOptions<IWrapBeatmap>,
 ): Promise<Record<string, any>> {
    logger.tInfo(tag('writeLightshowFile'), 'Async writing lightshow file');
@@ -27,7 +36,16 @@ export function writeLightshowFile(
  */
 export function writeLightshowFileSync(
    data: IWrapBeatmap,
-   version: number,
+   version?: number | null,
+   options?: IWriteOptions<IWrapBeatmap>,
+): Record<string, any>;
+export function writeLightshowFileSync(
+   data: IWrapBeatmap,
+   options?: IWriteOptions<IWrapBeatmap>,
+): Record<string, any>;
+export function writeLightshowFileSync(
+   data: IWrapBeatmap,
+   version?: number | null | IWriteOptions<IWrapBeatmap>,
    options?: IWriteOptions<IWrapBeatmap>,
 ): Record<string, any> {
    logger.tInfo(tag('writeLightshowFileSync'), 'Sync writing lightshow file');

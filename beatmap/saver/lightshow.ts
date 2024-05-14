@@ -15,7 +15,16 @@ import { saveBeatmap, tag } from './_main.ts';
  */
 export function saveLightshow<T extends Record<string, any>>(
    data: IWrapBeatmap,
-   version: number,
+   version?: number | null,
+   options?: ISaveOptions<IWrapBeatmap>,
+): T;
+export function saveLightshow<T extends Record<string, any>>(
+   data: IWrapBeatmap,
+   options?: ISaveOptions<IWrapBeatmap>,
+): T;
+export function saveLightshow<T extends Record<string, any>>(
+   data: IWrapBeatmap,
+   version?: number | null | ISaveOptions<IWrapBeatmap>,
    options?: ISaveOptions<IWrapBeatmap>,
 ): T {
    logger.tInfo(tag('saveLightshow'), 'Saving lightshow to JSON');

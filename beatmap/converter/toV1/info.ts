@@ -13,6 +13,7 @@ export function toV1Info(data: IWrapInfo, fromVersion: number): IWrapInfo {
       case 3:
       case 2:
       case 4:
+         data.version = 1;
          break;
       default:
          logger.tWarn(

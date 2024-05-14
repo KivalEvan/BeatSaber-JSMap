@@ -36,6 +36,7 @@ export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IAudio> = {
       data: DeepPartial<IAudio> = {},
    ): DeepPartial<IWrapAudioDataAttribute> {
       return {
+         version: 4,
          audioChecksum: data.songChecksum ?? audioData.defaultValue.songChecksum,
          sampleCount: data.songSampleCount ?? audioData.defaultValue.songSampleCount,
          frequency: data.songFrequency ?? audioData.defaultValue.songFrequency,

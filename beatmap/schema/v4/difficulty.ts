@@ -91,6 +91,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       data: DeepPartial<IDifficulty> = {},
    ): DeepPartial<IWrapBeatmapAttribute> {
       return {
+         version: 4,
          data: {
             colorNotes: (
                data?.colorNotes ?? defaultValue.colorNotes

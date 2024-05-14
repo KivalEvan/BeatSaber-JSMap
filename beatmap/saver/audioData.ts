@@ -15,7 +15,16 @@ import { saveBeatmap, tag } from './_main.ts';
  */
 export function saveAudioData<T extends Record<string, any>>(
    data: IWrapAudioData,
-   version: number,
+   version?: number | null,
+   options?: ISaveOptions<IWrapAudioData>,
+): T;
+export function saveAudioData<T extends Record<string, any>>(
+   data: IWrapAudioData,
+   options?: ISaveOptions<IWrapAudioData>,
+): T;
+export function saveAudioData<T extends Record<string, any>>(
+   data: IWrapAudioData,
+   version?: number | null | ISaveOptions<IWrapAudioData>,
    options?: ISaveOptions<IWrapAudioData>,
 ): T {
    logger.tInfo(tag('saveAudioData'), 'Saving audio data to JSON');

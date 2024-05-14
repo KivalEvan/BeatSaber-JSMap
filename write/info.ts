@@ -12,7 +12,16 @@ import { handleWrite, handleWriteSync, tag } from './_main.ts';
  */
 export function writeInfoFile(
    data: IWrapInfo,
-   version: number,
+   version?: number | null,
+   options?: IWriteOptions<IWrapInfo>,
+): Promise<Record<string, any>>;
+export function writeInfoFile(
+   data: IWrapInfo,
+   options?: IWriteOptions<IWrapInfo>,
+): Promise<Record<string, any>>;
+export function writeInfoFile(
+   data: IWrapInfo,
+   version?: number | null | IWriteOptions<IWrapInfo>,
    options?: IWriteOptions<IWrapInfo>,
 ): Promise<Record<string, any>> {
    logger.tInfo(tag('writeInfoFile'), 'Async writing info file');
@@ -27,7 +36,16 @@ export function writeInfoFile(
  */
 export function writeInfoFileSync(
    data: IWrapInfo,
-   version: number,
+   version?: number | null,
+   options?: IWriteOptions<IWrapInfo>,
+): Record<string, any>;
+export function writeInfoFileSync(
+   data: IWrapInfo,
+   options?: IWriteOptions<IWrapInfo>,
+): Record<string, any>;
+export function writeInfoFileSync(
+   data: IWrapInfo,
+   version?: number | null | IWriteOptions<IWrapInfo>,
    options?: IWriteOptions<IWrapInfo>,
 ): Record<string, any> {
    logger.tInfo(tag('writeInfoFileSync'), 'Sync writing info file');
