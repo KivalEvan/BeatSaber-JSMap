@@ -27,12 +27,12 @@ Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
          load: { forceConvert: false },
       });
       for (const bl of beatmapList) {
-         assertEquals(bl.version, 2);
+         assertEquals(bl.beatmap.version, 2);
       }
    });
 
    await t.step('Able to save as V2 beatmap schema', async () => {
-      const output = beatmapList.map((bl) => saveDifficulty(bl.beatmap, bl.version));
+      const output = beatmapList.map((bl) => saveDifficulty(bl.beatmap));
       output.forEach((o, i) => {
          assertEquals(o._version, '2.6.0');
          assertObjectMatch(saveDifficulty(beatmapList[i].beatmap, 2), o);
@@ -57,12 +57,12 @@ Deno.test('Load V3 beatmap implicitly', async (t) => {
          directory: "./tests/resources/examples/I Bet You'll Forget That Even If You Noticed That/",
       });
       for (const bl of beatmapList) {
-         assertEquals(bl.version, 3);
+         assertEquals(bl.beatmap.version, 3);
       }
    });
 
    await t.step('Able to save as V3 beatmap schema', () => {
-      const output = beatmapList.map((bl) => saveDifficulty(bl.beatmap, bl.version));
+      const output = beatmapList.map((bl) => saveDifficulty(bl.beatmap));
       output.forEach((o, i) => {
          assertEquals(o.version, '3.3.0');
          assertObjectMatch(saveDifficulty(beatmapList[i].beatmap, 3), o);
@@ -88,9 +88,9 @@ Deno.test('Load mixed beatmap implicitly', async (t) => {
       });
       for (const bl of beatmapList) {
          if (bl.info.characteristic === 'OneSaber') {
-            assertEquals(bl.version, 3);
+            assertEquals(bl.beatmap.version, 3);
          } else {
-            assertEquals(bl.version, 2);
+            assertEquals(bl.beatmap.version, 2);
          }
       }
    });

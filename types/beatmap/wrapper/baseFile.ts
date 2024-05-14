@@ -11,7 +11,7 @@ export interface IWrapBaseFileAttribute {
     *
     * It is advisable to not explicitly set this value unless you know what you are doing.
     *
-    * @default -1
+    * @default -1 prevents from saving entirely.
     */
    version: number;
 }

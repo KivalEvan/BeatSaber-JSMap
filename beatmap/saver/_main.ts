@@ -88,7 +88,14 @@ export function saveBeatmap<
       ver = version;
    } else {
       ver = data.version;
-      logger.tInfo(tag('saveBeatmap'), 'Implicitly saving as version', ver);
+      if (ver === -1) {
+         throw new Error('Version is not set, prevented from saving.');
+      }
+      logger.tInfo(
+         tag('saveBeatmap'),
+         'Implicitly saving ' + type + ' as version',
+         ver,
+      );
    }
    const optD = (typeof version !== 'number' ? version : options) ?? {};
    const opt: Required<ISaveOptions<any>> = {
@@ -128,20 +135,26 @@ export function saveBeatmap<
       data = fn(data);
    });
 
-   if (opt.validate.enabled) {
-      logger.tInfo(tag('saveBeatmap'), 'Validating beatmap');
-      if (!data.isValid()) {
-         logger.tWarn(tag('saveBeatmap'), 'Invalid data detected in beatmap');
-      }
-   }
+   // TODO: validate beatmap properly
+   // if (opt.validate.enabled) {
+   //    logger.tInfo(tag('saveBeatmap'), 'Validating beatmap');
+   //    if (!data.isValid()) {
+   //       logger.tWarn(tag('saveBeatmap'), 'Invalid data detected in beatmap');
+   //    }
+   // }
 
    if (opt.sort) {
       logger.tInfo(tag('saveBeatmap'), 'Sorting beatmap objects');
       data.sort();
    }
 
-   logger.tInfo(tag('saveBeatmap'), 'Serializing beatmap');
-   let json = schemaMap[ver]?.serialize(data as any) ?? {};
+   logger.tInfo(tag('saveBeatmap'), 'Serializing beatmap ' + type + ' as JSON');
+   let json = schemaMap[ver]?.serialize(data as any);
+   if (!json) {
+      throw new Error(
+         'Failed to serialize beatmap, version ' + ver + ' is not supported.',
+      );
+   }
 
    if (opt.optimize.enabled) {
       logger.tInfo(tag('saveBeatmap'), 'Optimizing beatmap JSON');
