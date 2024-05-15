@@ -14,16 +14,16 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function readInfoFile(
-   path: LooseAutocomplete<GenericFilename>,
+   path?: LooseAutocomplete<GenericFilename>,
    version?: number | null,
    options?: IReadOptions<IWrapInfo>,
 ): Promise<IWrapInfo>;
 export function readInfoFile(
-   path: LooseAutocomplete<GenericFilename>,
+   path?: LooseAutocomplete<GenericFilename>,
    options?: IReadOptions<IWrapInfo>,
 ): Promise<IWrapInfo>;
 export function readInfoFile(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericFilename> = 'Info.dat',
    version?: number | null | IReadOptions<IWrapInfo>,
    options?: IReadOptions<IWrapInfo>,
 ): Promise<IWrapInfo> {
@@ -41,16 +41,16 @@ export function readInfoFile(
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function readInfoFileSync(
-   path: LooseAutocomplete<GenericFilename>,
+   path?: LooseAutocomplete<GenericFilename>,
    version?: number | null,
    options?: IReadOptions<IWrapInfo>,
 ): IWrapInfo;
 export function readInfoFileSync(
-   path: LooseAutocomplete<GenericFilename>,
+   path?: LooseAutocomplete<GenericFilename>,
    options?: IReadOptions<IWrapInfo>,
 ): IWrapInfo;
 export function readInfoFileSync(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericFilename> = 'Info.dat',
    version?: number | null | IReadOptions<IWrapInfo>,
    options?: IReadOptions<IWrapInfo>,
 ): IWrapInfo {
