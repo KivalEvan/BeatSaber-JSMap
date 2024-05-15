@@ -181,11 +181,11 @@ try {
       performSingle(d);
 
       const hasChroma = d.basicEvents.some((obj) => obj.isChroma()) ||
-         d.colorNotes.some((obj) => obj.isChroma()) ||
-         d.bombNotes.some((obj) => obj.isChroma()) ||
-         d.arcs.some((obj) => obj.isChroma()) ||
-         d.chains.some((obj) => obj.isChroma()) ||
-         d.obstacles.some((obj) => obj.isChroma());
+         d.colorNotes.some((obj) => obj.check()) ||
+         d.bombNotes.some((obj) => obj.check()) ||
+         d.arcs.some((obj) => obj.check()) ||
+         d.chains.some((obj) => obj.check()) ||
+         d.obstacles.some((obj) => obj.check());
       if (hasChroma) {
          if (
             dl.settings.customData._suggestions &&

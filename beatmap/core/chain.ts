@@ -41,6 +41,15 @@ export class Chain extends BaseSlider implements IWrapChain {
       );
    }
 
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : super.isValid(fn) &&
+         (!this.isInverse() ||
+            this.posY >= 0 ||
+            this.posY <= 2 ||
+            this.tailPosY >= 0 ||
+            this.tailPosY <= 2);
+   }
+
    sliceCount: IWrapChain['sliceCount'];
    squish: IWrapChain['squish'];
 
@@ -51,16 +60,5 @@ export class Chain extends BaseSlider implements IWrapChain {
    setSquish(value: this['squish']): this {
       this.squish = value;
       return this;
-   }
-
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
-         (!this.isInverse() ||
-            this.posY >= 0 ||
-            this.posY <= 2 ||
-            this.tailPosY >= 0 ||
-            this.tailPosY <= 2)
-      );
    }
 }

@@ -36,6 +36,16 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       );
    }
 
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : super.isValid(fn) &&
+         this.posX >= 0 &&
+         this.posX <= 3 &&
+         this.posY >= 0 &&
+         this.posY <= 2 &&
+         this.direction >= 0 &&
+         this.direction <= 8;
+   }
+
    angleOffset: IWrapColorNote['angleOffset'] = 0;
 
    setAngleOffset(value: this['angleOffset']): this {

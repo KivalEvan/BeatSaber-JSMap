@@ -26,6 +26,27 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
       );
    }
 
+   isValidType(): boolean {
+      return (
+         (this.type >= 0 && this.type <= 19) ||
+         (this.type >= 40 && this.type <= 43) ||
+         this.type === 100
+      );
+   }
+
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : (
+         super.isValid(fn) &&
+         this.isValidType() &&
+         this.value >= 0 &&
+         !(
+            !this.isLaserRotationEvent() &&
+            this.value > 12 &&
+            !this.isOldChroma()
+         )
+      );
+   }
+
    type: IWrapEvent['type'];
    value: IWrapEvent['value'];
    floatValue: IWrapEvent['floatValue'];
@@ -162,25 +183,5 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
    }
    isOldChroma(): boolean {
       return this.value >= 2000000000;
-   }
-
-   isValidType(): boolean {
-      return (
-         (this.type >= 0 && this.type <= 19) ||
-         (this.type >= 40 && this.type <= 43) ||
-         this.type === 100
-      );
-   }
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
-         this.isValidType() &&
-         this.value >= 0 &&
-         !(
-            !this.isLaserRotationEvent() &&
-            this.value > 12 &&
-            !this.isOldChroma()
-         )
-      );
    }
 }

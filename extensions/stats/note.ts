@@ -29,24 +29,24 @@ export function countNote(notes: (IWrapColorNote | IWrapBaseSlider)[]): ICountNo
    for (let i = notes.length - 1; i >= 0; i--) {
       if (notes[i].color === 0) {
          noteCount.red.total++;
-         if (notes[i].isChroma()) {
+         if (notes[i].check()) {
             noteCount.red.chroma++;
          }
-         if (notes[i].isNoodleExtensions()) {
+         if (notes[i].check()) {
             noteCount.red.noodleExtensions++;
          }
-         if (notes[i].isMappingExtensions()) {
+         if (notes[i].check()) {
             noteCount.red.mappingExtensions++;
          }
       } else if (notes[i].color === 1) {
          noteCount.blue.total++;
-         if (notes[i].isChroma()) {
+         if (notes[i].check()) {
             noteCount.blue.chroma++;
          }
-         if (notes[i].isNoodleExtensions()) {
+         if (notes[i].check()) {
             noteCount.blue.noodleExtensions++;
          }
-         if (notes[i].isMappingExtensions()) {
+         if (notes[i].check()) {
             noteCount.blue.mappingExtensions++;
          }
       }
@@ -63,13 +63,13 @@ export function countBomb(bombs: IWrapBombNote[]): ICountStatsNote {
    };
    for (let i = bombs.length - 1; i >= 0; i--) {
       bombCount.total++;
-      if (bombs[i].isChroma()) {
+      if (bombs[i].check()) {
          bombCount.chroma++;
       }
-      if (bombs[i].isNoodleExtensions()) {
+      if (bombs[i].check()) {
          bombCount.noodleExtensions++;
       }
-      if (bombs[i].isMappingExtensions()) {
+      if (bombs[i].check()) {
          bombCount.mappingExtensions++;
       }
    }

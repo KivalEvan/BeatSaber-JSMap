@@ -33,21 +33,15 @@ export abstract class BaseItem extends Cloneable implements IWrapBaseItem {
       return this;
    }
 
-   func(fn: (object: this) => void): this {
+   perform(fn: (object: this) => void): this {
       fn(this);
       return this;
    }
 
    isValid(fn?: (object: this) => boolean, _override?: boolean): boolean {
-      return !!fn?.(this);
+      return this.check(fn);
    }
-   isChroma(fn?: (object: this) => boolean): boolean {
-      return !!fn?.(this);
-   }
-   isNoodleExtensions(fn?: (object: this) => boolean): boolean {
-      return !!fn?.(this);
-   }
-   isMappingExtensions(fn?: (object: this) => boolean): boolean {
-      return !!fn?.(this);
+   check(fn?: (object: this) => boolean): boolean {
+      return fn ? !!fn(this) : true;
    }
 }

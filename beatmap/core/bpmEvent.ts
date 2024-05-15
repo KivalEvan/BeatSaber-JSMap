@@ -24,14 +24,14 @@ export class BPMEvent extends BaseObject implements IWrapBPMEvent {
       );
    }
 
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : super.isValid(fn) && this.bpm > 0;
+   }
+
    bpm: IWrapBPMEvent['bpm'];
 
    setBPM(value: this['bpm']): this {
       this.bpm = value;
       return this;
-   }
-
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : super.isValid(fn) && this.bpm > 0;
    }
 }

@@ -42,7 +42,7 @@ export function countEvent(
             };
          }
          eventCount[events[i].type].total++;
-         if (events[i].isChroma()) {
+         if (events[i].check()) {
             eventCount[events[i].type].chroma++;
          }
          if (events[i].isOldChroma()) {

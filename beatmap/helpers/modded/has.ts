@@ -1,9 +1,13 @@
 //FIXME: i feel like it's better to just check key instead of type of it
-import type { IWrapBaseItemAttribute } from '../../types/beatmap/wrapper/baseItem.ts';
-import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
-import type { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import type { IWrapArcAttribute } from '../../../types/beatmap/wrapper/arc.ts';
+import type { IWrapBaseItemAttribute } from '../../../types/beatmap/wrapper/baseItem.ts';
+import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapChainAttribute } from '../../../types/beatmap/wrapper/chain.ts';
+import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 
-export function hasChromaEventV2(data: IWrapBaseItemAttribute) {
+export function hasChromaEventV2(data: IWrapBaseItemAttribute): boolean {
    return (
       Array.isArray(data.customData._color) ||
       typeof data.customData._lightID === 'number' ||
@@ -121,7 +125,9 @@ export function hasChromaNoteV3(data: IWrapBaseItemAttribute): boolean {
    );
 }
 
-export function hasNoodleExtensionsNoteV3(data: IWrapBaseItemAttribute): boolean {
+export function hasNoodleExtensionsNoteV3(
+   data: IWrapBaseItemAttribute,
+): boolean {
    return (
       Array.isArray(data.customData.animation) ||
       typeof data.customData.disableNoteGravity === 'boolean' ||
@@ -141,7 +147,9 @@ export function hasNoodleExtensionsNoteV3(data: IWrapBaseItemAttribute): boolean
    );
 }
 
-export function hasNoodleExtensionsSliderV3(data: IWrapBaseItemAttribute): boolean {
+export function hasNoodleExtensionsSliderV3(
+   data: IWrapBaseItemAttribute,
+): boolean {
    return (
       Array.isArray(data.customData.animation) ||
       typeof data.customData.disableNoteGravity === 'boolean' ||
@@ -166,7 +174,9 @@ export function hasChromaObstacleV3(data: IWrapBaseItemAttribute): boolean {
    return Array.isArray(data.customData.color);
 }
 
-export function hasNoodleExtensionsObstacleV3(data: IWrapBaseItemAttribute): boolean {
+export function hasNoodleExtensionsObstacleV3(
+   data: IWrapBaseItemAttribute,
+): boolean {
    return (
       Array.isArray(data.customData.animation) ||
       typeof data.customData.uninteractable === 'boolean' ||
@@ -179,7 +189,9 @@ export function hasNoodleExtensionsObstacleV3(data: IWrapBaseItemAttribute): boo
    );
 }
 
-export function hasMappingExtensionsObstacleV3(data: IWrapObstacleAttribute): boolean {
+export function hasMappingExtensionsObstacle(
+   data: IWrapObstacleAttribute,
+): boolean {
    return (
       data.posY < 0 ||
       data.posY > 2 ||
@@ -189,5 +201,56 @@ export function hasMappingExtensionsObstacleV3(data: IWrapObstacleAttribute): bo
       data.width >= 1000 ||
       data.height <= -1000 ||
       data.height >= 1000
+   );
+}
+
+export function hasMappingExtensionsArc(data: IWrapArcAttribute): boolean {
+   return (
+      data.posY > 2 ||
+      data.posY < 0 ||
+      data.posX <= -1000 ||
+      data.posX >= 1000 ||
+      (data.direction >= 1000 && data.direction <= 1360) ||
+      (data.tailDirection >= 1000 && data.tailDirection <= 1360)
+   );
+}
+
+export function hasMappingExtensionsBombNote(
+   data: IWrapBombNoteAttribute,
+): boolean {
+   return data.posX > 3 || data.posX < 0 || data.posY > 2 || data.posY < 0;
+}
+
+export function hasMappingExtensionsChain(data: IWrapChainAttribute): boolean {
+   return (
+      data.posY > 2 ||
+      data.posY < 0 ||
+      data.posX <= -1000 ||
+      data.posX >= 1000 ||
+      (data.direction >= 1000 && data.direction <= 1360)
+   );
+}
+
+export function hasMappingExtensionsNote(
+   data: IWrapColorNoteAttribute,
+): boolean {
+   return (
+      data.posX > 3 ||
+      data.posX < 0 ||
+      data.posY > 2 ||
+      data.posY < 0 ||
+      (data.direction >= 1000 && data.direction <= 1360) ||
+      (data.direction >= 2000 && data.direction <= 2360)
+   );
+}
+
+export function hasMappingExtensionsRotation(
+   data: IWrapRotationEventAttribute,
+): boolean {
+   return (
+      data.rotation >= -60 &&
+      data.rotation <= 60 &&
+      data.rotation !== 0 &&
+      data.rotation % 15 === 0
    );
 }

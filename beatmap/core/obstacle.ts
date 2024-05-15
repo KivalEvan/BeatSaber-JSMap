@@ -35,6 +35,12 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       this.customData = deepCopy(data.customData ?? Obstacle.defaultValue.customData);
    }
 
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override
+         ? super.isValid(fn)
+         : super.isValid(fn) && !this.hasZero() && !this.hasNegative();
+   }
+
    duration: IWrapObstacle['duration'] = 0;
    width: IWrapObstacle['width'] = 0;
    height: IWrapObstacle['height'] = 0;
@@ -82,11 +88,5 @@ export class Obstacle extends GridObject implements IWrapObstacle {
 
    hasNegative(): boolean {
       return this.posY < 0 || this.duration < 0 || this.width < 0 || this.height < 0;
-   }
-
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override
-         ? super.isValid(fn)
-         : super.isValid(fn) && !this.hasZero() && !this.hasNegative();
    }
 }

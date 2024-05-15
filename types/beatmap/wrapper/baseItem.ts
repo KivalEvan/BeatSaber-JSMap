@@ -26,47 +26,31 @@ export interface IWrapBaseItem extends ICloneable, IWrapBaseItemAttribute {
    sort(fn?: (object: this) => void): this;
 
    /** Allow for advanced custom function. */
-   func(fn: (object: this) => void): this;
+   perform(fn: (object: this) => void): this;
 
    /**
     * Check if object is valid in vanilla game.
+    * This may also allow for value outside of intended value as long as it does not cause
+    * weird, inconsistent behaviour or unable to load the map.
+    *
+    * However, this validity may not be applicable to older version of the game or schema.
     *
     * Override allow for custom function to take over rather than run alongside.
     *
     * @example
     * ```ts
-    * if (obj.isValid(optionalFn)) {}
+    * if (!obj.isValid(optionalFn)) {}
     * ```
     */
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean;
 
    /**
-    * Check if object has Chroma properties.
+    * Check an object given a custom function.
     *
     * @example
     * ```ts
-    * if (obj.isChroma(optionalFn)) {}
+    * if (obj.check(hasChromaFn)) {}
     * ```
     */
-   isChroma(fn?: (object: this) => boolean): boolean;
-
-   /**
-    * Check if object has Noodle Extensions properties.
-    *
-    * @example
-    * ```ts
-    * if (obj.isNoodleExtensions(optionalFn)) {}
-    * ```
-    */
-   isNoodleExtensions(fn?: (object: this) => boolean): boolean;
-
-   /**
-    * Check if object has Mapping Extensions properties.
-    *
-    * @example
-    * ```ts
-    * if (obj.isMappingExtensions(optionalFn)) {}
-    * ```
-    */
-   isMappingExtensions(fn?: (object: this) => boolean): boolean;
+   check(fn?: (object: this) => boolean): boolean;
 }
