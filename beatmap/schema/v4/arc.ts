@@ -97,31 +97,4 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArcContainer> = {
          ),
       };
    },
-   isChroma(data: IWrapArcAttribute): boolean {
-      return (
-         Array.isArray(data.customData.color) ||
-         typeof data.customData.spawnEffect === 'boolean' ||
-         typeof data.customData.disableDebris === 'boolean'
-      );
-   },
-   isNoodleExtensions(data: IWrapArcAttribute): boolean {
-      return (
-         Array.isArray(data.customData.animation) ||
-         typeof data.customData.disableNoteGravity === 'boolean' ||
-         typeof data.customData.disableNoteLook === 'boolean' ||
-         typeof data.customData.disableBadCutDirection === 'boolean' ||
-         typeof data.customData.disableBadCutSaberType === 'boolean' ||
-         typeof data.customData.disableBadCutSpeed === 'boolean' ||
-         Array.isArray(data.customData.flip) ||
-         typeof data.customData.uninteractable === 'boolean' ||
-         Array.isArray(data.customData.localRotation) ||
-         typeof data.customData.noteJumpMovementSpeed === 'number' ||
-         typeof data.customData.noteJumpStartBeatOffset === 'number' ||
-         Array.isArray(data.customData.coordinates) ||
-         Array.isArray(data.customData.tailCoordinates) ||
-         Array.isArray(data.customData.worldRotation) ||
-         typeof data.customData.worldRotation === 'number' ||
-         typeof data.customData.link === 'string'
-      );
-   },
 };

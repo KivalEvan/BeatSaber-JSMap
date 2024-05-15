@@ -50,34 +50,4 @@ export const basicEvent: ISchemaContainer<
          ),
       };
    },
-   isChroma(_: IWrapEventAttribute): boolean {
-      // FIXME: chroma
-      if (data.isLightEvent()) {
-         return (
-            Array.isArray(data.customData.color) ||
-            typeof data.customData.lightID === 'number' ||
-            Array.isArray(data.customData.lightID) ||
-            typeof data.customData.easing === 'string' ||
-            typeof data.customData.lerpType === 'string'
-         );
-      }
-      if (data.isRingEvent()) {
-         return (
-            typeof data.customData.nameFilter === 'string' ||
-            typeof data.customData.rotation === 'number' ||
-            typeof data.customData.step === 'number' ||
-            typeof data.customData.prop === 'number' ||
-            typeof data.customData.speed === 'number' ||
-            typeof data.customData.direction === 'number'
-         );
-      }
-      if (data.isLaserRotationEvent()) {
-         return (
-            typeof data.customData.lockRotation === 'boolean' ||
-            typeof data.customData.speed === 'number' ||
-            typeof data.customData.direction === 'number'
-         );
-      }
-      return false;
-   },
 };

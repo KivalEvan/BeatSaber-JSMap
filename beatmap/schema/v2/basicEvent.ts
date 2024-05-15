@@ -32,42 +32,4 @@ export const basicEvent: ISchemaContainer<IWrapEventAttribute, IEvent> = {
          ),
       };
    },
-   isChroma(data: IWrapEventAttribute): boolean {
-      // FIXME: well now i have to properly check
-      if (data.isLightEvent()) {
-         return (
-            Array.isArray(data.customData._color) ||
-            typeof data.customData._lightID === 'number' ||
-            Array.isArray(data.customData._lightID) ||
-            typeof data.customData._propID === 'number' ||
-            typeof data.customData._lightGradient === 'object' ||
-            typeof data.customData._easing === 'string' ||
-            typeof data.customData._lerpType === 'string'
-         );
-      }
-      if (data.isRingEvent()) {
-         return (
-            typeof data.customData._nameFilter === 'string' ||
-            typeof data.customData._reset === 'boolean' ||
-            typeof data.customData._rotation === 'number' ||
-            typeof data.customData._step === 'number' ||
-            typeof data.customData._prop === 'number' ||
-            typeof data.customData._speed === 'number' ||
-            typeof data.customData._direction === 'number' ||
-            typeof data.customData._counterSpin === 'boolean' ||
-            typeof data.customData._stepMult === 'number' ||
-            typeof data.customData._propMult === 'number' ||
-            typeof data.customData._speedMult === 'number'
-         );
-      }
-      if (data.isLaserRotationEvent()) {
-         return (
-            typeof data.customData._lockPosition === 'boolean' ||
-            typeof data.customData._speed === 'number' ||
-            typeof data.customData._preciseSpeed === 'number' ||
-            typeof data.customData._direction === 'number'
-         );
-      }
-      return false;
-   },
 };

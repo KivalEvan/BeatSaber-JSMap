@@ -58,28 +58,4 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          ),
       };
    },
-   isChroma(data: IWrapObstacleAttribute): boolean {
-      return Array.isArray(data.customData._color);
-   },
-   isNoodleExtensions(data: IWrapObstacleAttribute): boolean {
-      return (
-         Array.isArray(data.customData._animation) ||
-         typeof data.customData._fake === 'boolean' ||
-         typeof data.customData._interactable === 'boolean' ||
-         Array.isArray(data.customData._localRotation) ||
-         typeof data.customData._noteJumpMovementSpeed === 'number' ||
-         typeof data.customData._noteJumpStartBeatOffset === 'number' ||
-         Array.isArray(data.customData._position) ||
-         Array.isArray(data.customData._rotation) ||
-         Array.isArray(data.customData._scale)
-      );
-   },
-   isMappingExtensions(data: IWrapObstacleAttribute): boolean {
-      return (
-         data.posX < 0 ||
-         data.posX > 3 ||
-         data.width < 0 ||
-         data.width > 3
-      );
-   },
 };

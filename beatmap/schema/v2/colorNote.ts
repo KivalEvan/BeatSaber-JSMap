@@ -35,26 +35,4 @@ export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, INote> = {
          ),
       };
    },
-   isChroma(data: IWrapColorNoteAttribute): boolean {
-      return (
-         Array.isArray(data.customData._color) ||
-         typeof data.customData._disableSpawnEffect === 'boolean'
-      );
-   },
-   isNoodleExtensions(data: IWrapColorNoteAttribute): boolean {
-      return (
-         Array.isArray(data.customData._animation) ||
-         typeof data.customData._cutDirection === 'number' ||
-         typeof data.customData._disableNoteGravity === 'boolean' ||
-         typeof data.customData._disableNoteLook === 'boolean' ||
-         typeof data.customData._fake === 'boolean' ||
-         Array.isArray(data.customData._flip) ||
-         typeof data.customData._interactable === 'boolean' ||
-         Array.isArray(data.customData._localRotation) ||
-         typeof data.customData._noteJumpMovementSpeed === 'number' ||
-         typeof data.customData._noteJumpStartBeatOffset === 'number' ||
-         Array.isArray(data.customData._position) ||
-         Array.isArray(data.customData._rotation)
-      );
-   },
 };

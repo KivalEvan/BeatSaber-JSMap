@@ -44,10 +44,4 @@ export const rotationEvent: ISchemaContainer<
          customData: deepCopy(data._customData ?? defaultValue._customData),
       };
    },
-   isNoodleExtensions(data: IWrapRotationEventAttribute): boolean {
-      return typeof data.customData._rotation === 'number';
-   },
-   isMappingExtensions(data: IWrapRotationEventAttribute): boolean {
-      return data.rotation >= 1000 && data.rotation <= 1720;
-   },
 };

@@ -27,30 +27,4 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, IBombNote> = {
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isChroma(data: IWrapBombNoteAttribute): boolean {
-      return (
-         Array.isArray(data.customData.color) ||
-         typeof data.customData.spawnEffect === 'boolean' ||
-         typeof data.customData.disableDebris === 'boolean'
-      );
-   },
-   isNoodleExtensions(data: IWrapBombNoteAttribute): boolean {
-      return (
-         Array.isArray(data.customData.animation) ||
-         typeof data.customData.disableNoteGravity === 'boolean' ||
-         typeof data.customData.disableNoteLook === 'boolean' ||
-         typeof data.customData.disableBadCutDirection === 'boolean' ||
-         typeof data.customData.disableBadCutSaberType === 'boolean' ||
-         typeof data.customData.disableBadCutSpeed === 'boolean' ||
-         Array.isArray(data.customData.flip) ||
-         typeof data.customData.uninteractable === 'boolean' ||
-         Array.isArray(data.customData.localRotation) ||
-         typeof data.customData.noteJumpMovementSpeed === 'number' ||
-         typeof data.customData.noteJumpStartBeatOffset === 'number' ||
-         Array.isArray(data.customData.coordinates) ||
-         Array.isArray(data.customData.worldRotation) ||
-         typeof data.customData.worldRotation === 'number' ||
-         typeof data.customData.link === 'string'
-      );
-   },
 };
