@@ -68,16 +68,4 @@ export const lightRotationEventBox: ISchemaContainer<
          ),
       };
    },
-   isValid(_: IWrapLightRotationEventBoxAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapLightRotationEventBoxAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapLightRotationEventBoxAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapLightRotationEventBoxAttribute): boolean {
-      return false;
-   },
 };

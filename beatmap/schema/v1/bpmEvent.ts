@@ -22,16 +22,4 @@ export const bpmEvent: ISchemaContainer<IWrapBPMEventAttribute, IEvent> = {
          bpm: data._value ?? defaultValue._value,
       };
    },
-   isValid(_: IWrapBPMEventAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapBPMEventAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapBPMEventAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapBPMEventAttribute): boolean {
-      return false;
-   },
 };

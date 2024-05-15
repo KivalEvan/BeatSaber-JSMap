@@ -53,16 +53,4 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          height,
       };
    },
-   isValid(_: IWrapObstacleAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapObstacleAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapObstacleAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapObstacleAttribute): boolean {
-      return false;
-   },
 };

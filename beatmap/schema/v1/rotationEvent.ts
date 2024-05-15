@@ -34,16 +34,4 @@ export const rotationEvent: ISchemaContainer<
          rotation: value >= 1000 ? (value - 1360) % 360 : EventLaneRotationValue[value] ?? 0,
       };
    },
-   isValid(_: IWrapRotationEventAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapRotationEventAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapRotationEventAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapRotationEventAttribute): boolean {
-      return false;
-   },
 };

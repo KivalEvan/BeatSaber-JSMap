@@ -1,1 +1,0 @@
-- Fix v1/v2 rotation event value upon serialize

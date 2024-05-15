@@ -38,22 +38,4 @@ export const lightTranslationEventBoxGroup: ISchemaContainer<
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapLightTranslationEventBoxGroupAttribute): boolean {
-      return true;
-   },
-   isChroma: function (
-      _: IWrapLightTranslationEventBoxGroupAttribute,
-   ): boolean {
-      return false;
-   },
-   isNoodleExtensions: function (
-      _: IWrapLightTranslationEventBoxGroupAttribute,
-   ): boolean {
-      return false;
-   },
-   isMappingExtensions: function (
-      _: IWrapLightTranslationEventBoxGroupAttribute,
-   ): boolean {
-      return false;
-   },
 };

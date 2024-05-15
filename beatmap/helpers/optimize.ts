@@ -97,8 +97,8 @@ export function deepClean(
                }
             }
          }
-         // deno-lint-ignore ban-types
          deepClean(
+            // deno-lint-ignore ban-types
             d as {},
             Array.isArray(obj) ? `${name}[${k}]` : `${name}.${k}`,
             options,

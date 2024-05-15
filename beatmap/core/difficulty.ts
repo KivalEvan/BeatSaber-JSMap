@@ -53,23 +53,25 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
    ): Difficulty[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapDifficultyAttribute, 'customData'> = {}) {
+   constructor(
+      data: DeepPartialIgnore<IWrapDifficultyAttribute, 'customData'> = {},
+   ) {
       super();
-      this.bpmEvents = (data.bpmEvents ?? Difficulty.defaultValue.bpmEvents).map(
-         (e) => new BPMEvent(e),
-      );
+      this.bpmEvents = (
+         data.bpmEvents ?? Difficulty.defaultValue.bpmEvents
+      ).map((e) => new BPMEvent(e));
       this.rotationEvents = (
          data.rotationEvents ?? Difficulty.defaultValue.rotationEvents
       ).map((e) => new RotationEvent(e));
       this.colorNotes = (
          data.colorNotes ?? Difficulty.defaultValue.colorNotes
       ).map((e) => new ColorNote(e));
-      this.bombNotes = (data.bombNotes ?? Difficulty.defaultValue.bombNotes).map(
-         (e) => new BombNote(e),
-      );
-      this.obstacles = (data.obstacles ?? Difficulty.defaultValue.obstacles).map(
-         (e) => new Obstacle(e),
-      );
+      this.bombNotes = (
+         data.bombNotes ?? Difficulty.defaultValue.bombNotes
+      ).map((e) => new BombNote(e));
+      this.obstacles = (
+         data.obstacles ?? Difficulty.defaultValue.obstacles
+      ).map((e) => new Obstacle(e));
       this.arcs = (data.arcs ?? Difficulty.defaultValue.arcs).map(
          (e) => new Arc(e),
       );
@@ -84,8 +86,17 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       );
    }
 
-   isValid(): boolean {
-      return true;
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : (
+         super.isValid(fn) &&
+         this.bpmEvents.every((e) => e.isValid()) &&
+         this.rotationEvents.every((e) => e.isValid()) &&
+         this.colorNotes.every((e) => e.isValid()) &&
+         this.bombNotes.every((e) => e.isValid()) &&
+         this.obstacles.every((e) => e.isValid()) &&
+         this.arcs.every((e) => e.isValid()) &&
+         this.chains.every((e) => e.isValid())
+      );
    }
 
    bpmEvents: IWrapBPMEvent[];
@@ -108,7 +119,9 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       return this;
    }
 
-   addBpmEvents(...data: DeepPartialIgnore<IWrapBPMEventAttribute, 'customData'>[]): this {
+   addBpmEvents(
+      ...data: DeepPartialIgnore<IWrapBPMEventAttribute, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.bpmEvents.push(new BPMEvent(d));
       }
@@ -122,31 +135,41 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       }
       return this;
    }
-   addColorNotes(...data: DeepPartialIgnore<IWrapColorNoteAttribute, 'customData'>[]): this {
+   addColorNotes(
+      ...data: DeepPartialIgnore<IWrapColorNoteAttribute, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.colorNotes.push(new ColorNote(d));
       }
       return this;
    }
-   addBombNotes(...data: DeepPartialIgnore<IWrapBombNoteAttribute, 'customData'>[]): this {
+   addBombNotes(
+      ...data: DeepPartialIgnore<IWrapBombNoteAttribute, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.bombNotes.push(new BombNote(d));
       }
       return this;
    }
-   addObstacles(...data: DeepPartialIgnore<IWrapObstacleAttribute, 'customData'>[]): this {
+   addObstacles(
+      ...data: DeepPartialIgnore<IWrapObstacleAttribute, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.obstacles.push(new Obstacle(d));
       }
       return this;
    }
-   addArcs(...data: DeepPartialIgnore<IWrapArcAttribute, 'customData'>[]): this {
+   addArcs(
+      ...data: DeepPartialIgnore<IWrapArcAttribute, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.arcs.push(new Arc(d));
       }
       return this;
    }
-   addChains(...data: DeepPartialIgnore<IWrapChainAttribute, 'customData'>[]): this {
+   addChains(
+      ...data: DeepPartialIgnore<IWrapChainAttribute, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.chains.push(new Chain(d));
       }

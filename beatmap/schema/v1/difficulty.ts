@@ -117,34 +117,4 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          },
       };
    },
-   isValid(data: IWrapBeatmapAttribute): boolean {
-      return (
-         data.data.colorNotes.every(colorNote.isValid) &&
-         data.data.bombNotes.every(bombNote.isValid) &&
-         data.data.obstacles.every(obstacle.isValid) &&
-         data.data.bpmEvents.every(bpmEvent.isValid) &&
-         data.data.rotationEvents.every(rotationEvent.isValid) &&
-         data.lightshow.basicEvents.every(basicEvent.isValid) &&
-         data.lightshow.colorBoostEvents.every(colorBoostEvent.isValid)
-      );
-   },
-   isChroma(_: IWrapBeatmapAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapBeatmapAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(data: IWrapBeatmapAttribute): boolean {
-      return (
-         data.data.colorNotes.some(colorNote.isMappingExtensions) ||
-         data.data.bombNotes.some(bombNote.isMappingExtensions) ||
-         data.data.obstacles.some(obstacle.isMappingExtensions) ||
-         data.data.bpmEvents.some(bpmEvent.isMappingExtensions) ||
-         data.data.rotationEvents.some(rotationEvent.isMappingExtensions) ||
-         data.lightshow.basicEvents.some(basicEvent.isMappingExtensions) ||
-         data.lightshow.colorBoostEvents.some(
-            colorBoostEvent.isMappingExtensions,
-         )
-      );
-   },
 };

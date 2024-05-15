@@ -37,16 +37,4 @@ export const lightTranslationEvent: ISchemaContainer<
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapLightTranslationEventAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapLightTranslationEventAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapLightTranslationEventAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapLightTranslationEventAttribute): boolean {
-      return false;
-   },
 };

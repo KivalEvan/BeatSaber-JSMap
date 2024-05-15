@@ -60,16 +60,4 @@ export const lightTranslationEventBox: ISchemaContainer<
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapLightTranslationEventBoxAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapLightTranslationEventBoxAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapLightTranslationEventBoxAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapLightTranslationEventBoxAttribute): boolean {
-      return false;
-   },
 };

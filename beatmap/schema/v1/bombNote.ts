@@ -28,16 +28,4 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
          direction: data._cutDirection ?? defaultValue._cutDirection,
       };
    },
-   isValid(_: IWrapBombNoteAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapBombNoteAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapBombNoteAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapBombNoteAttribute): boolean {
-      return false;
-   },
 };

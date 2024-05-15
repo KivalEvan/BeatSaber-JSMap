@@ -38,7 +38,9 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
       return this;
    }
 
-   isValid(): boolean {
-      return this.previous === 0 || this.previous === 1;
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override
+         ? super.isValid(fn)
+         : super.isValid(fn) && (this.previous === 0 || this.previous === 1);
    }
 }

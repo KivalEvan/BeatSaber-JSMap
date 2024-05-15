@@ -39,16 +39,4 @@ export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IBPMInfo> = {
          })),
       };
    },
-   isValid(_: IWrapAudioDataAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapAudioDataAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapAudioDataAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapAudioDataAttribute): boolean {
-      return false;
-   },
 };

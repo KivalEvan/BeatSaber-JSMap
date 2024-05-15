@@ -150,8 +150,16 @@ export class Info extends BaseItem implements IWrapInfo {
       );
    }
 
-   isValid(): boolean {
-      return true;
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : (
+         super.isValid(fn) &&
+         this.audio.filename !== '' &&
+         this.audio.duration > 0 &&
+         this.audio.previewDuration > 0 &&
+         this.audio.previewStartTime > 0 &&
+         this.audio.audioOffset >= 0 &&
+         this.difficulties.every((e) => e.isValid())
+      );
    }
 
    version: number;
@@ -243,8 +251,13 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
       );
    }
 
-   isValid(): boolean {
-      return true;
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : (
+         super.isValid(fn) &&
+         this.njs > 0 &&
+         this.colorSchemeId >= -1 &&
+         this.environmentId >= -1
+      );
    }
 
    characteristic: CharacteristicName;

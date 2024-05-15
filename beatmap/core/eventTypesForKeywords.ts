@@ -29,10 +29,6 @@ export class EventTypesForKeywords extends BaseItem implements IWrapEventTypesFo
       );
    }
 
-   isValid(): boolean {
-      return true;
-   }
-
    keyword: IWrapEventTypesForKeywords['keyword'];
    events: IWrapEventTypesForKeywords['events'];
 

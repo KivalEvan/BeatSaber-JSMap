@@ -53,16 +53,4 @@ export const fxEventBoxGroup: ISchemaContainer<
          ),
       };
    },
-   isValid(_: IWrapFxEventBoxGroupAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapFxEventBoxGroupAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapFxEventBoxGroupAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapFxEventBoxGroupAttribute): boolean {
-      return false;
-   },
 };

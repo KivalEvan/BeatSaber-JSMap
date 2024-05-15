@@ -38,20 +38,4 @@ export const lightColorEventBoxGroup: ISchemaContainer<
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapLightColorEventBoxGroupAttribute): boolean {
-      return true;
-   },
-   isChroma: function (_: IWrapLightColorEventBoxGroupAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions: function (
-      _: IWrapLightColorEventBoxGroupAttribute,
-   ): boolean {
-      return false;
-   },
-   isMappingExtensions: function (
-      _: IWrapLightColorEventBoxGroupAttribute,
-   ): boolean {
-      return false;
-   },
 };

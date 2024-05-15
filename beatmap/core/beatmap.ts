@@ -104,8 +104,8 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       );
    }
 
-   isValid(): boolean {
-      return this.data.isValid() && this.lightshow.isValid();
+   isValid(fn?: (object: this) => boolean, _override?: boolean): boolean {
+      return super.isValid(fn);
    }
 
    version: number;

@@ -10,8 +10,4 @@ export interface ISchemaContainer<
    readonly defaultValue: Required<TSerial>;
    serialize: (data: TWrap) => TSerial;
    deserialize: (data?: DeepPartial<TSerial>) => DeepPartial<TWrap>;
-   isValid: (data: TWrap) => boolean;
-   isChroma: (data: TWrap) => boolean;
-   isNoodleExtensions: (data: TWrap) => boolean;
-   isMappingExtensions: (data: TWrap) => boolean;
 }

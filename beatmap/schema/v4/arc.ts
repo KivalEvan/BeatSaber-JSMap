@@ -97,9 +97,6 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArcContainer> = {
          ),
       };
    },
-   isValid(_: IWrapArcAttribute): boolean {
-      return true;
-   },
    isChroma(data: IWrapArcAttribute): boolean {
       return (
          Array.isArray(data.customData.color) ||
@@ -126,8 +123,5 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArcContainer> = {
          typeof data.customData.worldRotation === 'number' ||
          typeof data.customData.link === 'string'
       );
-   },
-   isMappingExtensions(_: IWrapArcAttribute): boolean {
-      return false;
    },
 };

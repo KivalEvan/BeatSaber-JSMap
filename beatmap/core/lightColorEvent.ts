@@ -76,8 +76,8 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
       return this;
    }
 
-   isValid(): boolean {
-      return (
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : super.isValid(fn) && (
          (this.previous === 0 || this.previous === 1) &&
          this.easing >= -1 &&
          this.easing <= 103 &&

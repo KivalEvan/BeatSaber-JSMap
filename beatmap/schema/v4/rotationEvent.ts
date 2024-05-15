@@ -35,16 +35,4 @@ export const rotationEvent: ISchemaContainer<
          ),
       };
    },
-   isValid(_: IWrapRotationEventAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapRotationEventAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapRotationEventAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapRotationEventAttribute): boolean {
-      return false;
-   },
 };

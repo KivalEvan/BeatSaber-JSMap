@@ -58,9 +58,6 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          ),
       };
    },
-   isValid(_: IWrapObstacleAttribute): boolean {
-      return true;
-   },
    isChroma(data: IWrapObstacleAttribute): boolean {
       return Array.isArray(data.customData._color);
    },

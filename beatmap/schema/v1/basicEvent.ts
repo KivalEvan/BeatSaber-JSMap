@@ -24,16 +24,4 @@ export const basicEvent: ISchemaContainer<IWrapEventAttribute, IEvent> = {
          floatValue: 1,
       };
    },
-   isValid(_: IWrapEventAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapEventAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapEventAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapEventAttribute): boolean {
-      return false;
-   },
 };

@@ -24,16 +24,4 @@ export const bpmEvent: ISchemaContainer<IWrapBPMEventAttribute, IBPMEvent> = {
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapBPMEventAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapBPMEventAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapBPMEventAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapBPMEventAttribute): boolean {
-      return false;
-   },
 };

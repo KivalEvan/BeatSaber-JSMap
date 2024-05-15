@@ -108,16 +108,17 @@ export class Arc extends BaseSlider implements IWrapArc {
       );
    }
 
-   isValid(): boolean {
-      return !(
-         this.isInverse() ||
-         this.posX < 0 ||
-         this.posX > 3 ||
-         this.tailPosX < 0 ||
-         this.tailPosX > 3 ||
-         (this.posX === this.tailPosX &&
-            this.posY === this.tailPosY &&
-            this.time === this.tailTime)
-      );
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : super.isValid(fn) &&
+         !(
+            this.isInverse() ||
+            this.posX < 0 ||
+            this.posX > 3 ||
+            this.tailPosX < 0 ||
+            this.tailPosX > 3 ||
+            (this.posX === this.tailPosX &&
+               this.posY === this.tailPosY &&
+               this.time === this.tailTime)
+         );
    }
 }

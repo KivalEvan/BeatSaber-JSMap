@@ -32,16 +32,4 @@ export const fxEventInt: ISchemaContainer<
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapFxEventIntAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapFxEventIntAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapFxEventIntAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapFxEventIntAttribute): boolean {
-      return false;
-   },
 };

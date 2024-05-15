@@ -53,13 +53,14 @@ export class Chain extends BaseSlider implements IWrapChain {
       return this;
    }
 
-   isValid(): boolean {
-      return (
-         !this.isInverse() ||
-         this.posY >= 0 ||
-         this.posY <= 2 ||
-         this.tailPosY >= 0 ||
-         this.tailPosY <= 2
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : (
+         super.isValid(fn) &&
+         (!this.isInverse() ||
+            this.posY >= 0 ||
+            this.posY <= 2 ||
+            this.tailPosY >= 0 ||
+            this.tailPosY <= 2)
       );
    }
 }

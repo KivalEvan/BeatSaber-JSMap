@@ -48,9 +48,6 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChain> = {
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapChainAttribute) {
-      return true;
-   },
    isChroma(data: IWrapChainAttribute): boolean {
       return (
          Array.isArray(data.customData.color) ||
@@ -77,8 +74,5 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChain> = {
          typeof data.customData.worldRotation === 'number' ||
          typeof data.customData.link === 'string'
       );
-   },
-   isMappingExtensions(_: IWrapChainAttribute): boolean {
-      return false;
    },
 };

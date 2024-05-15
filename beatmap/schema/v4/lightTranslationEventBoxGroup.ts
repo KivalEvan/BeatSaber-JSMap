@@ -55,20 +55,4 @@ export const lightTranslationEventBoxGroup: ISchemaContainer<
          ),
       };
    },
-   isValid(_: IWrapLightTranslationEventBoxGroupAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapLightTranslationEventBoxGroupAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(
-      _: IWrapLightTranslationEventBoxGroupAttribute,
-   ): boolean {
-      return false;
-   },
-   isMappingExtensions(
-      _: IWrapLightTranslationEventBoxGroupAttribute,
-   ): boolean {
-      return false;
-   },
 };

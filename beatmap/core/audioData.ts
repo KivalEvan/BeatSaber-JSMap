@@ -22,10 +22,14 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       customData: {},
    };
 
-   static create(...data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'>[]): AudioData[] {
+   static create(
+      ...data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'>[]
+   ): AudioData[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'> = {}) {
+   constructor(
+      data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'> = {},
+   ) {
       super();
       this.version = data.version ?? AudioData.defaultValue.version;
       this.filename = data.filename ?? AudioData.defaultValue.filename;
@@ -52,8 +56,17 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       );
    }
 
-   isValid(): boolean {
-      return true;
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : (
+         super.isValid(fn) &&
+         this.frequency >= 0 &&
+         this.sampleCount >= 0 &&
+         this.bpmData.every(
+            (bpm) =>
+               bpm.endBeat > bpm.startBeat &&
+               bpm.endSampleIndex > bpm.startSampleIndex,
+         )
+      );
    }
 
    version: number;

@@ -30,8 +30,4 @@ export class ColorBoostEvent extends BaseObject implements IWrapColorBoostEvent 
       this.toggle = value;
       return this;
    }
-
-   isValid(): boolean {
-      return true;
-   }
 }

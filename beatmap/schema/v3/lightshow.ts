@@ -1,6 +1,5 @@
 import type { ILightshow } from '../../../types/beatmap/v3/lightshow.ts';
 import { basicEvent } from './basicEvent.ts';
-import { eventTypesWithKeywords } from './eventTypesWithKeywords.ts';
 import { colorBoostEvent } from './colorBoostEvent.ts';
 import { lightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { lightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
@@ -115,85 +114,5 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
       );
       d.customData = deepCopy(data.customData ?? defaultValue.customData);
       return d;
-   },
-   isValid(data: IWrapBeatmapAttribute): boolean {
-      return (
-         data.lightshow.basicEvents.every(basicEvent.isValid) &&
-         data.lightshow.colorBoostEvents.every(colorBoostEvent.isValid) &&
-         data.lightshow.lightColorEventBoxGroups.every(
-            lightColorEventBoxGroup.isValid,
-         ) &&
-         data.lightshow.lightRotationEventBoxGroups.every(
-            lightRotationEventBoxGroup.isValid,
-         ) &&
-         data.lightshow.lightTranslationEventBoxGroups.every(
-            lightTranslationEventBoxGroup.isValid,
-         ) &&
-         data.lightshow.fxEventBoxGroups.every(fxEventBoxGroup.isValid) &&
-         eventTypesWithKeywords.isValid(data.lightshow.eventTypesWithKeywords)
-      );
-   },
-   isChroma(data: IWrapBeatmapAttribute): boolean {
-      return (
-         data.lightshow.basicEvents.some(basicEvent.isChroma) ||
-         data.lightshow.colorBoostEvents.some(colorBoostEvent.isChroma) ||
-         data.lightshow.lightColorEventBoxGroups.some(
-            lightColorEventBoxGroup.isChroma,
-         ) ||
-         data.lightshow.lightRotationEventBoxGroups.some(
-            lightRotationEventBoxGroup.isChroma,
-         ) ||
-         data.lightshow.lightTranslationEventBoxGroups.some(
-            lightTranslationEventBoxGroup.isChroma,
-         ) ||
-         data.lightshow.fxEventBoxGroups.some(fxEventBoxGroup.isChroma) ||
-         eventTypesWithKeywords.isChroma(data.lightshow.eventTypesWithKeywords)
-      );
-   },
-   isNoodleExtensions(data: IWrapBeatmapAttribute): boolean {
-      return (
-         data.lightshow.basicEvents.some(basicEvent.isNoodleExtensions) ||
-         data.lightshow.colorBoostEvents.some(
-            colorBoostEvent.isNoodleExtensions,
-         ) ||
-         data.lightshow.lightColorEventBoxGroups.some(
-            lightColorEventBoxGroup.isNoodleExtensions,
-         ) ||
-         data.lightshow.lightRotationEventBoxGroups.some(
-            lightRotationEventBoxGroup.isNoodleExtensions,
-         ) ||
-         data.lightshow.lightTranslationEventBoxGroups.some(
-            lightTranslationEventBoxGroup.isNoodleExtensions,
-         ) ||
-         data.lightshow.fxEventBoxGroups.some(
-            fxEventBoxGroup.isNoodleExtensions,
-         ) ||
-         eventTypesWithKeywords.isNoodleExtensions(
-            data.lightshow.eventTypesWithKeywords,
-         )
-      );
-   },
-   isMappingExtensions(data: IWrapBeatmapAttribute): boolean {
-      return (
-         data.lightshow.basicEvents.some(basicEvent.isMappingExtensions) ||
-         data.lightshow.colorBoostEvents.some(
-            colorBoostEvent.isMappingExtensions,
-         ) ||
-         data.lightshow.lightColorEventBoxGroups.some(
-            lightColorEventBoxGroup.isMappingExtensions,
-         ) ||
-         data.lightshow.lightRotationEventBoxGroups.some(
-            lightRotationEventBoxGroup.isMappingExtensions,
-         ) ||
-         data.lightshow.lightTranslationEventBoxGroups.some(
-            lightTranslationEventBoxGroup.isMappingExtensions,
-         ) ||
-         data.lightshow.fxEventBoxGroups.some(
-            fxEventBoxGroup.isMappingExtensions,
-         ) ||
-         eventTypesWithKeywords.isMappingExtensions(
-            data.lightshow.eventTypesWithKeywords,
-         )
-      );
    },
 };

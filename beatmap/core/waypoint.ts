@@ -65,8 +65,9 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
       return this;
    }
 
-   isValid(): boolean {
-      return (
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : (
+         super.isValid(fn) &&
          this.direction >= 0 &&
          this.direction <= 9 &&
          this.direction !== (8 as 0)

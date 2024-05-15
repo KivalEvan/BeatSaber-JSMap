@@ -228,16 +228,4 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
 
       return d;
    },
-   isValid(_: IWrapInfoAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapInfoAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapInfoAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapInfoAttribute): boolean {
-      return false;
-   },
 };

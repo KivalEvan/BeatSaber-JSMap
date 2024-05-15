@@ -53,16 +53,4 @@ export const waypoint: ISchemaContainer<
          ),
       };
    },
-   isValid(_: IWrapWaypointAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapWaypointAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapWaypointAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapWaypointAttribute): boolean {
-      return false;
-   },
 };

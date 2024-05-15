@@ -54,9 +54,6 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapArcAttribute): boolean {
-      return true;
-   },
    isChroma(data: IWrapArcAttribute): boolean {
       return (
          Array.isArray(data.customData.color) ||
@@ -83,8 +80,5 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
          typeof data.customData.worldRotation === 'number' ||
          typeof data.customData.link === 'string'
       );
-   },
-   isMappingExtensions(_: IWrapArcAttribute): boolean {
-      return false;
    },
 };

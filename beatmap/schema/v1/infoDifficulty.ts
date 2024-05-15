@@ -71,16 +71,4 @@ export const infoDifficulty: ISchemaContainer<
          },
       };
    },
-   isValid(_: IWrapInfoBeatmapAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapInfoBeatmapAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapInfoBeatmapAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapInfoBeatmapAttribute): boolean {
-      return false;
-   },
 };

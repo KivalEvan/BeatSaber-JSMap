@@ -56,16 +56,4 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
          customData: deepCopy(data._customData ?? defaultValue._customData),
       };
    },
-   isValid(_: IWrapArcAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapArcAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapArcAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapArcAttribute): boolean {
-      return false;
-   },
 };

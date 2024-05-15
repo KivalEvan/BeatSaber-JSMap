@@ -84,7 +84,9 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       return this.posY < 0 || this.duration < 0 || this.width < 0 || this.height < 0;
    }
 
-   isValid(): boolean {
-      return !this.hasZero() && !this.hasNegative();
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override
+         ? super.isValid(fn)
+         : super.isValid(fn) && !this.hasZero() && !this.hasNegative();
    }
 }

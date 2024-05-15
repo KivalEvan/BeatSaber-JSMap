@@ -144,44 +144,4 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          },
       };
    },
-   isValid(data: IWrapBeatmapAttribute): boolean {
-      return (
-         data.data.colorNotes.every(colorNote.isValid) &&
-         data.data.bombNotes.every(bombNote.isValid) &&
-         data.data.arcs.every(arc.isValid) &&
-         data.data.chains.every(chain.isValid) &&
-         data.data.obstacles.every(obstacle.isValid) &&
-         data.data.rotationEvents.every(rotationEvent.isValid)
-      );
-   },
-   isChroma: function (data: IWrapBeatmapAttribute): boolean {
-      return (
-         data.data.colorNotes.some(colorNote.isChroma) ||
-         data.data.bombNotes.some(bombNote.isChroma) ||
-         data.data.arcs.some(arc.isChroma) ||
-         data.data.chains.some(chain.isChroma) ||
-         data.data.obstacles.some(obstacle.isChroma) ||
-         data.data.rotationEvents.some(rotationEvent.isChroma)
-      );
-   },
-   isNoodleExtensions: function (data: IWrapBeatmapAttribute): boolean {
-      return (
-         data.data.colorNotes.some(colorNote.isNoodleExtensions) ||
-         data.data.bombNotes.some(bombNote.isNoodleExtensions) ||
-         data.data.arcs.some(arc.isNoodleExtensions) ||
-         data.data.chains.some(chain.isNoodleExtensions) ||
-         data.data.obstacles.some(obstacle.isNoodleExtensions) ||
-         data.data.rotationEvents.some(rotationEvent.isNoodleExtensions)
-      );
-   },
-   isMappingExtensions: function (data: IWrapBeatmapAttribute): boolean {
-      return (
-         data.data.colorNotes.some(colorNote.isMappingExtensions) ||
-         data.data.bombNotes.some(bombNote.isMappingExtensions) ||
-         data.data.arcs.some(arc.isMappingExtensions) ||
-         data.data.chains.some(chain.isMappingExtensions) ||
-         data.data.obstacles.some(obstacle.isMappingExtensions) ||
-         data.data.rotationEvents.some(rotationEvent.isMappingExtensions)
-      );
-   },
 };

@@ -171,8 +171,9 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
          this.type === 100
       );
    }
-   isValid(): boolean {
-      return (
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : (
+         super.isValid(fn) &&
          this.isValidType() &&
          this.value >= 0 &&
          !(

@@ -53,16 +53,4 @@ export const lightColorEventBoxGroup: ISchemaContainer<
          ),
       };
    },
-   isValid(_: IWrapLightColorEventBoxGroupAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapLightColorEventBoxGroupAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapLightColorEventBoxGroupAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapLightColorEventBoxGroupAttribute): boolean {
-      return false;
-   },
 };

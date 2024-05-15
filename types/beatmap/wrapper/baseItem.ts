@@ -31,40 +31,42 @@ export interface IWrapBaseItem extends ICloneable, IWrapBaseItemAttribute {
    /**
     * Check if object is valid in vanilla game.
     *
+    * Override allow for custom function to take over rather than run alongside.
+    *
     * @example
     * ```ts
-    * if (obj.isValid()) {}
+    * if (obj.isValid(optionalFn)) {}
     * ```
     */
-   isValid(): boolean;
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean;
 
    /**
     * Check if object has Chroma properties.
     *
     * @example
     * ```ts
-    * if (obj.isChroma()) {}
+    * if (obj.isChroma(optionalFn)) {}
     * ```
     */
-   isChroma(): boolean;
+   isChroma(fn?: (object: this) => boolean): boolean;
 
    /**
     * Check if object has Noodle Extensions properties.
     *
     * @example
     * ```ts
-    * if (obj.isNoodleExtensions()) {}
+    * if (obj.isNoodleExtensions(optionalFn)) {}
     * ```
     */
-   isNoodleExtensions(): boolean;
+   isNoodleExtensions(fn?: (object: this) => boolean): boolean;
 
    /**
     * Check if object has Mapping Extensions properties.
     *
     * @example
     * ```ts
-    * if (obj.isMappingExtensions()) {}
+    * if (obj.isMappingExtensions(optionalFn)) {}
     * ```
     */
-   isMappingExtensions(): boolean;
+   isMappingExtensions(fn?: (object: this) => boolean): boolean;
 }

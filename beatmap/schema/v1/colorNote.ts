@@ -29,16 +29,4 @@ export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, INote> = {
          direction: data._cutDirection ?? defaultValue._cutDirection,
       };
    },
-   isValid(_: IWrapColorNoteAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapColorNoteAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapColorNoteAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapColorNoteAttribute): boolean {
-      return false;
-   },
 };

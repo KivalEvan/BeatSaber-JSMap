@@ -32,7 +32,13 @@ export class BombNote extends BaseNote implements IWrapBombNote {
       );
    }
 
-   isValid(): boolean {
-      return this.posX >= 0 && this.posX <= 3 && this.posY >= 0 && this.posY <= 2;
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : (
+         super.isValid(fn) &&
+         this.posX >= 0 &&
+         this.posX <= 3 &&
+         this.posY >= 0 &&
+         this.posY <= 2
+      );
    }
 }

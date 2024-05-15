@@ -60,9 +60,6 @@ export const colorNote: ISchemaContainer<
          ),
       };
    },
-   isValid(_: IWrapColorNoteAttribute): boolean {
-      return true;
-   },
    isChroma(data: IWrapColorNoteAttribute): boolean {
       return (
          Array.isArray(data.customData.color) ||
@@ -88,8 +85,5 @@ export const colorNote: ISchemaContainer<
          typeof data.customData.worldRotation === 'number' ||
          typeof data.customData.link === 'string'
       );
-   },
-   isMappingExtensions(_: IWrapColorNoteAttribute): boolean {
-      return true;
    },
 };

@@ -27,9 +27,6 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, IBombNote> = {
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapBombNoteAttribute) {
-      return true;
-   },
    isChroma(data: IWrapBombNoteAttribute): boolean {
       return (
          Array.isArray(data.customData.color) ||
@@ -55,8 +52,5 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, IBombNote> = {
          typeof data.customData.worldRotation === 'number' ||
          typeof data.customData.link === 'string'
       );
-   },
-   isMappingExtensions(_: IWrapBombNoteAttribute): boolean {
-      return false;
    },
 };

@@ -52,16 +52,4 @@ export const lightColorEvent: ISchemaContainer<
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapLightColorEventAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapLightColorEventAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapLightColorEventAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapLightColorEventAttribute): boolean {
-      return false;
-   },
 };

@@ -29,16 +29,4 @@ export const colorBoostEvent: ISchemaContainer<
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapColorBoostEventAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapColorBoostEventAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapColorBoostEventAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapColorBoostEventAttribute): boolean {
-      return false;
-   },
 };

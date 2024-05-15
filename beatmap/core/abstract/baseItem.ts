@@ -38,14 +38,16 @@ export abstract class BaseItem extends Cloneable implements IWrapBaseItem {
       return this;
    }
 
-   abstract isValid(): boolean;
-   isChroma(): boolean {
-      throw new Error('Method not implemented.');
+   isValid(fn?: (object: this) => boolean, _override?: boolean): boolean {
+      return !!fn?.(this);
    }
-   isNoodleExtensions(): boolean {
-      throw new Error('Method not implemented.');
+   isChroma(fn?: (object: this) => boolean): boolean {
+      return !!fn?.(this);
    }
-   isMappingExtensions(): boolean {
-      throw new Error('Method not implemented.');
+   isNoodleExtensions(fn?: (object: this) => boolean): boolean {
+      return !!fn?.(this);
+   }
+   isMappingExtensions(fn?: (object: this) => boolean): boolean {
+      return !!fn?.(this);
    }
 }

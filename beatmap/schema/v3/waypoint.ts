@@ -30,16 +30,4 @@ export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypoint> = {
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapWaypointAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapWaypointAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapWaypointAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapWaypointAttribute): boolean {
-      return false;
-   },
 };

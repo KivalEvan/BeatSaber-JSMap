@@ -64,16 +64,4 @@ export const infoDifficulty: ISchemaContainer<
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapInfoBeatmapAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapInfoBeatmapAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapInfoBeatmapAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapInfoBeatmapAttribute): boolean {
-      return false;
-   },
 };

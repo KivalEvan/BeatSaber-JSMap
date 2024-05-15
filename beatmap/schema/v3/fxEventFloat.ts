@@ -35,16 +35,4 @@ export const fxEventFloat: ISchemaContainer<
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapFxEventFloatAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapFxEventFloatAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapFxEventFloatAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapFxEventFloatAttribute): boolean {
-      return false;
-   },
 };

@@ -92,9 +92,9 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
       return this;
    }
 
-   isValid(): boolean {
-      return (
-         super.isValid() &&
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override ? super.isValid(fn) : (
+         super.isValid(fn) &&
          (this.gapDistributionType === 1 || this.gapDistributionType === 2) &&
          (this.axis === 0 || this.axis === 1) &&
          (this.flip === 0 || this.flip === 1) &&

@@ -57,16 +57,4 @@ export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IAudio> = {
          ),
       };
    },
-   isValid(): boolean {
-      return true;
-   },
-   isChroma(_: IWrapAudioDataAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapAudioDataAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapAudioDataAttribute): boolean {
-      return false;
-   },
 };

@@ -44,12 +44,6 @@ export const rotationEvent: ISchemaContainer<
          customData: deepCopy(data._customData ?? defaultValue._customData),
       };
    },
-   isValid(_: IWrapRotationEventAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapRotationEventAttribute): boolean {
-      return false;
-   },
    isNoodleExtensions(data: IWrapRotationEventAttribute): boolean {
       return typeof data.customData._rotation === 'number';
    },

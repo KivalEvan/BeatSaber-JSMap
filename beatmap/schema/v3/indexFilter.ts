@@ -50,16 +50,4 @@ export const indexFilter: ISchemaContainer<
          customData: deepCopy(data.customData ?? defaultValue.customData),
       };
    },
-   isValid(_: IWrapIndexFilterAttribute): boolean {
-      return true;
-   },
-   isChroma(_: IWrapIndexFilterAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapIndexFilterAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapIndexFilterAttribute): boolean {
-      return false;
-   },
 };

@@ -81,9 +81,6 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
          ),
       };
    },
-   isValid(_: IWrapChainAttribute): boolean {
-      return true;
-   },
    isChroma(data: IWrapChainAttribute): boolean {
       return (
          Array.isArray(data.customData.color) ||
@@ -110,8 +107,5 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
          typeof data.customData.worldRotation === 'number' ||
          typeof data.customData.link === 'string'
       );
-   },
-   isMappingExtensions(_: IWrapChainAttribute): boolean {
-      return false;
    },
 };

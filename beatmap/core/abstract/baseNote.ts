@@ -71,7 +71,9 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
       );
    }
 
-   isValid(): boolean {
-      return this.direction >= 0 && this.direction <= 8;
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+      return override
+         ? super.isValid(fn)
+         : super.isValid(fn) && this.direction >= 0 && this.direction <= 8;
    }
 }

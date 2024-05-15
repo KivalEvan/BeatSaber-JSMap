@@ -50,9 +50,6 @@ export const bombNote: ISchemaContainer<
          ),
       };
    },
-   isValid(_: IWrapBombNoteAttribute): boolean {
-      return true;
-   },
    isChroma(data: IWrapBombNoteAttribute): boolean {
       return (
          Array.isArray(data.customData.color) ||
@@ -78,8 +75,5 @@ export const bombNote: ISchemaContainer<
          typeof data.customData.worldRotation === 'number' ||
          typeof data.customData.link === 'string'
       );
-   },
-   isMappingExtensions(_: IWrapBombNoteAttribute): boolean {
-      return false;
    },
 };

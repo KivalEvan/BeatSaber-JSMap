@@ -28,16 +28,4 @@ export const eventTypesWithKeywords: ISchemaContainer<
          ),
       };
    },
-   isValid(data: IWrapEventTypesWithKeywordsAttribute): boolean {
-      return data.list.every(eventTypesForKeywords.isValid);
-   },
-   isChroma(_: IWrapEventTypesWithKeywordsAttribute): boolean {
-      return false;
-   },
-   isNoodleExtensions(_: IWrapEventTypesWithKeywordsAttribute): boolean {
-      return false;
-   },
-   isMappingExtensions(_: IWrapEventTypesWithKeywordsAttribute): boolean {
-      return false;
-   },
 };
