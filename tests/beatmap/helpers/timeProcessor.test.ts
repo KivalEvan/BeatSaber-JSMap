@@ -1,15 +1,15 @@
 import { EPSILON } from '../../constants.ts';
 import { assertAlmostEquals, assertEquals, TimeProcessor, type types } from '../../deps.ts';
 
-Deno.test('BPM create instance from constructor', () => {
+Deno.test('Time Processor create instance from constructor', () => {
    const bpm0 = new TimeProcessor(128);
-   assertEquals(bpm0.value, 128);
+   assertEquals(bpm0.bpm, 128);
    assertEquals(bpm0.offset, 0);
    assertEquals(bpm0.timescale, []);
    assertEquals(bpm0.change, []);
 
    const bpm1 = new TimeProcessor(128, []);
-   assertEquals(bpm1.value, 128);
+   assertEquals(bpm1.bpm, 128);
    assertEquals(bpm1.offset, 0);
    assertEquals(bpm1.timescale, []);
    assertEquals(bpm1.change, []);
@@ -22,7 +22,7 @@ Deno.test('BPM create instance from constructor', () => {
       ],
       123,
    );
-   assertEquals(bpm2.value, 128);
+   assertEquals(bpm2.bpm, 128);
    assertAlmostEquals(bpm2.offset, 123, EPSILON);
    assertEquals(bpm2.timescale, [
       { time: 0, scale: 2 },
@@ -44,7 +44,7 @@ Deno.test('BPM create instance from constructor', () => {
       ],
       123,
    );
-   assertEquals(bpm3.value, 128);
+   assertEquals(bpm3.bpm, 128);
    assertAlmostEquals(bpm3.offset, 123, EPSILON);
    assertEquals(bpm3.timescale, []);
    assertEquals(bpm3.change, [
@@ -54,15 +54,15 @@ Deno.test('BPM create instance from constructor', () => {
    ]);
 });
 
-Deno.test('BPM create instance from static create', () => {
+Deno.test('Time Processor create instance from static create', () => {
    const bpm0 = TimeProcessor.create(128);
-   assertEquals(bpm0.value, 128);
+   assertEquals(bpm0.bpm, 128);
    assertEquals(bpm0.offset, 0);
    assertEquals(bpm0.timescale, []);
    assertEquals(bpm0.change, []);
 
    const bpm1 = TimeProcessor.create(128, []);
-   assertEquals(bpm1.value, 128);
+   assertEquals(bpm1.bpm, 128);
    assertEquals(bpm1.offset, 0);
    assertEquals(bpm1.timescale, []);
    assertEquals(bpm1.change, []);
@@ -75,7 +75,7 @@ Deno.test('BPM create instance from static create', () => {
       ],
       123,
    );
-   assertEquals(bpm2.value, 128);
+   assertEquals(bpm2.bpm, 128);
    assertAlmostEquals(bpm2.offset, 123, EPSILON);
    assertEquals(bpm2.timescale, [
       { time: 0, scale: 2 },
@@ -97,7 +97,7 @@ Deno.test('BPM create instance from static create', () => {
       ],
       123,
    );
-   assertEquals(bpm3.value, 128);
+   assertEquals(bpm3.bpm, 128);
    assertAlmostEquals(bpm3.offset, 123, EPSILON);
    assertEquals(bpm3.timescale, []);
    assertEquals(bpm3.change, [
@@ -107,7 +107,7 @@ Deno.test('BPM create instance from static create', () => {
    ]);
 });
 
-Deno.test('BPM getter/setter', () => {
+Deno.test('Time Processor getter/setter', () => {
    const bpm = TimeProcessor.create(
       128,
       [
@@ -123,7 +123,7 @@ Deno.test('BPM getter/setter', () => {
       123,
    );
 
-   bpm.value = 120;
+   bpm.bpm = 120;
    bpm.offset = 100;
    bpm.timescale = [
       { b: 0, m: 60 },
@@ -141,7 +141,7 @@ Deno.test('BPM getter/setter', () => {
       } as types.v2.IBPMChangeOld,
    ];
 
-   assertEquals(bpm.value, 120);
+   assertEquals(bpm.bpm, 120);
    assertAlmostEquals(bpm.offset, 100, EPSILON);
    assertEquals(bpm.timescale, [
       { time: 0, scale: 2 },
@@ -155,7 +155,7 @@ Deno.test('BPM getter/setter', () => {
    ]);
 });
 
-Deno.test('BPM adjust beat time', () => {
+Deno.test('Time Processor adjust beat time', () => {
    const bpm = new TimeProcessor(
       120,
       [{ _time: 10, _BPM: 60, _beatsPerBar: 4, _metronomeOffset: 4 }],
@@ -166,7 +166,7 @@ Deno.test('BPM adjust beat time', () => {
    assertAlmostEquals(bpm.adjustTime(16), 13, EPSILON);
 });
 
-Deno.test('BPM to JSON time', () => {
+Deno.test('Time Processor beat to JSON time', () => {
    const bpm = new TimeProcessor(
       120,
       [{ _time: 10, _BPM: 60, _beatsPerBar: 4, _metronomeOffset: 4 }],
@@ -177,7 +177,7 @@ Deno.test('BPM to JSON time', () => {
    assertAlmostEquals(bpm.toJsonTime(13), 16, EPSILON);
 });
 
-Deno.test('BPM to beat time', () => {
+Deno.test('Time Processor second to beat time', () => {
    const bpm = TimeProcessor.create(
       128,
       [
@@ -193,7 +193,7 @@ Deno.test('BPM to beat time', () => {
       123,
    );
 
-   bpm.value = 120;
+   bpm.bpm = 120;
    bpm.offset = 100;
    bpm.timescale = [
       { b: 0, m: 60 },
@@ -215,7 +215,7 @@ Deno.test('BPM to beat time', () => {
    assertAlmostEquals(bpm.toBeatTime(20, false), 40, EPSILON);
 });
 
-Deno.test('BPM to real time', () => {
+Deno.test('Time Processor beat to real time', () => {
    const bpm = TimeProcessor.create(
       128,
       [
@@ -231,7 +231,7 @@ Deno.test('BPM to real time', () => {
       123,
    );
 
-   bpm.value = 120;
+   bpm.bpm = 120;
    bpm.offset = 100;
    bpm.timescale = [
       { b: 0, m: 60 },

@@ -1,4 +1,4 @@
-import * as version from '../../../beatmap/shared/version.ts';
+import * as version from '../../../beatmap/helpers/version.ts';
 import { assertEquals } from '../../deps.ts';
 
 Deno.test('Compare version', () => {
