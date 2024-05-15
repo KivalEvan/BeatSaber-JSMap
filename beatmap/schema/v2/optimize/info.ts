@@ -1,7 +1,7 @@
 import { round } from '../../../../utils/math.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { IInfo } from '../../../../types/beatmap/v2/info.ts';
-import { deepClean } from '../../../shared/optimize.ts';
+import { deepClean } from '../../../helpers/optimize.ts';
 
 export function optimizeInfo(
    // deno-lint-ignore no-explicit-any

@@ -4,7 +4,7 @@ import type { Version } from '../../types/beatmap/shared/version.ts';
 import { compareVersion } from './version.ts';
 
 function tag(name: string): string[] {
-   return ['shared', 'dataCheck', name];
+   return ['helpers', 'dataCheck', name];
 }
 
 function handleError(
@@ -105,7 +105,14 @@ export function deepCheck(
                _errors,
             );
          } else {
-            deepCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
+            deepCheck(
+               d,
+               ch.check,
+               `${label}.${key}`,
+               version,
+               throwOn,
+               _errors,
+            );
          }
          continue;
       }

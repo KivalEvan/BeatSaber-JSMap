@@ -19,7 +19,7 @@ import { bombNote } from './bombNote.ts';
 import { colorBoostEvent } from './colorBoostEvent.ts';
 import { rotationEvent } from './rotationEvent.ts';
 import { bpmEvent } from './bpmEvent.ts';
-import { sortV2NoteFn, sortV2ObjectFn } from '../../shared/helpers.ts';
+import { sortV2NoteFn, sortV2ObjectFn } from '../../helpers/sort.ts';
 
 const defaultValue = {
    _version: '2.6.0',

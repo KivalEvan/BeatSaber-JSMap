@@ -30,7 +30,7 @@ import type {
    IWrapFxEventBoxGroup,
    IWrapFxEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
-import { sortObjectFn } from '../shared/helpers.ts';
+import { sortObjectFn } from '../helpers/sort.ts';
 import { Waypoint } from './waypoint.ts';
 import { BasicEvent } from './event.ts';
 import { ColorBoostEvent } from './colorBoostEvent.ts';

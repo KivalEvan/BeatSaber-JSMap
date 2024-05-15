@@ -1,7 +1,7 @@
 import { round } from '../../../../utils/math.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { IDifficulty } from '../../../../types/beatmap/v2/difficulty.ts';
-import { deepClean, purgeZeros } from '../../../shared/optimize.ts';
+import { deepClean, purgeZeros } from '../../../helpers/optimize.ts';
 
 export function optimizeDifficulty(
    // deno-lint-ignore no-explicit-any

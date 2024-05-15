@@ -26,7 +26,7 @@ import type {
    IWrapDifficulty,
    IWrapDifficultyAttribute,
 } from '../../types/beatmap/wrapper/difficulty.ts';
-import { sortNoteFn, sortObjectFn } from '../shared/helpers.ts';
+import { sortNoteFn, sortObjectFn } from '../helpers/sort.ts';
 import { BPMEvent } from './bpmEvent.ts';
 import { RotationEvent } from './rotationEvent.ts';
 import { ColorNote } from './colorNote.ts';

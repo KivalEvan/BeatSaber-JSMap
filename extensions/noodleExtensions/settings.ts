@@ -1,5 +1,5 @@
-import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
-import type { NoteJumpSpeed } from '../../beatmap/shared/njs.ts';
+import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
+import type { NoteJumpSpeed } from '../../beatmap/helpers/njs.ts';
 
 export const settings: {
    BPM: TimeProcessor | null;

@@ -3,22 +3,12 @@ import type { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object
 import type { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
 import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
 import type { Vector2 } from '../../types/vector.ts';
-import { LANE_SIZE } from './constants.ts';
 import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
 
-/** Convert grid lane size unit to unity unit. */
-export function gridToUnityUnit(value: number): number {
-   return value * LANE_SIZE;
-}
-
-/** Convert unity unit to grid lane size unit. */
-export function unityToGridUnit(value: number): number {
-   return value / LANE_SIZE;
-}
-
 /**
  * Pass this to wrapper object array `sort` function as an argument.
+ *
  * ```ts
  * data.basicEvents.sort(sortObjectFn);
  * ```
@@ -29,6 +19,7 @@ export function sortObjectFn(a: IWrapBaseObjectAttribute, b: IWrapBaseObjectAttr
 
 /**
  * Pass this to wrapper note type array `sort` function as an argument.
+ *
  * ```ts
  * data.chains.sort(sortNoteFn);
  * ```
@@ -53,6 +44,7 @@ export function sortNoteFn(a: IWrapGridObjectAttribute, b: IWrapGridObjectAttrib
 
 /**
  * Pass this to v1 or v2 object array `sort` function as an argument.
+ *
  * ```ts
  * data._events.sort(sortV2ObjectFn);
  * ```
@@ -63,6 +55,7 @@ export function sortV2ObjectFn(a: IV2BaseObject, b: IV2BaseObject): number {
 
 /**
  * Pass this to v1 or v2 note type array `sort` function as an argument.
+ *
  * ```ts
  * data._notes.sort(sortV2NoteFn);
  * ```
@@ -80,6 +73,7 @@ export function sortV2NoteFn(a: INote, b: INote): number {
 
 /**
  * Pass this to v3 object array `sort` function as an argument.
+ *
  * ```ts
  * data.basicBeatmapEvents.sort(sortV3ObjectFn);
  * ```
@@ -90,6 +84,7 @@ export function sortV3ObjectFn(a: IV3BaseObject, b: IV3BaseObject): number {
 
 /**
  * Pass this to v3 note type array `sort` function as an argument.
+ *
  * ```ts
  * data.arcs.sort(sortV3NoteFn);
  * ```

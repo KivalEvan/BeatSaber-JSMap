@@ -9,12 +9,12 @@ import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEven
 import logger from '../../logger.ts';
 
 function tag(name: string): string[] {
-   return ['beatmap', 'shared', 'timeProcessor', name];
+   return ['helpers', 'timeProcessor', name];
 }
 
-/** BPM class for various utility around adjusted beat time, JSON time, reaction time, etc. */
+/** Time processor for various utility around adjusted beat time, JSON time, reaction time, etc. */
 export class TimeProcessor {
-   private _bpm: number;
+   bpm: number;
    private _bpmChange: IBPMChangeTime[];
    private _timeScale: IBPMTimeScale[];
    private _offset: number;
@@ -31,7 +31,7 @@ export class TimeProcessor {
       )[] = [],
       offset: number = 0,
    ) {
-      this._bpm = bpm;
+      this.bpm = bpm;
       this._offset = offset / 1000;
       this._timeScale = this.getTimeScale(
          bpmChange.filter(
@@ -75,12 +75,6 @@ export class TimeProcessor {
       return new TimeProcessor(bpm, bpmChange, offset);
    };
 
-   get value(): number {
-      return this._bpm;
-   }
-   set value(val: number) {
-      this._bpm = val;
-   }
    get change(): IBPMChangeTime[] {
       return this._bpmChange;
    }
@@ -135,10 +129,10 @@ export class TimeProcessor {
          };
          if (temp) {
             curBPMC.newTime = Math.ceil(
-               ((curBPMC.time - temp.time) / this._bpm) * temp.BPM + temp.newTime - 0.01,
+               ((curBPMC.time - temp.time) / this.bpm) * temp.BPM + temp.newTime - 0.01,
             );
          } else {
-            curBPMC.newTime = Math.ceil(curBPMC.time - (this._offset * this._bpm) / 60 - 0.01);
+            curBPMC.newTime = Math.ceil(curBPMC.time - (this._offset * this.bpm) / 60 - 0.01);
          }
          bpmChange.push(curBPMC);
          temp = curBPMC;
@@ -163,8 +157,8 @@ export class TimeProcessor {
          )
          .map((el) => {
             if ('scale' in el) return el;
-            if ('bpm' in el) return { time: el.time, scale: this._bpm / el.bpm };
-            return { time: el.b || 0, scale: this._bpm / el.m! };
+            if ('bpm' in el) return { time: el.time, scale: this.bpm / el.bpm };
+            return { time: el.b || 0, scale: this.bpm / el.m! };
          });
    }
 
@@ -187,7 +181,7 @@ export class TimeProcessor {
    // this is stupid
    toRealTime(beat: number, timescale = true): number {
       if (!timescale) {
-         return (beat / this._bpm) * 60;
+         return (beat / this.bpm) * 60;
       }
       let calculatedBeat = 0;
       for (let i = this._timeScale.length - 1; i >= 0; i--) {
@@ -196,7 +190,7 @@ export class TimeProcessor {
             beat = this._timeScale[i].time;
          }
       }
-      return ((beat + calculatedBeat) / this._bpm) * 60;
+      return ((beat + calculatedBeat) / this.bpm) * 60;
    }
 
    /**
@@ -208,7 +202,7 @@ export class TimeProcessor {
    // this is stupid 2 electric boogaloo
    toBeatTime(seconds: number, timescale = false): number {
       if (!timescale) {
-         return (seconds * this._bpm) / 60;
+         return (seconds * this.bpm) / 60;
       }
       let calculatedSecond = 0;
       for (let i = this._timeScale.length - 1; i >= 0; i--) {
@@ -233,7 +227,7 @@ export class TimeProcessor {
       for (let i = this._bpmChange.length - 1; i >= 0; i--) {
          if (beat > this._bpmChange[i].newTime) {
             return (
-               ((beat - this._bpmChange[i].newTime) / this._bpmChange[i].BPM) * this._bpm +
+               ((beat - this._bpmChange[i].newTime) / this._bpmChange[i].BPM) * this.bpm +
                this._bpmChange[i].time
             );
          }
@@ -251,7 +245,7 @@ export class TimeProcessor {
       for (let i = this._bpmChange.length - 1; i >= 0; i--) {
          if (beat > this._bpmChange[i].time) {
             return (
-               ((beat - this._bpmChange[i].time) / this._bpm) * this._bpmChange[i].BPM +
+               ((beat - this._bpmChange[i].time) / this.bpm) * this._bpmChange[i].BPM +
                this._bpmChange[i].newTime
             );
          }

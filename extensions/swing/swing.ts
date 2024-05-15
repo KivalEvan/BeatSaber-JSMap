@@ -1,4 +1,4 @@
-import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
+import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import type { ISwingContainer } from './types/swing.ts';
 import { checkDirection } from '../placement/note.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
@@ -128,11 +128,13 @@ export default class Swing implements ISwingContainer {
    static calcEBPMBetweenObject(
       currObj: IWrapBaseObject,
       prevObj: IWrapBaseObject,
-      bpm: TimeProcessor,
+      timeProc: TimeProcessor,
    ): number {
       return (
-         bpm.value /
-         (bpm.toBeatTime(bpm.toRealTime(currObj.time) - bpm.toRealTime(prevObj.time)) * 2)
+         timeProc.bpm /
+         (timeProc.toBeatTime(
+            timeProc.toRealTime(currObj.time) - timeProc.toRealTime(prevObj.time),
+         ) * 2)
       );
    }
 

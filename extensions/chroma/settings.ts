@@ -1,4 +1,4 @@
-import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
+import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import type { ColorType } from '../../types/colors.ts';
 
 export const settings: {

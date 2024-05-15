@@ -1,4 +1,4 @@
-import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
+import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import type { ISwingAnalysis, ISwingCount } from './types/swing.ts';
@@ -6,7 +6,7 @@ import { median } from '../../utils/math.ts';
 import Swing from './swing.ts';
 import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
-import { sortNoteFn } from '../../beatmap/shared/helpers.ts';
+import { sortNoteFn } from '../../beatmap/helpers/sort.ts';
 
 // derived from Uninstaller's Swings Per Second tool
 // some variable or function may have been modified

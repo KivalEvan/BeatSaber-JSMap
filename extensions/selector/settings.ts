@@ -1,4 +1,4 @@
-import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
+import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 
 export const settings: {
    BPM: TimeProcessor | null;

@@ -3,7 +3,7 @@ import { round } from '../../utils/math.ts';
 import type { IOptimizeOptions } from '../../types/beatmap/options/optimize.ts';
 
 function tag(name: string): string[] {
-   return ['shared', name];
+   return ['helpers', name];
 }
 
 export function remapDedupe<T>(data: T[]): [T[], Map<number, number>] {
@@ -24,7 +24,12 @@ export function remapDedupe<T>(data: T[]): [T[], Map<number, number>] {
 // deno-lint-ignore no-explicit-any
 export function purgeZeros(data: Record<string, any>) {
    for (const k in data) {
-      if ((typeof data[k] === 'number' || typeof data[k] === 'boolean') && !data[k]) delete data[k];
+      if (
+         (typeof data[k] === 'number' || typeof data[k] === 'boolean') &&
+         !data[k]
+      ) {
+         delete data[k];
+      }
    }
 }
 
@@ -80,7 +85,9 @@ export function deepClean(
             const newAry = d.filter((e: unknown) => e !== undefined);
             if (len !== newAry.length) {
                if (options.throwNullish) {
-                  throw new Error(`undefined found in array key ${name}.${k}.}`);
+                  throw new Error(
+                     `undefined found in array key ${name}.${k}.}`,
+                  );
                } else {
                   logger.tError(
                      tag('deepClean'),
@@ -91,7 +98,11 @@ export function deepClean(
             }
          }
          // deno-lint-ignore ban-types
-         deepClean(d as {}, Array.isArray(obj) ? `${name}[${k}]` : `${name}.${k}`, options);
+         deepClean(
+            d as {},
+            Array.isArray(obj) ? `${name}[${k}]` : `${name}.${k}`,
+            options,
+         );
       }
 
       // remove unnecessary empty array/object property if exist and not part of data check

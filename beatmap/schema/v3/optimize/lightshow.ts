@@ -1,6 +1,6 @@
 import { round } from '../../../../utils/math.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
-import { deepClean, purgeZeros } from '../../../shared/optimize.ts';
+import { deepClean, purgeZeros } from '../../../helpers/optimize.ts';
 import type { ILightshow } from '../../../../types/beatmap/v3/lightshow.ts';
 
 export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {

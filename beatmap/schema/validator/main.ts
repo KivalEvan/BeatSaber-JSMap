@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { deepCheck } from '../../shared/dataCheck.ts';
+import { deepCheck } from '../../helpers/dataCheck.ts';
 import logger from '../../../logger.ts';
 import type { IDataCheck, IDataCheckOption } from '../../../types/beatmap/shared/dataCheck.ts';
 import {
@@ -8,7 +8,7 @@ import {
    infoCheckMap,
    lightshowCheckMap,
 } from '../../mapping/validator.ts';
-import { implicitVersion, retrieveVersion } from '../../shared/version.ts';
+import { implicitVersion, retrieveVersion } from '../../helpers/version.ts';
 import type { BeatmapFileType } from '../../../types/beatmap/shared/schema.ts';
 
 function tag(name: string): string[] {

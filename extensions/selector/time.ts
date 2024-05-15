@@ -1,4 +1,4 @@
-import type { TimeProcessor } from '../../beatmap/shared/timeProcessor.ts';
+import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import { settings } from './settings.ts';
 import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 

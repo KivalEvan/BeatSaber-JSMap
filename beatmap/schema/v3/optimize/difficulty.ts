@@ -1,7 +1,7 @@
 import { round } from '../../../../utils/math.ts';
 import type { IDifficulty } from '../../../../types/beatmap/v3/difficulty.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
-import { deepClean, purgeZeros, remapDedupe } from '../../../shared/optimize.ts';
+import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 
 export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions) {
    if (options.deduplicate) {

@@ -1,7 +1,7 @@
 import { round } from '../../../../utils/math.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { ILightshow } from '../../../../types/beatmap/v4/lightshow.ts';
-import { deepClean, purgeZeros, remapDedupe } from '../../../shared/optimize.ts';
+import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { EventBoxType } from '../../../shared/constants.ts';
 
 export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
