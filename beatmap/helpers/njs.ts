@@ -5,14 +5,14 @@ export class NoteJumpSpeed {
    static readonly HJD_START: number = 4;
    static readonly HJD_MIN: number = 0.25;
 
-   private _bpm: number;
-   private _njs: number;
-   private _sdm: number;
+   bpm: number;
+   value: number;
+   offset: number;
 
    constructor(bpm: number, njs = 10, sdm = 0) {
-      this._bpm = bpm;
-      this._njs = njs;
-      this._sdm = sdm;
+      this.bpm = bpm;
+      this.value = njs;
+      this.offset = sdm;
    }
 
    /**
@@ -43,20 +43,6 @@ export class NoteJumpSpeed {
       Easy: 10,
    } as const;
 
-   get value(): number {
-      return this._njs;
-   }
-   set value(val: number) {
-      this._njs = val;
-   }
-
-   get offset(): number {
-      return this._sdm;
-   }
-   set offset(val: number) {
-      this._sdm = val;
-   }
-
    get hjd(): number {
       return this.calcHjd();
    }
@@ -65,9 +51,6 @@ export class NoteJumpSpeed {
    }
    get reactionTime(): number {
       return this.calcRtFromHjd();
-   }
-   get bpm(): number {
-      return this._bpm;
    }
 
    /**
@@ -80,9 +63,9 @@ export class NoteJumpSpeed {
     */
    calcHjd(offset: number = this.offset): number {
       const maxHalfJump = 17.999; // Beat Games, this is not how you fix float inconsistencies
-      const num = 60 / this._bpm;
+      const num = 60 / this.bpm;
       let hjd = NoteJumpSpeed.HJD_START;
-      while (this._njs * num * hjd > maxHalfJump) hjd /= 2;
+      while (this.value * num * hjd > maxHalfJump) hjd /= 2;
       if (hjd < 1) hjd = 1;
 
       return Math.max(hjd + offset, NoteJumpSpeed.HJD_MIN);
@@ -96,7 +79,7 @@ export class NoteJumpSpeed {
     * ```
     */
    calcHjdFromJd(jd: number = this.calcJd()): number {
-      return jd / ((60 / this._bpm) * this._njs * 2);
+      return jd / ((60 / this.bpm) * this.value * 2);
    }
 
    /**
@@ -107,7 +90,7 @@ export class NoteJumpSpeed {
     * ```
     */
    calcHjdFromRt(rt: number = this.calcRtFromHjd()): number {
-      return rt / (60 / this._bpm);
+      return rt / (60 / this.bpm);
    }
 
    /**
@@ -118,7 +101,7 @@ export class NoteJumpSpeed {
     * ```
     */
    calcJd(hjd: number = this.calcHjd()): number {
-      return this._njs * (60 / this._bpm) * hjd * 2;
+      return this.value * (60 / this.bpm) * hjd * 2;
    }
 
    /**
@@ -128,7 +111,7 @@ export class NoteJumpSpeed {
     * ```
     */
    calcJdOptimal(): [low: number, high: number] {
-      return [-(18 / (this._njs + 1)) + 18, 18 * (1 / 1.07) ** this._njs + 18];
+      return [-(18 / (this.value + 1)) + 18, 18 * (1 / 1.07) ** this.value + 18];
    }
 
    /**
@@ -139,7 +122,7 @@ export class NoteJumpSpeed {
     * ```
     */
    calcRtFromJd(jd: number = this.calcJd()): number {
-      return jd / (2 * this._njs);
+      return jd / (2 * this.value);
    }
 
    /**
@@ -150,7 +133,7 @@ export class NoteJumpSpeed {
     * ```
     */
    calcRtFromHjd(hjd: number = this.calcHjd()): number {
-      return (60 / this._bpm) * hjd;
+      return (60 / this.bpm) * hjd;
    }
 
    /**
@@ -160,6 +143,6 @@ export class NoteJumpSpeed {
     * ```
     */
    calcDistance(beat: number): number {
-      return ((this._njs * 60) / this._bpm) * beat * 2;
+      return ((this.value * 60) / this.bpm) * beat * 2;
    }
 }
