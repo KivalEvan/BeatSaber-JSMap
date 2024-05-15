@@ -7,7 +7,7 @@ import { loadBeatmap, tag } from './_main.ts';
 /**
  * Load beatmap lightshow.
  * ```ts
- * const data = loadLightshow('Lightshow.dat', 4);
+ * const data = loadLightshow(json, 4);
  * console.log(data);
  * ```
  *

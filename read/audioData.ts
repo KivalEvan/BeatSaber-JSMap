@@ -8,7 +8,7 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
 /**
  * Asynchronously read beatmap audio data file.
  * ```ts
- * readAudioDataFile('EasyStandard.dat', 4).then((data) => console.log(data));
+ * readAudioDataFile('AudioData.dat', 4).then((data) => console.log(data));
  * ```
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
@@ -34,7 +34,7 @@ export function readAudioDataFile(
 /**
  * Synchronously read beatmap audio data file.
  * ```ts
- * const audioData = readAudioDataFileSync('EasyStandard.dat', 4);
+ * const audioData = readAudioDataFileSync('AudioData.dat', 4);
  * console.log(audioData);
  * ```
  *

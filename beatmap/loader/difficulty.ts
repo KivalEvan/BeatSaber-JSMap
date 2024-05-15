@@ -7,7 +7,7 @@ import { loadBeatmap, tag } from './_main.ts';
 /**
  * Load beatmap difficulty.
  * ```ts
- * const data = loadDifficulty('EasyStandard.dat', 4);
+ * const data = loadDifficulty(json, 4);
  * console.log(data);
  * ```
  *

@@ -8,7 +8,7 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
 /**
  * Asynchronously read beatmap info file.
  * ```ts
- * readInfoFile('EasyStandard.dat', 4).then((data) => console.log(data));
+ * readInfoFile('Info.dat', 4).then((data) => console.log(data));
  * ```
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
@@ -34,7 +34,7 @@ export function readInfoFile(
 /**
  * Synchronously read beatmap info file.
  * ```ts
- * const info = readInfoFileSync('EasyStandard.dat', 4);
+ * const info = readInfoFileSync('Info.dat', 4);
  * console.log(info);
  * ```
  *

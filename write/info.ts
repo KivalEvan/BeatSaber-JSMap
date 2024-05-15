@@ -7,7 +7,7 @@ import { handleWrite, handleWriteSync, tag } from './_main.ts';
 /**
  * Asynchronously write beatmap info file.
  * ```ts
- * await writeInfoFile(beatmap, 4);
+ * await writeInfoFile(info, 4);
  * ```
  */
 export function writeInfoFile(
@@ -31,7 +31,7 @@ export function writeInfoFile(
 /**
  * Synchronously write beatmap info file.
  * ```ts
- * writeInfoFileSync(beatmap, 4);
+ * writeInfoFileSync(info, 4);
  * ```
  */
 export function writeInfoFileSync(

@@ -8,7 +8,7 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
 /**
  * Asynchronously read beatmap lightshow file.
  * ```ts
- * readLightshowFile('EasyStandard.dat', 4).then((data) => console.log(data));
+ * readLightshowFile('Lightshow.dat', 4).then((data) => console.log(data));
  * ```
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
@@ -34,7 +34,7 @@ export function readLightshowFile(
 /**
  * Synchronously read beatmap lightshow file.
  * ```ts
- * const lightshow = readLightshowFileSync('EasyStandard.dat', 4);
+ * const lightshow = readLightshowFileSync('Lightshow.dat', 4);
  * console.log(lightshow);
  * ```
  *

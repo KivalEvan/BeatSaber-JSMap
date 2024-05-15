@@ -7,7 +7,7 @@ import { loadBeatmap, tag } from './_main.ts';
 /**
  * Load beatmap info.
  * ```ts
- * const data = loadInfo('Info.dat', 4);
+ * const data = loadInfo(json, 4);
  * console.log(data);
  * ```
  *
