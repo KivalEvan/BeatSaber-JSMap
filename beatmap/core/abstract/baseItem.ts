@@ -39,9 +39,9 @@ export abstract class BaseItem extends Cloneable implements IWrapBaseItem {
    }
 
    isValid(fn?: (object: this) => boolean, _override?: boolean): boolean {
-      return this.check(fn);
+      return fn ? !!fn(this) : true;
    }
    check(fn?: (object: this) => boolean): boolean {
-      return fn ? !!fn(this) : true;
+      return fn ? !!fn(this) : false;
    }
 }
