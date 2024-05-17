@@ -43,8 +43,8 @@ export function toV1Beatmap(
 }
 
 function fromV3(bm: IWrapBeatmap) {
-   bm.data.customData._time = bm.data.customData.time;
-   bm.data.customData._BPMChanges = bm.data.customData.BPMChanges?.map(
+   bm.difficulty.customData._time = bm.difficulty.customData.time;
+   bm.difficulty.customData._BPMChanges = bm.difficulty.customData.BPMChanges?.map(
       (bpmc) => {
          return {
             _time: bpmc.b,
@@ -54,17 +54,17 @@ function fromV3(bm: IWrapBeatmap) {
          };
       },
    );
-   bm.data.customData._bookmarks = bm.data.customData.bookmarks?.map(
+   bm.difficulty.customData._bookmarks = bm.difficulty.customData.bookmarks?.map(
       (b) => {
          return { _time: b.b, _name: b.n };
       },
    );
 
-   delete bm.data.customData.time;
-   delete bm.data.customData.BPMChanges;
-   delete bm.data.customData.bookmarks;
+   delete bm.difficulty.customData.time;
+   delete bm.difficulty.customData.BPMChanges;
+   delete bm.difficulty.customData.bookmarks;
 }
 
 function fromV4(data: IWrapBeatmap) {
-   data.data.customData._time = data.data.customData.time ?? 0;
+   data.difficulty.customData._time = data.difficulty.customData.time ?? 0;
 }

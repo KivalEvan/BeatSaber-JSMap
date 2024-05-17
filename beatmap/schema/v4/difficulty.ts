@@ -43,24 +43,24 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          chainsData: [],
          arcsData: [],
          spawnRotationsData: [],
-         customData: deepCopy(data.data.customData),
+         customData: deepCopy(data.difficulty.customData),
       };
-      for (const jsonObj of data.data.colorNotes.map(colorNote.serialize)) {
+      for (const jsonObj of data.difficulty.colorNotes.map(colorNote.serialize)) {
          json.colorNotes.push(jsonObj.object);
          jsonObj.object.i = json.colorNotesData.length;
          json.colorNotesData.push(jsonObj.data);
       }
-      for (const jsonObj of data.data.bombNotes.map(bombNote.serialize)) {
+      for (const jsonObj of data.difficulty.bombNotes.map(bombNote.serialize)) {
          json.bombNotes.push(jsonObj.object);
          jsonObj.object.i = json.bombNotesData.length;
          json.bombNotesData.push(jsonObj.data);
       }
-      for (const jsonObj of data.data.obstacles.map(obstacle.serialize)) {
+      for (const jsonObj of data.difficulty.obstacles.map(obstacle.serialize)) {
          json.obstacles.push(jsonObj.object);
          jsonObj.object.i = json.obstaclesData.length;
          json.obstaclesData.push(jsonObj.data);
       }
-      for (const jsonObj of data.data.arcs.map(arc.serialize)) {
+      for (const jsonObj of data.difficulty.arcs.map(arc.serialize)) {
          json.arcs.push(jsonObj.object);
          jsonObj.object.ai = json.arcsData.length;
          json.arcsData.push(jsonObj.data);
@@ -69,7 +69,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          jsonObj.object.ti = json.colorNotesData.length;
          json.colorNotesData.push(jsonObj.tailData);
       }
-      for (const jsonObj of data.data.chains.map(chain.serialize)) {
+      for (const jsonObj of data.difficulty.chains.map(chain.serialize)) {
          json.chains.push(jsonObj.object);
          jsonObj.object.i = json.colorNotesData.length;
          json.colorNotesData.push(jsonObj.data);
@@ -77,7 +77,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          json.chainsData.push(jsonObj.chainData);
       }
       for (
-         const jsonObj of data.data.rotationEvents.map(
+         const jsonObj of data.difficulty.rotationEvents.map(
             rotationEvent.serialize,
          )
       ) {
@@ -92,7 +92,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
    ): DeepPartial<IWrapBeatmapAttribute> {
       return {
          version: 4,
-         data: {
+         difficulty: {
             colorNotes: (
                data?.colorNotes ?? defaultValue.colorNotes
             ).map((obj) =>

@@ -503,10 +503,10 @@ export function main(data: IWrapBeatmap): void {
    data.arcs.forEach(fixSlider);
    data.chains.forEach(fixChain);
    data.waypoints.forEach(fixWaypoint);
-   data.data.customData.fakeColorNotes?.forEach(fixFakeColorNote);
-   data.data.customData.fakeBombNotes?.forEach(fixFakeBombNote);
-   data.data.customData.fakeObstacles?.forEach(fixFakeObstacle);
-   data.data.customData.fakeChains?.forEach(fixFakeChain);
+   data.difficulty.customData.fakeColorNotes?.forEach(fixFakeColorNote);
+   data.difficulty.customData.fakeBombNotes?.forEach(fixFakeBombNote);
+   data.difficulty.customData.fakeObstacles?.forEach(fixFakeObstacle);
+   data.difficulty.customData.fakeChains?.forEach(fixFakeChain);
    data.basicEvents.forEach(fixBasicEvent);
    data.colorBoostEvents.forEach(fixColorBoostEvent);
    data.lightColorEventBoxGroups.forEach(fixLightColorEventBoxGroup);

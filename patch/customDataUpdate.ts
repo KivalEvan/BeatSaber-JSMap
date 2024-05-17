@@ -51,15 +51,15 @@ function v3(data: IWrapBeatmap): void {
       o.customData = objectToV3(o.customData);
    });
    logger.tDebug(tag('v3'), ' Patching fake color notes');
-   data.data.customData.fakeColorNotes?.forEach((n) => {
+   data.difficulty.customData.fakeColorNotes?.forEach((n) => {
       n.customData = objectToV3(n.customData);
    });
    logger.tDebug(tag('v3'), ' Patching fake bomb notes');
-   data.data.customData.fakeBombNotes?.forEach((b) => {
+   data.difficulty.customData.fakeBombNotes?.forEach((b) => {
       b.customData = objectToV3(b.customData);
    });
    logger.tDebug(tag('v3'), ' Patching fake obstacles');
-   data.data.customData.fakeObstacles?.forEach((o) => {
+   data.difficulty.customData.fakeObstacles?.forEach((o) => {
       o.customData = objectToV3(o.customData);
    });
    logger.tDebug(tag('v3'), ' Patching basic events');
@@ -67,7 +67,7 @@ function v3(data: IWrapBeatmap): void {
       e.customData = eventToV3(e.customData);
    });
    logger.tDebug(tag('v3'), ' Patching bookmarks');
-   data.data.customData.bookmarks?.forEach((b) => {
+   data.difficulty.customData.bookmarks?.forEach((b) => {
       if ('_time' in b && typeof b._time === 'number') {
          b.b ??= b._time as number;
          delete b._time;
@@ -86,7 +86,7 @@ function v3(data: IWrapBeatmap): void {
       }
    });
    logger.tDebug(tag('v3'), ' Patching BPM changes');
-   data.data.customData.BPMChanges?.forEach((bpmc) => {
+   data.difficulty.customData.BPMChanges?.forEach((bpmc) => {
       if ('_time' in bpmc && typeof bpmc._time === 'number') {
          bpmc.b ??= bpmc._time;
          delete bpmc._time;
@@ -108,7 +108,7 @@ function v3(data: IWrapBeatmap): void {
       }
    });
    logger.tDebug(tag('v3'), ' Patching environment');
-   data.data.customData.environment?.forEach((env) => {
+   data.difficulty.customData.environment?.forEach((env) => {
       if ('lightID' in env && typeof env.lightID === 'number') {
          const id = env.lightID as number;
          if (env.components) {

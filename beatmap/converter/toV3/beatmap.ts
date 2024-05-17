@@ -63,8 +63,8 @@ function fromV1(bm: IWrapBeatmap) {
       }
    });
 
-   bm.data.customData.time = bm.data.customData._time;
-   bm.data.customData.BPMChanges = bm.data.customData._BPMChanges?.map(
+   bm.difficulty.customData.time = bm.difficulty.customData._time;
+   bm.difficulty.customData.BPMChanges = bm.difficulty.customData._BPMChanges?.map(
       (bpmc) => {
          return {
             b: bpmc._time,
@@ -74,7 +74,7 @@ function fromV1(bm: IWrapBeatmap) {
          };
       },
    );
-   bm.data.customData.bookmarks = bm.data.customData._bookmarks?.map((b) => {
+   bm.difficulty.customData.bookmarks = bm.difficulty.customData._bookmarks?.map((b) => {
       return {
          b: b._time,
          n: b._name,
@@ -83,9 +83,9 @@ function fromV1(bm: IWrapBeatmap) {
 }
 
 function fromV2(bm: IWrapBeatmap) {
-   bm.data.customData.fakeColorNotes = [];
-   bm.data.customData.fakeBombNotes = [];
-   bm.data.customData.fakeObstacles = [];
+   bm.difficulty.customData.fakeColorNotes = [];
+   bm.difficulty.customData.fakeBombNotes = [];
+   bm.difficulty.customData.fakeObstacles = [];
 
    const newNotes: IWrapColorNote[] = [];
    bm.colorNotes.forEach((n, i) => {
@@ -108,7 +108,7 @@ function fromV2(bm: IWrapBeatmap) {
          ? n.direction === 8 ? 8 : 1
          : clamp(n.direction, 0, 8);
       if (n.customData._fake) {
-         bm.data.customData.fakeColorNotes!.push({
+         bm.difficulty.customData.fakeColorNotes!.push({
             b: n.time,
             c: n.color,
             x: n.posX,
@@ -136,7 +136,7 @@ function fromV2(bm: IWrapBeatmap) {
          );
       }
       if (n.customData._fake) {
-         bm.data.customData.fakeBombNotes!.push({
+         bm.difficulty.customData.fakeBombNotes!.push({
             b: n.time,
             x: n.posX,
             y: n.posY,
@@ -153,7 +153,7 @@ function fromV2(bm: IWrapBeatmap) {
    bm.obstacles.forEach((o) => {
       const customData: ICustomDataObstacle = objectToV3(o.customData);
       if (o.customData._fake) {
-         bm.data.customData.fakeObstacles!.push({
+         bm.difficulty.customData.fakeObstacles!.push({
             b: o.time,
             x: o.posX,
             y: o.posY,
@@ -212,12 +212,12 @@ function fromV2(bm: IWrapBeatmap) {
       e.customData = customData;
    });
 
-   for (const k in bm.data.customData) {
+   for (const k in bm.difficulty.customData) {
       if (k === '_customEvents') {
-         bm.data.customData.customEvents = [];
-         bm.data.customData._customEvents!.forEach((ce) => {
+         bm.difficulty.customData.customEvents = [];
+         bm.difficulty.customData._customEvents!.forEach((ce) => {
             if (ce._type === 'AnimateTrack') {
-               bm.data.customData.customEvents?.push({
+               bm.difficulty.customData.customEvents?.push({
                   b: ce._time,
                   t: 'AnimateTrack',
                   d: {
@@ -237,7 +237,7 @@ function fromV2(bm: IWrapBeatmap) {
                });
             }
             if (ce._type === 'AssignPathAnimation') {
-               bm.data.customData.customEvents?.push({
+               bm.difficulty.customData.customEvents?.push({
                   b: ce._time,
                   t: 'AssignPathAnimation',
                   d: {
@@ -256,7 +256,7 @@ function fromV2(bm: IWrapBeatmap) {
                });
             }
             if (ce._type === 'AssignTrackParent') {
-               bm.data.customData.customEvents?.push({
+               bm.difficulty.customData.customEvents?.push({
                   b: ce._time,
                   t: 'AssignTrackParent',
                   d: {
@@ -267,7 +267,7 @@ function fromV2(bm: IWrapBeatmap) {
                });
             }
             if (ce._type === 'AssignPlayerToTrack') {
-               bm.data.customData.customEvents?.push({
+               bm.difficulty.customData.customEvents?.push({
                   b: ce._time,
                   t: 'AssignPlayerToTrack',
                   d: {
@@ -277,7 +277,7 @@ function fromV2(bm: IWrapBeatmap) {
                });
             }
             if (ce._type === 'AssignFogTrack') {
-               bm.data.customData.customEvents?.push({
+               bm.difficulty.customData.customEvents?.push({
                   b: ce._time,
                   t: 'AnimateComponent',
                   d: {
@@ -301,11 +301,11 @@ function fromV2(bm: IWrapBeatmap) {
                });
             }
          });
-         delete bm.data.customData._customEvents;
+         delete bm.difficulty.customData._customEvents;
          continue;
       }
       if (k === '_environment') {
-         bm.data.customData.environment = bm.data.customData._environment!.map(
+         bm.difficulty.customData.environment = bm.difficulty.customData._environment!.map(
             (e) => {
                let components: IChromaComponent = {};
                if (e._lightID) {
@@ -381,38 +381,38 @@ function fromV2(bm: IWrapBeatmap) {
                throw new Error('Error converting environment v2 to v3');
             },
          );
-         delete bm.data.customData._environment;
+         delete bm.difficulty.customData._environment;
          continue;
       }
       if (k === '_materials') {
-         bm.data.customData.materials = {};
-         for (const m in bm.data.customData._materials) {
-            bm.data.customData.materials[m] = {
-               shader: bm.data.customData._materials[m]._shader,
-               shaderKeywords: bm.data.customData._materials[m]._shaderKeywords,
-               collision: bm.data.customData._materials[m]._collision,
-               track: bm.data.customData._materials[m]._track,
-               color: bm.data.customData._materials[m]._color,
+         bm.difficulty.customData.materials = {};
+         for (const m in bm.difficulty.customData._materials) {
+            bm.difficulty.customData.materials[m] = {
+               shader: bm.difficulty.customData._materials[m]._shader,
+               shaderKeywords: bm.difficulty.customData._materials[m]._shaderKeywords,
+               collision: bm.difficulty.customData._materials[m]._collision,
+               track: bm.difficulty.customData._materials[m]._track,
+               color: bm.difficulty.customData._materials[m]._color,
             } as IChromaMaterial;
          }
-         delete bm.data.customData._materials;
+         delete bm.difficulty.customData._materials;
          continue;
       }
       if (k === '_pointDefinitions') {
-         bm.data.customData.pointDefinitions = {};
-         bm.data.customData._pointDefinitions!.forEach((p) => {
-            bm.data.customData.pointDefinitions![p._name] = p._points;
+         bm.difficulty.customData.pointDefinitions = {};
+         bm.difficulty.customData._pointDefinitions!.forEach((p) => {
+            bm.difficulty.customData.pointDefinitions![p._name] = p._points;
          });
-         delete bm.data.customData._pointDefinitions;
+         delete bm.difficulty.customData._pointDefinitions;
          continue;
       }
       if (k === '_time') {
-         bm.data.customData.time = bm.data.customData[k];
-         delete bm.data.customData._time;
+         bm.difficulty.customData.time = bm.difficulty.customData[k];
+         delete bm.difficulty.customData._time;
          continue;
       }
       if (k === '_BPMChanges') {
-         bm.data.customData.BPMChanges = bm.data.customData[k]?.map((bpmc) => {
+         bm.difficulty.customData.BPMChanges = bm.difficulty.customData[k]?.map((bpmc) => {
             return {
                b: bpmc._time,
                m: bpmc._BPM,
@@ -420,11 +420,11 @@ function fromV2(bm: IWrapBeatmap) {
                o: bpmc._metronomeOffset,
             };
          });
-         delete bm.data.customData._BPMChanges;
+         delete bm.difficulty.customData._BPMChanges;
          continue;
       }
       if (k === '_bpmChanges') {
-         bm.data.customData.BPMChanges = bm.data.customData[k]?.map((bpmc) => {
+         bm.difficulty.customData.BPMChanges = bm.difficulty.customData[k]?.map((bpmc) => {
             return {
                b: bpmc._time,
                m: bpmc._bpm,
@@ -432,11 +432,11 @@ function fromV2(bm: IWrapBeatmap) {
                o: bpmc._metronomeOffset,
             };
          });
-         delete bm.data.customData._bpmChanges;
+         delete bm.difficulty.customData._bpmChanges;
          continue;
       }
       if (k === '_bookmarks') {
-         bm.data.customData.bookmarks = bm.data.customData._bookmarks?.map(
+         bm.difficulty.customData.bookmarks = bm.difficulty.customData._bookmarks?.map(
             (b) => {
                return {
                   b: b._time,
@@ -445,21 +445,21 @@ function fromV2(bm: IWrapBeatmap) {
                };
             },
          );
-         delete bm.data.customData._bookmarks;
+         delete bm.difficulty.customData._bookmarks;
          continue;
       }
    }
 
-   if (bm.data.customData.environment) {
+   if (bm.difficulty.customData.environment) {
       const envTracks: string[] = [];
-      for (const env of bm.data.customData.environment) {
+      for (const env of bm.difficulty.customData.environment) {
          if (env.track) {
             envTracks.push(env.track);
          }
       }
       const customEvents = [];
-      if (bm.data.customData.customEvents) {
-         for (const ce of bm.data.customData.customEvents) {
+      if (bm.difficulty.customData.customEvents) {
+         for (const ce of bm.difficulty.customData.customEvents) {
             if (ce.t === 'AnimateTrack') {
                if (
                   typeof ce.d.track === 'string' &&

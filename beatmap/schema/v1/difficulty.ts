@@ -45,21 +45,21 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          _noteJumpStartBeatOffset: 0,
          //
          _notes: [
-            ...data.data.colorNotes.map(colorNote.serialize),
-            ...data.data.bombNotes.map(bombNote.serialize),
+            ...data.difficulty.colorNotes.map(colorNote.serialize),
+            ...data.difficulty.bombNotes.map(bombNote.serialize),
          ],
-         _obstacles: data.data.obstacles.map(obstacle.serialize),
+         _obstacles: data.difficulty.obstacles.map(obstacle.serialize),
          _events: [
             ...data.lightshow.basicEvents.map(basicEvent.serialize),
             ...data.lightshow.colorBoostEvents.map(
                colorBoostEvent.serialize,
             ),
-            ...data.data.rotationEvents.map(rotationEvent.serialize),
-            ...data.data.bpmEvents.map(bpmEvent.serialize),
+            ...data.difficulty.rotationEvents.map(rotationEvent.serialize),
+            ...data.difficulty.bpmEvents.map(bpmEvent.serialize),
          ],
-         _time: data.data.customData._time,
-         _BPMChanges: data.data.customData._bpmChanges,
-         _bookmarks: data.data.customData._bookmarks,
+         _time: data.difficulty.customData._time,
+         _BPMChanges: data.difficulty.customData._bpmChanges,
+         _bookmarks: data.difficulty.customData._bookmarks,
       };
    },
    deserialize(
@@ -99,7 +99,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
 
       return {
          version: 1,
-         data: {
+         difficulty: {
             colorNotes,
             bombNotes,
             obstacles: (data._obstacles ?? []).map(obstacle.deserialize),

@@ -47,15 +47,15 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
    serialize(data: IWrapBeatmapAttribute): Required<IDifficulty> {
       const json: Required<IDifficulty> = {
          version: '3.3.0',
-         bpmEvents: data.data.bpmEvents.map(bpmEvent.serialize),
-         rotationEvents: data.data.rotationEvents.map(
+         bpmEvents: data.difficulty.bpmEvents.map(bpmEvent.serialize),
+         rotationEvents: data.difficulty.rotationEvents.map(
             rotationEvent.serialize,
          ),
-         colorNotes: data.data.colorNotes.map(colorNote.serialize),
-         bombNotes: data.data.bombNotes.map(bombNote.serialize),
-         obstacles: data.data.obstacles.map(obstacle.serialize),
-         sliders: data.data.arcs.map(arc.serialize),
-         burstSliders: data.data.chains.map(chain.serialize),
+         colorNotes: data.difficulty.colorNotes.map(colorNote.serialize),
+         bombNotes: data.difficulty.bombNotes.map(bombNote.serialize),
+         obstacles: data.difficulty.obstacles.map(obstacle.serialize),
+         sliders: data.difficulty.arcs.map(arc.serialize),
+         burstSliders: data.difficulty.chains.map(chain.serialize),
          waypoints: data.lightshow.waypoints.map(waypoint.serialize),
          basicBeatmapEvents: data.lightshow.basicEvents.map(
             basicEvent.serialize,
@@ -81,7 +81,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             _il: [],
          },
          useNormalEventsAsCompatibleEvents: data.lightshow.useNormalEventsAsCompatibleEvents,
-         customData: deepCopy(data.data.customData),
+         customData: deepCopy(data.difficulty.customData),
       };
       for (
          const obj of data.lightshow.fxEventBoxGroups.map(
@@ -104,28 +104,28 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
    ): DeepPartial<IWrapBeatmapAttribute> {
       const d: DeepPartial<IWrapBeatmapAttribute> = {
          version: 3,
-         data: {},
+         difficulty: {},
          lightshow: {},
       };
-      d.data!.bpmEvents = (
+      d.difficulty!.bpmEvents = (
          data.bpmEvents ?? defaultValue.bpmEvents
       ).map(bpmEvent.deserialize);
-      d.data!.rotationEvents = (
+      d.difficulty!.rotationEvents = (
          data.rotationEvents ?? defaultValue.rotationEvents
       ).map(rotationEvent.deserialize);
-      d.data!.colorNotes = (
+      d.difficulty!.colorNotes = (
          data.colorNotes ?? defaultValue.colorNotes
       ).map(colorNote.deserialize);
-      d.data!.bombNotes = (
+      d.difficulty!.bombNotes = (
          data.bombNotes ?? defaultValue.bombNotes
       ).map(bombNote.deserialize);
-      d.data!.obstacles = (
+      d.difficulty!.obstacles = (
          data.obstacles ?? defaultValue.obstacles
       ).map(obstacle.deserialize);
-      d.data!.arcs = (data.sliders ?? defaultValue.sliders).map(
+      d.difficulty!.arcs = (data.sliders ?? defaultValue.sliders).map(
          arc.deserialize,
       );
-      d.data!.chains = (
+      d.difficulty!.chains = (
          data.burstSliders ?? defaultValue.burstSliders
       ).map(chain.deserialize);
       d.lightshow!.waypoints = (

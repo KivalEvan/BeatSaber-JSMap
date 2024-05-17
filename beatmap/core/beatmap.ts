@@ -62,7 +62,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       lightshowFilename: 'Unnamed.lightshow.dat',
       customData: {},
 
-      data: {
+      difficulty: {
          bpmEvents: [],
          rotationEvents: [],
          colorNotes: [],
@@ -98,7 +98,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       this.version = data.version ?? Beatmap.defaultValue.version;
       this.filename = data.filename ?? Beatmap.defaultValue.filename;
       this.lightshowFilename = data.lightshowFilename ?? Beatmap.defaultValue.lightshowFilename;
-      this.data = new Difficulty(data.data ?? Beatmap.defaultValue.data);
+      this.difficulty = new Difficulty(data.difficulty ?? Beatmap.defaultValue.difficulty);
       this.lightshow = new Lightshow(
          data.lightshow ?? Beatmap.defaultValue.lightshow,
       );
@@ -109,53 +109,53 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    }
 
    version: number;
-   data: IWrapDifficulty;
+   difficulty: IWrapDifficulty;
    lightshow: IWrapLightshow;
 
    filename: LooseAutocomplete<GenericFilename>;
    lightshowFilename: LooseAutocomplete<GenericFilename>;
 
    get bpmEvents(): IWrapBPMEvent[] {
-      return this.data.bpmEvents;
+      return this.difficulty.bpmEvents;
    }
    set bpmEvents(value: this['bpmEvents']) {
-      this.data.bpmEvents = value;
+      this.difficulty.bpmEvents = value;
    }
    get rotationEvents(): IWrapRotationEvent[] {
-      return this.data.rotationEvents;
+      return this.difficulty.rotationEvents;
    }
    set rotationEvents(value: this['rotationEvents']) {
-      this.data.rotationEvents = value;
+      this.difficulty.rotationEvents = value;
    }
    get colorNotes(): IWrapColorNote[] {
-      return this.data.colorNotes;
+      return this.difficulty.colorNotes;
    }
    set colorNotes(value: this['colorNotes']) {
-      this.data.colorNotes = value;
+      this.difficulty.colorNotes = value;
    }
    get bombNotes(): IWrapBombNote[] {
-      return this.data.bombNotes;
+      return this.difficulty.bombNotes;
    }
    set bombNotes(value: this['bombNotes']) {
-      this.data.bombNotes = value;
+      this.difficulty.bombNotes = value;
    }
    get obstacles(): IWrapObstacle[] {
-      return this.data.obstacles;
+      return this.difficulty.obstacles;
    }
    set obstacles(value: this['obstacles']) {
-      this.data.obstacles = value;
+      this.difficulty.obstacles = value;
    }
    get arcs(): IWrapArc[] {
-      return this.data.arcs;
+      return this.difficulty.arcs;
    }
    set arcs(value: this['arcs']) {
-      this.data.arcs = value;
+      this.difficulty.arcs = value;
    }
    get chains(): IWrapChain[] {
-      return this.data.chains;
+      return this.difficulty.chains;
    }
    set chains(value: this['chains']) {
-      this.data.chains = value;
+      this.difficulty.chains = value;
    }
    get waypoints(): IWrapWaypoint[] {
       return this.lightshow.waypoints;
@@ -226,7 +226,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    }
 
    sort(fn?: (object: this) => void): this {
-      this.data.sort();
+      this.difficulty.sort();
       this.lightshow.sort();
       return super.sort(fn);
    }
@@ -234,43 +234,43 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    addBpmEvents(
       ...data: DeepPartialIgnore<IWrapBPMEventAttribute, 'customData'>[]
    ): this {
-      this.data.addBpmEvents(...data);
+      this.difficulty.addBpmEvents(...data);
       return this;
    }
    addRotationEvents(
       ...data: DeepPartialIgnore<IWrapRotationEventAttribute, 'customData'>[]
    ): this {
-      this.data.addRotationEvents(...data);
+      this.difficulty.addRotationEvents(...data);
       return this;
    }
    addColorNotes(
       ...data: DeepPartialIgnore<IWrapColorNoteAttribute, 'customData'>[]
    ): this {
-      this.data.addColorNotes(...data);
+      this.difficulty.addColorNotes(...data);
       return this;
    }
    addBombNotes(
       ...data: DeepPartialIgnore<IWrapBombNoteAttribute, 'customData'>[]
    ): this {
-      this.data.addBombNotes(...data);
+      this.difficulty.addBombNotes(...data);
       return this;
    }
    addObstacles(
       ...data: DeepPartialIgnore<IWrapObstacleAttribute, 'customData'>[]
    ): this {
-      this.data.addObstacles(...data);
+      this.difficulty.addObstacles(...data);
       return this;
    }
    addArcs(
       ...data: DeepPartialIgnore<IWrapArcAttribute, 'customData'>[]
    ): this {
-      this.data.addArcs(...data);
+      this.difficulty.addArcs(...data);
       return this;
    }
    addChains(
       ...data: DeepPartialIgnore<IWrapChainAttribute, 'customData'>[]
    ): this {
-      this.data.addChains(...data);
+      this.difficulty.addChains(...data);
       return this;
    }
    addWaypoints(

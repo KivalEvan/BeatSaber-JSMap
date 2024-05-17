@@ -31,7 +31,7 @@ import type { IWrapBaseItemAttribute } from './baseItem.ts';
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 
 export interface IWrapBeatmapAttribute extends IWrapBaseItemAttribute, IWrapBaseFileAttribute {
-   data: IWrapDifficultyAttribute;
+   difficulty: IWrapDifficultyAttribute;
    lightshow: IWrapLightshowAttribute;
 
    // this honestly feels like hack but i need to figure out best way to handle this
@@ -48,7 +48,7 @@ export interface IWrapBeatmapAttribute extends IWrapBaseItemAttribute, IWrapBase
 }
 
 export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {
-   data: IWrapDifficulty;
+   difficulty: IWrapDifficulty;
    lightshow: IWrapLightshow;
 
    bpmEvents: IWrapBPMEvent[];

@@ -52,7 +52,7 @@ function fromV3(bm: IWrapBeatmap) {
    bm.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
    });
-   bm.data.customData.fakeColorNotes?.forEach((n) => {
+   bm.difficulty.customData.fakeColorNotes?.forEach((n) => {
       const customData: ICustomDataNote = objectToV2(n.customData);
       bm.addColorNotes({
          time: n.b,
@@ -63,12 +63,12 @@ function fromV3(bm: IWrapBeatmap) {
          customData,
       });
    });
-   delete bm.data.customData.fakeColorNotes;
+   delete bm.difficulty.customData.fakeColorNotes;
 
    bm.bombNotes.forEach((b) => {
       b.customData = objectToV2(b.customData);
    });
-   bm.data.customData.fakeBombNotes?.forEach((b) => {
+   bm.difficulty.customData.fakeBombNotes?.forEach((b) => {
       const customData: ICustomDataNote = objectToV2(b.customData);
       bm.addColorNotes({
          time: b.b,
@@ -78,10 +78,10 @@ function fromV3(bm: IWrapBeatmap) {
       });
    });
 
-   bm.data.obstacles.forEach((o) => {
+   bm.difficulty.obstacles.forEach((o) => {
       o.customData = objectToV2(o.customData);
    });
-   bm.data.customData.fakeObstacles?.forEach((o) => {
+   bm.difficulty.customData.fakeObstacles?.forEach((o) => {
       const customData: ICustomDataObstacle = objectToV2(o.customData);
       bm.addObstacles({
          time: o.b,
@@ -103,13 +103,13 @@ function fromV3(bm: IWrapBeatmap) {
       }
    });
 
-   for (const k in bm.data.customData) {
+   for (const k in bm.difficulty.customData) {
       if (k === 'customEvents') {
-         bm.data.customData._customEvents = [];
-         for (const ce of bm.data.customData.customEvents!) {
+         bm.difficulty.customData._customEvents = [];
+         for (const ce of bm.difficulty.customData.customEvents!) {
             if (ce.t === 'AnimateTrack') {
                for (let i = 0, repeat = ce.d.repeat ?? 0; i <= repeat; i++) {
-                  bm.data.customData._customEvents.push({
+                  bm.difficulty.customData._customEvents.push({
                      _time: ce.b + (ce.d.duration ?? 0) * i,
                      _type: 'AnimateTrack',
                      _data: {
@@ -130,7 +130,7 @@ function fromV3(bm: IWrapBeatmap) {
                }
             }
             if (ce.t === 'AssignPathAnimation') {
-               bm.data.customData._customEvents.push({
+               bm.difficulty.customData._customEvents.push({
                   _time: ce.b,
                   _type: 'AssignPathAnimation',
                   _data: {
@@ -149,7 +149,7 @@ function fromV3(bm: IWrapBeatmap) {
                });
             }
             if (ce.t === 'AssignTrackParent') {
-               bm.data.customData._customEvents.push({
+               bm.difficulty.customData._customEvents.push({
                   _time: ce.b,
                   _type: 'AssignTrackParent',
                   _data: {
@@ -160,7 +160,7 @@ function fromV3(bm: IWrapBeatmap) {
                });
             }
             if (ce.t === 'AssignPlayerToTrack') {
-               bm.data.customData._customEvents.push({
+               bm.difficulty.customData._customEvents.push({
                   _time: ce.b,
                   _type: 'AssignPlayerToTrack',
                   _data: {
@@ -170,7 +170,7 @@ function fromV3(bm: IWrapBeatmap) {
                });
             }
             if (ce.t === 'AnimateComponent' && ce.d.BloomFogEnvironment) {
-               bm.data.customData._customEvents.push({
+               bm.difficulty.customData._customEvents.push({
                   _time: ce.b,
                   _type: 'AssignFogTrack',
                   _data: {
@@ -184,11 +184,11 @@ function fromV3(bm: IWrapBeatmap) {
                });
             }
          }
-         delete bm.data.customData.customEvents;
+         delete bm.difficulty.customData.customEvents;
          continue;
       }
       if (k === 'environment') {
-         bm.data.customData._environment = bm.data.customData.environment!.map(
+         bm.difficulty.customData._environment = bm.difficulty.customData.environment!.map(
             (e) => {
                if (e.id && e.lookupMethod) {
                   return {
@@ -264,41 +264,41 @@ function fromV3(bm: IWrapBeatmap) {
                throw new Error('Error converting environment v3 to v2');
             },
          );
-         delete bm.data.customData.environment;
+         delete bm.difficulty.customData.environment;
          continue;
       }
       if (k === 'materials') {
-         bm.data.customData._materials = {};
-         for (const m in bm.data.customData.materials) {
-            bm.data.customData._materials[m] = {
-               _shader: bm.data.customData.materials[m].shader,
-               _shaderKeywords: bm.data.customData.materials[m].shaderKeywords,
-               _collision: bm.data.customData.materials[m].collision,
-               _track: bm.data.customData.materials[m].track,
-               _color: bm.data.customData.materials[m].color,
+         bm.difficulty.customData._materials = {};
+         for (const m in bm.difficulty.customData.materials) {
+            bm.difficulty.customData._materials[m] = {
+               _shader: bm.difficulty.customData.materials[m].shader,
+               _shaderKeywords: bm.difficulty.customData.materials[m].shaderKeywords,
+               _collision: bm.difficulty.customData.materials[m].collision,
+               _track: bm.difficulty.customData.materials[m].track,
+               _color: bm.difficulty.customData.materials[m].color,
             } as IChromaMaterial;
          }
-         delete bm.data.customData.materials;
+         delete bm.difficulty.customData.materials;
          continue;
       }
       if (k === 'pointDefinitions') {
-         bm.data.customData._pointDefinitions = [];
-         for (const p in bm.data.customData.pointDefinitions!) {
-            bm.data.customData._pointDefinitions.push({
+         bm.difficulty.customData._pointDefinitions = [];
+         for (const p in bm.difficulty.customData.pointDefinitions!) {
+            bm.difficulty.customData._pointDefinitions.push({
                _name: p,
-               _points: bm.data.customData.pointDefinitions[p],
+               _points: bm.difficulty.customData.pointDefinitions[p],
             });
          }
-         delete bm.data.customData.pointDefinitions;
+         delete bm.difficulty.customData.pointDefinitions;
          continue;
       }
       if (k === 'time') {
-         bm.data.customData._time = bm.data.customData[k];
-         delete bm.data.customData.time;
+         bm.difficulty.customData._time = bm.difficulty.customData[k];
+         delete bm.difficulty.customData.time;
          continue;
       }
       if (k === 'BPMChanges') {
-         bm.data.customData._BPMChanges = bm.data.customData[k]?.map((bpmc) => {
+         bm.difficulty.customData._BPMChanges = bm.difficulty.customData[k]?.map((bpmc) => {
             return {
                _time: bpmc.b,
                _BPM: bpmc.m,
@@ -306,28 +306,28 @@ function fromV3(bm: IWrapBeatmap) {
                _metronomeOffset: bpmc.o,
             };
          });
-         delete bm.data.customData.BPMChanges;
+         delete bm.difficulty.customData.BPMChanges;
          continue;
       }
       if (k === 'bookmarks') {
-         bm.data.customData._bookmarks = bm.data.customData[k]?.map((b) => {
+         bm.difficulty.customData._bookmarks = bm.difficulty.customData[k]?.map((b) => {
             return { _time: b.b, _name: b.n, _color: b.c };
          });
-         delete bm.data.customData.bookmarks;
+         delete bm.difficulty.customData.bookmarks;
          continue;
       }
    }
 
-   if (bm.data.customData._environment) {
+   if (bm.difficulty.customData._environment) {
       const envTracks: string[] = [];
-      for (const env of bm.data.customData._environment) {
+      for (const env of bm.difficulty.customData._environment) {
          if (env._track) {
             envTracks.push(env._track);
          }
       }
       const customEvents = [];
-      if (bm.data.customData._customEvents) {
-         for (const ce of bm.data.customData._customEvents) {
+      if (bm.difficulty.customData._customEvents) {
+         for (const ce of bm.difficulty.customData._customEvents) {
             if (ce._type === 'AnimateTrack') {
                if (
                   typeof ce._data._track === 'string' &&

@@ -34,28 +34,27 @@ export default function (
    logger.tDebug(tag(), 'Removing outside playable waypoints');
    data.waypoints = data.waypoints.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable fake color notes');
-   if (data.data.customData.fakeColorNotes) {
-      data.data.customData.fakeColorNotes = data.data.customData.fakeColorNotes.filter((obj) =>
-         duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)
-      );
+   if (data.difficulty.customData.fakeColorNotes) {
+      data.difficulty.customData.fakeColorNotes = data.difficulty.customData.fakeColorNotes.filter((
+         obj,
+      ) => duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0));
    }
    logger.tDebug(tag(), 'Removing outside playable fake bomb notes');
-   if (data.data.customData.fakeBombNotes) {
-      data.data.customData.fakeBombNotes = data.data.customData.fakeBombNotes.filter((obj) =>
-         duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)
-      );
+   if (data.difficulty.customData.fakeBombNotes) {
+      data.difficulty.customData.fakeBombNotes = data.difficulty.customData.fakeBombNotes.filter((
+         obj,
+      ) => duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0));
    }
    logger.tDebug(tag(), 'Removing outside playable fake obstacles');
-   if (data.data.customData.fakeObstacles) {
-      data.data.customData.fakeObstacles = data.data.customData.fakeObstacles.filter((obj) =>
-         duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)
-      );
+   if (data.difficulty.customData.fakeObstacles) {
+      data.difficulty.customData.fakeObstacles = data.difficulty.customData.fakeObstacles.filter((
+         obj,
+      ) => duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0));
    }
    logger.tDebug(tag(), 'Removing outside playable fake chains');
-   if (data.data.customData.fakeBurstSliders) {
-      data.data.customData.fakeBurstSliders = data.data.customData.fakeBurstSliders.filter((obj) =>
-         duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)
-      );
+   if (data.difficulty.customData.fakeBurstSliders) {
+      data.difficulty.customData.fakeBurstSliders = data.difficulty.customData.fakeBurstSliders
+         .filter((obj) => duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0));
    }
    logger.tDebug(tag(), 'Removing outside playable basic events');
    data.basicEvents = data.basicEvents.filter(filterTime);

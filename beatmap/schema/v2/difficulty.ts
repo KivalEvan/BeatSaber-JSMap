@@ -37,24 +37,24 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       return {
          _version: '2.6.0',
          _notes: [
-            ...data.data.colorNotes.map(colorNote.serialize),
-            ...data.data.bombNotes.map(bombNote.serialize),
+            ...data.difficulty.colorNotes.map(colorNote.serialize),
+            ...data.difficulty.bombNotes.map(bombNote.serialize),
          ].sort(sortV2NoteFn),
-         _sliders: data.data.arcs.map(arc.serialize),
-         _obstacles: data.data.obstacles.map(obstacle.serialize),
+         _sliders: data.difficulty.arcs.map(arc.serialize),
+         _obstacles: data.difficulty.obstacles.map(obstacle.serialize),
          _events: [
             ...data.lightshow.basicEvents.map(basicEvent.serialize),
             ...data.lightshow.colorBoostEvents.map(
                colorBoostEvent.serialize,
             ),
-            ...data.data.rotationEvents.map(rotationEvent.serialize),
-            ...data.data.bpmEvents.map(bpmEvent.serialize),
+            ...data.difficulty.rotationEvents.map(rotationEvent.serialize),
+            ...data.difficulty.bpmEvents.map(bpmEvent.serialize),
          ].sort(sortV2ObjectFn),
          _waypoints: data.lightshow.waypoints.map(waypoint.serialize),
          _specialEventsKeywordFilters: eventTypesWithKeywords.serialize(
             data.lightshow.eventTypesWithKeywords,
          ),
-         _customData: deepCopy(data.data.customData),
+         _customData: deepCopy(data.difficulty.customData),
       };
    },
    deserialize(
@@ -94,7 +94,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
 
       return {
          version: 2,
-         data: {
+         difficulty: {
             colorNotes,
             bombNotes,
             obstacles: (data._obstacles ?? []).map(obstacle.deserialize),
