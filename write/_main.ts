@@ -38,12 +38,12 @@ export function handleWrite<T extends Record<string, any>>(
    const json = saveBeatmap(type, data, ver, opt.save);
    return writeJSONFile(
       resolve(
-         options.directory ?? (globals.directory || defaultOptions.directory),
-         options.filename ??
+         opt.directory ?? (globals.directory || defaultOptions.directory),
+         opt.filename ??
             (getFileName(type, data) || defaultOptions.filename),
       ),
       json,
-      options.format,
+      opt.format,
    ).then(() => json);
 }
 
@@ -55,15 +55,16 @@ export function handleWriteSync<T extends Record<string, any>>(
 ): Record<string, any> {
    const ver = typeof version === 'number' ? version : null;
    const opt = (typeof version !== 'number' ? version : options) ?? {};
+   console.log(opt)
    const json = saveBeatmap(type, data, ver, opt.save);
    writeJSONFileSync(
       resolve(
-         options.directory ?? (globals.directory || defaultOptions.directory),
-         options.filename ??
+         opt.directory ?? (globals.directory || defaultOptions.directory),
+         opt.filename ??
             (getFileName(type, data) || defaultOptions.filename),
       ),
       json,
-      options.format,
+      opt.format,
    );
    return json;
 }
