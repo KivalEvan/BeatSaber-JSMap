@@ -131,14 +131,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          },
          songPreviewFilename: data._songFilename ?? defaultValue._songFilename,
          coverImageFilename: data._coverImageFilename ?? defaultValue._coverImageFilename,
-         environmentNames: [
-            ...new Set([
-               ...(data._environmentNames ?? defaultValue._environmentNames),
-               data._environmentName ?? defaultValue._environmentName,
-               data._allDirectionsEnvironmentName ??
-                  defaultValue._allDirectionsEnvironmentName,
-            ]),
-         ],
+         environmentNames: [],
          colorSchemes: (data._colorSchemes ?? defaultValue._colorSchemes).map(
             (e) => {
                const scheme: IWrapInfoColorScheme = {
@@ -220,12 +213,21 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
                      data._levelAuthorName ?? defaultValue._levelAuthorName,
                   ],
                };
+               if (typeof diff._environmentNameIdx === 'number') {
+                  d.environmentNames![diff._environmentNameIdx] =
+                     (data._environmentNames ?? defaultValue._environmentNames)[
+                        diff._environmentNameIdx
+                     ];
+               }
                return m;
             })
          ),
          customData: deepCopy(data._customData ?? defaultValue._customData),
       };
 
+      d.environmentNames = d.environmentNames!.map(
+         (e) => e ?? defaultValue._environmentName ?? defaultValue._environmentName,
+      );
       return d;
    },
 };
