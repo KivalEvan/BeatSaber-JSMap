@@ -20,12 +20,6 @@ export interface ISaveOptions<T extends Record<string, any> = Record<string, any
     */
    sort?: boolean;
    /**
-    * Write the output to file.
-    *
-    * @default true
-    */
-   write?: boolean;
-   /**
     * Perform any preprocessing to object before transformed into JSON.
     *
     * **Warning**: This may result in side-effects.

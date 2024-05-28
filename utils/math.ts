@@ -150,6 +150,37 @@ export function random(
    return _random(min, max, rounding, Math.random);
 }
 
+/**
+ * JS implementation of gaussian random using Box-Muller transformation and skew-normal.
+ *
+ * This returns value closer to `[-6, 6]` range but can be completely outside of the range due to precision.
+ *
+ * @link https://spin.atomicobject.com/skew-normal-prng-javascript/
+ */
+export function randomNormal(
+   mean = 0,
+   stdev = 1,
+   skew = 0,
+   rand: () => number = Math.random,
+): number {
+   let u1 = 0;
+   let u2 = 0;
+   while (u1 === 0) u1 = rand();
+   while (u2 === 0) u2 = rand();
+
+   const mag = Math.sqrt(-2.0 * Math.log(u1));
+   const dir = 2.0 * Math.PI * u2;
+
+   const u0 = mag * Math.cos(dir);
+   if (!skew) return mean + stdev * u0;
+
+   const v = mag * Math.sin(dir);
+   const co = skew / Math.sqrt(1 + skew * skew);
+   const u3 = co * u0 + Math.sqrt(1 - co * co) * v;
+   const z = u0 >= 0 ? u3 : -u3;
+   return mean + stdev * z;
+}
+
 /** Return number tuple in order. */
 export function rearrangeTuple(
    min: number,

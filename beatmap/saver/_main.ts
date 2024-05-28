@@ -36,7 +36,6 @@ const defaultOptions: Required<ISaveOptions> = {
    },
    validate: { enabled: true },
    sort: true,
-   write: true,
    preprocess: [],
    postprocess: [],
 };
@@ -97,13 +96,12 @@ export function saveBeatmap<
          ver,
       );
    }
-   const optD = (typeof version !== 'number' ? version : options) ?? {};
+   const optD = (typeof version !== 'number' ? version : options) ?? options ?? {};
    const opt: Required<ISaveOptions<any>> = {
       format: optD.format ?? defaultOptions.format,
       optimize: { ...defaultOptions.optimize, ...optD.optimize },
       validate: { ...defaultOptions.validate, ...optD.validate },
       sort: optD.sort ?? defaultOptions.sort,
-      write: true,
       preprocess: optD.preprocess ?? defaultOptions.preprocess,
       postprocess: optD.postprocess ?? defaultOptions.postprocess,
    };

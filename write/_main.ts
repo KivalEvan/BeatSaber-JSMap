@@ -55,7 +55,6 @@ export function handleWriteSync<T extends Record<string, any>>(
 ): Record<string, any> {
    const ver = typeof version === 'number' ? version : null;
    const opt = (typeof version !== 'number' ? version : options) ?? {};
-   console.log(opt)
    const json = saveBeatmap(type, data, ver, opt.save);
    writeJSONFileSync(
       resolve(

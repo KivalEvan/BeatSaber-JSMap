@@ -19,6 +19,7 @@
   - Loading and saving will now use `Beatmap` object rather than individual class above
   - `customData` under `Beatmap` will be placed onto but not replacing existing `customData` object
     in `Difficulty` and `Lightshow` upon save
+- Gaussian random using Box-Muller transform utils function
 
 ### Changed
 
