@@ -1353,7 +1353,6 @@ export const InfoDifficultyDataCheck: {
    beatmapColorSchemeIdx: {
       type: 'number',
       int: true,
-      unsigned: true,
       version: '4.0.0',
       optional: true,
    },
