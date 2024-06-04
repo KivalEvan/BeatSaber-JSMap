@@ -2,11 +2,12 @@ import type { Writable } from '../types/utils.ts';
 import type { DeepWritable } from '../types/utils.ts';
 
 /** Fisher–Yates shuffle algorithm. */
-export function shuffle<T>(array: T[], fn = Math.random): void {
+export function shuffle<T>(array: T[], fn = Math.random): T[] {
    for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(fn() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
    }
+   return array;
 }
 
 export function interleave<T, U>([x, ...xs]: T[], ys: U[] = []): (T | U)[] {
