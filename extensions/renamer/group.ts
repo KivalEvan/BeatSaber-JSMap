@@ -1,6 +1,8 @@
 import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
-const environmentGroup: { [env in EnvironmentAllName]?: { [key: number]: string } } = {
+const environmentGroup: {
+   [env in EnvironmentAllName]?: { [key: number]: string };
+} = {
    WeaveEnvironment: {
       0: 'Outer Square Bottom Left Laser',
       1: 'Outer Square Bottom Right Laser',
@@ -433,8 +435,41 @@ const environmentGroup: { [env in EnvironmentAllName]?: { [key: number]: string 
       40: 'Environment Runway Lights',
       41: 'Environment Spectrogram Y',
    },
+   ColliderEnvironment: {
+      0: 'Center Blocks Local',
+      1: 'Center Blocks Global',
+      2: 'Center Blocks Inner Lasers',
+      3: 'Center Blocks Outer Lasers',
+      4: 'Center Blocks Side 01 Lasers',
+      5: 'Center Blocks Side 02 Lasers',
+      6: 'Colliders Diamonds',
+      7: 'Side Blocks Set 01 (Left) Local',
+      8: 'Side Blocks Set 02 (Right) Local',
+      9: 'Side Blocks Set 01 (Left) Global',
+      10: 'Side Blocks Set 02 (Right) Global',
+      11: 'Side Blocks Set 01 (Left) Inner Lasers',
+      12: 'Side Blocks Set 02 (Right) Inner Lasers',
+      13: 'Side Blocks Set 01 (Left) Outer Lasers',
+      14: 'Side Blocks Set 02 (Right) Outer Lasers',
+      15: 'Side Blocks Set 01 (Left) Side 01 Lasers',
+      16: 'Side Blocks Set 02 (Right) Side 01 Lasers',
+      17: 'Side Blocks Set 01 (Left) Side 02 Lasers',
+      18: 'Side Blocks Set 02 (Right) Side 02 Lasers',
+      19: 'Runway Left',
+      20: 'Runway Right',
+      21: 'Colliders Left',
+      22: 'Colliders Right',
+      23: 'Chevron Local',
+      24: 'Chevron Mask Strength',
+      25: 'Center Blocks Mask Strength',
+      26: 'Side Blocks Set 01 (Left) Mask Strength',
+      27: 'Side Blocks Set 02 (Right) Mask Strength',
+   },
 };
 
-export function eventGroupRename(id: number, environment?: EnvironmentAllName): string {
+export function eventGroupRename(
+   id: number,
+   environment?: EnvironmentAllName,
+): string {
    return environmentGroup[environment!]?.[id] || 'Unknown';
 }

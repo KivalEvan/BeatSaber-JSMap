@@ -40,7 +40,8 @@ export type EnvironmentV3Name =
    | 'TheRollingStonesEnvironment'
    | 'LatticeEnvironment'
    | 'DaftPunkEnvironment'
-   | 'HipHopEnvironment';
+   | 'HipHopEnvironment'
+   | 'ColliderEnvironment';
 
 /** List of available 360 environment in base game. */
 export type Environment360Name = 'GlassDesertEnvironment' | 'MultiplayerEnvironment';

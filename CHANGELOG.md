@@ -4,6 +4,7 @@
 
 ### Added
 
+- Collider environment & color scheme
 - `read` and `write` module
   - This require user to supply `fs` function from respective vendor in order to function, throws
     error if not presented

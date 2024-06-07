@@ -189,6 +189,12 @@ const environmentType: { [env in EnvironmentAllName]?: { [key: number]: string }
       42: 'Helmet 01 Text',
       43: 'Helmet 02 Text',
    },
+   HipHopEnvironment: {
+      6: 'Ambient',
+   },
+   ColliderEnvironment: {
+      6: 'Ambient',
+   },
 };
 
 export function eventTypeRename(type: number, environment?: EnvironmentAllName): string {

@@ -45,6 +45,7 @@ export const EnvironmentSchemeName: {
    LatticeEnvironment: 'Lattice',
    DaftPunkEnvironment: 'Daft Punk',
    HipHopEnvironment: 'Hip Hop Mixtape',
+   ColliderEnvironment: 'Collider',
    GlassDesertEnvironment: 'Glass Desert',
    MultiplayerEnvironment: 'Origins',
 } as const;
@@ -369,9 +370,18 @@ export const ColorScheme: {
       _envColorRight: { r: 0.05882353, g: 0.8039216, b: 0.1843137 },
       _envColorWhite: { r: 0.8000001, g: 0.7568628, b: 0.7058824 },
       _envColorLeftBoost: { r: 0.1411765, g: 1, b: 0.9686275 },
-      _envColorRightBoost: { r: 0.227451, g: 0.2745098, b: 1. },
+      _envColorRightBoost: { r: 0.227451, g: 0.2745098, b: 1 },
       _envColorWhiteBoost: { r: 0.8784314, g: 0.8784314, b: 0.8784314 },
       _obstacleColor: { r: 1, g: 0.3137255, b: 0.5529412 },
+   },
+   Collider: {
+      _colorLeft: { r: 0.9647059, g: 0.4947137, b: 0.1504941 },
+      _colorRight: { r: 0.1686274, g: 0.5998134, b: 0.8588235 },
+      _envColorLeft: { r: 0.9637059, g: 0.4092787, b: 0 },
+      _envColorRight: { r: 0.1686275, g: 0.3921569, b: 0.8588236 },
+      _envColorLeftBoost: { r: 0.8980393, g: 0.03529412, b: 0.02352941 },
+      _envColorRightBoost: { r: 0.854902, g: 0.4117647, b: 0.9725491 },
+      _obstacleColor: { r: 0.8396226, g: 0.09639232, b: 0 },
    },
    'Glass Desert': {
       _colorLeft: { r: 0.6792453, g: 0.5712628, b: 0 },

@@ -33,4 +33,5 @@ export type ColorSchemeName =
    | 'The Rolling Stones'
    | 'Lattice'
    | 'Daft Punk'
-   | 'Hip Hop Mixtape';
+   | 'Hip Hop Mixtape'
+   | 'Collider';

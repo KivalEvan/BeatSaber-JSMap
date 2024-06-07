@@ -216,7 +216,7 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
       },
       njs: 10,
       njsOffset: 0,
-      colorSchemeId: 0,
+      colorSchemeId: -1,
       environmentId: 0,
       customData: {},
    };
@@ -256,7 +256,7 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
          super.isValid(fn) &&
          this.njs > 0 &&
          this.colorSchemeId >= -1 &&
-         this.environmentId >= -1
+         this.environmentId >= 0
       );
    }
 
