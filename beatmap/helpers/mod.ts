@@ -1,4 +1,5 @@
 export * from './modded/mod.ts';
+export * from './beatmap.ts';
 export * from './convert.ts';
 export * from './dataCheck.ts';
 export * from './njs.ts';

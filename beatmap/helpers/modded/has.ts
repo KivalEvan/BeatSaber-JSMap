@@ -1,9 +1,9 @@
 //FIXME: i feel like it's better to just check key instead of type of it
 import type { IWrapArcAttribute } from '../../../types/beatmap/wrapper/arc.ts';
 import type { IWrapBaseItemAttribute } from '../../../types/beatmap/wrapper/baseItem.ts';
+import type { IWrapBaseNoteAttribute } from '../../../types/beatmap/wrapper/baseNote.ts';
 import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
 import type { IWrapChainAttribute } from '../../../types/beatmap/wrapper/chain.ts';
-import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 
@@ -232,7 +232,7 @@ export function hasMappingExtensionsChain(data: IWrapChainAttribute): boolean {
 }
 
 export function hasMappingExtensionsNote(
-   data: IWrapColorNoteAttribute,
+   data: IWrapBaseNoteAttribute,
 ): boolean {
    return (
       data.posX > 3 ||
