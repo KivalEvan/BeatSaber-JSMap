@@ -38,7 +38,7 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
             data.lightshow.eventTypesWithKeywords,
          ),
          useNormalEventsAsCompatibleEvents: data.lightshow.useNormalEventsAsCompatibleEvents,
-         customData: deepCopy(data.customData),
+         customData: deepCopy(data.difficulty.customData),
       };
       for (const jsonObj of data.lightshow.waypoints.map(waypoint.serialize)) {
          json.waypoints.push(jsonObj.object);
@@ -161,34 +161,34 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
             fxEventBoxGroups: [],
          },
       };
-      d.lightshow!.waypoints = data?.waypoints?.map((obj) =>
+      d.lightshow!.waypoints = data.waypoints?.map((obj) =>
          waypoint.deserialize({
             object: obj,
-            data: data?.waypointsData?.[obj?.i || 0],
+            data: data.waypointsData?.[obj?.i || 0],
          })
       );
-      d.lightshow!.basicEvents = data?.basicEvents?.map((obj) =>
+      d.lightshow!.basicEvents = data.basicEvents?.map((obj) =>
          basicEvent.deserialize({
             object: obj,
-            data: data?.basicEventsData?.[obj?.i || 0],
+            data: data.basicEventsData?.[obj?.i || 0],
          })
       );
-      d.lightshow!.colorBoostEvents = data?.colorBoostEvents?.map((obj) =>
+      d.lightshow!.colorBoostEvents = data.colorBoostEvents?.map((obj) =>
          colorBoostEvent.deserialize({
             object: obj,
-            data: data?.colorBoostEventsData?.[obj?.i || 0],
+            data: data.colorBoostEventsData?.[obj?.i || 0],
          })
       );
-      const indFil = data?.indexFilters ?? [];
-      const lceb = data?.lightColorEventBoxes ?? [];
-      const lce = data?.lightColorEvents ?? [];
-      const lreb = data?.lightRotationEventBoxes ?? [];
-      const lre = data?.lightRotationEvents ?? [];
-      const lteb = data?.lightTranslationEventBoxes ?? [];
-      const lte = data?.lightTranslationEvents ?? [];
-      const fxb = data?.fxEventBoxes ?? [];
-      const fx = data?.floatFxEvents ?? [];
-      for (const ebg of data?.eventBoxGroups || []) {
+      const indFil = data.indexFilters ?? [];
+      const lceb = data.lightColorEventBoxes ?? [];
+      const lce = data.lightColorEvents ?? [];
+      const lreb = data.lightRotationEventBoxes ?? [];
+      const lre = data.lightRotationEvents ?? [];
+      const lteb = data.lightTranslationEventBoxes ?? [];
+      const lte = data.lightTranslationEvents ?? [];
+      const fxb = data.fxEventBoxes ?? [];
+      const fx = data.floatFxEvents ?? [];
+      for (const ebg of data.eventBoxGroups || []) {
          const t = ebg?.t || 0;
          switch (t) {
             case EventBoxType.COLOR:
@@ -254,10 +254,10 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
          }
       }
       d.lightshow!.eventTypesWithKeywords = eventTypesWithKeywords.deserialize(
-         data?.basicEventTypesWithKeywords,
+         data.basicEventTypesWithKeywords,
       );
-      d.lightshow!.useNormalEventsAsCompatibleEvents = !!data?.useNormalEventsAsCompatibleEvents;
-      d.lightshow!.customData = deepCopy(data?.customData ?? {});
+      d.lightshow!.useNormalEventsAsCompatibleEvents = !!data.useNormalEventsAsCompatibleEvents;
+      d.lightshow!.customData = data.customData;
       return d;
    },
 };

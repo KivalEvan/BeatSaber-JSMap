@@ -29,7 +29,7 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
             _fl: [],
             _il: [],
          },
-         customData: deepCopy(data.customData),
+         customData: deepCopy(data.lightshow.customData),
       };
       for (const obj of data.lightshow.fxEventBoxGroups.map(fxEventBoxGroup.serialize)) {
          json.vfxEventBoxGroups!.push(obj.object);
@@ -74,7 +74,7 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
             })),
          })
       );
-      d.customData = deepCopy(data.customData);
+      d.lightshow!.customData = data.customData;
       return d;
    },
 };
