@@ -1,12 +1,5 @@
 // deno-lint-ignore-file ban-types no-explicit-any
-export type Primitive =
-   | string
-   | Function
-   | number
-   | boolean
-   | Symbol
-   | undefined
-   | null;
+export type Primitive = string | Function | number | boolean | Symbol | undefined | null;
 
 export type Only<T, U> =
    & {
@@ -29,9 +22,7 @@ export type DeepPartial<T> = {
 };
 
 export type DeepPartialIgnore<T, Ignore extends string> = {
-   [P in keyof T]?: T[P] extends object ? P extends Ignore ? T[P]
-      : DeepPartial<T[P]>
-      : T[P];
+   [P in keyof T]?: T[P] extends object ? (P extends Ignore ? T[P] : DeepPartial<T[P]>) : T[P];
 };
 
 export type DeepRequiredIgnore<T, Ignore extends string = ''> = {
@@ -103,9 +94,7 @@ export type DeepExcludeMethod<T> = T extends Primitive ? T
 
 export type PartialWrapper<T> = Partial<DeepOmit<ExcludeMethod<T>, 'data'>>;
 
-export type DeepPartialWrapper<T> = DeepPartial<
-   DeepOmit<DeepExcludeMethod<T>, 'data'>
->;
+export type DeepPartialWrapper<T> = DeepPartial<DeepOmit<DeepExcludeMethod<T>, 'data'>>;
 
 export type Nullable<T> = T extends Primitive ? T | null
    : {

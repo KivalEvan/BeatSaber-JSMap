@@ -59,10 +59,7 @@ export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribu
     * ```
     */
    getDistance(compareTo: this, fn?: GetPositionFn<this>): number;
-   getDistance(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): number;
+   getDistance(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): number;
 
    /**
     * Compare two objects and return if the objects is in vertical alignment.
@@ -71,10 +68,7 @@ export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribu
     * ```
     */
    isVertical(compareTo: this, fn?: GetPositionFn<this>): boolean;
-   isVertical(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): boolean;
+   isVertical(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): boolean;
 
    /**
     * Compare two objects and return if the objects is in horizontal alignment.
@@ -83,10 +77,7 @@ export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribu
     * ```
     */
    isHorizontal(compareTo: this, fn?: GetPositionFn<this>): boolean;
-   isHorizontal(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): boolean;
+   isHorizontal(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): boolean;
 
    /**
     * Compare two objects and return if the objects is in diagonal alignment.
@@ -95,10 +86,7 @@ export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribu
     * ```
     */
    isDiagonal(compareTo: this, fn?: GetPositionFn<this>): boolean;
-   isDiagonal(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): boolean;
+   isDiagonal(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): boolean;
 
    /**
     * Compare two  objects and return if the  objects is an inline.
@@ -106,11 +94,7 @@ export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribu
     * if (obj.isInline(objCompare, optionalLapping, optionalFn)) {}
     * ```
     */
-   isInline(
-      compareTo: this,
-      lapping?: number | null,
-      fn?: GetPositionFn<this>,
-   ): boolean;
+   isInline(compareTo: this, lapping?: number | null, fn?: GetPositionFn<this>): boolean;
    isInline(
       compareTo: IWrapGridObject,
       lapping?: number | null,
@@ -124,10 +108,7 @@ export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribu
     * ```
     */
    isAdjacent(compareTo: this, fn?: GetPositionFn<this>): boolean;
-   isAdjacent(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): boolean;
+   isAdjacent(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): boolean;
 
    /**
     * Compare two objects and return if the objects is a window.
@@ -135,11 +116,7 @@ export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribu
     * if (obj.isWindow(objCompare, optionalDistance, optionalFn)) {}
     * ```
     */
-   isWindow(
-      compareTo: this,
-      distance?: number | null,
-      fn?: GetPositionFn<this>,
-   ): boolean;
+   isWindow(compareTo: this, distance?: number | null, fn?: GetPositionFn<this>): boolean;
    isWindow(
       compareTo: IWrapGridObject,
       distance?: number | null,
@@ -153,8 +130,5 @@ export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribu
     * ```
     */
    isSlantedWindow(compareTo: this, fn?: GetPositionFn<this>): boolean;
-   isSlantedWindow(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): boolean;
+   isSlantedWindow(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): boolean;
 }

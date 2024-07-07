@@ -38,9 +38,7 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
    }
    constructor(data: DeepPartialIgnore<IWrapFxEventBoxAttribute, 'customData'> = {}) {
       super();
-      this.filter = new IndexFilter(
-         data.filter ?? FxEventBox.defaultValue.filter,
-      );
+      this.filter = new IndexFilter(data.filter ?? FxEventBox.defaultValue.filter);
       this.beatDistribution = data.beatDistribution ?? FxEventBox.defaultValue.beatDistribution;
       this.beatDistributionType = data.beatDistributionType ??
          FxEventBox.defaultValue.beatDistributionType;
@@ -52,9 +50,7 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
       this.events = (data.events ?? FxEventBox.defaultValue.events).map(
          (obj) => new FxEventFloat(obj),
       );
-      this.customData = deepCopy(
-         data.customData ?? FxEventBox.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? FxEventBox.defaultValue.customData);
    }
 
    fxDistribution: IWrapFxEventBox['fxDistribution'];
@@ -75,10 +71,8 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.fxDistributionType === 1 || this.fxDistributionType === 2) &&
-         (this.affectFirst === 0 || this.affectFirst === 1)
-      );
+         (this.affectFirst === 0 || this.affectFirst === 1);
    }
 }

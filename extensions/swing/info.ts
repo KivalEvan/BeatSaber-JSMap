@@ -220,10 +220,7 @@ function findLastInteractiveObstacleTime(bm: IWrapBeatmap): number {
    let obstacleEnd = 0;
    for (let i = bm.obstacles.length - 1; i >= 0; i--) {
       if (bm.obstacles[i].isInteractive()) {
-         obstacleEnd = Math.max(
-            obstacleEnd,
-            bm.obstacles[i].time + bm.obstacles[i].duration,
-         );
+         obstacleEnd = Math.max(obstacleEnd, bm.obstacles[i].time + bm.obstacles[i].duration);
       }
    }
    return obstacleEnd;

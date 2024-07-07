@@ -55,11 +55,7 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
 
    getAngle(fn?: GetAngleFn<this>): number {
       return (
-         fn?.(this) ??
-            (NoteDirectionAngle[
-               this.direction as keyof typeof NoteDirectionAngle
-            ] ||
-               0)
+         fn?.(this) ?? (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0)
       );
    }
 
@@ -73,7 +69,7 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override
-         ? super.isValid(fn)
-         : super.isValid(fn) && this.direction >= 0 && this.direction <= 8;
+         ? super.isValid(fn, override)
+         : super.isValid(fn, override) && this.direction >= 0 && this.direction <= 8;
    }
 }

@@ -22,51 +22,37 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       customData: {},
    };
 
-   static create(
-      ...data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'>[]
-   ): AudioData[] {
+   static create(...data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'>[]): AudioData[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(
-      data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'> = {},
-   ) {
+   constructor(data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'> = {}) {
       super();
       this.version = data.version ?? AudioData.defaultValue.version;
       this.filename = data.filename ?? AudioData.defaultValue.filename;
       this.audioChecksum = data.audioChecksum ?? AudioData.defaultValue.audioChecksum;
       this.sampleCount = data.sampleCount ?? AudioData.defaultValue.sampleCount;
       this.frequency = data.frequency ?? AudioData.defaultValue.frequency;
-      this.bpmData = (data.bpmData ?? AudioData.defaultValue.bpmData).map(
-         (e) => ({
-            startBeat: e?.startBeat || 0,
-            startSampleIndex: e?.startSampleIndex || 0,
-            endBeat: e?.endBeat || 0,
-            endSampleIndex: e?.endSampleIndex || 0,
-         }),
-      );
-      this.lufsData = (data.lufsData ?? AudioData.defaultValue.lufsData).map(
-         (e) => ({
-            startSampleIndex: e?.startSampleIndex || 0,
-            endSampleIndex: e?.endSampleIndex || 0,
-            lufs: e?.lufs || 0,
-         }),
-      );
-      this.customData = deepCopy(
-         data.customData ?? AudioData.defaultValue.customData,
-      );
+      this.bpmData = (data.bpmData ?? AudioData.defaultValue.bpmData).map((e) => ({
+         startBeat: e?.startBeat || 0,
+         startSampleIndex: e?.startSampleIndex || 0,
+         endBeat: e?.endBeat || 0,
+         endSampleIndex: e?.endSampleIndex || 0,
+      }));
+      this.lufsData = (data.lufsData ?? AudioData.defaultValue.lufsData).map((e) => ({
+         startSampleIndex: e?.startSampleIndex || 0,
+         endSampleIndex: e?.endSampleIndex || 0,
+         lufs: e?.lufs || 0,
+      }));
+      this.customData = deepCopy(data.customData ?? AudioData.defaultValue.customData);
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.frequency >= 0 &&
          this.sampleCount >= 0 &&
          this.bpmData.every(
-            (bpm) =>
-               bpm.endBeat > bpm.startBeat &&
-               bpm.endSampleIndex > bpm.startSampleIndex,
-         )
-      );
+            (bpm) => bpm.endBeat > bpm.startBeat && bpm.endSampleIndex > bpm.startSampleIndex,
+         );
    }
 
    version: number;
@@ -91,11 +77,7 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       return this;
    }
 
-   fromBpmEvents(
-      data: IWrapBPMEventAttribute[],
-      frequency = 44100,
-      sampleCount?: number,
-   ): this {
+   fromBpmEvents(data: IWrapBPMEventAttribute[], frequency = 44100, sampleCount?: number): this {
       if (!data.length) return this;
       this.frequency = frequency;
       if (sampleCount) this.sampleCount = sampleCount;
@@ -114,9 +96,7 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       }
 
       const lastBpmEvent = data[data.length - 1];
-      const lastStartSampleIndex = Math.floor(
-         lastBpmEvent.time * this.frequency,
-      );
+      const lastStartSampleIndex = Math.floor(lastBpmEvent.time * this.frequency);
       const secondsDiff = (this.sampleCount - lastStartSampleIndex) / this.frequency;
       const jsonBeatsDiff = secondsDiff * (lastBpmEvent.bpm / 60);
 

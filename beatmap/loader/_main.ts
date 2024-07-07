@@ -103,10 +103,7 @@ export function loadBeatmap<T extends Record<string, any>>(
    }
 
    opt.preprocess.forEach((fn, i) => {
-      logger.tInfo(
-         tag('loadBeatmap'),
-         'Running preprocess function #' + (i + 1),
-      );
+      logger.tInfo(tag('loadBeatmap'), 'Running preprocess function #' + (i + 1));
       json = fn(json);
    });
 
@@ -126,7 +123,7 @@ export function loadBeatmap<T extends Record<string, any>>(
    let data: any;
    const schema = schemaMap[jsonVer];
    if (schema) {
-      validateJSON(type, json, jsonVer, opt.dataCheck);
+      if (opt.dataCheck.enabled) validateJSON(type, json, jsonVer, opt.dataCheck);
       data = new coreClass(schema.deserialize(json));
    } else {
       throw new Error(
@@ -155,10 +152,7 @@ export function loadBeatmap<T extends Record<string, any>>(
    if (opt.sort) data.sort();
 
    opt.postprocess.forEach((fn, i) => {
-      logger.tInfo(
-         tag('loadBeatmap'),
-         'Running postprocess function #' + (i + 1),
-      );
+      logger.tInfo(tag('loadBeatmap'), 'Running postprocess function #' + (i + 1));
       data = fn(data);
    });
    return data;

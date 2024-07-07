@@ -19,13 +19,11 @@ export class BPMEvent extends BaseObject implements IWrapBPMEvent {
       super();
       this.time = data.time ?? BPMEvent.defaultValue.time;
       this.bpm = data.bpm ?? BPMEvent.defaultValue.bpm;
-      this.customData = deepCopy(
-         data.customData ?? BPMEvent.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? BPMEvent.defaultValue.customData);
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : super.isValid(fn) && this.bpm > 0;
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) && this.bpm > 0;
    }
 
    bpm: IWrapBPMEvent['bpm'];

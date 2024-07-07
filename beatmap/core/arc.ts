@@ -43,13 +43,11 @@ export class Arc extends BaseSlider implements IWrapArc {
       this.midAnchor = data.midAnchor ?? Arc.defaultValue.midAnchor;
       this.laneRotation = data.laneRotation ?? Arc.defaultValue.laneRotation;
       this.tailLaneRotation = data.tailLaneRotation ?? Arc.defaultValue.tailLaneRotation;
-      this.customData = deepCopy(
-         data.customData ?? Arc.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? Arc.defaultValue.customData);
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : super.isValid(fn) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          !(
             this.isInverse() ||
             this.posX < 0 ||
@@ -115,9 +113,7 @@ export class Arc extends BaseSlider implements IWrapArc {
    getTailAngle(fn?: GetAngleFn<this>): number {
       return (
          fn?.(this) ||
-         NoteDirectionAngle[
-            this.tailDirection as keyof typeof NoteDirectionAngle
-         ] ||
+         NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] ||
          0
       );
    }

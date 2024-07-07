@@ -1,9 +1,7 @@
 // deno-lint-ignore-file no-explicit-any no-explicit-any
 import type { IDataCheckOption } from '../shared/dataCheck.ts';
 
-export interface ILoadOptions<
-   T extends Record<string, any> = Record<string, any>,
-> {
+export interface ILoadOptions<T extends Record<string, any> = Record<string, any>> {
    /**
     * Force version conversion if loaded difficulty version is mismatched.
     *

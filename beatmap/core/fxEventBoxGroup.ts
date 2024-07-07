@@ -25,12 +25,8 @@ export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGro
       super();
       this.time = data.time ?? FxEventBoxGroup.defaultValue.time;
       this.id = data.id ?? FxEventBoxGroup.defaultValue.id;
-      this.boxes = (data.boxes ?? FxEventBoxGroup.defaultValue.boxes).map(
-         (e) => new FxEventBox(e),
-      );
-      this.customData = deepCopy(
-         data.customData ?? FxEventBoxGroup.defaultValue.customData,
-      );
+      this.boxes = (data.boxes ?? FxEventBoxGroup.defaultValue.boxes).map((e) => new FxEventBox(e));
+      this.customData = deepCopy(data.customData ?? FxEventBoxGroup.defaultValue.customData);
    }
 
    boxes: IWrapFxEventBox[];

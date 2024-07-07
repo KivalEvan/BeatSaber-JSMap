@@ -56,10 +56,7 @@ function _random(
    [min, max] = rearrangeTuple(min, max);
    const result = fn() * (max - min) + min;
    return rounding
-      ? round(
-         result,
-         typeof rounding === 'number' && rounding > 0 ? rounding : 0,
-      )
+      ? round(result, typeof rounding === 'number' && rounding > 0 ? rounding : 0)
       : result;
 }
 
@@ -98,11 +95,7 @@ export function pRandom(
  */
 export function pRandomFn(
    seed: string | number | bigint = Math.random(),
-): (
-   min?: number | boolean,
-   max?: number | boolean,
-   rounding?: number | boolean,
-) => number {
+): (min?: number | boolean, max?: number | boolean, rounding?: number | boolean) => number {
    const _seed = hashCode(seed);
    const _func = _pRandom(_seed);
    return function (
@@ -182,11 +175,7 @@ export function randomNormal(
 }
 
 /** Return number tuple in order. */
-export function rearrangeTuple(
-   min: number,
-   max: number,
-   inverse?: boolean,
-): [number, number] {
+export function rearrangeTuple(min: number, max: number, inverse?: boolean): [number, number] {
    if (!inverse && min > max) {
       return [max, min];
    }
@@ -212,17 +201,8 @@ export function round(num: number, d = 0): number {
  * ```
  */
 export function range(n: number, inclusive?: boolean): number[];
-export function range(
-   start: number,
-   end: number,
-   inclusive?: boolean,
-): number[];
-export function range(
-   start: number,
-   end: number,
-   step: number,
-   inclusive?: boolean,
-): number[];
+export function range(start: number, end: number, inclusive?: boolean): number[];
+export function range(start: number, end: number, step: number, inclusive?: boolean): number[];
 export function range(
    arg0: number,
    arg1?: number | boolean,
@@ -248,9 +228,7 @@ export function range(
       step = arg2!;
    }
    if (!step) step = start > end ? -1 : 1;
-   const ary = new Array(
-      Math.abs(Math.ceil((end - start) / step)) + (inc ? 1 : 0),
-   );
+   const ary = new Array(Math.abs(Math.ceil((end - start) / step)) + (inc ? 1 : 0));
    for (let i = 0; i < ary.length; i++) {
       ary[i] = start + i * step;
    }
@@ -266,17 +244,9 @@ export function degToRad(deg: number): number {
 }
 
 /** Return [radius, theta, phi] */
-export function cartesianCoordToSphericalCoord(
-   x: number,
-   y: number,
-   z: number,
-): Vector3 {
+export function cartesianCoordToSphericalCoord(x: number, y: number, z: number): Vector3 {
    const radius = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-   return [
-      radius,
-      Math.acos(z / radius),
-      (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI),
-   ];
+   return [radius, Math.acos(z / radius), (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI)];
 }
 
 /** Return [x, y, z] */
@@ -360,12 +330,7 @@ export function normalize(value: number, min: number, max: number): number {
  *
  * Alpha value must be in range of `0-1`, otherwise extrapolated.
  */
-export function lerp(
-   alpha: number,
-   from: number,
-   to: number,
-   easing?: EasingFunction,
-): number {
+export function lerp(alpha: number, from: number, to: number, easing?: EasingFunction): number {
    if (!easing) easing = (x) => x;
    return from + (to - from) * easing(alpha);
 }
@@ -398,10 +363,6 @@ export function remap(
 }
 
 /** Returns true if both value are approximately equal within given tolerance. */
-export function nearEqual(
-   n1: number,
-   n2: number,
-   tolerance = Number.EPSILON,
-): boolean {
+export function nearEqual(n1: number, n2: number, tolerance = Number.EPSILON): boolean {
    return Math.abs(n1 - n2) <= tolerance;
 }

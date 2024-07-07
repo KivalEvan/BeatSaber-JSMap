@@ -18,9 +18,7 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
       customData: {},
    };
 
-   static create(
-      ...data: Partial<IWrapLightColorEventAttribute>[]
-   ): LightColorEvent[] {
+   static create(...data: Partial<IWrapLightColorEventAttribute>[]): LightColorEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: Partial<IWrapLightColorEventAttribute> = {}) {
@@ -34,9 +32,7 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
          LightColorEvent.defaultValue.strobeBrightness;
       this.strobeFade = data.strobeFade ?? LightColorEvent.defaultValue.strobeFade;
       this.easing = data.easing ?? LightColorEvent.defaultValue.easing;
-      this.customData = deepCopy(
-         data.customData ?? LightColorEvent.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? LightColorEvent.defaultValue.customData);
    }
 
    previous: IWrapLightColorEvent['previous'];
@@ -77,14 +73,13 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : super.isValid(fn) && (
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.previous === 0 || this.previous === 1) &&
          this.easing >= -1 &&
          this.easing <= 103 &&
          this.color >= -1 &&
          this.color <= 2 &&
          this.brightness >= 0 &&
-         this.frequency >= 0
-      );
+         this.frequency >= 0;
    }
 }

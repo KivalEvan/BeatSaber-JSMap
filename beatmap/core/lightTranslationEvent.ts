@@ -14,9 +14,7 @@ export class LightTranslationEvent extends BaseObject implements IWrapLightTrans
       customData: {},
    };
 
-   static create(
-      ...data: Partial<IWrapLightTranslationEventAttribute>[]
-   ): LightTranslationEvent[] {
+   static create(...data: Partial<IWrapLightTranslationEventAttribute>[]): LightTranslationEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: Partial<IWrapLightTranslationEventAttribute> = {}) {
@@ -25,9 +23,7 @@ export class LightTranslationEvent extends BaseObject implements IWrapLightTrans
       this.easing = data.easing ?? LightTranslationEvent.defaultValue.easing;
       this.previous = data.previous ?? LightTranslationEvent.defaultValue.previous;
       this.translation = data.translation ?? LightTranslationEvent.defaultValue.translation;
-      this.customData = deepCopy(
-         data.customData ?? LightTranslationEvent.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? LightTranslationEvent.defaultValue.customData);
    }
 
    previous: IWrapLightTranslationEvent['previous'] = 0;
@@ -48,10 +44,9 @@ export class LightTranslationEvent extends BaseObject implements IWrapLightTrans
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : super.isValid(fn) && (
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.previous === 0 || this.previous === 1) &&
          this.easing >= -1 &&
-         this.easing <= 103
-      );
+         this.easing <= 103;
    }
 }

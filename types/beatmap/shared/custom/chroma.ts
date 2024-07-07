@@ -1,9 +1,4 @@
-export type LookupMethod =
-   | 'Regex'
-   | 'Exact'
-   | 'Contains'
-   | 'StartsWith'
-   | 'EndsWith';
+export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
 
 export type GeometryType =
    | 'Sphere'

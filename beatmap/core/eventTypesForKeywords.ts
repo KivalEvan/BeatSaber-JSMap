@@ -13,9 +13,7 @@ export class EventTypesForKeywords extends BaseItem implements IWrapEventTypesFo
       customData: {},
    };
 
-   static create(
-      ...data: Partial<IWrapEventTypesForKeywordsAttribute>[]
-   ): EventTypesForKeywords[] {
+   static create(...data: Partial<IWrapEventTypesForKeywordsAttribute>[]): EventTypesForKeywords[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: DeepPartialIgnore<IWrapEventTypesForKeywordsAttribute, 'customData'> = {}) {
@@ -24,9 +22,7 @@ export class EventTypesForKeywords extends BaseItem implements IWrapEventTypesFo
       this.events = (data.events ?? EventTypesForKeywords.defaultValue.events)
          .map((e) => e)
          .filter((e) => e) as number[];
-      this.customData = deepCopy(
-         data.customData ?? EventTypesForKeywords.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? EventTypesForKeywords.defaultValue.customData);
    }
 
    keyword: IWrapEventTypesForKeywords['keyword'];

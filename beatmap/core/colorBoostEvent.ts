@@ -19,9 +19,7 @@ export class ColorBoostEvent extends BaseObject implements IWrapColorBoostEvent 
       super();
       this.time = data.time ?? ColorBoostEvent.defaultValue.time;
       this.toggle = data.toggle ?? ColorBoostEvent.defaultValue.toggle;
-      this.customData = deepCopy(
-         data.customData ?? ColorBoostEvent.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? ColorBoostEvent.defaultValue.customData);
    }
 
    toggle: IWrapColorBoostEvent['toggle'];

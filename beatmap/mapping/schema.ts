@@ -14,37 +14,25 @@ import type { IWrapInfoAttribute } from '../../types/beatmap/wrapper/info.ts';
 import type { IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapAudioDataAttribute } from '../../types/beatmap/wrapper/audioData.ts';
 
-export const infoSchemaMap: Record<
-   number,
-   ISchemaContainer<IWrapInfoAttribute>
-> = {
+export const infoSchemaMap: Record<number, ISchemaContainer<IWrapInfoAttribute>> = {
    1: V1Info,
    2: V2Info,
    4: V4Info,
 };
 
-export const audioDataSchemaMap: Record<
-   number,
-   ISchemaContainer<IWrapAudioDataAttribute>
-> = {
+export const audioDataSchemaMap: Record<number, ISchemaContainer<IWrapAudioDataAttribute>> = {
    2: V2AudioData,
    4: V4AudioData,
 };
 
-export const difficultySchemaMap: Record<
-   number,
-   ISchemaContainer<IWrapBeatmapAttribute>
-> = {
+export const difficultySchemaMap: Record<number, ISchemaContainer<IWrapBeatmapAttribute>> = {
    1: V1Difficulty,
    2: V2Difficulty,
    3: V3Difficulty,
    4: V4Difficulty,
 };
 
-export const lightshowSchemaMap: Record<
-   number,
-   ISchemaContainer<IWrapBeatmapAttribute>
-> = {
+export const lightshowSchemaMap: Record<number, ISchemaContainer<IWrapBeatmapAttribute>> = {
    3: V3Lightshow,
    4: V4Lightshow,
 };

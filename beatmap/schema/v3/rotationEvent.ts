@@ -3,17 +3,7 @@ import type { IRotationEvent } from '../../../types/beatmap/v3/rotationEvent.ts'
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
-const defaultValue = {
-   b: 0,
-   e: 0,
-   r: 0,
-   customData: {},
-} as Required<IRotationEvent>;
-export const rotationEvent: ISchemaContainer<
-   IWrapRotationEventAttribute,
-   IRotationEvent
-> = {
-   defaultValue,
+export const rotationEvent: ISchemaContainer<IWrapRotationEventAttribute, IRotationEvent> = {
    serialize(data: IWrapRotationEventAttribute): IRotationEvent {
       return {
          b: data.time,
@@ -22,14 +12,12 @@ export const rotationEvent: ISchemaContainer<
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(
-      data: Partial<IRotationEvent> = {},
-   ): Partial<IWrapRotationEventAttribute> {
+   deserialize(data: Partial<IRotationEvent> = {}): Partial<IWrapRotationEventAttribute> {
       return {
-         time: data.b ?? defaultValue.b,
-         executionTime: data.e ?? defaultValue.e,
-         rotation: data.r ?? defaultValue.r,
-         customData: deepCopy(data.customData ?? defaultValue.customData),
+         time: data.b,
+         executionTime: data.e,
+         rotation: data.r,
+         customData: data.customData,
       };
    },
 };

@@ -80,16 +80,12 @@ export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {
    addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
    addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;
    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): this;
-   addLightColorEventBoxGroups(
-      ...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]
-   ): this;
+   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): this;
    addLightRotationEventBoxGroups(
       ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
    ): this;
    addLightTranslationEventBoxGroups(
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): this;
-   addFxEventBoxGroups(
-      ...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]
-   ): this;
+   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): this;
 }

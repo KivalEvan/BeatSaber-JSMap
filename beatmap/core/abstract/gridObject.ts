@@ -34,10 +34,7 @@ export abstract class GridObject extends BaseObject implements IWrapGridObject {
    }
 
    getDistance(compareTo: typeof this, fn?: GetPositionFn<this>): number;
-   getDistance(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): number;
+   getDistance(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): number;
    getDistance(compareTo: typeof this, fn?: GetPositionFn<this>): number {
       const [nX1, nY1] = this.getPosition(fn);
       const [nX2, nY2] = compareTo.getPosition(fn);
@@ -45,10 +42,7 @@ export abstract class GridObject extends BaseObject implements IWrapGridObject {
    }
 
    isVertical(compareTo: typeof this, fn?: GetPositionFn<this>): boolean;
-   isVertical(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): boolean;
+   isVertical(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): boolean;
    isVertical(compareTo: typeof this, fn?: GetPositionFn<this>): boolean {
       const [nX1] = this.getPosition(fn);
       const [nX2] = compareTo.getPosition(fn);
@@ -57,10 +51,7 @@ export abstract class GridObject extends BaseObject implements IWrapGridObject {
    }
 
    isHorizontal(compareTo: typeof this, fn?: GetPositionFn<this>): boolean;
-   isHorizontal(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): boolean;
+   isHorizontal(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): boolean;
    isHorizontal(compareTo: typeof this, fn?: GetPositionFn<this>): boolean {
       const [_, nY1] = this.getPosition(fn);
       const [_2, nY2] = compareTo.getPosition(fn);
@@ -69,10 +60,7 @@ export abstract class GridObject extends BaseObject implements IWrapGridObject {
    }
 
    isDiagonal(compareTo: typeof this, fn?: GetPositionFn<this>): boolean;
-   isDiagonal(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): boolean;
+   isDiagonal(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): boolean;
    isDiagonal(compareTo: typeof this, fn?: GetPositionFn<this>): boolean {
       const [nX1, nY1] = this.getPosition(fn);
       const [nX2, nY2] = compareTo.getPosition(fn);
@@ -81,59 +69,37 @@ export abstract class GridObject extends BaseObject implements IWrapGridObject {
       return dX === dY;
    }
 
-   isInline(
-      compareTo: typeof this,
-      lapping?: number | null,
-      fn?: GetPositionFn<this>,
-   ): boolean;
+   isInline(compareTo: typeof this, lapping?: number | null, fn?: GetPositionFn<this>): boolean;
    isInline(
       compareTo: IWrapGridObject,
       lapping?: number | null,
       fn?: GetPositionFn<IWrapGridObject>,
    ): boolean;
-   isInline(
-      compareTo: typeof this,
-      lapping?: number | null,
-      fn?: GetPositionFn<this>,
-   ): boolean {
+   isInline(compareTo: typeof this, lapping?: number | null, fn?: GetPositionFn<this>): boolean {
       lapping ??= 0.5;
       return this.getDistance(compareTo, fn) <= lapping;
    }
 
    isAdjacent(compareTo: typeof this, fn?: GetPositionFn<this>): boolean;
-   isAdjacent(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): boolean;
+   isAdjacent(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): boolean;
    isAdjacent(compareTo: typeof this, fn?: GetPositionFn<this>): boolean {
       const d = this.getDistance(compareTo, fn);
       return d > 0.499 && d < 1.001;
    }
 
-   isWindow(
-      compareTo: typeof this,
-      distance?: number | null,
-      fn?: GetPositionFn<this>,
-   ): boolean;
+   isWindow(compareTo: typeof this, distance?: number | null, fn?: GetPositionFn<this>): boolean;
    isWindow(
       compareTo: IWrapGridObject,
       distance?: number | null,
       fn?: GetPositionFn<IWrapGridObject>,
    ): boolean;
-   isWindow(
-      compareTo: typeof this,
-      distance?: number | null,
-      fn?: GetPositionFn<this>,
-   ): boolean {
+   isWindow(compareTo: typeof this, distance?: number | null, fn?: GetPositionFn<this>): boolean {
       distance ??= 1.8;
       return this.getDistance(compareTo, fn) > distance;
    }
 
    isSlantedWindow(compareTo: typeof this, fn?: GetPositionFn<this>): boolean;
-   isSlantedWindow(
-      compareTo: IWrapGridObject,
-      fn?: GetPositionFn<IWrapGridObject>,
-   ): boolean;
+   isSlantedWindow(compareTo: IWrapGridObject, fn?: GetPositionFn<IWrapGridObject>): boolean;
    isSlantedWindow(compareTo: typeof this, fn?: GetPositionFn<this>): boolean {
       return (
          this.isWindow(compareTo, null, fn) &&

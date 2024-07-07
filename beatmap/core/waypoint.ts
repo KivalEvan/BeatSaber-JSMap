@@ -27,9 +27,7 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
       this.posY = data.posY ?? Waypoint.defaultValue.posY;
       this.direction = data.direction ?? Waypoint.defaultValue.direction;
       this.laneRotation = data.laneRotation ?? Waypoint.defaultValue.laneRotation;
-      this.customData = deepCopy(
-         data.customData ?? Waypoint.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? Waypoint.defaultValue.customData);
    }
 
    direction: IWrapWaypoint['direction'] = 0;
@@ -66,11 +64,9 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.direction >= 0 &&
          this.direction <= 9 &&
-         this.direction !== (8 as 0)
-      );
+         this.direction !== (8 as 0);
    }
 }

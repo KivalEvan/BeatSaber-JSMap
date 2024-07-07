@@ -7,39 +7,14 @@ import { lightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { lightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { lightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 import { fxEventBoxGroup } from './fxEventBoxGroup.ts';
-import type { DeepPartial, DeepRequiredIgnore } from '../../../types/utils.ts';
+import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { IObject } from '../../../types/beatmap/v4/object.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { eventTypesWithKeywords } from '../v3/eventTypesWithKeywords.ts';
 
-const defaultValue = {
-   version: '4.0.0',
-   waypoints: [],
-   waypointsData: [],
-   basicEvents: [],
-   basicEventsData: [],
-   colorBoostEvents: [],
-   colorBoostEventsData: [],
-   eventBoxGroups: [],
-   indexFilters: [],
-   lightColorEvents: [],
-   lightColorEventBoxes: [],
-   lightRotationEvents: [],
-   lightRotationEventBoxes: [],
-   lightTranslationEvents: [],
-   lightTranslationEventBoxes: [],
-   floatFxEvents: [],
-   fxEventBoxes: [],
-   basicEventTypesWithKeywords: {
-      ...eventTypesWithKeywords.defaultValue,
-   },
-   useNormalEventsAsCompatibleEvents: false,
-   customData: {},
-} as DeepRequiredIgnore<ILightshow, 'customData'>;
 export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
-   defaultValue,
    serialize(data: IWrapBeatmapAttribute): ILightshow {
       const json: Required<ILightshow> = {
          version: '4.0.0',
@@ -70,20 +45,12 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
          jsonObj.object.i = json.waypointsData.length;
          json.waypointsData.push(jsonObj.data);
       }
-      for (
-         const jsonObj of data.lightshow.basicEvents.map(
-            basicEvent.serialize,
-         )
-      ) {
+      for (const jsonObj of data.lightshow.basicEvents.map(basicEvent.serialize)) {
          json.basicEvents.push(jsonObj.object);
          jsonObj.object.i = json.basicEventsData.length;
          json.basicEventsData.push(jsonObj.data);
       }
-      for (
-         const jsonObj of data.lightshow.colorBoostEvents.map(
-            colorBoostEvent.serialize,
-         )
-      ) {
+      for (const jsonObj of data.lightshow.colorBoostEvents.map(colorBoostEvent.serialize)) {
          json.colorBoostEvents.push(jsonObj.object);
          jsonObj.object.i = json.colorBoostEventsData.length;
          json.colorBoostEventsData.push(jsonObj.data);
@@ -163,11 +130,7 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
             json.indexFilters.push(box.filterData);
          }
       }
-      for (
-         const obj of data.lightshow.fxEventBoxGroups.map(
-            fxEventBoxGroup.serialize,
-         )
-      ) {
+      for (const obj of data.lightshow.fxEventBoxGroups.map(fxEventBoxGroup.serialize)) {
          json.eventBoxGroups.push(obj.object);
          for (const box of obj.boxData) {
             const list: IObject[] = [];
@@ -188,9 +151,7 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
 
       return json;
    },
-   deserialize(
-      data: DeepPartial<ILightshow> = {},
-   ): DeepPartial<IWrapBeatmapAttribute> {
+   deserialize(data: DeepPartial<ILightshow> = {}): DeepPartial<IWrapBeatmapAttribute> {
       const d: DeepPartial<IWrapBeatmapAttribute> = {
          version: 4,
          lightshow: {
@@ -200,24 +161,23 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
             fxEventBoxGroups: [],
          },
       };
-      d.lightshow!.waypoints = (data?.waypoints ?? []).map((obj) =>
+      d.lightshow!.waypoints = data?.waypoints?.map((obj) =>
          waypoint.deserialize({
             object: obj,
             data: data?.waypointsData?.[obj?.i || 0],
          })
       );
-      d.lightshow!.basicEvents = (data?.basicEvents ?? []).map((obj) =>
+      d.lightshow!.basicEvents = data?.basicEvents?.map((obj) =>
          basicEvent.deserialize({
             object: obj,
             data: data?.basicEventsData?.[obj?.i || 0],
          })
       );
-      d.lightshow!.colorBoostEvents = (data?.colorBoostEvents ?? []).map(
-         (obj) =>
-            colorBoostEvent.deserialize({
-               object: obj,
-               data: data?.colorBoostEventsData?.[obj?.i || 0],
-            }),
+      d.lightshow!.colorBoostEvents = data?.colorBoostEvents?.map((obj) =>
+         colorBoostEvent.deserialize({
+            object: obj,
+            data: data?.colorBoostEventsData?.[obj?.i || 0],
+         })
       );
       const indFil = data?.indexFilters ?? [];
       const lceb = data?.lightColorEventBoxes ?? [];
@@ -294,13 +254,9 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
          }
       }
       d.lightshow!.eventTypesWithKeywords = eventTypesWithKeywords.deserialize(
-         data?.basicEventTypesWithKeywords ||
-            defaultValue.basicEventTypesWithKeywords,
+         data?.basicEventTypesWithKeywords,
       );
-      d.lightshow!.useNormalEventsAsCompatibleEvents = !!(
-         data?.useNormalEventsAsCompatibleEvents ??
-            defaultValue.useNormalEventsAsCompatibleEvents
-      );
+      d.lightshow!.useNormalEventsAsCompatibleEvents = !!data?.useNormalEventsAsCompatibleEvents;
       d.lightshow!.customData = deepCopy(data?.customData ?? {});
       return d;
    },

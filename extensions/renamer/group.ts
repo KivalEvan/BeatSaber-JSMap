@@ -467,9 +467,6 @@ const environmentGroup: {
    },
 };
 
-export function eventGroupRename(
-   id: number,
-   environment?: EnvironmentAllName,
-): string {
+export function eventGroupRename(id: number, environment?: EnvironmentAllName): string {
    return environmentGroup[environment!]?.[id] || 'Unknown';
 }

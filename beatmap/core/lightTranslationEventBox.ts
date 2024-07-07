@@ -42,9 +42,7 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
    }
    constructor(data: DeepPartialIgnore<IWrapLightTranslationEventBoxAttribute, 'customData'> = {}) {
       super();
-      this.filter = new IndexFilter(
-         data.filter ?? LightTranslationEventBox.defaultValue.filter,
-      );
+      this.filter = new IndexFilter(data.filter ?? LightTranslationEventBox.defaultValue.filter);
       this.axis = data.axis ?? LightTranslationEventBox.defaultValue.axis;
       this.flip = data.flip ?? LightTranslationEventBox.defaultValue.flip;
       this.beatDistribution = data.beatDistribution ??
@@ -57,9 +55,9 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
          LightTranslationEventBox.defaultValue.gapDistributionType;
       this.affectFirst = data.affectFirst ?? LightTranslationEventBox.defaultValue.affectFirst;
       this.easing = data.easing ?? LightTranslationEventBox.defaultValue.easing;
-      this.events = (
-         data.events ?? LightTranslationEventBox.defaultValue.events
-      ).map((obj) => new LightTranslationEvent(obj));
+      this.events = (data.events ?? LightTranslationEventBox.defaultValue.events).map(
+         (obj) => new LightTranslationEvent(obj),
+      );
       this.customData = deepCopy(
          data.customData ?? LightTranslationEventBox.defaultValue.customData,
       );
@@ -93,12 +91,10 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.gapDistributionType === 1 || this.gapDistributionType === 2) &&
-         (this.axis === 0 || this.axis === 1) &&
+         (this.axis === 0 || this.axis === 1 || this.axis === 2) &&
          (this.flip === 0 || this.flip === 1) &&
-         (this.affectFirst === 0 || this.affectFirst === 1)
-      );
+         (this.affectFirst === 0 || this.affectFirst === 1);
    }
 }

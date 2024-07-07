@@ -31,13 +31,11 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       this.direction = data.direction ?? ColorNote.defaultValue.direction;
       this.angleOffset = data.angleOffset ?? ColorNote.defaultValue.angleOffset;
       this.laneRotation = data.laneRotation ?? ColorNote.defaultValue.laneRotation;
-      this.customData = deepCopy(
-         data.customData ?? ColorNote.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? ColorNote.defaultValue.customData);
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : super.isValid(fn) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.posX >= 0 &&
          this.posX <= 3 &&
          this.posY >= 0 &&
@@ -61,9 +59,8 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
    getAngle(fn?: GetAngleFn<this>): number {
       return (
          fn?.(this) ??
-            (NoteDirectionAngle[
-                  this.direction as keyof typeof NoteDirectionAngle
-               ] || 0) + this.angleOffset
+            (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
+               this.angleOffset
       );
    }
 }

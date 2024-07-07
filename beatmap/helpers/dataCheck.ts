@@ -7,11 +7,7 @@ function tag(name: string): string[] {
    return ['helpers', 'dataCheck', name];
 }
 
-function handleError(
-   text: string,
-   doThrow: boolean | undefined,
-   errors: string[],
-): void {
+function handleError(text: string, doThrow: boolean | undefined, errors: string[]): void {
    if (doThrow) {
       throw new Error(text);
    } else {
@@ -48,11 +44,7 @@ export function deepCheck(
 
    for (const key in data) {
       if (!(key in check)) {
-         handleError(
-            `Unused key ${key} found in ${label}`,
-            throwOn.unused,
-            _errors,
-         );
+         handleError(`Unused key ${key} found in ${label}`, throwOn.unused, _errors);
       }
    }
 
@@ -68,30 +60,18 @@ export function deepCheck(
          if (compareVersion(version, ch.version) === -1) {
             continue;
          }
-         handleError(
-            `Missing ${key} in object ${label}!`,
-            throwOn.missing,
-            _errors,
-         );
+         handleError(`Missing ${key} in object ${label}!`, throwOn.missing, _errors);
          continue;
       }
 
       if (d === null) {
-         handleError(
-            `${key} contain null value in object ${label}!`,
-            throwOn.nullish,
-            _errors,
-         );
+         handleError(`${key} contain null value in object ${label}!`, throwOn.nullish, _errors);
          continue;
       }
 
       if (ch.type === 'array') {
          if (!Array.isArray(d)) {
-            handleError(
-               `${key} is not an array in object ${label}!`,
-               throwOn.wrongType,
-               _errors,
-            );
+            handleError(`${key} is not an array in object ${label}!`, throwOn.wrongType, _errors);
          }
          deepCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
          continue;
@@ -99,31 +79,16 @@ export function deepCheck(
 
       if (ch.type === 'object') {
          if (!Array.isArray(d) && !(typeof d === 'object')) {
-            handleError(
-               `${key} is not an object in object ${label}!`,
-               throwOn.wrongType,
-               _errors,
-            );
+            handleError(`${key} is not an object in object ${label}!`, throwOn.wrongType, _errors);
          } else {
-            deepCheck(
-               d,
-               ch.check,
-               `${label}.${key}`,
-               version,
-               throwOn,
-               _errors,
-            );
+            deepCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
          }
          continue;
       }
 
       if (ch.array) {
          if (!Array.isArray(d)) {
-            handleError(
-               `${key} is not ${ch.type} in object ${label}!`,
-               throwOn.wrongType,
-               _errors,
-            );
+            handleError(`${key} is not ${ch.type} in object ${label}!`, throwOn.wrongType, _errors);
             continue;
          }
          if (
@@ -132,26 +97,16 @@ export function deepCheck(
                   typeof n === ch.type ||
                   (ch.type === 'number' &&
                      typeof n === 'number' &&
-                     (isNaN(n) ||
-                        ((ch.int ? n % 1 !== 0 : true) &&
-                           (ch.unsigned ? n < 0 : true)))),
+                     (isNaN(n) || ((ch.int ? n % 1 !== 0 : true) && (ch.unsigned ? n < 0 : true)))),
             )
          ) {
-            handleError(
-               `${key} is not ${ch.type} in object ${label}!`,
-               throwOn.wrongType,
-               _errors,
-            );
+            handleError(`${key} is not ${ch.type} in object ${label}!`, throwOn.wrongType, _errors);
          }
          continue;
       }
 
       if (!ch.array && typeof d !== ch.type) {
-         handleError(
-            `${key} is not ${ch.type} in object ${label}!`,
-            throwOn.wrongType,
-            _errors,
-         );
+         handleError(`${key} is not ${ch.type} in object ${label}!`, throwOn.wrongType, _errors);
          continue;
       }
 
@@ -161,19 +116,11 @@ export function deepCheck(
             continue;
          }
          if (ch.int && d % 1 !== 0) {
-            handleError(
-               `${label}.${key} cannot be float!`,
-               throwOn.notInt,
-               _errors,
-            );
+            handleError(`${label}.${key} cannot be float!`, throwOn.notInt, _errors);
             continue;
          }
          if (ch.unsigned && d < 0) {
-            handleError(
-               `${label}.${key} cannot be negative!`,
-               throwOn.notUnsigned,
-               _errors,
-            );
+            handleError(`${label}.${key} cannot be negative!`, throwOn.notUnsigned, _errors);
             continue;
          }
       }

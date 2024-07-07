@@ -18,10 +18,7 @@ export function loadInfo(
    version?: number | null,
    options?: ILoadOptions<IWrapInfo>,
 ): IWrapInfo;
-export function loadInfo(
-   json: Record<string, any>,
-   options?: ILoadOptions<IWrapInfo>,
-): IWrapInfo;
+export function loadInfo(json: Record<string, any>, options?: ILoadOptions<IWrapInfo>): IWrapInfo;
 export function loadInfo(
    json: Record<string, any>,
    version?: number | null | ILoadOptions<IWrapInfo>,

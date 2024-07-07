@@ -41,3 +41,4 @@
   - The file data should be supplied by respective vendor (Node.js, Deno, Bun, Browser, etc.)
   - This is done to allow compatibility on every platform
 - Several leftover/dead code that could lead to confusion
+- Default value and deep copy omitted when deserialize

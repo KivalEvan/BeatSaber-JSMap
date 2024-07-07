@@ -35,16 +35,12 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
       customData: {},
    };
 
-   static create(
-      ...data: Partial<IWrapLightRotationEventBoxAttribute>[]
-   ): LightRotationEventBox[] {
+   static create(...data: Partial<IWrapLightRotationEventBoxAttribute>[]): LightRotationEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: DeepPartialIgnore<IWrapLightRotationEventBoxAttribute, 'customData'> = {}) {
       super();
-      this.filter = new IndexFilter(
-         data.filter ?? LightRotationEventBox.defaultValue.filter,
-      );
+      this.filter = new IndexFilter(data.filter ?? LightRotationEventBox.defaultValue.filter);
       this.axis = data.axis ?? LightRotationEventBox.defaultValue.axis;
       this.flip = data.flip ?? LightRotationEventBox.defaultValue.flip;
       this.beatDistribution = data.beatDistribution ??
@@ -57,12 +53,10 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
          LightRotationEventBox.defaultValue.rotationDistributionType;
       this.affectFirst = data.affectFirst ?? LightRotationEventBox.defaultValue.affectFirst;
       this.easing = data.easing ?? LightRotationEventBox.defaultValue.easing;
-      this.events = (
-         data.events ?? LightRotationEventBox.defaultValue.events
-      ).map((obj) => new LightRotationEvent(obj));
-      this.customData = deepCopy(
-         data.customData ?? LightRotationEventBox.defaultValue.customData,
+      this.events = (data.events ?? LightRotationEventBox.defaultValue.events).map(
+         (obj) => new LightRotationEvent(obj),
       );
+      this.customData = deepCopy(data.customData ?? LightRotationEventBox.defaultValue.customData);
    }
 
    rotationDistribution: IWrapLightRotationEventBox['rotationDistribution'];
@@ -93,13 +87,10 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
-         (this.rotationDistributionType === 1 ||
-            this.rotationDistributionType === 2) &&
-         (this.axis === 0 || this.axis === 1) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
+         (this.rotationDistributionType === 1 || this.rotationDistributionType === 2) &&
+         (this.axis === 0 || this.axis === 1 || this.axis === 2) &&
          (this.flip === 0 || this.flip === 1) &&
-         (this.affectFirst === 0 || this.affectFirst === 1)
-      );
+         (this.affectFirst === 0 || this.affectFirst === 1);
    }
 }

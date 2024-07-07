@@ -36,13 +36,11 @@ export class Chain extends BaseSlider implements IWrapChain {
       this.tailLaneRotation = data.tailLaneRotation ?? Chain.defaultValue.tailLaneRotation;
       this.sliceCount = data.sliceCount ?? Chain.defaultValue.sliceCount;
       this.squish = data.squish ?? Chain.defaultValue.squish;
-      this.customData = deepCopy(
-         data.customData ?? Chain.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? Chain.defaultValue.customData);
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : super.isValid(fn) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (!this.isInverse() ||
             this.posY >= 0 ||
             this.posY <= 2 ||

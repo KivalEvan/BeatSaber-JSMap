@@ -8,10 +8,8 @@ export abstract class EventBoxGroup extends BaseObject implements IWrapEventBoxG
    abstract boxes: IWrapEventBox[];
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
-         this.id >= 0 &&
-         this.boxes.every((e) => e.isValid())
-      );
+      return override
+         ? super.isValid(fn, override)
+         : super.isValid(fn, override) && this.id >= 0 && this.boxes.every((e) => e.isValid());
    }
 }

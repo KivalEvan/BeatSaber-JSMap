@@ -16,6 +16,7 @@ function tag(name: string): string[] {
 }
 
 const defaultOptions: IDataCheckOption = {
+   enabled: true,
    throwOn: {
       unused: false,
       missing: true,
@@ -27,15 +28,14 @@ const defaultOptions: IDataCheckOption = {
    },
 };
 
-export function validateJSON<
-   T extends Record<string, any> = Record<string, any>,
->(
+export function validateJSON<T extends Record<string, any> = Record<string, any>>(
    type: BeatmapFileType,
    data: T,
    version: number,
    options?: Partial<IDataCheckOption>,
 ): T {
    const opt: Required<IDataCheckOption> = {
+      enabled: options?.enabled ?? defaultOptions.enabled,
       throwOn: {
          ...defaultOptions.throwOn,
          ...options?.throwOn,

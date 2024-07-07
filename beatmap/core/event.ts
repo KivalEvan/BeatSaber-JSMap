@@ -21,9 +21,7 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
       this.type = data.type ?? BasicEvent.defaultValue.type;
       this.value = data.value ?? BasicEvent.defaultValue.value;
       this.floatValue = data.floatValue ?? BasicEvent.defaultValue.floatValue;
-      this.customData = deepCopy(
-         data.customData ?? BasicEvent.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? BasicEvent.defaultValue.customData);
    }
 
    isValidType(): boolean {
@@ -35,16 +33,10 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.isValidType() &&
          this.value >= 0 &&
-         !(
-            !this.isLaserRotationEvent() &&
-            this.value > 12 &&
-            !this.isOldChroma()
-         )
-      );
+         !(!this.isLaserRotationEvent() && this.value > 12 && !this.isOldChroma());
    }
 
    type: IWrapEvent['type'];
@@ -137,21 +129,16 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
       return this.type === EventType.COLOR_BOOST;
    }
    isRingEvent(): boolean {
-      return (
-         this.type === EventType.RING_ROTATION ||
-         this.type === EventType.RING_ZOOM
-      );
+      return this.type === EventType.RING_ROTATION || this.type === EventType.RING_ZOOM;
    }
    isLaserRotationEvent(): boolean {
       return (
-         this.type === EventType.LEFT_LASER_ROTATION ||
-         this.type === EventType.RIGHT_LASER_ROTATION
+         this.type === EventType.LEFT_LASER_ROTATION || this.type === EventType.RIGHT_LASER_ROTATION
       );
    }
    isLaneRotationEvent(): boolean {
       return (
-         this.type === EventType.EARLY_LANE_ROTATION ||
-         this.type === EventType.LATE_LANE_ROTATION
+         this.type === EventType.EARLY_LANE_ROTATION || this.type === EventType.LATE_LANE_ROTATION
       );
    }
    isExtraEvent(): boolean {

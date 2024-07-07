@@ -21,9 +21,7 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
       this.time = data.time ?? FxEventInt.defaultValue.time;
       this.previous = data.previous ?? FxEventInt.defaultValue.previous;
       this.value = data.value ?? FxEventInt.defaultValue.value;
-      this.customData = deepCopy(
-         data.customData ?? FxEventInt.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? FxEventInt.defaultValue.customData);
    }
 
    previous: IWrapFxEventInt['previous'] = 0;
@@ -40,7 +38,7 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override
-         ? super.isValid(fn)
-         : super.isValid(fn) && (this.previous === 0 || this.previous === 1);
+         ? super.isValid(fn, override)
+         : super.isValid(fn, override) && (this.previous === 0 || this.previous === 1);
    }
 }

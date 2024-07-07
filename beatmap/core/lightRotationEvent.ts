@@ -16,9 +16,7 @@ export class LightRotationEvent extends BaseObject implements IWrapLightRotation
       customData: {},
    };
 
-   static create(
-      ...data: Partial<IWrapLightRotationEventAttribute>[]
-   ): LightRotationEvent[] {
+   static create(...data: Partial<IWrapLightRotationEventAttribute>[]): LightRotationEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: Partial<IWrapLightRotationEventAttribute> = {}) {
@@ -29,9 +27,7 @@ export class LightRotationEvent extends BaseObject implements IWrapLightRotation
       this.direction = data.direction ?? LightRotationEvent.defaultValue.direction;
       this.previous = data.previous ?? LightRotationEvent.defaultValue.previous;
       this.rotation = data.rotation ?? LightRotationEvent.defaultValue.rotation;
-      this.customData = deepCopy(
-         data.customData ?? LightRotationEvent.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? LightRotationEvent.defaultValue.customData);
    }
 
    previous: IWrapLightRotationEvent['previous'] = 0;
@@ -62,13 +58,12 @@ export class LightRotationEvent extends BaseObject implements IWrapLightRotation
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : super.isValid(fn) && (
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.previous === 0 || this.previous === 1) &&
          this.easing >= -1 &&
          this.easing <= 103 &&
-         (this.loop === 0 || this.loop === 1) &&
+         this.loop >= 0 &&
          this.direction >= 0 &&
-         this.direction <= 2
-      );
+         this.direction <= 2;
    }
 }

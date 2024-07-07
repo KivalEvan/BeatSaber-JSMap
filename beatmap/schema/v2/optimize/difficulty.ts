@@ -13,11 +13,7 @@ export function optimizeDifficulty(
       if (options.floatTrim) {
          o1._time = round(o1._time, options.floatTrim);
       }
-      deepClean(
-         o1._customData!,
-         `difficulty._notes[${i1}]._customData`,
-         options,
-      );
+      deepClean(o1._customData!, `difficulty._notes[${i1}]._customData`, options);
       if (!Object.keys(o1._customData!).length) {
          delete o1._customData;
       }
@@ -29,11 +25,7 @@ export function optimizeDifficulty(
          o1._time = round(o1._time, options.floatTrim);
          o1._duration = round(o1._duration, options.floatTrim);
       }
-      deepClean(
-         o1._customData!,
-         `difficulty._obstacles[${i1}]._customData`,
-         options,
-      );
+      deepClean(o1._customData!, `difficulty._obstacles[${i1}]._customData`, options);
       if (!Object.keys(o1._customData!).length) {
          delete o1._customData;
       }
@@ -53,11 +45,7 @@ export function optimizeDifficulty(
             options.floatTrim,
          );
       }
-      deepClean(
-         o1._customData!,
-         `difficulty._sliders[${i1}]._customData`,
-         options,
-      );
+      deepClean(o1._customData!, `difficulty._sliders[${i1}]._customData`, options);
       if (!Object.keys(o1._customData!).length) {
          delete o1._customData;
       }
@@ -68,11 +56,7 @@ export function optimizeDifficulty(
       if (options.floatTrim) {
          o1._time = round(o1._time, options.floatTrim);
       }
-      deepClean(
-         o1._customData!,
-         `difficulty._waypoints[${i1}]._customData`,
-         options,
-      );
+      deepClean(o1._customData!, `difficulty._waypoints[${i1}]._customData`, options);
       if (!Object.keys(o1._customData!).length) {
          delete o1._customData;
       }
@@ -84,11 +68,7 @@ export function optimizeDifficulty(
          o1._time = round(o1._time, options.floatTrim);
          o1._floatValue = round(o1._floatValue, options.floatTrim);
       }
-      deepClean(
-         o1._customData!,
-         `difficulty._events[${i1}]._customData`,
-         options,
-      );
+      deepClean(o1._customData!, `difficulty._events[${i1}]._customData`, options);
       if (!Object.keys(o1._customData!).length) {
          delete o1._customData;
       }

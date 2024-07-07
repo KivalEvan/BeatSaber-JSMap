@@ -3,18 +3,11 @@ import type { ISpecialEventsKeywordFiltersKeywords } from '../../../types/beatma
 import type { IWrapEventTypesForKeywordsAttribute } from '../../../types/beatmap/wrapper/eventTypesForKeywords.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
-const defaultValue = {
-   _keyword: '',
-   _specialEvents: [],
-} as Required<ISpecialEventsKeywordFiltersKeywords>;
 export const eventTypesForKeywords: ISchemaContainer<
    IWrapEventTypesForKeywordsAttribute,
    ISpecialEventsKeywordFiltersKeywords
 > = {
-   defaultValue,
-   serialize(
-      data: IWrapEventTypesForKeywordsAttribute,
-   ): ISpecialEventsKeywordFiltersKeywords {
+   serialize(data: IWrapEventTypesForKeywordsAttribute): ISpecialEventsKeywordFiltersKeywords {
       return {
          _keyword: data.keyword,
          _specialEvents: data.events,
@@ -24,8 +17,8 @@ export const eventTypesForKeywords: ISchemaContainer<
       data: DeepPartial<ISpecialEventsKeywordFiltersKeywords> = {},
    ): DeepPartial<IWrapEventTypesForKeywordsAttribute> {
       return {
-         keyword: data._keyword ?? defaultValue._keyword,
-         events: data._specialEvents ?? defaultValue._specialEvents,
+         keyword: data._keyword,
+         events: data._specialEvents,
       };
    },
 };

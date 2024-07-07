@@ -5,20 +5,11 @@ import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { lightColorEventBox } from './lightColorEventBox.ts';
 
-const defaultValue = {
-   b: 0,
-   g: 0,
-   e: [],
-   customData: {},
-} as Required<ILightColorEventBoxGroup>;
 export const lightColorEventBoxGroup: ISchemaContainer<
    IWrapLightColorEventBoxGroupAttribute,
    ILightColorEventBoxGroup
 > = {
-   defaultValue,
-   serialize(
-      data: IWrapLightColorEventBoxGroupAttribute,
-   ): ILightColorEventBoxGroup {
+   serialize(data: IWrapLightColorEventBoxGroupAttribute): ILightColorEventBoxGroup {
       return {
          b: data.time,
          g: data.id,
@@ -30,12 +21,10 @@ export const lightColorEventBoxGroup: ISchemaContainer<
       data: DeepPartial<ILightColorEventBoxGroup> = {},
    ): DeepPartial<IWrapLightColorEventBoxGroupAttribute> {
       return {
-         time: data.b ?? defaultValue.b,
-         id: data.g ?? defaultValue.g,
-         boxes: (data.e ?? defaultValue.e).map(
-            lightColorEventBox.deserialize,
-         ),
-         customData: deepCopy(data.customData ?? defaultValue.customData),
+         time: data.b,
+         id: data.g,
+         boxes: data.e?.map(lightColorEventBox.deserialize),
+         customData: data.customData,
       };
    },
 };

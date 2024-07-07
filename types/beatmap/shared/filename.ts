@@ -6,10 +6,7 @@ export type GenericFilename =
    | 'Info.dat'
    | 'info.dat'
    | `${DifficultyName}${CharacteristicName}.dat`
-   | `${Exclude<
-      CharacteristicName,
-      'Lightshow' | 'Lawless'
-   >}${DifficultyName}.dat`
+   | `${Exclude<CharacteristicName, 'Lightshow' | 'Lawless'>}${DifficultyName}.dat`
    | `${DifficultyName}.dat`
    | `${Exclude<
       CharacteristicName,

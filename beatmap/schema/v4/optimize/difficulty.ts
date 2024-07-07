@@ -5,15 +5,9 @@ import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts
 
 export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions) {
    if (options.deduplicate) {
-      const [newNoteColorData, remapColorNoteIdx] = remapDedupe(
-         data.colorNotesData,
-      );
-      const [newBombNoteData, remapBombNoteIdx] = remapDedupe(
-         data.bombNotesData,
-      );
-      const [newObstacleData, remapObstacleIdx] = remapDedupe(
-         data.obstaclesData,
-      );
+      const [newNoteColorData, remapColorNoteIdx] = remapDedupe(data.colorNotesData);
+      const [newBombNoteData, remapBombNoteIdx] = remapDedupe(data.bombNotesData);
+      const [newObstacleData, remapObstacleIdx] = remapDedupe(data.obstaclesData);
       const [newChainData, remapChainIdx] = remapDedupe(data.chainsData);
       const [newArcData, remapArcIdx] = remapDedupe(data.arcsData);
       const [newSRData, remapSRIdx] = remapDedupe(data.spawnRotationsData);
@@ -48,11 +42,7 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o.tb = round(o.tb!, options.floatTrim);
          o.tr = round(o.tr!, options.floatTrim);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.arcs[${i}].customData`,
-         options,
-      );
+      deepClean(o.customData!, `difficulty.arcs[${i}].customData`, options);
       if (!Object.keys(o.customData!).length) {
          delete o.customData;
       }
@@ -64,11 +54,7 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o.m = round(o.m!, options.floatTrim);
          o.tm = round(o.tm!, options.floatTrim);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.arcsData[${i}].customData`,
-         options,
-      );
+      deepClean(o.customData!, `difficulty.arcsData[${i}].customData`, options);
       if (!Object.keys(o.customData!).length) {
          delete o.customData;
       }
@@ -79,11 +65,7 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.bombNotes[${i}].customData`,
-         options,
-      );
+      deepClean(o.customData!, `difficulty.bombNotes[${i}].customData`, options);
       if (!Object.keys(o.customData!).length) {
          delete o.customData;
       }
@@ -91,11 +73,7 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
    }
    for (let i = 0; i < data.bombNotesData.length; i++) {
       const o = data.bombNotesData[i];
-      deepClean(
-         o.customData!,
-         `difficulty.bombNotesData[${i}].customData`,
-         options,
-      );
+      deepClean(o.customData!, `difficulty.bombNotesData[${i}].customData`, options);
       if (!Object.keys(o.customData!).length) {
          delete o.customData;
       }
@@ -109,11 +87,7 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o.tb = round(o.tb!, options.floatTrim);
          o.tr = round(o.tr!, options.floatTrim);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.chains[${i}].customData`,
-         options,
-      );
+      deepClean(o.customData!, `difficulty.chains[${i}].customData`, options);
       if (!Object.keys(o.customData!).length) {
          delete o.customData;
       }
@@ -124,11 +98,7 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.chainsData[${i}].customData`,
-         options,
-      );
+      deepClean(o.customData!, `difficulty.chainsData[${i}].customData`, options);
       if (!Object.keys(o.customData!).length) {
          delete o.customData;
       }
@@ -140,11 +110,7 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o.b = round(o.b!, options.floatTrim);
          o.r = round(o.r!, options.floatTrim);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.colorNotes[${i}].customData`,
-         options,
-      );
+      deepClean(o.customData!, `difficulty.colorNotes[${i}].customData`, options);
       if (!Object.keys(o.customData!).length) {
          delete o.customData;
       }
@@ -155,11 +121,7 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
       if (options.floatTrim) {
          o.a = round(o.a!, options.floatTrim);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.colorNotesData[${i}].customData`,
-         options,
-      );
+      deepClean(o.customData!, `difficulty.colorNotesData[${i}].customData`, options);
       if (!Object.keys(o.customData!).length) {
          delete o.customData;
       }
@@ -171,11 +133,7 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o.b = round(o.b!, options.floatTrim);
          o.r = round(o.r!, options.floatTrim);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.obstacles[${i}].customData`,
-         options,
-      );
+      deepClean(o.customData!, `difficulty.obstacles[${i}].customData`, options);
       if (!Object.keys(o.customData!).length) {
          delete o.customData;
       }
@@ -186,21 +144,13 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
       if (options.floatTrim) {
          o.d = round(o.d!, options.floatTrim);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.obstaclesData[${i}].customData`,
-         options,
-      );
+      deepClean(o.customData!, `difficulty.obstaclesData[${i}].customData`, options);
       if (!Object.keys(o.customData!).length) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   deepClean(
-      data.customData!,
-      `difficulty.customData`,
-      options,
-   );
+   deepClean(data.customData!, `difficulty.customData`, options);
    if (!Object.keys(data.customData!).length) {
       delete data.customData;
    }

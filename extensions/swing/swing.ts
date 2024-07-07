@@ -103,10 +103,7 @@ export default class Swing implements ISwingContainer {
          currNote.direction !== NoteDirection.ANY
       ) {
          for (const n of context) {
-            if (
-               n.direction !== NoteDirection.ANY &&
-               checkDirection(currNote, n, 90, false)
-            ) {
+            if (n.direction !== NoteDirection.ANY && checkDirection(currNote, n, 90, false)) {
                return true;
             }
          }
@@ -119,8 +116,7 @@ export default class Swing implements ISwingContainer {
          }
       }
       return (
-         (currNote.isWindow(prevNote) &&
-            bpm.toRealTime(currNote.time - prevNote.time) > 0.08) ||
+         (currNote.isWindow(prevNote) && bpm.toRealTime(currNote.time - prevNote.time) > 0.08) ||
          bpm.toRealTime(currNote.time - prevNote.time) > 0.07
       );
    }
@@ -134,7 +130,9 @@ export default class Swing implements ISwingContainer {
          timeProc.bpm /
          (timeProc.toBeatTime(
             timeProc.toRealTime(currObj.time) - timeProc.toRealTime(prevObj.time),
-         ) * 2)
+            false,
+         ) *
+            2)
       );
    }
 
@@ -149,8 +147,7 @@ export default class Swing implements ISwingContainer {
                   return 0;
                }
                if (
-                  (notes[i].isHorizontal(notes[i - 1]) ||
-                     notes[i].isVertical(notes[i - 1])) &&
+                  (notes[i].isHorizontal(notes[i - 1]) || notes[i].isVertical(notes[i - 1])) &&
                   !hasStraight
                ) {
                   hasStraight = true;
@@ -161,8 +158,7 @@ export default class Swing implements ISwingContainer {
                   notes[i].isSlantedWindow(notes[i - 1]) ||
                   hasDiagonal;
                return (
-                  (notes[i].time - notes[i - 1].time) /
-                  (notes[i].getDistance(notes[i - 1]) || 1)
+                  (notes[i].time - notes[i - 1].time) / (notes[i].getDistance(notes[i - 1]) || 1)
                );
             }),
          ),
@@ -184,8 +180,7 @@ export default class Swing implements ISwingContainer {
                   return Number.MAX_SAFE_INTEGER;
                }
                if (
-                  (notes[i].isHorizontal(notes[i - 1]) ||
-                     notes[i].isVertical(notes[i - 1])) &&
+                  (notes[i].isHorizontal(notes[i - 1]) || notes[i].isVertical(notes[i - 1])) &&
                   !hasStraight
                ) {
                   hasStraight = true;
@@ -196,8 +191,7 @@ export default class Swing implements ISwingContainer {
                   notes[i].isSlantedWindow(notes[i - 1]) ||
                   hasDiagonal;
                return (
-                  (notes[i].time - notes[i - 1].time) /
-                  (notes[i].getDistance(notes[i - 1]) || 1)
+                  (notes[i].time - notes[i - 1].time) / (notes[i].getDistance(notes[i - 1]) || 1)
                );
             }),
          ),

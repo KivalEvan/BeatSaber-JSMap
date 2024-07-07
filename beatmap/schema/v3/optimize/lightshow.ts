@@ -12,11 +12,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          o1.b = round(o1.b, options.floatTrim);
          o1.f = round(o1.f, options.floatTrim);
       }
-      deepClean(
-         o1.customData!,
-         `lightshow.basicBeatmapEvents[${i1}].customData`,
-         options,
-      );
+      deepClean(o1.customData!, `lightshow.basicBeatmapEvents[${i1}].customData`, options);
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -27,11 +23,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       if (options.floatTrim) {
          o1.b = round(o1.b, options.floatTrim);
       }
-      deepClean(
-         o1.customData!,
-         `lightshow.colorBoostBeatmapEvents[${i1}].customData`,
-         options,
-      );
+      deepClean(o1.customData!, `lightshow.colorBoostBeatmapEvents[${i1}].customData`, options);
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -86,11 +78,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          }
          if (options.purgeZeros) purgeZeros(o2);
       }
-      deepClean(
-         o1.customData!,
-         `lightshow.lightColorEventBoxGroups[${i1}].customData`,
-         options,
-      );
+      deepClean(o1.customData!, `lightshow.lightColorEventBoxGroups[${i1}].customData`, options);
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -143,11 +131,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          }
          if (options.purgeZeros) purgeZeros(o2);
       }
-      deepClean(
-         o1.customData!,
-         `lightshow.lightRotationEventBoxGroups[${i1}].customData`,
-         options,
-      );
+      deepClean(o1.customData!, `lightshow.lightRotationEventBoxGroups[${i1}].customData`, options);
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -241,11 +225,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          }
          if (options.purgeZeros) purgeZeros(o2);
       }
-      deepClean(
-         o1.customData!,
-         `lightshow.vfxEventBoxGroups[${i1}].customData`,
-         options,
-      );
+      deepClean(o1.customData!, `lightshow.vfxEventBoxGroups[${i1}].customData`, options);
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -257,11 +237,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          o1.b = round(o1.b, options.floatTrim);
          o1.v = round(o1.v, options.floatTrim);
       }
-      deepClean(
-         o1.customData!,
-         `lightshow._fxEventsCollection._fl[${i1}].customData`,
-         options,
-      );
+      deepClean(o1.customData!, `lightshow._fxEventsCollection._fl[${i1}].customData`, options);
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -272,11 +248,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       if (options.floatTrim) {
          o1.b = round(o1.b, options.floatTrim);
       }
-      deepClean(
-         o1.customData!,
-         `lightshow._fxEventsCollection._il[${i1}].customData`,
-         options,
-      );
+      deepClean(o1.customData!, `lightshow._fxEventsCollection._il[${i1}].customData`, options);
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }

@@ -4,18 +4,7 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 import { EventLaneRotationValue } from '../../shared/constants.ts';
 
-const defaultValue = {
-   _time: 0,
-   _type: 14,
-   _value: 0,
-   _floatValue: 0,
-   _customData: {},
-} as Required<IEvent>;
-export const rotationEvent: ISchemaContainer<
-   IWrapRotationEventAttribute,
-   IEvent
-> = {
-   defaultValue,
+export const rotationEvent: ISchemaContainer<IWrapRotationEventAttribute, IEvent> = {
    serialize(data: IWrapRotationEventAttribute): IEvent {
       let r = data.rotation % 360;
       if (r >= -60 && r <= 60 && r % 15 === 0 && r / 15 !== 0) {
@@ -29,10 +18,8 @@ export const rotationEvent: ISchemaContainer<
          _customData: deepCopy(data.customData),
       };
    },
-   deserialize(
-      data: Partial<IEvent> = {},
-   ): Partial<IWrapRotationEventAttribute> {
-      const value = data._value ?? defaultValue._value;
+   deserialize(data: Partial<IEvent> = {}): Partial<IWrapRotationEventAttribute> {
+      const value = data._value ?? 0;
       return {
          time: data._time,
          executionTime: data._type === 15 ? 1 : 0,
@@ -41,7 +28,7 @@ export const rotationEvent: ISchemaContainer<
             : value >= 1000
             ? (value - 1360) % 360
             : EventLaneRotationValue[value] ?? 0,
-         customData: deepCopy(data._customData ?? defaultValue._customData),
+         customData: data._customData,
       };
    },
 };

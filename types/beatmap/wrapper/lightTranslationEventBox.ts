@@ -35,12 +35,8 @@ export interface IWrapLightTranslationEventBox
    extends IWrapEventBox, IWrapLightTranslationEventBoxAttribute {
    events: IWrapLightTranslationEvent[];
 
-   setGapDistribution(
-      value: IWrapLightTranslationEventBox['gapDistribution'],
-   ): this;
-   setGapDistributionType(
-      value: IWrapLightTranslationEventBox['gapDistributionType'],
-   ): this;
+   setGapDistribution(value: IWrapLightTranslationEventBox['gapDistribution']): this;
+   setGapDistributionType(value: IWrapLightTranslationEventBox['gapDistributionType']): this;
    setAxis(value: IWrapLightTranslationEventBox['axis']): this;
    setFlip(value: IWrapLightTranslationEventBox['flip']): this;
    setAffectFirst(value: IWrapLightTranslationEventBox['affectFirst']): this;

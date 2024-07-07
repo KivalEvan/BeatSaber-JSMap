@@ -28,10 +28,6 @@ export interface IWrapAudioData extends IWrapBeatmapFile, IWrapAudioDataAttribut
    setSampleCount(value: number): this;
    setFrequency(value: number): this;
 
-   fromBpmEvents(
-      data: IWrapBPMEventAttribute[],
-      frequency: number,
-      sampleCount?: number,
-   ): this;
+   fromBpmEvents(data: IWrapBPMEventAttribute[], frequency: number, sampleCount?: number): this;
    getBpmEvents(): IWrapBPMEventAttribute[];
 }

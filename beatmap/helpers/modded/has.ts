@@ -41,9 +41,7 @@ export function hasChromaNoteV2(data: IWrapBaseItemAttribute): boolean {
    );
 }
 
-export function hasNoodleExtensionsNoteV2(
-   data: IWrapBaseItemAttribute,
-): boolean {
+export function hasNoodleExtensionsNoteV2(data: IWrapBaseItemAttribute): boolean {
    return (
       Array.isArray(data.customData._animation) ||
       typeof data.customData._cutDirection === 'number' ||
@@ -64,9 +62,7 @@ export function hassChromaObstacleV2(data: IWrapBaseItemAttribute): boolean {
    return Array.isArray(data.customData._color);
 }
 
-export function hassNoodleExtensionsObstacleV2(
-   data: IWrapBaseItemAttribute,
-): boolean {
+export function hassNoodleExtensionsObstacleV2(data: IWrapBaseItemAttribute): boolean {
    return (
       Array.isArray(data.customData._animation) ||
       typeof data.customData._fake === 'boolean' ||
@@ -80,21 +76,15 @@ export function hassNoodleExtensionsObstacleV2(
    );
 }
 
-export function hasMappingExtensionsObstacleV2(
-   data: IWrapObstacleAttribute,
-): boolean {
+export function hasMappingExtensionsObstacleV2(data: IWrapObstacleAttribute): boolean {
    return data.posX < 0 || data.posX > 3 || data.width < 0 || data.width > 3;
 }
 
-export function hasNoodleExtensionsRotationV2(
-   data: IWrapRotationEventAttribute,
-): boolean {
+export function hasNoodleExtensionsRotationV2(data: IWrapRotationEventAttribute): boolean {
    return typeof data.customData._rotation === 'number';
 }
 
-export function hasMappingExtensionsRotationV2(
-   data: IWrapRotationEventAttribute,
-): boolean {
+export function hasMappingExtensionsRotationV2(data: IWrapRotationEventAttribute): boolean {
    return data.rotation >= 1000 && data.rotation <= 1720;
 }
 
@@ -125,9 +115,7 @@ export function hasChromaNoteV3(data: IWrapBaseItemAttribute): boolean {
    );
 }
 
-export function hasNoodleExtensionsNoteV3(
-   data: IWrapBaseItemAttribute,
-): boolean {
+export function hasNoodleExtensionsNoteV3(data: IWrapBaseItemAttribute): boolean {
    return (
       Array.isArray(data.customData.animation) ||
       typeof data.customData.disableNoteGravity === 'boolean' ||
@@ -147,9 +135,7 @@ export function hasNoodleExtensionsNoteV3(
    );
 }
 
-export function hasNoodleExtensionsSliderV3(
-   data: IWrapBaseItemAttribute,
-): boolean {
+export function hasNoodleExtensionsSliderV3(data: IWrapBaseItemAttribute): boolean {
    return (
       Array.isArray(data.customData.animation) ||
       typeof data.customData.disableNoteGravity === 'boolean' ||
@@ -174,9 +160,7 @@ export function hasChromaObstacleV3(data: IWrapBaseItemAttribute): boolean {
    return Array.isArray(data.customData.color);
 }
 
-export function hasNoodleExtensionsObstacleV3(
-   data: IWrapBaseItemAttribute,
-): boolean {
+export function hasNoodleExtensionsObstacleV3(data: IWrapBaseItemAttribute): boolean {
    return (
       Array.isArray(data.customData.animation) ||
       typeof data.customData.uninteractable === 'boolean' ||
@@ -189,9 +173,7 @@ export function hasNoodleExtensionsObstacleV3(
    );
 }
 
-export function hasMappingExtensionsObstacle(
-   data: IWrapObstacleAttribute,
-): boolean {
+export function hasMappingExtensionsObstacle(data: IWrapObstacleAttribute): boolean {
    return (
       data.posY < 0 ||
       data.posY > 2 ||
@@ -215,9 +197,7 @@ export function hasMappingExtensionsArc(data: IWrapArcAttribute): boolean {
    );
 }
 
-export function hasMappingExtensionsBombNote(
-   data: IWrapBombNoteAttribute,
-): boolean {
+export function hasMappingExtensionsBombNote(data: IWrapBombNoteAttribute): boolean {
    return data.posX > 3 || data.posX < 0 || data.posY > 2 || data.posY < 0;
 }
 
@@ -231,9 +211,7 @@ export function hasMappingExtensionsChain(data: IWrapChainAttribute): boolean {
    );
 }
 
-export function hasMappingExtensionsNote(
-   data: IWrapBaseNoteAttribute,
-): boolean {
+export function hasMappingExtensionsNote(data: IWrapBaseNoteAttribute): boolean {
    return (
       data.posX > 3 ||
       data.posX < 0 ||
@@ -244,13 +222,8 @@ export function hasMappingExtensionsNote(
    );
 }
 
-export function hasMappingExtensionsRotation(
-   data: IWrapRotationEventAttribute,
-): boolean {
+export function hasMappingExtensionsRotation(data: IWrapRotationEventAttribute): boolean {
    return (
-      data.rotation >= -60 &&
-      data.rotation <= 60 &&
-      data.rotation !== 0 &&
-      data.rotation % 15 === 0
+      data.rotation >= -60 && data.rotation <= 60 && data.rotation !== 0 && data.rotation % 15 === 0
    );
 }

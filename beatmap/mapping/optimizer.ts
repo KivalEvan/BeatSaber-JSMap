@@ -10,29 +10,22 @@ import { optimizeLightshow as optimizeV3Lightshow } from '../schema/v3/optimize/
 import { optimizeLightshow as optimizeV4Lightshow } from '../schema/v4/optimize/lightshow.ts';
 import type { IOptimizeOptions } from '../../types/beatmap/options/optimize.ts';
 
-export const infoOptimizeMap: Record<
-   number,
-   (data: any, options: IOptimizeOptions) => void
-> = {
+export const infoOptimizeMap: Record<number, (data: any, options: IOptimizeOptions) => void> = {
    1: optimizeV1Info,
    2: optimizeV2Info,
    4: optimizeV4Info,
 };
 
-export const difficultyOptimizeMap: Record<
-   number,
-   (data: any, options: IOptimizeOptions) => void
-> = {
-   1: optimizeV1Difficulty,
-   2: optimizeV2Difficulty,
-   3: optimizeV3Difficulty,
-   4: optimizeV4Difficulty,
-};
+export const difficultyOptimizeMap: Record<number, (data: any, options: IOptimizeOptions) => void> =
+   {
+      1: optimizeV1Difficulty,
+      2: optimizeV2Difficulty,
+      3: optimizeV3Difficulty,
+      4: optimizeV4Difficulty,
+   };
 
-export const lightshowOptimizeMap: Record<
-   number,
-   (data: any, options: IOptimizeOptions) => void
-> = {
-   3: optimizeV3Lightshow,
-   4: optimizeV4Lightshow,
-};
+export const lightshowOptimizeMap: Record<number, (data: any, options: IOptimizeOptions) => void> =
+   {
+      3: optimizeV3Lightshow,
+      4: optimizeV4Lightshow,
+   };

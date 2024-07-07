@@ -90,11 +90,7 @@ export function saveBeatmap<
       if (ver === -1) {
          throw new Error('Version is not set, prevented from saving.');
       }
-      logger.tInfo(
-         tag('saveBeatmap'),
-         'Implicitly saving ' + type + ' as version',
-         ver,
-      );
+      logger.tInfo(tag('saveBeatmap'), 'Implicitly saving ' + type + ' as version', ver);
    }
    const optD = (typeof version !== 'number' ? version : options) ?? options ?? {};
    const opt: Required<ISaveOptions<any>> = {
@@ -126,10 +122,7 @@ export function saveBeatmap<
    }
 
    opt.preprocess.forEach((fn, i) => {
-      logger.tInfo(
-         tag('saveBeatmap'),
-         'Running preprocess function #' + (i + 1),
-      );
+      logger.tInfo(tag('saveBeatmap'), 'Running preprocess function #' + (i + 1));
       data = fn(data);
    });
 
@@ -149,9 +142,7 @@ export function saveBeatmap<
    logger.tInfo(tag('saveBeatmap'), 'Serializing beatmap ' + type + ' as JSON');
    let json = schemaMap[ver]?.serialize(data as any);
    if (!json) {
-      throw new Error(
-         'Failed to serialize beatmap, version ' + ver + ' is not supported.',
-      );
+      throw new Error('Failed to serialize beatmap, version ' + ver + ' is not supported.');
    }
 
    if (opt.optimize.enabled) {
@@ -164,10 +155,7 @@ export function saveBeatmap<
    }
 
    opt.postprocess.forEach((fn, i) => {
-      logger.tInfo(
-         tag('saveBeatmap'),
-         'Running postprocess function #' + (i + 1),
-      );
+      logger.tInfo(tag('saveBeatmap'), 'Running postprocess function #' + (i + 1));
       json = fn(json);
    });
 

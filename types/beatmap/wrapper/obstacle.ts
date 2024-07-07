@@ -49,11 +49,7 @@ export interface IWrapObstacle extends Omit<IWrapGridObject, 'customData'>, IWra
     * if (wall.isLonger(compareWall)) {}
     * ```
     */
-   isLonger(
-      compareTo: this,
-      prevOffset: number,
-      fn?: GetPositionFn<this>,
-   ): boolean;
+   isLonger(compareTo: this, prevOffset?: number, fn?: GetPositionFn<this>): boolean;
 
    /**
     * Check if obstacle has zero value.

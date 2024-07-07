@@ -20,6 +20,4 @@ export interface IWrapBaseFile extends IWrapBaseFileAttribute {
    setFilename(filename: this['filename']): this;
 }
 
-export type IWrapBeatmapFile =
-   & IWrapBaseFile
-   & IWrapBaseItem;
+export type IWrapBeatmapFile = IWrapBaseFile & IWrapBaseItem;

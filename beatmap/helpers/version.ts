@@ -22,10 +22,7 @@ export function retrieveVersion(json: Record<string, unknown>): Version | null {
 }
 
 /** Internal use, compare beatmap version to another. */
-export function compareVersion(
-   current: Version,
-   compareTo: Version,
-): -1 | 0 | 1 {
+export function compareVersion(current: Version, compareTo: Version): -1 | 0 | 1 {
    const verCurrent = getVersionArray(current);
    const verCompareTo = getVersionArray(compareTo);
    for (const num in verCurrent) {
@@ -40,7 +37,5 @@ export function compareVersion(
 }
 
 function getVersionArray(version: Version): number[] {
-   return version
-      .split('.')
-      .map((el) => parseInt(el));
+   return version.split('.').map((el) => parseInt(el));
 }

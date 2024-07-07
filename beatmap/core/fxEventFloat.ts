@@ -23,9 +23,7 @@ export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
       this.easing = data.easing ?? FxEventFloat.defaultValue.easing;
       this.previous = data.previous ?? FxEventFloat.defaultValue.previous;
       this.value = data.value ?? FxEventFloat.defaultValue.value;
-      this.customData = deepCopy(
-         data.customData ?? FxEventFloat.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? FxEventFloat.defaultValue.customData);
    }
 
    easing: IWrapFxEventFloat['easing'];
@@ -46,10 +44,9 @@ export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : super.isValid(fn) && (
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.previous === 0 || this.previous === 1) &&
          this.easing >= -1 &&
-         this.easing <= 103
-      );
+         this.easing <= 103;
    }
 }

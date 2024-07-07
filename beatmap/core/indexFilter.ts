@@ -34,9 +34,7 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
       this.seed = data.seed ?? IndexFilter.defaultValue.seed;
       this.limit = data.limit ?? IndexFilter.defaultValue.limit;
       this.limitAffectsType = data.limitAffectsType ?? IndexFilter.defaultValue.limitAffectsType;
-      this.customData = deepCopy(
-         data.customData ?? IndexFilter.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? IndexFilter.defaultValue.customData);
    }
 
    type: IWrapIndexFilter['type'];
@@ -87,7 +85,7 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : super.isValid(fn) && (
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.type === 1 || this.type === 2) &&
          this.p0 >= 0 &&
          this.p1 >= 0 &&
@@ -96,9 +94,8 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
          this.random >= 0 &&
          this.random <= RandomType.ALL &&
          this.limit >= 0 &&
-         this.limit <= 0 &&
+         this.limit <= 1 &&
          this.limitAffectsType >= 0 &&
-         this.limitAffectsType <= LimitAlsoAffectsType.ALL
-      );
+         this.limitAffectsType <= LimitAlsoAffectsType.ALL;
    }
 }

@@ -33,16 +33,12 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
       customData: {},
    };
 
-   static create(
-      ...data: Partial<IWrapLightColorEventBoxAttribute>[]
-   ): LightColorEventBox[] {
+   static create(...data: Partial<IWrapLightColorEventBoxAttribute>[]): LightColorEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: DeepPartialIgnore<IWrapLightColorEventBoxAttribute, 'customData'> = {}) {
       super();
-      this.filter = new IndexFilter(
-         data.filter ?? LightColorEventBox.defaultValue.filter,
-      );
+      this.filter = new IndexFilter(data.filter ?? LightColorEventBox.defaultValue.filter);
       this.beatDistribution = data.beatDistribution ??
          LightColorEventBox.defaultValue.beatDistribution;
       this.beatDistributionType = data.beatDistributionType ??
@@ -56,9 +52,7 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
       this.events = (data.events ?? LightColorEventBox.defaultValue.events).map(
          (obj) => new LightColorEvent(obj),
       );
-      this.customData = deepCopy(
-         data.customData ?? LightColorEventBox.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? LightColorEventBox.defaultValue.customData);
    }
 
    brightnessDistribution: IWrapLightColorEventBox['brightnessDistribution'];
@@ -69,9 +63,7 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
       this.brightnessDistribution = value;
       return this;
    }
-   setBrightnessDistributionType(
-      value: this['brightnessDistributionType'],
-   ): this {
+   setBrightnessDistributionType(value: this['brightnessDistributionType']): this {
       this.brightnessDistributionType = value;
       return this;
    }
@@ -81,11 +73,8 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
-         (this.brightnessDistributionType === 1 ||
-            this.brightnessDistributionType === 2) &&
-         (this.affectFirst === 0 || this.affectFirst === 1)
-      );
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
+         (this.brightnessDistributionType === 1 || this.brightnessDistributionType === 2) &&
+         (this.affectFirst === 0 || this.affectFirst === 1);
    }
 }

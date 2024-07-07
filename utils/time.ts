@@ -25,8 +25,7 @@ export function toMmssms(seconds: number): string {
    if (!seconds) {
       return '0:00.000';
    }
-   const dec = (seconds % 1).toString().split('.')[1]?.padEnd(3, '0').slice(0, 3) ||
-      '000';
+   const dec = (seconds % 1).toString().split('.')[1]?.padEnd(3, '0').slice(0, 3) || '000';
    return `${toMmss(seconds > 0 ? Math.floor(seconds) : Math.ceil(seconds))}.${dec}`;
 }
 

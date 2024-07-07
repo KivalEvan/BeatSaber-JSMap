@@ -47,9 +47,7 @@ export class Info extends BaseItem implements IWrapInfo {
       customData: {},
    };
 
-   static create(
-      ...data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'>[]
-   ): Info[] {
+   static create(...data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'>[]): Info[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'> = {}) {
@@ -69,22 +67,18 @@ export class Info extends BaseItem implements IWrapInfo {
             Info.defaultValue.audio.audioDataFilename,
          bpm: data.audio?.bpm ?? Info.defaultValue.audio.bpm,
          lufs: data.audio?.lufs ?? Info.defaultValue.audio.lufs,
-         previewStartTime: data.audio?.previewStartTime ??
-            Info.defaultValue.audio.previewStartTime,
-         previewDuration: data.audio?.previewDuration ??
-            Info.defaultValue.audio.previewDuration,
+         previewStartTime: data.audio?.previewStartTime ?? Info.defaultValue.audio.previewStartTime,
+         previewDuration: data.audio?.previewDuration ?? Info.defaultValue.audio.previewDuration,
          audioOffset: data.audio?.audioOffset ?? Info.defaultValue.audio.audioOffset,
          shuffle: data.audio?.shuffle ?? Info.defaultValue.audio.shuffle,
          shufflePeriod: data.audio?.shufflePeriod ?? Info.defaultValue.audio.shufflePeriod,
       };
       this.songPreviewFilename = data.songPreviewFilename ?? Info.defaultValue.songPreviewFilename;
       this.coverImageFilename = data.coverImageFilename ?? Info.defaultValue.coverImageFilename;
-      this.environmentNames = (
-         data.environmentNames ?? Info.defaultValue.environmentNames
-      ).map((e) => e!);
-      this.colorSchemes = (
-         data.colorSchemes ?? Info.defaultValue.colorSchemes
-      ).map((e) => ({
+      this.environmentNames = (data.environmentNames ?? Info.defaultValue.environmentNames).map(
+         (e) => e!,
+      );
+      this.colorSchemes = (data.colorSchemes ?? Info.defaultValue.colorSchemes).map((e) => ({
          useOverride: e!.useOverride || false,
          name: e!.name || '',
          saberLeftColor: {
@@ -142,24 +136,20 @@ export class Info extends BaseItem implements IWrapInfo {
             a: e!.obstaclesColor?.a || 0,
          },
       }));
-      this.difficulties = (
-         data.difficulties ?? Info.defaultValue.difficulties
-      ).map((e) => new InfoBeatmap(e));
-      this.customData = deepCopy(
-         data.customData ?? Info.defaultValue.customData,
+      this.difficulties = (data.difficulties ?? Info.defaultValue.difficulties).map(
+         (e) => new InfoBeatmap(e),
       );
+      this.customData = deepCopy(data.customData ?? Info.defaultValue.customData);
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.audio.filename !== '' &&
          this.audio.duration > 0 &&
          this.audio.previewDuration > 0 &&
          this.audio.previewStartTime > 0 &&
          this.audio.audioOffset >= 0 &&
-         this.difficulties.every((e) => e.isValid())
-      );
+         this.difficulties.every((e) => e.isValid());
    }
 
    version: number;
@@ -184,9 +174,7 @@ export class Info extends BaseItem implements IWrapInfo {
 
    sort(): this {
       this.difficulties
-         .sort(
-            (a, b) => DifficultyRanking[a.difficulty] - DifficultyRanking[b.difficulty],
-         )
+         .sort((a, b) => DifficultyRanking[a.difficulty] - DifficultyRanking[b.difficulty])
          .sort(
             (a, b) =>
                (CharacteristicOrder[a.characteristic] || 0) -
@@ -196,9 +184,7 @@ export class Info extends BaseItem implements IWrapInfo {
       return this;
    }
 
-   addMap(
-      data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>,
-   ): this {
+   addMap(data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>): this {
       this.difficulties.push(new InfoBeatmap(data));
       return this;
    }
@@ -226,38 +212,32 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
    ): InfoBeatmap[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(
-      data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'> = {},
-   ) {
+   constructor(data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'> = {}) {
       super();
       this.characteristic = data.characteristic ?? InfoBeatmap.defaultValue.characteristic;
       this.difficulty = data.difficulty ?? InfoBeatmap.defaultValue.difficulty;
       this.filename = data.filename ?? InfoBeatmap.defaultValue.filename;
       this.lightshowFilename = data.lightshowFilename ?? InfoBeatmap.defaultValue.lightshowFilename;
       this.authors = {
-         mappers: (
-            data.authors?.mappers ?? InfoBeatmap.defaultValue.authors.mappers
-         ).map((e) => e!),
-         lighters: (
-            data.authors?.lighters ?? InfoBeatmap.defaultValue.authors.lighters
-         ).map((e) => e!),
+         mappers: (data.authors?.mappers ?? InfoBeatmap.defaultValue.authors.mappers).map(
+            (e) => e!,
+         ),
+         lighters: (data.authors?.lighters ?? InfoBeatmap.defaultValue.authors.lighters).map(
+            (e) => e!,
+         ),
       };
       this.njs = data.njs ?? InfoBeatmap.defaultValue.njs;
       this.njsOffset = data.njsOffset ?? InfoBeatmap.defaultValue.njsOffset;
       this.colorSchemeId = data.colorSchemeId ?? InfoBeatmap.defaultValue.colorSchemeId;
       this.environmentId = data.environmentId ?? InfoBeatmap.defaultValue.environmentId;
-      this.customData = deepCopy(
-         data.customData ?? InfoBeatmap.defaultValue.customData,
-      );
+      this.customData = deepCopy(data.customData ?? InfoBeatmap.defaultValue.customData);
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override ? super.isValid(fn) : (
-         super.isValid(fn) &&
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.njs > 0 &&
          this.colorSchemeId >= -1 &&
-         this.environmentId >= 0
-      );
+         this.environmentId >= 0;
    }
 
    characteristic: CharacteristicName;

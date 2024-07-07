@@ -3,9 +3,7 @@ import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
-import type {
-   IWrapLightTranslationEventBox,
-} from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
+import type { IWrapLightTranslationEventBox } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { LightTranslationEventBox } from './lightTranslationEventBox.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -30,9 +28,9 @@ export class LightTranslationEventBoxGroup extends EventBoxGroup
       super();
       this.time = data.time ?? LightTranslationEventBoxGroup.defaultValue.time;
       this.id = data.id ?? LightTranslationEventBoxGroup.defaultValue.id;
-      this.boxes = (
-         data.boxes ?? LightTranslationEventBoxGroup.defaultValue.boxes
-      ).map((e) => new LightTranslationEventBox(e));
+      this.boxes = (data.boxes ?? LightTranslationEventBoxGroup.defaultValue.boxes).map(
+         (e) => new LightTranslationEventBox(e),
+      );
       this.customData = deepCopy(
          data.customData ?? LightTranslationEventBoxGroup.defaultValue.customData,
       );

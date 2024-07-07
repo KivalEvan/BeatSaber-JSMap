@@ -25,9 +25,9 @@ export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLight
       super();
       this.time = data.time ?? LightColorEventBoxGroup.defaultValue.time;
       this.id = data.id ?? LightColorEventBoxGroup.defaultValue.id;
-      this.boxes = (
-         data.boxes ?? LightColorEventBoxGroup.defaultValue.boxes
-      ).map((e) => new LightColorEventBox(e));
+      this.boxes = (data.boxes ?? LightColorEventBoxGroup.defaultValue.boxes).map(
+         (e) => new LightColorEventBox(e),
+      );
       this.customData = deepCopy(
          data.customData ?? LightColorEventBoxGroup.defaultValue.customData,
       );
