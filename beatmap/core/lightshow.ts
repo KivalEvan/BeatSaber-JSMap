@@ -55,17 +55,21 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       customData: {},
    };
 
-   static create(...data: DeepPartialIgnore<IWrapLightshowAttribute, 'customData'>[]): Lightshow[] {
+   static create(
+      ...data: DeepPartialIgnore<IWrapLightshowAttribute, 'customData'>[]
+   ): Lightshow[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapLightshowAttribute, 'customData'> = {}) {
+   constructor(
+      data: DeepPartialIgnore<IWrapLightshowAttribute, 'customData'> = {},
+   ) {
       super();
       this.waypoints = (data.waypoints ?? Lightshow.defaultValue.waypoints).map(
          (e) => new Waypoint(e),
       );
-      this.basicEvents = (data.basicEvents ?? Lightshow.defaultValue.basicEvents).map(
-         (e) => new BasicEvent(e),
-      );
+      this.basicEvents = (
+         data.basicEvents ?? Lightshow.defaultValue.basicEvents
+      ).map((e) => new BasicEvent(e));
       // shut the fuck up, ts, it's not that deep
       // deno-lint-ignore ban-ts-comment
       // @ts-ignore
@@ -73,10 +77,12 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
          data.colorBoostEvents ?? Lightshow.defaultValue.colorBoostEvents
       ).map((e) => new ColorBoostEvent(e));
       this.lightColorEventBoxGroups = (
-         data.lightColorEventBoxGroups ?? Lightshow.defaultValue.lightColorEventBoxGroups
+         data.lightColorEventBoxGroups ??
+            Lightshow.defaultValue.lightColorEventBoxGroups
       ).map((e) => new LightColorEventBoxGroup(e));
       this.lightRotationEventBoxGroups = (
-         data.lightRotationEventBoxGroups ?? Lightshow.defaultValue.lightRotationEventBoxGroups
+         data.lightRotationEventBoxGroups ??
+            Lightshow.defaultValue.lightRotationEventBoxGroups
       ).map((e) => new LightRotationEventBoxGroup(e));
       this.lightTranslationEventBoxGroups = (
          data.lightTranslationEventBoxGroups ??
@@ -87,11 +93,14 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       ).map((e) => new FxEventBoxGroup(e));
       this.eventTypesWithKeywords = {
          list: (
-            data.eventTypesWithKeywords?.list ?? Lightshow.defaultValue.eventTypesWithKeywords.list
+            data.eventTypesWithKeywords?.list ??
+               Lightshow.defaultValue.eventTypesWithKeywords.list
          ).map((e) => new EventTypesForKeywords(e)),
       };
       this.useNormalEventsAsCompatibleEvents = !!data.useNormalEventsAsCompatibleEvents;
-      this.customData = deepCopy(data.customData ?? Lightshow.defaultValue.customData);
+      this.customData = deepCopy(
+         data.customData ?? Lightshow.defaultValue.customData,
+      );
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
@@ -125,27 +134,57 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       this.lightTranslationEventBoxGroups.sort(sortObjectFn);
       this.fxEventBoxGroups.sort(sortObjectFn);
 
-      this.lightColorEventBoxGroups.forEach((gr) =>
-         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
-      );
-      this.lightRotationEventBoxGroups.forEach((gr) =>
-         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
-      );
-      this.lightTranslationEventBoxGroups.forEach((gr) =>
-         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn))
-      );
-      this.fxEventBoxGroups.forEach((gr) => gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn)));
+      for (let i = 0; i < this.lightColorEventBoxGroups.length; i++) {
+         for (
+            let j = 0;
+            j < this.lightColorEventBoxGroups[i].boxes.length;
+            j++
+         ) {
+            this.lightColorEventBoxGroups[i].boxes[j].events.sort(sortObjectFn);
+         }
+      }
+      for (let i = 0; i < this.lightRotationEventBoxGroups.length; i++) {
+         for (
+            let j = 0;
+            j < this.lightRotationEventBoxGroups[i].boxes.length;
+            j++
+         ) {
+            this.lightRotationEventBoxGroups[i].boxes[j].events.sort(
+               sortObjectFn,
+            );
+         }
+      }
+      for (let i = 0; i < this.lightTranslationEventBoxGroups.length; i++) {
+         for (
+            let j = 0;
+            j < this.lightTranslationEventBoxGroups[i].boxes.length;
+            j++
+         ) {
+            this.lightTranslationEventBoxGroups[i].boxes[j].events.sort(
+               sortObjectFn,
+            );
+         }
+      }
+      for (let i = 0; i < this.fxEventBoxGroups.length; i++) {
+         for (let j = 0; j < this.fxEventBoxGroups[i].boxes.length; j++) {
+            this.fxEventBoxGroups[i].boxes[j].events.sort(sortObjectFn);
+         }
+      }
 
       return this;
    }
 
-   addWaypoints(...data: DeepPartialIgnore<IWrapWaypointAttribute, 'customData'>[]): this {
+   addWaypoints(
+      ...data: DeepPartialIgnore<IWrapWaypointAttribute, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.waypoints.push(new Waypoint(d));
       }
       return this;
    }
-   addBasicEvents(...data: DeepPartialIgnore<IWrapEventAttribute, 'customData'>[]): this {
+   addBasicEvents(
+      ...data: DeepPartialIgnore<IWrapEventAttribute, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.basicEvents.push(new BasicEvent(d));
       }
@@ -160,7 +199,10 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightColorEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightColorEventBoxGroupAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<
+         IWrapLightColorEventBoxGroupAttribute,
+         'customData'
+      >[]
    ): this {
       for (const d of data) {
          this.lightColorEventBoxGroups.push(new LightColorEventBoxGroup(d));
@@ -168,18 +210,28 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightRotationEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightRotationEventBoxGroupAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<
+         IWrapLightRotationEventBoxGroupAttribute,
+         'customData'
+      >[]
    ): this {
       for (const d of data) {
-         this.lightRotationEventBoxGroups.push(new LightRotationEventBoxGroup(d));
+         this.lightRotationEventBoxGroups.push(
+            new LightRotationEventBoxGroup(d),
+         );
       }
       return this;
    }
    addLightTranslationEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightTranslationEventBoxGroupAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<
+         IWrapLightTranslationEventBoxGroupAttribute,
+         'customData'
+      >[]
    ): this {
       for (const d of data) {
-         this.lightTranslationEventBoxGroups.push(new LightTranslationEventBoxGroup(d));
+         this.lightTranslationEventBoxGroups.push(
+            new LightTranslationEventBoxGroup(d),
+         );
       }
       return this;
    }

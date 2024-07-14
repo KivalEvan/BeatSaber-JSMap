@@ -30,12 +30,16 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          _previewDuration: data.audio.previewDuration,
          _songFilename: data.audio.filename,
          _coverImageFilename: data.coverImageFilename,
-         _environmentName: data.environmentNames.find(
-            (e) => e !== 'GlassDesertEnvironment' && e !== 'MultiplayerEnvironment',
-         ) as EnvironmentName & EnvironmentV3Name,
-         _allDirectionsEnvironmentName: data.environmentNames.find(
-            (e) => e === 'GlassDesertEnvironment' || e === 'MultiplayerEnvironment',
-         ) as Environment360Name,
+         _environmentName: (data.environmentNames.find(
+            (e) =>
+               e !== 'GlassDesertEnvironment' &&
+               e !== 'MultiplayerEnvironment',
+         ) as EnvironmentName & EnvironmentV3Name) || 'DefaultEnvironment',
+         _allDirectionsEnvironmentName: (data.environmentNames.find(
+            (e) =>
+               e === 'GlassDesertEnvironment' ||
+               e === 'MultiplayerEnvironment',
+         ) as Environment360Name) || 'GlassDesertEnvironment',
          _environmentNames: data.environmentNames.map((e) => e),
          _colorSchemes: data.colorSchemes.map((e) => {
             const cs: Required<IInfo>['_colorSchemes'][number] = {
@@ -52,16 +56,22 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
                },
             };
             if (e.environmentWColor) {
-               cs.colorScheme!.environmentColorW = shallowCopy(e.environmentWColor);
+               cs.colorScheme!.environmentColorW = shallowCopy(
+                  e.environmentWColor,
+               );
             }
             if (e.environmentWColorBoost) {
-               cs.colorScheme!.environmentColorWBoost = shallowCopy(e.environmentWColorBoost);
+               cs.colorScheme!.environmentColorWBoost = shallowCopy(
+                  e.environmentWColorBoost,
+               );
             }
             return cs;
          }),
          _customData: deepCopy(data.customData),
          _difficultyBeatmapSets: data.difficulties.reduce((set, d) => {
-            let found = set.find((s) => s._beatmapCharacteristicName === d.characteristic);
+            let found = set.find(
+               (s) => s._beatmapCharacteristicName === d.characteristic,
+            );
             if (!found) {
                found = {
                   _beatmapCharacteristicName: d.characteristic,
@@ -177,9 +187,13 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
       };
 
       if (!d.environmentNames?.length) {
-         d.environmentNames = [data._environmentName, data._allDirectionsEnvironmentName];
+         d.environmentNames = [
+            data._environmentName,
+            data._allDirectionsEnvironmentName,
+         ];
          d.difficulties!.forEach((d) => {
-            d!.environmentId = d!.characteristic === '360Degree' || d!.characteristic === '90Degree'
+            d!.environmentId = d!.characteristic === '360Degree' ||
+                  d!.characteristic === '90Degree'
                ? 1
                : 0;
          });

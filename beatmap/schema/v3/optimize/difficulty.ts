@@ -3,13 +3,23 @@ import type { IDifficulty } from '../../../../types/beatmap/v3/difficulty.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 
-export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions) {
+export function optimizeDifficulty(
+   data: IDifficulty,
+   options: IOptimizeOptions,
+) {
    if (options.deduplicate) {
-      const [newFloatFxEvents, remapFloatFxEventsIdx] = remapDedupe(data._fxEventsCollection!._fl!);
+      const [newFloatFxEvents, remapFloatFxEventsIdx] = remapDedupe(
+         data._fxEventsCollection!._fl!,
+      );
 
-      data.vfxEventBoxGroups?.forEach((d) => {
-         d.e?.forEach((e) => (e.l = e.l?.map((i) => remapFloatFxEventsIdx.get(i) || 0) ?? []));
-      });
+      const vfxebg = data.vfxEventBoxGroups || [];
+      for (let i = 0; i < vfxebg.length; i++) {
+         const d = vfxebg[i].e || [];
+         for (let j = 0; j < d.length; j++) {
+            const e = d[i];
+            e.l = e.l?.map((i) => remapFloatFxEventsIdx.get(i) || 0) ?? [];
+         }
+      }
 
       data._fxEventsCollection!._fl = newFloatFxEvents;
    }
@@ -18,7 +28,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
    const d = data as Record<string, any>;
    for (let i1 = 0; i1 < d.bpmEvents!.length; i1++) {
       const o1 = d.bpmEvents[i1];
-      deepClean(o1.customData!, `difficulty.bpmEvents[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.bpmEvents[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -30,7 +44,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o1.b = round(o1.b, options.floatTrim);
          o1.r = round(o1.r, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty.rotationEvents[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.rotationEvents[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -41,7 +59,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
       if (options.floatTrim) {
          o1.b = round(o1.b, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty.colorNotes[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.colorNotes[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -52,7 +74,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
       if (options.floatTrim) {
          o1.b = round(o1.b, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty.bombNotes[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.bombNotes[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -64,7 +90,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o1.b = round(o1.b, options.floatTrim);
          o1.d = round(o1.d, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty.obstacles[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.obstacles[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -78,7 +108,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o1.mu = round(o1.mu, options.floatTrim);
          o1.tmu = round(o1.tmu, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty.sliders[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.sliders[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -91,7 +125,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o1.tb = round(o1.tb, options.floatTrim);
          o1.s = round(o1.s, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty.burstSliders[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.burstSliders[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -102,7 +140,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
       if (options.floatTrim) {
          o1.b = round(o1.b, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty.waypoints[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.waypoints[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -114,7 +156,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o1.b = round(o1.b, options.floatTrim);
          o1.f = round(o1.f, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty.basicBeatmapEvents[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.basicBeatmapEvents[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -125,7 +171,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
       if (options.floatTrim) {
          o1.b = round(o1.b, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty.colorBoostBeatmapEvents[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.colorBoostBeatmapEvents[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -180,7 +230,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          }
          if (options.purgeZeros) purgeZeros(o2);
       }
-      deepClean(o1.customData!, `difficulty.lightColorEventBoxGroups[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.lightColorEventBoxGroups[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -331,7 +385,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          }
          if (options.purgeZeros) purgeZeros(o2);
       }
-      deepClean(o1.customData!, `difficulty.vfxEventBoxGroups[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty.vfxEventBoxGroups[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -343,7 +401,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
          o1.b = round(o1.b, options.floatTrim);
          o1.v = round(o1.v, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty._fxEventsCollection._fl[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty._fxEventsCollection._fl[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
@@ -354,7 +416,11 @@ export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions)
       if (options.floatTrim) {
          o1.b = round(o1.b, options.floatTrim);
       }
-      deepClean(o1.customData!, `difficulty._fxEventsCollection._il[${i1}].customData`, options);
+      deepClean(
+         o1.customData!,
+         `difficulty._fxEventsCollection._il[${i1}].customData`,
+         options,
+      );
       if (!Object.keys(o1.customData!).length) {
          delete o1.customData;
       }
