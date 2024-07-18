@@ -10,6 +10,8 @@ import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
 import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
+import { sortObjectFn } from '../../helpers/sort.ts';
+import { BaseSlider } from '../../core/abstract/baseSlider.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV3Beatmap', name];
@@ -23,7 +25,10 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export function toV3Beatmap(data: IWrapBeatmap, fromVersion: number): IWrapBeatmap {
+export function toV3Beatmap(
+   data: IWrapBeatmap,
+   fromVersion: number,
+): IWrapBeatmap {
    logger.tWarn(tag('main'), 'Converting to beatmap v3 may lose certain data!');
 
    switch (fromVersion) {
@@ -36,7 +41,9 @@ export function toV3Beatmap(data: IWrapBeatmap, fromVersion: number): IWrapBeatm
          fromV2(data);
          break;
       case 3:
+         break;
       case 4:
+         fromV4(data);
          data.version = 3;
          break;
       default:
@@ -53,7 +60,8 @@ function fromV1(bm: IWrapBeatmap) {
    bm.colorNotes.forEach((n) => {
       if (n.direction >= 1000) {
          n.angleOffset = Math.abs(((n.direction % 1000) % 360) - 360);
-         n.direction = n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
+         n.direction = n.direction >= 1000 ||
+               typeof n.customData._cutDirection === 'number'
             ? n.direction === 8 ? 8 : 1
             : clamp(n.direction, 0, 8);
       }
@@ -192,7 +200,11 @@ function fromV2(bm: IWrapBeatmap) {
                `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`,
             );
          }
-         if (e.customData._stepMult || e.customData._propMult || e.customData._speedMult) {
+         if (
+            e.customData._stepMult ||
+            e.customData._propMult ||
+            e.customData._speedMult
+         ) {
             logger.tWarn(
                tag('fromV2'),
                `events[${i}] at time ${e.time} Chroma _mult will be removed.`,
@@ -334,7 +346,8 @@ function fromV2(bm: IWrapBeatmap) {
                            ? e._geometry._material
                            : {
                               shader: e._geometry._material._shader,
-                              shaderKeywords: e._geometry._material._shaderKeywords,
+                              shaderKeywords: e._geometry._material
+                                 ._shaderKeywords,
                               collision: e._geometry._material._collision,
                               track: e._geometry._material._track,
                               color: e._geometry._material._color,
@@ -347,7 +360,8 @@ function fromV2(bm: IWrapBeatmap) {
                            ? e._geometry._material
                            : {
                               shader: e._geometry._material._shader,
-                              shaderKeywords: e._geometry._material._shaderKeywords,
+                              shaderKeywords: e._geometry._material
+                                 ._shaderKeywords,
                               collision: e._geometry._material._collision,
                               track: e._geometry._material._track,
                               color: e._geometry._material._color,
@@ -398,26 +412,30 @@ function fromV2(bm: IWrapBeatmap) {
          continue;
       }
       if (k === '_BPMChanges') {
-         bm.difficulty.customData.BPMChanges = bm.difficulty.customData[k]?.map((bpmc) => {
-            return {
-               b: bpmc._time,
-               m: bpmc._BPM,
-               p: bpmc._beatsPerBar,
-               o: bpmc._metronomeOffset,
-            };
-         });
+         bm.difficulty.customData.BPMChanges = bm.difficulty.customData[k]?.map(
+            (bpmc) => {
+               return {
+                  b: bpmc._time,
+                  m: bpmc._BPM,
+                  p: bpmc._beatsPerBar,
+                  o: bpmc._metronomeOffset,
+               };
+            },
+         );
          delete bm.difficulty.customData._BPMChanges;
          continue;
       }
       if (k === '_bpmChanges') {
-         bm.difficulty.customData.BPMChanges = bm.difficulty.customData[k]?.map((bpmc) => {
-            return {
-               b: bpmc._time,
-               m: bpmc._bpm,
-               p: bpmc._beatsPerBar,
-               o: bpmc._metronomeOffset,
-            };
-         });
+         bm.difficulty.customData.BPMChanges = bm.difficulty.customData[k]?.map(
+            (bpmc) => {
+               return {
+                  b: bpmc._time,
+                  m: bpmc._bpm,
+                  p: bpmc._beatsPerBar,
+                  o: bpmc._metronomeOffset,
+               };
+            },
+         );
          delete bm.difficulty.customData._bpmChanges;
          continue;
       }
@@ -445,7 +463,10 @@ function fromV2(bm: IWrapBeatmap) {
       if (bm.difficulty.customData.customEvents) {
          for (const ce of bm.difficulty.customData.customEvents) {
             if (ce.t === 'AnimateTrack') {
-               if (typeof ce.d.track === 'string' && envTracks.includes(ce.d.track)) {
+               if (
+                  typeof ce.d.track === 'string' &&
+                  envTracks.includes(ce.d.track)
+               ) {
                   customEvents.push(ce);
                } else if (Array.isArray(ce.d.track)) {
                   for (const t of ce.d.track) {
@@ -461,7 +482,10 @@ function fromV2(bm: IWrapBeatmap) {
       for (const ce of customEvents) {
          if (typeof ce.d.track === 'string') {
             if (typeof ce.d.position === 'string') {
-               logger.tWarn(tag('fromV2'), 'Cannot convert point definitions, unknown use.');
+               logger.tWarn(
+                  tag('fromV2'),
+                  'Cannot convert point definitions, unknown use.',
+               );
             } else if (Array.isArray(ce.d.position)) {
                isVector3(ce.d.position)
                   ? vectorMul(ce.d.position, 0.6)
@@ -481,4 +505,47 @@ function fromV2(bm: IWrapBeatmap) {
       }
    }
    bm.lightshow.useNormalEventsAsCompatibleEvents = true;
+}
+
+function fromV4(bm: IWrapBeatmap) {
+   let impossibleRotationEvt = false;
+   const mapTime: Record<number, number> = {};
+
+   const objects = [
+      bm.arcs,
+      bm.bombNotes,
+      bm.chains,
+      bm.colorNotes,
+      bm.obstacles,
+      bm.waypoints,
+   ]
+      .flat()
+      .sort(sortObjectFn);
+
+   for (let i = 0; i < objects.length; i++) {
+      const obj = objects[i];
+      if (!(obj.time in mapTime)) {
+         mapTime[obj.time] = obj.laneRotation;
+      } else if (mapTime[obj.time] !== obj.laneRotation) {
+         impossibleRotationEvt = true;
+         break;
+      }
+   }
+
+   if (impossibleRotationEvt) {
+      for (let i = 0; i < objects.length; i++) {
+         const obj = objects[i];
+         if (obj.laneRotation) obj.customData.worldRotation = obj.laneRotation;
+      }
+   } else {
+      bm.rotationEvents = [];
+      bm.addRotationEvents(
+         ...Object.entries(mapTime).map(([k, v]) => ({ time: +k, rotation: v })),
+      );
+   }
+   for (let i = 0; i < objects.length; i++) {
+      const obj = objects[i];
+      obj.laneRotation = 0;
+      if (obj instanceof BaseSlider) obj.tailLaneRotation = 0;
+   }
 }

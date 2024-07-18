@@ -6,6 +6,8 @@ import objectToV2 from '../customData/objectToV2.ts';
 import eventToV2 from '../customData/eventToV2.ts';
 import { isVector3, vectorMul } from '../../../utils/vector.ts';
 import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
+import { sortObjectFn } from '../../helpers/sort.ts';
+import { BaseSlider } from '../../core/abstract/baseSlider.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV2Beatmap', name];
@@ -19,7 +21,10 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Chain and other new stuff will be gone!
  */
-export function toV2Beatmap(data: IWrapBeatmap, fromVersion: number): IWrapBeatmap {
+export function toV2Beatmap(
+   data: IWrapBeatmap,
+   fromVersion: number,
+): IWrapBeatmap {
    logger.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
 
    switch (fromVersion) {
@@ -34,6 +39,7 @@ export function toV2Beatmap(data: IWrapBeatmap, fromVersion: number): IWrapBeatm
       case 4:
          data.version = 2;
          fromV3(data); // because they're the same anyway
+         fromV4(data);
          break;
       default:
          logger.tWarn(
@@ -202,7 +208,10 @@ function fromV3(bm: IWrapBeatmap) {
                };
             }
             if (e.geometry) {
-               if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
+               if (
+                  e.components?.ILightWithId?.type ||
+                  e.components?.ILightWithId?.lightID
+               ) {
                   logger.tWarn(
                      tag('fromV2'),
                      'v2 geometry cannot be made assignable light to specific type',
@@ -219,7 +228,8 @@ function fromV3(bm: IWrapBeatmap) {
                         },
                         _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
                            _shader: e.geometry.material.shader,
-                           _shaderKeywords: e.geometry.material.shaderKeywords,
+                           _shaderKeywords: e.geometry.material
+                              .shaderKeywords,
                            _collision: e.geometry.material.collision,
                            _track: e.geometry.material.track,
                            _color: e.geometry.material.color,
@@ -230,7 +240,8 @@ function fromV3(bm: IWrapBeatmap) {
                         _type: e.geometry.type,
                         _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
                            _shader: e.geometry.material.shader,
-                           _shaderKeywords: e.geometry.material.shaderKeywords,
+                           _shaderKeywords: e.geometry.material
+                              .shaderKeywords,
                            _collision: e.geometry.material.collision,
                            _track: e.geometry.material.track,
                            _color: e.geometry.material.color,
@@ -284,7 +295,9 @@ function fromV3(bm: IWrapBeatmap) {
          continue;
       }
       if (k === 'BPMChanges') {
-         bm.difficulty.customData._BPMChanges = bm.difficulty.customData[k]?.map((bpmc) => {
+         bm.difficulty.customData._BPMChanges = bm.difficulty.customData[
+            k
+         ]?.map((bpmc) => {
             return {
                _time: bpmc.b,
                _BPM: bpmc.m,
@@ -296,9 +309,11 @@ function fromV3(bm: IWrapBeatmap) {
          continue;
       }
       if (k === 'bookmarks') {
-         bm.difficulty.customData._bookmarks = bm.difficulty.customData[k]?.map((b) => {
-            return { _time: b.b, _name: b.n, _color: b.c };
-         });
+         bm.difficulty.customData._bookmarks = bm.difficulty.customData[k]?.map(
+            (b) => {
+               return { _time: b.b, _name: b.n, _color: b.c };
+            },
+         );
          delete bm.difficulty.customData.bookmarks;
          continue;
       }
@@ -315,7 +330,10 @@ function fromV3(bm: IWrapBeatmap) {
       if (bm.difficulty.customData._customEvents) {
          for (const ce of bm.difficulty.customData._customEvents) {
             if (ce._type === 'AnimateTrack') {
-               if (typeof ce._data._track === 'string' && envTracks.includes(ce._data._track)) {
+               if (
+                  typeof ce._data._track === 'string' &&
+                  envTracks.includes(ce._data._track)
+               ) {
                   customEvents.push(ce);
                } else if (Array.isArray(ce._data._track)) {
                   for (const t of ce._data._track) {
@@ -331,7 +349,10 @@ function fromV3(bm: IWrapBeatmap) {
       for (const ce of customEvents) {
          if (typeof ce._data._track === 'string') {
             if (typeof ce._data._position === 'string') {
-               logger.tWarn(tag('fromV2'), 'Cannot convert point definitions, unknown use.');
+               logger.tWarn(
+                  tag('fromV2'),
+                  'Cannot convert point definitions, unknown use.',
+               );
             } else if (Array.isArray(ce._data._position)) {
                isVector3(ce._data._position)
                   ? vectorMul(ce._data._position, 0.6)
@@ -349,5 +370,48 @@ function fromV3(bm: IWrapBeatmap) {
             );
          }
       }
+   }
+}
+
+function fromV4(bm: IWrapBeatmap) {
+   let impossibleRotationEvt = false;
+   const mapTime: Record<number, number> = {};
+
+   const objects = [
+      bm.arcs,
+      bm.bombNotes,
+      bm.chains,
+      bm.colorNotes,
+      bm.obstacles,
+      bm.waypoints,
+   ]
+      .flat()
+      .sort(sortObjectFn);
+
+   for (let i = 0; i < objects.length; i++) {
+      const obj = objects[i];
+      if (!(obj.time in mapTime)) {
+         mapTime[obj.time] = obj.laneRotation;
+      } else if (mapTime[obj.time] !== obj.laneRotation) {
+         impossibleRotationEvt = true;
+         break;
+      }
+   }
+
+   if (impossibleRotationEvt) {
+      for (let i = 0; i < objects.length; i++) {
+         const obj = objects[i];
+         if (obj.laneRotation) obj.customData.worldRotation = obj.laneRotation;
+      }
+   } else {
+      bm.rotationEvents = [];
+      bm.addRotationEvents(
+         ...Object.entries(mapTime).map(([k, v]) => ({ time: +k, rotation: v })),
+      );
+   }
+   for (let i = 0; i < objects.length; i++) {
+      const obj = objects[i];
+      obj.laneRotation = 0;
+      if (obj instanceof BaseSlider) obj.tailLaneRotation = 0;
    }
 }

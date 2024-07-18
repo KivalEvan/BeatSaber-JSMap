@@ -1,5 +1,7 @@
 import logger from '../../../logger.ts';
 import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
+import { BaseSlider } from '../../core/abstract/baseSlider.ts';
+import { sortObjectFn } from '../../helpers/sort.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV1Beatmap', name];
@@ -13,7 +15,10 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Guess you should know this legacy version does not have modern features.
  */
-export function toV1Beatmap(data: IWrapBeatmap, fromVersion: number): IWrapBeatmap {
+export function toV1Beatmap(
+   data: IWrapBeatmap,
+   fromVersion: number,
+): IWrapBeatmap {
    logger.tWarn(tag('main'), 'Converting beatmap to v1 may lose certain data!');
 
    switch (fromVersion) {
@@ -58,6 +63,46 @@ function fromV3(bm: IWrapBeatmap) {
    delete bm.difficulty.customData.bookmarks;
 }
 
-function fromV4(data: IWrapBeatmap) {
-   data.difficulty.customData._time = data.difficulty.customData.time ?? 0;
+function fromV4(bm: IWrapBeatmap) {
+   bm.difficulty.customData._time = bm.difficulty.customData.time ?? 0;
+   let impossibleRotationEvt = false;
+   const mapTime: Record<number, number> = {};
+
+   const objects = [
+      bm.arcs,
+      bm.bombNotes,
+      bm.chains,
+      bm.colorNotes,
+      bm.obstacles,
+      bm.waypoints,
+   ]
+      .flat()
+      .sort(sortObjectFn);
+
+   for (let i = 0; i < objects.length; i++) {
+      const obj = objects[i];
+      if (!(obj.time in mapTime)) {
+         mapTime[obj.time] = obj.laneRotation;
+      } else if (mapTime[obj.time] !== obj.laneRotation) {
+         impossibleRotationEvt = true;
+         break;
+      }
+   }
+
+   if (impossibleRotationEvt) {
+      for (let i = 0; i < objects.length; i++) {
+         const obj = objects[i];
+         if (obj.laneRotation) obj.customData.worldRotation = obj.laneRotation;
+      }
+   } else {
+      bm.rotationEvents = [];
+      bm.addRotationEvents(
+         ...Object.entries(mapTime).map(([k, v]) => ({ time: +k, rotation: v })),
+      );
+   }
+   for (let i = 0; i < objects.length; i++) {
+      const obj = objects[i];
+      obj.laneRotation = 0;
+      if (obj instanceof BaseSlider) obj.tailLaneRotation = 0;
+   }
 }
