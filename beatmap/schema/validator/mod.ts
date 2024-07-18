@@ -1,2 +1,2 @@
 export * from '../../mapping/validator.ts';
-export * from './main.ts';
+export * from './json.ts';

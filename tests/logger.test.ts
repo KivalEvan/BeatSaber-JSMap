@@ -70,7 +70,7 @@ Deno.test('Custom logger', () => {
 
    cLogger.untagged = 'custom stuff';
    assertEquals(cLogger.untagged, 'custom stuff');
-   cLogger.tagPrint = (tags) => `| ${tags.join(' > ')} |`;
+   cLogger.tagPrint = (tags: string[]) => `| ${tags.join(' > ')} |`;
 
    cLogger.verbose('Printing verbose');
    cLogger.debug('Printing debug');
