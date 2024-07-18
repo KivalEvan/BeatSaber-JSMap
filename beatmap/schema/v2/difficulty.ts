@@ -20,6 +20,7 @@ import { colorBoostEvent } from './colorBoostEvent.ts';
 import { rotationEvent } from './rotationEvent.ts';
 import { bpmEvent } from './bpmEvent.ts';
 import { sortV2NoteFn, sortV2ObjectFn } from '../../helpers/sort.ts';
+import { compareVersion } from '../../helpers/version.ts';
 
 export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = {
    serialize(data: IWrapBeatmapAttribute): IDifficulty {
@@ -82,6 +83,13 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
                break;
             default:
                basicEvents.push(basicEvent.deserialize(obj));
+         }
+      }
+
+      const preV25 = compareVersion(data._version || '2.0.0', '2.5.0');
+      if (preV25 < 0) {
+         for (let i = 0; i < basicEvents.length; i++) {
+            basicEvents[i].floatValue = 1;
          }
       }
 
