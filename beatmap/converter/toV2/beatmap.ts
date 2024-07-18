@@ -401,7 +401,7 @@ function fromV4(bm: IWrapBeatmap) {
    if (impossibleRotationEvt) {
       for (let i = 0; i < objects.length; i++) {
          const obj = objects[i];
-         if (obj.laneRotation) obj.customData.worldRotation = obj.laneRotation;
+         if (obj.laneRotation) obj.customData._rotation = obj.laneRotation;
       }
    } else {
       bm.rotationEvents = [];
