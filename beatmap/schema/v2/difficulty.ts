@@ -62,6 +62,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          }
       }
 
+      const preV25 = compareVersion(data._version || '2.0.0', '2.5.0');
       const basicEvents: Partial<IWrapEventAttribute>[] = [];
       const colorBoostEvents: Partial<IWrapColorBoostEventAttribute>[] = [];
       const rotationEvents: Partial<IWrapRotationEventAttribute>[] = [];
@@ -78,18 +79,21 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
                rotationEvents.push(rotationEvent.deserialize(obj));
                break;
             case 100:
-            case 10:
                bpmEvents.push(bpmEvent.deserialize(obj));
                break;
-            default:
-               basicEvents.push(basicEvent.deserialize(obj));
-         }
-      }
-
-      const preV25 = compareVersion(data._version || '2.0.0', '2.5.0');
-      if (preV25 < 0) {
-         for (let i = 0; i < basicEvents.length; i++) {
-            basicEvents[i].floatValue = 1;
+            default: {
+               const evt = basicEvent.deserialize(obj);
+               if (preV25 < 0) {
+                  if (obj._type === 10) {
+                     bpmEvents.push(bpmEvent.deserialize(obj));
+                  } else {
+                     evt.floatValue = 1;
+                     basicEvents.push(evt);
+                  }
+               } else {
+                  basicEvents.push(evt);
+               }
+            }
          }
       }
 
