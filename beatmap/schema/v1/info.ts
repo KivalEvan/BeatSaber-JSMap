@@ -3,7 +3,7 @@ import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapInfoAttribute } from '../../../types/beatmap/wrapper/info.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import { infoDifficulty } from './infoDifficulty.ts';
+import { infoBeatmap } from './infoBeatmap.ts';
 import type { EnvironmentName } from '../../../types/beatmap/shared/environment.ts';
 
 export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
@@ -17,7 +17,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          previewDuration: data.audio.previewDuration,
          coverImagePath: data.coverImageFilename,
          environmentName: data.environmentNames[0] as EnvironmentName,
-         difficultyLevels: data.difficulties.map(infoDifficulty.serialize),
+         difficultyLevels: data.difficulties.map(infoBeatmap.serialize),
          oneSaber: data.difficulties.some((m) => m.characteristic === 'OneSaber'),
          contributors: deepCopy(data.customData._contributors),
          customEnvironment: data.customData._customEnvironment,
@@ -42,7 +42,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          coverImageFilename: data.coverImagePath,
          environmentNames: [data.environmentName],
 
-         difficulties: data.difficultyLevels?.map(infoDifficulty.deserialize),
+         difficulties: data.difficultyLevels?.map(infoBeatmap.deserialize),
 
          customData: {
             _contributors: data.contributors,

@@ -11,7 +11,7 @@ import type {
    IWrapInfoColorScheme,
 } from '../../../types/beatmap/wrapper/info.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import { infoDifficulty } from './infoDifficulty.ts';
+import { infoBeatmap } from './infoBeatmap.ts';
 
 export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
    serialize(data: IWrapInfoAttribute): IInfo {
@@ -81,7 +81,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             }
             d.authors.mappers.forEach((e) => authorSet.add(e));
             d.authors.lighters.forEach((e) => authorSet.add(e));
-            found._difficultyBeatmaps!.push(infoDifficulty.serialize(d));
+            found._difficultyBeatmaps!.push(infoBeatmap.serialize(d));
             return set;
          }, [] as IInfoSet[]),
       };
@@ -175,7 +175,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          }),
          difficulties: data._difficultyBeatmapSets?.flatMap((set) =>
             set._difficultyBeatmaps?.map((diff) => {
-               const m = infoDifficulty.deserialize(diff);
+               const m = infoBeatmap.deserialize(diff);
                m.characteristic = set._beatmapCharacteristicName;
                m.authors = {
                   mappers: [data._levelAuthorName],

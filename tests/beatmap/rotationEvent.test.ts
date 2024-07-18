@@ -190,7 +190,7 @@ for (const tup of schemaList) {
                _type: 14,
                _value: 1360,
                _floatValue: 0,
-               _customData: { test: true },
+               _customData: { test: true, _rotation: 0 },
             });
             break;
          case v1.rotationEvent:
