@@ -2,7 +2,9 @@
 
 Current schema as of game version 1.37.1.
 
-> [!NOTE] Work-In-Progress: Will be further expanded.
+> [!NOTE]
+>
+> Work-In-Progress: Will be further expanded.
 
 ## Introduction
 
@@ -25,10 +27,36 @@ to save as version without any further context.
 
 As certain beatmap schema groups object differently between version, the module takes an approach to
 separate and group the object accordingly. It also takes an effort to interpret and convert any
-non-vanilla value to and from Mapping Extensions value upon serialisation and deserialisation for
-compatibility reason. This may cause issue for beatmap that uses invalid data value or abuses the
-quirk of the game. However, if you find anything that are not supposed to break or modified when
-using this module, please do report them.
+non-vanilla value to and from modded value upon serialisation and deserialisation for compatibility
+reason. This may cause issue for beatmap that uses invalid data value or abuses the quirk of the
+game. However, if you find anything that are not supposed to break or modified when using this
+module, please do report them.
+
+Upon save, certain data may be stripped or added than what was originally available within the core
+model. This is important to note as each version of the schema may only hold certain data that are
+compatible.
+
+## Notables
+
+### General
+
+- Environment does not require any version and can be loaded in any info and beatmap version
+  - Only beatmap version has to be compatible in order to fully light in said environment
+- Missing environment (old game version or mistyped name) will always default to
+  `DefaultEnvironment`
+- v3 environment can be lit with v2 beatmap so long the environment has available basic event
+
+### v2 Info
+
+- Able to load v2 and v3 beatmap
+- Unable to load v4 beatmap as it rely on v4 audio data which is present in v4 info.
+  - `BPMInfo.dat` is not read for this case.
+
+### v4 Info
+
+- Able to load v2 and v3 beatmap, alongside with the lightshow content without the need to provide
+  `BeatmapLightshowFile`
+  - v4 beatmap may also load without lightshow file but will show empty/static light
 
 ## Differences
 
@@ -86,7 +114,7 @@ Legend:
 | Event Types for Keywords               | ❌                           | ✅         | ✅                                       | ❌                                       |
 | Use Normal Events as Compatible Events | ❌                           | ✅         | ❌                                       | ❌                                       |
 
-\* BPM event are not affected nor added by v4 Info/Audio Data
+\* BPM events are not affected nor added by v4 Info/Audio Data
 
 ### Lightshow
 
@@ -97,7 +125,7 @@ Legend:
 
 ## Unused
 
-The following are removed or not used:
+The followings are removed or not used in the game:
 
 - v1
   - Info
