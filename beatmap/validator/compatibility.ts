@@ -1,13 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
-import logger from '../../../logger.ts';
-import type { BeatmapFileType } from '../../../types/beatmap/shared/schema.ts';
-import type { ICompatibilityOptions } from '../../../types/beatmap/options/compatibility.ts';
+import logger from '../../logger.ts';
+import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
+import type { ICompatibilityOptions } from '../../types/beatmap/options/compatibility.ts';
 import {
    audioDataCompatibilityMap,
    difficultyCompatibilityMap,
    infoCompatibilityMap,
    lightshowCompatibilityMap,
-} from '../../mapping/compatibility.ts';
+} from '../mapping/compatibility.ts';
 
 function tag(name: string): string[] {
    return ['validator', name];
