@@ -1,4 +1,4 @@
-import { resolve } from './deps.ts';
+import { path } from './path/main.ts';
 import logger from './logger.ts';
 
 function tag(str: string): string[] {
@@ -17,7 +17,7 @@ class Globals {
       return this.#directory;
    }
    set directory(value: string) {
-      value = resolve(value.trim());
+      value = path.resolve(value.trim());
       this.#directory = value;
       logger.tInfo(tag('directory'), `Global map directory is set to ${this.#directory}`);
    }

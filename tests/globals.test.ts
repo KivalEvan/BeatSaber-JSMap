@@ -1,13 +1,13 @@
-import { resolve } from '../deps.ts';
+import { path } from '../path/main.ts';
 import globals from '../globals.ts';
 import { assertEquals } from './deps.ts';
 
 Deno.test('Set global directory', () => {
    globals.directory = '';
-   assertEquals(globals.directory, resolve(''));
+   assertEquals(globals.directory, path.resolve(''));
 
    globals.directory = './start';
-   assertEquals(globals.directory, resolve('./start/'));
+   assertEquals(globals.directory, path.resolve('./start/'));
 });
 
 Deno.test('Set global log level', () => {

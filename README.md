@@ -32,7 +32,10 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 
 ## Prerequisite
 
-- Deno 1.42.0 or latest
+- ESM and TypeScript supported runtime
+  - Deno 1.45.2 or latest
+  - Bun 1.1.19 or latest
+  - NodeJS 20.15.1 or latest
 - Basic JavaScript or TypeScript knowledge
   - Module is entirely TypeScript, but for common use case you do not need in-depth knowledge.
 
@@ -116,9 +119,10 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 #### Coding
 
 - Top-level function shall use regular function
-- No third-party dependencies shall be used outside of examples, extensions, and tests (Exception
-  when absolutely necessary is Deno standard module)
+- No dependencies shall be used outside of examples, extensions, and tests
+  - Vendor dependency is allowed so long it gracefully handles every platform possible
 - Avoid circular imports
+- Avoid URL imports
 
 ## Planned
 

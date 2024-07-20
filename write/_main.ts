@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { saveBeatmap } from '../beatmap/saver/_main.ts';
-import { resolve } from '../deps.ts';
+import { path } from '../path/main.ts';
 import { writeJSONFile, writeJSONFileSync } from '../fs/_json.ts';
 import globals from '../globals.ts';
 import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
@@ -37,7 +37,7 @@ export function handleWrite<T extends Record<string, any>>(
    const opt = (typeof version !== 'number' ? version : options) ?? {};
    const json = saveBeatmap(type, data, ver, opt.save);
    return writeJSONFile(
-      resolve(
+      path.resolve(
          opt.directory ?? (globals.directory || defaultOptions.directory),
          opt.filename ??
             (getFileName(type, data) || defaultOptions.filename),
@@ -57,7 +57,7 @@ export function handleWriteSync<T extends Record<string, any>>(
    const opt = (typeof version !== 'number' ? version : options) ?? {};
    const json = saveBeatmap(type, data, ver, opt.save);
    writeJSONFileSync(
-      resolve(
+      path.resolve(
          opt.directory ?? (globals.directory || defaultOptions.directory),
          opt.filename ??
             (getFileName(type, data) || defaultOptions.filename),
