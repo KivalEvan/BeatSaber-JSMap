@@ -7,17 +7,16 @@
       "./patch": "./patch/mod.ts"
    },
    "lint": {
-      "exclude": [".git", "coverage", "npm", "tests", "example", "vendor"]
+      "exclude": [".git", "coverage", "tests", "example"]
    },
    "fmt": {
-      "exclude": [".git", "coverage", "npm", "vendor"],
+      "exclude": [".git", "coverage"],
       "indentWidth": 3,
       "lineWidth": 100,
       "singleQuote": true
    },
    "lock": false,
    "tasks": {
-      "npm": "deno run -A _build_npm.ts",
       "check": "deno check mod.ts && deno check extensions/mod.ts && deno check patch/mod.ts",
       "test": "deno task test:clean || true && deno task test:run && deno task test:coverage",
       "test:coverage": "deno coverage --html",

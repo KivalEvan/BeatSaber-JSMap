@@ -1,6 +1,6 @@
-# Beat Saber Deno
+# Beat Saber JS Map
 
-General-purpose Beat Saber beatmap scripting module using [Deno](https://deno.land/) with
+General-purpose Beat Saber beatmap scripting module with
 [TypeScript](https://www.typescriptlang.org/), fully-typed schema and flexible tool to ease
 scripting development surrounding beatmap.
 
@@ -32,52 +32,61 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 
 ## Prerequisite
 
-- ESM and TypeScript supported runtime
+- ESM and TypeScript supported runtime or transpiler
   - Deno 1.45.2 or latest
   - Bun 1.1.19 or latest
   - NodeJS 20.15.1 or latest
+  - Vite 5.3.4 with TS or latest
 - Basic JavaScript or TypeScript knowledge
   - Module is entirely TypeScript, but for common use case you do not need in-depth knowledge.
 
 ## Getting Started
 
-To get started, simply create a `.ts` file anywhere, preferably inside map folder for simpler setup,
-import the module and arbitrary code, then run the script. That's it, no installation needed. Do
-check out the [example folder](./example) for templates you can use and read
+Before you start, you may want to understand how Beat Saber stores the
+[beatmap data here](./BEATMAP.md).
+
+To get scripting, simply create a `.ts` file anywhere, preferably inside map folder for simpler
+setup, import the module and arbitrary code, then run the script. That's it, no installation needed.
+Do check out the [example folder](./example) for templates you can use and read
 [the guide](./example/README.md) for more detail.
 
 The bare minimum example:
 
 ```ts
-// ./Beat Saber/Beat_Saber Data/CustomWIPLevels/MAP_FOLDER/script.ts
+// inside of ./Beat Saber/Beat_Saber Data/CustomWIPLevels/MAP_FOLDER/script.ts
+// for Deno:
 import * as bsmap from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
+// for anything else:
+import * as bsmap from 'bsmap'; // via NPM or import map
 
 const data = bsmap.readDifficultyFileSync('ExpertPlusStandard.dat', 4);
 
 // ... code to modify difficulty data
 
-bsmap.writeBeatmapFileSync(data, 4);
+bsmap.writeDifficultyFileSync(data, 4);
 ```
 
 > [!TIP]
 >
 > Recommended to lock version to ensure the script works without breaking from newer update. For
-> rolling release, visit [GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw
-> file directly from there
+> rolling release, visit [GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and download
+> source or import raw file directly from there
 > (`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`), you may need to
-> occasionally add `--reload` tag for latest update.
+> occasionally reload for latest update.
 
 You may also clone the module to store and import locally, and make any modification as you wish.
 
-If you are using the script outside of map directory, you can specify the map directory without the
-need to explicitly apply `directory` on IO function. This can be any valid directory as long as it
-points to directory.
+If you are using the script outside of the map directory, you can specify the map directory without
+the need to explicitly apply `directory` on IO function. This can be any valid directory as long as
+it points to directory.
 
 ```ts
 bsmap.globals.directory = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 ```
 
 ## Usage
+
+### Deno
 
 Run the script by running this command in terminal `deno run yourscriptpath.ts`. For more advanced
 use, you may do, as an example, `deno run --allow-read --allow-write --watch yourscriptpath.ts` to

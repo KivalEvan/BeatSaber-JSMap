@@ -1,16 +1,16 @@
-// deno-lint-ignore-file require-await no-explicit-any
+// deno-lint-ignore-file no-explicit-any
 import type { IFileSystem } from '../types/bsmap/_fs.ts';
 
 function noFsFunctionProvided(): never {
    throw new Error(
-      '`fs` function not provided; please supply an `fs` function inside the `fs` object from the module',
+      '`fs` function not provided; please supply `fs` function inside the `fs` object from the module',
    );
 }
 
 export const fs: IFileSystem = {
-   readTextFile: async () => noFsFunctionProvided(),
+   readTextFile: noFsFunctionProvided,
    readTextFileSync: noFsFunctionProvided,
-   writeTextFile: async () => noFsFunctionProvided(),
+   writeTextFile: noFsFunctionProvided,
    writeTextFileSync: noFsFunctionProvided,
 };
 
@@ -29,8 +29,13 @@ if (typeof Deno !== 'undefined') {
    typeof Bun !== 'undefined' ||
    (typeof process !== 'undefined' && process.release.name === 'node')
 ) {
-   const { readFileSync, writeFileSync } = await import('node:fs');
-   const { readFile, writeFile } = await import('node:fs/promises');
+   const obj = await import('node:fs');
+   const objp = await import('node:fs/promises');
+
+   const readFile = objp?.readFile ? objp.readFile : noFsFunctionProvided;
+   const readFileSync = obj?.readFileSync ? obj.readFileSync : noFsFunctionProvided;
+   const writeFile = objp?.writeFile ? objp.writeFile : noFsFunctionProvided;
+   const writeFileSync = obj?.writeFileSync ? obj.writeFileSync : noFsFunctionProvided;
 
    fs.readTextFile = (path: string): Promise<string> => {
       return readFile(path, 'utf8');
@@ -42,6 +47,6 @@ if (typeof Deno !== 'undefined') {
       return writeFile(path, data, 'utf8');
    };
    fs.writeTextFileSync = (path: string, data: string): void => {
-      writeFileSync(path, data, 'utf8');
+      return writeFileSync(path, data, 'utf8');
    };
 }

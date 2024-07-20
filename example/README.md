@@ -1,9 +1,12 @@
 # Guide
 
-The following is a guide on how to use Beat Saber Deno, referred as `bsmap` for simpler term. If you
-are familiar with basic JavaScript or new to TypeScript, this should be very familiar as it is about
-what you expect it to do like a regular scripting. This does not cover everything but enough to get
-good grasp at what it does.
+The following is a guide on how to use Beat Saber JS Map, referred as `bsmap` for simpler term. If
+you are familiar with basic JavaScript or new to TypeScript, this should be very familiar as it is
+about what you expect it to do like a regular scripting. This does not cover everything but enough
+to get good grasp at what it does.
+
+For this guide, I will be using `Deno` as my main workflow. Generally, it should be the same across
+any other runtime, only differences is the import.
 
 ## Examples
 
@@ -18,21 +21,12 @@ add the following on top of the script. No additional file or setup needed, it j
 
 ```ts
 // be sure to check for latest version on 'bsmap@version'
-import * as bsmap from 'https://deno.land/x/bsmap@1.6.0/mod.ts';
+// for Deno:
+import * as bsmap from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
+
+// for anything else:
+import * as bsmap from 'bsmap'; // via NPM or import map
 ```
-
-> [!NOTE]
->
-> **For first timer:** Make sure to initialise Deno workspace before using the script. If you
-> encounter import error, you can ignore and run the (empty) script then it will automatically fetch
-> the URL for you. Alternatively, `Alt+.` on the error message may reveal fix problem solution. If
-> you are having issue of not being able to retrieve module, then cache or reload the module to fix
-> it. To reload or cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno
-> server if necessary. If it still does not work, change to a different workspace.
-
-For rolling release, visit [GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and import raw
-file directly from there (`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`),
-you may need to occasionally add `--reload` tag for latest update.
 
 ## Namespaces
 
@@ -41,11 +35,11 @@ destructuring can be used to obtain certain variables and functions. Helpful tip
 to show list of available variables and functions.
 
 ```ts
-import { deepCopy, load, pRandom, save, v3 } from 'https://deno.land/x/bsmap@1.6.0/mod.ts';
+import { deepCopy, pRandom } from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
 ```
 
-List of available namespaces from root are `load`, `save`, `v2`, `v3`, `globals`, `convert`,
-`optimize`, `logger`, and `types`. Nested namespace is to be expected on an obscure area.
+List of available namespaces from root are `globals`, `logger`, and `types`. Nested namespace is to
+be expected on an obscure area.
 
 ## Loading & Saving
 
@@ -53,31 +47,33 @@ To load & save the beatmap, a function is used to parse, validate, and optimise 
 and difficulty file.
 
 ```ts
-const info = load.infoSync(); // not required
+const info = readInfoFileSync(); // not required
 
 // undefined version, return base wrapper class
 // can be either version 1, 2, 3 or 4
 // pass it to isV4 or similar function for type predicate
 // or use `instanceof` operator
-const data = load.difficultySync('HardStandard.dat');
+const data = readDifficultyFileSync('HardStandard.dat');
 
 // explicit version, return (and convert to) difficulty version
-const data2 = await load.difficulty('ExpertStandard.dat', 2, {
+await readDifficultyFile('ExpertStandard.dat', 2, {
    directory: '/somewhere/else',
+}).then(() => {
+   /* do something */
 }); // advanced use
 ```
 
 ```ts
-save.infoSync(info);
+writeInfoFileSync(info);
 
-save.difficultySync(data);
-await save.difficulty(data2, {
+writeDifficultyFileSync(data);
+await writeDifficultyFile(data2, {
    directory: '/somewhere/else',
    filePath: 'overrideName.dat',
 }); // advanced use
 ```
 
-Difficulty filename is saved directly in difficulty class, as with info, lightshow, and any other
+Difficulty filename is saved directly in beatmap class, as with info, lightshow, and any other
 writable object, and can be changed.
 
 ```ts
@@ -118,17 +114,16 @@ as difficulty and index filter. Alternatively, if you prefer just a single objec
 may use constructor method.
 
 ```ts
-const bomb = v3.BombNote.create();
-const event = new v3.BasicEvent();
-const notes = v3.ColorNote.create(
+const bomb = BombNote.create(); // [bombData]
+const event = new BasicEvent(); // eventData
+const notes = ColorNote.create(
    {},
    {
       time: 2,
       posX: 1,
       posY: 0,
    },
-);
-const obstacle = v3.Obstacle.fromJSON({ b: 1, h: 1, w: 1, d: 1 });
+); // [noteData1, noteData2]
 data.colorNotes.push(...notes);
 ```
 
@@ -146,7 +141,7 @@ In modcharting, cloning is often used to create certain effect. This method can 
 existing object without referencing the original.
 
 ```ts
-const original = v3.ColorNotes.create()[0];
+const original = ColorNote.create()[0];
 const cloned = original.clone(); // new object with same property as original without reference
 ```
 
@@ -170,12 +165,12 @@ The library provide constant variables in form of `PascalCase` or `SCREAMING_SNA
 used to make your script slightly more readable but it is not necessarily needed.
 
 ```ts
-const note = v3.ColorNotes.fromJSON({
-   b: 24,
-   c: NoteColor.RED,
-   d: NoteDirection.ANY,
-   x: PositionX.MIDDLE_LEFT,
-   y: PositionY.BOTTOM,
+const note = new ColorNote({
+   time: 24,
+   color: NoteColor.RED,
+   direction: NoteDirection.ANY,
+   posX: PositionX.MIDDLE_LEFT,
+   posY: PositionY.BOTTOM,
 });
 
 data.addBasicEvents({
@@ -192,15 +187,15 @@ third-party library. This provides plentiful of helpers that may be useful for m
 other purposes.
 
 ```ts
-import * as chroma from 'https://deno.land/x/bsmap@1.6.0/extensions/chroma/mod.ts';
-import * as NE from 'https://deno.land/x/bsmap@1.6.0/extensions/NE/mod.ts';
-import * as selector from 'https://deno.land/x/bsmap@1.6.0/extensions/selector/mod.ts';
+import * as chroma from 'https://deno.land/x/bsmap@2.0.0/extensions/chroma/mod.ts';
+import * as NE from 'https://deno.land/x/bsmap@2.0.0/extensions/NE/mod.ts';
+import * as selector from 'https://deno.land/x/bsmap@2.0.0/extensions/selector/mod.ts';
 ```
 
 If you wish to import all of them, do as following:
 
 ```ts
-import * as ext from 'https://deno.land/x/bsmap@1.6.0/extensions/mod.ts';
+import * as ext from 'https://deno.land/x/bsmap@2.0.0/extensions/mod.ts';
 ```
 
 ## Patch
@@ -209,7 +204,7 @@ This module is not included as it is very rarely used and unstable. It contains 
 fix and alter beatmap objects that were potentially broken or contain incompatible data.
 
 ```ts
-import * as patch from 'https://deno.land/x/bsmap@1.6.0/patch/mod.ts';
+import * as patch from 'https://deno.land/x/bsmap@2.0.0/patch/mod.ts';
 ```
 
 ## Addendum
@@ -222,14 +217,14 @@ purpose.
 
 ```ts
 // deps.ts
-export * from 'https://deno.land/x/bsmap@1.6.0/mod.ts';
-export * as ext from 'https://deno.land/x/bsmap@1.6.0/extensions/mod.ts';
+export * from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
+export * as ext from 'https://deno.land/x/bsmap@2.0.0/extensions/mod.ts';
 ```
 
 ```ts
 // map.ts
 import * as bsmap from './deps.ts';
-import { types, v3 } from './deps.ts';
+import { readDifficultyFileSync, types } from './deps.ts';
 ```
 
 ### Typing
@@ -239,11 +234,11 @@ used extensively in the library and is encouraged to explore further into it by 
 casting. This is an intermediate knowledge of TypeScript but should be relatively easy to grasp.
 
 ```ts
-const event = [
-   { c: 2 },
-   { b: 0.25, s: 0, i: 1 },
-] as Partial<types.v3.LightColorBase>[];
-data.addLightColorEventBoxGroup({ e: [{ e: event }] });
+const events = [
+   { color: 2 },
+   { time: 0.25, brightness: 0, easing: 1 },
+] as Partial<types.wrapper.ILightColorEvent>[];
+data.addLightColorEventBoxGroup({ boxes: [{ events: events }] });
 ```
 
 ### Logger
@@ -253,10 +248,10 @@ can show and hide logging based on level.
 
 ```ts
 bsmap.logger.setLevel(5); // completely hidden logging
-bsmap.load.difficultySync('Test.dat');
+bsmap.readDifficultyFileSync('Test.dat');
 
 bsmap.logger.setLevel(0); // verbose mode logging
-bsmap.load.difficultySync('Test.dat');
+bsmap.readDifficultyFileSync('Test.dat');
 
 bsmap.logger.setLevel(2); // default info logging
 ```
@@ -267,10 +262,15 @@ If you prefer to script the old-fashioned way but would like to keep strong-type
 possible but you may lose the ability to use certain utilities built around it.
 
 ```ts
-const difficulty = load.difficultySync('ExpertPlusStandard.dat').toJSON();
-const difficultyJSON = JSON.parse(
-   Deno.readTextFileSync('ExpertPlusStandard.dat'),
-) as types.v3.IDifficulty; // unsafe
+// safe way - processed data
+const difficultyJSON1 = saveDifficulty<types.v3.IDifficulty>(
+   readDifficultyFileSync('ExpertPlusStandard.dat', 3),
+   3,
+);
+// unsafe way - raw data
+const difficultyJSON2 = JSON.parse(
+   readTextFileSync('ExpertPlusStandard.dat'),
+) as types.v3.IDifficulty;
 ```
 
 ### Practices
@@ -300,8 +300,8 @@ behaviour (such as performance), but overall it is very easy to make this mistak
 understood what you are doing, you can ignore this.
 
 ```ts
-const lightshow = load.difficultySync('Lightshow.dat', 3);
-const map = load.difficultySync('ExpertStandard.dat', 3);
+const lightshow = readDifficultyFileSync('Lightshow.dat', 3);
+const map = readDifficultyFileSync('ExpertStandard.dat', 3);
 
 // DON'T - 1
 map.basicEvents = lightshow.basicEvents;
@@ -317,29 +317,4 @@ map.basicEvents = lightshow.basicEvents.map((e) => e.clone()); // this correctly
 
 // DO - 2
 map.addBasicEvents(...lightshow.basicEvents);
-```
-
-##### Mismatched Class Object Version
-
-Without explicit versioning, it is possible to insert mismatched class version. However, the module
-has special guard-rail that reparse the object to their respective class version and is by default
-on save. It can be explicitly called to reparse the object when needed.
-
-```ts
-const v3map = load.difficultySync('v3map.dat');
-const v2map = load.difficultySync('v2map.dat');
-
-// DON'T
-// this causes v2 note class behaviour to appear in v3 map
-// and may be inconsistent when handling note property
-v3map.colorNotes = v2map.colorNotes;
-
-// DO
-// it copies the object to corresponding map version
-v3map.addColorNotes(...v2map.colorNotes);
-
-// ALTERNATIVE SOLUTION
-// this reparse all objects in this difficulty to respective version,
-// the process may be slow depending on amount of objects
-v3map.reparse();
 ```

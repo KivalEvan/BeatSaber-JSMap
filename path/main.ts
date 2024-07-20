@@ -3,7 +3,7 @@ import type { IPath } from '../types/bsmap/_path.ts';
 
 function noPathFunctionProvided(): never {
    throw new Error(
-      '`path` function not provided; please supply an `path` function inside the `path` object from the module',
+      '`path` function not provided; please supply `path` function inside the `path` object from the module',
    );
 }
 
@@ -22,6 +22,6 @@ if (
    (typeof process !== 'undefined' && process.release.name === 'node')
 ) {
    const obj = await import('node:path');
-   path.resolve = obj.resolve || noPathFunctionProvided;
-   path.basename = obj.basename || noPathFunctionProvided;
+   path.resolve = obj?.resolve || noPathFunctionProvided;
+   path.basename = obj?.basename || noPathFunctionProvided;
 }
