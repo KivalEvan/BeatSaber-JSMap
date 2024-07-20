@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 [2024-06-##]
+## 2.0.0 [2024-07-##]
 
 ### Added
 
@@ -20,6 +20,8 @@
   - Loading and saving will now use `Beatmap` object rather than individual class above
   - `customData` under `Beatmap` will be placed onto but not replacing existing `customData` object
     in `Difficulty` and `Lightshow` upon save
+- Compatibility check on save
+- Several beatmap helpers
 - Gaussian random using Box-Muller transform utils function
 
 ### Changed
@@ -37,8 +39,6 @@
 
 ### Removed
 
-- Ability to read/write files from load/save function
-  - The file data should be supplied by respective vendor (Node.js, Deno, Bun, Browser, etc.)
-  - This is done to allow compatibility on every platform
 - Several leftover/dead code that could lead to confusion
 - Default value and deep copy omitted when deserialize
+  - This will instead be done inside `core` beatmap
