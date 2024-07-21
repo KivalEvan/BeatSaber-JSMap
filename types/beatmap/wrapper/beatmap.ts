@@ -88,4 +88,13 @@ export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): this;
    addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): this;
+
+   /**
+    * This custom data does not contain the actual custom data from difficulty file, rather an arbitrary placement.
+    *
+    * If you need to handle custom data from actual beatmap, use `customData` inside `data` instead.
+    *
+    * @deprecated this is used as a warning, unless you know what you are doing.
+    */
+   customData: ICustomDataBase;
 }
