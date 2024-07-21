@@ -4,7 +4,7 @@ import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 import type { IWrapIndexFilter, IWrapIndexFilterAttribute } from './indexFilter.ts';
 
-export interface IWrapEventBoxAttribute extends IWrapBaseItemAttribute {
+export interface IWrapBasicEventBoxAttribute extends IWrapBaseItemAttribute {
    /** Index filter of event box. */
    filter: IWrapIndexFilterAttribute;
    /** Beat distribution `<float>` of event box. */
@@ -24,12 +24,12 @@ export interface IWrapEventBoxAttribute extends IWrapBaseItemAttribute {
    events: IWrapBaseObjectAttribute[];
 }
 
-export interface IWrapEventBox extends IWrapBaseItem, IWrapEventBoxAttribute {
+export interface IWrapBasicEventBox extends IWrapBaseItem, IWrapBasicEventBoxAttribute {
    events: IWrapBaseObject[];
 
    setFilter(value: IWrapIndexFilter): this;
-   setBeatDistribution(value: IWrapEventBox['beatDistribution']): this;
-   setBeatDistributionType(value: IWrapEventBox['beatDistributionType']): this;
-   setEasing(value: IWrapEventBox['easing']): this;
+   setBeatDistribution(value: IWrapBasicEventBox['beatDistribution']): this;
+   setBeatDistributionType(value: IWrapBasicEventBox['beatDistributionType']): this;
+   setEasing(value: IWrapBasicEventBox['easing']): this;
    setEvents(value: number[] | IWrapBaseObject[]): this;
 }

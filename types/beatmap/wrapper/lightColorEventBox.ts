@@ -1,8 +1,8 @@
 import type { DistributionType } from '../shared/constants.ts';
-import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
+import type { IWrapBasicEventBox, IWrapBasicEventBoxAttribute } from './eventBox.ts';
 import type { IWrapLightColorEvent, IWrapLightColorEventAttribute } from './lightColorEvent.ts';
 
-export interface IWrapLightColorEventBoxAttribute extends IWrapEventBoxAttribute {
+export interface IWrapLightColorEventBoxAttribute extends IWrapBasicEventBoxAttribute {
    /**
     * Brightness distribution `<float>` of light color event box.
     *
@@ -20,7 +20,8 @@ export interface IWrapLightColorEventBoxAttribute extends IWrapEventBoxAttribute
    events: IWrapLightColorEventAttribute[];
 }
 
-export interface IWrapLightColorEventBox extends IWrapEventBox, IWrapLightColorEventBoxAttribute {
+export interface IWrapLightColorEventBox
+   extends IWrapBasicEventBox, IWrapLightColorEventBoxAttribute {
    events: IWrapLightColorEvent[];
 
    setBrightnessDistribution(

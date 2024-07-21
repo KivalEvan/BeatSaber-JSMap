@@ -1,12 +1,12 @@
 import type { DistributionType } from '../shared/constants.ts';
 import type { Axis } from '../shared/constants.ts';
-import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
+import type { IWrapBasicEventBox, IWrapBasicEventBoxAttribute } from './eventBox.ts';
 import type {
    IWrapLightRotationEvent,
    IWrapLightRotationEventAttribute,
 } from './lightRotationEvent.ts';
 
-export interface IWrapLightRotationEventBoxAttribute extends IWrapEventBoxAttribute {
+export interface IWrapLightRotationEventBoxAttribute extends IWrapBasicEventBoxAttribute {
    /** Rotation distribution `<float>` of light rotation event box. */
    rotationDistribution: number;
    /**
@@ -32,7 +32,7 @@ export interface IWrapLightRotationEventBoxAttribute extends IWrapEventBoxAttrib
 }
 
 export interface IWrapLightRotationEventBox
-   extends IWrapEventBox, IWrapLightRotationEventBoxAttribute {
+   extends IWrapBasicEventBox, IWrapLightRotationEventBoxAttribute {
    events: IWrapLightRotationEvent[];
 
    setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']): this;

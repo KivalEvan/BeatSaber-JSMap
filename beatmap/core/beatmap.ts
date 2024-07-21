@@ -1,5 +1,8 @@
-import type { IWrapEvent, IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
-import type { IWrapEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
+import type {
+   IWrapBasicEvent,
+   IWrapBasicEventAttribute,
+} from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBasicEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
 import type {
    IWrapBombNote,
    IWrapBombNoteAttribute,
@@ -157,7 +160,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    set waypoints(value: this['waypoints']) {
       this.lightshow.waypoints = value;
    }
-   get basicEvents(): IWrapEvent[] {
+   get basicEvents(): IWrapBasicEvent[] {
       return this.lightshow.basicEvents;
    }
    set basicEvents(value: this['basicEvents']) {
@@ -193,7 +196,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    set fxEventBoxGroups(value: this['fxEventBoxGroups']) {
       this.lightshow.fxEventBoxGroups = value;
    }
-   get eventTypesWithKeywords(): IWrapEventTypesWithKeywords {
+   get eventTypesWithKeywords(): IWrapBasicEventTypesWithKeywords {
       return this.lightshow.eventTypesWithKeywords;
    }
    set eventTypesWithKeywords(value: this['eventTypesWithKeywords']) {
@@ -255,7 +258,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       this.lightshow.addWaypoints(...data);
       return this;
    }
-   addBasicEvents(...data: DeepPartialIgnore<IWrapEventAttribute, 'customData'>[]): this {
+   addBasicEvents(...data: DeepPartialIgnore<IWrapBasicEventAttribute, 'customData'>[]): this {
       this.lightshow.addBasicEvents(...data);
       return this;
    }

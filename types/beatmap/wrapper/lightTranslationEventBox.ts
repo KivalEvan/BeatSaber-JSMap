@@ -1,12 +1,12 @@
 import type { Axis } from '../shared/constants.ts';
 import type { DistributionType } from '../shared/constants.ts';
-import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
+import type { IWrapBasicEventBox, IWrapBasicEventBoxAttribute } from './eventBox.ts';
 import type {
    IWrapLightTranslationEvent,
    IWrapLightTranslationEventAttribute,
 } from './lightTranslationEvent.ts';
 
-export interface IWrapLightTranslationEventBoxAttribute extends IWrapEventBoxAttribute {
+export interface IWrapLightTranslationEventBoxAttribute extends IWrapBasicEventBoxAttribute {
    /** Translation distribution `<float>` of light translation event box. */
    gapDistribution: number;
    /**
@@ -32,7 +32,7 @@ export interface IWrapLightTranslationEventBoxAttribute extends IWrapEventBoxAtt
 }
 
 export interface IWrapLightTranslationEventBox
-   extends IWrapEventBox, IWrapLightTranslationEventBoxAttribute {
+   extends IWrapBasicEventBox, IWrapLightTranslationEventBoxAttribute {
    events: IWrapLightTranslationEvent[];
 
    setGapDistribution(value: IWrapLightTranslationEventBox['gapDistribution']): this;

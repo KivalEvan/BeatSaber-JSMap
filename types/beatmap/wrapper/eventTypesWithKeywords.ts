@@ -1,13 +1,14 @@
 import type {
-   IWrapEventTypesForKeywords,
-   IWrapEventTypesForKeywordsAttribute,
+   IWrapBasicEventTypesForKeywords,
+   IWrapBasicEventTypesForKeywordsAttribute,
 } from './eventTypesForKeywords.ts';
 
-export interface IWrapEventTypesWithKeywordsAttribute {
+export interface IWrapBasicEventTypesWithKeywordsAttribute {
    /** Data list of event types with keywords. */
-   list: IWrapEventTypesForKeywordsAttribute[];
+   list: IWrapBasicEventTypesForKeywordsAttribute[];
 }
 
-export interface IWrapEventTypesWithKeywords extends IWrapEventTypesWithKeywordsAttribute {
-   list: IWrapEventTypesForKeywords[];
+export interface IWrapBasicEventTypesWithKeywords
+   extends IWrapBasicEventTypesWithKeywordsAttribute {
+   list: IWrapBasicEventTypesForKeywords[];
 }

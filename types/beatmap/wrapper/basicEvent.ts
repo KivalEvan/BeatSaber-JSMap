@@ -2,7 +2,7 @@ import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts'
 import type { EnvironmentAllName } from '../shared/environment.ts';
 import type { ICustomDataEvent } from './custom/event.ts';
 
-export interface IWrapEventAttribute extends IWrapBaseObjectAttribute {
+export interface IWrapBasicEventAttribute extends IWrapBaseObjectAttribute {
    /**
     * Event type `<int>` of basic event.
     * ```ts
@@ -41,7 +41,8 @@ export interface IWrapEventAttribute extends IWrapBaseObjectAttribute {
    customData: ICustomDataEvent;
 }
 
-export interface IWrapEvent extends Omit<IWrapBaseObject, 'customData'>, IWrapEventAttribute {
+export interface IWrapBasicEvent
+   extends Omit<IWrapBaseObject, 'customData'>, IWrapBasicEventAttribute {
    setCustomData(object: this['customData']): this;
    addCustomData(object: this['customData']): this;
 

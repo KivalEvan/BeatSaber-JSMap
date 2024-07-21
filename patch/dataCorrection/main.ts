@@ -3,7 +3,7 @@ import { fixBoolean, fixFloat, fixInt } from './helpers.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
-import type { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
+import type { IWrapBasicEventAttribute } from '../../types/beatmap/wrapper/basicEvent.ts';
 import type { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
 import type { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import type { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
@@ -11,7 +11,7 @@ import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEven
 import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
 import { ColorNote } from '../../beatmap/core/colorNote.ts';
 import { Obstacle } from '../../beatmap/core/obstacle.ts';
-import { BasicEvent } from '../../beatmap/core/event.ts';
+import { BasicEvent } from '../../beatmap/core/basicEvent.ts';
 import { Waypoint } from '../../beatmap/core/waypoint.ts';
 import { Arc } from '../../beatmap/core/arc.ts';
 import { RotationEvent } from '../../beatmap/core/rotationEvent.ts';
@@ -192,7 +192,7 @@ function fixWaypoint(obj: IWrapWaypointAttribute): void {
    obj.direction = fixInt(obj.direction, Waypoint.defaultValue.direction);
 }
 
-function fixBasicEvent(obj: IWrapEventAttribute): void {
+function fixBasicEvent(obj: IWrapBasicEventAttribute): void {
    obj.time = fixFloat(obj.time, BasicEvent.defaultValue.time);
    obj.type = fixInt(obj.type, BasicEvent.defaultValue.type);
    obj.value = fixInt(obj.value, BasicEvent.defaultValue.value);

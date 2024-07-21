@@ -1,5 +1,8 @@
-import type { IWrapEvent, IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
-import type { IWrapEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
+import type {
+   IWrapBasicEvent,
+   IWrapBasicEventAttribute,
+} from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBasicEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
 import type {
    IWrapColorBoostEvent,
    IWrapColorBoostEventAttribute,
@@ -32,7 +35,7 @@ import type {
 } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
 import { sortObjectFn } from '../helpers/sort.ts';
 import { Waypoint } from './waypoint.ts';
-import { BasicEvent } from './event.ts';
+import { BasicEvent } from './basicEvent.ts';
 import { ColorBoostEvent } from './colorBoostEvent.ts';
 import { LightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
@@ -116,13 +119,13 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
    }
 
    waypoints: IWrapWaypoint[];
-   basicEvents: IWrapEvent[];
+   basicEvents: IWrapBasicEvent[];
    colorBoostEvents: IWrapColorBoostEvent[];
    lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
-   eventTypesWithKeywords: IWrapEventTypesWithKeywords;
+   eventTypesWithKeywords: IWrapBasicEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
 
    sort(): this {
@@ -183,7 +186,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addBasicEvents(
-      ...data: DeepPartialIgnore<IWrapEventAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<IWrapBasicEventAttribute, 'customData'>[]
    ): this {
       for (const d of data) {
          this.basicEvents.push(new BasicEvent(d));

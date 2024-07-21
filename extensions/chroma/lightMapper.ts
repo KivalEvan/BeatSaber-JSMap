@@ -13,7 +13,7 @@ import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import { BasicEvent } from '../../beatmap/core/event.ts';
+import { BasicEvent } from '../../beatmap/core/basicEvent.ts';
 import { ColorBoostEvent } from '../../beatmap/core/colorBoostEvent.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 

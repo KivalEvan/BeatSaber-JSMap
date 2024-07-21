@@ -1,21 +1,21 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ISpecialEventsKeywordFilters } from '../../../types/beatmap/v2/specialEventsKeywordFilters.ts';
-import type { IWrapEventTypesWithKeywordsAttribute } from '../../../types/beatmap/wrapper/mod.ts';
+import type { IWrapBasicEventTypesWithKeywordsAttribute } from '../../../types/beatmap/wrapper/mod.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import { eventTypesForKeywords } from './eventTypesForKeywords.ts';
 
 export const eventTypesWithKeywords: ISchemaContainer<
-   IWrapEventTypesWithKeywordsAttribute,
+   IWrapBasicEventTypesWithKeywordsAttribute,
    ISpecialEventsKeywordFilters
 > = {
-   serialize(data: IWrapEventTypesWithKeywordsAttribute): ISpecialEventsKeywordFilters {
+   serialize(data: IWrapBasicEventTypesWithKeywordsAttribute): ISpecialEventsKeywordFilters {
       return {
          _keywords: data.list.map(eventTypesForKeywords.serialize),
       };
    },
    deserialize(
       data: DeepPartial<ISpecialEventsKeywordFilters> = {},
-   ): DeepPartial<IWrapEventTypesWithKeywordsAttribute> {
+   ): DeepPartial<IWrapBasicEventTypesWithKeywordsAttribute> {
       return {
          list: data._keywords?.map(eventTypesForKeywords.deserialize),
       };

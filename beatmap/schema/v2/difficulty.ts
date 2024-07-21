@@ -9,7 +9,7 @@ import type { IWrapColorBoostEventAttribute } from '../../../types/beatmap/wrapp
 import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
 import type { IWrapBPMEventAttribute } from '../../../types/beatmap/wrapper/bpmEvent.ts';
 import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapEventAttribute } from '../../../types/beatmap/wrapper/event.ts';
+import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
@@ -63,7 +63,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       }
 
       const preV25 = compareVersion(data._version || '2.0.0', '2.5.0');
-      const basicEvents: Partial<IWrapEventAttribute>[] = [];
+      const basicEvents: Partial<IWrapBasicEventAttribute>[] = [];
       const colorBoostEvents: Partial<IWrapColorBoostEventAttribute>[] = [];
       const rotationEvents: Partial<IWrapRotationEventAttribute>[] = [];
       const bpmEvents: Partial<IWrapBPMEventAttribute>[] = [];

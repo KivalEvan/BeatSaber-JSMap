@@ -1,21 +1,24 @@
 import { BaseObject } from './abstract/baseObject.ts';
-import type { IWrapEvent, IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
+import type {
+   IWrapBasicEvent,
+   IWrapBasicEventAttribute,
+} from '../../types/beatmap/wrapper/basicEvent.ts';
 import { EventType } from '../shared/constants.ts';
 import { EventLightValue } from '../shared/constants.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
-export class BasicEvent extends BaseObject implements IWrapEvent {
-   static defaultValue: Required<IWrapEventAttribute> = {
+export class BasicEvent extends BaseObject implements IWrapBasicEvent {
+   static defaultValue: Required<IWrapBasicEventAttribute> = {
       time: 0,
       type: 0,
       value: 0,
       floatValue: 0,
       customData: {},
    };
-   static create(...data: Partial<IWrapEventAttribute>[]): BasicEvent[] {
+   static create(...data: Partial<IWrapBasicEventAttribute>[]): BasicEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapEventAttribute> = {}) {
+   constructor(data: Partial<IWrapBasicEventAttribute> = {}) {
       super();
       this.time = data.time ?? BasicEvent.defaultValue.time;
       this.type = data.type ?? BasicEvent.defaultValue.type;
@@ -39,9 +42,9 @@ export class BasicEvent extends BaseObject implements IWrapEvent {
          !(!this.isLaserRotationEvent() && this.value > 12 && !this.isOldChroma());
    }
 
-   type: IWrapEvent['type'];
-   value: IWrapEvent['value'];
-   floatValue: IWrapEvent['floatValue'];
+   type: IWrapBasicEvent['type'];
+   value: IWrapBasicEvent['value'];
+   floatValue: IWrapBasicEvent['floatValue'];
 
    setType(value: this['type']): this {
       this.type = value;

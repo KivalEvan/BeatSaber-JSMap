@@ -1,8 +1,8 @@
 import type { DistributionType } from '../shared/constants.ts';
-import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
+import type { IWrapBasicEventBox, IWrapBasicEventBoxAttribute } from './eventBox.ts';
 import type { IWrapFxEventFloat, IWrapFxEventFloatAttribute } from './fxEventFloat.ts';
 
-export interface IWrapFxEventBoxAttribute extends IWrapEventBoxAttribute {
+export interface IWrapFxEventBoxAttribute extends IWrapBasicEventBoxAttribute {
    /** FX distribution `<float>` of FX event box. */
    fxDistribution: number;
    /**
@@ -17,7 +17,7 @@ export interface IWrapFxEventBoxAttribute extends IWrapEventBoxAttribute {
    events: IWrapFxEventFloatAttribute[];
 }
 
-export interface IWrapFxEventBox extends IWrapEventBox, IWrapFxEventBoxAttribute {
+export interface IWrapFxEventBox extends IWrapBasicEventBox, IWrapFxEventBoxAttribute {
    events: IWrapFxEventFloat[];
 
    setFxDistribution(value: IWrapFxEventBox['fxDistribution']): this;
