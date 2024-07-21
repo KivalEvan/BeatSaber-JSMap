@@ -1,4 +1,9 @@
-import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type {
+   Environment360Name,
+   EnvironmentAllName,
+   EnvironmentName,
+   EnvironmentV3Name,
+} from '../../types/beatmap/shared/environment.ts';
 import type {
    IWrapInfo,
    IWrapInfoAttribute,
@@ -38,13 +43,19 @@ export class Info extends BaseItem implements IWrapInfo {
       },
       songPreviewFilename: '',
       coverImageFilename: '',
+      environmentBase: {
+         normal: null,
+         allDirections: null,
+      },
       environmentNames: [],
       colorSchemes: [],
       difficulties: [],
       customData: {},
    };
 
-   static create(...data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'>[]): Info[] {
+   static create(
+      ...data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'>[]
+   ): Info[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'> = {}) {
@@ -64,18 +75,28 @@ export class Info extends BaseItem implements IWrapInfo {
             Info.defaultValue.audio.audioDataFilename,
          bpm: data.audio?.bpm ?? Info.defaultValue.audio.bpm,
          lufs: data.audio?.lufs ?? Info.defaultValue.audio.lufs,
-         previewStartTime: data.audio?.previewStartTime ?? Info.defaultValue.audio.previewStartTime,
-         previewDuration: data.audio?.previewDuration ?? Info.defaultValue.audio.previewDuration,
+         previewStartTime: data.audio?.previewStartTime ??
+            Info.defaultValue.audio.previewStartTime,
+         previewDuration: data.audio?.previewDuration ??
+            Info.defaultValue.audio.previewDuration,
          audioOffset: data.audio?.audioOffset ?? Info.defaultValue.audio.audioOffset,
          shuffle: data.audio?.shuffle ?? Info.defaultValue.audio.shuffle,
          shufflePeriod: data.audio?.shufflePeriod ?? Info.defaultValue.audio.shufflePeriod,
       };
       this.songPreviewFilename = data.songPreviewFilename ?? Info.defaultValue.songPreviewFilename;
       this.coverImageFilename = data.coverImageFilename ?? Info.defaultValue.coverImageFilename;
-      this.environmentNames = (data.environmentNames ?? Info.defaultValue.environmentNames).map(
-         (e) => e!,
-      );
-      this.colorSchemes = (data.colorSchemes ?? Info.defaultValue.colorSchemes).map((e) => ({
+      this.environmentBase = {
+         normal: data.environmentBase?.normal ??
+            Info.defaultValue.environmentBase.normal,
+         allDirections: data.environmentBase?.allDirections ??
+            Info.defaultValue.environmentBase.allDirections,
+      };
+      this.environmentNames = (
+         data.environmentNames ?? Info.defaultValue.environmentNames
+      ).map((e) => e!);
+      this.colorSchemes = (
+         data.colorSchemes ?? Info.defaultValue.colorSchemes
+      ).map((e) => ({
          useOverride: e!.useOverride || false,
          name: e!.name || '',
          saberLeftColor: {
@@ -133,10 +154,12 @@ export class Info extends BaseItem implements IWrapInfo {
             a: e!.obstaclesColor?.a || 0,
          },
       }));
-      this.difficulties = (data.difficulties ?? Info.defaultValue.difficulties).map(
-         (e) => new InfoBeatmap(e),
+      this.difficulties = (
+         data.difficulties ?? Info.defaultValue.difficulties
+      ).map((e) => new InfoBeatmap(e));
+      this.customData = deepCopy(
+         data.customData ?? Info.defaultValue.customData,
       );
-      this.customData = deepCopy(data.customData ?? Info.defaultValue.customData);
    }
 
    isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
@@ -156,6 +179,10 @@ export class Info extends BaseItem implements IWrapInfo {
    audio: IWrapInfoAudio;
    songPreviewFilename: string;
    coverImageFilename: string;
+   environmentBase: {
+      normal: EnvironmentName | EnvironmentV3Name | null;
+      allDirections: Environment360Name | null;
+   };
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
    difficulties: IWrapInfoBeatmap[];
@@ -171,7 +198,9 @@ export class Info extends BaseItem implements IWrapInfo {
 
    sort(): this {
       this.difficulties
-         .sort((a, b) => DifficultyRanking[a.difficulty] - DifficultyRanking[b.difficulty])
+         .sort(
+            (a, b) => DifficultyRanking[a.difficulty] - DifficultyRanking[b.difficulty],
+         )
          .sort(
             (a, b) =>
                (CharacteristicOrder[a.characteristic] || 0) -
@@ -181,7 +210,9 @@ export class Info extends BaseItem implements IWrapInfo {
       return this;
    }
 
-   addMap(data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>): this {
+   addMap(
+      data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>,
+   ): this {
       this.difficulties.push(new InfoBeatmap(data));
       return this;
    }

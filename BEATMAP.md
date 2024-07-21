@@ -123,6 +123,72 @@ Legend:
 | Waypoint                               | ✅         | ❌         |
 | Use Normal Events as Compatible Events | ✅         | ❌         |
 
+## Handlings
+
+How module currently handles the differences, especially for deserialisation, conversion and
+serialisation.
+
+Legend:
+
+- Empty : Nothing
+- ⚠️ : Restructured/Renamed
+- ❌ : Removed/Ignored
+
+### Info
+
+|                            | v4 (4.0.0)                            | v2 (2.1.0)                                              | v1 (1.0.0)           |
+| -------------------------- | ------------------------------------- | ------------------------------------------------------- | -------------------- |
+| Audio Data File            |                                       | ⚠️ Exist as BPMInfo.dat; not required                    | ❌                   |
+| Audio LUFS                 |                                       | ❌                                                      | ❌                   |
+| Audio Offset               | ❌                                    | ⚠️ Exist; unused                                         | ❌                   |
+| Audio Shuffle              | ❌                                    | ⚠️ Exist; unused                                         | ❌                   |
+| Song Preview File          |                                       | ❌                                                      | ❌                   |
+| Base Environment           | ❌ Uses first instance of environment |                                                         | ⚠️ Ignore missing 360 |
+| Environment List           |                                       |                                                         | ❌                   |
+| Color Scheme List          |                                       | ⚠️ Exist toggle override                                 | ❌                   |
+| Beatmap Level Author       |                                       | ⚠️ Exist only in Mapper Level Author, separated by comma | ❌                   |
+| Beatmap Characteristic     |                                       | ⚠️ Separated on deserialise, grouped on serialise        |                      |
+| Beatmap Environment Index  |                                       |                                                         | ❌                   |
+| Beatmap Color Scheme Index |                                       |                                                         | ❌                   |
+| Beatmap Lightshow File     |                                       | ❌                                                      | ❌                   |
+
+### Audio Data
+
+|                | v4 (4.0.0) | v2 (2.0.0) |
+| -------------- | ---------- | ---------- |
+| Audio Checksum |            | ❌         |
+| LUFS           |            | ❌         |
+
+### Difficulty
+
+|                                        | v4 (4.0.0)                   | v3 (3.3.0) | v2 (2.6.0)                               | v1 (1.5.0)                               |
+| -------------------------------------- | ---------------------------- | ---------- | ---------------------------------------- | ---------------------------------------- |
+| BPM Event                              | ❌ Uses v4 Audio Data        |            |                                          | ❌                                       |
+| Color Note                             |                              |            | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
+| Bomb Note                              |                              |            | ⚠️ Ignored direction                      | ⚠️ Ignored direction                      |
+| Arc                                    |                              |            | ❌ Exist; unused                         | ❌                                       |
+| Chain                                  |                              |            | ❌                                       | ❌                                       |
+| Obstacle                               |                              |            | ⚠️ Pos Y and height interpreted from type | ⚠️ Pos Y and height interpreted from type |
+| Rotation Event                         |                              |            | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
+| Waypoint                               | ❌ All below in v4 Lightshow |            |                                          | ❌                                       |
+| Basic Event                            | ❌                           |            |                                          | ⚠️ Default float value of 1               |
+| Color Boost Event                      | ❌                           |            |                                          |                                          |
+| FX Event Box Group                     | ❌                           |            | ❌                                       | ❌                                       |
+| Light Color Event Box Group            | ❌                           |            | ❌                                       | ❌                                       |
+| Light Rotation Event Box Group         | ❌                           |            | ❌                                       | ❌                                       |
+| Light Translation Event Box Group      | ❌                           |            | ❌                                       | ❌                                       |
+| Event Types for Keywords               | ❌                           |            |                                          | ❌                                       |
+| Use Normal Events as Compatible Events | ❌                           |            | ❌                                       | ❌                                       |
+
+\* BPM events are not affected nor added by v4 Info/Audio Data
+
+### Lightshow
+
+|                                        | v4 (4.0.0) | v3 (3.x.x) |
+| -------------------------------------- | ---------- | ---------- |
+| Waypoint                               |            | ❌         |
+| Use Normal Events as Compatible Events |            | ❌         |
+
 ## Unused
 
 The followings are removed or not used in the game:

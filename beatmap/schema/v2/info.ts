@@ -12,6 +12,7 @@ import type {
 } from '../../../types/beatmap/wrapper/info.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
+import { is360Environment } from '../../helpers/environment.ts';
 
 export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
    serialize(data: IWrapInfoAttribute): IInfo {
@@ -30,16 +31,14 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          _previewDuration: data.audio.previewDuration,
          _songFilename: data.audio.filename,
          _coverImageFilename: data.coverImageFilename,
-         _environmentName: (data.environmentNames.find(
-            (e) =>
-               e !== 'GlassDesertEnvironment' &&
-               e !== 'MultiplayerEnvironment',
-         ) as EnvironmentName & EnvironmentV3Name) || 'DefaultEnvironment',
-         _allDirectionsEnvironmentName: (data.environmentNames.find(
-            (e) =>
-               e === 'GlassDesertEnvironment' ||
-               e === 'MultiplayerEnvironment',
-         ) as Environment360Name) || 'GlassDesertEnvironment',
+         _environmentName: data.environmentBase.normal ||
+            (data.environmentNames.find(
+               (e) => !is360Environment(e),
+            ) as EnvironmentName & EnvironmentV3Name) ||
+            'DefaultEnvironment',
+         _allDirectionsEnvironmentName: data.environmentBase.allDirections ||
+            (data.environmentNames.find((e) => is360Environment(e)) as Environment360Name) ||
+            'GlassDesertEnvironment',
          _environmentNames: data.environmentNames.map((e) => e),
          _colorSchemes: data.colorSchemes.map((e) => {
             const cs: Required<IInfo>['_colorSchemes'][number] = {
@@ -107,6 +106,10 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          },
          songPreviewFilename: data._songFilename,
          coverImageFilename: data._coverImageFilename,
+         environmentBase: {
+            normal: data._environmentName,
+            allDirections: data._allDirectionsEnvironmentName,
+         },
          environmentNames: data._environmentNames?.map((e) => e),
          colorSchemes: data._colorSchemes?.map((e) => {
             const scheme: DeepPartial<IWrapInfoColorScheme> = {
@@ -185,19 +188,6 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          ),
          customData: data._customData,
       };
-
-      if (!d.environmentNames?.length) {
-         d.environmentNames = [
-            data._environmentName,
-            data._allDirectionsEnvironmentName,
-         ];
-         d.difficulties!.forEach((d) => {
-            d!.environmentId = d!.characteristic === '360Degree' ||
-                  d!.characteristic === '90Degree'
-               ? 1
-               : 0;
-         });
-      }
 
       return d;
    },

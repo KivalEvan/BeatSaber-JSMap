@@ -5,13 +5,14 @@ import type { IColor } from '../../types/colors.ts';
 import logger from '../../logger.ts';
 import { clamp } from '../../utils/math.ts';
 import type { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
+import { is360Environment } from '../../beatmap/helpers/environment.ts';
 
 function fixEnvironment(str: unknown, all = false): EnvironmentName {
    if (typeof str === 'string') {
       if (str === 'Origins') return 'OriginsEnvironment';
       if (
          Object.keys(EnvironmentRename)
-            .filter((env) => all || env !== 'GlassDesertEnvironment')
+            .filter((env) => all || !is360Environment(env as EnvironmentName))
             .includes(str)
       ) {
          return str as EnvironmentName;
