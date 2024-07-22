@@ -1,4 +1,4 @@
-import { ColorArray } from '../../types/colors.ts';
+import type { ColorArray } from '../../types/colors.ts';
 import * as colors from '../../utils/colors.ts';
 import { nearEqual } from '../../utils/math.ts';
 import { EPSILON } from '../constants.ts';

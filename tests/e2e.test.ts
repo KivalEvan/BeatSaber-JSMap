@@ -8,7 +8,7 @@ import {
    readInfoFileSync,
    saveDifficulty,
    saveInfo,
-   types,
+   type types,
 } from './deps.ts';
 
 Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
@@ -31,7 +31,7 @@ Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
       }
    });
 
-   await t.step('Able to save as V2 beatmap schema', async () => {
+   await t.step('Able to save as V2 beatmap schema', () => {
       const output = beatmapList.map((bl) => saveDifficulty(bl.beatmap));
       output.forEach((o, i) => {
          assertEquals(o._version, '2.6.0');

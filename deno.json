@@ -6,17 +6,14 @@
       "./extensions": "./extensions/mod.ts",
       "./patch": "./patch/mod.ts"
    },
-   "lint": {
-      "exclude": ["tests"]
-   },
+   "publish": { "exclude": [".git", "_build_npm.ts", "npm", "coverage", "tests"] },
+   "exclude": [".git", "npm", "coverage"],
+   "lock": false,
    "fmt": {
       "indentWidth": 3,
       "lineWidth": 100,
       "singleQuote": true
    },
-   "exclude": [".git", "npm", "coverage"],
-   "publish": { "exclude": [".git", "_build_npm.ts", "npm", "coverage", "tests"] },
-   "lock": false,
    "tasks": {
       "npm": "deno run -A ./_build_npm.ts",
       "check": "deno check mod.ts && deno check extensions/mod.ts && deno check patch/mod.ts",

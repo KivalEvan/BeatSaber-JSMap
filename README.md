@@ -95,8 +95,8 @@ as expected. You may use `load` and `save` which can read from web input.
 
 ## Development
 
-[Deno](https://deno.com/) is used for development, simply install and no setup is required to get
-started as it provides necessary toolchain.
+[Deno](https://deno.com/) is used for development, simply install and setup workspace, no other
+setup is required to get started as it provides necessary toolchain.
 
 If you wish to contribute, do follow the guidelines. Make pull request for feature
 addition/enhancement/fix or create an issue if you encounter error/problem or want an improvement.
@@ -128,7 +128,6 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 ## Planned
 
-- NPM and JSR release
 - Separate to submodule (`types`, `utils`, `extensions`, etc.)
 - Write JSDoc on every important bit
 - Add more helper for Chroma and Noodle Extensions

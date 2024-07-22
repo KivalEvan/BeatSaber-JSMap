@@ -20,10 +20,10 @@ await build({
       license: 'MIT',
       repository: {
          type: 'git',
-         url: 'git+https://github.com/username/repo.git',
+         url: 'git+https://github.com/KivalEvan/BeatSaber-JSMap.git',
       },
       bugs: {
-         url: 'https://github.com/username/repo/issues',
+         url: 'https://github.com/KivalEvan/BeatSaber-JSMap/issues',
       },
    },
    postBuild() {
