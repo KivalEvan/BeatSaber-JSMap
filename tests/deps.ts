@@ -10,7 +10,7 @@ export {
    assertNotEquals,
    assertObjectMatch,
    assertThrows,
-} from 'https://deno.land/std@0.192.0/testing/asserts.ts';
+} from 'https://deno.land/std@0.224.0/testing/asserts.ts';
 
 export * from '../mod.ts';
 export * from '../patch/mod.ts';
