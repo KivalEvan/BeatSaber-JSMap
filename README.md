@@ -32,13 +32,14 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 
 ## Prerequisite
 
-- ESM and TypeScript supported runtime or transpiler
-  - Deno 1.45.2 or latest
-  - Bun 1.1.19 or latest
-  - NodeJS 20.15.1 or latest
-  - Vite 5.3.4 with TS or latest
+- Any **ESM** and **TypeScript** supported runtime or transpiler
+  - **Deno** 1.45.2
+  - **Bun** 1.1.19
+  - **Node.js** 20.15.1
+  - **TSC** 5.5.2
+  - ... or latest
 - Basic JavaScript or TypeScript knowledge
-  - Module is entirely TypeScript, but for common use case you do not need in-depth knowledge.
+  - Module is entirely TypeScript, but for common use case you do not need an in-depth knowledge.
 
 ## Getting Started
 
@@ -47,8 +48,7 @@ Before you start, you may want to understand how Beat Saber stores the
 
 To get scripting, simply create a `.ts` file anywhere, preferably inside map folder for simpler
 setup, import the module and arbitrary code, then run the script. That's it, no installation needed.
-Do check out the [example folder](./example) for templates you can use and read
-[the guide](./example/README.md) for more detail.
+Do check out the [the guide](./GUIDE.md) for usage detail.
 
 The bare minimum example:
 
@@ -59,20 +59,12 @@ import * as bsmap from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
 // for anything else:
 import * as bsmap from 'bsmap'; // via NPM or import map
 
-const data = bsmap.readDifficultyFileSync('ExpertPlusStandard.dat', 4);
+const data = bsmap.readDifficultyFileSync('ExpertPlus.beatmap.dat', 4);
 
 // ... code to modify difficulty data
 
 bsmap.writeDifficultyFileSync(data, 4);
 ```
-
-> [!TIP]
->
-> Recommended to lock version to ensure the script works without breaking from newer update. For
-> rolling release, visit [GitHub Repo](https://github.com/KivalEvan/BeatSaber-Deno) and download
-> source or import raw file directly from there
-> (`https://raw.githubusercontent.com/KivalEvan/BeatSaber-Deno/main/mod.ts`), you may need to
-> occasionally reload for latest update.
 
 You may also clone the module to store and import locally, and make any modification as you wish.
 
@@ -84,30 +76,26 @@ it points to directory.
 bsmap.globals.directory = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 ```
 
-## Usage
+### Runtime
 
-### Deno
+Module uses respective vendor API for filesystem and path functionality to handle `read` and `write`
+module, currently supporting Deno, Bun, and Node.js. This may also work on other runtime given that
+`node:` built-in module is available on import, otherwise you may be required to provide the
+following functionality in `fs` and `path` module.
 
-Run the script by running this command in terminal `deno run yourscriptpath.ts`. For more advanced
-use, you may do, as an example, `deno run --allow-read --allow-write --watch yourscriptpath.ts` to
-automatically allow for read and write while watching for change in script.
+### Browser
 
-For further explanation, see [Deno Manual](https://deno.land/manual).
+As it is written in TypeScript, you may need transpiler such as `tsc` or `vite` that will compile
+down to single JavaScript file to be able to be used on browser, depending on build option down to
+ES5 support.
 
-> [!NOTE]
->
-> **For first timer:** Make sure to initialise Deno workspace before using the script. If you
-> encounter import error, you can ignore and run the (empty) script then it will automatically fetch
-> the URL for you. Alternatively, `Alt+.` on the error message may reveal fix problem solution. If
-> you are having issue of not being able to retrieve module, then cache or reload the module to fix
-> it. To reload or cache the module, run `deno cache --reload yourscriptpath.ts` and restart Deno
-> server if necessary. If it still does not work, change to a different workspace.
+Typical browser do not have filesystem functionality and thus `read` and `write` module may not work
+as expected. You may use `load` and `save` which can read from web input.
 
-If you are using GitHub version and want to update to newer version, simply run
-`deno run --reload yourscriptpath.ts`; do note that it may break existing part of your code that
-utilises the module.
+## Development
 
-## Contributing
+[Deno](https://deno.com/) is used for development, simply install and no setup is required to get
+started as it provides necessary toolchain.
 
 If you wish to contribute, do follow the guidelines. Make pull request for feature
 addition/enhancement/fix or create an issue if you encounter error/problem or want an improvement.
@@ -130,12 +118,17 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 - Top-level function shall use regular function
 - No dependencies shall be used outside of examples, extensions, and tests
   - Vendor dependency is allowed so long it gracefully handles every platform possible
-- Avoid circular imports
-- Avoid URL imports
+- Prefer `types` over concrete type for parameter/return type
+  - Use generic if necessary
+- Use ESM
+  - Avoid circular imports
+  - Avoid URL imports
+  - Prefer `node:` built-in import if needed
 
 ## Planned
 
 - NPM and JSR release
+- Separate to submodule (`types`, `utils`, `extensions`, etc.)
 - Write JSDoc on every important bit
 - Add more helper for Chroma and Noodle Extensions
 

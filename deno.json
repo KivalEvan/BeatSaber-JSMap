@@ -7,7 +7,7 @@
       "./patch": "./patch/mod.ts"
    },
    "lint": {
-      "exclude": [".git", "coverage", "tests", "example"]
+      "exclude": [".git", "coverage", "tests"]
    },
    "fmt": {
       "exclude": [".git", "coverage"],
@@ -15,6 +15,7 @@
       "lineWidth": 100,
       "singleQuote": true
    },
+   "publish": { "exclude": [".git", "coverage", "tests"] },
    "lock": false,
    "tasks": {
       "check": "deno check mod.ts && deno check extensions/mod.ts && deno check patch/mod.ts",
