@@ -1,5 +1,6 @@
 export * as types from './types/mod.ts';
 export * from './environment/mod.ts';
+export * from './easingColor.ts';
 export * from './lightID.ts';
 export * from './lightMapper.ts';
 export * from './misc.ts';

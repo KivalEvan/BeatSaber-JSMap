@@ -1,5 +1,5 @@
 import type { ApplyEasingsOptions } from './types/colors.ts';
-import type { BasicEvent } from '../../beatmap/core/event.ts';
+import type { BasicEvent } from '../../beatmap/core/basicEvent.ts';
 import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 
 export function applyEasingsTransition(
