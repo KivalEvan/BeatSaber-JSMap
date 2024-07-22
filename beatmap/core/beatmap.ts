@@ -2,7 +2,7 @@ import type {
    IWrapBasicEvent,
    IWrapBasicEventAttribute,
 } from '../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapBasicEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
+import type { IWrapBasicEventTypesWithKeywords } from '../../types/beatmap/wrapper/basicEventTypesWithKeywords.ts';
 import type {
    IWrapBombNote,
    IWrapBombNoteAttribute,
@@ -83,7 +83,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
          lightRotationEventBoxGroups: [],
          lightTranslationEventBoxGroups: [],
          fxEventBoxGroups: [],
-         eventTypesWithKeywords: { list: [] },
+         basicEventTypesWithKeywords: { list: [] },
          useNormalEventsAsCompatibleEvents: false,
          customData: {},
       },
@@ -196,11 +196,11 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    set fxEventBoxGroups(value: this['fxEventBoxGroups']) {
       this.lightshow.fxEventBoxGroups = value;
    }
-   get eventTypesWithKeywords(): IWrapBasicEventTypesWithKeywords {
-      return this.lightshow.eventTypesWithKeywords;
+   get basicEventTypesWithKeywords(): IWrapBasicEventTypesWithKeywords {
+      return this.lightshow.basicEventTypesWithKeywords;
    }
-   set eventTypesWithKeywords(value: this['eventTypesWithKeywords']) {
-      this.lightshow.eventTypesWithKeywords = value;
+   set basicEventTypesWithKeywords(value: this['basicEventTypesWithKeywords']) {
+      this.lightshow.basicEventTypesWithKeywords = value;
    }
    get useNormalEventsAsCompatibleEvents(): boolean {
       return this.lightshow.useNormalEventsAsCompatibleEvents;

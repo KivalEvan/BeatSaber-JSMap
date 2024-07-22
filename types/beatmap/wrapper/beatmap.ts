@@ -20,7 +20,7 @@ import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from './lightTranslationEventBoxGroup.ts';
-import type { IWrapBasicEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
+import type { IWrapBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
 import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 import type { IWrapDifficulty, IWrapDifficultyAttribute } from './difficulty.ts';
@@ -65,7 +65,7 @@ export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {
    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
-   eventTypesWithKeywords: IWrapBasicEventTypesWithKeywords;
+   basicEventTypesWithKeywords: IWrapBasicEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
 
    setLightshowFilename(filename: LooseAutocomplete<GenericFilename>): this;

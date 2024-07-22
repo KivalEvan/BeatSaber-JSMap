@@ -1,15 +1,14 @@
-import type { IWrapBasicEventBoxGroup, IWrapBasicEventBoxGroupAttribute } from './eventBoxGroup.ts';
+import type { IWrapEventBoxGroup, IWrapEventBoxGroupAttribute } from './eventBoxGroup.ts';
 import type {
    IWrapLightTranslationEventBox,
    IWrapLightTranslationEventBoxAttribute,
 } from './lightTranslationEventBox.ts';
 
-export interface IWrapLightTranslationEventBoxGroupAttribute
-   extends IWrapBasicEventBoxGroupAttribute {
+export interface IWrapLightTranslationEventBoxGroupAttribute extends IWrapEventBoxGroupAttribute {
    boxes: IWrapLightTranslationEventBoxAttribute[];
 }
 
 export interface IWrapLightTranslationEventBoxGroup
-   extends IWrapBasicEventBoxGroup, IWrapLightTranslationEventBoxGroupAttribute {
+   extends IWrapEventBoxGroup, IWrapLightTranslationEventBoxGroupAttribute {
    boxes: IWrapLightTranslationEventBox[];
 }

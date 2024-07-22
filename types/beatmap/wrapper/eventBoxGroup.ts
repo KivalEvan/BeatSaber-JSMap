@@ -1,12 +1,12 @@
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
-import type { IWrapBasicEventBox, IWrapBasicEventBoxAttribute } from './eventBox.ts';
+import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
 
-export interface IWrapBasicEventBoxGroupAttribute extends IWrapBaseObjectAttribute {
+export interface IWrapEventBoxGroupAttribute extends IWrapBaseObjectAttribute {
    /** Group ID `<int>` of event box group */
    id: number;
-   boxes: IWrapBasicEventBoxAttribute[];
+   boxes: IWrapEventBoxAttribute[];
 }
 
-export interface IWrapBasicEventBoxGroup extends IWrapBaseObject, IWrapBasicEventBoxGroupAttribute {
-   boxes: IWrapBasicEventBox[];
+export interface IWrapEventBoxGroup extends IWrapBaseObject, IWrapEventBoxGroupAttribute {
+   boxes: IWrapEventBox[];
 }

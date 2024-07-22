@@ -10,7 +10,7 @@ export * from './chain.ts';
 export * from './colorBoostEvent.ts';
 export * from './colorNote.ts';
 export * from './difficulty.ts';
-export * from './eventTypesForKeywords.ts';
+export * from './basicEventTypesForKeywords.ts';
 export * from './fxEventBox.ts';
 export * from './fxEventBoxGroup.ts';
 export * from './fxEventFloat.ts';

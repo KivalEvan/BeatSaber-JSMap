@@ -1,12 +1,12 @@
-import { assertEquals, EventTypesForKeywords, v2, v3 } from '../deps.ts';
+import { assertEquals, BasicEventTypesForKeywords, v2, v3 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
 
 const schemaList = [
-   [v3.eventTypesForKeywords, 'V3 Basic Event Types For Keywords'],
-   [v2.eventTypesForKeywords, 'V2 Special Events Keyword Filters'],
+   [v3.basicEventTypesForKeywords, 'V3 Basic Event Types For Keywords'],
+   [v2.basicEventTypesForKeywords, 'V2 Special Events Keyword Filters'],
 ] as const;
-const BaseClass = EventTypesForKeywords;
-const defaultValue = EventTypesForKeywords.defaultValue;
+const BaseClass = BasicEventTypesForKeywords;
+const defaultValue = BasicEventTypesForKeywords.defaultValue;
 const nameTag = 'Event Types For Keywords';
 
 Deno.test(`${nameTag} constructor & create instantiation`, () => {
@@ -51,10 +51,10 @@ for (const tup of schemaList) {
       );
 
       switch (schema) {
-         case v3.eventTypesForKeywords:
+         case v3.basicEventTypesForKeywords:
             obj = new BaseClass(schema.deserialize({ k: 'test', e: [1, 2] }));
             break;
-         case v2.eventTypesForKeywords:
+         case v2.basicEventTypesForKeywords:
             obj = new BaseClass(
                schema.deserialize({ _keyword: 'test', _specialEvents: [1, 2] }),
             );
@@ -67,10 +67,10 @@ for (const tup of schemaList) {
       );
 
       switch (schema) {
-         case v3.eventTypesForKeywords:
+         case v3.basicEventTypesForKeywords:
             obj = new BaseClass(schema.deserialize({ e: [1, 2] }));
             break;
-         case v2.eventTypesForKeywords:
+         case v2.basicEventTypesForKeywords:
             obj = new BaseClass(
                schema.deserialize({
                   _specialEvents: [1, 2],
@@ -89,10 +89,10 @@ for (const tup of schemaList) {
       const obj = new BaseClass();
       const json = schema.serialize(obj);
       switch (schema) {
-         case v3.eventTypesForKeywords:
+         case v3.basicEventTypesForKeywords:
             assertEquals(json, { k: '', e: [] });
             break;
-         case v2.eventTypesForKeywords:
+         case v2.basicEventTypesForKeywords:
             assertEquals(json, {
                _keyword: '',
                _specialEvents: [],

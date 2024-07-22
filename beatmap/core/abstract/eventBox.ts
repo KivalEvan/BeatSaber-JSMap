@@ -1,15 +1,15 @@
 import type { IWrapBaseObject } from '../../../types/beatmap/wrapper/baseObject.ts';
-import type { IWrapBasicEventBox } from '../../../types/beatmap/wrapper/eventBox.ts';
+import type { IWrapEventBox } from '../../../types/beatmap/wrapper/eventBox.ts';
 import type { IWrapIndexFilter } from '../../../types/beatmap/wrapper/indexFilter.ts';
 import { BaseItem } from './baseItem.ts';
 
 /** Base event box beatmap class object. */
-export abstract class EventBox extends BaseItem implements IWrapBasicEventBox {
+export abstract class EventBox extends BaseItem implements IWrapEventBox {
    filter!: IWrapIndexFilter;
-   beatDistribution: IWrapBasicEventBox['beatDistribution'] = 0;
-   beatDistributionType: IWrapBasicEventBox['beatDistributionType'] = 1;
-   easing: IWrapBasicEventBox['easing'] = 0;
-   affectFirst: IWrapBasicEventBox['affectFirst'] = 0;
+   beatDistribution: IWrapEventBox['beatDistribution'] = 0;
+   beatDistributionType: IWrapEventBox['beatDistributionType'] = 1;
+   easing: IWrapEventBox['easing'] = 0;
+   affectFirst: IWrapEventBox['affectFirst'] = 0;
    abstract events: IWrapBaseObject[];
 
    setFilter(value: IWrapIndexFilter): this {

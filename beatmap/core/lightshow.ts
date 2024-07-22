@@ -2,7 +2,7 @@ import type {
    IWrapBasicEvent,
    IWrapBasicEventAttribute,
 } from '../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapBasicEventTypesWithKeywords } from '../../types/beatmap/wrapper/eventTypesWithKeywords.ts';
+import type { IWrapBasicEventTypesWithKeywords } from '../../types/beatmap/wrapper/basicEventTypesWithKeywords.ts';
 import type {
    IWrapColorBoostEvent,
    IWrapColorBoostEventAttribute,
@@ -41,7 +41,7 @@ import { LightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { LightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 import { FxEventBoxGroup } from './fxEventBoxGroup.ts';
-import { EventTypesForKeywords } from './eventTypesForKeywords.ts';
+import { BasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
 export class Lightshow extends BaseItem implements IWrapLightshow {
@@ -53,7 +53,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       lightRotationEventBoxGroups: [],
       lightTranslationEventBoxGroups: [],
       fxEventBoxGroups: [],
-      eventTypesWithKeywords: { list: [] },
+      basicEventTypesWithKeywords: { list: [] },
       useNormalEventsAsCompatibleEvents: false,
       customData: {},
    };
@@ -94,11 +94,11 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       this.fxEventBoxGroups = (
          data.fxEventBoxGroups ?? Lightshow.defaultValue.fxEventBoxGroups
       ).map((e) => new FxEventBoxGroup(e));
-      this.eventTypesWithKeywords = {
+      this.basicEventTypesWithKeywords = {
          list: (
-            data.eventTypesWithKeywords?.list ??
-               Lightshow.defaultValue.eventTypesWithKeywords.list
-         ).map((e) => new EventTypesForKeywords(e)),
+            data.basicEventTypesWithKeywords?.list ??
+               Lightshow.defaultValue.basicEventTypesWithKeywords.list
+         ).map((e) => new BasicEventTypesForKeywords(e)),
       };
       this.useNormalEventsAsCompatibleEvents = !!data.useNormalEventsAsCompatibleEvents;
       this.customData = deepCopy(
@@ -115,7 +115,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
          this.lightRotationEventBoxGroups.every((e) => e.isValid()) &&
          this.lightTranslationEventBoxGroups.every((e) => e.isValid()) &&
          this.fxEventBoxGroups.every((e) => e.isValid()) &&
-         this.eventTypesWithKeywords.list.every((e) => e.isValid());
+         this.basicEventTypesWithKeywords.list.every((e) => e.isValid());
    }
 
    waypoints: IWrapWaypoint[];
@@ -125,7 +125,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
-   eventTypesWithKeywords: IWrapBasicEventTypesWithKeywords;
+   basicEventTypesWithKeywords: IWrapBasicEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
 
    sort(): this {

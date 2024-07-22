@@ -1,11 +1,10 @@
-import type { IWrapBasicEventBoxGroup, IWrapBasicEventBoxGroupAttribute } from './eventBoxGroup.ts';
+import type { IWrapEventBoxGroup, IWrapEventBoxGroupAttribute } from './eventBoxGroup.ts';
 import type { IWrapFxEventBox, IWrapFxEventBoxAttribute } from './fxEventBox.ts';
 
-export interface IWrapFxEventBoxGroupAttribute extends IWrapBasicEventBoxGroupAttribute {
+export interface IWrapFxEventBoxGroupAttribute extends IWrapEventBoxGroupAttribute {
    boxes: IWrapFxEventBoxAttribute[];
 }
 
-export interface IWrapFxEventBoxGroup
-   extends IWrapBasicEventBoxGroup, IWrapFxEventBoxGroupAttribute {
+export interface IWrapFxEventBoxGroup extends IWrapEventBoxGroup, IWrapFxEventBoxGroupAttribute {
    boxes: IWrapFxEventBox[];
 }

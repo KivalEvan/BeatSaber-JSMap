@@ -16,7 +16,7 @@ import type {
 import type {
    IWrapBasicEventTypesWithKeywords,
    IWrapBasicEventTypesWithKeywordsAttribute,
-} from './eventTypesWithKeywords.ts';
+} from './basicEventTypesWithKeywords.ts';
 import type { DeepPartial } from '../../utils.ts';
 import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 import type { ICustomDataDifficulty } from './custom/difficulty.ts';
@@ -30,7 +30,7 @@ export interface IWrapLightshowAttribute extends IWrapBaseItemAttribute {
    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroupAttribute[];
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroupAttribute[];
    fxEventBoxGroups: IWrapFxEventBoxGroupAttribute[];
-   eventTypesWithKeywords: IWrapBasicEventTypesWithKeywordsAttribute;
+   basicEventTypesWithKeywords: IWrapBasicEventTypesWithKeywordsAttribute;
    useNormalEventsAsCompatibleEvents: boolean;
    customData: ICustomDataDifficulty;
 }
@@ -43,7 +43,7 @@ export interface IWrapLightshow extends Omit<IWrapBaseItem, 'customData'>, IWrap
    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
-   eventTypesWithKeywords: IWrapBasicEventTypesWithKeywords;
+   basicEventTypesWithKeywords: IWrapBasicEventTypesWithKeywords;
 
    setCustomData(object: this['customData']): this;
    addCustomData(object: this['customData']): this;

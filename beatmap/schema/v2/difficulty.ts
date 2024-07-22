@@ -14,7 +14,7 @@ import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import { eventTypesWithKeywords } from './eventTypesWithKeywords.ts';
+import { basicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
 import { bombNote } from './bombNote.ts';
 import { colorBoostEvent } from './colorBoostEvent.ts';
 import { rotationEvent } from './rotationEvent.ts';
@@ -41,8 +41,8 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             ...data.difficulty.bpmEvents.map(bpmEvent.serialize),
          ].sort(sortV2ObjectFn),
          _waypoints: data.lightshow.waypoints.map(waypoint.serialize),
-         _specialEventsKeywordFilters: eventTypesWithKeywords.serialize(
-            data.lightshow.eventTypesWithKeywords,
+         _specialEventsKeywordFilters: basicEventTypesWithKeywords.serialize(
+            data.lightshow.basicEventTypesWithKeywords,
          ),
          _customData: deepCopy(data.difficulty.customData),
       };
@@ -111,7 +111,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             basicEvents,
             colorBoostEvents,
             waypoints: data._waypoints?.map(waypoint.deserialize),
-            eventTypesWithKeywords: eventTypesWithKeywords.deserialize(
+            basicEventTypesWithKeywords: basicEventTypesWithKeywords.deserialize(
                data._specialEventsKeywordFilters,
             ),
          },
