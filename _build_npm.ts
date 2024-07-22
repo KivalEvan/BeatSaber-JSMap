@@ -6,7 +6,6 @@ await emptyDir('./npm');
 await build({
    entryPoints: Object.values(denoPackage.exports),
    outDir: './npm',
-   scriptModule: false,
    test: false,
    shims: {
       // see JS docs for overview and more options
@@ -16,7 +15,7 @@ await build({
       // package.json properties
       name: 'bsmap',
       version: denoPackage.version,
-      description: 'General-purpose scripting module for Beat Saber beatmap using TypeScript. ',
+      description: 'General-purpose scripting module for Beat Saber beatmap using TypeScript.',
       license: 'MIT',
       repository: {
          type: 'git',

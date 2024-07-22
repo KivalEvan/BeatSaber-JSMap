@@ -1,5 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IFileSystem } from '../types/bsmap/_fs.ts';
+import nodeFs from 'node:fs';
+import nodeFsPromises from 'node:fs/promises';
 
 function noFsFunctionProvided(): never {
    throw new Error(
@@ -29,13 +31,10 @@ if (typeof Deno !== 'undefined') {
    typeof Bun !== 'undefined' ||
    (typeof process !== 'undefined' && process.release.name === 'node')
 ) {
-   const obj = await import('node:fs');
-   const objp = await import('node:fs/promises');
-
-   const readFile = objp?.readFile ? objp.readFile : noFsFunctionProvided;
-   const readFileSync = obj?.readFileSync ? obj.readFileSync : noFsFunctionProvided;
-   const writeFile = objp?.writeFile ? objp.writeFile : noFsFunctionProvided;
-   const writeFileSync = obj?.writeFileSync ? obj.writeFileSync : noFsFunctionProvided;
+   const readFile = nodeFsPromises?.readFile ? nodeFsPromises.readFile : noFsFunctionProvided;
+   const readFileSync = nodeFs?.readFileSync ? nodeFs.readFileSync : noFsFunctionProvided;
+   const writeFile = nodeFsPromises?.writeFile ? nodeFsPromises.writeFile : noFsFunctionProvided;
+   const writeFileSync = nodeFs?.writeFileSync ? nodeFs.writeFileSync : noFsFunctionProvided;
 
    fs.readTextFile = (path: string): Promise<string> => {
       return readFile(path, 'utf8');
