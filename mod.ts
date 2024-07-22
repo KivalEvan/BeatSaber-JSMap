@@ -5,7 +5,7 @@
  *
  * @example Quickstart
  * ```ts
- * import { globals, readDifficultyFileSync, writeDifficultyFileSync } from "https://deno.land/x/bsmap@2.0.0/mod.ts";
+ * import { globals, readDifficultyFileSync, writeDifficultyFileSync } from "@kvl/bsmap";
  * globals.directory = '/path/to/map/folder/here'; // implicitly uses cwd if not written
  * const data = readDifficultyFileSync('ExpertStandard.dat', 3);
  * // ... do what you want here with `data`

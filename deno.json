@@ -15,7 +15,7 @@
       "singleQuote": true
    },
    "exclude": [".git", "npm", "coverage"],
-   "publish": { "exclude": [".git", "npm", "coverage", "tests"] },
+   "publish": { "exclude": [".git", "_build_npm.ts", "npm", "coverage", "tests"] },
    "lock": false,
    "tasks": {
       "npm": "deno run -A ./_build_npm.ts",

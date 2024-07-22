@@ -54,8 +54,9 @@ The bare minimum example:
 
 ```ts
 // inside of ./Beat Saber/Beat_Saber Data/CustomWIPLevels/MAP_FOLDER/script.ts
-// for Deno:
-import * as bsmap from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
+// for Deno/JSR:
+import * as bsmap from 'jsr:@kvl/bsmap'; // remove `jsr:` prefix if using `deno add` command
+
 // for anything else:
 import * as bsmap from 'bsmap'; // via NPM or import map
 

@@ -22,11 +22,16 @@ add the following on top of the script. No additional file or setup needed, it j
 ```ts
 // be sure to check for latest version on 'bsmap@version'
 // for Deno:
-import * as bsmap from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
+import * as bsmap from 'jsr:@kvl/bsmap'; // remove `jsr:` prefix if using `deno add` command
 
 // for anything else:
 import * as bsmap from 'bsmap'; // via NPM or import map
 ```
+
+> [!NOTE]
+>
+> Removing `jsr:` and using `deno add` or similar introduces import map file, which you may or may
+> not want to have if you are working on same directory as beatmap.
 
 ## Namespaces
 
@@ -35,7 +40,7 @@ destructuring can be used to obtain certain variables and functions. Helpful tip
 to show list of available variables and functions.
 
 ```ts
-import { deepCopy, pRandom } from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
+import { deepCopy, pRandom } from '@kvl/bsmap';
 ```
 
 List of available namespaces from root are `globals`, `logger`, and `types`. Nested namespace is to
@@ -187,15 +192,13 @@ third-party library. This provides plentiful of helpers that may be useful for m
 other purposes.
 
 ```ts
-import * as chroma from 'https://deno.land/x/bsmap@2.0.0/extensions/chroma/mod.ts';
-import * as NE from 'https://deno.land/x/bsmap@2.0.0/extensions/NE/mod.ts';
-import * as selector from 'https://deno.land/x/bsmap@2.0.0/extensions/selector/mod.ts';
+import { chroma, ne, selector } from '@kvl/bsmap/extensions';
 ```
 
 If you wish to import all of them, do as following:
 
 ```ts
-import * as ext from 'https://deno.land/x/bsmap@2.0.0/extensions/mod.ts';
+import * as ext from '@kvl/bsmap/extensions';
 ```
 
 ## Patch
@@ -204,7 +207,7 @@ This module is not included as it is very rarely used and unstable. It contains 
 fix and alter beatmap objects that were potentially broken or contain incompatible data.
 
 ```ts
-import * as patch from 'https://deno.land/x/bsmap@2.0.0/patch/mod.ts';
+import * as patch from '@kvl/bsmap/patch';
 ```
 
 ## Addendum
@@ -217,8 +220,8 @@ purpose.
 
 ```ts
 // deps.ts
-export * from 'https://deno.land/x/bsmap@2.0.0/mod.ts';
-export * as ext from 'https://deno.land/x/bsmap@2.0.0/extensions/mod.ts';
+export * from '@kvl/bsmap';
+export * as ext from '@kvl/bsmap/extensions';
 ```
 
 ```ts
