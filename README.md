@@ -60,6 +60,9 @@ import * as bsmap from 'jsr:@kvl/bsmap'; // remove `jsr:` prefix if using `deno 
 // for anything else:
 import * as bsmap from 'bsmap'; // via NPM or import map
 
+// for CJS:
+const bsmap = require('bsmap');
+
 const data = bsmap.readDifficultyFileSync('ExpertPlus.beatmap.dat', 4);
 
 // ... code to modify difficulty data

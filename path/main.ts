@@ -1,6 +1,5 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IPath } from '../types/bsmap/_path.ts';
-import nodePath from 'node:path';
+import { basename, resolve } from 'node:path';
 
 function noPathFunctionProvided(): never {
    throw new Error(
@@ -9,19 +8,6 @@ function noPathFunctionProvided(): never {
 }
 
 export const path: IPath = {
-   resolve: noPathFunctionProvided,
-   basename: noPathFunctionProvided,
+   resolve: resolve || noPathFunctionProvided,
+   basename: basename || noPathFunctionProvided,
 };
-
-// FIXME: this may need to be separated out in the future
-declare let Deno: any;
-declare let Bun: any;
-declare let process: any;
-if (
-   typeof Deno !== 'undefined' ||
-   typeof Bun !== 'undefined' ||
-   (typeof process !== 'undefined' && process.release.name === 'node')
-) {
-   path.resolve = nodePath?.resolve || noPathFunctionProvided;
-   path.basename = nodePath?.basename || noPathFunctionProvided;
-}
