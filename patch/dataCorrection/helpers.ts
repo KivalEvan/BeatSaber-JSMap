@@ -9,6 +9,8 @@ import type { PointModifier } from '../../types/beatmap/shared/custom/heck.ts';
 import type { Vector2, Vector3, Vector4 } from '../../types/vector.ts';
 import { EasingsFn } from '../../utils/easings.ts';
 import { clamp } from '../../utils/math.ts';
+import { BaseModifierNE } from '../../types/beatmap/shared/custom/noodleExtensions.ts';
+import { BaseModifierChroma } from '../../types/beatmap/shared/custom/chroma.ts';
 
 export function fixBoolean(value: unknown): boolean;
 export function fixBoolean(value: unknown, defaultValue: boolean): boolean;
@@ -289,8 +291,8 @@ export function fixVector3PointDefinition(
    return Array.isArray(value)
       ? value
          .filter((ary) => Array.isArray(ary) || typeof ary === 'string')
-         .map((elm: unknown[]) => {
-            if (typeof elm === 'string') return elm;
+         .map((elm: unknown[] | string) => {
+            if (typeof elm === 'string') return elm as BaseModifierNE;
             const temp = [
                fixFloat(elm.at(0), defaultValue[0]),
                fixFloat(elm.at(1), defaultValue[1]),
@@ -325,8 +327,8 @@ export function fixVector4PointDefinition(
    return Array.isArray(value)
       ? value
          .filter((ary) => Array.isArray(ary) || typeof ary === 'string')
-         .map((elm: unknown[]) => {
-            if (typeof elm === 'string') return elm;
+         .map((elm: unknown[] | string) => {
+            if (typeof elm === 'string') return elm as BaseModifierChroma;
             const temp = [
                fixFloat(value.at(0), defaultValue[0]),
                fixFloat(value.at(1), defaultValue[1]),
