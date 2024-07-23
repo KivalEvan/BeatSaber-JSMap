@@ -38,6 +38,6 @@ jobs:
         run: npx jsr publish
 
       - name: Publishing on NPM
-        run: cd npm && npm publish --provenance --access=public && cd ..
+        run: cd npm && npm publish --provenance && cd ..
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

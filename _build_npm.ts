@@ -18,7 +18,7 @@ await build({
    },
    package: {
       // package.json properties
-      name: denoJson.name,
+      name: 'bsmap',
       version: denoJson.version,
       description: 'General-purpose scripting module for Beat Saber beatmap using TypeScript.',
       license: 'MIT',

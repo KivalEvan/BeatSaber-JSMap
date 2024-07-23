@@ -6,7 +6,7 @@
       "./extensions": "./extensions/mod.ts",
       "./patch": "./patch/mod.ts"
    },
-   "publish": { "exclude": [".git", "_build_npm.ts", "npm", "coverage", "tests"] },
+   "publish": { "exclude": [".git", ".github", "_build_npm.ts", "npm", "coverage", "tests"] },
    "exclude": [".git", "npm", "coverage"],
    "lock": false,
    "fmt": {
