@@ -59,7 +59,7 @@ const noteParityRotation: {
 };
 
 // TODO: probably body class for leaning
-export default class Parity {
+export class Parity {
    private state!: ParityState;
    private color!: number;
    private rotation!: number;

@@ -34,6 +34,7 @@ export * from './info.ts';
 export * from './lightColorEvent.ts';
 export * from './lightColorEventBox.ts';
 export * from './lightColorEventBoxGroup.ts';
+export * from './lightshow.ts';
 export * from './lightRotationEvent.ts';
 export * from './lightRotationEventBox.ts';
 export * from './lightRotationEventBoxGroup.ts';

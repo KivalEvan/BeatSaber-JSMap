@@ -3,10 +3,10 @@ import type { CharacteristicName } from '../../types/beatmap/shared/characterist
 import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import type { ISwingAnalysis, ISwingCount } from './types/swing.ts';
 import { median } from '../../utils/math.ts';
-import Swing from './swing.ts';
 import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import { sortNoteFn } from '../../beatmap/helpers/sort.ts';
+import { generate, next } from './swing.ts';
 
 // derived from Uninstaller's Swings Per Second tool
 // some variable or function may have been modified
@@ -27,7 +27,7 @@ export function count(
       const realTime = bpm.toRealTime(nc.time);
       if (nc.color === 0) {
          if (lastRed) {
-            if (Swing.next(nc, lastRed, bpm)) {
+            if (next(nc, lastRed, bpm)) {
                swingCount.left[Math.floor(realTime)]++;
             }
          } else {
@@ -37,7 +37,7 @@ export function count(
       }
       if (nc.color === 1) {
          if (lastBlue) {
-            if (Swing.next(nc, lastBlue, bpm)) {
+            if (next(nc, lastBlue, bpm)) {
                swingCount.right[Math.floor(realTime)]++;
             }
          } else {
@@ -78,7 +78,7 @@ export function info(
       red: { average: 0, peak: 0, median: 0, total: 0 },
       blue: { average: 0, peak: 0, median: 0, total: 0 },
       total: { average: 0, peak: 0, median: 0, total: 0 },
-      container: Swing.generate(difficulty.colorNotes, bpm),
+      container: generate(difficulty.colorNotes, bpm),
    };
    const duration = Math.max(
       bpm.toRealTime(getLastInteractiveTime(difficulty) - getFirstInteractiveTime(difficulty)),

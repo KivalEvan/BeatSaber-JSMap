@@ -4,7 +4,12 @@ import denoPackage from './deno.json' with { type: 'json' };
 await emptyDir('./npm');
 
 await build({
-   entryPoints: Object.values(denoPackage.exports),
+   entryPoints: Object.entries(denoPackage.exports).map(
+      ([k, v]) => ({
+         name: k,
+         path: v,
+      }),
+   ),
    outDir: './npm',
    test: false,
    shims: {

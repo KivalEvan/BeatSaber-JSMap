@@ -4,3 +4,4 @@ export * from './colorScheme.ts';
 export * from './constants.ts';
 export * from './difficulty.ts';
 export * from './environment.ts';
+export * from './score.ts';

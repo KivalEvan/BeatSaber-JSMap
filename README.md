@@ -127,6 +127,7 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 - Use ESM
   - Avoid circular imports
   - Avoid URL imports
+  - Avoid default export
   - Prefer `node:` built-in import if needed
 
 ## Planned
