@@ -1,10 +1,10 @@
 import { build, emptyDir } from 'jsr:@deno/dnt';
-import denoPackage from './deno.json' with { type: 'json' };
+import denoJson from './deno.json' with { type: 'json' };
 
 await emptyDir('./npm');
 
 await build({
-   entryPoints: Object.entries(denoPackage.exports).map(
+   entryPoints: Object.entries(denoJson.exports).map(
       ([k, v]) => ({
          name: k,
          path: v,
@@ -18,8 +18,8 @@ await build({
    },
    package: {
       // package.json properties
-      name: 'bsmap',
-      version: denoPackage.version,
+      name: denoJson.name,
+      version: denoJson.version,
       description: 'General-purpose scripting module for Beat Saber beatmap using TypeScript.',
       license: 'MIT',
       repository: {
