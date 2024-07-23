@@ -1,19 +1,11 @@
 # Changelog
 
-## 2.0.0 [2024-07-##]
+## 2.0.0 [2024-07-23]
 
 ### Added
 
 - Collider environment & color scheme
 - `read` and `write` module
-  - This require user to supply `fs` function from respective vendor in order to function, throws
-    error if not presented
-    - For example, you may use `Node.js`, `Deno`, `Bun` or `Browser`, all of which have completely
-      different implementation and is incompatible with one another, which can be an issue to
-      support.
-    - In certain case, you may want to create a wrapper to get around compatibility or any other
-      reason.
-    - In the future, the module may be able to shim automatically but not guaranteed.
   - This is to separate loading and saving functionality from including `fs`
 - `Beatmap` class object
   - Contains both `Difficulty` and `Lightshow`, separating respective object to supposed category
