@@ -1,3 +1,6 @@
+/**
+ * Convert number value of second to MM:SS string.
+ */
 export function toMmss(seconds: number): string {
    if (!seconds) {
       return '0:00';
@@ -11,6 +14,9 @@ export function toMmss(seconds: number): string {
    return `${min}:${sec}`;
 }
 
+/**
+ * Convert number value of minute to HH:MM:SS string.
+ */
 export function toHhmmss(minutes: number): string {
    if (!minutes) {
       return '0:00:00';
@@ -21,6 +27,9 @@ export function toHhmmss(minutes: number): string {
    return `${toMmss(minutes > 0 ? Math.floor(minutes) : Math.ceil(minutes))}:${sec}`;
 }
 
+/**
+ * Convert number value of second to MM:SS.SSS string.
+ */
 export function toMmssms(seconds: number): string {
    if (!seconds) {
       return '0:00.000';
@@ -29,6 +38,9 @@ export function toMmssms(seconds: number): string {
    return `${toMmss(seconds > 0 ? Math.floor(seconds) : Math.ceil(seconds))}.${dec}`;
 }
 
+/**
+ * Convert MM:SS string to number value of second.
+ */
 export function mmssToFloat(mmss: string): number {
    const [m, s] = mmss.split(':').map((el) => Math.abs(parseInt(el)));
    const sign = mmss.trim().startsWith('-');

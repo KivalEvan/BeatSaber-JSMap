@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import logger from '../logger.ts';
-import fs from './main.ts';
+import { fs } from './mod.ts';
 
 function tag(name: string): string[] {
    return ['fs', name];

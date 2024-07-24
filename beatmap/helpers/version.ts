@@ -1,6 +1,12 @@
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
 
+/**
+ * Get implicit version based on beatmap type.
+ *
+ * The implicit version is used when the version is not specified
+ * in the beatmap due to certain issues related within time period.
+ */
 export function implicitVersion(type: BeatmapFileType): Version {
    switch (type) {
       case 'info':
@@ -13,6 +19,7 @@ export function implicitVersion(type: BeatmapFileType): Version {
    }
 }
 
+/** Get beatmap version from JSON. */
 export function retrieveVersion(json: Record<string, unknown>): Version | null {
    const ver = json._version ?? json.version;
    if (typeof ver !== 'string') {
@@ -21,7 +28,11 @@ export function retrieveVersion(json: Record<string, unknown>): Version | null {
    return ver as unknown as Version;
 }
 
-/** Internal use, compare beatmap version to another. */
+/**
+ * Compare version between two versions.
+ *
+ * @returns -1 if current version is lower, 1 if higher, 0 if equal
+ */
 export function compareVersion(current: Version, compareTo: Version): -1 | 0 | 1 {
    const verCurrent = getVersionArray(current);
    const verCompareTo = getVersionArray(compareTo);

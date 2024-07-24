@@ -1,12 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
 import { loadBeatmap } from '../beatmap/loader/_main.ts';
-import { path } from '../path/main.ts';
+import { path } from '../path/mod.ts';
 import { readJSONFile, readJSONFileSync } from '../fs/_json.ts';
 import globals from '../globals.ts';
 import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';
 
-export const defaultOptions: Required<IReadOptions> = {
+const defaultOptions: Required<IReadOptions> = {
    directory: '',
    load: {},
 };

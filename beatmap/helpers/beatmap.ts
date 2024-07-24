@@ -2,11 +2,13 @@ import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import { sortNoteFn } from './sort.ts';
 import type { TimeProcessor } from './timeProcessor.ts';
 
+/** Calculates the number of notes per second. */
 export function calculateNps(beatmap: IWrapBeatmap, duration: number): number {
    const notes = beatmap.difficulty.colorNotes;
    return duration ? notes.length / duration : 0;
 }
 
+/** Calculates the peak number of notes per second given beat count. */
 export function calculateNpsPeak(
    beatmap: IWrapBeatmap,
    beatCount: number,
@@ -29,6 +31,11 @@ export function calculateNpsPeak(
    return peakNPS;
 }
 
+/**
+ * Get the first interactive time.
+ *
+ * Color notes, bomb notes, chains and obstacles in middle lane are considered interactive object.
+ */
 export function getFirstInteractiveTime(beatmap: IWrapBeatmap): number {
    const notes = [
       ...beatmap.difficulty.colorNotes,
@@ -43,6 +50,11 @@ export function getFirstInteractiveTime(beatmap: IWrapBeatmap): number {
    return Math.min(firstNoteTime, firstInteractiveObstacleTime);
 }
 
+/**
+ * Get the last interactive time.
+ *
+ * Color notes, bomb notes, chains and obstacles in middle lane are considered interactive object.
+ */
 export function getLastInteractiveTime(beatmap: IWrapBeatmap): number {
    const notes = [
       ...beatmap.difficulty.colorNotes,
@@ -57,6 +69,9 @@ export function getLastInteractiveTime(beatmap: IWrapBeatmap): number {
    return Math.max(lastNoteTime, lastInteractiveObstacleTime);
 }
 
+/**
+ * Get the first obstacle interactive time.
+ */
 export function findFirstInteractiveObstacleTime(beatmap: IWrapBeatmap): number {
    for (let i = 0, len = beatmap.obstacles.length; i < len; i++) {
       if (beatmap.obstacles[i].isInteractive()) {
@@ -66,6 +81,9 @@ export function findFirstInteractiveObstacleTime(beatmap: IWrapBeatmap): number 
    return Number.MAX_VALUE;
 }
 
+/**
+ * Get the last obstacle interactive time.
+ */
 export function findLastInteractiveObstacleTime(beatmap: IWrapBeatmap): number {
    let obstacleEnd = 0;
    for (let i = beatmap.difficulty.obstacles.length - 1; i >= 0; i--) {

@@ -11,12 +11,14 @@ import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 
+/** Conversion function version map for beatmap info. */
 export const infoConvertMap: Record<number, (data: IWrapInfo, sourceVer: number) => IWrapInfo> = {
    1: toV1Info,
    2: toV2Info,
    4: toV4Info,
 };
 
+/** Conversion function version map for beatmap audio data. */
 export const audioDataConvertMap: Record<
    number,
    (data: IWrapAudioData, sourceVer: number) => IWrapAudioData
@@ -25,6 +27,7 @@ export const audioDataConvertMap: Record<
    4: toV4Audio,
 };
 
+/** Conversion function version map for beatmap data. */
 export const beatmapConvertMap: Record<
    number,
    (data: IWrapBeatmap, sourceVer: number) => IWrapBeatmap

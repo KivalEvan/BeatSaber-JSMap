@@ -21,6 +21,7 @@ await build({
       name: 'bsmap',
       version: denoJson.version,
       description: 'General-purpose scripting module for Beat Saber beatmap using TypeScript.',
+      keywords: ['beat', 'saber', 'beatsaber', 'beatmap'],
       license: 'MIT',
       repository: {
          type: 'git',

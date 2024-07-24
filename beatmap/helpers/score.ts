@@ -3,6 +3,7 @@ import type { IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.
 import type { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
 import { lerp, normalize } from '../../utils/math.ts';
 
+/** Scoring type of note. */
 export const enum ScoreType {
    NONE,
    NORMAL,
@@ -12,6 +13,7 @@ export const enum ScoreType {
    CHAIN_ELEMENT,
 }
 
+/** Score value given by each scoring type of note. */
 export const ScoreValue: { readonly [key in ScoreType]: number } = {
    [ScoreType.NONE]: 0,
    [ScoreType.NORMAL]: 115,
@@ -21,6 +23,7 @@ export const ScoreValue: { readonly [key in ScoreType]: number } = {
    [ScoreType.CHAIN_ELEMENT]: 20,
 };
 
+/** Calculate max score from beatmap. */
 export function calculateScore(beatmap: IWrapBeatmapAttribute): number {
    let total = 0;
    let multiplier = 1;

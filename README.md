@@ -132,8 +132,8 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 
 ## Planned
 
-- Separate to submodule (`types`, `utils`, `extensions`, etc.)
 - Write JSDoc on every important bit
+- Separate class method to own function
 - Add more helper for Chroma and Noodle Extensions
 
 ## Known Issue

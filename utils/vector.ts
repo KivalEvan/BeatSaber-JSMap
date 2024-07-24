@@ -1,4 +1,3 @@
-import type { EasingFunction } from '../types/easings.ts';
 import type {
    Vector2,
    Vector2Object,
@@ -11,14 +10,17 @@ import { lerp } from './math.ts';
 
 type VectorObject = Partial<Vector2Object> | Partial<Vector3Object> | Partial<Vector4Object>;
 
+/** Check if value is `Vector2` */
 export function isVector2(obj: unknown): obj is Vector2 {
    return Array.isArray(obj) && obj.length === 2 && obj.every((n) => typeof n === 'number');
 }
 
+/** Check if value is `Vector3` */
 export function isVector3(obj: unknown): obj is Vector3 {
    return Array.isArray(obj) && obj.length === 3 && obj.every((n) => typeof n === 'number');
 }
 
+/** Check if value is `Vector4` */
 export function isVector4(obj: unknown): obj is Vector4 {
    return Array.isArray(obj) && obj.length === 4 && obj.every((n) => typeof n === 'number');
 }
@@ -179,53 +181,47 @@ export function lerpVector<T extends Vector2 | Vector3 | Vector4 | number[] | un
    alpha: number,
    vec: T,
    value?: number[],
-   easing?: EasingFunction,
 ): T;
 export function lerpVector(
    valpha: number,
    ec?: Vector2,
    value?: VectorObject,
-   easing?: EasingFunction,
 ): Vector2;
 export function lerpVector(
    alpha: number,
    vec?: Vector3,
    value?: VectorObject,
-   easing?: EasingFunction,
 ): Vector3;
 export function lerpVector(
    alpha: number,
    vec?: Vector4,
    value?: VectorObject,
-   easing?: EasingFunction,
 ): Vector4;
 export function lerpVector<T extends Vector2 | Vector3 | Vector4 | number[]>(
    alpha: number,
    vec?: T,
    value?: T | VectorObject,
-   easing?: EasingFunction,
 ): T | undefined {
    if (!vec) return vec;
-   if (!easing) easing = (x: number) => x;
    vec = [...vec];
    if (value) {
       if (Array.isArray(value)) {
          for (let i = 0; i < vec.length; i++) {
             if (typeof value[i] === 'number') {
-               vec[i] = lerp(alpha, vec[i], value[i], easing);
+               vec[i] = lerp(alpha, vec[i], value[i]);
             }
          }
       } else {
          switch (vec.length) {
             case 4:
-               vec[3] = lerp(alpha, vec[3], (value as Vector4Object).w ?? vec[3], easing);
+               vec[3] = lerp(alpha, vec[3], (value as Vector4Object).w ?? vec[3]);
             /* falls through */
             case 3:
-               vec[2] = lerp(alpha, vec[2], (value as Vector3Object).z ?? vec[2], easing);
+               vec[2] = lerp(alpha, vec[2], (value as Vector3Object).z ?? vec[2]);
             /* falls through */
             case 2:
-               vec[1] = lerp(alpha, vec[1], value.y ?? vec[1], easing);
-               vec[0] = lerp(alpha, vec[0], value.x ?? vec[0], easing);
+               vec[1] = lerp(alpha, vec[1], value.y ?? vec[1]);
+               vec[0] = lerp(alpha, vec[0], value.x ?? vec[0]);
          }
       }
    }

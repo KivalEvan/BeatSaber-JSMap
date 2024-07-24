@@ -1,9 +1,11 @@
+/** Base game note color value. */
 export const enum NoteColor {
    NONE = -1,
    RED,
    BLUE,
 }
 
+/** Base game note direction value. */
 export const enum NoteDirection {
    UP,
    DOWN,
@@ -16,6 +18,7 @@ export const enum NoteDirection {
    ANY,
 }
 
+/** Base game object position X value. */
 export const enum PosX {
    LEFT,
    MIDDLE_LEFT,
@@ -23,12 +26,14 @@ export const enum PosX {
    RIGHT,
 }
 
+/** Base game object position Y value. */
 export const enum PosY {
    BOTTOM,
    MIDDLE,
    TOP,
 }
 
+/** Base game event light value used in basic event. */
 export const enum EventLightValue {
    OFF,
    BLUE_ON,
@@ -45,6 +50,7 @@ export const enum EventLightValue {
    WHITE_TRANSITION,
 }
 
+/** Generic event type value used in basic event. */
 export const enum EventType {
    BACK_LASERS,
    RING_LIGHTS,
@@ -73,23 +79,13 @@ export const enum EventType {
    BPM_CHANGE = 100,
 }
 
-/** Unused as of beatmap v3, useful for conversion reason. */
-export const EventLaneRotationValue: { readonly [key: number]: number } = {
-   0: -60,
-   1: -45,
-   2: -30,
-   3: -15,
-   4: 15,
-   5: 30,
-   6: 45,
-   7: 60,
-} as const;
-
+/** Base game index filter type value. */
 export const enum IndexFilterType {
    DIVISION = 1,
    STEP_AND_OFFSET,
 }
 
+/** Base game limit also affects type value used in index filter. */
 export const enum LimitAlsoAffectsType {
    NONE,
    DURATION,
@@ -97,6 +93,7 @@ export const enum LimitAlsoAffectsType {
    ALL,
 }
 
+/** Base game random type value used in index filter. */
 export const enum RandomType {
    NO_RANDOM,
    KEEP_ORDER,
@@ -104,18 +101,21 @@ export const enum RandomType {
    ALL,
 }
 
-export const enum EventBoxColor {
+/** Base game event color value used in light color event. */
+export const enum EventLightColor {
    NONE = -1,
    RED,
    BLUE,
    WHITE,
 }
 
+/** Base game distribution type value used in light event. */
 export const enum DistributionType {
    WAVE = 1,
    STEP,
 }
 
+/** Base game ease type value used in light event. */
 export const enum EaseType {
    NONE = -1,
    LINEAR,
@@ -154,44 +154,48 @@ export const enum EaseType {
    BS_INOUT_BOUNCE,
 }
 
-/** Used for lane rotation event. */
+/** Base game execution time value used in rotation event. */
 export const enum ExecutionTime {
    EARLY,
    LATE,
 }
 
+/** Base game transition type value used in light color event. */
 export const enum TransitionType {
    INSTANT,
    INTERPOLATE,
    EXTEND,
 }
 
-/** Used for light rotation event. */
+/** Base game axis value used in rotation/translation event box. */
 export const enum Axis {
    X,
    Y,
    Z,
 }
 
-/** Used for FX event box group. */
+/** Base game FX type value used in FX event group. */
 export const enum FxType {
    INT,
    FLOAT,
    BOOL,
 }
 
+/** Base game light rotation direction value used in light rotation event. */
 export const enum LightRotationDirection {
    AUTOMATIC,
    CLOCKWISE,
    COUNTER_CLOCKWISE,
 }
 
+/** Base game slider mid anchor mode value used in arc. */
 export const enum SliderMidAnchorMode {
    STRAIGHT,
    CLOCKWISE,
    COUNTER_CLOCKWISE,
 }
 
+/** Base game event box type value. */
 export const enum EventBoxType {
    NONE,
    COLOR,

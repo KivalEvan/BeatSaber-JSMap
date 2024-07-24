@@ -489,7 +489,7 @@ function fixFxEventFloat(obj: IWrapFxEventFloatAttribute): void {
    obj.value = fixFloat(obj.value, FxEventFloat.defaultValue.value);
 }
 
-export function main(data: IWrapBeatmap): void {
+export function beatmap(data: IWrapBeatmap): void {
    logger.tInfo(
       ['patch', 'dataCorrection', 'beatmap', 'main'],
       'Verifying and correcting data type...',

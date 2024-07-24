@@ -43,7 +43,7 @@ export function sortNoteFn(a: IWrapGridObjectAttribute, b: IWrapGridObjectAttrib
 }
 
 /**
- * Pass this to v1 or v2 object array `sort` function as an argument.
+ * Pass this to schema v1 or v2 object array `sort` function as an argument.
  *
  * ```ts
  * data._events.sort(sortV2ObjectFn);
@@ -54,7 +54,7 @@ export function sortV2ObjectFn(a: IV2BaseObject, b: IV2BaseObject): number {
 }
 
 /**
- * Pass this to v1 or v2 note type array `sort` function as an argument.
+ * Pass this to schema v1 or v2 note type array `sort` function as an argument.
  *
  * ```ts
  * data._notes.sort(sortV2NoteFn);
@@ -72,7 +72,7 @@ export function sortV2NoteFn(a: INote, b: INote): number {
 }
 
 /**
- * Pass this to v3 object array `sort` function as an argument.
+ * Pass this to schema v3 object array `sort` function as an argument.
  *
  * ```ts
  * data.basicBeatmapEvents.sort(sortV3ObjectFn);
@@ -83,7 +83,7 @@ export function sortV3ObjectFn(a: IV3BaseObject, b: IV3BaseObject): number {
 }
 
 /**
- * Pass this to v3 note type array `sort` function as an argument.
+ * Pass this to schema v3 note type array `sort` function as an argument.
  *
  * ```ts
  * data.arcs.sort(sortV3NoteFn);

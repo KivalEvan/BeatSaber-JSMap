@@ -7,7 +7,7 @@ import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 
 export function generate(
    nc: IWrapColorNote[],
-   bpm: TimeProcessor,
+   timeProc: TimeProcessor,
 ): ISwingContainer[] {
    const sc: ISwingContainer[] = [];
    let ebpm = 0;
@@ -24,19 +24,15 @@ export function generate(
       minSpeed = 0;
       maxSpeed = Number.MAX_SAFE_INTEGER;
       if (lastNote[n.color]) {
-         if (next(n, lastNote[n.color], bpm, swingNoteArray[n.color])) {
-            minSpeed = calcMinSliderSpeed(swingNoteArray[n.color], bpm);
-            maxSpeed = calcMaxSliderSpeed(swingNoteArray[n.color], bpm);
+         if (next(n, lastNote[n.color], timeProc, swingNoteArray[n.color])) {
+            minSpeed = calcMinSliderSpeed(swingNoteArray[n.color], timeProc);
+            maxSpeed = calcMaxSliderSpeed(swingNoteArray[n.color], timeProc);
             if (!(minSpeed > 0 && maxSpeed !== Infinity)) {
                minSpeed = 0;
                maxSpeed = 0;
             }
-            ebpmSwing = calcEBPMBetweenObject(
-               n,
-               firstNote[n.color],
-               bpm,
-            );
-            ebpm = calcEBPMBetweenObject(n, lastNote[n.color], bpm);
+            ebpmSwing = calcEBPMBetweenObject(n, firstNote[n.color], timeProc);
+            ebpm = calcEBPMBetweenObject(n, lastNote[n.color], timeProc);
             sc.push({
                time: firstNote[n.color].time,
                duration: lastNote[n.color].time - firstNote[n.color].time,
@@ -57,8 +53,8 @@ export function generate(
    }
    for (let color = 0; color < 2; color++) {
       if (lastNote[color]) {
-         minSpeed = calcMinSliderSpeed(swingNoteArray[color], bpm);
-         maxSpeed = calcMaxSliderSpeed(swingNoteArray[color], bpm);
+         minSpeed = calcMinSliderSpeed(swingNoteArray[color], timeProc);
+         maxSpeed = calcMaxSliderSpeed(swingNoteArray[color], timeProc);
          if (!(minSpeed > 0 && maxSpeed !== Infinity)) {
             minSpeed = 0;
             maxSpeed = 0;
@@ -81,13 +77,14 @@ export function generate(
 export function next(
    currNote: IWrapColorNote,
    prevNote: IWrapColorNote,
-   bpm: TimeProcessor,
+   timeProc: TimeProcessor,
    context?: IWrapColorNote[],
 ): boolean {
    if (
       context &&
       context.length > 0 &&
-      bpm.toRealTime(prevNote.time) + 0.005 < bpm.toRealTime(currNote.time) &&
+      timeProc.toRealTime(prevNote.time) + 0.005 <
+         timeProc.toRealTime(currNote.time) &&
       currNote.direction !== NoteDirection.ANY
    ) {
       for (const n of context) {
@@ -108,8 +105,8 @@ export function next(
    }
    return (
       (currNote.isWindow(prevNote) &&
-         bpm.toRealTime(currNote.time - prevNote.time) > 0.08) ||
-      bpm.toRealTime(currNote.time - prevNote.time) > 0.07
+         timeProc.toRealTime(currNote.time - prevNote.time) > 0.08) ||
+      timeProc.toRealTime(currNote.time - prevNote.time) > 0.07
    );
 }
 
@@ -130,12 +127,12 @@ export function calcEBPMBetweenObject(
 
 function calcMinSliderSpeed(
    notes: IWrapColorNote[],
-   bpm: TimeProcessor,
+   timeProc: TimeProcessor,
 ): number {
    let hasStraight = false;
    let hasDiagonal = false;
    let curvedSpeed = 0;
-   const speed = bpm.toRealTime(
+   const speed = timeProc.toRealTime(
       Math.max(
          ...notes.map((_, i) => {
             if (i === 0) {
@@ -161,19 +158,19 @@ function calcMinSliderSpeed(
       ),
    );
    if (hasStraight && hasDiagonal) {
-      return bpm.toRealTime(curvedSpeed);
+      return timeProc.toRealTime(curvedSpeed);
    }
    return speed;
 }
 
 function calcMaxSliderSpeed(
    notes: IWrapColorNote[],
-   bpm: TimeProcessor,
+   timeProc: TimeProcessor,
 ): number {
    let hasStraight = false;
    let hasDiagonal = false;
    let curvedSpeed = Number.MAX_SAFE_INTEGER;
-   const speed = bpm.toRealTime(
+   const speed = timeProc.toRealTime(
       Math.min(
          ...notes.map((_, i) => {
             if (i === 0) {
@@ -199,7 +196,7 @@ function calcMaxSliderSpeed(
       ),
    );
    if (hasStraight && hasDiagonal) {
-      return bpm.toRealTime(curvedSpeed);
+      return timeProc.toRealTime(curvedSpeed);
    }
    return speed;
 }

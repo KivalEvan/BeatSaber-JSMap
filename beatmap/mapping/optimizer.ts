@@ -10,12 +10,14 @@ import { optimizeLightshow as optimizeV3Lightshow } from '../schema/v3/optimize/
 import { optimizeLightshow as optimizeV4Lightshow } from '../schema/v4/optimize/lightshow.ts';
 import type { IOptimizeOptions } from '../../types/beatmap/options/optimize.ts';
 
+/** Optimize function version map for schema beatmap info. */
 export const infoOptimizeMap: Record<number, (data: any, options: IOptimizeOptions) => void> = {
    1: optimizeV1Info,
    2: optimizeV2Info,
    4: optimizeV4Info,
 };
 
+/** Optimize function version map for schema beatmap difficulty. */
 export const difficultyOptimizeMap: Record<number, (data: any, options: IOptimizeOptions) => void> =
    {
       1: optimizeV1Difficulty,
@@ -24,6 +26,7 @@ export const difficultyOptimizeMap: Record<number, (data: any, options: IOptimiz
       4: optimizeV4Difficulty,
    };
 
+/** Optimize function version map for schema beatmap lightshow. */
 export const lightshowOptimizeMap: Record<number, (data: any, options: IOptimizeOptions) => void> =
    {
       3: optimizeV3Lightshow,

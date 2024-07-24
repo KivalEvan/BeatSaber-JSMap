@@ -16,6 +16,9 @@ export interface IColor {
  */
 export type ColorArray = Vector3 | Vector4;
 
+/**
+ *  Supported color type.
+ */
 export type ColorType = 'rgba' | 'rgba255' | 'hsva';
 
 interface IColorBase {
@@ -38,6 +41,12 @@ interface IColorHSVA extends IColorBase {
    value: ColorArray;
 }
 
+/**
+ * Color representation object.
+ */
 export type ColorObject = IColorRGBA | IColorRGBA255 | IColorHSVA;
 
+/**
+ * Color input type.
+ */
 export type ColorInput = ColorArray | ColorObject | string;

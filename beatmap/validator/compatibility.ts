@@ -18,6 +18,9 @@ const defaultOptions: ICompatibilityOptions = {
    throwOn: { incompatibleObject: true, mappingExtensions: false },
 };
 
+/**
+ * Check if the beatmap is compatible with the version schema.
+ */
 export function compatibilityCheck<
    T extends Record<string, any> = Record<string, any>,
 >(

@@ -1,4 +1,4 @@
-import type { EventBoxColor } from '../shared/constants.ts';
+import type { EventLightColor } from '../shared/constants.ts';
 import type { EaseType } from '../shared/constants.ts';
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
@@ -15,7 +15,7 @@ export interface IWrapLightColorEventAttribute extends IWrapBaseObjectAttribute 
     * 2 -> White
     * ```
     */
-   color: EventBoxColor;
+   color: EventLightColor;
    /**
     * Frequency `<int>` of base light color.
     *
@@ -41,7 +41,7 @@ export interface IWrapLightColorEventAttribute extends IWrapBaseObjectAttribute 
 
 export interface IWrapLightColorEvent extends IWrapBaseObject, IWrapLightColorEventAttribute {
    setPrevious(value: 0 | 1): this;
-   setColor(value: EventBoxColor): this;
+   setColor(value: EventLightColor): this;
    setBrightness(value: number): this;
    setFrequency(value: number): this;
    setStrobeBrightness(value: number): this;

@@ -29,6 +29,9 @@ const defaultOptions: IDataCheckOptions = {
    },
 };
 
+/**
+ * Validate the beatmap JSON data against the schema.
+ */
 export function validateJSON<T extends Record<string, any> = Record<string, any>>(
    type: BeatmapFileType,
    data: T,

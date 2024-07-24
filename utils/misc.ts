@@ -1,7 +1,11 @@
 import type { Writable } from '../types/utils.ts';
 import type { DeepWritable } from '../types/utils.ts';
 
-/** Fisher–Yates shuffle algorithm. */
+/**
+ * Shuffle array in-place.
+ *
+ * Using Fisher–Yates shuffle algorithm.
+ */
 export function shuffle<T>(array: T[], fn = Math.random): T[] {
    for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(fn() * (i + 1));
@@ -10,12 +14,20 @@ export function shuffle<T>(array: T[], fn = Math.random): T[] {
    return array;
 }
 
+/**
+ * Interleave two arrays.
+ *
+ * ```ts
+ * interleave([1, 2, 3], [4, 5, 6]); // [1, 4, 2, 5, 3, 6]
+ * ```
+ */
 export function interleave<T, U>([x, ...xs]: T[], ys: U[] = []): (T | U)[] {
    return x === undefined
       ? ys // base: no x
       : [x, ...interleave(ys, xs)]; // inductive: some x
 }
 
+/** Pick random element from array */
 export function pickRandom<T>(ary: T[], fn = Math.random): T {
    return ary[Math.floor(fn() * ary.length)];
 }
@@ -70,14 +82,17 @@ export function jsonCopy<T>(object: T): DeepWritable<T> {
    return JSON.parse(JSON.stringify(object));
 }
 
+/** Check if string is valid hexadecimal */
 export function isHex(hex: string): boolean {
    return /^[a-fA-F0-9]+$/g.test(hex);
 }
 
+/** Convert hexadecimal to decimal */
 export function hexToDec(hex: string): number {
    return parseInt(hex, 16);
 }
 
+/** Convert decimal to hexadecimal */
 export function decToHex(val: number): string {
    const hex = val.toString(16);
    return hex;

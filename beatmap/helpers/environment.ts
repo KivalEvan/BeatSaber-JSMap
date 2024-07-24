@@ -4,6 +4,7 @@ import type {
    EnvironmentV3Name,
 } from '../../types/beatmap/shared/environment.ts';
 
+/** Check if environment is 360 environment. */
 export function is360Environment(
    environment: EnvironmentAllName,
 ): environment is Environment360Name {
@@ -13,6 +14,7 @@ export function is360Environment(
    );
 }
 
+/** Check if environment is v3 environment. */
 export function isV3Environment(
    environment: EnvironmentAllName,
 ): environment is EnvironmentV3Name {

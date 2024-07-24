@@ -12,6 +12,7 @@ import { compatLightshow as compatV3Lightshow } from '../schema/v3/compat/lights
 import { compatLightshow as compatV4Lightshow } from '../schema/v4/compat/lightshow.ts';
 import type { ICompatibilityOptions } from '../../types/beatmap/options/compatibility.ts';
 
+/** Compatibility function version map for beatmap info. */
 export const infoCompatibilityMap: Record<
    number,
    (data: any, options: ICompatibilityOptions) => void
@@ -21,6 +22,7 @@ export const infoCompatibilityMap: Record<
    4: compatV4Info,
 };
 
+/** Compatibility function version map for beatmap audio data. */
 export const audioDataCompatibilityMap: Record<
    number,
    (data: any, options: ICompatibilityOptions) => void
@@ -29,6 +31,7 @@ export const audioDataCompatibilityMap: Record<
    4: compatV4AudioData,
 };
 
+/** Compatibility function version map for beatmap difficulty. */
 export const difficultyCompatibilityMap: Record<
    number,
    (data: any, options: ICompatibilityOptions) => void
@@ -39,6 +42,7 @@ export const difficultyCompatibilityMap: Record<
    4: compatV4Difficulty,
 };
 
+/** Compatibility function version map for beatmap lightshow. */
 export const lightshowCompatibilityMap: Record<
    number,
    (data: any, options: ICompatibilityOptions) => void

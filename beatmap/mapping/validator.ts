@@ -19,17 +19,20 @@ import {
    LightshowDataCheck as V4LightshowDataCheck,
 } from '../schema/v4/dataCheck.ts';
 
+/** Data check version map for schema beatmap info. */
 export const infoCheckMap: Record<number, Record<string, IDataCheck>> = {
    1: V1InfoDataCheck,
    2: V2InfoDataCheck,
    4: V4InfoDataCheck,
 };
 
+/** Data check version map for schema beatmap audio data. */
 export const audioDataCheckMap: Record<number, Record<string, IDataCheck>> = {
    2: V2AudioDataCheck,
    4: V4AudioDataCheck,
 };
 
+/** Data check version map for schema beatmap difficulty. */
 export const difficultyCheckMap: Record<number, Record<string, IDataCheck>> = {
    1: V1DifficultyDataCheck,
    2: V2DifficultyDataCheck,
@@ -37,6 +40,7 @@ export const difficultyCheckMap: Record<number, Record<string, IDataCheck>> = {
    4: V4DifficultyDataCheck,
 };
 
+/** Data check version map for schema beatmap lightshow. */
 export const lightshowCheckMap: Record<number, Record<string, IDataCheck>> = {
    3: V3LightshowDataCheck,
    4: V4LightshowDataCheck,

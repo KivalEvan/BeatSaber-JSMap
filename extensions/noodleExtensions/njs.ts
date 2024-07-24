@@ -122,10 +122,9 @@ export function gradientNjs(
    const endTime = objects.at(-1)!.time;
    objects.forEach((o) => {
       o.customData.noteJumpMovementSpeed = lerp(
-         normalize(o.time, startTime, endTime),
+         options.easing!(normalize(o.time, startTime, endTime)),
          options.njsStart,
          options.njsEnd,
-         options.easing,
       );
       if (typeof options.jd === 'number') {
          const currNJS = new NoteJumpSpeed(

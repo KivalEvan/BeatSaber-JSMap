@@ -11,7 +11,7 @@ let duration = 0;
 const filterTime = <T extends IWrapBaseObject>(obj: T) =>
    duration ? !(obj.time < 0 || obj.time > duration) : !(obj.time < 0);
 
-export default function (
+export function removeOutsidePlayable(
    data: IWrapBeatmap,
    bpm: TimeProcessor,
    audioLength: number,

@@ -11,4 +11,3 @@ export * from './math.ts';
 export * from './misc.ts';
 export * from './time.ts';
 export * from './vector.ts';
-export * from './web.ts';

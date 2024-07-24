@@ -3,6 +3,7 @@ import type { Vector3 } from '../types/vector.ts';
 
 /**
  * Return number in formatted number string.
+ *
  * ```ts
  * console.log(formatNumber(12345678)); // 12,345,678
  * ```
@@ -56,7 +57,10 @@ function _random(
    [min, max] = rearrangeTuple(min, max);
    const result = fn() * (max - min) + min;
    return rounding
-      ? round(result, typeof rounding === 'number' && rounding > 0 ? rounding : 0)
+      ? round(
+         result,
+         typeof rounding === 'number' && rounding > 0 ? rounding : 0,
+      )
       : result;
 }
 
@@ -95,7 +99,11 @@ export function pRandom(
  */
 export function pRandomFn(
    seed: string | number | bigint = Math.random(),
-): (min?: number | boolean, max?: number | boolean, rounding?: number | boolean) => number {
+): (
+   min?: number | boolean,
+   max?: number | boolean,
+   rounding?: number | boolean,
+) => number {
    const _seed = hashCode(seed);
    const _func = _pRandom(_seed);
    return function (
@@ -175,7 +183,11 @@ export function randomNormal(
 }
 
 /** Return number tuple in order. */
-export function rearrangeTuple(min: number, max: number, inverse?: boolean): [number, number] {
+export function rearrangeTuple(
+   min: number,
+   max: number,
+   inverse?: boolean,
+): [number, number] {
    if (!inverse && min > max) {
       return [max, min];
    }
@@ -185,6 +197,7 @@ export function rearrangeTuple(min: number, max: number, inverse?: boolean): [nu
    return [min, max];
 }
 
+/** Round number to given decimal places. */
 export function round(num: number, d = 0): number {
    const r = Math.pow(10, d);
    return Math.round(num * r) / r;
@@ -201,8 +214,17 @@ export function round(num: number, d = 0): number {
  * ```
  */
 export function range(n: number, inclusive?: boolean): number[];
-export function range(start: number, end: number, inclusive?: boolean): number[];
-export function range(start: number, end: number, step: number, inclusive?: boolean): number[];
+export function range(
+   start: number,
+   end: number,
+   inclusive?: boolean,
+): number[];
+export function range(
+   start: number,
+   end: number,
+   step: number,
+   inclusive?: boolean,
+): number[];
 export function range(
    arg0: number,
    arg1?: number | boolean,
@@ -228,28 +250,48 @@ export function range(
       step = arg2!;
    }
    if (!step) step = start > end ? -1 : 1;
-   const ary = new Array(Math.abs(Math.ceil((end - start) / step)) + (inc ? 1 : 0));
+   const ary = new Array(
+      Math.abs(Math.ceil((end - start) / step)) + (inc ? 1 : 0),
+   );
    for (let i = 0; i < ary.length; i++) {
       ary[i] = start + i * step;
    }
    return ary;
 }
 
+/** Convert degrees to radians. */
 export function radToDeg(rad: number): number {
    return rad * (180 / Math.PI);
 }
 
+/** Convert radians to degrees. */
 export function degToRad(deg: number): number {
    return deg * (Math.PI / 180);
 }
 
-/** Return [radius, theta, phi] */
-export function cartesianCoordToSphericalCoord(x: number, y: number, z: number): Vector3 {
+/**
+ * Convert cartesian coordinates to spherical coordinates.
+ *
+ * Return `[radius, theta, phi]`.
+ */
+export function cartesianCoordToSphericalCoord(
+   x: number,
+   y: number,
+   z: number,
+): Vector3 {
    const radius = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-   return [radius, Math.acos(z / radius), (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI)];
+   return [
+      radius,
+      Math.acos(z / radius),
+      (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI),
+   ];
 }
 
-/** Return [x, y, z] */
+/**
+ * Convert spherical coordinates to cartesian coordinates.
+ *
+ * Return `[x, y, z]`
+ */
 export function sphericalCoordToCartesianCoord(
    radius: number,
    theta: number,
@@ -263,6 +305,9 @@ export function sphericalCoordToCartesianCoord(
 }
 
 // thanks Top_Cat#1961
+/**
+ * Modulo function that can handle negative numbers.
+ */
 export function mod(x: number, m: number): number {
    if (m < 0) {
       m = -m;
@@ -270,16 +315,22 @@ export function mod(x: number, m: number): number {
    const r = x % m;
    return r < 0 ? r + m : r;
 }
+
+/**
+ * Get the shortest distance between two angles.
+ */
 export function shortRotDistance(a: number, b: number, m: number): number {
    return Math.min(mod(a - b, m), mod(b - a, m));
 }
 
+/** Sum numbers in an array. */
 export function sumAry(nums: number[]): number {
    let sum = 0;
    for (const n of nums) sum += n;
    return sum;
 }
 
+/** Product numbers in an array. */
 export function productAry(nums: number[]): number {
    if (!nums.length) {
       return 0;
@@ -289,6 +340,7 @@ export function productAry(nums: number[]): number {
    return prod;
 }
 
+/** Mean of numbers in an array. */
 export function mean(nums: number[]): number {
    if (!nums.length) {
       return 0;
@@ -296,6 +348,7 @@ export function mean(nums: number[]): number {
    return sumAry(nums) / nums.length;
 }
 
+/** Median of numbers in an array. */
 export function median(nums: number[]): number {
    if (!nums.length) {
       return 0;
@@ -308,6 +361,7 @@ export function median(nums: number[]): number {
    return (ary[mid - 1] + ary[mid]) / 2;
 }
 
+/** Clamp value between min and max. */
 export function clamp(value: number, min: number, max: number): number {
    return Math.min(Math.max(min, value), max);
 }
@@ -315,10 +369,10 @@ export function clamp(value: number, min: number, max: number): number {
 /**
  * Normalize value to 0-1 from given min and max value.
  *
- * Returns 1 if `max - min === 0`, values beyond will be extrapolated.
+ * Returns 1 if `min == max`, values beyond will be extrapolated.
  */
 export function normalize(value: number, min: number, max: number): number {
-   if (max - min === 0) return 1;
+   if (min === max) return 1;
    return (value - min) / (max - min);
 }
 
@@ -330,9 +384,8 @@ export function normalize(value: number, min: number, max: number): number {
  *
  * Alpha value must be in range of `0-1`, otherwise extrapolated.
  */
-export function lerp(alpha: number, from: number, to: number, easing?: EasingFunction): number {
-   if (!easing) easing = (x) => x;
-   return from + (to - from) * easing(alpha);
+export function lerp(alpha: number, from: number, to: number): number {
+   return from + (to - from) * alpha;
 }
 
 /**
@@ -363,6 +416,10 @@ export function remap(
 }
 
 /** Returns true if both value are approximately equal within given tolerance. */
-export function nearEqual(n1: number, n2: number, tolerance = Number.EPSILON): boolean {
+export function nearEqual(
+   n1: number,
+   n2: number,
+   tolerance = Number.EPSILON,
+): boolean {
    return Math.abs(n1 - n2) <= tolerance;
 }

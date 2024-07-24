@@ -6,6 +6,12 @@ function tag(name: string): string[] {
    return ['helpers', name];
 }
 
+/**
+ * Remap and deduplicate data in array.
+ *
+ * @param data The data array to remap and deduplicate.
+ * @returns The remapped and deduplicated data and a map of the original index to the new index.
+ */
 export function remapDedupe<T>(data: T[]): [T[], Map<number, number>] {
    const newData: string[] = [];
    const remapIdx = new Map<number, number>();
@@ -21,6 +27,11 @@ export function remapDedupe<T>(data: T[]): [T[], Map<number, number>] {
    return [newData.map((d) => JSON.parse(d)), remapIdx];
 }
 
+/**
+ * Delete props with zero values.
+ *
+ * @param data The data to purge props.
+ */
 // deno-lint-ignore no-explicit-any
 export function purgeZeros(data: Record<string, any>) {
    for (const k in data) {
@@ -30,6 +41,7 @@ export function purgeZeros(data: Record<string, any>) {
    }
 }
 
+/** Recursively clean object data. */
 export function deepClean(
    // deno-lint-ignore no-explicit-any
    obj: { [key: string | number]: any } | any[],

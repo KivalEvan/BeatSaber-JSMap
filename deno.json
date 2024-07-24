@@ -1,8 +1,11 @@
 {
    "name": "@kvl/bsmap",
-   "version": "2.0.2",
+   "version": "2.0.3",
    "exports": {
       ".": "./mod.ts",
+      "./beatmap/mapping": "./beatmap/mapping/mod.ts",
+      "./types": "./types/mod.ts",
+      "./utils": "./utils/mod.ts",
       "./extensions": "./extensions/mod.ts",
       "./patch": "./patch/mod.ts"
    },

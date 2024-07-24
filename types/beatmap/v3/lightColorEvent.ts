@@ -1,5 +1,5 @@
 import type { TransitionType } from '../shared/constants.ts';
-import type { EventBoxColor } from '../shared/constants.ts';
+import type { EventLightColor } from '../shared/constants.ts';
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 
 export interface ILightColorEvent {
@@ -14,7 +14,7 @@ export interface ILightColorEvent {
     * 2 -> White
     * ```
     */
-   c?: EventBoxColor;
+   c?: EventLightColor;
    /**
     * Frequency `<int>` of base light color.
     *

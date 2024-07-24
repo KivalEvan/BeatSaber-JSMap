@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.1.0 [2024-08-##]
+
+### Added
+
+- Several JSDocs written
+
+### Changed
+
+- Separate exports for `utils` and `types` to entrypoint
+
+### Removed
+
+- `web` functions from `utils`
+- `easing` params from certain function with `alpha` value
+
 ## 2.0.2 [2024-07-23]
 
 ### Fixed

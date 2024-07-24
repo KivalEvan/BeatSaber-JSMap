@@ -1,6 +1,3 @@
-/**
- * Maybe expanded upon in the future;
- */
 export interface IFileSystem {
    readTextFile: (path: string) => Promise<string>;
    readTextFileSync: (path: string) => string;

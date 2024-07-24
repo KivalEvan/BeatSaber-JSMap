@@ -4,9 +4,11 @@ import type { IWrapBaseSlider } from '../../types/beatmap/wrapper/baseSlider.ts'
 import type { ICountNote, ICountStatsNote } from './types/stats.ts';
 import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
 import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
+import type { GetAngleFn } from '../../types/beatmap/shared/functions.ts';
 
 /**
  * Count number of red, blue, and bomb notes with their properties in given array and return a note count object.
+ *
  * ```ts
  * const list = count(notes);
  * console.log(list);
@@ -78,7 +80,8 @@ export function countBomb(bombs: IWrapBombNote[]): ICountStatsNote {
 }
 
 /**
- * Count number of specified line index in a given array and return a counted number of line index.
+ * Count number of specified pos X in a given array and return a counted number of pos X.
+ *
  * ```ts
  * const xCount = countX(notes, 0);
  * ```
@@ -88,7 +91,8 @@ export function countX(objs: IWrapGridObjectAttribute[], x: number): number {
 }
 
 /**
- * Count number of specified line layer in a given array and return a counted number of line layer.
+ * Count number of specified pos Y in a given array and return a counted number of pos Y.
+ *
  * ```ts
  * const yCount = countY(notes, 0);
  * ```
@@ -98,7 +102,8 @@ export function countY(objs: IWrapGridObjectAttribute[], y: number): number {
 }
 
 /**
- * Count number of specified line index and line layer in a given array and return a counted number of line index and line layer.
+ * Count number of specified pos X and Y in a given array and return a counted number of pos X and Y.
+ *
  * ```ts
  * const xyCount = countXY(notes, 0, 0);
  * ```
@@ -108,7 +113,7 @@ export function countXY(objs: IWrapGridObjectAttribute[], x: number, y: number):
 }
 
 /**
- * Count number of specified `_cutDirection` in a given array and return a counted number of `_cutDirection`.
+ * Count number of specified `direction` in a given array and return a counted number of `direction`.
  * ```ts
  * const cdCount = countDirection(notes, 0);
  * ```
@@ -119,40 +124,15 @@ export function countDirection(notes: IWrapBaseNote[], cd: number): number {
 
 /**
  * Count number of specified angle in a given array and return a counted number of angle.
+ *
  * ```ts
  * const angleCount = countAngle(notes, 0);
  * ```
  */
-export function countAngle(notes: IWrapBaseNote[], angle: number): number {
-   return notes.filter((n) => n.getAngle() === angle).length;
-}
-
-/**
- * Calculate note per second.
- * ```ts
- * const nps = nps(notes, 10);
- * ```
- */
-export function nps(notes: IWrapColorNote[], duration: number): number {
-   return duration ? notes.length / duration : 0;
-}
-
-/**
- * Calculate the peak by rolling average.
- * ```ts
- * const peakNPS = peak(notes, 10, BPM ?? 128);
- * ```
- */
-export function peak(notes: IWrapColorNote[], beat: number, bpm: number): number {
-   let peakNPS = 0;
-   let currentSectionStart = 0;
-
-   for (let i = 0; i < notes.length; i++) {
-      while (notes[i].time - notes[currentSectionStart].time > beat) {
-         currentSectionStart++;
-      }
-      peakNPS = Math.max(peakNPS, (i - currentSectionStart + 1) / ((beat / bpm) * 60));
-   }
-
-   return peakNPS;
+export function countAngle(
+   notes: IWrapBaseNote[],
+   angle: number,
+   fn?: GetAngleFn<IWrapBaseNote>,
+): number {
+   return notes.filter((n) => n.getAngle(fn) === angle).length;
 }
