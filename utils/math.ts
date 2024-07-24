@@ -1,4 +1,3 @@
-import type { EasingFunction } from '../types/easings.ts';
 import type { Vector3 } from '../types/vector.ts';
 
 /**

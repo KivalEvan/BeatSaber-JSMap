@@ -45,7 +45,7 @@ export function setColorGradient(objects: IChromaObject[], options: SetColorGrad
    const endTime = objects.at(-1)!.time + opt.offsetEnd;
    objects.forEach((obj) => {
       const norm = normalize(obj.time, startTime, endTime);
-      const color = lerpColor(opt.colorStart, opt.colorEnd, norm, opt.colorType, opt.easingColor);
+      const color = lerpColor(opt.colorStart, opt.colorEnd, opt.easingColor(norm), opt.colorType);
       (obj.customData as IChromaEventLight).color = color;
    });
 }

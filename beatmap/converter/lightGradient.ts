@@ -13,7 +13,12 @@ function tag(name: string): string[] {
 }
 
 function isLightGradient(obj: unknown): obj is IChromaLightGradient {
-   return typeof obj === 'object' && obj != null && '_startColor' in obj && '_endColor' in obj;
+   return (
+      typeof obj === 'object' &&
+      obj != null &&
+      '_startColor' in obj &&
+      '_endColor' in obj
+   );
 }
 
 /**
@@ -22,7 +27,9 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
  * const newData = convert.V2ogChromaToChroma(oldData);
  * ```
  */
-export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(data: T): T {
+export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(
+   data: T,
+): T {
    logger.tWarn(
       tag('chromaLightGradientToVanillaGradient'),
       'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
@@ -42,7 +49,10 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(dat
             if (ev.type !== events[next].type) {
                continue;
             }
-            if (ev.time + ev.customData._lightGradient._duration >= events[next].time) {
+            if (
+               ev.time + ev.customData._lightGradient._duration >=
+                  events[next].time
+            ) {
                eventInGradient.push(events[next]);
             }
          }
@@ -50,15 +60,23 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(dat
             ev.customData._color = ev.customData._lightGradient._startColor;
             ev.customData._easing = ev.customData._lightGradient._easing;
             ev.value = ev.value >= 1 && ev.value <= 4 ? 1 : ev.value >= 5 && ev.value <= 8 ? 5 : 9;
-            const easing =
-               EasingsFn[(ev.customData._lightGradient._easing as Easings) ?? 'easeLinear'];
+            const easing = EasingsFn[
+               (ev.customData._lightGradient._easing as Easings) ??
+                  'easeLinear'
+            ];
             let hasOff = false;
             let previousEvent: IWrapBasicEvent = ev;
             for (const eig of eventInGradient) {
-               if (!hasOff && eig.time > ev.time + ev.customData._lightGradient._duration - 0.001) {
+               if (
+                  !hasOff &&
+                  eig.time >
+                     ev.time + ev.customData._lightGradient._duration - 0.001
+               ) {
                   newEvents.push(
                      new BasicEvent({
-                        time: ev.time + ev.customData._lightGradient._duration - 0.001,
+                        time: ev.time +
+                           ev.customData._lightGradient._duration -
+                           0.001,
                         type: ev.type,
                         value: ev.value >= 1 && ev.value <= 4
                            ? 4
@@ -86,9 +104,14 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(dat
                   eig.customData!._color = lerpColor(
                      ev.customData._lightGradient._startColor,
                      ev.customData._lightGradient._endColor,
-                     normalize(eig.time, ev.time, ev.time + ev.customData._lightGradient._duration),
+                     easing(
+                        normalize(
+                           eig.time,
+                           ev.time,
+                           ev.time + ev.customData._lightGradient._duration,
+                        ),
+                     ),
                      'rgba',
-                     easing,
                   );
                   if (eig.value === 0) {
                      eig.removeCustomData('_color');
@@ -97,9 +120,11 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(dat
                            new BasicEvent({
                               time: eig.time - 0.001,
                               type: ev.type,
-                              value: previousEvent.value >= 1 && previousEvent.value <= 4
+                              value: previousEvent.value >= 1 &&
+                                    previousEvent.value <= 4
                                  ? 4
-                                 : previousEvent.value >= 5 && previousEvent.value <= 8
+                                 : previousEvent.value >= 5 &&
+                                       previousEvent.value <= 8
                                  ? 8
                                  : 12,
                               floatValue: 1,
@@ -107,13 +132,16 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(dat
                                  _color: lerpColor(
                                     ev.customData._lightGradient._startColor,
                                     ev.customData._lightGradient._endColor,
-                                    normalize(
-                                       eig.time - 0.001,
-                                       ev.time,
-                                       ev.time + ev.customData._lightGradient._duration,
+                                    easing(
+                                       normalize(
+                                          eig.time - 0.001,
+                                          ev.time,
+                                          ev.time +
+                                             ev.customData._lightGradient
+                                                ._duration,
+                                       ),
                                     ),
                                     'rgba',
-                                    easing,
                                  ),
                               },
                            }),
