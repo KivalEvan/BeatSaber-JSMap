@@ -1,6 +1,6 @@
 {
    "name": "@kvl/bsmap",
-   "version": "2.0.3",
+   "version": "2.1.0",
    "exports": {
       ".": "./mod.ts",
       "./types": "./types/mod.ts",
@@ -14,7 +14,7 @@
       "exclude": [
          ".git",
          ".github",
-         "_build_npm.ts",
+         "dnt.ts",
          "npm",
          "coverage",
          "tests"
@@ -28,7 +28,7 @@
       "singleQuote": true
    },
    "tasks": {
-      "npm": "deno run -A ./_build_npm.ts",
+      "npm": "deno run -A ./dnt.ts",
       "check": "deno check mod.ts && deno check extensions/mod.ts && deno check patch/mod.ts",
       "test": "deno task test:clean || true && deno task test:run && deno task test:coverage",
       "test:coverage": "deno coverage --html",

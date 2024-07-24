@@ -13,11 +13,9 @@ await build({
    outDir: './npm',
    test: false,
    shims: {
-      // see JS docs for overview and more options
       deno: true,
    },
    package: {
-      // package.json properties
       name: 'bsmap',
       version: denoJson.version,
       description: 'General-purpose scripting module for Beat Saber beatmap using TypeScript.',
@@ -32,7 +30,6 @@ await build({
       },
    },
    postBuild() {
-      // steps to run after building and before running the tests
       Deno.copyFileSync('LICENSE', 'npm/LICENSE');
       Deno.copyFileSync('README.md', 'npm/README.md');
       Deno.copyFileSync('BEATMAP.md', 'npm/BEATMAP.md');
