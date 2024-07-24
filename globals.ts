@@ -1,4 +1,4 @@
-import { path } from './path/mod.ts';
+import { path } from './shims/path.ts';
 import logger from './logger.ts';
 
 function tag(str: string): string[] {

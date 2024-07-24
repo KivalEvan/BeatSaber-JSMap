@@ -85,7 +85,7 @@ bsmap.globals.directory = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 Module uses respective vendor API for filesystem and path functionality to handle `read` and `write`
 module, currently supporting Deno, Bun, and Node.js. This may also work on other runtime given that
 `node:` built-in module is available on import, otherwise you may be required to provide the
-following functionality in `fs` and `path` module.
+following `fs` and `path` functionality in `shims` module.
 
 ### Browser
 
