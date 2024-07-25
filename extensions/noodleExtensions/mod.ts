@@ -1,3 +1,9 @@
+/**
+ * Noodle Extension helper module.
+ *
+ * @module
+ */
+
 export * as types from './types/mod.ts';
 export * from './note/mod.ts';
 export * from './misc.ts';

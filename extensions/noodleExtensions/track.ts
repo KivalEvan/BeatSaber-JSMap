@@ -1,24 +1,27 @@
 import type { INEObject } from './types/object.ts';
 
-export function addTrack(objects: INEObject[], track: string): void;
-export function addTrack(objects: INEObject, track: string): void;
+/**
+ * Add track(s) to object(s).
+ */
+export function addTrack(objects: INEObject[], track: string | string[]): void;
+export function addTrack(object: INEObject, track: string | string[]): void;
 export function addTrack(
    objects: INEObject | INEObject[],
-   track: string,
+   track: string | string[],
 ): void {
    if (!Array.isArray(objects)) {
-      if (!objects.customData) {
-         objects.customData = {};
-      }
-
-      if (!objects.customData.track) {
-         objects.customData.track = track;
-      } else if (Array.isArray(objects.customData.track)) {
-         if (!objects.customData.track.includes(track)) {
-            objects.customData.track.push(track);
+      if (typeof track === 'string') {
+         if (!objects.customData.track) {
+            objects.customData.track = track;
+         } else if (Array.isArray(objects.customData.track)) {
+            if (!objects.customData.track.includes(track)) {
+               objects.customData.track.push(track);
+            }
+         } else if (objects.customData.track !== track) {
+            objects.customData.track = [objects.customData.track, track];
          }
-      } else if (objects.customData.track !== track) {
-         objects.customData.track = [objects.customData.track, track];
+      } else {
+         track.forEach((t) => addTrack(objects, t));
       }
       return;
    }
@@ -27,30 +30,36 @@ export function addTrack(
    });
 }
 
-export function removeTrack(objects: INEObject[], track: string): void;
-export function removeTrack(objects: INEObject, track: string): void;
+/**
+ * Remove track(s) from object(s).
+ */
+export function removeTrack(
+   objects: INEObject[],
+   track: string | string[],
+): void;
+export function removeTrack(object: INEObject, track: string | string[]): void;
 export function removeTrack(
    objects: INEObject | INEObject[],
-   track: string,
+   track: string | string[],
 ): void {
    if (!Array.isArray(objects)) {
-      if (!objects.customData) {
-         return;
-      }
-
-      if (!objects.customData.track) {
-         return;
-      } else if (Array.isArray(objects.customData.track)) {
-         if (objects.customData.track.includes(track)) {
-            objects.customData.track = objects.customData.track.filter(
-               (t: string) => t !== track,
-            );
-            if (objects.customData.track.length === 1) {
-               objects.customData.track = objects.customData.track[0];
+      if (typeof track === 'string') {
+         if (!objects.customData.track) {
+            return;
+         } else if (Array.isArray(objects.customData.track)) {
+            if (objects.customData.track.includes(track)) {
+               objects.customData.track = objects.customData.track.filter(
+                  (t: string) => t !== track,
+               );
+               if (objects.customData.track.length === 1) {
+                  objects.customData.track = objects.customData.track[0];
+               }
             }
+         } else if (objects.customData.track === track) {
+            delete objects.customData.track;
          }
-      } else if (objects.customData.track === track) {
-         delete objects.customData.track;
+      } else {
+         track.forEach((t) => removeTrack(objects, t));
       }
       return;
    }

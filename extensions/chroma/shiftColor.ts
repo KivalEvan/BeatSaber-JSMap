@@ -1,14 +1,14 @@
 import { hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import { clamp } from '../../utils/math.ts';
-import type { IChromaObject, ShiftColorOptions } from './types/colors.ts';
+import type { IChromaObject, IShiftColorOptions } from './types/colors.ts';
 import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 
 export function shiftColor(
    objects: IChromaObject[],
-   options: ShiftColorOptions,
+   options: IShiftColorOptions,
 ) {
-   const opt: Omit<Required<ShiftColorOptions>, 'type'> = {
+   const opt: Omit<Required<IShiftColorOptions>, 'type'> = {
       offsetStart: options.offsetStart,
       offsetEnd: options.offsetEnd,
       hue: options.hue ?? 0,

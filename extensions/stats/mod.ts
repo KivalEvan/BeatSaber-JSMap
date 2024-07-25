@@ -1,3 +1,9 @@
+/**
+ * Beatmap statistics module.
+ *
+ * @module
+ */
+
 export * as types from './types/mod.ts';
 export * from './event.ts';
 export * from './groupEvent.ts';

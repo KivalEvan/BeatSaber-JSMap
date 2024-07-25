@@ -1,3 +1,9 @@
+/**
+ * Swing detection module.
+ *
+ * @module
+ */
+
 export * as types from './types/mod.ts';
 export * from './ebpm.ts';
 export * from './info.ts';

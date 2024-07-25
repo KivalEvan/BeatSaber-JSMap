@@ -1,8 +1,8 @@
 import type {
    IChromaObject,
-   SetColorGradientOptions,
-   SetColorOptions,
-   SetColorRangeOptions,
+   ISetColorGradientOptions,
+   ISetColorOptions,
+   ISetColorRangeOptions,
 } from './types/colors.ts';
 import { convertColorType, lerpColor } from '../../utils/colors.ts';
 import { normalize } from '../../utils/math.ts';
@@ -14,8 +14,8 @@ function tag(name: string): string[] {
    return ['ext', 'chroma', 'color', name];
 }
 
-export function setColor(objects: IChromaObject[], options: SetColorOptions): void {
-   const opt: Required<SetColorOptions> = {
+export function setColor(objects: IChromaObject[], options: ISetColorOptions): void {
+   const opt: Required<ISetColorOptions> = {
       color: options.color,
       colorType: options.colorType ?? (settings.colorType || 'hsva'),
    };
@@ -25,12 +25,12 @@ export function setColor(objects: IChromaObject[], options: SetColorOptions): vo
    });
 }
 
-export function setColorGradient(objects: IChromaObject[], options: SetColorGradientOptions) {
+export function setColorGradient(objects: IChromaObject[], options: ISetColorGradientOptions) {
    if (!objects.length) {
       logger.tWarn(tag('setColorGradient'), 'No object(s) received.');
       return;
    }
-   const opt: Required<SetColorGradientOptions> = {
+   const opt: Required<ISetColorGradientOptions> = {
       offsetStart: options.offsetStart,
       offsetEnd: options.offsetEnd,
       colorStart: options.colorStart,
@@ -50,8 +50,8 @@ export function setColorGradient(objects: IChromaObject[], options: SetColorGrad
    });
 }
 
-export function setColorRandom(objects: IChromaObject[], options: SetColorRangeOptions) {
-   const opt: Required<SetColorRangeOptions> = {
+export function setColorRandom(objects: IChromaObject[], options: ISetColorRangeOptions) {
+   const opt: Required<ISetColorRangeOptions> = {
       offsetStart: options.offsetStart,
       offsetEnd: options.offsetEnd,
       color1: options.color1,

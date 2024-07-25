@@ -2,9 +2,9 @@ import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import type { NoteJumpSpeed } from '../../beatmap/helpers/njs.ts';
 
 export const settings: {
-   BPM: TimeProcessor | null;
+   timeProc: TimeProcessor | null;
    NJS: NoteJumpSpeed | null;
 } = {
-   BPM: null,
+   timeProc: null,
    NJS: null,
 };

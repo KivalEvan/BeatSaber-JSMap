@@ -1,3 +1,9 @@
+/**
+ * Chroma helper module.
+ *
+ * @module
+ */
+
 export * as types from './types/mod.ts';
 export * from './environment/mod.ts';
 export * from './easingColor.ts';

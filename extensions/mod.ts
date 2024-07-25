@@ -1,5 +1,5 @@
 /**
- * Beat Saber Deno extensions module for various of tooling and helpful utility.
+ * Beat Saber JS Map extensions module for various of tooling and helpful utility.
  *
  * It is recommended that you import what you need from respective module than importing all from here as it may pollute with unneeded dependencies.
  *
