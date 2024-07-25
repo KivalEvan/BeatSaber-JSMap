@@ -9,6 +9,11 @@
 ### Changed
 
 - Separate exports for `utils` and `types` to entrypoint
+- Renamed function in `time` utils for clarification
+
+### Fixed
+
+- Several undocumented fixes
 
 ### Removed
 

@@ -3,32 +3,32 @@ import type { DifficultyName } from '../../../types/beatmap/shared/difficulty.ts
 import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
 
 export interface ISwingContainer {
-   time: number;
-   duration: number;
-   minSpeed: number;
-   maxSpeed: number;
-   ebpm: number;
-   ebpmSwing: number;
-   data: IWrapColorNote[];
+   readonly time: number;
+   readonly duration: number;
+   readonly minSpeed: number;
+   readonly maxSpeed: number;
+   readonly ebpm: number;
+   readonly ebpmSwing: number;
+   readonly data: IWrapColorNote[];
 }
 
 export interface ISwingCount {
-   left: number[];
-   right: number[];
+   readonly left: number[];
+   readonly right: number[];
 }
 
 export interface ISwingPerSecond {
-   average: number;
-   total: number;
-   peak: number;
-   median: number;
+   readonly perSecond: number;
+   readonly total: number;
+   readonly peak: number;
+   readonly median: number;
 }
 
 export interface ISwingAnalysis {
-   characteristic: CharacteristicName;
-   difficulty: DifficultyName;
-   container: ISwingContainer[];
-   red: ISwingPerSecond;
-   blue: ISwingPerSecond;
-   total: ISwingPerSecond;
+   readonly characteristic: CharacteristicName;
+   readonly difficulty: DifficultyName;
+   readonly container: ISwingContainer[];
+   readonly red: ISwingPerSecond;
+   readonly blue: ISwingPerSecond;
+   readonly total: ISwingPerSecond;
 }

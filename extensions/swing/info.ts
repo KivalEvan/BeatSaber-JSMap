@@ -5,17 +5,21 @@ import type { ISwingAnalysis, ISwingCount } from './types/swing.ts';
 import { median } from '../../utils/math.ts';
 import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
-import { sortNoteFn } from '../../beatmap/helpers/sort.ts';
 import { generate, next } from './swing.ts';
+import { getFirstInteractiveTime, getLastInteractiveTime } from '../../beatmap/helpers/beatmap.ts';
+import type { DeepWritable } from '../../types/utils.ts';
 
 // derived from Uninstaller's Swings Per Second tool
 // some variable or function may have been modified
 // translating from Python to JavaScript is hard
 // this is special function SPS used by ScoreSaber
+/**
+ * Count the number of swings in period.
+ */
 export function count(
    colorNotes: IWrapColorNote[],
    duration: number,
-   bpm: TimeProcessor,
+   timeProc: TimeProcessor,
 ): ISwingCount {
    const swingCount: ISwingCount = {
       left: new Array(Math.floor(duration + 1)).fill(0),
@@ -24,10 +28,10 @@ export function count(
    let lastRed!: IWrapColorNote;
    let lastBlue!: IWrapColorNote;
    for (const nc of colorNotes) {
-      const realTime = bpm.toRealTime(nc.time);
+      const realTime = timeProc.toRealTime(nc.time);
       if (nc.color === 0) {
          if (lastRed) {
-            if (next(nc, lastRed, bpm)) {
+            if (next(nc, lastRed, timeProc)) {
                swingCount.left[Math.floor(realTime)]++;
             }
          } else {
@@ -37,7 +41,7 @@ export function count(
       }
       if (nc.color === 1) {
          if (lastBlue) {
-            if (next(nc, lastBlue, bpm)) {
+            if (next(nc, lastBlue, timeProc)) {
                swingCount.right[Math.floor(realTime)]++;
             }
          } else {
@@ -65,30 +69,35 @@ function calcMaxRollingSps(swingArray: number[], x: number): number {
    return maxSPS / x;
 }
 
+/**
+ * Generate swing analysis from beatmap.
+ *
+ * Port from Uninstaller's Swings Per Second tool
+ */
 export function info(
-   difficulty: IWrapBeatmap,
-   bpm: TimeProcessor,
-   charName: CharacteristicName,
-   diffName: DifficultyName,
+   beatmap: IWrapBeatmap,
+   timeProc: TimeProcessor,
+   characteristic: CharacteristicName,
+   difficulty: DifficultyName,
 ): ISwingAnalysis {
    const interval = 10;
-   const spsInfo: ISwingAnalysis = {
-      characteristic: charName,
-      difficulty: diffName,
-      red: { average: 0, peak: 0, median: 0, total: 0 },
-      blue: { average: 0, peak: 0, median: 0, total: 0 },
-      total: { average: 0, peak: 0, median: 0, total: 0 },
-      container: generate(difficulty.colorNotes, bpm),
-   };
+   const spsInfo = {
+      characteristic: characteristic,
+      difficulty: difficulty,
+      red: { perSecond: 0, peak: 0, median: 0, total: 0 },
+      blue: { perSecond: 0, peak: 0, median: 0, total: 0 },
+      total: { perSecond: 0, peak: 0, median: 0, total: 0 },
+      container: generate(beatmap.colorNotes, timeProc),
+   } as DeepWritable<ISwingAnalysis>;
    const duration = Math.max(
-      bpm.toRealTime(getLastInteractiveTime(difficulty) - getFirstInteractiveTime(difficulty)),
+      timeProc.toRealTime(getLastInteractiveTime(beatmap) - getFirstInteractiveTime(beatmap)),
       0,
    );
-   const mapDuration = Math.max(bpm.toRealTime(getLastInteractiveTime(difficulty)), 0);
-   const swing = count(difficulty.colorNotes, mapDuration, bpm);
+   const mapDuration = Math.max(timeProc.toRealTime(getLastInteractiveTime(beatmap)), 0);
+   const swing = count(beatmap.colorNotes, mapDuration, timeProc);
    const swingTotal = swing.left.map((num, i) => num + swing.right[i]);
    if (swingTotal.reduce((a, b) => a + b) === 0) {
-      return spsInfo;
+      return spsInfo as ISwingAnalysis;
    }
    const swingIntervalRed = [];
    const swingIntervalBlue = [];
@@ -109,35 +118,38 @@ export function info(
    }
 
    spsInfo.red.total = swing.left.reduce((a, b) => a + b);
-   spsInfo.red.average = swing.left.reduce((a, b) => a + b) / duration;
+   spsInfo.red.perSecond = swing.left.reduce((a, b) => a + b) / duration;
    spsInfo.red.peak = calcMaxRollingSps(swing.left, interval);
    spsInfo.red.median = median(swingIntervalRed);
    spsInfo.blue.total = swing.right.reduce((a, b) => a + b);
-   spsInfo.blue.average = swing.right.reduce((a, b) => a + b) / duration;
+   spsInfo.blue.perSecond = swing.right.reduce((a, b) => a + b) / duration;
    spsInfo.blue.peak = calcMaxRollingSps(swing.right, interval);
    spsInfo.blue.median = median(swingIntervalBlue);
    spsInfo.total.total = spsInfo.red.total + spsInfo.blue.total;
-   spsInfo.total.average = swingTotal.reduce((a, b) => a + b) / duration;
+   spsInfo.total.perSecond = swingTotal.reduce((a, b) => a + b) / duration;
    spsInfo.total.peak = calcMaxRollingSps(swingTotal, interval);
    spsInfo.total.median = median(swingIntervalTotal);
 
-   return spsInfo;
+   return spsInfo as ISwingAnalysis;
 }
 
+/**
+ * Get first swings analysis that exceeds 40% progression drop.
+ */
 export function getProgressionMax(
    spsArray: ISwingAnalysis[],
-   minSPS: number,
+   minThreshold: number,
 ): { result: ISwingAnalysis; comparedTo?: ISwingAnalysis } | null {
-   let spsPerc = 0;
-   let spsCurr = 0;
+   let prevPerc = 0;
+   let currPerc = 0;
    let comparedTo;
    for (const spsMap of spsArray) {
-      const overall = spsMap.total.average;
-      if (spsCurr > 0 && overall > 0) {
-         spsPerc = Math.abs(1 - spsCurr / overall) * 100;
+      const baseline = spsMap.total.perSecond;
+      if (currPerc > 0 && baseline > 0) {
+         prevPerc = Math.abs(1 - currPerc / baseline) * 100;
       }
-      spsCurr = overall > 0 ? overall : spsCurr;
-      if (spsCurr > minSPS && spsPerc > 40) {
+      currPerc = baseline > 0 ? baseline : currPerc;
+      if (currPerc > minThreshold && prevPerc > 40) {
          return { result: spsMap, comparedTo };
       }
       comparedTo = spsMap;
@@ -145,20 +157,23 @@ export function getProgressionMax(
    return null;
 }
 
+/**
+ * Get first swings analysis that does not reach 10% progression drop.
+ */
 export function getProgressionMin(
    spsArray: ISwingAnalysis[],
-   minSPS: number,
+   minThreshold: number,
 ): { result: ISwingAnalysis; comparedTo?: ISwingAnalysis } | null {
-   let spsPerc = Number.MAX_SAFE_INTEGER;
-   let spsCurr = 0;
+   let prevPerc = Number.MAX_SAFE_INTEGER;
+   let currPerc = 0;
    let comparedTo;
    for (const spsMap of spsArray) {
-      const overall = spsMap.total.average;
-      if (spsCurr > 0 && overall > 0) {
-         spsPerc = Math.abs(1 - spsCurr / overall) * 100;
+      const baseline = spsMap.total.perSecond;
+      if (currPerc > 0 && baseline > 0) {
+         prevPerc = Math.abs(1 - currPerc / baseline) * 100;
       }
-      spsCurr = overall > 0 ? overall : spsCurr;
-      if (spsCurr > minSPS && spsPerc < 10) {
+      currPerc = baseline > 0 ? baseline : currPerc;
+      if (currPerc > minThreshold && prevPerc < 10) {
          return { result: spsMap, comparedTo };
       }
       comparedTo = spsMap;
@@ -166,11 +181,14 @@ export function getProgressionMin(
    return null;
 }
 
+/**
+ * Calculate total percentage drop from highest to lowest swings analysis.
+ */
 export function calcSpsTotalPercDrop(spsArray: ISwingAnalysis[]): number {
    let highest = 0;
    let lowest = Number.MAX_SAFE_INTEGER;
    spsArray.forEach((spsMap) => {
-      const overall = spsMap.total.average;
+      const overall = spsMap.total.perSecond;
       if (overall > 0) {
          highest = Math.max(highest, overall);
          lowest = Math.min(lowest, overall);
@@ -179,49 +197,16 @@ export function calcSpsTotalPercDrop(spsArray: ISwingAnalysis[]): number {
    return highest || (highest && lowest) ? (1 - lowest / highest) * 100 : 0;
 }
 
+/**
+ * Get lowest SPS.
+ */
 export function getSpsLowest(spsArray: ISwingAnalysis[]): number {
-   return Math.min(...spsArray.map((e) => e.total.average), Number.MAX_SAFE_INTEGER);
+   return Math.min(...spsArray.map((e) => e.total.perSecond), Number.MAX_SAFE_INTEGER);
 }
 
+/**
+ * Get highest SPS.
+ */
 export function getSpsHighest(spsArray: ISwingAnalysis[]): number {
-   return Math.max(...spsArray.map((e) => e.total.average), 0);
-}
-
-function getLastInteractiveTime(bm: IWrapBeatmap): number {
-   const notes = [...bm.colorNotes, ...bm.chains, ...bm.bombNotes].sort(sortNoteFn);
-   let lastNoteTime = 0;
-   if (notes.length > 0) {
-      lastNoteTime = notes[notes.length - 1].time;
-   }
-   const lastInteractiveObstacleTime = findLastInteractiveObstacleTime(bm);
-   return Math.max(lastNoteTime, lastInteractiveObstacleTime);
-}
-
-function getFirstInteractiveTime(bm: IWrapBeatmap): number {
-   const notes = [...bm.colorNotes, ...bm.chains, ...bm.bombNotes].sort(sortNoteFn);
-   let firstNoteTime = Number.MAX_VALUE;
-   if (notes.length > 0) {
-      firstNoteTime = notes[0].time;
-   }
-   const firstInteractiveObstacleTime = findFirstInteractiveObstacleTime(bm);
-   return Math.min(firstNoteTime, firstInteractiveObstacleTime);
-}
-
-function findFirstInteractiveObstacleTime(bm: IWrapBeatmap): number {
-   for (let i = 0, len = bm.obstacles.length; i < len; i++) {
-      if (bm.obstacles[i].isInteractive()) {
-         return bm.obstacles[i].time;
-      }
-   }
-   return Number.MAX_VALUE;
-}
-
-function findLastInteractiveObstacleTime(bm: IWrapBeatmap): number {
-   let obstacleEnd = 0;
-   for (let i = bm.obstacles.length - 1; i >= 0; i--) {
-      if (bm.obstacles[i].isInteractive()) {
-         obstacleEnd = Math.max(obstacleEnd, bm.obstacles[i].time + bm.obstacles[i].duration);
-      }
-   }
-   return obstacleEnd;
+   return Math.max(...spsArray.map((e) => e.total.perSecond), 0);
 }

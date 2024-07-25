@@ -1,6 +1,9 @@
 import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
-const environmentGroup: {
+/**
+ * Record of Environment to Group ID to Name.
+ */
+export const environmentGroupMap: {
    [env in EnvironmentAllName]?: { [key: number]: string };
 } = {
    WeaveEnvironment: {
@@ -467,6 +470,9 @@ const environmentGroup: {
    },
 };
 
+/**
+ * Safely retrieve the name of an event group.
+ */
 export function eventGroupRename(id: number, environment?: EnvironmentAllName): string {
-   return environmentGroup[environment!]?.[id] || 'Unknown';
+   return environmentGroupMap[environment!]?.[id] || 'Unknown';
 }

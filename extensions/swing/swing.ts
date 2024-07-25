@@ -5,8 +5,11 @@ import { NoteDirection } from '../../beatmap/shared/constants.ts';
 import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 
+/**
+ * Generate swings from beatmap notes.
+ */
 export function generate(
-   nc: IWrapColorNote[],
+   notes: IWrapColorNote[],
    timeProc: TimeProcessor,
 ): ISwingContainer[] {
    const sc: ISwingContainer[] = [];
@@ -20,7 +23,7 @@ export function generate(
       0: [],
       1: [],
    };
-   for (const n of nc) {
+   for (const n of notes) {
       minSpeed = 0;
       maxSpeed = Number.MAX_SAFE_INTEGER;
       if (lastNote[n.color]) {
@@ -74,6 +77,9 @@ export function generate(
 }
 
 // Thanks Qwasyx#3000 for improved swing detection
+/**
+ * Check if next swing happen from `prevNote` to `currNote`.
+ */
 export function next(
    currNote: IWrapColorNote,
    prevNote: IWrapColorNote,
@@ -110,6 +116,7 @@ export function next(
    );
 }
 
+/** Calculate effective BPM between `currObj` and `prevObj`. */
 export function calcEBPMBetweenObject(
    currObj: IWrapBaseObject,
    prevObj: IWrapBaseObject,
@@ -125,6 +132,11 @@ export function calcEBPMBetweenObject(
    );
 }
 
+/**
+ * Calculate minimum slider speed given notes in a swing.
+ *
+ * Higher value is slower.
+ */
 function calcMinSliderSpeed(
    notes: IWrapColorNote[],
    timeProc: TimeProcessor,
@@ -163,6 +175,11 @@ function calcMinSliderSpeed(
    return speed;
 }
 
+/**
+ * Calculate maximum slider speed given notes in a swing.
+ *
+ * Lower value is faster.
+ */
 function calcMaxSliderSpeed(
    notes: IWrapColorNote[],
    timeProc: TimeProcessor,
