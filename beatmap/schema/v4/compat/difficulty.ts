@@ -3,7 +3,7 @@ import type { ICompatibilityOptions } from '../../../../types/beatmap/options/co
 import {
    hasMappingExtensionsBombNote,
    hasMappingExtensionsNote,
-   hasMappingExtensionsObstacle,
+   hasMappingExtensionsObstacleV3,
 } from '../../../helpers/modded/has.ts';
 import logger from '../../../../logger.ts';
 import { tag } from './_common.ts';
@@ -18,7 +18,7 @@ export function compatDifficulty(
       bm.bombNotes.some(hasMappingExtensionsBombNote) ||
       bm.arcs.some(hasMappingExtensionsArc) ||
       bm.chains.some(hasMappingExtensionsChain) ||
-      bm.obstacles.some(hasMappingExtensionsObstacle);
+      bm.obstacles.some(hasMappingExtensionsObstacleV3);
 
    if (hasME) {
       if (options.throwOn.mappingExtensions) {

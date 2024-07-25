@@ -200,7 +200,7 @@ export function hasNoodleExtensionsObstacleV3(
    );
 }
 
-export function hasMappingExtensionsObstacle(
+export function hasMappingExtensionsObstacleV3(
    data: IWrapObstacleAttribute,
 ): boolean {
    return (

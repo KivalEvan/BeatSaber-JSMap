@@ -3,6 +3,7 @@ import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.
 import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
 import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
 import type { ICountEvent } from './types/stats.ts';
+import { hasChromaEventV2, hasChromaEventV3 } from '../../beatmap/helpers/modded/has.ts';
 
 /**
  * Count number of type of events with their properties in given array and return a event count object.
@@ -15,6 +16,7 @@ export function countEvent(
    events: IWrapBasicEvent[],
    boost: IWrapColorBoostEvent[],
    environment: EnvironmentAllName = 'DefaultEnvironment',
+   version = 2,
 ): ICountEvent {
    const commonEvent = EventList[environment]?.[0] ?? EventList['DefaultEnvironment'][0];
    const eventCount: ICountEvent = {};
@@ -25,6 +27,7 @@ export function countEvent(
          chromaOld: 0,
       };
    }
+   const hasChroma = version >= 3 ? hasChromaEventV3 : hasChromaEventV2;
 
    eventCount[5] = {
       total: boost.length,
@@ -42,7 +45,7 @@ export function countEvent(
             };
          }
          eventCount[events[i].type].total++;
-         if (events[i].check()) {
+         if (hasChroma(events[i])) {
             eventCount[events[i].type].chroma++;
          }
          if (events[i].isOldChroma()) {

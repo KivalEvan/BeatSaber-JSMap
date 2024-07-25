@@ -1,10 +1,18 @@
-import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapBaseSlider } from '../../types/beatmap/wrapper/baseSlider.ts';
+import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapBaseSliderAttribute } from '../../types/beatmap/wrapper/baseSlider.ts';
 import type { ICountNote, ICountStatsNote } from './types/stats.ts';
 import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
 import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
 import type { GetAngleFn } from '../../types/beatmap/shared/functions.ts';
+import {
+   hasChromaNoteV2,
+   hasChromaNoteV3,
+   hasMappingExtensionsBombNote,
+   hasMappingExtensionsNote,
+   hasNoodleExtensionsNoteV2,
+   hasNoodleExtensionsNoteV3,
+} from '../../beatmap/helpers/modded/has.ts';
 
 /**
  * Count number of red, blue, and bomb notes with their properties in given array and return a note count object.
@@ -14,7 +22,10 @@ import type { GetAngleFn } from '../../types/beatmap/shared/functions.ts';
  * console.log(list);
  * ```
  */
-export function countNote(notes: (IWrapColorNote | IWrapBaseSlider)[]): ICountNote {
+export function countNote(
+   notes: (IWrapColorNoteAttribute | IWrapBaseSliderAttribute)[],
+   version = 2,
+): ICountNote {
    const noteCount: ICountNote = {
       red: {
          total: 0,
@@ -29,50 +40,48 @@ export function countNote(notes: (IWrapColorNote | IWrapBaseSlider)[]): ICountNo
          mappingExtensions: 0,
       },
    };
+   const hasChroma = version >= 3 ? hasChromaNoteV3 : hasChromaNoteV2;
+   const hasNoodle = version >= 3 ? hasNoodleExtensionsNoteV3 : hasNoodleExtensionsNoteV2;
+
    for (let i = notes.length - 1; i >= 0; i--) {
-      if (notes[i].color === 0) {
-         noteCount.red.total++;
-         if (notes[i].check()) {
-            noteCount.red.chroma++;
-         }
-         if (notes[i].check()) {
-            noteCount.red.noodleExtensions++;
-         }
-         if (notes[i].check()) {
-            noteCount.red.mappingExtensions++;
-         }
-      } else if (notes[i].color === 1) {
-         noteCount.blue.total++;
-         if (notes[i].check()) {
-            noteCount.blue.chroma++;
-         }
-         if (notes[i].check()) {
-            noteCount.blue.noodleExtensions++;
-         }
-         if (notes[i].check()) {
-            noteCount.blue.mappingExtensions++;
-         }
+      if (notes[i].color !== 0 || notes[i].color !== 1) continue;
+      const color = notes[i].color ? 'blue' : 'red';
+      noteCount[color].total++;
+      if (hasChroma(notes[i])) {
+         noteCount[color].chroma++;
+      }
+      if (hasNoodle(notes[i])) {
+         noteCount[color].noodleExtensions++;
+      }
+      if (hasMappingExtensionsNote(notes[i])) {
+         noteCount[color].mappingExtensions++;
       }
    }
    return noteCount;
 }
 
-export function countBomb(bombs: IWrapBombNote[]): ICountStatsNote {
+export function countBomb(
+   bombs: IWrapBombNoteAttribute[],
+   version = 2,
+): ICountStatsNote {
    const bombCount: ICountStatsNote = {
       total: 0,
       chroma: 0,
       noodleExtensions: 0,
       mappingExtensions: 0,
    };
+   const hasChroma = version >= 3 ? hasChromaNoteV3 : hasChromaNoteV2;
+   const hasNoodle = version >= 3 ? hasNoodleExtensionsNoteV3 : hasNoodleExtensionsNoteV2;
+
    for (let i = bombs.length - 1; i >= 0; i--) {
       bombCount.total++;
-      if (bombs[i].check()) {
+      if (hasChroma(bombs[i])) {
          bombCount.chroma++;
       }
-      if (bombs[i].check()) {
+      if (hasNoodle(bombs[i])) {
          bombCount.noodleExtensions++;
       }
-      if (bombs[i].check()) {
+      if (hasMappingExtensionsBombNote(bombs[i])) {
          bombCount.mappingExtensions++;
       }
    }
@@ -108,7 +117,11 @@ export function countY(objs: IWrapGridObjectAttribute[], y: number): number {
  * const xyCount = countXY(notes, 0, 0);
  * ```
  */
-export function countXY(objs: IWrapGridObjectAttribute[], x: number, y: number): number {
+export function countXY(
+   objs: IWrapGridObjectAttribute[],
+   x: number,
+   y: number,
+): number {
    return objs.filter((n) => n.posX === x && n.posY === y).length;
 }
 
