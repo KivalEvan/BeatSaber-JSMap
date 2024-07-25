@@ -6,6 +6,9 @@ import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
+/**
+ * Core beatmap basic event types for keywords.
+ */
 export class BasicEventTypesForKeywords extends BaseItem
    implements IWrapBasicEventTypesForKeywords {
    static defaultValue: IWrapBasicEventTypesForKeywordsAttribute = {

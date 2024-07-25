@@ -3,7 +3,11 @@ import { GridObject } from './gridObject.ts';
 import type { IWrapBaseNote } from '../../../types/beatmap/wrapper/baseNote.ts';
 import type { GetAngleFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
 
-/** Color note beatmap class object. */
+/**
+ * Base note beatmap object.
+ *
+ * @abstract
+ */
 export abstract class BaseNote extends GridObject implements IWrapBaseNote {
    color: IWrapBaseNote['color'] = 0;
    direction: IWrapBaseNote['direction'] = 0;

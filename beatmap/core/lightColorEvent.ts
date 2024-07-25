@@ -5,6 +5,9 @@ import type {
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
+/**
+ * Core beatmap light color event.
+ */
 export class LightColorEvent extends BaseObject implements IWrapLightColorEvent {
    static defaultValue: IWrapLightColorEventAttribute = {
       time: 0,

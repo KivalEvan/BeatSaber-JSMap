@@ -8,6 +8,9 @@ import { deepCopy } from '../../utils/misc.ts';
 import { LINE_COUNT } from '../shared/constants.ts';
 import { GridObject } from './abstract/gridObject.ts';
 
+/**
+ * Core beatmap obstacle.
+ */
 export class Obstacle extends GridObject implements IWrapObstacle {
    static defaultValue: IWrapObstacleAttribute = {
       time: 0,

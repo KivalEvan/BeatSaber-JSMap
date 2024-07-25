@@ -8,6 +8,9 @@ import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { LightTranslationEventBox } from './lightTranslationEventBox.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap light translation event box group.
+ */
 export class LightTranslationEventBoxGroup extends EventBoxGroup
    implements IWrapLightTranslationEventBoxGroup {
    static defaultValue: IWrapLightTranslationEventBoxGroupAttribute = {

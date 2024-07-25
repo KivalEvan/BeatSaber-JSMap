@@ -3,7 +3,11 @@ import type { IWrapEventBox } from '../../../types/beatmap/wrapper/eventBox.ts';
 import type { IWrapIndexFilter } from '../../../types/beatmap/wrapper/indexFilter.ts';
 import { BaseItem } from './baseItem.ts';
 
-/** Base event box beatmap class object. */
+/**
+ * Base event box beatmap object.
+ *
+ * @abstract
+ */
 export abstract class EventBox extends BaseItem implements IWrapEventBox {
    filter!: IWrapIndexFilter;
    beatDistribution: IWrapEventBox['beatDistribution'] = 0;

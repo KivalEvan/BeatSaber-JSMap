@@ -7,6 +7,9 @@ import { GridObject } from './abstract/gridObject.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import type { MirrorFn } from '../../types/beatmap/shared/functions.ts';
 
+/**
+ * Core beatmap waypoint.
+ */
 export class Waypoint extends GridObject implements IWrapWaypoint {
    static defaultValue: IWrapWaypointAttribute = {
       time: 0,

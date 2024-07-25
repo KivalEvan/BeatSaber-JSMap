@@ -9,6 +9,9 @@ import { EventBox } from './abstract/eventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
 import { LightColorEvent } from './lightColorEvent.ts';
 
+/**
+ * Core beatmap light color event box.
+ */
 export class LightColorEventBox extends EventBox implements IWrapLightColorEventBox {
    static defaultValue: IWrapLightColorEventBoxAttribute = {
       filter: {

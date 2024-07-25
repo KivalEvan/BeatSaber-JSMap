@@ -6,6 +6,9 @@ import { LimitAlsoAffectsType, RandomType } from '../../types/beatmap/shared/con
 import { BaseItem } from './abstract/baseItem.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap index filter.
+ */
 export class IndexFilter extends BaseItem implements IWrapIndexFilter {
    static defaultValue: IWrapIndexFilterAttribute = {
       type: 1,

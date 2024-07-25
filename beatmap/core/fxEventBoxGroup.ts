@@ -8,6 +8,9 @@ import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { FxEventBox } from './fxEventBox.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap FX event box group.
+ */
 export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGroup {
    static defaultValue: IWrapFxEventBoxGroupAttribute = {
       time: 0,

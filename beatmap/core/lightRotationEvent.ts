@@ -5,6 +5,9 @@ import type {
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
+/**
+ * Core beatmap light rotation event.
+ */
 export class LightRotationEvent extends BaseObject implements IWrapLightRotationEvent {
    static defaultValue: IWrapLightRotationEventAttribute = {
       time: 0,

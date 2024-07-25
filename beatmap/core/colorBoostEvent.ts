@@ -5,6 +5,9 @@ import type {
 } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap color boost event.
+ */
 export class ColorBoostEvent extends BaseObject implements IWrapColorBoostEvent {
    static defaultValue: IWrapColorBoostEventAttribute = {
       time: 0,

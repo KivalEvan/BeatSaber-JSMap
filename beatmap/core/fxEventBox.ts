@@ -9,6 +9,9 @@ import { EventBox } from './abstract/eventBox.ts';
 import { FxEventFloat } from './fxEventFloat.ts';
 import { IndexFilter } from './indexFilter.ts';
 
+/**
+ * Core beatmap FX event box.
+ */
 export class FxEventBox extends EventBox implements IWrapFxEventBox {
    static defaultValue: IWrapFxEventBoxAttribute = {
       filter: {

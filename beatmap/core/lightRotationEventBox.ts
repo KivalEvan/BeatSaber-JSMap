@@ -9,6 +9,9 @@ import { EventBox } from './abstract/eventBox.ts';
 import { IndexFilter } from './indexFilter.ts';
 import { LightRotationEvent } from './lightRotationEvent.ts';
 
+/**
+ * Core beatmap light rotation event box.
+ */
 export class LightRotationEventBox extends EventBox implements IWrapLightRotationEventBox {
    static defaultValue: IWrapLightRotationEventBoxAttribute = {
       filter: {

@@ -5,6 +5,9 @@ import type {
 } from '../../types/beatmap/wrapper/rotationEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap rotation event.
+ */
 export class RotationEvent extends BaseObject implements IWrapRotationEvent {
    static defaultValue: IWrapRotationEventAttribute = {
       time: 0,

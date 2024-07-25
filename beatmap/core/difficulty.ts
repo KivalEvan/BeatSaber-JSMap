@@ -36,6 +36,9 @@ import { Arc } from './arc.ts';
 import { Chain } from './chain.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap difficulty.
+ */
 export class Difficulty extends BaseItem implements IWrapDifficulty {
    static defaultValue: IWrapDifficultyAttribute = {
       bpmEvents: [],

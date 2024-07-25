@@ -5,6 +5,9 @@ import type {
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
+/**
+ * Core beatmap FX event int.
+ */
 export class FxEventInt extends BaseObject implements IWrapFxEventInt {
    static defaultValue: IWrapFxEventIntAttribute = {
       time: 0,

@@ -20,6 +20,11 @@ import { DifficultyRanking } from '../shared/difficulty.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import { InfoBeatmap } from './infoBeatmap.ts';
 
+/**
+ * Core beatmap info.
+ *
+ * This object is writable into file.
+ */
 export class Info extends BaseItem implements IWrapInfo {
    static defaultValue: IWrapInfoAttribute = {
       version: -1,

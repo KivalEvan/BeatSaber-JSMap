@@ -2,6 +2,9 @@ import { BaseSlider } from './abstract/baseSlider.ts';
 import type { IWrapChain, IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap chain.
+ */
 export class Chain extends BaseSlider implements IWrapChain {
    static defaultValue: IWrapChainAttribute = {
       time: 0,

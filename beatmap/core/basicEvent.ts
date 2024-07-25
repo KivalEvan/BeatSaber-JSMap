@@ -7,6 +7,9 @@ import { EventType } from '../shared/constants.ts';
 import { EventLightValue } from '../shared/constants.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap basic event.
+ */
 export class BasicEvent extends BaseObject implements IWrapBasicEvent {
    static defaultValue: Required<IWrapBasicEventAttribute> = {
       time: 0,

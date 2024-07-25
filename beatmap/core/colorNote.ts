@@ -7,6 +7,9 @@ import { BaseNote } from './abstract/baseNote.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 
+/**
+ * Core beatmap color note.
+ */
 export class ColorNote extends BaseNote implements IWrapColorNote {
    static defaultValue: IWrapColorNoteAttribute = {
       time: 0,

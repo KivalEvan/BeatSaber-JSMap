@@ -44,6 +44,9 @@ import { FxEventBoxGroup } from './fxEventBoxGroup.ts';
 import { BasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap lightshow.
+ */
 export class Lightshow extends BaseItem implements IWrapLightshow {
    static defaultValue: IWrapLightshowAttribute = {
       waypoints: [],

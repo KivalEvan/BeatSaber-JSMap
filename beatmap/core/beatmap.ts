@@ -58,6 +58,17 @@ import { Difficulty } from './difficulty.ts';
 import { Lightshow } from './lightshow.ts';
 import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
 
+/**
+ * Core beatmap container.
+ *
+ * Contains `Difficulty` and `Lightshow`.
+ * This object is writable into 2 files.
+ * Both may be combined given schema.
+ *
+ * **WARN:** Do not use `customData` for anything related to either `difficulty` or `lightshow`,
+ * access them directly from `difficulty` and `lightshow` if you wish to modify them.
+ * This object exists solely for arbitrary data.
+ */
 export class Beatmap extends BaseItem implements IWrapBeatmap {
    static defaultValue: IWrapBeatmapAttribute = {
       version: -1,

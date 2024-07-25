@@ -5,6 +5,9 @@ import type {
 } from '../../types/beatmap/wrapper/bpmEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap BPM event.
+ */
 export class BPMEvent extends BaseObject implements IWrapBPMEvent {
    static defaultValue: IWrapBPMEventAttribute = {
       time: 0,

@@ -4,7 +4,11 @@ import { BaseNote } from './baseNote.ts';
 import type { Vector2 } from '../../../types/vector.ts';
 import type { GetPositionFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
 
-/** Base slider beatmap class object. */
+/**
+ * Base slider beatmap object.
+ *
+ * @abstract
+ */
 export abstract class BaseSlider extends BaseNote implements IWrapBaseSlider {
    tailTime: IWrapBaseSlider['tailTime'] = 0;
    tailPosX: IWrapBaseSlider['tailPosX'] = 0;

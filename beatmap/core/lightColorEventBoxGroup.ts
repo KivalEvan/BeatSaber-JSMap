@@ -8,6 +8,9 @@ import { deepCopy } from '../../utils/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
 import { LightColorEventBox } from './lightColorEventBox.ts';
 
+/**
+ * Core beatmap light color event box group.
+ */
 export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLightColorEventBoxGroup {
    static defaultValue: IWrapLightColorEventBoxGroupAttribute = {
       time: 0,

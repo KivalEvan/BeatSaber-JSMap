@@ -10,6 +10,9 @@ import type { DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts'
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
+/**
+ * Core beatmap info beatmap.
+ */
 export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
    static defaultValue: IWrapInfoBeatmapAttribute = {
       characteristic: 'Standard',

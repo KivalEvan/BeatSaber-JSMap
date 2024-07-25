@@ -8,6 +8,9 @@ import type { DeepPartialIgnore } from '../../types/utils.ts';
 import { LightRotationEventBox } from './lightRotationEventBox.ts';
 import { deepCopy } from '../../utils/misc.ts';
 
+/**
+ * Core beatmap light rotation event box group.
+ */
 export class LightRotationEventBoxGroup extends EventBoxGroup
    implements IWrapLightRotationEventBoxGroup {
    static defaultValue: IWrapLightRotationEventBoxGroupAttribute = {

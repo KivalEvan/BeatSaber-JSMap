@@ -5,6 +5,9 @@ import type {
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
+/**
+ * Core beatmap FX event float.
+ */
 export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
    static defaultValue: IWrapFxEventFloatAttribute = {
       time: 0,

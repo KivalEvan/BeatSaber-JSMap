@@ -10,6 +10,11 @@ import type { DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts'
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
+/**
+ * Core beatmap audio data.
+ *
+ * This object is writable into file.
+ */
 export class AudioData extends BaseItem implements IWrapAudioData {
    static defaultValue: IWrapAudioDataAttribute = {
       version: -1,

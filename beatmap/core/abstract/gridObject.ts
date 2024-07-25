@@ -4,7 +4,13 @@ import { LINE_COUNT } from '../../shared/constants.ts';
 import type { Vector2 } from '../../../types/vector.ts';
 import type { GetPositionFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
 
-/** Beatmap grid class object. */
+/**
+ * Base grid beatmap object.
+ *
+ * This appear within beatmap lane.
+ *
+ * @abstract
+ */
 export abstract class GridObject extends BaseObject implements IWrapGridObject {
    posX: IWrapGridObject['posX'] = 0;
    posY: IWrapGridObject['posY'] = 0;

@@ -1,7 +1,13 @@
 import type { IWrapBaseItem } from '../../../types/beatmap/wrapper/baseItem.ts';
 import { Cloneable } from '../../shared/cloneable.ts';
 
-/** Basic building block of beatmap object. */
+/**
+ * Basic building block of beatmap item.
+ *
+ * Items contains basic information and utilities.
+ *
+ * @abstract
+ */
 export abstract class BaseItem extends Cloneable implements IWrapBaseItem {
    customData: IWrapBaseItem['customData'] = {};
 

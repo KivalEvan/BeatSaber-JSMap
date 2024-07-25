@@ -5,6 +5,9 @@ import type {
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseNote } from './abstract/baseNote.ts';
 
+/**
+ * Core beatmap bomb note.
+ */
 export class BombNote extends BaseNote implements IWrapBombNote {
    static defaultValue: IWrapBombNoteAttribute = {
       time: 0,

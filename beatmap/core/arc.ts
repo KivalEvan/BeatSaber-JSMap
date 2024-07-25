@@ -4,6 +4,9 @@ import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/ar
 import { deepCopy } from '../../utils/misc.ts';
 import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 
+/**
+ * Core beatmap arc.
+ */
 export class Arc extends BaseSlider implements IWrapArc {
    static defaultValue: IWrapArcAttribute = {
       time: 0,
