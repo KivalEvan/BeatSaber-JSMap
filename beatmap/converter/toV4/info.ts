@@ -1,4 +1,4 @@
-import logger from '../../../logger.ts';
+import { logger } from '../../../logger.ts';
 import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
 
 function tag(name: string): string[] {

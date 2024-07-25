@@ -4,7 +4,7 @@ import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
 import type { ILoadOptions } from '../../types/beatmap/options/loader.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 import { implicitVersion, retrieveVersion } from '../helpers/version.ts';
 import { Info } from '../core/info.ts';
 import { AudioData } from '../core/audioData.ts';

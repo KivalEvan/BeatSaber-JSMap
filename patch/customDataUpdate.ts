@@ -2,7 +2,7 @@ import eventToV2 from '../beatmap/converter/customData/eventToV2.ts';
 import eventToV3 from '../beatmap/converter/customData/eventToV3.ts';
 import objectToV2 from '../beatmap/converter/customData/objectToV2.ts';
 import objectToV3 from '../beatmap/converter/customData/objectToV3.ts';
-import logger from '../logger.ts';
+import { logger } from '../logger.ts';
 import type { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition.ts';
 import type { ColorArray } from '../types/colors.ts';
 import { colorFrom } from '../utils/colors.ts';

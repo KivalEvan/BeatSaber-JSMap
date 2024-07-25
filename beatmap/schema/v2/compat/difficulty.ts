@@ -1,6 +1,6 @@
 import type { IWrapBeatmap } from '../../../../types/beatmap/wrapper/beatmap.ts';
 import type { ICompatibilityOptions } from '../../../../types/beatmap/options/compatibility.ts';
-import logger from '../../../../logger.ts';
+import { logger } from '../../../../logger.ts';
 import { tag } from './_common.ts';
 import {
    hasMappingExtensionsBombNote,

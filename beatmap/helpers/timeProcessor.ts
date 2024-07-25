@@ -6,7 +6,7 @@ import type {
 import type { IBPMChange as IV3BPMChange } from '../../types/beatmap/v3/custom/bpmChange.ts';
 import type { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
 import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 
 function tag(name: string): string[] {
    return ['helpers', 'timeProcessor', name];

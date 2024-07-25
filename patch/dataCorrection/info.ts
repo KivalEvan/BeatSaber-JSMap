@@ -2,7 +2,7 @@ import { fixBoolean, fixFloat, fixInt, fixString } from './helpers.ts';
 import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import { EnvironmentRename } from '../../beatmap/shared/environment.ts';
 import type { IColor } from '../../types/colors.ts';
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 import { clamp } from '../../utils/math.ts';
 import type { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
 import { is360Environment } from '../../beatmap/helpers/environment.ts';

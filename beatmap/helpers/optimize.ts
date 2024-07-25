@@ -1,4 +1,4 @@
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 import { round } from '../../utils/math.ts';
 import type { IOptimizeOptions } from '../../types/beatmap/options/optimize.ts';
 

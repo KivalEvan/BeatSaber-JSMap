@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { deepCheck } from '../helpers/dataCheck.ts';
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 import type { IDataCheck } from '../../types/beatmap/shared/dataCheck.ts';
 import {
    audioDataCheckMap,

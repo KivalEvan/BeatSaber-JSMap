@@ -1,4 +1,4 @@
-import logger from '../../../logger.ts';
+import { logger } from '../../../logger.ts';
 import { clamp } from '../../../utils/math.ts';
 import type { ICustomDataNote } from '../../../types/beatmap/v3/custom/note.ts';
 import type { ICustomDataObstacle } from '../../../types/beatmap/v3/custom/obstacle.ts';

@@ -4,7 +4,7 @@ import { settings } from './settings.ts';
 import { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import type { EasingFunction } from '../../types/easings.ts';
 import { lerp, normalize } from '../../utils/math.ts';
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 
 function tag(name: string): string[] {
    return ['ext', 'NE', 'njs', name];

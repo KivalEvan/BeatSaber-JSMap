@@ -1,4 +1,4 @@
-import logger from '../../../logger.ts';
+import { logger } from '../../../logger.ts';
 import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { BaseSlider } from '../../core/abstract/baseSlider.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';

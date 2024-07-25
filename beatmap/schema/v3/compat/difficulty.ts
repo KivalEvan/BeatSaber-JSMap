@@ -5,7 +5,7 @@ import {
    hasMappingExtensionsNote,
    hasMappingExtensionsObstacleV3,
 } from '../../../helpers/modded/has.ts';
-import logger from '../../../../logger.ts';
+import { logger } from '../../../../logger.ts';
 import { tag } from './_common.ts';
 import { hasMappingExtensionsArc } from '../../../helpers/modded/has.ts';
 import { hasMappingExtensionsChain } from '../../../helpers/modded/has.ts';

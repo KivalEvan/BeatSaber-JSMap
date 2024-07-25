@@ -1,4 +1,4 @@
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../shared/colorScheme.ts';
 import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';

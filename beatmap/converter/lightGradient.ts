@@ -1,4 +1,4 @@
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 import { EasingsFn } from '../../utils/easings.ts';
 import { lerpColor } from '../../utils/colors.ts';
 import { normalize } from '../../utils/math.ts';

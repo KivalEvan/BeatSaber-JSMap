@@ -2,7 +2,7 @@
 import { loadBeatmap } from '../beatmap/loader/_main.ts';
 import { path } from '../shims/path.ts';
 import { readJSONFile, readJSONFileSync } from '../shims/_json.ts';
-import globals from '../globals.ts';
+import { globals } from '../globals.ts';
 import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';
 

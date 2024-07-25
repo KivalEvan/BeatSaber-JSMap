@@ -25,20 +25,21 @@ function dim(str: string): string {
 }
 
 enum LogLevels {
-   VERBOSE,
-   DEBUG,
-   INFO,
-   WARN,
-   ERROR,
    NONE,
+   ERROR,
+   WARN,
+   INFO,
+   DEBUG,
+   TRACE,
 }
 
 // really simple logger
+/** Simple logging system class. */
 export class Logger {
    static readonly LogLevels = LogLevels;
 
    static LogPrefixes: Map<LogLevels, string> = new Map<LogLevels, string>([
-      [LogLevels.VERBOSE, 'VERBOSE'],
+      [LogLevels.TRACE, 'TRACE'],
       [LogLevels.DEBUG, 'DEBUG'],
       [LogLevels.INFO, 'INFO'],
       [LogLevels.WARN, yellow('WARN')],
@@ -82,34 +83,34 @@ export class Logger {
    }
 
    private log(level: LogLevels, tags: string[], args: any[]) {
-      if (level < this.#logLevel) return;
-
+      if (level > this.#logLevel) return;
       const tag = this.tagPrint(tags, level);
-      if (tag) args.unshift(tag);
 
       switch (level) {
+         case LogLevels.TRACE:
+            return tag ? console.trace(tag, ...args) : console.trace(...args);
          case LogLevels.DEBUG:
-            return console.debug(...args);
+            return tag ? console.debug(tag, ...args) : console.debug(...args);
          case LogLevels.INFO:
-            return console.info(...args);
+            return tag ? console.info(tag, ...args) : console.info(...args);
          case LogLevels.WARN:
-            return console.warn(...args);
+            return tag ? console.warn(tag, ...args) : console.warn(...args);
          case LogLevels.ERROR:
-            return console.error(...args);
+            return tag ? console.error(tag, ...args) : console.error(...args);
          default:
-            return console.log(...args);
+            return tag ? console.log(tag, ...args) : console.log(...args);
       }
    }
 
    /**
     * Set logging level to filter various information.
     * ```ts
-    * 0 -> Verbose
-    * 1 -> Debug
-    * 2 -> Info
-    * 3 -> Warn
-    * 4 -> Error
-    * 5 -> None
+    * 0 -> None
+    * 1 -> Error
+    * 2 -> Warn
+    * 3 -> Info
+    * 4 -> Debug
+    * 5 -> Trace
     * ```
     */
    setLevel(level: LogLevels) {
@@ -121,8 +122,8 @@ export class Logger {
       );
    }
 
-   tVerbose(tags: string[], ...args: any[]) {
-      this.log(LogLevels.VERBOSE, tags, args);
+   tTrace(tags: string[], ...args: any[]) {
+      this.log(LogLevels.TRACE, tags, args);
    }
 
    tDebug(tags: string[], ...args: any[]) {
@@ -141,8 +142,8 @@ export class Logger {
       this.log(LogLevels.ERROR, tags, args);
    }
 
-   verbose(...args: any[]) {
-      this.tVerbose([this.#untagged], ...args);
+   trace(...args: any[]) {
+      this.tTrace([this.#untagged], ...args);
    }
 
    debug(...args: any[]) {
@@ -162,6 +163,10 @@ export class Logger {
    }
 }
 
-const globalLog: Logger = new Logger();
-/** Simple logging system. */
-export default globalLog;
+/**
+ * Logging instance used in the module.
+ *
+ * Can be replaced as needed.
+ */
+// deno-lint-ignore prefer-const
+export let logger: Logger = new Logger();

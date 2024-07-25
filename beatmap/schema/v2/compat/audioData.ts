@@ -1,4 +1,4 @@
-import logger from '../../../../logger.ts';
+import { logger } from '../../../../logger.ts';
 import type { ICompatibilityOptions } from '../../../../types/beatmap/options/compatibility.ts';
 import type { IWrapAudioData } from '../../../../types/beatmap/wrapper/audioData.ts';
 import { tag } from './_common.ts';

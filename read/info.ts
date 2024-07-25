@@ -1,4 +1,4 @@
-import logger from '../logger.ts';
+import { logger } from '../logger.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
 import type { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';

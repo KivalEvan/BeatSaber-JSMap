@@ -2,7 +2,7 @@
 import { saveBeatmap } from '../beatmap/saver/_main.ts';
 import { path } from '../shims/path.ts';
 import { writeJSONFile, writeJSONFileSync } from '../shims/_json.ts';
-import globals from '../globals.ts';
+import { globals } from '../globals.ts';
 import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
 import type { IWrapBeatmapFile } from '../types/beatmap/wrapper/baseFile.ts';
 import type { IWriteOptions } from '../types/bsmap/writer.ts';

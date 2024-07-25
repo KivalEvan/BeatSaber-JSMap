@@ -1,4 +1,4 @@
-import logger, { Logger } from '../logger.ts';
+import { Logger, logger } from '../logger.ts';
 import { assertEquals } from './deps.ts';
 
 Deno.test('Set log level via accessor', () => {
@@ -42,15 +42,15 @@ Deno.test('Set log level via method', () => {
 });
 
 Deno.test('Print log level', () => {
-   logger.setLevel(0);
+   logger.setLevel(5);
 
-   logger.verbose('Printing verbose');
+   logger.trace('Printing trace');
    logger.debug('Printing debug');
    logger.info('Printing info');
    logger.warn('Printing warn');
    logger.error('Printing error');
 
-   logger.tVerbose(['test', 'logger'], 'Printing verbose');
+   logger.tTrace(['test', 'logger'], 'Printing trace');
    logger.tDebug(['test', 'logger'], 'Printing debug');
    logger.tInfo(['test', 'logger'], 'Printing info');
    logger.tWarn(['test', 'logger'], 'Printing warn');
@@ -60,9 +60,9 @@ Deno.test('Print log level', () => {
 Deno.test('Custom logger', () => {
    const cLogger = new Logger();
 
-   cLogger.setLevel(0);
+   cLogger.setLevel(5);
 
-   cLogger.tVerbose(['test', 'cLogger'], 'Printing verbose');
+   cLogger.tTrace(['test', 'cLogger'], 'Printing trace');
    cLogger.tDebug(['test', 'cLogger'], 'Printing debug');
    cLogger.tInfo(['test', 'cLogger'], 'Printing info');
    cLogger.tWarn(['test', 'cLogger'], 'Printing warn');
@@ -72,7 +72,7 @@ Deno.test('Custom logger', () => {
    assertEquals(cLogger.untagged, 'custom stuff');
    cLogger.tagPrint = (tags: string[]) => `| ${tags.join(' > ')} |`;
 
-   cLogger.verbose('Printing verbose');
+   cLogger.trace('Printing trace');
    cLogger.debug('Printing debug');
    cLogger.info('Printing info');
    cLogger.warn('Printing warn');

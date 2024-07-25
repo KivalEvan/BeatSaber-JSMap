@@ -8,7 +8,7 @@ import { convertColorType, lerpColor } from '../../utils/colors.ts';
 import { normalize } from '../../utils/math.ts';
 import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 import { settings } from './settings.ts';
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 
 function tag(name: string): string[] {
    return ['ext', 'chroma', 'color', name];

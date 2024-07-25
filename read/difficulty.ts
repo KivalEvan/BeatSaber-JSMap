@@ -1,5 +1,5 @@
 import type { GenericFilename } from '../types/beatmap/shared/filename.ts';
-import logger from '../logger.ts';
+import { logger } from '../logger.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
 import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';

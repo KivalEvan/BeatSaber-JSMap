@@ -1,5 +1,5 @@
 import type { IDataCheck } from '../../types/beatmap/shared/dataCheck.ts';
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
 import { compareVersion } from './version.ts';
 import type { IDataCheckOptions } from '../../types/beatmap/options/dataCheck.ts';
@@ -31,7 +31,7 @@ export function deepCheck(
    throwOn: IDataCheckOptions['throwOn'],
    _errors: string[] = [],
 ): string[] {
-   logger.tVerbose(tag('deepCheck'), `Looking up ${label}`);
+   logger.tDebug(tag('deepCheck'), `Looking up ${label}`);
    if (Array.isArray(data)) {
       for (let i = 0; i < data.length; i++) {
          deepCheck(data[i], check, `${label}[${i}]`, version, throwOn, _errors);

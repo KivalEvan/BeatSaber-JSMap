@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import logger from '../logger.ts';
+import { logger } from '../logger.ts';
 import type { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
 import type { IWriteOptions } from '../types/mod.ts';
 import { handleWrite, handleWriteSync, tag } from './_main.ts';

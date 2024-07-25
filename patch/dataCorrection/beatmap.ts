@@ -1,4 +1,4 @@
-import logger from '../../logger.ts';
+import { logger } from '../../logger.ts';
 import { fixBoolean, fixFloat, fixInt } from './helpers.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
