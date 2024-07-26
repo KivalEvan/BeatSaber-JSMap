@@ -2,6 +2,9 @@ import type { Vector3PointDefinition } from '../../../types/beatmap/shared/custo
 import type { IWrapBaseItemAttribute } from '../../../types/beatmap/wrapper/baseItem.ts';
 import { isVector3 } from '../../../utils/vector.ts';
 
+/**
+ * Mirrors the object for Noodle Extensions in beatmap v2.
+ */
 export function mirrorNoodleExtensionsV2(data: IWrapBaseItemAttribute) {
    if (data.customData._position) {
       data.customData._position[0] = -1 - data.customData._position[0];
@@ -33,6 +36,9 @@ export function mirrorNoodleExtensionsV2(data: IWrapBaseItemAttribute) {
    }
 }
 
+/**
+ * Mirrors the object for Noodle Extensions in beatmap v3.
+ */
 export function mirrorNoodleExtensionsV3(data: IWrapBaseItemAttribute) {
    if (data.customData.coordinates) {
       data.customData.coordinates[0] = -1 - data.customData.coordinates[0];

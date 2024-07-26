@@ -1,10 +1,10 @@
 import { hasMappingExtensionsObstacleV2 } from '../../beatmap/helpers/modded/has.ts';
 import {
+   hasChromaObstacleV2,
    hasChromaObstacleV3,
    hasMappingExtensionsObstacleV3,
+   hasNoodleExtensionsObstacleV2,
    hasNoodleExtensionsObstacleV3,
-   hassChromaObstacleV2,
-   hassNoodleExtensionsObstacleV2,
 } from '../../beatmap/helpers/modded/has.ts';
 import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
 import type { IObstacleCount } from './types/stats.ts';
@@ -27,8 +27,8 @@ export function countObstacle(
       noodleExtensions: 0,
       mappingExtensions: 0,
    };
-   const hasChroma = version >= 3 ? hasChromaObstacleV3 : hassChromaObstacleV2;
-   const hasNoodle = version >= 3 ? hasNoodleExtensionsObstacleV3 : hassNoodleExtensionsObstacleV2;
+   const hasChroma = version >= 3 ? hasChromaObstacleV3 : hasChromaObstacleV2;
+   const hasNoodle = version >= 3 ? hasNoodleExtensionsObstacleV3 : hasNoodleExtensionsObstacleV2;
    const hasME = version >= 3 ? hasMappingExtensionsObstacleV3 : hasMappingExtensionsObstacleV2;
 
    for (let i = obstacles.length - 1; i > -1; i--) {
