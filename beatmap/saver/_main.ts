@@ -156,7 +156,7 @@ export function saveBeatmap<
    }
 
    if (opt.validate.enabled) {
-      validateJSON(type, json, ver, opt.validate?.dataCheck);
+      validateJSON(type, json, ver, opt.validate?.schemaCheck);
    }
 
    opt.postprocess.forEach((fn, i) => {

@@ -112,7 +112,7 @@ export function deepClean(
          );
       }
 
-      // remove unnecessary empty array/object property if exist and not part of data check
+      // remove unnecessary empty array/object property if exist and not part of schema
       if ((Array.isArray(d) && !d.length) || JSON.stringify(d) === '{}') {
          delete obj[k];
          continue;

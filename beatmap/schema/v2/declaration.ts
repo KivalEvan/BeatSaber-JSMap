@@ -1,4 +1,4 @@
-import type { IDataCheck } from '../../../types/beatmap/shared/dataCheck.ts';
+import type { ISchemaDeclaration } from '../../../types/beatmap/shared/schema.ts';
 import type { IDifficulty } from '../../../types/beatmap/v2/difficulty.ts';
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import type { INote } from '../../../types/beatmap/v2/note.ts';
@@ -17,7 +17,7 @@ import type {
 import type { IColor } from '../../../types/colors.ts';
 import type { IBPMInfo, IBPMInfoRegion } from '../../../types/beatmap/v2/bpmInfo.ts';
 
-export const NoteDataCheck: { readonly [key in keyof INote]: IDataCheck } = {
+export const NoteSchema: { readonly [key in keyof INote]: ISchemaDeclaration } = {
    _time: {
       type: 'number',
       version: '2.0.0',
@@ -57,7 +57,7 @@ export const NoteDataCheck: { readonly [key in keyof INote]: IDataCheck } = {
    },
 } as const;
 
-export const ArcDataCheck: { readonly [key in keyof IArc]: IDataCheck } = {
+export const ArcSchema: { readonly [key in keyof IArc]: ISchemaDeclaration } = {
    _colorType: {
       type: 'number',
       version: '2.0.0',
@@ -134,8 +134,8 @@ export const ArcDataCheck: { readonly [key in keyof IArc]: IDataCheck } = {
    },
 } as const;
 
-export const ObstacleDataCheck: {
-   readonly [key in keyof IObstacle]: IDataCheck;
+export const ObstacleSchema: {
+   readonly [key in keyof IObstacle]: ISchemaDeclaration;
 } = {
    _time: {
       type: 'number',
@@ -174,7 +174,7 @@ export const ObstacleDataCheck: {
    },
 } as const;
 
-export const EventDataCheck: { readonly [key in keyof IEvent]: IDataCheck } = {
+export const EventSchema: { readonly [key in keyof IEvent]: ISchemaDeclaration } = {
    _time: {
       type: 'number',
       version: '2.0.0',
@@ -205,8 +205,8 @@ export const EventDataCheck: { readonly [key in keyof IEvent]: IDataCheck } = {
    },
 } as const;
 
-export const WaypointDataCheck: {
-   readonly [key in keyof IWaypoint]: IDataCheck;
+export const WaypointSchema: {
+   readonly [key in keyof IWaypoint]: ISchemaDeclaration;
 } = {
    _time: {
       type: 'number',
@@ -239,8 +239,8 @@ export const WaypointDataCheck: {
    },
 } as const;
 
-export const SpecialEventsKeywordFiltersKeywordsDataCheck: {
-   readonly [key in keyof ISpecialEventsKeywordFiltersKeywords]: IDataCheck;
+export const SpecialEventsKeywordFiltersKeywordsSchema: {
+   readonly [key in keyof ISpecialEventsKeywordFiltersKeywords]: ISchemaDeclaration;
 } = {
    _keyword: {
       type: 'string',
@@ -256,19 +256,19 @@ export const SpecialEventsKeywordFiltersKeywordsDataCheck: {
    },
 } as const;
 
-export const SpecialEventsKeywordFiltersDataCheck: {
-   readonly [key in keyof ISpecialEventsKeywordFilters]: IDataCheck;
+export const SpecialEventsKeywordFiltersSchema: {
+   readonly [key in keyof ISpecialEventsKeywordFilters]: ISchemaDeclaration;
 } = {
    _keywords: {
       type: 'array',
       version: '2.4.0',
-      check: SpecialEventsKeywordFiltersKeywordsDataCheck,
+      check: SpecialEventsKeywordFiltersKeywordsSchema,
       optional: true,
    },
 } as const;
 
-export const DifficultyDataCheck: {
-   readonly [key in keyof IDifficulty]: IDataCheck;
+export const DifficultySchema: {
+   readonly [key in keyof IDifficulty]: ISchemaDeclaration;
 } = {
    _version: {
       type: 'string',
@@ -278,37 +278,37 @@ export const DifficultyDataCheck: {
    _notes: {
       type: 'array',
       version: '2.0.0',
-      check: NoteDataCheck,
+      check: NoteSchema,
       optional: true,
    },
    _sliders: {
       type: 'array',
       version: '2.6.0',
-      check: ArcDataCheck,
+      check: ArcSchema,
       optional: true,
    },
    _obstacles: {
       type: 'array',
       version: '2.0.0',
-      check: ObstacleDataCheck,
+      check: ObstacleSchema,
       optional: true,
    },
    _events: {
       type: 'array',
       version: '2.0.0',
-      check: EventDataCheck,
+      check: EventSchema,
       optional: true,
    },
    _waypoints: {
       type: 'array',
       version: '2.2.0',
-      check: WaypointDataCheck,
+      check: WaypointSchema,
       optional: true,
    },
    _specialEventsKeywordFilters: {
       type: 'object',
       version: '2.4.0',
-      check: SpecialEventsKeywordFiltersDataCheck,
+      check: SpecialEventsKeywordFiltersSchema,
       optional: true,
    },
    _customData: {
@@ -319,8 +319,8 @@ export const DifficultyDataCheck: {
    },
 } as const;
 
-export const InfoSetDifficultyDataCheck: {
-   readonly [key in keyof IInfoDifficulty]: IDataCheck;
+export const InfoSetDifficultySchema: {
+   readonly [key in keyof IInfoDifficulty]: ISchemaDeclaration;
 } = {
    _difficulty: {
       type: 'string',
@@ -358,7 +358,7 @@ export const InfoSetDifficultyDataCheck: {
    },
 };
 
-export const InfoSetDataCheck: { readonly [key in keyof IInfoSet]: IDataCheck } = {
+export const InfoSetSchema: { readonly [key in keyof IInfoSet]: ISchemaDeclaration } = {
    _beatmapCharacteristicName: {
       type: 'string',
       version: '2.0.0',
@@ -366,12 +366,12 @@ export const InfoSetDataCheck: { readonly [key in keyof IInfoSet]: IDataCheck } 
    _difficultyBeatmaps: {
       type: 'array',
       version: '2.0.0',
-      check: InfoSetDifficultyDataCheck,
+      check: InfoSetDifficultySchema,
    },
 };
 
-export const ColorObjectDataCheck: {
-   readonly [key in keyof IColor]: IDataCheck;
+export const ColorObjectSchema: {
+   readonly [key in keyof IColor]: ISchemaDeclaration;
 } = {
    r: {
       type: 'number',
@@ -391,8 +391,8 @@ export const ColorObjectDataCheck: {
    },
 };
 
-export const InfoColorSchemeDataDataCheck: {
-   readonly [key in keyof IInfoColorSchemeData]: IDataCheck;
+export const InfoColorSchemeDataSchema: {
+   readonly [key in keyof IInfoColorSchemeData]: ISchemaDeclaration;
 } = {
    colorSchemeId: {
       type: 'string',
@@ -401,42 +401,42 @@ export const InfoColorSchemeDataDataCheck: {
    saberAColor: {
       type: 'object',
       version: '2.1.0',
-      check: ColorObjectDataCheck,
+      check: ColorObjectSchema,
    },
    saberBColor: {
       type: 'object',
       version: '2.1.0',
-      check: ColorObjectDataCheck,
+      check: ColorObjectSchema,
    },
    environmentColor0: {
       type: 'object',
       version: '2.1.0',
-      check: ColorObjectDataCheck,
+      check: ColorObjectSchema,
    },
    environmentColor1: {
       type: 'object',
       version: '2.1.0',
-      check: ColorObjectDataCheck,
+      check: ColorObjectSchema,
    },
    obstaclesColor: {
       type: 'object',
       version: '2.1.0',
-      check: ColorObjectDataCheck,
+      check: ColorObjectSchema,
    },
    environmentColor0Boost: {
       type: 'object',
       version: '2.1.0',
-      check: ColorObjectDataCheck,
+      check: ColorObjectSchema,
    },
    environmentColor1Boost: {
       type: 'object',
       version: '2.1.0',
-      check: ColorObjectDataCheck,
+      check: ColorObjectSchema,
    },
 };
 
-export const InfoColorSchemeDataCheck: {
-   readonly [key in keyof IInfoColorScheme]: IDataCheck;
+export const InfoColorSchemeSchema: {
+   readonly [key in keyof IInfoColorScheme]: ISchemaDeclaration;
 } = {
    useOverride: {
       type: 'boolean',
@@ -445,11 +445,11 @@ export const InfoColorSchemeDataCheck: {
    colorScheme: {
       type: 'object',
       version: '2.1.0',
-      check: InfoColorSchemeDataDataCheck,
+      check: InfoColorSchemeDataSchema,
    },
 };
 
-export const InfoDataCheck: { readonly [key in keyof IInfo]: IDataCheck } = {
+export const InfoSchema: { readonly [key in keyof IInfo]: ISchemaDeclaration } = {
    _version: {
       type: 'string',
       version: '2.0.0',
@@ -520,7 +520,7 @@ export const InfoDataCheck: { readonly [key in keyof IInfo]: IDataCheck } = {
    _colorSchemes: {
       type: 'array',
       version: '2.1.0',
-      check: InfoColorSchemeDataCheck,
+      check: InfoColorSchemeSchema,
    },
    _customData: {
       type: 'object',
@@ -531,11 +531,11 @@ export const InfoDataCheck: { readonly [key in keyof IInfo]: IDataCheck } = {
    _difficultyBeatmapSets: {
       type: 'array',
       version: '2.0.0',
-      check: InfoSetDataCheck,
+      check: InfoSetSchema,
    },
 };
 
-export const BPMInfoRegionDataCheck: { readonly [key in keyof IBPMInfoRegion]: IDataCheck } = {
+export const BPMInfoRegionSchema: { readonly [key in keyof IBPMInfoRegion]: ISchemaDeclaration } = {
    _startSampleIndex: {
       type: 'number',
       version: '2.0.0',
@@ -558,7 +558,7 @@ export const BPMInfoRegionDataCheck: { readonly [key in keyof IBPMInfoRegion]: I
    },
 };
 
-export const BPMInfoDataCheck: { readonly [key in keyof IBPMInfo]: IDataCheck } = {
+export const BPMInfoSchema: { readonly [key in keyof IBPMInfo]: ISchemaDeclaration } = {
    _version: {
       type: 'string',
       version: '2.0.0',
@@ -578,7 +578,7 @@ export const BPMInfoDataCheck: { readonly [key in keyof IBPMInfo]: IDataCheck } 
    _regions: {
       type: 'object',
       version: '2.0.0',
-      check: BPMInfoRegionDataCheck,
+      check: BPMInfoRegionSchema,
       array: true,
    },
 };

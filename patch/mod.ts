@@ -5,14 +5,14 @@
  * It contains functions to attempt fix and alter beatmap objects that
  * were potentially broken or contain incompatible data.
  *
- * You may try to load beatmap with data check disabled to be able to use certain patch.
+ * You may try to load beatmap with schema check disabled to be able to use certain patch.
  *
  * @example Patch beatmap data
  * ```ts
  * import { readDifficultyFileData } from '@kvl/bsmap';
  * import { dataCorrection } from '@kvl/bsmap/patch';
  *
- * const beatmap = readDifficultyFileData('path/to/beatmap.dat', { load: { dataCheck: { enabled: false } } });
+ * const beatmap = readDifficultyFileData('path/to/beatmap.dat', { load: { schemaCheck: { enabled: false } } });
  * dataCorrection.beatmap(beatmap);
  * ```
  *

@@ -1,3 +1,4 @@
+export * from './compat/mod.ts';
 export * from './optimize/mod.ts';
 export * from './arc.ts';
 export * from './basicEvent.ts';
@@ -8,7 +9,7 @@ export * from './bpmEvent.ts';
 export * from './audioData.ts';
 export * from './colorBoostEvent.ts';
 export * from './colorNote.ts';
-export * from './dataCheck.ts';
+export * from './declaration.ts';
 export * from './difficulty.ts';
 export * from './info.ts';
 export * from './obstacle.ts';

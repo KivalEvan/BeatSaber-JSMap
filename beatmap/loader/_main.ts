@@ -24,7 +24,7 @@ export function tag(name: string): string[] {
 
 const defaultOptions: Required<ILoadOptions<any>> = {
    forceConvert: true,
-   dataCheck: {},
+   schemaCheck: {},
    sort: true,
    preprocess: [],
    postprocess: [],
@@ -68,9 +68,9 @@ export function loadBeatmap<T extends Record<string, any>>(
 ): T {
    const opt: Required<ILoadOptions> = {
       forceConvert: options.forceConvert ?? defaultOptions.forceConvert,
-      dataCheck: {
-         ...defaultOptions.dataCheck,
-         ...options.dataCheck,
+      schemaCheck: {
+         ...defaultOptions.schemaCheck,
+         ...options.schemaCheck,
       },
       sort: options.sort ?? defaultOptions.sort,
       preprocess: options.preprocess ?? defaultOptions.preprocess,
@@ -123,7 +123,7 @@ export function loadBeatmap<T extends Record<string, any>>(
    let data: any;
    const schema = schemaMap[jsonVer];
    if (schema) {
-      if (opt.dataCheck.enabled) validateJSON(type, json, jsonVer, opt.dataCheck);
+      if (opt.schemaCheck.enabled) validateJSON(type, json, jsonVer, opt.schemaCheck);
       data = new coreClass(schema.deserialize(json));
    } else {
       throw new Error(

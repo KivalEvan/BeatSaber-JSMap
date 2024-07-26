@@ -1,11 +1,11 @@
-import type { IDataCheck } from '../../../types/beatmap/shared/dataCheck.ts';
+import type { ISchemaDeclaration } from '../../../types/beatmap/shared/schema.ts';
 import type { IDifficulty } from '../../../types/beatmap/v1/difficulty.ts';
 import type { IEvent } from '../../../types/beatmap/v1/event.ts';
 import type { IInfo, IInfoDifficulty } from '../../../types/beatmap/v1/info.ts';
 import type { INote } from '../../../types/beatmap/v1/note.ts';
 import type { IObstacle } from '../../../types/beatmap/v1/obstacle.ts';
 
-export const NoteDataCheck: { readonly [key in keyof INote]: IDataCheck } = {
+export const NoteSchema: { readonly [key in keyof INote]: ISchemaDeclaration } = {
    _time: {
       type: 'number',
       version: '1.5.0',
@@ -34,7 +34,7 @@ export const NoteDataCheck: { readonly [key in keyof INote]: IDataCheck } = {
    },
 } as const;
 
-export const ObstacleDataCheck: { readonly [key in keyof IObstacle]: IDataCheck } = {
+export const ObstacleSchema: { readonly [key in keyof IObstacle]: ISchemaDeclaration } = {
    _time: {
       type: 'number',
       version: '1.5.0',
@@ -61,7 +61,7 @@ export const ObstacleDataCheck: { readonly [key in keyof IObstacle]: IDataCheck 
    },
 } as const;
 
-export const EventDataCheck: { readonly [key in keyof IEvent]: IDataCheck } = {
+export const EventSchema: { readonly [key in keyof IEvent]: ISchemaDeclaration } = {
    _time: {
       type: 'number',
       version: '1.5.0',
@@ -78,7 +78,7 @@ export const EventDataCheck: { readonly [key in keyof IEvent]: IDataCheck } = {
    },
 } as const;
 
-export const DifficultyDataCheck: { readonly [key in keyof IDifficulty]: IDataCheck } = {
+export const DifficultySchema: { readonly [key in keyof IDifficulty]: ISchemaDeclaration } = {
    _version: {
       type: 'string',
       version: '1.5.0',
@@ -112,17 +112,17 @@ export const DifficultyDataCheck: { readonly [key in keyof IDifficulty]: IDataCh
    _notes: {
       type: 'array',
       version: '1.5.0',
-      check: NoteDataCheck,
+      check: NoteSchema,
    },
    _obstacles: {
       type: 'array',
       version: '1.5.0',
-      check: ObstacleDataCheck,
+      check: ObstacleSchema,
    },
    _events: {
       type: 'array',
       version: '1.5.0',
-      check: EventDataCheck,
+      check: EventSchema,
    },
    _time: {
       type: 'number',
@@ -143,85 +143,86 @@ export const DifficultyDataCheck: { readonly [key in keyof IDifficulty]: IDataCh
    },
 } as const;
 
-export const InfoDifficultyDataCheck: { readonly [key in keyof IInfoDifficulty]: IDataCheck } = {
-   difficulty: {
-      type: 'string',
-      version: '1.0.0',
-   },
-   difficultyRank: {
-      type: 'number',
-      version: '1.0.0',
-   },
-   audioPath: {
-      type: 'string',
-      version: '1.0.0',
-   },
-   jsonPath: {
-      type: 'string',
-      version: '1.0.0',
-   },
-   characteristic: {
-      type: 'string',
-      version: '1.0.0',
-   },
-   offset: {
-      type: 'number',
-      version: '1.0.0',
-      optional: true,
-   },
-   oldOffset: {
-      type: 'number',
-      version: '1.0.0',
-      optional: true,
-   },
-   chromaToggle: {
-      type: 'string',
-      version: '1.0.0',
-      optional: true,
-   },
-   customColors: {
-      type: 'boolean',
-      version: '1.0.0',
-      optional: true,
-   },
-   difficultyLabel: {
-      type: 'string',
-      version: '1.0.0',
-      optional: true,
-   },
-   colorLeft: {
-      type: 'object',
-      version: '1.0.0',
-      check: {},
-      optional: true,
-   },
-   colorRight: {
-      type: 'object',
-      version: '1.0.0',
-      check: {},
-      optional: true,
-   },
-   envColorLeft: {
-      type: 'object',
-      version: '1.0.0',
-      check: {},
-      optional: true,
-   },
-   envColorRight: {
-      type: 'object',
-      version: '1.0.0',
-      check: {},
-      optional: true,
-   },
-   obstacleColor: {
-      type: 'object',
-      version: '1.0.0',
-      check: {},
-      optional: true,
-   },
-};
+export const InfoDifficultySchema: { readonly [key in keyof IInfoDifficulty]: ISchemaDeclaration } =
+   {
+      difficulty: {
+         type: 'string',
+         version: '1.0.0',
+      },
+      difficultyRank: {
+         type: 'number',
+         version: '1.0.0',
+      },
+      audioPath: {
+         type: 'string',
+         version: '1.0.0',
+      },
+      jsonPath: {
+         type: 'string',
+         version: '1.0.0',
+      },
+      characteristic: {
+         type: 'string',
+         version: '1.0.0',
+      },
+      offset: {
+         type: 'number',
+         version: '1.0.0',
+         optional: true,
+      },
+      oldOffset: {
+         type: 'number',
+         version: '1.0.0',
+         optional: true,
+      },
+      chromaToggle: {
+         type: 'string',
+         version: '1.0.0',
+         optional: true,
+      },
+      customColors: {
+         type: 'boolean',
+         version: '1.0.0',
+         optional: true,
+      },
+      difficultyLabel: {
+         type: 'string',
+         version: '1.0.0',
+         optional: true,
+      },
+      colorLeft: {
+         type: 'object',
+         version: '1.0.0',
+         check: {},
+         optional: true,
+      },
+      colorRight: {
+         type: 'object',
+         version: '1.0.0',
+         check: {},
+         optional: true,
+      },
+      envColorLeft: {
+         type: 'object',
+         version: '1.0.0',
+         check: {},
+         optional: true,
+      },
+      envColorRight: {
+         type: 'object',
+         version: '1.0.0',
+         check: {},
+         optional: true,
+      },
+      obstacleColor: {
+         type: 'object',
+         version: '1.0.0',
+         check: {},
+         optional: true,
+      },
+   };
 
-export const InfoDataCheck: { readonly [key in keyof IInfo]: IDataCheck } = {
+export const InfoSchema: { readonly [key in keyof IInfo]: ISchemaDeclaration } = {
    songName: {
       type: 'string',
       version: '1.0.0',
@@ -257,7 +258,7 @@ export const InfoDataCheck: { readonly [key in keyof IInfo]: IDataCheck } = {
    difficultyLevels: {
       type: 'array',
       version: '1.0.0',
-      check: InfoDifficultyDataCheck,
+      check: InfoDifficultySchema,
    },
    oneSaber: {
       type: 'boolean',

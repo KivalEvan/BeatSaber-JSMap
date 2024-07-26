@@ -1,22 +1,22 @@
 // deno-lint-ignore-file no-explicit-any
-import { deepCheck } from '../helpers/dataCheck.ts';
+import { schemaCheck } from './schema.ts';
 import { logger } from '../../logger.ts';
-import type { IDataCheck } from '../../types/beatmap/shared/dataCheck.ts';
+import type { ISchemaDeclaration } from '../../types/beatmap/shared/schema.ts';
 import {
-   audioDataCheckMap,
+   audioSchemaMap,
    difficultyCheckMap,
    infoCheckMap,
    lightshowCheckMap,
 } from '../mapping/validator.ts';
 import { implicitVersion, retrieveVersion } from '../helpers/version.ts';
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
-import type { IDataCheckOptions } from '../../types/beatmap/options/dataCheck.ts';
+import type { ISchemaCheckOptions } from '../../types/beatmap/options/schema.ts';
 
 function tag(name: string): string[] {
    return ['validator', name];
 }
 
-const defaultOptions: IDataCheckOptions = {
+const defaultOptions: ISchemaCheckOptions = {
    enabled: true,
    throwOn: {
       unused: false,
@@ -36,28 +36,28 @@ export function validateJSON<T extends Record<string, any> = Record<string, any>
    type: BeatmapFileType,
    data: T,
    version: number,
-   options?: Partial<IDataCheckOptions>,
+   options?: Partial<ISchemaCheckOptions>,
 ): T {
-   const opt: Required<IDataCheckOptions> = {
+   const opt: Required<ISchemaCheckOptions> = {
       enabled: options?.enabled ?? defaultOptions.enabled,
       throwOn: {
          ...defaultOptions.throwOn,
          ...options?.throwOn,
       },
    };
-   let dataCheckMap: Record<number, Record<string, IDataCheck>> = {};
+   let schemaCheckMap: Record<number, Record<string, ISchemaDeclaration>> = {};
    switch (type) {
       case 'info':
-         dataCheckMap = infoCheckMap;
+         schemaCheckMap = infoCheckMap;
          break;
       case 'audioData':
-         dataCheckMap = audioDataCheckMap;
+         schemaCheckMap = audioSchemaMap;
          break;
       case 'difficulty':
-         dataCheckMap = difficultyCheckMap;
+         schemaCheckMap = difficultyCheckMap;
          break;
       case 'lightshow':
-         dataCheckMap = lightshowCheckMap;
+         schemaCheckMap = lightshowCheckMap;
          break;
    }
 
@@ -67,7 +67,7 @@ export function validateJSON<T extends Record<string, any> = Record<string, any>
       'Validating beatmap JSON for ' + type + ' with version',
       version,
    );
-   deepCheck(data, dataCheckMap[version], type, ver, opt.throwOn);
+   schemaCheck(data, schemaCheckMap[version], type, ver, opt.throwOn);
 
    return data;
 }

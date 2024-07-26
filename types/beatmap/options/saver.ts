@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ICompatibilityOptions } from './compatibility.ts';
-import type { IDataCheckOptions } from './dataCheck.ts';
+import type { ISchemaCheckOptions } from './schema.ts';
 import type { IOptimizeOptions } from './optimize.ts';
 
 export interface ISaveOptions<
@@ -52,5 +52,5 @@ export interface ISaveValidate {
     */
    vanilla?: boolean;
    compatibility?: ICompatibilityOptions;
-   dataCheck?: IDataCheckOptions;
+   schemaCheck?: ISchemaCheckOptions;
 }

@@ -1,4 +1,4 @@
-import type { IDataCheck } from '../../../types/beatmap/shared/dataCheck.ts';
+import type { ISchemaDeclaration } from '../../../types/beatmap/shared/schema.ts';
 import type { IBasicEvent } from '../../../types/beatmap/v3/basicEvent.ts';
 import type { IBasicEventTypesForKeywords } from '../../../types/beatmap/v3/basicEventTypesForKeywords.ts';
 import type { IBasicEventTypesWithKeywords } from '../../../types/beatmap/v3/basicEventTypesWithKeywords.ts';
@@ -29,8 +29,8 @@ import type { IFxEventsCollection } from '../../../types/beatmap/v3/fxEventsColl
 import type { IFxEventFloat } from '../../../types/beatmap/v3/fxEventFloat.ts';
 import type { IFxEventInt } from '../../../types/beatmap/v3/fxEventInt.ts';
 
-export const ColorNoteDataCheck: {
-   readonly [key in keyof IColorNote]: IDataCheck;
+export const ColorNoteSchema: {
+   readonly [key in keyof IColorNote]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -75,7 +75,7 @@ export const ColorNoteDataCheck: {
    },
 } as const;
 
-export const BombDataCheck: { readonly [key in keyof IBombNote]: IDataCheck } = {
+export const BombSchema: { readonly [key in keyof IBombNote]: ISchemaDeclaration } = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -101,7 +101,7 @@ export const BombDataCheck: { readonly [key in keyof IBombNote]: IDataCheck } = 
    },
 } as const;
 
-export const ArcDataCheck: { readonly [key in keyof IArc]: IDataCheck } = {
+export const ArcSchema: { readonly [key in keyof IArc]: ISchemaDeclaration } = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -178,7 +178,7 @@ export const ArcDataCheck: { readonly [key in keyof IArc]: IDataCheck } = {
    },
 } as const;
 
-export const ChainDataCheck: { readonly [key in keyof IChain]: IDataCheck } = {
+export const ChainSchema: { readonly [key in keyof IChain]: ISchemaDeclaration } = {
    b: {
       type: 'number',
       version: '3.0.0',
@@ -244,8 +244,8 @@ export const ChainDataCheck: { readonly [key in keyof IChain]: IDataCheck } = {
    },
 } as const;
 
-export const ObstacleDataCheck: {
-   readonly [key in keyof IObstacle]: IDataCheck;
+export const ObstacleSchema: {
+   readonly [key in keyof IObstacle]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -289,8 +289,8 @@ export const ObstacleDataCheck: {
    },
 } as const;
 
-export const BasicEventDataCheck: {
-   readonly [key in keyof IBasicEvent]: IDataCheck;
+export const BasicEventSchema: {
+   readonly [key in keyof IBasicEvent]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -322,8 +322,8 @@ export const BasicEventDataCheck: {
    },
 } as const;
 
-export const BPMChangeEventDataCheck: {
-   readonly [key in keyof IBPMEvent]: IDataCheck;
+export const BPMChangeEventSchema: {
+   readonly [key in keyof IBPMEvent]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -342,8 +342,8 @@ export const BPMChangeEventDataCheck: {
    },
 } as const;
 
-export const RotationEventDataCheck: {
-   readonly [key in keyof IRotationEvent]: IDataCheck;
+export const RotationEventSchema: {
+   readonly [key in keyof IRotationEvent]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -369,8 +369,8 @@ export const RotationEventDataCheck: {
    },
 } as const;
 
-export const ColorBoostEventDataCheck: {
-   readonly [key in keyof IColorBoostEvent]: IDataCheck;
+export const ColorBoostEventSchema: {
+   readonly [key in keyof IColorBoostEvent]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -390,8 +390,8 @@ export const ColorBoostEventDataCheck: {
    },
 } as const;
 
-export const IndexFilterDataCheck: {
-   readonly [key in keyof IIndexFilter]: IDataCheck;
+export const IndexFilterSchema: {
+   readonly [key in keyof IIndexFilter]: ISchemaDeclaration;
 } = {
    f: {
       type: 'number',
@@ -452,8 +452,8 @@ export const IndexFilterDataCheck: {
    },
 } as const;
 
-export const LightColorBaseDataCheck: {
-   readonly [key in keyof ILightColorEvent]: IDataCheck;
+export const LightColorBaseSchema: {
+   readonly [key in keyof ILightColorEvent]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -501,13 +501,13 @@ export const LightColorBaseDataCheck: {
    },
 } as const;
 
-export const LightColorEventBoxDataCheck: {
-   readonly [key in keyof ILightColorEventBox]: IDataCheck;
+export const LightColorEventBoxSchema: {
+   readonly [key in keyof ILightColorEventBox]: ISchemaDeclaration;
 } = {
    f: {
       type: 'object',
       version: '3.0.0',
-      check: IndexFilterDataCheck,
+      check: IndexFilterSchema,
       optional: true,
    },
    w: {
@@ -535,7 +535,7 @@ export const LightColorEventBoxDataCheck: {
    e: {
       type: 'array',
       version: '3.0.0',
-      check: LightColorBaseDataCheck,
+      check: LightColorBaseSchema,
       optional: true,
    },
    b: {
@@ -558,8 +558,8 @@ export const LightColorEventBoxDataCheck: {
    },
 } as const;
 
-export const LightColorEventBoxGroupDataCheck: {
-   readonly [key in keyof ILightColorEventBoxGroup]: IDataCheck;
+export const LightColorEventBoxGroupSchema: {
+   readonly [key in keyof ILightColorEventBoxGroup]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -575,7 +575,7 @@ export const LightColorEventBoxGroupDataCheck: {
    e: {
       type: 'array',
       version: '3.0.0',
-      check: LightColorEventBoxDataCheck,
+      check: LightColorEventBoxSchema,
       optional: true,
    },
    customData: {
@@ -586,8 +586,8 @@ export const LightColorEventBoxGroupDataCheck: {
    },
 } as const;
 
-export const LightRotationBaseDataCheck: {
-   readonly [key in keyof ILightRotationEvent]: IDataCheck;
+export const LightRotationBaseSchema: {
+   readonly [key in keyof ILightRotationEvent]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -630,13 +630,13 @@ export const LightRotationBaseDataCheck: {
    },
 } as const;
 
-export const LightRotationEventBoxDataCheck: {
-   readonly [key in keyof ILightRotationEventBox]: IDataCheck;
+export const LightRotationEventBoxSchema: {
+   readonly [key in keyof ILightRotationEventBox]: ISchemaDeclaration;
 } = {
    f: {
       type: 'object',
       version: '3.0.0',
-      check: IndexFilterDataCheck,
+      check: IndexFilterSchema,
       optional: true,
    },
    w: {
@@ -670,7 +670,7 @@ export const LightRotationEventBoxDataCheck: {
    l: {
       type: 'array',
       version: '3.0.0',
-      check: LightRotationBaseDataCheck,
+      check: LightRotationBaseSchema,
       optional: true,
    },
    r: {
@@ -699,8 +699,8 @@ export const LightRotationEventBoxDataCheck: {
    },
 } as const;
 
-export const LightRotationEventBoxGroupDataCheck: {
-   readonly [key in keyof ILightRotationEventBoxGroup]: IDataCheck;
+export const LightRotationEventBoxGroupSchema: {
+   readonly [key in keyof ILightRotationEventBoxGroup]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -716,7 +716,7 @@ export const LightRotationEventBoxGroupDataCheck: {
    e: {
       type: 'array',
       version: '3.0.0',
-      check: LightRotationEventBoxDataCheck,
+      check: LightRotationEventBoxSchema,
       optional: true,
    },
    customData: {
@@ -727,8 +727,8 @@ export const LightRotationEventBoxGroupDataCheck: {
    },
 } as const;
 
-export const LightTranslationBaseDataCheck: {
-   readonly [key in keyof ILightTranslationEvent]: IDataCheck;
+export const LightTranslationBaseSchema: {
+   readonly [key in keyof ILightTranslationEvent]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -760,13 +760,13 @@ export const LightTranslationBaseDataCheck: {
    },
 } as const;
 
-export const LightTranslationEventBoxDataCheck: {
-   readonly [key in keyof ILightTranslationEventBox]: IDataCheck;
+export const LightTranslationEventBoxSchema: {
+   readonly [key in keyof ILightTranslationEventBox]: ISchemaDeclaration;
 } = {
    f: {
       type: 'object',
       version: '3.2.0',
-      check: IndexFilterDataCheck,
+      check: IndexFilterSchema,
       optional: true,
    },
    w: {
@@ -800,7 +800,7 @@ export const LightTranslationEventBoxDataCheck: {
    l: {
       type: 'array',
       version: '3.2.0',
-      check: LightTranslationBaseDataCheck,
+      check: LightTranslationBaseSchema,
       optional: true,
    },
    r: {
@@ -829,8 +829,8 @@ export const LightTranslationEventBoxDataCheck: {
    },
 } as const;
 
-export const LightTranslationEventBoxGroupDataCheck: {
-   readonly [key in keyof ILightTranslationEventBoxGroup]: IDataCheck;
+export const LightTranslationEventBoxGroupSchema: {
+   readonly [key in keyof ILightTranslationEventBoxGroup]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -846,7 +846,7 @@ export const LightTranslationEventBoxGroupDataCheck: {
    e: {
       type: 'array',
       version: '3.2.0',
-      check: LightTranslationEventBoxDataCheck,
+      check: LightTranslationEventBoxSchema,
       optional: true,
    },
    customData: {
@@ -857,13 +857,13 @@ export const LightTranslationEventBoxGroupDataCheck: {
    },
 } as const;
 
-export const VfxEventBoxDataCheck: {
-   readonly [key in keyof IFxEventBox]: IDataCheck;
+export const VfxEventBoxSchema: {
+   readonly [key in keyof IFxEventBox]: ISchemaDeclaration;
 } = {
    f: {
       type: 'object',
       version: '3.3.0',
-      check: IndexFilterDataCheck,
+      check: IndexFilterSchema,
       optional: true,
    },
    w: {
@@ -915,8 +915,8 @@ export const VfxEventBoxDataCheck: {
    },
 } as const;
 
-export const VfxEventBoxGroupDataCheck: {
-   readonly [key in keyof IFxEventBoxGroup]: IDataCheck;
+export const VfxEventBoxGroupSchema: {
+   readonly [key in keyof IFxEventBoxGroup]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -932,7 +932,7 @@ export const VfxEventBoxGroupDataCheck: {
    e: {
       type: 'array',
       version: '3.3.0',
-      check: VfxEventBoxDataCheck,
+      check: VfxEventBoxSchema,
       optional: true,
    },
    t: {
@@ -949,8 +949,8 @@ export const VfxEventBoxGroupDataCheck: {
    },
 } as const;
 
-export const BasicEventTypesForKeywordsDataCheck: {
-   readonly [key in keyof IBasicEventTypesForKeywords]: IDataCheck;
+export const BasicEventTypesForKeywordsSchema: {
+   readonly [key in keyof IBasicEventTypesForKeywords]: ISchemaDeclaration;
 } = {
    k: {
       type: 'string',
@@ -966,19 +966,19 @@ export const BasicEventTypesForKeywordsDataCheck: {
    },
 } as const;
 
-export const BasicEventTypesWithKeywordsDataCheck: {
-   readonly [key in keyof IBasicEventTypesWithKeywords]: IDataCheck;
+export const BasicEventTypesWithKeywordsSchema: {
+   readonly [key in keyof IBasicEventTypesWithKeywords]: ISchemaDeclaration;
 } = {
    d: {
       type: 'array',
       version: '3.0.0',
-      check: BasicEventTypesForKeywordsDataCheck,
+      check: BasicEventTypesForKeywordsSchema,
       optional: true,
    },
 } as const;
 
-export const FxEventFloatDataCheck: {
-   readonly [key in keyof IFxEventFloat]: IDataCheck;
+export const FxEventFloatSchema: {
+   readonly [key in keyof IFxEventFloat]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -1010,8 +1010,8 @@ export const FxEventFloatDataCheck: {
    },
 } as const;
 
-export const FxEventIntDataCheck: {
-   readonly [key in keyof IFxEventInt]: IDataCheck;
+export const FxEventIntSchema: {
+   readonly [key in keyof IFxEventInt]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -1038,25 +1038,25 @@ export const FxEventIntDataCheck: {
    },
 } as const;
 
-export const FxEventsCollectionDataCheck: {
-   readonly [key in keyof IFxEventsCollection]: IDataCheck;
+export const FxEventsCollectionSchema: {
+   readonly [key in keyof IFxEventsCollection]: ISchemaDeclaration;
 } = {
    _fl: {
       type: 'array',
       version: '3.3.0',
-      check: FxEventFloatDataCheck,
+      check: FxEventFloatSchema,
       optional: true,
    },
    _il: {
       type: 'array',
       version: '3.3.0',
-      check: FxEventIntDataCheck,
+      check: FxEventIntSchema,
       optional: true,
    },
 } as const;
 
-export const WaypointDataCheck: {
-   readonly [key in keyof IWaypoint]: IDataCheck;
+export const WaypointSchema: {
+   readonly [key in keyof IWaypoint]: ISchemaDeclaration;
 } = {
    b: {
       type: 'number',
@@ -1089,8 +1089,8 @@ export const WaypointDataCheck: {
    },
 } as const;
 
-export const DifficultyDataCheck: {
-   readonly [key in keyof IDifficulty]: IDataCheck;
+export const DifficultySchema: {
+   readonly [key in keyof IDifficulty]: ISchemaDeclaration;
 } = {
    version: {
       type: 'string',
@@ -1100,97 +1100,97 @@ export const DifficultyDataCheck: {
    bpmEvents: {
       type: 'array',
       version: '3.0.0',
-      check: BPMChangeEventDataCheck,
+      check: BPMChangeEventSchema,
       optional: true,
    },
    rotationEvents: {
       type: 'array',
       version: '3.0.0',
-      check: RotationEventDataCheck,
+      check: RotationEventSchema,
       optional: true,
    },
    colorNotes: {
       type: 'array',
       version: '3.0.0',
-      check: ColorNoteDataCheck,
+      check: ColorNoteSchema,
       optional: true,
    },
    bombNotes: {
       type: 'array',
       version: '3.0.0',
-      check: BombDataCheck,
+      check: BombSchema,
       optional: true,
    },
    obstacles: {
       type: 'array',
       version: '3.0.0',
-      check: ObstacleDataCheck,
+      check: ObstacleSchema,
       optional: true,
    },
    sliders: {
       type: 'array',
       version: '3.0.0',
-      check: ArcDataCheck,
+      check: ArcSchema,
       optional: true,
    },
    burstSliders: {
       type: 'array',
       version: '3.0.0',
-      check: ChainDataCheck,
+      check: ChainSchema,
       optional: true,
    },
    waypoints: {
       type: 'array',
       version: '3.0.0',
-      check: WaypointDataCheck,
+      check: WaypointSchema,
       optional: true,
    },
    basicBeatmapEvents: {
       type: 'array',
       version: '3.0.0',
-      check: BasicEventDataCheck,
+      check: BasicEventSchema,
       optional: true,
    },
    colorBoostBeatmapEvents: {
       type: 'array',
       version: '3.0.0',
-      check: ColorBoostEventDataCheck,
+      check: ColorBoostEventSchema,
       optional: true,
    },
    lightColorEventBoxGroups: {
       type: 'array',
       version: '3.0.0',
-      check: LightColorEventBoxGroupDataCheck,
+      check: LightColorEventBoxGroupSchema,
       optional: true,
    },
    lightRotationEventBoxGroups: {
       type: 'array',
       version: '3.0.0',
-      check: LightRotationEventBoxGroupDataCheck,
+      check: LightRotationEventBoxGroupSchema,
       optional: true,
    },
    lightTranslationEventBoxGroups: {
       type: 'array',
       version: '3.2.0',
-      check: LightTranslationEventBoxGroupDataCheck,
+      check: LightTranslationEventBoxGroupSchema,
       optional: true,
    },
    vfxEventBoxGroups: {
       type: 'array',
       version: '3.3.0',
-      check: VfxEventBoxGroupDataCheck,
+      check: VfxEventBoxGroupSchema,
       optional: true,
    },
    basicEventTypesWithKeywords: {
       type: 'object',
       version: '3.0.0',
-      check: BasicEventTypesWithKeywordsDataCheck,
+      check: BasicEventTypesWithKeywordsSchema,
       optional: true,
    },
    _fxEventsCollection: {
       type: 'object',
       version: '3.3.0',
-      check: FxEventsCollectionDataCheck,
+      check: FxEventsCollectionSchema,
       optional: true,
    },
    useNormalEventsAsCompatibleEvents: {
@@ -1206,49 +1206,49 @@ export const DifficultyDataCheck: {
    },
 } as const;
 
-export const LightshowDataCheck: {
-   readonly [key in keyof ILightshow]: IDataCheck;
+export const LightshowSchema: {
+   readonly [key in keyof ILightshow]: ISchemaDeclaration;
 } = {
    basicBeatmapEvents: {
       type: 'array',
       version: '3.0.0',
-      check: BasicEventDataCheck,
+      check: BasicEventSchema,
       optional: true,
    },
    colorBoostBeatmapEvents: {
       type: 'array',
       version: '3.0.0',
-      check: ColorBoostEventDataCheck,
+      check: ColorBoostEventSchema,
       optional: true,
    },
    lightColorEventBoxGroups: {
       type: 'array',
       version: '3.0.0',
-      check: LightColorEventBoxGroupDataCheck,
+      check: LightColorEventBoxGroupSchema,
       optional: true,
    },
    lightRotationEventBoxGroups: {
       type: 'array',
       version: '3.0.0',
-      check: LightRotationEventBoxGroupDataCheck,
+      check: LightRotationEventBoxGroupSchema,
       optional: true,
    },
    lightTranslationEventBoxGroups: {
       type: 'array',
       version: '3.2.0',
-      check: LightTranslationEventBoxGroupDataCheck,
+      check: LightTranslationEventBoxGroupSchema,
       optional: true,
    },
    vfxEventBoxGroups: {
       type: 'array',
       version: '3.3.0',
-      check: VfxEventBoxGroupDataCheck,
+      check: VfxEventBoxGroupSchema,
       optional: true,
    },
    _fxEventsCollection: {
       type: 'object',
       version: '3.3.0',
-      check: FxEventsCollectionDataCheck,
+      check: FxEventsCollectionSchema,
       optional: true,
    },
    customData: {

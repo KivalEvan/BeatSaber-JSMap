@@ -1,18 +1,18 @@
-import type { IDataCheck } from '../../types/beatmap/shared/dataCheck.ts';
+import type { ISchemaDeclaration } from '../../types/beatmap/shared/schema.ts';
 import { logger } from '../../logger.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
-import { compareVersion } from './version.ts';
-import type { IDataCheckOptions } from '../../types/beatmap/options/dataCheck.ts';
+import { compareVersion } from '../helpers/version.ts';
+import type { ISchemaCheckOptions } from '../../types/beatmap/options/schema.ts';
 
-function tag(name: string): string[] {
-   return ['helpers', 'dataCheck', name];
+function tag(): string[] {
+   return ['helpers', 'schemaCheck'];
 }
 
 function handleError(text: string, doThrow: boolean | undefined, errors: string[]): void {
    if (doThrow) {
       throw new Error(text);
    } else {
-      logger.tWarn(tag('deepCheck'), text);
+      logger.tWarn(tag(), text);
       errors.push(text);
    }
 }
@@ -22,40 +22,40 @@ function handleError(text: string, doThrow: boolean | undefined, errors: string[
  *
  * Strict null policy. Return error logs as `string[]` for error inspection.
  */
-export function deepCheck(
+export function schemaCheck(
    // deno-lint-ignore no-explicit-any
    data: { [key: string]: any },
-   check: { [key: string]: IDataCheck },
+   schema: { [key: string]: ISchemaDeclaration },
    label: string,
    version: Version,
-   throwOn: IDataCheckOptions['throwOn'],
+   throwOn: ISchemaCheckOptions['throwOn'],
    _errors: string[] = [],
 ): string[] {
-   logger.tDebug(tag('deepCheck'), `Looking up ${label}`);
+   logger.tDebug(tag(), `Looking up ${label}`);
    if (Array.isArray(data)) {
       for (let i = 0; i < data.length; i++) {
-         deepCheck(data[i], check, `${label}[${i}]`, version, throwOn, _errors);
+         schemaCheck(data[i], schema, `${label}[${i}]`, version, throwOn, _errors);
       }
       return _errors;
    }
 
    // check for existing and/or unknown key
-   const checkKeys = Object.keys(check);
+   const checkKeys = Object.keys(schema);
    if (!checkKeys.length) return _errors;
 
    for (const key in data) {
-      if (!(key in check)) {
+      if (!(key in schema)) {
          handleError(`Unused key ${key} found in ${label}`, throwOn.unused, _errors);
       }
    }
 
    for (let i = 0; i < checkKeys.length; i++) {
       const key = checkKeys[i];
-      const ch = check[key];
+      const ch = schema[key];
       const d = data[key];
 
       if (d === undefined) {
-         if (!throwOn.ignoreOptional && check[key].optional) {
+         if (!throwOn.ignoreOptional && schema[key].optional) {
             continue;
          }
          if (compareVersion(version, ch.version) === -1) {
@@ -74,7 +74,7 @@ export function deepCheck(
          if (!Array.isArray(d)) {
             handleError(`${key} is not an array in object ${label}!`, throwOn.wrongType, _errors);
          }
-         deepCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
+         schemaCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
          continue;
       }
 
@@ -82,7 +82,7 @@ export function deepCheck(
          if (!Array.isArray(d) && !(typeof d === 'object')) {
             handleError(`${key} is not an object in object ${label}!`, throwOn.wrongType, _errors);
          } else {
-            deepCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
+            schemaCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
          }
          continue;
       }

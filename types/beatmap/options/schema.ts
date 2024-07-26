@@ -1,4 +1,4 @@
-export interface IDataCheckOptions {
+export interface ISchemaCheckOptions {
    enabled: boolean;
    /**
     * If condition is not met, handle an error.
