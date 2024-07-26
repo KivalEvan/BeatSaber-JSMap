@@ -10,10 +10,12 @@
 
 - Separate exports for `utils` and `types` to entrypoint
 - Renamed function in `time` utils for clarification
+- Renamed data check to schema declaration
 
 ### Fixed
 
 - Several undocumented fixes
+- Typod from `hass` to `has`
 
 ### Removed
 
