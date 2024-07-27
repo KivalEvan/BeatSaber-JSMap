@@ -8,8 +8,10 @@ import type { ICustomDataBase } from '../shared/custom/customData.ts';
 import type { INEEvent } from './custom/noodleExtensions.ts';
 import type { IBaseObject } from './object.ts';
 
-/** Beatmap object interface for Event. */
 // it took me long enough to realise Event is a built in JS class/interface, but it has no effect here anyway
+/**
+ * Base schema for v2 `Event`.
+ */
 export interface IEventBase extends IBaseObject {
    /**
     * Type of event.
@@ -40,14 +42,28 @@ export interface IEventBase extends IBaseObject {
     * 43 -> Special Event 3
     * 100 -> BPM Change
     * ```
+    *
+    * **Type:** `i32`
     */
    _type?: number;
-   /** Value of event. */
+   /**
+    * Value of event.
+    *
+    * **Type:** `i32`
+    */
    _value?: number;
+   /**
+    * Value of float event.
+    *
+    * **Type:** `f32`
+    */
    _floatValue?: number;
    _customData?: ICustomDataBase;
 }
 
+/**
+ * Light schema for v2 `Event`.
+ */
 export interface IEventLight extends IEventBase {
    _type?: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11;
    /**
@@ -59,6 +75,8 @@ export interface IEventLight extends IEventBase {
     * 3 | 7 | 11 -> Fade
     * 4 | 8 | 12 -> Transition
     * ```
+    *
+    * **Type:** `i32`
     */
    _value?: number;
    /**
@@ -66,38 +84,66 @@ export interface IEventLight extends IEventBase {
     * ```ts
     * **RANGE:** 0-1 // (0% to 100%), can be more than 1.
     * ```
+    *
+    * **Type:** `f32`
     */
    _floatValue?: number;
    _customData?: IChromaEventLight;
 }
 
+/**
+ * Generic schema for v2 `Event`.
+ */
 export interface IEventGeneric extends IEventBase {
    _type?: number;
 }
 
+/**
+ * Boost schema for v2 `Event`.
+ */
 export interface IEventBoost extends IEventBase {
    _type?: 5;
-   /** Toggle between boost event. */
+   /**
+    * Toggle between boost event.
+    *
+    * **Type:** `i32`
+    */
    _value?: 0 | 1;
 }
 
+/**
+ * Ring schema for v2 `Event`.
+ */
 export interface IEventRing extends IEventBase {
    _type?: 8;
    _customData?: IChromaEventRing;
 }
 
+/**
+ * Zoom schema for v2 `Event`.
+ */
 export interface IEventZoom extends IEventBase {
    _type?: 9;
    _customData?: IChromaEventRing & IChromaEventZoom;
 }
 
+/**
+ * Laser schema for v2 `Event`.
+ */
 export interface IEventLaser extends IEventBase {
    _type?: 12 | 13;
-   /** Laser rotation speed in degree per second multiplied by 20. */
+   /**
+    * Laser rotation speed in degree per second multiplied by 20.
+    *
+    * **Type:** `i32`
+    */
    _value?: number;
    _customData?: IChromaEventLaser;
 }
 
+/**
+ * Lane schema for v2 `Event`.
+ */
 export interface IEventLaneRotation extends IEventBase {
    _type?: 14 | 15;
    /**
@@ -112,25 +158,43 @@ export interface IEventLaneRotation extends IEventBase {
     * 6 -> 45 Degree
     * 7 -> 60 Degree
     * ```
+    *
+    * **Type:** `i32`
     */
    _value?: number;
    _customData?: INEEvent;
 }
 
+/**
+ * Extra schema for v2 `Event`.
+ */
 export interface IEventExtra extends IEventBase {
    _type?: 16 | 17 | 18 | 19;
 }
 
+/**
+ * Special schema for v2 `Event`.
+ */
 export interface IEventSpecial extends IEventBase {
    _type?: 40 | 41 | 42 | 43;
 }
 
+/**
+ * BPM Change schema for v2 `Event`.
+ */
 export interface IEventBPMChange extends IEventBase {
    _type?: 100;
-   /** Changes the BPM to this value. */
+   /**
+    * Changes the BPM to this value.
+    *
+    * **Type:** `f32`
+    */
    _floatValue?: number;
 }
 
+/**
+ * Schema for v2 `Event`.
+ */
 export type IEvent =
    | IEventGeneric
    | IEventLight

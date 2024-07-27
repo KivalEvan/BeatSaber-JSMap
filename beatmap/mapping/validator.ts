@@ -13,7 +13,7 @@ import {
    LightshowSchema as V3LightshowSchema,
 } from '../schema/v3/declaration.ts';
 import {
-   AudioSchema as V4AudioSchema,
+   AudioDataSchema as V4AudioSchema,
    DifficultySchema as V4DifficultySchema,
    InfoSchema as V4InfoSchema,
    LightshowSchema as V4LightshowSchema,

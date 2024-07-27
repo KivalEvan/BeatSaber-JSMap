@@ -1,14 +1,26 @@
 import type { IColor } from '../../../colors.ts';
 import type { IContributor } from '../../shared/custom/contributor.ts';
 
+/**
+ * Custom data schema for v1 info.
+ */
 export interface ICustomInfo {
    contributors?: IContributor[];
    customEnvironment?: string;
    customEnvironmentHash?: string;
 }
 
+/**
+ * Custom data schema for v1 info difficulty.
+ */
 export interface ICustomInfoDifficulty {
+   /**
+    * **Type:** `i32`
+    */
    offset?: number;
+   /**
+    * **Type:** `i32`
+    */
    oldOffset?: number;
    chromaToggle?: string;
    customColors?: boolean;

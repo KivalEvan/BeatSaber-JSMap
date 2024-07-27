@@ -3,6 +3,9 @@ import type { IColorBoostEventContainer } from '../../../types/beatmap/container
 import type { IWrapColorBoostEventAttribute } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v4 `Color Boost Event`.
+ */
 export const colorBoostEvent: ISchemaContainer<
    IWrapColorBoostEventAttribute,
    IColorBoostEventContainer

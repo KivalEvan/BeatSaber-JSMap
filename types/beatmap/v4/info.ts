@@ -5,6 +5,9 @@ import type { IItem } from './item.ts';
 import type { ICustomDataInfo } from './custom/info.ts';
 import type { ICustomDataInfoBeatmap } from './custom/info.ts';
 
+/**
+ * Schema for v4 `Info`.
+ */
 export interface IInfo extends IItem {
    version: '4.0.0';
    song: IInfoSong;
@@ -13,16 +16,22 @@ export interface IInfo extends IItem {
    coverImageFilename: string;
    environmentNames: EnvironmentAllName[];
    colorSchemes: IInfoColorScheme[];
-   difficultyBeatmaps: IInfoDifficulty[];
+   difficultyBeatmaps: IInfoBeatmap[];
    customData?: ICustomDataInfo;
 }
 
+/**
+ * Song schema for v4 `Info`.
+ */
 export interface IInfoSong {
    title: string;
    subTitle: string;
    author: string;
 }
 
+/**
+ * Audio schema for v4 `Info`.
+ */
 export interface IInfoAudio {
    songFilename: string;
    songDuration: number; // float
@@ -33,6 +42,9 @@ export interface IInfoAudio {
    previewDuration: number; // float
 }
 
+/**
+ * Color scheme schema for v4 `Info`.
+ */
 export interface IInfoColorScheme {
    colorSchemeName: string;
    saberAColor: string; // hex, all of them below
@@ -46,12 +58,18 @@ export interface IInfoColorScheme {
    environmentColorWBoost?: string;
 }
 
+/**
+ * Beatmap authors schema for v4 `Info Beatmap`.
+ */
 export interface IInfoBeatmapAuthors {
    mappers: string[];
    lighters: string[];
 }
 
-export interface IInfoDifficulty extends IItem {
+/**
+ * Schema for v4 `Info Beatmap`.
+ */
+export interface IInfoBeatmap extends IItem {
    characteristic: CharacteristicName;
    difficulty: DifficultyName;
    beatmapAuthors: IInfoBeatmapAuthors;

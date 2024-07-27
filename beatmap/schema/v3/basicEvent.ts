@@ -3,6 +3,9 @@ import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
+/**
+ * Schema serialization for v3 `Basic Event`.
+ */
 export const basicEvent: ISchemaContainer<IWrapBasicEventAttribute, IBasicEvent> = {
    serialize(data: IWrapBasicEventAttribute): IBasicEvent {
       return {

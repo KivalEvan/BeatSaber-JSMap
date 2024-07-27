@@ -3,6 +3,9 @@ import type { IChainContainer } from '../../../types/beatmap/container/v4.ts';
 import type { IWrapChainAttribute } from '../../../types/beatmap/wrapper/chain.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v4 `Chain`.
+ */
 export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
    serialize(data: IWrapChainAttribute): IChainContainer {
       return {

@@ -9,6 +9,9 @@ import type {
    IChromaEventZoom as IChromaEventZoomV3,
 } from '../../v3/custom/chroma.ts';
 
+/**
+ * Aggregated custom data for event.
+ */
 export type ICustomDataEvent =
    & IChromaEventLightV2
    & IChromaEventLightV3

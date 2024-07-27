@@ -6,7 +6,9 @@ import type { IWaypoint } from './waypoint.ts';
 import type { ICustomDataDifficulty } from './custom/difficulty.ts';
 import type { ISpecialEventsKeywordFilters } from './specialEventsKeywordFilters.ts';
 
-/** Difficulty interface for difficulty file. */
+/**
+ * Schema for v2 `Difficulty`.
+ */
 export interface IDifficulty {
    _version?: `2.${0 | 2 | 4 | 5 | 6}.0`;
    _notes?: INote[];

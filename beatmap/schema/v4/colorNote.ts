@@ -4,6 +4,9 @@ import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/col
 import type { IColorNoteContainer } from '../../../types/beatmap/container/v4.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
+/**
+ * Schema serialization for v4 `Color Note`.
+ */
 export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, IColorNoteContainer> = {
    serialize(data: IWrapColorNoteAttribute): IColorNoteContainer {
       return {

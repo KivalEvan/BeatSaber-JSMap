@@ -1,15 +1,20 @@
 import type { IBaseSlider } from './baseSlider.ts';
 import type { ICustomDataSlider } from './custom/slider.ts';
 
+/**
+ * Schema for v3 `Chain`.
+ */
 export interface IChain extends IBaseSlider {
    /**
-    * Slice count or element `<int>` in chain.
+    * Slice count or element in chain.
     *
     * **NOTE:** Must be more than `0`, the head counts as `1`.
+    *
+    * **Type:** `i32`
     */
    sc?: number;
    /**
-    * Length multiplier `<float>` of element in chain.
+    * Length multiplier of element in chain.
     * ```ts
     * 1 -> Normal length
     * 0.5 -> Half length
@@ -17,6 +22,8 @@ export interface IChain extends IBaseSlider {
     * ```
     *
     * **WARNING:** Value `0` will crash the game.
+    *
+    * **Type:** `f32`
     */
    s?: number;
    customData?: ICustomDataSlider;

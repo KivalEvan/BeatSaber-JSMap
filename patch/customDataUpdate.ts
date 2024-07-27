@@ -133,6 +133,9 @@ function v3(data: IWrapBeatmap): void {
    }
 }
 
+/**
+ * Update custom data for beatmap given version.
+ */
 export function customDataUpdate(data: IWrapBeatmap, version: number) {
    logger.tInfo(
       ['patch', 'customDataUpdate'],

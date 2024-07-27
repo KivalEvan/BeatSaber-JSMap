@@ -9,8 +9,7 @@ import type { ModRequirements, ModSuggestions } from '../../shared/modCheck.ts';
 import type { CharacteristicName } from '../../shared/characteristic.ts';
 
 /**
- * Custom Data interface for info.
- * @extends ICustomDataBase
+ * Custom data schema for v4 info.
  */
 export interface ICustomDataInfo extends ICustomDataBase {
    _editors?: IEditor;
@@ -26,13 +25,13 @@ export interface ICustomCharacteristic {
    iconPath?: string;
 }
 
-type IInfoSettings = IInfoSettingsCustomData & IHeckInfoCustomData & IChromaInfoCustomData;
+type IInfoSettings =
+   & IInfoSettingsCustomData
+   & IHeckInfoCustomData
+   & IChromaInfoCustomData;
 
 /**
- * Custom Data interface for info difficulty.
- * @extends ICustomDataBase
- * @extends IColorScheme
- * @extends IInfoSettings
+ * Custom data schema for v4 info beatmap.
  */
 export interface ICustomDataInfoBeatmap extends ICustomDataBase, IColorScheme, IInfoSettings {
    _difficultyLabel?: string;

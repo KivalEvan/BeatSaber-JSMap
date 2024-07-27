@@ -15,9 +15,9 @@ import type { IIndexFilter } from '../../../types/beatmap/v4/indexFilter.ts';
 import type {
    IInfo,
    IInfoAudio,
+   IInfoBeatmap,
    IInfoBeatmapAuthors,
    IInfoColorScheme,
-   IInfoDifficulty,
    IInfoSong,
 } from '../../../types/beatmap/v4/info.ts';
 import type { ILightColorEvent } from '../../../types/beatmap/v4/lightColorEvent.ts';
@@ -38,6 +38,9 @@ import type { ISpawnRotation } from '../../../types/beatmap/v4/spawnRotation.ts'
 import type { IWaypoint } from '../../../types/beatmap/v4/waypoint.ts';
 import { BasicEventTypesWithKeywordsSchema } from '../v3/declaration.ts';
 
+/**
+ * Schema declaration for v4 `Object`.
+ */
 export const ObjectSchema: { readonly [key in keyof IObject]: ISchemaDeclaration } = {
    b: {
       type: 'number',
@@ -59,6 +62,9 @@ export const ObjectSchema: { readonly [key in keyof IObject]: ISchemaDeclaration
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Object Lane`.
+ */
 export const ObjectLaneSchema: {
    readonly [key in keyof IObjectLane]: ISchemaDeclaration;
 } = {
@@ -87,6 +93,9 @@ export const ObjectLaneSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Object Chain`.
+ */
 export const ObjectChainSchema: {
    readonly [key in keyof IObjectChain]: ISchemaDeclaration;
 } = {
@@ -132,6 +141,9 @@ export const ObjectChainSchema: {
    },
 };
 
+/**
+ * Schema declaration for v4 `Object Arc`.
+ */
 export const ObjectArcSchema: {
    readonly [key in keyof IObjectArc]: ISchemaDeclaration;
 } = {
@@ -184,6 +196,9 @@ export const ObjectArcSchema: {
    },
 };
 
+/**
+ * Schema declaration for v4 `Color Note`.
+ */
 export const ColorNoteSchema: {
    readonly [key in keyof IColorNote]: ISchemaDeclaration;
 } = {
@@ -225,6 +240,9 @@ export const ColorNoteSchema: {
    },
 };
 
+/**
+ * Schema declaration for v4 `Bomb Note`.
+ */
 export const BombNoteSchema: {
    readonly [key in keyof IBombNote]: ISchemaDeclaration;
 } = {
@@ -248,6 +266,9 @@ export const BombNoteSchema: {
    },
 };
 
+/**
+ * Schema declaration for v4 `Obstacle`.
+ */
 export const ObstacleSchema: {
    readonly [key in keyof IObstacle]: ISchemaDeclaration;
 } = {
@@ -288,6 +309,9 @@ export const ObstacleSchema: {
    },
 };
 
+/**
+ * Schema declaration for v4 `Chain`.
+ */
 export const ChainSchema: {
    readonly [key in keyof IChain]: ISchemaDeclaration;
 } = {
@@ -323,6 +347,9 @@ export const ChainSchema: {
    },
 };
 
+/**
+ * Schema declaration for v4 `Arc`.
+ */
 export const ArcSchema: {
    readonly [key in keyof IArc]: ISchemaDeclaration;
 } = {
@@ -351,6 +378,9 @@ export const ArcSchema: {
    },
 };
 
+/**
+ * Schema declaration for v4 `Spawn Rotation`.
+ */
 export const SpawnRotationSchema: {
    readonly [key in keyof ISpawnRotation]: ISchemaDeclaration;
 } = {
@@ -373,6 +403,9 @@ export const SpawnRotationSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Difficulty`.
+ */
 export const DifficultySchema: {
    readonly [key in keyof IDifficulty]: ISchemaDeclaration;
 } = {
@@ -472,6 +505,9 @@ export const DifficultySchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Waypoint`.
+ */
 export const WaypointSchema: {
    readonly [key in keyof IWaypoint]: ISchemaDeclaration;
 } = {
@@ -502,6 +538,9 @@ export const WaypointSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Basic Event`.
+ */
 export const BasicEventSchema: {
    readonly [key in keyof IBasicEvent]: ISchemaDeclaration;
 } = {
@@ -530,6 +569,9 @@ export const BasicEventSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Color Boost Event`.
+ */
 export const ColorBoostEventSchema: {
    readonly [key in keyof IColorBoostEvent]: ISchemaDeclaration;
 } = {
@@ -548,6 +590,9 @@ export const ColorBoostEventSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Event Box`.
+ */
 export const EventBoxSchema: {
    readonly [key in keyof IEventBox]: ISchemaDeclaration;
 } = {
@@ -580,6 +625,9 @@ export const EventBoxSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Event Box Group`.
+ */
 export const EventBoxGroupSchema: {
    readonly [key in keyof IEventBoxGroup]: ISchemaDeclaration;
 } = {
@@ -617,6 +665,9 @@ export const EventBoxGroupSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Index Filter`.
+ */
 export const IndexFilterSchema: {
    readonly [key in keyof IIndexFilter]: ISchemaDeclaration;
 } = {
@@ -689,6 +740,9 @@ export const IndexFilterSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Light Color Event Box`.
+ */
 export const LightColorEventBoxSchema: {
    readonly [key in keyof ILightColorEventBox]: ISchemaDeclaration;
 } = {
@@ -737,6 +791,9 @@ export const LightColorEventBoxSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Light Color Event`.
+ */
 export const LightColorEventSchema: {
    readonly [key in keyof ILightColorEvent]: ISchemaDeclaration;
 } = {
@@ -790,6 +847,9 @@ export const LightColorEventSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Light Rotation Event Box`.
+ */
 export const LightRotationEventBoxSchema: {
    readonly [key in keyof ILightRotationEventBox]: ISchemaDeclaration;
 } = {
@@ -851,6 +911,9 @@ export const LightRotationEventBoxSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Light Rotation Event`.
+ */
 export const LightRotationEventSchema: {
    readonly [key in keyof ILightRotationEvent]: ISchemaDeclaration;
 } = {
@@ -893,6 +956,9 @@ export const LightRotationEventSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Light Translation Event Box`.
+ */
 export const LightTranslationEventBoxSchema: {
    readonly [key in keyof ILightTranslationEventBox]: ISchemaDeclaration;
 } = {
@@ -954,6 +1020,9 @@ export const LightTranslationEventBoxSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Light Translation Event`.
+ */
 export const LightTranslationEventSchema: {
    readonly [key in keyof ILightTranslationEvent]: ISchemaDeclaration;
 } = {
@@ -983,6 +1052,9 @@ export const LightTranslationEventSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `FX Event Box`.
+ */
 export const FXEventBoxSchema: {
    readonly [key in keyof IFxEventBox]: ISchemaDeclaration;
 } = {
@@ -1031,6 +1103,9 @@ export const FXEventBoxSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `FX Event Float`.
+ */
 export const FXEventFloatSchema: {
    readonly [key in keyof IFxEventFloat]: ISchemaDeclaration;
 } = {
@@ -1060,6 +1135,9 @@ export const FXEventFloatSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Lightshow`.
+ */
 export const LightshowSchema: {
    readonly [key in keyof ILightshow]: ISchemaDeclaration;
 } = {
@@ -1197,6 +1275,9 @@ export const LightshowSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Info Song`.
+ */
 export const InfoSongSchema: {
    readonly [key in keyof IInfoSong]: ISchemaDeclaration;
 } = {
@@ -1217,6 +1298,9 @@ export const InfoSongSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Info Audio`.
+ */
 export const InfoAudioSchema: {
    readonly [key in keyof IInfoAudio]: ISchemaDeclaration;
 } = {
@@ -1255,6 +1339,9 @@ export const InfoAudioSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Info Color Scheme`.
+ */
 export const InfoColorSchemeSchema: {
    readonly [key in keyof IInfoColorScheme]: ISchemaDeclaration;
 } = {
@@ -1310,6 +1397,9 @@ export const InfoColorSchemeSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Info Beatmap Authors`.
+ */
 export const InfoBeatmapAuthorsSchema: {
    readonly [key in keyof IInfoBeatmapAuthors]: ISchemaDeclaration;
 } = {
@@ -1325,8 +1415,11 @@ export const InfoBeatmapAuthorsSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Info Beatmap`.
+ */
 export const InfoDifficultySchema: {
-   readonly [key in keyof IInfoDifficulty]: ISchemaDeclaration;
+   readonly [key in keyof IInfoBeatmap]: ISchemaDeclaration;
 } = {
    characteristic: {
       type: 'string',
@@ -1383,6 +1476,9 @@ export const InfoDifficultySchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Info`.
+ */
 export const InfoSchema: { readonly [key in keyof IInfo]: ISchemaDeclaration } = {
    version: {
       type: 'string',
@@ -1433,6 +1529,9 @@ export const InfoSchema: { readonly [key in keyof IInfo]: ISchemaDeclaration } =
    },
 } as const;
 
+/**
+ * Schema declaration for v4 `Audio Data BPM`.
+ */
 export const AudioDataBPMSchema: {
    readonly [key in keyof IAudioBPM]: ISchemaDeclaration;
 } = {
@@ -1458,6 +1557,9 @@ export const AudioDataBPMSchema: {
    },
 };
 
+/**
+ * Schema declaration for v4 `Audio Data LUFS`.
+ */
 export const AudioDataLUFSSchema: {
    readonly [key in keyof IAudioLUFS]: ISchemaDeclaration;
 } = {
@@ -1479,7 +1581,10 @@ export const AudioDataLUFSSchema: {
    },
 };
 
-export const AudioSchema: { readonly [key in keyof IAudio]: ISchemaDeclaration } = {
+/**
+ * Schema declaration for v4 `Audio`.
+ */
+export const AudioDataSchema: { readonly [key in keyof IAudio]: ISchemaDeclaration } = {
    version: {
       type: 'string',
       version: '4.0.0',

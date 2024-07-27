@@ -3,6 +3,9 @@ import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimiz
 import type { IInfo } from '../../../../types/beatmap/v2/info.ts';
 import { deepClean } from '../../../helpers/optimize.ts';
 
+/**
+ * Optimize v2 `Info` schema data.
+ */
 export function optimizeInfo(
    // deno-lint-ignore no-explicit-any
    data: Record<string, any> | IInfo,

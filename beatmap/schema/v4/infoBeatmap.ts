@@ -1,11 +1,14 @@
-import type { IInfoDifficulty } from '../../../types/beatmap/v4/info.ts';
+import type { IInfoBeatmap } from '../../../types/beatmap/v4/info.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapInfoBeatmapAttribute } from '../../../types/beatmap/wrapper/info.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
-export const infoBeatmap: ISchemaContainer<IWrapInfoBeatmapAttribute, IInfoDifficulty> = {
-   serialize(data: IWrapInfoBeatmapAttribute): IInfoDifficulty {
+/**
+ * Schema serialization for v4 `Info Beatmap`.
+ */
+export const infoBeatmap: ISchemaContainer<IWrapInfoBeatmapAttribute, IInfoBeatmap> = {
+   serialize(data: IWrapInfoBeatmapAttribute): IInfoBeatmap {
       return {
          characteristic: data.characteristic,
          difficulty: data.difficulty,
@@ -22,7 +25,7 @@ export const infoBeatmap: ISchemaContainer<IWrapInfoBeatmapAttribute, IInfoDiffi
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: DeepPartial<IInfoDifficulty> = {}): DeepPartial<IWrapInfoBeatmapAttribute> {
+   deserialize(data: DeepPartial<IInfoBeatmap> = {}): DeepPartial<IWrapInfoBeatmapAttribute> {
       return {
          characteristic: data.characteristic,
          difficulty: data.difficulty,

@@ -14,6 +14,9 @@ import type { IObject } from '../../../types/beatmap/v4/object.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { basicEventTypesWithKeywords } from '../v3/basicEventTypesWithKeywords.ts';
 
+/**
+ * Schema serialization for v4 `Lightshow`.
+ */
 export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
    serialize(data: IWrapBeatmapAttribute): ILightshow {
       const json: Required<ILightshow> = {

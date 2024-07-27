@@ -8,6 +8,9 @@ import type { IBaseItem } from './baseItem.ts';
 import type { IFxEventBoxGroup } from './fxEventBoxGroup.ts';
 import type { IFxEventsCollection } from './fxEventsCollection.ts';
 
+/**
+ * Schema for v3 `Lightshow`.
+ */
 export interface ILightshow extends IBaseItem {
    basicBeatmapEvents?: IBasicEvent[];
    colorBoostBeatmapEvents?: IColorBoostEvent[];

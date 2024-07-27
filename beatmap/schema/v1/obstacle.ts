@@ -3,6 +3,9 @@ import type { IObstacle } from '../../../types/beatmap/v1/obstacle.ts';
 import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
 import { remap } from '../../../utils/math.ts';
 
+/**
+ * Schema serialization for v1 `Obstacle`.
+ */
 export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
    serialize(data: IWrapObstacleAttribute): IObstacle {
       let type = 0;

@@ -10,7 +10,13 @@ interface INEObject {
    _position?: Vector2;
    _rotation?: number | Vector3;
    _localRotation?: Vector3;
+   /**
+    * **Type:** `f32`
+    */
    _noteJumpMovementSpeed?: number;
+   /**
+    * **Type:** `f32`
+    */
    _noteJumpStartBeatOffset?: number;
    _fake?: boolean;
    _interactable?: boolean;
@@ -18,9 +24,11 @@ interface INEObject {
 
 /**
  * Noodle Extensions Note interface for Beatmap Note.
- * @extends INEObject
  */
 export interface INENote extends INEObject {
+   /**
+    * **Type:** `f32`
+    */
    _cutDirection?: number;
    _flip?: Vector2;
    _disableNoteGravity?: boolean;
@@ -29,7 +37,6 @@ export interface INENote extends INEObject {
 
 /**
  * Noodle Extensions Obstacle interface for Beatmap Obstacle.
- * @extends INEObject
  */
 export interface INEObstacle extends INEObject {
    _scale?: Nullable<Vector3>;
@@ -37,15 +44,16 @@ export interface INEObstacle extends INEObject {
 
 /**
  * Noodle Extensions Event interface for Beatmap Event.
- * @extends ICustomDataBase
  */
 export interface INEEvent extends ICustomDataBase {
+   /**
+    * **Type:** `f32`
+    */
    _rotation?: number;
 }
 
 /**
  * AssignPathAnimation interface for Noodle Extensions Custom Event.
- * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
    _dissolve?: string | [number] | FloatPointDefinition[];
@@ -56,7 +64,6 @@ export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
 
 /**
  * AssignPathAnimation interface for Noodle Extensions Custom Event.
- * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAssignPathAnimation extends Required<IHeckBase> {
    _dissolve?: string | [number] | FloatPointDefinition[];
@@ -74,7 +81,6 @@ export interface INECustomEventDataAssignTrackParent {
 
 /**
  * AssignPlayerToTrack interface for Noodle Extensions Custom Event.
- * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAssignPlayerToTrack extends Required<IHeckBase> {
    _target?: PlayerObject;

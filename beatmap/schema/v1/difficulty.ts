@@ -16,6 +16,9 @@ import { bpmEvent } from './bpmEvent.ts';
 import { obstacle } from './obstacle.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
+/**
+ * Schema serialization for v1 `Difficulty`.
+ */
 export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = {
    serialize(data: IWrapBeatmapAttribute): IDifficulty {
       return {

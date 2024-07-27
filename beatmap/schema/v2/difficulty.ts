@@ -22,6 +22,9 @@ import { bpmEvent } from './bpmEvent.ts';
 import { sortV2NoteFn, sortV2ObjectFn } from '../../helpers/sort.ts';
 import { compareVersion } from '../../helpers/version.ts';
 
+/**
+ * Schema serialization for v2 `Difficulty`.
+ */
 export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = {
    serialize(data: IWrapBeatmapAttribute): IDifficulty {
       return {

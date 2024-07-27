@@ -3,6 +3,9 @@ import type { IArc } from '../../../types/beatmap/v2/arc.ts';
 import type { IWrapArcAttribute } from '../../../types/beatmap/wrapper/arc.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v2 `Arc`.
+ */
 export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
    serialize(data: IWrapArcAttribute): IArc {
       return {

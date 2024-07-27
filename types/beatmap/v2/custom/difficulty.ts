@@ -6,14 +6,17 @@ import type { IPointDefinition } from './pointDefinition.ts';
 import type { ICustomEvent } from './customEvent.ts';
 
 /**
- * Custom Data interface for difficulty file.
- * @extends ICustomDataBase
- * @extends IChromaCustomData
+ * Custom data interface for difficulty file.
  */
 export interface ICustomDataDifficulty extends ICustomDataBase, IChromaCustomData {
+   /**
+    * Time spent in editor.
+    *
+    * **Type:** `f32`
+    */
+   _time?: number;
    _customEvents?: ICustomEvent[];
    _pointDefinitions?: IPointDefinition[];
-   _time?: number;
    _bpmChanges?: IBPMChangeOld[];
    _BPMChanges?: IBPMChange[];
    _bookmarks?: IBookmark[];

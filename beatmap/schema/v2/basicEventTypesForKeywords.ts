@@ -3,6 +3,9 @@ import type { ISpecialEventsKeywordFiltersKeywords } from '../../../types/beatma
 import type { IWrapBasicEventTypesForKeywordsAttribute } from '../../../types/beatmap/wrapper/basicEventTypesForKeywords.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
+/**
+ * Schema serialization for v2 `Basic Event Types For Keywords`.
+ */
 export const basicEventTypesForKeywords: ISchemaContainer<
    IWrapBasicEventTypesForKeywordsAttribute,
    ISpecialEventsKeywordFiltersKeywords

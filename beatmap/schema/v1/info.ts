@@ -7,6 +7,9 @@ import { infoBeatmap } from './infoBeatmap.ts';
 import type { EnvironmentName } from '../../../types/beatmap/shared/environment.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 
+/**
+ * Schema serialization for v1 `Info`.
+ */
 export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
    serialize(data: IWrapInfoAttribute): IInfo {
       return {

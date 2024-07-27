@@ -9,6 +9,9 @@ import {
    hasMappingExtensionsRotationV2,
 } from '../../../helpers/modded/has.ts';
 
+/**
+ * Checks if beatmap data is compatible with v1 `Difficulty` schema.
+ */
 export function compatDifficulty(
    bm: IWrapBeatmap,
    options: ICompatibilityOptions,

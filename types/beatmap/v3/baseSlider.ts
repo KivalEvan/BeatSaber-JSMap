@@ -1,17 +1,22 @@
 import type { NoteColor } from '../shared/constants.ts';
 import type { IGridObject } from './gridObject.ts';
 
+/**
+ * Base schema for v3 `Slider`.
+ */
 export interface IBaseSlider extends IGridObject {
    /**
-    * Color type `<int>` of base arc.
+    * Color type of base arc.
     * ```ts
     * 0 -> Red
     * 1 -> Blue
     * ```
+    *
+    * **Type:** `i32`
     */
    c?: NoteColor;
    /**
-    * Head cut direction `<int>` of base arc.
+    * Head cut direction of base arc.
     * ```ts
     * 4 | 0 | 5
     * 2 | 8 | 3
@@ -21,12 +26,18 @@ export interface IBaseSlider extends IGridObject {
     * Grid represents cut direction from center.
     *
     * **WARNING:** Dot-directional is not recommended, assumes down-directional.
+    *
+    * **Type:** `i32`
     */
    d?: number;
-   /** Tail beat time `<float>` of base arc. */
+   /**
+    * Tail beat time of base arc.
+    *
+    * **Type:** `f32`
+    */
    tb?: number;
    /**
-    * Tail position x `<int>` of base arc.
+    * Tail position X of base arc.
     * ```ts
     * 0 -> Outer Left
     * 1 -> Middle Left
@@ -35,10 +46,12 @@ export interface IBaseSlider extends IGridObject {
     * ```
     *
     * **RANGE:** `none`
+    *
+    * **Type:** `i32`
     */
    tx?: number;
    /**
-    * Tail position y `<int>` of base arc.
+    * Tail position Y of base arc.
     * ```ts
     * 0 -> Bottom row
     * 1 -> Middle row
@@ -46,6 +59,8 @@ export interface IBaseSlider extends IGridObject {
     * ```
     *
     * **RANGE:** `0-2`
+    *
+    * **Type:** `i32`
     */
    ty?: number;
 }

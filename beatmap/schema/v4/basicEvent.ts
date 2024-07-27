@@ -4,6 +4,9 @@ import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/ba
 import type { IBasicEventContainer } from '../../../types/beatmap/container/v4.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
+/**
+ * Schema serialization for v4 `Basic Event`.
+ */
 export const basicEvent: ISchemaContainer<IWrapBasicEventAttribute, IBasicEventContainer> = {
    serialize(data: IWrapBasicEventAttribute): IBasicEventContainer {
       return {

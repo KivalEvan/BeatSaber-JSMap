@@ -26,6 +26,11 @@ export type ICustomEventDataAssignPathAnimation =
 
 /** Custom Event interface for AnimateTrack. */
 export interface ICustomEventAnimateTrack {
+   /**
+    * Beat time of custom event.
+    *
+    * **Type:** `f32`
+    */
    b: number;
    t: 'AnimateTrack';
    d: ICustomEventDataAnimateTrack;
@@ -33,6 +38,11 @@ export interface ICustomEventAnimateTrack {
 
 /** Custom Event interface for AssignPathAnimation. */
 export interface ICustomEventAssignPathAnimation {
+   /**
+    * Beat time of custom event.
+    *
+    * **Type:** `f32`
+    */
    b: number;
    t: 'AssignPathAnimation';
    d: ICustomEventDataAssignPathAnimation;
@@ -47,6 +57,11 @@ export interface ICustomEventAssignPathAnimation {
 
 /** Custom Event interface for AnimateComponent. */
 export interface ICustomEventAnimateComponent {
+   /**
+    * Beat time of custom event.
+    *
+    * **Type:** `f32`
+    */
    b: number;
    t: 'AnimateComponent';
    d: IChromaCustomEventDataAnimateComponent;
@@ -54,6 +69,11 @@ export interface ICustomEventAnimateComponent {
 
 /** Custom Event interface for AssignTrackParent. */
 export interface ICustomEventAssignTrackParent {
+   /**
+    * Beat time of custom event.
+    *
+    * **Type:** `f32`
+    */
    b: number;
    t: 'AssignTrackParent';
    d: INECustomEventDataAssignTrackParent;
@@ -61,6 +81,11 @@ export interface ICustomEventAssignTrackParent {
 
 /** Custom Event interface for AssignPlayerToTrack. */
 export interface ICustomEventAssignPlayerToTrack {
+   /**
+    * Beat time of custom event.
+    *
+    * **Type:** `f32`
+    */
    b: number;
    t: 'AssignPlayerToTrack';
    d: INECustomEventDataAssignPlayerToTrack;

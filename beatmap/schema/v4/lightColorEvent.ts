@@ -4,6 +4,9 @@ import type { IWrapLightColorEventAttribute } from '../../../types/beatmap/wrapp
 import { deepCopy } from '../../../utils/misc.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
+/**
+ * Schema serialization for v4 `Light Color Event`.
+ */
 export const lightColorEvent: ISchemaContainer<
    IWrapLightColorEventAttribute,
    ILightColorEventContainer

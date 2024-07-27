@@ -26,6 +26,9 @@ export type ICustomEventDataAssignPathAnimation =
 
 /** Custom Event interface for AnimateTrack. */
 export interface ICustomEventAnimateTrack {
+   /**
+    * **Type:** `f32`
+    */
    _time: number;
    _type: 'AnimateTrack';
    _data: ICustomEventDataAnimateTrack;
@@ -33,6 +36,9 @@ export interface ICustomEventAnimateTrack {
 
 /** Custom Event interface for AssignPathAnimation. */
 export interface ICustomEventAssignPathAnimation {
+   /**
+    * **Type:** `f32`
+    */
    _time: number;
    _type: 'AssignPathAnimation';
    _data: ICustomEventDataAssignPathAnimation;
@@ -47,6 +53,9 @@ export interface ICustomEventAssignPathAnimation {
 
 /** Custom Event interface for AssignFogTrack. */
 export interface ICustomEventAssignFogTrack {
+   /**
+    * **Type:** `f32`
+    */
    _time: number;
    _type: 'AssignFogTrack';
    _data: IChromaCustomEventDataAssignFogTrack;
@@ -54,6 +63,9 @@ export interface ICustomEventAssignFogTrack {
 
 /** Custom Event interface for AssignTrackParent. */
 export interface ICustomEventAssignTrackParent {
+   /**
+    * **Type:** `f32`
+    */
    _time: number;
    _type: 'AssignTrackParent';
    _data: INECustomEventDataAssignTrackParent;
@@ -61,6 +73,9 @@ export interface ICustomEventAssignTrackParent {
 
 /** Custom Event interface for AssignPlayerToTrack. */
 export interface ICustomEventAssignPlayerToTrack {
+   /**
+    * **Type:** `f32`
+    */
    _time: number;
    _type: 'AssignPlayerToTrack';
    _data: INECustomEventDataAssignPlayerToTrack;

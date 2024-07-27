@@ -3,6 +3,9 @@ import type { IDifficulty } from '../../../../types/beatmap/v3/difficulty.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 
+/**
+ * Optimize v3 `Difficulty` schema data.
+ */
 export function optimizeDifficulty(
    data: IDifficulty,
    options: IOptimizeOptions,

@@ -1,8 +1,11 @@
 import type { IItem } from './item.ts';
 
+/**
+ * Base schema for v4 `Grid`.
+ */
 export interface IGrid extends IItem {
    /**
-    * Position x `<int>` of base note.
+    * Position X of base note.
     * ```ts
     * 0 -> Outer Left
     * 1 -> Middle Left
@@ -11,10 +14,12 @@ export interface IGrid extends IItem {
     * ```
     *
     * **RANGE:** `0-3`
+    *
+    * **Type:** `i32`
     */
    x?: number;
    /**
-    * Position y `<int>` of base note.
+    * Position Y of base note.
     * ```ts
     * 0 -> Bottom row
     * 1 -> Middle row
@@ -22,6 +27,8 @@ export interface IGrid extends IItem {
     * ```
     *
     * **RANGE:** `0-2`
+    *
+    * **Type:** `i32`
     */
    y?: number;
 }

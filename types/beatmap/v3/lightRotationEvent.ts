@@ -2,30 +2,53 @@ import type { EaseType } from '../shared/constants.ts';
 import type { LightRotationDirection } from '../shared/constants.ts';
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 
+/**
+ * Schema for v3 `Light Rotation Event`.
+ */
 export interface ILightRotationEvent {
-   /** Relative beat time `<float>` to event box group. */
+   /**
+    * Relative beat time to event box group.
+    *
+    * **Type:** `f32`
+    */
    b?: number;
-   /** Ease type `<int>` of light rotation. */
+   /**
+    * Ease type of light rotation.
+    *
+    * **Type:** {@linkcode EaseType}
+    */
    e?: EaseType;
-   /** Loop count `<int>` in light rotation. */
+   /**
+    * Loop count in light rotation.
+    *
+    * **Type:** `i32`
+    */
    l?: number;
    /**
-    * Rotation direction `<int>` of light rotation.
+    * Rotation direction of light rotation.
     * ```ts
     * 0 -> Automatic
     * 1 -> Clockwise
     * 2 -> Counter-clockwise
     * ```
+    *
+    * **Type:** {@linkcode LightRotationDirection}
     */
    o?: LightRotationDirection;
-   /** Use previous event rotation value `<int>` in light rotation. */
+   /**
+    * Use previous event rotation value in light rotation.
+    *
+    * **Type:** `i32`
+    */
    p?: 0 | 1;
    /**
-    * Rotation value `<float>` of light rotation.
+    * Rotation value of light rotation.
     * ```ts
     * Left-side -> Clockwise
     * Right-side -> Counter-Clockwise
     * ```
+    *
+    * **Type:** `f32`
     */
    r?: number;
    customData?: ICustomDataBase;

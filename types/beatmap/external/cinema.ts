@@ -1,10 +1,5 @@
+import type { Vector3Object } from '../../vector.ts';
 import type { EnvironmentAllName } from '../shared/environment.ts';
-
-interface IVector3Object {
-   x: number;
-   y: number;
-   z: number;
-}
 
 // description taken directly from author's github
 export interface ICinemaConfig {
@@ -90,12 +85,12 @@ export interface ICinemaConfig {
     * This setting prevents the user from overriding the environment.
     * @default {{"x": 0.0, "y": 12.4, "z": 67.8}}
     */
-   screenPosition?: IVector3Object;
+   screenPosition?: Vector3Object;
    /**
     * Rotates the video screen. By default, it tilts down by 8 degrees for better visibility.
     * @default {{"x": -8.0, "y": 0.0, "z": 0.0}}
     */
-   screenRotation?: IVector3Object;
+   screenRotation?: Vector3Object;
    /**
     * Determines the size `<float>` of the screen. There is no setting for the width, since that is calculated automatically by the height and the aspect ratio of the video.
     *
@@ -229,11 +224,11 @@ export interface ICinemaConfig {
     */
    additionalScreens: {
       /** Moves the object to the specified location. */
-      position?: IVector3Object;
+      position?: Vector3Object;
       /** Rotates the object. */
-      rotation?: IVector3Object;
+      rotation?: Vector3Object;
       /** Scales the object. Default for each axis is usually 1.0. Setting any axis to 0 may cause the object to become invisible. */
-      scale?: IVector3Object;
+      scale?: Vector3Object;
    }[];
 
    /** Using this disables player overrides for the environment, since these modifications are specific to the mapper-chosen environment. */
@@ -255,10 +250,10 @@ export interface ICinemaConfig {
       /** Set this to `false` to hide the object, or to true to show it if it's hidden by default. */
       active?: boolean;
       /** Moves the object to the specified location. */
-      position?: IVector3Object;
+      position?: Vector3Object;
       /** Rotates the object. */
-      rotation?: IVector3Object;
+      rotation?: Vector3Object;
       /** Scales the object. Default for each axis is usually 1.0. Setting any axis to 0 may cause the object to become invisible. */
-      scale?: IVector3Object;
+      scale?: Vector3Object;
    }[];
 }

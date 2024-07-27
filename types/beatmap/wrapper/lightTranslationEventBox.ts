@@ -6,31 +6,49 @@ import type {
    IWrapLightTranslationEventAttribute,
 } from './lightTranslationEvent.ts';
 
+/**
+ * Wrapper attribute for beatmap light translation event box.
+ */
 export interface IWrapLightTranslationEventBoxAttribute extends IWrapEventBoxAttribute {
-   /** Translation distribution `<float>` of light translation event box. */
+   /**
+    * Translation distribution of light translation event box.
+    *
+    * **Type:** `f32`
+    */
    gapDistribution: number;
    /**
-    * Translation distribution type `<int>` of light translation event box.
+    * Translation distribution type of light translation event box.
     * ```ts
     * 1 -> Wave // adds up to last ID.
     * 2 -> Step // adds to consequent ID.
     * ```
+    *
+    * **Type:** {@linkcode DistributionType}
     */
    gapDistributionType: DistributionType;
    /**
-    * Axis `<int>` of light translation event box.
+    * Axis of light translation event box.
     * ```ts
     * 0 -> X
     * 1 -> Y
     * 2 -> Z
     * ```
+    *
+    * **Type:** {@linkcode Axis}
     */
    axis: Axis;
-   /** Flip translation `<int>` in light translation event box. */
+   /**
+    * Flip translation in light translation event box.
+    *
+    * **Type:** `i32`
+    */
    flip: 0 | 1;
    events: IWrapLightTranslationEventAttribute[];
 }
 
+/**
+ * Wrapper for beatmap light translation event box.
+ */
 export interface IWrapLightTranslationEventBox
    extends IWrapEventBox, IWrapLightTranslationEventBoxAttribute {
    events: IWrapLightTranslationEvent[];

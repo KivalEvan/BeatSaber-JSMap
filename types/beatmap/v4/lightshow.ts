@@ -15,6 +15,9 @@ import type { ILightTranslationEventBox } from './lightTranslationEventBox.ts';
 import type { IObject, IObjectLane } from './object.ts';
 import type { IWaypoint } from './waypoint.ts';
 
+/**
+ * Schema for v4 `Lightshow`.
+ */
 export interface ILightshow extends IItem {
    version: '4.0.0';
    waypoints: IObjectLane[];

@@ -3,6 +3,9 @@ import type { IBPMEvent } from '../../../types/beatmap/v3/bpmEvent.ts';
 import type { IWrapBPMEventAttribute } from '../../../types/beatmap/wrapper/bpmEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v3 `BPM Event`.
+ */
 export const bpmEvent: ISchemaContainer<IWrapBPMEventAttribute, IBPMEvent> = {
    serialize(data: IWrapBPMEventAttribute): IBPMEvent {
       return {

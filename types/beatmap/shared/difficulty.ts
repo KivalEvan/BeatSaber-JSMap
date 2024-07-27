@@ -1,3 +1,4 @@
+/** Available difficulty from base game. */
 export type DifficultyName = 'Easy' | 'Normal' | 'Hard' | 'Expert' | 'ExpertPlus';
 
 /** Difficulty rename to human readable. */

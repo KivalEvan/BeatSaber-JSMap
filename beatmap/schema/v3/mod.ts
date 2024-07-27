@@ -1,3 +1,9 @@
+/**
+ * Schema implementation for beatmap v3.
+ *
+ * @module
+ */
+
 export * from './compat/mod.ts';
 export * from './optimize/mod.ts';
 export * from './arc.ts';

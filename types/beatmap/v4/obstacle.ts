@@ -1,17 +1,26 @@
 import type { IGrid } from './grid.ts';
 import type { ICustomDataObstacle } from '../v3/custom/obstacle.ts';
 
+/**
+ * Schema for v4 `Obstacle`.
+ */
 export interface IObstacle extends IGrid {
-   /** Duration `<float>` of obstacle.*/
+   /**
+    * Duration of obstacle.
+    *
+    * **Type:** `f32`
+    */
    d?: number;
    /**
-    * Width `<int>` of obstacle.
+    * Width of obstacle.
     *
     * **RANGE:** `none`
+    *
+    * **Type:** `i32`
     */
    w?: number;
    /**
-    * Height `<int>` of obstacle.
+    * Height of obstacle.
     * ```ts
     * 1 -> Short
     * 2 -> Moderate
@@ -21,6 +30,8 @@ export interface IObstacle extends IGrid {
     * ```
     *
     * **RANGE:** `1-5`
+    *
+    * **Type:** `i32`
     */
    h?: number;
    customData?: ICustomDataObstacle;

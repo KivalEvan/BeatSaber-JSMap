@@ -3,6 +3,9 @@ import type { ILightRotationEvent } from '../../../types/beatmap/v3/lightRotatio
 import type { IWrapLightRotationEventAttribute } from '../../../types/beatmap/wrapper/lightRotationEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v3 `Light Rotation Event`.
+ */
 export const lightRotationEvent: ISchemaContainer<
    IWrapLightRotationEventAttribute,
    ILightRotationEvent

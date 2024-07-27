@@ -3,65 +3,86 @@ import type { IndexFilterType } from '../shared/constants.ts';
 import type { LimitAlsoAffectsType } from '../shared/constants.ts';
 import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
+/**
+ * Wrapper attribute for beatmap index filter.
+ */
 export interface IWrapIndexFilterAttribute extends IWrapBaseItemAttribute {
    /**
-    * Type `<int>` of index filter.
+    * Type of index filter.
     * ```ts
     * 1 -> Division
     * 2 -> Step And Offset
     * ```
+    *
+    * **Type:** {@linkcode IndexFilterType}
     */
    type: IndexFilterType;
    /**
-    * Parameter 0 `<int>` in index filter.
+    * Parameter 0 in index filter.
     * ```ts
     * Division -> Section
     * Step And Offset -> ID
     * ```
+    *
+    * **Type:** `i32`
     */
    p0: number;
    /**
-    * Parameter 1 `<int>` in index filter.
+    * Parameter 1 in index filter.
     * ```ts
     * Division -> ID
     * Step And Offset -> Step
     * ```
+    *
+    * **Type:** `i32`
     */
    p1: number;
    /**
-    * Reversed `<int>` in index filter.
+    * Reversed in index filter.
     *
     * Reverse the order for distribution, does not reverse selection.
+    *
+    * **Type:** `i32`
     */
    reverse: 0 | 1;
    /**
-    * Chunks `<int>` of index filter.
+    * Chunks of index filter.
     *
     * Pairs next ID by available denominator.
+    *
+    * **Type:** `i32`
     */
    chunks: number;
    /**
-    * Random type `<bitmask>` of index filter.
+    * Random type of index filter.
     * ```ts
     * 0 -> No Random
     * 1 -> Keep Order
     * 2 -> Random Elements
     * 3 -> All
     * ```
+    *
+    * **Type:** {@linkcode RandomType}
     */
    random: RandomType;
-   /** Random seed `<int>` in index filter. */
+   /**
+    * Random seed in index filter.
+    *
+    * **Type:** `i32`
+    */
    seed: number;
    /**
-    * Limit (percentage) `<float>` of index filter.
+    * Limit (percentage) of index filter.
     *
     * Select ID by percentage, rounded up to nearest ID. Defaults to 100% if value is 0.
     *
     * **RANGE:** `0-1` (0% to 100%) strict.
+    *
+    * **Type:** `f32`
     */
    limit: number;
    /**
-    * Limit also affects type `<bitmask>` in index filter.
+    * Limit also affects type in index filter.
     * ```ts
     * 0 -> None
     * 1 -> Duration
@@ -70,10 +91,15 @@ export interface IWrapIndexFilterAttribute extends IWrapBaseItemAttribute {
     * ```
     *
     * Adjust to limited ID list and has no effect with `Step` type.
+    *
+    * **Type:** {@linkcode LimitAlsoAffectsType}
     */
    limitAffectsType: LimitAlsoAffectsType;
 }
 
+/**
+ * Wrapper for beatmap index filter.
+ */
 export interface IWrapIndexFilter extends IWrapBaseItem, IWrapIndexFilterAttribute {
    setType(value: IndexFilterType): this;
    setP0(value: number): this;

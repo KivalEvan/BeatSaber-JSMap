@@ -5,6 +5,9 @@ import type { IInfo, IInfoDifficulty } from '../../../types/beatmap/v1/info.ts';
 import type { INote } from '../../../types/beatmap/v1/note.ts';
 import type { IObstacle } from '../../../types/beatmap/v1/obstacle.ts';
 
+/**
+ * Schema declaration for v1 `Note`.
+ */
 export const NoteSchema: { readonly [key in keyof INote]: ISchemaDeclaration } = {
    _time: {
       type: 'number',
@@ -34,7 +37,12 @@ export const NoteSchema: { readonly [key in keyof INote]: ISchemaDeclaration } =
    },
 } as const;
 
-export const ObstacleSchema: { readonly [key in keyof IObstacle]: ISchemaDeclaration } = {
+/**
+ * Schema declaration for v1 `Obstacle`.
+ */
+export const ObstacleSchema: {
+   readonly [key in keyof IObstacle]: ISchemaDeclaration;
+} = {
    _time: {
       type: 'number',
       version: '1.5.0',
@@ -61,7 +69,12 @@ export const ObstacleSchema: { readonly [key in keyof IObstacle]: ISchemaDeclara
    },
 } as const;
 
-export const EventSchema: { readonly [key in keyof IEvent]: ISchemaDeclaration } = {
+/**
+ * Schema declaration for v1 `Event`.
+ */
+export const EventSchema: {
+   readonly [key in keyof IEvent]: ISchemaDeclaration;
+} = {
    _time: {
       type: 'number',
       version: '1.5.0',
@@ -78,7 +91,12 @@ export const EventSchema: { readonly [key in keyof IEvent]: ISchemaDeclaration }
    },
 } as const;
 
-export const DifficultySchema: { readonly [key in keyof IDifficulty]: ISchemaDeclaration } = {
+/**
+ * Schema declaration for v1 `Difficulty`.
+ */
+export const DifficultySchema: {
+   readonly [key in keyof IDifficulty]: ISchemaDeclaration;
+} = {
    _version: {
       type: 'string',
       version: '1.5.0',
@@ -143,85 +161,92 @@ export const DifficultySchema: { readonly [key in keyof IDifficulty]: ISchemaDec
    },
 } as const;
 
-export const InfoDifficultySchema: { readonly [key in keyof IInfoDifficulty]: ISchemaDeclaration } =
-   {
-      difficulty: {
-         type: 'string',
-         version: '1.0.0',
-      },
-      difficultyRank: {
-         type: 'number',
-         version: '1.0.0',
-      },
-      audioPath: {
-         type: 'string',
-         version: '1.0.0',
-      },
-      jsonPath: {
-         type: 'string',
-         version: '1.0.0',
-      },
-      characteristic: {
-         type: 'string',
-         version: '1.0.0',
-      },
-      offset: {
-         type: 'number',
-         version: '1.0.0',
-         optional: true,
-      },
-      oldOffset: {
-         type: 'number',
-         version: '1.0.0',
-         optional: true,
-      },
-      chromaToggle: {
-         type: 'string',
-         version: '1.0.0',
-         optional: true,
-      },
-      customColors: {
-         type: 'boolean',
-         version: '1.0.0',
-         optional: true,
-      },
-      difficultyLabel: {
-         type: 'string',
-         version: '1.0.0',
-         optional: true,
-      },
-      colorLeft: {
-         type: 'object',
-         version: '1.0.0',
-         check: {},
-         optional: true,
-      },
-      colorRight: {
-         type: 'object',
-         version: '1.0.0',
-         check: {},
-         optional: true,
-      },
-      envColorLeft: {
-         type: 'object',
-         version: '1.0.0',
-         check: {},
-         optional: true,
-      },
-      envColorRight: {
-         type: 'object',
-         version: '1.0.0',
-         check: {},
-         optional: true,
-      },
-      obstacleColor: {
-         type: 'object',
-         version: '1.0.0',
-         check: {},
-         optional: true,
-      },
-   };
+/**
+ * Schema declaration for v1 `InfoDifficulty`.
+ */
+export const InfoDifficultySchema: {
+   readonly [key in keyof IInfoDifficulty]: ISchemaDeclaration;
+} = {
+   difficulty: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   difficultyRank: {
+      type: 'number',
+      version: '1.0.0',
+   },
+   audioPath: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   jsonPath: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   characteristic: {
+      type: 'string',
+      version: '1.0.0',
+   },
+   offset: {
+      type: 'number',
+      version: '1.0.0',
+      optional: true,
+   },
+   oldOffset: {
+      type: 'number',
+      version: '1.0.0',
+      optional: true,
+   },
+   chromaToggle: {
+      type: 'string',
+      version: '1.0.0',
+      optional: true,
+   },
+   customColors: {
+      type: 'boolean',
+      version: '1.0.0',
+      optional: true,
+   },
+   difficultyLabel: {
+      type: 'string',
+      version: '1.0.0',
+      optional: true,
+   },
+   colorLeft: {
+      type: 'object',
+      version: '1.0.0',
+      check: {},
+      optional: true,
+   },
+   colorRight: {
+      type: 'object',
+      version: '1.0.0',
+      check: {},
+      optional: true,
+   },
+   envColorLeft: {
+      type: 'object',
+      version: '1.0.0',
+      check: {},
+      optional: true,
+   },
+   envColorRight: {
+      type: 'object',
+      version: '1.0.0',
+      check: {},
+      optional: true,
+   },
+   obstacleColor: {
+      type: 'object',
+      version: '1.0.0',
+      check: {},
+      optional: true,
+   },
+};
 
+/**
+ * Schema declaration for v1 `Info`.
+ */
 export const InfoSchema: { readonly [key in keyof IInfo]: ISchemaDeclaration } = {
    songName: {
       type: 'string',

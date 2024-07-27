@@ -9,14 +9,19 @@ interface INEObject {
    coordinates?: Vector2;
    worldRotation?: number | Vector3;
    localRotation?: Vector3;
+   /**
+    * **Type:** `f32`
+    */
    noteJumpMovementSpeed?: number;
+   /**
+    * **Type:** `f32`
+    */
    noteJumpStartBeatOffset?: number;
    uninteractable?: boolean;
 }
 
 /**
  * Noodle Extensions Note interface for Beatmap Note.
- * @extends INEObject
  */
 export interface INENote extends INEObject {
    flip?: Vector2;
@@ -30,7 +35,6 @@ export interface INENote extends INEObject {
 
 /**
  * Noodle Extensions Slider interface for Beatmap Arc.
- * @extends INENote
  */
 export interface INESlider extends INENote {
    tailCoordinates?: Vector2;
@@ -38,7 +42,6 @@ export interface INESlider extends INENote {
 
 /**
  * Noodle Extensions Obstacle interface for Beatmap Obstacle.
- * @extends INEObject
  */
 export interface INEObstacle extends INEObject {
    size?: Nullable<Vector3>;
@@ -46,7 +49,6 @@ export interface INEObstacle extends INEObject {
 
 /**
  * AssignPathAnimation interface for Noodle Extensions Custom Event.
- * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
    offsetPosition?: string | Vector3 | Vector3PointDefinition[];
@@ -59,7 +61,6 @@ export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
 
 /**
  * AssignPathAnimation interface for Noodle Extensions Custom Event.
- * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAssignPathAnimation extends Required<IHeckBase> {
    offsetPosition?: string | Vector3 | Vector3PointDefinition[];
@@ -79,7 +80,6 @@ export interface INECustomEventDataAssignTrackParent {
 
 /**
  * AssignPlayerToTrack interface for Noodle Extensions Custom Event.
- * @extends Required<IHeckBase>
  */
 export interface INECustomEventDataAssignPlayerToTrack extends Required<IHeckBase> {
    target?: PlayerObject;

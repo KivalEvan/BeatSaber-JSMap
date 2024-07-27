@@ -7,6 +7,9 @@ import type { IEventBoxGroupContainer } from '../../../types/beatmap/container/v
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ILightColorBoxContainer } from '../../../types/beatmap/container/v4.ts';
 
+/**
+ * Schema serialization for v4 `Light Color Event Box Group`.
+ */
 export const lightColorEventBoxGroup: ISchemaContainer<
    IWrapLightColorEventBoxGroupAttribute,
    IEventBoxGroupContainer<ILightColorBoxContainer>

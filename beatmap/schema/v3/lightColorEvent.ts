@@ -4,6 +4,9 @@ import type { IWrapLightColorEventAttribute } from '../../../types/beatmap/wrapp
 import { deepCopy } from '../../../utils/misc.ts';
 import { EaseType, TransitionType } from '../../shared/constants.ts';
 
+/**
+ * Schema serialization for v3 `Light Color Event`.
+ */
 export const lightColorEvent: ISchemaContainer<IWrapLightColorEventAttribute, ILightColorEvent> = {
    serialize(data: IWrapLightColorEventAttribute): ILightColorEvent {
       return {

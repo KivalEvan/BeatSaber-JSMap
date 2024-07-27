@@ -1,4 +1,11 @@
+/**
+ * Base schema for v1 `Object`.
+ */
 export interface IBaseObject {
-   /** Beat time `<float>` of beatmap object. */
+   /**
+    * Beat time of beatmap object.
+    *
+    * **Type:** `f32`
+    */
    _time: number;
 }

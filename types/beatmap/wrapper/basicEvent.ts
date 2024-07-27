@@ -2,9 +2,12 @@ import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts'
 import type { EnvironmentAllName } from '../shared/environment.ts';
 import type { ICustomDataEvent } from './custom/event.ts';
 
+/**
+ * Wrapper attribute for beatmap basic event.
+ */
 export interface IWrapBasicEventAttribute extends IWrapBaseObjectAttribute {
    /**
-    * Event type `<int>` of basic event.
+    * Event type of basic event.
     * ```ts
     * 0 -> Back Lasers
     * 1 -> Ring Lights
@@ -32,15 +35,28 @@ export interface IWrapBasicEventAttribute extends IWrapBaseObjectAttribute {
     * 43 -> Special Event 3
     * 100 -> BPM Change
     * ```
+    *
+    * **Type:** `i32`
     */
    type: number;
-   /** Value `<int>` of basic event. */
+   /**
+    * Value of basic event.
+    *
+    * **Type:** `i32`
+    */
    value: number;
-   /** Float value `<float>` of basic event. */
+   /**
+    * Float value of basic event.
+    *
+    * **Type:** `f32`
+    */
    floatValue: number;
    customData: ICustomDataEvent;
 }
 
+/**
+ * Wrapper for beatmap basic event.
+ */
 export interface IWrapBasicEvent
    extends Omit<IWrapBaseObject, 'customData'>, IWrapBasicEventAttribute {
    setCustomData(object: this['customData']): this;

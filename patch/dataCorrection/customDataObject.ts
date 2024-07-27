@@ -17,6 +17,9 @@ import {
    fixVector4PointDefinition,
 } from './helpers.ts';
 
+/**
+ * Fix custom data for beatmap object.
+ */
 export function fixCustomDataObject(
    cd?:
       & IV2CustomDataNote

@@ -1,11 +1,26 @@
 import type { IObject } from './object.ts';
 import type { IItem } from './item.ts';
 
+/**
+ * Base schema for v4 `Event Box`.
+ */
 export interface IEventBox extends IItem {
-   /** Index `<int>` of typed event box array. */
+   /**
+    * Index of typed event box array.
+    *
+    * **Type:** `i32`
+    */
    e?: number;
-   /** Index `<int>` of index filter array. */
+   /**
+    * Index of index filter array.
+    *
+    * **Type:** `i32`
+    */
    f?: number;
-   /** Index `<int>` of typed event array. */
+   /**
+    * Index array of typed event array.
+    *
+    * **Type:** `usize[]`
+    */
    l?: IObject[];
 }

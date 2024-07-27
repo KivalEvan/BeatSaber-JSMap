@@ -7,6 +7,9 @@ import type { IEventBoxGroupContainer } from '../../../types/beatmap/container/v
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ILightRotationBoxContainer } from '../../../types/beatmap/container/v4.ts';
 
+/**
+ * Schema serialization for v4 `Light Rotation Event Box Group`.
+ */
 export const lightRotationEventBoxGroup: ISchemaContainer<
    IWrapLightRotationEventBoxGroupAttribute,
    IEventBoxGroupContainer<ILightRotationBoxContainer>

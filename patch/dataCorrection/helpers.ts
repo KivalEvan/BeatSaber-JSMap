@@ -12,6 +12,9 @@ import { clamp } from '../../utils/math.ts';
 import type { BaseModifierNE } from '../../types/beatmap/shared/custom/noodleExtensions.ts';
 import type { BaseModifierChroma } from '../../types/beatmap/shared/custom/chroma.ts';
 
+/**
+ * Fix boolean value by interpreting unknown value as boolean or return default value.
+ */
 export function fixBoolean(value: unknown): boolean;
 export function fixBoolean(value: unknown, defaultValue: boolean): boolean;
 export function fixBoolean(value: unknown, defaultValue?: boolean): boolean {
@@ -32,6 +35,9 @@ export function fixBoolean(value: unknown, defaultValue?: boolean): boolean {
    }
 }
 
+/**
+ * Fix integer value by interpreting unknown value as integer or return default value.
+ */
 export function fixInt<T extends number>(value: unknown): T;
 export function fixInt<T extends number>(value: unknown, defaultValue: T): T;
 export function fixInt<T extends number>(
@@ -125,6 +131,9 @@ export function fixInt<T extends number>(
    }
 }
 
+/**
+ * Fix float value by interpreting unknown value as float or return default value.
+ */
 export function fixFloat(value: unknown): number;
 export function fixFloat(value: unknown, defaultValue: number): number;
 export function fixFloat(
@@ -171,6 +180,9 @@ export function fixFloat(
    }
 }
 
+/**
+ * Fix string value by interpreting unknown value as string or return default value.
+ */
 export function fixString<T extends string>(value: unknown): T;
 export function fixString<T extends string>(value: unknown, defaultValue: T): T;
 export function fixString<T extends string>(
@@ -198,6 +210,9 @@ export function fixString<T extends string>(
    }
 }
 
+/**
+ * Fix string array value by interpreting unknown value as string array or return default value.
+ */
 export function fixStringAry(value: unknown[], defaultValue: string): string[] {
    return value.map((v) => fixString(v, defaultValue));
 }
@@ -211,6 +226,9 @@ const modifiersList: PointModifier[] = [
    'opMul',
 ];
 
+/**
+ * Fix vector value by interpreting unknown value as vector or return default value.
+ */
 export function fixVector2(value: unknown, defaultValue: Vector2): Vector2 {
    return Array.isArray(value)
       ? [
@@ -220,6 +238,9 @@ export function fixVector2(value: unknown, defaultValue: Vector2): Vector2 {
       : defaultValue;
 }
 
+/**
+ * Fix vector value by interpreting unknown value as vector or return default value.
+ */
 export function fixVector3(value: unknown, defaultValue: Vector3): Vector3 {
    return Array.isArray(value)
       ? [
@@ -230,6 +251,9 @@ export function fixVector3(value: unknown, defaultValue: Vector3): Vector3 {
       : defaultValue;
 }
 
+/**
+ * Fix vector value by interpreting unknown value as vector or return default value.
+ */
 export function fixVector4(value: unknown, defaultValue: Vector4): Vector4 {
    return Array.isArray(value)
       ? [
@@ -241,6 +265,9 @@ export function fixVector4(value: unknown, defaultValue: Vector4): Vector4 {
       : defaultValue;
 }
 
+/**
+ * Fix color value by interpreting unknown value as color or return default value.
+ */
 export function fixColor(value: unknown, defaultValue: ColorArray): ColorArray {
    return Array.isArray(value)
       ? [
@@ -252,6 +279,9 @@ export function fixColor(value: unknown, defaultValue: ColorArray): ColorArray {
       : defaultValue;
 }
 
+/**
+ * Fix float point definition value by interpreting unknown value as float point definition or return default value.
+ */
 export function fixFloatPointDefinition(
    value: unknown,
    defaultValue: number,
@@ -284,6 +314,10 @@ export function fixFloatPointDefinition(
          })
       : [];
 }
+
+/**
+ * Fix vector point definition value by interpreting unknown value as vector point definition or return default value.
+ */
 export function fixVector3PointDefinition(
    value: unknown,
    defaultValue: Vector3,
@@ -320,6 +354,9 @@ export function fixVector3PointDefinition(
       : [];
 }
 
+/**
+ * Fix vector point definition value by interpreting unknown value as vector point definition or return default value.
+ */
 export function fixVector4PointDefinition(
    value: unknown,
    defaultValue: Vector4,

@@ -1,21 +1,57 @@
+/**
+ * Schema for v4 `Audio Data`.
+ */
 export interface IAudio {
    version: '4.0.0';
    songChecksum: string;
-   songSampleCount: number; // int
-   songFrequency: number; // int
+   /**
+    * **Type:** `i32`
+    */
+   songSampleCount: number;
+   /**
+    * **Type:** `i32`
+    */
+   songFrequency: number;
    bpmData: IAudioBPM[];
    lufsData: IAudioLUFS[];
 }
 
+/**
+ * BPM data schema for v4 `Audio Data`.
+ */
 export interface IAudioBPM {
-   si: number; // int
-   ei: number; // int
-   sb: number; // float
-   eb: number; // float
+   /**
+    * **Type:** `i32`
+    */
+   si: number;
+   /**
+    * **Type:** `i32`
+    */
+   ei: number;
+   /**
+    * **Type:** `f32`
+    */
+   sb: number;
+   /**
+    * **Type:** `f32`
+    */
+   eb: number;
 }
 
+/**
+ * LUFS data schema for v4 `Audio Data`.
+ */
 export interface IAudioLUFS {
-   si: number; // int
-   ei: number; // int
-   l: number; // float
+   /**
+    * **Type:** `i32`
+    */
+   si: number;
+   /**
+    * **Type:** `i32`
+    */
+   ei: number;
+   /**
+    * **Type:** `f32`
+    */
+   l: number;
 }

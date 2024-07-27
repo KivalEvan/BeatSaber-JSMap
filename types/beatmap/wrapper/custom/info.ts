@@ -8,5 +8,8 @@ import type {
    ICustomDataInfoBeatmap as ICustomDataInfoBeatmapV4,
 } from '../../v4/custom/info.ts';
 
+/**
+ * Aggregated custom data for info.
+ */
 export type ICustomDataInfo = ICustomDataInfoV2 & ICustomDataInfoSetV2 & ICustomDataInfoV4;
 export type ICustomDataBeatmap = ICustomDataInfoBeatmapV2 & ICustomDataInfoBeatmapV4;

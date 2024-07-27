@@ -5,6 +5,9 @@ import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { lightColorEventBox } from './lightColorEventBox.ts';
 
+/**
+ * Schema serialization for v3 `Light Color Event Box Group`.
+ */
 export const lightColorEventBoxGroup: ISchemaContainer<
    IWrapLightColorEventBoxGroupAttribute,
    ILightColorEventBoxGroup

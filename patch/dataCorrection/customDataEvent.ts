@@ -2,6 +2,9 @@ import type { IEvent } from '../../types/beatmap/v2/event.ts';
 import type { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
 import { fixBoolean, fixColor, fixFloat, fixInt, fixString } from './helpers.ts';
 
+/**
+ * Fix custom data for beatmap basic event.
+ */
 export function fixCustomDataEvent(
    cd?: IEvent['_customData'] & IBasicEvent['customData'],
 ) {

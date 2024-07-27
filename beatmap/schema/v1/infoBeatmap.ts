@@ -4,6 +4,9 @@ import type { IWrapInfoBeatmapAttribute } from '../../../types/beatmap/wrapper/i
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import { DifficultyRanking } from '../../shared/difficulty.ts';
 
+/**
+ * Schema serialization for v1 `Info Beatmap`.
+ */
 export const infoBeatmap: ISchemaContainer<IWrapInfoBeatmapAttribute, IInfoDifficulty> = {
    serialize(data: IWrapInfoBeatmapAttribute): IInfoDifficulty {
       return {

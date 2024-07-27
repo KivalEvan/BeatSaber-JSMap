@@ -5,6 +5,9 @@ import { lightRotationEventBox } from './lightRotationEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapLightRotationEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
 
+/**
+ * Schema serialization for v3 `Light Rotation Event Box Group`.
+ */
 export const lightRotationEventBoxGroup: ISchemaContainer<
    IWrapLightRotationEventBoxGroupAttribute,
    ILightRotationEventBoxGroup

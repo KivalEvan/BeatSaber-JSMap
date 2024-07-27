@@ -4,6 +4,9 @@ import type { IWrapWaypointAttribute } from '../../../types/beatmap/wrapper/wayp
 import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v4 `Waypoint`.
+ */
 export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypointContainer> = {
    serialize(data: IWrapWaypointAttribute): Required<IWaypointContainer> {
       return {

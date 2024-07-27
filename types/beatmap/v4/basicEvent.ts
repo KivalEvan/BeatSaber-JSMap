@@ -6,9 +6,12 @@ import type {
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 import type { IItem } from './item.ts';
 
+/**
+ * Base schema for v4 `Basic Event`.
+ */
 export interface IBasicEventBase extends IItem {
    /**
-    * Event type `<int>` of basic event.
+    * Event type of basic event.
     * ```ts
     * 0 -> Back Lasers
     * 1 -> Ring Lights
@@ -36,19 +39,35 @@ export interface IBasicEventBase extends IItem {
     * 43 -> Special Event 3
     * 100 -> BPM Change
     * ```
+    *
+    * **Type:** `i32`
     */
    t?: number;
-   /** Value `<int>` of basic event. */
+   /**
+    * Value of basic event.
+    *
+    * **Type:** `i32`
+    */
    i?: number;
-   /** Float value `<float>` of basic event. */
+   /**
+    * Float value of basic event.
+    *
+    * **Type:** `f32`
+    */
    f?: number;
    customData?: ICustomDataBase;
 }
 
+/**
+ * Generic schema for v4 `Basic Event`.
+ */
 export interface IBasicEventGeneric extends IBasicEventBase {
    t?: number;
 }
 
+/**
+ * Light schema for v4 `Basic Event`.
+ */
 export interface IBasicEventLight extends IBasicEventBase {
    t?: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11;
    /**
@@ -66,24 +85,43 @@ export interface IBasicEventLight extends IBasicEventBase {
     * Controls the brightness of the light.
     *
     * **RANGE:** `0-1` (0% to 100%), can be more than 1.
+    *
+    * **Type:** `f32`
     */
    f?: number;
    customData?: IChromaEventLight;
 }
 
+/**
+ * Boost schema for v4 `Basic Event`.
+ */
 /**  @deprecated use `colorBoostEvents` to apply boost event. */
 export interface IBasicEventBoost extends IBasicEventBase {
-   /**  @deprecated use `colorBoostEvents` to apply boost event. */
+   /**
+    * **Type:** `i32`
+    *
+    * @deprecated use `colorBoostEvents` to apply boost event.
+    */
    t?: 5;
-   /**  @deprecated use `colorBoostEvents` to apply boost event. */
+   /**
+    * **Type:** `i32`
+    *
+    * @deprecated use `colorBoostEvents` to apply boost event.
+    */
    i?: 0 | 1;
 }
 
+/**
+ * Ring schema for v4 `Basic Event`.
+ */
 export interface IBasicEventRing extends IBasicEventBase {
    t?: 8 | 9;
    customData?: IChromaEventRing;
 }
 
+/**
+ * Laser schema for v4 `Basic Event`.
+ */
 export interface IBasicEventLaserRotation extends IBasicEventBase {
    t?: 12 | 13;
    /** Laser rotation speed in degree per second multiplied by 20. */
@@ -91,9 +129,17 @@ export interface IBasicEventLaserRotation extends IBasicEventBase {
    customData?: IChromaEventLaser;
 }
 
-/** @deprecated use `rotationEvents` to apply lane rotation event. */
+/**
+ * Lane schema for v4 `Basic Event`.
+ *
+ * @deprecated use `rotationEvents` to apply lane rotation event.
+ */
 export interface IBasicEventLaneRotation extends IBasicEventBase {
-   /** @deprecated use `rotationEvents` to apply lane rotation event. */
+   /**
+    * **Type:** `i32`
+    *
+    * @deprecated use `rotationEvents` to apply lane rotation event.
+    */
    t?: 14 | 15;
    /**
     * Amount of angle changed clockwise.
@@ -107,31 +153,47 @@ export interface IBasicEventLaneRotation extends IBasicEventBase {
     * 6 -> 45 Degree
     * 7 -> 60 Degree
     * ```
+    * **Type:** `i32`
+    *
     * @deprecated use `rotationEvents` to apply lane rotation event.
     */
    i?: number;
 }
 
+/**
+ * Extra schema for v4 `Basic Event`.
+ */
 export interface IBasicEventExtra extends IBasicEventBase {
    t?: 16 | 17 | 18 | 19;
 }
 
-/** but why? */
+/**
+ * Special schema for v4 `Basic Event`.
+ */
 export interface IBasicEventSpecial extends IBasicEventBase {
    t?: 40 | 41 | 42 | 43;
 }
 
-/** @deprecated use `bpmEvents` to apply BPM change. */
+/**
+ * BPM schema for v4 `Basic Event`.
+ *
+ * @deprecated use `bpmEvents` to apply BPM change.
+ */
 export interface IBasicEventBPMChange extends IBasicEventBase {
    t?: 100;
    /**
     * Changes the BPM to event value.
     *
     * @deprecated use `bpmEvents` to apply BPM change.
+    *
+    * **Type:** `f32`
     */
    f?: number;
 }
 
+/**
+ * Schema for v4 `Basic Event`.
+ */
 export type IBasicEvent =
    | IBasicEventGeneric
    | IBasicEventLight

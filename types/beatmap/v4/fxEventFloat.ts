@@ -1,11 +1,26 @@
 import type { EaseType } from '../shared/constants.ts';
 import type { IItem } from './item.ts';
 
+/**
+ * Schema for v4 `FX Event Float`.
+ */
 export interface IFxEventFloat extends IItem {
-   /** Use previous event value `<int>` in FX event. */
+   /**
+    * Use previous event value in FX event.
+    *
+    * **Type:** `i32`
+    */
    p?: 0 | 1;
-   /** Ease type `<int>` of FX event. */
+   /**
+    * Ease type of FX event.
+    *
+    * **Type:** {@linkcode EaseType}
+    */
    e?: EaseType;
-   /** Value `<float>` of FX event. */
+   /**
+    * Value of FX event.
+    *
+    * **Type:** `f32`
+    */
    v?: number;
 }

@@ -17,6 +17,9 @@ import type {
 import type { IColor } from '../../../types/colors.ts';
 import type { IBPMInfo, IBPMInfoRegion } from '../../../types/beatmap/v2/bpmInfo.ts';
 
+/**
+ * Schema declaration for v2 `Note`.
+ */
 export const NoteSchema: { readonly [key in keyof INote]: ISchemaDeclaration } = {
    _time: {
       type: 'number',
@@ -57,6 +60,9 @@ export const NoteSchema: { readonly [key in keyof INote]: ISchemaDeclaration } =
    },
 } as const;
 
+/**
+ * Schema declaration for v2 `Arc`.
+ */
 export const ArcSchema: { readonly [key in keyof IArc]: ISchemaDeclaration } = {
    _colorType: {
       type: 'number',
@@ -134,6 +140,9 @@ export const ArcSchema: { readonly [key in keyof IArc]: ISchemaDeclaration } = {
    },
 } as const;
 
+/**
+ * Schema declaration for v2 `Obstacle`.
+ */
 export const ObstacleSchema: {
    readonly [key in keyof IObstacle]: ISchemaDeclaration;
 } = {
@@ -174,7 +183,12 @@ export const ObstacleSchema: {
    },
 } as const;
 
-export const EventSchema: { readonly [key in keyof IEvent]: ISchemaDeclaration } = {
+/**
+ * Schema declaration for v2 `Event`.
+ */
+export const EventSchema: {
+   readonly [key in keyof IEvent]: ISchemaDeclaration;
+} = {
    _time: {
       type: 'number',
       version: '2.0.0',
@@ -205,6 +219,9 @@ export const EventSchema: { readonly [key in keyof IEvent]: ISchemaDeclaration }
    },
 } as const;
 
+/**
+ * Schema declaration for v2 `Waypoint`.
+ */
 export const WaypointSchema: {
    readonly [key in keyof IWaypoint]: ISchemaDeclaration;
 } = {
@@ -239,6 +256,9 @@ export const WaypointSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v2 `SpecialEventsKeywordFilters`.
+ */
 export const SpecialEventsKeywordFiltersKeywordsSchema: {
    readonly [key in keyof ISpecialEventsKeywordFiltersKeywords]: ISchemaDeclaration;
 } = {
@@ -256,6 +276,9 @@ export const SpecialEventsKeywordFiltersKeywordsSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v2 `SpecialEventsKeywordFilters`.
+ */
 export const SpecialEventsKeywordFiltersSchema: {
    readonly [key in keyof ISpecialEventsKeywordFilters]: ISchemaDeclaration;
 } = {
@@ -267,6 +290,9 @@ export const SpecialEventsKeywordFiltersSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v2 `Difficulty`.
+ */
 export const DifficultySchema: {
    readonly [key in keyof IDifficulty]: ISchemaDeclaration;
 } = {
@@ -319,6 +345,9 @@ export const DifficultySchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v2 `InfoDifficulty`.
+ */
 export const InfoSetDifficultySchema: {
    readonly [key in keyof IInfoDifficulty]: ISchemaDeclaration;
 } = {
@@ -358,7 +387,12 @@ export const InfoSetDifficultySchema: {
    },
 };
 
-export const InfoSetSchema: { readonly [key in keyof IInfoSet]: ISchemaDeclaration } = {
+/**
+ * Schema declaration for v2 `InfoSet`.
+ */
+export const InfoSetSchema: {
+   readonly [key in keyof IInfoSet]: ISchemaDeclaration;
+} = {
    _beatmapCharacteristicName: {
       type: 'string',
       version: '2.0.0',
@@ -370,6 +404,9 @@ export const InfoSetSchema: { readonly [key in keyof IInfoSet]: ISchemaDeclarati
    },
 };
 
+/**
+ * Schema declaration for v2 `Color`.
+ */
 export const ColorObjectSchema: {
    readonly [key in keyof IColor]: ISchemaDeclaration;
 } = {
@@ -391,6 +428,9 @@ export const ColorObjectSchema: {
    },
 };
 
+/**
+ * Schema declaration for v2 `InfoColorSchemeData`.
+ */
 export const InfoColorSchemeDataSchema: {
    readonly [key in keyof IInfoColorSchemeData]: ISchemaDeclaration;
 } = {
@@ -435,6 +475,9 @@ export const InfoColorSchemeDataSchema: {
    },
 };
 
+/**
+ * Schema declaration for v2 `InfoColorScheme`.
+ */
 export const InfoColorSchemeSchema: {
    readonly [key in keyof IInfoColorScheme]: ISchemaDeclaration;
 } = {
@@ -449,6 +492,9 @@ export const InfoColorSchemeSchema: {
    },
 };
 
+/**
+ * Schema declaration for v2 `Info`.
+ */
 export const InfoSchema: { readonly [key in keyof IInfo]: ISchemaDeclaration } = {
    _version: {
       type: 'string',
@@ -535,7 +581,12 @@ export const InfoSchema: { readonly [key in keyof IInfo]: ISchemaDeclaration } =
    },
 };
 
-export const BPMInfoRegionSchema: { readonly [key in keyof IBPMInfoRegion]: ISchemaDeclaration } = {
+/**
+ * Schema declaration for v2 `BPMInfoRegion`.
+ */
+export const BPMInfoRegionSchema: {
+   readonly [key in keyof IBPMInfoRegion]: ISchemaDeclaration;
+} = {
    _startSampleIndex: {
       type: 'number',
       version: '2.0.0',
@@ -558,7 +609,12 @@ export const BPMInfoRegionSchema: { readonly [key in keyof IBPMInfoRegion]: ISch
    },
 };
 
-export const BPMInfoSchema: { readonly [key in keyof IBPMInfo]: ISchemaDeclaration } = {
+/**
+ * Schema declaration for v2 `BPMInfo`.
+ */
+export const BPMInfoSchema: {
+   readonly [key in keyof IBPMInfo]: ISchemaDeclaration;
+} = {
    _version: {
       type: 'string',
       version: '2.0.0',

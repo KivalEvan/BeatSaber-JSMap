@@ -6,6 +6,9 @@ import { deepCopy } from '../../../utils/misc.ts';
 import { indexFilter } from './indexFilter.ts';
 import { fxEventFloat } from './fxEventFloat.ts';
 
+/**
+ * Schema serialization for v4 `FX Event Box`.
+ */
 export const fxEventBox: ISchemaContainer<IWrapFxEventBoxAttribute, IFxEventFloatBoxContainer> = {
    serialize(data: IWrapFxEventBoxAttribute): IFxEventFloatBoxContainer {
       return {

@@ -2,9 +2,12 @@ import type { IBaseObject } from './baseObject.ts';
 import type { IChromaEventLaser, IChromaEventLight, IChromaEventRing } from './custom/chroma.ts';
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 
+/**
+ * Base schema for v3 `Basic Event`.
+ */
 export interface IBasicEventBase extends IBaseObject {
    /**
-    * Event type `<int>` of basic event.
+    * Event type of basic event.
     * ```ts
     * 0 -> Back Lasers
     * 1 -> Ring Lights
@@ -32,19 +35,35 @@ export interface IBasicEventBase extends IBaseObject {
     * 43 -> Special Event 3
     * 100 -> BPM Change
     * ```
+    *
+    * **Type:** `i32`
     */
    et?: number;
-   /** Value `<int>` of basic event. */
+   /**
+    * Value of basic event.
+    *
+    * **Type:** `i32`
+    */
    i?: number;
-   /** Float value `<float>` of basic event. */
+   /**
+    * Float value of basic event.
+    *
+    * **Type:** `f32`
+    */
    f?: number;
    customData?: ICustomDataBase;
 }
 
+/**
+ * Generic schema for v3 `Basic Event`.
+ */
 export interface IBasicEventGeneric extends IBasicEventBase {
    et?: number;
 }
 
+/**
+ * Light schema for v3 `Basic Event`.
+ */
 export interface IBasicEventLight extends IBasicEventBase {
    et?: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11;
    /**
@@ -56,40 +75,74 @@ export interface IBasicEventLight extends IBasicEventBase {
     * 3 | 7 | 11 -> Fade
     * 4 | 8 | 12 -> Transition
     * ```
+    *
+    * **Type:** `i32`
     */
    i?: number;
    /**
     * Controls the brightness of the light.
     *
     * **RANGE:** `0-1` (0% to 100%), can be more than 1.
+    *
+    * **Type:** `f32`
     */
    f?: number;
    customData?: IChromaEventLight;
 }
 
-/**  @deprecated use `colorBoostEvents` to apply boost event. */
+/**
+ * Boost schema for v3 `Basic Event`.
+ *
+ * @deprecated use `colorBoostEvents` to apply boost event.
+ */
 export interface IBasicEventBoost extends IBasicEventBase {
-   /**  @deprecated use `colorBoostEvents` to apply boost event. */
+   /**
+    * **Type:** `i32`
+    *
+    * @deprecated use `colorBoostEvents` to apply boost event.
+    */
    et?: 5;
-   /**  @deprecated use `colorBoostEvents` to apply boost event. */
+   /**
+    * **Type:** `i32`
+    *
+    * @deprecated use `colorBoostEvents` to apply boost event.
+    */
    i?: 0 | 1;
 }
 
+/**
+ * Ring schema for v3 `Basic Event`.
+ */
 export interface IBasicEventRing extends IBasicEventBase {
    et?: 8 | 9;
    customData?: IChromaEventRing;
 }
 
+/**
+ * Laser schema for v3 `Basic Event`.
+ */
 export interface IBasicEventLaserRotation extends IBasicEventBase {
    et?: 12 | 13;
-   /** Laser rotation speed in degree per second multiplied by 20. */
+   /**
+    * Laser rotation speed in degree per second multiplied by 20.
+    *
+    * **Type:** `i32`
+    */
    i?: number;
    customData?: IChromaEventLaser;
 }
 
-/** @deprecated use `rotationEvents` to apply lane rotation event. */
+/**
+ * Lane schema for v3 `Basic Event`.
+ *
+ * @deprecated use `rotationEvents` to apply lane rotation event.
+ */
 export interface IBasicEventLaneRotation extends IBasicEventBase {
-   /** @deprecated use `rotationEvents` to apply lane rotation event. */
+   /**
+    * **Type:** `i32`
+    *
+    * @deprecated use `rotationEvents` to apply lane rotation event.
+    */
    et?: 14 | 15;
    /**
     * Amount of angle changed clockwise.
@@ -103,31 +156,48 @@ export interface IBasicEventLaneRotation extends IBasicEventBase {
     * 6 -> 45 Degree
     * 7 -> 60 Degree
     * ```
+    *
+    * **Type:** `i32`
+    *
     * @deprecated use `rotationEvents` to apply lane rotation event.
     */
    i?: number;
 }
 
+/**
+ * Extra schema for v3 `Basic Event`.
+ */
 export interface IBasicEventExtra extends IBasicEventBase {
    et?: 16 | 17 | 18 | 19;
 }
 
-/** but why? */
+/**
+ * Special schema for v3 `Basic Event`.
+ */
 export interface IBasicEventSpecial extends IBasicEventBase {
    et?: 40 | 41 | 42 | 43;
 }
 
-/** @deprecated use `bpmEvents` to apply BPM change. */
+/**
+ * BPM schema for v3 `Basic Event`.
+ *
+ * @deprecated use `bpmEvents` to apply BPM change.
+ */
 export interface IBasicEventBPMChange extends IBasicEventBase {
    et?: 100;
    /**
     * Changes the BPM to event value.
+    *
+    * **Type:** `f32`
     *
     * @deprecated use `bpmEvents` to apply BPM change.
     */
    f?: number;
 }
 
+/**
+ * Schema for v3 `Basic Event`.
+ */
 export type IBasicEvent =
    | IBasicEventGeneric
    | IBasicEventLight

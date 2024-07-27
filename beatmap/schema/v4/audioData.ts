@@ -3,6 +3,9 @@ import type { IAudio } from '../../../types/beatmap/v4/audioData.ts';
 import type { IWrapAudioDataAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
+/**
+ * Schema serialization for v4 `Audio Data`.
+ */
 export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IAudio> = {
    serialize(data: IWrapAudioDataAttribute): IAudio {
       return {

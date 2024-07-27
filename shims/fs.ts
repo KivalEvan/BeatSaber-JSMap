@@ -1,4 +1,5 @@
-import type { IFileSystem } from '../types/bsmap/_fs.ts';
+import type { IShimsFileSystem } from '../types/bsmap/shims.ts';
+export type { IShimsFileSystem } from '../types/bsmap/shims.ts';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 
@@ -18,7 +19,7 @@ function noFsFunctionProvided(): never {
  * you should provide `fs` function inside the `fs` object from the module.
  * If you are creating a web app, you may ignore this and use `load` and `save`.
  */
-export const fs: IFileSystem = {
+export const fs: IShimsFileSystem = {
    readTextFile: noFsFunctionProvided,
    readTextFileSync: noFsFunctionProvided,
    writeTextFile: noFsFunctionProvided,

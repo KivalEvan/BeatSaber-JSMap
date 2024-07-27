@@ -4,6 +4,9 @@ import type { IWrapLightTranslationEventAttribute } from '../../../types/beatmap
 import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v4 `Light Translation Event`.
+ */
 export const lightTranslationEvent: ISchemaContainer<
    IWrapLightTranslationEventAttribute,
    ILightTranslationEventContainer

@@ -3,6 +3,9 @@ import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimiz
 import type { IDifficulty } from '../../../../types/beatmap/v2/difficulty.ts';
 import { deepClean, purgeZeros } from '../../../helpers/optimize.ts';
 
+/**
+ * Optimize v2 `Difficulty` schema data.
+ */
 export function optimizeDifficulty(
    // deno-lint-ignore no-explicit-any
    data: Record<string, any> | IDifficulty,

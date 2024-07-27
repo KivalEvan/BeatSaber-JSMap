@@ -3,6 +3,9 @@ import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimiz
 import { deepClean, purgeZeros } from '../../../helpers/optimize.ts';
 import type { ILightshow } from '../../../../types/beatmap/v3/lightshow.ts';
 
+/**
+ * Optimize v3 `Lightshow` schema data.
+ */
 export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
    // deno-lint-ignore no-explicit-any
    const d = data as Record<string, any>;

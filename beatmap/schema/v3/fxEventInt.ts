@@ -3,6 +3,9 @@ import type { IFxEventInt } from '../../../types/beatmap/v3/fxEventInt.ts';
 import type { IWrapFxEventIntAttribute } from '../../../types/beatmap/wrapper/fxEventInt.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v3 `FX Event Int`.
+ */
 export const fxEventInt: ISchemaContainer<IWrapFxEventIntAttribute, IFxEventInt> = {
    serialize(data: IWrapFxEventIntAttribute): IFxEventInt {
       return {

@@ -24,13 +24,22 @@ interface ISchemaDeclarationObject extends ISchemaDeclarationBase {
    readonly check: { [key: string]: ISchemaDeclaration };
 }
 
+/**
+ * Schema type declaration.
+ */
 export type ISchemaDeclaration =
    | ISchemaDeclarationPrimitive
    | ISchemaDeclarationNumber
    | ISchemaDeclarationObject;
 
+/**
+ * Beatmap file type.
+ */
 export type BeatmapFileType = 'info' | 'audioData' | 'difficulty' | 'lightshow';
 
+/**
+ * Schema container for serialization.
+ */
 export interface ISchemaContainer<
    TWrap = { [key: string]: any },
    TSerial = { [key: string]: any },

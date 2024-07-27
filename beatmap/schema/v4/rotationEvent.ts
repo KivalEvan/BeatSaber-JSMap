@@ -4,6 +4,9 @@ import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper
 import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v4 `Rotation Event`.
+ */
 export const rotationEvent: ISchemaContainer<IWrapRotationEventAttribute, ISpawnRotationContainer> =
    {
       serialize(data: IWrapRotationEventAttribute): ISpawnRotationContainer {

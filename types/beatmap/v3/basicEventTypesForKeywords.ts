@@ -1,6 +1,17 @@
+/**
+ * Schema for v3 `Basic Event Types For Keywords`.
+ */
 export interface IBasicEventTypesForKeywords {
-   /** Keyword `<string>` of basic event types for keywords. */
+   /**
+    * Keyword of basic event types for keywords.
+    *
+    * **Type:** `string`
+    */
    k?: string;
-   /** Event type `<int[]>` of basic event types for keywords. */
+   /**
+    * Event type of basic event types for keywords.
+    *
+    * **Type:** `i32[]`
+    */
    e?: number[];
 }

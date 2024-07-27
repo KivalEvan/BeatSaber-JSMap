@@ -6,6 +6,9 @@ import { deepCopy } from '../../../utils/misc.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightRotationEvent } from './lightRotationEvent.ts';
 
+/**
+ * Schema serialization for v4 `Light Rotation Event Box`.
+ */
 export const lightRotationEventBox: ISchemaContainer<
    IWrapLightRotationEventBoxAttribute,
    ILightRotationBoxContainer

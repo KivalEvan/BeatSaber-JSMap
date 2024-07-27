@@ -29,6 +29,9 @@ import type { IFxEventsCollection } from '../../../types/beatmap/v3/fxEventsColl
 import type { IFxEventFloat } from '../../../types/beatmap/v3/fxEventFloat.ts';
 import type { IFxEventInt } from '../../../types/beatmap/v3/fxEventInt.ts';
 
+/**
+ * Schema declaration for v3 `Color Note`.
+ */
 export const ColorNoteSchema: {
    readonly [key in keyof IColorNote]: ISchemaDeclaration;
 } = {
@@ -75,6 +78,9 @@ export const ColorNoteSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Bomb Note`.
+ */
 export const BombSchema: { readonly [key in keyof IBombNote]: ISchemaDeclaration } = {
    b: {
       type: 'number',
@@ -101,6 +107,9 @@ export const BombSchema: { readonly [key in keyof IBombNote]: ISchemaDeclaration
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Arc`.
+ */
 export const ArcSchema: { readonly [key in keyof IArc]: ISchemaDeclaration } = {
    b: {
       type: 'number',
@@ -178,6 +187,9 @@ export const ArcSchema: { readonly [key in keyof IArc]: ISchemaDeclaration } = {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Chain`.
+ */
 export const ChainSchema: { readonly [key in keyof IChain]: ISchemaDeclaration } = {
    b: {
       type: 'number',
@@ -244,6 +256,9 @@ export const ChainSchema: { readonly [key in keyof IChain]: ISchemaDeclaration }
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Obstacle`.
+ */
 export const ObstacleSchema: {
    readonly [key in keyof IObstacle]: ISchemaDeclaration;
 } = {
@@ -289,6 +304,9 @@ export const ObstacleSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Basic Event`.
+ */
 export const BasicEventSchema: {
    readonly [key in keyof IBasicEvent]: ISchemaDeclaration;
 } = {
@@ -322,6 +340,9 @@ export const BasicEventSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `BPM Change Event`.
+ */
 export const BPMChangeEventSchema: {
    readonly [key in keyof IBPMEvent]: ISchemaDeclaration;
 } = {
@@ -342,6 +363,9 @@ export const BPMChangeEventSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Rotation Event`.
+ */
 export const RotationEventSchema: {
    readonly [key in keyof IRotationEvent]: ISchemaDeclaration;
 } = {
@@ -369,6 +393,9 @@ export const RotationEventSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Color Boost Event`.
+ */
 export const ColorBoostEventSchema: {
    readonly [key in keyof IColorBoostEvent]: ISchemaDeclaration;
 } = {
@@ -390,6 +417,9 @@ export const ColorBoostEventSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Index Filter`.
+ */
 export const IndexFilterSchema: {
    readonly [key in keyof IIndexFilter]: ISchemaDeclaration;
 } = {
@@ -452,6 +482,9 @@ export const IndexFilterSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Light Color Event`.
+ */
 export const LightColorBaseSchema: {
    readonly [key in keyof ILightColorEvent]: ISchemaDeclaration;
 } = {
@@ -501,6 +534,9 @@ export const LightColorBaseSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Light Color Event Box`.
+ */
 export const LightColorEventBoxSchema: {
    readonly [key in keyof ILightColorEventBox]: ISchemaDeclaration;
 } = {
@@ -558,6 +594,9 @@ export const LightColorEventBoxSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Light Color Event Box Group`.
+ */
 export const LightColorEventBoxGroupSchema: {
    readonly [key in keyof ILightColorEventBoxGroup]: ISchemaDeclaration;
 } = {
@@ -586,6 +625,9 @@ export const LightColorEventBoxGroupSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Light Rotation Event`.
+ */
 export const LightRotationBaseSchema: {
    readonly [key in keyof ILightRotationEvent]: ISchemaDeclaration;
 } = {
@@ -630,6 +672,9 @@ export const LightRotationBaseSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Light Rotation Event Box`.
+ */
 export const LightRotationEventBoxSchema: {
    readonly [key in keyof ILightRotationEventBox]: ISchemaDeclaration;
 } = {
@@ -699,6 +744,9 @@ export const LightRotationEventBoxSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Light Rotation Event Box Group`.
+ */
 export const LightRotationEventBoxGroupSchema: {
    readonly [key in keyof ILightRotationEventBoxGroup]: ISchemaDeclaration;
 } = {
@@ -727,6 +775,9 @@ export const LightRotationEventBoxGroupSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Light Translation Event`.
+ */
 export const LightTranslationBaseSchema: {
    readonly [key in keyof ILightTranslationEvent]: ISchemaDeclaration;
 } = {
@@ -760,6 +811,9 @@ export const LightTranslationBaseSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Light Translation Event Box`.
+ */
 export const LightTranslationEventBoxSchema: {
    readonly [key in keyof ILightTranslationEventBox]: ISchemaDeclaration;
 } = {
@@ -829,6 +883,9 @@ export const LightTranslationEventBoxSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Light Translation Event Box Group`.
+ */
 export const LightTranslationEventBoxGroupSchema: {
    readonly [key in keyof ILightTranslationEventBoxGroup]: ISchemaDeclaration;
 } = {
@@ -857,6 +914,9 @@ export const LightTranslationEventBoxGroupSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `VFX Event Box`.
+ */
 export const VfxEventBoxSchema: {
    readonly [key in keyof IFxEventBox]: ISchemaDeclaration;
 } = {
@@ -915,6 +975,9 @@ export const VfxEventBoxSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `VFX Event Box Group`.
+ */
 export const VfxEventBoxGroupSchema: {
    readonly [key in keyof IFxEventBoxGroup]: ISchemaDeclaration;
 } = {
@@ -949,6 +1012,9 @@ export const VfxEventBoxGroupSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Basic Event Types with Keywords`.
+ */
 export const BasicEventTypesForKeywordsSchema: {
    readonly [key in keyof IBasicEventTypesForKeywords]: ISchemaDeclaration;
 } = {
@@ -966,6 +1032,9 @@ export const BasicEventTypesForKeywordsSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Basic Event Types with Keywords`.
+ */
 export const BasicEventTypesWithKeywordsSchema: {
    readonly [key in keyof IBasicEventTypesWithKeywords]: ISchemaDeclaration;
 } = {
@@ -977,6 +1046,9 @@ export const BasicEventTypesWithKeywordsSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `FX Event Float`.
+ */
 export const FxEventFloatSchema: {
    readonly [key in keyof IFxEventFloat]: ISchemaDeclaration;
 } = {
@@ -1010,6 +1082,9 @@ export const FxEventFloatSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `FX Event Int`.
+ */
 export const FxEventIntSchema: {
    readonly [key in keyof IFxEventInt]: ISchemaDeclaration;
 } = {
@@ -1038,6 +1113,9 @@ export const FxEventIntSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `FX Events Collection`.
+ */
 export const FxEventsCollectionSchema: {
    readonly [key in keyof IFxEventsCollection]: ISchemaDeclaration;
 } = {
@@ -1055,6 +1133,9 @@ export const FxEventsCollectionSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Waypoint`.
+ */
 export const WaypointSchema: {
    readonly [key in keyof IWaypoint]: ISchemaDeclaration;
 } = {
@@ -1089,6 +1170,9 @@ export const WaypointSchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Difficulty`.
+ */
 export const DifficultySchema: {
    readonly [key in keyof IDifficulty]: ISchemaDeclaration;
 } = {
@@ -1206,6 +1290,9 @@ export const DifficultySchema: {
    },
 } as const;
 
+/**
+ * Schema declaration for v3 `Lightshow`.
+ */
 export const LightshowSchema: {
    readonly [key in keyof ILightshow]: ISchemaDeclaration;
 } = {

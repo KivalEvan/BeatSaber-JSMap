@@ -9,10 +9,15 @@ export interface IHeckBase {
 
 /**
  * AssignPathAnimation interface for Heck Custom Event.
- * @extends Required<IHeckBase>
  */
 export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
+   /**
+    * **Type:** `f32`
+    */
    duration?: number;
+   /**
+    * **Type:** `i32`
+    */
    repeat?: number;
    easing?: Easings;
    position?: string | Vector3 | Vector3PointDefinition[];
@@ -23,7 +28,6 @@ export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
 
 /**
  * AssignPathAnimation interface for Heck Custom Event.
- * @extends Required<IHeckBase>
  */
 export interface IHeckCustomEventDataAssignPathAnimation extends Required<IHeckBase> {
    easing?: Easings;

@@ -3,6 +3,9 @@ import type { ICompatibilityOptions } from '../../../../types/beatmap/options/co
 import type { IWrapAudioData } from '../../../../types/beatmap/wrapper/audioData.ts';
 import { tag } from './_common.ts';
 
+/**
+ * Checks if beatmap audio data is compatible with v2 `AudioData` schema.
+ */
 export function compatAudioData(
    data: IWrapAudioData,
    options: ICompatibilityOptions,

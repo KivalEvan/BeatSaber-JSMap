@@ -7,6 +7,9 @@ import type { IEventBoxGroupContainer } from '../../../types/beatmap/container/v
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { IFxEventFloatBoxContainer } from '../../../types/beatmap/container/v4.ts';
 
+/**
+ * Schema serialization for v4 `FX Event Box Group`.
+ */
 export const fxEventBoxGroup: ISchemaContainer<
    IWrapFxEventBoxGroupAttribute,
    IEventBoxGroupContainer<IFxEventFloatBoxContainer>

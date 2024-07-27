@@ -8,6 +8,9 @@ import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
 import type { ICustomDataDifficulty } from './custom/difficulty.ts';
 import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
+/**
+ * Wrapper attribute for beatmap difficulty.
+ */
 export interface IWrapDifficultyAttribute extends IWrapBaseItemAttribute {
    bpmEvents: IWrapBPMEventAttribute[];
    rotationEvents: IWrapRotationEventAttribute[];
@@ -19,6 +22,9 @@ export interface IWrapDifficultyAttribute extends IWrapBaseItemAttribute {
    customData: ICustomDataDifficulty;
 }
 
+/**
+ * Wrapper for beatmap difficulty.
+ */
 export interface IWrapDifficulty
    extends Omit<IWrapBaseItem, 'customData'>, IWrapDifficultyAttribute {
    bpmEvents: IWrapBPMEvent[];

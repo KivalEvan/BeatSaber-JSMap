@@ -2,17 +2,22 @@ import type { NoteColor } from '../shared/constants.ts';
 import type { ICustomDataNote } from '../v3/custom/note.ts';
 import type { IGrid } from './grid.ts';
 
+/**
+ * Schema for v4 `Color Note`.
+ */
 export interface IColorNote extends IGrid {
    /**
-    * Color type `<int>` of note.
+    * Color type of note.
     * ```ts
     * 0 -> Red
     * 1 -> Blue
     * ```
+    *
+    * **Type:** {@linkcode NoteColor}
     */
    c?: NoteColor;
    /**
-    * Cut direction `<int>` of note.
+    * Cut direction of note.
     * ```ts
     * 4 | 0 | 5
     * 2 | 8 | 3
@@ -22,9 +27,15 @@ export interface IColorNote extends IGrid {
     * Grid represents cut direction from center.
     *
     * **WARNING:** Dot-directional is not recommended with arcs, assumes down-directional.
+    *
+    * **Type:** `i32`
     */
    d?: number;
-   /** Angle offset in degree counter-clockwise `<int>` of note.*/
+   /**
+    * Angle offset in degree counter-clockwise of note.
+    *
+    * **Type:** `i32`
+    */
    a?: number;
    customData?: ICustomDataNote;
 }

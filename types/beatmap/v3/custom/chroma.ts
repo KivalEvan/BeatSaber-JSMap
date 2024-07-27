@@ -115,8 +115,6 @@ export interface IChromaEnvironmentBase {
 
 /**
  * Chroma interface for Environment Enhancement ID.
- *
- * @extends IChromaEnvironmentBase
  */
 export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
    id: string;
@@ -126,8 +124,6 @@ export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
 
 /**
  * Chroma interface for Environment Enhancement Geometry.
- *
- * @extends IChromaEnvironmentBase
  */
 export interface IChromaEnvironmentGeometry extends IChromaEnvironmentBase {
    id?: never;

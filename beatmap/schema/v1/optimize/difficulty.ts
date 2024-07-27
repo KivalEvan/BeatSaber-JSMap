@@ -2,6 +2,9 @@ import { round } from '../../../../utils/math.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { IDifficulty } from '../../../../types/beatmap/v1/difficulty.ts';
 
+/**
+ * Optimize v1 `Difficulty` schema data.
+ */
 export function optimizeDifficulty(data: IDifficulty, options: IOptimizeOptions) {
    for (let i1 = 0; i1 < data._notes.length; i1++) {
       const o1 = data._notes[i1];

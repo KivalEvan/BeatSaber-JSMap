@@ -10,6 +10,9 @@ import { fxEventBoxGroup } from './fxEventBoxGroup.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
+/**
+ * Schema serialization for v3 `Lightshow`.
+ */
 export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
    serialize(data: IWrapBeatmapAttribute): ILightshow {
       const json: ILightshow = {

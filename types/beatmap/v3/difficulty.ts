@@ -17,6 +17,9 @@ import type { IBaseItem } from './baseItem.ts';
 import type { IFxEventBoxGroup } from './fxEventBoxGroup.ts';
 import type { IFxEventsCollection } from './fxEventsCollection.ts';
 
+/**
+ * Schema for v3 `Difficulty`.
+ */
 export interface IDifficulty extends IBaseItem {
    version?: `3.${0 | 1 | 2 | 3}.0`;
    bpmEvents?: IBPMEvent[];

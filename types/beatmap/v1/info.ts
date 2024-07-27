@@ -5,8 +5,11 @@ import type { DifficultyName, DifficultyRank } from '../shared/difficulty.ts';
 import type { EnvironmentName } from '../shared/environment.ts';
 import type { ICustomInfo, ICustomInfoDifficulty } from './custom/info.ts';
 
-export type GenericJSONFileName = `${DifficultyName}${CharacteristicName | ''}.json`;
+export type GenericJSONFilename = `${DifficultyName}${CharacteristicName | ''}.json`;
 
+/**
+ * Schema for v1 `Info`.
+ */
 export interface IInfo extends ICustomInfo {
    songName: string;
    songSubName: string;
@@ -22,10 +25,13 @@ export interface IInfo extends ICustomInfo {
 
 type DifficultyRankOld = 2 | 4 | 6 | 8 | 10;
 
+/**
+ * Schema for v1 `Info Difficulty`.
+ */
 export interface IInfoDifficulty extends ICustomInfoDifficulty {
    difficulty: DifficultyName;
    difficultyRank: DifficultyRankOld | DifficultyRank;
    audioPath: string;
-   jsonPath: LooseAutocomplete<GenericJSONFileName>;
+   jsonPath: LooseAutocomplete<GenericJSONFilename>;
    characteristic: CharacteristicName;
 }

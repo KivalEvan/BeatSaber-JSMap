@@ -1,4 +1,5 @@
-import type { IPath } from '../types/bsmap/_path.ts';
+import type { IShimsPath } from '../types/bsmap/shims.ts';
+export type { IShimsPath } from '../types/bsmap/shims.ts';
 import { basename, resolve } from 'node:path';
 
 function noPathFunctionProvided(): never {
@@ -17,7 +18,7 @@ function noPathFunctionProvided(): never {
  * you should provide `path` function inside the `path` object from the module.
  * If you are creating a web app, you may ignore this.
  */
-export const path: IPath = {
+export const path: IShimsPath = {
    resolve: resolve || noPathFunctionProvided,
    basename: basename || noPathFunctionProvided,
 };

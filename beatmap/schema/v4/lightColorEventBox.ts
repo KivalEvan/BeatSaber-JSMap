@@ -6,6 +6,9 @@ import { deepCopy } from '../../../utils/misc.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightColorEvent } from './lightColorEvent.ts';
 
+/**
+ * Schema serialization for v4 `Light Color Event Box`.
+ */
 export const lightColorEventBox: ISchemaContainer<
    IWrapLightColorEventBoxAttribute,
    ILightColorBoxContainer

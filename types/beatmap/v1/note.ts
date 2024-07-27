@@ -1,7 +1,9 @@
 import type { NoteColor } from '../shared/constants.ts';
 import type { IBaseObject } from './object.ts';
 
-/** Beatmap object interface for Note. */
+/**
+ * Schema for v1 `Note`.
+ */
 export interface INote extends IBaseObject {
    /**
     * Note placement on column.
@@ -11,6 +13,8 @@ export interface INote extends IBaseObject {
     * 2 -> Middle Right
     * 3 -> Outer Right
     * ```
+    *
+    * **Type:** `i32`
     */
    _lineIndex: number;
    /**
@@ -20,6 +24,8 @@ export interface INote extends IBaseObject {
     * 1 -> Middle row
     * 2 -> Top row
     * ```
+    *
+    * **Type:** `i32`
     */
    _lineLayer: number;
    /**
@@ -29,6 +35,8 @@ export interface INote extends IBaseObject {
     * 1 -> Blue note
     * 3 -> Bomb
     * ```
+    *
+    * **Type:** `i32`
     */
    _type: NoteColor | 3;
    /**
@@ -38,6 +46,8 @@ export interface INote extends IBaseObject {
     * 2 | 8 | 3
     * 6 | 1 | 7
     * ```
+    *
+    * **Type:** `i32`
     */
    _cutDirection: number;
 }

@@ -3,6 +3,9 @@ import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimiz
 import type { IInfo } from '../../../../types/beatmap/v4/info.ts';
 import { deepClean } from '../../../helpers/optimize.ts';
 
+/**
+ * Optimize v4 `Info` schema data.
+ */
 export function optimizeInfo(data: IInfo, options: IOptimizeOptions) {
    if (options.floatTrim) {
       data.audio.bpm = round(data.audio.bpm, options.floatTrim);

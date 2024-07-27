@@ -4,6 +4,9 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 import { EventLaneRotationValue, RotationValueEventValue } from '../../shared/constants.ts';
 
+/**
+ * Schema serialization for v2 `Rotation Event`.
+ */
 export const rotationEvent: ISchemaContainer<
    IWrapRotationEventAttribute,
    IEvent

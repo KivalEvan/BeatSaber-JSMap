@@ -2,9 +2,21 @@ import type { Vector3, Vector4 } from './vector.ts';
 
 /** Standard color object. */
 export interface IColor {
+   /**
+    * **Type:** `f32`
+    */
    r: number;
+   /**
+    * **Type:** `f32`
+    */
    g: number;
+   /**
+    * **Type:** `f32`
+    */
    b: number;
+   /**
+    * **Type:** `f32?`
+    */
    a?: number;
 }
 

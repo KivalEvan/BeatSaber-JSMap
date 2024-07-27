@@ -7,6 +7,9 @@ import type { IObject, IObjectArc, IObjectChain, IObjectLane } from './object.ts
 import type { IObstacle } from './obstacle.ts';
 import type { ISpawnRotation } from './spawnRotation.ts';
 
+/**
+ * Schema for v4 `Difficulty`.
+ */
 export interface IDifficulty extends IItem {
    version: '4.0.0';
    colorNotes: IObjectLane[];

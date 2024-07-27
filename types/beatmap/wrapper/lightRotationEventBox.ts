@@ -6,31 +6,49 @@ import type {
    IWrapLightRotationEventAttribute,
 } from './lightRotationEvent.ts';
 
+/**
+ * Wrapper attribute for beatmap light rotation event box.
+ */
 export interface IWrapLightRotationEventBoxAttribute extends IWrapEventBoxAttribute {
-   /** Rotation distribution `<float>` of light rotation event box. */
+   /**
+    * Rotation distribution of light rotation event box.
+    *
+    * **Type:** `f32`
+    */
    rotationDistribution: number;
    /**
-    * Rotation distribution type `<int>` of light rotation event box.
+    * Rotation distribution type of light rotation event box.
     * ```ts
     * 1 -> Wave // adds up to last ID.
     * 2 -> Step // adds to consequent ID.
     * ```
+    *
+    * **Type:** {@linkcode DistributionType}
     */
    rotationDistributionType: DistributionType;
    /**
-    * Axis `<int>` of light rotation event box.
+    * Axis of light rotation event box.
     * ```ts
     * 0 -> X
     * 1 -> Y
     * 2 -> Z
     * ```
+    *
+    * **Type:** {@linkcode Axis}
     */
    axis: Axis;
-   /** Flip rotation `<int>` in light rotation event box. */
+   /**
+    * Flip rotation in light rotation event box.
+    *
+    * **Type:** `i32`
+    */
    flip: 0 | 1;
    events: IWrapLightRotationEventAttribute[];
 }
 
+/**
+ * Wrapper for beatmap light rotation event box.
+ */
 export interface IWrapLightRotationEventBox
    extends IWrapEventBox, IWrapLightRotationEventBoxAttribute {
    events: IWrapLightRotationEvent[];

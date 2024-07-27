@@ -9,7 +9,6 @@ import type { ModRequirements, ModSuggestions } from '../../shared/modCheck.ts';
 
 /**
  * Custom Data interface for info.
- * @extends ICustomDataBase
  */
 export interface ICustomDataInfo extends ICustomDataBase {
    _editors?: IEditor;
@@ -18,6 +17,9 @@ export interface ICustomDataInfo extends ICustomDataBase {
    _customEnvironmentHash?: string;
 }
 
+/**
+ * Custom Data interface for info set.
+ */
 export interface ICustomDataInfoSet extends ICustomDataBase {
    _characteristicLabel?: string;
    _characteristicIconImageFilename?: string;
@@ -27,9 +29,6 @@ type IInfoSettings = IInfoSettingsCustomData & IHeckInfoCustomData & IChromaInfo
 
 /**
  * Custom Data interface for info difficulty.
- * @extends ICustomDataBase
- * @extends IColorScheme
- * @extends IInfoSettings
  */
 export interface ICustomDataInfoDifficulty extends ICustomDataBase, IColorScheme, IInfoSettings {
    _difficultyLabel?: string;

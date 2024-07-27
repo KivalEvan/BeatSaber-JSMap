@@ -10,6 +10,9 @@ import type {
 import { FxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 
+/**
+ * Schema serialization for v3 `FX Event Box Group`.
+ */
 export const fxEventBoxGroup: ISchemaContainer<
    IWrapFxEventBoxGroupAttribute,
    IEventBoxGroupContainer<IFxEventBox, IFxEventFloatBoxContainer>

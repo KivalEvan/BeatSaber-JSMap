@@ -4,6 +4,9 @@ import type { IWrapBasicEventTypesWithKeywordsAttribute } from '../../../types/b
 import type { DeepPartial } from '../../../types/utils.ts';
 import { basicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
 
+/**
+ * Schema serialization for v3 `Basic Event Types With Keywords`.
+ */
 export const basicEventTypesWithKeywords: ISchemaContainer<
    IWrapBasicEventTypesWithKeywordsAttribute,
    IBasicEventTypesWithKeywords

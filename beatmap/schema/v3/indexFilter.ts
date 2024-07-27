@@ -3,6 +3,9 @@ import type { IIndexFilter } from '../../../types/beatmap/v3/indexFilter.ts';
 import type { IWrapIndexFilterAttribute } from '../../../types/beatmap/wrapper/indexFilter.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v3 `Index Filter`.
+ */
 export const indexFilter: ISchemaContainer<IWrapIndexFilterAttribute, IIndexFilter> = {
    serialize(data: IWrapIndexFilterAttribute): Required<IIndexFilter> {
       return {

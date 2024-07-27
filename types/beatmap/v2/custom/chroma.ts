@@ -69,6 +69,8 @@ export interface IChromaEnvironmentBase {
     * Duplicate the object by set amount.
     *
     * **WARNING:** You should always duplicate only one at a time unless you know what you are doing.
+    *
+    * **Type:** `i32`
     */
    _duplicate?: number;
    _active?: boolean;
@@ -77,14 +79,16 @@ export interface IChromaEnvironmentBase {
    _rotation?: Vector3;
    _localPosition?: Vector3;
    _localRotation?: Vector3;
-   /** Assign light ID for duplicated object. */
+   /**
+    * Assign light ID for duplicated object.
+    *
+    * **Type:** `i32`
+    */
    _lightID?: number;
 }
 
 /**
  * Chroma interface for Environment Enhancement ID.
- *
- * @extends IChromaEnvironmentBase
  */
 export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
    _id: string;
@@ -94,8 +98,6 @@ export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
 
 /**
  * Chroma interface for Environment Enhancement Geometry.
- *
- * @extends IChromaEnvironmentBase
  */
 export interface IChromaEnvironmentGeometry extends IChromaEnvironmentBase {
    _id?: never;
@@ -151,20 +153,50 @@ export interface IChromaEventLaser extends ICustomDataBase {
 export interface IChromaEventRing extends ICustomDataBase {
    _nameFilter?: string;
    _reset?: boolean;
+   /**
+    * **Type:** `i32`
+    */
    _rotation?: number;
+   /**
+    * **Type:** `i32`
+    */
    _step?: number;
+   /**
+    * **Type:** `i32`
+    */
    _prop?: number;
+   /**
+    * **Type:** `i32`
+    */
    _speed?: number;
+   /**
+    * **Type:** `i32`
+    */
    _direction?: number;
    _counterSpin?: boolean;
+   /**
+    * **Type:** `f32`
+    */
    _stepMult?: number;
+   /**
+    * **Type:** `f32`
+    */
    _propMult?: number;
+   /**
+    * **Type:** `f32`
+    */
    _speedMult?: number;
 }
 
 /** Chroma interface for Beatmap Event Ring Zoom Custom Data. */
 export interface IChromaEventZoom extends ICustomDataBase {
+   /**
+    * **Type:** `i32`
+    */
    _step?: number;
+   /**
+    * **Type:** `i32`
+    */
    _speed?: number;
 }
 

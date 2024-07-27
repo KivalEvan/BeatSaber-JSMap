@@ -4,6 +4,9 @@ import type { IWrapFxEventFloatAttribute } from '../../../types/beatmap/wrapper/
 import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v4 `FX Event Float`.
+ */
 export const fxEventFloat: ISchemaContainer<IWrapFxEventFloatAttribute, IFxEventFloatContainer> = {
    serialize(data: IWrapFxEventFloatAttribute): IFxEventFloatContainer {
       return {

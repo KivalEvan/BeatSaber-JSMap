@@ -3,6 +3,9 @@ import type { ICompatibilityOptions } from '../../../../types/beatmap/options/co
 import type { IWrapInfo } from '../../../../types/beatmap/wrapper/info.ts';
 import { tag } from './_common.ts';
 
+/**
+ * Check if beatmap info is compatible with v4 `Info` schema.
+ */
 export function compatInfo(info: IWrapInfo, options: ICompatibilityOptions) {
    const hasIncompat = info.audio.shufflePeriod !== 0.5 ||
       info.audio.shuffle !== 0 ||

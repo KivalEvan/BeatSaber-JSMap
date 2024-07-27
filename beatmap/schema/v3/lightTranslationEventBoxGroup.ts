@@ -5,6 +5,9 @@ import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapLightTranslationEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 import { lightTranslationEventBox } from './lightTranslationEventBox.ts';
 
+/**
+ * Schema serialization for v3 `Light Translation Event Box Group`.
+ */
 export const lightTranslationEventBoxGroup: ISchemaContainer<
    IWrapLightTranslationEventBoxGroupAttribute,
    ILightTranslationEventBoxGroup

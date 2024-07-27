@@ -1,15 +1,23 @@
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 import type { ICloneable } from '../shared/cloneable.ts';
 
+/**
+ * Wrapper attribute for beatmap item.
+ */
 export interface IWrapBaseItemAttribute {
    /**
-    * Custom data `<object>` of beatmap object.
+    * Custom data of beatmap object.
     *
     * This has no type-safety for unsupported data.
+    *
+    * **Type:** `object`
     */
    customData: ICustomDataBase;
 }
 
+/**
+ * Wrapper for beatmap item.
+ */
 export interface IWrapBaseItem extends ICloneable, IWrapBaseItemAttribute {
    setCustomData(value: this['customData']): this;
    resetCustomData(): this;

@@ -2,9 +2,12 @@ import type { Vector2 } from '../../vector.ts';
 import type { GetPositionFn, MirrorFn } from '../shared/functions.ts';
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
+/**
+ * Wrapper attribute for beatmap grid object.
+ */
 export interface IWrapGridObjectAttribute extends IWrapBaseObjectAttribute {
    /**
-    * Position x `<int>` of base obj.
+    * Position X of base object.
     * ```ts
     * 0 -> Outer Left
     * 1 -> Middle Left
@@ -13,10 +16,12 @@ export interface IWrapGridObjectAttribute extends IWrapBaseObjectAttribute {
     * ```
     *
     * **RANGE:** `0-3`
+    *
+    * **Type:** `i32`
     */
    posX: number;
    /**
-    * Position y `<int>` of base obj.
+    * Position Y of base object.
     * ```ts
     * 0 -> Bottom row
     * 1 -> Middle row
@@ -24,11 +29,21 @@ export interface IWrapGridObjectAttribute extends IWrapBaseObjectAttribute {
     * ```
     *
     * **RANGE:** `0-2`
+    *
+    * **Type:** `i32`
     */
    posY: number;
+   /**
+    * Lane rotation of base object.
+    *
+    * **Type:** `f32`
+    */
    laneRotation: number;
 }
 
+/**
+ * Wrapper for beatmap grid object.
+ */
 export interface IWrapGridObject extends IWrapBaseObject, IWrapGridObjectAttribute {
    setPosX(value: number): this;
    setPosY(value: number): this;

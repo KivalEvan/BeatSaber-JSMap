@@ -2,21 +2,28 @@ import type { SliderMidAnchorMode } from '../shared/constants.ts';
 import type { IBaseSlider } from './baseSlider.ts';
 import type { ICustomDataSlider } from './custom/slider.ts';
 
+/**
+ * Schema for v3 `Arc`.
+ */
 export interface IArc extends IBaseSlider {
    /**
-    * Head control point length multiplier `<float>` of arc.
+    * Head control point length multiplier of arc.
     *
     * Offset curve point from origin to the head direction of arc.
+    *
+    * **Type:** `f32`
     */
    mu?: number;
    /**
-    * Tail control point length multiplier `<float>` of arc.
+    * Tail control point length multiplier of arc.
     *
     * Offset curve point to origin from the tail direction of arc.
+    *
+    * **Type:** `f32`
     */
    tmu?: number;
    /**
-    * Tail cut direction `<int>` of arc.
+    * Tail cut direction of arc.
     * ```ts
     * 4 | 0 | 5
     * 2 | 8 | 3
@@ -26,10 +33,12 @@ export interface IArc extends IBaseSlider {
     * Grid represents cut direction from center.
     *
     * **WARNING:** Dot-directional is not recommended, assumes down-directional.
+    *
+    * **Type:** `i32`
     */
    tc?: number;
    /**
-    * Mid anchor mode `<int>` of arc.
+    * Mid anchor mode of arc.
     * ```ts
     * 0 -> Straight
     * 1 -> Clockwise
@@ -37,6 +46,8 @@ export interface IArc extends IBaseSlider {
     * ```
     *
     * **NOTE:** The visual will only be applied under specific condition.
+    *
+    * **Type:** {@linkcode SliderMidAnchorMode}
     */
    m?: SliderMidAnchorMode;
    customData?: ICustomDataSlider;

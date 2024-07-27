@@ -4,6 +4,9 @@ import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bomb
 import type { IBombNoteContainer } from '../../../types/beatmap/container/v4.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 
+/**
+ * Schema serialization for v4 `Bomb Note`.
+ */
 export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, IBombNoteContainer> = {
    serialize(data: IWrapBombNoteAttribute): Required<IBombNoteContainer> {
       return {

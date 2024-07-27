@@ -3,6 +3,9 @@ import type { ILightTranslationEvent } from '../../../types/beatmap/v3/lightTran
 import type { IWrapLightTranslationEventAttribute } from '../../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 
+/**
+ * Schema serialization for v3 `Light Translation Event`.
+ */
 export const lightTranslationEvent: ISchemaContainer<
    IWrapLightTranslationEventAttribute,
    ILightTranslationEvent

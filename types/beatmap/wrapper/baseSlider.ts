@@ -2,11 +2,18 @@ import type { Vector2 } from '../../vector.ts';
 import type { GetPositionFn, MirrorFn } from '../shared/functions.ts';
 import type { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
 
+/**
+ * Wrapper attribute for beatmap base slider.
+ */
 export interface IWrapBaseSliderAttribute extends IWrapBaseNoteAttribute {
-   /** Tail beat time `<float>` of base arc. */
+   /**
+    * Tail beat time of base slider.
+    *
+    * **Type:** `f32`
+    */
    tailTime: number;
    /**
-    * Tail position x `<int>` of base arc.
+    * Tail position X of base slider.
     * ```ts
     * 0 -> Outer Left
     * 1 -> Middle Left
@@ -15,10 +22,12 @@ export interface IWrapBaseSliderAttribute extends IWrapBaseNoteAttribute {
     * ```
     *
     * **RANGE:** `none`
+    *
+    * **Type:** `i32`
     */
    tailPosX: number;
    /**
-    * Tail position y `<int>` of base arc.
+    * Tail position Y of base slider.
     * ```ts
     * 0 -> Bottom row
     * 1 -> Middle row
@@ -26,12 +35,21 @@ export interface IWrapBaseSliderAttribute extends IWrapBaseNoteAttribute {
     * ```
     *
     * **RANGE:** `0-2`
+    *
+    * **Type:** `i32`
     */
    tailPosY: number;
-   /** V4 features only. */
+   /**
+    * Tail lane rotation of base slider.
+    *
+    * **Type:** `f32`
+    */
    tailLaneRotation: number;
 }
 
+/**
+ * Wrapper for beatmap base slider.
+ */
 export interface IWrapBaseSlider extends IWrapBaseNote, IWrapBaseSliderAttribute {
    setDirection(value: number): this;
    setTailTime(value: number): this;

@@ -44,6 +44,9 @@ function fixColorObject(val: unknown, req?: boolean) {
    return req ? { r: 0, g: 0, b: 0, a: 1 } : { r: 0, g: 0, b: 0 };
 }
 
+/**
+ * Verifies and corrects data type for beatmap info.
+ */
 export function info(data: IWrapInfo): void {
    logger.tInfo(
       ['patch', 'dataCorrection', 'info'],

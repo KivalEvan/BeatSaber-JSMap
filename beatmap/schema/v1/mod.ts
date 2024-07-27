@@ -1,3 +1,9 @@
+/**
+ * Schema implementation for beatmap v1.
+ *
+ * @module
+ */
+
 export * from './compat/mod.ts';
 export * from './optimize/mod.ts';
 export * from './basicEvent.ts';

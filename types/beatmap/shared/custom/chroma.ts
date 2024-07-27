@@ -1,5 +1,16 @@
-export type LookupMethod = 'Regex' | 'Exact' | 'Contains' | 'StartsWith' | 'EndsWith';
+/**
+ * Available lookup methods.
+ */
+export type LookupMethod =
+   | 'Regex'
+   | 'Exact'
+   | 'Contains'
+   | 'StartsWith'
+   | 'EndsWith';
 
+/**
+ * Available geometry types.
+ */
 export type GeometryType =
    | 'Sphere'
    | 'Capsule'
@@ -9,6 +20,9 @@ export type GeometryType =
    | 'Quad'
    | 'Triangle';
 
+/**
+ * Available shader types.
+ */
 export type ShaderType =
    | 'Standard'
    | 'OpaqueLight'
@@ -21,7 +35,9 @@ export type ShaderType =
    | 'Obstacle'
    | 'WaterfallMirror';
 
-/** Default shader keywords used in standard. */
+/**
+ * Default shader keywords used in standard.
+ */
 export type ShaderKeywordsStandard =
    | 'DIFFUSE'
    | 'ENABLE_DIFFUSE'
@@ -45,7 +61,9 @@ export type ShaderKeywordsStandard =
    | 'WHITEBOOSTTYPE_NONE'
    | 'ZWRITE_ON';
 
-/** Default shader keywords used in opaque light. */
+/**
+ * Default shader keywords used in opaque light.
+ */
 export type ShaderKeywordsOpaque =
    | 'DIFFUSE'
    | 'ENABLE_BLUE_NOISE'
@@ -54,13 +72,17 @@ export type ShaderKeywordsOpaque =
    | 'ENABLE_LIGHTNING'
    | 'USE_COLOR_FOG';
 
-/** Default shader keywords used in transparent light. */
+/**
+ * Default shader keywords used in transparent light.
+ */
 export type ShaderKeywordsTransparent =
    | 'ENABLE_HEIGHT_FOG'
    | 'MULTIPLY_COLOR_WITH_ALPHA'
    | '_ENABLE_MAIN_EFFECT_WHITE_BOOST';
 
-/** Shader keywords used in base water. */
+/**
+ * Shader keywords used in base water.
+ */
 export type ShaderKeywordsBaseWater =
    | 'FOG'
    | 'HEIGHT_FOG'
@@ -80,18 +102,27 @@ export type ShaderKeywordsBaseWater =
    | '_WHITEBOOSTTYPE_NONE'
    | '_ZWRITE_ON';
 
+/**
+ * Available shader keywords.
+ */
 export type ShaderKeywords =
    | ShaderKeywordsStandard
    | ShaderKeywordsOpaque
    | ShaderKeywordsTransparent
    | ShaderKeywordsBaseWater;
 
+/**
+ * Available environment materials.
+ */
 export type EnvironmentMaterial =
    | 'BTSPillar'
    | 'BillieWater'
    | 'InterscopeConcrete'
    | 'InterscopeCar';
 
+/**
+ * Available base modifiers for point definitions.
+ */
 export type BaseModifierChroma =
    | 'baseNote0Color'
    | 'baseNote1Color'

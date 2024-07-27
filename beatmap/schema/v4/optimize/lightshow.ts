@@ -4,6 +4,9 @@ import type { ILightshow } from '../../../../types/beatmap/v4/lightshow.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { EventBoxType } from '../../../shared/constants.ts';
 
+/**
+ * Optimize v4 `Lightshow` schema data.
+ */
 export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
    if (options.deduplicate) {
       const [newBasicEventsData, remapBasicEventsIdx] = remapDedupe(

@@ -14,6 +14,9 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 
+/**
+ * Schema serialization for v2 `Info`.
+ */
 export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
    serialize(data: IWrapInfoAttribute): IInfo {
       const authorSet = new Set();

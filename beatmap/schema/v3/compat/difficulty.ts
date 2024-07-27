@@ -10,6 +10,9 @@ import { tag } from './_common.ts';
 import { hasMappingExtensionsArc } from '../../../helpers/modded/has.ts';
 import { hasMappingExtensionsChain } from '../../../helpers/modded/has.ts';
 
+/**
+ * Checks if beatmap data is compatible with v3 `Difficulty` schema.
+ */
 export function compatDifficulty(
    bm: IWrapBeatmap,
    options: ICompatibilityOptions,

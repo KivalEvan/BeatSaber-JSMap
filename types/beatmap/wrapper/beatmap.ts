@@ -30,6 +30,9 @@ import type { GenericFilename } from '../shared/filename.ts';
 import type { IWrapBaseItemAttribute } from './baseItem.ts';
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 
+/**
+ * Wrapper attribute for beatmap data.
+ */
 export interface IWrapBeatmapAttribute extends IWrapBaseItemAttribute, IWrapBaseFileAttribute {
    difficulty: IWrapDifficultyAttribute;
    lightshow: IWrapLightshowAttribute;
@@ -40,13 +43,14 @@ export interface IWrapBeatmapAttribute extends IWrapBaseItemAttribute, IWrapBase
    /**
     * This custom data does not contain the actual custom data from difficulty file, rather an arbitrary placement.
     *
-    * If you need to handle custom data from actual beatmap, use `customData` inside `data` instead.
-    *
-    * @deprecated this is used as a warning, unless you know what you are doing.
+    * @deprecated If you need to handle custom data from actual beatmap, use `customData` inside `difficulty` or `lightshow` instead.
     */
    customData: ICustomDataBase;
 }
 
+/**
+ * Wrapper for beatmap data.
+ */
 export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {
    difficulty: IWrapDifficulty;
    lightshow: IWrapLightshow;
@@ -92,9 +96,7 @@ export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {
    /**
     * This custom data does not contain the actual custom data from difficulty file, rather an arbitrary placement.
     *
-    * If you need to handle custom data from actual beatmap, use `customData` inside `data` instead.
-    *
-    * @deprecated this is used as a warning, unless you know what you are doing.
+    * @deprecated If you need to handle custom data from actual beatmap, use `customData` inside `difficulty` or `lightshow` instead.
     */
    customData: ICustomDataBase;
 }

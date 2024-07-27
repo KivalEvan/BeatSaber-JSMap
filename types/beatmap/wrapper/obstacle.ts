@@ -2,17 +2,24 @@ import type { GetPositionFn } from '../shared/functions.ts';
 import type { ICustomDataObstacle } from './custom/obstacle.ts';
 import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
+/**
+ * Wrapper attribute for beatmap obstacle.
+ */
 export interface IWrapObstacleAttribute extends IWrapGridObjectAttribute {
-   /** Duration `<float>` of obstacle.*/
+   /**
+    * Duration of obstacle.
+    *
+    * **Type:** `f32`
+    */
    duration: number;
    /**
-    * Width `<int>` of obstacle.
+    * Width of obstacle.
     *
-    * **RANGE:** `none`
+    * **Type:** `f32`
     */
    width: number;
    /**
-    * Height `<int>` of obstacle.
+    * Height of obstacle.
     * ```ts
     * 1 -> Short
     * 2 -> Moderate
@@ -22,11 +29,16 @@ export interface IWrapObstacleAttribute extends IWrapGridObjectAttribute {
     * ```
     *
     * **RANGE:** `1-5`
+    *
+    * **Type:** `i32`
     */
    height: number;
    customData: ICustomDataObstacle;
 }
 
+/**
+ * Wrapper for beatmap obstacle.
+ */
 export interface IWrapObstacle extends Omit<IWrapGridObject, 'customData'>, IWrapObstacleAttribute {
    setCustomData(object: this['customData']): this;
    addCustomData(object: this['customData']): this;

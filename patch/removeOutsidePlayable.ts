@@ -11,12 +11,15 @@ let duration = 0;
 const filterTime = <T extends IWrapBaseObject>(obj: T) =>
    duration ? !(obj.time < 0 || obj.time > duration) : !(obj.time < 0);
 
+/**
+ * Removes outside playable objects from beatmap given duration (seconds).
+ */
 export function removeOutsidePlayable(
    data: IWrapBeatmap,
-   bpm: TimeProcessor,
+   timeProc: TimeProcessor,
    audioLength: number,
 ) {
-   duration = bpm.toBeatTime(audioLength, true);
+   duration = timeProc.toBeatTime(audioLength, true);
    logger.tDebug(tag(), 'Removing outside playable BPM events');
    data.bpmEvents = data.bpmEvents.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable rotation events');

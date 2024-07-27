@@ -22,6 +22,9 @@ import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEv
 import type { ICustomDataDifficulty } from './custom/difficulty.ts';
 import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
+/**
+ * Wrapper attribute for beatmap lightshow.
+ */
 export interface IWrapLightshowAttribute extends IWrapBaseItemAttribute {
    waypoints: IWrapWaypointAttribute[];
    basicEvents: IWrapBasicEventAttribute[];
@@ -35,6 +38,9 @@ export interface IWrapLightshowAttribute extends IWrapBaseItemAttribute {
    customData: ICustomDataDifficulty;
 }
 
+/**
+ * Wrapper for beatmap lightshow.
+ */
 export interface IWrapLightshow extends Omit<IWrapBaseItem, 'customData'>, IWrapLightshowAttribute {
    waypoints: IWrapWaypoint[];
    basicEvents: IWrapBasicEvent[];
