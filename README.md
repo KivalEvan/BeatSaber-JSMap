@@ -32,12 +32,11 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 
 ## Prerequisite
 
-- Any **ESM** and **TypeScript** supported runtime or transpiler
-  - **Deno** 1.45.2
-  - **Bun** 1.1.19
-  - **Node.js** 20.15.1
-  - **TSC** 5.5.2
-  - ... or latest
+- Any **TypeScript** supported runtime/transpiler
+  - **Deno**
+  - **Bun**
+  - **Node.js**
+  - **Vite**
 - Basic JavaScript or TypeScript knowledge
   - Module is entirely TypeScript, but for common use case you do not need an in-depth knowledge.
 
@@ -46,9 +45,12 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 Before you start, you may want to understand how Beat Saber stores the
 [beatmap data here](./BEATMAP.md).
 
+You may get this package from [NPM](https://www.npmjs.com/package/bsmap) or
+[JSR](https://jsr.io/@kvl/bsmap) using respective package manager.
+
 To get scripting, simply create a `.ts` file anywhere, preferably inside map folder for simpler
-setup, import the module and arbitrary code, then run the script. That's it, no installation needed.
-Do check out the [the guide](./GUIDE.md) for usage detail.
+setup, import module via module specifier or package manager, and then run the script. That's it. Do
+check out the [the guide](./GUIDE.md) for usage detail.
 
 The bare minimum example:
 
@@ -58,7 +60,7 @@ The bare minimum example:
 import * as bsmap from 'jsr:@kvl/bsmap'; // remove `jsr:` prefix if using `deno add` command
 
 // for anything else:
-import * as bsmap from 'bsmap'; // via NPM or import map
+import * as bsmap from 'bsmap'; // via NPM, Bun or import map
 
 // for CJS:
 const bsmap = require('bsmap');

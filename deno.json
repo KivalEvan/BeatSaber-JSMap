@@ -2,23 +2,16 @@
    "name": "@kvl/bsmap",
    "version": "2.1.0",
    "exports": {
-      ".": "./mod.ts",
-      "./types": "./types/mod.ts",
-      "./utils": "./utils/mod.ts",
-      "./beatmap/mapping": "./beatmap/mapping/mod.ts",
-      "./extensions": "./extensions/mod.ts",
-      "./patch": "./patch/mod.ts",
-      "./shims": "./shims/mod.ts"
+      ".": "./src/mod.ts",
+      "./types": "./src/types/mod.ts",
+      "./utils": "./src/utils/mod.ts",
+      "./beatmap/mapping": "./src/beatmap/mapping/mod.ts",
+      "./extensions": "./src/extensions/mod.ts",
+      "./patch": "./src/patch/mod.ts",
+      "./shims": "./src/shims/mod.ts"
    },
    "publish": {
-      "exclude": [
-         ".git",
-         ".github",
-         "dnt.ts",
-         "npm",
-         "coverage",
-         "tests"
-      ]
+      "exclude": [".git", ".github", "dnt.ts", "npm", "coverage", "tests"]
    },
    "exclude": [".git", "npm", "coverage"],
    "lock": false,
@@ -29,7 +22,14 @@
    },
    "tasks": {
       "npm": "deno run -A ./dnt.ts",
-      "check": "deno check mod.ts && deno check extensions/mod.ts && deno check patch/mod.ts",
+      "check:main": "deno check src/mod.ts",
+      "check:types": "deno check src/types/mod.ts",
+      "check:utils": "deno check src/utils/mod.ts",
+      "check:mapping": "deno check src/beatmap/mapping/mod.ts",
+      "check:extensions": "deno check src/extensions/mod.ts",
+      "check:patch": "deno check src/patch/mod.ts",
+      "check:shims": "deno check src/shims/mod.ts",
+      "check": "deno task check:main && deno task check:types && deno task check:utils && deno task check:mapping && deno task check:extensions && deno task check:patch && deno task check:shims",
       "test": "deno task test:clean || true && deno task test:run && deno task test:coverage",
       "test:coverage": "deno coverage --html",
       "test:run": "deno test --parallel --allow-read --coverage tests/",

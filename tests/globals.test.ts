@@ -1,6 +1,5 @@
-import { path } from '../shims/path.ts';
-import { globals } from '../globals.ts';
-import { assertEquals } from './deps.ts';
+import { path } from '../src/shims/path.ts';
+import { assertEquals, globals } from './deps.ts';
 
 Deno.test('Set global directory', () => {
    globals.directory = '';

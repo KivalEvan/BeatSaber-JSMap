@@ -1,6 +1,5 @@
-import { EasingsFn } from '../../utils/easings.ts';
 import { EPSILON } from '../constants.ts';
-import { assert, assertAlmostEquals, assertEquals } from '../deps.ts';
+import { assert, assertAlmostEquals, assertEquals, EasingsFn } from '../deps.ts';
 
 Deno.test('Easing Linear', () => {
    assertEquals(EasingsFn.easeLinear(0), 0);

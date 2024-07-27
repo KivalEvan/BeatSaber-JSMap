@@ -1,9 +1,10 @@
-import { readFromInfo, readFromInfoSync } from '../read/fromInfo.ts';
 import { assertObjectMatch } from './assert.ts';
 import {
    assertEquals,
    readDifficultyFile,
    readDifficultyFileSync,
+   readFromInfo,
+   readFromInfoSync,
    readInfoFile,
    readInfoFileSync,
    saveDifficulty,

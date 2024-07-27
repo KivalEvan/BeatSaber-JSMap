@@ -1,5 +1,4 @@
-import { Logger, logger } from '../logger.ts';
-import { assertEquals } from './deps.ts';
+import { assertEquals, Logger, logger } from './deps.ts';
 
 Deno.test('Set log level via accessor', () => {
    logger.logLevel = 0;

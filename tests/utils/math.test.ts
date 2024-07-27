@@ -1,4 +1,4 @@
-import * as math from '../../utils/math.ts';
+import * as math from '../../src/utils/math.ts';
 import { EPSILON } from '../constants.ts';
 import { assert, assertAlmostEquals, assertEquals } from '../deps.ts';
 

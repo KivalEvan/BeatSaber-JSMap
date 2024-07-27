@@ -1,4 +1,4 @@
-import * as vector from '../../utils/vector.ts';
+import * as vector from '../../src/utils/vector.ts';
 import { assert, assertEquals } from '../deps.ts';
 
 Deno.test('Is Vector 2', () => {

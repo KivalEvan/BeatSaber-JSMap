@@ -14,6 +14,7 @@
 - Renamed function in `time` utils for clarification
 - Renamed data check to schema declaration
 - Updated color scheme
+- Moved source files to `src`
 
 ### Fixed
 

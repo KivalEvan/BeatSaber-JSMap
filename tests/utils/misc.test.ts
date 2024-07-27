@@ -1,5 +1,5 @@
-import * as misc from '../../utils/misc.ts';
-import * as math from '../../utils/math.ts';
+import * as misc from '../../src/utils/misc.ts';
+import * as math from '../../src/utils/math.ts';
 import { assert, assertEquals } from '../deps.ts';
 
 Deno.test('Shuffle', () => {
