@@ -22,6 +22,9 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapColorNoteAttribute> = {}): ColorNote {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapColorNoteAttribute>[]): ColorNote[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

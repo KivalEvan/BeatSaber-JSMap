@@ -17,6 +17,9 @@ export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapFxEventFloatAttribute> = {}): FxEventFloat {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapFxEventFloatAttribute>[]): FxEventFloat[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

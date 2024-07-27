@@ -36,6 +36,9 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapFxEventBoxAttribute> = {}): FxEventBox {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapFxEventBoxAttribute>[]): FxEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

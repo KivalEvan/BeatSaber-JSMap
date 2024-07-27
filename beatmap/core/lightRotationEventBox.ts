@@ -38,6 +38,11 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
       customData: {},
    };
 
+   static createOne(
+      data: Partial<IWrapLightRotationEventBoxAttribute> = {},
+   ): LightRotationEventBox {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapLightRotationEventBoxAttribute>[]): LightRotationEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

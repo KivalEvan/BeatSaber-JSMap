@@ -61,6 +61,9 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapLightshowAttribute> = {}): Lightshow {
+      return new this(data);
+   }
    static create(
       ...data: DeepPartialIgnore<IWrapLightshowAttribute, 'customData'>[]
    ): Lightshow[] {

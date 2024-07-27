@@ -38,6 +38,11 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
       customData: {},
    };
 
+   static createOne(
+      data: Partial<IWrapLightTranslationEventBoxAttribute> = {},
+   ): LightTranslationEventBox {
+      return new this(data);
+   }
    static create(
       ...data: Partial<IWrapLightTranslationEventBoxAttribute>[]
    ): LightTranslationEventBox[] {

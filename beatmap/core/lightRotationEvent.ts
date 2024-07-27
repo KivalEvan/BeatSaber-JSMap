@@ -19,6 +19,9 @@ export class LightRotationEvent extends BaseObject implements IWrapLightRotation
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapLightRotationEventAttribute> = {}): LightRotationEvent {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapLightRotationEventAttribute>[]): LightRotationEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

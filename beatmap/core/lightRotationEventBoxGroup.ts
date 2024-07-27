@@ -20,6 +20,11 @@ export class LightRotationEventBoxGroup extends EventBoxGroup
       customData: {},
    };
 
+   static createOne(
+      data: Partial<IWrapLightRotationEventBoxGroupAttribute> = {},
+   ): LightRotationEventBoxGroup {
+      return new this(data);
+   }
    static create(
       ...data: DeepPartialIgnore<IWrapLightRotationEventBoxGroupAttribute, 'customData'>[]
    ): LightRotationEventBoxGroup[] {

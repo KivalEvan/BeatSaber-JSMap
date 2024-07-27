@@ -30,6 +30,9 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapInfoBeatmapAttribute> = {}): InfoBeatmap {
+      return new this(data);
+   }
    static create(
       ...data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>[]
    ): InfoBeatmap[] {

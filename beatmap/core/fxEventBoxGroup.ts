@@ -19,6 +19,11 @@ export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGro
       customData: {},
    };
 
+   static createOne(
+      data: DeepPartialIgnore<IWrapFxEventBoxGroupAttribute, 'customData'> = {},
+   ): FxEventBoxGroup {
+      return new this(data);
+   }
    static create(
       ...data: DeepPartialIgnore<IWrapFxEventBoxGroupAttribute, 'customData'>[]
    ): FxEventBoxGroup[] {

@@ -21,6 +21,9 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapLightColorEventAttribute> = {}): LightColorEvent {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapLightColorEventAttribute>[]): LightColorEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

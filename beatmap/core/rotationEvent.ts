@@ -16,6 +16,9 @@ export class RotationEvent extends BaseObject implements IWrapRotationEvent {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapRotationEventAttribute> = {}): RotationEvent {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapRotationEventAttribute>[]): RotationEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

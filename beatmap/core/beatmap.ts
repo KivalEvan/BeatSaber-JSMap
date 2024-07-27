@@ -100,6 +100,9 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       },
    };
 
+   static createOne(data: Partial<IWrapBeatmapAttribute> = {}): Beatmap {
+      return new this(data);
+   }
    static create(...data: DeepPartialIgnore<IWrapBeatmapAttribute, 'customData'>[]): Beatmap[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

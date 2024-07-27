@@ -23,6 +23,11 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
       customData: {},
    };
 
+   static createOne(
+      data: Partial<IWrapIndexFilterAttribute> = {},
+   ): IndexFilter {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapIndexFilterAttribute>[]): IndexFilter[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
@@ -37,7 +42,9 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
       this.seed = data.seed ?? IndexFilter.defaultValue.seed;
       this.limit = data.limit ?? IndexFilter.defaultValue.limit;
       this.limitAffectsType = data.limitAffectsType ?? IndexFilter.defaultValue.limitAffectsType;
-      this.customData = deepCopy(data.customData ?? IndexFilter.defaultValue.customData);
+      this.customData = deepCopy(
+         data.customData ?? IndexFilter.defaultValue.customData,
+      );
    }
 
    type: IWrapIndexFilter['type'];

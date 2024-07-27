@@ -16,6 +16,9 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapFxEventIntAttribute> = {}): FxEventInt {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapFxEventIntAttribute>[]): FxEventInt[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

@@ -22,6 +22,9 @@ export class Chain extends BaseSlider implements IWrapChain {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapChainAttribute> = {}): Chain {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapChainAttribute>[]): Chain[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

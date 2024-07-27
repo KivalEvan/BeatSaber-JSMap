@@ -27,6 +27,9 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapAudioDataAttribute> = {}): AudioData {
+      return new this(data);
+   }
    static create(...data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'>[]): AudioData[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

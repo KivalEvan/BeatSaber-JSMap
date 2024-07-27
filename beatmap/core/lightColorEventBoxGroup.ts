@@ -19,6 +19,11 @@ export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLight
       customData: {},
    };
 
+   static createOne(
+      data: Partial<IWrapLightColorEventBoxGroupAttribute> = {},
+   ): LightColorEventBoxGroup {
+      return new this(data);
+   }
    static create(
       ...data: DeepPartialIgnore<IWrapLightColorEventBoxGroupAttribute, 'customData'>[]
    ): LightColorEventBoxGroup[] {

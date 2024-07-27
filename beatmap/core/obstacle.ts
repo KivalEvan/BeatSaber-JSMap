@@ -23,6 +23,9 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapObstacleAttribute> = {}): Obstacle {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapObstacleAttribute>[]): Obstacle[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

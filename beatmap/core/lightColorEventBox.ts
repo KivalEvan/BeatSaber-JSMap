@@ -36,6 +36,9 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapLightColorEventBoxAttribute> = {}): LightColorEventBox {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapLightColorEventBoxAttribute>[]): LightColorEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

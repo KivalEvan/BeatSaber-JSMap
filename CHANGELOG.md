@@ -4,6 +4,8 @@
 
 ### Added
 
+- Static method `createOne` for beatmap core
+  - As opposed to `create`, this returns instance instead of array of instance.
 - Several JSDocs written
 
 ### Changed

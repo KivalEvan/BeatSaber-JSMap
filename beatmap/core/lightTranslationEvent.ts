@@ -17,6 +17,11 @@ export class LightTranslationEvent extends BaseObject implements IWrapLightTrans
       customData: {},
    };
 
+   static createOne(
+      data: Partial<IWrapLightTranslationEventAttribute> = {},
+   ): LightTranslationEvent {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapLightTranslationEventAttribute>[]): LightTranslationEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

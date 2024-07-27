@@ -19,6 +19,9 @@ export class BombNote extends BaseNote implements IWrapBombNote {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapBombNoteAttribute> = {}): BombNote {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapBombNoteAttribute>[]): BombNote[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

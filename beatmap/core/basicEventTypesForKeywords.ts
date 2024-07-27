@@ -17,6 +17,11 @@ export class BasicEventTypesForKeywords extends BaseItem
       customData: {},
    };
 
+   static createOne(
+      data: Partial<IWrapBasicEventTypesForKeywordsAttribute> = {},
+   ): BasicEventTypesForKeywords {
+      return new this(data);
+   }
    static create(
       ...data: Partial<IWrapBasicEventTypesForKeywordsAttribute>[]
    ): BasicEventTypesForKeywords[] {

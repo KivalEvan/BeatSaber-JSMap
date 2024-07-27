@@ -15,6 +15,9 @@ export class ColorBoostEvent extends BaseObject implements IWrapColorBoostEvent 
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapColorBoostEventAttribute> = {}): ColorBoostEvent {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapColorBoostEventAttribute>[]): ColorBoostEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

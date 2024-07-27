@@ -18,6 +18,10 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
       floatValue: 0,
       customData: {},
    };
+
+   static createOne(data: Partial<IWrapBasicEventAttribute> = {}): BasicEvent {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapBasicEventAttribute>[]): BasicEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

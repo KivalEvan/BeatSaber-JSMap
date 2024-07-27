@@ -15,6 +15,9 @@ export class BPMEvent extends BaseObject implements IWrapBPMEvent {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapBPMEventAttribute> = {}): BPMEvent {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapBPMEventAttribute>[]): BPMEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

@@ -20,6 +20,9 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapWaypointAttribute> = {}): Waypoint {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapWaypointAttribute>[]): Waypoint[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }

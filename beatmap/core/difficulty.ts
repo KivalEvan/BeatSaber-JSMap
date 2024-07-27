@@ -51,6 +51,9 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapDifficultyAttribute> = {}): Difficulty {
+      return new this(data);
+   }
    static create(
       ...data: DeepPartialIgnore<IWrapDifficultyAttribute, 'customData'>[]
    ): Difficulty[] {

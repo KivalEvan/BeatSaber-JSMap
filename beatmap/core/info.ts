@@ -58,6 +58,9 @@ export class Info extends BaseItem implements IWrapInfo {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapInfoAttribute> = {}): Info {
+      return new this(data);
+   }
    static create(
       ...data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'>[]
    ): Info[] {

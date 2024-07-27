@@ -26,6 +26,9 @@ export class Arc extends BaseSlider implements IWrapArc {
       customData: {},
    };
 
+   static createOne(data: Partial<IWrapArcAttribute> = {}): Arc {
+      return new this(data);
+   }
    static create(...data: Partial<IWrapArcAttribute>[]): Arc[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
