@@ -5,7 +5,15 @@ function tag(name: string): string[] {
    return ['convert', 'toV4Audio', name];
 }
 
-export function toV4Audio(data: IWrapAudioData, fromVersion: number): IWrapAudioData {
+/**
+ * Convert to beatmap v4.
+ * ```ts
+ * const converted = toV4Audio(data);
+ * ```
+ *
+ * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
+ */
+export function toV4AudioData(data: IWrapAudioData, fromVersion = data.version): IWrapAudioData {
    logger.tWarn(tag('main'), 'Converting to beatmap v4 may lose certain data!');
 
    switch (fromVersion) {

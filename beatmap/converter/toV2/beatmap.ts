@@ -14,16 +14,16 @@ function tag(name: string): string[] {
 }
 
 /**
- * In case you need to go back for rankability or something.
+ * Convert to beatmap v2.
  * ```ts
- * const converted = convert.toV2Beatmap(data);
+ * const converted = toV2Beatmap(data);
  * ```
  *
  * **WARNING:** Chain and other new stuff will be gone!
  */
 export function toV2Beatmap(
    data: IWrapBeatmap,
-   fromVersion: number,
+   fromVersion = data.version,
 ): IWrapBeatmap {
    logger.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
 

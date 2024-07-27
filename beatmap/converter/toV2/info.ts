@@ -10,7 +10,15 @@ function tag(name: string): string[] {
    return ['convert', 'toV2Info', name];
 }
 
-export function toV2Info(data: IWrapInfo, fromVersion: number): IWrapInfo {
+/**
+ * Convert to beatmap v2.
+ * ```ts
+ * const converted = toV2Info(data);
+ * ```
+ *
+ * **WARNING:** Chain and other new stuff will be gone!
+ */
+export function toV2Info(data: IWrapInfo, fromVersion = data.version): IWrapInfo {
    logger.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
 
    switch (fromVersion) {

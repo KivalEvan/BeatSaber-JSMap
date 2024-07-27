@@ -7,7 +7,18 @@ function tag(name: string): string[] {
    return ['convert', 'toV1Info', name];
 }
 
-export function toV1Info(data: IWrapInfo, fromVersion: number): IWrapInfo {
+/**
+ * Feeling nostalgic?
+ * ```ts
+ * const converted = toV1Info(data);
+ * ```
+ *
+ * **WARNING:** Guess you should know this legacy version does not have modern features.
+ */
+export function toV1Info(
+   data: IWrapInfo,
+   fromVersion = data.version,
+): IWrapInfo {
    logger.tWarn(tag('main'), 'Converting to beatmap v1 may lose certain data!');
 
    switch (fromVersion) {

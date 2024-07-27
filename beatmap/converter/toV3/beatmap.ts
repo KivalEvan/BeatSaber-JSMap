@@ -18,16 +18,16 @@ function tag(name: string): string[] {
 }
 
 /**
- * Convert beatmap to beatmap v3, you are encouraged to convert to make full use of new beatmap features.
+ * Convert beatmap to beatmap v3.
  * ```ts
- * const converted = convert.toV3Beatmap(data);
+ * const converted = toV3Beatmap(data);
  * ```
  *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
 export function toV3Beatmap(
    data: IWrapBeatmap,
-   fromVersion: number,
+   fromVersion = data.version,
 ): IWrapBeatmap {
    logger.tWarn(tag('main'), 'Converting to beatmap v3 may lose certain data!');
 

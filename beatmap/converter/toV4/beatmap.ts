@@ -9,9 +9,17 @@ function tag(name: string): string[] {
    return ['convert', 'toV4Beatmap', name];
 }
 
+/**
+ * Convert to beatmap v4.
+ * ```ts
+ * const converted = toV4Beatmap(data);
+ * ```
+ *
+ * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
+ */
 export function toV4Beatmap(
    data: IWrapBeatmap,
-   fromVersion: number,
+   fromVersion = data.version,
 ): IWrapBeatmap {
    logger.tWarn(
       tag('main'),

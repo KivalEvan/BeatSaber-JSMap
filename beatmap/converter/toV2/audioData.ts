@@ -5,7 +5,15 @@ function tag(name: string): string[] {
    return ['convert', 'toV2Audio', name];
 }
 
-export function toV2Audio(data: IWrapAudioData, fromVersion: number): IWrapAudioData {
+/**
+ * Convert to beatmap v2.
+ * ```ts
+ * const converted = toV2AudioData(data);
+ * ```
+ *
+ * **WARNING:** Chain and other new stuff will be gone!
+ */
+export function toV2AudioData(data: IWrapAudioData, fromVersion = data.version): IWrapAudioData {
    logger.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
 
    switch (fromVersion) {

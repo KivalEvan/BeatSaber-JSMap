@@ -5,7 +5,18 @@ function tag(name: string): string[] {
    return ['convert', 'toV4Info', name];
 }
 
-export function toV4Info(data: IWrapInfo, fromVersion: number): IWrapInfo {
+/**
+ * Convert to beatmap v4.
+ * ```ts
+ * const converted = toV4Info(data);
+ * ```
+ *
+ * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
+ */
+export function toV4Info(
+   data: IWrapInfo,
+   fromVersion = data.version,
+): IWrapInfo {
    logger.tWarn(tag('main'), 'Converting to beatmap v4 may lose certain data!');
 
    switch (fromVersion) {

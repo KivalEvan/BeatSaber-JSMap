@@ -10,14 +10,14 @@ function tag(name: string): string[] {
 /**
  * Feeling nostalgic?
  * ```ts
- * const converted = convert.toV1Beatmap(data);
+ * const converted = toV1Beatmap(data);
  * ```
  *
  * **WARNING:** Guess you should know this legacy version does not have modern features.
  */
 export function toV1Beatmap(
    data: IWrapBeatmap,
-   fromVersion: number,
+   fromVersion = data.version,
 ): IWrapBeatmap {
    logger.tWarn(tag('main'), 'Converting beatmap to v1 may lose certain data!');
 
