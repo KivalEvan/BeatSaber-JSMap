@@ -10,14 +10,17 @@
 
 ### Changed
 
+- Moved source files to `src`
 - Separate exports for `utils` and `types` to entrypoint
 - Renamed function in `time` utils for clarification
 - Renamed data check to schema declaration
 - Updated color scheme
-- Moved source files to `src`
+- Implicitly use beatmap version for conversion function
 
 ### Fixed
 
+- Loading beatmap with explicit version did not convert version if mismatched
+- v2 to v3 conversion accidentally removed bomb notes
 - Several undocumented fixes
 - Typod from `hass` to `has`
 

@@ -19,6 +19,7 @@ Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
          directory: './tests/resources/examples/werewolf howls./',
          load: { forceConvert: false },
       });
+      assertEquals(info.version, 2);
    });
 
    let beatmapList: Awaited<ReturnType<typeof readFromInfo>>;
@@ -50,6 +51,7 @@ Deno.test('Load V3 beatmap implicitly', async (t) => {
          directory: "./tests/resources/examples/I Bet You'll Forget That Even If You Noticed That/",
          load: { forceConvert: false },
       });
+      assertEquals(info.version, 2);
    });
 
    let beatmapList: ReturnType<typeof readFromInfoSync>;
@@ -80,6 +82,7 @@ Deno.test('Load mixed beatmap implicitly', async (t) => {
          directory: './tests/resources/examples/JOURNEY/',
          load: { forceConvert: false },
       });
+      assertEquals(info.version, 2);
    });
 
    let beatmapList;
@@ -107,9 +110,10 @@ Deno.test('Load beatmap version explicitly and convert to V3', async (t) => {
 
    await t.step('Able to correctly load V2 beatmap and convert to V3', () => {
       info.difficulties.forEach((d) => {
-         readDifficultyFileSync(d.filename, 3, {
+         const beatmap = readDifficultyFileSync(d.filename, 3, {
             directory: './tests/resources/examples/werewolf howls./',
          });
+         assertEquals(beatmap.version, 3);
       });
    });
 });
@@ -120,6 +124,7 @@ Deno.test('Load beatmap version explicitly and convert to V2', async (t) => {
       info = await readInfoFile('Info.dat', 2, {
          directory: "./tests/resources/examples/I Bet You'll Forget That Even If You Noticed That/",
       });
+      assertEquals(info.version, 2);
    });
 
    await t.step(

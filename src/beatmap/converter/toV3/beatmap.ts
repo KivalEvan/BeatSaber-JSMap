@@ -146,7 +146,7 @@ function fromV2(bm: IWrapBeatmap) {
          });
       } else {
          n.customData = customData;
-         bm.bombNotes.push(n);
+         newBombs.push(n);
       }
    });
    bm.bombNotes = newBombs;

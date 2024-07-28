@@ -146,7 +146,7 @@ export function loadBeatmap<T extends Record<string, any>>(
          'for version; Converting to beatmap version',
          targetVer,
       );
-      data = convertMap[targetVer](data, targetVer);
+      data = convertMap[targetVer](data, data.version);
    }
 
    if (opt.sort) data.sort();

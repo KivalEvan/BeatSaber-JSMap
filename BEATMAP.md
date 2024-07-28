@@ -95,24 +95,24 @@ Legend:
 
 ### Difficulty
 
-|                                        | v4 (4.0.0)                   | v3 (3.3.0) | v2 (2.6.0)                               | v1 (1.5.0)                               |
-| -------------------------------------- | ---------------------------- | ---------- | ---------------------------------------- | ---------------------------------------- |
-| BPM Event                              | ❌ Uses v4 Audio Data        | ✅\*       | ✅\*                                     | ❌                                       |
-| Color Note                             | ✅                           | ✅         | ⚠️ No angle offset                        | ⚠️ No angle offset                        |
-| Bomb Note                              | ✅                           | ✅         | ⚠️ Has direction                          | ⚠️ Has direction                          |
-| Arc                                    | ✅                           | ✅         | ❌ Exist but not used                    | ❌                                       |
-| Chain                                  | ✅                           | ✅         | ❌                                       | ❌                                       |
-| Obstacle                               | ✅                           | ✅         | ⚠️ Pos Y and height interpreted from type | ⚠️ Pos Y and height interpreted from type |
-| Rotation Event                         | ✅                           | ✅         | ⚠️ Fixed value                            | ⚠️ Fixed value                            |
-| Waypoint                               | ❌ All below in v4 Lightshow | ✅         | ✅                                       | ❌                                       |
-| Basic Event                            | ❌                           | ✅         | ✅                                       | ⚠️ No float value                         |
-| Color Boost Event                      | ❌                           | ✅         | ✅                                       | ✅                                       |
-| FX Event Box Group                     | ❌                           | ✅         | ❌                                       | ❌                                       |
-| Light Color Event Box Group            | ❌                           | ✅         | ❌                                       | ❌                                       |
-| Light Rotation Event Box Group         | ❌                           | ✅         | ❌                                       | ❌                                       |
-| Light Translation Event Box Group      | ❌                           | ✅         | ❌                                       | ❌                                       |
-| Event Types for Keywords               | ❌                           | ✅         | ✅                                       | ❌                                       |
-| Use Normal Events as Compatible Events | ❌                           | ✅         | ❌                                       | ❌                                       |
+|                                        | v4 (4.0.0)                   | v3 (3.3.0)      | v2 (2.6.0)        | v1 (1.5.0)        |
+| -------------------------------------- | ---------------------------- | --------------- | ----------------- | ----------------- |
+| BPM Event                              | ❌ Uses v4 Audio Data        | ✅\*            | ✅\*              | ❌                |
+| Color Note                             | ✅                           | ✅              | ⚠️ No angle offset | ⚠️ No angle offset |
+| Bomb Note                              | ⚠️ No direction               | ⚠️ No direction  | ✅                | ✅                |
+| Arc                                    | ✅                           | ✅              | ⚠️ Unused          | ❌                |
+| Chain                                  | ✅                           | ✅              | ❌                | ❌                |
+| Obstacle                               | ✅                           | ✅              | ⚠️ No type         | ⚠️ No type         |
+| Rotation Event                         | ✅                           | ✅              | ⚠️ Fixed value     | ⚠️ Fixed value     |
+| Waypoint                               | ❌ All below in v4 Lightshow | ✅              | ✅                | ❌                |
+| Basic Event                            | ❌                           | ✅              | ✅                | ⚠️ No float value  |
+| Color Boost Event                      | ❌                           | ✅              | ✅                | ✅                |
+| FX Event Box Group                     | ❌                           | ✅              | ❌                | ❌                |
+| Light Color Event Box Group            | ❌                           | ⚠️ No transition | ❌                | ❌                |
+| Light Rotation Event Box Group         | ❌                           | ✅              | ❌                | ❌                |
+| Light Translation Event Box Group      | ❌                           | ✅              | ❌                | ❌                |
+| Event Types for Keywords               | ❌                           | ✅              | ✅                | ❌                |
+| Use Normal Events as Compatible Events | ❌                           | ✅              | ❌                | ❌                |
 
 \* BPM events are not affected nor added by v4 Info/Audio Data
 
@@ -161,24 +161,24 @@ Legend:
 
 ### Difficulty
 
-|                                        | v4 (4.0.0)                   | v3 (3.3.0) | v2 (2.6.0)                               | v1 (1.5.0)                               |
-| -------------------------------------- | ---------------------------- | ---------- | ---------------------------------------- | ---------------------------------------- |
-| BPM Event                              | ❌ Uses v4 Audio Data        |            |                                          | ❌                                       |
-| Color Note                             |                              |            | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
-| Bomb Note                              |                              |            | ⚠️ Ignored direction                      | ⚠️ Ignored direction                      |
-| Arc                                    |                              |            | ❌ Exist; unused                         | ❌                                       |
-| Chain                                  |                              |            | ❌                                       | ❌                                       |
-| Obstacle                               |                              |            | ⚠️ Pos Y and height interpreted from type | ⚠️ Pos Y and height interpreted from type |
-| Rotation Event                         |                              |            | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
-| Waypoint                               | ❌ All below in v4 Lightshow |            |                                          | ❌                                       |
-| Basic Event                            | ❌                           |            |                                          | ⚠️ Default float value of 1               |
-| Color Boost Event                      | ❌                           |            |                                          |                                          |
-| FX Event Box Group                     | ❌                           |            | ❌                                       | ❌                                       |
-| Light Color Event Box Group            | ❌                           |            | ❌                                       | ❌                                       |
-| Light Rotation Event Box Group         | ❌                           |            | ❌                                       | ❌                                       |
-| Light Translation Event Box Group      | ❌                           |            | ❌                                       | ❌                                       |
-| Event Types for Keywords               | ❌                           |            |                                          | ❌                                       |
-| Use Normal Events as Compatible Events | ❌                           |            | ❌                                       | ❌                                       |
+|                                        | v4 (4.0.0)                   | v3 (3.3.0)                                        | v2 (2.6.0)                               | v1 (1.5.0)                               |
+| -------------------------------------- | ---------------------------- | ------------------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| BPM Event                              | ❌ Uses v4 Audio Data        |                                                   |                                          | ❌                                       |
+| Color Note                             |                              |                                                   | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
+| Bomb Note                              | ⚠️ Ignored direction          | ⚠️ Ignored direction                               |                                          | ⚠️ Ignored direction                      |
+| Arc                                    |                              |                                                   | ⚠️ Exist; unused                          | ❌                                       |
+| Chain                                  |                              |                                                   | ❌                                       | ❌                                       |
+| Obstacle                               |                              |                                                   | ⚠️ Pos Y and height interpreted from type | ⚠️ Pos Y and height interpreted from type |
+| Rotation Event                         |                              |                                                   | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
+| Waypoint                               | ❌ All below in v4 Lightshow |                                                   |                                          | ❌                                       |
+| Basic Event                            | ❌                           |                                                   |                                          | ⚠️ Default float value of 1               |
+| Color Boost Event                      | ❌                           |                                                   |                                          |                                          |
+| FX Event Box Group                     | ❌                           |                                                   | ❌                                       | ❌                                       |
+| Light Color Event Box Group            | ❌                           | ⚠️ Easing and previous interpreted from transition | ❌                                       | ❌                                       |
+| Light Rotation Event Box Group         | ❌                           |                                                   | ❌                                       | ❌                                       |
+| Light Translation Event Box Group      | ❌                           |                                                   | ❌                                       | ❌                                       |
+| Event Types for Keywords               | ❌                           |                                                   |                                          | ❌                                       |
+| Use Normal Events as Compatible Events | ❌                           |                                                   | ❌                                       | ❌                                       |
 
 \* BPM events are not affected nor added by v4 Info/Audio Data
 
