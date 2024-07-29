@@ -28,6 +28,7 @@ export class NoteJumpSpeed {
    /**
     * Fallback value used if NJS value is null or 0.
     * ```ts
+    * 'Expert+' -> 16,
     * 'ExpertPlus' -> 16,
     * 'Expert' -> 12,
     * 'Hard' -> 10,
@@ -36,6 +37,7 @@ export class NoteJumpSpeed {
     * ```
     */
    static readonly FallbackNJS: { readonly [key in DifficultyName]: number } = {
+      'Expert+': 16,
       ExpertPlus: 16,
       Expert: 12,
       Hard: 10,

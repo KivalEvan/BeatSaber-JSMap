@@ -6,6 +6,7 @@
 
 - Static method `createOne` for beatmap core
   - As opposed to `create`, this returns instance instead of array of instance.
+- Add new difficulty name serial
 - Several JSDocs written
 
 ### Changed
