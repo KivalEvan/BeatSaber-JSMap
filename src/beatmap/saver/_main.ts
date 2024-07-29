@@ -7,7 +7,7 @@ import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
 import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapBeatmapFile } from '../../types/beatmap/wrapper/baseFile.ts';
 import { validateJSON } from '../validator/json.ts';
-import type { IOptimizeOptions } from '../../types/beatmap/options/optimize.ts';
+import { audioDataConvertMap, beatmapConvertMap, infoConvertMap } from '../mapping/converter.ts';
 import {
    difficultyOptimizeMap,
    infoOptimizeMap,
@@ -27,6 +27,7 @@ export function tag(name: string): string[] {
 
 const defaultOptions: Required<ISaveOptions> = {
    format: 0,
+   forceConvert: true,
    optimize: {
       enabled: true,
       deduplicate: true,
@@ -91,11 +92,16 @@ export function saveBeatmap<
       if (ver === -1) {
          throw new Error('Version is not set, prevented from saving.');
       }
-      logger.tInfo(tag('saveBeatmap'), 'Implicitly saving ' + type + ' as version', ver);
+      logger.tInfo(
+         tag('saveBeatmap'),
+         'Implicitly saving ' + type + ' as version',
+         ver,
+      );
    }
    const optD = (typeof version !== 'number' ? version : options) ?? options ?? {};
    const opt: Required<ISaveOptions<any>> = {
       format: optD.format ?? defaultOptions.format,
+      forceConvert: optD.forceConvert ?? defaultOptions.forceConvert,
       optimize: { ...defaultOptions.optimize, ...optD.optimize },
       validate: { ...defaultOptions.validate, ...optD.validate },
       sort: optD.sort ?? defaultOptions.sort,
@@ -103,29 +109,55 @@ export function saveBeatmap<
       postprocess: optD.postprocess ?? defaultOptions.postprocess,
    };
    let schemaMap;
-   let optMap: Record<number, (data: any, options: IOptimizeOptions) => void> = {};
+   let optMap;
+   let convertMap;
    switch (type) {
       case 'info':
          optMap = infoOptimizeMap;
          schemaMap = infoSchemaMap;
+         convertMap = infoConvertMap;
          break;
       case 'audioData':
          schemaMap = audioDataSchemaMap;
+         convertMap = audioDataConvertMap;
          break;
       case 'difficulty':
          optMap = difficultyOptimizeMap;
          schemaMap = difficultySchemaMap;
+         convertMap = beatmapConvertMap;
          break;
       case 'lightshow':
          optMap = lightshowOptimizeMap;
          schemaMap = lightshowSchemaMap;
+         convertMap = beatmapConvertMap;
          break;
    }
 
    opt.preprocess.forEach((fn, i) => {
-      logger.tInfo(tag('saveBeatmap'), 'Running preprocess function #' + (i + 1));
+      logger.tInfo(
+         tag('saveBeatmap'),
+         'Running preprocess function #' + (i + 1),
+      );
       data = fn(data);
    });
+
+   if (ver && data.version !== ver) {
+      if (!opt.forceConvert) {
+         throw new Error(
+            `Beatmap version unmatched, expected ${ver} but received ${data.version}`,
+         );
+      }
+      logger.tWarn(
+         tag('saveBeatmap'),
+         'Beatmap version unmatched, expected',
+         ver,
+         'but received',
+         data.version,
+         'for version; Converting to beatmap version',
+         ver,
+      );
+      data = convertMap?.[ver]?.(data as any, data.version) ?? data;
+   }
 
    // TODO: validate beatmap properly
    // if (opt.validate.enabled) {
@@ -145,14 +177,16 @@ export function saveBeatmap<
    }
 
    logger.tInfo(tag('saveBeatmap'), 'Serializing beatmap ' + type + ' as JSON');
-   let json = schemaMap[ver]?.serialize(data as any);
+   let json = schemaMap?.[ver]?.serialize(data as any);
    if (!json) {
-      throw new Error('Failed to serialize beatmap, version ' + ver + ' is not supported.');
+      throw new Error(
+         'Failed to serialize beatmap, version ' + ver + ' is not supported.',
+      );
    }
 
    if (opt.optimize.enabled) {
       logger.tInfo(tag('saveBeatmap'), 'Optimizing beatmap JSON');
-      optMap[ver]?.(json, opt.optimize);
+      optMap?.[ver]?.(json, opt.optimize);
    }
 
    if (opt.validate.enabled) {
@@ -160,7 +194,10 @@ export function saveBeatmap<
    }
 
    opt.postprocess.forEach((fn, i) => {
-      logger.tInfo(tag('saveBeatmap'), 'Running postprocess function #' + (i + 1));
+      logger.tInfo(
+         tag('saveBeatmap'),
+         'Running postprocess function #' + (i + 1),
+      );
       json = fn(json);
    });
 

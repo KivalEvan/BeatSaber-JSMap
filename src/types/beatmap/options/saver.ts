@@ -12,6 +12,12 @@ export interface ISaveOptions<
     * @default 0
     */
    format?: number;
+   /**
+    * Force convert beatmap version if mismatched.
+    *
+    * @default true
+    */
+   forceConvert?: boolean;
    /** Validate class object integrity when saving. */
    validate?: Partial<ISaveValidate>;
    /** Optimization option when saving. */

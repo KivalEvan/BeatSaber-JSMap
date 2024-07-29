@@ -79,7 +79,7 @@ Legend:
 | Song Preview File          | ✅                      | ❌                                                          | ❌                   |
 | Base Environment           | ❌                      | ✅                                                          | ⚠️ No 360 environment |
 | Environment List           | ✅                      | ✅                                                          | ❌                   |
-| Color Scheme List          | ✅                      | ⚠️ Has toggle override                                       | ❌                   |
+| Color Scheme List          | ⚠️ Use hex string        | ⚠️ Has toggle override                                       | ❌                   |
 | Beatmap Level Author       | ✅                      | ⚠️ Singular string, exist on root; apply to all difficulties | ❌                   |
 | Beatmap Characteristic     | ✅                      | ⚠️ Grouped                                                   | ✅                   |
 | Beatmap Environment Index  | ✅                      | ✅                                                          | ❌                   |
@@ -145,7 +145,7 @@ Legend:
 | Song Preview File          |                                       | ❌                                                      | ❌                   |
 | Base Environment           | ❌ Uses first instance of environment |                                                         | ⚠️ Ignore missing 360 |
 | Environment List           |                                       |                                                         | ❌                   |
-| Color Scheme List          |                                       | ⚠️ Exist toggle override                                 | ❌                   |
+| Color Scheme List          | ⚠️ Gracefully convert hex              | ⚠️ Exist toggle override                                 | ❌                   |
 | Beatmap Level Author       |                                       | ⚠️ Exist only in Mapper Level Author, separated by comma | ❌                   |
 | Beatmap Characteristic     |                                       | ⚠️ Separated on deserialise, grouped on serialise        |                      |
 | Beatmap Environment Index  |                                       |                                                         | ❌                   |

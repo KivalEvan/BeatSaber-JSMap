@@ -16,6 +16,7 @@
 - Renamed data check to schema declaration
 - Updated color scheme
 - Implicitly use beatmap version for conversion function
+- Allow beatmap conversion on save/write
 
 ### Fixed
 
