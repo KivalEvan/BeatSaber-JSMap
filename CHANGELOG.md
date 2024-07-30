@@ -18,6 +18,7 @@
 - Updated color scheme
 - Implicitly use beatmap version for conversion function
 - Allow beatmap conversion on save/write
+- `globals` reduced to only global beatmap directory
 
 ### Fixed
 

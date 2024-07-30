@@ -24,24 +24,6 @@ class Globals {
          `Global map directory is set to ${this.#directory}`,
       );
    }
-
-   /**
-    * Set logging level to filter various information.
-    * ```ts
-    * 0 -> Verbose
-    * 1 -> Debug
-    * 2 -> Info
-    * 3 -> Warn
-    * 4 -> Error
-    * 5 -> None
-    * ```
-    */
-   get logLevel(): number {
-      return logger.logLevel;
-   }
-   set logLevel(value: number) {
-      logger.setLevel(value);
-   }
 }
 
 /** Global variables. */
