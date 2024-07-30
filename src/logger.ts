@@ -1,27 +1,15 @@
 // deno-lint-ignore-file no-explicit-any
 // i got super annoyed about dependencies that i decided to yoink it from deno
-function getCode(open: number, close: number) {
-   return {
-      open: `\x1b[${open}m`,
-      close: `\x1b[${close}m`,
-      regexp: new RegExp(`\\x1b\\[${close}m`, 'g'),
-   };
-}
-
-function run(str: string, code: ReturnType<typeof getCode>): string {
-   return `${code.open}${str.replace(code.regexp, code.open)}${code.close}`;
-}
-
 function yellow(str: string): string {
-   return run(str, getCode(33, 39));
+   return `\x1b[33m${str}\x1b[39m`;
 }
 
 function red(str: string): string {
-   return run(str, getCode(31, 39));
+   return `\x1b[31m${str}\x1b[39m`;
 }
 
 function dim(str: string): string {
-   return run(str, getCode(2, 22));
+   return `\x1b[2m${str}\x1b[22m`;
 }
 
 enum LogLevels {
