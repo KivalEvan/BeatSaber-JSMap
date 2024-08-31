@@ -58,17 +58,13 @@ The bare minimum example:
 // inside of ./Beat Saber/Beat_Saber Data/CustomWIPLevels/MAP_FOLDER/script.ts
 // for Deno/JSR:
 import * as bsmap from 'jsr:@kvl/bsmap'; // remove `jsr:` prefix if using `deno add` command
-
 // for anything else:
 import * as bsmap from 'bsmap'; // via NPM, Bun or import map
-
 // for CJS:
 const bsmap = require('bsmap');
 
 const data = bsmap.readDifficultyFileSync('ExpertPlus.beatmap.dat', 4);
-
-// ... code to modify difficulty data
-
+// ... arbitrary code
 bsmap.writeDifficultyFileSync(data, 4);
 ```
 
@@ -76,7 +72,8 @@ You may also clone the module to store and import locally, and make any modifica
 
 If you are using the script outside of the map directory, you can specify the map directory without
 the need to explicitly apply `directory` on IO function. This can be any valid directory as long as
-it points to directory.
+it points to directory. If directory is explicitly written in IO function, then that will instead be
+prioritised.
 
 ```ts
 bsmap.globals.directory = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.1 [2024-08-31]
+
+### Changed
+
+- Certain function return generic whenever possible
+
+### Fixed
+
+- Shims should no longer error when bundling for browser
+
 ## 2.1.0 [2024-08-10]
 
 ### Added
