@@ -1,1 +1,2 @@
-export * from 'node:path';
+import * as path from 'node:path';
+export default path;

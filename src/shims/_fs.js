@@ -1,1 +1,2 @@
-export * from 'node:fs';
+import * as fs from 'node:fs';
+export default fs;

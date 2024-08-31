@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://npm.pkg.github.com/
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Setup Deno
         # uses: denoland/setup-deno@v1
@@ -39,6 +39,6 @@ jobs:
         run: npx jsr publish
 
       - name: Publishing on NPM
-        run: cd npm && npm publish --provenance && cd ..
+        run: cd npm && npm publish --provenance --access public && cd ..
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.2 [2024-08-31]
+
+### Fixed
+
+- Fixed shims for real this time
+
 ## 2.1.1 [2024-08-31]
 
 ### Changed
