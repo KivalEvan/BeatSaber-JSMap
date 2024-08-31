@@ -13,7 +13,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Chain and other new stuff will be gone!
  */
-export function toV2AudioData(data: IWrapAudioData, fromVersion = data.version): IWrapAudioData {
+export function toV2AudioData<T extends IWrapAudioData>(data: T, fromVersion = data.version): T {
    logger.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
 
    switch (fromVersion) {

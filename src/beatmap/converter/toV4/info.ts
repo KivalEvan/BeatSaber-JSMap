@@ -13,10 +13,10 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export function toV4Info(
-   data: IWrapInfo,
+export function toV4Info<T extends IWrapInfo>(
+   data: T,
    fromVersion = data.version,
-): IWrapInfo {
+): T {
    logger.tWarn(tag('main'), 'Converting to beatmap v4 may lose certain data!');
 
    switch (fromVersion) {

@@ -17,10 +17,10 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export function toV4Beatmap(
-   data: IWrapBeatmap,
+export function toV4Beatmap<T extends IWrapBeatmap>(
+   data: T,
    fromVersion = data.version,
-): IWrapBeatmap {
+): T {
    logger.tWarn(
       tag('main'),
       'As v4 is similar to v3, the conversion will use v3 convertor alongside.',

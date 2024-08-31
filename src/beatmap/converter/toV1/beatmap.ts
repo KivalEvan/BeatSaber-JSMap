@@ -15,10 +15,10 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Guess you should know this legacy version does not have modern features.
  */
-export function toV1Beatmap(
-   data: IWrapBeatmap,
+export function toV1Beatmap<T extends IWrapBeatmap>(
+   data: T,
    fromVersion = data.version,
-): IWrapBeatmap {
+): T {
    logger.tWarn(tag('main'), 'Converting beatmap to v1 may lose certain data!');
 
    switch (fromVersion) {

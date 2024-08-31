@@ -18,7 +18,10 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Chain and other new stuff will be gone!
  */
-export function toV2Info(data: IWrapInfo, fromVersion = data.version): IWrapInfo {
+export function toV2Info<T extends IWrapInfo>(
+   data: T,
+   fromVersion = data.version,
+): T {
    logger.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
 
    switch (fromVersion) {
