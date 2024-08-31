@@ -1,12 +1,16 @@
+// @ts-ignore: trick
+import pathMod from './_path.ts';
+import type pathType from 'node:path';
 import type { IShimsPath } from '../types/bsmap/shims.ts';
-export type { IShimsPath } from '../types/bsmap/shims.ts';
-import { basename, resolve } from 'node:path';
 
 function noPathFunctionProvided(): never {
    throw new Error(
       '`path` function not provided; please supply `path` function inside the `path` object from the module',
    );
 }
+
+// @ts-ignore: trick
+const p = pathMod as typeof pathType | null;
 
 /**
  * Wrapper for use in `read`, `write` and `globals.directory`.
@@ -19,6 +23,6 @@ function noPathFunctionProvided(): never {
  * If you are creating a web app, you may ignore this.
  */
 export const path: IShimsPath = {
-   resolve: resolve || noPathFunctionProvided,
-   basename: basename || noPathFunctionProvided,
+   resolve: p?.resolve || noPathFunctionProvided,
+   basename: p?.basename || noPathFunctionProvided,
 };

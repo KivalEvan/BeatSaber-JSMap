@@ -15,6 +15,11 @@ await build({
    shims: {
       deno: true,
    },
+   mappings: {
+      './src/shims/_path.ts': './src/shims/_path.js',
+      './src/shims/_fs.ts': './src/shims/_fs.js',
+      './src/shims/_fsp.ts': './src/shims/_fsp.js',
+   },
    package: {
       name: 'bsmap',
       version: denoJson.version,
