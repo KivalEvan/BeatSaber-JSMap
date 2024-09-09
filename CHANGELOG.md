@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.3 [2024-09-09]
+
+### Fixed
+
+- Indexing error when optimising v3
+
 ## 2.1.2 [2024-08-31]
 
 ### Fixed

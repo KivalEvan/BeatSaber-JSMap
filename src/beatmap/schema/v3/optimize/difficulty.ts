@@ -19,7 +19,7 @@ export function optimizeDifficulty(
       for (let i = 0; i < vfxebg.length; i++) {
          const d = vfxebg[i].e || [];
          for (let j = 0; j < d.length; j++) {
-            const e = d[i];
+            const e = d[j];
             e.l = e.l?.map((i) => remapFloatFxEventsIdx.get(i) || 0) ?? [];
          }
       }

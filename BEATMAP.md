@@ -70,21 +70,21 @@ Legend:
 
 ### Info
 
-|                            | v4 (4.0.0)              | v2 (2.1.0)                                                  | v1 (1.0.0)           |
-| -------------------------- | ----------------------- | ----------------------------------------------------------- | -------------------- |
-| Audio Data File            | ✅                      | ⚠️ Exist as BPMInfo.dat; not required                        | ❌                   |
-| Audio LUFS                 | ✅                      | ❌                                                          | ❌                   |
-| Audio Offset               | ❌                      | ⚠️ Deprecated; buggy feature                                 | ❌                   |
-| Audio Shuffle              | ❌                      | ⚠️ Deprecated                                                | ❌                   |
-| Song Preview File          | ✅                      | ❌                                                          | ❌                   |
-| Base Environment           | ❌                      | ✅                                                          | ⚠️ No 360 environment |
-| Environment List           | ✅                      | ✅                                                          | ❌                   |
-| Color Scheme List          | ⚠️ Use hex string        | ⚠️ Has toggle override                                       | ❌                   |
-| Beatmap Level Author       | ✅                      | ⚠️ Singular string, exist on root; apply to all difficulties | ❌                   |
-| Beatmap Characteristic     | ✅                      | ⚠️ Grouped                                                   | ✅                   |
-| Beatmap Environment Index  | ✅                      | ✅                                                          | ❌                   |
-| Beatmap Color Scheme Index | ✅                      | ✅                                                          | ❌                   |
-| Beatmap Lightshow File     | ✅ Only with v4 Beatmap | ❌                                                          | ❌                   |
+|                            | v4 (4.0.0)              | v2 (2.1.0)                                                   | v1 (1.0.0)            |
+| -------------------------- | ----------------------- | ------------------------------------------------------------ | --------------------- |
+| Audio Data File            | ✅                      | ⚠️ Exist as BPMInfo.dat; not required                        | ❌                    |
+| Audio LUFS                 | ✅                      | ❌                                                           | ❌                    |
+| Audio Offset               | ❌                      | ⚠️ Deprecated; buggy feature                                 | ❌                    |
+| Audio Shuffle              | ❌                      | ⚠️ Deprecated                                                | ❌                    |
+| Song Preview File          | ✅                      | ❌                                                           | ❌                    |
+| Base Environment           | ❌                      | ✅                                                           | ⚠️ No 360 environment |
+| Environment List           | ✅                      | ✅                                                           | ❌                    |
+| Color Scheme List          | ⚠️ Use hex string       | ⚠️ Has toggle override                                       | ❌                    |
+| Beatmap Level Author       | ✅                      | ⚠️ Singular string, exist on root; apply to all difficulties | ❌                    |
+| Beatmap Characteristic     | ✅                      | ⚠️ Grouped                                                   | ✅                    |
+| Beatmap Environment Index  | ✅                      | ✅                                                           | ❌                    |
+| Beatmap Color Scheme Index | ✅                      | ✅                                                           | ❌                    |
+| Beatmap Lightshow File     | ✅ Only with v4 Beatmap | ❌                                                           | ❌                    |
 
 ### Audio Data
 
@@ -95,24 +95,24 @@ Legend:
 
 ### Difficulty
 
-|                                        | v4 (4.0.0)                   | v3 (3.3.0)      | v2 (2.6.0)        | v1 (1.5.0)        |
-| -------------------------------------- | ---------------------------- | --------------- | ----------------- | ----------------- |
-| BPM Event                              | ❌ Uses v4 Audio Data        | ✅\*            | ✅\*              | ❌                |
-| Color Note                             | ✅                           | ✅              | ⚠️ No angle offset | ⚠️ No angle offset |
-| Bomb Note                              | ⚠️ No direction               | ⚠️ No direction  | ✅                | ✅                |
-| Arc                                    | ✅                           | ✅              | ⚠️ Unused          | ❌                |
-| Chain                                  | ✅                           | ✅              | ❌                | ❌                |
-| Obstacle                               | ✅                           | ✅              | ⚠️ No type         | ⚠️ No type         |
-| Rotation Event                         | ✅                           | ✅              | ⚠️ Fixed value     | ⚠️ Fixed value     |
-| Waypoint                               | ❌ All below in v4 Lightshow | ✅              | ✅                | ❌                |
-| Basic Event                            | ❌                           | ✅              | ✅                | ⚠️ No float value  |
-| Color Boost Event                      | ❌                           | ✅              | ✅                | ✅                |
-| FX Event Box Group                     | ❌                           | ✅              | ❌                | ❌                |
-| Light Color Event Box Group            | ❌                           | ⚠️ No transition | ❌                | ❌                |
-| Light Rotation Event Box Group         | ❌                           | ✅              | ❌                | ❌                |
-| Light Translation Event Box Group      | ❌                           | ✅              | ❌                | ❌                |
-| Event Types for Keywords               | ❌                           | ✅              | ✅                | ❌                |
-| Use Normal Events as Compatible Events | ❌                           | ✅              | ❌                | ❌                |
+|                                        | v4 (4.0.0)                   | v3 (3.3.0)               | v2 (2.6.0)                          | v1 (1.5.0)                          |
+| -------------------------------------- | ---------------------------- | ------------------------ | ----------------------------------- | ----------------------------------- |
+| BPM Event                              | ❌ Uses v4 Audio Data        | ⚠️ Part of basic event\* | ⚠️ Part of basic event\*            | ❌                                  |
+| Color Note                             | ✅                           | ✅                       | ⚠️ No angle offset                  | ⚠️ No angle offset                  |
+| Bomb Note                              | ⚠️ No direction              | ⚠️ No direction          | ✅                                  | ✅                                  |
+| Arc                                    | ✅                           | ✅                       | ⚠️ Unused                           | ❌                                  |
+| Chain                                  | ✅                           | ✅                       | ❌                                  | ❌                                  |
+| Obstacle                               | ✅                           | ✅                       | ⚠️ No type                          | ⚠️ No type                          |
+| Rotation Event                         | ✅                           | ✅                       | ⚠️ Fixed value; part of basic event | ⚠️ Fixed value; part of basic event |
+| Waypoint                               | ❌ All below in v4 Lightshow | ✅                       | ✅                                  | ❌                                  |
+| Basic Event                            | ❌                           | ✅                       | ✅                                  | ⚠️ No float value                   |
+| Color Boost Event                      | ❌                           | ✅                       | ⚠️ Part of basic event              | ⚠️ Part of basic event              |
+| FX Event Box Group                     | ❌                           | ✅                       | ❌                                  | ❌                                  |
+| Light Color Event Box Group            | ❌                           | ⚠️ No transition         | ❌                                  | ❌                                  |
+| Light Rotation Event Box Group         | ❌                           | ✅                       | ❌                                  | ❌                                  |
+| Light Translation Event Box Group      | ❌                           | ✅                       | ❌                                  | ❌                                  |
+| Event Types for Keywords               | ❌                           | ✅                       | ✅                                  | ❌                                  |
+| Use Normal Events as Compatible Events | ❌                           | ✅                       | ❌                                  | ❌                                  |
 
 \* BPM events are not affected nor added by v4 Info/Audio Data
 
@@ -136,21 +136,21 @@ Legend:
 
 ### Info
 
-|                            | v4 (4.0.0)                            | v2 (2.1.0)                                              | v1 (1.0.0)           |
-| -------------------------- | ------------------------------------- | ------------------------------------------------------- | -------------------- |
-| Audio Data File            |                                       | ⚠️ Exist as BPMInfo.dat; not required                    | ❌                   |
-| Audio LUFS                 |                                       | ❌                                                      | ❌                   |
-| Audio Offset               | ❌                                    | ⚠️ Exist; unused                                         | ❌                   |
-| Audio Shuffle              | ❌                                    | ⚠️ Exist; unused                                         | ❌                   |
-| Song Preview File          |                                       | ❌                                                      | ❌                   |
-| Base Environment           | ❌ Uses first instance of environment |                                                         | ⚠️ Ignore missing 360 |
-| Environment List           |                                       |                                                         | ❌                   |
-| Color Scheme List          | ⚠️ Gracefully convert hex              | ⚠️ Exist toggle override                                 | ❌                   |
-| Beatmap Level Author       |                                       | ⚠️ Exist only in Mapper Level Author, separated by comma | ❌                   |
-| Beatmap Characteristic     |                                       | ⚠️ Separated on deserialise, grouped on serialise        |                      |
-| Beatmap Environment Index  |                                       |                                                         | ❌                   |
-| Beatmap Color Scheme Index |                                       |                                                         | ❌                   |
-| Beatmap Lightshow File     |                                       | ❌                                                      | ❌                   |
+|                            | v4 (4.0.0)                            | v2 (2.1.0)                                               | v1 (1.0.0)            |
+| -------------------------- | ------------------------------------- | -------------------------------------------------------- | --------------------- |
+| Audio Data File            |                                       | ⚠️ Exist as BPMInfo.dat; not required                    | ❌                    |
+| Audio LUFS                 |                                       | ❌                                                       | ❌                    |
+| Audio Offset               | ❌                                    | ⚠️ Exist; unused                                         | ❌                    |
+| Audio Shuffle              | ❌                                    | ⚠️ Exist; unused                                         | ❌                    |
+| Song Preview File          |                                       | ❌                                                       | ❌                    |
+| Base Environment           | ❌ Uses first instance of environment |                                                          | ⚠️ Ignore missing 360 |
+| Environment List           |                                       |                                                          | ❌                    |
+| Color Scheme List          | ⚠️ Gracefully convert hex             | ⚠️ Exist toggle override                                 | ❌                    |
+| Beatmap Level Author       |                                       | ⚠️ Exist only in Mapper Level Author, separated by comma | ❌                    |
+| Beatmap Characteristic     |                                       | ⚠️ Separated on deserialise, grouped on serialise        |                       |
+| Beatmap Environment Index  |                                       |                                                          | ❌                    |
+| Beatmap Color Scheme Index |                                       |                                                          | ❌                    |
+| Beatmap Lightshow File     |                                       | ❌                                                       | ❌                    |
 
 ### Audio Data
 
@@ -161,24 +161,24 @@ Legend:
 
 ### Difficulty
 
-|                                        | v4 (4.0.0)                   | v3 (3.3.0)                                        | v2 (2.6.0)                               | v1 (1.5.0)                               |
-| -------------------------------------- | ---------------------------- | ------------------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| BPM Event                              | ❌ Uses v4 Audio Data        |                                                   |                                          | ❌                                       |
-| Color Note                             |                              |                                                   | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
-| Bomb Note                              | ⚠️ Ignored direction          | ⚠️ Ignored direction                               |                                          | ⚠️ Ignored direction                      |
-| Arc                                    |                              |                                                   | ⚠️ Exist; unused                          | ❌                                       |
-| Chain                                  |                              |                                                   | ❌                                       | ❌                                       |
-| Obstacle                               |                              |                                                   | ⚠️ Pos Y and height interpreted from type | ⚠️ Pos Y and height interpreted from type |
-| Rotation Event                         |                              |                                                   | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
-| Waypoint                               | ❌ All below in v4 Lightshow |                                                   |                                          | ❌                                       |
-| Basic Event                            | ❌                           |                                                   |                                          | ⚠️ Default float value of 1               |
-| Color Boost Event                      | ❌                           |                                                   |                                          |                                          |
-| FX Event Box Group                     | ❌                           |                                                   | ❌                                       | ❌                                       |
-| Light Color Event Box Group            | ❌                           | ⚠️ Easing and previous interpreted from transition | ❌                                       | ❌                                       |
-| Light Rotation Event Box Group         | ❌                           |                                                   | ❌                                       | ❌                                       |
-| Light Translation Event Box Group      | ❌                           |                                                   | ❌                                       | ❌                                       |
-| Event Types for Keywords               | ❌                           |                                                   |                                          | ❌                                       |
-| Use Normal Events as Compatible Events | ❌                           |                                                   | ❌                                       | ❌                                       |
+|                                        | v4 (4.0.0)                   | v3 (3.3.0)                                         | v2 (2.6.0)                                | v1 (1.5.0)                                |
+| -------------------------------------- | ---------------------------- | -------------------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| BPM Event                              | ❌ Uses v4 Audio Data        |                                                    |                                           | ❌                                        |
+| Color Note                             |                              |                                                    | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
+| Bomb Note                              | ⚠️ Ignored direction         | ⚠️ Ignored direction                               |                                           | ⚠️ Ignored direction                      |
+| Arc                                    |                              |                                                    | ⚠️ Exist; unused                          | ❌                                        |
+| Chain                                  |                              |                                                    | ❌                                        | ❌                                        |
+| Obstacle                               |                              |                                                    | ⚠️ Pos Y and height interpreted from type | ⚠️ Pos Y and height interpreted from type |
+| Rotation Event                         |                              |                                                    | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
+| Waypoint                               | ❌ All below in v4 Lightshow |                                                    |                                           | ❌                                        |
+| Basic Event                            | ❌                           |                                                    |                                           | ⚠️ Default float value of 1               |
+| Color Boost Event                      | ❌                           |                                                    |                                           |                                           |
+| FX Event Box Group                     | ❌                           |                                                    | ❌                                        | ❌                                        |
+| Light Color Event Box Group            | ❌                           | ⚠️ Easing and previous interpreted from transition | ❌                                        | ❌                                        |
+| Light Rotation Event Box Group         | ❌                           |                                                    | ❌                                        | ❌                                        |
+| Light Translation Event Box Group      | ❌                           |                                                    | ❌                                        | ❌                                        |
+| Event Types for Keywords               | ❌                           |                                                    |                                           | ❌                                        |
+| Use Normal Events as Compatible Events | ❌                           |                                                    | ❌                                        | ❌                                        |
 
 \* BPM events are not affected nor added by v4 Info/Audio Data
 
