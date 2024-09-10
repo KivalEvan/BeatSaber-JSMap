@@ -1,6 +1,6 @@
 # Beat Saber JS Map
 
-General-purpose Beat Saber beatmap scripting module with
+General-purpose Beat Saber beatmap scripting library with
 [TypeScript](https://www.typescriptlang.org/), fully-typed schema and flexible tool to ease
 scripting development surrounding beatmap.
 
@@ -52,23 +52,61 @@ To get scripting, simply create a `.ts` file anywhere, preferably inside map fol
 setup, import module via module specifier or package manager, and then run the script. That's it. Do
 check out the [the guide](./GUIDE.md) for usage detail.
 
-The bare minimum example:
+### Importing/Runtime
+
+This is for beginner on how to import library and use the script. Importing `bsmap` into script file
+can be done in various ways, it is recommended that you run the command in the same folder as the
+script file.
+
+#### Deno
 
 ```ts
-// inside of ./Beat Saber/Beat_Saber Data/CustomWIPLevels/MAP_FOLDER/script.ts
-// for Deno/JSR:
-import * as bsmap from 'jsr:@kvl/bsmap'; // remove `jsr:` prefix if using `deno add` command
-// for anything else:
-import * as bsmap from 'bsmap'; // via NPM, Bun or import map
-// for CJS:
+// Choose one of the four ways, prioritise top to bottom
+import * as bsmap from 'jsr:@kvl/bsmap';
+import * as bsmap from '@kvl/bsmap'; // via `deno add bsmap`
+import * as bsmap from 'npm:bsmap';
+import * as bsmap from 'bsmap'; // if previously used NPM `package.json` exist
+
+// Run command: `deno run script.ts`
+```
+
+#### Bun
+
+```ts
+// via `bun add bsmap`
+import * as bsmap from 'bsmap';
+
+// Run command: `bun script.ts`
+```
+
+#### Node.js & Browser NPM (ESM)
+
+```ts
+// via `npm install bsmap`
+import * as bsmap from 'bsmap';
+
+// Run command: `ts-node script.ts`
+// Refer below for browser
+```
+
+#### Node.js NPM (CJS)
+
+```ts
+// via `npm install bsmap`
 const bsmap = require('bsmap');
 
+// Run command: `ts-node script.ts`
+```
+
+Once you've imported the library, you can try the bare minimum example:
+
+```ts
 const data = bsmap.readDifficultyFileSync('ExpertPlus.beatmap.dat', 4);
 // ... arbitrary code
 bsmap.writeDifficultyFileSync(data, 4);
 ```
 
-You may also clone the module to store and import locally, and make any modification as you wish.
+You may also clone the library to store and import locally, and make any modification as you wish.
 
 If you are using the script outside of the map directory, you can specify the map directory without
 the need to explicitly apply `directory` on IO function. This can be any valid directory as long as
@@ -76,6 +114,8 @@ it points to directory. If directory is explicitly written in IO function, then 
 prioritised.
 
 ```ts
+// you should always use absolute path for this,
+// otherwise it will try to resolve path with your CWD
 bsmap.globals.directory = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 ```
 

@@ -11,6 +11,14 @@ class Globals {
    /**
     * Global source and destination directory.
     *
+    * Input will be resolved to absolute path, otherwise uses the current working directory (CWD).
+    * ```ts
+    * // CWD: C:\Users\user\Scripts
+    * globals.directory = '.\\Maps'; // C:\Users\user\Scripts\Maps
+    * globals.directory = 'C:\\Maps'; // C:\Maps
+    * ```
+    * **For Windows user:** use `\\` instead of `\` in input as it is an escape character.
+    *
     * This will be overriden if directory is specified elsewhere.
     */
    get directory(): string {
