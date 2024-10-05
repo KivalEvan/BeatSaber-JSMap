@@ -45,6 +45,7 @@ export const EnvironmentRename: {
    ColliderEnvironment: 'Collider',
    GlassDesertEnvironment: 'Glass Desert',
    MultiplayerEnvironment: 'Origins',
+   BritneySpearsEnvironment: 'Britney Spears',
 } as const;
 
 /** List of available event type in environment. */
@@ -417,5 +418,9 @@ export const EventList: {
          26,
          27,
       ],
+   ],
+   BritneySpearsEnvironment: [
+      [],
+      [],
    ],
 } as const;

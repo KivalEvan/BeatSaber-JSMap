@@ -46,6 +46,7 @@ export const EnvironmentSchemeName: {
    DaftPunkEnvironment: 'Daft Punk',
    HipHopEnvironment: 'Hip Hop Mixtape',
    ColliderEnvironment: 'Collider',
+   BritneySpearsEnvironment: 'Britney Spears',
    GlassDesertEnvironment: 'Glass Desert',
    MultiplayerEnvironment: 'Origins',
 } as const;
@@ -86,7 +87,7 @@ export const ColorSchemeRename: {
 
 /** Color scheme definition. */
 export const ColorScheme: {
-   readonly [key in ColorSchemeName]: Readonly<IColorScheme>;
+   readonly [key in ColorSchemeName]: Readonly<Omit<IColorScheme, 'a'>>;
 } = {
    'Default Custom': {
       _colorLeft: { r: 0.7529412, g: 0.1882353, b: 0.1882353 },
@@ -231,6 +232,13 @@ export const ColorScheme: {
       _envColorLeftBoost: { r: 0.754717, g: 0.3610244, b: 0.2207191 },
       _envColorRightBoost: { r: 0, g: 0.7058824, b: 1 },
       _obstacleColor: { r: 0.9921569, g: 0, b: 0.7719755 },
+   },
+   'Glass Desert': {
+      _colorLeft: { r: 0.6792453, g: 0.5712628, b: 0 },
+      _colorRight: { r: 0.7075472, g: 0, b: 0.5364411 },
+      _envColorLeft: { r: 0.32222217, g: 0.6111111, b: 0.75 },
+      _envColorRight: { r: 0.03844783, g: 0.62239975, b: 0.90566039 },
+      _obstacleColor: { r: 0.06167676, g: 0.2869513, b: 0.3962264 },
    },
    Weave: {
       _colorLeft: { r: 0.7843137, g: 0.07843138, b: 0.07843138 },
@@ -385,11 +393,13 @@ export const ColorScheme: {
       _envColorRightBoost: { r: 0.854902, g: 0.4117647, b: 0.9725491 },
       _obstacleColor: { r: 0.8396226, g: 0.09639232, b: 0 },
    },
-   'Glass Desert': {
-      _colorLeft: { r: 0.6792453, g: 0.5712628, b: 0 },
-      _colorRight: { r: 0.7075472, g: 0, b: 0.5364411 },
-      _envColorLeft: { r: 0.32222217, g: 0.6111111, b: 0.75 },
-      _envColorRight: { r: 0.03844783, g: 0.62239975, b: 0.90566039 },
-      _obstacleColor: { r: 0.06167676, g: 0.2869513, b: 0.3962264 },
+   'Britney Spears': {
+      _colorLeft: { r: 0., g: 0., b: 0. },
+      _colorRight: { r: 0., g: 0., b: 0. },
+      _envColorLeft: { r: 0., g: 0., b: 0. },
+      _envColorRight: { r: 0., g: 0., b: 0. },
+      _envColorLeftBoost: { r: 0., g: 0., b: 0. },
+      _envColorRightBoost: { r: 0., g: 0., b: 0. },
+      _obstacleColor: { r: 0., g: 0., b: 0. },
    },
 } as const;
