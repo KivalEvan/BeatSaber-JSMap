@@ -1,4 +1,4 @@
-import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
+import type { GenericAudioDataFilename } from '../../types/beatmap/shared/filename.ts';
 import type {
    IWrapAudioData,
    IWrapAudioDataAttribute,
@@ -72,7 +72,7 @@ export class AudioData extends BaseItem implements IWrapAudioData {
    bpmData: IWrapAudioDataBPM[];
    lufsData: IWrapAudioDataLUFS[];
 
-   setFilename(filename: LooseAutocomplete<GenericFilename>): this {
+   setFilename(filename: LooseAutocomplete<GenericAudioDataFilename>): this {
       this.filename = filename;
       return this;
    }

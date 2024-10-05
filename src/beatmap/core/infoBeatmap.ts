@@ -1,6 +1,9 @@
 import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
-import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
+import type {
+   GenericBeatmapFilename,
+   GenericLightshowFilename,
+} from '../../types/beatmap/shared/filename.ts';
 import type { IInfoBeatmapAuthors } from '../../types/beatmap/v4/info.ts';
 import type {
    IWrapInfoBeatmap,
@@ -68,8 +71,8 @@ export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
 
    characteristic: CharacteristicName;
    difficulty: DifficultyName;
-   filename: LooseAutocomplete<GenericFilename>;
-   lightshowFilename: LooseAutocomplete<GenericFilename>;
+   filename: LooseAutocomplete<GenericBeatmapFilename>;
+   lightshowFilename: LooseAutocomplete<GenericLightshowFilename>;
    authors: IInfoBeatmapAuthors;
    njs: number;
    njsOffset: number;

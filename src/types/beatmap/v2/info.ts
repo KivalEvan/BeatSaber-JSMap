@@ -13,7 +13,7 @@ import type {
    EnvironmentName,
    EnvironmentV3Name,
 } from '../shared/environment.ts';
-import type { GenericFilename } from '../shared/filename.ts';
+import type { GenericBeatmapFilename } from '../shared/filename.ts';
 
 /**
  * Schema for v2 `Info`.
@@ -106,7 +106,7 @@ export interface IInfoDifficulty {
     * **Type:** {@linkcode DifficultyRank}
     */
    _difficultyRank?: DifficultyRank;
-   _beatmapFilename?: LooseAutocomplete<GenericFilename>;
+   _beatmapFilename?: LooseAutocomplete<GenericBeatmapFilename>;
    /**
     * **Type:** `f32`
     */

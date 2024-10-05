@@ -1,4 +1,4 @@
-import type { GenericFilename } from '../types/beatmap/shared/filename.ts';
+import type { GenericBeatmapFilename } from '../types/beatmap/shared/filename.ts';
 import { logger } from '../logger.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
 import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
@@ -14,16 +14,16 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function readDifficultyFile(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericBeatmapFilename>,
    version?: number | null,
    options?: IReadOptions<IWrapBeatmap>,
 ): Promise<IWrapBeatmap>;
 export function readDifficultyFile(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericBeatmapFilename>,
    options?: IReadOptions<IWrapBeatmap>,
 ): Promise<IWrapBeatmap>;
 export function readDifficultyFile(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericBeatmapFilename>,
    version?: number | null | IReadOptions<IWrapBeatmap>,
    options?: IReadOptions<IWrapBeatmap>,
 ): Promise<IWrapBeatmap> {
@@ -41,16 +41,16 @@ export function readDifficultyFile(
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function readDifficultyFileSync(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericBeatmapFilename>,
    version?: number | null,
    options?: IReadOptions<IWrapBeatmap>,
 ): IWrapBeatmap;
 export function readDifficultyFileSync(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericBeatmapFilename>,
    options?: IReadOptions<IWrapBeatmap>,
 ): IWrapBeatmap;
 export function readDifficultyFileSync(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericBeatmapFilename>,
    version?: number | null | IReadOptions<IWrapBeatmap>,
    options?: IReadOptions<IWrapBeatmap>,
 ): IWrapBeatmap {

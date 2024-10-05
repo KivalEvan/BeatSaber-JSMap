@@ -5,18 +5,45 @@ import type { DifficultyName } from './difficulty.ts';
 type DifficultyNameExclude = Exclude<DifficultyName, 'Expert+'>;
 
 /**
+ * Generic filename for info.
+ */
+export type GenericInfoFilename =
+   | 'Info.dat'
+   | 'info.dat';
+
+/**
+ * Generic filename for audio data.
+ */
+export type GenericAudioDataFilename =
+   | 'Audio.dat'
+   | 'AudioData.dat'
+   | 'BPMInfo.dat';
+
+/**
  * Generic filename for beatmap.
  */
-export type GenericFilename =
-   | 'Info.dat'
-   | 'info.dat'
+export type GenericBeatmapFilename =
    | `${DifficultyNameExclude}${CharacteristicName}.dat`
    | `${Exclude<CharacteristicName, 'Lightshow' | 'Lawless'>}${DifficultyNameExclude}.dat`
    | `${DifficultyNameExclude}.dat`
    | `${Exclude<
       CharacteristicName,
       'Lightshow' | 'Lawless'
-   >}${DifficultyNameExclude}.${'beatmap' | 'lightshow'}.dat`
-   | `${DifficultyNameExclude}.${'beatmap' | 'lightshow'}.dat`
+   >}${DifficultyNameExclude}.beatmap.dat`
+   | `${DifficultyNameExclude}.beatmap'.dat`
+   | 'Lightshow.dat';
+
+/**
+ * Generic filename for lightshow.
+ */
+export type GenericLightshowFilename =
+   | `${DifficultyNameExclude}${CharacteristicName}.dat`
+   | `${Exclude<CharacteristicName, 'Lightshow' | 'Lawless'>}${DifficultyNameExclude}.dat`
+   | `${DifficultyNameExclude}.dat`
+   | `${Exclude<
+      CharacteristicName,
+      'Lightshow' | 'Lawless'
+   >}${DifficultyNameExclude}.lightshow.dat`
+   | `${DifficultyNameExclude}.lightshow.dat`
    | 'Common.lightshow.dat'
    | 'Lightshow.dat';

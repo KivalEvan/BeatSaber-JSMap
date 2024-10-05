@@ -11,13 +11,18 @@ import type { IColor } from '../../colors.ts';
 import type { ICustomDataInfo } from './custom/info.ts';
 import type { ICustomDataInfoBeatmap } from '../v4/custom/info.ts';
 import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
-import type { GenericFilename } from '../shared/filename.ts';
+import type {
+   GenericBeatmapFilename,
+   GenericInfoFilename,
+   GenericLightshowFilename,
+} from '../shared/filename.ts';
 import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
 /**
  * Wrapper attribute for beatmap info.
  */
-export interface IWrapInfoAttribute extends IWrapBaseItemAttribute, IWrapBaseFileAttribute {
+export interface IWrapInfoAttribute
+   extends IWrapBaseItemAttribute, IWrapBaseFileAttribute<GenericInfoFilename> {
    song: IWrapInfoSong;
    audio: IWrapInfoAudio;
    songPreviewFilename: string;
@@ -109,7 +114,8 @@ export interface IWrapInfoBeatmapAuthors {
 /**
  * Wrapper interface for beatmap info.
  */
-export interface IWrapInfo extends Omit<IWrapBeatmapFile, 'customData'>, IWrapInfoAttribute {
+export interface IWrapInfo
+   extends Omit<IWrapBeatmapFile<GenericInfoFilename>, 'customData'>, IWrapInfoAttribute {
    difficulties: IWrapInfoBeatmap[];
 
    setCustomData(object: this['customData']): this;
@@ -127,8 +133,8 @@ export interface IWrapInfo extends Omit<IWrapBeatmapFile, 'customData'>, IWrapIn
 export interface IWrapInfoBeatmapAttribute extends IWrapBaseItemAttribute {
    characteristic: CharacteristicName;
    difficulty: DifficultyName;
-   filename: LooseAutocomplete<GenericFilename>;
-   lightshowFilename: LooseAutocomplete<GenericFilename>;
+   filename: LooseAutocomplete<GenericBeatmapFilename>;
+   lightshowFilename: LooseAutocomplete<GenericLightshowFilename>;
    authors: IWrapInfoBeatmapAuthors;
    njs: number;
    njsOffset: number;

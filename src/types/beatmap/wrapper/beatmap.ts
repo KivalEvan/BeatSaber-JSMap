@@ -26,19 +26,20 @@ import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEv
 import type { IWrapDifficulty, IWrapDifficultyAttribute } from './difficulty.ts';
 import type { IWrapLightshow, IWrapLightshowAttribute } from './lightshow.ts';
 import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
-import type { GenericFilename } from '../shared/filename.ts';
+import type { GenericBeatmapFilename, GenericLightshowFilename } from '../shared/filename.ts';
 import type { IWrapBaseItemAttribute } from './baseItem.ts';
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 
 /**
  * Wrapper attribute for beatmap data.
  */
-export interface IWrapBeatmapAttribute extends IWrapBaseItemAttribute, IWrapBaseFileAttribute {
+export interface IWrapBeatmapAttribute
+   extends IWrapBaseItemAttribute, IWrapBaseFileAttribute<GenericBeatmapFilename> {
    difficulty: IWrapDifficultyAttribute;
    lightshow: IWrapLightshowAttribute;
 
    // this honestly feels like hack but i need to figure out best way to handle this
-   lightshowFilename: LooseAutocomplete<GenericFilename>;
+   lightshowFilename: LooseAutocomplete<GenericLightshowFilename>;
 
    /**
     * This custom data does not contain the actual custom data from difficulty file, rather an arbitrary placement.
@@ -51,7 +52,8 @@ export interface IWrapBeatmapAttribute extends IWrapBaseItemAttribute, IWrapBase
 /**
  * Wrapper for beatmap data.
  */
-export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {
+export interface IWrapBeatmap
+   extends IWrapBeatmapFile<GenericBeatmapFilename>, IWrapBeatmapAttribute {
    difficulty: IWrapDifficulty;
    lightshow: IWrapLightshow;
 
@@ -72,7 +74,7 @@ export interface IWrapBeatmap extends IWrapBeatmapFile, IWrapBeatmapAttribute {
    basicEventTypesWithKeywords: IWrapBasicEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
 
-   setLightshowFilename(filename: LooseAutocomplete<GenericFilename>): this;
+   setLightshowFilename(filename: LooseAutocomplete<GenericLightshowFilename>): this;
 
    addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): this;
    addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): this;

@@ -56,7 +56,10 @@ import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts'
 import type { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
 import { Difficulty } from './difficulty.ts';
 import { Lightshow } from './lightshow.ts';
-import type { GenericFilename } from '../../types/beatmap/shared/filename.ts';
+import type {
+   GenericBeatmapFilename,
+   GenericLightshowFilename,
+} from '../../types/beatmap/shared/filename.ts';
 
 /**
  * Core beatmap container.
@@ -123,8 +126,8 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    difficulty: IWrapDifficulty;
    lightshow: IWrapLightshow;
 
-   filename: LooseAutocomplete<GenericFilename>;
-   lightshowFilename: LooseAutocomplete<GenericFilename>;
+   filename: LooseAutocomplete<GenericBeatmapFilename>;
+   lightshowFilename: LooseAutocomplete<GenericLightshowFilename>;
 
    get bpmEvents(): IWrapBPMEvent[] {
       return this.difficulty.bpmEvents;
@@ -223,12 +226,12 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       this.lightshow.useNormalEventsAsCompatibleEvents = value;
    }
 
-   setLightshowFilename(filename: LooseAutocomplete<GenericFilename>): this {
-      this.lightshowFilename = filename;
+   setFilename(filename: LooseAutocomplete<GenericBeatmapFilename>): this {
+      this.filename = filename;
       return this;
    }
-   setFilename(filename: LooseAutocomplete<GenericFilename>): this {
-      this.filename = filename;
+   setLightshowFilename(filename: LooseAutocomplete<GenericLightshowFilename>): this {
+      this.lightshowFilename = filename;
       return this;
    }
 

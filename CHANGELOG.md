@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.4 [2024-10-##]
+
+### Added
+
+- Britney Spears environment & color scheme
+
+### Changed
+
+- Split `GenericFilename` type to 4 types: `Info`, `AudioData`, `Beatmap` and `Lightshow`
+
 ## 2.1.3 [2024-09-09]
 
 ### Fixed

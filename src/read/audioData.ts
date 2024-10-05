@@ -1,4 +1,4 @@
-import type { GenericFilename } from '../types/beatmap/shared/filename.ts';
+import type { GenericAudioDataFilename } from '../types/beatmap/shared/filename.ts';
 import { logger } from '../logger.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
 import type { IWrapAudioData } from '../types/beatmap/wrapper/audioData.ts';
@@ -14,16 +14,16 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function readAudioDataFile(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericAudioDataFilename>,
    version?: number | null,
    options?: IReadOptions<IWrapAudioData>,
 ): Promise<IWrapAudioData>;
 export function readAudioDataFile(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericAudioDataFilename>,
    options?: IReadOptions<IWrapAudioData>,
 ): Promise<IWrapAudioData>;
 export function readAudioDataFile(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericAudioDataFilename>,
    version?: number | null | IReadOptions<IWrapAudioData>,
    options?: IReadOptions<IWrapAudioData>,
 ): Promise<IWrapAudioData> {
@@ -41,16 +41,16 @@ export function readAudioDataFile(
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
 export function readAudioDataFileSync(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericAudioDataFilename>,
    version?: number | null,
    options?: IReadOptions<IWrapAudioData>,
 ): IWrapAudioData;
 export function readAudioDataFileSync(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericAudioDataFilename>,
    options?: IReadOptions<IWrapAudioData>,
 ): IWrapAudioData;
 export function readAudioDataFileSync(
-   path: LooseAutocomplete<GenericFilename>,
+   path: LooseAutocomplete<GenericAudioDataFilename>,
    version?: number | null | IReadOptions<IWrapAudioData>,
    options?: IReadOptions<IWrapAudioData>,
 ): IWrapAudioData {
