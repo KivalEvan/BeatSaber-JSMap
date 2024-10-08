@@ -46,7 +46,7 @@ export const EnvironmentSchemeName: {
    DaftPunkEnvironment: 'Daft Punk',
    HipHopEnvironment: 'Hip Hop Mixtape',
    ColliderEnvironment: 'Collider',
-   BritneySpearsEnvironment: 'Britney Spears',
+   BritneyEnvironment: 'Britney Spears',
    GlassDesertEnvironment: 'Glass Desert',
    MultiplayerEnvironment: 'Origins',
 } as const;
@@ -394,12 +394,12 @@ export const ColorScheme: {
       _obstacleColor: { r: 0.8396226, g: 0.09639232, b: 0 },
    },
    'Britney Spears': {
-      _colorLeft: { r: 0., g: 0., b: 0. },
-      _colorRight: { r: 0., g: 0., b: 0. },
-      _envColorLeft: { r: 0., g: 0., b: 0. },
-      _envColorRight: { r: 0., g: 0., b: 0. },
-      _envColorLeftBoost: { r: 0., g: 0., b: 0. },
-      _envColorRightBoost: { r: 0., g: 0., b: 0. },
-      _obstacleColor: { r: 0., g: 0., b: 0. },
+      _colorLeft: { r: 0, g: 0, b: 0 },
+      _colorRight: { r: 0, g: 0, b: 0 },
+      _envColorLeft: { r: 0, g: 0, b: 0 },
+      _envColorRight: { r: 0, g: 0, b: 0 },
+      _envColorLeftBoost: { r: 0, g: 0, b: 0 },
+      _envColorRightBoost: { r: 0, g: 0, b: 0 },
+      _obstacleColor: { r: 0, g: 0, b: 0 },
    },
 } as const;

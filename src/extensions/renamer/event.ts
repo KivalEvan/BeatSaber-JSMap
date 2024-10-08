@@ -201,6 +201,12 @@ export const environmentTypeMap: { [env in EnvironmentAllName]?: { [key: number]
    ColliderEnvironment: {
       6: 'Ambient',
    },
+   BritneyEnvironment: {
+      6: 'Ambient',
+      8: 'Player Place',
+      9: 'Dust Particles',
+      12: 'Icons',
+   },
 };
 
 /**

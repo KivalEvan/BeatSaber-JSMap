@@ -42,7 +42,7 @@ export type EnvironmentV3Name =
    | 'DaftPunkEnvironment'
    | 'HipHopEnvironment'
    | 'ColliderEnvironment'
-   | 'BritneySpearsEnvironment';
+   | 'BritneyEnvironment';
 
 /** List of available 360 environment in base game. */
 export type Environment360Name = 'GlassDesertEnvironment' | 'MultiplayerEnvironment';
