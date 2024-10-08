@@ -76,6 +76,10 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       this.filename = filename;
       return this;
    }
+   setVersion(version: number): this {
+      this.version = version;
+      return this;
+   }
    setSampleCount(value: number): this {
       this.sampleCount = value;
       return this;

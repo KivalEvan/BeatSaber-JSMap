@@ -5,6 +5,7 @@
 ### Added
 
 - Britney Spears environment & color scheme
+- `setVersion` to versioned beatmap file class
 
 ### Changed
 

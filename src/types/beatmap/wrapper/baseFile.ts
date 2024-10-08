@@ -23,6 +23,7 @@ export interface IWrapBaseFileAttribute<T extends string = ''> {
  */
 export interface IWrapBaseFile<T extends string = ''> extends IWrapBaseFileAttribute<T> {
    setFilename(filename: this['filename']): this;
+   setVersion(version: this['version']): this;
 }
 
 /**

@@ -234,6 +234,10 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       this.lightshowFilename = filename;
       return this;
    }
+   setVersion(version: number): this {
+      this.version = version;
+      return this;
+   }
 
    sort(fn?: (object: this) => void): this {
       this.difficulty.sort();

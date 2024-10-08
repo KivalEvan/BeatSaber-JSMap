@@ -203,6 +203,10 @@ export class Info extends BaseItem implements IWrapInfo {
       this.filename = filename;
       return this;
    }
+   setVersion(version: number): this {
+      this.version = version;
+      return this;
+   }
 
    sort(): this {
       this.difficulties
