@@ -94,7 +94,7 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
       return this;
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.rotationDistributionType === 1 || this.rotationDistributionType === 2) &&
          (this.axis === 0 || this.axis === 1 || this.axis === 2) &&

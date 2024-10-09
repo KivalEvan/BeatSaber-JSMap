@@ -118,7 +118,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       this.lightshow = new Lightshow(data.lightshow ?? Beatmap.defaultValue.lightshow);
    }
 
-   isValid(fn?: (object: this) => boolean, _override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, _override?: boolean): boolean {
       return super.isValid(fn);
    }
 
@@ -239,7 +239,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return this;
    }
 
-   sort(fn?: (object: this) => void): this {
+   override sort(fn?: (object: this) => void): this {
       this.difficulty.sort();
       this.lightshow.sort();
       return super.sort(fn);

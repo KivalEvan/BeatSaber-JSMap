@@ -21,7 +21,7 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
       return this;
    }
 
-   mirror(flipColor = true, fn?: MirrorFn<this>): this {
+   override mirror(flipColor = true, fn?: MirrorFn<this>): this {
       fn?.(this);
       if (flipColor) {
          this.color = ((1 + this.color) % 2) as typeof this.color;
@@ -71,7 +71,7 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
       );
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override
          ? super.isValid(fn, override)
          : super.isValid(fn, override) && this.direction >= 0 && this.direction <= 8;

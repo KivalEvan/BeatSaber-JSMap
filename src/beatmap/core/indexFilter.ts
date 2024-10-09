@@ -94,7 +94,7 @@ export class IndexFilter extends BaseItem implements IWrapIndexFilter {
       return this;
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.type === 1 || this.type === 2) &&
          this.p0 >= 0 &&

@@ -42,7 +42,7 @@ export class RotationEvent extends BaseObject implements IWrapRotationEvent {
       return this;
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override
          ? super.isValid(fn, override)
          : super.isValid(fn, override) && (this.executionTime === 0 || this.executionTime === 1);

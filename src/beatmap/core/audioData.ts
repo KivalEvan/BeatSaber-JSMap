@@ -54,7 +54,7 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       this.customData = deepCopy(data.customData ?? AudioData.defaultValue.customData);
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.frequency >= 0 &&
          this.sampleCount >= 0 &&
@@ -133,7 +133,7 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       });
    }
 
-   sort(): this {
+   override sort(): this {
       this.bpmData.sort((a, b) => a.startBeat - b.startBeat);
       return this;
    }

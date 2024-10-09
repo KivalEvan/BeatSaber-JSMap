@@ -112,7 +112,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       );
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.waypoints.every((e) => e.isValid()) &&
          this.basicEvents.every((e) => e.isValid()) &&
@@ -134,7 +134,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
    basicEventTypesWithKeywords: IWrapBasicEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
 
-   sort(): this {
+   override sort(): this {
       this.waypoints.sort(sortObjectFn);
       this.basicEvents.sort(sortObjectFn);
       this.colorBoostEvents.sort(sortObjectFn);

@@ -52,7 +52,7 @@ export class Arc extends BaseSlider implements IWrapArc {
       this.customData = deepCopy(data.customData ?? Arc.defaultValue.customData);
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          !(
             this.isInverse() ||
@@ -88,7 +88,7 @@ export class Arc extends BaseSlider implements IWrapArc {
       return this;
    }
 
-   mirror(flipColor = true, fn?: MirrorFn<this>): this {
+   override mirror(flipColor = true, fn?: MirrorFn<this>): this {
       fn?.(this);
       switch (this.tailDirection) {
          case 2:

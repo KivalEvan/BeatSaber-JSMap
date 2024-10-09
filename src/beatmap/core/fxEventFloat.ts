@@ -49,7 +49,7 @@ export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
       return this;
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.previous === 0 || this.previous === 1) &&
          this.easing >= -1 &&

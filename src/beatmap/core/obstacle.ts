@@ -41,7 +41,7 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       this.customData = deepCopy(data.customData ?? Obstacle.defaultValue.customData);
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override
          ? super.isValid(fn, override)
          : super.isValid(fn, override) && !this.hasZero() && !this.hasNegative();
@@ -64,13 +64,13 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       return this;
    }
 
-   mirror(_flipAlt?: boolean, fn?: MirrorFn<this>): this {
+   override mirror(_flipAlt?: boolean, fn?: MirrorFn<this>): this {
       fn?.(this);
       this.posX = LINE_COUNT - 1 - (this.posX + this.width - 1);
       return this;
    }
 
-   getPosition(fn?: GetPositionFn<this>): Vector2 {
+   override getPosition(fn?: GetPositionFn<this>): Vector2 {
       return fn?.(this) ?? [this.posX - 2, this.posY - 0.5];
    }
 

@@ -32,7 +32,7 @@ export abstract class BaseSlider extends BaseNote implements IWrapBaseSlider {
       return this;
    }
 
-   mirror(flipColor = true, fn?: MirrorFn<this>): this {
+   override mirror(flipColor = true, fn?: MirrorFn<this>): this {
       fn?.(this);
       this.tailPosX = LINE_COUNT - 1 - this.tailPosX;
       return super.mirror(flipColor);

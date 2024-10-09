@@ -76,7 +76,7 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
       return this;
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.fxDistributionType === 1 || this.fxDistributionType === 2) &&
          (this.affectFirst === 0 || this.affectFirst === 1);

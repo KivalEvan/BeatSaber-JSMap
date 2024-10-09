@@ -43,7 +43,7 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
       return this;
    }
 
-   mirror(_flipAlt?: boolean, fn?: MirrorFn<this>): this {
+   override mirror(_flipAlt?: boolean, fn?: MirrorFn<this>): this {
       fn?.(this);
       this.posX = LINE_COUNT - 1 - this.posX;
       switch (this.direction) {
@@ -69,7 +69,7 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
       return this;
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.direction >= 0 &&
          this.direction <= 9 &&

@@ -40,7 +40,7 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       this.customData = deepCopy(data.customData ?? ColorNote.defaultValue.customData);
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.posX >= 0 &&
          this.posX <= 3 &&
@@ -57,12 +57,12 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       return this;
    }
 
-   mirror(flipColor = true, fn?: MirrorFn<this>): this {
+   override mirror(flipColor = true, fn?: MirrorFn<this>): this {
       fn?.(this);
       return super.mirror(flipColor);
    }
 
-   getAngle(fn?: GetAngleFn<this>): number {
+   override getAngle(fn?: GetAngleFn<this>): number {
       return (
          fn?.(this) ??
             (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +

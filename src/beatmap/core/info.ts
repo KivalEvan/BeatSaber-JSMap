@@ -170,7 +170,7 @@ export class Info extends BaseItem implements IWrapInfo {
       );
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.audio.filename !== '' &&
          this.audio.duration > 0 &&
@@ -195,7 +195,7 @@ export class Info extends BaseItem implements IWrapInfo {
    colorSchemes: IWrapInfoColorScheme[];
    difficulties: IWrapInfoBeatmap[];
 
-   clone<U extends this>(): U {
+   override clone<U extends this>(): U {
       return super.clone().setFilename(this.filename) as U;
    }
 
@@ -208,7 +208,7 @@ export class Info extends BaseItem implements IWrapInfo {
       return this;
    }
 
-   sort(): this {
+   override sort(): this {
       this.difficulties
          .sort(
             (a, b) => DifficultyRanking[a.difficulty] - DifficultyRanking[b.difficulty],

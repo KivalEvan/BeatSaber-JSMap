@@ -45,7 +45,7 @@ export class Chain extends BaseSlider implements IWrapChain {
       this.customData = deepCopy(data.customData ?? Chain.defaultValue.customData);
    }
 
-   isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (!this.isInverse() ||
             this.posY >= 0 ||
