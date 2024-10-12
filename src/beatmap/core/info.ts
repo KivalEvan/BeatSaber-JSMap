@@ -104,64 +104,71 @@ export class Info extends BaseItem implements IWrapInfo {
       ).map((e) => e!);
       this.colorSchemes = (
          data.colorSchemes ?? Info.defaultValue.colorSchemes
-      ).map((e) => ({
-         useOverride: e!.useOverride || false,
-         name: e!.name || '',
-         saberLeftColor: {
-            r: e!.saberLeftColor?.r || 0,
-            g: e!.saberLeftColor?.g || 0,
-            b: e!.saberLeftColor?.b || 0,
-            a: e!.saberLeftColor?.a || 0,
-         },
-         saberRightColor: {
-            r: e!.saberRightColor?.r || 0,
-            g: e!.saberRightColor?.g || 0,
-            b: e!.saberRightColor?.b || 0,
-            a: e!.saberRightColor?.a || 0,
-         },
-         environment0Color: {
-            r: e!.environment0Color?.r || 0,
-            g: e!.environment0Color?.g || 0,
-            b: e!.environment0Color?.b || 0,
-            a: e!.environment0Color?.a || 0,
-         },
-         environment1Color: {
-            r: e!.environment1Color?.r || 0,
-            g: e!.environment1Color?.g || 0,
-            b: e!.environment1Color?.b || 0,
-            a: e!.environment1Color?.a || 0,
-         },
-         environmentWColor: {
-            r: e!.environmentWColor?.r || 0,
-            g: e!.environmentWColor?.g || 0,
-            b: e!.environmentWColor?.b || 0,
-            a: e!.environmentWColor?.a || 0,
-         },
-         environment0ColorBoost: {
-            r: e!.environment0ColorBoost?.r || 0,
-            g: e!.environment0ColorBoost?.g || 0,
-            b: e!.environment0ColorBoost?.b || 0,
-            a: e!.environment0ColorBoost?.a || 0,
-         },
-         environment1ColorBoost: {
-            r: e!.environment1ColorBoost?.r || 0,
-            g: e!.environment1ColorBoost?.g || 0,
-            b: e!.environment1ColorBoost?.b || 0,
-            a: e!.environment1ColorBoost?.a || 0,
-         },
-         environmentWColorBoost: {
-            r: e!.environmentWColorBoost?.r || 0,
-            g: e!.environmentWColorBoost?.g || 0,
-            b: e!.environmentWColorBoost?.b || 0,
-            a: e!.environmentWColorBoost?.a || 0,
-         },
-         obstaclesColor: {
-            r: e!.obstaclesColor?.r || 0,
-            g: e!.obstaclesColor?.g || 0,
-            b: e!.obstaclesColor?.b || 0,
-            a: e!.obstaclesColor?.a || 0,
-         },
-      }));
+      ).map((e) => {
+         const cs: IWrapInfoColorScheme = {
+            useOverride: e!.useOverride || false,
+            name: e!.name || '',
+            saberLeftColor: {
+               r: e!.saberLeftColor?.r || 0,
+               g: e!.saberLeftColor?.g || 0,
+               b: e!.saberLeftColor?.b || 0,
+               a: e!.saberLeftColor?.a || 0,
+            },
+            saberRightColor: {
+               r: e!.saberRightColor?.r || 0,
+               g: e!.saberRightColor?.g || 0,
+               b: e!.saberRightColor?.b || 0,
+               a: e!.saberRightColor?.a || 0,
+            },
+            environment0Color: {
+               r: e!.environment0Color?.r || 0,
+               g: e!.environment0Color?.g || 0,
+               b: e!.environment0Color?.b || 0,
+               a: e!.environment0Color?.a || 0,
+            },
+            environment1Color: {
+               r: e!.environment1Color?.r || 0,
+               g: e!.environment1Color?.g || 0,
+               b: e!.environment1Color?.b || 0,
+               a: e!.environment1Color?.a || 0,
+            },
+            environment0ColorBoost: {
+               r: e!.environment0ColorBoost?.r || 0,
+               g: e!.environment0ColorBoost?.g || 0,
+               b: e!.environment0ColorBoost?.b || 0,
+               a: e!.environment0ColorBoost?.a || 0,
+            },
+            environment1ColorBoost: {
+               r: e!.environment1ColorBoost?.r || 0,
+               g: e!.environment1ColorBoost?.g || 0,
+               b: e!.environment1ColorBoost?.b || 0,
+               a: e!.environment1ColorBoost?.a || 0,
+            },
+            obstaclesColor: {
+               r: e!.obstaclesColor?.r || 0,
+               g: e!.obstaclesColor?.g || 0,
+               b: e!.obstaclesColor?.b || 0,
+               a: e!.obstaclesColor?.a || 0,
+            },
+         };
+         if (e!.environmentWColor) {
+            cs.environmentWColor = {
+               r: e!.environmentWColor?.r || 0,
+               g: e!.environmentWColor?.g || 0,
+               b: e!.environmentWColor?.b || 0,
+               a: e!.environmentWColor?.a || 0,
+            };
+         }
+         if (e!.environmentWColorBoost) {
+            cs.environmentWColorBoost = {
+               r: e!.environmentWColorBoost?.r || 0,
+               g: e!.environmentWColorBoost?.g || 0,
+               b: e!.environmentWColorBoost?.b || 0,
+               a: e!.environmentWColorBoost?.a || 0,
+            };
+         }
+         return cs;
+      });
       this.difficulties = (
          data.difficulties ?? Info.defaultValue.difficulties
       ).map((e) => new InfoBeatmap(e));
@@ -170,7 +177,10 @@ export class Info extends BaseItem implements IWrapInfo {
       );
    }
 
-   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(
+      fn?: (object: this) => boolean,
+      override?: boolean,
+   ): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.audio.filename !== '' &&
          this.audio.duration > 0 &&
