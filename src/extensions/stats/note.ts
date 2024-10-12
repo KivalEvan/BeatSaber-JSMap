@@ -44,7 +44,7 @@ export function countNote(
    const hasNoodle = version >= 3 ? hasNoodleExtensionsNoteV3 : hasNoodleExtensionsNoteV2;
 
    for (let i = notes.length - 1; i >= 0; i--) {
-      if (notes[i].color !== 0 || notes[i].color !== 1) continue;
+      if (notes[i].color !== 0 && notes[i].color !== 1) continue;
       const color = notes[i].color ? 'blue' : 'red';
       noteCount[color].total++;
       if (hasChroma(notes[i])) {
