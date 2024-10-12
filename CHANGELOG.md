@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.5 [2024-10-12]
+
+### Fixed
+
+- Info color scheme should no longer include white color if not present
+- Stats note count did not count
+
 ## 2.1.4 [2024-10-08]
 
 ### Added
