@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.6 [2024-10-13]
+
+### Fixed
+
+- Fixed conversion from v4 always including 0 rotation value event
+
 ## 2.1.5 [2024-10-12]
 
 ### Fixed

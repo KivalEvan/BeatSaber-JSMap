@@ -539,9 +539,18 @@ function fromV4(bm: IWrapBeatmap) {
       }
    } else {
       bm.rotationEvents = [];
-      bm.addRotationEvents(
-         ...Object.entries(mapTime).map(([k, v]) => ({ time: +k, rotation: v })),
-      );
+      let currentRotation = 0;
+      for (const time in mapTime) {
+         const t = +time;
+         const r = mapTime[time];
+         const difference = r - currentRotation;
+         if (difference === 0) continue;
+         currentRotation = r;
+         bm.addRotationEvents({
+            time: t,
+            rotation: difference,
+         });
+      }
    }
    for (let i = 0; i < objects.length; i++) {
       const obj = objects[i];
