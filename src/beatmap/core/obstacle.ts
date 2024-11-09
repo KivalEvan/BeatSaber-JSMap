@@ -84,10 +84,6 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       );
    }
 
-   isLonger(compareTo: IWrapObstacle, prevOffset = 0): boolean {
-      return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
-   }
-
    hasZero(): boolean {
       return this.duration === 0 || this.width === 0 || this.height === 0;
    }

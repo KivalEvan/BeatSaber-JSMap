@@ -56,14 +56,6 @@ export interface IWrapObstacle extends Omit<IWrapGridObject, 'customData'>, IWra
    isInteractive(fn?: GetPositionFn<this>): boolean;
 
    /**
-    * Check if current obstacle is longer than previous obstacle.
-    * ```ts
-    * if (wall.isLonger(compareWall)) {}
-    * ```
-    */
-   isLonger(compareTo: this, prevOffset?: number, fn?: GetPositionFn<this>): boolean;
-
-   /**
     * Check if obstacle has zero value.
     * ```ts
     * if (wall.hasZero()) {}
