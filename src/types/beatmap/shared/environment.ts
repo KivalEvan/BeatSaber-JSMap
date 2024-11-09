@@ -42,10 +42,16 @@ export type EnvironmentV3Name =
    | 'DaftPunkEnvironment'
    | 'HipHopEnvironment'
    | 'ColliderEnvironment'
-   | 'BritneyEnvironment';
+   | 'BritneyEnvironment'
+   | 'Monstercat2Environment';
 
 /** List of available 360 environment in base game. */
-export type Environment360Name = 'GlassDesertEnvironment' | 'MultiplayerEnvironment';
+export type Environment360Name =
+   | 'GlassDesertEnvironment'
+   | 'MultiplayerEnvironment';
 
 /** List of all available environment in base game. */
-export type EnvironmentAllName = EnvironmentName | EnvironmentV3Name | Environment360Name;
+export type EnvironmentAllName =
+   | EnvironmentName
+   | EnvironmentV3Name
+   | Environment360Name;

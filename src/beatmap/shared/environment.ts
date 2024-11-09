@@ -46,6 +46,7 @@ export const EnvironmentRename: {
    GlassDesertEnvironment: 'Glass Desert',
    MultiplayerEnvironment: 'Origins',
    BritneyEnvironment: 'Britney Spears',
+   Monstercat2Environment: 'Monstercat 2.0',
 } as const;
 
 /** List of available event type in environment. */
@@ -474,4 +475,5 @@ export const EventList: {
          22,
       ],
    ],
+   Monstercat2Environment: [[], []],
 } as const;

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.7 [2024-11-xx]
+
+### Added
+
+- Monstercat 2.0 environment & color scheme
+
+### Removed
+
+- `isLonger` in obstacle (BPM dependent can cause issue with change)
+
 ## 2.1.6 [2024-10-13]
 
 ### Fixed

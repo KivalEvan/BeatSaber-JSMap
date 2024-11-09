@@ -35,4 +35,5 @@ export type ColorSchemeName =
    | 'Daft Punk'
    | 'Hip Hop Mixtape'
    | 'Collider'
-   | 'Britney Spears';
+   | 'Britney Spears'
+   | 'Monstercat 2.0';

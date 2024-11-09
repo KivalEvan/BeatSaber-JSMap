@@ -47,6 +47,7 @@ export const EnvironmentSchemeName: {
    HipHopEnvironment: 'Hip Hop Mixtape',
    ColliderEnvironment: 'Collider',
    BritneyEnvironment: 'Britney Spears',
+   Monstercat2Environment: 'Monstercat 2.0',
    GlassDesertEnvironment: 'Glass Desert',
    MultiplayerEnvironment: 'Origins',
 } as const;
@@ -401,5 +402,14 @@ export const ColorScheme: {
       _envColorLeftBoost: { r: 1, g: 0.4591194, b: 0.5087922 },
       _envColorRightBoost: { r: 0.482353, g: 0.9294118, b: 0.7960785 },
       _obstacleColor: { r: 0.8396226, g: 0.09639232, b: 0 },
+   },
+   'Monstercat 2.0': {
+      _colorLeft: { r: 0, g: 0, b: 0 },
+      _colorRight: { r: 0, g: 0, b: 0 },
+      _envColorLeft: { r: 0, g: 0, b: 0 },
+      _envColorRight: { r: 0, g: 0, b: 0 },
+      _envColorLeftBoost: { r: 0, g: 0, b: 0 },
+      _envColorRightBoost: { r: 0, g: 0, b: 0 },
+      _obstacleColor: { r: 0, g: 0, b: 0 },
    },
 } as const;
