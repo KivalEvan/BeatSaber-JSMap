@@ -9,4 +9,5 @@ export * from './filename.ts';
 export * from './functions.ts';
 export * from './modCheck.ts';
 export * from './schema.ts';
+export * from './timeProcessor.ts';
 export * from './version.ts';

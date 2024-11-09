@@ -1,4 +1,3 @@
-export * from './bpm.ts';
 export * from './chroma.ts';
 export * from './contributor.ts';
 export * from './customData.ts';

@@ -7,6 +7,10 @@ export interface IBPMTimeScale {
    /**
     * **Type:** `f32`
     */
+   bpm: number;
+   /**
+    * **Type:** `f32`
+    */
    scale: number;
 }
 

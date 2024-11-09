@@ -1,4 +1,4 @@
-import type { IBPMChangeTime, IBPMTimeScale } from '../../types/beatmap/shared/custom/bpm.ts';
+import type { IBPMChangeTime, IBPMTimeScale } from '../../types/beatmap/shared/timeProcessor.ts';
 import type {
    IBPMChange as IV2BPMChange,
    IBPMChangeOld,
@@ -78,13 +78,21 @@ export class TimeProcessor {
    get change(): IBPMChangeTime[] {
       return this._bpmChange;
    }
-   set change(val: (IBPMChangeTime | IV2BPMChange | IBPMChangeOld | IV3BPMChange)[]) {
+   set change(
+      val: (IBPMChangeTime | IV2BPMChange | IBPMChangeOld | IV3BPMChange)[],
+   ) {
       this._bpmChange = this.getBpmChangeTime(val);
    }
    get timescale(): IBPMTimeScale[] {
       return this._timeScale;
    }
-   set timescale(val: (IBPMTimeScale | IBPMEvent | Omit<IWrapBPMEventAttribute, 'customData'>)[]) {
+   set timescale(
+      val: (
+         | IBPMTimeScale
+         | IBPMEvent
+         | Omit<IWrapBPMEventAttribute, 'customData'>
+      )[],
+   ) {
       this._timeScale = this.getTimeScale(val);
    }
    get offset(): number {
@@ -101,14 +109,23 @@ export class TimeProcessor {
     * ```
     */
    private getBpmChangeTime(
-      bpmc: (IBPMChangeTime | IV2BPMChange | IBPMChangeOld | IV3BPMChange)[] = [],
+      bpmc: (
+         | IBPMChangeTime
+         | IV2BPMChange
+         | IBPMChangeOld
+         | IV3BPMChange
+      )[] = [],
    ): IBPMChangeTime[] {
       let temp!: IBPMChangeTime;
       const bpmChange: IBPMChangeTime[] = [];
       bpmc = [...bpmc].sort(
          (a, b) =>
-            ((a as IBPMChangeTime).time ?? (a as IV2BPMChange)._time ?? (a as IV3BPMChange).b) -
-            ((b as IBPMChangeTime).time ?? (b as IV2BPMChange)._time ?? (b as IV3BPMChange).b),
+            ((a as IBPMChangeTime).time ??
+               (a as IV2BPMChange)._time ??
+               (a as IV3BPMChange).b) -
+            ((b as IBPMChangeTime).time ??
+               (b as IV2BPMChange)._time ??
+               (b as IV3BPMChange).b),
       );
       for (let i = 0; i < bpmc.length; i++) {
          const curBPMC: IBPMChangeTime = {
@@ -129,10 +146,14 @@ export class TimeProcessor {
          };
          if (temp) {
             curBPMC.newTime = Math.ceil(
-               ((curBPMC.time - temp.time) / this.bpm) * temp.BPM + temp.newTime - 0.01,
+               ((curBPMC.time - temp.time) / this.bpm) * temp.BPM +
+                  temp.newTime -
+                  0.01,
             );
          } else {
-            curBPMC.newTime = Math.ceil(curBPMC.time - (this._offset * this.bpm) / 60 - 0.01);
+            curBPMC.newTime = Math.ceil(
+               curBPMC.time - (this._offset * this.bpm) / 60 - 0.01,
+            );
          }
          bpmChange.push(curBPMC);
          temp = curBPMC;
@@ -147,7 +168,11 @@ export class TimeProcessor {
     * ```
     */
    private getTimeScale(
-      bpmc: (IBPMTimeScale | IBPMEvent | Omit<IWrapBPMEventAttribute, 'customData'>)[] = [],
+      bpmc: (
+         | IBPMTimeScale
+         | IBPMEvent
+         | Omit<IWrapBPMEventAttribute, 'customData'>
+      )[] = [],
    ): IBPMTimeScale[] {
       return [...bpmc]
          .sort(
@@ -157,8 +182,10 @@ export class TimeProcessor {
          )
          .map((el) => {
             if ('scale' in el) return el;
-            if ('bpm' in el) return { time: el.time, scale: this.bpm / el.bpm };
-            return { time: el.b || 0, scale: this.bpm / el.m! };
+            if ('bpm' in el) {
+               return { time: el.time, bpm: el.bpm, scale: this.bpm / el.bpm };
+            }
+            return { time: el.b || 0, bpm: this.bpm, scale: this.bpm / el.m! };
          });
    }
 
@@ -171,6 +198,31 @@ export class TimeProcessor {
    private offsetBegone(beat: number): number {
       if (this._offset === 0) return beat;
       return this.toBeatTime(this.toRealTime(beat, false) - this._offset);
+   }
+
+   getBpmAtTime(beat: number): number {
+      return (
+         this._timeScale.reverse().find((ts) => ts.time <= beat)?.bpm ??
+            this.bpm
+      );
+   }
+
+   /**
+    * Convert beat time at an offset beat to real-time in second.
+    * ```ts
+    * const durationSecond = bpm.toRealTimeOffset(obstacleTime, obstacleDuration);
+    * ```
+    */
+   toRealTimeAtOffset(offset: number, beat: number, timescale = true): number {
+      if (!timescale) {
+         return (beat / this.bpm) * 60;
+      }
+      for (let i = this._timeScale.length - 1; i >= 0; i--) {
+         if (offset > this._timeScale[i].time) {
+            return ((beat * this._timeScale[i].scale) / this.bpm) * 60;
+         }
+      }
+      return (beat / this.bpm) * 60;
    }
 
    /**
@@ -207,7 +259,10 @@ export class TimeProcessor {
       }
       let calculatedSecond = 0;
       for (let i = this._timeScale.length - 1; i >= 0; i--) {
-         const currentSeconds = this.toRealTime(this._timeScale[i].time, timescale);
+         const currentSeconds = this.toRealTime(
+            this._timeScale[i].time,
+            timescale,
+         );
          if (seconds > currentSeconds) {
             calculatedSecond += (seconds - currentSeconds) / this._timeScale[i].scale;
             seconds = currentSeconds;
@@ -228,7 +283,8 @@ export class TimeProcessor {
       for (let i = this._bpmChange.length - 1; i >= 0; i--) {
          if (beat > this._bpmChange[i].newTime) {
             return (
-               ((beat - this._bpmChange[i].newTime) / this._bpmChange[i].BPM) * this.bpm +
+               ((beat - this._bpmChange[i].newTime) / this._bpmChange[i].BPM) *
+                  this.bpm +
                this._bpmChange[i].time
             );
          }
@@ -241,12 +297,15 @@ export class TimeProcessor {
     * ```ts
     * const adjustedBeat = bpm.adjustTime(beat);
     * ```
+    *
+    * @deprecated only use if you are using info custom data song offset, typically exist in older v2 beatmaps
     */
    adjustTime(beat: number): number {
       for (let i = this._bpmChange.length - 1; i >= 0; i--) {
          if (beat > this._bpmChange[i].time) {
             return (
-               ((beat - this._bpmChange[i].time) / this.bpm) * this._bpmChange[i].BPM +
+               ((beat - this._bpmChange[i].time) / this.bpm) *
+                  this._bpmChange[i].BPM +
                this._bpmChange[i].newTime
             );
          }

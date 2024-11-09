@@ -5,6 +5,11 @@
 ### Added
 
 - Monstercat 2.0 environment & color scheme
+- `getBpmAtTime` and `toRealTimeAtOffset` TimeProcessor method
+
+### Deprecated
+
+- `adjustTime` TimeProcessor method
 
 ### Removed
 
