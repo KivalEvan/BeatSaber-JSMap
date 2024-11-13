@@ -82,6 +82,7 @@ export const ObjectLaneSchema: {
    },
    r: {
       type: 'number',
+      int: true,
       version: '4.0.0',
       optional: true,
    },
@@ -106,6 +107,7 @@ export const ObjectChainSchema: {
    },
    hr: {
       type: 'number',
+      int: true,
       version: '4.0.0',
       optional: true,
    },
@@ -116,6 +118,7 @@ export const ObjectChainSchema: {
    },
    tr: {
       type: 'number',
+      int: true,
       version: '4.0.0',
       optional: true,
    },
@@ -161,6 +164,7 @@ export const ObjectArcSchema: {
    },
    hr: {
       type: 'number',
+      int: true,
       version: '4.0.0',
       optional: true,
    },
@@ -178,6 +182,7 @@ export const ObjectArcSchema: {
    },
    tr: {
       type: 'number',
+      int: true,
       version: '4.0.0',
       optional: true,
    },
