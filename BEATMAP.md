@@ -103,7 +103,7 @@ Legend:
 | Arc                                    | ✅                           | ✅                       | ⚠️ Unused                           | ❌                                  |
 | Chain                                  | ✅                           | ✅                       | ❌                                  | ❌                                  |
 | Obstacle                               | ✅                           | ✅                       | ⚠️ No type                          | ⚠️ No type                          |
-| Rotation Event                         | ✅                           | ✅                       | ⚠️ Fixed value; part of basic event | ⚠️ Fixed value; part of basic event |
+| Rotation Event                         | ❌ Part of object lane       | ✅                       | ⚠️ Fixed value; part of basic event | ⚠️ Fixed value; part of basic event |
 | Waypoint                               | ❌ All below in v4 Lightshow | ✅                       | ✅                                  | ❌                                  |
 | Basic Event                            | ❌                           | ✅                       | ✅                                  | ⚠️ No float value                   |
 | Color Boost Event                      | ❌                           | ✅                       | ⚠️ Part of basic event              | ⚠️ Part of basic event              |

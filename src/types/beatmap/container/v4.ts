@@ -191,6 +191,8 @@ export interface IObstacleContainer {
  * Schema container for v4 `Spawn Rotation`.
  *
  * Contains `IObject` and `ISpawnRotation`.
+ *
+ * @deprecated removed as of 1.39, convert to `r` in object lane
  */
 export interface ISpawnRotationContainer {
    object: IObject;

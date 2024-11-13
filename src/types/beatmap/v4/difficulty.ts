@@ -17,11 +17,17 @@ export interface IDifficulty extends IItem {
    obstacles: IObjectLane[];
    chains: IObjectChain[];
    arcs: IObjectArc[];
-   spawnRotations: IObject[];
+   /**
+    * @deprecated removed as of 1.39, convert to `r` in object lane
+    */
+   spawnRotations?: IObject[];
    colorNotesData: IColorNote[];
    bombNotesData: IBombNote[];
    obstaclesData: IObstacle[];
    chainsData: IChain[];
    arcsData: IArc[];
-   spawnRotationsData: ISpawnRotation[];
+   /**
+    * @deprecated removed as of 1.39, convert to `r` in object lane
+    */
+   spawnRotationsData?: ISpawnRotation[];
 }

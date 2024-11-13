@@ -6,6 +6,8 @@ import { deepCopy } from '../../../utils/misc.ts';
 
 /**
  * Schema serialization for v4 `Rotation Event`.
+ *
+ * @deprecated removed as of 1.39, convert to `r` in object lane
  */
 export const rotationEvent: ISchemaContainer<IWrapRotationEventAttribute, ISpawnRotationContainer> =
    {

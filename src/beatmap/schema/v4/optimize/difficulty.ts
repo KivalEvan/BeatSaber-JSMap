@@ -22,7 +22,7 @@ export function optimizeDifficulty(
       );
       const [newChainData, remapChainIdx] = remapDedupe(data.chainsData);
       const [newArcData, remapArcIdx] = remapDedupe(data.arcsData);
-      const [newSRData, remapSRIdx] = remapDedupe(data.spawnRotationsData);
+      const [newSRData, remapSRIdx] = remapDedupe(data.spawnRotationsData!);
 
       for (let i = 0; i < data.colorNotes.length; i++) {
          const d = data.colorNotes[i];
@@ -47,8 +47,8 @@ export function optimizeDifficulty(
          d.hi = remapColorNoteIdx.get(d.hi!);
          d.ti = remapColorNoteIdx.get(d.ti!);
       }
-      for (let i = 0; i < data.spawnRotations.length; i++) {
-         const d = data.spawnRotations[i];
+      for (let i = 0; i < data.spawnRotations!.length; i++) {
+         const d = data.spawnRotations![i];
          d.i = remapSRIdx.get(d.i!);
       }
 
@@ -57,7 +57,8 @@ export function optimizeDifficulty(
       data.obstaclesData = newObstacleData;
       data.chainsData = newChainData;
       data.arcsData = newArcData;
-      data.spawnRotationsData = newSRData;
+      if (newSRData.length) data.spawnRotationsData = newSRData;
+      else delete data.spawnRotationsData;
    }
 
    for (let i = 0; i < data.arcs.length; i++) {

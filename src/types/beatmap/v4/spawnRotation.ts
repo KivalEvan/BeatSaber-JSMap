@@ -3,6 +3,8 @@ import type { IItem } from './item.ts';
 
 /**
  * Schema for v4 `Spawn Rotation`.
+ *
+ * @deprecated removed as of 1.39, convert to `r` in object lane
  */
 export interface ISpawnRotation extends IItem {
    /**

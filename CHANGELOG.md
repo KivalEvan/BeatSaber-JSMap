@@ -9,6 +9,7 @@
 
 ### Deprecated
 
+- Beatmap v4 `spawnRotation`, now uses object lane attribute `r`
 - `adjustTime` TimeProcessor method
 
 ### Removed
