@@ -492,11 +492,49 @@ export const environmentGroupMap: {
       21: 'Stars Color',
       22: 'Chevron Mask Strength',
    },
+   Monstercat2Environment: {
+      0: 'Head Move',
+      1: 'Light Pillars Left',
+      2: 'Light Pillars Group Left',
+      3: 'Light Pillars Right',
+      4: 'Light Pillars Group Right',
+      5: 'Objects Screens L',
+      6: 'Objects Screens L Color',
+      7: 'Objects Screens R',
+      8: 'Objects Screens R Color',
+      9: 'Lasers Circle Global',
+      10: 'Lasers Circle',
+      11: 'Head Lights L',
+      12: 'Head Lights R',
+      13: 'Head Lights Mouth',
+      14: 'Lasers Vertical End Left',
+      15: 'Lasers Vertical End Right',
+      16: 'Objects Screens Runway Rings L',
+      17: 'Objects Screens Runway Rings R',
+      18: 'Objects Teeth',
+      19: 'Lasers Vertical Side Left',
+      20: 'Lasers Vertical Side Right',
+      21: 'Screens Small Left 1 Color',
+      22: 'Screens Small Left 1',
+      23: 'Screens Small Left 1 Global',
+      24: 'Screens Small Right 1 Color',
+      25: 'Screens Small Right 1',
+      26: 'Screens Small Right 1 Global',
+      27: 'Screens Small Left 2 Color',
+      28: 'Screens Small Left 2',
+      29: 'Screens Small Left 2 Global',
+      30: 'Screens Small Right 2 Color',
+      31: 'Screens Small Right 2',
+      32: 'Screens Small Right 2 Global',
+   },
 };
 
 /**
  * Safely retrieve the name of an event group.
  */
-export function eventGroupRename(id: number, environment?: EnvironmentAllName): string {
+export function eventGroupRename(
+   id: number,
+   environment?: EnvironmentAllName,
+): string {
    return environmentGroupMap[environment!]?.[id] || 'Unknown';
 }

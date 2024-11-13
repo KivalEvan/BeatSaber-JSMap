@@ -63,7 +63,7 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
             evt.time === obj.time &&
             evt.executionTime === ExecutionTime.EARLY
          ) {
-            obj.laneRotation = calculatedRotations % 360;
+            obj.laneRotation = Math.round(calculatedRotations % 360);
             if (obj instanceof BaseSlider) {
                obj.tailLaneRotation = obj.laneRotation;
             }
@@ -76,7 +76,7 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
             evt = rotations.at(-1);
          }
          if (!evt) break;
-         obj.laneRotation = calculatedRotations % 360;
+         obj.laneRotation = Math.round(calculatedRotations % 360);
          if (obj instanceof BaseSlider) {
             obj.tailLaneRotation = obj.laneRotation;
          }
@@ -88,7 +88,7 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
    for (let i = 0; i < objects.length; i++) {
       const obj = objects[i];
       if (typeof obj.customData.worldRotation === 'number') {
-         obj.laneRotation = obj.customData.worldRotation;
+         obj.laneRotation = Math.round(obj.customData.worldRotation);
          if (obj instanceof BaseSlider) {
             obj.tailLaneRotation = obj.customData.worldRotation;
          }

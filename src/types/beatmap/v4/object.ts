@@ -19,7 +19,7 @@ export interface IObject extends IItem {
  */
 export interface IObjectLane extends IObject {
    /**
-    * **Type:** `f32`
+    * **Type:** `i32`
     */
    r?: number;
 }
@@ -33,7 +33,7 @@ export interface IObjectChain extends IItem {
     */
    hb?: number;
    /**
-    * **Type:** `f32`
+    * **Type:** `i32`
     */
    hr?: number;
    /**
@@ -41,7 +41,7 @@ export interface IObjectChain extends IItem {
     */
    tb?: number;
    /**
-    * **Type:** `f32`
+    * **Type:** `i32`
     */
    tr?: number;
    /**
@@ -67,7 +67,7 @@ export interface IObjectArc extends IItem {
     */
    hi?: number;
    /**
-    * **Type:** `f32`
+    * **Type:** `i32`
     */
    hr?: number;
    /**
@@ -79,7 +79,7 @@ export interface IObjectArc extends IItem {
     */
    ti?: number;
    /**
-    * **Type:** `f32`
+    * **Type:** `i32`
     */
    tr?: number;
    /**

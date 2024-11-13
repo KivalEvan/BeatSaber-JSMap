@@ -33,7 +33,9 @@ export const genericTypeMap: { [key: number]: string } = {
 /**
  * Record of Environment to Type to Name.
  */
-export const environmentTypeMap: { [env in EnvironmentAllName]?: { [key: number]: string } } = {
+export const environmentTypeMap: {
+   [env in EnvironmentAllName]?: { [key: number]: string };
+} = {
    LinkinParkEnvironment: {
       0: 'Lane Light',
       1: 'Ceiling Lights',
@@ -207,11 +209,22 @@ export const environmentTypeMap: { [env in EnvironmentAllName]?: { [key: number]
       9: 'Dust Particles',
       12: 'Icons',
    },
+   Monstercat2Environment: {
+      6: 'Ambient',
+      8: 'Player Place',
+   },
 };
 
 /**
  * Safely retrieve the name of an event type.
  */
-export function eventTypeRename(type: number, environment?: EnvironmentAllName): string {
-   return environmentTypeMap[environment!]?.[type] || genericTypeMap[type] || 'Unknown';
+export function eventTypeRename(
+   type: number,
+   environment?: EnvironmentAllName,
+): string {
+   return (
+      environmentTypeMap[environment!]?.[type] ||
+      genericTypeMap[type] ||
+      'Unknown'
+   );
 }
