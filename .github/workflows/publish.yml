@@ -1,44 +1,44 @@
 name: Publish
 
 on:
-  workflow_run:
-    workflows: ["Test"]
-    types:
-      - completed
+   workflow_run:
+      workflows: ['Test']
+      types:
+         - completed
 
 permissions:
-  contents: read
+   contents: read
 
 jobs:
-  publish:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+   publish:
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      runs-on: ubuntu-latest
+      permissions:
+         contents: read
+         id-token: write
+      steps:
+         - name: Checkout
+           uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: 'https://registry.npmjs.org'
+         - name: Setup Node
+           uses: actions/setup-node@v4
+           with:
+              node-version: 20
+              registry-url: 'https://registry.npmjs.org'
 
-      - name: Setup Deno
-        # uses: denoland/setup-deno@v1
-        uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31  # v1.1.2
-        with:
-          deno-version: v1.x
-    
-      - name: Create NPM package
-        run: deno task npm
+         - name: Setup Deno
+           # uses: denoland/setup-deno@v1
+           uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31 # v1.1.2
+           with:
+              deno-version: v1.x
 
-      - name: Publishing on JSR
-        run: npx jsr publish
+         - name: Create NPM package
+           run: deno task npm
 
-      - name: Publishing on NPM
-        run: cd npm && npm publish --provenance --access public && cd ..
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+         - name: Publishing on JSR
+           run: npx jsr publish
+
+         - name: Publishing on NPM
+           run: cd npm && npm publish --provenance --access public && cd ..
+           env:
+              NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

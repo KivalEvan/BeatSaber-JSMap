@@ -25,8 +25,8 @@ Deno.test('Time Processor create instance from constructor', () => {
    assertEquals(bpm2.bpm, 128);
    assertAlmostEquals(bpm2.offset, 123, EPSILON);
    assertEquals(bpm2.timescale, [
-      { time: 0, scale: 2 },
-      { time: 12, scale: 1 },
+      { time: 0, bpm: 64, scale: 2 },
+      { time: 12, bpm: 128, scale: 1 },
    ]);
    assertEquals(bpm2.change, []);
 
@@ -78,8 +78,8 @@ Deno.test('Time Processor create instance from static create', () => {
    assertEquals(bpm2.bpm, 128);
    assertAlmostEquals(bpm2.offset, 123, EPSILON);
    assertEquals(bpm2.timescale, [
-      { time: 0, scale: 2 },
-      { time: 12, scale: 1 },
+      { time: 0, bpm: 64, scale: 2 },
+      { time: 12, bpm: 128, scale: 1 },
    ]);
    assertEquals(bpm2.change, []);
 
@@ -128,7 +128,7 @@ Deno.test('Time Processor getter/setter', () => {
    bpm.timescale = [
       { b: 0, m: 60 },
       { time: 12, bpm: 120 },
-      { time: 24, scale: 0.5 },
+      { time: 24, bpm: 240, scale: 0.5 },
    ];
    bpm.change = [
       { _time: 0, _BPM: 60, _beatsPerBar: 4, _metronomeOffset: 4 },
@@ -144,9 +144,9 @@ Deno.test('Time Processor getter/setter', () => {
    assertEquals(bpm.bpm, 120);
    assertAlmostEquals(bpm.offset, 100, EPSILON);
    assertEquals(bpm.timescale, [
-      { time: 0, scale: 2 },
-      { time: 12, scale: 1 },
-      { time: 24, scale: 0.5 },
+      { time: 0, bpm: 60, scale: 2 },
+      { time: 12, bpm: 120, scale: 1 },
+      { time: 24, bpm: 240, scale: 0.5 },
    ]);
    assertEquals(bpm.change, [
       { time: 0, newTime: 0, BPM: 60, beatsPerBar: 4, metronomeOffset: 4 },
@@ -198,7 +198,7 @@ Deno.test('Time Processor second to beat time', () => {
    bpm.timescale = [
       { b: 0, m: 60 },
       { time: 12, bpm: 120 },
-      { time: 24, scale: 0.5 },
+      { time: 24, bpm: 240, scale: 0.5 },
    ];
    bpm.change = [
       { _time: 0, _BPM: 60, _beatsPerBar: 4, _metronomeOffset: 4 },
@@ -236,7 +236,7 @@ Deno.test('Time Processor beat to real time', () => {
    bpm.timescale = [
       { b: 0, m: 60 },
       { time: 12, bpm: 120 },
-      { time: 24, scale: 0.5 },
+      { time: 24, bpm: 240, scale: 0.5 },
    ];
    bpm.change = [
       { _time: 0, _BPM: 60, _beatsPerBar: 4, _metronomeOffset: 4 },

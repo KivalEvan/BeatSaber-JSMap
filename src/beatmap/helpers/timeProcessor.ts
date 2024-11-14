@@ -185,7 +185,14 @@ export class TimeProcessor {
             if ('bpm' in el) {
                return { time: el.time, bpm: el.bpm, scale: this.bpm / el.bpm };
             }
-            return { time: el.b || 0, bpm: this.bpm, scale: this.bpm / el.m! };
+            if ('m' in el) {
+               return {
+                  time: el.b || 0,
+                  bpm: el.m || this.bpm,
+                  scale: this.bpm / (el.m || this.bpm),
+               };
+            }
+            return { time: el.b || 0, bpm: this.bpm, scale: 1 };
          });
    }
 

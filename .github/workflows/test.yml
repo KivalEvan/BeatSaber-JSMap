@@ -1,38 +1,37 @@
 name: Test
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+   push:
+      branches: ['main']
+   pull_request:
+      branches: ['main']
 
 permissions:
-  contents: read
+   contents: read
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+   test:
+      runs-on: ubuntu-latest
 
-    steps:
-      - name: Setup repo
-        uses: actions/checkout@v3
+      steps:
+         - name: Setup repo
+           uses: actions/checkout@v3
 
-      - name: Setup Deno
-        # uses: denoland/setup-deno@v1
-        uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31  # v1.1.2
-        with:
-          deno-version: v1.x
+         - name: Setup Deno
+           # uses: denoland/setup-deno@v1
+           uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31 # v1.1.2
+           with:
+              deno-version: v1.x
 
-      # Uncomment this step to verify the use of 'deno fmt' on each commit.
-      # - name: Verify formatting
-      #   run: deno fmt --check
+         # Uncomment this step to verify the use of 'deno fmt' on each commit.
+         # - name: Verify formatting
+         #   run: deno fmt --check
 
-      - name: Run check
-        run: deno task check
+         - name: Run check
+           run: deno task check
 
-      - name: Run linter
-        run: deno lint
+         - name: Run linter
+           run: deno lint
 
-      - name: Run tests
-        run: deno test -A
-  
+         - name: Run tests
+           run: deno test -A
