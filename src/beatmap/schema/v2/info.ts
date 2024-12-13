@@ -45,7 +45,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          _environmentNames: data.environmentNames.map((e) => e),
          _colorSchemes: data.colorSchemes.map((e) => {
             const cs: Required<IInfo>['_colorSchemes'][number] = {
-               useOverride: e.useOverride,
+               useOverride: e.overrideNotes || e.overrideLights,
                colorScheme: {
                   colorSchemeId: e.name,
                   saberAColor: shallowCopy(e.saberLeftColor),
@@ -116,8 +116,9 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          environmentNames: data._environmentNames?.map((e) => e),
          colorSchemes: data._colorSchemes?.map((e) => {
             const scheme: DeepPartial<IWrapInfoColorScheme> = {
-               useOverride: !!e.useOverride,
                name: e.colorScheme?.colorSchemeId,
+               overrideNotes: !!e.useOverride,
+               overrideLights: !!e.useOverride,
                saberLeftColor: {
                   r: e.colorScheme?.saberAColor?.r,
                   g: e.colorScheme?.saberAColor?.g,

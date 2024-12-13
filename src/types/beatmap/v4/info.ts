@@ -9,7 +9,7 @@ import type { ICustomDataInfoBeatmap } from './custom/info.ts';
  * Schema for v4 `Info`.
  */
 export interface IInfo extends IItem {
-   version: '4.0.0';
+   version: '4.0.0' | '4.0.1';
    song: IInfoSong;
    audio: IInfoAudio;
    songPreviewFilename: string;
@@ -47,9 +47,11 @@ export interface IInfoAudio {
  */
 export interface IInfoColorScheme {
    colorSchemeName: string;
+   overrideNotes: boolean;
    saberAColor: string; // hex, all of them below
    saberBColor: string;
    obstaclesColor: string;
+   overrideLights: boolean;
    environmentColor0: string;
    environmentColor1: string;
    environmentColorW?: string;

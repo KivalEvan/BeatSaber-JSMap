@@ -73,7 +73,8 @@ export function info(data: IWrapInfo): void {
       data.colorSchemes = data.colorSchemes
          .filter((v) => v)
          .map((v) => {
-            v.useOverride = fixBoolean(v.useOverride);
+            v.overrideNotes = fixBoolean(v.overrideNotes);
+            v.overrideLights = fixBoolean(v.overrideLights);
             v.name = fixString(v.name, 'Unknown');
             v.saberLeftColor = fixColorObject(v.saberLeftColor, true);
             v.saberRightColor = fixColorObject(v.saberRightColor, true);

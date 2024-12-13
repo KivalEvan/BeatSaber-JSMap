@@ -106,8 +106,9 @@ export class Info extends BaseItem implements IWrapInfo {
          data.colorSchemes ?? Info.defaultValue.colorSchemes
       ).map((e) => {
          const cs: IWrapInfoColorScheme = {
-            useOverride: e!.useOverride || false,
             name: e!.name || '',
+            overrideLights: e!.overrideLights || false,
+            overrideNotes: e!.overrideNotes || false,
             saberLeftColor: {
                r: e!.saberLeftColor?.r || 0,
                g: e!.saberLeftColor?.g || 0,

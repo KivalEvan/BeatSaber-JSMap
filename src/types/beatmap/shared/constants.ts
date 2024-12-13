@@ -77,6 +77,7 @@ export const enum EventType {
    SPECIAL_EVENT_2 = 42,
    SPECIAL_EVENT_3 = 43,
    BPM_CHANGE = 100,
+   NJS_CHANGE = 1000,
 }
 
 /** Base game index filter type value. */

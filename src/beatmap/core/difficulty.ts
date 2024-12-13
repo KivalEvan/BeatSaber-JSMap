@@ -35,6 +35,11 @@ import { Obstacle } from './obstacle.ts';
 import { Arc } from './arc.ts';
 import { Chain } from './chain.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import type {
+   IWrapNJSEvent,
+   IWrapNJSEventAttribute,
+} from '../../types/beatmap/wrapper/njsEvent.ts';
+import { NJSEvent } from './njsEvent.ts';
 
 /**
  * Core beatmap difficulty.
@@ -48,6 +53,7 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       obstacles: [],
       arcs: [],
       chains: [],
+      njsEvents: [],
       customData: {},
    };
 
@@ -81,6 +87,9 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       // deno-lint-ignore ban-ts-comment
       // @ts-ignore
       this.chains = (data.chains ?? Difficulty.defaultValue.chains).map((e) => new Chain(e));
+      this.njsEvents = (data.njsEvents ?? Difficulty.defaultValue.njsEvents).map((e) =>
+         new NJSEvent(e)
+      );
       this.customData = deepCopy(data.customData ?? Difficulty.defaultValue.customData);
    }
 
@@ -102,6 +111,7 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
    obstacles: IWrapObstacle[];
    arcs: IWrapArc[];
    chains: IWrapChain[];
+   njsEvents: IWrapNJSEvent[];
 
    override sort(): this {
       this.bpmEvents.sort(sortObjectFn);
@@ -156,6 +166,12 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
    addChains(...data: DeepPartialIgnore<IWrapChainAttribute, 'customData'>[]): this {
       for (const d of data) {
          this.chains.push(new Chain(d));
+      }
+      return this;
+   }
+   addNjsEvents(...data: Partial<IWrapNJSEventAttribute>[]): this {
+      for (const d of data) {
+         this.njsEvents.push(new NJSEvent(d));
       }
       return this;
    }

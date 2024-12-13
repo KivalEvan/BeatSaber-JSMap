@@ -14,6 +14,7 @@ import type { ILightRotationEvent } from '../v4/lightRotationEvent.ts';
 import type { ILightRotationEventBox } from '../v4/lightRotationEventBox.ts';
 import type { ILightTranslationEvent } from '../v4/lightTranslationEvent.ts';
 import type { ILightTranslationEventBox } from '../v4/lightTranslationEventBox.ts';
+import type { INJSEvent } from '../v4/njsEvent.ts';
 import type { IObjectLane } from '../v4/object.ts';
 import type { IObject, IObjectArc, IObjectChain } from '../v4/object.ts';
 import type { IObstacle } from '../v4/obstacle.ts';
@@ -40,6 +41,16 @@ export interface IArcContainer {
 export interface IBasicEventContainer {
    object: IObject;
    data: IBasicEvent;
+}
+
+/**
+ * Schema container for v4 `NJS Event`.
+ *
+ * Contains `IObject` and `INjsEvent`.
+ */
+export interface INjsEventContainer {
+   object: IObject;
+   data: INJSEvent;
 }
 
 /**

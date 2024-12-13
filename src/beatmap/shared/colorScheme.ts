@@ -72,7 +72,7 @@ export const CustomColorRename: {
 export const ColorSchemeRename: {
    readonly [
       key in keyof Required<
-         Omit<IWrapInfoColorScheme, 'name' | 'useOverride'>
+         Omit<IWrapInfoColorScheme, 'name' | 'overrideNotes' | 'overrideLights'>
       >
    ]: string;
 } = {

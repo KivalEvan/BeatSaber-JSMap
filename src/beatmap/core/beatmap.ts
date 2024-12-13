@@ -60,6 +60,7 @@ import type {
    GenericBeatmapFilename,
    GenericLightshowFilename,
 } from '../../types/beatmap/shared/filename.ts';
+import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
 
 /**
  * Core beatmap container.
@@ -87,6 +88,7 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
          obstacles: [],
          arcs: [],
          chains: [],
+         njsEvents: [],
          customData: {},
       },
       lightshow: {
@@ -170,6 +172,12 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    }
    set chains(value: this['chains']) {
       this.difficulty.chains = value;
+   }
+   get njsEvents(): IWrapNJSEvent[] {
+      return this.difficulty.njsEvents;
+   }
+   set njsEvents(value: this['njsEvents']) {
+      this.difficulty.njsEvents = value;
    }
    get waypoints(): IWrapWaypoint[] {
       return this.lightshow.waypoints;

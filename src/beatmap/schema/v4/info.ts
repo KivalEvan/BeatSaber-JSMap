@@ -37,6 +37,8 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          colorSchemes: data.colorSchemes.map((e) => {
             const cs: Required<IInfo>['colorSchemes'][number] = {
                colorSchemeName: e.name,
+               overrideNotes: e.overrideNotes,
+               overrideLights: e.overrideLights,
                saberAColor: colorToHex(e.saberLeftColor),
                saberBColor: colorToHex(e.saberRightColor),
                environmentColor0: colorToHex(e.environment0Color),
@@ -80,18 +82,37 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          colorSchemes: data.colorSchemes?.map((e) => {
             e = e!;
             const scheme: IWrapInfoColorScheme = {
-               useOverride: true,
                name: e.colorSchemeName || '',
+               overrideNotes: e.overrideNotes || data.version === '4.0.0' ? true : false,
+               overrideLights: e.overrideLights || data.version === '4.0.0' ? true : false,
                saberLeftColor: toColorObject(hexToRgba(e.saberAColor!), true),
                saberRightColor: toColorObject(hexToRgba(e.saberBColor!), true),
-               environment0Color: toColorObject(hexToRgba(e.environmentColor0!), true),
-               environment1Color: toColorObject(hexToRgba(e.environmentColor1!), true),
-               obstaclesColor: toColorObject(hexToRgba(e.obstaclesColor!), true),
-               environment0ColorBoost: toColorObject(hexToRgba(e.environmentColor0Boost!), true),
-               environment1ColorBoost: toColorObject(hexToRgba(e.environmentColor1Boost!), true),
+               environment0Color: toColorObject(
+                  hexToRgba(e.environmentColor0!),
+                  true,
+               ),
+               environment1Color: toColorObject(
+                  hexToRgba(e.environmentColor1!),
+                  true,
+               ),
+               obstaclesColor: toColorObject(
+                  hexToRgba(e.obstaclesColor!),
+                  true,
+               ),
+               environment0ColorBoost: toColorObject(
+                  hexToRgba(e.environmentColor0Boost!),
+                  true,
+               ),
+               environment1ColorBoost: toColorObject(
+                  hexToRgba(e.environmentColor1Boost!),
+                  true,
+               ),
             };
             if (e.environmentColorW) {
-               scheme.environmentWColor = toColorObject(hexToRgba(e.environmentColorW), true);
+               scheme.environmentWColor = toColorObject(
+                  hexToRgba(e.environmentColorW),
+                  true,
+               );
             }
             if (e.environmentColorWBoost) {
                scheme.environmentWColorBoost = toColorObject(

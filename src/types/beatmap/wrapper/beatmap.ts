@@ -29,6 +29,7 @@ import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
 import type { GenericBeatmapFilename, GenericLightshowFilename } from '../shared/filename.ts';
 import type { IWrapBaseItemAttribute } from './baseItem.ts';
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
+import type { IWrapNJSEvent } from './njsEvent.ts';
 
 /**
  * Wrapper attribute for beatmap data.
@@ -65,6 +66,7 @@ export interface IWrapBeatmap
    arcs: IWrapArc[];
    chains: IWrapChain[];
    waypoints: IWrapWaypoint[];
+   njsEvents: IWrapNJSEvent[];
    basicEvents: IWrapBasicEvent[];
    colorBoostEvents: IWrapColorBoostEvent[];
    lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];

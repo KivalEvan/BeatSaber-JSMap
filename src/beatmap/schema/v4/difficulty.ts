@@ -9,6 +9,7 @@ import { rotationEvent } from './rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import { njsEvent } from './njsEvent.ts';
 
 /**
  * Schema serialization for v4 `Difficulty`.
@@ -16,7 +17,7 @@ import type { DeepPartial } from '../../../types/utils.ts';
 export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = {
    serialize(data: IWrapBeatmapAttribute): IDifficulty {
       const json: Required<IDifficulty> = {
-         version: '4.0.0',
+         version: '4.1.0',
          colorNotes: [],
          bombNotes: [],
          obstacles: [],
@@ -29,19 +30,33 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          chainsData: [],
          arcsData: [],
          spawnRotationsData: [],
+         njsEvents: [],
+         njsEventData: [],
          customData: deepCopy(data.difficulty.customData),
       };
-      for (const jsonObj of data.difficulty.colorNotes.map(colorNote.serialize)) {
+      for (
+         const jsonObj of data.difficulty.colorNotes.map(
+            colorNote.serialize,
+         )
+      ) {
          json.colorNotes.push(jsonObj.object);
          jsonObj.object.i = json.colorNotesData.length;
          json.colorNotesData.push(jsonObj.data);
       }
-      for (const jsonObj of data.difficulty.bombNotes.map(bombNote.serialize)) {
+      for (
+         const jsonObj of data.difficulty.bombNotes.map(
+            bombNote.serialize,
+         )
+      ) {
          json.bombNotes.push(jsonObj.object);
          jsonObj.object.i = json.bombNotesData.length;
          json.bombNotesData.push(jsonObj.data);
       }
-      for (const jsonObj of data.difficulty.obstacles.map(obstacle.serialize)) {
+      for (
+         const jsonObj of data.difficulty.obstacles.map(
+            obstacle.serialize,
+         )
+      ) {
          json.obstacles.push(jsonObj.object);
          jsonObj.object.i = json.obstaclesData.length;
          json.obstaclesData.push(jsonObj.data);
@@ -62,14 +77,29 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          jsonObj.object.ci = json.chainsData.length;
          json.chainsData.push(jsonObj.chainData);
       }
-      for (const jsonObj of data.difficulty.rotationEvents.map(rotationEvent.serialize)) {
+      for (
+         const jsonObj of data.difficulty.rotationEvents.map(
+            rotationEvent.serialize,
+         )
+      ) {
          json.spawnRotations.push(jsonObj.object);
          jsonObj.object.i = json.spawnRotationsData.length;
          json.spawnRotationsData.push(jsonObj.data);
       }
+      for (
+         const jsonObj of data.difficulty.njsEvents.map(
+            njsEvent.serialize,
+         )
+      ) {
+         json.njsEvents.push(jsonObj.object);
+         jsonObj.object.i = json.njsEventData.length;
+         json.njsEventData.push(jsonObj.data);
+      }
       return json;
    },
-   deserialize(data: DeepPartial<IDifficulty> = {}): DeepPartial<IWrapBeatmapAttribute> {
+   deserialize(
+      data: DeepPartial<IDifficulty> = {},
+   ): DeepPartial<IWrapBeatmapAttribute> {
       return {
          version: 4,
          difficulty: {
@@ -112,6 +142,14 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
                   data: data.spawnRotationsData?.[obj?.i || 0],
                })
             ),
+            njsEvents: data.njsEvents?.map((obj) =>
+               this.deserialize(
+                  njsEvent.deserialize({
+                     object: obj,
+                     data: data.njsEventData?.[obj?.i || 0],
+                  }),
+               )
+            ) || [],
             customData: data.customData,
          },
       };

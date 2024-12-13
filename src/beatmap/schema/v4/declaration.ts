@@ -27,6 +27,7 @@ import type { ILightRotationEventBox } from '../../../types/beatmap/v4/lightRota
 import type { ILightTranslationEvent } from '../../../types/beatmap/v4/lightTranslationEvent.ts';
 import type { ILightTranslationEventBox } from '../../../types/beatmap/v4/lightTranslationEventBox.ts';
 import type { ILightshow } from '../../../types/beatmap/v4/lightshow.ts';
+import type { INJSEvent } from '../../../types/beatmap/v4/njsEvent.ts';
 import type {
    IObject,
    IObjectArc,
@@ -41,7 +42,9 @@ import { BasicEventTypesWithKeywordsSchema } from '../v3/declaration.ts';
 /**
  * Schema declaration for v4 `Object`.
  */
-export const ObjectSchema: { readonly [key in keyof IObject]: ISchemaDeclaration } = {
+export const ObjectSchema: {
+   readonly [key in keyof IObject]: ISchemaDeclaration;
+} = {
    b: {
       type: 'number',
       version: '4.0.0',
@@ -411,6 +414,37 @@ export const SpawnRotationSchema: {
 } as const;
 
 /**
+ * Schema declaration for v4 `NJS Event`.
+ */
+export const NJSEventSchema: {
+   readonly [key in keyof INJSEvent]: ISchemaDeclaration;
+} = {
+   d: {
+      type: 'number',
+      version: '4.1.0',
+      optional: true,
+   },
+   p: {
+      type: 'number',
+      int: true,
+      version: '4.1.0',
+      optional: true,
+   },
+   e: {
+      type: 'number',
+      int: true,
+      version: '4.1.0',
+      optional: true,
+   },
+   customData: {
+      type: 'object',
+      version: '4.0.0',
+      check: {},
+      optional: true,
+   },
+};
+
+/**
  * Schema declaration for v4 `Difficulty`.
  */
 export const DifficultySchema: {
@@ -502,6 +536,20 @@ export const DifficultySchema: {
       array: true,
       version: '4.0.0',
       check: SpawnRotationSchema,
+      optional: true,
+   },
+   njsEvents: {
+      type: 'object',
+      array: true,
+      version: '4.1.0',
+      check: ObjectSchema,
+      optional: true,
+   },
+   njsEventData: {
+      type: 'object',
+      array: true,
+      version: '4.1.0',
+      check: NJSEventSchema,
       optional: true,
    },
    customData: {
@@ -1357,6 +1405,11 @@ export const InfoColorSchemeSchema: {
       version: '4.0.0',
       optional: true,
    },
+   overrideNotes: {
+      type: 'boolean',
+      version: '4.0.1',
+      optional: true,
+   },
    saberAColor: {
       type: 'string',
       version: '4.0.0',
@@ -1370,6 +1423,11 @@ export const InfoColorSchemeSchema: {
    obstaclesColor: {
       type: 'string',
       version: '4.0.0',
+      optional: true,
+   },
+   overrideLights: {
+      type: 'boolean',
+      version: '4.0.1',
       optional: true,
    },
    environmentColor0: {
@@ -1591,7 +1649,9 @@ export const AudioDataLUFSSchema: {
 /**
  * Schema declaration for v4 `Audio`.
  */
-export const AudioDataSchema: { readonly [key in keyof IAudio]: ISchemaDeclaration } = {
+export const AudioDataSchema: {
+   readonly [key in keyof IAudio]: ISchemaDeclaration;
+} = {
    version: {
       type: 'string',
       version: '4.0.0',

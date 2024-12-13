@@ -7,6 +7,7 @@ import type { IWrapArc, IWrapArcAttribute } from './arc.ts';
 import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
 import type { ICustomDataDifficulty } from './custom/difficulty.ts';
 import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
+import type { IWrapNJSEvent, IWrapNJSEventAttribute } from './njsEvent.ts';
 
 /**
  * Wrapper attribute for beatmap difficulty.
@@ -19,6 +20,7 @@ export interface IWrapDifficultyAttribute extends IWrapBaseItemAttribute {
    obstacles: IWrapObstacleAttribute[];
    arcs: IWrapArcAttribute[];
    chains: IWrapChainAttribute[];
+   njsEvents: IWrapNJSEventAttribute[];
    customData: ICustomDataDifficulty;
 }
 
@@ -34,6 +36,7 @@ export interface IWrapDifficulty
    obstacles: IWrapObstacle[];
    arcs: IWrapArc[];
    chains: IWrapChain[];
+   njsEvents: IWrapNJSEvent[];
 
    setCustomData(object: this['customData']): this;
    addCustomData(object: this['customData']): this;
@@ -45,4 +48,5 @@ export interface IWrapDifficulty
    addObstacles(...data: Partial<IWrapObstacleAttribute>[]): this;
    addArcs(...data: Partial<IWrapArcAttribute>[]): this;
    addChains(...data: Partial<IWrapChainAttribute>[]): this;
+   addNjsEvents(...data: Partial<IWrapNJSEventAttribute>[]): this;
 }

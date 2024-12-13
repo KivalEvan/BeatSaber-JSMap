@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.1.8 [2024-12-14]
+
+### Added
+
+- Metallica environment & color schema
+- Info 4.0.1
+  - Color scheme override note and light
+- Beatmap 4.1.0
+  - NJS change event
+
+### Changed
+
+- Color scheme use override now separated to two
+
+### Fixed
+
+- Certain schema type not being exported
+
 ## 2.1.7 [2024-11-14]
 
 ### Added

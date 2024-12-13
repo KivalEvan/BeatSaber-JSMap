@@ -86,12 +86,9 @@ export interface IWrapInfoAudio {
  * Wrapper interface for beatmap info color scheme.
  */
 export interface IWrapInfoColorScheme {
-   /**
-    * @deprecated for use in v2 info only
-    * @default true
-    */
-   useOverride: boolean;
    name: string;
+   overrideNotes: boolean;
+   overrideLights: boolean;
    saberLeftColor: Required<IColor>;
    saberRightColor: Required<IColor>;
    environment0Color: Required<IColor>;
