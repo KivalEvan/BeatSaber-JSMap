@@ -170,6 +170,9 @@ export const LightIDList: {
    DaftPunkEnvironment: {},
    HipHopEnvironment: {},
    ColliderEnvironment: {},
+   BritneyEnvironment: {},
+   Monstercat2Environment: {},
+   MetallicaEnvironment: {},
    GlassDesertEnvironment: {
       0: Array.from(Array(6), (_, i) => i + 1),
       1: Array.from(Array(8), (_, i) => i + 1),

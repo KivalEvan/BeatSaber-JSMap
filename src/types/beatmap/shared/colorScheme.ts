@@ -36,4 +36,5 @@ export type ColorSchemeName =
    | 'Hip Hop Mixtape'
    | 'Collider'
    | 'Britney Spears'
-   | 'Monstercat 2.0';
+   | 'Monstercat 2.0'
+   | 'Metallica';

@@ -213,6 +213,11 @@ export const environmentTypeMap: {
       6: 'Ambient',
       8: 'Player Place',
    },
+   MetallicaEnvironment: {
+      6: 'Ambient',
+      8: 'Player Place',
+      13: 'Pillar Switch',
+   },
 };
 
 /**

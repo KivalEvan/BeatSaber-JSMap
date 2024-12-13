@@ -49,6 +49,7 @@ export const EnvironmentSchemeName: {
    BritneyEnvironment: 'Britney Spears',
    Monstercat2Environment: 'Monstercat 2.0',
    GlassDesertEnvironment: 'Glass Desert',
+   MetallicaEnvironment: 'Metallica',
    MultiplayerEnvironment: 'Origins',
 } as const;
 
@@ -405,11 +406,98 @@ export const ColorScheme: {
    },
    'Monstercat 2.0': {
       _colorLeft: { r: 0.8745099, g: 0.3450981, b: 0.5215687 },
-      _colorRight: { r: .3882353, g: 0.3019608, b: 0.6117647 },
+      _colorRight: { r: 0.3882353, g: 0.3019608, b: 0.6117647 },
       _envColorLeft: { r: 0.6196079, g: 0.0509804, b: 0.8274511 },
       _envColorRight: { r: 0.3372549, g: 0.7137255, b: 0.1098039 },
       _envColorLeftBoost: { r: 0.7137255, g: 0.1098039, b: 0.1098039 },
       _envColorRightBoost: { r: 0.08627451, g: 0.5490196, b: 0.6470588 },
       _obstacleColor: { r: 0.2313726, g: 0.1490196, b: 0.6392157 },
    },
+   Metallica: {
+      _colorLeft: { r: 0.282353, g: 0.3333333, b: 0.4039216 },
+      _colorRight: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
+      _envColorLeft: { r: 0.8666667, g: 0.4941176, b: 0.3803922 },
+      _envColorRight: { r: 0.254902, g: 0.454902, b: 0.8666667 },
+      _envColorWhite: { r: 0.5137255, g: 0.6078314, b: 0.6784314 },
+      _envColorLeftBoost: { r: 0.8588235, g: 0.3921569, b: 0.09803922 },
+      _envColorRightBoost: { r: 0, g: 0.7490196, b: 0.6313726 },
+      _envColorWhiteBoost: { r: 0.5137255, g: 0.6078314, b: 0.6784314 },
+      _obstacleColor: { r: 0.8392157, g: 0.09803922, b: 0 },
+   },
 } as const;
+
+/**
+ * Color scheme variants that overlays on top of the base color scheme.
+ */
+export const ColorSchemeVariant: {
+   readonly [key in ColorSchemeName]?: {
+      readonly [key: string]: Readonly<Omit<IColorScheme, 'a'>>;
+   };
+} = {
+   Metallica: {
+      Battery: {
+         _envColorLeftBoost: { r: 0.5215687, g: 0.7450981, b: 0 },
+         _envColorRightBoost: { r: 0.3960784, g: 0.003921569, b: 0.7411765 },
+      },
+      'Creeping Death': {
+         _colorLeft: { r: 0.2666667, g: 0.3490196, b: 0.4666667 },
+         _colorRight: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
+         _envColorLeft: { r: 0.8666667, g: 0.4941176, b: 0.3803922 },
+         _envColorRight: { r: 0.254902, g: 0.454902, b: 0.8666667 },
+         _envColorLeftBoost: { r: 0.8980392, g: 0.03529412, b: 0.02352941 },
+         _envColorRightBoost: { r: 0.6078432, g: 0.003921569, b: 0.7411765 },
+      },
+      'Enter Sandman': {
+         _envColorLeftBoost: { r: 0.8980392, g: 0.03529412, b: 0.02352941 },
+         _envColorRightBoost: { r: 0.5411765, g: 0.07450981, b: 0.7764706 },
+      },
+      'Fade to Black': {
+         _envColorLeftBoost: { r: 0.8823529, g: 0, b: 0.01960784 },
+         _envColorRightBoost: { r: 0.4666667, g: 0, b: 0.7803922 },
+      },
+      Fuel: {
+         _envColorLeftBoost: { r: 0.7607843, g: 0.01568628, b: 0.02352941 },
+         _envColorRightBoost: { r: 0.8509804, g: 0.4392157, b: 0.07843138 },
+      },
+      'Hit the Lights': {
+         _envColorLeftBoost: { r: 0.8980392, g: 0.03529412, b: 0.02352941 },
+         _envColorRightBoost: { r: 0.1686275, g: 0.7254902, b: 0.2196078 },
+      },
+      'King Nothing': {
+         _colorLeft: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
+         _colorRight: { r: 0.282353, g: 0.3333333, b: 0.4039216 },
+         _envColorLeft: { r: 0.8666667, g: 0.4941176, b: 0.3803922 },
+         _envColorRight: { r: 0.254902, g: 0.454902, b: 0.8666667 },
+         _envColorLeftBoost: { r: 0.7568628, g: 0, b: 0.07843138 },
+         _envColorRightBoost: { r: 0.8745098, g: 0.7568628, b: 0 },
+      },
+      'Lux Æterna': {
+         _colorLeft: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
+         _colorRight: { r: 0.282353, g: 0.3333333, b: 0.4039216 },
+         _envColorLeft: { r: 0.8666667, g: 0.4941176, b: 0.3803922 },
+         _envColorRight: { r: 0.254902, g: 0.454902, b: 0.8666667 },
+         _envColorLeftBoost: { r: 0.8980392, g: 0.03529412, b: 0.02352941 },
+         _envColorRightBoost: { r: 0.8980392, g: 0.7333333, b: 0.02352941 },
+      },
+      'Nothing Else Matters': {
+         _envColorLeftBoost: { r: 0.5764706, g: 0.03137255, b: 0.8745098 },
+         _envColorRightBoost: { r: 0.282353, g: 0.5647059, b: 0.3294118 },
+      },
+      One: {
+         _colorLeft: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
+         _colorRight: { r: 0.282353, g: 0.3333333, b: 0.4039216 },
+         _envColorLeft: { r: 0.8666667, g: 0.4941176, b: 0.3803922 },
+         _envColorRight: { r: 0.254902, g: 0.454902, b: 0.8666667 },
+         _envColorLeftBoost: { r: 0.7411765, g: 0.003921569, b: 0.1411765 },
+         _envColorRightBoost: { r: 0.003921569, g: 0.7411765, b: 0.6039216 },
+      },
+      'Sad But True': {
+         _envColorLeftBoost: { r: 0.8980392, g: 0.03529412, b: 0.02352941 },
+         _envColorRightBoost: { r: 0.4, g: 0.4039216, b: 0.9490196 },
+      },
+      'The Unforgiven': {
+         _envColorLeftBoost: { r: 0.8980392, g: 0.03529412, b: 0.02352941 },
+         _envColorRightBoost: { r: 0.1686275, g: 0.8588235, b: 0.8470588 },
+      },
+   },
+};

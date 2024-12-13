@@ -43,7 +43,8 @@ export type EnvironmentV3Name =
    | 'HipHopEnvironment'
    | 'ColliderEnvironment'
    | 'BritneyEnvironment'
-   | 'Monstercat2Environment';
+   | 'Monstercat2Environment'
+   | 'MetallicaEnvironment';
 
 /** List of available 360 environment in base game. */
 export type Environment360Name =
