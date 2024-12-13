@@ -18,6 +18,7 @@ import { deepCopy } from '../../../utils/misc.ts';
 import { fxEventBoxGroup } from './fxEventBoxGroup.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
+import { njsEvent } from './njsEvent.ts';
 
 /**
  * Schema serialization for v3 `Difficulty`.
@@ -27,15 +28,21 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       const json: Required<IDifficulty> = {
          version: '3.3.0',
          bpmEvents: data.difficulty.bpmEvents.map(bpmEvent.serialize),
-         rotationEvents: data.difficulty.rotationEvents.map(rotationEvent.serialize),
+         rotationEvents: data.difficulty.rotationEvents.map(
+            rotationEvent.serialize,
+         ),
          colorNotes: data.difficulty.colorNotes.map(colorNote.serialize),
          bombNotes: data.difficulty.bombNotes.map(bombNote.serialize),
          obstacles: data.difficulty.obstacles.map(obstacle.serialize),
          sliders: data.difficulty.arcs.map(arc.serialize),
          burstSliders: data.difficulty.chains.map(chain.serialize),
          waypoints: data.lightshow.waypoints.map(waypoint.serialize),
-         basicBeatmapEvents: data.lightshow.basicEvents.map(basicEvent.serialize),
-         colorBoostBeatmapEvents: data.lightshow.colorBoostEvents.map(colorBoostEvent.serialize),
+         basicBeatmapEvents: data.lightshow.basicEvents.map(
+            basicEvent.serialize,
+         ),
+         colorBoostBeatmapEvents: data.lightshow.colorBoostEvents.map(
+            colorBoostEvent.serialize,
+         ),
          lightColorEventBoxGroups: data.lightshow.lightColorEventBoxGroups.map(
             lightColorEventBoxGroup.serialize,
          ),
@@ -56,7 +63,11 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          useNormalEventsAsCompatibleEvents: data.lightshow.useNormalEventsAsCompatibleEvents,
          customData: deepCopy(data.difficulty.customData),
       };
-      for (const obj of data.lightshow.fxEventBoxGroups.map(fxEventBoxGroup.serialize)) {
+      for (
+         const obj of data.lightshow.fxEventBoxGroups.map(
+            fxEventBoxGroup.serialize,
+         )
+      ) {
          json.vfxEventBoxGroups.push(obj.object);
          for (const box of obj.boxData) {
             obj.object.e!.push(box.data);
@@ -66,23 +77,35 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             }
          }
       }
+      for (const evt of data.difficulty.njsEvents) {
+         json.basicBeatmapEvents.push(njsEvent.deserialize(evt));
+      }
       return json;
    },
-   deserialize: function (data: DeepPartial<IDifficulty> = {}): DeepPartial<IWrapBeatmapAttribute> {
+   deserialize: function (
+      data: DeepPartial<IDifficulty> = {},
+   ): DeepPartial<IWrapBeatmapAttribute> {
       const d: DeepPartial<IWrapBeatmapAttribute> = {
          version: 3,
          difficulty: {},
          lightshow: {},
       };
       d.difficulty!.bpmEvents = data.bpmEvents?.map(bpmEvent.deserialize);
-      d.difficulty!.rotationEvents = data.rotationEvents?.map(rotationEvent.deserialize);
+      d.difficulty!.rotationEvents = data.rotationEvents?.map(
+         rotationEvent.deserialize,
+      );
       d.difficulty!.colorNotes = data.colorNotes?.map(colorNote.deserialize);
       d.difficulty!.bombNotes = data.bombNotes?.map(bombNote.deserialize);
       d.difficulty!.obstacles = data.obstacles?.map(obstacle.deserialize);
       d.difficulty!.arcs = data.sliders?.map(arc.deserialize);
       d.difficulty!.chains = data.burstSliders?.map(chain.deserialize);
       d.lightshow!.waypoints = data.waypoints?.map(waypoint.deserialize);
-      d.lightshow!.basicEvents = data.basicBeatmapEvents?.map(basicEvent.deserialize);
+      d.lightshow!.basicEvents = data.basicBeatmapEvents
+         ?.filter((e) => e && e.et !== 1000)
+         .map(basicEvent.deserialize);
+      d.difficulty!.njsEvents = data.basicBeatmapEvents
+         ?.filter((e) => e && e.et === 1000)
+         .map(njsEvent.deserialize);
       d.lightshow!.colorBoostEvents = data.colorBoostBeatmapEvents?.map(
          colorBoostEvent.deserialize,
       );

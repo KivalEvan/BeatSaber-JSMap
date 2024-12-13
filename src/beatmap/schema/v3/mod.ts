@@ -32,6 +32,7 @@ export * from './lightshow.ts';
 export * from './lightTranslationEvent.ts';
 export * from './lightTranslationEventBox.ts';
 export * from './lightTranslationEventBoxGroup.ts';
+export * from './njsEvent.ts';
 export * from './obstacle.ts';
 export * from './rotationEvent.ts';
 export * from './waypoint.ts';

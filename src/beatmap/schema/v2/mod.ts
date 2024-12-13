@@ -18,6 +18,7 @@ export * from './colorNote.ts';
 export * from './declaration.ts';
 export * from './difficulty.ts';
 export * from './info.ts';
+export * from './njsEvent.ts';
 export * from './obstacle.ts';
 export * from './rotationEvent.ts';
 export * from './waypoint.ts';
