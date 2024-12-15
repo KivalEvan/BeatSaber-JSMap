@@ -83,8 +83,8 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             e = e!;
             const scheme: IWrapInfoColorScheme = {
                name: e.colorSchemeName || '',
-               overrideNotes: e.overrideNotes || data.version === '4.0.0' ? true : false,
-               overrideLights: e.overrideLights || data.version === '4.0.0' ? true : false,
+               overrideNotes: e.overrideNotes || data.version === '4.0.0',
+               overrideLights: e.overrideLights || data.version === '4.0.0',
                saberLeftColor: toColorObject(hexToRgba(e.saberAColor!), true),
                saberRightColor: toColorObject(hexToRgba(e.saberBColor!), true),
                environment0Color: toColorObject(
