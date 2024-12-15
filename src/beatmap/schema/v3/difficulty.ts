@@ -18,7 +18,6 @@ import { deepCopy } from '../../../utils/misc.ts';
 import { fxEventBoxGroup } from './fxEventBoxGroup.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import { njsEvent } from './njsEvent.ts';
 
 /**
  * Schema serialization for v3 `Difficulty`.
@@ -77,9 +76,6 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             }
          }
       }
-      for (const evt of data.difficulty.njsEvents) {
-         json.basicBeatmapEvents.push(njsEvent.deserialize(evt));
-      }
       return json;
    },
    deserialize: function (
@@ -100,12 +96,9 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       d.difficulty!.arcs = data.sliders?.map(arc.deserialize);
       d.difficulty!.chains = data.burstSliders?.map(chain.deserialize);
       d.lightshow!.waypoints = data.waypoints?.map(waypoint.deserialize);
-      d.lightshow!.basicEvents = data.basicBeatmapEvents
-         ?.filter((e) => e && e.et !== 1000)
-         .map(basicEvent.deserialize);
-      d.difficulty!.njsEvents = data.basicBeatmapEvents
-         ?.filter((e) => e && e.et === 1000)
-         .map(njsEvent.deserialize);
+      d.lightshow!.basicEvents = data.basicBeatmapEvents?.map(
+         basicEvent.deserialize,
+      );
       d.lightshow!.colorBoostEvents = data.colorBoostBeatmapEvents?.map(
          colorBoostEvent.deserialize,
       );
