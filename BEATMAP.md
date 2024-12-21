@@ -1,6 +1,6 @@
 # Beat Saber Beatmap Schema
 
-Current schema as of game version 1.37.1.
+Current schema as of game version 1.40.0.
 
 > [!NOTE]
 >
@@ -70,7 +70,7 @@ Legend:
 
 ### Info
 
-|                            | v4 (4.0.0)              | v2 (2.1.0)                                                   | v1 (1.0.0)            |
+|                            | v4 (4.0.1)              | v2 (2.1.0)                                                   | v1 (1.0.0)            |
 | -------------------------- | ----------------------- | ------------------------------------------------------------ | --------------------- |
 | Audio Data File            | ✅                      | ⚠️ Exist as BPMInfo.dat; not required                        | ❌                    |
 | Audio LUFS                 | ✅                      | ❌                                                           | ❌                    |
@@ -79,7 +79,7 @@ Legend:
 | Song Preview File          | ✅                      | ❌                                                           | ❌                    |
 | Base Environment           | ❌                      | ✅                                                           | ⚠️ No 360 environment |
 | Environment List           | ✅                      | ✅                                                           | ❌                    |
-| Color Scheme List          | ⚠️ Use hex string       | ⚠️ Has toggle override                                       | ❌                    |
+| Color Scheme List          | ⚠️ Use hex string       | ⚠️ Has singular toggle override                              | ❌                    |
 | Beatmap Level Author       | ✅                      | ⚠️ Singular string, exist on root; apply to all difficulties | ❌                    |
 | Beatmap Characteristic     | ✅                      | ⚠️ Grouped                                                   | ✅                    |
 | Beatmap Environment Index  | ✅                      | ✅                                                           | ❌                    |
@@ -95,7 +95,7 @@ Legend:
 
 ### Difficulty
 
-|                                        | v4 (4.0.0)                   | v3 (3.3.0)               | v2 (2.6.0)                          | v1 (1.5.0)                          |
+|                                        | v4 (4.1.0)                   | v3 (3.3.0)               | v2 (2.6.0)                          | v1 (1.5.0)                          |
 | -------------------------------------- | ---------------------------- | ------------------------ | ----------------------------------- | ----------------------------------- |
 | BPM Event                              | ❌ Uses v4 Audio Data        | ⚠️ Part of basic event\* | ⚠️ Part of basic event\*            | ❌                                  |
 | Color Note                             | ✅                           | ✅                       | ⚠️ No angle offset                  | ⚠️ No angle offset                  |
@@ -105,6 +105,7 @@ Legend:
 | Obstacle                               | ✅                           | ✅                       | ⚠️ No type                          | ⚠️ No type                          |
 | Rotation Event                         | ❌ Part of object lane       | ✅                       | ⚠️ Fixed value; part of basic event | ⚠️ Fixed value; part of basic event |
 | Waypoint                               | ❌ All below in v4 Lightshow | ✅                       | ✅                                  | ❌                                  |
+| NJS Event                              | ✅                           | ❌                       | ❌                                  | ❌                                  |
 | Basic Event                            | ❌                           | ✅                       | ✅                                  | ⚠️ No float value                   |
 | Color Boost Event                      | ❌                           | ✅                       | ⚠️ Part of basic event              | ⚠️ Part of basic event              |
 | FX Event Box Group                     | ❌                           | ✅                       | ❌                                  | ❌                                  |
@@ -136,7 +137,7 @@ Legend:
 
 ### Info
 
-|                            | v4 (4.0.0)                            | v2 (2.1.0)                                               | v1 (1.0.0)            |
+|                            | v4 (4.0.1)                            | v2 (2.1.0)                                               | v1 (1.0.0)            |
 | -------------------------- | ------------------------------------- | -------------------------------------------------------- | --------------------- |
 | Audio Data File            |                                       | ⚠️ Exist as BPMInfo.dat; not required                    | ❌                    |
 | Audio LUFS                 |                                       | ❌                                                       | ❌                    |
@@ -145,7 +146,7 @@ Legend:
 | Song Preview File          |                                       | ❌                                                       | ❌                    |
 | Base Environment           | ❌ Uses first instance of environment |                                                          | ⚠️ Ignore missing 360 |
 | Environment List           |                                       |                                                          | ❌                    |
-| Color Scheme List          | ⚠️ Gracefully convert hex             | ⚠️ Exist toggle override                                 | ❌                    |
+| Color Scheme List          | ⚠️ Gracefully convert hex             | ⚠️ Assume every override is enabled/disabled             | ❌                    |
 | Beatmap Level Author       |                                       | ⚠️ Exist only in Mapper Level Author, separated by comma | ❌                    |
 | Beatmap Characteristic     |                                       | ⚠️ Separated on deserialise, grouped on serialise        |                       |
 | Beatmap Environment Index  |                                       |                                                          | ❌                    |
@@ -161,7 +162,7 @@ Legend:
 
 ### Difficulty
 
-|                                        | v4 (4.0.0)                   | v3 (3.3.0)                                         | v2 (2.6.0)                                | v1 (1.5.0)                                |
+|                                        | v4 (4.1.0)                   | v3 (3.3.0)                                         | v2 (2.6.0)                                | v1 (1.5.0)                                |
 | -------------------------------------- | ---------------------------- | -------------------------------------------------- | ----------------------------------------- | ----------------------------------------- |
 | BPM Event                              | ❌ Uses v4 Audio Data        |                                                    |                                           | ❌                                        |
 | Color Note                             |                              |                                                    | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
@@ -171,6 +172,7 @@ Legend:
 | Obstacle                               |                              |                                                    | ⚠️ Pos Y and height interpreted from type | ⚠️ Pos Y and height interpreted from type |
 | Rotation Event                         |                              |                                                    | ⚠️ Reinterpret as modded value            | ⚠️ Reinterpret as modded value            |
 | Waypoint                               | ❌ All below in v4 Lightshow |                                                    |                                           | ❌                                        |
+| NJS Event                              |                              | ❌                                                 | ❌                                        | ❌                                        |
 | Basic Event                            | ❌                           |                                                    |                                           | ⚠️ Default float value of 1               |
 | Color Boost Event                      | ❌                           |                                                    |                                           |                                           |
 | FX Event Box Group                     | ❌                           |                                                    | ❌                                        | ❌                                        |

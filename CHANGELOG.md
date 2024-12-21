@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.8 [2024-12-14]
+## 2.1.8 [2024-12-21]
 
 ### Added
 
@@ -12,7 +12,7 @@
 
 ### Changed
 
-- Color scheme use override now separated to two
+- Color scheme use override now separated to two type: Note and Light
 
 ### Fixed
 

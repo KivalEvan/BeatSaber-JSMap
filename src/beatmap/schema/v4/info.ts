@@ -16,7 +16,7 @@ import { infoBeatmap } from './infoBeatmap.ts';
 export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
    serialize(data: IWrapInfoAttribute): IInfo {
       return {
-         version: '4.0.0',
+         version: '4.0.1',
          song: {
             author: data.song.author,
             title: data.song.title,

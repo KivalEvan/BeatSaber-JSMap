@@ -17,7 +17,7 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 
 - **Zero-dependency:** No dependency, run on any platform.
 - **Latest Schema:** Supports all official schema including modded features.
-  - Supported version: v4.0.0, v3.3.0, v2.6.0, v1.5.0.
+  - Supported version: v4.1.0, v3.3.0, v2.6.0, v1.5.0.
 - **Version-agnostic Wrapper:** Readable and cross-version core allows for seamless version
   transferring.
 - **Partial Creation:** Define beatmap object partially and let default fill the rest of fields.
