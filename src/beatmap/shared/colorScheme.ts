@@ -429,6 +429,7 @@ export const ColorScheme: {
 /**
  * Color scheme variants that overlays on top of the base color scheme.
  */
+// Commented as it is disabled via the override tag
 export const ColorSchemeVariant: {
    readonly [key in ColorSchemeName]?: {
       readonly [key: string]: Readonly<Omit<IColorScheme, 'a'>>;
@@ -440,10 +441,8 @@ export const ColorSchemeVariant: {
          _envColorRightBoost: { r: 0.3960784, g: 0.003921569, b: 0.7411765 },
       },
       'Creeping Death': {
-         _colorLeft: { r: 0.2666667, g: 0.3490196, b: 0.4666667 },
-         _colorRight: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
-         _envColorLeft: { r: 0.8666667, g: 0.4941176, b: 0.3803922 },
-         _envColorRight: { r: 0.254902, g: 0.454902, b: 0.8666667 },
+         // _colorLeft: { r: 0.2666667, g: 0.3490196, b: 0.4666667 },
+         // _colorRight: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
          _envColorLeftBoost: { r: 0.8980392, g: 0.03529412, b: 0.02352941 },
          _envColorRightBoost: { r: 0.6078432, g: 0.003921569, b: 0.7411765 },
       },
@@ -464,18 +463,14 @@ export const ColorSchemeVariant: {
          _envColorRightBoost: { r: 0.1686275, g: 0.7254902, b: 0.2196078 },
       },
       'King Nothing': {
-         _colorLeft: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
-         _colorRight: { r: 0.282353, g: 0.3333333, b: 0.4039216 },
-         _envColorLeft: { r: 0.8666667, g: 0.4941176, b: 0.3803922 },
-         _envColorRight: { r: 0.254902, g: 0.454902, b: 0.8666667 },
+         // _colorLeft: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
+         // _colorRight: { r: 0.282353, g: 0.3333333, b: 0.4039216 },
          _envColorLeftBoost: { r: 0.7568628, g: 0, b: 0.07843138 },
          _envColorRightBoost: { r: 0.8745098, g: 0.7568628, b: 0 },
       },
       'Lux Æterna': {
-         _colorLeft: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
-         _colorRight: { r: 0.282353, g: 0.3333333, b: 0.4039216 },
-         _envColorLeft: { r: 0.8666667, g: 0.4941176, b: 0.3803922 },
-         _envColorRight: { r: 0.254902, g: 0.454902, b: 0.8666667 },
+         // _colorLeft: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
+         // _colorRight: { r: 0.282353, g: 0.3333333, b: 0.4039216 },
          _envColorLeftBoost: { r: 0.8980392, g: 0.03529412, b: 0.02352941 },
          _envColorRightBoost: { r: 0.8980392, g: 0.7333333, b: 0.02352941 },
       },
@@ -484,10 +479,8 @@ export const ColorSchemeVariant: {
          _envColorRightBoost: { r: 0.282353, g: 0.5647059, b: 0.3294118 },
       },
       One: {
-         _colorLeft: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
-         _colorRight: { r: 0.282353, g: 0.3333333, b: 0.4039216 },
-         _envColorLeft: { r: 0.8666667, g: 0.4941176, b: 0.3803922 },
-         _envColorRight: { r: 0.254902, g: 0.454902, b: 0.8666667 },
+         // _colorLeft: { r: 0.5764706, g: 0.7176471, b: 0.8235294 },
+         // _colorRight: { r: 0.282353, g: 0.3333333, b: 0.4039216 },
          _envColorLeftBoost: { r: 0.7411765, g: 0.003921569, b: 0.1411765 },
          _envColorRightBoost: { r: 0.003921569, g: 0.7411765, b: 0.6039216 },
       },

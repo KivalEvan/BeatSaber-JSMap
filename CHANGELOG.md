@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.9 [2024-12-21]
+
+### Fixed
+
+- Metallica variant color scheme fix
+
 ## 2.1.8 [2024-12-21]
 
 ### Added
