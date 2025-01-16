@@ -1,16 +1,15 @@
 // deno-lint-ignore-file no-explicit-any
-import { schemaCheck } from './schema.ts';
 import { logger } from '../../logger.ts';
-import type { ISchemaDeclaration } from '../../types/beatmap/shared/schema.ts';
+import type { ISchemaCheckOptions } from '../../types/beatmap/options/schema.ts';
+import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
+import { implicitVersion, retrieveVersion } from '../helpers/version.ts';
 import {
    audioSchemaMap,
    difficultyCheckMap,
    infoCheckMap,
    lightshowCheckMap,
 } from '../mapping/validator.ts';
-import { implicitVersion, retrieveVersion } from '../helpers/version.ts';
-import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
-import type { ISchemaCheckOptions } from '../../types/beatmap/options/schema.ts';
+import { schemaCheck } from './schema.ts';
 
 function tag(name: string): string[] {
    return ['validator', name];
@@ -45,21 +44,6 @@ export function validateJSON<T extends Record<string, any> = Record<string, any>
          ...options?.throwOn,
       },
    };
-   let schemaCheckMap: Record<number, Record<string, ISchemaDeclaration>> = {};
-   switch (type) {
-      case 'info':
-         schemaCheckMap = infoCheckMap;
-         break;
-      case 'audioData':
-         schemaCheckMap = audioSchemaMap;
-         break;
-      case 'difficulty':
-         schemaCheckMap = difficultyCheckMap;
-         break;
-      case 'lightshow':
-         schemaCheckMap = lightshowCheckMap;
-         break;
-   }
 
    const ver = retrieveVersion(data) ?? implicitVersion(type);
    logger.tInfo(
@@ -67,7 +51,29 @@ export function validateJSON<T extends Record<string, any> = Record<string, any>
       'Validating beatmap JSON for ' + type + ' with version',
       version,
    );
-   schemaCheck(data, schemaCheckMap[version], type, ver, opt.throwOn);
+
+   switch (type) {
+      case 'info': {
+         const schema = infoCheckMap[version as keyof typeof infoCheckMap];
+         schemaCheck(data, schema, type, ver, opt.throwOn);
+         break;
+      }
+      case 'audioData': {
+         const schema = audioSchemaMap[version as keyof typeof audioSchemaMap];
+         schemaCheck(data, schema, type, ver, opt.throwOn);
+         break;
+      }
+      case 'difficulty': {
+         const schema = difficultyCheckMap[version as keyof typeof difficultyCheckMap];
+         schemaCheck(data, schema, type, ver, opt.throwOn);
+         break;
+      }
+      case 'lightshow': {
+         const schema = lightshowCheckMap[version as keyof typeof lightshowCheckMap];
+         schemaCheck(data, schema, type, ver, opt.throwOn);
+         break;
+      }
+   }
 
    return data;
 }
