@@ -1,5 +1,4 @@
-import type { Writable } from '../types/utils.ts';
-import type { DeepWritable } from '../types/utils.ts';
+import type { DeepWritable, Writable } from '../types/utils.ts';
 
 /**
  * Shuffle array in-place.
@@ -85,6 +84,10 @@ export function jsonCopy<T>(object: T): DeepWritable<T> {
 /** Check if string is valid hexadecimal */
 export function isHex(hex: string): boolean {
    return /^[a-fA-F0-9]+$/g.test(hex);
+}
+/** Check if an object has key/value pairs */
+export function isRecord<T extends Record<string, unknown>>(data: unknown): data is T {
+   return !!data && typeof data === 'object';
 }
 
 /** Convert hexadecimal to decimal */

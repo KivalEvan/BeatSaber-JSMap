@@ -1,12 +1,15 @@
 import type { StandardSchemaV1 } from '@standard-schema/spec';
+import * as v from '@valibot/valibot';
+import { entity, field, mask } from '../src/beatmap/schema/helpers.ts';
 import type { ISchemaDeclaration } from '../src/types/beatmap/shared/schema.ts';
-import { assertEquals, schemaCheck } from './deps.ts';
+import type { Version } from '../src/types/beatmap/shared/version.ts';
+import { assertEquals, logger, schemaCheck } from './deps.ts';
 
 function boolean(): StandardSchemaV1 {
    return {
       '~standard': {
          version: 1,
-         vendor: 'bsmap',
+         vendor: 'custom',
          validate: (data) => {
             if (typeof data !== 'boolean') {
                return { issues: [{ message: 'Value must be a boolean.' }] };
@@ -20,7 +23,7 @@ function object(shape: { [key: string]: StandardSchemaV1 }): StandardSchemaV1 {
    return {
       '~standard': {
          version: 1,
-         vendor: 'bsmap',
+         vendor: 'custom',
          validate: (data) => {
             if (typeof data !== 'object' || !data) {
                return { issues: [{ message: `Value is not an object` }] };
@@ -72,13 +75,44 @@ Deno.test('schemaCheck', async (ctx) => {
    });
    await ctx.step('standard schema format', async (ctx) => {
       const schema = object({ foo: boolean() });
-      await ctx.step('unversioned schema + versioned data', () => {
-         const issues = schemaCheck({}, schema, 'sample', '1.0.0');
-         assertEquals(issues.length, 1);
-      });
-      await ctx.step('unversioned schema + unversioned data', () => {
+      await ctx.step('custom implementation', () => {
          const issues = schemaCheck({}, schema, 'sample');
          assertEquals(issues.length, 1);
+      });
+      const versioned = entity(() => '1.0.0', {
+         foo: field(v.boolean(), { version: '1.0.0' }),
+      });
+      await ctx.step('resolve version from dataset', () => {
+         const issues = schemaCheck({}, versioned, 'sample');
+         assertEquals(issues.length, 1);
+      });
+   });
+});
+
+Deno.test('entity serialization tests', async (ctx) => {
+   logger.setLevel(4);
+   await ctx.step('basic form', async (ctx) => {
+      const schema = entity((x) => x.version, {
+         version: mask<Version>(v.string()),
+         foo: v.array(v.object({
+            bar: field(v.boolean(), { version: '1.2.0' }),
+         })),
+      });
+      await ctx.step('all supported fields present', () => {
+         const result = schema['~standard'].validate({ version: '1.2.0', foo: [{ bar: true }] });
+         assertEquals('issues' in result && result.issues && result.issues.length > 0, false);
+      });
+      await ctx.step('missing field for version', () => {
+         const result = schema['~standard'].validate({ version: '1.2.0', foo: [{}] });
+         assertEquals('issues' in result && result.issues && result.issues.length > 0, true);
+      });
+      await ctx.step('version mismatch', () => {
+         const result = schema['~standard'].validate({ version: '1.0.0', foo: [{ bar: true }] });
+         assertEquals('issues' in result && result.issues && result.issues.length > 0, true);
+      });
+      await ctx.step('valid for unsupported fields', () => {
+         const result = schema['~standard'].validate({ version: '1.0.0', foo: [{}] });
+         assertEquals('issues' in result && result.issues && result.issues.length > 0, false);
       });
    });
 });
