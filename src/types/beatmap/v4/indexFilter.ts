@@ -87,7 +87,7 @@ interface IIndexFilterBase extends IItem {
 }
 
 interface IIndexFilterSection extends IIndexFilterBase {
-   f?: 1;
+   f?: typeof IndexFilterType.DIVISION;
    /**
     * Divide into sections in index filter.
     *
@@ -105,7 +105,7 @@ interface IIndexFilterSection extends IIndexFilterBase {
 }
 
 interface IIndexFilterStepOffset extends IIndexFilterBase {
-   f?: 2;
+   f?: typeof IndexFilterType.STEP_AND_OFFSET;
    /**
     * Light ID in index filter.
     *

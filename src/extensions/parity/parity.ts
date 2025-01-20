@@ -2,12 +2,12 @@
 // TODO: proper rotation check based on position
 // TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA there's still more work needed for parity check
 // TODO: cleanup the implementation
-import { type ParityState, type ParityStatus, ParitySwitch } from './types/parity.ts';
-import { predictDirection } from '../placement/note.ts';
-import { NoteColor, NoteDirection, PosX, PosY } from '../../beatmap/shared/constants.ts';
-import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
 import { BombNote } from '../../beatmap/core/bombNote.ts';
+import { NoteColor, NoteDirection, PosX, PosY } from '../../beatmap/shared/constants.ts';
+import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import { predictDirection } from '../placement/note.ts';
+import { type ParityState, type ParityStatus, ParitySwitch } from './types/parity.ts';
 
 const noteInitParity: {
    [key: number]: { backhand: number[]; forehand: number[] };
@@ -127,7 +127,7 @@ export class Parity {
       });
 
       let prevNote!: IWrapColorNote;
-      let expectedDirection = NoteDirection.ANY;
+      let expectedDirection: number = NoteDirection.ANY;
       for (const note of noteContext) {
          if (note.direction !== NoteDirection.ANY) {
             expectedDirection = note.direction;
@@ -234,7 +234,7 @@ export class Parity {
       });
 
       let prevNote!: IWrapColorNote;
-      let expectedDirection = NoteDirection.ANY;
+      let expectedDirection: number = NoteDirection.ANY;
       for (const note of noteContext) {
          if (note.direction !== NoteDirection.ANY) {
             expectedDirection = note.direction;
