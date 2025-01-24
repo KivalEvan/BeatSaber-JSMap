@@ -7,13 +7,14 @@
  * @module
  */
 
-export * from './custom/mod.ts';
 export * from './arc.ts';
 export * from './audioData.ts';
+export * from './basicEvent.ts';
 export * from './bombNote.ts';
 export * from './chain.ts';
 export * from './colorBoostEvent.ts';
 export * from './colorNote.ts';
+export * from './custom/mod.ts';
 export * from './difficulty.ts';
 export * from './eventBox.ts';
 export * from './eventBoxCommon.ts';

@@ -1,1347 +1,768 @@
-import type { ISchemaDeclaration } from '../../../types/beatmap/shared/schema.ts';
-import type { IBasicEvent } from '../../../types/beatmap/v3/basicEvent.ts';
-import type { IBasicEventTypesForKeywords } from '../../../types/beatmap/v3/basicEventTypesForKeywords.ts';
-import type { IBasicEventTypesWithKeywords } from '../../../types/beatmap/v3/basicEventTypesWithKeywords.ts';
-import type { IBombNote } from '../../../types/beatmap/v3/bombNote.ts';
-import type { IBPMEvent } from '../../../types/beatmap/v3/bpmEvent.ts';
-import type { IChain } from '../../../types/beatmap/v3/chain.ts';
-import type { IColorBoostEvent } from '../../../types/beatmap/v3/colorBoostEvent.ts';
-import type { IColorNote } from '../../../types/beatmap/v3/colorNote.ts';
-import type { IDifficulty } from '../../../types/beatmap/v3/difficulty.ts';
-import type { IIndexFilter } from '../../../types/beatmap/v3/indexFilter.ts';
-import type { ILightColorEvent } from '../../../types/beatmap/v3/lightColorEvent.ts';
-import type { ILightColorEventBox } from '../../../types/beatmap/v3/lightColorEventBox.ts';
-import type { ILightColorEventBoxGroup } from '../../../types/beatmap/v3/lightColorEventBoxGroup.ts';
-import type { ILightRotationEvent } from '../../../types/beatmap/v3/lightRotationEvent.ts';
-import type { ILightRotationEventBox } from '../../../types/beatmap/v3/lightRotationEventBox.ts';
-import type { ILightRotationEventBoxGroup } from '../../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
-import type { ILightshow } from '../../../types/beatmap/v3/lightshow.ts';
-import type { ILightTranslationEvent } from '../../../types/beatmap/v3/lightTranslationEvent.ts';
-import type { ILightTranslationEventBox } from '../../../types/beatmap/v3/lightTranslationEventBox.ts';
-import type { ILightTranslationEventBoxGroup } from '../../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
-import type { IObstacle } from '../../../types/beatmap/v3/obstacle.ts';
-import type { IRotationEvent } from '../../../types/beatmap/v3/rotationEvent.ts';
-import type { IArc } from '../../../types/beatmap/v3/arc.ts';
-import type { IWaypoint } from '../../../types/beatmap/v3/waypoint.ts';
-import type { IFxEventBox } from '../../../types/beatmap/v3/fxEventBox.ts';
-import type { IFxEventBoxGroup } from '../../../types/beatmap/v3/fxEventBoxGroup.ts';
-import type { IFxEventsCollection } from '../../../types/beatmap/v3/fxEventsCollection.ts';
-import type { IFxEventFloat } from '../../../types/beatmap/v3/fxEventFloat.ts';
-import type { IFxEventInt } from '../../../types/beatmap/v3/fxEventInt.ts';
+import {
+   array,
+   boolean,
+   integer,
+   minValue,
+   number,
+   object,
+   optional,
+   picklist,
+   pipe,
+   string,
+} from '@valibot/valibot';
+import type {
+   IArc,
+   IBasicEvent,
+   IBasicEventTypesForKeywords,
+   IBasicEventTypesWithKeywords,
+   IBombNote,
+   IBPMEvent,
+   IChain,
+   IColorBoostEvent,
+   IColorNote,
+   IDifficulty,
+   IFxEventBox,
+   IFxEventBoxGroup,
+   IFxEventFloat,
+   IFxEventInt,
+   IFxEventsCollection,
+   IIndexFilter,
+   ILightColorEvent,
+   ILightColorEventBox,
+   ILightColorEventBoxGroup,
+   ILightRotationEvent,
+   ILightRotationEventBox,
+   ILightRotationEventBoxGroup,
+   ILightshow,
+   ILightTranslationEvent,
+   ILightTranslationEventBox,
+   ILightTranslationEventBoxGroup,
+   IObstacle,
+   IRotationEvent,
+   IWaypoint,
+} from '../../../types/beatmap/v3/mod.ts';
+import {
+   AxisSchema,
+   CustomDataSchema,
+   DistributionTypeSchema,
+   EaseTypeSchema,
+   EventLightColorSchema,
+   ExecutionTimeSchema,
+   FxTypeSchema,
+   IndexFilterTypeSchema,
+   LightRotationDirectionSchema,
+   LimitAlsoAffectsTypeSchema,
+   NoteColorSchema,
+   OffsetDirectionSchema,
+   RandomTypeSchema,
+   SliderMidAnchorModeSchema,
+   TransitionTypeSchema,
+   VersionSchema,
+} from '../common/declaration.ts';
+import { entity, field, type InferObjectEntries, mask } from '../helpers.ts';
 
 /**
  * Schema declaration for v3 `Color Note`.
  */
-export const ColorNoteSchema: {
-   readonly [key in keyof IColorNote]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
+export const ColorNoteSchema = object<InferObjectEntries<IColorNote>>({
+   b: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   c: {
-      type: 'number',
-      int: true,
+   }),
+   x: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   x: {
-      type: 'number',
-      int: true,
+   }),
+   y: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   y: {
-      type: 'number',
-      int: true,
+   }),
+   a: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
+   }),
+   c: field(optional(NoteColorSchema), {
       version: '3.0.0',
-      optional: true,
-   },
-   a: {
-      type: 'number',
-      int: true,
+   }),
+   d: field(optional(pipe(number(), integer(), minValue(0))), {
       version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v3 `Bomb Note`.
  */
-export const BombSchema: { readonly [key in keyof IBombNote]: ISchemaDeclaration } = {
-   b: {
-      type: 'number',
+export const BombNoteSchema = object<InferObjectEntries<IBombNote>>({
+   b: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   x: {
-      type: 'number',
-      int: true,
+   }),
+   x: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   y: {
-      type: 'number',
-      int: true,
+   }),
+   y: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v3 `Arc`.
  */
-export const ArcSchema: { readonly [key in keyof IArc]: ISchemaDeclaration } = {
-   b: {
-      type: 'number',
+export const ArcSchema = object<InferObjectEntries<IArc>>({
+   b: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   c: {
-      type: 'number',
-      int: true,
+   }),
+   c: field(optional(NoteColorSchema), {
       version: '3.0.0',
-      optional: true,
-   },
-   x: {
-      type: 'number',
-      int: true,
+   }),
+   x: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   y: {
-      type: 'number',
-      int: true,
+   }),
+   y: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
+   }),
+   d: field(optional(pipe(number(), integer(), minValue(0))), {
       version: '3.0.0',
-      optional: true,
-   },
-   mu: {
-      type: 'number',
+   }),
+   tb: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   tb: {
-      type: 'number',
+   }),
+   tx: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   tx: {
-      type: 'number',
-      int: true,
+   }),
+   ty: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   ty: {
-      type: 'number',
-      int: true,
+   }),
+   mu: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   tc: {
-      type: 'number',
-      int: true,
+   }),
+   tmu: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   tmu: {
-      type: 'number',
+   }),
+   tc: field(optional(pipe(number(), integer(), minValue(0))), {
       version: '3.0.0',
-      optional: true,
-   },
-   m: {
-      type: 'number',
-      int: true,
+   }),
+   m: field(optional(SliderMidAnchorModeSchema), {
       version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v3 `Chain`.
  */
-export const ChainSchema: { readonly [key in keyof IChain]: ISchemaDeclaration } = {
-   b: {
-      type: 'number',
+export const ChainSchema = object<InferObjectEntries<IChain>>({
+   b: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   c: {
-      type: 'number',
-      int: true,
+   }),
+   c: field(optional(NoteColorSchema), {
       version: '3.0.0',
-      optional: true,
-   },
-   x: {
-      type: 'number',
-      int: true,
+   }),
+   x: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   y: {
-      type: 'number',
-      int: true,
+   }),
+   y: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
+   }),
+   d: field(optional(pipe(number(), integer(), minValue(0))), {
       version: '3.0.0',
-      optional: true,
-   },
-   tb: {
-      type: 'number',
+   }),
+   tb: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   tx: {
-      type: 'number',
-      int: true,
+   }),
+   tx: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   ty: {
-      type: 'number',
-      int: true,
+   }),
+   ty: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   sc: {
-      type: 'number',
-      int: true,
+   }),
+   sc: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
+   }),
+   s: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v3 `Obstacle`.
  */
-export const ObstacleSchema: {
-   readonly [key in keyof IObstacle]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
+export const ObstacleSchema = object<InferObjectEntries<IObstacle>>({
+   b: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   x: {
-      type: 'number',
-      int: true,
+   }),
+   x: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   y: {
-      type: 'number',
-      int: true,
+   }),
+   y: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
+   }),
+   d: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   w: {
-      type: 'number',
-      int: true,
+   }),
+   w: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   h: {
-      type: 'number',
-      int: true,
+   }),
+   h: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Basic Event`.
- */
-export const BasicEventSchema: {
-   readonly [key in keyof IBasicEvent]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   et: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   f: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `BPM Change Event`.
- */
-export const BPMChangeEventSchema: {
-   readonly [key in keyof IBPMEvent]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   m: {
-      type: 'number',
-      version: '3.0.0',
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Rotation Event`.
- */
-export const RotationEventSchema: {
-   readonly [key in keyof IRotationEvent]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   r: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Color Boost Event`.
- */
-export const ColorBoostEventSchema: {
-   readonly [key in keyof IColorBoostEvent]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   o: {
-      type: 'boolean',
-      version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Index Filter`.
- */
-export const IndexFilterSchema: {
-   readonly [key in keyof IIndexFilter]: ISchemaDeclaration;
-} = {
-   f: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   p: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   r: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   c: {
-      type: 'number',
-      int: true,
-      version: '3.1.0',
-      optional: true,
-   },
-   l: {
-      type: 'number',
-      version: '3.1.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      version: '3.1.0',
-      optional: true,
-   },
-   n: {
-      type: 'number',
-      int: true,
-      version: '3.1.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
-      int: true,
-      version: '3.1.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Light Color Event`.
- */
-export const LightColorBaseSchema: {
-   readonly [key in keyof ILightColorEvent]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   c: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   f: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   sb: {
-      type: 'number',
-      version: '3.3.0',
-      optional: true,
-   },
-   sf: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Light Color Event Box`.
- */
-export const LightColorEventBoxSchema: {
-   readonly [key in keyof ILightColorEventBox]: ISchemaDeclaration;
-} = {
-   f: {
-      type: 'object',
-      version: '3.0.0',
-      check: IndexFilterSchema,
-      optional: true,
-   },
-   w: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   r: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'array',
-      version: '3.0.0',
-      check: LightColorBaseSchema,
-      optional: true,
-   },
-   b: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Light Color Event Box Group`.
- */
-export const LightColorEventBoxGroupSchema: {
-   readonly [key in keyof ILightColorEventBoxGroup]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   g: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'array',
-      version: '3.0.0',
-      check: LightColorEventBoxSchema,
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Light Rotation Event`.
- */
-export const LightRotationBaseSchema: {
-   readonly [key in keyof ILightRotationEvent]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   p: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   l: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   r: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   o: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Light Rotation Event Box`.
- */
-export const LightRotationEventBoxSchema: {
-   readonly [key in keyof ILightRotationEventBox]: ISchemaDeclaration;
-} = {
-   f: {
-      type: 'object',
-      version: '3.0.0',
-      check: IndexFilterSchema,
-      optional: true,
-   },
-   w: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   a: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   l: {
-      type: 'array',
-      version: '3.0.0',
-      check: LightRotationBaseSchema,
-      optional: true,
-   },
-   r: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   b: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Light Rotation Event Box Group`.
- */
-export const LightRotationEventBoxGroupSchema: {
-   readonly [key in keyof ILightRotationEventBoxGroup]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.0.0',
-      optional: true,
-   },
-   g: {
-      type: 'number',
-      int: true,
-      version: '3.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'array',
-      version: '3.0.0',
-      check: LightRotationEventBoxSchema,
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Light Translation Event`.
- */
-export const LightTranslationBaseSchema: {
-   readonly [key in keyof ILightTranslationEvent]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.2.0',
-      optional: true,
-   },
-   p: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      version: '3.2.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Light Translation Event Box`.
- */
-export const LightTranslationEventBoxSchema: {
-   readonly [key in keyof ILightTranslationEventBox]: ISchemaDeclaration;
-} = {
-   f: {
-      type: 'object',
-      version: '3.2.0',
-      check: IndexFilterSchema,
-      optional: true,
-   },
-   w: {
-      type: 'number',
-      version: '3.2.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
-      version: '3.2.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   a: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   l: {
-      type: 'array',
-      version: '3.2.0',
-      check: LightTranslationBaseSchema,
-      optional: true,
-   },
-   r: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   b: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Light Translation Event Box Group`.
- */
-export const LightTranslationEventBoxGroupSchema: {
-   readonly [key in keyof ILightTranslationEventBoxGroup]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.2.0',
-      optional: true,
-   },
-   g: {
-      type: 'number',
-      int: true,
-      version: '3.2.0',
-      optional: true,
-   },
-   e: {
-      type: 'array',
-      version: '3.2.0',
-      check: LightTranslationEventBoxSchema,
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.2.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `VFX Event Box`.
- */
-export const VfxEventBoxSchema: {
-   readonly [key in keyof IFxEventBox]: ISchemaDeclaration;
-} = {
-   f: {
-      type: 'object',
-      version: '3.3.0',
-      check: IndexFilterSchema,
-      optional: true,
-   },
-   w: {
-      type: 'number',
-      version: '3.3.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
-      version: '3.3.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   l: {
-      type: 'number',
-      int: true,
-      array: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   b: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `VFX Event Box Group`.
- */
-export const VfxEventBoxGroupSchema: {
-   readonly [key in keyof IFxEventBoxGroup]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.3.0',
-      optional: true,
-   },
-   g: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   e: {
-      type: 'array',
-      version: '3.3.0',
-      check: VfxEventBoxSchema,
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.3.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Basic Event Types with Keywords`.
- */
-export const BasicEventTypesForKeywordsSchema: {
-   readonly [key in keyof IBasicEventTypesForKeywords]: ISchemaDeclaration;
-} = {
-   k: {
-      type: 'string',
-      version: '3.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
-      array: true,
-      version: '3.0.0',
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `Basic Event Types with Keywords`.
- */
-export const BasicEventTypesWithKeywordsSchema: {
-   readonly [key in keyof IBasicEventTypesWithKeywords]: ISchemaDeclaration;
-} = {
-   d: {
-      type: 'array',
-      version: '3.0.0',
-      check: BasicEventTypesForKeywordsSchema,
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `FX Event Float`.
- */
-export const FxEventFloatSchema: {
-   readonly [key in keyof IFxEventFloat]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.3.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   p: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   v: {
-      type: 'number',
-      version: '3.3.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.3.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `FX Event Int`.
- */
-export const FxEventIntSchema: {
-   readonly [key in keyof IFxEventInt]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      version: '3.3.0',
-      optional: true,
-   },
-   p: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   v: {
-      type: 'number',
-      int: true,
-      version: '3.3.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.3.0',
-      check: {},
-      optional: true,
-   },
-} as const;
-
-/**
- * Schema declaration for v3 `FX Events Collection`.
- */
-export const FxEventsCollectionSchema: {
-   readonly [key in keyof IFxEventsCollection]: ISchemaDeclaration;
-} = {
-   _fl: {
-      type: 'array',
-      version: '3.3.0',
-      check: FxEventFloatSchema,
-      optional: true,
-   },
-   _il: {
-      type: 'array',
-      version: '3.3.0',
-      check: FxEventIntSchema,
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v3 `Waypoint`.
  */
-export const WaypointSchema: {
-   readonly [key in keyof IWaypoint]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
+export const WaypointSchema = object<InferObjectEntries<IWaypoint>>({
+   b: field(optional(number()), {
       version: '3.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
+   }),
+   x: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   x: {
-      type: 'number',
-      int: true,
+   }),
+   y: field(optional(pipe(number(), integer())), {
       version: '3.0.0',
-      optional: true,
-   },
-   y: {
-      type: 'number',
-      int: true,
+   }),
+   d: field(optional(OffsetDirectionSchema), {
       version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Basic Event`.
+ */
+export const BasicEventSchema = object<InferObjectEntries<IBasicEvent>>({
+   b: field(optional(number()), {
       version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   et: field(optional(pipe(number(), integer())), {
+      version: '3.0.0',
+   }),
+   i: field(optional(pipe(number(), integer())), {
+      version: '3.0.0',
+   }),
+   f: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `BPM Change Event`.
+ */
+export const BPMChangeEventSchema = object<InferObjectEntries<IBPMEvent>>({
+   b: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   m: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Rotation Event`.
+ */
+export const RotationEventSchema = object<InferObjectEntries<IRotationEvent>>({
+   b: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   e: field(optional(ExecutionTimeSchema), {
+      version: '3.0.0',
+   }),
+   r: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Color Boost Event`.
+ */
+export const ColorBoostEventSchema = object<InferObjectEntries<IColorBoostEvent>>({
+   b: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   o: field(optional(boolean()), {
+      version: '3.0.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Index Filter`.
+ */
+export const IndexFilterSchema = object<InferObjectEntries<IIndexFilter>>({
+   f: field(optional(IndexFilterTypeSchema), {
+      version: '3.0.0',
+   }),
+   p: field(optional(pipe(number(), integer())), {
+      version: '3.0.0',
+   }),
+   t: field(optional(pipe(number(), integer())), {
+      version: '3.0.0',
+   }),
+   r: field(optional(picklist([0, 1])), {
+      version: '3.0.0',
+   }),
+   c: field(optional(pipe(number(), integer())), {
+      version: '3.1.0',
+   }),
+   n: field(optional(RandomTypeSchema), {
+      version: '3.1.0',
+   }),
+   s: field(optional(pipe(number(), integer())), {
+      version: '3.1.0',
+   }),
+   l: field(optional(number()), {
+      version: '3.1.0',
+   }),
+   d: field(optional(LimitAlsoAffectsTypeSchema), {
+      version: '3.1.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Light Color Event`.
+ */
+export const LightColorBaseSchema = object<InferObjectEntries<ILightColorEvent>>({
+   b: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   i: field(optional(TransitionTypeSchema), {
+      version: '3.0.0',
+   }),
+   c: field(optional(EventLightColorSchema), {
+      version: '3.0.0',
+   }),
+   s: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   f: field(optional(pipe(number(), integer())), {
+      version: '3.0.0',
+   }),
+   sb: field(optional(number()), {
+      version: '3.3.0',
+   }),
+   sf: field(optional(picklist([0, 1])), {
+      version: '3.3.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Light Color Event Box`.
+ */
+export const LightColorEventBoxSchema = object<InferObjectEntries<ILightColorEventBox>>({
+   f: field(optional(IndexFilterSchema), {
+      version: '3.0.0',
+   }),
+   w: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   d: field(optional(DistributionTypeSchema), {
+      version: '3.0.0',
+   }),
+   r: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   t: field(optional(DistributionTypeSchema), {
+      version: '3.0.0',
+   }),
+   b: field(optional(picklist([0, 1])), {
+      version: '3.0.0',
+   }),
+   i: field(optional(EaseTypeSchema), {
+      version: '3.2.0',
+   }),
+   e: field(optional(array(LightColorBaseSchema)), {
+      version: '3.0.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Light Color Event Box Group`.
+ */
+export const LightColorEventBoxGroupSchema = object<InferObjectEntries<ILightColorEventBoxGroup>>({
+   b: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   g: field(optional(pipe(number(), integer())), {
+      version: '3.0.0',
+   }),
+   e: field(optional(array(LightColorEventBoxSchema)), {
+      version: '3.0.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Light Rotation Event`.
+ */
+export const LightRotationBaseSchema = object<InferObjectEntries<ILightRotationEvent>>({
+   b: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   p: field(optional(picklist([0, 1])), {
+      version: '3.0.0',
+   }),
+   e: field(optional(EaseTypeSchema), {
+      version: '3.0.0',
+   }),
+   l: field(optional(pipe(number(), integer())), {
+      version: '3.0.0',
+   }),
+   r: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   o: field(optional(LightRotationDirectionSchema), {
+      version: '3.0.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Light Rotation Event Box`.
+ */
+export const LightRotationEventBoxSchema = object<InferObjectEntries<ILightRotationEventBox>>({
+   f: field(optional(IndexFilterSchema), {
+      version: '3.0.0',
+   }),
+   w: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   d: field(optional(DistributionTypeSchema), {
+      version: '3.0.0',
+   }),
+   s: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   t: field(optional(DistributionTypeSchema), {
+      version: '3.0.0',
+   }),
+   a: field(optional(AxisSchema), {
+      version: '3.0.0',
+   }),
+   r: field(optional(picklist([0, 1])), {
+      version: '3.0.0',
+   }),
+   b: field(optional(picklist([0, 1])), {
+      version: '3.0.0',
+   }),
+   i: field(optional(EaseTypeSchema), {
+      version: '3.2.0',
+   }),
+   l: field(optional(array(LightRotationBaseSchema)), {
+      version: '3.0.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Light Rotation Event Box Group`.
+ */
+export const LightRotationEventBoxGroupSchema = object<
+   InferObjectEntries<ILightRotationEventBoxGroup>
+>({
+   b: field(optional(number()), {
+      version: '3.0.0',
+   }),
+   g: field(optional(pipe(number(), integer())), {
+      version: '3.0.0',
+   }),
+   e: field(optional(array(LightRotationEventBoxSchema)), {
+      version: '3.0.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Light Translation Event`.
+ */
+export const LightTranslationBaseSchema = object<InferObjectEntries<ILightTranslationEvent>>({
+   b: field(optional(number()), {
+      version: '3.2.0',
+   }),
+   p: field(optional(picklist([0, 1])), {
+      version: '3.2.0',
+   }),
+   t: field(optional(number()), {
+      version: '3.2.0',
+   }),
+   e: field(optional(EaseTypeSchema), {
+      version: '3.2.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Light Translation Event Box`.
+ */
+export const LightTranslationEventBoxSchema = object<
+   InferObjectEntries<ILightTranslationEventBox>
+>({
+   f: field(optional(IndexFilterSchema), {
+      version: '3.2.0',
+   }),
+   w: field(optional(number()), {
+      version: '3.2.0',
+   }),
+   d: field(optional(DistributionTypeSchema), {
+      version: '3.2.0',
+   }),
+   s: field(optional(number()), {
+      version: '3.2.0',
+   }),
+   t: field(optional(DistributionTypeSchema), {
+      version: '3.2.0',
+   }),
+   a: field(optional(AxisSchema), {
+      version: '3.2.0',
+   }),
+   r: field(optional(picklist([0, 1])), {
+      version: '3.2.0',
+   }),
+   b: field(optional(picklist([0, 1])), {
+      version: '3.2.0',
+   }),
+   i: field(optional(EaseTypeSchema), {
+      version: '3.2.0',
+   }),
+   l: field(optional(array(LightTranslationBaseSchema)), {
+      version: '3.2.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Light Translation Event Box Group`.
+ */
+export const LightTranslationEventBoxGroupSchema = object<
+   InferObjectEntries<ILightTranslationEventBoxGroup>
+>({
+   b: field(optional(number()), {
+      version: '3.2.0',
+   }),
+   g: field(optional(pipe(number(), integer())), {
+      version: '3.2.0',
+   }),
+   e: field(optional(array(LightTranslationEventBoxSchema)), {
+      version: '3.2.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `VFX Event Box`.
+ */
+export const VfxEventBoxSchema = object<InferObjectEntries<IFxEventBox>>({
+   f: field(optional(IndexFilterSchema), {
+      version: '3.3.0',
+   }),
+   w: field(optional(number()), {
+      version: '3.3.0',
+   }),
+   d: field(optional(DistributionTypeSchema), {
+      version: '3.3.0',
+   }),
+   l: field(optional(array(pipe(number(), integer()))), {
+      version: '3.3.0',
+   }),
+   s: field(optional(number()), {
+      version: '3.3.0',
+   }),
+   t: field(optional(DistributionTypeSchema), {
+      version: '3.3.0',
+   }),
+   i: field(optional(EaseTypeSchema), {
+      version: '3.3.0',
+   }),
+   b: field(optional(picklist([0, 1])), {
+      version: '3.3.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `VFX Event Box Group`.
+ */
+export const VfxEventBoxGroupSchema = object<InferObjectEntries<IFxEventBoxGroup>>({
+   b: field(optional(number()), {
+      version: '3.3.0',
+   }),
+   g: field(optional(pipe(number(), integer())), {
+      version: '3.3.0',
+   }),
+   e: field(optional(array(VfxEventBoxSchema)), {
+      version: '3.3.0',
+   }),
+   t: field(optional(FxTypeSchema), {
+      version: '3.3.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `Basic Event Types with Keywords`.
+ */
+export const BasicEventTypesForKeywordsSchema = object<
+   InferObjectEntries<IBasicEventTypesForKeywords>
+>({
+   k: field(optional(string()), {
+      version: '3.0.0',
+   }),
+   e: field(optional(array(pipe(number(), integer()))), {
+      version: '3.0.0',
+   }),
+});
+
+/**
+ * Schema declaration for v3 `Basic Event Types with Keywords`.
+ */
+export const BasicEventTypesWithKeywordsSchema = object<
+   InferObjectEntries<IBasicEventTypesWithKeywords>
+>({
+   d: field(optional(array(BasicEventTypesForKeywordsSchema)), {
+      version: '3.0.0',
+   }),
+});
+
+/**
+ * Schema declaration for v3 `FX Event Float`.
+ */
+export const FxEventFloatSchema = object<InferObjectEntries<IFxEventFloat>>({
+   b: field(optional(number()), {
+      version: '3.3.0',
+   }),
+   p: field(optional(picklist([0, 1])), {
+      version: '3.3.0',
+   }),
+   v: field(optional(number()), {
+      version: '3.3.0',
+   }),
+   i: field(optional(EaseTypeSchema), {
+      version: '3.3.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `FX Event Int`.
+ */
+export const FxEventIntSchema = object<InferObjectEntries<IFxEventInt>>({
+   b: field(optional(number()), {
+      version: '3.3.0',
+   }),
+   p: field(optional(picklist([0, 1])), {
+      version: '3.3.0',
+   }),
+   v: field(optional(pipe(number(), integer())), {
+      version: '3.3.0',
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
+
+/**
+ * Schema declaration for v3 `FX Events Collection`.
+ */
+export const FxEventsCollectionSchema = object<InferObjectEntries<IFxEventsCollection>>({
+   _fl: field(optional(array(FxEventFloatSchema)), {
+      version: '3.3.0',
+   }),
+   _il: field(optional(array(FxEventIntSchema)), {
+      version: '3.3.0',
+   }),
+});
 
 /**
  * Schema declaration for v3 `Difficulty`.
  */
-export const DifficultySchema: {
-   readonly [key in keyof IDifficulty]: ISchemaDeclaration;
-} = {
-   version: {
-      type: 'string',
+export const DifficultySchema = entity<
+   InferObjectEntries<IDifficulty>
+>((x) => x.version, {
+   version: field(mask(VersionSchema), {
       version: '3.0.0',
-      optional: true,
-   },
-   bpmEvents: {
-      type: 'array',
+   }),
+   bpmEvents: field(optional(array(BPMChangeEventSchema)), {
       version: '3.0.0',
-      check: BPMChangeEventSchema,
-      optional: true,
-   },
-   rotationEvents: {
-      type: 'array',
+   }),
+   rotationEvents: field(optional(array(RotationEventSchema)), {
       version: '3.0.0',
-      check: RotationEventSchema,
-      optional: true,
-   },
-   colorNotes: {
-      type: 'array',
+   }),
+   colorNotes: field(optional(array(ColorNoteSchema)), {
       version: '3.0.0',
-      check: ColorNoteSchema,
-      optional: true,
-   },
-   bombNotes: {
-      type: 'array',
+   }),
+   bombNotes: field(optional(array(BombNoteSchema)), {
       version: '3.0.0',
-      check: BombSchema,
-      optional: true,
-   },
-   obstacles: {
-      type: 'array',
+   }),
+   obstacles: field(optional(array(ObstacleSchema)), {
       version: '3.0.0',
-      check: ObstacleSchema,
-      optional: true,
-   },
-   sliders: {
-      type: 'array',
+   }),
+   sliders: field(optional(array(ArcSchema)), {
       version: '3.0.0',
-      check: ArcSchema,
-      optional: true,
-   },
-   burstSliders: {
-      type: 'array',
+   }),
+   burstSliders: field(optional(array(ChainSchema)), {
       version: '3.0.0',
-      check: ChainSchema,
-      optional: true,
-   },
-   waypoints: {
-      type: 'array',
+   }),
+   waypoints: field(optional(array(WaypointSchema)), {
       version: '3.0.0',
-      check: WaypointSchema,
-      optional: true,
-   },
-   basicBeatmapEvents: {
-      type: 'array',
+   }),
+   basicBeatmapEvents: field(optional(array(BasicEventSchema)), {
       version: '3.0.0',
-      check: BasicEventSchema,
-      optional: true,
-   },
-   colorBoostBeatmapEvents: {
-      type: 'array',
+   }),
+   colorBoostBeatmapEvents: field(optional(array(ColorBoostEventSchema)), {
       version: '3.0.0',
-      check: ColorBoostEventSchema,
-      optional: true,
-   },
-   lightColorEventBoxGroups: {
-      type: 'array',
+   }),
+   lightColorEventBoxGroups: field(optional(array(LightColorEventBoxGroupSchema)), {
       version: '3.0.0',
-      check: LightColorEventBoxGroupSchema,
-      optional: true,
-   },
-   lightRotationEventBoxGroups: {
-      type: 'array',
+   }),
+   lightRotationEventBoxGroups: field(optional(array(LightRotationEventBoxGroupSchema)), {
       version: '3.0.0',
-      check: LightRotationEventBoxGroupSchema,
-      optional: true,
-   },
-   lightTranslationEventBoxGroups: {
-      type: 'array',
+   }),
+   lightTranslationEventBoxGroups: field(optional(array(LightTranslationEventBoxGroupSchema)), {
       version: '3.2.0',
-      check: LightTranslationEventBoxGroupSchema,
-      optional: true,
-   },
-   vfxEventBoxGroups: {
-      type: 'array',
+   }),
+   vfxEventBoxGroups: field(optional(array(VfxEventBoxGroupSchema)), {
       version: '3.3.0',
-      check: VfxEventBoxGroupSchema,
-      optional: true,
-   },
-   basicEventTypesWithKeywords: {
-      type: 'object',
-      version: '3.0.0',
-      check: BasicEventTypesWithKeywordsSchema,
-      optional: true,
-   },
-   _fxEventsCollection: {
-      type: 'object',
+   }),
+   _fxEventsCollection: field(optional(FxEventsCollectionSchema), {
       version: '3.3.0',
-      check: FxEventsCollectionSchema,
-      optional: true,
-   },
-   useNormalEventsAsCompatibleEvents: {
-      type: 'boolean',
+   }),
+   basicEventTypesWithKeywords: field(optional(BasicEventTypesWithKeywordsSchema), {
       version: '3.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
+   }),
+   useNormalEventsAsCompatibleEvents: field(optional(boolean()), {
       version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v3 `Lightshow`.
  */
-export const LightshowSchema: {
-   readonly [key in keyof ILightshow]: ISchemaDeclaration;
-} = {
-   basicBeatmapEvents: {
-      type: 'array',
+export const LightshowSchema = entity<
+   InferObjectEntries<ILightshow>
+>(() => '3.0.0', {
+   basicBeatmapEvents: field(optional(array(BasicEventSchema)), {
       version: '3.0.0',
-      check: BasicEventSchema,
-      optional: true,
-   },
-   colorBoostBeatmapEvents: {
-      type: 'array',
+   }),
+   colorBoostBeatmapEvents: field(optional(array(ColorBoostEventSchema)), {
       version: '3.0.0',
-      check: ColorBoostEventSchema,
-      optional: true,
-   },
-   lightColorEventBoxGroups: {
-      type: 'array',
+   }),
+   lightColorEventBoxGroups: field(optional(array(LightColorEventBoxGroupSchema)), {
       version: '3.0.0',
-      check: LightColorEventBoxGroupSchema,
-      optional: true,
-   },
-   lightRotationEventBoxGroups: {
-      type: 'array',
+   }),
+   lightRotationEventBoxGroups: field(optional(array(LightRotationEventBoxGroupSchema)), {
       version: '3.0.0',
-      check: LightRotationEventBoxGroupSchema,
-      optional: true,
-   },
-   lightTranslationEventBoxGroups: {
-      type: 'array',
+   }),
+   lightTranslationEventBoxGroups: field(optional(array(LightTranslationEventBoxGroupSchema)), {
       version: '3.2.0',
-      check: LightTranslationEventBoxGroupSchema,
-      optional: true,
-   },
-   vfxEventBoxGroups: {
-      type: 'array',
+   }),
+   vfxEventBoxGroups: field(optional(array(VfxEventBoxGroupSchema)), {
       version: '3.3.0',
-      check: VfxEventBoxGroupSchema,
-      optional: true,
-   },
-   _fxEventsCollection: {
-      type: 'object',
+   }),
+   _fxEventsCollection: field(optional(FxEventsCollectionSchema), {
       version: '3.3.0',
-      check: FxEventsCollectionSchema,
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '3.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});

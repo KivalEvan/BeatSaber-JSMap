@@ -1,1687 +1,925 @@
-import type { ISchemaDeclaration } from '../../../types/beatmap/shared/schema.ts';
-import type { IArc } from '../../../types/beatmap/v4/arc.ts';
-import type { IAudio, IAudioBPM, IAudioLUFS } from '../../../types/beatmap/v4/audioData.ts';
-import type { IBasicEvent } from '../../../types/beatmap/v4/basicEvent.ts';
-import type { IBombNote } from '../../../types/beatmap/v4/bombNote.ts';
-import type { IChain } from '../../../types/beatmap/v4/chain.ts';
-import type { IColorBoostEvent } from '../../../types/beatmap/v4/colorBoostEvent.ts';
-import type { IColorNote } from '../../../types/beatmap/v4/colorNote.ts';
-import type { IDifficulty } from '../../../types/beatmap/v4/difficulty.ts';
-import type { IEventBox } from '../../../types/beatmap/v4/eventBox.ts';
-import type { IEventBoxGroup } from '../../../types/beatmap/v4/eventBoxGroup.ts';
-import type { IFxEventBox } from '../../../types/beatmap/v4/fxEventBox.ts';
-import type { IFxEventFloat } from '../../../types/beatmap/v4/fxEventFloat.ts';
-import type { IIndexFilter } from '../../../types/beatmap/v4/indexFilter.ts';
+import {
+   array,
+   boolean,
+   integer,
+   minValue,
+   number,
+   object,
+   optional,
+   picklist,
+   pipe,
+   string,
+} from '@valibot/valibot';
 import type {
+   IArc,
+   IAudio,
+   IAudioBPM,
+   IAudioLUFS,
+   IBasicEvent,
+   IBombNote,
+   IChain,
+   IColorBoostEvent,
+   IColorNote,
+   IDifficulty,
+   IEventBox,
+   IEventBoxGroup,
+   IFxEventBox,
+   IFxEventFloat,
+   IIndexFilter,
    IInfo,
    IInfoAudio,
    IInfoBeatmap,
    IInfoBeatmapAuthors,
    IInfoColorScheme,
    IInfoSong,
-} from '../../../types/beatmap/v4/info.ts';
-import type { ILightColorEvent } from '../../../types/beatmap/v4/lightColorEvent.ts';
-import type { ILightColorEventBox } from '../../../types/beatmap/v4/lightColorEventBox.ts';
-import type { ILightRotationEvent } from '../../../types/beatmap/v4/lightRotationEvent.ts';
-import type { ILightRotationEventBox } from '../../../types/beatmap/v4/lightRotationEventBox.ts';
-import type { ILightTranslationEvent } from '../../../types/beatmap/v4/lightTranslationEvent.ts';
-import type { ILightTranslationEventBox } from '../../../types/beatmap/v4/lightTranslationEventBox.ts';
-import type { ILightshow } from '../../../types/beatmap/v4/lightshow.ts';
-import type { INJSEvent } from '../../../types/beatmap/v4/njsEvent.ts';
-import type {
+   ILightColorEvent,
+   ILightColorEventBox,
+   ILightRotationEvent,
+   ILightRotationEventBox,
+   ILightshow,
+   ILightTranslationEvent,
+   ILightTranslationEventBox,
+   INJSEvent,
    IObject,
    IObjectArc,
    IObjectChain,
    IObjectLane,
-} from '../../../types/beatmap/v4/object.ts';
-import type { IObstacle } from '../../../types/beatmap/v4/obstacle.ts';
-import type { ISpawnRotation } from '../../../types/beatmap/v4/spawnRotation.ts';
-import type { IWaypoint } from '../../../types/beatmap/v4/waypoint.ts';
-import { BasicEventTypesWithKeywordsSchema } from '../v3/declaration.ts';
+   IObstacle,
+   ISpawnRotation,
+   IWaypoint,
+} from '../../../types/beatmap/v4/mod.ts';
+import {
+   AxisSchema,
+   CharacteristicNameSchema,
+   CustomDataSchema,
+   DifficultyNameSchema,
+   DistributionTypeSchema,
+   EaseTypeSchema,
+   EventBoxTypeSchema,
+   EventLightColorSchema,
+   ExecutionTimeSchema,
+   IndexFilterTypeSchema,
+   LightRotationDirectionSchema,
+   LimitAlsoAffectsTypeSchema,
+   NoteColorSchema,
+   OffsetDirectionSchema,
+   RandomTypeSchema,
+   SliderMidAnchorModeSchema,
+   VersionSchema,
+} from '../common/declaration.ts';
+import { entity, field, type InferObjectEntries, mask } from '../helpers.ts';
+import { BasicEventTypesWithKeywordsSchema } from '../v3/mod.ts';
 
 /**
  * Schema declaration for v4 `Object`.
  */
-export const ObjectSchema: {
-   readonly [key in keyof IObject]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
+export const ObjectSchema = object<InferObjectEntries<IObject>>({
+   b: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   i: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Object Lane`.
  */
-export const ObjectLaneSchema: {
-   readonly [key in keyof IObjectLane]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
+export const ObjectLaneSchema = object<InferObjectEntries<IObjectLane>>({
+   b: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   i: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   r: {
-      type: 'number',
-      int: true,
+   }),
+   r: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Object Chain`.
  */
-export const ObjectChainSchema: {
-   readonly [key in keyof IObjectChain]: ISchemaDeclaration;
-} = {
-   hb: {
-      type: 'number',
+export const ObjectChainSchema = object<InferObjectEntries<IObjectChain>>({
+   hb: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   hr: {
-      type: 'number',
-      int: true,
+   }),
+   hr: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   tb: {
-      type: 'number',
+   }),
+   tb: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   tr: {
-      type: 'number',
-      int: true,
+   }),
+   tr: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   i: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   ci: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   ci: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-};
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Object Arc`.
  */
-export const ObjectArcSchema: {
-   readonly [key in keyof IObjectArc]: ISchemaDeclaration;
-} = {
-   hb: {
-      type: 'number',
+export const ObjectArcSchema = object<InferObjectEntries<IObjectArc>>({
+   hb: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   hi: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   hi: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   hr: {
-      type: 'number',
-      int: true,
+   }),
+   hr: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   tb: {
-      type: 'number',
+   }),
+   tb: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   ti: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   ti: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   tr: {
-      type: 'number',
-      int: true,
+   }),
+   tr: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   ai: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   ai: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-};
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Color Note`.
  */
-export const ColorNoteSchema: {
-   readonly [key in keyof IColorNote]: ISchemaDeclaration;
-} = {
-   x: {
-      type: 'number',
-      int: true,
+export const ColorNoteSchema = object<InferObjectEntries<IColorNote>>({
+   x: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   y: {
-      type: 'number',
-      int: true,
+   }),
+   y: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   a: {
-      type: 'number',
-      int: true,
+   }),
+   a: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   c: {
-      type: 'number',
-      int: true,
+   }),
+   c: field(optional(NoteColorSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
+   }),
+   d: field(optional(pipe(number(), integer(), minValue(0))), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-};
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Bomb Note`.
  */
-export const BombNoteSchema: {
-   readonly [key in keyof IBombNote]: ISchemaDeclaration;
-} = {
-   x: {
-      type: 'number',
-      int: true,
+export const BombNoteSchema = object<InferObjectEntries<IBombNote>>({
+   x: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   y: {
-      type: 'number',
-      int: true,
+   }),
+   y: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-};
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Obstacle`.
  */
-export const ObstacleSchema: {
-   readonly [key in keyof IObstacle]: ISchemaDeclaration;
-} = {
-   x: {
-      type: 'number',
-      int: true,
+export const ObstacleSchema = object<InferObjectEntries<IObstacle>>({
+   x: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   y: {
-      type: 'number',
-      int: true,
+   }),
+   y: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
+   }),
+   d: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   w: {
-      type: 'number',
-      int: true,
+   }),
+   w: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   h: {
-      type: 'number',
-      int: true,
+   }),
+   h: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-};
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Chain`.
  */
-export const ChainSchema: {
-   readonly [key in keyof IChain]: ISchemaDeclaration;
-} = {
-   tx: {
-      type: 'number',
-      int: true,
+export const ChainSchema = object<InferObjectEntries<IChain>>({
+   tx: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   ty: {
-      type: 'number',
-      int: true,
+   }),
+   ty: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   c: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   c: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
+   }),
+   s: field(optional(pipe(number())), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-};
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Arc`.
  */
-export const ArcSchema: {
-   readonly [key in keyof IArc]: ISchemaDeclaration;
-} = {
-   m: {
-      type: 'number',
+export const ArcSchema = object<InferObjectEntries<IArc>>({
+   m: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   tm: {
-      type: 'number',
+   }),
+   tm: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   a: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   a: field(optional(SliderMidAnchorModeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-};
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Spawn Rotation`.
  *
  * @deprecated removed as of 1.39, convert to `r` in object lane
  */
-export const SpawnRotationSchema: {
-   readonly [key in keyof ISpawnRotation]: ISchemaDeclaration;
-} = {
-   e: {
-      type: 'number',
-      int: true,
+export const SpawnRotationSchema = object<InferObjectEntries<ISpawnRotation>>({
+   e: field(optional(ExecutionTimeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   r: {
-      type: 'number',
+   }),
+   r: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `NJS Event`.
  */
-export const NJSEventSchema: {
-   readonly [key in keyof INJSEvent]: ISchemaDeclaration;
-} = {
-   d: {
-      type: 'number',
+export const NJSEventSchema = object<InferObjectEntries<INJSEvent>>({
+   d: field(optional(number()), {
       version: '4.1.0',
-      optional: true,
-   },
-   p: {
-      type: 'number',
-      int: true,
+   }),
+   p: field(optional(picklist([0, 1])), {
       version: '4.1.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
+   }),
+   e: field(optional(EaseTypeSchema), {
       version: '4.1.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-};
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Difficulty`.
  */
-export const DifficultySchema: {
-   readonly [key in keyof IDifficulty]: ISchemaDeclaration;
-} = {
-   version: {
-      type: 'string',
+export const DifficultySchema = entity<
+   InferObjectEntries<IDifficulty>
+>((x) => x.version, {
+   version: field(mask(VersionSchema), {
       version: '4.0.0',
-   },
-   colorNotes: {
-      type: 'object',
-      array: true,
+   }),
+   colorNotes: field(optional(array(ObjectLaneSchema)), {
       version: '4.0.0',
-      check: ObjectLaneSchema,
-      optional: true,
-   },
-   bombNotes: {
-      type: 'object',
-      array: true,
+   }),
+   colorNotesData: field(optional(array(ColorNoteSchema)), {
       version: '4.0.0',
-      check: ObjectLaneSchema,
-      optional: true,
-   },
-   obstacles: {
-      type: 'object',
-      array: true,
+   }),
+   bombNotes: field(optional(array(ObjectLaneSchema)), {
       version: '4.0.0',
-      check: ObjectLaneSchema,
-      optional: true,
-   },
-   chains: {
-      type: 'object',
-      array: true,
+   }),
+   bombNotesData: field(optional(array(BombNoteSchema)), {
       version: '4.0.0',
-      check: ObjectChainSchema,
-      optional: true,
-   },
-   arcs: {
-      type: 'object',
-      array: true,
+   }),
+   obstacles: field(optional(array(ObjectLaneSchema)), {
       version: '4.0.0',
-      check: ObjectArcSchema,
-      optional: true,
-   },
-   spawnRotations: {
-      type: 'object',
-      array: true,
+   }),
+   obstaclesData: field(optional(array(ObstacleSchema)), {
       version: '4.0.0',
-      check: ObjectArcSchema,
-      optional: true,
-   },
-   colorNotesData: {
-      type: 'object',
-      array: true,
+   }),
+   chains: field(optional(array(ObjectChainSchema)), {
       version: '4.0.0',
-      check: ColorNoteSchema,
-      optional: true,
-   },
-   bombNotesData: {
-      type: 'object',
-      array: true,
+   }),
+   chainsData: field(optional(array(ChainSchema)), {
       version: '4.0.0',
-      check: BombNoteSchema,
-      optional: true,
-   },
-   obstaclesData: {
-      type: 'object',
-      array: true,
+   }),
+   arcs: field(optional(array(ObjectArcSchema)), {
       version: '4.0.0',
-      check: ObstacleSchema,
-      optional: true,
-   },
-   chainsData: {
-      type: 'object',
-      array: true,
+   }),
+   arcsData: field(optional(array(ArcSchema)), {
       version: '4.0.0',
-      check: ChainSchema,
-      optional: true,
-   },
-   arcsData: {
-      type: 'object',
-      array: true,
+   }),
+   spawnRotations: field(optional(array(ObjectSchema)), {
       version: '4.0.0',
-      check: ArcSchema,
-      optional: true,
-   },
-   spawnRotationsData: {
-      type: 'object',
-      array: true,
+   }),
+   spawnRotationsData: field(optional(array(SpawnRotationSchema)), {
       version: '4.0.0',
-      check: SpawnRotationSchema,
-      optional: true,
-   },
-   njsEvents: {
-      type: 'object',
-      array: true,
+   }),
+   njsEvents: field(optional(array(ObjectSchema)), {
       version: '4.1.0',
-      check: ObjectSchema,
-      optional: true,
-   },
-   njsEventData: {
-      type: 'object',
-      array: true,
+   }),
+   njsEventData: field(optional(array(NJSEventSchema)), {
       version: '4.1.0',
-      check: NJSEventSchema,
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Waypoint`.
  */
-export const WaypointSchema: {
-   readonly [key in keyof IWaypoint]: ISchemaDeclaration;
-} = {
-   x: {
-      type: 'number',
-      int: true,
+export const WaypointSchema = object<InferObjectEntries<IWaypoint>>({
+   x: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   y: {
-      type: 'number',
-      int: true,
+   }),
+   y: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   o: field(optional(OffsetDirectionSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Basic Event`.
  */
-export const BasicEventSchema: {
-   readonly [key in keyof IBasicEvent]: ISchemaDeclaration;
-} = {
-   t: {
-      type: 'number',
-      int: true,
+export const BasicEventSchema = object<InferObjectEntries<IBasicEvent>>({
+   t: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   i: {
-      type: 'number',
-      int: true,
+   }),
+   i: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   f: {
-      type: 'number',
+   }),
+   f: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Color Boost Event`.
  */
-export const ColorBoostEventSchema: {
-   readonly [key in keyof IColorBoostEvent]: ISchemaDeclaration;
-} = {
-   b: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+export const ColorBoostEventSchema = object<InferObjectEntries<IColorBoostEvent>>({
+   b: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Event Box`.
  */
-export const EventBoxSchema: {
-   readonly [key in keyof IEventBox]: ISchemaDeclaration;
-} = {
-   e: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+export const EventBoxSchema = object<InferObjectEntries<IEventBox>>({
+   f: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   f: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   e: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   l: {
-      type: 'object',
-      array: true,
+   }),
+   l: field(optional(array(ObjectSchema)), {
       version: '4.0.0',
-      check: ObjectSchema,
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Event Box Group`.
  */
-export const EventBoxGroupSchema: {
-   readonly [key in keyof IEventBoxGroup]: ISchemaDeclaration;
-} = {
-   t: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+export const EventBoxGroupSchema = object<InferObjectEntries<IEventBoxGroup>>({
+   t: field(optional(EventBoxTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   b: {
-      type: 'number',
+   }),
+   g: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   g: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   b: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'object',
-      array: true,
+   }),
+   e: field(optional(array(EventBoxSchema)), {
       version: '4.0.0',
-      check: EventBoxSchema,
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Index Filter`.
  */
-export const IndexFilterSchema: {
-   readonly [key in keyof IIndexFilter]: ISchemaDeclaration;
-} = {
-   f: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+export const IndexFilterSchema = object<InferObjectEntries<IIndexFilter>>({
+   f: field(optional(IndexFilterTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   p: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   p: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   t: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   r: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   r: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   c: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   c: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   n: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   n: field(optional(RandomTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
-      int: true,
+   }),
+   s: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   l: {
-      type: 'number',
-      unsigned: true,
+   }),
+   l: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   d: field(optional(LimitAlsoAffectsTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Light Color Event Box`.
  */
-export const LightColorEventBoxSchema: {
-   readonly [key in keyof ILightColorEventBox]: ISchemaDeclaration;
-} = {
-   w: {
-      type: 'number',
+export const LightColorEventBoxSchema = object<InferObjectEntries<ILightColorEventBox>>({
+   w: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   d: field(optional(DistributionTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
+   }),
+   s: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   t: field(optional(DistributionTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   b: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   b: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
+   }),
+   e: field(optional(EaseTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Light Color Event`.
  */
-export const LightColorEventSchema: {
-   readonly [key in keyof ILightColorEvent]: ISchemaDeclaration;
-} = {
-   p: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+export const LightColorEventSchema = object<InferObjectEntries<ILightColorEvent>>({
+   p: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   c: {
-      type: 'number',
-      int: true,
+   }),
+   e: field(optional(EaseTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
+   }),
+   c: field(optional(EventLightColorSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   b: {
-      type: 'number',
+   }),
+   b: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   f: {
-      type: 'number',
-      int: true,
+   }),
+   f: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   sb: {
-      type: 'number',
+   }),
+   sb: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   sf: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   sf: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Light Rotation Event Box`.
  */
-export const LightRotationEventBoxSchema: {
-   readonly [key in keyof ILightRotationEventBox]: ISchemaDeclaration;
-} = {
-   w: {
-      type: 'number',
+export const LightRotationEventBoxSchema = object<InferObjectEntries<ILightRotationEventBox>>({
+   w: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   d: field(optional(DistributionTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
+   }),
+   s: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   t: field(optional(DistributionTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   b: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   b: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
+   }),
+   e: field(optional(EaseTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   a: {
-      type: 'number',
-      int: true,
+   }),
+   a: field(optional(AxisSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   f: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   f: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Light Rotation Event`.
  */
-export const LightRotationEventSchema: {
-   readonly [key in keyof ILightRotationEvent]: ISchemaDeclaration;
-} = {
-   p: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+export const LightRotationEventSchema = object<InferObjectEntries<ILightRotationEvent>>({
+   p: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
+   }),
+   e: field(optional(EaseTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   l: {
-      type: 'number',
-      int: true,
+   }),
+   l: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
-      optional: true,
-   },
-   r: {
-      type: 'number',
+   }),
+   r: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   d: field(optional(LightRotationDirectionSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Light Translation Event Box`.
  */
-export const LightTranslationEventBoxSchema: {
-   readonly [key in keyof ILightTranslationEventBox]: ISchemaDeclaration;
-} = {
-   w: {
-      type: 'number',
+export const LightTranslationEventBoxSchema = object<
+   InferObjectEntries<ILightTranslationEventBox>
+>({
+   w: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   d: field(optional(DistributionTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
+   }),
+   s: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   t: field(optional(DistributionTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   b: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   b: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
+   }),
+   e: field(optional(EaseTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   a: {
-      type: 'number',
-      int: true,
+   }),
+   a: field(optional(AxisSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   f: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   f: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Light Translation Event`.
  */
-export const LightTranslationEventSchema: {
-   readonly [key in keyof ILightTranslationEvent]: ISchemaDeclaration;
-} = {
-   p: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+export const LightTranslationEventSchema = object<InferObjectEntries<ILightTranslationEvent>>({
+   p: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
+   }),
+   e: field(optional(EaseTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
+   }),
+   t: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `FX Event Box`.
  */
-export const FXEventBoxSchema: {
-   readonly [key in keyof IFxEventBox]: ISchemaDeclaration;
-} = {
-   w: {
-      type: 'number',
+export const FXEventBoxSchema = object<InferObjectEntries<IFxEventBox>>({
+   w: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   d: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   d: field(optional(DistributionTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   s: {
-      type: 'number',
+   }),
+   s: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   t: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   t: field(optional(DistributionTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   b: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   b: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
+   }),
+   e: field(optional(EaseTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `FX Event Float`.
  */
-export const FXEventFloatSchema: {
-   readonly [key in keyof IFxEventFloat]: ISchemaDeclaration;
-} = {
-   p: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+export const FXEventFloatSchema = object<InferObjectEntries<IFxEventFloat>>({
+   p: field(optional(picklist([0, 1])), {
       version: '4.0.0',
-      optional: true,
-   },
-   e: {
-      type: 'number',
-      int: true,
+   }),
+   e: field(optional(EaseTypeSchema), {
       version: '4.0.0',
-      optional: true,
-   },
-   v: {
-      type: 'number',
+   }),
+   v: field(optional(number()), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Lightshow`.
  */
-export const LightshowSchema: {
-   readonly [key in keyof ILightshow]: ISchemaDeclaration;
-} = {
-   version: {
-      type: 'string',
+export const LightshowSchema = entity<
+   InferObjectEntries<ILightshow>
+>((x) => x.version, {
+   version: field(mask(VersionSchema), {
       version: '4.0.0',
-   },
-   waypoints: {
-      type: 'object',
-      array: true,
+   }),
+   waypoints: field(optional(array(ObjectLaneSchema)), {
       version: '4.0.0',
-      check: ObjectLaneSchema,
-      optional: true,
-   },
-   waypointsData: {
-      type: 'object',
-      array: true,
+   }),
+   waypointsData: field(optional(array(WaypointSchema)), {
       version: '4.0.0',
-      check: WaypointSchema,
-      optional: true,
-   },
-   basicEvents: {
-      type: 'object',
-      array: true,
+   }),
+   basicEvents: field(optional(array(ObjectSchema)), {
       version: '4.0.0',
-      check: ObjectSchema,
-      optional: true,
-   },
-   basicEventsData: {
-      type: 'object',
-      array: true,
+   }),
+   basicEventsData: field(optional(array(BasicEventSchema)), {
       version: '4.0.0',
-      check: BasicEventSchema,
-      optional: true,
-   },
-   colorBoostEvents: {
-      type: 'object',
-      array: true,
+   }),
+   colorBoostEvents: field(optional(array(ObjectSchema)), {
       version: '4.0.0',
-      check: ObjectSchema,
-      optional: true,
-   },
-   colorBoostEventsData: {
-      type: 'object',
-      array: true,
+   }),
+   colorBoostEventsData: field(optional(array(ColorBoostEventSchema)), {
       version: '4.0.0',
-      check: ColorBoostEventSchema,
-      optional: true,
-   },
-   eventBoxGroups: {
-      type: 'object',
-      array: true,
+   }),
+   eventBoxGroups: field(optional(array(EventBoxGroupSchema)), {
       version: '4.0.0',
-      check: EventBoxGroupSchema,
-      optional: true,
-   },
-   indexFilters: {
-      type: 'object',
-      array: true,
+   }),
+   indexFilters: field(optional(array(IndexFilterSchema)), {
       version: '4.0.0',
-      check: IndexFilterSchema,
-      optional: true,
-   },
-   lightColorEventBoxes: {
-      type: 'object',
-      array: true,
+   }),
+   lightColorEventBoxes: field(optional(array(LightColorEventBoxSchema)), {
       version: '4.0.0',
-      check: LightColorEventBoxSchema,
-      optional: true,
-   },
-   lightColorEvents: {
-      type: 'object',
-      array: true,
+   }),
+   lightColorEvents: field(optional(array(LightColorEventSchema)), {
       version: '4.0.0',
-      check: LightColorEventSchema,
-      optional: true,
-   },
-   lightRotationEventBoxes: {
-      type: 'object',
-      array: true,
+   }),
+   lightRotationEventBoxes: field(optional(array(LightRotationEventBoxSchema)), {
       version: '4.0.0',
-      check: LightRotationEventBoxSchema,
-      optional: true,
-   },
-   lightRotationEvents: {
-      type: 'object',
-      array: true,
+   }),
+   lightRotationEvents: field(optional(array(LightRotationEventSchema)), {
       version: '4.0.0',
-      check: LightRotationEventSchema,
-      optional: true,
-   },
-   lightTranslationEventBoxes: {
-      type: 'object',
-      array: true,
+   }),
+   lightTranslationEventBoxes: field(optional(array(LightTranslationEventBoxSchema)), {
       version: '4.0.0',
-      check: LightTranslationEventBoxSchema,
-      optional: true,
-   },
-   lightTranslationEvents: {
-      type: 'object',
-      array: true,
+   }),
+   lightTranslationEvents: field(optional(array(LightTranslationEventSchema)), {
       version: '4.0.0',
-      check: LightTranslationEventSchema,
-      optional: true,
-   },
-   fxEventBoxes: {
-      type: 'object',
-      array: true,
+   }),
+   fxEventBoxes: field(optional(array(FXEventBoxSchema)), {
       version: '4.0.0',
-      check: FXEventBoxSchema,
-      optional: true,
-   },
-   floatFxEvents: {
-      type: 'object',
-      array: true,
+   }),
+   floatFxEvents: field(optional(array(FXEventFloatSchema)), {
       version: '4.0.0',
-      check: FXEventFloatSchema,
-      optional: true,
-   },
-   basicEventTypesWithKeywords: {
-      type: 'object',
+   }),
+   basicEventTypesWithKeywords: field(optional(BasicEventTypesWithKeywordsSchema), {
       version: '4.0.0',
-      check: BasicEventTypesWithKeywordsSchema,
-   },
-   useNormalEventsAsCompatibleEvents: {
-      type: 'boolean',
+   }),
+   useNormalEventsAsCompatibleEvents: field(optional(boolean()), {
       version: '4.0.0',
-      optional: true,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Info Song`.
  */
-export const InfoSongSchema: {
-   readonly [key in keyof IInfoSong]: ISchemaDeclaration;
-} = {
-   title: {
-      type: 'string',
+export const InfoSongSchema = object<InferObjectEntries<IInfoSong>>({
+   title: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   subTitle: {
-      type: 'string',
+   }),
+   subTitle: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   author: {
-      type: 'string',
+   }),
+   author: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-} as const;
+   }),
+});
 
 /**
  * Schema declaration for v4 `Info Audio`.
  */
-export const InfoAudioSchema: {
-   readonly [key in keyof IInfoAudio]: ISchemaDeclaration;
-} = {
-   songFilename: {
-      type: 'string',
+export const InfoAudioSchema = object<InferObjectEntries<IInfoAudio>>({
+   songFilename: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   songDuration: {
-      type: 'number',
+   }),
+   songDuration: field(number(), {
       version: '4.0.0',
-      optional: true,
-   },
-   audioDataFilename: {
-      type: 'string',
+   }),
+   audioDataFilename: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   bpm: {
-      type: 'number',
+   }),
+   bpm: field(number(), {
       version: '4.0.0',
-   },
-   lufs: {
-      type: 'number',
+   }),
+   lufs: field(number(), {
       version: '4.0.0',
-   },
-   previewStartTime: {
-      type: 'number',
+   }),
+   previewStartTime: field(number(), {
       version: '4.0.0',
-      optional: true,
-   },
-   previewDuration: {
-      type: 'number',
+   }),
+   previewDuration: field(number(), {
       version: '4.0.0',
-      optional: true,
-   },
-} as const;
+   }),
+});
 
 /**
  * Schema declaration for v4 `Info Color Scheme`.
  */
-export const InfoColorSchemeSchema: {
-   readonly [key in keyof IInfoColorScheme]: ISchemaDeclaration;
-} = {
-   colorSchemeName: {
-      type: 'string',
+export const InfoColorSchemeSchema = object<InferObjectEntries<IInfoColorScheme>>({
+   colorSchemeName: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   overrideNotes: {
-      type: 'boolean',
+   }),
+   overrideNotes: field(boolean(), {
       version: '4.0.1',
-      optional: true,
-   },
-   saberAColor: {
-      type: 'string',
+   }),
+   saberAColor: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   saberBColor: {
-      type: 'string',
+   }),
+   saberBColor: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   obstaclesColor: {
-      type: 'string',
+   }),
+   obstaclesColor: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   overrideLights: {
-      type: 'boolean',
+   }),
+   overrideLights: field(boolean(), {
       version: '4.0.1',
-      optional: true,
-   },
-   environmentColor0: {
-      type: 'string',
+   }),
+   environmentColor0: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   environmentColor1: {
-      type: 'string',
+   }),
+   environmentColor1: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   environmentColorW: {
-      type: 'string',
+   }),
+   environmentColor0Boost: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   environmentColor0Boost: {
-      type: 'string',
+   }),
+   environmentColor1Boost: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   environmentColor1Boost: {
-      type: 'string',
+   }),
+   environmentColorW: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   environmentColorWBoost: {
-      type: 'string',
+   }),
+   environmentColorWBoost: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-} as const;
+   }),
+});
 
 /**
  * Schema declaration for v4 `Info Beatmap Authors`.
  */
-export const InfoBeatmapAuthorsSchema: {
-   readonly [key in keyof IInfoBeatmapAuthors]: ISchemaDeclaration;
-} = {
-   mappers: {
-      type: 'string',
-      array: true,
+export const InfoBeatmapAuthorsSchema = object<InferObjectEntries<IInfoBeatmapAuthors>>({
+   mappers: field(array(string()), {
       version: '4.0.0',
-   },
-   lighters: {
-      type: 'string',
-      array: true,
+   }),
+   lighters: field(array(string()), {
       version: '4.0.0',
-   },
-} as const;
+   }),
+});
 
 /**
  * Schema declaration for v4 `Info Beatmap`.
  */
-export const InfoDifficultySchema: {
-   readonly [key in keyof IInfoBeatmap]: ISchemaDeclaration;
-} = {
-   characteristic: {
-      type: 'string',
+export const InfoDifficultySchema = object<InferObjectEntries<IInfoBeatmap>>({
+   characteristic: field(CharacteristicNameSchema, {
       version: '4.0.0',
-      optional: true,
-   },
-   difficulty: {
-      type: 'string',
+   }),
+   difficulty: field(DifficultyNameSchema, {
       version: '4.0.0',
-      optional: true,
-   },
-   beatmapAuthors: {
-      type: 'object',
+   }),
+   beatmapAuthors: field(InfoBeatmapAuthorsSchema, {
       version: '4.0.0',
-      check: InfoBeatmapAuthorsSchema,
-   },
-   environmentNameIdx: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   environmentNameIdx: field(pipe(number(), integer()), {
       version: '4.0.0',
-      optional: true,
-   },
-   beatmapColorSchemeIdx: {
-      type: 'number',
-      int: true,
+   }),
+   beatmapColorSchemeIdx: field(pipe(number(), integer()), {
       version: '4.0.0',
-      optional: true,
-   },
-   noteJumpMovementSpeed: {
-      type: 'number',
+   }),
+   noteJumpMovementSpeed: field(number(), {
       version: '4.0.0',
-      optional: true,
-   },
-   noteJumpStartBeatOffset: {
-      type: 'number',
+   }),
+   noteJumpStartBeatOffset: field(number(), {
       version: '4.0.0',
-      optional: true,
-   },
-   lightshowDataFilename: {
-      type: 'string',
+   }),
+   lightshowDataFilename: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   beatmapDataFilename: {
-      type: 'string',
+   }),
+   beatmapDataFilename: field(string(), {
       version: '4.0.0',
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Info`.
  */
-export const InfoSchema: { readonly [key in keyof IInfo]: ISchemaDeclaration } = {
-   version: {
-      type: 'string',
+export const InfoSchema = entity<
+   InferObjectEntries<IInfo>
+>((x) => x.version, {
+   version: field(mask(VersionSchema), {
       version: '4.0.0',
-   },
-   song: {
-      type: 'object',
+   }),
+   song: field(InfoSongSchema, {
       version: '4.0.0',
-      check: InfoSongSchema,
-   },
-   audio: {
-      type: 'object',
+   }),
+   audio: field(InfoAudioSchema, {
       version: '4.0.0',
-      check: InfoAudioSchema,
-   },
-   songPreviewFilename: {
-      type: 'string',
+   }),
+   songPreviewFilename: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   coverImageFilename: {
-      type: 'string',
+   }),
+   coverImageFilename: field(string(), {
       version: '4.0.0',
-      optional: true,
-   },
-   environmentNames: {
-      type: 'string',
-      array: true,
+   }),
+   environmentNames: field(array(mask(string())), {
       version: '4.0.0',
-   },
-   colorSchemes: {
-      type: 'object',
-      array: true,
+   }),
+   colorSchemes: field(array(InfoColorSchemeSchema), {
       version: '4.0.0',
-      check: InfoColorSchemeSchema,
-   },
-   difficultyBeatmaps: {
-      type: 'object',
-      array: true,
+   }),
+   difficultyBeatmaps: field(array(InfoDifficultySchema), {
       version: '4.0.0',
-      check: InfoDifficultySchema,
-   },
-   customData: {
-      type: 'object',
-      version: '4.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v4 `Audio Data BPM`.
  */
-export const AudioDataBPMSchema: {
-   readonly [key in keyof IAudioBPM]: ISchemaDeclaration;
-} = {
-   si: {
-      type: 'number',
+export const AudioDataBPMSchema = object<InferObjectEntries<IAudioBPM>>({
+   si: field(pipe(number(), integer(), minValue(0)), {
       version: '4.0.0',
-      int: true,
-      unsigned: true,
-   },
-   ei: {
-      type: 'number',
+   }),
+   ei: field(pipe(number(), integer(), minValue(0)), {
       version: '4.0.0',
-      int: true,
-      unsigned: true,
-   },
-   sb: {
-      type: 'number',
+   }),
+   sb: field(number(), {
       version: '4.0.0',
-   },
-   eb: {
-      type: 'number',
+   }),
+   eb: field(number(), {
       version: '4.0.0',
-   },
-};
+   }),
+});
 
 /**
  * Schema declaration for v4 `Audio Data LUFS`.
  */
-export const AudioDataLUFSSchema: {
-   readonly [key in keyof IAudioLUFS]: ISchemaDeclaration;
-} = {
-   si: {
-      type: 'number',
+export const AudioDataLUFSSchema = object<InferObjectEntries<IAudioLUFS>>({
+   si: field(pipe(number(), integer(), minValue(0)), {
       version: '4.0.0',
-      int: true,
-      unsigned: true,
-   },
-   ei: {
-      type: 'number',
+   }),
+   ei: field(pipe(number(), integer(), minValue(0)), {
       version: '4.0.0',
-      int: true,
-      unsigned: true,
-   },
-   l: {
-      type: 'number',
+   }),
+   l: field(number(), {
       version: '4.0.0',
-   },
-};
+   }),
+});
 
 /**
  * Schema declaration for v4 `Audio`.
  */
-export const AudioDataSchema: {
-   readonly [key in keyof IAudio]: ISchemaDeclaration;
-} = {
-   version: {
-      type: 'string',
+export const AudioDataSchema = entity<
+   InferObjectEntries<IAudio>
+>((x) => x.version, {
+   version: field(mask(VersionSchema), {
       version: '4.0.0',
-   },
-   songChecksum: {
-      type: 'string',
+   }),
+   songChecksum: field(string(), {
       version: '4.0.0',
-   },
-   songSampleCount: {
-      type: 'number',
+   }),
+   songSampleCount: field(pipe(number(), integer(), minValue(0)), {
       version: '4.0.0',
-      int: true,
-      unsigned: true,
-   },
-   songFrequency: {
-      type: 'number',
+   }),
+   songFrequency: field(pipe(number(), integer(), minValue(0)), {
       version: '4.0.0',
-      int: true,
-      unsigned: true,
-   },
-   bpmData: {
-      type: 'object',
+   }),
+   bpmData: field(array(AudioDataBPMSchema), {
       version: '4.0.0',
-      check: AudioDataBPMSchema,
-      array: true,
-   },
-   lufsData: {
-      type: 'object',
+   }),
+   lufsData: field(array(AudioDataLUFSSchema), {
       version: '4.0.0',
-      check: AudioDataLUFSSchema,
-      array: true,
-   },
-};
+   }),
+});

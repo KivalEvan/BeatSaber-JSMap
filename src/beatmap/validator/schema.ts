@@ -69,17 +69,22 @@ export function schemaCheck<
    _errors: StandardSchemaV1.Issue[] = [],
 ): StandardSchemaV1.Issue[] {
    if (isStandardSchema(schema)) {
+      let buffer: StandardSchemaV1.Issue[] = [];
       const result = schema['~standard'].validate(data);
-      if ('issues' in result) {
-         for (const issue of result.issues ?? []) {
+      if ('issues' in result && result.issues) {
+         // hack: adding a manual buffer since too many issues being processed at once can cause validation to hang
+         buffer = result.issues.filter((_, i) => i < 100) ?? [];
+         for (const issue of buffer) {
             handleError(issue, {
                vendor: schema['~standard'].vendor,
                doThrow: Object.keys(throwOn).length > 0,
             }, _errors);
          }
-         return [...result.issues ?? []];
+         if (result.issues.length > buffer.length) {
+            logger.tWarn(tag(schema['~standard'].vendor), 'Max issue buffer has been reached.');
+         }
       }
-      return [];
+      return [...buffer];
    }
 
    if (Array.isArray(data)) {

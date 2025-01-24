@@ -1,640 +1,430 @@
-import type { ISchemaDeclaration } from '../../../types/beatmap/shared/schema.ts';
-import type { IDifficulty } from '../../../types/beatmap/v2/difficulty.ts';
-import type { IEvent } from '../../../types/beatmap/v2/event.ts';
-import type { INote } from '../../../types/beatmap/v2/note.ts';
-import type { IObstacle } from '../../../types/beatmap/v2/obstacle.ts';
-import type { IArc } from '../../../types/beatmap/v2/arc.ts';
-import type { ISpecialEventsKeywordFilters } from '../../../types/beatmap/v2/specialEventsKeywordFilters.ts';
-import type { ISpecialEventsKeywordFiltersKeywords } from '../../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
-import type { IWaypoint } from '../../../types/beatmap/v2/waypoint.ts';
+import {
+   array,
+   boolean,
+   integer,
+   minValue,
+   number,
+   object,
+   optional,
+   pipe,
+   string,
+} from '@valibot/valibot';
 import type {
+   IArc,
+   IBPMInfo,
+   IBPMInfoRegion,
+   IDifficulty,
+   IEvent,
    IInfo,
    IInfoColorScheme,
    IInfoColorSchemeData,
    IInfoDifficulty,
    IInfoSet,
-} from '../../../types/beatmap/v2/info.ts';
+   INote,
+   IObstacle,
+   ISpecialEventsKeywordFilters,
+   ISpecialEventsKeywordFiltersKeywords,
+   IWaypoint,
+} from '../../../types/beatmap/v2/mod.ts';
 import type { IColor } from '../../../types/colors.ts';
-import type { IBPMInfo, IBPMInfoRegion } from '../../../types/beatmap/v2/bpmInfo.ts';
+import {
+   CharacteristicNameSchema,
+   CustomDataSchema,
+   DifficultyNameSchema,
+   DifficultyRankSchema,
+   NoteColorSchema,
+   NoteTypeSchema,
+   ObstacleTypeSchema,
+   OffsetDirectionSchema,
+   SliderMidAnchorModeSchema,
+   VersionSchema,
+} from '../common/declaration.ts';
+import { entity, field, type InferObjectEntries, mask } from '../helpers.ts';
 
 /**
  * Schema declaration for v2 `Note`.
  */
-export const NoteSchema: { readonly [key in keyof INote]: ISchemaDeclaration } = {
-   _time: {
-      type: 'number',
+export const NoteSchema = object<InferObjectEntries<INote>>({
+   _time: field(optional(number()), {
       version: '2.0.0',
-      optional: true,
-   },
-   _type: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   _type: field(optional(NoteTypeSchema), {
       version: '2.0.0',
-      optional: true,
-   },
-   _lineIndex: {
-      type: 'number',
-      int: true,
+   }),
+   _lineIndex: field(optional(pipe(number(), integer())), {
       version: '2.0.0',
-      optional: true,
-   },
-   _lineLayer: {
-      type: 'number',
-      int: true,
+   }),
+   _lineLayer: field(optional(pipe(number(), integer())), {
       version: '2.0.0',
-      optional: true,
-   },
-   _cutDirection: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   _cutDirection: field(optional(pipe(number(), integer(), minValue(0))), {
       version: '2.0.0',
-      optional: true,
-   },
-   _customData: {
-      type: 'object',
-      version: '2.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   _customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v2 `Arc`.
  */
-export const ArcSchema: { readonly [key in keyof IArc]: ISchemaDeclaration } = {
-   _colorType: {
-      type: 'number',
-      version: '2.0.0',
-      optional: true,
-   },
-   _headTime: {
-      type: 'number',
-      version: '2.0.0',
-      optional: true,
-   },
-   _headLineIndex: {
-      type: 'number',
-      int: true,
-      version: '2.0.0',
-      optional: true,
-   },
-   _headLineLayer: {
-      type: 'number',
-      int: true,
-      version: '2.0.0',
-      optional: true,
-   },
-   _headCutDirection: {
-      type: 'number',
-      int: true,
-      unsigned: true,
-      version: '2.0.0',
-      optional: true,
-   },
-   _headControlPointLengthMultiplier: {
-      type: 'number',
-      version: '2.0.0',
-      optional: true,
-   },
-   _tailTime: {
-      type: 'number',
-      version: '2.0.0',
-      optional: true,
-   },
-   _tailLineIndex: {
-      type: 'number',
-      int: true,
-      version: '2.0.0',
-      optional: true,
-   },
-   _tailLineLayer: {
-      type: 'number',
-      int: true,
-      version: '2.0.0',
-      optional: true,
-   },
-   _tailCutDirection: {
-      type: 'number',
-      int: true,
-      unsigned: true,
-      version: '2.0.0',
-      optional: true,
-   },
-   _tailControlPointLengthMultiplier: {
-      type: 'number',
-      version: '2.0.0',
-      optional: true,
-   },
-   _sliderMidAnchorMode: {
-      type: 'number',
-      version: '2.0.0',
-      optional: true,
-   },
-   _customData: {
-      type: 'object',
-      version: '2.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+export const ArcSchema = object<InferObjectEntries<IArc>>({
+   _colorType: field(optional(NoteColorSchema), {
+      version: '2.6.0',
+   }),
+   _headTime: field(optional(number()), {
+      version: '2.6.0',
+   }),
+   _headLineIndex: field(optional(pipe(number(), integer())), {
+      version: '2.6.0',
+   }),
+   _headLineLayer: field(optional(pipe(number(), integer())), {
+      version: '2.6.0',
+   }),
+   _headControlPointLengthMultiplier: field(optional(number()), {
+      version: '2.6.0',
+   }),
+   _headCutDirection: field(optional(pipe(number(), integer(), minValue(0))), {
+      version: '2.6.0',
+   }),
+   _tailTime: field(optional(number()), {
+      version: '2.6.0',
+   }),
+   _tailLineIndex: field(optional(pipe(number(), integer())), {
+      version: '2.6.0',
+   }),
+   _tailLineLayer: field(optional(pipe(number(), integer())), {
+      version: '2.6.0',
+   }),
+   _tailControlPointLengthMultiplier: field(optional(number()), {
+      version: '2.6.0',
+   }),
+   _tailCutDirection: field(optional(pipe(number(), integer(), minValue(0))), {
+      version: '2.6.0',
+   }),
+   _sliderMidAnchorMode: field(optional(SliderMidAnchorModeSchema), {
+      version: '2.6.0',
+   }),
+   _customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v2 `Obstacle`.
  */
-export const ObstacleSchema: {
-   readonly [key in keyof IObstacle]: ISchemaDeclaration;
-} = {
-   _time: {
-      type: 'number',
+export const ObstacleSchema = object<InferObjectEntries<IObstacle>>({
+   _time: field(optional(number()), {
       version: '2.0.0',
-      optional: true,
-   },
-   _lineIndex: {
-      type: 'number',
-      int: true,
+   }),
+   _lineIndex: field(optional(pipe(number(), integer())), {
       version: '2.0.0',
-      optional: true,
-   },
-   _type: {
-      type: 'number',
-      int: true,
-      unsigned: true,
+   }),
+   _type: field(optional(ObstacleTypeSchema), {
       version: '2.0.0',
-      optional: true,
-   },
-   _duration: {
-      type: 'number',
+   }),
+   _duration: field(optional(number()), {
       version: '2.0.0',
-      optional: true,
-   },
-   _width: {
-      type: 'number',
-      int: true,
+   }),
+   _width: field(optional(pipe(number(), integer())), {
       version: '2.0.0',
-      optional: true,
-   },
-   _customData: {
-      type: 'object',
-      version: '2.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   _customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v2 `Event`.
  */
-export const EventSchema: {
-   readonly [key in keyof IEvent]: ISchemaDeclaration;
-} = {
-   _time: {
-      type: 'number',
+export const EventSchema = object<InferObjectEntries<IEvent>>({
+   _time: field(optional(number()), {
       version: '2.0.0',
-      optional: true,
-   },
-   _type: {
-      type: 'number',
-      int: true,
+   }),
+   _type: field(optional(pipe(number(), integer())), {
       version: '2.0.0',
-      optional: true,
-   },
-   _value: {
-      type: 'number',
-      int: true,
+   }),
+   _value: field(optional(pipe(number(), integer())), {
       version: '2.0.0',
-      optional: true,
-   },
-   _floatValue: {
-      type: 'number',
+   }),
+   _floatValue: field(optional(number()), {
       version: '2.5.0',
-      optional: true,
-   },
-   _customData: {
-      type: 'object',
-      version: '2.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   _customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v2 `Waypoint`.
  */
-export const WaypointSchema: {
-   readonly [key in keyof IWaypoint]: ISchemaDeclaration;
-} = {
-   _time: {
-      type: 'number',
+export const WaypointSchema = object<InferObjectEntries<IWaypoint>>({
+   _time: field(optional(number()), {
       version: '2.2.0',
-      optional: true,
-   },
-   _lineIndex: {
-      type: 'number',
-      int: true,
+   }),
+   _lineIndex: field(optional(pipe(number(), integer())), {
       version: '2.2.0',
-      optional: true,
-   },
-   _lineLayer: {
-      type: 'number',
-      int: true,
+   }),
+   _lineLayer: field(optional(pipe(number(), integer())), {
       version: '2.2.0',
-      optional: true,
-   },
-   _offsetDirection: {
-      type: 'number',
-      int: true,
+   }),
+   _offsetDirection: field(optional(OffsetDirectionSchema), {
       version: '2.2.0',
-      optional: true,
-   },
-   _customData: {
-      type: 'object',
-      version: '2.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   _customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v2 `SpecialEventsKeywordFilters`.
  */
-export const SpecialEventsKeywordFiltersKeywordsSchema: {
-   readonly [key in keyof ISpecialEventsKeywordFiltersKeywords]: ISchemaDeclaration;
-} = {
-   _keyword: {
-      type: 'string',
+export const SpecialEventsKeywordFiltersKeywordsSchema = object<
+   InferObjectEntries<ISpecialEventsKeywordFiltersKeywords>
+>({
+   _keyword: field(optional(string()), {
       version: '2.4.0',
-      optional: true,
-   },
-   _specialEvents: {
-      type: 'number',
-      int: true,
-      array: true,
+   }),
+   _specialEvents: field(optional(array(pipe(number(), integer()))), {
       version: '2.4.0',
-      optional: true,
-   },
-} as const;
+   }),
+});
 
 /**
  * Schema declaration for v2 `SpecialEventsKeywordFilters`.
  */
-export const SpecialEventsKeywordFiltersSchema: {
-   readonly [key in keyof ISpecialEventsKeywordFilters]: ISchemaDeclaration;
-} = {
-   _keywords: {
-      type: 'array',
+export const SpecialEventsKeywordFiltersSchema = object<
+   InferObjectEntries<ISpecialEventsKeywordFilters>
+>({
+   _keywords: field(optional(array(SpecialEventsKeywordFiltersKeywordsSchema)), {
       version: '2.4.0',
-      check: SpecialEventsKeywordFiltersKeywordsSchema,
-      optional: true,
-   },
-} as const;
+   }),
+});
 
 /**
  * Schema declaration for v2 `Difficulty`.
  */
-export const DifficultySchema: {
-   readonly [key in keyof IDifficulty]: ISchemaDeclaration;
-} = {
-   _version: {
-      type: 'string',
+export const DifficultySchema = entity<
+   InferObjectEntries<IDifficulty>
+>((x) => x._version, {
+   _version: field(mask(VersionSchema), {
       version: '2.0.0',
-      optional: true,
-   },
-   _notes: {
-      type: 'array',
+   }),
+   _events: field(optional(array(EventSchema)), {
       version: '2.0.0',
-      check: NoteSchema,
-      optional: true,
-   },
-   _sliders: {
-      type: 'array',
+   }),
+   _notes: field(optional(array(NoteSchema)), {
+      version: '2.0.0',
+   }),
+   _sliders: field(optional(array(ArcSchema)), {
       version: '2.6.0',
-      check: ArcSchema,
-      optional: true,
-   },
-   _obstacles: {
-      type: 'array',
-      version: '2.0.0',
-      check: ObstacleSchema,
-      optional: true,
-   },
-   _events: {
-      type: 'array',
-      version: '2.0.0',
-      check: EventSchema,
-      optional: true,
-   },
-   _waypoints: {
-      type: 'array',
+   }),
+   _waypoints: field(optional(array(WaypointSchema)), {
       version: '2.2.0',
-      check: WaypointSchema,
-      optional: true,
-   },
-   _specialEventsKeywordFilters: {
-      type: 'object',
-      version: '2.4.0',
-      check: SpecialEventsKeywordFiltersSchema,
-      optional: true,
-   },
-   _customData: {
-      type: 'object',
+   }),
+   _obstacles: field(optional(array(ObstacleSchema)), {
       version: '2.0.0',
-      check: {},
-      optional: true,
-   },
-} as const;
+   }),
+   _specialEventsKeywordFilters: field(optional(SpecialEventsKeywordFiltersSchema), {
+      version: '2.4.0',
+   }),
+   _customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v2 `InfoDifficulty`.
  */
-export const InfoSetDifficultySchema: {
-   readonly [key in keyof IInfoDifficulty]: ISchemaDeclaration;
-} = {
-   _difficulty: {
-      type: 'string',
+export const InfoSetDifficultySchema = object<InferObjectEntries<IInfoDifficulty>>({
+   _difficulty: field(DifficultyNameSchema, {
       version: '2.0.0',
-   },
-   _difficultyRank: {
-      type: 'number',
+   }),
+   _difficultyRank: field(DifficultyRankSchema, {
       version: '2.0.0',
-   },
-   _beatmapFilename: {
-      type: 'string',
+   }),
+   _beatmapFilename: field(string(), {
       version: '2.0.0',
-   },
-   _noteJumpMovementSpeed: {
-      type: 'number',
+   }),
+   _noteJumpMovementSpeed: field(number(), {
       version: '2.0.0',
-   },
-   _noteJumpStartBeatOffset: {
-      type: 'number',
+   }),
+   _noteJumpStartBeatOffset: field(number(), {
       version: '2.0.0',
-   },
-   _beatmapColorSchemeIdx: {
-      type: 'number',
+   }),
+   _beatmapColorSchemeIdx: field(pipe(number(), integer()), {
       version: '2.1.0',
-   },
-   _environmentNameIdx: {
-      type: 'number',
+   }),
+   _environmentNameIdx: field(pipe(number(), integer()), {
       version: '2.1.0',
-   },
-   _customData: {
-      type: 'object',
-      version: '2.0.0',
-      check: {},
-      optional: true,
-   },
-};
+   }),
+   _customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v2 `InfoSet`.
  */
-export const InfoSetSchema: {
-   readonly [key in keyof IInfoSet]: ISchemaDeclaration;
-} = {
-   _beatmapCharacteristicName: {
-      type: 'string',
+export const InfoSetSchema = object<InferObjectEntries<IInfoSet>>({
+   _beatmapCharacteristicName: field(CharacteristicNameSchema, {
       version: '2.0.0',
-   },
-   _difficultyBeatmaps: {
-      type: 'array',
+   }),
+   _difficultyBeatmaps: field(array(InfoSetDifficultySchema), {
       version: '2.0.0',
-      check: InfoSetDifficultySchema,
-   },
-};
+   }),
+   _customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v2 `Color`.
  */
-export const ColorObjectSchema: {
-   readonly [key in keyof IColor]: ISchemaDeclaration;
-} = {
-   r: {
-      type: 'number',
+export const ColorObjectSchema = object<InferObjectEntries<Required<IColor>>>({
+   r: field(number(), {
       version: '2.1.0',
-   },
-   g: {
-      type: 'number',
+   }),
+   g: field(number(), {
       version: '2.1.0',
-   },
-   b: {
-      type: 'number',
+   }),
+   b: field(number(), {
       version: '2.1.0',
-   },
-   a: {
-      type: 'number',
+   }),
+   a: field(number(), {
       version: '2.1.0',
-   },
-};
+   }),
+});
 
 /**
  * Schema declaration for v2 `InfoColorSchemeData`.
  */
-export const InfoColorSchemeDataSchema: {
-   readonly [key in keyof IInfoColorSchemeData]: ISchemaDeclaration;
-} = {
-   colorSchemeId: {
-      type: 'string',
+export const InfoColorSchemeDataSchema = object<InferObjectEntries<IInfoColorSchemeData>>({
+   colorSchemeId: field(string(), {
       version: '2.1.0',
-   },
-   saberAColor: {
-      type: 'object',
+   }),
+   saberAColor: field(ColorObjectSchema, {
       version: '2.1.0',
-      check: ColorObjectSchema,
-   },
-   saberBColor: {
-      type: 'object',
+   }),
+   saberBColor: field(ColorObjectSchema, {
       version: '2.1.0',
-      check: ColorObjectSchema,
-   },
-   environmentColor0: {
-      type: 'object',
+   }),
+   environmentColor0: field(ColorObjectSchema, {
       version: '2.1.0',
-      check: ColorObjectSchema,
-   },
-   environmentColor1: {
-      type: 'object',
+   }),
+   environmentColor1: field(ColorObjectSchema, {
       version: '2.1.0',
-      check: ColorObjectSchema,
-   },
-   obstaclesColor: {
-      type: 'object',
+   }),
+   obstaclesColor: field(ColorObjectSchema, {
       version: '2.1.0',
-      check: ColorObjectSchema,
-   },
-   environmentColor0Boost: {
-      type: 'object',
+   }),
+   environmentColor0Boost: field(ColorObjectSchema, {
       version: '2.1.0',
-      check: ColorObjectSchema,
-   },
-   environmentColor1Boost: {
-      type: 'object',
+   }),
+   environmentColor1Boost: field(ColorObjectSchema, {
       version: '2.1.0',
-      check: ColorObjectSchema,
-   },
-};
+   }),
+   environmentColorW: field(optional(ColorObjectSchema), {
+      version: '2.1.0',
+   }),
+   environmentColorWBoost: field(optional(ColorObjectSchema), {
+      version: '2.1.0',
+   }),
+});
 
 /**
  * Schema declaration for v2 `InfoColorScheme`.
  */
-export const InfoColorSchemeSchema: {
-   readonly [key in keyof IInfoColorScheme]: ISchemaDeclaration;
-} = {
-   useOverride: {
-      type: 'boolean',
+export const InfoColorSchemeSchema = object<InferObjectEntries<IInfoColorScheme>>({
+   useOverride: field(boolean(), {
       version: '2.1.0',
-   },
-   colorScheme: {
-      type: 'object',
+   }),
+   colorScheme: field(InfoColorSchemeDataSchema, {
       version: '2.1.0',
-      check: InfoColorSchemeDataSchema,
-   },
-};
+   }),
+});
 
 /**
  * Schema declaration for v2 `Info`.
  */
-export const InfoSchema: { readonly [key in keyof IInfo]: ISchemaDeclaration } = {
-   _version: {
-      type: 'string',
+export const InfoSchema = entity<
+   InferObjectEntries<IInfo>
+>((x) => x._version, {
+   _version: field(mask(VersionSchema), {
       version: '2.0.0',
-      optional: true,
-   },
-   _songName: {
-      type: 'string',
+   }),
+   _songName: field(string(), {
       version: '2.0.0',
-   },
-   _songSubName: {
-      type: 'string',
+   }),
+   _songSubName: field(string(), {
       version: '2.0.0',
-   },
-   _songAuthorName: {
-      type: 'string',
+   }),
+   _songAuthorName: field(string(), {
       version: '2.0.0',
-   },
-   _levelAuthorName: {
-      type: 'string',
+   }),
+   _levelAuthorName: field(string(), {
       version: '2.0.0',
-   },
-   _beatsPerMinute: {
-      type: 'number',
+   }),
+   _beatsPerMinute: field(number(), {
       version: '2.0.0',
-   },
-   _songTimeOffset: {
-      type: 'number',
+   }),
+   _songTimeOffset: field(number(), {
       version: '2.0.0',
-   },
-   _shuffle: {
-      type: 'number',
+   }),
+   _shuffle: field(number(), {
       version: '2.0.0',
-   },
-   _shufflePeriod: {
-      type: 'number',
+   }),
+   _shufflePeriod: field(number(), {
       version: '2.0.0',
-   },
-   _previewStartTime: {
-      type: 'number',
+   }),
+   _previewStartTime: field(number(), {
       version: '2.0.0',
-   },
-   _previewDuration: {
-      type: 'number',
+   }),
+   _previewDuration: field(number(), {
       version: '2.0.0',
-   },
-   _songFilename: {
-      type: 'string',
+   }),
+   _songFilename: field(string(), {
       version: '2.0.0',
-   },
-   _coverImageFilename: {
-      type: 'string',
+   }),
+   _coverImageFilename: field(string(), {
       version: '2.0.0',
-   },
-   _environmentName: {
-      type: 'string',
+   }),
+   _environmentName: field(mask(string()), {
       version: '2.0.0',
-   },
-   _allDirectionsEnvironmentName: {
-      type: 'string',
+   }),
+   _allDirectionsEnvironmentName: field(optional(mask(string())), {
       version: '2.0.0',
-      optional: true,
-   },
-   _environmentNames: {
-      type: 'string',
+   }),
+   _environmentNames: field(array(mask(string())), {
       version: '2.1.0',
-      array: true,
-   },
-   _colorSchemes: {
-      type: 'array',
+   }),
+   _colorSchemes: field(array(InfoColorSchemeSchema), {
       version: '2.1.0',
-      check: InfoColorSchemeSchema,
-   },
-   _customData: {
-      type: 'object',
+   }),
+   _difficultyBeatmapSets: field(array(InfoSetSchema), {
       version: '2.0.0',
-      check: {},
-      optional: true,
-   },
-   _difficultyBeatmapSets: {
-      type: 'array',
-      version: '2.0.0',
-      check: InfoSetSchema,
-   },
-};
+   }),
+   _customData: field(optional(CustomDataSchema)),
+});
 
 /**
  * Schema declaration for v2 `BPMInfoRegion`.
  */
-export const BPMInfoRegionSchema: {
-   readonly [key in keyof IBPMInfoRegion]: ISchemaDeclaration;
-} = {
-   _startSampleIndex: {
-      type: 'number',
+export const BPMInfoRegionSchema = object<InferObjectEntries<IBPMInfoRegion>>({
+   _startSampleIndex: field(pipe(number(), integer(), minValue(0)), {
       version: '2.0.0',
-      int: true,
-      unsigned: true,
-   },
-   _endSampleIndex: {
-      type: 'number',
+   }),
+   _endSampleIndex: field(pipe(number(), integer(), minValue(0)), {
       version: '2.0.0',
-      int: true,
-      unsigned: true,
-   },
-   _startBeat: {
-      type: 'number',
+   }),
+   _startBeat: field(number(), {
       version: '2.0.0',
-   },
-   _endBeat: {
-      type: 'number',
+   }),
+   _endBeat: field(number(), {
       version: '2.0.0',
-   },
-};
+   }),
+});
 
 /**
  * Schema declaration for v2 `BPMInfo`.
  */
-export const BPMInfoSchema: {
-   readonly [key in keyof IBPMInfo]: ISchemaDeclaration;
-} = {
-   _version: {
-      type: 'string',
+export const BPMInfoSchema = entity<
+   InferObjectEntries<IBPMInfo>
+>((x) => x._version, {
+   _version: field(mask(VersionSchema), {
       version: '2.0.0',
-   },
-   _songSampleCount: {
-      type: 'number',
+   }),
+   _songSampleCount: field(pipe(number(), integer(), minValue(0)), {
       version: '2.0.0',
-      int: true,
-      unsigned: true,
-   },
-   _songFrequency: {
-      type: 'number',
+   }),
+   _songFrequency: field(pipe(number(), integer(), minValue(0)), {
       version: '2.0.0',
-      int: true,
-      unsigned: true,
-   },
-   _regions: {
-      type: 'object',
+   }),
+   _regions: field(array(BPMInfoRegionSchema), {
       version: '2.0.0',
-      check: BPMInfoRegionSchema,
-      array: true,
-   },
-};
+   }),
+});

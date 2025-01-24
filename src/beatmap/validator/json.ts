@@ -55,22 +55,22 @@ export function validateJSON<T extends Record<string, any> = Record<string, any>
    switch (type) {
       case 'info': {
          const schema = infoCheckMap[version as keyof typeof infoCheckMap];
-         schemaCheck(data, schema, type, ver, opt.throwOn);
+         schemaCheck(data, schema, type);
          break;
       }
       case 'audioData': {
          const schema = audioSchemaMap[version as keyof typeof audioSchemaMap];
-         schemaCheck(data, schema, type, ver, opt.throwOn);
+         schemaCheck(data, schema, type);
          break;
       }
       case 'difficulty': {
          const schema = difficultyCheckMap[version as keyof typeof difficultyCheckMap];
-         schemaCheck(data, schema, type, ver, opt.throwOn);
+         schemaCheck(data, schema, type);
          break;
       }
       case 'lightshow': {
          const schema = lightshowCheckMap[version as keyof typeof lightshowCheckMap];
-         schemaCheck(data, schema, type, ver, opt.throwOn);
+         schemaCheck(data, schema, type);
          break;
       }
    }

@@ -1,6 +1,7 @@
 import type { StandardSchemaV1 } from '@standard-schema/spec';
 import * as v from '@valibot/valibot';
 import { entity, field, mask } from '../src/beatmap/schema/helpers.ts';
+import * as v4 from '../src/beatmap/schema/v4/declaration.ts';
 import type { ISchemaDeclaration } from '../src/types/beatmap/shared/schema.ts';
 import type { Version } from '../src/types/beatmap/shared/version.ts';
 import { assertEquals, logger, schemaCheck } from './deps.ts';
@@ -80,11 +81,11 @@ Deno.test('schemaCheck', async (ctx) => {
          assertEquals(issues.length, 1);
       });
       const versioned = entity(() => '1.0.0', {
-         foo: field(v.boolean(), { version: '1.0.0' }),
+         foo: field(v.boolean(), { version: '1.2.0' }),
       });
       await ctx.step('resolve version from dataset', () => {
          const issues = schemaCheck({}, versioned, 'sample');
-         assertEquals(issues.length, 1);
+         assertEquals(issues.length, 0);
       });
    });
 });
@@ -114,5 +115,16 @@ Deno.test('entity serialization tests', async (ctx) => {
          const result = schema['~standard'].validate({ version: '1.0.0', foo: [{}] });
          assertEquals('issues' in result && result.issues && result.issues.length > 0, false);
       });
+   });
+});
+
+Deno.test('beatmap serialization tests', async (ctx) => {
+   await ctx.step('difficulty v4', () => {
+      const data = {
+         version: '4.0.0',
+         colorNotes: [{ foo: 'bar' }],
+      };
+      const result = v4.DifficultySchema['~standard'].validate(data);
+      assertEquals('issues' in result && result.issues && result.issues.length > 0, false);
    });
 });

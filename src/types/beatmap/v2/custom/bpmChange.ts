@@ -33,7 +33,7 @@ export interface IBPMChangeOld {
     * **Type:** `f32`
     */
    _bpm: number;
-   _BPM: never;
+   _BPM?: never;
    /**
     * **Type:** `f32`
     */

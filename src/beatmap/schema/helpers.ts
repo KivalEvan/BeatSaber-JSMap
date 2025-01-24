@@ -188,6 +188,8 @@ export function entity<const TEntries extends InferObjectEntries<Record<string, 
 ) {
    return pipe(
       // we assume no additional fields are present other than what is supported by the schema.
+      // if we have unknown entries, we'll simply omit them from the validation output and pass validation as normal.
+      // that way, future updates that introduce new fields won't break existing validation flows.
       object<TEntries>(entries),
       rawCheck(({ dataset, addIssue }) => {
          if (!dataset.typed) return;
