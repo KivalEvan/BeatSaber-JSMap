@@ -3,16 +3,16 @@ import type {
    EnvironmentName,
    EnvironmentV3Name,
 } from '../../../types/beatmap/shared/environment.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfo, IInfoSet } from '../../../types/beatmap/v2/info.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy, shallowCopy } from '../../../utils/misc.ts';
 import type {
    IWrapInfoAttribute,
    IWrapInfoColorScheme,
 } from '../../../types/beatmap/wrapper/info.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import { infoBeatmap } from './infoBeatmap.ts';
+import type { DeepPartial } from '../../../types/utils.ts';
+import { deepCopy, shallowCopy } from '../../../utils/misc.ts';
 import { is360Environment } from '../../helpers/environment.ts';
+import { infoBeatmap } from './infoBeatmap.ts';
 
 /**
  * Schema serialization for v2 `Info`.
@@ -116,53 +116,53 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          environmentNames: data._environmentNames?.map((e) => e),
          colorSchemes: data._colorSchemes?.map((e) => {
             const scheme: DeepPartial<IWrapInfoColorScheme> = {
-               name: e.colorScheme?.colorSchemeId,
-               overrideNotes: !!e.useOverride,
-               overrideLights: !!e.useOverride,
+               name: e?.colorScheme?.colorSchemeId,
+               overrideNotes: e?.useOverride,
+               overrideLights: e?.useOverride,
                saberLeftColor: {
-                  r: e.colorScheme?.saberAColor?.r,
-                  g: e.colorScheme?.saberAColor?.g,
-                  b: e.colorScheme?.saberAColor?.b,
-                  a: e.colorScheme?.saberAColor?.a,
+                  r: e?.colorScheme?.saberAColor?.r,
+                  g: e?.colorScheme?.saberAColor?.g,
+                  b: e?.colorScheme?.saberAColor?.b,
+                  a: e?.colorScheme?.saberAColor?.a,
                },
                saberRightColor: {
-                  r: e.colorScheme?.saberBColor?.r,
-                  g: e.colorScheme?.saberBColor?.g,
-                  b: e.colorScheme?.saberBColor?.b,
-                  a: e.colorScheme?.saberBColor?.a,
+                  r: e?.colorScheme?.saberBColor?.r,
+                  g: e?.colorScheme?.saberBColor?.g,
+                  b: e?.colorScheme?.saberBColor?.b,
+                  a: e?.colorScheme?.saberBColor?.a,
                },
                environment0Color: {
-                  r: e.colorScheme?.environmentColor0?.r,
-                  g: e.colorScheme?.environmentColor0?.g,
-                  b: e.colorScheme?.environmentColor0?.b,
-                  a: e.colorScheme?.environmentColor0?.a,
+                  r: e?.colorScheme?.environmentColor0?.r,
+                  g: e?.colorScheme?.environmentColor0?.g,
+                  b: e?.colorScheme?.environmentColor0?.b,
+                  a: e?.colorScheme?.environmentColor0?.a,
                },
                environment1Color: {
-                  r: e.colorScheme?.environmentColor1?.r,
-                  g: e.colorScheme?.environmentColor1?.g,
-                  b: e.colorScheme?.environmentColor1?.b,
-                  a: e.colorScheme?.environmentColor1?.a,
+                  r: e?.colorScheme?.environmentColor1?.r,
+                  g: e?.colorScheme?.environmentColor1?.g,
+                  b: e?.colorScheme?.environmentColor1?.b,
+                  a: e?.colorScheme?.environmentColor1?.a,
                },
                obstaclesColor: {
-                  r: e.colorScheme?.obstaclesColor?.r,
-                  g: e.colorScheme?.obstaclesColor?.g,
-                  b: e.colorScheme?.obstaclesColor?.b,
-                  a: e.colorScheme?.obstaclesColor?.a,
+                  r: e?.colorScheme?.obstaclesColor?.r,
+                  g: e?.colorScheme?.obstaclesColor?.g,
+                  b: e?.colorScheme?.obstaclesColor?.b,
+                  a: e?.colorScheme?.obstaclesColor?.a,
                },
                environment0ColorBoost: {
-                  r: e.colorScheme?.environmentColor0Boost?.r,
-                  g: e.colorScheme?.environmentColor0Boost?.g,
-                  b: e.colorScheme?.environmentColor0Boost?.b,
-                  a: e.colorScheme?.environmentColor0Boost?.a,
+                  r: e?.colorScheme?.environmentColor0Boost?.r,
+                  g: e?.colorScheme?.environmentColor0Boost?.g,
+                  b: e?.colorScheme?.environmentColor0Boost?.b,
+                  a: e?.colorScheme?.environmentColor0Boost?.a,
                },
                environment1ColorBoost: {
-                  r: e.colorScheme?.environmentColor1Boost?.r,
-                  g: e.colorScheme?.environmentColor1Boost?.g,
-                  b: e.colorScheme?.environmentColor1Boost?.b,
-                  a: e.colorScheme?.environmentColor1Boost?.a,
+                  r: e?.colorScheme?.environmentColor1Boost?.r,
+                  g: e?.colorScheme?.environmentColor1Boost?.g,
+                  b: e?.colorScheme?.environmentColor1Boost?.b,
+                  a: e?.colorScheme?.environmentColor1Boost?.a,
                },
             };
-            if (e.colorScheme?.environmentColorW) {
+            if (e?.colorScheme?.environmentColorW) {
                scheme.environmentWColor = {
                   r: e.colorScheme?.environmentColorW?.r,
                   g: e.colorScheme?.environmentColorW?.g,
@@ -170,7 +170,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
                   a: e.colorScheme?.environmentColorW?.a,
                };
             }
-            if (e.colorScheme?.environmentColorWBoost) {
+            if (e?.colorScheme?.environmentColorWBoost) {
                scheme.environmentWColorBoost = {
                   r: e.colorScheme?.environmentColorWBoost?.r,
                   g: e.colorScheme?.environmentColorWBoost?.g,
@@ -181,7 +181,7 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             return scheme;
          }),
          difficulties: data._difficultyBeatmapSets?.flatMap((set) =>
-            set._difficultyBeatmaps?.map((diff) => {
+            set?._difficultyBeatmaps?.map((diff) => {
                const m = infoBeatmap.deserialize(diff);
                m.characteristic = set._beatmapCharacteristicName;
                m.authors = {

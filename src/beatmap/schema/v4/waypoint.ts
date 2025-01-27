@@ -1,5 +1,5 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWaypointContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapWaypointAttribute } from '../../../types/beatmap/wrapper/waypoint.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
@@ -19,7 +19,7 @@ export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypointContain
          data: {
             x: data.posX,
             y: data.posY,
-            d: data.direction,
+            o: data.direction,
             customData: deepCopy(data.customData),
          },
       };
@@ -30,7 +30,7 @@ export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypointContain
          laneRotation: data.object?.r,
          posX: data.data?.x,
          posY: data.data?.y,
-         direction: data.data?.d,
+         direction: data.data?.o,
          customData: data.data?.customData,
       };
    },

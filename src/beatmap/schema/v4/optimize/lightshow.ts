@@ -1,6 +1,6 @@
-import { round } from '../../../../utils/math.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { ILightshow } from '../../../../types/beatmap/v4/lightshow.ts';
+import { round } from '../../../../utils/math.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { EventBoxType } from '../../../shared/constants.ts';
 
@@ -10,97 +10,105 @@ import { EventBoxType } from '../../../shared/constants.ts';
 export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
    if (options.deduplicate) {
       const [newBasicEventsData, remapBasicEventsIdx] = remapDedupe(
-         data.basicEventsData,
+         data.basicEventsData ?? [],
       );
       const [newColorBoostEventsData, remapColorBoostEventsIdx] = remapDedupe(
-         data.colorBoostEventsData,
+         data.colorBoostEventsData ?? [],
       );
       const [newWaypointsData, remapWaypointsIdx] = remapDedupe(
-         data.waypointsData,
+         data.waypointsData ?? [],
       );
       const [newIndexFilters, remapIndexFiltersIdx] = remapDedupe(
-         data.indexFilters,
+         data.indexFilters ?? [],
       );
       const [newLightColorEventBoxes, remapLightColorEventBoxesIdx] = remapDedupe(
-         data.lightColorEventBoxes,
+         data.lightColorEventBoxes ?? [],
       );
       const [newLightColorEvents, remapLightColorEventsIdx] = remapDedupe(
-         data.lightColorEvents,
+         data.lightColorEvents ?? [],
       );
       const [newLightRotationEventBoxes, remapLightRotationEventBoxesIdx] = remapDedupe(
-         data.lightRotationEventBoxes,
+         data.lightRotationEventBoxes ?? [],
       );
       const [newLightRotationEvents, remapLightRotationEventsIdx] = remapDedupe(
-         data.lightRotationEvents,
+         data.lightRotationEvents ?? [],
       );
       const [
          newLightTranslationEventBoxes,
          remapLightTranslationEventBoxesIdx,
-      ] = remapDedupe(data.lightTranslationEventBoxes);
+      ] = remapDedupe(data.lightTranslationEventBoxes ?? []);
       const [newLightTranslationEvents, remapLightTranslationEventsIdx] = remapDedupe(
-         data.lightTranslationEvents,
+         data.lightTranslationEvents ?? [],
       );
       const [newFxEventBoxes, remapFxEventBoxesIdx] = remapDedupe(
-         data.fxEventBoxes,
+         data.fxEventBoxes ?? [],
       );
       const [newFloatFxEvents, remapFloatFxEventsIdx] = remapDedupe(
-         data.floatFxEvents,
+         data.floatFxEvents ?? [],
       );
 
-      for (let i = 0; i < data.basicEvents.length; i++) {
-         const d = data.basicEvents[i];
-         d.i = remapBasicEventsIdx.get(d.i!);
+      if (data.basicEvents) {
+         for (let i = 0; i < data.basicEvents.length; i++) {
+            const d = data.basicEvents[i];
+            d.i = remapBasicEventsIdx.get(d.i!);
+         }
       }
-      for (let i = 0; i < data.colorBoostEvents.length; i++) {
-         const d = data.colorBoostEvents[i];
-         d.i = remapColorBoostEventsIdx.get(d.i!);
+      if (data.colorBoostEvents) {
+         for (let i = 0; i < data.colorBoostEvents.length; i++) {
+            const d = data.colorBoostEvents[i];
+            d.i = remapColorBoostEventsIdx.get(d.i!);
+         }
       }
-      for (let i = 0; i < data.waypoints.length; i++) {
-         const d = data.waypoints[i];
-         d.i = remapWaypointsIdx.get(d.i!);
+      if (data.waypoints) {
+         for (let i = 0; i < data.waypoints.length; i++) {
+            const d = data.waypoints[i];
+            d.i = remapWaypointsIdx.get(d.i!);
+         }
       }
-      for (let i = 0; i < data.eventBoxGroups.length; i++) {
-         const ebg = data.eventBoxGroups[i] || [];
-         const boxes = ebg.e || [];
-         for (let j = 0; j < boxes.length; j++) {
-            const box = boxes[j];
-            box.f = remapIndexFiltersIdx.get(box.f!);
-            switch (ebg.t) {
-               case EventBoxType.COLOR: {
-                  box.e = remapLightColorEventBoxesIdx.get(box.e!);
-                  const l = box.l || [];
-                  for (let k = 0; k < l.length; k++) {
-                     const e = l[k];
-                     e.i = remapLightColorEventsIdx.get(e.i!);
+      if (data.eventBoxGroups) {
+         for (let i = 0; i < data.eventBoxGroups.length; i++) {
+            const ebg = data.eventBoxGroups[i] || [];
+            const boxes = ebg.e || [];
+            for (let j = 0; j < boxes.length; j++) {
+               const box = boxes[j];
+               box.f = remapIndexFiltersIdx.get(box.f!);
+               switch (ebg.t) {
+                  case EventBoxType.COLOR: {
+                     box.e = remapLightColorEventBoxesIdx.get(box.e!);
+                     const l = box.l || [];
+                     for (let k = 0; k < l.length; k++) {
+                        const e = l[k];
+                        e.i = remapLightColorEventsIdx.get(e.i!);
+                     }
+                     break;
                   }
-                  break;
-               }
-               case EventBoxType.ROTATION: {
-                  box.e = remapLightRotationEventBoxesIdx.get(box.e!);
-                  const l = box.l || [];
-                  for (let k = 0; k < l.length; k++) {
-                     const e = l[k];
-                     e.i = remapLightRotationEventsIdx.get(e.i!);
+                  case EventBoxType.ROTATION: {
+                     box.e = remapLightRotationEventBoxesIdx.get(box.e!);
+                     const l = box.l || [];
+                     for (let k = 0; k < l.length; k++) {
+                        const e = l[k];
+                        e.i = remapLightRotationEventsIdx.get(e.i!);
+                     }
+                     break;
                   }
-                  break;
-               }
-               case EventBoxType.TRANSLATION: {
-                  box.e = remapLightTranslationEventBoxesIdx.get(box.e!);
-                  const l = box.l || [];
-                  for (let k = 0; k < l.length; k++) {
-                     const e = l[k];
-                     e.i = remapLightTranslationEventsIdx.get(e.i!);
+                  case EventBoxType.TRANSLATION: {
+                     box.e = remapLightTranslationEventBoxesIdx.get(box.e!);
+                     const l = box.l || [];
+                     for (let k = 0; k < l.length; k++) {
+                        const e = l[k];
+                        e.i = remapLightTranslationEventsIdx.get(e.i!);
+                     }
+                     break;
                   }
-                  break;
-               }
-               case EventBoxType.FX_FLOAT: {
-                  box.e = remapFxEventBoxesIdx.get(box.e!);
-                  const l = box.l || [];
-                  for (let k = 0; k < l.length; k++) {
-                     const e = l[k];
-                     e.i = remapFloatFxEventsIdx.get(e.i!);
+                  case EventBoxType.FX_FLOAT: {
+                     box.e = remapFxEventBoxesIdx.get(box.e!);
+                     const l = box.l || [];
+                     for (let k = 0; k < l.length; k++) {
+                        const e = l[k];
+                        e.i = remapFloatFxEventsIdx.get(e.i!);
+                     }
+                     break;
                   }
-                  break;
                }
             }
          }
@@ -120,268 +128,302 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       data.floatFxEvents = newFloatFxEvents;
    }
 
-   for (let i = 0; i < data.waypoints.length; i++) {
-      const o = data.waypoints[i];
-      if (options.floatTrim) {
-         o.b = round(o.b!, options.floatTrim);
-         o.r = round(o.r!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.waypoints[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.waypointsData.length; i++) {
-      const o = data.waypointsData[i];
-      deepClean(
-         o.customData!,
-         `difficulty.waypointsData[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.basicEvents.length; i++) {
-      const o = data.basicEvents[i];
-      if (options.floatTrim) {
-         o.b = round(o.b!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.basicEvents[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.basicEventsData.length; i++) {
-      const o = data.basicEventsData[i];
-      if (options.floatTrim) {
-         o.f = round(o.f!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.basicEventsData[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.colorBoostEvents.length; i++) {
-      const o = data.colorBoostEvents[i];
-      if (options.floatTrim) {
-         o.b = round(o.b!, options.floatTrim);
-      }
-      deepClean(
-         o.customData!,
-         `difficulty.colorBoostEvents[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.colorBoostEventsData.length; i++) {
-      const o = data.colorBoostEventsData[i];
-      deepClean(
-         o.customData!,
-         `difficulty.colorBoostEventsData[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
-   }
-   for (let i = 0; i < data.eventBoxGroups.length; i++) {
-      const o = data.eventBoxGroups[i];
-      if (options.floatTrim) {
-         o.b = round(o.b!, options.floatTrim);
-      }
-      for (let j = 0; j < o.e!.length; j++) {
-         const o2 = o.e![j];
+   if (data.waypoints) {
+      for (let i = 0; i < data.waypoints.length; i++) {
+         const o = data.waypoints[i];
+         if (options.floatTrim) {
+            o.b = round(o.b!, options.floatTrim);
+            o.r = round(o.r!, options.floatTrim);
+         }
          deepClean(
-            o2.customData!,
-            `lightshow.eventBoxGroups[${i}].e[${j}].customData`,
+            o.customData!,
+            `difficulty.waypoints[${i}].customData`,
             options,
          );
-         if (!Object.keys(o2.customData!).length) {
-            delete o2.customData;
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
          }
-         if (options.purgeZeros) purgeZeros(o2);
-         for (let k = 0; k < o2.l!.length; k++) {
-            const o3 = o2.l![k];
-            if (options.floatTrim) {
-               o3.b = round(o3.b!, options.floatTrim);
+         if (options.purgeZeros) purgeZeros(o);
+      }
+   }
+   if (data.waypointsData) {
+      for (let i = 0; i < data.waypointsData.length; i++) {
+         const o = data.waypointsData[i];
+         deepClean(
+            o.customData!,
+            `difficulty.waypointsData[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
+      }
+   }
+   if (data.basicEvents) {
+      for (let i = 0; i < data.basicEvents.length; i++) {
+         const o = data.basicEvents[i];
+         if (options.floatTrim) {
+            o.b = round(o.b!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.basicEvents[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
+      }
+   }
+   if (data.basicEventsData) {
+      for (let i = 0; i < data.basicEventsData.length; i++) {
+         const o = data.basicEventsData[i];
+         if (options.floatTrim) {
+            o.f = round(o.f!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.basicEventsData[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
+      }
+   }
+   if (data.colorBoostEvents) {
+      for (let i = 0; i < data.colorBoostEvents.length; i++) {
+         const o = data.colorBoostEvents[i];
+         if (options.floatTrim) {
+            o.b = round(o.b!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.colorBoostEvents[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
+      }
+   }
+   if (data.colorBoostEventsData) {
+      for (let i = 0; i < data.colorBoostEventsData.length; i++) {
+         const o = data.colorBoostEventsData[i];
+         deepClean(
+            o.customData!,
+            `difficulty.colorBoostEventsData[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
+      }
+   }
+   if (data.eventBoxGroups) {
+      for (let i = 0; i < data.eventBoxGroups.length; i++) {
+         const o = data.eventBoxGroups[i];
+         if (options.floatTrim) {
+            o.b = round(o.b!, options.floatTrim);
+         }
+         for (let j = 0; j < o.e!.length; j++) {
+            const o2 = o.e![j];
+            deepClean(
+               o2.customData!,
+               `lightshow.eventBoxGroups[${i}].e[${j}].customData`,
+               options,
+            );
+            if (!Object.keys(o2.customData!).length) {
+               delete o2.customData;
             }
-            if (options.purgeZeros) purgeZeros(o3);
+            if (options.purgeZeros) purgeZeros(o2);
+            for (let k = 0; k < o2.l!.length; k++) {
+               const o3 = o2.l![k];
+               if (options.floatTrim) {
+                  o3.b = round(o3.b!, options.floatTrim);
+               }
+               if (options.purgeZeros) purgeZeros(o3);
+            }
          }
+         deepClean(
+            o.customData!,
+            `difficulty.eventBoxGroups[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.eventBoxGroups[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.indexFilters.length; i++) {
-      const o = data.indexFilters[i];
-      if (options.floatTrim) {
-         o.l = round(o.l!, options.floatTrim);
+   if (data.indexFilters) {
+      for (let i = 0; i < data.indexFilters.length; i++) {
+         const o = data.indexFilters[i];
+         if (options.floatTrim) {
+            o.l = round(o.l!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.indexFilters[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.indexFilters[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightColorEventBoxes.length; i++) {
-      const o = data.lightColorEventBoxes[i];
-      if (options.floatTrim) {
-         o.s = round(o.s!, options.floatTrim);
-         o.w = round(o.w!, options.floatTrim);
+   if (data.lightColorEventBoxes) {
+      for (let i = 0; i < data.lightColorEventBoxes.length; i++) {
+         const o = data.lightColorEventBoxes[i];
+         if (options.floatTrim) {
+            o.s = round(o.s!, options.floatTrim);
+            o.w = round(o.w!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.lightColorEventBoxes[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.lightColorEventBoxes[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightColorEvents.length; i++) {
-      const o = data.lightColorEvents[i];
-      if (options.floatTrim) {
-         o.b = round(o.b!, options.floatTrim);
-         o.sb = round(o.sb!, options.floatTrim);
+   if (data.lightColorEvents) {
+      for (let i = 0; i < data.lightColorEvents.length; i++) {
+         const o = data.lightColorEvents[i];
+         if (options.floatTrim) {
+            o.b = round(o.b!, options.floatTrim);
+            o.sb = round(o.sb!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.lightColorEvents[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.lightColorEvents[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightRotationEventBoxes.length; i++) {
-      const o = data.lightRotationEventBoxes[i];
-      if (options.floatTrim) {
-         o.s = round(o.s!, options.floatTrim);
-         o.w = round(o.w!, options.floatTrim);
+   if (data.lightRotationEventBoxes) {
+      for (let i = 0; i < data.lightRotationEventBoxes.length; i++) {
+         const o = data.lightRotationEventBoxes[i];
+         if (options.floatTrim) {
+            o.s = round(o.s!, options.floatTrim);
+            o.w = round(o.w!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.lightRotationEventBoxes[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.lightRotationEventBoxes[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightRotationEvents.length; i++) {
-      const o = data.lightRotationEvents[i];
-      if (options.floatTrim) {
-         o.r = round(o.r!, options.floatTrim);
+   if (data.lightRotationEvents) {
+      for (let i = 0; i < data.lightRotationEvents.length; i++) {
+         const o = data.lightRotationEvents[i];
+         if (options.floatTrim) {
+            o.r = round(o.r!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.lightRotationEvents[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.lightRotationEvents[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightTranslationEventBoxes.length; i++) {
-      const o = data.lightTranslationEventBoxes[i];
-      if (options.floatTrim) {
-         o.s = round(o.s!, options.floatTrim);
-         o.w = round(o.w!, options.floatTrim);
+   if (data.lightTranslationEventBoxes) {
+      for (let i = 0; i < data.lightTranslationEventBoxes.length; i++) {
+         const o = data.lightTranslationEventBoxes[i];
+         if (options.floatTrim) {
+            o.s = round(o.s!, options.floatTrim);
+            o.w = round(o.w!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.lightTranslationEventBoxes[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.lightTranslationEventBoxes[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightTranslationEvents.length; i++) {
-      const o = data.lightTranslationEvents[i];
-      if (options.floatTrim) {
-         o.t = round(o.t!, options.floatTrim);
+   if (data.lightTranslationEvents) {
+      for (let i = 0; i < data.lightTranslationEvents.length; i++) {
+         const o = data.lightTranslationEvents[i];
+         if (options.floatTrim) {
+            o.t = round(o.t!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.lightTranslationEvents[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.lightTranslationEvents[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.fxEventBoxes.length; i++) {
-      const o = data.fxEventBoxes[i];
-      if (options.floatTrim) {
-         o.s = round(o.s!, options.floatTrim);
-         o.w = round(o.w!, options.floatTrim);
+   if (data.fxEventBoxes) {
+      for (let i = 0; i < data.fxEventBoxes.length; i++) {
+         const o = data.fxEventBoxes[i];
+         if (options.floatTrim) {
+            o.s = round(o.s!, options.floatTrim);
+            o.w = round(o.w!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.fxEventBoxes[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.fxEventBoxes[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.floatFxEvents.length; i++) {
-      const o = data.floatFxEvents[i];
-      if (options.floatTrim) {
-         o.v = round(o.v!, options.floatTrim);
+   if (data.floatFxEvents) {
+      for (let i = 0; i < data.floatFxEvents.length; i++) {
+         const o = data.floatFxEvents[i];
+         if (options.floatTrim) {
+            o.v = round(o.v!, options.floatTrim);
+         }
+         deepClean(
+            o.customData!,
+            `difficulty.floatFxEvents[${i}].customData`,
+            options,
+         );
+         if (!Object.keys(o.customData!).length) {
+            delete o.customData;
+         }
+         if (options.purgeZeros) purgeZeros(o);
       }
-      deepClean(
-         o.customData!,
-         `difficulty.floatFxEvents[${i}].customData`,
-         options,
-      );
-      if (!Object.keys(o.customData!).length) {
-         delete o.customData;
-      }
-      if (options.purgeZeros) purgeZeros(o);
    }
-   for (const o1 of data.basicEventTypesWithKeywords.d!) {
-      if (options.stringTrim) {
-         o1.k = o1.k!.trim();
+   if (data.basicEventTypesWithKeywords && data.basicEventTypesWithKeywords.d) {
+      for (const o1 of data.basicEventTypesWithKeywords.d) {
+         if (options.stringTrim) {
+            o1.k = o1.k!.trim();
+         }
       }
    }
    deepClean(data.customData!, `lightshow.customData`, options);
