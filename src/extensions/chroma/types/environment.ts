@@ -6,4 +6,5 @@ export interface IChromaEnvironmentPlacement {
    rotation?: Vector3;
    track?: string;
    type?: number;
+   id?: number;
 }

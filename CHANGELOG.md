@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.2.0 [2025-xx-xx]
+
+### Added
+
+- Vivify support
+
+### Changed
+
+- Schema validation overhaul
+
 ## 2.1.9 [2024-12-21]
 
 ### Fixed
