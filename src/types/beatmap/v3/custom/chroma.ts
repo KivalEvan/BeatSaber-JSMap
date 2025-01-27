@@ -203,8 +203,8 @@ export interface IChromaCustomEventDataAnimateComponent extends Required<IHeckBa
       height?: string | [number] | FloatPointDefinition[];
    };
    TubeBloomPrePassLight?: {
-      colorAlphaMultiplier: string | [number] | FloatPointDefinition[];
-      bloomFogIntensityMultiplier: string | [number] | FloatPointDefinition[];
+      colorAlphaMultiplier?: string | [number] | FloatPointDefinition[];
+      bloomFogIntensityMultiplier?: string | [number] | FloatPointDefinition[];
    };
 }
 

@@ -51,10 +51,11 @@ export class EnvironmentBlock {
          ...d.components,
       };
       if (typeof components.ILightWithId?.type === 'number') {
+         components.ILightWithId.lightID = EnvironmentBlock.startLightID + EnvironmentBlock.index++;
          if (typeof options.type === 'number') {
             components.ILightWithId.type = options.type;
+            components.ILightWithId.lightID = options.id;
          }
-         components.ILightWithId.lightID = EnvironmentBlock.startLightID + EnvironmentBlock.index++;
       }
       if (options.track) {
          d.track = options.track;

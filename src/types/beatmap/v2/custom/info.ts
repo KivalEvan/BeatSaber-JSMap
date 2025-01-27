@@ -6,11 +6,12 @@ import type { IChromaInfoCustomData } from './chroma.ts';
 import type { LooseAutocomplete } from '../../../utils.ts';
 import type { ICustomDataBase } from '../../shared/custom/customData.ts';
 import type { ModRequirements, ModSuggestions } from '../../shared/modCheck.ts';
+import type { IVivifyCustomDataInfo } from './vivify.ts';
 
 /**
  * Custom Data interface for info.
  */
-export interface ICustomDataInfo extends ICustomDataBase {
+export interface ICustomDataInfo extends ICustomDataBase, IVivifyCustomDataInfo {
    _editors?: IEditor;
    _contributors?: IContributor[];
    _customEnvironment?: string;
@@ -25,7 +26,10 @@ export interface ICustomDataInfoSet extends ICustomDataBase {
    _characteristicIconImageFilename?: string;
 }
 
-type IInfoSettings = IInfoSettingsCustomData & IHeckInfoCustomData & IChromaInfoCustomData;
+type IInfoSettings =
+   & IInfoSettingsCustomData
+   & IHeckInfoCustomData
+   & IChromaInfoCustomData;
 
 /**
  * Custom Data interface for info difficulty.
