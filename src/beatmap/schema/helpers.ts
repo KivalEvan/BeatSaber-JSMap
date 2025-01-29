@@ -28,6 +28,7 @@ import {
 } from '@valibot/valibot';
 import { logger } from '../../logger.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
+import { isRecord } from '../../utils/misc.ts';
 import { compareVersion } from '../helpers/version.ts';
 
 type GenericItem<
@@ -101,33 +102,33 @@ function checkVersion<
 
    logger.tDebug(
       ['schema', 'checkVersion'],
-      [
-         `for ${unwrapped.type}:`,
-         `  schema version: \t${ctx?.metadata.version ?? 'undefined'}`,
-         `  dataset version: \t${version}`,
-      ].join('\n'),
+      `for ${unwrapped.type}:\n  schema version: \t${
+         ctx?.metadata.version ?? 'undefined'
+      }\n  dataset version: \t${version}`,
    );
+
+   const input = dataset.value;
 
    if (ctx && ctx.metadata.version) {
       // if metadata is present, check for version mismatches on existing fields
       const { version: schemaVersion } = ctx.metadata;
       const comparator = compareVersion(version, schemaVersion);
       // if the field has an unsupported version and a value is present...
-      if (comparator < 0 && dataset.value !== undefined) {
+      if (comparator < 0 && input !== undefined) {
          return addIssue({
             message: 'Mismatched version for field',
-            input: dataset.value,
+            input: input,
             received: version,
             expected: schemaVersion,
          });
       }
       // if the field has a supported version and a value is missing for the field...
       const isOptionalizedSchema = ['optional', 'undefinedable'].includes(unwrapped.type);
-      if (comparator >= 0 && dataset.value === undefined && !isOptionalizedSchema) {
+      if (comparator >= 0 && input === undefined && !isOptionalizedSchema) {
          return addIssue({
             message: 'Missing required value for versioned field',
-            input: dataset.value,
-            received: typeof dataset.value,
+            input: input,
+            received: typeof input,
             expected: unwrapped.type,
          });
       }
@@ -139,17 +140,18 @@ function checkVersion<
       }
    }
    // for array data, cascade checks to all items
-   if (isOfType('array', unwrapped) && Array.isArray(dataset.value)) {
+   if (isOfType('array', unwrapped) && Array.isArray(input)) {
       const schema = (unwrapped as unknown as ArraySchema<GenericSchema, undefined>).item;
-      for (const [key, value] of dataset.value.entries()) {
+      for (let i = 0; i < input.length; i++) {
+         const value = input[i];
          checkVersion(schema, {
             version,
             addIssue: (info) => {
                const path: IssuePathItem = {
                   type: 'array',
                   origin: 'value',
-                  input: dataset.value as unknown[],
-                  key: key,
+                  input: input as any,
+                  key: i,
                   value: value,
                };
                return addIssue({ ...info, path: [path, ...(info?.path ?? [])] });
@@ -159,17 +161,17 @@ function checkVersion<
       }
    }
    // for object data, cascade checks to all key/value entries
-   if (isOfType('object', unwrapped)) {
+   if (isOfType('object', unwrapped) && isRecord(input)) {
       const entries = (unwrapped as unknown as ObjectSchema<ObjectEntries, undefined>).entries;
-      for (const [key, schema] of Object.entries(entries)) {
-         const value = (dataset.value as Record<string, unknown>)?.[key];
-         checkVersion(schema, {
+      for (const key in entries) {
+         const value = input[key];
+         checkVersion(entries[key], {
             version,
             addIssue: (info) => {
                const path: IssuePathItem = {
                   type: 'object',
                   origin: 'value',
-                  input: dataset.value as Record<string, unknown>,
+                  input: input,
                   key: key,
                   value: value,
                };
