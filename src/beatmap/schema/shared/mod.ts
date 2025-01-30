@@ -4,5 +4,4 @@
  * @module
  */
 
-export * from './custom.ts';
-export * from './declaration.ts';
+export * from './declaration/mod.ts';

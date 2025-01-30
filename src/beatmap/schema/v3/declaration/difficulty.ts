@@ -33,14 +33,14 @@ import type {
    ILightRotationEvent,
    ILightRotationEventBox,
    ILightRotationEventBoxGroup,
-   ILightshow,
    ILightTranslationEvent,
    ILightTranslationEventBox,
    ILightTranslationEventBoxGroup,
    IObstacle,
    IRotationEvent,
    IWaypoint,
-} from '../../../types/beatmap/v3/mod.ts';
+} from '../../../../types/beatmap/v3/mod.ts';
+import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import {
    AxisSchema,
    CustomDataSchema,
@@ -58,8 +58,7 @@ import {
    SliderMidAnchorModeSchema,
    TransitionTypeSchema,
    VersionSchema,
-} from '../common/declaration.ts';
-import { entity, field, type InferObjectEntries, mask } from '../helpers.ts';
+} from '../../shared/declaration/mod.ts';
 
 /**
  * Schema declaration for v3 `Color Note`.
@@ -733,36 +732,6 @@ export const DifficultySchema = entity<
    }),
    useNormalEventsAsCompatibleEvents: field(optional(boolean()), {
       version: '3.0.0',
-   }),
-   customData: field(optional(CustomDataSchema)),
-});
-
-/**
- * Schema declaration for v3 `Lightshow`.
- */
-export const LightshowSchema = entity<
-   InferObjectEntries<ILightshow>
->(() => '3.0.0', {
-   basicBeatmapEvents: field(optional(array(BasicEventSchema)), {
-      version: '3.0.0',
-   }),
-   colorBoostBeatmapEvents: field(optional(array(ColorBoostEventSchema)), {
-      version: '3.0.0',
-   }),
-   lightColorEventBoxGroups: field(optional(array(LightColorEventBoxGroupSchema)), {
-      version: '3.0.0',
-   }),
-   lightRotationEventBoxGroups: field(optional(array(LightRotationEventBoxGroupSchema)), {
-      version: '3.0.0',
-   }),
-   lightTranslationEventBoxGroups: field(optional(array(LightTranslationEventBoxGroupSchema)), {
-      version: '3.2.0',
-   }),
-   vfxEventBoxGroups: field(optional(array(VfxEventBoxGroupSchema)), {
-      version: '3.3.0',
-   }),
-   _fxEventsCollection: field(optional(FxEventsCollectionSchema), {
-      version: '3.3.0',
    }),
    customData: field(optional(CustomDataSchema)),
 });

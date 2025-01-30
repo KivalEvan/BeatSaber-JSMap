@@ -1,7 +1,7 @@
 import type { StandardSchemaV1 } from '@standard-schema/spec';
 import * as v from '@valibot/valibot';
 import { entity, field, mask } from '../src/beatmap/schema/helpers.ts';
-import * as v4 from '../src/beatmap/schema/v4/declaration.ts';
+import * as v4 from '../src/beatmap/schema/v4/declaration/mod.ts';
 import type { ISchemaDeclaration } from '../src/types/beatmap/shared/schema.ts';
 import type { Version } from '../src/types/beatmap/shared/version.ts';
 import { assertEquals, logger, schemaCheck } from './deps.ts';

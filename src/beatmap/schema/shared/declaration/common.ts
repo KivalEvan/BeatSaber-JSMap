@@ -22,7 +22,7 @@ import {
    ObstacleType,
    RandomType,
    TransitionType,
-} from '../../../types/beatmap/shared/mod.ts';
+} from '../../../../types/beatmap/shared/mod.ts';
 import {
    EventLightValue,
    NoteColor,
@@ -31,7 +31,7 @@ import {
    PosX,
    PosY,
    SliderMidAnchorMode,
-} from '../../shared/constants.ts';
+} from '../../../shared/constants.ts';
 
 /** Schema declaration for semantic version. */
 export const VersionSchema = pipe(

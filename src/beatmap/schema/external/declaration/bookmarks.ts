@@ -1,8 +1,8 @@
 import { array, literal, number, object, string, union } from '@valibot/valibot';
-import type { IBookmarkElement } from '../../../types/beatmap/external/bookmarks.ts';
-import type { IBookmarks } from '../../../types/beatmap/external/mod.ts';
-import { CharacteristicNameSchema, DifficultyNameSchema } from '../common/declaration.ts';
-import { entity, field, type InferObjectEntries } from '../helpers.ts';
+import type { IBookmarkElement } from '../../../../types/beatmap/external/bookmarks.ts';
+import type { IBookmarks } from '../../../../types/beatmap/external/mod.ts';
+import { entity, field, type InferObjectEntries } from '../../helpers.ts';
+import { CharacteristicNameSchema, DifficultyNameSchema } from '../../shared/declaration/mod.ts';
 
 /** Schema declaration for official editor `BookmarkElement`  */
 export const BookmarkElementSchema = object<InferObjectEntries<IBookmarkElement>>({

@@ -1,6 +1,6 @@
 import { object, string } from '@valibot/valibot';
-import type { IContributor } from '../../../types/beatmap/shared/mod.ts';
-import type { InferObjectEntries } from '../helpers.ts';
+import type { IContributor } from '../../../../../types/beatmap/shared/custom/contributor.ts';
+import type { InferObjectEntries } from '../../../helpers.ts';
 
 /** Schema declaration for shared custom `Contributor` */
 export const ContributorSchema = object<InferObjectEntries<IContributor>>({
