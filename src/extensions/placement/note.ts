@@ -1,10 +1,19 @@
-import { ColorNote } from '../../beatmap/core/colorNote.ts';
+import { resolveNoteAngle } from '../../beatmap/helpers/core/baseNote.ts';
+import {
+   isHorizontal,
+   isVertical,
+   resolveGridPosition,
+} from '../../beatmap/helpers/core/gridObject.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
-import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapBaseNoteAttribute } from '../../types/beatmap/wrapper/baseNote.ts';
 import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 
 // TODO: update with new position/rotation system
-export function isEnd(currNote: IWrapBaseNote, prevNote: IWrapBaseNote, cd: number): boolean {
+export function isEnd<T extends IWrapBaseNoteAttribute>(
+   currNote: T,
+   prevNote: T,
+   cd: number,
+): boolean {
    // fuck u and ur dot note stack
    if (
       currNote.direction === NoteDirection.ANY &&
@@ -136,18 +145,18 @@ export function isEnd(currNote: IWrapBaseNote, prevNote: IWrapBaseNote, cd: numb
  * ```
  */
 // a fkin abomination that's what currNote is
-export function isIntersect(
-   currNote: IWrapBaseNote,
-   compareTo: IWrapBaseNote,
+export function isIntersect<T extends IWrapBaseNoteAttribute>(
+   currNote: T,
+   compareTo: T,
    angleDistances: [number, number, number?][],
    ahead = false,
 ): [boolean, boolean] {
-   const [nX1, nY1] = currNote.getPosition();
-   const [nX2, nY2] = compareTo.getPosition();
+   const [nX1, nY1] = resolveGridPosition(currNote);
+   const [nX2, nY2] = resolveGridPosition(compareTo);
    const angle = ahead ? 540 : 360;
    let resultN1 = false;
    if (currNote.direction !== 8) {
-      const nA1 = currNote.getAngle();
+      const nA1 = resolveNoteAngle(currNote.direction);
       const a = (radToDeg(Math.atan2(nY1 - nY2, nX1 - nX2)) + 450) % 360;
       for (const [angleRange, maxDistance, offsetT] of angleDistances) {
          const offset = offsetT ?? 0;
@@ -162,8 +171,8 @@ export function isIntersect(
       }
    }
    let resultN2 = false;
-   if (compareTo instanceof ColorNote && compareTo.direction !== 8) {
-      const nA2 = compareTo.getAngle();
+   if (compareTo.direction !== 8) {
+      const nA2 = resolveNoteAngle(compareTo.direction);
       const a = (radToDeg(Math.atan2(nY2 - nY1, nX2 - nX1)) + 450) % 360;
       for (const [angleRange, maxDistance, offsetT] of angleDistances) {
          const offset = offsetT ?? 0;
@@ -181,7 +190,10 @@ export function isIntersect(
 }
 
 // TODO: update with new position/rotation system
-export function predictDirection(currNote: IWrapBaseNote, prevNote: IWrapBaseNote): number {
+export function predictDirection<T extends IWrapBaseNoteAttribute>(
+   currNote: T,
+   prevNote: T,
+): number {
    if (isEnd(currNote, prevNote, NoteDirection.ANY)) {
       return currNote.direction === NoteDirection.ANY ? prevNote.direction : currNote.direction;
    }
@@ -191,19 +203,19 @@ export function predictDirection(currNote: IWrapBaseNote, prevNote: IWrapBaseNot
    if (currNote.time > prevNote.time) {
       // if end note on right side
       if (currNote.posX > prevNote.posX) {
-         if (currNote.isHorizontal(prevNote)) {
+         if (isHorizontal(currNote, prevNote)) {
             return NoteDirection.RIGHT;
          }
       }
       // if end note on left side
       if (currNote.posX < prevNote.posX) {
-         if (currNote.isHorizontal(prevNote)) {
+         if (isHorizontal(currNote, prevNote)) {
             return NoteDirection.LEFT;
          }
       }
       // if end note is above
       if (currNote.posY > prevNote.posY) {
-         if (currNote.isVertical(prevNote)) {
+         if (isVertical(currNote, prevNote)) {
             return NoteDirection.UP;
          }
          if (currNote.posX > prevNote.posX) {
@@ -215,7 +227,7 @@ export function predictDirection(currNote: IWrapBaseNote, prevNote: IWrapBaseNot
       }
       // if end note is below
       if (currNote.posY < prevNote.posY) {
-         if (currNote.isVertical(prevNote)) {
+         if (isVertical(currNote, prevNote)) {
             return NoteDirection.DOWN;
          }
          if (currNote.posX > prevNote.posX) {
@@ -231,15 +243,15 @@ export function predictDirection(currNote: IWrapBaseNote, prevNote: IWrapBaseNot
 
 /**
  * Check the angle equality of the two notes.
- * @param {(IWrapBaseNote|number|null)}  - First beatmap note, note `direction`, or null value
- * @param {(IWrapBaseNote|number|null)} n2 - Second beatmap note, note `direction`, or null value
+ * @param {(T|number|null)} n1 - First beatmap note, note `direction`, or null value
+ * @param {(T|number|null)} n2 - Second beatmap note, note `direction`, or null value
  * @param {number} angleTol - Angle tolerance
  * @param {boolean} equal - If it should check inner or outer angle
  * @returns {boolean} If condition is met
  */
-export function checkDirection(
-   n1: IWrapBaseNote | number | null,
-   n2: IWrapBaseNote | number | null,
+export function checkDirection<T extends IWrapBaseNoteAttribute>(
+   n1: T | number | null,
+   n2: T | number | null,
    angleTol: number,
    equal: boolean,
 ): boolean {
@@ -254,7 +266,7 @@ export function checkDirection(
       if (n1.direction === NoteDirection.ANY) {
          return false;
       }
-      nA1 = n1.getAngle();
+      nA1 = resolveNoteAngle(n1.direction);
    }
    if (typeof n2 === 'number') {
       nA2 = n2;
@@ -262,7 +274,7 @@ export function checkDirection(
       if (n2.direction === NoteDirection.ANY) {
          return false;
       }
-      nA2 = n2.getAngle();
+      nA2 = resolveNoteAngle(n2.direction);
    }
    return equal
       ? shortRotDistance(nA1, nA2, 360) <= angleTol

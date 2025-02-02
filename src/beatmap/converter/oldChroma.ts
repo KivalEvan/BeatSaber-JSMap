@@ -1,9 +1,9 @@
 import { logger } from '../../logger.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { IWrapBasicEventAttribute } from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../shared/colorScheme.ts';
-import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -15,16 +15,15 @@ function tag(name: string): string[] {
  * const newData = convert.ogChromaToV2Chroma(oldData);
  * ```
  */
-export function ogChromaToV2Chroma<T extends IWrapBeatmap>(
-   data: T,
-   environment: EnvironmentAllName = 'DefaultEnvironment',
-): T {
+export function ogChromaToV2Chroma<
+   T extends IWrapBeatmapAttributeSubset<'basicEvents'>,
+>(data: T, environment: EnvironmentAllName = 'DefaultEnvironment'): T {
    logger.tInfo(
       tag('ogChromaToV2Chroma'),
       'Converting old Chroma event value to Chroma event customData',
    );
-   const events: IWrapBasicEvent[] = data.basicEvents;
-   const newEvents: IWrapBasicEvent[] = [];
+   const events: IWrapBasicEventAttribute[] = data.lightshow.basicEvents;
+   const newEvents: IWrapBasicEventAttribute[] = [];
    const colorScheme = ColorScheme[EnvironmentSchemeName[environment]];
    const defaultLeftLight: ColorArray = [
       colorScheme._envColorLeft!.r,
@@ -75,7 +74,7 @@ export function ogChromaToV2Chroma<T extends IWrapBeatmap>(
          }
       }
    }
-   data.basicEvents = newEvents;
+   data.lightshow.basicEvents = newEvents;
 
    return data;
 }

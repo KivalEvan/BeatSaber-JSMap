@@ -1,40 +1,14 @@
-import { logger } from '../../logger.ts';
-import { fixBoolean, fixFloat, fixInt } from './helpers.ts';
-import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
-import type { IWrapBasicEventAttribute } from '../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
-import type { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
-import type { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
-import { ColorNote } from '../../beatmap/core/colorNote.ts';
-import { Obstacle } from '../../beatmap/core/obstacle.ts';
-import { BasicEvent } from '../../beatmap/core/basicEvent.ts';
-import { Waypoint } from '../../beatmap/core/waypoint.ts';
 import { Arc } from '../../beatmap/core/arc.ts';
-import { RotationEvent } from '../../beatmap/core/rotationEvent.ts';
-import { BPMEvent } from '../../beatmap/core/bpmEvent.ts';
+import { BasicEvent } from '../../beatmap/core/basicEvent.ts';
 import { BombNote } from '../../beatmap/core/bombNote.ts';
-import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
-import type { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
-import type { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
-import type { IChain } from '../../types/beatmap/v3/chain.ts';
-import type { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
-import type { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
-import type { IWrapIndexFilterAttribute } from '../../types/beatmap/wrapper/indexFilter.ts';
-import type { IWrapLightColorEventAttribute } from '../../types/beatmap/wrapper/lightColorEvent.ts';
-import type { IWrapLightColorEventBoxAttribute } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
-import type { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import type { IWrapLightRotationEventAttribute } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
-import type { IWrapLightRotationEventBoxAttribute } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
-import type { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
-import type { IWrapLightTranslationEventAttribute } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
-import type { IWrapLightTranslationEventBoxAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
-import type { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
+import { BPMEvent } from '../../beatmap/core/bpmEvent.ts';
 import { Chain } from '../../beatmap/core/chain.ts';
 import { ColorBoostEvent } from '../../beatmap/core/colorBoostEvent.ts';
+import { ColorNote } from '../../beatmap/core/colorNote.ts';
+import { FxEventBox } from '../../beatmap/core/fxEventBox.ts';
+import { FxEventBoxGroup } from '../../beatmap/core/fxEventBoxGroup.ts';
+import { FxEventFloat } from '../../beatmap/core/fxEventFloat.ts';
+import { FxEventInt } from '../../beatmap/core/fxEventInt.ts';
 import { IndexFilter } from '../../beatmap/core/indexFilter.ts';
 import { LightColorEvent } from '../../beatmap/core/lightColorEvent.ts';
 import { LightColorEventBox } from '../../beatmap/core/lightColorEventBox.ts';
@@ -45,20 +19,50 @@ import { LightRotationEventBoxGroup } from '../../beatmap/core/lightRotationEven
 import { LightTranslationEvent } from '../../beatmap/core/lightTranslationEvent.ts';
 import { LightTranslationEventBox } from '../../beatmap/core/lightTranslationEventBox.ts';
 import { LightTranslationEventBoxGroup } from '../../beatmap/core/lightTranslationEventBoxGroup.ts';
+import { Obstacle } from '../../beatmap/core/obstacle.ts';
+import { RotationEvent } from '../../beatmap/core/rotationEvent.ts';
+import { Waypoint } from '../../beatmap/core/waypoint.ts';
+import {
+   isColorBoostEventType,
+   isLaneRotationEventType,
+} from '../../beatmap/helpers/core/basicEvent.ts';
+import { EventLaneRotationValue } from '../../beatmap/shared/constants.ts';
+import { logger } from '../../logger.ts';
+import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
+import type { IChain } from '../../types/beatmap/v3/chain.ts';
+import type { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
+import type { IFxEventBox } from '../../types/beatmap/v3/fxEventBox.ts';
 import type { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import type { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
 import type { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
-import type { IFxEventBox } from '../../types/beatmap/v3/fxEventBox.ts';
-import { fixCustomDataEvent } from './customDataEvent.ts';
-import { fixCustomDataObject } from './customDataObject.ts';
-import { EventLaneRotationValue } from '../../beatmap/shared/constants.ts';
-import { FxEventFloat } from '../../beatmap/core/fxEventFloat.ts';
-import { FxEventInt } from '../../beatmap/core/fxEventInt.ts';
-import { FxEventBox } from '../../beatmap/core/fxEventBox.ts';
-import { FxEventBoxGroup } from '../../beatmap/core/fxEventBoxGroup.ts';
+import type { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
+import type { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
+import type { IWrapBasicEventAttribute } from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapFxEventBoxAttribute } from '../../types/beatmap/wrapper/fxEventBox.ts';
 import type { IWrapFxEventBoxGroupAttribute } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
 import type { IWrapFxEventFloatAttribute } from '../../types/beatmap/wrapper/fxEventFloat.ts';
-import type { IWrapFxEventBoxAttribute } from '../../types/beatmap/wrapper/fxEventBox.ts';
+import type { IWrapIndexFilterAttribute } from '../../types/beatmap/wrapper/indexFilter.ts';
+import type { IWrapLightColorEventAttribute } from '../../types/beatmap/wrapper/lightColorEvent.ts';
+import type { IWrapLightColorEventBoxAttribute } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
+import type { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
+import type { IWrapLightRotationEventAttribute } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
+import type { IWrapLightRotationEventBoxAttribute } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
+import type { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
+import type { IWrapLightTranslationEventAttribute } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
+import type { IWrapLightTranslationEventBoxAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
+import type { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
+import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import type { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
+import { fixCustomDataEvent } from './customDataEvent.ts';
+import { fixCustomDataObject } from './customDataObject.ts';
+import { fixBoolean, fixFloat, fixInt } from './helpers.ts';
 
 function fixBpmEvent(obj: IWrapBPMEventAttribute): void {
    obj.time = fixFloat(obj.time, BPMEvent.defaultValue.time);
@@ -492,63 +496,63 @@ function fixFxEventFloat(obj: IWrapFxEventFloatAttribute): void {
 /**
  * Verifies and corrects data type for beatmap data.
  */
-export function beatmap(data: IWrapBeatmap): void {
+export function beatmap<T extends IWrapBeatmapAttribute>(data: T): void {
    logger.tInfo(
       ['patch', 'dataCorrection', 'beatmap', 'main'],
       'Verifying and correcting data type...',
    );
 
-   data.bpmEvents.forEach(fixBpmEvent);
-   data.rotationEvents.forEach(fixRotationEvent);
-   data.colorNotes.forEach(fixColorNote);
-   data.bombNotes.forEach(fixBombNote);
-   data.obstacles.forEach(fixObstacle);
-   data.arcs.forEach(fixSlider);
-   data.chains.forEach(fixChain);
-   data.waypoints.forEach(fixWaypoint);
+   data.difficulty.bpmEvents.forEach(fixBpmEvent);
+   data.difficulty.rotationEvents.forEach(fixRotationEvent);
+   data.difficulty.colorNotes.forEach(fixColorNote);
+   data.difficulty.bombNotes.forEach(fixBombNote);
+   data.difficulty.obstacles.forEach(fixObstacle);
+   data.difficulty.arcs.forEach(fixSlider);
+   data.difficulty.chains.forEach(fixChain);
+   data.lightshow.waypoints.forEach(fixWaypoint);
    data.difficulty.customData.fakeColorNotes?.forEach(fixFakeColorNote);
    data.difficulty.customData.fakeBombNotes?.forEach(fixFakeBombNote);
    data.difficulty.customData.fakeObstacles?.forEach(fixFakeObstacle);
    data.difficulty.customData.fakeChains?.forEach(fixFakeChain);
-   data.basicEvents.forEach(fixBasicEvent);
-   data.colorBoostEvents.forEach(fixColorBoostEvent);
-   data.lightColorEventBoxGroups.forEach(fixLightColorEventBoxGroup);
-   data.lightRotationEventBoxGroups.forEach(fixLightRotationEventBoxGroup);
-   data.lightTranslationEventBoxGroups.forEach(
+   data.lightshow.basicEvents.forEach(fixBasicEvent);
+   data.lightshow.colorBoostEvents.forEach(fixColorBoostEvent);
+   data.lightshow.lightColorEventBoxGroups.forEach(fixLightColorEventBoxGroup);
+   data.lightshow.lightRotationEventBoxGroups.forEach(fixLightRotationEventBoxGroup);
+   data.lightshow.lightTranslationEventBoxGroups.forEach(
       fixLightTranslationEventBoxGroup,
    );
-   data.fxEventBoxGroups.forEach(fixFxEventBoxGroup);
+   data.lightshow.fxEventBoxGroups.forEach(fixFxEventBoxGroup);
    data.lightshow.useNormalEventsAsCompatibleEvents = fixBoolean(
       data.lightshow.useNormalEventsAsCompatibleEvents,
    );
 
-   const boost = data.basicEvents.filter((ev) => ev.isLaneRotationEvent());
-   const laneRotation = data.basicEvents.filter((ev) => ev.isColorBoost());
-   data.basicEvents = data.basicEvents.filter(
-      (ev) => !(ev.isColorBoost() || ev.isLaneRotationEvent()),
+   const boost = data.lightshow.basicEvents.filter((ev) => isColorBoostEventType(ev.type));
+   const laneRotation = data.lightshow.basicEvents.filter((ev) => isLaneRotationEventType(ev.type));
+   data.lightshow.basicEvents = data.lightshow.basicEvents.filter(
+      (ev) => !(isColorBoostEventType(ev.type) || isLaneRotationEventType(ev.type)),
    );
-   data.colorBoostEvents.push(
+   data.lightshow.colorBoostEvents.push(
       ...boost.map(
-         (ev) =>
-            new ColorBoostEvent({
-               time: ev.time,
-               toggle: ev.value ? true : false,
-            }),
+         (ev) => ({
+            time: ev.time,
+            toggle: ev.value ? true : false,
+            customData: {},
+         }),
       ),
    );
-   data.rotationEvents.push(
+   data.difficulty.rotationEvents.push(
       ...laneRotation.map(
-         (ev) =>
-            new RotationEvent({
-               time: ev.time,
-               executionTime: ev.type == 15 ? 1 : 0,
-               rotation: ev.customData._rotation ??
-                  (ev.value >= 1000 && ev.value <= 1720
-                     ? ev.value - 1360
-                     : ev.value >= 0 && ev.value <= 7
-                     ? EventLaneRotationValue[ev.value]
-                     : 0),
-            }),
+         (ev) => ({
+            time: ev.time,
+            executionTime: ev.type == 15 ? 1 : 0,
+            rotation: ev.customData._rotation ??
+               (ev.value >= 1000 && ev.value <= 1720
+                  ? ev.value - 1360
+                  : ev.value >= 0 && ev.value <= 7
+                  ? EventLaneRotationValue[ev.value]
+                  : 0),
+            customData: {},
+         }),
       ),
    );
 }

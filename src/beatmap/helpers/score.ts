@@ -1,5 +1,5 @@
 import type { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
-import type { IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
 import { lerp, normalize } from '../../utils/math.ts';
 
@@ -24,7 +24,9 @@ export const ScoreValue: { readonly [key in ScoreType]: number } = {
 };
 
 /** Calculate max score from beatmap. */
-export function calculateScore(beatmap: IWrapBeatmapAttribute): number {
+export function calculateScore<
+   T extends IWrapBeatmapAttributeSubset<'colorNotes' | 'arcs' | 'chains'>,
+>(beatmap: T): number {
    let total = 0;
    let multiplier = 1;
    const elements = generateScoreElement(beatmap);
@@ -37,7 +39,9 @@ export function calculateScore(beatmap: IWrapBeatmapAttribute): number {
    return total;
 }
 
-function generateScoreElement(beatmap: IWrapBeatmapAttribute) {
+function generateScoreElement<
+   T extends IWrapBeatmapAttributeSubset<'colorNotes' | 'arcs' | 'chains'>,
+>(beatmap: T) {
    return [
       createNoteElement(beatmap),
       createChainElement(beatmap.difficulty.chains),
@@ -48,7 +52,9 @@ function generateScoreElement(beatmap: IWrapBeatmapAttribute) {
 
 // for now I only care about arc head/tail and chain head, arc takes priority
 // FIXME: use epsilon dammit
-function createNoteElement(beatmap: IWrapBeatmapAttribute) {
+function createNoteElement<
+   T extends IWrapBeatmapAttributeSubset<'colorNotes' | 'arcs' | 'chains'>,
+>(beatmap: T) {
    const mapArcHead = new Map<number, IWrapArcAttribute[]>();
    const mapArcTail = new Map<number, IWrapArcAttribute[]>();
    const mapChainHead = new Map<number, IWrapChainAttribute[]>();
@@ -116,7 +122,7 @@ function createNoteElement(beatmap: IWrapBeatmapAttribute) {
    });
 }
 
-function createChainElement(chains: IWrapChainAttribute[]) {
+function createChainElement<T extends IWrapChainAttribute>(chains: T[]) {
    return chains.flatMap((c) => {
       if (c.sliceCount > 1) {
          return Array(c.sliceCount - 1).map((_, i) => {

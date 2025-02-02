@@ -1,13 +1,13 @@
+import { getFirstInteractiveTime, getLastInteractiveTime } from '../../beatmap/helpers/beatmap.ts';
 import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
-import type { ISwingAnalysis, ISwingCount } from './types/swing.ts';
-import { median } from '../../utils/math.ts';
-import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
-import { generate, next } from './swing.ts';
-import { getFirstInteractiveTime, getLastInteractiveTime } from '../../beatmap/helpers/beatmap.ts';
+import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
 import type { DeepWritable } from '../../types/utils.ts';
+import { median } from '../../utils/math.ts';
+import { generate, next } from './swing.ts';
+import type { ISwingAnalysis, ISwingCount } from './types/swing.ts';
 
 // derived from Uninstaller's Swings Per Second tool
 // some variable or function may have been modified
@@ -16,8 +16,8 @@ import type { DeepWritable } from '../../types/utils.ts';
 /**
  * Count the number of swings in period.
  */
-export function count(
-   colorNotes: IWrapColorNote[],
+export function count<T extends IWrapColorNoteAttribute>(
+   colorNotes: T[],
    duration: number,
    timeProc: TimeProcessor,
 ): ISwingCount {
@@ -25,8 +25,8 @@ export function count(
       left: new Array(Math.floor(duration + 1)).fill(0),
       right: new Array(Math.floor(duration + 1)).fill(0),
    };
-   let lastRed!: IWrapColorNote;
-   let lastBlue!: IWrapColorNote;
+   let lastRed!: T;
+   let lastBlue!: T;
    for (const nc of colorNotes) {
       const realTime = timeProc.toRealTime(nc.time);
       if (nc.color === 0) {
@@ -74,8 +74,10 @@ function calcMaxRollingSps(swingArray: number[], x: number): number {
  *
  * Port from Uninstaller's Swings Per Second tool
  */
-export function info(
-   beatmap: IWrapBeatmap,
+export function info<
+   T extends IWrapBeatmapAttributeSubset<'colorNotes' | 'bombNotes' | 'obstacles' | 'chains'>,
+>(
+   beatmap: T,
    timeProc: TimeProcessor,
    characteristic: CharacteristicName,
    difficulty: DifficultyName,
@@ -87,14 +89,14 @@ export function info(
       red: { perSecond: 0, peak: 0, median: 0, total: 0 },
       blue: { perSecond: 0, peak: 0, median: 0, total: 0 },
       total: { perSecond: 0, peak: 0, median: 0, total: 0 },
-      container: generate(beatmap.colorNotes, timeProc),
+      container: generate(beatmap.difficulty.colorNotes, timeProc),
    } as DeepWritable<ISwingAnalysis>;
    const duration = Math.max(
       timeProc.toRealTime(getLastInteractiveTime(beatmap) - getFirstInteractiveTime(beatmap)),
       0,
    );
    const mapDuration = Math.max(timeProc.toRealTime(getLastInteractiveTime(beatmap)), 0);
-   const swing = count(beatmap.colorNotes, mapDuration, timeProc);
+   const swing = count(beatmap.difficulty.colorNotes, mapDuration, timeProc);
    const swingTotal = swing.left.map((num, i) => num + swing.right[i]);
    if (swingTotal.reduce((a, b) => a + b) === 0) {
       return spsInfo as ISwingAnalysis;

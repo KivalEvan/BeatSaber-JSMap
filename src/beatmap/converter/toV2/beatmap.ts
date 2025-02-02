@@ -1,13 +1,13 @@
 import { logger } from '../../../logger.ts';
+import type { IChromaMaterial } from '../../../types/beatmap/v2/custom/chroma.ts';
 import type { ICustomDataNote } from '../../../types/beatmap/v2/custom/note.ts';
 import type { ICustomDataObstacle } from '../../../types/beatmap/v2/custom/obstacle.ts';
-import type { IChromaMaterial } from '../../../types/beatmap/v2/custom/chroma.ts';
-import objectToV2 from '../customData/objectToV2.ts';
-import eventToV2 from '../customData/eventToV2.ts';
+import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { isVector3, vectorMul } from '../../../utils/vector.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
+import { isLaserRotationEventType } from '../../helpers/core/basicEvent.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
-import { BaseSlider } from '../../core/abstract/baseSlider.ts';
+import eventToV2 from '../customData/eventToV2.ts';
+import objectToV2 from '../customData/objectToV2.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV2Beatmap', name];
@@ -21,7 +21,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Chain and other new stuff will be gone!
  */
-export function toV2Beatmap<T extends IWrapBeatmap>(
+export function toV2Beatmap<T extends IWrapBeatmapAttribute>(
    data: T,
    fromVersion = data.version,
 ): T {
@@ -51,32 +51,37 @@ export function toV2Beatmap<T extends IWrapBeatmap>(
    return data;
 }
 
-function fromV3(bm: IWrapBeatmap) {
-   bm.colorNotes.forEach((n) => {
+function fromV3<T extends IWrapBeatmapAttribute>(bm: T) {
+   bm.difficulty.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
    });
    bm.difficulty.customData.fakeColorNotes?.forEach((n) => {
       const customData: ICustomDataNote = objectToV2(n.customData);
-      bm.addColorNotes({
-         time: n.b,
-         posX: n.x,
-         posY: n.y,
-         color: n.c,
-         direction: n.d,
+      bm.difficulty.colorNotes.push({
+         time: n.b ?? 0,
+         posX: n.x ?? 0,
+         posY: n.y ?? 0,
+         color: n.c ?? 0,
+         direction: n.d ?? 0,
+         angleOffset: 0,
+         laneRotation: 0,
          customData,
       });
    });
    delete bm.difficulty.customData.fakeColorNotes;
 
-   bm.bombNotes.forEach((b) => {
+   bm.difficulty.bombNotes.forEach((b) => {
       b.customData = objectToV2(b.customData);
    });
    bm.difficulty.customData.fakeBombNotes?.forEach((b) => {
       const customData: ICustomDataNote = objectToV2(b.customData);
-      bm.addColorNotes({
-         time: b.b,
-         posX: b.x,
-         posY: b.y,
+      bm.difficulty.bombNotes.push({
+         time: b.b ?? 0,
+         posX: b.x ?? 0,
+         posY: b.y ?? 0,
+         color: -1,
+         direction: 0,
+         laneRotation: 0,
          customData,
       });
    });
@@ -86,20 +91,21 @@ function fromV3(bm: IWrapBeatmap) {
    });
    bm.difficulty.customData.fakeObstacles?.forEach((o) => {
       const customData: ICustomDataObstacle = objectToV2(o.customData);
-      bm.addObstacles({
-         time: o.b,
-         posX: o.x,
-         posY: o.y,
-         duration: o.d,
-         width: o.w,
-         height: o.h,
+      bm.difficulty.obstacles.push({
+         time: o.b ?? 0,
+         posX: o.x ?? 0,
+         posY: o.y ?? 0,
+         duration: o.d ?? 0,
+         width: o.w ?? 0,
+         height: o.h ?? 0,
+         laneRotation: 0,
          customData,
       });
    });
 
-   bm.basicEvents.forEach((e) => {
+   bm.lightshow.basicEvents.forEach((e) => {
       e.customData = eventToV2(e.customData);
-      if (e.isLaserRotationEvent()) {
+      if (isLaserRotationEventType(e.type)) {
          delete e.customData._speed;
       } else {
          delete e.customData._preciseSpeed;
@@ -373,17 +379,17 @@ function fromV3(bm: IWrapBeatmap) {
    }
 }
 
-function fromV4(bm: IWrapBeatmap) {
+function fromV4<T extends IWrapBeatmapAttribute>(bm: T) {
    let impossibleRotationEvt = false;
    const mapTime: Record<number, number> = {};
 
    const objects = [
-      bm.arcs,
-      bm.bombNotes,
-      bm.chains,
-      bm.colorNotes,
-      bm.obstacles,
-      bm.waypoints,
+      bm.difficulty.arcs,
+      bm.difficulty.bombNotes,
+      bm.difficulty.chains,
+      bm.difficulty.colorNotes,
+      bm.difficulty.obstacles,
+      bm.lightshow.waypoints,
    ]
       .flat()
       .sort(sortObjectFn);
@@ -404,7 +410,7 @@ function fromV4(bm: IWrapBeatmap) {
          if (obj.laneRotation) obj.customData._rotation = obj.laneRotation;
       }
    } else {
-      bm.rotationEvents = [];
+      bm.difficulty.rotationEvents = [];
       let currentRotation = 0;
       for (const time in mapTime) {
          const t = +time;
@@ -412,15 +418,17 @@ function fromV4(bm: IWrapBeatmap) {
          const difference = r - currentRotation;
          if (difference === 0) continue;
          currentRotation = r;
-         bm.addRotationEvents({
+         bm.difficulty.rotationEvents.push({
             time: t,
             rotation: difference,
+            executionTime: 0,
+            customData: {},
          });
       }
    }
    for (let i = 0; i < objects.length; i++) {
       const obj = objects[i];
       obj.laneRotation = 0;
-      if (obj instanceof BaseSlider) obj.tailLaneRotation = 0;
+      if ('tailLaneRotation' in obj) obj.tailLaneRotation = 0;
    }
 }

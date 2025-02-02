@@ -1,10 +1,10 @@
 import type { INote } from '../../types/beatmap/v2/note.ts';
 import type { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object.ts';
 import type { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
+import { IGridObject } from '../../types/beatmap/v3/gridObject.ts';
 import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
-import type { Vector2 } from '../../types/vector.ts';
-import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
+import type { Vector2 } from '../../types/vector.ts';
 
 /**
  * Pass this to wrapper object array `sort` function as an argument.
@@ -13,7 +13,7 @@ import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridO
  * data.basicEvents.sort(sortObjectFn);
  * ```
  */
-export function sortObjectFn(a: IWrapBaseObjectAttribute, b: IWrapBaseObjectAttribute): number {
+export function sortObjectFn<T extends Pick<IWrapBaseObjectAttribute, 'time'>>(a: T, b: T): number {
    return a.time - b.time;
 }
 
@@ -24,7 +24,9 @@ export function sortObjectFn(a: IWrapBaseObjectAttribute, b: IWrapBaseObjectAttr
  * data.chains.sort(sortNoteFn);
  * ```
  */
-export function sortNoteFn(a: IWrapGridObjectAttribute, b: IWrapGridObjectAttribute): number {
+export function sortNoteFn<
+   T extends Pick<IWrapGridObjectAttribute, 'time' | 'posX' | 'posY' | 'customData'>,
+>(a: T, b: T): number {
    if (Array.isArray(a.customData.coordinates) && Array.isArray(b.customData.coordinates)) {
       return (
          a.time - b.time ||
@@ -49,7 +51,7 @@ export function sortNoteFn(a: IWrapGridObjectAttribute, b: IWrapGridObjectAttrib
  * data._events.sort(sortV2ObjectFn);
  * ```
  */
-export function sortV2ObjectFn(a: IV2BaseObject, b: IV2BaseObject): number {
+export function sortV2ObjectFn<T extends Pick<IV2BaseObject, '_time'>>(a: T, b: T): number {
    return a._time! - b._time!;
 }
 
@@ -60,7 +62,9 @@ export function sortV2ObjectFn(a: IV2BaseObject, b: IV2BaseObject): number {
  * data._notes.sort(sortV2NoteFn);
  * ```
  */
-export function sortV2NoteFn(a: INote, b: INote): number {
+export function sortV2NoteFn<
+   T extends Pick<INote, '_time' | '_lineIndex' | '_lineLayer' | '_customData'>,
+>(a: T, b: T): number {
    if (Array.isArray(a._customData?._position) && Array.isArray(b._customData?._position)) {
       return (
          a._time! - b._time! ||
@@ -78,7 +82,7 @@ export function sortV2NoteFn(a: INote, b: INote): number {
  * data.basicBeatmapEvents.sort(sortV3ObjectFn);
  * ```
  */
-export function sortV3ObjectFn(a: IV3BaseObject, b: IV3BaseObject): number {
+export function sortV3ObjectFn<T extends Pick<IV3BaseObject, 'b'>>(a: T, b: T): number {
    return a.b! - b.b!;
 }
 
@@ -89,7 +93,9 @@ export function sortV3ObjectFn(a: IV3BaseObject, b: IV3BaseObject): number {
  * data.arcs.sort(sortV3NoteFn);
  * ```
  */
-export function sortV3NoteFn(a: IBombNote, b: IBombNote): number {
+export function sortV3NoteFn<
+   T extends Pick<IGridObject, 'b' | 'x' | 'y' | 'customData'>,
+>(a: T, b: T): number {
    if (Array.isArray(a.customData?.coordinates) && Array.isArray(b.customData?.coordinates)) {
       return (
          a.b! - b.b! ||

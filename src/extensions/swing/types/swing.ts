@@ -1,6 +1,6 @@
 import type { CharacteristicName } from '../../../types/beatmap/shared/characteristic.ts';
 import type { DifficultyName } from '../../../types/beatmap/shared/difficulty.ts';
-import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
 
 export interface ISwingContainer {
    readonly time: number;
@@ -9,7 +9,7 @@ export interface ISwingContainer {
    readonly maxSpeed: number;
    readonly ebpm: number;
    readonly ebpmSwing: number;
-   readonly data: IWrapColorNote[];
+   readonly data: IWrapColorNoteAttribute[];
 }
 
 export interface ISwingCount {

@@ -1,9 +1,6 @@
 import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
+import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
 import { settings } from './settings.ts';
-import type {
-   IWrapBaseObject,
-   IWrapBaseObjectAttribute,
-} from '../../types/beatmap/wrapper/baseObject.ts';
 
 /**
  * Return objects at given time, adjusted by BPM change if provided.
@@ -54,7 +51,7 @@ export function between<T extends IWrapBaseObjectAttribute>(
  * console.log(...notesBefore);
  * ```
  */
-export function before<T extends IWrapBaseObject>(
+export function before<T extends IWrapBaseObjectAttribute>(
    objects: T[],
    before: number,
    bpm?: TimeProcessor | null,
@@ -70,7 +67,7 @@ export function before<T extends IWrapBaseObject>(
  * console.log(...notesAfter);
  * ```
  */
-export function after<T extends IWrapBaseObject>(
+export function after<T extends IWrapBaseObjectAttribute>(
    objects: T[],
    after: number,
    bpm?: TimeProcessor | null,

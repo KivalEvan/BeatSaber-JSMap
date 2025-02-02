@@ -51,16 +51,16 @@ function vectorImpl<TArgs extends any[]>(
          } else {
             switch (vec.length) {
                case 4: {
-                  vec[3] = operation(vec[3], (value as Vector4Object).w ?? 1, ...args);
+                  vec[3] = operation(vec[3], (value as Vector4Object).w ?? 0, ...args);
                }
                /* falls through */
                case 3: {
-                  vec[2] = operation(vec[2], (value as Vector4Object).z ?? 1, ...args);
+                  vec[2] = operation(vec[2], (value as Vector4Object).z ?? 0, ...args);
                }
                /* falls through */
                case 2: {
-                  vec[1] = operation(vec[1], (value as Vector4Object).y ?? 1, ...args);
-                  vec[0] = operation(vec[0], (value as Vector4Object).x ?? 1, ...args);
+                  vec[1] = operation(vec[1], (value as Vector4Object).y ?? 0, ...args);
+                  vec[0] = operation(vec[0], (value as Vector4Object).x ?? 0, ...args);
                }
             }
          }
@@ -108,7 +108,7 @@ export function vectorMul<T extends VectorArgument>(
    vec?: T,
    value?: number | T | VectorObject,
 ): T | undefined {
-   return vectorImpl((x, n) => x * n)(vec, value);
+   return vectorImpl((x, n) => n ? x * n : x)(vec, value);
 }
 
 export function vectorDiv<T extends VectorArgument | undefined>(
@@ -122,7 +122,7 @@ export function vectorDiv<T extends VectorArgument>(
    vec?: T,
    value?: number | T | VectorObject,
 ): T | undefined {
-   return vectorImpl((x, n) => x / n)(vec, value);
+   return vectorImpl((x, n) => n ? x / n : x)(vec, value);
 }
 
 export function lerpVector<T extends VectorArgument | undefined>(

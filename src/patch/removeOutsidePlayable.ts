@@ -1,41 +1,41 @@
-import { logger } from '../logger.ts';
 import type { TimeProcessor } from '../beatmap/helpers/timeProcessor.ts';
-import type { IWrapBaseObject } from '../types/beatmap/wrapper/baseObject.ts';
-import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
+import { logger } from '../logger.ts';
+import type { IWrapBaseObjectAttribute } from '../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapBeatmapAttribute } from '../types/beatmap/wrapper/beatmap.ts';
 
 function tag(): string[] {
    return ['patch', 'removeOutsidePlayable'];
 }
 
 let duration = 0;
-const filterTime = <T extends IWrapBaseObject>(obj: T) =>
+const filterTime = <T extends IWrapBaseObjectAttribute>(obj: T) =>
    duration ? !(obj.time < 0 || obj.time > duration) : !(obj.time < 0);
 
 /**
  * Removes outside playable objects from beatmap given duration (seconds).
  */
-export function removeOutsidePlayable(
-   data: IWrapBeatmap,
+export function removeOutsidePlayable<T extends IWrapBeatmapAttribute>(
+   data: T,
    timeProc: TimeProcessor,
    audioLength: number,
 ) {
    duration = timeProc.toBeatTime(audioLength, true);
    logger.tDebug(tag(), 'Removing outside playable BPM events');
-   data.bpmEvents = data.bpmEvents.filter(filterTime);
+   data.difficulty.bpmEvents = data.difficulty.bpmEvents.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable rotation events');
-   data.rotationEvents = data.rotationEvents.filter(filterTime);
+   data.difficulty.rotationEvents = data.difficulty.rotationEvents.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable color notes');
-   data.colorNotes = data.colorNotes.filter(filterTime);
+   data.difficulty.colorNotes = data.difficulty.colorNotes.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable bomb notes');
-   data.bombNotes = data.bombNotes.filter(filterTime);
+   data.difficulty.bombNotes = data.difficulty.bombNotes.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable obstacles');
-   data.obstacles = data.obstacles.filter(filterTime);
+   data.difficulty.obstacles = data.difficulty.obstacles.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable arcs');
-   data.arcs = data.arcs.filter(filterTime);
+   data.difficulty.arcs = data.difficulty.arcs.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable chains');
-   data.chains = data.chains.filter(filterTime);
+   data.difficulty.chains = data.difficulty.chains.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable waypoints');
-   data.waypoints = data.waypoints.filter(filterTime);
+   data.lightshow.waypoints = data.lightshow.waypoints.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable fake color notes');
    if (data.difficulty.customData.fakeColorNotes) {
       data.difficulty.customData.fakeColorNotes = data.difficulty.customData.fakeColorNotes.filter((
@@ -60,17 +60,21 @@ export function removeOutsidePlayable(
          .filter((obj) => duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0));
    }
    logger.tDebug(tag(), 'Removing outside playable basic events');
-   data.basicEvents = data.basicEvents.filter(filterTime);
+   data.lightshow.basicEvents = data.lightshow.basicEvents.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable color boost beatmap events');
-   data.colorBoostEvents = data.colorBoostEvents.filter(filterTime);
+   data.lightshow.colorBoostEvents = data.lightshow.colorBoostEvents.filter(filterTime);
    logger.tDebug(
       tag(),
       'Removing outside playable light color event box groups',
    );
-   data.lightColorEventBoxGroups = data.lightColorEventBoxGroups.filter(filterTime);
+   data.lightshow.lightColorEventBoxGroups = data.lightshow.lightColorEventBoxGroups.filter(
+      filterTime,
+   );
    logger.tDebug(
       tag(),
       'Removing outside playable light rotation event box groups',
    );
-   data.lightRotationEventBoxGroups = data.lightRotationEventBoxGroups.filter(filterTime);
+   data.lightshow.lightRotationEventBoxGroups = data.lightshow.lightRotationEventBoxGroups.filter(
+      filterTime,
+   );
 }

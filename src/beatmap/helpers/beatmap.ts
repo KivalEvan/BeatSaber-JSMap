@@ -1,19 +1,23 @@
-import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
+import { isInteractiveObstacle } from './core/obstacle.ts';
 import { sortNoteFn } from './sort.ts';
 import type { TimeProcessor } from './timeProcessor.ts';
 
 /** Calculates the number of notes per second. */
-export function calculateNps(beatmap: IWrapBeatmap, duration: number): number {
+export function calculateNps<
+   T extends IWrapBeatmapAttributeSubset<'colorNotes'>,
+>(
+   beatmap: T,
+   duration: number,
+): number {
    const notes = beatmap.difficulty.colorNotes;
    return duration ? notes.length / duration : 0;
 }
 
 /** Calculates the peak number of notes per second given beat count. */
-export function calculateNpsPeak(
-   beatmap: IWrapBeatmap,
-   beatCount: number,
-   timeProcessor: TimeProcessor,
-): number {
+export function calculateNpsPeak<
+   T extends IWrapBeatmapAttributeSubset<'colorNotes'>,
+>(beatmap: T, beatCount: number, timeProcessor: TimeProcessor): number {
    let peakNPS = 0;
    let currentSectionStart = 0;
    const notes = beatmap.difficulty.colorNotes;
@@ -36,7 +40,9 @@ export function calculateNpsPeak(
  *
  * Color notes, bomb notes, chains and obstacles in middle lane are considered interactive object.
  */
-export function getFirstInteractiveTime(beatmap: IWrapBeatmap): number {
+export function getFirstInteractiveTime<
+   T extends IWrapBeatmapAttributeSubset<'colorNotes' | 'bombNotes' | 'obstacles' | 'chains'>,
+>(beatmap: T): number {
    const notes = [
       ...beatmap.difficulty.colorNotes,
       ...beatmap.difficulty.bombNotes,
@@ -55,7 +61,9 @@ export function getFirstInteractiveTime(beatmap: IWrapBeatmap): number {
  *
  * Color notes, bomb notes, chains and obstacles in middle lane are considered interactive object.
  */
-export function getLastInteractiveTime(beatmap: IWrapBeatmap): number {
+export function getLastInteractiveTime<
+   T extends IWrapBeatmapAttributeSubset<'colorNotes' | 'bombNotes' | 'obstacles' | 'chains'>,
+>(beatmap: T): number {
    const notes = [
       ...beatmap.difficulty.colorNotes,
       ...beatmap.difficulty.bombNotes,
@@ -72,10 +80,12 @@ export function getLastInteractiveTime(beatmap: IWrapBeatmap): number {
 /**
  * Get the first obstacle interactive time.
  */
-export function findFirstInteractiveObstacleTime(beatmap: IWrapBeatmap): number {
-   for (let i = 0, len = beatmap.obstacles.length; i < len; i++) {
-      if (beatmap.obstacles[i].isInteractive()) {
-         return beatmap.obstacles[i].time;
+export function findFirstInteractiveObstacleTime<
+   T extends IWrapBeatmapAttributeSubset<'obstacles'>,
+>(beatmap: T): number {
+   for (let i = 0, len = beatmap.difficulty.obstacles.length; i < len; i++) {
+      if (isInteractiveObstacle(beatmap.difficulty.obstacles[i])) {
+         return beatmap.difficulty.obstacles[i].time;
       }
    }
    return Number.MAX_VALUE;
@@ -84,10 +94,12 @@ export function findFirstInteractiveObstacleTime(beatmap: IWrapBeatmap): number 
 /**
  * Get the last obstacle interactive time.
  */
-export function findLastInteractiveObstacleTime(beatmap: IWrapBeatmap): number {
+export function findLastInteractiveObstacleTime<
+   T extends IWrapBeatmapAttributeSubset<'obstacles'>,
+>(beatmap: T): number {
    let obstacleEnd = 0;
    for (let i = beatmap.difficulty.obstacles.length - 1; i >= 0; i--) {
-      if (beatmap.difficulty.obstacles[i].isInteractive()) {
+      if (isInteractiveObstacle(beatmap.difficulty.obstacles[i])) {
          obstacleEnd = Math.max(
             obstacleEnd,
             beatmap.difficulty.obstacles[i].time + beatmap.difficulty.obstacles[i].duration,
