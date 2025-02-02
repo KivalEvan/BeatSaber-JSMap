@@ -1,11 +1,11 @@
-import { NoteDirectionAngle } from '../shared/constants.ts';
+import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type {
    IWrapColorNote,
    IWrapColorNoteAttribute,
 } from '../../types/beatmap/wrapper/colorNote.ts';
-import { BaseNote } from './abstract/baseNote.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
+import { resolveNoteAngle } from '../helpers/core/baseNote.ts';
+import { BaseNote } from './abstract/baseNote.ts';
 
 /**
  * Core beatmap color note.
@@ -63,10 +63,6 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
    }
 
    override getAngle(fn?: GetAngleFn<this>): number {
-      return (
-         fn?.(this) ??
-            (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
-               this.angleOffset
-      );
+      return fn?.(this) ?? resolveNoteAngle(this.direction) + this.angleOffset;
    }
 }
