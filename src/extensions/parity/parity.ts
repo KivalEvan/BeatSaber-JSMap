@@ -2,7 +2,8 @@
 // TODO: proper rotation check based on position
 // TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA there's still more work needed for parity check
 // TODO: cleanup the implementation
-import { BombNote } from '../../beatmap/core/bombNote.ts';
+
+import { isUnsetNoteColor } from '../../beatmap/helpers/core/baseNote.ts';
 import { NoteColor, NoteDirection, PosX, PosY } from '../../beatmap/shared/constants.ts';
 import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
 import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
@@ -59,7 +60,10 @@ const noteParityRotation: {
 };
 
 // TODO: probably body class for leaning
-export class Parity {
+export class Parity<
+   TColorNote extends IWrapColorNote,
+   TBombNote extends IWrapBombNote,
+> {
    private state!: ParityState;
    private color!: number;
    private rotation!: number;
@@ -73,8 +77,8 @@ export class Parity {
    ];
 
    constructor(
-      notes: IWrapColorNote[],
-      bombs: IWrapBombNote[],
+      notes: TColorNote[],
+      bombs: TBombNote[],
       type: number,
       warningThreshold: number,
       errorThreshold: number,
@@ -95,7 +99,7 @@ export class Parity {
       this.position = this.predictStartPosition(notes, type);
    }
 
-   check(noteContext: IWrapColorNote[], bombContext: IWrapBombNote[]): ParityStatus {
+   check(noteContext: TColorNote[], bombContext: TBombNote[]): ParityStatus {
       if (this.state === 'neutral') {
          return 'none';
       }
@@ -126,8 +130,8 @@ export class Parity {
          }
       });
 
-      let prevNote!: IWrapColorNote;
-      let expectedDirection: number = NoteDirection.ANY;
+      let prevNote!: TColorNote;
+      let expectedDirection = NoteDirection.ANY;
       for (const note of noteContext) {
          if (note.direction !== NoteDirection.ANY) {
             expectedDirection = note.direction;
@@ -173,7 +177,7 @@ export class Parity {
 
       return 'none';
    }
-   next(noteContext: IWrapColorNote[], bombContext: IWrapBombNote[]): void {
+   next(noteContext: TColorNote[], bombContext: TBombNote[]): void {
       if (this.check(noteContext, bombContext) !== 'error') {
          switch (this.state) {
             case 'forehand': {
@@ -186,7 +190,7 @@ export class Parity {
             }
             case 'neutral': {
                for (let i = 0; i < noteContext.length; i++) {
-                  const note = noteContext[i] as IWrapColorNote;
+                  const note = noteContext[i] as TColorNote;
                   if (noteInitParity[note.color].forehand.includes(note.direction)) {
                      this.state = 'backhand';
                      break;
@@ -250,14 +254,14 @@ export class Parity {
    }
 
    private predictStartState(
-      notes: IWrapColorNote[],
-      bombs: IWrapBombNote[],
+      notes: TColorNote[],
+      bombs: TBombNote[],
       type: number,
    ): ParityState {
       const nc = [...notes, ...bombs].sort((a, b) => a.time - b.time);
       let startParity: ParityState = 'neutral';
       for (let i = 0, len = nc.length; i < len; i++) {
-         if (nc[i] instanceof BombNote) {
+         if (isUnsetNoteColor(nc[i].color)) {
             if (nc[i].posY === PosY.BOTTOM) {
                if (nc[i].posX === type ? PosX.MIDDLE_RIGHT : PosX.MIDDLE_LEFT) {
                   startParity = 'backhand';
@@ -270,7 +274,7 @@ export class Parity {
             }
             continue;
          }
-         let note = nc[i] as IWrapColorNote;
+         let note = nc[i] as TColorNote;
          if (note.color === Math.abs(type - 1)) {
             continue;
          }
@@ -283,7 +287,7 @@ export class Parity {
                if (nc[j].time > note.time + 0.001 && startTime < note.time + 0.001) {
                   break;
                }
-               note = nc[j] as IWrapColorNote;
+               note = nc[j] as TColorNote;
                if (noteInitParity[note.color].forehand.includes(note.direction)) {
                   return 'backhand';
                }
@@ -304,7 +308,7 @@ export class Parity {
       }
       return startParity;
    }
-   private predictStartRotation(nc: IWrapColorNote[], color: number): number {
+   private predictStartRotation(nc: TColorNote[], color: number): number {
       let rotation = 0;
       for (let i = 0, len = nc.length; i < len; i++) {
          let note = nc[i];
@@ -354,7 +358,7 @@ export class Parity {
       return rotation;
    }
    // "predict" btw
-   private predictStartPosition(_: IWrapColorNote[], type: number): [number, number] {
+   private predictStartPosition(_: TColorNote[], type: number): [number, number] {
       return type ? [-0.5, 1] : [0.5, 1];
    }
 }

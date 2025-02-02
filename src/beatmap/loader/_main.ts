@@ -1,13 +1,14 @@
 // deno-lint-ignore-file no-explicit-any
-import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
-import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
-import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
-import type { ILoadOptions } from '../../types/beatmap/options/loader.ts';
-import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import { logger } from '../../logger.ts';
-import { implicitVersion, retrieveVersion } from '../helpers/version.ts';
-import { Info } from '../core/info.ts';
+import type { ILoadOptions } from '../../types/beatmap/options/loader.ts';
+import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
+import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import { AudioData } from '../core/audioData.ts';
+import { Beatmap } from '../core/beatmap.ts';
+import { Info } from '../core/info.ts';
+import { implicitVersion, retrieveVersion } from '../helpers/version.ts';
 import { audioDataConvertMap, beatmapConvertMap, infoConvertMap } from '../mapping/converter.ts';
 import {
    audioDataSchemaMap,
@@ -16,7 +17,6 @@ import {
    lightshowSchemaMap,
 } from '../mapping/schema.ts';
 import { validateJSON } from '../validator/json.ts';
-import { Beatmap } from '../core/beatmap.ts';
 
 export function tag(name: string): string[] {
    return ['loader', name];
@@ -149,7 +149,9 @@ export function loadBeatmap<T extends Record<string, any>>(
       data = convertMap[targetVer](data, data.version);
    }
 
-   if (opt.sort) data.sort();
+   if (opt.sort && 'sort' in data && typeof data.sort === 'function') {
+      data.sort();
+   }
 
    opt.postprocess.forEach((fn, i) => {
       logger.tInfo(tag('loadBeatmap'), 'Running postprocess function #' + (i + 1));

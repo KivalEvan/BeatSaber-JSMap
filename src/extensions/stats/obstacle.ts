@@ -1,12 +1,13 @@
-import { hasMappingExtensionsObstacleV2 } from '../../beatmap/helpers/modded/has.ts';
+import { isInteractiveObstacle } from '../../beatmap/helpers/core/obstacle.ts';
 import {
    hasChromaObstacleV2,
    hasChromaObstacleV3,
+   hasMappingExtensionsObstacleV2,
    hasMappingExtensionsObstacleV3,
    hasNoodleExtensionsObstacleV2,
    hasNoodleExtensionsObstacleV3,
 } from '../../beatmap/helpers/modded/has.ts';
-import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
 import type { IObstacleCount } from './types/stats.ts';
 
 /**
@@ -16,8 +17,8 @@ import type { IObstacleCount } from './types/stats.ts';
  * console.log(list);
  * ```
  */
-export function countObstacle(
-   obstacles: IWrapObstacle[],
+export function countObstacle<T extends IWrapObstacleAttribute>(
+   obstacles: T[],
    version = 2,
 ): IObstacleCount {
    const obstacleCount: IObstacleCount = {
@@ -33,7 +34,7 @@ export function countObstacle(
 
    for (let i = obstacles.length - 1; i > -1; i--) {
       obstacleCount.total++;
-      if (obstacles[i].isInteractive()) {
+      if (isInteractiveObstacle(obstacles[i])) {
          obstacleCount.interactive++;
       }
       if (hasChroma(obstacles[i])) {

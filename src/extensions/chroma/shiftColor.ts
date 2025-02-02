@@ -1,11 +1,10 @@
-import { hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
 import type { ColorArray } from '../../types/colors.ts';
+import { hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
 import { clamp } from '../../utils/math.ts';
 import type { IChromaObject, IShiftColorOptions } from './types/colors.ts';
-import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 
-export function shiftColor(
-   objects: IChromaObject[],
+export function shiftColor<T extends IChromaObject>(
+   objects: T[],
    options: IShiftColorOptions,
 ) {
    const opt: Omit<Required<IShiftColorOptions>, 'type'> = {
@@ -69,7 +68,7 @@ export function shiftColor(
       ) as ColorArray;
    };
    objects.forEach((obj) => {
-      const cd = obj.customData as IChromaEventLight;
+      const cd = obj.customData;
       if (cd.color) {
          cd.color = shift(cd.color, hsvaShift, opt);
       }

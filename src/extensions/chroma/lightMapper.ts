@@ -1,6 +1,19 @@
+import {
+   isLightEventType,
+   isRedEventValue,
+   isWhiteEventValue,
+} from '../../beatmap/helpers/core/basicEvent.ts';
+import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
 import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import type { IChromaEventRing, IChromaEventZoom } from '../../types/beatmap/v3/custom/chroma.ts';
+import type { IWrapBasicEventAttribute } from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { ColorArray } from '../../types/colors.ts';
 import type { DeepPartial } from '../../types/utils.ts';
+import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
+import { EasingsFn } from '../../utils/easings.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { LightIDList } from './lightID.ts';
 import type {
    EventBase,
@@ -8,14 +21,6 @@ import type {
    EventBoxType,
    IndexFilterDivision,
 } from './types/lightMapper.ts';
-import { EasingsFn } from '../../utils/easings.ts';
-import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
-import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
-import type { ColorArray } from '../../types/colors.ts';
-import { deepCopy } from '../../utils/misc.ts';
-import { BasicEvent } from '../../beatmap/core/basicEvent.ts';
-import { ColorBoostEvent } from '../../beatmap/core/colorBoostEvent.ts';
-import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 
 /**
  * This uses new lighting lighting syntax for v2 lighting including support for color and easing.
@@ -30,8 +35,8 @@ export class LightMapper {
    lightIDMapping: Record<number, number[]>;
    readonly environment: EnvironmentAllName;
    private queue: EventBoxType[] = [];
-   private events: BasicEvent[] = [];
-   private boosts: ColorBoostEvent[] = [];
+   private events: IWrapBasicEventAttribute[] = [];
+   private boosts: IWrapColorBoostEventAttribute[] = [];
 
    constructor(environment: EnvironmentAllName) {
       this.lightIDMapping = deepCopy(LightIDList[environment], true);
@@ -100,17 +105,17 @@ export class LightMapper {
    }
 
    ring(time: number, type: 8 | 9, customData?: IChromaEventRing): this {
-      this.events.push(new BasicEvent({ time, type, customData }));
+      this.events.push({ time, type, value: 0, floatValue: 0, customData: customData ?? {} });
       return this;
    }
 
    zoom(time: number, customData?: IChromaEventZoom): this {
-      this.events.push(new BasicEvent({ time, type: 9, customData }));
+      this.events.push({ time, type: 9, value: 0, floatValue: 0, customData: customData ?? {} });
       return this;
    }
 
    boost(time: number, toggle: boolean): this {
-      this.boosts.push(new ColorBoostEvent({ time, toggle: toggle }));
+      this.boosts.push({ time, toggle: toggle, customData: {} });
       return this;
    }
 
@@ -124,8 +129,8 @@ export class LightMapper {
       return 1 + color * 4 + transitionValue[transition];
    }
 
-   process(mapData: IWrapBeatmap, overwrite = true): void {
-      const events: BasicEvent[] = [...this.events];
+   process(mapData: IWrapBeatmapAttributeSubset<'basicEvents'>, overwrite = true): void {
+      const events = [...this.events];
       this.queue.sort((a, b) => a.time - b.time);
       for (const q of this.queue) {
          q.eventBox.forEach((eb) => {
@@ -159,7 +164,7 @@ export class LightMapper {
                !eb.hueDistribution &&
                !eb.affectFirst
             ) {
-               let previousEvent: BasicEvent;
+               let previousEvent: IWrapBasicEventAttribute;
                let previousBase: EventBase;
                eb.events.forEach((ev) => {
                   if (ev.transition === 2 && previousEvent) {
@@ -169,34 +174,33 @@ export class LightMapper {
                            t < ev.time;
                            t += 1 / previousBase.frequency
                         ) {
-                           events.push(
-                              previousEvent
-                                 .clone()
-                                 .setTime(t - 1 / (previousBase.frequency * 2))
-                                 .setValue(0)
-                                 .setFloatValue(0),
-                              previousEvent.clone().setTime(t),
-                           );
+                           events.push({
+                              ...structuredClone(previousEvent),
+                              time: t - 1 / (previousBase.frequency * 2),
+                           }, {
+                              ...structuredClone(previousEvent),
+                              time: t,
+                           });
                         }
                      }
                      events.push(previousEvent);
                      previousBase = ev;
                      return;
                   }
-                  const event = new BasicEvent({
+                  const event = {
                      time: q.time + ev.time,
                      type: q.type,
                      value: this.internalEventValue(ev.color, ev.transition),
                      floatValue: ev.brightness,
                      customData: { ...ev.customData, lightID: lid },
-                  });
+                  };
                   events.push(event);
                   previousEvent = event;
                   previousBase = ev;
                });
                return;
             }
-            let previousEvent: BasicEvent;
+            let previousEvent: IWrapBasicEventAttribute;
             let previousBase: EventBase;
             let isFirst = !eb.affectFirst;
             const lastEventTime = eb.events.at(-1)?.time ?? 0;
@@ -218,16 +222,13 @@ export class LightMapper {
                            t < ev.time;
                            t += 1 / previousBase.frequency
                         ) {
-                           events.push(
-                              previousEvent
-                                 .clone()
-                                 .setTime(
-                                    t - 1 / (previousBase.frequency * 2) + x,
-                                 )
-                                 .setValue(0)
-                                 .setFloatValue(0),
-                              previousEvent.clone().setTime(t),
-                           );
+                           events.push({
+                              ...structuredClone(previousEvent),
+                              time: t - 1 / (previousBase.frequency * 2) + x,
+                           }, {
+                              ...structuredClone(previousEvent),
+                              time: t,
+                           });
                         }
                      } else {
                         events.push(previousEvent);
@@ -241,17 +242,16 @@ export class LightMapper {
                         t < ev.time;
                         t += 1 / previousBase.frequency
                      ) {
-                        events.push(
-                           previousEvent
-                              .clone()
-                              .setTime(t - 1 / (previousBase.frequency * 2))
-                              .setValue(0)
-                              .setFloatValue(0),
-                           previousEvent.clone().setTime(t),
-                        );
+                        events.push({
+                           ...structuredClone(previousEvent),
+                           time: t - 1 / (previousBase.frequency * 2),
+                        }, {
+                           ...structuredClone(previousEvent),
+                           time: t,
+                        });
                      }
                   }
-                  const event = new BasicEvent({
+                  const event = {
                      time: q.time + ev.time + x,
                      type: q.type,
                      value: this.internalEventValue(ev.color, ev.transition),
@@ -268,16 +268,16 @@ export class LightMapper {
                         0,
                      ),
                      customData: { ...ev.customData, lightID: lid[i] },
-                  });
-                  if (eb.hueDistribution && event.isLightEvent()) {
+                  };
+                  if (eb.hueDistribution && isLightEventType(event.type)) {
                      if (!event.customData.color) {
-                        event.customData.color = event.isWhite() ? [1, 1, 1] : colorFrom(
-                           ColorScheme[
-                              EnvironmentSchemeName[this.environment]
-                           ][
-                              event.isRed() ? '_envColorLeft' : '_envColorRight'
-                           ]!,
-                        );
+                        event.customData.color = isWhiteEventValue(event.value)
+                           ? [1, 1, 1]
+                           : colorFrom(
+                              ColorScheme[EnvironmentSchemeName[this.environment]][
+                                 isRedEventValue(event.value) ? '_envColorLeft' : '_envColorRight'
+                              ]!,
+                           );
                      }
                      if (!isFirst) {
                         event.customData.color = hsvaToRgba(
@@ -306,8 +306,8 @@ export class LightMapper {
       }
 
       if (overwrite) {
-         mapData.basicEvents = [];
+         mapData.lightshow.basicEvents = [];
       }
-      mapData.basicEvents.push(...events);
+      mapData.lightshow.basicEvents.push(...events);
    }
 }

@@ -3,10 +3,10 @@ import type { INEObject } from './types/object.ts';
 /**
  * Add track(s) to object(s).
  */
-export function addTrack(objects: INEObject[], track: string | string[]): void;
-export function addTrack(object: INEObject, track: string | string[]): void;
-export function addTrack(
-   objects: INEObject | INEObject[],
+export function addTrack<T extends INEObject>(objects: T[], track: string | string[]): void;
+export function addTrack<T extends INEObject>(object: T, track: string | string[]): void;
+export function addTrack<T extends INEObject>(
+   objects: T | T[],
    track: string | string[],
 ): void {
    if (!Array.isArray(objects)) {
@@ -33,13 +33,13 @@ export function addTrack(
 /**
  * Remove track(s) from object(s).
  */
-export function removeTrack(
-   objects: INEObject[],
+export function removeTrack<T extends INEObject>(
+   objects: T[],
    track: string | string[],
 ): void;
-export function removeTrack(object: INEObject, track: string | string[]): void;
-export function removeTrack(
-   objects: INEObject | INEObject[],
+export function removeTrack<T extends INEObject>(object: T, track: string | string[]): void;
+export function removeTrack<T extends INEObject>(
+   objects: T | T[],
    track: string | string[],
 ): void {
    if (!Array.isArray(objects)) {

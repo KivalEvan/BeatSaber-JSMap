@@ -1,6 +1,5 @@
 import { logger } from '../../../logger.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
-import { BaseSlider } from '../../core/abstract/baseSlider.ts';
+import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
 
 function tag(name: string): string[] {
@@ -15,7 +14,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Guess you should know this legacy version does not have modern features.
  */
-export function toV1Beatmap<T extends IWrapBeatmap>(
+export function toV1Beatmap<T extends IWrapBeatmapAttribute>(
    data: T,
    fromVersion = data.version,
 ): T {
@@ -44,7 +43,7 @@ export function toV1Beatmap<T extends IWrapBeatmap>(
    return data;
 }
 
-function fromV3(bm: IWrapBeatmap) {
+function fromV3<T extends IWrapBeatmapAttribute>(bm: T) {
    bm.difficulty.customData._time = bm.difficulty.customData.time;
    bm.difficulty.customData._BPMChanges = bm.difficulty.customData.BPMChanges?.map((bpmc) => {
       return {
@@ -63,18 +62,18 @@ function fromV3(bm: IWrapBeatmap) {
    delete bm.difficulty.customData.bookmarks;
 }
 
-function fromV4(bm: IWrapBeatmap) {
+function fromV4<T extends IWrapBeatmapAttribute>(bm: T) {
    bm.difficulty.customData._time = bm.difficulty.customData.time ?? 0;
    let impossibleRotationEvt = false;
    const mapTime: Record<number, number> = {};
 
    const objects = [
-      bm.arcs,
-      bm.bombNotes,
-      bm.chains,
-      bm.colorNotes,
-      bm.obstacles,
-      bm.waypoints,
+      bm.difficulty.arcs,
+      bm.difficulty.bombNotes,
+      bm.difficulty.chains,
+      bm.difficulty.colorNotes,
+      bm.difficulty.obstacles,
+      bm.lightshow.waypoints,
    ]
       .flat()
       .sort(sortObjectFn);
@@ -92,7 +91,7 @@ function fromV4(bm: IWrapBeatmap) {
    if (impossibleRotationEvt) {
       logger.warn(tag('fromV4'), 'Impossible rotation event cannot be represented in v1!');
    } else {
-      bm.rotationEvents = [];
+      bm.difficulty.rotationEvents = [];
       let currentRotation = 0;
       for (const time in mapTime) {
          const t = +time;
@@ -100,15 +99,17 @@ function fromV4(bm: IWrapBeatmap) {
          const difference = r - currentRotation;
          if (difference === 0) continue;
          currentRotation = r;
-         bm.addRotationEvents({
+         bm.difficulty.rotationEvents.push({
             time: t,
             rotation: difference,
+            executionTime: 0,
+            customData: {},
          });
       }
    }
    for (let i = 0; i < objects.length; i++) {
       const obj = objects[i];
       obj.laneRotation = 0;
-      if (obj instanceof BaseSlider) obj.tailLaneRotation = 0;
+      if ('tailLaneRotation' in obj) obj.tailLaneRotation = 0;
    }
 }

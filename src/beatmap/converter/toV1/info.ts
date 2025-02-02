@@ -1,6 +1,6 @@
 import { logger } from '../../../logger.ts';
 import type { EnvironmentName } from '../../../types/beatmap/shared/environment.ts';
-import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfoAttribute } from '../../../types/beatmap/wrapper/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 
 function tag(name: string): string[] {
@@ -15,7 +15,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Guess you should know this legacy version does not have modern features.
  */
-export function toV1Info<T extends IWrapInfo>(
+export function toV1Info<T extends IWrapInfoAttribute>(
    data: T,
    fromVersion = data.version,
 ): T {

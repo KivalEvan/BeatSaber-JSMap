@@ -10,8 +10,8 @@ import type { ICountEventBoxGroup } from './types/stats.ts';
  * console.log(list);
  * ```
  */
-export function countEbg(
-   ebg: IWrapEventBoxGroupAttribute[],
+export function countEbg<T extends IWrapEventBoxGroupAttribute>(
+   ebg: T[],
    environment: EnvironmentAllName = 'DefaultEnvironment',
 ): ICountEventBoxGroup {
    const commonEvent = EventList[environment]?.[1] ?? EventList['DefaultEnvironment'][1];

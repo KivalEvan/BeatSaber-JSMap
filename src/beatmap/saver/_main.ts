@@ -1,12 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../../logger.ts';
-import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
-import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
+import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
-import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapBeatmapFile } from '../../types/beatmap/wrapper/baseFile.ts';
-import { validateJSON } from '../validator/json.ts';
+import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import { audioDataConvertMap, beatmapConvertMap, infoConvertMap } from '../mapping/converter.ts';
 import {
    difficultyOptimizeMap,
@@ -20,6 +19,7 @@ import {
    lightshowSchemaMap,
 } from '../mapping/schema.ts';
 import { compatibilityCheck } from '../validator/compatibility.ts';
+import { validateJSON } from '../validator/json.ts';
 
 export function tag(name: string): string[] {
    return ['saver', name];
@@ -167,7 +167,7 @@ export function saveBeatmap<
    //    }
    // }
 
-   if (opt.sort) {
+   if (opt.sort && 'sort' in data && typeof data.sort === 'function') {
       logger.tInfo(tag('saveBeatmap'), 'Sorting beatmap objects');
       data.sort();
    }
