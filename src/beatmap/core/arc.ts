@@ -1,8 +1,9 @@
-import { BaseSlider } from './abstract/baseSlider.ts';
-import { NoteDirectionAngle } from '../shared/constants.ts';
+import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
+import { mirrorArcMidAnchor } from '../helpers/core/arc.ts';
+import { mirrorNoteDirectionHorizontally, resolveNoteAngle } from '../helpers/core/baseNote.ts';
+import { BaseSlider } from './abstract/baseSlider.ts';
 
 /**
  * Core beatmap arc.
@@ -90,37 +91,12 @@ export class Arc extends BaseSlider implements IWrapArc {
 
    override mirror(flipColor = true, fn?: MirrorFn<this>): this {
       fn?.(this);
-      switch (this.tailDirection) {
-         case 2:
-            this.tailDirection = 3;
-            break;
-         case 3:
-            this.tailDirection = 2;
-            break;
-         case 6:
-            this.tailDirection = 7;
-            break;
-         case 7:
-            this.tailDirection = 6;
-            break;
-         case 4:
-            this.tailDirection = 5;
-            break;
-         case 5:
-            this.tailDirection = 4;
-            break;
-      }
-      if (this.midAnchor) {
-         this.midAnchor = this.midAnchor === 1 ? 2 : 1;
-      }
+      this.tailDirection = mirrorNoteDirectionHorizontally(this.direction);
+      this.midAnchor = mirrorArcMidAnchor(this.midAnchor);
       return super.mirror(flipColor);
    }
 
    getTailAngle(fn?: GetAngleFn<this>): number {
-      return (
-         fn?.(this) ||
-         NoteDirectionAngle[this.tailDirection as keyof typeof NoteDirectionAngle] ||
-         0
-      );
+      return fn?.(this) || resolveNoteAngle(this.tailDirection);
    }
 }

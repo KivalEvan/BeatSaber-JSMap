@@ -1,7 +1,14 @@
-import { NoteDirectionAngle } from '../../shared/constants.ts';
-import { GridObject } from './gridObject.ts';
-import type { IWrapBaseNote } from '../../../types/beatmap/wrapper/baseNote.ts';
 import type { GetAngleFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
+import type { IWrapBaseNote } from '../../../types/beatmap/wrapper/baseNote.ts';
+import {
+   isBlueNoteColor,
+   isDouble,
+   isRedNoteColor,
+   mirrorNoteColor,
+   mirrorNoteDirectionHorizontally,
+   resolveNoteAngle,
+} from '../../helpers/core/baseNote.ts';
+import { GridObject } from './gridObject.ts';
 
 /**
  * Base note beatmap object.
@@ -23,52 +30,25 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
 
    override mirror(flipColor = true, fn?: MirrorFn<this>): this {
       fn?.(this);
-      if (flipColor) {
-         this.color = ((1 + this.color) % 2) as typeof this.color;
-      }
-      switch (this.direction) {
-         case 2:
-            this.direction = 3;
-            break;
-         case 3:
-            this.direction = 2;
-            break;
-         case 6:
-            this.direction = 7;
-            break;
-         case 7:
-            this.direction = 6;
-            break;
-         case 4:
-            this.direction = 5;
-            break;
-         case 5:
-            this.direction = 4;
-            break;
-      }
+      if (flipColor) this.color = mirrorNoteColor(this.color);
+      this.direction = mirrorNoteDirectionHorizontally(this.direction);
       return super.mirror(flipColor);
    }
 
    isRed(): boolean {
-      return this.color === 0;
+      return isRedNoteColor(this.color);
    }
 
    isBlue(): boolean {
-      return this.color === 1;
+      return isBlueNoteColor(this.color);
    }
 
    getAngle(fn?: GetAngleFn<this>): number {
-      return (
-         fn?.(this) ?? (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0)
-      );
+      return fn?.(this) ?? resolveNoteAngle(this.direction);
    }
 
    isDouble(compareTo: IWrapBaseNote, tolerance = 0.01): boolean {
-      return (
-         compareTo.time > this.time - tolerance &&
-         compareTo.time < this.time + tolerance &&
-         this.color !== compareTo.color
-      );
+      return isDouble(this, compareTo, tolerance);
    }
 
    override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {

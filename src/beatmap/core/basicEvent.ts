@@ -1,11 +1,32 @@
-import { BaseObject } from './abstract/baseObject.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import type {
    IWrapBasicEvent,
    IWrapBasicEventAttribute,
 } from '../../types/beatmap/wrapper/basicEvent.ts';
-import { EventType } from '../shared/constants.ts';
-import { EventLightValue } from '../shared/constants.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import {
+   isBlueEventValue,
+   isBpmChangeEventType,
+   isColorBoostEventType,
+   isExtraEventType,
+   isFadeEventValue,
+   isFlashEventValue,
+   isLaneRotationEventType,
+   isLaserRotationEventType,
+   isLightEventType,
+   isLightingEventType,
+   isNjsChangeEventType,
+   isOffEventValue,
+   isOldChromaEventValue,
+   isOnEventValue,
+   isRedEventValue,
+   isRingEventType,
+   isSpecialEventType,
+   isTransitionEventValue,
+   isValidEventType,
+   isWhiteEventValue,
+} from '../helpers/core/basicEvent.ts';
+import { BaseObject } from './abstract/baseObject.ts';
 
 /**
  * Core beatmap basic event.
@@ -35,11 +56,7 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
    }
 
    isValidType(): boolean {
-      return (
-         (this.type >= 0 && this.type <= 19) ||
-         (this.type >= 40 && this.type <= 43) ||
-         this.type === 100
-      );
+      return isValidEventType(this.type);
    }
 
    override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
@@ -67,118 +84,61 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
    }
 
    isOff(): boolean {
-      return this.value === EventLightValue.OFF;
+      return isOffEventValue(this.value);
    }
    isOn(): boolean {
-      return (
-         this.value === EventLightValue.BLUE_ON ||
-         this.value === EventLightValue.RED_ON ||
-         this.value === EventLightValue.WHITE_ON
-      );
+      return isOnEventValue(this.value);
    }
    isFlash(): boolean {
-      return (
-         this.value === EventLightValue.BLUE_FLASH ||
-         this.value === EventLightValue.RED_FLASH ||
-         this.value === EventLightValue.WHITE_FLASH
-      );
+      return isFlashEventValue(this.value);
    }
    isFade(): boolean {
-      return (
-         this.value === EventLightValue.BLUE_FADE ||
-         this.value === EventLightValue.RED_FADE ||
-         this.value === EventLightValue.WHITE_FADE
-      );
+      return isFadeEventValue(this.value);
    }
    isTransition(): boolean {
-      return (
-         this.value === EventLightValue.BLUE_TRANSITION ||
-         this.value === EventLightValue.RED_TRANSITION ||
-         this.value === EventLightValue.WHITE_TRANSITION
-      );
+      return isTransitionEventValue(this.value);
    }
    isBlue(): boolean {
-      return (
-         this.value === EventLightValue.BLUE_ON ||
-         this.value === EventLightValue.BLUE_FLASH ||
-         this.value === EventLightValue.BLUE_FADE ||
-         this.value === EventLightValue.BLUE_TRANSITION
-      );
+      return isBlueEventValue(this.value);
    }
    isRed(): boolean {
-      return (
-         this.value === EventLightValue.RED_ON ||
-         this.value === EventLightValue.RED_FLASH ||
-         this.value === EventLightValue.RED_FADE ||
-         this.value === EventLightValue.RED_TRANSITION
-      );
+      return isRedEventValue(this.value);
    }
    isWhite(): boolean {
-      return (
-         this.value === EventLightValue.WHITE_ON ||
-         this.value === EventLightValue.WHITE_FLASH ||
-         this.value === EventLightValue.WHITE_FADE ||
-         this.value === EventLightValue.WHITE_TRANSITION
-      );
+      return isWhiteEventValue(this.value);
    }
 
-   isLightEvent(): boolean {
-      return (
-         this.type === 0 ||
-         this.type === 1 ||
-         this.type === 2 ||
-         this.type === 3 ||
-         this.type === 4 ||
-         this.type === 6 ||
-         this.type === 7 ||
-         this.type === 10 ||
-         this.type === 11
-      );
+   isLightEvent(environment?: EnvironmentAllName): boolean {
+      return isLightEventType(this.type, environment);
    }
    isColorBoost(): boolean {
-      return this.type === EventType.COLOR_BOOST;
+      return isColorBoostEventType(this.type);
    }
-   isRingEvent(): boolean {
-      return this.type === EventType.RING_ROTATION || this.type === EventType.RING_ZOOM;
+   isRingEvent(environment?: EnvironmentAllName): boolean {
+      return isRingEventType(this.type, environment);
    }
-   isLaserRotationEvent(): boolean {
-      return (
-         this.type === EventType.LEFT_LASER_ROTATION || this.type === EventType.RIGHT_LASER_ROTATION
-      );
+   isLaserRotationEvent(environment?: EnvironmentAllName): boolean {
+      return isLaserRotationEventType(this.type, environment);
    }
    isLaneRotationEvent(): boolean {
-      return (
-         this.type === EventType.EARLY_LANE_ROTATION || this.type === EventType.LATE_LANE_ROTATION
-      );
+      return isLaneRotationEventType(this.type);
    }
-   isExtraEvent(): boolean {
-      return (
-         this.type === EventType.UTILITY_EVENT_0 ||
-         this.type === EventType.UTILITY_EVENT_1 ||
-         this.type === EventType.UTILITY_EVENT_2 ||
-         this.type === EventType.UTILITY_EVENT_3
-      );
+   isExtraEvent(environment?: EnvironmentAllName): boolean {
+      return isExtraEventType(this.type, environment);
    }
-   isSpecialEvent(): boolean {
-      return (
-         this.type === EventType.SPECIAL_EVENT_0 ||
-         this.type === EventType.SPECIAL_EVENT_1 ||
-         this.type === EventType.SPECIAL_EVENT_2 ||
-         this.type === EventType.SPECIAL_EVENT_3
-      );
+   isSpecialEvent(environment?: EnvironmentAllName): boolean {
+      return isSpecialEventType(this.type, environment);
    }
    isBpmEvent(): boolean {
-      return this.type === EventType.BPM_CHANGE;
+      return isBpmChangeEventType(this.type);
+   }
+   isNjsEvent(): boolean {
+      return isNjsChangeEventType(this.type);
    }
    isLightingEvent(): boolean {
-      return (
-         this.isLightEvent() ||
-         this.isRingEvent() ||
-         this.isLaserRotationEvent() ||
-         this.isExtraEvent()
-      );
+      return isLightingEventType(this.type);
    }
    isOldChroma(): boolean {
-      return this.value >= 2000000000;
+      return isOldChromaEventValue(this.value);
    }
 }

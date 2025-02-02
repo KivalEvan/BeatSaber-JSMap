@@ -1,8 +1,11 @@
-import { LINE_COUNT } from '../../shared/constants.ts';
-import type { IWrapBaseSlider } from '../../../types/beatmap/wrapper/baseSlider.ts';
-import { BaseNote } from './baseNote.ts';
-import type { Vector2 } from '../../../types/vector.ts';
 import type { GetPositionFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
+import type { IWrapBaseSlider } from '../../../types/beatmap/wrapper/baseSlider.ts';
+import type { Vector2 } from '../../../types/vector.ts';
+import { vectorAdd } from '../../../utils/vector.ts';
+import { isInverseSlider } from '../../helpers/core/baseSlider.ts';
+import { mirrorCoordinate, resolveGridPosition } from '../../helpers/core/gridObject.ts';
+import { LINE_COUNT } from '../../shared/constants.ts';
+import { BaseNote } from './baseNote.ts';
 
 /**
  * Base slider beatmap object.
@@ -34,15 +37,16 @@ export abstract class BaseSlider extends BaseNote implements IWrapBaseSlider {
 
    override mirror(flipColor = true, fn?: MirrorFn<this>): this {
       fn?.(this);
-      this.tailPosX = LINE_COUNT - 1 - this.tailPosX;
+      this.tailPosX = mirrorCoordinate(this.tailPosX, LINE_COUNT);
       return super.mirror(flipColor);
    }
 
    getTailPosition(fn?: GetPositionFn<this>): Vector2 {
-      return fn?.(this) ?? [this.tailPosX - 2, this.tailPosY];
+      return fn?.(this) ??
+         vectorAdd(resolveGridPosition({ posX: this.tailPosX, posY: this.tailPosY }), [-2]);
    }
 
    isInverse(): boolean {
-      return this.time > this.tailTime;
+      return isInverseSlider(this);
    }
 }
