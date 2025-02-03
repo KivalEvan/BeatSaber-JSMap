@@ -3,24 +3,24 @@ import type {
    EnvironmentName,
    EnvironmentV3Name,
 } from '../../../types/beatmap/shared/environment.ts';
-import type { IInfo, IInfoSet } from '../../../types/beatmap/v2/info.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy, shallowCopy } from '../../../utils/misc.ts';
-import type {
-   IWrapInfoAttribute,
-   IWrapInfoColorScheme,
-} from '../../../types/beatmap/wrapper/info.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import { infoBeatmap } from './infoBeatmap.ts';
+import type { IInfo, IInfoSet } from '../../../types/beatmap/v2/info.ts';
+import type { IWrapInfoAttribute } from '../../../types/beatmap/wrapper/info.ts';
+import { deepCopy, shallowCopy } from '../../../utils/misc.ts';
 import { is360Environment } from '../../helpers/environment.ts';
+import { infoBeatmap } from './infoBeatmap.ts';
+
+type InfoPolyfills = Pick<IWrapInfoAttribute, 'filename'> & {
+   audio: Pick<IWrapInfoAttribute['audio'], 'audioDataFilename' | 'lufs' | 'duration'>;
+};
 
 /**
  * Schema serialization for v2 `Info`.
  */
-export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
-   serialize(data: IWrapInfoAttribute): IInfo {
+export const info: ISchemaContainer<IWrapInfoAttribute, IInfo, InfoPolyfills> = {
+   serialize(data) {
       const authorSet = new Set();
-      const d: IInfo = {
+      const d: Required<IInfo> = {
          _version: '2.1.0',
          _songName: data.song.title,
          _songSubName: data.song.subTitle,
@@ -90,109 +90,111 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
       d._levelAuthorName = [...authorSet].join(', ');
       return d;
    },
-   deserialize(data: DeepPartial<IInfo> = {}): DeepPartial<IWrapInfoAttribute> {
-      const d: DeepPartial<IWrapInfoAttribute> = {
+   deserialize(data, options) {
+      return {
          version: 2,
+         filename: options?.filename ?? 'Info.dat',
          song: {
-            title: data._songName,
-            subTitle: data._songSubName,
-            author: data._songAuthorName,
+            title: data._songName ?? '',
+            subTitle: data._songSubName ?? '',
+            author: data._songAuthorName ?? '',
          },
          audio: {
-            bpm: data._beatsPerMinute,
-            previewStartTime: data._previewStartTime,
-            previewDuration: data._previewDuration,
-            filename: data._songFilename,
-            audioOffset: data._songTimeOffset,
-            shuffle: data._shuffle,
-            shufflePeriod: data._shufflePeriod,
+            audioDataFilename: options?.audio?.audioDataFilename ?? 'BPMInfo.dat',
+            bpm: data._beatsPerMinute ?? 120,
+            lufs: options?.audio?.lufs ?? 0,
+            duration: options?.audio?.duration ?? 0,
+            previewStartTime: data._previewStartTime ?? 0,
+            previewDuration: data._previewDuration ?? 0,
+            filename: data._songFilename ?? 'song.ogg',
+            audioOffset: data._songTimeOffset ?? 0,
+            shuffle: data._shuffle ?? 0,
+            shufflePeriod: data._shufflePeriod ?? 0.5,
          },
-         songPreviewFilename: data._songFilename,
-         coverImageFilename: data._coverImageFilename,
+         songPreviewFilename: data._songFilename ?? 'song.ogg',
+         coverImageFilename: data._coverImageFilename ?? 'cover.jpg',
          environmentBase: {
-            normal: data._environmentName,
-            allDirections: data._allDirectionsEnvironmentName,
+            normal: data._environmentName ?? 'DefaultEnvironment',
+            allDirections: data._allDirectionsEnvironmentName ?? 'GlassDesertEnvironment',
          },
-         environmentNames: data._environmentNames?.map((e) => e),
+         environmentNames: data._environmentNames ?? [],
          colorSchemes: data._colorSchemes?.map((e) => {
-            const scheme: DeepPartial<IWrapInfoColorScheme> = {
-               name: e.colorScheme?.colorSchemeId,
+            return {
+               name: e.colorScheme?.colorSchemeId ?? '',
                overrideNotes: !!e.useOverride,
                overrideLights: !!e.useOverride,
                saberLeftColor: {
-                  r: e.colorScheme?.saberAColor?.r,
-                  g: e.colorScheme?.saberAColor?.g,
-                  b: e.colorScheme?.saberAColor?.b,
-                  a: e.colorScheme?.saberAColor?.a,
+                  r: e.colorScheme?.saberAColor?.r ?? 0,
+                  g: e.colorScheme?.saberAColor?.g ?? 0,
+                  b: e.colorScheme?.saberAColor?.b ?? 0,
+                  a: e.colorScheme?.saberAColor?.a ?? 0,
                },
                saberRightColor: {
-                  r: e.colorScheme?.saberBColor?.r,
-                  g: e.colorScheme?.saberBColor?.g,
-                  b: e.colorScheme?.saberBColor?.b,
-                  a: e.colorScheme?.saberBColor?.a,
+                  r: e.colorScheme?.saberBColor?.r ?? 0,
+                  g: e.colorScheme?.saberBColor?.g ?? 0,
+                  b: e.colorScheme?.saberBColor?.b ?? 0,
+                  a: e.colorScheme?.saberBColor?.a ?? 0,
                },
                environment0Color: {
-                  r: e.colorScheme?.environmentColor0?.r,
-                  g: e.colorScheme?.environmentColor0?.g,
-                  b: e.colorScheme?.environmentColor0?.b,
-                  a: e.colorScheme?.environmentColor0?.a,
+                  r: e.colorScheme?.environmentColor0?.r ?? 0,
+                  g: e.colorScheme?.environmentColor0?.g ?? 0,
+                  b: e.colorScheme?.environmentColor0?.b ?? 0,
+                  a: e.colorScheme?.environmentColor0?.a ?? 0,
                },
                environment1Color: {
-                  r: e.colorScheme?.environmentColor1?.r,
-                  g: e.colorScheme?.environmentColor1?.g,
-                  b: e.colorScheme?.environmentColor1?.b,
-                  a: e.colorScheme?.environmentColor1?.a,
+                  r: e.colorScheme?.environmentColor1?.r ?? 0,
+                  g: e.colorScheme?.environmentColor1?.g ?? 0,
+                  b: e.colorScheme?.environmentColor1?.b ?? 0,
+                  a: e.colorScheme?.environmentColor1?.a ?? 0,
                },
                obstaclesColor: {
-                  r: e.colorScheme?.obstaclesColor?.r,
-                  g: e.colorScheme?.obstaclesColor?.g,
-                  b: e.colorScheme?.obstaclesColor?.b,
-                  a: e.colorScheme?.obstaclesColor?.a,
+                  r: e.colorScheme?.obstaclesColor?.r ?? 0,
+                  g: e.colorScheme?.obstaclesColor?.g ?? 0,
+                  b: e.colorScheme?.obstaclesColor?.b ?? 0,
+                  a: e.colorScheme?.obstaclesColor?.a ?? 0,
                },
                environment0ColorBoost: {
-                  r: e.colorScheme?.environmentColor0Boost?.r,
-                  g: e.colorScheme?.environmentColor0Boost?.g,
-                  b: e.colorScheme?.environmentColor0Boost?.b,
-                  a: e.colorScheme?.environmentColor0Boost?.a,
+                  r: e.colorScheme?.environmentColor0Boost?.r ?? 0,
+                  g: e.colorScheme?.environmentColor0Boost?.g ?? 0,
+                  b: e.colorScheme?.environmentColor0Boost?.b ?? 0,
+                  a: e.colorScheme?.environmentColor0Boost?.a ?? 0,
                },
                environment1ColorBoost: {
-                  r: e.colorScheme?.environmentColor1Boost?.r,
-                  g: e.colorScheme?.environmentColor1Boost?.g,
-                  b: e.colorScheme?.environmentColor1Boost?.b,
-                  a: e.colorScheme?.environmentColor1Boost?.a,
+                  r: e.colorScheme?.environmentColor1Boost?.r ?? 0,
+                  g: e.colorScheme?.environmentColor1Boost?.g ?? 0,
+                  b: e.colorScheme?.environmentColor1Boost?.b ?? 0,
+                  a: e.colorScheme?.environmentColor1Boost?.a ?? 0,
                },
+               environmentWColor: e.colorScheme?.environmentColorW
+                  ? {
+                     r: e.colorScheme?.environmentColorW?.r ?? 0,
+                     g: e.colorScheme?.environmentColorW?.g ?? 0,
+                     b: e.colorScheme?.environmentColorW?.b ?? 0,
+                     a: e.colorScheme?.environmentColorW?.a ?? 0,
+                  }
+                  : undefined,
+               environmentWColorBoost: e.colorScheme?.environmentColorWBoost
+                  ? {
+                     r: e.colorScheme?.environmentColorWBoost?.r ?? 0,
+                     g: e.colorScheme?.environmentColorWBoost?.g ?? 0,
+                     b: e.colorScheme?.environmentColorWBoost?.b ?? 0,
+                     a: e.colorScheme?.environmentColorWBoost?.a ?? 0,
+                  }
+                  : undefined,
             };
-            if (e.colorScheme?.environmentColorW) {
-               scheme.environmentWColor = {
-                  r: e.colorScheme?.environmentColorW?.r,
-                  g: e.colorScheme?.environmentColorW?.g,
-                  b: e.colorScheme?.environmentColorW?.b,
-                  a: e.colorScheme?.environmentColorW?.a,
-               };
-            }
-            if (e.colorScheme?.environmentColorWBoost) {
-               scheme.environmentWColorBoost = {
-                  r: e.colorScheme?.environmentColorWBoost?.r,
-                  g: e.colorScheme?.environmentColorWBoost?.g,
-                  b: e.colorScheme?.environmentColorWBoost?.b,
-                  a: e.colorScheme?.environmentColorWBoost?.a,
-               };
-            }
-            return scheme;
-         }),
-         difficulties: data._difficultyBeatmapSets?.flatMap((set) =>
-            set._difficultyBeatmaps?.map((diff) => {
-               const m = infoBeatmap.deserialize(diff);
-               m.characteristic = set._beatmapCharacteristicName;
-               m.authors = {
-                  mappers: [data._levelAuthorName],
-               };
-               return m;
-            })
-         ),
-         customData: data._customData,
+         }) ?? [],
+         difficulties: data._difficultyBeatmapSets?.flatMap((set) => {
+            return set._difficultyBeatmaps?.map((diff) => {
+               return infoBeatmap.deserialize(diff, {
+                  characteristic: set._beatmapCharacteristicName ?? 'Standard',
+                  authors: {
+                     mappers: data._levelAuthorName?.split(',') ?? [],
+                     lighters: [],
+                  },
+               });
+            }) ?? [];
+         }) ?? [],
+         customData: data._customData ?? {},
       };
-
-      return d;
    },
 };

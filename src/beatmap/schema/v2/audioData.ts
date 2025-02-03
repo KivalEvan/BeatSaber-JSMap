@@ -1,13 +1,14 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IBPMInfo } from '../../../types/beatmap/v2/bpmInfo.ts';
 import type { IWrapAudioDataAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
+
+type AudioDataPolyfills = Pick<IWrapAudioDataAttribute, 'filename' | 'audioChecksum'>;
 
 /**
  * Schema serialization for v2 `Audio Data`.
  */
-export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IBPMInfo> = {
-   serialize(data: IWrapAudioDataAttribute): IBPMInfo {
+export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IBPMInfo, AudioDataPolyfills> = {
+   serialize(data) {
       return {
          _version: '2.0.0',
          _songSampleCount: data.sampleCount,
@@ -20,17 +21,21 @@ export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IBPMInfo> = {
          })),
       };
    },
-   deserialize(data: DeepPartial<IBPMInfo> = {}): DeepPartial<IWrapAudioDataAttribute> {
+   deserialize(data, options) {
       return {
          version: 2,
-         sampleCount: data._songSampleCount,
-         frequency: data._songFrequency,
+         filename: options?.filename ?? 'BPMInfo.dat',
+         audioChecksum: options?.audioChecksum ?? '',
+         sampleCount: data._songSampleCount ?? 0,
+         frequency: data._songFrequency ?? 0,
          bpmData: data._regions?.map((bd) => ({
             startBeat: bd?._startBeat,
             endBeat: bd?._endBeat,
             startSampleIndex: bd?._startSampleIndex,
             endSampleIndex: bd?._endSampleIndex,
-         })),
+         })) ?? [],
+         lufsData: [],
+         customData: {},
       };
    },
 };

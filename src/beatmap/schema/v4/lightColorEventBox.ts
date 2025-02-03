@@ -1,7 +1,6 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightColorBoxContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightColorEventBoxAttribute } from '../../../types/beatmap/wrapper/lightColorEventBox.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightColorEvent } from './lightColorEvent.ts';
@@ -13,7 +12,7 @@ export const lightColorEventBox: ISchemaContainer<
    IWrapLightColorEventBoxAttribute,
    ILightColorBoxContainer
 > = {
-   serialize(data: IWrapLightColorEventBoxAttribute): ILightColorBoxContainer {
+   serialize(data) {
       return {
          data: {
             w: data.beatDistribution,
@@ -24,23 +23,25 @@ export const lightColorEventBox: ISchemaContainer<
             e: data.easing,
             customData: deepCopy(data.customData),
          },
-         eventData: data.events.map(lightColorEvent.serialize),
+         eventData: data.events.map((x) => {
+            return lightColorEvent.serialize(x);
+         }),
          filterData: indexFilter.serialize(data.filter),
       };
    },
-   deserialize(
-      data: DeepPartial<ILightColorBoxContainer> = {},
-   ): DeepPartial<IWrapLightColorEventBoxAttribute> {
+   deserialize(data) {
       return {
-         filter: indexFilter.deserialize(data.filterData),
-         beatDistribution: data.data?.w,
-         beatDistributionType: data.data?.d,
-         brightnessDistribution: data.data?.s,
-         brightnessDistributionType: data.data?.t,
-         affectFirst: data.data?.b,
-         easing: data.data?.e,
-         events: data.eventData?.map(lightColorEvent.deserialize),
-         customData: data.data?.customData,
+         filter: indexFilter.deserialize(data.filterData ?? {}),
+         beatDistribution: data.data?.w ?? 0,
+         beatDistributionType: data.data?.d ?? 1,
+         brightnessDistribution: data.data?.s ?? 0,
+         brightnessDistributionType: data.data?.t ?? 1,
+         affectFirst: data.data?.b ?? 0,
+         easing: data.data?.e ?? 0,
+         events: data.eventData?.map((x) => {
+            return lightColorEvent.deserialize(x);
+         }) ?? [],
+         customData: data.data?.customData ?? {},
       };
    },
 };

@@ -1,7 +1,6 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightRotationBoxContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightRotationEventBoxAttribute } from '../../../types/beatmap/wrapper/lightRotationEventBox.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightRotationEvent } from './lightRotationEvent.ts';
@@ -13,7 +12,7 @@ export const lightRotationEventBox: ISchemaContainer<
    IWrapLightRotationEventBoxAttribute,
    ILightRotationBoxContainer
 > = {
-   serialize(data: IWrapLightRotationEventBoxAttribute): ILightRotationBoxContainer {
+   serialize(data) {
       return {
          data: {
             w: data.beatDistribution,
@@ -26,25 +25,27 @@ export const lightRotationEventBox: ISchemaContainer<
             f: data.flip,
             customData: deepCopy(data.customData),
          },
-         eventData: data.events.map(lightRotationEvent.serialize),
+         eventData: data.events.map((x) => {
+            return lightRotationEvent.serialize(x);
+         }),
          filterData: indexFilter.serialize(data.filter),
       };
    },
-   deserialize(
-      data: DeepPartial<ILightRotationBoxContainer> = {},
-   ): DeepPartial<IWrapLightRotationEventBoxAttribute> {
+   deserialize(data) {
       return {
-         filter: indexFilter.deserialize(data.filterData),
-         beatDistribution: data.data?.w,
-         beatDistributionType: data.data?.d,
-         rotationDistribution: data.data?.s,
-         rotationDistributionType: data.data?.t,
-         affectFirst: data.data?.b,
-         easing: data.data?.e,
-         axis: data.data?.a,
-         flip: data.data?.f,
-         events: data.eventData?.map(lightRotationEvent.deserialize),
-         customData: data.data?.customData,
+         filter: indexFilter.deserialize(data.filterData ?? {}),
+         beatDistribution: data.data?.w ?? 0,
+         beatDistributionType: data.data?.d ?? 1,
+         rotationDistribution: data.data?.s ?? 0,
+         rotationDistributionType: data.data?.t ?? 1,
+         affectFirst: data.data?.b ?? 0,
+         easing: data.data?.e ?? 0,
+         axis: data.data?.a ?? 0,
+         flip: data.data?.f ?? 0,
+         events: data.eventData?.map((x) => {
+            return lightRotationEvent.deserialize(x);
+         }) ?? [],
+         customData: data.data?.customData ?? {},
       };
    },
 };

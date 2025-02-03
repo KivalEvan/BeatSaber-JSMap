@@ -7,7 +7,7 @@ import { deepCopy } from '../../../utils/misc.ts';
  * Schema serialization for v3 `Waypoint`.
  */
 export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypoint> = {
-   serialize(data: IWrapWaypointAttribute): IWaypoint {
+   serialize(data) {
       return {
          b: data.time,
          x: data.posX,
@@ -16,13 +16,14 @@ export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypoint> = {
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IWaypoint> = {}): Partial<IWrapWaypointAttribute> {
+   deserialize(data) {
       return {
-         time: data.b,
-         posX: data.x,
-         posY: data.y,
-         direction: data.d,
-         customData: data.customData,
+         time: data.b ?? 0,
+         laneRotation: 0,
+         posX: data.x ?? 0,
+         posY: data.y ?? 0,
+         direction: data.d ?? 0,
+         customData: data.customData ?? {},
       };
    },
 };

@@ -7,7 +7,7 @@ import { deepCopy } from '../../../utils/misc.ts';
  * Schema serialization for v3 `Arc`.
  */
 export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
-   serialize(data: IWrapArcAttribute): IArc {
+   serialize(data) {
       return {
          b: data.time,
          c: data.color,
@@ -24,21 +24,23 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IArc> = {}): Partial<IWrapArcAttribute> {
+   deserialize(data) {
       return {
-         time: data.b,
-         color: data.c,
-         posX: data.x,
-         posY: data.y,
-         direction: data.d,
-         lengthMultiplier: data.mu,
-         tailTime: data.tb,
-         tailPosX: data.tx,
-         tailPosY: data.ty,
-         tailDirection: data.tc,
-         tailLengthMultiplier: data.tmu,
-         midAnchor: data.m,
-         customData: data.customData,
+         time: data.b ?? 0,
+         color: data.c ?? 0,
+         posX: data.x ?? 0,
+         posY: data.y ?? 0,
+         direction: data.d ?? 0,
+         lengthMultiplier: data.mu ?? 0,
+         laneRotation: 0,
+         tailTime: data.tb ?? 0,
+         tailPosX: data.tx ?? 0,
+         tailPosY: data.ty ?? 0,
+         tailDirection: data.tc ?? 0,
+         tailLengthMultiplier: data.tmu ?? 0,
+         midAnchor: data.m ?? 0,
+         tailLaneRotation: 0,
+         customData: data.customData ?? {},
       };
    },
 };

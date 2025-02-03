@@ -1,14 +1,13 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IObstacleContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
 import { deepCopy } from '../../../utils/misc.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 
 /**
  * Schema serialization for v4 `Obstacle`.
  */
 export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacleContainer> = {
-   serialize(data: IWrapObstacleAttribute): IObstacleContainer {
+   serialize(data) {
       return {
          object: {
             b: data.time,
@@ -26,16 +25,16 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacleContain
          },
       };
    },
-   deserialize(data: DeepPartial<IObstacleContainer> = {}): Partial<IWrapObstacleAttribute> {
+   deserialize(data) {
       return {
-         time: data.object?.b,
-         laneRotation: data.object?.r,
-         posX: data.data?.x,
-         posY: data.data?.y,
-         duration: data.data?.d,
-         width: data.data?.w,
-         height: data.data?.h,
-         customData: data.data?.customData,
+         time: data.object?.b ?? 0,
+         laneRotation: data.object?.r ?? 0,
+         posX: data.data?.x ?? 0,
+         posY: data.data?.y ?? 0,
+         duration: data.data?.d ?? 0,
+         width: data.data?.w ?? 0,
+         height: data.data?.h ?? 0,
+         customData: data.data?.customData ?? {},
       };
    },
 };

@@ -1,10 +1,9 @@
+import type { IFxEventFloatBoxContainer } from '../../../types/beatmap/container/v3.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapFxEventBoxAttribute } from '../../../types/beatmap/wrapper/fxEventBox.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
-import { indexFilter } from './indexFilter.ts';
 import { fxEventFloat } from './fxEventFloat.ts';
-import type { IFxEventFloatBoxContainer } from '../../../types/beatmap/container/v3.ts';
+import { indexFilter } from './indexFilter.ts';
 
 /**
  * Schema serialization for v3 `FX Event Box`.
@@ -23,22 +22,24 @@ export const fxEventBox: ISchemaContainer<IWrapFxEventBoxAttribute, IFxEventFloa
             l: [],
             customData: deepCopy(data.customData),
          },
-         eventData: data.events.map(fxEventFloat.serialize),
+         eventData: data.events.map((x) => {
+            return fxEventFloat.serialize(x);
+         }),
       };
    },
-   deserialize(
-      data: DeepPartial<IFxEventFloatBoxContainer> = {},
-   ): DeepPartial<IWrapFxEventBoxAttribute> {
+   deserialize(data) {
       return {
-         filter: indexFilter.deserialize(data.data?.f),
-         beatDistribution: data.data?.w,
-         beatDistributionType: data.data?.d,
-         fxDistribution: data.data?.s,
-         fxDistributionType: data.data?.t,
-         affectFirst: data.data?.b,
-         easing: data.data?.i,
-         events: data.eventData?.map(fxEventFloat.deserialize),
-         customData: data.data?.customData,
+         filter: indexFilter.deserialize(data.data?.f ?? {}),
+         beatDistribution: data.data?.w ?? 0,
+         beatDistributionType: data.data?.d ?? 1,
+         fxDistribution: data.data?.s ?? 0,
+         fxDistributionType: data.data?.t ?? 1,
+         affectFirst: data.data?.b ?? 0,
+         easing: data.data?.i ?? 0,
+         events: data.eventData?.map((x) => {
+            return fxEventFloat.deserialize(x);
+         }) ?? [],
+         customData: data.data?.customData ?? {},
       };
    },
 };

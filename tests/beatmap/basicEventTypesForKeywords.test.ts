@@ -1,5 +1,5 @@
-import { assertEquals, BasicEventTypesForKeywords, v2, v3 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, BasicEventTypesForKeywords, v2, v3 } from '../deps.ts';
 
 const schemaList = [
    [v3.basicEventTypesForKeywords, 'V3 Basic Event Types For Keywords'],
@@ -43,7 +43,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
@@ -52,11 +53,19 @@ for (const tup of schemaList) {
 
       switch (schema) {
          case v3.basicEventTypesForKeywords:
-            obj = new BaseClass(schema.deserialize({ k: 'test', e: [1, 2] }));
+            obj = new BaseClass(
+               (schema as typeof v3.basicEventTypesForKeywords).deserialize({
+                  k: 'test',
+                  e: [1, 2],
+               }),
+            );
             break;
          case v2.basicEventTypesForKeywords:
             obj = new BaseClass(
-               schema.deserialize({ _keyword: 'test', _specialEvents: [1, 2] }),
+               (schema as typeof v2.basicEventTypesForKeywords).deserialize({
+                  _keyword: 'test',
+                  _specialEvents: [1, 2],
+               }),
             );
             break;
       }
@@ -68,11 +77,15 @@ for (const tup of schemaList) {
 
       switch (schema) {
          case v3.basicEventTypesForKeywords:
-            obj = new BaseClass(schema.deserialize({ e: [1, 2] }));
+            obj = new BaseClass(
+               (schema as typeof v3.basicEventTypesForKeywords).deserialize({
+                  e: [1, 2],
+               }),
+            );
             break;
          case v2.basicEventTypesForKeywords:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.basicEventTypesForKeywords).deserialize({
                   _specialEvents: [1, 2],
                }),
             );

@@ -6,7 +6,7 @@ import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/col
  * Schema serialization for v1 `Color Note`.
  */
 export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, INote> = {
-   serialize(data: IWrapColorNoteAttribute): INote {
+   serialize(data) {
       return {
          _time: data.time,
          _lineIndex: data.posX,
@@ -15,13 +15,16 @@ export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, INote> = {
          _cutDirection: data.direction,
       };
    },
-   deserialize(data: Partial<INote> = {}): Partial<IWrapColorNoteAttribute> {
+   deserialize(data) {
       return {
-         time: data._time,
-         posX: data._lineIndex,
-         posY: data._lineLayer,
-         color: data._type as 0,
-         direction: data._cutDirection,
+         time: data._time ?? 0,
+         laneRotation: 0,
+         posX: data._lineIndex ?? 0,
+         posY: data._lineLayer ?? 0,
+         color: data._type as 0 ?? 0,
+         direction: data._cutDirection ?? 0,
+         angleOffset: 0,
+         customData: {},
       };
    },
 };

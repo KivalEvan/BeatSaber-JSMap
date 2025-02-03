@@ -7,7 +7,7 @@ import { deepCopy } from '../../../utils/misc.ts';
  * Schema serialization for v3 `Obstacle`.
  */
 export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
-   serialize(data: IWrapObstacleAttribute): IObstacle {
+   serialize(data) {
       return {
          b: data.time,
          x: data.posX,
@@ -18,15 +18,16 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IObstacle> = {}): Partial<IWrapObstacleAttribute> {
+   deserialize(data) {
       return {
-         time: data.b,
-         posX: data.x,
-         posY: data.y,
-         duration: data.d,
-         width: data.w,
-         height: data.h,
-         customData: data.customData,
+         time: data.b ?? 0,
+         laneRotation: 0,
+         posX: data.x ?? 0,
+         posY: data.y ?? 0,
+         duration: data.d ?? 0,
+         width: data.w ?? 0,
+         height: data.h ?? 0,
+         customData: data.customData ?? {},
       };
    },
 };

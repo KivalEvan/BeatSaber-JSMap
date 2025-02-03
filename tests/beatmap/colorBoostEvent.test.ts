@@ -1,5 +1,5 @@
-import { assertEquals, ColorBoostEvent, v1, v2, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, ColorBoostEvent, v1, v2, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.colorBoostEvent, 'V4 Color Boost Event'],
@@ -52,7 +52,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
@@ -62,20 +63,29 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.colorBoostEvent:
             obj = new BaseClass(
-               schema.deserialize({
-                  object: { b: 1 },
-                  data: { b: 1, customData: { test: true } },
+               (schema as typeof v4.colorBoostEvent).deserialize({
+                  object: {
+                     b: 1,
+                  },
+                  data: {
+                     b: 1,
+                     customData: { test: true },
+                  },
                }),
             );
             break;
          case v3.colorBoostEvent:
             obj = new BaseClass(
-               schema.deserialize({ b: 1, o: true, customData: { test: true } }),
+               (schema as typeof v3.colorBoostEvent).deserialize({
+                  b: 1,
+                  o: true,
+                  customData: { test: true },
+               }),
             );
             break;
          case v2.colorBoostEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.colorBoostEvent).deserialize({
                   _time: 1,
                   _type: 5,
                   _value: 1,
@@ -86,7 +96,11 @@ for (const tup of schemaList) {
             break;
          case v1.colorBoostEvent:
             obj = new BaseClass(
-               schema.deserialize({ _time: 1, _type: 5, _value: 1 }),
+               (schema as typeof v1.colorBoostEvent).deserialize({
+                  _time: 1,
+                  _type: 5,
+                  _value: 1,
+               }),
             );
             break;
       }
@@ -102,16 +116,34 @@ for (const tup of schemaList) {
 
       switch (schema) {
          case v4.colorBoostEvent:
-            obj = new BaseClass(schema.deserialize({ object: { b: 1 } }));
+            obj = new BaseClass(
+               (schema as typeof v4.colorBoostEvent).deserialize({
+                  object: {
+                     b: 1,
+                  },
+                  data: {},
+               }),
+            );
             break;
          case v3.colorBoostEvent:
-            obj = new BaseClass(schema.deserialize({ b: 1 }));
+            obj = new BaseClass(
+               (schema as typeof v3.colorBoostEvent).deserialize({
+                  b: 1,
+               }),
+            );
             break;
          case v2.colorBoostEvent:
-            obj = new BaseClass(schema.deserialize({ _time: 1 }));
+            obj = new BaseClass((schema as typeof v2.colorBoostEvent).deserialize({
+               _time: 1,
+            }));
             break;
          case v1.colorBoostEvent:
-            obj = new BaseClass(schema.deserialize({ _time: 1 }));
+            obj = new BaseClass(
+               // @ts-expect-error awaiting updated type definitions from outgoing pull request
+               (schema as typeof v1.colorBoostEvent).deserialize({
+                  _time: 1,
+               }),
+            );
             break;
       }
       assertObjectMatch(

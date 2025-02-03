@@ -1,5 +1,5 @@
-import { assertEquals, LightRotationEventBoxGroup, types, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, LightRotationEventBoxGroup, types, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.lightRotationEventBoxGroup, 'V4 Light Rotation Event Box Group'],
@@ -192,7 +192,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
@@ -202,9 +203,9 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.lightRotationEventBoxGroup:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.lightRotationEventBoxGroup).deserialize({
                   object: {
-                     t: types.EventBoxType.COLOR,
+                     t: types.EventBoxType.ROTATION,
                      b: 1,
                      g: 2,
                      e: [
@@ -262,7 +263,7 @@ for (const tup of schemaList) {
             break;
          case v3.lightRotationEventBoxGroup:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.lightRotationEventBoxGroup).deserialize({
                   b: 1,
                   g: 2,
                   e: [
@@ -354,9 +355,9 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.lightRotationEventBoxGroup:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.lightRotationEventBoxGroup).deserialize({
                   object: {
-                     t: types.EventBoxType.COLOR,
+                     t: types.EventBoxType.ROTATION,
                      b: 1,
                   },
                   boxData: [
@@ -388,7 +389,7 @@ for (const tup of schemaList) {
             break;
          case v3.lightRotationEventBoxGroup:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.lightRotationEventBoxGroup).deserialize({
                   b: 1,
                   e: [
                      {

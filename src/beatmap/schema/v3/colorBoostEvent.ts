@@ -7,18 +7,18 @@ import { deepCopy } from '../../../utils/misc.ts';
  * Schema serialization for v3 `Color Boost Event`.
  */
 export const colorBoostEvent: ISchemaContainer<IWrapColorBoostEventAttribute, IColorBoostEvent> = {
-   serialize(data: IWrapColorBoostEventAttribute): IColorBoostEvent {
+   serialize(data) {
       return {
          b: data.time,
          o: data.toggle,
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IColorBoostEvent> = {}): Partial<IWrapColorBoostEventAttribute> {
+   deserialize(data = {}) {
       return {
-         time: data.b,
-         toggle: data.o,
-         customData: data.customData,
+         time: data.b ?? 0,
+         toggle: !!data.o,
+         customData: data.customData ?? {},
       };
    },
 };

@@ -7,7 +7,7 @@ import { remap } from '../../../utils/math.ts';
  * Schema serialization for v1 `Obstacle`.
  */
 export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
-   serialize(data: IWrapObstacleAttribute): IObstacle {
+   serialize(data) {
       let type = 0;
       if (data.height >= 0 && data.posY >= 0) {
          type = data.height * 1000 + data.posY + 4001;
@@ -24,7 +24,7 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          _width: data.width,
       };
    },
-   deserialize(data: Partial<IObstacle> = {}): Partial<IWrapObstacleAttribute> {
+   deserialize(data) {
       const type = data._type ?? 0;
       // FIXME: this might be entirely wrong
       const height = type === 1
@@ -40,12 +40,14 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          ? Math.floor((type - 4001) / 1000)
          : 0;
       return {
-         time: data._time,
+         time: data._time ?? 0,
+         laneRotation: 0,
          posY,
-         posX: data._lineIndex,
-         duration: data._duration,
-         width: data._width,
+         posX: data._lineIndex ?? 0,
+         duration: data._duration ?? 0,
+         width: data._width ?? 0,
          height,
+         customData: {},
       };
    },
 };
