@@ -7,7 +7,7 @@ import { deepCopy } from '../../../utils/misc.ts';
  * Schema serialization for v3 `FX Event Float`.
  */
 export const fxEventFloat: ISchemaContainer<IWrapFxEventFloatAttribute, IFxEventFloat> = {
-   serialize(data: IWrapFxEventFloatAttribute): IFxEventFloat {
+   serialize(data) {
       return {
          b: data.time,
          i: data.easing,
@@ -16,13 +16,13 @@ export const fxEventFloat: ISchemaContainer<IWrapFxEventFloatAttribute, IFxEvent
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IFxEventFloat> = {}): Partial<IWrapFxEventFloatAttribute> {
+   deserialize(data) {
       return {
-         time: data.b,
-         easing: data.i,
-         previous: data.p,
-         value: data.v,
-         customData: data.customData,
+         time: data.b ?? 0,
+         easing: data.i ?? 0,
+         previous: data.p ?? 0,
+         value: data.v ?? 0,
+         customData: data.customData ?? {},
       };
    },
 };

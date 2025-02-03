@@ -8,7 +8,7 @@ import { EaseType, TransitionType } from '../../shared/constants.ts';
  * Schema serialization for v3 `Light Color Event`.
  */
 export const lightColorEvent: ISchemaContainer<IWrapLightColorEventAttribute, ILightColorEvent> = {
-   serialize(data: IWrapLightColorEventAttribute): ILightColorEvent {
+   serialize(data) {
       return {
          b: data.time,
          c: data.color,
@@ -24,17 +24,17 @@ export const lightColorEvent: ISchemaContainer<IWrapLightColorEventAttribute, IL
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<ILightColorEvent> = {}): Partial<IWrapLightColorEventAttribute> {
+   deserialize(data) {
       return {
-         time: data.b,
-         color: data.c,
-         frequency: data.f,
+         time: data.b ?? 0,
+         color: data.c ?? 0,
+         frequency: data.f ?? 0,
          previous: data.i === TransitionType.EXTEND ? 1 : 0,
          easing: data.i === TransitionType.INTERPOLATE ? EaseType.LINEAR : EaseType.NONE,
-         brightness: data.s,
-         strobeBrightness: data.sb,
-         strobeFade: data.sf,
-         customData: data.customData,
+         brightness: data.s ?? 0,
+         strobeBrightness: data.sb ?? 0,
+         strobeFade: data.sf ?? 0,
+         customData: data.customData ?? {},
       };
    },
 };

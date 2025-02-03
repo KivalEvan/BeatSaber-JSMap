@@ -1,13 +1,13 @@
-import type { IEvent } from '../../../types/beatmap/v2/event.ts';
-import { deepCopy } from '../../../utils/misc.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
+import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import type { IWrapColorBoostEventAttribute } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
+import { deepCopy } from '../../../utils/misc.ts';
 
 /**
  * Schema serialization for v2 `Color Boost Event`.
  */
 export const colorBoostEvent: ISchemaContainer<IWrapColorBoostEventAttribute, IEvent> = {
-   serialize(data: IWrapColorBoostEventAttribute): IEvent {
+   serialize(data) {
       return {
          _time: data.time,
          _type: 5,
@@ -16,11 +16,11 @@ export const colorBoostEvent: ISchemaContainer<IWrapColorBoostEventAttribute, IE
          _customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IEvent> = {}): Partial<IWrapColorBoostEventAttribute> {
+   deserialize(data) {
       return {
-         time: data._time,
+         time: data._time ?? 0,
          toggle: data._value === 1,
-         customData: data._customData,
+         customData: data._customData ?? {},
       };
    },
 };

@@ -1,5 +1,5 @@
-import { assertEquals, BPMEvent, v1, v2, v3 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, BPMEvent, v1, v2, v3 } from '../deps.ts';
 
 const schemaList = [
    [v3.bpmEvent, 'V3 BPM Event'],
@@ -51,7 +51,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
@@ -61,12 +62,16 @@ for (const tup of schemaList) {
       switch (schema) {
          case v3.bpmEvent:
             obj = new BaseClass(
-               schema.deserialize({ b: 1, m: 120, customData: { test: true } }),
+               (schema as typeof v3.bpmEvent).deserialize({
+                  b: 1,
+                  m: 120,
+                  customData: { test: true },
+               }),
             );
             break;
          case v2.bpmEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.bpmEvent).deserialize({
                   _time: 1,
                   _floatValue: 120,
                   _customData: { test: true },
@@ -74,7 +79,13 @@ for (const tup of schemaList) {
             );
             break;
          case v1.bpmEvent:
-            obj = new BaseClass(schema.deserialize({ _time: 1, _value: 120 }));
+            obj = new BaseClass(
+               (schema as typeof v1.bpmEvent).deserialize({
+                  _time: 1,
+                  _type: 100,
+                  _value: 120,
+               }),
+            );
             break;
       }
       assertObjectMatch(
@@ -85,13 +96,26 @@ for (const tup of schemaList) {
 
       switch (schema) {
          case v3.bpmEvent:
-            obj = new BaseClass(schema.deserialize({ m: 120 }));
+            obj = new BaseClass(
+               (schema as typeof v3.bpmEvent).deserialize({
+                  m: 120,
+               }),
+            );
             break;
          case v2.bpmEvent:
-            obj = new BaseClass(schema.deserialize({ _floatValue: 120 }));
+            obj = new BaseClass(
+               (schema as typeof v2.bpmEvent).deserialize({
+                  _floatValue: 120,
+               }),
+            );
             break;
          case v1.bpmEvent:
-            obj = new BaseClass(schema.deserialize({ _value: 120 }));
+            obj = new BaseClass(
+               // @ts-expect-error awaiting updated type definitions from outgoing pull request
+               (schema as typeof v1.bpmEvent).deserialize({
+                  _value: 120,
+               }),
+            );
             break;
       }
       assertObjectMatch(

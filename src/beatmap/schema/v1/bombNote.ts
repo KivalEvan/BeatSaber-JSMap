@@ -6,7 +6,7 @@ import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bomb
  * Schema serialization for v1 `Bomb Note`.
  */
 export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
-   serialize(data: IWrapBombNoteAttribute): INote {
+   serialize(data) {
       return {
          _time: data.time,
          _lineIndex: data.posX,
@@ -15,12 +15,15 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
          _cutDirection: data.direction,
       };
    },
-   deserialize(data: Partial<INote> = {}): Partial<IWrapBombNoteAttribute> {
+   deserialize(data) {
       return {
-         time: data._time,
-         posX: data._lineIndex,
-         posY: data._lineLayer,
-         direction: data._cutDirection,
+         time: data._time ?? 0,
+         laneRotation: 0,
+         posX: data._lineIndex ?? 0,
+         posY: data._lineLayer ?? 0,
+         color: -1,
+         direction: data._cutDirection ?? 0,
+         customData: {},
       };
    },
 };

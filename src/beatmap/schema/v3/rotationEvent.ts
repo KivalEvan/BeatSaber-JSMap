@@ -7,7 +7,7 @@ import { deepCopy } from '../../../utils/misc.ts';
  * Schema serialization for v3 `Rotation Event`.
  */
 export const rotationEvent: ISchemaContainer<IWrapRotationEventAttribute, IRotationEvent> = {
-   serialize(data: IWrapRotationEventAttribute): IRotationEvent {
+   serialize(data) {
       return {
          b: data.time,
          e: data.executionTime,
@@ -15,12 +15,12 @@ export const rotationEvent: ISchemaContainer<IWrapRotationEventAttribute, IRotat
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IRotationEvent> = {}): Partial<IWrapRotationEventAttribute> {
+   deserialize(data) {
       return {
-         time: data.b,
-         executionTime: data.e,
-         rotation: data.r,
-         customData: data.customData,
+         time: data.b ?? 0,
+         executionTime: data.e ?? 0,
+         rotation: data.r ?? 0,
+         customData: data.customData ?? {},
       };
    },
 };

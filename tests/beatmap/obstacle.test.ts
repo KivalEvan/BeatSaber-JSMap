@@ -1,5 +1,5 @@
-import { assertEquals, Obstacle, v1, v2, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, Obstacle, v1, v2, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.obstacle, 'V4 Obstacle'],
@@ -79,7 +79,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          {
@@ -92,7 +93,7 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.obstacle:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.obstacle).deserialize({
                   object: { b: 1, i: 0, r: 15 },
                   data: {
                      x: 2,
@@ -107,7 +108,7 @@ for (const tup of schemaList) {
             break;
          case v3.obstacle:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.obstacle).deserialize({
                   b: 1,
                   x: 2,
                   y: 2,
@@ -120,7 +121,7 @@ for (const tup of schemaList) {
             break;
          case v2.obstacle:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.obstacle).deserialize({
                   _time: 1,
                   _lineIndex: 2,
                   _type: 1,
@@ -132,7 +133,7 @@ for (const tup of schemaList) {
             break;
          case v1.obstacle:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v1.obstacle).deserialize({
                   _time: 1,
                   _lineIndex: 2,
                   _type: 1,
@@ -160,12 +161,17 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.obstacle:
             obj = new BaseClass(
-               schema.deserialize({ object: { b: 1 }, data: { w: 2 } }),
+               (schema as typeof v4.obstacle).deserialize({
+                  object: { b: 1 },
+                  data: {
+                     w: 2,
+                  },
+               }),
             );
             break;
          case v3.obstacle:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.obstacle).deserialize({
                   b: 1,
                   w: 2,
                }),
@@ -173,7 +179,7 @@ for (const tup of schemaList) {
             break;
          case v2.obstacle:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.obstacle).deserialize({
                   _time: 1,
                   _width: 2,
                }),
@@ -181,7 +187,8 @@ for (const tup of schemaList) {
             break;
          case v1.obstacle:
             obj = new BaseClass(
-               schema.deserialize({
+               // @ts-expect-error awaiting updated type definitions from outgoing pull request
+               (schema as typeof v1.obstacle).deserialize({
                   _time: 1,
                   _width: 2,
                }),

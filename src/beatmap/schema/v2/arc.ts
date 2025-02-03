@@ -7,7 +7,7 @@ import { deepCopy } from '../../../utils/misc.ts';
  * Schema serialization for v2 `Arc`.
  */
 export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
-   serialize(data: IWrapArcAttribute): IArc {
+   serialize(data) {
       return {
          _colorType: data.color,
          _headTime: data.time,
@@ -24,21 +24,23 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
          _customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IArc> = {}): Partial<IWrapArcAttribute> {
+   deserialize(data) {
       return {
-         color: data._colorType,
-         time: data._headTime,
-         posX: data._headLineIndex,
-         posY: data._headLineLayer,
-         direction: data._headCutDirection,
-         lengthMultiplier: data._headControlPointLengthMultiplier,
-         tailTime: data._tailTime,
-         tailPosX: data._tailLineIndex,
-         tailPosY: data._tailLineLayer,
-         tailDirection: data._tailCutDirection,
-         tailLengthMultiplier: data._tailControlPointLengthMultiplier,
-         midAnchor: data._sliderMidAnchorMode,
-         customData: data._customData,
+         color: data._colorType ?? 0,
+         time: data._headTime ?? 0,
+         posX: data._headLineIndex ?? 0,
+         posY: data._headLineLayer ?? 0,
+         direction: data._headCutDirection ?? 0,
+         lengthMultiplier: data._headControlPointLengthMultiplier ?? 0,
+         laneRotation: 0,
+         tailTime: data._tailTime ?? 0,
+         tailPosX: data._tailLineIndex ?? 0,
+         tailPosY: data._tailLineLayer ?? 0,
+         tailDirection: data._tailCutDirection ?? 0,
+         tailLengthMultiplier: data._tailControlPointLengthMultiplier ?? 0,
+         tailLaneRotation: 0,
+         midAnchor: data._sliderMidAnchorMode ?? 0,
+         customData: data._customData ?? {},
       };
    },
 };

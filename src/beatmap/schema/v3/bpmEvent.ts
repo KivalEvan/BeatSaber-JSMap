@@ -7,18 +7,18 @@ import { deepCopy } from '../../../utils/misc.ts';
  * Schema serialization for v3 `BPM Event`.
  */
 export const bpmEvent: ISchemaContainer<IWrapBPMEventAttribute, IBPMEvent> = {
-   serialize(data: IWrapBPMEventAttribute): IBPMEvent {
+   serialize(data) {
       return {
          b: data.time,
          m: data.bpm,
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IBPMEvent> = {}): Partial<IWrapBPMEventAttribute> {
+   deserialize(data) {
       return {
-         time: data.b,
-         bpm: data.m,
-         customData: data.customData,
+         time: data.b ?? 0,
+         bpm: data.m ?? 0,
+         customData: data.customData ?? {},
       };
    },
 };

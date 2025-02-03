@@ -10,7 +10,7 @@ export const lightRotationEvent: ISchemaContainer<
    IWrapLightRotationEventAttribute,
    ILightRotationEvent
 > = {
-   serialize(data: IWrapLightRotationEventAttribute): ILightRotationEvent {
+   serialize(data) {
       return {
          b: data.time,
          e: data.easing,
@@ -21,15 +21,15 @@ export const lightRotationEvent: ISchemaContainer<
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<ILightRotationEvent> = {}): Partial<IWrapLightRotationEventAttribute> {
+   deserialize(data) {
       return {
-         time: data.b,
-         easing: data.e,
-         loop: data.l,
-         direction: data.o,
-         previous: data.p,
-         rotation: data.r,
-         customData: data.customData,
+         time: data.b ?? 0,
+         easing: data.e ?? 0,
+         loop: data.l ?? 0,
+         direction: data.o ?? 0,
+         previous: data.p ?? 0,
+         rotation: data.r ?? 0,
+         customData: data.customData ?? {},
       };
    },
 };

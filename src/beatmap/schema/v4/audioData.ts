@@ -1,13 +1,14 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IAudio } from '../../../types/beatmap/v4/audioData.ts';
 import type { IWrapAudioDataAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
+
+type AudioDataPolyfills = Pick<IWrapAudioDataAttribute, 'filename'>;
 
 /**
  * Schema serialization for v4 `Audio Data`.
  */
-export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IAudio> = {
-   serialize(data: IWrapAudioDataAttribute): IAudio {
+export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IAudio, AudioDataPolyfills> = {
+   serialize(data) {
       return {
          version: '4.0.0',
          songChecksum: data.audioChecksum,
@@ -26,23 +27,25 @@ export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IAudio> = {
          })),
       };
    },
-   deserialize(data: DeepPartial<IAudio> = {}): DeepPartial<IWrapAudioDataAttribute> {
+   deserialize(data, options) {
       return {
          version: 4,
-         audioChecksum: data.songChecksum,
-         sampleCount: data.songSampleCount,
-         frequency: data.songFrequency,
+         filename: options?.filename ?? 'AudioData.dat',
+         audioChecksum: data.songChecksum ?? '',
+         sampleCount: data.songSampleCount ?? 0,
+         frequency: data.songFrequency ?? 0,
          bpmData: data.bpmData?.map((bd) => ({
             startBeat: bd?.sb,
             endBeat: bd?.eb,
             startSampleIndex: bd?.si,
             endSampleIndex: bd?.ei,
-         })),
+         })) ?? [],
          lufsData: data.lufsData?.map((l) => ({
             lufs: l?.l,
             startSampleIndex: l?.si,
             endSampleIndex: l?.ei,
-         })),
+         })) ?? [],
+         customData: {},
       };
    },
 };

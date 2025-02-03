@@ -6,17 +6,18 @@ import type { IWrapBPMEventAttribute } from '../../../types/beatmap/wrapper/bpmE
  * Schema serialization for v1 `BPM Event`.
  */
 export const bpmEvent: ISchemaContainer<IWrapBPMEventAttribute, IEvent> = {
-   serialize(data: IWrapBPMEventAttribute): IEvent {
+   serialize(data) {
       return {
          _time: data.time,
          _type: 100,
          _value: Math.round(data.bpm),
       };
    },
-   deserialize(data: Partial<IEvent> = {}): Partial<IWrapBPMEventAttribute> {
+   deserialize(data) {
       return {
-         time: data._time,
-         bpm: data._value,
+         time: data._time ?? 0,
+         bpm: data._value ?? 0,
+         customData: {},
       };
    },
 };

@@ -1,5 +1,5 @@
-import { assertEquals, IndexFilter, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, IndexFilter, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.indexFilter, 'V4 Index Filter'],
@@ -76,7 +76,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
@@ -85,19 +86,36 @@ for (const tup of schemaList) {
 
       switch (schema) {
          case v4.indexFilter:
+            obj = new BaseClass(
+               (schema as typeof v4.indexFilter).deserialize({
+                  f: 2,
+                  p: 1,
+                  t: 2,
+                  r: 1,
+                  c: 4,
+                  n: 2,
+                  s: 12345,
+                  l: 1,
+                  d: 3,
+                  customData: { test: true },
+               }),
+            );
+            break;
          case v3.indexFilter:
-            obj = new BaseClass(schema.deserialize({
-               f: 2,
-               p: 1,
-               t: 2,
-               r: 1,
-               c: 4,
-               n: 2,
-               s: 12345,
-               l: 1,
-               d: 3,
-               customData: { test: true },
-            }));
+            obj = new BaseClass(
+               (schema as typeof v3.indexFilter).deserialize({
+                  f: 2,
+                  p: 1,
+                  t: 2,
+                  r: 1,
+                  c: 4,
+                  n: 2,
+                  s: 12345,
+                  l: 1,
+                  d: 3,
+                  customData: { test: true },
+               }),
+            );
             break;
       }
       assertObjectMatch(
@@ -119,12 +137,22 @@ for (const tup of schemaList) {
 
       switch (schema) {
          case v4.indexFilter:
+            obj = new BaseClass(
+               (schema as typeof v4.indexFilter).deserialize({
+                  f: 2,
+                  p: 1,
+                  n: 2,
+               }),
+            );
+            break;
          case v3.indexFilter:
-            obj = new BaseClass(schema.deserialize({
-               f: 2,
-               p: 1,
-               n: 2,
-            }));
+            obj = new BaseClass(
+               (schema as typeof v3.indexFilter).deserialize({
+                  f: 2,
+                  p: 1,
+                  n: 2,
+               }),
+            );
             break;
       }
       assertObjectMatch(

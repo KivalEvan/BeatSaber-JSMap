@@ -1,32 +1,38 @@
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightshow } from '../../../types/beatmap/v3/lightshow.ts';
+import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
+import { deepCopy } from '../../../utils/misc.ts';
+import { FxType } from '../../shared/constants.ts';
 import { basicEvent } from './basicEvent.ts';
 import { colorBoostEvent } from './colorBoostEvent.ts';
+import { fxEventBoxGroup } from './fxEventBoxGroup.ts';
 import { lightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { lightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { lightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc.ts';
-import { fxEventBoxGroup } from './fxEventBoxGroup.ts';
-import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
+
+type LightshowPolyfills = Pick<IWrapBeatmapAttribute, 'filename' | 'lightshowFilename'>;
 
 /**
  * Schema serialization for v3 `Lightshow`.
  */
-export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
-   serialize(data: IWrapBeatmapAttribute): ILightshow {
-      const json: ILightshow = {
-         basicBeatmapEvents: data.lightshow.basicEvents.map(basicEvent.serialize),
-         colorBoostBeatmapEvents: data.lightshow.colorBoostEvents.map(colorBoostEvent.serialize),
-         lightColorEventBoxGroups: data.lightshow.lightColorEventBoxGroups.map(
-            lightColorEventBoxGroup.serialize,
-         ),
-         lightRotationEventBoxGroups: data.lightshow.lightRotationEventBoxGroups.map(
-            lightRotationEventBoxGroup.serialize,
-         ),
-         lightTranslationEventBoxGroups: data.lightshow.lightTranslationEventBoxGroups.map(
-            lightTranslationEventBoxGroup.serialize,
-         ),
+export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow, LightshowPolyfills> = {
+   serialize(data) {
+      const json: Required<ILightshow> = {
+         basicBeatmapEvents: data.lightshow.basicEvents.map((x) => {
+            return basicEvent.serialize(x);
+         }),
+         colorBoostBeatmapEvents: data.lightshow.colorBoostEvents.map((x) => {
+            return colorBoostEvent.serialize(x);
+         }),
+         lightColorEventBoxGroups: data.lightshow.lightColorEventBoxGroups.map((x) => {
+            return lightColorEventBoxGroup.serialize(x);
+         }),
+         lightRotationEventBoxGroups: data.lightshow.lightRotationEventBoxGroups.map((x) => {
+            return lightRotationEventBoxGroup.serialize(x);
+         }),
+         lightTranslationEventBoxGroups: data.lightshow.lightTranslationEventBoxGroups.map((x) => {
+            return lightTranslationEventBoxGroup.serialize(x);
+         }),
          vfxEventBoxGroups: [],
          _fxEventsCollection: {
             _fl: [],
@@ -34,7 +40,11 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
          },
          customData: deepCopy(data.lightshow.customData),
       };
-      for (const obj of data.lightshow.fxEventBoxGroups.map(fxEventBoxGroup.serialize)) {
+      for (
+         const obj of data.lightshow.fxEventBoxGroups.map((x) => {
+            return fxEventBoxGroup.serialize(x);
+         })
+      ) {
          json.vfxEventBoxGroups!.push(obj.object);
          for (const box of obj.boxData) {
             obj.object.e!.push(box.data);
@@ -44,40 +54,58 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow> = {
             }
          }
       }
-
       return json;
    },
-   deserialize(data: DeepPartial<ILightshow> = {}): DeepPartial<IWrapBeatmapAttribute> {
-      const d: DeepPartial<IWrapBeatmapAttribute> = {
+   deserialize(data, options) {
+      const fx = data._fxEventsCollection?._fl;
+      return {
          version: 3,
-         lightshow: {},
+         filename: options?.filename ?? 'Easy.dat',
+         lightshowFilename: options?.lightshowFilename ?? 'EasyLightshow.dat',
+         difficulty: {
+            colorNotes: [],
+            bombNotes: [],
+            obstacles: [],
+            arcs: [],
+            chains: [],
+            rotationEvents: [],
+            bpmEvents: [],
+            njsEvents: [],
+            customData: {},
+         },
+         lightshow: {
+            waypoints: [],
+            basicEvents: data.basicBeatmapEvents?.map((x) => {
+               return basicEvent.deserialize(x);
+            }) ?? [],
+            colorBoostEvents: data.colorBoostBeatmapEvents?.map((x) => {
+               return colorBoostEvent.deserialize(x);
+            }) ?? [],
+            lightColorEventBoxGroups: data.lightColorEventBoxGroups?.map((x) => {
+               return lightColorEventBoxGroup.deserialize(x);
+            }) ?? [],
+            lightRotationEventBoxGroups: data.lightRotationEventBoxGroups?.map((x) => {
+               return lightRotationEventBoxGroup.deserialize(x);
+            }) ?? [],
+            lightTranslationEventBoxGroups: data.lightTranslationEventBoxGroups?.map(
+               (x) => {
+                  return lightTranslationEventBoxGroup.deserialize(x);
+               },
+            ) ?? [],
+            fxEventBoxGroups: data.vfxEventBoxGroups?.map((obj) =>
+               fxEventBoxGroup.deserialize({
+                  object: { ...obj, t: FxType.FLOAT },
+                  boxData: obj.e?.map((box) => ({
+                     data: box,
+                     eventData: box.l?.map((idx) => fx![idx]) ?? [],
+                  })) ?? [],
+               })
+            ) ?? [],
+            basicEventTypesWithKeywords: { list: [] },
+            useNormalEventsAsCompatibleEvents: false,
+            customData: {},
+         },
+         customData: {},
       };
-      d.lightshow!.basicEvents = data.basicBeatmapEvents?.map(
-         basicEvent.deserialize,
-      );
-      d.lightshow!.colorBoostEvents = data.colorBoostBeatmapEvents?.map(
-         colorBoostEvent.deserialize,
-      );
-      d.lightshow!.lightColorEventBoxGroups = data.lightColorEventBoxGroups?.map(
-         lightColorEventBoxGroup.deserialize,
-      );
-      d.lightshow!.lightRotationEventBoxGroups = data.lightRotationEventBoxGroups?.map(
-         lightRotationEventBoxGroup.deserialize,
-      );
-      d.lightshow!.lightTranslationEventBoxGroups = data.lightTranslationEventBoxGroups?.map(
-         lightTranslationEventBoxGroup.deserialize,
-      );
-      const fx = data._fxEventsCollection?._fl ?? [];
-      d.lightshow!.fxEventBoxGroups = data.vfxEventBoxGroups?.map((obj) =>
-         fxEventBoxGroup.deserialize({
-            object: obj,
-            boxData: obj.e?.map((box) => ({
-               data: box,
-               eventData: box.l?.map((idx) => fx[idx]),
-            })),
-         })
-      );
-      d.lightshow!.customData = data.customData;
-      return d;
    },
 };

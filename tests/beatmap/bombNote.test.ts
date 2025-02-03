@@ -1,5 +1,5 @@
-import { assertEquals, BombNote, v1, v2, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, BombNote, v1, v2, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.bombNote, 'V4 Bomb Note'],
@@ -57,7 +57,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
@@ -67,7 +68,7 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.bombNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.bombNote).deserialize({
                   object: { b: 1, i: 0, r: 15 },
                   data: { x: 3, y: 4, customData: { test: true } },
                }),
@@ -75,7 +76,7 @@ for (const tup of schemaList) {
             break;
          case v3.bombNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.bombNote).deserialize({
                   b: 1,
                   x: 3,
                   y: 4,
@@ -84,13 +85,23 @@ for (const tup of schemaList) {
             );
             break;
          case v2.bombNote:
-         case v1.bombNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.bombNote).deserialize({
                   _time: 1,
                   _lineIndex: 3,
                   _lineLayer: 4,
                   _customData: { test: true },
+               }),
+            );
+            break;
+         case v1.bombNote:
+            obj = new BaseClass(
+               (schema as typeof v1.bombNote).deserialize({
+                  _time: 1,
+                  _lineIndex: 3,
+                  _lineLayer: 4,
+                  _type: 3,
+                  _cutDirection: 0,
                }),
             );
             break;
@@ -110,24 +121,36 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.bombNote:
             obj = new BaseClass(
-               schema.deserialize({ object: { b: 1 }, data: { x: 3 } }),
+               (schema as typeof v4.bombNote).deserialize({
+                  object: {
+                     b: 1,
+                  },
+                  data: {
+                     x: 3,
+                  },
+               }),
             );
             break;
          case v3.bombNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.bombNote).deserialize({
                   b: 1,
                   x: 3,
                }),
             );
             break;
          case v2.bombNote:
-         case v1.bombNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.bombNote).deserialize({
                   _time: 1,
                   _lineIndex: 3,
                }),
+            );
+            break;
+         case v1.bombNote:
+            obj = new BaseClass(
+               // @ts-expect-error awaiting updated type definitions from outgoing pull request
+               (schema as typeof v1.bombNote).deserialize({ _time: 1, _lineIndex: 3 }),
             );
             break;
       }

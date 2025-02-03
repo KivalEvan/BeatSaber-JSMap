@@ -10,7 +10,7 @@ export const lightTranslationEvent: ISchemaContainer<
    IWrapLightTranslationEventAttribute,
    ILightTranslationEvent
 > = {
-   serialize(data: IWrapLightTranslationEventAttribute): ILightTranslationEvent {
+   serialize(data) {
       return {
          b: data.time,
          e: data.easing,
@@ -19,15 +19,13 @@ export const lightTranslationEvent: ISchemaContainer<
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(
-      data: Partial<ILightTranslationEvent> = {},
-   ): Partial<IWrapLightTranslationEventAttribute> {
+   deserialize(data) {
       return {
-         time: data.b,
-         easing: data.e,
-         previous: data.p,
-         translation: data.t,
-         customData: data.customData,
+         time: data.b ?? 0,
+         easing: data.e ?? 0,
+         previous: data.p ?? 0,
+         translation: data.t ?? 0,
+         customData: data.customData ?? {},
       };
    },
 };

@@ -21,14 +21,13 @@ export const rotationEvent: ISchemaContainer<
          _value: r,
       };
    },
-   deserialize(
-      data: Partial<IEvent> = {},
-   ): Partial<IWrapRotationEventAttribute> {
+   deserialize(data) {
       const value = data._value ?? 0;
       return {
-         time: data._time,
+         time: data._time ?? 0,
          executionTime: data._type === 15 ? 1 : 0,
          rotation: value >= 1000 ? (value - 1360) % 360 : EventLaneRotationValue[value] ?? 0,
+         customData: {},
       };
    },
 };
