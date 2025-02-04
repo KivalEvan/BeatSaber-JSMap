@@ -1,6 +1,10 @@
+import type { v2 } from '../src/types/mod.ts';
 import { assertObjectMatch } from './assert.ts';
 import {
    assertEquals,
+   Beatmap,
+   ColorNote,
+   loadDifficulty,
    readDifficultyFile,
    readDifficultyFileSync,
    readFromInfo,
@@ -34,7 +38,7 @@ Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
    });
 
    await t.step('Able to save as V2 beatmap schema', () => {
-      const output = beatmapList.map((bl) => saveDifficulty(bl.beatmap));
+      const output = beatmapList.map((bl) => saveDifficulty(bl.beatmap, 2));
       output.forEach((o, i) => {
          assertEquals(o._version, '2.6.0');
          assertObjectMatch(saveDifficulty(beatmapList[i].beatmap, 2), o);
@@ -65,7 +69,7 @@ Deno.test('Load V3 beatmap implicitly', async (t) => {
    });
 
    await t.step('Able to save as V3 beatmap schema', () => {
-      const output = beatmapList.map((bl) => saveDifficulty(bl.beatmap));
+      const output = beatmapList.map((bl) => saveDifficulty(bl.beatmap, 3));
       output.forEach((o, i) => {
          assertEquals(o.version, '3.3.0');
          assertObjectMatch(saveDifficulty(beatmapList[i].beatmap, 3), o);
@@ -138,4 +142,37 @@ Deno.test('Load beatmap version explicitly and convert to V2', async (t) => {
          }
       },
    );
+});
+
+Deno.test('using custom wrappers', () => {
+   const data: v2.IDifficulty = {
+      _version: '2.6.0',
+      _notes: [{}],
+      _sliders: [],
+      _obstacles: [],
+      _events: [],
+      _waypoints: [],
+      _specialEventsKeywordFilters: { _keywords: [] },
+   };
+   const beatmap = loadDifficulty(data, {
+      postprocess: [
+         (x) => {
+            return {
+               version: x.version,
+               foo: x.difficulty.colorNotes.map((x) => ({ t: x.time })),
+            };
+         },
+      ],
+   });
+   const difficulty = saveDifficulty(beatmap, {
+      preprocess: [
+         (x) => {
+            return Beatmap.createOne({
+               version: x.version,
+               difficulty: { colorNotes: x.foo.map((x) => ColorNote.createOne({ time: x.t })) },
+            });
+         },
+      ],
+   });
+   assertEquals(data, difficulty);
 });

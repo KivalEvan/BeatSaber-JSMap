@@ -1,6 +1,10 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../logger.ts';
-import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
+import type {
+   InferBeatmapAttribute,
+   InferBeatmapSerial,
+   InferBeatmapVersion,
+} from '../types/beatmap/shared/infer.ts';
 import type { IWriteOptions } from '../types/mod.ts';
 import { handleWrite, handleWriteSync, tag } from './_main.ts';
 
@@ -10,22 +14,39 @@ import { handleWrite, handleWriteSync, tag } from './_main.ts';
  * await writeLightshowFile(beatmap, 4);
  * ```
  */
-export function writeLightshowFile(
-   data: IWrapBeatmap,
-   version?: number | null,
-   options?: IWriteOptions<IWrapBeatmap>,
-): Promise<Record<string, any>>;
-export function writeLightshowFile(
-   data: IWrapBeatmap,
-   options?: IWriteOptions<IWrapBeatmap>,
-): Promise<Record<string, any>>;
-export function writeLightshowFile(
-   data: IWrapBeatmap,
-   version?: number | null | IWriteOptions<IWrapBeatmap>,
-   options?: IWriteOptions<IWrapBeatmap>,
-): Promise<Record<string, any>> {
+export function writeLightshowFile<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
+   data: TWrapper,
+   version?: TVersion | null,
+   options?: IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): Promise<TSerial>;
+export function writeLightshowFile<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
+   data: TWrapper,
+   options?: IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): Promise<TSerial>;
+export function writeLightshowFile<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
+   data: TWrapper,
+   version?: TVersion | null | IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
+   options?: IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): Promise<TSerial> {
    logger.tInfo(tag('writeLightshowFile'), 'Async writing lightshow file');
-   return handleWrite('lightshow', data, version, options);
+   return handleWrite<'lightshow', TVersion, TWrapper, TSerial>(
+      'lightshow',
+      data,
+      version,
+      options,
+   );
 }
 
 /**
@@ -34,20 +55,37 @@ export function writeLightshowFile(
  * writeLightshowFileSync(beatmap, 4);
  * ```
  */
-export function writeLightshowFileSync(
-   data: IWrapBeatmap,
-   version?: number | null,
-   options?: IWriteOptions<IWrapBeatmap>,
-): Record<string, any>;
-export function writeLightshowFileSync(
-   data: IWrapBeatmap,
-   options?: IWriteOptions<IWrapBeatmap>,
-): Record<string, any>;
-export function writeLightshowFileSync(
-   data: IWrapBeatmap,
-   version?: number | null | IWriteOptions<IWrapBeatmap>,
-   options?: IWriteOptions<IWrapBeatmap>,
-): Record<string, any> {
+export function writeLightshowFileSync<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
+   data: TWrapper,
+   version?: TVersion | null,
+   options?: IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): TSerial;
+export function writeLightshowFileSync<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
+   data: TWrapper,
+   options?: IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): TSerial;
+export function writeLightshowFileSync<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
+   data: TWrapper,
+   version?: TVersion | null | IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
+   options?: IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): TSerial {
    logger.tInfo(tag('writeLightshowFileSync'), 'Sync writing lightshow file');
-   return handleWriteSync('lightshow', data, version, options);
+   return handleWriteSync<'lightshow', TVersion, TWrapper, TSerial>(
+      'lightshow',
+      data,
+      version,
+      options,
+   );
 }

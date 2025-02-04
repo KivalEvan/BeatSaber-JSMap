@@ -1,10 +1,20 @@
 // deno-lint-ignore-file no-explicit-any
+import type { MirrorFn } from '../shared/functions.ts';
+import type {
+   InferBeatmapAttribute,
+   InferBeatmapSerial,
+   InferBeatmapVersion,
+} from '../shared/infer.ts';
+import type { BeatmapFileType } from '../shared/schema.ts';
 import type { ICompatibilityOptions } from './compatibility.ts';
-import type { ISchemaCheckOptions } from './schema.ts';
 import type { IOptimizeOptions } from './optimize.ts';
+import type { ISchemaCheckOptions } from './schema.ts';
 
 export interface ISaveOptions<
-   T extends Record<string, any> = Record<string, any>,
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+   TWrapper = Record<string, any>,
+   TSerial = Record<string, any>,
 > {
    /**
     * Prettify format JSON.
@@ -35,13 +45,19 @@ export interface ISaveOptions<
     *
     * @default []
     */
-   preprocess?: ((data: T) => T)[];
+   preprocess?: [
+      ((data: TWrapper, version?: TVersion | null) => InferBeatmapAttribute<TFileType>),
+      ...MirrorFn<InferBeatmapAttribute<TFileType>>[],
+   ];
    /**
     * Perform any postprocessing after transformed into JSON.
     *
     * @default []
     */
-   postprocess?: ((data: Record<string, any>) => Record<string, any>)[];
+   postprocess?: [
+      ...MirrorFn<InferBeatmapSerial<TFileType, TVersion>>[],
+      ((data: InferBeatmapSerial<TFileType, TVersion>, version?: TVersion | null) => TSerial),
+   ];
 }
 
 export interface ISaveValidate {

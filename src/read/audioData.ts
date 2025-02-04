@@ -1,8 +1,13 @@
-import type { GenericAudioDataFilename } from '../types/beatmap/shared/filename.ts';
+// deno-lint-ignore-file no-explicit-any
 import { logger } from '../logger.ts';
-import type { LooseAutocomplete } from '../types/utils.ts';
-import type { IWrapAudioData } from '../types/beatmap/wrapper/audioData.ts';
+import type { GenericAudioDataFilename } from '../types/beatmap/shared/filename.ts';
+import type {
+   InferBeatmapAttribute,
+   InferBeatmapSerial,
+   InferBeatmapVersion,
+} from '../types/beatmap/shared/infer.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';
+import type { LooseAutocomplete } from '../types/utils.ts';
 import { handleRead, handleReadSync, tag } from './_main.ts';
 
 /**
@@ -13,22 +18,34 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export function readAudioDataFile(
+export function readAudioDataFile<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
    path: LooseAutocomplete<GenericAudioDataFilename>,
-   version?: number | null,
-   options?: IReadOptions<IWrapAudioData>,
-): Promise<IWrapAudioData>;
-export function readAudioDataFile(
+   version?: TVersion | null,
+   options?: IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
+): Promise<TWrapper>;
+export function readAudioDataFile<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
    path: LooseAutocomplete<GenericAudioDataFilename>,
-   options?: IReadOptions<IWrapAudioData>,
-): Promise<IWrapAudioData>;
-export function readAudioDataFile(
+   options?: IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
+): Promise<TWrapper>;
+export function readAudioDataFile<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
    path: LooseAutocomplete<GenericAudioDataFilename>,
-   version?: number | null | IReadOptions<IWrapAudioData>,
-   options?: IReadOptions<IWrapAudioData>,
-): Promise<IWrapAudioData> {
+   version?: TVersion | null | IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
+   options?: IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
+): Promise<TWrapper> {
    logger.tInfo(tag('readAudioDataFile'), 'Async reading audio data file');
-   return handleRead('audioData', path, version, options);
+   return handleRead<'audioData', TVersion, TWrapper, TSerial>('audioData', path, version, options);
 }
 
 /**
@@ -40,20 +57,37 @@ export function readAudioDataFile(
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export function readAudioDataFileSync(
+export function readAudioDataFileSync<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
    path: LooseAutocomplete<GenericAudioDataFilename>,
-   version?: number | null,
-   options?: IReadOptions<IWrapAudioData>,
-): IWrapAudioData;
-export function readAudioDataFileSync(
+   version?: TVersion | null,
+   options?: IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
+): TWrapper;
+export function readAudioDataFileSync<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
    path: LooseAutocomplete<GenericAudioDataFilename>,
-   options?: IReadOptions<IWrapAudioData>,
-): IWrapAudioData;
-export function readAudioDataFileSync(
+   options?: IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
+): TWrapper;
+export function readAudioDataFileSync<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
    path: LooseAutocomplete<GenericAudioDataFilename>,
-   version?: number | null | IReadOptions<IWrapAudioData>,
-   options?: IReadOptions<IWrapAudioData>,
-): IWrapAudioData {
+   version?: TVersion | null | IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
+   options?: IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
+): TWrapper {
    logger.tInfo(tag('readAudioDataFileSync'), 'Sync reading audio data file');
-   return handleReadSync('audioData', path, version, options);
+   return handleReadSync<'audioData', TVersion, TWrapper, TSerial>(
+      'audioData',
+      path,
+      version,
+      options,
+   );
 }

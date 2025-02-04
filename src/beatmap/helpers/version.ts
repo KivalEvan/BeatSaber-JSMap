@@ -20,7 +20,7 @@ export function implicitVersion(type: BeatmapFileType): Version {
 }
 
 /** Get beatmap version from JSON. */
-export function retrieveVersion(json: Record<string, unknown>): Version | null {
+export function retrieveVersion<T extends Record<string, any>>(json: T): Version | null {
    const ver = json._version ?? json.version;
    if (typeof ver !== 'string') {
       return null;
