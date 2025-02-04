@@ -1,7 +1,12 @@
+// deno-lint-ignore-file no-explicit-any
 import { logger } from '../logger.ts';
-import type { LooseAutocomplete } from '../types/utils.ts';
-import type { IWrapInfo } from '../types/beatmap/wrapper/info.ts';
+import type {
+   InferBeatmapAttribute,
+   InferBeatmapSerial,
+   InferBeatmapVersion,
+} from '../types/beatmap/shared/infer.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';
+import type { LooseAutocomplete } from '../types/utils.ts';
 import { handleRead, handleReadSync, tag } from './_main.ts';
 
 /**
@@ -16,22 +21,34 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export function readInfoFile(
+export function readInfoFile<
+   TVersion extends InferBeatmapVersion<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
+>(
    path?: LooseAutocomplete<'Info.dat' | 'info.dat'>,
-   version?: number | null,
-   options?: IReadOptions<IWrapInfo>,
-): Promise<IWrapInfo>;
-export function readInfoFile(
+   version?: TVersion | null,
+   options?: IReadOptions<'info', TVersion, TWrapper, TSerial>,
+): Promise<TWrapper>;
+export function readInfoFile<
+   TVersion extends InferBeatmapVersion<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
+>(
    path?: LooseAutocomplete<'Info.dat' | 'info.dat'>,
-   options?: IReadOptions<IWrapInfo>,
-): Promise<IWrapInfo>;
-export function readInfoFile(
+   options?: IReadOptions<'info', TVersion, TWrapper, TSerial>,
+): Promise<TWrapper>;
+export function readInfoFile<
+   TVersion extends InferBeatmapVersion<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
+>(
    path: LooseAutocomplete<'Info.dat' | 'info.dat'> = 'Info.dat',
-   version?: number | null | IReadOptions<IWrapInfo>,
-   options?: IReadOptions<IWrapInfo>,
-): Promise<IWrapInfo> {
+   version?: TVersion | null | IReadOptions<'info', TVersion, TWrapper, TSerial>,
+   options?: IReadOptions<'info', TVersion, TWrapper, TSerial>,
+): Promise<TWrapper> {
    logger.tInfo(tag('readInfoFile'), 'Async reading info file');
-   return handleRead('info', path, version, options);
+   return handleRead<'info', TVersion, TWrapper, TSerial>('info', path, version, options);
 }
 
 /**
@@ -47,20 +64,32 @@ export function readInfoFile(
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export function readInfoFileSync(
+export function readInfoFileSync<
+   TVersion extends InferBeatmapVersion<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
+>(
    path?: LooseAutocomplete<'Info.dat' | 'info.dat'>,
-   version?: number | null,
-   options?: IReadOptions<IWrapInfo>,
-): IWrapInfo;
-export function readInfoFileSync(
+   version?: TVersion | null,
+   options?: IReadOptions<'info', TVersion, TWrapper, TSerial>,
+): TWrapper;
+export function readInfoFileSync<
+   TVersion extends InferBeatmapVersion<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
+>(
    path?: LooseAutocomplete<'Info.dat' | 'info.dat'>,
-   options?: IReadOptions<IWrapInfo>,
-): IWrapInfo;
-export function readInfoFileSync(
+   options?: IReadOptions<'info', TVersion, TWrapper, TSerial>,
+): TWrapper;
+export function readInfoFileSync<
+   TVersion extends InferBeatmapVersion<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
+>(
    path: LooseAutocomplete<'Info.dat' | 'info.dat'> = 'Info.dat',
-   version?: number | null | IReadOptions<IWrapInfo>,
-   options?: IReadOptions<IWrapInfo>,
-): IWrapInfo {
+   version?: TVersion | null | IReadOptions<'info', TVersion, TWrapper, TSerial>,
+   options?: IReadOptions<'info', TVersion, TWrapper, TSerial>,
+): TWrapper {
    logger.tInfo(tag('readInfoFileSync'), 'Sync reading info file');
-   return handleReadSync('info', path, version, options);
+   return handleReadSync<'info', TVersion, TWrapper, TSerial>('info', path, version, options);
 }

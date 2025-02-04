@@ -1,18 +1,22 @@
 // deno-lint-ignore-file no-explicit-any
 import { saveBeatmap } from '../beatmap/saver/_main.ts';
-import { path } from '../shims/path.ts';
-import { writeJSONFile, writeJSONFileSync } from '../shims/_json.ts';
 import { globals } from '../globals.ts';
+import { writeJSONFile, writeJSONFileSync } from '../shims/_json.ts';
+import { path } from '../shims/path.ts';
+import type {
+   InferBeatmapAttribute,
+   InferBeatmapSerial,
+   InferBeatmapVersion,
+} from '../types/beatmap/shared/infer.ts';
 import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
-import type { IWrapBeatmapFile } from '../types/beatmap/wrapper/baseFile.ts';
 import type { IWriteOptions } from '../types/bsmap/writer.ts';
 
-const defaultOptions: Required<IWriteOptions> = {
+const defaultOptions = {
    directory: '',
    filename: '',
    format: 0,
    save: {},
-};
+} as const;
 
 export function tag(name: string): string[] {
    return ['writer', name];
@@ -27,12 +31,20 @@ function getFileName(type: BeatmapFileType, data: Record<string, any>): string {
    }
 }
 
-export function handleWrite<T extends Record<string, any>>(
-   type: BeatmapFileType,
-   data: IWrapBeatmapFile,
-   version?: number | null | IWriteOptions<T>,
-   options: IWriteOptions<T> = {},
-): Promise<Record<string, any>> {
+export function handleWrite<
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<TFileType>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<
+      TFileType,
+      TVersion
+   >,
+>(
+   type: TFileType,
+   data: TWrapper,
+   version?: TVersion | null | IWriteOptions<TFileType, TVersion, TWrapper, TSerial>,
+   options: IWriteOptions<TFileType, TVersion, TWrapper, TSerial> = {},
+): Promise<TSerial> {
    const ver = typeof version === 'number' ? version : null;
    const opt = (typeof version !== 'number' ? version : options) ?? {};
    const json = saveBeatmap(type, data, ver, opt.save);
@@ -46,12 +58,20 @@ export function handleWrite<T extends Record<string, any>>(
    ).then(() => json);
 }
 
-export function handleWriteSync<T extends Record<string, any>>(
-   type: BeatmapFileType,
-   data: IWrapBeatmapFile,
-   version?: number | null | IWriteOptions<T>,
-   options: IWriteOptions<T> = {},
-): Record<string, any> {
+export function handleWriteSync<
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<TFileType>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<
+      TFileType,
+      TVersion
+   >,
+>(
+   type: TFileType,
+   data: TWrapper,
+   version?: TVersion | null | IWriteOptions<TFileType, TVersion, TWrapper, TSerial>,
+   options: IWriteOptions<TFileType, TVersion, TWrapper, TSerial> = {},
+): TSerial {
    const ver = typeof version === 'number' ? version : null;
    const opt = (typeof version !== 'number' ? version : options) ?? {};
    const json = saveBeatmap(type, data, ver, opt.save);

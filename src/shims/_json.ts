@@ -18,7 +18,7 @@ export function readJSONFileSync(path: string): Record<string, any> {
 
 export function writeJSONFile(
    path: string,
-   json: Record<string, unknown>,
+   json: Record<string, any>,
    format?: number,
 ): Promise<void> {
    logger.tInfo(tag('writeJSONFile'), `Async writing JSON file to ${path}`);
@@ -27,7 +27,7 @@ export function writeJSONFile(
 
 export function writeJSONFileSync(
    path: string,
-   json: Record<string, unknown>,
+   json: Record<string, any>,
    format?: number,
 ): void {
    logger.tInfo(tag('writeJSONFileSync'), `Sync writing JSON file to ${path}`);

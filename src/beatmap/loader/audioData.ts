@@ -1,7 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../../logger.ts';
-import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
 import type { ILoadOptions } from '../../types/beatmap/options/loader.ts';
+import type {
+   InferBeatmapAttribute,
+   InferBeatmapSerial,
+   InferBeatmapVersion,
+} from '../../types/beatmap/shared/infer.ts';
 import { loadBeatmap, tag } from './_main.ts';
 
 /**
@@ -13,20 +17,32 @@ import { loadBeatmap, tag } from './_main.ts';
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export function loadAudioData(
-   json: Record<string, any>,
-   version?: number | null,
-   options?: ILoadOptions<IWrapAudioData>,
-): IWrapAudioData;
-export function loadAudioData(
-   json: Record<string, any>,
-   options?: ILoadOptions<IWrapAudioData>,
-): IWrapAudioData;
-export function loadAudioData(
-   json: Record<string, any>,
-   version?: number | null | ILoadOptions<IWrapAudioData>,
-   options?: ILoadOptions<IWrapAudioData>,
-): IWrapAudioData {
+export function loadAudioData<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
+   json: TSerial,
+   version?: TVersion | null,
+   options?: ILoadOptions<'audioData', TVersion, TWrapper, TSerial>,
+): TWrapper;
+export function loadAudioData<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
+   json: TSerial,
+   options?: ILoadOptions<'audioData', TVersion, TWrapper, TSerial>,
+): TWrapper;
+export function loadAudioData<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
+   json: TSerial,
+   version?: TVersion | null | ILoadOptions<'audioData', TVersion, TWrapper, TSerial>,
+   options?: ILoadOptions<'audioData', TVersion, TWrapper, TSerial>,
+): TWrapper {
    const ver = typeof version === 'number' ? version : null;
    const opt = (typeof version !== 'number' ? version : options) ?? {};
    logger.tInfo(tag('loadAudioData'), 'Loading audio data from JSON');
