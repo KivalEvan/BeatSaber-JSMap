@@ -1,11 +1,13 @@
-import type { INEObject } from './types/object.ts';
+import type { INENote, INEObject } from './types/object.ts';
 
 /**
  * Set uninteractible to object from start to end object.
  *
  * This is highly-recommended for any non-interactive object to improve performance.
  */
-export function setUninteractible<T extends INEObject>(objects: T[], bool: boolean): void {
+export function setUninteractible<
+   T extends Pick<INEObject, 'customData'>,
+>(objects: T[], bool: boolean): void {
    objects.forEach((o) => {
       if (bool) {
          o.customData.uninteractable = bool;
@@ -17,7 +19,9 @@ export function setUninteractible<T extends INEObject>(objects: T[], bool: boole
 }
 
 /** Enable gravity for note from start to end. */
-export function setNoteGravity<T extends INEObject>(objects: T[], bool: boolean): void {
+export function setNoteGravity<
+   T extends Pick<INENote, 'customData'>,
+>(objects: T[], bool: boolean): void {
    objects.forEach((o) => {
       if (!bool) {
          o.customData.disableNoteGravity = !bool;
@@ -29,7 +33,9 @@ export function setNoteGravity<T extends INEObject>(objects: T[], bool: boolean)
 }
 
 /** Enable look for note from start to end. */
-export function setNoteLook<T extends INEObject>(objects: T[], bool: boolean): void {
+export function setNoteLook<
+   T extends Pick<INENote, 'customData'>,
+>(objects: T[], bool: boolean): void {
    objects.forEach((o) => {
       if (!bool) {
          o.customData.disableNoteLook = !bool;

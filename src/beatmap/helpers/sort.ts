@@ -1,7 +1,7 @@
 import type { INote } from '../../types/beatmap/v2/note.ts';
 import type { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object.ts';
 import type { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
-import { IGridObject } from '../../types/beatmap/v3/gridObject.ts';
+import type { IGridObject } from '../../types/beatmap/v3/gridObject.ts';
 import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
 import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
 import type { Vector2 } from '../../types/vector.ts';

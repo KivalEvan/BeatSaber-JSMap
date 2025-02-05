@@ -3,10 +3,9 @@ import { hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
 import { clamp } from '../../utils/math.ts';
 import type { IChromaObject, IShiftColorOptions } from './types/colors.ts';
 
-export function shiftColor<T extends IChromaObject>(
-   objects: T[],
-   options: IShiftColorOptions,
-) {
+export function shiftColor<
+   T extends Pick<IChromaObject, 'customData'>,
+>(objects: T[], options: IShiftColorOptions) {
    const opt: Omit<Required<IShiftColorOptions>, 'type'> = {
       offsetStart: options.offsetStart,
       offsetEnd: options.offsetEnd,

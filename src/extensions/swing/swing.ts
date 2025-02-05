@@ -9,19 +9,19 @@ import {
 } from '../../beatmap/helpers/core/gridObject.ts';
 import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
+import type { IWrapBaseNoteAttribute } from '../../types/beatmap/wrapper/baseNote.ts';
 import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
-import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
 import { checkDirection } from '../placement/note.ts';
-import type { ISwingContainer } from './types/swing.ts';
+import type { ISwingAnalysisBaseNoteAttribute, ISwingContainer } from './types/swing.ts';
 
 /**
  * Generate swings from beatmap notes.
  */
-export function generate<T extends IWrapColorNoteAttribute>(
+export function generate<T extends ISwingAnalysisBaseNoteAttribute>(
    notes: T[],
    timeProc: TimeProcessor,
-): ISwingContainer[] {
-   const sc: ISwingContainer[] = [];
+): ISwingContainer<T>[] {
+   const sc: ISwingContainer<T>[] = [];
    let ebpm = 0;
    let ebpmSwing = 0;
    let minSpeed: number;
@@ -89,12 +89,9 @@ export function generate<T extends IWrapColorNoteAttribute>(
 /**
  * Check if next swing happen from `prevNote` to `currNote`.
  */
-export function next<T extends IWrapColorNoteAttribute>(
-   currNote: T,
-   prevNote: T,
-   timeProc: TimeProcessor,
-   context?: T[],
-): boolean {
+export function next<
+   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY' | 'direction'>,
+>(currNote: T, prevNote: T, timeProc: TimeProcessor, context?: T[]): boolean {
    if (
       context &&
       context.length > 0 &&
@@ -126,11 +123,9 @@ export function next<T extends IWrapColorNoteAttribute>(
 }
 
 /** Calculate effective BPM between `currObj` and `prevObj`. */
-export function calcEBPMBetweenObject<T extends IWrapBaseObjectAttribute>(
-   currObj: T,
-   prevObj: T,
-   timeProc: TimeProcessor,
-): number {
+export function calcEBPMBetweenObject<
+   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+>(currObj: T, prevObj: T, timeProc: TimeProcessor): number {
    return (
       timeProc.bpm /
       (timeProc.toBeatTime(
@@ -146,10 +141,9 @@ export function calcEBPMBetweenObject<T extends IWrapBaseObjectAttribute>(
  *
  * Higher value is slower.
  */
-function calcMinSliderSpeed<T extends IWrapColorNoteAttribute>(
-   notes: T[],
-   timeProc: TimeProcessor,
-): number {
+function calcMinSliderSpeed<
+   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY'>,
+>(notes: T[], timeProc: TimeProcessor): number {
    let hasStraight = false;
    let hasDiagonal = false;
    let curvedSpeed = 0;
@@ -185,10 +179,9 @@ function calcMinSliderSpeed<T extends IWrapColorNoteAttribute>(
  *
  * Lower value is faster.
  */
-function calcMaxSliderSpeed<T extends IWrapColorNoteAttribute>(
-   notes: T[],
-   timeProc: TimeProcessor,
-): number {
+function calcMaxSliderSpeed<
+   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY'>,
+>(notes: T[], timeProc: TimeProcessor): number {
    let hasStraight = false;
    let hasDiagonal = false;
    let curvedSpeed = Number.MAX_SAFE_INTEGER;

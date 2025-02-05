@@ -61,8 +61,14 @@ const noteParityRotation: {
 
 // TODO: probably body class for leaning
 export class Parity<
-   TColorNote extends IWrapColorNote,
-   TBombNote extends IWrapBombNote,
+   TColorNote extends Pick<
+      IWrapColorNoteAttribute,
+      'time' | 'posX' | 'posY' | 'color' | 'direction'
+   >,
+   TBombNote extends Pick<
+      IWrapBombNoteAttribute,
+      'time' | 'posX' | 'posY' | 'color'
+   >,
 > {
    private state!: ParityState;
    private color!: number;

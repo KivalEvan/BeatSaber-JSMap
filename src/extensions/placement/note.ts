@@ -9,11 +9,9 @@ import type { IWrapBaseNoteAttribute } from '../../types/beatmap/wrapper/baseNot
 import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 
 // TODO: update with new position/rotation system
-export function isEnd<T extends IWrapBaseNoteAttribute>(
-   currNote: T,
-   prevNote: T,
-   cd: number,
-): boolean {
+export function isEnd<
+   T extends Pick<IWrapBaseNoteAttribute, 'posX' | 'posY' | 'direction'>,
+>(currNote: T, prevNote: T, cd: number): boolean {
    // fuck u and ur dot note stack
    if (
       currNote.direction === NoteDirection.ANY &&
@@ -145,7 +143,9 @@ export function isEnd<T extends IWrapBaseNoteAttribute>(
  * ```
  */
 // a fkin abomination that's what currNote is
-export function isIntersect<T extends IWrapBaseNoteAttribute>(
+export function isIntersect<
+   T extends Pick<IWrapBaseNoteAttribute, 'posX' | 'posY' | 'direction'>,
+>(
    currNote: T,
    compareTo: T,
    angleDistances: [number, number, number?][],
@@ -190,10 +190,9 @@ export function isIntersect<T extends IWrapBaseNoteAttribute>(
 }
 
 // TODO: update with new position/rotation system
-export function predictDirection<T extends IWrapBaseNoteAttribute>(
-   currNote: T,
-   prevNote: T,
-): number {
+export function predictDirection<
+   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY' | 'direction'>,
+>(currNote: T, prevNote: T): number {
    if (isEnd(currNote, prevNote, NoteDirection.ANY)) {
       return currNote.direction === NoteDirection.ANY ? prevNote.direction : currNote.direction;
    }
@@ -249,12 +248,9 @@ export function predictDirection<T extends IWrapBaseNoteAttribute>(
  * @param {boolean} equal - If it should check inner or outer angle
  * @returns {boolean} If condition is met
  */
-export function checkDirection<T extends IWrapBaseNoteAttribute>(
-   n1: T | number | null,
-   n2: T | number | null,
-   angleTol: number,
-   equal: boolean,
-): boolean {
+export function checkDirection<
+   T extends Pick<IWrapBaseNoteAttribute, 'direction'>,
+>(n1: T | number | null, n2: T | number | null, angleTol: number, equal: boolean): boolean {
    let nA1!: number;
    let nA2!: number;
    if (n1 === null || n2 === null) {

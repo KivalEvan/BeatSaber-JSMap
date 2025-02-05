@@ -1,9 +1,9 @@
 //FIXME: i feel like it's better to just check key instead of type of it
 import type { IWrapArcAttribute } from '../../../types/beatmap/wrapper/arc.ts';
-import type { IWrapBaseItemAttribute } from '../../../types/beatmap/wrapper/baseItem.ts';
-import type { IWrapBaseNoteAttribute } from '../../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
 import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
 import type { IWrapChainAttribute } from '../../../types/beatmap/wrapper/chain.ts';
+import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 import { RotationValueEventValue } from '../../shared/constants.ts';
@@ -11,7 +11,9 @@ import { RotationValueEventValue } from '../../shared/constants.ts';
 /**
  * Checks if basic event has Chroma in beatmap v2.
  */
-export function hasChromaEventV2(data: IWrapBaseItemAttribute): boolean {
+export function hasChromaEventV2<
+   T extends Pick<IWrapBasicEventAttribute, 'customData'>,
+>(data: T): boolean {
    return (
       Array.isArray(data.customData._color) ||
       typeof data.customData._lightID === 'number' ||
@@ -41,7 +43,9 @@ export function hasChromaEventV2(data: IWrapBaseItemAttribute): boolean {
 /**
  * Checks if note has Chroma in beatmap v2.
  */
-export function hasChromaNoteV2(data: IWrapBaseItemAttribute): boolean {
+export function hasChromaNoteV2<
+   T extends Pick<IWrapColorNoteAttribute | IWrapBombNoteAttribute, 'customData'>,
+>(data: T): boolean {
    return (
       Array.isArray(data.customData._color) ||
       typeof data.customData._disableSpawnEffect === 'boolean'
@@ -51,9 +55,9 @@ export function hasChromaNoteV2(data: IWrapBaseItemAttribute): boolean {
 /**
  * Checks if note has Noodle Extensions in beatmap v2.
  */
-export function hasNoodleExtensionsNoteV2(
-   data: IWrapBaseItemAttribute,
-): boolean {
+export function hasNoodleExtensionsNoteV2<
+   T extends Pick<IWrapColorNoteAttribute | IWrapBombNoteAttribute, 'customData'>,
+>(data: T): boolean {
    return (
       Array.isArray(data.customData._animation) ||
       typeof data.customData._cutDirection === 'number' ||
@@ -73,16 +77,18 @@ export function hasNoodleExtensionsNoteV2(
 /**
  * Checks if obstacle has Chroma in beatmap v2
  */
-export function hasChromaObstacleV2(data: IWrapBaseItemAttribute): boolean {
+export function hasChromaObstacleV2<
+   T extends Pick<IWrapObstacleAttribute, 'customData'>,
+>(data: T): boolean {
    return Array.isArray(data.customData._color);
 }
 
 /**
  * Checks if obstacle has Noodle Extensions in beatmap v2.
  */
-export function hasNoodleExtensionsObstacleV2(
-   data: IWrapBaseItemAttribute,
-): boolean {
+export function hasNoodleExtensionsObstacleV2<
+   T extends Pick<IWrapObstacleAttribute, 'customData'>,
+>(data: T): boolean {
    return (
       Array.isArray(data.customData._animation) ||
       typeof data.customData._fake === 'boolean' ||
@@ -99,9 +105,9 @@ export function hasNoodleExtensionsObstacleV2(
 /**
  * Checks if obstacle has Mapping Extensions in beatmap v2.
  */
-export function hasMappingExtensionsObstacleV2(
-   data: IWrapObstacleAttribute,
-): boolean {
+export function hasMappingExtensionsObstacleV2<
+   T extends Pick<IWrapObstacleAttribute, 'posX' | 'posY' | 'width' | 'height'>,
+>(data: T): boolean {
    return (
       data.posX < 0 ||
       data.posX > 3 ||
@@ -118,25 +124,27 @@ export function hasMappingExtensionsObstacleV2(
 /**
  * Checks if rotation event has Noodle Extensions in beatmap v2.
  */
-export function hasNoodleExtensionsRotationV2(
-   data: IWrapRotationEventAttribute,
-): boolean {
+export function hasNoodleExtensionsRotationV2<
+   T extends Pick<IWrapRotationEventAttribute, 'customData'>,
+>(data: T): boolean {
    return typeof data.customData._rotation === 'number';
 }
 
 /**
  * Checks if rotation event has Mapping Extensions in beatmap v2.
  */
-export function hasMappingExtensionsRotationV2(
-   data: IWrapRotationEventAttribute,
-): boolean {
+export function hasMappingExtensionsRotationV2<
+   T extends Pick<IWrapRotationEventAttribute, 'rotation'>,
+>(data: T): boolean {
    return !RotationValueEventValue[data.rotation];
 }
 
 /**
  * Checks if basic event has Chroma in beatmap v3.
  */
-export function hasChromaEventV3(data: IWrapBaseItemAttribute): boolean {
+export function hasChromaEventV3<
+   T extends Pick<IWrapBasicEventAttribute, 'customData'>,
+>(data: T): boolean {
    return (
       Array.isArray(data.customData.color) ||
       typeof data.customData.lightID === 'number' ||
@@ -158,7 +166,9 @@ export function hasChromaEventV3(data: IWrapBaseItemAttribute): boolean {
 /**
  * Checks if note has Chroma in beatmap v3.
  */
-export function hasChromaNoteV3(data: IWrapBaseItemAttribute): boolean {
+export function hasChromaNoteV3<
+   T extends Pick<IWrapColorNoteAttribute | IWrapBombNoteAttribute, 'customData'>,
+>(data: T): boolean {
    return (
       Array.isArray(data.customData.color) ||
       typeof data.customData.spawnEffect === 'boolean' ||
@@ -169,9 +179,9 @@ export function hasChromaNoteV3(data: IWrapBaseItemAttribute): boolean {
 /**
  * Checks if note has Noodle Extensions in beatmap v3.
  */
-export function hasNoodleExtensionsNoteV3(
-   data: IWrapBaseItemAttribute,
-): boolean {
+export function hasNoodleExtensionsNoteV3<
+   T extends Pick<IWrapColorNoteAttribute | IWrapBombNoteAttribute, 'customData'>,
+>(data: T): boolean {
    return (
       Array.isArray(data.customData.animation) ||
       typeof data.customData.disableNoteGravity === 'boolean' ||
@@ -194,9 +204,9 @@ export function hasNoodleExtensionsNoteV3(
 /**
  * Checks if slider has Noodle Extensions in beatmap v3.
  */
-export function hasNoodleExtensionsSliderV3(
-   data: IWrapBaseItemAttribute,
-): boolean {
+export function hasNoodleExtensionsSliderV3<
+   T extends Pick<IWrapArcAttribute | IWrapChainAttribute, 'customData'>,
+>(data: T): boolean {
    return (
       Array.isArray(data.customData.animation) ||
       typeof data.customData.disableNoteGravity === 'boolean' ||
@@ -220,16 +230,18 @@ export function hasNoodleExtensionsSliderV3(
 /**
  * Checks if obstacle has Chroma in beatmap v3.
  */
-export function hasChromaObstacleV3(data: IWrapBaseItemAttribute): boolean {
+export function hasChromaObstacleV3<
+   T extends Pick<IWrapObstacleAttribute, 'customData'>,
+>(data: T): boolean {
    return Array.isArray(data.customData.color);
 }
 
 /**
  * Checks if obstacle has Noodle Extensions in beatmap v3.
  */
-export function hasNoodleExtensionsObstacleV3(
-   data: IWrapBaseItemAttribute,
-): boolean {
+export function hasNoodleExtensionsObstacleV3<
+   T extends Pick<IWrapObstacleAttribute, 'customData'>,
+>(data: T): boolean {
    return (
       Array.isArray(data.customData.animation) ||
       typeof data.customData.uninteractable === 'boolean' ||
@@ -245,9 +257,9 @@ export function hasNoodleExtensionsObstacleV3(
 /**
  * Checks if obstacle has Mapping Extensions in beatmap v3.
  */
-export function hasMappingExtensionsObstacleV3(
-   data: IWrapObstacleAttribute,
-): boolean {
+export function hasMappingExtensionsObstacleV3<
+   T extends Pick<IWrapObstacleAttribute, 'posX' | 'posY' | 'width' | 'height'>,
+>(data: T): boolean {
    return (
       data.posY < 0 ||
       data.posY > 2 ||
@@ -263,7 +275,9 @@ export function hasMappingExtensionsObstacleV3(
 /**
  * Checks if arc has Mapping Extensions in beatmap v3.
  */
-export function hasMappingExtensionsArc(data: IWrapArcAttribute): boolean {
+export function hasMappingExtensionsArc<
+   T extends Pick<IWrapArcAttribute, 'posX' | 'posY' | 'direction' | 'tailDirection'>,
+>(data: T): boolean {
    return (
       data.posY > 2 ||
       data.posY < 0 ||
@@ -277,16 +291,18 @@ export function hasMappingExtensionsArc(data: IWrapArcAttribute): boolean {
 /**
  * Checks if bomb note has Mapping Extensions in beatmap v3.
  */
-export function hasMappingExtensionsBombNote(
-   data: IWrapBombNoteAttribute,
-): boolean {
+export function hasMappingExtensionsBombNote<
+   T extends Pick<IWrapBombNoteAttribute, 'posX' | 'posY'>,
+>(data: T): boolean {
    return data.posX > 3 || data.posX < 0 || data.posY > 2 || data.posY < 0;
 }
 
 /**
  * Checks if chain has Mapping Extensions in beatmap v3.
  */
-export function hasMappingExtensionsChain(data: IWrapChainAttribute): boolean {
+export function hasMappingExtensionsChain<
+   T extends Pick<IWrapChainAttribute, 'posX' | 'posY' | 'direction'>,
+>(data: T): boolean {
    return (
       data.posY > 2 ||
       data.posY < 0 ||
@@ -299,9 +315,9 @@ export function hasMappingExtensionsChain(data: IWrapChainAttribute): boolean {
 /**
  * Checks if note has Mapping Extensions.
  */
-export function hasMappingExtensionsNote(
-   data: IWrapBaseNoteAttribute,
-): boolean {
+export function hasMappingExtensionsNote<
+   T extends Pick<IWrapColorNoteAttribute, 'posX' | 'posY' | 'direction'>,
+>(data: T): boolean {
    return (
       data.posX > 3 ||
       data.posX < 0 ||
