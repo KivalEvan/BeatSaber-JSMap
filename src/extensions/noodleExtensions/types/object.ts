@@ -16,3 +16,7 @@ export type INENote =
    | IWrapBombNoteAttribute
    | IWrapChainAttribute
    | IWrapArcAttribute;
+
+export type INESlider =
+   | IWrapChainAttribute
+   | IWrapArcAttribute;

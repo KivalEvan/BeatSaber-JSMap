@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 import type { GenericBeatmapFilename, GenericLightshowFilename } from '../shared/filename.ts';
@@ -53,15 +54,24 @@ export interface IWrapBeatmapAttribute
 /** Wrapper attribute for subset of beatmap data. */
 export type IWrapBeatmapAttributeSubset<
    TKey extends keyof IWrapDifficultyAttribute | keyof IWrapLightshowAttribute,
+   TPick extends
+      | keyof IWrapDifficultyAttribute[Extract<keyof IWrapDifficultyAttribute, TKey>]
+      | keyof IWrapLightshowAttribute[Extract<keyof IWrapLightshowAttribute, TKey>] = any,
 > =
    & {
       [key in TKey extends keyof IWrapDifficultyAttribute ? 'difficulty' : never]: {
-         [K in Extract<keyof IWrapDifficultyAttribute, TKey>]: IWrapDifficultyAttribute[K];
+         [K in Extract<keyof IWrapDifficultyAttribute, TKey>]: Pick<
+            Extract<IWrapDifficultyAttribute[K], unknown[]>[number],
+            Extract<keyof Extract<IWrapDifficultyAttribute[K], unknown[]>[number], TPick>
+         >[];
       };
    }
    & {
       [key in TKey extends keyof IWrapLightshowAttribute ? 'lightshow' : never]: {
-         [K in Extract<keyof IWrapLightshowAttribute, TKey>]: IWrapLightshowAttribute[K];
+         [K in Extract<keyof IWrapLightshowAttribute, TKey>]: Pick<
+            Extract<IWrapLightshowAttribute[K], unknown[]>[number],
+            Extract<keyof Extract<IWrapLightshowAttribute[K], unknown[]>[number], TPick>
+         >[];
       };
    };
 

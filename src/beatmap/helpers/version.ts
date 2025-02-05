@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
 

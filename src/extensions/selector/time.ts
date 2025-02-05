@@ -9,11 +9,9 @@ import { settings } from './settings.ts';
  * console.log(...notesHere);
  * ```
  */
-export function at<T extends IWrapBaseObjectAttribute>(
-   objects: T[],
-   times: number | number[],
-   bpm?: TimeProcessor | null,
-): T[] {
+export function at<
+   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+>(objects: T[], times: number | number[], bpm?: TimeProcessor | null): T[] {
    bpm = bpm ?? settings.timeProcessor;
    if (Array.isArray(times)) {
       return objects.filter((o) =>
@@ -30,12 +28,9 @@ export function at<T extends IWrapBaseObjectAttribute>(
  * console.log(...notesRange);
  * ```
  */
-export function between<T extends IWrapBaseObjectAttribute>(
-   objects: T[],
-   from: number,
-   to: number,
-   bpm?: TimeProcessor | null,
-): T[] {
+export function between<
+   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+>(objects: T[], from: number, to: number, bpm?: TimeProcessor | null): T[] {
    bpm = bpm ?? settings.timeProcessor;
    return objects.filter((o) =>
       bpm
@@ -51,11 +46,9 @@ export function between<T extends IWrapBaseObjectAttribute>(
  * console.log(...notesBefore);
  * ```
  */
-export function before<T extends IWrapBaseObjectAttribute>(
-   objects: T[],
-   before: number,
-   bpm?: TimeProcessor | null,
-): T[] {
+export function before<
+   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+>(objects: T[], before: number, bpm?: TimeProcessor | null): T[] {
    bpm = bpm ?? settings.timeProcessor;
    return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > before : o.time > before));
 }
@@ -67,11 +60,9 @@ export function before<T extends IWrapBaseObjectAttribute>(
  * console.log(...notesAfter);
  * ```
  */
-export function after<T extends IWrapBaseObjectAttribute>(
-   objects: T[],
-   after: number,
-   bpm?: TimeProcessor | null,
-): T[] {
+export function after<
+   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+>(objects: T[], after: number, bpm?: TimeProcessor | null): T[] {
    bpm = bpm ?? settings.timeProcessor;
    return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > after : o.time > after));
 }

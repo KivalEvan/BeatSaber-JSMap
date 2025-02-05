@@ -15,7 +15,9 @@ function tag(name: string): string[] {
  *
  * **NOTE:** JD input will override NJS offset.
  */
-export function setNjs<T extends INEObject>(
+export function setNjs<
+   T extends Pick<INEObject, 'customData'>,
+>(
    objects: T[],
    options: {
       timeProc: TimeProcessor;
@@ -45,7 +47,9 @@ export function setNjs<T extends INEObject>(
  *
  * **NOTE:** JD input will override NJS offset.
  */
-export function simultaneousSpawn<T extends INEObject>(
+export function simultaneousSpawn<
+   T extends Pick<INEObject, 'time' | 'customData'>,
+>(
    objects: T[],
    options: {
       timeProc: TimeProcessor;
@@ -89,7 +93,9 @@ export function simultaneousSpawn<T extends INEObject>(
  *
  * **NOTE:** JD input will override NJS offset.
  */
-export function gradientNjs<T extends INEObject>(
+export function gradientNjs<
+   T extends Pick<INEObject, 'time' | 'customData'>,
+>(
    objects: T[],
    options: {
       timeProc: TimeProcessor | number;

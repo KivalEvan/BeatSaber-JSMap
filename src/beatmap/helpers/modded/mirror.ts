@@ -1,11 +1,14 @@
 import type { Vector3PointDefinition } from '../../../types/beatmap/shared/custom/heck.ts';
-import type { IWrapBaseItemAttribute } from '../../../types/beatmap/wrapper/baseItem.ts';
+import type { ICustomDataNote } from '../../../types/beatmap/wrapper/custom/note.ts';
+import type { ICustomDataSlider } from '../../../types/beatmap/wrapper/custom/slider.ts';
 import { isVector3 } from '../../../utils/vector.ts';
 
 /**
  * Mirrors the object for Noodle Extensions in beatmap v2.
  */
-export function mirrorNoodleExtensionsV2(data: IWrapBaseItemAttribute) {
+export function mirrorNoodleExtensionsV2<
+   T extends { customData: ICustomDataNote | ICustomDataSlider },
+>(data: T) {
    if (data.customData._position) {
       data.customData._position[0] = -1 - data.customData._position[0];
    }
@@ -39,7 +42,9 @@ export function mirrorNoodleExtensionsV2(data: IWrapBaseItemAttribute) {
 /**
  * Mirrors the object for Noodle Extensions in beatmap v3.
  */
-export function mirrorNoodleExtensionsV3(data: IWrapBaseItemAttribute) {
+export function mirrorNoodleExtensionsV3<
+   T extends { customData: ICustomDataNote | ICustomDataSlider },
+>(data: T) {
    if (data.customData.coordinates) {
       data.customData.coordinates[0] = -1 - data.customData.coordinates[0];
    }

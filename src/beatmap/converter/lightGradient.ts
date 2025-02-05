@@ -1,6 +1,5 @@
 import { logger } from '../../logger.ts';
 import type { IChromaLightGradient } from '../../types/beatmap/v2/custom/chroma.ts';
-import type { IWrapBasicEventAttribute } from '../../types/beatmap/wrapper/basicEvent.ts';
 import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { Easings } from '../../types/easings.ts';
 import { lerpColor } from '../../utils/colors.ts';
@@ -36,11 +35,11 @@ export function chromaLightGradientToVanillaGradient<
    );
 
    const events = data.lightshow.basicEvents;
-   const newEvents: IWrapBasicEventAttribute[] = [];
+   const newEvents: T['lightshow']['basicEvents'] = [];
    for (let curr = 0, len = events.length; curr < len; curr++) {
       const ev = events[curr];
       if (!isLightEventType(ev.type)) {
-         newEvents.push(ev);
+         newEvents.push({ ...ev, floatValue: 1 });
          continue;
       }
       if (isLightGradient(ev.customData._lightGradient)) {
@@ -65,7 +64,7 @@ export function chromaLightGradientToVanillaGradient<
                   'easeLinear'
             ];
             let hasOff = false;
-            let previousEvent: IWrapBasicEventAttribute = ev;
+            let previousEvent: T['lightshow']['basicEvents'][number] = ev;
             for (const eig of eventInGradient) {
                if (
                   !hasOff &&
