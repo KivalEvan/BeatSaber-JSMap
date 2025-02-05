@@ -3,6 +3,7 @@ import type { IObstacle } from '../../../types/beatmap/v2/obstacle.ts';
 import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
 import { remap } from '../../../utils/math.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createObstacle } from '../../core/obstacle.ts';
 
 /**
  * Schema serialization for v2 `Obstacle`.
@@ -40,15 +41,14 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          : type > 4000 && type <= 4005000
          ? Math.floor((type - 4001) / 1000)
          : 0;
-      return {
-         time: data._time ?? 0,
-         laneRotation: 0,
+      return createObstacle({
+         time: data._time,
          posY,
-         posX: data._lineIndex ?? 0,
-         duration: data._duration ?? 0,
-         width: data._width ?? 0,
+         posX: data._lineIndex,
+         duration: data._duration,
+         width: data._width,
          height,
-         customData: data._customData ?? {},
-      };
+         customData: data._customData,
+      });
    },
 };

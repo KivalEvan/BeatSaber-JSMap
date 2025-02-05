@@ -2,6 +2,7 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfoBeatmap } from '../../../types/beatmap/v4/info.ts';
 import type { IWrapInfoBeatmapAttribute } from '../../../types/beatmap/wrapper/info.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createInfoBeatmap } from '../../core/infoBeatmap.ts';
 
 /**
  * Schema serialization for v4 `Info Beatmap`.
@@ -25,20 +26,20 @@ export const infoBeatmap: ISchemaContainer<IWrapInfoBeatmapAttribute, IInfoBeatm
       };
    },
    deserialize(data) {
-      return {
-         characteristic: data.characteristic ?? 'Standard',
-         difficulty: data.difficulty ?? 'Easy',
+      return createInfoBeatmap({
+         characteristic: data.characteristic,
+         difficulty: data.difficulty,
          authors: {
-            mappers: data.beatmapAuthors?.mappers?.map((s) => s),
-            lighters: data.beatmapAuthors?.lighters?.map((s) => s),
+            mappers: data.beatmapAuthors?.mappers,
+            lighters: data.beatmapAuthors?.lighters,
          },
-         filename: data.beatmapDataFilename ?? 'Easy.beatmap.dat',
-         lightshowFilename: data.lightshowDataFilename ?? 'Easy.lightshow.dat',
-         njs: data.noteJumpMovementSpeed ?? 0,
-         njsOffset: data.noteJumpStartBeatOffset ?? 0,
-         colorSchemeId: data.beatmapColorSchemeIdx ?? -1,
-         environmentId: data.environmentNameIdx ?? 0,
-         customData: data.customData ?? {},
-      };
+         filename: data.beatmapDataFilename,
+         lightshowFilename: data.lightshowDataFilename,
+         njs: data.noteJumpMovementSpeed,
+         njsOffset: data.noteJumpStartBeatOffset,
+         colorSchemeId: data.beatmapColorSchemeIdx,
+         environmentId: data.environmentNameIdx,
+         customData: data.customData,
+      });
    },
 };

@@ -1,26 +1,32 @@
-import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
+import type { IWrapFxEventBox } from '../../types/beatmap/wrapper/fxEventBox.ts';
 import type {
    IWrapFxEventBoxGroup,
    IWrapFxEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
-import type { IWrapFxEventBox } from '../../types/beatmap/wrapper/fxEventBox.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
-import { FxEventBox } from './fxEventBox.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
+import { createFxEventBox, FxEventBox } from './fxEventBox.ts';
+
+export function createFxEventBoxGroup(
+   data: DeepPartial<IWrapFxEventBoxGroupAttribute> = {},
+): IWrapFxEventBoxGroupAttribute {
+   return {
+      time: data.time ?? 0,
+      id: data.id ?? 0,
+      boxes: data.boxes?.map(createFxEventBox) ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap FX event box group.
  */
 export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGroup {
-   static defaultValue: IWrapFxEventBoxGroupAttribute = {
-      time: 0,
-      id: 0,
-      boxes: [],
-      customData: {},
-   };
+   static defaultValue: IWrapFxEventBoxGroupAttribute = createFxEventBoxGroup();
 
    static createOne(
-      data: DeepPartialIgnore<IWrapFxEventBoxGroupAttribute, 'customData'> = {},
+      data: Partial<IWrapFxEventBoxGroupAttribute> = {},
    ): FxEventBoxGroup {
       return new this(data);
    }

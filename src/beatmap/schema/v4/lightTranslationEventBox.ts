@@ -2,6 +2,7 @@ import type { ILightTranslationBoxContainer } from '../../../types/beatmap/conta
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightTranslationEventBoxAttribute } from '../../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightTranslationEventBox } from '../../core/lightTranslationEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightTranslationEvent } from './lightTranslationEvent.ts';
 
@@ -32,20 +33,20 @@ export const lightTranslationEventBox: ISchemaContainer<
       };
    },
    deserialize(data) {
-      return {
+      return createLightTranslationEventBox({
          filter: indexFilter.deserialize(data.filterData ?? {}),
-         beatDistribution: data.data?.w ?? 0,
-         beatDistributionType: data.data?.d ?? 1,
-         gapDistribution: data.data?.s ?? 0,
-         gapDistributionType: data.data?.t ?? 1,
-         affectFirst: data.data?.b ?? 0,
-         easing: data.data?.e ?? 0,
-         axis: data.data?.a ?? 0,
-         flip: data.data?.f ?? 0,
+         beatDistribution: data.data?.w,
+         beatDistributionType: data.data?.d,
+         gapDistribution: data.data?.s,
+         gapDistributionType: data.data?.t,
+         affectFirst: data.data?.b,
+         easing: data.data?.e,
+         axis: data.data?.a,
+         flip: data.data?.f,
          events: data.eventData?.map((x) => {
             return lightTranslationEvent.deserialize(x);
-         }) ?? [],
-         customData: data.data?.customData ?? {},
-      };
+         }),
+         customData: data.data?.customData,
+      });
    },
 };

@@ -1,11 +1,16 @@
+// deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfoDifficulty } from '../../../types/beatmap/v2/info.ts';
 import type { IWrapInfoBeatmapAttribute } from '../../../types/beatmap/wrapper/info.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createInfoBeatmap } from '../../core/infoBeatmap.ts';
 import { DifficultyRanking } from '../../shared/difficulty.ts';
 
-type IInfoBeatmapPolyfills = Partial<
-   Pick<IWrapInfoBeatmapAttribute, 'characteristic' | 'lightshowFilename' | 'authors'>
+type IInfoBeatmapDeserializationPolyfills = Pick<
+   IWrapInfoBeatmapAttribute,
+   | 'characteristic'
+   | 'lightshowFilename'
+   | 'authors'
 >;
 
 /**
@@ -14,7 +19,8 @@ type IInfoBeatmapPolyfills = Partial<
 export const infoBeatmap: ISchemaContainer<
    IWrapInfoBeatmapAttribute,
    IInfoDifficulty,
-   IInfoBeatmapPolyfills
+   Record<string, any>,
+   IInfoBeatmapDeserializationPolyfills
 > = {
    serialize(data) {
       return {
@@ -29,20 +35,20 @@ export const infoBeatmap: ISchemaContainer<
       };
    },
    deserialize(data, options) {
-      return {
-         characteristic: options?.characteristic ?? 'Standard',
-         difficulty: data._difficulty ?? 'Easy',
+      return createInfoBeatmap({
+         characteristic: options?.characteristic,
+         difficulty: data._difficulty,
          authors: {
-            mappers: options?.authors?.mappers ?? [],
-            lighters: options?.authors?.lighters ?? [],
+            mappers: options?.authors?.mappers,
+            lighters: options?.authors?.lighters,
          },
-         filename: data._beatmapFilename ?? 'EasyStandard.dat',
-         lightshowFilename: options?.lightshowFilename ?? 'EasyLightshow.dat',
-         njs: data._noteJumpMovementSpeed ?? 0,
-         njsOffset: data._noteJumpStartBeatOffset ?? 0,
-         colorSchemeId: data._beatmapColorSchemeIdx ?? -1,
-         environmentId: data._environmentNameIdx ?? 0,
-         customData: data._customData ?? {},
-      };
+         filename: data._beatmapFilename,
+         lightshowFilename: options?.lightshowFilename,
+         njs: data._noteJumpMovementSpeed,
+         njsOffset: data._noteJumpStartBeatOffset,
+         colorSchemeId: data._beatmapColorSchemeIdx,
+         environmentId: data._environmentNameIdx,
+         customData: data._customData,
+      });
    },
 };

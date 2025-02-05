@@ -3,38 +3,33 @@ import type {
    IWrapFxEventBoxAttribute,
 } from '../../types/beatmap/wrapper/fxEventBox.ts';
 import type { IWrapFxEventFloat } from '../../types/beatmap/wrapper/fxEventFloat.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
-import { FxEventFloat } from './fxEventFloat.ts';
-import { IndexFilter } from './indexFilter.ts';
+import { createFxEventFloat, FxEventFloat } from './fxEventFloat.ts';
+import { createIndexFilter, IndexFilter } from './indexFilter.ts';
+
+export function createFxEventBox(
+   data: DeepPartial<IWrapFxEventBoxAttribute> = {},
+): IWrapFxEventBoxAttribute {
+   return {
+      filter: createIndexFilter(data.filter),
+      beatDistribution: data.beatDistribution ?? 0,
+      beatDistributionType: data.beatDistributionType ?? 1,
+      fxDistribution: data.fxDistribution ?? 0,
+      fxDistributionType: data.fxDistributionType ?? 1,
+      affectFirst: data.affectFirst ?? 0,
+      easing: data.easing ?? 0,
+      events: data.events?.map(createFxEventFloat) ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap FX event box.
  */
 export class FxEventBox extends EventBox implements IWrapFxEventBox {
-   static defaultValue: IWrapFxEventBoxAttribute = {
-      filter: {
-         type: 1,
-         p0: 0,
-         p1: 0,
-         reverse: 0,
-         chunks: 0,
-         random: 0,
-         seed: 0,
-         limit: 0,
-         limitAffectsType: 0,
-         customData: {},
-      },
-      beatDistribution: 0,
-      beatDistributionType: 1,
-      fxDistribution: 0,
-      fxDistributionType: 1,
-      affectFirst: 0,
-      easing: 0,
-      events: [],
-      customData: {},
-   };
+   static defaultValue: IWrapFxEventBoxAttribute = createFxEventBox();
 
    static createOne(data: Partial<IWrapFxEventBoxAttribute> = {}): FxEventBox {
       return new this(data);

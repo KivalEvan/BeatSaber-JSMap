@@ -2,6 +2,7 @@ import type { INjsEventContainer } from '../../../types/beatmap/container/v4.ts'
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapNJSEventAttribute } from '../../../types/beatmap/wrapper/njsEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createNJSEvent } from '../../core/njsEvent.ts';
 
 /**
  * Schema serialization for v4 `Basic Event`.
@@ -23,12 +24,12 @@ export const njsEvent: ISchemaContainer<IWrapNJSEventAttribute, INjsEventContain
       };
    },
    deserialize(data) {
-      return {
-         time: data.object?.b ?? 0,
-         value: data.data?.d ?? 0,
-         previous: data.data?.p ?? 0,
-         easing: data.data?.e ?? 0,
-         customData: data.data?.customData ?? {},
-      };
+      return createNJSEvent({
+         time: data.object?.b,
+         value: data.data?.d,
+         previous: data.data?.p,
+         easing: data.data?.e,
+         customData: data.data?.customData,
+      });
    },
 };

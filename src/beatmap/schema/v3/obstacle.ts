@@ -2,6 +2,7 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IObstacle } from '../../../types/beatmap/v3/obstacle.ts';
 import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createObstacle } from '../../core/obstacle.ts';
 
 /**
  * Schema serialization for v3 `Obstacle`.
@@ -19,15 +20,14 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
       };
    },
    deserialize(data) {
-      return {
-         time: data.b ?? 0,
-         laneRotation: 0,
-         posX: data.x ?? 0,
-         posY: data.y ?? 0,
-         duration: data.d ?? 0,
-         width: data.w ?? 0,
-         height: data.h ?? 0,
-         customData: data.customData ?? {},
-      };
+      return createObstacle({
+         time: data.b,
+         posX: data.x,
+         posY: data.y,
+         duration: data.d,
+         width: data.w,
+         height: data.h,
+         customData: data.customData,
+      });
    },
 };

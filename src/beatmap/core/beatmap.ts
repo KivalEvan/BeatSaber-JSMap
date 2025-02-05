@@ -58,9 +58,23 @@ import type {
    IWrapWaypointAttribute,
 } from '../../types/beatmap/wrapper/waypoint.ts';
 import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
-import { Difficulty } from './difficulty.ts';
-import { Lightshow } from './lightshow.ts';
+import { createDifficulty, Difficulty } from './difficulty.ts';
+import { createLightshow, Lightshow } from './lightshow.ts';
+
+export function createBeatmap(
+   data: DeepPartial<IWrapBeatmapAttribute> = {},
+): IWrapBeatmapAttribute {
+   return {
+      version: data.version ?? -1,
+      filename: data.filename ?? 'Unnamed.beatmap.dat',
+      lightshowFilename: data.lightshowFilename ?? 'Unnamed.lightshow.dat',
+      difficulty: createDifficulty(data.difficulty),
+      lightshow: createLightshow(data.lightshow),
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap container.
@@ -74,36 +88,7 @@ import { Lightshow } from './lightshow.ts';
  * This object exists solely for arbitrary data.
  */
 export class Beatmap extends BaseItem implements IWrapBeatmap {
-   static defaultValue: IWrapBeatmapAttribute = {
-      version: -1,
-      filename: 'Unnamed.beatmap.dat',
-      lightshowFilename: 'Unnamed.lightshow.dat',
-      customData: {},
-
-      difficulty: {
-         bpmEvents: [],
-         rotationEvents: [],
-         colorNotes: [],
-         bombNotes: [],
-         obstacles: [],
-         arcs: [],
-         chains: [],
-         njsEvents: [],
-         customData: {},
-      },
-      lightshow: {
-         waypoints: [],
-         basicEvents: [],
-         colorBoostEvents: [],
-         lightColorEventBoxGroups: [],
-         lightRotationEventBoxGroups: [],
-         lightTranslationEventBoxGroups: [],
-         fxEventBoxGroups: [],
-         basicEventTypesWithKeywords: { list: [] },
-         useNormalEventsAsCompatibleEvents: false,
-         customData: {},
-      },
-   };
+   static defaultValue: IWrapBeatmapAttribute = createBeatmap();
 
    static createOne(data: DeepPartial<IWrapBeatmapAttribute> = {}): Beatmap {
       return new this(data);

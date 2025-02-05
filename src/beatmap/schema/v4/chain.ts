@@ -2,6 +2,7 @@ import type { IChainContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapChainAttribute } from '../../../types/beatmap/wrapper/chain.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createChain } from '../../core/chain.ts';
 
 /**
  * Schema serialization for v4 `Chain`.
@@ -36,20 +37,20 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
       };
    },
    deserialize(data) {
-      return {
-         time: data.object?.hb ?? 0,
-         laneRotation: data.object?.hr ?? 0,
-         color: data.data?.c ?? 0,
-         posX: data.data?.x ?? 0,
-         posY: data.data?.y ?? 0,
-         direction: data.data?.d ?? 0,
-         tailTime: data.object?.tb ?? 0,
-         tailLaneRotation: data.object?.tr ?? 0,
-         tailPosX: data.chainData?.tx ?? 0,
-         tailPosY: data.chainData?.ty ?? 0,
-         sliceCount: data.chainData?.c ?? 0,
-         squish: data.chainData?.s ?? 0,
-         customData: data.chainData?.customData ?? {},
-      };
+      return createChain({
+         time: data.object?.hb,
+         laneRotation: data.object?.hr,
+         color: data.data?.c,
+         posX: data.data?.x,
+         posY: data.data?.y,
+         direction: data.data?.d,
+         tailTime: data.object?.tb,
+         tailLaneRotation: data.object?.tr,
+         tailPosX: data.chainData?.tx,
+         tailPosY: data.chainData?.ty,
+         sliceCount: data.chainData?.c,
+         squish: data.chainData?.s,
+         customData: data.chainData?.customData,
+      });
    },
 };

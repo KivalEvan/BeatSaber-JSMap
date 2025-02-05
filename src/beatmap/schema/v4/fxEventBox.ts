@@ -2,6 +2,7 @@ import type { IFxEventFloatBoxContainer } from '../../../types/beatmap/container
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapFxEventBoxAttribute } from '../../../types/beatmap/wrapper/fxEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createFxEventBox } from '../../core/fxEventBox.ts';
 import { fxEventFloat } from './fxEventFloat.ts';
 import { indexFilter } from './indexFilter.ts';
 
@@ -27,18 +28,18 @@ export const fxEventBox: ISchemaContainer<IWrapFxEventBoxAttribute, IFxEventFloa
       };
    },
    deserialize(data) {
-      return {
+      return createFxEventBox({
          filter: indexFilter.deserialize(data.filterData ?? {}),
-         beatDistribution: data.data?.w ?? 0,
-         beatDistributionType: data.data?.d ?? 1,
-         fxDistribution: data.data?.s ?? 0,
-         fxDistributionType: data.data?.t ?? 1,
-         affectFirst: data.data?.b ?? 0,
-         easing: data.data?.e ?? 0,
+         beatDistribution: data.data?.w,
+         beatDistributionType: data.data?.d,
+         fxDistribution: data.data?.s,
+         fxDistributionType: data.data?.t,
+         affectFirst: data.data?.b,
+         easing: data.data?.e,
          events: data.eventData?.map((x) => {
             return fxEventFloat.deserialize(x);
          }),
-         customData: data.data?.customData ?? {},
-      };
+         customData: data.data?.customData,
+      });
    },
 };

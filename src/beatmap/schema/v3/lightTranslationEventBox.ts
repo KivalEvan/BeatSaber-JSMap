@@ -2,6 +2,7 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightTranslationEventBox } from '../../../types/beatmap/v3/lightTranslationEventBox.ts';
 import type { IWrapLightTranslationEventBoxAttribute } from '../../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightTranslationEventBox } from '../../core/lightTranslationEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightTranslationEvent } from './lightTranslationEvent.ts';
 
@@ -30,20 +31,20 @@ export const lightTranslationEventBox: ISchemaContainer<
       };
    },
    deserialize(data) {
-      return {
+      return createLightTranslationEventBox({
          filter: indexFilter.deserialize(data.f ?? {}),
-         beatDistribution: data.w ?? 0,
-         beatDistributionType: data.d ?? 1,
-         gapDistribution: data.s ?? 0,
-         gapDistributionType: data.t ?? 1,
-         axis: data.a ?? 0,
-         flip: data.r ?? 0,
-         affectFirst: data.b ?? 0,
-         easing: data.i ?? 0,
+         beatDistribution: data.w,
+         beatDistributionType: data.d,
+         gapDistribution: data.s,
+         gapDistributionType: data.t,
+         axis: data.a,
+         flip: data.r,
+         affectFirst: data.b,
+         easing: data.i,
          events: data.l?.map((x) => {
             return lightTranslationEvent.deserialize(x);
-         }) ?? [],
-         customData: data.customData ?? {},
-      };
+         }),
+         customData: data.customData,
+      });
    },
 };

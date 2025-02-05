@@ -6,6 +6,7 @@ import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightColorEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightColorEventBoxGroup } from '../../core/lightColorEventBoxGroup.ts';
 import { lightColorEventBox } from './lightColorEventBox.ts';
 
 /**
@@ -30,13 +31,13 @@ export const lightColorEventBoxGroup: ISchemaContainer<
       };
    },
    deserialize(data) {
-      return {
-         time: data.object?.b ?? 0,
-         id: data.object?.g ?? 0,
+      return createLightColorEventBoxGroup({
+         time: data.object?.b,
+         id: data.object?.g,
          boxes: data.boxData?.map((x) => {
             return lightColorEventBox.deserialize(x);
-         }) ?? [],
-         customData: data.object?.customData ?? {},
-      };
+         }),
+         customData: data.object?.customData,
+      });
    },
 };

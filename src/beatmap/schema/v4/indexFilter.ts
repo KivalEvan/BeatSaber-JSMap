@@ -2,6 +2,7 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IIndexFilter } from '../../../types/beatmap/v4/indexFilter.ts';
 import type { IWrapIndexFilterAttribute } from '../../../types/beatmap/wrapper/indexFilter.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createIndexFilter } from '../../core/indexFilter.ts';
 
 /**
  * Schema serialization for v4 `Index Filter`.
@@ -22,17 +23,17 @@ export const indexFilter: ISchemaContainer<IWrapIndexFilterAttribute, IIndexFilt
       };
    },
    deserialize(data) {
-      return {
-         type: data.f ?? 1,
-         p0: data.p ?? 0,
-         p1: data.t ?? 0,
-         reverse: data.r ?? 0,
-         chunks: data.c ?? 0,
-         random: data.n ?? 0,
-         seed: data.s ?? 0,
-         limit: data.l ?? 0,
-         limitAffectsType: data.d ?? 0,
-         customData: data.customData ?? {},
-      };
+      return createIndexFilter({
+         type: data.f,
+         p0: data.p,
+         p1: data.t,
+         reverse: data.r,
+         chunks: data.c,
+         random: data.n,
+         seed: data.s,
+         limit: data.l,
+         limitAffectsType: data.d,
+         customData: data.customData,
+      });
    },
 };

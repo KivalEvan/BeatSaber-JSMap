@@ -2,6 +2,7 @@ import type { ILightColorBoxContainer } from '../../../types/beatmap/container/v
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightColorEventBoxAttribute } from '../../../types/beatmap/wrapper/lightColorEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightColorEventBox } from '../../core/lightColorEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightColorEvent } from './lightColorEvent.ts';
 
@@ -30,18 +31,18 @@ export const lightColorEventBox: ISchemaContainer<
       };
    },
    deserialize(data) {
-      return {
+      return createLightColorEventBox({
          filter: indexFilter.deserialize(data.filterData ?? {}),
-         beatDistribution: data.data?.w ?? 0,
-         beatDistributionType: data.data?.d ?? 1,
-         brightnessDistribution: data.data?.s ?? 0,
-         brightnessDistributionType: data.data?.t ?? 1,
-         affectFirst: data.data?.b ?? 0,
-         easing: data.data?.e ?? 0,
+         beatDistribution: data.data?.w,
+         beatDistributionType: data.data?.d,
+         brightnessDistribution: data.data?.s,
+         brightnessDistributionType: data.data?.t,
+         affectFirst: data.data?.b,
+         easing: data.data?.e,
          events: data.eventData?.map((x) => {
             return lightColorEvent.deserialize(x);
-         }) ?? [],
-         customData: data.data?.customData ?? {},
-      };
+         }),
+         customData: data.data?.customData,
+      });
    },
 };

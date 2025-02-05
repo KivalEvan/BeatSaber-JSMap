@@ -11,6 +11,9 @@ import type {
    IWrapInfoBeatmapAttribute,
 } from '../../../types/beatmap/wrapper/info.ts';
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
+import { createBeatmap } from '../../core/beatmap.ts';
+import { createDifficulty } from '../../core/difficulty.ts';
+import { createLightshow } from '../../core/lightshow.ts';
 import { basicEvent } from './basicEvent.ts';
 import { bombNote } from './bombNote.ts';
 import { bpmEvent } from './bpmEvent.ts';
@@ -19,11 +22,11 @@ import { colorNote } from './colorNote.ts';
 import { obstacle } from './obstacle.ts';
 import { rotationEvent } from './rotationEvent.ts';
 
-type DifficultySerializationPolyfills = Partial<
+type DifficultySerializationPolyfills =
    & Pick<IWrapInfoAttribute['audio'], 'bpm' | 'shuffle' | 'shufflePeriod'>
    & Pick<IWrapInfoBeatmapAttribute, 'njs' | 'njsOffset'>
-   & { beatsPerBar: number }
->;
+   & { beatsPerBar: number };
+
 type DifficultyDeserializationPolyfills = Pick<
    IWrapBeatmapAttribute,
    'filename' | 'lightshowFilename'
@@ -115,40 +118,27 @@ export const difficulty: ISchemaContainer<
          }
       }
 
-      return {
+      return createBeatmap({
          version: 1,
          filename: options?.filename ?? 'EasyStandard.dat',
          lightshowFilename: options?.lightshowFilename ?? 'EasyLightshow.dat',
-         difficulty: {
+         difficulty: createDifficulty({
             colorNotes,
             bombNotes,
-            obstacles: data._obstacles?.map((x) => {
-               return obstacle.deserialize(x);
-            }) ?? [],
-            arcs: [],
-            chains: [],
+            obstacles: data._obstacles?.map((x) => obstacle.deserialize(x)),
             rotationEvents,
             bpmEvents,
-            njsEvents: [],
             customData: {
                _bpmChanges: data._BPMChanges,
                _bookmarks: data._bookmarks,
                _time: data._time,
             },
-         },
-         lightshow: {
-            waypoints: [],
+         }),
+         lightshow: createLightshow({
             basicEvents,
             colorBoostEvents,
-            lightColorEventBoxGroups: [],
-            lightRotationEventBoxGroups: [],
-            lightTranslationEventBoxGroups: [],
-            fxEventBoxGroups: [],
-            basicEventTypesWithKeywords: { list: [] },
             useNormalEventsAsCompatibleEvents: true,
-            customData: {},
-         },
-         customData: {},
-      };
+         }),
+      });
    },
 };

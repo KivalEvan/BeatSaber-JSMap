@@ -3,6 +3,7 @@ import type {
    IWrapBasicEvent,
    IWrapBasicEventAttribute,
 } from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import {
    isBlueEventValue,
@@ -28,17 +29,23 @@ import {
 } from '../helpers/core/basicEvent.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
+export function createBasicEvent(
+   data: DeepPartial<IWrapBasicEventAttribute> = {},
+): IWrapBasicEventAttribute {
+   return {
+      time: data.time ?? 0,
+      type: data.type ?? 0,
+      value: data.value ?? 0,
+      floatValue: data.floatValue ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
+
 /**
  * Core beatmap basic event.
  */
 export class BasicEvent extends BaseObject implements IWrapBasicEvent {
-   static defaultValue: Required<IWrapBasicEventAttribute> = {
-      time: 0,
-      type: 0,
-      value: 0,
-      floatValue: 0,
-      customData: {},
-   };
+   static defaultValue = createBasicEvent();
 
    static createOne(data: Partial<IWrapBasicEventAttribute> = {}): BasicEvent {
       return new this(data);

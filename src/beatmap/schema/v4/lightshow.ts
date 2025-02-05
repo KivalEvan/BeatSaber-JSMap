@@ -1,9 +1,13 @@
+// deno-lint-ignore-file no-explicit-any
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightshow } from '../../../types/beatmap/v4/lightshow.ts';
 import type { IObject } from '../../../types/beatmap/v4/object.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createBeatmap } from '../../core/beatmap.ts';
+import { createDifficulty } from '../../core/difficulty.ts';
+import { createLightshow } from '../../core/lightshow.ts';
 import { basicEventTypesWithKeywords } from '../v3/basicEventTypesWithKeywords.ts';
 import { basicEvent } from './basicEvent.ts';
 import { colorBoostEvent } from './colorBoostEvent.ts';
@@ -13,7 +17,10 @@ import { lightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { lightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 import { waypoint } from './waypoint.ts';
 
-type LightshowPolyfills = Pick<IWrapBeatmapAttribute, 'filename' | 'lightshowFilename'>;
+type LightshowDeserializationPolyfills = Pick<
+   IWrapBeatmapAttribute,
+   'filename' | 'lightshowFilename'
+>;
 
 /**
  * Schema serialization for v4 `Lightshow`.
@@ -21,7 +28,8 @@ type LightshowPolyfills = Pick<IWrapBeatmapAttribute, 'filename' | 'lightshowFil
 export const lightshow: ISchemaContainer<
    IWrapBeatmapAttribute,
    ILightshow,
-   LightshowPolyfills
+   Record<string, any>,
+   LightshowDeserializationPolyfills
 > = {
    serialize(data) {
       const json: Required<ILightshow> = {
@@ -176,35 +184,31 @@ export const lightshow: ISchemaContainer<
       return json;
    },
    deserialize(data, options) {
-      const d: IWrapBeatmapAttribute['lightshow'] = {
-         lightColorEventBoxGroups: [],
-         lightRotationEventBoxGroups: [],
-         lightTranslationEventBoxGroups: [],
-         fxEventBoxGroups: [],
+      const lightshow: IWrapBeatmapAttribute['lightshow'] = createLightshow({
          waypoints: data.waypoints?.map((obj) =>
             waypoint.deserialize({
                object: obj,
                data: data.waypointsData?.[obj?.i || 0],
             })
-         ) ?? [],
+         ),
          basicEvents: data.basicEvents?.map((obj) =>
             basicEvent.deserialize({
                object: obj,
                data: data.basicEventsData?.[obj?.i || 0],
             })
-         ) ?? [],
+         ),
          colorBoostEvents: data.colorBoostEvents?.map((obj) =>
             colorBoostEvent.deserialize({
                object: obj,
                data: data.colorBoostEventsData?.[obj?.i || 0],
             })
-         ) ?? [],
+         ),
          basicEventTypesWithKeywords: basicEventTypesWithKeywords.deserialize(
-            data.basicEventTypesWithKeywords,
+            data.basicEventTypesWithKeywords ?? {},
          ),
          useNormalEventsAsCompatibleEvents: !!data.useNormalEventsAsCompatibleEvents,
-         customData: data.customData ?? {},
-      };
+         customData: data.customData,
+      });
       const indFil = data.indexFilters ?? [];
       const lceb = data.lightColorEventBoxes ?? [];
       const lce = data.lightColorEvents ?? [];
@@ -218,7 +222,7 @@ export const lightshow: ISchemaContainer<
          const t = ebg?.t || 0;
          switch (t) {
             case EventBoxType.COLOR:
-               d.lightColorEventBoxGroups.push(
+               lightshow.lightColorEventBoxGroups.push(
                   lightColorEventBoxGroup.deserialize({
                      object: ebg ?? {},
                      boxData: ebg?.e?.map((e) => ({
@@ -233,7 +237,7 @@ export const lightshow: ISchemaContainer<
                );
                break;
             case EventBoxType.ROTATION:
-               d.lightRotationEventBoxGroups.push(
+               lightshow.lightRotationEventBoxGroups.push(
                   lightRotationEventBoxGroup.deserialize({
                      object: ebg,
                      boxData: ebg?.e?.map((e) => ({
@@ -248,7 +252,7 @@ export const lightshow: ISchemaContainer<
                );
                break;
             case EventBoxType.TRANSLATION:
-               d.lightTranslationEventBoxGroups.push(
+               lightshow.lightTranslationEventBoxGroups.push(
                   lightTranslationEventBoxGroup.deserialize({
                      object: ebg,
                      boxData: ebg?.e?.map((e) => ({
@@ -263,7 +267,7 @@ export const lightshow: ISchemaContainer<
                );
                break;
             case EventBoxType.FX_FLOAT:
-               d.fxEventBoxGroups.push(
+               lightshow.fxEventBoxGroups.push(
                   fxEventBoxGroup.deserialize({
                      object: ebg,
                      boxData: ebg?.e?.map((e) => ({
@@ -279,23 +283,12 @@ export const lightshow: ISchemaContainer<
                break;
          }
       }
-      return {
+      return createBeatmap({
          version: 4,
-         filename: options?.filename ?? 'Easy.beatmap.dat',
-         lightshowFilename: options?.filename ?? 'Easy.lightshow.dat',
-         difficulty: {
-            colorNotes: [],
-            bombNotes: [],
-            obstacles: [],
-            arcs: [],
-            chains: [],
-            bpmEvents: [],
-            rotationEvents: [],
-            njsEvents: [],
-            customData: {},
-         },
-         lightshow: d,
-         customData: {},
-      };
+         filename: options?.filename,
+         lightshowFilename: options?.filename,
+         difficulty: createDifficulty(),
+         lightshow: lightshow,
+      });
    },
 };

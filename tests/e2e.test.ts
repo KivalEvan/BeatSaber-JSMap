@@ -2,8 +2,8 @@ import type { v2 } from '../src/types/mod.ts';
 import { assertObjectMatch } from './assert.ts';
 import {
    assertEquals,
-   Beatmap,
-   ColorNote,
+   createBeatmap,
+   createColorNote,
    loadDifficulty,
    readDifficultyFile,
    readDifficultyFileSync,
@@ -167,9 +167,9 @@ Deno.test('using custom wrappers', () => {
    const difficulty = saveDifficulty(beatmap, {
       preprocess: [
          (x) => {
-            return Beatmap.createOne({
+            return createBeatmap({
                version: x.version,
-               difficulty: { colorNotes: x.foo.map((x) => ColorNote.createOne({ time: x.t })) },
+               difficulty: { colorNotes: x.foo.map((x) => createColorNote({ time: x.t })) },
             });
          },
       ],

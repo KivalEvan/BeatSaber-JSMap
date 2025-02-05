@@ -2,6 +2,7 @@ import type { IArcContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapArcAttribute } from '../../../types/beatmap/wrapper/arc.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createArc } from '../../core/arc.ts';
 
 /**
  * Schema serialization for v4 `Arc`.
@@ -44,22 +45,22 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArcContainer> = {
       };
    },
    deserialize(data) {
-      return {
-         time: data.object?.hb ?? 0,
-         laneRotation: data.object?.hr ?? 0,
-         tailTime: data.object?.tb ?? 0,
-         tailLaneRotation: data.object?.tr ?? 0,
-         color: data.headData?.c ?? 0,
-         posX: data.headData?.x ?? 0,
-         posY: data.headData?.y ?? 0,
-         direction: data.headData?.d ?? 0,
-         lengthMultiplier: data.data?.m ?? 0,
-         tailPosX: data.tailData?.x ?? 0,
-         tailPosY: data.tailData?.y ?? 0,
-         tailDirection: data.tailData?.d ?? 0,
-         tailLengthMultiplier: data.data?.tm ?? 0,
-         midAnchor: data.data?.a ?? 0,
-         customData: data.data?.customData ?? {},
-      };
+      return createArc({
+         time: data.object?.hb,
+         laneRotation: data.object?.hr,
+         tailTime: data.object?.tb,
+         tailLaneRotation: data.object?.tr,
+         color: data.headData?.c,
+         posX: data.headData?.x,
+         posY: data.headData?.y,
+         direction: data.headData?.d,
+         lengthMultiplier: data.data?.m,
+         tailPosX: data.tailData?.x,
+         tailPosY: data.tailData?.y,
+         tailDirection: data.tailData?.d,
+         tailLengthMultiplier: data.data?.tm,
+         midAnchor: data.data?.a,
+         customData: data.data?.customData,
+      });
    },
 };

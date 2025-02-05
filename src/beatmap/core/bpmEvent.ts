@@ -1,19 +1,26 @@
-import { BaseObject } from './abstract/baseObject.ts';
 import type {
    IWrapBPMEvent,
    IWrapBPMEventAttribute,
 } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { BaseObject } from './abstract/baseObject.ts';
+
+export function createBPMEvent(
+   data: DeepPartial<IWrapBPMEventAttribute> = {},
+): IWrapBPMEventAttribute {
+   return {
+      time: data.time ?? 0,
+      bpm: data.bpm ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap BPM event.
  */
 export class BPMEvent extends BaseObject implements IWrapBPMEvent {
-   static defaultValue: IWrapBPMEventAttribute = {
-      time: 0,
-      bpm: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapBPMEventAttribute = createBPMEvent();
 
    static createOne(data: Partial<IWrapBPMEventAttribute> = {}): BPMEvent {
       return new this(data);

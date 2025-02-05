@@ -2,22 +2,29 @@ import type {
    IWrapLightRotationEvent,
    IWrapLightRotationEventAttribute,
 } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
+
+export function createLightRotationEvent(
+   data: DeepPartial<IWrapLightRotationEventAttribute> = {},
+): IWrapLightRotationEventAttribute {
+   return {
+      time: data.time ?? 0,
+      easing: data.easing ?? 0,
+      loop: data.loop ?? 0,
+      direction: data.direction ?? 0,
+      previous: data.previous ?? 0,
+      rotation: data.rotation ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap light rotation event.
  */
 export class LightRotationEvent extends BaseObject implements IWrapLightRotationEvent {
-   static defaultValue: IWrapLightRotationEventAttribute = {
-      time: 0,
-      easing: 0,
-      loop: 0,
-      direction: 0,
-      previous: 0,
-      rotation: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapLightRotationEventAttribute = createLightRotationEvent();
 
    static createOne(data: Partial<IWrapLightRotationEventAttribute> = {}): LightRotationEvent {
       return new this(data);

@@ -1,6 +1,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { INote } from '../../../types/beatmap/v1/note.ts';
 import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
+import { createBombNote } from '../../core/bombNote.ts';
 
 /**
  * Schema serialization for v1 `Bomb Note`.
@@ -16,14 +17,11 @@ export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
       };
    },
    deserialize(data) {
-      return {
-         time: data._time ?? 0,
-         laneRotation: 0,
-         posX: data._lineIndex ?? 0,
-         posY: data._lineLayer ?? 0,
-         color: -1,
-         direction: data._cutDirection ?? 0,
-         customData: {},
-      };
+      return createBombNote({
+         time: data._time,
+         posX: data._lineIndex,
+         posY: data._lineLayer,
+         direction: data._cutDirection,
+      });
    },
 };

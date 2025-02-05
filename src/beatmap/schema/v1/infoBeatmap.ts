@@ -5,6 +5,7 @@ import type {
    IWrapInfoBeatmapAttribute,
 } from '../../../types/beatmap/wrapper/info.ts';
 import { shallowCopy } from '../../../utils/misc.ts';
+import { createInfoBeatmap } from '../../core/infoBeatmap.ts';
 import { DifficultyRanking } from '../../shared/difficulty.ts';
 
 type InfoBeatmapSerializationPolyfills = {
@@ -12,7 +13,11 @@ type InfoBeatmapSerializationPolyfills = {
 };
 type InfoBeatmapDeserializationPolyfills = Pick<
    IWrapInfoBeatmapAttribute,
-   'characteristic' | 'njs' | 'njsOffset' | 'lightshowFilename' | 'authors'
+   | 'characteristic'
+   | 'njs'
+   | 'njsOffset'
+   | 'lightshowFilename'
+   | 'authors'
 >;
 
 /**
@@ -44,19 +49,17 @@ export const infoBeatmap: ISchemaContainer<
       };
    },
    deserialize(data, options) {
-      return {
-         characteristic: data.characteristic ?? 'Standard',
-         difficulty: data.difficulty ?? 'Easy',
+      return createInfoBeatmap({
+         characteristic: data.characteristic,
+         difficulty: data.difficulty,
          authors: {
-            mappers: options?.authors?.mappers ?? [],
-            lighters: options?.authors?.lighters ?? [],
+            mappers: options?.authors?.mappers,
+            lighters: options?.authors?.lighters,
          },
-         filename: data.jsonPath ?? 'EasyStandard.dat',
-         lightshowFilename: options?.lightshowFilename ?? 'EasyLightshow.dat',
-         njs: options?.njs ?? 0,
-         njsOffset: options?.njsOffset ?? 0,
-         colorSchemeId: -1,
-         environmentId: 0,
+         filename: data.jsonPath,
+         lightshowFilename: options?.lightshowFilename,
+         njs: options?.njs,
+         njsOffset: options?.njsOffset,
          customData: {
             _editorOffset: data.offset,
             _editorOldOffset: data.oldOffset,
@@ -69,6 +72,6 @@ export const infoBeatmap: ISchemaContainer<
             _envColorRight: shallowCopy(data.envColorRight),
             _obstacleColor: shallowCopy(data.obstacleColor),
          },
-      };
+      });
    },
 };

@@ -3,40 +3,35 @@ import type {
    IWrapLightRotationEventBox,
    IWrapLightRotationEventBoxAttribute,
 } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
-import { IndexFilter } from './indexFilter.ts';
-import { LightRotationEvent } from './lightRotationEvent.ts';
+import { createIndexFilter, IndexFilter } from './indexFilter.ts';
+import { createLightRotationEvent, LightRotationEvent } from './lightRotationEvent.ts';
+
+export function createLightRotationEventBox(
+   data: DeepPartial<IWrapLightRotationEventBoxAttribute> = {},
+): IWrapLightRotationEventBoxAttribute {
+   return {
+      filter: createIndexFilter(data.filter),
+      axis: data.axis ?? 0,
+      flip: data.flip ?? 0,
+      beatDistribution: data.beatDistribution ?? 0,
+      beatDistributionType: data.beatDistributionType ?? 1,
+      rotationDistribution: data.rotationDistribution ?? 0,
+      rotationDistributionType: data.rotationDistributionType ?? 1,
+      affectFirst: data.affectFirst ?? 0,
+      easing: data.easing ?? 0,
+      events: data.events?.map((o) => createLightRotationEvent(o)) ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap light rotation event box.
  */
 export class LightRotationEventBox extends EventBox implements IWrapLightRotationEventBox {
-   static defaultValue: IWrapLightRotationEventBoxAttribute = {
-      filter: {
-         type: 1,
-         p0: 0,
-         p1: 0,
-         reverse: 0,
-         chunks: 0,
-         random: 0,
-         seed: 0,
-         limit: 0,
-         limitAffectsType: 0,
-         customData: {},
-      },
-      axis: 0,
-      flip: 0,
-      beatDistribution: 0,
-      beatDistributionType: 1,
-      rotationDistribution: 0,
-      rotationDistributionType: 1,
-      affectFirst: 0,
-      easing: 0,
-      events: [],
-      customData: {},
-   };
+   static defaultValue: IWrapLightRotationEventBoxAttribute = createLightRotationEventBox();
 
    static createOne(
       data: Partial<IWrapLightRotationEventBoxAttribute> = {},

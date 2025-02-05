@@ -1,3 +1,4 @@
+import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import type {
    IWrapBombNote,
    IWrapBombNoteAttribute,
@@ -12,6 +13,14 @@ import type {
    IWrapColorNoteAttribute,
 } from '../../types/beatmap/wrapper/colorNote.ts';
 import type {
+   IWrapDifficulty,
+   IWrapDifficultyAttribute,
+} from '../../types/beatmap/wrapper/difficulty.ts';
+import type {
+   IWrapNJSEvent,
+   IWrapNJSEventAttribute,
+} from '../../types/beatmap/wrapper/njsEvent.ts';
+import type {
    IWrapObstacle,
    IWrapObstacleAttribute,
 } from '../../types/beatmap/wrapper/obstacle.ts';
@@ -19,43 +28,40 @@ import type {
    IWrapRotationEvent,
    IWrapRotationEventAttribute,
 } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
-import { BaseItem } from './abstract/baseItem.ts';
-import type {
-   IWrapDifficulty,
-   IWrapDifficultyAttribute,
-} from '../../types/beatmap/wrapper/difficulty.ts';
-import { sortNoteFn, sortObjectFn } from '../helpers/sort.ts';
-import { BPMEvent } from './bpmEvent.ts';
-import { RotationEvent } from './rotationEvent.ts';
-import { ColorNote } from './colorNote.ts';
-import { BombNote } from './bombNote.ts';
-import { Obstacle } from './obstacle.ts';
-import { Arc } from './arc.ts';
-import { Chain } from './chain.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import type {
-   IWrapNJSEvent,
-   IWrapNJSEventAttribute,
-} from '../../types/beatmap/wrapper/njsEvent.ts';
-import { NJSEvent } from './njsEvent.ts';
+import { sortNoteFn, sortObjectFn } from '../helpers/sort.ts';
+import { BaseItem } from './abstract/baseItem.ts';
+import { Arc, createArc } from './arc.ts';
+import { BombNote, createBombNote } from './bombNote.ts';
+import { BPMEvent, createBPMEvent } from './bpmEvent.ts';
+import { Chain, createChain } from './chain.ts';
+import { ColorNote, createColorNote } from './colorNote.ts';
+import { createNJSEvent, NJSEvent } from './njsEvent.ts';
+import { createObstacle, Obstacle } from './obstacle.ts';
+import { createRotationEvent, RotationEvent } from './rotationEvent.ts';
+
+export function createDifficulty(
+   data: DeepPartial<IWrapDifficultyAttribute> = {},
+): IWrapDifficultyAttribute {
+   return {
+      bpmEvents: data.bpmEvents?.map(createBPMEvent) ?? [],
+      rotationEvents: data.rotationEvents?.map(createRotationEvent) ?? [],
+      colorNotes: data.colorNotes?.map(createColorNote) ?? [],
+      bombNotes: data.bombNotes?.map(createBombNote) ?? [],
+      obstacles: data.obstacles?.map(createObstacle) ?? [],
+      arcs: data.arcs?.map(createArc) ?? [],
+      chains: data.chains?.map(createChain) ?? [],
+      njsEvents: data.njsEvents?.map(createNJSEvent) ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap difficulty.
  */
 export class Difficulty extends BaseItem implements IWrapDifficulty {
-   static defaultValue: IWrapDifficultyAttribute = {
-      bpmEvents: [],
-      rotationEvents: [],
-      colorNotes: [],
-      bombNotes: [],
-      obstacles: [],
-      arcs: [],
-      chains: [],
-      njsEvents: [],
-      customData: {},
-   };
+   static defaultValue: IWrapDifficultyAttribute = createDifficulty();
 
    static createOne(data: Partial<IWrapDifficultyAttribute> = {}): Difficulty {
       return new this(data);

@@ -1,21 +1,28 @@
-import { BaseObject } from './abstract/baseObject.ts';
 import type {
    IWrapNJSEvent,
    IWrapNJSEventAttribute,
 } from '../../types/beatmap/wrapper/njsEvent.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { BaseObject } from './abstract/baseObject.ts';
+
+export function createNJSEvent(
+   data: DeepPartial<IWrapNJSEventAttribute> = {},
+): IWrapNJSEventAttribute {
+   return {
+      time: data.time ?? 0,
+      value: data.value ?? 0,
+      previous: data.previous ?? 0,
+      easing: data.easing ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap NJS event.
  */
 export class NJSEvent extends BaseObject implements IWrapNJSEvent {
-   static defaultValue: IWrapNJSEventAttribute = {
-      time: 0,
-      value: 0,
-      previous: 0,
-      easing: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapNJSEventAttribute = createNJSEvent();
 
    static createOne(data: Partial<IWrapNJSEventAttribute> = {}): NJSEvent {
       return new this(data);

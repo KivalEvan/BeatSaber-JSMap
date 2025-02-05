@@ -1,6 +1,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IAudio } from '../../../types/beatmap/v4/audioData.ts';
 import type { IWrapAudioDataAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
+import { createAudioData } from '../../core/audioData.ts';
 
 type AudioDataPolyfills = Pick<IWrapAudioDataAttribute, 'filename'>;
 
@@ -28,24 +29,23 @@ export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IAudio, AudioD
       };
    },
    deserialize(data, options) {
-      return {
+      return createAudioData({
          version: 4,
-         filename: options?.filename ?? 'AudioData.dat',
-         audioChecksum: data.songChecksum ?? '',
-         sampleCount: data.songSampleCount ?? 0,
-         frequency: data.songFrequency ?? 0,
+         filename: options?.filename,
+         audioChecksum: data.songChecksum,
+         sampleCount: data.songSampleCount,
+         frequency: data.songFrequency,
          bpmData: data.bpmData?.map((bd) => ({
             startBeat: bd?.sb,
             endBeat: bd?.eb,
             startSampleIndex: bd?.si,
             endSampleIndex: bd?.ei,
-         })) ?? [],
+         })),
          lufsData: data.lufsData?.map((l) => ({
             lufs: l?.l,
             startSampleIndex: l?.si,
             endSampleIndex: l?.ei,
-         })) ?? [],
-         customData: {},
-      };
+         })),
+      });
    },
 };
