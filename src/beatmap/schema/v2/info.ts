@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import type {
    Environment360Name,
    EnvironmentName,
@@ -7,17 +8,28 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfo, IInfoSet } from '../../../types/beatmap/v2/info.ts';
 import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
 import { deepCopy, shallowCopy } from '../../../utils/misc.ts';
+import { createInfo } from '../../core/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
 
-type InfoPolyfills = Pick<IWrapInfo, 'filename'> & {
-   audio: Pick<IWrapInfo['audio'], 'audioDataFilename' | 'lufs' | 'duration'>;
+type InfoDeserializationPolyfills = Pick<IWrapInfoAttribute, 'filename'> & {
+   audio: Pick<
+      IWrapInfoAttribute['audio'],
+      | 'audioDataFilename'
+      | 'lufs'
+      | 'duration'
+   >;
 };
 
 /**
  * Schema serialization for v2 `Info`.
  */
-export const info: ISchemaContainer<IWrapInfo, IInfo, InfoPolyfills> = {
+export const info: ISchemaContainer<
+   IWrapInfoAttribute,
+   IInfo,
+   Record<string, any>,
+   InfoDeserializationPolyfills
+> = {
    serialize(data) {
       const authorSet = new Set();
       const d: Required<IInfo> = {
@@ -91,110 +103,109 @@ export const info: ISchemaContainer<IWrapInfo, IInfo, InfoPolyfills> = {
       return d;
    },
    deserialize(data, options) {
-      return {
+      return createInfo({
          version: 2,
-         filename: options?.filename ?? 'Info.dat',
+         filename: options?.filename,
          song: {
-            title: data._songName ?? '',
-            subTitle: data._songSubName ?? '',
-            author: data._songAuthorName ?? '',
+            title: data._songName,
+            subTitle: data._songSubName,
+            author: data._songAuthorName,
          },
          audio: {
-            audioDataFilename: options?.audio?.audioDataFilename ?? 'BPMInfo.dat',
-            bpm: data._beatsPerMinute ?? 120,
-            lufs: options?.audio?.lufs ?? 0,
-            duration: options?.audio?.duration ?? 0,
-            previewStartTime: data._previewStartTime ?? 0,
-            previewDuration: data._previewDuration ?? 0,
-            filename: data._songFilename ?? 'song.ogg',
-            audioOffset: data._songTimeOffset ?? 0,
-            shuffle: data._shuffle ?? 0,
-            shufflePeriod: data._shufflePeriod ?? 0.5,
+            audioDataFilename: options?.audio?.audioDataFilename,
+            bpm: data._beatsPerMinute,
+            lufs: options?.audio?.lufs,
+            duration: options?.audio?.duration,
+            previewStartTime: data._previewStartTime,
+            previewDuration: data._previewDuration,
+            filename: data._songFilename,
+            audioOffset: data._songTimeOffset,
+            shuffle: data._shuffle,
+            shufflePeriod: data._shufflePeriod,
          },
-         songPreviewFilename: data._songFilename ?? 'song.ogg',
-         coverImageFilename: data._coverImageFilename ?? 'cover.jpg',
+         songPreviewFilename: data._songFilename,
+         coverImageFilename: data._coverImageFilename,
          environmentBase: {
-            normal: data._environmentName ?? 'DefaultEnvironment',
-            allDirections: data._allDirectionsEnvironmentName ?? 'GlassDesertEnvironment',
+            normal: data._environmentName,
+            allDirections: data._allDirectionsEnvironmentName,
          },
-         environmentNames: data._environmentNames ?? [],
+         environmentNames: data._environmentNames,
          colorSchemes: data._colorSchemes?.map((e) => {
             return {
-               name: e.colorScheme?.colorSchemeId ?? '',
+               name: e.colorScheme?.colorSchemeId,
                overrideNotes: !!e.useOverride,
                overrideLights: !!e.useOverride,
                saberLeftColor: {
-                  r: e.colorScheme?.saberAColor?.r ?? 0,
-                  g: e.colorScheme?.saberAColor?.g ?? 0,
-                  b: e.colorScheme?.saberAColor?.b ?? 0,
-                  a: e.colorScheme?.saberAColor?.a ?? 0,
+                  r: e.colorScheme?.saberAColor?.r,
+                  g: e.colorScheme?.saberAColor?.g,
+                  b: e.colorScheme?.saberAColor?.b,
+                  a: e.colorScheme?.saberAColor?.a,
                },
                saberRightColor: {
-                  r: e.colorScheme?.saberBColor?.r ?? 0,
-                  g: e.colorScheme?.saberBColor?.g ?? 0,
-                  b: e.colorScheme?.saberBColor?.b ?? 0,
-                  a: e.colorScheme?.saberBColor?.a ?? 0,
+                  r: e.colorScheme?.saberBColor?.r,
+                  g: e.colorScheme?.saberBColor?.g,
+                  b: e.colorScheme?.saberBColor?.b,
+                  a: e.colorScheme?.saberBColor?.a,
                },
                environment0Color: {
-                  r: e.colorScheme?.environmentColor0?.r ?? 0,
-                  g: e.colorScheme?.environmentColor0?.g ?? 0,
-                  b: e.colorScheme?.environmentColor0?.b ?? 0,
-                  a: e.colorScheme?.environmentColor0?.a ?? 0,
+                  r: e.colorScheme?.environmentColor0?.r,
+                  g: e.colorScheme?.environmentColor0?.g,
+                  b: e.colorScheme?.environmentColor0?.b,
+                  a: e.colorScheme?.environmentColor0?.a,
                },
                environment1Color: {
-                  r: e.colorScheme?.environmentColor1?.r ?? 0,
-                  g: e.colorScheme?.environmentColor1?.g ?? 0,
-                  b: e.colorScheme?.environmentColor1?.b ?? 0,
-                  a: e.colorScheme?.environmentColor1?.a ?? 0,
+                  r: e.colorScheme?.environmentColor1?.r,
+                  g: e.colorScheme?.environmentColor1?.g,
+                  b: e.colorScheme?.environmentColor1?.b,
+                  a: e.colorScheme?.environmentColor1?.a,
                },
                obstaclesColor: {
-                  r: e.colorScheme?.obstaclesColor?.r ?? 0,
-                  g: e.colorScheme?.obstaclesColor?.g ?? 0,
-                  b: e.colorScheme?.obstaclesColor?.b ?? 0,
-                  a: e.colorScheme?.obstaclesColor?.a ?? 0,
+                  r: e.colorScheme?.obstaclesColor?.r,
+                  g: e.colorScheme?.obstaclesColor?.g,
+                  b: e.colorScheme?.obstaclesColor?.b,
+                  a: e.colorScheme?.obstaclesColor?.a,
                },
                environment0ColorBoost: {
-                  r: e.colorScheme?.environmentColor0Boost?.r ?? 0,
-                  g: e.colorScheme?.environmentColor0Boost?.g ?? 0,
-                  b: e.colorScheme?.environmentColor0Boost?.b ?? 0,
-                  a: e.colorScheme?.environmentColor0Boost?.a ?? 0,
+                  r: e.colorScheme?.environmentColor0Boost?.r,
+                  g: e.colorScheme?.environmentColor0Boost?.g,
+                  b: e.colorScheme?.environmentColor0Boost?.b,
+                  a: e.colorScheme?.environmentColor0Boost?.a,
                },
                environment1ColorBoost: {
-                  r: e.colorScheme?.environmentColor1Boost?.r ?? 0,
-                  g: e.colorScheme?.environmentColor1Boost?.g ?? 0,
-                  b: e.colorScheme?.environmentColor1Boost?.b ?? 0,
-                  a: e.colorScheme?.environmentColor1Boost?.a ?? 0,
+                  r: e.colorScheme?.environmentColor1Boost?.r,
+                  g: e.colorScheme?.environmentColor1Boost?.g,
+                  b: e.colorScheme?.environmentColor1Boost?.b,
+                  a: e.colorScheme?.environmentColor1Boost?.a,
                },
                environmentWColor: e.colorScheme?.environmentColorW
                   ? {
-                     r: e.colorScheme?.environmentColorW?.r ?? 0,
-                     g: e.colorScheme?.environmentColorW?.g ?? 0,
-                     b: e.colorScheme?.environmentColorW?.b ?? 0,
-                     a: e.colorScheme?.environmentColorW?.a ?? 0,
+                     r: e.colorScheme?.environmentColorW?.r,
+                     g: e.colorScheme?.environmentColorW?.g,
+                     b: e.colorScheme?.environmentColorW?.b,
+                     a: e.colorScheme?.environmentColorW?.a,
                   }
                   : undefined,
                environmentWColorBoost: e.colorScheme?.environmentColorWBoost
                   ? {
-                     r: e.colorScheme?.environmentColorWBoost?.r ?? 0,
-                     g: e.colorScheme?.environmentColorWBoost?.g ?? 0,
-                     b: e.colorScheme?.environmentColorWBoost?.b ?? 0,
-                     a: e.colorScheme?.environmentColorWBoost?.a ?? 0,
+                     r: e.colorScheme?.environmentColorWBoost?.r,
+                     g: e.colorScheme?.environmentColorWBoost?.g,
+                     b: e.colorScheme?.environmentColorWBoost?.b,
+                     a: e.colorScheme?.environmentColorWBoost?.a,
                   }
                   : undefined,
             };
-         }) ?? [],
+         }),
          difficulties: data._difficultyBeatmapSets?.flatMap((set) => {
             return set._difficultyBeatmaps?.map((diff) => {
                return infoBeatmap.deserialize(diff, {
-                  characteristic: set._beatmapCharacteristicName ?? 'Standard',
+                  characteristic: set._beatmapCharacteristicName,
                   authors: {
-                     mappers: data._levelAuthorName?.split(',') ?? [],
-                     lighters: [],
+                     mappers: data._levelAuthorName?.split(','),
                   },
                });
             }) ?? [];
-         }) ?? [],
-         customData: data._customData ?? {},
-      };
+         }),
+         customData: data._customData,
+      });
    },
 };

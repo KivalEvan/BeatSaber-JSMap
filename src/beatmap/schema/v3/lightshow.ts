@@ -1,7 +1,11 @@
+// deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightshow } from '../../../types/beatmap/v3/lightshow.ts';
 import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createBeatmap } from '../../core/beatmap.ts';
+import { createDifficulty } from '../../core/difficulty.ts';
+import { createLightshow } from '../../core/lightshow.ts';
 import { FxType } from '../../shared/constants.ts';
 import { basicEvent } from './basicEvent.ts';
 import { colorBoostEvent } from './colorBoostEvent.ts';
@@ -10,12 +14,20 @@ import { lightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import { lightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { lightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 
-type LightshowPolyfills = Pick<IWrapBeatmapAttribute, 'filename' | 'lightshowFilename'>;
+type LightshowDeserializationPolyfills = Pick<
+   IWrapBeatmapAttribute,
+   'filename' | 'lightshowFilename'
+>;
 
 /**
  * Schema serialization for v3 `Lightshow`.
  */
-export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow, LightshowPolyfills> = {
+export const lightshow: ISchemaContainer<
+   IWrapBeatmapAttribute,
+   ILightshow,
+   Record<string, any>,
+   LightshowDeserializationPolyfills
+> = {
    serialize(data) {
       const json: Required<ILightshow> = {
          basicBeatmapEvents: data.lightshow.basicEvents.map((x) => {
@@ -58,40 +70,29 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow, Ligh
    },
    deserialize(data, options) {
       const fx = data._fxEventsCollection?._fl;
-      return {
+      return createBeatmap({
          version: 3,
-         filename: options?.filename ?? 'Easy.dat',
-         lightshowFilename: options?.lightshowFilename ?? 'EasyLightshow.dat',
-         difficulty: {
-            colorNotes: [],
-            bombNotes: [],
-            obstacles: [],
-            arcs: [],
-            chains: [],
-            rotationEvents: [],
-            bpmEvents: [],
-            njsEvents: [],
-            customData: {},
-         },
-         lightshow: {
-            waypoints: [],
+         filename: options?.filename,
+         lightshowFilename: options?.lightshowFilename,
+         difficulty: createDifficulty(),
+         lightshow: createLightshow({
             basicEvents: data.basicBeatmapEvents?.map((x) => {
                return basicEvent.deserialize(x);
-            }) ?? [],
+            }),
             colorBoostEvents: data.colorBoostBeatmapEvents?.map((x) => {
                return colorBoostEvent.deserialize(x);
-            }) ?? [],
+            }),
             lightColorEventBoxGroups: data.lightColorEventBoxGroups?.map((x) => {
                return lightColorEventBoxGroup.deserialize(x);
-            }) ?? [],
+            }),
             lightRotationEventBoxGroups: data.lightRotationEventBoxGroups?.map((x) => {
                return lightRotationEventBoxGroup.deserialize(x);
-            }) ?? [],
+            }),
             lightTranslationEventBoxGroups: data.lightTranslationEventBoxGroups?.map(
                (x) => {
                   return lightTranslationEventBoxGroup.deserialize(x);
                },
-            ) ?? [],
+            ),
             fxEventBoxGroups: data.vfxEventBoxGroups?.map((obj) =>
                fxEventBoxGroup.deserialize({
                   object: { ...obj, t: FxType.FLOAT },
@@ -100,12 +101,9 @@ export const lightshow: ISchemaContainer<IWrapBeatmapAttribute, ILightshow, Ligh
                      eventData: box.l?.map((idx) => fx![idx]) ?? [],
                   })) ?? [],
                })
-            ) ?? [],
-            basicEventTypesWithKeywords: { list: [] },
-            useNormalEventsAsCompatibleEvents: false,
-            customData: {},
-         },
-         customData: {},
-      };
+            ),
+            customData: data.customData,
+         }),
+      });
    },
 };

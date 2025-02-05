@@ -1,20 +1,27 @@
-import { BaseObject } from './abstract/baseObject.ts';
 import type {
    IWrapRotationEvent,
    IWrapRotationEventAttribute,
 } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { BaseObject } from './abstract/baseObject.ts';
+
+export function createRotationEvent(
+   data: DeepPartial<IWrapRotationEventAttribute> = {},
+): IWrapRotationEventAttribute {
+   return {
+      time: data.time ?? 0,
+      executionTime: data.executionTime ?? 0,
+      rotation: data.rotation ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap rotation event.
  */
 export class RotationEvent extends BaseObject implements IWrapRotationEvent {
-   static defaultValue: IWrapRotationEventAttribute = {
-      time: 0,
-      executionTime: 0,
-      rotation: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapRotationEventAttribute = createRotationEvent();
 
    static createOne(data: Partial<IWrapRotationEventAttribute> = {}): RotationEvent {
       return new this(data);

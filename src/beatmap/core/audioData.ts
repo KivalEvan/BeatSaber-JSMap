@@ -6,9 +6,33 @@ import type {
    IWrapAudioDataLUFS,
 } from '../../types/beatmap/wrapper/audioData.ts';
 import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import type { DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
+import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
+
+export function createAudioData(
+   data: DeepPartial<IWrapAudioDataAttribute> = {},
+): IWrapAudioDataAttribute {
+   return {
+      version: data.version ?? -1,
+      filename: data.filename ?? 'AudioData.dat',
+      audioChecksum: data.audioChecksum ?? '',
+      sampleCount: data.sampleCount ?? 44100,
+      frequency: data.frequency ?? 0,
+      bpmData: data.bpmData?.map((e) => ({
+         startSampleIndex: e.startSampleIndex ?? 0,
+         endSampleIndex: e.endSampleIndex ?? 0,
+         startBeat: e.startBeat ?? 0,
+         endBeat: e.endBeat ?? 0,
+      })) ?? [],
+      lufsData: data.lufsData?.map((e) => ({
+         startSampleIndex: e.startSampleIndex ?? 0,
+         endSampleIndex: e.endSampleIndex ?? 0,
+         lufs: e.lufs ?? 0,
+      })) ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap audio data.
@@ -16,16 +40,7 @@ import { BaseItem } from './abstract/baseItem.ts';
  * This object is writable into file.
  */
 export class AudioData extends BaseItem implements IWrapAudioData {
-   static defaultValue: IWrapAudioDataAttribute = {
-      version: -1,
-      filename: 'AudioData.dat',
-      audioChecksum: '',
-      sampleCount: 44100,
-      frequency: 0,
-      bpmData: [],
-      lufsData: [],
-      customData: {},
-   };
+   static defaultValue: IWrapAudioDataAttribute = createAudioData();
 
    static createOne(data: Partial<IWrapAudioDataAttribute> = {}): AudioData {
       return new this(data);

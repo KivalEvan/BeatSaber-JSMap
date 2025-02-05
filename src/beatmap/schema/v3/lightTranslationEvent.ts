@@ -2,6 +2,7 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightTranslationEvent } from '../../../types/beatmap/v3/lightTranslationEvent.ts';
 import type { IWrapLightTranslationEventAttribute } from '../../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightTranslationEvent } from '../../core/lightTranslationEvent.ts';
 
 /**
  * Schema serialization for v3 `Light Translation Event`.
@@ -20,12 +21,12 @@ export const lightTranslationEvent: ISchemaContainer<
       };
    },
    deserialize(data) {
-      return {
-         time: data.b ?? 0,
-         easing: data.e ?? 0,
-         previous: data.p ?? 0,
-         translation: data.t ?? 0,
-         customData: data.customData ?? {},
-      };
+      return createLightTranslationEvent({
+         time: data.b,
+         easing: data.e,
+         previous: data.p,
+         translation: data.t,
+         customData: data.customData,
+      });
    },
 };

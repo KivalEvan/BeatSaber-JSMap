@@ -2,20 +2,27 @@ import type {
    IWrapFxEventFloat,
    IWrapFxEventFloatAttribute,
 } from '../../types/beatmap/wrapper/fxEventFloat.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
+
+export function createFxEventFloat(
+   data: DeepPartial<IWrapFxEventFloatAttribute> = {},
+): IWrapFxEventFloatAttribute {
+   return {
+      time: data.time ?? 0,
+      easing: data.easing ?? 0,
+      previous: data.previous ?? 0,
+      value: data.value ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap FX event float.
  */
 export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
-   static defaultValue: IWrapFxEventFloatAttribute = {
-      time: 0,
-      easing: 0,
-      previous: 0,
-      value: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapFxEventFloatAttribute = createFxEventFloat();
 
    static createOne(data: Partial<IWrapFxEventFloatAttribute> = {}): FxEventFloat {
       return new this(data);

@@ -2,6 +2,7 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightRotationEventBox } from '../../../types/beatmap/v3/lightRotationEventBox.ts';
 import type { IWrapLightRotationEventBoxAttribute } from '../../../types/beatmap/wrapper/lightRotationEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightRotationEventBox } from '../../core/lightRotationEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightRotationEvent } from './lightRotationEvent.ts';
 
@@ -30,20 +31,20 @@ export const lightRotationEventBox: ISchemaContainer<
       };
    },
    deserialize(data) {
-      return {
+      return createLightRotationEventBox({
          filter: indexFilter.deserialize(data.f ?? {}),
-         beatDistribution: data.w ?? 0,
-         beatDistributionType: data.d ?? 1,
-         rotationDistribution: data.s ?? 0,
-         rotationDistributionType: data.t ?? 1,
-         axis: data.a ?? 0,
-         flip: data.r ?? 0,
-         affectFirst: data.b ?? 0,
-         easing: data.i ?? 0,
+         beatDistribution: data.w,
+         beatDistributionType: data.d,
+         rotationDistribution: data.s,
+         rotationDistributionType: data.t,
+         axis: data.a,
+         flip: data.r,
+         affectFirst: data.b,
+         easing: data.i,
          events: data.l?.map((x) => {
             return lightRotationEvent.deserialize(x);
-         }) ?? [],
-         customData: data.customData ?? {},
-      };
+         }),
+         customData: data.customData,
+      });
    },
 };

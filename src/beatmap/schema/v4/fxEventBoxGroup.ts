@@ -6,6 +6,7 @@ import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapFxEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/fxEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createFxEventBoxGroup } from '../../core/fxEventBoxGroup.ts';
 import { fxEventBox } from './fxEventBox.ts';
 
 /**
@@ -30,13 +31,13 @@ export const fxEventBoxGroup: ISchemaContainer<
       };
    },
    deserialize(data) {
-      return {
-         time: data.object?.b ?? 0,
-         id: data.object?.g ?? 0,
+      return createFxEventBoxGroup({
+         time: data.object?.b,
+         id: data.object?.g,
          boxes: data.boxData?.map((x) => {
             return fxEventBox.deserialize(x);
          }),
-         customData: data.object?.customData ?? {},
-      };
+         customData: data.object?.customData,
+      });
    },
 };

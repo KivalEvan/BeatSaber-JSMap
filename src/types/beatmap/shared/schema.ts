@@ -1,4 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
+import type { DeepPartial } from '../../utils.ts';
 import type { Version } from './version.ts';
 
 interface ISchemaDeclarationBase {
@@ -43,14 +44,14 @@ export interface ISchemaContainer<
    TWrapper = { [key: string]: any },
    TSerial = { [key: string]: any },
    TSerializationOptions = { [key: string]: any },
-   TDeserializationOptions = TSerializationOptions,
+   TDeserializationOptions = { [key: string]: any },
 > {
    serialize: (
       data: TWrapper,
-      options?: Partial<TSerializationOptions>,
+      options?: DeepPartial<TSerializationOptions>,
    ) => TSerial;
    deserialize: (
       data: TSerial,
-      options?: Partial<TDeserializationOptions>,
+      options?: DeepPartial<TDeserializationOptions>,
    ) => TWrapper;
 }

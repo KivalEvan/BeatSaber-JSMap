@@ -2,6 +2,7 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightTranslationEventBoxGroup } from '../../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
 import type { IWrapLightTranslationEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightTranslationEventBoxGroup } from '../../core/lightTranslationEventBoxGroup.ts';
 import { lightTranslationEventBox } from './lightTranslationEventBox.ts';
 
 /**
@@ -22,13 +23,13 @@ export const lightTranslationEventBoxGroup: ISchemaContainer<
       };
    },
    deserialize(data) {
-      return {
-         time: data.b ?? 0,
-         id: data.g ?? 0,
+      return createLightTranslationEventBoxGroup({
+         time: data.b,
+         id: data.g,
          boxes: data.e?.map((x) => {
             return lightTranslationEventBox.deserialize(x);
-         }) ?? [],
-         customData: data.customData ?? {},
-      };
+         }),
+         customData: data.customData,
+      });
    },
 };

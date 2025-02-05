@@ -3,6 +3,7 @@ import type {
    IWrapObstacle,
    IWrapObstacleAttribute,
 } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import type { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { vectorAdd } from '../../utils/vector.ts';
@@ -15,20 +16,26 @@ import {
 import { LINE_COUNT } from '../shared/constants.ts';
 import { GridObject } from './abstract/gridObject.ts';
 
+export function createObstacle(
+   data: DeepPartial<IWrapObstacleAttribute> = {},
+): IWrapObstacleAttribute {
+   return {
+      time: data.time ?? 0,
+      posX: data.posX ?? 0,
+      posY: data.posY ?? 0,
+      width: data.width ?? 0,
+      height: data.height ?? 0,
+      duration: data.duration ?? 0,
+      laneRotation: data.laneRotation ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
+
 /**
  * Core beatmap obstacle.
  */
 export class Obstacle extends GridObject implements IWrapObstacle {
-   static defaultValue: IWrapObstacleAttribute = {
-      time: 0,
-      posX: 0,
-      posY: 0,
-      width: 0,
-      height: 0,
-      duration: 0,
-      laneRotation: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapObstacleAttribute = createObstacle();
 
    static createOne(data: Partial<IWrapObstacleAttribute> = {}): Obstacle {
       return new this(data);

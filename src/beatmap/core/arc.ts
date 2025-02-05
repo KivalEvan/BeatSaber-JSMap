@@ -1,31 +1,38 @@
 import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { mirrorArcMidAnchor } from '../helpers/core/arc.ts';
 import { mirrorNoteDirectionHorizontally, resolveNoteAngle } from '../helpers/core/baseNote.ts';
 import { BaseSlider } from './abstract/baseSlider.ts';
 
+export function createArc(
+   data: DeepPartial<IWrapArcAttribute> = {},
+): IWrapArcAttribute {
+   return {
+      time: data.time ?? 0,
+      posX: data.posX ?? 0,
+      posY: data.posY ?? 0,
+      color: data.color ?? 0,
+      direction: data.direction ?? 0,
+      lengthMultiplier: data.lengthMultiplier ?? 0,
+      tailTime: data.tailTime ?? 0,
+      tailPosX: data.tailPosX ?? 0,
+      tailPosY: data.tailPosY ?? 0,
+      tailDirection: data.tailDirection ?? 0,
+      tailLengthMultiplier: data.tailLengthMultiplier ?? 0,
+      midAnchor: data.midAnchor ?? 0,
+      laneRotation: data.laneRotation ?? 0,
+      tailLaneRotation: data.tailLaneRotation ?? 0,
+      customData: deepCopy(data.customData ?? {}),
+   };
+}
+
 /**
  * Core beatmap arc.
  */
 export class Arc extends BaseSlider implements IWrapArc {
-   static defaultValue: IWrapArcAttribute = {
-      time: 0,
-      posX: 0,
-      posY: 0,
-      color: 0,
-      direction: 0,
-      lengthMultiplier: 0,
-      tailTime: 0,
-      tailPosX: 0,
-      tailPosY: 0,
-      tailDirection: 0,
-      tailLengthMultiplier: 0,
-      midAnchor: 0,
-      laneRotation: 0,
-      tailLaneRotation: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapArcAttribute = createArc();
 
    static createOne(data: Partial<IWrapArcAttribute> = {}): Arc {
       return new this(data);

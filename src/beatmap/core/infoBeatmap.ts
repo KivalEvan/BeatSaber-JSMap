@@ -9,29 +9,35 @@ import type {
    IWrapInfoBeatmap,
    IWrapInfoBeatmapAttribute,
 } from '../../types/beatmap/wrapper/info.ts';
-import type { DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
+import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
+
+export function createInfoBeatmap(
+   data: DeepPartial<IWrapInfoBeatmapAttribute> = {},
+): IWrapInfoBeatmapAttribute {
+   return {
+      characteristic: data.characteristic ?? 'Standard',
+      difficulty: data.difficulty ?? 'Easy',
+      filename: data.filename ?? 'Unnamed.beatmap.dat',
+      lightshowFilename: data.lightshowFilename ?? 'Unnamed.lightshow.dat',
+      authors: {
+         mappers: data.authors?.mappers ?? [],
+         lighters: data.authors?.lighters ?? [],
+      },
+      njs: data.njs ?? 0,
+      njsOffset: data.njsOffset ?? 0,
+      colorSchemeId: data.colorSchemeId ?? -1,
+      environmentId: data.environmentId ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap info beatmap.
  */
 export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
-   static defaultValue: IWrapInfoBeatmapAttribute = {
-      characteristic: 'Standard',
-      difficulty: 'Easy',
-      filename: 'Unnamed.beatmap.dat',
-      lightshowFilename: 'Unnamed.lightshow.dat',
-      authors: {
-         mappers: [],
-         lighters: [],
-      },
-      njs: 10,
-      njsOffset: 0,
-      colorSchemeId: -1,
-      environmentId: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapInfoBeatmapAttribute = createInfoBeatmap();
 
    static createOne(data: Partial<IWrapInfoBeatmapAttribute> = {}): InfoBeatmap {
       return new this(data);

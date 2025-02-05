@@ -5,16 +5,20 @@ import type {
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
+export function createFxEventInt(data: Partial<IWrapFxEventIntAttribute> = {}) {
+   return {
+      time: data.time ?? 0,
+      previous: data.previous ?? 0,
+      value: data.value ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
+
 /**
  * Core beatmap FX event int.
  */
 export class FxEventInt extends BaseObject implements IWrapFxEventInt {
-   static defaultValue: IWrapFxEventIntAttribute = {
-      time: 0,
-      previous: 0,
-      value: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapFxEventIntAttribute = createFxEventInt();
 
    static createOne(data: Partial<IWrapFxEventIntAttribute> = {}): FxEventInt {
       return new this(data);

@@ -2,6 +2,7 @@ import type { ISpawnRotationContainer } from '../../../types/beatmap/container/v
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createRotationEvent } from '../../core/rotationEvent.ts';
 
 /**
  * Schema serialization for v4 `Rotation Event`.
@@ -23,11 +24,11 @@ export const rotationEvent: ISchemaContainer<
       };
    },
    deserialize(data) {
-      return {
-         time: data.object?.b ?? 0,
-         executionTime: data.data?.e ?? 0,
-         rotation: data.data?.r ?? 0,
-         customData: data.data?.customData ?? {},
-      };
+      return createRotationEvent({
+         time: data.object?.b,
+         executionTime: data.data?.e,
+         rotation: data.data?.r,
+         customData: data.data?.customData,
+      });
    },
 };

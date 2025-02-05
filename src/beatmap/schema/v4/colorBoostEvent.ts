@@ -2,6 +2,7 @@ import type { IColorBoostEventContainer } from '../../../types/beatmap/container
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapColorBoostEventAttribute } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createColorBoostEvent } from '../../core/colorBoostEvent.ts';
 
 /**
  * Schema serialization for v4 `Color Boost Event`.
@@ -24,10 +25,10 @@ export const colorBoostEvent: ISchemaContainer<
       };
    },
    deserialize(data) {
-      return {
-         time: data.object?.b ?? 0,
+      return createColorBoostEvent({
+         time: data.object?.b,
          toggle: !!data.data?.b,
-         customData: data.data?.customData ?? {},
-      };
+         customData: data.data?.customData,
+      });
    },
 };

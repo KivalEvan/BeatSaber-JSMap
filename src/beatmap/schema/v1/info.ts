@@ -1,12 +1,14 @@
+// deno-lint-ignore-file no-explicit-any
 import type { EnvironmentName } from '../../../types/beatmap/shared/environment.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfo } from '../../../types/beatmap/v1/info.ts';
 import type { IWrapInfoAttribute } from '../../../types/beatmap/wrapper/info.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createInfo } from '../../core/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
 
-type InfoPolyfills = Pick<IWrapInfoAttribute, 'filename'> & {
+type InfoDeserializationPolyfills = Pick<IWrapInfoAttribute, 'filename'> & {
    audio: Pick<
       IWrapInfoAttribute['audio'],
       | 'filename'
@@ -22,7 +24,12 @@ type InfoPolyfills = Pick<IWrapInfoAttribute, 'filename'> & {
 /**
  * Schema serialization for v1 `Info`.
  */
-export const info: ISchemaContainer<IWrapInfoAttribute, IInfo, InfoPolyfills> = {
+export const info: ISchemaContainer<
+   IWrapInfoAttribute,
+   IInfo,
+   Record<string, any>,
+   InfoDeserializationPolyfills
+> = {
    serialize(data) {
       return {
          songName: data.song.title,
@@ -49,33 +56,29 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo, InfoPolyfills> = 
       };
    },
    deserialize(data, options) {
-      return {
+      const difficulty = data.difficultyLevels?.find((e) => {
+         return e?.audioPath;
+      });
+      return createInfo({
          version: 1,
-         filename: options?.filename ?? 'Info.dat',
+         filename: options?.filename,
          song: {
-            title: data.songName ?? '',
-            subTitle: data.songSubName ?? '',
-            author: data.authorName ?? '',
+            title: data.songName,
+            subTitle: data.songSubName,
+            author: data.authorName,
          },
          audio: {
-            filename: data.difficultyLevels?.find((e) => e?.audioPath)
-               ?.audioPath ?? options?.audio?.filename ?? 'song.ogg',
-            audioDataFilename: options?.audio?.audioDataFilename ?? 'BPMInfo.dat',
-            bpm: data.beatsPerMinute ?? 120,
-            lufs: options?.audio?.lufs ?? 0,
-            duration: options?.audio?.duration ?? 0,
-            previewStartTime: data.previewStartTime ?? 0,
-            previewDuration: data.previewDuration ?? 0,
-            audioOffset: options?.audio?.audioOffset ?? 0,
-            shuffle: options?.audio?.shuffle ?? 0,
-            shufflePeriod: options?.audio?.shufflePeriod ?? 0.5,
+            filename: difficulty?.audioPath ?? options?.audio?.filename,
+            audioDataFilename: options?.audio?.audioDataFilename,
+            bpm: data.beatsPerMinute,
+            lufs: options?.audio?.lufs,
+            duration: options?.audio?.duration,
+            previewStartTime: data.previewStartTime,
+            previewDuration: data.previewDuration,
          },
-         songPreviewFilename: data.difficultyLevels?.find((e) => e?.audioPath)
-            ?.audioPath ?? options?.audio?.filename ?? 'song.ogg',
-         coverImageFilename: data.coverImagePath ?? 'cover.jpg',
-         environmentBase: { normal: data.environmentName, allDirections: 'GlassDesertEnvironment' },
-         environmentNames: [data.environmentName],
-         colorSchemes: [],
+         songPreviewFilename: difficulty?.audioPath ?? options?.audio?.filename,
+         coverImageFilename: data.coverImagePath,
+         environmentBase: { normal: data.environmentName },
          difficulties: data.difficultyLevels?.map((x) => {
             return infoBeatmap.deserialize(x);
          }) ?? [],
@@ -84,6 +87,6 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo, InfoPolyfills> = 
             _customEnvironment: data.customEnvironment,
             _customEnvironmentHash: data.customEnvironmentHash,
          },
-      };
+      });
    },
 };

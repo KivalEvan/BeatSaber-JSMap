@@ -1,13 +1,24 @@
+// deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IBPMInfo } from '../../../types/beatmap/v2/bpmInfo.ts';
 import type { IWrapAudioDataAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
+import { createAudioData } from '../../core/audioData.ts';
 
-type AudioDataPolyfills = Pick<IWrapAudioDataAttribute, 'filename' | 'audioChecksum'>;
+type AudioDataDeserializationPolyfills = Pick<
+   IWrapAudioDataAttribute,
+   | 'filename'
+   | 'audioChecksum'
+>;
 
 /**
  * Schema serialization for v2 `Audio Data`.
  */
-export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IBPMInfo, AudioDataPolyfills> = {
+export const audioData: ISchemaContainer<
+   IWrapAudioDataAttribute,
+   IBPMInfo,
+   Record<string, any>,
+   AudioDataDeserializationPolyfills
+> = {
    serialize(data) {
       return {
          _version: '2.0.0',
@@ -22,20 +33,18 @@ export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IBPMInfo, Audi
       };
    },
    deserialize(data, options) {
-      return {
+      return createAudioData({
          version: 2,
-         filename: options?.filename ?? 'BPMInfo.dat',
-         audioChecksum: options?.audioChecksum ?? '',
-         sampleCount: data._songSampleCount ?? 0,
-         frequency: data._songFrequency ?? 0,
+         filename: options?.filename,
+         audioChecksum: options?.audioChecksum,
+         sampleCount: data._songSampleCount,
+         frequency: data._songFrequency,
          bpmData: data._regions?.map((bd) => ({
             startBeat: bd?._startBeat,
             endBeat: bd?._endBeat,
             startSampleIndex: bd?._startSampleIndex,
             endSampleIndex: bd?._endSampleIndex,
-         })) ?? [],
-         lufsData: [],
-         customData: {},
-      };
+         })),
+      });
    },
 };

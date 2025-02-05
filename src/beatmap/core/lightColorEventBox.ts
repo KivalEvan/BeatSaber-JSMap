@@ -3,38 +3,33 @@ import type {
    IWrapLightColorEventBox,
    IWrapLightColorEventBoxAttribute,
 } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
-import { IndexFilter } from './indexFilter.ts';
-import { LightColorEvent } from './lightColorEvent.ts';
+import { createIndexFilter, IndexFilter } from './indexFilter.ts';
+import { createLightColorEvent, LightColorEvent } from './lightColorEvent.ts';
+
+export function createLightColorEventBox(
+   data: DeepPartial<IWrapLightColorEventBoxAttribute> = {},
+): IWrapLightColorEventBoxAttribute {
+   return {
+      filter: createIndexFilter(data.filter),
+      beatDistribution: data.beatDistribution ?? 0,
+      beatDistributionType: data.beatDistributionType ?? 1,
+      brightnessDistribution: data.brightnessDistribution ?? 0,
+      brightnessDistributionType: data.brightnessDistributionType ?? 1,
+      affectFirst: data.affectFirst ?? 0,
+      easing: data.easing ?? 0,
+      events: data.events?.map((o) => createLightColorEvent(o)) ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap light color event box.
  */
 export class LightColorEventBox extends EventBox implements IWrapLightColorEventBox {
-   static defaultValue: IWrapLightColorEventBoxAttribute = {
-      filter: {
-         type: 1,
-         p0: 0,
-         p1: 0,
-         reverse: 0,
-         chunks: 0,
-         random: 0,
-         seed: 0,
-         limit: 0,
-         limitAffectsType: 0,
-         customData: {},
-      },
-      beatDistribution: 0,
-      beatDistributionType: 1,
-      brightnessDistribution: 0,
-      brightnessDistributionType: 1,
-      affectFirst: 0,
-      easing: 0,
-      events: [],
-      customData: {},
-   };
+   static defaultValue: IWrapLightColorEventBoxAttribute = createLightColorEventBox();
 
    static createOne(data: Partial<IWrapLightColorEventBoxAttribute> = {}): LightColorEventBox {
       return new this(data);

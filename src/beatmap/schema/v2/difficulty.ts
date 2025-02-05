@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IDifficulty } from '../../../types/beatmap/v2/difficulty.ts';
 import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
@@ -8,6 +9,9 @@ import type { IWrapColorBoostEventAttribute } from '../../../types/beatmap/wrapp
 import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createBeatmap } from '../../core/beatmap.ts';
+import { createDifficulty } from '../../core/difficulty.ts';
+import { createLightshow } from '../../core/lightshow.ts';
 import { sortV2NoteFn, sortV2ObjectFn } from '../../helpers/sort.ts';
 import { compareVersion } from '../../helpers/version.ts';
 import { arc } from './arc.ts';
@@ -21,12 +25,21 @@ import { obstacle } from './obstacle.ts';
 import { rotationEvent } from './rotationEvent.ts';
 import { waypoint } from './waypoint.ts';
 
-type DifficultyPolyfills = Pick<IWrapBeatmapAttribute, 'filename' | 'lightshowFilename'>;
+type DifficultyDeserializationPolyfills = Pick<
+   IWrapBeatmapAttribute,
+   | 'filename'
+   | 'lightshowFilename'
+>;
 
 /**
  * Schema serialization for v2 `Difficulty`.
  */
-export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = {
+export const difficulty: ISchemaContainer<
+   IWrapBeatmapAttribute,
+   IDifficulty,
+   Record<string, any>,
+   DifficultyDeserializationPolyfills
+> = {
    serialize(data) {
       return {
          _version: '2.6.0',
@@ -67,7 +80,7 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
          _customData: deepCopy(data.difficulty.customData),
       };
    },
-   deserialize(data, options?: Partial<DifficultyPolyfills>) {
+   deserialize(data, options) {
       const colorNotes: IWrapColorNoteAttribute[] = [];
       const bombNotes: IWrapBombNoteAttribute[] = [];
       const _notes = data._notes || [];
@@ -114,40 +127,31 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             }
          }
       }
-      return {
+      return createBeatmap({
          version: 2,
-         filename: options?.filename ?? 'EasyStandard.dat',
-         lightshowFilename: options?.lightshowFilename ?? 'EasyLightshow.dat',
-         difficulty: {
+         filename: options?.filename,
+         lightshowFilename: options?.lightshowFilename,
+         difficulty: createDifficulty({
             colorNotes,
             bombNotes,
             obstacles: data._obstacles?.map((x) => {
                return obstacle.deserialize(x);
-            }) ?? [],
-            arcs: [],
-            chains: [],
+            }),
             rotationEvents,
             bpmEvents,
-            njsEvents: [],
-            customData: data._customData ?? {},
-         },
-         lightshow: {
+            customData: data._customData,
+         }),
+         lightshow: createLightshow({
             waypoints: data._waypoints?.map((x) => {
                return waypoint.deserialize(x);
-            }) ?? [],
+            }),
             basicEvents,
             colorBoostEvents,
-            lightColorEventBoxGroups: [],
-            lightRotationEventBoxGroups: [],
-            lightTranslationEventBoxGroups: [],
-            fxEventBoxGroups: [],
             useNormalEventsAsCompatibleEvents: true,
             basicEventTypesWithKeywords: basicEventTypesWithKeywords.deserialize(
                data._specialEventsKeywordFilters ?? {},
             ),
-            customData: {},
-         },
-         customData: {},
-      };
+         }),
+      });
    },
 };

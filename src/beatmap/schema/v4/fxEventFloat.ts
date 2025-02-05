@@ -2,6 +2,7 @@ import type { IFxEventFloatContainer } from '../../../types/beatmap/container/v4
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapFxEventFloatAttribute } from '../../../types/beatmap/wrapper/fxEventFloat.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createFxEventFloat } from '../../core/fxEventFloat.ts';
 
 /**
  * Schema serialization for v4 `FX Event Float`.
@@ -19,12 +20,12 @@ export const fxEventFloat: ISchemaContainer<IWrapFxEventFloatAttribute, IFxEvent
       };
    },
    deserialize(data) {
-      return {
-         time: data.time ?? 0,
-         previous: data.data?.p ?? 0,
-         easing: data.data?.e ?? 0,
-         value: data.data?.v ?? 0,
-         customData: data.data?.customData ?? {},
-      };
+      return createFxEventFloat({
+         time: data.time,
+         previous: data.data?.p,
+         easing: data.data?.e,
+         value: data.data?.v,
+         customData: data.data?.customData,
+      });
    },
 };

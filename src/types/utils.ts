@@ -26,9 +26,11 @@ export type DeepWritable<T> = {
 /**
  * Make all nested properties in T optional.
  */
-export type DeepPartial<T> = {
-   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
-};
+export type DeepPartial<T> = T extends Function ? T
+   : T extends Array<infer Member> ? Array<DeepPartial<Member>>
+   : T extends (infer X extends string | number) & {} ? X
+   : T extends object ? { [Key in NonNullable<keyof T>]?: DeepPartial<T[Key]> }
+   : T;
 
 /**
  * Make all properties in T optional except those in Ignore.

@@ -2,12 +2,13 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createBasicEvent } from '../../core/basicEvent.ts';
 
 /**
  * Schema serialization for v2 `Basic Event`.
  */
 export const basicEvent: ISchemaContainer<IWrapBasicEventAttribute, IEvent> = {
-   serialize(data: IWrapBasicEventAttribute): IEvent {
+   serialize(data) {
       return {
          _time: data.time,
          _type: data.type,
@@ -17,12 +18,12 @@ export const basicEvent: ISchemaContainer<IWrapBasicEventAttribute, IEvent> = {
       };
    },
    deserialize(data) {
-      return {
-         time: data._time ?? 0,
-         type: data._type ?? 0,
-         value: data._value ?? 0,
-         floatValue: data._floatValue ?? 0,
-         customData: data._customData ?? {},
-      };
+      return createBasicEvent({
+         time: data._time,
+         type: data._type,
+         value: data._value,
+         floatValue: data._floatValue,
+         customData: data._customData,
+      });
    },
 };

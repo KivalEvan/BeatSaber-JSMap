@@ -1,19 +1,26 @@
+// deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IInfo, IInfoBeatmap } from '../../../types/beatmap/v4/info.ts';
+import type { IInfo } from '../../../types/beatmap/v4/info.ts';
 import type {
    IWrapInfoAttribute,
    IWrapInfoColorScheme,
 } from '../../../types/beatmap/wrapper/info.ts';
 import { colorToHex, hexToRgba, toColorObject } from '../../../utils/colors.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createInfo } from '../../core/info.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
 
-type InfoPolyfills = Pick<IWrapInfoAttribute, 'filename'>;
+type InfoDeserializationPolyfills = Pick<IWrapInfoAttribute, 'filename'>;
 
 /**
  * Schema serialization for v4 `Info`.
  */
-export const info: ISchemaContainer<IWrapInfoAttribute, IInfo, InfoPolyfills> = {
+export const info: ISchemaContainer<
+   IWrapInfoAttribute,
+   IInfo,
+   Record<string, any>,
+   InfoDeserializationPolyfills
+> = {
    serialize(data) {
       return {
          version: '4.0.1',
@@ -62,39 +69,31 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo, InfoPolyfills> = 
       };
    },
    deserialize(data, options) {
-      return {
+      return createInfo({
          version: 4,
-         filename: options?.filename ?? 'Info.dat',
+         filename: options?.filename,
          song: {
-            author: data.song?.author ?? '',
-            title: data.song?.title ?? '',
-            subTitle: data.song?.subTitle ?? '',
+            author: data.song?.author,
+            title: data.song?.title,
+            subTitle: data.song?.subTitle,
          },
          audio: {
-            filename: data.audio?.songFilename ?? 'song.ogg',
-            duration: data.audio?.songDuration ?? 0,
-            audioDataFilename: data.audio?.audioDataFilename ?? 'AudioData.dat',
-            bpm: data.audio?.bpm ?? 120,
-            lufs: data.audio?.lufs ?? 0,
-            previewStartTime: data.audio?.previewStartTime ?? 0,
-            previewDuration: data.audio?.previewDuration ?? 0,
-            audioOffset: 0,
-            shuffle: 0,
-            shufflePeriod: 0.5,
+            filename: data.audio?.songFilename,
+            duration: data.audio?.songDuration,
+            audioDataFilename: data.audio?.audioDataFilename,
+            bpm: data.audio?.bpm,
+            lufs: data.audio?.lufs,
+            previewStartTime: data.audio?.previewStartTime,
+            previewDuration: data.audio?.previewDuration,
          },
-         songPreviewFilename: data.songPreviewFilename ?? 'song.ogg',
-         coverImageFilename: data.coverImageFilename ?? 'cover.jpg',
-         environmentBase: {
-            normal: null,
-            allDirections: null,
-         },
-         environmentNames: data.environmentNames?.map((e) => e!) ?? [],
+         songPreviewFilename: data.songPreviewFilename,
+         coverImageFilename: data.coverImageFilename,
+         environmentNames: data.environmentNames,
          colorSchemes: data.colorSchemes?.map((e) => {
-            e = e!;
             const scheme: IWrapInfoColorScheme = {
-               name: e.colorSchemeName || '',
-               overrideNotes: e.overrideNotes || data.version === '4.0.0',
-               overrideLights: e.overrideLights || data.version === '4.0.0',
+               name: e?.colorSchemeName ?? '',
+               overrideNotes: e?.overrideNotes ?? data.version === '4.0.0',
+               overrideLights: e?.overrideLights ?? data.version === '4.0.0',
                saberLeftColor: toColorObject(hexToRgba(e.saberAColor!), true),
                saberRightColor: toColorObject(hexToRgba(e.saberBColor!), true),
                environment0Color: toColorObject(
@@ -131,11 +130,11 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo, InfoPolyfills> = 
                );
             }
             return scheme;
-         }) ?? [],
-         difficulties: (data.difficultyBeatmaps ?? []).map((d) =>
-            infoBeatmap.deserialize(d as IInfoBeatmap)
-         ),
-         customData: data.customData ?? {},
-      };
+         }),
+         difficulties: data.difficultyBeatmaps?.map((d) => {
+            return infoBeatmap.deserialize(d);
+         }),
+         customData: data.customData,
+      });
    },
 };
