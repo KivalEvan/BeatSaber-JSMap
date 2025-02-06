@@ -1,16 +1,17 @@
+import { isLightEventType, isOnEventValue } from '../../beatmap/helpers/core/basicEvent.ts';
+import type { IWrapBasicEventAttribute } from '../../types/beatmap/wrapper/basicEvent.ts';
 import type { IApplyEasingsOptions } from './types/colors.ts';
-import type { BasicEvent } from '../../beatmap/core/basicEvent.ts';
-import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 
-export function applyEasingsTransition(
-   events: BasicEvent[],
-   options: IApplyEasingsOptions,
-): void {
-   let filteredEvents = events.filter((ev) => ev.isLightEvent() && ev.isOn());
+export function applyEasingsTransition<
+   T extends Pick<IWrapBasicEventAttribute, 'type' | 'value' | 'customData'>,
+>(events: T[], options: IApplyEasingsOptions): void {
+   let filteredEvents = events.filter((ev) =>
+      isLightEventType(ev.type) && isOnEventValue(ev.value)
+   );
    if (typeof options.type === 'number') {
       filteredEvents = filteredEvents.filter((ev) => ev.type === options.type);
    }
    filteredEvents.forEach((ev) => {
-      (ev.customData as IChromaEventLight).easing = options.easing;
+      ev.customData.easing = options.easing;
    });
 }

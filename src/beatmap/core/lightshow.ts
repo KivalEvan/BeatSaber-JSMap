@@ -8,6 +8,10 @@ import type {
    IWrapColorBoostEventAttribute,
 } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
 import type {
+   IWrapFxEventBoxGroup,
+   IWrapFxEventBoxGroupAttribute,
+} from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
+import type {
    IWrapLightColorEventBoxGroup,
    IWrapLightColorEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
@@ -16,6 +20,10 @@ import type {
    IWrapLightRotationEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
 import type {
+   IWrapLightshow,
+   IWrapLightshowAttribute,
+} from '../../types/beatmap/wrapper/lightshow.ts';
+import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
@@ -23,43 +31,59 @@ import type {
    IWrapWaypoint,
    IWrapWaypointAttribute,
 } from '../../types/beatmap/wrapper/waypoint.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
-import { BaseItem } from './abstract/baseItem.ts';
-import type {
-   IWrapLightshow,
-   IWrapLightshowAttribute,
-} from '../../types/beatmap/wrapper/lightshow.ts';
-import type {
-   IWrapFxEventBoxGroup,
-   IWrapFxEventBoxGroupAttribute,
-} from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
-import { sortObjectFn } from '../helpers/sort.ts';
-import { Waypoint } from './waypoint.ts';
-import { BasicEvent } from './basicEvent.ts';
-import { ColorBoostEvent } from './colorBoostEvent.ts';
-import { LightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
-import { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
-import { LightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
-import { FxEventBoxGroup } from './fxEventBoxGroup.ts';
-import { BasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { sortObjectFn } from '../helpers/sort.ts';
+import { BaseItem } from './abstract/baseItem.ts';
+import { BasicEvent, createBasicEvent } from './basicEvent.ts';
+import {
+   BasicEventTypesForKeywords,
+   createBasicEventTypesForKeywords,
+} from './basicEventTypesForKeywords.ts';
+import { ColorBoostEvent, createColorBoostEvent } from './colorBoostEvent.ts';
+import { createFxEventBoxGroup, FxEventBoxGroup } from './fxEventBoxGroup.ts';
+import {
+   createLightColorEventBoxGroup,
+   LightColorEventBoxGroup,
+} from './lightColorEventBoxGroup.ts';
+import {
+   createLightRotationEventBoxGroup,
+   LightRotationEventBoxGroup,
+} from './lightRotationEventBoxGroup.ts';
+import {
+   createLightTranslationEventBoxGroup,
+   LightTranslationEventBoxGroup,
+} from './lightTranslationEventBoxGroup.ts';
+import { createWaypoint, Waypoint } from './waypoint.ts';
+
+export function createLightshow(
+   data: DeepPartial<IWrapLightshowAttribute> = {},
+): IWrapLightshowAttribute {
+   return {
+      waypoints: data.waypoints?.map(createWaypoint) ?? [],
+      basicEvents: data.basicEvents?.map(createBasicEvent) ?? [],
+      colorBoostEvents: data.colorBoostEvents?.map(createColorBoostEvent) ?? [],
+      lightColorEventBoxGroups: data.lightColorEventBoxGroups?.map(createLightColorEventBoxGroup) ??
+         [],
+      lightRotationEventBoxGroups:
+         data.lightRotationEventBoxGroups?.map(createLightRotationEventBoxGroup) ?? [],
+      lightTranslationEventBoxGroups:
+         data.lightTranslationEventBoxGroups?.map(createLightTranslationEventBoxGroup) ?? [],
+      fxEventBoxGroups: data.fxEventBoxGroups?.map(createFxEventBoxGroup) ?? [],
+      basicEventTypesWithKeywords: {
+         list: (data.basicEventTypesWithKeywords?.list)?.map(createBasicEventTypesForKeywords) ??
+            [],
+      },
+      useNormalEventsAsCompatibleEvents: !!data.useNormalEventsAsCompatibleEvents,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap lightshow.
  */
 export class Lightshow extends BaseItem implements IWrapLightshow {
-   static defaultValue: IWrapLightshowAttribute = {
-      waypoints: [],
-      basicEvents: [],
-      colorBoostEvents: [],
-      lightColorEventBoxGroups: [],
-      lightRotationEventBoxGroups: [],
-      lightTranslationEventBoxGroups: [],
-      fxEventBoxGroups: [],
-      basicEventTypesWithKeywords: { list: [] },
-      useNormalEventsAsCompatibleEvents: false,
-      customData: {},
-   };
+   static defaultValue: IWrapLightshowAttribute = createLightshow();
 
    static createOne(data: Partial<IWrapLightshowAttribute> = {}): Lightshow {
       return new this(data);

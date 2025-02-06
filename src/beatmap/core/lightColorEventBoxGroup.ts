@@ -3,21 +3,27 @@ import type {
    IWrapLightColorEventBoxGroup,
    IWrapLightColorEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
-import { LightColorEventBox } from './lightColorEventBox.ts';
+import { createLightColorEventBox, LightColorEventBox } from './lightColorEventBox.ts';
+
+export function createLightColorEventBoxGroup(
+   data: DeepPartial<IWrapLightColorEventBoxGroupAttribute> = {},
+): IWrapLightColorEventBoxGroupAttribute {
+   return {
+      time: data.time ?? 0,
+      id: data.id ?? 0,
+      boxes: data.boxes?.map((e) => createLightColorEventBox(e)) ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap light color event box group.
  */
 export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLightColorEventBoxGroup {
-   static defaultValue: IWrapLightColorEventBoxGroupAttribute = {
-      time: 0,
-      id: 0,
-      boxes: [],
-      customData: {},
-   };
+   static defaultValue: IWrapLightColorEventBoxGroupAttribute = createLightColorEventBoxGroup();
 
    static createOne(
       data: Partial<IWrapLightColorEventBoxGroupAttribute> = {},

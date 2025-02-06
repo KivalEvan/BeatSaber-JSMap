@@ -1,5 +1,4 @@
-import type { Writable } from '../types/utils.ts';
-import type { DeepWritable } from '../types/utils.ts';
+import type { DeepWritable, Writable } from '../types/utils.ts';
 
 /**
  * Shuffle array in-place.
@@ -96,4 +95,12 @@ export function hexToDec(hex: string): number {
 export function decToHex(val: number): string {
    const hex = val.toString(16);
    return hex;
+}
+
+/** Move to the next item in an iterable object programatically. */
+export function cycle<T extends string | number | symbol>(iter: Iterable<T>, current: T, step = 1) {
+   const arr = Object.values(iter);
+   const index = arr.indexOf(current);
+   if (!(current in arr)) return current;
+   return arr[(index + arr.length + step) % arr.length];
 }

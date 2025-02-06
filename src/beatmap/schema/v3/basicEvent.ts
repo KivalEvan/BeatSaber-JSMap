@@ -1,13 +1,14 @@
-import type { IBasicEvent } from '../../../types/beatmap/v3/basicEvent.ts';
-import { deepCopy } from '../../../utils/misc.ts';
-import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
+import type { IBasicEvent } from '../../../types/beatmap/v3/basicEvent.ts';
+import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
+import { deepCopy } from '../../../utils/misc.ts';
+import { createBasicEvent } from '../../core/basicEvent.ts';
 
 /**
  * Schema serialization for v3 `Basic Event`.
  */
 export const basicEvent: ISchemaContainer<IWrapBasicEventAttribute, IBasicEvent> = {
-   serialize(data: IWrapBasicEventAttribute): IBasicEvent {
+   serialize(data) {
       return {
          b: data.time,
          et: data.type,
@@ -16,13 +17,13 @@ export const basicEvent: ISchemaContainer<IWrapBasicEventAttribute, IBasicEvent>
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IBasicEvent> = {}): Partial<IWrapBasicEventAttribute> {
-      return {
+   deserialize(data) {
+      return createBasicEvent({
          time: data.b,
          type: data.et,
          value: data.i,
          floatValue: data.f,
          customData: data.customData,
-      };
+      });
    },
 };

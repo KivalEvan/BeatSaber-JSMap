@@ -1,5 +1,5 @@
-import { Arc, assertEquals, v2, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { Arc, assertEquals, v2, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.arc, 'V4 Arc'],
@@ -96,7 +96,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
@@ -106,7 +107,7 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.arc:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.arc).deserialize({
                   object: {
                      ai: 0,
                      hb: 2.5,
@@ -125,7 +126,7 @@ for (const tup of schemaList) {
             break;
          case v3.arc:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.arc).deserialize({
                   b: 2.5,
                   c: 1,
                   x: 2,
@@ -144,7 +145,7 @@ for (const tup of schemaList) {
             break;
          case v2.arc:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.arc).deserialize({
                   _colorType: 1,
                   _headTime: 2.5,
                   _headLineIndex: 2,
@@ -187,7 +188,7 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.arc:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.arc).deserialize({
                   object: {
                      hb: 2.5,
                      tb: 3,
@@ -200,7 +201,7 @@ for (const tup of schemaList) {
             break;
          case v3.arc:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.arc).deserialize({
                   b: 2.5,
                   c: 1,
                   mu: 0.5,
@@ -211,7 +212,7 @@ for (const tup of schemaList) {
             break;
          case v2.arc:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.arc).deserialize({
                   _colorType: 1,
                   _headTime: 2.5,
                   _headControlPointLengthMultiplier: 0.5,

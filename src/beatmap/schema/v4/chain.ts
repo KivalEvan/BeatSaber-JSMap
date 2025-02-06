@@ -1,13 +1,14 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IChainContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapChainAttribute } from '../../../types/beatmap/wrapper/chain.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createChain } from '../../core/chain.ts';
 
 /**
  * Schema serialization for v4 `Chain`.
  */
 export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
-   serialize(data: IWrapChainAttribute): IChainContainer {
+   serialize(data) {
       return {
          object: {
             hb: data.time,
@@ -35,8 +36,8 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
          },
       };
    },
-   deserialize(data: Partial<IChainContainer> = {}): Partial<IWrapChainAttribute> {
-      return {
+   deserialize(data) {
+      return createChain({
          time: data.object?.hb,
          laneRotation: data.object?.hr,
          color: data.data?.c,
@@ -50,6 +51,6 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChainContainer> = {
          sliceCount: data.chainData?.c,
          squish: data.chainData?.s,
          customData: data.chainData?.customData,
-      };
+      });
    },
 };

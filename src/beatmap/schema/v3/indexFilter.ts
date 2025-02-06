@@ -2,12 +2,13 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IIndexFilter } from '../../../types/beatmap/v3/indexFilter.ts';
 import type { IWrapIndexFilterAttribute } from '../../../types/beatmap/wrapper/indexFilter.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createIndexFilter } from '../../core/indexFilter.ts';
 
 /**
  * Schema serialization for v3 `Index Filter`.
  */
 export const indexFilter: ISchemaContainer<IWrapIndexFilterAttribute, IIndexFilter> = {
-   serialize(data: IWrapIndexFilterAttribute): Required<IIndexFilter> {
+   serialize(data) {
       return {
          f: data.type,
          p: data.p0,
@@ -21,8 +22,8 @@ export const indexFilter: ISchemaContainer<IWrapIndexFilterAttribute, IIndexFilt
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IIndexFilter> = {}): Partial<IWrapIndexFilterAttribute> {
-      return {
+   deserialize(data) {
+      return createIndexFilter({
          type: data.f,
          p0: data.p,
          p1: data.t,
@@ -33,6 +34,6 @@ export const indexFilter: ISchemaContainer<IWrapIndexFilterAttribute, IIndexFilt
          limit: data.l,
          limitAffectsType: data.d,
          customData: data.customData,
-      };
+      });
    },
 };

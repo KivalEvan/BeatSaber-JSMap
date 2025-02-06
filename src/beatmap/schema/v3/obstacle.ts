@@ -2,12 +2,13 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IObstacle } from '../../../types/beatmap/v3/obstacle.ts';
 import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createObstacle } from '../../core/obstacle.ts';
 
 /**
  * Schema serialization for v3 `Obstacle`.
  */
 export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
-   serialize(data: IWrapObstacleAttribute): IObstacle {
+   serialize(data) {
       return {
          b: data.time,
          x: data.posX,
@@ -18,8 +19,8 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IObstacle> = {}): Partial<IWrapObstacleAttribute> {
-      return {
+   deserialize(data) {
+      return createObstacle({
          time: data.b,
          posX: data.x,
          posY: data.y,
@@ -27,6 +28,6 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          width: data.w,
          height: data.h,
          customData: data.customData,
-      };
+      });
    },
 };

@@ -1,24 +1,31 @@
-import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
+import type { IWrapLightRotationEventBox } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
 import type {
    IWrapLightRotationEventBoxGroup,
    IWrapLightRotationEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
-import type { IWrapLightRotationEventBox } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
-import { LightRotationEventBox } from './lightRotationEventBox.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
+import { createLightRotationEventBox, LightRotationEventBox } from './lightRotationEventBox.ts';
+
+export function createLightRotationEventBoxGroup(
+   data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute> = {},
+): IWrapLightRotationEventBoxGroupAttribute {
+   return {
+      time: data.time ?? 0,
+      id: data.id ?? 0,
+      boxes: data.boxes?.map((e) => createLightRotationEventBox(e)) ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap light rotation event box group.
  */
 export class LightRotationEventBoxGroup extends EventBoxGroup
    implements IWrapLightRotationEventBoxGroup {
-   static defaultValue: IWrapLightRotationEventBoxGroupAttribute = {
-      time: 0,
-      id: 0,
-      boxes: [],
-      customData: {},
-   };
+   static defaultValue: IWrapLightRotationEventBoxGroupAttribute =
+      createLightRotationEventBoxGroup();
 
    static createOne(
       data: Partial<IWrapLightRotationEventBoxGroupAttribute> = {},

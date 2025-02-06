@@ -57,10 +57,9 @@ and difficulty file.
 ```ts
 const info = readInfoFileSync(); // not required
 
-// undefined version, return base wrapper class
+// undefined version, return base wrapper attribute
 // can be either version 1, 2, 3 or 4
 // pass it to isV4 or similar function for type predicate
-// or use `instanceof` operator
 const data = readDifficultyFileSync('HardStandard.dat');
 
 // explicit version, return (and convert to) difficulty version
@@ -81,7 +80,7 @@ await writeDifficultyFile(data2, {
 }); // advanced use
 ```
 
-Difficulty filename is saved directly in beatmap class, as with info, lightshow, and any other
+Difficulty filename is saved directly in beatmap attribute, as with info, lightshow, and any other
 writable object, and can be changed.
 
 ```ts
@@ -108,9 +107,10 @@ globals.directory = './YOUR/MAP/FOLDER/PATH/';
 
 ## Beatmap Object
 
-All beatmap object is a class object as opposed to regular JSON object. This mean most array and
-object will only accept class object. This enables extensive method and functionality to be used
-directly from class object. Custom data is always available and require no checking if exist.
+All beatmap objects have class implementations as an alternative to using the regular JSON
+attributes. While not required to use the engine or its associated helpers, they allow various
+methods to be called directly from the class object as opposed to a standalone function. Custom data
+is always available and require no checking if exist.
 
 ### Creation
 
@@ -142,6 +142,22 @@ into an array. This creates a new object instead of reusing existing object.
 data.addBasicEvents({ time: 2, type: 1, value: 3 }, {});
 data.addBasicEvents(...events);
 ```
+
+> [!WARNING]
+>
+> All loader/saver functions and schema containers will return serializable attributes by default as
+> opposed to the full wrapper class implementation.
+>
+> If you'd prefer to use the class implementations, you'll need to wrap the result with the
+> corresponding class constructor or the static `createOne` method.
+>
+> ```ts
+> const data = loadDifficulty({ _version: '2.6.0' }); // returns `IWrapBeatmapAttribute`
+> data.addColorNotes({ time: 0 }); // will error, since methods doesn't exist on attribute form
+>
+> const wrapped = Beatmap.createOne(data); // returns `Beatmap`
+> data.addColorNotes({ time: 0 }); // now works!
+> ```
 
 ### Cloning
 
@@ -306,8 +322,8 @@ behaviour (such as performance), but overall it is very easy to make this mistak
 understood what you are doing, you can ignore this.
 
 ```ts
-const lightshow = readDifficultyFileSync('Lightshow.dat', 3);
-const map = readDifficultyFileSync('ExpertStandard.dat', 3);
+const lightshow = new Beatmap(readDifficultyFileSync('Lightshow.dat', 3));
+const map = new Beatmap(readDifficultyFileSync('ExpertStandard.dat', 3));
 
 // DON'T - 1
 map.basicEvents = lightshow.basicEvents;

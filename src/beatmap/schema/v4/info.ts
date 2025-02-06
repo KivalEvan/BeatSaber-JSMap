@@ -1,20 +1,27 @@
-import type { IInfo, IInfoBeatmap } from '../../../types/beatmap/v4/info.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+// deno-lint-ignore-file no-explicit-any
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
+import type { IInfo } from '../../../types/beatmap/v4/info.ts';
 import type {
    IWrapInfoAttribute,
    IWrapInfoColorScheme,
 } from '../../../types/beatmap/wrapper/info.ts';
-import { hexToRgba, toColorObject } from '../../../utils/colors.ts';
-import { colorToHex } from '../../../utils/colors.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
+import { colorToHex, hexToRgba, toColorObject } from '../../../utils/colors.ts';
+import { deepCopy } from '../../../utils/misc.ts';
+import { createInfo } from '../../core/info.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
+
+type InfoDeserializationPolyfills = Pick<IWrapInfoAttribute, 'filename'>;
 
 /**
  * Schema serialization for v4 `Info`.
  */
-export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
-   serialize(data: IWrapInfoAttribute): IInfo {
+export const info: ISchemaContainer<
+   IWrapInfoAttribute,
+   IInfo,
+   Record<string, any>,
+   InfoDeserializationPolyfills
+> = {
+   serialize(data) {
       return {
          version: '4.0.1',
          song: {
@@ -55,13 +62,16 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             }
             return cs;
          }),
-         difficultyBeatmaps: data.difficulties.map(infoBeatmap.serialize),
+         difficultyBeatmaps: data.difficulties.map((x) => {
+            return infoBeatmap.serialize(x);
+         }),
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: DeepPartial<IInfo> = {}): DeepPartial<IWrapInfoAttribute> {
-      return {
+   deserialize(data, options) {
+      return createInfo({
          version: 4,
+         filename: options?.filename,
          song: {
             author: data.song?.author,
             title: data.song?.title,
@@ -78,13 +88,12 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
          },
          songPreviewFilename: data.songPreviewFilename,
          coverImageFilename: data.coverImageFilename,
-         environmentNames: data.environmentNames?.map((e) => e!),
+         environmentNames: data.environmentNames,
          colorSchemes: data.colorSchemes?.map((e) => {
-            e = e!;
             const scheme: IWrapInfoColorScheme = {
-               name: e.colorSchemeName || '',
-               overrideNotes: e.overrideNotes || data.version === '4.0.0',
-               overrideLights: e.overrideLights || data.version === '4.0.0',
+               name: e?.colorSchemeName ?? '',
+               overrideNotes: e?.overrideNotes ?? data.version === '4.0.0',
+               overrideLights: e?.overrideLights ?? data.version === '4.0.0',
                saberLeftColor: toColorObject(hexToRgba(e.saberAColor!), true),
                saberRightColor: toColorObject(hexToRgba(e.saberBColor!), true),
                environment0Color: toColorObject(
@@ -122,10 +131,10 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             }
             return scheme;
          }),
-         difficulties: (data.difficultyBeatmaps ?? []).map((d) =>
-            infoBeatmap.deserialize(d as IInfoBeatmap)
-         ),
+         difficulties: data.difficultyBeatmaps?.map((d) => {
+            return infoBeatmap.deserialize(d);
+         }),
          customData: data.customData,
-      };
+      });
    },
 };

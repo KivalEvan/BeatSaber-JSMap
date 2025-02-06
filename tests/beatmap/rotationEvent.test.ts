@@ -1,5 +1,5 @@
-import { assertEquals, RotationEvent, v1, v2, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, RotationEvent, v1, v2, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.rotationEvent, 'V4 Rotation Event'],
@@ -62,7 +62,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          {
@@ -75,15 +76,19 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.rotationEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.rotationEvent).deserialize({
                   object: { b: 1 },
-                  data: { e: 1, r: 15, customData: { test: true } },
+                  data: {
+                     e: 1,
+                     r: 15,
+                     customData: { test: true },
+                  },
                }),
             );
             break;
          case v3.rotationEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.rotationEvent).deserialize({
                   b: 1,
                   e: 1,
                   r: 15,
@@ -93,7 +98,7 @@ for (const tup of schemaList) {
             break;
          case v2.rotationEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.rotationEvent).deserialize({
                   _time: 1,
                   _type: 15,
                   _value: 4,
@@ -103,7 +108,7 @@ for (const tup of schemaList) {
             break;
          case v1.rotationEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v1.rotationEvent).deserialize({
                   _time: 1,
                   _type: 15,
                   _value: 4,
@@ -125,28 +130,30 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.rotationEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.rotationEvent).deserialize({
+                  object: {},
                   data: { r: 15 },
                }),
             );
             break;
          case v3.rotationEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.rotationEvent).deserialize({
                   r: 15,
                }),
             );
             break;
          case v2.rotationEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.rotationEvent).deserialize({
                   _value: 4,
                }),
             );
             break;
          case v1.rotationEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               // @ts-expect-error awaiting updated type definitions from outgoing pull request
+               (schema as typeof v1.rotationEvent).deserialize({
                   _value: 4,
                }),
             );

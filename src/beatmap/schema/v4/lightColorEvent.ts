@@ -1,8 +1,8 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightColorEventContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightColorEventAttribute } from '../../../types/beatmap/wrapper/lightColorEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
+import { createLightColorEvent } from '../../core/lightColorEvent.ts';
 
 /**
  * Schema serialization for v4 `Light Color Event`.
@@ -11,7 +11,7 @@ export const lightColorEvent: ISchemaContainer<
    IWrapLightColorEventAttribute,
    ILightColorEventContainer
 > = {
-   serialize(data: IWrapLightColorEventAttribute): ILightColorEventContainer {
+   serialize(data) {
       return {
          data: {
             p: data.previous,
@@ -26,10 +26,8 @@ export const lightColorEvent: ISchemaContainer<
          time: data.time,
       };
    },
-   deserialize(
-      data: DeepPartial<ILightColorEventContainer> = {},
-   ): Partial<IWrapLightColorEventAttribute> {
-      return {
+   deserialize(data) {
+      return createLightColorEvent({
          time: data.time,
          previous: data.data?.p,
          color: data.data?.c,
@@ -39,6 +37,6 @@ export const lightColorEvent: ISchemaContainer<
          strobeBrightness: data.data?.sb,
          strobeFade: data.data?.sf,
          customData: data.data?.customData,
-      };
+      });
    },
 };

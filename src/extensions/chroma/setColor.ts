@@ -1,31 +1,34 @@
+import { logger } from '../../logger.ts';
+import { convertColorType, lerpColor } from '../../utils/colors.ts';
+import { normalize } from '../../utils/math.ts';
+import { settings } from './settings.ts';
 import type {
    IChromaObject,
    ISetColorGradientOptions,
    ISetColorOptions,
    ISetColorRangeOptions,
 } from './types/colors.ts';
-import { convertColorType, lerpColor } from '../../utils/colors.ts';
-import { normalize } from '../../utils/math.ts';
-import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
-import { settings } from './settings.ts';
-import { logger } from '../../logger.ts';
 
 function tag(name: string): string[] {
    return ['ext', 'chroma', 'color', name];
 }
 
-export function setColor(objects: IChromaObject[], options: ISetColorOptions): void {
+export function setColor<
+   T extends Pick<IChromaObject, 'customData'>,
+>(objects: T[], options: ISetColorOptions): void {
    const opt: Required<ISetColorOptions> = {
       color: options.color,
       colorType: options.colorType ?? (settings.colorType || 'hsva'),
    };
    const color = convertColorType(opt.color, opt.colorType);
    objects.forEach((obj) => {
-      (obj.customData as IChromaEventLight).color = color;
+      obj.customData.color = color;
    });
 }
 
-export function setColorGradient(objects: IChromaObject[], options: ISetColorGradientOptions) {
+export function setColorGradient<
+   T extends Pick<IChromaObject, 'time' | 'customData'>,
+>(objects: T[], options: ISetColorGradientOptions) {
    if (!objects.length) {
       logger.tWarn(tag('setColorGradient'), 'No object(s) received.');
       return;
@@ -46,11 +49,13 @@ export function setColorGradient(objects: IChromaObject[], options: ISetColorGra
    objects.forEach((obj) => {
       const norm = normalize(obj.time, startTime, endTime);
       const color = lerpColor(opt.colorStart, opt.colorEnd, opt.easingColor(norm), opt.colorType);
-      (obj.customData as IChromaEventLight).color = color;
+      obj.customData.color = color;
    });
 }
 
-export function setColorRandom(objects: IChromaObject[], options: ISetColorRangeOptions) {
+export function setColorRandom<
+   T extends Pick<IChromaObject, 'time' | 'customData'>,
+>(objects: T[], options: ISetColorRangeOptions) {
    const opt: Required<ISetColorRangeOptions> = {
       offsetStart: options.offsetStart,
       offsetEnd: options.offsetEnd,

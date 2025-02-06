@@ -1,24 +1,32 @@
-import { LINE_COUNT } from '../shared/constants.ts';
+import type { MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type {
    IWrapWaypoint,
    IWrapWaypointAttribute,
 } from '../../types/beatmap/wrapper/waypoint.ts';
-import { GridObject } from './abstract/gridObject.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import type { MirrorFn } from '../../types/beatmap/shared/functions.ts';
+import { mirrorCoordinate } from '../helpers/core/gridObject.ts';
+import { LINE_COUNT } from '../shared/constants.ts';
+import { GridObject } from './abstract/gridObject.ts';
+
+export function createWaypoint(
+   data: DeepPartial<IWrapWaypointAttribute> = {},
+): IWrapWaypointAttribute {
+   return {
+      time: data.time ?? 0,
+      posX: data.posX ?? 0,
+      posY: data.posY ?? 0,
+      direction: data.direction ?? 0,
+      laneRotation: data.laneRotation ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap waypoint.
  */
 export class Waypoint extends GridObject implements IWrapWaypoint {
-   static defaultValue: IWrapWaypointAttribute = {
-      time: 0,
-      posX: 0,
-      posY: 0,
-      direction: 0,
-      laneRotation: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapWaypointAttribute = createWaypoint();
 
    static createOne(data: Partial<IWrapWaypointAttribute> = {}): Waypoint {
       return new this(data);
@@ -45,7 +53,7 @@ export class Waypoint extends GridObject implements IWrapWaypoint {
 
    override mirror(_flipAlt?: boolean, fn?: MirrorFn<this>): this {
       fn?.(this);
-      this.posX = LINE_COUNT - 1 - this.posX;
+      this.posX = mirrorCoordinate(this.posX, LINE_COUNT);
       switch (this.direction) {
          case 2:
             this.direction = 3;

@@ -1,7 +1,9 @@
-import type { IWrapBeatmap } from '../beatmap/wrapper/beatmap.ts';
-import type { IWrapInfoBeatmapAttribute } from '../beatmap/wrapper/info.ts';
+// deno-lint-ignore-file no-explicit-any
+import type { InferBeatmapAttribute } from '../beatmap/shared/infer.ts';
 
-export interface IBeatmapInfoData {
-   info: IWrapInfoBeatmapAttribute;
-   beatmap: IWrapBeatmap;
+export interface IBeatmapInfoData<
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'difficulty'>,
+> {
+   info: Pick<InferBeatmapAttribute<'info'>, 'difficulties'>['difficulties'][number];
+   beatmap: TWrapper;
 }

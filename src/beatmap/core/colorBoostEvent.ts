@@ -1,19 +1,26 @@
-import { BaseObject } from './abstract/baseObject.ts';
 import type {
    IWrapColorBoostEvent,
    IWrapColorBoostEventAttribute,
 } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { BaseObject } from './abstract/baseObject.ts';
+
+export function createColorBoostEvent(
+   data: DeepPartial<IWrapColorBoostEventAttribute> = {},
+): IWrapColorBoostEventAttribute {
+   return {
+      time: data.time ?? 0,
+      toggle: data.toggle ?? false,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap color boost event.
  */
 export class ColorBoostEvent extends BaseObject implements IWrapColorBoostEvent {
-   static defaultValue: IWrapColorBoostEventAttribute = {
-      time: 0,
-      toggle: false,
-      customData: {},
-   };
+   static defaultValue: IWrapColorBoostEventAttribute = createColorBoostEvent();
 
    static createOne(data: Partial<IWrapColorBoostEventAttribute> = {}): ColorBoostEvent {
       return new this(data);

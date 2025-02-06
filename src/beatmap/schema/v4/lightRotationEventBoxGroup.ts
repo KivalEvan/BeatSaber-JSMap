@@ -1,11 +1,13 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
-import { lightRotationEventBox } from './lightRotationEventBox.ts';
-import { deepCopy } from '../../../utils/misc.ts';
-import type { IWrapLightRotationEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
-import type { IEventBoxGroupContainer } from '../../../types/beatmap/container/v4.ts';
+import type {
+   IEventBoxGroupContainer,
+   ILightRotationBoxContainer,
+} from '../../../types/beatmap/container/v4.ts';
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
-import type { ILightRotationBoxContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
+import type { IWrapLightRotationEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
+import { deepCopy } from '../../../utils/misc.ts';
+import { createLightRotationEventBoxGroup } from '../../core/lightRotationEventBoxGroup.ts';
+import { lightRotationEventBox } from './lightRotationEventBox.ts';
 
 /**
  * Schema serialization for v4 `Light Rotation Event Box Group`.
@@ -14,9 +16,7 @@ export const lightRotationEventBoxGroup: ISchemaContainer<
    IWrapLightRotationEventBoxGroupAttribute,
    IEventBoxGroupContainer<ILightRotationBoxContainer>
 > = {
-   serialize(
-      data: IWrapLightRotationEventBoxGroupAttribute,
-   ): IEventBoxGroupContainer<ILightRotationBoxContainer> {
+   serialize(data) {
       return {
          object: {
             t: EventBoxType.ROTATION,
@@ -25,17 +25,19 @@ export const lightRotationEventBoxGroup: ISchemaContainer<
             e: [],
             customData: deepCopy(data.customData),
          },
-         boxData: data.boxes.map(lightRotationEventBox.serialize),
+         boxData: data.boxes.map((x) => {
+            return lightRotationEventBox.serialize(x);
+         }),
       };
    },
-   deserialize(
-      data: DeepPartial<IEventBoxGroupContainer<ILightRotationBoxContainer>> = {},
-   ): DeepPartial<IWrapLightRotationEventBoxGroupAttribute> {
-      return {
+   deserialize(data) {
+      return createLightRotationEventBoxGroup({
          time: data.object?.b,
          id: data.object?.g,
-         boxes: data.boxData?.map(lightRotationEventBox.deserialize),
+         boxes: data.boxData?.map((x) => {
+            return lightRotationEventBox.deserialize(x);
+         }),
          customData: data.object?.customData,
-      };
+      });
    },
 };

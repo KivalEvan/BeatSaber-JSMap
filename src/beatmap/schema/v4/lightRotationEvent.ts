@@ -1,8 +1,8 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightRotationEventContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightRotationEventAttribute } from '../../../types/beatmap/wrapper/lightRotationEvent.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightRotationEvent } from '../../core/lightRotationEvent.ts';
 
 /**
  * Schema serialization for v4 `Light Rotation Event`.
@@ -11,7 +11,7 @@ export const lightRotationEvent: ISchemaContainer<
    IWrapLightRotationEventAttribute,
    ILightRotationEventContainer
 > = {
-   serialize(data: IWrapLightRotationEventAttribute): ILightRotationEventContainer {
+   serialize(data) {
       return {
          data: {
             p: data.previous,
@@ -24,10 +24,8 @@ export const lightRotationEvent: ISchemaContainer<
          time: data.time,
       };
    },
-   deserialize(
-      data: DeepPartial<ILightRotationEventContainer> = {},
-   ): Partial<IWrapLightRotationEventAttribute> {
-      return {
+   deserialize(data) {
+      return createLightRotationEvent({
          time: data.time,
          previous: data.data?.p,
          easing: data.data?.e,
@@ -35,6 +33,6 @@ export const lightRotationEvent: ISchemaContainer<
          rotation: data.data?.r,
          direction: data.data?.d,
          customData: data.data?.customData,
-      };
+      });
    },
 };

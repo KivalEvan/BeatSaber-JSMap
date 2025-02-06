@@ -5,17 +5,23 @@ import type {
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
+export function createLightTranslationEvent(
+   data: Partial<IWrapLightTranslationEventAttribute> = {},
+): IWrapLightTranslationEventAttribute {
+   return {
+      time: data.time ?? 0,
+      easing: data.easing ?? 0,
+      previous: data.previous ?? 0,
+      translation: data.translation ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
+
 /**
  * Core beatmap light translation event.
  */
 export class LightTranslationEvent extends BaseObject implements IWrapLightTranslationEvent {
-   static defaultValue: IWrapLightTranslationEventAttribute = {
-      time: 0,
-      easing: 0,
-      previous: 0,
-      translation: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapLightTranslationEventAttribute = createLightTranslationEvent();
 
    static createOne(
       data: Partial<IWrapLightTranslationEventAttribute> = {},

@@ -1,18 +1,39 @@
-import type { IInfoDifficulty } from '../../../types/beatmap/v1/info.ts';
-import { shallowCopy } from '../../../utils/misc.ts';
-import type { IWrapInfoBeatmapAttribute } from '../../../types/beatmap/wrapper/info.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
+import type { IInfoDifficulty } from '../../../types/beatmap/v1/info.ts';
+import type {
+   IWrapInfoAttribute,
+   IWrapInfoBeatmapAttribute,
+} from '../../../types/beatmap/wrapper/info.ts';
+import { shallowCopy } from '../../../utils/misc.ts';
+import { createInfoBeatmap } from '../../core/infoBeatmap.ts';
 import { DifficultyRanking } from '../../shared/difficulty.ts';
+
+type InfoBeatmapSerializationPolyfills = {
+   audio: Pick<IWrapInfoAttribute['audio'], 'filename'>;
+};
+type InfoBeatmapDeserializationPolyfills = Pick<
+   IWrapInfoBeatmapAttribute,
+   | 'characteristic'
+   | 'njs'
+   | 'njsOffset'
+   | 'lightshowFilename'
+   | 'authors'
+>;
 
 /**
  * Schema serialization for v1 `Info Beatmap`.
  */
-export const infoBeatmap: ISchemaContainer<IWrapInfoBeatmapAttribute, IInfoDifficulty> = {
-   serialize(data: IWrapInfoBeatmapAttribute): IInfoDifficulty {
+export const infoBeatmap: ISchemaContainer<
+   IWrapInfoBeatmapAttribute,
+   IInfoDifficulty,
+   InfoBeatmapSerializationPolyfills,
+   InfoBeatmapDeserializationPolyfills
+> = {
+   serialize(data, options) {
       return {
          difficulty: data.difficulty,
          difficultyRank: DifficultyRanking[data.difficulty],
-         audioPath: '',
+         audioPath: options?.audio?.filename ?? 'song.ogg',
          jsonPath: data.filename,
          characteristic: data.characteristic,
          offset: data.customData._editorOffset,
@@ -27,15 +48,18 @@ export const infoBeatmap: ISchemaContainer<IWrapInfoBeatmapAttribute, IInfoDiffi
          obstacleColor: shallowCopy(data.customData._obstacleColor),
       };
    },
-   deserialize(data: Partial<IInfoDifficulty> = {}): Partial<IWrapInfoBeatmapAttribute> {
-      return {
-         difficulty: data.difficulty,
-         filename: data.jsonPath,
-         njs: 0,
-         njsOffset: 0,
-
-         // audioPath: songFileName ?? 'song.ogg',
+   deserialize(data, options) {
+      return createInfoBeatmap({
          characteristic: data.characteristic,
+         difficulty: data.difficulty,
+         authors: {
+            mappers: options?.authors?.mappers,
+            lighters: options?.authors?.lighters,
+         },
+         filename: data.jsonPath,
+         lightshowFilename: options?.lightshowFilename,
+         njs: options?.njs,
+         njsOffset: options?.njsOffset,
          customData: {
             _editorOffset: data.offset,
             _editorOldOffset: data.oldOffset,
@@ -48,6 +72,6 @@ export const infoBeatmap: ISchemaContainer<IWrapInfoBeatmapAttribute, IInfoDiffi
             _envColorRight: shallowCopy(data.envColorRight),
             _obstacleColor: shallowCopy(data.obstacleColor),
          },
-      };
+      });
    },
 };

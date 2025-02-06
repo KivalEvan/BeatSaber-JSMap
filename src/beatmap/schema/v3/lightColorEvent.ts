@@ -2,13 +2,14 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightColorEvent } from '../../../types/beatmap/v3/lightColorEvent.ts';
 import type { IWrapLightColorEventAttribute } from '../../../types/beatmap/wrapper/lightColorEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightColorEvent } from '../../core/lightColorEvent.ts';
 import { EaseType, TransitionType } from '../../shared/constants.ts';
 
 /**
  * Schema serialization for v3 `Light Color Event`.
  */
 export const lightColorEvent: ISchemaContainer<IWrapLightColorEventAttribute, ILightColorEvent> = {
-   serialize(data: IWrapLightColorEventAttribute): ILightColorEvent {
+   serialize(data) {
       return {
          b: data.time,
          c: data.color,
@@ -24,8 +25,8 @@ export const lightColorEvent: ISchemaContainer<IWrapLightColorEventAttribute, IL
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<ILightColorEvent> = {}): Partial<IWrapLightColorEventAttribute> {
-      return {
+   deserialize(data) {
+      return createLightColorEvent({
          time: data.b,
          color: data.c,
          frequency: data.f,
@@ -35,6 +36,6 @@ export const lightColorEvent: ISchemaContainer<IWrapLightColorEventAttribute, IL
          strobeBrightness: data.sb,
          strobeFade: data.sf,
          customData: data.customData,
-      };
+      });
    },
 };

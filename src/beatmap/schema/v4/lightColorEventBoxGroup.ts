@@ -1,11 +1,13 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
-import { lightColorEventBox } from './lightColorEventBox.ts';
-import { deepCopy } from '../../../utils/misc.ts';
-import type { IWrapLightColorEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import type { IEventBoxGroupContainer } from '../../../types/beatmap/container/v4.ts';
+import type {
+   IEventBoxGroupContainer,
+   ILightColorBoxContainer,
+} from '../../../types/beatmap/container/v4.ts';
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
-import type { ILightColorBoxContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
+import type { IWrapLightColorEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
+import { deepCopy } from '../../../utils/misc.ts';
+import { createLightColorEventBoxGroup } from '../../core/lightColorEventBoxGroup.ts';
+import { lightColorEventBox } from './lightColorEventBox.ts';
 
 /**
  * Schema serialization for v4 `Light Color Event Box Group`.
@@ -14,9 +16,7 @@ export const lightColorEventBoxGroup: ISchemaContainer<
    IWrapLightColorEventBoxGroupAttribute,
    IEventBoxGroupContainer<ILightColorBoxContainer>
 > = {
-   serialize(
-      data: IWrapLightColorEventBoxGroupAttribute,
-   ): IEventBoxGroupContainer<ILightColorBoxContainer> {
+   serialize(data) {
       return {
          object: {
             t: EventBoxType.COLOR,
@@ -25,17 +25,19 @@ export const lightColorEventBoxGroup: ISchemaContainer<
             e: [],
             customData: deepCopy(data.customData),
          },
-         boxData: data.boxes.map(lightColorEventBox.serialize),
+         boxData: data.boxes.map((x) => {
+            return lightColorEventBox.serialize(x);
+         }),
       };
    },
-   deserialize(
-      data: DeepPartial<IEventBoxGroupContainer<ILightColorBoxContainer>> = {},
-   ): DeepPartial<IWrapLightColorEventBoxGroupAttribute> {
-      return {
+   deserialize(data) {
+      return createLightColorEventBoxGroup({
          time: data.object?.b,
          id: data.object?.g,
-         boxes: data.boxData?.map(lightColorEventBox.deserialize),
+         boxes: data.boxData?.map((x) => {
+            return lightColorEventBox.deserialize(x);
+         }),
          customData: data.object?.customData,
-      };
+      });
    },
 };

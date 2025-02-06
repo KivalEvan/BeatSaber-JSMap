@@ -2,12 +2,13 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IChain } from '../../../types/beatmap/v3/chain.ts';
 import type { IWrapChainAttribute } from '../../../types/beatmap/wrapper/chain.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createChain } from '../../core/chain.ts';
 
 /**
  * Schema serialization for v3 `Chain`.
  */
 export const chain: ISchemaContainer<IWrapChainAttribute, IChain> = {
-   serialize(data: IWrapChainAttribute): IChain {
+   serialize(data) {
       return {
          b: data.time,
          c: data.color,
@@ -22,8 +23,8 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChain> = {
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IChain> = {}): Partial<IWrapChainAttribute> {
-      return {
+   deserialize(data) {
+      return createChain({
          time: data.b,
          color: data.c,
          posX: data.x,
@@ -35,6 +36,6 @@ export const chain: ISchemaContainer<IWrapChainAttribute, IChain> = {
          sliceCount: data.sc,
          squish: data.s,
          customData: data.customData,
-      };
+      });
    },
 };

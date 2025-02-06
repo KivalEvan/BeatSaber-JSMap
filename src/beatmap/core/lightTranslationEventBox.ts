@@ -3,40 +3,35 @@ import type {
    IWrapLightTranslationEventBox,
    IWrapLightTranslationEventBoxAttribute,
 } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
-import { IndexFilter } from './indexFilter.ts';
-import { LightTranslationEvent } from './lightTranslationEvent.ts';
+import { createIndexFilter, IndexFilter } from './indexFilter.ts';
+import { createLightTranslationEvent, LightTranslationEvent } from './lightTranslationEvent.ts';
+
+export function createLightTranslationEventBox(
+   data: DeepPartial<IWrapLightTranslationEventBoxAttribute> = {},
+): IWrapLightTranslationEventBoxAttribute {
+   return {
+      filter: createIndexFilter(data.filter),
+      axis: data.axis ?? 0,
+      flip: data.flip ?? 0,
+      beatDistribution: data.beatDistribution ?? 0,
+      beatDistributionType: data.beatDistributionType ?? 1,
+      gapDistribution: data.gapDistribution ?? 0,
+      gapDistributionType: data.gapDistributionType ?? 1,
+      affectFirst: data.affectFirst ?? 0,
+      easing: data.easing ?? 0,
+      events: data.events?.map((o) => createLightTranslationEvent(o)) ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap light translation event box.
  */
 export class LightTranslationEventBox extends EventBox implements IWrapLightTranslationEventBox {
-   static defaultValue: IWrapLightTranslationEventBoxAttribute = {
-      filter: {
-         type: 1,
-         p0: 0,
-         p1: 0,
-         reverse: 0,
-         chunks: 0,
-         random: 0,
-         seed: 0,
-         limit: 0,
-         limitAffectsType: 0,
-         customData: {},
-      },
-      axis: 0,
-      flip: 0,
-      beatDistribution: 0,
-      beatDistributionType: 1,
-      gapDistribution: 0,
-      gapDistributionType: 1,
-      affectFirst: 0,
-      easing: 0,
-      events: [],
-      customData: {},
-   };
+   static defaultValue: IWrapLightTranslationEventBoxAttribute = createLightTranslationEventBox();
 
    static createOne(
       data: Partial<IWrapLightTranslationEventBoxAttribute> = {},

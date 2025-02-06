@@ -1,8 +1,8 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightTranslationEventContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightTranslationEventAttribute } from '../../../types/beatmap/wrapper/lightTranslationEvent.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightTranslationEvent } from '../../core/lightTranslationEvent.ts';
 
 /**
  * Schema serialization for v4 `Light Translation Event`.
@@ -11,7 +11,7 @@ export const lightTranslationEvent: ISchemaContainer<
    IWrapLightTranslationEventAttribute,
    ILightTranslationEventContainer
 > = {
-   serialize(data: IWrapLightTranslationEventAttribute): ILightTranslationEventContainer {
+   serialize(data) {
       return {
          data: {
             p: data.previous,
@@ -22,15 +22,13 @@ export const lightTranslationEvent: ISchemaContainer<
          time: data.time,
       };
    },
-   deserialize(
-      data: DeepPartial<ILightTranslationEventContainer> = {},
-   ): Partial<IWrapLightTranslationEventAttribute> {
-      return {
+   deserialize(data) {
+      return createLightTranslationEvent({
          time: data.time,
          previous: data.data?.p,
          easing: data.data?.e,
          translation: data.data?.t,
          customData: data.data?.customData,
-      };
+      });
    },
 };

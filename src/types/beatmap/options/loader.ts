@@ -1,7 +1,19 @@
 // deno-lint-ignore-file no-explicit-any no-explicit-any
+import type { MirrorFn } from '../shared/functions.ts';
+import type {
+   InferBeatmapAttribute,
+   InferBeatmapSerial,
+   InferBeatmapVersion,
+} from '../shared/infer.ts';
+import type { BeatmapFileType } from '../shared/schema.ts';
 import type { ISchemaCheckOptions } from './schema.ts';
 
-export interface ILoadOptions<T extends Record<string, any> = Record<string, any>> {
+export interface ILoadOptions<
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+   TWrapper = Record<string, any>,
+   TSerial = Record<string, any>,
+> {
    /**
     * Force version conversion if loaded difficulty version is mismatched.
     *
@@ -23,11 +35,17 @@ export interface ILoadOptions<T extends Record<string, any> = Record<string, any
     *
     * @default []
     */
-   preprocess?: ((data: Record<string, any>) => Record<string, any>)[];
+   preprocess?: [
+      ((data: TSerial, version?: TVersion | null) => InferBeatmapSerial<TFileType, TVersion>),
+      ...MirrorFn<InferBeatmapSerial<TFileType, TVersion>>[],
+   ];
    /**
-    * Perform any postprocessing after object class has been instantiated.
+    * Perform any postprocessing after object attribute has been instantiated.
     *
     * @default []
     */
-   postprocess?: ((data: T) => T)[];
+   postprocess?: [
+      ...MirrorFn<InferBeatmapAttribute<TFileType>>[],
+      ((data: InferBeatmapAttribute<TFileType>, version?: TVersion | null) => TWrapper),
+   ];
 }

@@ -1,8 +1,13 @@
-import type { GenericLightshowFilename } from '../types/beatmap/shared/filename.ts';
+// deno-lint-ignore-file no-explicit-any
 import { logger } from '../logger.ts';
-import type { LooseAutocomplete } from '../types/utils.ts';
-import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
+import type { GenericLightshowFilename } from '../types/beatmap/shared/filename.ts';
+import type {
+   InferBeatmapAttribute,
+   InferBeatmapSerial,
+   InferBeatmapVersion,
+} from '../types/beatmap/shared/infer.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';
+import type { LooseAutocomplete } from '../types/utils.ts';
 import { handleRead, handleReadSync, tag } from './_main.ts';
 
 /**
@@ -13,22 +18,34 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export function readLightshowFile(
+export function readLightshowFile<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
    path: LooseAutocomplete<GenericLightshowFilename>,
-   version?: number | null,
-   options?: IReadOptions<IWrapBeatmap>,
-): Promise<IWrapBeatmap>;
-export function readLightshowFile(
+   version?: TVersion | null,
+   options?: IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): Promise<TWrapper>;
+export function readLightshowFile<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
    path: LooseAutocomplete<GenericLightshowFilename>,
-   options?: IReadOptions<IWrapBeatmap>,
-): Promise<IWrapBeatmap>;
-export function readLightshowFile(
+   options?: IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): Promise<TWrapper>;
+export function readLightshowFile<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
    path: LooseAutocomplete<GenericLightshowFilename>,
-   version?: number | null | IReadOptions<IWrapBeatmap>,
-   options?: IReadOptions<IWrapBeatmap>,
-): Promise<IWrapBeatmap> {
+   version?: TVersion | null | IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
+   options?: IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): Promise<TWrapper> {
    logger.tInfo(tag('readLightshowFile'), 'Async reading lightshow file');
-   return handleRead('lightshow', path, version, options);
+   return handleRead<'lightshow', TVersion, TWrapper, TSerial>('lightshow', path, version, options);
 }
 
 /**
@@ -40,20 +57,37 @@ export function readLightshowFile(
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export function readLightshowFileSync(
+export function readLightshowFileSync<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
    path: LooseAutocomplete<GenericLightshowFilename>,
-   version?: number | null,
-   options?: IReadOptions<IWrapBeatmap>,
-): IWrapBeatmap;
-export function readLightshowFileSync(
+   version?: TVersion | null,
+   options?: IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): TWrapper;
+export function readLightshowFileSync<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
    path: LooseAutocomplete<GenericLightshowFilename>,
-   options?: IReadOptions<IWrapBeatmap>,
-): IWrapBeatmap;
-export function readLightshowFileSync(
+   options?: IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): TWrapper;
+export function readLightshowFileSync<
+   TVersion extends InferBeatmapVersion<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
+>(
    path: LooseAutocomplete<GenericLightshowFilename>,
-   version?: number | null | IReadOptions<IWrapBeatmap>,
-   options?: IReadOptions<IWrapBeatmap>,
-): IWrapBeatmap {
+   version?: TVersion | null | IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
+   options?: IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
+): TWrapper {
    logger.tInfo(tag('readLightshowFileSync'), 'Sync reading lightshow file');
-   return handleReadSync('lightshow', path, version, options);
+   return handleReadSync<'lightshow', TVersion, TWrapper, TSerial>(
+      'lightshow',
+      path,
+      version,
+      options,
+   );
 }

@@ -1,10 +1,4 @@
-import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapBaseSliderAttribute } from '../../types/beatmap/wrapper/baseSlider.ts';
-import type { ICountNote, ICountStatsNote } from './types/stats.ts';
-import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
-import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
-import type { GetAngleFn } from '../../types/beatmap/shared/functions.ts';
+import { resolveNoteAngle } from '../../beatmap/helpers/core/baseNote.ts';
 import {
    hasChromaNoteV2,
    hasChromaNoteV3,
@@ -13,6 +7,13 @@ import {
    hasNoodleExtensionsNoteV2,
    hasNoodleExtensionsNoteV3,
 } from '../../beatmap/helpers/modded/has.ts';
+import type { GetAngleFn } from '../../types/beatmap/shared/functions.ts';
+import type { IWrapBaseNoteAttribute } from '../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapBaseSliderAttribute } from '../../types/beatmap/wrapper/baseSlider.ts';
+import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
+import type { ICountNote, ICountStatsNote } from './types/stats.ts';
 
 /**
  * Count number of red, blue, and bomb notes with their properties in given array and return a note count object.
@@ -22,8 +23,8 @@ import {
  * console.log(list);
  * ```
  */
-export function countNote(
-   notes: (IWrapColorNoteAttribute | IWrapBaseSliderAttribute)[],
+export function countNote<T extends IWrapColorNoteAttribute | IWrapBaseSliderAttribute>(
+   notes: T[],
    version = 2,
 ): ICountNote {
    const noteCount: ICountNote = {
@@ -60,8 +61,8 @@ export function countNote(
    return noteCount;
 }
 
-export function countBomb(
-   bombs: IWrapBombNoteAttribute[],
+export function countBomb<T extends IWrapBombNoteAttribute>(
+   bombs: T[],
    version = 2,
 ): ICountStatsNote {
    const bombCount: ICountStatsNote = {
@@ -95,7 +96,7 @@ export function countBomb(
  * const xCount = countX(notes, 0);
  * ```
  */
-export function countX(objs: IWrapGridObjectAttribute[], x: number): number {
+export function countX<T extends IWrapGridObjectAttribute>(objs: T[], x: number): number {
    return objs.filter((n) => n.posX === x).length;
 }
 
@@ -106,7 +107,7 @@ export function countX(objs: IWrapGridObjectAttribute[], x: number): number {
  * const yCount = countY(notes, 0);
  * ```
  */
-export function countY(objs: IWrapGridObjectAttribute[], y: number): number {
+export function countY<T extends IWrapGridObjectAttribute>(objs: T[], y: number): number {
    return objs.filter((n) => n.posY === y).length;
 }
 
@@ -117,8 +118,8 @@ export function countY(objs: IWrapGridObjectAttribute[], y: number): number {
  * const xyCount = countXY(notes, 0, 0);
  * ```
  */
-export function countXY(
-   objs: IWrapGridObjectAttribute[],
+export function countXY<T extends IWrapGridObjectAttribute>(
+   objs: T[],
    x: number,
    y: number,
 ): number {
@@ -131,7 +132,7 @@ export function countXY(
  * const cdCount = countDirection(notes, 0);
  * ```
  */
-export function countDirection(notes: IWrapBaseNote[], cd: number): number {
+export function countDirection<T extends IWrapBaseNoteAttribute>(notes: T[], cd: number): number {
    return notes.filter((n) => n.direction === cd).length;
 }
 
@@ -142,10 +143,10 @@ export function countDirection(notes: IWrapBaseNote[], cd: number): number {
  * const angleCount = countAngle(notes, 0);
  * ```
  */
-export function countAngle(
-   notes: IWrapBaseNote[],
+export function countAngle<T extends IWrapBaseNoteAttribute>(
+   notes: T[],
    angle: number,
-   fn?: GetAngleFn<IWrapBaseNote>,
+   fn?: GetAngleFn<T>,
 ): number {
-   return notes.filter((n) => n.getAngle(fn) === angle).length;
+   return notes.filter((n) => (fn?.(n) ?? resolveNoteAngle(n.direction)) === angle).length;
 }

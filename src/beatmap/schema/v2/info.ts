@@ -1,26 +1,38 @@
+// deno-lint-ignore-file no-explicit-any
 import type {
    Environment360Name,
    EnvironmentName,
    EnvironmentV3Name,
 } from '../../../types/beatmap/shared/environment.ts';
-import type { IInfo, IInfoSet } from '../../../types/beatmap/v2/info.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy, shallowCopy } from '../../../utils/misc.ts';
-import type {
-   IWrapInfoAttribute,
-   IWrapInfoColorScheme,
-} from '../../../types/beatmap/wrapper/info.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import { infoBeatmap } from './infoBeatmap.ts';
+import type { IInfo, IInfoSet } from '../../../types/beatmap/v2/info.ts';
+import type { IWrapInfoAttribute } from '../../../types/beatmap/wrapper/info.ts';
+import { deepCopy, shallowCopy } from '../../../utils/misc.ts';
+import { createInfo } from '../../core/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
+import { infoBeatmap } from './infoBeatmap.ts';
+
+type InfoDeserializationPolyfills = Pick<IWrapInfoAttribute, 'filename'> & {
+   audio: Pick<
+      IWrapInfoAttribute['audio'],
+      | 'audioDataFilename'
+      | 'lufs'
+      | 'duration'
+   >;
+};
 
 /**
  * Schema serialization for v2 `Info`.
  */
-export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
-   serialize(data: IWrapInfoAttribute): IInfo {
+export const info: ISchemaContainer<
+   IWrapInfoAttribute,
+   IInfo,
+   Record<string, any>,
+   InfoDeserializationPolyfills
+> = {
+   serialize(data) {
       const authorSet = new Set();
-      const d: IInfo = {
+      const d: Required<IInfo> = {
          _version: '2.1.0',
          _songName: data.song.title,
          _songSubName: data.song.subTitle,
@@ -90,16 +102,20 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
       d._levelAuthorName = [...authorSet].join(', ');
       return d;
    },
-   deserialize(data: DeepPartial<IInfo> = {}): DeepPartial<IWrapInfoAttribute> {
-      const d: DeepPartial<IWrapInfoAttribute> = {
+   deserialize(data, options) {
+      return createInfo({
          version: 2,
+         filename: options?.filename,
          song: {
             title: data._songName,
             subTitle: data._songSubName,
             author: data._songAuthorName,
          },
          audio: {
+            audioDataFilename: options?.audio?.audioDataFilename,
             bpm: data._beatsPerMinute,
+            lufs: options?.audio?.lufs,
+            duration: options?.audio?.duration,
             previewStartTime: data._previewStartTime,
             previewDuration: data._previewDuration,
             filename: data._songFilename,
@@ -113,9 +129,9 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
             normal: data._environmentName,
             allDirections: data._allDirectionsEnvironmentName,
          },
-         environmentNames: data._environmentNames?.map((e) => e),
+         environmentNames: data._environmentNames,
          colorSchemes: data._colorSchemes?.map((e) => {
-            const scheme: DeepPartial<IWrapInfoColorScheme> = {
+            return {
                name: e.colorScheme?.colorSchemeId,
                overrideNotes: !!e.useOverride,
                overrideLights: !!e.useOverride,
@@ -161,38 +177,35 @@ export const info: ISchemaContainer<IWrapInfoAttribute, IInfo> = {
                   b: e.colorScheme?.environmentColor1Boost?.b,
                   a: e.colorScheme?.environmentColor1Boost?.a,
                },
+               environmentWColor: e.colorScheme?.environmentColorW
+                  ? {
+                     r: e.colorScheme?.environmentColorW?.r,
+                     g: e.colorScheme?.environmentColorW?.g,
+                     b: e.colorScheme?.environmentColorW?.b,
+                     a: e.colorScheme?.environmentColorW?.a,
+                  }
+                  : undefined,
+               environmentWColorBoost: e.colorScheme?.environmentColorWBoost
+                  ? {
+                     r: e.colorScheme?.environmentColorWBoost?.r,
+                     g: e.colorScheme?.environmentColorWBoost?.g,
+                     b: e.colorScheme?.environmentColorWBoost?.b,
+                     a: e.colorScheme?.environmentColorWBoost?.a,
+                  }
+                  : undefined,
             };
-            if (e.colorScheme?.environmentColorW) {
-               scheme.environmentWColor = {
-                  r: e.colorScheme?.environmentColorW?.r,
-                  g: e.colorScheme?.environmentColorW?.g,
-                  b: e.colorScheme?.environmentColorW?.b,
-                  a: e.colorScheme?.environmentColorW?.a,
-               };
-            }
-            if (e.colorScheme?.environmentColorWBoost) {
-               scheme.environmentWColorBoost = {
-                  r: e.colorScheme?.environmentColorWBoost?.r,
-                  g: e.colorScheme?.environmentColorWBoost?.g,
-                  b: e.colorScheme?.environmentColorWBoost?.b,
-                  a: e.colorScheme?.environmentColorWBoost?.a,
-               };
-            }
-            return scheme;
          }),
-         difficulties: data._difficultyBeatmapSets?.flatMap((set) =>
-            set._difficultyBeatmaps?.map((diff) => {
-               const m = infoBeatmap.deserialize(diff);
-               m.characteristic = set._beatmapCharacteristicName;
-               m.authors = {
-                  mappers: [data._levelAuthorName],
-               };
-               return m;
-            })
-         ),
+         difficulties: data._difficultyBeatmapSets?.flatMap((set) => {
+            return set._difficultyBeatmaps?.map((diff) => {
+               return infoBeatmap.deserialize(diff, {
+                  characteristic: set._beatmapCharacteristicName,
+                  authors: {
+                     mappers: data._levelAuthorName?.split(','),
+                  },
+               });
+            }) ?? [];
+         }),
          customData: data._customData,
-      };
-
-      return d;
+      });
    },
 };

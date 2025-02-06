@@ -1,60 +1,88 @@
+// deno-lint-ignore-file no-explicit-any
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IDifficulty } from '../../../types/beatmap/v2/difficulty.ts';
-import { colorNote } from './colorNote.ts';
-import { arc } from './arc.ts';
-import { obstacle } from './obstacle.ts';
-import { basicEvent } from './basicEvent.ts';
-import { waypoint } from './waypoint.ts';
-import { deepCopy } from '../../../utils/misc.ts';
-import type { IWrapColorBoostEventAttribute } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
 import type { IWrapBPMEventAttribute } from '../../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapColorBoostEventAttribute } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
 import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
 import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
-import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import { basicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
-import { bombNote } from './bombNote.ts';
-import { colorBoostEvent } from './colorBoostEvent.ts';
-import { rotationEvent } from './rotationEvent.ts';
-import { bpmEvent } from './bpmEvent.ts';
+import { deepCopy } from '../../../utils/misc.ts';
+import { createBeatmap } from '../../core/beatmap.ts';
+import { createDifficulty } from '../../core/difficulty.ts';
+import { createLightshow } from '../../core/lightshow.ts';
 import { sortV2NoteFn, sortV2ObjectFn } from '../../helpers/sort.ts';
 import { compareVersion } from '../../helpers/version.ts';
+import { arc } from './arc.ts';
+import { basicEvent } from './basicEvent.ts';
+import { basicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
+import { bombNote } from './bombNote.ts';
+import { bpmEvent } from './bpmEvent.ts';
+import { colorBoostEvent } from './colorBoostEvent.ts';
+import { colorNote } from './colorNote.ts';
+import { obstacle } from './obstacle.ts';
+import { rotationEvent } from './rotationEvent.ts';
+import { waypoint } from './waypoint.ts';
+
+type DifficultyDeserializationPolyfills = Pick<
+   IWrapBeatmapAttribute,
+   | 'filename'
+   | 'lightshowFilename'
+>;
 
 /**
  * Schema serialization for v2 `Difficulty`.
  */
-export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = {
-   serialize(data: IWrapBeatmapAttribute): IDifficulty {
+export const difficulty: ISchemaContainer<
+   IWrapBeatmapAttribute,
+   IDifficulty,
+   Record<string, any>,
+   DifficultyDeserializationPolyfills
+> = {
+   serialize(data) {
       return {
          _version: '2.6.0',
          _notes: [
-            ...data.difficulty.colorNotes.map(colorNote.serialize),
-            ...data.difficulty.bombNotes.map(bombNote.serialize),
+            ...data.difficulty.colorNotes.map((x) => {
+               return colorNote.serialize(x);
+            }),
+            ...data.difficulty.bombNotes.map((x) => {
+               return bombNote.serialize(x);
+            }),
          ].sort(sortV2NoteFn),
-         _sliders: data.difficulty.arcs.map(arc.serialize),
-         _obstacles: data.difficulty.obstacles.map(obstacle.serialize),
+         _sliders: data.difficulty.arcs.map((x) => {
+            return arc.serialize(x);
+         }),
+         _obstacles: data.difficulty.obstacles.map((x) => {
+            return obstacle.serialize(x);
+         }),
          _events: [
-            ...data.lightshow.basicEvents.map(basicEvent.serialize),
-            ...data.lightshow.colorBoostEvents.map(
-               colorBoostEvent.serialize,
-            ),
-            ...data.difficulty.rotationEvents.map(rotationEvent.serialize),
-            ...data.difficulty.bpmEvents.map(bpmEvent.serialize),
+            ...data.lightshow.basicEvents.map((x) => {
+               return basicEvent.serialize(x);
+            }),
+            ...data.lightshow.colorBoostEvents.map((x) => {
+               return colorBoostEvent.serialize(x);
+            }),
+            ...data.difficulty.rotationEvents.map((x) => {
+               return rotationEvent.serialize(x);
+            }),
+            ...data.difficulty.bpmEvents.map((x) => {
+               return bpmEvent.serialize(x);
+            }),
          ].sort(sortV2ObjectFn),
-         _waypoints: data.lightshow.waypoints.map(waypoint.serialize),
+         _waypoints: data.lightshow.waypoints.map((x) => {
+            return waypoint.serialize(x);
+         }),
          _specialEventsKeywordFilters: basicEventTypesWithKeywords.serialize(
             data.lightshow.basicEventTypesWithKeywords,
          ),
          _customData: deepCopy(data.difficulty.customData),
       };
    },
-   deserialize(
-      data: DeepPartial<IDifficulty> = {},
-   ): DeepPartial<IWrapBeatmapAttribute> {
-      const colorNotes: Partial<IWrapColorNoteAttribute>[] = [];
-      const bombNotes: Partial<IWrapBombNoteAttribute>[] = [];
+   deserialize(data, options) {
+      const colorNotes: IWrapColorNoteAttribute[] = [];
+      const bombNotes: IWrapBombNoteAttribute[] = [];
       const _notes = data._notes || [];
       for (let i = 0; i < _notes.length; i++) {
          const obj = _notes[i];
@@ -66,10 +94,10 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
       }
 
       const preV25 = compareVersion(data._version || '2.0.0', '2.5.0');
-      const basicEvents: Partial<IWrapBasicEventAttribute>[] = [];
-      const colorBoostEvents: Partial<IWrapColorBoostEventAttribute>[] = [];
-      const rotationEvents: Partial<IWrapRotationEventAttribute>[] = [];
-      const bpmEvents: Partial<IWrapBPMEventAttribute>[] = [];
+      const basicEvents: IWrapBasicEventAttribute[] = [];
+      const colorBoostEvents: IWrapColorBoostEventAttribute[] = [];
+      const rotationEvents: IWrapRotationEventAttribute[] = [];
+      const bpmEvents: IWrapBPMEventAttribute[] = [];
       const _events = data._events || [];
       for (let i = 0; i < _events.length; i++) {
          const obj = _events[i];
@@ -99,25 +127,31 @@ export const difficulty: ISchemaContainer<IWrapBeatmapAttribute, IDifficulty> = 
             }
          }
       }
-
-      return {
+      return createBeatmap({
          version: 2,
-         difficulty: {
+         filename: options?.filename,
+         lightshowFilename: options?.lightshowFilename,
+         difficulty: createDifficulty({
             colorNotes,
             bombNotes,
-            obstacles: data._obstacles?.map(obstacle.deserialize),
-            bpmEvents,
+            obstacles: data._obstacles?.map((x) => {
+               return obstacle.deserialize(x);
+            }),
             rotationEvents,
+            bpmEvents,
             customData: data._customData,
-         },
-         lightshow: {
+         }),
+         lightshow: createLightshow({
+            waypoints: data._waypoints?.map((x) => {
+               return waypoint.deserialize(x);
+            }),
             basicEvents,
             colorBoostEvents,
-            waypoints: data._waypoints?.map(waypoint.deserialize),
+            useNormalEventsAsCompatibleEvents: true,
             basicEventTypesWithKeywords: basicEventTypesWithKeywords.deserialize(
-               data._specialEventsKeywordFilters,
+               data._specialEventsKeywordFilters ?? {},
             ),
-         },
-      };
+         }),
+      });
    },
 };

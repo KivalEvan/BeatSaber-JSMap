@@ -2,32 +2,33 @@ import eventToV2 from '../beatmap/converter/customData/eventToV2.ts';
 import eventToV3 from '../beatmap/converter/customData/eventToV3.ts';
 import objectToV2 from '../beatmap/converter/customData/objectToV2.ts';
 import objectToV3 from '../beatmap/converter/customData/objectToV3.ts';
+import { isLaserRotationEventType } from '../beatmap/helpers/core/basicEvent.ts';
 import { logger } from '../logger.ts';
 import type { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition.ts';
+import type { IWrapBeatmapAttribute } from '../types/beatmap/wrapper/beatmap.ts';
 import type { ColorArray } from '../types/colors.ts';
 import { colorFrom } from '../utils/colors.ts';
-import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 
 function tag(name: string): string[] {
    return ['patch', 'customDataUpdate', name];
 }
 
-function v2(data: IWrapBeatmap): void {
+function v2<T extends IWrapBeatmapAttribute>(data: T): void {
    logger.tDebug(tag('v2'), ' Patching notes');
-   data.colorNotes.forEach((n) => {
+   data.difficulty.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
    });
-   data.bombNotes.forEach((n) => {
+   data.difficulty.bombNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
    });
    logger.tDebug(tag('v2'), ' Patching obstacles');
-   data.obstacles.forEach((o) => {
+   data.difficulty.obstacles.forEach((o) => {
       o.customData = objectToV2(o.customData);
    });
    logger.tDebug(tag('v2'), ' Patching events');
-   data.basicEvents.forEach((e) => {
+   data.lightshow.basicEvents.forEach((e) => {
       e.customData = eventToV2(e.customData);
-      if (e.isLaserRotationEvent()) {
+      if (isLaserRotationEventType(e.type)) {
          if (typeof e.customData._preciseSpeed !== 'number') {
             delete e.customData._speed;
          }
@@ -37,17 +38,17 @@ function v2(data: IWrapBeatmap): void {
    });
 }
 
-function v3(data: IWrapBeatmap): void {
+function v3<T extends IWrapBeatmapAttribute>(data: T): void {
    logger.tDebug(tag('v3'), ' Patching color notes');
-   data.colorNotes.forEach((n) => {
+   data.difficulty.colorNotes.forEach((n) => {
       n.customData = objectToV3(n.customData);
    });
    logger.tDebug(tag('v3'), ' Patching bomb notes');
-   data.bombNotes.forEach((b) => {
+   data.difficulty.bombNotes.forEach((b) => {
       b.customData = objectToV3(b.customData);
    });
    logger.tDebug(tag('v3'), ' Patching obstacles');
-   data.obstacles.forEach((o) => {
+   data.difficulty.obstacles.forEach((o) => {
       o.customData = objectToV3(o.customData);
    });
    logger.tDebug(tag('v3'), ' Patching fake color notes');
@@ -63,7 +64,7 @@ function v3(data: IWrapBeatmap): void {
       o.customData = objectToV3(o.customData);
    });
    logger.tDebug(tag('v3'), ' Patching basic events');
-   data.basicEvents.forEach((e) => {
+   data.lightshow.basicEvents.forEach((e) => {
       e.customData = eventToV3(e.customData);
    });
    logger.tDebug(tag('v3'), ' Patching bookmarks');
@@ -136,7 +137,7 @@ function v3(data: IWrapBeatmap): void {
 /**
  * Update custom data for beatmap given version.
  */
-export function customDataUpdate(data: IWrapBeatmap, version: number) {
+export function customDataUpdate<T extends IWrapBeatmapAttribute>(data: T, version: number) {
    logger.tInfo(
       ['patch', 'customDataUpdate'],
       'Patching custom data for beatmap v' + version + '...',

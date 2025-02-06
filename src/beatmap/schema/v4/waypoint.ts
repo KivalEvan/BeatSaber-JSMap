@@ -1,14 +1,14 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWaypointContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapWaypointAttribute } from '../../../types/beatmap/wrapper/waypoint.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createWaypoint } from '../../core/waypoint.ts';
 
 /**
  * Schema serialization for v4 `Waypoint`.
  */
 export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypointContainer> = {
-   serialize(data: IWrapWaypointAttribute): Required<IWaypointContainer> {
+   serialize(data) {
       return {
          object: {
             b: data.time,
@@ -24,14 +24,14 @@ export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypointContain
          },
       };
    },
-   deserialize(data: DeepPartial<IWaypointContainer> = {}): Partial<IWrapWaypointAttribute> {
-      return {
+   deserialize(data) {
+      return createWaypoint({
          time: data.object?.b,
          laneRotation: data.object?.r,
          posX: data.data?.x,
          posY: data.data?.y,
          direction: data.data?.d,
          customData: data.data?.customData,
-      };
+      });
    },
 };

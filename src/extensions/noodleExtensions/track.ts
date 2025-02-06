@@ -3,12 +3,15 @@ import type { INEObject } from './types/object.ts';
 /**
  * Add track(s) to object(s).
  */
-export function addTrack(objects: INEObject[], track: string | string[]): void;
-export function addTrack(object: INEObject, track: string | string[]): void;
-export function addTrack(
-   objects: INEObject | INEObject[],
-   track: string | string[],
-): void {
+export function addTrack<
+   T extends Pick<INEObject, 'customData'>,
+>(objects: T[], track: string | string[]): void;
+export function addTrack<
+   T extends Pick<INEObject, 'customData'>,
+>(object: T, track: string | string[]): void;
+export function addTrack<
+   T extends Pick<INEObject, 'customData'>,
+>(objects: T | T[], track: string | string[]): void {
    if (!Array.isArray(objects)) {
       if (typeof track === 'string') {
          if (!objects.customData.track) {
@@ -33,15 +36,15 @@ export function addTrack(
 /**
  * Remove track(s) from object(s).
  */
-export function removeTrack(
-   objects: INEObject[],
-   track: string | string[],
-): void;
-export function removeTrack(object: INEObject, track: string | string[]): void;
-export function removeTrack(
-   objects: INEObject | INEObject[],
-   track: string | string[],
-): void {
+export function removeTrack<
+   T extends Pick<INEObject, 'customData'>,
+>(objects: T[], track: string | string[]): void;
+export function removeTrack<
+   T extends Pick<INEObject, 'customData'>,
+>(object: T, track: string | string[]): void;
+export function removeTrack<
+   T extends Pick<INEObject, 'customData'>,
+>(objects: T | T[], track: string | string[]): void {
    if (!Array.isArray(objects)) {
       if (typeof track === 'string') {
          if (!objects.customData.track) {

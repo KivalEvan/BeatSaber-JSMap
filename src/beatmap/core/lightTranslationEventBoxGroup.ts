@@ -1,24 +1,34 @@
-import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
+import type { IWrapLightTranslationEventBox } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
-import type { IWrapLightTranslationEventBox } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
-import { LightTranslationEventBox } from './lightTranslationEventBox.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
+import {
+   createLightTranslationEventBox,
+   LightTranslationEventBox,
+} from './lightTranslationEventBox.ts';
+
+export function createLightTranslationEventBoxGroup(
+   data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute> = {},
+): IWrapLightTranslationEventBoxGroupAttribute {
+   return {
+      time: data.time ?? 0,
+      id: data.id ?? 0,
+      boxes: data.boxes?.map((e) => createLightTranslationEventBox(e)) ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap light translation event box group.
  */
 export class LightTranslationEventBoxGroup extends EventBoxGroup
    implements IWrapLightTranslationEventBoxGroup {
-   static defaultValue: IWrapLightTranslationEventBoxGroupAttribute = {
-      time: 0,
-      id: 0,
-      boxes: [],
-      customData: {},
-   };
+   static defaultValue: IWrapLightTranslationEventBoxGroupAttribute =
+      createLightTranslationEventBoxGroup();
 
    static createOne(
       data: Partial<IWrapLightTranslationEventBoxGroupAttribute> = {},

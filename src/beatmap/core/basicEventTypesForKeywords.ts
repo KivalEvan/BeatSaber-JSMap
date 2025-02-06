@@ -2,20 +2,27 @@ import type {
    IWrapBasicEventTypesForKeywords,
    IWrapBasicEventTypesForKeywordsAttribute,
 } from '../../types/beatmap/wrapper/basicEventTypesForKeywords.ts';
-import type { DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
+
+export function createBasicEventTypesForKeywords(
+   data: DeepPartial<IWrapBasicEventTypesForKeywordsAttribute> = {},
+): IWrapBasicEventTypesForKeywordsAttribute {
+   return {
+      keyword: data.keyword ?? '',
+      events: data.events ?? [],
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap basic event types for keywords.
  */
 export class BasicEventTypesForKeywords extends BaseItem
    implements IWrapBasicEventTypesForKeywords {
-   static defaultValue: IWrapBasicEventTypesForKeywordsAttribute = {
-      keyword: '',
-      events: [],
-      customData: {},
-   };
+   static defaultValue: IWrapBasicEventTypesForKeywordsAttribute =
+      createBasicEventTypesForKeywords();
 
    static createOne(
       data: Partial<IWrapBasicEventTypesForKeywordsAttribute> = {},

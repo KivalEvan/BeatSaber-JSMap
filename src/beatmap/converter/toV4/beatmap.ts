@@ -1,6 +1,5 @@
 import { logger } from '../../../logger.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
-import { BaseSlider } from '../../core/abstract/baseSlider.ts';
+import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
 import { ExecutionTime } from '../../shared/constants.ts';
 import { toV3Beatmap } from '../toV3/beatmap.ts';
@@ -17,7 +16,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export function toV4Beatmap<T extends IWrapBeatmap>(
+export function toV4Beatmap<T extends IWrapBeatmapAttribute>(
    data: T,
    fromVersion = data.version,
 ): T {
@@ -29,18 +28,18 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
    data.version = 4;
 
    const objects = [
-      data.arcs,
-      data.bombNotes,
-      data.chains,
-      data.colorNotes,
-      data.obstacles,
-      data.waypoints,
+      data.difficulty.arcs,
+      data.difficulty.bombNotes,
+      data.difficulty.chains,
+      data.difficulty.colorNotes,
+      data.difficulty.obstacles,
+      data.lightshow.waypoints,
    ]
       .flat()
       .sort(sortObjectFn);
 
-   if (data.rotationEvents.length) {
-      const rotations = [...data.rotationEvents]
+   if (data.difficulty.rotationEvents.length) {
+      const rotations = [...data.difficulty.rotationEvents]
          .sort((a, b) => a.executionTime - b.executionTime)
          .sort(sortObjectFn);
 
@@ -64,7 +63,7 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
             evt.executionTime === ExecutionTime.EARLY
          ) {
             obj.laneRotation = Math.round(calculatedRotations % 360);
-            if (obj instanceof BaseSlider) {
+            if ('tailLaneRotation' in obj) {
                obj.tailLaneRotation = obj.laneRotation;
             }
             continue;
@@ -77,19 +76,19 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
          }
          if (!evt) break;
          obj.laneRotation = Math.round(calculatedRotations % 360);
-         if (obj instanceof BaseSlider) {
+         if ('tailLaneRotation' in obj) {
             obj.tailLaneRotation = obj.laneRotation;
          }
       }
 
-      data.rotationEvents = [];
+      data.difficulty.rotationEvents = [];
    }
 
    for (let i = 0; i < objects.length; i++) {
       const obj = objects[i];
       if (typeof obj.customData.worldRotation === 'number') {
          obj.laneRotation = Math.round(obj.customData.worldRotation);
-         if (obj instanceof BaseSlider) {
+         if ('tailLaneRotation' in obj) {
             obj.tailLaneRotation = obj.customData.worldRotation;
          }
          delete obj.customData.worldRotation;

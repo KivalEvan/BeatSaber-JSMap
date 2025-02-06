@@ -1,13 +1,19 @@
-import type { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent.ts';
-import type { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent.ts';
-import type { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
-import type { IWrapBombNote, IWrapBombNoteAttribute } from './bombNote.ts';
-import type { IWrapObstacle, IWrapObstacleAttribute } from './obstacle.ts';
+// deno-lint-ignore-file no-explicit-any
+import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
+import type { ICustomDataBase } from '../shared/custom/customData.ts';
+import type { GenericBeatmapFilename, GenericLightshowFilename } from '../shared/filename.ts';
 import type { IWrapArc, IWrapArcAttribute } from './arc.ts';
-import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
-import type { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
+import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
+import type { IWrapBaseItemAttribute } from './baseItem.ts';
 import type { IWrapBasicEvent, IWrapBasicEventAttribute } from './basicEvent.ts';
+import type { IWrapBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
+import type { IWrapBombNote, IWrapBombNoteAttribute } from './bombNote.ts';
+import type { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent.ts';
+import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
 import type { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
+import type { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
+import type { IWrapDifficulty, IWrapDifficultyAttribute } from './difficulty.ts';
+import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 import type {
    IWrapLightColorEventBoxGroup,
    IWrapLightColorEventBoxGroupAttribute,
@@ -16,20 +22,15 @@ import type {
    IWrapLightRotationEventBoxGroup,
    IWrapLightRotationEventBoxGroupAttribute,
 } from './lightRotationEventBoxGroup.ts';
+import type { IWrapLightshow, IWrapLightshowAttribute } from './lightshow.ts';
 import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from './lightTranslationEventBoxGroup.ts';
-import type { IWrapBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
-import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
-import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
-import type { IWrapDifficulty, IWrapDifficultyAttribute } from './difficulty.ts';
-import type { IWrapLightshow, IWrapLightshowAttribute } from './lightshow.ts';
-import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
-import type { GenericBeatmapFilename, GenericLightshowFilename } from '../shared/filename.ts';
-import type { IWrapBaseItemAttribute } from './baseItem.ts';
-import type { ICustomDataBase } from '../shared/custom/customData.ts';
 import type { IWrapNJSEvent } from './njsEvent.ts';
+import type { IWrapObstacle, IWrapObstacleAttribute } from './obstacle.ts';
+import type { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent.ts';
+import type { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
 
 /**
  * Wrapper attribute for beatmap data.
@@ -49,6 +50,30 @@ export interface IWrapBeatmapAttribute
     */
    customData: ICustomDataBase;
 }
+
+/** Wrapper attribute for subset of beatmap data. */
+export type IWrapBeatmapAttributeSubset<
+   TKey extends keyof IWrapDifficultyAttribute | keyof IWrapLightshowAttribute,
+   TPick extends
+      | keyof IWrapDifficultyAttribute[Extract<keyof IWrapDifficultyAttribute, TKey>]
+      | keyof IWrapLightshowAttribute[Extract<keyof IWrapLightshowAttribute, TKey>] = any,
+> =
+   & {
+      [key in TKey extends keyof IWrapDifficultyAttribute ? 'difficulty' : never]: {
+         [K in Extract<keyof IWrapDifficultyAttribute, TKey>]: Pick<
+            Extract<IWrapDifficultyAttribute[K], unknown[]>[number],
+            Extract<keyof Extract<IWrapDifficultyAttribute[K], unknown[]>[number], TPick>
+         >[];
+      };
+   }
+   & {
+      [key in TKey extends keyof IWrapLightshowAttribute ? 'lightshow' : never]: {
+         [K in Extract<keyof IWrapLightshowAttribute, TKey>]: Pick<
+            Extract<IWrapLightshowAttribute[K], unknown[]>[number],
+            Extract<keyof Extract<IWrapLightshowAttribute[K], unknown[]>[number], TPick>
+         >[];
+      };
+   };
 
 /**
  * Wrapper for beatmap data.

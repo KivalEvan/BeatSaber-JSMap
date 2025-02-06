@@ -1,17 +1,17 @@
 import { logger } from '../../../logger.ts';
-import { clamp } from '../../../utils/math.ts';
+import type { IChromaComponent, IChromaMaterial } from '../../../types/beatmap/v3/custom/chroma.ts';
 import type { ICustomDataNote } from '../../../types/beatmap/v3/custom/note.ts';
 import type { ICustomDataObstacle } from '../../../types/beatmap/v3/custom/obstacle.ts';
-import type { IChromaComponent, IChromaMaterial } from '../../../types/beatmap/v3/custom/chroma.ts';
-import objectToV3 from '../customData/objectToV3.ts';
-import eventToV3 from '../customData/eventToV3.ts';
+import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
+import { clamp } from '../../../utils/math.ts';
 import { isVector3, vectorMul } from '../../../utils/vector.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
-import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
+import { isLightEventType, isRingEventType } from '../../helpers/core/basicEvent.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
-import { BaseSlider } from '../../core/abstract/baseSlider.ts';
+import eventToV3 from '../customData/eventToV3.ts';
+import objectToV3 from '../customData/objectToV3.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV3Beatmap', name];
@@ -25,7 +25,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export function toV3Beatmap<T extends IWrapBeatmap>(
+export function toV3Beatmap<T extends IWrapBeatmapAttribute>(
    data: T,
    fromVersion = data.version,
 ): T {
@@ -56,8 +56,8 @@ export function toV3Beatmap<T extends IWrapBeatmap>(
    return data;
 }
 
-function fromV1(bm: IWrapBeatmap) {
-   bm.colorNotes.forEach((n) => {
+function fromV1<T extends IWrapBeatmapAttribute>(bm: T) {
+   bm.difficulty.colorNotes.forEach((n) => {
       if (n.direction >= 1000) {
          n.angleOffset = Math.abs(((n.direction % 1000) % 360) - 360);
          n.direction = n.direction >= 1000 ||
@@ -84,13 +84,13 @@ function fromV1(bm: IWrapBeatmap) {
    });
 }
 
-function fromV2(bm: IWrapBeatmap) {
+function fromV2<T extends IWrapBeatmapAttribute>(bm: T) {
    bm.difficulty.customData.fakeColorNotes = [];
    bm.difficulty.customData.fakeBombNotes = [];
    bm.difficulty.customData.fakeObstacles = [];
 
-   const newNotes: IWrapColorNote[] = [];
-   bm.colorNotes.forEach((n, i) => {
+   const newNotes: IWrapColorNoteAttribute[] = [];
+   bm.difficulty.colorNotes.forEach((n, i) => {
       const customData: ICustomDataNote = objectToV3(n.customData);
       if (typeof n.customData._cutDirection === 'number') {
          logger.tDebug(
@@ -126,10 +126,10 @@ function fromV2(bm: IWrapBeatmap) {
          newNotes.push(n);
       }
    });
-   bm.colorNotes = newNotes;
+   bm.difficulty.colorNotes = newNotes;
 
-   const newBombs: IWrapBombNote[] = [];
-   bm.bombNotes.forEach((n, i) => {
+   const newBombs: IWrapBombNoteAttribute[] = [];
+   bm.difficulty.bombNotes.forEach((n, i) => {
       const customData: ICustomDataNote = objectToV3(n.customData);
       if (typeof n.customData._cutDirection === 'number') {
          logger.tDebug(
@@ -149,10 +149,10 @@ function fromV2(bm: IWrapBeatmap) {
          newBombs.push(n);
       }
    });
-   bm.bombNotes = newBombs;
+   bm.difficulty.bombNotes = newBombs;
 
-   const newObst: IWrapObstacle[] = [];
-   bm.obstacles.forEach((o) => {
+   const newObst: IWrapObstacleAttribute[] = [];
+   bm.difficulty.obstacles.forEach((o) => {
       const customData: ICustomDataObstacle = objectToV3(o.customData);
       if (o.customData._fake) {
          bm.difficulty.customData.fakeObstacles!.push({
@@ -169,11 +169,11 @@ function fromV2(bm: IWrapBeatmap) {
          newObst.push(o);
       }
    });
-   bm.obstacles = newObst;
+   bm.difficulty.obstacles = newObst;
 
-   bm.basicEvents.forEach((e, i) => {
+   bm.lightshow.basicEvents.forEach((e, i) => {
       const customData = eventToV3(e.customData);
-      if (e.isLightEvent()) {
+      if (isLightEventType(e.type)) {
          if (e.customData._propID) {
             logger.tWarn(
                tag('fromV2'),
@@ -187,7 +187,7 @@ function fromV2(bm: IWrapBeatmap) {
             );
          }
       }
-      if (e.isRingEvent()) {
+      if (isRingEventType(e.type)) {
          if (e.customData._reset) {
             logger.tWarn(
                tag('fromV2'),
@@ -507,17 +507,17 @@ function fromV2(bm: IWrapBeatmap) {
    bm.lightshow.useNormalEventsAsCompatibleEvents = true;
 }
 
-function fromV4(bm: IWrapBeatmap) {
+function fromV4<T extends IWrapBeatmapAttribute>(bm: T) {
    let impossibleRotationEvt = false;
    const mapTime: Record<number, number> = {};
 
    const objects = [
-      bm.arcs,
-      bm.bombNotes,
-      bm.chains,
-      bm.colorNotes,
-      bm.obstacles,
-      bm.waypoints,
+      bm.difficulty.arcs,
+      bm.difficulty.bombNotes,
+      bm.difficulty.chains,
+      bm.difficulty.colorNotes,
+      bm.difficulty.obstacles,
+      bm.lightshow.waypoints,
    ]
       .flat()
       .sort(sortObjectFn);
@@ -538,7 +538,7 @@ function fromV4(bm: IWrapBeatmap) {
          if (obj.laneRotation) obj.customData.worldRotation = obj.laneRotation;
       }
    } else {
-      bm.rotationEvents = [];
+      bm.difficulty.rotationEvents = [];
       let currentRotation = 0;
       for (const time in mapTime) {
          const t = +time;
@@ -546,15 +546,17 @@ function fromV4(bm: IWrapBeatmap) {
          const difference = r - currentRotation;
          if (difference === 0) continue;
          currentRotation = r;
-         bm.addRotationEvents({
+         bm.difficulty.rotationEvents.push({
             time: t,
             rotation: difference,
+            executionTime: 0,
+            customData: {},
          });
       }
    }
    for (let i = 0; i < objects.length; i++) {
       const obj = objects[i];
       obj.laneRotation = 0;
-      if (obj instanceof BaseSlider) obj.tailLaneRotation = 0;
+      if ('tailLaneRotation' in obj) obj.tailLaneRotation = 0;
    }
 }

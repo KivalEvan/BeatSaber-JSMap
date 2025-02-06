@@ -1,5 +1,5 @@
-import { assertEquals, BasicEvent, v1, v2, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, BasicEvent, v1, v2, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.basicEvent, 'V4 Basic Event'],
@@ -69,7 +69,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          { ...defaultValue, floatValue: schema === v1.basicEvent ? 1 : 0 },
@@ -79,11 +80,8 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.basicEvent:
             obj = new BaseClass(
-               schema.deserialize({
-                  object: {
-                     b: 1,
-                     i: 0,
-                  },
+               (schema as typeof v4.basicEvent).deserialize({
+                  object: { b: 1, i: 0 },
                   data: {
                      t: 4,
                      i: 2,
@@ -95,7 +93,7 @@ for (const tup of schemaList) {
             break;
          case v3.basicEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.basicEvent).deserialize({
                   b: 1,
                   et: 4,
                   i: 2,
@@ -106,7 +104,7 @@ for (const tup of schemaList) {
             break;
          case v2.basicEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.basicEvent).deserialize({
                   _time: 1,
                   _type: 4,
                   _value: 2,
@@ -117,7 +115,11 @@ for (const tup of schemaList) {
             break;
          case v1.basicEvent:
             obj = new BaseClass(
-               schema.deserialize({ _time: 1, _type: 4, _value: 2 }),
+               (schema as typeof v1.basicEvent).deserialize({
+                  _time: 1,
+                  _type: 4,
+                  _value: 2,
+               }),
             );
             break;
       }
@@ -136,7 +138,7 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.basicEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.basicEvent).deserialize({
                   object: {
                      b: 1,
                   },
@@ -148,7 +150,7 @@ for (const tup of schemaList) {
             break;
          case v3.basicEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.basicEvent).deserialize({
                   b: 1,
                   et: 4,
                }),
@@ -156,14 +158,20 @@ for (const tup of schemaList) {
             break;
          case v2.basicEvent:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.basicEvent).deserialize({
                   _time: 1,
                   _type: 4,
                }),
             );
             break;
          case v1.basicEvent:
-            obj = new BaseClass(schema.deserialize({ _time: 1, _type: 4 }));
+            obj = new BaseClass(
+               // @ts-expect-error awaiting updated type definitions from outgoing pull request
+               (schema as typeof v1.basicEvent).deserialize({
+                  _time: 1,
+                  _type: 4,
+               }),
+            );
             break;
       }
       assertObjectMatch(

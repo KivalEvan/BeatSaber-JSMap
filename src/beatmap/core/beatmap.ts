@@ -1,8 +1,14 @@
 import type {
+   GenericBeatmapFilename,
+   GenericLightshowFilename,
+} from '../../types/beatmap/shared/filename.ts';
+import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
+import type {
    IWrapBasicEvent,
    IWrapBasicEventAttribute,
 } from '../../types/beatmap/wrapper/basicEvent.ts';
 import type { IWrapBasicEventTypesWithKeywords } from '../../types/beatmap/wrapper/basicEventTypesWithKeywords.ts';
+import type { IWrapBeatmap, IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
 import type {
    IWrapBombNote,
    IWrapBombNoteAttribute,
@@ -20,6 +26,11 @@ import type {
    IWrapColorNote,
    IWrapColorNoteAttribute,
 } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import type {
+   IWrapFxEventBoxGroup,
+   IWrapFxEventBoxGroupAttribute,
+} from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
 import type {
    IWrapLightColorEventBoxGroup,
    IWrapLightColorEventBoxGroupAttribute,
@@ -28,10 +39,12 @@ import type {
    IWrapLightRotationEventBoxGroup,
    IWrapLightRotationEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
+import type { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
 import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
+import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
 import type {
    IWrapObstacle,
    IWrapObstacleAttribute,
@@ -40,27 +53,28 @@ import type {
    IWrapRotationEvent,
    IWrapRotationEventAttribute,
 } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
 import type {
    IWrapWaypoint,
    IWrapWaypointAttribute,
 } from '../../types/beatmap/wrapper/waypoint.ts';
-import type { DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
+import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
-import type { IWrapBeatmap, IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
-import type {
-   IWrapFxEventBoxGroup,
-   IWrapFxEventBoxGroupAttribute,
-} from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
-import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
-import type { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
-import { Difficulty } from './difficulty.ts';
-import { Lightshow } from './lightshow.ts';
-import type {
-   GenericBeatmapFilename,
-   GenericLightshowFilename,
-} from '../../types/beatmap/shared/filename.ts';
-import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
+import { createDifficulty, Difficulty } from './difficulty.ts';
+import { createLightshow, Lightshow } from './lightshow.ts';
+
+export function createBeatmap(
+   data: DeepPartial<IWrapBeatmapAttribute> = {},
+): IWrapBeatmapAttribute {
+   return {
+      version: data.version ?? -1,
+      filename: data.filename ?? 'Unnamed.beatmap.dat',
+      lightshowFilename: data.lightshowFilename ?? 'Unnamed.lightshow.dat',
+      difficulty: createDifficulty(data.difficulty),
+      lightshow: createLightshow(data.lightshow),
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap container.
@@ -74,38 +88,9 @@ import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
  * This object exists solely for arbitrary data.
  */
 export class Beatmap extends BaseItem implements IWrapBeatmap {
-   static defaultValue: IWrapBeatmapAttribute = {
-      version: -1,
-      filename: 'Unnamed.beatmap.dat',
-      lightshowFilename: 'Unnamed.lightshow.dat',
-      customData: {},
+   static defaultValue: IWrapBeatmapAttribute = createBeatmap();
 
-      difficulty: {
-         bpmEvents: [],
-         rotationEvents: [],
-         colorNotes: [],
-         bombNotes: [],
-         obstacles: [],
-         arcs: [],
-         chains: [],
-         njsEvents: [],
-         customData: {},
-      },
-      lightshow: {
-         waypoints: [],
-         basicEvents: [],
-         colorBoostEvents: [],
-         lightColorEventBoxGroups: [],
-         lightRotationEventBoxGroups: [],
-         lightTranslationEventBoxGroups: [],
-         fxEventBoxGroups: [],
-         basicEventTypesWithKeywords: { list: [] },
-         useNormalEventsAsCompatibleEvents: false,
-         customData: {},
-      },
-   };
-
-   static createOne(data: Partial<IWrapBeatmapAttribute> = {}): Beatmap {
+   static createOne(data: DeepPartial<IWrapBeatmapAttribute> = {}): Beatmap {
       return new this(data);
    }
    static create(...data: DeepPartialIgnore<IWrapBeatmapAttribute, 'customData'>[]): Beatmap[] {

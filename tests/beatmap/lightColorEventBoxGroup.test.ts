@@ -1,5 +1,5 @@
-import { assertEquals, LightColorEventBoxGroup, types, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, LightColorEventBoxGroup, types, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.lightColorEventBoxGroup, 'V4 Light Color Event Box Group'],
@@ -191,7 +191,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
@@ -201,7 +202,7 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.lightColorEventBoxGroup:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.lightColorEventBoxGroup).deserialize({
                   object: {
                      t: types.EventBoxType.COLOR,
                      b: 1,
@@ -262,7 +263,7 @@ for (const tup of schemaList) {
             break;
          case v3.lightColorEventBoxGroup:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.lightColorEventBoxGroup).deserialize({
                   b: 1,
                   g: 2,
                   e: [
@@ -353,7 +354,7 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.lightColorEventBoxGroup:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.lightColorEventBoxGroup).deserialize({
                   object: {
                      t: types.EventBoxType.COLOR,
                      b: 1,
@@ -389,7 +390,7 @@ for (const tup of schemaList) {
             break;
          case v3.lightColorEventBoxGroup:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.lightColorEventBoxGroup).deserialize({
                   b: 1,
                   e: [
                      {

@@ -1,7 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../../logger.ts';
-import type { IWrapAudioData } from '../../types/beatmap/wrapper/audioData.ts';
 import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
+import type {
+   InferBeatmapAttribute,
+   InferBeatmapSerial,
+   InferBeatmapVersion,
+} from '../../types/beatmap/shared/infer.ts';
 import { saveBeatmap, tag } from './_main.ts';
 
 /**
@@ -13,20 +17,34 @@ import { saveBeatmap, tag } from './_main.ts';
  *
  * Mismatched beatmap version will be automatically converted, unspecified will leave the version as is but not known.
  */
-export function saveAudioData<T extends Record<string, any>>(
-   data: IWrapAudioData,
-   version?: number | null,
-   options?: ISaveOptions<IWrapAudioData>,
-): T;
-export function saveAudioData<T extends Record<string, any>>(
-   data: IWrapAudioData,
-   options?: ISaveOptions<IWrapAudioData>,
-): T;
-export function saveAudioData<T extends Record<string, any>>(
-   data: IWrapAudioData,
-   version?: number | null | ISaveOptions<IWrapAudioData>,
-   options?: ISaveOptions<IWrapAudioData>,
-): T {
+export function saveAudioData<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
+   data: TWrapper,
+   version?: TVersion | null,
+   options?: ISaveOptions<'audioData', TVersion, TWrapper, TSerial>,
+): TSerial;
+export function saveAudioData<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
+   data: TWrapper,
+   options?: ISaveOptions<'audioData', TVersion, TWrapper, TSerial>,
+): TSerial;
+export function saveAudioData<
+   TVersion extends InferBeatmapVersion<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
+>(
+   data: TWrapper,
+   version?: TVersion | null | ISaveOptions<'audioData', TVersion, TWrapper, TSerial>,
+   options?: ISaveOptions<'audioData', TVersion, TWrapper, TSerial>,
+): TSerial {
+   const ver = typeof version === 'number' ? version : null;
+   const opt = (typeof version !== 'number' ? version : options) ?? {};
    logger.tInfo(tag('saveAudioData'), 'Saving audio data to JSON');
-   return saveBeatmap<T>('audioData', data, version, options);
+   return saveBeatmap('audioData', data, ver, opt);
 }

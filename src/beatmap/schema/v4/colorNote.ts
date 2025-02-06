@@ -1,14 +1,14 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import { deepCopy } from '../../../utils/misc.ts';
-import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
 import type { IColorNoteContainer } from '../../../types/beatmap/container/v4.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
+import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
+import { deepCopy } from '../../../utils/misc.ts';
+import { createColorNote } from '../../core/colorNote.ts';
 
 /**
  * Schema serialization for v4 `Color Note`.
  */
 export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, IColorNoteContainer> = {
-   serialize(data: IWrapColorNoteAttribute): IColorNoteContainer {
+   serialize(data) {
       return {
          object: {
             b: data.time,
@@ -26,8 +26,8 @@ export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, IColorNoteCont
          },
       };
    },
-   deserialize(data: DeepPartial<IColorNoteContainer> = {}): Partial<IWrapColorNoteAttribute> {
-      return {
+   deserialize(data) {
+      return createColorNote({
          time: data.object?.b,
          laneRotation: data.object?.r,
          posX: data.data?.x,
@@ -36,6 +36,6 @@ export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, IColorNoteCont
          direction: data.data?.d,
          angleOffset: data.data?.a,
          customData: data.data?.customData,
-      };
+      });
    },
 };

@@ -1,60 +1,89 @@
 // deno-lint-ignore-file no-explicit-any
 import { loadBeatmap } from '../beatmap/loader/_main.ts';
-import { path } from '../shims/path.ts';
-import { readJSONFile, readJSONFileSync } from '../shims/_json.ts';
 import { globals } from '../globals.ts';
+import { readJSONFile, readJSONFileSync } from '../shims/_json.ts';
+import { path } from '../shims/path.ts';
+import type { MirrorFn } from '../types/beatmap/shared/functions.ts';
+import type {
+   InferBeatmapAttribute,
+   InferBeatmapSerial,
+   InferBeatmapVersion,
+} from '../types/beatmap/shared/infer.ts';
 import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
 import type { IReadOptions } from '../types/bsmap/reader.ts';
 
-const defaultOptions: Required<IReadOptions> = {
+const defaultOptions = {
    directory: '',
    load: {},
-};
+} as const;
 
 export function tag(name: string): string[] {
    return ['reader', name];
 }
 
-export function handleRead<T extends Record<string, any>>(
-   type: BeatmapFileType,
+export function handleRead<
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<TFileType>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<TFileType, TVersion>,
+>(
+   type: TFileType,
    src: string,
-   version?: number | null | IReadOptions<T>,
-   options: IReadOptions<T> = {},
-): Promise<T> {
+   version?: TVersion | null | IReadOptions<TFileType, TVersion, TWrapper, TSerial>,
+   options: IReadOptions<TFileType, TVersion, TWrapper, TSerial> = {},
+): Promise<TWrapper> {
    const ver = typeof version === 'number' ? version : null;
    const opt = (typeof version !== 'number' ? version : options) ?? {};
    const p = path.resolve(
       opt.directory ?? (defaultOptions.directory || globals.directory),
       src,
    );
-   return readJSONFile(p)
-      .then((data) => loadBeatmap(type, data, ver, opt.load))
-      .then((d) => {
-         if (type === 'lightshow') d.setLightshowFilename(path.basename(p));
-         else d.setFilename(path.basename(p));
-         return d;
+   const [posttransformer, ...postprocesses] = (opt.load?.postprocess?.toReversed() ?? []) as [
+      (data: InferBeatmapAttribute<TFileType>) => TWrapper,
+      ...MirrorFn<InferBeatmapAttribute<TFileType>>[],
+   ];
+   return (readJSONFile(p) as Promise<TSerial>).then((data) => {
+      return loadBeatmap(type, data, ver, {
+         ...opt.load,
+         postprocess: [...postprocesses, (x) => {
+            if (type === 'lightshow' && 'lightshowFilename' in x) {
+               x.lightshowFilename = path.basename(p);
+            } else x.filename = path.basename(p);
+            return posttransformer ? posttransformer(x) : x as TWrapper;
+         }],
       });
+   });
 }
 
-export function handleReadSync<T extends Record<string, any>>(
-   type: BeatmapFileType,
+export function handleReadSync<
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmapAttribute<TFileType>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<TFileType, TVersion>,
+>(
+   type: TFileType,
    src: string,
-   version?: number | null | IReadOptions<T>,
-   options: IReadOptions<T> = {},
-): T {
+   version?: TVersion | null | IReadOptions<TFileType, TVersion, TWrapper, TSerial>,
+   options: IReadOptions<TFileType, TVersion, TWrapper, TSerial> = {},
+): TWrapper {
    const ver = typeof version === 'number' ? version : null;
    const opt = (typeof version !== 'number' ? version : options) ?? {};
    const p = path.resolve(
       opt.directory ?? (defaultOptions.directory || globals.directory),
       src,
    );
-   const d = loadBeatmap(
-      type,
-      readJSONFileSync(p),
-      ver,
-      opt.load,
-   ).setFilename(path.basename(p));
-   if (type === 'lightshow') d.setLightshowFilename(path.basename(p));
-   else d.setFilename(path.basename(p));
+   const [posttransformer, ...postprocesses] = (opt.load?.postprocess?.toReversed() ?? []) as [
+      (data: InferBeatmapAttribute<TFileType>) => TWrapper,
+      ...MirrorFn<InferBeatmapAttribute<TFileType>>[],
+   ];
+   const d = loadBeatmap(type, readJSONFileSync(p) as TSerial, ver, {
+      ...opt.load,
+      postprocess: [...postprocesses, (x) => {
+         if (type === 'lightshow' && 'lightshowFilename' in x) {
+            x.lightshowFilename = path.basename(p);
+         } else x.filename = path.basename(p);
+         return posttransformer ? posttransformer(x) : x as TWrapper;
+      }],
+   });
    return d;
 }

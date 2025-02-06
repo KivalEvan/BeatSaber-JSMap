@@ -1,13 +1,14 @@
+import type { IArcContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapArcAttribute } from '../../../types/beatmap/wrapper/arc.ts';
 import { deepCopy } from '../../../utils/misc.ts';
-import type { IArcContainer } from '../../../types/beatmap/container/v4.ts';
+import { createArc } from '../../core/arc.ts';
 
 /**
  * Schema serialization for v4 `Arc`.
  */
 export const arc: ISchemaContainer<IWrapArcAttribute, IArcContainer> = {
-   serialize(data: IWrapArcAttribute): IArcContainer {
+   serialize(data) {
       return {
          object: {
             ai: 0,
@@ -43,8 +44,8 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArcContainer> = {
          },
       };
    },
-   deserialize(data: Partial<IArcContainer> = {}): Partial<IWrapArcAttribute> {
-      return {
+   deserialize(data) {
+      return createArc({
          time: data.object?.hb,
          laneRotation: data.object?.hr,
          tailTime: data.object?.tb,
@@ -60,6 +61,6 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArcContainer> = {
          tailLengthMultiplier: data.data?.tm,
          midAnchor: data.data?.a,
          customData: data.data?.customData,
-      };
+      });
    },
 };

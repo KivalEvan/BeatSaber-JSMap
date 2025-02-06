@@ -1,10 +1,10 @@
 import { NoteJumpSpeed } from '../../beatmap/helpers/njs.ts';
-import type { INEObject } from './types/object.ts';
-import { settings } from './settings.ts';
 import { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
+import { logger } from '../../logger.ts';
 import type { EasingFunction } from '../../types/easings.ts';
 import { lerp, normalize } from '../../utils/math.ts';
-import { logger } from '../../logger.ts';
+import { settings } from './settings.ts';
+import type { INEObject } from './types/object.ts';
 
 function tag(name: string): string[] {
    return ['ext', 'NE', 'njs', name];
@@ -15,8 +15,10 @@ function tag(name: string): string[] {
  *
  * **NOTE:** JD input will override NJS offset.
  */
-export function setNjs(
-   objects: INEObject[],
+export function setNjs<
+   T extends Pick<INEObject, 'customData'>,
+>(
+   objects: T[],
    options: {
       timeProc: TimeProcessor;
       njs: NoteJumpSpeed | number;
@@ -45,8 +47,10 @@ export function setNjs(
  *
  * **NOTE:** JD input will override NJS offset.
  */
-export function simultaneousSpawn(
-   objects: INEObject[],
+export function simultaneousSpawn<
+   T extends Pick<INEObject, 'time' | 'customData'>,
+>(
+   objects: T[],
    options: {
       timeProc: TimeProcessor;
       njs: NoteJumpSpeed | number;
@@ -89,8 +93,10 @@ export function simultaneousSpawn(
  *
  * **NOTE:** JD input will override NJS offset.
  */
-export function gradientNjs(
-   objects: INEObject[],
+export function gradientNjs<
+   T extends Pick<INEObject, 'time' | 'customData'>,
+>(
+   objects: T[],
    options: {
       timeProc: TimeProcessor | number;
       njsStart: number;

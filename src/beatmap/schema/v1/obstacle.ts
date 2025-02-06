@@ -2,12 +2,13 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IObstacle } from '../../../types/beatmap/v1/obstacle.ts';
 import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
 import { remap } from '../../../utils/math.ts';
+import { createObstacle } from '../../core/obstacle.ts';
 
 /**
  * Schema serialization for v1 `Obstacle`.
  */
 export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
-   serialize(data: IWrapObstacleAttribute): IObstacle {
+   serialize(data) {
       let type = 0;
       if (data.height >= 0 && data.posY >= 0) {
          type = data.height * 1000 + data.posY + 4001;
@@ -24,7 +25,7 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          _width: data.width,
       };
    },
-   deserialize(data: Partial<IObstacle> = {}): Partial<IWrapObstacleAttribute> {
+   deserialize(data) {
       const type = data._type ?? 0;
       // FIXME: this might be entirely wrong
       const height = type === 1
@@ -39,13 +40,13 @@ export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacle> = {
          : type > 4000 && type <= 4005000
          ? Math.floor((type - 4001) / 1000)
          : 0;
-      return {
+      return createObstacle({
          time: data._time,
-         posY,
          posX: data._lineIndex,
+         posY,
          duration: data._duration,
          width: data._width,
          height,
-      };
+      });
    },
 };

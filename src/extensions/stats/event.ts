@@ -1,9 +1,11 @@
-import { EventList } from '../../beatmap/shared/environment.ts';
-import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
-import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
-import type { ICountEvent } from './types/stats.ts';
+import { isOldChromaEventValue } from '../../beatmap/helpers/core/basicEvent.ts';
 import { hasChromaEventV2, hasChromaEventV3 } from '../../beatmap/helpers/modded/has.ts';
+import { EventList } from '../../beatmap/shared/environment.ts';
+import { isValidEventType } from '../../mod.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { IWrapBasicEventAttribute } from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { ICountEvent } from './types/stats.ts';
 
 /**
  * Count number of type of events with their properties in given array and return a event count object.
@@ -12,9 +14,12 @@ import { hasChromaEventV2, hasChromaEventV3 } from '../../beatmap/helpers/modded
  * console.log(list);
  * ```
  */
-export function countEvent(
-   events: IWrapBasicEvent[],
-   boost: IWrapColorBoostEvent[],
+export function countEvent<
+   TBasicEvent extends IWrapBasicEventAttribute,
+   TColorBoostEvent extends IWrapColorBoostEventAttribute,
+>(
+   events: TBasicEvent[],
+   boost: TColorBoostEvent[],
    environment: EnvironmentAllName = 'DefaultEnvironment',
    version = 2,
 ): ICountEvent {
@@ -36,7 +41,7 @@ export function countEvent(
    };
 
    for (let i = events.length - 1; i >= 0; i--) {
-      if (events[i].isValidType()) {
+      if (isValidEventType(events[i].type)) {
          if (!eventCount[events[i].type]) {
             eventCount[events[i].type] = {
                total: 0,
@@ -48,7 +53,7 @@ export function countEvent(
          if (hasChroma(events[i])) {
             eventCount[events[i].type].chroma++;
          }
-         if (events[i].isOldChroma()) {
+         if (isOldChromaEventValue(events[i].value)) {
             eventCount[events[i].type].chromaOld++;
          }
       }

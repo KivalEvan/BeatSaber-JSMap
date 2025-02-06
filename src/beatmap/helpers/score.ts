@@ -1,7 +1,10 @@
-import type { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
-import type { IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
 import { lerp, normalize } from '../../utils/math.ts';
+
+type IScoreBeatmapAttributeSubset = IWrapBeatmapAttributeSubset<
+   'colorNotes' | 'arcs' | 'chains',
+   'time' | 'posX' | 'posY' | 'color' | 'tailTime' | 'tailPosX' | 'tailPosY' | 'sliceCount'
+>;
 
 /** Scoring type of note. */
 export const enum ScoreType {
@@ -24,7 +27,7 @@ export const ScoreValue: { readonly [key in ScoreType]: number } = {
 };
 
 /** Calculate max score from beatmap. */
-export function calculateScore(beatmap: IWrapBeatmapAttribute): number {
+export function calculateScore<T extends IScoreBeatmapAttributeSubset>(beatmap: T): number {
    let total = 0;
    let multiplier = 1;
    const elements = generateScoreElement(beatmap);
@@ -37,7 +40,7 @@ export function calculateScore(beatmap: IWrapBeatmapAttribute): number {
    return total;
 }
 
-function generateScoreElement(beatmap: IWrapBeatmapAttribute) {
+function generateScoreElement<T extends IScoreBeatmapAttributeSubset>(beatmap: T) {
    return [
       createNoteElement(beatmap),
       createChainElement(beatmap.difficulty.chains),
@@ -48,10 +51,10 @@ function generateScoreElement(beatmap: IWrapBeatmapAttribute) {
 
 // for now I only care about arc head/tail and chain head, arc takes priority
 // FIXME: use epsilon dammit
-function createNoteElement(beatmap: IWrapBeatmapAttribute) {
-   const mapArcHead = new Map<number, IWrapArcAttribute[]>();
-   const mapArcTail = new Map<number, IWrapArcAttribute[]>();
-   const mapChainHead = new Map<number, IWrapChainAttribute[]>();
+function createNoteElement<T extends IScoreBeatmapAttributeSubset>(beatmap: T) {
+   const mapArcHead = new Map<number, T['difficulty']['arcs']>();
+   const mapArcTail = new Map<number, T['difficulty']['arcs']>();
+   const mapChainHead = new Map<number, T['difficulty']['chains']>();
 
    for (let i = 0; i < beatmap.difficulty.arcs.length; i++) {
       const arc = beatmap.difficulty.arcs[i];
@@ -116,7 +119,9 @@ function createNoteElement(beatmap: IWrapBeatmapAttribute) {
    });
 }
 
-function createChainElement(chains: IWrapChainAttribute[]) {
+function createChainElement<
+   T extends IScoreBeatmapAttributeSubset['difficulty']['chains'][number],
+>(chains: T[]) {
    return chains.flatMap((c) => {
       if (c.sliceCount > 1) {
          return Array(c.sliceCount - 1).map((_, i) => {

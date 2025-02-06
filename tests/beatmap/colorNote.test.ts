@@ -1,5 +1,5 @@
-import { assertEquals, ColorNote, v1, v2, v3, v4 } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, ColorNote, v1, v2, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.colorNote, 'V4 Color Note'],
@@ -74,7 +74,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
@@ -84,7 +85,7 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.colorNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.colorNote).deserialize({
                   object: {
                      b: 1,
                      i: 0,
@@ -103,7 +104,7 @@ for (const tup of schemaList) {
             break;
          case v3.colorNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.colorNote).deserialize({
                   b: 1,
                   c: 1,
                   x: 2,
@@ -116,7 +117,7 @@ for (const tup of schemaList) {
             break;
          case v2.colorNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.colorNote).deserialize({
                   _time: 1,
                   _lineIndex: 2,
                   _lineLayer: 3,
@@ -128,7 +129,7 @@ for (const tup of schemaList) {
             break;
          case v1.colorNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v1.colorNote).deserialize({
                   _time: 1,
                   _lineIndex: 2,
                   _lineLayer: 3,
@@ -160,7 +161,7 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.colorNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.colorNote).deserialize({
                   object: {
                      b: 1,
                   },
@@ -173,7 +174,7 @@ for (const tup of schemaList) {
             break;
          case v3.colorNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.colorNote).deserialize({
                   b: 1,
                   x: 2,
                   d: 2,
@@ -182,7 +183,7 @@ for (const tup of schemaList) {
             break;
          case v2.colorNote:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.colorNote).deserialize({
                   _time: 1,
                   _lineIndex: 2,
                   _cutDirection: 2,
@@ -191,7 +192,8 @@ for (const tup of schemaList) {
             break;
          case v1.colorNote:
             obj = new BaseClass(
-               schema.deserialize({
+               // @ts-expect-error awaiting updated type definitions from outgoing pull request
+               (schema as typeof v1.colorNote).deserialize({
                   _time: 1,
                   _lineIndex: 2,
                   _cutDirection: 2,

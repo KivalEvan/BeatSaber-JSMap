@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightTranslationEventBox } from '../../../types/beatmap/v3/lightTranslationEventBox.ts';
 import type { IWrapLightTranslationEventBoxAttribute } from '../../../types/beatmap/wrapper/lightTranslationEventBox.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createLightTranslationEventBox } from '../../core/lightTranslationEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightTranslationEvent } from './lightTranslationEvent.ts';
 
@@ -13,7 +13,7 @@ export const lightTranslationEventBox: ISchemaContainer<
    IWrapLightTranslationEventBoxAttribute,
    ILightTranslationEventBox
 > = {
-   serialize(data: IWrapLightTranslationEventBoxAttribute): ILightTranslationEventBox {
+   serialize(data) {
       return {
          f: indexFilter.serialize(data.filter),
          w: data.beatDistribution,
@@ -24,15 +24,15 @@ export const lightTranslationEventBox: ISchemaContainer<
          r: data.flip,
          b: data.affectFirst,
          i: data.easing,
-         l: data.events.map(lightTranslationEvent.serialize),
+         l: data.events.map((x) => {
+            return lightTranslationEvent.serialize(x);
+         }),
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(
-      data: DeepPartial<ILightTranslationEventBox> = {},
-   ): DeepPartial<IWrapLightTranslationEventBoxAttribute> {
-      return {
-         filter: indexFilter.deserialize(data.f),
+   deserialize(data) {
+      return createLightTranslationEventBox({
+         filter: indexFilter.deserialize(data.f ?? {}),
          beatDistribution: data.w,
          beatDistributionType: data.d,
          gapDistribution: data.s,
@@ -41,8 +41,10 @@ export const lightTranslationEventBox: ISchemaContainer<
          flip: data.r,
          affectFirst: data.b,
          easing: data.i,
-         events: data.l?.map(lightTranslationEvent.deserialize),
+         events: data.l?.map((x) => {
+            return lightTranslationEvent.deserialize(x);
+         }),
          customData: data.customData,
-      };
+      });
    },
 };

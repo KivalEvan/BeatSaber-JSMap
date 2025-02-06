@@ -1,25 +1,34 @@
+import {
+   isDiagonal,
+   isHorizontal,
+   isInline,
+   isSlantedWindow,
+   isVertical,
+   isWindow,
+   resolveGridDistance,
+} from '../../beatmap/helpers/core/gridObject.ts';
 import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
-import type { ISwingContainer } from './types/swing.ts';
-import { checkDirection } from '../placement/note.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
-import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
-import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapBaseNoteAttribute } from '../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
+import { checkDirection } from '../placement/note.ts';
+import type { ISwingAnalysisBaseNoteAttribute, ISwingContainer } from './types/swing.ts';
 
 /**
  * Generate swings from beatmap notes.
  */
-export function generate(
-   notes: IWrapColorNote[],
+export function generate<T extends ISwingAnalysisBaseNoteAttribute>(
+   notes: T[],
    timeProc: TimeProcessor,
-): ISwingContainer[] {
-   const sc: ISwingContainer[] = [];
+): ISwingContainer<T>[] {
+   const sc: ISwingContainer<T>[] = [];
    let ebpm = 0;
    let ebpmSwing = 0;
    let minSpeed: number;
    let maxSpeed: number;
-   const firstNote: { [key: number]: IWrapColorNote } = {};
-   const lastNote: { [key: number]: IWrapColorNote } = {};
-   const swingNoteArray: { [key: number]: IWrapColorNote[] } = {
+   const firstNote: { [key: number]: T } = {};
+   const lastNote: { [key: number]: T } = {};
+   const swingNoteArray: { [key: number]: T[] } = {
       0: [],
       1: [],
    };
@@ -80,12 +89,9 @@ export function generate(
 /**
  * Check if next swing happen from `prevNote` to `currNote`.
  */
-export function next(
-   currNote: IWrapColorNote,
-   prevNote: IWrapColorNote,
-   timeProc: TimeProcessor,
-   context?: IWrapColorNote[],
-): boolean {
+export function next<
+   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY' | 'direction'>,
+>(currNote: T, prevNote: T, timeProc: TimeProcessor, context?: T[]): boolean {
    if (
       context &&
       context.length > 0 &&
@@ -104,24 +110,22 @@ export function next(
    }
    if (context && context.length > 0) {
       for (const other of context) {
-         if (currNote.isInline(other)) {
+         if (isInline(currNote, other)) {
             return true;
          }
       }
    }
    return (
-      (currNote.isWindow(prevNote) &&
+      (isWindow(currNote, prevNote) &&
          timeProc.toRealTime(currNote.time - prevNote.time) > 0.08) ||
       timeProc.toRealTime(currNote.time - prevNote.time) > 0.07
    );
 }
 
 /** Calculate effective BPM between `currObj` and `prevObj`. */
-export function calcEBPMBetweenObject(
-   currObj: IWrapBaseObject,
-   prevObj: IWrapBaseObject,
-   timeProc: TimeProcessor,
-): number {
+export function calcEBPMBetweenObject<
+   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+>(currObj: T, prevObj: T, timeProc: TimeProcessor): number {
    return (
       timeProc.bpm /
       (timeProc.toBeatTime(
@@ -137,10 +141,9 @@ export function calcEBPMBetweenObject(
  *
  * Higher value is slower.
  */
-function calcMinSliderSpeed(
-   notes: IWrapColorNote[],
-   timeProc: TimeProcessor,
-): number {
+function calcMinSliderSpeed<
+   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY'>,
+>(notes: T[], timeProc: TimeProcessor): number {
    let hasStraight = false;
    let hasDiagonal = false;
    let curvedSpeed = 0;
@@ -150,22 +153,18 @@ function calcMinSliderSpeed(
             if (i === 0) {
                return 0;
             }
+            const distance = resolveGridDistance(notes[i], notes[i - 1]) || 1;
             if (
-               (notes[i].isHorizontal(notes[i - 1]) ||
-                  notes[i].isVertical(notes[i - 1])) &&
+               (isHorizontal(notes[i], notes[i - 1]) || isVertical(notes[i], notes[i - 1])) &&
                !hasStraight
             ) {
                hasStraight = true;
-               curvedSpeed = (notes[i].time - notes[i - 1].time) /
-                  (notes[i].getDistance(notes[i - 1]) || 1);
+               curvedSpeed = (notes[i].time - notes[i - 1].time) / distance;
             }
-            hasDiagonal = notes[i].isDiagonal(notes[i - 1]) ||
-               notes[i].isSlantedWindow(notes[i - 1]) ||
+            hasDiagonal = isDiagonal(notes[i], notes[i - 1]) ||
+               isSlantedWindow(notes[i], notes[i - 1]) ||
                hasDiagonal;
-            return (
-               (notes[i].time - notes[i - 1].time) /
-               (notes[i].getDistance(notes[i - 1]) || 1)
-            );
+            return (notes[i].time - notes[i - 1].time) / distance;
          }),
       ),
    );
@@ -180,10 +179,9 @@ function calcMinSliderSpeed(
  *
  * Lower value is faster.
  */
-function calcMaxSliderSpeed(
-   notes: IWrapColorNote[],
-   timeProc: TimeProcessor,
-): number {
+function calcMaxSliderSpeed<
+   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY'>,
+>(notes: T[], timeProc: TimeProcessor): number {
    let hasStraight = false;
    let hasDiagonal = false;
    let curvedSpeed = Number.MAX_SAFE_INTEGER;
@@ -193,22 +191,18 @@ function calcMaxSliderSpeed(
             if (i === 0) {
                return Number.MAX_SAFE_INTEGER;
             }
+            const distance = resolveGridDistance(notes[i], notes[i - 1]) || 1;
             if (
-               (notes[i].isHorizontal(notes[i - 1]) ||
-                  notes[i].isVertical(notes[i - 1])) &&
+               (isHorizontal(notes[i], notes[i - 1]) || isVertical(notes[i], notes[i - 1])) &&
                !hasStraight
             ) {
                hasStraight = true;
-               curvedSpeed = (notes[i].time - notes[i - 1].time) /
-                  (notes[i].getDistance(notes[i - 1]) || 1);
+               curvedSpeed = (notes[i].time - notes[i - 1].time) / distance;
             }
-            hasDiagonal = notes[i].isDiagonal(notes[i - 1]) ||
-               notes[i].isSlantedWindow(notes[i - 1]) ||
+            hasDiagonal = isDiagonal(notes[i], notes[i - 1]) ||
+               isSlantedWindow(notes[i], notes[i - 1]) ||
                hasDiagonal;
-            return (
-               (notes[i].time - notes[i - 1].time) /
-               (notes[i].getDistance(notes[i - 1]) || 1)
-            );
+            return (notes[i].time - notes[i - 1].time) / distance;
          }),
       ),
    );

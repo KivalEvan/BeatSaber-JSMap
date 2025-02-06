@@ -1,12 +1,11 @@
 import { logger } from '../../logger.ts';
-import { EasingsFn } from '../../utils/easings.ts';
-import { lerpColor } from '../../utils/colors.ts';
-import { normalize } from '../../utils/math.ts';
-import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { IChromaLightGradient } from '../../types/beatmap/v2/custom/chroma.ts';
-import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { Easings } from '../../types/easings.ts';
-import { BasicEvent } from '../core/basicEvent.ts';
+import { lerpColor } from '../../utils/colors.ts';
+import { EasingsFn } from '../../utils/easings.ts';
+import { normalize } from '../../utils/math.ts';
+import { isLightEventType } from '../helpers/core/basicEvent.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -27,20 +26,20 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
  * const newData = convert.V2ogChromaToChroma(oldData);
  * ```
  */
-export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(
-   data: T,
-): T {
+export function chromaLightGradientToVanillaGradient<
+   T extends IWrapBeatmapAttributeSubset<'basicEvents'>,
+>(data: T): T {
    logger.tWarn(
       tag('chromaLightGradientToVanillaGradient'),
       'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
    );
 
-   const events = data.basicEvents;
-   const newEvents: typeof data.basicEvents = [];
+   const events = data.lightshow.basicEvents;
+   const newEvents: T['lightshow']['basicEvents'] = [];
    for (let curr = 0, len = events.length; curr < len; curr++) {
       const ev = events[curr];
-      if (!ev.isLightEvent()) {
-         newEvents.push(ev);
+      if (!isLightEventType(ev.type)) {
+         newEvents.push({ ...ev, floatValue: 1 });
          continue;
       }
       if (isLightGradient(ev.customData._lightGradient)) {
@@ -65,30 +64,28 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(
                   'easeLinear'
             ];
             let hasOff = false;
-            let previousEvent: IWrapBasicEvent = ev;
+            let previousEvent: T['lightshow']['basicEvents'][number] = ev;
             for (const eig of eventInGradient) {
                if (
                   !hasOff &&
                   eig.time >
                      ev.time + ev.customData._lightGradient._duration - 0.001
                ) {
-                  newEvents.push(
-                     new BasicEvent({
-                        time: ev.time +
-                           ev.customData._lightGradient._duration -
-                           0.001,
-                        type: ev.type,
-                        value: ev.value >= 1 && ev.value <= 4
-                           ? 4
-                           : ev.value >= 5 && ev.value <= 8
-                           ? 8
-                           : 12,
-                        floatValue: 1,
-                        customData: {
-                           _color: ev.customData._lightGradient._endColor,
-                        },
-                     }),
-                  );
+                  newEvents.push({
+                     time: ev.time +
+                        ev.customData._lightGradient._duration -
+                        0.001,
+                     type: ev.type,
+                     value: ev.value >= 1 && ev.value <= 4
+                        ? 4
+                        : ev.value >= 5 && ev.value <= 8
+                        ? 8
+                        : 12,
+                     floatValue: 1,
+                     customData: {
+                        _color: ev.customData._lightGradient._endColor,
+                     },
+                  });
                } else {
                   eig.value = hasOff
                      ? eig.value >= 1 && eig.value <= 4
@@ -114,38 +111,36 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(
                      'rgba',
                   );
                   if (eig.value === 0) {
-                     eig.removeCustomData('_color');
+                     if (eig.customData['_color']) delete eig.customData['_color'];
                      if (!hasOff) {
-                        newEvents.push(
-                           new BasicEvent({
-                              time: eig.time - 0.001,
-                              type: ev.type,
-                              value: previousEvent.value >= 1 &&
-                                    previousEvent.value <= 4
-                                 ? 4
-                                 : previousEvent.value >= 5 &&
-                                       previousEvent.value <= 8
-                                 ? 8
-                                 : 12,
-                              floatValue: 1,
-                              customData: {
-                                 _color: lerpColor(
-                                    ev.customData._lightGradient._startColor,
-                                    ev.customData._lightGradient._endColor,
-                                    easing(
-                                       normalize(
-                                          eig.time - 0.001,
-                                          ev.time,
-                                          ev.time +
-                                             ev.customData._lightGradient
-                                                ._duration,
-                                       ),
+                        newEvents.push({
+                           time: eig.time - 0.001,
+                           type: ev.type,
+                           value: previousEvent.value >= 1 &&
+                                 previousEvent.value <= 4
+                              ? 4
+                              : previousEvent.value >= 5 &&
+                                    previousEvent.value <= 8
+                              ? 8
+                              : 12,
+                           floatValue: 1,
+                           customData: {
+                              _color: lerpColor(
+                                 ev.customData._lightGradient._startColor,
+                                 ev.customData._lightGradient._endColor,
+                                 easing(
+                                    normalize(
+                                       eig.time - 0.001,
+                                       ev.time,
+                                       ev.time +
+                                          ev.customData._lightGradient
+                                             ._duration,
                                     ),
-                                    'rgba',
                                  ),
-                              },
-                           }),
-                        );
+                                 'rgba',
+                              ),
+                           },
+                        });
                      }
                      hasOff = true;
                   } else {
@@ -154,31 +149,25 @@ export function chromaLightGradientToVanillaGradient<T extends IWrapBeatmap>(
                }
                previousEvent = eig;
             }
-            ev.removeCustomData('_lightGradient');
+            if (ev.customData['_lightGradient']) delete ev.customData['_lightGradient'];
          } else {
             ev.customData._color = ev.customData._lightGradient._startColor;
             ev.customData._easing = ev.customData._lightGradient._easing;
             ev.value = ev.value >= 1 && ev.value <= 4 ? 1 : ev.value >= 5 && ev.value <= 8 ? 5 : 9;
-            newEvents.push(
-               new BasicEvent({
-                  time: ev.time + ev.customData._lightGradient._duration,
-                  type: ev.type,
-                  value: ev.value >= 1 && ev.value <= 4
-                     ? 4
-                     : ev.value >= 5 && ev.value <= 8
-                     ? 8
-                     : 12,
-                  floatValue: 1,
-                  customData: {
-                     _color: ev.customData._lightGradient._endColor,
-                  },
-               }),
-            );
-            ev.removeCustomData('_lightGradient');
+            newEvents.push({
+               time: ev.time + ev.customData._lightGradient._duration,
+               type: ev.type,
+               value: ev.value >= 1 && ev.value <= 4 ? 4 : ev.value >= 5 && ev.value <= 8 ? 8 : 12,
+               floatValue: 1,
+               customData: {
+                  _color: ev.customData._lightGradient._endColor,
+               },
+            });
+            if (ev.customData['_lightGradient']) delete ev.customData['_lightGradient'];
          }
       }
       newEvents.push(ev);
    }
-   data.basicEvents = newEvents;
+   data.lightshow.basicEvents = newEvents;
    return data;
 }

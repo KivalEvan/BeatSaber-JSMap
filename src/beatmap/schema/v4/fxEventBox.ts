@@ -1,16 +1,16 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IFxEventFloatBoxContainer } from '../../../types/beatmap/container/v4.ts';
+import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapFxEventBoxAttribute } from '../../../types/beatmap/wrapper/fxEventBox.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import { deepCopy } from '../../../utils/misc.ts';
-import { indexFilter } from './indexFilter.ts';
+import { createFxEventBox } from '../../core/fxEventBox.ts';
 import { fxEventFloat } from './fxEventFloat.ts';
+import { indexFilter } from './indexFilter.ts';
 
 /**
  * Schema serialization for v4 `FX Event Box`.
  */
 export const fxEventBox: ISchemaContainer<IWrapFxEventBoxAttribute, IFxEventFloatBoxContainer> = {
-   serialize(data: IWrapFxEventBoxAttribute): IFxEventFloatBoxContainer {
+   serialize(data) {
       return {
          data: {
             w: data.beatDistribution,
@@ -21,23 +21,25 @@ export const fxEventBox: ISchemaContainer<IWrapFxEventBoxAttribute, IFxEventFloa
             e: data.easing,
             customData: deepCopy(data.customData),
          },
-         eventData: data.events.map(fxEventFloat.serialize),
+         eventData: data.events.map((x) => {
+            return fxEventFloat.serialize(x);
+         }),
          filterData: indexFilter.serialize(data.filter),
       };
    },
-   deserialize(
-      data: DeepPartial<IFxEventFloatBoxContainer> = {},
-   ): DeepPartial<IWrapFxEventBoxAttribute> {
-      return {
-         filter: indexFilter.deserialize(data.filterData),
+   deserialize(data) {
+      return createFxEventBox({
+         filter: indexFilter.deserialize(data.filterData ?? {}),
          beatDistribution: data.data?.w,
          beatDistributionType: data.data?.d,
          fxDistribution: data.data?.s,
          fxDistributionType: data.data?.t,
          affectFirst: data.data?.b,
          easing: data.data?.e,
-         events: data.eventData?.map(fxEventFloat.deserialize),
+         events: data.eventData?.map((x) => {
+            return fxEventFloat.deserialize(x);
+         }),
          customData: data.data?.customData,
-      };
+      });
    },
 };

@@ -2,12 +2,13 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWaypoint } from '../../../types/beatmap/v3/waypoint.ts';
 import type { IWrapWaypointAttribute } from '../../../types/beatmap/wrapper/waypoint.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createWaypoint } from '../../core/waypoint.ts';
 
 /**
  * Schema serialization for v3 `Waypoint`.
  */
 export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypoint> = {
-   serialize(data: IWrapWaypointAttribute): IWaypoint {
+   serialize(data) {
       return {
          b: data.time,
          x: data.posX,
@@ -16,13 +17,13 @@ export const waypoint: ISchemaContainer<IWrapWaypointAttribute, IWaypoint> = {
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IWaypoint> = {}): Partial<IWrapWaypointAttribute> {
-      return {
+   deserialize(data) {
+      return createWaypoint({
          time: data.b,
          posX: data.x,
          posY: data.y,
          direction: data.d,
          customData: data.customData,
-      };
+      });
    },
 };

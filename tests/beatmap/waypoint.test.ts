@@ -1,5 +1,5 @@
-import { assertEquals, v2, v3, v4, Waypoint } from '../deps.ts';
 import { assertObjectMatch } from '../assert.ts';
+import { assertEquals, v2, v3, v4, Waypoint } from '../deps.ts';
 
 const schemaList = [
    [v4.waypoint, 'V4 Waypoint'],
@@ -68,7 +68,8 @@ for (const tup of schemaList) {
    const nameTag = tup[1];
    const schema = tup[0];
    Deno.test(`${nameTag} from JSON instantiation`, () => {
-      let obj = new BaseClass(schema.deserialize());
+      // deno-lint-ignore no-explicit-any
+      let obj = new BaseClass(schema.deserialize({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
@@ -78,15 +79,20 @@ for (const tup of schemaList) {
       switch (schema) {
          case v4.waypoint:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v4.waypoint).deserialize({
                   object: { b: 2.5, i: 0, r: 15 },
-                  data: { x: 2, y: 1, d: 3, customData: { test: true } },
+                  data: {
+                     x: 2,
+                     y: 1,
+                     d: 3,
+                     customData: { test: true },
+                  },
                }),
             );
             break;
          case v3.waypoint:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.waypoint).deserialize({
                   b: 2.5,
                   x: 2,
                   y: 1,
@@ -97,7 +103,7 @@ for (const tup of schemaList) {
             break;
          case v2.waypoint:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.waypoint).deserialize({
                   _time: 2.5,
                   _lineIndex: 2,
                   _lineLayer: 1,
@@ -122,11 +128,16 @@ for (const tup of schemaList) {
 
       switch (schema) {
          case v4.waypoint:
-            obj = new BaseClass(schema.deserialize({ data: { y: 1, d: 3 } }));
+            obj = new BaseClass(
+               (schema as typeof v4.waypoint).deserialize({
+                  object: {},
+                  data: { y: 1, d: 3 },
+               }),
+            );
             break;
          case v3.waypoint:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v3.waypoint).deserialize({
                   y: 1,
                   d: 3,
                }),
@@ -134,7 +145,7 @@ for (const tup of schemaList) {
             break;
          case v2.waypoint:
             obj = new BaseClass(
-               schema.deserialize({
+               (schema as typeof v2.waypoint).deserialize({
                   _lineLayer: 1,
                   _offsetDirection: 3,
                }),

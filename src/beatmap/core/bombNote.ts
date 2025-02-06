@@ -2,22 +2,29 @@ import type {
    IWrapBombNote,
    IWrapBombNoteAttribute,
 } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseNote } from './abstract/baseNote.ts';
+
+export function createBombNote(
+   data: DeepPartial<IWrapBombNoteAttribute> = {},
+): IWrapBombNoteAttribute {
+   return {
+      time: data.time ?? 0,
+      posX: data.posX ?? 0,
+      posY: data.posY ?? 0,
+      color: -1,
+      direction: data.direction ?? 0,
+      laneRotation: data.laneRotation ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap bomb note.
  */
 export class BombNote extends BaseNote implements IWrapBombNote {
-   static defaultValue: IWrapBombNoteAttribute = {
-      time: 0,
-      posX: 0,
-      posY: 0,
-      color: -1,
-      direction: 0,
-      laneRotation: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapBombNoteAttribute = createBombNote();
 
    static createOne(data: Partial<IWrapBombNoteAttribute> = {}): BombNote {
       return new this(data);

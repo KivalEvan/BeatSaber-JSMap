@@ -1,26 +1,33 @@
-import { NoteDirectionAngle } from '../shared/constants.ts';
+import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type {
    IWrapColorNote,
    IWrapColorNoteAttribute,
 } from '../../types/beatmap/wrapper/colorNote.ts';
-import { BaseNote } from './abstract/baseNote.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
-import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
+import { resolveNoteAngle } from '../helpers/core/baseNote.ts';
+import { BaseNote } from './abstract/baseNote.ts';
+
+export function createColorNote(
+   data: DeepPartial<IWrapColorNoteAttribute> = {},
+): IWrapColorNoteAttribute {
+   return {
+      time: data.time ?? 0,
+      posX: data.posX ?? 0,
+      posY: data.posY ?? 0,
+      color: data.color ?? 0,
+      direction: data.direction ?? 0,
+      angleOffset: data.angleOffset ?? 0,
+      laneRotation: data.laneRotation ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap color note.
  */
 export class ColorNote extends BaseNote implements IWrapColorNote {
-   static defaultValue: IWrapColorNoteAttribute = {
-      time: 0,
-      posX: 0,
-      posY: 0,
-      color: 0,
-      direction: 0,
-      angleOffset: 0,
-      laneRotation: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapColorNoteAttribute = createColorNote();
 
    static createOne(data: Partial<IWrapColorNoteAttribute> = {}): ColorNote {
       return new this(data);
@@ -63,10 +70,6 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
    }
 
    override getAngle(fn?: GetAngleFn<this>): number {
-      return (
-         fn?.(this) ??
-            (NoteDirectionAngle[this.direction as keyof typeof NoteDirectionAngle] || 0) +
-               this.angleOffset
-      );
+      return fn?.(this) ?? resolveNoteAngle(this.direction) + this.angleOffset;
    }
 }

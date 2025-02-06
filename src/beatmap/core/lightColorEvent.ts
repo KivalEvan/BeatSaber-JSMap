@@ -2,24 +2,29 @@ import type {
    IWrapLightColorEvent,
    IWrapLightColorEventAttribute,
 } from '../../types/beatmap/wrapper/lightColorEvent.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
+
+export function createLightColorEvent(data: DeepPartial<IWrapLightColorEventAttribute> = {}) {
+   return {
+      time: data.time ?? 0,
+      previous: data.previous ?? 0,
+      color: data.color ?? 0,
+      frequency: data.frequency ?? 0,
+      brightness: data.brightness ?? 0,
+      strobeBrightness: data.strobeBrightness ?? 0,
+      strobeFade: data.strobeFade ?? 0,
+      easing: data.easing ?? 0,
+      customData: deepCopy({ ...data.customData }),
+   };
+}
 
 /**
  * Core beatmap light color event.
  */
 export class LightColorEvent extends BaseObject implements IWrapLightColorEvent {
-   static defaultValue: IWrapLightColorEventAttribute = {
-      time: 0,
-      previous: 0,
-      color: 0,
-      frequency: 0,
-      brightness: 0,
-      strobeBrightness: 0,
-      strobeFade: 0,
-      easing: 0,
-      customData: {},
-   };
+   static defaultValue: IWrapLightColorEventAttribute = createLightColorEvent();
 
    static createOne(data: Partial<IWrapLightColorEventAttribute> = {}): LightColorEvent {
       return new this(data);

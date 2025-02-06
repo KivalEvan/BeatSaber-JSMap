@@ -2,12 +2,13 @@ import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IArc } from '../../../types/beatmap/v3/arc.ts';
 import type { IWrapArcAttribute } from '../../../types/beatmap/wrapper/arc.ts';
 import { deepCopy } from '../../../utils/misc.ts';
+import { createArc } from '../../core/arc.ts';
 
 /**
  * Schema serialization for v3 `Arc`.
  */
 export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
-   serialize(data: IWrapArcAttribute): IArc {
+   serialize(data) {
       return {
          b: data.time,
          c: data.color,
@@ -24,8 +25,8 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
          customData: deepCopy(data.customData),
       };
    },
-   deserialize(data: Partial<IArc> = {}): Partial<IWrapArcAttribute> {
-      return {
+   deserialize(data) {
+      return createArc({
          time: data.b,
          color: data.c,
          posX: data.x,
@@ -39,6 +40,6 @@ export const arc: ISchemaContainer<IWrapArcAttribute, IArc> = {
          tailLengthMultiplier: data.tmu,
          midAnchor: data.m,
          customData: data.customData,
-      };
+      });
    },
 };
