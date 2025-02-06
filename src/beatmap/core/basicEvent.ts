@@ -45,7 +45,7 @@ export function createBasicEvent(
  * Core beatmap basic event.
  */
 export class BasicEvent extends BaseObject implements IWrapBasicEvent {
-   static defaultValue = createBasicEvent();
+   static defaultValue: IWrapBasicEventAttribute = createBasicEvent();
 
    static createOne(data: Partial<IWrapBasicEventAttribute> = {}): BasicEvent {
       return new this(data);

@@ -7,7 +7,9 @@ import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
-export function createIndexFilter(data: DeepPartial<IWrapIndexFilterAttribute> = {}) {
+export function createIndexFilter(
+   data: DeepPartial<IWrapIndexFilterAttribute> = {},
+): IWrapIndexFilterAttribute {
    return {
       type: data.type ?? 1,
       p0: data.p0 ?? 0,

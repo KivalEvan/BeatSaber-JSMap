@@ -26,7 +26,7 @@ export function resolveGridDistance<
 /** Check if two objects are in horizontal alignment. */
 export function isHorizontal<
    T extends Pick<IWrapGridObjectAttribute, 'posX' | 'posY'>,
->(o1: T, o2: NoInfer<T>, epsilon = 0.001, fn?: GetPositionFn<T>) {
+>(o1: T, o2: NoInfer<T>, epsilon = 0.001, fn?: GetPositionFn<T>): boolean {
    const v1 = fn?.(o1) ?? resolveGridPosition(o1);
    const v2 = fn?.(o2) ?? resolveGridPosition(o2);
    return vectorIsHorizontal(v1, v2, epsilon);
@@ -34,7 +34,7 @@ export function isHorizontal<
 /** Check if two objects are in vertical alignment. */
 export function isVertical<
    T extends Pick<IWrapGridObjectAttribute, 'posX' | 'posY'>,
->(o1: T, o2: NoInfer<T>, epsilon = 0.001, fn?: GetPositionFn<T>) {
+>(o1: T, o2: NoInfer<T>, epsilon = 0.001, fn?: GetPositionFn<T>): boolean {
    const v1 = fn?.(o1) ?? resolveGridPosition(o1);
    const v2 = fn?.(o2) ?? resolveGridPosition(o2);
    return vectorIsVertical(v1, v2, epsilon);
@@ -42,7 +42,7 @@ export function isVertical<
 /** Check if two objects are in diagonal alignment. */
 export function isDiagonal<
    T extends Pick<IWrapGridObjectAttribute, 'posX' | 'posY'>,
->(o1: T, o2: NoInfer<T>, epsilon = 0.001, fn?: GetPositionFn<T>) {
+>(o1: T, o2: NoInfer<T>, epsilon = 0.001, fn?: GetPositionFn<T>): boolean {
    const v1 = fn?.(o1) ?? resolveGridPosition(o1);
    const v2 = fn?.(o2) ?? resolveGridPosition(o2);
    return vectorIsDiagonal(v1, v2, epsilon);
@@ -50,26 +50,26 @@ export function isDiagonal<
 /** Check if two objects are inline. */
 export function isInline<
    T extends Pick<IWrapGridObjectAttribute, 'posX' | 'posY'>,
->(o1: T, o2: NoInfer<T>, lapping = 0.5, fn?: GetPositionFn<T>) {
+>(o1: T, o2: NoInfer<T>, lapping = 0.5, fn?: GetPositionFn<T>): boolean {
    return resolveGridDistance(o1, o2, fn) <= lapping;
 }
 /** Check if two objects are adjacent. */
 export function isAdjacent<
    T extends Pick<IWrapGridObjectAttribute, 'posX' | 'posY'>,
->(o1: T, o2: NoInfer<T>, epsilon = 0.001, fn?: GetPositionFn<T>) {
+>(o1: T, o2: NoInfer<T>, epsilon = 0.001, fn?: GetPositionFn<T>): boolean {
    const distance = resolveGridDistance(o1, o2, fn);
    return distance > (0.5 - epsilon) && distance < (1 + epsilon);
 }
 /** Check if two objects form a "window". */
 export function isWindow<
    T extends Pick<IWrapGridObjectAttribute, 'posX' | 'posY'>,
->(o1: T, o2: NoInfer<T>, distance = 1.8, fn?: GetPositionFn<T>) {
+>(o1: T, o2: NoInfer<T>, distance = 1.8, fn?: GetPositionFn<T>): boolean {
    return resolveGridDistance(o1, o2, fn) > distance;
 }
 /** Check if two objects form a "slanted window". */
 export function isSlantedWindow<
    T extends Pick<IWrapGridObjectAttribute, 'posX' | 'posY'>,
->(o1: T, o2: NoInfer<T>, fn?: GetPositionFn<T>) {
+>(o1: T, o2: NoInfer<T>, fn?: GetPositionFn<T>): boolean {
    return (
       isWindow(o1, o2, 1.8, fn) &&
       !isDiagonal(o1, o2, 0.001, fn) &&
@@ -78,6 +78,6 @@ export function isSlantedWindow<
    );
 }
 
-export function mirrorCoordinate(x: number, axis: number) {
+export function mirrorCoordinate(x: number, axis: number): number {
    return axis - 1 - x;
 }

@@ -6,7 +6,9 @@ import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
-export function createLightColorEvent(data: DeepPartial<IWrapLightColorEventAttribute> = {}) {
+export function createLightColorEvent(
+   data: DeepPartial<IWrapLightColorEventAttribute> = {},
+): IWrapLightColorEventAttribute {
    return {
       time: data.time ?? 0,
       previous: data.previous ?? 0,
@@ -26,10 +28,14 @@ export function createLightColorEvent(data: DeepPartial<IWrapLightColorEventAttr
 export class LightColorEvent extends BaseObject implements IWrapLightColorEvent {
    static defaultValue: IWrapLightColorEventAttribute = createLightColorEvent();
 
-   static createOne(data: Partial<IWrapLightColorEventAttribute> = {}): LightColorEvent {
+   static createOne(
+      data: Partial<IWrapLightColorEventAttribute> = {},
+   ): LightColorEvent {
       return new this(data);
    }
-   static create(...data: Partial<IWrapLightColorEventAttribute>[]): LightColorEvent[] {
+   static create(
+      ...data: Partial<IWrapLightColorEventAttribute>[]
+   ): LightColorEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: Partial<IWrapLightColorEventAttribute> = {}) {
@@ -43,7 +49,9 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
          LightColorEvent.defaultValue.strobeBrightness;
       this.strobeFade = data.strobeFade ?? LightColorEvent.defaultValue.strobeFade;
       this.easing = data.easing ?? LightColorEvent.defaultValue.easing;
-      this.customData = deepCopy(data.customData ?? LightColorEvent.defaultValue.customData);
+      this.customData = deepCopy(
+         data.customData ?? LightColorEvent.defaultValue.customData,
+      );
    }
 
    previous: IWrapLightColorEvent['previous'];
@@ -83,7 +91,10 @@ export class LightColorEvent extends BaseObject implements IWrapLightColorEvent 
       return this;
    }
 
-   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(
+      fn?: (object: this) => boolean,
+      override?: boolean,
+   ): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          (this.previous === 0 || this.previous === 1) &&
          this.easing >= -1 &&

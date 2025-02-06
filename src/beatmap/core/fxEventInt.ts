@@ -5,7 +5,9 @@ import type {
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
-export function createFxEventInt(data: Partial<IWrapFxEventIntAttribute> = {}) {
+export function createFxEventInt(
+   data: Partial<IWrapFxEventIntAttribute> = {},
+): IWrapFxEventIntAttribute {
    return {
       time: data.time ?? 0,
       previous: data.previous ?? 0,
@@ -31,7 +33,9 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
       this.time = data.time ?? FxEventInt.defaultValue.time;
       this.previous = data.previous ?? FxEventInt.defaultValue.previous;
       this.value = data.value ?? FxEventInt.defaultValue.value;
-      this.customData = deepCopy(data.customData ?? FxEventInt.defaultValue.customData);
+      this.customData = deepCopy(
+         data.customData ?? FxEventInt.defaultValue.customData,
+      );
    }
 
    previous: IWrapFxEventInt['previous'] = 0;
@@ -46,9 +50,11 @@ export class FxEventInt extends BaseObject implements IWrapFxEventInt {
       return this;
    }
 
-   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
-      return override
-         ? super.isValid(fn, override)
-         : super.isValid(fn, override) && (this.previous === 0 || this.previous === 1);
+   override isValid(
+      fn?: (object: this) => boolean,
+      override?: boolean,
+   ): boolean {
+      return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
+         (this.previous === 0 || this.previous === 1);
    }
 }
