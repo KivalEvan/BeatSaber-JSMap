@@ -3,6 +3,7 @@ import type {
 } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
 import { createLightRotationEventBox, LightRotationEventBox } from './lightRotationEventBox.ts';
 
@@ -46,6 +47,14 @@ export class LightRotationEventBoxGroup extends EventBoxGroup
       this.customData = deepCopy(
          data.customData ?? LightRotationEventBoxGroup.defaultValue.customData,
       );
+   }
+
+   override reconcile(): this {
+      this.boxes = reconcileClassObject(this.boxes, LightRotationEventBox);
+      for (let j = 0; j < this.boxes.length; j++) {
+         this.boxes[j].reconcile();
+      }
+      return this;
    }
 
    boxes: LightRotationEventBox[];

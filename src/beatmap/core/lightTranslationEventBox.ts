@@ -3,6 +3,7 @@ import type {
 } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
 import { createIndexFilter, IndexFilter } from './indexFilter.ts';
 import { createLightTranslationEvent, LightTranslationEvent } from './lightTranslationEvent.ts';
@@ -62,6 +63,11 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
       this.customData = deepCopy(
          data.customData ?? LightTranslationEventBox.defaultValue.customData,
       );
+   }
+
+   override reconcile(): this {
+      this.events = reconcileClassObject(this.events, LightTranslationEvent);
+      return this;
    }
 
    gapDistribution: IWrapLightTranslationEventBox['gapDistribution'];

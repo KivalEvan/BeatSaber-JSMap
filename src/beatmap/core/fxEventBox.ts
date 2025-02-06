@@ -1,6 +1,7 @@
 import type { IWrapFxEventBox } from '../../types/beatmap/wrapper/fxEventBox.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
 import { createFxEventFloat, FxEventFloat } from './fxEventFloat.ts';
 import { createIndexFilter, IndexFilter } from './indexFilter.ts';
@@ -48,6 +49,12 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
          (obj) => new FxEventFloat(obj),
       );
       this.customData = deepCopy(data.customData ?? FxEventBox.defaultValue.customData);
+   }
+
+   override reconcile(): this {
+      this.filter = reconcileClassObject(this.filter, IndexFilter);
+      this.events = reconcileClassObject(this.events, FxEventFloat);
+      return this;
    }
 
    fxDistribution: IWrapFxEventBox['fxDistribution'];

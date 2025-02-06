@@ -11,6 +11,16 @@ import { Cloneable } from '../../shared/cloneable.ts';
 export abstract class BaseItem extends Cloneable implements IWrapBaseItem {
    customData: IWrapBaseItem['customData'] = {};
 
+   /**
+    * Convert object into class.
+    *
+    * **WARNING:** If you ever need to use this,
+    * you may have used function that used wrapper interface and add onto array/object when are supposed to be concrete.
+    */
+   reconcile(): this {
+      return this;
+   }
+
    setCustomData(value: this['customData']): this {
       this.customData = value;
       return this;
