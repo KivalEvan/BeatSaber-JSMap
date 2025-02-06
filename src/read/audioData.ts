@@ -2,7 +2,7 @@
 import { logger } from '../logger.ts';
 import type { GenericAudioDataFilename } from '../types/beatmap/shared/filename.ts';
 import type {
-   InferBeatmapAttribute,
+   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
 } from '../types/beatmap/shared/infer.ts';
@@ -20,7 +20,7 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
  */
 export function readAudioDataFile<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    path: LooseAutocomplete<GenericAudioDataFilename>,
@@ -29,7 +29,7 @@ export function readAudioDataFile<
 ): Promise<TWrapper>;
 export function readAudioDataFile<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    path: LooseAutocomplete<GenericAudioDataFilename>,
@@ -37,7 +37,7 @@ export function readAudioDataFile<
 ): Promise<TWrapper>;
 export function readAudioDataFile<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    path: LooseAutocomplete<GenericAudioDataFilename>,
@@ -59,7 +59,7 @@ export function readAudioDataFile<
  */
 export function readAudioDataFileSync<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    path: LooseAutocomplete<GenericAudioDataFilename>,
@@ -68,7 +68,7 @@ export function readAudioDataFileSync<
 ): TWrapper;
 export function readAudioDataFileSync<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    path: LooseAutocomplete<GenericAudioDataFilename>,
@@ -76,7 +76,7 @@ export function readAudioDataFileSync<
 ): TWrapper;
 export function readAudioDataFileSync<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    path: LooseAutocomplete<GenericAudioDataFilename>,

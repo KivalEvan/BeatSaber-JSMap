@@ -152,7 +152,7 @@ data.addBasicEvents(...events);
 > corresponding class constructor or the static `createOne` method.
 >
 > ```ts
-> const data = loadDifficulty({ _version: '2.6.0' }); // returns `IWrapBeatmapAttribute`
+> const data = loadDifficulty({ _version: '2.6.0' }); // returns `IWrapBeatmap`
 > data.addColorNotes({ time: 0 }); // will error, since methods doesn't exist on attribute form
 >
 > const wrapped = Beatmap.createOne(data); // returns `Beatmap`

@@ -36,40 +36,40 @@ import type { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEvent
 import type { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
 import type { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
 import type { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
-import type { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
-import type { IWrapBasicEventAttribute } from '../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import type { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
-import type { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
-import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapFxEventBoxAttribute } from '../../types/beatmap/wrapper/fxEventBox.ts';
-import type { IWrapFxEventBoxGroupAttribute } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
-import type { IWrapFxEventFloatAttribute } from '../../types/beatmap/wrapper/fxEventFloat.ts';
-import type { IWrapIndexFilterAttribute } from '../../types/beatmap/wrapper/indexFilter.ts';
-import type { IWrapLightColorEventAttribute } from '../../types/beatmap/wrapper/lightColorEvent.ts';
-import type { IWrapLightColorEventBoxAttribute } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
-import type { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import type { IWrapLightRotationEventAttribute } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
-import type { IWrapLightRotationEventBoxAttribute } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
-import type { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
-import type { IWrapLightTranslationEventAttribute } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
-import type { IWrapLightTranslationEventBoxAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
-import type { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
-import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
-import type { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import type { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
+import type { IWrapArc } from '../../types/beatmap/wrapper/arc.ts';
+import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapChain } from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapFxEventBox } from '../../types/beatmap/wrapper/fxEventBox.ts';
+import type { IWrapFxEventBoxGroup } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
+import type { IWrapFxEventFloat } from '../../types/beatmap/wrapper/fxEventFloat.ts';
+import type { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
+import type { IWrapLightColorEvent } from '../../types/beatmap/wrapper/lightColorEvent.ts';
+import type { IWrapLightColorEventBox } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
+import type { IWrapLightColorEventBoxGroup } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
+import type { IWrapLightRotationEvent } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
+import type { IWrapLightRotationEventBox } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
+import type { IWrapLightRotationEventBoxGroup } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
+import type { IWrapLightTranslationEvent } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
+import type { IWrapLightTranslationEventBox } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
+import type { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
+import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import type { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
 import { fixCustomDataEvent } from './customDataEvent.ts';
 import { fixCustomDataObject } from './customDataObject.ts';
 import { fixBoolean, fixFloat, fixInt } from './helpers.ts';
 
-function fixBpmEvent(obj: IWrapBPMEventAttribute): void {
+function fixBpmEvent(obj: IWrapBPMEvent): void {
    obj.time = fixFloat(obj.time, BPMEvent.defaultValue.time);
    obj.bpm = fixFloat(obj.bpm);
 }
 
-function fixRotationEvent(obj: IWrapRotationEventAttribute): void {
+function fixRotationEvent(obj: IWrapRotationEvent): void {
    obj.time = fixFloat(obj.time, RotationEvent.defaultValue.time);
    obj.executionTime = fixInt(
       obj.executionTime,
@@ -79,7 +79,7 @@ function fixRotationEvent(obj: IWrapRotationEventAttribute): void {
    obj.rotation = fixFloat(obj.rotation, RotationEvent.defaultValue.rotation);
 }
 
-function fixColorNote(obj: IWrapColorNoteAttribute): void {
+function fixColorNote(obj: IWrapColorNote): void {
    obj.time = fixFloat(obj.time, ColorNote.defaultValue.time);
    obj.color = fixInt(obj.color, [0, 1], [0, 1]);
    obj.posX = fixInt(obj.posX, ColorNote.defaultValue.posX);
@@ -102,7 +102,7 @@ function fixFakeColorNote(obj: IColorNote): void {
    fixCustomDataObject(obj.customData);
 }
 
-function fixBombNote(obj: IWrapBombNoteAttribute): void {
+function fixBombNote(obj: IWrapBombNote): void {
    obj.time = fixFloat(obj.time, BombNote.defaultValue.time);
    obj.posX = fixInt(obj.posX, BombNote.defaultValue.posX);
    obj.posY = fixInt(obj.posY, BombNote.defaultValue.posY);
@@ -116,7 +116,7 @@ function fixFakeBombNote(obj: IBombNote): void {
    fixCustomDataObject(obj.customData);
 }
 
-function fixObstacle(obj: IWrapObstacleAttribute): void {
+function fixObstacle(obj: IWrapObstacle): void {
    obj.time = fixFloat(obj.time, Obstacle.defaultValue.time);
    obj.posX = fixInt(obj.posX, Obstacle.defaultValue.posX);
    obj.posY = fixInt(obj.posY, Obstacle.defaultValue.posY);
@@ -136,7 +136,7 @@ function fixFakeObstacle(obj: IObstacle): void {
    fixCustomDataObject(obj.customData);
 }
 
-function fixSlider(obj: IWrapArcAttribute): void {
+function fixSlider(obj: IWrapArc): void {
    obj.time = fixFloat(obj.time, Arc.defaultValue.time);
    obj.color = fixInt(obj.color, [0, 1], [0, 1]);
    obj.posX = fixInt(obj.posX, Arc.defaultValue.posX);
@@ -161,7 +161,7 @@ function fixSlider(obj: IWrapArcAttribute): void {
    fixCustomDataObject(obj.customData);
 }
 
-function fixChain(obj: IWrapChainAttribute): void {
+function fixChain(obj: IWrapChain): void {
    obj.time = fixFloat(obj.time, Chain.defaultValue.time);
    obj.color = fixInt(obj.color, [0, 1], [0, 1]);
    obj.posX = fixInt(obj.posX, Chain.defaultValue.posX);
@@ -189,14 +189,14 @@ function fixFakeChain(obj: IChain): void {
    fixCustomDataObject(obj.customData);
 }
 
-function fixWaypoint(obj: IWrapWaypointAttribute): void {
+function fixWaypoint(obj: IWrapWaypoint): void {
    obj.time = fixFloat(obj.time, Waypoint.defaultValue.time);
    obj.posX = fixInt(obj.posX, Waypoint.defaultValue.posX);
    obj.posY = fixInt(obj.posY, Waypoint.defaultValue.posY);
    obj.direction = fixInt(obj.direction, Waypoint.defaultValue.direction);
 }
 
-function fixBasicEvent(obj: IWrapBasicEventAttribute): void {
+function fixBasicEvent(obj: IWrapBasicEvent): void {
    obj.time = fixFloat(obj.time, BasicEvent.defaultValue.time);
    obj.type = fixInt(obj.type, BasicEvent.defaultValue.type);
    obj.value = fixInt(obj.value, BasicEvent.defaultValue.value);
@@ -207,12 +207,12 @@ function fixBasicEvent(obj: IWrapBasicEventAttribute): void {
    fixCustomDataEvent(obj.customData);
 }
 
-function fixColorBoostEvent(obj: IWrapColorBoostEventAttribute): void {
+function fixColorBoostEvent(obj: IWrapColorBoostEvent): void {
    obj.time = fixFloat(obj.time, ColorBoostEvent.defaultValue.time);
    obj.toggle = fixBoolean(obj.toggle, ColorBoostEvent.defaultValue.toggle);
 }
 
-function fixIndexFilter(obj: IWrapIndexFilterAttribute): void {
+function fixIndexFilter(obj: IWrapIndexFilter): void {
    obj.type = fixInt(obj.type, IndexFilter.defaultValue.type, [1, 2]);
    obj.p0 = fixInt(obj.p0, IndexFilter.defaultValue.p0);
    obj.p1 = fixInt(obj.p1, IndexFilter.defaultValue.p1);
@@ -232,7 +232,7 @@ function fixIndexFilter(obj: IWrapIndexFilterAttribute): void {
    );
 }
 
-function fixLightColorEvent(obj: IWrapLightColorEventAttribute): void {
+function fixLightColorEvent(obj: IWrapLightColorEvent): void {
    obj.time = fixFloat(obj.time, LightColorEvent.defaultValue.time);
    obj.frequency = fixInt(
       obj.frequency,
@@ -266,7 +266,7 @@ function fixLightColorEvent(obj: IWrapLightColorEventAttribute): void {
    );
 }
 
-function fixLightColorEventBox(obj: IWrapLightColorEventBoxAttribute): void {
+function fixLightColorEventBox(obj: IWrapLightColorEventBox): void {
    fixIndexFilter(obj.filter);
    obj.beatDistribution = fixFloat(
       obj.beatDistribution,
@@ -295,14 +295,14 @@ function fixLightColorEventBox(obj: IWrapLightColorEventBoxAttribute): void {
 }
 
 function fixLightColorEventBoxGroup(
-   obj: IWrapLightColorEventBoxGroupAttribute,
+   obj: IWrapLightColorEventBoxGroup,
 ): void {
    obj.time = fixFloat(obj.time, LightColorEventBoxGroup.defaultValue.time);
    obj.id = fixInt(obj.id, LightColorEventBoxGroup.defaultValue.id);
    obj.boxes.forEach(fixLightColorEventBox);
 }
 
-function fixLightRotationEvent(obj: IWrapLightRotationEventAttribute): void {
+function fixLightRotationEvent(obj: IWrapLightRotationEvent): void {
    obj.time = fixFloat(obj.time, LightRotationEvent.defaultValue.time);
    obj.easing = fixInt(obj.easing, LightRotationEvent.defaultValue.easing);
    obj.loop = fixInt(obj.loop, LightRotationEvent.defaultValue.loop);
@@ -323,7 +323,7 @@ function fixLightRotationEvent(obj: IWrapLightRotationEventAttribute): void {
 }
 
 function fixLightRotationEventBox(
-   obj: IWrapLightRotationEventBoxAttribute,
+   obj: IWrapLightRotationEventBox,
 ): void {
    fixIndexFilter(obj.filter);
    obj.beatDistribution = fixFloat(
@@ -363,7 +363,7 @@ function fixLightRotationEventBox(
 }
 
 function fixLightRotationEventBoxGroup(
-   obj: IWrapLightRotationEventBoxGroupAttribute,
+   obj: IWrapLightRotationEventBoxGroup,
 ): void {
    obj.time = fixFloat(obj.time, LightRotationEventBoxGroup.defaultValue.time);
    obj.id = fixInt(obj.id, LightRotationEventBoxGroup.defaultValue.id);
@@ -371,7 +371,7 @@ function fixLightRotationEventBoxGroup(
 }
 
 function fixLightTranslationEvent(
-   obj: IWrapLightTranslationEventAttribute,
+   obj: IWrapLightTranslationEvent,
 ): void {
    obj.time = fixFloat(obj.time, LightTranslationEvent.defaultValue.time);
    obj.easing = fixInt(obj.easing, LightTranslationEvent.defaultValue.easing);
@@ -387,7 +387,7 @@ function fixLightTranslationEvent(
 }
 
 function fixLightTranslationEventBox(
-   obj: IWrapLightTranslationEventBoxAttribute,
+   obj: IWrapLightTranslationEventBox,
 ): void {
    fixIndexFilter(obj.filter);
    obj.beatDistribution = fixFloat(
@@ -427,7 +427,7 @@ function fixLightTranslationEventBox(
 }
 
 function fixLightTranslationEventBoxGroup(
-   obj: IWrapLightTranslationEventBoxGroupAttribute,
+   obj: IWrapLightTranslationEventBoxGroup,
 ): void {
    obj.time = fixFloat(
       obj.time,
@@ -437,7 +437,7 @@ function fixLightTranslationEventBoxGroup(
    obj.boxes.forEach(fixLightTranslationEventBox);
 }
 
-function fixFxEventBox(obj: IWrapFxEventBoxAttribute): void {
+function fixFxEventBox(obj: IWrapFxEventBox): void {
    fixIndexFilter(obj.filter);
    obj.beatDistribution = fixFloat(
       obj.beatDistribution,
@@ -465,7 +465,7 @@ function fixFxEventBox(obj: IWrapFxEventBoxAttribute): void {
    obj.events.forEach(fixFxEventFloat);
 }
 
-function fixFxEventBoxGroup(obj: IWrapFxEventBoxGroupAttribute): void {
+function fixFxEventBoxGroup(obj: IWrapFxEventBoxGroup): void {
    obj.time = fixFloat(obj.time, FxEventBoxGroup.defaultValue.time);
    obj.id = fixInt(obj.id, FxEventBoxGroup.defaultValue.id);
    obj.boxes.forEach(fixFxEventBox);
@@ -482,7 +482,7 @@ function _fixFxEventInt(obj: FxEventInt): void {
    obj.value = fixFloat(obj.value, FxEventInt.defaultValue.value);
 }
 
-function fixFxEventFloat(obj: IWrapFxEventFloatAttribute): void {
+function fixFxEventFloat(obj: IWrapFxEventFloat): void {
    obj.time = fixFloat(obj.time, FxEventFloat.defaultValue.time);
    obj.easing = fixInt(obj.easing, FxEventFloat.defaultValue.easing);
    obj.previous = fixInt(
@@ -496,7 +496,7 @@ function fixFxEventFloat(obj: IWrapFxEventFloatAttribute): void {
 /**
  * Verifies and corrects data type for beatmap data.
  */
-export function beatmap<T extends IWrapBeatmapAttribute>(data: T): void {
+export function beatmap<T extends IWrapBeatmap>(data: T): void {
    logger.tInfo(
       ['patch', 'dataCorrection', 'beatmap', 'main'],
       'Verifying and correcting data type...',

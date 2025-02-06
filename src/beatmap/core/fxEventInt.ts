@@ -1,13 +1,10 @@
-import type {
-   IWrapFxEventInt,
-   IWrapFxEventIntAttribute,
-} from '../../types/beatmap/wrapper/fxEventInt.ts';
+import type { IWrapFxEventInt } from '../../types/beatmap/wrapper/fxEventInt.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export function createFxEventInt(
-   data: Partial<IWrapFxEventIntAttribute> = {},
-): IWrapFxEventIntAttribute {
+   data: Partial<IWrapFxEventInt> = {},
+): IWrapFxEventInt {
    return {
       time: data.time ?? 0,
       previous: data.previous ?? 0,
@@ -20,15 +17,15 @@ export function createFxEventInt(
  * Core beatmap FX event int.
  */
 export class FxEventInt extends BaseObject implements IWrapFxEventInt {
-   static defaultValue: IWrapFxEventIntAttribute = createFxEventInt();
+   static defaultValue: IWrapFxEventInt = createFxEventInt();
 
-   static createOne(data: Partial<IWrapFxEventIntAttribute> = {}): FxEventInt {
+   static createOne(data: Partial<IWrapFxEventInt> = {}): FxEventInt {
       return new this(data);
    }
-   static create(...data: Partial<IWrapFxEventIntAttribute>[]): FxEventInt[] {
+   static create(...data: Partial<IWrapFxEventInt>[]): FxEventInt[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapFxEventIntAttribute> = {}) {
+   constructor(data: Partial<IWrapFxEventInt> = {}) {
       super();
       this.time = data.time ?? FxEventInt.defaultValue.time;
       this.previous = data.previous ?? FxEventInt.defaultValue.previous;

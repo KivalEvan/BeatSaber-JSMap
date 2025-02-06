@@ -1,10 +1,10 @@
-import type { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
+import type { IWrapBaseNote } from './baseNote.ts';
 import type { ICustomDataNote } from './custom/note.ts';
 
 /**
  * Wrapper attribute for beatmap color note.
  */
-export interface IWrapColorNoteAttribute extends IWrapBaseNoteAttribute {
+export interface IWrapColorNote extends IWrapBaseNote {
    /**
     * Angle offset in degree counter-clockwise of note.
     *
@@ -12,14 +12,4 @@ export interface IWrapColorNoteAttribute extends IWrapBaseNoteAttribute {
     */
    angleOffset: number;
    customData: ICustomDataNote;
-}
-
-/**
- * Wrapper for beatmap color note.
- */
-export interface IWrapColorNote extends Omit<IWrapBaseNote, 'customData'>, IWrapColorNoteAttribute {
-   setCustomData(object: this['customData']): this;
-   addCustomData(object: this['customData']): this;
-
-   setAngleOffset(value: number): this;
 }

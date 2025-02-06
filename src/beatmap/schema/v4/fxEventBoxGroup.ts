@@ -4,7 +4,7 @@ import type {
 } from '../../../types/beatmap/container/v4.ts';
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapFxEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/fxEventBoxGroup.ts';
+import type { IWrapFxEventBoxGroup } from '../../../types/beatmap/wrapper/fxEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createFxEventBoxGroup } from '../../core/fxEventBoxGroup.ts';
 import { fxEventBox } from './fxEventBox.ts';
@@ -13,7 +13,7 @@ import { fxEventBox } from './fxEventBox.ts';
  * Schema serialization for v4 `FX Event Box Group`.
  */
 export const fxEventBoxGroup: ISchemaContainer<
-   IWrapFxEventBoxGroupAttribute,
+   IWrapFxEventBoxGroup,
    IEventBoxGroupContainer<IFxEventFloatBoxContainer>
 > = {
    serialize(data) {

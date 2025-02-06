@@ -12,9 +12,9 @@ import { createInfo } from '../../core/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
 
-type InfoDeserializationPolyfills = Pick<IWrapInfoAttribute, 'filename'> & {
+type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'> & {
    audio: Pick<
-      IWrapInfoAttribute['audio'],
+      IWrapInfo['audio'],
       | 'audioDataFilename'
       | 'lufs'
       | 'duration'
@@ -25,7 +25,7 @@ type InfoDeserializationPolyfills = Pick<IWrapInfoAttribute, 'filename'> & {
  * Schema serialization for v2 `Info`.
  */
 export const info: ISchemaContainer<
-   IWrapInfoAttribute,
+   IWrapInfo,
    IInfo,
    Record<string, any>,
    InfoDeserializationPolyfills

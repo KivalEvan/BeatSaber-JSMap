@@ -1,8 +1,5 @@
 import type { MirrorFn } from '../../types/beatmap/shared/functions.ts';
-import type {
-   IWrapWaypoint,
-   IWrapWaypointAttribute,
-} from '../../types/beatmap/wrapper/waypoint.ts';
+import type { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { mirrorCoordinate } from '../helpers/core/gridObject.ts';
@@ -10,8 +7,8 @@ import { LINE_COUNT } from '../shared/constants.ts';
 import { GridObject } from './abstract/gridObject.ts';
 
 export function createWaypoint(
-   data: DeepPartial<IWrapWaypointAttribute> = {},
-): IWrapWaypointAttribute {
+   data: DeepPartial<IWrapWaypoint> = {},
+): IWrapWaypoint {
    return {
       time: data.time ?? 0,
       posX: data.posX ?? 0,
@@ -26,15 +23,15 @@ export function createWaypoint(
  * Core beatmap waypoint.
  */
 export class Waypoint extends GridObject implements IWrapWaypoint {
-   static defaultValue: IWrapWaypointAttribute = createWaypoint();
+   static defaultValue: IWrapWaypoint = createWaypoint();
 
-   static createOne(data: Partial<IWrapWaypointAttribute> = {}): Waypoint {
+   static createOne(data: Partial<IWrapWaypoint> = {}): Waypoint {
       return new this(data);
    }
-   static create(...data: Partial<IWrapWaypointAttribute>[]): Waypoint[] {
+   static create(...data: Partial<IWrapWaypoint>[]): Waypoint[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapWaypointAttribute> = {}) {
+   constructor(data: Partial<IWrapWaypoint> = {}) {
       super();
       this.time = data.time ?? Waypoint.defaultValue.time;
       this.posX = data.posX ?? Waypoint.defaultValue.posX;

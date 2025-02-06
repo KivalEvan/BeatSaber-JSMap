@@ -5,7 +5,7 @@ import objectToV3 from '../beatmap/converter/customData/objectToV3.ts';
 import { isLaserRotationEventType } from '../beatmap/helpers/core/basicEvent.ts';
 import { logger } from '../logger.ts';
 import type { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition.ts';
-import type { IWrapBeatmapAttribute } from '../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 import type { ColorArray } from '../types/colors.ts';
 import { colorFrom } from '../utils/colors.ts';
 
@@ -13,7 +13,7 @@ function tag(name: string): string[] {
    return ['patch', 'customDataUpdate', name];
 }
 
-function v2<T extends IWrapBeatmapAttribute>(data: T): void {
+function v2<T extends IWrapBeatmap>(data: T): void {
    logger.tDebug(tag('v2'), ' Patching notes');
    data.difficulty.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
@@ -38,7 +38,7 @@ function v2<T extends IWrapBeatmapAttribute>(data: T): void {
    });
 }
 
-function v3<T extends IWrapBeatmapAttribute>(data: T): void {
+function v3<T extends IWrapBeatmap>(data: T): void {
    logger.tDebug(tag('v3'), ' Patching color notes');
    data.difficulty.colorNotes.forEach((n) => {
       n.customData = objectToV3(n.customData);
@@ -137,7 +137,7 @@ function v3<T extends IWrapBeatmapAttribute>(data: T): void {
 /**
  * Update custom data for beatmap given version.
  */
-export function customDataUpdate<T extends IWrapBeatmapAttribute>(data: T, version: number) {
+export function customDataUpdate<T extends IWrapBeatmap>(data: T, version: number) {
    logger.tInfo(
       ['patch', 'customDataUpdate'],
       'Patching custom data for beatmap v' + version + '...',

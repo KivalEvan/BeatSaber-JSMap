@@ -1,5 +1,5 @@
 import { logger } from '../../../logger.ts';
-import type { IWrapAudioDataAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioData } from '../../../types/beatmap/wrapper/audioData.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV2Audio', name];
@@ -13,7 +13,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Chain and other new stuff will be gone!
  */
-export function toV2AudioData<T extends IWrapAudioDataAttribute>(
+export function toV2AudioData<T extends IWrapAudioData>(
    data: T,
    fromVersion = data.version,
 ): T {

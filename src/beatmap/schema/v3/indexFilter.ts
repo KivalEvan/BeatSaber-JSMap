@@ -1,13 +1,13 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IIndexFilter } from '../../../types/beatmap/v3/indexFilter.ts';
-import type { IWrapIndexFilterAttribute } from '../../../types/beatmap/wrapper/indexFilter.ts';
+import type { IWrapIndexFilter } from '../../../types/beatmap/wrapper/indexFilter.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createIndexFilter } from '../../core/indexFilter.ts';
 
 /**
  * Schema serialization for v3 `Index Filter`.
  */
-export const indexFilter: ISchemaContainer<IWrapIndexFilterAttribute, IIndexFilter> = {
+export const indexFilter: ISchemaContainer<IWrapIndexFilter, IIndexFilter> = {
    serialize(data) {
       return {
          f: data.type,

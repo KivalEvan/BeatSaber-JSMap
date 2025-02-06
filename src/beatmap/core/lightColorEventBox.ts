@@ -1,8 +1,4 @@
-import type { IWrapLightColorEvent } from '../../types/beatmap/wrapper/lightColorEvent.ts';
-import type {
-   IWrapLightColorEventBox,
-   IWrapLightColorEventBoxAttribute,
-} from '../../types/beatmap/wrapper/lightColorEventBox.ts';
+import type { IWrapLightColorEventBox } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
@@ -10,8 +6,8 @@ import { createIndexFilter, IndexFilter } from './indexFilter.ts';
 import { createLightColorEvent, LightColorEvent } from './lightColorEvent.ts';
 
 export function createLightColorEventBox(
-   data: DeepPartial<IWrapLightColorEventBoxAttribute> = {},
-): IWrapLightColorEventBoxAttribute {
+   data: DeepPartial<IWrapLightColorEventBox> = {},
+): IWrapLightColorEventBox {
    return {
       filter: createIndexFilter(data.filter),
       beatDistribution: data.beatDistribution ?? 0,
@@ -29,15 +25,15 @@ export function createLightColorEventBox(
  * Core beatmap light color event box.
  */
 export class LightColorEventBox extends EventBox implements IWrapLightColorEventBox {
-   static defaultValue: IWrapLightColorEventBoxAttribute = createLightColorEventBox();
+   static defaultValue: IWrapLightColorEventBox = createLightColorEventBox();
 
-   static createOne(data: Partial<IWrapLightColorEventBoxAttribute> = {}): LightColorEventBox {
+   static createOne(data: Partial<IWrapLightColorEventBox> = {}): LightColorEventBox {
       return new this(data);
    }
-   static create(...data: Partial<IWrapLightColorEventBoxAttribute>[]): LightColorEventBox[] {
+   static create(...data: Partial<IWrapLightColorEventBox>[]): LightColorEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapLightColorEventBoxAttribute, 'customData'> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapLightColorEventBox, 'customData'> = {}) {
       super();
       this.filter = new IndexFilter(data.filter ?? LightColorEventBox.defaultValue.filter);
       this.beatDistribution = data.beatDistribution ??
@@ -58,7 +54,7 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
 
    brightnessDistribution: IWrapLightColorEventBox['brightnessDistribution'];
    brightnessDistributionType: IWrapLightColorEventBox['brightnessDistributionType'];
-   events: IWrapLightColorEvent[];
+   events: LightColorEvent[];
 
    setBrightnessDistribution(value: this['brightnessDistribution']): this {
       this.brightnessDistribution = value;

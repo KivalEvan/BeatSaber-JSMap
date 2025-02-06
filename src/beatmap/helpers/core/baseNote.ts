@@ -1,5 +1,5 @@
 import { NoteColor, NoteDirection, NoteDirectionAngle } from '../../../beatmap/shared/constants.ts';
-import type { IWrapBaseNoteAttribute } from '../../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapBaseNote } from '../../../types/beatmap/wrapper/baseNote.ts';
 import { cycle } from '../../../utils/misc.ts';
 
 /** Check if note color is red. */
@@ -17,7 +17,7 @@ export function isUnsetNoteColor(color: NoteColor): color is NoteColor.NONE {
 
 /** Compare two notes and return if they would form a double. */
 export function isDouble<
-   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'color'>,
+   T extends Pick<IWrapBaseNote, 'time' | 'color'>,
 >(object: T, compareTo: T, tolerance = 0.01): boolean {
    return (
       compareTo.time > object.time - tolerance &&

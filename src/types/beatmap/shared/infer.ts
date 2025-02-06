@@ -1,8 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import type { v1, v2, v3, v4 } from '../mod.ts';
-import type { IWrapAudioDataAttribute } from '../wrapper/audioData.ts';
-import type { IWrapBeatmapAttribute } from '../wrapper/beatmap.ts';
-import type { IWrapInfoAttribute } from '../wrapper/info.ts';
+import type { IWrapAudioData } from '../wrapper/audioData.ts';
+import type { IWrapBeatmap } from '../wrapper/beatmap.ts';
+import type { IWrapInfo } from '../wrapper/info.ts';
 import type { BeatmapFileType } from './schema.ts';
 
 export type InferBeatmapVersion<
@@ -13,11 +13,11 @@ export type InferBeatmapVersion<
    : TFileType extends 'lightshow' ? 3 | 4
    : number;
 
-export type InferBeatmapAttribute<
+export type InferBeatmap<
    TFileType extends BeatmapFileType,
-> = TFileType extends 'info' ? IWrapInfoAttribute
-   : TFileType extends 'audioData' ? IWrapAudioDataAttribute
-   : TFileType extends 'difficulty' | 'lightshow' ? IWrapBeatmapAttribute
+> = TFileType extends 'info' ? IWrapInfo
+   : TFileType extends 'audioData' ? IWrapAudioData
+   : TFileType extends 'difficulty' | 'lightshow' ? IWrapBeatmap
    : Record<string, any>;
 
 type InfoSerialMap = [never, v1.IInfo, v2.IInfo, never, v4.IInfo];

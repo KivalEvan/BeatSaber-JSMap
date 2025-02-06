@@ -2,70 +2,44 @@ import type {
    GenericBeatmapFilename,
    GenericLightshowFilename,
 } from '../../types/beatmap/shared/filename.ts';
-import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
-import type {
-   IWrapBasicEvent,
-   IWrapBasicEventAttribute,
-} from '../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapBasicEventTypesWithKeywords } from '../../types/beatmap/wrapper/basicEventTypesWithKeywords.ts';
-import type { IWrapBeatmap, IWrapBeatmapAttribute } from '../../types/beatmap/wrapper/beatmap.ts';
-import type {
-   IWrapBombNote,
-   IWrapBombNoteAttribute,
-} from '../../types/beatmap/wrapper/bombNote.ts';
-import type {
-   IWrapBPMEvent,
-   IWrapBPMEventAttribute,
-} from '../../types/beatmap/wrapper/bpmEvent.ts';
-import type { IWrapChain, IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
-import type {
-   IWrapColorBoostEvent,
-   IWrapColorBoostEventAttribute,
-} from '../../types/beatmap/wrapper/colorBoostEvent.ts';
-import type {
-   IWrapColorNote,
-   IWrapColorNoteAttribute,
-} from '../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
-import type {
-   IWrapFxEventBoxGroup,
-   IWrapFxEventBoxGroupAttribute,
-} from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
-import type {
-   IWrapLightColorEventBoxGroup,
-   IWrapLightColorEventBoxGroupAttribute,
-} from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import type {
-   IWrapLightRotationEventBoxGroup,
-   IWrapLightRotationEventBoxGroupAttribute,
-} from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
-import type { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
-import type {
-   IWrapLightTranslationEventBoxGroup,
-   IWrapLightTranslationEventBoxGroupAttribute,
-} from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
+import type { IWrapArc } from '../../types/beatmap/wrapper/arc.ts';
+import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapChain } from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapFxEventBoxGroup } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
+import type { IWrapLightColorEventBoxGroup } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
+import type { IWrapLightRotationEventBoxGroup } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
+import type { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
-import type {
-   IWrapObstacle,
-   IWrapObstacleAttribute,
-} from '../../types/beatmap/wrapper/obstacle.ts';
-import type {
-   IWrapRotationEvent,
-   IWrapRotationEventAttribute,
-} from '../../types/beatmap/wrapper/rotationEvent.ts';
-import type {
-   IWrapWaypoint,
-   IWrapWaypointAttribute,
-} from '../../types/beatmap/wrapper/waypoint.ts';
+import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import type { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
 import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
+import type { Arc } from './arc.ts';
+import type { BasicEvent } from './basicEvent.ts';
+import type { BombNote } from './bombNote.ts';
+import type { BPMEvent } from './bpmEvent.ts';
+import type { Chain } from './chain.ts';
+import type { ColorBoostEvent } from './colorBoostEvent.ts';
+import type { ColorNote } from './colorNote.ts';
 import { createDifficulty, Difficulty } from './difficulty.ts';
+import type { FxEventBoxGroup } from './fxEventBoxGroup.ts';
+import type { LightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
+import type { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { createLightshow, Lightshow } from './lightshow.ts';
+import type { LightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
+import type { NJSEvent } from './njsEvent.ts';
+import type { Obstacle } from './obstacle.ts';
+import type { RotationEvent } from './rotationEvent.ts';
+import type { Waypoint } from './waypoint.ts';
 
-export function createBeatmap(
-   data: DeepPartial<IWrapBeatmapAttribute> = {},
-): IWrapBeatmapAttribute {
+export function createBeatmap(data: DeepPartial<IWrapBeatmap> = {}): IWrapBeatmap {
    return {
       version: data.version ?? -1,
       filename: data.filename ?? 'Unnamed.beatmap.dat',
@@ -88,125 +62,136 @@ export function createBeatmap(
  * This object exists solely for arbitrary data.
  */
 export class Beatmap extends BaseItem implements IWrapBeatmap {
-   static defaultValue: IWrapBeatmapAttribute = createBeatmap();
+   static defaultValue: IWrapBeatmap = createBeatmap();
 
-   static createOne(data: DeepPartial<IWrapBeatmapAttribute> = {}): Beatmap {
+   static createOne(data: DeepPartial<IWrapBeatmap> = {}): Beatmap {
       return new this(data);
    }
-   static create(...data: DeepPartialIgnore<IWrapBeatmapAttribute, 'customData'>[]): Beatmap[] {
+   static create(
+      ...data: DeepPartialIgnore<IWrapBeatmap, 'customData'>[]
+   ): Beatmap[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapBeatmapAttribute, 'customData'> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapBeatmap, 'customData'> = {}) {
       super();
       this.version = data.version ?? Beatmap.defaultValue.version;
       this.filename = data.filename ?? Beatmap.defaultValue.filename;
       this.lightshowFilename = data.lightshowFilename ?? Beatmap.defaultValue.lightshowFilename;
-      this.difficulty = new Difficulty(data.difficulty ?? Beatmap.defaultValue.difficulty);
-      this.lightshow = new Lightshow(data.lightshow ?? Beatmap.defaultValue.lightshow);
+      this.difficulty = new Difficulty(
+         data.difficulty ?? Beatmap.defaultValue.difficulty,
+      );
+      this.lightshow = new Lightshow(
+         data.lightshow ?? Beatmap.defaultValue.lightshow,
+      );
    }
 
-   override isValid(fn?: (object: this) => boolean, _override?: boolean): boolean {
+   override isValid(
+      fn?: (object: this) => boolean,
+      _override?: boolean,
+   ): boolean {
       return super.isValid(fn);
    }
 
    version: number;
-   difficulty: IWrapDifficulty;
-   lightshow: IWrapLightshow;
+   difficulty: Difficulty;
+   lightshow: Lightshow;
 
    filename: LooseAutocomplete<GenericBeatmapFilename>;
    lightshowFilename: LooseAutocomplete<GenericLightshowFilename>;
 
-   get bpmEvents(): IWrapBPMEvent[] {
+   get bpmEvents(): BPMEvent[] {
       return this.difficulty.bpmEvents;
    }
    set bpmEvents(value: this['bpmEvents']) {
       this.difficulty.bpmEvents = value;
    }
-   get rotationEvents(): IWrapRotationEvent[] {
+   get rotationEvents(): RotationEvent[] {
       return this.difficulty.rotationEvents;
    }
    set rotationEvents(value: this['rotationEvents']) {
       this.difficulty.rotationEvents = value;
    }
-   get colorNotes(): IWrapColorNote[] {
+   get colorNotes(): ColorNote[] {
       return this.difficulty.colorNotes;
    }
    set colorNotes(value: this['colorNotes']) {
       this.difficulty.colorNotes = value;
    }
-   get bombNotes(): IWrapBombNote[] {
+   get bombNotes(): BombNote[] {
       return this.difficulty.bombNotes;
    }
    set bombNotes(value: this['bombNotes']) {
       this.difficulty.bombNotes = value;
    }
-   get obstacles(): IWrapObstacle[] {
+   get obstacles(): Obstacle[] {
       return this.difficulty.obstacles;
    }
    set obstacles(value: this['obstacles']) {
       this.difficulty.obstacles = value;
    }
-   get arcs(): IWrapArc[] {
+   get arcs(): Arc[] {
       return this.difficulty.arcs;
    }
    set arcs(value: this['arcs']) {
       this.difficulty.arcs = value;
    }
-   get chains(): IWrapChain[] {
+   get chains(): Chain[] {
       return this.difficulty.chains;
    }
    set chains(value: this['chains']) {
       this.difficulty.chains = value;
    }
-   get njsEvents(): IWrapNJSEvent[] {
+   get njsEvents(): NJSEvent[] {
       return this.difficulty.njsEvents;
    }
    set njsEvents(value: this['njsEvents']) {
       this.difficulty.njsEvents = value;
    }
-   get waypoints(): IWrapWaypoint[] {
+   get waypoints(): Waypoint[] {
       return this.lightshow.waypoints;
    }
    set waypoints(value: this['waypoints']) {
       this.lightshow.waypoints = value;
    }
-   get basicEvents(): IWrapBasicEvent[] {
+   get basicEvents(): BasicEvent[] {
       return this.lightshow.basicEvents;
    }
    set basicEvents(value: this['basicEvents']) {
       this.lightshow.basicEvents = value;
    }
-   get colorBoostEvents(): IWrapColorBoostEvent[] {
+   get colorBoostEvents(): ColorBoostEvent[] {
       return this.lightshow.colorBoostEvents;
    }
    set colorBoostEvents(value: this['colorBoostEvents']) {
       this.lightshow.colorBoostEvents = value;
    }
-   get lightColorEventBoxGroups(): IWrapLightColorEventBoxGroup[] {
+   get lightColorEventBoxGroups(): LightColorEventBoxGroup[] {
       return this.lightshow.lightColorEventBoxGroups;
    }
    set lightColorEventBoxGroups(value: this['lightColorEventBoxGroups']) {
       this.lightshow.lightColorEventBoxGroups = value;
    }
-   get lightRotationEventBoxGroups(): IWrapLightRotationEventBoxGroup[] {
+   get lightRotationEventBoxGroups(): LightRotationEventBoxGroup[] {
       return this.lightshow.lightRotationEventBoxGroups;
    }
    set lightRotationEventBoxGroups(value: this['lightRotationEventBoxGroups']) {
       this.lightshow.lightRotationEventBoxGroups = value;
    }
-   get lightTranslationEventBoxGroups(): IWrapLightTranslationEventBoxGroup[] {
+   get lightTranslationEventBoxGroups(): LightTranslationEventBoxGroup[] {
       return this.lightshow.lightTranslationEventBoxGroups;
    }
-   set lightTranslationEventBoxGroups(value: this['lightTranslationEventBoxGroups']) {
+   set lightTranslationEventBoxGroups(
+      value: this['lightTranslationEventBoxGroups'],
+   ) {
       this.lightshow.lightTranslationEventBoxGroups = value;
    }
-   get fxEventBoxGroups(): IWrapFxEventBoxGroup[] {
+   get fxEventBoxGroups(): FxEventBoxGroup[] {
       return this.lightshow.fxEventBoxGroups;
    }
    set fxEventBoxGroups(value: this['fxEventBoxGroups']) {
       this.lightshow.fxEventBoxGroups = value;
    }
-   get basicEventTypesWithKeywords(): IWrapBasicEventTypesWithKeywords {
+   get basicEventTypesWithKeywords(): Lightshow['basicEventTypesWithKeywords'] {
       return this.lightshow.basicEventTypesWithKeywords;
    }
    set basicEventTypesWithKeywords(value: this['basicEventTypesWithKeywords']) {
@@ -215,7 +200,9 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
    get useNormalEventsAsCompatibleEvents(): boolean {
       return this.lightshow.useNormalEventsAsCompatibleEvents;
    }
-   set useNormalEventsAsCompatibleEvents(value: this['useNormalEventsAsCompatibleEvents']) {
+   set useNormalEventsAsCompatibleEvents(
+      value: this['useNormalEventsAsCompatibleEvents'],
+   ) {
       this.lightshow.useNormalEventsAsCompatibleEvents = value;
    }
 
@@ -223,7 +210,9 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       this.filename = filename;
       return this;
    }
-   setLightshowFilename(filename: LooseAutocomplete<GenericLightshowFilename>): this {
+   setLightshowFilename(
+      filename: LooseAutocomplete<GenericLightshowFilename>,
+   ): this {
       this.lightshowFilename = filename;
       return this;
    }
@@ -238,70 +227,76 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return super.sort(fn);
    }
 
-   addBpmEvents(...data: DeepPartialIgnore<IWrapBPMEventAttribute, 'customData'>[]): this {
+   addBpmEvents(...data: DeepPartialIgnore<IWrapBPMEvent, 'customData'>[]): this {
       this.difficulty.addBpmEvents(...data);
       return this;
    }
    addRotationEvents(
-      ...data: DeepPartialIgnore<IWrapRotationEventAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<IWrapRotationEvent, 'customData'>[]
    ): this {
       this.difficulty.addRotationEvents(...data);
       return this;
    }
-   addColorNotes(...data: DeepPartialIgnore<IWrapColorNoteAttribute, 'customData'>[]): this {
+   addColorNotes(...data: DeepPartialIgnore<IWrapColorNote, 'customData'>[]): this {
       this.difficulty.addColorNotes(...data);
       return this;
    }
-   addBombNotes(...data: DeepPartialIgnore<IWrapBombNoteAttribute, 'customData'>[]): this {
+   addBombNotes(...data: DeepPartialIgnore<IWrapBombNote, 'customData'>[]): this {
       this.difficulty.addBombNotes(...data);
       return this;
    }
-   addObstacles(...data: DeepPartialIgnore<IWrapObstacleAttribute, 'customData'>[]): this {
+   addObstacles(...data: DeepPartialIgnore<IWrapObstacle, 'customData'>[]): this {
       this.difficulty.addObstacles(...data);
       return this;
    }
-   addArcs(...data: DeepPartialIgnore<IWrapArcAttribute, 'customData'>[]): this {
+   addArcs(...data: DeepPartialIgnore<IWrapArc, 'customData'>[]): this {
       this.difficulty.addArcs(...data);
       return this;
    }
-   addChains(...data: DeepPartialIgnore<IWrapChainAttribute, 'customData'>[]): this {
+   addChains(...data: DeepPartialIgnore<IWrapChain, 'customData'>[]): this {
       this.difficulty.addChains(...data);
       return this;
    }
-   addWaypoints(...data: DeepPartialIgnore<IWrapWaypointAttribute, 'customData'>[]): this {
+   addNjsEvents(...data: DeepPartialIgnore<IWrapNJSEvent, 'customData'>[]): this {
+      this.difficulty.addNjsEvents(...data);
+      return this;
+   }
+   addWaypoints(...data: DeepPartialIgnore<IWrapWaypoint, 'customData'>[]): this {
       this.lightshow.addWaypoints(...data);
       return this;
    }
-   addBasicEvents(...data: DeepPartialIgnore<IWrapBasicEventAttribute, 'customData'>[]): this {
+   addBasicEvents(
+      ...data: DeepPartialIgnore<IWrapBasicEvent, 'customData'>[]
+   ): this {
       this.lightshow.addBasicEvents(...data);
       return this;
    }
    addColorBoostEvents(
-      ...data: DeepPartialIgnore<IWrapColorBoostEventAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<IWrapColorBoostEvent, 'customData'>[]
    ): this {
       this.lightshow.addColorBoostEvents(...data);
       return this;
    }
    addLightColorEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightColorEventBoxGroupAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<IWrapLightColorEventBoxGroup, 'customData'>[]
    ): this {
       this.lightshow.addLightColorEventBoxGroups(...data);
       return this;
    }
    addLightRotationEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightRotationEventBoxGroupAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<IWrapLightRotationEventBoxGroup, 'customData'>[]
    ): this {
       this.lightshow.addLightRotationEventBoxGroups(...data);
       return this;
    }
    addLightTranslationEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightTranslationEventBoxGroupAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<IWrapLightTranslationEventBoxGroup, 'customData'>[]
    ): this {
       this.lightshow.addLightTranslationEventBoxGroups(...data);
       return this;
    }
    addFxEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapFxEventBoxGroupAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<IWrapFxEventBoxGroup, 'customData'>[]
    ): this {
       this.lightshow.addFxEventBoxGroups(...data);
       return this;

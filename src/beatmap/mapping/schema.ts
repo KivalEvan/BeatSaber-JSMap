@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import type {
-   InferBeatmapAttribute,
+   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
 } from '../../types/beatmap/shared/infer.ts';
@@ -19,7 +19,7 @@ import { lightshow as V4Lightshow } from '../schema/v4/lightshow.ts';
 
 type SchemaMap<T extends BeatmapFileType> = {
    [key in InferBeatmapVersion<T>]: ISchemaContainer<
-      InferBeatmapAttribute<T>,
+      InferBeatmap<T>,
       InferBeatmapSerial<T, key>
    >;
 };
@@ -54,25 +54,25 @@ export const lightshowSchemaMap: SchemaMap<'lightshow'> = {
 export function serializeBeatmap<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends InferBeatmapAttribute<TFileType>,
+   TWrapper extends InferBeatmap<TFileType>,
    TSerial extends InferBeatmapSerial<TFileType, TVersion>,
 >(type: TFileType, ver: TVersion, data: TWrapper): TSerial {
    switch (type) {
       case 'info': {
          const container = infoSchemaMap[ver as InferBeatmapVersion<'info'>];
-         return container.serialize(data as InferBeatmapAttribute<'info'>) as TSerial;
+         return container.serialize(data as InferBeatmap<'info'>) as TSerial;
       }
       case 'audioData': {
          const container = audioDataSchemaMap[ver as InferBeatmapVersion<'audioData'>];
-         return container.serialize(data as InferBeatmapAttribute<'audioData'>) as TSerial;
+         return container.serialize(data as InferBeatmap<'audioData'>) as TSerial;
       }
       case 'difficulty': {
          const container = difficultySchemaMap[ver as InferBeatmapVersion<'difficulty'>];
-         return container.serialize(data as InferBeatmapAttribute<'difficulty'>) as TSerial;
+         return container.serialize(data as InferBeatmap<'difficulty'>) as TSerial;
       }
       case 'lightshow': {
          const container = lightshowSchemaMap[ver as InferBeatmapVersion<'lightshow'>];
-         return container.serialize(data as InferBeatmapAttribute<'lightshow'>) as TSerial;
+         return container.serialize(data as InferBeatmap<'lightshow'>) as TSerial;
       }
       default: {
          throw new Error('');
@@ -84,7 +84,7 @@ export function deserializeBeatmap<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
    TSerial extends InferBeatmapSerial<TFileType, TVersion>,
-   TWrapper extends InferBeatmapAttribute<TFileType>,
+   TWrapper extends InferBeatmap<TFileType>,
 >(type: TFileType, ver: TVersion, data: TSerial): TWrapper {
    switch (type) {
       case 'info': {

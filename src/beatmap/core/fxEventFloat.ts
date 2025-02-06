@@ -1,14 +1,11 @@
-import type {
-   IWrapFxEventFloat,
-   IWrapFxEventFloatAttribute,
-} from '../../types/beatmap/wrapper/fxEventFloat.ts';
+import type { IWrapFxEventFloat } from '../../types/beatmap/wrapper/fxEventFloat.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export function createFxEventFloat(
-   data: DeepPartial<IWrapFxEventFloatAttribute> = {},
-): IWrapFxEventFloatAttribute {
+   data: DeepPartial<IWrapFxEventFloat> = {},
+): IWrapFxEventFloat {
    return {
       time: data.time ?? 0,
       easing: data.easing ?? 0,
@@ -22,15 +19,15 @@ export function createFxEventFloat(
  * Core beatmap FX event float.
  */
 export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
-   static defaultValue: IWrapFxEventFloatAttribute = createFxEventFloat();
+   static defaultValue: IWrapFxEventFloat = createFxEventFloat();
 
-   static createOne(data: Partial<IWrapFxEventFloatAttribute> = {}): FxEventFloat {
+   static createOne(data: Partial<IWrapFxEventFloat> = {}): FxEventFloat {
       return new this(data);
    }
-   static create(...data: Partial<IWrapFxEventFloatAttribute>[]): FxEventFloat[] {
+   static create(...data: Partial<IWrapFxEventFloat>[]): FxEventFloat[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapFxEventFloatAttribute> = {}) {
+   constructor(data: Partial<IWrapFxEventFloat> = {}) {
       super();
       this.time = data.time ?? FxEventFloat.defaultValue.time;
       this.easing = data.easing ?? FxEventFloat.defaultValue.easing;

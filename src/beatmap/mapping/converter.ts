@@ -1,8 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import type {
-   InferBeatmapAttribute,
-   InferBeatmapVersion,
-} from '../../types/beatmap/shared/infer.ts';
+import type { InferBeatmap, InferBeatmapVersion } from '../../types/beatmap/shared/infer.ts';
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import { toV1Beatmap } from '../converter/toV1/beatmap.ts';
 import { toV1Info } from '../converter/toV1/info.ts';
@@ -15,7 +12,7 @@ import { toV4Beatmap } from '../converter/toV4/beatmap.ts';
 import { toV4Info } from '../converter/toV4/info.ts';
 
 type ConverterMap<T extends BeatmapFileType> = {
-   [TVersion in InferBeatmapVersion<T>]: <TWrapper extends InferBeatmapAttribute<T>>(
+   [TVersion in InferBeatmapVersion<T>]: <TWrapper extends InferBeatmap<T>>(
       data: TWrapper,
       fromVersion?: number,
    ) => TWrapper;
@@ -45,7 +42,7 @@ export const beatmapConvertMap: ConverterMap<'difficulty' | 'lightshow'> = {
 export function convertBeatmap<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends InferBeatmapAttribute<TFileType>,
+   TWrapper extends InferBeatmap<TFileType>,
 >(
    type: TFileType,
    targetVersion: TVersion,

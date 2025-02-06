@@ -1,8 +1,4 @@
-import type {
-   IWrapFxEventBox,
-   IWrapFxEventBoxAttribute,
-} from '../../types/beatmap/wrapper/fxEventBox.ts';
-import type { IWrapFxEventFloat } from '../../types/beatmap/wrapper/fxEventFloat.ts';
+import type { IWrapFxEventBox } from '../../types/beatmap/wrapper/fxEventBox.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
@@ -10,8 +6,8 @@ import { createFxEventFloat, FxEventFloat } from './fxEventFloat.ts';
 import { createIndexFilter, IndexFilter } from './indexFilter.ts';
 
 export function createFxEventBox(
-   data: DeepPartial<IWrapFxEventBoxAttribute> = {},
-): IWrapFxEventBoxAttribute {
+   data: DeepPartial<IWrapFxEventBox> = {},
+): IWrapFxEventBox {
    return {
       filter: createIndexFilter(data.filter),
       beatDistribution: data.beatDistribution ?? 0,
@@ -29,15 +25,15 @@ export function createFxEventBox(
  * Core beatmap FX event box.
  */
 export class FxEventBox extends EventBox implements IWrapFxEventBox {
-   static defaultValue: IWrapFxEventBoxAttribute = createFxEventBox();
+   static defaultValue: IWrapFxEventBox = createFxEventBox();
 
-   static createOne(data: Partial<IWrapFxEventBoxAttribute> = {}): FxEventBox {
+   static createOne(data: Partial<IWrapFxEventBox> = {}): FxEventBox {
       return new this(data);
    }
-   static create(...data: Partial<IWrapFxEventBoxAttribute>[]): FxEventBox[] {
+   static create(...data: Partial<IWrapFxEventBox>[]): FxEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapFxEventBoxAttribute, 'customData'> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapFxEventBox, 'customData'> = {}) {
       super();
       this.filter = new IndexFilter(data.filter ?? FxEventBox.defaultValue.filter);
       this.beatDistribution = data.beatDistribution ?? FxEventBox.defaultValue.beatDistribution;
@@ -56,7 +52,7 @@ export class FxEventBox extends EventBox implements IWrapFxEventBox {
 
    fxDistribution: IWrapFxEventBox['fxDistribution'];
    fxDistributionType: IWrapFxEventBox['fxDistributionType'];
-   events: IWrapFxEventFloat[];
+   events: FxEventFloat[];
 
    setFxDistribution(value: this['fxDistribution']): this {
       this.fxDistribution = value;

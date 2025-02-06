@@ -1,8 +1,5 @@
 import type { ICompatibilityOptions } from '../../types/beatmap/options/compatibility.ts';
-import type {
-   InferBeatmapAttribute,
-   InferBeatmapVersion,
-} from '../../types/beatmap/shared/infer.ts';
+import type { InferBeatmap, InferBeatmapVersion } from '../../types/beatmap/shared/infer.ts';
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
 import { compatDifficulty as compatV1Difficulty } from '../schema/v1/compat/difficulty.ts';
 import { compatInfo as compatV1Info } from '../schema/v1/compat/info.ts';
@@ -17,7 +14,7 @@ import { compatInfo as compatV4Info } from '../schema/v4/compat/info.ts';
 import { compatLightshow as compatV4Lightshow } from '../schema/v4/compat/lightshow.ts';
 
 type CompatibilityMap<T extends BeatmapFileType> = {
-   [TVersion in InferBeatmapVersion<T>]: <TSerial extends InferBeatmapAttribute<T>>(
+   [TVersion in InferBeatmapVersion<T>]: <TSerial extends InferBeatmap<T>>(
       data: TSerial,
       options: ICompatibilityOptions,
    ) => void;

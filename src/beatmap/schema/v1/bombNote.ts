@@ -1,12 +1,12 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { INote } from '../../../types/beatmap/v1/note.ts';
-import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
 import { createBombNote } from '../../core/bombNote.ts';
 
 /**
  * Schema serialization for v1 `Bomb Note`.
  */
-export const bombNote: ISchemaContainer<IWrapBombNoteAttribute, INote> = {
+export const bombNote: ISchemaContainer<IWrapBombNote, INote> = {
    serialize(data) {
       return {
          _time: data.time,

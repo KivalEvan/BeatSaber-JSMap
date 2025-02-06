@@ -1,23 +1,21 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfoDifficulty } from '../../../types/beatmap/v2/info.ts';
-import type { IWrapInfoBeatmapAttribute } from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfoBeatmap } from '../../../types/beatmap/wrapper/info.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createInfoBeatmap } from '../../core/infoBeatmap.ts';
 import { DifficultyRanking } from '../../shared/difficulty.ts';
 
 type IInfoBeatmapDeserializationPolyfills = Pick<
-   IWrapInfoBeatmapAttribute,
-   | 'characteristic'
-   | 'lightshowFilename'
-   | 'authors'
+   IWrapInfoBeatmap,
+   'characteristic' | 'lightshowFilename' | 'authors'
 >;
 
 /**
  * Schema serialization for v2 `Info Beatmap`.
  */
 export const infoBeatmap: ISchemaContainer<
-   IWrapInfoBeatmapAttribute,
+   IWrapInfoBeatmap,
    IInfoDifficulty,
    Record<string, any>,
    IInfoBeatmapDeserializationPolyfills

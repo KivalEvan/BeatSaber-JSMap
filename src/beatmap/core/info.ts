@@ -6,10 +6,8 @@ import type {
 } from '../../types/beatmap/shared/environment.ts';
 import type {
    IWrapInfo,
-   IWrapInfoAttribute,
    IWrapInfoAudio,
    IWrapInfoBeatmap,
-   IWrapInfoBeatmapAttribute,
    IWrapInfoColorScheme,
    IWrapInfoSong,
 } from '../../types/beatmap/wrapper/info.ts';
@@ -20,7 +18,7 @@ import { DifficultyRanking } from '../shared/difficulty.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import { createInfoBeatmap, InfoBeatmap } from './infoBeatmap.ts';
 
-export function createInfo(data: DeepPartial<IWrapInfoAttribute> = {}): IWrapInfoAttribute {
+export function createInfo(data: DeepPartial<IWrapInfo> = {}): IWrapInfo {
    return {
       version: data.version ?? -1,
       filename: data.filename ?? 'Info.dat',
@@ -125,17 +123,17 @@ export function createInfo(data: DeepPartial<IWrapInfoAttribute> = {}): IWrapInf
  * This object is writable into file.
  */
 export class Info extends BaseItem implements IWrapInfo {
-   static defaultValue: IWrapInfoAttribute = createInfo();
+   static defaultValue: IWrapInfo = createInfo();
 
-   static createOne(data: Partial<IWrapInfoAttribute> = {}): Info {
+   static createOne(data: Partial<IWrapInfo> = {}): Info {
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<IWrapInfo, 'customData'>[]
    ): Info[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapInfoAttribute, 'customData'> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapInfo, 'customData'> = {}) {
       super();
       this.version = data.version ?? Info.defaultValue.version;
       this.filename = data.filename ?? Info.defaultValue.filename;
@@ -273,7 +271,7 @@ export class Info extends BaseItem implements IWrapInfo {
    };
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
-   difficulties: IWrapInfoBeatmap[];
+   difficulties: InfoBeatmap[];
 
    override clone<U extends this>(): U {
       return super.clone().setFilename(this.filename) as U;
@@ -288,6 +286,7 @@ export class Info extends BaseItem implements IWrapInfo {
       return this;
    }
 
+   /** Sort beatmap object(s) accordingly. */
    override sort(): this {
       this.difficulties
          .sort(
@@ -303,7 +302,7 @@ export class Info extends BaseItem implements IWrapInfo {
    }
 
    addMap(
-      data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>,
+      data: DeepPartialIgnore<IWrapInfoBeatmap, 'customData'>,
    ): this {
       this.difficulties.push(new InfoBeatmap(data));
       return this;

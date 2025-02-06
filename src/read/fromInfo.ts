@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import type { MirrorFn } from '../types/beatmap/shared/functions.ts';
 import type {
-   InferBeatmapAttribute,
+   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
 } from '../types/beatmap/shared/infer.ts';
@@ -11,9 +11,9 @@ import { readDifficultyFile, readDifficultyFileSync } from './difficulty.ts';
 import { readLightshowFileSync } from './lightshow.ts';
 
 export async function readFromInfo<
-   T extends Pick<InferBeatmapAttribute<'info'>, 'difficulties'>,
+   T extends Pick<InferBeatmap<'info'>, 'difficulties'>,
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    info: T,
@@ -23,8 +23,8 @@ export async function readFromInfo<
    for (const d of info.difficulties) {
       const [posttransformer, ...postprocesses] =
          (options.load?.postprocess?.toReversed() ?? []) as [
-            (data: InferBeatmapAttribute<'difficulty'>) => TWrapper,
-            ...MirrorFn<InferBeatmapAttribute<'difficulty'>>[],
+            (data: InferBeatmap<'difficulty'>) => TWrapper,
+            ...MirrorFn<InferBeatmap<'difficulty'>>[],
          ];
       const beatmap = await readDifficultyFile(d.filename, {
          ...options,
@@ -47,9 +47,9 @@ export async function readFromInfo<
 }
 
 export function readFromInfoSync<
-   T extends Pick<InferBeatmapAttribute<'info'>, 'difficulties'>,
+   T extends Pick<InferBeatmap<'info'>, 'difficulties'>,
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    info: T,
@@ -59,8 +59,8 @@ export function readFromInfoSync<
    for (const d of info.difficulties) {
       const [posttransformer, ...postprocesses] =
          (options.load?.postprocess?.toReversed() ?? []) as [
-            (data: InferBeatmapAttribute<'difficulty'>) => TWrapper,
-            ...MirrorFn<InferBeatmapAttribute<'difficulty'>>[],
+            (data: InferBeatmap<'difficulty'>) => TWrapper,
+            ...MirrorFn<InferBeatmap<'difficulty'>>[],
          ];
       const beatmap = readDifficultyFileSync(d.filename, {
          ...options,

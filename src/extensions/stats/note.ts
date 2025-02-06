@@ -8,11 +8,11 @@ import {
    hasNoodleExtensionsNoteV3,
 } from '../../beatmap/helpers/modded/has.ts';
 import type { GetAngleFn } from '../../types/beatmap/shared/functions.ts';
-import type { IWrapBaseNoteAttribute } from '../../types/beatmap/wrapper/baseNote.ts';
-import type { IWrapBaseSliderAttribute } from '../../types/beatmap/wrapper/baseSlider.ts';
-import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
+import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapBaseSlider } from '../../types/beatmap/wrapper/baseSlider.ts';
+import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
 import type { ICountNote, ICountStatsNote } from './types/stats.ts';
 
 /**
@@ -23,7 +23,7 @@ import type { ICountNote, ICountStatsNote } from './types/stats.ts';
  * console.log(list);
  * ```
  */
-export function countNote<T extends IWrapColorNoteAttribute | IWrapBaseSliderAttribute>(
+export function countNote<T extends IWrapColorNote | IWrapBaseSlider>(
    notes: T[],
    version = 2,
 ): ICountNote {
@@ -61,7 +61,7 @@ export function countNote<T extends IWrapColorNoteAttribute | IWrapBaseSliderAtt
    return noteCount;
 }
 
-export function countBomb<T extends IWrapBombNoteAttribute>(
+export function countBomb<T extends IWrapBombNote>(
    bombs: T[],
    version = 2,
 ): ICountStatsNote {
@@ -96,7 +96,7 @@ export function countBomb<T extends IWrapBombNoteAttribute>(
  * const xCount = countX(notes, 0);
  * ```
  */
-export function countX<T extends IWrapGridObjectAttribute>(objs: T[], x: number): number {
+export function countX<T extends IWrapGridObject>(objs: T[], x: number): number {
    return objs.filter((n) => n.posX === x).length;
 }
 
@@ -107,7 +107,7 @@ export function countX<T extends IWrapGridObjectAttribute>(objs: T[], x: number)
  * const yCount = countY(notes, 0);
  * ```
  */
-export function countY<T extends IWrapGridObjectAttribute>(objs: T[], y: number): number {
+export function countY<T extends IWrapGridObject>(objs: T[], y: number): number {
    return objs.filter((n) => n.posY === y).length;
 }
 
@@ -118,7 +118,7 @@ export function countY<T extends IWrapGridObjectAttribute>(objs: T[], y: number)
  * const xyCount = countXY(notes, 0, 0);
  * ```
  */
-export function countXY<T extends IWrapGridObjectAttribute>(
+export function countXY<T extends IWrapGridObject>(
    objs: T[],
    x: number,
    y: number,
@@ -132,7 +132,7 @@ export function countXY<T extends IWrapGridObjectAttribute>(
  * const cdCount = countDirection(notes, 0);
  * ```
  */
-export function countDirection<T extends IWrapBaseNoteAttribute>(notes: T[], cd: number): number {
+export function countDirection<T extends IWrapBaseNote>(notes: T[], cd: number): number {
    return notes.filter((n) => n.direction === cd).length;
 }
 
@@ -143,7 +143,7 @@ export function countDirection<T extends IWrapBaseNoteAttribute>(notes: T[], cd:
  * const angleCount = countAngle(notes, 0);
  * ```
  */
-export function countAngle<T extends IWrapBaseNoteAttribute>(
+export function countAngle<T extends IWrapBaseNote>(
    notes: T[],
    angle: number,
    fn?: GetAngleFn<T>,

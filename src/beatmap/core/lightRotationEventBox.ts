@@ -1,7 +1,5 @@
-import type { IWrapLightRotationEvent } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
 import type {
    IWrapLightRotationEventBox,
-   IWrapLightRotationEventBoxAttribute,
 } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -10,8 +8,8 @@ import { createIndexFilter, IndexFilter } from './indexFilter.ts';
 import { createLightRotationEvent, LightRotationEvent } from './lightRotationEvent.ts';
 
 export function createLightRotationEventBox(
-   data: DeepPartial<IWrapLightRotationEventBoxAttribute> = {},
-): IWrapLightRotationEventBoxAttribute {
+   data: DeepPartial<IWrapLightRotationEventBox> = {},
+): IWrapLightRotationEventBox {
    return {
       filter: createIndexFilter(data.filter),
       axis: data.axis ?? 0,
@@ -31,17 +29,17 @@ export function createLightRotationEventBox(
  * Core beatmap light rotation event box.
  */
 export class LightRotationEventBox extends EventBox implements IWrapLightRotationEventBox {
-   static defaultValue: IWrapLightRotationEventBoxAttribute = createLightRotationEventBox();
+   static defaultValue: IWrapLightRotationEventBox = createLightRotationEventBox();
 
    static createOne(
-      data: Partial<IWrapLightRotationEventBoxAttribute> = {},
+      data: Partial<IWrapLightRotationEventBox> = {},
    ): LightRotationEventBox {
       return new this(data);
    }
-   static create(...data: Partial<IWrapLightRotationEventBoxAttribute>[]): LightRotationEventBox[] {
+   static create(...data: Partial<IWrapLightRotationEventBox>[]): LightRotationEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapLightRotationEventBoxAttribute, 'customData'> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapLightRotationEventBox, 'customData'> = {}) {
       super();
       this.filter = new IndexFilter(data.filter ?? LightRotationEventBox.defaultValue.filter);
       this.axis = data.axis ?? LightRotationEventBox.defaultValue.axis;
@@ -66,7 +64,7 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
    rotationDistributionType: IWrapLightRotationEventBox['rotationDistributionType'];
    axis: IWrapLightRotationEventBox['axis'];
    flip: IWrapLightRotationEventBox['flip'];
-   events: IWrapLightRotationEvent[];
+   events: LightRotationEvent[];
 
    setRotationDistribution(value: this['rotationDistribution']): this {
       this.rotationDistribution = value;

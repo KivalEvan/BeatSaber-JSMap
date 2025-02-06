@@ -1,17 +1,9 @@
-import type { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
+import type { IWrapBaseNote } from './baseNote.ts';
 import type { ICustomDataNote } from './custom/note.ts';
 
 /**
  * Wrapper attribute for beatmap bomb note.
  */
-export interface IWrapBombNoteAttribute extends IWrapBaseNoteAttribute {
+export interface IWrapBombNote extends IWrapBaseNote {
    customData: ICustomDataNote;
-}
-
-/**
- * Wrapper for beatmap bomb note.
- */
-export interface IWrapBombNote extends Omit<IWrapBaseNote, 'customData'>, IWrapBombNoteAttribute {
-   setCustomData(object: this['customData']): this;
-   addCustomData(object: this['customData']): this;
 }

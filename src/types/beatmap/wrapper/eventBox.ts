@@ -1,15 +1,15 @@
 import type { EaseType } from '../shared/constants.ts';
 import type { DistributionType } from '../shared/constants.ts';
-import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
-import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
-import type { IWrapIndexFilter, IWrapIndexFilterAttribute } from './indexFilter.ts';
+import type { IWrapBaseItem } from './baseItem.ts';
+import type { IWrapBaseObject } from './baseObject.ts';
+import type { IWrapIndexFilter } from './indexFilter.ts';
 
 /**
  * Wrapper attribute for beatmap event box.
  */
-export interface IWrapEventBoxAttribute extends IWrapBaseItemAttribute {
+export interface IWrapEventBox extends IWrapBaseItem {
    /** Index filter of event box. */
-   filter: IWrapIndexFilterAttribute;
+   filter: IWrapIndexFilter;
    /**
     * Beat distribution of event box.
     *
@@ -38,18 +38,5 @@ export interface IWrapEventBoxAttribute extends IWrapBaseItemAttribute {
     * **Type:** `i32`
     */
    affectFirst: 0 | 1;
-   events: IWrapBaseObjectAttribute[];
-}
-
-/**
- * Wrapper for beatmap event box.
- */
-export interface IWrapEventBox extends IWrapBaseItem, IWrapEventBoxAttribute {
    events: IWrapBaseObject[];
-
-   setFilter(value: IWrapIndexFilter): this;
-   setBeatDistribution(value: IWrapEventBox['beatDistribution']): this;
-   setBeatDistributionType(value: IWrapEventBox['beatDistributionType']): this;
-   setEasing(value: IWrapEventBox['easing']): this;
-   setEvents(value: number[] | IWrapBaseObject[]): this;
 }

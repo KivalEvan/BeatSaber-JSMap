@@ -1,12 +1,12 @@
 import { logger } from '../../../../logger.ts';
 import type { ICompatibilityOptions } from '../../../../types/beatmap/options/compatibility.ts';
-import type { IWrapAudioDataAttribute } from '../../../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioData } from '../../../../types/beatmap/wrapper/audioData.ts';
 import { tag } from './_common.ts';
 
 /**
  * Checks if beatmap audio data is compatible with v2 `AudioData` schema.
  */
-export function compatAudioData<T extends IWrapAudioDataAttribute>(
+export function compatAudioData<T extends IWrapAudioData>(
    data: T,
    options: ICompatibilityOptions,
 ) {

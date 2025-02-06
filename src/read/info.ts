@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../logger.ts';
 import type {
-   InferBeatmapAttribute,
+   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
 } from '../types/beatmap/shared/infer.ts';
@@ -23,7 +23,7 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
  */
 export function readInfoFile<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    path?: LooseAutocomplete<'Info.dat' | 'info.dat'>,
@@ -32,7 +32,7 @@ export function readInfoFile<
 ): Promise<TWrapper>;
 export function readInfoFile<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    path?: LooseAutocomplete<'Info.dat' | 'info.dat'>,
@@ -40,7 +40,7 @@ export function readInfoFile<
 ): Promise<TWrapper>;
 export function readInfoFile<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    path: LooseAutocomplete<'Info.dat' | 'info.dat'> = 'Info.dat',
@@ -66,7 +66,7 @@ export function readInfoFile<
  */
 export function readInfoFileSync<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    path?: LooseAutocomplete<'Info.dat' | 'info.dat'>,
@@ -75,7 +75,7 @@ export function readInfoFileSync<
 ): TWrapper;
 export function readInfoFileSync<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    path?: LooseAutocomplete<'Info.dat' | 'info.dat'>,
@@ -83,7 +83,7 @@ export function readInfoFileSync<
 ): TWrapper;
 export function readInfoFileSync<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    path: LooseAutocomplete<'Info.dat' | 'info.dat'> = 'Info.dat',

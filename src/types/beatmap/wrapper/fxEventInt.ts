@@ -1,9 +1,9 @@
-import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
+import type { IWrapBaseObject } from './baseObject.ts';
 
 /**
  * Wrapper attribute for beatmap FX int event.
  */
-export interface IWrapFxEventIntAttribute extends IWrapBaseObjectAttribute {
+export interface IWrapFxEventInt extends IWrapBaseObject {
    /**
     * Relative beat time to event box group.
     *
@@ -22,12 +22,4 @@ export interface IWrapFxEventIntAttribute extends IWrapBaseObjectAttribute {
     * **Type:** `i32`
     */
    value: number;
-}
-
-/**
- * Wrapper for beatmap FX int event.
- */
-export interface IWrapFxEventInt extends IWrapBaseObject, IWrapFxEventIntAttribute {
-   setPrevious(value: 0 | 1): this;
-   setValue(value: number): this;
 }

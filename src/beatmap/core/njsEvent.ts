@@ -1,14 +1,11 @@
-import type {
-   IWrapNJSEvent,
-   IWrapNJSEventAttribute,
-} from '../../types/beatmap/wrapper/njsEvent.ts';
+import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export function createNJSEvent(
-   data: DeepPartial<IWrapNJSEventAttribute> = {},
-): IWrapNJSEventAttribute {
+   data: DeepPartial<IWrapNJSEvent> = {},
+): IWrapNJSEvent {
    return {
       time: data.time ?? 0,
       value: data.value ?? 0,
@@ -22,15 +19,15 @@ export function createNJSEvent(
  * Core beatmap NJS event.
  */
 export class NJSEvent extends BaseObject implements IWrapNJSEvent {
-   static defaultValue: IWrapNJSEventAttribute = createNJSEvent();
+   static defaultValue: IWrapNJSEvent = createNJSEvent();
 
-   static createOne(data: Partial<IWrapNJSEventAttribute> = {}): NJSEvent {
+   static createOne(data: Partial<IWrapNJSEvent> = {}): NJSEvent {
       return new this(data);
    }
-   static create(...data: Partial<IWrapNJSEventAttribute>[]): NJSEvent[] {
+   static create(...data: Partial<IWrapNJSEvent>[]): NJSEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapNJSEventAttribute> = {}) {
+   constructor(data: Partial<IWrapNJSEvent> = {}) {
       super();
       this.time = data.time ?? NJSEvent.defaultValue.time;
       this.value = data.value ?? NJSEvent.defaultValue.value;

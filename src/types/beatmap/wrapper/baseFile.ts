@@ -1,10 +1,10 @@
 import type { LooseAutocomplete } from '../../utils.ts';
-import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
+import type { IWrapBaseItem } from './baseItem.ts';
 
 /**
  * Wrapper attribute for beatmap base file.
  */
-export interface IWrapBaseFileAttribute<T extends string = ''> {
+export interface IWrapBaseFile<T extends string = ''> {
    filename: LooseAutocomplete<T>;
 
    /**
@@ -18,19 +18,6 @@ export interface IWrapBaseFileAttribute<T extends string = ''> {
    version: number;
 }
 
-/**
- * Wrapper for beatmap base file.
- */
-export interface IWrapBaseFile<T extends string = ''> extends IWrapBaseFileAttribute<T> {
-   setFilename(filename: this['filename']): this;
-   setVersion(version: this['version']): this;
-}
-
-export type IWrapBeatmapFileAttribute<T extends string = ''> =
-   & IWrapBaseFileAttribute<T>
-   & IWrapBaseItemAttribute;
-
-/**
- * Wrapper for beatmap base file.
- */
-export type IWrapBeatmapFile<T extends string = ''> = IWrapBaseFile<T> & IWrapBaseItem;
+export type IWrapBeatmapFile<T extends string = ''> =
+   & IWrapBaseFile<T>
+   & IWrapBaseItem;

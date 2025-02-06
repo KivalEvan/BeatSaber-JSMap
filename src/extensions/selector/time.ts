@@ -1,5 +1,5 @@
 import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
-import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 import { settings } from './settings.ts';
 
 /**
@@ -10,7 +10,7 @@ import { settings } from './settings.ts';
  * ```
  */
 export function at<
-   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+   T extends Pick<IWrapBaseObject, 'time'>,
 >(objects: T[], times: number | number[], bpm?: TimeProcessor | null): T[] {
    bpm = bpm ?? settings.timeProcessor;
    if (Array.isArray(times)) {
@@ -29,7 +29,7 @@ export function at<
  * ```
  */
 export function between<
-   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+   T extends Pick<IWrapBaseObject, 'time'>,
 >(objects: T[], from: number, to: number, bpm?: TimeProcessor | null): T[] {
    bpm = bpm ?? settings.timeProcessor;
    return objects.filter((o) =>
@@ -47,7 +47,7 @@ export function between<
  * ```
  */
 export function before<
-   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+   T extends Pick<IWrapBaseObject, 'time'>,
 >(objects: T[], before: number, bpm?: TimeProcessor | null): T[] {
    bpm = bpm ?? settings.timeProcessor;
    return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > before : o.time > before));
@@ -61,7 +61,7 @@ export function before<
  * ```
  */
 export function after<
-   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+   T extends Pick<IWrapBaseObject, 'time'>,
 >(objects: T[], after: number, bpm?: TimeProcessor | null): T[] {
    bpm = bpm ?? settings.timeProcessor;
    return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > after : o.time > after));

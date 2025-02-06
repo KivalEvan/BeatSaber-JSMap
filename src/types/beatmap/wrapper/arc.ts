@@ -1,12 +1,11 @@
 import type { SliderMidAnchorMode } from '../shared/constants.ts';
-import type { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
+import type { IWrapBaseSlider } from './baseSlider.ts';
 import type { ICustomDataSlider } from './custom/slider.ts';
-import type { GetAngleFn } from '../shared/functions.ts';
 
 /**
  * Wrapper attribute for beatmap arc.
  */
-export interface IWrapArcAttribute extends IWrapBaseSliderAttribute {
+export interface IWrapArc extends IWrapBaseSlider {
    /**
     * Head control point length multiplier of arc.
     *
@@ -52,32 +51,4 @@ export interface IWrapArcAttribute extends IWrapBaseSliderAttribute {
     */
    midAnchor: SliderMidAnchorMode;
    customData: ICustomDataSlider;
-}
-
-/**
- * Wrapper for beatmap arc.
- */
-export interface IWrapArc extends Omit<IWrapBaseSlider, 'customData'>, IWrapArcAttribute {
-   setCustomData(object: this['customData']): this;
-   addCustomData(object: this['customData']): this;
-
-   setLengthMultiplier(value: number): this;
-   setTailLengthMultiplier(value: number): this;
-   setTailDirection(value: number): this;
-   setMidAnchor(value: SliderMidAnchorMode): this;
-
-   /**
-    * Get standardised tail note angle.
-    *
-    * @example
-    * ```ts
-    * import type { IWrapArc } from './arc.ts';
-    * let arc!: IWrapArc;
-    * const optionalFn = (object: IWrapArc) => object.customData.value;
-    * const arcTailAngle = arc.getTailAngle(optionalFn);
-    * ```
-    *
-    * Custom function are used to return any arbitrary data first if value exist, otherwise returns base value.
-    */
-   getTailAngle(fn?: GetAngleFn<this>): number;
 }

@@ -1,14 +1,11 @@
-import type {
-   IWrapBombNote,
-   IWrapBombNoteAttribute,
-} from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseNote } from './abstract/baseNote.ts';
 
 export function createBombNote(
-   data: DeepPartial<IWrapBombNoteAttribute> = {},
-): IWrapBombNoteAttribute {
+   data: DeepPartial<IWrapBombNote> = {},
+): IWrapBombNote {
    return {
       time: data.time ?? 0,
       posX: data.posX ?? 0,
@@ -24,15 +21,15 @@ export function createBombNote(
  * Core beatmap bomb note.
  */
 export class BombNote extends BaseNote implements IWrapBombNote {
-   static defaultValue: IWrapBombNoteAttribute = createBombNote();
+   static defaultValue: IWrapBombNote = createBombNote();
 
-   static createOne(data: Partial<IWrapBombNoteAttribute> = {}): BombNote {
+   static createOne(data: Partial<IWrapBombNote> = {}): BombNote {
       return new this(data);
    }
-   static create(...data: Partial<IWrapBombNoteAttribute>[]): BombNote[] {
+   static create(...data: Partial<IWrapBombNote>[]): BombNote[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapBombNoteAttribute> = {}) {
+   constructor(data: Partial<IWrapBombNote> = {}) {
       super();
       this.time = data.time ?? BombNote.defaultValue.time;
       this.posX = data.posX ?? BombNote.defaultValue.posX;

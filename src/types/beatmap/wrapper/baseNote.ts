@@ -1,11 +1,10 @@
 import type { NoteColor } from '../shared/constants.ts';
-import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
-import type { GetAngleFn, GetPositionFn } from '../shared/functions.ts';
+import type { IWrapGridObject } from './gridObject.ts';
 
 /**
  * Wrapper attribute for beatmap base note.
  */
-export interface IWrapBaseNoteAttribute extends IWrapGridObjectAttribute {
+export interface IWrapBaseNote extends IWrapGridObject {
    /**
     * Color of note.
     * ```ts
@@ -32,51 +31,4 @@ export interface IWrapBaseNoteAttribute extends IWrapGridObjectAttribute {
     * **Type:** `i32`
     */
    direction: number;
-}
-
-/**
- * Wrapper for beatmap base note.
- */
-export interface IWrapBaseNote extends IWrapGridObject, IWrapBaseNoteAttribute {
-   setColor(value: NoteColor): this;
-   setDirection(value: number): this;
-
-   /**
-    * Get standardised note angle.
-    *
-    * @example
-    * ```ts
-    * import type { IWrapBaseNote } from './baseNote.ts';
-    * let note!: IBaseNote;
-    * const optionalFn = (object: IWrapBaseNote) => object.customData.value;
-    * const tailAngle = note.getTailAngle(optionalFn);
-    * ```
-    *
-    * Custom function are used to return any arbitrary data first if value exist, otherwise returns base value.
-    */
-   getAngle(fn?: GetAngleFn<this>): number;
-
-   /**
-    * Check if note is red note.
-    * ```ts
-    * if (note.isBlue()) {}
-    * ```
-    */
-   isRed(): boolean;
-
-   /**
-    * Check if note is blue note.
-    * ```ts
-    * if (note.isBlue()) {}
-    * ```
-    */
-   isBlue(): boolean;
-
-   /**
-    * Compare current note with the note ahead of it and return if the notes is a double.
-    * ```ts
-    * if (note.isDouble(otherNote, tol, optionalFn)) {}
-    * ```
-    */
-   isDouble(compareTo: this, tolerance: number, fn?: GetPositionFn<this>): boolean;
 }

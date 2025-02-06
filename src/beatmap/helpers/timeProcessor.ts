@@ -5,7 +5,7 @@ import type {
 } from '../../types/beatmap/v2/custom/bpmChange.ts';
 import type { IBPMChange as IV3BPMChange } from '../../types/beatmap/v3/custom/bpmChange.ts';
 import type { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
-import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
 import { logger } from '../../logger.ts';
 
 function tag(name: string): string[] {
@@ -26,7 +26,7 @@ export class TimeProcessor {
          | IBPMChangeOld
          | IV3BPMChange
          | IBPMEvent
-         | Omit<IWrapBPMEventAttribute, 'customData'>
+         | Omit<IBPMEvent, 'customData'>
          | IBPMTimeScale
       )[] = [],
       offset: number = 0,
@@ -67,7 +67,7 @@ export class TimeProcessor {
          | IBPMChangeOld
          | IV3BPMChange
          | IBPMEvent
-         | Omit<IWrapBPMEventAttribute, 'customData'>
+         | Omit<IBPMEvent, 'customData'>
          | IBPMTimeScale
       )[],
       offset?: number,
@@ -90,7 +90,7 @@ export class TimeProcessor {
       val: (
          | IBPMTimeScale
          | IBPMEvent
-         | Omit<IWrapBPMEventAttribute, 'customData'>
+         | Omit<IBPMEvent, 'customData'>
       )[],
    ) {
       this._timeScale = this.getTimeScale(val);
@@ -170,15 +170,15 @@ export class TimeProcessor {
    private getTimeScale(
       bpmc: (
          | IBPMTimeScale
-         | IBPMEvent
-         | Omit<IWrapBPMEventAttribute, 'customData'>
+         | IWrapBPMEvent
+         | Omit<IBPMEvent, 'customData'>
       )[] = [],
    ): IBPMTimeScale[] {
       return [...bpmc]
          .sort(
             (a, b) =>
-               ((a as IWrapBPMEventAttribute).time ?? (a as IV3BPMChange).b) -
-               ((b as IWrapBPMEventAttribute).time ?? (b as IV3BPMChange).b),
+               ((a as IWrapBPMEvent).time ?? (a as IV3BPMChange).b) -
+               ((b as IWrapBPMEvent).time ?? (b as IV3BPMChange).b),
          )
          .map((el) => {
             if ('scale' in el) return el;

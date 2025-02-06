@@ -1,16 +1,13 @@
 import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
-import type {
-   IWrapColorNote,
-   IWrapColorNoteAttribute,
-} from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { resolveNoteAngle } from '../helpers/core/baseNote.ts';
 import { BaseNote } from './abstract/baseNote.ts';
 
 export function createColorNote(
-   data: DeepPartial<IWrapColorNoteAttribute> = {},
-): IWrapColorNoteAttribute {
+   data: DeepPartial<IWrapColorNote> = {},
+): IWrapColorNote {
    return {
       time: data.time ?? 0,
       posX: data.posX ?? 0,
@@ -27,15 +24,15 @@ export function createColorNote(
  * Core beatmap color note.
  */
 export class ColorNote extends BaseNote implements IWrapColorNote {
-   static defaultValue: IWrapColorNoteAttribute = createColorNote();
+   static defaultValue: IWrapColorNote = createColorNote();
 
-   static createOne(data: Partial<IWrapColorNoteAttribute> = {}): ColorNote {
+   static createOne(data: Partial<IWrapColorNote> = {}): ColorNote {
       return new this(data);
    }
-   static create(...data: Partial<IWrapColorNoteAttribute>[]): ColorNote[] {
+   static create(...data: Partial<IWrapColorNote>[]): ColorNote[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapColorNoteAttribute> = {}) {
+   constructor(data: Partial<IWrapColorNote> = {}) {
       super();
       this.time = data.time ?? ColorNote.defaultValue.time;
       this.posX = data.posX ?? ColorNote.defaultValue.posX;

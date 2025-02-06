@@ -1,44 +1,18 @@
 // deno-lint-ignore-file no-explicit-any
-import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
+import type { LooseAutocomplete } from '../../utils.ts';
 import type { ICustomDataBase } from '../shared/custom/customData.ts';
 import type { GenericBeatmapFilename, GenericLightshowFilename } from '../shared/filename.ts';
-import type { IWrapArc, IWrapArcAttribute } from './arc.ts';
-import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
-import type { IWrapBaseItemAttribute } from './baseItem.ts';
-import type { IWrapBasicEvent, IWrapBasicEventAttribute } from './basicEvent.ts';
-import type { IWrapBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
-import type { IWrapBombNote, IWrapBombNoteAttribute } from './bombNote.ts';
-import type { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent.ts';
-import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
-import type { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
-import type { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
-import type { IWrapDifficulty, IWrapDifficultyAttribute } from './difficulty.ts';
-import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
-import type {
-   IWrapLightColorEventBoxGroup,
-   IWrapLightColorEventBoxGroupAttribute,
-} from './lightColorEventBoxGroup.ts';
-import type {
-   IWrapLightRotationEventBoxGroup,
-   IWrapLightRotationEventBoxGroupAttribute,
-} from './lightRotationEventBoxGroup.ts';
-import type { IWrapLightshow, IWrapLightshowAttribute } from './lightshow.ts';
-import type {
-   IWrapLightTranslationEventBoxGroup,
-   IWrapLightTranslationEventBoxGroupAttribute,
-} from './lightTranslationEventBoxGroup.ts';
-import type { IWrapNJSEvent } from './njsEvent.ts';
-import type { IWrapObstacle, IWrapObstacleAttribute } from './obstacle.ts';
-import type { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent.ts';
-import type { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
+import type { IWrapBaseFile } from './baseFile.ts';
+import type { IWrapBaseItem } from './baseItem.ts';
+import type { IWrapDifficulty } from './difficulty.ts';
+import type { IWrapLightshow } from './lightshow.ts';
 
 /**
  * Wrapper attribute for beatmap data.
  */
-export interface IWrapBeatmapAttribute
-   extends IWrapBaseItemAttribute, IWrapBaseFileAttribute<GenericBeatmapFilename> {
-   difficulty: IWrapDifficultyAttribute;
-   lightshow: IWrapLightshowAttribute;
+export interface IWrapBeatmap extends IWrapBaseItem, IWrapBaseFile<GenericBeatmapFilename> {
+   difficulty: IWrapDifficulty;
+   lightshow: IWrapLightshow;
 
    // this honestly feels like hack but i need to figure out best way to handle this
    lightshowFilename: LooseAutocomplete<GenericLightshowFilename>;
@@ -52,80 +26,25 @@ export interface IWrapBeatmapAttribute
 }
 
 /** Wrapper attribute for subset of beatmap data. */
-export type IWrapBeatmapAttributeSubset<
-   TKey extends keyof IWrapDifficultyAttribute | keyof IWrapLightshowAttribute,
+export type IWrapBeatmapSubset<
+   TKey extends keyof IWrapDifficulty | keyof IWrapLightshow,
    TPick extends
-      | keyof IWrapDifficultyAttribute[Extract<keyof IWrapDifficultyAttribute, TKey>]
-      | keyof IWrapLightshowAttribute[Extract<keyof IWrapLightshowAttribute, TKey>] = any,
+      | keyof IWrapDifficulty[Extract<keyof IWrapDifficulty, TKey>]
+      | keyof IWrapLightshow[Extract<keyof IWrapLightshow, TKey>] = any,
 > =
    & {
-      [key in TKey extends keyof IWrapDifficultyAttribute ? 'difficulty' : never]: {
-         [K in Extract<keyof IWrapDifficultyAttribute, TKey>]: Pick<
-            Extract<IWrapDifficultyAttribute[K], unknown[]>[number],
-            Extract<keyof Extract<IWrapDifficultyAttribute[K], unknown[]>[number], TPick>
+      [key in TKey extends keyof IWrapDifficulty ? 'difficulty' : never]: {
+         [K in Extract<keyof IWrapDifficulty, TKey>]: Pick<
+            Extract<IWrapDifficulty[K], unknown[]>[number],
+            Extract<keyof Extract<IWrapDifficulty[K], unknown[]>[number], TPick>
          >[];
       };
    }
    & {
-      [key in TKey extends keyof IWrapLightshowAttribute ? 'lightshow' : never]: {
-         [K in Extract<keyof IWrapLightshowAttribute, TKey>]: Pick<
-            Extract<IWrapLightshowAttribute[K], unknown[]>[number],
-            Extract<keyof Extract<IWrapLightshowAttribute[K], unknown[]>[number], TPick>
+      [key in TKey extends keyof IWrapLightshow ? 'lightshow' : never]: {
+         [K in Extract<keyof IWrapLightshow, TKey>]: Pick<
+            Extract<IWrapLightshow[K], unknown[]>[number],
+            Extract<keyof Extract<IWrapLightshow[K], unknown[]>[number], TPick>
          >[];
       };
    };
-
-/**
- * Wrapper for beatmap data.
- */
-export interface IWrapBeatmap
-   extends IWrapBeatmapFile<GenericBeatmapFilename>, IWrapBeatmapAttribute {
-   difficulty: IWrapDifficulty;
-   lightshow: IWrapLightshow;
-
-   bpmEvents: IWrapBPMEvent[];
-   rotationEvents: IWrapRotationEvent[];
-   colorNotes: IWrapColorNote[];
-   bombNotes: IWrapBombNote[];
-   obstacles: IWrapObstacle[];
-   arcs: IWrapArc[];
-   chains: IWrapChain[];
-   waypoints: IWrapWaypoint[];
-   njsEvents: IWrapNJSEvent[];
-   basicEvents: IWrapBasicEvent[];
-   colorBoostEvents: IWrapColorBoostEvent[];
-   lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
-   lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
-   lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
-   fxEventBoxGroups: IWrapFxEventBoxGroup[];
-   basicEventTypesWithKeywords: IWrapBasicEventTypesWithKeywords;
-   useNormalEventsAsCompatibleEvents: boolean;
-
-   setLightshowFilename(filename: LooseAutocomplete<GenericLightshowFilename>): this;
-
-   addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): this;
-   addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): this;
-   addColorNotes(...data: Partial<IWrapColorNoteAttribute>[]): this;
-   addBombNotes(...data: Partial<IWrapBombNoteAttribute>[]): this;
-   addObstacles(...data: Partial<IWrapObstacleAttribute>[]): this;
-   addArcs(...data: Partial<IWrapArcAttribute>[]): this;
-   addChains(...data: Partial<IWrapChainAttribute>[]): this;
-   addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
-   addBasicEvents(...data: Partial<IWrapBasicEventAttribute>[]): this;
-   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): this;
-   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): this;
-   addLightRotationEventBoxGroups(
-      ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
-   ): this;
-   addLightTranslationEventBoxGroups(
-      ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
-   ): this;
-   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): this;
-
-   /**
-    * This custom data does not contain the actual custom data from difficulty file, rather an arbitrary placement.
-    *
-    * @deprecated If you need to handle custom data from actual beatmap, use `customData` inside `difficulty` or `lightshow` instead.
-    */
-   customData: ICustomDataBase;
-}

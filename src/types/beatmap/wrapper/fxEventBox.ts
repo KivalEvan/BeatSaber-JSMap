@@ -1,11 +1,11 @@
 import type { DistributionType } from '../shared/constants.ts';
-import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
-import type { IWrapFxEventFloat, IWrapFxEventFloatAttribute } from './fxEventFloat.ts';
+import type { IWrapEventBox } from './eventBox.ts';
+import type { IWrapFxEventFloat } from './fxEventFloat.ts';
 
 /**
  * Wrapper attribute for beatmap FX event box.
  */
-export interface IWrapFxEventBoxAttribute extends IWrapEventBoxAttribute {
+export interface IWrapFxEventBox extends IWrapEventBox {
    /**
     * FX distribution of FX event box.
     *
@@ -23,17 +23,5 @@ export interface IWrapFxEventBoxAttribute extends IWrapEventBoxAttribute {
     */
    fxDistributionType: DistributionType;
    /** FX event list. */
-   events: IWrapFxEventFloatAttribute[];
-}
-
-/**
- * Wrapper for beatmap FX event box.
- */
-export interface IWrapFxEventBox extends IWrapEventBox, IWrapFxEventBoxAttribute {
    events: IWrapFxEventFloat[];
-
-   setFxDistribution(value: IWrapFxEventBox['fxDistribution']): this;
-   setFxDistributionType(value: IWrapFxEventBox['fxDistributionType']): this;
-   setAffectFirst(value: IWrapFxEventBox['affectFirst']): this;
-   setEvents(value: IWrapFxEventFloat[]): this;
 }

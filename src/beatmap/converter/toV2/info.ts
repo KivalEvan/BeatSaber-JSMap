@@ -3,7 +3,7 @@ import type {
    Environment360Name,
    EnvironmentName,
 } from '../../../types/beatmap/shared/environment.ts';
-import type { IWrapInfoAttribute } from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 
 function tag(name: string): string[] {
@@ -18,7 +18,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Chain and other new stuff will be gone!
  */
-export function toV2Info<T extends IWrapInfoAttribute>(
+export function toV2Info<T extends IWrapInfo>(
    data: T,
    fromVersion = data.version,
 ): T {

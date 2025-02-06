@@ -6,8 +6,8 @@ import { median } from '../../utils/math.ts';
 import { generate, next } from './swing.ts';
 import type {
    ISwingAnalysis,
-   ISwingAnalysisBaseNoteAttribute,
-   ISwingAnalysisBeatmapAttribute,
+   ISwingAnalysisBaseNote,
+   ISwingAnalysisBeatmap,
    ISwingCount,
 } from './types/swing.ts';
 
@@ -19,7 +19,7 @@ import type {
  * Count the number of swings in period.
  */
 export function count<
-   T extends ISwingAnalysisBaseNoteAttribute,
+   T extends ISwingAnalysisBaseNote,
 >(colorNotes: T[], duration: number, timeProc: TimeProcessor): ISwingCount {
    const swingCount: ISwingCount = {
       left: new Array(Math.floor(duration + 1)).fill(0),
@@ -74,12 +74,12 @@ function calcMaxRollingSps(swingArray: number[], x: number): number {
  *
  * Port from Uninstaller's Swings Per Second tool
  */
-export function info<T extends ISwingAnalysisBeatmapAttribute>(
+export function info<T extends ISwingAnalysisBeatmap>(
    beatmap: T,
    timeProc: TimeProcessor,
    characteristic: CharacteristicName,
    difficulty: DifficultyName,
-): ISwingAnalysis<ISwingAnalysisBaseNoteAttribute> {
+): ISwingAnalysis<ISwingAnalysisBaseNote> {
    const interval = 10;
    const spsInfo = {
       characteristic: characteristic,
@@ -136,7 +136,7 @@ export function info<T extends ISwingAnalysisBeatmapAttribute>(
 /**
  * Get first swings analysis that exceeds 40% progression drop.
  */
-export function getProgressionMax<T extends ISwingAnalysisBaseNoteAttribute>(
+export function getProgressionMax<T extends ISwingAnalysisBaseNote>(
    spsArray: ISwingAnalysis<T>[],
    minThreshold: number,
 ): { result: ISwingAnalysis<T>; comparedTo?: ISwingAnalysis<T> } | null {
@@ -160,7 +160,7 @@ export function getProgressionMax<T extends ISwingAnalysisBaseNoteAttribute>(
 /**
  * Get first swings analysis that does not reach 10% progression drop.
  */
-export function getProgressionMin<T extends ISwingAnalysisBaseNoteAttribute>(
+export function getProgressionMin<T extends ISwingAnalysisBaseNote>(
    spsArray: ISwingAnalysis<T>[],
    minThreshold: number,
 ): { result: ISwingAnalysis<T>; comparedTo?: ISwingAnalysis<T> } | null {
@@ -184,7 +184,7 @@ export function getProgressionMin<T extends ISwingAnalysisBaseNoteAttribute>(
 /**
  * Calculate total percentage drop from highest to lowest swings analysis.
  */
-export function calcSpsTotalPercDrop<T extends ISwingAnalysisBaseNoteAttribute>(
+export function calcSpsTotalPercDrop<T extends ISwingAnalysisBaseNote>(
    spsArray: ISwingAnalysis<T>[],
 ): number {
    let highest = 0;
@@ -202,7 +202,7 @@ export function calcSpsTotalPercDrop<T extends ISwingAnalysisBaseNoteAttribute>(
 /**
  * Get lowest SPS.
  */
-export function getSpsLowest<T extends ISwingAnalysisBaseNoteAttribute>(
+export function getSpsLowest<T extends ISwingAnalysisBaseNote>(
    spsArray: ISwingAnalysis<T>[],
 ): number {
    return Math.min(...spsArray.map((e) => e.total.perSecond), Number.MAX_SAFE_INTEGER);
@@ -211,7 +211,7 @@ export function getSpsLowest<T extends ISwingAnalysisBaseNoteAttribute>(
 /**
  * Get highest SPS.
  */
-export function getSpsHighest<T extends ISwingAnalysisBaseNoteAttribute>(
+export function getSpsHighest<T extends ISwingAnalysisBaseNote>(
    spsArray: ISwingAnalysis<T>[],
 ): number {
    return Math.max(...spsArray.map((e) => e.total.perSecond), 0);

@@ -1,13 +1,13 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
-import type { IWrapBPMEventAttribute } from '../../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapBPMEvent } from '../../../types/beatmap/wrapper/bpmEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createBPMEvent } from '../../core/bpmEvent.ts';
 
 /**
  * Schema serialization for v2 `BPM Event`.
  */
-export const bpmEvent: ISchemaContainer<IWrapBPMEventAttribute, IEvent> = {
+export const bpmEvent: ISchemaContainer<IWrapBPMEvent, IEvent> = {
    serialize(data) {
       return {
          _time: data.time,

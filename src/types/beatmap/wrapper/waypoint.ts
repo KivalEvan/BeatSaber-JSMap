@@ -1,9 +1,9 @@
-import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
+import type { IWrapGridObject } from './gridObject.ts';
 
 /**
  * Wrapper attribute for beatmap waypoint.
  */
-export interface IWrapWaypointAttribute extends IWrapGridObjectAttribute {
+export interface IWrapWaypoint extends IWrapGridObject {
    /**
     * Offset direction of waypoint.
     * ```ts
@@ -17,11 +17,4 @@ export interface IWrapWaypointAttribute extends IWrapGridObjectAttribute {
     * **Type:** `i32`
     */
    direction: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9;
-}
-
-/**
- * Wrapper for beatmap waypoint.
- */
-export interface IWrapWaypoint extends IWrapGridObject, IWrapWaypointAttribute {
-   setDirection(value: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9): this;
 }

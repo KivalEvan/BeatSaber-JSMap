@@ -1,7 +1,5 @@
-import type { IWrapLightColorEventBox } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
 import type {
    IWrapLightColorEventBoxGroup,
-   IWrapLightColorEventBoxGroupAttribute,
 } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -9,8 +7,8 @@ import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
 import { createLightColorEventBox, LightColorEventBox } from './lightColorEventBox.ts';
 
 export function createLightColorEventBoxGroup(
-   data: DeepPartial<IWrapLightColorEventBoxGroupAttribute> = {},
-): IWrapLightColorEventBoxGroupAttribute {
+   data: DeepPartial<IWrapLightColorEventBoxGroup> = {},
+): IWrapLightColorEventBoxGroup {
    return {
       time: data.time ?? 0,
       id: data.id ?? 0,
@@ -23,19 +21,19 @@ export function createLightColorEventBoxGroup(
  * Core beatmap light color event box group.
  */
 export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLightColorEventBoxGroup {
-   static defaultValue: IWrapLightColorEventBoxGroupAttribute = createLightColorEventBoxGroup();
+   static defaultValue: IWrapLightColorEventBoxGroup = createLightColorEventBoxGroup();
 
    static createOne(
-      data: Partial<IWrapLightColorEventBoxGroupAttribute> = {},
+      data: Partial<IWrapLightColorEventBoxGroup> = {},
    ): LightColorEventBoxGroup {
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<IWrapLightColorEventBoxGroupAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<IWrapLightColorEventBoxGroup, 'customData'>[]
    ): LightColorEventBoxGroup[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapLightColorEventBoxGroupAttribute, 'customData'> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapLightColorEventBoxGroup, 'customData'> = {}) {
       super();
       this.time = data.time ?? LightColorEventBoxGroup.defaultValue.time;
       this.id = data.id ?? LightColorEventBoxGroup.defaultValue.id;
@@ -47,5 +45,5 @@ export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLight
       );
    }
 
-   boxes: IWrapLightColorEventBox[];
+   boxes: LightColorEventBox[];
 }

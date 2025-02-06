@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IFilter } from './types/filter.ts';
 import type { DeepPartial } from '../../types/utils.ts';
-import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
 /**
  * Query function on class object array.
@@ -10,7 +10,7 @@ import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseO
  * console.log(...notesFilter);
  * ```
  */
-export function where<T extends IWrapBaseObjectAttribute, U extends DeepPartial<T>>(
+export function where<T extends IWrapBaseObject, U extends DeepPartial<T>>(
    objects: T[],
    filter: IFilter<U> = {},
 ): T[] {

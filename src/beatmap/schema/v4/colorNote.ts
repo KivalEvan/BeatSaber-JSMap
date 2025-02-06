@@ -1,13 +1,13 @@
 import type { IColorNoteContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createColorNote } from '../../core/colorNote.ts';
 
 /**
  * Schema serialization for v4 `Color Note`.
  */
-export const colorNote: ISchemaContainer<IWrapColorNoteAttribute, IColorNoteContainer> = {
+export const colorNote: ISchemaContainer<IWrapColorNote, IColorNoteContainer> = {
    serialize(data) {
       return {
          object: {

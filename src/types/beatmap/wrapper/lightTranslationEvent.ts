@@ -1,10 +1,10 @@
 import type { EaseType } from '../shared/constants.ts';
-import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
+import type { IWrapBaseObject } from './baseObject.ts';
 
 /**
  * Wrapper attribute for beatmap light translation event.
  */
-export interface IWrapLightTranslationEventAttribute extends IWrapBaseObjectAttribute {
+export interface IWrapLightTranslationEvent extends IWrapBaseObject {
    /**
     * Relative beat time to event box group.
     *
@@ -29,14 +29,4 @@ export interface IWrapLightTranslationEventAttribute extends IWrapBaseObjectAttr
     * **Type:** `f32`
     */
    translation: number;
-}
-
-/**
- * Wrapper for beatmap light translation event.
- */
-export interface IWrapLightTranslationEvent
-   extends IWrapBaseObject, IWrapLightTranslationEventAttribute {
-   setPrevious(value: 0 | 1): this;
-   setEasing(value: EaseType): this;
-   setTranslation(value: number): this;
 }

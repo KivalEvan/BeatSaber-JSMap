@@ -1,6 +1,6 @@
 import type { IFxEventFloatBoxContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapFxEventBoxAttribute } from '../../../types/beatmap/wrapper/fxEventBox.ts';
+import type { IWrapFxEventBox } from '../../../types/beatmap/wrapper/fxEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createFxEventBox } from '../../core/fxEventBox.ts';
 import { fxEventFloat } from './fxEventFloat.ts';
@@ -9,7 +9,7 @@ import { indexFilter } from './indexFilter.ts';
 /**
  * Schema serialization for v4 `FX Event Box`.
  */
-export const fxEventBox: ISchemaContainer<IWrapFxEventBoxAttribute, IFxEventFloatBoxContainer> = {
+export const fxEventBox: ISchemaContainer<IWrapFxEventBox, IFxEventFloatBoxContainer> = {
    serialize(data) {
       return {
          data: {

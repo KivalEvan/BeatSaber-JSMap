@@ -2,7 +2,7 @@
 import { logger } from '../../logger.ts';
 import type { ILoadOptions } from '../../types/beatmap/options/loader.ts';
 import type {
-   InferBeatmapAttribute,
+   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
 } from '../../types/beatmap/shared/infer.ts';
@@ -19,7 +19,7 @@ import { loadBeatmap, tag } from './_main.ts';
  */
 export function loadInfo<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    json: TSerial,
@@ -28,7 +28,7 @@ export function loadInfo<
 ): TWrapper;
 export function loadInfo<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    json: TSerial,
@@ -36,7 +36,7 @@ export function loadInfo<
 ): TWrapper;
 export function loadInfo<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    json: TSerial,

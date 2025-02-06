@@ -1,9 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
-import type { InferBeatmapAttribute } from '../beatmap/shared/infer.ts';
+import type { InferBeatmap } from '../beatmap/shared/infer.ts';
 
 export interface IBeatmapInfoData<
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
 > {
-   info: Pick<InferBeatmapAttribute<'info'>, 'difficulties'>['difficulties'][number];
+   info: Pick<InferBeatmap<'info'>, 'difficulties'>['difficulties'][number];
    beatmap: TWrapper;
 }

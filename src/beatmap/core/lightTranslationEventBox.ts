@@ -1,7 +1,5 @@
-import type { IWrapLightTranslationEvent } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import type {
    IWrapLightTranslationEventBox,
-   IWrapLightTranslationEventBoxAttribute,
 } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -10,8 +8,8 @@ import { createIndexFilter, IndexFilter } from './indexFilter.ts';
 import { createLightTranslationEvent, LightTranslationEvent } from './lightTranslationEvent.ts';
 
 export function createLightTranslationEventBox(
-   data: DeepPartial<IWrapLightTranslationEventBoxAttribute> = {},
-): IWrapLightTranslationEventBoxAttribute {
+   data: DeepPartial<IWrapLightTranslationEventBox> = {},
+): IWrapLightTranslationEventBox {
    return {
       filter: createIndexFilter(data.filter),
       axis: data.axis ?? 0,
@@ -31,19 +29,19 @@ export function createLightTranslationEventBox(
  * Core beatmap light translation event box.
  */
 export class LightTranslationEventBox extends EventBox implements IWrapLightTranslationEventBox {
-   static defaultValue: IWrapLightTranslationEventBoxAttribute = createLightTranslationEventBox();
+   static defaultValue: IWrapLightTranslationEventBox = createLightTranslationEventBox();
 
    static createOne(
-      data: Partial<IWrapLightTranslationEventBoxAttribute> = {},
+      data: Partial<IWrapLightTranslationEventBox> = {},
    ): LightTranslationEventBox {
       return new this(data);
    }
    static create(
-      ...data: Partial<IWrapLightTranslationEventBoxAttribute>[]
+      ...data: Partial<IWrapLightTranslationEventBox>[]
    ): LightTranslationEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapLightTranslationEventBoxAttribute, 'customData'> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapLightTranslationEventBox, 'customData'> = {}) {
       super();
       this.filter = new IndexFilter(data.filter ?? LightTranslationEventBox.defaultValue.filter);
       this.axis = data.axis ?? LightTranslationEventBox.defaultValue.axis;
@@ -70,7 +68,7 @@ export class LightTranslationEventBox extends EventBox implements IWrapLightTran
    gapDistributionType: IWrapLightTranslationEventBox['gapDistributionType'];
    axis: IWrapLightTranslationEventBox['axis'];
    flip: IWrapLightTranslationEventBox['flip'];
-   events: IWrapLightTranslationEvent[];
+   events: LightTranslationEvent[];
 
    setGapDistribution(value: this['gapDistribution']): this {
       this.gapDistribution = value;

@@ -1,24 +1,24 @@
 import type { CharacteristicName } from '../../../types/beatmap/shared/characteristic.ts';
 import type { DifficultyName } from '../../../types/beatmap/shared/difficulty.ts';
-import type { IWrapBaseNoteAttribute } from '../../../types/beatmap/wrapper/baseNote.ts';
-import type { IWrapBeatmapAttributeSubset } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBaseNote } from '../../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapBeatmapSubset } from '../../../types/beatmap/wrapper/beatmap.ts';
 
-export type ISwingAnalysisBeatmapAttribute =
-   & IWrapBeatmapAttributeSubset<
+export type ISwingAnalysisBeatmap =
+   & IWrapBeatmapSubset<
       'colorNotes' | 'bombNotes' | 'chains',
       'time' | 'posX' | 'posY' | 'color' | 'direction' | 'customData'
    >
-   & IWrapBeatmapAttributeSubset<
+   & IWrapBeatmapSubset<
       'obstacles',
       'time' | 'posX' | 'duration' | 'width' | 'customData'
    >;
 
-export type ISwingAnalysisBaseNoteAttribute = Pick<
-   IWrapBaseNoteAttribute,
+export type ISwingAnalysisBaseNote = Pick<
+   IWrapBaseNote,
    'time' | 'posX' | 'posY' | 'color' | 'direction'
 >;
 
-export interface ISwingContainer<T extends ISwingAnalysisBaseNoteAttribute> {
+export interface ISwingContainer<T extends ISwingAnalysisBaseNote> {
    readonly time: number;
    readonly duration: number;
    readonly minSpeed: number;
@@ -40,7 +40,7 @@ export interface ISwingPerSecond {
    readonly median: number;
 }
 
-export interface ISwingAnalysis<T extends ISwingAnalysisBaseNoteAttribute> {
+export interface ISwingAnalysis<T extends ISwingAnalysisBaseNote> {
    readonly characteristic: CharacteristicName;
    readonly difficulty: DifficultyName;
    readonly container: ISwingContainer<T>[];

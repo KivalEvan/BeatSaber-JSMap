@@ -1,10 +1,10 @@
 import type { EaseType } from '../../../beatmap/shared/constants.ts';
-import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
+import type { IWrapBaseObject } from './baseObject.ts';
 
 /**
  * Wrapper attribute for beatmap FX float event.
  */
-export interface IWrapFxEventFloatAttribute extends IWrapBaseObjectAttribute {
+export interface IWrapFxEventFloat extends IWrapBaseObject {
    /**
     * Relative beat time to event box group.
     *
@@ -29,13 +29,4 @@ export interface IWrapFxEventFloatAttribute extends IWrapBaseObjectAttribute {
     * **Type:** `f32`
     */
    value: number;
-}
-
-/**
- * Wrapper for beatmap FX float event.
- */
-export interface IWrapFxEventFloat extends IWrapBaseObject, IWrapFxEventFloatAttribute {
-   setPrevious(value: 0 | 1): this;
-   setEasing(value: EaseType): this;
-   setValue(value: number): this;
 }

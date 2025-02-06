@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightshow } from '../../../types/beatmap/v3/lightshow.ts';
-import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createBeatmap } from '../../core/beatmap.ts';
 import { createDifficulty } from '../../core/difficulty.ts';
@@ -15,7 +15,7 @@ import { lightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import { lightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 
 type LightshowDeserializationPolyfills = Pick<
-   IWrapBeatmapAttribute,
+   IWrapBeatmap,
    'filename' | 'lightshowFilename'
 >;
 
@@ -23,7 +23,7 @@ type LightshowDeserializationPolyfills = Pick<
  * Schema serialization for v3 `Lightshow`.
  */
 export const lightshow: ISchemaContainer<
-   IWrapBeatmapAttribute,
+   IWrapBeatmap,
    ILightshow,
    Record<string, any>,
    LightshowDeserializationPolyfills

@@ -1,30 +1,23 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfoDifficulty } from '../../../types/beatmap/v1/info.ts';
-import type {
-   IWrapInfoAttribute,
-   IWrapInfoBeatmapAttribute,
-} from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfo, IWrapInfoBeatmap } from '../../../types/beatmap/wrapper/info.ts';
 import { shallowCopy } from '../../../utils/misc.ts';
 import { createInfoBeatmap } from '../../core/infoBeatmap.ts';
 import { DifficultyRanking } from '../../shared/difficulty.ts';
 
 type InfoBeatmapSerializationPolyfills = {
-   audio: Pick<IWrapInfoAttribute['audio'], 'filename'>;
+   audio: Pick<IWrapInfo['audio'], 'filename'>;
 };
 type InfoBeatmapDeserializationPolyfills = Pick<
-   IWrapInfoBeatmapAttribute,
-   | 'characteristic'
-   | 'njs'
-   | 'njsOffset'
-   | 'lightshowFilename'
-   | 'authors'
+   IWrapInfoBeatmap,
+   'characteristic' | 'njs' | 'njsOffset' | 'lightshowFilename' | 'authors'
 >;
 
 /**
  * Schema serialization for v1 `Info Beatmap`.
  */
 export const infoBeatmap: ISchemaContainer<
-   IWrapInfoBeatmapAttribute,
+   IWrapInfoBeatmap,
    IInfoDifficulty,
    InfoBeatmapSerializationPolyfills,
    InfoBeatmapDeserializationPolyfills
