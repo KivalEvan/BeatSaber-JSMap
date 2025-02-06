@@ -2,6 +2,7 @@ import { round } from '../../../../utils/math.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { IInfo } from '../../../../types/beatmap/v4/info.ts';
 import { deepClean } from '../../../helpers/optimize.ts';
+import { isEmpty } from '../../../../utils/misc.ts';
 
 /**
  * Optimize v4 `Info` schema data.
@@ -32,13 +33,13 @@ export function optimizeInfo(data: IInfo, options: IOptimizeOptions) {
       }
 
       deepClean(diff.customData!, `info.difficultyBeatmaps[${i}].customData`, options);
-      if (!Object.keys(diff.customData!).length) {
+      if (isEmpty(diff.customData!)) {
          delete diff.customData;
       }
    }
 
    deepClean(data.customData!, `info.customData`, options);
-   if (!Object.keys(data.customData!).length) {
+   if (isEmpty(data.customData!)) {
       delete data.customData;
    }
 }

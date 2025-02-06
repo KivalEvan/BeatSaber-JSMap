@@ -1,6 +1,7 @@
 import type { ICustomDataBase } from '../../../types/beatmap/shared/custom/customData.ts';
 import type { ICustomDataNote } from '../../../types/beatmap/v2/custom/note.ts';
 import type { ICustomDataObstacle } from '../../../types/beatmap/v2/custom/obstacle.ts';
+import { isEmpty } from '../../../utils/misc.ts';
 import { renameKey } from './_helpers.ts';
 
 export default function <T extends ICustomDataBase>(
@@ -10,7 +11,7 @@ export default function <T extends ICustomDataBase>(
       return {} as T;
    }
    const cd = { ...customData };
-   if (!Object.keys(cd).length) {
+   if (isEmpty(cd)) {
       return {} as T;
    }
 

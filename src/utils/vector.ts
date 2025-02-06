@@ -167,6 +167,7 @@ export function vectorIsVertical<T extends VectorArgument>(v1: T, v2: T, epsilon
    const [dX] = vectorSub(v1, v2);
    return Math.abs(dX) <= epsilon;
 }
+
 export function vectorIsHorizontal<T extends VectorArgument>(
    v1: T,
    v2: T,
@@ -175,6 +176,7 @@ export function vectorIsHorizontal<T extends VectorArgument>(
    const [, dY] = vectorSub(v1, v2);
    return Math.abs(dY) <= epsilon;
 }
+
 export function vectorIsDiagonal<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001) {
    const [dX, dY] = vectorSub(v1, v2);
    return nearEqual(Math.abs(dX), Math.abs(dY), epsilon);
@@ -184,10 +186,12 @@ export function vectorIsInline<T extends VectorArgument>(v1: T, v2: T, lapping =
    const distance = vectorDistance(v1, v2);
    return distance <= lapping;
 }
+
 export function vectorIsAdjacent<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001) {
    const distance = vectorDistance(v1, v2);
    return distance > (0.5 - epsilon) && distance < (1 + epsilon);
 }
+
 export function vectorIsWindow<T extends VectorArgument>(v1: T, v2: T, gap = 1.8) {
    const distance = vectorDistance(v1, v2);
    return distance > gap;
@@ -200,4 +204,16 @@ export function vectorIsSlantedWindow<T extends VectorArgument>(v1: T, v2: T) {
       !vectorIsHorizontal(v1, v2, 0.001) &&
       !vectorIsVertical(v1, v2, 0.001)
    );
+}
+
+export function vectorMagnitude(vec: number[]): number {
+   let sum = 0;
+   for (let i = 0; i < vec.length; i++) {
+      sum += vec[i] * vec[i];
+   }
+   return Math.sqrt(sum);
+}
+
+export function vectorNormalize<T extends number[]>(vec: T): T {
+   return vectorDiv(vec, vectorMagnitude(vec));
 }
