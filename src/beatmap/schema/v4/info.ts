@@ -1,22 +1,19 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfo } from '../../../types/beatmap/v4/info.ts';
-import type {
-   IWrapInfoAttribute,
-   IWrapInfoColorScheme,
-} from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfo, IWrapInfoColorScheme } from '../../../types/beatmap/wrapper/info.ts';
 import { colorToHex, hexToRgba, toColorObject } from '../../../utils/colors.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createInfo } from '../../core/info.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
 
-type InfoDeserializationPolyfills = Pick<IWrapInfoAttribute, 'filename'>;
+type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'>;
 
 /**
  * Schema serialization for v4 `Info`.
  */
 export const info: ISchemaContainer<
-   IWrapInfoAttribute,
+   IWrapInfo,
    IInfo,
    Record<string, any>,
    InfoDeserializationPolyfills

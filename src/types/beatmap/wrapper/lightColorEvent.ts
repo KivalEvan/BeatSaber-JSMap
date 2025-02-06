@@ -1,11 +1,11 @@
 import type { EventLightColor } from '../shared/constants.ts';
 import type { EaseType } from '../shared/constants.ts';
-import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
+import type { IWrapBaseObject } from './baseObject.ts';
 
 /**
  * Wrapper attribute for beatmap light color event.
  */
-export interface IWrapLightColorEventAttribute extends IWrapBaseObjectAttribute {
+export interface IWrapLightColorEvent extends IWrapBaseObject {
    /**
     * Relative beat time `<float>` to event box group.
     *
@@ -61,17 +61,4 @@ export interface IWrapLightColorEventAttribute extends IWrapBaseObjectAttribute 
     * **Type:** {@linkcode EaseType}
     */
    easing: EaseType;
-}
-
-/**
- * Wrapper for beatmap light color event.
- */
-export interface IWrapLightColorEvent extends IWrapBaseObject, IWrapLightColorEventAttribute {
-   setPrevious(value: 0 | 1): this;
-   setColor(value: EventLightColor): this;
-   setBrightness(value: number): this;
-   setFrequency(value: number): this;
-   setStrobeBrightness(value: number): this;
-   setStrobeFade(value: 0 | 1): this;
-   setEasing(value: EaseType): this;
 }

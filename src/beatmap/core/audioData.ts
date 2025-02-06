@@ -1,18 +1,17 @@
 import type { GenericAudioDataFilename } from '../../types/beatmap/shared/filename.ts';
 import type {
    IWrapAudioData,
-   IWrapAudioDataAttribute,
    IWrapAudioDataBPM,
    IWrapAudioDataLUFS,
 } from '../../types/beatmap/wrapper/audioData.ts';
-import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
 import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export function createAudioData(
-   data: DeepPartial<IWrapAudioDataAttribute> = {},
-): IWrapAudioDataAttribute {
+   data: DeepPartial<IWrapAudioData> = {},
+): IWrapAudioData {
    return {
       version: data.version ?? -1,
       filename: data.filename ?? 'AudioData.dat',
@@ -40,15 +39,15 @@ export function createAudioData(
  * This object is writable into file.
  */
 export class AudioData extends BaseItem implements IWrapAudioData {
-   static defaultValue: IWrapAudioDataAttribute = createAudioData();
+   static defaultValue: IWrapAudioData = createAudioData();
 
-   static createOne(data: Partial<IWrapAudioDataAttribute> = {}): AudioData {
+   static createOne(data: Partial<IWrapAudioData> = {}): AudioData {
       return new this(data);
    }
-   static create(...data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'>[]): AudioData[] {
+   static create(...data: DeepPartialIgnore<IWrapAudioData, 'customData'>[]): AudioData[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapAudioDataAttribute, 'customData'> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapAudioData, 'customData'> = {}) {
       super();
       this.version = data.version ?? AudioData.defaultValue.version;
       this.filename = data.filename ?? AudioData.defaultValue.filename;
@@ -104,7 +103,7 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       return this;
    }
 
-   fromBpmEvents(data: IWrapBPMEventAttribute[], frequency = 44100, sampleCount?: number): this {
+   fromBpmEvents(data: IWrapBPMEvent[], frequency = 44100, sampleCount?: number): this {
       if (!data.length) return this;
       this.frequency = frequency;
       if (sampleCount) this.sampleCount = sampleCount;
@@ -136,7 +135,7 @@ export class AudioData extends BaseItem implements IWrapAudioData {
       return this;
    }
 
-   getBpmEvents(): IWrapBPMEventAttribute[] {
+   getBpmEvents(): IWrapBPMEvent[] {
       return this.bpmData.map((bd) => {
          const sample = bd.endSampleIndex - bd.startSampleIndex;
          const bpm = ((bd.endBeat - bd.startBeat) / (sample / this.frequency)) * 60;

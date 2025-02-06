@@ -10,19 +10,18 @@ import type {
 import type { IColor } from '../../colors.ts';
 import type { ICustomDataInfo } from './custom/info.ts';
 import type { ICustomDataInfoBeatmap } from '../v4/custom/info.ts';
-import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
+import type { IWrapBaseFile } from './baseFile.ts';
 import type {
    GenericBeatmapFilename,
    GenericInfoFilename,
    GenericLightshowFilename,
 } from '../shared/filename.ts';
-import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
+import type { IWrapBaseItem } from './baseItem.ts';
 
 /**
  * Wrapper attribute for beatmap info.
  */
-export interface IWrapInfoAttribute
-   extends IWrapBaseItemAttribute, IWrapBaseFileAttribute<GenericInfoFilename> {
+export interface IWrapInfo extends IWrapBaseItem, IWrapBaseFile<GenericInfoFilename> {
    song: IWrapInfoSong;
    audio: IWrapInfoAudio;
    songPreviewFilename: string;
@@ -36,7 +35,7 @@ export interface IWrapInfoAttribute
    };
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
-   difficulties: IWrapInfoBeatmapAttribute[];
+   difficulties: IWrapInfoBeatmap[];
    customData: ICustomDataInfo;
 }
 
@@ -109,25 +108,9 @@ export interface IWrapInfoBeatmapAuthors {
 }
 
 /**
- * Wrapper interface for beatmap info.
- */
-export interface IWrapInfo
-   extends Omit<IWrapBeatmapFile<GenericInfoFilename>, 'customData'>, IWrapInfoAttribute {
-   difficulties: IWrapInfoBeatmap[];
-
-   setCustomData(object: this['customData']): this;
-   addCustomData(object: this['customData']): this;
-
-   /** Sort beatmap object(s) accordingly. */
-   sort(): this;
-
-   addMap(data: Partial<IWrapInfoBeatmapAttribute>): this;
-}
-
-/**
  * Wrapper attribute for beatmap info beatmap.
  */
-export interface IWrapInfoBeatmapAttribute extends IWrapBaseItemAttribute {
+export interface IWrapInfoBeatmap extends IWrapBaseItem {
    characteristic: CharacteristicName;
    difficulty: DifficultyName;
    filename: LooseAutocomplete<GenericBeatmapFilename>;
@@ -138,13 +121,4 @@ export interface IWrapInfoBeatmapAttribute extends IWrapBaseItemAttribute {
    colorSchemeId: number;
    environmentId: number;
    customData: ICustomDataInfoBeatmap;
-}
-
-/**
- * Wrapper interface for beatmap info beatmap.
- */
-export interface IWrapInfoBeatmap
-   extends Omit<IWrapBaseItem, 'customData'>, IWrapInfoBeatmapAttribute {
-   setCustomData(object: this['customData']): this;
-   addCustomData(object: this['customData']): this;
 }

@@ -1,26 +1,26 @@
-import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
-import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapBasicEvent } from '../../../types/beatmap/wrapper/basicEvent.ts';
 import type { EasingFunction, Easings } from '../../../types/easings.ts';
 import type { ColorArray, ColorInput, ColorType } from '../../../types/colors.ts';
 import type { ISetOptions } from './options.ts';
-import type { IWrapChainAttribute } from '../../../types/beatmap/wrapper/chain.ts';
-import type { IWrapArcAttribute } from '../../../types/beatmap/wrapper/arc.ts';
-import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapChain } from '../../../types/beatmap/wrapper/chain.ts';
+import type { IWrapArc } from '../../../types/beatmap/wrapper/arc.ts';
+import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
 
 export type IChromaObject =
-   | IWrapColorNoteAttribute
-   | IWrapBombNoteAttribute
-   | IWrapObstacleAttribute
-   | IWrapBasicEventAttribute
-   | IWrapChainAttribute
-   | IWrapArcAttribute;
+   | IWrapColorNote
+   | IWrapBombNote
+   | IWrapObstacle
+   | IWrapBasicEvent
+   | IWrapChain
+   | IWrapArc;
 
 export type IChromaNote =
-   | IWrapColorNoteAttribute
-   | IWrapBombNoteAttribute
-   | IWrapChainAttribute
-   | IWrapArcAttribute;
+   | IWrapColorNote
+   | IWrapBombNote
+   | IWrapChain
+   | IWrapArc;
 
 export interface ISetColorOptions {
    color: ColorInput;
@@ -61,14 +61,14 @@ export interface IShiftColorGradientOptions extends IShiftColorBaseOptions {
 
 export interface IApplyEasingsOptions {
    easing: Easings;
-   type?: IWrapBasicEventAttribute['type'];
+   type?: IWrapBasicEvent['type'];
 }
 
 export interface IPRandomLightIDOptions {
    colorStart: ColorArray;
    colorEnd: ColorArray;
    colorType?: 'rgba' | 'long hsva' | 'short hsva';
-   type: IWrapBasicEventAttribute['type'];
+   type: IWrapBasicEvent['type'];
    duration: number;
    length: number;
    precision: number;
@@ -92,7 +92,7 @@ export interface IPRandomLightI2DOptions {
    step: number;
    lightOff: boolean;
    offStrobe: boolean;
-   lightID: [IWrapBasicEventAttribute['type'], number][];
+   lightID: [IWrapBasicEvent['type'], number][];
    lightIDMulti?: number;
    offsetEnd?: boolean;
    easingColor?: EasingFunction;

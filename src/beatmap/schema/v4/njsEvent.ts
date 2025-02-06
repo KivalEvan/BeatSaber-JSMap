@@ -1,13 +1,13 @@
 import type { INjsEventContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapNJSEventAttribute } from '../../../types/beatmap/wrapper/njsEvent.ts';
+import type { IWrapNJSEvent } from '../../../types/beatmap/wrapper/njsEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createNJSEvent } from '../../core/njsEvent.ts';
 
 /**
  * Schema serialization for v4 `Basic Event`.
  */
-export const njsEvent: ISchemaContainer<IWrapNJSEventAttribute, INjsEventContainer> = {
+export const njsEvent: ISchemaContainer<IWrapNJSEvent, INjsEventContainer> = {
    serialize(data) {
       return {
          object: {

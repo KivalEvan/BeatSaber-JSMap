@@ -1,13 +1,13 @@
 import type { IBasicEventContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBasicEvent } from '../../../types/beatmap/wrapper/basicEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createBasicEvent } from '../../core/basicEvent.ts';
 
 /**
  * Schema serialization for v4 `Basic Event`.
  */
-export const basicEvent: ISchemaContainer<IWrapBasicEventAttribute, IBasicEventContainer> = {
+export const basicEvent: ISchemaContainer<IWrapBasicEvent, IBasicEventContainer> = {
    serialize(data) {
       return {
          object: {

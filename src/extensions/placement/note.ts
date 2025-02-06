@@ -5,12 +5,12 @@ import {
    resolveGridPosition,
 } from '../../beatmap/helpers/core/gridObject.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
-import type { IWrapBaseNoteAttribute } from '../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
 import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 
 // TODO: update with new position/rotation system
 export function isEnd<
-   T extends Pick<IWrapBaseNoteAttribute, 'posX' | 'posY' | 'direction'>,
+   T extends Pick<IWrapBaseNote, 'posX' | 'posY' | 'direction'>,
 >(currNote: T, prevNote: T, cd: number): boolean {
    // fuck u and ur dot note stack
    if (
@@ -144,7 +144,7 @@ export function isEnd<
  */
 // a fkin abomination that's what currNote is
 export function isIntersect<
-   T extends Pick<IWrapBaseNoteAttribute, 'posX' | 'posY' | 'direction'>,
+   T extends Pick<IWrapBaseNote, 'posX' | 'posY' | 'direction'>,
 >(
    currNote: T,
    compareTo: T,
@@ -191,7 +191,7 @@ export function isIntersect<
 
 // TODO: update with new position/rotation system
 export function predictDirection<
-   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY' | 'direction'>,
+   T extends Pick<IWrapBaseNote, 'time' | 'posX' | 'posY' | 'direction'>,
 >(currNote: T, prevNote: T): number {
    if (isEnd(currNote, prevNote, NoteDirection.ANY)) {
       return currNote.direction === NoteDirection.ANY ? prevNote.direction : currNote.direction;
@@ -249,7 +249,7 @@ export function predictDirection<
  * @returns {boolean} If condition is met
  */
 export function checkDirection<
-   T extends Pick<IWrapBaseNoteAttribute, 'direction'>,
+   T extends Pick<IWrapBaseNote, 'direction'>,
 >(n1: T | number | null, n2: T | number | null, angleTol: number, equal: boolean): boolean {
    let nA1!: number;
    let nA2!: number;

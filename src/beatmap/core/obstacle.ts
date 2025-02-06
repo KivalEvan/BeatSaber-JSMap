@@ -1,8 +1,5 @@
 import type { GetPositionFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
-import type {
-   IWrapObstacle,
-   IWrapObstacleAttribute,
-} from '../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import type { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc.ts';
@@ -17,8 +14,8 @@ import { LINE_COUNT } from '../shared/constants.ts';
 import { GridObject } from './abstract/gridObject.ts';
 
 export function createObstacle(
-   data: DeepPartial<IWrapObstacleAttribute> = {},
-): IWrapObstacleAttribute {
+   data: DeepPartial<IWrapObstacle> = {},
+): IWrapObstacle {
    return {
       time: data.time ?? 0,
       posX: data.posX ?? 0,
@@ -35,15 +32,15 @@ export function createObstacle(
  * Core beatmap obstacle.
  */
 export class Obstacle extends GridObject implements IWrapObstacle {
-   static defaultValue: IWrapObstacleAttribute = createObstacle();
+   static defaultValue: IWrapObstacle = createObstacle();
 
-   static createOne(data: Partial<IWrapObstacleAttribute> = {}): Obstacle {
+   static createOne(data: Partial<IWrapObstacle> = {}): Obstacle {
       return new this(data);
    }
-   static create(...data: Partial<IWrapObstacleAttribute>[]): Obstacle[] {
+   static create(...data: Partial<IWrapObstacle>[]): Obstacle[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapObstacleAttribute> = {}) {
+   constructor(data: Partial<IWrapObstacle> = {}) {
       super();
       this.time = data.time ?? Obstacle.defaultValue.time;
       this.posX = data.posX ?? Obstacle.defaultValue.posX;
@@ -88,15 +85,32 @@ export class Obstacle extends GridObject implements IWrapObstacle {
       return fn?.(this) ?? vectorAdd(resolveGridPosition(this), [-2, -0.5]);
    }
 
-   // FIXME: there are a lot more other variables
+   /**
+    * Check if obstacle is interactive.
+    * ```ts
+    * if (wall.isInteractive()) {}
+    * ```
+    */
    isInteractive(): boolean {
       return isInteractiveObstacle(this);
    }
 
+   /**
+    * Check if obstacle has zero value.
+    * ```ts
+    * if (wall.hasZero()) {}
+    * ```
+    */
    hasZero(): boolean {
       return isZeroValueObstacle(this);
    }
 
+   /**
+    * Check if obstacle has negative value.
+    * ```ts
+    * if (wall.hasNegative()) {}
+    * ```
+    */
    hasNegative(): boolean {
       return isNegativeValueObstacle(this);
    }

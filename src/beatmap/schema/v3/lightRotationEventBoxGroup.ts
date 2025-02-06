@@ -1,6 +1,6 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightRotationEventBoxGroup } from '../../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
-import type { IWrapLightRotationEventBoxGroupAttribute } from '../../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
+import type { IWrapLightRotationEventBoxGroup } from '../../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createLightRotationEventBoxGroup } from '../../core/lightRotationEventBoxGroup.ts';
 import { lightRotationEventBox } from './lightRotationEventBox.ts';
@@ -9,7 +9,7 @@ import { lightRotationEventBox } from './lightRotationEventBox.ts';
  * Schema serialization for v3 `Light Rotation Event Box Group`.
  */
 export const lightRotationEventBoxGroup: ISchemaContainer<
-   IWrapLightRotationEventBoxGroupAttribute,
+   IWrapLightRotationEventBoxGroup,
    ILightRotationEventBoxGroup
 > = {
    serialize(data) {

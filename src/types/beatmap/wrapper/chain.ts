@@ -1,10 +1,10 @@
-import type { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
+import type { IWrapBaseSlider } from './baseSlider.ts';
 import type { ICustomDataSlider } from './custom/slider.ts';
 
 /**
  * Wrapper attribute for beatmap chain.
  */
-export interface IWrapChainAttribute extends IWrapBaseSliderAttribute {
+export interface IWrapChain extends IWrapBaseSlider {
    /**
     * Slice count or element in chain.
     *
@@ -27,15 +27,4 @@ export interface IWrapChainAttribute extends IWrapBaseSliderAttribute {
     */
    squish: number;
    customData: ICustomDataSlider;
-}
-
-/**
- * Wrapper for beatmap chain.
- */
-export interface IWrapChain extends Omit<IWrapBaseSlider, 'customData'>, IWrapChainAttribute {
-   setCustomData(object: this['customData']): this;
-   addCustomData(object: this['customData']): this;
-
-   setSliceCount(value: number): this;
-   setSquish(value: number): this;
 }

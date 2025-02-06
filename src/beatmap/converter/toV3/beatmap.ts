@@ -2,10 +2,10 @@ import { logger } from '../../../logger.ts';
 import type { IChromaComponent, IChromaMaterial } from '../../../types/beatmap/v3/custom/chroma.ts';
 import type { ICustomDataNote } from '../../../types/beatmap/v3/custom/note.ts';
 import type { ICustomDataObstacle } from '../../../types/beatmap/v3/custom/obstacle.ts';
-import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
 import { clamp } from '../../../utils/math.ts';
 import { isVector3, vectorMul } from '../../../utils/vector.ts';
 import { isLightEventType, isRingEventType } from '../../helpers/core/basicEvent.ts';
@@ -25,7 +25,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export function toV3Beatmap<T extends IWrapBeatmapAttribute>(
+export function toV3Beatmap<T extends IWrapBeatmap>(
    data: T,
    fromVersion = data.version,
 ): T {
@@ -56,7 +56,7 @@ export function toV3Beatmap<T extends IWrapBeatmapAttribute>(
    return data;
 }
 
-function fromV1<T extends IWrapBeatmapAttribute>(bm: T) {
+function fromV1<T extends IWrapBeatmap>(bm: T) {
    bm.difficulty.colorNotes.forEach((n) => {
       if (n.direction >= 1000) {
          n.angleOffset = Math.abs(((n.direction % 1000) % 360) - 360);
@@ -84,12 +84,12 @@ function fromV1<T extends IWrapBeatmapAttribute>(bm: T) {
    });
 }
 
-function fromV2<T extends IWrapBeatmapAttribute>(bm: T) {
+function fromV2<T extends IWrapBeatmap>(bm: T) {
    bm.difficulty.customData.fakeColorNotes = [];
    bm.difficulty.customData.fakeBombNotes = [];
    bm.difficulty.customData.fakeObstacles = [];
 
-   const newNotes: IWrapColorNoteAttribute[] = [];
+   const newNotes: IWrapColorNote[] = [];
    bm.difficulty.colorNotes.forEach((n, i) => {
       const customData: ICustomDataNote = objectToV3(n.customData);
       if (typeof n.customData._cutDirection === 'number') {
@@ -128,7 +128,7 @@ function fromV2<T extends IWrapBeatmapAttribute>(bm: T) {
    });
    bm.difficulty.colorNotes = newNotes;
 
-   const newBombs: IWrapBombNoteAttribute[] = [];
+   const newBombs: IWrapBombNote[] = [];
    bm.difficulty.bombNotes.forEach((n, i) => {
       const customData: ICustomDataNote = objectToV3(n.customData);
       if (typeof n.customData._cutDirection === 'number') {
@@ -151,7 +151,7 @@ function fromV2<T extends IWrapBeatmapAttribute>(bm: T) {
    });
    bm.difficulty.bombNotes = newBombs;
 
-   const newObst: IWrapObstacleAttribute[] = [];
+   const newObst: IWrapObstacle[] = [];
    bm.difficulty.obstacles.forEach((o) => {
       const customData: ICustomDataObstacle = objectToV3(o.customData);
       if (o.customData._fake) {
@@ -507,7 +507,7 @@ function fromV2<T extends IWrapBeatmapAttribute>(bm: T) {
    bm.lightshow.useNormalEventsAsCompatibleEvents = true;
 }
 
-function fromV4<T extends IWrapBeatmapAttribute>(bm: T) {
+function fromV4<T extends IWrapBeatmap>(bm: T) {
    let impossibleRotationEvt = false;
    const mapTime: Record<number, number> = {};
 

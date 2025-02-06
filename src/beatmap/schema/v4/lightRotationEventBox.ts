@@ -1,6 +1,6 @@
 import type { ILightRotationBoxContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapLightRotationEventBoxAttribute } from '../../../types/beatmap/wrapper/lightRotationEventBox.ts';
+import type { IWrapLightRotationEventBox } from '../../../types/beatmap/wrapper/lightRotationEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createLightRotationEventBox } from '../../core/lightRotationEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
@@ -10,7 +10,7 @@ import { lightRotationEvent } from './lightRotationEvent.ts';
  * Schema serialization for v4 `Light Rotation Event Box`.
  */
 export const lightRotationEventBox: ISchemaContainer<
-   IWrapLightRotationEventBoxAttribute,
+   IWrapLightRotationEventBox,
    ILightRotationBoxContainer
 > = {
    serialize(data) {

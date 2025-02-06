@@ -1,13 +1,13 @@
 import type { IObstacleContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapObstacleAttribute } from '../../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createObstacle } from '../../core/obstacle.ts';
 
 /**
  * Schema serialization for v4 `Obstacle`.
  */
-export const obstacle: ISchemaContainer<IWrapObstacleAttribute, IObstacleContainer> = {
+export const obstacle: ISchemaContainer<IWrapObstacle, IObstacleContainer> = {
    serialize(data) {
       return {
          object: {

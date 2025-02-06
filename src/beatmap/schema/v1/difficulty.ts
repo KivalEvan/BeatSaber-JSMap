@@ -1,16 +1,13 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IDifficulty } from '../../../types/beatmap/v1/difficulty.ts';
-import type { IWrapBasicEventAttribute } from '../../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapBombNoteAttribute } from '../../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapBPMEventAttribute } from '../../../types/beatmap/wrapper/bpmEvent.ts';
-import type { IWrapColorBoostEventAttribute } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
-import type { IWrapColorNoteAttribute } from '../../../types/beatmap/wrapper/colorNote.ts';
-import type {
-   IWrapInfoAttribute,
-   IWrapInfoBeatmapAttribute,
-} from '../../../types/beatmap/wrapper/info.ts';
-import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
+import type { IWrapBasicEvent } from '../../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapBPMEvent } from '../../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapColorBoostEvent } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapInfo, IWrapInfoBeatmap } from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapRotationEvent } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 import { createBeatmap } from '../../core/beatmap.ts';
 import { createDifficulty } from '../../core/difficulty.ts';
 import { createLightshow } from '../../core/lightshow.ts';
@@ -23,12 +20,12 @@ import { obstacle } from './obstacle.ts';
 import { rotationEvent } from './rotationEvent.ts';
 
 type DifficultySerializationPolyfills =
-   & Pick<IWrapInfoAttribute['audio'], 'bpm' | 'shuffle' | 'shufflePeriod'>
-   & Pick<IWrapInfoBeatmapAttribute, 'njs' | 'njsOffset'>
+   & Pick<IWrapInfo['audio'], 'bpm' | 'shuffle' | 'shufflePeriod'>
+   & Pick<IWrapInfoBeatmap, 'njs' | 'njsOffset'>
    & { beatsPerBar: number };
 
 type DifficultyDeserializationPolyfills = Pick<
-   IWrapBeatmapAttribute,
+   IWrapBeatmap,
    'filename' | 'lightshowFilename'
 >;
 
@@ -36,7 +33,7 @@ type DifficultyDeserializationPolyfills = Pick<
  * Schema serialization for v1 `Difficulty`.
  */
 export const difficulty: ISchemaContainer<
-   IWrapBeatmapAttribute,
+   IWrapBeatmap,
    IDifficulty,
    DifficultySerializationPolyfills,
    DifficultyDeserializationPolyfills
@@ -82,8 +79,8 @@ export const difficulty: ISchemaContainer<
       };
    },
    deserialize(data, options) {
-      const colorNotes: IWrapColorNoteAttribute[] = [];
-      const bombNotes: IWrapBombNoteAttribute[] = [];
+      const colorNotes: IWrapColorNote[] = [];
+      const bombNotes: IWrapBombNote[] = [];
       const _notes = data._notes || [];
       for (let i = 0; i < _notes.length; i++) {
          const obj = _notes[i];
@@ -94,10 +91,10 @@ export const difficulty: ISchemaContainer<
          }
       }
 
-      const basicEvents: IWrapBasicEventAttribute[] = [];
-      const colorBoostEvents: IWrapColorBoostEventAttribute[] = [];
-      const rotationEvents: IWrapRotationEventAttribute[] = [];
-      const bpmEvents: IWrapBPMEventAttribute[] = [];
+      const basicEvents: IWrapBasicEvent[] = [];
+      const colorBoostEvents: IWrapColorBoostEvent[] = [];
+      const rotationEvents: IWrapRotationEvent[] = [];
+      const bpmEvents: IWrapBPMEvent[] = [];
       const _events = data._events || [];
       for (let i = 0; i < _events.length; i++) {
          const obj = _events[i];

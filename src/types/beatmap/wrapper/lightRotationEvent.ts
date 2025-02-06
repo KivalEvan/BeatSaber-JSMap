@@ -1,8 +1,8 @@
 import type { EaseType } from '../shared/constants.ts';
 import type { LightRotationDirection } from '../shared/constants.ts';
-import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
+import type { IWrapBaseObject } from './baseObject.ts';
 
-export interface IWrapLightRotationEventAttribute extends IWrapBaseObjectAttribute {
+export interface IWrapLightRotationEvent extends IWrapBaseObject {
    /**
     * Relative beat time to event box group.
     *
@@ -48,15 +48,4 @@ export interface IWrapLightRotationEventAttribute extends IWrapBaseObjectAttribu
     * **Type:** `f32`
     */
    rotation: number;
-}
-
-/**
- * Wrapper for beatmap light rotation event.
- */
-export interface IWrapLightRotationEvent extends IWrapBaseObject, IWrapLightRotationEventAttribute {
-   setPrevious(value: 0 | 1): this;
-   setEasing(value: EaseType): this;
-   setLoop(value: number): this;
-   setRotation(value: number): this;
-   setDirection(value: LightRotationDirection): this;
 }

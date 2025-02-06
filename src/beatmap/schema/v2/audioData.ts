@@ -1,11 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IBPMInfo } from '../../../types/beatmap/v2/bpmInfo.ts';
-import type { IWrapAudioDataAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioData } from '../../../types/beatmap/wrapper/audioData.ts';
 import { createAudioData } from '../../core/audioData.ts';
 
 type AudioDataDeserializationPolyfills = Pick<
-   IWrapAudioDataAttribute,
+   IWrapAudioData,
    | 'filename'
    | 'audioChecksum'
 >;
@@ -14,7 +14,7 @@ type AudioDataDeserializationPolyfills = Pick<
  * Schema serialization for v2 `Audio Data`.
  */
 export const audioData: ISchemaContainer<
-   IWrapAudioDataAttribute,
+   IWrapAudioData,
    IBPMInfo,
    Record<string, any>,
    AudioDataDeserializationPolyfills

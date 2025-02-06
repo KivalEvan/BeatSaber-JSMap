@@ -1,14 +1,11 @@
-import type {
-   IWrapLightColorEvent,
-   IWrapLightColorEventAttribute,
-} from '../../types/beatmap/wrapper/lightColorEvent.ts';
+import type { IWrapLightColorEvent } from '../../types/beatmap/wrapper/lightColorEvent.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export function createLightColorEvent(
-   data: DeepPartial<IWrapLightColorEventAttribute> = {},
-): IWrapLightColorEventAttribute {
+   data: DeepPartial<IWrapLightColorEvent> = {},
+): IWrapLightColorEvent {
    return {
       time: data.time ?? 0,
       previous: data.previous ?? 0,
@@ -26,19 +23,19 @@ export function createLightColorEvent(
  * Core beatmap light color event.
  */
 export class LightColorEvent extends BaseObject implements IWrapLightColorEvent {
-   static defaultValue: IWrapLightColorEventAttribute = createLightColorEvent();
+   static defaultValue: IWrapLightColorEvent = createLightColorEvent();
 
    static createOne(
-      data: Partial<IWrapLightColorEventAttribute> = {},
+      data: Partial<IWrapLightColorEvent> = {},
    ): LightColorEvent {
       return new this(data);
    }
    static create(
-      ...data: Partial<IWrapLightColorEventAttribute>[]
+      ...data: Partial<IWrapLightColorEvent>[]
    ): LightColorEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapLightColorEventAttribute> = {}) {
+   constructor(data: Partial<IWrapLightColorEvent> = {}) {
       super();
       this.time = data.time ?? LightColorEvent.defaultValue.time;
       this.previous = data.previous ?? LightColorEvent.defaultValue.previous;

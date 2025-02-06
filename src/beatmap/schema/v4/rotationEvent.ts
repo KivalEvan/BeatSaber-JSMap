@@ -1,6 +1,6 @@
 import type { ISpawnRotationContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
+import type { IWrapRotationEvent } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createRotationEvent } from '../../core/rotationEvent.ts';
 
@@ -10,7 +10,7 @@ import { createRotationEvent } from '../../core/rotationEvent.ts';
  * @deprecated removed as of 1.39, convert to `r` in object lane
  */
 export const rotationEvent: ISchemaContainer<
-   IWrapRotationEventAttribute,
+   IWrapRotationEvent,
    ISpawnRotationContainer
 > = {
    serialize(data) {

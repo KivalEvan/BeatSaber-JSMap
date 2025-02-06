@@ -2,7 +2,7 @@
 import { logger } from '../../logger.ts';
 import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
 import type {
-   InferBeatmapAttribute,
+   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
 } from '../../types/beatmap/shared/infer.ts';
@@ -19,7 +19,7 @@ import { saveBeatmap, tag } from './_main.ts';
  */
 export function saveLightshow<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    data: TWrapper,
@@ -28,7 +28,7 @@ export function saveLightshow<
 ): TSerial;
 export function saveLightshow<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    data: TWrapper,
@@ -36,7 +36,7 @@ export function saveLightshow<
 ): TSerial;
 export function saveLightshow<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    data: TWrapper,

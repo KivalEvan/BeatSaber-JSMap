@@ -1,13 +1,12 @@
 import type {
    IWrapLightTranslationEvent,
-   IWrapLightTranslationEventAttribute,
 } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export function createLightTranslationEvent(
-   data: Partial<IWrapLightTranslationEventAttribute> = {},
-): IWrapLightTranslationEventAttribute {
+   data: Partial<IWrapLightTranslationEvent> = {},
+): IWrapLightTranslationEvent {
    return {
       time: data.time ?? 0,
       easing: data.easing ?? 0,
@@ -21,17 +20,17 @@ export function createLightTranslationEvent(
  * Core beatmap light translation event.
  */
 export class LightTranslationEvent extends BaseObject implements IWrapLightTranslationEvent {
-   static defaultValue: IWrapLightTranslationEventAttribute = createLightTranslationEvent();
+   static defaultValue: IWrapLightTranslationEvent = createLightTranslationEvent();
 
    static createOne(
-      data: Partial<IWrapLightTranslationEventAttribute> = {},
+      data: Partial<IWrapLightTranslationEvent> = {},
    ): LightTranslationEvent {
       return new this(data);
    }
-   static create(...data: Partial<IWrapLightTranslationEventAttribute>[]): LightTranslationEvent[] {
+   static create(...data: Partial<IWrapLightTranslationEvent>[]): LightTranslationEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapLightTranslationEventAttribute> = {}) {
+   constructor(data: Partial<IWrapLightTranslationEvent> = {}) {
       super();
       this.time = data.time ?? LightTranslationEvent.defaultValue.time;
       this.easing = data.easing ?? LightTranslationEvent.defaultValue.easing;

@@ -3,7 +3,7 @@ import { logger } from '../../logger.ts';
 import type { ILoadOptions } from '../../types/beatmap/options/loader.ts';
 import type { MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type {
-   InferBeatmapAttribute,
+   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
 } from '../../types/beatmap/shared/infer.ts';
@@ -28,7 +28,7 @@ const defaultOptions = {
 export function loadBeatmap<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmap<TFileType>,
    TSerial extends Record<string, any> = InferBeatmapSerial<TFileType, TVersion>,
 >(
    type: TFileType,
@@ -67,7 +67,7 @@ export function loadBeatmap<
       );
    }
 
-   let attribute: InferBeatmapAttribute<TFileType>;
+   let attribute: InferBeatmap<TFileType>;
    if (opt.schemaCheck.enabled) validateJSON(type, serial, jsonVer, opt.schemaCheck);
    attribute = deserializeBeatmap(type, jsonVer, serial);
 
@@ -99,8 +99,8 @@ export function loadBeatmap<
    }
 
    const [posttransformer, ...postprocesses] = opt.postprocess.toReversed() as [
-      (data: InferBeatmapAttribute<TFileType>, version: TVersion | null) => TWrapper,
-      ...MirrorFn<InferBeatmapAttribute<TFileType>>[],
+      (data: InferBeatmap<TFileType>, version: TVersion | null) => TWrapper,
+      ...MirrorFn<InferBeatmap<TFileType>>[],
    ];
    postprocesses.forEach((fn, i) => {
       logger.tInfo(tag('loadBeatmap'), 'Running postprocess function #' + (i + 1));

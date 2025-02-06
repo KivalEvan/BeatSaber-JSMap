@@ -1,6 +1,6 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
-import type { IWrapRotationEventAttribute } from '../../../types/beatmap/wrapper/rotationEvent.ts';
+import type { IWrapRotationEvent } from '../../../types/beatmap/wrapper/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createRotationEvent } from '../../core/rotationEvent.ts';
 import { EventLaneRotationValue, RotationValueEventValue } from '../../shared/constants.ts';
@@ -8,7 +8,7 @@ import { EventLaneRotationValue, RotationValueEventValue } from '../../shared/co
 /**
  * Schema serialization for v2 `Rotation Event`.
  */
-export const rotationEvent: ISchemaContainer<IWrapRotationEventAttribute, IEvent> = {
+export const rotationEvent: ISchemaContainer<IWrapRotationEvent, IEvent> = {
    serialize(data) {
       let r = data.rotation % 360;
       const customData = deepCopy(data.customData);

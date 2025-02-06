@@ -1,5 +1,5 @@
 import { logger } from '../../../logger.ts';
-import type { IWrapInfoAttribute } from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV4Info', name];
@@ -13,7 +13,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export function toV4Info<T extends IWrapInfoAttribute>(
+export function toV4Info<T extends IWrapInfo>(
    data: T,
    fromVersion = data.version,
 ): T {

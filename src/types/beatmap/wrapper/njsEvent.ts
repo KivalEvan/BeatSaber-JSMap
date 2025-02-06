@@ -1,10 +1,10 @@
 import type { EaseType } from '../shared/constants.ts';
-import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
+import type { IWrapBaseObject } from './baseObject.ts';
 
 /**
  * Wrapper attribute for beatmap NJS event.
  */
-export interface IWrapNJSEventAttribute extends IWrapBaseObjectAttribute {
+export interface IWrapNJSEvent extends IWrapBaseObject {
    /**
     * Modifier value.
     *
@@ -23,13 +23,4 @@ export interface IWrapNJSEventAttribute extends IWrapBaseObjectAttribute {
     * **Type:** {@linkcode EaseType}
     */
    easing: EaseType;
-}
-
-/**
- * Wrapper for beatmap NJS event.
- */
-export interface IWrapNJSEvent extends IWrapBaseObject, IWrapNJSEventAttribute {
-   setValue(value: number): this;
-   setPrevious(value: 0 | 1): this;
-   setEasing(value: EaseType): this;
 }

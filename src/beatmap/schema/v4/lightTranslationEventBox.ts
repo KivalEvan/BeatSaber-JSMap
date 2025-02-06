@@ -1,6 +1,6 @@
 import type { ILightTranslationBoxContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapLightTranslationEventBoxAttribute } from '../../../types/beatmap/wrapper/lightTranslationEventBox.ts';
+import type { IWrapLightTranslationEventBox } from '../../../types/beatmap/wrapper/lightTranslationEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createLightTranslationEventBox } from '../../core/lightTranslationEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
@@ -10,7 +10,7 @@ import { lightTranslationEvent } from './lightTranslationEvent.ts';
  * Schema serialization for v4 `Light Translation Event Box`.
  */
 export const lightTranslationEventBox: ISchemaContainer<
-   IWrapLightTranslationEventBoxAttribute,
+   IWrapLightTranslationEventBox,
    ILightTranslationBoxContainer
 > = {
    serialize(data) {

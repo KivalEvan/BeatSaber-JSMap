@@ -1,11 +1,10 @@
-import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
-import type { IWrapBaseItemAttribute } from './baseItem.ts';
-import type { IWrapBPMEventAttribute } from './bpmEvent.ts';
+import type { IWrapBaseFile } from './baseFile.ts';
+import type { IWrapBaseItem } from './baseItem.ts';
 
 /**
  * Wrapper attribute for beatmap audio data.
  */
-export interface IWrapAudioDataAttribute extends IWrapBaseItemAttribute, IWrapBaseFileAttribute {
+export interface IWrapAudioData extends IWrapBaseItem, IWrapBaseFile {
    /**
     * Audio checksum for audio file.
     */
@@ -78,16 +77,4 @@ export interface IWrapAudioDataLUFS {
     * **Type:** `f32`
     */
    lufs: number;
-}
-
-/**
- * Wrapper for beatmap audio data.
- */
-export interface IWrapAudioData extends IWrapBeatmapFile, IWrapAudioDataAttribute {
-   setFilename(filename: string): this;
-   setSampleCount(value: number): this;
-   setFrequency(value: number): this;
-
-   fromBpmEvents(data: IWrapBPMEventAttribute[], frequency: number, sampleCount?: number): this;
-   getBpmEvents(): IWrapBPMEventAttribute[];
 }

@@ -1,6 +1,6 @@
 import { logger } from '../../../../logger.ts';
 import type { ICompatibilityOptions } from '../../../../types/beatmap/options/compatibility.ts';
-import type { IWrapBeatmapAttribute } from '../../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmap } from '../../../../types/beatmap/wrapper/beatmap.ts';
 import {
    hasMappingExtensionsArc,
    hasMappingExtensionsBombNote,
@@ -13,7 +13,7 @@ import { tag } from './_common.ts';
 /**
  * Checks if beatmap data is compatible with v4 `Difficulty` schema.
  */
-export function compatDifficulty<T extends IWrapBeatmapAttribute>(
+export function compatDifficulty<T extends IWrapBeatmap>(
    bm: T,
    options: ICompatibilityOptions,
 ) {

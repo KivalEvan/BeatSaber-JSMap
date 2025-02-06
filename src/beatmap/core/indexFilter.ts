@@ -1,15 +1,12 @@
 import { LimitAlsoAffectsType, RandomType } from '../../types/beatmap/shared/constants.ts';
-import type {
-   IWrapIndexFilter,
-   IWrapIndexFilterAttribute,
-} from '../../types/beatmap/wrapper/indexFilter.ts';
+import type { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export function createIndexFilter(
-   data: DeepPartial<IWrapIndexFilterAttribute> = {},
-): IWrapIndexFilterAttribute {
+   data: DeepPartial<IWrapIndexFilter> = {},
+): IWrapIndexFilter {
    return {
       type: data.type ?? 1,
       p0: data.p0 ?? 0,
@@ -28,17 +25,17 @@ export function createIndexFilter(
  * Core beatmap index filter.
  */
 export class IndexFilter extends BaseItem implements IWrapIndexFilter {
-   static defaultValue: IWrapIndexFilterAttribute = createIndexFilter();
+   static defaultValue: IWrapIndexFilter = createIndexFilter();
 
    static createOne(
-      data: Partial<IWrapIndexFilterAttribute> = {},
+      data: Partial<IWrapIndexFilter> = {},
    ): IndexFilter {
       return new this(data);
    }
-   static create(...data: Partial<IWrapIndexFilterAttribute>[]): IndexFilter[] {
+   static create(...data: Partial<IWrapIndexFilter>[]): IndexFilter[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapIndexFilterAttribute> = {}) {
+   constructor(data: Partial<IWrapIndexFilter> = {}) {
       super();
       this.type = data.type ?? IndexFilter.defaultValue.type;
       this.p0 = data.p0 ?? IndexFilter.defaultValue.p0;

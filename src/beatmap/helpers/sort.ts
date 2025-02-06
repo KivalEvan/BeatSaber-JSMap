@@ -2,8 +2,8 @@ import type { INote } from '../../types/beatmap/v2/note.ts';
 import type { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object.ts';
 import type { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
 import type { IGridObject } from '../../types/beatmap/v3/gridObject.ts';
-import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
-import type { IWrapGridObjectAttribute } from '../../types/beatmap/wrapper/gridObject.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
 import type { Vector2 } from '../../types/vector.ts';
 
 /**
@@ -13,7 +13,7 @@ import type { Vector2 } from '../../types/vector.ts';
  * data.basicEvents.sort(sortObjectFn);
  * ```
  */
-export function sortObjectFn<T extends Pick<IWrapBaseObjectAttribute, 'time'>>(a: T, b: T): number {
+export function sortObjectFn<T extends Pick<IWrapBaseObject, 'time'>>(a: T, b: T): number {
    return a.time - b.time;
 }
 
@@ -25,7 +25,7 @@ export function sortObjectFn<T extends Pick<IWrapBaseObjectAttribute, 'time'>>(a
  * ```
  */
 export function sortNoteFn<
-   T extends Pick<IWrapGridObjectAttribute, 'time' | 'posX' | 'posY' | 'customData'>,
+   T extends Pick<IWrapGridObject, 'time' | 'posX' | 'posY' | 'customData'>,
 >(a: T, b: T): number {
    if (Array.isArray(a.customData.coordinates) && Array.isArray(b.customData.coordinates)) {
       return (

@@ -1,14 +1,14 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IAudio } from '../../../types/beatmap/v4/audioData.ts';
-import type { IWrapAudioDataAttribute } from '../../../types/beatmap/wrapper/audioData.ts';
+import type { IWrapAudioData } from '../../../types/beatmap/wrapper/audioData.ts';
 import { createAudioData } from '../../core/audioData.ts';
 
-type AudioDataPolyfills = Pick<IWrapAudioDataAttribute, 'filename'>;
+type AudioDataPolyfills = Pick<IWrapAudioData, 'filename'>;
 
 /**
  * Schema serialization for v4 `Audio Data`.
  */
-export const audioData: ISchemaContainer<IWrapAudioDataAttribute, IAudio, AudioDataPolyfills> = {
+export const audioData: ISchemaContainer<IWrapAudioData, IAudio, AudioDataPolyfills> = {
    serialize(data) {
       return {
          version: '4.0.0',

@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IDifficulty } from '../../../types/beatmap/v3/difficulty.ts';
-import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createBeatmap } from '../../core/beatmap.ts';
 import { createDifficulty } from '../../core/difficulty.ts';
@@ -24,7 +24,7 @@ import { rotationEvent } from './rotationEvent.ts';
 import { waypoint } from './waypoint.ts';
 
 type DifficultyDeserializationPolyfills = Pick<
-   IWrapBeatmapAttribute,
+   IWrapBeatmap,
    'filename' | 'lightshowFilename'
 >;
 
@@ -32,7 +32,7 @@ type DifficultyDeserializationPolyfills = Pick<
  * Schema serialization for v3 `Difficulty`.
  */
 export const difficulty: ISchemaContainer<
-   IWrapBeatmapAttribute,
+   IWrapBeatmap,
    IDifficulty,
    Record<string, any>,
    DifficultyDeserializationPolyfills

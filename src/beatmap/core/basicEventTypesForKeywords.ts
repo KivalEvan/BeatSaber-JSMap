@@ -1,14 +1,13 @@
 import type {
    IWrapBasicEventTypesForKeywords,
-   IWrapBasicEventTypesForKeywordsAttribute,
 } from '../../types/beatmap/wrapper/basicEventTypesForKeywords.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export function createBasicEventTypesForKeywords(
-   data: DeepPartial<IWrapBasicEventTypesForKeywordsAttribute> = {},
-): IWrapBasicEventTypesForKeywordsAttribute {
+   data: DeepPartial<IWrapBasicEventTypesForKeywords> = {},
+): IWrapBasicEventTypesForKeywords {
    return {
       keyword: data.keyword ?? '',
       events: data.events ?? [],
@@ -21,21 +20,20 @@ export function createBasicEventTypesForKeywords(
  */
 export class BasicEventTypesForKeywords extends BaseItem
    implements IWrapBasicEventTypesForKeywords {
-   static defaultValue: IWrapBasicEventTypesForKeywordsAttribute =
-      createBasicEventTypesForKeywords();
+   static defaultValue: IWrapBasicEventTypesForKeywords = createBasicEventTypesForKeywords();
 
    static createOne(
-      data: Partial<IWrapBasicEventTypesForKeywordsAttribute> = {},
+      data: Partial<IWrapBasicEventTypesForKeywords> = {},
    ): BasicEventTypesForKeywords {
       return new this(data);
    }
    static create(
-      ...data: Partial<IWrapBasicEventTypesForKeywordsAttribute>[]
+      ...data: Partial<IWrapBasicEventTypesForKeywords>[]
    ): BasicEventTypesForKeywords[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(
-      data: DeepPartialIgnore<IWrapBasicEventTypesForKeywordsAttribute, 'customData'> = {},
+      data: DeepPartialIgnore<IWrapBasicEventTypesForKeywords, 'customData'> = {},
    ) {
       super();
       this.keyword = data.keyword ?? BasicEventTypesForKeywords.defaultValue.keyword;

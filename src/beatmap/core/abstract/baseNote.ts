@@ -35,18 +35,49 @@ export abstract class BaseNote extends GridObject implements IWrapBaseNote {
       return super.mirror(flipColor);
    }
 
+   /**
+    * Check if note is red note.
+    * ```ts
+    * if (note.isBlue()) {}
+    * ```
+    */
    isRed(): boolean {
       return isRedNoteColor(this.color);
    }
 
+   /**
+    * Check if note is blue note.
+    * ```ts
+    * if (note.isBlue()) {}
+    * ```
+    */
    isBlue(): boolean {
       return isBlueNoteColor(this.color);
    }
 
+   /**
+    * Get standardised note angle.
+    *
+    * @example
+    * ```ts
+    * import type { IBaseNote } from './baseNote.ts';
+    * let note!: IBaseNote;
+    * const optionalFn = (object: IBaseNote) => object.customData.value;
+    * const tailAngle = note.getTailAngle(optionalFn);
+    * ```
+    *
+    * Custom function are used to return any arbitrary data first if value exist, otherwise returns base value.
+    */
    getAngle(fn?: GetAngleFn<this>): number {
       return fn?.(this) ?? resolveNoteAngle(this.direction);
    }
 
+   /**
+    * Compare current note with the note ahead of it and return if the notes is a double.
+    * ```ts
+    * if (note.isDouble(otherNote, tol, optionalFn)) {}
+    * ```
+    */
    isDouble(compareTo: IWrapBaseNote, tolerance = 0.01): boolean {
       return isDouble(this, compareTo, tolerance);
    }

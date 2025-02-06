@@ -4,8 +4,8 @@
 // TODO: cleanup the implementation
 import { isUnsetNoteColor } from '../../beatmap/helpers/core/baseNote.ts';
 import { NoteColor, NoteDirection, PosX, PosY } from '../../beatmap/shared/constants.ts';
-import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 import { predictDirection } from '../placement/note.ts';
 import { type ParityState, type ParityStatus, ParitySwitch } from './types/parity.ts';
 
@@ -61,11 +61,11 @@ const noteParityRotation: {
 // TODO: probably body class for leaning
 export class Parity<
    TColorNote extends Pick<
-      IWrapColorNoteAttribute,
+      IWrapColorNote,
       'time' | 'posX' | 'posY' | 'color' | 'direction'
    >,
    TBombNote extends Pick<
-      IWrapBombNoteAttribute,
+      IWrapBombNote,
       'time' | 'posX' | 'posY' | 'color'
    >,
 > {

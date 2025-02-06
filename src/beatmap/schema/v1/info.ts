@@ -2,15 +2,15 @@
 import type { EnvironmentName } from '../../../types/beatmap/shared/environment.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfo } from '../../../types/beatmap/v1/info.ts';
-import type { IWrapInfoAttribute } from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createInfo } from '../../core/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
 
-type InfoDeserializationPolyfills = Pick<IWrapInfoAttribute, 'filename'> & {
+type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'> & {
    audio: Pick<
-      IWrapInfoAttribute['audio'],
+      IWrapInfo['audio'],
       | 'filename'
       | 'audioDataFilename'
       | 'lufs'
@@ -25,7 +25,7 @@ type InfoDeserializationPolyfills = Pick<IWrapInfoAttribute, 'filename'> & {
  * Schema serialization for v1 `Info`.
  */
 export const info: ISchemaContainer<
-   IWrapInfoAttribute,
+   IWrapInfo,
    IInfo,
    Record<string, any>,
    InfoDeserializationPolyfills

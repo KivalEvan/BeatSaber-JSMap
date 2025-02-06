@@ -5,17 +5,14 @@ import type {
    GenericLightshowFilename,
 } from '../../types/beatmap/shared/filename.ts';
 import type { IInfoBeatmapAuthors } from '../../types/beatmap/v4/info.ts';
-import type {
-   IWrapInfoBeatmap,
-   IWrapInfoBeatmapAttribute,
-} from '../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfoBeatmap } from '../../types/beatmap/wrapper/info.ts';
 import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export function createInfoBeatmap(
-   data: DeepPartial<IWrapInfoBeatmapAttribute> = {},
-): IWrapInfoBeatmapAttribute {
+   data: DeepPartial<IWrapInfoBeatmap> = {},
+): IWrapInfoBeatmap {
    return {
       characteristic: data.characteristic ?? 'Standard',
       difficulty: data.difficulty ?? 'Easy',
@@ -37,17 +34,17 @@ export function createInfoBeatmap(
  * Core beatmap info beatmap.
  */
 export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
-   static defaultValue: IWrapInfoBeatmapAttribute = createInfoBeatmap();
+   static defaultValue: IWrapInfoBeatmap = createInfoBeatmap();
 
-   static createOne(data: Partial<IWrapInfoBeatmapAttribute> = {}): InfoBeatmap {
+   static createOne(data: Partial<IWrapInfoBeatmap> = {}): InfoBeatmap {
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'>[]
+      ...data: DeepPartialIgnore<IWrapInfoBeatmap, 'customData'>[]
    ): InfoBeatmap[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapInfoBeatmapAttribute, 'customData'> = {}) {
+   constructor(data: DeepPartialIgnore<IWrapInfoBeatmap, 'customData'> = {}) {
       super();
       this.characteristic = data.characteristic ?? InfoBeatmap.defaultValue.characteristic;
       this.difficulty = data.difficulty ?? InfoBeatmap.defaultValue.difficulty;

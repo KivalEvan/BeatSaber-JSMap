@@ -1,20 +1,20 @@
 import type { TimeProcessor } from '../beatmap/helpers/timeProcessor.ts';
 import { logger } from '../logger.ts';
-import type { IWrapBaseObjectAttribute } from '../types/beatmap/wrapper/baseObject.ts';
-import type { IWrapBeatmapAttribute } from '../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBaseObject } from '../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 
 function tag(): string[] {
    return ['patch', 'removeOutsidePlayable'];
 }
 
 let duration = 0;
-const filterTime = <T extends IWrapBaseObjectAttribute>(obj: T) =>
+const filterTime = <T extends IWrapBaseObject>(obj: T) =>
    duration ? !(obj.time < 0 || obj.time > duration) : !(obj.time < 0);
 
 /**
  * Removes outside playable objects from beatmap given duration (seconds).
  */
-export function removeOutsidePlayable<T extends IWrapBeatmapAttribute>(
+export function removeOutsidePlayable<T extends IWrapBeatmap>(
    data: T,
    timeProc: TimeProcessor,
    audioLength: number,

@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../logger.ts';
 import type {
-   InferBeatmapAttribute,
+   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
 } from '../types/beatmap/shared/infer.ts';
@@ -16,7 +16,7 @@ import { handleWrite, handleWriteSync, tag } from './_main.ts';
  */
 export function writeLightshowFile<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    data: TWrapper,
@@ -25,7 +25,7 @@ export function writeLightshowFile<
 ): Promise<TSerial>;
 export function writeLightshowFile<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    data: TWrapper,
@@ -33,7 +33,7 @@ export function writeLightshowFile<
 ): Promise<TSerial>;
 export function writeLightshowFile<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    data: TWrapper,
@@ -57,7 +57,7 @@ export function writeLightshowFile<
  */
 export function writeLightshowFileSync<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    data: TWrapper,
@@ -66,7 +66,7 @@ export function writeLightshowFileSync<
 ): TSerial;
 export function writeLightshowFileSync<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    data: TWrapper,
@@ -74,7 +74,7 @@ export function writeLightshowFileSync<
 ): TSerial;
 export function writeLightshowFileSync<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    data: TWrapper,

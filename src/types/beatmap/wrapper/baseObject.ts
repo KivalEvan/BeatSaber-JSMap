@@ -1,20 +1,13 @@
-import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
+import type { IWrapBaseItem } from './baseItem.ts';
 
 /**
  * Wrapper attribute for beatmap object.
  */
-export interface IWrapBaseObjectAttribute extends IWrapBaseItemAttribute {
+export interface IWrapBaseObject extends IWrapBaseItem {
    /**
     * Beat time of beatmap object.
     *
     * **Type:** `f32`
     */
    time: number;
-}
-
-/**
- * Wrapper for beatmap object.
- */
-export interface IWrapBaseObject extends IWrapBaseItem, IWrapBaseObjectAttribute {
-   setTime(value: number): this;
 }

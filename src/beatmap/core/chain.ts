@@ -1,11 +1,11 @@
-import type { IWrapChain, IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapChain } from '../../types/beatmap/wrapper/chain.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseSlider } from './abstract/baseSlider.ts';
 
 export function createChain(
-   data: DeepPartial<IWrapChainAttribute> = {},
-): IWrapChainAttribute {
+   data: DeepPartial<IWrapChain> = {},
+): IWrapChain {
    return {
       time: data.time ?? 0,
       posX: data.posX ?? 0,
@@ -27,15 +27,15 @@ export function createChain(
  * Core beatmap chain.
  */
 export class Chain extends BaseSlider implements IWrapChain {
-   static defaultValue: IWrapChainAttribute = createChain();
+   static defaultValue: IWrapChain = createChain();
 
-   static createOne(data: Partial<IWrapChainAttribute> = {}): Chain {
+   static createOne(data: Partial<IWrapChain> = {}): Chain {
       return new this(data);
    }
-   static create(...data: Partial<IWrapChainAttribute>[]): Chain[] {
+   static create(...data: Partial<IWrapChain>[]): Chain[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapChainAttribute> = {}) {
+   constructor(data: Partial<IWrapChain> = {}) {
       super();
       this.time = data.time ?? Chain.defaultValue.time;
       this.posX = data.posX ?? Chain.defaultValue.posX;

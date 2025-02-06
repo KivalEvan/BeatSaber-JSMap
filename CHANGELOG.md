@@ -8,7 +8,14 @@
 
 ### Changed
 
-- Schema validation overhaul
+- Schema validation overhaul (#3)
+- Decouple wrapper functionality into their own (#5)
+- ⚠️ BREAKING: IO functionality now returns wrapper object instead of concrete class (#5)
+
+### Removed
+
+- Wrapper implementation interface boilerplate
+  - Removed attribute suffix to replace the removal
 
 ## 2.1.9 [2024-12-21]
 

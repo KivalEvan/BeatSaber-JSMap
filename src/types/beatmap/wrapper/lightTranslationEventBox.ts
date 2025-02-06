@@ -1,15 +1,12 @@
 import type { Axis } from '../shared/constants.ts';
 import type { DistributionType } from '../shared/constants.ts';
-import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
-import type {
-   IWrapLightTranslationEvent,
-   IWrapLightTranslationEventAttribute,
-} from './lightTranslationEvent.ts';
+import type { IWrapEventBox } from './eventBox.ts';
+import type { IWrapLightTranslationEvent } from './lightTranslationEvent.ts';
 
 /**
  * Wrapper attribute for beatmap light translation event box.
  */
-export interface IWrapLightTranslationEventBoxAttribute extends IWrapEventBoxAttribute {
+export interface IWrapLightTranslationEventBox extends IWrapEventBox {
    /**
     * Translation distribution of light translation event box.
     *
@@ -43,20 +40,5 @@ export interface IWrapLightTranslationEventBoxAttribute extends IWrapEventBoxAtt
     * **Type:** `i32`
     */
    flip: 0 | 1;
-   events: IWrapLightTranslationEventAttribute[];
-}
-
-/**
- * Wrapper for beatmap light translation event box.
- */
-export interface IWrapLightTranslationEventBox
-   extends IWrapEventBox, IWrapLightTranslationEventBoxAttribute {
    events: IWrapLightTranslationEvent[];
-
-   setGapDistribution(value: IWrapLightTranslationEventBox['gapDistribution']): this;
-   setGapDistributionType(value: IWrapLightTranslationEventBox['gapDistributionType']): this;
-   setAxis(value: IWrapLightTranslationEventBox['axis']): this;
-   setFlip(value: IWrapLightTranslationEventBox['flip']): this;
-   setAffectFirst(value: IWrapLightTranslationEventBox['affectFirst']): this;
-   setEvents(value: IWrapLightTranslationEvent[]): this;
 }

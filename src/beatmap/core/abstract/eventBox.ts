@@ -1,7 +1,7 @@
-import type { IWrapBaseObject } from '../../../types/beatmap/wrapper/baseObject.ts';
 import type { IWrapEventBox } from '../../../types/beatmap/wrapper/eventBox.ts';
-import type { IWrapIndexFilter } from '../../../types/beatmap/wrapper/indexFilter.ts';
+import type { IndexFilter } from '../indexFilter.ts';
 import { BaseItem } from './baseItem.ts';
+import type { BaseObject } from './baseObject.ts';
 
 /**
  * Base event box beatmap object.
@@ -9,14 +9,14 @@ import { BaseItem } from './baseItem.ts';
  * @abstract
  */
 export abstract class EventBox extends BaseItem implements IWrapEventBox {
-   filter!: IWrapIndexFilter;
+   filter!: IndexFilter;
    beatDistribution: IWrapEventBox['beatDistribution'] = 0;
    beatDistributionType: IWrapEventBox['beatDistributionType'] = 1;
    easing: IWrapEventBox['easing'] = 0;
    affectFirst: IWrapEventBox['affectFirst'] = 0;
-   abstract events: IWrapBaseObject[];
+   abstract events: BaseObject[];
 
-   setFilter(value: IWrapIndexFilter): this {
+   setFilter(value: IndexFilter): this {
       this.filter = value;
       return this;
    }
@@ -36,7 +36,7 @@ export abstract class EventBox extends BaseItem implements IWrapEventBox {
       this.affectFirst = value;
       return this;
    }
-   abstract setEvents(value: IWrapBaseObject[]): this;
+   abstract setEvents(value: BaseObject[]): this;
 
    override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&

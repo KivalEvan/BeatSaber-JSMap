@@ -6,9 +6,9 @@ import {
 import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
 import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import type { IChromaEventRing, IChromaEventZoom } from '../../types/beatmap/v3/custom/chroma.ts';
-import type { IWrapBasicEventAttribute } from '../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapBeatmapSubset } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
@@ -35,8 +35,8 @@ export class LightMapper {
    lightIDMapping: Record<number, number[]>;
    readonly environment: EnvironmentAllName;
    private queue: EventBoxType[] = [];
-   private events: IWrapBasicEventAttribute[] = [];
-   private boosts: IWrapColorBoostEventAttribute[] = [];
+   private events: IWrapBasicEvent[] = [];
+   private boosts: IWrapColorBoostEvent[] = [];
 
    constructor(environment: EnvironmentAllName) {
       this.lightIDMapping = deepCopy(LightIDList[environment], true);
@@ -129,7 +129,7 @@ export class LightMapper {
       return 1 + color * 4 + transitionValue[transition];
    }
 
-   process(mapData: IWrapBeatmapAttributeSubset<'basicEvents'>, overwrite = true): void {
+   process(mapData: IWrapBeatmapSubset<'basicEvents'>, overwrite = true): void {
       const events = [...this.events];
       this.queue.sort((a, b) => a.time - b.time);
       for (const q of this.queue) {
@@ -164,7 +164,7 @@ export class LightMapper {
                !eb.hueDistribution &&
                !eb.affectFirst
             ) {
-               let previousEvent: IWrapBasicEventAttribute;
+               let previousEvent: IWrapBasicEvent;
                let previousBase: EventBase;
                eb.events.forEach((ev) => {
                   if (ev.transition === 2 && previousEvent) {
@@ -200,7 +200,7 @@ export class LightMapper {
                });
                return;
             }
-            let previousEvent: IWrapBasicEventAttribute;
+            let previousEvent: IWrapBasicEvent;
             let previousBase: EventBase;
             let isFirst = !eb.affectFirst;
             const lastEventTime = eb.events.at(-1)?.time ?? 0;

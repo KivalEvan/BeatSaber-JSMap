@@ -1,14 +1,11 @@
-import type {
-   IWrapLightRotationEvent,
-   IWrapLightRotationEventAttribute,
-} from '../../types/beatmap/wrapper/lightRotationEvent.ts';
+import type { IWrapLightRotationEvent } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export function createLightRotationEvent(
-   data: DeepPartial<IWrapLightRotationEventAttribute> = {},
-): IWrapLightRotationEventAttribute {
+   data: DeepPartial<IWrapLightRotationEvent> = {},
+): IWrapLightRotationEvent {
    return {
       time: data.time ?? 0,
       easing: data.easing ?? 0,
@@ -24,15 +21,15 @@ export function createLightRotationEvent(
  * Core beatmap light rotation event.
  */
 export class LightRotationEvent extends BaseObject implements IWrapLightRotationEvent {
-   static defaultValue: IWrapLightRotationEventAttribute = createLightRotationEvent();
+   static defaultValue: IWrapLightRotationEvent = createLightRotationEvent();
 
-   static createOne(data: Partial<IWrapLightRotationEventAttribute> = {}): LightRotationEvent {
+   static createOne(data: Partial<IWrapLightRotationEvent> = {}): LightRotationEvent {
       return new this(data);
    }
-   static create(...data: Partial<IWrapLightRotationEventAttribute>[]): LightRotationEvent[] {
+   static create(...data: Partial<IWrapLightRotationEvent>[]): LightRotationEvent[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapLightRotationEventAttribute> = {}) {
+   constructor(data: Partial<IWrapLightRotationEvent> = {}) {
       super();
       this.time = data.time ?? LightRotationEvent.defaultValue.time;
       this.easing = data.easing ?? LightRotationEvent.defaultValue.easing;

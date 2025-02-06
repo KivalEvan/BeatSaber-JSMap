@@ -1,20 +1,9 @@
-import type { IWrapEventBoxGroup, IWrapEventBoxGroupAttribute } from './eventBoxGroup.ts';
-import type {
-   IWrapLightTranslationEventBox,
-   IWrapLightTranslationEventBoxAttribute,
-} from './lightTranslationEventBox.ts';
+import type { IWrapEventBoxGroup } from './eventBoxGroup.ts';
+import type { IWrapLightTranslationEventBox } from './lightTranslationEventBox.ts';
 
 /**
  * Wrapper attribute for beatmap light translation event box group.
  */
-export interface IWrapLightTranslationEventBoxGroupAttribute extends IWrapEventBoxGroupAttribute {
-   boxes: IWrapLightTranslationEventBoxAttribute[];
-}
-
-/**
- * Wrapper for beatmap light translation event box group.
- */
-export interface IWrapLightTranslationEventBoxGroup
-   extends IWrapEventBoxGroup, IWrapLightTranslationEventBoxGroupAttribute {
+export interface IWrapLightTranslationEventBoxGroup extends IWrapEventBoxGroup {
    boxes: IWrapLightTranslationEventBox[];
 }

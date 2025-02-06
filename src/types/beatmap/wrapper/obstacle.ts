@@ -1,11 +1,10 @@
-import type { GetPositionFn } from '../shared/functions.ts';
 import type { ICustomDataObstacle } from './custom/obstacle.ts';
-import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
+import type { IWrapGridObject } from './gridObject.ts';
 
 /**
  * Wrapper attribute for beatmap obstacle.
  */
-export interface IWrapObstacleAttribute extends IWrapGridObjectAttribute {
+export interface IWrapObstacle extends IWrapGridObject {
    /**
     * Duration of obstacle.
     *
@@ -34,40 +33,4 @@ export interface IWrapObstacleAttribute extends IWrapGridObjectAttribute {
     */
    height: number;
    customData: ICustomDataObstacle;
-}
-
-/**
- * Wrapper for beatmap obstacle.
- */
-export interface IWrapObstacle extends Omit<IWrapGridObject, 'customData'>, IWrapObstacleAttribute {
-   setCustomData(object: this['customData']): this;
-   addCustomData(object: this['customData']): this;
-
-   setDuration(value: number): this;
-   setWidth(value: number): this;
-   setHeight(value: number): this;
-
-   /**
-    * Check if obstacle is interactive.
-    * ```ts
-    * if (wall.isInteractive()) {}
-    * ```
-    */
-   isInteractive(fn?: GetPositionFn<this>): boolean;
-
-   /**
-    * Check if obstacle has zero value.
-    * ```ts
-    * if (wall.hasZero()) {}
-    * ```
-    */
-   hasZero(): boolean;
-
-   /**
-    * Check if obstacle has negative value.
-    * ```ts
-    * if (wall.hasNegative()) {}
-    * ```
-    */
-   hasNegative(): boolean;
 }

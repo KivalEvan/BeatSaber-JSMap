@@ -1,12 +1,12 @@
-import type { ISwingAnalysisBeatmapAttribute } from '../../extensions/swing/types/swing.ts';
-import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { ISwingAnalysisBeatmap } from '../../extensions/swing/types/swing.ts';
+import type { IWrapBeatmapSubset } from '../../types/beatmap/wrapper/beatmap.ts';
 import { isInteractiveObstacle } from './core/obstacle.ts';
 import { sortNoteFn } from './sort.ts';
 import type { TimeProcessor } from './timeProcessor.ts';
 
 /** Calculates the number of notes per second. */
 export function calculateNps<
-   T extends IWrapBeatmapAttributeSubset<'colorNotes', never>,
+   T extends IWrapBeatmapSubset<'colorNotes', never>,
 >(beatmap: T, duration: number): number {
    const notes = beatmap.difficulty.colorNotes;
    return duration ? notes.length / duration : 0;
@@ -14,7 +14,7 @@ export function calculateNps<
 
 /** Calculates the peak number of notes per second given beat count. */
 export function calculateNpsPeak<
-   T extends IWrapBeatmapAttributeSubset<'colorNotes', 'time'>,
+   T extends IWrapBeatmapSubset<'colorNotes', 'time'>,
 >(beatmap: T, beatCount: number, timeProcessor: TimeProcessor): number {
    let peakNPS = 0;
    let currentSectionStart = 0;
@@ -39,7 +39,7 @@ export function calculateNpsPeak<
  * Color notes, bomb notes, chains and obstacles in middle lane are considered interactive object.
  */
 export function getFirstInteractiveTime<
-   T extends ISwingAnalysisBeatmapAttribute,
+   T extends ISwingAnalysisBeatmap,
 >(beatmap: T): number {
    const notes = [
       ...beatmap.difficulty.colorNotes,
@@ -60,7 +60,7 @@ export function getFirstInteractiveTime<
  * Color notes, bomb notes, chains and obstacles in middle lane are considered interactive object.
  */
 export function getLastInteractiveTime<
-   T extends ISwingAnalysisBeatmapAttribute,
+   T extends ISwingAnalysisBeatmap,
 >(beatmap: T): number {
    const notes = [
       ...beatmap.difficulty.colorNotes,
@@ -79,7 +79,7 @@ export function getLastInteractiveTime<
  * Get the first obstacle interactive time.
  */
 export function findFirstInteractiveObstacleTime<
-   T extends IWrapBeatmapAttributeSubset<'obstacles', 'time' | 'posX' | 'width'>,
+   T extends IWrapBeatmapSubset<'obstacles', 'time' | 'posX' | 'width'>,
 >(beatmap: T): number {
    for (let i = 0, len = beatmap.difficulty.obstacles.length; i < len; i++) {
       if (isInteractiveObstacle(beatmap.difficulty.obstacles[i])) {
@@ -93,7 +93,7 @@ export function findFirstInteractiveObstacleTime<
  * Get the last obstacle interactive time.
  */
 export function findLastInteractiveObstacleTime<
-   T extends IWrapBeatmapAttributeSubset<'obstacles', 'time' | 'posX' | 'duration' | 'width'>,
+   T extends IWrapBeatmapSubset<'obstacles', 'time' | 'posX' | 'duration' | 'width'>,
 >(beatmap: T): number {
    let obstacleEnd = 0;
    for (let i = beatmap.difficulty.obstacles.length - 1; i >= 0; i--) {

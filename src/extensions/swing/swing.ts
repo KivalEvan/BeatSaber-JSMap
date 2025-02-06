@@ -9,15 +9,15 @@ import {
 } from '../../beatmap/helpers/core/gridObject.ts';
 import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
-import type { IWrapBaseNoteAttribute } from '../../types/beatmap/wrapper/baseNote.ts';
-import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
+import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 import { checkDirection } from '../placement/note.ts';
-import type { ISwingAnalysisBaseNoteAttribute, ISwingContainer } from './types/swing.ts';
+import type { ISwingAnalysisBaseNote, ISwingContainer } from './types/swing.ts';
 
 /**
  * Generate swings from beatmap notes.
  */
-export function generate<T extends ISwingAnalysisBaseNoteAttribute>(
+export function generate<T extends ISwingAnalysisBaseNote>(
    notes: T[],
    timeProc: TimeProcessor,
 ): ISwingContainer<T>[] {
@@ -90,7 +90,7 @@ export function generate<T extends ISwingAnalysisBaseNoteAttribute>(
  * Check if next swing happen from `prevNote` to `currNote`.
  */
 export function next<
-   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY' | 'direction'>,
+   T extends Pick<IWrapBaseNote, 'time' | 'posX' | 'posY' | 'direction'>,
 >(currNote: T, prevNote: T, timeProc: TimeProcessor, context?: T[]): boolean {
    if (
       context &&
@@ -124,7 +124,7 @@ export function next<
 
 /** Calculate effective BPM between `currObj` and `prevObj`. */
 export function calcEBPMBetweenObject<
-   T extends Pick<IWrapBaseObjectAttribute, 'time'>,
+   T extends Pick<IWrapBaseObject, 'time'>,
 >(currObj: T, prevObj: T, timeProc: TimeProcessor): number {
    return (
       timeProc.bpm /
@@ -142,7 +142,7 @@ export function calcEBPMBetweenObject<
  * Higher value is slower.
  */
 function calcMinSliderSpeed<
-   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY'>,
+   T extends Pick<IWrapBaseNote, 'time' | 'posX' | 'posY'>,
 >(notes: T[], timeProc: TimeProcessor): number {
    let hasStraight = false;
    let hasDiagonal = false;
@@ -180,7 +180,7 @@ function calcMinSliderSpeed<
  * Lower value is faster.
  */
 function calcMaxSliderSpeed<
-   T extends Pick<IWrapBaseNoteAttribute, 'time' | 'posX' | 'posY'>,
+   T extends Pick<IWrapBaseNote, 'time' | 'posX' | 'posY'>,
 >(notes: T[], timeProc: TimeProcessor): number {
    let hasStraight = false;
    let hasDiagonal = false;

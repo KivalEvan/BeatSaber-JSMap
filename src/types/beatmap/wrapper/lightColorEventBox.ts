@@ -1,11 +1,11 @@
 import type { DistributionType } from '../shared/constants.ts';
-import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
-import type { IWrapLightColorEvent, IWrapLightColorEventAttribute } from './lightColorEvent.ts';
+import type { IWrapEventBox } from './eventBox.ts';
+import type { IWrapLightColorEvent } from './lightColorEvent.ts';
 
 /**
  * Wrapper attribute for beatmap light color event box.
  */
-export interface IWrapLightColorEventBoxAttribute extends IWrapEventBoxAttribute {
+export interface IWrapLightColorEventBox extends IWrapEventBox {
    /**
     * Brightness distribution of light color event box.
     *
@@ -24,21 +24,5 @@ export interface IWrapLightColorEventBoxAttribute extends IWrapEventBoxAttribute
     * **Type:** {@linkcode DistributionType}
     */
    brightnessDistributionType: DistributionType;
-   events: IWrapLightColorEventAttribute[];
-}
-
-/**
- * Wrapper for beatmap light color event box.
- */
-export interface IWrapLightColorEventBox extends IWrapEventBox, IWrapLightColorEventBoxAttribute {
    events: IWrapLightColorEvent[];
-
-   setBrightnessDistribution(
-      value: IWrapLightColorEventBox['brightnessDistribution'],
-   ): this;
-   setBrightnessDistributionType(
-      value: IWrapLightColorEventBox['brightnessDistributionType'],
-   ): this;
-   setAffectFirst(value: IWrapLightColorEventBox['affectFirst']): this;
-   setEvents(value: IWrapLightColorEvent[]): this;
 }

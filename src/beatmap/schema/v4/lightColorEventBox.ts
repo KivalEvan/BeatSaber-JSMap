@@ -1,6 +1,6 @@
 import type { ILightColorBoxContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapLightColorEventBoxAttribute } from '../../../types/beatmap/wrapper/lightColorEventBox.ts';
+import type { IWrapLightColorEventBox } from '../../../types/beatmap/wrapper/lightColorEventBox.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createLightColorEventBox } from '../../core/lightColorEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
@@ -10,7 +10,7 @@ import { lightColorEvent } from './lightColorEvent.ts';
  * Schema serialization for v4 `Light Color Event Box`.
  */
 export const lightColorEventBox: ISchemaContainer<
-   IWrapLightColorEventBoxAttribute,
+   IWrapLightColorEventBox,
    ILightColorBoxContainer
 > = {
    serialize(data) {

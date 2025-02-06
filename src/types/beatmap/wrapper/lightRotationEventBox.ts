@@ -1,15 +1,12 @@
 import type { DistributionType } from '../shared/constants.ts';
 import type { Axis } from '../shared/constants.ts';
-import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
-import type {
-   IWrapLightRotationEvent,
-   IWrapLightRotationEventAttribute,
-} from './lightRotationEvent.ts';
+import type { IWrapEventBox } from './eventBox.ts';
+import type { IWrapLightRotationEvent } from './lightRotationEvent.ts';
 
 /**
  * Wrapper attribute for beatmap light rotation event box.
  */
-export interface IWrapLightRotationEventBoxAttribute extends IWrapEventBoxAttribute {
+export interface IWrapLightRotationEventBox extends IWrapEventBox {
    /**
     * Rotation distribution of light rotation event box.
     *
@@ -43,20 +40,5 @@ export interface IWrapLightRotationEventBoxAttribute extends IWrapEventBoxAttrib
     * **Type:** `i32`
     */
    flip: 0 | 1;
-   events: IWrapLightRotationEventAttribute[];
-}
-
-/**
- * Wrapper for beatmap light rotation event box.
- */
-export interface IWrapLightRotationEventBox
-   extends IWrapEventBox, IWrapLightRotationEventBoxAttribute {
    events: IWrapLightRotationEvent[];
-
-   setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']): this;
-   setRotationDistributionType(value: IWrapLightRotationEventBox['rotationDistributionType']): this;
-   setAxis(value: IWrapLightRotationEventBox['axis']): this;
-   setFlip(value: IWrapLightRotationEventBox['flip']): this;
-   setAffectFirst(value: IWrapLightRotationEventBox['affectFirst']): this;
-   setEvents(value: IWrapLightRotationEvent[]): this;
 }

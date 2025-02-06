@@ -3,7 +3,7 @@ import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightshow } from '../../../types/beatmap/v4/lightshow.ts';
 import type { IObject } from '../../../types/beatmap/v4/object.ts';
-import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createBeatmap } from '../../core/beatmap.ts';
 import { createDifficulty } from '../../core/difficulty.ts';
@@ -18,7 +18,7 @@ import { lightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.t
 import { waypoint } from './waypoint.ts';
 
 type LightshowDeserializationPolyfills = Pick<
-   IWrapBeatmapAttribute,
+   IWrapBeatmap,
    'filename' | 'lightshowFilename'
 >;
 
@@ -26,7 +26,7 @@ type LightshowDeserializationPolyfills = Pick<
  * Schema serialization for v4 `Lightshow`.
  */
 export const lightshow: ISchemaContainer<
-   IWrapBeatmapAttribute,
+   IWrapBeatmap,
    ILightshow,
    Record<string, any>,
    LightshowDeserializationPolyfills
@@ -184,7 +184,7 @@ export const lightshow: ISchemaContainer<
       return json;
    },
    deserialize(data, options) {
-      const lightshow: IWrapBeatmapAttribute['lightshow'] = createLightshow({
+      const lightshow: IWrapBeatmap['lightshow'] = createLightshow({
          waypoints: data.waypoints?.map((obj) =>
             waypoint.deserialize({
                object: obj,

@@ -3,7 +3,7 @@ import { logger } from '../../logger.ts';
 import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
 import type { MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type {
-   InferBeatmapAttribute,
+   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
 } from '../../types/beatmap/shared/infer.ts';
@@ -38,7 +38,7 @@ const defaultOptions = {
 export function saveBeatmap<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmap<TFileType>,
    TSerial extends Record<string, any> = InferBeatmapSerial<TFileType, TVersion>,
 >(
    type: TFileType,
@@ -58,9 +58,7 @@ export function saveBeatmap<
    };
 
    const [pretransformer, ...preprocesses] = opt.preprocess;
-   let attribute = pretransformer
-      ? pretransformer(data, version)
-      : data as InferBeatmapAttribute<TFileType>;
+   let attribute = pretransformer ? pretransformer(data, version) : data as InferBeatmap<TFileType>;
    preprocesses.forEach((fn, i) => {
       logger.tInfo(
          tag('saveBeatmap'),

@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../logger.ts';
 import type {
-   InferBeatmapAttribute,
+   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
 } from '../types/beatmap/shared/infer.ts';
@@ -16,7 +16,7 @@ import { handleWrite, handleWriteSync, tag } from './_main.ts';
  */
 export function writeInfoFile<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    data: TWrapper,
@@ -25,7 +25,7 @@ export function writeInfoFile<
 ): Promise<TSerial>;
 export function writeInfoFile<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    data: TWrapper,
@@ -33,7 +33,7 @@ export function writeInfoFile<
 ): Promise<TSerial>;
 export function writeInfoFile<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    data: TWrapper,
@@ -52,7 +52,7 @@ export function writeInfoFile<
  */
 export function writeInfoFileSync<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    data: TWrapper,
@@ -61,7 +61,7 @@ export function writeInfoFileSync<
 ): TSerial;
 export function writeInfoFileSync<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    data: TWrapper,
@@ -69,7 +69,7 @@ export function writeInfoFileSync<
 ): TSerial;
 export function writeInfoFileSync<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmapAttribute<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    data: TWrapper,

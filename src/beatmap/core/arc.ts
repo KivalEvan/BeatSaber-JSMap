@@ -1,5 +1,5 @@
 import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
-import type { IWrapArc, IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
+import type { IWrapArc } from '../../types/beatmap/wrapper/arc.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
 import { mirrorArcMidAnchor } from '../helpers/core/arc.ts';
@@ -7,8 +7,8 @@ import { mirrorNoteDirectionHorizontally, resolveNoteAngle } from '../helpers/co
 import { BaseSlider } from './abstract/baseSlider.ts';
 
 export function createArc(
-   data: DeepPartial<IWrapArcAttribute> = {},
-): IWrapArcAttribute {
+   data: DeepPartial<IWrapArc> = {},
+): IWrapArc {
    return {
       time: data.time ?? 0,
       posX: data.posX ?? 0,
@@ -32,15 +32,15 @@ export function createArc(
  * Core beatmap arc.
  */
 export class Arc extends BaseSlider implements IWrapArc {
-   static defaultValue: IWrapArcAttribute = createArc();
+   static defaultValue: IWrapArc = createArc();
 
-   static createOne(data: Partial<IWrapArcAttribute> = {}): Arc {
+   static createOne(data: Partial<IWrapArc> = {}): Arc {
       return new this(data);
    }
-   static create(...data: Partial<IWrapArcAttribute>[]): Arc[] {
+   static create(...data: Partial<IWrapArc>[]): Arc[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: Partial<IWrapArcAttribute> = {}) {
+   constructor(data: Partial<IWrapArc> = {}) {
       super();
       this.time = data.time ?? Arc.defaultValue.time;
       this.posX = data.posX ?? Arc.defaultValue.posX;
@@ -103,6 +103,19 @@ export class Arc extends BaseSlider implements IWrapArc {
       return super.mirror(flipColor);
    }
 
+   /**
+    * Get standardised tail note angle.
+    *
+    * @example
+    * ```ts
+    * import type { IArc } from './arc.ts';
+    * let arc!: IArc;
+    * const optionalFn = (object: IArc) => object.customData.value;
+    * const arcTailAngle = arc.getTailAngle(optionalFn);
+    * ```
+    *
+    * Custom function are used to return any arbitrary data first if value exist, otherwise returns base value.
+    */
    getTailAngle(fn?: GetAngleFn<this>): number {
       return fn?.(this) || resolveNoteAngle(this.tailDirection);
    }

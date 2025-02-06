@@ -1,5 +1,5 @@
 import { logger } from '../../../logger.ts';
-import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
 
 function tag(name: string): string[] {
@@ -14,7 +14,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Guess you should know this legacy version does not have modern features.
  */
-export function toV1Beatmap<T extends IWrapBeatmapAttribute>(
+export function toV1Beatmap<T extends IWrapBeatmap>(
    data: T,
    fromVersion = data.version,
 ): T {
@@ -43,7 +43,7 @@ export function toV1Beatmap<T extends IWrapBeatmapAttribute>(
    return data;
 }
 
-function fromV3<T extends IWrapBeatmapAttribute>(bm: T) {
+function fromV3<T extends IWrapBeatmap>(bm: T) {
    bm.difficulty.customData._time = bm.difficulty.customData.time;
    bm.difficulty.customData._BPMChanges = bm.difficulty.customData.BPMChanges?.map((bpmc) => {
       return {
@@ -62,7 +62,7 @@ function fromV3<T extends IWrapBeatmapAttribute>(bm: T) {
    delete bm.difficulty.customData.bookmarks;
 }
 
-function fromV4<T extends IWrapBeatmapAttribute>(bm: T) {
+function fromV4<T extends IWrapBeatmap>(bm: T) {
    bm.difficulty.customData._time = bm.difficulty.customData.time ?? 0;
    let impossibleRotationEvt = false;
    const mapTime: Record<number, number> = {};

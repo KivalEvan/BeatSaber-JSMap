@@ -1,13 +1,13 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfoBeatmap } from '../../../types/beatmap/v4/info.ts';
-import type { IWrapInfoBeatmapAttribute } from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfoBeatmap } from '../../../types/beatmap/wrapper/info.ts';
 import { deepCopy } from '../../../utils/misc.ts';
 import { createInfoBeatmap } from '../../core/infoBeatmap.ts';
 
 /**
  * Schema serialization for v4 `Info Beatmap`.
  */
-export const infoBeatmap: ISchemaContainer<IWrapInfoBeatmapAttribute, IInfoBeatmap> = {
+export const infoBeatmap: ISchemaContainer<IWrapInfoBeatmap, IInfoBeatmap> = {
    serialize(data) {
       return {
          characteristic: data.characteristic,

@@ -2,7 +2,7 @@ import { logger } from '../../../logger.ts';
 import type { IChromaMaterial } from '../../../types/beatmap/v2/custom/chroma.ts';
 import type { ICustomDataNote } from '../../../types/beatmap/v2/custom/note.ts';
 import type { ICustomDataObstacle } from '../../../types/beatmap/v2/custom/obstacle.ts';
-import type { IWrapBeatmapAttribute } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
 import { isVector3, vectorMul } from '../../../utils/vector.ts';
 import { isLaserRotationEventType } from '../../helpers/core/basicEvent.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
@@ -21,7 +21,7 @@ function tag(name: string): string[] {
  *
  * **WARNING:** Chain and other new stuff will be gone!
  */
-export function toV2Beatmap<T extends IWrapBeatmapAttribute>(
+export function toV2Beatmap<T extends IWrapBeatmap>(
    data: T,
    fromVersion = data.version,
 ): T {
@@ -51,7 +51,7 @@ export function toV2Beatmap<T extends IWrapBeatmapAttribute>(
    return data;
 }
 
-function fromV3<T extends IWrapBeatmapAttribute>(bm: T) {
+function fromV3<T extends IWrapBeatmap>(bm: T) {
    bm.difficulty.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
    });
@@ -379,7 +379,7 @@ function fromV3<T extends IWrapBeatmapAttribute>(bm: T) {
    }
 }
 
-function fromV4<T extends IWrapBeatmapAttribute>(bm: T) {
+function fromV4<T extends IWrapBeatmap>(bm: T) {
    let impossibleRotationEvt = false;
    const mapTime: Record<number, number> = {};
 

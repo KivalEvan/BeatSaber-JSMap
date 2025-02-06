@@ -1,20 +1,9 @@
-import type {
-   IWrapBasicEventTypesForKeywords,
-   IWrapBasicEventTypesForKeywordsAttribute,
-} from './basicEventTypesForKeywords.ts';
+import type { IWrapBasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
 
 /**
  * Wrapper attribute for beatmap basic event types with keywords.
  */
-export interface IWrapBasicEventTypesWithKeywordsAttribute {
+export interface IWrapBasicEventTypesWithKeywords {
    /** Data list of event types with keywords. */
-   list: IWrapBasicEventTypesForKeywordsAttribute[];
-}
-
-/**
- * Wrapper for beatmap basic event types with keywords.
- */
-export interface IWrapBasicEventTypesWithKeywords
-   extends IWrapBasicEventTypesWithKeywordsAttribute {
    list: IWrapBasicEventTypesForKeywords[];
 }

@@ -1,6 +1,6 @@
 import { logger } from '../../logger.ts';
 import type { IChromaLightGradient } from '../../types/beatmap/v2/custom/chroma.ts';
-import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmapSubset } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { Easings } from '../../types/easings.ts';
 import { lerpColor } from '../../utils/colors.ts';
 import { EasingsFn } from '../../utils/easings.ts';
@@ -27,7 +27,7 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
  * ```
  */
 export function chromaLightGradientToVanillaGradient<
-   T extends IWrapBeatmapAttributeSubset<'basicEvents'>,
+   T extends IWrapBeatmapSubset<'basicEvents'>,
 >(data: T): T {
    logger.tWarn(
       tag('chromaLightGradientToVanillaGradient'),

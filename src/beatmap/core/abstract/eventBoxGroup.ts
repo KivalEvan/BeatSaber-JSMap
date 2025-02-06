@@ -1,6 +1,6 @@
-import type { IWrapEventBox } from '../../../types/beatmap/wrapper/eventBox.ts';
 import type { IWrapEventBoxGroup } from '../../../types/beatmap/wrapper/eventBoxGroup.ts';
 import { BaseObject } from './baseObject.ts';
+import type { EventBox } from './eventBox.ts';
 
 /**
  * Base event box group beatmap object.
@@ -9,7 +9,7 @@ import { BaseObject } from './baseObject.ts';
  */
 export abstract class EventBoxGroup extends BaseObject implements IWrapEventBoxGroup {
    id: IWrapEventBoxGroup['id'] = 0;
-   abstract boxes: IWrapEventBox[];
+   abstract boxes: EventBox[];
 
    override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override

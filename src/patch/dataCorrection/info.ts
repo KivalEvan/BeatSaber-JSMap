@@ -2,7 +2,7 @@ import { is360Environment } from '../../beatmap/helpers/environment.ts';
 import { EnvironmentRename } from '../../beatmap/shared/environment.ts';
 import { logger } from '../../logger.ts';
 import type { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
-import type { IWrapInfoAttribute } from '../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import type { IColor } from '../../types/colors.ts';
 import { clamp } from '../../utils/math.ts';
 import { fixBoolean, fixFloat, fixInt, fixString } from './helpers.ts';
@@ -47,7 +47,7 @@ function fixColorObject(val: unknown, req?: boolean) {
 /**
  * Verifies and corrects data type for beatmap info.
  */
-export function info<T extends IWrapInfoAttribute>(data: T): void {
+export function info<T extends IWrapInfo>(data: T): void {
    logger.tInfo(
       ['patch', 'dataCorrection', 'info'],
       'Verifying and correcting data type for beatmap info...',

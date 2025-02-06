@@ -1,6 +1,6 @@
 import { logger } from '../../logger.ts';
 import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import type { IWrapBeatmapAttributeSubset } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmapSubset } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../shared/colorScheme.ts';
 
@@ -15,7 +15,7 @@ function tag(name: string): string[] {
  * ```
  */
 export function ogChromaToV2Chroma<
-   T extends IWrapBeatmapAttributeSubset<'basicEvents', 'type' | 'value' | 'customData'>,
+   T extends IWrapBeatmapSubset<'basicEvents', 'type' | 'value' | 'customData'>,
 >(data: T, environment: EnvironmentAllName = 'DefaultEnvironment'): T {
    logger.tInfo(
       tag('ogChromaToV2Chroma'),
