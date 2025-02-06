@@ -9,6 +9,7 @@ import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
 import type { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { sortNoteFn, sortObjectFn } from '../helpers/sort.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import { Arc, createArc } from './arc.ts';
@@ -50,6 +51,7 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
    arcs: Arc[];
    chains: Chain[];
    njsEvents: NJSEvent[];
+   override customData: IWrapDifficulty['customData'];
 
    static createOne(data: Partial<IWrapDifficulty> = {}): Difficulty {
       return new this(data);
@@ -79,9 +81,6 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       this.arcs = (data.arcs ?? Difficulty.defaultValue.arcs).map(
          (e) => new Arc(e),
       );
-      // shut the fuck up, ts, it's not that deep
-      // deno-lint-ignore ban-ts-comment
-      // @ts-ignore
       this.chains = (data.chains ?? Difficulty.defaultValue.chains).map(
          (e) => new Chain(e),
       );
@@ -91,6 +90,21 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       this.customData = deepCopy(
          data.customData ?? Difficulty.defaultValue.customData,
       );
+   }
+
+   override reconcile(): this {
+      this.bpmEvents = reconcileClassObject(this.bpmEvents, BPMEvent);
+      this.rotationEvents = reconcileClassObject(
+         this.rotationEvents,
+         RotationEvent,
+      );
+      this.colorNotes = reconcileClassObject(this.colorNotes, ColorNote);
+      this.bombNotes = reconcileClassObject(this.bombNotes, BombNote);
+      this.obstacles = reconcileClassObject(this.obstacles, Obstacle);
+      this.arcs = reconcileClassObject(this.arcs, Arc);
+      this.chains = reconcileClassObject(this.chains, Chain);
+      this.njsEvents = reconcileClassObject(this.njsEvents, NJSEvent);
+      return this;
    }
 
    override isValid(
@@ -119,7 +133,9 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       return this;
    }
 
-   addBpmEvents(...data: DeepPartialIgnore<IWrapBPMEvent, 'customData'>[]): this {
+   addBpmEvents(
+      ...data: DeepPartialIgnore<IWrapBPMEvent, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.bpmEvents.push(new BPMEvent(d));
       }
@@ -133,19 +149,25 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       }
       return this;
    }
-   addColorNotes(...data: DeepPartialIgnore<IWrapColorNote, 'customData'>[]): this {
+   addColorNotes(
+      ...data: DeepPartialIgnore<IWrapColorNote, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.colorNotes.push(new ColorNote(d));
       }
       return this;
    }
-   addBombNotes(...data: DeepPartialIgnore<IWrapBombNote, 'customData'>[]): this {
+   addBombNotes(
+      ...data: DeepPartialIgnore<IWrapBombNote, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.bombNotes.push(new BombNote(d));
       }
       return this;
    }
-   addObstacles(...data: DeepPartialIgnore<IWrapObstacle, 'customData'>[]): this {
+   addObstacles(
+      ...data: DeepPartialIgnore<IWrapObstacle, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.obstacles.push(new Obstacle(d));
       }

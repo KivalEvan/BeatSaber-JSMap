@@ -3,6 +3,7 @@ import type {
 } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
 import { createLightColorEventBox, LightColorEventBox } from './lightColorEventBox.ts';
 
@@ -43,6 +44,14 @@ export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLight
       this.customData = deepCopy(
          data.customData ?? LightColorEventBoxGroup.defaultValue.customData,
       );
+   }
+
+   override reconcile(): this {
+      this.boxes = reconcileClassObject(this.boxes, LightColorEventBox);
+      for (let j = 0; j < this.boxes.length; j++) {
+         this.boxes[j].reconcile();
+      }
+      return this;
    }
 
    boxes: LightColorEventBox[];

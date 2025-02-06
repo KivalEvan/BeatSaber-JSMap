@@ -13,6 +13,7 @@ import type {
 } from '../../types/beatmap/wrapper/info.ts';
 import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';
 import { BaseItem } from './abstract/baseItem.ts';
@@ -243,6 +244,11 @@ export class Info extends BaseItem implements IWrapInfo {
       this.customData = deepCopy(
          data.customData ?? Info.defaultValue.customData,
       );
+   }
+
+   override reconcile(): this {
+      this.difficulties = reconcileClassObject(this.difficulties, InfoBeatmap);
+      return this;
    }
 
    override isValid(

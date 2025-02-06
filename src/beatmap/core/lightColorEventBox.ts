@@ -1,6 +1,7 @@
 import type { IWrapLightColorEventBox } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
 import { createIndexFilter, IndexFilter } from './indexFilter.ts';
 import { createLightColorEvent, LightColorEvent } from './lightColorEvent.ts';
@@ -50,6 +51,11 @@ export class LightColorEventBox extends EventBox implements IWrapLightColorEvent
          (obj) => new LightColorEvent(obj),
       );
       this.customData = deepCopy(data.customData ?? LightColorEventBox.defaultValue.customData);
+   }
+
+   override reconcile(): this {
+      this.events = reconcileClassObject(this.events, LightColorEvent);
+      return this;
    }
 
    brightnessDistribution: IWrapLightColorEventBox['brightnessDistribution'];

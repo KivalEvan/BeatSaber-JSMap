@@ -3,6 +3,7 @@ import type {
 } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
 import { createIndexFilter, IndexFilter } from './indexFilter.ts';
 import { createLightRotationEvent, LightRotationEvent } from './lightRotationEvent.ts';
@@ -58,6 +59,11 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
          (obj) => new LightRotationEvent(obj),
       );
       this.customData = deepCopy(data.customData ?? LightRotationEventBox.defaultValue.customData);
+   }
+
+   override reconcile(): this {
+      this.events = reconcileClassObject(this.events, LightRotationEvent);
+      return this;
    }
 
    rotationDistribution: IWrapLightRotationEventBox['rotationDistribution'];

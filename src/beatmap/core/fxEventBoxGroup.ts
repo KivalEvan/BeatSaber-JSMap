@@ -1,6 +1,7 @@
 import type { IWrapFxEventBoxGroup } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
 import { createFxEventBox, FxEventBox } from './fxEventBox.ts';
 
@@ -37,6 +38,14 @@ export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGro
       this.id = data.id ?? FxEventBoxGroup.defaultValue.id;
       this.boxes = (data.boxes ?? FxEventBoxGroup.defaultValue.boxes).map((e) => new FxEventBox(e));
       this.customData = deepCopy(data.customData ?? FxEventBoxGroup.defaultValue.customData);
+   }
+
+   override reconcile(): this {
+      this.boxes = reconcileClassObject(this.boxes, FxEventBox);
+      for (let j = 0; j < this.boxes.length; j++) {
+         this.boxes[j].reconcile();
+      }
+      return this;
    }
 
    boxes: FxEventBox[];

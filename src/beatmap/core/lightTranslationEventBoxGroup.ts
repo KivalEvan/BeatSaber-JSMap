@@ -1,8 +1,7 @@
-import type {
-   IWrapLightTranslationEventBoxGroup,
-} from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
+import type { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
 import {
    createLightTranslationEventBox,
@@ -33,22 +32,37 @@ export class LightTranslationEventBoxGroup extends EventBoxGroup
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<IWrapLightTranslationEventBoxGroup, 'customData'>[]
+      ...data: DeepPartialIgnore<
+         IWrapLightTranslationEventBoxGroup,
+         'customData'
+      >[]
    ): LightTranslationEventBoxGroup[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(
-      data: DeepPartialIgnore<IWrapLightTranslationEventBoxGroup, 'customData'> = {},
+      data: DeepPartialIgnore<
+         IWrapLightTranslationEventBoxGroup,
+         'customData'
+      > = {},
    ) {
       super();
       this.time = data.time ?? LightTranslationEventBoxGroup.defaultValue.time;
       this.id = data.id ?? LightTranslationEventBoxGroup.defaultValue.id;
-      this.boxes = (data.boxes ?? LightTranslationEventBoxGroup.defaultValue.boxes).map(
-         (e) => new LightTranslationEventBox(e),
-      );
+      this.boxes = (
+         data.boxes ?? LightTranslationEventBoxGroup.defaultValue.boxes
+      ).map((e) => new LightTranslationEventBox(e));
       this.customData = deepCopy(
-         data.customData ?? LightTranslationEventBoxGroup.defaultValue.customData,
+         data.customData ??
+            LightTranslationEventBoxGroup.defaultValue.customData,
       );
+   }
+
+   override reconcile(): this {
+      this.boxes = reconcileClassObject(this.boxes, LightTranslationEventBox);
+      for (let j = 0; j < this.boxes.length; j++) {
+         this.boxes[j].reconcile();
+      }
+      return this;
    }
 
    boxes: LightTranslationEventBox[];

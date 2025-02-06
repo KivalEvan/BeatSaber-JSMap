@@ -8,6 +8,7 @@ import type { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wra
 import type { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc.ts';
+import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { sortObjectFn } from '../helpers/sort.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import { BasicEvent, createBasicEvent } from './basicEvent.ts';
@@ -124,6 +125,36 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       );
    }
 
+   override reconcile(): this {
+      this.waypoints = reconcileClassObject(this.waypoints, Waypoint);
+      this.basicEvents = reconcileClassObject(this.basicEvents, BasicEvent);
+      this.colorBoostEvents = reconcileClassObject(
+         this.colorBoostEvents,
+         ColorBoostEvent,
+      );
+      this.lightColorEventBoxGroups = reconcileClassObject(
+         this.lightColorEventBoxGroups,
+         LightColorEventBoxGroup,
+      );
+      this.lightRotationEventBoxGroups = reconcileClassObject(
+         this.lightRotationEventBoxGroups,
+         LightRotationEventBoxGroup,
+      );
+      this.lightTranslationEventBoxGroups = reconcileClassObject(
+         this.lightTranslationEventBoxGroups,
+         LightTranslationEventBoxGroup,
+      );
+      this.fxEventBoxGroups = reconcileClassObject(
+         this.fxEventBoxGroups,
+         FxEventBoxGroup,
+      );
+      this.basicEventTypesWithKeywords.list = reconcileClassObject(
+         this.basicEventTypesWithKeywords.list,
+         BasicEventTypesForKeywords,
+      );
+      return this;
+   }
+
    override isValid(
       fn?: (object: this) => boolean,
       override?: boolean,
@@ -188,7 +219,9 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
 
-   addWaypoints(...data: DeepPartialIgnore<IWrapWaypoint, 'customData'>[]): this {
+   addWaypoints(
+      ...data: DeepPartialIgnore<IWrapWaypoint, 'customData'>[]
+   ): this {
       for (const d of data) {
          this.waypoints.push(new Waypoint(d));
       }
@@ -219,7 +252,10 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightRotationEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightRotationEventBoxGroup, 'customData'>[]
+      ...data: DeepPartialIgnore<
+         IWrapLightRotationEventBoxGroup,
+         'customData'
+      >[]
    ): this {
       for (const d of data) {
          this.lightRotationEventBoxGroups.push(
@@ -229,7 +265,10 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightTranslationEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightTranslationEventBoxGroup, 'customData'>[]
+      ...data: DeepPartialIgnore<
+         IWrapLightTranslationEventBoxGroup,
+         'customData'
+      >[]
    ): this {
       for (const d of data) {
          this.lightTranslationEventBoxGroups.push(
