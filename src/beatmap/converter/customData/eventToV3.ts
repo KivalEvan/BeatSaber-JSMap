@@ -1,5 +1,6 @@
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import type { IBasicEvent } from '../../../types/beatmap/v3/basicEvent.ts';
+import { isEmpty } from '../../../utils/misc.ts';
 import { renameKey } from './_helpers.ts';
 
 export default function (
@@ -9,7 +10,7 @@ export default function (
       return {};
    }
    const cd = { ...customData };
-   if (!Object.keys(cd).length) {
+   if (isEmpty(cd)) {
       return {};
    }
 

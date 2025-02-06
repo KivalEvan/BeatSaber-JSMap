@@ -2,6 +2,7 @@ import { round } from '../../../../utils/math.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { IDifficulty } from '../../../../types/beatmap/v2/difficulty.ts';
 import { deepClean, purgeZeros } from '../../../helpers/optimize.ts';
+import { isEmpty } from '../../../../utils/misc.ts';
 
 /**
  * Optimize v2 `Difficulty` schema data.
@@ -17,7 +18,7 @@ export function optimizeDifficulty(
          o1._time = round(o1._time, options.floatTrim);
       }
       deepClean(o1._customData!, `difficulty._notes[${i1}]._customData`, options);
-      if (!Object.keys(o1._customData!).length) {
+      if (isEmpty(o1._customData!)) {
          delete o1._customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -29,7 +30,7 @@ export function optimizeDifficulty(
          o1._duration = round(o1._duration, options.floatTrim);
       }
       deepClean(o1._customData!, `difficulty._obstacles[${i1}]._customData`, options);
-      if (!Object.keys(o1._customData!).length) {
+      if (isEmpty(o1._customData!)) {
          delete o1._customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -49,7 +50,7 @@ export function optimizeDifficulty(
          );
       }
       deepClean(o1._customData!, `difficulty._sliders[${i1}]._customData`, options);
-      if (!Object.keys(o1._customData!).length) {
+      if (isEmpty(o1._customData!)) {
          delete o1._customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -60,7 +61,7 @@ export function optimizeDifficulty(
          o1._time = round(o1._time, options.floatTrim);
       }
       deepClean(o1._customData!, `difficulty._waypoints[${i1}]._customData`, options);
-      if (!Object.keys(o1._customData!).length) {
+      if (isEmpty(o1._customData!)) {
          delete o1._customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -72,13 +73,13 @@ export function optimizeDifficulty(
          o1._floatValue = round(o1._floatValue, options.floatTrim);
       }
       deepClean(o1._customData!, `difficulty._events[${i1}]._customData`, options);
-      if (!Object.keys(o1._customData!).length) {
+      if (isEmpty(o1._customData!)) {
          delete o1._customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
    }
    deepClean(data._customData!, 'difficulty._customData', options);
-   if (!Object.keys(data._customData!).length) {
+   if (isEmpty(data._customData!)) {
       delete data._customData;
    }
 }

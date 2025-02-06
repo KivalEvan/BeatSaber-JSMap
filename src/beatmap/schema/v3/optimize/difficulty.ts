@@ -2,6 +2,7 @@ import { round } from '../../../../utils/math.ts';
 import type { IDifficulty } from '../../../../types/beatmap/v3/difficulty.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
+import { isEmpty } from '../../../../utils/misc.ts';
 
 /**
  * Optimize v3 `Difficulty` schema data.
@@ -36,7 +37,7 @@ export function optimizeDifficulty(
          `difficulty.bpmEvents[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -52,7 +53,7 @@ export function optimizeDifficulty(
          `difficulty.rotationEvents[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -67,7 +68,7 @@ export function optimizeDifficulty(
          `difficulty.colorNotes[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -82,7 +83,7 @@ export function optimizeDifficulty(
          `difficulty.bombNotes[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -98,7 +99,7 @@ export function optimizeDifficulty(
          `difficulty.obstacles[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -116,7 +117,7 @@ export function optimizeDifficulty(
          `difficulty.sliders[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -133,7 +134,7 @@ export function optimizeDifficulty(
          `difficulty.burstSliders[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -148,7 +149,7 @@ export function optimizeDifficulty(
          `difficulty.waypoints[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -164,7 +165,7 @@ export function optimizeDifficulty(
          `difficulty.basicBeatmapEvents[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -179,7 +180,7 @@ export function optimizeDifficulty(
          `difficulty.colorBoostBeatmapEvents[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (!o1.o) delete (o1 as Partial<typeof o1>).o;
@@ -209,7 +210,7 @@ export function optimizeDifficulty(
                `difficulty.lightColorEventBoxGroups[${i1}].e[${i2}].e[${i3}].customData`,
                options,
             );
-            if (!Object.keys(o3.customData!).length) {
+            if (isEmpty(o3.customData!)) {
                delete o3.customData;
             }
             if (options.purgeZeros) purgeZeros(o3);
@@ -219,7 +220,7 @@ export function optimizeDifficulty(
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
-         if (!Object.keys(o2.f.customData!).length) {
+         if (isEmpty(o2.f.customData!)) {
             delete o2.f.customData;
          }
          if (options.purgeZeros) purgeZeros(o2.f);
@@ -228,7 +229,7 @@ export function optimizeDifficulty(
             `difficulty.lightColorEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
          );
-         if (!Object.keys(o2.customData!).length) {
+         if (isEmpty(o2.customData!)) {
             delete o2.customData;
          }
          if (options.purgeZeros) purgeZeros(o2);
@@ -238,7 +239,7 @@ export function optimizeDifficulty(
          `difficulty.lightColorEventBoxGroups[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -266,7 +267,7 @@ export function optimizeDifficulty(
                `difficulty.lightRotationEventBoxGroups[${i3}].e[${i2}].l[${i3}].customData`,
                options,
             );
-            if (!Object.keys(o3.customData!).length) {
+            if (isEmpty(o3.customData!)) {
                delete o3.customData;
             }
             if (options.purgeZeros) purgeZeros(o3);
@@ -276,7 +277,7 @@ export function optimizeDifficulty(
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
-         if (!Object.keys(o2.f.customData!).length) {
+         if (isEmpty(o2.f.customData!)) {
             delete o2.f.customData;
          }
          if (options.purgeZeros) purgeZeros(o2.f);
@@ -285,7 +286,7 @@ export function optimizeDifficulty(
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
-         if (!Object.keys(o2.customData!).length) {
+         if (isEmpty(o2.customData!)) {
             delete o2.customData;
          }
          if (options.purgeZeros) purgeZeros(o2);
@@ -295,7 +296,7 @@ export function optimizeDifficulty(
          `difficulty.lightRotationEventBoxGroups[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -323,7 +324,7 @@ export function optimizeDifficulty(
                `difficulty.lightTranslationEventBoxGroups[${i1}].e[${i2}].l[${i3}].customData`,
                options,
             );
-            if (!Object.keys(o3.customData!).length) {
+            if (isEmpty(o3.customData!)) {
                delete o3.customData;
             }
             if (options.purgeZeros) purgeZeros(o3);
@@ -333,7 +334,7 @@ export function optimizeDifficulty(
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
-         if (!Object.keys(o2.f.customData!).length) {
+         if (isEmpty(o2.f.customData!)) {
             delete o2.f.customData;
          }
          if (options.purgeZeros) purgeZeros(o2.f);
@@ -342,7 +343,7 @@ export function optimizeDifficulty(
             `difficulty.lightTranslationEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
          );
-         if (!Object.keys(o2.customData!).length) {
+         if (isEmpty(o2.customData!)) {
             delete o2.customData;
          }
          if (options.purgeZeros) purgeZeros(o2);
@@ -352,7 +353,7 @@ export function optimizeDifficulty(
          `difficulty.lightTranslationEventBoxGroups[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -374,7 +375,7 @@ export function optimizeDifficulty(
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
-         if (!Object.keys(o2.f.customData!).length) {
+         if (isEmpty(o2.f.customData!)) {
             delete o2.f.customData;
          }
          if (options.purgeZeros) purgeZeros(o2.f);
@@ -383,7 +384,7 @@ export function optimizeDifficulty(
             `difficulty.vfxEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
          );
-         if (!Object.keys(o2.customData!).length) {
+         if (isEmpty(o2.customData!)) {
             delete o2.customData;
          }
          if (options.purgeZeros) purgeZeros(o2);
@@ -393,7 +394,7 @@ export function optimizeDifficulty(
          `difficulty.vfxEventBoxGroups[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -409,7 +410,7 @@ export function optimizeDifficulty(
          `difficulty._fxEventsCollection._fl[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -424,7 +425,7 @@ export function optimizeDifficulty(
          `difficulty._fxEventsCollection._il[${i1}].customData`,
          options,
       );
-      if (!Object.keys(o1.customData!).length) {
+      if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
       if (options.purgeZeros) purgeZeros(o1);
@@ -435,7 +436,7 @@ export function optimizeDifficulty(
       }
    }
    deepClean(d.customData!, `difficulty.customData`, options);
-   if (!Object.keys(d.customData!).length) {
+   if (isEmpty(d.customData!)) {
       delete d.customData;
    }
 }

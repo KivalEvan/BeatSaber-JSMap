@@ -2,6 +2,7 @@ import { round } from '../../../../utils/math.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { IDifficulty } from '../../../../types/beatmap/v4/difficulty.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
+import { isEmpty } from '../../../../utils/misc.ts';
 
 /**
  * Optimize v4 `Difficulty` schema data.
@@ -70,7 +71,7 @@ export function optimizeDifficulty(
          o.tr = round(o.tr!, options.floatTrim);
       }
       deepClean(o.customData!, `difficulty.arcs[${i}].customData`, options);
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -82,7 +83,7 @@ export function optimizeDifficulty(
          o.tm = round(o.tm!, options.floatTrim);
       }
       deepClean(o.customData!, `difficulty.arcsData[${i}].customData`, options);
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -97,7 +98,7 @@ export function optimizeDifficulty(
          `difficulty.bombNotes[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -109,7 +110,7 @@ export function optimizeDifficulty(
          `difficulty.bombNotesData[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -123,7 +124,7 @@ export function optimizeDifficulty(
          o.tr = round(o.tr!, options.floatTrim);
       }
       deepClean(o.customData!, `difficulty.chains[${i}].customData`, options);
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -138,7 +139,7 @@ export function optimizeDifficulty(
          `difficulty.chainsData[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -154,7 +155,7 @@ export function optimizeDifficulty(
          `difficulty.colorNotes[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -169,7 +170,7 @@ export function optimizeDifficulty(
          `difficulty.colorNotesData[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -185,7 +186,7 @@ export function optimizeDifficulty(
          `difficulty.obstacles[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -200,13 +201,13 @@ export function optimizeDifficulty(
          `difficulty.obstaclesData[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
    }
    deepClean(data.customData!, `difficulty.customData`, options);
-   if (!Object.keys(data.customData!).length) {
+   if (isEmpty(data.customData!)) {
       delete data.customData;
    }
 }

@@ -81,26 +81,45 @@ export function jsonCopy<T>(object: T): DeepWritable<T> {
    return JSON.parse(JSON.stringify(object));
 }
 
-/** Check if string is valid hexadecimal */
+/** Check if string is valid hexadecimal. */
 export function isHex(hex: string): boolean {
    return /^[a-fA-F0-9]+$/g.test(hex);
 }
 
-/** Convert hexadecimal to decimal */
+/** Convert hexadecimal to decimal. */
 export function hexToDec(hex: string): number {
    return parseInt(hex, 16);
 }
 
-/** Convert decimal to hexadecimal */
+/** Convert decimal to hexadecimal.*/
 export function decToHex(val: number): string {
    const hex = val.toString(16);
    return hex;
 }
 
+/** Check if object is empty. */
+export function isEmpty(obj: Record<string, unknown>): boolean {
+   for (const key in obj) {
+      if (Object.hasOwn(obj, key)) {
+         return false;
+      }
+   }
+   return true;
+}
+
 /** Move to the next item in an iterable object programatically. */
-export function cycle<T extends string | number | symbol>(iter: Iterable<T>, current: T, step = 1) {
+export function cycle<T extends string | number | symbol>(
+   iter: Iterable<T>,
+   current: T,
+   step = 1
+) {
    const arr = Object.values(iter);
    const index = arr.indexOf(current);
    if (!(current in arr)) return current;
    return arr[(index + arr.length + step) % arr.length];
+}
+
+/** Bitmask boolean helper. */
+export function hasFlag(val: number, flag: number): boolean {
+   return (val & flag) === flag;
 }

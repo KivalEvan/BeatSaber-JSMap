@@ -3,6 +3,7 @@ import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimiz
 import type { ILightshow } from '../../../../types/beatmap/v4/lightshow.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { EventBoxType } from '../../../shared/constants.ts';
+import { isEmpty } from '../../../../utils/misc.ts';
 
 /**
  * Optimize v4 `Lightshow` schema data.
@@ -131,7 +132,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.waypoints[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -143,7 +144,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.waypointsData[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -158,7 +159,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.basicEvents[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -173,7 +174,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.basicEventsData[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -188,7 +189,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.colorBoostEvents[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -200,7 +201,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.colorBoostEventsData[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -217,7 +218,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
             `lightshow.eventBoxGroups[${i}].e[${j}].customData`,
             options,
          );
-         if (!Object.keys(o2.customData!).length) {
+         if (isEmpty(o2.customData!)) {
             delete o2.customData;
          }
          if (options.purgeZeros) purgeZeros(o2);
@@ -234,7 +235,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.eventBoxGroups[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -249,7 +250,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.indexFilters[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -265,7 +266,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightColorEventBoxes[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -281,7 +282,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightColorEvents[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -297,7 +298,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightRotationEventBoxes[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -312,7 +313,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightRotationEvents[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -328,7 +329,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightTranslationEventBoxes[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -343,7 +344,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightTranslationEvents[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -359,7 +360,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.fxEventBoxes[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -374,7 +375,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.floatFxEvents[${i}].customData`,
          options,
       );
-      if (!Object.keys(o.customData!).length) {
+      if (isEmpty(o.customData!)) {
          delete o.customData;
       }
       if (options.purgeZeros) purgeZeros(o);
@@ -385,7 +386,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
    }
    deepClean(data.customData!, `lightshow.customData`, options);
-   if (!Object.keys(data.customData!).length) {
+   if (isEmpty(data.customData!)) {
       delete data.customData;
    }
 }
