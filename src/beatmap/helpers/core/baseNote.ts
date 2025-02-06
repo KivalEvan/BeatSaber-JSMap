@@ -12,7 +12,7 @@ export function isRedNoteColor(color: NoteColor) {
 }
 /** Check if note color is not set (-1). */
 export function isUnsetNoteColor(color: NoteColor) {
-   return color === NoteColor.BLUE;
+   return color === NoteColor.NONE;
 }
 
 /** Compare two notes and return if they would form a double. */

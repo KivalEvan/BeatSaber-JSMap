@@ -7,7 +7,11 @@ import { isVector3 } from '../../../utils/vector.ts';
  * Mirrors the object for Noodle Extensions in beatmap v2.
  */
 export function mirrorNoodleExtensionsV2<
-   T extends { customData: ICustomDataNote | ICustomDataSlider },
+   T extends {
+      customData:
+         & Pick<ICustomDataNote, '_position' | '_flip' | '_animation'>
+         & Pick<ICustomDataSlider, 'tailCoordinates'>;
+   },
 >(data: T) {
    if (data.customData._position) {
       data.customData._position[0] = -1 - data.customData._position[0];
@@ -26,12 +30,12 @@ export function mirrorNoodleExtensionsV2<
             });
          }
       }
-      if (Array.isArray(data.customData._animation._offsetPosition)) {
-         if (isVector3(data.customData._animation._offsetPosition)) {
-            data.customData._animation._offsetPosition[0] = -data.customData._animation
-               ._offsetPosition[0];
+      if (Array.isArray(data.customData._animation._position)) {
+         if (isVector3(data.customData._animation._position)) {
+            data.customData._animation._position[0] = -data.customData._animation
+               ._position[0];
          } else {
-            data.customData._animation._offsetPosition.forEach((op: Vector3PointDefinition) => {
+            data.customData._animation._position.forEach((op: Vector3PointDefinition) => {
                if (Array.isArray(op)) op[0] = -op[0];
             });
          }
@@ -43,7 +47,11 @@ export function mirrorNoodleExtensionsV2<
  * Mirrors the object for Noodle Extensions in beatmap v3.
  */
 export function mirrorNoodleExtensionsV3<
-   T extends { customData: ICustomDataNote | ICustomDataSlider },
+   T extends {
+      customData:
+         & Pick<ICustomDataNote, 'coordinates' | 'flip' | 'animation'>
+         & Pick<ICustomDataSlider, 'tailCoordinates'>;
+   },
 >(data: T) {
    if (data.customData.coordinates) {
       data.customData.coordinates[0] = -1 - data.customData.coordinates[0];

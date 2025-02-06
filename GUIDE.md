@@ -158,8 +158,6 @@ data.addBasicEvents(...events);
 > const wrapped = Beatmap.createOne(data); // returns `Beatmap`
 > data.addColorNotes({ time: 0 }); // now works!
 > ```
->
-> In addition, all helper methods should work with both wrapper attribute and wrapper class forms.
 
 ### Cloning
 

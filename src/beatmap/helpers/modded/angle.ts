@@ -4,7 +4,7 @@ import type { ICustomDataNote } from '../../../types/beatmap/wrapper/custom/note
  * Get direction angle of Noodle Extensions in beatmap v2.
  */
 export function getNoodleExtensionsAngleV2<
-   T extends { customData: ICustomDataNote },
+   T extends { customData: Pick<ICustomDataNote, '_cutDirection'> },
 >(data: T): number | null {
    if (data.customData._cutDirection) {
       return data.customData._cutDirection > 0

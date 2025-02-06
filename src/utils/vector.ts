@@ -1,4 +1,4 @@
-import { EPSILON } from '../../tests/constants.ts';
+// deno-lint-ignore-file no-explicit-any
 import type {
    Vector2,
    Vector2Object,
@@ -163,15 +163,19 @@ export function vectorDistance<T extends VectorArgument>(v1: T, v2: T) {
    return Math.sqrt(acc);
 }
 
-export function vectorIsVertical<T extends VectorArgument>(v1: T, v2: T, epsilon = EPSILON) {
+export function vectorIsVertical<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001) {
    const [dX] = vectorSub(v1, v2);
    return Math.abs(dX) <= epsilon;
 }
-export function vectorIsHorizontal<T extends VectorArgument>(v1: T, v2: T, epsilon = EPSILON) {
+export function vectorIsHorizontal<T extends VectorArgument>(
+   v1: T,
+   v2: T,
+   epsilon = 0.001,
+) {
    const [, dY] = vectorSub(v1, v2);
    return Math.abs(dY) <= epsilon;
 }
-export function vectorIsDiagonal<T extends VectorArgument>(v1: T, v2: T, epsilon = EPSILON) {
+export function vectorIsDiagonal<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001) {
    const [dX, dY] = vectorSub(v1, v2);
    return nearEqual(Math.abs(dX), Math.abs(dY), epsilon);
 }
@@ -180,7 +184,7 @@ export function vectorIsInline<T extends VectorArgument>(v1: T, v2: T, lapping =
    const distance = vectorDistance(v1, v2);
    return distance <= lapping;
 }
-export function vectorIsAdjacent<T extends VectorArgument>(v1: T, v2: T, epsilon = EPSILON) {
+export function vectorIsAdjacent<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001) {
    const distance = vectorDistance(v1, v2);
    return distance > (0.5 - epsilon) && distance < (1 + epsilon);
 }
@@ -189,7 +193,7 @@ export function vectorIsWindow<T extends VectorArgument>(v1: T, v2: T, gap = 1.8
    return distance > gap;
 }
 
-export function vectorIsSlantedWindow<T extends VectorArgument>(v1: T, v2: T, gap = 1.8) {
+export function vectorIsSlantedWindow<T extends VectorArgument>(v1: T, v2: T) {
    return (
       vectorIsWindow(v1, v2, 1.8) &&
       !vectorIsDiagonal(v1, v2, 0.001) &&
