@@ -115,8 +115,8 @@ export function isEmpty(obj: Record<string, unknown>): boolean {
 export function cycle<T extends string | number | symbol>(
    iter: Iterable<T>,
    current: T,
-   step = 1
-) {
+   step = 1,
+): T {
    const arr = Object.values(iter);
    const index = arr.indexOf(current);
    if (!(current in arr)) return current;

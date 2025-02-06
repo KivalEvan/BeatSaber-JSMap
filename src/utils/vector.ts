@@ -153,7 +153,7 @@ export function lerpVector<T extends VectorArgument>(
    return vectorImpl<[number]>((x, n, alpha) => lerp(alpha, x, n))(vec, value, alpha);
 }
 
-export function vectorDistance<T extends VectorArgument>(v1: T, v2: T) {
+export function vectorDistance<T extends VectorArgument>(v1: T, v2: T): number {
    const diff = vectorSub(v1, v2);
    let acc = 0;
    for (let i = 0; i < diff.length; i++) {
@@ -163,7 +163,7 @@ export function vectorDistance<T extends VectorArgument>(v1: T, v2: T) {
    return Math.sqrt(acc);
 }
 
-export function vectorIsVertical<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001) {
+export function vectorIsVertical<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001): boolean {
    const [dX] = vectorSub(v1, v2);
    return Math.abs(dX) <= epsilon;
 }
@@ -172,32 +172,32 @@ export function vectorIsHorizontal<T extends VectorArgument>(
    v1: T,
    v2: T,
    epsilon = 0.001,
-) {
+): boolean {
    const [, dY] = vectorSub(v1, v2);
    return Math.abs(dY) <= epsilon;
 }
 
-export function vectorIsDiagonal<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001) {
+export function vectorIsDiagonal<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001): boolean {
    const [dX, dY] = vectorSub(v1, v2);
    return nearEqual(Math.abs(dX), Math.abs(dY), epsilon);
 }
 
-export function vectorIsInline<T extends VectorArgument>(v1: T, v2: T, lapping = 0.5) {
+export function vectorIsInline<T extends VectorArgument>(v1: T, v2: T, lapping = 0.5): boolean {
    const distance = vectorDistance(v1, v2);
    return distance <= lapping;
 }
 
-export function vectorIsAdjacent<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001) {
+export function vectorIsAdjacent<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001): boolean {
    const distance = vectorDistance(v1, v2);
    return distance > (0.5 - epsilon) && distance < (1 + epsilon);
 }
 
-export function vectorIsWindow<T extends VectorArgument>(v1: T, v2: T, gap = 1.8) {
+export function vectorIsWindow<T extends VectorArgument>(v1: T, v2: T, gap = 1.8): boolean {
    const distance = vectorDistance(v1, v2);
    return distance > gap;
 }
 
-export function vectorIsSlantedWindow<T extends VectorArgument>(v1: T, v2: T) {
+export function vectorIsSlantedWindow<T extends VectorArgument>(v1: T, v2: T): boolean {
    return (
       vectorIsWindow(v1, v2, 1.8) &&
       !vectorIsDiagonal(v1, v2, 0.001) &&

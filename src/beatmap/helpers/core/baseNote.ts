@@ -3,22 +3,22 @@ import type { IWrapBaseNoteAttribute } from '../../../types/beatmap/wrapper/base
 import { cycle } from '../../../utils/misc.ts';
 
 /** Check if note color is red. */
-export function isBlueNoteColor(color: NoteColor) {
+export function isRedNoteColor(color: NoteColor): color is NoteColor.RED {
    return color === NoteColor.RED;
 }
 /** Check if note color is blue. */
-export function isRedNoteColor(color: NoteColor) {
+export function isBlueNoteColor(color: NoteColor): color is NoteColor.BLUE {
    return color === NoteColor.BLUE;
 }
 /** Check if note color is not set (-1). */
-export function isUnsetNoteColor(color: NoteColor) {
+export function isUnsetNoteColor(color: NoteColor): color is NoteColor.NONE {
    return color === NoteColor.NONE;
 }
 
 /** Compare two notes and return if they would form a double. */
 export function isDouble<
    T extends Pick<IWrapBaseNoteAttribute, 'time' | 'color'>,
->(object: T, compareTo: T, tolerance = 0.01) {
+>(object: T, compareTo: T, tolerance = 0.01): boolean {
    return (
       compareTo.time > object.time - tolerance &&
       compareTo.time < object.time + tolerance &&
@@ -32,12 +32,12 @@ export function resolveNoteAngle(direction: NoteDirection): number {
 }
 
 /** Mirror note color. */
-export function mirrorNoteColor(color: NoteColor) {
+export function mirrorNoteColor(color: NoteColor): NoteColor {
    return cycle([NoteColor.RED, NoteColor.BLUE], color);
 }
 
 /** Mirror note direction horizontally. */
-export function mirrorNoteDirectionHorizontally(direction: NoteDirection) {
+export function mirrorNoteDirectionHorizontally(direction: NoteDirection): number {
    switch (direction) {
       case NoteDirection.UP_LEFT:
       case NoteDirection.LEFT:
@@ -55,7 +55,7 @@ export function mirrorNoteDirectionHorizontally(direction: NoteDirection) {
    }
 }
 /** Mirror note direction vertically. */
-export function mirrorNoteDirectionVertically(direction: NoteDirection) {
+export function mirrorNoteDirectionVertically(direction: NoteDirection): number {
    switch (direction) {
       case NoteDirection.UP_LEFT:
       case NoteDirection.UP_RIGHT: {
