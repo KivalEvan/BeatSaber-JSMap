@@ -1,6 +1,42 @@
-import * as misc from '../../src/utils/misc.ts';
-import * as math from '../../src/utils/math.ts';
+import * as misc from '../../src/utils/misc/mod.ts';
+import * as math from '../../src/utils/math/mod.ts';
 import { assert, assertEquals } from '../deps.ts';
+
+Deno.test('Format number helper', () => {
+   assertEquals(misc.formatNumber(123456789), '123,456,789');
+   assertEquals(misc.formatNumber(-1999), '-1,999');
+   assertEquals(misc.formatNumber(1234.5678), '1,234.5678');
+   assertEquals(misc.formatNumber(-98765.4321), '-98,765.4321');
+   assertEquals(misc.formatNumber(999.99), '999.99');
+   assertEquals(misc.formatNumber(0), '0');
+});
+
+Deno.test('Range helper', () => {
+   assertEquals(misc.range(0), []);
+   assertEquals(misc.range(1), [0]);
+   assertEquals(misc.range(0, true), [0]);
+   assertEquals(misc.range(10), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+   assertEquals(misc.range(-10), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]);
+   assertEquals(misc.range(0, 10), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+   assertEquals(misc.range(0, 10, true), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+   assertEquals(misc.range(0, -10), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]);
+   assertEquals(
+      misc.range(0, -10, true),
+      [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
+   );
+   assertEquals(
+      misc.range(-10, 10),
+      [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+   );
+   assertEquals(misc.range(10, 0), [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+   assertEquals(misc.range(-10, 0), [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1]);
+   assertEquals(misc.range(0, 10, 2), [0, 2, 4, 6, 8]);
+   assertEquals(misc.range(0, 10, -2), [0, -2, -4, -6, -8]);
+   assertEquals(misc.range(-1, -1), []);
+   assertEquals(misc.range(-1, 1, 2), [-1]);
+   assertEquals(misc.range(-1, 2, 2), [-1, 1]);
+   assertEquals(misc.range(-1, 1, 2, true), [-1, 1]);
+});
 
 Deno.test('Shuffle', () => {
    const rand = math.pRandomFn('shuffle');

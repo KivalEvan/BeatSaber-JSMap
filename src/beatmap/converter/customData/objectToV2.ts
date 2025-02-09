@@ -1,7 +1,7 @@
 import type { ICustomDataBase } from '../../../types/beatmap/shared/custom/customData.ts';
 import type { ICustomDataNote } from '../../../types/beatmap/v3/custom/note.ts';
 import type { ICustomDataObstacle } from '../../../types/beatmap/v3/custom/obstacle.ts';
-import { isEmpty } from '../../../utils/misc.ts';
+import { isEmpty } from '../../../utils/misc/json.ts';
 import { renameKey } from './_helpers.ts';
 
 export default function <T extends ICustomDataBase>(

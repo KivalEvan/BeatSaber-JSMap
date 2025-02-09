@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IEvent } from '../../../types/beatmap/v2/event.ts';
 import type { IWrapRotationEvent } from '../../../types/beatmap/wrapper/rotationEvent.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createRotationEvent } from '../../core/rotationEvent.ts';
 import { EventLaneRotationValue, RotationValueEventValue } from '../../shared/constants.ts';
 

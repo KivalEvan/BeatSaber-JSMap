@@ -1,9 +1,9 @@
 import type { Vector3 } from '../../../types/vector.ts';
 import type { IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
 import type { IChromaEnvironmentPlacement } from '../types/environment.ts';
-import { deepCopy } from '../../../utils/misc.ts';
-import { vectorAdd, vectorMul } from '../../../utils/vector.ts';
-import { degToRad } from '../../../utils/math.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
+import { vectorAdd, vectorMul } from '../../../utils/math/vector.ts';
+import { degToRad } from '../../../utils/math/trigonometry.ts';
 
 export class EnvironmentGroup {
    data: IChromaEnvironment[];

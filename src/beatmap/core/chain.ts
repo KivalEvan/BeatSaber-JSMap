@@ -1,6 +1,6 @@
 import type { IWrapChain } from '../../types/beatmap/wrapper/chain.ts';
 import type { DeepPartial } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseSlider } from './abstract/baseSlider.ts';
 
 export function createChain(

@@ -1,7 +1,7 @@
 import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type { IWrapArc } from '../../types/beatmap/wrapper/arc.ts';
 import type { DeepPartial } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { mirrorArcMidAnchor } from '../helpers/core/arc.ts';
 import { mirrorNoteDirectionHorizontally, resolveNoteAngle } from '../helpers/core/baseNote.ts';
 import { BaseSlider } from './abstract/baseSlider.ts';

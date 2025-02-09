@@ -2,7 +2,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfoDifficulty } from '../../../types/beatmap/v2/info.ts';
 import type { IWrapInfoBeatmap } from '../../../types/beatmap/wrapper/info.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfoBeatmap } from '../../core/infoBeatmap.ts';
 import { DifficultyRanking } from '../../shared/difficulty.ts';
 

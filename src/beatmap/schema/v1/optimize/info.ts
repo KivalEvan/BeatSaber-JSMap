@@ -1,4 +1,4 @@
-import { round } from '../../../../utils/math.ts';
+import { round } from '../../../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { IInfo } from '../../../../types/beatmap/v1/info.ts';
 

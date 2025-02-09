@@ -1,6 +1,6 @@
 import type { ColorArray } from '../../src/types/colors.ts';
-import * as colors from '../../src/utils/colors.ts';
-import { nearEqual } from '../../src/utils/math.ts';
+import * as colors from '../../src/utils/colors/mod.ts';
+import { nearEqual } from '../../src/utils/math/mod.ts';
 import { EPSILON } from '../constants.ts';
 import { assert, assertAlmostEquals, assertEquals, assertThrows } from '../deps.ts';
 

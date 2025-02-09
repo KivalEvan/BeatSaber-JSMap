@@ -1,4 +1,4 @@
-import * as time from '../../src/utils/time.ts';
+import * as time from '../../src/utils/misc/time.ts';
 import { assertEquals } from '../deps.ts';
 
 Deno.test('Second to MMSS string', () => {

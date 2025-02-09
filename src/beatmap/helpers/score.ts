@@ -1,5 +1,5 @@
 import type { IWrapBeatmapSubset } from '../../types/beatmap/wrapper/beatmap.ts';
-import { lerp, normalize } from '../../utils/math.ts';
+import { lerp, normalize } from '../../utils/math/helpers.ts';
 
 type IScoreBeatmapSubset = IWrapBeatmapSubset<
    'colorNotes' | 'arcs' | 'chains',

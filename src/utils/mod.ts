@@ -5,9 +5,6 @@
  * @module
  */
 
-export * from './colors.ts';
-export * from './easings.ts';
-export * from './math.ts';
-export * from './misc.ts';
-export * from './time.ts';
-export * from './vector.ts';
+export * from './colors/mod.ts';
+export * from './math/mod.ts';
+export * from './misc/mod.ts';

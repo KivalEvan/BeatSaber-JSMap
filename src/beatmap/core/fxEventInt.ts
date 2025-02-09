@@ -1,5 +1,5 @@
 import type { IWrapFxEventInt } from '../../types/beatmap/wrapper/fxEventInt.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export function createFxEventInt(

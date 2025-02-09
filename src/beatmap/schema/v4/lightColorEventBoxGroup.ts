@@ -5,7 +5,7 @@ import type {
 import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightColorEventBoxGroup } from '../../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightColorEventBoxGroup } from '../../core/lightColorEventBoxGroup.ts';
 import { lightColorEventBox } from './lightColorEventBox.ts';
 

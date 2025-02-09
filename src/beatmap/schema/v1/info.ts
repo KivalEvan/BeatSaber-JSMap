@@ -3,7 +3,7 @@ import type { EnvironmentName } from '../../../types/beatmap/shared/environment.
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IInfo } from '../../../types/beatmap/v1/info.ts';
 import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfo } from '../../core/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 import { infoBeatmap } from './infoBeatmap.ts';

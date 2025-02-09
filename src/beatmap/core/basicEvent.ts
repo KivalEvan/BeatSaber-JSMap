@@ -1,7 +1,7 @@
 import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
 import type { DeepPartial } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import {
    isBlueEventValue,
    isBpmChangeEventType,

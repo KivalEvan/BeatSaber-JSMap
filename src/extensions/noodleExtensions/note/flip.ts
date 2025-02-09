@@ -1,5 +1,5 @@
 import type { Vector2 } from '../../../types/vector.ts';
-import { random } from '../../../utils/math.ts';
+import { random } from '../../../utils/math/random.ts';
 import type { INENote } from '../types/object.ts';
 
 /**

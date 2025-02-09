@@ -6,7 +6,7 @@ import type {
 } from '../../types/beatmap/wrapper/audioData.ts';
 import type { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
 import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export function createAudioData(

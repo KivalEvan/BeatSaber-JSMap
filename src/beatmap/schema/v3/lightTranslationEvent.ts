@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightTranslationEvent } from '../../../types/beatmap/v3/lightTranslationEvent.ts';
 import type { IWrapLightTranslationEvent } from '../../../types/beatmap/wrapper/lightTranslationEvent.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightTranslationEvent } from '../../core/lightTranslationEvent.ts';
 
 /**

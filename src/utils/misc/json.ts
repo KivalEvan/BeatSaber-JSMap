@@ -1,35 +1,4 @@
-import type { DeepWritable, Writable } from '../types/utils.ts';
-
-/**
- * Shuffle array in-place.
- *
- * Using Fisher–Yates shuffle algorithm.
- */
-export function shuffle<T>(array: T[], fn = Math.random): T[] {
-   for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(fn() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-   }
-   return array;
-}
-
-/**
- * Interleave two arrays.
- *
- * ```ts
- * interleave([1, 2, 3], [4, 5, 6]); // [1, 4, 2, 5, 3, 6]
- * ```
- */
-export function interleave<T, U>([x, ...xs]: T[], ys: U[] = []): (T | U)[] {
-   return x === undefined
-      ? ys // base: no x
-      : [x, ...interleave(ys, xs)]; // inductive: some x
-}
-
-/** Pick random element from array */
-export function pickRandom<T>(ary: T[], fn = Math.random): T {
-   return ary[Math.floor(fn() * ary.length)];
-}
+import type { DeepWritable, Writable } from '../../types/utils.ts';
 
 /**
  * Fast and simple copy for flat object like `{ name: 'hello' }`, `[0, 1, 2]` or any other primitives.
@@ -81,22 +50,6 @@ export function jsonCopy<T>(object: T): DeepWritable<T> {
    return JSON.parse(JSON.stringify(object));
 }
 
-/** Check if string is valid hexadecimal. */
-export function isHex(hex: string): boolean {
-   return /^[a-fA-F0-9]+$/g.test(hex);
-}
-
-/** Convert hexadecimal to decimal. */
-export function hexToDec(hex: string): number {
-   return parseInt(hex, 16);
-}
-
-/** Convert decimal to hexadecimal.*/
-export function decToHex(val: number): string {
-   const hex = val.toString(16);
-   return hex;
-}
-
 /** Check if object is empty. */
 export function isEmpty(obj: Record<string, unknown>): boolean {
    for (const key in obj) {
@@ -105,21 +58,4 @@ export function isEmpty(obj: Record<string, unknown>): boolean {
       }
    }
    return true;
-}
-
-/** Move to the next item in an iterable object programatically. */
-export function cycle<T extends string | number | symbol>(
-   iter: Iterable<T>,
-   current: T,
-   step = 1,
-): T {
-   const arr = Object.values(iter);
-   const index = arr.indexOf(current);
-   if (!(current in arr)) return current;
-   return arr[(index + arr.length + step) % arr.length];
-}
-
-/** Bitmask boolean helper. */
-export function hasFlag(val: number, flag: number): boolean {
-   return (val & flag) === flag;
 }

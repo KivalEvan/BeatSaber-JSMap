@@ -9,16 +9,20 @@ import { settings } from './settings.ts';
  * console.log(...notesHere);
  * ```
  */
-export function at<
-   T extends Pick<IWrapBaseObject, 'time'>,
->(objects: T[], times: number | number[], bpm?: TimeProcessor | null): T[] {
-   bpm = bpm ?? settings.timeProcessor;
+export function at<T extends Pick<IWrapBaseObject, 'time'>>(
+   objects: T[],
+   times: number | number[],
+   timeProc?: TimeProcessor | null,
+): T[] {
+   timeProc = timeProc ?? settings.timeProcessor;
    if (Array.isArray(times)) {
       return objects.filter((o) =>
-         times.some((time) => (bpm ? bpm.adjustTime(o.time) === time : o.time === time))
+         times.some((time) => timeProc ? timeProc.adjustTime(o.time) === time : o.time === time)
       );
    }
-   return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) === times : o.time === times));
+   return objects.filter((o) =>
+      timeProc ? timeProc.adjustTime(o.time) === times : o.time === times
+   );
 }
 
 /**
@@ -28,13 +32,17 @@ export function at<
  * console.log(...notesRange);
  * ```
  */
-export function between<
-   T extends Pick<IWrapBaseObject, 'time'>,
->(objects: T[], from: number, to: number, bpm?: TimeProcessor | null): T[] {
-   bpm = bpm ?? settings.timeProcessor;
+export function between<T extends Pick<IWrapBaseObject, 'time'>>(
+   objects: T[],
+   from: number,
+   to: number,
+   timeProc?: TimeProcessor | null,
+): T[] {
+   timeProc = timeProc ?? settings.timeProcessor;
    return objects.filter((o) =>
-      bpm
-         ? bpm.adjustTime(o.time) >= from && bpm.adjustTime(o.time) <= to
+      timeProc
+         ? timeProc.adjustTime(o.time) >= from &&
+            timeProc.adjustTime(o.time) <= to
          : o.time >= from && o.time <= to
    );
 }
@@ -46,11 +54,13 @@ export function between<
  * console.log(...notesBefore);
  * ```
  */
-export function before<
-   T extends Pick<IWrapBaseObject, 'time'>,
->(objects: T[], before: number, bpm?: TimeProcessor | null): T[] {
-   bpm = bpm ?? settings.timeProcessor;
-   return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > before : o.time > before));
+export function before<T extends Pick<IWrapBaseObject, 'time'>>(
+   objects: T[],
+   before: number,
+   timeProc?: TimeProcessor | null,
+): T[] {
+   timeProc = timeProc ?? settings.timeProcessor;
+   return objects.filter((o) => timeProc ? timeProc.adjustTime(o.time) < before : o.time < before);
 }
 
 /**
@@ -60,9 +70,11 @@ export function before<
  * console.log(...notesAfter);
  * ```
  */
-export function after<
-   T extends Pick<IWrapBaseObject, 'time'>,
->(objects: T[], after: number, bpm?: TimeProcessor | null): T[] {
-   bpm = bpm ?? settings.timeProcessor;
-   return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > after : o.time > after));
+export function after<T extends Pick<IWrapBaseObject, 'time'>>(
+   objects: T[],
+   after: number,
+   timeProc?: TimeProcessor | null,
+): T[] {
+   timeProc = timeProc ?? settings.timeProcessor;
+   return objects.filter((o) => timeProc ? timeProc.adjustTime(o.time) > after : o.time > after);
 }

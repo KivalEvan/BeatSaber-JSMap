@@ -6,233 +6,163 @@ import {
 } from '../../beatmap/helpers/core/gridObject.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
 import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
-import { radToDeg, shortRotDistance } from '../../utils/math.ts';
+import type { Vector2 } from '../../types/vector.ts';
+import { mod, radToDeg, shortRotDistance } from '../../utils/math/trigonometry.ts';
 
-// TODO: update with new position/rotation system
-export function isEnd<
-   T extends Pick<IWrapBaseNote, 'posX' | 'posY' | 'direction'>,
->(currNote: T, prevNote: T, cd: number): boolean {
-   // fuck u and ur dot note stack
-   if (
-      currNote.direction === NoteDirection.ANY &&
-      prevNote.direction === NoteDirection.ANY &&
-      cd !== NoteDirection.ANY
-   ) {
-      // if end note on right side
-      if (currNote.posX > prevNote.posX) {
-         if (
-            cd === NoteDirection.UP_RIGHT ||
-            cd === NoteDirection.RIGHT ||
-            cd === NoteDirection.DOWN_RIGHT
-         ) {
-            return true;
-         }
-      }
-      // if end note on left side
-      if (currNote.posX < prevNote.posX) {
-         if (
-            cd === NoteDirection.DOWN_LEFT ||
-            cd === NoteDirection.LEFT ||
-            cd === NoteDirection.UP_LEFT
-         ) {
-            return true;
-         }
-      }
-      // if end note is above
-      if (currNote.posY > prevNote.posY) {
-         if (
-            cd === NoteDirection.UP_LEFT ||
-            cd === NoteDirection.UP ||
-            cd === NoteDirection.UP_RIGHT
-         ) {
-            return true;
-         }
-      }
-      // if end note is below
-      if (currNote.posY < prevNote.posY) {
-         if (
-            cd === NoteDirection.DOWN_LEFT ||
-            cd === NoteDirection.DOWN ||
-            cd === NoteDirection.DOWN_RIGHT
-         ) {
-            return true;
-         }
-      }
-   }
-   // if end note on right side
-   if (currNote.posX > prevNote.posX) {
-      // check if end note is arrowed
-      if (
-         currNote.direction === NoteDirection.UP_RIGHT ||
-         currNote.direction === NoteDirection.RIGHT ||
-         currNote.direction === NoteDirection.DOWN_RIGHT
-      ) {
-         return true;
-      }
-      // check if end note is dot and start arrow is pointing to it
-      if (
-         (prevNote.direction === NoteDirection.UP_RIGHT ||
-            prevNote.direction === NoteDirection.RIGHT ||
-            prevNote.direction === NoteDirection.DOWN_RIGHT) &&
-         currNote.direction === NoteDirection.ANY
-      ) {
-         return true;
-      }
-   }
-   // if end note on left side
-   if (currNote.posX < prevNote.posX) {
-      if (
-         currNote.direction === NoteDirection.DOWN_LEFT ||
-         currNote.direction === NoteDirection.LEFT ||
-         currNote.direction === NoteDirection.UP_LEFT
-      ) {
-         return true;
-      }
-      if (
-         (prevNote.direction === NoteDirection.DOWN_LEFT ||
-            prevNote.direction === NoteDirection.LEFT ||
-            prevNote.direction === NoteDirection.UP_LEFT) &&
-         currNote.direction === NoteDirection.ANY
-      ) {
-         return true;
-      }
-   }
-   // if end note is above
-   if (currNote.posY > prevNote.posY) {
-      if (
-         currNote.direction === NoteDirection.UP_LEFT ||
-         currNote.direction === NoteDirection.UP ||
-         currNote.direction === NoteDirection.UP_RIGHT
-      ) {
-         return true;
-      }
-      if (
-         (prevNote.direction === NoteDirection.UP_LEFT ||
-            prevNote.direction === NoteDirection.UP ||
-            prevNote.direction === NoteDirection.UP_RIGHT) &&
-         currNote.direction === NoteDirection.ANY
-      ) {
-         return true;
-      }
-   }
-   // if end note is below
-   if (currNote.posY < prevNote.posY) {
-      if (
-         currNote.direction === NoteDirection.DOWN_LEFT ||
-         currNote.direction === NoteDirection.DOWN ||
-         currNote.direction === NoteDirection.DOWN_RIGHT
-      ) {
-         return true;
-      }
-      if (
-         (prevNote.direction === NoteDirection.DOWN_LEFT ||
-            prevNote.direction === NoteDirection.DOWN ||
-            prevNote.direction === NoteDirection.DOWN_RIGHT) &&
-         currNote.direction === NoteDirection.ANY
-      ) {
-         return true;
-      }
-   }
-   return false;
+function angleInRange(alpha: number, lower: number, upper: number): boolean {
+   return mod(alpha - lower, 360) <= mod(upper - lower, 360);
 }
 
-/**
- * Check if the note intersect on swing path by angle and distance.
- * ```ts
- * if (isIntersect(note1, note2, [[20, 1.5]])) {}
- * ```
- */
-// a fkin abomination that's what currNote is
-export function isIntersect<
+function getAngle(from: Vector2, to: Vector2): number {
+   return radToDeg(Math.atan2(to[1] - from[1], to[0] - from[0]));
+}
+
+/** Check if current note can be swung into from previous note. */
+export function isEndNote<
+   T extends Pick<IWrapBaseNote, 'posX' | 'posY' | 'direction'>,
+>(
+   endNote: T,
+   startNote: T,
+   maybeDirection: NoteDirection,
+   angleTolerance = 85, // arbitrary angle, we don't take anything that are perpendicular
+): boolean {
+   const endPos = resolveGridPosition(endNote);
+   const startPos = resolveGridPosition(startNote);
+   const angleFromStart = getAngle(startPos, endPos);
+   const angleFromEnd = getAngle(endPos, startPos);
+
+   if (startNote.direction === NoteDirection.ANY) {
+      const dirAngle = mod(resolveNoteAngle(endNote.direction) + 180, 360);
+      return angleInRange(
+         angleFromEnd,
+         dirAngle - angleTolerance,
+         dirAngle + angleTolerance,
+      );
+   }
+
+   if (maybeDirection !== NoteDirection.ANY) {
+      const dirAngle = resolveNoteAngle(maybeDirection);
+      return (
+         angleInRange(
+            angleFromStart,
+            dirAngle - angleTolerance,
+            dirAngle + angleTolerance,
+         ) ||
+         angleInRange(
+            angleFromEnd,
+            dirAngle - angleTolerance,
+            dirAngle + angleTolerance,
+         )
+      );
+   }
+
+   const dirAngle = resolveNoteAngle(startNote.direction);
+   return angleInRange(
+      angleFromStart,
+      dirAngle - angleTolerance,
+      dirAngle + angleTolerance,
+   );
+}
+
+function hasIntersect<
    T extends Pick<IWrapBaseNote, 'posX' | 'posY' | 'direction'>,
 >(
    currNote: T,
    compareTo: T,
-   angleDistances: [number, number, number?][],
+   angleDistances: [range: number, distance: number, offset?: number][],
    ahead = false,
-): [boolean, boolean] {
+): boolean {
+   if (currNote.direction !== NoteDirection.ANY) {
+      return false;
+   }
    const [nX1, nY1] = resolveGridPosition(currNote);
    const [nX2, nY2] = resolveGridPosition(compareTo);
-   const angle = ahead ? 540 : 360;
-   let resultN1 = false;
-   if (currNote.direction !== 8) {
-      const nA1 = resolveNoteAngle(currNote.direction);
-      const a = (radToDeg(Math.atan2(nY1 - nY2, nX1 - nX2)) + 450) % 360;
-      for (const [angleRange, maxDistance, offsetT] of angleDistances) {
-         const offset = offsetT ?? 0;
-         const aS = (nA1 + angle - angleRange + offset) % 360;
-         const aE = (nA1 + angle + angleRange + offset) % 360;
-         resultN1 = (maxDistance >= Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
-            ((aS < aE && aS <= a && a <= aE) || (aS >= aE && (a <= aE || a >= aS)))) ||
-            resultN1;
-         if (resultN1) {
-            break;
-         }
-      }
-   }
-   let resultN2 = false;
-   if (compareTo.direction !== 8) {
-      const nA2 = resolveNoteAngle(compareTo.direction);
-      const a = (radToDeg(Math.atan2(nY2 - nY1, nX2 - nX1)) + 450) % 360;
-      for (const [angleRange, maxDistance, offsetT] of angleDistances) {
-         const offset = offsetT ?? 0;
-         const aS = (nA2 + angle - angleRange + offset) % 360;
-         const aE = (nA2 + angle + angleRange + offset) % 360;
-         resultN2 = (maxDistance >= Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
-            ((aS < aE && aS <= a && a <= aE) || (aS >= aE && (a <= aE || a >= aS)))) ||
-            resultN2;
-         if (resultN2) {
-            break;
-         }
-      }
-   }
-   return [resultN1, resultN2];
+   const hackValue = ahead ? 540 : 360;
+   const directionAngle = resolveNoteAngle(currNote.direction);
+   const noteLookAngle = (radToDeg(Math.atan2(nY1 - nY2, nX1 - nX2)) + 450) % 360;
+   return angleDistances.some(([angleRange, maxDistance, offset]) => {
+      offset = offset ?? 0;
+      const angleStart = (directionAngle + hackValue - angleRange + offset) % 360;
+      const angleEnd = (directionAngle + hackValue + angleRange + offset) % 360;
+      return (
+         maxDistance >=
+            Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
+         ((angleStart < angleEnd &&
+            angleStart <= noteLookAngle &&
+            noteLookAngle <= angleEnd) ||
+            (angleStart >= angleEnd &&
+               (noteLookAngle <= angleEnd || noteLookAngle >= angleStart)))
+      );
+   });
+}
+
+/**
+ * Check if the note intersect on swing path by angle and distance.
+ *
+ * Can be used to check for hitbox collision or handclap.
+ *
+ * ```ts
+ * if (isIntersect(note1, note2, [[20, 1.5]])) {}
+ * ```
+ */
+export function isIntersectNote<
+   T extends Pick<IWrapBaseNote, 'posX' | 'posY' | 'direction'>,
+>(
+   noteA: T,
+   noteB: T,
+   angleDistances: [range: number, distance: number, offset?: number][],
+   ahead = false,
+): [noteAIntersect: boolean, noteBIntersect: boolean] {
+   return [
+      hasIntersect(noteA, noteB, angleDistances, ahead),
+      hasIntersect(noteB, noteA, angleDistances, ahead),
+   ];
 }
 
 // TODO: update with new position/rotation system
 export function predictDirection<
    T extends Pick<IWrapBaseNote, 'time' | 'posX' | 'posY' | 'direction'>,
->(currNote: T, prevNote: T): number {
-   if (isEnd(currNote, prevNote, NoteDirection.ANY)) {
-      return currNote.direction === NoteDirection.ANY ? prevNote.direction : currNote.direction;
+>(endNote: T, startNote: T): number {
+   if (isEndNote(endNote, startNote, NoteDirection.ANY)) {
+      return endNote.direction === NoteDirection.ANY ? startNote.direction : endNote.direction;
    }
-   if (currNote.direction !== NoteDirection.ANY) {
-      return currNote.direction;
+   if (endNote.direction !== NoteDirection.ANY) {
+      return endNote.direction;
    }
-   if (currNote.time > prevNote.time) {
+   if (endNote.time > startNote.time) {
       // if end note on right side
-      if (currNote.posX > prevNote.posX) {
-         if (isHorizontal(currNote, prevNote)) {
+      if (endNote.posX > startNote.posX) {
+         if (isHorizontal(endNote, startNote)) {
             return NoteDirection.RIGHT;
          }
       }
       // if end note on left side
-      if (currNote.posX < prevNote.posX) {
-         if (isHorizontal(currNote, prevNote)) {
+      if (endNote.posX < startNote.posX) {
+         if (isHorizontal(endNote, startNote)) {
             return NoteDirection.LEFT;
          }
       }
       // if end note is above
-      if (currNote.posY > prevNote.posY) {
-         if (isVertical(currNote, prevNote)) {
+      if (endNote.posY > startNote.posY) {
+         if (isVertical(endNote, startNote)) {
             return NoteDirection.UP;
          }
-         if (currNote.posX > prevNote.posX) {
+         if (endNote.posX > startNote.posX) {
             return NoteDirection.UP_RIGHT;
          }
-         if (currNote.posX < prevNote.posX) {
+         if (endNote.posX < startNote.posX) {
             return NoteDirection.UP_LEFT;
          }
       }
       // if end note is below
-      if (currNote.posY < prevNote.posY) {
-         if (isVertical(currNote, prevNote)) {
+      if (endNote.posY < startNote.posY) {
+         if (isVertical(endNote, startNote)) {
             return NoteDirection.DOWN;
          }
-         if (currNote.posX > prevNote.posX) {
+         if (endNote.posX > startNote.posX) {
             return NoteDirection.DOWN_RIGHT;
          }
-         if (currNote.posX < prevNote.posX) {
+         if (endNote.posX < startNote.posX) {
             return NoteDirection.DOWN_LEFT;
          }
       }
@@ -242,37 +172,40 @@ export function predictDirection<
 
 /**
  * Check the angle equality of the two notes.
- * @param {(T|number|null)} n1 - First beatmap note, note `direction`, or null value
- * @param {(T|number|null)} n2 - Second beatmap note, note `direction`, or null value
+ * @param {(T|number|null)} noteA - First beatmap note, note `direction`, or null value
+ * @param {(T|number|null)} noteB - Second beatmap note, note `direction`, or null value
  * @param {number} angleTol - Angle tolerance
  * @param {boolean} equal - If it should check inner or outer angle
  * @returns {boolean} If condition is met
  */
-export function checkDirection<
-   T extends Pick<IWrapBaseNote, 'direction'>,
->(n1: T | number | null, n2: T | number | null, angleTol: number, equal: boolean): boolean {
-   let nA1!: number;
-   let nA2!: number;
-   if (n1 === null || n2 === null) {
+export function checkDirection<T extends Pick<IWrapBaseNote, 'direction'>>(
+   noteA: T | number | null,
+   noteB: T | number | null,
+   angleTol: number,
+   equal: boolean,
+): boolean {
+   let noteAngleA: number;
+   let noteAngleB: number;
+   if (noteA === null || noteB === null) {
       return false;
    }
-   if (typeof n1 === 'number') {
-      nA1 = n1;
+   if (typeof noteA === 'number') {
+      noteAngleA = noteA;
    } else {
-      if (n1.direction === NoteDirection.ANY) {
+      if (noteA.direction === NoteDirection.ANY) {
          return false;
       }
-      nA1 = resolveNoteAngle(n1.direction);
+      noteAngleA = resolveNoteAngle(noteA.direction);
    }
-   if (typeof n2 === 'number') {
-      nA2 = n2;
+   if (typeof noteB === 'number') {
+      noteAngleB = noteB;
    } else {
-      if (n2.direction === NoteDirection.ANY) {
+      if (noteB.direction === NoteDirection.ANY) {
          return false;
       }
-      nA2 = resolveNoteAngle(n2.direction);
+      noteAngleB = resolveNoteAngle(noteB.direction);
    }
    return equal
-      ? shortRotDistance(nA1, nA2, 360) <= angleTol
-      : shortRotDistance(nA1, nA2, 360) >= angleTol;
+      ? shortRotDistance(noteAngleA, noteAngleB, 360) <= angleTol
+      : shortRotDistance(noteAngleA, noteAngleB, 360) >= angleTol;
 }

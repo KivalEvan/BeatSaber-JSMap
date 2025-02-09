@@ -8,7 +8,7 @@ import type { IWrapBPMEvent } from '../../../types/beatmap/wrapper/bpmEvent.ts';
 import type { IWrapColorBoostEvent } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
 import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapRotationEvent } from '../../../types/beatmap/wrapper/rotationEvent.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBeatmap } from '../../core/beatmap.ts';
 import { createDifficulty } from '../../core/difficulty.ts';
 import { createLightshow } from '../../core/lightshow.ts';

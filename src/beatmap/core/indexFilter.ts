@@ -1,7 +1,7 @@
 import { LimitAlsoAffectsType, RandomType } from '../../types/beatmap/shared/constants.ts';
 import type { IWrapIndexFilter } from '../../types/beatmap/wrapper/indexFilter.ts';
 import type { DeepPartial } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export function createIndexFilter(

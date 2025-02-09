@@ -1,7 +1,7 @@
 import type { GetPositionFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
 import type { IWrapGridObject } from '../../../types/beatmap/wrapper/gridObject.ts';
 import type { Vector2 } from '../../../types/vector.ts';
-import { vectorAdd } from '../../../utils/vector.ts';
+import { vectorAdd } from '../../../utils/math/vector.ts';
 import {
    isAdjacent,
    isDiagonal,

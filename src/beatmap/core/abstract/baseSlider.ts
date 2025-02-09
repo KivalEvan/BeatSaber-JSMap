@@ -1,7 +1,7 @@
 import type { GetPositionFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
 import type { IWrapBaseSlider } from '../../../types/beatmap/wrapper/baseSlider.ts';
 import type { Vector2 } from '../../../types/vector.ts';
-import { vectorAdd } from '../../../utils/vector.ts';
+import { vectorAdd } from '../../../utils/math/vector.ts';
 import { isInverseSlider } from '../../helpers/core/baseSlider.ts';
 import { mirrorCoordinate, resolveGridPosition } from '../../helpers/core/gridObject.ts';
 import { LINE_COUNT } from '../../shared/constants.ts';

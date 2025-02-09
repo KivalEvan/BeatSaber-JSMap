@@ -2,7 +2,7 @@ import type {
    IWrapLightRotationEventBox,
 } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
 import { createIndexFilter, IndexFilter } from './indexFilter.ts';

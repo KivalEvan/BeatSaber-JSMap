@@ -2,7 +2,7 @@ import type {
    IWrapBasicEventTypesForKeywords,
 } from '../../types/beatmap/wrapper/basicEventTypesForKeywords.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export function createBasicEventTypesForKeywords(

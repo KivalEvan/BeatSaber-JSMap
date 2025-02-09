@@ -1,6 +1,7 @@
 import { logger } from '../../logger.ts';
-import { convertColorType, lerpColor } from '../../utils/colors.ts';
-import { normalize } from '../../utils/math.ts';
+import { convertColorType } from '../../utils/colors/convertor.ts';
+import { lerpColor } from '../../utils/colors/helpers.ts';
+import { normalize } from '../../utils/math/helpers.ts';
 import { settings } from './settings.ts';
 import type {
    IChromaObject,
@@ -13,9 +14,10 @@ function tag(name: string): string[] {
    return ['ext', 'chroma', 'color', name];
 }
 
-export function setColor<
-   T extends Pick<IChromaObject, 'customData'>,
->(objects: T[], options: ISetColorOptions): void {
+export function setColor<T extends Pick<IChromaObject, 'customData'>>(
+   objects: T[],
+   options: ISetColorOptions,
+): void {
    const opt: Required<ISetColorOptions> = {
       color: options.color,
       colorType: options.colorType ?? (settings.colorType || 'hsva'),
@@ -48,7 +50,12 @@ export function setColorGradient<
    const endTime = objects.at(-1)!.time + opt.offsetEnd;
    objects.forEach((obj) => {
       const norm = normalize(obj.time, startTime, endTime);
-      const color = lerpColor(opt.colorStart, opt.colorEnd, opt.easingColor(norm), opt.colorType);
+      const color = lerpColor(
+         opt.colorStart,
+         opt.colorEnd,
+         opt.easingColor(norm),
+         opt.colorType,
+      );
       obj.customData.color = color;
    });
 }

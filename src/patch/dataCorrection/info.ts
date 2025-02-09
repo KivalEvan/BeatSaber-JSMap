@@ -4,7 +4,7 @@ import { logger } from '../../logger.ts';
 import type { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
 import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import type { IColor } from '../../types/colors.ts';
-import { clamp } from '../../utils/math.ts';
+import { clamp } from '../../utils/math/helpers.ts';
 import { fixBoolean, fixFloat, fixInt, fixString } from './helpers.ts';
 
 function fixEnvironment(str: unknown, all = false): EnvironmentName {

@@ -1,6 +1,6 @@
 import type { IWrapFxEventBox } from '../../types/beatmap/wrapper/fxEventBox.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
 import { createFxEventFloat, FxEventFloat } from './fxEventFloat.ts';

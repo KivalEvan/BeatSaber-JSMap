@@ -6,7 +6,7 @@ import {
    vectorIsDiagonal,
    vectorIsHorizontal,
    vectorIsVertical,
-} from '../../../utils/vector.ts';
+} from '../../../utils/math/vector.ts';
 
 /** Get standardized grid position. */
 export function resolveGridPosition<

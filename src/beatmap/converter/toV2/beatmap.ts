@@ -3,7 +3,7 @@ import type { IChromaMaterial } from '../../../types/beatmap/v2/custom/chroma.ts
 import type { ICustomDataNote } from '../../../types/beatmap/v2/custom/note.ts';
 import type { ICustomDataObstacle } from '../../../types/beatmap/v2/custom/obstacle.ts';
 import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
-import { isVector3, vectorMul } from '../../../utils/vector.ts';
+import { isVector3, vectorMul } from '../../../utils/math/vector.ts';
 import { isLaserRotationEventType } from '../../helpers/core/basicEvent.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
 import eventToV2 from '../customData/eventToV2.ts';

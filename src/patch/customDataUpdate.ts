@@ -7,7 +7,7 @@ import { logger } from '../logger.ts';
 import type { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition.ts';
 import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 import type { ColorArray } from '../types/colors.ts';
-import { colorFrom } from '../utils/colors.ts';
+import { colorFrom } from '../utils/colors/convertor.ts';
 
 function tag(name: string): string[] {
    return ['patch', 'customDataUpdate', name];

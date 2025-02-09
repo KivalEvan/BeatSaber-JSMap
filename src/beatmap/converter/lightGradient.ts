@@ -2,9 +2,9 @@ import { logger } from '../../logger.ts';
 import type { IChromaLightGradient } from '../../types/beatmap/v2/custom/chroma.ts';
 import type { IWrapBeatmapSubset } from '../../types/beatmap/wrapper/beatmap.ts';
 import type { Easings } from '../../types/easings.ts';
-import { lerpColor } from '../../utils/colors.ts';
-import { EasingsFn } from '../../utils/easings.ts';
-import { normalize } from '../../utils/math.ts';
+import { lerpColor } from '../../utils/colors/helpers.ts';
+import { EasingsFn } from '../../utils/math/easings.ts';
+import { normalize } from '../../utils/math/helpers.ts';
 import { isLightEventType } from '../helpers/core/basicEvent.ts';
 
 function tag(name: string): string[] {
@@ -111,7 +111,9 @@ export function chromaLightGradientToVanillaGradient<
                      'rgba',
                   );
                   if (eig.value === 0) {
-                     if (eig.customData['_color']) delete eig.customData['_color'];
+                     if (eig.customData['_color']) {
+                        delete eig.customData['_color'];
+                     }
                      if (!hasOff) {
                         newEvents.push({
                            time: eig.time - 0.001,
@@ -133,8 +135,7 @@ export function chromaLightGradientToVanillaGradient<
                                        eig.time - 0.001,
                                        ev.time,
                                        ev.time +
-                                          ev.customData._lightGradient
-                                             ._duration,
+                                          ev.customData._lightGradient._duration,
                                     ),
                                  ),
                                  'rgba',
@@ -149,7 +150,9 @@ export function chromaLightGradientToVanillaGradient<
                }
                previousEvent = eig;
             }
-            if (ev.customData['_lightGradient']) delete ev.customData['_lightGradient'];
+            if (ev.customData['_lightGradient']) {
+               delete ev.customData['_lightGradient'];
+            }
          } else {
             ev.customData._color = ev.customData._lightGradient._startColor;
             ev.customData._easing = ev.customData._lightGradient._easing;
@@ -163,7 +166,9 @@ export function chromaLightGradientToVanillaGradient<
                   _color: ev.customData._lightGradient._endColor,
                },
             });
-            if (ev.customData['_lightGradient']) delete ev.customData['_lightGradient'];
+            if (ev.customData['_lightGradient']) {
+               delete ev.customData['_lightGradient'];
+            }
          }
       }
       newEvents.push(ev);
