@@ -19,7 +19,7 @@ import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
 import type { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
 import type { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
 import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import type { Arc } from './arc.ts';
 import type { BasicEvent } from './basicEvent.ts';

@@ -12,7 +12,7 @@ import type {
    IWrapInfoSong,
 } from '../../types/beatmap/wrapper/info.ts';
 import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { CharacteristicOrder } from '../shared/characteristic.ts';
 import { DifficultyRanking } from '../shared/difficulty.ts';

@@ -11,9 +11,9 @@ import type { IWrapBeatmapSubset } from '../../types/beatmap/wrapper/beatmap.ts'
 import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import type { DeepPartial } from '../../types/utils.ts';
-import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
-import { EasingsFn } from '../../utils/easings.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors/convertor.ts';
+import { EasingsFn } from '../../utils/math/easings.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { LightIDList } from './lightID.ts';
 import type {
    EventBase,

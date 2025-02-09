@@ -1,6 +1,6 @@
 import type { IWrapLightRotationEvent } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
 import type { DeepPartial } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export function createLightRotationEvent(

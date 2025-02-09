@@ -1,15 +1,6 @@
-import * as math from '../../src/utils/math.ts';
+import * as math from '../../src/utils/math/mod.ts';
 import { EPSILON } from '../constants.ts';
 import { assert, assertAlmostEquals, assertEquals } from '../deps.ts';
-
-Deno.test('Format number helper', () => {
-   assertEquals(math.formatNumber(123456789), '123,456,789');
-   assertEquals(math.formatNumber(-1999), '-1,999');
-   assertEquals(math.formatNumber(1234.5678), '1,234.5678');
-   assertEquals(math.formatNumber(-98765.4321), '-98,765.4321');
-   assertEquals(math.formatNumber(999.99), '999.99');
-   assertEquals(math.formatNumber(0), '0');
-});
 
 Deno.test('Rounding helper', () => {
    assertAlmostEquals(math.round(1234.05), 1234, 0);
@@ -190,30 +181,6 @@ Deno.test('Rearrange tuple range helper', () => {
    assertEquals(math.rearrangeTuple(420, 6.9, true), [420, 6.9]);
    assertEquals(math.rearrangeTuple(6.9, 420, false), [6.9, 420]);
    assertEquals(math.rearrangeTuple(6.9, 420, true), [420, 6.9]);
-});
-
-Deno.test('Range helper', () => {
-   assertEquals(math.range(0), []);
-   assertEquals(math.range(1), [0]);
-   assertEquals(math.range(0, true), [0]);
-   assertEquals(math.range(10), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-   assertEquals(math.range(-10), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]);
-   assertEquals(math.range(0, 10), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-   assertEquals(math.range(0, 10, true), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-   assertEquals(math.range(0, -10), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]);
-   assertEquals(math.range(0, -10, true), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10]);
-   assertEquals(
-      math.range(-10, 10),
-      [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-   );
-   assertEquals(math.range(10, 0), [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
-   assertEquals(math.range(-10, 0), [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1]);
-   assertEquals(math.range(0, 10, 2), [0, 2, 4, 6, 8]);
-   assertEquals(math.range(0, 10, -2), [0, -2, -4, -6, -8]);
-   assertEquals(math.range(-1, -1), []);
-   assertEquals(math.range(-1, 1, 2), [-1]);
-   assertEquals(math.range(-1, 2, 2), [-1, 1]);
-   assertEquals(math.range(-1, 1, 2, true), [-1, 1]);
 });
 
 Deno.test('Near Equality', () => {

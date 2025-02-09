@@ -1,7 +1,7 @@
 import type { Vector3PointDefinition } from '../../../types/beatmap/shared/custom/heck.ts';
 import type { ICustomDataNote } from '../../../types/beatmap/wrapper/custom/note.ts';
 import type { ICustomDataSlider } from '../../../types/beatmap/wrapper/custom/slider.ts';
-import { isVector3 } from '../../../utils/vector.ts';
+import { isVector3 } from '../../../utils/math/vector.ts';
 
 /**
  * Mirrors the object for Noodle Extensions in beatmap v2.

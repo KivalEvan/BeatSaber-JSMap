@@ -1,7 +1,7 @@
 import type { ILightColorBoxContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightColorEventBox } from '../../../types/beatmap/wrapper/lightColorEventBox.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightColorEventBox } from '../../core/lightColorEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightColorEvent } from './lightColorEvent.ts';

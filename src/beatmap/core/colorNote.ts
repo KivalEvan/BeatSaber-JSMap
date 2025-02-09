@@ -1,7 +1,7 @@
 import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 import type { DeepPartial } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { resolveNoteAngle } from '../helpers/core/baseNote.ts';
 import { BaseNote } from './abstract/baseNote.ts';
 

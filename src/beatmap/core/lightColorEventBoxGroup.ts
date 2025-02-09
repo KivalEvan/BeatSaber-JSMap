@@ -2,7 +2,7 @@ import type {
    IWrapLightColorEventBoxGroup,
 } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
 import { createLightColorEventBox, LightColorEventBox } from './lightColorEventBox.ts';

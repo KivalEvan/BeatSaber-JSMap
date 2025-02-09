@@ -1,5 +1,5 @@
 import { logger } from '../../logger.ts';
-import { round } from '../../utils/math.ts';
+import { round } from '../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../../types/beatmap/options/optimize.ts';
 
 function tag(name: string): string[] {

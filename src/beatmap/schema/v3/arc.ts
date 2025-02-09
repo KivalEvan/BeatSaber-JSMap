@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IArc } from '../../../types/beatmap/v3/arc.ts';
 import type { IWrapArc } from '../../../types/beatmap/wrapper/arc.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createArc } from '../../core/arc.ts';
 
 /**

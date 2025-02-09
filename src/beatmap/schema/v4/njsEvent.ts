@@ -1,7 +1,7 @@
 import type { INjsEventContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapNJSEvent } from '../../../types/beatmap/wrapper/njsEvent.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createNJSEvent } from '../../core/njsEvent.ts';
 
 /**

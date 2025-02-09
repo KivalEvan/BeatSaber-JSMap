@@ -8,7 +8,7 @@ import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
 import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
 import type { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
 import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { sortNoteFn, sortObjectFn } from '../helpers/sort.ts';
 import { BaseItem } from './abstract/baseItem.ts';

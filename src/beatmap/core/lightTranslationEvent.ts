@@ -1,7 +1,7 @@
 import type {
    IWrapLightTranslationEvent,
 } from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 
 export function createLightTranslationEvent(

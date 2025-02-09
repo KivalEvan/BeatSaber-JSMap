@@ -7,8 +7,8 @@ import type { ColorArray } from '../../types/colors.ts';
 import type { Easings } from '../../types/easings.ts';
 import type { PointModifier } from '../../types/beatmap/shared/custom/heck.ts';
 import type { Vector2, Vector3, Vector4 } from '../../types/vector.ts';
-import { EasingsFn } from '../../utils/easings.ts';
-import { clamp } from '../../utils/math.ts';
+import { EasingsFn } from '../../utils/math/easings.ts';
+import { clamp } from '../../utils/math/helpers.ts';
 import type { BaseModifierNE } from '../../types/beatmap/shared/custom/noodleExtensions.ts';
 import type { BaseModifierChroma } from '../../types/beatmap/shared/custom/chroma.ts';
 

@@ -6,24 +6,39 @@ import type {
    Vector3Object,
    Vector4,
    Vector4Object,
-} from '../types/vector.ts';
-import { lerp, nearEqual } from './math.ts';
+} from '../../types/vector.ts';
+import { lerp, nearEqual } from './helpers.ts';
 
-type VectorObject = Partial<Vector2Object> | Partial<Vector3Object> | Partial<Vector4Object>;
+type VectorObject =
+   | Partial<Vector2Object>
+   | Partial<Vector3Object>
+   | Partial<Vector4Object>;
 
 /** Check if value is `Vector2` */
 export function isVector2(obj: unknown): obj is Vector2 {
-   return Array.isArray(obj) && obj.length === 2 && obj.every((n) => typeof n === 'number');
+   return (
+      Array.isArray(obj) &&
+      obj.length === 2 &&
+      obj.every((n) => typeof n === 'number')
+   );
 }
 
 /** Check if value is `Vector3` */
 export function isVector3(obj: unknown): obj is Vector3 {
-   return Array.isArray(obj) && obj.length === 3 && obj.every((n) => typeof n === 'number');
+   return (
+      Array.isArray(obj) &&
+      obj.length === 3 &&
+      obj.every((n) => typeof n === 'number')
+   );
 }
 
 /** Check if value is `Vector4` */
 export function isVector4(obj: unknown): obj is Vector4 {
-   return Array.isArray(obj) && obj.length === 4 && obj.every((n) => typeof n === 'number');
+   return (
+      Array.isArray(obj) &&
+      obj.length === 4 &&
+      obj.every((n) => typeof n === 'number')
+   );
 }
 
 type VectorArgument = Vector2 | Vector3 | Vector4 | number[];
@@ -33,13 +48,11 @@ function vectorImpl<TArgs extends any[]>(
    return function <
       T extends VectorArgument,
       TValue extends number | VectorArgument | VectorObject,
-   >(
-      vec?: T,
-      value?: TValue,
-      ...args: TArgs
-   ) {
+   >(vec?: T, value?: TValue, ...args: TArgs) {
       if (!vec) return vec;
-      if (typeof value === 'number') return vec.map((v) => operation(v, value, ...args)) as T;
+      if (typeof value === 'number') {
+         return vec.map((v) => operation(v, value, ...args)) as T;
+      }
       vec = [...vec];
       if (value) {
          if (Array.isArray(value)) {
@@ -51,16 +64,32 @@ function vectorImpl<TArgs extends any[]>(
          } else {
             switch (vec.length) {
                case 4: {
-                  vec[3] = operation(vec[3], (value as Vector4Object).w ?? 0, ...args);
+                  vec[3] = operation(
+                     vec[3],
+                     (value as Vector4Object).w ?? 0,
+                     ...args,
+                  );
                }
                /* falls through */
                case 3: {
-                  vec[2] = operation(vec[2], (value as Vector4Object).z ?? 0, ...args);
+                  vec[2] = operation(
+                     vec[2],
+                     (value as Vector4Object).z ?? 0,
+                     ...args,
+                  );
                }
                /* falls through */
                case 2: {
-                  vec[1] = operation(vec[1], (value as Vector4Object).y ?? 0, ...args);
-                  vec[0] = operation(vec[0], (value as Vector4Object).x ?? 0, ...args);
+                  vec[1] = operation(
+                     vec[1],
+                     (value as Vector4Object).y ?? 0,
+                     ...args,
+                  );
+                  vec[0] = operation(
+                     vec[0],
+                     (value as Vector4Object).x ?? 0,
+                     ...args,
+                  );
                }
             }
          }
@@ -108,7 +137,7 @@ export function vectorMul<T extends VectorArgument>(
    vec?: T,
    value?: number | T | VectorObject,
 ): T | undefined {
-   return vectorImpl((x, n) => n ? x * n : x)(vec, value);
+   return vectorImpl((x, n) => (n ? x * n : x))(vec, value);
 }
 
 export function vectorDiv<T extends VectorArgument | undefined>(
@@ -122,7 +151,7 @@ export function vectorDiv<T extends VectorArgument>(
    vec?: T,
    value?: number | T | VectorObject,
 ): T | undefined {
-   return vectorImpl((x, n) => n ? x / n : x)(vec, value);
+   return vectorImpl((x, n) => (n ? x / n : x))(vec, value);
 }
 
 export function lerpVector<T extends VectorArgument | undefined>(
@@ -150,7 +179,11 @@ export function lerpVector<T extends VectorArgument>(
    vec?: T,
    value?: T | VectorObject,
 ): T | undefined {
-   return vectorImpl<[number]>((x, n, alpha) => lerp(alpha, x, n))(vec, value, alpha);
+   return vectorImpl<[number]>((x, n, alpha) => lerp(alpha, x, n))(
+      vec,
+      value,
+      alpha,
+   );
 }
 
 export function vectorDistance<T extends VectorArgument>(v1: T, v2: T): number {
@@ -163,7 +196,11 @@ export function vectorDistance<T extends VectorArgument>(v1: T, v2: T): number {
    return Math.sqrt(acc);
 }
 
-export function vectorIsVertical<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001): boolean {
+export function vectorIsVertical<T extends VectorArgument>(
+   v1: T,
+   v2: T,
+   epsilon = 0.001,
+): boolean {
    const [dX] = vectorSub(v1, v2);
    return Math.abs(dX) <= epsilon;
 }
@@ -177,27 +214,46 @@ export function vectorIsHorizontal<T extends VectorArgument>(
    return Math.abs(dY) <= epsilon;
 }
 
-export function vectorIsDiagonal<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001): boolean {
+export function vectorIsDiagonal<T extends VectorArgument>(
+   v1: T,
+   v2: T,
+   epsilon = 0.001,
+): boolean {
    const [dX, dY] = vectorSub(v1, v2);
    return nearEqual(Math.abs(dX), Math.abs(dY), epsilon);
 }
 
-export function vectorIsInline<T extends VectorArgument>(v1: T, v2: T, lapping = 0.5): boolean {
+export function vectorIsInline<T extends VectorArgument>(
+   v1: T,
+   v2: T,
+   lapping = 0.5,
+): boolean {
    const distance = vectorDistance(v1, v2);
    return distance <= lapping;
 }
 
-export function vectorIsAdjacent<T extends VectorArgument>(v1: T, v2: T, epsilon = 0.001): boolean {
+export function vectorIsAdjacent<T extends VectorArgument>(
+   v1: T,
+   v2: T,
+   epsilon = 0.001,
+): boolean {
    const distance = vectorDistance(v1, v2);
-   return distance > (0.5 - epsilon) && distance < (1 + epsilon);
+   return distance > 0.5 - epsilon && distance < 1 + epsilon;
 }
 
-export function vectorIsWindow<T extends VectorArgument>(v1: T, v2: T, gap = 1.8): boolean {
+export function vectorIsWindow<T extends VectorArgument>(
+   v1: T,
+   v2: T,
+   gap = 1.8,
+): boolean {
    const distance = vectorDistance(v1, v2);
    return distance > gap;
 }
 
-export function vectorIsSlantedWindow<T extends VectorArgument>(v1: T, v2: T): boolean {
+export function vectorIsSlantedWindow<T extends VectorArgument>(
+   v1: T,
+   v2: T,
+): boolean {
    return (
       vectorIsWindow(v1, v2, 1.8) &&
       !vectorIsDiagonal(v1, v2, 0.001) &&
@@ -216,4 +272,24 @@ export function vectorMagnitude(vec: number[]): number {
 
 export function vectorNormalize<T extends number[]>(vec: T): T {
    return vectorDiv(vec, vectorMagnitude(vec));
+}
+
+export function vectorEqual<T extends VectorArgument>(v1: T, v2: T): boolean {
+   if (v1.length !== v2.length) return false;
+   for (let i = 0; i < v1.length; i++) {
+      if (v1[i] !== v2[i]) return false;
+   }
+   return true;
+}
+
+export function vectorNearEqual<T extends VectorArgument>(
+   v1: T,
+   v2: T,
+   tolerance = 0.001,
+): boolean {
+   if (v1.length !== v2.length) return false;
+   for (let i = 0; i < v1.length; i++) {
+      if (!nearEqual(v1[i], v2[i], tolerance)) return false;
+   }
+   return true;
 }

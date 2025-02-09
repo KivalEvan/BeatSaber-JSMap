@@ -2,7 +2,7 @@ import { getFirstInteractiveTime, getLastInteractiveTime } from '../../beatmap/h
 import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
-import { median } from '../../utils/math.ts';
+import { median } from '../../utils/math/helpers.ts';
 import { generate, next } from './swing.ts';
 import type {
    ISwingAnalysis,

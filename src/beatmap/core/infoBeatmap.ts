@@ -7,7 +7,7 @@ import type {
 import type { IInfoBeatmapAuthors } from '../../types/beatmap/v4/info.ts';
 import type { IWrapInfoBeatmap } from '../../types/beatmap/wrapper/info.ts';
 import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 
 export function createInfoBeatmap(

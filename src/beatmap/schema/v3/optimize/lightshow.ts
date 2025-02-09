@@ -1,8 +1,8 @@
-import { round } from '../../../../utils/math.ts';
+import { round } from '../../../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import { deepClean, purgeZeros } from '../../../helpers/optimize.ts';
 import type { ILightshow } from '../../../../types/beatmap/v3/lightshow.ts';
-import { isEmpty } from '../../../../utils/misc.ts';
+import { isEmpty } from '../../../../utils/misc/json.ts';
 
 /**
  * Optimize v3 `Lightshow` schema data.

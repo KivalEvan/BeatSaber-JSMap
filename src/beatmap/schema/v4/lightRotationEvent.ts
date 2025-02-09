@@ -1,7 +1,7 @@
 import type { ILightRotationEventContainer } from '../../../types/beatmap/container/v4.ts';
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IWrapLightRotationEvent } from '../../../types/beatmap/wrapper/lightRotationEvent.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightRotationEvent } from '../../core/lightRotationEvent.ts';
 
 /**

@@ -1,4 +1,4 @@
-import { cycle } from '../../../utils/misc.ts';
+import { cycle } from '../../../utils/misc/iterator.ts';
 import { SliderMidAnchorMode } from '../../shared/constants.ts';
 
 /** Mirror note color. */

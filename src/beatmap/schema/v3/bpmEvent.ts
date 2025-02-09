@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IBPMEvent } from '../../../types/beatmap/v3/bpmEvent.ts';
 import type { IWrapBPMEvent } from '../../../types/beatmap/wrapper/bpmEvent.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBPMEvent } from '../../core/bpmEvent.ts';
 
 /**

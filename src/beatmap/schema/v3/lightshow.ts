@@ -2,7 +2,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightshow } from '../../../types/beatmap/v3/lightshow.ts';
 import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBeatmap } from '../../core/beatmap.ts';
 import { createDifficulty } from '../../core/difficulty.ts';
 import { createLightshow } from '../../core/lightshow.ts';

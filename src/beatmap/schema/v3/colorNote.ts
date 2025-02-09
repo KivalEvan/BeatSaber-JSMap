@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IColorNote } from '../../../types/beatmap/v3/colorNote.ts';
 import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createColorNote } from '../../core/colorNote.ts';
 
 /**

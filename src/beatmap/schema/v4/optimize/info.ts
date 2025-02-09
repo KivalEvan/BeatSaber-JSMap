@@ -1,8 +1,8 @@
-import { round } from '../../../../utils/math.ts';
+import { round } from '../../../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { IInfo } from '../../../../types/beatmap/v4/info.ts';
 import { deepClean } from '../../../helpers/optimize.ts';
-import { isEmpty } from '../../../../utils/misc.ts';
+import { isEmpty } from '../../../../utils/misc/json.ts';
 
 /**
  * Optimize v4 `Info` schema data.

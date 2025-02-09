@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { ILightRotationEventBox } from '../../../types/beatmap/v3/lightRotationEventBox.ts';
 import type { IWrapLightRotationEventBox } from '../../../types/beatmap/wrapper/lightRotationEventBox.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightRotationEventBox } from '../../core/lightRotationEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightRotationEvent } from './lightRotationEvent.ts';

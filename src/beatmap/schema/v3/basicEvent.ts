@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IBasicEvent } from '../../../types/beatmap/v3/basicEvent.ts';
 import type { IWrapBasicEvent } from '../../../types/beatmap/wrapper/basicEvent.ts';
-import { deepCopy } from '../../../utils/misc.ts';
+import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBasicEvent } from '../../core/basicEvent.ts';
 
 /**

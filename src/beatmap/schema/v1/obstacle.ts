@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IObstacle } from '../../../types/beatmap/v1/obstacle.ts';
 import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
-import { remap } from '../../../utils/math.ts';
+import { remap } from '../../../utils/math/helpers.ts';
 import { createObstacle } from '../../core/obstacle.ts';
 
 /**

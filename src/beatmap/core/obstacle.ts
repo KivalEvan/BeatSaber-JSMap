@@ -2,8 +2,8 @@ import type { GetPositionFn, MirrorFn } from '../../types/beatmap/shared/functio
 import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import type { Vector2 } from '../../types/vector.ts';
-import { deepCopy } from '../../utils/misc.ts';
-import { vectorAdd } from '../../utils/vector.ts';
+import { deepCopy } from '../../utils/misc/json.ts';
+import { vectorAdd } from '../../utils/math/vector.ts';
 import { mirrorCoordinate, resolveGridPosition } from '../helpers/core/gridObject.ts';
 import {
    isInteractiveObstacle,

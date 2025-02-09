@@ -1,6 +1,6 @@
 import { NoteColor, NoteDirection, NoteDirectionAngle } from '../../../beatmap/shared/constants.ts';
 import type { IWrapBaseNote } from '../../../types/beatmap/wrapper/baseNote.ts';
-import { cycle } from '../../../utils/misc.ts';
+import { cycle } from '../../../utils/misc/iterator.ts';
 
 /** Check if note color is red. */
 export function isRedNoteColor(color: NoteColor): color is NoteColor.RED {
