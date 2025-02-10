@@ -3,6 +3,7 @@ import type {
    ArraySchema,
    BaseIssue,
    Default,
+   GenericPipeItem,
    GenericSchema,
    InferInput,
    InferObjectOutput,
@@ -13,7 +14,6 @@ import type {
    ObjectSchema,
    OptionalSchema,
    OutputDataset,
-   PipeItem,
    SchemaWithPipe,
 } from '@valibot/valibot';
 import {
@@ -31,12 +31,6 @@ import type { Version } from '../../types/beatmap/shared/version.ts';
 import { isRecord } from '../../utils/misc.ts';
 import { compareVersion } from '../helpers/version.ts';
 
-type GenericItem<
-   TInput = unknown,
-   TOutput = TInput,
-   TIssue extends BaseIssue<unknown> = BaseIssue<unknown>,
-> = PipeItem<TInput, TOutput, TIssue>;
-
 /** @internal Used to create the correct inferred types for a provided key/value record. */
 export type InferObjectEntries<T> = {
    [key in NonNullable<keyof T>]: GenericSchema<T[key], T[key]>;
@@ -49,7 +43,7 @@ interface FieldSchemaOptions {
 /** Helper function to augment a schema with the necessary context for validation within a top-level entity schema. */
 export function field<
    const TSchema extends GenericSchema,
-   const TItems extends GenericItem<InferInput<TSchema>, InferOutput<TSchema>>[],
+   const TItems extends GenericPipeItem<InferInput<TSchema>, InferOutput<TSchema>>[],
 >(
    schema: TSchema | SchemaWithPipe<[TSchema, ...TItems]>,
    options?: FieldSchemaOptions,
@@ -79,7 +73,7 @@ type VersionCheckContext<T extends GenericSchema> = {
 function checkVersion<
    const TSchema extends GenericSchema,
    const TItems extends (
-      | GenericItem<InferInput<TSchema>, InferOutput<TSchema>>
+      | GenericPipeItem<InferInput<TSchema>, InferOutput<TSchema>>
       | MetadataAction<InferInput<TSchema>, Readonly<FieldMetadata>>
    )[],
 >(
