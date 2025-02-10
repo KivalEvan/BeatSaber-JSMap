@@ -1,4 +1,5 @@
 import { array, boolean, integer, number, object, optional, pipe, string } from '@valibot/valibot';
+import type { EnvironmentAllName } from '../../../../types/beatmap/shared/mod.ts';
 import type {
    IInfo,
    IInfoAudio,
@@ -151,7 +152,7 @@ export const InfoDifficultySchema = object<InferObjectEntries<IInfoBeatmap>>({
 export const InfoSchema = entity<
    InferObjectEntries<IInfo>
 >((x) => x.version, {
-   version: field(mask(VersionSchema), {
+   version: field(mask<'4.0.0' | '4.0.1'>(VersionSchema), {
       version: '4.0.0',
    }),
    song: field(InfoSongSchema, {
@@ -166,7 +167,7 @@ export const InfoSchema = entity<
    coverImageFilename: field(string(), {
       version: '4.0.0',
    }),
-   environmentNames: field(array(mask(string())), {
+   environmentNames: field(array(mask<EnvironmentAllName>(string())), {
       version: '4.0.0',
    }),
    colorSchemes: field(array(InfoColorSchemeSchema), {

@@ -1,5 +1,11 @@
 import { array, boolean, integer, number, object, optional, pipe, string } from '@valibot/valibot';
 import type {
+   Environment360Name,
+   EnvironmentAllName,
+   EnvironmentName,
+   EnvironmentV3Name,
+} from '../../../../types/beatmap/shared/mod.ts';
+import type {
    IInfo,
    IInfoColorScheme,
    IInfoColorSchemeData,
@@ -16,9 +22,7 @@ import {
    VersionSchema,
 } from '../../shared/declaration/mod.ts';
 
-/**
- * Schema declaration for v2 `InfoDifficulty`.
- */
+/** Schema declaration for v2 `InfoSetDifficulty`. */
 export const InfoSetDifficultySchema = object<InferObjectEntries<IInfoDifficulty>>({
    _difficulty: field(DifficultyNameSchema, {
       version: '2.0.0',
@@ -44,9 +48,7 @@ export const InfoSetDifficultySchema = object<InferObjectEntries<IInfoDifficulty
    _customData: field(optional(CustomDataSchema)),
 });
 
-/**
- * Schema declaration for v2 `InfoSet`.
- */
+/** Schema declaration for v2 `InfoSet`. */
 export const InfoSetSchema = object<InferObjectEntries<IInfoSet>>({
    _beatmapCharacteristicName: field(CharacteristicNameSchema, {
       version: '2.0.0',
@@ -57,9 +59,7 @@ export const InfoSetSchema = object<InferObjectEntries<IInfoSet>>({
    _customData: field(optional(CustomDataSchema)),
 });
 
-/**
- * Schema declaration for v2 `Color`.
- */
+/** Schema declaration for v2 `Color`. */
 export const ColorObjectSchema = object<InferObjectEntries<Required<IColor>>>({
    r: field(number(), {
       version: '2.1.0',
@@ -75,9 +75,7 @@ export const ColorObjectSchema = object<InferObjectEntries<Required<IColor>>>({
    }),
 });
 
-/**
- * Schema declaration for v2 `InfoColorSchemeData`.
- */
+/** Schema declaration for v2 `InfoColorSchemeData`. */
 export const InfoColorSchemeDataSchema = object<InferObjectEntries<IInfoColorSchemeData>>({
    colorSchemeId: field(string(), {
       version: '2.1.0',
@@ -111,9 +109,7 @@ export const InfoColorSchemeDataSchema = object<InferObjectEntries<IInfoColorSch
    }),
 });
 
-/**
- * Schema declaration for v2 `InfoColorScheme`.
- */
+/** Schema declaration for v2 `InfoColorScheme`. */
 export const InfoColorSchemeSchema = object<InferObjectEntries<IInfoColorScheme>>({
    useOverride: field(boolean(), {
       version: '2.1.0',
@@ -123,13 +119,11 @@ export const InfoColorSchemeSchema = object<InferObjectEntries<IInfoColorScheme>
    }),
 });
 
-/**
- * Schema declaration for v2 `Info`.
- */
+/** Schema declaration for v2 `Info`. */
 export const InfoSchema = entity<
    InferObjectEntries<IInfo>
 >((x) => x._version, {
-   _version: field(mask(VersionSchema), {
+   _version: field(mask<'2.0.0' | '2.1.0'>(VersionSchema), {
       version: '2.0.0',
    }),
    _songName: field(string(), {
@@ -168,13 +162,13 @@ export const InfoSchema = entity<
    _coverImageFilename: field(string(), {
       version: '2.0.0',
    }),
-   _environmentName: field(mask(string()), {
+   _environmentName: field(mask<EnvironmentName | EnvironmentV3Name>(string()), {
       version: '2.0.0',
    }),
-   _allDirectionsEnvironmentName: field(optional(mask(string())), {
+   _allDirectionsEnvironmentName: field(optional(mask<Environment360Name>(string())), {
       version: '2.0.0',
    }),
-   _environmentNames: field(array(mask(string())), {
+   _environmentNames: field(array(mask<EnvironmentAllName>(string())), {
       version: '2.1.0',
    }),
    _colorSchemes: field(array(InfoColorSchemeSchema), {

@@ -3,3 +3,4 @@ export * from './lightshow.ts';
 
 export * from './custom/bookmark.ts';
 export * from './custom/bpmChange.ts';
+export * from './custom/difficulty.ts';

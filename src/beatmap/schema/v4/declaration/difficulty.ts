@@ -158,7 +158,7 @@ export const NJSEventSchema = object<InferObjectEntries<INJSEvent>>({
 export const DifficultySchema = entity<
    InferObjectEntries<IDifficulty>
 >((x) => x.version, {
-   version: field(mask(VersionSchema), {
+   version: field(mask<'4.0.0' | '4.1.0'>(VersionSchema), {
       version: '4.0.0',
    }),
    colorNotes: field(optional(array(ObjectLaneSchema)), {

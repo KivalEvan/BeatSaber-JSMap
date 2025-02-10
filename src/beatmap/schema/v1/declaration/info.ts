@@ -1,21 +1,25 @@
 import { array, boolean, number, object, optional, picklist, string } from '@valibot/valibot';
+import type { EnvironmentName, EnvironmentV3Name } from '../../../../types/beatmap/shared/mod.ts';
 import type { IInfo, IInfoDifficulty } from '../../../../types/beatmap/v1/info.ts';
 import type { IColor } from '../../../../types/colors.ts';
-import type { IContributor } from '../../../../types/mod.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
-import { CharacteristicNameSchema, DifficultyNameSchema } from '../../shared/declaration/mod.ts';
+import {
+   CharacteristicNameSchema,
+   CustomContributorSchema,
+   DifficultyNameSchema,
+} from '../../shared/declaration/mod.ts';
 
 /**
  * Schema declaration for v1 `Color`.
  */
-export const ColorObjectSchema = object<InferObjectEntries<Omit<IColor, 'a'>>>({
+export const CustomColorObjectSchema = object<InferObjectEntries<Omit<IColor, 'a'>>>({
    r: number(),
    g: number(),
    b: number(),
 });
 
 /**
- * Schema declaration for v1 `InfoDifficulty`.
+ * Schema declaration for v1 `Info Difficulty`.
  */
 export const InfoDifficultySchema = object<InferObjectEntries<IInfoDifficulty>>({
    difficulty: field(DifficultyNameSchema, {
@@ -38,18 +42,11 @@ export const InfoDifficultySchema = object<InferObjectEntries<IInfoDifficulty>>(
    chromaToggle: field(optional(string())),
    customColors: field(optional(boolean())),
    difficultyLabel: field(optional(string())),
-   colorLeft: field(optional(ColorObjectSchema)),
-   colorRight: field(optional(ColorObjectSchema)),
-   envColorLeft: field(optional(ColorObjectSchema)),
-   envColorRight: field(optional(ColorObjectSchema)),
-   obstacleColor: field(optional(ColorObjectSchema)),
-});
-
-/** Schema declaration for `Contributor`. */
-export const ContributorSchema = object<InferObjectEntries<IContributor>>({
-   _role: field(string()),
-   _name: field(string()),
-   _iconPath: field(string()),
+   colorLeft: field(optional(CustomColorObjectSchema)),
+   colorRight: field(optional(CustomColorObjectSchema)),
+   envColorLeft: field(optional(CustomColorObjectSchema)),
+   envColorRight: field(optional(CustomColorObjectSchema)),
+   obstacleColor: field(optional(CustomColorObjectSchema)),
 });
 
 /**
@@ -79,7 +76,7 @@ export const InfoSchema = entity<
    coverImagePath: field(string(), {
       version: '1.0.0',
    }),
-   environmentName: field(mask(string()), {
+   environmentName: field(mask<EnvironmentName | EnvironmentV3Name>(string()), {
       version: '1.0.0',
    }),
    difficultyLevels: field(array(InfoDifficultySchema), {
@@ -88,7 +85,7 @@ export const InfoSchema = entity<
    oneSaber: field(boolean(), {
       version: '1.0.0',
    }),
-   contributors: field(optional(array(ContributorSchema)), {
+   contributors: field(optional(array(CustomContributorSchema)), {
       version: '1.0.0',
    }),
    customEnvironment: field(optional(string()), {

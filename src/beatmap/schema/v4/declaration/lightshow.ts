@@ -356,7 +356,7 @@ export const FXEventFloatSchema = object<InferObjectEntries<IFxEventFloat>>({
 export const LightshowSchema = entity<
    InferObjectEntries<ILightshow>
 >((x) => x.version, {
-   version: field(mask(VersionSchema), {
+   version: field(mask<'4.0.0'>(VersionSchema), {
       version: '4.0.0',
    }),
    waypoints: field(optional(array(ObjectLaneSchema)), {

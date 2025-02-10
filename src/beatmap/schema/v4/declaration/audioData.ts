@@ -42,7 +42,7 @@ export const AudioDataLUFSSchema = object<InferObjectEntries<IAudioLUFS>>({
 export const AudioDataSchema = entity<
    InferObjectEntries<IAudio>
 >((x) => x.version, {
-   version: field(mask(VersionSchema), {
+   version: field(mask<'4.0.0'>(VersionSchema), {
       version: '4.0.0',
    }),
    songChecksum: field(string(), {

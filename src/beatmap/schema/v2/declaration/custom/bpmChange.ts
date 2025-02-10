@@ -5,8 +5,8 @@ import type {
 } from '../../../../../types/beatmap/v2/custom/bpmChange.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 
-/** Schema declaration for v2 custom `BPMChangeOld` */
-export const CustomBpmChangeOldSchema = object<InferObjectEntries<IBPMChangeOld>>({
+/** Schema declaration for v2 custom `BPM Change (Old)`. */
+export const CustomBPMChangeOldSchema = object<InferObjectEntries<IBPMChangeOld>>({
    _time: number(),
    _bpm: number(),
    _BPM: never(),
@@ -14,8 +14,8 @@ export const CustomBpmChangeOldSchema = object<InferObjectEntries<IBPMChangeOld>
    _metronomeOffset: number(),
 });
 
-/** Schema declaration for v2 custom `BPMChange` */
-export const CustomBpmChangeSchema = object<InferObjectEntries<IBPMChange>>({
+/** Schema declaration for v2 custom `BPM Change`. */
+export const CustomBPMChangeSchema = object<InferObjectEntries<IBPMChange>>({
    _time: number(),
    _bpm: never(),
    _BPM: number(),

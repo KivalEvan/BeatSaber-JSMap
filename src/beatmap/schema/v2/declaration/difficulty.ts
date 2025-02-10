@@ -146,7 +146,7 @@ export const WaypointSchema = object<InferObjectEntries<IWaypoint>>({
 });
 
 /**
- * Schema declaration for v2 `SpecialEventsKeywordFilters`.
+ * Schema declaration for v2 `Special Events Keyword Filters Keywords`.
  */
 export const SpecialEventsKeywordFiltersKeywordsSchema = object<
    InferObjectEntries<ISpecialEventsKeywordFiltersKeywords>
@@ -160,7 +160,7 @@ export const SpecialEventsKeywordFiltersKeywordsSchema = object<
 });
 
 /**
- * Schema declaration for v2 `SpecialEventsKeywordFilters`.
+ * Schema declaration for v2 `Special Events Keyword Filters`.
  */
 export const SpecialEventsKeywordFiltersSchema = object<
    InferObjectEntries<ISpecialEventsKeywordFilters>
@@ -176,7 +176,7 @@ export const SpecialEventsKeywordFiltersSchema = object<
 export const DifficultySchema = entity<
    InferObjectEntries<IDifficulty>
 >((x) => x._version, {
-   _version: field(mask(VersionSchema), {
+   _version: field(mask<'2.0.0' | '2.2.0' | '2.4.0' | '2.5.0' | '2.6.0'>(VersionSchema), {
       version: '2.0.0',
    }),
    _events: field(optional(array(EventSchema)), {

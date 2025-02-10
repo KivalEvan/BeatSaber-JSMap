@@ -679,7 +679,7 @@ export const FxEventsCollectionSchema = object<InferObjectEntries<IFxEventsColle
 export const DifficultySchema = entity<
    InferObjectEntries<IDifficulty>
 >((x) => x.version, {
-   version: field(mask(VersionSchema), {
+   version: field(mask<'3.0.0' | '3.1.0' | '3.2.0' | '3.3.0'>(VersionSchema), {
       version: '3.0.0',
    }),
    bpmEvents: field(optional(array(BPMChangeEventSchema)), {

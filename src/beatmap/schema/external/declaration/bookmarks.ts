@@ -4,7 +4,7 @@ import type { IBookmarks } from '../../../../types/beatmap/external/mod.ts';
 import { entity, field, type InferObjectEntries } from '../../helpers.ts';
 import { CharacteristicNameSchema, DifficultyNameSchema } from '../../shared/declaration/mod.ts';
 
-/** Schema declaration for official editor `BookmarkElement`  */
+/** Schema declaration for official editor `Bookmark Element`  */
 export const BookmarkElementSchema = object<InferObjectEntries<IBookmarkElement>>({
    beat: field(number(), {
       version: '1.0.0',
@@ -17,7 +17,7 @@ export const BookmarkElementSchema = object<InferObjectEntries<IBookmarkElement>
    }),
 });
 
-/** Schema declaration for official editor `BookmarkSet`  */
+/** Schema declaration for official editor `Bookmark Set`  */
 export const BookmarkSetSchema = entity<InferObjectEntries<IBookmarks>>(() => '1.0.0', {
    name: field(string(), {
       version: '1.0.0',

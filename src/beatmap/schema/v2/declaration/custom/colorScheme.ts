@@ -3,7 +3,7 @@ import type { IColorScheme } from '../../../../../types/beatmap/v2/custom/colorS
 import type { IColor } from '../../../../../types/colors.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 
-/** Schema declaration for v2 custom `Color` */
+/** Schema declaration for v2 custom `Color`. */
 export const CustomColorObjectSchema = object<InferObjectEntries<IColor>>({
    r: number(),
    g: number(),
@@ -11,7 +11,7 @@ export const CustomColorObjectSchema = object<InferObjectEntries<IColor>>({
    a: optional(number()),
 });
 
-/** Schema declaration for v2 custom `ColorScheme` */
+/** Schema declaration for v2 custom `Color Scheme`. */
 export const CustomColorSchemeSchema = object<InferObjectEntries<IColorScheme>>({
    _colorLeft: optional(CustomColorObjectSchema),
    _colorRight: optional(CustomColorObjectSchema),

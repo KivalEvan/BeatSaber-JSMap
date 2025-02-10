@@ -72,9 +72,9 @@ export const EventSchema = object<InferObjectEntries<IEvent>>({
 });
 
 /**
- * Schema declaration for v1 `BPMChangeOld`.
+ * Schema declaration for v1 `BPM Change`.
  */
-export const BpmChangeOldSchema = object<InferObjectEntries<IBPMChangeOld>>({
+export const CustomBPMChangeOldSchema = object<InferObjectEntries<IBPMChangeOld>>({
    _time: field(number()),
    _bpm: field(number()),
    _BPM: field(never()),
@@ -85,7 +85,7 @@ export const BpmChangeOldSchema = object<InferObjectEntries<IBPMChangeOld>>({
 /**
  * Schema declaration for v1 `Bookmark`.
  */
-export const BookmarkSchema = object<InferObjectEntries<Omit<IBookmark, '_color'>>>({
+export const CustomBookmarkSchema = object<InferObjectEntries<Omit<IBookmark, '_color'>>>({
    _time: field(number()),
    _name: field(string()),
 });
@@ -96,7 +96,7 @@ export const BookmarkSchema = object<InferObjectEntries<Omit<IBookmark, '_color'
 export const DifficultySchema = entity<
    InferObjectEntries<IDifficulty>
 >((x) => x._version, {
-   _version: field(mask(VersionSchema), {
+   _version: field(mask<'1.5.0'>(VersionSchema), {
       version: '1.5.0',
    }),
    _beatsPerMinute: field(number(), {
@@ -127,6 +127,6 @@ export const DifficultySchema = entity<
       version: '1.5.0',
    }),
    _time: field(optional(number())),
-   _BPMChanges: field(optional(array(BpmChangeOldSchema))),
-   _bookmarks: field(optional(array(BookmarkSchema))),
+   _BPMChanges: field(optional(array(CustomBPMChangeOldSchema))),
+   _bookmarks: field(optional(array(CustomBookmarkSchema))),
 });
