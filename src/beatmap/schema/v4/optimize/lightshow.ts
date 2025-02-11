@@ -1,6 +1,7 @@
 import { round } from '../../../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { ILightshow } from '../../../../types/beatmap/v4/lightshow.ts';
+import { round } from '../../../../utils/math.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { EventBoxType } from '../../../shared/constants.ts';
 import { isEmpty } from '../../../../utils/misc/json.ts';
@@ -11,97 +12,105 @@ import { isEmpty } from '../../../../utils/misc/json.ts';
 export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
    if (options.deduplicate) {
       const [newBasicEventsData, remapBasicEventsIdx] = remapDedupe(
-         data.basicEventsData,
+         data.basicEventsData ?? [],
       );
       const [newColorBoostEventsData, remapColorBoostEventsIdx] = remapDedupe(
-         data.colorBoostEventsData,
+         data.colorBoostEventsData ?? [],
       );
       const [newWaypointsData, remapWaypointsIdx] = remapDedupe(
-         data.waypointsData,
+         data.waypointsData ?? [],
       );
       const [newIndexFilters, remapIndexFiltersIdx] = remapDedupe(
-         data.indexFilters,
+         data.indexFilters ?? [],
       );
       const [newLightColorEventBoxes, remapLightColorEventBoxesIdx] = remapDedupe(
-         data.lightColorEventBoxes,
+         data.lightColorEventBoxes ?? [],
       );
       const [newLightColorEvents, remapLightColorEventsIdx] = remapDedupe(
-         data.lightColorEvents,
+         data.lightColorEvents ?? [],
       );
       const [newLightRotationEventBoxes, remapLightRotationEventBoxesIdx] = remapDedupe(
-         data.lightRotationEventBoxes,
+         data.lightRotationEventBoxes ?? [],
       );
       const [newLightRotationEvents, remapLightRotationEventsIdx] = remapDedupe(
-         data.lightRotationEvents,
+         data.lightRotationEvents ?? [],
       );
       const [
          newLightTranslationEventBoxes,
          remapLightTranslationEventBoxesIdx,
-      ] = remapDedupe(data.lightTranslationEventBoxes);
+      ] = remapDedupe(data.lightTranslationEventBoxes ?? []);
       const [newLightTranslationEvents, remapLightTranslationEventsIdx] = remapDedupe(
-         data.lightTranslationEvents,
+         data.lightTranslationEvents ?? [],
       );
       const [newFxEventBoxes, remapFxEventBoxesIdx] = remapDedupe(
-         data.fxEventBoxes,
+         data.fxEventBoxes ?? [],
       );
       const [newFloatFxEvents, remapFloatFxEventsIdx] = remapDedupe(
-         data.floatFxEvents,
+         data.floatFxEvents ?? [],
       );
 
-      for (let i = 0; i < data.basicEvents.length; i++) {
-         const d = data.basicEvents[i];
-         d.i = remapBasicEventsIdx.get(d.i!);
+      if (data.basicEvents) {
+         for (let i = 0; i < data.basicEvents.length; i++) {
+            const d = data.basicEvents[i];
+            d.i = remapBasicEventsIdx.get(d.i!);
+         }
       }
-      for (let i = 0; i < data.colorBoostEvents.length; i++) {
-         const d = data.colorBoostEvents[i];
-         d.i = remapColorBoostEventsIdx.get(d.i!);
+      if (data.colorBoostEvents) {
+         for (let i = 0; i < data.colorBoostEvents.length; i++) {
+            const d = data.colorBoostEvents[i];
+            d.i = remapColorBoostEventsIdx.get(d.i!);
+         }
       }
-      for (let i = 0; i < data.waypoints.length; i++) {
-         const d = data.waypoints[i];
-         d.i = remapWaypointsIdx.get(d.i!);
+      if (data.waypoints) {
+         for (let i = 0; i < data.waypoints.length; i++) {
+            const d = data.waypoints[i];
+            d.i = remapWaypointsIdx.get(d.i!);
+         }
       }
-      for (let i = 0; i < data.eventBoxGroups.length; i++) {
-         const ebg = data.eventBoxGroups[i] || [];
-         const boxes = ebg.e || [];
-         for (let j = 0; j < boxes.length; j++) {
-            const box = boxes[j];
-            box.f = remapIndexFiltersIdx.get(box.f!);
-            switch (ebg.t) {
-               case EventBoxType.COLOR: {
-                  box.e = remapLightColorEventBoxesIdx.get(box.e!);
-                  const l = box.l || [];
-                  for (let k = 0; k < l.length; k++) {
-                     const e = l[k];
-                     e.i = remapLightColorEventsIdx.get(e.i!);
+      if (data.eventBoxGroups) {
+         for (let i = 0; i < data.eventBoxGroups.length; i++) {
+            const ebg = data.eventBoxGroups[i] || [];
+            const boxes = ebg.e || [];
+            for (let j = 0; j < boxes.length; j++) {
+               const box = boxes[j];
+               box.f = remapIndexFiltersIdx.get(box.f!);
+               switch (ebg.t) {
+                  case EventBoxType.COLOR: {
+                     box.e = remapLightColorEventBoxesIdx.get(box.e!);
+                     const l = box.l || [];
+                     for (let k = 0; k < l.length; k++) {
+                        const e = l[k];
+                        e.i = remapLightColorEventsIdx.get(e.i!);
+                     }
+                     break;
                   }
-                  break;
-               }
-               case EventBoxType.ROTATION: {
-                  box.e = remapLightRotationEventBoxesIdx.get(box.e!);
-                  const l = box.l || [];
-                  for (let k = 0; k < l.length; k++) {
-                     const e = l[k];
-                     e.i = remapLightRotationEventsIdx.get(e.i!);
+                  case EventBoxType.ROTATION: {
+                     box.e = remapLightRotationEventBoxesIdx.get(box.e!);
+                     const l = box.l || [];
+                     for (let k = 0; k < l.length; k++) {
+                        const e = l[k];
+                        e.i = remapLightRotationEventsIdx.get(e.i!);
+                     }
+                     break;
                   }
-                  break;
-               }
-               case EventBoxType.TRANSLATION: {
-                  box.e = remapLightTranslationEventBoxesIdx.get(box.e!);
-                  const l = box.l || [];
-                  for (let k = 0; k < l.length; k++) {
-                     const e = l[k];
-                     e.i = remapLightTranslationEventsIdx.get(e.i!);
+                  case EventBoxType.TRANSLATION: {
+                     box.e = remapLightTranslationEventBoxesIdx.get(box.e!);
+                     const l = box.l || [];
+                     for (let k = 0; k < l.length; k++) {
+                        const e = l[k];
+                        e.i = remapLightTranslationEventsIdx.get(e.i!);
+                     }
+                     break;
                   }
-                  break;
-               }
-               case EventBoxType.FX_FLOAT: {
-                  box.e = remapFxEventBoxesIdx.get(box.e!);
-                  const l = box.l || [];
-                  for (let k = 0; k < l.length; k++) {
-                     const e = l[k];
-                     e.i = remapFloatFxEventsIdx.get(e.i!);
+                  case EventBoxType.FX_FLOAT: {
+                     box.e = remapFxEventBoxesIdx.get(box.e!);
+                     const l = box.l || [];
+                     for (let k = 0; k < l.length; k++) {
+                        const e = l[k];
+                        e.i = remapFloatFxEventsIdx.get(e.i!);
+                     }
+                     break;
                   }
-                  break;
                }
             }
          }

@@ -46,8 +46,28 @@ export function deepCopy<T>(object: T) {
 export function jsonCopy<T>(object: T): T;
 export function jsonCopy<T>(object: T, omitReadonly: true): DeepWritable<T>;
 export function jsonCopy<T>(object: T, omitReadonly: boolean): T;
-export function jsonCopy<T>(object: T): DeepWritable<T> {
+export function jsonCopy<T>(object: T ): DeepWritable<T> {
    return JSON.parse(JSON.stringify(object));
+}
+
+/** Check if string is valid hexadecimal. */
+export function isHex(hex: string): boolean {
+   return /^[a-fA-F0-9]+$/g.test(hex);
+}
+/** Check if an object has key/value pairs */
+export function isRecord<T extends Record<string, unknown>>(data: unknown): data is T {
+   return !!data && typeof data === 'object';
+}
+
+/** Convert hexadecimal to decimal. */
+export function hexToDec(hex: string): number {
+   return parseInt(hex, 16);
+}
+
+/** Convert decimal to hexadecimal.*/
+export function decToHex(val: number): string {
+   const hex = val.toString(16);
+   return hex;
 }
 
 /** Check if object is empty. */

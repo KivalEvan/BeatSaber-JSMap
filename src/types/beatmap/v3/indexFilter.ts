@@ -1,6 +1,4 @@
-import type { RandomType } from '../shared/constants.ts';
-import type { LimitAlsoAffectsType } from '../shared/constants.ts';
-import type { IndexFilterType } from '../shared/constants.ts';
+import type { IndexFilterType, LimitAlsoAffectsType, RandomType } from '../shared/constants.ts';
 import type { IBaseItem } from './baseItem.ts';
 
 interface IIndexFilterBase extends IBaseItem {
@@ -87,7 +85,7 @@ interface IIndexFilterBase extends IBaseItem {
 }
 
 interface IIndexFilterSection extends IIndexFilterBase {
-   f?: IndexFilterType.DIVISION;
+   f?: typeof IndexFilterType.DIVISION;
    /**
     * Divide into sections in index filter.
     *
@@ -105,7 +103,7 @@ interface IIndexFilterSection extends IIndexFilterBase {
 }
 
 interface IIndexFilterStepOffset extends IIndexFilterBase {
-   f?: IndexFilterType.STEP_AND_OFFSET;
+   f?: typeof IndexFilterType.STEP_AND_OFFSET;
    /**
     * Light ID  in index filter.
     *

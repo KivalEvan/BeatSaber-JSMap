@@ -1,40 +1,95 @@
-import type { ISchemaDeclaration } from '../../types/beatmap/shared/schema.ts';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 import { logger } from '../../logger.ts';
-import type { Version } from '../../types/beatmap/shared/version.ts';
-import { compareVersion } from '../helpers/version.ts';
 import type { ISchemaCheckOptions } from '../../types/beatmap/options/schema.ts';
+import type { ISchemaDeclaration } from '../../types/beatmap/shared/schema.ts';
+import type { Version } from '../../types/beatmap/shared/version.ts';
+import { isRecord } from '../../utils/misc.ts';
+import { compareVersion } from '../helpers/version.ts';
 
-function tag(): string[] {
-   return ['helpers', 'schemaCheck'];
+function tag(vendor?: string): string[] {
+   let tags = ['helpers', 'schemaCheck'];
+   if (vendor) tags = tags.concat(vendor);
+   return tags;
 }
 
-function handleError(text: string, doThrow: boolean | undefined, errors: string[]): void {
-   if (doThrow) {
-      throw new Error(text);
+interface ErrorOptions {
+   vendor?: string;
+   doThrow?: boolean;
+}
+function handleError(
+   issue: StandardSchemaV1.Issue,
+   options: Partial<ErrorOptions>,
+   errors: StandardSchemaV1.Issue[],
+): void {
+   const path = issue.path?.map((segment) => {
+      if (typeof segment === 'object' && 'key' in segment) return segment.key;
+      return segment;
+   }).map((x, i) => {
+      if (i === 0) return x;
+      if (typeof x === 'number') return `[${x}]`;
+      return `.${x.toString()}`;
+   }).join('');
+   if (options.doThrow) {
+      throw new Error(`${issue.message}${path ? ` at "${path}"` : ''}`);
    } else {
-      logger.tWarn(tag(), text);
-      errors.push(text);
+      logger.tWarn(tag(options.vendor), `${issue.message}${path ? ` at "${path}"` : ''}`);
+      errors.push(issue);
    }
 }
 
+function isStandardSchema<T extends StandardSchemaV1>(schema: object): schema is T {
+   return '~standard' in schema;
+}
+
 /**
- * Deeply check JSON schema given `Data Check` schema.
+ * Deeply check JSON schema given `Data Check` or `StandardSchemaV1` schema.
  *
- * Strict null policy. Return error logs as `string[]` for error inspection.
+ * Strict null policy. Return error logs as `StandardSchemaV1.Issue[]` for error inspection.
  */
-export function schemaCheck(
-   // deno-lint-ignore no-explicit-any
-   data: { [key: string]: any },
-   schema: { [key: string]: ISchemaDeclaration },
+export function schemaCheck<Schema extends { [key: string]: ISchemaDeclaration }>(
+   data: unknown,
+   schema: Schema,
    label: string,
-   version: Version,
-   throwOn: ISchemaCheckOptions['throwOn'],
-   _errors: string[] = [],
-): string[] {
-   logger.tDebug(tag(), `Looking up ${label}`);
+   version?: Version,
+   throwOn?: Partial<ISchemaCheckOptions['throwOn']>,
+): StandardSchemaV1.Issue[];
+export function schemaCheck<Schema extends StandardSchemaV1>(
+   data: unknown,
+   schema: Schema,
+   label: string,
+): StandardSchemaV1.Issue[];
+export function schemaCheck<
+   Schema extends { [key: string]: ISchemaDeclaration } | StandardSchemaV1,
+>(
+   data: unknown,
+   schema: Schema,
+   label: string,
+   version: Version | undefined = undefined,
+   throwOn: Partial<ISchemaCheckOptions['throwOn']> = {},
+   _errors: StandardSchemaV1.Issue[] = [],
+): StandardSchemaV1.Issue[] {
+   if (isStandardSchema(schema)) {
+      let buffer: StandardSchemaV1.Issue[] = [];
+      const result = schema['~standard'].validate(data);
+      if ('issues' in result && result.issues) {
+         // hack: adding a manual buffer since too many issues being processed at once can cause validation to hang
+         buffer = result.issues.filter((_, i) => i < 100) ?? [];
+         for (const issue of buffer) {
+            handleError(issue, {
+               vendor: schema['~standard'].vendor,
+               doThrow: Object.keys(throwOn).length > 0,
+            }, _errors);
+         }
+         if (result.issues.length > buffer.length) {
+            logger.tWarn(tag(schema['~standard'].vendor), 'Max issue buffer has been reached.');
+         }
+      }
+      return [...buffer];
+   }
+
    if (Array.isArray(data)) {
       for (let i = 0; i < data.length; i++) {
-         schemaCheck(data[i], schema, `${label}[${i}]`, version, throwOn, _errors);
+         schemaCheck(data[i], schema, `${label}[${i}]`, version, throwOn);
       }
       return _errors;
    }
@@ -43,9 +98,16 @@ export function schemaCheck(
    const checkKeys = Object.keys(schema);
    if (!checkKeys.length) return _errors;
 
+   if (!isRecord(data)) {
+      return _errors;
+   }
+
    for (const key in data) {
       if (!(key in schema)) {
-         handleError(`Unused key ${key} found in ${label}`, throwOn.unused, _errors);
+         handleError({ message: `Unused key ${key} found in ${label}` }, {
+            vendor: 'bsmap',
+            doThrow: throwOn.unused,
+         }, _errors);
       }
    }
 
@@ -58,38 +120,55 @@ export function schemaCheck(
          if (!throwOn.ignoreOptional && schema[key].optional) {
             continue;
          }
-         if (compareVersion(version, ch.version) === -1) {
-            continue;
+         if (ch.version && version) {
+            if (compareVersion(version, ch.version) === -1) {
+               continue;
+            }
          }
-         handleError(`Missing ${key} in object ${label}!`, throwOn.missing, _errors);
+         handleError({ message: `Missing ${key} in object ${label}!` }, {
+            vendor: 'bsmap',
+            doThrow: throwOn.missing,
+         }, _errors);
          continue;
       }
 
       if (d === null) {
-         handleError(`${key} contain null value in object ${label}!`, throwOn.nullish, _errors);
+         handleError({ message: `${key} contain null value in object ${label}!` }, {
+            vendor: 'bsmap',
+            doThrow: throwOn.nullish,
+         }, _errors);
          continue;
       }
 
       if (ch.type === 'array') {
          if (!Array.isArray(d)) {
-            handleError(`${key} is not an array in object ${label}!`, throwOn.wrongType, _errors);
+            handleError({ message: `${key} is not an array in object ${label}!` }, {
+               vendor: 'bsmap',
+               doThrow: throwOn.wrongType,
+            }, _errors);
          }
-         schemaCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
+         schemaCheck(d, ch.check, `${label}.${key}`, version, throwOn);
          continue;
       }
 
       if (ch.type === 'object') {
          if (!Array.isArray(d) && !(typeof d === 'object')) {
-            handleError(`${key} is not an object in object ${label}!`, throwOn.wrongType, _errors);
+            handleError({ message: `${key} is not an object in object ${label}!` }, {
+               vendor: 'bsmap',
+               doThrow: throwOn.wrongType,
+            }, _errors);
          } else {
-            schemaCheck(d, ch.check, `${label}.${key}`, version, throwOn, _errors);
+            schemaCheck(d, ch.check, `${label}.${key}`, version, throwOn);
          }
          continue;
       }
 
       if (ch.array) {
          if (!Array.isArray(d)) {
-            handleError(`${key} is not ${ch.type} in object ${label}!`, throwOn.wrongType, _errors);
+            handleError({ message: `${key} is not ${ch.type} in object ${label}!` }, {
+               vendor: 'bsmap',
+               doThrow: throwOn.wrongType,
+            }, _errors);
             continue;
          }
          if (
@@ -101,27 +180,42 @@ export function schemaCheck(
                      (isNaN(n) || ((ch.int ? n % 1 !== 0 : true) && (ch.unsigned ? n < 0 : true)))),
             )
          ) {
-            handleError(`${key} is not ${ch.type} in object ${label}!`, throwOn.wrongType, _errors);
+            handleError({ message: `${key} is not ${ch.type} in object ${label}!` }, {
+               vendor: 'bsmap',
+               doThrow: throwOn.wrongType,
+            }, _errors);
          }
          continue;
       }
 
       if (!ch.array && typeof d !== ch.type) {
-         handleError(`${key} is not ${ch.type} in object ${label}!`, throwOn.wrongType, _errors);
+         handleError({ message: `${key} is not ${ch.type} in object ${label}!` }, {
+            vendor: 'bsmap',
+            doThrow: throwOn.wrongType,
+         }, _errors);
          continue;
       }
 
-      if (ch.type === 'number') {
+      if (ch.type === 'number' && typeof d === 'number') {
          if (isNaN(d)) {
-            handleError(`${label}.${key} is NaN!`, throwOn.nullish, _errors);
+            handleError({ message: `${label}.${key} is NaN!` }, {
+               vendor: 'bsmap',
+               doThrow: throwOn.nullish,
+            }, _errors);
             continue;
          }
          if (ch.int && d % 1 !== 0) {
-            handleError(`${label}.${key} cannot be float!`, throwOn.notInt, _errors);
+            handleError({ message: `${label}.${key} cannot be float!` }, {
+               vendor: 'bsmap',
+               doThrow: throwOn.notInt,
+            }, _errors);
             continue;
          }
          if (ch.unsigned && d < 0) {
-            handleError(`${label}.${key} cannot be negative!`, throwOn.notUnsigned, _errors);
+            handleError({ message: `${label}.${key} cannot be negative!` }, {
+               vendor: 'bsmap',
+               doThrow: throwOn.notUnsigned,
+            }, _errors);
             continue;
          }
       }

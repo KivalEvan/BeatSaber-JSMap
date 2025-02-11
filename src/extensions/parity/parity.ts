@@ -242,7 +242,7 @@ export class Parity<
          }
       });
 
-      let prevNote!: TColorNote;
+      let prevNote!: IWrapColorNote;
       let expectedDirection = NoteDirection.ANY;
       for (const note of noteContext) {
          if (note.direction !== NoteDirection.ANY) {

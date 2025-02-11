@@ -39,5 +39,9 @@
       "test:clean": "rm -r ./coverage",
       "clean": "deno task test:clean || true && deno task npm:clean || true",
       "ci": "deno lint && deno fmt --check && deno task check && deno task test && deno task npm"
+   },
+   "imports": {
+      "@standard-schema/spec": "jsr:@standard-schema/spec@^1.0.0",
+      "@valibot/valibot": "jsr:@valibot/valibot@^1.0.0-rc.0"
    }
 }

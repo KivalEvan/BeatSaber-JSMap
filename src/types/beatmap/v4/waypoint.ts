@@ -16,5 +16,5 @@ export interface IWaypoint extends IGrid {
     *
     * **Type:** `i32`
     */
-   d?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9;
+   o?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9;
 }

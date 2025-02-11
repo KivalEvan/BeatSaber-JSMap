@@ -13,24 +13,20 @@ import type { ISpawnRotation } from './spawnRotation.ts';
  */
 export interface IDifficulty extends IItem {
    version: '4.0.0' | '4.1.0';
-   colorNotes: IObjectLane[];
-   bombNotes: IObjectLane[];
-   obstacles: IObjectLane[];
-   chains: IObjectChain[];
-   arcs: IObjectArc[];
-   /**
-    * @deprecated removed as of 1.39, convert to `r` in object lane
-    */
+   colorNotes?: IObjectLane[];
+   colorNotesData?: IColorNote[];
+   bombNotes?: IObjectLane[];
+   bombNotesData?: IBombNote[];
+   obstacles?: IObjectLane[];
+   obstaclesData?: IObstacle[];
+   chains?: IObjectChain[];
+   chainsData?: IChain[];
+   arcs?: IObjectArc[];
+   arcsData?: IArc[];
+   /** @deprecated removed as of 1.39, convert to `r` in object lane */
    spawnRotations?: IObject[];
-   colorNotesData: IColorNote[];
-   bombNotesData: IBombNote[];
-   obstaclesData: IObstacle[];
-   chainsData: IChain[];
-   arcsData: IArc[];
-   /**
-    * @deprecated removed as of 1.39, convert to `r` in object lane
-    */
+   /** @deprecated removed as of 1.39, convert to `r` in object lane */
    spawnRotationsData?: ISpawnRotation[];
-   njsEvents: IObject[];
-   njsEventData: INJSEvent[];
+   njsEvents?: IObject[];
+   njsEventData?: INJSEvent[];
 }

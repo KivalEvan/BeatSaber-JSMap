@@ -1,6 +1,7 @@
 import { round } from '../../../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { IDifficulty } from '../../../../types/beatmap/v4/difficulty.ts';
+import { round } from '../../../../utils/math.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { isEmpty } from '../../../../utils/misc/json.ts';
 
@@ -13,44 +14,56 @@ export function optimizeDifficulty(
 ) {
    if (options.deduplicate) {
       const [newNoteColorData, remapColorNoteIdx] = remapDedupe(
-         data.colorNotesData,
+         data.colorNotesData ?? [],
       );
       const [newBombNoteData, remapBombNoteIdx] = remapDedupe(
-         data.bombNotesData,
+         data.bombNotesData ?? [],
       );
       const [newObstacleData, remapObstacleIdx] = remapDedupe(
-         data.obstaclesData,
+         data.obstaclesData ?? [],
       );
-      const [newChainData, remapChainIdx] = remapDedupe(data.chainsData);
-      const [newArcData, remapArcIdx] = remapDedupe(data.arcsData);
-      const [newSRData, remapSRIdx] = remapDedupe(data.spawnRotationsData!);
+      const [newChainData, remapChainIdx] = remapDedupe(data.chainsData ?? []);
+      const [newArcData, remapArcIdx] = remapDedupe(data.arcsData ?? []);
+      const [newSRData, remapSRIdx] = remapDedupe(data.spawnRotationsData ?? []);
 
-      for (let i = 0; i < data.colorNotes.length; i++) {
-         const d = data.colorNotes[i];
-         d.i = remapColorNoteIdx.get(d.i!);
+      if (data.colorNotes) {
+         for (let i = 0; i < data.colorNotes.length; i++) {
+            const d = data.colorNotes[i];
+            d.i = remapColorNoteIdx.get(d.i!);
+         }
       }
-      for (let i = 0; i < data.bombNotes.length; i++) {
-         const d = data.bombNotes[i];
-         d.i = remapBombNoteIdx.get(d.i!);
+      if (data.bombNotes) {
+         for (let i = 0; i < data.bombNotes.length; i++) {
+            const d = data.bombNotes[i];
+            d.i = remapBombNoteIdx.get(d.i!);
+         }
       }
-      for (let i = 0; i < data.obstacles.length; i++) {
-         const d = data.obstacles[i];
-         d.i = remapObstacleIdx.get(d.i!);
+      if (data.obstacles) {
+         for (let i = 0; i < data.obstacles.length; i++) {
+            const d = data.obstacles[i];
+            d.i = remapObstacleIdx.get(d.i!);
+         }
       }
-      for (let i = 0; i < data.chains.length; i++) {
-         const d = data.chains[i];
-         d.ci = remapChainIdx.get(d.ci!);
-         d.i = remapColorNoteIdx.get(d.i!);
+      if (data.chains) {
+         for (let i = 0; i < data.chains.length; i++) {
+            const d = data.chains[i];
+            d.ci = remapChainIdx.get(d.ci!);
+            d.i = remapColorNoteIdx.get(d.i!);
+         }
       }
-      for (let i = 0; i < data.arcs.length; i++) {
-         const d = data.arcs[i];
-         d.ai = remapArcIdx.get(d.ai!);
-         d.hi = remapColorNoteIdx.get(d.hi!);
-         d.ti = remapColorNoteIdx.get(d.ti!);
+      if (data.arcs) {
+         for (let i = 0; i < data.arcs.length; i++) {
+            const d = data.arcs[i];
+            d.ai = remapArcIdx.get(d.ai!);
+            d.hi = remapColorNoteIdx.get(d.hi!);
+            d.ti = remapColorNoteIdx.get(d.ti!);
+         }
       }
-      for (let i = 0; i < data.spawnRotations!.length; i++) {
-         const d = data.spawnRotations![i];
-         d.i = remapSRIdx.get(d.i!);
+      if (data.spawnRotations) {
+         for (let i = 0; i < data.spawnRotations.length; i++) {
+            const d = data.spawnRotations[i];
+            d.i = remapSRIdx.get(d.i!);
+         }
       }
 
       data.colorNotesData = newNoteColorData;

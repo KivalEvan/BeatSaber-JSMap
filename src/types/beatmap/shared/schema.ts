@@ -4,7 +4,7 @@ import type { Version } from './version.ts';
 
 interface ISchemaDeclarationBase {
    readonly type: string | string[]; // string array because there'll soon be having to check both
-   readonly version: Version;
+   readonly version?: Version;
    readonly array?: boolean;
    readonly optional?: boolean;
 }

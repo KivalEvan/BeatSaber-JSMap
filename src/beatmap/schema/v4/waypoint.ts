@@ -19,7 +19,7 @@ export const waypoint: ISchemaContainer<IWrapWaypoint, IWaypointContainer> = {
          data: {
             x: data.posX,
             y: data.posY,
-            d: data.direction,
+            o: data.direction,
             customData: deepCopy(data.customData),
          },
       };

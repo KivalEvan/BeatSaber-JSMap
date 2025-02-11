@@ -1,5 +1,4 @@
-import type { Axis } from '../shared/constants.ts';
-import type { DistributionType } from '../shared/constants.ts';
+import type { Axis, DistributionType } from '../shared/constants.ts';
 import type { IEventBox } from './eventBox.ts';
 import type { ILightRotationEvent } from './lightRotationEvent.ts';
 
@@ -44,5 +43,5 @@ export interface ILightRotationEventBox extends IEventBox {
     */
    b?: 0 | 1;
    /** Light rotation base data list. */
-   l: ILightRotationEvent[];
+   l?: ILightRotationEvent[];
 }
