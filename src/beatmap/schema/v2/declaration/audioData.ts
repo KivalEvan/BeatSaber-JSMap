@@ -1,4 +1,12 @@
-import { array, integer, minValue, number, object, pipe } from '@valibot/valibot';
+import {
+   array,
+   integer,
+   minValue,
+   number,
+   object,
+   type ObjectSchema as VObjectSchema,
+   pipe,
+} from '@valibot/valibot';
 import type { IBPMInfo, IBPMInfoRegion } from '../../../../types/beatmap/v2/bpmInfo.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import { VersionSchema } from '../../shared/declaration/mod.ts';
@@ -6,7 +14,10 @@ import { VersionSchema } from '../../shared/declaration/mod.ts';
 /**
  * Schema declaration for v2 `BPMInfo Region`.
  */
-export const BPMInfoRegionSchema = object<InferObjectEntries<IBPMInfoRegion>>({
+export const BPMInfoRegionSchema: VObjectSchema<
+   InferObjectEntries<IBPMInfoRegion>,
+   undefined
+> = object<InferObjectEntries<IBPMInfoRegion>>({
    _startSampleIndex: field(pipe(number(), integer(), minValue(0)), {
       version: '2.0.0',
    }),
@@ -24,7 +35,10 @@ export const BPMInfoRegionSchema = object<InferObjectEntries<IBPMInfoRegion>>({
 /**
  * Schema declaration for v2 `BPMInfo`.
  */
-export const BPMInfoSchema = entity<
+export const BPMInfoSchema: VObjectSchema<
+   InferObjectEntries<IBPMInfo>,
+   undefined
+> = entity<
    InferObjectEntries<IBPMInfo>
 >((x) => x._version, {
    _version: field(mask<'2.0.0'>(VersionSchema), {

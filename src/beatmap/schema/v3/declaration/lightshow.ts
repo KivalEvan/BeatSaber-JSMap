@@ -1,4 +1,4 @@
-import { array, optional } from '@valibot/valibot';
+import { array, type ObjectSchema as VObjectSchema, optional } from '@valibot/valibot';
 import type { ILightshow } from '../../../../types/beatmap/v3/lightshow.ts';
 import { entity, field, type InferObjectEntries } from '../../helpers.ts';
 import { CustomDataSchema } from '../../shared/declaration/mod.ts';
@@ -15,7 +15,10 @@ import {
 /**
  * Schema declaration for v3 `Lightshow`.
  */
-export const LightshowSchema = entity<
+export const LightshowSchema: VObjectSchema<
+   InferObjectEntries<ILightshow>,
+   undefined
+> = entity<
    InferObjectEntries<ILightshow>
 >(() => '3.0.0', {
    basicBeatmapEvents: field(optional(array(BasicEventSchema)), {

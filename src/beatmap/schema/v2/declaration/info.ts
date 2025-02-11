@@ -1,4 +1,14 @@
-import { array, boolean, integer, number, object, optional, pipe, string } from '@valibot/valibot';
+import {
+   array,
+   boolean,
+   integer,
+   number,
+   object,
+   type ObjectSchema as VObjectSchema,
+   optional,
+   pipe,
+   string,
+} from '@valibot/valibot';
 import type {
    Environment360Name,
    EnvironmentAllName,
@@ -23,7 +33,10 @@ import {
 } from '../../shared/declaration/mod.ts';
 
 /** Schema declaration for v2 `InfoSetDifficulty`. */
-export const InfoSetDifficultySchema = object<InferObjectEntries<IInfoDifficulty>>({
+export const InfoSetDifficultySchema: VObjectSchema<
+   InferObjectEntries<IInfoDifficulty>,
+   undefined
+> = object<InferObjectEntries<IInfoDifficulty>>({
    _difficulty: field(DifficultyNameSchema, {
       version: '2.0.0',
    }),
@@ -49,7 +62,10 @@ export const InfoSetDifficultySchema = object<InferObjectEntries<IInfoDifficulty
 });
 
 /** Schema declaration for v2 `InfoSet`. */
-export const InfoSetSchema = object<InferObjectEntries<IInfoSet>>({
+export const InfoSetSchema: VObjectSchema<
+   InferObjectEntries<IInfoSet>,
+   undefined
+> = object<InferObjectEntries<IInfoSet>>({
    _beatmapCharacteristicName: field(CharacteristicNameSchema, {
       version: '2.0.0',
    }),
@@ -60,7 +76,10 @@ export const InfoSetSchema = object<InferObjectEntries<IInfoSet>>({
 });
 
 /** Schema declaration for v2 `Color`. */
-export const ColorObjectSchema = object<InferObjectEntries<Required<IColor>>>({
+export const ColorObjectSchema: VObjectSchema<
+   InferObjectEntries<Required<IColor>>,
+   undefined
+> = object<InferObjectEntries<Required<IColor>>>({
    r: field(number(), {
       version: '2.1.0',
    }),
@@ -76,7 +95,10 @@ export const ColorObjectSchema = object<InferObjectEntries<Required<IColor>>>({
 });
 
 /** Schema declaration for v2 `InfoColorSchemeData`. */
-export const InfoColorSchemeDataSchema = object<InferObjectEntries<IInfoColorSchemeData>>({
+export const InfoColorSchemeDataSchema: VObjectSchema<
+   InferObjectEntries<IInfoColorSchemeData>,
+   undefined
+> = object<InferObjectEntries<IInfoColorSchemeData>>({
    colorSchemeId: field(string(), {
       version: '2.1.0',
    }),
@@ -110,7 +132,10 @@ export const InfoColorSchemeDataSchema = object<InferObjectEntries<IInfoColorSch
 });
 
 /** Schema declaration for v2 `InfoColorScheme`. */
-export const InfoColorSchemeSchema = object<InferObjectEntries<IInfoColorScheme>>({
+export const InfoColorSchemeSchema: VObjectSchema<
+   InferObjectEntries<IInfoColorScheme>,
+   undefined
+> = object<InferObjectEntries<IInfoColorScheme>>({
    useOverride: field(boolean(), {
       version: '2.1.0',
    }),
@@ -120,7 +145,10 @@ export const InfoColorSchemeSchema = object<InferObjectEntries<IInfoColorScheme>
 });
 
 /** Schema declaration for v2 `Info`. */
-export const InfoSchema = entity<
+export const InfoSchema: VObjectSchema<
+   InferObjectEntries<IInfo>,
+   undefined
+> = entity<
    InferObjectEntries<IInfo>
 >((x) => x._version, {
    _version: field(mask<'2.0.0' | '2.1.0'>(VersionSchema), {

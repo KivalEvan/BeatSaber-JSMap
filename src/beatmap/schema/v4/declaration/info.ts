@@ -1,4 +1,14 @@
-import { array, boolean, integer, number, object, optional, pipe, string } from '@valibot/valibot';
+import {
+   array,
+   boolean,
+   integer,
+   number,
+   object,
+   type ObjectSchema as VObjectSchema,
+   optional,
+   pipe,
+   string,
+} from '@valibot/valibot';
 import type { EnvironmentAllName } from '../../../../types/beatmap/shared/mod.ts';
 import type {
    IInfo,
@@ -19,7 +29,10 @@ import {
 /**
  * Schema declaration for v4 `Info Song`.
  */
-export const InfoSongSchema = object<InferObjectEntries<IInfoSong>>({
+export const InfoSongSchema: VObjectSchema<
+   InferObjectEntries<IInfoSong>,
+   undefined
+> = object<InferObjectEntries<IInfoSong>>({
    title: field(string(), {
       version: '4.0.0',
    }),
@@ -34,7 +47,10 @@ export const InfoSongSchema = object<InferObjectEntries<IInfoSong>>({
 /**
  * Schema declaration for v4 `Info Audio`.
  */
-export const InfoAudioSchema = object<InferObjectEntries<IInfoAudio>>({
+export const InfoAudioSchema: VObjectSchema<
+   InferObjectEntries<IInfoAudio>,
+   undefined
+> = object<InferObjectEntries<IInfoAudio>>({
    songFilename: field(string(), {
       version: '4.0.0',
    }),
@@ -61,7 +77,10 @@ export const InfoAudioSchema = object<InferObjectEntries<IInfoAudio>>({
 /**
  * Schema declaration for v4 `Info Color Scheme`.
  */
-export const InfoColorSchemeSchema = object<InferObjectEntries<IInfoColorScheme>>({
+export const InfoColorSchemeSchema: VObjectSchema<
+   InferObjectEntries<IInfoColorScheme>,
+   undefined
+> = object<InferObjectEntries<IInfoColorScheme>>({
    colorSchemeName: field(string(), {
       version: '4.0.0',
    }),
@@ -103,7 +122,10 @@ export const InfoColorSchemeSchema = object<InferObjectEntries<IInfoColorScheme>
 /**
  * Schema declaration for v4 `Info Beatmap Authors`.
  */
-export const InfoBeatmapAuthorsSchema = object<InferObjectEntries<IInfoBeatmapAuthors>>({
+export const InfoBeatmapAuthorsSchema: VObjectSchema<
+   InferObjectEntries<IInfoBeatmapAuthors>,
+   undefined
+> = object<InferObjectEntries<IInfoBeatmapAuthors>>({
    mappers: field(array(string()), {
       version: '4.0.0',
    }),
@@ -115,7 +137,10 @@ export const InfoBeatmapAuthorsSchema = object<InferObjectEntries<IInfoBeatmapAu
 /**
  * Schema declaration for v4 `Info Beatmap`.
  */
-export const InfoDifficultySchema = object<InferObjectEntries<IInfoBeatmap>>({
+export const InfoDifficultySchema: VObjectSchema<
+   InferObjectEntries<IInfoBeatmap>,
+   undefined
+> = object<InferObjectEntries<IInfoBeatmap>>({
    characteristic: field(CharacteristicNameSchema, {
       version: '4.0.0',
    }),
@@ -149,9 +174,10 @@ export const InfoDifficultySchema = object<InferObjectEntries<IInfoBeatmap>>({
 /**
  * Schema declaration for v4 `Info`.
  */
-export const InfoSchema = entity<
-   InferObjectEntries<IInfo>
->((x) => x.version, {
+export const InfoSchema: VObjectSchema<
+   InferObjectEntries<IInfo>,
+   undefined
+> = entity<InferObjectEntries<IInfo>>((x) => x.version, {
    version: field(mask<'4.0.0' | '4.0.1'>(VersionSchema), {
       version: '4.0.0',
    }),

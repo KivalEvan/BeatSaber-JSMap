@@ -5,6 +5,7 @@ import {
    minValue,
    number,
    object,
+   type ObjectSchema as VObjectSchema,
    optional,
    picklist,
    pipe,
@@ -63,7 +64,10 @@ import {
 /**
  * Schema declaration for v3 `Color Note`.
  */
-export const ColorNoteSchema = object<InferObjectEntries<IColorNote>>({
+export const ColorNoteSchema: VObjectSchema<
+   InferObjectEntries<IColorNote>,
+   undefined
+> = object<InferObjectEntries<IColorNote>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -88,7 +92,10 @@ export const ColorNoteSchema = object<InferObjectEntries<IColorNote>>({
 /**
  * Schema declaration for v3 `Bomb Note`.
  */
-export const BombNoteSchema = object<InferObjectEntries<IBombNote>>({
+export const BombNoteSchema: VObjectSchema<
+   InferObjectEntries<IBombNote>,
+   undefined
+> = object<InferObjectEntries<IBombNote>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -104,7 +111,10 @@ export const BombNoteSchema = object<InferObjectEntries<IBombNote>>({
 /**
  * Schema declaration for v3 `Arc`.
  */
-export const ArcSchema = object<InferObjectEntries<IArc>>({
+export const ArcSchema: VObjectSchema<
+   InferObjectEntries<IArc>,
+   undefined
+> = object<InferObjectEntries<IArc>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -147,7 +157,10 @@ export const ArcSchema = object<InferObjectEntries<IArc>>({
 /**
  * Schema declaration for v3 `Chain`.
  */
-export const ChainSchema = object<InferObjectEntries<IChain>>({
+export const ChainSchema: VObjectSchema<
+   InferObjectEntries<IChain>,
+   undefined
+> = object<InferObjectEntries<IChain>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -184,7 +197,10 @@ export const ChainSchema = object<InferObjectEntries<IChain>>({
 /**
  * Schema declaration for v3 `Obstacle`.
  */
-export const ObstacleSchema = object<InferObjectEntries<IObstacle>>({
+export const ObstacleSchema: VObjectSchema<
+   InferObjectEntries<IObstacle>,
+   undefined
+> = object<InferObjectEntries<IObstacle>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -209,7 +225,10 @@ export const ObstacleSchema = object<InferObjectEntries<IObstacle>>({
 /**
  * Schema declaration for v3 `Waypoint`.
  */
-export const WaypointSchema = object<InferObjectEntries<IWaypoint>>({
+export const WaypointSchema: VObjectSchema<
+   InferObjectEntries<IWaypoint>,
+   undefined
+> = object<InferObjectEntries<IWaypoint>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -228,7 +247,10 @@ export const WaypointSchema = object<InferObjectEntries<IWaypoint>>({
 /**
  * Schema declaration for v3 `Basic Event`.
  */
-export const BasicEventSchema = object<InferObjectEntries<IBasicEvent>>({
+export const BasicEventSchema: VObjectSchema<
+   InferObjectEntries<IBasicEvent>,
+   undefined
+> = object<InferObjectEntries<IBasicEvent>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -247,7 +269,10 @@ export const BasicEventSchema = object<InferObjectEntries<IBasicEvent>>({
 /**
  * Schema declaration for v3 `BPM Change Event`.
  */
-export const BPMChangeEventSchema = object<InferObjectEntries<IBPMEvent>>({
+export const BPMChangeEventSchema: VObjectSchema<
+   InferObjectEntries<IBPMEvent>,
+   undefined
+> = object<InferObjectEntries<IBPMEvent>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -260,7 +285,10 @@ export const BPMChangeEventSchema = object<InferObjectEntries<IBPMEvent>>({
 /**
  * Schema declaration for v3 `Rotation Event`.
  */
-export const RotationEventSchema = object<InferObjectEntries<IRotationEvent>>({
+export const RotationEventSchema: VObjectSchema<
+   InferObjectEntries<IRotationEvent>,
+   undefined
+> = object<InferObjectEntries<IRotationEvent>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -276,7 +304,10 @@ export const RotationEventSchema = object<InferObjectEntries<IRotationEvent>>({
 /**
  * Schema declaration for v3 `Color Boost Event`.
  */
-export const ColorBoostEventSchema = object<InferObjectEntries<IColorBoostEvent>>({
+export const ColorBoostEventSchema: VObjectSchema<
+   InferObjectEntries<IColorBoostEvent>,
+   undefined
+> = object<InferObjectEntries<IColorBoostEvent>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -289,7 +320,10 @@ export const ColorBoostEventSchema = object<InferObjectEntries<IColorBoostEvent>
 /**
  * Schema declaration for v3 `Index Filter`.
  */
-export const IndexFilterSchema = object<InferObjectEntries<IIndexFilter>>({
+export const IndexFilterSchema: VObjectSchema<
+   InferObjectEntries<IIndexFilter>,
+   undefined
+> = object<InferObjectEntries<IIndexFilter>>({
    f: field(optional(IndexFilterTypeSchema), {
       version: '3.0.0',
    }),
@@ -323,7 +357,10 @@ export const IndexFilterSchema = object<InferObjectEntries<IIndexFilter>>({
 /**
  * Schema declaration for v3 `Light Color Event`.
  */
-export const LightColorBaseSchema = object<InferObjectEntries<ILightColorEvent>>({
+export const LightColorBaseSchema: VObjectSchema<
+   InferObjectEntries<ILightColorEvent>,
+   undefined
+> = object<InferObjectEntries<ILightColorEvent>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -351,7 +388,10 @@ export const LightColorBaseSchema = object<InferObjectEntries<ILightColorEvent>>
 /**
  * Schema declaration for v3 `Light Color Event Box`.
  */
-export const LightColorEventBoxSchema = object<InferObjectEntries<ILightColorEventBox>>({
+export const LightColorEventBoxSchema: VObjectSchema<
+   InferObjectEntries<ILightColorEventBox>,
+   undefined
+> = object<InferObjectEntries<ILightColorEventBox>>({
    f: field(optional(IndexFilterSchema), {
       version: '3.0.0',
    }),
@@ -382,7 +422,10 @@ export const LightColorEventBoxSchema = object<InferObjectEntries<ILightColorEve
 /**
  * Schema declaration for v3 `Light Color Event Box Group`.
  */
-export const LightColorEventBoxGroupSchema = object<InferObjectEntries<ILightColorEventBoxGroup>>({
+export const LightColorEventBoxGroupSchema: VObjectSchema<
+   InferObjectEntries<ILightColorEventBoxGroup>,
+   undefined
+> = object<InferObjectEntries<ILightColorEventBoxGroup>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -398,7 +441,10 @@ export const LightColorEventBoxGroupSchema = object<InferObjectEntries<ILightCol
 /**
  * Schema declaration for v3 `Light Rotation Event`.
  */
-export const LightRotationBaseSchema = object<InferObjectEntries<ILightRotationEvent>>({
+export const LightRotationBaseSchema: VObjectSchema<
+   InferObjectEntries<ILightRotationEvent>,
+   undefined
+> = object<InferObjectEntries<ILightRotationEvent>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -423,7 +469,10 @@ export const LightRotationBaseSchema = object<InferObjectEntries<ILightRotationE
 /**
  * Schema declaration for v3 `Light Rotation Event Box`.
  */
-export const LightRotationEventBoxSchema = object<InferObjectEntries<ILightRotationEventBox>>({
+export const LightRotationEventBoxSchema: VObjectSchema<
+   InferObjectEntries<ILightRotationEventBox>,
+   undefined
+> = object<InferObjectEntries<ILightRotationEventBox>>({
    f: field(optional(IndexFilterSchema), {
       version: '3.0.0',
    }),
@@ -460,9 +509,10 @@ export const LightRotationEventBoxSchema = object<InferObjectEntries<ILightRotat
 /**
  * Schema declaration for v3 `Light Rotation Event Box Group`.
  */
-export const LightRotationEventBoxGroupSchema = object<
-   InferObjectEntries<ILightRotationEventBoxGroup>
->({
+export const LightRotationEventBoxGroupSchema: VObjectSchema<
+   InferObjectEntries<ILightRotationEventBoxGroup>,
+   undefined
+> = object<InferObjectEntries<ILightRotationEventBoxGroup>>({
    b: field(optional(number()), {
       version: '3.0.0',
    }),
@@ -478,7 +528,10 @@ export const LightRotationEventBoxGroupSchema = object<
 /**
  * Schema declaration for v3 `Light Translation Event`.
  */
-export const LightTranslationBaseSchema = object<InferObjectEntries<ILightTranslationEvent>>({
+export const LightTranslationBaseSchema: VObjectSchema<
+   InferObjectEntries<ILightTranslationEvent>,
+   undefined
+> = object<InferObjectEntries<ILightTranslationEvent>>({
    b: field(optional(number()), {
       version: '3.2.0',
    }),
@@ -497,9 +550,10 @@ export const LightTranslationBaseSchema = object<InferObjectEntries<ILightTransl
 /**
  * Schema declaration for v3 `Light Translation Event Box`.
  */
-export const LightTranslationEventBoxSchema = object<
-   InferObjectEntries<ILightTranslationEventBox>
->({
+export const LightTranslationEventBoxSchema: VObjectSchema<
+   InferObjectEntries<ILightTranslationEventBox>,
+   undefined
+> = object<InferObjectEntries<ILightTranslationEventBox>>({
    f: field(optional(IndexFilterSchema), {
       version: '3.2.0',
    }),
@@ -536,9 +590,10 @@ export const LightTranslationEventBoxSchema = object<
 /**
  * Schema declaration for v3 `Light Translation Event Box Group`.
  */
-export const LightTranslationEventBoxGroupSchema = object<
-   InferObjectEntries<ILightTranslationEventBoxGroup>
->({
+export const LightTranslationEventBoxGroupSchema: VObjectSchema<
+   InferObjectEntries<ILightTranslationEventBoxGroup>,
+   undefined
+> = object<InferObjectEntries<ILightTranslationEventBoxGroup>>({
    b: field(optional(number()), {
       version: '3.2.0',
    }),
@@ -554,7 +609,10 @@ export const LightTranslationEventBoxGroupSchema = object<
 /**
  * Schema declaration for v3 `VFX Event Box`.
  */
-export const VfxEventBoxSchema = object<InferObjectEntries<IFxEventBox>>({
+export const VfxEventBoxSchema: VObjectSchema<
+   InferObjectEntries<IFxEventBox>,
+   undefined
+> = object<InferObjectEntries<IFxEventBox>>({
    f: field(optional(IndexFilterSchema), {
       version: '3.3.0',
    }),
@@ -585,7 +643,10 @@ export const VfxEventBoxSchema = object<InferObjectEntries<IFxEventBox>>({
 /**
  * Schema declaration for v3 `VFX Event Box Group`.
  */
-export const VfxEventBoxGroupSchema = object<InferObjectEntries<IFxEventBoxGroup>>({
+export const VfxEventBoxGroupSchema: VObjectSchema<
+   InferObjectEntries<IFxEventBoxGroup>,
+   undefined
+> = object<InferObjectEntries<IFxEventBoxGroup>>({
    b: field(optional(number()), {
       version: '3.3.0',
    }),
@@ -604,9 +665,10 @@ export const VfxEventBoxGroupSchema = object<InferObjectEntries<IFxEventBoxGroup
 /**
  * Schema declaration for v3 `Basic Event Types with Keywords`.
  */
-export const BasicEventTypesForKeywordsSchema = object<
-   InferObjectEntries<IBasicEventTypesForKeywords>
->({
+export const BasicEventTypesForKeywordsSchema: VObjectSchema<
+   InferObjectEntries<IBasicEventTypesForKeywords>,
+   undefined
+> = object<InferObjectEntries<IBasicEventTypesForKeywords>>({
    k: field(optional(string()), {
       version: '3.0.0',
    }),
@@ -618,9 +680,10 @@ export const BasicEventTypesForKeywordsSchema = object<
 /**
  * Schema declaration for v3 `Basic Event Types with Keywords`.
  */
-export const BasicEventTypesWithKeywordsSchema = object<
-   InferObjectEntries<IBasicEventTypesWithKeywords>
->({
+export const BasicEventTypesWithKeywordsSchema: VObjectSchema<
+   InferObjectEntries<IBasicEventTypesWithKeywords>,
+   undefined
+> = object<InferObjectEntries<IBasicEventTypesWithKeywords>>({
    d: field(optional(array(BasicEventTypesForKeywordsSchema)), {
       version: '3.0.0',
    }),
@@ -629,7 +692,10 @@ export const BasicEventTypesWithKeywordsSchema = object<
 /**
  * Schema declaration for v3 `FX Event Float`.
  */
-export const FxEventFloatSchema = object<InferObjectEntries<IFxEventFloat>>({
+export const FxEventFloatSchema: VObjectSchema<
+   InferObjectEntries<IFxEventFloat>,
+   undefined
+> = object<InferObjectEntries<IFxEventFloat>>({
    b: field(optional(number()), {
       version: '3.3.0',
    }),
@@ -648,7 +714,10 @@ export const FxEventFloatSchema = object<InferObjectEntries<IFxEventFloat>>({
 /**
  * Schema declaration for v3 `FX Event Int`.
  */
-export const FxEventIntSchema = object<InferObjectEntries<IFxEventInt>>({
+export const FxEventIntSchema: VObjectSchema<
+   InferObjectEntries<IFxEventInt>,
+   undefined
+> = object<InferObjectEntries<IFxEventInt>>({
    b: field(optional(number()), {
       version: '3.3.0',
    }),
@@ -664,7 +733,10 @@ export const FxEventIntSchema = object<InferObjectEntries<IFxEventInt>>({
 /**
  * Schema declaration for v3 `FX Events Collection`.
  */
-export const FxEventsCollectionSchema = object<InferObjectEntries<IFxEventsCollection>>({
+export const FxEventsCollectionSchema: VObjectSchema<
+   InferObjectEntries<IFxEventsCollection>,
+   undefined
+> = object<InferObjectEntries<IFxEventsCollection>>({
    _fl: field(optional(array(FxEventFloatSchema)), {
       version: '3.3.0',
    }),
@@ -676,9 +748,10 @@ export const FxEventsCollectionSchema = object<InferObjectEntries<IFxEventsColle
 /**
  * Schema declaration for v3 `Difficulty`.
  */
-export const DifficultySchema = entity<
-   InferObjectEntries<IDifficulty>
->((x) => x.version, {
+export const DifficultySchema: VObjectSchema<
+   InferObjectEntries<IDifficulty>,
+   undefined
+> = entity<InferObjectEntries<IDifficulty>>((x) => x.version, {
    version: field(mask<'3.0.0' | '3.1.0' | '3.2.0' | '3.3.0'>(VersionSchema), {
       version: '3.0.0',
    }),
@@ -712,24 +785,36 @@ export const DifficultySchema = entity<
    colorBoostBeatmapEvents: field(optional(array(ColorBoostEventSchema)), {
       version: '3.0.0',
    }),
-   lightColorEventBoxGroups: field(optional(array(LightColorEventBoxGroupSchema)), {
-      version: '3.0.0',
-   }),
-   lightRotationEventBoxGroups: field(optional(array(LightRotationEventBoxGroupSchema)), {
-      version: '3.0.0',
-   }),
-   lightTranslationEventBoxGroups: field(optional(array(LightTranslationEventBoxGroupSchema)), {
-      version: '3.2.0',
-   }),
+   lightColorEventBoxGroups: field(
+      optional(array(LightColorEventBoxGroupSchema)),
+      {
+         version: '3.0.0',
+      },
+   ),
+   lightRotationEventBoxGroups: field(
+      optional(array(LightRotationEventBoxGroupSchema)),
+      {
+         version: '3.0.0',
+      },
+   ),
+   lightTranslationEventBoxGroups: field(
+      optional(array(LightTranslationEventBoxGroupSchema)),
+      {
+         version: '3.2.0',
+      },
+   ),
    vfxEventBoxGroups: field(optional(array(VfxEventBoxGroupSchema)), {
       version: '3.3.0',
    }),
    _fxEventsCollection: field(optional(FxEventsCollectionSchema), {
       version: '3.3.0',
    }),
-   basicEventTypesWithKeywords: field(optional(BasicEventTypesWithKeywordsSchema), {
-      version: '3.0.0',
-   }),
+   basicEventTypesWithKeywords: field(
+      optional(BasicEventTypesWithKeywordsSchema),
+      {
+         version: '3.0.0',
+      },
+   ),
    useNormalEventsAsCompatibleEvents: field(optional(boolean()), {
       version: '3.0.0',
    }),

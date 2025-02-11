@@ -1,4 +1,13 @@
-import { array, integer, minValue, number, object, pipe, string } from '@valibot/valibot';
+import {
+   array,
+   integer,
+   minValue,
+   number,
+   object,
+   type ObjectSchema as VObjectSchema,
+   pipe,
+   string,
+} from '@valibot/valibot';
 import type { IAudio, IAudioBPM, IAudioLUFS } from '../../../../types/beatmap/v4/audioData.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import { VersionSchema } from '../../shared/declaration/mod.ts';
@@ -6,7 +15,10 @@ import { VersionSchema } from '../../shared/declaration/mod.ts';
 /**
  * Schema declaration for v4 `Audio Data BPM`.
  */
-export const AudioDataBPMSchema = object<InferObjectEntries<IAudioBPM>>({
+export const AudioDataBPMSchema: VObjectSchema<
+   InferObjectEntries<IAudioBPM>,
+   undefined
+> = object<InferObjectEntries<IAudioBPM>>({
    si: field(pipe(number(), integer(), minValue(0)), {
       version: '4.0.0',
    }),
@@ -24,7 +36,10 @@ export const AudioDataBPMSchema = object<InferObjectEntries<IAudioBPM>>({
 /**
  * Schema declaration for v4 `Audio Data LUFS`.
  */
-export const AudioDataLUFSSchema = object<InferObjectEntries<IAudioLUFS>>({
+export const AudioDataLUFSSchema: VObjectSchema<
+   InferObjectEntries<IAudioLUFS>,
+   undefined
+> = object<InferObjectEntries<IAudioLUFS>>({
    si: field(pipe(number(), integer(), minValue(0)), {
       version: '4.0.0',
    }),
@@ -39,7 +54,10 @@ export const AudioDataLUFSSchema = object<InferObjectEntries<IAudioLUFS>>({
 /**
  * Schema declaration for v4 `Audio`.
  */
-export const AudioDataSchema = entity<
+export const AudioDataSchema: VObjectSchema<
+   InferObjectEntries<IAudio>,
+   undefined
+> = entity<
    InferObjectEntries<IAudio>
 >((x) => x.version, {
    version: field(mask<'4.0.0'>(VersionSchema), {

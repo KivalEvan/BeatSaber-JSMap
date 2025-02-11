@@ -4,4 +4,4 @@ export * from './difficulty.ts';
 export * from './info.ts';
 export * from './lightshow.ts';
 
-export * from './custom/info.ts';
+export * from './custom/mod.ts';

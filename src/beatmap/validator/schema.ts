@@ -46,18 +46,6 @@ function isStandardSchema<T extends StandardSchemaV1>(schema: object): schema is
  *
  * Strict null policy. Return error logs as `StandardSchemaV1.Issue[]` for error inspection.
  */
-export function schemaCheck<Schema extends { [key: string]: ISchemaDeclaration }>(
-   data: unknown,
-   schema: Schema,
-   label: string,
-   version?: Version,
-   throwOn?: Partial<ISchemaCheckOptions['throwOn']>,
-): StandardSchemaV1.Issue[];
-export function schemaCheck<Schema extends StandardSchemaV1>(
-   data: unknown,
-   schema: Schema,
-   label: string,
-): StandardSchemaV1.Issue[];
 export function schemaCheck<
    Schema extends { [key: string]: ISchemaDeclaration } | StandardSchemaV1,
 >(

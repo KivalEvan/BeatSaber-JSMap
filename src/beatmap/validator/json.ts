@@ -1,8 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 import { logger } from '../../logger.ts';
 import type { ISchemaCheckOptions } from '../../types/beatmap/options/schema.ts';
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
-import { implicitVersion, retrieveVersion } from '../helpers/version.ts';
 import {
    audioSchemaMap,
    difficultyCheckMap,
@@ -45,35 +45,32 @@ export function validateJSON<T extends Record<string, any> = Record<string, any>
       },
    };
 
-   const ver = retrieveVersion(data) ?? implicitVersion(type);
    logger.tInfo(
       tag('validateJSON'),
       'Validating beatmap JSON for ' + type + ' with version',
       version,
    );
 
+   let schema: StandardSchemaV1;
    switch (type) {
       case 'info': {
-         const schema = infoCheckMap[version as keyof typeof infoCheckMap];
-         schemaCheck(data, schema, type);
+         schema = infoCheckMap[version as keyof typeof infoCheckMap];
          break;
       }
       case 'audioData': {
-         const schema = audioSchemaMap[version as keyof typeof audioSchemaMap];
-         schemaCheck(data, schema, type);
+         schema = audioSchemaMap[version as keyof typeof audioSchemaMap];
          break;
       }
       case 'difficulty': {
-         const schema = difficultyCheckMap[version as keyof typeof difficultyCheckMap];
-         schemaCheck(data, schema, type);
+         schema = difficultyCheckMap[version as keyof typeof difficultyCheckMap];
          break;
       }
       case 'lightshow': {
-         const schema = lightshowCheckMap[version as keyof typeof lightshowCheckMap];
-         schemaCheck(data, schema, type);
+         schema = lightshowCheckMap[version as keyof typeof lightshowCheckMap];
          break;
       }
    }
+   schemaCheck(data, schema, type, undefined, opt.throwOn);
 
    return data;
 }

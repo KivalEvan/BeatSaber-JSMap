@@ -1,4 +1,14 @@
-import { array, boolean, looseObject, number, object, optional, string } from '@valibot/valibot';
+import {
+   array,
+   boolean,
+   looseObject,
+   type LooseObjectSchema as VLooseObjectSchema,
+   number,
+   object,
+   type ObjectSchema as VObjectSchema,
+   optional,
+   string,
+} from '@valibot/valibot';
 import type {
    ICustomCharacteristic,
    ICustomDataInfo,
@@ -12,18 +22,20 @@ import {
 import { CustomColorSchemeSchema, CustomEditorSchema } from '../../../v2/declaration/mod.ts';
 
 /** Schema declaration for v4 `Custom Characteristic`. */
-export const CustomCharacteristicSchema = object<
-   InferObjectEntries<ICustomCharacteristic>
->({
+export const CustomCharacteristicSchema: VObjectSchema<
+   InferObjectEntries<ICustomCharacteristic>,
+   undefined
+> = object<InferObjectEntries<ICustomCharacteristic>>({
    characteristic: CharacteristicNameSchema,
    label: string(),
    iconPath: optional(string()),
 });
 
 /** Schema declaration for v4 `Info` custom data. */
-export const CustomDataInfoSchema = looseObject<
-   InferObjectEntries<ICustomDataInfo>
->({
+export const CustomDataInfoSchema: VLooseObjectSchema<
+   InferObjectEntries<ICustomDataInfo>,
+   undefined
+> = looseObject<InferObjectEntries<ICustomDataInfo>>({
    _editors: optional(CustomEditorSchema),
    _contributors: optional(array(CustomContributorSchema)),
    _customEnvironment: optional(string()),
@@ -32,9 +44,10 @@ export const CustomDataInfoSchema = looseObject<
 });
 
 /** Schema declaration for v4 `Info Difficulty` custom data. */
-export const CustomDataInfoBeatmapSchema = looseObject<
-   InferObjectEntries<ICustomDataInfoBeatmap>
->({
+export const CustomDataInfoBeatmapSchema: VLooseObjectSchema<
+   InferObjectEntries<ICustomDataInfoBeatmap>,
+   undefined
+> = looseObject<InferObjectEntries<ICustomDataInfoBeatmap>>({
    ...CustomColorSchemeSchema.entries,
    _difficultyLabel: optional(string()),
    _editorOffset: optional(number()),

@@ -1,11 +1,22 @@
-import { array, literal, number, object, string, union } from '@valibot/valibot';
+import {
+   array,
+   literal,
+   number,
+   object,
+   type ObjectSchema as VObjectSchema,
+   string,
+   union,
+} from '@valibot/valibot';
 import type { IBookmarkElement } from '../../../../types/beatmap/external/bookmarks.ts';
 import type { IBookmarks } from '../../../../types/beatmap/external/mod.ts';
 import { entity, field, type InferObjectEntries } from '../../helpers.ts';
 import { CharacteristicNameSchema, DifficultyNameSchema } from '../../shared/declaration/mod.ts';
 
 /** Schema declaration for official editor `Bookmark Element`  */
-export const BookmarkElementSchema = object<InferObjectEntries<IBookmarkElement>>({
+export const BookmarkElementSchema: VObjectSchema<
+   InferObjectEntries<IBookmarkElement>,
+   undefined
+> = object<InferObjectEntries<IBookmarkElement>>({
    beat: field(number(), {
       version: '1.0.0',
    }),
@@ -18,7 +29,10 @@ export const BookmarkElementSchema = object<InferObjectEntries<IBookmarkElement>
 });
 
 /** Schema declaration for official editor `Bookmark Set`  */
-export const BookmarkSetSchema = entity<InferObjectEntries<IBookmarks>>(() => '1.0.0', {
+export const BookmarkSetSchema: VObjectSchema<
+   InferObjectEntries<IBookmarks>,
+   undefined
+> = entity<InferObjectEntries<IBookmarks>>(() => '1.0.0', {
    name: field(string(), {
       version: '1.0.0',
    }),

@@ -4,6 +4,7 @@ import {
    minValue,
    number,
    object,
+   type ObjectSchema as VObjectSchema,
    optional,
    picklist,
    pipe,
@@ -32,7 +33,10 @@ import { ObjectArcSchema, ObjectChainSchema, ObjectLaneSchema, ObjectSchema } fr
 /**
  * Schema declaration for v4 `Color Note`.
  */
-export const ColorNoteSchema = object<InferObjectEntries<IColorNote>>({
+export const ColorNoteSchema: VObjectSchema<
+   InferObjectEntries<IColorNote>,
+   undefined
+> = object<InferObjectEntries<IColorNote>>({
    x: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
    }),
@@ -54,7 +58,10 @@ export const ColorNoteSchema = object<InferObjectEntries<IColorNote>>({
 /**
  * Schema declaration for v4 `Bomb Note`.
  */
-export const BombNoteSchema = object<InferObjectEntries<IBombNote>>({
+export const BombNoteSchema: VObjectSchema<
+   InferObjectEntries<IBombNote>,
+   undefined
+> = object<InferObjectEntries<IBombNote>>({
    x: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
    }),
@@ -67,7 +74,10 @@ export const BombNoteSchema = object<InferObjectEntries<IBombNote>>({
 /**
  * Schema declaration for v4 `Obstacle`.
  */
-export const ObstacleSchema = object<InferObjectEntries<IObstacle>>({
+export const ObstacleSchema: VObjectSchema<
+   InferObjectEntries<IObstacle>,
+   undefined
+> = object<InferObjectEntries<IObstacle>>({
    x: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
    }),
@@ -89,7 +99,10 @@ export const ObstacleSchema = object<InferObjectEntries<IObstacle>>({
 /**
  * Schema declaration for v4 `Chain`.
  */
-export const ChainSchema = object<InferObjectEntries<IChain>>({
+export const ChainSchema: VObjectSchema<
+   InferObjectEntries<IChain>,
+   undefined
+> = object<InferObjectEntries<IChain>>({
    tx: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
    }),
@@ -108,7 +121,10 @@ export const ChainSchema = object<InferObjectEntries<IChain>>({
 /**
  * Schema declaration for v4 `Arc`.
  */
-export const ArcSchema = object<InferObjectEntries<IArc>>({
+export const ArcSchema: VObjectSchema<
+   InferObjectEntries<IArc>,
+   undefined
+> = object<InferObjectEntries<IArc>>({
    m: field(optional(number()), {
       version: '4.0.0',
    }),
@@ -126,7 +142,10 @@ export const ArcSchema = object<InferObjectEntries<IArc>>({
  *
  * @deprecated removed as of 1.39, convert to `r` in object lane
  */
-export const SpawnRotationSchema = object<InferObjectEntries<ISpawnRotation>>({
+export const SpawnRotationSchema: VObjectSchema<
+   InferObjectEntries<ISpawnRotation>,
+   undefined
+> = object<InferObjectEntries<ISpawnRotation>>({
    e: field(optional(ExecutionTimeSchema), {
       version: '4.0.0',
    }),
@@ -139,7 +158,10 @@ export const SpawnRotationSchema = object<InferObjectEntries<ISpawnRotation>>({
 /**
  * Schema declaration for v4 `NJS Event`.
  */
-export const NJSEventSchema = object<InferObjectEntries<INJSEvent>>({
+export const NJSEventSchema: VObjectSchema<
+   InferObjectEntries<INJSEvent>,
+   undefined
+> = object<InferObjectEntries<INJSEvent>>({
    d: field(optional(number()), {
       version: '4.1.0',
    }),
@@ -155,9 +177,10 @@ export const NJSEventSchema = object<InferObjectEntries<INJSEvent>>({
 /**
  * Schema declaration for v4 `Difficulty`.
  */
-export const DifficultySchema = entity<
-   InferObjectEntries<IDifficulty>
->((x) => x.version, {
+export const DifficultySchema: VObjectSchema<
+   InferObjectEntries<IDifficulty>,
+   undefined
+> = entity<InferObjectEntries<IDifficulty>>((x) => x.version, {
    version: field(mask<'4.0.0' | '4.1.0'>(VersionSchema), {
       version: '4.0.0',
    }),

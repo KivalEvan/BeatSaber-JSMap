@@ -1,10 +1,13 @@
-import { number, object, optional } from '@valibot/valibot';
+import { number, object, type ObjectSchema as VObjectSchema, optional } from '@valibot/valibot';
 import type { IColorScheme } from '../../../../../types/beatmap/v2/custom/colorScheme.ts';
 import type { IColor } from '../../../../../types/colors.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 
 /** Schema declaration for v2 custom `Color`. */
-export const CustomColorObjectSchema = object<InferObjectEntries<IColor>>({
+export const CustomColorObjectSchema: VObjectSchema<
+   InferObjectEntries<IColor>,
+   undefined
+> = object<InferObjectEntries<IColor>>({
    r: number(),
    g: number(),
    b: number(),
@@ -12,7 +15,10 @@ export const CustomColorObjectSchema = object<InferObjectEntries<IColor>>({
 });
 
 /** Schema declaration for v2 custom `Color Scheme`. */
-export const CustomColorSchemeSchema = object<InferObjectEntries<IColorScheme>>({
+export const CustomColorSchemeSchema: VObjectSchema<
+   InferObjectEntries<IColorScheme>,
+   undefined
+> = object<InferObjectEntries<IColorScheme>>({
    _colorLeft: optional(CustomColorObjectSchema),
    _colorRight: optional(CustomColorObjectSchema),
    _envColorLeft: optional(CustomColorObjectSchema),

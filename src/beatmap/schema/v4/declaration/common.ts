@@ -1,4 +1,11 @@
-import { integer, number, object, optional, pipe } from '@valibot/valibot';
+import {
+   integer,
+   number,
+   object,
+   type ObjectSchema as VObjectSchema,
+   optional,
+   pipe,
+} from '@valibot/valibot';
 import type {
    IObject,
    IObjectArc,
@@ -11,7 +18,10 @@ import { CustomDataSchema } from '../../shared/declaration/mod.ts';
 /**
  * Schema declaration for v4 `Object`.
  */
-export const ObjectSchema = object<InferObjectEntries<IObject>>({
+export const ObjectSchema: VObjectSchema<
+   InferObjectEntries<IObject>,
+   undefined
+> = object<InferObjectEntries<IObject>>({
    b: field(optional(number()), {
       version: '4.0.0',
    }),
@@ -24,7 +34,10 @@ export const ObjectSchema = object<InferObjectEntries<IObject>>({
 /**
  * Schema declaration for v4 `Object Lane`.
  */
-export const ObjectLaneSchema = object<InferObjectEntries<IObjectLane>>({
+export const ObjectLaneSchema: VObjectSchema<
+   InferObjectEntries<IObjectLane>,
+   undefined
+> = object<InferObjectEntries<IObjectLane>>({
    b: field(optional(number()), {
       version: '4.0.0',
    }),
@@ -40,7 +53,10 @@ export const ObjectLaneSchema = object<InferObjectEntries<IObjectLane>>({
 /**
  * Schema declaration for v4 `Object Chain`.
  */
-export const ObjectChainSchema = object<InferObjectEntries<IObjectChain>>({
+export const ObjectChainSchema: VObjectSchema<
+   InferObjectEntries<IObjectChain>,
+   undefined
+> = object<InferObjectEntries<IObjectChain>>({
    hb: field(optional(number()), {
       version: '4.0.0',
    }),
@@ -65,7 +81,10 @@ export const ObjectChainSchema = object<InferObjectEntries<IObjectChain>>({
 /**
  * Schema declaration for v4 `Object Arc`.
  */
-export const ObjectArcSchema = object<InferObjectEntries<IObjectArc>>({
+export const ObjectArcSchema: VObjectSchema<
+   InferObjectEntries<IObjectArc>,
+   undefined
+> = object<InferObjectEntries<IObjectArc>>({
    hb: field(optional(number()), {
       version: '4.0.0',
    }),

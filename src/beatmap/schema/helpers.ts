@@ -43,7 +43,10 @@ interface FieldSchemaOptions {
 /** Helper function to augment a schema with the necessary context for validation within a top-level entity schema. */
 export function field<
    const TSchema extends GenericSchema,
-   const TItems extends GenericPipeItem<InferInput<TSchema>, InferOutput<TSchema>>[],
+   const TItems extends GenericPipeItem<
+      InferInput<TSchema>,
+      InferOutput<TSchema>
+   >[],
 >(
    schema: TSchema | SchemaWithPipe<[TSchema, ...TItems]>,
    options?: FieldSchemaOptions,
@@ -56,7 +59,11 @@ export function field<
       ...rest,
       metadata({ version: options?.version }),
    ) as unknown as SchemaWithPipe<
-      [TSchema, ...TItems, MetadataAction<InferInput<TSchema>, Readonly<FieldMetadata>>]
+      [
+         TSchema,
+         ...TItems,
+         MetadataAction<InferInput<TSchema>, Readonly<FieldMetadata>>,
+      ]
    >;
 }
 
@@ -67,7 +74,9 @@ interface FieldMetadata {
 type VersionCheckContext<T extends GenericSchema> = {
    dataset: OutputDataset<InferInput<T>, BaseIssue<unknown>>;
    addIssue: (
-      info: Parameters<Parameters<Parameters<typeof rawCheck>[0]>[0]['addIssue']>[0],
+      info: Parameters<
+         Parameters<Parameters<typeof rawCheck>[0]>[0]['addIssue']
+      >[0],
    ) => void;
 };
 function checkVersion<
@@ -78,14 +87,21 @@ function checkVersion<
    )[],
 >(
    schema: TSchema | SchemaWithPipe<[TSchema, ...TItems]>,
-   { version, dataset, addIssue }: VersionCheckContext<TSchema> & FieldSchemaOptions,
+   {
+      version,
+      dataset,
+      addIssue,
+   }: VersionCheckContext<TSchema> & FieldSchemaOptions,
 ) {
    const [base, ...pipeline] = 'pipe' in schema ? schema.pipe : [schema];
    let unwrapped = base;
    // unwrap the schema from its optionalized parent
    if ('wrapped' in unwrapped) {
       unwrapped = unwrap(
-         unwrapped as unknown as OptionalSchema<TSchema, Default<TSchema, undefined>>,
+         unwrapped as unknown as OptionalSchema<
+            TSchema,
+            Default<TSchema, undefined>
+         >,
       );
    }
    // extract the metadata from the pipeline to get the required context for versioning checks
@@ -117,7 +133,9 @@ function checkVersion<
          });
       }
       // if the field has a supported version and a value is missing for the field...
-      const isOptionalizedSchema = ['optional', 'undefinedable'].includes(unwrapped.type);
+      const isOptionalizedSchema = ['optional', 'undefinedable'].includes(
+         unwrapped.type,
+      );
       if (comparator >= 0 && input === undefined && !isOptionalizedSchema) {
          return addIssue({
             message: 'Missing required value for versioned field',
@@ -135,7 +153,9 @@ function checkVersion<
    }
    // for array data, cascade checks to all items
    if (isOfType('array', unwrapped) && Array.isArray(input)) {
-      const schema = (unwrapped as unknown as ArraySchema<GenericSchema, undefined>).item;
+      const schema = (
+         unwrapped as unknown as ArraySchema<GenericSchema, undefined>
+      ).item;
       for (let i = 0; i < input.length; i++) {
          const value = input[i];
          checkVersion(schema, {
@@ -148,7 +168,10 @@ function checkVersion<
                   key: i,
                   value: value,
                };
-               return addIssue({ ...info, path: [path, ...(info?.path ?? [])] });
+               return addIssue({
+                  ...info,
+                  path: [path, ...(info?.path ?? [])],
+               });
             },
             dataset: { ...dataset, value: value },
          });
@@ -156,7 +179,9 @@ function checkVersion<
    }
    // for object data, cascade checks to all key/value entries
    if (isOfType('object', unwrapped) && isRecord(input)) {
-      const entries = (unwrapped as unknown as ObjectSchema<ObjectEntries, undefined>).entries;
+      const entries = (
+         unwrapped as unknown as ObjectSchema<ObjectEntries, undefined>
+      ).entries;
       for (const key in entries) {
          const value = input[key];
          checkVersion(entries[key], {
@@ -169,7 +194,10 @@ function checkVersion<
                   key: key,
                   value: value,
                };
-               return addIssue({ ...info, path: [path, ...(info?.path ?? [])] });
+               return addIssue({
+                  ...info,
+                  path: [path, ...(info?.path ?? [])],
+               });
             },
             dataset: { ...dataset, value: value },
          });
@@ -178,7 +206,9 @@ function checkVersion<
 }
 
 /** Helper function to create an "entity" (object-like) schema, which recursively performs version checks on all nested entries. */
-export function entity<const TEntries extends InferObjectEntries<Record<string, unknown>>>(
+export function entity<
+   const TEntries extends InferObjectEntries<Record<string, unknown>>,
+>(
    resolveVersion: (data: InferObjectOutput<TEntries>) => Version,
    entries: TEntries,
 ) {
@@ -205,7 +235,10 @@ export function entity<const TEntries extends InferObjectEntries<Record<string, 
                      key: key,
                      value: value,
                   };
-                  return addIssue({ ...info, path: [path, ...(info?.path ?? [])] });
+                  return addIssue({
+                     ...info,
+                     path: [path, ...(info?.path ?? [])],
+                  });
                },
             });
          }
@@ -214,7 +247,10 @@ export function entity<const TEntries extends InferObjectEntries<Record<string, 
 }
 
 /** Helper function to cast the inferred input of a schema to a different type. */
-export function mask<TMask, const TSchema extends GenericSchema = GenericSchema>(schema: TSchema) {
+export function mask<
+   TMask,
+   const TSchema extends GenericSchema = GenericSchema,
+>(schema: TSchema) {
    type TInferMask = TMask extends InferInput<TSchema> ? TMask : never;
    return schema as GenericSchema<TInferMask, TInferMask>;
 }

@@ -1,4 +1,12 @@
-import { array, boolean, looseObject, number, optional, string } from '@valibot/valibot';
+import {
+   array,
+   boolean,
+   looseObject,
+   type LooseObjectSchema as VLooseObjectSchema,
+   number,
+   optional,
+   string,
+} from '@valibot/valibot';
 import type {
    ICustomDataInfo,
    ICustomDataInfoDifficulty,
@@ -10,7 +18,10 @@ import { CustomColorSchemeSchema } from './colorScheme.ts';
 import { CustomEditorSchema } from './editor.ts';
 
 /** Schema declaration for v2 `Info` custom data. */
-export const CustomDataInfoSchema = looseObject<
+export const CustomDataInfoSchema: VLooseObjectSchema<
+   InferObjectEntries<ICustomDataInfo>,
+   undefined
+> = looseObject<
    InferObjectEntries<ICustomDataInfo>
 >({
    _editors: optional(CustomEditorSchema),
@@ -20,7 +31,10 @@ export const CustomDataInfoSchema = looseObject<
 });
 
 /** Schema declaration for v2 `Info Set` custom data. */
-export const CustomDataInfoSetSchema = looseObject<
+export const CustomDataInfoSetSchema: VLooseObjectSchema<
+   InferObjectEntries<ICustomDataInfoSet>,
+   undefined
+> = looseObject<
    InferObjectEntries<ICustomDataInfoSet>
 >({
    _characteristicLabel: optional(string()),
@@ -28,7 +42,10 @@ export const CustomDataInfoSetSchema = looseObject<
 });
 
 /** Schema declaration for v2 `Info Set Difficulty` custom data. */
-export const CustomDataInfoSetDifficultySchema = looseObject<
+export const CustomDataInfoSetDifficultySchema: VLooseObjectSchema<
+   InferObjectEntries<ICustomDataInfoDifficulty>,
+   undefined
+> = looseObject<
    InferObjectEntries<ICustomDataInfoDifficulty>
 >({
    ...CustomColorSchemeSchema.entries,

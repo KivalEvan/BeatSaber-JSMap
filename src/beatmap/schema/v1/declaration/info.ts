@@ -1,4 +1,13 @@
-import { array, boolean, number, object, optional, picklist, string } from '@valibot/valibot';
+import {
+   array,
+   boolean,
+   number,
+   object,
+   type ObjectSchema as VObjectSchema,
+   optional,
+   picklist,
+   string,
+} from '@valibot/valibot';
 import type { EnvironmentName, EnvironmentV3Name } from '../../../../types/beatmap/shared/mod.ts';
 import type { IInfo, IInfoDifficulty } from '../../../../types/beatmap/v1/info.ts';
 import type { IColor } from '../../../../types/colors.ts';
@@ -12,7 +21,10 @@ import {
 /**
  * Schema declaration for v1 `Color`.
  */
-export const CustomColorObjectSchema = object<InferObjectEntries<Omit<IColor, 'a'>>>({
+export const CustomColorObjectSchema: VObjectSchema<
+   InferObjectEntries<Omit<IColor, 'a'>>,
+   undefined
+> = object<InferObjectEntries<Omit<IColor, 'a'>>>({
    r: number(),
    g: number(),
    b: number(),
@@ -21,7 +33,10 @@ export const CustomColorObjectSchema = object<InferObjectEntries<Omit<IColor, 'a
 /**
  * Schema declaration for v1 `Info Difficulty`.
  */
-export const InfoDifficultySchema = object<InferObjectEntries<IInfoDifficulty>>({
+export const InfoDifficultySchema: VObjectSchema<
+   InferObjectEntries<IInfoDifficulty>,
+   undefined
+> = object<InferObjectEntries<IInfoDifficulty>>({
    difficulty: field(DifficultyNameSchema, {
       version: '1.0.0',
    }),
@@ -52,7 +67,10 @@ export const InfoDifficultySchema = object<InferObjectEntries<IInfoDifficulty>>(
 /**
  * Schema declaration for v1 `Info`.
  */
-export const InfoSchema = entity<
+export const InfoSchema: VObjectSchema<
+   InferObjectEntries<IInfo>,
+   undefined
+> = entity<
    InferObjectEntries<IInfo>
 >(() => '1.0.0', {
    songName: field(string(), {
