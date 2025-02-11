@@ -3,7 +3,7 @@ import { logger } from '../../logger.ts';
 import type { ISchemaCheckOptions } from '../../types/beatmap/options/schema.ts';
 import type { ISchemaDeclaration } from '../../types/beatmap/shared/schema.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
-import { isRecord } from '../../utils/misc.ts';
+import { isRecord } from '../../utils/misc/json.ts';
 import { compareVersion } from '../helpers/version.ts';
 
 function tag(vendor?: string): string[] {

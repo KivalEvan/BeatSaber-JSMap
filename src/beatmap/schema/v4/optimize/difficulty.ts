@@ -1,7 +1,6 @@
 import { round } from '../../../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { IDifficulty } from '../../../../types/beatmap/v4/difficulty.ts';
-import { round } from '../../../../utils/math.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { isEmpty } from '../../../../utils/misc/json.ts';
 
@@ -75,8 +74,8 @@ export function optimizeDifficulty(
       else delete data.spawnRotationsData;
    }
 
-   for (let i = 0; i < data.arcs.length; i++) {
-      const o = data.arcs[i];
+   for (let i = 0; i < data.arcs!.length; i++) {
+      const o = data.arcs![i];
       if (options.floatTrim) {
          o.hb = round(o.hb!, options.floatTrim);
          o.hr = round(o.hr!, options.floatTrim);
@@ -89,8 +88,8 @@ export function optimizeDifficulty(
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.arcsData.length; i++) {
-      const o = data.arcsData[i];
+   for (let i = 0; i < data.arcsData!.length; i++) {
+      const o = data.arcsData![i];
       if (options.floatTrim) {
          o.m = round(o.m!, options.floatTrim);
          o.tm = round(o.tm!, options.floatTrim);
@@ -101,8 +100,8 @@ export function optimizeDifficulty(
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.bombNotes.length; i++) {
-      const o = data.bombNotes[i];
+   for (let i = 0; i < data.bombNotes!.length; i++) {
+      const o = data.bombNotes![i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
       }
@@ -116,8 +115,8 @@ export function optimizeDifficulty(
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.bombNotesData.length; i++) {
-      const o = data.bombNotesData[i];
+   for (let i = 0; i < data.bombNotesData!.length; i++) {
+      const o = data.bombNotesData![i];
       deepClean(
          o.customData!,
          `difficulty.bombNotesData[${i}].customData`,
@@ -128,8 +127,8 @@ export function optimizeDifficulty(
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.chains.length; i++) {
-      const o = data.chains[i];
+   for (let i = 0; i < data.chains!.length; i++) {
+      const o = data.chains![i];
       if (options.floatTrim) {
          o.hb = round(o.hb!, options.floatTrim);
          o.hr = round(o.hr!, options.floatTrim);
@@ -142,8 +141,8 @@ export function optimizeDifficulty(
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.chainsData.length; i++) {
-      const o = data.chainsData[i];
+   for (let i = 0; i < data.chainsData!.length; i++) {
+      const o = data.chainsData![i];
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
       }
@@ -157,8 +156,8 @@ export function optimizeDifficulty(
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.colorNotes.length; i++) {
-      const o = data.colorNotes[i];
+   for (let i = 0; i < data.colorNotes!.length; i++) {
+      const o = data.colorNotes![i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
          o.r = round(o.r!, options.floatTrim);
@@ -173,8 +172,8 @@ export function optimizeDifficulty(
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.colorNotesData.length; i++) {
-      const o = data.colorNotesData[i];
+   for (let i = 0; i < data.colorNotesData!.length; i++) {
+      const o = data.colorNotesData![i];
       if (options.floatTrim) {
          o.a = round(o.a!, options.floatTrim);
       }
@@ -188,8 +187,8 @@ export function optimizeDifficulty(
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.obstacles.length; i++) {
-      const o = data.obstacles[i];
+   for (let i = 0; i < data.obstacles!.length; i++) {
+      const o = data.obstacles![i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
          o.r = round(o.r!, options.floatTrim);
@@ -204,8 +203,8 @@ export function optimizeDifficulty(
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.obstaclesData.length; i++) {
-      const o = data.obstaclesData[i];
+   for (let i = 0; i < data.obstaclesData!.length; i++) {
+      const o = data.obstaclesData![i];
       if (options.floatTrim) {
          o.d = round(o.d!, options.floatTrim);
       }

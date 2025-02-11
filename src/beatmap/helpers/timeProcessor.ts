@@ -226,7 +226,7 @@ export class TimeProcessor {
       }
       for (let i = this._timeScale.length - 1; i >= 0; i--) {
          if (offset > this._timeScale[i].time) {
-            return ((beat * this._timeScale[i].scale) / this.bpm) * 60;
+            return ((beat * this._timeScale[i].scale!) / this.bpm) * 60;
          }
       }
       return (beat / this.bpm) * 60;
@@ -246,7 +246,7 @@ export class TimeProcessor {
       let calculatedBeat = 0;
       for (let i = this._timeScale.length - 1; i >= 0; i--) {
          if (beat > this._timeScale[i].time) {
-            calculatedBeat += (beat - this._timeScale[i].time) * this._timeScale[i].scale;
+            calculatedBeat += (beat - this._timeScale[i].time) * this._timeScale[i].scale!;
             beat = this._timeScale[i].time;
          }
       }
@@ -271,7 +271,7 @@ export class TimeProcessor {
             timescale,
          );
          if (seconds > currentSeconds) {
-            calculatedSecond += (seconds - currentSeconds) / this._timeScale[i].scale;
+            calculatedSecond += (seconds - currentSeconds) / this._timeScale[i].scale!;
             seconds = currentSeconds;
          }
       }

@@ -1,7 +1,6 @@
 import { round } from '../../../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
 import type { ILightshow } from '../../../../types/beatmap/v4/lightshow.ts';
-import { round } from '../../../../utils/math.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { EventBoxType } from '../../../shared/constants.ts';
 import { isEmpty } from '../../../../utils/misc/json.ts';
@@ -130,8 +129,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       data.floatFxEvents = newFloatFxEvents;
    }
 
-   for (let i = 0; i < data.waypoints.length; i++) {
-      const o = data.waypoints[i];
+   for (let i = 0; i < data.waypoints!.length; i++) {
+      const o = data.waypoints![i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
          o.r = round(o.r!, options.floatTrim);
@@ -146,8 +145,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.waypointsData.length; i++) {
-      const o = data.waypointsData[i];
+   for (let i = 0; i < data.waypointsData!.length; i++) {
+      const o = data.waypointsData![i];
       deepClean(
          o.customData!,
          `difficulty.waypointsData[${i}].customData`,
@@ -158,8 +157,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.basicEvents.length; i++) {
-      const o = data.basicEvents[i];
+   for (let i = 0; i < data.basicEvents!.length; i++) {
+      const o = data.basicEvents![i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
       }
@@ -173,8 +172,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.basicEventsData.length; i++) {
-      const o = data.basicEventsData[i];
+   for (let i = 0; i < data.basicEventsData!.length; i++) {
+      const o = data.basicEventsData![i];
       if (options.floatTrim) {
          o.f = round(o.f!, options.floatTrim);
       }
@@ -188,8 +187,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.colorBoostEvents.length; i++) {
-      const o = data.colorBoostEvents[i];
+   for (let i = 0; i < data.colorBoostEvents!.length; i++) {
+      const o = data.colorBoostEvents![i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
       }
@@ -203,8 +202,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.colorBoostEventsData.length; i++) {
-      const o = data.colorBoostEventsData[i];
+   for (let i = 0; i < data.colorBoostEventsData!.length; i++) {
+      const o = data.colorBoostEventsData![i];
       deepClean(
          o.customData!,
          `difficulty.colorBoostEventsData[${i}].customData`,
@@ -215,8 +214,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.eventBoxGroups.length; i++) {
-      const o = data.eventBoxGroups[i];
+   for (let i = 0; i < data.eventBoxGroups!.length; i++) {
+      const o = data.eventBoxGroups![i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
       }
@@ -249,8 +248,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.indexFilters.length; i++) {
-      const o = data.indexFilters[i];
+   for (let i = 0; i < data.indexFilters!.length; i++) {
+      const o = data.indexFilters![i];
       if (options.floatTrim) {
          o.l = round(o.l!, options.floatTrim);
       }
@@ -264,8 +263,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightColorEventBoxes.length; i++) {
-      const o = data.lightColorEventBoxes[i];
+   for (let i = 0; i < data.lightColorEventBoxes!.length; i++) {
+      const o = data.lightColorEventBoxes![i];
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
          o.w = round(o.w!, options.floatTrim);
@@ -280,8 +279,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightColorEvents.length; i++) {
-      const o = data.lightColorEvents[i];
+   for (let i = 0; i < data.lightColorEvents!.length; i++) {
+      const o = data.lightColorEvents![i];
       if (options.floatTrim) {
          o.b = round(o.b!, options.floatTrim);
          o.sb = round(o.sb!, options.floatTrim);
@@ -296,8 +295,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightRotationEventBoxes.length; i++) {
-      const o = data.lightRotationEventBoxes[i];
+   for (let i = 0; i < data.lightRotationEventBoxes!.length; i++) {
+      const o = data.lightRotationEventBoxes![i];
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
          o.w = round(o.w!, options.floatTrim);
@@ -312,8 +311,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightRotationEvents.length; i++) {
-      const o = data.lightRotationEvents[i];
+   for (let i = 0; i < data.lightRotationEvents!.length; i++) {
+      const o = data.lightRotationEvents![i];
       if (options.floatTrim) {
          o.r = round(o.r!, options.floatTrim);
       }
@@ -327,8 +326,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightTranslationEventBoxes.length; i++) {
-      const o = data.lightTranslationEventBoxes[i];
+   for (let i = 0; i < data.lightTranslationEventBoxes!.length; i++) {
+      const o = data.lightTranslationEventBoxes![i];
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
          o.w = round(o.w!, options.floatTrim);
@@ -343,8 +342,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.lightTranslationEvents.length; i++) {
-      const o = data.lightTranslationEvents[i];
+   for (let i = 0; i < data.lightTranslationEvents!.length; i++) {
+      const o = data.lightTranslationEvents![i];
       if (options.floatTrim) {
          o.t = round(o.t!, options.floatTrim);
       }
@@ -358,8 +357,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.fxEventBoxes.length; i++) {
-      const o = data.fxEventBoxes[i];
+   for (let i = 0; i < data.fxEventBoxes!.length; i++) {
+      const o = data.fxEventBoxes![i];
       if (options.floatTrim) {
          o.s = round(o.s!, options.floatTrim);
          o.w = round(o.w!, options.floatTrim);
@@ -374,8 +373,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (let i = 0; i < data.floatFxEvents.length; i++) {
-      const o = data.floatFxEvents[i];
+   for (let i = 0; i < data.floatFxEvents!.length; i++) {
+      const o = data.floatFxEvents![i];
       if (options.floatTrim) {
          o.v = round(o.v!, options.floatTrim);
       }
@@ -389,7 +388,7 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       }
       if (options.purgeZeros) purgeZeros(o);
    }
-   for (const o1 of data.basicEventTypesWithKeywords.d!) {
+   for (const o1 of data.basicEventTypesWithKeywords!.d!) {
       if (options.stringTrim) {
          o1.k = o1.k!.trim();
       }

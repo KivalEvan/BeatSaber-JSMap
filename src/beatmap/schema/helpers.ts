@@ -28,7 +28,7 @@ import {
 } from '@valibot/valibot';
 import { logger } from '../../logger.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
-import { isRecord } from '../../utils/misc.ts';
+import { isRecord } from '../../utils/misc/json.ts';
 import { compareVersion } from '../helpers/version.ts';
 
 /** @internal Used to create the correct inferred types for a provided key/value record. */

@@ -188,19 +188,19 @@ export const lightshow: ISchemaContainer<
          waypoints: data.waypoints?.map((obj) =>
             waypoint.deserialize({
                object: obj,
-               data: data.waypointsData?.[obj?.i || 0],
+               data: data.waypointsData?.[obj?.i || 0] ?? {},
             })
          ),
          basicEvents: data.basicEvents?.map((obj) =>
             basicEvent.deserialize({
                object: obj,
-               data: data.basicEventsData?.[obj?.i || 0],
+               data: data.basicEventsData?.[obj?.i || 0] ?? {},
             })
          ),
          colorBoostEvents: data.colorBoostEvents?.map((obj) =>
             colorBoostEvent.deserialize({
                object: obj,
-               data: data.colorBoostEventsData?.[obj?.i || 0],
+               data: data.colorBoostEventsData?.[obj?.i || 0] ?? {},
             })
          ),
          basicEventTypesWithKeywords: basicEventTypesWithKeywords.deserialize(

@@ -53,7 +53,7 @@ export const WaypointSchema = object<InferObjectEntries<IWaypoint>>({
    y: field(optional(pipe(number(), integer())), {
       version: '4.0.0',
    }),
-   o: field(optional(OffsetDirectionSchema), {
+   d: field(optional(OffsetDirectionSchema), {
       version: '4.0.0',
    }),
    customData: field(optional(CustomDataSchema)),

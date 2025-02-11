@@ -11,7 +11,7 @@ export interface IBPMTimeScale {
    /**
     * **Type:** `f32`
     */
-   scale: number;
+   scale?: number;
 }
 
 export interface IBPMChangeTime {

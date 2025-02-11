@@ -26,7 +26,7 @@ import {
    isColorBoostEventType,
    isLaneRotationEventType,
 } from '../../beatmap/helpers/core/basicEvent.ts';
-import { EventLaneRotationValue } from '../../beatmap/shared/constants.ts';
+import { EventLaneRotationValue, ExecutionTime } from '../../beatmap/shared/constants.ts';
 import { logger } from '../../logger.ts';
 import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
 import type { IChain } from '../../types/beatmap/v3/chain.ts';
@@ -294,9 +294,7 @@ function fixLightColorEventBox(obj: IWrapLightColorEventBox): void {
    obj.events.forEach(fixLightColorEvent);
 }
 
-function fixLightColorEventBoxGroup(
-   obj: IWrapLightColorEventBoxGroup,
-): void {
+function fixLightColorEventBoxGroup(obj: IWrapLightColorEventBoxGroup): void {
    obj.time = fixFloat(obj.time, LightColorEventBoxGroup.defaultValue.time);
    obj.id = fixInt(obj.id, LightColorEventBoxGroup.defaultValue.id);
    obj.boxes.forEach(fixLightColorEventBox);
@@ -322,9 +320,7 @@ function fixLightRotationEvent(obj: IWrapLightRotationEvent): void {
    );
 }
 
-function fixLightRotationEventBox(
-   obj: IWrapLightRotationEventBox,
-): void {
+function fixLightRotationEventBox(obj: IWrapLightRotationEventBox): void {
    fixIndexFilter(obj.filter);
    obj.beatDistribution = fixFloat(
       obj.beatDistribution,
@@ -370,9 +366,7 @@ function fixLightRotationEventBoxGroup(
    obj.boxes.forEach(fixLightRotationEventBox);
 }
 
-function fixLightTranslationEvent(
-   obj: IWrapLightTranslationEvent,
-): void {
+function fixLightTranslationEvent(obj: IWrapLightTranslationEvent): void {
    obj.time = fixFloat(obj.time, LightTranslationEvent.defaultValue.time);
    obj.easing = fixInt(obj.easing, LightTranslationEvent.defaultValue.easing);
    obj.previous = fixInt(
@@ -386,9 +380,7 @@ function fixLightTranslationEvent(
    );
 }
 
-function fixLightTranslationEventBox(
-   obj: IWrapLightTranslationEventBox,
-): void {
+function fixLightTranslationEventBox(obj: IWrapLightTranslationEventBox): void {
    fixIndexFilter(obj.filter);
    obj.beatDistribution = fixFloat(
       obj.beatDistribution,
@@ -517,7 +509,9 @@ export function beatmap<T extends IWrapBeatmap>(data: T): void {
    data.lightshow.basicEvents.forEach(fixBasicEvent);
    data.lightshow.colorBoostEvents.forEach(fixColorBoostEvent);
    data.lightshow.lightColorEventBoxGroups.forEach(fixLightColorEventBoxGroup);
-   data.lightshow.lightRotationEventBoxGroups.forEach(fixLightRotationEventBoxGroup);
+   data.lightshow.lightRotationEventBoxGroups.forEach(
+      fixLightRotationEventBoxGroup,
+   );
    data.lightshow.lightTranslationEventBoxGroups.forEach(
       fixLightTranslationEventBoxGroup,
    );
@@ -532,27 +526,23 @@ export function beatmap<T extends IWrapBeatmap>(data: T): void {
       (ev) => !(isColorBoostEventType(ev.type) || isLaneRotationEventType(ev.type)),
    );
    data.lightshow.colorBoostEvents.push(
-      ...boost.map(
-         (ev) => ({
-            time: ev.time,
-            toggle: ev.value ? true : false,
-            customData: {},
-         }),
-      ),
+      ...boost.map((ev) => ({
+         time: ev.time,
+         toggle: ev.value ? true : false,
+         customData: {},
+      })),
    );
    data.difficulty.rotationEvents.push(
-      ...laneRotation.map(
-         (ev) => ({
-            time: ev.time,
-            executionTime: ev.type == 15 ? 1 : 0,
-            rotation: ev.customData._rotation ??
-               (ev.value >= 1000 && ev.value <= 1720
-                  ? ev.value - 1360
-                  : ev.value >= 0 && ev.value <= 7
-                  ? EventLaneRotationValue[ev.value]
-                  : 0),
-            customData: {},
-         }),
-      ),
+      ...laneRotation.map((ev) => ({
+         time: ev.time,
+         executionTime: ev.type == 15 ? ExecutionTime.LATE : ExecutionTime.EARLY,
+         rotation: ev.customData._rotation ??
+            (ev.value >= 1000 && ev.value <= 1720
+               ? ev.value - 1360
+               : ev.value >= 0 && ev.value <= 7
+               ? EventLaneRotationValue[ev.value]
+               : 0),
+         customData: {},
+      })),
    );
 }

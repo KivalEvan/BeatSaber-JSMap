@@ -136,7 +136,7 @@ export class Parity<
       });
 
       let prevNote!: TColorNote;
-      let expectedDirection = NoteDirection.ANY;
+      let expectedDirection: number = NoteDirection.ANY;
       for (const note of noteContext) {
          if (note.direction !== NoteDirection.ANY) {
             expectedDirection = note.direction;
@@ -242,8 +242,8 @@ export class Parity<
          }
       });
 
-      let prevNote!: IWrapColorNote;
-      let expectedDirection = NoteDirection.ANY;
+      let prevNote!: TColorNote;
+      let expectedDirection: number = NoteDirection.ANY;
       for (const note of noteContext) {
          if (note.direction !== NoteDirection.ANY) {
             expectedDirection = note.direction;

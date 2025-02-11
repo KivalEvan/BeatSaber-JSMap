@@ -2,13 +2,21 @@ import type { EnvironmentAllName } from '../../../types/beatmap/shared/environme
 import { EventLightValue, EventType } from '../../shared/constants.ts';
 
 /** Check if event type is valid. */
-export function isValidEventType(type: EventType): boolean {
+export function isValidEventType(type: number): boolean {
    // todo: replace with enum once schema changes land
-   return (type >= 0 && type <= 19) || (type >= 40 && type <= 43) || type === 100 || type === 1000;
+   return (
+      (type >= 0 && type <= 19) ||
+      (type >= 40 && type <= 43) ||
+      type === 100 ||
+      type === 1000
+   );
 }
 
 /** Check if event type is a light event. */
-export function isLightEventType(type: EventType, _environment?: EnvironmentAllName): boolean {
+export function isLightEventType(
+   type: number,
+   _environment?: EnvironmentAllName,
+): boolean {
    return (
       type === EventType.BACK_LASERS ||
       type === EventType.RING_LIGHTS ||
@@ -22,19 +30,19 @@ export function isLightEventType(type: EventType, _environment?: EnvironmentAllN
    );
 }
 /** Check if event type is a color boost event. */
-export function isColorBoostEventType(type: EventType): boolean {
+export function isColorBoostEventType(type: number): boolean {
    return type === EventType.COLOR_BOOST;
 }
 /** Check if event type is a ring event. */
-export function isRingEventType(type: EventType, _environment?: EnvironmentAllName): boolean {
-   return (
-      type === EventType.RING_ROTATION ||
-      type === EventType.RING_ZOOM
-   );
+export function isRingEventType(
+   type: number,
+   _environment?: EnvironmentAllName,
+): boolean {
+   return type === EventType.RING_ROTATION || type === EventType.RING_ZOOM;
 }
 /** Check if event type is a laser rotation event. */
 export function isLaserRotationEventType(
-   type: EventType,
+   type: number,
    _environment?: EnvironmentAllName,
 ): boolean {
    return (
@@ -43,14 +51,17 @@ export function isLaserRotationEventType(
    );
 }
 /** Check if event type is a lane rotation event. */
-export function isLaneRotationEventType(type: EventType): boolean {
+export function isLaneRotationEventType(type: number): boolean {
    return (
       type === EventType.EARLY_LANE_ROTATION ||
       type === EventType.LATE_LANE_ROTATION
    );
 }
 /** Check if event type is an extra event. */
-export function isExtraEventType(type: EventType, _environment?: EnvironmentAllName): boolean {
+export function isExtraEventType(
+   type: number,
+   _environment?: EnvironmentAllName,
+): boolean {
    return (
       type === EventType.UTILITY_EVENT_0 ||
       type === EventType.UTILITY_EVENT_1 ||
@@ -59,7 +70,10 @@ export function isExtraEventType(type: EventType, _environment?: EnvironmentAllN
    );
 }
 /** Check if event type is a special event. */
-export function isSpecialEventType(type: EventType, _environment?: EnvironmentAllName): boolean {
+export function isSpecialEventType(
+   type: number,
+   _environment?: EnvironmentAllName,
+): boolean {
    return (
       type === EventType.SPECIAL_EVENT_0 ||
       type === EventType.SPECIAL_EVENT_1 ||
@@ -68,16 +82,16 @@ export function isSpecialEventType(type: EventType, _environment?: EnvironmentAl
    );
 }
 /** Check if event type is a BPM change. */
-export function isBpmChangeEventType(type: EventType): boolean {
+export function isBpmChangeEventType(type: number): boolean {
    return type === EventType.BPM_CHANGE;
 }
 /** Check if event type is an NJS change. */
-export function isNjsChangeEventType(type: EventType): boolean {
+export function isNjsChangeEventType(type: number): boolean {
    return type === EventType.NJS_CHANGE;
 }
 
 /** Not to be confused with isLightEvent, this checks for event that affects the environment/lighting. */
-export function isLightingEventType(type: EventType): boolean {
+export function isLightingEventType(type: number): boolean {
    return (
       isLightEventType(type) ||
       isRingEventType(type) ||

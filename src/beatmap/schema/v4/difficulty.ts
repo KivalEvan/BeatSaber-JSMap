@@ -127,34 +127,34 @@ export const difficulty: ISchemaContainer<
             colorNotes: data.colorNotes?.map((obj) => {
                return colorNote.deserialize({
                   object: obj,
-                  data: data.colorNotesData?.[obj?.i ?? 0],
+                  data: data.colorNotesData?.[obj?.i ?? 0] ?? {},
                });
             }),
             bombNotes: data.bombNotes?.map((obj) => {
                return bombNote.deserialize({
                   object: obj,
-                  data: data.bombNotesData?.[obj?.i ?? 0],
+                  data: data.bombNotesData?.[obj?.i ?? 0] ?? {},
                });
             }),
             obstacles: data.obstacles?.map((obj) => {
                return obstacle.deserialize({
                   object: obj,
-                  data: data.obstaclesData?.[obj?.i ?? 0],
+                  data: data.obstaclesData?.[obj?.i ?? 0] ?? {},
                });
             }),
             arcs: data.arcs?.map((obj) => {
                return arc.deserialize({
                   object: obj,
-                  data: data.arcsData?.[obj?.ai ?? 0],
-                  headData: data.colorNotesData?.[obj?.hi ?? 0],
-                  tailData: data.colorNotesData?.[obj?.ti ?? 0],
+                  data: data.arcsData?.[obj?.ai ?? 0] ?? {},
+                  headData: data.colorNotesData?.[obj?.hi ?? 0] ?? {},
+                  tailData: data.colorNotesData?.[obj?.ti ?? 0] ?? {},
                });
             }),
             chains: data.chains?.map((obj) => {
                return chain.deserialize({
                   object: obj,
-                  data: data.colorNotesData?.[obj?.i ?? 0],
-                  chainData: data.chainsData?.[obj?.ci ?? 0],
+                  data: data.colorNotesData?.[obj?.i ?? 0] ?? {},
+                  chainData: data.chainsData?.[obj?.ci ?? 0] ?? {},
                });
             }),
             rotationEvents: data.spawnRotations?.map((obj) => {
