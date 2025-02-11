@@ -1,7 +1,8 @@
 {
    "name": "@kvl/bsmap",
-   "version": "2.1.9",
+   "version": "2.2.0",
    "license": "MIT",
+   "importMap": "./import_map.json",
    "exports": {
       ".": "./src/mod.ts",
       "./types": "./src/types/mod.ts",
@@ -39,9 +40,5 @@
       "test:clean": "rm -r ./coverage",
       "clean": "deno task test:clean || true && deno task npm:clean || true",
       "ci": "deno lint && deno fmt --check && deno task check && deno task test && deno task npm"
-   },
-   "imports": {
-      "@standard-schema/spec": "jsr:@standard-schema/spec@^1.0.0",
-      "@valibot/valibot": "jsr:@valibot/valibot@^1.0.0-rc.0"
    }
 }

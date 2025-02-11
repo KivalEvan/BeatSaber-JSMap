@@ -26,6 +26,12 @@ await build({
       description: 'General-purpose scripting module for Beat Saber beatmap using TypeScript.',
       keywords: ['beat', 'saber', 'beatsaber', 'beatmap'],
       license: 'MIT',
+      dependencies: {
+         '@valibot/valibot': 'npm:valibot@^1.0.0-rc.0',
+      },
+      devDependencies: {
+         '@standard-schema/spec': '^1.0.0',
+      },
       repository: {
          type: 'git',
          url: 'git+https://github.com/KivalEvan/BeatSaber-JSMap.git',
