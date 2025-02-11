@@ -29,7 +29,10 @@ export function handleRead<
 >(
    type: TFileType,
    src: string,
-   version?: TVersion | null | IReadOptions<TFileType, TVersion, TWrapper, TSerial>,
+   version?:
+      | TVersion
+      | null
+      | IReadOptions<TFileType, TVersion, TWrapper, TSerial>,
    options: IReadOptions<TFileType, TVersion, TWrapper, TSerial> = {},
 ): Promise<TWrapper> {
    const ver = typeof version === 'number' ? version : null;
@@ -38,19 +41,24 @@ export function handleRead<
       opt.directory ?? (defaultOptions.directory || globals.directory),
       src,
    );
-   const [posttransformer, ...postprocesses] = (opt.load?.postprocess?.toReversed() ?? []) as [
+   const [posttransformer, ...postprocesses] = [
+      ...(opt.load?.postprocess ?? []),
+   ].reverse() as [
       (data: InferBeatmap<TFileType>) => TWrapper,
       ...MirrorFn<InferBeatmap<TFileType>>[],
    ];
    return (readJSONFile(p) as Promise<TSerial>).then((data) => {
       return loadBeatmap(type, data, ver, {
          ...opt.load,
-         postprocess: [...postprocesses, (x) => {
-            if (type === 'lightshow' && 'lightshowFilename' in x) {
-               x.lightshowFilename = path.basename(p);
-            } else x.filename = path.basename(p);
-            return posttransformer ? posttransformer(x) : x as TWrapper;
-         }],
+         postprocess: [
+            ...postprocesses,
+            (x) => {
+               if (type === 'lightshow' && 'lightshowFilename' in x) {
+                  x.lightshowFilename = path.basename(p);
+               } else x.filename = path.basename(p);
+               return posttransformer ? posttransformer(x) : (x as TWrapper);
+            },
+         ],
       });
    });
 }
@@ -63,7 +71,10 @@ export function handleReadSync<
 >(
    type: TFileType,
    src: string,
-   version?: TVersion | null | IReadOptions<TFileType, TVersion, TWrapper, TSerial>,
+   version?:
+      | TVersion
+      | null
+      | IReadOptions<TFileType, TVersion, TWrapper, TSerial>,
    options: IReadOptions<TFileType, TVersion, TWrapper, TSerial> = {},
 ): TWrapper {
    const ver = typeof version === 'number' ? version : null;
@@ -72,18 +83,23 @@ export function handleReadSync<
       opt.directory ?? (defaultOptions.directory || globals.directory),
       src,
    );
-   const [posttransformer, ...postprocesses] = (opt.load?.postprocess?.toReversed() ?? []) as [
+   const [posttransformer, ...postprocesses] = [
+      ...(opt.load?.postprocess ?? []),
+   ].reverse() as [
       (data: InferBeatmap<TFileType>) => TWrapper,
       ...MirrorFn<InferBeatmap<TFileType>>[],
    ];
    const d = loadBeatmap(type, readJSONFileSync(p) as TSerial, ver, {
       ...opt.load,
-      postprocess: [...postprocesses, (x) => {
-         if (type === 'lightshow' && 'lightshowFilename' in x) {
-            x.lightshowFilename = path.basename(p);
-         } else x.filename = path.basename(p);
-         return posttransformer ? posttransformer(x) : x as TWrapper;
-      }],
+      postprocess: [
+         ...postprocesses,
+         (x) => {
+            if (type === 'lightshow' && 'lightshowFilename' in x) {
+               x.lightshowFilename = path.basename(p);
+            } else x.filename = path.basename(p);
+            return posttransformer ? posttransformer(x) : (x as TWrapper);
+         },
+      ],
    });
    return d;
 }

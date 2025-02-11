@@ -98,7 +98,7 @@ export function loadBeatmap<
       attribute.sort();
    }
 
-   const [posttransformer, ...postprocesses] = opt.postprocess.toReversed() as [
+   const [posttransformer, ...postprocesses] = [...opt.postprocess].reverse() as [
       (data: InferBeatmap<TFileType>, version: TVersion | null) => TWrapper,
       ...MirrorFn<InferBeatmap<TFileType>>[],
    ];

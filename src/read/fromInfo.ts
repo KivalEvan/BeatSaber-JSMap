@@ -14,31 +14,39 @@ export async function readFromInfo<
    T extends Pick<InferBeatmap<'info'>, 'difficulties'>,
    TVersion extends InferBeatmapVersion<'difficulty'>,
    TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
-   TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<
+      'difficulty',
+      TVersion
+   >,
 >(
    info: T,
    options: IReadOptions<'difficulty', TVersion, TWrapper, TSerial> = {},
 ): Promise<IBeatmapInfoData<TWrapper>[]> {
    const ary: IBeatmapInfoData<TWrapper>[] = [];
    for (const d of info.difficulties) {
-      const [posttransformer, ...postprocesses] =
-         (options.load?.postprocess?.toReversed() ?? []) as [
-            (data: InferBeatmap<'difficulty'>) => TWrapper,
-            ...MirrorFn<InferBeatmap<'difficulty'>>[],
-         ];
+      const [posttransformer, ...postprocesses] = [
+         ...(options.load?.postprocess ?? []),
+      ].reverse() as [
+         (data: InferBeatmap<'difficulty'>) => TWrapper,
+         ...MirrorFn<InferBeatmap<'difficulty'>>[],
+      ];
       const beatmap = await readDifficultyFile(d.filename, {
          ...options,
          load: {
-            postprocess: [...postprocesses, (x) => {
-               if (x.version === 4) {
-                  const light = readLightshowFileSync(d.lightshowFilename, {
-                     directory: options.directory ?? options.directory,
-                  });
-                  x.lightshow = light.lightshow;
-                  x.lightshowFilename = light.lightshowFilename;
-               }
-               return x;
-            }, posttransformer],
+            postprocess: [
+               ...postprocesses,
+               (x) => {
+                  if (x.version === 4) {
+                     const light = readLightshowFileSync(d.lightshowFilename, {
+                        directory: options.directory ?? options.directory,
+                     });
+                     x.lightshow = light.lightshow;
+                     x.lightshowFilename = light.lightshowFilename;
+                  }
+                  return x;
+               },
+               posttransformer,
+            ],
          },
       });
       ary.push({ info: d, beatmap });
@@ -50,31 +58,39 @@ export function readFromInfoSync<
    T extends Pick<InferBeatmap<'info'>, 'difficulties'>,
    TVersion extends InferBeatmapVersion<'difficulty'>,
    TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
-   TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
+   TSerial extends Record<string, any> = InferBeatmapSerial<
+      'difficulty',
+      TVersion
+   >,
 >(
    info: T,
    options: IReadOptions<'difficulty', TVersion, TWrapper, TSerial> = {},
 ): IBeatmapInfoData<TWrapper>[] {
    const ary: IBeatmapInfoData<TWrapper>[] = [];
    for (const d of info.difficulties) {
-      const [posttransformer, ...postprocesses] =
-         (options.load?.postprocess?.toReversed() ?? []) as [
-            (data: InferBeatmap<'difficulty'>) => TWrapper,
-            ...MirrorFn<InferBeatmap<'difficulty'>>[],
-         ];
+      const [posttransformer, ...postprocesses] = [
+         ...(options.load?.postprocess ?? []),
+      ].reverse() as [
+         (data: InferBeatmap<'difficulty'>) => TWrapper,
+         ...MirrorFn<InferBeatmap<'difficulty'>>[],
+      ];
       const beatmap = readDifficultyFileSync(d.filename, {
          ...options,
          load: {
-            postprocess: [...postprocesses, (x) => {
-               if (x.version === 4) {
-                  const light = readLightshowFileSync(d.lightshowFilename, {
-                     directory: options.directory,
-                  });
-                  x.lightshow = light.lightshow;
-                  x.lightshowFilename = light.lightshowFilename;
-               }
-               return x;
-            }, posttransformer],
+            postprocess: [
+               ...postprocesses,
+               (x) => {
+                  if (x.version === 4) {
+                     const light = readLightshowFileSync(d.lightshowFilename, {
+                        directory: options.directory,
+                     });
+                     x.lightshow = light.lightshow;
+                     x.lightshowFilename = light.lightshowFilename;
+                  }
+                  return x;
+               },
+               posttransformer,
+            ],
          },
       });
       ary.push({ info: d, beatmap });

@@ -140,7 +140,7 @@ export function saveBeatmap<
       validateJSON(type, serial, ver, opt.validate?.schemaCheck);
    }
 
-   const [posttransformer, ...postprocesses] = opt.postprocess.toReversed() as [
+   const [posttransformer, ...postprocesses] = [...opt.postprocess].reverse() as [
       (data: InferBeatmapSerial<TFileType, TVersion>, version: TVersion | null) => TSerial,
       ...MirrorFn<InferBeatmapSerial<TFileType, TVersion>>[],
    ];
