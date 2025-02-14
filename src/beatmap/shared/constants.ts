@@ -1,5 +1,6 @@
 import type { Vector2 } from '../../types/vector.ts';
 import { NoteDirection } from '../../types/beatmap/shared/constants.ts';
+export * from '../../types/beatmap/shared/custom/constants.ts';
 export * from '../../types/beatmap/shared/constants.ts';
 
 /** Also known as lane count. */
@@ -10,6 +11,13 @@ export const LANE_SIZE = 0.6;
 
 /** Size of regular note in unity unit */
 export const NOTE_SIZE = [0.5, 0.5] as const;
+
+/** Y-offset of note on grid in unity unit */
+export const NoteYOffset = {
+   0: 0,
+   1: 0.05,
+   2: 0.1,
+};
 
 /**
  * Cut angle corresponding to the `direction`.

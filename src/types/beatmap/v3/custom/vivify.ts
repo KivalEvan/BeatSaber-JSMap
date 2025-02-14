@@ -2,6 +2,17 @@ import type { ColorArray } from '../../../colors.ts';
 import type { Easings } from '../../../easings.ts';
 import type { Vector3, Vector4 } from '../../../vector.ts';
 import type {
+   AmbientMode,
+   AnisotropicFiltering,
+   Bool,
+   DefaultReflectionMode,
+   FogMode,
+   ShadowMaskMode,
+   ShadowProjection,
+   ShadowResolution,
+   Shadows,
+} from '../../shared/custom/constants.ts';
+import type {
    FloatPointDefinition,
    Vector3PointDefinition,
    Vector4PointDefinition,
@@ -80,7 +91,35 @@ export interface IVivifyCustomEventCreateScreenTexture {
    yRatio?: number; // float
    width?: number; // int
    height?: number; // int
-   colorFormat?: string;
+   colorFormat?:
+      | 'ARGB32'
+      | 'Depth'
+      | 'ARGBHalf'
+      | 'Shadowmap'
+      | 'RGB565'
+      | 'ARGB4444'
+      | 'ARGB1555'
+      | 'Default'
+      | 'ARGB2101010'
+      | 'DefaultHDR'
+      | 'ARGB64'
+      | 'ARGBFloat'
+      | 'RGFloat'
+      | 'RGHalf'
+      | 'RFloat'
+      | 'RHalf'
+      | 'R8'
+      | 'ARGBInt'
+      | 'RGInt'
+      | 'RInt'
+      | 'BGRA32'
+      | 'RGB111110Float'
+      | 'RG32'
+      | 'RGBAUShort'
+      | 'RG16'
+      | 'BGRA101010_XR'
+      | 'BGR101010_XR'
+      | 'R16';
    filterMode?: 'Point' | 'Bilinear' | 'Trilinear';
 }
 
@@ -171,17 +210,17 @@ export interface IVivifyCustomEventSetRenderingSettings {
          | Vector4
          | Vector3PointDefinition
          | Vector4PointDefinition;
-      ambientMode?: 0 | 1 | 3 | 4 | FloatPointDefinition;
+      ambientMode?: AmbientMode | FloatPointDefinition;
       ambientSkyColor?:
          | Vector3
          | Vector4
          | Vector3PointDefinition
          | Vector4PointDefinition;
-      defaultReflectionMode?: 0 | 1 | FloatPointDefinition;
+      defaultReflectionMode?: DefaultReflectionMode | FloatPointDefinition;
       defaultReflectionResolution?: number | FloatPointDefinition; // int
       flareFadeSpeed?: number | FloatPointDefinition; // float
       flareStrength?: number | FloatPointDefinition; // float
-      fog?: 0 | 1 | FloatPointDefinition;
+      fog?: Bool | FloatPointDefinition;
       fogColor?:
          | Vector3
          | Vector4
@@ -189,7 +228,7 @@ export interface IVivifyCustomEventSetRenderingSettings {
          | Vector4PointDefinition;
       fogDensity?: number | FloatPointDefinition; // float
       fogStartDistance?: number | FloatPointDefinition; // float
-      fogMode?: 1 | 2 | 3 | FloatPointDefinition;
+      fogMode?: FogMode | FloatPointDefinition;
       fogEndDistance?: number | FloatPointDefinition; // float
       haloStrength?: number | FloatPointDefinition; // float
       reflectionBounces?: number | FloatPointDefinition; // int
@@ -203,20 +242,20 @@ export interface IVivifyCustomEventSetRenderingSettings {
       sun?: string;
    };
    qualitySettings?: {
-      anisotropicFiltering?: 0 | 1 | 2 | FloatPointDefinition;
+      anisotropicFiltering?: AnisotropicFiltering | FloatPointDefinition;
       antiAliasing?: 0 | 2 | 4 | 8 | FloatPointDefinition;
       pixelLightCount?: number | FloatPointDefinition; // int
-      realtimeReflectionProbes?: 0 | 1 | FloatPointDefinition;
+      realtimeReflectionProbes?: Bool | FloatPointDefinition;
       shadowCascades?: 0 | 2 | 4 | FloatPointDefinition;
       shadowDistance?: number | FloatPointDefinition; // float
-      shadowmaskMode?: 0 | 1 | FloatPointDefinition;
+      shadowMaskMode?: ShadowMaskMode | FloatPointDefinition;
       shadowNearPlaneOffset?: number | FloatPointDefinition; // float
-      shadowProjection?: 0 | 1 | FloatPointDefinition;
-      shadowResolution?: 0 | 1 | 2 | 3 | FloatPointDefinition;
-      shadows?: 0 | 1 | 2 | FloatPointDefinition;
-      softParticles?: 0 | 1 | FloatPointDefinition;
+      shadowProjection?: ShadowProjection | FloatPointDefinition;
+      shadowResolution?: ShadowResolution | FloatPointDefinition;
+      shadows?: Shadows | FloatPointDefinition;
+      softParticles?: Bool | FloatPointDefinition;
    };
    xrSettings?: {
-      useOcclusionMesh?: 0 | 1 | FloatPointDefinition;
+      useOcclusionMesh?: Bool | FloatPointDefinition;
    };
 }

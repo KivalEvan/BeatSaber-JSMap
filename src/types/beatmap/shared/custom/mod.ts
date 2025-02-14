@@ -1,4 +1,5 @@
 export * from './chroma.ts';
+export * from './constants.ts';
 export * from './contributor.ts';
 export * from './customData.ts';
 export * from './heck.ts';
