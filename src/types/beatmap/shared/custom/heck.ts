@@ -50,16 +50,13 @@ export type PointDefinition4Modifier = [
 
 export type PointDefinitionModifierBase =
    | PointDefinition1Modifier
-   | PointDefinition2Modifier;
+   | PointDefinition2Modifier
+   | PointDefinition3Modifier
+   | PointDefinition4Modifier;
 
 export type PointDefinitionModifier = [
    base: BaseModifier,
-   ...(
-      | PointDefinition1Modifier
-      | PointDefinition2Modifier
-      | PointDefinition3Modifier
-      | PointDefinition4Modifier
-   )[]
+   ...PointDefinitionModifierBase[]
 ];
 
 export type FloatPointDefinition =
