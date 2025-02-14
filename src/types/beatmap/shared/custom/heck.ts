@@ -5,58 +5,58 @@ import type { Vector3, Vector4 } from '../../../vector.ts';
 export type FloatPointDefinitionBase = [
    percent: number,
    time: number,
-   ...options: (Easings | PointFlag)[]
+   ...options: (Easings | PointFlag)[],
 ][];
 export type Vector3PointDefinitionBase = [
    ...vector3: Vector3,
    time: number,
-   ...options: (Easings | PointFlag)[]
+   ...options: (Easings | PointFlag)[],
 ][];
 export type Vector4PointDefinitionBase = [
    ...vector4: Vector4,
    time: number,
-   ...options: ('lerpHSV' | Easings | PointFlag)[]
+   ...options: ('lerpHSV' | Easings | PointFlag)[],
 ][];
 
-export type PointDefinition1Modifier = [
+export type PointDefinition1Operand = [
    mod1: number | LooseAutocomplete<BaseModifier>,
    op: PointOperation,
-   chain?: PointDefinitionModifierBase
+   chain?: PointDefinitionAllOperand,
 ];
 
-export type PointDefinition2Modifier = [
+export type PointDefinition2Operand = [
    mod1: number | LooseAutocomplete<BaseModifier>,
    mod2: number | LooseAutocomplete<BaseModifier>,
    op: PointOperation,
-   chain?: PointDefinitionModifierBase
+   chain?: PointDefinitionAllOperand,
 ];
 
-export type PointDefinition3Modifier = [
+export type PointDefinition3Operand = [
    mod1: number | LooseAutocomplete<BaseModifier>,
    mod2: number | LooseAutocomplete<BaseModifier>,
    mod3: number | LooseAutocomplete<BaseModifier>,
    op: PointOperation,
-   chain?: PointDefinitionModifierBase
+   chain?: PointDefinitionAllOperand,
 ];
 
-export type PointDefinition4Modifier = [
+export type PointDefinition4Operand = [
    mod1: number | LooseAutocomplete<BaseModifier>,
    mod2: number | LooseAutocomplete<BaseModifier>,
    mod3: number | LooseAutocomplete<BaseModifier>,
    mod4: number | LooseAutocomplete<BaseModifier>,
    op: PointOperation,
-   chain?: PointDefinitionModifierBase
+   chain?: PointDefinitionAllOperand,
 ];
 
-export type PointDefinitionModifierBase =
-   | PointDefinition1Modifier
-   | PointDefinition2Modifier
-   | PointDefinition3Modifier
-   | PointDefinition4Modifier;
+export type PointDefinitionAllOperand =
+   | PointDefinition1Operand
+   | PointDefinition2Operand
+   | PointDefinition3Operand
+   | PointDefinition4Operand;
 
 export type PointDefinitionModifier = [
    base: BaseModifier,
-   ...PointDefinitionModifierBase[]
+   ...PointDefinitionAllOperand[],
 ];
 
 export type FloatPointDefinition =
