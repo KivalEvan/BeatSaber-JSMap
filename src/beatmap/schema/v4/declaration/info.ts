@@ -1,14 +1,4 @@
-import {
-   array,
-   boolean,
-   integer,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   optional,
-   pipe,
-   string,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type { EnvironmentAllName } from '../../../../types/beatmap/shared/mod.ts';
 import type {
    IInfo,
@@ -29,17 +19,17 @@ import {
 /**
  * Schema declaration for v4 `Info Song`.
  */
-export const InfoSongSchema: VObjectSchema<
+export const InfoSongSchema: v.ObjectSchema<
    InferObjectEntries<IInfoSong>,
    undefined
-> = object<InferObjectEntries<IInfoSong>>({
-   title: field(string(), {
+> = v.object<InferObjectEntries<IInfoSong>>({
+   title: field(v.string(), {
       version: '4.0.0',
    }),
-   subTitle: field(string(), {
+   subTitle: field(v.string(), {
       version: '4.0.0',
    }),
-   author: field(string(), {
+   author: field(v.string(), {
       version: '4.0.0',
    }),
 });
@@ -47,29 +37,29 @@ export const InfoSongSchema: VObjectSchema<
 /**
  * Schema declaration for v4 `Info Audio`.
  */
-export const InfoAudioSchema: VObjectSchema<
+export const InfoAudioSchema: v.ObjectSchema<
    InferObjectEntries<IInfoAudio>,
    undefined
-> = object<InferObjectEntries<IInfoAudio>>({
-   songFilename: field(string(), {
+> = v.object<InferObjectEntries<IInfoAudio>>({
+   songFilename: field(v.string(), {
       version: '4.0.0',
    }),
-   songDuration: field(number(), {
+   songDuration: field(v.number(), {
       version: '4.0.0',
    }),
-   audioDataFilename: field(string(), {
+   audioDataFilename: field(v.string(), {
       version: '4.0.0',
    }),
-   bpm: field(number(), {
+   bpm: field(v.number(), {
       version: '4.0.0',
    }),
-   lufs: field(number(), {
+   lufs: field(v.number(), {
       version: '4.0.0',
    }),
-   previewStartTime: field(number(), {
+   previewStartTime: field(v.number(), {
       version: '4.0.0',
    }),
-   previewDuration: field(number(), {
+   previewDuration: field(v.number(), {
       version: '4.0.0',
    }),
 });
@@ -77,44 +67,44 @@ export const InfoAudioSchema: VObjectSchema<
 /**
  * Schema declaration for v4 `Info Color Scheme`.
  */
-export const InfoColorSchemeSchema: VObjectSchema<
+export const InfoColorSchemeSchema: v.ObjectSchema<
    InferObjectEntries<IInfoColorScheme>,
    undefined
-> = object<InferObjectEntries<IInfoColorScheme>>({
-   colorSchemeName: field(string(), {
+> = v.object<InferObjectEntries<IInfoColorScheme>>({
+   colorSchemeName: field(v.string(), {
       version: '4.0.0',
    }),
-   overrideNotes: field(boolean(), {
+   overrideNotes: field(v.boolean(), {
       version: '4.0.1',
    }),
-   saberAColor: field(string(), {
+   saberAColor: field(v.string(), {
       version: '4.0.0',
    }),
-   saberBColor: field(string(), {
+   saberBColor: field(v.string(), {
       version: '4.0.0',
    }),
-   obstaclesColor: field(string(), {
+   obstaclesColor: field(v.string(), {
       version: '4.0.0',
    }),
-   overrideLights: field(boolean(), {
+   overrideLights: field(v.boolean(), {
       version: '4.0.1',
    }),
-   environmentColor0: field(string(), {
+   environmentColor0: field(v.string(), {
       version: '4.0.0',
    }),
-   environmentColor1: field(string(), {
+   environmentColor1: field(v.string(), {
       version: '4.0.0',
    }),
-   environmentColor0Boost: field(string(), {
+   environmentColor0Boost: field(v.string(), {
       version: '4.0.0',
    }),
-   environmentColor1Boost: field(string(), {
+   environmentColor1Boost: field(v.string(), {
       version: '4.0.0',
    }),
-   environmentColorW: field(string(), {
+   environmentColorW: field(v.optional(v.string()), {
       version: '4.0.0',
    }),
-   environmentColorWBoost: field(string(), {
+   environmentColorWBoost: field(v.optional(v.string()), {
       version: '4.0.0',
    }),
 });
@@ -122,14 +112,14 @@ export const InfoColorSchemeSchema: VObjectSchema<
 /**
  * Schema declaration for v4 `Info Beatmap Authors`.
  */
-export const InfoBeatmapAuthorsSchema: VObjectSchema<
+export const InfoBeatmapAuthorsSchema: v.ObjectSchema<
    InferObjectEntries<IInfoBeatmapAuthors>,
    undefined
-> = object<InferObjectEntries<IInfoBeatmapAuthors>>({
-   mappers: field(array(string()), {
+> = v.object<InferObjectEntries<IInfoBeatmapAuthors>>({
+   mappers: field(v.array(v.string()), {
       version: '4.0.0',
    }),
-   lighters: field(array(string()), {
+   lighters: field(v.array(v.string()), {
       version: '4.0.0',
    }),
 });
@@ -137,10 +127,10 @@ export const InfoBeatmapAuthorsSchema: VObjectSchema<
 /**
  * Schema declaration for v4 `Info Beatmap`.
  */
-export const InfoDifficultySchema: VObjectSchema<
+export const InfoDifficultySchema: v.ObjectSchema<
    InferObjectEntries<IInfoBeatmap>,
    undefined
-> = object<InferObjectEntries<IInfoBeatmap>>({
+> = v.object<InferObjectEntries<IInfoBeatmap>>({
    characteristic: field(CharacteristicNameSchema, {
       version: '4.0.0',
    }),
@@ -150,31 +140,31 @@ export const InfoDifficultySchema: VObjectSchema<
    beatmapAuthors: field(InfoBeatmapAuthorsSchema, {
       version: '4.0.0',
    }),
-   environmentNameIdx: field(pipe(number(), integer()), {
+   environmentNameIdx: field(v.pipe(v.number(), v.integer()), {
       version: '4.0.0',
    }),
-   beatmapColorSchemeIdx: field(pipe(number(), integer()), {
+   beatmapColorSchemeIdx: field(v.pipe(v.number(), v.integer()), {
       version: '4.0.0',
    }),
-   noteJumpMovementSpeed: field(number(), {
+   noteJumpMovementSpeed: field(v.number(), {
       version: '4.0.0',
    }),
-   noteJumpStartBeatOffset: field(number(), {
+   noteJumpStartBeatOffset: field(v.number(), {
       version: '4.0.0',
    }),
-   lightshowDataFilename: field(string(), {
+   lightshowDataFilename: field(v.string(), {
       version: '4.0.0',
    }),
-   beatmapDataFilename: field(string(), {
+   beatmapDataFilename: field(v.string(), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Info`.
  */
-export const InfoSchema: VObjectSchema<
+export const InfoSchema: v.ObjectSchema<
    InferObjectEntries<IInfo>,
    undefined
 > = entity<InferObjectEntries<IInfo>>((x) => x.version, {
@@ -187,20 +177,20 @@ export const InfoSchema: VObjectSchema<
    audio: field(InfoAudioSchema, {
       version: '4.0.0',
    }),
-   songPreviewFilename: field(string(), {
+   songPreviewFilename: field(v.string(), {
       version: '4.0.0',
    }),
-   coverImageFilename: field(string(), {
+   coverImageFilename: field(v.string(), {
       version: '4.0.0',
    }),
-   environmentNames: field(array(mask<EnvironmentAllName>(string())), {
+   environmentNames: field(v.array(mask<EnvironmentAllName>(v.string())), {
       version: '4.0.0',
    }),
-   colorSchemes: field(array(InfoColorSchemeSchema), {
+   colorSchemes: field(v.array(InfoColorSchemeSchema), {
       version: '4.0.0',
    }),
-   difficultyBeatmaps: field(array(InfoDifficultySchema), {
+   difficultyBeatmaps: field(v.array(InfoDifficultySchema), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });

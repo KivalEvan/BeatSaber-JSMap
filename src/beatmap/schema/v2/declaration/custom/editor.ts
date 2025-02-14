@@ -1,34 +1,26 @@
-import {
-   type GenericSchema,
-   looseObject,
-   type LooseObjectSchema as VLooseObjectSchema,
-   objectWithRest,
-   type ObjectWithRestSchema as VObjectWithRestSchema,
-   optional,
-   record,
-   string,
-   undefined,
-   union,
-} from '@valibot/valibot';
+import { v } from '../../../../../deps.ts';
 import type { IEditor, IEditorInfo } from '../../../../../types/beatmap/v2/custom/editor.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 
 /** Schema declaration for v2 custom `Editor Info`. */
-export const CustomEditorInfoSchema: VLooseObjectSchema<
+export const CustomEditorInfoSchema: v.LooseObjectSchema<
    InferObjectEntries<IEditorInfo>,
    undefined
-> = looseObject<InferObjectEntries<IEditorInfo>>({
-   version: optional(string()),
+> = v.looseObject<InferObjectEntries<IEditorInfo>>({
+   version: v.optional(v.string()),
 });
 
 /** Schema declaration for v2 custom `Editor`. */
-export const CustomEditorSchema: VObjectWithRestSchema<
+export const CustomEditorSchema: v.ObjectWithRestSchema<
    InferObjectEntries<IEditor>,
-   GenericSchema,
+   v.GenericSchema,
    undefined
-> = objectWithRest<InferObjectEntries<IEditor>, GenericSchema>(
+> = v.objectWithRest<InferObjectEntries<IEditor>, v.GenericSchema>(
    {
-      _lastEditedBy: optional(string()),
+      _lastEditedBy: v.optional(v.string()),
    },
-   record(string(), union([CustomEditorInfoSchema, string(), undefined()])),
+   v.record(
+      v.string(),
+      v.union([CustomEditorInfoSchema, v.string(), v.undefined()]),
+   ),
 );

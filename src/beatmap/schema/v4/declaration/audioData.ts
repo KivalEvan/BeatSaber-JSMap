@@ -1,13 +1,4 @@
-import {
-   array,
-   integer,
-   minValue,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   pipe,
-   string,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type { IAudio, IAudioBPM, IAudioLUFS } from '../../../../types/beatmap/v4/audioData.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import { VersionSchema } from '../../shared/declaration/mod.ts';
@@ -15,20 +6,20 @@ import { VersionSchema } from '../../shared/declaration/mod.ts';
 /**
  * Schema declaration for v4 `Audio Data BPM`.
  */
-export const AudioDataBPMSchema: VObjectSchema<
+export const AudioDataBPMSchema: v.ObjectSchema<
    InferObjectEntries<IAudioBPM>,
    undefined
-> = object<InferObjectEntries<IAudioBPM>>({
-   si: field(pipe(number(), integer(), minValue(0)), {
+> = v.object<InferObjectEntries<IAudioBPM>>({
+   si: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '4.0.0',
    }),
-   ei: field(pipe(number(), integer(), minValue(0)), {
+   ei: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '4.0.0',
    }),
-   sb: field(number(), {
+   sb: field(v.number(), {
       version: '4.0.0',
    }),
-   eb: field(number(), {
+   eb: field(v.number(), {
       version: '4.0.0',
    }),
 });
@@ -36,17 +27,17 @@ export const AudioDataBPMSchema: VObjectSchema<
 /**
  * Schema declaration for v4 `Audio Data LUFS`.
  */
-export const AudioDataLUFSSchema: VObjectSchema<
+export const AudioDataLUFSSchema: v.ObjectSchema<
    InferObjectEntries<IAudioLUFS>,
    undefined
-> = object<InferObjectEntries<IAudioLUFS>>({
-   si: field(pipe(number(), integer(), minValue(0)), {
+> = v.object<InferObjectEntries<IAudioLUFS>>({
+   si: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '4.0.0',
    }),
-   ei: field(pipe(number(), integer(), minValue(0)), {
+   ei: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '4.0.0',
    }),
-   l: field(number(), {
+   l: field(v.number(), {
       version: '4.0.0',
    }),
 });
@@ -54,28 +45,26 @@ export const AudioDataLUFSSchema: VObjectSchema<
 /**
  * Schema declaration for v4 `Audio`.
  */
-export const AudioDataSchema: VObjectSchema<
+export const AudioDataSchema: v.ObjectSchema<
    InferObjectEntries<IAudio>,
    undefined
-> = entity<
-   InferObjectEntries<IAudio>
->((x) => x.version, {
+> = entity<InferObjectEntries<IAudio>>((x) => x.version, {
    version: field(mask<'4.0.0'>(VersionSchema), {
       version: '4.0.0',
    }),
-   songChecksum: field(string(), {
+   songChecksum: field(v.string(), {
       version: '4.0.0',
    }),
-   songSampleCount: field(pipe(number(), integer(), minValue(0)), {
+   songSampleCount: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '4.0.0',
    }),
-   songFrequency: field(pipe(number(), integer(), minValue(0)), {
+   songFrequency: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '4.0.0',
    }),
-   bpmData: field(array(AudioDataBPMSchema), {
+   bpmData: field(v.array(AudioDataBPMSchema), {
       version: '4.0.0',
    }),
-   lufsData: field(array(AudioDataLUFSSchema), {
+   lufsData: field(v.array(AudioDataLUFSSchema), {
       version: '4.0.0',
    }),
 });

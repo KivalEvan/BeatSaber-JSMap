@@ -1,14 +1,4 @@
-import {
-   array,
-   integer,
-   minValue,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   optional,
-   pipe,
-   string,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type {
    IArc,
    IDifficulty,
@@ -33,156 +23,156 @@ import {
 /**
  * Schema declaration for v2 `Note`.
  */
-export const NoteSchema: VObjectSchema<
+export const NoteSchema: v.ObjectSchema<
    InferObjectEntries<INote>,
    undefined
-> = object<InferObjectEntries<INote>>({
-   _time: field(optional(number()), {
+> = v.object<InferObjectEntries<INote>>({
+   _time: field(v.optional(v.number()), {
       version: '2.0.0',
    }),
-   _type: field(optional(NoteTypeSchema), {
+   _type: field(v.optional(NoteTypeSchema), {
       version: '2.0.0',
    }),
-   _lineIndex: field(optional(pipe(number(), integer())), {
+   _lineIndex: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.0.0',
    }),
-   _lineLayer: field(optional(pipe(number(), integer())), {
+   _lineLayer: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.0.0',
    }),
-   _cutDirection: field(optional(pipe(number(), integer(), minValue(0))), {
+   _cutDirection: field(v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))), {
       version: '2.0.0',
    }),
-   _customData: field(optional(CustomDataSchema)),
+   _customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v2 `Arc`.
  */
-export const ArcSchema: VObjectSchema<
+export const ArcSchema: v.ObjectSchema<
    InferObjectEntries<IArc>,
    undefined
-> = object<InferObjectEntries<IArc>>({
-   _colorType: field(optional(NoteColorSchema), {
+> = v.object<InferObjectEntries<IArc>>({
+   _colorType: field(v.optional(NoteColorSchema), {
       version: '2.6.0',
    }),
-   _headTime: field(optional(number()), {
+   _headTime: field(v.optional(v.number()), {
       version: '2.6.0',
    }),
-   _headLineIndex: field(optional(pipe(number(), integer())), {
+   _headLineIndex: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.6.0',
    }),
-   _headLineLayer: field(optional(pipe(number(), integer())), {
+   _headLineLayer: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.6.0',
    }),
-   _headControlPointLengthMultiplier: field(optional(number()), {
+   _headControlPointLengthMultiplier: field(v.optional(v.number()), {
       version: '2.6.0',
    }),
-   _headCutDirection: field(optional(pipe(number(), integer(), minValue(0))), {
+   _headCutDirection: field(v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))), {
       version: '2.6.0',
    }),
-   _tailTime: field(optional(number()), {
+   _tailTime: field(v.optional(v.number()), {
       version: '2.6.0',
    }),
-   _tailLineIndex: field(optional(pipe(number(), integer())), {
+   _tailLineIndex: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.6.0',
    }),
-   _tailLineLayer: field(optional(pipe(number(), integer())), {
+   _tailLineLayer: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.6.0',
    }),
-   _tailControlPointLengthMultiplier: field(optional(number()), {
+   _tailControlPointLengthMultiplier: field(v.optional(v.number()), {
       version: '2.6.0',
    }),
-   _tailCutDirection: field(optional(pipe(number(), integer(), minValue(0))), {
+   _tailCutDirection: field(v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))), {
       version: '2.6.0',
    }),
-   _sliderMidAnchorMode: field(optional(SliderMidAnchorModeSchema), {
+   _sliderMidAnchorMode: field(v.optional(SliderMidAnchorModeSchema), {
       version: '2.6.0',
    }),
-   _customData: field(optional(CustomDataSchema)),
+   _customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v2 `Obstacle`.
  */
-export const ObstacleSchema: VObjectSchema<
+export const ObstacleSchema: v.ObjectSchema<
    InferObjectEntries<IObstacle>,
    undefined
-> = object<InferObjectEntries<IObstacle>>({
-   _time: field(optional(number()), {
+> = v.object<InferObjectEntries<IObstacle>>({
+   _time: field(v.optional(v.number()), {
       version: '2.0.0',
    }),
-   _lineIndex: field(optional(pipe(number(), integer())), {
+   _lineIndex: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.0.0',
    }),
-   _type: field(optional(ObstacleTypeSchema), {
+   _type: field(v.optional(ObstacleTypeSchema), {
       version: '2.0.0',
    }),
-   _duration: field(optional(number()), {
+   _duration: field(v.optional(v.number()), {
       version: '2.0.0',
    }),
-   _width: field(optional(pipe(number(), integer())), {
+   _width: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.0.0',
    }),
-   _customData: field(optional(CustomDataSchema)),
+   _customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v2 `Event`.
  */
-export const EventSchema: VObjectSchema<
+export const EventSchema: v.ObjectSchema<
    InferObjectEntries<IEvent>,
    undefined
-> = object<InferObjectEntries<IEvent>>({
-   _time: field(optional(number()), {
+> = v.object<InferObjectEntries<IEvent>>({
+   _time: field(v.optional(v.number()), {
       version: '2.0.0',
    }),
-   _type: field(optional(pipe(number(), integer())), {
+   _type: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.0.0',
    }),
-   _value: field(optional(pipe(number(), integer())), {
+   _value: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.0.0',
    }),
-   _floatValue: field(optional(number()), {
+   _floatValue: field(v.optional(v.number()), {
       version: '2.5.0',
    }),
-   _customData: field(optional(CustomDataSchema)),
+   _customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v2 `Waypoint`.
  */
-export const WaypointSchema: VObjectSchema<
+export const WaypointSchema: v.ObjectSchema<
    InferObjectEntries<IWaypoint>,
    undefined
-> = object<InferObjectEntries<IWaypoint>>({
-   _time: field(optional(number()), {
+> = v.object<InferObjectEntries<IWaypoint>>({
+   _time: field(v.optional(v.number()), {
       version: '2.2.0',
    }),
-   _lineIndex: field(optional(pipe(number(), integer())), {
+   _lineIndex: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.2.0',
    }),
-   _lineLayer: field(optional(pipe(number(), integer())), {
+   _lineLayer: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.2.0',
    }),
-   _offsetDirection: field(optional(OffsetDirectionSchema), {
+   _offsetDirection: field(v.optional(OffsetDirectionSchema), {
       version: '2.2.0',
    }),
-   _customData: field(optional(CustomDataSchema)),
+   _customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v2 `Special Events Keyword Filters Keywords`.
  */
-export const SpecialEventsKeywordFiltersKeywordsSchema: VObjectSchema<
+export const SpecialEventsKeywordFiltersKeywordsSchema: v.ObjectSchema<
    InferObjectEntries<ISpecialEventsKeywordFiltersKeywords>,
    undefined
-> = object<
+> = v.object<
    InferObjectEntries<ISpecialEventsKeywordFiltersKeywords>
 >({
-   _keyword: field(optional(string()), {
+   _keyword: field(v.optional(v.string()), {
       version: '2.4.0',
    }),
-   _specialEvents: field(optional(array(pipe(number(), integer()))), {
+   _specialEvents: field(v.optional(v.array(v.pipe(v.number(), v.integer()))), {
       version: '2.4.0',
    }),
 });
@@ -190,13 +180,13 @@ export const SpecialEventsKeywordFiltersKeywordsSchema: VObjectSchema<
 /**
  * Schema declaration for v2 `Special Events Keyword Filters`.
  */
-export const SpecialEventsKeywordFiltersSchema: VObjectSchema<
+export const SpecialEventsKeywordFiltersSchema: v.ObjectSchema<
    InferObjectEntries<ISpecialEventsKeywordFilters>,
    undefined
-> = object<
+> = v.object<
    InferObjectEntries<ISpecialEventsKeywordFilters>
 >({
-   _keywords: field(optional(array(SpecialEventsKeywordFiltersKeywordsSchema)), {
+   _keywords: field(v.optional(v.array(SpecialEventsKeywordFiltersKeywordsSchema)), {
       version: '2.4.0',
    }),
 });
@@ -204,7 +194,7 @@ export const SpecialEventsKeywordFiltersSchema: VObjectSchema<
 /**
  * Schema declaration for v2 `Difficulty`.
  */
-export const DifficultySchema: VObjectSchema<
+export const DifficultySchema: v.ObjectSchema<
    InferObjectEntries<IDifficulty>,
    undefined
 > = entity<
@@ -213,23 +203,23 @@ export const DifficultySchema: VObjectSchema<
    _version: field(mask<'2.0.0' | '2.2.0' | '2.4.0' | '2.5.0' | '2.6.0'>(VersionSchema), {
       version: '2.0.0',
    }),
-   _events: field(optional(array(EventSchema)), {
+   _events: field(v.optional(v.array(EventSchema)), {
       version: '2.0.0',
    }),
-   _notes: field(optional(array(NoteSchema)), {
+   _notes: field(v.optional(v.array(NoteSchema)), {
       version: '2.0.0',
    }),
-   _sliders: field(optional(array(ArcSchema)), {
+   _sliders: field(v.optional(v.array(ArcSchema)), {
       version: '2.6.0',
    }),
-   _waypoints: field(optional(array(WaypointSchema)), {
+   _waypoints: field(v.optional(v.array(WaypointSchema)), {
       version: '2.2.0',
    }),
-   _obstacles: field(optional(array(ObstacleSchema)), {
+   _obstacles: field(v.optional(v.array(ObstacleSchema)), {
       version: '2.0.0',
    }),
-   _specialEventsKeywordFilters: field(optional(SpecialEventsKeywordFiltersSchema), {
+   _specialEventsKeywordFilters: field(v.optional(SpecialEventsKeywordFiltersSchema), {
       version: '2.4.0',
    }),
-   _customData: field(optional(CustomDataSchema)),
+   _customData: field(v.optional(CustomDataSchema)),
 });

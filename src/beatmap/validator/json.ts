@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import type { StandardSchemaV1 } from '@standard-schema/spec';
+import type { StandardSchemaV1 } from '../../deps.ts';
 import { logger } from '../../logger.ts';
 import type { ISchemaCheckOptions } from '../../types/beatmap/options/schema.ts';
 import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';

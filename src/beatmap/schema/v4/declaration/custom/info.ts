@@ -1,14 +1,4 @@
-import {
-   array,
-   boolean,
-   looseObject,
-   type LooseObjectSchema as VLooseObjectSchema,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   optional,
-   string,
-} from '@valibot/valibot';
+import { v } from '../../../../../deps.ts';
 import type {
    ICustomCharacteristic,
    ICustomDataInfo,
@@ -22,41 +12,41 @@ import {
 import { CustomColorSchemeSchema, CustomEditorSchema } from '../../../v2/declaration/mod.ts';
 
 /** Schema declaration for v4 `Custom Characteristic`. */
-export const CustomCharacteristicSchema: VObjectSchema<
+export const CustomCharacteristicSchema: v.ObjectSchema<
    InferObjectEntries<ICustomCharacteristic>,
    undefined
-> = object<InferObjectEntries<ICustomCharacteristic>>({
+> = v.object<InferObjectEntries<ICustomCharacteristic>>({
    characteristic: CharacteristicNameSchema,
-   label: string(),
-   iconPath: optional(string()),
+   label: v.string(),
+   iconPath: v.optional(v.string()),
 });
 
 /** Schema declaration for v4 `Info` custom data. */
-export const CustomDataInfoSchema: VLooseObjectSchema<
+export const CustomDataInfoSchema: v.LooseObjectSchema<
    InferObjectEntries<ICustomDataInfo>,
    undefined
-> = looseObject<InferObjectEntries<ICustomDataInfo>>({
-   _editors: optional(CustomEditorSchema),
-   _contributors: optional(array(CustomContributorSchema)),
-   _customEnvironment: optional(string()),
-   _customEnvironmentHash: optional(string()),
-   _characteristics: optional(array(CustomCharacteristicSchema)),
+> = v.looseObject<InferObjectEntries<ICustomDataInfo>>({
+   _editors: v.optional(CustomEditorSchema),
+   _contributors: v.optional(v.array(CustomContributorSchema)),
+   _customEnvironment: v.optional(v.string()),
+   _customEnvironmentHash: v.optional(v.string()),
+   _characteristics: v.optional(v.array(CustomCharacteristicSchema)),
 });
 
 /** Schema declaration for v4 `Info Difficulty` custom data. */
-export const CustomDataInfoBeatmapSchema: VLooseObjectSchema<
+export const CustomDataInfoBeatmapSchema: v.LooseObjectSchema<
    InferObjectEntries<ICustomDataInfoBeatmap>,
    undefined
-> = looseObject<InferObjectEntries<ICustomDataInfoBeatmap>>({
+> = v.looseObject<InferObjectEntries<ICustomDataInfoBeatmap>>({
    ...CustomColorSchemeSchema.entries,
-   _difficultyLabel: optional(string()),
-   _editorOffset: optional(number()),
-   _editorOldOffset: optional(number()),
-   _warnings: optional(array(string())),
-   _information: optional(array(string())),
-   _suggestions: optional(array(string())),
-   _requirements: optional(array(string())),
-   _tags: optional(array(string())),
-   _oneSaber: optional(boolean()),
-   _showRotationNoteSpawnLines: optional(boolean()),
+   _difficultyLabel: v.optional(v.string()),
+   _editorOffset: v.optional(v.number()),
+   _editorOldOffset: v.optional(v.number()),
+   _warnings: v.optional(v.array(v.string())),
+   _information: v.optional(v.array(v.string())),
+   _suggestions: v.optional(v.array(v.string())),
+   _requirements: v.optional(v.array(v.string())),
+   _tags: v.optional(v.array(v.string())),
+   _oneSaber: v.optional(v.boolean()),
+   _showRotationNoteSpawnLines: v.optional(v.boolean()),
 });

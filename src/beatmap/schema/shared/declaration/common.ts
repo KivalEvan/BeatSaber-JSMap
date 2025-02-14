@@ -1,19 +1,4 @@
-import {
-   any,
-   type AnySchema,
-   enum_ as enumlike,
-   type EnumSchema,
-   picklist,
-   type PicklistSchema,
-   pipe,
-   record,
-   type RecordSchema,
-   regex,
-   type RegexAction,
-   type SchemaWithPipe,
-   string,
-   type StringSchema,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import {
    Axis,
    CharacteristicName,
@@ -49,156 +34,158 @@ import {
 } from '../../../shared/constants.ts';
 
 /** Schema declaration for semantic version. */
-export const VersionSchema: SchemaWithPipe<
-   [StringSchema<undefined>, RegexAction<string, undefined>]
-> = pipe(string(), regex(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/));
+export const VersionSchema: v.SchemaWithPipe<
+   [v.StringSchema<undefined>, v.RegexAction<string, undefined>]
+> = v.pipe(v.string(), v.regex(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/));
 
 /** Schema declaration for custom data. */
-export const CustomDataSchema: RecordSchema<
-   StringSchema<undefined>,
-   AnySchema,
+export const CustomDataSchema: v.RecordSchema<
+   v.StringSchema<undefined>,
+   v.AnySchema,
    undefined
-> = record(string(), any());
+> = v.record(v.string(), v.any());
 
 /** Schema declaration for {@linkcode CharacteristicName} */
-export const CharacteristicNameSchema: PicklistSchema<
+export const CharacteristicNameSchema: v.PicklistSchema<
    typeof CharacteristicName,
    undefined
-> = picklist(CharacteristicName);
+> = v.picklist(CharacteristicName);
 
 /** Schema declaration for {@linkcode DifficultyName} */
-export const DifficultyNameSchema: PicklistSchema<
+export const DifficultyNameSchema: v.PicklistSchema<
    typeof DifficultyName,
    undefined
-> = picklist(DifficultyName);
+> = v.picklist(DifficultyName);
 
 /** Schema declaration for {@linkcode DifficultyRank} */
-export const DifficultyRankSchema: PicklistSchema<
+export const DifficultyRankSchema: v.PicklistSchema<
    typeof DifficultyRank,
    undefined
-> = picklist(DifficultyRank);
+> = v.picklist(DifficultyRank);
 
 /** Schema declaration for {@linkcode EnvironmentName} */
-export const EnvironmentNameSchema: PicklistSchema<
+export const EnvironmentNameSchema: v.PicklistSchema<
    typeof EnvironmentName,
    undefined
-> = picklist(EnvironmentName);
+> = v.picklist(EnvironmentName);
 
 /** Schema declaration for {@linkcode EnvironmentV3Name} */
-export const EnvironmentV3NameSchema: PicklistSchema<
+export const EnvironmentV3NameSchema: v.PicklistSchema<
    typeof EnvironmentV3Name,
    undefined
-> = picklist(EnvironmentV3Name);
+> = v.picklist(EnvironmentV3Name);
 
 /** Schema declaration for {@linkcode Environment360Name} */
-export const Environment360NameSchema: PicklistSchema<
+export const Environment360NameSchema: v.PicklistSchema<
    typeof Environment360Name,
    undefined
-> = picklist(Environment360Name);
+> = v.picklist(Environment360Name);
 
 /** Schema declaration for {@linkcode EnvironmentAllName} */
-export const EnvironmentAllNameSchema: PicklistSchema<
+export const EnvironmentAllNameSchema: v.PicklistSchema<
    typeof EnvironmentAllName,
    undefined
-> = picklist(EnvironmentAllName);
+> = v.picklist(EnvironmentAllName);
 
 /** Schema declaration for {@linkcode PosX} */
-export const PosXSchema: EnumSchema<typeof PosX, undefined> = enumlike(PosX);
+export const PosXSchema: v.EnumSchema<typeof PosX, undefined> = v.enum_(PosX);
 
 /** Schema declaration for {@linkcode PosY} */
-export const PosYSchema: EnumSchema<typeof PosY, undefined> = enumlike(PosY);
+export const PosYSchema: v.EnumSchema<typeof PosY, undefined> = v.enum_(PosY);
 
 /** Schema declaration for {@linkcode NoteColor} */
-export const NoteColorSchema: EnumSchema<typeof NoteColor, undefined> = enumlike(NoteColor);
+export const NoteColorSchema: v.EnumSchema<typeof NoteColor, undefined> = v.enum_(NoteColor);
 
 /** Schema declaration for {@linkcode NoteDirection} */
-export const NoteDirectionSchema: EnumSchema<typeof NoteDirection, undefined> = enumlike(
-   NoteDirection,
-);
+export const NoteDirectionSchema: v.EnumSchema<
+   typeof NoteDirection,
+   undefined
+> = v.enum_(NoteDirection);
 
 /** Schema declaration for {@linkcode OffsetDirection} */
-export const OffsetDirectionSchema: EnumSchema<
+export const OffsetDirectionSchema: v.EnumSchema<
    typeof OffsetDirection,
    undefined
-> = enumlike(OffsetDirection);
+> = v.enum_(OffsetDirection);
 
 /** Schema declaration for {@linkcode OffsetDirection} */
-export const SliderMidAnchorModeSchema: EnumSchema<
+export const SliderMidAnchorModeSchema: v.EnumSchema<
    typeof SliderMidAnchorMode,
    undefined
-> = enumlike(SliderMidAnchorMode);
+> = v.enum_(SliderMidAnchorMode);
 
 /** Schema declaration for {@linkcode EventLightValue} */
-export const EventLightValueSchema: EnumSchema<
+export const EventLightValueSchema: v.EnumSchema<
    typeof EventLightValue,
    undefined
-> = enumlike(EventLightValue);
+> = v.enum_(EventLightValue);
 
 /** Schema declaration for {@linkcode EventType} */
-export const EventTypeSchema: EnumSchema<typeof EventType, undefined> = enumlike(EventType);
+export const EventTypeSchema: v.EnumSchema<typeof EventType, undefined> = v.enum_(EventType);
 
 /** Schema declaration for {@linkcode ExecutionTime} */
-export const ExecutionTimeSchema: EnumSchema<typeof ExecutionTime, undefined> = enumlike(
-   ExecutionTime,
-);
+export const ExecutionTimeSchema: v.EnumSchema<
+   typeof ExecutionTime,
+   undefined
+> = v.enum_(ExecutionTime);
 
 /** Schema declaration for {@linkcode IndexFilterType} */
-export const IndexFilterTypeSchema: EnumSchema<
+export const IndexFilterTypeSchema: v.EnumSchema<
    typeof IndexFilterType,
    undefined
-> = enumlike(IndexFilterType);
+> = v.enum_(IndexFilterType);
 
 /** Schema declaration for {@linkcode LimitAlsoAffectsType} */
-export const LimitAlsoAffectsTypeSchema: EnumSchema<
+export const LimitAlsoAffectsTypeSchema: v.EnumSchema<
    typeof LimitAlsoAffectsType,
    undefined
-> = enumlike(LimitAlsoAffectsType);
+> = v.enum_(LimitAlsoAffectsType);
 
 /** Schema declaration for {@linkcode RandomType} */
-export const RandomTypeSchema: EnumSchema<typeof RandomType, undefined> = enumlike(RandomType);
+export const RandomTypeSchema: v.EnumSchema<typeof RandomType, undefined> = v.enum_(RandomType);
 
 /** Schema declaration for {@linkcode DistributionType} */
-export const DistributionTypeSchema: EnumSchema<
+export const DistributionTypeSchema: v.EnumSchema<
    typeof DistributionType,
    undefined
-> = enumlike(DistributionType);
+> = v.enum_(DistributionType);
 
 /** Schema declaration for {@linkcode EaseType} */
-export const EaseTypeSchema: EnumSchema<typeof EaseType, undefined> = enumlike(EaseType);
+export const EaseTypeSchema: v.EnumSchema<typeof EaseType, undefined> = v.enum_(EaseType);
 
 /** Schema declaration for {@linkcode EventLightColor} */
-export const EventLightColorSchema: EnumSchema<
+export const EventLightColorSchema: v.EnumSchema<
    typeof EventLightColor,
    undefined
-> = enumlike(EventLightColor);
+> = v.enum_(EventLightColor);
 
 /** Schema declaration for {@linkcode Axis} */
-export const AxisSchema: EnumSchema<typeof Axis, undefined> = enumlike(Axis);
+export const AxisSchema: v.EnumSchema<typeof Axis, undefined> = v.enum_(Axis);
 
 /** Schema declaration for {@linkcode LightRotationDirection} */
-export const LightRotationDirectionSchema: EnumSchema<
+export const LightRotationDirectionSchema: v.EnumSchema<
    typeof LightRotationDirection,
    undefined
-> = enumlike(LightRotationDirection);
+> = v.enum_(LightRotationDirection);
 
 /** Schema declaration for {@linkcode NoteType} */
-export const NoteTypeSchema: EnumSchema<typeof NoteType, undefined> = enumlike(NoteType);
+export const NoteTypeSchema: v.EnumSchema<typeof NoteType, undefined> = v.enum_(NoteType);
 
 /** Schema declaration for {@linkcode ObstacleType} */
-export const ObstacleTypeSchema: EnumSchema<typeof ObstacleType, undefined> = enumlike(
+export const ObstacleTypeSchema: v.EnumSchema<typeof ObstacleType, undefined> = v.enum_(
    ObstacleType,
 );
 
 /** Schema declaration for {@linkcode TransitionType} */
-export const TransitionTypeSchema: EnumSchema<
+export const TransitionTypeSchema: v.EnumSchema<
    typeof TransitionType,
    undefined
-> = enumlike(TransitionType);
+> = v.enum_(TransitionType);
 
 /** Schema declaration for {@linkcode FxType} */
-export const FxTypeSchema: EnumSchema<typeof FxType, undefined> = enumlike(FxType);
+export const FxTypeSchema: v.EnumSchema<typeof FxType, undefined> = v.enum_(FxType);
 
 /** Schema declaration for {@linkcode EventBoxType} */
-export const EventBoxTypeSchema: EnumSchema<typeof EventBoxType, undefined> = enumlike(
+export const EventBoxTypeSchema: v.EnumSchema<typeof EventBoxType, undefined> = v.enum_(
    EventBoxType,
 );

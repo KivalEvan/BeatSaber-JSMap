@@ -1,4 +1,4 @@
-import { array, type ObjectSchema as VObjectSchema, optional } from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type { ILightshow } from '../../../../types/beatmap/v3/lightshow.ts';
 import { entity, field, type InferObjectEntries } from '../../helpers.ts';
 import { CustomDataSchema } from '../../shared/declaration/mod.ts';
@@ -15,32 +15,32 @@ import {
 /**
  * Schema declaration for v3 `Lightshow`.
  */
-export const LightshowSchema: VObjectSchema<
+export const LightshowSchema: v.ObjectSchema<
    InferObjectEntries<ILightshow>,
    undefined
 > = entity<
    InferObjectEntries<ILightshow>
 >(() => '3.0.0', {
-   basicBeatmapEvents: field(optional(array(BasicEventSchema)), {
+   basicBeatmapEvents: field(v.optional(v.array(BasicEventSchema)), {
       version: '3.0.0',
    }),
-   colorBoostBeatmapEvents: field(optional(array(ColorBoostEventSchema)), {
+   colorBoostBeatmapEvents: field(v.optional(v.array(ColorBoostEventSchema)), {
       version: '3.0.0',
    }),
-   lightColorEventBoxGroups: field(optional(array(LightColorEventBoxGroupSchema)), {
+   lightColorEventBoxGroups: field(v.optional(v.array(LightColorEventBoxGroupSchema)), {
       version: '3.0.0',
    }),
-   lightRotationEventBoxGroups: field(optional(array(LightRotationEventBoxGroupSchema)), {
+   lightRotationEventBoxGroups: field(v.optional(v.array(LightRotationEventBoxGroupSchema)), {
       version: '3.0.0',
    }),
-   lightTranslationEventBoxGroups: field(optional(array(LightTranslationEventBoxGroupSchema)), {
+   lightTranslationEventBoxGroups: field(v.optional(v.array(LightTranslationEventBoxGroupSchema)), {
       version: '3.2.0',
    }),
-   vfxEventBoxGroups: field(optional(array(VfxEventBoxGroupSchema)), {
+   vfxEventBoxGroups: field(v.optional(v.array(VfxEventBoxGroupSchema)), {
       version: '3.3.0',
    }),
-   _fxEventsCollection: field(optional(FxEventsCollectionSchema), {
+   _fxEventsCollection: field(v.optional(FxEventsCollectionSchema), {
       version: '3.3.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });

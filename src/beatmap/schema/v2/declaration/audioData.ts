@@ -1,12 +1,4 @@
-import {
-   array,
-   integer,
-   minValue,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   pipe,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type { IBPMInfo, IBPMInfoRegion } from '../../../../types/beatmap/v2/bpmInfo.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import { VersionSchema } from '../../shared/declaration/mod.ts';
@@ -14,20 +6,20 @@ import { VersionSchema } from '../../shared/declaration/mod.ts';
 /**
  * Schema declaration for v2 `BPMInfo Region`.
  */
-export const BPMInfoRegionSchema: VObjectSchema<
+export const BPMInfoRegionSchema: v.ObjectSchema<
    InferObjectEntries<IBPMInfoRegion>,
    undefined
-> = object<InferObjectEntries<IBPMInfoRegion>>({
-   _startSampleIndex: field(pipe(number(), integer(), minValue(0)), {
+> = v.object<InferObjectEntries<IBPMInfoRegion>>({
+   _startSampleIndex: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '2.0.0',
    }),
-   _endSampleIndex: field(pipe(number(), integer(), minValue(0)), {
+   _endSampleIndex: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '2.0.0',
    }),
-   _startBeat: field(number(), {
+   _startBeat: field(v.number(), {
       version: '2.0.0',
    }),
-   _endBeat: field(number(), {
+   _endBeat: field(v.number(), {
       version: '2.0.0',
    }),
 });
@@ -35,22 +27,20 @@ export const BPMInfoRegionSchema: VObjectSchema<
 /**
  * Schema declaration for v2 `BPMInfo`.
  */
-export const BPMInfoSchema: VObjectSchema<
+export const BPMInfoSchema: v.ObjectSchema<
    InferObjectEntries<IBPMInfo>,
    undefined
-> = entity<
-   InferObjectEntries<IBPMInfo>
->((x) => x._version, {
+> = entity<InferObjectEntries<IBPMInfo>>((x) => x._version, {
    _version: field(mask<'2.0.0'>(VersionSchema), {
       version: '2.0.0',
    }),
-   _songSampleCount: field(pipe(number(), integer(), minValue(0)), {
+   _songSampleCount: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '2.0.0',
    }),
-   _songFrequency: field(pipe(number(), integer(), minValue(0)), {
+   _songFrequency: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '2.0.0',
    }),
-   _regions: field(array(BPMInfoRegionSchema), {
+   _regions: field(v.array(BPMInfoRegionSchema), {
       version: '2.0.0',
    }),
 });

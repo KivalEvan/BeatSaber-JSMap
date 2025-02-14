@@ -2,7 +2,6 @@
    "name": "@kvl/bsmap",
    "version": "2.2.0",
    "license": "MIT",
-   "importMap": "./import_map.json",
    "exports": {
       ".": "./src/mod.ts",
       "./types": "./src/types/mod.ts",
@@ -15,7 +14,7 @@
    "publish": {
       "exclude": [".git", ".github", "dnt.ts", "npm", "coverage", "tests"]
    },
-   "exclude": [".git", "npm", "coverage"],
+   "exclude": [".git", "npm", "coverage", "src/deps.js"],
    "lock": false,
    "fmt": {
       "indentWidth": 3,

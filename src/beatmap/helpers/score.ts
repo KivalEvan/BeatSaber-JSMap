@@ -3,7 +3,14 @@ import { lerp, normalize } from '../../utils/math/helpers.ts';
 
 type IScoreBeatmapSubset = IWrapBeatmapSubset<
    'colorNotes' | 'arcs' | 'chains',
-   'time' | 'posX' | 'posY' | 'color' | 'tailTime' | 'tailPosX' | 'tailPosY' | 'sliceCount'
+   | 'time'
+   | 'posX'
+   | 'posY'
+   | 'color'
+   | 'tailTime'
+   | 'tailPosX'
+   | 'tailPosY'
+   | 'sliceCount'
 >;
 
 /** Scoring type of note. */
@@ -27,7 +34,9 @@ export const ScoreValue: { readonly [key in ScoreType]: number } = {
 };
 
 /** Calculate max score from beatmap. */
-export function calculateScore<T extends IScoreBeatmapSubset>(beatmap: T): number {
+export function calculateScore<T extends IScoreBeatmapSubset>(
+   beatmap: T,
+): number {
    let total = 0;
    let multiplier = 1;
    const elements = generateScoreElement(beatmap);
@@ -124,7 +133,7 @@ function createChainElement<
 >(chains: T[]) {
    return chains.flatMap((c) => {
       if (c.sliceCount > 1) {
-         return Array(c.sliceCount - 1).map((_, i) => {
+         return new Array(c.sliceCount - 1).map((_, i) => {
             return {
                type: ScoreType.CHAIN_ELEMENT,
                time: lerp(

@@ -1,5 +1,4 @@
-import type { StandardSchemaV1 } from '@standard-schema/spec';
-import * as v from '@valibot/valibot';
+import { type StandardSchemaV1, v } from '../src/deps.ts';
 import { entity, field, mask } from '../src/beatmap/schema/helpers.ts';
 import * as v4 from '../src/beatmap/schema/v4/declaration/mod.ts';
 import type { ISchemaDeclaration } from '../src/types/beatmap/shared/schema.ts';
@@ -31,15 +30,19 @@ function object(shape: { [key: string]: StandardSchemaV1 }): StandardSchemaV1 {
             }
             for (const key of Object.keys(shape)) {
                if (!Object.keys(data).includes(key)) {
-                  return { issues: [{ message: `Missing key for object: ${key}` }] };
+                  return {
+                     issues: [{ message: `Missing key for object: ${key}` }],
+                  };
                }
             }
             const children = Object.keys(shape).reduce((acc, key) => {
-               const result = shape[key]['~standard'].validate(data[key as keyof object]);
+               const result = shape[key]['~standard'].validate(
+                  data[key as keyof object],
+               );
                if (!('issues' in result) || !result.issues) return acc;
                return acc.concat(
                   ...result.issues.map((x) => {
-                     return ({ ...x, path: [key, ...x.path ?? []] });
+                     return { ...x, path: [key, ...(x.path ?? [])] };
                   }),
                );
             }, [] as StandardSchemaV1.Issue[]);
@@ -95,25 +98,51 @@ Deno.test('entity serialization tests', async (ctx) => {
    await ctx.step('basic form', async (ctx) => {
       const schema = entity((x) => x.version, {
          version: mask<Version>(v.string()),
-         foo: v.array(v.object({
-            bar: field(v.boolean(), { version: '1.2.0' }),
-         })),
+         foo: v.array(
+            v.object({
+               bar: field(v.boolean(), { version: '1.2.0' }),
+            }),
+         ),
       });
       await ctx.step('all supported fields present', () => {
-         const result = schema['~standard'].validate({ version: '1.2.0', foo: [{ bar: true }] });
-         assertEquals('issues' in result && result.issues && result.issues.length > 0, false);
+         const result = schema['~standard'].validate({
+            version: '1.2.0',
+            foo: [{ bar: true }],
+         });
+         assertEquals(
+            'issues' in result && result.issues && result.issues.length > 0,
+            false,
+         );
       });
       await ctx.step('missing field for version', () => {
-         const result = schema['~standard'].validate({ version: '1.2.0', foo: [{}] });
-         assertEquals('issues' in result && result.issues && result.issues.length > 0, true);
+         const result = schema['~standard'].validate({
+            version: '1.2.0',
+            foo: [{}],
+         });
+         assertEquals(
+            'issues' in result && result.issues && result.issues.length > 0,
+            true,
+         );
       });
       await ctx.step('version mismatch', () => {
-         const result = schema['~standard'].validate({ version: '1.0.0', foo: [{ bar: true }] });
-         assertEquals('issues' in result && result.issues && result.issues.length > 0, true);
+         const result = schema['~standard'].validate({
+            version: '1.0.0',
+            foo: [{ bar: true }],
+         });
+         assertEquals(
+            'issues' in result && result.issues && result.issues.length > 0,
+            true,
+         );
       });
       await ctx.step('valid for unsupported fields', () => {
-         const result = schema['~standard'].validate({ version: '1.0.0', foo: [{}] });
-         assertEquals('issues' in result && result.issues && result.issues.length > 0, false);
+         const result = schema['~standard'].validate({
+            version: '1.0.0',
+            foo: [{}],
+         });
+         assertEquals(
+            'issues' in result && result.issues && result.issues.length > 0,
+            false,
+         );
       });
    });
 });
@@ -125,6 +154,9 @@ Deno.test('beatmap serialization tests', async (ctx) => {
          colorNotes: [{ foo: 'bar' }],
       };
       const result = v4.DifficultySchema['~standard'].validate(data);
-      assertEquals('issues' in result && result.issues && result.issues.length > 0, false);
+      assertEquals(
+         'issues' in result && result.issues && result.issues.length > 0,
+         false,
+      );
    });
 });

@@ -1,31 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import type {
-   ArraySchema,
-   BaseIssue,
-   Default,
-   GenericPipeItem,
-   GenericSchema,
-   InferInput,
-   InferObjectOutput,
-   InferOutput,
-   IssuePathItem,
-   MetadataAction,
-   ObjectEntries,
-   ObjectSchema,
-   OptionalSchema,
-   OutputDataset,
-   SchemaWithPipe,
-} from '@valibot/valibot';
-import {
-   isOfType,
-   metadata,
-   object,
-   optional,
-   pipe,
-   rawCheck,
-   safeParse,
-   unwrap,
-} from '@valibot/valibot';
+import { v } from '../../deps.ts';
 import { logger } from '../../logger.ts';
 import type { Version } from '../../types/beatmap/shared/version.ts';
 import { isRecord } from '../../utils/misc/json.ts';
@@ -33,7 +7,7 @@ import { compareVersion } from '../helpers/version.ts';
 
 /** @internal Used to create the correct inferred types for a provided key/value record. */
 export type InferObjectEntries<T> = {
-   [key in NonNullable<keyof T>]: GenericSchema<T[key], T[key]>;
+   [key in NonNullable<keyof T>]: v.GenericSchema<T[key], T[key]>;
 };
 
 interface FieldSchemaOptions {
@@ -42,27 +16,27 @@ interface FieldSchemaOptions {
 }
 /** Helper function to augment a schema with the necessary context for validation within a top-level entity schema. */
 export function field<
-   const TSchema extends GenericSchema,
-   const TItems extends GenericPipeItem<
-      InferInput<TSchema>,
-      InferOutput<TSchema>
+   const TSchema extends v.GenericSchema,
+   const TItems extends v.GenericPipeItem<
+      v.InferInput<TSchema>,
+      v.InferOutput<TSchema>
    >[],
 >(
-   schema: TSchema | SchemaWithPipe<[TSchema, ...TItems]>,
+   schema: TSchema | v.SchemaWithPipe<[TSchema, ...TItems]>,
    options?: FieldSchemaOptions,
 ) {
    const [base, ...rest] = 'pipe' in schema ? schema.pipe : [schema];
    // hack: because valibot does not support preprocessing, it will assume all keys should be present and validated regardless of its supported version(s).
    // we need to optionalize the provided schema to bypass this quirk and allow the version checks to run without failing early
-   return pipe(
-      optional(base),
+   return v.pipe(
+      v.optional(base),
       ...rest,
-      metadata({ version: options?.version }),
-   ) as unknown as SchemaWithPipe<
+      v.metadata({ version: options?.version }),
+   ) as unknown as v.SchemaWithPipe<
       [
          TSchema,
          ...TItems,
-         MetadataAction<InferInput<TSchema>, Readonly<FieldMetadata>>,
+         v.MetadataAction<v.InferInput<TSchema>, Readonly<FieldMetadata>>,
       ]
    >;
 }
@@ -71,22 +45,22 @@ interface FieldMetadata {
    readonly version?: Version;
 }
 
-type VersionCheckContext<T extends GenericSchema> = {
-   dataset: OutputDataset<InferInput<T>, BaseIssue<unknown>>;
+type VersionCheckContext<T extends v.GenericSchema> = {
+   dataset: v.OutputDataset<v.InferInput<T>, v.BaseIssue<unknown>>;
    addIssue: (
       info: Parameters<
-         Parameters<Parameters<typeof rawCheck>[0]>[0]['addIssue']
+         Parameters<Parameters<typeof v.rawCheck>[0]>[0]['addIssue']
       >[0],
    ) => void;
 };
 function checkVersion<
-   const TSchema extends GenericSchema,
+   const TSchema extends v.GenericSchema,
    const TItems extends (
-      | GenericPipeItem<InferInput<TSchema>, InferOutput<TSchema>>
-      | MetadataAction<InferInput<TSchema>, Readonly<FieldMetadata>>
+      | v.GenericPipeItem<v.InferInput<TSchema>, v.InferOutput<TSchema>>
+      | v.MetadataAction<v.InferInput<TSchema>, Readonly<FieldMetadata>>
    )[],
 >(
-   schema: TSchema | SchemaWithPipe<[TSchema, ...TItems]>,
+   schema: TSchema | v.SchemaWithPipe<[TSchema, ...TItems]>,
    {
       version,
       dataset,
@@ -97,16 +71,16 @@ function checkVersion<
    let unwrapped = base;
    // unwrap the schema from its optionalized parent
    if ('wrapped' in unwrapped) {
-      unwrapped = unwrap(
-         unwrapped as unknown as OptionalSchema<
+      unwrapped = v.unwrap(
+         unwrapped as unknown as v.OptionalSchema<
             TSchema,
-            Default<TSchema, undefined>
+            v.Default<TSchema, undefined>
          >,
       );
    }
    // extract the metadata from the pipeline to get the required context for versioning checks
-   const ctx = pipeline.find((x) => x.kind === 'metadata') as MetadataAction<
-      InferInput<TSchema>,
+   const ctx = pipeline.find((x) => x.kind === 'metadata') as v.MetadataAction<
+      v.InferInput<TSchema>,
       Readonly<FieldMetadata>
    >;
 
@@ -146,22 +120,22 @@ function checkVersion<
       }
    } else {
       // if metadata is not present, skip the version checks entirely and run the original validation flow
-      const { issues } = safeParse(unwrapped, dataset.value);
+      const { issues } = v.safeParse(unwrapped, dataset.value);
       for (const issue of issues ?? []) {
          return addIssue(issue as any);
       }
    }
    // for array data, cascade checks to all items
-   if (isOfType('array', unwrapped) && Array.isArray(input)) {
+   if (v.isOfType('array', unwrapped) && Array.isArray(input)) {
       const schema = (
-         unwrapped as unknown as ArraySchema<GenericSchema, undefined>
+         unwrapped as unknown as v.ArraySchema<v.GenericSchema, undefined>
       ).item;
       for (let i = 0; i < input.length; i++) {
          const value = input[i];
          checkVersion(schema, {
             version,
             addIssue: (info) => {
-               const path: IssuePathItem = {
+               const path: v.IssuePathItem = {
                   type: 'array',
                   origin: 'value',
                   input: input as any,
@@ -178,16 +152,16 @@ function checkVersion<
       }
    }
    // for object data, cascade checks to all key/value entries
-   if (isOfType('object', unwrapped) && isRecord(input)) {
+   if (v.isOfType('object', unwrapped) && isRecord(input)) {
       const entries = (
-         unwrapped as unknown as ObjectSchema<ObjectEntries, undefined>
+         unwrapped as unknown as v.ObjectSchema<v.ObjectEntries, undefined>
       ).entries;
       for (const key in entries) {
          const value = input[key];
          checkVersion(entries[key], {
             version,
             addIssue: (info) => {
-               const path: IssuePathItem = {
+               const path: v.IssuePathItem = {
                   type: 'object',
                   origin: 'value',
                   input: input,
@@ -209,15 +183,15 @@ function checkVersion<
 export function entity<
    const TEntries extends InferObjectEntries<Record<string, unknown>>,
 >(
-   resolveVersion: (data: InferObjectOutput<TEntries>) => Version,
+   resolveVersion: (data: v.InferObjectOutput<TEntries>) => Version,
    entries: TEntries,
 ) {
-   return pipe(
+   return v.pipe(
       // we assume no additional fields are present other than what is supported by the schema.
       // if we have unknown entries, we'll simply omit them from the validation output and pass validation as normal.
       // that way, future updates that introduce new fields won't break existing validation flows.
-      object<TEntries>(entries),
-      rawCheck(({ dataset, addIssue }) => {
+      v.object<TEntries>(entries),
+      v.rawCheck(({ dataset, addIssue }) => {
          if (!dataset.typed) return;
          // pull the entity version directly from the entity data using a resolver
          const version = resolveVersion(dataset.value);
@@ -228,7 +202,7 @@ export function entity<
                version,
                dataset: { ...dataset, value },
                addIssue: (info) => {
-                  const path: IssuePathItem = {
+                  const path: v.IssuePathItem = {
                      type: 'object',
                      origin: 'value',
                      input: dataset.value,
@@ -249,8 +223,8 @@ export function entity<
 /** Helper function to cast the inferred input of a schema to a different type. */
 export function mask<
    TMask,
-   const TSchema extends GenericSchema = GenericSchema,
+   const TSchema extends v.GenericSchema = v.GenericSchema,
 >(schema: TSchema) {
-   type TInferMask = TMask extends InferInput<TSchema> ? TMask : never;
-   return schema as GenericSchema<TInferMask, TInferMask>;
+   type TInferMask = TMask extends v.InferInput<TSchema> ? TMask : never;
+   return schema as v.GenericSchema<TInferMask, TInferMask>;
 }

@@ -1,13 +1,4 @@
-import {
-   array,
-   boolean,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   optional,
-   picklist,
-   string,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type { EnvironmentName, EnvironmentV3Name } from '../../../../types/beatmap/shared/mod.ts';
 import type { IInfo, IInfoDifficulty } from '../../../../types/beatmap/v1/info.ts';
 import type { IColor } from '../../../../types/colors.ts';
@@ -21,95 +12,96 @@ import {
 /**
  * Schema declaration for v1 `Color`.
  */
-export const CustomColorObjectSchema: VObjectSchema<
+export const CustomColorObjectSchema: v.ObjectSchema<
    InferObjectEntries<Omit<IColor, 'a'>>,
    undefined
-> = object<InferObjectEntries<Omit<IColor, 'a'>>>({
-   r: number(),
-   g: number(),
-   b: number(),
+> = v.object<InferObjectEntries<Omit<IColor, 'a'>>>({
+   r: v.number(),
+   g: v.number(),
+   b: v.number(),
 });
 
 /**
  * Schema declaration for v1 `Info Difficulty`.
  */
-export const InfoDifficultySchema: VObjectSchema<
+export const InfoDifficultySchema: v.ObjectSchema<
    InferObjectEntries<IInfoDifficulty>,
    undefined
-> = object<InferObjectEntries<IInfoDifficulty>>({
+> = v.object<InferObjectEntries<IInfoDifficulty>>({
    difficulty: field(DifficultyNameSchema, {
       version: '1.0.0',
    }),
-   difficultyRank: field(picklist([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), {
+   difficultyRank: field(v.picklist([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), {
       version: '1.0.0',
    }),
-   audioPath: field(string(), {
+   audioPath: field(v.string(), {
       version: '1.0.0',
    }),
-   jsonPath: field(string(), {
+   jsonPath: field(v.string(), {
       version: '1.0.0',
    }),
    characteristic: field(CharacteristicNameSchema, {
       version: '1.0.0',
    }),
-   offset: field(optional(number())),
-   oldOffset: field(optional(number())),
-   chromaToggle: field(optional(string())),
-   customColors: field(optional(boolean())),
-   difficultyLabel: field(optional(string())),
-   colorLeft: field(optional(CustomColorObjectSchema)),
-   colorRight: field(optional(CustomColorObjectSchema)),
-   envColorLeft: field(optional(CustomColorObjectSchema)),
-   envColorRight: field(optional(CustomColorObjectSchema)),
-   obstacleColor: field(optional(CustomColorObjectSchema)),
+   offset: field(v.optional(v.number())),
+   oldOffset: field(v.optional(v.number())),
+   chromaToggle: field(v.optional(v.string())),
+   customColors: field(v.optional(v.boolean())),
+   difficultyLabel: field(v.optional(v.string())),
+   colorLeft: field(v.optional(CustomColorObjectSchema)),
+   colorRight: field(v.optional(CustomColorObjectSchema)),
+   envColorLeft: field(v.optional(CustomColorObjectSchema)),
+   envColorRight: field(v.optional(CustomColorObjectSchema)),
+   obstacleColor: field(v.optional(CustomColorObjectSchema)),
 });
 
 /**
  * Schema declaration for v1 `Info`.
  */
-export const InfoSchema: VObjectSchema<
+export const InfoSchema: v.ObjectSchema<
    InferObjectEntries<IInfo>,
    undefined
-> = entity<
-   InferObjectEntries<IInfo>
->(() => '1.0.0', {
-   songName: field(string(), {
+> = entity<InferObjectEntries<IInfo>>(() => '1.0.0', {
+   songName: field(v.string(), {
       version: '1.0.0',
    }),
-   songSubName: field(string(), {
+   songSubName: field(v.string(), {
       version: '1.0.0',
    }),
-   authorName: field(string(), {
+   authorName: field(v.string(), {
       version: '1.0.0',
    }),
-   beatsPerMinute: field(number(), {
+   beatsPerMinute: field(v.number(), {
       version: '1.0.0',
    }),
-   previewStartTime: field(number(), {
+   previewStartTime: field(v.number(), {
       version: '1.0.0',
    }),
-   previewDuration: field(number(), {
+   previewDuration: field(v.number(), {
       version: '1.0.0',
    }),
-   coverImagePath: field(string(), {
+   coverImagePath: field(v.string(), {
       version: '1.0.0',
    }),
-   environmentName: field(mask<EnvironmentName | EnvironmentV3Name>(string()), {
+   environmentName: field(
+      mask<EnvironmentName | EnvironmentV3Name>(v.string()),
+      {
+         version: '1.0.0',
+      },
+   ),
+   difficultyLevels: field(v.array(InfoDifficultySchema), {
       version: '1.0.0',
    }),
-   difficultyLevels: field(array(InfoDifficultySchema), {
+   oneSaber: field(v.boolean(), {
       version: '1.0.0',
    }),
-   oneSaber: field(boolean(), {
+   contributors: field(v.optional(v.array(CustomContributorSchema)), {
       version: '1.0.0',
    }),
-   contributors: field(optional(array(CustomContributorSchema)), {
+   customEnvironment: field(v.optional(v.string()), {
       version: '1.0.0',
    }),
-   customEnvironment: field(optional(string()), {
-      version: '1.0.0',
-   }),
-   customEnvironmentHash: field(optional(string()), {
+   customEnvironmentHash: field(v.optional(v.string()), {
       version: '1.0.0',
    }),
 });

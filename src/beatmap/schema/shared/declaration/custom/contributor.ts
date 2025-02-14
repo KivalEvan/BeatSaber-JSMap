@@ -1,13 +1,13 @@
-import { object, type ObjectSchema, string } from '@valibot/valibot';
+import { v } from '../../../../../deps.ts';
 import type { IContributor } from '../../../../../types/beatmap/shared/custom/contributor.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 
 /** Schema declaration for custom `Contributor`. */
-export const CustomContributorSchema: ObjectSchema<
+export const CustomContributorSchema: v.ObjectSchema<
    InferObjectEntries<IContributor>,
    undefined
-> = object<InferObjectEntries<IContributor>>({
-   _role: string(),
-   _name: string(),
-   _iconPath: string(),
+> = v.object<InferObjectEntries<IContributor>>({
+   _role: v.string(),
+   _name: v.string(),
+   _iconPath: v.string(),
 });

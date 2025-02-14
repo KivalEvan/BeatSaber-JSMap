@@ -23,7 +23,7 @@ export function isEndNote<
 >(
    endNote: T,
    startNote: T,
-   maybeDirection: NoteDirection,
+   maybeDirection: number,
    angleTolerance = 85, // arbitrary angle, we don't take anything that are perpendicular
 ): boolean {
    const endPos = resolveGridPosition(endNote);

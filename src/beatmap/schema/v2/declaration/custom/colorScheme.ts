@@ -1,31 +1,31 @@
-import { number, object, type ObjectSchema as VObjectSchema, optional } from '@valibot/valibot';
+import { v } from '../../../../../deps.ts';
 import type { IColorScheme } from '../../../../../types/beatmap/v2/custom/colorScheme.ts';
 import type { IColor } from '../../../../../types/colors.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 
 /** Schema declaration for v2 custom `Color`. */
-export const CustomColorObjectSchema: VObjectSchema<
+export const CustomColorObjectSchema: v.ObjectSchema<
    InferObjectEntries<IColor>,
    undefined
-> = object<InferObjectEntries<IColor>>({
-   r: number(),
-   g: number(),
-   b: number(),
-   a: optional(number()),
+> = v.object<InferObjectEntries<IColor>>({
+   r: v.number(),
+   g: v.number(),
+   b: v.number(),
+   a: v.optional(v.number()),
 });
 
 /** Schema declaration for v2 custom `Color Scheme`. */
-export const CustomColorSchemeSchema: VObjectSchema<
+export const CustomColorSchemeSchema: v.ObjectSchema<
    InferObjectEntries<IColorScheme>,
    undefined
-> = object<InferObjectEntries<IColorScheme>>({
-   _colorLeft: optional(CustomColorObjectSchema),
-   _colorRight: optional(CustomColorObjectSchema),
-   _envColorLeft: optional(CustomColorObjectSchema),
-   _envColorRight: optional(CustomColorObjectSchema),
-   _envColorWhite: optional(CustomColorObjectSchema),
-   _envColorLeftBoost: optional(CustomColorObjectSchema),
-   _envColorRightBoost: optional(CustomColorObjectSchema),
-   _envColorWhiteBoost: optional(CustomColorObjectSchema),
-   _obstacleColor: optional(CustomColorObjectSchema),
+> = v.object<InferObjectEntries<IColorScheme>>({
+   _colorLeft: v.optional(CustomColorObjectSchema),
+   _colorRight: v.optional(CustomColorObjectSchema),
+   _envColorLeft: v.optional(CustomColorObjectSchema),
+   _envColorRight: v.optional(CustomColorObjectSchema),
+   _envColorWhite: v.optional(CustomColorObjectSchema),
+   _envColorLeftBoost: v.optional(CustomColorObjectSchema),
+   _envColorRightBoost: v.optional(CustomColorObjectSchema),
+   _envColorWhiteBoost: v.optional(CustomColorObjectSchema),
+   _obstacleColor: v.optional(CustomColorObjectSchema),
 });

@@ -1,14 +1,4 @@
-import {
-   array,
-   integer,
-   minValue,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   optional,
-   picklist,
-   pipe,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type {
    IArc,
    IBombNote,
@@ -33,108 +23,108 @@ import { ObjectArcSchema, ObjectChainSchema, ObjectLaneSchema, ObjectSchema } fr
 /**
  * Schema declaration for v4 `Color Note`.
  */
-export const ColorNoteSchema: VObjectSchema<
+export const ColorNoteSchema: v.ObjectSchema<
    InferObjectEntries<IColorNote>,
    undefined
-> = object<InferObjectEntries<IColorNote>>({
-   x: field(optional(pipe(number(), integer())), {
+> = v.object<InferObjectEntries<IColorNote>>({
+   x: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   y: field(optional(pipe(number(), integer())), {
+   y: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   a: field(optional(pipe(number(), integer())), {
+   a: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   c: field(optional(NoteColorSchema), {
+   c: field(v.optional(NoteColorSchema), {
       version: '4.0.0',
    }),
-   d: field(optional(pipe(number(), integer(), minValue(0))), {
+   d: field(v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Bomb Note`.
  */
-export const BombNoteSchema: VObjectSchema<
+export const BombNoteSchema: v.ObjectSchema<
    InferObjectEntries<IBombNote>,
    undefined
-> = object<InferObjectEntries<IBombNote>>({
-   x: field(optional(pipe(number(), integer())), {
+> = v.object<InferObjectEntries<IBombNote>>({
+   x: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   y: field(optional(pipe(number(), integer())), {
+   y: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Obstacle`.
  */
-export const ObstacleSchema: VObjectSchema<
+export const ObstacleSchema: v.ObjectSchema<
    InferObjectEntries<IObstacle>,
    undefined
-> = object<InferObjectEntries<IObstacle>>({
-   x: field(optional(pipe(number(), integer())), {
+> = v.object<InferObjectEntries<IObstacle>>({
+   x: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   y: field(optional(pipe(number(), integer())), {
+   y: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   d: field(optional(number()), {
+   d: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   w: field(optional(pipe(number(), integer())), {
+   w: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   h: field(optional(pipe(number(), integer())), {
+   h: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Chain`.
  */
-export const ChainSchema: VObjectSchema<
+export const ChainSchema: v.ObjectSchema<
    InferObjectEntries<IChain>,
    undefined
-> = object<InferObjectEntries<IChain>>({
-   tx: field(optional(pipe(number(), integer())), {
+> = v.object<InferObjectEntries<IChain>>({
+   tx: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   ty: field(optional(pipe(number(), integer())), {
+   ty: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   c: field(optional(pipe(number(), integer())), {
+   c: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   s: field(optional(pipe(number())), {
+   s: field(v.optional(v.pipe(v.number())), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Arc`.
  */
-export const ArcSchema: VObjectSchema<
+export const ArcSchema: v.ObjectSchema<
    InferObjectEntries<IArc>,
    undefined
-> = object<InferObjectEntries<IArc>>({
-   m: field(optional(number()), {
+> = v.object<InferObjectEntries<IArc>>({
+   m: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   tm: field(optional(number()), {
+   tm: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   a: field(optional(SliderMidAnchorModeSchema), {
+   a: field(v.optional(SliderMidAnchorModeSchema), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
@@ -142,89 +132,89 @@ export const ArcSchema: VObjectSchema<
  *
  * @deprecated removed as of 1.39, convert to `r` in object lane
  */
-export const SpawnRotationSchema: VObjectSchema<
+export const SpawnRotationSchema: v.ObjectSchema<
    InferObjectEntries<ISpawnRotation>,
    undefined
-> = object<InferObjectEntries<ISpawnRotation>>({
-   e: field(optional(ExecutionTimeSchema), {
+> = v.object<InferObjectEntries<ISpawnRotation>>({
+   e: field(v.optional(ExecutionTimeSchema), {
       version: '4.0.0',
    }),
-   r: field(optional(number()), {
+   r: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `NJS Event`.
  */
-export const NJSEventSchema: VObjectSchema<
+export const NJSEventSchema: v.ObjectSchema<
    InferObjectEntries<INJSEvent>,
    undefined
-> = object<InferObjectEntries<INJSEvent>>({
-   d: field(optional(number()), {
+> = v.object<InferObjectEntries<INJSEvent>>({
+   d: field(v.optional(v.number()), {
       version: '4.1.0',
    }),
-   p: field(optional(picklist([0, 1])), {
+   p: field(v.optional(v.picklist([0, 1])), {
       version: '4.1.0',
    }),
-   e: field(optional(EaseTypeSchema), {
+   e: field(v.optional(EaseTypeSchema), {
       version: '4.1.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Difficulty`.
  */
-export const DifficultySchema: VObjectSchema<
+export const DifficultySchema: v.ObjectSchema<
    InferObjectEntries<IDifficulty>,
    undefined
 > = entity<InferObjectEntries<IDifficulty>>((x) => x.version, {
    version: field(mask<'4.0.0' | '4.1.0'>(VersionSchema), {
       version: '4.0.0',
    }),
-   colorNotes: field(optional(array(ObjectLaneSchema)), {
+   colorNotes: field(v.optional(v.array(ObjectLaneSchema)), {
       version: '4.0.0',
    }),
-   colorNotesData: field(optional(array(ColorNoteSchema)), {
+   colorNotesData: field(v.optional(v.array(ColorNoteSchema)), {
       version: '4.0.0',
    }),
-   bombNotes: field(optional(array(ObjectLaneSchema)), {
+   bombNotes: field(v.optional(v.array(ObjectLaneSchema)), {
       version: '4.0.0',
    }),
-   bombNotesData: field(optional(array(BombNoteSchema)), {
+   bombNotesData: field(v.optional(v.array(BombNoteSchema)), {
       version: '4.0.0',
    }),
-   obstacles: field(optional(array(ObjectLaneSchema)), {
+   obstacles: field(v.optional(v.array(ObjectLaneSchema)), {
       version: '4.0.0',
    }),
-   obstaclesData: field(optional(array(ObstacleSchema)), {
+   obstaclesData: field(v.optional(v.array(ObstacleSchema)), {
       version: '4.0.0',
    }),
-   chains: field(optional(array(ObjectChainSchema)), {
+   chains: field(v.optional(v.array(ObjectChainSchema)), {
       version: '4.0.0',
    }),
-   chainsData: field(optional(array(ChainSchema)), {
+   chainsData: field(v.optional(v.array(ChainSchema)), {
       version: '4.0.0',
    }),
-   arcs: field(optional(array(ObjectArcSchema)), {
+   arcs: field(v.optional(v.array(ObjectArcSchema)), {
       version: '4.0.0',
    }),
-   arcsData: field(optional(array(ArcSchema)), {
+   arcsData: field(v.optional(v.array(ArcSchema)), {
       version: '4.0.0',
    }),
-   spawnRotations: field(optional(array(ObjectSchema)), {
+   spawnRotations: field(v.optional(v.array(ObjectSchema)), {
       version: '4.0.0',
    }),
-   spawnRotationsData: field(optional(array(SpawnRotationSchema)), {
+   spawnRotationsData: field(v.optional(v.array(SpawnRotationSchema)), {
       version: '4.0.0',
    }),
-   njsEvents: field(optional(array(ObjectSchema)), {
+   njsEvents: field(v.optional(v.array(ObjectSchema)), {
       version: '4.1.0',
    }),
-   njsEventData: field(optional(array(NJSEventSchema)), {
+   njsEventData: field(v.optional(v.array(NJSEventSchema)), {
       version: '4.1.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });

@@ -1,12 +1,4 @@
-import {
-   array,
-   boolean,
-   looseObject,
-   type LooseObjectSchema as VLooseObjectSchema,
-   number,
-   optional,
-   string,
-} from '@valibot/valibot';
+import { v } from '../../../../../deps.ts';
 import type {
    ICustomDataInfo,
    ICustomDataInfoDifficulty,
@@ -18,45 +10,39 @@ import { CustomColorSchemeSchema } from './colorScheme.ts';
 import { CustomEditorSchema } from './editor.ts';
 
 /** Schema declaration for v2 `Info` custom data. */
-export const CustomDataInfoSchema: VLooseObjectSchema<
+export const CustomDataInfoSchema: v.LooseObjectSchema<
    InferObjectEntries<ICustomDataInfo>,
    undefined
-> = looseObject<
-   InferObjectEntries<ICustomDataInfo>
->({
-   _editors: optional(CustomEditorSchema),
-   _contributors: optional(array(CustomContributorSchema)),
-   _customEnvironment: optional(string()),
-   _customEnvironmentHash: optional(string()),
+> = v.looseObject<InferObjectEntries<ICustomDataInfo>>({
+   _editors: v.optional(CustomEditorSchema),
+   _contributors: v.optional(v.array(CustomContributorSchema)),
+   _customEnvironment: v.optional(v.string()),
+   _customEnvironmentHash: v.optional(v.string()),
 });
 
 /** Schema declaration for v2 `Info Set` custom data. */
-export const CustomDataInfoSetSchema: VLooseObjectSchema<
+export const CustomDataInfoSetSchema: v.LooseObjectSchema<
    InferObjectEntries<ICustomDataInfoSet>,
    undefined
-> = looseObject<
-   InferObjectEntries<ICustomDataInfoSet>
->({
-   _characteristicLabel: optional(string()),
-   _characteristicIconImageFilename: optional(string()),
+> = v.looseObject<InferObjectEntries<ICustomDataInfoSet>>({
+   _characteristicLabel: v.optional(v.string()),
+   _characteristicIconImageFilename: v.optional(v.string()),
 });
 
 /** Schema declaration for v2 `Info Set Difficulty` custom data. */
-export const CustomDataInfoSetDifficultySchema: VLooseObjectSchema<
+export const CustomDataInfoSetDifficultySchema: v.LooseObjectSchema<
    InferObjectEntries<ICustomDataInfoDifficulty>,
    undefined
-> = looseObject<
-   InferObjectEntries<ICustomDataInfoDifficulty>
->({
+> = v.looseObject<InferObjectEntries<ICustomDataInfoDifficulty>>({
    ...CustomColorSchemeSchema.entries,
-   _difficultyLabel: optional(string()),
-   _editorOffset: optional(number()),
-   _editorOldOffset: optional(number()),
-   _warnings: optional(array(string())),
-   _information: optional(array(string())),
-   _suggestions: optional(array(string())),
-   _requirements: optional(array(string())),
-   _tags: optional(array(string())),
-   _oneSaber: optional(boolean()),
-   _showRotationNoteSpawnLines: optional(boolean()),
+   _difficultyLabel: v.optional(v.string()),
+   _editorOffset: v.optional(v.number()),
+   _editorOldOffset: v.optional(v.number()),
+   _warnings: v.optional(v.array(v.string())),
+   _information: v.optional(v.array(v.string())),
+   _suggestions: v.optional(v.array(v.string())),
+   _requirements: v.optional(v.array(v.string())),
+   _tags: v.optional(v.array(v.string())),
+   _oneSaber: v.optional(v.boolean()),
+   _showRotationNoteSpawnLines: v.optional(v.boolean()),
 });

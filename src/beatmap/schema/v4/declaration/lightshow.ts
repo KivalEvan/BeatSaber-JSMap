@@ -1,14 +1,4 @@
-import {
-   array,
-   boolean,
-   integer,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   optional,
-   picklist,
-   pipe,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type {
    IBasicEvent,
    IColorBoostEvent,
@@ -47,442 +37,425 @@ import { ObjectLaneSchema, ObjectSchema } from './common.ts';
 /**
  * Schema declaration for v4 `Waypoint`.
  */
-export const WaypointSchema: VObjectSchema<
+export const WaypointSchema: v.ObjectSchema<
    InferObjectEntries<IWaypoint>,
    undefined
-> = object<InferObjectEntries<IWaypoint>>({
-   x: field(optional(pipe(number(), integer())), {
+> = v.object<InferObjectEntries<IWaypoint>>({
+   x: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   y: field(optional(pipe(number(), integer())), {
+   y: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   d: field(optional(OffsetDirectionSchema), {
+   d: field(v.optional(OffsetDirectionSchema), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Basic Event`.
  */
-export const BasicEventSchema: VObjectSchema<
+export const BasicEventSchema: v.ObjectSchema<
    InferObjectEntries<IBasicEvent>,
    undefined
-> = object<InferObjectEntries<IBasicEvent>>({
-   t: field(optional(number()), {
+> = v.object<InferObjectEntries<IBasicEvent>>({
+   t: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   i: field(optional(pipe(number(), integer())), {
+   i: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   f: field(optional(number()), {
+   f: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Color Boost Event`.
  */
-export const ColorBoostEventSchema: VObjectSchema<
+export const ColorBoostEventSchema: v.ObjectSchema<
    InferObjectEntries<IColorBoostEvent>,
    undefined
-> = object<
-   InferObjectEntries<IColorBoostEvent>
->({
-   b: field(optional(picklist([0, 1])), {
+> = v.object<InferObjectEntries<IColorBoostEvent>>({
+   b: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Event Box`.
  */
-export const EventBoxSchema: VObjectSchema<
+export const EventBoxSchema: v.ObjectSchema<
    InferObjectEntries<IEventBox>,
    undefined
-> = object<InferObjectEntries<IEventBox>>({
-   f: field(optional(pipe(number(), integer())), {
+> = v.object<InferObjectEntries<IEventBox>>({
+   f: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   e: field(optional(pipe(number(), integer())), {
+   e: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   l: field(optional(array(ObjectSchema)), {
+   l: field(v.optional(v.array(ObjectSchema)), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Event Box Group`.
  */
-export const EventBoxGroupSchema: VObjectSchema<
+export const EventBoxGroupSchema: v.ObjectSchema<
    InferObjectEntries<IEventBoxGroup>,
    undefined
-> = object<InferObjectEntries<IEventBoxGroup>>({
-   t: field(optional(EventBoxTypeSchema), {
+> = v.object<InferObjectEntries<IEventBoxGroup>>({
+   t: field(v.optional(EventBoxTypeSchema), {
       version: '4.0.0',
    }),
-   g: field(optional(pipe(number(), integer())), {
+   g: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   b: field(optional(number()), {
+   b: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   e: field(optional(array(EventBoxSchema)), {
+   e: field(v.optional(v.array(EventBoxSchema)), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Index Filter`.
  */
-export const IndexFilterSchema: VObjectSchema<
+export const IndexFilterSchema: v.ObjectSchema<
    InferObjectEntries<IIndexFilter>,
    undefined
-> = object<InferObjectEntries<IIndexFilter>>({
-   f: field(optional(IndexFilterTypeSchema), {
+> = v.object<InferObjectEntries<IIndexFilter>>({
+   f: field(v.optional(IndexFilterTypeSchema), {
       version: '4.0.0',
    }),
-   p: field(optional(pipe(number(), integer())), {
+   p: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   t: field(optional(pipe(number(), integer())), {
+   t: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   r: field(optional(picklist([0, 1])), {
+   r: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   c: field(optional(pipe(number(), integer())), {
+   c: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   n: field(optional(RandomTypeSchema), {
+   n: field(v.optional(RandomTypeSchema), {
       version: '4.0.0',
    }),
-   s: field(optional(pipe(number(), integer())), {
+   s: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   l: field(optional(number()), {
+   l: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   d: field(optional(LimitAlsoAffectsTypeSchema), {
+   d: field(v.optional(LimitAlsoAffectsTypeSchema), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Light Color Event Box`.
  */
-export const LightColorEventBoxSchema: VObjectSchema<
+export const LightColorEventBoxSchema: v.ObjectSchema<
    InferObjectEntries<ILightColorEventBox>,
    undefined
-> = object<
-   InferObjectEntries<ILightColorEventBox>
->({
-   w: field(optional(number()), {
+> = v.object<InferObjectEntries<ILightColorEventBox>>({
+   w: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   d: field(optional(DistributionTypeSchema), {
+   d: field(v.optional(DistributionTypeSchema), {
       version: '4.0.0',
    }),
-   s: field(optional(number()), {
+   s: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   t: field(optional(DistributionTypeSchema), {
+   t: field(v.optional(DistributionTypeSchema), {
       version: '4.0.0',
    }),
-   b: field(optional(picklist([0, 1])), {
+   b: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   e: field(optional(EaseTypeSchema), {
+   e: field(v.optional(EaseTypeSchema), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Light Color Event`.
  */
-export const LightColorEventSchema: VObjectSchema<
+export const LightColorEventSchema: v.ObjectSchema<
    InferObjectEntries<ILightColorEvent>,
    undefined
-> = object<
-   InferObjectEntries<ILightColorEvent>
->({
-   p: field(optional(picklist([0, 1])), {
+> = v.object<InferObjectEntries<ILightColorEvent>>({
+   p: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   e: field(optional(EaseTypeSchema), {
+   e: field(v.optional(EaseTypeSchema), {
       version: '4.0.0',
    }),
-   c: field(optional(EventLightColorSchema), {
+   c: field(v.optional(EventLightColorSchema), {
       version: '4.0.0',
    }),
-   b: field(optional(number()), {
+   b: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   f: field(optional(pipe(number(), integer())), {
+   f: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   sb: field(optional(number()), {
+   sb: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   sf: field(optional(picklist([0, 1])), {
+   sf: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Light Rotation Event Box`.
  */
-export const LightRotationEventBoxSchema: VObjectSchema<
+export const LightRotationEventBoxSchema: v.ObjectSchema<
    InferObjectEntries<ILightRotationEventBox>,
    undefined
-> = object<
-   InferObjectEntries<ILightRotationEventBox>
->({
-   w: field(optional(number()), {
+> = v.object<InferObjectEntries<ILightRotationEventBox>>({
+   w: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   d: field(optional(DistributionTypeSchema), {
+   d: field(v.optional(DistributionTypeSchema), {
       version: '4.0.0',
    }),
-   s: field(optional(number()), {
+   s: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   t: field(optional(DistributionTypeSchema), {
+   t: field(v.optional(DistributionTypeSchema), {
       version: '4.0.0',
    }),
-   b: field(optional(picklist([0, 1])), {
+   b: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   e: field(optional(EaseTypeSchema), {
+   e: field(v.optional(EaseTypeSchema), {
       version: '4.0.0',
    }),
-   a: field(optional(AxisSchema), {
+   a: field(v.optional(AxisSchema), {
       version: '4.0.0',
    }),
-   f: field(optional(picklist([0, 1])), {
+   f: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Light Rotation Event`.
  */
-export const LightRotationEventSchema: VObjectSchema<
+export const LightRotationEventSchema: v.ObjectSchema<
    InferObjectEntries<ILightRotationEvent>,
    undefined
-> = object<
-   InferObjectEntries<ILightRotationEvent>
->({
-   p: field(optional(picklist([0, 1])), {
+> = v.object<InferObjectEntries<ILightRotationEvent>>({
+   p: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   e: field(optional(EaseTypeSchema), {
+   e: field(v.optional(EaseTypeSchema), {
       version: '4.0.0',
    }),
-   l: field(optional(pipe(number(), integer())), {
+   l: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   r: field(optional(number()), {
+   r: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   d: field(optional(LightRotationDirectionSchema), {
+   d: field(v.optional(LightRotationDirectionSchema), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Light Translation Event Box`.
  */
-export const LightTranslationEventBoxSchema: VObjectSchema<
+export const LightTranslationEventBoxSchema: v.ObjectSchema<
    InferObjectEntries<ILightTranslationEventBox>,
    undefined
-> = object<
-   InferObjectEntries<ILightTranslationEventBox>
->({
-   w: field(optional(number()), {
+> = v.object<InferObjectEntries<ILightTranslationEventBox>>({
+   w: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   d: field(optional(DistributionTypeSchema), {
+   d: field(v.optional(DistributionTypeSchema), {
       version: '4.0.0',
    }),
-   s: field(optional(number()), {
+   s: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   t: field(optional(DistributionTypeSchema), {
+   t: field(v.optional(DistributionTypeSchema), {
       version: '4.0.0',
    }),
-   b: field(optional(picklist([0, 1])), {
+   b: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   e: field(optional(EaseTypeSchema), {
+   e: field(v.optional(EaseTypeSchema), {
       version: '4.0.0',
    }),
-   a: field(optional(AxisSchema), {
+   a: field(v.optional(AxisSchema), {
       version: '4.0.0',
    }),
-   f: field(optional(picklist([0, 1])), {
+   f: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Light Translation Event`.
  */
-export const LightTranslationEventSchema: VObjectSchema<
+export const LightTranslationEventSchema: v.ObjectSchema<
    InferObjectEntries<ILightTranslationEvent>,
    undefined
-> = object<
-   InferObjectEntries<ILightTranslationEvent>
->({
-   p: field(optional(picklist([0, 1])), {
+> = v.object<InferObjectEntries<ILightTranslationEvent>>({
+   p: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   e: field(optional(EaseTypeSchema), {
+   e: field(v.optional(EaseTypeSchema), {
       version: '4.0.0',
    }),
-   t: field(optional(number()), {
+   t: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `FX Event Box`.
  */
-export const FXEventBoxSchema: VObjectSchema<
+export const FXEventBoxSchema: v.ObjectSchema<
    InferObjectEntries<IFxEventBox>,
    undefined
-> = object<InferObjectEntries<IFxEventBox>>({
-   w: field(optional(number()), {
+> = v.object<InferObjectEntries<IFxEventBox>>({
+   w: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   d: field(optional(DistributionTypeSchema), {
+   d: field(v.optional(DistributionTypeSchema), {
       version: '4.0.0',
    }),
-   s: field(optional(number()), {
+   s: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   t: field(optional(DistributionTypeSchema), {
+   t: field(v.optional(DistributionTypeSchema), {
       version: '4.0.0',
    }),
-   b: field(optional(picklist([0, 1])), {
+   b: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   e: field(optional(EaseTypeSchema), {
+   e: field(v.optional(EaseTypeSchema), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `FX Event Float`.
  */
-export const FXEventFloatSchema: VObjectSchema<
+export const FXEventFloatSchema: v.ObjectSchema<
    InferObjectEntries<IFxEventFloat>,
    undefined
-> = object<InferObjectEntries<IFxEventFloat>>({
-   p: field(optional(picklist([0, 1])), {
+> = v.object<InferObjectEntries<IFxEventFloat>>({
+   p: field(v.optional(v.picklist([0, 1])), {
       version: '4.0.0',
    }),
-   e: field(optional(EaseTypeSchema), {
+   e: field(v.optional(EaseTypeSchema), {
       version: '4.0.0',
    }),
-   v: field(optional(number()), {
+   v: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Lightshow`.
  */
-export const LightshowSchema: VObjectSchema<
+export const LightshowSchema: v.ObjectSchema<
    InferObjectEntries<ILightshow>,
    undefined
-> = entity<InferObjectEntries<ILightshow>>(
-   (x) => x.version,
-   {
-      version: field(mask<'4.0.0'>(VersionSchema), {
+> = entity<InferObjectEntries<ILightshow>>((x) => x.version, {
+   version: field(mask<'4.0.0'>(VersionSchema), {
+      version: '4.0.0',
+   }),
+   waypoints: field(v.optional(v.array(ObjectLaneSchema)), {
+      version: '4.0.0',
+   }),
+   waypointsData: field(v.optional(v.array(WaypointSchema)), {
+      version: '4.0.0',
+   }),
+   basicEvents: field(v.optional(v.array(ObjectSchema)), {
+      version: '4.0.0',
+   }),
+   basicEventsData: field(v.optional(v.array(BasicEventSchema)), {
+      version: '4.0.0',
+   }),
+   colorBoostEvents: field(v.optional(v.array(ObjectSchema)), {
+      version: '4.0.0',
+   }),
+   colorBoostEventsData: field(v.optional(v.array(ColorBoostEventSchema)), {
+      version: '4.0.0',
+   }),
+   eventBoxGroups: field(v.optional(v.array(EventBoxGroupSchema)), {
+      version: '4.0.0',
+   }),
+   indexFilters: field(v.optional(v.array(IndexFilterSchema)), {
+      version: '4.0.0',
+   }),
+   lightColorEventBoxes: field(v.optional(v.array(LightColorEventBoxSchema)), {
+      version: '4.0.0',
+   }),
+   lightColorEvents: field(v.optional(v.array(LightColorEventSchema)), {
+      version: '4.0.0',
+   }),
+   lightRotationEventBoxes: field(
+      v.optional(v.array(LightRotationEventBoxSchema)),
+      {
          version: '4.0.0',
-      }),
-      waypoints: field(optional(array(ObjectLaneSchema)), {
+      },
+   ),
+   lightRotationEvents: field(v.optional(v.array(LightRotationEventSchema)), {
+      version: '4.0.0',
+   }),
+   lightTranslationEventBoxes: field(
+      v.optional(v.array(LightTranslationEventBoxSchema)),
+      {
          version: '4.0.0',
-      }),
-      waypointsData: field(optional(array(WaypointSchema)), {
+      },
+   ),
+   lightTranslationEvents: field(
+      v.optional(v.array(LightTranslationEventSchema)),
+      {
          version: '4.0.0',
-      }),
-      basicEvents: field(optional(array(ObjectSchema)), {
+      },
+   ),
+   fxEventBoxes: field(v.optional(v.array(FXEventBoxSchema)), {
+      version: '4.0.0',
+   }),
+   floatFxEvents: field(v.optional(v.array(FXEventFloatSchema)), {
+      version: '4.0.0',
+   }),
+   basicEventTypesWithKeywords: field(
+      v.optional(BasicEventTypesWithKeywordsSchema),
+      {
          version: '4.0.0',
-      }),
-      basicEventsData: field(optional(array(BasicEventSchema)), {
-         version: '4.0.0',
-      }),
-      colorBoostEvents: field(optional(array(ObjectSchema)), {
-         version: '4.0.0',
-      }),
-      colorBoostEventsData: field(optional(array(ColorBoostEventSchema)), {
-         version: '4.0.0',
-      }),
-      eventBoxGroups: field(optional(array(EventBoxGroupSchema)), {
-         version: '4.0.0',
-      }),
-      indexFilters: field(optional(array(IndexFilterSchema)), {
-         version: '4.0.0',
-      }),
-      lightColorEventBoxes: field(optional(array(LightColorEventBoxSchema)), {
-         version: '4.0.0',
-      }),
-      lightColorEvents: field(optional(array(LightColorEventSchema)), {
-         version: '4.0.0',
-      }),
-      lightRotationEventBoxes: field(
-         optional(array(LightRotationEventBoxSchema)),
-         {
-            version: '4.0.0',
-         },
-      ),
-      lightRotationEvents: field(optional(array(LightRotationEventSchema)), {
-         version: '4.0.0',
-      }),
-      lightTranslationEventBoxes: field(
-         optional(array(LightTranslationEventBoxSchema)),
-         {
-            version: '4.0.0',
-         },
-      ),
-      lightTranslationEvents: field(
-         optional(array(LightTranslationEventSchema)),
-         {
-            version: '4.0.0',
-         },
-      ),
-      fxEventBoxes: field(optional(array(FXEventBoxSchema)), {
-         version: '4.0.0',
-      }),
-      floatFxEvents: field(optional(array(FXEventFloatSchema)), {
-         version: '4.0.0',
-      }),
-      basicEventTypesWithKeywords: field(
-         optional(BasicEventTypesWithKeywordsSchema),
-         {
-            version: '4.0.0',
-         },
-      ),
-      useNormalEventsAsCompatibleEvents: field(optional(boolean()), {
-         version: '4.0.0',
-      }),
-      customData: field(optional(CustomDataSchema)),
-   },
-);
+      },
+   ),
+   useNormalEventsAsCompatibleEvents: field(v.optional(v.boolean()), {
+      version: '4.0.0',
+   }),
+   customData: field(v.optional(CustomDataSchema)),
+});

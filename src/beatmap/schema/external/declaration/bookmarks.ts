@@ -1,51 +1,43 @@
-import {
-   array,
-   literal,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   string,
-   union,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type { IBookmarkElement } from '../../../../types/beatmap/external/bookmarks.ts';
 import type { IBookmarks } from '../../../../types/beatmap/external/mod.ts';
 import { entity, field, type InferObjectEntries } from '../../helpers.ts';
 import { CharacteristicNameSchema, DifficultyNameSchema } from '../../shared/declaration/mod.ts';
 
 /** Schema declaration for official editor `Bookmark Element`  */
-export const BookmarkElementSchema: VObjectSchema<
+export const BookmarkElementSchema: v.ObjectSchema<
    InferObjectEntries<IBookmarkElement>,
    undefined
-> = object<InferObjectEntries<IBookmarkElement>>({
-   beat: field(number(), {
+> = v.object<InferObjectEntries<IBookmarkElement>>({
+   beat: field(v.number(), {
       version: '1.0.0',
    }),
-   label: field(string(), {
+   label: field(v.string(), {
       version: '1.0.0',
    }),
-   text: field(string(), {
+   text: field(v.string(), {
       version: '1.0.0',
    }),
 });
 
 /** Schema declaration for official editor `Bookmark Set`  */
-export const BookmarkSetSchema: VObjectSchema<
+export const BookmarkSetSchema: v.ObjectSchema<
    InferObjectEntries<IBookmarks>,
    undefined
 > = entity<InferObjectEntries<IBookmarks>>(() => '1.0.0', {
-   name: field(string(), {
+   name: field(v.string(), {
       version: '1.0.0',
    }),
-   characteristic: field(union([CharacteristicNameSchema, literal('')]), {
+   characteristic: field(v.union([CharacteristicNameSchema, v.literal('')]), {
       version: '1.0.0',
    }),
-   difficulty: field(union([DifficultyNameSchema, literal('')]), {
+   difficulty: field(v.union([DifficultyNameSchema, v.literal('')]), {
       version: '1.0.0',
    }),
-   color: field(string(), {
+   color: field(v.string(), {
       version: '1.0.0',
    }),
-   bookmarks: field(array(BookmarkElementSchema), {
+   bookmarks: field(v.array(BookmarkElementSchema), {
       version: '1.0.0',
    }),
 });

@@ -1,15 +1,4 @@
-import {
-   array,
-   integer,
-   minValue,
-   never,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   optional,
-   pipe,
-   string,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type { IDifficulty, IEvent, INote, IObstacle } from '../../../../types/beatmap/v1/mod.ts';
 import type { IBookmark, IBPMChangeOld } from '../../../../types/beatmap/v2/mod.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
@@ -18,23 +7,23 @@ import { NoteTypeSchema, ObstacleTypeSchema, VersionSchema } from '../../shared/
 /**
  * Schema declaration for v1 `Note`.
  */
-export const NoteSchema: VObjectSchema<
+export const NoteSchema: v.ObjectSchema<
    InferObjectEntries<INote>,
    undefined
-> = object<InferObjectEntries<INote>>({
-   _time: field(number(), {
+> = v.object<InferObjectEntries<INote>>({
+   _time: field(v.number(), {
       version: '1.5.0',
    }),
    _type: field(NoteTypeSchema, {
       version: '1.5.0',
    }),
-   _lineIndex: field(pipe(number(), integer()), {
+   _lineIndex: field(v.pipe(v.number(), v.integer()), {
       version: '1.5.0',
    }),
-   _lineLayer: field(pipe(number(), integer()), {
+   _lineLayer: field(v.pipe(v.number(), v.integer()), {
       version: '1.5.0',
    }),
-   _cutDirection: field(pipe(number(), integer(), minValue(0)), {
+   _cutDirection: field(v.pipe(v.number(), v.integer(), v.minValue(0)), {
       version: '1.5.0',
    }),
 });
@@ -42,23 +31,23 @@ export const NoteSchema: VObjectSchema<
 /**
  * Schema declaration for v1 `Obstacle`.
  */
-export const ObstacleSchema: VObjectSchema<
+export const ObstacleSchema: v.ObjectSchema<
    InferObjectEntries<IObstacle>,
    undefined
-> = object<InferObjectEntries<IObstacle>>({
-   _time: field(number(), {
+> = v.object<InferObjectEntries<IObstacle>>({
+   _time: field(v.number(), {
       version: '1.5.0',
    }),
-   _lineIndex: field(pipe(number(), integer()), {
+   _lineIndex: field(v.pipe(v.number(), v.integer()), {
       version: '1.5.0',
    }),
    _type: field(ObstacleTypeSchema, {
       version: '1.5.0',
    }),
-   _duration: field(number(), {
+   _duration: field(v.number(), {
       version: '1.5.0',
    }),
-   _width: field(pipe(number(), integer()), {
+   _width: field(v.pipe(v.number(), v.integer()), {
       version: '1.5.0',
    }),
 });
@@ -66,17 +55,17 @@ export const ObstacleSchema: VObjectSchema<
 /**
  * Schema declaration for v1 `Event`.
  */
-export const EventSchema: VObjectSchema<
+export const EventSchema: v.ObjectSchema<
    InferObjectEntries<IEvent>,
    undefined
-> = object<InferObjectEntries<IEvent>>({
-   _time: field(number(), {
+> = v.object<InferObjectEntries<IEvent>>({
+   _time: field(v.number(), {
       version: '1.5.0',
    }),
-   _type: field(pipe(number(), integer()), {
+   _type: field(v.pipe(v.number(), v.integer()), {
       version: '1.5.0',
    }),
-   _value: field(pipe(number(), integer()), {
+   _value: field(v.pipe(v.number(), v.integer()), {
       version: '1.5.0',
    }),
 });
@@ -84,73 +73,66 @@ export const EventSchema: VObjectSchema<
 /**
  * Schema declaration for v1 `BPM Change`.
  */
-export const CustomBPMChangeOldSchema: VObjectSchema<
+export const CustomBPMChangeOldSchema: v.ObjectSchema<
    InferObjectEntries<IBPMChangeOld>,
    undefined
-> = object<
-   InferObjectEntries<IBPMChangeOld>
->({
-   _time: field(number()),
-   _bpm: field(number()),
-   _BPM: field(never()),
-   _beatsPerBar: field(number()),
-   _metronomeOffset: field(number()),
+> = v.object<InferObjectEntries<IBPMChangeOld>>({
+   _time: field(v.number()),
+   _bpm: field(v.number()),
+   _BPM: field(v.never()),
+   _beatsPerBar: field(v.number()),
+   _metronomeOffset: field(v.number()),
 });
 
 /**
  * Schema declaration for v1 `Bookmark`.
  */
-export const CustomBookmarkSchema: VObjectSchema<
+export const CustomBookmarkSchema: v.ObjectSchema<
    InferObjectEntries<Omit<IBookmark, '_color'>>,
    undefined
-> = object<
-   InferObjectEntries<Omit<IBookmark, '_color'>>
->({
-   _time: field(number()),
-   _name: field(string()),
+> = v.object<InferObjectEntries<Omit<IBookmark, '_color'>>>({
+   _time: field(v.number()),
+   _name: field(v.string()),
 });
 
 /**
  * Schema declaration for v1 `Difficulty`.
  */
-export const DifficultySchema: VObjectSchema<
+export const DifficultySchema: v.ObjectSchema<
    InferObjectEntries<IDifficulty>,
    undefined
-> = entity<InferObjectEntries<IDifficulty>>(
-   (x) => x._version,
-   {
-      _version: field(mask<'1.5.0'>(VersionSchema), {
-         version: '1.5.0',
-      }),
-      _beatsPerMinute: field(number(), {
-         version: '1.5.0',
-      }),
-      _beatsPerBar: field(number(), {
-         version: '1.5.0',
-      }),
-      _shuffle: field(number(), {
-         version: '1.5.0',
-      }),
-      _shufflePeriod: field(number(), {
-         version: '1.5.0',
-      }),
-      _noteJumpSpeed: field(number(), {
-         version: '1.5.0',
-      }),
-      _noteJumpStartBeatOffset: field(number(), {
-         version: '1.5.0',
-      }),
-      _notes: field(array(NoteSchema), {
-         version: '1.5.0',
-      }),
-      _obstacles: field(array(ObstacleSchema), {
-         version: '1.5.0',
-      }),
-      _events: field(array(EventSchema), {
-         version: '1.5.0',
-      }),
-      _time: field(optional(number())),
-      _BPMChanges: field(optional(array(CustomBPMChangeOldSchema))),
-      _bookmarks: field(optional(array(CustomBookmarkSchema))),
-   },
-);
+> = entity<InferObjectEntries<IDifficulty>>((x) => x._version, {
+   _version: field(mask<'1.5.0'>(VersionSchema), {
+      version: '1.5.0',
+   }),
+   _beatsPerMinute: field(v.number(), {
+      version: '1.5.0',
+   }),
+   _beatsPerBar: field(v.number(), {
+      version: '1.5.0',
+   }),
+   _shuffle: field(v.number(), {
+      version: '1.5.0',
+   }),
+   _shufflePeriod: field(v.number(), {
+      version: '1.5.0',
+   }),
+   _noteJumpSpeed: field(v.number(), {
+      version: '1.5.0',
+   }),
+   _noteJumpStartBeatOffset: field(v.number(), {
+      version: '1.5.0',
+   }),
+   _notes: field(v.array(NoteSchema), {
+      version: '1.5.0',
+   }),
+   _obstacles: field(v.array(ObstacleSchema), {
+      version: '1.5.0',
+   }),
+   _events: field(v.array(EventSchema), {
+      version: '1.5.0',
+   }),
+   _time: field(v.optional(v.number())),
+   _BPMChanges: field(v.optional(v.array(CustomBPMChangeOldSchema))),
+   _bookmarks: field(v.optional(v.array(CustomBookmarkSchema))),
+});

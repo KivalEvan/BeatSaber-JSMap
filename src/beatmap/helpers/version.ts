@@ -21,7 +21,9 @@ export function implicitVersion(type: BeatmapFileType): Version {
 }
 
 /** Get beatmap version from JSON. */
-export function retrieveVersion<T extends Record<string, any>>(json: T): Version | null {
+export function retrieveVersion<T extends Record<string, any>>(
+   json: T,
+): Version | null {
    const ver = json._version ?? json.version;
    if (typeof ver !== 'string') {
       return null;
@@ -34,7 +36,10 @@ export function retrieveVersion<T extends Record<string, any>>(json: T): Version
  *
  * @returns -1 if current version is lower, 1 if higher, 0 if equal
  */
-export function compareVersion(current: Version, compareTo: Version): -1 | 0 | 1 {
+export function compareVersion(
+   current: Version,
+   compareTo: Version,
+): -1 | 0 | 1 {
    const verCurrent = getVersionArray(current);
    const verCompareTo = getVersionArray(compareTo);
    for (const num in verCurrent) {

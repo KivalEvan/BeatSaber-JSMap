@@ -1,11 +1,4 @@
-import {
-   integer,
-   number,
-   object,
-   type ObjectSchema as VObjectSchema,
-   optional,
-   pipe,
-} from '@valibot/valibot';
+import { v } from '../../../../deps.ts';
 import type {
    IObject,
    IObjectArc,
@@ -18,93 +11,93 @@ import { CustomDataSchema } from '../../shared/declaration/mod.ts';
 /**
  * Schema declaration for v4 `Object`.
  */
-export const ObjectSchema: VObjectSchema<
+export const ObjectSchema: v.ObjectSchema<
    InferObjectEntries<IObject>,
    undefined
-> = object<InferObjectEntries<IObject>>({
-   b: field(optional(number()), {
+> = v.object<InferObjectEntries<IObject>>({
+   b: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   i: field(optional(pipe(number(), integer())), {
+   i: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Object Lane`.
  */
-export const ObjectLaneSchema: VObjectSchema<
+export const ObjectLaneSchema: v.ObjectSchema<
    InferObjectEntries<IObjectLane>,
    undefined
-> = object<InferObjectEntries<IObjectLane>>({
-   b: field(optional(number()), {
+> = v.object<InferObjectEntries<IObjectLane>>({
+   b: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   i: field(optional(pipe(number(), integer())), {
+   i: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   r: field(optional(pipe(number(), integer())), {
+   r: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Object Chain`.
  */
-export const ObjectChainSchema: VObjectSchema<
+export const ObjectChainSchema: v.ObjectSchema<
    InferObjectEntries<IObjectChain>,
    undefined
-> = object<InferObjectEntries<IObjectChain>>({
-   hb: field(optional(number()), {
+> = v.object<InferObjectEntries<IObjectChain>>({
+   hb: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   hr: field(optional(pipe(number(), integer())), {
+   hr: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   tb: field(optional(number()), {
+   tb: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   tr: field(optional(pipe(number(), integer())), {
+   tr: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   i: field(optional(pipe(number(), integer())), {
+   i: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   ci: field(optional(pipe(number(), integer())), {
+   ci: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });
 
 /**
  * Schema declaration for v4 `Object Arc`.
  */
-export const ObjectArcSchema: VObjectSchema<
+export const ObjectArcSchema: v.ObjectSchema<
    InferObjectEntries<IObjectArc>,
    undefined
-> = object<InferObjectEntries<IObjectArc>>({
-   hb: field(optional(number()), {
+> = v.object<InferObjectEntries<IObjectArc>>({
+   hb: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   hi: field(optional(pipe(number(), integer())), {
+   hi: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   hr: field(optional(pipe(number(), integer())), {
+   hr: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   tb: field(optional(number()), {
+   tb: field(v.optional(v.number()), {
       version: '4.0.0',
    }),
-   ti: field(optional(pipe(number(), integer())), {
+   ti: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   tr: field(optional(pipe(number(), integer())), {
+   tr: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   ai: field(optional(pipe(number(), integer())), {
+   ai: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '4.0.0',
    }),
-   customData: field(optional(CustomDataSchema)),
+   customData: field(v.optional(CustomDataSchema)),
 });

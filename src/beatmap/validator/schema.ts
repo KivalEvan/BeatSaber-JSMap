@@ -1,4 +1,4 @@
-import type { StandardSchemaV1 } from '@standard-schema/spec';
+import type { StandardSchemaV1 } from '../../deps.ts';
 import { logger } from '../../logger.ts';
 import type { ISchemaCheckOptions } from '../../types/beatmap/options/schema.ts';
 import type { ISchemaDeclaration } from '../../types/beatmap/shared/schema.ts';
@@ -21,23 +21,33 @@ function handleError(
    options: Partial<ErrorOptions>,
    errors: StandardSchemaV1.Issue[],
 ): void {
-   const path = issue.path?.map((segment) => {
-      if (typeof segment === 'object' && 'key' in segment) return segment.key;
-      return segment;
-   }).map((x, i) => {
-      if (i === 0) return x;
-      if (typeof x === 'number') return `[${x}]`;
-      return `.${x.toString()}`;
-   }).join('');
+   const path = issue.path
+      ?.map((segment) => {
+         if (typeof segment === 'object' && 'key' in segment) {
+            return segment.key;
+         }
+         return segment;
+      })
+      .map((x, i) => {
+         if (i === 0) return x;
+         if (typeof x === 'number') return `[${x}]`;
+         return `.${x.toString()}`;
+      })
+      .join('');
    if (options.doThrow) {
       throw new Error(`${issue.message}${path ? ` at "${path}"` : ''}`);
    } else {
-      logger.tWarn(tag(options.vendor), `${issue.message}${path ? ` at "${path}"` : ''}`);
+      logger.tWarn(
+         tag(options.vendor),
+         `${issue.message}${path ? ` at "${path}"` : ''}`,
+      );
       errors.push(issue);
    }
 }
 
-function isStandardSchema<T extends StandardSchemaV1>(schema: object): schema is T {
+function isStandardSchema<T extends StandardSchemaV1>(
+   schema: object,
+): schema is T {
    return '~standard' in schema;
 }
 
@@ -63,13 +73,20 @@ export function schemaCheck<
          // hack: adding a manual buffer since too many issues being processed at once can cause validation to hang
          buffer = result.issues.filter((_, i) => i < 100) ?? [];
          for (const issue of buffer) {
-            handleError(issue, {
-               vendor: schema['~standard'].vendor,
-               doThrow: Object.keys(throwOn).length > 0,
-            }, _errors);
+            handleError(
+               issue,
+               {
+                  vendor: schema['~standard'].vendor,
+                  doThrow: Object.keys(throwOn).length > 0,
+               },
+               _errors,
+            );
          }
          if (result.issues.length > buffer.length) {
-            logger.tWarn(tag(schema['~standard'].vendor), 'Max issue buffer has been reached.');
+            logger.tWarn(
+               tag(schema['~standard'].vendor),
+               'Max issue buffer has been reached.',
+            );
          }
       }
       return [...buffer];
@@ -92,10 +109,14 @@ export function schemaCheck<
 
    for (const key in data) {
       if (!(key in schema)) {
-         handleError({ message: `Unused key ${key} found in ${label}` }, {
-            vendor: 'bsmap',
-            doThrow: throwOn.unused,
-         }, _errors);
+         handleError(
+            { message: `Unused key ${key} found in ${label}` },
+            {
+               vendor: 'bsmap',
+               doThrow: throwOn.unused,
+            },
+            _errors,
+         );
       }
    }
 
@@ -113,27 +134,39 @@ export function schemaCheck<
                continue;
             }
          }
-         handleError({ message: `Missing ${key} in object ${label}!` }, {
-            vendor: 'bsmap',
-            doThrow: throwOn.missing,
-         }, _errors);
+         handleError(
+            { message: `Missing ${key} in object ${label}!` },
+            {
+               vendor: 'bsmap',
+               doThrow: throwOn.missing,
+            },
+            _errors,
+         );
          continue;
       }
 
       if (d === null) {
-         handleError({ message: `${key} contain null value in object ${label}!` }, {
-            vendor: 'bsmap',
-            doThrow: throwOn.nullish,
-         }, _errors);
+         handleError(
+            { message: `${key} contain null value in object ${label}!` },
+            {
+               vendor: 'bsmap',
+               doThrow: throwOn.nullish,
+            },
+            _errors,
+         );
          continue;
       }
 
       if (ch.type === 'array') {
          if (!Array.isArray(d)) {
-            handleError({ message: `${key} is not an array in object ${label}!` }, {
-               vendor: 'bsmap',
-               doThrow: throwOn.wrongType,
-            }, _errors);
+            handleError(
+               { message: `${key} is not an array in object ${label}!` },
+               {
+                  vendor: 'bsmap',
+                  doThrow: throwOn.wrongType,
+               },
+               _errors,
+            );
          }
          schemaCheck(d, ch.check, `${label}.${key}`, version, throwOn);
          continue;
@@ -141,10 +174,14 @@ export function schemaCheck<
 
       if (ch.type === 'object') {
          if (!Array.isArray(d) && !(typeof d === 'object')) {
-            handleError({ message: `${key} is not an object in object ${label}!` }, {
-               vendor: 'bsmap',
-               doThrow: throwOn.wrongType,
-            }, _errors);
+            handleError(
+               { message: `${key} is not an object in object ${label}!` },
+               {
+                  vendor: 'bsmap',
+                  doThrow: throwOn.wrongType,
+               },
+               _errors,
+            );
          } else {
             schemaCheck(d, ch.check, `${label}.${key}`, version, throwOn);
          }
@@ -153,10 +190,14 @@ export function schemaCheck<
 
       if (ch.array) {
          if (!Array.isArray(d)) {
-            handleError({ message: `${key} is not ${ch.type} in object ${label}!` }, {
-               vendor: 'bsmap',
-               doThrow: throwOn.wrongType,
-            }, _errors);
+            handleError(
+               { message: `${key} is not ${ch.type} in object ${label}!` },
+               {
+                  vendor: 'bsmap',
+                  doThrow: throwOn.wrongType,
+               },
+               _errors,
+            );
             continue;
          }
          if (
@@ -165,45 +206,67 @@ export function schemaCheck<
                   typeof n === ch.type ||
                   (ch.type === 'number' &&
                      typeof n === 'number' &&
-                     (isNaN(n) || ((ch.int ? n % 1 !== 0 : true) && (ch.unsigned ? n < 0 : true)))),
+                     (isNaN(n) ||
+                        ((ch.int ? n % 1 !== 0 : true) &&
+                           (ch.unsigned ? n < 0 : true)))),
             )
          ) {
-            handleError({ message: `${key} is not ${ch.type} in object ${label}!` }, {
-               vendor: 'bsmap',
-               doThrow: throwOn.wrongType,
-            }, _errors);
+            handleError(
+               { message: `${key} is not ${ch.type} in object ${label}!` },
+               {
+                  vendor: 'bsmap',
+                  doThrow: throwOn.wrongType,
+               },
+               _errors,
+            );
          }
          continue;
       }
 
       if (!ch.array && typeof d !== ch.type) {
-         handleError({ message: `${key} is not ${ch.type} in object ${label}!` }, {
-            vendor: 'bsmap',
-            doThrow: throwOn.wrongType,
-         }, _errors);
+         handleError(
+            { message: `${key} is not ${ch.type} in object ${label}!` },
+            {
+               vendor: 'bsmap',
+               doThrow: throwOn.wrongType,
+            },
+            _errors,
+         );
          continue;
       }
 
       if (ch.type === 'number' && typeof d === 'number') {
          if (isNaN(d)) {
-            handleError({ message: `${label}.${key} is NaN!` }, {
-               vendor: 'bsmap',
-               doThrow: throwOn.nullish,
-            }, _errors);
+            handleError(
+               { message: `${label}.${key} is NaN!` },
+               {
+                  vendor: 'bsmap',
+                  doThrow: throwOn.nullish,
+               },
+               _errors,
+            );
             continue;
          }
          if (ch.int && d % 1 !== 0) {
-            handleError({ message: `${label}.${key} cannot be float!` }, {
-               vendor: 'bsmap',
-               doThrow: throwOn.notInt,
-            }, _errors);
+            handleError(
+               { message: `${label}.${key} cannot be float!` },
+               {
+                  vendor: 'bsmap',
+                  doThrow: throwOn.notInt,
+               },
+               _errors,
+            );
             continue;
          }
          if (ch.unsigned && d < 0) {
-            handleError({ message: `${label}.${key} cannot be negative!` }, {
-               vendor: 'bsmap',
-               doThrow: throwOn.notUnsigned,
-            }, _errors);
+            handleError(
+               { message: `${label}.${key} cannot be negative!` },
+               {
+                  vendor: 'bsmap',
+                  doThrow: throwOn.notUnsigned,
+               },
+               _errors,
+            );
             continue;
          }
       }
