@@ -5,52 +5,74 @@ import type { Vector3, Vector4 } from '../../../vector.ts';
 export type FloatPointDefinitionBase = [
    percent: number,
    time: number,
-   ...options: (Easings | PointFlag)[],
+   ...options: (Easings | PointFlag)[]
 ][];
 export type Vector3PointDefinitionBase = [
    ...vector3: Vector3,
    time: number,
-   ...options: (Easings | PointFlag)[],
+   ...options: (Easings | PointFlag)[]
 ][];
 export type Vector4PointDefinitionBase = [
    ...vector4: Vector4,
    time: number,
-   ...options: ('lerpHSV' | Easings | PointFlag)[],
+   ...options: ('lerpHSV' | Easings | PointFlag)[]
 ][];
 
-export type FloatPointDefinitionModifier = [
-   LooseAutocomplete<BaseModifier>,
-   ...[
-      ...(number | LooseAutocomplete<BaseModifier>)[],
-      options: PointModifier,
-   ][],
+export type PointDefinition1Modifier = [
+   mod1: number | LooseAutocomplete<BaseModifier>,
+   op: PointOperation,
+   chain?: PointDefinitionModifierBase
 ];
-export type Vector3PointDefinitionModifier = [
-   LooseAutocomplete<BaseModifier>,
-   ...[
-      ...(number | LooseAutocomplete<BaseModifier>)[],
-      options: PointModifier,
-   ][],
+
+export type PointDefinition2Modifier = [
+   mod1: number | LooseAutocomplete<BaseModifier>,
+   mod2: number | LooseAutocomplete<BaseModifier>,
+   op: PointOperation,
+   chain?: PointDefinitionModifierBase
 ];
-export type Vector4PointDefinitionModifier = [
-   LooseAutocomplete<BaseModifier>,
-   ...[
-      ...(number | LooseAutocomplete<BaseModifier>)[],
-      options: PointModifier,
-   ][],
+
+export type PointDefinition3Modifier = [
+   mod1: number | LooseAutocomplete<BaseModifier>,
+   mod2: number | LooseAutocomplete<BaseModifier>,
+   mod3: number | LooseAutocomplete<BaseModifier>,
+   op: PointOperation,
+   chain?: PointDefinitionModifierBase
+];
+
+export type PointDefinition4Modifier = [
+   mod1: number | LooseAutocomplete<BaseModifier>,
+   mod2: number | LooseAutocomplete<BaseModifier>,
+   mod3: number | LooseAutocomplete<BaseModifier>,
+   mod4: number | LooseAutocomplete<BaseModifier>,
+   op: PointOperation,
+   chain?: PointDefinitionModifierBase
+];
+
+export type PointDefinitionModifierBase =
+   | PointDefinition1Modifier
+   | PointDefinition2Modifier;
+
+export type PointDefinitionModifier = [
+   base: BaseModifier,
+   ...(
+      | PointDefinition1Modifier
+      | PointDefinition2Modifier
+      | PointDefinition3Modifier
+      | PointDefinition4Modifier
+   )[]
 ];
 
 export type FloatPointDefinition =
    | FloatPointDefinitionBase
-   | FloatPointDefinitionModifier;
+   | PointDefinitionModifier;
 export type Vector3PointDefinition =
    | Vector3PointDefinitionBase
-   | Vector3PointDefinitionModifier;
+   | PointDefinitionModifier;
 export type Vector4PointDefinition =
    | Vector4PointDefinitionBase
-   | Vector4PointDefinitionModifier;
+   | PointDefinitionModifier;
 
-export type PointModifier = `op${'None' | 'Add' | 'Sub' | 'Mul' | 'Div'}`;
+export type PointOperation = `op${'None' | 'Add' | 'Sub' | 'Mul' | 'Div'}`;
 export type PointFlag = 'splineCatmullRom';
 
 export type BaseModifierTransform =
