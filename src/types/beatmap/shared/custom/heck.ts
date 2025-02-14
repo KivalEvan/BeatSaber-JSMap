@@ -2,37 +2,53 @@ import type { Easings } from '../../../easings.ts';
 import type { LooseAutocomplete } from '../../../utils.ts';
 import type { Vector3, Vector4 } from '../../../vector.ts';
 
+export type FloatPointDefinitionBase = [
+   percent: number,
+   time: number,
+   ...options: (Easings | PointFlag)[],
+][];
+export type Vector3PointDefinitionBase = [
+   ...vector3: Vector3,
+   time: number,
+   ...options: (Easings | PointFlag)[],
+][];
+export type Vector4PointDefinitionBase = [
+   ...vector4: Vector4,
+   time: number,
+   ...options: ('lerpHSV' | Easings | PointFlag)[],
+][];
+
+export type FloatPointDefinitionModifier = [
+   LooseAutocomplete<BaseModifier>,
+   ...[
+      ...(number | LooseAutocomplete<BaseModifier>)[],
+      options: PointModifier,
+   ][],
+];
+export type Vector3PointDefinitionModifier = [
+   LooseAutocomplete<BaseModifier>,
+   ...[
+      ...(number | LooseAutocomplete<BaseModifier>)[],
+      options: PointModifier,
+   ][],
+];
+export type Vector4PointDefinitionModifier = [
+   LooseAutocomplete<BaseModifier>,
+   ...[
+      ...(number | LooseAutocomplete<BaseModifier>)[],
+      options: PointModifier,
+   ][],
+];
+
 export type FloatPointDefinition =
-   | [
-      LooseAutocomplete<BaseModifier>,
-      ...[
-         ...(number | LooseAutocomplete<BaseModifier>)[],
-         options: PointModifier,
-      ],
-   ][]
-   | [percent: number, time: number, ...options: (Easings | PointFlag)[]][];
+   | FloatPointDefinitionBase
+   | FloatPointDefinitionModifier;
 export type Vector3PointDefinition =
-   | [
-      LooseAutocomplete<BaseModifier>,
-      ...[
-         ...(number | LooseAutocomplete<BaseModifier>)[],
-         options: PointModifier,
-      ],
-   ][]
-   | [...vector3: Vector3, time: number, ...options: (Easings | PointFlag)[]][];
+   | Vector3PointDefinitionBase
+   | Vector3PointDefinitionModifier;
 export type Vector4PointDefinition =
-   | [
-      LooseAutocomplete<BaseModifier>,
-      ...[
-         ...(number | LooseAutocomplete<BaseModifier>)[],
-         options: PointModifier,
-      ],
-   ][]
-   | [
-      ...vector4: Vector4,
-      time: number,
-      ...options: ('lerpHSV' | Easings | PointFlag)[],
-   ][];
+   | Vector4PointDefinitionBase
+   | Vector4PointDefinitionModifier;
 
 export type PointModifier = `op${'None' | 'Add' | 'Sub' | 'Mul' | 'Div'}`;
 export type PointFlag = 'splineCatmullRom';

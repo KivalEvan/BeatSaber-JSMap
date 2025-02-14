@@ -295,7 +295,7 @@ export function fixFloatPointDefinition(
                const temp = [
                   fixFloat(elm.at(0), defaultValue),
                   fixFloat(elm.at(1), 1, 0, 1),
-               ] as FloatPointDefinition[number];
+               ] as Exclude<FloatPointDefinition[number], string>;
                if (elm.length > 2) {
                   const attr = elm
                      .slice(3)
