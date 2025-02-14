@@ -14,7 +14,7 @@ export interface IPointDefinition {
       | Vector2
       | Vector3
       | ColorArray
-      | FloatPointDefinition[]
-      | Vector3PointDefinition[]
-      | Vector4PointDefinition[];
+      | FloatPointDefinition
+      | Vector3PointDefinition
+      | Vector4PointDefinition;
 }

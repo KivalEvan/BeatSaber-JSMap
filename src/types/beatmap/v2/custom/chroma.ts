@@ -110,7 +110,7 @@ export type IChromaEnvironment = IChromaEnvironmentID | IChromaEnvironmentGeomet
 
 /** Chroma interface for Beatmap Object Animation Custom Data. */
 export interface IChromaAnimation {
-   _color?: string | ColorArray | Vector4PointDefinition[];
+   _color?: string | ColorArray | Vector4PointDefinition;
 }
 
 /** Chroma interface for Beatmap Note Custom Data. */
@@ -202,21 +202,21 @@ export interface IChromaEventZoom extends ICustomDataBase {
 
 /** AnimateComponent interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAnimateTrack extends Required<IHeckBase> {
-   _color?: string | ColorArray | Vector4PointDefinition[];
+   _color?: string | ColorArray | Vector4PointDefinition;
 }
 
 /** AnimateComponent interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAssignPathAnimation extends Required<IHeckBase> {
-   _color?: string | ColorArray | Vector4PointDefinition[];
+   _color?: string | ColorArray | Vector4PointDefinition;
 }
 
 /** AssignFogTrack interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAssignFogTrack extends Required<IHeckBase> {
    _duration: number;
-   _attenuation?: string | [number] | FloatPointDefinition[];
-   _offset?: string | [number] | FloatPointDefinition[];
-   _startY?: string | [number] | FloatPointDefinition[];
-   _height?: string | [number] | FloatPointDefinition[];
+   _attenuation?: string | [number] | FloatPointDefinition;
+   _offset?: string | [number] | FloatPointDefinition;
+   _startY?: string | [number] | FloatPointDefinition;
+   _height?: string | [number] | FloatPointDefinition;
 }
 
 /** Chroma Custom Data interface for difficulty custom data. */

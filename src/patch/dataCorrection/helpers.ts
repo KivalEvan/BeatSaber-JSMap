@@ -1,16 +1,14 @@
 import type {
+   BaseModifier,
    FloatPointDefinition,
    Vector3PointDefinition,
    Vector4PointDefinition,
 } from '../../types/beatmap/shared/custom/heck.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import type { Easings } from '../../types/easings.ts';
-import type { PointModifier } from '../../types/beatmap/shared/custom/heck.ts';
 import type { Vector2, Vector3, Vector4 } from '../../types/vector.ts';
 import { EasingsFn } from '../../utils/math/easings.ts';
 import { clamp } from '../../utils/math/helpers.ts';
-import type { BaseModifierNE } from '../../types/beatmap/shared/custom/noodleExtensions.ts';
-import type { BaseModifierChroma } from '../../types/beatmap/shared/custom/chroma.ts';
 
 /**
  * Fix boolean value by interpreting unknown value as boolean or return default value.
@@ -218,13 +216,6 @@ export function fixStringAry(value: unknown[], defaultValue: string): string[] {
 }
 
 const easingsList = Object.keys(EasingsFn) as Easings[];
-const modifiersList: PointModifier[] = [
-   'opNone',
-   'opAdd',
-   'opSub',
-   'opMul',
-   'opMul',
-];
 
 /**
  * Fix vector value by interpreting unknown value as vector or return default value.
@@ -285,33 +276,42 @@ export function fixColor(value: unknown, defaultValue: ColorArray): ColorArray {
 export function fixFloatPointDefinition(
    value: unknown,
    defaultValue: number,
-): FloatPointDefinition[] {
+): FloatPointDefinition {
    return Array.isArray(value)
-      ? value
-         .filter((ary) => Array.isArray(ary))
-         .map((elm: unknown[]) => {
-            const temp = [
-               fixFloat(elm.at(0), defaultValue),
-               fixFloat(elm.at(1), 1, 0, 1),
-            ] as FloatPointDefinition;
-            if (elm.length > 2) {
-               const attr = elm.slice(3).filter((e) => typeof e === 'string');
-               const ease = attr.find((e) => easingsList.includes(e as Easings));
-               const spline = attr.find((e) => e === 'splineCatmullRom');
-               const modifier = attr.find((e) => modifiersList.includes(e as PointModifier));
-               let idx = 2;
-               if (ease) {
-                  temp[idx++] = ease as Easings;
-               }
-               if (spline) {
-                  temp[idx++] = spline as 'splineCatmullRom';
-               }
-               if (modifier) {
-                  temp[idx++] = modifier as PointModifier;
-               }
+      ? typeof value.at(0) === 'string'
+         ? (value.map((elm, i) => {
+            if (i === 0) return elm as BaseModifier;
+            if (Array.isArray(elm)) {
+               return elm.map((x) => {
+                  if (typeof x === 'string') return x;
+                  return fixFloat(x, defaultValue);
+               }) as FloatPointDefinition[number];
             }
-            return temp as FloatPointDefinition;
-         })
+            return elm as FloatPointDefinition[number];
+         }) as FloatPointDefinition)
+         : (value
+            .filter((ary) => Array.isArray(ary))
+            .map((elm: unknown[]) => {
+               const temp = [
+                  fixFloat(elm.at(0), defaultValue),
+                  fixFloat(elm.at(1), 1, 0, 1),
+               ] as FloatPointDefinition[number];
+               if (elm.length > 2) {
+                  const attr = elm
+                     .slice(3)
+                     .filter((e) => typeof e === 'string');
+                  const ease = attr.find((e) => easingsList.includes(e as Easings));
+                  const spline = attr.find((e) => e === 'splineCatmullRom');
+                  let idx = 2;
+                  if (ease) {
+                     temp[idx++] = ease as Easings;
+                  }
+                  if (spline) {
+                     temp[idx++] = spline as 'splineCatmullRom';
+                  }
+               }
+               return temp as FloatPointDefinition[number];
+            }) as FloatPointDefinition)
       : [];
 }
 
@@ -321,36 +321,44 @@ export function fixFloatPointDefinition(
 export function fixVector3PointDefinition(
    value: unknown,
    defaultValue: Vector3,
-): Vector3PointDefinition[] {
+): Vector3PointDefinition {
    return Array.isArray(value)
-      ? value
-         .filter((ary) => Array.isArray(ary) || typeof ary === 'string')
-         .map((elm: unknown[] | string) => {
-            if (typeof elm === 'string') return elm as BaseModifierNE;
-            const temp = [
-               fixFloat(elm.at(0), defaultValue[0]),
-               fixFloat(elm.at(1), defaultValue[1]),
-               fixFloat(elm.at(2), defaultValue[2]),
-               fixFloat(elm.at(3), 1, 0, 1),
-            ] as Exclude<Vector3PointDefinition, string>;
-            if (elm.length > 4) {
-               const attr = elm.slice(4).filter((e) => typeof e === 'string');
-               const ease = attr.find((e) => easingsList.includes(e as Easings));
-               const spline = attr.find((e) => e === 'splineCatmullRom');
-               const modifier = attr.find((e) => modifiersList.includes(e as PointModifier));
-               let idx = 4;
-               if (ease) {
-                  temp[idx++] = ease as Easings;
-               }
-               if (spline) {
-                  temp[idx++] = spline as 'splineCatmullRom';
-               }
-               if (modifier) {
-                  temp[idx++] = modifier as PointModifier;
-               }
+      ? typeof value.at(0) === 'string'
+         ? (value.map((elm, i) => {
+            if (i === 0) return elm as BaseModifier;
+            if (Array.isArray(elm)) {
+               return elm.map((x, j) => {
+                  if (typeof x === 'string') return x;
+                  return fixFloat(x, defaultValue[j]);
+               }) as Vector3PointDefinition[number];
             }
-            return temp as Vector3PointDefinition;
-         })
+            return elm as Vector3PointDefinition[number];
+         }) as Vector3PointDefinition)
+         : (value
+            .filter((ary) => Array.isArray(ary))
+            .map((elm: unknown[]) => {
+               const temp = [
+                  fixFloat(elm.at(0), defaultValue[0]),
+                  fixFloat(elm.at(1), defaultValue[1]),
+                  fixFloat(elm.at(2), defaultValue[2]),
+                  fixFloat(elm.at(3), 1, 0, 1),
+               ] as Exclude<Vector3PointDefinition[number], string>;
+               if (elm.length > 4) {
+                  const attr = elm
+                     .slice(4)
+                     .filter((e) => typeof e === 'string');
+                  const ease = attr.find((e) => easingsList.includes(e as Easings));
+                  const spline = attr.find((e) => e === 'splineCatmullRom');
+                  let idx = 4;
+                  if (ease) {
+                     temp[idx++] = ease as Easings;
+                  }
+                  if (spline) {
+                     temp[idx++] = spline as 'splineCatmullRom';
+                  }
+               }
+               return temp as Vector3PointDefinition[number];
+            }) as Vector3PointDefinition)
       : [];
 }
 
@@ -360,36 +368,44 @@ export function fixVector3PointDefinition(
 export function fixVector4PointDefinition(
    value: unknown,
    defaultValue: Vector4,
-): Vector4PointDefinition[] {
+): Vector4PointDefinition {
    return Array.isArray(value)
-      ? value
-         .filter((ary) => Array.isArray(ary) || typeof ary === 'string')
-         .map((elm: unknown[] | string) => {
-            if (typeof elm === 'string') return elm as BaseModifierChroma;
-            const temp = [
-               fixFloat(value.at(0), defaultValue[0]),
-               fixFloat(value.at(1), defaultValue[1]),
-               fixFloat(value.at(2), defaultValue[2]),
-               fixFloat(value.at(3), defaultValue[3]),
-               fixFloat(elm.at(4), 1, 0, 1),
-            ] as Exclude<Vector4PointDefinition, string>;
-            if (elm.length > 5) {
-               const attr = elm.slice(5).filter((e) => typeof e === 'string');
-               const ease = attr.find((e) => easingsList.includes(e as Easings));
-               const lerp = attr.find((e) => e === 'lerpHSV');
-               const modifier = attr.find((e) => modifiersList.includes(e as PointModifier));
-               let idx = 5;
-               if (ease) {
-                  temp[idx++] = ease as Easings;
-               }
-               if (lerp) {
-                  temp[idx++] = lerp as 'lerpHSV';
-               }
-               if (modifier) {
-                  temp[idx++] = modifier as PointModifier;
-               }
+      ? typeof value.at(0) === 'string'
+         ? (value.map((elm, i) => {
+            if (i === 0) return elm as BaseModifier;
+            if (Array.isArray(elm)) {
+               return elm.map((x, j) => {
+                  if (typeof x === 'string') return x;
+                  return fixFloat(x, defaultValue[j]);
+               }) as Vector4PointDefinition[number];
             }
-            return temp as Vector4PointDefinition;
-         })
+            return elm as Vector4PointDefinition[number];
+         }) as Vector4PointDefinition)
+         : (value
+            .filter((ary) => Array.isArray(ary))
+            .map((elm: unknown[]) => {
+               const temp = [
+                  fixFloat(value.at(0), defaultValue[0]),
+                  fixFloat(value.at(1), defaultValue[1]),
+                  fixFloat(value.at(2), defaultValue[2]),
+                  fixFloat(value.at(3), defaultValue[3]),
+                  fixFloat(elm.at(4), 1, 0, 1),
+               ] as Exclude<Vector4PointDefinition[number], string>;
+               if (elm.length > 5) {
+                  const attr = elm
+                     .slice(5)
+                     .filter((e) => typeof e === 'string');
+                  const ease = attr.find((e) => easingsList.includes(e as Easings));
+                  const lerp = attr.find((e) => e === 'lerpHSV');
+                  let idx = 5;
+                  if (ease) {
+                     temp[idx++] = ease as Easings;
+                  }
+                  if (lerp) {
+                     temp[idx++] = lerp as 'lerpHSV';
+                  }
+               }
+               return temp as Vector4PointDefinition[number];
+            }) as Vector4PointDefinition)
       : [];
 }

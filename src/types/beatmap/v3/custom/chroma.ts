@@ -136,7 +136,7 @@ export type IChromaEnvironment = IChromaEnvironmentID | IChromaEnvironmentGeomet
 
 /** Chroma interface for Beatmap Object Animation Custom Data. */
 export interface IChromaAnimation {
-   color?: string | ColorArray | Vector4PointDefinition[];
+   color?: string | ColorArray | Vector4PointDefinition;
 }
 
 /** Chroma interface for Beatmap Note Custom Data. */
@@ -184,12 +184,12 @@ export interface IChromaEventZoom extends ICustomDataBase {
 
 /** AnimateComponent interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAnimateTrack extends Required<IHeckBase> {
-   color?: string | ColorArray | Vector4PointDefinition[];
+   color?: string | ColorArray | Vector4PointDefinition;
 }
 
 /** AnimateComponent interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAssignPathAnimation extends Required<IHeckBase> {
-   color?: string | ColorArray | Vector4PointDefinition[];
+   color?: string | ColorArray | Vector4PointDefinition;
 }
 
 /** AnimateComponent interface for Chroma Custom Event. */
@@ -197,14 +197,14 @@ export interface IChromaCustomEventDataAnimateComponent extends Required<IHeckBa
    duration: number;
    easing?: string;
    BloomFogEnvironment?: {
-      attenuation?: string | [number] | FloatPointDefinition[];
-      offset?: string | [number] | FloatPointDefinition[];
-      startY?: string | [number] | FloatPointDefinition[];
-      height?: string | [number] | FloatPointDefinition[];
+      attenuation?: string | [number] | FloatPointDefinition;
+      offset?: string | [number] | FloatPointDefinition;
+      startY?: string | [number] | FloatPointDefinition;
+      height?: string | [number] | FloatPointDefinition;
    };
    TubeBloomPrePassLight?: {
-      colorAlphaMultiplier?: string | [number] | FloatPointDefinition[];
-      bloomFogIntensityMultiplier?: string | [number] | FloatPointDefinition[];
+      colorAlphaMultiplier?: string | [number] | FloatPointDefinition;
+      bloomFogIntensityMultiplier?: string | [number] | FloatPointDefinition;
    };
 }
 

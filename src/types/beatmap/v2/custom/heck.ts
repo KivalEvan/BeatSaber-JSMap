@@ -16,10 +16,10 @@ export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
     */
    _duration?: number;
    _easing?: Easings;
-   _position?: string | Vector3 | Vector3PointDefinition[];
-   _rotation?: string | Vector3 | Vector3PointDefinition[];
-   _localRotation?: string | Vector3 | Vector3PointDefinition[];
-   _scale?: string | Vector3 | Vector3PointDefinition[];
+   _position?: string | Vector3 | Vector3PointDefinition;
+   _rotation?: string | Vector3 | Vector3PointDefinition;
+   _localRotation?: string | Vector3 | Vector3PointDefinition;
+   _scale?: string | Vector3 | Vector3PointDefinition;
 }
 
 /**
@@ -27,10 +27,10 @@ export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
  */
 export interface IHeckCustomEventDataAssignPathAnimation extends Required<IHeckBase> {
    _easing?: Easings;
-   _position?: string | Vector3 | Vector3PointDefinition[];
-   _rotation?: string | Vector3 | Vector3PointDefinition[];
-   _localRotation?: string | Vector3 | Vector3PointDefinition[];
-   _scale?: string | Vector3 | Vector3PointDefinition[];
+   _position?: string | Vector3 | Vector3PointDefinition;
+   _rotation?: string | Vector3 | Vector3PointDefinition;
+   _localRotation?: string | Vector3 | Vector3PointDefinition;
+   _scale?: string | Vector3 | Vector3PointDefinition;
 }
 
 export interface IInfoSettingsCustomData {

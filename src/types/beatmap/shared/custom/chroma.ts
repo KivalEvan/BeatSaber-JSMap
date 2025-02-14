@@ -119,19 +119,3 @@ export type EnvironmentMaterial =
    | 'BillieWater'
    | 'InterscopeConcrete'
    | 'InterscopeCar';
-
-/**
- * Available base modifiers for point definitions.
- */
-export type BaseModifierChroma =
-   | 'baseNote0Color'
-   | 'baseNote1Color'
-   | 'baseSaberAColor'
-   | 'baseSaberBColor'
-   | 'baseEnvironmentColor0'
-   | 'baseEnvironmentColor1'
-   | 'baseEnvironmentColorW'
-   | 'baseEnvironmentColor0Boost'
-   | 'baseEnvironmentColor1Boost'
-   | 'baseEnvironmentColorWBoost'
-   | 'baseObstaclesColor';

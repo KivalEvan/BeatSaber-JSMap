@@ -20,10 +20,10 @@ export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
     */
    repeat?: number;
    easing?: Easings;
-   position?: string | Vector3 | Vector3PointDefinition[];
-   rotation?: string | Vector3 | Vector3PointDefinition[];
-   localRotation?: string | Vector3 | Vector3PointDefinition[];
-   scale?: string | Vector3 | Vector3PointDefinition[];
+   position?: string | Vector3 | Vector3PointDefinition;
+   rotation?: string | Vector3 | Vector3PointDefinition;
+   localRotation?: string | Vector3 | Vector3PointDefinition;
+   scale?: string | Vector3 | Vector3PointDefinition;
 }
 
 /**
@@ -31,10 +31,10 @@ export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
  */
 export interface IHeckCustomEventDataAssignPathAnimation extends Required<IHeckBase> {
    easing?: Easings;
-   position?: string | Vector3 | Vector3PointDefinition[];
-   rotation?: string | Vector3 | Vector3PointDefinition[];
-   localRotation?: string | Vector3 | Vector3PointDefinition[];
-   scale?: string | Vector3 | Vector3PointDefinition[];
+   position?: string | Vector3 | Vector3PointDefinition;
+   rotation?: string | Vector3 | Vector3PointDefinition;
+   localRotation?: string | Vector3 | Vector3PointDefinition;
+   scale?: string | Vector3 | Vector3PointDefinition;
 }
 
 /** Heck Custom Data interface for difficulty custom data. */

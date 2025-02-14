@@ -1,4 +1,3 @@
-import type { Vector3PointDefinition } from '../../../types/beatmap/shared/custom/heck.ts';
 import type { ICustomDataNote } from '../../../types/beatmap/wrapper/custom/note.ts';
 import type { ICustomDataSlider } from '../../../types/beatmap/wrapper/custom/slider.ts';
 import { isVector3 } from '../../../utils/math/vector.ts';
@@ -25,17 +24,16 @@ export function mirrorNoodleExtensionsV2<
             data.customData._animation._definitePosition[0] = -data.customData._animation
                ._definitePosition[0];
          } else {
-            data.customData._animation._definitePosition.forEach((dp: Vector3PointDefinition) => {
+            data.customData._animation._definitePosition.forEach((dp) => {
                if (Array.isArray(dp)) dp[0] = -dp[0];
             });
          }
       }
       if (Array.isArray(data.customData._animation._position)) {
          if (isVector3(data.customData._animation._position)) {
-            data.customData._animation._position[0] = -data.customData._animation
-               ._position[0];
+            data.customData._animation._position[0] = -data.customData._animation._position[0];
          } else {
-            data.customData._animation._position.forEach((op: Vector3PointDefinition) => {
+            data.customData._animation._position.forEach((op) => {
                if (Array.isArray(op)) op[0] = -op[0];
             });
          }
@@ -68,7 +66,7 @@ export function mirrorNoodleExtensionsV3<
             data.customData.animation.definitePosition[0] = -data.customData.animation
                .definitePosition[0];
          } else {
-            data.customData.animation.definitePosition.forEach((dp: Vector3PointDefinition) => {
+            data.customData.animation.definitePosition.forEach((dp) => {
                if (Array.isArray(dp)) dp[0] = -dp[0];
             });
          }
@@ -78,7 +76,7 @@ export function mirrorNoodleExtensionsV3<
             data.customData.animation.offsetPosition[0] = -data.customData.animation
                .offsetPosition[0];
          } else {
-            data.customData.animation.offsetPosition.forEach((op: Vector3PointDefinition) => {
+            data.customData.animation.offsetPosition.forEach((op) => {
                if (Array.isArray(op)) op[0] = -op[0];
             });
          }
