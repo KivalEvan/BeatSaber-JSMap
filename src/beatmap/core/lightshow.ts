@@ -6,7 +6,7 @@ import type { IWrapLightRotationEventBoxGroup } from '../../types/beatmap/wrappe
 import type { IWrapLightshow } from '../../types/beatmap/wrapper/lightshow.ts';
 import type { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 import type { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
-import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { sortObjectFn } from '../helpers/sort.ts';
@@ -76,15 +76,15 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
    };
    useNormalEventsAsCompatibleEvents: boolean;
 
-   static createOne(data: Partial<IWrapLightshow> = {}): Lightshow {
+   static createOne(data: DeepPartial<IWrapLightshow> = {}): Lightshow {
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<IWrapLightshow, 'customData'>[]
+      ...data: DeepPartial<IWrapLightshow>[]
    ): Lightshow[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapLightshow, 'customData'> = {}) {
+   constructor(data: DeepPartial<IWrapLightshow> = {}) {
       super();
       this.waypoints = (data.waypoints ?? Lightshow.defaultValue.waypoints).map(
          (e) => new Waypoint(e),
@@ -220,7 +220,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
    }
 
    addWaypoints(
-      ...data: DeepPartialIgnore<IWrapWaypoint, 'customData'>[]
+      ...data: DeepPartial<IWrapWaypoint>[]
    ): this {
       for (const d of data) {
          this.waypoints.push(new Waypoint(d));
@@ -228,7 +228,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addBasicEvents(
-      ...data: DeepPartialIgnore<IWrapBasicEvent, 'customData'>[]
+      ...data: DeepPartial<IWrapBasicEvent>[]
    ): this {
       for (const d of data) {
          this.basicEvents.push(new BasicEvent(d));
@@ -236,7 +236,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addColorBoostEvents(
-      ...data: DeepPartialIgnore<IWrapColorBoostEvent, 'customData'>[]
+      ...data: DeepPartial<IWrapColorBoostEvent>[]
    ): this {
       for (const d of data) {
          this.colorBoostEvents.push(new ColorBoostEvent(d));
@@ -244,7 +244,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightColorEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightColorEventBoxGroup, 'customData'>[]
+      ...data: DeepPartial<IWrapLightColorEventBoxGroup>[]
    ): this {
       for (const d of data) {
          this.lightColorEventBoxGroups.push(new LightColorEventBoxGroup(d));
@@ -252,9 +252,8 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightRotationEventBoxGroups(
-      ...data: DeepPartialIgnore<
-         IWrapLightRotationEventBoxGroup,
-         'customData'
+      ...data: DeepPartial<
+         IWrapLightRotationEventBoxGroup
       >[]
    ): this {
       for (const d of data) {
@@ -265,9 +264,8 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightTranslationEventBoxGroups(
-      ...data: DeepPartialIgnore<
-         IWrapLightTranslationEventBoxGroup,
-         'customData'
+      ...data: DeepPartial<
+         IWrapLightTranslationEventBoxGroup
       >[]
    ): this {
       for (const d of data) {
@@ -278,7 +276,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addFxEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapFxEventBoxGroup, 'customData'>[]
+      ...data: DeepPartial<IWrapFxEventBoxGroup>[]
    ): this {
       for (const d of data) {
          this.fxEventBoxGroups.push(new FxEventBoxGroup(d));

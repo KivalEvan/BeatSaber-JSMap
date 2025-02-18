@@ -18,7 +18,7 @@ import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
 import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
 import type { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
 import type { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
-import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
+import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import type { Arc } from './arc.ts';
@@ -68,11 +68,11 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<IWrapBeatmap, 'customData'>[]
+      ...data: DeepPartial<IWrapBeatmap>[]
    ): Beatmap[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapBeatmap, 'customData'> = {}) {
+   constructor(data: DeepPartial<IWrapBeatmap> = {}) {
       super();
       this.version = data.version ?? Beatmap.defaultValue.version;
       this.filename = data.filename ?? Beatmap.defaultValue.filename;
@@ -227,76 +227,76 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       return super.sort(fn);
    }
 
-   addBpmEvents(...data: DeepPartialIgnore<IWrapBPMEvent, 'customData'>[]): this {
+   addBpmEvents(...data: DeepPartial<IWrapBPMEvent>[]): this {
       this.difficulty.addBpmEvents(...data);
       return this;
    }
    addRotationEvents(
-      ...data: DeepPartialIgnore<IWrapRotationEvent, 'customData'>[]
+      ...data: DeepPartial<IWrapRotationEvent>[]
    ): this {
       this.difficulty.addRotationEvents(...data);
       return this;
    }
-   addColorNotes(...data: DeepPartialIgnore<IWrapColorNote, 'customData'>[]): this {
+   addColorNotes(...data: DeepPartial<IWrapColorNote>[]): this {
       this.difficulty.addColorNotes(...data);
       return this;
    }
-   addBombNotes(...data: DeepPartialIgnore<IWrapBombNote, 'customData'>[]): this {
+   addBombNotes(...data: DeepPartial<IWrapBombNote>[]): this {
       this.difficulty.addBombNotes(...data);
       return this;
    }
-   addObstacles(...data: DeepPartialIgnore<IWrapObstacle, 'customData'>[]): this {
+   addObstacles(...data: DeepPartial<IWrapObstacle>[]): this {
       this.difficulty.addObstacles(...data);
       return this;
    }
-   addArcs(...data: DeepPartialIgnore<IWrapArc, 'customData'>[]): this {
+   addArcs(...data: DeepPartial<IWrapArc>[]): this {
       this.difficulty.addArcs(...data);
       return this;
    }
-   addChains(...data: DeepPartialIgnore<IWrapChain, 'customData'>[]): this {
+   addChains(...data: DeepPartial<IWrapChain>[]): this {
       this.difficulty.addChains(...data);
       return this;
    }
-   addNjsEvents(...data: DeepPartialIgnore<IWrapNJSEvent, 'customData'>[]): this {
+   addNjsEvents(...data: DeepPartial<IWrapNJSEvent>[]): this {
       this.difficulty.addNjsEvents(...data);
       return this;
    }
-   addWaypoints(...data: DeepPartialIgnore<IWrapWaypoint, 'customData'>[]): this {
+   addWaypoints(...data: DeepPartial<IWrapWaypoint>[]): this {
       this.lightshow.addWaypoints(...data);
       return this;
    }
    addBasicEvents(
-      ...data: DeepPartialIgnore<IWrapBasicEvent, 'customData'>[]
+      ...data: DeepPartial<IWrapBasicEvent>[]
    ): this {
       this.lightshow.addBasicEvents(...data);
       return this;
    }
    addColorBoostEvents(
-      ...data: DeepPartialIgnore<IWrapColorBoostEvent, 'customData'>[]
+      ...data: DeepPartial<IWrapColorBoostEvent>[]
    ): this {
       this.lightshow.addColorBoostEvents(...data);
       return this;
    }
    addLightColorEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightColorEventBoxGroup, 'customData'>[]
+      ...data: DeepPartial<IWrapLightColorEventBoxGroup>[]
    ): this {
       this.lightshow.addLightColorEventBoxGroups(...data);
       return this;
    }
    addLightRotationEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightRotationEventBoxGroup, 'customData'>[]
+      ...data: DeepPartial<IWrapLightRotationEventBoxGroup>[]
    ): this {
       this.lightshow.addLightRotationEventBoxGroups(...data);
       return this;
    }
    addLightTranslationEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapLightTranslationEventBoxGroup, 'customData'>[]
+      ...data: DeepPartial<IWrapLightTranslationEventBoxGroup>[]
    ): this {
       this.lightshow.addLightTranslationEventBoxGroups(...data);
       return this;
    }
    addFxEventBoxGroups(
-      ...data: DeepPartialIgnore<IWrapFxEventBoxGroup, 'customData'>[]
+      ...data: DeepPartial<IWrapFxEventBoxGroup>[]
    ): this {
       this.lightshow.addFxEventBoxGroups(...data);
       return this;

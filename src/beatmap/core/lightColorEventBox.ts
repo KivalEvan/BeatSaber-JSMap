@@ -1,5 +1,5 @@
 import type { IWrapLightColorEventBox } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
-import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
@@ -28,13 +28,13 @@ export function createLightColorEventBox(
 export class LightColorEventBox extends EventBox implements IWrapLightColorEventBox {
    static defaultValue: IWrapLightColorEventBox = createLightColorEventBox();
 
-   static createOne(data: Partial<IWrapLightColorEventBox> = {}): LightColorEventBox {
+   static createOne(data: DeepPartial<IWrapLightColorEventBox> = {}): LightColorEventBox {
       return new this(data);
    }
-   static create(...data: Partial<IWrapLightColorEventBox>[]): LightColorEventBox[] {
+   static create(...data: DeepPartial<IWrapLightColorEventBox>[]): LightColorEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapLightColorEventBox, 'customData'> = {}) {
+   constructor(data: DeepPartial<IWrapLightColorEventBox> = {}) {
       super();
       this.filter = new IndexFilter(data.filter ?? LightColorEventBox.defaultValue.filter);
       this.beatDistribution = data.beatDistribution ??

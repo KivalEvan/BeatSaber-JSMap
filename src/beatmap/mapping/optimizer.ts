@@ -59,7 +59,7 @@ export function optimizeBeatmap<
          return optimize(data as any, options);
       }
       default: {
-         throw new Error('');
+         return data as any;
       }
    }
 }

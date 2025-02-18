@@ -11,7 +11,7 @@ import type {
    IWrapInfoColorScheme,
    IWrapInfoSong,
 } from '../../types/beatmap/wrapper/info.ts';
-import type { DeepPartial, DeepPartialIgnore, LooseAutocomplete } from '../../types/utils.ts';
+import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { CharacteristicOrder } from '../shared/characteristic.ts';
@@ -126,15 +126,15 @@ export function createInfo(data: DeepPartial<IWrapInfo> = {}): IWrapInfo {
 export class Info extends BaseItem implements IWrapInfo {
    static defaultValue: IWrapInfo = createInfo();
 
-   static createOne(data: Partial<IWrapInfo> = {}): Info {
+   static createOne(data: DeepPartial<IWrapInfo> = {}): Info {
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<IWrapInfo, 'customData'>[]
+      ...data: DeepPartial<IWrapInfo>[]
    ): Info[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapInfo, 'customData'> = {}) {
+   constructor(data: DeepPartial<IWrapInfo> = {}) {
       super();
       this.version = data.version ?? Info.defaultValue.version;
       this.filename = data.filename ?? Info.defaultValue.filename;
@@ -308,7 +308,7 @@ export class Info extends BaseItem implements IWrapInfo {
    }
 
    addMap(
-      data: DeepPartialIgnore<IWrapInfoBeatmap, 'customData'>,
+      data: DeepPartial<IWrapInfoBeatmap>,
    ): this {
       this.difficulties.push(new InfoBeatmap(data));
       return this;

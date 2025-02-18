@@ -1,5 +1,5 @@
 import type { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
-import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
@@ -9,7 +9,7 @@ import {
 } from './lightTranslationEventBox.ts';
 
 export function createLightTranslationEventBoxGroup(
-   data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {},
+   data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {}
 ): IWrapLightTranslationEventBoxGroup {
    return {
       time: data.time ?? 0,
@@ -22,29 +22,24 @@ export function createLightTranslationEventBoxGroup(
 /**
  * Core beatmap light translation event box group.
  */
-export class LightTranslationEventBoxGroup extends EventBoxGroup
-   implements IWrapLightTranslationEventBoxGroup {
-   static defaultValue: IWrapLightTranslationEventBoxGroup = createLightTranslationEventBoxGroup();
+export class LightTranslationEventBoxGroup
+   extends EventBoxGroup
+   implements IWrapLightTranslationEventBoxGroup
+{
+   static defaultValue: IWrapLightTranslationEventBoxGroup =
+      createLightTranslationEventBoxGroup();
 
    static createOne(
-      data: Partial<IWrapLightTranslationEventBoxGroup> = {},
+      data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {}
    ): LightTranslationEventBoxGroup {
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<
-         IWrapLightTranslationEventBoxGroup,
-         'customData'
-      >[]
+      ...data: DeepPartial<IWrapLightTranslationEventBoxGroup>[]
    ): LightTranslationEventBoxGroup[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(
-      data: DeepPartialIgnore<
-         IWrapLightTranslationEventBoxGroup,
-         'customData'
-      > = {},
-   ) {
+   constructor(data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {}) {
       super();
       this.time = data.time ?? LightTranslationEventBoxGroup.defaultValue.time;
       this.id = data.id ?? LightTranslationEventBoxGroup.defaultValue.id;
@@ -53,7 +48,7 @@ export class LightTranslationEventBoxGroup extends EventBoxGroup
       ).map((e) => new LightTranslationEventBox(e));
       this.customData = deepCopy(
          data.customData ??
-            LightTranslationEventBoxGroup.defaultValue.customData,
+            LightTranslationEventBoxGroup.defaultValue.customData
       );
    }
 

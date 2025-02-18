@@ -1,5 +1,5 @@
 import type { IWrapFxEventBox } from '../../types/beatmap/wrapper/fxEventBox.ts';
-import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
@@ -28,13 +28,13 @@ export function createFxEventBox(
 export class FxEventBox extends EventBox implements IWrapFxEventBox {
    static defaultValue: IWrapFxEventBox = createFxEventBox();
 
-   static createOne(data: Partial<IWrapFxEventBox> = {}): FxEventBox {
+   static createOne(data: DeepPartial<IWrapFxEventBox> = {}): FxEventBox {
       return new this(data);
    }
-   static create(...data: Partial<IWrapFxEventBox>[]): FxEventBox[] {
+   static create(...data: DeepPartial<IWrapFxEventBox>[]): FxEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapFxEventBox, 'customData'> = {}) {
+   constructor(data: DeepPartial<IWrapFxEventBox> = {}) {
       super();
       this.filter = new IndexFilter(data.filter ?? FxEventBox.defaultValue.filter);
       this.beatDistribution = data.beatDistribution ?? FxEventBox.defaultValue.beatDistribution;

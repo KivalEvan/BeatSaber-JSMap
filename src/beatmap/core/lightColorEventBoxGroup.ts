@@ -1,7 +1,7 @@
 import type {
    IWrapLightColorEventBoxGroup,
 } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
@@ -30,11 +30,11 @@ export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLight
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<IWrapLightColorEventBoxGroup, 'customData'>[]
+      ...data: DeepPartial<IWrapLightColorEventBoxGroup>[]
    ): LightColorEventBoxGroup[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapLightColorEventBoxGroup, 'customData'> = {}) {
+   constructor(data: DeepPartial<IWrapLightColorEventBoxGroup> = {}) {
       super();
       this.time = data.time ?? LightColorEventBoxGroup.defaultValue.time;
       this.id = data.id ?? LightColorEventBoxGroup.defaultValue.id;

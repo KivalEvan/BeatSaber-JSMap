@@ -7,7 +7,7 @@ import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts'
 import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
 import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
 import type { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { sortNoteFn, sortObjectFn } from '../helpers/sort.ts';
@@ -53,15 +53,15 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
    njsEvents: NJSEvent[];
    override customData: IWrapDifficulty['customData'];
 
-   static createOne(data: Partial<IWrapDifficulty> = {}): Difficulty {
+   static createOne(data: DeepPartial<IWrapDifficulty> = {}): Difficulty {
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<IWrapDifficulty, 'customData'>[]
+      ...data: DeepPartial<IWrapDifficulty>[]
    ): Difficulty[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapDifficulty, 'customData'> = {}) {
+   constructor(data: DeepPartial<IWrapDifficulty> = {}) {
       super();
       this.bpmEvents = (
          data.bpmEvents ?? Difficulty.defaultValue.bpmEvents
@@ -134,7 +134,7 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
    }
 
    addBpmEvents(
-      ...data: DeepPartialIgnore<IWrapBPMEvent, 'customData'>[]
+      ...data: DeepPartial<IWrapBPMEvent>[]
    ): this {
       for (const d of data) {
          this.bpmEvents.push(new BPMEvent(d));
@@ -142,7 +142,7 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       return this;
    }
    addRotationEvents(
-      ...data: DeepPartialIgnore<IWrapRotationEvent, 'customData'>[]
+      ...data: DeepPartial<IWrapRotationEvent>[]
    ): this {
       for (const d of data) {
          this.rotationEvents.push(new RotationEvent(d));
@@ -150,7 +150,7 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       return this;
    }
    addColorNotes(
-      ...data: DeepPartialIgnore<IWrapColorNote, 'customData'>[]
+      ...data: DeepPartial<IWrapColorNote>[]
    ): this {
       for (const d of data) {
          this.colorNotes.push(new ColorNote(d));
@@ -158,7 +158,7 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       return this;
    }
    addBombNotes(
-      ...data: DeepPartialIgnore<IWrapBombNote, 'customData'>[]
+      ...data: DeepPartial<IWrapBombNote>[]
    ): this {
       for (const d of data) {
          this.bombNotes.push(new BombNote(d));
@@ -166,20 +166,20 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       return this;
    }
    addObstacles(
-      ...data: DeepPartialIgnore<IWrapObstacle, 'customData'>[]
+      ...data: DeepPartial<IWrapObstacle>[]
    ): this {
       for (const d of data) {
          this.obstacles.push(new Obstacle(d));
       }
       return this;
    }
-   addArcs(...data: DeepPartialIgnore<IWrapArc, 'customData'>[]): this {
+   addArcs(...data: DeepPartial<IWrapArc>[]): this {
       for (const d of data) {
          this.arcs.push(new Arc(d));
       }
       return this;
    }
-   addChains(...data: DeepPartialIgnore<IWrapChain, 'customData'>[]): this {
+   addChains(...data: DeepPartial<IWrapChain>[]): this {
       for (const d of data) {
          this.chains.push(new Chain(d));
       }

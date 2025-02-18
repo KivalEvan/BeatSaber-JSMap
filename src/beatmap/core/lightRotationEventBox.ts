@@ -1,7 +1,7 @@
 import type {
    IWrapLightRotationEventBox,
 } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
-import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
@@ -33,14 +33,14 @@ export class LightRotationEventBox extends EventBox implements IWrapLightRotatio
    static defaultValue: IWrapLightRotationEventBox = createLightRotationEventBox();
 
    static createOne(
-      data: Partial<IWrapLightRotationEventBox> = {},
+      data: DeepPartial<IWrapLightRotationEventBox> = {},
    ): LightRotationEventBox {
       return new this(data);
    }
-   static create(...data: Partial<IWrapLightRotationEventBox>[]): LightRotationEventBox[] {
+   static create(...data: DeepPartial<IWrapLightRotationEventBox>[]): LightRotationEventBox[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapLightRotationEventBox, 'customData'> = {}) {
+   constructor(data: DeepPartial<IWrapLightRotationEventBox> = {}) {
       super();
       this.filter = new IndexFilter(data.filter ?? LightRotationEventBox.defaultValue.filter);
       this.axis = data.axis ?? LightRotationEventBox.defaultValue.axis;

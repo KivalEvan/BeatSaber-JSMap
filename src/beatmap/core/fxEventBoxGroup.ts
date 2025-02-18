@@ -1,5 +1,5 @@
 import type { IWrapFxEventBoxGroup } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
-import type { DeepPartial, DeepPartialIgnore } from '../../types/utils.ts';
+import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
@@ -23,16 +23,16 @@ export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGro
    static defaultValue: IWrapFxEventBoxGroup = createFxEventBoxGroup();
 
    static createOne(
-      data: Partial<IWrapFxEventBoxGroup> = {},
+      data: DeepPartial<IWrapFxEventBoxGroup> = {},
    ): FxEventBoxGroup {
       return new this(data);
    }
    static create(
-      ...data: DeepPartialIgnore<IWrapFxEventBoxGroup, 'customData'>[]
+      ...data: DeepPartial<IWrapFxEventBoxGroup>[]
    ): FxEventBoxGroup[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
-   constructor(data: DeepPartialIgnore<IWrapFxEventBoxGroup, 'customData'> = {}) {
+   constructor(data: DeepPartial<IWrapFxEventBoxGroup> = {}) {
       super();
       this.time = data.time ?? FxEventBoxGroup.defaultValue.time;
       this.id = data.id ?? FxEventBoxGroup.defaultValue.id;
