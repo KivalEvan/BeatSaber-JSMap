@@ -1,6 +1,6 @@
 # Beat Saber Beatmap Schema
 
-Current schema as of game version 1.40.0.
+Current schema as of game version 1.40.3.
 
 > [!NOTE]
 >

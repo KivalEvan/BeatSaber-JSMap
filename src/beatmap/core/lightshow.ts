@@ -11,6 +11,7 @@ import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { sortObjectFn } from '../helpers/sort.ts';
 import { BaseItem } from './abstract/baseItem.ts';
+import type { BaseObject } from './abstract/baseObject.ts';
 import { BasicEvent, createBasicEvent } from './basicEvent.ts';
 import {
    BasicEventTypesForKeywords,
@@ -217,6 +218,18 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       }
 
       return this;
+   }
+
+   allObjects(): BaseObject[] {
+      return [
+         ...this.waypoints,
+         ...this.basicEvents,
+         ...this.colorBoostEvents,
+         ...this.lightColorEventBoxGroups,
+         ...this.lightRotationEventBoxGroups,
+         ...this.lightTranslationEventBoxGroups,
+         ...this.fxEventBoxGroups,
+      ];
    }
 
    addWaypoints(

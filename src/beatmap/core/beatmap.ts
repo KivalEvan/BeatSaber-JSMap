@@ -21,6 +21,7 @@ import type { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
 import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';
+import type { BaseObject } from './abstract/baseObject.ts';
 import type { Arc } from './arc.ts';
 import type { BasicEvent } from './basicEvent.ts';
 import type { BombNote } from './bombNote.ts';
@@ -225,6 +226,13 @@ export class Beatmap extends BaseItem implements IWrapBeatmap {
       this.difficulty.sort();
       this.lightshow.sort();
       return super.sort(fn);
+   }
+
+   allObjects(): BaseObject[] {
+      return [
+         ...this.difficulty.allObjects(),
+         ...this.lightshow.allObjects(),
+      ];
    }
 
    addBpmEvents(...data: DeepPartial<IWrapBPMEvent>[]): this {

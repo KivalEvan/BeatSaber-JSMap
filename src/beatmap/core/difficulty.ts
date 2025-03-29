@@ -12,6 +12,7 @@ import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { sortNoteFn, sortObjectFn } from '../helpers/sort.ts';
 import { BaseItem } from './abstract/baseItem.ts';
+import type { BaseObject } from './abstract/baseObject.ts';
 import { Arc, createArc } from './arc.ts';
 import { BombNote, createBombNote } from './bombNote.ts';
 import { BPMEvent, createBPMEvent } from './bpmEvent.ts';
@@ -131,6 +132,19 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       this.chains.sort(sortNoteFn);
 
       return this;
+   }
+
+   allObjects(): BaseObject[] {
+      return [
+         ...this.bpmEvents,
+         ...this.rotationEvents,
+         ...this.colorNotes,
+         ...this.bombNotes,
+         ...this.obstacles,
+         ...this.arcs,
+         ...this.chains,
+         ...this.njsEvents,
+      ];
    }
 
    addBpmEvents(

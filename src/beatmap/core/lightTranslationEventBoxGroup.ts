@@ -9,7 +9,7 @@ import {
 } from './lightTranslationEventBox.ts';
 
 export function createLightTranslationEventBoxGroup(
-   data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {}
+   data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {},
 ): IWrapLightTranslationEventBoxGroup {
    return {
       time: data.time ?? 0,
@@ -22,15 +22,12 @@ export function createLightTranslationEventBoxGroup(
 /**
  * Core beatmap light translation event box group.
  */
-export class LightTranslationEventBoxGroup
-   extends EventBoxGroup
-   implements IWrapLightTranslationEventBoxGroup
-{
-   static defaultValue: IWrapLightTranslationEventBoxGroup =
-      createLightTranslationEventBoxGroup();
+export class LightTranslationEventBoxGroup extends EventBoxGroup
+   implements IWrapLightTranslationEventBoxGroup {
+   static defaultValue: IWrapLightTranslationEventBoxGroup = createLightTranslationEventBoxGroup();
 
    static createOne(
-      data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {}
+      data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {},
    ): LightTranslationEventBoxGroup {
       return new this(data);
    }
@@ -48,7 +45,7 @@ export class LightTranslationEventBoxGroup
       ).map((e) => new LightTranslationEventBox(e));
       this.customData = deepCopy(
          data.customData ??
-            LightTranslationEventBoxGroup.defaultValue.customData
+            LightTranslationEventBoxGroup.defaultValue.customData,
       );
    }
 
