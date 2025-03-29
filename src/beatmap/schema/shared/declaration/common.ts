@@ -35,7 +35,7 @@ import {
 
 /** Schema declaration for semantic version. */
 export const VersionSchema: v.SchemaWithPipe<
-   [v.StringSchema<undefined>, v.RegexAction<string, undefined>]
+   readonly [v.StringSchema<undefined>, v.RegexAction<string, undefined>]
 > = v.pipe(v.string(), v.regex(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/));
 
 /** Schema declaration for custom data. */

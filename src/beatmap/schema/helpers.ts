@@ -22,7 +22,7 @@ export function field<
       v.InferOutput<TSchema>
    >[],
 >(
-   schema: TSchema | v.SchemaWithPipe<[TSchema, ...TItems]>,
+   schema: TSchema | v.SchemaWithPipe<readonly [TSchema, ...TItems]>,
    options?: FieldSchemaOptions,
 ) {
    const [base, ...rest] = 'pipe' in schema ? schema.pipe : [schema];
@@ -183,7 +183,7 @@ function checkVersion<
 export function entity<
    const TEntries extends InferObjectEntries<Record<string, unknown>>,
 >(
-   resolveVersion: (data: v.InferObjectOutput<TEntries>) => Version,
+   resolveVersion: (data: v.InferOutput<v.ObjectSchema<TEntries, undefined>>) => Version,
    entries: TEntries,
 ) {
    return v.pipe(
