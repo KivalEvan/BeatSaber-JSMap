@@ -1,10 +1,10 @@
 import type {
    IChromaComponent,
    IChromaEnvironment,
-} from '../../../types/beatmap/v3/custom/chroma.ts';
-import type { IChromaEnvironment as IV2ChromaEnvironment } from '../../../types/beatmap/v2/custom/chroma.ts';
-import { logger } from '../../../logger.ts';
-import { vectorMul } from '../../../utils/math/vector.ts';
+} from '../../../../types/beatmap/v3/custom/chroma.ts';
+import type { IChromaEnvironment as IV2ChromaEnvironment } from '../../../../types/beatmap/v2/custom/chroma.ts';
+import { logger } from '../../../../logger.ts';
+import { vectorMul } from '../../../../utils/math/vector.ts';
 
 function tag(name: string): string[] {
    return ['chroma', 'environment', name];

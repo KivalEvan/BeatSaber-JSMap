@@ -1,4 +1,4 @@
-import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { EnvironmentAllName } from '../../../types/beatmap/shared/environment.ts';
 
 export const LightIDList: {
    readonly [key in EnvironmentAllName]: { readonly [key: number]: readonly number[] };

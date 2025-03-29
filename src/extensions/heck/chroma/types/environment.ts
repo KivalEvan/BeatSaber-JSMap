@@ -1,4 +1,4 @@
-import type { Vector3 } from '../../../types/vector.ts';
+import type { Vector3 } from '../../../../types/vector.ts';
 
 export interface IChromaEnvironmentPlacement {
    scale?: Vector3;

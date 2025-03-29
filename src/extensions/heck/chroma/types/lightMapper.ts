@@ -1,5 +1,5 @@
-import type { IChromaEventLight } from '../../../types/beatmap/v3/custom/chroma.ts';
-import type { Easings } from '../../../types/easings.ts';
+import type { IChromaEventLight } from '../../../../types/beatmap/v3/custom/chroma.ts';
+import type { Easings } from '../../../../types/easings.ts';
 
 export type DistributionType = 'Division' | 'Step and Offset';
 

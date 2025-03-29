@@ -1,6 +1,6 @@
-import type { ColorArray } from '../../types/colors.ts';
-import { hsvaToRgba, rgbaToHsva } from '../../utils/colors/convertor.ts';
-import { clamp } from '../../utils/math/helpers.ts';
+import type { ColorArray } from '../../../types/colors.ts';
+import { hsvaToRgba, rgbaToHsva } from '../../../utils/colors/convertor.ts';
+import { clamp } from '../../../utils/math/helpers.ts';
 import type { IChromaObject, IShiftColorOptions } from './types/colors.ts';
 
 export function shiftColor<

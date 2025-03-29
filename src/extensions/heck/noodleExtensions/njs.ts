@@ -1,8 +1,8 @@
-import { NoteJumpSpeed } from '../../beatmap/helpers/njs.ts';
-import { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
-import { logger } from '../../logger.ts';
-import type { EasingFunction } from '../../types/easings.ts';
-import { lerp, normalize } from '../../utils/math/helpers.ts';
+import { NoteJumpSpeed } from '../../../beatmap/helpers/njs.ts';
+import { TimeProcessor } from '../../../beatmap/helpers/timeProcessor.ts';
+import { logger } from '../../../logger.ts';
+import type { EasingFunction } from '../../../types/easings.ts';
+import { lerp, normalize } from '../../../utils/math/helpers.ts';
 import { settings } from './settings.ts';
 import type { INEObject } from './types/object.ts';
 

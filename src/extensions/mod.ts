@@ -6,8 +6,7 @@
  * @module
  */
 
-export * as chroma from './chroma/mod.ts';
-export * as ne from './noodleExtensions/mod.ts';
+export * as heck from './heck/mod.ts';
 export * as parity from './parity/mod.ts';
 export * as placement from './placement/mod.ts';
 export * as renamer from './renamer/mod.ts';

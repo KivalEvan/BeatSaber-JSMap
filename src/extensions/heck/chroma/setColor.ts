@@ -1,7 +1,7 @@
-import { logger } from '../../logger.ts';
-import { convertColorType } from '../../utils/colors/convertor.ts';
-import { lerpColor } from '../../utils/colors/helpers.ts';
-import { normalize } from '../../utils/math/helpers.ts';
+import { logger } from '../../../logger.ts';
+import { convertColorType } from '../../../utils/colors/convertor.ts';
+import { lerpColor } from '../../../utils/colors/helpers.ts';
+import { normalize } from '../../../utils/math/helpers.ts';
 import { settings } from './settings.ts';
 import type {
    IChromaObject,
