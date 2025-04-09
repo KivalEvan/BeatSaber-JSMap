@@ -30,6 +30,12 @@ export function deepCopy<T>(object: T) {
    }
    // deno-lint-ignore no-explicit-any
    const newObj: any = Array.isArray(object) ? new Array(object.length) : {};
+   if (Array.isArray(object)) {
+      for (let i = 0; i < object.length; i++) {
+         newObj[i] = deepCopy(object[i]);
+      }
+      return newObj;
+   }
    for (const k in object) {
       newObj[k] = deepCopy(object[k]);
    }

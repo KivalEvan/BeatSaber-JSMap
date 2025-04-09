@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.2.1 [2025-04-09]
+
+### Changed
+
+- Faster `deepCopy` for array
+
+### Fixed
+
+- Dependency mapping error for standard schema
+
 ## 2.2.0 [2025-03-29]
 
 ### Added
