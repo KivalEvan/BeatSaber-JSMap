@@ -14,7 +14,7 @@
    "publish": {
       "exclude": [".git", ".github", "dnt.ts", "npm", "coverage", "tests"]
    },
-   "exclude": [".git", "npm", "coverage", "src/deps.js"],
+   "exclude": [".git", "npm", "coverage", "src/_deps.ts"],
    "lock": false,
    "fmt": {
       "indentWidth": 3,
