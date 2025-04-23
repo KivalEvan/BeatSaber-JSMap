@@ -1,5 +1,6 @@
 import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
 import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { ICustomDataNote } from '../../types/beatmap/wrapper/custom/note.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { resolveNoteAngle } from '../helpers/core/baseNote.ts';
@@ -41,10 +42,15 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
       this.direction = data.direction ?? ColorNote.defaultValue.direction;
       this.angleOffset = data.angleOffset ?? ColorNote.defaultValue.angleOffset;
       this.laneRotation = data.laneRotation ?? ColorNote.defaultValue.laneRotation;
-      this.customData = deepCopy(data.customData ?? ColorNote.defaultValue.customData);
+      this.customData = deepCopy(
+         data.customData ?? ColorNote.defaultValue.customData,
+      );
    }
 
-   override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
+   override isValid(
+      fn?: (object: this) => boolean,
+      override?: boolean,
+   ): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
          this.posX >= 0 &&
          this.posX <= 3 &&
@@ -55,6 +61,7 @@ export class ColorNote extends BaseNote implements IWrapColorNote {
    }
 
    angleOffset: IWrapColorNote['angleOffset'] = 0;
+   override customData: ICustomDataNote;
 
    setAngleOffset(value: this['angleOffset']): this {
       this.angleOffset = value;

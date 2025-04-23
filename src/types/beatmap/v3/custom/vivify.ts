@@ -1,5 +1,6 @@
 import type { ColorArray } from '../../../colors.ts';
 import type { Easings } from '../../../easings.ts';
+import type { Nullable } from '../../../utils.ts';
 import type { Vector3, Vector4 } from '../../../vector.ts';
 import type {
    AmbientMode,
@@ -78,11 +79,10 @@ export interface IVivifyCustomEventBlit {
    properties?: IVivifyMaterialProperty[];
 }
 
-export interface IVivifyCustomEventCreateCamera {
+export interface IVivifyCustomEventCreateCamera extends Nullable<IVivifyCameraProperty> {
    id: string;
    texture?: string;
    depthTexture?: string;
-   properties?: IVivifyCameraProperty;
 }
 
 export interface IVivifyCustomEventCreateScreenTexture {

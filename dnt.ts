@@ -29,8 +29,6 @@ await build({
       license: 'MIT',
       dependencies: {
          'valibot': 'npm:valibot@^1.0.0',
-      },
-      devDependencies: {
          '@standard-schema/spec': '^1.0.0',
       },
       repository: {

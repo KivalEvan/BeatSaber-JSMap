@@ -15,7 +15,7 @@ export type ISwingAnalysisBeatmap =
 
 export type ISwingAnalysisBaseNote = Pick<
    IWrapBaseNote,
-   'time' | 'posX' | 'posY' | 'color' | 'direction'
+   'time' | 'posX' | 'posY' | 'color' | 'direction' | 'customData'
 >;
 
 export interface ISwingContainer<T extends ISwingAnalysisBaseNote> {
@@ -40,7 +40,7 @@ export interface ISwingPerSecond {
    readonly median: number;
 }
 
-export interface ISwingAnalysis<T extends ISwingAnalysisBaseNote> {
+export interface ISwingAnalysis<T extends ISwingAnalysisBaseNote = ISwingAnalysisBaseNote> {
    readonly characteristic: CharacteristicName;
    readonly difficulty: DifficultyName;
    readonly container: ISwingContainer<T>[];

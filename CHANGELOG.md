@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.2.2 [2025-04-24]
+
+### Added
+
+- Additional NJS helper method
+
+### Fixed
+
+- Fixed DNT dependency hopefully again
+- Fixed Vivify CreateCamera interface
+- Fixed several other type issue
+
 ## 2.2.1 [2025-04-09]
 
 ### Changed

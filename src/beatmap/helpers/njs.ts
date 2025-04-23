@@ -96,6 +96,27 @@ export class NoteJumpSpeed {
    }
 
    /**
+    * Calculate offset given half jump duration.
+    * ```ts
+    * const hjd = njs.calcOffsetFromHjd();
+    * ```
+    */
+   calcOffsetFromHjd(hjd: number): number {
+      return hjd - this.calcHjd(0);
+   }
+
+   /**
+    * Calculate offset given real time in second.
+    * ```ts
+    * const offset = njs.calcOffsetFromRt();
+    * const offsetSpecified = njs.calcOffsetFromRt(4.5);
+    * ```
+    */
+   calcOffsetFromRt(rt: number = this.calcRtFromHjd()): number {
+      return rt / (60 / this.bpm) - this.calcHjd(0);
+   }
+
+   /**
     * Calculate jump distance given half jump duration.
     * ```ts
     * const jd = njs.calcJd();
@@ -113,7 +134,10 @@ export class NoteJumpSpeed {
     * ```
     */
    calcJdOptimal(): [low: number, high: number] {
-      return [-(18 / (this.value + 1)) + 18, 18 * (1 / 1.07) ** this.value + 18];
+      return [
+         -(18 / (this.value + 1)) + 18,
+         18 * (1 / 1.07) ** this.value + 18,
+      ];
    }
 
    /**
