@@ -196,7 +196,7 @@ export function entity<
          // pull the entity version directly from the entity data using a resolver
          const version = resolveVersion(dataset.value);
          // run version checks for all key/value entries defined within the schema
-         for (const key of Object.keys(entries)) {
+         for (const key in entries) {
             const value = dataset.value[key as keyof typeof dataset.value];
             checkVersion(entries[key], {
                version,
