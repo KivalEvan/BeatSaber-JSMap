@@ -39,9 +39,12 @@ export const NoteSchema: v.ObjectSchema<
    _lineLayer: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.0.0',
    }),
-   _cutDirection: field(v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))), {
-      version: '2.0.0',
-   }),
+   _cutDirection: field(
+      v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))),
+      {
+         version: '2.0.0',
+      },
+   ),
    _customData: field(v.optional(CustomDataSchema)),
 });
 
@@ -67,9 +70,12 @@ export const ArcSchema: v.ObjectSchema<
    _headControlPointLengthMultiplier: field(v.optional(v.number()), {
       version: '2.6.0',
    }),
-   _headCutDirection: field(v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))), {
-      version: '2.6.0',
-   }),
+   _headCutDirection: field(
+      v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))),
+      {
+         version: '2.6.0',
+      },
+   ),
    _tailTime: field(v.optional(v.number()), {
       version: '2.6.0',
    }),
@@ -82,9 +88,12 @@ export const ArcSchema: v.ObjectSchema<
    _tailControlPointLengthMultiplier: field(v.optional(v.number()), {
       version: '2.6.0',
    }),
-   _tailCutDirection: field(v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))), {
-      version: '2.6.0',
-   }),
+   _tailCutDirection: field(
+      v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))),
+      {
+         version: '2.6.0',
+      },
+   ),
    _sliderMidAnchorMode: field(v.optional(SliderMidAnchorModeSchema), {
       version: '2.6.0',
    }),
@@ -166,9 +175,7 @@ export const WaypointSchema: v.ObjectSchema<
 export const SpecialEventsKeywordFiltersKeywordsSchema: v.ObjectSchema<
    InferObjectEntries<ISpecialEventsKeywordFiltersKeywords>,
    undefined
-> = v.object<
-   InferObjectEntries<ISpecialEventsKeywordFiltersKeywords>
->({
+> = v.object<InferObjectEntries<ISpecialEventsKeywordFiltersKeywords>>({
    _keyword: field(v.optional(v.string()), {
       version: '2.4.0',
    }),
@@ -183,12 +190,13 @@ export const SpecialEventsKeywordFiltersKeywordsSchema: v.ObjectSchema<
 export const SpecialEventsKeywordFiltersSchema: v.ObjectSchema<
    InferObjectEntries<ISpecialEventsKeywordFilters>,
    undefined
-> = v.object<
-   InferObjectEntries<ISpecialEventsKeywordFilters>
->({
-   _keywords: field(v.optional(v.array(SpecialEventsKeywordFiltersKeywordsSchema)), {
-      version: '2.4.0',
-   }),
+> = v.object<InferObjectEntries<ISpecialEventsKeywordFilters>>({
+   _keywords: field(
+      v.optional(v.array(SpecialEventsKeywordFiltersKeywordsSchema)),
+      {
+         version: '2.4.0',
+      },
+   ),
 });
 
 /**
@@ -197,12 +205,15 @@ export const SpecialEventsKeywordFiltersSchema: v.ObjectSchema<
 export const DifficultySchema: v.ObjectSchema<
    InferObjectEntries<IDifficulty>,
    undefined
-> = entity<
-   InferObjectEntries<IDifficulty>
->((x) => x._version || '2.0.0', {
-   _version: field(mask<'2.0.0' | '2.2.0' | '2.4.0' | '2.5.0' | '2.6.0'>(VersionSchema), {
-      version: '2.0.0',
-   }),
+> = entity<InferObjectEntries<IDifficulty>>((x) => x._version || '2.0.0', {
+   _version: field(
+      v.optional(
+         mask<'2.0.0' | '2.2.0' | '2.4.0' | '2.5.0' | '2.6.0'>(VersionSchema),
+      ),
+      {
+         version: '2.0.0',
+      },
+   ),
    _events: field(v.optional(v.array(EventSchema)), {
       version: '2.0.0',
    }),
@@ -218,8 +229,11 @@ export const DifficultySchema: v.ObjectSchema<
    _obstacles: field(v.optional(v.array(ObstacleSchema)), {
       version: '2.0.0',
    }),
-   _specialEventsKeywordFilters: field(v.optional(SpecialEventsKeywordFiltersSchema), {
-      version: '2.4.0',
-   }),
+   _specialEventsKeywordFilters: field(
+      v.optional(SpecialEventsKeywordFiltersSchema),
+      {
+         version: '2.4.0',
+      },
+   ),
    _customData: field(v.optional(CustomDataSchema)),
 });

@@ -10,7 +10,7 @@ import type { IWaypoint } from './waypoint.ts';
  * Schema for v2 `Difficulty`.
  */
 export interface IDifficulty {
-   _version: `2.${0 | 2 | 4 | 5 | 6}.0`;
+   _version?: `2.${0 | 2 | 4 | 5 | 6}.0`;
    _notes?: INote[];
    _sliders?: IArc[];
    _obstacles?: IObstacle[];
