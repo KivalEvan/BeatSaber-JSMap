@@ -167,7 +167,7 @@ export const InfoDifficultySchema: v.ObjectSchema<
 export const InfoSchema: v.ObjectSchema<
    InferObjectEntries<IInfo>,
    undefined
-> = entity<InferObjectEntries<IInfo>>((x) => x.version, {
+> = entity<InferObjectEntries<IInfo>>((x) => x.version || '4.0.0', {
    version: field(mask<'4.0.0' | '4.0.1'>(VersionSchema), {
       version: '4.0.0',
    }),

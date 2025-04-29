@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.3 [2025-04-30]
+
+### Fixed
+
+- Implicit version not working
+
 ## 2.2.2 [2025-04-24]
 
 ### Added

@@ -739,7 +739,7 @@ export const FxEventsCollectionSchema: v.ObjectSchema<
 export const DifficultySchema: v.ObjectSchema<
    InferObjectEntries<IDifficulty>,
    undefined
-> = entity<InferObjectEntries<IDifficulty>>((x) => x.version, {
+> = entity<InferObjectEntries<IDifficulty>>((x) => x.version || '3.0.0', {
    version: field(mask<'3.0.0' | '3.1.0' | '3.2.0' | '3.3.0'>(VersionSchema), {
       version: '3.0.0',
    }),

@@ -48,7 +48,7 @@ export const AudioDataLUFSSchema: v.ObjectSchema<
 export const AudioDataSchema: v.ObjectSchema<
    InferObjectEntries<IAudio>,
    undefined
-> = entity<InferObjectEntries<IAudio>>((x) => x.version, {
+> = entity<InferObjectEntries<IAudio>>((x) => x.version || '4.0.0', {
    version: field(mask<'4.0.0'>(VersionSchema), {
       version: '4.0.0',
    }),

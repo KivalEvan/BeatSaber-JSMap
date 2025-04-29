@@ -30,7 +30,7 @@ export const BPMInfoRegionSchema: v.ObjectSchema<
 export const BPMInfoSchema: v.ObjectSchema<
    InferObjectEntries<IBPMInfo>,
    undefined
-> = entity<InferObjectEntries<IBPMInfo>>((x) => x._version, {
+> = entity<InferObjectEntries<IBPMInfo>>((x) => x._version || '2.0.0', {
    _version: field(mask<'2.0.0'>(VersionSchema), {
       version: '2.0.0',
    }),

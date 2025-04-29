@@ -199,7 +199,7 @@ export const DifficultySchema: v.ObjectSchema<
    undefined
 > = entity<
    InferObjectEntries<IDifficulty>
->((x) => x._version, {
+>((x) => x._version || '2.0.0', {
    _version: field(mask<'2.0.0' | '2.2.0' | '2.4.0' | '2.5.0' | '2.6.0'>(VersionSchema), {
       version: '2.0.0',
    }),

@@ -170,7 +170,7 @@ export const NJSEventSchema: v.ObjectSchema<
 export const DifficultySchema: v.ObjectSchema<
    InferObjectEntries<IDifficulty>,
    undefined
-> = entity<InferObjectEntries<IDifficulty>>((x) => x.version, {
+> = entity<InferObjectEntries<IDifficulty>>((x) => x.version || '4.0.0', {
    version: field(mask<'4.0.0' | '4.1.0'>(VersionSchema), {
       version: '4.0.0',
    }),

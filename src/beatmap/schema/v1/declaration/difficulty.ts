@@ -101,7 +101,7 @@ export const CustomBookmarkSchema: v.ObjectSchema<
 export const DifficultySchema: v.ObjectSchema<
    InferObjectEntries<IDifficulty>,
    undefined
-> = entity<InferObjectEntries<IDifficulty>>((x) => x._version, {
+> = entity<InferObjectEntries<IDifficulty>>((x) => x._version || '1.5.0', {
    _version: field(mask<'1.5.0'>(VersionSchema), {
       version: '1.5.0',
    }),

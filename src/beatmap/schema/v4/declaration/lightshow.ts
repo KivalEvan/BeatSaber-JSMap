@@ -387,7 +387,7 @@ export const FXEventFloatSchema: v.ObjectSchema<
 export const LightshowSchema: v.ObjectSchema<
    InferObjectEntries<ILightshow>,
    undefined
-> = entity<InferObjectEntries<ILightshow>>((x) => x.version, {
+> = entity<InferObjectEntries<ILightshow>>((x) => x.version || '4.0.0', {
    version: field(mask<'4.0.0'>(VersionSchema), {
       version: '4.0.0',
    }),
