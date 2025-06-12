@@ -197,14 +197,14 @@ export interface IChromaCustomEventDataAnimateComponent extends Required<IHeckBa
    duration: number;
    easing?: string;
    BloomFogEnvironment?: {
-      attenuation?: string | [number] | FloatPointDefinition;
-      offset?: string | [number] | FloatPointDefinition;
-      startY?: string | [number] | FloatPointDefinition;
-      height?: string | [number] | FloatPointDefinition;
+      attenuation?: string | FloatPointDefinition;
+      offset?: string | FloatPointDefinition;
+      startY?: string | FloatPointDefinition;
+      height?: string | FloatPointDefinition;
    };
    TubeBloomPrePassLight?: {
-      colorAlphaMultiplier?: string | [number] | FloatPointDefinition;
-      bloomFogIntensityMultiplier?: string | [number] | FloatPointDefinition;
+      colorAlphaMultiplier?: string | FloatPointDefinition;
+      bloomFogIntensityMultiplier?: string | FloatPointDefinition;
    };
 }
 

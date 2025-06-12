@@ -1,8 +1,8 @@
 import type {
    BaseModifier,
-   FloatPointDefinition,
-   Vector3PointDefinition,
-   Vector4PointDefinition,
+   PointDefinition1Base,
+   PointDefinition3Base,
+   PointDefinition4Base,
 } from '../../types/beatmap/shared/custom/heck.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import type { Easings } from '../../types/easings.ts';
@@ -273,10 +273,10 @@ export function fixColor(value: unknown, defaultValue: ColorArray): ColorArray {
 /**
  * Fix float point definition value by interpreting unknown value as float point definition or return default value.
  */
-export function fixFloatPointDefinition(
+export function fixPointDefinition1Base(
    value: unknown,
    defaultValue: number,
-): FloatPointDefinition {
+): PointDefinition1Base[] {
    return Array.isArray(value)
       ? typeof value.at(0) === 'string'
          ? (value.map((elm, i) => {
@@ -285,17 +285,17 @@ export function fixFloatPointDefinition(
                return elm.map((x) => {
                   if (typeof x === 'string') return x;
                   return fixFloat(x, defaultValue);
-               }) as FloatPointDefinition[number];
+               }) as PointDefinition1Base;
             }
-            return elm as FloatPointDefinition[number];
-         }) as FloatPointDefinition)
+            return elm as PointDefinition1Base;
+         }) as PointDefinition1Base[])
          : (value
             .filter((ary) => Array.isArray(ary))
             .map((elm: unknown[]) => {
                const temp = [
                   fixFloat(elm.at(0), defaultValue),
                   fixFloat(elm.at(1), 1, 0, 1),
-               ] as Exclude<FloatPointDefinition[number], string>;
+               ] as Exclude<PointDefinition1Base, string>;
                if (elm.length > 2) {
                   const attr = elm
                      .slice(3)
@@ -310,18 +310,18 @@ export function fixFloatPointDefinition(
                      temp[idx++] = spline as 'splineCatmullRom';
                   }
                }
-               return temp as FloatPointDefinition[number];
-            }) as FloatPointDefinition)
+               return temp as PointDefinition1Base;
+            }) as PointDefinition1Base[])
       : [];
 }
 
 /**
  * Fix vector point definition value by interpreting unknown value as vector point definition or return default value.
  */
-export function fixVector3PointDefinition(
+export function fixPointDefinition3Base(
    value: unknown,
    defaultValue: Vector3,
-): Vector3PointDefinition {
+): PointDefinition3Base[] {
    return Array.isArray(value)
       ? typeof value.at(0) === 'string'
          ? (value.map((elm, i) => {
@@ -330,10 +330,10 @@ export function fixVector3PointDefinition(
                return elm.map((x, j) => {
                   if (typeof x === 'string') return x;
                   return fixFloat(x, defaultValue[j]);
-               }) as Vector3PointDefinition[number];
+               }) as PointDefinition3Base;
             }
-            return elm as Vector3PointDefinition[number];
-         }) as Vector3PointDefinition)
+            return elm as PointDefinition3Base;
+         }) as PointDefinition3Base[])
          : (value
             .filter((ary) => Array.isArray(ary))
             .map((elm: unknown[]) => {
@@ -342,7 +342,7 @@ export function fixVector3PointDefinition(
                   fixFloat(elm.at(1), defaultValue[1]),
                   fixFloat(elm.at(2), defaultValue[2]),
                   fixFloat(elm.at(3), 1, 0, 1),
-               ] as Exclude<Vector3PointDefinition[number], string>;
+               ] as Exclude<PointDefinition3Base, string>;
                if (elm.length > 4) {
                   const attr = elm
                      .slice(4)
@@ -357,18 +357,18 @@ export function fixVector3PointDefinition(
                      temp[idx++] = spline as 'splineCatmullRom';
                   }
                }
-               return temp as Vector3PointDefinition[number];
-            }) as Vector3PointDefinition)
+               return temp as PointDefinition3Base;
+            }) as PointDefinition3Base[])
       : [];
 }
 
 /**
  * Fix vector point definition value by interpreting unknown value as vector point definition or return default value.
  */
-export function fixVector4PointDefinition(
+export function fixPointDefinition4Base(
    value: unknown,
    defaultValue: Vector4,
-): Vector4PointDefinition {
+): PointDefinition4Base[] {
    return Array.isArray(value)
       ? typeof value.at(0) === 'string'
          ? (value.map((elm, i) => {
@@ -377,10 +377,10 @@ export function fixVector4PointDefinition(
                return elm.map((x, j) => {
                   if (typeof x === 'string') return x;
                   return fixFloat(x, defaultValue[j]);
-               }) as Vector4PointDefinition[number];
+               }) as PointDefinition4Base;
             }
-            return elm as Vector4PointDefinition[number];
-         }) as Vector4PointDefinition)
+            return elm as PointDefinition4Base;
+         }) as PointDefinition4Base[])
          : (value
             .filter((ary) => Array.isArray(ary))
             .map((elm: unknown[]) => {
@@ -390,7 +390,7 @@ export function fixVector4PointDefinition(
                   fixFloat(value.at(2), defaultValue[2]),
                   fixFloat(value.at(3), defaultValue[3]),
                   fixFloat(elm.at(4), 1, 0, 1),
-               ] as Exclude<Vector4PointDefinition[number], string>;
+               ] as Exclude<PointDefinition4Base, string>;
                if (elm.length > 5) {
                   const attr = elm
                      .slice(5)
@@ -405,7 +405,7 @@ export function fixVector4PointDefinition(
                      temp[idx++] = lerp as 'lerpHSV';
                   }
                }
-               return temp as Vector4PointDefinition[number];
-            }) as Vector4PointDefinition)
+               return temp as PointDefinition4Base;
+            }) as PointDefinition4Base[])
       : [];
 }

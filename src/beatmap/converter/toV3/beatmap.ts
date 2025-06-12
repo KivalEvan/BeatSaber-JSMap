@@ -491,9 +491,7 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
                   ? vectorMul(ce.d.position, 0.6)
                   : ce.d.position.forEach((point) => {
                      if (typeof point === 'string') return;
-                     if (typeof point[0] === 'number') point[0] *= 0.6;
-                     if (typeof point[1] === 'number') point[1] *= 0.6;
-                     if (typeof point[2] === 'number') point[2] *= 0.6;
+                     if (typeof point === 'number') point *= 0.6;
                   });
             }
          } else {

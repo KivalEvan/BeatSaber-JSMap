@@ -1,35 +1,34 @@
 import type {
    FloatPointDefinition,
-   FloatPointDefinitionBase,
+   PointDefinition1Base,
+   PointDefinition3Base,
+   PointDefinition4Base,
    PointDefinitionAllOperand,
-   PointDefinitionModifier,
    Vector3PointDefinition,
-   Vector3PointDefinitionBase,
    Vector4PointDefinition,
-   Vector4PointDefinitionBase,
 } from '../../types/beatmap/shared/custom/heck.ts';
 
 export function isFloatPointDefinition(
    point: unknown,
 ): point is FloatPointDefinition {
-   return isFloatPointDefinitionBase(point) || isPointDefinitionModifier(point);
+   return isFloatPointDefinitionBase(point);
 }
 
 export function isVec3PointDefinition(
    point: unknown,
 ): point is Vector3PointDefinition {
-   return isVec3PointDefinitionBase(point) || isPointDefinitionModifier(point);
+   return isVec3PointDefinitionBase(point);
 }
 
 export function isVec4PointDefinition(
    point: unknown,
 ): point is Vector4PointDefinition {
-   return isVec4PointDefinitionBase(point) || isPointDefinitionModifier(point);
+   return isVec4PointDefinitionBase(point);
 }
 
 export function isFloatPointDefinitionBase(
    point: unknown,
-): point is FloatPointDefinitionBase {
+): point is PointDefinition1Base {
    return (
       Array.isArray(point) &&
       point.every(
@@ -44,7 +43,7 @@ export function isFloatPointDefinitionBase(
 
 export function isVec3PointDefinitionBase(
    point: unknown,
-): point is Vector3PointDefinitionBase {
+): point is PointDefinition3Base {
    return (
       Array.isArray(point) &&
       point.every(
@@ -59,7 +58,7 @@ export function isVec3PointDefinitionBase(
 
 export function isVec4PointDefinitionBase(
    point: unknown,
-): point is Vector4PointDefinitionBase {
+): point is PointDefinition4Base {
    return (
       Array.isArray(point) &&
       point.every(
@@ -69,16 +68,6 @@ export function isVec4PointDefinitionBase(
                ? typeof x[4] === 'number' && typeof x[5] === 'string'
                : x.length === 5 && typeof x[4] === 'number'),
       )
-   );
-}
-
-export function isPointDefinitionModifier(
-   point: unknown,
-): point is PointDefinitionModifier {
-   return (
-      Array.isArray(point) &&
-      typeof point.at(0) === 'string' &&
-      point.slice(1).every((x) => isPointDefinitionOperand(x))
    );
 }
 

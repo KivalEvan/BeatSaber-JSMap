@@ -1,7 +1,7 @@
 import type { ColorArray } from '../../../colors.ts';
 import type { Easings } from '../../../easings.ts';
 import type { Nullable } from '../../../utils.ts';
-import type { Vector3, Vector4 } from '../../../vector.ts';
+import type { Vector3 } from '../../../vector.ts';
 import type {
    AmbientMode,
    AnisotropicFiltering,
@@ -13,11 +13,7 @@ import type {
    ShadowResolution,
    Shadows,
 } from '../../shared/custom/constants.ts';
-import type {
-   FloatPointDefinition,
-   Vector3PointDefinition,
-   Vector4PointDefinition,
-} from '../../shared/custom/heck.ts';
+import type { FloatPointDefinition, Vector4PointDefinition } from '../../shared/custom/heck.ts';
 
 export interface IVivifyMaterialProperty {
    id: string;
@@ -26,10 +22,6 @@ export interface IVivifyMaterialProperty {
       | string
       | number
       | boolean
-      | Vector3
-      | Vector4
-      | FloatPointDefinition
-      | Vector3PointDefinition
       | Vector4PointDefinition;
 }
 
@@ -56,14 +48,14 @@ export interface IVivifyCameraProperty {
 
 export interface IVivifyCustomEventSetMaterialProperty {
    asset: string;
-   duration: number; // float
-   easing: Easings;
+   duration?: number; // float
+   easing?: Easings;
    properties: IVivifyMaterialProperty[];
 }
 
 export interface IVivifyCustomEventSetGlobalProperty {
-   duration: number; // float
-   easing: Easings;
+   duration?: number; // float
+   easing?: Easings;
    properties: IVivifyMaterialProperty[];
 }
 
@@ -160,33 +152,35 @@ export interface IVivifyCustomEventSetCameraProperty {
 
 export interface IVivifyCustomEventAssignObjectPrefab {
    loadMode?: 'Single' | 'Additive';
-   object: {
-      colorNotes?: {
-         track: string;
-         asset?: string;
-         anyDirectionAsset?: string;
-         debrisAsset?: string;
-      };
-      burstSliders?: {
-         track: string;
-         asset?: string;
-         debrisAsset?: string;
-      };
-      burstSlidersElement?: {
-         track: string;
-         asset?: string;
-         debrisAsset?: string;
-      };
-      saber?: {
-         type: 'Left' | 'Right' | 'Both';
-         asset?: string;
-         trailAsset?: string;
-         trailTopPos?: Vector3;
-         trailBottomPos?: Vector3;
-         trailDuration?: number; // float
-         trailSamplingFrequency?: number; // int
-         trailGranularity?: number; // int
-      };
+   colorNotes?: {
+      track: string;
+      asset?: string;
+      anyDirectionAsset?: string;
+      debrisAsset?: string;
+   };
+   burstSliders?: {
+      track: string;
+      asset?: string;
+      debrisAsset?: string;
+   };
+   burstSlidersElement?: {
+      track: string;
+      asset?: string;
+      debrisAsset?: string;
+   };
+   bombNotes?: {
+      track: string;
+      asset?: string;
+   };
+   saber?: {
+      type: 'Left' | 'Right' | 'Both';
+      asset?: string;
+      trailAsset?: string;
+      trailTopPos?: Vector3;
+      trailBottomPos?: Vector3;
+      trailDuration?: number; // float
+      trailSamplingFrequency?: number; // int
+      trailGranularity?: number; // int
    };
 }
 
@@ -194,38 +188,18 @@ export interface IVivifyCustomEventSetRenderingSettings {
    duration?: number; // float
    easing?: Easings;
    renderSettings?: {
-      ambientEquatorColor?:
-         | Vector3
-         | Vector4
-         | Vector3PointDefinition
-         | Vector4PointDefinition;
-      ambientGroundColor?:
-         | Vector3
-         | Vector4
-         | Vector3PointDefinition
-         | Vector4PointDefinition;
+      ambientEquatorColor?: Vector4PointDefinition;
+      ambientGroundColor?: Vector4PointDefinition;
       ambientIntensity?: number | FloatPointDefinition; //float
-      ambientLight?:
-         | Vector3
-         | Vector4
-         | Vector3PointDefinition
-         | Vector4PointDefinition;
+      ambientLight?: Vector4PointDefinition;
       ambientMode?: AmbientMode | FloatPointDefinition;
-      ambientSkyColor?:
-         | Vector3
-         | Vector4
-         | Vector3PointDefinition
-         | Vector4PointDefinition;
+      ambientSkyColor?: Vector4PointDefinition;
       defaultReflectionMode?: DefaultReflectionMode | FloatPointDefinition;
       defaultReflectionResolution?: number | FloatPointDefinition; // int
       flareFadeSpeed?: number | FloatPointDefinition; // float
       flareStrength?: number | FloatPointDefinition; // float
       fog?: Bool | FloatPointDefinition;
-      fogColor?:
-         | Vector3
-         | Vector4
-         | Vector3PointDefinition
-         | Vector4PointDefinition;
+      fogColor?: Vector4PointDefinition;
       fogDensity?: number | FloatPointDefinition; // float
       fogStartDistance?: number | FloatPointDefinition; // float
       fogMode?: FogMode | FloatPointDefinition;
@@ -234,11 +208,7 @@ export interface IVivifyCustomEventSetRenderingSettings {
       reflectionBounces?: number | FloatPointDefinition; // int
       reflectionIntensity?: number | FloatPointDefinition; // float
       skybox?: string;
-      subtractiveShadowColor?:
-         | Vector3
-         | Vector4
-         | Vector3PointDefinition
-         | Vector4PointDefinition;
+      subtractiveShadowColor?: Vector4PointDefinition;
       sun?: string;
    };
    qualitySettings?: {

@@ -8,13 +8,13 @@ import {
    fixBoolean,
    fixColor,
    fixFloat,
-   fixFloatPointDefinition,
+   fixPointDefinition1Base,
+   fixPointDefinition3Base,
+   fixPointDefinition4Base,
    fixString,
    fixStringAry,
    fixVector2,
    fixVector3,
-   fixVector3PointDefinition,
-   fixVector4PointDefinition,
 } from './helpers.ts';
 
 /**
@@ -71,52 +71,52 @@ export function fixCustomDataObject(
    if (cd._animation != null) {
       if (cd._animation._color != null) {
          cd._animation._color = Array.isArray(cd._animation._color)
-            ? fixVector4PointDefinition(cd._animation._color, [0, 0, 0, 1])
+            ? fixPointDefinition4Base(cd._animation._color, [0, 0, 0, 1])
             : fixString(cd._animation._color, 'unknownTrack');
       }
       if (cd._animation._definitePosition != null) {
          cd._animation._definitePosition = Array.isArray(cd._animation._definitePosition)
-            ? fixVector3PointDefinition(cd._animation._definitePosition, [0, 0, 0])
+            ? fixPointDefinition3Base(cd._animation._definitePosition, [0, 0, 0])
             : fixString(cd._animation._definitePosition, 'unknownTrack');
       }
       if (cd._animation._dissolve != null) {
          cd._animation._dissolve = Array.isArray(cd._animation._dissolve)
-            ? fixFloatPointDefinition(cd._animation._dissolve, 0)
+            ? fixPointDefinition1Base(cd._animation._dissolve, 0)
             : fixString(cd._animation._dissolve, 'unknownTrack');
       }
       if (cd._animation._dissolveArrow != null) {
          cd._animation._dissolveArrow = Array.isArray(cd._animation._dissolveArrow)
-            ? fixFloatPointDefinition(cd._animation._dissolveArrow, 0)
+            ? fixPointDefinition1Base(cd._animation._dissolveArrow, 0)
             : fixString(cd._animation._dissolveArrow, 'unknownTrack');
       }
       if (cd._animation._interactable != null) {
          cd._animation._interactable = Array.isArray(cd._animation._interactable)
-            ? fixFloatPointDefinition(cd._animation._interactable, 0)
+            ? fixPointDefinition1Base(cd._animation._interactable, 0)
             : fixString(cd._animation._interactable, 'unknownTrack');
       }
       if (cd._animation._localRotation != null) {
          cd._animation._localRotation = Array.isArray(cd._animation._localRotation)
-            ? fixVector3PointDefinition(cd._animation._localRotation, [0, 0, 0])
+            ? fixPointDefinition3Base(cd._animation._localRotation, [0, 0, 0])
             : fixString(cd._animation._localRotation, 'unknownTrack');
       }
       if (cd._animation._position != null) {
          cd._animation._position = Array.isArray(cd._animation._position)
-            ? fixVector3PointDefinition(cd._animation._position, [0, 0, 0])
+            ? fixPointDefinition3Base(cd._animation._position, [0, 0, 0])
             : fixString(cd._animation._position, 'unknownTrack');
       }
       if (cd._animation._rotation != null) {
          cd._animation._rotation = Array.isArray(cd._animation._rotation)
-            ? fixVector3PointDefinition(cd._animation._rotation, [0, 0, 0])
+            ? fixPointDefinition3Base(cd._animation._rotation, [0, 0, 0])
             : fixString(cd._animation._rotation, 'unknownTrack');
       }
       if (cd._animation._scale != null) {
          cd._animation._scale = Array.isArray(cd._animation._scale)
-            ? fixVector3PointDefinition(cd._animation._scale, [0, 0, 0])
+            ? fixPointDefinition3Base(cd._animation._scale, [0, 0, 0])
             : fixString(cd._animation._scale, 'unknownTrack');
       }
       if (cd._animation._time != null) {
          cd._animation._time = Array.isArray(cd._animation._time)
-            ? fixFloatPointDefinition(cd._animation._time, 0)
+            ? fixPointDefinition1Base(cd._animation._time, 0)
             : fixString(cd._animation._time, 'unknownTrack');
       }
    }
@@ -172,52 +172,52 @@ export function fixCustomDataObject(
    if (cd.animation != null) {
       if (cd.animation.color != null) {
          cd.animation.color = Array.isArray(cd.animation.color)
-            ? fixVector4PointDefinition(cd.animation.color, [0, 0, 0, 1])
+            ? fixPointDefinition4Base(cd.animation.color, [0, 0, 0, 1])
             : fixString(cd.animation.color);
       }
       if (cd.animation.definitePosition != null) {
          cd.animation.definitePosition = Array.isArray(cd.animation.definitePosition)
-            ? fixVector3PointDefinition(cd.animation.definitePosition, [0, 0, 0])
+            ? fixPointDefinition3Base(cd.animation.definitePosition, [0, 0, 0])
             : fixString(cd.animation.definitePosition);
       }
       if (cd.animation.dissolve != null) {
          cd.animation.dissolve = Array.isArray(cd.animation.dissolve)
-            ? fixFloatPointDefinition(cd.animation.dissolve, 0)
+            ? fixPointDefinition1Base(cd.animation.dissolve, 0)
             : fixString(cd.animation.dissolve);
       }
       if (cd.animation.dissolveArrow != null) {
          cd.animation.dissolveArrow = Array.isArray(cd.animation.dissolveArrow)
-            ? fixFloatPointDefinition(cd.animation.dissolveArrow, 0)
+            ? fixPointDefinition1Base(cd.animation.dissolveArrow, 0)
             : fixString(cd.animation.dissolveArrow);
       }
       if (cd.animation.interactable != null) {
          cd.animation.interactable = Array.isArray(cd.animation.interactable)
-            ? fixFloatPointDefinition(cd.animation.interactable, 1)
+            ? fixPointDefinition1Base(cd.animation.interactable, 1)
             : fixString(cd.animation.interactable);
       }
       if (cd.animation.localRotation != null) {
          cd.animation.localRotation = Array.isArray(cd.animation.localRotation)
-            ? fixVector3PointDefinition(cd.animation.localRotation, [0, 0, 0])
+            ? fixPointDefinition3Base(cd.animation.localRotation, [0, 0, 0])
             : fixString(cd.animation.localRotation);
       }
       if (cd.animation.offsetPosition != null) {
          cd.animation.offsetPosition = Array.isArray(cd.animation.offsetPosition)
-            ? fixVector3PointDefinition(cd.animation.offsetPosition, [0, 0, 0])
+            ? fixPointDefinition3Base(cd.animation.offsetPosition, [0, 0, 0])
             : fixString(cd.animation.offsetPosition);
       }
       if (cd.animation.offsetRotation != null) {
          cd.animation.offsetRotation = Array.isArray(cd.animation.offsetRotation)
-            ? fixVector3PointDefinition(cd.animation.offsetRotation, [0, 0, 0])
+            ? fixPointDefinition3Base(cd.animation.offsetRotation, [0, 0, 0])
             : fixString(cd.animation.offsetRotation);
       }
       if (cd.animation.scale != null) {
          cd.animation.scale = Array.isArray(cd.animation.scale)
-            ? fixVector3PointDefinition(cd.animation.scale, [0, 0, 0])
+            ? fixPointDefinition3Base(cd.animation.scale, [0, 0, 0])
             : fixString(cd.animation.scale);
       }
       if (cd.animation.time != null) {
          cd.animation.time = Array.isArray(cd.animation.time)
-            ? fixFloatPointDefinition(cd.animation.time, 0)
+            ? fixPointDefinition1Base(cd.animation.time, 0)
             : fixString(cd.animation.time);
       }
    }

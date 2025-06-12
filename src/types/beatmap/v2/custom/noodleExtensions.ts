@@ -56,20 +56,20 @@ export interface INEEvent extends ICustomDataBase {
  * AssignPathAnimation interface for Noodle Extensions Custom Event.
  */
 export interface INECustomEventDataAnimateTrack extends Required<IHeckBase> {
-   _dissolve?: string | [number] | FloatPointDefinition;
-   _dissolveArrow?: string | [number] | FloatPointDefinition;
-   _interactable?: string | [number] | FloatPointDefinition;
-   _time?: string | [number] | FloatPointDefinition;
+   _dissolve?: string | FloatPointDefinition;
+   _dissolveArrow?: string | FloatPointDefinition;
+   _interactable?: string | FloatPointDefinition;
+   _time?: string | FloatPointDefinition;
 }
 
 /**
  * AssignPathAnimation interface for Noodle Extensions Custom Event.
  */
 export interface INECustomEventDataAssignPathAnimation extends Required<IHeckBase> {
-   _dissolve?: string | [number] | FloatPointDefinition;
-   _dissolveArrow?: string | [number] | FloatPointDefinition;
-   _interactable?: string | [number] | FloatPointDefinition;
-   _definitePosition?: string | Vector3 | Vector3PointDefinition;
+   _dissolve?: string | FloatPointDefinition;
+   _dissolveArrow?: string | FloatPointDefinition;
+   _interactable?: string | FloatPointDefinition;
+   _definitePosition?: string | Vector3PointDefinition;
 }
 
 /** AssignPathAnimation interface for Noodle Extensions Custom Event. */
@@ -88,13 +88,13 @@ export interface INECustomEventDataAssignPlayerToTrack extends Required<IHeckBas
 
 /** Noodle Extensions Animation interface for Noodle Extensions Object. */
 export interface INEAnimation {
-   _position?: string | Vector3 | Vector3PointDefinition;
-   _rotation?: string | Vector3 | Vector3PointDefinition;
-   _localRotation?: string | Vector3 | Vector3PointDefinition;
-   _scale?: string | Vector3 | Vector3PointDefinition;
-   _dissolve?: string | [number] | FloatPointDefinition;
-   _dissolveArrow?: string | [number] | FloatPointDefinition;
-   _interactable?: string | [number] | FloatPointDefinition;
-   _definitePosition?: string | Vector3 | Vector3PointDefinition;
-   _time?: string | [number] | FloatPointDefinition;
+   _position?: string | Vector3PointDefinition;
+   _rotation?: string | Vector3PointDefinition;
+   _localRotation?: string | Vector3PointDefinition;
+   _scale?: string | Vector3PointDefinition;
+   _dissolve?: string | FloatPointDefinition;
+   _dissolveArrow?: string | FloatPointDefinition;
+   _interactable?: string | FloatPointDefinition;
+   _definitePosition?: string | Vector3PointDefinition;
+   _time?: string | FloatPointDefinition;
 }

@@ -10,3 +10,4 @@ export * from './note.ts';
 export * from './obstacle.ts';
 export * from './pointDefinition.ts';
 export * from './slider.ts';
+export * from './vivify.ts';

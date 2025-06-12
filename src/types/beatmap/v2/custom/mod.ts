@@ -12,3 +12,4 @@ export * from './noodleExtensions.ts';
 export * from './note.ts';
 export * from './obstacle.ts';
 export * from './pointDefinition.ts';
+export * from './vivify.ts';

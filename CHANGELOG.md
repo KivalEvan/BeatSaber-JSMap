@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.2.5 [2025-xx-xx]
+
+### Changed
+
+- Point definition should accurately represent modern format
+
+### Fixed
+
+- Missing exports
+
 ## 2.2.4 [2025-04-30]
 
 ### Fixed
