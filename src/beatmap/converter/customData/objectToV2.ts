@@ -43,7 +43,7 @@ export default function <T extends ICustomDataBase>(
          _interactable: cd.animation.interactable,
          _localRotation: cd.animation.localRotation,
          _position: cd.animation.offsetPosition,
-         _rotation: cd.animation.offsetRotation,
+         _rotation: cd.animation.offsetWorldRotation,
          _scale: cd.animation.scale,
          _time: cd.animation.time,
       };

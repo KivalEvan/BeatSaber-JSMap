@@ -45,7 +45,7 @@ export default function <T extends ICustomDataBase>(
          interactable: cd._animation._interactable,
          localRotation: cd._animation._localRotation,
          offsetPosition: cd._animation._position,
-         offsetRotation: cd._animation._rotation,
+         offsetWorldRotation: cd._animation._rotation,
          scale: cd._animation._scale,
          time: cd._animation._time,
       };

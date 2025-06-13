@@ -9,6 +9,7 @@
 ### Fixed
 
 - Missing exports
+- Renamed `offsetRotation` to correct `offsetWorldRotation`
 
 ## 2.2.4 [2025-04-30]
 

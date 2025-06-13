@@ -88,7 +88,7 @@ export interface INECustomEventDataAssignPlayerToTrack extends Required<IHeckBas
 /** Noodle Extensions Animation interface for Noodle Extensions Object. */
 export interface INEAnimation {
    offsetPosition?: string | Vector3PointDefinition;
-   offsetRotation?: string | Vector3PointDefinition;
+   offsetWorldRotation?: string | Vector3PointDefinition;
    localRotation?: string | Vector3PointDefinition;
    scale?: string | Vector3PointDefinition;
    dissolve?: string | FloatPointDefinition;

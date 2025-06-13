@@ -205,10 +205,10 @@ export function fixCustomDataObject(
             ? fixPointDefinition3Base(cd.animation.offsetPosition, [0, 0, 0])
             : fixString(cd.animation.offsetPosition);
       }
-      if (cd.animation.offsetRotation != null) {
-         cd.animation.offsetRotation = Array.isArray(cd.animation.offsetRotation)
-            ? fixPointDefinition3Base(cd.animation.offsetRotation, [0, 0, 0])
-            : fixString(cd.animation.offsetRotation);
+      if (cd.animation.offsetWorldRotation != null) {
+         cd.animation.offsetWorldRotation = Array.isArray(cd.animation.offsetWorldRotation)
+            ? fixPointDefinition3Base(cd.animation.offsetWorldRotation, [0, 0, 0])
+            : fixString(cd.animation.offsetWorldRotation);
       }
       if (cd.animation.scale != null) {
          cd.animation.scale = Array.isArray(cd.animation.scale)
