@@ -2,7 +2,7 @@ import { v } from '../../../../deps.ts';
 import type { IDifficulty, IEvent, INote, IObstacle } from '../../../../types/beatmap/v1/mod.ts';
 import type { IBookmark, IBPMChangeOld } from '../../../../types/beatmap/v2/mod.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
-import { NoteTypeSchema, ObstacleTypeSchema, VersionSchema } from '../../shared/declaration/mod.ts';
+import { NoteTypeSchema, VersionSchema } from '../../shared/declaration/mod.ts';
 
 /**
  * Schema declaration for v1 `Note`.
@@ -41,7 +41,7 @@ export const ObstacleSchema: v.ObjectSchema<
    _lineIndex: field(v.pipe(v.number(), v.integer()), {
       version: '1.5.0',
    }),
-   _type: field(ObstacleTypeSchema, {
+   _type: field(v.pipe(v.number(), v.integer()), {
       version: '1.5.0',
    }),
    _duration: field(v.number(), {
