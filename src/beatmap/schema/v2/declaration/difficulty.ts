@@ -14,7 +14,6 @@ import {
    CustomDataSchema,
    NoteColorSchema,
    NoteTypeSchema,
-   ObstacleTypeSchema,
    OffsetDirectionSchema,
    SliderMidAnchorModeSchema,
    VersionSchema,
@@ -113,7 +112,7 @@ export const ObstacleSchema: v.ObjectSchema<
    _lineIndex: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.0.0',
    }),
-   _type: field(v.optional(ObstacleTypeSchema), {
+   _type: field(v.optional(v.pipe(v.number(), v.integer())), {
       version: '2.0.0',
    }),
    _duration: field(v.optional(v.number()), {

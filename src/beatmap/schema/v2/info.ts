@@ -200,7 +200,7 @@ export const info: ISchemaContainer<
                return infoBeatmap.deserialize(diff, {
                   characteristic: set._beatmapCharacteristicName,
                   authors: {
-                     mappers: data._levelAuthorName?.split(','),
+                     mappers: data._levelAuthorName?.split(/,|\s+(?:and|&|vs.|VS)\s+/),
                   },
                });
             }) ?? [];
