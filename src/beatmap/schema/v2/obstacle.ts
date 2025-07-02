@@ -1,9 +1,19 @@
 import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
 import type { IObstacle } from '../../../types/beatmap/v2/obstacle.ts';
 import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
-import { remap } from '../../../utils/math/helpers.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createObstacle } from '../../core/obstacle.ts';
+
+function fixPosYForExtendedType(type: number): number {
+   if (type < 1000 || type > 4005000) return 0;
+   const posY = type >= 4001 && type <= 4005000 ? (type - 4001) % 1000 : 0;
+   return (posY * 5) + 1000; // will be consistent with boundaries for v3/v4 extended walls
+}
+function fixHeightForExtendedType(type: number) {
+   if (type < 1000 || type > 4005000) return 0;
+   const height = type >= 4001 && type <= 4005000 ? Math.floor((type - 4001) / 1000) : type - 1000;
+   return (height * 5) + 1000; // will be consistent with boundaries for v3/v4 extended walls
+}
 
 /**
  * Schema serialization for v2 `Obstacle`.
@@ -12,7 +22,9 @@ export const obstacle: ISchemaContainer<IWrapObstacle, IObstacle> = {
    serialize(data) {
       let type = 0;
       if (data.height >= 0 && data.posY >= 0) {
-         type = Math.floor(data.height * 1000 + data.posY + 4001);
+         const posY = data.posY >= 1000 ? data.posY - 1000 : data.posY / 1000;
+         const height = data.height >= 1000 ? data.height - 1000 : data.height / 1000;
+         type = Math.floor((height / 5) * 1000 + (posY / 5) + 4001);
       }
       return {
          _time: data.time,
@@ -29,25 +41,13 @@ export const obstacle: ISchemaContainer<IWrapObstacle, IObstacle> = {
    },
    deserialize(data) {
       const type = data._type ?? 0;
-      const height = type === 1
-         ? 3
-         : type >= 1000 && type <= 4000
-         ? remap(type, 1000, 4000, 0, 15)
-         : type > 4000 && type <= 4005000
-         ? 0
-         : 5;
-      const posY = type === 1
-         ? 2
-         : type > 4000 && type <= 4005000
-         ? Math.floor((type - 4001) / 1000)
-         : 0;
       return createObstacle({
          time: data._time,
-         posY,
          posX: data._lineIndex,
+         posY: type === 0 ? 0 : type === 1 ? 2 : fixPosYForExtendedType(type),
          duration: data._duration,
          width: data._width,
-         height,
+         height: type === 0 ? 5 : type === 1 ? 3 : fixHeightForExtendedType(type),
          customData: data._customData,
       });
    },
