@@ -1,14 +1,22 @@
 # Changelog
 
-## 2.2.5 [2025-xx-xx]
+## 2.2.5 [2025-07-07]
+
+### Added
+
+- Regex split mappers field in v2 serialisation (#6)
+- Event renamer for older environment (#6)
 
 ### Changed
 
 - Point definition should accurately represent modern format
+- Pre-v3 obstacle preserve ME `_type` (#6)
 
 ### Fixed
 
-- Missing exports
+- Missing exports (+#6)
+- Correct event name mapping (#6)
+- Fix validation error for ME pre-v3 obstacle
 - Renamed `offsetRotation` to correct `offsetWorldRotation`
 
 ## 2.2.4 [2025-04-30]
