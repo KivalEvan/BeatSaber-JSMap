@@ -29,20 +29,20 @@ export const difficulty: ISchemaContainer<
    DifficultyDeserializationPolyfills
 > = {
    serialize(data) {
-      const json: Required<IDifficulty> = {
+      const json: Required<
+         Omit<IDifficulty, 'spawnRotations' | 'spawnRotationsData'>
+      > = {
          version: '4.1.0',
          colorNotes: [],
          bombNotes: [],
          obstacles: [],
          chains: [],
          arcs: [],
-         spawnRotations: [],
          colorNotesData: [],
          bombNotesData: [],
          obstaclesData: [],
          chainsData: [],
          arcsData: [],
-         spawnRotationsData: [],
          njsEvents: [],
          njsEventData: [],
          customData: deepCopy(data.difficulty.customData),
@@ -52,69 +52,60 @@ export const difficulty: ISchemaContainer<
             return colorNote.serialize(x);
          })
       ) {
-         json.colorNotes.push(jsonObj.object);
-         jsonObj.object.i = json.colorNotesData.length;
-         json.colorNotesData.push(jsonObj.data);
+         json.colorNotes!.push(jsonObj.object);
+         jsonObj.object.i = json.colorNotesData!.length;
+         json.colorNotesData!.push(jsonObj.data);
       }
       for (
          const jsonObj of data.difficulty.bombNotes.map((x) => {
             return bombNote.serialize(x);
          })
       ) {
-         json.bombNotes.push(jsonObj.object);
-         jsonObj.object.i = json.bombNotesData.length;
-         json.bombNotesData.push(jsonObj.data);
+         json.bombNotes!.push(jsonObj.object);
+         jsonObj.object.i = json.bombNotesData!.length;
+         json.bombNotesData!.push(jsonObj.data);
       }
       for (
          const jsonObj of data.difficulty.obstacles.map((x) => {
             return obstacle.serialize(x);
          })
       ) {
-         json.obstacles.push(jsonObj.object);
-         jsonObj.object.i = json.obstaclesData.length;
-         json.obstaclesData.push(jsonObj.data);
+         json.obstacles!.push(jsonObj.object);
+         jsonObj.object.i = json.obstaclesData!.length;
+         json.obstaclesData!.push(jsonObj.data);
       }
       for (
          const jsonObj of data.difficulty.arcs.map((x) => {
             return arc.serialize(x);
          })
       ) {
-         json.arcs.push(jsonObj.object);
-         jsonObj.object.ai = json.arcsData.length;
-         json.arcsData.push(jsonObj.data);
-         jsonObj.object.hi = json.colorNotesData.length;
-         json.colorNotesData.push(jsonObj.headData);
-         jsonObj.object.ti = json.colorNotesData.length;
-         json.colorNotesData.push(jsonObj.tailData);
+         json.arcs!.push(jsonObj.object);
+         jsonObj.object.ai = json.arcsData!.length;
+         json.arcsData!.push(jsonObj.data);
+         jsonObj.object.hi = json.colorNotesData!.length;
+         json.colorNotesData!.push(jsonObj.headData);
+         jsonObj.object.ti = json.colorNotesData!.length;
+         json.colorNotesData!.push(jsonObj.tailData);
       }
       for (
          const jsonObj of data.difficulty.chains.map((x) => {
             return chain.serialize(x);
          })
       ) {
-         json.chains.push(jsonObj.object);
-         jsonObj.object.i = json.colorNotesData.length;
-         json.colorNotesData.push(jsonObj.data);
-         jsonObj.object.ci = json.chainsData.length;
-         json.chainsData.push(jsonObj.chainData);
-      }
-      for (
-         const jsonObj of data.difficulty.rotationEvents.map((x) => {
-            return rotationEvent.serialize(x);
-         })
-      ) {
-         json.spawnRotations.push(jsonObj.object);
-         jsonObj.object.i = json.spawnRotationsData.length;
-         json.spawnRotationsData.push(jsonObj.data);
+         json.chains!.push(jsonObj.object);
+         jsonObj.object.i = json.colorNotesData!.length;
+         json.colorNotesData!.push(jsonObj.data);
+         jsonObj.object.ci = json.chainsData!.length;
+         json.chainsData!.push(jsonObj.chainData);
       }
       for (
          const jsonObj of data.difficulty.njsEvents.map((x) => {
             return njsEvent.serialize(x);
          })
       ) {
-         json.njsEvents.push(jsonObj.object);
-         jsonObj.object.i = json.njsEventData.length;
-         json.njsEventData.push(jsonObj.data);
+         json.njsEvents!.push(jsonObj.object);
+         jsonObj.object.i = json.njsEventData!.length;
+         json.njsEventData!.push(jsonObj.data);
       }
       return json;
    },

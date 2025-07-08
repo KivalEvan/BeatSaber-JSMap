@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.6 [2025-07-09]
+
+### Removed
+
+- No longer serialise v4 spawn rotation
+
 ## 2.2.5 [2025-07-07]
 
 ### Added
