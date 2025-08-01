@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.8 [2025-08-02]
+
+### Fixed
+
+- [Swing] incorrectly calculates slider speed and next swing detection
+
 ## 2.2.7 [2025-08-02]
 
 ### Changed
