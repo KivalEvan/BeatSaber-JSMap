@@ -7,7 +7,7 @@ import {
    isWindow,
    resolveGridDistance,
 } from '../../beatmap/helpers/core/gridObject.ts';
-import { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
+import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
 import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
 import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
