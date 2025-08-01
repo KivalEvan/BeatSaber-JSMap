@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.2.7 [2025-08-02]
+
+### Changed
+
+- [Swing] now only output real-time value
+- [Placement] properly handle modded params
+
+### Fixed
+
+- [Swing] incorrectly calculate SPS progression drop
+
 ## 2.2.6 [2025-07-09]
 
 ### Removed

@@ -46,8 +46,9 @@ export function generate<T extends ISwingAnalysisBaseNote>(
             ebpmSwing = calcEBPMBetweenObject(n, firstNote[n.color], timeProc);
             ebpm = calcEBPMBetweenObject(n, lastNote[n.color], timeProc);
             sc.push({
-               time: firstNote[n.color].time,
-               duration: lastNote[n.color].time - firstNote[n.color].time,
+               time: timeProc.toRealTime(firstNote[n.color].time),
+               duration: timeProc.toRealTime(lastNote[n.color].time) -
+                  timeProc.toRealTime(firstNote[n.color].time),
                data: swingNoteArray[n.color],
                ebpm,
                ebpmSwing,
@@ -72,8 +73,9 @@ export function generate<T extends ISwingAnalysisBaseNote>(
             maxSpeed = 0;
          }
          sc.push({
-            time: firstNote[color].time,
-            duration: lastNote[color].time - firstNote[color].time,
+            time: timeProc.toRealTime(firstNote[color].time),
+            duration: timeProc.toRealTime(lastNote[color].time) -
+               timeProc.toRealTime(firstNote[color].time),
             data: swingNoteArray[color],
             ebpm,
             ebpmSwing,
@@ -123,9 +125,11 @@ export function next<
 }
 
 /** Calculate effective BPM between `currObj` and `prevObj`. */
-export function calcEBPMBetweenObject<
-   T extends Pick<IWrapBaseObject, 'time'>,
->(currObj: T, prevObj: T, timeProc: TimeProcessor): number {
+export function calcEBPMBetweenObject<T extends Pick<IWrapBaseObject, 'time'>>(
+   currObj: T,
+   prevObj: T,
+   timeProc: TimeProcessor,
+): number {
    return (
       timeProc.bpm /
       (timeProc.toBeatTime(
@@ -155,16 +159,23 @@ function calcMinSliderSpeed<
             }
             const distance = resolveGridDistance(notes[i], notes[i - 1]) || 1;
             if (
-               (isHorizontal(notes[i], notes[i - 1]) || isVertical(notes[i], notes[i - 1])) &&
+               (isHorizontal(notes[i], notes[i - 1]) ||
+                  isVertical(notes[i], notes[i - 1])) &&
                !hasStraight
             ) {
                hasStraight = true;
-               curvedSpeed = (notes[i].time - notes[i - 1].time) / distance;
+               curvedSpeed = (timeProc.toRealTime(notes[i].time) -
+                  timeProc.toRealTime(notes[i - 1].time)) /
+                  distance;
             }
             hasDiagonal = isDiagonal(notes[i], notes[i - 1]) ||
                isSlantedWindow(notes[i], notes[i - 1]) ||
                hasDiagonal;
-            return (notes[i].time - notes[i - 1].time) / distance;
+            return (
+               (timeProc.toRealTime(notes[i].time) -
+                  timeProc.toRealTime(notes[i - 1].time)) /
+               distance
+            );
          }),
       ),
    );
@@ -193,16 +204,23 @@ function calcMaxSliderSpeed<
             }
             const distance = resolveGridDistance(notes[i], notes[i - 1]) || 1;
             if (
-               (isHorizontal(notes[i], notes[i - 1]) || isVertical(notes[i], notes[i - 1])) &&
+               (isHorizontal(notes[i], notes[i - 1]) ||
+                  isVertical(notes[i], notes[i - 1])) &&
                !hasStraight
             ) {
                hasStraight = true;
-               curvedSpeed = (notes[i].time - notes[i - 1].time) / distance;
+               curvedSpeed = (timeProc.toRealTime(notes[i].time) -
+                  timeProc.toRealTime(notes[i - 1].time)) /
+                  distance;
             }
             hasDiagonal = isDiagonal(notes[i], notes[i - 1]) ||
                isSlantedWindow(notes[i], notes[i - 1]) ||
                hasDiagonal;
-            return (notes[i].time - notes[i - 1].time) / distance;
+            return (
+               (timeProc.toRealTime(notes[i].time) -
+                  timeProc.toRealTime(notes[i - 1].time)) /
+               distance
+            );
          }),
       ),
    );

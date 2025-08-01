@@ -18,9 +18,11 @@ import type {
 /**
  * Count the number of swings in period.
  */
-export function count<
-   T extends ISwingAnalysisBaseNote,
->(colorNotes: T[], duration: number, timeProc: TimeProcessor): ISwingCount {
+export function count<T extends ISwingAnalysisBaseNote>(
+   colorNotes: T[],
+   duration: number,
+   timeProc: TimeProcessor,
+): ISwingCount {
    const swingCount: ISwingCount = {
       left: new Array(Math.floor(duration + 1)).fill(0),
       right: new Array(Math.floor(duration + 1)).fill(0),
@@ -90,20 +92,29 @@ export function info<T extends ISwingAnalysisBeatmap>(
       container: generate(beatmap.difficulty.colorNotes, timeProc),
    };
    const duration = Math.max(
-      timeProc.toRealTime(getLastInteractiveTime(beatmap) - getFirstInteractiveTime(beatmap)),
+      timeProc.toRealTime(
+         getLastInteractiveTime(beatmap) - getFirstInteractiveTime(beatmap),
+      ),
       0,
    );
-   const mapDuration = Math.max(timeProc.toRealTime(getLastInteractiveTime(beatmap)), 0);
+   const mapDuration = Math.max(
+      timeProc.toRealTime(getLastInteractiveTime(beatmap)),
+      0,
+   );
    const swing = count(beatmap.difficulty.colorNotes, mapDuration, timeProc);
    const swingTotal = swing.left.map((num, i) => num + swing.right[i]);
    if (swingTotal.reduce((a, b) => a + b) === 0) {
       return spsInfo as ISwingAnalysis<T['difficulty']['colorNotes'][number]>;
    }
-   const swingIntervalRed = [];
-   const swingIntervalBlue = [];
-   const swingIntervalTotal = [];
+   const swingIntervalRed: number[] = [];
+   const swingIntervalBlue: number[] = [];
+   const swingIntervalTotal: number[] = [];
 
-   for (let i = 0, len = Math.ceil(swingTotal.length / interval); i < len; i++) {
+   for (
+      let i = 0, len = Math.ceil(swingTotal.length / interval);
+      i < len;
+      i++
+   ) {
       const sliceStart = i * interval;
       let maxInterval = interval;
       if (maxInterval + sliceStart > swingTotal.length) {
@@ -137,22 +148,31 @@ export function info<T extends ISwingAnalysisBeatmap>(
  * Get first swings analysis that exceeds 40% progression drop.
  */
 export function getProgressionMax<T extends ISwingAnalysisBaseNote>(
-   spsArray: ISwingAnalysis<T>[],
+   spsAnalysisArray: ISwingAnalysis<T>[],
    minThreshold: number,
-): { result: ISwingAnalysis<T>; comparedTo?: ISwingAnalysis<T> } | null {
-   let prevPerc = 0;
-   let currPerc = 0;
+): {
+   result: ISwingAnalysis<T>;
+   comparedTo?: ISwingAnalysis<T>;
+} | null {
+   let previousSps = 0;
    let comparedTo;
-   for (const spsMap of spsArray) {
-      const baseline = spsMap.total.perSecond;
-      if (currPerc > 0 && baseline > 0) {
-         prevPerc = Math.abs(1 - currPerc / baseline) * 100;
+   for (const spsAnalysis of spsAnalysisArray) {
+      const baselineSps = spsAnalysis.total.perSecond;
+      if (!baselineSps) continue;
+
+      let percentageDropped;
+      if (previousSps) {
+         percentageDropped = Math.abs(1 - baselineSps / previousSps) * 100;
       }
-      currPerc = baseline > 0 ? baseline : currPerc;
-      if (currPerc > minThreshold && prevPerc > 40) {
-         return { result: spsMap, comparedTo };
+      if (
+         percentageDropped &&
+         previousSps > minThreshold &&
+         percentageDropped > 40
+      ) {
+         return { result: spsAnalysis, comparedTo };
       }
-      comparedTo = spsMap;
+      comparedTo = spsAnalysis;
+      previousSps = baselineSps;
    }
    return null;
 }
@@ -164,19 +184,25 @@ export function getProgressionMin<T extends ISwingAnalysisBaseNote>(
    spsArray: ISwingAnalysis<T>[],
    minThreshold: number,
 ): { result: ISwingAnalysis<T>; comparedTo?: ISwingAnalysis<T> } | null {
-   let prevPerc = Number.MAX_SAFE_INTEGER;
-   let currPerc = 0;
+   let previousSps = 0;
    let comparedTo;
    for (const spsMap of spsArray) {
-      const baseline = spsMap.total.perSecond;
-      if (currPerc > 0 && baseline > 0) {
-         prevPerc = Math.abs(1 - currPerc / baseline) * 100;
+      const baselineSps = spsMap.total.perSecond;
+      if (!baselineSps) continue;
+
+      let percentageDropped;
+      if (previousSps) {
+         percentageDropped = Math.abs(1 - baselineSps / previousSps) * 100;
       }
-      currPerc = baseline > 0 ? baseline : currPerc;
-      if (currPerc > minThreshold && prevPerc < 10) {
+      if (
+         percentageDropped &&
+         previousSps > minThreshold &&
+         percentageDropped < 10
+      ) {
          return { result: spsMap, comparedTo };
       }
       comparedTo = spsMap;
+      previousSps = baselineSps;
    }
    return null;
 }
@@ -205,7 +231,10 @@ export function calcSpsTotalPercDrop<T extends ISwingAnalysisBaseNote>(
 export function getSpsLowest<T extends ISwingAnalysisBaseNote>(
    spsArray: ISwingAnalysis<T>[],
 ): number {
-   return Math.min(...spsArray.map((e) => e.total.perSecond), Number.MAX_SAFE_INTEGER);
+   return Math.min(
+      ...spsArray.map((e) => e.total.perSecond),
+      Number.MAX_SAFE_INTEGER,
+   );
 }
 
 /**

@@ -5,7 +5,11 @@ import {
    resolveGridPosition,
 } from '../../beatmap/helpers/core/gridObject.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
+import type { GetAngleFn } from '../../types/beatmap/shared/functions.ts';
 import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
+import type { GetPositionFn } from '../../types/mod.ts';
 import type { Vector2 } from '../../types/vector.ts';
 import { mod, radToDeg, shortRotDistance } from '../../utils/math/trigonometry.ts';
 
@@ -64,36 +68,28 @@ export function isEndNote<
    );
 }
 
-function hasIntersect<
-   T extends Pick<IWrapBaseNote, 'posX' | 'posY' | 'direction'>,
->(
-   currNote: T,
-   compareTo: T,
-   angleDistances: [range: number, distance: number, offset?: number][],
-   ahead = false,
+export function isNotePointing(
+   note: Pick<IWrapColorNote, 'posX' | 'posY' | 'direction' | 'customData'> & {
+      angleOffset?: number;
+   },
+   target: Pick<IWrapColorNote, 'posX' | 'posY' | 'customData'> & {
+      angleOffset?: number;
+   },
+   angleTolerance: number,
+   getPosition: GetPositionFn<
+      Pick<IWrapGridObject, 'posX' | 'posY' | 'customData'>
+   > = (object) => resolveGridPosition(object),
+   getAngle: GetAngleFn<
+      Pick<IWrapColorNote, 'direction' | 'customData'> & {
+         angleOffset?: number;
+      }
+   > = (object) => resolveNoteAngle(object.direction) + (object.angleOffset || 0),
 ): boolean {
-   if (currNote.direction !== NoteDirection.ANY) {
-      return false;
-   }
-   const [nX1, nY1] = resolveGridPosition(currNote);
-   const [nX2, nY2] = resolveGridPosition(compareTo);
-   const hackValue = ahead ? 540 : 360;
-   const directionAngle = resolveNoteAngle(currNote.direction);
-   const noteLookAngle = (radToDeg(Math.atan2(nY1 - nY2, nX1 - nX2)) + 450) % 360;
-   return angleDistances.some(([angleRange, maxDistance, offset]) => {
-      offset = offset ?? 0;
-      const angleStart = (directionAngle + hackValue - angleRange + offset) % 360;
-      const angleEnd = (directionAngle + hackValue + angleRange + offset) % 360;
-      return (
-         maxDistance >=
-            Math.sqrt(Math.pow(nX1 - nX2, 2) + Math.pow(nY1 - nY2, 2)) &&
-         ((angleStart < angleEnd &&
-            angleStart <= noteLookAngle &&
-            noteLookAngle <= angleEnd) ||
-            (angleStart >= angleEnd &&
-               (noteLookAngle <= angleEnd || noteLookAngle >= angleStart)))
-      );
-   });
+   const [pX, pY] = getPosition(note) ?? [note.posX, note.posY];
+   const [qX, qY] = getPosition(target) ?? [target.posX, target.posY];
+   const pA = getAngle(note) ?? 0;
+   const pqA = (Math.atan2(qY - pY, qX - pX) * 180) / Math.PI + 90;
+   return shortRotDistance(pA, pqA, 360) <= angleTolerance;
 }
 
 /**
@@ -105,18 +101,27 @@ function hasIntersect<
  * if (isIntersect(note1, note2, [[20, 1.5]])) {}
  * ```
  */
-export function isIntersectNote<
-   T extends Pick<IWrapBaseNote, 'posX' | 'posY' | 'direction'>,
->(
-   noteA: T,
-   noteB: T,
-   angleDistances: [range: number, distance: number, offset?: number][],
-   ahead = false,
-): [noteAIntersect: boolean, noteBIntersect: boolean] {
-   return [
-      hasIntersect(noteA, noteB, angleDistances, ahead),
-      hasIntersect(noteB, noteA, angleDistances, ahead),
-   ];
+export function isNoteSwingable(
+   noteA: Pick<IWrapColorNote, 'posX' | 'posY' | 'direction' | 'customData'> & {
+      angleOffset?: number;
+   },
+   noteB: Pick<IWrapColorNote, 'posX' | 'posY' | 'direction' | 'customData'> & {
+      angleOffset?: number;
+   },
+   angleTolerance: number,
+   getPosition: GetPositionFn<
+      Pick<IWrapGridObject, 'posX' | 'posY' | 'customData'>
+   > = (object) => resolveGridPosition(object),
+   getAngle: GetAngleFn<
+      Pick<IWrapColorNote, 'direction' | 'customData'> & {
+         angleOffset?: number;
+      }
+   > = (object) => resolveNoteAngle(object.direction) + (object.angleOffset || 0),
+): boolean {
+   return (
+      isNotePointing(noteA, noteB, angleTolerance, getPosition, getAngle) ||
+      isNotePointing(noteB, noteA, angleTolerance, getPosition, getAngle)
+   );
 }
 
 // TODO: update with new position/rotation system
