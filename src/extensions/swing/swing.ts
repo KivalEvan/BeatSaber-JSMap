@@ -221,11 +221,6 @@ function calcMaxSliderSpeed<
             isSlantedWindow(notes[i], notes[i - 1]) ||
             hasDiagonal;
 
-         console.log(
-            timeProc.toRealTime(notes[i].time) -
-               timeProc.toRealTime(notes[i - 1].time),
-            distance,
-         );
          return (
             (timeProc.toRealTime(notes[i].time) -
                timeProc.toRealTime(notes[i - 1].time)) /

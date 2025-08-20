@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.9 [2025-08-20]
+
+### Fixed
+
+- [Swing] removed stray log
+
 ## 2.2.8 [2025-08-02]
 
 ### Fixed
