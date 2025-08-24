@@ -1,6 +1,5 @@
 import type { IWrapArc } from '../../../types/beatmap/wrapper/arc.ts';
-import { nearEqual } from '../../../utils/math/helpers.ts';
-import { shortRotDistance } from '../../../utils/math/trigonometry.ts';
+import { lowestDifferenceMod, nearEqual } from '../../../utils/math/helpers.ts';
 import { cycle } from '../../../utils/misc/iterator.ts';
 import { NoteDirection, SliderMidAnchorMode } from '../../shared/constants.ts';
 import { resolveNoteAngle } from './baseNote.ts';
@@ -23,7 +22,7 @@ export function midAnchorCondition(
       arc.direction !== NoteDirection.ANY &&
       arc.posX === arc.posX &&
       nearEqual(
-         shortRotDistance(
+         lowestDifferenceMod(
             resolveNoteAngle(arc.direction),
             resolveNoteAngle(arc.tailDirection),
             360,

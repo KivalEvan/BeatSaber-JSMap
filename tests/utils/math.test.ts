@@ -103,17 +103,17 @@ Deno.test('Modulo helper', () => {
    assertEquals(math.mod(-110, -100), 90);
 });
 
-Deno.test('Short rotation distance helper', () => {
-   assertEquals(math.shortRotDistance(0, 180, 360), 180);
-   assertEquals(math.shortRotDistance(180, 0, 360), 180);
-   assertEquals(math.shortRotDistance(60, 180, 360), 120);
-   assertEquals(math.shortRotDistance(180, 60, 360), 120);
-   assertEquals(math.shortRotDistance(180, 180, 360), 0);
-   assertEquals(math.shortRotDistance(-180, 180, 360), 0);
-   assertEquals(math.shortRotDistance(-180, -180, 360), 0);
-   assertEquals(math.shortRotDistance(-180, 0, 360), 180);
-   assertEquals(math.shortRotDistance(0, -180, 360), 180);
-   assertEquals(math.shortRotDistance(-180, -180, -360), 0);
+Deno.test('Lowest difference modulo helper', () => {
+   assertEquals(math.lowestDifferenceMod(0, 180, 360), 180);
+   assertEquals(math.lowestDifferenceMod(180, 0, 360), 180);
+   assertEquals(math.lowestDifferenceMod(60, 180, 360), 120);
+   assertEquals(math.lowestDifferenceMod(180, 60, 360), 120);
+   assertEquals(math.lowestDifferenceMod(180, 180, 360), 0);
+   assertEquals(math.lowestDifferenceMod(-180, 180, 360), 0);
+   assertEquals(math.lowestDifferenceMod(-180, -180, 360), 0);
+   assertEquals(math.lowestDifferenceMod(-180, 0, 360), 180);
+   assertEquals(math.lowestDifferenceMod(0, -180, 360), 180);
+   assertEquals(math.lowestDifferenceMod(-180, -180, -360), 0);
 });
 
 Deno.test('Median helper', () => {

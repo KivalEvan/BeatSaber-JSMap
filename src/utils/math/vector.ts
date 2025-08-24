@@ -223,45 +223,6 @@ export function vectorIsDiagonal<T extends VectorArgument>(
    return nearEqual(Math.abs(dX), Math.abs(dY), epsilon);
 }
 
-export function vectorIsInline<T extends VectorArgument>(
-   v1: T,
-   v2: T,
-   lapping = 0.5,
-): boolean {
-   const distance = vectorDistance(v1, v2);
-   return distance <= lapping;
-}
-
-export function vectorIsAdjacent<T extends VectorArgument>(
-   v1: T,
-   v2: T,
-   epsilon = 0.001,
-): boolean {
-   const distance = vectorDistance(v1, v2);
-   return distance > 0.5 - epsilon && distance < 1 + epsilon;
-}
-
-export function vectorIsWindow<T extends VectorArgument>(
-   v1: T,
-   v2: T,
-   gap = 1.8,
-): boolean {
-   const distance = vectorDistance(v1, v2);
-   return distance > gap;
-}
-
-export function vectorIsSlantedWindow<T extends VectorArgument>(
-   v1: T,
-   v2: T,
-): boolean {
-   return (
-      vectorIsWindow(v1, v2, 1.8) &&
-      !vectorIsDiagonal(v1, v2, 0.001) &&
-      !vectorIsHorizontal(v1, v2, 0.001) &&
-      !vectorIsVertical(v1, v2, 0.001)
-   );
-}
-
 export function vectorMagnitude(vec: number[]): number {
    let sum = 0;
    for (let i = 0; i < vec.length; i++) {
@@ -292,4 +253,44 @@ export function vectorNearEqual<T extends VectorArgument>(
       if (!nearEqual(v1[i], v2[i], tolerance)) return false;
    }
    return true;
+}
+
+export function vectorDot<T extends VectorArgument>(v1: T, v2: T): number {
+   let acc = 0;
+   for (let i = 0; i < v1.length; i++) {
+      acc += v1[i] * v2[i];
+   }
+   return acc;
+}
+
+export function vectorCross(v1: Vector3, v2: Vector3): Vector3 {
+   return [
+      v1[1] * v2[2] - v1[2] * v2[1],
+      v1[2] * v2[0] - v1[0] * v2[2],
+      v1[0] * v2[1] - v1[1] * v2[0],
+   ];
+}
+
+export function vector2Rotate(v: Vector2, theta: number): Vector2 {
+   const c = Math.cos(theta);
+   const s = Math.sin(theta);
+   return [v[0] * c - v[1] * s, v[0] * s + v[1] * c];
+}
+
+export function vector3RotateX(v: Vector3, theta: number): Vector3 {
+   const c = Math.cos(theta);
+   const s = Math.sin(theta);
+   return [v[0], v[1] * c - v[2] * s, v[1] * s + v[2] * c];
+}
+
+export function vector3RotateY(v: Vector3, theta: number): Vector3 {
+   const c = Math.cos(theta);
+   const s = Math.sin(theta);
+   return [v[0] * c + v[2] * s, v[1], -v[0] * s + v[2] * c];
+}
+
+export function vector3RotateZ(v: Vector3, theta: number): Vector3 {
+   const c = Math.cos(theta);
+   const s = Math.sin(theta);
+   return [v[0] * c - v[1] * s, v[0] * s + v[1] * c, v[2]];
 }

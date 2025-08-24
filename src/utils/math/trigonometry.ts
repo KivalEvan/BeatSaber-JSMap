@@ -44,22 +44,3 @@ export function sphericalCoordToCartesianCoord(
       radius * Math.cos(theta),
    ];
 }
-
-// thanks Top_Cat#1961
-/**
- * Modulo function that can handle negative numbers.
- */
-export function mod(x: number, m: number): number {
-   if (m < 0) {
-      m = -m;
-   }
-   const r = x % m;
-   return r < 0 ? r + m : r;
-}
-
-/**
- * Get the shortest distance between two angles.
- */
-export function shortRotDistance(a: number, b: number, m: number): number {
-   return Math.min(mod(a - b, m), mod(b - a, m));
-}

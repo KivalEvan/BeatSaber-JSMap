@@ -11,7 +11,8 @@ import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
 import type { GetPositionFn } from '../../types/mod.ts';
 import type { Vector2 } from '../../types/vector.ts';
-import { mod, radToDeg, shortRotDistance } from '../../utils/math/trigonometry.ts';
+import { lowestDifferenceMod, mod } from '../../utils/math/helpers.ts';
+import { radToDeg } from '../../utils/math/trigonometry.ts';
 
 function angleInRange(alpha: number, lower: number, upper: number): boolean {
    return mod(alpha - lower, 360) <= mod(upper - lower, 360);
@@ -89,7 +90,7 @@ export function isNotePointing(
    const [qX, qY] = getPosition(target) ?? [target.posX, target.posY];
    const pA = getAngle(note) ?? 0;
    const pqA = (Math.atan2(qY - pY, qX - pX) * 180) / Math.PI + 90;
-   return shortRotDistance(pA, pqA, 360) <= angleTolerance;
+   return lowestDifferenceMod(pA, pqA, 360) <= angleTolerance;
 }
 
 /**
@@ -211,6 +212,6 @@ export function checkDirection<T extends Pick<IWrapBaseNote, 'direction'>>(
       noteAngleB = resolveNoteAngle(noteB.direction);
    }
    return equal
-      ? shortRotDistance(noteAngleA, noteAngleB, 360) <= angleTol
-      : shortRotDistance(noteAngleA, noteAngleB, 360) >= angleTol;
+      ? lowestDifferenceMod(noteAngleA, noteAngleB, 360) <= angleTol
+      : lowestDifferenceMod(noteAngleA, noteAngleB, 360) >= angleTol;
 }

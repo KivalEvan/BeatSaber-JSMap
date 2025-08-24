@@ -130,3 +130,20 @@ export function median(nums: number[]): number {
    }
    return (ary[mid - 1] + ary[mid]) / 2;
 }
+
+// thanks Top_Cat#1961 for math guidance
+/**
+ * Modulo function that can handle negative number.
+ */
+export function mod(x: number, m: number): number {
+   if (m < 0) m = -m;
+   const r = x % m;
+   return r < 0 ? r + m : r;
+}
+
+/**
+ * Get lowest difference between two numbers modulo m.
+ */
+export function lowestDifferenceMod(a: number, b: number, m: number): number {
+   return Math.min(mod(a - b, m), mod(b - a, m));
+}

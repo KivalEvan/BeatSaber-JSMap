@@ -7,6 +7,7 @@ export * from './beatmap.ts';
 export * from './bombNote.ts';
 export * from './bpmEvent.ts';
 export * from './chain.ts';
+export * from './chainLink.ts';
 export * from './colorBoostEvent.ts';
 export * from './colorNote.ts';
 export * from './difficulty.ts';

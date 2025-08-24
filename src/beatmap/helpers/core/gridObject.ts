@@ -1,3 +1,4 @@
+import type { IWrapBaseSlider } from '../../../types/beatmap/wrapper/baseSlider.ts';
 import type { IWrapGridObject } from '../../../types/beatmap/wrapper/gridObject.ts';
 import type { GetPositionFn } from '../../../types/mod.ts';
 import type { Vector2 } from '../../../types/vector.ts';
@@ -13,6 +14,12 @@ export function resolveGridPosition<
    T extends Pick<IWrapGridObject, 'posX' | 'posY'>,
 >(object: T): Vector2 {
    return [object.posX, object.posY];
+}
+/** Get standardized grid tail position. */
+export function resolveGridTailPosition<
+   T extends Pick<IWrapBaseSlider, 'tailPosX' | 'tailPosY'>,
+>(object: T): Vector2 {
+   return [object.tailPosX, object.tailPosY];
 }
 /** Get standardized grid distance. */
 export function resolveGridDistance<

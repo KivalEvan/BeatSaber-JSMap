@@ -1,3 +1,4 @@
+import type { IWrapBaseNote } from './baseNote.ts';
 import type { IWrapBaseSlider } from './baseSlider.ts';
 import type { ICustomDataSlider } from './custom/slider.ts';
 
@@ -26,5 +27,14 @@ export interface IWrapChain extends IWrapBaseSlider {
     * **Type:** `f32`
     */
    squish: number;
+   customData: ICustomDataSlider;
+}
+
+/**
+ * Wrapper attribute for beatmap chain link.
+ */
+export interface IWrapChainLink extends IWrapBaseNote {
+   angle: number;
+   chain: IWrapChain | null;
    customData: ICustomDataSlider;
 }
