@@ -18,7 +18,7 @@ Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
    let info: wrapper.IWrapInfo;
    await t.step('Able to correctly load V2 info', async () => {
       info = await readInfoFile('Info.dat', 2, {
-         directory: './tests/resources/examples/werewolf howls./',
+         directory: './tests/resources/examples/werewolf howls/',
          load: { forceConvert: false },
       });
       assertEquals(info.version, 2);
@@ -27,7 +27,7 @@ Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
    let beatmapList: Awaited<ReturnType<typeof readFromInfo>>;
    await t.step('Able to correctly load V2 beatmap within info', async () => {
       beatmapList = await readFromInfo(info, {
-         directory: './tests/resources/examples/werewolf howls./',
+         directory: './tests/resources/examples/werewolf howls/',
          load: { forceConvert: false },
       });
       for (const bl of beatmapList) {
@@ -106,14 +106,14 @@ Deno.test('Load beatmap version explicitly and convert to V3', async (t) => {
    let info: wrapper.IWrapInfo;
    await t.step('Able to correctly load V2 info', async () => {
       info = await readInfoFile('Info.dat', 2, {
-         directory: './tests/resources/examples/werewolf howls./',
+         directory: './tests/resources/examples/werewolf howls/',
       });
    });
 
    await t.step('Able to correctly load V2 beatmap and convert to V3', () => {
       info.difficulties.forEach((d) => {
          const beatmap = readDifficultyFileSync(d.filename, 3, {
-            directory: './tests/resources/examples/werewolf howls./',
+            directory: './tests/resources/examples/werewolf howls/',
          });
          assertEquals(beatmap.version, 3);
       });
