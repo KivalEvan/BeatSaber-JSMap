@@ -3,15 +3,15 @@ import {
    isRedEventValue,
    isWhiteEventValue,
 } from '../../../beatmap/helpers/core/basicEvent.ts';
-import { ColorScheme, EnvironmentSchemeName } from '../../../beatmap/shared/colorScheme.ts';
-import type { EnvironmentAllName } from '../../../types/beatmap/shared/environment.ts';
+import { ColorScheme, EnvironmentSchemeName } from '../../../beatmap/misc/colorScheme.ts';
+import type { EnvironmentAllName } from '../../../beatmap/schema/shared/types/environment.ts';
 import type {
    IChromaEventRing,
    IChromaEventZoom,
-} from '../../../types/beatmap/v3/custom/chroma.ts';
-import type { IWrapBasicEvent } from '../../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapBeatmapSubset } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapColorBoostEvent } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
+} from '../../../beatmap/schema/v3/types/custom/chroma.ts';
+import type { IWrapBasicEvent } from '../../../beatmap/core/types/basicEvent.ts';
+import type { IWrapBeatmapSubset } from '../../../beatmap/core/types/beatmap.ts';
+import type { IWrapColorBoostEvent } from '../../../beatmap/core/types/colorBoostEvent.ts';
 import type { ColorArray } from '../../../types/colors.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../../utils/colors/convertor.ts';
@@ -108,12 +108,24 @@ export class LightMapper {
    }
 
    ring(time: number, type: 8 | 9, customData?: IChromaEventRing): this {
-      this.events.push({ time, type, value: 0, floatValue: 0, customData: customData ?? {} });
+      this.events.push({
+         time,
+         type,
+         value: 0,
+         floatValue: 0,
+         customData: customData ?? {},
+      });
       return this;
    }
 
    zoom(time: number, customData?: IChromaEventZoom): this {
-      this.events.push({ time, type: 9, value: 0, floatValue: 0, customData: customData ?? {} });
+      this.events.push({
+         time,
+         type: 9,
+         value: 0,
+         floatValue: 0,
+         customData: customData ?? {},
+      });
       return this;
    }
 
@@ -177,13 +189,16 @@ export class LightMapper {
                            t < ev.time;
                            t += 1 / previousBase.frequency
                         ) {
-                           events.push({
-                              ...structuredClone(previousEvent),
-                              time: t - 1 / (previousBase.frequency * 2),
-                           }, {
-                              ...structuredClone(previousEvent),
-                              time: t,
-                           });
+                           events.push(
+                              {
+                                 ...structuredClone(previousEvent),
+                                 time: t - 1 / (previousBase.frequency * 2),
+                              },
+                              {
+                                 ...structuredClone(previousEvent),
+                                 time: t,
+                              },
+                           );
                         }
                      }
                      events.push(previousEvent);
@@ -225,13 +240,16 @@ export class LightMapper {
                            t < ev.time;
                            t += 1 / previousBase.frequency
                         ) {
-                           events.push({
-                              ...structuredClone(previousEvent),
-                              time: t - 1 / (previousBase.frequency * 2) + x,
-                           }, {
-                              ...structuredClone(previousEvent),
-                              time: t,
-                           });
+                           events.push(
+                              {
+                                 ...structuredClone(previousEvent),
+                                 time: t - 1 / (previousBase.frequency * 2) + x,
+                              },
+                              {
+                                 ...structuredClone(previousEvent),
+                                 time: t,
+                              },
+                           );
                         }
                      } else {
                         events.push(previousEvent);
@@ -245,13 +263,16 @@ export class LightMapper {
                         t < ev.time;
                         t += 1 / previousBase.frequency
                      ) {
-                        events.push({
-                           ...structuredClone(previousEvent),
-                           time: t - 1 / (previousBase.frequency * 2),
-                        }, {
-                           ...structuredClone(previousEvent),
-                           time: t,
-                        });
+                        events.push(
+                           {
+                              ...structuredClone(previousEvent),
+                              time: t - 1 / (previousBase.frequency * 2),
+                           },
+                           {
+                              ...structuredClone(previousEvent),
+                              time: t,
+                           },
+                        );
                      }
                   }
                   const event = {
@@ -277,7 +298,9 @@ export class LightMapper {
                         event.customData.color = isWhiteEventValue(event.value)
                            ? [1, 1, 1]
                            : colorFrom(
-                              ColorScheme[EnvironmentSchemeName[this.environment]][
+                              ColorScheme[
+                                 EnvironmentSchemeName[this.environment]
+                              ][
                                  isRedEventValue(event.value) ? '_envColorLeft' : '_envColorRight'
                               ]!,
                            );

@@ -1,10 +1,5 @@
 import { v } from '../../../../deps.ts';
-import type {
-   IObject,
-   IObjectArc,
-   IObjectChain,
-   IObjectLane,
-} from '../../../../types/beatmap/v4/object.ts';
+import type { IObject, IObjectArc, IObjectChain, IObjectLane } from '../types/object.ts';
 import { field, type InferObjectEntries } from '../../helpers.ts';
 import { CustomDataSchema } from '../../shared/declaration/mod.ts';
 

@@ -1,13 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../../logger.ts';
-import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
-import type { MirrorFn } from '../../types/beatmap/shared/functions.ts';
+import type { ISaveOptions } from './types.ts';
+import type { MirrorFn } from '../schema/shared/types/functions.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
-} from '../../types/beatmap/shared/infer.ts';
-import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
+} from '../schema/shared/types/infer.ts';
+import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import { convertBeatmap } from '../mapping/converter.ts';
 import { optimizeBeatmap } from '../mapping/optimizer.ts';
 import { serializeBeatmap } from '../mapping/schema.ts';

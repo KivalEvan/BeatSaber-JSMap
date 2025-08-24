@@ -1,9 +1,10 @@
-import type { IWrapChain, IWrapChainLink } from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapChain, IWrapChainLink } from './types/chain.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import type { Vector2 } from '../../types/vector.ts';
 import { vectorAdd, vectorMagnitude, vectorMul, vectorSub } from '../../utils/math/vector.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
-import { degToRad, lerp, mod, radToDeg } from '@kvl/bsmap/utils';
+import { lerp, mod } from '../../utils/math/helpers.ts';
+import { degToRad, radToDeg } from '../../utils/math/trigonometry.ts';
 import { resolveGridPosition, resolveGridTailPosition } from '../helpers/core/gridObject.ts';
 import { BaseNote } from './abstract/baseNote.ts';
 import { resolveNoteAngle } from '../helpers/core/baseNote.ts';

@@ -1,8 +1,8 @@
 import { logger } from '../../logger.ts';
-import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import type { IWrapBeatmapSubset } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { EnvironmentAllName } from '../schema/shared/types/environment.ts';
+import type { IWrapBeatmapSubset } from '../core/types/beatmap.ts';
 import type { ColorArray } from '../../types/colors.ts';
-import { ColorScheme, EnvironmentSchemeName } from '../shared/colorScheme.ts';
+import { ColorScheme, EnvironmentSchemeName } from '../misc/colorScheme.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];

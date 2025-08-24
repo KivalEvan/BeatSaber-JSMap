@@ -1,12 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
-import type { MirrorFn } from '../types/beatmap/shared/functions.ts';
+import type { MirrorFn } from '../beatmap/schema/shared/types/functions.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
-} from '../types/beatmap/shared/infer.ts';
-import type { IBeatmapInfoData } from '../types/bsmap/fromInfo.ts';
-import type { IReadOptions } from '../types/bsmap/reader.ts';
+} from '../beatmap/schema/shared/types/infer.ts';
+import type { IBeatmapInfoData } from './types.ts';
+import type { IReadOptions } from './types.ts';
 import { readDifficultyFile, readDifficultyFileSync } from './difficulty.ts';
 import { readLightshowFileSync } from './lightshow.ts';
 

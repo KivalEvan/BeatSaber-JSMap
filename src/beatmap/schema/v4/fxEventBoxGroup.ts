@@ -1,10 +1,7 @@
-import type {
-   IEventBoxGroupContainer,
-   IFxEventFloatBoxContainer,
-} from '../../../types/beatmap/container/v4.ts';
-import { EventBoxType } from '../../../types/beatmap/shared/constants.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapFxEventBoxGroup } from '../../../types/beatmap/wrapper/fxEventBoxGroup.ts';
+import type { IEventBoxGroupContainer, IFxEventFloatBoxContainer } from './types/container.ts';
+import { EventBoxType } from '../shared/types/constants.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IWrapFxEventBoxGroup } from '../../core/types/fxEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createFxEventBoxGroup } from '../../core/fxEventBoxGroup.ts';
 import { fxEventBox } from './fxEventBox.ts';

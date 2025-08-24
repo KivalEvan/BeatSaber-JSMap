@@ -1,4 +1,4 @@
-import type { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapBPMEvent } from './types/bpmEvent.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseObject } from './abstract/baseObject.ts';

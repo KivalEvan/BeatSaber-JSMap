@@ -1,6 +1,6 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IEvent } from '../../../types/beatmap/v1/event.ts';
-import type { IWrapBPMEvent } from '../../../types/beatmap/wrapper/bpmEvent.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IEvent } from './types/event.ts';
+import type { IWrapBPMEvent } from '../../core/types/bpmEvent.ts';
 import { createBPMEvent } from '../../core/bpmEvent.ts';
 
 /**

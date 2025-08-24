@@ -4,7 +4,7 @@ import fsMod from './_fs.ts';
 import fspMod from './_fsp.ts';
 import type fsType from 'node:fs';
 import type fspType from 'node:fs/promises';
-import type { IShimsFileSystem } from '../types/bsmap/shims.ts';
+import type { IShimsFileSystem } from './types.ts';
 
 function noFsFunctionProvided(): never {
    throw new Error(

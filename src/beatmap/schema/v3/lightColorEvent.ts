@@ -1,9 +1,9 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { ILightColorEvent } from '../../../types/beatmap/v3/lightColorEvent.ts';
-import type { IWrapLightColorEvent } from '../../../types/beatmap/wrapper/lightColorEvent.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { ILightColorEvent } from './types/lightColorEvent.ts';
+import type { IWrapLightColorEvent } from '../../core/types/lightColorEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightColorEvent } from '../../core/lightColorEvent.ts';
-import { EaseType, TransitionType } from '../../shared/constants.ts';
+import { EaseType, TransitionType } from '../shared/types/constants.ts';
 
 /**
  * Schema serialization for v3 `Light Color Event`.

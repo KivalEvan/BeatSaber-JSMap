@@ -1,6 +1,6 @@
 import { v } from '../../../../deps.ts';
-import type { EnvironmentName, EnvironmentV3Name } from '../../../../types/beatmap/shared/mod.ts';
-import type { IInfo, IInfoDifficulty } from '../../../../types/beatmap/v1/info.ts';
+import type { EnvironmentName, EnvironmentV3Name } from '../../shared/types/environment.ts';
+import type { IInfo, IInfoDifficulty } from '../types/info.ts';
 import type { IColor } from '../../../../types/colors.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import {

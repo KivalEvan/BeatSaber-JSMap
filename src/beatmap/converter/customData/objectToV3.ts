@@ -1,6 +1,6 @@
-import type { ICustomDataBase } from '../../../types/beatmap/shared/custom/customData.ts';
-import type { ICustomDataNote } from '../../../types/beatmap/v2/custom/note.ts';
-import type { ICustomDataObstacle } from '../../../types/beatmap/v2/custom/obstacle.ts';
+import type { ICustomDataBase } from '../../schema/shared/types/custom/customData.ts';
+import type { ICustomDataNote } from '../../schema/v2/types/custom/note.ts';
+import type { ICustomDataObstacle } from '../../schema/v2/types/custom/obstacle.ts';
 import { isEmpty } from '../../../utils/misc/json.ts';
 import { renameKey } from './_helpers.ts';
 

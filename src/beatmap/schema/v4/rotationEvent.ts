@@ -1,6 +1,6 @@
-import type { ISpawnRotationContainer } from '../../../types/beatmap/container/v4.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapRotationEvent } from '../../../types/beatmap/wrapper/rotationEvent.ts';
+import type { ISpawnRotationContainer } from './types/container.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IWrapRotationEvent } from '../../core/types/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createRotationEvent } from '../../core/rotationEvent.ts';
 

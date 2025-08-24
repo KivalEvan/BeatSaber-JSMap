@@ -1,5 +1,5 @@
 import { v } from '../../../../../deps.ts';
-import type { IColorScheme } from '../../../../../types/beatmap/v2/custom/colorScheme.ts';
+import type { IColorScheme } from '../../types/custom/colorScheme.ts';
 import type { IColor } from '../../../../../types/colors.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 

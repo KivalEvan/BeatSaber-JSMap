@@ -1,4 +1,4 @@
-import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
+import type { DifficultyName } from '../schema/shared/types/difficulty.ts';
 
 /** NJS class for various utility around jump distance, reaction time, etc. */
 export class NoteJumpSpeed {

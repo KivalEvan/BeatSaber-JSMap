@@ -7,12 +7,12 @@ import {
    hasNoodleExtensionsNoteV2,
    hasNoodleExtensionsNoteV3,
 } from '../../beatmap/helpers/modded/has.ts';
-import type { GetAngleFn } from '../../types/beatmap/shared/functions.ts';
-import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
-import type { IWrapBaseSlider } from '../../types/beatmap/wrapper/baseSlider.ts';
-import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
+import type { GetAngleFn } from '../../beatmap/schema/shared/types/functions.ts';
+import type { IWrapBaseNote } from '../../beatmap/core/types/baseNote.ts';
+import type { IWrapBaseSlider } from '../../beatmap/core/types/baseSlider.ts';
+import type { IWrapBombNote } from '../../beatmap/core/types/bombNote.ts';
+import type { IWrapColorNote } from '../../beatmap/core/types/colorNote.ts';
+import type { IWrapGridObject } from '../../beatmap/core/types/gridObject.ts';
 import type { ICountNote, ICountStatsNote } from './types/stats.ts';
 
 /**

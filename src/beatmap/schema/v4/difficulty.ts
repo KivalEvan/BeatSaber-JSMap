@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IDifficulty } from '../../../types/beatmap/v4/difficulty.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IDifficulty } from './types/difficulty.ts';
+import type { IWrapBeatmap } from '../../core/types/beatmap.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBeatmap } from '../../core/beatmap.ts';
 import { createDifficulty } from '../../core/difficulty.ts';

@@ -1,5 +1,5 @@
-import type { IEvent } from '../../types/beatmap/v2/event.ts';
-import type { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
+import type { IEvent } from '../../beatmap/schema/v2/types/event.ts';
+import type { IBasicEvent } from '../../beatmap/schema/v3/types/basicEvent.ts';
 import { fixBoolean, fixColor, fixFloat, fixInt, fixString } from './helpers.ts';
 
 /**

@@ -1,8 +1,8 @@
 import { logger } from '../../../logger.ts';
-import type { IChromaMaterial } from '../../../types/beatmap/v2/custom/chroma.ts';
-import type { ICustomDataNote } from '../../../types/beatmap/v2/custom/note.ts';
-import type { ICustomDataObstacle } from '../../../types/beatmap/v2/custom/obstacle.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IChromaMaterial } from '../../schema/v2/types/custom/chroma.ts';
+import type { ICustomDataNote } from '../../schema/v2/types/custom/note.ts';
+import type { ICustomDataObstacle } from '../../schema/v2/types/custom/obstacle.ts';
+import type { IWrapBeatmap } from '../../core/types/beatmap.ts';
 import { isVector3, vectorMul } from '../../../utils/math/vector.ts';
 import { isLaserRotationEventType } from '../../helpers/core/basicEvent.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';

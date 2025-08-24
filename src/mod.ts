@@ -24,5 +24,7 @@
 export * from './beatmap/mod.ts';
 export * from './read/mod.ts';
 export * from './write/mod.ts';
+export * from './types/mod.ts';
+export * from './utils/mod.ts';
 export { Logger, logger } from './logger.ts';
 export { globals } from './globals.ts';

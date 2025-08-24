@@ -1,6 +1,6 @@
-import type { IColorBoostEventContainer } from '../../../types/beatmap/container/v4.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapColorBoostEvent } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IColorBoostEventContainer } from './types/container.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IWrapColorBoostEvent } from '../../core/types/colorBoostEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createColorBoostEvent } from '../../core/colorBoostEvent.ts';
 

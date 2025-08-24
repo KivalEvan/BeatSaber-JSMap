@@ -1,5 +1,5 @@
-import type { GetAngleFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
-import type { IWrapArc } from '../../types/beatmap/wrapper/arc.ts';
+import type { GetAngleFn, MirrorFn } from '../schema/shared/types/functions.ts';
+import type { IWrapArc } from './types/arc.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { mirrorArcMidAnchor } from '../helpers/core/arc.ts';

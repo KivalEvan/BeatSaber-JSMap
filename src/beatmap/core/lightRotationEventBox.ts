@@ -1,6 +1,4 @@
-import type {
-   IWrapLightRotationEventBox,
-} from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
+import type { IWrapLightRotationEventBox } from './types/lightRotationEventBox.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';

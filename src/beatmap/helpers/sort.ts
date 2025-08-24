@@ -1,9 +1,9 @@
-import type { INote } from '../../types/beatmap/v2/note.ts';
-import type { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object.ts';
-import type { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
-import type { IGridObject } from '../../types/beatmap/v3/gridObject.ts';
-import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
-import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
+import type { INote } from '../schema/v2/types/note.ts';
+import type { IBaseObject as IV2BaseObject } from '../schema/v2/types/object.ts';
+import type { IBaseObject as IV3BaseObject } from '../schema/v3/types/baseObject.ts';
+import type { IGridObject } from '../schema/v3/types/gridObject.ts';
+import type { IWrapBaseObject } from '../core/types/baseObject.ts';
+import type { IWrapGridObject } from '../core/types/gridObject.ts';
 import type { Vector2 } from '../../types/vector.ts';
 
 /**

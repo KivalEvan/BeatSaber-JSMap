@@ -1,5 +1,5 @@
-import type { GetPositionFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
-import type { IWrapGridObject } from '../../../types/beatmap/wrapper/gridObject.ts';
+import type { GetPositionFn, MirrorFn } from '../../schema/shared/types/functions.ts';
+import type { IWrapGridObject } from '../../core/types/gridObject.ts';
 import type { Vector2 } from '../../../types/vector.ts';
 import { vectorAdd } from '../../../utils/math/vector.ts';
 import {
@@ -14,7 +14,7 @@ import {
    resolveGridDistance,
    resolveGridPosition,
 } from '../../helpers/core/gridObject.ts';
-import { LINE_COUNT } from '../../shared/constants.ts';
+import { LINE_COUNT } from '../../misc/remaps.ts';
 import { BaseObject } from './baseObject.ts';
 
 /**

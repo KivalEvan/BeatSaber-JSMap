@@ -1,3 +1,4 @@
+export * from './bezier.ts';
 export * from './easings.ts';
 export * from './helpers.ts';
 export * from './random.ts';

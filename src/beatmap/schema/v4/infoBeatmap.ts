@@ -1,6 +1,6 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IInfoBeatmap } from '../../../types/beatmap/v4/info.ts';
-import type { IWrapInfoBeatmap } from '../../../types/beatmap/wrapper/info.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IInfoBeatmap } from './types/info.ts';
+import type { IWrapInfoBeatmap } from '../../core/types/info.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfoBeatmap } from '../../core/infoBeatmap.ts';
 

@@ -1,11 +1,16 @@
 # Changelog
 
-## 2.2.10 [2025-08-xx]
+## 2.3.0 [2025-09-xx]
+
+File restructured to be more streamlined and coupled to existing context. Most `types` has been
+moved to their respective location. For end-user, if you have made use of `types` you may only
+require to do minimal change.
 
 ```diff
 + Added chain link wrapper
 + Added bezier helpers
 + Added couple of vector helpers
+* File restructuring
 * Simplified change log
 - Removed unnecessary vector helpers
 ```

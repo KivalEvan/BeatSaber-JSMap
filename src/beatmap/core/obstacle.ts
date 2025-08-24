@@ -1,5 +1,5 @@
-import type { GetPositionFn, MirrorFn } from '../../types/beatmap/shared/functions.ts';
-import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { GetPositionFn, MirrorFn } from '../schema/shared/types/functions.ts';
+import type { IWrapObstacle } from './types/obstacle.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import type { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
@@ -10,7 +10,7 @@ import {
    isNegativeValueObstacle,
    isZeroValueObstacle,
 } from '../helpers/core/obstacle.ts';
-import { LINE_COUNT } from '../shared/constants.ts';
+import { LINE_COUNT } from '../misc/remaps.ts';
 import { GridObject } from './abstract/gridObject.ts';
 
 export function createObstacle(

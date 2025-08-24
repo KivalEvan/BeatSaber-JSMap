@@ -1,5 +1,5 @@
 import { v } from '../../../../deps.ts';
-import type { IAudio, IAudioBPM, IAudioLUFS } from '../../../../types/beatmap/v4/audioData.ts';
+import type { IAudio, IAudioBPM, IAudioLUFS } from '../types/audioData.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import { VersionSchema } from '../../shared/declaration/mod.ts';
 

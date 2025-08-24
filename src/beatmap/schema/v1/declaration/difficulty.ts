@@ -1,6 +1,7 @@
 import { v } from '../../../../deps.ts';
-import type { IDifficulty, IEvent, INote, IObstacle } from '../../../../types/beatmap/v1/mod.ts';
-import type { IBookmark, IBPMChangeOld } from '../../../../types/beatmap/v2/mod.ts';
+import type { IDifficulty, IEvent, INote, IObstacle } from '../types/mod.ts';
+import type { IBookmark } from '../../v2/types/custom/bookmark.ts';
+import type { IBPMChangeOld } from '../../v2/types/custom/bpmChange.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import { NoteTypeSchema, VersionSchema } from '../../shared/declaration/mod.ts';
 

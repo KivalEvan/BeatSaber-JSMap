@@ -1,4 +1,4 @@
-import type { IWrapEventBoxGroup } from '../../../types/beatmap/wrapper/eventBoxGroup.ts';
+import type { IWrapEventBoxGroup } from '../../core/types/eventBoxGroup.ts';
 import { BaseObject } from './baseObject.ts';
 import type { EventBox } from './eventBox.ts';
 

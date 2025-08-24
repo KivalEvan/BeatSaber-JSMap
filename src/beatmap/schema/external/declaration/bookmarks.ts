@@ -1,8 +1,7 @@
 import { v } from '../../../../deps.ts';
-import type { IBookmarkElement } from '../../../../types/beatmap/external/bookmarks.ts';
-import type { IBookmarks } from '../../../../types/beatmap/external/mod.ts';
+import type { IBookmarkElement, IBookmarks } from '../types/bookmarks.ts';
 import { entity, field, type InferObjectEntries } from '../../helpers.ts';
-import { CharacteristicNameSchema, DifficultyNameSchema } from '../../shared/declaration/mod.ts';
+import { CharacteristicNameSchema, DifficultyNameSchema } from '../../shared/declaration/common.ts';
 
 /** Schema declaration for official editor `Bookmark Element`  */
 export const BookmarkElementSchema: v.ObjectSchema<

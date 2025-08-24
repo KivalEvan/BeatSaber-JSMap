@@ -1,12 +1,12 @@
-import type { IWrapColorNote } from '../../../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapObstacle } from '../../../../types/beatmap/wrapper/obstacle.ts';
-import type { IWrapBasicEvent } from '../../../../types/beatmap/wrapper/basicEvent.ts';
+import type { IWrapColorNote } from '../../../../beatmap/core/types/colorNote.ts';
+import type { IWrapObstacle } from '../../../../beatmap/core/types/obstacle.ts';
+import type { IWrapBasicEvent } from '../../../../beatmap/core/types/basicEvent.ts';
 import type { EasingFunction, Easings } from '../../../../types/easings.ts';
 import type { ColorArray, ColorInput, ColorType } from '../../../../types/colors.ts';
 import type { ISetOptions } from './options.ts';
-import type { IWrapChain } from '../../../../types/beatmap/wrapper/chain.ts';
-import type { IWrapArc } from '../../../../types/beatmap/wrapper/arc.ts';
-import type { IWrapBombNote } from '../../../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapChain } from '../../../../beatmap/core/types/chain.ts';
+import type { IWrapArc } from '../../../../beatmap/core/types/arc.ts';
+import type { IWrapBombNote } from '../../../../beatmap/core/types/bombNote.ts';
 
 export type IChromaObject =
    | IWrapColorNote

@@ -1,4 +1,4 @@
-import type { IWrapEventBox } from '../../../types/beatmap/wrapper/eventBox.ts';
+import type { IWrapEventBox } from '../../core/types/eventBox.ts';
 import type { IndexFilter } from '../indexFilter.ts';
 import { BaseItem } from './baseItem.ts';
 import type { BaseObject } from './baseObject.ts';

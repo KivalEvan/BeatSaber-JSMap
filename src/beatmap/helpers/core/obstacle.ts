@@ -1,4 +1,4 @@
-import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapObstacle } from '../../core/types/obstacle.ts';
 
 /** Check if obstacle is interactive. */
 export function isInteractiveObstacle<

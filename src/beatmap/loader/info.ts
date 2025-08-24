@@ -1,11 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../../logger.ts';
-import type { ILoadOptions } from '../../types/beatmap/options/loader.ts';
+import type { ILoadOptions } from './types.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
-} from '../../types/beatmap/shared/infer.ts';
+} from '../schema/shared/types/infer.ts';
 import { loadBeatmap, tag } from './_main.ts';
 
 /**

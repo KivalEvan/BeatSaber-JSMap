@@ -1,8 +1,8 @@
 import { round } from '../../../../utils/math/helpers.ts';
-import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
-import type { ILightshow } from '../../../../types/beatmap/v4/lightshow.ts';
+import type { IOptimizeOptions } from '../../../mapping/types/optimize.ts';
+import type { ILightshow } from '../types/lightshow.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
-import { EventBoxType } from '../../../shared/constants.ts';
+import { EventBoxType } from '../../shared/types/constants.ts';
 import { isEmpty } from '../../../../utils/misc/json.ts';
 
 /**

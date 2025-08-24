@@ -1,8 +1,8 @@
 import type {
    IChromaComponent,
    IChromaEnvironment,
-} from '../../../../types/beatmap/v3/custom/chroma.ts';
-import type { IChromaEnvironment as IV2ChromaEnvironment } from '../../../../types/beatmap/v2/custom/chroma.ts';
+} from '../../../../beatmap/schema/v3/types/custom/chroma.ts';
+import type { IChromaEnvironment as IV2ChromaEnvironment } from '../../../../beatmap/schema/v2/types/custom/chroma.ts';
 import { logger } from '../../../../logger.ts';
 import { vectorMul } from '../../../../utils/math/vector.ts';
 
@@ -95,7 +95,10 @@ export function envV3ToV2(env: IChromaEnvironment[]): IV2ChromaEnvironment[] {
          };
       }
       if (e.geometry) {
-         if (e.components?.ILightWithId?.type || e.components?.ILightWithId?.lightID) {
+         if (
+            e.components?.ILightWithId?.type ||
+            e.components?.ILightWithId?.lightID
+         ) {
             logger.tWarn(
                tag('envV3ToV2'),
                'v2 geometry cannot be made assignable light to specific type',

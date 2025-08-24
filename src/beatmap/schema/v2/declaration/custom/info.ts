@@ -3,7 +3,7 @@ import type {
    ICustomDataInfo,
    ICustomDataInfoDifficulty,
    ICustomDataInfoSet,
-} from '../../../../../types/beatmap/v2/custom/info.ts';
+} from '../../types/custom/info.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 import { CustomContributorSchema } from '../../../shared/declaration/custom/contributor.ts';
 import { CustomColorSchemeSchema } from './colorScheme.ts';

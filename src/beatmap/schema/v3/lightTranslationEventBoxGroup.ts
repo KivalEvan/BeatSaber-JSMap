@@ -1,6 +1,6 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { ILightTranslationEventBoxGroup } from '../../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
-import type { IWrapLightTranslationEventBoxGroup } from '../../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { ILightTranslationEventBoxGroup } from './types/lightTranslationEventBoxGroup.ts';
+import type { IWrapLightTranslationEventBoxGroup } from '../../core/types/lightTranslationEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightTranslationEventBoxGroup } from '../../core/lightTranslationEventBoxGroup.ts';
 import { lightTranslationEventBox } from './lightTranslationEventBox.ts';

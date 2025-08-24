@@ -1,6 +1,6 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IChain } from '../../../types/beatmap/v3/chain.ts';
-import type { IWrapChain } from '../../../types/beatmap/wrapper/chain.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IChain } from './types/chain.ts';
+import type { IWrapChain } from '../../core/types/chain.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createChain } from '../../core/chain.ts';
 

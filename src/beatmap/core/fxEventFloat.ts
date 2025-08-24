@@ -1,4 +1,4 @@
-import type { IWrapFxEventFloat } from '../../types/beatmap/wrapper/fxEventFloat.ts';
+import type { IWrapFxEventFloat } from './types/fxEventFloat.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseObject } from './abstract/baseObject.ts';

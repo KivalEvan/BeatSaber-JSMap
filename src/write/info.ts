@@ -4,8 +4,8 @@ import type {
    InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
-} from '../types/beatmap/shared/infer.ts';
-import type { IWriteOptions } from '../types/mod.ts';
+} from '../beatmap/schema/shared/types/infer.ts';
+import type { IWriteOptions } from './types.ts';
 import { handleWrite, handleWriteSync, tag } from './_main.ts';
 
 /**

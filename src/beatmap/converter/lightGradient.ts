@@ -1,6 +1,6 @@
 import { logger } from '../../logger.ts';
-import type { IChromaLightGradient } from '../../types/beatmap/v2/custom/chroma.ts';
-import type { IWrapBeatmapSubset } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IChromaLightGradient } from '../schema/v2/types/custom/chroma.ts';
+import type { IWrapBeatmapSubset } from '../core/types/beatmap.ts';
 import type { Easings } from '../../types/easings.ts';
 import { lerpColor } from '../../utils/colors/helpers.ts';
 import { EasingsFn } from '../../utils/math/easings.ts';

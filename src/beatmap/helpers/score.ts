@@ -1,4 +1,4 @@
-import type { IWrapBeatmapSubset } from '../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmapSubset } from '../core/types/beatmap.ts';
 import { lerp, normalize } from '../../utils/math/helpers.ts';
 
 type IScoreBeatmapSubset = IWrapBeatmapSubset<

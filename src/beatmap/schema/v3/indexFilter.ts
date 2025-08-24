@@ -1,6 +1,6 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IIndexFilter } from '../../../types/beatmap/v3/indexFilter.ts';
-import type { IWrapIndexFilter } from '../../../types/beatmap/wrapper/indexFilter.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IIndexFilter } from './types/indexFilter.ts';
+import type { IWrapIndexFilter } from '../../core/types/indexFilter.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createIndexFilter } from '../../core/indexFilter.ts';
 

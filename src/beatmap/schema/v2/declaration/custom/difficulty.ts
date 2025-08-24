@@ -1,5 +1,5 @@
 import { v } from '../../../../../deps.ts';
-import type { ICustomDataDifficulty } from '../../../../../types/beatmap/v2/custom/difficulty.ts';
+import type { ICustomDataDifficulty } from '../../types/custom/difficulty.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 import { CustomBookmarkSchema } from './bookmark.ts';
 import { CustomBPMChangeOldSchema, CustomBPMChangeSchema } from './bpmChange.ts';

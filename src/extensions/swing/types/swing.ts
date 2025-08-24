@@ -1,7 +1,7 @@
-import type { CharacteristicName } from '../../../types/beatmap/shared/characteristic.ts';
-import type { DifficultyName } from '../../../types/beatmap/shared/difficulty.ts';
-import type { IWrapBaseNote } from '../../../types/beatmap/wrapper/baseNote.ts';
-import type { IWrapBeatmapSubset } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { CharacteristicName } from '../../../beatmap/schema/shared/types/characteristic.ts';
+import type { DifficultyName } from '../../../beatmap/schema/shared/types/difficulty.ts';
+import type { IWrapBaseNote } from '../../../beatmap/core/types/baseNote.ts';
+import type { IWrapBeatmapSubset } from '../../../beatmap/core/types/beatmap.ts';
 
 export type ISwingAnalysisBeatmap =
    & IWrapBeatmapSubset<

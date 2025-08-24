@@ -3,8 +3,8 @@ import type {
    InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
-} from '../../types/beatmap/shared/infer.ts';
-import type { BeatmapFileType, ISchemaContainer } from '../../types/beatmap/shared/schema.ts';
+} from '../schema/shared/types/infer.ts';
+import type { BeatmapFileType, ISchemaContainer } from '../schema/shared/types/schema.ts';
 import { difficulty as V1Difficulty } from '../schema/v1/difficulty.ts';
 import { info as V1Info } from '../schema/v1/info.ts';
 import { audioData as V2AudioData } from '../schema/v2/audioData.ts';

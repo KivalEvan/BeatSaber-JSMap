@@ -3,7 +3,7 @@ import type {
    PointDefinition1Base,
    PointDefinition3Base,
    PointDefinition4Base,
-} from '../../types/beatmap/shared/custom/heck.ts';
+} from '../../beatmap/schema/shared/types/custom/heck.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import type { Easings } from '../../types/easings.ts';
 import type { Vector2, Vector3, Vector4 } from '../../types/vector.ts';

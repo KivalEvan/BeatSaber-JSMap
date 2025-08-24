@@ -4,8 +4,8 @@ import type {
    InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
-} from '../types/beatmap/shared/infer.ts';
-import type { IReadOptions } from '../types/bsmap/reader.ts';
+} from '../beatmap/schema/shared/types/infer.ts';
+import type { IReadOptions } from './types.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
 import { handleRead, handleReadSync, tag } from './_main.ts';
 

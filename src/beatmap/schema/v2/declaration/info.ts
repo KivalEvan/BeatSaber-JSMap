@@ -4,14 +4,14 @@ import type {
    EnvironmentAllName,
    EnvironmentName,
    EnvironmentV3Name,
-} from '../../../../types/beatmap/shared/mod.ts';
+} from '../../shared/types/mod.ts';
 import type {
    IInfo,
    IInfoColorScheme,
    IInfoColorSchemeData,
    IInfoDifficulty,
    IInfoSet,
-} from '../../../../types/beatmap/v2/info.ts';
+} from '../../../schema/v2/types/info.ts';
 import type { IColor } from '../../../../types/colors.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import {

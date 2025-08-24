@@ -1,7 +1,7 @@
 import { round } from '../../../../utils/math/helpers.ts';
-import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
+import type { IOptimizeOptions } from '../../../mapping/types/optimize.ts';
 import { deepClean, purgeZeros } from '../../../helpers/optimize.ts';
-import type { ILightshow } from '../../../../types/beatmap/v3/lightshow.ts';
+import type { ILightshow } from '../types/lightshow.ts';
 import { isEmpty } from '../../../../utils/misc/json.ts';
 
 /**

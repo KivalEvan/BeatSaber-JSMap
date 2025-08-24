@@ -8,7 +8,7 @@ import type {
    INJSEvent,
    IObstacle,
    ISpawnRotation,
-} from '../../../../types/beatmap/v4/mod.ts';
+} from '../types/mod.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import {
    CustomDataSchema,

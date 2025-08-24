@@ -7,9 +7,9 @@ import type {
    InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
-} from '../types/beatmap/shared/infer.ts';
-import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
-import type { IWriteOptions } from '../types/bsmap/writer.ts';
+} from '../beatmap/schema/shared/types/infer.ts';
+import type { BeatmapFileType } from '../beatmap/schema/shared/types/schema.ts';
+import type { IWriteOptions } from './types.ts';
 
 const defaultOptions = {
    directory: '',

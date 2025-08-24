@@ -6,7 +6,7 @@ import type {
    PointDefinitionAllOperand,
    Vector3PointDefinition,
    Vector4PointDefinition,
-} from '../../types/beatmap/shared/custom/heck.ts';
+} from '../../beatmap/schema/shared/types/custom/heck.ts';
 
 export function isFloatPointDefinition(
    point: unknown,

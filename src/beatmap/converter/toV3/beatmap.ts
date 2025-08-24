@@ -1,11 +1,11 @@
 import { logger } from '../../../logger.ts';
-import type { IChromaComponent, IChromaMaterial } from '../../../types/beatmap/v3/custom/chroma.ts';
-import type { ICustomDataNote } from '../../../types/beatmap/v3/custom/note.ts';
-import type { ICustomDataObstacle } from '../../../types/beatmap/v3/custom/obstacle.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
+import type { IChromaComponent, IChromaMaterial } from '../../schema/v3/types/custom/chroma.ts';
+import type { ICustomDataNote } from '../../schema/v3/types/custom/note.ts';
+import type { ICustomDataObstacle } from '../../schema/v3/types/custom/obstacle.ts';
+import type { IWrapBeatmap } from '../../core/types/beatmap.ts';
+import type { IWrapBombNote } from '../../core/types/bombNote.ts';
+import type { IWrapColorNote } from '../../core/types/colorNote.ts';
+import type { IWrapObstacle } from '../../core/types/obstacle.ts';
 import { clamp } from '../../../utils/math/helpers.ts';
 import { isVector3, vectorMul } from '../../../utils/math/vector.ts';
 import { isLightEventType, isRingEventType } from '../../helpers/core/basicEvent.ts';

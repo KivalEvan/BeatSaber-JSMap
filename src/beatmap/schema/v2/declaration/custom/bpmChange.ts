@@ -1,8 +1,5 @@
 import { v } from '../../../../../deps.ts';
-import type {
-   IBPMChange,
-   IBPMChangeOld,
-} from '../../../../../types/beatmap/v2/custom/bpmChange.ts';
+import type { IBPMChange, IBPMChangeOld } from '../../types/custom/bpmChange.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 
 /** Schema declaration for v2 custom `BPM Change (Old)`. */

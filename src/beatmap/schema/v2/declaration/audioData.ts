@@ -1,5 +1,5 @@
 import { v } from '../../../../deps.ts';
-import type { IBPMInfo, IBPMInfoRegion } from '../../../../types/beatmap/v2/bpmInfo.ts';
+import type { IBPMInfo, IBPMInfoRegion } from '../../../schema/v2/types/bpmInfo.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import { VersionSchema } from '../../shared/declaration/mod.ts';
 

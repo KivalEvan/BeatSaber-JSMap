@@ -1,6 +1,6 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWaypoint } from '../../../types/beatmap/v2/waypoint.ts';
-import type { IWrapWaypoint } from '../../../types/beatmap/wrapper/waypoint.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IWaypoint } from '../../schema/v2/types/waypoint.ts';
+import type { IWrapWaypoint } from '../../core/types/waypoint.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createWaypoint } from '../../core/waypoint.ts';
 

@@ -1,4 +1,4 @@
-import { build, emptyDir } from 'jsr:@deno/dnt';
+import { build, emptyDir } from 'jsr:@deno/dnt@0.42.3';
 import denoJson from './deno.json' with { type: 'json' };
 
 await emptyDir('./npm');

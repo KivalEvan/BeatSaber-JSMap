@@ -1,4 +1,4 @@
-import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapBombNote } from './types/bombNote.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseNote } from './abstract/baseNote.ts';

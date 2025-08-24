@@ -1,12 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../logger.ts';
-import type { GenericBeatmapFilename } from '../types/beatmap/shared/filename.ts';
+import type { GenericBeatmapFilename } from '../beatmap/schema/shared/types/filename.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
-} from '../types/beatmap/shared/infer.ts';
-import type { IReadOptions } from '../types/bsmap/reader.ts';
+} from '../beatmap/schema/shared/types/infer.ts';
+import type { IReadOptions } from './types.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
 import { handleRead, handleReadSync, tag } from './_main.ts';
 

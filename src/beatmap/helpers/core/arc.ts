@@ -1,7 +1,7 @@
-import type { IWrapArc } from '../../../types/beatmap/wrapper/arc.ts';
+import type { IWrapArc } from '../../core/types/arc.ts';
 import { lowestDifferenceMod, nearEqual } from '../../../utils/math/helpers.ts';
 import { cycle } from '../../../utils/misc/iterator.ts';
-import { NoteDirection, SliderMidAnchorMode } from '../../shared/constants.ts';
+import { NoteDirection, SliderMidAnchorMode } from '../../schema/shared/types/constants.ts';
 import { resolveNoteAngle } from './baseNote.ts';
 
 /** Mirror note color. */

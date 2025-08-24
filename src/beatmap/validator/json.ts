@@ -1,8 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import type { StandardSchemaV1 } from '../../deps.ts';
 import { logger } from '../../logger.ts';
-import type { ISchemaCheckOptions } from '../../types/beatmap/options/schema.ts';
-import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
+import type { ISchemaCheckOptions } from '../mapping/types/schema.ts';
+import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import {
    audioSchemaMap,
    difficultyCheckMap,

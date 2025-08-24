@@ -1,5 +1,5 @@
 import type { Vector3 } from '../../../../types/vector.ts';
-import type { IChromaEnvironment } from '../../../../types/beatmap/v3/custom/chroma.ts';
+import type { IChromaEnvironment } from '../../../../beatmap/schema/v3/types/custom/chroma.ts';
 import type { IChromaEnvironmentPlacement } from '../types/environment.ts';
 import { deepCopy } from '../../../../utils/misc/json.ts';
 

@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
-import type { InferBeatmap, InferBeatmapVersion } from '../../types/beatmap/shared/infer.ts';
-import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
+import type { InferBeatmap, InferBeatmapVersion } from '../schema/shared/types/infer.ts';
+import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import { toV1Beatmap } from '../converter/toV1/beatmap.ts';
 import { toV1Info } from '../converter/toV1/info.ts';
 import { toV2AudioData } from '../converter/toV2/audioData.ts';

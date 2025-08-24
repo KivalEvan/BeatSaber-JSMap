@@ -1,8 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
-import type { EnvironmentName } from '../../../types/beatmap/shared/environment.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IInfo } from '../../../types/beatmap/v1/info.ts';
-import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
+import type { EnvironmentName } from '../shared/types/environment.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IInfo } from './types/info.ts';
+import type { IWrapInfo } from '../../core/types/info.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfo } from '../../core/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';

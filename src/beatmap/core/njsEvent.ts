@@ -1,4 +1,4 @@
-import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
+import type { IWrapNJSEvent } from './types/njsEvent.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseObject } from './abstract/baseObject.ts';

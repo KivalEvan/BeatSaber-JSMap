@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
-import type { IOptimizeOptions } from '../../types/beatmap/options/optimize.ts';
-import type { InferBeatmapSerial, InferBeatmapVersion } from '../../types/beatmap/shared/infer.ts';
-import type { BeatmapFileType } from '../../types/mod.ts';
+import type { IOptimizeOptions } from './types/optimize.ts';
+import type { InferBeatmapSerial, InferBeatmapVersion } from '../schema/shared/types/infer.ts';
+import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import { optimizeDifficulty as optimizeV1Difficulty } from '../schema/v1/optimize/difficulty.ts';
 import { optimizeInfo as optimizeV1Info } from '../schema/v1/optimize/info.ts';
 import { optimizeDifficulty as optimizeV2Difficulty } from '../schema/v2/optimize/difficulty.ts';

@@ -1,6 +1,6 @@
-import type { IWrapBaseSlider } from '../../../types/beatmap/wrapper/baseSlider.ts';
-import type { IWrapGridObject } from '../../../types/beatmap/wrapper/gridObject.ts';
-import type { GetPositionFn } from '../../../types/mod.ts';
+import type { IWrapBaseSlider } from '../../core/types/baseSlider.ts';
+import type { IWrapGridObject } from '../../core/types/gridObject.ts';
+import type { GetPositionFn } from '../../schema/shared/types/functions.ts';
 import type { Vector2 } from '../../../types/vector.ts';
 import {
    vectorDistance,

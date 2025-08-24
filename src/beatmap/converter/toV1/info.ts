@@ -1,6 +1,6 @@
 import { logger } from '../../../logger.ts';
-import type { EnvironmentName } from '../../../types/beatmap/shared/environment.ts';
-import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
+import type { EnvironmentName } from '../../schema/shared/types/environment.ts';
+import type { IWrapInfo } from '../../core/types/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 
 function tag(name: string): string[] {

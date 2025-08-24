@@ -1,8 +1,8 @@
-import type { ICustomDataNote as IV2CustomDataNote } from '../../types/beatmap/v2/custom/note.ts';
-import type { ICustomDataObstacle as IV2CustomDataObstacle } from '../../types/beatmap/v2/custom/obstacle.ts';
-import type { ICustomDataNote as IV3CustomDataNote } from '../../types/beatmap/v3/custom/note.ts';
-import type { ICustomDataObstacle as IV3CustomDataObstacle } from '../../types/beatmap/v3/custom/obstacle.ts';
-import type { ICustomDataSlider } from '../../types/beatmap/v3/custom/slider.ts';
+import type { ICustomDataNote as IV2CustomDataNote } from '../../beatmap/schema/v2/types/custom/note.ts';
+import type { ICustomDataObstacle as IV2CustomDataObstacle } from '../../beatmap/schema/v2/types/custom/obstacle.ts';
+import type { ICustomDataNote as IV3CustomDataNote } from '../../beatmap/schema/v3/types/custom/note.ts';
+import type { ICustomDataObstacle as IV3CustomDataObstacle } from '../../beatmap/schema/v3/types/custom/obstacle.ts';
+import type { ICustomDataSlider } from '../../beatmap/schema/v3/types/custom/slider.ts';
 import type { Vector3 } from '../../types/vector.ts';
 import {
    fixBoolean,

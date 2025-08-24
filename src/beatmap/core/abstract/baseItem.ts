@@ -1,5 +1,5 @@
-import type { IWrapBaseItem } from '../../../types/beatmap/wrapper/baseItem.ts';
-import { Cloneable } from '../../shared/cloneable.ts';
+import type { IWrapBaseItem } from '../../core/types/baseItem.ts';
+import { Cloneable } from '../../misc/cloneable.ts';
 
 /**
  * Basic building block of beatmap item.

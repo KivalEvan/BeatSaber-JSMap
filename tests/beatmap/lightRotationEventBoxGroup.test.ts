@@ -1,5 +1,5 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, LightRotationEventBoxGroup, types, v3, v4 } from '../deps.ts';
+import { assertEquals, EventBoxType, LightRotationEventBoxGroup, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.lightRotationEventBoxGroup, 'V4 Light Rotation Event Box Group'],
@@ -205,7 +205,7 @@ for (const tup of schemaList) {
             obj = new BaseClass(
                (schema as typeof v4.lightRotationEventBoxGroup).deserialize({
                   object: {
-                     t: types.EventBoxType.ROTATION,
+                     t: EventBoxType.ROTATION,
                      b: 1,
                      g: 2,
                      e: [
@@ -357,7 +357,7 @@ for (const tup of schemaList) {
             obj = new BaseClass(
                (schema as typeof v4.lightRotationEventBoxGroup).deserialize({
                   object: {
-                     t: types.EventBoxType.ROTATION,
+                     t: EventBoxType.ROTATION,
                      b: 1,
                   },
                   boxData: [
@@ -470,7 +470,7 @@ for (const tup of schemaList) {
          case v4.lightRotationEventBoxGroup:
             assertEquals(json, {
                object: {
-                  t: types.EventBoxType.ROTATION,
+                  t: EventBoxType.ROTATION,
                   b: 0,
                   g: 0,
                   e: [],

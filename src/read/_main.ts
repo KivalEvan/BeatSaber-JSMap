@@ -3,14 +3,14 @@ import { loadBeatmap } from '../beatmap/loader/_main.ts';
 import { globals } from '../globals.ts';
 import { readJSONFile, readJSONFileSync } from '../shims/_json.ts';
 import { path } from '../shims/path.ts';
-import type { MirrorFn } from '../types/beatmap/shared/functions.ts';
+import type { MirrorFn } from '../beatmap/schema/shared/types/functions.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
-} from '../types/beatmap/shared/infer.ts';
-import type { BeatmapFileType } from '../types/beatmap/shared/schema.ts';
-import type { IReadOptions } from '../types/bsmap/reader.ts';
+} from '../beatmap/schema/shared/types/infer.ts';
+import type { BeatmapFileType } from '../beatmap/schema/shared/types/schema.ts';
+import type { IReadOptions } from './types.ts';
 
 const defaultOptions = {
    directory: '',

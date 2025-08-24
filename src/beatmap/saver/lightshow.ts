@@ -1,11 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
 import { logger } from '../../logger.ts';
-import type { ISaveOptions } from '../../types/beatmap/options/saver.ts';
+import type { ISaveOptions } from './types.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
-} from '../../types/beatmap/shared/infer.ts';
+} from '../schema/shared/types/infer.ts';
 import { saveBeatmap, tag } from './_main.ts';
 
 /**

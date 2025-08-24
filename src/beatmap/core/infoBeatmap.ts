@@ -1,11 +1,11 @@
-import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
-import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
+import type { CharacteristicName } from '../schema/shared/types/characteristic.ts';
+import type { DifficultyName } from '../schema/shared/types/difficulty.ts';
 import type {
    GenericBeatmapFilename,
    GenericLightshowFilename,
-} from '../../types/beatmap/shared/filename.ts';
-import type { IInfoBeatmapAuthors } from '../../types/beatmap/v4/info.ts';
-import type { IWrapInfoBeatmap } from '../../types/beatmap/wrapper/info.ts';
+} from '../schema/shared/types/filename.ts';
+import type { IInfoBeatmapAuthors } from '../schema/v4/types/info.ts';
+import type { IWrapInfoBeatmap } from './types/info.ts';
 import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';

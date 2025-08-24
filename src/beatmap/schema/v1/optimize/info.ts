@@ -1,6 +1,6 @@
 import { round } from '../../../../utils/math/helpers.ts';
-import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
-import type { IInfo } from '../../../../types/beatmap/v1/info.ts';
+import type { IOptimizeOptions } from '../../../mapping/types/optimize.ts';
+import type { IInfo } from '../types/info.ts';
 
 /**
  * Optimize v1 `Info` schema data.

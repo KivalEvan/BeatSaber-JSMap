@@ -2,7 +2,7 @@ import type {
    Environment360Name,
    EnvironmentAllName,
    EnvironmentV3Name,
-} from '../../types/beatmap/shared/environment.ts';
+} from '../schema/shared/types/environment.ts';
 
 /** Check if environment is 360 environment. */
 export function is360Environment(

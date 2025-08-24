@@ -1,5 +1,5 @@
-import type { IBasicEvent } from '../../../types/beatmap/v3/basicEvent.ts';
-import type { IEvent } from '../../../types/beatmap/v2/event.ts';
+import type { IBasicEvent } from '../../schema/v3/types/basicEvent.ts';
+import type { IEvent } from '../../schema/v2/types/event.ts';
 import { renameKey } from './_helpers.ts';
 import { isEmpty } from '../../../utils/misc/json.ts';
 

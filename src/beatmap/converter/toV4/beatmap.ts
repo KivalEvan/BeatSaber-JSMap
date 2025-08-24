@@ -1,7 +1,7 @@
 import { logger } from '../../../logger.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBeatmap } from '../../core/types/beatmap.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
-import { ExecutionTime } from '../../shared/constants.ts';
+import { ExecutionTime } from '../../schema/shared/types/constants.ts';
 import { toV3Beatmap } from '../toV3/beatmap.ts';
 
 function tag(name: string): string[] {

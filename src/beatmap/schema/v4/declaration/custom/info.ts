@@ -3,7 +3,7 @@ import type {
    ICustomCharacteristic,
    ICustomDataInfo,
    ICustomDataInfoBeatmap,
-} from '../../../../../types/beatmap/v4/custom/info.ts';
+} from '../../types/custom/info.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 import {
    CharacteristicNameSchema,

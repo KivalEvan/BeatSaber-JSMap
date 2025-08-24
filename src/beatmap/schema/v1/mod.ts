@@ -7,6 +7,7 @@
 export * from './compat/mod.ts';
 export * from './declaration/mod.ts';
 export * from './optimize/mod.ts';
+export * from './types/mod.ts';
 
 export * from './basicEvent.ts';
 export * from './bombNote.ts';

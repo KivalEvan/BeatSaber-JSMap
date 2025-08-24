@@ -1,4 +1,4 @@
-import type { IWrapFxEventBoxGroup } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
+import type { IWrapFxEventBoxGroup } from './types/fxEventBoxGroup.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';

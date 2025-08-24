@@ -1,6 +1,6 @@
-import type { IBombNoteContainer } from '../../../types/beatmap/container/v4.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
+import type { IBombNoteContainer } from './types/container.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IWrapBombNote } from '../../core/types/bombNote.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBombNote } from '../../core/bombNote.ts';
 

@@ -1,7 +1,7 @@
 import type { TimeProcessor } from '../beatmap/helpers/timeProcessor.ts';
 import { logger } from '../logger.ts';
-import type { IWrapBaseObject } from '../types/beatmap/wrapper/baseObject.ts';
-import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
+import type { IWrapBaseObject } from '../beatmap/core/types/baseObject.ts';
+import type { IWrapBeatmap } from '../beatmap/core/types/beatmap.ts';
 
 function tag(): string[] {
    return ['patch', 'removeOutsidePlayable'];

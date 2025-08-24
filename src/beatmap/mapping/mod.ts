@@ -9,6 +9,8 @@
  * @module
  */
 
+export * from './types/mod.ts';
+
 export * from './compatibility.ts';
 export * from './converter.ts';
 export * from './optimizer.ts';

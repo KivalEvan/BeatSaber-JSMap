@@ -1,6 +1,6 @@
-import type { ICompatibilityOptions } from '../../types/beatmap/options/compatibility.ts';
-import type { InferBeatmap, InferBeatmapVersion } from '../../types/beatmap/shared/infer.ts';
-import type { BeatmapFileType } from '../../types/beatmap/shared/schema.ts';
+import type { ICompatibilityOptions } from './types/compatibility.ts';
+import type { InferBeatmap, InferBeatmapVersion } from '../schema/shared/types/infer.ts';
+import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import { compatDifficulty as compatV1Difficulty } from '../schema/v1/compat/difficulty.ts';
 import { compatInfo as compatV1Info } from '../schema/v1/compat/info.ts';
 import { compatAudioData as compatV2AudioData } from '../schema/v2/compat/audioData.ts';

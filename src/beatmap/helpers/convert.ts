@@ -1,4 +1,4 @@
-import { LANE_SIZE } from '../shared/constants.ts';
+import { LANE_SIZE } from '../misc/remaps.ts';
 
 /** Convert grid lane size unit to unity unit. */
 export function gridToUnityUnit(value: number): number {

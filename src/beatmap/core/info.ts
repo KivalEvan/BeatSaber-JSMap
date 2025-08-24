@@ -3,19 +3,19 @@ import type {
    EnvironmentAllName,
    EnvironmentName,
    EnvironmentV3Name,
-} from '../../types/beatmap/shared/environment.ts';
+} from '../schema/shared/types/environment.ts';
 import type {
    IWrapInfo,
    IWrapInfoAudio,
    IWrapInfoBeatmap,
    IWrapInfoColorScheme,
    IWrapInfoSong,
-} from '../../types/beatmap/wrapper/info.ts';
+} from './types/info.ts';
 import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
-import { CharacteristicOrder } from '../shared/characteristic.ts';
-import { DifficultyRanking } from '../shared/difficulty.ts';
+import { CharacteristicOrder } from '../misc/characteristic.ts';
+import { DifficultyRanking } from '../misc/difficulty.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import { createInfoBeatmap, InfoBeatmap } from './infoBeatmap.ts';
 

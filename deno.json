@@ -1,12 +1,9 @@
 {
    "name": "@kvl/bsmap",
-   "version": "2.2.9",
+   "version": "2.3.0",
    "license": "MIT",
    "exports": {
       ".": "./src/mod.ts",
-      "./types": "./src/types/mod.ts",
-      "./utils": "./src/utils/mod.ts",
-      "./beatmap/mapping": "./src/beatmap/mapping/mod.ts",
       "./extensions": "./src/extensions/mod.ts",
       "./patch": "./src/patch/mod.ts",
       "./shims": "./src/shims/mod.ts"
@@ -24,11 +21,8 @@
    "tasks": {
       "npm": "deno run -A ./dnt.ts",
       "npm:clean": "rm -r ./npm",
-      "check": "deno task check:main && deno task check:types && deno task check:utils && deno task check:mapping && deno task check:extensions && deno task check:patch && deno task check:shims",
+      "check": "deno task check:main && deno task check:extensions && deno task check:patch && deno task check:shims",
       "check:main": "deno check src/mod.ts",
-      "check:types": "deno check src/types/mod.ts",
-      "check:utils": "deno check src/utils/mod.ts",
-      "check:mapping": "deno check src/beatmap/mapping/mod.ts",
       "check:extensions": "deno check src/extensions/mod.ts",
       "check:patch": "deno check src/patch/mod.ts",
       "check:shims": "deno check src/shims/mod.ts",

@@ -1,7 +1,7 @@
 import { getFirstInteractiveTime, getLastInteractiveTime } from '../../beatmap/helpers/beatmap.ts';
 import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
-import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
-import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
+import type { CharacteristicName } from '../../beatmap/schema/shared/types/characteristic.ts';
+import type { DifficultyName } from '../../beatmap/schema/shared/types/difficulty.ts';
 import { median } from '../../utils/math/helpers.ts';
 import { generate, next } from './swing.ts';
 import type {

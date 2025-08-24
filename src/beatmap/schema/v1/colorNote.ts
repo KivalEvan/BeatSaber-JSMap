@@ -1,8 +1,8 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { INote } from '../../../types/beatmap/v1/note.ts';
-import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { INote } from './types/note.ts';
+import type { IWrapColorNote } from '../../core/types/colorNote.ts';
 import { createColorNote } from '../../core/colorNote.ts';
-import { NoteColor } from '../../shared/constants.ts';
+import { NoteColor } from '../shared/types/constants.ts';
 
 /**
  * Schema serialization for v1 `Color Note`.

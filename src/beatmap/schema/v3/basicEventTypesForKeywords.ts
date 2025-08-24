@@ -1,6 +1,6 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IBasicEventTypesForKeywords } from '../../../types/beatmap/v3/basicEventTypesForKeywords.ts';
-import type { IWrapBasicEventTypesForKeywords } from '../../../types/beatmap/wrapper/basicEventTypesForKeywords.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IBasicEventTypesForKeywords } from './types/basicEventTypesForKeywords.ts';
+import type { IWrapBasicEventTypesForKeywords } from '../../core/types/basicEventTypesForKeywords.ts';
 import { createBasicEventTypesForKeywords } from '../../core/basicEventTypesForKeywords.ts';
 
 /**

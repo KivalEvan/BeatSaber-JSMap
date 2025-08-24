@@ -1,4 +1,4 @@
-import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IWrapColorBoostEvent } from './types/colorBoostEvent.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseObject } from './abstract/baseObject.ts';

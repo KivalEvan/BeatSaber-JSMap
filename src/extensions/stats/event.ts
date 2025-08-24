@@ -1,10 +1,10 @@
 import { isOldChromaEventValue } from '../../beatmap/helpers/core/basicEvent.ts';
 import { hasChromaEventV2, hasChromaEventV3 } from '../../beatmap/helpers/modded/has.ts';
-import { EventList } from '../../beatmap/shared/environment.ts';
+import { EventList } from '../../beatmap/misc/environment.ts';
 import { isValidEventType } from '../../mod.ts';
-import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { EnvironmentAllName } from '../../beatmap/schema/shared/types/environment.ts';
+import type { IWrapBasicEvent } from '../../beatmap/core/types/basicEvent.ts';
+import type { IWrapColorBoostEvent } from '../../beatmap/core/types/colorBoostEvent.ts';
 import type { ICountEvent } from './types/stats.ts';
 
 /**

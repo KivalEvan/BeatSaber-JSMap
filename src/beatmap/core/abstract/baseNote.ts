@@ -1,5 +1,5 @@
-import type { GetAngleFn, MirrorFn } from '../../../types/beatmap/shared/functions.ts';
-import type { IWrapBaseNote } from '../../../types/beatmap/wrapper/baseNote.ts';
+import type { GetAngleFn, MirrorFn } from '../../schema/shared/types/functions.ts';
+import type { IWrapBaseNote } from '../../core/types/baseNote.ts';
 import {
    isBlueNoteColor,
    isDouble,

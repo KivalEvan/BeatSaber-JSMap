@@ -1,5 +1,5 @@
 import { EPSILON } from '../../constants.ts';
-import { assertAlmostEquals, assertEquals, TimeProcessor, type types } from '../../deps.ts';
+import { assertAlmostEquals, assertEquals, TimeProcessor, type v2 } from '../../deps.ts';
 
 Deno.test('Time Processor create instance from constructor', () => {
    const bpm0 = new TimeProcessor(128);
@@ -40,7 +40,7 @@ Deno.test('Time Processor create instance from constructor', () => {
             _bpm: 256,
             _beatsPerBar: 4,
             _metronomeOffset: 4,
-         } as types.v2.IBPMChangeOld,
+         } as v2.IBPMChangeOld,
       ],
       123,
    );
@@ -93,7 +93,7 @@ Deno.test('Time Processor create instance from static create', () => {
             _bpm: 256,
             _beatsPerBar: 4,
             _metronomeOffset: 4,
-         } as types.v2.IBPMChangeOld,
+         } as v2.IBPMChangeOld,
       ],
       123,
    );
@@ -118,7 +118,7 @@ Deno.test('Time Processor getter/setter', () => {
             _bpm: 256,
             _beatsPerBar: 4,
             _metronomeOffset: 4,
-         } as types.v2.IBPMChangeOld,
+         } as v2.IBPMChangeOld,
       ],
       123,
    );
@@ -138,7 +138,7 @@ Deno.test('Time Processor getter/setter', () => {
          _bpm: 240,
          _beatsPerBar: 4,
          _metronomeOffset: 4,
-      } as types.v2.IBPMChangeOld,
+      } as v2.IBPMChangeOld,
    ];
 
    assertEquals(bpm.bpm, 120);
@@ -188,7 +188,7 @@ Deno.test('Time Processor second to beat time', () => {
             _bpm: 256,
             _beatsPerBar: 4,
             _metronomeOffset: 4,
-         } as types.v2.IBPMChangeOld,
+         } as v2.IBPMChangeOld,
       ],
       123,
    );
@@ -208,7 +208,7 @@ Deno.test('Time Processor second to beat time', () => {
          _bpm: 240,
          _beatsPerBar: 4,
          _metronomeOffset: 4,
-      } as types.v2.IBPMChangeOld,
+      } as v2.IBPMChangeOld,
    ];
 
    assertAlmostEquals(bpm.toBeatTime(20, true), 32, EPSILON);
@@ -226,7 +226,7 @@ Deno.test('Time Processor beat to real time', () => {
             _bpm: 256,
             _beatsPerBar: 4,
             _metronomeOffset: 4,
-         } as types.v2.IBPMChangeOld,
+         } as v2.IBPMChangeOld,
       ],
       123,
    );
@@ -246,7 +246,7 @@ Deno.test('Time Processor beat to real time', () => {
          _bpm: 240,
          _beatsPerBar: 4,
          _metronomeOffset: 4,
-      } as types.v2.IBPMChangeOld,
+      } as v2.IBPMChangeOld,
    ];
 
    assertAlmostEquals(bpm.toRealTime(20, true), 16, EPSILON);

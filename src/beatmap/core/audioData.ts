@@ -1,10 +1,6 @@
-import type { GenericAudioDataFilename } from '../../types/beatmap/shared/filename.ts';
-import type {
-   IWrapAudioData,
-   IWrapAudioDataBPM,
-   IWrapAudioDataLUFS,
-} from '../../types/beatmap/wrapper/audioData.ts';
-import type { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { GenericAudioDataFilename } from '../schema/shared/types/filename.ts';
+import type { IWrapAudioData, IWrapAudioDataBPM, IWrapAudioDataLUFS } from './types/audioData.ts';
+import type { IWrapBPMEvent } from './types/bpmEvent.ts';
 import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';

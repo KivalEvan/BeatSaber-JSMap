@@ -1,12 +1,12 @@
 //FIXME: i feel like it's better to just check key instead of type of it
-import type { IWrapArc } from '../../../types/beatmap/wrapper/arc.ts';
-import type { IWrapBasicEvent } from '../../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapChain } from '../../../types/beatmap/wrapper/chain.ts';
-import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
-import type { IWrapRotationEvent } from '../../../types/beatmap/wrapper/rotationEvent.ts';
-import { RotationValueEventValue } from '../../shared/constants.ts';
+import type { IWrapArc } from '../../core/types/arc.ts';
+import type { IWrapBasicEvent } from '../../core/types/basicEvent.ts';
+import type { IWrapBombNote } from '../../core/types/bombNote.ts';
+import type { IWrapChain } from '../../core/types/chain.ts';
+import type { IWrapColorNote } from '../../core/types/colorNote.ts';
+import type { IWrapObstacle } from '../../core/types/obstacle.ts';
+import type { IWrapRotationEvent } from '../../core/types/rotationEvent.ts';
+import { RotationValueEventValue } from '../../misc/remaps.ts';
 
 /**
  * Checks if basic event has Chroma in beatmap v2.

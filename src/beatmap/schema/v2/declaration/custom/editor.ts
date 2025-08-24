@@ -1,5 +1,5 @@
 import { v } from '../../../../../deps.ts';
-import type { IEditor, IEditorInfo } from '../../../../../types/beatmap/v2/custom/editor.ts';
+import type { IEditor, IEditorInfo } from '../../types/custom/editor.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 
 /** Schema declaration for v2 custom `Editor Info`. */

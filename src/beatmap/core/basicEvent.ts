@@ -1,5 +1,5 @@
-import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
-import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
+import type { EnvironmentAllName } from '../schema/shared/types/environment.ts';
+import type { IWrapBasicEvent } from './types/basicEvent.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import {

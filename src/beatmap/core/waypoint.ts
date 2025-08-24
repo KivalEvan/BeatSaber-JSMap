@@ -1,9 +1,9 @@
-import type { MirrorFn } from '../../types/beatmap/shared/functions.ts';
-import type { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
+import type { MirrorFn } from '../schema/shared/types/functions.ts';
+import type { IWrapWaypoint } from './types/waypoint.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { mirrorCoordinate } from '../helpers/core/gridObject.ts';
-import { LINE_COUNT } from '../shared/constants.ts';
+import { LINE_COUNT } from '../misc/remaps.ts';
 import { GridObject } from './abstract/gridObject.ts';
 
 export function createWaypoint(

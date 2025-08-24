@@ -1,5 +1,5 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, LightColorEventBoxGroup, types, v3, v4 } from '../deps.ts';
+import { assertEquals, EventBoxType, LightColorEventBoxGroup, v3, v4 } from '../deps.ts';
 
 const schemaList = [
    [v4.lightColorEventBoxGroup, 'V4 Light Color Event Box Group'],
@@ -204,7 +204,7 @@ for (const tup of schemaList) {
             obj = new BaseClass(
                (schema as typeof v4.lightColorEventBoxGroup).deserialize({
                   object: {
-                     t: types.EventBoxType.COLOR,
+                     t: EventBoxType.COLOR,
                      b: 1,
                      g: 2,
                      e: [
@@ -356,7 +356,7 @@ for (const tup of schemaList) {
             obj = new BaseClass(
                (schema as typeof v4.lightColorEventBoxGroup).deserialize({
                   object: {
-                     t: types.EventBoxType.COLOR,
+                     t: EventBoxType.COLOR,
                      b: 1,
                   },
                   boxData: [
@@ -472,7 +472,7 @@ for (const tup of schemaList) {
          case v4.lightColorEventBoxGroup:
             assertEquals(json, {
                object: {
-                  t: types.EventBoxType.COLOR,
+                  t: EventBoxType.COLOR,
                   b: 0,
                   g: 0,
                   e: [],

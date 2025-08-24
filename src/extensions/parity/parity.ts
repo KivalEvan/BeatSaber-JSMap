@@ -3,9 +3,14 @@
 // TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA there's still more work needed for parity check
 // TODO: cleanup the implementation
 import { isUnsetNoteColor } from '../../beatmap/helpers/core/baseNote.ts';
-import { NoteColor, NoteDirection, PosX, PosY } from '../../beatmap/shared/constants.ts';
-import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import {
+   NoteColor,
+   NoteDirection,
+   PosX,
+   PosY,
+} from '../../beatmap/schema/shared/types/constants.ts';
+import type { IWrapBombNote } from '../../beatmap/core/types/bombNote.ts';
+import type { IWrapColorNote } from '../../beatmap/core/types/colorNote.ts';
 import { predictDirection } from '../placement/note.ts';
 import { type ParityState, type ParityStatus, ParitySwitch } from './types/parity.ts';
 

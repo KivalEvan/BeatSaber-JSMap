@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IInfo } from '../../../types/beatmap/v4/info.ts';
-import type { IWrapInfo, IWrapInfoColorScheme } from '../../../types/beatmap/wrapper/info.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IInfo } from './types/info.ts';
+import type { IWrapInfo, IWrapInfoColorScheme } from '../../core/types/info.ts';
 import { colorToHex, hexToRgba, toColorObject } from '../../../utils/colors/convertor.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfo } from '../../core/info.ts';

@@ -1,5 +1,5 @@
 import { v } from '../../../../deps.ts';
-import type { EnvironmentAllName } from '../../../../types/beatmap/shared/mod.ts';
+import type { EnvironmentAllName } from '../../shared/types/mod.ts';
 import type {
    IInfo,
    IInfoAudio,
@@ -7,7 +7,7 @@ import type {
    IInfoBeatmapAuthors,
    IInfoColorScheme,
    IInfoSong,
-} from '../../../../types/beatmap/v4/info.ts';
+} from '../types/info.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import {
    CharacteristicNameSchema,

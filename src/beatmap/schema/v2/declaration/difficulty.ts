@@ -8,7 +8,7 @@ import type {
    ISpecialEventsKeywordFilters,
    ISpecialEventsKeywordFiltersKeywords,
    IWaypoint,
-} from '../../../../types/beatmap/v2/mod.ts';
+} from '../../../schema/v2/types/mod.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import {
    CustomDataSchema,

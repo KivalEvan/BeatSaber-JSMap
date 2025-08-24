@@ -1,5 +1,5 @@
 import { logger } from '../../../logger.ts';
-import type { IWrapInfo } from '../../../types/beatmap/wrapper/info.ts';
+import type { IWrapInfo } from '../../core/types/info.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV4Info', name];

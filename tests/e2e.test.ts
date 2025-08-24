@@ -1,9 +1,9 @@
-import type { v2 } from '../src/types/mod.ts';
 import { assertObjectMatch } from './assert.ts';
 import {
    assertEquals,
    createBeatmap,
    createColorNote,
+   type IWrapInfo,
    loadDifficulty,
    readDifficultyFile,
    readDifficultyFileSync,
@@ -13,11 +13,11 @@ import {
    readInfoFileSync,
    saveDifficulty,
    saveInfo,
-   type types,
+   type v2,
 } from './deps.ts';
 
 Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
-   let info: types.wrapper.IWrapInfo;
+   let info: IWrapInfo;
    await t.step('Able to correctly load V2 info', async () => {
       info = await readInfoFile('Info.dat', 2, {
          directory: './tests/resources/examples/werewolf howls./',
@@ -49,7 +49,7 @@ Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
 });
 
 Deno.test('Load V3 beatmap implicitly', async (t) => {
-   let info: types.wrapper.IWrapInfo;
+   let info: IWrapInfo;
    await t.step('Able to correctly load V2 info', () => {
       info = readInfoFileSync('Info.dat', 2, {
          directory: "./tests/resources/examples/I Bet You'll Forget That Even If You Noticed That/",
@@ -105,7 +105,7 @@ Deno.test('Load mixed beatmap implicitly', async (t) => {
 });
 
 Deno.test('Load beatmap version explicitly and convert to V3', async (t) => {
-   let info: types.wrapper.IWrapInfo;
+   let info: IWrapInfo;
    await t.step('Able to correctly load V2 info', async () => {
       info = await readInfoFile('Info.dat', 2, {
          directory: './tests/resources/examples/werewolf howls./',
@@ -123,7 +123,7 @@ Deno.test('Load beatmap version explicitly and convert to V3', async (t) => {
 });
 
 Deno.test('Load beatmap version explicitly and convert to V2', async (t) => {
-   let info: types.wrapper.IWrapInfo;
+   let info: IWrapInfo;
    await t.step('Able to correctly load V2 info', async () => {
       info = await readInfoFile('Info.dat', 2, {
          directory: "./tests/resources/examples/I Bet You'll Forget That Even If You Noticed That/",
@@ -169,7 +169,9 @@ Deno.test('using custom wrappers', () => {
          (x) => {
             return createBeatmap({
                version: x.version,
-               difficulty: { colorNotes: x.foo.map((x) => createColorNote({ time: x.t })) },
+               difficulty: {
+                  colorNotes: x.foo.map((x) => createColorNote({ time: x.t })),
+               },
             });
          },
       ],

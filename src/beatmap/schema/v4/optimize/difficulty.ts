@@ -1,6 +1,6 @@
 import { round } from '../../../../utils/math/helpers.ts';
-import type { IOptimizeOptions } from '../../../../types/beatmap/options/optimize.ts';
-import type { IDifficulty } from '../../../../types/beatmap/v4/difficulty.ts';
+import type { IOptimizeOptions } from '../../../mapping/types/optimize.ts';
+import type { IDifficulty } from '../types/difficulty.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { isEmpty } from '../../../../utils/misc/json.ts';
 

@@ -1,6 +1,6 @@
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IAudio } from '../../../types/beatmap/v4/audioData.ts';
-import type { IWrapAudioData } from '../../../types/beatmap/wrapper/audioData.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IAudio } from './types/audioData.ts';
+import type { IWrapAudioData } from '../../core/types/audioData.ts';
 import { createAudioData } from '../../core/audioData.ts';
 
 type AudioDataPolyfills = Pick<IWrapAudioData, 'filename'>;

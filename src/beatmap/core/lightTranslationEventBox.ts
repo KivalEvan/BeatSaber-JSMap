@@ -1,6 +1,4 @@
-import type {
-   IWrapLightTranslationEventBox,
-} from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
+import type { IWrapLightTranslationEventBox } from './types/lightTranslationEventBox.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';

@@ -1,6 +1,4 @@
-import type {
-   IWrapLightTranslationEvent,
-} from '../../types/beatmap/wrapper/lightTranslationEvent.ts';
+import type { IWrapLightTranslationEvent } from './types/lightTranslationEvent.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseObject } from './abstract/baseObject.ts';
 

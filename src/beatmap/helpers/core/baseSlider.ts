@@ -1,4 +1,4 @@
-import type { IWrapBaseSlider } from '../../../types/beatmap/wrapper/baseSlider.ts';
+import type { IWrapBaseSlider } from '../../core/types/baseSlider.ts';
 
 /** Checks if the slider is inverted. */
 export function isInverseSlider<

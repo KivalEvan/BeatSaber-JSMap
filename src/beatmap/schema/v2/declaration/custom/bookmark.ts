@@ -1,5 +1,5 @@
 import { v } from '../../../../../deps.ts';
-import type { IBookmark } from '../../../../../types/beatmap/v2/custom/bookmark.ts';
+import type { IBookmark } from '../../types/custom/bookmark.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 import { Vector3ColorSchema, Vector4ColorSchema } from '../../../shared/declaration/vector.ts';
 

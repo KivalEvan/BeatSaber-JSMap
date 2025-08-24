@@ -1,5 +1,5 @@
-import type { EnvironmentAllName } from '../../../types/beatmap/shared/environment.ts';
-import { EventLightValue, EventType } from '../../shared/constants.ts';
+import type { EnvironmentAllName } from '../../schema/shared/types/environment.ts';
+import { EventLightValue, EventType } from '../../schema/shared/types/constants.ts';
 
 /** Check if event type is valid. */
 export function isValidEventType(type: number): boolean {

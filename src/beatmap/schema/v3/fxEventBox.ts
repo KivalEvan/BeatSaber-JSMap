@@ -1,6 +1,6 @@
-import type { IFxEventFloatBoxContainer } from '../../../types/beatmap/container/v3.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapFxEventBox } from '../../../types/beatmap/wrapper/fxEventBox.ts';
+import type { IFxEventFloatBoxContainer } from './types/container.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IWrapFxEventBox } from '../../core/types/fxEventBox.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createFxEventBox } from '../../core/fxEventBox.ts';
 import { fxEventFloat } from './fxEventFloat.ts';

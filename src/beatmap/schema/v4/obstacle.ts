@@ -1,6 +1,6 @@
-import type { IObstacleContainer } from '../../../types/beatmap/container/v4.ts';
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
+import type { IObstacleContainer } from './types/container.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IWrapObstacle } from '../../core/types/obstacle.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createObstacle } from '../../core/obstacle.ts';
 

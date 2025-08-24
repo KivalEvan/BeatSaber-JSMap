@@ -1,5 +1,5 @@
 import { v } from '../../../../../deps.ts';
-import type { IContributor } from '../../../../../types/beatmap/shared/custom/contributor.ts';
+import type { IContributor } from '../../types/custom/contributor.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 
 /** Schema declaration for custom `Contributor`. */

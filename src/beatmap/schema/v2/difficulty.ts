@@ -1,13 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
-import type { ISchemaContainer } from '../../../types/beatmap/shared/schema.ts';
-import type { IDifficulty } from '../../../types/beatmap/v2/difficulty.ts';
-import type { IWrapBasicEvent } from '../../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapBeatmap } from '../../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapBPMEvent } from '../../../types/beatmap/wrapper/bpmEvent.ts';
-import type { IWrapColorBoostEvent } from '../../../types/beatmap/wrapper/colorBoostEvent.ts';
-import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapRotationEvent } from '../../../types/beatmap/wrapper/rotationEvent.ts';
+import type { ISchemaContainer } from '../shared/types/schema.ts';
+import type { IDifficulty } from '../../schema/v2/types/difficulty.ts';
+import type { IWrapBasicEvent } from '../../core/types/basicEvent.ts';
+import type { IWrapBeatmap } from '../../core/types/beatmap.ts';
+import type { IWrapBombNote } from '../../core/types/bombNote.ts';
+import type { IWrapBPMEvent } from '../../core/types/bpmEvent.ts';
+import type { IWrapColorBoostEvent } from '../../core/types/colorBoostEvent.ts';
+import type { IWrapColorNote } from '../../core/types/colorNote.ts';
+import type { IWrapRotationEvent } from '../../core/types/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBeatmap } from '../../core/beatmap.ts';
 import { createDifficulty } from '../../core/difficulty.ts';

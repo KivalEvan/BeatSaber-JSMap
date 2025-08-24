@@ -1,7 +1,7 @@
 // @ts-ignore: trick
 import pathMod from './_path.ts';
 import type pathType from 'node:path';
-import type { IShimsPath } from '../types/bsmap/shims.ts';
+import type { IShimsPath } from './types.ts';
 
 function noPathFunctionProvided(): never {
    throw new Error(

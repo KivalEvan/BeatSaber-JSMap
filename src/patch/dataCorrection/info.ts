@@ -1,8 +1,8 @@
 import { is360Environment } from '../../beatmap/helpers/environment.ts';
-import { EnvironmentRename } from '../../beatmap/shared/environment.ts';
+import { EnvironmentRename } from '../../beatmap/misc/environment.ts';
 import { logger } from '../../logger.ts';
-import type { EnvironmentName } from '../../types/beatmap/shared/environment.ts';
-import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
+import type { EnvironmentName } from '../../beatmap/schema/shared/types/environment.ts';
+import type { IWrapInfo } from '../../beatmap/core/types/info.ts';
 import type { IColor } from '../../types/colors.ts';
 import { clamp } from '../../utils/math/helpers.ts';
 import { fixBoolean, fixFloat, fixInt, fixString } from './helpers.ts';

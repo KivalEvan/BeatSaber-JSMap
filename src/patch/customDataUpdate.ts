@@ -4,8 +4,8 @@ import objectToV2 from '../beatmap/converter/customData/objectToV2.ts';
 import objectToV3 from '../beatmap/converter/customData/objectToV3.ts';
 import { isLaserRotationEventType } from '../beatmap/helpers/core/basicEvent.ts';
 import { logger } from '../logger.ts';
-import type { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition.ts';
-import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
+import type { IPointDefinition } from '../beatmap/schema/v3/types/custom/pointDefinition.ts';
+import type { IWrapBeatmap } from '../beatmap/core/types/beatmap.ts';
 import type { ColorArray } from '../types/colors.ts';
 import { colorFrom } from '../utils/colors/convertor.ts';
 
@@ -137,7 +137,10 @@ function v3<T extends IWrapBeatmap>(data: T): void {
 /**
  * Update custom data for beatmap given version.
  */
-export function customDataUpdate<T extends IWrapBeatmap>(data: T, version: number) {
+export function customDataUpdate<T extends IWrapBeatmap>(
+   data: T,
+   version: number,
+) {
    logger.tInfo(
       ['patch', 'customDataUpdate'],
       'Patching custom data for beatmap v' + version + '...',

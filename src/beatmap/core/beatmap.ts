@@ -1,23 +1,23 @@
 import type {
    GenericBeatmapFilename,
    GenericLightshowFilename,
-} from '../../types/beatmap/shared/filename.ts';
-import type { IWrapArc } from '../../types/beatmap/wrapper/arc.ts';
-import type { IWrapBasicEvent } from '../../types/beatmap/wrapper/basicEvent.ts';
-import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
-import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
-import type { IWrapBPMEvent } from '../../types/beatmap/wrapper/bpmEvent.ts';
-import type { IWrapChain } from '../../types/beatmap/wrapper/chain.ts';
-import type { IWrapColorBoostEvent } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
-import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
-import type { IWrapFxEventBoxGroup } from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
-import type { IWrapLightColorEventBoxGroup } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
-import type { IWrapLightRotationEventBoxGroup } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
-import type { IWrapLightTranslationEventBoxGroup } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
-import type { IWrapNJSEvent } from '../../types/beatmap/wrapper/njsEvent.ts';
-import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
-import type { IWrapRotationEvent } from '../../types/beatmap/wrapper/rotationEvent.ts';
-import type { IWrapWaypoint } from '../../types/beatmap/wrapper/waypoint.ts';
+} from '../schema/shared/types/filename.ts';
+import type { IWrapArc } from './types/arc.ts';
+import type { IWrapBasicEvent } from './types/basicEvent.ts';
+import type { IWrapBeatmap } from './types/beatmap.ts';
+import type { IWrapBombNote } from './types/bombNote.ts';
+import type { IWrapBPMEvent } from './types/bpmEvent.ts';
+import type { IWrapChain } from './types/chain.ts';
+import type { IWrapColorBoostEvent } from './types/colorBoostEvent.ts';
+import type { IWrapColorNote } from './types/colorNote.ts';
+import type { IWrapFxEventBoxGroup } from './types/fxEventBoxGroup.ts';
+import type { IWrapLightColorEventBoxGroup } from './types/lightColorEventBoxGroup.ts';
+import type { IWrapLightRotationEventBoxGroup } from './types/lightRotationEventBoxGroup.ts';
+import type { IWrapLightTranslationEventBoxGroup } from './types/lightTranslationEventBoxGroup.ts';
+import type { IWrapNJSEvent } from './types/njsEvent.ts';
+import type { IWrapObstacle } from './types/obstacle.ts';
+import type { IWrapRotationEvent } from './types/rotationEvent.ts';
+import type { IWrapWaypoint } from './types/waypoint.ts';
 import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';
