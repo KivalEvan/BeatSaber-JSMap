@@ -1,8 +1,8 @@
 import { type StandardSchemaV1, v } from '../src/deps.ts';
 import { entity, field, mask } from '../src/beatmap/schema/helpers.ts';
 import * as v4 from '../src/beatmap/schema/v4/declaration/mod.ts';
-import type { ISchemaDeclaration } from '../src/types/beatmap/shared/schema.ts';
-import type { Version } from '../src/types/beatmap/shared/version.ts';
+import type { ISchemaDeclaration } from '../src/beatmap/schema/shared/types/schema.ts';
+import type { Version } from '../src/beatmap/schema/shared/types/version.ts';
 import { assertEquals, logger, schemaCheck } from './deps.ts';
 
 function boolean(): StandardSchemaV1 {
@@ -37,13 +37,13 @@ function object(shape: { [key: string]: StandardSchemaV1 }): StandardSchemaV1 {
             }
             const children = Object.keys(shape).reduce((acc, key) => {
                const result = shape[key]['~standard'].validate(
-                  data[key as keyof object],
+                  data[key as keyof object]
                );
                if (!('issues' in result) || !result.issues) return acc;
                return acc.concat(
                   ...result.issues.map((x) => {
                      return { ...x, path: [key, ...(x.path ?? [])] };
-                  }),
+                  })
                );
             }, [] as StandardSchemaV1.Issue[]);
             return { issues: children };
@@ -101,7 +101,7 @@ Deno.test('entity serialization tests', async (ctx) => {
          foo: v.array(
             v.object({
                bar: field(v.boolean(), { version: '1.2.0' }),
-            }),
+            })
          ),
       });
       await ctx.step('all supported fields present', () => {
@@ -111,7 +111,7 @@ Deno.test('entity serialization tests', async (ctx) => {
          });
          assertEquals(
             'issues' in result && result.issues && result.issues.length > 0,
-            false,
+            false
          );
       });
       await ctx.step('missing field for version', () => {
@@ -121,7 +121,7 @@ Deno.test('entity serialization tests', async (ctx) => {
          });
          assertEquals(
             'issues' in result && result.issues && result.issues.length > 0,
-            true,
+            true
          );
       });
       await ctx.step('version mismatch', () => {
@@ -131,7 +131,7 @@ Deno.test('entity serialization tests', async (ctx) => {
          });
          assertEquals(
             'issues' in result && result.issues && result.issues.length > 0,
-            true,
+            true
          );
       });
       await ctx.step('valid for unsupported fields', () => {
@@ -141,7 +141,7 @@ Deno.test('entity serialization tests', async (ctx) => {
          });
          assertEquals(
             'issues' in result && result.issues && result.issues.length > 0,
-            false,
+            false
          );
       });
    });
@@ -156,7 +156,7 @@ Deno.test('beatmap serialization tests', async (ctx) => {
       const result = v4.DifficultySchema['~standard'].validate(data);
       assertEquals(
          'issues' in result && result.issues && result.issues.length > 0,
-         false,
+         false
       );
    });
 });
