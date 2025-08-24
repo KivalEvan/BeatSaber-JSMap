@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IEvent } from '../../schema/v2/types/event.ts';
-import type { IWrapRotationEvent } from '../../core/types/rotationEvent.ts';
+import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createRotationEvent } from '../../core/rotationEvent.ts';
+import { createRotationEvent } from '../wrapper/rotationEvent.ts';
 import { EventLaneRotationValue, RotationValueEventValue } from '../../misc/remaps.ts';
 
 /**

@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { ILightColorEventBoxGroup } from './types/lightColorEventBoxGroup.ts';
-import type { IWrapLightColorEventBoxGroup } from '../../core/types/lightColorEventBoxGroup.ts';
+import type { IWrapLightColorEventBoxGroup } from '../wrapper/types/lightColorEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createLightColorEventBoxGroup } from '../../core/lightColorEventBoxGroup.ts';
+import { createLightColorEventBoxGroup } from '../wrapper/lightColorEventBoxGroup.ts';
 import { lightColorEventBox } from './lightColorEventBox.ts';
 
 /**

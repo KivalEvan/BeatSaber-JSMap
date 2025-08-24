@@ -1,5 +1,5 @@
 import type { ICompatibilityOptions } from '../../../mapping/types/compatibility.ts';
-import type { IWrapInfo } from '../../../core/types/info.ts';
+import type { IWrapInfo } from '../../wrapper/types/info.ts';
 
 /**
  * Check if beatmap info is compatible with v2 `Info` schema.

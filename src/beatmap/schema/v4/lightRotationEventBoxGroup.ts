@@ -1,9 +1,9 @@
 import type { IEventBoxGroupContainer, ILightRotationBoxContainer } from './types/container.ts';
 import { EventBoxType } from '../shared/types/constants.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
-import type { IWrapLightRotationEventBoxGroup } from '../../core/types/lightRotationEventBoxGroup.ts';
+import type { IWrapLightRotationEventBoxGroup } from '../wrapper/types/lightRotationEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createLightRotationEventBoxGroup } from '../../core/lightRotationEventBoxGroup.ts';
+import { createLightRotationEventBoxGroup } from '../wrapper/lightRotationEventBoxGroup.ts';
 import { lightRotationEventBox } from './lightRotationEventBox.ts';
 
 /**

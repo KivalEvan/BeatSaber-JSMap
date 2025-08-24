@@ -1,10 +1,10 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IInfo } from './types/info.ts';
-import type { IWrapInfo, IWrapInfoColorScheme } from '../../core/types/info.ts';
+import type { IWrapInfo, IWrapInfoColorScheme } from '../wrapper/types/info.ts';
 import { colorToHex, hexToRgba, toColorObject } from '../../../utils/colors/convertor.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createInfo } from '../../core/info.ts';
+import { createInfo } from '../wrapper/info.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
 
 type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'>;

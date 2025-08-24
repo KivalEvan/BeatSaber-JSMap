@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { ILightTranslationEvent } from './types/lightTranslationEvent.ts';
-import type { IWrapLightTranslationEvent } from '../../core/types/lightTranslationEvent.ts';
+import type { IWrapLightTranslationEvent } from '../wrapper/types/lightTranslationEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createLightTranslationEvent } from '../../core/lightTranslationEvent.ts';
+import { createLightTranslationEvent } from '../wrapper/lightTranslationEvent.ts';
 
 /**
  * Schema serialization for v3 `Light Translation Event`.

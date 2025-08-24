@@ -1,26 +1,11 @@
-import type { IWrapLightColorEventBox } from './types/lightColorEventBox.ts';
+import type { IWrapLightColorEventBox } from '../schema/wrapper/types/lightColorEventBox.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBox } from './abstract/eventBox.ts';
-import { createIndexFilter, IndexFilter } from './indexFilter.ts';
-import { createLightColorEvent, LightColorEvent } from './lightColorEvent.ts';
-
-export function createLightColorEventBox(
-   data: DeepPartial<IWrapLightColorEventBox> = {},
-): IWrapLightColorEventBox {
-   return {
-      filter: createIndexFilter(data.filter),
-      beatDistribution: data.beatDistribution ?? 0,
-      beatDistributionType: data.beatDistributionType ?? 1,
-      brightnessDistribution: data.brightnessDistribution ?? 0,
-      brightnessDistributionType: data.brightnessDistributionType ?? 1,
-      affectFirst: data.affectFirst ?? 0,
-      easing: data.easing ?? 0,
-      events: data.events?.map((o) => createLightColorEvent(o)) ?? [],
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { IndexFilter } from './indexFilter.ts';
+import { LightColorEvent } from './lightColorEvent.ts';
+import { createLightColorEventBox } from '../schema/wrapper/lightColorEventBox.ts';
 
 /**
  * Core beatmap light color event box.

@@ -1,6 +1,5 @@
 import type { GetPositionFn, MirrorFn } from '../schema/shared/types/functions.ts';
-import type { IWrapObstacle } from './types/obstacle.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { IWrapObstacle } from '../schema/wrapper/types/obstacle.ts';
 import type { Vector2 } from '../../types/vector.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { vectorAdd } from '../../utils/math/vector.ts';
@@ -12,21 +11,7 @@ import {
 } from '../helpers/core/obstacle.ts';
 import { LINE_COUNT } from '../misc/remaps.ts';
 import { GridObject } from './abstract/gridObject.ts';
-
-export function createObstacle(
-   data: DeepPartial<IWrapObstacle> = {},
-): IWrapObstacle {
-   return {
-      time: data.time ?? 0,
-      posX: data.posX ?? 0,
-      posY: data.posY ?? 0,
-      width: data.width ?? 0,
-      height: data.height ?? 0,
-      duration: data.duration ?? 0,
-      laneRotation: data.laneRotation ?? 0,
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { createObstacle } from '../schema/wrapper/obstacle.ts';
 
 /**
  * Core beatmap obstacle.

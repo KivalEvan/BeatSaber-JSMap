@@ -1,4 +1,4 @@
-import type { IWrapArc } from '../../core/types/arc.ts';
+import type { IWrapArc } from '../../schema/wrapper/types/arc.ts';
 import { lowestDifferenceMod, nearEqual } from '../../../utils/math/helpers.ts';
 import { cycle } from '../../../utils/misc/iterator.ts';
 import { NoteDirection, SliderMidAnchorMode } from '../../schema/shared/types/constants.ts';

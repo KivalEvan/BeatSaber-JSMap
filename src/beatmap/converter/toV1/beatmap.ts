@@ -1,5 +1,5 @@
 import { logger } from '../../../logger.ts';
-import type { IWrapBeatmap } from '../../core/types/beatmap.ts';
+import type { IWrapBeatmap } from '../../schema/wrapper/types/beatmap.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
 
 function tag(name: string): string[] {

@@ -1,8 +1,8 @@
 import type { INjsEventContainer } from './types/container.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
-import type { IWrapNJSEvent } from '../../core/types/njsEvent.ts';
+import type { IWrapNJSEvent } from '../wrapper/types/njsEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createNJSEvent } from '../../core/njsEvent.ts';
+import { createNJSEvent } from '../wrapper/njsEvent.ts';
 
 /**
  * Schema serialization for v4 `Basic Event`.

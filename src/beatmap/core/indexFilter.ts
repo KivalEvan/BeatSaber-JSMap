@@ -1,25 +1,8 @@
 import { LimitAlsoAffectsType, RandomType } from '../schema/shared/types/constants.ts';
-import type { IWrapIndexFilter } from './types/indexFilter.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { IWrapIndexFilter } from '../schema/wrapper/types/indexFilter.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';
-
-export function createIndexFilter(
-   data: DeepPartial<IWrapIndexFilter> = {},
-): IWrapIndexFilter {
-   return {
-      type: data.type ?? 1,
-      p0: data.p0 ?? 0,
-      p1: data.p1 ?? 0,
-      reverse: data.reverse ?? 0,
-      chunks: data.chunks ?? 0,
-      random: data.random ?? 0,
-      seed: data.seed ?? 0,
-      limit: data.limit ?? 0,
-      limitAffectsType: data.limitAffectsType ?? 0,
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { createIndexFilter } from '../schema/wrapper/indexFilter.ts';
 
 /**
  * Core beatmap index filter.

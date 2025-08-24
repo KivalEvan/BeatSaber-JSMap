@@ -1,8 +1,8 @@
-import type { IWrapArc } from '../../../../beatmap/core/types/arc.ts';
-import type { IWrapBombNote } from '../../../../beatmap/core/types/bombNote.ts';
-import type { IWrapChain } from '../../../../beatmap/core/types/chain.ts';
-import type { IWrapColorNote } from '../../../../beatmap/core/types/colorNote.ts';
-import type { IWrapObstacle } from '../../../../beatmap/core/types/obstacle.ts';
+import type { IWrapArc } from '../../../../beatmap/schema/wrapper/types/arc.ts';
+import type { IWrapBombNote } from '../../../../beatmap/schema/wrapper/types/bombNote.ts';
+import type { IWrapChain } from '../../../../beatmap/schema/wrapper/types/chain.ts';
+import type { IWrapColorNote } from '../../../../beatmap/schema/wrapper/types/colorNote.ts';
+import type { IWrapObstacle } from '../../../../beatmap/schema/wrapper/types/obstacle.ts';
 
 export type INEObject =
    | IWrapColorNote

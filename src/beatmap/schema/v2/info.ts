@@ -6,9 +6,9 @@ import type {
 } from '../shared/types/environment.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IInfo, IInfoSet } from '../../schema/v2/types/info.ts';
-import type { IWrapInfo } from '../../core/types/info.ts';
+import type { IWrapInfo } from '../wrapper/types/info.ts';
 import { deepCopy, shallowCopy } from '../../../utils/misc/json.ts';
-import { createInfo } from '../../core/info.ts';
+import { createInfo } from '../wrapper/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 import { infoBeatmap } from './infoBeatmap.ts';
 

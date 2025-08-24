@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IIndexFilter } from './types/indexFilter.ts';
-import type { IWrapIndexFilter } from '../../core/types/indexFilter.ts';
+import type { IWrapIndexFilter } from '../wrapper/types/indexFilter.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createIndexFilter } from '../../core/indexFilter.ts';
+import { createIndexFilter } from '../wrapper/indexFilter.ts';
 
 /**
  * Schema serialization for v3 `Index Filter`.

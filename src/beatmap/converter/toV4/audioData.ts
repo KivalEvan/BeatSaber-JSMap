@@ -1,5 +1,5 @@
 import { logger } from '../../../logger.ts';
-import type { IWrapAudioData } from '../../core/types/audioData.ts';
+import type { IWrapAudioData } from '../../schema/wrapper/types/audioData.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV4Audio', name];

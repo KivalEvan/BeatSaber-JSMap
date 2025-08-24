@@ -1,17 +1,7 @@
-import type { IWrapBPMEvent } from './types/bpmEvent.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { IWrapBPMEvent } from '../schema/wrapper/types/bpmEvent.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseObject } from './abstract/baseObject.ts';
-
-export function createBPMEvent(
-   data: DeepPartial<IWrapBPMEvent> = {},
-): IWrapBPMEvent {
-   return {
-      time: data.time ?? 0,
-      bpm: data.bpm ?? 0,
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { createBPMEvent } from '../schema/wrapper/bpmEvent.ts';
 
 /**
  * Core beatmap BPM event.

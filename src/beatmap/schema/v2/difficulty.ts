@@ -1,17 +1,17 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IDifficulty } from '../../schema/v2/types/difficulty.ts';
-import type { IWrapBasicEvent } from '../../core/types/basicEvent.ts';
-import type { IWrapBeatmap } from '../../core/types/beatmap.ts';
-import type { IWrapBombNote } from '../../core/types/bombNote.ts';
-import type { IWrapBPMEvent } from '../../core/types/bpmEvent.ts';
-import type { IWrapColorBoostEvent } from '../../core/types/colorBoostEvent.ts';
-import type { IWrapColorNote } from '../../core/types/colorNote.ts';
-import type { IWrapRotationEvent } from '../../core/types/rotationEvent.ts';
+import type { IWrapBasicEvent } from '../wrapper/types/basicEvent.ts';
+import type { IWrapBeatmap } from '../wrapper/types/beatmap.ts';
+import type { IWrapBombNote } from '../wrapper/types/bombNote.ts';
+import type { IWrapBPMEvent } from '../wrapper/types/bpmEvent.ts';
+import type { IWrapColorBoostEvent } from '../wrapper/types/colorBoostEvent.ts';
+import type { IWrapColorNote } from '../wrapper/types/colorNote.ts';
+import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createBeatmap } from '../../core/beatmap.ts';
-import { createDifficulty } from '../../core/difficulty.ts';
-import { createLightshow } from '../../core/lightshow.ts';
+import { createBeatmap } from '../wrapper/beatmap.ts';
+import { createDifficulty } from '../wrapper/difficulty.ts';
+import { createLightshow } from '../wrapper/lightshow.ts';
 import { sortV2NoteFn, sortV2ObjectFn } from '../../helpers/sort.ts';
 import { compareVersion } from '../../helpers/version.ts';
 import { arc } from './arc.ts';

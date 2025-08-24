@@ -1,6 +1,6 @@
 import { EventList } from '../../beatmap/misc/environment.ts';
 import type { EnvironmentAllName } from '../../beatmap/schema/shared/types/environment.ts';
-import type { IWrapEventBoxGroup } from '../../beatmap/core/types/eventBoxGroup.ts';
+import type { IWrapEventBoxGroup } from '../../beatmap/schema/wrapper/types/eventBoxGroup.ts';
 import type { ICountEventBoxGroup } from './types/stats.ts';
 
 /**

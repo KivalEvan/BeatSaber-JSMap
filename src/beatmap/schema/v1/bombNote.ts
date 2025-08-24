@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { INote } from './types/note.ts';
-import type { IWrapBombNote } from '../../core/types/bombNote.ts';
-import { createBombNote } from '../../core/bombNote.ts';
+import type { IWrapBombNote } from '../wrapper/types/bombNote.ts';
+import { createBombNote } from '../wrapper/bombNote.ts';
 
 /**
  * Schema serialization for v1 `Bomb Note`.

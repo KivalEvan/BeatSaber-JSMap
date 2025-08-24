@@ -1,5 +1,5 @@
 import type { GetPositionFn, MirrorFn } from '../../schema/shared/types/functions.ts';
-import type { IWrapBaseSlider } from '../../core/types/baseSlider.ts';
+import type { IWrapBaseSlider } from '../../schema/wrapper/types/baseSlider.ts';
 import type { Vector2 } from '../../../types/vector.ts';
 import { vectorAdd } from '../../../utils/math/vector.ts';
 import { isInverseSlider } from '../../helpers/core/baseSlider.ts';

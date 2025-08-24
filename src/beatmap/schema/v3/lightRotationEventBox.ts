@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { ILightRotationEventBox } from './types/lightRotationEventBox.ts';
-import type { IWrapLightRotationEventBox } from '../../core/types/lightRotationEventBox.ts';
+import type { IWrapLightRotationEventBox } from '../wrapper/types/lightRotationEventBox.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createLightRotationEventBox } from '../../core/lightRotationEventBox.ts';
+import { createLightRotationEventBox } from '../wrapper/lightRotationEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightRotationEvent } from './lightRotationEvent.ts';
 

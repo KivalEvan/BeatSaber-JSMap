@@ -1,8 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import type { v1, v2, v3, v4 } from '../../mod.ts';
-import type { IWrapAudioData } from '../../../core/types/audioData.ts';
-import type { IWrapBeatmap } from '../../../core/types/beatmap.ts';
-import type { IWrapInfo } from '../../../core/types/info.ts';
+import type { IWrapAudioData } from '../../wrapper/types/audioData.ts';
+import type { IWrapBeatmap } from '../../wrapper/types/beatmap.ts';
+import type { IWrapInfo } from '../../wrapper/types/info.ts';
 import type { BeatmapFileType } from './schema.ts';
 
 export type InferBeatmapVersion<

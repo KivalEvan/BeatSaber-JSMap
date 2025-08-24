@@ -1,5 +1,5 @@
 import { logger } from '../../../logger.ts';
-import type { IWrapBeatmap } from '../../core/types/beatmap.ts';
+import type { IWrapBeatmap } from '../../schema/wrapper/types/beatmap.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
 import { ExecutionTime } from '../../schema/shared/types/constants.ts';
 import { toV3Beatmap } from '../toV3/beatmap.ts';

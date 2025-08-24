@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IObstacle } from './types/obstacle.ts';
-import type { IWrapObstacle } from '../../core/types/obstacle.ts';
+import type { IWrapObstacle } from '../wrapper/types/obstacle.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createObstacle } from '../../core/obstacle.ts';
+import { createObstacle } from '../wrapper/obstacle.ts';
 
 /**
  * Schema serialization for v3 `Obstacle`.

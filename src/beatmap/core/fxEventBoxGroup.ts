@@ -1,20 +1,10 @@
-import type { IWrapFxEventBoxGroup } from './types/fxEventBoxGroup.ts';
+import type { IWrapFxEventBoxGroup } from '../schema/wrapper/types/fxEventBoxGroup.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
-import { createFxEventBox, FxEventBox } from './fxEventBox.ts';
-
-export function createFxEventBoxGroup(
-   data: DeepPartial<IWrapFxEventBoxGroup> = {},
-): IWrapFxEventBoxGroup {
-   return {
-      time: data.time ?? 0,
-      id: data.id ?? 0,
-      boxes: data.boxes?.map(createFxEventBox) ?? [],
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { FxEventBox } from './fxEventBox.ts';
+import { createFxEventBoxGroup } from '../schema/wrapper/fxEventBoxGroup.ts';
 
 /**
  * Core beatmap FX event box group.

@@ -1,8 +1,8 @@
 import type { IBasicEventContainer } from './types/container.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
-import type { IWrapBasicEvent } from '../../core/types/basicEvent.ts';
+import type { IWrapBasicEvent } from '../wrapper/types/basicEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createBasicEvent } from '../../core/basicEvent.ts';
+import { createBasicEvent } from '../wrapper/basicEvent.ts';
 
 /**
  * Schema serialization for v4 `Basic Event`.

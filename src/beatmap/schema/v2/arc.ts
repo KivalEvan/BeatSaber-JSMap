@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IArc } from '../../schema/v2/types/arc.ts';
-import type { IWrapArc } from '../../core/types/arc.ts';
+import type { IWrapArc } from '../wrapper/types/arc.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createArc } from '../../core/arc.ts';
+import { createArc } from '../wrapper/arc.ts';
 
 /**
  * Schema serialization for v2 `Arc`.

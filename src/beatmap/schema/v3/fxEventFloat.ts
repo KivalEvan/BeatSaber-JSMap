@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IFxEventFloat } from './types/fxEventFloat.ts';
-import type { IWrapFxEventFloat } from '../../core/types/fxEventFloat.ts';
+import type { IWrapFxEventFloat } from '../wrapper/types/fxEventFloat.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createFxEventFloat } from '../../core/fxEventFloat.ts';
+import { createFxEventFloat } from '../wrapper/fxEventFloat.ts';
 
 /**
  * Schema serialization for v3 `FX Event Float`.

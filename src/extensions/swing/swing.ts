@@ -9,8 +9,8 @@ import {
 } from '../../beatmap/helpers/core/gridObject.ts';
 import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import { NoteDirection } from '../../beatmap/schema/shared/types/constants.ts';
-import type { IWrapBaseNote } from '../../beatmap/core/types/baseNote.ts';
-import type { IWrapBaseObject } from '../../beatmap/core/types/baseObject.ts';
+import type { IWrapBaseNote } from '../../beatmap/schema/wrapper/types/baseNote.ts';
+import type { IWrapBaseObject } from '../../beatmap/schema/wrapper/types/baseObject.ts';
 import { checkDirection } from '../placement/note.ts';
 import type { ISwingAnalysisBaseNote, ISwingContainer } from './types/swing.ts';
 

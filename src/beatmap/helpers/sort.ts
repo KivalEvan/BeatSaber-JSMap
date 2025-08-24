@@ -2,8 +2,8 @@ import type { INote } from '../schema/v2/types/note.ts';
 import type { IBaseObject as IV2BaseObject } from '../schema/v2/types/object.ts';
 import type { IBaseObject as IV3BaseObject } from '../schema/v3/types/baseObject.ts';
 import type { IGridObject } from '../schema/v3/types/gridObject.ts';
-import type { IWrapBaseObject } from '../core/types/baseObject.ts';
-import type { IWrapGridObject } from '../core/types/gridObject.ts';
+import type { IWrapBaseObject } from '../schema/wrapper/types/baseObject.ts';
+import type { IWrapGridObject } from '../schema/wrapper/types/gridObject.ts';
 import type { Vector2 } from '../../types/vector.ts';
 
 /**

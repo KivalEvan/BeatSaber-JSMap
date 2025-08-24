@@ -1,6 +1,6 @@
 import { logger } from '../../../../logger.ts';
 import type { ICompatibilityOptions } from '../../../mapping/types/compatibility.ts';
-import type { IWrapInfo } from '../../../core/types/info.ts';
+import type { IWrapInfo } from '../../wrapper/types/info.ts';
 import { tag } from './_common.ts';
 
 /**

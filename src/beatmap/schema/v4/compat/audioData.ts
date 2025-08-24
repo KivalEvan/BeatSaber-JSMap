@@ -1,5 +1,5 @@
 import type { ICompatibilityOptions } from '../../../mapping/types/compatibility.ts';
-import type { IWrapAudioData } from '../../../core/types/audioData.ts';
+import type { IWrapAudioData } from '../../wrapper/types/audioData.ts';
 
 /**
  * Check if beatmap audio data is compatible with v4 `Audio Data` schema.

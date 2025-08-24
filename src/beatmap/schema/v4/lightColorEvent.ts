@@ -1,8 +1,8 @@
 import type { ILightColorEventContainer } from './types/container.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
-import type { IWrapLightColorEvent } from '../../core/types/lightColorEvent.ts';
+import type { IWrapLightColorEvent } from '../wrapper/types/lightColorEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createLightColorEvent } from '../../core/lightColorEvent.ts';
+import { createLightColorEvent } from '../wrapper/lightColorEvent.ts';
 
 /**
  * Schema serialization for v4 `Light Color Event`.

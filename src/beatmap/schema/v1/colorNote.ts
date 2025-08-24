@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { INote } from './types/note.ts';
-import type { IWrapColorNote } from '../../core/types/colorNote.ts';
-import { createColorNote } from '../../core/colorNote.ts';
+import type { IWrapColorNote } from '../wrapper/types/colorNote.ts';
+import { createColorNote } from '../wrapper/colorNote.ts';
 import { NoteColor } from '../shared/types/constants.ts';
 
 /**

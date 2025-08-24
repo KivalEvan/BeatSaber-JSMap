@@ -1,42 +1,27 @@
-import type { IWrapArc } from './types/arc.ts';
-import type { IWrapBombNote } from './types/bombNote.ts';
-import type { IWrapBPMEvent } from './types/bpmEvent.ts';
-import type { IWrapChain } from './types/chain.ts';
-import type { IWrapColorNote } from './types/colorNote.ts';
-import type { IWrapDifficulty } from './types/difficulty.ts';
-import type { IWrapNJSEvent } from './types/njsEvent.ts';
-import type { IWrapObstacle } from './types/obstacle.ts';
-import type { IWrapRotationEvent } from './types/rotationEvent.ts';
+import type { IWrapArc } from '../schema/wrapper/types/arc.ts';
+import type { IWrapBombNote } from '../schema/wrapper/types/bombNote.ts';
+import type { IWrapBPMEvent } from '../schema/wrapper/types/bpmEvent.ts';
+import type { IWrapChain } from '../schema/wrapper/types/chain.ts';
+import type { IWrapColorNote } from '../schema/wrapper/types/colorNote.ts';
+import type { IWrapDifficulty } from '../schema/wrapper/types/difficulty.ts';
+import type { IWrapNJSEvent } from '../schema/wrapper/types/njsEvent.ts';
+import type { IWrapObstacle } from '../schema/wrapper/types/obstacle.ts';
+import type { IWrapRotationEvent } from '../schema/wrapper/types/rotationEvent.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { sortNoteFn, sortObjectFn } from '../helpers/sort.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import type { BaseObject } from './abstract/baseObject.ts';
-import { Arc, createArc } from './arc.ts';
-import { BombNote, createBombNote } from './bombNote.ts';
-import { BPMEvent, createBPMEvent } from './bpmEvent.ts';
-import { Chain, createChain } from './chain.ts';
-import { ColorNote, createColorNote } from './colorNote.ts';
-import { createNJSEvent, NJSEvent } from './njsEvent.ts';
-import { createObstacle, Obstacle } from './obstacle.ts';
-import { createRotationEvent, RotationEvent } from './rotationEvent.ts';
-
-export function createDifficulty(
-   data: DeepPartial<IWrapDifficulty> = {},
-): IWrapDifficulty {
-   return {
-      bpmEvents: data.bpmEvents?.map(createBPMEvent) ?? [],
-      rotationEvents: data.rotationEvents?.map(createRotationEvent) ?? [],
-      colorNotes: data.colorNotes?.map(createColorNote) ?? [],
-      bombNotes: data.bombNotes?.map(createBombNote) ?? [],
-      obstacles: data.obstacles?.map(createObstacle) ?? [],
-      arcs: data.arcs?.map(createArc) ?? [],
-      chains: data.chains?.map(createChain) ?? [],
-      njsEvents: data.njsEvents?.map(createNJSEvent) ?? [],
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { Arc } from './arc.ts';
+import { BombNote } from './bombNote.ts';
+import { BPMEvent } from './bpmEvent.ts';
+import { Chain } from './chain.ts';
+import { ColorNote } from './colorNote.ts';
+import { NJSEvent } from './njsEvent.ts';
+import { Obstacle } from './obstacle.ts';
+import { RotationEvent } from './rotationEvent.ts';
+import { createDifficulty } from '../schema/wrapper/difficulty.ts';
 
 /**
  * Core beatmap difficulty.
@@ -57,9 +42,7 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
    static createOne(data: DeepPartial<IWrapDifficulty> = {}): Difficulty {
       return new this(data);
    }
-   static create(
-      ...data: DeepPartial<IWrapDifficulty>[]
-   ): Difficulty[] {
+   static create(...data: DeepPartial<IWrapDifficulty>[]): Difficulty[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: DeepPartial<IWrapDifficulty> = {}) {
@@ -147,41 +130,31 @@ export class Difficulty extends BaseItem implements IWrapDifficulty {
       ];
    }
 
-   addBpmEvents(
-      ...data: DeepPartial<IWrapBPMEvent>[]
-   ): this {
+   addBpmEvents(...data: DeepPartial<IWrapBPMEvent>[]): this {
       for (const d of data) {
          this.bpmEvents.push(new BPMEvent(d));
       }
       return this;
    }
-   addRotationEvents(
-      ...data: DeepPartial<IWrapRotationEvent>[]
-   ): this {
+   addRotationEvents(...data: DeepPartial<IWrapRotationEvent>[]): this {
       for (const d of data) {
          this.rotationEvents.push(new RotationEvent(d));
       }
       return this;
    }
-   addColorNotes(
-      ...data: DeepPartial<IWrapColorNote>[]
-   ): this {
+   addColorNotes(...data: DeepPartial<IWrapColorNote>[]): this {
       for (const d of data) {
          this.colorNotes.push(new ColorNote(d));
       }
       return this;
    }
-   addBombNotes(
-      ...data: DeepPartial<IWrapBombNote>[]
-   ): this {
+   addBombNotes(...data: DeepPartial<IWrapBombNote>[]): this {
       for (const d of data) {
          this.bombNotes.push(new BombNote(d));
       }
       return this;
    }
-   addObstacles(
-      ...data: DeepPartial<IWrapObstacle>[]
-   ): this {
+   addObstacles(...data: DeepPartial<IWrapObstacle>[]): this {
       for (const d of data) {
          this.obstacles.push(new Obstacle(d));
       }

@@ -1,11 +1,11 @@
 //FIXME: i feel like it's better to just check key instead of type of it
-import type { IWrapArc } from '../../core/types/arc.ts';
-import type { IWrapBasicEvent } from '../../core/types/basicEvent.ts';
-import type { IWrapBombNote } from '../../core/types/bombNote.ts';
-import type { IWrapChain } from '../../core/types/chain.ts';
-import type { IWrapColorNote } from '../../core/types/colorNote.ts';
-import type { IWrapObstacle } from '../../core/types/obstacle.ts';
-import type { IWrapRotationEvent } from '../../core/types/rotationEvent.ts';
+import type { IWrapArc } from '../../schema/wrapper/types/arc.ts';
+import type { IWrapBasicEvent } from '../../schema/wrapper/types/basicEvent.ts';
+import type { IWrapBombNote } from '../../schema/wrapper/types/bombNote.ts';
+import type { IWrapChain } from '../../schema/wrapper/types/chain.ts';
+import type { IWrapColorNote } from '../../schema/wrapper/types/colorNote.ts';
+import type { IWrapObstacle } from '../../schema/wrapper/types/obstacle.ts';
+import type { IWrapRotationEvent } from '../../schema/wrapper/types/rotationEvent.ts';
 import { RotationValueEventValue } from '../../misc/remaps.ts';
 
 /**

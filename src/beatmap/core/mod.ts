@@ -1,5 +1,4 @@
 export * from './abstract/mod.ts';
-export * from './types/mod.ts';
 
 export * from './arc.ts';
 export * from './audioData.ts';
@@ -32,6 +31,5 @@ export * from './lightTranslationEventBox.ts';
 export * from './lightTranslationEventBoxGroup.ts';
 export * from './njsEvent.ts';
 export * from './obstacle.ts';
-export * from './types/mod.ts';
 export * from './rotationEvent.ts';
 export * from './waypoint.ts';

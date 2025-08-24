@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IEvent } from '../../schema/v2/types/event.ts';
-import type { IWrapColorBoostEvent } from '../../core/types/colorBoostEvent.ts';
+import type { IWrapColorBoostEvent } from '../wrapper/types/colorBoostEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createColorBoostEvent } from '../../core/colorBoostEvent.ts';
+import { createColorBoostEvent } from '../wrapper/colorBoostEvent.ts';
 
 /**
  * Schema serialization for v2 `Color Boost Event`.

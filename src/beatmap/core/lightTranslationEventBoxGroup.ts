@@ -1,23 +1,10 @@
-import type { IWrapLightTranslationEventBoxGroup } from './types/lightTranslationEventBoxGroup.ts';
+import type { IWrapLightTranslationEventBoxGroup } from '../schema/wrapper/types/lightTranslationEventBoxGroup.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
-import {
-   createLightTranslationEventBox,
-   LightTranslationEventBox,
-} from './lightTranslationEventBox.ts';
-
-export function createLightTranslationEventBoxGroup(
-   data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {},
-): IWrapLightTranslationEventBoxGroup {
-   return {
-      time: data.time ?? 0,
-      id: data.id ?? 0,
-      boxes: data.boxes?.map((e) => createLightTranslationEventBox(e)) ?? [],
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { LightTranslationEventBox } from './lightTranslationEventBox.ts';
+import { createLightTranslationEventBoxGroup } from '../schema/wrapper/lightTranslationEventBoxGroup.ts';
 
 /**
  * Core beatmap light translation event box group.

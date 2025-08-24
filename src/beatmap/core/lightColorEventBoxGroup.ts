@@ -1,20 +1,10 @@
-import type { IWrapLightColorEventBoxGroup } from './types/lightColorEventBoxGroup.ts';
+import type { IWrapLightColorEventBoxGroup } from '../schema/wrapper/types/lightColorEventBoxGroup.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
-import { createLightColorEventBox, LightColorEventBox } from './lightColorEventBox.ts';
-
-export function createLightColorEventBoxGroup(
-   data: DeepPartial<IWrapLightColorEventBoxGroup> = {},
-): IWrapLightColorEventBoxGroup {
-   return {
-      time: data.time ?? 0,
-      id: data.id ?? 0,
-      boxes: data.boxes?.map((e) => createLightColorEventBox(e)) ?? [],
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { LightColorEventBox } from './lightColorEventBox.ts';
+import { createLightColorEventBoxGroup } from '../schema/wrapper/lightColorEventBoxGroup.ts';
 
 /**
  * Core beatmap light color event box group.
@@ -36,9 +26,9 @@ export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLight
       super();
       this.time = data.time ?? LightColorEventBoxGroup.defaultValue.time;
       this.id = data.id ?? LightColorEventBoxGroup.defaultValue.id;
-      this.boxes = (data.boxes ?? LightColorEventBoxGroup.defaultValue.boxes).map(
-         (e) => new LightColorEventBox(e),
-      );
+      this.boxes = (
+         data.boxes ?? LightColorEventBoxGroup.defaultValue.boxes
+      ).map((e) => new LightColorEventBox(e));
       this.customData = deepCopy(
          data.customData ?? LightColorEventBoxGroup.defaultValue.customData,
       );

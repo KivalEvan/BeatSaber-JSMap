@@ -1,8 +1,8 @@
 import type { ISpawnRotationContainer } from './types/container.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
-import type { IWrapRotationEvent } from '../../core/types/rotationEvent.ts';
+import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createRotationEvent } from '../../core/rotationEvent.ts';
+import { createRotationEvent } from '../wrapper/rotationEvent.ts';
 
 /**
  * Schema serialization for v4 `Rotation Event`.

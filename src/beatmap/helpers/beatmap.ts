@@ -1,5 +1,5 @@
 import type { ISwingAnalysisBeatmap } from '../../extensions/swing/types/swing.ts';
-import type { IWrapBeatmapSubset } from '../core/types/beatmap.ts';
+import type { IWrapBeatmapSubset } from '../schema/wrapper/types/beatmap.ts';
 import { isInteractiveObstacle } from './core/obstacle.ts';
 import { sortNoteFn } from './sort.ts';
 import type { TimeProcessor } from './timeProcessor.ts';

@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IEvent } from './types/event.ts';
-import type { IWrapBPMEvent } from '../../core/types/bpmEvent.ts';
-import { createBPMEvent } from '../../core/bpmEvent.ts';
+import type { IWrapBPMEvent } from '../wrapper/types/bpmEvent.ts';
+import { createBPMEvent } from '../wrapper/bpmEvent.ts';
 
 /**
  * Schema serialization for v1 `BPM Event`.

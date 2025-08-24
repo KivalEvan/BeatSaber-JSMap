@@ -1,5 +1,5 @@
-import type { IWrapBaseSlider } from '../../core/types/baseSlider.ts';
-import type { IWrapGridObject } from '../../core/types/gridObject.ts';
+import type { IWrapBaseSlider } from '../../schema/wrapper/types/baseSlider.ts';
+import type { IWrapGridObject } from '../../schema/wrapper/types/gridObject.ts';
 import type { GetPositionFn } from '../../schema/shared/types/functions.ts';
 import type { Vector2 } from '../../../types/vector.ts';
 import {

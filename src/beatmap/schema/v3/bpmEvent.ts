@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IBPMEvent } from './types/bpmEvent.ts';
-import type { IWrapBPMEvent } from '../../core/types/bpmEvent.ts';
+import type { IWrapBPMEvent } from '../wrapper/types/bpmEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createBPMEvent } from '../../core/bpmEvent.ts';
+import { createBPMEvent } from '../wrapper/bpmEvent.ts';
 
 /**
  * Schema serialization for v3 `BPM Event`.

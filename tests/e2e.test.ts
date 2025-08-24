@@ -1,9 +1,6 @@
 import { assertObjectMatch } from './assert.ts';
 import {
    assertEquals,
-   createBeatmap,
-   createColorNote,
-   type IWrapInfo,
    loadDifficulty,
    readDifficultyFile,
    readDifficultyFileSync,
@@ -14,10 +11,11 @@ import {
    saveDifficulty,
    saveInfo,
    type v2,
+   wrapper,
 } from './deps.ts';
 
 Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
-   let info: IWrapInfo;
+   let info: wrapper.IWrapInfo;
    await t.step('Able to correctly load V2 info', async () => {
       info = await readInfoFile('Info.dat', 2, {
          directory: './tests/resources/examples/werewolf howls./',
@@ -49,7 +47,7 @@ Deno.test('Implicitly load and save V2 beatmap ', async (t) => {
 });
 
 Deno.test('Load V3 beatmap implicitly', async (t) => {
-   let info: IWrapInfo;
+   let info: wrapper.IWrapInfo;
    await t.step('Able to correctly load V2 info', () => {
       info = readInfoFileSync('Info.dat', 2, {
          directory: "./tests/resources/examples/I Bet You'll Forget That Even If You Noticed That/",
@@ -105,7 +103,7 @@ Deno.test('Load mixed beatmap implicitly', async (t) => {
 });
 
 Deno.test('Load beatmap version explicitly and convert to V3', async (t) => {
-   let info: IWrapInfo;
+   let info: wrapper.IWrapInfo;
    await t.step('Able to correctly load V2 info', async () => {
       info = await readInfoFile('Info.dat', 2, {
          directory: './tests/resources/examples/werewolf howls./',
@@ -123,7 +121,7 @@ Deno.test('Load beatmap version explicitly and convert to V3', async (t) => {
 });
 
 Deno.test('Load beatmap version explicitly and convert to V2', async (t) => {
-   let info: IWrapInfo;
+   let info: wrapper.IWrapInfo;
    await t.step('Able to correctly load V2 info', async () => {
       info = await readInfoFile('Info.dat', 2, {
          directory: "./tests/resources/examples/I Bet You'll Forget That Even If You Noticed That/",
@@ -167,10 +165,10 @@ Deno.test('using custom wrappers', () => {
    const difficulty = saveDifficulty(beatmap, {
       preprocess: [
          (x) => {
-            return createBeatmap({
+            return wrapper.createBeatmap({
                version: x.version,
                difficulty: {
-                  colorNotes: x.foo.map((x) => createColorNote({ time: x.t })),
+                  colorNotes: x.foo.map((x) => wrapper.createColorNote({ time: x.t })),
                },
             });
          },

@@ -1,20 +1,10 @@
-import type { IWrapLightRotationEventBoxGroup } from './types/lightRotationEventBoxGroup.ts';
+import type { IWrapLightRotationEventBoxGroup } from '../schema/wrapper/types/lightRotationEventBoxGroup.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { EventBoxGroup } from './abstract/eventBoxGroup.ts';
-import { createLightRotationEventBox, LightRotationEventBox } from './lightRotationEventBox.ts';
-
-export function createLightRotationEventBoxGroup(
-   data: DeepPartial<IWrapLightRotationEventBoxGroup> = {},
-): IWrapLightRotationEventBoxGroup {
-   return {
-      time: data.time ?? 0,
-      id: data.id ?? 0,
-      boxes: data.boxes?.map((e) => createLightRotationEventBox(e)) ?? [],
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { LightRotationEventBox } from './lightRotationEventBox.ts';
+import { createLightRotationEventBoxGroup } from '../schema/wrapper/lightRotationEventBoxGroup.ts';
 
 /**
  * Core beatmap light rotation event box group.

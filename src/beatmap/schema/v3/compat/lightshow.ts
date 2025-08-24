@@ -1,5 +1,5 @@
 import type { ICompatibilityOptions } from '../../../mapping/types/compatibility.ts';
-import type { IWrapBeatmap } from '../../../core/types/beatmap.ts';
+import type { IWrapBeatmap } from '../../wrapper/types/beatmap.ts';
 
 /**
  * Checks if beatmap data is compatible with v3 `Lightshow` schema.

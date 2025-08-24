@@ -1,8 +1,8 @@
 import type { IFxEventFloatBoxContainer } from './types/container.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
-import type { IWrapFxEventBox } from '../../core/types/fxEventBox.ts';
+import type { IWrapFxEventBox } from '../wrapper/types/fxEventBox.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createFxEventBox } from '../../core/fxEventBox.ts';
+import { createFxEventBox } from '../wrapper/fxEventBox.ts';
 import { fxEventFloat } from './fxEventFloat.ts';
 import { indexFilter } from './indexFilter.ts';
 

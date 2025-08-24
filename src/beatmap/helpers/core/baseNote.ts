@@ -1,5 +1,5 @@
 import { NoteColor, NoteDirection } from '../../schema/shared/types/constants.ts';
-import type { IWrapBaseNote } from '../../core/types/baseNote.ts';
+import type { IWrapBaseNote } from '../../schema/wrapper/types/baseNote.ts';
 import { cycle } from '../../../utils/misc/iterator.ts';
 import { NoteDirectionAngle } from '../../misc/remaps.ts';
 

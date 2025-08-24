@@ -1,4 +1,4 @@
-import type { ICustomDataNote } from '../../core/types/custom/note.ts';
+import type { ICustomDataNote } from '../../schema/wrapper/types/custom/note.ts';
 
 /**
  * Get direction angle of Noodle Extensions in beatmap v2.

@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { ILightTranslationEventBox } from './types/lightTranslationEventBox.ts';
-import type { IWrapLightTranslationEventBox } from '../../core/types/lightTranslationEventBox.ts';
+import type { IWrapLightTranslationEventBox } from '../wrapper/types/lightTranslationEventBox.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createLightTranslationEventBox } from '../../core/lightTranslationEventBox.ts';
+import { createLightTranslationEventBox } from '../wrapper/lightTranslationEventBox.ts';
 import { indexFilter } from './indexFilter.ts';
 import { lightTranslationEvent } from './lightTranslationEvent.ts';
 

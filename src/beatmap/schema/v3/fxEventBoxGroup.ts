@@ -2,9 +2,9 @@ import type { IEventBoxGroupContainer, IFxEventFloatBoxContainer } from './types
 import { FxType } from '../shared/types/constants.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IFxEventBox } from './types/fxEventBox.ts';
-import type { IWrapFxEventBoxGroup } from '../../core/types/fxEventBoxGroup.ts';
+import type { IWrapFxEventBoxGroup } from '../wrapper/types/fxEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createFxEventBoxGroup } from '../../core/fxEventBoxGroup.ts';
+import { createFxEventBoxGroup } from '../wrapper/fxEventBoxGroup.ts';
 import { fxEventBox } from './fxEventBox.ts';
 
 /**

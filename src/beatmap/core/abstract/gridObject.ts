@@ -1,5 +1,5 @@
 import type { GetPositionFn, MirrorFn } from '../../schema/shared/types/functions.ts';
-import type { IWrapGridObject } from '../../core/types/gridObject.ts';
+import type { IWrapGridObject } from '../../schema/wrapper/types/gridObject.ts';
 import type { Vector2 } from '../../../types/vector.ts';
 import { vectorAdd } from '../../../utils/math/vector.ts';
 import {

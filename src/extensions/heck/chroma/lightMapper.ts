@@ -9,9 +9,9 @@ import type {
    IChromaEventRing,
    IChromaEventZoom,
 } from '../../../beatmap/schema/v3/types/custom/chroma.ts';
-import type { IWrapBasicEvent } from '../../../beatmap/core/types/basicEvent.ts';
-import type { IWrapBeatmapSubset } from '../../../beatmap/core/types/beatmap.ts';
-import type { IWrapColorBoostEvent } from '../../../beatmap/core/types/colorBoostEvent.ts';
+import type { IWrapBasicEvent } from '../../../beatmap/schema/wrapper/types/basicEvent.ts';
+import type { IWrapBeatmapSubset } from '../../../beatmap/schema/wrapper/types/beatmap.ts';
+import type { IWrapColorBoostEvent } from '../../../beatmap/schema/wrapper/types/colorBoostEvent.ts';
 import type { ColorArray } from '../../../types/colors.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../../utils/colors/convertor.ts';

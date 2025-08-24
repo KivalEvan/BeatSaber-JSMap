@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IFxEventInt } from './types/fxEventInt.ts';
-import type { IWrapFxEventInt } from '../../core/types/fxEventInt.ts';
+import type { IWrapFxEventInt } from '../wrapper/types/fxEventInt.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createFxEventInt } from '../../core/fxEventInt.ts';
+import { createFxEventInt } from '../wrapper/fxEventInt.ts';
 
 /**
  * Schema serialization for v3 `FX Event Int`.

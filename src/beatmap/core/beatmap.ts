@@ -2,24 +2,23 @@ import type {
    GenericBeatmapFilename,
    GenericLightshowFilename,
 } from '../schema/shared/types/filename.ts';
-import type { IWrapArc } from './types/arc.ts';
-import type { IWrapBasicEvent } from './types/basicEvent.ts';
-import type { IWrapBeatmap } from './types/beatmap.ts';
-import type { IWrapBombNote } from './types/bombNote.ts';
-import type { IWrapBPMEvent } from './types/bpmEvent.ts';
-import type { IWrapChain } from './types/chain.ts';
-import type { IWrapColorBoostEvent } from './types/colorBoostEvent.ts';
-import type { IWrapColorNote } from './types/colorNote.ts';
-import type { IWrapFxEventBoxGroup } from './types/fxEventBoxGroup.ts';
-import type { IWrapLightColorEventBoxGroup } from './types/lightColorEventBoxGroup.ts';
-import type { IWrapLightRotationEventBoxGroup } from './types/lightRotationEventBoxGroup.ts';
-import type { IWrapLightTranslationEventBoxGroup } from './types/lightTranslationEventBoxGroup.ts';
-import type { IWrapNJSEvent } from './types/njsEvent.ts';
-import type { IWrapObstacle } from './types/obstacle.ts';
-import type { IWrapRotationEvent } from './types/rotationEvent.ts';
-import type { IWrapWaypoint } from './types/waypoint.ts';
+import type { IWrapArc } from '../schema/wrapper/types/arc.ts';
+import type { IWrapBasicEvent } from '../schema/wrapper/types/basicEvent.ts';
+import type { IWrapBeatmap } from '../schema/wrapper/types/beatmap.ts';
+import type { IWrapBombNote } from '../schema/wrapper/types/bombNote.ts';
+import type { IWrapBPMEvent } from '../schema/wrapper/types/bpmEvent.ts';
+import type { IWrapChain } from '../schema/wrapper/types/chain.ts';
+import type { IWrapColorBoostEvent } from '../schema/wrapper/types/colorBoostEvent.ts';
+import type { IWrapColorNote } from '../schema/wrapper/types/colorNote.ts';
+import type { IWrapFxEventBoxGroup } from '../schema/wrapper/types/fxEventBoxGroup.ts';
+import type { IWrapLightColorEventBoxGroup } from '../schema/wrapper/types/lightColorEventBoxGroup.ts';
+import type { IWrapLightRotationEventBoxGroup } from '../schema/wrapper/types/lightRotationEventBoxGroup.ts';
+import type { IWrapLightTranslationEventBoxGroup } from '../schema/wrapper/types/lightTranslationEventBoxGroup.ts';
+import type { IWrapNJSEvent } from '../schema/wrapper/types/njsEvent.ts';
+import type { IWrapObstacle } from '../schema/wrapper/types/obstacle.ts';
+import type { IWrapRotationEvent } from '../schema/wrapper/types/rotationEvent.ts';
+import type { IWrapWaypoint } from '../schema/wrapper/types/waypoint.ts';
 import type { DeepPartial, LooseAutocomplete } from '../../types/utils.ts';
-import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import type { BaseObject } from './abstract/baseObject.ts';
 import type { Arc } from './arc.ts';
@@ -29,27 +28,17 @@ import type { BPMEvent } from './bpmEvent.ts';
 import type { Chain } from './chain.ts';
 import type { ColorBoostEvent } from './colorBoostEvent.ts';
 import type { ColorNote } from './colorNote.ts';
-import { createDifficulty, Difficulty } from './difficulty.ts';
+import { Difficulty } from './difficulty.ts';
 import type { FxEventBoxGroup } from './fxEventBoxGroup.ts';
 import type { LightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
 import type { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
-import { createLightshow, Lightshow } from './lightshow.ts';
+import { Lightshow } from './lightshow.ts';
 import type { LightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 import type { NJSEvent } from './njsEvent.ts';
 import type { Obstacle } from './obstacle.ts';
 import type { RotationEvent } from './rotationEvent.ts';
 import type { Waypoint } from './waypoint.ts';
-
-export function createBeatmap(data: DeepPartial<IWrapBeatmap> = {}): IWrapBeatmap {
-   return {
-      version: data.version ?? -1,
-      filename: data.filename ?? 'Unnamed.beatmap.dat',
-      lightshowFilename: data.lightshowFilename ?? 'Unnamed.lightshow.dat',
-      difficulty: createDifficulty(data.difficulty),
-      lightshow: createLightshow(data.lightshow),
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { createBeatmap } from '../schema/wrapper/beatmap.ts';
 
 /**
  * Core beatmap container.

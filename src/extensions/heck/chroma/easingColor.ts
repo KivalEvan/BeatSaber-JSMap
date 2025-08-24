@@ -1,5 +1,5 @@
 import { isLightEventType, isOnEventValue } from '../../../beatmap/helpers/core/basicEvent.ts';
-import type { IWrapBasicEvent } from '../../../beatmap/core/types/basicEvent.ts';
+import type { IWrapBasicEvent } from '../../../beatmap/schema/wrapper/types/basicEvent.ts';
 import type { IApplyEasingsOptions } from './types/colors.ts';
 
 export function applyEasingsTransition<

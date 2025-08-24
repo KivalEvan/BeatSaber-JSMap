@@ -1,8 +1,8 @@
 import type { IBombNoteContainer } from './types/container.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
-import type { IWrapBombNote } from '../../core/types/bombNote.ts';
+import type { IWrapBombNote } from '../wrapper/types/bombNote.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createBombNote } from '../../core/bombNote.ts';
+import { createBombNote } from '../wrapper/bombNote.ts';
 
 /**
  * Schema serialization for v4 `Bomb Note`.

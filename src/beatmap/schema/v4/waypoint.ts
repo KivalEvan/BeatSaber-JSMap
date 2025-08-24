@@ -1,8 +1,8 @@
 import type { IWaypointContainer } from './types/container.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
-import type { IWrapWaypoint } from '../../core/types/waypoint.ts';
+import type { IWrapWaypoint } from '../wrapper/types/waypoint.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createWaypoint } from '../../core/waypoint.ts';
+import { createWaypoint } from '../wrapper/waypoint.ts';
 
 /**
  * Schema serialization for v4 `Waypoint`.

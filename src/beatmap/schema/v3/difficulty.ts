@@ -1,11 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IDifficulty } from './types/difficulty.ts';
-import type { IWrapBeatmap } from '../../core/types/beatmap.ts';
+import type { IWrapBeatmap } from '../wrapper/types/beatmap.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createBeatmap } from '../../core/beatmap.ts';
-import { createDifficulty } from '../../core/difficulty.ts';
-import { createLightshow } from '../../core/lightshow.ts';
+import { createBeatmap } from '../wrapper/beatmap.ts';
+import { createDifficulty } from '../wrapper/difficulty.ts';
+import { createLightshow } from '../wrapper/lightshow.ts';
 import { FxType } from '../shared/types/constants.ts';
 import { arc } from './arc.ts';
 import { basicEvent } from './basicEvent.ts';

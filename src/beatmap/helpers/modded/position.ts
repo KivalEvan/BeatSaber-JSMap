@@ -1,5 +1,5 @@
-import type { ICustomDataNote } from '../../core/types/custom/note.ts';
-import type { ICustomDataSlider } from '../../core/types/custom/slider.ts';
+import type { ICustomDataNote } from '../../schema/wrapper/types/custom/note.ts';
+import type { ICustomDataSlider } from '../../schema/wrapper/types/custom/slider.ts';
 import type { Vector2 } from '../../../types/vector.ts';
 
 /**

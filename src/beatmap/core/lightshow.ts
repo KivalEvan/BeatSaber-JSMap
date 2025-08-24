@@ -1,63 +1,26 @@
-import type { IWrapBasicEvent } from './types/basicEvent.ts';
-import type { IWrapColorBoostEvent } from './types/colorBoostEvent.ts';
-import type { IWrapFxEventBoxGroup } from './types/fxEventBoxGroup.ts';
-import type { IWrapLightColorEventBoxGroup } from './types/lightColorEventBoxGroup.ts';
-import type { IWrapLightRotationEventBoxGroup } from './types/lightRotationEventBoxGroup.ts';
-import type { IWrapLightshow } from './types/lightshow.ts';
-import type { IWrapLightTranslationEventBoxGroup } from './types/lightTranslationEventBoxGroup.ts';
-import type { IWrapWaypoint } from './types/waypoint.ts';
+import type { IWrapBasicEvent } from '../schema/wrapper/types/basicEvent.ts';
+import type { IWrapColorBoostEvent } from '../schema/wrapper/types/colorBoostEvent.ts';
+import type { IWrapFxEventBoxGroup } from '../schema/wrapper/types/fxEventBoxGroup.ts';
+import type { IWrapLightColorEventBoxGroup } from '../schema/wrapper/types/lightColorEventBoxGroup.ts';
+import type { IWrapLightRotationEventBoxGroup } from '../schema/wrapper/types/lightRotationEventBoxGroup.ts';
+import type { IWrapLightshow } from '../schema/wrapper/types/lightshow.ts';
+import type { IWrapLightTranslationEventBoxGroup } from '../schema/wrapper/types/lightTranslationEventBoxGroup.ts';
+import type { IWrapWaypoint } from '../schema/wrapper/types/waypoint.ts';
 import type { DeepPartial } from '../../types/utils.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { reconcileClassObject } from '../helpers/core/misc.ts';
 import { sortObjectFn } from '../helpers/sort.ts';
 import { BaseItem } from './abstract/baseItem.ts';
 import type { BaseObject } from './abstract/baseObject.ts';
-import { BasicEvent, createBasicEvent } from './basicEvent.ts';
-import {
-   BasicEventTypesForKeywords,
-   createBasicEventTypesForKeywords,
-} from './basicEventTypesForKeywords.ts';
-import { ColorBoostEvent, createColorBoostEvent } from './colorBoostEvent.ts';
-import { createFxEventBoxGroup, FxEventBoxGroup } from './fxEventBoxGroup.ts';
-import {
-   createLightColorEventBoxGroup,
-   LightColorEventBoxGroup,
-} from './lightColorEventBoxGroup.ts';
-import {
-   createLightRotationEventBoxGroup,
-   LightRotationEventBoxGroup,
-} from './lightRotationEventBoxGroup.ts';
-import {
-   createLightTranslationEventBoxGroup,
-   LightTranslationEventBoxGroup,
-} from './lightTranslationEventBoxGroup.ts';
-import { createWaypoint, Waypoint } from './waypoint.ts';
-
-export function createLightshow(
-   data: DeepPartial<IWrapLightshow> = {},
-): IWrapLightshow {
-   return {
-      waypoints: data.waypoints?.map(createWaypoint) ?? [],
-      basicEvents: data.basicEvents?.map(createBasicEvent) ?? [],
-      colorBoostEvents: data.colorBoostEvents?.map(createColorBoostEvent) ?? [],
-      lightColorEventBoxGroups: data.lightColorEventBoxGroups?.map(createLightColorEventBoxGroup) ??
-         [],
-      lightRotationEventBoxGroups: data.lightRotationEventBoxGroups?.map(
-         createLightRotationEventBoxGroup,
-      ) ?? [],
-      lightTranslationEventBoxGroups: data.lightTranslationEventBoxGroups?.map(
-         createLightTranslationEventBoxGroup,
-      ) ?? [],
-      fxEventBoxGroups: data.fxEventBoxGroups?.map(createFxEventBoxGroup) ?? [],
-      basicEventTypesWithKeywords: {
-         list: data.basicEventTypesWithKeywords?.list?.map(
-            createBasicEventTypesForKeywords,
-         ) ?? [],
-      },
-      useNormalEventsAsCompatibleEvents: !!data.useNormalEventsAsCompatibleEvents,
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { BasicEvent } from './basicEvent.ts';
+import { BasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
+import { ColorBoostEvent } from './colorBoostEvent.ts';
+import { FxEventBoxGroup } from './fxEventBoxGroup.ts';
+import { LightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
+import { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
+import { LightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
+import { Waypoint } from './waypoint.ts';
+import { createLightshow } from '../schema/wrapper/lightshow.ts';
 
 /**
  * Core beatmap lightshow.
@@ -80,9 +43,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
    static createOne(data: DeepPartial<IWrapLightshow> = {}): Lightshow {
       return new this(data);
    }
-   static create(
-      ...data: DeepPartial<IWrapLightshow>[]
-   ): Lightshow[] {
+   static create(...data: DeepPartial<IWrapLightshow>[]): Lightshow[] {
       return data.length ? data.map((obj) => new this(obj)) : [new this()];
    }
    constructor(data: DeepPartial<IWrapLightshow> = {}) {
@@ -232,25 +193,19 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       ];
    }
 
-   addWaypoints(
-      ...data: DeepPartial<IWrapWaypoint>[]
-   ): this {
+   addWaypoints(...data: DeepPartial<IWrapWaypoint>[]): this {
       for (const d of data) {
          this.waypoints.push(new Waypoint(d));
       }
       return this;
    }
-   addBasicEvents(
-      ...data: DeepPartial<IWrapBasicEvent>[]
-   ): this {
+   addBasicEvents(...data: DeepPartial<IWrapBasicEvent>[]): this {
       for (const d of data) {
          this.basicEvents.push(new BasicEvent(d));
       }
       return this;
    }
-   addColorBoostEvents(
-      ...data: DeepPartial<IWrapColorBoostEvent>[]
-   ): this {
+   addColorBoostEvents(...data: DeepPartial<IWrapColorBoostEvent>[]): this {
       for (const d of data) {
          this.colorBoostEvents.push(new ColorBoostEvent(d));
       }
@@ -265,9 +220,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightRotationEventBoxGroups(
-      ...data: DeepPartial<
-         IWrapLightRotationEventBoxGroup
-      >[]
+      ...data: DeepPartial<IWrapLightRotationEventBoxGroup>[]
    ): this {
       for (const d of data) {
          this.lightRotationEventBoxGroups.push(
@@ -277,9 +230,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       return this;
    }
    addLightTranslationEventBoxGroups(
-      ...data: DeepPartial<
-         IWrapLightTranslationEventBoxGroup
-      >[]
+      ...data: DeepPartial<IWrapLightTranslationEventBoxGroup>[]
    ): this {
       for (const d of data) {
          this.lightTranslationEventBoxGroups.push(
@@ -288,9 +239,7 @@ export class Lightshow extends BaseItem implements IWrapLightshow {
       }
       return this;
    }
-   addFxEventBoxGroups(
-      ...data: DeepPartial<IWrapFxEventBoxGroup>[]
-   ): this {
+   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroup>[]): this {
       for (const d of data) {
          this.fxEventBoxGroups.push(new FxEventBoxGroup(d));
       }

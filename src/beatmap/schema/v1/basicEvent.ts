@@ -1,7 +1,7 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IEvent } from './types/event.ts';
-import type { IWrapBasicEvent } from '../../core/types/basicEvent.ts';
-import { createBasicEvent } from '../../core/basicEvent.ts';
+import type { IWrapBasicEvent } from '../wrapper/types/basicEvent.ts';
+import { createBasicEvent } from '../wrapper/basicEvent.ts';
 
 /**
  * Schema serialization for v1 `Basic Event`.

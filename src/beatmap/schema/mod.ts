@@ -6,3 +6,4 @@ export * as v3 from './v3/mod.ts';
 export * as v4 from './v4/mod.ts';
 
 export * as external from './external/mod.ts';
+export * as wrapper from './wrapper/mod.ts';

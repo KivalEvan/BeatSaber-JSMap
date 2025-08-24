@@ -3,8 +3,8 @@ import { hasChromaEventV2, hasChromaEventV3 } from '../../beatmap/helpers/modded
 import { EventList } from '../../beatmap/misc/environment.ts';
 import { isValidEventType } from '../../mod.ts';
 import type { EnvironmentAllName } from '../../beatmap/schema/shared/types/environment.ts';
-import type { IWrapBasicEvent } from '../../beatmap/core/types/basicEvent.ts';
-import type { IWrapColorBoostEvent } from '../../beatmap/core/types/colorBoostEvent.ts';
+import type { IWrapBasicEvent } from '../../beatmap/schema/wrapper/types/basicEvent.ts';
+import type { IWrapColorBoostEvent } from '../../beatmap/schema/wrapper/types/colorBoostEvent.ts';
 import type { ICountEvent } from './types/stats.ts';
 
 /**

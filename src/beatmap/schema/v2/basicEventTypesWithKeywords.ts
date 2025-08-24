@@ -1,6 +1,6 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { ISpecialEventsKeywordFilters } from '../../schema/v2/types/specialEventsKeywordFilters.ts';
-import type { IWrapBasicEventTypesWithKeywords } from '../../core/types/basicEventTypesWithKeywords.ts';
+import type { IWrapBasicEventTypesWithKeywords } from '../wrapper/types/basicEventTypesWithKeywords.ts';
 import { basicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
 
 /**

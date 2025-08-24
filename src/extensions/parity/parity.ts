@@ -9,8 +9,8 @@ import {
    PosX,
    PosY,
 } from '../../beatmap/schema/shared/types/constants.ts';
-import type { IWrapBombNote } from '../../beatmap/core/types/bombNote.ts';
-import type { IWrapColorNote } from '../../beatmap/core/types/colorNote.ts';
+import type { IWrapBombNote } from '../../beatmap/schema/wrapper/types/bombNote.ts';
+import type { IWrapColorNote } from '../../beatmap/schema/wrapper/types/colorNote.ts';
 import { predictDirection } from '../placement/note.ts';
 import { type ParityState, type ParityStatus, ParitySwitch } from './types/parity.ts';
 

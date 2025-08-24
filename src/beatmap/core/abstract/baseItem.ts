@@ -1,4 +1,4 @@
-import type { IWrapBaseItem } from '../../core/types/baseItem.ts';
+import type { IWrapBaseItem } from '../../schema/wrapper/types/baseItem.ts';
 import { Cloneable } from '../../misc/cloneable.ts';
 
 /**

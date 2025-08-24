@@ -5,7 +5,7 @@ import objectToV3 from '../beatmap/converter/customData/objectToV3.ts';
 import { isLaserRotationEventType } from '../beatmap/helpers/core/basicEvent.ts';
 import { logger } from '../logger.ts';
 import type { IPointDefinition } from '../beatmap/schema/v3/types/custom/pointDefinition.ts';
-import type { IWrapBeatmap } from '../beatmap/core/types/beatmap.ts';
+import type { IWrapBeatmap } from '../beatmap/schema/wrapper/types/beatmap.ts';
 import type { ColorArray } from '../types/colors.ts';
 import { colorFrom } from '../utils/colors/convertor.ts';
 

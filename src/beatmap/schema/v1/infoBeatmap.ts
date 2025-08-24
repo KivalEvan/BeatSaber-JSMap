@@ -1,8 +1,8 @@
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IInfoDifficulty } from './types/info.ts';
-import type { IWrapInfo, IWrapInfoBeatmap } from '../../core/types/info.ts';
+import type { IWrapInfo, IWrapInfoBeatmap } from '../wrapper/types/info.ts';
 import { shallowCopy } from '../../../utils/misc/json.ts';
-import { createInfoBeatmap } from '../../core/infoBeatmap.ts';
+import { createInfoBeatmap } from '../wrapper/infoBeatmap.ts';
 import { DifficultyRanking } from '../../misc/difficulty.ts';
 
 type InfoBeatmapSerializationPolyfills = {

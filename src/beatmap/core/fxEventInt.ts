@@ -1,17 +1,7 @@
-import type { IWrapFxEventInt } from './types/fxEventInt.ts';
+import type { IWrapFxEventInt } from '../schema/wrapper/types/fxEventInt.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { BaseObject } from './abstract/baseObject.ts';
-
-export function createFxEventInt(
-   data: Partial<IWrapFxEventInt> = {},
-): IWrapFxEventInt {
-   return {
-      time: data.time ?? 0,
-      previous: data.previous ?? 0,
-      value: data.value ?? 0,
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { createFxEventInt } from '../schema/wrapper/fxEventInt.ts';
 
 /**
  * Core beatmap FX event int.

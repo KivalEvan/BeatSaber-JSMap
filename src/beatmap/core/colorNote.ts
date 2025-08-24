@@ -1,25 +1,10 @@
 import type { GetAngleFn, MirrorFn } from '../schema/shared/types/functions.ts';
-import type { IWrapColorNote } from './types/colorNote.ts';
-import type { ICustomDataNote } from './types/custom/note.ts';
-import type { DeepPartial } from '../../types/utils.ts';
+import type { IWrapColorNote } from '../schema/wrapper/types/colorNote.ts';
+import type { ICustomDataNote } from '../schema/wrapper/types/custom/note.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import { resolveNoteAngle } from '../helpers/core/baseNote.ts';
 import { BaseNote } from './abstract/baseNote.ts';
-
-export function createColorNote(
-   data: DeepPartial<IWrapColorNote> = {},
-): IWrapColorNote {
-   return {
-      time: data.time ?? 0,
-      posX: data.posX ?? 0,
-      posY: data.posY ?? 0,
-      color: data.color ?? 0,
-      direction: data.direction ?? 0,
-      angleOffset: data.angleOffset ?? 0,
-      laneRotation: data.laneRotation ?? 0,
-      customData: deepCopy({ ...data.customData }),
-   };
-}
+import { createColorNote } from '../schema/wrapper/colorNote.ts';
 
 /**
  * Core beatmap color note.

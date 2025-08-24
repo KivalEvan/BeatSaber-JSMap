@@ -6,9 +6,9 @@ import {
 } from '../../beatmap/helpers/core/gridObject.ts';
 import { NoteDirection } from '../../beatmap/schema/shared/types/constants.ts';
 import type { GetAngleFn } from '../../beatmap/schema/shared/types/functions.ts';
-import type { IWrapBaseNote } from '../../beatmap/core/types/baseNote.ts';
-import type { IWrapColorNote } from '../../beatmap/core/types/colorNote.ts';
-import type { IWrapGridObject } from '../../beatmap/core/types/gridObject.ts';
+import type { IWrapBaseNote } from '../../beatmap/schema/wrapper/types/baseNote.ts';
+import type { IWrapColorNote } from '../../beatmap/schema/wrapper/types/colorNote.ts';
+import type { IWrapGridObject } from '../../beatmap/schema/wrapper/types/gridObject.ts';
 import type { GetPositionFn } from '../../beatmap/schema/shared/types/functions.ts';
 import type { Vector2 } from '../../types/vector.ts';
 import { lowestDifferenceMod, mod } from '../../utils/math/helpers.ts';
