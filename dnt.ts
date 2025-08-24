@@ -15,6 +15,10 @@ await build({
    shims: {
       deno: true,
    },
+   typeCheck: 'both',
+   declaration: 'separate',
+   // declarationMap: false,
+   // skipSourceOutput: true,
    mappings: {
       './src/deps.ts': './src/_deps.ts',
       './src/shims/_path.ts': './src/shims/_path.js',
