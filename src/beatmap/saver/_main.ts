@@ -24,7 +24,7 @@ const defaultOptions = {
    optimize: {
       enabled: true,
       deduplicate: true,
-      floatTrim: 4,
+      floatTrim: 8,
       purgeZeros: true,
       stringTrim: true,
       throwNullish: true,

@@ -10,6 +10,7 @@ require to do minimal change.
 + Added chain link wrapper
 + Added bezier helpers
 + Added couple of vector helpers
+* Increased default rounding from 4 to 8
 * File restructuring
 * Simplified change log
 - Removed unnecessary vector helpers
