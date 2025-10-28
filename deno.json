@@ -9,9 +9,20 @@
       "./shims": "./src/shims/mod.ts"
    },
    "publish": {
-      "exclude": [".git", ".github", "dnt.ts", "npm", "coverage", "tests"]
+      "exclude": [
+         ".git",
+         ".github",
+         "dnt.ts",
+         "npm",
+         "coverage",
+         "tests"
+      ]
    },
-   "exclude": [".git", "npm", "coverage", "src/_deps.ts"],
+   "imports": {
+      "@standard-schema/spec": "jsr:@standard-schema/spec@^1.0.0",
+      "valibot": "jsr:@valibot/valibot@^1.0.0"
+   },
+   "exclude": [".git", "npm", "coverage"],
    "lock": false,
    "fmt": {
       "indentWidth": 3,
@@ -26,6 +37,8 @@
       "check:extensions": "deno check src/extensions/mod.ts",
       "check:patch": "deno check src/patch/mod.ts",
       "check:shims": "deno check src/shims/mod.ts",
+      "check:jsr": "deno publish --dry-run",
+      "check:npm": "cd npm && npx depcheck && npm publish --dry-run",
       "test": "deno task test:clean || true && deno task test:run && deno task test:coverage",
       "test:coverage": "deno coverage --html",
       "test:run": "deno test --parallel --allow-read --coverage tests/",

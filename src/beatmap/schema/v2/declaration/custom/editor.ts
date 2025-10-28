@@ -1,4 +1,4 @@
-import { v } from '../../../../../deps.ts';
+import * as v from 'valibot';
 import type { IEditor, IEditorInfo } from '../../types/custom/editor.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 

@@ -1,4 +1,4 @@
-import { v } from '../../../../deps.ts';
+import * as v from 'valibot';
 import type { EnvironmentAllName } from '../../shared/types/mod.ts';
 import type {
    IInfo,

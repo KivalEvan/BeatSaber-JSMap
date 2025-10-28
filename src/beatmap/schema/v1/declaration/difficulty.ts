@@ -1,4 +1,4 @@
-import { v } from '../../../../deps.ts';
+import * as v from 'valibot';
 import type { IDifficulty, IEvent, INote, IObstacle } from '../types/mod.ts';
 import type { IBookmark } from '../../v2/types/custom/bookmark.ts';
 import type { IBPMChangeOld } from '../../v2/types/custom/bpmChange.ts';

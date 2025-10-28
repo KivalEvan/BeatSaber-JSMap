@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { v } from '../../deps.ts';
+import * as v from 'valibot';
 import { logger } from '../../logger.ts';
 import type { Version } from '../schema/shared/types/version.ts';
 import { isRecord } from '../../utils/misc/json.ts';

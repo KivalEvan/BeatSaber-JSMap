@@ -1,4 +1,4 @@
-import { v } from '../../../../deps.ts';
+import * as v from 'valibot';
 import type { IAudio, IAudioBPM, IAudioLUFS } from '../types/audioData.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
 import { VersionSchema } from '../../shared/declaration/mod.ts';

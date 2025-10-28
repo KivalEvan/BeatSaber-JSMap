@@ -1,4 +1,4 @@
-import { v } from '../../../../../deps.ts';
+import * as v from 'valibot';
 import type { IContributor } from '../../types/custom/contributor.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 

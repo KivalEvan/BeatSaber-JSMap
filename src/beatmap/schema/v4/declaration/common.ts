@@ -1,4 +1,4 @@
-import { v } from '../../../../deps.ts';
+import * as v from 'valibot';
 import type { IObject, IObjectArc, IObjectChain, IObjectLane } from '../types/object.ts';
 import { field, type InferObjectEntries } from '../../helpers.ts';
 import { CustomDataSchema } from '../../shared/declaration/mod.ts';

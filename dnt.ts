@@ -1,7 +1,13 @@
+// deno-lint-ignore no-import-prefix
 import { build, emptyDir } from 'jsr:@deno/dnt@0.42.3';
 import denoJson from './deno.json' with { type: 'json' };
 
 await emptyDir('./npm');
+
+// hack: we need to supply a dummy import map file so dnt won't force source replication for jsr specifiers
+const importMap = './npm/.dnt-import-map.json';
+
+await Deno.writeTextFile(importMap, JSON.stringify({ imports: {} }));
 
 await build({
    entryPoints: Object.entries(denoJson.exports).map(
@@ -15,12 +21,12 @@ await build({
    shims: {
       deno: true,
    },
+   importMap,
    typeCheck: 'both',
    declaration: 'separate',
    // declarationMap: false,
    // skipSourceOutput: true,
    mappings: {
-      './src/deps.ts': './src/_deps.ts',
       './src/shims/_path.ts': './src/shims/_path.js',
       './src/shims/_fs.ts': './src/shims/_fs.js',
       './src/shims/_fsp.ts': './src/shims/_fsp.js',
@@ -32,8 +38,9 @@ await build({
       keywords: ['beat', 'saber', 'beatsaber', 'beatmap'],
       license: 'MIT',
       dependencies: {
-         'valibot': 'npm:valibot@^1.0.0',
-         '@standard-schema/spec': '^1.0.0',
+         // for deps with jsr -> npm equivalents, prefer their npm aliases in deno import maps to mitigate peer dependency resolution issues
+         '@standard-schema/spec': denoJson.imports['@standard-schema/spec'].split('@')[2],
+         'valibot': denoJson.imports['valibot'].split('@')[2],
       },
       repository: {
          type: 'git',
@@ -51,3 +58,5 @@ await build({
       Deno.copyFileSync('GUIDE.md', 'npm/GUIDE.md');
    },
 });
+
+await Deno.remove(importMap);

@@ -1,4 +1,4 @@
-import { v } from '../../../../deps.ts';
+import * as v from 'valibot';
 import type { ILightshow } from '../types/lightshow.ts';
 import { entity, field, type InferObjectEntries } from '../../helpers.ts';
 import { CustomDataSchema } from '../../shared/declaration/mod.ts';

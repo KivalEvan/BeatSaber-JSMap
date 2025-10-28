@@ -1,4 +1,4 @@
-import { v } from '../../../../../deps.ts';
+import * as v from 'valibot';
 import type { ICustomDataDifficulty } from '../../types/custom/difficulty.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 import { CustomBookmarkSchema } from './bookmark.ts';

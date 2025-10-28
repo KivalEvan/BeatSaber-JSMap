@@ -1,4 +1,4 @@
-import { v } from '../../../../../deps.ts';
+import * as v from 'valibot';
 import type { IBPMChange } from '../../types/custom/bpmChange.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';
 
