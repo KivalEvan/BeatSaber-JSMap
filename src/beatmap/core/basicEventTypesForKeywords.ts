@@ -9,7 +9,8 @@ import { createBasicEventTypesForKeywords } from '../schema/wrapper/basicEventTy
  */
 export class BasicEventTypesForKeywords extends BaseItem
    implements IWrapBasicEventTypesForKeywords {
-   static defaultValue: IWrapBasicEventTypesForKeywords = createBasicEventTypesForKeywords();
+   static defaultValue: IWrapBasicEventTypesForKeywords =
+      /* @__PURE__ */ createBasicEventTypesForKeywords();
 
    static createOne(
       data: DeepPartial<IWrapBasicEventTypesForKeywords> = {},

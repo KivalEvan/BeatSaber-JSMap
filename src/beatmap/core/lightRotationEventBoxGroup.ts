@@ -11,7 +11,8 @@ import { createLightRotationEventBoxGroup } from '../schema/wrapper/lightRotatio
  */
 export class LightRotationEventBoxGroup extends EventBoxGroup
    implements IWrapLightRotationEventBoxGroup {
-   static defaultValue: IWrapLightRotationEventBoxGroup = createLightRotationEventBoxGroup();
+   static defaultValue: IWrapLightRotationEventBoxGroup =
+      /* @__PURE__ */ createLightRotationEventBoxGroup();
 
    static createOne(
       data: DeepPartial<IWrapLightRotationEventBoxGroup> = {},

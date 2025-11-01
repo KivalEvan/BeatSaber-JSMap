@@ -16,7 +16,7 @@ import { createAudioData } from '../schema/wrapper/audioData.ts';
  * This object is writable into file.
  */
 export class AudioData extends BaseItem implements IWrapAudioData {
-   static defaultValue: IWrapAudioData = createAudioData();
+   static defaultValue: IWrapAudioData = /* @__PURE__ */ createAudioData();
 
    static createOne(data: DeepPartial<IWrapAudioData> = {}): AudioData {
       return new this(data);

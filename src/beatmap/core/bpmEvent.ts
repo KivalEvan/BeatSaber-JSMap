@@ -7,7 +7,7 @@ import { createBPMEvent } from '../schema/wrapper/bpmEvent.ts';
  * Core beatmap BPM event.
  */
 export class BPMEvent extends BaseObject implements IWrapBPMEvent {
-   static defaultValue: IWrapBPMEvent = createBPMEvent();
+   static defaultValue: IWrapBPMEvent = /* @__PURE__ */ createBPMEvent();
 
    static createOne(data: Partial<IWrapBPMEvent> = {}): BPMEvent {
       return new this(data);

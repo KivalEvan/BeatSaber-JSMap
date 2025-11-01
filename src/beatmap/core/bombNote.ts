@@ -7,7 +7,7 @@ import { createBombNote } from '../schema/wrapper/bombNote.ts';
  * Core beatmap bomb note.
  */
 export class BombNote extends BaseNote implements IWrapBombNote {
-   static defaultValue: IWrapBombNote = createBombNote();
+   static defaultValue: IWrapBombNote = /* @__PURE__ */ createBombNote();
 
    static createOne(data: Partial<IWrapBombNote> = {}): BombNote {
       return new this(data);

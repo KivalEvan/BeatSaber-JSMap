@@ -7,7 +7,7 @@ import { createLightTranslationEvent } from '../schema/wrapper/lightTranslationE
  * Core beatmap light translation event.
  */
 export class LightTranslationEvent extends BaseObject implements IWrapLightTranslationEvent {
-   static defaultValue: IWrapLightTranslationEvent = createLightTranslationEvent();
+   static defaultValue: IWrapLightTranslationEvent = /* @__PURE__ */ createLightTranslationEvent();
 
    static createOne(
       data: Partial<IWrapLightTranslationEvent> = {},

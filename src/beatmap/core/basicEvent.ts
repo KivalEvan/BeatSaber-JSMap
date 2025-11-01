@@ -30,7 +30,7 @@ import { createBasicEvent } from '../schema/wrapper/basicEvent.ts';
  * Core beatmap basic event.
  */
 export class BasicEvent extends BaseObject implements IWrapBasicEvent {
-   static defaultValue: IWrapBasicEvent = createBasicEvent();
+   static defaultValue: IWrapBasicEvent = /* @__PURE__ */ createBasicEvent();
 
    static createOne(data: Partial<IWrapBasicEvent> = {}): BasicEvent {
       return new this(data);

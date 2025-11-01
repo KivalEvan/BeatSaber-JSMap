@@ -52,7 +52,7 @@ import { createBeatmap } from '../schema/wrapper/beatmap.ts';
  * This object exists solely for arbitrary data.
  */
 export class Beatmap extends BaseItem implements IWrapBeatmap {
-   static defaultValue: IWrapBeatmap = createBeatmap();
+   static defaultValue: IWrapBeatmap = /* @__PURE__ */ createBeatmap();
 
    static createOne(data: DeepPartial<IWrapBeatmap> = {}): Beatmap {
       return new this(data);

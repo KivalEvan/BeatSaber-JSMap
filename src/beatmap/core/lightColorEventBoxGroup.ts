@@ -10,7 +10,8 @@ import { createLightColorEventBoxGroup } from '../schema/wrapper/lightColorEvent
  * Core beatmap light color event box group.
  */
 export class LightColorEventBoxGroup extends EventBoxGroup implements IWrapLightColorEventBoxGroup {
-   static defaultValue: IWrapLightColorEventBoxGroup = createLightColorEventBoxGroup();
+   static defaultValue: IWrapLightColorEventBoxGroup =
+      /* @__PURE__ */ createLightColorEventBoxGroup();
 
    static createOne(
       data: Partial<IWrapLightColorEventBoxGroup> = {},

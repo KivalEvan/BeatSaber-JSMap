@@ -10,7 +10,7 @@ import { createFxEventBoxGroup } from '../schema/wrapper/fxEventBoxGroup.ts';
  * Core beatmap FX event box group.
  */
 export class FxEventBoxGroup extends EventBoxGroup implements IWrapFxEventBoxGroup {
-   static defaultValue: IWrapFxEventBoxGroup = createFxEventBoxGroup();
+   static defaultValue: IWrapFxEventBoxGroup = /* @__PURE__ */ createFxEventBoxGroup();
 
    static createOne(
       data: DeepPartial<IWrapFxEventBoxGroup> = {},

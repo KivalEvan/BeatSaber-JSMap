@@ -7,7 +7,7 @@ import { createLightColorEvent } from '../schema/wrapper/lightColorEvent.ts';
  * Core beatmap light color event.
  */
 export class LightColorEvent extends BaseObject implements IWrapLightColorEvent {
-   static defaultValue: IWrapLightColorEvent = createLightColorEvent();
+   static defaultValue: IWrapLightColorEvent = /* @__PURE__ */ createLightColorEvent();
 
    static createOne(
       data: Partial<IWrapLightColorEvent> = {},

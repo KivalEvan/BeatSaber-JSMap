@@ -8,7 +8,7 @@ import { createIndexFilter } from '../schema/wrapper/indexFilter.ts';
  * Core beatmap index filter.
  */
 export class IndexFilter extends BaseItem implements IWrapIndexFilter {
-   static defaultValue: IWrapIndexFilter = createIndexFilter();
+   static defaultValue: IWrapIndexFilter = /* @__PURE__ */ createIndexFilter();
 
    static createOne(
       data: Partial<IWrapIndexFilter> = {},

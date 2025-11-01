@@ -15,7 +15,7 @@ import { createInfoBeatmap } from '../schema/wrapper/infoBeatmap.ts';
  * Core beatmap info beatmap.
  */
 export class InfoBeatmap extends BaseItem implements IWrapInfoBeatmap {
-   static defaultValue: IWrapInfoBeatmap = createInfoBeatmap();
+   static defaultValue: IWrapInfoBeatmap = /* @__PURE__ */ createInfoBeatmap();
 
    static createOne(data: DeepPartial<IWrapInfoBeatmap> = {}): InfoBeatmap {
       return new this(data);

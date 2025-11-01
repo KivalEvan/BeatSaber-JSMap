@@ -11,7 +11,8 @@ import { createLightTranslationEventBox } from '../schema/wrapper/lightTranslati
  * Core beatmap light translation event box.
  */
 export class LightTranslationEventBox extends EventBox implements IWrapLightTranslationEventBox {
-   static defaultValue: IWrapLightTranslationEventBox = createLightTranslationEventBox();
+   static defaultValue: IWrapLightTranslationEventBox =
+      /* @__PURE__ */ createLightTranslationEventBox();
 
    static createOne(
       data: DeepPartial<IWrapLightTranslationEventBox> = {},

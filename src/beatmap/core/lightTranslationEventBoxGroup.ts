@@ -11,7 +11,8 @@ import { createLightTranslationEventBoxGroup } from '../schema/wrapper/lightTran
  */
 export class LightTranslationEventBoxGroup extends EventBoxGroup
    implements IWrapLightTranslationEventBoxGroup {
-   static defaultValue: IWrapLightTranslationEventBoxGroup = createLightTranslationEventBoxGroup();
+   static defaultValue: IWrapLightTranslationEventBoxGroup =
+      /* @__PURE__ */ createLightTranslationEventBoxGroup();
 
    static createOne(
       data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {},

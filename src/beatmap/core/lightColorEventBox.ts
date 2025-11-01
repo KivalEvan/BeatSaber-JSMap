@@ -11,7 +11,7 @@ import { createLightColorEventBox } from '../schema/wrapper/lightColorEventBox.t
  * Core beatmap light color event box.
  */
 export class LightColorEventBox extends EventBox implements IWrapLightColorEventBox {
-   static defaultValue: IWrapLightColorEventBox = createLightColorEventBox();
+   static defaultValue: IWrapLightColorEventBox = /* @__PURE__ */ createLightColorEventBox();
 
    static createOne(data: DeepPartial<IWrapLightColorEventBox> = {}): LightColorEventBox {
       return new this(data);

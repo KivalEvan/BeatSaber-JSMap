@@ -7,7 +7,7 @@ import { createChain } from '../schema/wrapper/chain.ts';
  * Core beatmap chain.
  */
 export class Chain extends BaseSlider implements IWrapChain {
-   static defaultValue: IWrapChain = createChain();
+   static defaultValue: IWrapChain = /* @__PURE__ */ createChain();
 
    static createOne(data: Partial<IWrapChain> = {}): Chain {
       return new this(data);

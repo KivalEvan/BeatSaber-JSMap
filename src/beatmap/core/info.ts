@@ -26,7 +26,7 @@ import { createInfo } from '../schema/wrapper/info.ts';
  * This object is writable into file.
  */
 export class Info extends BaseItem implements IWrapInfo {
-   static defaultValue: IWrapInfo = createInfo();
+   static defaultValue: IWrapInfo = /* @__PURE__ */ createInfo();
 
    static createOne(data: DeepPartial<IWrapInfo> = {}): Info {
       return new this(data);
