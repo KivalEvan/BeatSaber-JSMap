@@ -1,4 +1,4 @@
-import { v } from '../../../../deps.ts';
+import * as v from 'valibot';
 
 /** Schema declaration for one-dimensional vector tuple. */
 export const Vector1Schema = v.tuple([v.number()]);

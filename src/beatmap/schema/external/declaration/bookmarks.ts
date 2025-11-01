@@ -1,4 +1,4 @@
-import { v } from '../../../../deps.ts';
+import * as v from 'valibot';
 import type { IBookmarkElement, IBookmarks } from '../types/bookmarks.ts';
 import { entity, field, type InferObjectEntries } from '../../helpers.ts';
 import { CharacteristicNameSchema, DifficultyNameSchema } from '../../shared/declaration/common.ts';

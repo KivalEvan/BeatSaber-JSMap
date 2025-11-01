@@ -1,4 +1,4 @@
-import { v } from '../../../../../deps.ts';
+import * as v from 'valibot';
 import type { IColorScheme } from '../../types/custom/colorScheme.ts';
 import type { IColor } from '../../../../../types/colors.ts';
 import type { InferObjectEntries } from '../../../helpers.ts';

@@ -1,4 +1,4 @@
-import { v } from '../../../../deps.ts';
+import * as v from 'valibot';
 import type { EnvironmentName, EnvironmentV3Name } from '../../shared/types/environment.ts';
 import type { IInfo, IInfoDifficulty } from '../types/info.ts';
 import type { IColor } from '../../../../types/colors.ts';
