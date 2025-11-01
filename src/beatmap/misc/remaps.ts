@@ -34,15 +34,15 @@ export const NoteYOffset = {
  * **NOTE:** Rotation in counter-clockwise.
  */
 export const NoteDirectionAngle: { readonly [d in NoteDirection]: number } = {
-   [NoteDirection.UP]: 180,
-   [NoteDirection.DOWN]: 0,
-   [NoteDirection.LEFT]: 270,
-   [NoteDirection.RIGHT]: 90,
-   [NoteDirection.UP_LEFT]: 225,
-   [NoteDirection.UP_RIGHT]: 135,
-   [NoteDirection.DOWN_LEFT]: 315,
-   [NoteDirection.DOWN_RIGHT]: 45,
-   [NoteDirection.ANY]: 0,
+   [0]: 180,
+   [1]: 0,
+   [2]: 270,
+   [3]: 90,
+   [4]: 225,
+   [5]: 135,
+   [6]: 315,
+   [7]: 45,
+   [8]: 0,
 } as const;
 
 /**
@@ -59,46 +59,42 @@ export const NoteDirectionAngle: { readonly [d in NoteDirection]: number } = {
  * 8 (ANY) -> 8 (ANY)
  * ```
  */
-export const NoteDirectionFlip: {
-   readonly [d in NoteDirection]: NoteDirection;
-} = {
-   [NoteDirection.UP]: NoteDirection.DOWN,
-   [NoteDirection.DOWN]: NoteDirection.UP,
-   [NoteDirection.LEFT]: NoteDirection.RIGHT,
-   [NoteDirection.RIGHT]: NoteDirection.LEFT,
-   [NoteDirection.UP_LEFT]: NoteDirection.DOWN_RIGHT,
-   [NoteDirection.UP_RIGHT]: NoteDirection.DOWN_LEFT,
-   [NoteDirection.DOWN_LEFT]: NoteDirection.UP_RIGHT,
-   [NoteDirection.DOWN_RIGHT]: NoteDirection.UP_LEFT,
-   [NoteDirection.ANY]: NoteDirection.ANY,
+export const NoteDirectionFlip: { readonly [d in NoteDirection]: NoteDirection } = {
+   [0]: 1,
+   [1]: 0,
+   [2]: 3,
+   [3]: 2,
+   [4]: 7,
+   [5]: 6,
+   [6]: 5,
+   [7]: 4,
+   [8]: 8,
 } as const;
 
 /**
  * Array index mapped to tuple of `posX` and `posY` corresponding to the `direction`.
  * ```ts
- * 0 -> [0, 1]
- * 1 -> [0, -1]
- * 2 -> [-1, 0]
- * 3 -> [1, 0]
- * 4 -> [-1, 1]
- * 5 -> [1, 1]
- * 6 -> [-1, -1]
- * 7 -> [1, -1]
- * 8 -> [0, 0]
+ * 0 (UP) -> [0, 1]
+ * 1 (DOWN) -> [0, -1]
+ * 2 (LEFT) -> [-1, 0]
+ * 3 (RIGHT) -> [1, 0]
+ * 4 (UP_LEFT) -> [-1, 1]
+ * 5 (UP_RIGHT) -> [1, 1]
+ * 6 (DOWN_LEFT) -> [-1, -1]
+ * 7 (DOWN_RIGHT) -> [1, -1]
+ * 8 (ANY) -> [0, 0]
  * ```
  */
-export const NoteDirectionSpace: {
-   readonly [d in NoteDirection]: Readonly<Vector2>;
-} = {
-   [NoteDirection.UP]: [0, 1],
-   [NoteDirection.DOWN]: [0, -1],
-   [NoteDirection.LEFT]: [-1, 0],
-   [NoteDirection.RIGHT]: [1, 0],
-   [NoteDirection.UP_LEFT]: [-1, 1],
-   [NoteDirection.UP_RIGHT]: [1, 1],
-   [NoteDirection.DOWN_LEFT]: [-1, -1],
-   [NoteDirection.DOWN_RIGHT]: [1, -1],
-   [NoteDirection.ANY]: [0, 0],
+export const NoteDirectionSpace: { readonly [d in NoteDirection]: Readonly<Vector2> } = {
+   [0]: [0, 1],
+   [1]: [0, -1],
+   [2]: [-1, 0],
+   [3]: [1, 0],
+   [4]: [-1, 1],
+   [5]: [1, 1],
+   [6]: [-1, -1],
+   [7]: [1, -1],
+   [8]: [0, 0],
 } as const;
 
 /** Unused as of beatmap v3, useful for conversion reason. */
