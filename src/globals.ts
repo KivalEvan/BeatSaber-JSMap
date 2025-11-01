@@ -35,4 +35,4 @@ class Globals {
 }
 
 /** Global variables. */
-export const globals: Globals = new Globals();
+export const globals: Globals = /* @__PURE__ */ new Globals();

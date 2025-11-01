@@ -157,4 +157,4 @@ export class Logger {
  * Can be replaced as needed.
  */
 // deno-lint-ignore prefer-const
-export let logger: Logger = new Logger();
+export let logger: Logger = /* @__PURE__ */ new Logger();
