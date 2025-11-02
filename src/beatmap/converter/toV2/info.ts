@@ -1,4 +1,4 @@
-import { logger } from '../../../logger.ts';
+import { getLogger } from '../../../logger.ts';
 import type { IWrapInfo } from '../../schema/wrapper/types/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 
@@ -18,7 +18,9 @@ export function toV2Info<T extends IWrapInfo>(
    data: T,
    fromVersion = data.version,
 ): T {
-   logger.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
+   const logger = getLogger();
+
+   logger?.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
 
    switch (fromVersion) {
       case 1:
@@ -34,7 +36,7 @@ export function toV2Info<T extends IWrapInfo>(
          data.version = 2;
          break;
       default:
-         logger.tWarn(
+         logger?.tWarn(
             tag('main'),
             'Unknown version: version not supported; misinput? Returning original data.',
          );

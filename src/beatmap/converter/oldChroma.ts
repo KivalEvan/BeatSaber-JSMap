@@ -1,4 +1,4 @@
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { EnvironmentName } from '../schema/shared/types/environment.ts';
 import type { IWrapBeatmapSubset } from '../schema/wrapper/types/beatmap.ts';
 import type { ColorArray } from '../../types/colors.ts';
@@ -17,7 +17,9 @@ function tag(name: string): string[] {
 export function ogChromaToV2Chroma<
    T extends IWrapBeatmapSubset<'basicEvents', 'type' | 'value' | 'customData'>,
 >(data: T, environment: EnvironmentName = 'DefaultEnvironment'): T {
-   logger.tInfo(
+   const logger = getLogger();
+
+   logger?.tInfo(
       tag('ogChromaToV2Chroma'),
       'Converting old Chroma event value to Chroma event customData',
    );

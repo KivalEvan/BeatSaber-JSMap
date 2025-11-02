@@ -1,4 +1,4 @@
-import { logger } from '../../../../logger.ts';
+import { getLogger } from '../../../../logger.ts';
 import type { ICompatibilityOptions } from '../../../mapping/types/compatibility.ts';
 import type { IWrapBeatmap } from '../../wrapper/types/beatmap.ts';
 import {
@@ -16,6 +16,8 @@ export function compatDifficulty<T extends IWrapBeatmap>(
    bm: T,
    options: ICompatibilityOptions,
 ) {
+   const logger = getLogger();
+
    const hasIncompat = !!bm.difficulty.arcs.length ||
       !!bm.lightshow.lightColorEventBoxGroups.length ||
       !!bm.lightshow.lightRotationEventBoxGroups.length ||
@@ -26,7 +28,7 @@ export function compatDifficulty<T extends IWrapBeatmap>(
       if (options.throwOn.incompatibleObject) {
          throw new Error('Beatmap is not compatible with v2');
       } else {
-         logger.tWarn(
+         logger?.tWarn(
             tag('compatDifficulty'),
             'Beatmap is not compatible with v2, certain data may be lost!',
          );
@@ -42,7 +44,7 @@ export function compatDifficulty<T extends IWrapBeatmap>(
       if (options.throwOn.mappingExtensions) {
          throw new Error('Beatmap contain Mapping Extensions value');
       } else {
-         logger.tWarn(
+         logger?.tWarn(
             tag('compatDifficulty'),
             'Beatmap contain Mapping Extensions value and require Mapping Extensions mod to function!',
          );

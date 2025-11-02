@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import * as v from 'valibot';
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { Version } from '../schema/shared/types/version.ts';
 import { isRecord } from '../../utils/misc/json.ts';
 import { compareVersion } from '../helpers/version.ts';
@@ -68,6 +68,8 @@ function checkVersion<
       addIssue,
    }: VersionCheckContext<TSchema> & FieldSchemaOptions,
 ) {
+   const logger = getLogger();
+
    const [base, ...pipeline] = 'pipe' in schema ? schema.pipe : [schema];
    let unwrapped = base;
    // unwrap the schema from its optionalized parent
@@ -85,7 +87,7 @@ function checkVersion<
       Readonly<FieldMetadata>
    >;
 
-   logger.tDebug(
+   logger?.tDebug(
       ['schema', 'checkVersion'],
       `for ${unwrapped.type}:\n  schema version: \t${
          ctx?.metadata.version ?? 'undefined'

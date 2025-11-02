@@ -1,4 +1,4 @@
-import { logger } from '../../../logger.ts';
+import { getLogger } from '../../../logger.ts';
 import { convertColorType } from '../../../utils/colors/convertor.ts';
 import { lerpColor } from '../../../utils/colors/helpers.ts';
 import { normalize } from '../../../utils/math/helpers.ts';
@@ -31,8 +31,10 @@ export function setColor<T extends Pick<IChromaObject, 'customData'>>(
 export function setColorGradient<
    T extends Pick<IChromaObject, 'time' | 'customData'>,
 >(objects: T[], options: ISetColorGradientOptions) {
+   const logger = getLogger();
+
    if (!objects.length) {
-      logger.tWarn(tag('setColorGradient'), 'No object(s) received.');
+      logger?.tWarn(tag('setColorGradient'), 'No object(s) received.');
       return;
    }
    const opt: Required<ISetColorGradientOptions> = {

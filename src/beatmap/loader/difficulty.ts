@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { ILoadOptions } from './types.ts';
 import type {
    InferBeatmap,
@@ -45,6 +45,7 @@ export function loadDifficulty<
 ): TWrapper {
    const ver = typeof version === 'number' ? version : null;
    const opt = (typeof version !== 'number' ? version : options) ?? {};
-   logger.tInfo(tag('loadDifficulty'), 'Loading difficulty from JSON');
+   const logger = getLogger();
+   logger?.tInfo(tag('loadDifficulty'), 'Loading difficulty from JSON');
    return loadBeatmap('difficulty', json, ver, opt);
 }

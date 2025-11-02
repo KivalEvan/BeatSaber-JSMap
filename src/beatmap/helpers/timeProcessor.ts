@@ -6,7 +6,7 @@ import type {
 import type { IBPMChange as IV3BPMChange } from '../schema/v3/types/custom/bpmChange.ts';
 import type { IBPMEvent } from '../schema/v3/types/bpmEvent.ts';
 import type { IWrapBPMEvent } from '../schema/wrapper/types/bpmEvent.ts';
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 
 function tag(name: string): string[] {
    return ['helpers', 'timeProcessor', name];
@@ -31,6 +31,8 @@ export class TimeProcessor {
       )[] = [],
       offset: number = 0,
    ) {
+      const logger = getLogger();
+
       this.bpm = bpm;
       this._offset = offset / 1000;
       this._timeScale = this.getTimeScale(
@@ -47,7 +49,7 @@ export class TimeProcessor {
          ) as (IV2BPMChange | IBPMChangeOld | IV3BPMChange)[],
       );
       if (this._timeScale.length && this._bpmChange.length) {
-         logger.tWarn(
+         logger?.tWarn(
             tag('constructor'),
             'BPM change and BPM event should not be used along side together to avoid confusion between editors and in-game behaviour',
          );

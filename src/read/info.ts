@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../logger.ts';
+import { getLogger } from '../logger.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
@@ -47,7 +47,8 @@ export function readInfoFile<
    version?: TVersion | null | IReadOptions<'info', TVersion, TWrapper, TSerial>,
    options?: IReadOptions<'info', TVersion, TWrapper, TSerial>,
 ): Promise<TWrapper> {
-   logger.tInfo(tag('readInfoFile'), 'Async reading info file');
+   const logger = getLogger();
+   logger?.tInfo(tag('readInfoFile'), 'Async reading info file');
    return handleRead<'info', TVersion, TWrapper, TSerial>('info', path, version, options);
 }
 
@@ -90,6 +91,7 @@ export function readInfoFileSync<
    version?: TVersion | null | IReadOptions<'info', TVersion, TWrapper, TSerial>,
    options?: IReadOptions<'info', TVersion, TWrapper, TSerial>,
 ): TWrapper {
-   logger.tInfo(tag('readInfoFileSync'), 'Sync reading info file');
+   const logger = getLogger();
+   logger?.tInfo(tag('readInfoFileSync'), 'Sync reading info file');
    return handleReadSync<'info', TVersion, TWrapper, TSerial>('info', path, version, options);
 }

@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { ILoadOptions } from './types.ts';
 import type {
    InferBeatmap,
@@ -45,6 +45,7 @@ export function loadAudioData<
 ): TWrapper {
    const ver = typeof version === 'number' ? version : null;
    const opt = (typeof version !== 'number' ? version : options) ?? {};
-   logger.tInfo(tag('loadAudioData'), 'Loading audio data from JSON');
+   const logger = getLogger();
+   logger?.tInfo(tag('loadAudioData'), 'Loading audio data from JSON');
    return loadBeatmap('audioData', json, ver, opt);
 }

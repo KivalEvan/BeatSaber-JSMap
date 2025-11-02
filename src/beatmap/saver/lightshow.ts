@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { ISaveOptions } from './types.ts';
 import type {
    InferBeatmap,
@@ -45,6 +45,7 @@ export function saveLightshow<
 ): TSerial {
    const ver = typeof version === 'number' ? version : null;
    const opt = (typeof version !== 'number' ? version : options) ?? {};
-   logger.tInfo(tag('saveLightshow'), 'Saving lightshow to JSON');
+   const logger = getLogger();
+   logger?.tInfo(tag('saveLightshow'), 'Saving lightshow to JSON');
    return saveBeatmap('lightshow', data, ver, opt);
 }

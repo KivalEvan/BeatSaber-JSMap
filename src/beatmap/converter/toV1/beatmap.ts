@@ -1,4 +1,4 @@
-import { logger } from '../../../logger.ts';
+import { getLogger } from '../../../logger.ts';
 import type { IWrapBeatmap } from '../../schema/wrapper/types/beatmap.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
 
@@ -18,7 +18,9 @@ export function toV1Beatmap<T extends IWrapBeatmap>(
    data: T,
    fromVersion = data.version,
 ): T {
-   logger.tWarn(tag('main'), 'Converting beatmap to v1 may lose certain data!');
+   const logger = getLogger();
+
+   logger?.tWarn(tag('main'), 'Converting beatmap to v1 may lose certain data!');
 
    switch (fromVersion) {
       case 1:
@@ -34,7 +36,7 @@ export function toV1Beatmap<T extends IWrapBeatmap>(
          fromV4(data);
          break;
       default:
-         logger.tWarn(
+         logger?.tWarn(
             tag('main'),
             'Unknown version: version not supported; misinput? Returning original data.',
          );
@@ -63,6 +65,7 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
 }
 
 function fromV4<T extends IWrapBeatmap>(bm: T) {
+   const logger = getLogger();
    bm.difficulty.customData._time = bm.difficulty.customData.time ?? 0;
    let impossibleRotationEvt = false;
    const mapTime: Record<number, number> = {};
@@ -89,7 +92,7 @@ function fromV4<T extends IWrapBeatmap>(bm: T) {
    }
 
    if (impossibleRotationEvt) {
-      logger.warn(tag('fromV4'), 'Impossible rotation event cannot be represented in v1!');
+      logger?.warn(tag('fromV4'), 'Impossible rotation event cannot be represented in v1!');
    } else {
       bm.difficulty.rotationEvents = [];
       let currentRotation = 0;

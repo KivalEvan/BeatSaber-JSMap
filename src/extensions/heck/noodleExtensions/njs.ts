@@ -1,6 +1,6 @@
 import { NoteJumpSpeed } from '../../../beatmap/helpers/njs.ts';
 import { TimeProcessor } from '../../../beatmap/helpers/timeProcessor.ts';
-import { logger } from '../../../logger.ts';
+import { getLogger } from '../../../logger.ts';
 import type { EasingFunction } from '../../../types/easings.ts';
 import { lerp, normalize } from '../../../utils/math/helpers.ts';
 import { settings } from './settings.ts';
@@ -26,8 +26,10 @@ export function setNjs<
       jd?: number;
    },
 ): void {
+   const logger = getLogger();
+
    if (!objects.length) {
-      logger.tWarn(tag('setNJS'), 'No object(s) received.');
+      logger?.tWarn(tag('setNJS'), 'No object(s) received.');
       return;
    }
    const njs = typeof options.njs === 'number'
@@ -60,12 +62,14 @@ export function simultaneousSpawn<
       speed: number;
    },
 ): void {
+   const logger = getLogger();
+
    if (!objects.length) {
-      logger.tWarn(tag('simultaneousSpawn'), 'No object(s) received.');
+      logger?.tWarn(tag('simultaneousSpawn'), 'No object(s) received.');
       return;
    }
    if (!options.speed) {
-      logger.tError(tag('simultaneousSpawn'), 'Speed cannot be 0!');
+      logger?.tError(tag('simultaneousSpawn'), 'Speed cannot be 0!');
       options.speed = 1;
    }
    options.spawnBeatOffset = options.spawnBeatOffset ?? 0;
@@ -106,8 +110,10 @@ export function gradientNjs<
       easing?: EasingFunction;
    },
 ): void {
+   const logger = getLogger();
+
    if (!objects.length) {
-      logger.tWarn(tag('gradientNJS'), 'No object(s) received.');
+      logger?.tWarn(tag('gradientNJS'), 'No object(s) received.');
       return;
    }
    options.easing = options.easing ??

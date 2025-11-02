@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../logger.ts';
+import { getLogger } from '../logger.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
@@ -40,7 +40,8 @@ export function writeAudioDataFile<
    version?: TVersion | null | IWriteOptions<'audioData', TVersion, TWrapper, TSerial>,
    options?: IWriteOptions<'audioData', TVersion, TWrapper, TSerial>,
 ): Promise<TSerial> {
-   logger.tInfo(tag('writeAudioDataFile'), 'Async writing audio data file');
+   const logger = getLogger();
+   logger?.tInfo(tag('writeAudioDataFile'), 'Async writing audio data file');
    return handleWrite<'audioData', TVersion, TWrapper, TSerial>(
       'audioData',
       data,
@@ -81,7 +82,8 @@ export function writeAudioDataFileSync<
    version?: TVersion | null | IWriteOptions<'audioData', TVersion, TWrapper, TSerial>,
    options?: IWriteOptions<'audioData', TVersion, TWrapper, TSerial>,
 ): TSerial {
-   logger.tInfo(tag('writeAudioDataFileSync'), 'Sync writing audio data file');
+   const logger = getLogger();
+   logger?.tInfo(tag('writeAudioDataFileSync'), 'Sync writing audio data file');
    return handleWriteSync<'audioData', TVersion, TWrapper, TSerial>(
       'audioData',
       data,

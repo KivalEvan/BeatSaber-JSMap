@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../logger.ts';
+import { getLogger } from '../logger.ts';
 import type { GenericLightshowFilename } from '../beatmap/schema/shared/types/filename.ts';
 import type {
    InferBeatmap,
@@ -44,7 +44,8 @@ export function readLightshowFile<
    version?: TVersion | null | IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
    options?: IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
 ): Promise<TWrapper> {
-   logger.tInfo(tag('readLightshowFile'), 'Async reading lightshow file');
+   const logger = getLogger();
+   logger?.tInfo(tag('readLightshowFile'), 'Async reading lightshow file');
    return handleRead<'lightshow', TVersion, TWrapper, TSerial>('lightshow', path, version, options);
 }
 
@@ -83,7 +84,8 @@ export function readLightshowFileSync<
    version?: TVersion | null | IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
    options?: IReadOptions<'lightshow', TVersion, TWrapper, TSerial>,
 ): TWrapper {
-   logger.tInfo(tag('readLightshowFileSync'), 'Sync reading lightshow file');
+   const logger = getLogger();
+   logger?.tInfo(tag('readLightshowFileSync'), 'Sync reading lightshow file');
    return handleReadSync<'lightshow', TVersion, TWrapper, TSerial>(
       'lightshow',
       path,

@@ -1,4 +1,4 @@
-import { logger } from '../../../logger.ts';
+import { getLogger } from '../../../logger.ts';
 import type { IChromaMaterial } from '../../schema/v2/types/custom/chroma.ts';
 import type { ICustomDataNote } from '../../schema/v2/types/custom/note.ts';
 import type { ICustomDataObstacle } from '../../schema/v2/types/custom/obstacle.ts';
@@ -25,7 +25,9 @@ export function toV2Beatmap<T extends IWrapBeatmap>(
    data: T,
    fromVersion = data.version,
 ): T {
-   logger.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
+   const logger = getLogger();
+
+   logger?.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
 
    switch (fromVersion) {
       case 1:
@@ -42,7 +44,7 @@ export function toV2Beatmap<T extends IWrapBeatmap>(
          fromV4(data);
          break;
       default:
-         logger.tWarn(
+         logger?.tWarn(
             tag('main'),
             'Unknown version: version not supported; misinput? Returning original data.',
          );
@@ -52,6 +54,8 @@ export function toV2Beatmap<T extends IWrapBeatmap>(
 }
 
 function fromV3<T extends IWrapBeatmap>(bm: T) {
+   const logger = getLogger();
+
    bm.difficulty.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
    });
@@ -218,7 +222,7 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
                   e.components?.ILightWithId?.type ||
                   e.components?.ILightWithId?.lightID
                ) {
-                  logger.tWarn(
+                  logger?.tWarn(
                      tag('fromV2'),
                      'v2 geometry cannot be made assignable light to specific type',
                   );
@@ -355,7 +359,7 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
       for (const ce of customEvents) {
          if (typeof ce._data._track === 'string') {
             if (typeof ce._data._position === 'string') {
-               logger.tWarn(
+               logger?.tWarn(
                   tag('fromV2'),
                   'Cannot convert point definitions, unknown use.',
                );
@@ -370,7 +374,7 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
                   });
             }
          } else {
-            logger.tWarn(
+            logger?.tWarn(
                tag('fromV2'),
                'Environment animate track array conversion not yet implemented.',
             );

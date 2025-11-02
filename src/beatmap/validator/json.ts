@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import type { StandardSchemaV1 } from '@standard-schema/spec';
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { ISchemaCheckOptions } from '../mapping/types/schema.ts';
 import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import {
@@ -37,6 +37,8 @@ export function validateJSON<T extends Record<string, any> = Record<string, any>
    version: number,
    options?: Partial<ISchemaCheckOptions>,
 ): T {
+   const logger = getLogger();
+
    const opt: Required<ISchemaCheckOptions> = {
       enabled: options?.enabled ?? defaultOptions.enabled,
       throwOn: {
@@ -45,7 +47,7 @@ export function validateJSON<T extends Record<string, any> = Record<string, any>
       },
    };
 
-   logger.tInfo(
+   logger?.tInfo(
       tag('validateJSON'),
       'Validating beatmap JSON for ' + type + ' with version',
       version,

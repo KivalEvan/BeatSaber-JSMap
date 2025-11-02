@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../logger.ts';
+import { getLogger } from '../logger.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
@@ -40,7 +40,8 @@ export function writeDifficultyFile<
    version?: TVersion | null | IWriteOptions<'difficulty', TVersion, TWrapper, TSerial>,
    options?: IWriteOptions<'difficulty', TVersion, TWrapper, TSerial>,
 ): Promise<TSerial> {
-   logger.tInfo(tag('writeDifficultyFile'), 'Async writing difficulty file');
+   const logger = getLogger();
+   logger?.tInfo(tag('writeDifficultyFile'), 'Async writing difficulty file');
    return handleWrite<'difficulty', TVersion, TWrapper, TSerial>(
       'difficulty',
       data,
@@ -81,7 +82,8 @@ export function writeDifficultyFileSync<
    version?: TVersion | null | IWriteOptions<'difficulty', TVersion, TWrapper, TSerial>,
    options?: IWriteOptions<'difficulty', TVersion, TWrapper, TSerial>,
 ): TSerial {
-   logger.tInfo(tag('writeDifficultyFileSync'), 'Sync writing difficulty file');
+   const logger = getLogger();
+   logger?.tInfo(tag('writeDifficultyFileSync'), 'Sync writing difficulty file');
    return handleWriteSync<'difficulty', TVersion, TWrapper, TSerial>(
       'difficulty',
       data,

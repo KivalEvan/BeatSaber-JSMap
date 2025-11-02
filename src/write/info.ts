@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../logger.ts';
+import { getLogger } from '../logger.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
@@ -40,7 +40,8 @@ export function writeInfoFile<
    version?: TVersion | null | IWriteOptions<'info', TVersion, TWrapper, TSerial>,
    options?: IWriteOptions<'info', TVersion, TWrapper, TSerial>,
 ): Promise<TSerial> {
-   logger.tInfo(tag('writeInfoFile'), 'Async writing info file');
+   const logger = getLogger();
+   logger?.tInfo(tag('writeInfoFile'), 'Async writing info file');
    return handleWrite<'info', TVersion, TWrapper, TSerial>('info', data, version, options);
 }
 
@@ -76,6 +77,7 @@ export function writeInfoFileSync<
    version?: TVersion | null | IWriteOptions<'info', TVersion, TWrapper, TSerial>,
    options?: IWriteOptions<'info', TVersion, TWrapper, TSerial>,
 ): TSerial {
-   logger.tInfo(tag('writeInfoFileSync'), 'Sync writing info file');
+   const logger = getLogger();
+   logger?.tInfo(tag('writeInfoFileSync'), 'Sync writing info file');
    return handleWriteSync<'info', TVersion, TWrapper, TSerial>('info', data, version, options);
 }

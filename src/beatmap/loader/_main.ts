@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { ILoadOptions } from './types.ts';
 import type { MirrorFn } from '../schema/shared/types/functions.ts';
 import type {
@@ -36,6 +36,8 @@ export function loadBeatmap<
    version?: TVersion | null,
    options: ILoadOptions<TFileType, TVersion, TWrapper, TSerial> = {},
 ): TWrapper {
+   const logger = getLogger();
+
    const optD = (typeof version !== 'number' ? version : options) ?? options ?? {};
    const opt: Required<ILoadOptions<TFileType, TVersion, TWrapper, TSerial>> = {
       forceConvert: optD.forceConvert ?? defaultOptions.forceConvert,
@@ -50,7 +52,7 @@ export function loadBeatmap<
       ? pretransformer(json, version)
       : json as InferBeatmapSerial<TFileType, TVersion>;
    preprocesses.forEach((fn, i) => {
-      logger.tInfo(tag('loadBeatmap'), 'Running preprocess function #' + (i + 1));
+      logger?.tInfo(tag('loadBeatmap'), 'Running preprocess function #' + (i + 1));
       serial = fn(serial);
    });
 
@@ -60,7 +62,7 @@ export function loadBeatmap<
       jsonVer = parseInt(jsonVerStr) as TVersion;
    } else {
       jsonVer = +implicitVersion(type).at(0)! as TVersion;
-      logger.tWarn(
+      logger?.tWarn(
          tag('loadBeatmap'),
          'Could not identify beatmap version from JSON, assume implicit version',
          jsonVer,
@@ -77,7 +79,7 @@ export function loadBeatmap<
             `Beatmap version unmatched, expected ${version} but received ${jsonVer}`,
          );
       }
-      logger.tWarn(
+      logger?.tWarn(
          tag('loadBeatmap'),
          'Beatmap version unmatched, expected',
          version,
@@ -103,7 +105,7 @@ export function loadBeatmap<
       ...MirrorFn<InferBeatmap<TFileType>>[],
    ];
    postprocesses.forEach((fn, i) => {
-      logger.tInfo(tag('loadBeatmap'), 'Running postprocess function #' + (i + 1));
+      logger?.tInfo(tag('loadBeatmap'), 'Running postprocess function #' + (i + 1));
       attribute = fn(attribute);
    });
 

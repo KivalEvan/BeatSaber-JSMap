@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../logger.ts';
+import { getLogger } from '../logger.ts';
 import type {
    InferBeatmap,
    InferBeatmapSerial,
@@ -40,7 +40,8 @@ export function writeLightshowFile<
    version?: TVersion | null | IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
    options?: IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
 ): Promise<TSerial> {
-   logger.tInfo(tag('writeLightshowFile'), 'Async writing lightshow file');
+   const logger = getLogger();
+   logger?.tInfo(tag('writeLightshowFile'), 'Async writing lightshow file');
    return handleWrite<'lightshow', TVersion, TWrapper, TSerial>(
       'lightshow',
       data,
@@ -81,7 +82,8 @@ export function writeLightshowFileSync<
    version?: TVersion | null | IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
    options?: IWriteOptions<'lightshow', TVersion, TWrapper, TSerial>,
 ): TSerial {
-   logger.tInfo(tag('writeLightshowFileSync'), 'Sync writing lightshow file');
+   const logger = getLogger();
+   logger?.tInfo(tag('writeLightshowFileSync'), 'Sync writing lightshow file');
    return handleWriteSync<'lightshow', TVersion, TWrapper, TSerial>(
       'lightshow',
       data,

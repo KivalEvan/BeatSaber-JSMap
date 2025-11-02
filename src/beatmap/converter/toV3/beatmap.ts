@@ -1,4 +1,4 @@
-import { logger } from '../../../logger.ts';
+import { getLogger } from '../../../logger.ts';
 import type { IChromaComponent, IChromaMaterial } from '../../schema/v3/types/custom/chroma.ts';
 import type { ICustomDataNote } from '../../schema/v3/types/custom/note.ts';
 import type { ICustomDataObstacle } from '../../schema/v3/types/custom/obstacle.ts';
@@ -29,7 +29,9 @@ export function toV3Beatmap<T extends IWrapBeatmap>(
    data: T,
    fromVersion = data.version,
 ): T {
-   logger.tWarn(tag('main'), 'Converting to beatmap v3 may lose certain data!');
+   const logger = getLogger();
+
+   logger?.tWarn(tag('main'), 'Converting to beatmap v3 may lose certain data!');
 
    switch (fromVersion) {
       case 1:
@@ -47,7 +49,7 @@ export function toV3Beatmap<T extends IWrapBeatmap>(
          data.version = 3;
          break;
       default:
-         logger.tWarn(
+         logger?.tWarn(
             tag('main'),
             'Unknown version: version not supported; misinput? Returning original data.',
          );
@@ -85,6 +87,7 @@ function fromV1<T extends IWrapBeatmap>(bm: T) {
 }
 
 function fromV2<T extends IWrapBeatmap>(bm: T) {
+   const logger = getLogger();
    bm.difficulty.customData.fakeColorNotes = [];
    bm.difficulty.customData.fakeBombNotes = [];
    bm.difficulty.customData.fakeObstacles = [];
@@ -93,7 +96,7 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
    bm.difficulty.colorNotes.forEach((n, i) => {
       const customData: ICustomDataNote = objectToV3(n.customData);
       if (typeof n.customData._cutDirection === 'number') {
-         logger.tDebug(
+         logger?.tDebug(
             tag('fromV2'),
             `colorNotes[${i}] at time ${n.time} NE _cutDirection will be converted.`,
          );
@@ -132,7 +135,7 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
    bm.difficulty.bombNotes.forEach((n, i) => {
       const customData: ICustomDataNote = objectToV3(n.customData);
       if (typeof n.customData._cutDirection === 'number') {
-         logger.tDebug(
+         logger?.tDebug(
             tag('fromV2'),
             `bombNotes[${i}] at time ${n.time} NE _cutDirection will be converted.`,
          );
@@ -175,13 +178,13 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
       const customData = eventToV3(e.customData);
       if (isLightEventType(e.type)) {
          if (e.customData._propID) {
-            logger.tWarn(
+            logger?.tWarn(
                tag('fromV2'),
                `events[${i}] at time ${e.time} Chroma _propID will be removed.`,
             );
          }
          if (e.customData._lightGradient) {
-            logger.tWarn(
+            logger?.tWarn(
                tag('fromV2'),
                `events[${i}] at time ${e.time} Chroma _lightGradient will be removed.`,
             );
@@ -189,13 +192,13 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
       }
       if (isRingEventType(e.type)) {
          if (e.customData._reset) {
-            logger.tWarn(
+            logger?.tWarn(
                tag('fromV2'),
                `events[${i}] at time ${e.time} Chroma _reset will be removed.`,
             );
          }
          if (e.customData._counterSpin) {
-            logger.tWarn(
+            logger?.tWarn(
                tag('fromV2'),
                `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`,
             );
@@ -205,7 +208,7 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
             e.customData._propMult ||
             e.customData._speedMult
          ) {
-            logger.tWarn(
+            logger?.tWarn(
                tag('fromV2'),
                `events[${i}] at time ${e.time} Chroma _mult will be removed.`,
             );
@@ -482,7 +485,7 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
       for (const ce of customEvents) {
          if (typeof ce.d.track === 'string') {
             if (typeof ce.d.position === 'string') {
-               logger.tWarn(
+               logger?.tWarn(
                   tag('fromV2'),
                   'Cannot convert point definitions, unknown use.',
                );
@@ -495,7 +498,7 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
                   });
             }
          } else {
-            logger.tWarn(
+            logger?.tWarn(
                tag('fromV2'),
                'Environment animate track array conversion not yet implemented.',
             );
