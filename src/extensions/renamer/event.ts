@@ -1,4 +1,4 @@
-import type { EnvironmentAllName } from '../../beatmap/schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../../beatmap/schema/shared/types/environment.ts';
 
 /**
  * Record of Event Type to Name.
@@ -34,7 +34,7 @@ export const genericTypeMap: { [key: number]: string } = {
  * Record of Environment to Type to Name.
  */
 export const environmentTypeMap: {
-   [env in EnvironmentAllName]?: { [key: number]: string };
+   [env in EnvironmentName]?: { [key: number]: string };
 } = {
    DefaultEnvironment: {
       0: 'Under Track X',
@@ -314,7 +314,7 @@ export const environmentTypeMap: {
  */
 export function eventTypeRename(
    type: number,
-   environment?: EnvironmentAllName,
+   environment?: EnvironmentName,
 ): string {
    return (
       environmentTypeMap[environment!]?.[type] ||

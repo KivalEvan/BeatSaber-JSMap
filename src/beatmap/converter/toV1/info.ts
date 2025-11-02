@@ -1,5 +1,4 @@
 import { logger } from '../../../logger.ts';
-import type { EnvironmentName } from '../../schema/shared/types/environment.ts';
 import type { IWrapInfo } from '../../schema/wrapper/types/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 
@@ -27,9 +26,7 @@ export function toV1Info<T extends IWrapInfo>(
       case 3:
       case 4:
          data.environmentBase.normal = data.environmentBase.normal ||
-            (data.environmentNames.find(
-               (e) => !is360Environment(e),
-            ) as EnvironmentName) ||
+            (data.environmentNames.find((e) => !is360Environment(e))) ||
             'DefaultEnvironment';
          data.version = 1;
          break;

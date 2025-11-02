@@ -1,10 +1,10 @@
-import type { EnvironmentAllName } from '../../beatmap/schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../../beatmap/schema/shared/types/environment.ts';
 
 /**
  * Record of Environment to Group ID to Name.
  */
 export const environmentGroupMap: {
-   [env in EnvironmentAllName]?: { [key: number]: string };
+   [env in EnvironmentName]?: { [key: number]: string };
 } = {
    WeaveEnvironment: {
       0: 'Outer Square Bottom Left Laser',
@@ -581,7 +581,7 @@ export const environmentGroupMap: {
  */
 export function eventGroupRename(
    id: number,
-   environment?: EnvironmentAllName,
+   environment?: EnvironmentName,
 ): string {
    return environmentGroupMap[environment!]?.[id] || 'Unknown';
 }

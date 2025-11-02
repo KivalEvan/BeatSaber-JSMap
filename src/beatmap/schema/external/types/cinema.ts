@@ -1,5 +1,5 @@
 import type { Vector3Object } from '../../../../types/vector.ts';
-import type { EnvironmentAllName } from '../../../schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../../../schema/shared/types/environment.ts';
 
 // description taken directly from author's github
 export interface ICinemaConfig {
@@ -57,7 +57,7 @@ export interface ICinemaConfig {
     * This also disables the user's choice in the Override Environment setting of the base game, so please only use it if you have a good reason to do so.
     * @default {'none'}
     */
-   environmentName?: EnvironmentAllName;
+   environmentName?: EnvironmentName;
    /**
     * Allows you to adjust the playback speed `<float>` of the video.
     * @default {1.0}

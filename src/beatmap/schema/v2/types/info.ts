@@ -4,8 +4,8 @@ import type { CharacteristicName } from '../../shared/types/characteristic.ts';
 import type { DifficultyName, DifficultyRank } from '../../shared/types/difficulty.ts';
 import type {
    Environment360Name,
-   EnvironmentAllName,
    EnvironmentName,
+   EnvironmentV2Name,
    EnvironmentV3Name,
 } from '../../shared/types/environment.ts';
 import type { GenericBeatmapFilename } from '../../shared/types/filename.ts';
@@ -46,9 +46,9 @@ export interface IInfo {
    _previewDuration: number;
    _songFilename: string;
    _coverImageFilename: string;
-   _environmentName: EnvironmentName | EnvironmentV3Name;
+   _environmentName: EnvironmentV2Name | EnvironmentV3Name;
    _allDirectionsEnvironmentName?: Environment360Name;
-   _environmentNames: EnvironmentAllName[];
+   _environmentNames: EnvironmentName[];
    _colorSchemes: IInfoColorScheme[];
    /**
     * **Type:** `f32`

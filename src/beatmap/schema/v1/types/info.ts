@@ -2,7 +2,7 @@ import type { LooseAutocomplete } from '../../../../types/utils.ts';
 import type { EnvironmentV3Name } from '../../shared/types/environment.ts';
 import type { CharacteristicName } from '../../shared/types/characteristic.ts';
 import type { DifficultyName, DifficultyRank } from '../../shared/types/difficulty.ts';
-import type { EnvironmentName } from '../../shared/types/environment.ts';
+import type { EnvironmentV2Name } from '../../shared/types/environment.ts';
 import type { ICustomInfo, ICustomInfoDifficulty } from './custom/info.ts';
 
 export type GenericJSONFilename = `${DifficultyName}${
@@ -20,7 +20,7 @@ export interface IInfo extends ICustomInfo {
    previewStartTime: number;
    previewDuration: number;
    coverImagePath: string;
-   environmentName: EnvironmentName | EnvironmentV3Name;
+   environmentName: EnvironmentV2Name | EnvironmentV3Name;
    difficultyLevels: IInfoDifficulty[];
    oneSaber: boolean; // need confirmation
 }

@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import type { EnvironmentName, EnvironmentV3Name } from '../../shared/types/environment.ts';
+import type { EnvironmentV2Name, EnvironmentV3Name } from '../../shared/types/environment.ts';
 import type { IInfo, IInfoDifficulty } from '../types/info.ts';
 import type { IColor } from '../../../../types/colors.ts';
 import { entity, field, type InferObjectEntries, mask } from '../../helpers.ts';
@@ -83,12 +83,9 @@ export const InfoSchema: v.ObjectSchema<
    coverImagePath: field(v.string(), {
       version: '1.0.0',
    }),
-   environmentName: field(
-      mask<EnvironmentName | EnvironmentV3Name>(v.string()),
-      {
-         version: '1.0.0',
-      },
-   ),
+   environmentName: field(mask<EnvironmentV2Name | EnvironmentV3Name>(v.string()), {
+      version: '1.0.0',
+   }),
    difficultyLevels: field(v.array(InfoDifficultySchema), {
       version: '1.0.0',
    }),

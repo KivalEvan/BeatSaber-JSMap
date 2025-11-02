@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import type { EnvironmentAllName } from '../../shared/types/mod.ts';
+import type { EnvironmentName } from '../../shared/types/mod.ts';
 import type {
    IInfo,
    IInfoAudio,
@@ -183,7 +183,7 @@ export const InfoSchema: v.ObjectSchema<
    coverImageFilename: field(v.string(), {
       version: '4.0.0',
    }),
-   environmentNames: field(v.array(mask<EnvironmentAllName>(v.string())), {
+   environmentNames: field(v.array(mask<EnvironmentName>(v.string())), {
       version: '4.0.0',
    }),
    colorSchemes: field(v.array(InfoColorSchemeSchema), {

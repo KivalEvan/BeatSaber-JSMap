@@ -1,8 +1,8 @@
 import * as v from 'valibot';
 import type {
    Environment360Name,
-   EnvironmentAllName,
    EnvironmentName,
+   EnvironmentV2Name,
    EnvironmentV3Name,
 } from '../../shared/types/mod.ts';
 import type {
@@ -178,19 +178,13 @@ export const InfoSchema: v.ObjectSchema<
    _coverImageFilename: field(v.string(), {
       version: '2.0.0',
    }),
-   _environmentName: field(
-      mask<EnvironmentName | EnvironmentV3Name>(v.string()),
-      {
-         version: '2.0.0',
-      },
-   ),
-   _allDirectionsEnvironmentName: field(
-      v.optional(mask<Environment360Name>(v.string())),
-      {
-         version: '2.0.0',
-      },
-   ),
-   _environmentNames: field(v.array(mask<EnvironmentAllName>(v.string())), {
+   _environmentName: field(mask<EnvironmentV2Name | EnvironmentV3Name>(v.string()), {
+      version: '2.0.0',
+   }),
+   _allDirectionsEnvironmentName: field(v.optional(mask<Environment360Name>(v.string())), {
+      version: '2.0.0',
+   }),
+   _environmentNames: field(v.array(mask<EnvironmentName>(v.string())), {
       version: '2.1.0',
    }),
    _colorSchemes: field(v.array(InfoColorSchemeSchema), {

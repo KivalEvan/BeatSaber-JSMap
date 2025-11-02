@@ -1,11 +1,11 @@
 import type { ColorSchemeName } from '../schema/shared/types/colorScheme.ts';
-import type { EnvironmentAllName } from '../schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../schema/shared/types/environment.ts';
 import type { IColorScheme } from '../schema/v2/types/custom/colorScheme.ts';
 import type { IWrapInfoColorScheme } from '../schema/wrapper/types/info.ts';
 
 /** Record of Environment Color to Color Scheme. */
 export const EnvironmentSchemeName: {
-   readonly [key in EnvironmentAllName]: ColorSchemeName;
+   readonly [key in EnvironmentName]: ColorSchemeName;
 } = {
    DefaultEnvironment: 'The First',
    OriginsEnvironment: 'Origins',

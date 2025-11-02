@@ -2,7 +2,7 @@ import { isOldChromaEventValue } from '../../beatmap/helpers/core/basicEvent.ts'
 import { hasChromaEventV2, hasChromaEventV3 } from '../../beatmap/helpers/modded/has.ts';
 import { EventList } from '../../beatmap/misc/environment.ts';
 import { isValidEventType } from '../../mod.ts';
-import type { EnvironmentAllName } from '../../beatmap/schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../../beatmap/schema/shared/types/environment.ts';
 import type { IWrapBasicEvent } from '../../beatmap/schema/wrapper/types/basicEvent.ts';
 import type { IWrapColorBoostEvent } from '../../beatmap/schema/wrapper/types/colorBoostEvent.ts';
 import type { ICountEvent } from './types/stats.ts';
@@ -20,7 +20,7 @@ export function countEvent<
 >(
    events: TBasicEvent[],
    boost: TColorBoostEvent[],
-   environment: EnvironmentAllName = 'DefaultEnvironment',
+   environment: EnvironmentName = 'DefaultEnvironment',
    version = 2,
 ): ICountEvent {
    const commonEvent = EventList[environment]?.[0] ?? EventList['DefaultEnvironment'][0];

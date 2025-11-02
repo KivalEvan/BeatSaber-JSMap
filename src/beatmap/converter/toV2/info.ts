@@ -1,5 +1,4 @@
 import { logger } from '../../../logger.ts';
-import type { Environment360Name, EnvironmentName } from '../../schema/shared/types/environment.ts';
 import type { IWrapInfo } from '../../schema/wrapper/types/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 
@@ -27,13 +26,11 @@ export function toV2Info<T extends IWrapInfo>(
       case 3:
       case 4:
          data.environmentBase.normal = data.environmentBase.normal ||
-            (data.environmentNames.find(
-               (e) => !is360Environment(e),
-            ) as EnvironmentName) ||
+            (data.environmentNames.find((e) => !is360Environment(e))) ||
             'DefaultEnvironment';
          data.environmentBase.allDirections = data.environmentBase.allDirections ||
-            (data.environmentNames.find((e) => is360Environment(e)) as Environment360Name) ||
-            'DefaultEnvironment';
+            (data.environmentNames.find((e) => is360Environment(e))) ||
+            'GlassDesertEnvironment';
          data.version = 2;
          break;
       default:

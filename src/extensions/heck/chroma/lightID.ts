@@ -1,7 +1,7 @@
-import type { EnvironmentAllName } from '../../../beatmap/schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../../../beatmap/schema/shared/types/environment.ts';
 
 export const LightIDList: {
-   readonly [key in EnvironmentAllName]: { readonly [key: number]: readonly number[] };
+   readonly [key in EnvironmentName]: { readonly [key: number]: readonly number[] };
 } = {
    DefaultEnvironment: {
       '0': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],

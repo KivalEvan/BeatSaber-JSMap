@@ -6,10 +6,6 @@ import {
    DifficultyRank,
    DistributionType,
    EaseType,
-   Environment360Name,
-   EnvironmentAllName,
-   EnvironmentName,
-   EnvironmentV3Name,
    EventBoxType,
    EventLightColor,
    EventType,
@@ -32,6 +28,12 @@ import {
    PosY,
    SliderMidAnchorMode,
 } from '../../shared/types/constants.ts';
+import {
+   is360Environment,
+   isV2Environment,
+   isV3Environment,
+} from '../../../helpers/environment.ts';
+import { EnvironmentName } from '../types/environment.ts';
 
 /** Schema declaration for semantic version. */
 export const VersionSchema: v.SchemaWithPipe<
@@ -69,23 +71,20 @@ export const EnvironmentNameSchema: v.PicklistSchema<
    undefined
 > = v.picklist(EnvironmentName);
 
+/** Schema declaration for {@linkcode EnvironmentV2Name} */
+export const EnvironmentV2NameSchema: v.SchemaWithPipe<
+   readonly [typeof EnvironmentNameSchema, v.CheckAction<EnvironmentName, undefined>]
+> = v.pipe(EnvironmentNameSchema, v.check(isV2Environment));
+
 /** Schema declaration for {@linkcode EnvironmentV3Name} */
-export const EnvironmentV3NameSchema: v.PicklistSchema<
-   typeof EnvironmentV3Name,
-   undefined
-> = v.picklist(EnvironmentV3Name);
+export const EnvironmentV3NameSchema: v.SchemaWithPipe<
+   readonly [typeof EnvironmentNameSchema, v.CheckAction<EnvironmentName, undefined>]
+> = v.pipe(EnvironmentNameSchema, v.check(isV3Environment));
 
 /** Schema declaration for {@linkcode Environment360Name} */
-export const Environment360NameSchema: v.PicklistSchema<
-   typeof Environment360Name,
-   undefined
-> = v.picklist(Environment360Name);
-
-/** Schema declaration for {@linkcode EnvironmentAllName} */
-export const EnvironmentAllNameSchema: v.PicklistSchema<
-   typeof EnvironmentAllName,
-   undefined
-> = v.picklist(EnvironmentAllName);
+export const Environment360NameSchema: v.SchemaWithPipe<
+   readonly [typeof EnvironmentNameSchema, v.CheckAction<EnvironmentName, undefined>]
+> = v.pipe(EnvironmentNameSchema, v.check(is360Environment));
 
 /** Schema declaration for {@linkcode PosX} */
 export const PosXSchema: v.EnumSchema<typeof PosX, undefined> = v.enum_(PosX);
