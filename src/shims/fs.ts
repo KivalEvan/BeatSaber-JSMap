@@ -1,5 +1,3 @@
-/// <reference types="npm:@types/bun" />
-
 import fsMod from './_fs.ts';
 import fspMod from './_fsp.ts';
 import type { IShimsFileSystem } from './types.ts';
@@ -9,6 +7,11 @@ function noFsFunctionProvided(): never {
       '`fs` function not provided; please supply `fs` function inside the `fs` object from the module',
    );
 }
+
+// deno-lint-ignore no-explicit-any
+declare let Deno: any;
+// deno-lint-ignore no-explicit-any
+declare let Bun: any;
 
 /**
  * Wrapper for use in `read` and `write`.
