@@ -36,155 +36,246 @@ import {
 import { EnvironmentName } from '../types/environment.ts';
 
 /** Schema declaration for semantic version. */
-export const VersionSchema: v.SchemaWithPipe<
+export function VersionSchema(): v.SchemaWithPipe<
    readonly [v.StringSchema<undefined>, v.RegexAction<string, undefined>]
-> = v.pipe(v.string(), v.regex(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/));
+> {
+   return v.pipe(v.string(), v.regex(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/));
+}
 
 /** Schema declaration for custom data. */
-export const CustomDataSchema: v.RecordSchema<
+export function CustomDataSchema(): v.RecordSchema<
    v.StringSchema<undefined>,
    v.AnySchema,
    undefined
-> = v.record(v.string(), v.any());
+> {
+   return v.record(v.string(), v.any());
+}
 
 /** Schema declaration for {@linkcode CharacteristicName} */
-export const CharacteristicNameSchema: v.PicklistSchema<
+export function CharacteristicNameSchema(): v.PicklistSchema<
    typeof CharacteristicName,
    undefined
-> = v.picklist(CharacteristicName);
+> {
+   return v.picklist(CharacteristicName);
+}
 
 /** Schema declaration for {@linkcode DifficultyName} */
-export const DifficultyNameSchema: v.PicklistSchema<
+export function DifficultyNameSchema(): v.PicklistSchema<
    typeof DifficultyName,
    undefined
-> = v.picklist(DifficultyName);
+> {
+   return v.picklist(DifficultyName);
+}
 
 /** Schema declaration for {@linkcode DifficultyRank} */
-export const DifficultyRankSchema: v.PicklistSchema<
+export function DifficultyRankSchema(): v.PicklistSchema<
    typeof DifficultyRank,
    undefined
-> = v.picklist(DifficultyRank);
+> {
+   return v.picklist(DifficultyRank);
+}
 
 /** Schema declaration for {@linkcode EnvironmentName} */
-export const EnvironmentNameSchema: v.PicklistSchema<
+export function EnvironmentNameSchema(): v.PicklistSchema<
    typeof EnvironmentName,
    undefined
-> = v.picklist(EnvironmentName);
+> {
+   return v.picklist(EnvironmentName);
+}
 
 /** Schema declaration for {@linkcode EnvironmentV2Name} */
-export const EnvironmentV2NameSchema: v.SchemaWithPipe<
-   readonly [typeof EnvironmentNameSchema, v.CheckAction<EnvironmentName, undefined>]
-> = v.pipe(EnvironmentNameSchema, v.check(isV2Environment));
+export function EnvironmentV2NameSchema(): v.SchemaWithPipe<
+   readonly [ReturnType<typeof EnvironmentNameSchema>, v.CheckAction<EnvironmentName, undefined>]
+> {
+   return v.pipe(EnvironmentNameSchema(), v.check(isV2Environment));
+}
 
 /** Schema declaration for {@linkcode EnvironmentV3Name} */
-export const EnvironmentV3NameSchema: v.SchemaWithPipe<
-   readonly [typeof EnvironmentNameSchema, v.CheckAction<EnvironmentName, undefined>]
-> = v.pipe(EnvironmentNameSchema, v.check(isV3Environment));
+export function EnvironmentV3NameSchema(): v.SchemaWithPipe<
+   readonly [ReturnType<typeof EnvironmentNameSchema>, v.CheckAction<EnvironmentName, undefined>]
+> {
+   return v.pipe(EnvironmentNameSchema(), v.check(isV3Environment));
+}
 
 /** Schema declaration for {@linkcode Environment360Name} */
-export const Environment360NameSchema: v.SchemaWithPipe<
-   readonly [typeof EnvironmentNameSchema, v.CheckAction<EnvironmentName, undefined>]
-> = v.pipe(EnvironmentNameSchema, v.check(is360Environment));
+export function Environment360NameSchema(): v.SchemaWithPipe<
+   readonly [ReturnType<typeof EnvironmentNameSchema>, v.CheckAction<EnvironmentName, undefined>]
+> {
+   return v.pipe(EnvironmentNameSchema(), v.check(is360Environment));
+}
 
 /** Schema declaration for {@linkcode PosX} */
-export const PosXSchema: v.EnumSchema<typeof PosX, undefined> = v.enum_(PosX);
+export function PosXSchema(): v.EnumSchema<
+   typeof PosX,
+   undefined
+> {
+   return v.enum_(PosX);
+}
 
 /** Schema declaration for {@linkcode PosY} */
-export const PosYSchema: v.EnumSchema<typeof PosY, undefined> = v.enum_(PosY);
+export function PosYSchema(): v.EnumSchema<
+   typeof PosY,
+   undefined
+> {
+   return v.enum_(PosY);
+}
 
 /** Schema declaration for {@linkcode NoteColor} */
-export const NoteColorSchema: v.EnumSchema<typeof NoteColor, undefined> = v.enum_(NoteColor);
+export function NoteColorSchema(): v.EnumSchema<
+   typeof NoteColor,
+   undefined
+> {
+   return v.enum_(NoteColor);
+}
 
 /** Schema declaration for {@linkcode NoteDirection} */
-export const NoteDirectionSchema: v.EnumSchema<
+export function NoteDirectionSchema(): v.EnumSchema<
    typeof NoteDirection,
    undefined
-> = v.enum_(NoteDirection);
+> {
+   return v.enum_(NoteDirection);
+}
 
 /** Schema declaration for {@linkcode OffsetDirection} */
-export const OffsetDirectionSchema: v.EnumSchema<
+export function OffsetDirectionSchema(): v.EnumSchema<
    typeof OffsetDirection,
    undefined
-> = v.enum_(OffsetDirection);
+> {
+   return v.enum_(OffsetDirection);
+}
 
 /** Schema declaration for {@linkcode OffsetDirection} */
-export const SliderMidAnchorModeSchema: v.EnumSchema<
+export function SliderMidAnchorModeSchema(): v.EnumSchema<
    typeof SliderMidAnchorMode,
    undefined
-> = v.enum_(SliderMidAnchorMode);
+> {
+   return v.enum_(SliderMidAnchorMode);
+}
 
 /** Schema declaration for {@linkcode EventLightValue} */
-export const EventLightValueSchema: v.EnumSchema<
+export function EventLightValueSchema(): v.EnumSchema<
    typeof EventLightValue,
    undefined
-> = v.enum_(EventLightValue);
+> {
+   return v.enum_(EventLightValue);
+}
 
 /** Schema declaration for {@linkcode EventType} */
-export const EventTypeSchema: v.EnumSchema<typeof EventType, undefined> = v.enum_(EventType);
+export function EventTypeSchema(): v.EnumSchema<
+   typeof EventType,
+   undefined
+> {
+   return v.enum_(EventType);
+}
 
 /** Schema declaration for {@linkcode ExecutionTime} */
-export const ExecutionTimeSchema: v.EnumSchema<
+export function ExecutionTimeSchema(): v.EnumSchema<
    typeof ExecutionTime,
    undefined
-> = v.enum_(ExecutionTime);
+> {
+   return v.enum_(ExecutionTime);
+}
 
 /** Schema declaration for {@linkcode IndexFilterType} */
-export const IndexFilterTypeSchema: v.EnumSchema<
+export function IndexFilterTypeSchema(): v.EnumSchema<
    typeof IndexFilterType,
    undefined
-> = v.enum_(IndexFilterType);
+> {
+   return v.enum_(IndexFilterType);
+}
 
 /** Schema declaration for {@linkcode LimitAlsoAffectsType} */
-export const LimitAlsoAffectsTypeSchema: v.EnumSchema<
+export function LimitAlsoAffectsTypeSchema(): v.EnumSchema<
    typeof LimitAlsoAffectsType,
    undefined
-> = v.enum_(LimitAlsoAffectsType);
+> {
+   return v.enum_(LimitAlsoAffectsType);
+}
 
 /** Schema declaration for {@linkcode RandomType} */
-export const RandomTypeSchema: v.EnumSchema<typeof RandomType, undefined> = v.enum_(RandomType);
+export function RandomTypeSchema(): v.EnumSchema<
+   typeof RandomType,
+   undefined
+> {
+   return v.enum_(RandomType);
+}
 
 /** Schema declaration for {@linkcode DistributionType} */
-export const DistributionTypeSchema: v.EnumSchema<
+export function DistributionTypeSchema(): v.EnumSchema<
    typeof DistributionType,
    undefined
-> = v.enum_(DistributionType);
+> {
+   return v.enum_(DistributionType);
+}
 
 /** Schema declaration for {@linkcode EaseType} */
-export const EaseTypeSchema: v.EnumSchema<typeof EaseType, undefined> = v.enum_(EaseType);
+export function EaseTypeSchema(): v.EnumSchema<
+   typeof EaseType,
+   undefined
+> {
+   return v.enum_(EaseType);
+}
 
 /** Schema declaration for {@linkcode EventLightColor} */
-export const EventLightColorSchema: v.EnumSchema<
+export function EventLightColorSchema(): v.EnumSchema<
    typeof EventLightColor,
    undefined
-> = v.enum_(EventLightColor);
+> {
+   return v.enum_(EventLightColor);
+}
 
 /** Schema declaration for {@linkcode Axis} */
-export const AxisSchema: v.EnumSchema<typeof Axis, undefined> = v.enum_(Axis);
+export function AxisSchema(): v.EnumSchema<
+   typeof Axis,
+   undefined
+> {
+   return v.enum_(Axis);
+}
 
 /** Schema declaration for {@linkcode LightRotationDirection} */
-export const LightRotationDirectionSchema: v.EnumSchema<
+export function LightRotationDirectionSchema(): v.EnumSchema<
    typeof LightRotationDirection,
    undefined
-> = v.enum_(LightRotationDirection);
+> {
+   return v.enum_(LightRotationDirection);
+}
 
 /** Schema declaration for {@linkcode NoteType} */
-export const NoteTypeSchema: v.EnumSchema<typeof NoteType, undefined> = v.enum_(NoteType);
+export function NoteTypeSchema(): v.EnumSchema<
+   typeof NoteType,
+   undefined
+> {
+   return v.enum_(NoteType);
+}
 
 /** Schema declaration for {@linkcode ObstacleType} */
-export const ObstacleTypeSchema: v.EnumSchema<typeof ObstacleType, undefined> = v.enum_(
-   ObstacleType,
-);
+export function ObstacleTypeSchema(): v.EnumSchema<
+   typeof ObstacleType,
+   undefined
+> {
+   return v.enum_(ObstacleType);
+}
 
 /** Schema declaration for {@linkcode TransitionType} */
-export const TransitionTypeSchema: v.EnumSchema<
+export function TransitionTypeSchema(): v.EnumSchema<
    typeof TransitionType,
    undefined
-> = v.enum_(TransitionType);
+> {
+   return v.enum_(TransitionType);
+}
 
 /** Schema declaration for {@linkcode FxType} */
-export const FxTypeSchema: v.EnumSchema<typeof FxType, undefined> = v.enum_(FxType);
+export function FxTypeSchema(): v.EnumSchema<
+   typeof FxType,
+   undefined
+> {
+   return v.enum_(FxType);
+}
 
 /** Schema declaration for {@linkcode EventBoxType} */
-export const EventBoxTypeSchema: v.EnumSchema<typeof EventBoxType, undefined> = v.enum_(
-   EventBoxType,
-);
+export function EventBoxTypeSchema(): v.EnumSchema<
+   typeof EventBoxType,
+   undefined
+> {
+   return v.enum_(EventBoxType);
+}

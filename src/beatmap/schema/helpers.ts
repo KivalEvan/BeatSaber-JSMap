@@ -15,6 +15,7 @@ interface FieldSchemaOptions {
    version: Version;
 }
 /** Helper function to augment a schema with the necessary context for validation within a top-level entity schema. */
+// @__NO_SIDE_EFFECTS__
 export function field<
    const TSchema extends v.GenericSchema,
    const TItems extends v.GenericPipeItem<
@@ -180,6 +181,7 @@ function checkVersion<
 }
 
 /** Helper function to create an "entity" (object-like) schema, which recursively performs version checks on all nested entries. */
+// @__NO_SIDE_EFFECTS__
 export function entity<
    const TEntries extends InferObjectEntries<Record<string, unknown>>,
 >(
@@ -221,6 +223,7 @@ export function entity<
 }
 
 /** Helper function to cast the inferred input of a schema to a different type. */
+// @__NO_SIDE_EFFECTS__
 export function mask<
    TMask,
    const TSchema extends v.GenericSchema = v.GenericSchema,

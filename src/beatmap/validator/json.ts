@@ -54,19 +54,19 @@ export function validateJSON<T extends Record<string, any> = Record<string, any>
    let schema: StandardSchemaV1;
    switch (type) {
       case 'info': {
-         schema = infoCheckMap[version as keyof typeof infoCheckMap];
+         schema = infoCheckMap[version as keyof typeof infoCheckMap]();
          break;
       }
       case 'audioData': {
-         schema = audioSchemaMap[version as keyof typeof audioSchemaMap];
+         schema = audioSchemaMap[version as keyof typeof audioSchemaMap]();
          break;
       }
       case 'difficulty': {
-         schema = difficultyCheckMap[version as keyof typeof difficultyCheckMap];
+         schema = difficultyCheckMap[version as keyof typeof difficultyCheckMap]();
          break;
       }
       case 'lightshow': {
-         schema = lightshowCheckMap[version as keyof typeof lightshowCheckMap];
+         schema = lightshowCheckMap[version as keyof typeof lightshowCheckMap]();
          break;
       }
    }
