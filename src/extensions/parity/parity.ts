@@ -14,55 +14,6 @@ import type { IWrapColorNote } from '../../beatmap/schema/wrapper/types/colorNot
 import { predictDirection } from '../placement/note.ts';
 import { type ParityState, type ParityStatus, ParitySwitch } from './types/parity.ts';
 
-const noteInitParity: {
-   [key: number]: { backhand: number[]; forehand: number[] };
-} = {
-   [NoteColor.RED]: {
-      forehand: [
-         NoteDirection.DOWN,
-         NoteDirection.RIGHT,
-         NoteDirection.DOWN_LEFT,
-         NoteDirection.DOWN_RIGHT,
-      ],
-      backhand: [
-         NoteDirection.UP,
-         NoteDirection.LEFT,
-         NoteDirection.UP_LEFT,
-         NoteDirection.UP_RIGHT,
-      ],
-   },
-   [NoteColor.BLUE]: {
-      forehand: [
-         NoteDirection.DOWN,
-         NoteDirection.LEFT,
-         NoteDirection.DOWN_LEFT,
-         NoteDirection.DOWN_RIGHT,
-      ],
-      backhand: [
-         NoteDirection.UP,
-         NoteDirection.RIGHT,
-         NoteDirection.UP_LEFT,
-         NoteDirection.UP_RIGHT,
-      ],
-   },
-};
-const noteInitRotation: { [key: number]: number[] } = {
-   [NoteColor.RED]: [0, 0, 90, 90, 45, -45, 45, -45],
-   [NoteColor.BLUE]: [0, 0, -90, -90, -45, 45, -45, 45],
-};
-const noteParityRotation: {
-   [key: number]: { backhand: number[]; forehand: number[] };
-} = {
-   0: {
-      forehand: [180, 0, -90, 90, -135, 135, -45, 45],
-      backhand: [0, 180, 90, -90, 45, -45, 135, -135],
-   },
-   1: {
-      forehand: [-180, 0, -90, 90, -135, 135, -45, 45],
-      backhand: [0, -180, 90, -90, 45, -45, 135, -135],
-   },
-};
-
 // TODO: probably body class for leaning
 export class Parity<
    TColorNote extends Pick<
@@ -85,6 +36,55 @@ export class Parity<
       [-155, 195],
       [-195, 155],
    ];
+
+   noteInitParity: {
+      [key: number]: { backhand: number[]; forehand: number[] };
+   } = {
+      [NoteColor.RED]: {
+         forehand: [
+            NoteDirection.DOWN,
+            NoteDirection.RIGHT,
+            NoteDirection.DOWN_LEFT,
+            NoteDirection.DOWN_RIGHT,
+         ],
+         backhand: [
+            NoteDirection.UP,
+            NoteDirection.LEFT,
+            NoteDirection.UP_LEFT,
+            NoteDirection.UP_RIGHT,
+         ],
+      },
+      [NoteColor.BLUE]: {
+         forehand: [
+            NoteDirection.DOWN,
+            NoteDirection.LEFT,
+            NoteDirection.DOWN_LEFT,
+            NoteDirection.DOWN_RIGHT,
+         ],
+         backhand: [
+            NoteDirection.UP,
+            NoteDirection.RIGHT,
+            NoteDirection.UP_LEFT,
+            NoteDirection.UP_RIGHT,
+         ],
+      },
+   };
+   noteInitRotation: { [key: number]: number[] } = {
+      [NoteColor.RED]: [0, 0, 90, 90, 45, -45, 45, -45],
+      [NoteColor.BLUE]: [0, 0, -90, -90, -45, 45, -45, 45],
+   };
+   noteParityRotation: {
+      [key: number]: { backhand: number[]; forehand: number[] };
+   } = {
+      [NoteColor.RED]: {
+         forehand: [180, 0, -90, 90, -135, 135, -45, 45],
+         backhand: [0, 180, 90, -90, 45, -45, 135, -135],
+      },
+      [NoteColor.BLUE]: {
+         forehand: [-180, 0, -90, 90, -135, 135, -45, 45],
+         backhand: [0, -180, 90, -90, 45, -45, 135, -135],
+      },
+   };
 
    constructor(
       notes: TColorNote[],
@@ -156,7 +156,7 @@ export class Parity<
       }
 
       const parityRotation =
-         noteParityRotation[noteType][ParitySwitch[currentState]][expectedDirection];
+         this.noteParityRotation[noteType][ParitySwitch[currentState]][expectedDirection];
 
       if (
          (currentRotation > parityRotation
@@ -201,11 +201,11 @@ export class Parity<
             case 'neutral': {
                for (let i = 0; i < noteContext.length; i++) {
                   const note = noteContext[i] as TColorNote;
-                  if (noteInitParity[note.color].forehand.includes(note.direction)) {
+                  if (this.noteInitParity[note.color].forehand.includes(note.direction)) {
                      this.state = 'backhand';
                      break;
                   }
-                  if (noteInitParity[note.color].backhand.includes(note.direction)) {
+                  if (this.noteInitParity[note.color].backhand.includes(note.direction)) {
                      this.state = 'forehand';
                      break;
                   }
@@ -259,7 +259,7 @@ export class Parity<
          prevNote = note;
       }
       if (expectedDirection !== NoteDirection.ANY) {
-         this.rotation = noteParityRotation[this.color][this.state][expectedDirection];
+         this.rotation = this.noteParityRotation[this.color][this.state][expectedDirection];
       }
    }
 
@@ -298,10 +298,10 @@ export class Parity<
                   break;
                }
                note = nc[j] as TColorNote;
-               if (noteInitParity[note.color].forehand.includes(note.direction)) {
+               if (this.noteInitParity[note.color].forehand.includes(note.direction)) {
                   return 'backhand';
                }
-               if (noteInitParity[note.color].backhand.includes(note.direction)) {
+               if (this.noteInitParity[note.color].backhand.includes(note.direction)) {
                   return 'forehand';
                }
                if (startParity === 'neutral' && note.direction === NoteDirection.ANY) {
@@ -333,31 +333,31 @@ export class Parity<
                }
                note = nc[j];
                if (note.direction !== NoteDirection.ANY) {
-                  return noteInitRotation[note.color][note.direction];
+                  return this.noteInitRotation[note.color][note.direction];
                }
                if (note.direction === NoteDirection.ANY) {
                   if (note.posY === PosY.BOTTOM) {
                      if (note.posX === PosX.LEFT) {
-                        rotation = noteInitRotation[note.color][6];
+                        rotation = this.noteInitRotation[note.color][6];
                      }
                      if (note.posX === PosX.RIGHT) {
-                        rotation = noteInitRotation[note.color][7];
+                        rotation = this.noteInitRotation[note.color][7];
                      }
                   }
                   if (note.posY === PosY.MIDDLE) {
                      if (note.posX === PosX.LEFT) {
-                        rotation = noteInitRotation[note.color][2];
+                        rotation = this.noteInitRotation[note.color][2];
                      }
                      if (note.posX === PosX.RIGHT) {
-                        rotation = noteInitRotation[note.color][3];
+                        rotation = this.noteInitRotation[note.color][3];
                      }
                   }
                   if (note.posY === PosY.BOTTOM) {
                      if (note.posX === PosX.LEFT) {
-                        rotation = noteInitRotation[note.color][4];
+                        rotation = this.noteInitRotation[note.color][4];
                      }
                      if (note.posX === PosX.RIGHT) {
-                        rotation = noteInitRotation[note.color][5];
+                        rotation = this.noteInitRotation[note.color][5];
                      }
                   }
                }

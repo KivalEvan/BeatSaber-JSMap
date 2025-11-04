@@ -215,7 +215,7 @@ export function fixStringAry(value: unknown[], defaultValue: string): string[] {
    return value.map((v) => fixString(v, defaultValue));
 }
 
-const easingsList = Object.keys(EasingsFn) as Easings[];
+const easingsList = /* @__PURE__ */ Object.keys(EasingsFn) as Easings[];
 
 /**
  * Fix vector value by interpreting unknown value as vector or return default value.

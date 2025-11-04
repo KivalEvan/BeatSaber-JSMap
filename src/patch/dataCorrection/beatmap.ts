@@ -489,7 +489,7 @@ function fixFxEventFloat(obj: IWrapFxEventFloat): void {
 /**
  * Verifies and corrects data type for beatmap data.
  */
-export function beatmap<T extends IWrapBeatmap>(data: T): void {
+export function patchBeatmap<T extends IWrapBeatmap>(data: T): void {
    const logger = getLogger();
 
    logger?.tInfo(

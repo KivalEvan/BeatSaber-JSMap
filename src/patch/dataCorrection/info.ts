@@ -47,7 +47,7 @@ function fixColorObject(val: unknown, req?: boolean) {
 /**
  * Verifies and corrects data type for beatmap info.
  */
-export function info<T extends IWrapInfo>(data: T): void {
+export function patchInfo<T extends IWrapInfo>(data: T): void {
    const logger = getLogger();
 
    logger?.tInfo(
