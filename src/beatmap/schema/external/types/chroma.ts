@@ -2,7 +2,7 @@ import type { IBasicEvent } from '../../v3/types/basicEvent.ts';
 import type { EnvironmentName } from '../../../schema/shared/types/environment.ts';
 import type { IChromaEnvironment, IChromaMaterial } from '../../v3/types/custom/chroma.ts';
 
-export interface IEnvironmentJSON {
+export interface IChromaEnvironmentJSON {
    /** must be 1.0.0 to work */
    version: '1.0.0';
    name: string;

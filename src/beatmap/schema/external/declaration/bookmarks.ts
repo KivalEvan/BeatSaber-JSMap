@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import type { IBookmarkElement, IBookmarks } from '../types/bookmarks.ts';
+import type { IBookmarkElement, IBookmarkSet } from '../types/bookmarks.ts';
 import { entity, field, type InferObjectEntries } from '../../helpers.ts';
 import { CharacteristicNameSchema, DifficultyNameSchema } from '../../shared/declaration/common.ts';
 
@@ -23,10 +23,10 @@ export function BookmarkElementSchema(): v.ObjectSchema<
 
 /** Schema declaration for official editor `Bookmark Set`  */
 export function BookmarkSetSchema(): v.ObjectSchema<
-   InferObjectEntries<IBookmarks>,
+   InferObjectEntries<IBookmarkSet>,
    undefined
 > {
-   return entity<InferObjectEntries<IBookmarks>>(() => '1.0.0', {
+   return entity<InferObjectEntries<IBookmarkSet>>(() => '1.0.0', {
       name: field(v.string(), {
          version: '1.0.0',
       }),
