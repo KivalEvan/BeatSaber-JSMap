@@ -17,7 +17,7 @@ import { createObstacle } from '../schema/wrapper/obstacle.ts';
  * Core beatmap obstacle.
  */
 export class Obstacle extends GridObject implements IWrapObstacle {
-   static defaultValue: IWrapObstacle = createObstacle();
+   static defaultValue: IWrapObstacle = /* @__PURE__ */ createObstacle();
 
    static createOne(data: Partial<IWrapObstacle> = {}): Obstacle {
       return new this(data);

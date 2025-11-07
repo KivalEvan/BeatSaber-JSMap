@@ -1,7 +1,7 @@
 import type { CharacteristicName } from '../../shared/types/characteristic.ts';
 import type { DifficultyName } from '../../shared/types/difficulty.ts';
 
-export interface IBookmarks {
+export interface IBookmarkSet {
    name: string;
    characteristic: CharacteristicName | '';
    difficulty: DifficultyName | '';

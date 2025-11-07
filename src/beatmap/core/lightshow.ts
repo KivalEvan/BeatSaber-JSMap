@@ -26,7 +26,7 @@ import { createLightshow } from '../schema/wrapper/lightshow.ts';
  * Core beatmap lightshow.
  */
 export class Lightshow extends BaseItem implements IWrapLightshow {
-   static defaultValue: IWrapLightshow = createLightshow();
+   static defaultValue: IWrapLightshow = /* @__PURE__ */ createLightshow();
 
    waypoints: Waypoint[];
    basicEvents: BasicEvent[];

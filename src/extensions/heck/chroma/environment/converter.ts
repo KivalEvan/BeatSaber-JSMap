@@ -3,7 +3,7 @@ import type {
    IChromaEnvironment,
 } from '../../../../beatmap/schema/v3/types/custom/chroma.ts';
 import type { IChromaEnvironment as IV2ChromaEnvironment } from '../../../../beatmap/schema/v2/types/custom/chroma.ts';
-import { logger } from '../../../../logger.ts';
+import { getLogger } from '../../../../logger.ts';
 import { vectorMul } from '../../../../utils/math/vector.ts';
 
 function tag(name: string): string[] {
@@ -78,6 +78,8 @@ export function envV2ToV3(env: IV2ChromaEnvironment[]): IChromaEnvironment[] {
 }
 
 export function envV3ToV2(env: IChromaEnvironment[]): IV2ChromaEnvironment[] {
+   const logger = getLogger();
+
    return env.map((e) => {
       if (e.id && e.lookupMethod) {
          return {
@@ -99,7 +101,7 @@ export function envV3ToV2(env: IChromaEnvironment[]): IV2ChromaEnvironment[] {
             e.components?.ILightWithId?.type ||
             e.components?.ILightWithId?.lightID
          ) {
-            logger.tWarn(
+            logger?.tWarn(
                tag('envV3ToV2'),
                'v2 geometry cannot be made assignable light to specific type',
             );

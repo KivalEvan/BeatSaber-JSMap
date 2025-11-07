@@ -1,4 +1,4 @@
-import { logger } from '../../../../logger.ts';
+import { getLogger } from '../../../../logger.ts';
 import type { ICompatibilityOptions } from '../../../mapping/types/compatibility.ts';
 import type { IWrapAudioData } from '../../wrapper/types/audioData.ts';
 import { tag } from './_common.ts';
@@ -10,13 +10,15 @@ export function compatAudioData<T extends IWrapAudioData>(
    data: T,
    options: ICompatibilityOptions,
 ) {
+   const logger = getLogger();
+
    const hasIncompat = !!data.lufsData.length;
 
    if (hasIncompat) {
       if (options.throwOn.incompatibleObject) {
          throw new Error('Audio data is not compatible with v2');
       } else {
-         logger.tWarn(
+         logger?.tWarn(
             tag('compatAudioData'),
             'Audio data is not compatible with v2, certain data may be lost!',
          );

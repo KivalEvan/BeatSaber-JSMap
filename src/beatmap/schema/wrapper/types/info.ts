@@ -3,8 +3,8 @@ import type { CharacteristicName } from '../../../schema/shared/types/characteri
 import type { DifficultyName } from '../../../schema/shared/types/difficulty.ts';
 import type {
    Environment360Name,
-   EnvironmentAllName,
    EnvironmentName,
+   EnvironmentV2Name,
    EnvironmentV3Name,
 } from '../../../schema/shared/types/environment.ts';
 import type { IColor } from '../../../../types/colors.ts';
@@ -30,10 +30,10 @@ export interface IWrapInfo extends IWrapBaseItem, IWrapBaseFile<GenericInfoFilen
     * @deprecated use for pre-v4
     */
    environmentBase: {
-      normal: EnvironmentName | EnvironmentV3Name | null;
+      normal: EnvironmentV2Name | EnvironmentV3Name | null;
       allDirections: Environment360Name | null;
    };
-   environmentNames: EnvironmentAllName[];
+   environmentNames: EnvironmentName[];
    colorSchemes: IWrapInfoColorScheme[];
    difficulties: IWrapInfoBeatmap[];
    customData: ICustomDataInfo;

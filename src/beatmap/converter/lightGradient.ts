@@ -1,4 +1,3 @@
-import { logger } from '../../logger.ts';
 import type { IChromaLightGradient } from '../schema/v2/types/custom/chroma.ts';
 import type { IWrapBeatmapSubset } from '../schema/wrapper/types/beatmap.ts';
 import type { Easings } from '../../types/easings.ts';
@@ -6,6 +5,7 @@ import { lerpColor } from '../../utils/colors/helpers.ts';
 import { EasingsFn } from '../../utils/math/easings.ts';
 import { normalize } from '../../utils/math/helpers.ts';
 import { isLightEventType } from '../helpers/core/basicEvent.ts';
+import { getLogger } from '../../logger.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
@@ -29,7 +29,9 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
 export function chromaLightGradientToVanillaGradient<
    T extends IWrapBeatmapSubset<'basicEvents'>,
 >(data: T): T {
-   logger.tWarn(
+   const logger = getLogger();
+
+   logger?.tWarn(
       tag('chromaLightGradientToVanillaGradient'),
       'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
    );

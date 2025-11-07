@@ -1,4 +1,4 @@
-import { logger } from '../../../logger.ts';
+import { getLogger } from '../../../logger.ts';
 import type { IWrapBeatmap } from '../../schema/wrapper/types/beatmap.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
 import { ExecutionTime } from '../../schema/shared/types/constants.ts';
@@ -20,7 +20,9 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
    data: T,
    fromVersion = data.version,
 ): T {
-   logger.tWarn(
+   const logger = getLogger();
+
+   logger?.tWarn(
       tag('main'),
       'As v4 is similar to v3, the conversion will use v3 convertor alongside.',
    );

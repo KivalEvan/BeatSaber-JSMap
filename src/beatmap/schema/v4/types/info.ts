@@ -1,5 +1,5 @@
 import type { CharacteristicName } from '../../shared/types/characteristic.ts';
-import type { EnvironmentAllName } from '../../shared/types/environment.ts';
+import type { EnvironmentName } from '../../shared/types/environment.ts';
 import type { DifficultyName } from '../../shared/types/difficulty.ts';
 import type { IItem } from './item.ts';
 import type { ICustomDataInfo } from './custom/info.ts';
@@ -14,7 +14,7 @@ export interface IInfo extends IItem {
    audio: IInfoAudio;
    songPreviewFilename: string;
    coverImageFilename: string;
-   environmentNames: EnvironmentAllName[];
+   environmentNames: EnvironmentName[];
    colorSchemes: IInfoColorScheme[];
    difficultyBeatmaps: IInfoBeatmap[];
    customData?: ICustomDataInfo;

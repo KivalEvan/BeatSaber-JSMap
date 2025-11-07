@@ -11,7 +11,7 @@ import { createLightRotationEventBox } from '../schema/wrapper/lightRotationEven
  * Core beatmap light rotation event box.
  */
 export class LightRotationEventBox extends EventBox implements IWrapLightRotationEventBox {
-   static defaultValue: IWrapLightRotationEventBox = createLightRotationEventBox();
+   static defaultValue: IWrapLightRotationEventBox = /* @__PURE__ */ createLightRotationEventBox();
 
    static createOne(
       data: DeepPartial<IWrapLightRotationEventBox> = {},

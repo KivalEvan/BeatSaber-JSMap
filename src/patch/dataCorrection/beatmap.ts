@@ -28,7 +28,6 @@ import {
 } from '../../beatmap/helpers/core/basicEvent.ts';
 import { EventLaneRotationValue } from '../../beatmap/misc/remaps.ts';
 import { ExecutionTime } from '../../beatmap/schema/shared/types/constants.ts';
-import { logger } from '../../logger.ts';
 import type { IBombNote } from '../../beatmap/schema/v3/types/bombNote.ts';
 import type { IChain } from '../../beatmap/schema/v3/types/chain.ts';
 import type { IColorNote } from '../../beatmap/schema/v3/types/colorNote.ts';
@@ -61,6 +60,7 @@ import type { IWrapLightTranslationEventBoxGroup } from '../../beatmap/schema/wr
 import type { IWrapObstacle } from '../../beatmap/schema/wrapper/types/obstacle.ts';
 import type { IWrapRotationEvent } from '../../beatmap/schema/wrapper/types/rotationEvent.ts';
 import type { IWrapWaypoint } from '../../beatmap/schema/wrapper/types/waypoint.ts';
+import { getLogger } from '../../logger.ts';
 import { fixCustomDataEvent } from './customDataEvent.ts';
 import { fixCustomDataObject } from './customDataObject.ts';
 import { fixBoolean, fixFloat, fixInt } from './helpers.ts';
@@ -489,8 +489,10 @@ function fixFxEventFloat(obj: IWrapFxEventFloat): void {
 /**
  * Verifies and corrects data type for beatmap data.
  */
-export function beatmap<T extends IWrapBeatmap>(data: T): void {
-   logger.tInfo(
+export function patchBeatmap<T extends IWrapBeatmap>(data: T): void {
+   const logger = getLogger();
+
+   logger?.tInfo(
       ['patch', 'dataCorrection', 'beatmap', 'main'],
       'Verifying and correcting data type...',
    );

@@ -4,7 +4,7 @@ import { entity, field, mask } from '../src/beatmap/schema/helpers.ts';
 import * as v4 from '../src/beatmap/schema/v4/declaration/mod.ts';
 import type { ISchemaDeclaration } from '../src/beatmap/schema/shared/types/schema.ts';
 import type { Version } from '../src/beatmap/schema/shared/types/version.ts';
-import { assertEquals, logger, schemaCheck } from './deps.ts';
+import { assertEquals, schemaCheck } from './deps.ts';
 
 function boolean(): StandardSchemaV1 {
    return {
@@ -95,7 +95,6 @@ Deno.test('schemaCheck', async (ctx) => {
 });
 
 Deno.test('entity serialization tests', async (ctx) => {
-   logger.setLevel(4);
    await ctx.step('basic form', async (ctx) => {
       const schema = entity((x) => x.version, {
          version: mask<Version>(v.string()),

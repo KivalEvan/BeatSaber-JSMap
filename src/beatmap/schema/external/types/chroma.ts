@@ -1,8 +1,8 @@
 import type { IBasicEvent } from '../../v3/types/basicEvent.ts';
-import type { EnvironmentAllName } from '../../../schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../../../schema/shared/types/environment.ts';
 import type { IChromaEnvironment, IChromaMaterial } from '../../v3/types/custom/chroma.ts';
 
-export interface IEnvironmentJSON {
+export interface IChromaEnvironmentJSON {
    /** must be 1.0.0 to work */
    version: '1.0.0';
    name: string;
@@ -10,7 +10,7 @@ export interface IEnvironmentJSON {
    /** the version of your custom environment */
    environmentVersion: `${number}.${number}.${number}`;
    /** the name of the base environment to load */
-   environmentName: EnvironmentAllName;
+   environmentName: EnvironmentName;
    /** unused for now */
    description: string;
    features: {

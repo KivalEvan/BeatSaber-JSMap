@@ -1,7 +1,7 @@
 import type {
    Environment360Name,
-   EnvironmentAllName,
    EnvironmentName,
+   EnvironmentV2Name,
    EnvironmentV3Name,
 } from '../schema/shared/types/environment.ts';
 import type {
@@ -26,7 +26,7 @@ import { createInfo } from '../schema/wrapper/info.ts';
  * This object is writable into file.
  */
 export class Info extends BaseItem implements IWrapInfo {
-   static defaultValue: IWrapInfo = createInfo();
+   static defaultValue: IWrapInfo = /* @__PURE__ */ createInfo();
 
    static createOne(data: DeepPartial<IWrapInfo> = {}): Info {
       return new this(data);
@@ -174,10 +174,10 @@ export class Info extends BaseItem implements IWrapInfo {
    songPreviewFilename: string;
    coverImageFilename: string;
    environmentBase: {
-      normal: EnvironmentName | EnvironmentV3Name | null;
+      normal: EnvironmentV2Name | EnvironmentV3Name | null;
       allDirections: Environment360Name | null;
    };
-   environmentNames: EnvironmentAllName[];
+   environmentNames: EnvironmentName[];
    colorSchemes: IWrapInfoColorScheme[];
    difficulties: InfoBeatmap[];
 

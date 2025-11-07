@@ -7,7 +7,7 @@ import { createColorBoostEvent } from '../schema/wrapper/colorBoostEvent.ts';
  * Core beatmap color boost event.
  */
 export class ColorBoostEvent extends BaseObject implements IWrapColorBoostEvent {
-   static defaultValue: IWrapColorBoostEvent = createColorBoostEvent();
+   static defaultValue: IWrapColorBoostEvent = /* @__PURE__ */ createColorBoostEvent();
 
    static createOne(data: Partial<IWrapColorBoostEvent> = {}): ColorBoostEvent {
       return new this(data);

@@ -22,6 +22,7 @@ export * from './fxEventBoxGroup.ts';
 export * from './fxEventFloat.ts';
 export * from './indexFilter.ts';
 export * from './info.ts';
+export * from './infoBeatmap.ts';
 export * from './lightColorEvent.ts';
 export * from './lightColorEventBox.ts';
 export * from './lightColorEventBoxGroup.ts';

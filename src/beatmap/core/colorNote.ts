@@ -10,7 +10,7 @@ import { createColorNote } from '../schema/wrapper/colorNote.ts';
  * Core beatmap color note.
  */
 export class ColorNote extends BaseNote implements IWrapColorNote {
-   static defaultValue: IWrapColorNote = createColorNote();
+   static defaultValue: IWrapColorNote = /* @__PURE__ */ createColorNote();
 
    static createOne(data: Partial<IWrapColorNote> = {}): ColorNote {
       return new this(data);

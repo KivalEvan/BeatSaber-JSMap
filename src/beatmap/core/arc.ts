@@ -10,7 +10,7 @@ import { createArc } from '../schema/wrapper/arc.ts';
  * Core beatmap arc.
  */
 export class Arc extends BaseSlider implements IWrapArc {
-   static defaultValue: IWrapArc = createArc();
+   static defaultValue: IWrapArc = /* @__PURE__ */ createArc();
 
    static createOne(data: Partial<IWrapArc> = {}): Arc {
       return new this(data);

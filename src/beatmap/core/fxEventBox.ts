@@ -11,7 +11,7 @@ import { createFxEventBox } from '../schema/wrapper/fxEventBox.ts';
  * Core beatmap FX event box.
  */
 export class FxEventBox extends EventBox implements IWrapFxEventBox {
-   static defaultValue: IWrapFxEventBox = createFxEventBox();
+   static defaultValue: IWrapFxEventBox = /* @__PURE__ */ createFxEventBox();
 
    static createOne(data: DeepPartial<IWrapFxEventBox> = {}): FxEventBox {
       return new this(data);

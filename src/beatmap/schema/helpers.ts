@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import * as v from 'valibot';
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { Version } from '../schema/shared/types/version.ts';
 import { isRecord } from '../../utils/misc/json.ts';
 import { compareVersion } from '../helpers/version.ts';
@@ -15,6 +15,7 @@ interface FieldSchemaOptions {
    version: Version;
 }
 /** Helper function to augment a schema with the necessary context for validation within a top-level entity schema. */
+// @__NO_SIDE_EFFECTS__
 export function field<
    const TSchema extends v.GenericSchema,
    const TItems extends v.GenericPipeItem<
@@ -67,6 +68,8 @@ function checkVersion<
       addIssue,
    }: VersionCheckContext<TSchema> & FieldSchemaOptions,
 ) {
+   const logger = getLogger();
+
    const [base, ...pipeline] = 'pipe' in schema ? schema.pipe : [schema];
    let unwrapped = base;
    // unwrap the schema from its optionalized parent
@@ -84,7 +87,7 @@ function checkVersion<
       Readonly<FieldMetadata>
    >;
 
-   logger.tDebug(
+   logger?.tDebug(
       ['schema', 'checkVersion'],
       `for ${unwrapped.type}:\n  schema version: \t${
          ctx?.metadata.version ?? 'undefined'
@@ -180,6 +183,7 @@ function checkVersion<
 }
 
 /** Helper function to create an "entity" (object-like) schema, which recursively performs version checks on all nested entries. */
+// @__NO_SIDE_EFFECTS__
 export function entity<
    const TEntries extends InferObjectEntries<Record<string, unknown>>,
 >(
@@ -221,6 +225,7 @@ export function entity<
 }
 
 /** Helper function to cast the inferred input of a schema to a different type. */
+// @__NO_SIDE_EFFECTS__
 export function mask<
    TMask,
    const TSchema extends v.GenericSchema = v.GenericSchema,

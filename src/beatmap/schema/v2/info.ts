@@ -1,9 +1,4 @@
 // deno-lint-ignore-file no-explicit-any
-import type {
-   Environment360Name,
-   EnvironmentName,
-   EnvironmentV3Name,
-} from '../shared/types/environment.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IInfo, IInfoSet } from '../../schema/v2/types/info.ts';
 import type { IWrapInfo } from '../wrapper/types/info.ts';
@@ -47,12 +42,10 @@ export const info: ISchemaContainer<
          _songFilename: data.audio.filename,
          _coverImageFilename: data.coverImageFilename,
          _environmentName: data.environmentBase.normal ||
-            (data.environmentNames.find(
-               (e) => !is360Environment(e),
-            ) as EnvironmentName & EnvironmentV3Name) ||
+            (data.environmentNames.find((e) => !is360Environment(e))) ||
             'DefaultEnvironment',
          _allDirectionsEnvironmentName: data.environmentBase.allDirections ||
-            (data.environmentNames.find((e) => is360Environment(e)) as Environment360Name) ||
+            (data.environmentNames.find((e) => is360Environment(e))) ||
             'GlassDesertEnvironment',
          _environmentNames: data.environmentNames.map((e) => e),
          _colorSchemes: data.colorSchemes.map((e) => {

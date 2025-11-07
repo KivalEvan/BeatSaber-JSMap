@@ -7,7 +7,7 @@ import { createLightRotationEvent } from '../schema/wrapper/lightRotationEvent.t
  * Core beatmap light rotation event.
  */
 export class LightRotationEvent extends BaseObject implements IWrapLightRotationEvent {
-   static defaultValue: IWrapLightRotationEvent = createLightRotationEvent();
+   static defaultValue: IWrapLightRotationEvent = /* @__PURE__ */ createLightRotationEvent();
 
    static createOne(data: Partial<IWrapLightRotationEvent> = {}): LightRotationEvent {
       return new this(data);

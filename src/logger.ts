@@ -26,14 +26,16 @@ enum LogLevels {
 export class Logger {
    static readonly LogLevels = LogLevels;
 
-   static LogPrefixes: Map<LogLevels, string> = new Map<LogLevels, string>([
-      [LogLevels.TRACE, 'TRACE'],
-      [LogLevels.DEBUG, 'DEBUG'],
-      [LogLevels.INFO, 'INFO'],
-      [LogLevels.WARN, yellow('WARN')],
-      [LogLevels.ERROR, red('!!ERROR!!')],
-      [LogLevels.NONE, 'NONE'],
-   ]);
+   static get LogPrefixes(): Map<LogLevels, string> {
+      return new Map<LogLevels, string>([
+         [LogLevels.TRACE, 'TRACE'],
+         [LogLevels.DEBUG, 'DEBUG'],
+         [LogLevels.INFO, 'INFO'],
+         [LogLevels.WARN, yellow('WARN')],
+         [LogLevels.ERROR, red('!!ERROR!!')],
+         [LogLevels.NONE, 'NONE'],
+      ]);
+   }
 
    #logLevel = LogLevels.INFO;
    #tagPrint: (tags: string[], level: LogLevels) => string = (tags, level) =>
@@ -151,10 +153,23 @@ export class Logger {
    }
 }
 
+let _logger: Logger | null;
+
+/** Retrieves the global logging instance used across the module. */
+export function getLogger(): Logger | null {
+   return _logger;
+}
+
 /**
- * Logging instance used in the module.
+ * Enables logs for the library when called.
+ * Call this at the top of your execution stack to output logs to console.
  *
- * Can be replaced as needed.
+ * @param newLogger A new logger object to optionally replace the global instance.
  */
-// deno-lint-ignore prefer-const
-export let logger: Logger = new Logger();
+export function setupLogger(newLogger?: Logger) {
+   if (newLogger) {
+      _logger = newLogger;
+   } else {
+      _logger = new Logger();
+   }
+}

@@ -1,4 +1,4 @@
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import { round } from '../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../mapping/types/optimize.ts';
 
@@ -48,6 +48,8 @@ export function deepClean(
    name: string,
    options: IOptimizeOptions,
 ) {
+   const logger = getLogger();
+
    for (const k in obj) {
       const d = obj[k];
       if (typeof d === 'number' && options.floatTrim) {
@@ -70,13 +72,13 @@ export function deepClean(
             throw new Error(`null value found in object key ${name}.${k}.}`);
          } else {
             if (Array.isArray(obj)) {
-               logger.tError(
+               logger?.tError(
                   tag('deepClean'),
                   `null value found in array ${name}[${k}], defaulting to 0...`,
                );
                obj[k] = 0;
             } else {
-               logger.tError(
+               logger?.tError(
                   tag('deepClean'),
                   `null value found in object key ${name}.${k}, deleting...`,
                );
@@ -96,7 +98,7 @@ export function deepClean(
                if (options.throwNullish) {
                   throw new Error(`undefined found in array key ${name}.${k}.}`);
                } else {
-                  logger.tError(
+                  logger?.tError(
                      tag('deepClean'),
                      `undefined found in array key ${name}.${k}, replacing array with no undefined...`,
                   );

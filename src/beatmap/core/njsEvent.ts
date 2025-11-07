@@ -7,7 +7,7 @@ import { createNJSEvent } from '../schema/wrapper/njsEvent.ts';
  * Core beatmap NJS event.
  */
 export class NJSEvent extends BaseObject implements IWrapNJSEvent {
-   static defaultValue: IWrapNJSEvent = createNJSEvent();
+   static defaultValue: IWrapNJSEvent = /* @__PURE__ */ createNJSEvent();
 
    static createOne(data: Partial<IWrapNJSEvent> = {}): NJSEvent {
       return new this(data);

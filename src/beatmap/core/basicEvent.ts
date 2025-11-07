@@ -1,4 +1,4 @@
-import type { EnvironmentAllName } from '../schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../schema/shared/types/environment.ts';
 import type { IWrapBasicEvent } from '../schema/wrapper/types/basicEvent.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import {
@@ -30,7 +30,7 @@ import { createBasicEvent } from '../schema/wrapper/basicEvent.ts';
  * Core beatmap basic event.
  */
 export class BasicEvent extends BaseObject implements IWrapBasicEvent {
-   static defaultValue: IWrapBasicEvent = createBasicEvent();
+   static defaultValue: IWrapBasicEvent = /* @__PURE__ */ createBasicEvent();
 
    static createOne(data: Partial<IWrapBasicEvent> = {}): BasicEvent {
       return new this(data);
@@ -183,7 +183,7 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
     * if (event.isLightEvent()) {}
     * ```
     */
-   isLightEvent(environment?: EnvironmentAllName): boolean {
+   isLightEvent(environment?: EnvironmentName): boolean {
       return isLightEventType(this.type, environment);
    }
 
@@ -205,7 +205,7 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
     *
     * This does not check for ring zoom.
     */
-   isRingEvent(environment?: EnvironmentAllName): boolean {
+   isRingEvent(environment?: EnvironmentName): boolean {
       return isRingEventType(this.type, environment);
    }
 
@@ -215,7 +215,7 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
     * if (event.isLaserRotationEvent()) {}
     * ```
     */
-   isLaserRotationEvent(environment?: EnvironmentAllName): boolean {
+   isLaserRotationEvent(environment?: EnvironmentName): boolean {
       return isLaserRotationEventType(this.type, environment);
    }
 
@@ -235,7 +235,7 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
     * if (event.isExtraEvent()) {}
     * ```
     */
-   isExtraEvent(environment?: EnvironmentAllName): boolean {
+   isExtraEvent(environment?: EnvironmentName): boolean {
       return isExtraEventType(this.type, environment);
    }
 
@@ -245,7 +245,7 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
     * if (event.isSpecialEvent()) {}
     * ```
     */
-   isSpecialEvent(environment?: EnvironmentAllName): boolean {
+   isSpecialEvent(environment?: EnvironmentName): boolean {
       return isSpecialEventType(this.type, environment);
    }
 

@@ -4,7 +4,13 @@
    "license": "MIT",
    "exports": {
       ".": "./src/mod.ts",
-      "./extensions": "./src/extensions/mod.ts",
+      "./extensions/heck": "./src/extensions/heck/mod.ts",
+      "./extensions/parity": "./src/extensions/parity/mod.ts",
+      "./extensions/placement": "./src/extensions/placement/mod.ts",
+      "./extensions/renamer": "./src/extensions/renamer/mod.ts",
+      "./extensions/selector": "./src/extensions/selector/mod.ts",
+      "./extensions/stats": "./src/extensions/stats/mod.ts",
+      "./extensions/swing": "./src/extensions/swing/mod.ts",
       "./patch": "./src/patch/mod.ts",
       "./shims": "./src/shims/mod.ts"
    },

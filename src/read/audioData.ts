@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../logger.ts';
+import { getLogger } from '../logger.ts';
 import type { GenericAudioDataFilename } from '../beatmap/schema/shared/types/filename.ts';
 import type {
    InferBeatmap,
@@ -44,7 +44,8 @@ export function readAudioDataFile<
    version?: TVersion | null | IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
    options?: IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
 ): Promise<TWrapper> {
-   logger.tInfo(tag('readAudioDataFile'), 'Async reading audio data file');
+   const logger = getLogger();
+   logger?.tInfo(tag('readAudioDataFile'), 'Async reading audio data file');
    return handleRead<'audioData', TVersion, TWrapper, TSerial>('audioData', path, version, options);
 }
 
@@ -83,7 +84,8 @@ export function readAudioDataFileSync<
    version?: TVersion | null | IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
    options?: IReadOptions<'audioData', TVersion, TWrapper, TSerial>,
 ): TWrapper {
-   logger.tInfo(tag('readAudioDataFileSync'), 'Sync reading audio data file');
+   const logger = getLogger();
+   logger?.tInfo(tag('readAudioDataFileSync'), 'Sync reading audio data file');
    return handleReadSync<'audioData', TVersion, TWrapper, TSerial>(
       'audioData',
       path,

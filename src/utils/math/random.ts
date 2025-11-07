@@ -1,7 +1,7 @@
 import { hashCode, rearrangeTuple, round } from './helpers.ts';
 
 // Randomly generate seed if not provided.
-const _seed = { ref: hashCode(Math.random()) };
+let _seed: { ref: number } | undefined;
 
 /**
  * Mulberry32 algorithm.
@@ -17,7 +17,8 @@ function _pRandom(seed: number | { ref: number }): () => number {
       return ((s ^ (s >>> 14)) >>> 0) / 4294967296;
    };
 }
-const _instPRandom = _pRandom(_seed);
+
+let _instPRandom: (() => number) | undefined;
 
 function _random(
    min?: number | boolean,
@@ -69,6 +70,12 @@ export function pRandom(
    max?: number | boolean,
    rounding: number | boolean = false,
 ): number {
+   if (!_instPRandom) {
+      if (!_seed) {
+         _seed = { ref: hashCode(Math.random()) };
+      }
+      _instPRandom = _pRandom(_seed);
+   }
    return _random(min, max, rounding, _instPRandom);
 }
 
@@ -107,7 +114,13 @@ export function pRandomFn(
  * If this is never called, defaults to randomly generated seed.
  */
 export function pRandomSeed(seed: string | number | bigint): void {
+   if (!_seed) {
+      _seed = { ref: hashCode(Math.random()) };
+   }
    _seed.ref = hashCode(seed);
+   if (_instPRandom) {
+      _instPRandom = _pRandom(_seed);
+   }
 }
 
 /** Random number generator helpers using built-in JS Math. */

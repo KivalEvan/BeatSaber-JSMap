@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import type { ICompatibilityOptions } from '../mapping/types/compatibility.ts';
 import {
@@ -29,6 +29,8 @@ export function compatibilityCheck<
    version: number,
    options?: Partial<ICompatibilityOptions>,
 ): T {
+   const logger = getLogger();
+
    const opt: Required<ICompatibilityOptions> = {
       enabled: options?.enabled ?? defaultOptions.enabled,
       throwOn: {
@@ -54,7 +56,7 @@ export function compatibilityCheck<
 
    const compatFn = compatibilityMap[version];
    if (compatFn) {
-      logger.tInfo(
+      logger?.tInfo(
          tag('compatibilityCheck'),
          'Checking beatmap compatibility for ' + type + ' with version',
          version,

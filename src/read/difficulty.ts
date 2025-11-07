@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../logger.ts';
+import { getLogger } from '../logger.ts';
 import type { GenericBeatmapFilename } from '../beatmap/schema/shared/types/filename.ts';
 import type {
    InferBeatmap,
@@ -44,7 +44,8 @@ export function readDifficultyFile<
    version?: TVersion | null | IReadOptions<'difficulty', TVersion, TWrapper, TSerial>,
    options?: IReadOptions<'difficulty', TVersion, TWrapper, TSerial>,
 ): Promise<TWrapper> {
-   logger.tInfo(tag('readDifficultyFile'), 'Async reading difficulty file');
+   const logger = getLogger();
+   logger?.tInfo(tag('readDifficultyFile'), 'Async reading difficulty file');
    return handleRead<'difficulty', TVersion, TWrapper, TSerial>(
       'difficulty',
       path,
@@ -88,7 +89,8 @@ export function readDifficultyFileSync<
    version?: TVersion | null | IReadOptions<'difficulty', TVersion, TWrapper, TSerial>,
    options?: IReadOptions<'difficulty', TVersion, TWrapper, TSerial>,
 ): TWrapper {
-   logger.tInfo(tag('readDifficultyFileSync'), 'Sync reading difficulty file');
+   const logger = getLogger();
+   logger?.tInfo(tag('readDifficultyFileSync'), 'Sync reading difficulty file');
    return handleReadSync<'difficulty', TVersion, TWrapper, TSerial>(
       'difficulty',
       path,

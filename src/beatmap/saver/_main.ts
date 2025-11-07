@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { ISaveOptions } from './types.ts';
 import type { MirrorFn } from '../schema/shared/types/functions.ts';
 import type {
@@ -46,6 +46,8 @@ export function saveBeatmap<
    version?: TVersion | null,
    options: ISaveOptions<TFileType, TVersion, TWrapper, TSerial> = {},
 ): TSerial {
+   const logger = getLogger();
+
    const optD = (typeof version !== 'number' ? version : options) ?? options ?? {};
    const opt: Required<ISaveOptions<TFileType, TVersion, TWrapper, TSerial>> = {
       format: optD.format ?? defaultOptions.format,
@@ -60,7 +62,7 @@ export function saveBeatmap<
    const [pretransformer, ...preprocesses] = opt.preprocess;
    let attribute = pretransformer ? pretransformer(data, version) : data as InferBeatmap<TFileType>;
    preprocesses.forEach((fn, i) => {
-      logger.tInfo(
+      logger?.tInfo(
          tag('saveBeatmap'),
          'Running preprocess function #' + (i + 1),
       );
@@ -75,7 +77,7 @@ export function saveBeatmap<
       if (ver === -1) {
          throw new Error('Version is not set, prevented from saving.');
       }
-      logger.tInfo(
+      logger?.tInfo(
          tag('saveBeatmap'),
          'Implicitly saving ' + type + ' as version',
          ver,
@@ -88,7 +90,7 @@ export function saveBeatmap<
             `Beatmap version unmatched, expected ${ver} but received ${data.version}`,
          );
       }
-      logger.tWarn(
+      logger?.tWarn(
          tag('saveBeatmap'),
          'Beatmap version unmatched, expected',
          ver,
@@ -107,14 +109,14 @@ export function saveBeatmap<
 
    // TODO: validate beatmap properly
    // if (opt.validate.enabled) {
-   //    logger.tInfo(tag('saveBeatmap'), 'Validating beatmap');
+   //    logger?.tInfo(tag('saveBeatmap'), 'Validating beatmap');
    //    if (!data.isValid()) {
-   //       logger.tWarn(tag('saveBeatmap'), 'Invalid data detected in beatmap');
+   //       logger?.tWarn(tag('saveBeatmap'), 'Invalid data detected in beatmap');
    //    }
    // }
 
    if (opt.sort && 'sort' in attribute && typeof attribute.sort === 'function') {
-      logger.tInfo(tag('saveBeatmap'), 'Sorting beatmap objects');
+      logger?.tInfo(tag('saveBeatmap'), 'Sorting beatmap objects');
       attribute.sort();
    }
 
@@ -122,7 +124,7 @@ export function saveBeatmap<
       compatibilityCheck(type, attribute, ver, opt.validate?.compatibility);
    }
 
-   logger.tInfo(tag('saveBeatmap'), 'Serializing beatmap ' + type + ' as JSON');
+   logger?.tInfo(tag('saveBeatmap'), 'Serializing beatmap ' + type + ' as JSON');
 
    let serial = serializeBeatmap(type, ver, attribute);
    if (!serial) {
@@ -132,7 +134,7 @@ export function saveBeatmap<
    }
 
    if (opt.optimize.enabled) {
-      logger.tInfo(tag('saveBeatmap'), 'Optimizing beatmap JSON');
+      logger?.tInfo(tag('saveBeatmap'), 'Optimizing beatmap JSON');
       optimizeBeatmap(type, ver, serial, opt.optimize);
    }
 
@@ -145,7 +147,7 @@ export function saveBeatmap<
       ...MirrorFn<InferBeatmapSerial<TFileType, TVersion>>[],
    ];
    postprocesses.forEach((fn, i) => {
-      logger.tInfo(
+      logger?.tInfo(
          tag('saveBeatmap'),
          'Running postprocess function #' + (i + 1),
       );

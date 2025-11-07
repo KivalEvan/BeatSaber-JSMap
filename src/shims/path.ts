@@ -1,6 +1,4 @@
-// @ts-ignore: trick
 import pathMod from './_path.ts';
-import type pathType from 'node:path';
 import type { IShimsPath } from './types.ts';
 
 function noPathFunctionProvided(): never {
@@ -8,9 +6,6 @@ function noPathFunctionProvided(): never {
       '`path` function not provided; please supply `path` function inside the `path` object from the module',
    );
 }
-
-// @ts-ignore: trick
-const p = pathMod as typeof pathType | null;
 
 /**
  * Wrapper for use in `read`, `write` and `globals.directory`.
@@ -23,6 +18,16 @@ const p = pathMod as typeof pathType | null;
  * If you are creating a web app, you may ignore this.
  */
 export const path: IShimsPath = {
-   resolve: p?.resolve || noPathFunctionProvided,
-   basename: p?.basename || noPathFunctionProvided,
+   resolve: (...pathSegments: string[]): string => {
+      if (pathMod) {
+         return pathMod.resolve(...pathSegments);
+      }
+      return noPathFunctionProvided();
+   },
+   basename: (path: string, suffix?: string): string => {
+      if (pathMod) {
+         return pathMod.basename(path, suffix);
+      }
+      return noPathFunctionProvided();
+   },
 };

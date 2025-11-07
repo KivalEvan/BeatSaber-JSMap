@@ -1,4 +1,4 @@
-import type { EnvironmentAllName } from '../../schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../../schema/shared/types/environment.ts';
 import { EventLightValue, EventType } from '../../schema/shared/types/constants.ts';
 
 /** Check if event type is valid. */
@@ -15,7 +15,7 @@ export function isValidEventType(type: number): boolean {
 /** Check if event type is a light event. */
 export function isLightEventType(
    type: number,
-   _environment?: EnvironmentAllName,
+   _environment?: EnvironmentName,
 ): boolean {
    return (
       type === EventType.BACK_LASERS ||
@@ -36,14 +36,14 @@ export function isColorBoostEventType(type: number): boolean {
 /** Check if event type is a ring event. */
 export function isRingEventType(
    type: number,
-   _environment?: EnvironmentAllName,
+   _environment?: EnvironmentName,
 ): boolean {
    return type === EventType.RING_ROTATION || type === EventType.RING_ZOOM;
 }
 /** Check if event type is a laser rotation event. */
 export function isLaserRotationEventType(
    type: number,
-   _environment?: EnvironmentAllName,
+   _environment?: EnvironmentName,
 ): boolean {
    return (
       type === EventType.LEFT_LASER_ROTATION ||
@@ -60,7 +60,7 @@ export function isLaneRotationEventType(type: number): boolean {
 /** Check if event type is an extra event. */
 export function isExtraEventType(
    type: number,
-   _environment?: EnvironmentAllName,
+   _environment?: EnvironmentName,
 ): boolean {
    return (
       type === EventType.UTILITY_EVENT_0 ||
@@ -72,7 +72,7 @@ export function isExtraEventType(
 /** Check if event type is a special event. */
 export function isSpecialEventType(
    type: number,
-   _environment?: EnvironmentAllName,
+   _environment?: EnvironmentName,
 ): boolean {
    return (
       type === EventType.SPECIAL_EVENT_0 ||

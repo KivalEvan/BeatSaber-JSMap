@@ -1,9 +1,5 @@
-// @ts-ignore: trick
 import fsMod from './_fs.ts';
-// @ts-ignore: trick
 import fspMod from './_fsp.ts';
-import type fsType from 'node:fs';
-import type fspType from 'node:fs/promises';
 import type { IShimsFileSystem } from './types.ts';
 
 function noFsFunctionProvided(): never {
@@ -12,11 +8,10 @@ function noFsFunctionProvided(): never {
    );
 }
 
-// @ts-ignore: trick
-const _fs = fsMod as typeof fsType | null;
-
-// @ts-ignore: trick
-const _fsp = fspMod as typeof fspType | null;
+// deno-lint-ignore no-explicit-any
+declare let Deno: any;
+// deno-lint-ignore no-explicit-any
+declare let Bun: any;
 
 /**
  * Wrapper for use in `read` and `write`.
@@ -29,41 +24,46 @@ const _fsp = fspMod as typeof fspType | null;
  * If you are creating a web app, you may ignore this and use `load` and `save`.
  */
 export const fs: IShimsFileSystem = {
-   readTextFile: noFsFunctionProvided,
-   readTextFileSync: noFsFunctionProvided,
-   writeTextFile: noFsFunctionProvided,
-   writeTextFileSync: noFsFunctionProvided,
+   readTextFile: (path: string): Promise<string> => {
+      if (typeof Deno !== 'undefined') {
+         return Deno.readTextFile(path) ?? noFsFunctionProvided();
+      }
+      if (typeof Bun !== 'undefined') {
+         return Bun.file(path).text() ?? noFsFunctionProvided();
+      }
+      if (fspMod) {
+         return fspMod.readFile(path, 'utf8');
+      }
+      return noFsFunctionProvided();
+   },
+   readTextFileSync: (path: string): string => {
+      if (typeof Deno !== 'undefined') {
+         return Deno.readTextFileSync(path) ?? noFsFunctionProvided();
+      }
+      if (fsMod) {
+         return fsMod.readFileSync(path, 'utf8');
+      }
+      return noFsFunctionProvided();
+   },
+   writeTextFile: (path: string, data: string): Promise<void> => {
+      if (typeof Deno !== 'undefined') {
+         return Deno.writeTextFile(path, data) ?? noFsFunctionProvided();
+      }
+      if (typeof Bun !== 'undefined') {
+         Bun.write(path, data) ?? noFsFunctionProvided();
+      }
+      if (fspMod) {
+         return fspMod.writeFile(path, data, 'utf8');
+      }
+      return noFsFunctionProvided();
+   },
+   writeTextFileSync: (path: string, data: string): void => {
+      if (typeof Deno !== 'undefined') {
+         return Deno.writeTextFileSync(path, data) ?? noFsFunctionProvided();
+      }
+      if (fsMod) {
+         return fsMod.writeFileSync(path, data, 'utf8');
+      }
+      return noFsFunctionProvided();
+   },
 };
-
-// deno-lint-ignore no-explicit-any
-declare let Deno: any;
-// deno-lint-ignore no-explicit-any
-declare let Bun: any;
-if (typeof Deno !== 'undefined') {
-   fs.readTextFile = Deno.readTextFile || noFsFunctionProvided;
-   fs.readTextFileSync = Deno.readTextFileSync || noFsFunctionProvided;
-   fs.writeTextFile = Deno.writeTextFile || noFsFunctionProvided;
-   fs.writeTextFileSync = Deno.writeTextFileSync || noFsFunctionProvided;
-} else {
-   if (typeof Bun !== 'undefined') {
-      fs.readTextFile = (path: string): Promise<string> => {
-         return Bun.file(path).text();
-      };
-      fs.writeTextFile = Bun.write;
-   } else if (_fsp) {
-      fs.readTextFile = (path: string): Promise<string> => {
-         return _fsp.readFile(path, 'utf8');
-      };
-      fs.writeTextFile = (path: string, data: string): Promise<void> => {
-         return _fsp.writeFile(path, data, 'utf8');
-      };
-   }
-   if (_fs) {
-      fs.readTextFileSync = (path: string): string => {
-         return _fs?.readFileSync(path, 'utf8');
-      };
-      fs.writeTextFileSync = (path: string, data: string): void => {
-         return _fs?.writeFileSync(path, data, 'utf8');
-      };
-   }
-}

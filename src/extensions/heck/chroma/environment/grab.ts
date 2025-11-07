@@ -23,14 +23,16 @@ export class EnvironmentGrab extends EnvironmentGrabBase {
       }
    }
 
-   static Preset: Record<string, EnvironmentGrabEnd> = {
-      ENVIRONMENT: new EnvironmentGrab().child().name('Environment').end(),
-      CONSTRUCTION: new EnvironmentGrab('Environment')
-         .child()
-         .name('Construction')
-         .end(),
-      SMOKE: new EnvironmentGrab().child().name('BigSmokePS').end(),
-   } as const;
+   static get Preset(): Record<string, EnvironmentGrabEnd> {
+      return {
+         ENVIRONMENT: new EnvironmentGrab().child().name('Environment').end(),
+         CONSTRUCTION: new EnvironmentGrab('Environment')
+            .child()
+            .name('Construction')
+            .end(),
+         SMOKE: new EnvironmentGrab().child().name('BigSmokePS').end(),
+      } as const;
+   }
 
    static create(value?: string): EnvironmentGrab | EnvironmentGrabNamed {
       if (value) {

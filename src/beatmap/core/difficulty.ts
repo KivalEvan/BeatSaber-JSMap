@@ -27,7 +27,7 @@ import { createDifficulty } from '../schema/wrapper/difficulty.ts';
  * Core beatmap difficulty.
  */
 export class Difficulty extends BaseItem implements IWrapDifficulty {
-   static defaultValue: IWrapDifficulty = createDifficulty();
+   static defaultValue: IWrapDifficulty = /* @__PURE__ */ createDifficulty();
 
    bpmEvents: BPMEvent[];
    rotationEvents: RotationEvent[];

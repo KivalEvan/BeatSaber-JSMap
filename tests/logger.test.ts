@@ -1,46 +1,52 @@
-import { assertEquals, Logger, logger } from './deps.ts';
+import { assertEquals, Logger } from './deps.ts';
 
 Deno.test('Set log level via accessor', () => {
+   const logger = new Logger();
+
    logger.logLevel = 0;
-   assertEquals(logger.logLevel, 0);
+   assertEquals(logger?.logLevel, 0);
 
    logger.logLevel = 1;
-   assertEquals(logger.logLevel, 1);
+   assertEquals(logger?.logLevel, 1);
 
    logger.logLevel = 2;
-   assertEquals(logger.logLevel, 2);
+   assertEquals(logger?.logLevel, 2);
 
    logger.logLevel = 3;
-   assertEquals(logger.logLevel, 3);
+   assertEquals(logger?.logLevel, 3);
 
    logger.logLevel = 4;
-   assertEquals(logger.logLevel, 4);
+   assertEquals(logger?.logLevel, 4);
 
    logger.logLevel = 5;
-   assertEquals(logger.logLevel, 5);
+   assertEquals(logger?.logLevel, 5);
 });
 
 Deno.test('Set log level via method', () => {
+   const logger = new Logger();
+
    logger.setLevel(0);
-   assertEquals(logger.logLevel, 0);
+   assertEquals(logger?.logLevel, 0);
 
    logger.setLevel(1);
-   assertEquals(logger.logLevel, 1);
+   assertEquals(logger?.logLevel, 1);
 
    logger.setLevel(2);
-   assertEquals(logger.logLevel, 2);
+   assertEquals(logger?.logLevel, 2);
 
    logger.setLevel(3);
-   assertEquals(logger.logLevel, 3);
+   assertEquals(logger?.logLevel, 3);
 
    logger.setLevel(4);
-   assertEquals(logger.logLevel, 4);
+   assertEquals(logger?.logLevel, 4);
 
    logger.setLevel(5);
-   assertEquals(logger.logLevel, 5);
+   assertEquals(logger?.logLevel, 5);
 });
 
 Deno.test('Print log level', () => {
+   const logger = new Logger();
+
    logger.setLevel(5);
 
    logger.trace('Printing trace');
@@ -68,7 +74,7 @@ Deno.test('Custom logger', () => {
    cLogger.tError(['test', 'cLogger'], 'Printing error');
 
    cLogger.untagged = 'custom stuff';
-   assertEquals(cLogger.untagged, 'custom stuff');
+   assertEquals(cLogger?.untagged, 'custom stuff');
    cLogger.tagPrint = (tags: string[]) => `| ${tags.join(' > ')} |`;
 
    cLogger.trace('Printing trace');

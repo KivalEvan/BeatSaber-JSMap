@@ -7,7 +7,7 @@ import { createChainLink } from '../schema/wrapper/chainLink.ts';
  * Core beatmap chain link.
  */
 export class ChainLink extends BaseNote implements IWrapChainLink {
-   static defaultValue: IWrapChainLink = createChainLink();
+   static defaultValue: IWrapChainLink = /* @__PURE__ */ createChainLink();
 
    static createOne(data: Partial<IWrapChainLink> = {}): ChainLink {
       return new this(data);

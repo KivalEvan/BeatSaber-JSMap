@@ -1,5 +1,4 @@
-import { logger } from '../../../logger.ts';
-import type { Environment360Name, EnvironmentName } from '../../schema/shared/types/environment.ts';
+import { getLogger } from '../../../logger.ts';
 import type { IWrapInfo } from '../../schema/wrapper/types/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 
@@ -19,7 +18,9 @@ export function toV2Info<T extends IWrapInfo>(
    data: T,
    fromVersion = data.version,
 ): T {
-   logger.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
+   const logger = getLogger();
+
+   logger?.tWarn(tag('main'), 'Converting to beatmap v2 may lose certain data!');
 
    switch (fromVersion) {
       case 1:
@@ -27,17 +28,15 @@ export function toV2Info<T extends IWrapInfo>(
       case 3:
       case 4:
          data.environmentBase.normal = data.environmentBase.normal ||
-            (data.environmentNames.find(
-               (e) => !is360Environment(e),
-            ) as EnvironmentName) ||
+            (data.environmentNames.find((e) => !is360Environment(e))) ||
             'DefaultEnvironment';
          data.environmentBase.allDirections = data.environmentBase.allDirections ||
-            (data.environmentNames.find((e) => is360Environment(e)) as Environment360Name) ||
-            'DefaultEnvironment';
+            (data.environmentNames.find((e) => is360Environment(e))) ||
+            'GlassDesertEnvironment';
          data.version = 2;
          break;
       default:
-         logger.tWarn(
+         logger?.tWarn(
             tag('main'),
             'Unknown version: version not supported; misinput? Returning original data.',
          );

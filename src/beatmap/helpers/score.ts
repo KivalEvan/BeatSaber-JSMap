@@ -1,5 +1,6 @@
 import type { IWrapBeatmapSubset } from '../schema/wrapper/types/beatmap.ts';
 import { lerp, normalize } from '../../utils/math/helpers.ts';
+import type { Member } from '../../types/utils.ts';
 
 type IScoreBeatmapSubset = IWrapBeatmapSubset<
    'colorNotes' | 'arcs' | 'chains',
@@ -14,24 +15,34 @@ type IScoreBeatmapSubset = IWrapBeatmapSubset<
 >;
 
 /** Scoring type of note. */
-export const enum ScoreType {
-   NONE,
-   NORMAL,
-   ARC_HEAD,
-   ARC_TAIL,
-   CHAIN_HEAD,
-   CHAIN_ELEMENT,
-}
+export const ScoreType = {
+   NONE: 0,
+   NORMAL: 1,
+   ARC_HEAD: 2,
+   ARC_TAIL: 3,
+   CHAIN_HEAD: 4,
+   CHAIN_ELEMENT: 5,
+} as const;
 
-/** Score value given by each scoring type of note. */
-export const ScoreValue: { readonly [key in ScoreType]: number } = {
-   [ScoreType.NONE]: 0,
-   [ScoreType.NORMAL]: 115,
-   [ScoreType.ARC_HEAD]: 115,
-   [ScoreType.ARC_TAIL]: 115,
-   [ScoreType.CHAIN_HEAD]: 85,
-   [ScoreType.CHAIN_ELEMENT]: 20,
-};
+/**
+ * Score value given by each scoring type of note.
+ * ```ts
+ * 0 (NONE) -> 0
+ * 1 (NORMAL) -> 115
+ * 2 (ARC_HEAD) -> 115
+ * 3 (ARC_TAIL) -> 115
+ * 4 (CHAIN_HEAD) -> 85
+ * 5 (CHAIN_TAIL) -> 20
+ * ```
+ */
+export const ScoreValue: { readonly [key in Member<typeof ScoreType>]: number } = {
+   [0]: 0,
+   [1]: 115,
+   [2]: 115,
+   [3]: 115,
+   [4]: 85,
+   [5]: 20,
+} as const;
 
 /** Calculate max score from beatmap. */
 export function calculateScore<T extends IScoreBeatmapSubset>(

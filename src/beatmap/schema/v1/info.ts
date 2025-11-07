@@ -1,5 +1,4 @@
 // deno-lint-ignore-file no-explicit-any
-import type { EnvironmentName } from '../shared/types/environment.ts';
 import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IInfo } from './types/info.ts';
 import type { IWrapInfo } from '../wrapper/types/info.ts';
@@ -40,9 +39,7 @@ export const info: ISchemaContainer<
          previewDuration: data.audio.previewDuration,
          coverImagePath: data.coverImageFilename,
          environmentName: data.environmentBase.normal ||
-            (data.environmentNames.find(
-               (e) => !is360Environment(e),
-            ) as EnvironmentName) ||
+            (data.environmentNames.find((e) => !is360Environment(e))) ||
             'DefaultEnvironment',
          difficultyLevels: data.difficulties.map((x) => {
             return infoBeatmap.serialize(x);

@@ -2,7 +2,8 @@
 import type { EasingFunction, Easings } from '../../types/easings.ts';
 
 const PI = Math.PI;
-const HALFPI = Math.PI / 2;
+// hack: use an approximation for static analysis
+const HALFPI = 1.5707963267948966;
 
 const easeOutBounce = (x: number) => {
    if (x < 4 / 11.0) return (121 * x * x) / 16.0;

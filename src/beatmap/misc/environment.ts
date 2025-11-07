@@ -1,8 +1,8 @@
-import type { EnvironmentAllName } from '../schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../schema/shared/types/environment.ts';
 
 /** Environment rename to human readable. */
 export const EnvironmentRename: {
-   readonly [key in EnvironmentAllName]: string;
+   readonly [key in EnvironmentName]: string;
 } = {
    DefaultEnvironment: 'The First',
    OriginsEnvironment: 'Origins',
@@ -52,7 +52,7 @@ export const EnvironmentRename: {
 
 /** List of available event type in environment. */
 export const EventList: {
-   [key in EnvironmentAllName]: readonly [readonly number[], readonly number[]];
+   [key in EnvironmentName]: readonly [readonly number[], readonly number[]];
 } = {
    DefaultEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],
    OriginsEnvironment: [[0, 1, 2, 3, 4, 8, 9, 12, 13], []],

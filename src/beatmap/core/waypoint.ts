@@ -10,7 +10,7 @@ import { createWaypoint } from '../schema/wrapper/waypoint.ts';
  * Core beatmap waypoint.
  */
 export class Waypoint extends GridObject implements IWrapWaypoint {
-   static defaultValue: IWrapWaypoint = createWaypoint();
+   static defaultValue: IWrapWaypoint = /* @__PURE__ */ createWaypoint();
 
    static createOne(data: Partial<IWrapWaypoint> = {}): Waypoint {
       return new this(data);

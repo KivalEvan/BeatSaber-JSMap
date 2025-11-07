@@ -21,4 +21,4 @@
 
 export * from './customDataUpdate.ts';
 export * from './removeOutsidePlayable.ts';
-export * as dataCorrection from './dataCorrection/mod.ts';
+export * from './dataCorrection/mod.ts';

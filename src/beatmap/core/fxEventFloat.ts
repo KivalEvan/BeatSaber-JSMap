@@ -7,7 +7,7 @@ import { createFxEventFloat } from '../schema/wrapper/fxEventFloat.ts';
  * Core beatmap FX event float.
  */
 export class FxEventFloat extends BaseObject implements IWrapFxEventFloat {
-   static defaultValue: IWrapFxEventFloat = createFxEventFloat();
+   static defaultValue: IWrapFxEventFloat = /* @__PURE__ */ createFxEventFloat();
 
    static createOne(data: Partial<IWrapFxEventFloat> = {}): FxEventFloat {
       return new this(data);

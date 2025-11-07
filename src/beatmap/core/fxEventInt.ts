@@ -7,7 +7,7 @@ import { createFxEventInt } from '../schema/wrapper/fxEventInt.ts';
  * Core beatmap FX event int.
  */
 export class FxEventInt extends BaseObject implements IWrapFxEventInt {
-   static defaultValue: IWrapFxEventInt = createFxEventInt();
+   static defaultValue: IWrapFxEventInt = /* @__PURE__ */ createFxEventInt();
 
    static createOne(data: Partial<IWrapFxEventInt> = {}): FxEventInt {
       return new this(data);

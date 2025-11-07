@@ -1,5 +1,5 @@
 import type { StandardSchemaV1 } from '@standard-schema/spec';
-import { logger } from '../../logger.ts';
+import { getLogger } from '../../logger.ts';
 import type { ISchemaCheckOptions } from '../mapping/types/schema.ts';
 import type { ISchemaDeclaration } from '../schema/shared/types/schema.ts';
 import type { Version } from '../schema/shared/types/version.ts';
@@ -21,6 +21,8 @@ function handleError(
    options: Partial<ErrorOptions>,
    errors: StandardSchemaV1.Issue[],
 ): void {
+   const logger = getLogger();
+
    const path = issue.path
       ?.map((segment) => {
          if (typeof segment === 'object' && 'key' in segment) {
@@ -37,7 +39,7 @@ function handleError(
    if (options.doThrow) {
       throw new Error(`${issue.message}${path ? ` at "${path}"` : ''}`);
    } else {
-      logger.tWarn(
+      logger?.tWarn(
          tag(options.vendor),
          `${issue.message}${path ? ` at "${path}"` : ''}`,
       );
@@ -66,6 +68,8 @@ export function schemaCheck<
    throwOn: Partial<ISchemaCheckOptions['throwOn']> = {},
    _errors: StandardSchemaV1.Issue[] = [],
 ): StandardSchemaV1.Issue[] {
+   const logger = getLogger();
+
    if (isStandardSchema(schema)) {
       let buffer: StandardSchemaV1.Issue[] = [];
       const result = schema['~standard'].validate(data);
@@ -83,7 +87,7 @@ export function schemaCheck<
             );
          }
          if (result.issues.length > buffer.length) {
-            logger.tWarn(
+            logger?.tWarn(
                tag(schema['~standard'].vendor),
                'Max issue buffer has been reached.',
             );

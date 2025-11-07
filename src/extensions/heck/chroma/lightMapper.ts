@@ -4,7 +4,7 @@ import {
    isWhiteEventValue,
 } from '../../../beatmap/helpers/core/basicEvent.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../../../beatmap/misc/colorScheme.ts';
-import type { EnvironmentAllName } from '../../../beatmap/schema/shared/types/environment.ts';
+import type { EnvironmentName } from '../../../beatmap/schema/shared/types/environment.ts';
 import type {
    IChromaEventRing,
    IChromaEventZoom,
@@ -36,12 +36,12 @@ import type {
  */
 export class LightMapper {
    lightIDMapping: Record<number, number[]>;
-   readonly environment: EnvironmentAllName;
+   readonly environment: EnvironmentName;
    private queue: EventBoxType[] = [];
    private events: IWrapBasicEvent[] = [];
    private boosts: IWrapColorBoostEvent[] = [];
 
-   constructor(environment: EnvironmentAllName) {
+   constructor(environment: EnvironmentName) {
       this.lightIDMapping = deepCopy(LightIDList[environment], true);
       this.environment = environment;
    }
