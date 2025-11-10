@@ -15,4 +15,3 @@ export {
 export * from '../src/mod.ts';
 export * from '../src/utils/mod.ts';
 export * from '../src/patch/mod.ts';
-export * from '../src/extensions/mod.ts';
