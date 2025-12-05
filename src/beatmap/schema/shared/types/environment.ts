@@ -44,6 +44,7 @@ export const EnvironmentName = [
    'BritneyEnvironment',
    'Monstercat2Environment',
    'MetallicaEnvironment',
+   'GridEnvironment',
    'GlassDesertEnvironment',
    'MultiplayerEnvironment',
 ] as const;
@@ -95,7 +96,8 @@ export type EnvironmentV3Name =
    | 'ColliderEnvironment'
    | 'BritneyEnvironment'
    | 'Monstercat2Environment'
-   | 'MetallicaEnvironment';
+   | 'MetallicaEnvironment'
+   | 'GridEnvironment';
 
 /** List of available 360 environment in base game. */
 export type Environment360Name = 'GlassDesertEnvironment' | 'MultiplayerEnvironment';

@@ -26,5 +26,5 @@ export * from './read/mod.ts';
 export * from './write/mod.ts';
 export * from './types/mod.ts';
 export * from './utils/mod.ts';
-export { Logger, setupLogger } from './logger.ts';
+export { getLogger, Logger, setupLogger } from './logger.ts';
 export { globals } from './globals.ts';

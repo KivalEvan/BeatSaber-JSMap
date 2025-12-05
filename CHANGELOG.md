@@ -1,17 +1,24 @@
 # Changelog
 
-## 2.3.0 [2025-09-xx]
+## 2.3.0 [2025-12-xx]
+
+This version introduce setup to improve compatibility and bundle size reduction. If you have made
+use of `logger`, you must now include `setupLogger(new Logger())` on entrypoint or not at all if you
+prefer no log and use `getLogger()` to use current logger. You may also use third-party or build-in
+logging provided you wrap around Logger.
 
 File restructured to be more streamlined and coupled to existing context. Most `types` has been
 moved to their respective location. For end-user, if you have made use of `types` you may only
 require to do minimal change.
 
 ```diff
++ Added Grid environment and color scheme
 + Added chain link wrapper
 + Added bezier helpers
 + Added couple of vector helpers
+* Significant internal change to improve tree-shaking (#9)
 * Increased default rounding from 4 to 8
-* File restructuring
+* File and type restructured (#9)
 * Simplified change log
 - Removed unnecessary vector helpers
 ```

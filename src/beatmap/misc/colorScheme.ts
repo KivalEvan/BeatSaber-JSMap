@@ -50,6 +50,7 @@ export const EnvironmentSchemeName: {
    Monstercat2Environment: 'Monstercat 2.0',
    GlassDesertEnvironment: 'Glass Desert',
    MetallicaEnvironment: 'Metallica',
+   GridEnvironment: 'Grid',
    MultiplayerEnvironment: 'Origins',
 } as const;
 
@@ -423,6 +424,17 @@ export const ColorScheme: {
       _envColorRightBoost: { r: 0, g: 0.7490196, b: 0.6313726 },
       _envColorWhiteBoost: { r: 0.5137255, g: 0.6078314, b: 0.6784314 },
       _obstacleColor: { r: 0.8392157, g: 0.09803922, b: 0 },
+   },
+   Grid: {
+      _colorLeft: { r: 0.7490196, g: 0.5607843, b: 0.2705882 },
+      _colorRight: { r: 0.4862745, g: 0.2392157, b: 0.7843138 },
+      _envColorLeft: { r: 0.8980393, g: 0.6313726, b: 0.1647059 },
+      _envColorRight: { r: 0.6313726, g: 0.282353, b: 0.854902 },
+      _envColorWhite: { r: 0.7254902, g: 0.7254902, b: 0.7254902 },
+      _envColorLeftBoost: { r: 0.8745099, g: 0, b: 0.003921569 },
+      _envColorRightBoost: { r: 0.4431373, g: 0.4627451, b: 0.9921569 },
+      _envColorWhiteBoost: { r: 0.7254902, g: 0.7254902, b: 0.7254902 },
+      _obstacleColor: { r: 0.7215686, g: 0.5058824, b: 0.9725491 },
    },
 } as const;
 

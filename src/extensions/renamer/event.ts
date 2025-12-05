@@ -307,6 +307,10 @@ export const environmentTypeMap: {
       8: 'Player Place',
       13: 'Pillar Switch',
    },
+   GridEnvironment: {
+      4: 'Player Place',
+      6: 'Ambient',
+   },
 };
 
 /**

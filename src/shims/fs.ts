@@ -4,7 +4,7 @@ import type { IShimsFileSystem } from './types.ts';
 
 function noFsFunctionProvided(): never {
    throw new Error(
-      '`fs` function not provided; please supply `fs` function inside the `fs` object from the module'
+      '`fs` function not provided; please supply `fs` function inside the `fs` object from the module',
    );
 }
 
@@ -47,9 +47,7 @@ export const fs: IShimsFileSystem = {
    },
    writeTextFile: (path: string, data: string): Promise<void> => {
       if (typeof Deno !== 'undefined') {
-         return Deno.writeTextFile
-            ? Deno.writeTextFile(path, data)
-            : noFsFunctionProvided();
+         return Deno.writeTextFile ? Deno.writeTextFile(path, data) : noFsFunctionProvided();
       }
       if (typeof Bun !== 'undefined') {
          Bun.write(path, data) ?? noFsFunctionProvided();
