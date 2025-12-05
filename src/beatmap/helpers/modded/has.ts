@@ -273,6 +273,24 @@ export function hasMappingExtensionsObstacleV3<
 }
 
 /**
+ * Checks if obstacle has Mapping Extensions in beatmap v4.
+ */
+export function hasMappingExtensionsObstacleV4<
+   T extends Pick<IWrapObstacle, 'posX' | 'posY' | 'width' | 'height'>,
+>(data: T): boolean {
+   return (
+      data.posY < 0 ||
+      data.posY > 4 ||
+      data.posX <= -1000 ||
+      data.posX >= 1000 ||
+      data.width <= -1000 ||
+      data.width >= 1000 ||
+      data.height <= -1000 ||
+      data.height >= 1000
+   );
+}
+
+/**
  * Checks if arc has Mapping Extensions in beatmap v3.
  */
 export function hasMappingExtensionsArc<

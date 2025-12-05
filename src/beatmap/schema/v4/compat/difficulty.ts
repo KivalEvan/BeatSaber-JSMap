@@ -6,7 +6,7 @@ import {
    hasMappingExtensionsBombNote,
    hasMappingExtensionsChain,
    hasMappingExtensionsNote,
-   hasMappingExtensionsObstacleV3,
+   hasMappingExtensionsObstacleV4,
 } from '../../../helpers/modded/has.ts';
 import { tag } from './_common.ts';
 
@@ -23,7 +23,7 @@ export function compatDifficulty<T extends IWrapBeatmap>(
       bm.difficulty.bombNotes.some(hasMappingExtensionsBombNote) ||
       bm.difficulty.arcs.some(hasMappingExtensionsArc) ||
       bm.difficulty.chains.some(hasMappingExtensionsChain) ||
-      bm.difficulty.obstacles.some(hasMappingExtensionsObstacleV3);
+      bm.difficulty.obstacles.some(hasMappingExtensionsObstacleV4);
 
    if (hasME) {
       if (options.throwOn.mappingExtensions) {
