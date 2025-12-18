@@ -20,7 +20,7 @@ import type { IObstacleCount } from './types/stats.ts';
  */
 export function countObstacle<T extends IWrapObstacle>(
    obstacles: T[],
-   version = 2
+   version = 2,
 ): IObstacleCount {
    const obstacleCount: IObstacleCount = {
       total: 0,
@@ -30,16 +30,12 @@ export function countObstacle<T extends IWrapObstacle>(
       mappingExtensions: 0,
    };
    const hasChroma = version >= 3 ? hasChromaObstacleV3 : hasChromaObstacleV2;
-   const hasNoodle =
-      version >= 3
-         ? hasNoodleExtensionsObstacleV3
-         : hasNoodleExtensionsObstacleV2;
-   const hasME =
-      version >= 4
-         ? hasMappingExtensionsObstacleV4
-         : version === 3
-         ? hasMappingExtensionsObstacleV3
-         : hasMappingExtensionsObstacleV2;
+   const hasNoodle = version >= 3 ? hasNoodleExtensionsObstacleV3 : hasNoodleExtensionsObstacleV2;
+   const hasME = version >= 4
+      ? hasMappingExtensionsObstacleV4
+      : version === 3
+      ? hasMappingExtensionsObstacleV3
+      : hasMappingExtensionsObstacleV2;
 
    for (let i = obstacles.length - 1; i > -1; i--) {
       obstacleCount.total++;

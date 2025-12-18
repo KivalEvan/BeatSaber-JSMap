@@ -311,6 +311,10 @@ export const environmentTypeMap: {
       4: 'Player Place',
       6: 'Ambient',
    },
+   ColdplayEnvironment: {
+      6: 'Ambient',
+      8: 'Player Place',
+   },
 };
 
 /**

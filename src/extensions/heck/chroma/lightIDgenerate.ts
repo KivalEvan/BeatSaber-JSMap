@@ -1,9 +1,9 @@
 // very readable code :+1:
 
-import type { EnvironmentAllName } from '../shared/types/environment.ts';
+import type { EnvironmentName } from '../../../beatmap/schema/shared/types/environment.ts';
 
 export const LightIDList: {
-   readonly [key in EnvironmentAllName]: {
+   readonly [key in EnvironmentName]: {
       readonly [key: number]: readonly number[];
    };
 } = {
@@ -173,6 +173,8 @@ export const LightIDList: {
    BritneyEnvironment: {},
    Monstercat2Environment: {},
    MetallicaEnvironment: {},
+   GridEnvironment: {},
+   ColdplayEnvironment: {},
    GlassDesertEnvironment: {
       0: Array.from(Array(6), (_, i) => i + 1),
       1: Array.from(Array(8), (_, i) => i + 1),

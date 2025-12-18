@@ -51,6 +51,7 @@ export const EnvironmentSchemeName: {
    GlassDesertEnvironment: 'Glass Desert',
    MetallicaEnvironment: 'Metallica',
    GridEnvironment: 'Grid',
+   ColdplayEnvironment: 'Coldplay',
    MultiplayerEnvironment: 'Origins',
 } as const;
 
@@ -430,11 +431,18 @@ export const ColorScheme: {
       _colorRight: { r: 0.4862745, g: 0.2392157, b: 0.7843138 },
       _envColorLeft: { r: 0.8980393, g: 0.6313726, b: 0.1647059 },
       _envColorRight: { r: 0.6313726, g: 0.282353, b: 0.854902 },
-      _envColorWhite: { r: 0.7254902, g: 0.7254902, b: 0.7254902 },
       _envColorLeftBoost: { r: 0.8745099, g: 0, b: 0.003921569 },
       _envColorRightBoost: { r: 0.4431373, g: 0.4627451, b: 0.9921569 },
-      _envColorWhiteBoost: { r: 0.7254902, g: 0.7254902, b: 0.7254902 },
       _obstacleColor: { r: 0.7215686, g: 0.5058824, b: 0.9725491 },
+   },
+   Coldplay: {
+      _colorLeft: { r: 0.7921569, g: 0.2156863, b: 0.4588235 },
+      _colorRight: { r: 0.5686275, g: 0.5921569, b: 0.9529412 },
+      _obstacleColor: { r: 0.764706, g: 0.0509804, b: 1 },
+      _envColorLeft: { r: 0.2509804, g: 0.08627451, b: 0.7098039 },
+      _envColorRight: { r: 0.4235294, g: 0.6745098, b: 1 },
+      _envColorLeftBoost: { r: 0.7372549, g: 0.5882353, b: 0 },
+      _envColorRightBoost: { r: 0.3098039, g: 0.7803922, b: 0.6509804 },
    },
 } as const;
 

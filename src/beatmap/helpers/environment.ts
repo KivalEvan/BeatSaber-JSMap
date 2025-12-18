@@ -55,7 +55,8 @@ export function isV3Environment(
       environment === 'LatticeEnvironment' ||
       environment === 'DaftPunkEnvironment' ||
       environment === 'HipHopEnvironment' ||
-      environment === 'ColliderEnvironment'
+      environment === 'ColliderEnvironment' ||
+      environment === 'ColdplayEnvironment'
    );
 }
 /** Check if environment is 360 environment. */
