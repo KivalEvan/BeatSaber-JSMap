@@ -33,7 +33,13 @@ import {
    isV2Environment,
    isV3Environment,
 } from '../../../helpers/environment.ts';
-import { EnvironmentName } from '../types/environment.ts';
+import {
+   type Environment360Name,
+   EnvironmentName,
+   type EnvironmentV2Name,
+   type EnvironmentV3Name,
+} from '../types/environment.ts';
+import { mask } from '../../helpers.ts';
 
 /** Schema declaration for semantic version. */
 export function VersionSchema(): v.SchemaWithPipe<
@@ -84,24 +90,18 @@ export function EnvironmentNameSchema(): v.PicklistSchema<
 }
 
 /** Schema declaration for {@linkcode EnvironmentV2Name} */
-export function EnvironmentV2NameSchema(): v.SchemaWithPipe<
-   readonly [ReturnType<typeof EnvironmentNameSchema>, v.CheckAction<EnvironmentName, undefined>]
-> {
-   return v.pipe(EnvironmentNameSchema(), v.check(isV2Environment));
+export function EnvironmentV2NameSchema(): v.GenericSchema<EnvironmentV2Name> {
+   return mask<EnvironmentV2Name>(v.pipe(EnvironmentNameSchema(), v.check(isV2Environment)));
 }
 
 /** Schema declaration for {@linkcode EnvironmentV3Name} */
-export function EnvironmentV3NameSchema(): v.SchemaWithPipe<
-   readonly [ReturnType<typeof EnvironmentNameSchema>, v.CheckAction<EnvironmentName, undefined>]
-> {
-   return v.pipe(EnvironmentNameSchema(), v.check(isV3Environment));
+export function EnvironmentV3NameSchema(): v.GenericSchema<EnvironmentV3Name> {
+   return mask<EnvironmentV3Name>(v.pipe(EnvironmentNameSchema(), v.check(isV3Environment)));
 }
 
 /** Schema declaration for {@linkcode Environment360Name} */
-export function Environment360NameSchema(): v.SchemaWithPipe<
-   readonly [ReturnType<typeof EnvironmentNameSchema>, v.CheckAction<EnvironmentName, undefined>]
-> {
-   return v.pipe(EnvironmentNameSchema(), v.check(is360Environment));
+export function Environment360NameSchema(): v.GenericSchema<Environment360Name> {
+   return mask<Environment360Name>(v.pipe(EnvironmentNameSchema(), v.check(is360Environment)));
 }
 
 /** Schema declaration for {@linkcode PosX} */
