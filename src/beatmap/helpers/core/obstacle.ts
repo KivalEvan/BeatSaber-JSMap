@@ -25,3 +25,22 @@ export function isNegativeValueObstacle<
 >(object: T): boolean {
    return object.posY < 0 || object.duration < 0 || object.width < 0 || object.height < 0;
 }
+
+/** Check if obstacle is full-height. */
+export function isFullHeightObstacle<
+   T extends Pick<IWrapObstacle, 'posY' | 'height'>,
+>(object: T): boolean {
+   return object.posY === 0 && object.height === 5;
+}
+/** Check if obstacle is crouch-height. */
+export function isCrouchHeightObstacle<
+   T extends Pick<IWrapObstacle, 'posY' | 'height'>,
+>(object: T): boolean {
+   return object.posY === 2 && object.height === 3;
+}
+/** Check if obstacle is bounded (within the constraints of free obstacle placement). */
+export function isBoundedObstacle<
+   T extends Pick<IWrapObstacle, 'posY' | 'height'>,
+>(object: T) {
+   return object.posY >= 0 && object.posY <= 5 && object.height >= 1 && object.height <= 5;
+}

@@ -6,6 +6,14 @@ import type { IWrapGridObject } from './gridObject.ts';
  */
 export interface IWrapObstacle extends IWrapGridObject {
    /**
+    * Position Y of obstacle.
+    *
+    * **RANGE:** `0-4`
+    *
+    * **Type:** `i32`
+    */
+   posY: number;
+   /**
     * Duration of obstacle.
     *
     * **Type:** `f32`
@@ -14,7 +22,7 @@ export interface IWrapObstacle extends IWrapGridObject {
    /**
     * Width of obstacle.
     *
-    * **Type:** `f32`
+    * **Type:** `i32`
     */
    width: number;
    /**
