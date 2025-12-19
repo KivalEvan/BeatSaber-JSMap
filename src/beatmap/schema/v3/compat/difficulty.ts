@@ -35,4 +35,17 @@ export function compatDifficulty<T extends IWrapBeatmap>(
          );
       }
    }
+
+   const hasIncompat = !!bm.difficulty.njsEvents.length;
+
+   if (hasIncompat && !hasME) {
+      if (options.throwOn.incompatibleObject) {
+         throw new Error('Beatmap is not compatible with v3');
+      } else {
+         logger?.tWarn(
+            tag('compatDifficulty'),
+            'Beatmap is not compatible with v3, certain data may be lost!',
+         );
+      }
+   }
 }

@@ -18,23 +18,6 @@ export function compatDifficulty<T extends IWrapBeatmap>(
 ) {
    const logger = getLogger();
 
-   const hasIncompat = !!bm.difficulty.arcs.length ||
-      !!bm.lightshow.lightColorEventBoxGroups.length ||
-      !!bm.lightshow.lightRotationEventBoxGroups.length ||
-      !!bm.lightshow.lightTranslationEventBoxGroups.length ||
-      !!bm.lightshow.fxEventBoxGroups.length;
-
-   if (hasIncompat) {
-      if (options.throwOn.incompatibleObject) {
-         throw new Error('Beatmap is not compatible with v2');
-      } else {
-         logger?.tWarn(
-            tag('compatDifficulty'),
-            'Beatmap is not compatible with v2, certain data may be lost!',
-         );
-      }
-   }
-
    const hasME = bm.difficulty.colorNotes.some(hasMappingExtensionsNote) ||
       bm.difficulty.bombNotes.some(hasMappingExtensionsBombNote) ||
       bm.difficulty.obstacles.some(hasMappingExtensionsObstacleV2) ||
@@ -47,6 +30,24 @@ export function compatDifficulty<T extends IWrapBeatmap>(
          logger?.tWarn(
             tag('compatDifficulty'),
             'Beatmap contain Mapping Extensions value and require Mapping Extensions mod to function!',
+         );
+      }
+   }
+
+   const hasIncompat = !!bm.difficulty.chains.length ||
+      !!bm.difficulty.njsEvents.length ||
+      !!bm.lightshow.lightColorEventBoxGroups.length ||
+      !!bm.lightshow.lightRotationEventBoxGroups.length ||
+      !!bm.lightshow.lightTranslationEventBoxGroups.length ||
+      !!bm.lightshow.fxEventBoxGroups.length;
+
+   if (hasIncompat && !hasME) {
+      if (options.throwOn.incompatibleObject) {
+         throw new Error('Beatmap is not compatible with v2');
+      } else {
+         logger?.tWarn(
+            tag('compatDifficulty'),
+            'Beatmap is not compatible with v2, certain data may be lost!',
          );
       }
    }
