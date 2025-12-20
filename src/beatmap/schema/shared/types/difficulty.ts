@@ -7,7 +7,6 @@ export const DifficultyName = [
    'Hard',
    'Expert',
    'ExpertPlus',
-   'Expert+',
 ] as const;
 export type DifficultyName = Member<typeof DifficultyName>;
 

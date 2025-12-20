@@ -1,9 +1,6 @@
 import type { CharacteristicName } from './characteristic.ts';
 import type { DifficultyName } from './difficulty.ts';
 
-// excluded here is official editor way of saving things, otherwise may be saved by 3rd party editor
-type DifficultyNameExclude = Exclude<DifficultyName, 'Expert+'>;
-
 /**
  * Generic filename for info.
  */
@@ -23,27 +20,21 @@ export type GenericAudioDataFilename =
  * Generic filename for beatmap.
  */
 export type GenericBeatmapFilename =
-   | `${DifficultyNameExclude}${CharacteristicName}.dat`
-   | `${Exclude<CharacteristicName, 'Lightshow' | 'Lawless'>}${DifficultyNameExclude}.dat`
-   | `${DifficultyNameExclude}.dat`
-   | `${Exclude<
-      CharacteristicName,
-      'Lightshow' | 'Lawless'
-   >}${DifficultyNameExclude}.beatmap.dat`
-   | `${DifficultyNameExclude}.beatmap'.dat`
+   | `${DifficultyName}${CharacteristicName}.dat`
+   | `${Exclude<CharacteristicName, 'Lightshow' | 'Lawless'>}${DifficultyName}.dat`
+   | `${DifficultyName}.dat`
+   | `${Exclude<CharacteristicName, 'Lightshow' | 'Lawless'>}${DifficultyName}.beatmap.dat`
+   | `${DifficultyName}.beatmap'.dat`
    | 'Lightshow.dat';
 
 /**
  * Generic filename for lightshow.
  */
 export type GenericLightshowFilename =
-   | `${DifficultyNameExclude}${CharacteristicName}.dat`
-   | `${Exclude<CharacteristicName, 'Lightshow' | 'Lawless'>}${DifficultyNameExclude}.dat`
-   | `${DifficultyNameExclude}.dat`
-   | `${Exclude<
-      CharacteristicName,
-      'Lightshow' | 'Lawless'
-   >}${DifficultyNameExclude}.lightshow.dat`
-   | `${DifficultyNameExclude}.lightshow.dat`
+   | `${DifficultyName}${CharacteristicName}.dat`
+   | `${Exclude<CharacteristicName, 'Lightshow' | 'Lawless'>}${DifficultyName}.dat`
+   | `${DifficultyName}.dat`
+   | `${Exclude<CharacteristicName, 'Lightshow' | 'Lawless'>}${DifficultyName}.lightshow.dat`
+   | `${DifficultyName}.lightshow.dat`
    | 'Common.lightshow.dat'
    | 'Lightshow.dat';
