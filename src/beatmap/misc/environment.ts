@@ -48,6 +48,7 @@ export const EnvironmentRename: {
    BritneyEnvironment: 'Britney Spears',
    Monstercat2Environment: 'Monstercat 2.0',
    MetallicaEnvironment: 'Metallica',
+   Halloween2Environment: 'Spoooky',
    ColdplayEnvironment: 'Coldplay',
    GridEnvironment: 'Grid',
 } as const;
@@ -566,6 +567,7 @@ export const EventList: {
          44,
       ],
    ],
+   Halloween2Environment: [[], []],
    GridEnvironment: [
       [4, 6],
       [

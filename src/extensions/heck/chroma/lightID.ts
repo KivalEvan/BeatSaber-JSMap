@@ -1177,6 +1177,7 @@ export const LightIDList: {
    BritneyEnvironment: {},
    Monstercat2Environment: {},
    MetallicaEnvironment: {},
+   Halloween2Environment: {},
    GridEnvironment: {},
    ColdplayEnvironment: {},
    GlassDesertEnvironment: {

@@ -307,6 +307,15 @@ export const environmentTypeMap: {
       8: 'Player Place',
       13: 'Pillar Switch',
    },
+   Halloween2Environment: {
+      0: 'Sky Lasers',
+      1: 'Moon',
+      2: 'Left Lasers',
+      3: 'Right Lasers',
+      4: 'Lane + Castle Interior',
+      12: 'Left Laser Speed',
+      13: 'Right Laser Speed',
+   },
    GridEnvironment: {
       4: 'Player Place',
       6: 'Ambient',

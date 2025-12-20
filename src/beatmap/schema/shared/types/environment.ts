@@ -44,6 +44,7 @@ export const EnvironmentName = [
    'BritneyEnvironment',
    'Monstercat2Environment',
    'MetallicaEnvironment',
+   'Halloween2Environment',
    'GridEnvironment',
    'ColdplayEnvironment',
    'GlassDesertEnvironment',
@@ -75,7 +76,8 @@ export type EnvironmentV2Name =
    | 'SkrillexEnvironment'
    | 'BillieEnvironment'
    | 'HalloweenEnvironment'
-   | 'GagaEnvironment';
+   | 'GagaEnvironment'
+   | 'Halloween2Environment';
 
 /** List of available v3 environment in base game. */
 export type EnvironmentV3Name =

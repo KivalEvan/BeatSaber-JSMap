@@ -4,11 +4,11 @@ import type { IColor } from '../../../../../types/colors.ts';
 export interface IColorScheme {
    _colorLeft?: IColor;
    _colorRight?: IColor;
+   _obstacleColor?: IColor;
    _envColorLeft?: IColor;
    _envColorRight?: IColor;
    _envColorWhite?: IColor;
    _envColorLeftBoost?: IColor;
    _envColorRightBoost?: IColor;
    _envColorWhiteBoost?: IColor;
-   _obstacleColor?: IColor;
 }

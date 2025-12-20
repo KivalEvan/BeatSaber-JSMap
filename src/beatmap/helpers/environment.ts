@@ -32,7 +32,8 @@ export function isV2Environment(
       environment === 'SkrillexEnvironment' ||
       environment === 'BillieEnvironment' ||
       environment === 'HalloweenEnvironment' ||
-      environment === 'GagaEnvironment'
+      environment === 'GagaEnvironment' ||
+      environment === 'Halloween2Environment'
    );
 }
 /** Check if environment is v3 environment. */
@@ -56,6 +57,7 @@ export function isV3Environment(
       environment === 'DaftPunkEnvironment' ||
       environment === 'HipHopEnvironment' ||
       environment === 'ColliderEnvironment' ||
+      environment === 'GridEnvironment' ||
       environment === 'ColdplayEnvironment'
    );
 }

@@ -40,7 +40,8 @@ export const ColorSchemeName = [
    'Britney Spears',
    'Monstercat 2.0',
    'Metallica',
-   'Grid',
+   'Spoooky',
+   'Cube',
    'Coldplay',
 ] as const;
 export type ColorSchemeName = Member<typeof ColorSchemeName>;

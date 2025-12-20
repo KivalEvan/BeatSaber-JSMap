@@ -12,12 +12,13 @@ moved to their respective location. For end-user, if you have made use of `types
 require to do minimal change.
 
 ```diff
-+ Added Grid environment and color scheme
++ Added Spoooky, Cube, Coldplay environment and color scheme
 + Added chain link wrapper
 + Added bezier helpers
 + Added couple of vector helpers
 * Significant internal change to improve tree-shaking (#9)
 * Increased default rounding from 4 to 8
+* Updated color scheme
 * File and type restructured (#9)
 * Simplified change log
 - Removed unnecessary vector helpers
