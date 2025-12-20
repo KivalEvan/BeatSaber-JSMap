@@ -269,13 +269,16 @@ Contrary to popular belief, this is simply an output logging that can be control
 can show and hide logging based on level.
 
 ```ts
-bsmap.logger.setLevel(0); // completely hidden logging
+bsmap.setupLogger(new bsmap.Logger());
+const logger = getLogger();
+
+logger.setLevel(0); // completely hidden logging
 bsmap.readDifficultyFileSync('Test.dat');
 
-bsmap.logger.setLevel(5); // trace mode logging
+logger.setLevel(5); // trace mode logging
 bsmap.readDifficultyFileSync('Test.dat');
 
-bsmap.logger.setLevel(3); // default info logging
+logger.setLevel(3); // default info logging
 ```
 
 ### Classic Scripting

@@ -15,7 +15,7 @@ abstraction. It is optimised for speed with minimal compromise allowing for fast
 
 ## Features
 
-- **Latest Schema:** Supports all official schema including modded features.
+- **Latest Schema:** Supports all latest official schema including modded features.
   - Supported version: v4.1.0, v3.3.0, v2.6.0, v1.5.0.
 - **Version-agnostic Wrapper:** Readable and cross-version core allows for seamless version
   transferring.
@@ -186,6 +186,6 @@ addition/enhancement/fix or create an issue if you encounter error/problem or wa
 - [HSV conversion algorithm](https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c)
 - [CIE-L\*ab and Delta E2000 algorithm](https://www.easyrgb.com/)
 - Uninstaller and [Qwasyx](https://github.com/Qwasyx/) (improving it) for note swing detection
-  algorithm
+  algorithm [OfficialMECH](https://github.com/officialMECH) for improving and maintaining codebase
 - [Top_Cat](https://github.com/Top-Cat/) for math guidance
 - Others for helpful feedback & indirect contribution

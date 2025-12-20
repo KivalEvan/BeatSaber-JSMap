@@ -1,6 +1,6 @@
 # Beat Saber Beatmap Schema
 
-Current schema as of game version 1.40.3.
+Current schema as of game version 1.42.0.
 
 > [!NOTE]
 >
@@ -95,25 +95,25 @@ Legend:
 
 ### Difficulty
 
-|                                        | v4 (4.1.0)                   | v3 (3.3.0)       | v2 (2.6.0)                          | v1 (1.5.0)                          |
-| -------------------------------------- | ---------------------------- | ---------------- | ----------------------------------- | ----------------------------------- |
-| BPM Event                              | ❌ Uses v4 Audio Data        | ✅               | ⚠️ Part of basic event\*            | ❌                                  |
-| Color Note                             | ✅                           | ✅               | ⚠️ No angle offset                  | ⚠️ No angle offset                  |
-| Bomb Note                              | ⚠️ No direction              | ⚠️ No direction  | ✅                                  | ✅                                  |
-| Arc                                    | ✅                           | ✅               | ⚠️ Unused                           | ❌                                  |
-| Chain                                  | ✅                           | ✅               | ❌                                  | ❌                                  |
-| Obstacle                               | ✅                           | ✅               | ⚠️ No type                          | ⚠️ No type                          |
-| Rotation Event                         | ❌ Part of object lane       | ✅               | ⚠️ Fixed value; part of basic event | ⚠️ Fixed value; part of basic event |
-| Waypoint                               | ❌ All below in v4 Lightshow | ✅               | ✅                                  | ❌                                  |
-| NJS Event                              | ✅                           | ❌               | ❌                                  | ❌                                  |
-| Basic Event                            | ❌                           | ✅               | ✅                                  | ⚠️ No float value                   |
-| Color Boost Event                      | ❌                           | ✅               | ⚠️ Part of basic event              | ⚠️ Part of basic event              |
-| FX Event Box Group                     | ❌                           | ✅               | ❌                                  | ❌                                  |
-| Light Color Event Box Group            | ❌                           | ⚠️ No transition | ❌                                  | ❌                                  |
-| Light Rotation Event Box Group         | ❌                           | ✅               | ❌                                  | ❌                                  |
-| Light Translation Event Box Group      | ❌                           | ✅               | ❌                                  | ❌                                  |
-| Event Types for Keywords               | ❌                           | ✅               | ✅                                  | ❌                                  |
-| Use Normal Events as Compatible Events | ❌                           | ✅               | ❌                                  | ❌                                  |
+|                                        | v4 (4.1.0)                   | v3 (3.3.0)               | v2 (2.6.0)                          | v1 (1.5.0)                          |
+| -------------------------------------- | ---------------------------- | ------------------------ | ----------------------------------- | ----------------------------------- |
+| BPM Event                              | ❌ Uses v4 Audio Data        | ✅\*                     | ⚠️ Part of basic event\*            | ❌                                  |
+| Color Note                             | ✅                           | ✅                       | ⚠️ No angle offset                  | ⚠️ No angle offset                  |
+| Bomb Note                              | ⚠️ No direction              | ⚠️ No direction          | ✅                                  | ✅                                  |
+| Arc                                    | ✅                           | ✅                       | ⚠️ Unused                           | ❌                                  |
+| Chain                                  | ✅                           | ✅                       | ❌                                  | ❌                                  |
+| Obstacle                               | ✅                           | ⚠️ Vanilla only up to 2y | ⚠️ No type                          | ⚠️ No type                          |
+| Rotation Event                         | ❌ Part of object lane       | ✅                       | ⚠️ Fixed value; part of basic event | ⚠️ Fixed value; part of basic event |
+| NJS Event                              | ✅                           | ❌                       | ❌                                  | ❌                                  |
+| Waypoint                               | ❌ All below in v4 Lightshow | ✅                       | ✅                                  | ❌                                  |
+| Basic Event                            | ❌                           | ✅                       | ✅                                  | ⚠️ No float value                   |
+| Color Boost Event                      | ❌                           | ✅                       | ⚠️ Part of basic event              | ⚠️ Part of basic event              |
+| FX Event Box Group                     | ❌                           | ✅                       | ❌                                  | ❌                                  |
+| Light Color Event Box Group            | ❌                           | ⚠️ No transition         | ❌                                  | ❌                                  |
+| Light Rotation Event Box Group         | ❌                           | ✅                       | ❌                                  | ❌                                  |
+| Light Translation Event Box Group      | ❌                           | ✅                       | ❌                                  | ❌                                  |
+| Event Types for Keywords               | ❌                           | ✅                       | ✅                                  | ❌                                  |
+| Use Normal Events as Compatible Events | ❌                           | ✅                       | ❌                                  | ❌                                  |
 
 \* BPM events are not affected nor added by v4 Info/Audio Data
 
