@@ -2,9 +2,9 @@
 import { getLogger } from '../logger.ts';
 import type { GenericBeatmapFilename } from '../beatmap/schema/shared/types/filename.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../beatmap/schema/shared/types/infer.ts';
 import type { IReadOptions } from './types.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
@@ -20,7 +20,7 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
  */
 export function readDifficultyFile<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    path: LooseAutocomplete<GenericBeatmapFilename>,
@@ -29,7 +29,7 @@ export function readDifficultyFile<
 ): Promise<TWrapper>;
 export function readDifficultyFile<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    path: LooseAutocomplete<GenericBeatmapFilename>,
@@ -37,7 +37,7 @@ export function readDifficultyFile<
 ): Promise<TWrapper>;
 export function readDifficultyFile<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    path: LooseAutocomplete<GenericBeatmapFilename>,
@@ -65,7 +65,7 @@ export function readDifficultyFile<
  */
 export function readDifficultyFileSync<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    path: LooseAutocomplete<GenericBeatmapFilename>,
@@ -74,7 +74,7 @@ export function readDifficultyFileSync<
 ): TWrapper;
 export function readDifficultyFileSync<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    path: LooseAutocomplete<GenericBeatmapFilename>,
@@ -82,7 +82,7 @@ export function readDifficultyFileSync<
 ): TWrapper;
 export function readDifficultyFileSync<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    path: LooseAutocomplete<GenericBeatmapFilename>,

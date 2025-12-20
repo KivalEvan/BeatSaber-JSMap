@@ -1,9 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
 import { getLogger } from '../logger.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../beatmap/schema/shared/types/infer.ts';
 import type { IWriteOptions } from './types.ts';
 import { handleWrite, handleWriteSync, tag } from './_main.ts';
@@ -16,7 +16,7 @@ import { handleWrite, handleWriteSync, tag } from './_main.ts';
  */
 export function writeDifficultyFile<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    data: TWrapper,
@@ -25,7 +25,7 @@ export function writeDifficultyFile<
 ): Promise<TSerial>;
 export function writeDifficultyFile<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    data: TWrapper,
@@ -33,7 +33,7 @@ export function writeDifficultyFile<
 ): Promise<TSerial>;
 export function writeDifficultyFile<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    data: TWrapper,
@@ -58,7 +58,7 @@ export function writeDifficultyFile<
  */
 export function writeDifficultyFileSync<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    data: TWrapper,
@@ -67,7 +67,7 @@ export function writeDifficultyFileSync<
 ): TSerial;
 export function writeDifficultyFileSync<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    data: TWrapper,
@@ -75,7 +75,7 @@ export function writeDifficultyFileSync<
 ): TSerial;
 export function writeDifficultyFileSync<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    data: TWrapper,

@@ -1,9 +1,9 @@
 // deno-lint-ignore-file no-explicit-any no-explicit-any
 import type { MirrorFn } from '../schema/shared/types/functions.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
 import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import type { ISchemaCheckOptions } from '../mapping/types/schema.ts';
@@ -45,7 +45,7 @@ export interface ILoadOptions<
     * @default []
     */
    postprocess?: [
-      ...MirrorFn<InferBeatmap<TFileType>>[],
-      ((data: InferBeatmap<TFileType>, version?: TVersion | null) => TWrapper),
+      ...MirrorFn<InferBeatmapWrapper<TFileType>>[],
+      ((data: InferBeatmapWrapper<TFileType>, version?: TVersion | null) => TWrapper),
    ];
 }

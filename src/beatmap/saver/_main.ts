@@ -3,16 +3,16 @@ import { getLogger } from '../../logger.ts';
 import type { ISaveOptions } from './types.ts';
 import type { MirrorFn } from '../schema/shared/types/functions.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
 import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import { convertBeatmap } from '../mapping/converter.ts';
 import { optimizeBeatmap } from '../mapping/optimizer.ts';
 import { serializeBeatmap } from '../mapping/schema.ts';
-import { compatibilityCheck } from '../validator/compatibility.ts';
-import { validateJSON } from '../validator/json.ts';
+import { compatibilityCheck } from '../mapping/compatibility.ts';
+import { validateJSON } from '../mapping/validator.ts';
 
 export function tag(name: string): string[] {
    return ['saver', name];
@@ -38,7 +38,7 @@ const defaultOptions = {
 export function saveBeatmap<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends Record<string, any> = InferBeatmap<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<TFileType>,
    TSerial extends Record<string, any> = InferBeatmapSerial<TFileType, TVersion>,
 >(
    type: TFileType,
@@ -60,7 +60,9 @@ export function saveBeatmap<
    };
 
    const [pretransformer, ...preprocesses] = opt.preprocess;
-   let attribute = pretransformer ? pretransformer(data, version) : data as InferBeatmap<TFileType>;
+   let attribute = pretransformer
+      ? pretransformer(data, version)
+      : data as InferBeatmapWrapper<TFileType>;
    preprocesses.forEach((fn, i) => {
       logger?.tInfo(
          tag('saveBeatmap'),

@@ -1,9 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
 import { getLogger } from '../logger.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../beatmap/schema/shared/types/infer.ts';
 import type { IWriteOptions } from './types.ts';
 import { handleWrite, handleWriteSync, tag } from './_main.ts';
@@ -16,7 +16,7 @@ import { handleWrite, handleWriteSync, tag } from './_main.ts';
  */
 export function writeAudioDataFile<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    data: TWrapper,
@@ -25,7 +25,7 @@ export function writeAudioDataFile<
 ): Promise<TSerial>;
 export function writeAudioDataFile<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    data: TWrapper,
@@ -33,7 +33,7 @@ export function writeAudioDataFile<
 ): Promise<TSerial>;
 export function writeAudioDataFile<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    data: TWrapper,
@@ -58,7 +58,7 @@ export function writeAudioDataFile<
  */
 export function writeAudioDataFileSync<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    data: TWrapper,
@@ -67,7 +67,7 @@ export function writeAudioDataFileSync<
 ): TSerial;
 export function writeAudioDataFileSync<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    data: TWrapper,
@@ -75,7 +75,7 @@ export function writeAudioDataFileSync<
 ): TSerial;
 export function writeAudioDataFileSync<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    data: TWrapper,

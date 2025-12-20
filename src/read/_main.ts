@@ -5,9 +5,9 @@ import { readJSONFile, readJSONFileSync } from '../shims/_json.ts';
 import { path } from '../shims/path.ts';
 import type { MirrorFn } from '../beatmap/schema/shared/types/functions.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../beatmap/schema/shared/types/infer.ts';
 import type { BeatmapFileType } from '../beatmap/schema/shared/types/schema.ts';
 import type { IReadOptions } from './types.ts';
@@ -24,7 +24,7 @@ export function tag(name: string): string[] {
 export function handleRead<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends Record<string, any> = InferBeatmap<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<TFileType>,
    TSerial extends Record<string, any> = InferBeatmapSerial<TFileType, TVersion>,
 >(
    type: TFileType,
@@ -44,8 +44,8 @@ export function handleRead<
    const [posttransformer, ...postprocesses] = [
       ...(opt.load?.postprocess ?? []),
    ].reverse() as [
-      (data: InferBeatmap<TFileType>) => TWrapper,
-      ...MirrorFn<InferBeatmap<TFileType>>[],
+      (data: InferBeatmapWrapper<TFileType>) => TWrapper,
+      ...MirrorFn<InferBeatmapWrapper<TFileType>>[],
    ];
    return (readJSONFile(p) as Promise<TSerial>).then((data) => {
       return loadBeatmap(type, data, ver, {
@@ -66,7 +66,7 @@ export function handleRead<
 export function handleReadSync<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends Record<string, any> = InferBeatmap<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<TFileType>,
    TSerial extends Record<string, any> = InferBeatmapSerial<TFileType, TVersion>,
 >(
    type: TFileType,
@@ -86,8 +86,8 @@ export function handleReadSync<
    const [posttransformer, ...postprocesses] = [
       ...(opt.load?.postprocess ?? []),
    ].reverse() as [
-      (data: InferBeatmap<TFileType>) => TWrapper,
-      ...MirrorFn<InferBeatmap<TFileType>>[],
+      (data: InferBeatmapWrapper<TFileType>) => TWrapper,
+      ...MirrorFn<InferBeatmapWrapper<TFileType>>[],
    ];
    const d = loadBeatmap(type, readJSONFileSync(p) as TSerial, ver, {
       ...opt.load,

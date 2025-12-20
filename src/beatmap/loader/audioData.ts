@@ -2,9 +2,9 @@
 import { getLogger } from '../../logger.ts';
 import type { ILoadOptions } from './types.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
 import { loadBeatmap, tag } from './_main.ts';
 
@@ -19,7 +19,7 @@ import { loadBeatmap, tag } from './_main.ts';
  */
 export function loadAudioData<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    json: TSerial,
@@ -28,7 +28,7 @@ export function loadAudioData<
 ): TWrapper;
 export function loadAudioData<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    json: TSerial,
@@ -36,7 +36,7 @@ export function loadAudioData<
 ): TWrapper;
 export function loadAudioData<
    TVersion extends InferBeatmapVersion<'audioData'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'audioData'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'audioData'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'audioData', TVersion>,
 >(
    json: TSerial,

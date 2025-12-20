@@ -12,6 +12,7 @@ export function compatInfo<T extends IWrapInfo>(info: T, options: ICompatibility
    const hasIncompat = info.audio.shufflePeriod !== 0.5 ||
       info.audio.shuffle !== 0 ||
       info.audio.audioOffset !== 0;
+
    if (hasIncompat) {
       if (options.throwOn.incompatibleObject) {
          throw new Error('Info is not compatible with v4');

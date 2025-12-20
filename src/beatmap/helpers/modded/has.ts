@@ -7,6 +7,7 @@ import type { IWrapColorNote } from '../../schema/wrapper/types/colorNote.ts';
 import type { IWrapObstacle } from '../../schema/wrapper/types/obstacle.ts';
 import type { IWrapRotationEvent } from '../../schema/wrapper/types/rotationEvent.ts';
 import { RotationValueEventValue } from '../../misc/remaps.ts';
+import { isCrouchHeightObstacle, isFullHeightObstacle } from '../core/obstacle.ts';
 
 /**
  * Checks if basic event has Chroma in beatmap v2.
@@ -113,11 +114,7 @@ export function hasMappingExtensionsObstacleV2<
       data.posX > 3 ||
       data.width < 0 ||
       data.width > 4 ||
-      data.posY < 0 ||
-      data.posY > 2 ||
-      data.posY === 1 ||
-      (data.posY === 0 && data.height !== 5) ||
-      (data.posY === 2 && data.height !== 3)
+      !isFullHeightObstacle(data) && !isCrouchHeightObstacle(data)
    );
 }
 

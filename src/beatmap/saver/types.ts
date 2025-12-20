@@ -1,9 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
 import type { MirrorFn } from '../schema/shared/types/functions.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
 import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import type { ICompatibilityOptions } from '../mapping/types/compatibility.ts';
@@ -46,8 +46,8 @@ export interface ISaveOptions<
     * @default []
     */
    preprocess?: [
-      ((data: TWrapper, version?: TVersion | null) => InferBeatmap<TFileType>),
-      ...MirrorFn<InferBeatmap<TFileType>>[],
+      ((data: TWrapper, version?: TVersion | null) => InferBeatmapWrapper<TFileType>),
+      ...MirrorFn<InferBeatmapWrapper<TFileType>>[],
    ];
    /**
     * Perform any postprocessing after transformed into JSON.

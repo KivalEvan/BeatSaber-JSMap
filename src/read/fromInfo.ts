@@ -1,9 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
 import type { MirrorFn } from '../beatmap/schema/shared/types/functions.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../beatmap/schema/shared/types/infer.ts';
 import type { IBeatmapInfoData } from './types.ts';
 import type { IReadOptions } from './types.ts';
@@ -11,9 +11,9 @@ import { readDifficultyFile, readDifficultyFileSync } from './difficulty.ts';
 import { readLightshowFileSync } from './lightshow.ts';
 
 export async function readFromInfo<
-   T extends Pick<InferBeatmap<'info'>, 'difficulties'>,
+   T extends Pick<InferBeatmapWrapper<'info'>, 'difficulties'>,
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<
       'difficulty',
       TVersion
@@ -27,8 +27,8 @@ export async function readFromInfo<
       const [posttransformer, ...postprocesses] = [
          ...(options.load?.postprocess ?? []),
       ].reverse() as [
-         (data: InferBeatmap<'difficulty'>) => TWrapper,
-         ...MirrorFn<InferBeatmap<'difficulty'>>[],
+         (data: InferBeatmapWrapper<'difficulty'>) => TWrapper,
+         ...MirrorFn<InferBeatmapWrapper<'difficulty'>>[],
       ];
       const beatmap = await readDifficultyFile(d.filename, {
          ...options,
@@ -55,9 +55,9 @@ export async function readFromInfo<
 }
 
 export function readFromInfoSync<
-   T extends Pick<InferBeatmap<'info'>, 'difficulties'>,
+   T extends Pick<InferBeatmapWrapper<'info'>, 'difficulties'>,
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<
       'difficulty',
       TVersion
@@ -71,8 +71,8 @@ export function readFromInfoSync<
       const [posttransformer, ...postprocesses] = [
          ...(options.load?.postprocess ?? []),
       ].reverse() as [
-         (data: InferBeatmap<'difficulty'>) => TWrapper,
-         ...MirrorFn<InferBeatmap<'difficulty'>>[],
+         (data: InferBeatmapWrapper<'difficulty'>) => TWrapper,
+         ...MirrorFn<InferBeatmapWrapper<'difficulty'>>[],
       ];
       const beatmap = readDifficultyFileSync(d.filename, {
          ...options,

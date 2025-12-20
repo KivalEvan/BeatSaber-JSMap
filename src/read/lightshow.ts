@@ -2,9 +2,9 @@
 import { getLogger } from '../logger.ts';
 import type { GenericLightshowFilename } from '../beatmap/schema/shared/types/filename.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../beatmap/schema/shared/types/infer.ts';
 import type { IReadOptions } from './types.ts';
 import type { LooseAutocomplete } from '../types/utils.ts';
@@ -20,7 +20,7 @@ import { handleRead, handleReadSync, tag } from './_main.ts';
  */
 export function readLightshowFile<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    path: LooseAutocomplete<GenericLightshowFilename>,
@@ -29,7 +29,7 @@ export function readLightshowFile<
 ): Promise<TWrapper>;
 export function readLightshowFile<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    path: LooseAutocomplete<GenericLightshowFilename>,
@@ -37,7 +37,7 @@ export function readLightshowFile<
 ): Promise<TWrapper>;
 export function readLightshowFile<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    path: LooseAutocomplete<GenericLightshowFilename>,
@@ -60,7 +60,7 @@ export function readLightshowFile<
  */
 export function readLightshowFileSync<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    path: LooseAutocomplete<GenericLightshowFilename>,
@@ -69,7 +69,7 @@ export function readLightshowFileSync<
 ): TWrapper;
 export function readLightshowFileSync<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    path: LooseAutocomplete<GenericLightshowFilename>,
@@ -77,7 +77,7 @@ export function readLightshowFileSync<
 ): TWrapper;
 export function readLightshowFileSync<
    TVersion extends InferBeatmapVersion<'lightshow'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'lightshow'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'lightshow'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'lightshow', TVersion>,
 >(
    path: LooseAutocomplete<GenericLightshowFilename>,

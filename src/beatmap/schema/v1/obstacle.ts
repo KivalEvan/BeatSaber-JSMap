@@ -2,6 +2,11 @@ import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IObstacle } from './types/obstacle.ts';
 import type { IWrapObstacle } from '../wrapper/types/obstacle.ts';
 import { createObstacle } from '../wrapper/obstacle.ts';
+import {
+   isBoundedObstacle,
+   isCrouchHeightObstacle,
+   isFullHeightObstacle,
+} from '../../helpers/core/obstacle.ts';
 
 function fixPosYForExtendedType(type: number): number {
    if (type < 1000 || type > 4005000) return 0;
@@ -25,13 +30,16 @@ export const obstacle: ISchemaContainer<IWrapObstacle, IObstacle> = {
          const height = data.height >= 1000 ? data.height - 1000 : data.height / 1000;
          type = Math.floor((height / 5) * 1000 + (posY / 5) + 4001);
       }
+      type = isFullHeightObstacle(data)
+         ? 0
+         : isCrouchHeightObstacle(data)
+         ? 1
+         : isBoundedObstacle(data)
+         ? data.posY >= 2 ? 1 : 0
+         : type;
       return {
          _time: data.time,
-         _type: data.posY === 2 && data.height === 3
-            ? 1
-            : data.posY === 0 && data.height === 5
-            ? 0
-            : type,
+         _type: type,
          _lineIndex: data.posX,
          _duration: data.duration,
          _width: data.width,

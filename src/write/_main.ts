@@ -4,9 +4,9 @@ import { globals } from '../globals.ts';
 import { writeJSONFile, writeJSONFileSync } from '../shims/_json.ts';
 import { path } from '../shims/path.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../beatmap/schema/shared/types/infer.ts';
 import type { BeatmapFileType } from '../beatmap/schema/shared/types/schema.ts';
 import type { IWriteOptions } from './types.ts';
@@ -34,7 +34,7 @@ function getFileName(type: BeatmapFileType, data: Record<string, any>): string {
 export function handleWrite<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends Record<string, any> = InferBeatmap<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<TFileType>,
    TSerial extends Record<string, any> = InferBeatmapSerial<
       TFileType,
       TVersion
@@ -61,7 +61,7 @@ export function handleWrite<
 export function handleWriteSync<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends Record<string, any> = InferBeatmap<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<TFileType>,
    TSerial extends Record<string, any> = InferBeatmapSerial<
       TFileType,
       TVersion
