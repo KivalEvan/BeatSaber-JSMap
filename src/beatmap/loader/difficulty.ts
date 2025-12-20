@@ -2,9 +2,9 @@
 import { getLogger } from '../../logger.ts';
 import type { ILoadOptions } from './types.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
 import { loadBeatmap, tag } from './_main.ts';
 
@@ -19,7 +19,7 @@ import { loadBeatmap, tag } from './_main.ts';
  */
 export function loadDifficulty<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    json: TSerial,
@@ -28,7 +28,7 @@ export function loadDifficulty<
 ): TWrapper;
 export function loadDifficulty<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    json: TSerial,
@@ -36,7 +36,7 @@ export function loadDifficulty<
 ): TWrapper;
 export function loadDifficulty<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    json: TSerial,

@@ -3,15 +3,15 @@ import { getLogger } from '../../logger.ts';
 import type { ILoadOptions } from './types.ts';
 import type { MirrorFn } from '../schema/shared/types/functions.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
 import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import { implicitVersion, retrieveVersion } from '../helpers/version.ts';
 import { convertBeatmap } from '../mapping/converter.ts';
 import { deserializeBeatmap } from '../mapping/schema.ts';
-import { validateJSON } from '../validator/json.ts';
+import { validateJSON } from '../mapping/validator.ts';
 
 export function tag(name: string): string[] {
    return ['loader', name];
@@ -28,7 +28,7 @@ const defaultOptions = {
 export function loadBeatmap<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends Record<string, any> = InferBeatmap<TFileType>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<TFileType>,
    TSerial extends Record<string, any> = InferBeatmapSerial<TFileType, TVersion>,
 >(
    type: TFileType,
@@ -69,7 +69,7 @@ export function loadBeatmap<
       );
    }
 
-   let attribute: InferBeatmap<TFileType>;
+   let attribute: InferBeatmapWrapper<TFileType>;
    if (opt.schemaCheck.enabled) validateJSON(type, serial, jsonVer, opt.schemaCheck);
    attribute = deserializeBeatmap(type, jsonVer, serial);
 
@@ -101,8 +101,8 @@ export function loadBeatmap<
    }
 
    const [posttransformer, ...postprocesses] = [...opt.postprocess].reverse() as [
-      (data: InferBeatmap<TFileType>, version: TVersion | null) => TWrapper,
-      ...MirrorFn<InferBeatmap<TFileType>>[],
+      (data: InferBeatmapWrapper<TFileType>, version: TVersion | null) => TWrapper,
+      ...MirrorFn<InferBeatmapWrapper<TFileType>>[],
    ];
    postprocesses.forEach((fn, i) => {
       logger?.tInfo(tag('loadBeatmap'), 'Running postprocess function #' + (i + 1));

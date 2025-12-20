@@ -2,7 +2,7 @@
 import type { ILoadOptions } from '../beatmap/loader/types.ts';
 import type { InferBeatmapVersion } from '../beatmap/schema/shared/types/infer.ts';
 import type { BeatmapFileType } from '../beatmap/schema/shared/types/schema.ts';
-import type { InferBeatmap } from '../beatmap/schema/shared/types/infer.ts';
+import type { InferBeatmapWrapper } from '../beatmap/schema/shared/types/infer.ts';
 import type { IBaseOptions } from '../types/_bsmap_io.ts';
 
 export interface IReadOptions<
@@ -15,8 +15,8 @@ export interface IReadOptions<
 }
 
 export interface IBeatmapInfoData<
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
 > {
-   info: Pick<InferBeatmap<'info'>, 'difficulties'>['difficulties'][number];
+   info: Pick<InferBeatmapWrapper<'info'>, 'difficulties'>['difficulties'][number];
    beatmap: TWrapper;
 }

@@ -2,9 +2,9 @@
 import { getLogger } from '../../logger.ts';
 import type { ISaveOptions } from './types.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
 import { saveBeatmap, tag } from './_main.ts';
 
@@ -19,7 +19,7 @@ import { saveBeatmap, tag } from './_main.ts';
  */
 export function saveInfo<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    data: TWrapper,
@@ -28,7 +28,7 @@ export function saveInfo<
 ): TSerial;
 export function saveInfo<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    data: TWrapper,
@@ -36,7 +36,7 @@ export function saveInfo<
 ): TSerial;
 export function saveInfo<
    TVersion extends InferBeatmapVersion<'info'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'info'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'info'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'info', TVersion>,
 >(
    data: TWrapper,

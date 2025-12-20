@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import type { InferBeatmap, InferBeatmapVersion } from '../schema/shared/types/infer.ts';
+import type { InferBeatmapVersion, InferBeatmapWrapper } from '../schema/shared/types/infer.ts';
 import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import { toV1Beatmap } from '../converter/toV1/beatmap.ts';
 import { toV1Info } from '../converter/toV1/info.ts';
@@ -10,45 +10,65 @@ import { toV3Beatmap } from '../converter/toV3/beatmap.ts';
 import { toV4AudioData } from '../converter/toV4/audioData.ts';
 import { toV4Beatmap } from '../converter/toV4/beatmap.ts';
 import { toV4Info } from '../converter/toV4/info.ts';
+import { getLogger } from '../../logger.ts';
+
+function tag(...rest: string[]): string[] {
+   return ['process', ...rest];
+}
 
 type ConverterMap<T extends BeatmapFileType> = {
-   [TVersion in InferBeatmapVersion<T>]: <TWrapper extends InferBeatmap<T>>(
+   [TVersion in InferBeatmapVersion<T>]: <TWrapper extends InferBeatmapWrapper<T>>(
       data: TWrapper,
       fromVersion?: number,
    ) => TWrapper;
 };
 
 /** Conversion function version map for beatmap info. */
-export const infoConvertMap: ConverterMap<'info'> = {
+export const infoConvertMap = {
    1: toV1Info,
    2: toV2Info,
    4: toV4Info,
-};
+} as const satisfies ConverterMap<'info'>;
 
 /** Conversion function version map for beatmap audio data. */
-export const audioDataConvertMap: ConverterMap<'audioData'> = {
+export const audioDataConvertMap = {
    2: toV2AudioData,
    4: toV4AudioData,
-};
+} as const satisfies ConverterMap<'audioData'>;
 
 /** Conversion function version map for beatmap data. */
-export const beatmapConvertMap: ConverterMap<'difficulty' | 'lightshow'> = {
+export const beatmapConvertMap = {
    1: toV1Beatmap,
    2: toV2Beatmap,
    3: toV3Beatmap,
    4: toV4Beatmap,
-};
+} as const satisfies ConverterMap<'difficulty' | 'lightshow'>;
 
+/**
+ * Modifies the wrapper contents of a beatmap file for compatibility with the indicated map format.
+ * @param type The beatmap file type.
+ * @param targetVersion The new map format to convert the beatmap file into.
+ * @param data The wrapper contents of the beatmap file.
+ * @param sourceVersion The original map format of the beatmap file.
+ * @returns The converted wrapper contents of the beatmap file.
+ */
 export function convertBeatmap<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
-   TWrapper extends InferBeatmap<TFileType>,
+   TWrapper extends InferBeatmapWrapper<TFileType>,
 >(
    type: TFileType,
    targetVersion: TVersion,
    data: TWrapper,
    sourceVersion?: InferBeatmapVersion<TFileType>,
 ): TWrapper {
+   const logger = getLogger();
+
+   logger?.tInfo(
+      tag('convertBeatmap'),
+      `Converting wrapper contents for ${type} to version ${targetVersion}`,
+   );
+
    switch (type) {
       case 'info': {
          const convert = infoConvertMap[targetVersion as InferBeatmapVersion<'info'>];
@@ -67,7 +87,8 @@ export function convertBeatmap<
          return convert(data as any, sourceVersion) as TWrapper;
       }
       default: {
-         throw new Error('');
+         logger?.tWarn(tag(type), `No convert map found. Skipping conversion step.`);
+         return data;
       }
    }
 }

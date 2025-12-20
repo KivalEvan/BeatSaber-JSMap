@@ -2,9 +2,9 @@
 import { getLogger } from '../../logger.ts';
 import type { ISaveOptions } from './types.ts';
 import type {
-   InferBeatmap,
    InferBeatmapSerial,
    InferBeatmapVersion,
+   InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
 import { saveBeatmap, tag } from './_main.ts';
 
@@ -19,7 +19,7 @@ import { saveBeatmap, tag } from './_main.ts';
  */
 export function saveDifficulty<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    data: TWrapper,
@@ -28,7 +28,7 @@ export function saveDifficulty<
 ): TSerial;
 export function saveDifficulty<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<
       'difficulty',
       TVersion
@@ -39,7 +39,7 @@ export function saveDifficulty<
 ): TSerial;
 export function saveDifficulty<
    TVersion extends InferBeatmapVersion<'difficulty'>,
-   TWrapper extends Record<string, any> = InferBeatmap<'difficulty'>,
+   TWrapper extends Record<string, any> = InferBeatmapWrapper<'difficulty'>,
    TSerial extends Record<string, any> = InferBeatmapSerial<'difficulty', TVersion>,
 >(
    data: TWrapper,
