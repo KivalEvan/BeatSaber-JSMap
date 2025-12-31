@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.3.0 [2025-12-xx]
+## 2.3.0 [2025-12-31]
 
 This version introduce setup to improve compatibility and bundle size reduction. If you have made
 use of `logger`, you must now include `setupLogger(new Logger())` on entrypoint or not at all if you
@@ -21,6 +21,7 @@ require to do minimal change.
 * Updated color scheme
 * File and type restructured (#9)
 * Simplified change log
+* Several bug fixes and tweaks (#9, #10)
 - Removed unnecessary vector helpers
 ```
 

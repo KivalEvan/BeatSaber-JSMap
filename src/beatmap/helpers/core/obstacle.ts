@@ -42,5 +42,5 @@ export function isCrouchHeightObstacle<
 export function isBoundedObstacle<
    T extends Pick<IWrapObstacle, 'posY' | 'height'>,
 >(object: T) {
-   return object.posY >= 0 && object.posY <= 5 && object.height >= 1 && object.height <= 5;
+   return object.posY >= 0 && object.posY <= 4 && object.height >= 1 && object.height <= 5;
 }

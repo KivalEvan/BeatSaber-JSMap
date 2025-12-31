@@ -1,5 +1,5 @@
 import type { Vector2 } from '../../types/vector.ts';
-import { NoteDirection } from '../schema/shared/types/constants.ts';
+import type { NoteDirection } from '../schema/shared/types/constants.ts';
 
 /** Also known as lane count. */
 export const LINE_COUNT = 4;
