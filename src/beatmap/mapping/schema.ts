@@ -93,6 +93,8 @@ export function serializeBeatmap<
          const container = lightshowSchemaMap[version as InferBeatmapVersion<'lightshow'>];
          return container.serialize(data as InferBeatmapWrapper<'lightshow'>) as TSerial;
       }
+      default:
+         throw new Error(`Unsupported beatmap file type: ${type}`);
    }
 }
 
@@ -133,5 +135,7 @@ export function deserializeBeatmap<
          const container = lightshowSchemaMap[version as InferBeatmapVersion<'lightshow'>];
          return container.deserialize(data as any) as TWrapper;
       }
+      default:
+         throw new Error(`Unsupported beatmap file type: ${type}`);
    }
 }
