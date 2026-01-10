@@ -24,20 +24,20 @@ type ConverterMap<T extends BeatmapFileType> = {
 };
 
 /** Conversion function version map for beatmap info. */
-export const infoConvertMap = {
+export const infoConvertMap: ConverterMap<'info'> = {
    1: toV1Info,
    2: toV2Info,
    4: toV4Info,
 } as const satisfies ConverterMap<'info'>;
 
 /** Conversion function version map for beatmap audio data. */
-export const audioDataConvertMap = {
+export const audioDataConvertMap: ConverterMap<'audioData'> = {
    2: toV2AudioData,
    4: toV4AudioData,
 } as const satisfies ConverterMap<'audioData'>;
 
 /** Conversion function version map for beatmap data. */
-export const beatmapConvertMap = {
+export const beatmapConvertMap: ConverterMap<'difficulty' | 'lightshow'> = {
    1: toV1Beatmap,
    2: toV2Beatmap,
    3: toV3Beatmap,

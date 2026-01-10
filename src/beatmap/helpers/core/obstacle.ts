@@ -41,6 +41,6 @@ export function isCrouchHeightObstacle<
 /** Check if obstacle is bounded (within the constraints of free obstacle placement). */
 export function isBoundedObstacle<
    T extends Pick<IWrapObstacle, 'posY' | 'height'>,
->(object: T) {
+>(object: T): boolean {
    return object.posY >= 0 && object.posY <= 4 && object.height >= 1 && object.height <= 5;
 }

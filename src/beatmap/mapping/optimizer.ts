@@ -25,14 +25,14 @@ type OptimizeMap<T extends BeatmapFileType> = {
 };
 
 /** Optimize function version map for schema beatmap info. */
-export const infoOptimizeMap = {
+export const infoOptimizeMap: OptimizeMap<'info'> = {
    1: optimizeV1Info,
    2: optimizeV2Info,
    4: optimizeV4Info,
 } as const satisfies OptimizeMap<'info'>;
 
 /** Optimize function version map for schema beatmap difficulty. */
-export const difficultyOptimizeMap = {
+export const difficultyOptimizeMap: OptimizeMap<'difficulty'> = {
    1: optimizeV1Difficulty,
    2: optimizeV2Difficulty,
    3: optimizeV3Difficulty,
@@ -40,7 +40,7 @@ export const difficultyOptimizeMap = {
 } as const satisfies OptimizeMap<'difficulty'>;
 
 /** Optimize function version map for schema beatmap lightshow. */
-export const lightshowOptimizeMap = {
+export const lightshowOptimizeMap: OptimizeMap<'lightshow'> = {
    3: optimizeV3Lightshow,
    4: optimizeV4Lightshow,
 } as const satisfies OptimizeMap<'lightshow'>;

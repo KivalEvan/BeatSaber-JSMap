@@ -26,20 +26,20 @@ type CompatibilityMap<T extends BeatmapFileType> = {
 };
 
 /** Compatibility function version map for beatmap info. */
-export const infoCompatibilityMap = {
+export const infoCompatibilityMap: CompatibilityMap<'info'> = {
    1: compatV1Info,
    2: compatV2Info,
    4: compatV4Info,
 } as const satisfies CompatibilityMap<'info'>;
 
 /** Compatibility function version map for beatmap audio data. */
-export const audioDataCompatibilityMap = {
+export const audioDataCompatibilityMap: CompatibilityMap<'audioData'> = {
    2: compatV2AudioData,
    4: compatV4AudioData,
 } as const satisfies CompatibilityMap<'audioData'>;
 
 /** Compatibility function version map for beatmap difficulty. */
-export const difficultyCompatibilityMap = {
+export const difficultyCompatibilityMap: CompatibilityMap<'difficulty'> = {
    1: compatV1Difficulty,
    2: compatV2Difficulty,
    3: compatV3Difficulty,
@@ -47,7 +47,7 @@ export const difficultyCompatibilityMap = {
 } as const satisfies CompatibilityMap<'difficulty'>;
 
 /** Compatibility function version map for beatmap lightshow. */
-export const lightshowCompatibilityMap = {
+export const lightshowCompatibilityMap: CompatibilityMap<'lightshow'> = {
    3: compatV3Lightshow,
    4: compatV4Lightshow,
 } as const satisfies CompatibilityMap<'lightshow'>;

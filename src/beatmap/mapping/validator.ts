@@ -25,20 +25,20 @@ type CheckMap<T extends BeatmapFileType> = {
 };
 
 /** Data check version map for schema beatmap info. */
-export const infoCheckMap = {
+export const infoCheckMap: CheckMap<'info'> = {
    1: V1InfoSchema,
    2: V2InfoSchema,
    4: V4InfoSchema,
 } as const satisfies CheckMap<'info'>;
 
 /** Data check version map for schema beatmap audio data. */
-export const audioDataCheckMap = {
+export const audioDataCheckMap: CheckMap<'audioData'> = {
    2: V2AudioSchema,
    4: V4AudioSchema,
 } as const satisfies CheckMap<'audioData'>;
 
 /** Data check version map for schema beatmap difficulty. */
-export const difficultyCheckMap = {
+export const difficultyCheckMap: CheckMap<'difficulty'> = {
    1: V1DifficultySchema,
    2: V2DifficultySchema,
    3: V3DifficultySchema,
@@ -46,7 +46,7 @@ export const difficultyCheckMap = {
 } as const satisfies CheckMap<'difficulty'>;
 
 /** Data check version map for schema beatmap lightshow. */
-export const lightshowCheckMap = {
+export const lightshowCheckMap: CheckMap<'lightshow'> = {
    3: V3LightshowSchema,
    4: V4LightshowSchema,
 } as const satisfies CheckMap<'lightshow'>;

@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.1
+
+```diff
++ Simple GLS track definition
+* Fix lint and thus package manager publishing
+```
+
 ## 2.3.0 [2025-12-31]
 
 This version introduce setup to improve compatibility and bundle size reduction. If you have made

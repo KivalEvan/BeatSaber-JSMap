@@ -30,20 +30,20 @@ type SchemaMap<T extends BeatmapFileType> = {
 };
 
 /** Schema version map for beatmap info. */
-export const infoSchemaMap = {
+export const infoSchemaMap: SchemaMap<'info'> = {
    1: V1Info,
    2: V2Info,
    4: V4Info,
 } as const satisfies SchemaMap<'info'>;
 
 /** Schema version map for beatmap audio data. */
-export const audioDataSchemaMap = {
+export const audioDataSchemaMap: SchemaMap<'audioData'> = {
    2: V2AudioData,
    4: V4AudioData,
 } as const satisfies SchemaMap<'audioData'>;
 
 /** Schema version map for beatmap difficulty. */
-export const difficultySchemaMap = {
+export const difficultySchemaMap: SchemaMap<'difficulty'> = {
    1: V1Difficulty,
    2: V2Difficulty,
    3: V3Difficulty,
@@ -51,7 +51,7 @@ export const difficultySchemaMap = {
 } as const satisfies SchemaMap<'difficulty'>;
 
 /** Schema version map for beatmap lightshow. */
-export const lightshowSchemaMap = {
+export const lightshowSchemaMap: SchemaMap<'lightshow'> = {
    3: V3Lightshow,
    4: V4Lightshow,
 } as const satisfies SchemaMap<'lightshow'>;
