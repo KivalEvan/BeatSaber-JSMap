@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.3.1
+## 2.3.1 [2025-01-10]
 
 ```diff
 + Simple GLS track definition
