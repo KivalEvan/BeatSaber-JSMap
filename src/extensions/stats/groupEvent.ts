@@ -1,4 +1,4 @@
-import { EventList } from '../../beatmap/misc/environment.ts';
+import { TrackDefinitions } from '../../beatmap/misc/environment.ts';
 import type { EnvironmentName } from '../../beatmap/schema/shared/types/environment.ts';
 import type { IWrapEventBoxGroup } from '../../beatmap/schema/wrapper/types/eventBoxGroup.ts';
 import type { ICountEventBoxGroup } from './types/stats.ts';
@@ -14,7 +14,9 @@ export function countEbg<T extends IWrapEventBoxGroup>(
    ebg: T[],
    environment: EnvironmentName = 'DefaultEnvironment',
 ): ICountEventBoxGroup {
-   const commonEvent = EventList[environment]?.[1] ?? EventList['DefaultEnvironment'][1];
+   const commonEvent = Object.keys(
+      TrackDefinitions[environment]?.[1] ?? TrackDefinitions['DefaultEnvironment'][1],
+   ).map(Number);
    const ebgCount: ICountEventBoxGroup = {};
    for (let i = commonEvent.length - 1; i >= 0; i--) {
       ebgCount[commonEvent[i]] = {
