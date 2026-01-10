@@ -16,6 +16,8 @@ jobs:
       steps:
          - name: Setup repo
            uses: actions/checkout@v4
+           with:
+              ref: ${{ github.head_ref || github.ref_name }}
 
          - name: Setup Deno
            uses: denoland/setup-deno@v2
