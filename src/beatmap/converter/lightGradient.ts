@@ -4,7 +4,6 @@ import type { Easings } from '../../types/easings.ts';
 import { lerpColor } from '../../utils/colors/helpers.ts';
 import { EasingsFn } from '../../utils/math/easings.ts';
 import { normalize } from '../../utils/math/helpers.ts';
-import { isLightEventType } from '../helpers/core/basicEvent.ts';
 import { getLogger } from '../../logger.ts';
 
 function tag(name: string): string[] {
@@ -27,23 +26,19 @@ function isLightGradient(obj: unknown): obj is IChromaLightGradient {
  * ```
  */
 export function chromaLightGradientToVanillaGradient<
-   T extends IWrapBeatmapSubset<'basicEvents'>,
+   T extends IWrapBeatmapSubset<'basicEvents'>
 >(data: T): T {
    const logger = getLogger();
 
    logger?.tWarn(
       tag('chromaLightGradientToVanillaGradient'),
-      'Converting chroma light gradient is not fully tested and may break certain lightshow effect!',
+      'Converting chroma light gradient is not fully tested and may break certain lightshow effect!'
    );
 
    const events = data.lightshow.basicEvents;
    const newEvents: T['lightshow']['basicEvents'] = [];
    for (let curr = 0, len = events.length; curr < len; curr++) {
       const ev = events[curr];
-      if (!isLightEventType(ev.type)) {
-         newEvents.push({ ...ev, floatValue: 1 });
-         continue;
-      }
       if (isLightGradient(ev.customData._lightGradient)) {
          const eventInGradient = [] as typeof events;
          for (let next = curr + 1; next < len; next++) {
@@ -52,7 +47,7 @@ export function chromaLightGradientToVanillaGradient<
             }
             if (
                ev.time + ev.customData._lightGradient._duration >=
-                  events[next].time
+               events[next].time
             ) {
                eventInGradient.push(events[next]);
             }
@@ -60,11 +55,17 @@ export function chromaLightGradientToVanillaGradient<
          if (eventInGradient.length) {
             ev.customData._color = ev.customData._lightGradient._startColor;
             ev.customData._easing = ev.customData._lightGradient._easing;
-            ev.value = ev.value >= 1 && ev.value <= 4 ? 1 : ev.value >= 5 && ev.value <= 8 ? 5 : 9;
-            const easing = EasingsFn[
-               (ev.customData._lightGradient._easing as Easings) ??
-                  'easeLinear'
-            ];
+            ev.value =
+               ev.value >= 1 && ev.value <= 4
+                  ? 1
+                  : ev.value >= 5 && ev.value <= 8
+                  ? 5
+                  : 9;
+            const easing =
+               EasingsFn[
+                  (ev.customData._lightGradient._easing as Easings) ??
+                     'easeLinear'
+               ];
             let hasOff = false;
             let previousEvent: T['lightshow']['basicEvents'][number] = ev;
             for (const eig of eventInGradient) {
@@ -74,15 +75,17 @@ export function chromaLightGradientToVanillaGradient<
                      ev.time + ev.customData._lightGradient._duration - 0.001
                ) {
                   newEvents.push({
-                     time: ev.time +
+                     time:
+                        ev.time +
                         ev.customData._lightGradient._duration -
                         0.001,
                      type: ev.type,
-                     value: ev.value >= 1 && ev.value <= 4
-                        ? 4
-                        : ev.value >= 5 && ev.value <= 8
-                        ? 8
-                        : 12,
+                     value:
+                        ev.value >= 1 && ev.value <= 4
+                           ? 4
+                           : ev.value >= 5 && ev.value <= 8
+                           ? 8
+                           : 12,
                      floatValue: 1,
                      customData: {
                         _color: ev.customData._lightGradient._endColor,
@@ -107,10 +110,10 @@ export function chromaLightGradientToVanillaGradient<
                         normalize(
                            eig.time,
                            ev.time,
-                           ev.time + ev.customData._lightGradient._duration,
-                        ),
+                           ev.time + ev.customData._lightGradient._duration
+                        )
                      ),
-                     'rgba',
+                     'rgba'
                   );
                   if (eig.value === 0) {
                      if (eig.customData['_color']) {
@@ -120,13 +123,14 @@ export function chromaLightGradientToVanillaGradient<
                         newEvents.push({
                            time: eig.time - 0.001,
                            type: ev.type,
-                           value: previousEvent.value >= 1 &&
-                                 previousEvent.value <= 4
-                              ? 4
-                              : previousEvent.value >= 5 &&
-                                    previousEvent.value <= 8
-                              ? 8
-                              : 12,
+                           value:
+                              previousEvent.value >= 1 &&
+                              previousEvent.value <= 4
+                                 ? 4
+                                 : previousEvent.value >= 5 &&
+                                   previousEvent.value <= 8
+                                 ? 8
+                                 : 12,
                            floatValue: 1,
                            customData: {
                               _color: lerpColor(
@@ -137,10 +141,10 @@ export function chromaLightGradientToVanillaGradient<
                                        eig.time - 0.001,
                                        ev.time,
                                        ev.time +
-                                          ev.customData._lightGradient._duration,
-                                    ),
+                                          ev.customData._lightGradient._duration
+                                    )
                                  ),
-                                 'rgba',
+                                 'rgba'
                               ),
                            },
                         });
@@ -158,11 +162,21 @@ export function chromaLightGradientToVanillaGradient<
          } else {
             ev.customData._color = ev.customData._lightGradient._startColor;
             ev.customData._easing = ev.customData._lightGradient._easing;
-            ev.value = ev.value >= 1 && ev.value <= 4 ? 1 : ev.value >= 5 && ev.value <= 8 ? 5 : 9;
+            ev.value =
+               ev.value >= 1 && ev.value <= 4
+                  ? 1
+                  : ev.value >= 5 && ev.value <= 8
+                  ? 5
+                  : 9;
             newEvents.push({
                time: ev.time + ev.customData._lightGradient._duration,
                type: ev.type,
-               value: ev.value >= 1 && ev.value <= 4 ? 4 : ev.value >= 5 && ev.value <= 8 ? 8 : 12,
+               value:
+                  ev.value >= 1 && ev.value <= 4
+                     ? 4
+                     : ev.value >= 5 && ev.value <= 8
+                     ? 8
+                     : 12,
                floatValue: 1,
                customData: {
                   _color: ev.customData._lightGradient._endColor,

@@ -2,7 +2,6 @@ import eventToV2 from '../beatmap/converter/customData/eventToV2.ts';
 import eventToV3 from '../beatmap/converter/customData/eventToV3.ts';
 import objectToV2 from '../beatmap/converter/customData/objectToV2.ts';
 import objectToV3 from '../beatmap/converter/customData/objectToV3.ts';
-import { isLaserRotationEventType } from '../beatmap/helpers/core/basicEvent.ts';
 import type { IPointDefinition } from '../beatmap/schema/v3/types/custom/pointDefinition.ts';
 import type { IWrapBeatmap } from '../beatmap/schema/wrapper/types/beatmap.ts';
 import { getLogger } from '../logger.ts';
@@ -30,13 +29,10 @@ function v2<T extends IWrapBeatmap>(data: T): void {
    logger?.tDebug(tag('v2'), ' Patching events');
    data.lightshow.basicEvents.forEach((e) => {
       e.customData = eventToV2(e.customData);
-      if (isLaserRotationEventType(e.type)) {
-         if (typeof e.customData._preciseSpeed !== 'number') {
-            delete e.customData._speed;
-         }
-      } else {
-         delete e.customData._preciseSpeed;
+      if (typeof e.customData._preciseSpeed !== 'number') {
+         delete e.customData._speed;
       }
+      delete e.customData._preciseSpeed;
    });
 }
 
@@ -132,7 +128,7 @@ function v3<T extends IWrapBeatmap>(data: T): void {
    if (Array.isArray(data.customData.pointDefinitions)) {
       const fixedObj: IPointDefinition = {};
       data.customData.pointDefinitions.forEach(
-         (pd) => (fixedObj[pd.name as string] = pd.points),
+         (pd) => (fixedObj[pd.name as string] = pd.points)
       );
       data.customData.pointDefinitions = fixedObj;
    }
@@ -143,13 +139,13 @@ function v3<T extends IWrapBeatmap>(data: T): void {
  */
 export function customDataUpdate<T extends IWrapBeatmap>(
    data: T,
-   version: number,
+   version: number
 ) {
    const logger = getLogger();
 
    logger?.tInfo(
       ['patch', 'customDataUpdate'],
-      'Patching custom data for beatmap v' + version + '...',
+      'Patching custom data for beatmap v' + version + '...'
    );
    switch (version) {
       case 2:

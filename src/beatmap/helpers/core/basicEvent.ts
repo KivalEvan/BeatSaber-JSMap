@@ -12,44 +12,11 @@ export function isValidEventType(type: number): boolean {
    );
 }
 
-/** Check if event type is a light event. */
-export function isLightEventType(
-   type: number,
-   _environment?: EnvironmentName,
-): boolean {
-   return (
-      type === EventType.BACK_LASERS ||
-      type === EventType.RING_LIGHTS ||
-      type === EventType.LEFT_LASERS ||
-      type === EventType.RIGHT_LASERS ||
-      type === EventType.CENTER_LIGHTS ||
-      type === EventType.EXTRA_LEFT_LIGHTS ||
-      type === EventType.EXTRA_RIGHT_LIGHTS ||
-      type === EventType.EXTRA_LEFT_LASERS ||
-      type === EventType.EXTRA_RIGHT_LASERS
-   );
-}
 /** Check if event type is a color boost event. */
 export function isColorBoostEventType(type: number): boolean {
    return type === EventType.COLOR_BOOST;
 }
-/** Check if event type is a ring event. */
-export function isRingEventType(
-   type: number,
-   _environment?: EnvironmentName,
-): boolean {
-   return type === EventType.RING_ROTATION || type === EventType.RING_ZOOM;
-}
-/** Check if event type is a laser rotation event. */
-export function isLaserRotationEventType(
-   type: number,
-   _environment?: EnvironmentName,
-): boolean {
-   return (
-      type === EventType.LEFT_LASER_ROTATION ||
-      type === EventType.RIGHT_LASER_ROTATION
-   );
-}
+
 /** Check if event type is a lane rotation event. */
 export function isLaneRotationEventType(type: number): boolean {
    return (
@@ -57,18 +24,7 @@ export function isLaneRotationEventType(type: number): boolean {
       type === EventType.LATE_LANE_ROTATION
    );
 }
-/** Check if event type is an extra event. */
-export function isExtraEventType(
-   type: number,
-   _environment?: EnvironmentName,
-): boolean {
-   return (
-      type === EventType.UTILITY_EVENT_0 ||
-      type === EventType.UTILITY_EVENT_1 ||
-      type === EventType.UTILITY_EVENT_2 ||
-      type === EventType.UTILITY_EVENT_3
-   );
-}
+
 /** Check if event type is a special event. */
 export function isSpecialEventType(
    type: number,
@@ -81,29 +37,22 @@ export function isSpecialEventType(
       type === EventType.SPECIAL_EVENT_3
    );
 }
+
 /** Check if event type is a BPM change. */
 export function isBpmChangeEventType(type: number): boolean {
    return type === EventType.BPM_CHANGE;
 }
-/** Check if event type is an NJS change. */
+/**
+ *  Check if event type is an NJS change. */
 export function isNjsChangeEventType(type: number): boolean {
    return type === EventType.NJS_CHANGE;
-}
-
-/** Not to be confused with isLightEvent, this checks for event that affects the environment/lighting. */
-export function isLightingEventType(type: number): boolean {
-   return (
-      isLightEventType(type) ||
-      isRingEventType(type) ||
-      isLaserRotationEventType(type) ||
-      isExtraEventType(type)
-   );
 }
 
 /** Check if light event is an off event. */
 export function isOffEventValue(value: number): boolean {
    return value === EventLightValue.OFF;
 }
+
 /** Check if light event is an on event. */
 export function isOnEventValue(value: number): boolean {
    return (

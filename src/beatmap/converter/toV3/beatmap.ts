@@ -1,5 +1,8 @@
 import { getLogger } from '../../../logger.ts';
-import type { IChromaComponent, IChromaMaterial } from '../../schema/v3/types/custom/chroma.ts';
+import type {
+   IChromaComponent,
+   IChromaMaterial,
+} from '../../schema/v3/types/custom/chroma.ts';
 import type { ICustomDataNote } from '../../schema/v3/types/custom/note.ts';
 import type { ICustomDataObstacle } from '../../schema/v3/types/custom/obstacle.ts';
 import type { IWrapBeatmap } from '../../schema/wrapper/types/beatmap.ts';
@@ -8,7 +11,6 @@ import type { IWrapColorNote } from '../../schema/wrapper/types/colorNote.ts';
 import type { IWrapObstacle } from '../../schema/wrapper/types/obstacle.ts';
 import { clamp } from '../../../utils/math/helpers.ts';
 import { isVector3, vectorMul } from '../../../utils/math/vector.ts';
-import { isLightEventType, isRingEventType } from '../../helpers/core/basicEvent.ts';
 import { sortObjectFn } from '../../helpers/sort.ts';
 import eventToV3 from '../customData/eventToV3.ts';
 import objectToV3 from '../customData/objectToV3.ts';
@@ -27,11 +29,14 @@ function tag(name: string): string[] {
  */
 export function toV3Beatmap<T extends IWrapBeatmap>(
    data: T,
-   fromVersion = data.version,
+   fromVersion = data.version
 ): T {
    const logger = getLogger();
 
-   logger?.tWarn(tag('main'), 'Converting to beatmap v3 may lose certain data!');
+   logger?.tWarn(
+      tag('main'),
+      'Converting to beatmap v3 may lose certain data!'
+   );
 
    switch (fromVersion) {
       case 1:
@@ -51,7 +56,7 @@ export function toV3Beatmap<T extends IWrapBeatmap>(
       default:
          logger?.tWarn(
             tag('main'),
-            'Unknown version: version not supported; misinput? Returning original data.',
+            'Unknown version: version not supported; misinput? Returning original data.'
          );
    }
 
@@ -62,28 +67,33 @@ function fromV1<T extends IWrapBeatmap>(bm: T) {
    bm.difficulty.colorNotes.forEach((n) => {
       if (n.direction >= 1000) {
          n.angleOffset = Math.abs(((n.direction % 1000) % 360) - 360);
-         n.direction = n.direction >= 1000 ||
-               typeof n.customData._cutDirection === 'number'
-            ? n.direction === 8 ? 8 : 1
-            : clamp(n.direction, 0, 8);
+         n.direction =
+            n.direction >= 1000 ||
+            typeof n.customData._cutDirection === 'number'
+               ? n.direction === 8
+                  ? 8
+                  : 1
+               : clamp(n.direction, 0, 8);
       }
    });
 
    bm.difficulty.customData.time = bm.difficulty.customData._time;
-   bm.difficulty.customData.BPMChanges = bm.difficulty.customData._BPMChanges?.map((bpmc) => {
-      return {
-         b: bpmc._time,
-         m: bpmc._bpm ?? bpmc._BPM,
-         p: bpmc._beatsPerBar,
-         o: bpmc._metronomeOffset,
-      };
-   });
-   bm.difficulty.customData.bookmarks = bm.difficulty.customData._bookmarks?.map((b) => {
-      return {
-         b: b._time,
-         n: b._name,
-      };
-   });
+   bm.difficulty.customData.BPMChanges =
+      bm.difficulty.customData._BPMChanges?.map((bpmc) => {
+         return {
+            b: bpmc._time,
+            m: bpmc._bpm ?? bpmc._BPM,
+            p: bpmc._beatsPerBar,
+            o: bpmc._metronomeOffset,
+         };
+      });
+   bm.difficulty.customData.bookmarks =
+      bm.difficulty.customData._bookmarks?.map((b) => {
+         return {
+            b: b._time,
+            n: b._name,
+         };
+      });
 }
 
 function fromV2<T extends IWrapBeatmap>(bm: T) {
@@ -98,20 +108,24 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
       if (typeof n.customData._cutDirection === 'number') {
          logger?.tDebug(
             tag('fromV2'),
-            `colorNotes[${i}] at time ${n.time} NE _cutDirection will be converted.`,
+            `colorNotes[${i}] at time ${n.time} NE _cutDirection will be converted.`
          );
       }
       let a = 0;
       if (typeof n.customData._cutDirection === 'number') {
-         a = n.customData._cutDirection > 0
-            ? n.customData._cutDirection % 360
-            : 360 + (n.customData._cutDirection % 360);
+         a =
+            n.customData._cutDirection > 0
+               ? n.customData._cutDirection % 360
+               : 360 + (n.customData._cutDirection % 360);
       } else if (n.direction >= 1000) {
          a = Math.abs(((n.direction % 1000) % 360) - 360);
       }
-      const d = n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
-         ? n.direction === 8 ? 8 : 1
-         : clamp(n.direction, 0, 8);
+      const d =
+         n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
+            ? n.direction === 8
+               ? 8
+               : 1
+            : clamp(n.direction, 0, 8);
       if (n.customData._fake) {
          bm.difficulty.customData.fakeColorNotes!.push({
             b: n.time,
@@ -137,7 +151,7 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
       if (typeof n.customData._cutDirection === 'number') {
          logger?.tDebug(
             tag('fromV2'),
-            `bombNotes[${i}] at time ${n.time} NE _cutDirection will be converted.`,
+            `bombNotes[${i}] at time ${n.time} NE _cutDirection will be converted.`
          );
       }
       if (n.customData._fake) {
@@ -176,43 +190,39 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
 
    bm.lightshow.basicEvents.forEach((e, i) => {
       const customData = eventToV3(e.customData);
-      if (isLightEventType(e.type)) {
-         if (e.customData._propID) {
-            logger?.tWarn(
-               tag('fromV2'),
-               `events[${i}] at time ${e.time} Chroma _propID will be removed.`,
-            );
-         }
-         if (e.customData._lightGradient) {
-            logger?.tWarn(
-               tag('fromV2'),
-               `events[${i}] at time ${e.time} Chroma _lightGradient will be removed.`,
-            );
-         }
+      if (e.customData._propID) {
+         logger?.tWarn(
+            tag('fromV2'),
+            `events[${i}] at time ${e.time} Chroma _propID will be removed.`
+         );
       }
-      if (isRingEventType(e.type)) {
-         if (e.customData._reset) {
-            logger?.tWarn(
-               tag('fromV2'),
-               `events[${i}] at time ${e.time} Chroma _reset will be removed.`,
-            );
-         }
-         if (e.customData._counterSpin) {
-            logger?.tWarn(
-               tag('fromV2'),
-               `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`,
-            );
-         }
-         if (
-            e.customData._stepMult ||
-            e.customData._propMult ||
-            e.customData._speedMult
-         ) {
-            logger?.tWarn(
-               tag('fromV2'),
-               `events[${i}] at time ${e.time} Chroma _mult will be removed.`,
-            );
-         }
+      if (e.customData._lightGradient) {
+         logger?.tWarn(
+            tag('fromV2'),
+            `events[${i}] at time ${e.time} Chroma _lightGradient will be removed.`
+         );
+      }
+      if (e.customData._reset) {
+         logger?.tWarn(
+            tag('fromV2'),
+            `events[${i}] at time ${e.time} Chroma _reset will be removed.`
+         );
+      }
+      if (e.customData._counterSpin) {
+         logger?.tWarn(
+            tag('fromV2'),
+            `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`
+         );
+      }
+      if (
+         e.customData._stepMult ||
+         e.customData._propMult ||
+         e.customData._speedMult
+      ) {
+         logger?.tWarn(
+            tag('fromV2'),
+            `events[${i}] at time ${e.time} Chroma _mult will be removed.`
+         );
       }
       e.customData = customData;
    });
@@ -289,18 +299,22 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
                      track: ce._data._track,
                      duration: ce._data._duration || 0,
                      BloomFogEnvironment: {
-                        attenuation: typeof ce._data._attenuation === 'number'
-                           ? [[ce._data._attenuation, 0]]
-                           : ce._data._attenuation,
-                        height: typeof ce._data._height === 'number'
-                           ? [[ce._data._height, 0]]
-                           : ce._data._height,
-                        offset: typeof ce._data._offset === 'number'
-                           ? [[ce._data._offset, 0]]
-                           : ce._data._offset,
-                        startY: typeof ce._data._startY === 'number'
-                           ? [[ce._data._startY, 0]]
-                           : ce._data._startY,
+                        attenuation:
+                           typeof ce._data._attenuation === 'number'
+                              ? [[ce._data._attenuation, 0]]
+                              : ce._data._attenuation,
+                        height:
+                           typeof ce._data._height === 'number'
+                              ? [[ce._data._height, 0]]
+                              : ce._data._height,
+                        offset:
+                           typeof ce._data._offset === 'number'
+                              ? [[ce._data._offset, 0]]
+                              : ce._data._offset,
+                        startY:
+                           typeof ce._data._startY === 'number'
+                              ? [[ce._data._startY, 0]]
+                              : ce._data._startY,
                      },
                   },
                });
@@ -310,80 +324,90 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
          continue;
       }
       if (k === '_environment') {
-         bm.difficulty.customData.environment = bm.difficulty.customData._environment!.map((e) => {
-            let components: IChromaComponent = {};
-            if (e._lightID) {
-               components = {
-                  ILightWithId: { lightID: e._lightID },
-               };
-            }
-            if (e._id && e._lookupMethod) {
-               return {
-                  id: e._id,
-                  lookupMethod: e._lookupMethod,
-                  track: e._track,
-                  duplicate: e._duplicate,
-                  active: e._active,
-                  scale: e._scale,
-                  position: vectorMul(e._position, 0.6),
-                  rotation: e._rotation,
-                  localPosition: vectorMul(e._localPosition, 0.6),
-                  localRotation: e._localRotation,
-                  components,
-               };
-            }
-            if (e._geometry) {
-               if (e._lightID && components.ILightWithId) {
-                  components.ILightWithId.type = 0;
+         bm.difficulty.customData.environment =
+            bm.difficulty.customData._environment!.map((e) => {
+               let components: IChromaComponent = {};
+               if (e._lightID) {
+                  components = {
+                     ILightWithId: { lightID: e._lightID },
+                  };
                }
-               return {
-                  geometry: e._geometry._type === 'CUSTOM'
-                     ? {
-                        type: e._geometry._type,
-                        mesh: {
-                           vertices: e._geometry._mesh._vertices,
-                           uv: e._geometry._mesh._uv,
-                           triangles: e._geometry._mesh._triangles,
-                        },
-                        material: typeof e._geometry._material === 'string'
-                           ? e._geometry._material
+               if (e._id && e._lookupMethod) {
+                  return {
+                     id: e._id,
+                     lookupMethod: e._lookupMethod,
+                     track: e._track,
+                     duplicate: e._duplicate,
+                     active: e._active,
+                     scale: e._scale,
+                     position: vectorMul(e._position, 0.6),
+                     rotation: e._rotation,
+                     localPosition: vectorMul(e._localPosition, 0.6),
+                     localRotation: e._localRotation,
+                     components,
+                  };
+               }
+               if (e._geometry) {
+                  if (e._lightID && components.ILightWithId) {
+                     components.ILightWithId.type = 0;
+                  }
+                  return {
+                     geometry:
+                        e._geometry._type === 'CUSTOM'
+                           ? {
+                                type: e._geometry._type,
+                                mesh: {
+                                   vertices: e._geometry._mesh._vertices,
+                                   uv: e._geometry._mesh._uv,
+                                   triangles: e._geometry._mesh._triangles,
+                                },
+                                material:
+                                   typeof e._geometry._material === 'string'
+                                      ? e._geometry._material
+                                      : {
+                                           shader:
+                                              e._geometry._material._shader,
+                                           shaderKeywords:
+                                              e._geometry._material
+                                                 ._shaderKeywords,
+                                           collision:
+                                              e._geometry._material._collision,
+                                           track: e._geometry._material._track,
+                                           color: e._geometry._material._color,
+                                        },
+                                collision: e._geometry._collision,
+                             }
                            : {
-                              shader: e._geometry._material._shader,
-                              shaderKeywords: e._geometry._material
-                                 ._shaderKeywords,
-                              collision: e._geometry._material._collision,
-                              track: e._geometry._material._track,
-                              color: e._geometry._material._color,
-                           },
-                        collision: e._geometry._collision,
-                     }
-                     : {
-                        type: e._geometry._type,
-                        material: typeof e._geometry._material === 'string'
-                           ? e._geometry._material
-                           : {
-                              shader: e._geometry._material._shader,
-                              shaderKeywords: e._geometry._material
-                                 ._shaderKeywords,
-                              collision: e._geometry._material._collision,
-                              track: e._geometry._material._track,
-                              color: e._geometry._material._color,
-                           },
-                        collision: e._geometry._collision,
-                     },
-                  track: e._track,
-                  duplicate: e._duplicate,
-                  active: e._active,
-                  scale: e._scale,
-                  position: vectorMul(e._position, 0.6),
-                  rotation: e._rotation,
-                  localPosition: vectorMul(e._localPosition, 0.6),
-                  localRotation: e._localRotation,
-                  components,
-               };
-            }
-            throw new Error('Error converting environment v2 to v3');
-         });
+                                type: e._geometry._type,
+                                material:
+                                   typeof e._geometry._material === 'string'
+                                      ? e._geometry._material
+                                      : {
+                                           shader:
+                                              e._geometry._material._shader,
+                                           shaderKeywords:
+                                              e._geometry._material
+                                                 ._shaderKeywords,
+                                           collision:
+                                              e._geometry._material._collision,
+                                           track: e._geometry._material._track,
+                                           color: e._geometry._material._color,
+                                        },
+                                collision: e._geometry._collision,
+                             },
+                     track: e._track,
+                     duplicate: e._duplicate,
+                     active: e._active,
+                     scale: e._scale,
+                     position: vectorMul(e._position, 0.6),
+                     rotation: e._rotation,
+                     localPosition: vectorMul(e._localPosition, 0.6),
+                     localRotation: e._localRotation,
+                     components,
+                  };
+               }
+               throw new Error('Error converting environment v2 to v3');
+            });
          delete bm.difficulty.customData._environment;
          continue;
       }
@@ -392,7 +416,8 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
          for (const m in bm.difficulty.customData._materials) {
             bm.difficulty.customData.materials[m] = {
                shader: bm.difficulty.customData._materials[m]._shader,
-               shaderKeywords: bm.difficulty.customData._materials[m]._shaderKeywords,
+               shaderKeywords:
+                  bm.difficulty.customData._materials[m]._shaderKeywords,
                collision: bm.difficulty.customData._materials[m]._collision,
                track: bm.difficulty.customData._materials[m]._track,
                color: bm.difficulty.customData._materials[m]._color,
@@ -423,7 +448,7 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
                   p: bpmc._beatsPerBar,
                   o: bpmc._metronomeOffset,
                };
-            },
+            }
          );
          delete bm.difficulty.customData._BPMChanges;
          continue;
@@ -437,19 +462,20 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
                   p: bpmc._beatsPerBar,
                   o: bpmc._metronomeOffset,
                };
-            },
+            }
          );
          delete bm.difficulty.customData._bpmChanges;
          continue;
       }
       if (k === '_bookmarks') {
-         bm.difficulty.customData.bookmarks = bm.difficulty.customData._bookmarks?.map((b) => {
-            return {
-               b: b._time,
-               n: b._name,
-               c: b._color,
-            };
-         });
+         bm.difficulty.customData.bookmarks =
+            bm.difficulty.customData._bookmarks?.map((b) => {
+               return {
+                  b: b._time,
+                  n: b._name,
+                  c: b._color,
+               };
+            });
          delete bm.difficulty.customData._bookmarks;
          continue;
       }
@@ -487,20 +513,20 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
             if (typeof ce.d.position === 'string') {
                logger?.tWarn(
                   tag('fromV2'),
-                  'Cannot convert point definitions, unknown use.',
+                  'Cannot convert point definitions, unknown use.'
                );
             } else if (Array.isArray(ce.d.position)) {
                isVector3(ce.d.position)
                   ? vectorMul(ce.d.position, 0.6)
                   : ce.d.position.forEach((point) => {
-                     if (typeof point === 'string') return;
-                     if (typeof point === 'number') point *= 0.6;
-                  });
+                       if (typeof point === 'string') return;
+                       if (typeof point === 'number') point *= 0.6;
+                    });
             }
          } else {
             logger?.tWarn(
                tag('fromV2'),
-               'Environment animate track array conversion not yet implemented.',
+               'Environment animate track array conversion not yet implemented.'
             );
          }
       }

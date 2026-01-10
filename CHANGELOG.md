@@ -5,6 +5,9 @@
 ```diff
 + Added count to GLS track definition
 + Added kind to event track definition
+- Removed couple of basic event helper
+  - Since basic event is not equal in every environment, they serve inaccurate result and is now entirely removed
+  - Use `TrackDefinitions` to obtain more information from basic event
 ```
 
 ## 2.3.1 [2026-01-10]

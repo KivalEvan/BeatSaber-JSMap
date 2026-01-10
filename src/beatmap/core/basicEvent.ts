@@ -5,19 +5,14 @@ import {
    isBlueEventValue,
    isBpmChangeEventType,
    isColorBoostEventType,
-   isExtraEventType,
    isFadeEventValue,
    isFlashEventValue,
    isLaneRotationEventType,
-   isLaserRotationEventType,
-   isLightEventType,
-   isLightingEventType,
    isNjsChangeEventType,
    isOffEventValue,
    isOldChromaEventValue,
    isOnEventValue,
    isRedEventValue,
-   isRingEventType,
    isSpecialEventType,
    isTransitionEventValue,
    isValidEventType,
@@ -59,9 +54,7 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
 
    override isValid(fn?: (object: this) => boolean, override?: boolean): boolean {
       return override ? super.isValid(fn, override) : super.isValid(fn, override) &&
-         this.isValidType() &&
-         this.value >= 0 &&
-         !(!this.isLaserRotationEvent() && this.value > 12 && !this.isOldChroma());
+         this.isValidType();
    }
 
    type: IWrapBasicEvent['type'];
@@ -178,16 +171,6 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
    }
 
    /**
-    * Check if event is a light event.
-    * ```ts
-    * if (event.isLightEvent()) {}
-    * ```
-    */
-   isLightEvent(environment?: EnvironmentName): boolean {
-      return isLightEventType(this.type, environment);
-   }
-
-   /**
     * Check if event is a boost event.
     * ```ts
     * if (event.isColorBoost()) {}
@@ -198,28 +181,6 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
    }
 
    /**
-    * Check if event is a ring event.
-    * ```ts
-    * if (event.isRingEvent()) {}
-    * ```
-    *
-    * This does not check for ring zoom.
-    */
-   isRingEvent(environment?: EnvironmentName): boolean {
-      return isRingEventType(this.type, environment);
-   }
-
-   /**
-    * Check if event is a laser rotation event.
-    * ```ts
-    * if (event.isLaserRotationEvent()) {}
-    * ```
-    */
-   isLaserRotationEvent(environment?: EnvironmentName): boolean {
-      return isLaserRotationEventType(this.type, environment);
-   }
-
-   /**
     * Check if event is a lane rotation event.
     * ```ts
     * if (event.isLaneRotationEvent()) {}
@@ -227,16 +188,6 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
     */
    isLaneRotationEvent(): boolean {
       return isLaneRotationEventType(this.type);
-   }
-
-   /**
-    * Check if event is a extra event.
-    * ```ts
-    * if (event.isExtraEvent()) {}
-    * ```
-    */
-   isExtraEvent(environment?: EnvironmentName): boolean {
-      return isExtraEventType(this.type, environment);
    }
 
    /**
@@ -258,18 +209,9 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
    isBpmEvent(): boolean {
       return isBpmChangeEventType(this.type);
    }
+
    isNjsEvent(): boolean {
       return isNjsChangeEventType(this.type);
-   }
-
-   /**
-    * Not to be confused with `isLightEvent`, this checks for event that affects the environment/lighting.
-    * ```ts
-    * if (event.isLightingEvent()) {}
-    * ```
-    */
-   isLightingEvent(): boolean {
-      return isLightingEventType(this.type);
    }
 
    /**

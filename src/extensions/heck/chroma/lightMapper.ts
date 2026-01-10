@@ -1,5 +1,4 @@
 import {
-   isLightEventType,
    isRedEventValue,
    isWhiteEventValue,
 } from '../../../beatmap/helpers/core/basicEvent.ts';
@@ -293,7 +292,7 @@ export class LightMapper {
                      ),
                      customData: { ...ev.customData, lightID: lid[i] },
                   };
-                  if (eb.hueDistribution && isLightEventType(event.type)) {
+                  if (eb.hueDistribution) {
                      if (!event.customData.color) {
                         event.customData.color = isWhiteEventValue(event.value)
                            ? [1, 1, 1]
