@@ -128,7 +128,7 @@ function v3<T extends IWrapBeatmap>(data: T): void {
    if (Array.isArray(data.customData.pointDefinitions)) {
       const fixedObj: IPointDefinition = {};
       data.customData.pointDefinitions.forEach(
-         (pd) => (fixedObj[pd.name as string] = pd.points)
+         (pd) => (fixedObj[pd.name as string] = pd.points),
       );
       data.customData.pointDefinitions = fixedObj;
    }
@@ -139,13 +139,13 @@ function v3<T extends IWrapBeatmap>(data: T): void {
  */
 export function customDataUpdate<T extends IWrapBeatmap>(
    data: T,
-   version: number
+   version: number,
 ) {
    const logger = getLogger();
 
    logger?.tInfo(
       ['patch', 'customDataUpdate'],
-      'Patching custom data for beatmap v' + version + '...'
+      'Patching custom data for beatmap v' + version + '...',
    );
    switch (version) {
       case 2:

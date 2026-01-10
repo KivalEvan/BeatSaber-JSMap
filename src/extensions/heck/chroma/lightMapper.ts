@@ -1,7 +1,4 @@
-import {
-   isRedEventValue,
-   isWhiteEventValue,
-} from '../../../beatmap/helpers/core/basicEvent.ts';
+import { isRedEventValue, isWhiteEventValue } from '../../../beatmap/helpers/core/basicEvent.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../../../beatmap/misc/colorScheme.ts';
 import type { EnvironmentName } from '../../../beatmap/schema/shared/types/environment.ts';
 import type {

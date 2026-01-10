@@ -38,7 +38,9 @@ jobs:
          - name: Publishing on JSR
            run: npx jsr publish
 
+         - run: cd npm
          - name: Publishing on NPM
-           run: cd npm && npm publish --provenance --access public && cd ..
+           run: npm publish --provenance --access public
            env:
               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+         - run: cd ..

@@ -22,13 +22,13 @@ function tag(name: string): string[] {
  */
 export function toV2Beatmap<T extends IWrapBeatmap>(
    data: T,
-   fromVersion = data.version
+   fromVersion = data.version,
 ): T {
    const logger = getLogger();
 
    logger?.tWarn(
       tag('main'),
-      'Converting to beatmap v2 may lose certain data!'
+      'Converting to beatmap v2 may lose certain data!',
    );
 
    switch (fromVersion) {
@@ -48,7 +48,7 @@ export function toV2Beatmap<T extends IWrapBeatmap>(
       default:
          logger?.tWarn(
             tag('main'),
-            'Unknown version: version not supported; misinput? Returning original data.'
+            'Unknown version: version not supported; misinput? Returning original data.',
          );
    }
 
@@ -200,88 +200,76 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
          continue;
       }
       if (k === 'environment') {
-         bm.difficulty.customData._environment =
-            bm.difficulty.customData.environment!.map((e) => {
-               if (e.id && e.lookupMethod) {
-                  return {
-                     _id: e.id,
-                     _lookupMethod: e.lookupMethod,
-                     _track: e.track,
-                     _duplicate: e.duplicate,
-                     _active: e.active,
-                     _scale: e.scale,
-                     _position: vectorMul(e.position, 1 / 0.6),
-                     _rotation: e.rotation,
-                     _localPosition: vectorMul(e.localPosition, 1 / 0.6),
-                     _localRotation: e.localRotation,
-                     _lightID: e.components?.ILightWithId?.lightID,
-                  };
+         bm.difficulty.customData._environment = bm.difficulty.customData.environment!.map((e) => {
+            if (e.id && e.lookupMethod) {
+               return {
+                  _id: e.id,
+                  _lookupMethod: e.lookupMethod,
+                  _track: e.track,
+                  _duplicate: e.duplicate,
+                  _active: e.active,
+                  _scale: e.scale,
+                  _position: vectorMul(e.position, 1 / 0.6),
+                  _rotation: e.rotation,
+                  _localPosition: vectorMul(e.localPosition, 1 / 0.6),
+                  _localRotation: e.localRotation,
+                  _lightID: e.components?.ILightWithId?.lightID,
+               };
+            }
+            if (e.geometry) {
+               if (
+                  e.components?.ILightWithId?.type ||
+                  e.components?.ILightWithId?.lightID
+               ) {
+                  logger?.tWarn(
+                     tag('fromV2'),
+                     'v2 geometry cannot be made assignable light to specific type',
+                  );
                }
-               if (e.geometry) {
-                  if (
-                     e.components?.ILightWithId?.type ||
-                     e.components?.ILightWithId?.lightID
-                  ) {
-                     logger?.tWarn(
-                        tag('fromV2'),
-                        'v2 geometry cannot be made assignable light to specific type'
-                     );
-                  }
-                  return {
-                     _geometry:
-                        e.geometry.type === 'CUSTOM'
-                           ? {
-                                _type: e.geometry.type,
-                                _mesh: {
-                                   _vertices: e.geometry.mesh.vertices,
-                                   _uv: e.geometry.mesh.uv,
-                                   _triangles: e.geometry.mesh.triangles,
-                                },
-                                _material:
-                                   typeof e.geometry.material === 'string'
-                                      ? e.geometry.material
-                                      : {
-                                           _shader: e.geometry.material.shader,
-                                           _shaderKeywords:
-                                              e.geometry.material
-                                                 .shaderKeywords,
-                                           _collision:
-                                              e.geometry.material.collision,
-                                           _track: e.geometry.material.track,
-                                           _color: e.geometry.material.color,
-                                        },
-                                _collision: e.geometry.collision,
-                             }
-                           : {
-                                _type: e.geometry.type,
-                                _material:
-                                   typeof e.geometry.material === 'string'
-                                      ? e.geometry.material
-                                      : {
-                                           _shader: e.geometry.material.shader,
-                                           _shaderKeywords:
-                                              e.geometry.material
-                                                 .shaderKeywords,
-                                           _collision:
-                                              e.geometry.material.collision,
-                                           _track: e.geometry.material.track,
-                                           _color: e.geometry.material.color,
-                                        },
-                                _collision: e.geometry.collision,
-                             },
-                     _track: e.track,
-                     _duplicate: e.duplicate,
-                     _active: e.active,
-                     _scale: e.scale,
-                     _position: vectorMul(e.position, 1 / 0.6),
-                     _rotation: e.rotation,
-                     _localPosition: vectorMul(e.localPosition, 1 / 0.6),
-                     _localRotation: e.localRotation,
-                     _lightID: e.components?.ILightWithId?.lightID,
-                  };
-               }
-               throw new Error('Error converting environment v3 to v2');
-            });
+               return {
+                  _geometry: e.geometry.type === 'CUSTOM'
+                     ? {
+                        _type: e.geometry.type,
+                        _mesh: {
+                           _vertices: e.geometry.mesh.vertices,
+                           _uv: e.geometry.mesh.uv,
+                           _triangles: e.geometry.mesh.triangles,
+                        },
+                        _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
+                           _shader: e.geometry.material.shader,
+                           _shaderKeywords: e.geometry.material
+                              .shaderKeywords,
+                           _collision: e.geometry.material.collision,
+                           _track: e.geometry.material.track,
+                           _color: e.geometry.material.color,
+                        },
+                        _collision: e.geometry.collision,
+                     }
+                     : {
+                        _type: e.geometry.type,
+                        _material: typeof e.geometry.material === 'string' ? e.geometry.material : {
+                           _shader: e.geometry.material.shader,
+                           _shaderKeywords: e.geometry.material
+                              .shaderKeywords,
+                           _collision: e.geometry.material.collision,
+                           _track: e.geometry.material.track,
+                           _color: e.geometry.material.color,
+                        },
+                        _collision: e.geometry.collision,
+                     },
+                  _track: e.track,
+                  _duplicate: e.duplicate,
+                  _active: e.active,
+                  _scale: e.scale,
+                  _position: vectorMul(e.position, 1 / 0.6),
+                  _rotation: e.rotation,
+                  _localPosition: vectorMul(e.localPosition, 1 / 0.6),
+                  _localRotation: e.localRotation,
+                  _lightID: e.components?.ILightWithId?.lightID,
+               };
+            }
+            throw new Error('Error converting environment v3 to v2');
+         });
          delete bm.difficulty.customData.environment;
          continue;
       }
@@ -290,8 +278,7 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
          for (const m in bm.difficulty.customData.materials) {
             bm.difficulty.customData._materials[m] = {
                _shader: bm.difficulty.customData.materials[m].shader,
-               _shaderKeywords:
-                  bm.difficulty.customData.materials[m].shaderKeywords,
+               _shaderKeywords: bm.difficulty.customData.materials[m].shaderKeywords,
                _collision: bm.difficulty.customData.materials[m].collision,
                _track: bm.difficulty.customData.materials[m].track,
                _color: bm.difficulty.customData.materials[m].color,
@@ -334,7 +321,7 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
          bm.difficulty.customData._bookmarks = bm.difficulty.customData[k]?.map(
             (b) => {
                return { _time: b.b, _name: b.n, _color: b.c };
-            }
+            },
          );
          delete bm.difficulty.customData.bookmarks;
          continue;
@@ -373,22 +360,22 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
             if (typeof ce._data._position === 'string') {
                logger?.tWarn(
                   tag('fromV2'),
-                  'Cannot convert point definitions, unknown use.'
+                  'Cannot convert point definitions, unknown use.',
                );
             } else if (Array.isArray(ce._data._position)) {
                isVector3(ce._data._position)
                   ? vectorMul(ce._data._position, 0.6)
-                  : // deno-lint-ignore no-explicit-any
-                    ce._data._position.forEach((point: any) => {
-                       point[0] *= 0.6;
-                       point[1] *= 0.6;
-                       point[2] *= 0.6;
-                    });
+                  // deno-lint-ignore no-explicit-any
+                  : ce._data._position.forEach((point: any) => {
+                     point[0] *= 0.6;
+                     point[1] *= 0.6;
+                     point[2] *= 0.6;
+                  });
             }
          } else {
             logger?.tWarn(
                tag('fromV2'),
-               'Environment animate track array conversion not yet implemented.'
+               'Environment animate track array conversion not yet implemented.',
             );
          }
       }
