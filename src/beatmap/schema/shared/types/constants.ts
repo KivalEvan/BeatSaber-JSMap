@@ -110,6 +110,19 @@ export const EventType = {
 } as const;
 export type EventType = Member<typeof EventType>;
 
+/** List of all available event kind. */
+export const EventKind = {
+   None: -1,
+   Light: 0,
+   Toggle: 1,
+   Float: 3,
+   Int: 4,
+   BTS: 5,
+   Car: 6,
+};
+
+export type EventKind = Member<typeof EventKind>;
+
 /** Base game execution time value used in spawn rotation event. */
 export const ExecutionTime = {
    EARLY: 0,

@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.2 [2026-01-10]
+
+```diff
++ Added count to GLS track definition
++ Added kind to event track definition
+```
+
 ## 2.3.1 [2026-01-10]
 
 ```diff

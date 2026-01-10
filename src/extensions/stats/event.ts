@@ -23,8 +23,10 @@ export function countEvent<
    environment: EnvironmentName = 'DefaultEnvironment',
    version = 2,
 ): ICountEvent {
-   const commonEvent = TrackDefinitions[environment]?.[0] ??
-      TrackDefinitions['DefaultEnvironment'][0];
+   const commonEvent = Object.keys(
+      TrackDefinitions[environment]?.[0] ??
+         TrackDefinitions['DefaultEnvironment'][0],
+   ).map(Number);
    const eventCount: ICountEvent = {};
    for (let i = commonEvent.length - 1; i >= 0; i--) {
       eventCount[commonEvent[i]] = {

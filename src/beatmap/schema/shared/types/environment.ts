@@ -13,8 +13,8 @@ export const EnvironmentName = [
    'CrabRaveEnvironment',
    'PanicEnvironment',
    'RocketEnvironment',
-   'GreenDayEnvironment',
    'GreenDayGrenadeEnvironment',
+   'GreenDayEnvironment',
    'TimbalandEnvironment',
    'FitBeatEnvironment',
    'LinkinParkEnvironment',
@@ -65,8 +65,8 @@ export type EnvironmentV2Name =
    | 'CrabRaveEnvironment'
    | 'PanicEnvironment'
    | 'RocketEnvironment'
-   | 'GreenDayEnvironment'
    | 'GreenDayGrenadeEnvironment'
+   | 'GreenDayEnvironment'
    | 'TimbalandEnvironment'
    | 'FitBeatEnvironment'
    | 'LinkinParkEnvironment'
