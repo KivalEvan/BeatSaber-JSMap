@@ -57,6 +57,9 @@ export function isV3Environment(
       environment === 'DaftPunkEnvironment' ||
       environment === 'HipHopEnvironment' ||
       environment === 'ColliderEnvironment' ||
+      environment === 'BritneyEnvironment' ||
+      environment === 'Monstercat2Environment' ||
+      environment === 'MetallicaEnvironment' ||
       environment === 'GridEnvironment' ||
       environment === 'ColdplayEnvironment'
    );
