@@ -1,5 +1,10 @@
 import { EventKind } from '../mod.ts';
-import type { EnvironmentName } from '../schema/shared/types/environment.ts';
+import type {
+   EnvironmentName,
+   IBasicTrack,
+   IGroupTrack,
+   ITrackDefinitions,
+} from '../schema/shared/types/environment.ts';
 
 /** Environment rename to human readable. */
 export const EnvironmentRename: {
@@ -57,20 +62,8 @@ export const EnvironmentRename: {
 /** Track definitions per environment. */
 export const TrackDefinitions: {
    [key in EnvironmentName]: [
-      events: {
-         readonly [key: number]: {
-            readonly type: EventKind;
-         };
-      },
-      gls: {
-         readonly [key: number]: {
-            readonly count: number;
-            readonly color: boolean;
-            readonly rotation: readonly [boolean, boolean, boolean];
-            readonly translation: readonly [boolean, boolean, boolean];
-            readonly fx: boolean;
-         };
-      },
+      basicTracks: Readonly<ITrackDefinitions<Readonly<IBasicTrack>>>,
+      groupTracks: Readonly<ITrackDefinitions<Readonly<IGroupTrack>>>,
    ];
 } = {
    DefaultEnvironment: [
