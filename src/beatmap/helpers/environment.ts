@@ -1,3 +1,4 @@
+import { TrackDefinitions } from '../misc/environment.ts';
 import {
    type Environment360Name,
    type EnvironmentName,
@@ -5,6 +6,7 @@ import {
    type EnvironmentV3Name,
    EventKind,
    type IBasicTrack,
+   type IGroupTrack,
    type ITrackDefinitions,
 } from '../schema/shared/types/environment.ts';
 
@@ -125,4 +127,52 @@ export function isBasicCarTrack(
    tracks: ITrackDefinitions<IBasicTrack>,
 ): boolean {
    return tracks[type].type === EventKind.Car;
+}
+
+/** Retrieve all basic track definitions for an environment. Optionally supply a renamer fn to append a "name" field to each definition. */
+export function getBasicTracksForEnvironment(
+   environment: EnvironmentName,
+): ITrackDefinitions<IBasicTrack & { id: number }>;
+export function getBasicTracksForEnvironment(
+   environment: EnvironmentName,
+   renamer: (type: number, environment: EnvironmentName) => string | undefined,
+): ITrackDefinitions<IBasicTrack & { id: number; name: string | undefined }>;
+export function getBasicTracksForEnvironment(
+   environment: EnvironmentName,
+   renamer?: (type: number, environment: EnvironmentName) => string | undefined,
+): ITrackDefinitions<IBasicTrack & { id: number; name: string | undefined }> {
+   const basicTracks = TrackDefinitions[environment][0] as ITrackDefinitions<
+      IBasicTrack & { id: number; name: string | undefined }
+   >;
+
+   for (const type of Object.keys(basicTracks).map((key) => Number.parseInt(key, 10))) {
+      basicTracks[type] = { ...basicTracks[type], id: type };
+      if (renamer) basicTracks[type].name = renamer?.(type, environment);
+   }
+
+   return basicTracks;
+}
+
+/** Retrieve all group track definitions for an environment. Optionally supply a renamer fn to append a "name" field to each definition. */
+export function getGroupTracksForEnvironment(
+   environment: EnvironmentName,
+): ITrackDefinitions<IGroupTrack & { id: number }>;
+export function getGroupTracksForEnvironment(
+   environment: EnvironmentName,
+   renamer: (type: number, environment: EnvironmentName) => string | undefined,
+): ITrackDefinitions<IGroupTrack & { id: number; name: string | undefined }>;
+export function getGroupTracksForEnvironment(
+   environment: EnvironmentName,
+   renamer?: (type: number, environment: EnvironmentName) => string | undefined,
+): ITrackDefinitions<IGroupTrack & { id: number; name: string | undefined }> {
+   const groupTracks = TrackDefinitions[environment][1] as ITrackDefinitions<
+      IGroupTrack & { id: number; name: string | undefined }
+   >;
+
+   for (const id of Object.keys(groupTracks).map((key) => Number.parseInt(key, 10))) {
+      groupTracks[id] = { ...groupTracks[id], id };
+      if (renamer) groupTracks[id].name = renamer?.(id, environment);
+   }
+
+   return groupTracks;
 }

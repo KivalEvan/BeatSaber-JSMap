@@ -1,9 +1,10 @@
-import type { EnvironmentName } from '../../beatmap/schema/shared/types/environment.ts';
+import type {
+   EnvironmentName,
+   ITrackDefinitions,
+} from '../../beatmap/schema/shared/types/environment.ts';
 
-/**
- * Record of Event Type to Name.
- */
-export const genericTypeMap: { [key: number]: string } = {
+/** Record of Event Type to Name. */
+export const genericTypeMap: ITrackDefinitions<string> = {
    0: 'Accent Lights',
    1: 'Ring Lights',
    2: 'Left Lasers',
@@ -30,12 +31,8 @@ export const genericTypeMap: { [key: number]: string } = {
    43: 'Special Event 4',
 };
 
-/**
- * Record of Environment to Type to Name.
- */
-export const environmentTypeMap: {
-   [env in EnvironmentName]?: { [key: number]: string };
-} = {
+/** Record of Environment to Type to Name. */
+export const environmentTypeMap: { [env in EnvironmentName]: ITrackDefinitions<string> } = {
    DefaultEnvironment: {
       0: 'Under Track X',
       1: 'Big Ring Lights',
@@ -324,18 +321,14 @@ export const environmentTypeMap: {
       6: 'Ambient',
       8: 'Player Place',
    },
+   GlassDesertEnvironment: {},
+   MultiplayerEnvironment: {},
 };
 
-/**
- * Safely retrieve the name of an event type.
- */
+/** Safely retrieve the name of an event type. */
 export function eventTypeRename(
    type: number,
-   environment?: EnvironmentName,
-): string {
-   return (
-      environmentTypeMap[environment!]?.[type] ||
-      genericTypeMap[type] ||
-      'Unknown'
-   );
+   environment: EnvironmentName,
+): string | undefined {
+   return environmentTypeMap[environment][type] ?? genericTypeMap[type] ?? undefined;
 }
