@@ -1,8 +1,11 @@
-import type {
-   Environment360Name,
-   EnvironmentName,
-   EnvironmentV2Name,
-   EnvironmentV3Name,
+import {
+   type Environment360Name,
+   type EnvironmentName,
+   type EnvironmentV2Name,
+   type EnvironmentV3Name,
+   EventKind,
+   type IBasicTrack,
+   type ITrackDefinitions,
 } from '../schema/shared/types/environment.ts';
 
 /** Check if environment is v2 environment. */
@@ -72,4 +75,54 @@ export function is360Environment(
       environment === 'GlassDesertEnvironment' ||
       environment === 'MultiplayerEnvironment'
    );
+}
+
+/** Check if event type is a basic event with no special controls. */
+export function isBasicNoneTrack(
+   type: number,
+   tracks: ITrackDefinitions<IBasicTrack>,
+): boolean {
+   return tracks[type].type === EventKind.None;
+}
+/** Check if event type is a basic event with "light" controls. */
+export function isBasicLightTrack(
+   type: number,
+   tracks: ITrackDefinitions<IBasicTrack>,
+): boolean {
+   return tracks[type].type === EventKind.Light;
+}
+/** Check if event type is a basic event with "toggle" controls. */
+export function isBasicToggleTrack(
+   type: number,
+   tracks: ITrackDefinitions<IBasicTrack>,
+): boolean {
+   return tracks[type].type === EventKind.Toggle;
+}
+/** Check if event type is a basic event with "float value" controls. */
+export function isBasicFloatValueTrack(
+   type: number,
+   tracks: ITrackDefinitions<IBasicTrack>,
+): boolean {
+   return tracks[type].type === EventKind.Float;
+}
+/** Check if event type is a basic event with "integer value" controls. */
+export function isBasicIntValueTrack(
+   type: number,
+   tracks: ITrackDefinitions<IBasicTrack>,
+): boolean {
+   return tracks[type].type === EventKind.Int;
+}
+/** Check if event type is a basic event with "character selection" controls. */
+export function isBasicBtsTrack(
+   type: number,
+   tracks: ITrackDefinitions<IBasicTrack>,
+): boolean {
+   return tracks[type].type === EventKind.BTS;
+}
+/** Check if event type is a basic event with "car selection" controls. */
+export function isBasicCarTrack(
+   type: number,
+   tracks: ITrackDefinitions<IBasicTrack>,
+): boolean {
+   return tracks[type].type === EventKind.Car;
 }

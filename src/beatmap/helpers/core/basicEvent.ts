@@ -1,4 +1,3 @@
-import type { EnvironmentName } from '../../schema/shared/types/environment.ts';
 import { EventLightValue, EventType } from '../../schema/shared/types/constants.ts';
 
 /** Check if event type is valid. */
@@ -16,7 +15,6 @@ export function isValidEventType(type: number): boolean {
 export function isColorBoostEventType(type: number): boolean {
    return type === EventType.COLOR_BOOST;
 }
-
 /** Check if event type is a lane rotation event. */
 export function isLaneRotationEventType(type: number): boolean {
    return (
@@ -24,12 +22,8 @@ export function isLaneRotationEventType(type: number): boolean {
       type === EventType.LATE_LANE_ROTATION
    );
 }
-
 /** Check if event type is a special event. */
-export function isSpecialEventType(
-   type: number,
-   _environment?: EnvironmentName,
-): boolean {
+export function isSpecialEventType(type: number): boolean {
    return (
       type === EventType.SPECIAL_EVENT_0 ||
       type === EventType.SPECIAL_EVENT_1 ||
@@ -42,17 +36,14 @@ export function isSpecialEventType(
 export function isBpmChangeEventType(type: number): boolean {
    return type === EventType.BPM_CHANGE;
 }
-/**
- *  Check if event type is an NJS change. */
+/** Check if event type is an NJS change. */
 export function isNjsChangeEventType(type: number): boolean {
    return type === EventType.NJS_CHANGE;
 }
-
 /** Check if light event is an off event. */
 export function isOffEventValue(value: number): boolean {
    return value === EventLightValue.OFF;
 }
-
 /** Check if light event is an on event. */
 export function isOnEventValue(value: number): boolean {
    return (
