@@ -317,7 +317,7 @@ export const TrackDefinitions: {
          4: { type: 0 },
          6: { type: 0 },
          7: { type: 0 },
-         8: { type: -1 },
+         8: { type: 6 },
          9: { type: -1 },
          16: { type: 6 },
          17: { type: 6 },
