@@ -141,6 +141,10 @@ export function getBasicTracksForEnvironment(
    environment: EnvironmentName,
    renamer?: (type: number, environment: EnvironmentName) => string | undefined,
 ): ITrackDefinitions<IBasicTrack & { id: number; name: string | undefined }> {
+   if (!(environment in TrackDefinitions)) {
+      return {};
+   }
+
    const basicTracks = TrackDefinitions[environment][0] as ITrackDefinitions<
       IBasicTrack & { id: number; name: string | undefined }
    >;
@@ -165,6 +169,10 @@ export function getGroupTracksForEnvironment(
    environment: EnvironmentName,
    renamer?: (type: number, environment: EnvironmentName) => string | undefined,
 ): ITrackDefinitions<IGroupTrack & { id: number; name: string | undefined }> {
+   if (!(environment in TrackDefinitions)) {
+      return {};
+   }
+
    const groupTracks = TrackDefinitions[environment][1] as ITrackDefinitions<
       IGroupTrack & { id: number; name: string | undefined }
    >;

@@ -1,4 +1,3 @@
-import type { EnvironmentName } from '../schema/shared/types/environment.ts';
 import type { IWrapBasicEvent } from '../schema/wrapper/types/basicEvent.ts';
 import { deepCopy } from '../../utils/misc/json.ts';
 import {
@@ -196,8 +195,8 @@ export class BasicEvent extends BaseObject implements IWrapBasicEvent {
     * if (event.isSpecialEvent()) {}
     * ```
     */
-   isSpecialEvent(environment?: EnvironmentName): boolean {
-      return isSpecialEventType(this.type, environment);
+   isSpecialEvent(): boolean {
+      return isSpecialEventType(this.type);
    }
 
    /**
