@@ -1,4 +1,4 @@
-import { TrackDefinitions } from '../misc/environment.ts';
+import { BasicTrackDefinitions, GroupTrackDefinitions } from '../misc/environment.ts';
 import {
    type Environment360Name,
    type EnvironmentName,
@@ -141,11 +141,11 @@ export function getBasicTracksForEnvironment(
    environment: EnvironmentName,
    renamer?: (type: number, environment: EnvironmentName) => string | undefined,
 ): ITrackDefinitions<IBasicTrack & { id: number; name: string | undefined }> {
-   if (!(environment in TrackDefinitions)) {
+   if (!(environment in BasicTrackDefinitions)) {
       return {};
    }
 
-   const basicTracks = TrackDefinitions[environment][0] as ITrackDefinitions<
+   const basicTracks = BasicTrackDefinitions[environment] as ITrackDefinitions<
       IBasicTrack & { id: number; name: string | undefined }
    >;
 
@@ -169,11 +169,11 @@ export function getGroupTracksForEnvironment(
    environment: EnvironmentName,
    renamer?: (type: number, environment: EnvironmentName) => string | undefined,
 ): ITrackDefinitions<IGroupTrack & { id: number; name: string | undefined }> {
-   if (!(environment in TrackDefinitions)) {
+   if (!(environment in GroupTrackDefinitions)) {
       return {};
    }
 
-   const groupTracks = TrackDefinitions[environment][1] as ITrackDefinitions<
+   const groupTracks = GroupTrackDefinitions[environment] as ITrackDefinitions<
       IGroupTrack & { id: number; name: string | undefined }
    >;
 

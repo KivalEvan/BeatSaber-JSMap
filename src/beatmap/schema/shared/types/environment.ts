@@ -122,7 +122,7 @@ export const EventKind = {
    Int: 4,
    BTS: 5,
    Car: 6,
-};
+} as const;
 export type EventKind = Member<typeof EventKind>;
 
 /** Metadata for basic event track. */
