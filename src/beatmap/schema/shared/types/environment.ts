@@ -127,6 +127,19 @@ export type EventKind = Member<typeof EventKind>;
 
 /** Metadata for basic event track. */
 export interface IBasicTrack {
+   /**
+    * Defines the behavior for event track controls.
+    *
+    * ```txt
+    * -1 -> None
+    *  0 -> Light
+    *  1 -> Toggle
+    *  3 -> Float value
+    *  4 -> Integer value
+    *  5 -> Character selection value (BTS)
+    *  6 -> Car selection value (Interscope)
+    * ```
+    */
    type: EventKind;
 }
 

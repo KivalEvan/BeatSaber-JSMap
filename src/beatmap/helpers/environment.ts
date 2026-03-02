@@ -1,13 +1,12 @@
 import { BasicTrackDefinitions, GroupTrackDefinitions } from '../misc/environment.ts';
-import {
-   type Environment360Name,
-   type EnvironmentName,
-   type EnvironmentV2Name,
-   type EnvironmentV3Name,
-   EventKind,
-   type IBasicTrack,
-   type IGroupTrack,
-   type ITrackDefinitions,
+import type {
+   Environment360Name,
+   EnvironmentName,
+   EnvironmentV2Name,
+   EnvironmentV3Name,
+   IBasicTrack,
+   IGroupTrack,
+   ITrackDefinitions,
 } from '../schema/shared/types/environment.ts';
 
 /** Check if environment is v2 environment. */
@@ -84,49 +83,49 @@ export function isBasicNoneTrack(
    type: number,
    tracks: ITrackDefinitions<IBasicTrack>,
 ): boolean {
-   return tracks[type].type === EventKind.None;
+   return tracks[type].type === -1;
 }
 /** Check if event type is a basic event with "light" controls. */
 export function isBasicLightTrack(
    type: number,
    tracks: ITrackDefinitions<IBasicTrack>,
 ): boolean {
-   return tracks[type].type === EventKind.Light;
+   return tracks[type].type === 0;
 }
 /** Check if event type is a basic event with "toggle" controls. */
 export function isBasicToggleTrack(
    type: number,
    tracks: ITrackDefinitions<IBasicTrack>,
 ): boolean {
-   return tracks[type].type === EventKind.Toggle;
+   return tracks[type].type === 1;
 }
 /** Check if event type is a basic event with "float value" controls. */
 export function isBasicFloatValueTrack(
    type: number,
    tracks: ITrackDefinitions<IBasicTrack>,
 ): boolean {
-   return tracks[type].type === EventKind.Float;
+   return tracks[type].type === 3;
 }
 /** Check if event type is a basic event with "integer value" controls. */
 export function isBasicIntValueTrack(
    type: number,
    tracks: ITrackDefinitions<IBasicTrack>,
 ): boolean {
-   return tracks[type].type === EventKind.Int;
+   return tracks[type].type === 4;
 }
 /** Check if event type is a basic event with "character selection" controls. */
 export function isBasicBtsTrack(
    type: number,
    tracks: ITrackDefinitions<IBasicTrack>,
 ): boolean {
-   return tracks[type].type === EventKind.BTS;
+   return tracks[type].type === 5;
 }
 /** Check if event type is a basic event with "car selection" controls. */
 export function isBasicCarTrack(
    type: number,
    tracks: ITrackDefinitions<IBasicTrack>,
 ): boolean {
-   return tracks[type].type === EventKind.Car;
+   return tracks[type].type === 6;
 }
 
 /** Retrieve all basic track definitions for an environment. Optionally supply a renamer fn to append a "name" field to each definition. */
