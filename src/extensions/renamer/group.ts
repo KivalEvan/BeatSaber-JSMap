@@ -1,11 +1,12 @@
-import type { EnvironmentName } from '../../beatmap/schema/shared/types/environment.ts';
+import { isV3Environment } from '../../beatmap/helpers/environment.ts';
+import type {
+   EnvironmentName,
+   EnvironmentV3Name,
+   ITrackDefinitions,
+} from '../../beatmap/schema/shared/types/environment.ts';
 
-/**
- * Record of Environment to Group ID to Name.
- */
-export const environmentGroupMap: {
-   [env in EnvironmentName]?: { [key: number]: string };
-} = {
+/** Record of Environment to Group ID to Name. */
+export const environmentGroupMap: { [env in EnvironmentV3Name]: ITrackDefinitions<string> } = {
    WeaveEnvironment: {
       0: 'Outer Square Bottom Left Laser',
       1: 'Outer Square Bottom Right Laser',
@@ -679,12 +680,11 @@ export const environmentGroupMap: {
    },
 };
 
-/**
- * Safely retrieve the name of an event group.
- */
+/** Safely retrieve the name of an event group. */
 export function eventGroupRename(
    id: number,
-   environment?: EnvironmentName,
-): string {
-   return environmentGroupMap[environment!]?.[id] || 'Unknown';
+   environment: EnvironmentName,
+): string | undefined {
+   if (!isV3Environment(environment)) return undefined;
+   return environmentGroupMap[environment][id] ?? undefined;
 }

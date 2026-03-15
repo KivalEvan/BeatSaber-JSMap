@@ -1,6 +1,6 @@
 import { isOldChromaEventValue } from '../../beatmap/helpers/core/basicEvent.ts';
 import { hasChromaEventV2, hasChromaEventV3 } from '../../beatmap/helpers/modded/has.ts';
-import { TrackDefinitions } from '../../beatmap/misc/environment.ts';
+import { BasicTrackDefinitions } from '../../beatmap/misc/environment.ts';
 import { isValidEventType } from '../../mod.ts';
 import type { EnvironmentName } from '../../beatmap/schema/shared/types/environment.ts';
 import type { IWrapBasicEvent } from '../../beatmap/schema/wrapper/types/basicEvent.ts';
@@ -24,8 +24,7 @@ export function countEvent<
    version = 2,
 ): ICountEvent {
    const commonEvent = Object.keys(
-      TrackDefinitions[environment]?.[0] ??
-         TrackDefinitions['DefaultEnvironment'][0],
+      BasicTrackDefinitions[environment] ?? BasicTrackDefinitions['DefaultEnvironment'],
    ).map(Number);
    const eventCount: ICountEvent = {};
    for (let i = commonEvent.length - 1; i >= 0; i--) {
