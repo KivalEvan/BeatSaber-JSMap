@@ -2,11 +2,7 @@ import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IObstacle } from './types/obstacle.ts';
 import type { IWrapObstacle } from '../wrapper/types/obstacle.ts';
 import { createObstacle } from '../wrapper/obstacle.ts';
-import {
-   isBoundedObstacle,
-   isCrouchHeightObstacle,
-   isFullHeightObstacle,
-} from '../../helpers/core/obstacle.ts';
+import { isCrouchHeightObstacle, isFullHeightObstacle } from '../../helpers/core/obstacle.ts';
 
 function fixPosYForExtendedType(type: number): number {
    if (type < 1000 || type > 4005000) return 0;
@@ -25,18 +21,14 @@ function fixHeightForExtendedType(type: number) {
 export const obstacle: ISchemaContainer<IWrapObstacle, IObstacle> = {
    serialize(data) {
       let type = 0;
-      if (data.height >= 0 && data.posY >= 0) {
+      if (Math.abs(data.height) < 1000 && Math.abs(data.posY) < 1000) {
+         type = Math.floor((data.height * 200000) + (data.posY * 200) + 4001);
+      } else {
          const posY = data.posY >= 1000 ? data.posY - 1000 : data.posY / 1000;
          const height = data.height >= 1000 ? data.height - 1000 : data.height / 1000;
          type = Math.floor((height / 5) * 1000 + (posY / 5) + 4001);
       }
-      type = isFullHeightObstacle(data)
-         ? 0
-         : isCrouchHeightObstacle(data)
-         ? 1
-         : isBoundedObstacle(data)
-         ? data.posY >= 2 ? 1 : 0
-         : type;
+      type = isFullHeightObstacle(data) ? 0 : isCrouchHeightObstacle(data) ? 1 : type;
       return {
          _time: data.time,
          _type: type,
