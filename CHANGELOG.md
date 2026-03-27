@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.3 [2026-03-28]
+
+```diff
+* Improved track definition format
+* Backport-free obstacles to legacy format
+```
+
 ## 2.3.2 [2026-01-10]
 
 ```diff
