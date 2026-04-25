@@ -206,6 +206,10 @@ export interface IChromaEventZoom extends ICustomDataBase {
 /** AnimateComponent interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAnimateTrack extends Required<IHeckBase> {
    _color?: string | ColorArray | Vector4PointDefinition;
+   _attenuation?: string | FloatPointDefinition;
+   _offset?: string | FloatPointDefinition;
+   _startY?: string | FloatPointDefinition;
+   _height?: string | FloatPointDefinition;
 }
 
 /** AnimateComponent interface for Chroma Custom Event. */
@@ -215,11 +219,10 @@ export interface IChromaCustomEventDataAssignPathAnimation extends Required<IHec
 
 /** AssignFogTrack interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAssignFogTrack extends Required<IHeckBase> {
-   _duration: number;
-   _attenuation?: string | FloatPointDefinition;
-   _offset?: string | FloatPointDefinition;
-   _startY?: string | FloatPointDefinition;
-   _height?: string | FloatPointDefinition;
+   _attenuation?: number;
+   _offset?: number;
+   _startY?: number;
+   _height?: number;
 }
 
 /** Chroma Custom Data interface for difficulty custom data. */
