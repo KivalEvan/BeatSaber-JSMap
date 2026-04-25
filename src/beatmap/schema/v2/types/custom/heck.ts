@@ -25,6 +25,7 @@ export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
  * AssignPathAnimation interface for Heck Custom Event.
  */
 export interface IHeckCustomEventDataAssignPathAnimation extends Required<IHeckBase> {
+   _duration?: number;
    _easing?: Easings;
    _position?: string | Vector3PointDefinition;
    _rotation?: string | Vector3PointDefinition;
