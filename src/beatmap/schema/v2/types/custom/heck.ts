@@ -25,6 +25,7 @@ export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
  * AssignPathAnimation interface for Heck Custom Event.
  */
 export interface IHeckCustomEventDataAssignPathAnimation extends Required<IHeckBase> {
+   _duration?: number;
    _easing?: Easings;
    _position?: string | Vector3PointDefinition;
    _rotation?: string | Vector3PointDefinition;
@@ -58,9 +59,9 @@ export interface IHeckInfoCustomData extends IInfoSettingsCustomData {
          _noteJumpFixedDuration?: number;
          _noteJumpStartBeatOffset?: number;
          _hideNoteSpawnEffect?: boolean;
-         _adaptiveSfx?: number;
-         _environmentEffectsFilterDefaultPreset?: 'AllEffects' | 'Strobefilter' | 'NoEffects';
-         _environmentEffectsFilterExpertPlusPreset?: 'AllEffects' | 'Strobefilter' | 'NoEffects';
+         _adaptiveSfx?: boolean;
+         _environmentEffectsFilterDefaultPreset?: 'AllEffects' | 'StrobeFilter' | 'NoEffects';
+         _environmentEffectsFilterExpertPlusPreset?: 'AllEffects' | 'StrobeFilter' | 'NoEffects';
       };
       _modifiers?: {
          _energyType?: 'Bar' | 'Battery';
