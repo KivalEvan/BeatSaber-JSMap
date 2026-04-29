@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.3.4 [2026-05-01]
+
+```diff
++ Added Prodigy environment
++ Added other color scheme variant
+* Fixed Heck related type definition (#13)
+```
+
 ## 2.3.3 [2026-03-28]
 
 ```diff
