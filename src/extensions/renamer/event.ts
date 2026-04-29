@@ -32,7 +32,9 @@ export const genericTypeMap: ITrackDefinitions<string> = {
 };
 
 /** Record of Environment to Type to Name. */
-export const environmentTypeMap: { [env in EnvironmentName]: ITrackDefinitions<string> } = {
+export const environmentTypeMap: {
+   [env in EnvironmentName]: ITrackDefinitions<string>;
+} = {
    DefaultEnvironment: {
       0: 'Under Track X',
       1: 'Big Ring Lights',
@@ -321,6 +323,10 @@ export const environmentTypeMap: { [env in EnvironmentName]: ITrackDefinitions<s
       6: 'Ambient',
       8: 'Player Place',
    },
+   ProdigyEnvironment: {
+      4: 'Player Place',
+      6: 'Ambient',
+   },
    GlassDesertEnvironment: {},
    MultiplayerEnvironment: {},
 };
@@ -330,5 +336,7 @@ export function eventTypeRename(
    type: number,
    environment: EnvironmentName,
 ): string | undefined {
-   return environmentTypeMap[environment][type] ?? genericTypeMap[type] ?? undefined;
+   return (
+      environmentTypeMap[environment][type] ?? genericTypeMap[type] ?? undefined
+   );
 }

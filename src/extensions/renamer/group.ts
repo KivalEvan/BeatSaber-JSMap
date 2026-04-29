@@ -6,7 +6,9 @@ import type {
 } from '../../beatmap/schema/shared/types/environment.ts';
 
 /** Record of Environment to Group ID to Name. */
-export const environmentGroupMap: { [env in EnvironmentV3Name]: ITrackDefinitions<string> } = {
+export const environmentGroupMap: {
+   [env in EnvironmentV3Name]: ITrackDefinitions<string>;
+} = {
    WeaveEnvironment: {
       0: 'Outer Square Bottom Left Laser',
       1: 'Outer Square Bottom Right Laser',
@@ -677,6 +679,37 @@ export const environmentGroupMap: { [env in EnvironmentV3Name]: ITrackDefinition
       50: 'Flares',
       51: 'Hearts Scale',
       52: 'Hemisphere Switch',
+   },
+   ProdigyEnvironment: {
+      0: 'Chevron',
+      1: 'Chevron',
+      2: 'Cubes Left Global',
+      3: 'Cubes Left Local',
+      4: 'Cubes Right Global',
+      5: 'Cubes Right Local',
+      6: 'Cubes Lasers Left ',
+      7: 'Cubes Lasers Right',
+      8: 'Pillars Left',
+      9: 'Pillars Right',
+      10: 'Centerpiece Local',
+      11: 'Centerpiece Global',
+      12: 'Centerpiece Lasers',
+      13: 'Debris Left',
+      14: 'Debris Right',
+      15: 'Lasers Left Global',
+      16: 'Lasers Left Local',
+      17: 'Lasers Right Global',
+      18: 'Lasers Right Local',
+      19: 'FloatPillars Left',
+      20: 'FloatPillars Right',
+      21: 'Crowds Left',
+      22: 'Crowds Right',
+      23: 'Scaffolding Local',
+      24: 'Pillars Left Lasers',
+      25: 'Pillars Right Lasers',
+      26: 'Figures Left Figures',
+      27: 'Figures Right Figures',
+      28: 'Runway Local',
    },
 };
 

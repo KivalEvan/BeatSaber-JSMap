@@ -53,6 +53,7 @@ export const EnvironmentSchemeName: {
    Halloween2Environment: 'Spoooky',
    GridEnvironment: 'Cube',
    ColdplayEnvironment: 'Coldplay',
+   ProdigyEnvironment: 'Prodigy',
    MultiplayerEnvironment: 'Origins',
 } as const;
 
@@ -463,6 +464,15 @@ export const ColorScheme: {
       _envColorLeftBoost: { r: 0.7372549, g: 0.5882353, b: 0 },
       _envColorRightBoost: { r: 0.309803933, g: 0.7803922, b: 0.6509804 },
    },
+   Prodigy: {
+      _colorLeft: { r: 0.9607844, g: 0.4117647, b: 0.2784314 },
+      _colorRight: { r: 0.3058824, g: 0.3529412, b: 0.4313726 },
+      _obstacleColor: { r: 0.8156863, g: 0.7137255, b: 0.1254902 },
+      _envColorLeft: { r: 0.937255, g: 0.3372549, b: 0.02745098 },
+      _envColorRight: { r: 0.8156863, g: 0.7137255, b: 0.1254902 },
+      _envColorLeftBoost: { r: 0.08235294, g: 0.6745098, b: 0 },
+      _envColorRightBoost: { r: 0.2941177, g: 0.08235294, b: 0.7607844 },
+   },
 } as const;
 
 /**
@@ -651,6 +661,32 @@ export const ColorSchemeVariant: {
    'Hip Hop Mixtape': {
       'Not Like Us': {
          _envColorLeft: { r: 0.831372559, g: 0.1882353, b: 0.07058824 },
+      },
+      'Me Porto Bonito': {
+         _colorLeft: { r: 0.6313726, g: 0.160784319, b: 0.149019614 },
+         _colorRight: { r: 0.407843143, g: 0.7529412, b: 0.509803951 },
+         _envColorLeft: { r: 0.9019608, g: 0.168627456, b: 0.219607845 },
+         _envColorRight: { r: 0.258823544, g: 0.7529412, b: 0.34117648 },
+         _envColorWhite: { r: 1.0, g: 1.0, b: 1.0 },
+         _envColorLeftBoost: { r: 0.796078444, g: 0.141176477, b: 0.7137255 },
+         _envColorWhiteBoost: { r: 1.0, g: 1.0, b: 1.0 },
+      },
+   },
+   'Panic 2.0': {
+      'Stressed Out': {
+         _colorLeft: { r: 0.7764706, g: 0.274509817, b: 0.227450982 },
+         _colorRight: { r: 0.215686277, g: 0.6901961, b: 0.68235296 },
+         _obstacleColor: { r: 0.6901961, g: 0.6901961, b: 0.6901961 },
+         _envColorLeft: { r: 0.858823538, g: 0.0196078438, b: 0.109803922 },
+         _envColorRight: { r: 0.274509817, g: 0.819607854, b: 0.9098039 },
+         _envColorWhite: { r: 1.0, g: 1.0, b: 1.0 },
+         _envColorLeftBoost: { r: 0.8980392, g: 0.6313726, b: 0.164705887 },
+         _envColorRightBoost: {
+            r: 0.282352954,
+            g: 0.854901969,
+            b: 0.321568638,
+         },
+         _envColorWhiteBoost: { r: 1.0, g: 1.0, b: 1.0 },
       },
    },
    'Billie Eilish': {

@@ -47,6 +47,7 @@ export const EnvironmentName = [
    'Halloween2Environment',
    'GridEnvironment',
    'ColdplayEnvironment',
+   'ProdigyEnvironment',
    'GlassDesertEnvironment',
    'MultiplayerEnvironment',
 ] as const;
@@ -101,7 +102,8 @@ export type EnvironmentV3Name =
    | 'Monstercat2Environment'
    | 'MetallicaEnvironment'
    | 'GridEnvironment'
-   | 'ColdplayEnvironment';
+   | 'ColdplayEnvironment'
+   | 'ProdigyEnvironment';
 
 /** List of available 360 environment in base game. */
 export type Environment360Name =
