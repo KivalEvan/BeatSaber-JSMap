@@ -285,7 +285,7 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
                   t: 'AnimateComponent',
                   d: {
                      track: ce._data._track,
-                     duration: ce._data._duration || 0,
+                     duration: 0,
                      BloomFogEnvironment: {
                         attenuation: typeof ce._data._attenuation === 'number'
                            ? [[ce._data._attenuation, 0]]

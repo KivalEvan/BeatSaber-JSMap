@@ -187,11 +187,18 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
                   _type: 'AssignFogTrack',
                   _data: {
                      _track: ce.d.track,
-                     _duration: ce.d.duration,
-                     _attenuation: ce.d.BloomFogEnvironment.attenuation,
-                     _height: ce.d.BloomFogEnvironment.height,
-                     _offset: ce.d.BloomFogEnvironment.offset,
-                     _startY: ce.d.BloomFogEnvironment.startY,
+                     _attenuation: typeof ce.d.BloomFogEnvironment.attenuation === 'number'
+                        ? ce.d.BloomFogEnvironment.attenuation
+                        : 0,
+                     _height: typeof ce.d.BloomFogEnvironment.height === 'number'
+                        ? ce.d.BloomFogEnvironment.height
+                        : 0,
+                     _offset: typeof ce.d.BloomFogEnvironment.offset === 'number'
+                        ? ce.d.BloomFogEnvironment.offset
+                        : 0,
+                     _startY: typeof ce.d.BloomFogEnvironment.startY === 'number'
+                        ? ce.d.BloomFogEnvironment.startY
+                        : 0,
                   },
                });
             }
