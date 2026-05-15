@@ -65,7 +65,8 @@ export function isV3Environment(
       environment === 'Monstercat2Environment' ||
       environment === 'MetallicaEnvironment' ||
       environment === 'GridEnvironment' ||
-      environment === 'ColdplayEnvironment'
+      environment === 'ColdplayEnvironment' ||
+      environment === 'ProdigyEnvironment'
    );
 }
 /** Check if environment is 360 environment. */
