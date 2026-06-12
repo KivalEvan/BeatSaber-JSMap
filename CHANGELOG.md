@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.5 [2026-06-12]
+
+```diff
++ Added color scheme variant from 1.44
+* Added missing entry for environment filter and light ID (#14)
+```
+
 ## 2.3.4 [2026-05-01]
 
 ```diff

@@ -564,6 +564,66 @@ export const ColorSchemeVariant: {
          _envColorRight: { r: 0.196078435, g: 0.698039234, b: 0.831372559 },
       },
    },
+   'Dragons 2.0': {
+      'Astral Blossom': {
+         _colorLeft: {
+            r: 0.784313738,
+            g: 0.0784313753,
+            b: 0.0784313753,
+         },
+         _colorRight: { r: 0.156862751, g: 0.5568628, b: 0.8235294 },
+         _obstacleColor: { r: 1, g: 0.1882353, b: 0.1882353 },
+         _envColorLeft: { r: 0.8509804, g: 0.08627451, b: 0.08627451 },
+         _envColorRight: { r: 0.1882353, g: 0.6745098, b: 1 },
+         _envColorWhite: { r: 1, g: 1, b: 1 },
+         _envColorLeftBoost: {
+            r: 0.968627453,
+            g: 0.921568632,
+            b: 0.235294119,
+         },
+         _envColorRightBoost: {
+            r: 0.08235294,
+            g: 0.6784314,
+            b: 0.0509803928,
+         },
+         _envColorWhiteBoost: { r: 1, g: 1, b: 1 },
+      },
+   },
+   Collider: {
+      'Phantom Fangs': {
+         _colorLeft: {
+            r: 0.784313738,
+            g: 0.0784313753,
+            b: 0.0784313753,
+         },
+         _colorRight: { r: 0.156862751, g: 0.5568628, b: 0.8235294 },
+         _obstacleColor: { r: 1, g: 0.1882353, b: 0.1882353 },
+         _envColorLeft: { r: 0.8509804, g: 0.08627451, b: 0.08627451 },
+         _envColorRight: { r: 0.1882353, g: 0.6745098, b: 1 },
+         _envColorWhite: { r: 1, g: 1, b: 1 },
+         _envColorLeftBoost: {
+            r: 0.894117653,
+            g: 0.6156863,
+            b: 0.152941182,
+         },
+         _envColorRightBoost: {
+            r: 0.945098042,
+            g: 0.356862754,
+            b: 0.7607843,
+         },
+         _envColorWhiteBoost: { r: 1, g: 1, b: 1 },
+      },
+   },
+   'The Second': {
+      KILLSHOT: {
+         _envColorLeft: { r: 0.8509804, g: 0.08627451, b: 0.08627451 },
+         _envColorRight: { r: 0.1882353, g: 0.6745098, b: 1 },
+         _envColorWhite: { r: 1, g: 1, b: 1 },
+         _envColorLeftBoost: { r: 1, g: 0.5176471, b: 0.0 },
+         _envColorRightBoost: { r: 0.4117647, g: 1, b: 0.403921574 },
+         _envColorWhiteBoost: { r: 1, g: 1, b: 1 },
+      },
+   },
    Metallica: {
       One: {
          _envColorRight: { r: 0.254901975, g: 0.454901963, b: 0.8666667 },
@@ -667,9 +727,9 @@ export const ColorSchemeVariant: {
          _colorRight: { r: 0.407843143, g: 0.7529412, b: 0.509803951 },
          _envColorLeft: { r: 0.9019608, g: 0.168627456, b: 0.219607845 },
          _envColorRight: { r: 0.258823544, g: 0.7529412, b: 0.34117648 },
-         _envColorWhite: { r: 1.0, g: 1.0, b: 1.0 },
+         _envColorWhite: { r: 1, g: 1, b: 1 },
          _envColorLeftBoost: { r: 0.796078444, g: 0.141176477, b: 0.7137255 },
-         _envColorWhiteBoost: { r: 1.0, g: 1.0, b: 1.0 },
+         _envColorWhiteBoost: { r: 1, g: 1, b: 1 },
       },
    },
    'Panic 2.0': {
@@ -679,14 +739,14 @@ export const ColorSchemeVariant: {
          _obstacleColor: { r: 0.6901961, g: 0.6901961, b: 0.6901961 },
          _envColorLeft: { r: 0.858823538, g: 0.0196078438, b: 0.109803922 },
          _envColorRight: { r: 0.274509817, g: 0.819607854, b: 0.9098039 },
-         _envColorWhite: { r: 1.0, g: 1.0, b: 1.0 },
+         _envColorWhite: { r: 1, g: 1, b: 1 },
          _envColorLeftBoost: { r: 0.8980392, g: 0.6313726, b: 0.164705887 },
          _envColorRightBoost: {
             r: 0.282352954,
             g: 0.854901969,
             b: 0.321568638,
          },
-         _envColorWhiteBoost: { r: 1.0, g: 1.0, b: 1.0 },
+         _envColorWhiteBoost: { r: 1, g: 1, b: 1 },
       },
    },
    'Billie Eilish': {
