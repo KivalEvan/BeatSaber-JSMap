@@ -74,9 +74,11 @@ export const CustomColorRename: {
 
 /** Color Scheme property rename to human readable. */
 export const ColorSchemeRename: {
-   readonly [key in keyof Required<
-      Omit<IWrapInfoColorScheme, 'name' | 'overrideNotes' | 'overrideLights'>
-   >]: string;
+   readonly [
+      key in keyof Required<
+         Omit<IWrapInfoColorScheme, 'name' | 'overrideNotes' | 'overrideLights'>
+      >
+   ]: string;
 } = {
    saberLeftColor: 'Left Note Color',
    saberRightColor: 'Right Note Color',
