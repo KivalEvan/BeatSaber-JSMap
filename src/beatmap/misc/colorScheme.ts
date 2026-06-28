@@ -74,11 +74,9 @@ export const CustomColorRename: {
 
 /** Color Scheme property rename to human readable. */
 export const ColorSchemeRename: {
-   readonly [
-      key in keyof Required<
-         Omit<IWrapInfoColorScheme, 'name' | 'overrideNotes' | 'overrideLights'>
-      >
-   ]: string;
+   readonly [key in keyof Required<
+      Omit<IWrapInfoColorScheme, 'name' | 'overrideNotes' | 'overrideLights'>
+   >]: string;
 } = {
    saberLeftColor: 'Left Note Color',
    saberRightColor: 'Right Note Color',
@@ -687,6 +685,17 @@ export const ColorSchemeVariant: {
             g: 0.858823538,
             b: 0.847058833,
          },
+      },
+      Zombie: {
+         _colorLeft: { r: 0.65882355, g: 0.635294139, b: 0.443137258 },
+         _colorRight: { r: 0.243137255, g: 0.396078438, b: 0.858823538 },
+         _obstacleColor: { r: 0.8392157, g: 0.09803922, b: 0 },
+         _envColorLeft: { r: 0.647058845, g: 0.7882353, b: 0.627451 },
+         _envColorRight: { r: 0.270588249, g: 0.5254902, b: 0.847058833 },
+         _envColorWhite: { r: 1, g: 1, b: 1 },
+         _envColorLeftBoost: { r: 0.847058833, g: 0.1882353, b: 0.180392161 },
+         _envColorRightBoost: { r: 0.8156863, g: 0.6901961, b: 0.4509804 },
+         _envColorWhiteBoost: { r: 1, g: 1, b: 1 },
       },
    },
    Gaga: {
