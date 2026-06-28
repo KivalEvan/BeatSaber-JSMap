@@ -21,7 +21,7 @@ export function optimizeDifficulty(
          const d = vfxebg[i].e || [];
          for (let j = 0; j < d.length; j++) {
             const e = d[j];
-            e.l = e.l?.map((i) => remapFloatFxEventsIdx.get(i) || 0) ?? [];
+            e.l = e.l?.map((i) => remapFloatFxEventsIdx[i] || 0) ?? [];
          }
       }
 

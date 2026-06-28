@@ -23,45 +23,47 @@ export function optimizeDifficulty(
       );
       const [newChainData, remapChainIdx] = remapDedupe(data.chainsData ?? []);
       const [newArcData, remapArcIdx] = remapDedupe(data.arcsData ?? []);
-      const [newSRData, remapSRIdx] = remapDedupe(data.spawnRotationsData ?? []);
+      const [newSRData, remapSRIdx] = remapDedupe(
+         data.spawnRotationsData ?? [],
+      );
 
       if (data.colorNotes) {
          for (let i = 0; i < data.colorNotes.length; i++) {
             const d = data.colorNotes[i];
-            d.i = remapColorNoteIdx.get(d.i!);
+            d.i = remapColorNoteIdx[d.i!];
          }
       }
       if (data.bombNotes) {
          for (let i = 0; i < data.bombNotes.length; i++) {
             const d = data.bombNotes[i];
-            d.i = remapBombNoteIdx.get(d.i!);
+            d.i = remapBombNoteIdx[d.i!];
          }
       }
       if (data.obstacles) {
          for (let i = 0; i < data.obstacles.length; i++) {
             const d = data.obstacles[i];
-            d.i = remapObstacleIdx.get(d.i!);
+            d.i = remapObstacleIdx[d.i!];
          }
       }
       if (data.chains) {
          for (let i = 0; i < data.chains.length; i++) {
             const d = data.chains[i];
-            d.ci = remapChainIdx.get(d.ci!);
-            d.i = remapColorNoteIdx.get(d.i!);
+            d.ci = remapChainIdx[d.ci!];
+            d.i = remapColorNoteIdx[d.i!];
          }
       }
       if (data.arcs) {
          for (let i = 0; i < data.arcs.length; i++) {
             const d = data.arcs[i];
-            d.ai = remapArcIdx.get(d.ai!);
-            d.hi = remapColorNoteIdx.get(d.hi!);
-            d.ti = remapColorNoteIdx.get(d.ti!);
+            d.ai = remapArcIdx[d.ai!];
+            d.hi = remapColorNoteIdx[d.hi!];
+            d.ti = remapColorNoteIdx[d.ti!];
          }
       }
       if (data.spawnRotations) {
          for (let i = 0; i < data.spawnRotations.length; i++) {
             const d = data.spawnRotations[i];
-            d.i = remapSRIdx.get(d.i!);
+            d.i = remapSRIdx[d.i!];
          }
       }
 

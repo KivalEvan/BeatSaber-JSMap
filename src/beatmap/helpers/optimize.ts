@@ -1,4 +1,5 @@
 import { getLogger } from '../../logger.ts';
+import { stableJsonKey } from '../../utils/misc/json.ts';
 import { round } from '../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../mapping/types/optimize.ts';
 
@@ -12,19 +13,27 @@ function tag(name: string): string[] {
  * @param data The data array to remap and deduplicate.
  * @returns The remapped and deduplicated data and a map of the original index to the new index.
  */
-export function remapDedupe<T>(data: T[]): [T[], Map<number, number>] {
-   const newData: string[] = [];
-   const remapIdx = new Map<number, number>();
-   for (let i = 0; i < data.length; i++) {
-      const str = JSON.stringify(data[i]);
-      let idx = newData.indexOf(str);
-      if (idx === -1) {
-         idx = newData.length;
-         newData.push(str);
+export function remapDedupe<T>(data: T[]): [T[], number[]] {
+   const seen: Map<string, number> = new Map();
+   const unique: T[] = [];
+   const indexMap: number[] = new Array(data.length);
+
+   for (let oldIndex = 0; oldIndex < data.length; oldIndex++) {
+      const item = data[oldIndex];
+      const key = stableJsonKey(item);
+
+      let newIndex = seen.get(key);
+
+      if (newIndex === undefined) {
+         newIndex = unique.length;
+         seen.set(key, newIndex);
+         unique.push(item);
       }
-      remapIdx.set(i, idx);
+
+      indexMap[oldIndex] = newIndex;
    }
-   return [newData.map((d) => JSON.parse(d)), remapIdx];
+
+   return [unique, indexMap];
 }
 
 /**
@@ -35,7 +44,10 @@ export function remapDedupe<T>(data: T[]): [T[], Map<number, number>] {
 // deno-lint-ignore no-explicit-any
 export function purgeZeros(data: Record<string, any>) {
    for (const k in data) {
-      if ((typeof data[k] === 'number' || typeof data[k] === 'boolean') && !data[k]) {
+      if (
+         (typeof data[k] === 'number' || typeof data[k] === 'boolean') &&
+         !data[k]
+      ) {
          delete data[k];
       }
    }
@@ -96,7 +108,9 @@ export function deepClean(
             const newAry = d.filter((e: unknown) => e !== undefined);
             if (len !== newAry.length) {
                if (options.throwNullish) {
-                  throw new Error(`undefined found in array key ${name}.${k}.}`);
+                  throw new Error(
+                     `undefined found in array key ${name}.${k}.}`,
+                  );
                } else {
                   logger?.tError(
                      tag('deepClean'),

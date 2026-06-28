@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.6 [2026-06-28]
+
+```diff
++ Added Metallica variant color scheme
+* Optimised object deduplication remapping
+```
+
 ## 2.3.5 [2026-06-12]
 
 ```diff

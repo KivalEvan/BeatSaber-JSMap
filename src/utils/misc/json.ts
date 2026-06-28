@@ -1,5 +1,85 @@
 import type { DeepWritable, Writable } from '../../types/utils.ts';
 
+// deno-lint-ignore no-explicit-any
+export function stableJsonKey(value: any): string {
+   if (value === null || typeof value !== 'object') {
+      return JSON.stringify(value);
+   }
+
+   if (Array.isArray(value)) {
+      let result = '[';
+      for (let i = 0; i < value.length; i++) {
+         if (i > 0) result += ',';
+         result += stableJsonKey(value[i]);
+      }
+      return result + ']';
+   }
+
+   const keys = Object.keys(value).sort();
+   let result = '{';
+   for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      if (i > 0) result += ',';
+      result += JSON.stringify(key);
+      result += ':';
+      result += stableJsonKey(value[key]);
+   }
+
+   return result + '}';
+}
+
+// deno-lint-ignore no-explicit-any
+export function deepEqual(a: any, b: any): boolean {
+   if (a === b) return true;
+
+   if (
+      a === null ||
+      b === null ||
+      typeof a !== 'object' ||
+      typeof b !== 'object'
+   ) {
+      return false;
+   }
+
+   const isArray = Array.isArray(a);
+
+   if (isArray !== Array.isArray(b)) {
+      return false;
+   }
+
+   if (isArray) {
+      const length = a.length;
+
+      if (length !== b.length) return false;
+
+      for (let i = 0; i < length; i++) {
+         if (!deepEqual(a[i], b[i])) return false;
+      }
+
+      return true;
+   }
+
+   const keys = Object.keys(a);
+
+   if (keys.length !== Object.keys(b).length) {
+      return false;
+   }
+
+   for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+
+      if (!(key in b)) {
+         return false;
+      }
+
+      if (!deepEqual(a[key], b[key])) {
+         return false;
+      }
+   }
+
+   return true;
+}
+
 /**
  * Fast and simple copy for flat object like `{ name: 'hello' }`, `[0, 1, 2]` or any other primitives.
  *
@@ -57,7 +137,9 @@ export function jsonCopy<T>(object: T): DeepWritable<T> {
 }
 
 /** Check if an object has key/value pairs */
-export function isRecord<T extends Record<string, unknown>>(data: unknown): data is T {
+export function isRecord<T extends Record<string, unknown>>(
+   data: unknown,
+): data is T {
    return !!data && typeof data === 'object';
 }
 
