@@ -1,198 +1,190 @@
+import { array, minLength, minValue, number, pipe, strictObject, string, tuple } from 'valibot';
+import {
+   createDataCodec,
+   createEntityCodec,
+   createLoader,
+   createSaver,
+   createValidator,
+} from '../src/factory/mod.ts';
 import {
    assertEquals,
    assertThrows,
    clamp,
+   type ColorArray,
+   colorToHex,
    createBeatmap,
-   logger,
-   type types,
-   v2,
+   hexToRgba,
+   type IV2Difficulty,
+   type IWrapBeatmap,
+   setupLogger,
+   V2DifficultyContainer,
+   V2DifficultySchema,
 } from './deps.ts';
-import { maxValue, minValue, number, picklist, pipe, union } from 'jsr:@valibot/valibot@^1.0.0';
-import { PosXSchema } from '../src/beatmap/schema/shared/declaration/common.ts';
-import {
-   createDataFactory,
-   createEntityFactory,
-   createEntityProcessor,
-} from '../src/factory/mod.ts';
-import type { ILoggerOptions } from '../src/types/factory/options.ts';
 
-function createLogger(ctx: ILoggerOptions) {
-   return {
-      trace: (message: string) => logger.tTrace(ctx.tags, message),
-      debug: (message: string) => logger.tDebug(ctx.tags, message),
-      info: (message: string) => logger.tInfo(ctx.tags, message),
-      warn: (message: string) => logger.tWarn(ctx.tags, message),
-      error: (message: string) => logger.tError(ctx.tags, message),
-   };
-}
-
-Deno.test('custom data factory', async (t) => {
-   type EventData = {
+Deno.test('data codecs', async (t) => {
+   interface EventType {
       effect: 'off' | 'on' | 'flash' | 'fade' | 'transition' | 'trigger' | 'value';
       color?: 'red' | 'blue' | 'white' | null;
       value?: number;
-   };
-   function resolveEventEffect(value: number, type: 'light' | 'trigger' | 'value') {
-      switch (type) {
-         case 'light': {
-            if (value === 0) return 'off';
-            if (value % 4 === 1) return 'on';
-            if (value % 4 === 2) return 'flash';
-            if (value % 4 === 3) return 'fade';
-            if (value % 4 === 0) return 'transition';
-            return 'off';
-         }
-         case 'trigger': {
-            return 'trigger';
-         }
-         case 'value': {
-            return 'value';
-         }
-      }
    }
-   function resolveEventColor(value: number) {
-      if (value > 8) return 'white';
-      if (value > 4) return 'red';
-      if (value > 0) return 'blue';
-      return null;
+   interface Context {
+      type: 'light' | 'trigger' | 'value';
    }
-   const { serialize, deserialize, validate } = createDataFactory({
-      name: 'basic-event-type',
-      logger: createLogger,
-      container: {
-         serialize: (data: EventData, context: { type: 'light' | 'trigger' | 'value' }) => {
-            switch (context.type) {
+
+   const codec = createDataCodec<EventType, number, Context>('eventType', {
+      encode: (data, context) => {
+         switch (context.type) {
+            case 'light': {
+               if (!data.color || data.effect === 'off') return 0;
+               const color = ['blue', 'red', 'white'].indexOf(data.color);
+               const effect = ['on', 'flash', 'fade', 'transition'].indexOf(data.effect);
+               return 4 * color + (effect + 1);
+            }
+            case 'trigger': {
+               return 0;
+            }
+            case 'value': {
+               if (data.value) return data.value;
+               return 0;
+            }
+         }
+      },
+      decode: (value, context) => {
+         function resolveEventEffect(value: number, type: 'light' | 'trigger' | 'value') {
+            switch (type) {
                case 'light': {
-                  if (!data.color || data.effect === 'off') return 0;
-                  const color = ['blue', 'red', 'white'].indexOf(data.color);
-                  const effect = ['on', 'flash', 'fade', 'transition'].indexOf(data.effect);
-                  return 4 * color + (effect + 1);
+                  if (value === 0) return 'off';
+                  if (value % 4 === 1) return 'on';
+                  if (value % 4 === 2) return 'flash';
+                  if (value % 4 === 3) return 'fade';
+                  if (value % 4 === 0) return 'transition';
+                  return 'off';
                }
-               case 'trigger': {
-                  return 0;
-               }
-               case 'value': {
-                  if (data.value) return data.value;
-                  return 0;
+               default: {
+                  return type;
                }
             }
-         },
-         deserialize: (value: number, context: { type: 'light' | 'trigger' | 'value' }) => {
-            switch (context.type) {
-               case 'light': {
-                  return {
-                     effect: resolveEventEffect(value, context.type),
-                     color: resolveEventColor(value),
-                  };
-               }
-               case 'trigger': {
-                  return { effect: resolveEventEffect(value, context.type) };
-               }
-               case 'value': {
-                  return { effect: resolveEventEffect(value, context.type), value: value };
-               }
+         }
+         function resolveEventColor(value: number) {
+            if (value > 8) return 'white';
+            if (value > 4) return 'red';
+            if (value > 0) return 'blue';
+            return null;
+         }
+         switch (context.type) {
+            case 'light': {
+               return {
+                  effect: resolveEventEffect(value, context.type),
+                  color: resolveEventColor(value),
+               };
             }
-         },
+            case 'trigger': {
+               return { effect: resolveEventEffect(value, context.type) };
+            }
+            case 'value': {
+               return { effect: resolveEventEffect(value, context.type), value: value };
+            }
+         }
       },
-      validator: {
-         constructor: () => picklist([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
-      },
    });
-   await t.step('serialization', () => {
-      assertEquals(serialize({ effect: 'off', color: null }, { type: 'light' }), 0);
-      assertEquals(serialize({ effect: 'on', color: 'red' }, { type: 'light' }), 5);
-      assertEquals(serialize({ effect: 'fade', color: 'blue' }, { type: 'light' }), 3);
-      assertEquals(serialize({ effect: 'trigger' }, { type: 'trigger' }), 0);
-      assertEquals(serialize({ effect: 'value', value: 2 }, { type: 'value' }), 2);
+
+   await t.step('encode', () => {
+      assertEquals(codec().encode({ effect: 'off', color: null }, { type: 'light' }), 0);
+      assertEquals(codec().encode({ effect: 'on', color: 'red' }, { type: 'light' }), 5);
+      assertEquals(codec().encode({ effect: 'fade', color: 'blue' }, { type: 'light' }), 3);
+      assertEquals(codec().encode({ effect: 'trigger' }, { type: 'trigger' }), 0);
+      assertEquals(codec().encode({ effect: 'value', value: 2 }, { type: 'value' }), 2);
    });
-   await t.step('deserialization', () => {
-      assertEquals(deserialize(0, { type: 'light' }), { effect: 'off', color: null });
-      assertEquals(deserialize(5, { type: 'light' }), { effect: 'on', color: 'red' });
-      assertEquals(deserialize(3, { type: 'light' }), { effect: 'fade', color: 'blue' });
-      assertEquals(deserialize(0, { type: 'trigger' }), { effect: 'trigger' });
-      assertEquals(deserialize(2, { type: 'value' }), { effect: 'value', value: 2 });
-   });
-   await t.step('validation', () => {
-      validate(0, null);
-      validate(12, null);
-      assertThrows(() => validate(100, null, { throwable: true }));
-      validate(100, null, { throwable: false });
+   await t.step('decode', () => {
+      assertEquals(codec().decode(0, { type: 'light' }), { effect: 'off', color: null });
+      assertEquals(codec().decode(5, { type: 'light' }), { effect: 'on', color: 'red' });
+      assertEquals(codec().decode(3, { type: 'light' }), { effect: 'fade', color: 'blue' });
+      assertEquals(codec().decode(0, { type: 'trigger' }), { effect: 'trigger' });
+      assertEquals(codec().decode(2, { type: 'value' }), { effect: 'value', value: 2 });
    });
 });
 
-Deno.test('custom entity factory', async (t) => {
-   const { serialize, deserialize, validate } = createEntityFactory({
-      name: 'line-index',
-      logger: createLogger,
-      resolveKey: (index) => {
+Deno.test('entity codecs', async (t) => {
+   const codec = createEntityCodec<number, { vanilla: number; extensions: number }>('line-index', {
+      getVersion: (index) => {
          if (index >= 1000 || index <= -1000) return 'extensions';
          if ([0, 1, 2, 3].includes(index)) return 'vanilla';
          throw new Error(`Could not resolve version for: ${index}`);
       },
-      container: {
+      codecs: {
          'vanilla': {
-            serialize: (index: number) => clamp(Math.round(index), 0, 3),
-            deserialize: (index: number) => index,
+            encode: (index) => clamp(Math.round(index), 0, 3),
+            decode: (index) => index,
          },
          'extensions': {
-            serialize: (index: number) => (index < 0 ? index * 1000 - 1000 : index * 1000 + 1000),
-            deserialize: (index: number) => (index < 0 ? index / 1000 + 1 : index / 1000 - 1),
-         },
-      },
-      validator: {
-         'vanilla': {
-            constructor: () => PosXSchema,
-         },
-         'extensions': {
-            constructor: () => {
-               return union([pipe(number(), maxValue(-1000)), pipe(number(), minValue(1000))]);
-            },
+            encode: (index) => (index < 0 ? index * 1000 - 1000 : index * 1000 + 1000),
+            decode: (index) => (index < 0 ? index / 1000 + 1 : index / 1000 - 1),
          },
       },
    });
 
-   await t.step('serialization', () => {
-      assertEquals(serialize(1.25, 'vanilla', null), 1);
-      assertEquals(serialize(1.25, 'extensions', null), 2250);
+   await t.step('encode', () => {
+      assertEquals(codec('vanilla').encode(1.25, undefined), 1);
+      assertEquals(codec('extensions').encode(1.25, undefined), 2250);
    });
-   await t.step('deserialization', () => {
-      assertEquals(deserialize(1, 'vanilla', null), 1);
-      assertEquals(deserialize(2250, 'extensions', null), 1.25);
-   });
-   await t.step('validation', () => {
-      validate(1, 'vanilla', null);
-      validate(2250, 'extensions', null);
-      assertThrows(() => validate(100, 'vanilla', null));
-      assertThrows(() => validate(100, 'extensions', null));
+   await t.step('decode', () => {
+      assertEquals(codec('vanilla').decode(1, undefined), 1);
+      assertEquals(codec('extensions').decode(2250, undefined), 1.25);
    });
 });
 
-Deno.test('custom processor', async (t) => {
-   const { loadSync: loadDifficulty, saveSync: saveDifficulty } = createEntityProcessor({
-      name: 'difficulty',
-      logger: createLogger,
-      resolveKey: (data) => {
-         if (data._version) return Number.parseInt(data._version[0]) as 2;
-         throw new Error(`Could not resolve version for: ${data}`);
+Deno.test('validator', async (t) => {
+   setupLogger();
+
+   const codec = createDataCodec('bookmarks', {
+      encode: (data: { time: number; name: string; color: string }[]) => {
+         return data.map((x) => ({ b: x.time, n: x.name, c: hexToRgba(x.color) }));
       },
-      container: {
-         [2]: {
-            serialize: (data: types.wrapper.IWrapBeatmap) => v2.difficulty.serialize(data),
-            deserialize: (data: types.v2.IDifficulty) => v2.difficulty.deserialize(data),
-         },
-      },
-      validator: {
-         [2]: {
-            constructor: () => v2.DifficultySchema,
-         },
+      decode: (data: { b: number; n: string; c: ColorArray }[]) => {
+         return data.map((x) => ({ time: x.b, name: x.n, color: colorToHex(x.c) }));
       },
    });
+
+   const validate = createValidator(codec(), () => {
+      return array(
+         strictObject({
+            b: pipe(number(), minValue(0)),
+            n: pipe(string(), minLength(1)),
+            c: tuple([number(), number(), number()]),
+         }),
+      );
+   });
+
+   const invalid = [{ b: -10, n: '', c: [255], x: false }];
+
+   await t.step('throws by default', () => {
+      assertThrows(() => validate(invalid, {}));
+   });
+});
+
+Deno.test('data processors', async (t) => {
+   const codec = createEntityCodec('difficulty', {
+      codecs: {
+         [2]: {
+            encode: (data: IWrapBeatmap) => V2DifficultyContainer.serialize(data),
+            decode: (data: IV2Difficulty) => V2DifficultyContainer.deserialize(data),
+         },
+      },
+      getVersion: (data) => {
+         if (data._version) {
+            return Number.parseInt(data._version[0]) as 2;
+         }
+         throw new Error(`Could not resolve version for: ${data}`);
+      },
+   });
+
+   const validator = createValidator(codec(2), () => V2DifficultySchema);
 
    const wrapper = createBeatmap({
       version: 2,
       lightshow: { useNormalEventsAsCompatibleEvents: true },
    });
-   const serial: Required<types.v2.IDifficulty> = {
+   const serial: Required<IV2Difficulty> = {
       _version: '2.6.0',
       _notes: [],
       _obstacles: [],
@@ -204,17 +196,13 @@ Deno.test('custom processor', async (t) => {
    };
 
    await t.step('load', () => {
-      const actual = loadDifficulty(serial, 2, {
-         context: null,
-         validator: { context: null },
-      });
+      const load = createLoader(codec(2), { validator });
+      const actual = load(serial, {});
       assertEquals(actual, wrapper);
    });
    await t.step('save', () => {
-      const actual = saveDifficulty(wrapper, 2, {
-         context: null,
-         validator: { context: null },
-      });
+      const save = createSaver(codec(2), { validator });
+      const actual = save(wrapper, {});
       assertEquals(actual, serial);
    });
 });
