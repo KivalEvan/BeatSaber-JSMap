@@ -13,6 +13,22 @@ declare let Deno: any;
 // deno-lint-ignore no-explicit-any
 declare let Bun: any;
 
+async function denoUnlinkNonDirectory(path: string): Promise<void> {
+   const entry = await Deno.lstat(path);
+   if (entry.isDirectory) {
+      throw new Deno.errors.IsADirectory(path);
+   }
+   return Deno.remove(path);
+}
+
+function denoUnlinkNonDirectorySync(path: string): void {
+   const entry = Deno.lstatSync(path);
+   if (entry.isDirectory) {
+      throw new Deno.errors.IsADirectory(path);
+   }
+   return Deno.removeSync(path);
+}
+
 /**
  * Wrapper for use in `read` and `write`.
  *
@@ -50,7 +66,7 @@ export const fs: IShimsFileSystem = {
          return Deno.writeTextFile ? Deno.writeTextFile(path, data) : noFsFunctionProvided();
       }
       if (typeof Bun !== 'undefined') {
-         Bun.write(path, data) ?? noFsFunctionProvided();
+         return Bun.write(path, data).then(() => undefined);
       }
       if (fspMod) {
          return fspMod.writeFile(path, data, 'utf8');
@@ -65,6 +81,42 @@ export const fs: IShimsFileSystem = {
       }
       if (fsMod) {
          return fsMod.writeFileSync(path, data, 'utf8');
+      }
+      return noFsFunctionProvided();
+   },
+   rename: (oldPath: string, newPath: string): Promise<void> => {
+      if (typeof Deno !== 'undefined') {
+         return Deno.rename(oldPath, newPath);
+      }
+      if (fspMod) {
+         return fspMod.rename(oldPath, newPath);
+      }
+      return noFsFunctionProvided();
+   },
+   renameSync: (oldPath: string, newPath: string): void => {
+      if (typeof Deno !== 'undefined') {
+         return Deno.renameSync(oldPath, newPath);
+      }
+      if (fsMod) {
+         return fsMod.renameSync(oldPath, newPath);
+      }
+      return noFsFunctionProvided();
+   },
+   unlink: (path: string): Promise<void> => {
+      if (typeof Deno !== 'undefined') {
+         return denoUnlinkNonDirectory(path);
+      }
+      if (fspMod) {
+         return fspMod.unlink(path);
+      }
+      return noFsFunctionProvided();
+   },
+   unlinkSync: (path: string): void => {
+      if (typeof Deno !== 'undefined') {
+         return denoUnlinkNonDirectorySync(path);
+      }
+      if (fsMod) {
+         return fsMod.unlinkSync(path);
       }
       return noFsFunctionProvided();
    },

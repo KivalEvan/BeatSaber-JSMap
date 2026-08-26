@@ -30,4 +30,16 @@ export const path: IShimsPath = {
       }
       return noPathFunctionProvided();
    },
+   dirname: (path: string): string => {
+      if (pathMod) {
+         return pathMod.dirname(path);
+      }
+      return noPathFunctionProvided();
+   },
+   join: (...pathSegments: string[]): string => {
+      if (pathMod) {
+         return pathMod.join(...pathSegments);
+      }
+      return noPathFunctionProvided();
+   },
 };
