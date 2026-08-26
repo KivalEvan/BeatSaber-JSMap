@@ -1,17 +1,9 @@
 import type { CharacteristicName } from '../../../beatmap/schema/shared/types/characteristic.ts';
 import type { DifficultyName } from '../../../beatmap/schema/shared/types/difficulty.ts';
 import type { IWrapBaseNote } from '../../../beatmap/schema/wrapper/types/baseNote.ts';
-import type { IWrapBeatmapSubset } from '../../../beatmap/schema/wrapper/types/beatmap.ts';
+import type { IWrapInteractiveBeatmap } from '../../../beatmap/schema/wrapper/types/beatmap.ts';
 
-export type ISwingAnalysisBeatmap =
-   & IWrapBeatmapSubset<
-      'colorNotes' | 'bombNotes' | 'chains',
-      'time' | 'posX' | 'posY' | 'color' | 'direction' | 'customData'
-   >
-   & IWrapBeatmapSubset<
-      'obstacles',
-      'time' | 'posX' | 'duration' | 'width' | 'customData'
-   >;
+export type ISwingAnalysisBeatmap = IWrapInteractiveBeatmap;
 
 export type ISwingAnalysisBaseNote = Pick<
    IWrapBaseNote,

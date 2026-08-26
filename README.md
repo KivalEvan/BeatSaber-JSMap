@@ -47,6 +47,39 @@ Before you start, you may want to understand how Beat Saber stores the
 You may get this package from [NPM](https://www.npmjs.com/package/bsmap) or
 [JSR](https://jsr.io/@kvl/bsmap) using respective package manager.
 
+For utility, schema, type-only, or core consumers, prefer a narrow subpath. Utility consumers can
+use `utils/math`, `utils/colors`, or `utils/misc` for one category, or `utils` for all utilities.
+These imports exclude the root filesystem and I/O graph. Use a versioned schema subpath when only
+one version is required.
+
+#### JSR subpaths
+
+```ts
+import { clamp } from 'jsr:@kvl/bsmap/utils';
+import { lerp } from 'jsr:@kvl/bsmap/utils/math';
+import { colorFrom } from 'jsr:@kvl/bsmap/utils/colors';
+import { formatNumber } from 'jsr:@kvl/bsmap/utils/misc';
+import { ColorNoteSchema } from 'jsr:@kvl/bsmap/schema/v3';
+import type { Vector3 } from 'jsr:@kvl/bsmap/types';
+import { ColorNote } from 'jsr:@kvl/bsmap/beatmap/core';
+```
+
+#### NPM subpaths
+
+```ts
+import { clamp } from 'bsmap/utils';
+import { lerp } from 'bsmap/utils/math';
+import { colorFrom } from 'bsmap/utils/colors';
+import { formatNumber } from 'bsmap/utils/misc';
+import { ColorNoteSchema } from 'bsmap/schema/v3';
+import type { Vector3 } from 'bsmap/types';
+import { ColorNote } from 'bsmap/beatmap/core';
+```
+
+ESM bundlers tree-shake unused exports from narrow imports. CommonJS barrels load all exports
+eagerly, so CommonJS consumers should use the narrowest subpath. The library does not use lazy
+loading for synchronous schema or I/O APIs because lazy loading would make these APIs asynchronous.
+
 To get scripting, simply create a `.ts` file anywhere, preferably inside map folder for simpler
 setup, import module via module specifier or package manager, and then run the script. That's it. Do
 check out the [the guide](./GUIDE.md) for usage detail.

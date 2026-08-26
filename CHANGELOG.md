@@ -11,6 +11,9 @@
 + Added strict v3 FX event index validation
 + Corrected v2/v3 to v4 conversion for mixed EARLY and LATE rotation events at one beat
 + Added opt-in environment data subpath (`@kvl/bsmap/environment`)
++ Added narrow `types`, `utils`, `schema`, versioned schema, and `beatmap/core` subpaths
++ Added narrow utility category subpaths for math, colors, and misc
+- Removed the `Object.hasOwn` global polyfill dependency
 # Changed schema modules to standalone `serialize*` and `deserialize*` functions (breaking)
 # Changed schema version maps to direction-specific serializer and deserializer maps (breaking)
 # Changed CI checkout steps to use the event commit, including fork pull requests
@@ -43,6 +46,7 @@
 * Fixed logger returning undefined before setup
 * Fixed redundant wrapper copy on deserialisation
 * Reduced NPM package size by enabling source skipping and disabling declaration maps
+* Set generated NPM `sideEffects` metadata to `false` when dnt emits no polyfills
 ```
 
 ## 2.3.6 [2026-06-28]

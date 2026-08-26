@@ -18,6 +18,7 @@ import { convertBeatmap } from '../mapping/converter.ts';
 import { deserializeBeatmap } from '../mapping/deserialize.ts';
 import { validateJSON } from '../mapping/validator.ts';
 import { isRecord, jsonTypeName } from '../../utils/misc/json.ts';
+import { hasOwn } from '../../utils/misc/hasOwn.ts';
 
 export function tag(name: string): string[] {
    return ['loader', name];
@@ -90,7 +91,7 @@ export function loadBeatmap<
    const jsonVersion = retrieveVersion(serial);
    let jsonVer: TVersion;
    if (jsonVersion === undefined) {
-      if (Object.hasOwn(serial, '_version') || Object.hasOwn(serial, 'version')) {
+      if (hasOwn(serial, '_version') || hasOwn(serial, 'version')) {
          throw new TypeError(
             `Malformed ${type} beatmap version undefined: expected a version string`,
          );

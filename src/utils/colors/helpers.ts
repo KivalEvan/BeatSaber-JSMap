@@ -17,8 +17,8 @@ export function lerpColor(
    type: ColorType = 'rgba',
 ): ColorArray {
    const cType = type === 'rgba255' ? 'rgba' : (type as 'rgba' | 'hsva');
-   const cStart = convertColorType(start, cType, cType);
-   const cEnd = convertColorType(end, cType, cType);
+   const cStart = convertColorType(start, type, cType);
+   const cEnd = convertColorType(end, type, cType);
    if (cStart.length !== cEnd.length) {
       if (cStart.length === 3) cStart.push(1);
       if (cEnd.length === 3) cEnd.push(1);
@@ -79,7 +79,7 @@ export function deltaE00(rgbaAry1: ColorArray, rgbaAry2: ColorArray): number {
    c1 = Math.sqrt(a1 * a1 + b1 * b1);
    c2 = Math.sqrt(a2 * a2 + b2 * b2);
    cX = (c1 + c2) / 2;
-   gX = 0.5 * (1 - Math.sqrt((cX ^ 7) / ((cX ^ 7) + (25 ^ 7))));
+   gX = 0.5 * (1 - Math.sqrt((cX ** 7) / ((cX ** 7) + (25 ** 7))));
    nN = (1 + gX) * a1;
    c1 = Math.sqrt(nN * nN + b1 * b1);
    h1 = labToHue(nN, b1);
@@ -121,7 +121,7 @@ export function deltaE00(rgbaAry1: ColorArray, rgbaAry2: ColorArray): number {
       0.32 * Math.cos(degToRad(3 * hX + 6)) -
       0.2 * Math.cos(degToRad(4 * hX - 63));
    pH = 30 * Math.exp(-((hX - 275) / 25) * ((hX - 275) / 25));
-   rC = 2 * Math.sqrt((cY ^ 7) / ((cY ^ 7) + (25 ^ 7)));
+   rC = 2 * Math.sqrt((cY ** 7) / ((cY ** 7) + (25 ** 7)));
    sL = 1 +
       (0.015 * ((lX - 50) * (lX - 50))) / Math.sqrt(20 + (lX - 50) * (lX - 50));
 

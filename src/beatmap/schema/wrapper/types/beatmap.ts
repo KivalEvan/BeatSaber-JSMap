@@ -51,3 +51,14 @@ export type IWrapBeatmapSubset<
          >[];
       };
    };
+
+/** Wrapper attribute for beatmap data used by interactive analysis. */
+export type IWrapInteractiveBeatmap =
+   & IWrapBeatmapSubset<
+      'colorNotes' | 'bombNotes' | 'chains',
+      'time' | 'posX' | 'posY' | 'color' | 'direction' | 'customData'
+   >
+   & IWrapBeatmapSubset<
+      'obstacles',
+      'time' | 'posX' | 'duration' | 'width' | 'customData'
+   >;

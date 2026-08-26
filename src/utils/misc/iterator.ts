@@ -74,10 +74,16 @@ export function shuffle<T>(array: T[], fn = Math.random): T[] {
  * interleave([1, 2, 3], [4, 5, 6]); // [1, 4, 2, 5, 3, 6]
  * ```
  */
-export function interleave<T, U>([x, ...xs]: T[], ys: U[] = []): (T | U)[] {
-   return x === undefined
-      ? ys // base: no x
-      : [x, ...interleave(ys, xs)]; // inductive: some x
+export function interleave<T, U>(xs: T[], ys: U[] = []): (T | U)[] {
+   const result: (T | U)[] = [];
+   const length = Math.max(xs.length, ys.length);
+
+   for (let i = 0; i < length; i++) {
+      if (i < xs.length) result.push(xs[i]);
+      if (i < ys.length) result.push(ys[i]);
+   }
+
+   return result;
 }
 
 /** Pick random element from array */
@@ -91,8 +97,9 @@ export function cycle<T extends string | number | symbol>(
    current: T,
    step = 1,
 ): T {
-   const arr = Object.values(iter);
+   const arr = Array.from(iter);
    const index = arr.indexOf(current);
-   if (!(current in arr)) return current;
-   return arr[(index + arr.length + step) % arr.length];
+   if (index === -1) return current;
+   const offset = ((index + step) % arr.length + arr.length) % arr.length;
+   return arr[offset];
 }

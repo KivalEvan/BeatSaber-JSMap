@@ -1,4 +1,5 @@
 import type { DeepWritable, Writable } from '../../types/utils.ts';
+import { hasOwn } from './hasOwn.ts';
 
 // deno-lint-ignore no-explicit-any
 export function stableJsonKey(value: any): string {
@@ -151,7 +152,7 @@ export function jsonTypeName(data: unknown): string {
 /** Check if object is empty. */
 export function isEmpty(obj: Record<string, unknown>): boolean {
    for (const key in obj) {
-      if (Object.hasOwn(obj, key)) {
+      if (hasOwn(obj, key)) {
          return false;
       }
    }

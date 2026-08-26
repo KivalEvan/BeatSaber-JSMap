@@ -490,15 +490,15 @@ Deno.test('Color to Lab', () => {
    const blue = colors.hsvaToRgba(240, 1, 1);
    const magenta = colors.hsvaToRgba(-60, 1, 1);
 
-   assertAlmostEquals(colors.deltaE00(white, black), 100.00000076881211, EPSILON);
-   assertAlmostEquals(colors.deltaE00(white, gray), 33.41499656712586, EPSILON);
+   assertAlmostEquals(colors.deltaE00(white, black), 100.00000085247008, EPSILON);
+   assertAlmostEquals(colors.deltaE00(white, gray), 33.41499660752798, EPSILON);
    assertAlmostEquals(colors.deltaE00(white, white), 0, EPSILON);
    assertAlmostEquals(colors.deltaE00(white, translucent), 0, EPSILON);
-   assertAlmostEquals(colors.deltaE00(white, transparent), 100.00000076881211, EPSILON);
-   assertAlmostEquals(colors.deltaE00(white, red), 46.191448932477726, EPSILON);
-   assertAlmostEquals(colors.deltaE00(white, yellow), 30.583851351643776, EPSILON);
-   assertAlmostEquals(colors.deltaE00(white, green), 33.669627509736785, EPSILON);
-   assertAlmostEquals(colors.deltaE00(white, cyan), 25.678486607847386, EPSILON);
-   assertAlmostEquals(colors.deltaE00(white, blue), 64.33437137421264, EPSILON);
-   assertAlmostEquals(colors.deltaE00(white, magenta), 42.615120425199414, EPSILON);
+   assertAlmostEquals(colors.deltaE00(white, transparent), 100.00000085247008, EPSILON);
+   assertAlmostEquals(colors.deltaE00(white, red), 45.82021592792363, EPSILON);
+   assertAlmostEquals(colors.deltaE00(white, yellow), 30.535767584656735, EPSILON);
+   assertAlmostEquals(colors.deltaE00(white, green), 33.27087617900482, EPSILON);
+   assertAlmostEquals(colors.deltaE00(white, cyan), 25.70141767057763, EPSILON);
+   assertAlmostEquals(colors.deltaE00(white, blue), 64.20215276046648, EPSILON);
+   assertAlmostEquals(colors.deltaE00(white, magenta), 42.18140292587435, EPSILON);
 });

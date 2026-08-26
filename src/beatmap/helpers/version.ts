@@ -1,6 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import type { Version } from '../schema/shared/types/version.ts';
+import { hasOwn } from '../../utils/misc/hasOwn.ts';
 
 /**
  * Get implicit version based on beatmap type.
@@ -30,8 +31,8 @@ export function implicitVersion(type: BeatmapFileType): Version {
 export function retrieveVersion<T extends Record<string, any>>(
    json: T,
 ): unknown {
-   if (Object.hasOwn(json, '_version')) return json._version;
-   if (Object.hasOwn(json, 'version')) return json.version;
+   if (hasOwn(json, '_version')) return json._version;
+   if (hasOwn(json, 'version')) return json.version;
    return undefined;
 }
 

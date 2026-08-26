@@ -57,11 +57,18 @@ await build({
       Deno.copyFileSync('CHANGELOG.md', 'npm/CHANGELOG.md');
       Deno.copyFileSync('GUIDE.md', 'npm/GUIDE.md');
 
-      // declare package side-effect free except the dnt polyfill bare imports,
-      // allowing consumer bundlers to tree-shake unused exports (e.g. environment data tables)
+      // Keep side effects for dnt polyfills; otherwise let bundlers tree-shake the package.
       const pkgJsonPath = './npm/package.json';
       const pkg = JSON.parse(Deno.readTextFileSync(pkgJsonPath));
-      pkg.sideEffects = ['./**/_dnt.polyfills.js'];
+      const hasPolyfills = ['./npm/esm/_dnt.polyfills.js', './npm/script/_dnt.polyfills.js']
+         .some((path) => {
+            try {
+               return Deno.statSync(path).isFile;
+            } catch {
+               return false;
+            }
+         });
+      pkg.sideEffects = hasPolyfills ? ['./**/_dnt.polyfills.js'] : false;
       Deno.writeTextFileSync(pkgJsonPath, JSON.stringify(pkg, null, 2) + '\n');
    },
 });

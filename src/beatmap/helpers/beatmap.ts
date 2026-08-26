@@ -1,5 +1,7 @@
-import type { ISwingAnalysisBeatmap } from '../../extensions/swing/types/swing.ts';
-import type { IWrapBeatmapSubset } from '../schema/wrapper/types/beatmap.ts';
+import type {
+   IWrapBeatmapSubset,
+   IWrapInteractiveBeatmap,
+} from '../schema/wrapper/types/beatmap.ts';
 import { isInteractiveObstacle } from './core/obstacle.ts';
 import { sortNoteFn } from './sort.ts';
 import type { TimeProcessor } from './timeProcessor.ts';
@@ -39,7 +41,7 @@ export function calculateNpsPeak<
  * Color notes, bomb notes, chains and obstacles in middle lane are considered interactive object.
  */
 export function getFirstInteractiveTime<
-   T extends ISwingAnalysisBeatmap,
+   T extends IWrapInteractiveBeatmap,
 >(beatmap: T): number {
    const notes = [
       ...beatmap.difficulty.colorNotes,
@@ -60,7 +62,7 @@ export function getFirstInteractiveTime<
  * Color notes, bomb notes, chains and obstacles in middle lane are considered interactive object.
  */
 export function getLastInteractiveTime<
-   T extends ISwingAnalysisBeatmap,
+   T extends IWrapInteractiveBeatmap,
 >(beatmap: T): number {
    const notes = [
       ...beatmap.difficulty.colorNotes,

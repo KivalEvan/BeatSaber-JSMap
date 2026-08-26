@@ -222,7 +222,7 @@ export function colorToHex(color: ColorInput | IColor): string {
 /**
  * Convert hex string to RGBA array.
  * ```ts
- * const rgba = hexToRgba('#00ffff'); // [0, 1, 1, 1]
+ * const rgba = hexToRgba('#00ffff'); // [0, 1, 1]
  * ```
  */
 export function hexToRgba(hex: string): ColorArray {

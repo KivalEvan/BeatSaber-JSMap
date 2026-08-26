@@ -11,9 +11,9 @@ Deno.test('Easing Linear', () => {
 
 Deno.test('Easing Step', () => {
    assertEquals(EasingsFn.easeStep(0), 0);
-   assertAlmostEquals(EasingsFn.easeStep(0.25), 0.25);
-   assertAlmostEquals(EasingsFn.easeStep(0.5), 0.5);
-   assertAlmostEquals(EasingsFn.easeStep(0.75), 0.75);
+   assertEquals(EasingsFn.easeStep(0.25), 0);
+   assertEquals(EasingsFn.easeStep(0.5), 0);
+   assertEquals(EasingsFn.easeStep(0.75), 0);
    assertEquals(EasingsFn.easeStep(1), 1);
 });
 

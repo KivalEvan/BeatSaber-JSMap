@@ -16,6 +16,7 @@ export {
    GroupTrackDefinitions,
 } from '../beatmap/misc/environment.ts';
 import { BasicTrackDefinitions, GroupTrackDefinitions } from '../beatmap/misc/environment.ts';
+import { hasOwn } from '../utils/misc/hasOwn.ts';
 import type {
    EnvironmentName,
    IBasicTrack,
@@ -35,7 +36,7 @@ export function getBasicTracksForEnvironment(
    environment: EnvironmentName,
    renamer?: (type: number, environment: EnvironmentName) => string | undefined,
 ): ITrackDefinitions<IBasicTrack & { id: number; name?: string }> {
-   if (!Object.hasOwn(BasicTrackDefinitions, environment)) {
+   if (!hasOwn(BasicTrackDefinitions, environment)) {
       return {};
    }
 
@@ -62,7 +63,7 @@ export function getGroupTracksForEnvironment(
    environment: EnvironmentName,
    renamer?: (type: number, environment: EnvironmentName) => string | undefined,
 ): ITrackDefinitions<IGroupTrack & { id: number; name?: string }> {
-   if (!Object.hasOwn(GroupTrackDefinitions, environment)) {
+   if (!hasOwn(GroupTrackDefinitions, environment)) {
       return {};
    }
 

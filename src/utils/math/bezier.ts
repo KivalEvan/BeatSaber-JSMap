@@ -117,7 +117,7 @@ export class BezierPath {
          ),
          vectorSub(
             vectorAdd(centre, vectorMul([1, 0, 0], 1)),
-            -vectorMul(up, 0.5),
+            vectorMul(up, 0.5),
          ),
          vectorAdd(centre, vectorMul([1, 0, 0], 2)),
       ];
