@@ -1,9 +1,16 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, IndexFilter, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   deserializeV3IndexFilter,
+   deserializeV4IndexFilter,
+   IndexFilter,
+   serializeV3IndexFilter,
+   serializeV4IndexFilter,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.indexFilter, 'V4 Index Filter'],
-   [v3.indexFilter, 'V3 Index Filter'],
+   [deserializeV4IndexFilter, serializeV4IndexFilter, 'V4 Index Filter'],
+   [deserializeV3IndexFilter, serializeV3IndexFilter, 'V3 Index Filter'],
 ] as const;
 const BaseClass = IndexFilter;
 const defaultValue = IndexFilter.defaultValue;
@@ -73,21 +80,24 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.indexFilter:
+      switch (nameTag) {
+         case 'V4 Index Filter':
             obj = new BaseClass(
-               (schema as typeof v4.indexFilter).deserialize({
+               schema({
                   f: 2,
                   p: 1,
                   t: 2,
@@ -101,9 +111,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.indexFilter:
+         case 'V3 Index Filter':
             obj = new BaseClass(
-               (schema as typeof v3.indexFilter).deserialize({
+               schema({
                   f: 2,
                   p: 1,
                   t: 2,
@@ -135,19 +145,19 @@ for (const tup of schemaList) {
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.indexFilter:
+      switch (nameTag) {
+         case 'V4 Index Filter':
             obj = new BaseClass(
-               (schema as typeof v4.indexFilter).deserialize({
+               schema({
                   f: 2,
                   p: 1,
                   n: 2,
                }),
             );
             break;
-         case v3.indexFilter:
+         case 'V3 Index Filter':
             obj = new BaseClass(
-               (schema as typeof v3.indexFilter).deserialize({
+               schema({
                   f: 2,
                   p: 1,
                   n: 2,
@@ -169,10 +179,10 @@ for (const tup of schemaList) {
 
    Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new BaseClass({ customData: { test: true } });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.indexFilter:
-         case v3.indexFilter:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Index Filter':
+         case 'V3 Index Filter':
             assertEquals(json, {
                f: 1,
                p: 0,

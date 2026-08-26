@@ -1,9 +1,25 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, EventBoxType, LightColorEventBoxGroup, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   deserializeV3LightColorEventBoxGroup,
+   deserializeV4LightColorEventBoxGroup,
+   EventBoxType,
+   LightColorEventBoxGroup,
+   serializeV3LightColorEventBoxGroup,
+   serializeV4LightColorEventBoxGroup,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.lightColorEventBoxGroup, 'V4 Light Color Event Box Group'],
-   [v3.lightColorEventBoxGroup, 'V3 Light Color Event Box Group'],
+   [
+      deserializeV4LightColorEventBoxGroup,
+      serializeV4LightColorEventBoxGroup,
+      'V4 Light Color Event Box Group',
+   ],
+   [
+      deserializeV3LightColorEventBoxGroup,
+      serializeV3LightColorEventBoxGroup,
+      'V3 Light Color Event Box Group',
+   ],
 ] as const;
 const BaseClass = LightColorEventBoxGroup;
 const defaultValue = LightColorEventBoxGroup.defaultValue;
@@ -188,21 +204,24 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.lightColorEventBoxGroup:
+      switch (nameTag) {
+         case 'V4 Light Color Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v4.lightColorEventBoxGroup).deserialize({
+               schema({
                   object: {
                      t: EventBoxType.COLOR,
                      b: 1,
@@ -261,9 +280,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.lightColorEventBoxGroup:
+         case 'V3 Light Color Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v3.lightColorEventBoxGroup).deserialize({
+               schema({
                   b: 1,
                   g: 2,
                   e: [
@@ -351,10 +370,10 @@ for (const tup of schemaList) {
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.lightColorEventBoxGroup:
+      switch (nameTag) {
+         case 'V4 Light Color Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v4.lightColorEventBoxGroup).deserialize({
+               schema({
                   object: {
                      t: EventBoxType.COLOR,
                      b: 1,
@@ -388,9 +407,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.lightColorEventBoxGroup:
+         case 'V3 Light Color Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v3.lightColorEventBoxGroup).deserialize({
+               schema({
                   b: 1,
                   e: [
                      {
@@ -467,9 +486,9 @@ for (const tup of schemaList) {
          boxes: [{ events: [{}] }],
          customData: { test: true },
       });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.lightColorEventBoxGroup:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Light Color Event Box Group':
             assertEquals(json, {
                object: {
                   t: EventBoxType.COLOR,
@@ -520,7 +539,7 @@ for (const tup of schemaList) {
                ],
             });
             break;
-         case v3.lightColorEventBoxGroup:
+         case 'V3 Light Color Event Box Group':
             assertEquals(json, {
                b: 0,
                g: 0,

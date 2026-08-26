@@ -44,7 +44,7 @@ export function saveAudioData<
    options?: ISaveOptions<'audioData', TVersion, TWrapper, TSerial>,
 ): TSerial {
    const ver = typeof version === 'number' ? version : null;
-   const opt = (typeof version !== 'number' ? version : options) ?? {};
+   const opt = typeof version === 'object' && version !== null ? version : options ?? {};
    const logger = getLogger();
    logger?.tInfo(tag('saveAudioData'), 'Saving audio data to JSON');
    return saveBeatmap('audioData', data, ver, opt);

@@ -10,12 +10,32 @@ import type {
 import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import { convertBeatmap } from '../mapping/converter.ts';
 import { optimizeBeatmap } from '../mapping/optimizer.ts';
-import { serializeBeatmap } from '../mapping/schema.ts';
+import { serializeBeatmap } from '../mapping/serialize.ts';
 import { compatibilityCheck } from '../mapping/compatibility.ts';
 import { validateJSON } from '../mapping/validator.ts';
+import { isSupportedMajorVersion } from '../helpers/version.ts';
+import { isRecord, jsonTypeName } from '../../utils/misc/json.ts';
 
 export function tag(name: string): string[] {
    return ['saver', name];
+}
+
+/** Throws unless the value is a non-null, non-array object usable as beatmap wrapper data. */
+function assertWrapperObject(type: BeatmapFileType, stage: string, data: unknown): void {
+   if (!isRecord(data) || Array.isArray(data)) {
+      throw new TypeError(
+         `${stage} for ${type} beatmap wrapper: expected object but received ${jsonTypeName(data)}`,
+      );
+   }
+}
+
+/** Throws unless the value is a non-null, non-array object usable as beatmap JSON. */
+function assertJSONObject(type: BeatmapFileType, stage: string, data: unknown): void {
+   if (!isRecord(data) || Array.isArray(data)) {
+      throw new TypeError(
+         `${stage} for ${type} beatmap JSON: expected object but received ${jsonTypeName(data)}`,
+      );
+   }
 }
 
 const defaultOptions = {
@@ -63,12 +83,14 @@ export function saveBeatmap<
    let attribute = pretransformer
       ? pretransformer(data, version)
       : data as InferBeatmapWrapper<TFileType>;
+   assertWrapperObject(type, 'Invalid output from pretransform function', attribute);
    preprocesses.forEach((fn, i) => {
       logger?.tInfo(
          tag('saveBeatmap'),
          'Running preprocess function #' + (i + 1),
       );
       attribute = fn(attribute);
+      assertWrapperObject(type, `Invalid output from preprocess function #${i + 1}`, attribute);
    });
 
    let ver: TVersion;
@@ -76,13 +98,20 @@ export function saveBeatmap<
       ver = version;
    } else {
       ver = data.version as TVersion;
-      if (ver === -1) {
-         throw new Error('Version is not set, prevented from saving.');
+      if (typeof ver !== 'number' || ver === -1) {
+         throw new Error(
+            'Beatmap version is not set or invalid, prevented from saving.',
+         );
       }
       logger?.tInfo(
          tag('saveBeatmap'),
          'Implicitly saving ' + type + ' as version',
          ver,
+      );
+   }
+   if (!isSupportedMajorVersion(type, ver)) {
+      throw new Error(
+         `Unsupported ${type} beatmap version ${ver}, prevented from saving.`,
       );
    }
 
@@ -154,8 +183,10 @@ export function saveBeatmap<
          'Running postprocess function #' + (i + 1),
       );
       serial = fn(serial);
+      assertJSONObject(type, `Invalid output from postprocess function #${i + 1}`, serial);
    });
 
    const json = posttransformer ? posttransformer(serial, ver) : serial as TSerial;
+   assertJSONObject(type, 'Invalid output from posttransform function', json);
    return json;
 }

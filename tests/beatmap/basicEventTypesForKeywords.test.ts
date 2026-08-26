@@ -1,9 +1,24 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, BasicEventTypesForKeywords, v2, v3 } from '../deps.ts';
+import {
+   assertEquals,
+   BasicEventTypesForKeywords,
+   deserializeV2BasicEventTypesForKeywords,
+   deserializeV3BasicEventTypesForKeywords,
+   serializeV2BasicEventTypesForKeywords,
+   serializeV3BasicEventTypesForKeywords,
+} from '../deps.ts';
 
 const schemaList = [
-   [v3.basicEventTypesForKeywords, 'V3 Basic Event Types For Keywords'],
-   [v2.basicEventTypesForKeywords, 'V2 Special Events Keyword Filters'],
+   [
+      deserializeV3BasicEventTypesForKeywords,
+      serializeV3BasicEventTypesForKeywords,
+      'V3 Basic Event Types For Keywords',
+   ],
+   [
+      deserializeV2BasicEventTypesForKeywords,
+      serializeV2BasicEventTypesForKeywords,
+      'V2 Special Events Keyword Filters',
+   ],
 ] as const;
 const BaseClass = BasicEventTypesForKeywords;
 const defaultValue = BasicEventTypesForKeywords.defaultValue;
@@ -40,29 +55,32 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v3.basicEventTypesForKeywords:
+      switch (nameTag) {
+         case 'V3 Basic Event Types For Keywords':
             obj = new BaseClass(
-               (schema as typeof v3.basicEventTypesForKeywords).deserialize({
+               schema({
                   k: 'test',
                   e: [1, 2],
                }),
             );
             break;
-         case v2.basicEventTypesForKeywords:
+         case 'V2 Special Events Keyword Filters':
             obj = new BaseClass(
-               (schema as typeof v2.basicEventTypesForKeywords).deserialize({
+               schema({
                   _keyword: 'test',
                   _specialEvents: [1, 2],
                }),
@@ -75,17 +93,17 @@ for (const tup of schemaList) {
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v3.basicEventTypesForKeywords:
+      switch (nameTag) {
+         case 'V3 Basic Event Types For Keywords':
             obj = new BaseClass(
-               (schema as typeof v3.basicEventTypesForKeywords).deserialize({
+               schema({
                   e: [1, 2],
                }),
             );
             break;
-         case v2.basicEventTypesForKeywords:
+         case 'V2 Special Events Keyword Filters':
             obj = new BaseClass(
-               (schema as typeof v2.basicEventTypesForKeywords).deserialize({
+               schema({
                   _specialEvents: [1, 2],
                }),
             );
@@ -100,12 +118,12 @@ for (const tup of schemaList) {
 
    Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new BaseClass();
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v3.basicEventTypesForKeywords:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V3 Basic Event Types For Keywords':
             assertEquals(json, { k: '', e: [] });
             break;
-         case v2.basicEventTypesForKeywords:
+         case 'V2 Special Events Keyword Filters':
             assertEquals(json, {
                _keyword: '',
                _specialEvents: [],

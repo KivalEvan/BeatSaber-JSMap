@@ -44,7 +44,7 @@ export function loadLightshow<
    options?: ILoadOptions<'lightshow', TVersion, TWrapper, TSerial>,
 ): TWrapper {
    const ver = typeof version === 'number' ? version : null;
-   const opt = (typeof version !== 'number' ? version : options) ?? {};
+   const opt = typeof version === 'object' && version !== null ? version : options ?? {};
    const logger = getLogger();
    logger?.tInfo(tag('loadLightshow'), 'Loading lightshow from JSON');
    return loadBeatmap('lightshow', json, ver, opt);

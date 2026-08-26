@@ -1,11 +1,22 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, BombNote, v1, v2, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   BombNote,
+   deserializeV1BombNote,
+   deserializeV2BombNote,
+   deserializeV3BombNote,
+   deserializeV4BombNote,
+   serializeV1BombNote,
+   serializeV2BombNote,
+   serializeV3BombNote,
+   serializeV4BombNote,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.bombNote, 'V4 Bomb Note'],
-   [v3.bombNote, 'V3 Bomb Note'],
-   [v2.bombNote, 'V2 Bomb Note'],
-   [v1.bombNote, 'V1 Bomb Note'],
+   [deserializeV4BombNote, serializeV4BombNote, 'V4 Bomb Note'],
+   [deserializeV3BombNote, serializeV3BombNote, 'V3 Bomb Note'],
+   [deserializeV2BombNote, serializeV2BombNote, 'V2 Bomb Note'],
+   [deserializeV1BombNote, serializeV1BombNote, 'V1 Bomb Note'],
 ] as const;
 const BaseClass = BombNote;
 const defaultValue = BombNote.defaultValue;
@@ -54,29 +65,32 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.bombNote:
+      switch (nameTag) {
+         case 'V4 Bomb Note':
             obj = new BaseClass(
-               (schema as typeof v4.bombNote).deserialize({
+               schema({
                   object: { b: 1, i: 0, r: 15 },
                   data: { x: 3, y: 4, customData: { test: true } },
                }),
             );
             break;
-         case v3.bombNote:
+         case 'V3 Bomb Note':
             obj = new BaseClass(
-               (schema as typeof v3.bombNote).deserialize({
+               schema({
                   b: 1,
                   x: 3,
                   y: 4,
@@ -84,9 +98,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v2.bombNote:
+         case 'V2 Bomb Note':
             obj = new BaseClass(
-               (schema as typeof v2.bombNote).deserialize({
+               schema({
                   _time: 1,
                   _lineIndex: 3,
                   _lineLayer: 4,
@@ -94,9 +108,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v1.bombNote:
+         case 'V1 Bomb Note':
             obj = new BaseClass(
-               (schema as typeof v1.bombNote).deserialize({
+               schema({
                   _time: 1,
                   _lineIndex: 3,
                   _lineLayer: 4,
@@ -112,16 +126,16 @@ for (const tup of schemaList) {
             time: 1,
             posX: 3,
             posY: 4,
-            laneRotation: schema === v4.bombNote ? 15 : 0,
-            customData: schema === v1.bombNote ? {} : { test: true },
+            laneRotation: nameTag === 'V4 Bomb Note' ? 15 : 0,
+            customData: nameTag === 'V1 Bomb Note' ? {} : { test: true },
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.bombNote:
+      switch (nameTag) {
+         case 'V4 Bomb Note':
             obj = new BaseClass(
-               (schema as typeof v4.bombNote).deserialize({
+               schema({
                   object: {
                      b: 1,
                   },
@@ -131,26 +145,25 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.bombNote:
+         case 'V3 Bomb Note':
             obj = new BaseClass(
-               (schema as typeof v3.bombNote).deserialize({
+               schema({
                   b: 1,
                   x: 3,
                }),
             );
             break;
-         case v2.bombNote:
+         case 'V2 Bomb Note':
             obj = new BaseClass(
-               (schema as typeof v2.bombNote).deserialize({
+               schema({
                   _time: 1,
                   _lineIndex: 3,
                }),
             );
             break;
-         case v1.bombNote:
+         case 'V1 Bomb Note':
             obj = new BaseClass(
-               // @ts-expect-error awaiting updated type definitions from outgoing pull request
-               (schema as typeof v1.bombNote).deserialize({ _time: 1, _lineIndex: 3 }),
+               schema({ _time: 1, _lineIndex: 3 }),
             );
             break;
       }
@@ -167,15 +180,15 @@ for (const tup of schemaList) {
 
    Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new BaseClass({ customData: { test: true } });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.bombNote:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Bomb Note':
             assertEquals(json, {
                object: { b: 0, i: 0, r: 0, customData: {} },
                data: { x: 0, y: 0, customData: { test: true } },
             });
             break;
-         case v3.bombNote:
+         case 'V3 Bomb Note':
             assertEquals(json, {
                b: 0,
                x: 0,
@@ -183,7 +196,7 @@ for (const tup of schemaList) {
                customData: { test: true },
             });
             break;
-         case v2.bombNote:
+         case 'V2 Bomb Note':
             assertEquals(json, {
                _time: 0,
                _lineIndex: 0,
@@ -193,7 +206,7 @@ for (const tup of schemaList) {
                _customData: { test: true },
             });
             break;
-         case v1.bombNote:
+         case 'V1 Bomb Note':
             assertEquals(json, {
                _time: 0,
                _lineIndex: 0,

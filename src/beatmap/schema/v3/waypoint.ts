@@ -1,29 +1,32 @@
-import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IWaypoint } from './types/waypoint.ts';
 import type { IWrapWaypoint } from '../wrapper/types/waypoint.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createWaypoint } from '../wrapper/waypoint.ts';
 
-/**
- * Schema serialization for v3 `Waypoint`.
+/** Serialize beatmap v3 `Waypoint` object into schema object.
+ * @param data The unwrapped beatmap object.
+ * @returns The serialized schema object.
  */
-export const waypoint: ISchemaContainer<IWrapWaypoint, IWaypoint> = {
-   serialize(data) {
-      return {
-         b: data.time,
-         x: data.posX,
-         y: data.posY,
-         d: data.direction,
-         customData: deepCopy(data.customData),
-      };
-   },
-   deserialize(data) {
-      return createWaypoint({
-         time: data.b,
-         posX: data.x,
-         posY: data.y,
-         direction: data.d,
-         customData: data.customData,
-      });
-   },
-};
+export function serializeWaypoint(data: IWrapWaypoint): IWaypoint {
+   return {
+      b: data.time,
+      x: data.posX,
+      y: data.posY,
+      d: data.direction,
+      customData: deepCopy(data.customData),
+   };
+}
+
+/** Deserialize schema object into beatmap v3 `Waypoint` object.
+ * @param data The serialized schema object.
+ * @returns The unwrapped beatmap object.
+ */
+export function deserializeWaypoint(data: IWaypoint): IWrapWaypoint {
+   return createWaypoint({
+      time: data.b,
+      posX: data.x,
+      posY: data.y,
+      direction: data.d,
+      customData: data.customData,
+   });
+}

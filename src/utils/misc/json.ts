@@ -143,6 +143,11 @@ export function isRecord<T extends Record<string, unknown>>(
    return !!data && typeof data === 'object';
 }
 
+/** Describe the JSON-compatible type of a value for error messages. */
+export function jsonTypeName(data: unknown): string {
+   return data === null ? 'null' : Array.isArray(data) ? 'array' : typeof data;
+}
+
 /** Check if object is empty. */
 export function isEmpty(obj: Record<string, unknown>): boolean {
    for (const key in obj) {

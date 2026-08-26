@@ -1,11 +1,22 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, RotationEvent, v1, v2, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   deserializeV1RotationEvent,
+   deserializeV2RotationEvent,
+   deserializeV3RotationEvent,
+   deserializeV4RotationEvent,
+   RotationEvent,
+   serializeV1RotationEvent,
+   serializeV2RotationEvent,
+   serializeV3RotationEvent,
+   serializeV4RotationEvent,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.rotationEvent, 'V4 Rotation Event'],
-   [v3.rotationEvent, 'V3 Rotation Event'],
-   [v2.rotationEvent, 'V2 Rotation Event'],
-   [v1.rotationEvent, 'V1 Rotation Event'],
+   [deserializeV4RotationEvent, serializeV4RotationEvent, 'V4 Rotation Event'],
+   [deserializeV3RotationEvent, serializeV3RotationEvent, 'V3 Rotation Event'],
+   [deserializeV2RotationEvent, serializeV2RotationEvent, 'V2 Rotation Event'],
+   [deserializeV1RotationEvent, serializeV1RotationEvent, 'V1 Rotation Event'],
 ] as const;
 const BaseClass = RotationEvent;
 const defaultValue = RotationEvent.defaultValue;
@@ -59,24 +70,27 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          {
             ...defaultValue,
-            rotation: schema === v1.rotationEvent || schema === v2.rotationEvent ? -60 : 0,
+            rotation: nameTag === 'V1 Rotation Event' || nameTag === 'V2 Rotation Event' ? -60 : 0,
          },
          `Unexpected default value from empty JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.rotationEvent:
+      switch (nameTag) {
+         case 'V4 Rotation Event':
             obj = new BaseClass(
-               (schema as typeof v4.rotationEvent).deserialize({
+               schema({
                   object: { b: 1 },
                   data: {
                      e: 1,
@@ -86,9 +100,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.rotationEvent:
+         case 'V3 Rotation Event':
             obj = new BaseClass(
-               (schema as typeof v3.rotationEvent).deserialize({
+               schema({
                   b: 1,
                   e: 1,
                   r: 15,
@@ -96,9 +110,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v2.rotationEvent:
+         case 'V2 Rotation Event':
             obj = new BaseClass(
-               (schema as typeof v2.rotationEvent).deserialize({
+               schema({
                   _time: 1,
                   _type: 15,
                   _value: 4,
@@ -106,9 +120,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v1.rotationEvent:
+         case 'V1 Rotation Event':
             obj = new BaseClass(
-               (schema as typeof v1.rotationEvent).deserialize({
+               schema({
                   _time: 1,
                   _type: 15,
                   _value: 4,
@@ -122,38 +136,37 @@ for (const tup of schemaList) {
             time: 1,
             executionTime: 1,
             rotation: 15,
-            customData: schema === v1.rotationEvent ? {} : { test: true },
+            customData: nameTag === 'V1 Rotation Event' ? {} : { test: true },
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.rotationEvent:
+      switch (nameTag) {
+         case 'V4 Rotation Event':
             obj = new BaseClass(
-               (schema as typeof v4.rotationEvent).deserialize({
+               schema({
                   object: {},
                   data: { r: 15 },
                }),
             );
             break;
-         case v3.rotationEvent:
+         case 'V3 Rotation Event':
             obj = new BaseClass(
-               (schema as typeof v3.rotationEvent).deserialize({
+               schema({
                   r: 15,
                }),
             );
             break;
-         case v2.rotationEvent:
+         case 'V2 Rotation Event':
             obj = new BaseClass(
-               (schema as typeof v2.rotationEvent).deserialize({
+               schema({
                   _value: 4,
                }),
             );
             break;
-         case v1.rotationEvent:
+         case 'V1 Rotation Event':
             obj = new BaseClass(
-               // @ts-expect-error awaiting updated type definitions from outgoing pull request
-               (schema as typeof v1.rotationEvent).deserialize({
+               schema({
                   _value: 4,
                }),
             );
@@ -171,9 +184,9 @@ for (const tup of schemaList) {
 
    Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new BaseClass({ customData: { test: true } });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.rotationEvent:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Rotation Event':
             assertEquals(json, {
                object: { b: 0 },
                data: {
@@ -183,7 +196,7 @@ for (const tup of schemaList) {
                },
             });
             break;
-         case v3.rotationEvent:
+         case 'V3 Rotation Event':
             assertEquals(json, {
                b: 0,
                e: 0,
@@ -191,7 +204,7 @@ for (const tup of schemaList) {
                customData: { test: true },
             });
             break;
-         case v2.rotationEvent:
+         case 'V2 Rotation Event':
             assertEquals(json, {
                _time: 0,
                _type: 14,
@@ -200,7 +213,7 @@ for (const tup of schemaList) {
                _customData: { test: true, _rotation: 0 },
             });
             break;
-         case v1.rotationEvent:
+         case 'V1 Rotation Event':
             assertEquals(json, {
                _time: 0,
                _type: 14,

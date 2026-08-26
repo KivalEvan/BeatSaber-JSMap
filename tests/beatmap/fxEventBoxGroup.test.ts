@@ -1,9 +1,18 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, EventBoxType, FxEventBoxGroup, FxType, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   deserializeV3FxEventBoxGroup,
+   deserializeV4FxEventBoxGroup,
+   EventBoxType,
+   FxEventBoxGroup,
+   FxType,
+   serializeV3FxEventBoxGroup,
+   serializeV4FxEventBoxGroup,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.fxEventBoxGroup, 'V4 Fx Event Event Box Group'],
-   [v3.fxEventBoxGroup, 'V3 Fx Event Event Box Group'],
+   [deserializeV4FxEventBoxGroup, serializeV4FxEventBoxGroup, 'V4 Fx Event Event Box Group'],
+   [deserializeV3FxEventBoxGroup, serializeV3FxEventBoxGroup, 'V3 Fx Event Event Box Group'],
 ] as const;
 const BaseClass = FxEventBoxGroup;
 const defaultValue = FxEventBoxGroup.defaultValue;
@@ -175,21 +184,24 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.fxEventBoxGroup:
+      switch (nameTag) {
+         case 'V4 Fx Event Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v4.fxEventBoxGroup).deserialize({
+               schema({
                   object: {
                      t: EventBoxType.FX_FLOAT,
                      b: 1,
@@ -243,9 +255,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.fxEventBoxGroup:
+         case 'V3 Fx Event Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v3.fxEventBoxGroup).deserialize({
+               schema({
                   object: {
                      b: 1,
                      t: 1,
@@ -333,10 +345,10 @@ for (const tup of schemaList) {
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.fxEventBoxGroup:
+      switch (nameTag) {
+         case 'V4 Fx Event Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v4.fxEventBoxGroup).deserialize({
+               schema({
                   object: {
                      t: EventBoxType.FX_FLOAT,
                      b: 1,
@@ -365,9 +377,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.fxEventBoxGroup:
+         case 'V3 Fx Event Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v3.fxEventBoxGroup).deserialize({
+               schema({
                   object: {
                      b: 1,
                      t: 1,
@@ -446,9 +458,9 @@ for (const tup of schemaList) {
          boxes: [{ events: [{}] }],
          customData: { test: true },
       });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.fxEventBoxGroup:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Fx Event Event Box Group':
             assertEquals(json, {
                object: {
                   t: EventBoxType.FX_FLOAT,
@@ -495,7 +507,7 @@ for (const tup of schemaList) {
                ],
             });
             break;
-         case v3.fxEventBoxGroup:
+         case 'V3 Fx Event Event Box Group':
             assertEquals(json, {
                object: {
                   t: FxType.FLOAT,

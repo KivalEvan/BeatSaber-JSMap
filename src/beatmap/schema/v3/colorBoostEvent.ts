@@ -1,25 +1,30 @@
-import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IColorBoostEvent } from './types/colorBoostEvent.ts';
 import type { IWrapColorBoostEvent } from '../wrapper/types/colorBoostEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createColorBoostEvent } from '../wrapper/colorBoostEvent.ts';
 
-/**
- * Schema serialization for v3 `Color Boost Event`.
+/** Serialize beatmap v3 `Color Boost Event` object into schema object.
+ * @param data The unwrapped beatmap object.
+ * @returns The serialized schema object.
  */
-export const colorBoostEvent: ISchemaContainer<IWrapColorBoostEvent, IColorBoostEvent> = {
-   serialize(data) {
-      return {
-         b: data.time,
-         o: data.toggle,
-         customData: deepCopy(data.customData),
-      };
-   },
-   deserialize(data = {}) {
-      return createColorBoostEvent({
-         time: data.b,
-         toggle: !!data.o,
-         customData: data.customData,
-      });
-   },
-};
+export function serializeColorBoostEvent(data: IWrapColorBoostEvent): IColorBoostEvent {
+   return {
+      b: data.time,
+      o: data.toggle,
+      customData: deepCopy(data.customData),
+   };
+}
+
+/** Deserialize schema object into beatmap v3 `Color Boost Event` object.
+ * @param data The serialized schema object.
+ * @returns The unwrapped beatmap object.
+ */
+export function deserializeColorBoostEvent(
+   data: IColorBoostEvent = {} as IColorBoostEvent,
+): IWrapColorBoostEvent {
+   return createColorBoostEvent({
+      time: data.b,
+      toggle: !!data.o,
+      customData: data.customData,
+   });
+}

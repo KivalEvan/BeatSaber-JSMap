@@ -1,9 +1,25 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, EventBoxType, LightRotationEventBoxGroup, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   deserializeV3LightRotationEventBoxGroup,
+   deserializeV4LightRotationEventBoxGroup,
+   EventBoxType,
+   LightRotationEventBoxGroup,
+   serializeV3LightRotationEventBoxGroup,
+   serializeV4LightRotationEventBoxGroup,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.lightRotationEventBoxGroup, 'V4 Light Rotation Event Box Group'],
-   [v3.lightRotationEventBoxGroup, 'V3 Light Rotation Event Box Group'],
+   [
+      deserializeV4LightRotationEventBoxGroup,
+      serializeV4LightRotationEventBoxGroup,
+      'V4 Light Rotation Event Box Group',
+   ],
+   [
+      deserializeV3LightRotationEventBoxGroup,
+      serializeV3LightRotationEventBoxGroup,
+      'V3 Light Rotation Event Box Group',
+   ],
 ] as const;
 const BaseClass = LightRotationEventBoxGroup;
 const defaultValue = LightRotationEventBoxGroup.defaultValue;
@@ -189,21 +205,24 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.lightRotationEventBoxGroup:
+      switch (nameTag) {
+         case 'V4 Light Rotation Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v4.lightRotationEventBoxGroup).deserialize({
+               schema({
                   object: {
                      t: EventBoxType.ROTATION,
                      b: 1,
@@ -261,9 +280,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.lightRotationEventBoxGroup:
+         case 'V3 Light Rotation Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v3.lightRotationEventBoxGroup).deserialize({
+               schema({
                   b: 1,
                   g: 2,
                   e: [
@@ -352,10 +371,10 @@ for (const tup of schemaList) {
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.lightRotationEventBoxGroup:
+      switch (nameTag) {
+         case 'V4 Light Rotation Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v4.lightRotationEventBoxGroup).deserialize({
+               schema({
                   object: {
                      t: EventBoxType.ROTATION,
                      b: 1,
@@ -387,9 +406,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.lightRotationEventBoxGroup:
+         case 'V3 Light Rotation Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v3.lightRotationEventBoxGroup).deserialize({
+               schema({
                   b: 1,
                   e: [
                      {
@@ -465,9 +484,9 @@ for (const tup of schemaList) {
          boxes: [{ events: [{}] }],
          customData: { test: true },
       });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.lightRotationEventBoxGroup:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Light Rotation Event Box Group':
             assertEquals(json, {
                object: {
                   t: EventBoxType.ROTATION,
@@ -518,7 +537,7 @@ for (const tup of schemaList) {
                ],
             });
             break;
-         case v3.lightRotationEventBoxGroup:
+         case 'V3 Light Rotation Event Box Group':
             assertEquals(json, {
                b: 0,
                g: 0,

@@ -1,10 +1,19 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, BPMEvent, v1, v2, v3 } from '../deps.ts';
+import {
+   assertEquals,
+   BPMEvent,
+   deserializeV1BPMEvent,
+   deserializeV2BPMEvent,
+   deserializeV3BPMEvent,
+   serializeV1BPMEvent,
+   serializeV2BPMEvent,
+   serializeV3BPMEvent,
+} from '../deps.ts';
 
 const schemaList = [
-   [v3.bpmEvent, 'V3 BPM Event'],
-   [v2.bpmEvent, 'V2 BPM Event'],
-   [v1.bpmEvent, 'V1 BPM Event'],
+   [deserializeV3BPMEvent, serializeV3BPMEvent, 'V3 BPM Event'],
+   [deserializeV2BPMEvent, serializeV2BPMEvent, 'V2 BPM Event'],
+   [deserializeV1BPMEvent, serializeV1BPMEvent, 'V1 BPM Event'],
 ] as const;
 const BaseClass = BPMEvent;
 const defaultValue = BPMEvent.defaultValue;
@@ -48,39 +57,42 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v3.bpmEvent:
+      switch (nameTag) {
+         case 'V3 BPM Event':
             obj = new BaseClass(
-               (schema as typeof v3.bpmEvent).deserialize({
+               schema({
                   b: 1,
                   m: 120,
                   customData: { test: true },
                }),
             );
             break;
-         case v2.bpmEvent:
+         case 'V2 BPM Event':
             obj = new BaseClass(
-               (schema as typeof v2.bpmEvent).deserialize({
+               schema({
                   _time: 1,
                   _floatValue: 120,
                   _customData: { test: true },
                }),
             );
             break;
-         case v1.bpmEvent:
+         case 'V1 BPM Event':
             obj = new BaseClass(
-               (schema as typeof v1.bpmEvent).deserialize({
+               schema({
                   _time: 1,
                   _type: 100,
                   _value: 120,
@@ -90,29 +102,28 @@ for (const tup of schemaList) {
       }
       assertObjectMatch(
          obj,
-         { time: 1, bpm: 120, customData: schema === v1.bpmEvent ? {} : { test: true } },
+         { time: 1, bpm: 120, customData: nameTag === 'V1 BPM Event' ? {} : { test: true } },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v3.bpmEvent:
+      switch (nameTag) {
+         case 'V3 BPM Event':
             obj = new BaseClass(
-               (schema as typeof v3.bpmEvent).deserialize({
+               schema({
                   m: 120,
                }),
             );
             break;
-         case v2.bpmEvent:
+         case 'V2 BPM Event':
             obj = new BaseClass(
-               (schema as typeof v2.bpmEvent).deserialize({
+               schema({
                   _floatValue: 120,
                }),
             );
             break;
-         case v1.bpmEvent:
+         case 'V1 BPM Event':
             obj = new BaseClass(
-               // @ts-expect-error awaiting updated type definitions from outgoing pull request
-               (schema as typeof v1.bpmEvent).deserialize({
+               schema({
                   _value: 120,
                }),
             );
@@ -127,12 +138,12 @@ for (const tup of schemaList) {
 
    Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new BaseClass({ customData: { test: true } });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v3.bpmEvent:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V3 BPM Event':
             assertEquals(json, { b: 0, m: 0, customData: { test: true } });
             break;
-         case v2.bpmEvent:
+         case 'V2 BPM Event':
             assertEquals(json, {
                _time: 0,
                _type: 100,
@@ -141,7 +152,7 @@ for (const tup of schemaList) {
                _customData: { test: true },
             });
             break;
-         case v1.bpmEvent:
+         case 'V1 BPM Event':
             assertEquals(json, { _time: 0, _type: 100, _value: 0 });
             break;
       }

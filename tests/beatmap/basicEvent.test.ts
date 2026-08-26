@@ -1,11 +1,22 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, BasicEvent, v1, v2, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   BasicEvent,
+   deserializeV1BasicEvent,
+   deserializeV2BasicEvent,
+   deserializeV3BasicEvent,
+   deserializeV4BasicEvent,
+   serializeV1BasicEvent,
+   serializeV2BasicEvent,
+   serializeV3BasicEvent,
+   serializeV4BasicEvent,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.basicEvent, 'V4 Basic Event'],
-   [v3.basicEvent, 'V3 Basic Event'],
-   [v2.basicEvent, 'V2 Event'],
-   [v1.basicEvent, 'V1 Event'],
+   [deserializeV4BasicEvent, serializeV4BasicEvent, 'V4 Basic Event'],
+   [deserializeV3BasicEvent, serializeV3BasicEvent, 'V3 Basic Event'],
+   [deserializeV2BasicEvent, serializeV2BasicEvent, 'V2 Event'],
+   [deserializeV1BasicEvent, serializeV1BasicEvent, 'V1 Event'],
 ] as const;
 const BaseClass = BasicEvent;
 const defaultValue = BasicEvent.defaultValue;
@@ -66,21 +77,24 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
-         { ...defaultValue, floatValue: schema === v1.basicEvent ? 1 : 0 },
+         { ...defaultValue, floatValue: nameTag === 'V1 Event' ? 1 : 0 },
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.basicEvent:
+      switch (nameTag) {
+         case 'V4 Basic Event':
             obj = new BaseClass(
-               (schema as typeof v4.basicEvent).deserialize({
+               schema({
                   object: { b: 1, i: 0 },
                   data: {
                      t: 4,
@@ -91,9 +105,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.basicEvent:
+         case 'V3 Basic Event':
             obj = new BaseClass(
-               (schema as typeof v3.basicEvent).deserialize({
+               schema({
                   b: 1,
                   et: 4,
                   i: 2,
@@ -102,9 +116,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v2.basicEvent:
+         case 'V2 Event':
             obj = new BaseClass(
-               (schema as typeof v2.basicEvent).deserialize({
+               schema({
                   _time: 1,
                   _type: 4,
                   _value: 2,
@@ -113,9 +127,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v1.basicEvent:
+         case 'V1 Event':
             obj = new BaseClass(
-               (schema as typeof v1.basicEvent).deserialize({
+               schema({
                   _time: 1,
                   _type: 4,
                   _value: 2,
@@ -129,16 +143,16 @@ for (const tup of schemaList) {
             time: 1,
             type: 4,
             value: 2,
-            floatValue: schema === v1.basicEvent ? 1 : 0.5,
-            customData: schema === v1.basicEvent ? {} : { test: true },
+            floatValue: nameTag === 'V1 Event' ? 1 : 0.5,
+            customData: nameTag === 'V1 Event' ? {} : { test: true },
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.basicEvent:
+      switch (nameTag) {
+         case 'V4 Basic Event':
             obj = new BaseClass(
-               (schema as typeof v4.basicEvent).deserialize({
+               schema({
                   object: {
                      b: 1,
                   },
@@ -148,26 +162,25 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.basicEvent:
+         case 'V3 Basic Event':
             obj = new BaseClass(
-               (schema as typeof v3.basicEvent).deserialize({
+               schema({
                   b: 1,
                   et: 4,
                }),
             );
             break;
-         case v2.basicEvent:
+         case 'V2 Event':
             obj = new BaseClass(
-               (schema as typeof v2.basicEvent).deserialize({
+               schema({
                   _time: 1,
                   _type: 4,
                }),
             );
             break;
-         case v1.basicEvent:
+         case 'V1 Event':
             obj = new BaseClass(
-               // @ts-expect-error awaiting updated type definitions from outgoing pull request
-               (schema as typeof v1.basicEvent).deserialize({
+               schema({
                   _time: 1,
                   _type: 4,
                }),
@@ -180,7 +193,7 @@ for (const tup of schemaList) {
             ...defaultValue,
             time: 1,
             type: 4,
-            floatValue: schema === v1.basicEvent ? 1 : 0,
+            floatValue: nameTag === 'V1 Event' ? 1 : 0,
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
@@ -188,9 +201,9 @@ for (const tup of schemaList) {
 
    Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new BaseClass({ customData: { test: true } });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.basicEvent:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Basic Event':
             assertEquals(json, {
                object: { b: 0, i: 0, customData: {} },
                data: {
@@ -201,7 +214,7 @@ for (const tup of schemaList) {
                },
             });
             break;
-         case v3.basicEvent:
+         case 'V3 Basic Event':
             assertEquals(json, {
                b: 0,
                et: 0,
@@ -210,7 +223,7 @@ for (const tup of schemaList) {
                customData: { test: true },
             });
             break;
-         case v2.basicEvent:
+         case 'V2 Event':
             assertEquals(json, {
                _time: 0,
                _type: 0,
@@ -219,7 +232,7 @@ for (const tup of schemaList) {
                _customData: { test: true },
             });
             break;
-         case v1.basicEvent:
+         case 'V1 Event':
             assertEquals(json, { _time: 0, _type: 0, _value: 0 });
             break;
       }

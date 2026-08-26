@@ -1,9 +1,16 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, Chain, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   Chain,
+   deserializeV3Chain,
+   deserializeV4Chain,
+   serializeV3Chain,
+   serializeV4Chain,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.chain, 'V4 Chain'],
-   [v3.chain, 'V3 Chain'],
+   [deserializeV4Chain, serializeV4Chain, 'V4 Chain'],
+   [deserializeV3Chain, serializeV3Chain, 'V3 Chain'],
 ] as const;
 const BaseClass = Chain;
 const defaultValue = Chain.defaultValue;
@@ -90,21 +97,24 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.chain:
+      switch (nameTag) {
+         case 'V4 Chain':
             obj = new BaseClass(
-               (schema as typeof v4.chain).deserialize({
+               schema({
                   object: {
                      hb: 1,
                      hr: 15,
@@ -132,9 +142,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.chain:
+         case 'V3 Chain':
             obj = new BaseClass(
-               (schema as typeof v3.chain).deserialize({
+               schema({
                   b: 1,
                   c: 1,
                   x: 2,
@@ -163,17 +173,17 @@ for (const tup of schemaList) {
             tailPosY: 2,
             sliceCount: 4,
             squish: 0.5,
-            laneRotation: schema === v3.chain ? 0 : 15,
-            tailLaneRotation: schema === v3.chain ? 0 : 30,
+            laneRotation: nameTag === 'V3 Chain' ? 0 : 15,
+            tailLaneRotation: nameTag === 'V3 Chain' ? 0 : 30,
             customData: { test: true },
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.chain:
+      switch (nameTag) {
+         case 'V4 Chain':
             obj = new BaseClass(
-               (schema as typeof v4.chain).deserialize({
+               schema({
                   object: {
                      tb: 2,
                   },
@@ -190,9 +200,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.chain:
+         case 'V3 Chain':
             obj = new BaseClass(
-               (schema as typeof v3.chain).deserialize({
+               schema({
                   x: 2,
                   y: 3,
                   tb: 2,
@@ -222,9 +232,9 @@ for (const tup of schemaList) {
 
    Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new BaseClass({ customData: { test: true } });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.chain:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Chain':
             assertEquals(json, {
                object: {
                   hb: 0,
@@ -252,7 +262,7 @@ for (const tup of schemaList) {
                },
             });
             break;
-         case v3.chain:
+         case 'V3 Chain':
             assertEquals(json, {
                b: 0,
                c: 0,

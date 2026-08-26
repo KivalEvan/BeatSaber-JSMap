@@ -47,7 +47,7 @@ export function saveDifficulty<
    options?: ISaveOptions<'difficulty', TVersion, TWrapper, TSerial>,
 ): TSerial {
    const ver = typeof version === 'number' ? version : null;
-   const opt = (typeof version !== 'number' ? version : options) ?? {};
+   const opt = typeof version === 'object' && version !== null ? version : options ?? {};
    const logger = getLogger();
    logger?.tInfo(tag('saveDifficulty'), 'Saving difficulty to JSON');
    return saveBeatmap('difficulty', data, ver, opt);

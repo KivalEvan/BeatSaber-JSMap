@@ -1,10 +1,11 @@
 /**
- * Contains mapping of function to specific version; used to handle version specific data.
+ * Contains version-specific mapping functions for the supported built-in beatmap versions.
  *
- * While the user may modify these with their own implementation, even upcoming or arbitrary versions,
- * it is not recommended as it may introduce breaking changes, incompatible data, etc.
+ * Built-in dispatch supports info v1/v2/v4, audio data v2/v4, difficulty v1/v2/v3/v4,
+ * and lightshow v3/v4. Entries in the exported maps may be replaced with compatible
+ * implementations when custom behavior is required.
  *
- * Unless you know what you are doing, feel free.
+ * Replacements can introduce breaking changes or incompatible data.
  *
  * @module
  */
@@ -13,6 +14,7 @@ export * from './types/mod.ts';
 
 export * from './compatibility.ts';
 export * from './converter.ts';
+export * from './deserialize.ts';
 export * from './optimizer.ts';
-export * from './schema.ts';
+export * from './serialize.ts';
 export * from './validator.ts';

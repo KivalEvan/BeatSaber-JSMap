@@ -44,7 +44,7 @@ export function loadDifficulty<
    options?: ILoadOptions<'difficulty', TVersion, TWrapper, TSerial>,
 ): TWrapper {
    const ver = typeof version === 'number' ? version : null;
-   const opt = (typeof version !== 'number' ? version : options) ?? {};
+   const opt = typeof version === 'object' && version !== null ? version : options ?? {};
    const logger = getLogger();
    logger?.tInfo(tag('loadDifficulty'), 'Loading difficulty from JSON');
    return loadBeatmap('difficulty', json, ver, opt);

@@ -1,27 +1,34 @@
-import type { ISchemaContainer } from '../shared/types/schema.ts';
 import type { IBasicEventTypesWithKeywords } from './types/basicEventTypesWithKeywords.ts';
 import type { IWrapBasicEventTypesWithKeywords as IWrapBasicEventTypesWithKeywords } from '../wrapper/types/basicEventTypesWithKeywords.ts';
-import { basicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
+import {
+   deserializeBasicEventTypesForKeywords,
+   serializeBasicEventTypesForKeywords,
+} from './basicEventTypesForKeywords.ts';
 
-/**
- * Schema serialization for v3 `Basic Event Types With Keywords`.
+/** Serialize beatmap v3 `Basic Event Types With Keywords` object into schema object.
+ * @param data The unwrapped beatmap object.
+ * @returns The serialized schema object.
  */
-export const basicEventTypesWithKeywords: ISchemaContainer<
-   IWrapBasicEventTypesWithKeywords,
-   IBasicEventTypesWithKeywords
-> = {
-   serialize(data) {
-      return {
-         d: data.list.map((x) => {
-            return basicEventTypesForKeywords.serialize(x);
-         }),
-      };
-   },
-   deserialize(data) {
-      return {
-         list: data.d?.map((x) => {
-            return basicEventTypesForKeywords.deserialize(x);
-         }) ?? [],
-      };
-   },
-};
+export function serializeBasicEventTypesWithKeywords(
+   data: IWrapBasicEventTypesWithKeywords,
+): IBasicEventTypesWithKeywords {
+   return {
+      d: data.list.map((x) => {
+         return serializeBasicEventTypesForKeywords(x);
+      }),
+   };
+}
+
+/** Deserialize schema object into beatmap v3 `Basic Event Types With Keywords` object.
+ * @param data The serialized schema object.
+ * @returns The unwrapped beatmap object.
+ */
+export function deserializeBasicEventTypesWithKeywords(
+   data: IBasicEventTypesWithKeywords,
+): IWrapBasicEventTypesWithKeywords {
+   return {
+      list: data.d?.map((x) => {
+         return deserializeBasicEventTypesForKeywords(x);
+      }) ?? [],
+   };
+}

@@ -1,10 +1,19 @@
 import { assertObjectMatch } from '../assert.ts';
-import { Arc, assertEquals, v2, v3, v4 } from '../deps.ts';
+import {
+   Arc,
+   assertEquals,
+   deserializeV2Arc,
+   deserializeV3Arc,
+   deserializeV4Arc,
+   serializeV2Arc,
+   serializeV3Arc,
+   serializeV4Arc,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.arc, 'V4 Arc'],
-   [v3.arc, 'V3 Arc'],
-   [v2.arc, 'V2 Arc'],
+   [deserializeV4Arc, serializeV4Arc, 'V4 Arc'],
+   [deserializeV3Arc, serializeV3Arc, 'V3 Arc'],
+   [deserializeV2Arc, serializeV2Arc, 'V2 Arc'],
 ] as const;
 const BaseClass = Arc;
 const defaultValue = Arc.defaultValue;
@@ -93,21 +102,24 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.arc:
+      switch (nameTag) {
+         case 'V4 Arc':
             obj = new BaseClass(
-               (schema as typeof v4.arc).deserialize({
+               schema({
                   object: {
                      ai: 0,
                      hb: 2.5,
@@ -124,9 +136,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.arc:
+         case 'V3 Arc':
             obj = new BaseClass(
-               (schema as typeof v3.arc).deserialize({
+               schema({
                   b: 2.5,
                   c: 1,
                   x: 2,
@@ -143,9 +155,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v2.arc:
+         case 'V2 Arc':
             obj = new BaseClass(
-               (schema as typeof v2.arc).deserialize({
+               schema({
                   _colorType: 1,
                   _headTime: 2.5,
                   _headLineIndex: 2,
@@ -178,17 +190,17 @@ for (const tup of schemaList) {
             tailDirection: 6,
             tailLengthMultiplier: 0.5,
             midAnchor: 1,
-            laneRotation: schema === v2.arc || schema === v3.arc ? 0 : 15,
-            tailLaneRotation: schema === v2.arc || schema === v3.arc ? 0 : 30,
+            laneRotation: nameTag === 'V2 Arc' || nameTag === 'V3 Arc' ? 0 : 15,
+            tailLaneRotation: nameTag === 'V2 Arc' || nameTag === 'V3 Arc' ? 0 : 30,
             customData: { test: true },
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.arc:
+      switch (nameTag) {
+         case 'V4 Arc':
             obj = new BaseClass(
-               (schema as typeof v4.arc).deserialize({
+               schema({
                   object: {
                      hb: 2.5,
                      tb: 3,
@@ -199,9 +211,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.arc:
+         case 'V3 Arc':
             obj = new BaseClass(
-               (schema as typeof v3.arc).deserialize({
+               schema({
                   b: 2.5,
                   c: 1,
                   mu: 0.5,
@@ -210,9 +222,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v2.arc:
+         case 'V2 Arc':
             obj = new BaseClass(
-               (schema as typeof v2.arc).deserialize({
+               schema({
                   _colorType: 1,
                   _headTime: 2.5,
                   _headControlPointLengthMultiplier: 0.5,
@@ -238,9 +250,9 @@ for (const tup of schemaList) {
 
    Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new BaseClass({ customData: { test: true } });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.arc:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Arc':
             assertEquals(json, {
                object: {
                   ai: 0,
@@ -257,7 +269,7 @@ for (const tup of schemaList) {
                tailData: { x: 0, y: 0, c: 0, d: 0, a: 0, customData: {} },
             });
             break;
-         case v3.arc:
+         case 'V3 Arc':
             assertEquals(json, {
                b: 0,
                c: 0,
@@ -274,7 +286,7 @@ for (const tup of schemaList) {
                customData: { test: true },
             });
             break;
-         case v2.arc:
+         case 'V2 Arc':
             assertEquals(json, {
                _colorType: 0,
                _headTime: 0,

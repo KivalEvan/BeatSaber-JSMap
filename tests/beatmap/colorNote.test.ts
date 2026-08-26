@@ -1,11 +1,22 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, ColorNote, v1, v2, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   ColorNote,
+   deserializeV1ColorNote,
+   deserializeV2ColorNote,
+   deserializeV3ColorNote,
+   deserializeV4ColorNote,
+   serializeV1ColorNote,
+   serializeV2ColorNote,
+   serializeV3ColorNote,
+   serializeV4ColorNote,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.colorNote, 'V4 Color Note'],
-   [v3.colorNote, 'V3 Color Note'],
-   [v2.colorNote, 'V2 Note'],
-   [v1.colorNote, 'V1 Note'],
+   [deserializeV4ColorNote, serializeV4ColorNote, 'V4 Color Note'],
+   [deserializeV3ColorNote, serializeV3ColorNote, 'V3 Color Note'],
+   [deserializeV2ColorNote, serializeV2ColorNote, 'V2 Note'],
+   [deserializeV1ColorNote, serializeV1ColorNote, 'V1 Note'],
 ] as const;
 const BaseClass = ColorNote;
 const defaultValue = ColorNote.defaultValue;
@@ -71,21 +82,24 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.colorNote:
+      switch (nameTag) {
+         case 'V4 Color Note':
             obj = new BaseClass(
-               (schema as typeof v4.colorNote).deserialize({
+               schema({
                   object: {
                      b: 1,
                      i: 0,
@@ -102,9 +116,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.colorNote:
+         case 'V3 Color Note':
             obj = new BaseClass(
-               (schema as typeof v3.colorNote).deserialize({
+               schema({
                   b: 1,
                   c: 1,
                   x: 2,
@@ -115,9 +129,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v2.colorNote:
+         case 'V2 Note':
             obj = new BaseClass(
-               (schema as typeof v2.colorNote).deserialize({
+               schema({
                   _time: 1,
                   _lineIndex: 2,
                   _lineLayer: 3,
@@ -127,9 +141,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v1.colorNote:
+         case 'V1 Note':
             obj = new BaseClass(
-               (schema as typeof v1.colorNote).deserialize({
+               schema({
                   _time: 1,
                   _lineIndex: 2,
                   _lineLayer: 3,
@@ -147,21 +161,21 @@ for (const tup of schemaList) {
             posX: 2,
             posY: 3,
             direction: 2,
-            angleOffset: schema === v1.colorNote || schema === v2.colorNote ? 0 : 15,
-            laneRotation: schema === v1.colorNote ||
-                  schema === v2.colorNote ||
-                  schema === v3.colorNote
+            angleOffset: nameTag === 'V1 Note' || nameTag === 'V2 Note' ? 0 : 15,
+            laneRotation: nameTag === 'V1 Note' ||
+                  nameTag === 'V2 Note' ||
+                  nameTag === 'V3 Color Note'
                ? 0
                : 15,
-            customData: schema === v1.colorNote ? {} : { test: true },
+            customData: nameTag === 'V1 Note' ? {} : { test: true },
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.colorNote:
+      switch (nameTag) {
+         case 'V4 Color Note':
             obj = new BaseClass(
-               (schema as typeof v4.colorNote).deserialize({
+               schema({
                   object: {
                      b: 1,
                   },
@@ -172,28 +186,27 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.colorNote:
+         case 'V3 Color Note':
             obj = new BaseClass(
-               (schema as typeof v3.colorNote).deserialize({
+               schema({
                   b: 1,
                   x: 2,
                   d: 2,
                }),
             );
             break;
-         case v2.colorNote:
+         case 'V2 Note':
             obj = new BaseClass(
-               (schema as typeof v2.colorNote).deserialize({
+               schema({
                   _time: 1,
                   _lineIndex: 2,
                   _cutDirection: 2,
                }),
             );
             break;
-         case v1.colorNote:
+         case 'V1 Note':
             obj = new BaseClass(
-               // @ts-expect-error awaiting updated type definitions from outgoing pull request
-               (schema as typeof v1.colorNote).deserialize({
+               schema({
                   _time: 1,
                   _lineIndex: 2,
                   _cutDirection: 2,
@@ -215,9 +228,9 @@ for (const tup of schemaList) {
 
    Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new BaseClass({ customData: { test: true } });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.colorNote:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Color Note':
             assertEquals(json, {
                object: { b: 0, i: 0, r: 0, customData: {} },
                data: {
@@ -230,7 +243,7 @@ for (const tup of schemaList) {
                },
             });
             break;
-         case v3.colorNote:
+         case 'V3 Color Note':
             assertEquals(json, {
                b: 0,
                c: 0,
@@ -241,7 +254,7 @@ for (const tup of schemaList) {
                customData: { test: true },
             });
             break;
-         case v2.colorNote:
+         case 'V2 Note':
             assertEquals(json, {
                _time: 0,
                _lineIndex: 0,
@@ -251,7 +264,7 @@ for (const tup of schemaList) {
                _customData: { test: true },
             });
             break;
-         case v1.colorNote:
+         case 'V1 Note':
             assertEquals(json, {
                _time: 0,
                _lineIndex: 0,

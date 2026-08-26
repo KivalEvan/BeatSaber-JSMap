@@ -1,9 +1,25 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, EventBoxType, LightTranslationEventBoxGroup, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   deserializeV3LightTranslationEventBoxGroup,
+   deserializeV4LightTranslationEventBoxGroup,
+   EventBoxType,
+   LightTranslationEventBoxGroup,
+   serializeV3LightTranslationEventBoxGroup,
+   serializeV4LightTranslationEventBoxGroup,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.lightTranslationEventBoxGroup, 'V4 Light Translation Event Box Group'],
-   [v3.lightTranslationEventBoxGroup, 'V3 Light Translation Event Box Group'],
+   [
+      deserializeV4LightTranslationEventBoxGroup,
+      serializeV4LightTranslationEventBoxGroup,
+      'V4 Light Translation Event Box Group',
+   ],
+   [
+      deserializeV3LightTranslationEventBoxGroup,
+      serializeV3LightTranslationEventBoxGroup,
+      'V3 Light Translation Event Box Group',
+   ],
 ] as const;
 const BaseClass = LightTranslationEventBoxGroup;
 const defaultValue = LightTranslationEventBoxGroup.defaultValue;
@@ -182,21 +198,24 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.lightTranslationEventBoxGroup:
+      switch (nameTag) {
+         case 'V4 Light Translation Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v4.lightTranslationEventBoxGroup).deserialize({
+               schema({
                   object: {
                      t: EventBoxType.TRANSLATION,
                      b: 1,
@@ -252,9 +271,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.lightTranslationEventBoxGroup:
+         case 'V3 Light Translation Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v3.lightTranslationEventBoxGroup).deserialize({
+               schema({
                   b: 1,
                   g: 2,
                   e: [
@@ -338,10 +357,10 @@ for (const tup of schemaList) {
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.lightTranslationEventBoxGroup:
+      switch (nameTag) {
+         case 'V4 Light Translation Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v4.lightTranslationEventBoxGroup).deserialize({
+               schema({
                   object: {
                      t: EventBoxType.TRANSLATION,
                      b: 1,
@@ -374,9 +393,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.lightTranslationEventBoxGroup:
+         case 'V3 Light Translation Event Box Group':
             obj = new BaseClass(
-               (schema as typeof v3.lightTranslationEventBoxGroup).deserialize({
+               schema({
                   b: 1,
                   e: [
                      {
@@ -450,9 +469,9 @@ for (const tup of schemaList) {
          boxes: [{ events: [{}] }],
          customData: { test: true },
       });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.lightTranslationEventBoxGroup:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Light Translation Event Box Group':
             assertEquals(json, {
                object: {
                   t: EventBoxType.TRANSLATION,
@@ -501,7 +520,7 @@ for (const tup of schemaList) {
                ],
             });
             break;
-         case v3.lightTranslationEventBoxGroup:
+         case 'V3 Light Translation Event Box Group':
             assertEquals(json, {
                b: 0,
                g: 0,

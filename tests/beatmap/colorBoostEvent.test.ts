@@ -1,11 +1,22 @@
 import { assertObjectMatch } from '../assert.ts';
-import { assertEquals, ColorBoostEvent, v1, v2, v3, v4 } from '../deps.ts';
+import {
+   assertEquals,
+   ColorBoostEvent,
+   deserializeV1ColorBoostEvent,
+   deserializeV2ColorBoostEvent,
+   deserializeV3ColorBoostEvent,
+   deserializeV4ColorBoostEvent,
+   serializeV1ColorBoostEvent,
+   serializeV2ColorBoostEvent,
+   serializeV3ColorBoostEvent,
+   serializeV4ColorBoostEvent,
+} from '../deps.ts';
 
 const schemaList = [
-   [v4.colorBoostEvent, 'V4 Color Boost Event'],
-   [v3.colorBoostEvent, 'V3 Color Boost Event'],
-   [v2.colorBoostEvent, 'V2 Color Boost Event'],
-   [v1.colorBoostEvent, 'V1 Color Boost Event'],
+   [deserializeV4ColorBoostEvent, serializeV4ColorBoostEvent, 'V4 Color Boost Event'],
+   [deserializeV3ColorBoostEvent, serializeV3ColorBoostEvent, 'V3 Color Boost Event'],
+   [deserializeV2ColorBoostEvent, serializeV2ColorBoostEvent, 'V2 Color Boost Event'],
+   [deserializeV1ColorBoostEvent, serializeV1ColorBoostEvent, 'V1 Color Boost Event'],
 ] as const;
 const BaseClass = ColorBoostEvent;
 const defaultValue = ColorBoostEvent.defaultValue;
@@ -49,21 +60,24 @@ Deno.test(`${nameTag} constructor & create instantiation`, () => {
 });
 
 for (const tup of schemaList) {
-   const nameTag = tup[1];
-   const schema = tup[0];
+   const nameTag = tup[2];
+   // deno-lint-ignore no-explicit-any
+   const schema = tup[0] as any;
+   // deno-lint-ignore no-explicit-any
+   const serializer = tup[1] as any;
    Deno.test(`${nameTag} from JSON instantiation`, () => {
       // deno-lint-ignore no-explicit-any
-      let obj = new BaseClass(schema.deserialize({} as any));
+      let obj = new BaseClass(schema({} as any));
       assertObjectMatch(
          obj,
          defaultValue,
          `Unexpected default value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.colorBoostEvent:
+      switch (nameTag) {
+         case 'V4 Color Boost Event':
             obj = new BaseClass(
-               (schema as typeof v4.colorBoostEvent).deserialize({
+               schema({
                   object: {
                      b: 1,
                   },
@@ -74,18 +88,18 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.colorBoostEvent:
+         case 'V3 Color Boost Event':
             obj = new BaseClass(
-               (schema as typeof v3.colorBoostEvent).deserialize({
+               schema({
                   b: 1,
                   o: true,
                   customData: { test: true },
                }),
             );
             break;
-         case v2.colorBoostEvent:
+         case 'V2 Color Boost Event':
             obj = new BaseClass(
-               (schema as typeof v2.colorBoostEvent).deserialize({
+               schema({
                   _time: 1,
                   _type: 5,
                   _value: 1,
@@ -94,9 +108,9 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v1.colorBoostEvent:
+         case 'V1 Color Boost Event':
             obj = new BaseClass(
-               (schema as typeof v1.colorBoostEvent).deserialize({
+               schema({
                   _time: 1,
                   _type: 5,
                   _value: 1,
@@ -109,15 +123,15 @@ for (const tup of schemaList) {
          {
             time: 1,
             toggle: true,
-            customData: schema === v1.colorBoostEvent ? {} : { test: true },
+            customData: nameTag === 'V1 Color Boost Event' ? {} : { test: true },
          },
          `Unexpected instantiated value from JSON object for ${nameTag}`,
       );
 
-      switch (schema) {
-         case v4.colorBoostEvent:
+      switch (nameTag) {
+         case 'V4 Color Boost Event':
             obj = new BaseClass(
-               (schema as typeof v4.colorBoostEvent).deserialize({
+               schema({
                   object: {
                      b: 1,
                   },
@@ -125,22 +139,21 @@ for (const tup of schemaList) {
                }),
             );
             break;
-         case v3.colorBoostEvent:
+         case 'V3 Color Boost Event':
             obj = new BaseClass(
-               (schema as typeof v3.colorBoostEvent).deserialize({
+               schema({
                   b: 1,
                }),
             );
             break;
-         case v2.colorBoostEvent:
-            obj = new BaseClass((schema as typeof v2.colorBoostEvent).deserialize({
+         case 'V2 Color Boost Event':
+            obj = new BaseClass(schema({
                _time: 1,
             }));
             break;
-         case v1.colorBoostEvent:
+         case 'V1 Color Boost Event':
             obj = new BaseClass(
-               // @ts-expect-error awaiting updated type definitions from outgoing pull request
-               (schema as typeof v1.colorBoostEvent).deserialize({
+               schema({
                   _time: 1,
                }),
             );
@@ -155,15 +168,15 @@ for (const tup of schemaList) {
 
    Deno.test(`${nameTag} to JSON object`, () => {
       const obj = new BaseClass({ customData: { test: true } });
-      const json = schema.serialize(obj);
-      switch (schema) {
-         case v4.colorBoostEvent:
+      const json = serializer(obj);
+      switch (nameTag) {
+         case 'V4 Color Boost Event':
             assertEquals(json, {
                object: { b: 0, i: 0, customData: {} },
                data: { b: 0, customData: { test: true } },
             });
             break;
-         case v3.colorBoostEvent:
+         case 'V3 Color Boost Event':
             assertEquals(json, { b: 0, o: false, customData: { test: true } });
             break;
       }

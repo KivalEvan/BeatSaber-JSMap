@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-import type { DeepPartial } from '../../../../types/utils.ts';
 import type { Version } from './version.ts';
 
 interface ISchemaDeclarationBase {
@@ -36,22 +34,3 @@ export type ISchemaDeclaration =
  * Beatmap file type.
  */
 export type BeatmapFileType = 'info' | 'audioData' | 'difficulty' | 'lightshow';
-
-/**
- * Schema container for serialization.
- */
-export interface ISchemaContainer<
-   TWrapper = { [key: string]: any },
-   TSerial = { [key: string]: any },
-   TSerializationOptions = { [key: string]: any },
-   TDeserializationOptions = { [key: string]: any },
-> {
-   serialize: (
-      data: TWrapper,
-      options?: DeepPartial<TSerializationOptions>,
-   ) => TSerial;
-   deserialize: (
-      data: TSerial,
-      options?: DeepPartial<TDeserializationOptions>,
-   ) => TWrapper;
-}
