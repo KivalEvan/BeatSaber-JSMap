@@ -2,15 +2,6 @@ import * as misc from '../../src/utils/misc/mod.ts';
 import * as math from '../../src/utils/math/mod.ts';
 import { assert, assertEquals } from '../deps.ts';
 
-Deno.test('Format number helper', () => {
-   assertEquals(misc.formatNumber(123456789), '123,456,789');
-   assertEquals(misc.formatNumber(-1999), '-1,999');
-   assertEquals(misc.formatNumber(1234.5678), '1,234.5678');
-   assertEquals(misc.formatNumber(-98765.4321), '-98,765.4321');
-   assertEquals(misc.formatNumber(999.99), '999.99');
-   assertEquals(misc.formatNumber(0), '0');
-});
-
 Deno.test('Range helper', () => {
    assertEquals(misc.range(0), []);
    assertEquals(misc.range(1), [0]);

@@ -51,7 +51,14 @@ function vectorImpl<TArgs extends any[]>(
    >(vec?: T, value?: TValue, ...args: TArgs) {
       if (!vec) return vec;
       if (typeof value === 'number') {
-         return vec.map((v) => operation(v, value, ...args)) as T;
+         const length = vec.length;
+         const result = new Array<number>(length);
+         for (let i = 0; i < length; i++) {
+            if (i in vec) {
+               result[i] = operation(vec[i], value, ...args);
+            }
+         }
+         return result as T;
       }
       vec = [...vec];
       if (value) {

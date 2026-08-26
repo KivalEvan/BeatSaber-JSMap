@@ -14,6 +14,8 @@
 + Added narrow `types`, `utils`, `schema`, versioned schema, and `beatmap/core` subpaths
 + Added narrow utility category subpaths for math, colors, and misc
 - Removed the `Object.hasOwn` global polyfill dependency
+# Removed the public `formatNumber` utility (breaking)
+* Optimised vector, color, math, and time utility loops
 # Changed schema modules to standalone `serialize*` and `deserialize*` functions (breaking)
 # Changed schema version maps to direction-specific serializer and deserializer maps (breaking)
 # Changed CI checkout steps to use the event commit, including fork pull requests

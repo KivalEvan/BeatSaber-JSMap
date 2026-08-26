@@ -42,7 +42,9 @@ export function secToMmssms(seconds: number): string {
  * Convert MM:SS string to number value of second.
  */
 export function mmssToSec(mmss: string): number {
-   const [m, s] = mmss.split(':').map((el) => Math.abs(parseInt(el)));
+   const separator = mmss.indexOf(':');
+   const m = Math.abs(parseInt(separator === -1 ? mmss : mmss.slice(0, separator)));
+   const s = separator === -1 ? Number.NaN : Math.abs(parseInt(mmss.slice(separator + 1)));
    const sign = mmss.trim().startsWith('-');
    return (sign ? -1 : 1) * (m * 60 + s);
 }

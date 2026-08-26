@@ -111,10 +111,12 @@ export function colorFrom(): ColorArray {
    if (Array.isArray(args[0])) {
       const ary = args[0];
       let val: ColorArray = [ary[0], ary[1], ary[2]];
-      if (!val.every((v) => typeof v === 'number')) {
-         throw new Error(
-            'Unable to parse color; array contain undefined or non-numeric value',
-         );
+      for (let i = 0; i < val.length; i++) {
+         if (typeof val[i] !== 'number') {
+            throw new Error(
+               'Unable to parse color; array contain undefined or non-numeric value',
+            );
+         }
       }
       if (typeof ary[3] === 'number') {
          val.push(ary[3]);
@@ -143,10 +145,12 @@ export function colorFrom(): ColorArray {
       }
       if ('r' in obj && 'g' in obj && 'b' in obj) {
          const val: ColorArray = [obj.r, obj.g, obj.b];
-         if (!val.every((v) => typeof v === 'number')) {
-            throw new Error(
-               'Unable to parse color; array contain undefined or non-numeric value',
-            );
+         for (let i = 0; i < val.length; i++) {
+            if (typeof val[i] !== 'number') {
+               throw new Error(
+                  'Unable to parse color; array contain undefined or non-numeric value',
+               );
+            }
          }
          if (typeof obj.a === 'number') {
             val.push(obj.a);
@@ -282,9 +286,16 @@ export function convertColorType(
       if (type === 'hsva') {
          return output === 'hsva' ? ([...color] satisfies ColorArray) : hsvaToRgba(color);
       }
-      const temp = type === 'rgba255'
-         ? (color.map((n) => cNorm(n!)) as ColorArray)
-         : ([...color] satisfies ColorArray);
+      let temp: ColorArray;
+      if (type === 'rgba255') {
+         const length = color.length;
+         temp = new Array<number>(length) as ColorArray;
+         for (let i = 0; i < length; i++) {
+            if (i in color) temp[i] = cNorm(color[i]!);
+         }
+      } else {
+         temp = [...color] satisfies ColorArray;
+      }
       return output === 'hsva' ? rgbaToHsva(temp) : temp;
    } else {
       if ('type' in color) {

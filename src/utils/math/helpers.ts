@@ -96,7 +96,7 @@ export function round(num: number, d = 0): number {
 /** Sum numbers in an array. */
 export function sumAry(nums: number[]): number {
    let sum = 0;
-   for (const n of nums) sum += n;
+   for (let i = 0; i < nums.length; i++) sum += nums[i];
    return sum;
 }
 
@@ -106,7 +106,7 @@ export function productAry(nums: number[]): number {
       return 0;
    }
    let prod = 1;
-   for (const n of nums) prod *= n;
+   for (let i = 0; i < nums.length; i++) prod *= nums[i];
    return prod;
 }
 
@@ -123,7 +123,12 @@ export function median(nums: number[]): number {
    if (!nums.length) {
       return 0;
    }
-   const ary = nums.map((n: number) => n).sort((a: number, b: number) => a - b);
+   const length = nums.length;
+   const ary = new Array<number>(length);
+   for (let i = 0; i < length; i++) {
+      if (i in nums) ary[i] = nums[i];
+   }
+   ary.sort((a: number, b: number) => a - b);
    const mid = Math.floor(ary.length / 2);
    if (ary.length % 2) {
       return ary[mid];

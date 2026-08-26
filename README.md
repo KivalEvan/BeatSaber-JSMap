@@ -58,7 +58,7 @@ one version is required.
 import { clamp } from 'jsr:@kvl/bsmap/utils';
 import { lerp } from 'jsr:@kvl/bsmap/utils/math';
 import { colorFrom } from 'jsr:@kvl/bsmap/utils/colors';
-import { formatNumber } from 'jsr:@kvl/bsmap/utils/misc';
+import { range } from 'jsr:@kvl/bsmap/utils/misc';
 import { ColorNoteSchema } from 'jsr:@kvl/bsmap/schema/v3';
 import type { Vector3 } from 'jsr:@kvl/bsmap/types';
 import { ColorNote } from 'jsr:@kvl/bsmap/beatmap/core';
@@ -70,7 +70,7 @@ import { ColorNote } from 'jsr:@kvl/bsmap/beatmap/core';
 import { clamp } from 'bsmap/utils';
 import { lerp } from 'bsmap/utils/math';
 import { colorFrom } from 'bsmap/utils/colors';
-import { formatNumber } from 'bsmap/utils/misc';
+import { range } from 'bsmap/utils/misc';
 import { ColorNoteSchema } from 'bsmap/schema/v3';
 import type { Vector3 } from 'bsmap/types';
 import { ColorNote } from 'bsmap/beatmap/core';
