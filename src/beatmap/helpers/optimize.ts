@@ -14,6 +14,10 @@ function tag(name: string): string[] {
  * @returns The remapped and deduplicated data and a map of the original index to the new index.
  */
 export function remapDedupe<T>(data: T[]): [T[], number[]] {
+   if (data.length < 2) {
+      return [data.slice(), data.map((_, i) => i)];
+   }
+
    const seen: Map<string, number> = new Map();
    const unique: T[] = [];
    const indexMap: number[] = new Array(data.length);

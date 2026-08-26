@@ -72,7 +72,8 @@ export function sortV2NoteFn<
          (a._customData!._position as Vector2)[1] - (b._customData!._position as Vector2)[1]
       );
    }
-   return a._time! - b._time! || a._lineIndex! - b._lineLayer! || a._lineIndex! - b._lineLayer!;
+   return a._time! - b._time! || a._lineIndex! - b._lineIndex! ||
+      a._lineLayer! - b._lineLayer!;
 }
 
 /**

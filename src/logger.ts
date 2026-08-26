@@ -153,7 +153,7 @@ export class Logger {
    }
 }
 
-let _logger: Logger | null;
+let _logger: Logger | null = null;
 
 /** Retrieves the global logging instance used across the module. */
 export function getLogger(): Logger | null {

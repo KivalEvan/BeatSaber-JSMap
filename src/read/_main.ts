@@ -36,7 +36,7 @@ export function handleRead<
    options: IReadOptions<TFileType, TVersion, TWrapper, TSerial> = {},
 ): Promise<TWrapper> {
    const ver = typeof version === 'number' ? version : null;
-   const opt = (typeof version !== 'number' ? version : options) ?? {};
+   const opt = typeof version === 'object' && version !== null ? version : options ?? {};
    const p = path.resolve(
       opt.directory ?? (defaultOptions.directory || globals.directory),
       src,
@@ -78,7 +78,7 @@ export function handleReadSync<
    options: IReadOptions<TFileType, TVersion, TWrapper, TSerial> = {},
 ): TWrapper {
    const ver = typeof version === 'number' ? version : null;
-   const opt = (typeof version !== 'number' ? version : options) ?? {};
+   const opt = typeof version === 'object' && version !== null ? version : options ?? {};
    const p = path.resolve(
       opt.directory ?? (defaultOptions.directory || globals.directory),
       src,

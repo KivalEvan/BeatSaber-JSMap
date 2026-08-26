@@ -41,9 +41,9 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
       .sort(sortObjectFn);
 
    if (data.difficulty.rotationEvents.length) {
-      const rotations = [...data.difficulty.rotationEvents]
-         .sort((a, b) => a.executionTime - b.executionTime)
-         .sort(sortObjectFn);
+      const rotations = [...data.difficulty.rotationEvents].sort(
+         (a, b) => a.time - b.time || a.executionTime - b.executionTime,
+      );
 
       let calculatedRotations = 0;
       for (const r of rotations) {
@@ -53,25 +53,18 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
       // tail rotation is not required to be calculated as it is not previously used
       for (let i = objects.length - 1; i >= 0; i--) {
          const obj = objects[i];
+         // Discard rotations after this object.
          let evt = rotations.at(-1);
          while (evt && evt.time > obj.time) {
             rotations.pop();
             calculatedRotations -= evt.rotation;
             evt = rotations.at(-1);
          }
-         if (!evt) break;
-         if (
-            evt.time === obj.time &&
-            evt.executionTime === ExecutionTime.EARLY
+         // At the same beat, only EARLY rotations apply.
+         while (
+            evt && evt.time === obj.time &&
+            evt.executionTime !== ExecutionTime.EARLY
          ) {
-            obj.laneRotation = Math.round(calculatedRotations % 360);
-            if ('tailLaneRotation' in obj) {
-               obj.tailLaneRotation = obj.laneRotation;
-            }
-            continue;
-         }
-
-         while (evt && evt.time >= obj.time) {
             rotations.pop();
             calculatedRotations -= evt.rotation;
             evt = rotations.at(-1);

@@ -454,10 +454,10 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
    }
 
    if (bm.difficulty.customData.environment) {
-      const envTracks: string[] = [];
+      const envTracks = new Set<string>();
       for (const env of bm.difficulty.customData.environment) {
          if (env.track) {
-            envTracks.push(env.track);
+            envTracks.add(env.track);
          }
       }
       const customEvents = [];
@@ -466,12 +466,12 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
             if (ce.t === 'AnimateTrack') {
                if (
                   typeof ce.d.track === 'string' &&
-                  envTracks.includes(ce.d.track)
+                  envTracks.has(ce.d.track)
                ) {
                   customEvents.push(ce);
                } else if (Array.isArray(ce.d.track)) {
                   for (const t of ce.d.track) {
-                     if (envTracks.includes(t)) {
+                     if (envTracks.has(t)) {
                         customEvents.push(ce);
                         break;
                      }

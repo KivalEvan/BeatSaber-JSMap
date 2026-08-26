@@ -46,7 +46,7 @@ export function handleWrite<
    options: IWriteOptions<TFileType, TVersion, TWrapper, TSerial> = {},
 ): Promise<TSerial> {
    const ver = typeof version === 'number' ? version : null;
-   const opt = (typeof version !== 'number' ? version : options) ?? {};
+   const opt = typeof version === 'object' && version !== null ? version : options ?? {};
    const json = saveBeatmap(type, data, ver, opt.save);
    return writeJSONFile(
       path.resolve(
@@ -73,7 +73,7 @@ export function handleWriteSync<
    options: IWriteOptions<TFileType, TVersion, TWrapper, TSerial> = {},
 ): TSerial {
    const ver = typeof version === 'number' ? version : null;
-   const opt = (typeof version !== 'number' ? version : options) ?? {};
+   const opt = typeof version === 'object' && version !== null ? version : options ?? {};
    const json = saveBeatmap(type, data, ver, opt.save);
    writeJSONFileSync(
       path.resolve(

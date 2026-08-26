@@ -53,6 +53,16 @@ function object(shape: { [key: string]: StandardSchemaV1 }): StandardSchemaV1 {
    };
 }
 
+function issueSchema(issue: StandardSchemaV1.Issue): StandardSchemaV1 {
+   return {
+      '~standard': {
+         version: 1,
+         vendor: 'custom',
+         validate: () => ({ issues: [issue] }),
+      },
+   };
+}
+
 Deno.test('schemaCheck', async (ctx) => {
    await ctx.step('legacy schema format', async (ctx) => {
       const schema: { [key: string]: ISchemaDeclaration } = {
@@ -91,6 +101,38 @@ Deno.test('schemaCheck', async (ctx) => {
          const issues = schemaCheck({}, versioned, 'sample');
          assertEquals(issues.length, 0);
       });
+   });
+   await ctx.step('classifies nested missing keys', () => {
+      const issue = {
+         message: 'Invalid key',
+         path: [
+            { type: 'object', origin: 'value', key: 'outer' },
+            { type: 'object', origin: 'key', key: 'inner' },
+         ],
+      } as unknown as StandardSchemaV1.Issue;
+      const issues = schemaCheck(
+         {},
+         issueSchema(issue),
+         'sample',
+         undefined,
+         { missing: false, nullish: true, wrongType: false },
+      );
+      assertEquals(issues.length, 1);
+   });
+   await ctx.step('does not classify absent vendor input as nullish', () => {
+      const issue = {
+         kind: 'schema',
+         type: 'object',
+         message: 'Invalid value',
+      } as StandardSchemaV1.Issue;
+      const issues = schemaCheck(
+         {},
+         issueSchema(issue),
+         'sample',
+         undefined,
+         { nullish: true, wrongType: false },
+      );
+      assertEquals(issues.length, 1);
    });
 });
 

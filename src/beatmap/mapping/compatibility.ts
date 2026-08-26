@@ -84,6 +84,8 @@ export function compatibilityCheck<
       },
    };
 
+   if (!opt.enabled) return;
+
    logger?.tInfo(
       tag('compatibilityCheck'),
       `Performing compatibility checks for ${type} with version ${version}`,

@@ -64,6 +64,19 @@ const defaultOptions: ISchemaCheckOptions = {
    },
 };
 
+function getSchema(
+   type: BeatmapFileType,
+   version: number,
+   create: (() => StandardSchemaV1) | undefined,
+): StandardSchemaV1 {
+   if (!create) {
+      throw new Error(
+         `No schema check found for ${type} beatmap version ${version}.`,
+      );
+   }
+   return create();
+}
+
 /**
  * Ensures the serial contents of the beatmap file conforms to its schema.
  * @param type The beatmap file type.
@@ -91,6 +104,8 @@ export function validateJSON<
       },
    };
 
+   if (!opt.enabled) return [];
+
    logger?.tInfo(
       tag('validateJSON'),
       `Validating serial contents for ${type} with version ${version}`,
@@ -98,19 +113,35 @@ export function validateJSON<
 
    switch (type) {
       case 'info': {
-         const schema = infoCheckMap[version as InferBeatmapVersion<'info'>]();
+         const schema = getSchema(
+            type,
+            version as number,
+            infoCheckMap[version as InferBeatmapVersion<'info'>],
+         );
          return schemaCheck(data, schema, type, undefined, opt.throwOn);
       }
       case 'audioData': {
-         const schema = audioDataCheckMap[version as InferBeatmapVersion<'audioData'>]();
+         const schema = getSchema(
+            type,
+            version as number,
+            audioDataCheckMap[version as InferBeatmapVersion<'audioData'>],
+         );
          return schemaCheck(data, schema, type, undefined, opt.throwOn);
       }
       case 'difficulty': {
-         const schema = difficultyCheckMap[version as InferBeatmapVersion<'difficulty'>]();
+         const schema = getSchema(
+            type,
+            version as number,
+            difficultyCheckMap[version as InferBeatmapVersion<'difficulty'>],
+         );
          return schemaCheck(data, schema, type, undefined, opt.throwOn);
       }
       case 'lightshow': {
-         const schema = lightshowCheckMap[version as InferBeatmapVersion<'lightshow'>]();
+         const schema = getSchema(
+            type,
+            version as number,
+            lightshowCheckMap[version as InferBeatmapVersion<'lightshow'>],
+         );
          return schemaCheck(data, schema, type, undefined, opt.throwOn);
       }
       default: {
