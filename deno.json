@@ -11,11 +11,19 @@
       "./extensions/selector": "./src/extensions/selector/mod.ts",
       "./extensions/stats": "./src/extensions/stats/mod.ts",
       "./extensions/swing": "./src/extensions/swing/mod.ts",
+      "./environment": "./src/environment/mod.ts",
       "./patch": "./src/patch/mod.ts",
       "./shims": "./src/shims/mod.ts"
    },
    "publish": {
-      "exclude": [".git", ".github", "dnt.ts", "npm", "coverage", "tests"]
+      "exclude": [
+         ".git",
+         ".github",
+         "dnt.ts",
+         "npm",
+         "coverage",
+         "tests"
+      ]
    },
    "imports": {
       "@standard-schema/spec": "jsr:@standard-schema/spec@^1.1.0",
@@ -31,7 +39,7 @@
    "tasks": {
       "npm": "deno run -A ./dnt.ts",
       "npm:clean": "rm -r ./npm",
-      "check": "deno task check:main && deno task check:extensions-heck && deno task check:extensions-parity && deno task check:extensions-placement && deno task check:extensions-renamer && deno task check:extensions-selector && deno task check:extensions-stats && deno task check:extensions-swing && deno task check:patch && deno task check:shims",
+      "check": "deno task check:main && deno task check:extensions-heck && deno task check:extensions-parity && deno task check:extensions-placement && deno task check:extensions-renamer && deno task check:extensions-selector && deno task check:extensions-stats && deno task check:extensions-swing && deno task check:environment && deno task check:patch && deno task check:shims",
       "check:main": "deno check src/mod.ts",
       "check:extensions-heck": "deno check src/extensions/heck/mod.ts",
       "check:extensions-parity": "deno check src/extensions/parity/mod.ts",
@@ -40,6 +48,7 @@
       "check:extensions-selector": "deno check src/extensions/selector/mod.ts",
       "check:extensions-stats": "deno check src/extensions/stats/mod.ts",
       "check:extensions-swing": "deno check src/extensions/swing/mod.ts",
+      "check:environment": "deno check src/environment/mod.ts",
       "check:patch": "deno check src/patch/mod.ts",
       "check:shims": "deno check src/shims/mod.ts",
       "check:jsr": "deno publish --dry-run",

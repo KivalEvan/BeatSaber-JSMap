@@ -24,8 +24,8 @@ await build({
    importMap,
    typeCheck: 'both',
    declaration: 'separate',
-   // declarationMap: false,
-   // skipSourceOutput: true,
+   declarationMap: false,
+   skipSourceOutput: true,
    mappings: {
       './src/shims/_path.ts': './src/shims/_path.js',
       './src/shims/_fs.ts': './src/shims/_fs.js',
@@ -56,6 +56,13 @@ await build({
       Deno.copyFileSync('BEATMAP.md', 'npm/BEATMAP.md');
       Deno.copyFileSync('CHANGELOG.md', 'npm/CHANGELOG.md');
       Deno.copyFileSync('GUIDE.md', 'npm/GUIDE.md');
+
+      // declare package side-effect free except the dnt polyfill bare imports,
+      // allowing consumer bundlers to tree-shake unused exports (e.g. environment data tables)
+      const pkgJsonPath = './npm/package.json';
+      const pkg = JSON.parse(Deno.readTextFileSync(pkgJsonPath));
+      pkg.sideEffects = ['./**/_dnt.polyfills.js'];
+      Deno.writeTextFileSync(pkgJsonPath, JSON.stringify(pkg, null, 2) + '\n');
    },
 });
 

@@ -123,7 +123,74 @@ bsmap.globals.directory = '/PATH/TO/YOUR/BEAT_SABER/MAP_FOLDER/';
 Module uses respective vendor API for filesystem and path functionality to handle `read` and `write`
 module, currently supporting Deno, Bun, and Node.js. This may also work on other runtime given that
 `node:` built-in module is available on import, otherwise you may be required to provide the
-following `fs` and `path` functionality in `shims` module.
+following `fs` and `path` functionality in the `shims` module.
+
+For JSR, import the default shims and their contracts from the public subpath:
+
+```ts
+import { fs, type IShimsFileSystem, type IShimsPath, path } from '@kvl/bsmap/shims';
+```
+
+For NPM, use the equivalent package subpath:
+
+```ts
+import { fs, type IShimsFileSystem, type IShimsPath, path } from 'bsmap/shims';
+```
+
+Environment data moved to its own subpath. Change imports as follows:
+
+```ts
+// Before
+import { EnvironmentRename } from '@kvl/bsmap';
+// After
+import { EnvironmentRename } from '@kvl/bsmap/environment';
+```
+
+For NPM, import the same data from `bsmap/environment`.
+
+If a runtime does not provide the required vendor APIs, create complete `IShimsFileSystem` and
+`IShimsPath` objects and copy their methods onto the exported shims with `Object.assign`. The
+interface expansion is a breaking change for custom shims. Add `rename`, `renameSync`, `unlink`,
+`unlinkSync`, `dirname`, and `join` during migration. The filesystem contract has these eight
+methods:
+
+- `readTextFile(path)` returns a promise and rejects when the path is missing.
+- `readTextFileSync(path)` returns text and throws when the path is missing.
+- `writeTextFile(path, content)` returns a promise and creates or truncates the file.
+- `writeTextFileSync(path, content)` creates or truncates the file synchronously.
+- `rename(oldPath, newPath)` returns a promise and atomically replaces the destination.
+- `renameSync(oldPath, newPath)` atomically replaces the destination synchronously.
+- `unlink(path)` returns a promise and rejects when the path is missing.
+- `unlinkSync(path)` removes the file and throws when the path is missing.
+
+The asynchronous methods `readTextFile`, `writeTextFile`, `rename`, and `unlink` return promises.
+The file-write adapter converts synchronous throws from custom asynchronous methods into rejected
+promises. The synchronous methods return or throw synchronously. The path contract has these four
+methods:
+
+- `resolve(...pathSegments)`
+- `basename(path, suffix?)`
+- `dirname(path)`
+- `join(...pathSegments)`
+
+Path methods follow `node:path` semantics. The four filesystem methods with no `Sync` suffix use
+promises; the other four do not. Browser builds that never use filesystem IO can ignore these shims.
+
+File writers first create a temporary file in the destination directory and then rename it over the
+destination. The temporary basename is bounded and does not include the destination basename or Web
+Crypto: `bsmap.<4 base36 digits>.<8 base36 digits>.tmp` (23 characters). The adjacent path keeps the
+temporary file on the same filesystem, which is required for atomic rename. Temporary names are
+unique only within one module instance in one execution context. All destinations in one directory
+share that name space. Different module instances or execution contexts can collide, which can fail
+a write or publish the wrong temporary content.
+
+Rename makes the replacement visible in one step. Readers see the old file or the complete new file,
+not partial content. The new path uses the temporary file's inode and creation permissions, so the
+old inode and mode are not preserved. A destination symlink is replaced as a link, and a source
+symlink moves as a link. This provides atomic visibility, not crash durability. `unlink` removes one
+file and must reject a directory without removing it. The Deno adapter requires read and write
+permissions. It runs `lstat`, rejects directories, and then runs `remove`. A path replacement
+between these calls remains a race.
 
 ### Browser
 

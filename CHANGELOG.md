@@ -1,5 +1,50 @@
 # Changelog
 
+## Unreleased
+
+```diff
++ Added strict beatmap version parsing and supported-version guards
++ Preserved options supplied with explicit `null` or `undefined` version arguments
++ Added strict rejection of every explicit unsupported target version
++ Added category-specific handling for nested Standard Schema issues
++ Added typed serializer and deserializer dispatch maps
++ Added strict v3 FX event index validation
++ Corrected v2/v3 to v4 conversion for mixed EARLY and LATE rotation events at one beat
++ Added opt-in environment data subpath (`@kvl/bsmap/environment`)
+# Changed schema modules to standalone `serialize*` and `deserialize*` functions (breaking)
+# Changed schema version maps to direction-specific serializer and deserializer maps (breaking)
+# Changed CI checkout steps to use the event commit, including fork pull requests
+# Moved environment tables and lookup helpers to the opt-in `@kvl/bsmap/environment` subpath (breaking)
+# Expanded `IShimsFileSystem` and `IShimsPath` contracts (breaking)
+  - Custom shims must add `rename`, `renameSync`, `unlink`, `unlinkSync`, `dirname`, and `join`
+# Changed v4 conversion to order finite rotation events by time, then execution time
+- Removed schema container exports and `ISchemaContainer` from the public API
+* Reject non-object JSON roots and malformed versions, including explicit `null` versions
+* Validate source versions before conversion and guard post-transform results
+* Create schemas per validation call to prevent stale schema state
+* Apply category-specific `throwOn` handling to nested Standard Schema issues
+* Reject explicit missing or out-of-range v3 and v4 indexed references
+* Reject non-finite numbers with single-pass validation during JSON serialization
+* Make file writes atomically visible through unique adjacent temporary files and rename
+  - Use bounded short temporary names without Web Crypto
+  - Rename replaces the destination path; callers must not rely on its inode or metadata being preserved
+  - This provides atomic visibility, not crash durability
+* Keep concurrent writes on separate temporary paths within one module instance and execution context
+  - Temporary-name uniqueness is limited to one module instance in one execution context
+  - All destinations in one directory share one temporary-name space
+  - Different module instances or execution contexts can collide and fail a write or publish wrong content
+* Fixed Deno unlink deleting empty directories; it now rejects directories like Node.js and Bun
+  - Requires read and write permissions
+  - Uses lstat, then remove; a path replacement between these calls remains a race
+* Export `IShimsFileSystem` and `IShimsPath` contracts from the `shims` subpath
+* Fixed validation flags being ignored by direct validateJSON calls
+* Fixed compatibility check ignoring enabled flag
+* Fixed inconsistent v2 note comparator corrupting note order between saves
+* Fixed logger returning undefined before setup
+* Fixed redundant wrapper copy on deserialisation
+* Reduced NPM package size by enabling source skipping and disabling declaration maps
+```
+
 ## 2.3.6 [2026-06-28]
 
 ```diff
