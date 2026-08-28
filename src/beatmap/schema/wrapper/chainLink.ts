@@ -2,7 +2,7 @@ import type { IWrapChain, IWrapChainLink } from './types/chain.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import type { Vector2 } from '../../../types/vector.ts';
 import { vectorAdd, vectorMagnitude, vectorMul, vectorSub } from '../../../utils/math/vector.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 import { lerp, mod } from '../../../utils/math/helpers.ts';
 import { degToRad, radToDeg } from '../../../utils/math/trigonometry.ts';
 import { resolveGridPosition, resolveGridTailPosition } from '../../helpers/core/gridObject.ts';
@@ -21,7 +21,7 @@ export function createChainLink(
       angle: data.angle ?? 0,
       laneRotation: data.laneRotation ?? 0,
       chain: null,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }
 

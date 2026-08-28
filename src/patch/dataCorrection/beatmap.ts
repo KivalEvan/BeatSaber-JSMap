@@ -65,6 +65,12 @@ import { fixCustomDataEvent } from './customDataEvent.ts';
 import { fixCustomDataObject } from './customDataObject.ts';
 import { fixBoolean, fixFloat, fixInt } from './helpers.ts';
 
+const zeroOneRange = [0, 1] as [0, 1];
+const oneTwoRange = [1, 2] as [1, 2];
+const zeroOneTwoRange = [0, 1, 2] as [0, 1, 2];
+const zeroOneTwoThreeRange = [0, 1, 2, 3] as [0, 1, 2, 3];
+const minusOneZeroOneTwoRange = [-1, 0, 1, 2] as [-1, 0, 1, 2];
+
 function fixBpmEvent(obj: IWrapBPMEvent): void {
    obj.time = fixFloat(obj.time, BPMEvent.defaultValue.time);
    obj.bpm = fixFloat(obj.bpm);
@@ -75,14 +81,14 @@ function fixRotationEvent(obj: IWrapRotationEvent): void {
    obj.executionTime = fixInt(
       obj.executionTime,
       RotationEvent.defaultValue.executionTime,
-      [0, 1],
+      zeroOneRange,
    );
    obj.rotation = fixFloat(obj.rotation, RotationEvent.defaultValue.rotation);
 }
 
 function fixColorNote(obj: IWrapColorNote): void {
    obj.time = fixFloat(obj.time, ColorNote.defaultValue.time);
-   obj.color = fixInt(obj.color, [0, 1], [0, 1]);
+   obj.color = fixInt(obj.color, zeroOneRange, zeroOneRange);
    obj.posX = fixInt(obj.posX, ColorNote.defaultValue.posX);
    obj.posY = fixInt(obj.posY, ColorNote.defaultValue.posY);
    obj.direction = fixInt(obj.direction, ColorNote.defaultValue.direction);
@@ -97,7 +103,7 @@ function fixFakeColorNote(obj: IColorNote): void {
    obj.b = fixFloat(obj.b, ColorNote.defaultValue.time);
    obj.x = fixInt(obj.x, ColorNote.defaultValue.posX);
    obj.y = fixInt(obj.y, ColorNote.defaultValue.posY);
-   obj.c = fixInt<Required<IColorNote>['c']>(obj.c, [0, 1], [0, 1]);
+   obj.c = fixInt<Required<IColorNote>['c']>(obj.c, zeroOneRange, zeroOneRange);
    obj.d = fixInt(obj.d, ColorNote.defaultValue.direction);
    obj.a = fixInt(obj.a, ColorNote.defaultValue.angleOffset);
    fixCustomDataObject(obj.customData);
@@ -139,7 +145,7 @@ function fixFakeObstacle(obj: IObstacle): void {
 
 function fixSlider(obj: IWrapArc): void {
    obj.time = fixFloat(obj.time, Arc.defaultValue.time);
-   obj.color = fixInt(obj.color, [0, 1], [0, 1]);
+   obj.color = fixInt(obj.color, zeroOneRange, zeroOneRange);
    obj.posX = fixInt(obj.posX, Arc.defaultValue.posX);
    obj.posY = fixInt(obj.posY, Arc.defaultValue.posY);
    obj.direction = fixInt(obj.direction, Arc.defaultValue.direction);
@@ -164,7 +170,7 @@ function fixSlider(obj: IWrapArc): void {
 
 function fixChain(obj: IWrapChain): void {
    obj.time = fixFloat(obj.time, Chain.defaultValue.time);
-   obj.color = fixInt(obj.color, [0, 1], [0, 1]);
+   obj.color = fixInt(obj.color, zeroOneRange, zeroOneRange);
    obj.posX = fixInt(obj.posX, Chain.defaultValue.posX);
    obj.posY = fixInt(obj.posY, Chain.defaultValue.posY);
    obj.direction = fixInt(obj.direction, Chain.defaultValue.direction);
@@ -178,7 +184,7 @@ function fixChain(obj: IWrapChain): void {
 
 function fixFakeChain(obj: IChain): void {
    obj.b = fixFloat(obj.b, Chain.defaultValue.time);
-   obj.c = fixInt<Required<IChain>['c']>(obj.c, [0, 1], [0, 1]);
+   obj.c = fixInt<Required<IChain>['c']>(obj.c, zeroOneRange, zeroOneRange);
    obj.x = fixInt(obj.x, Chain.defaultValue.posX);
    obj.y = fixInt(obj.y, Chain.defaultValue.posY);
    obj.d = fixInt(obj.d, Chain.defaultValue.direction);
@@ -214,22 +220,22 @@ function fixColorBoostEvent(obj: IWrapColorBoostEvent): void {
 }
 
 function fixIndexFilter(obj: IWrapIndexFilter): void {
-   obj.type = fixInt(obj.type, IndexFilter.defaultValue.type, [1, 2]);
+   obj.type = fixInt(obj.type, IndexFilter.defaultValue.type, oneTwoRange);
    obj.p0 = fixInt(obj.p0, IndexFilter.defaultValue.p0);
    obj.p1 = fixInt(obj.p1, IndexFilter.defaultValue.p1);
-   obj.reverse = fixInt(obj.reverse, IndexFilter.defaultValue.reverse, [0, 1]);
+   obj.reverse = fixInt(obj.reverse, IndexFilter.defaultValue.reverse, zeroOneRange);
    obj.chunks = fixInt(obj.chunks, IndexFilter.defaultValue.chunks);
    obj.random = fixInt(
       obj.random,
       IndexFilter.defaultValue.random,
-      [0, 1, 2, 3],
+      zeroOneTwoThreeRange,
    );
    obj.seed = fixInt(obj.seed, IndexFilter.defaultValue.seed);
    obj.limit = fixFloat(obj.limit, IndexFilter.defaultValue.limit, 0, 1);
    obj.limitAffectsType = fixInt(
       obj.limitAffectsType,
       IndexFilter.defaultValue.limitAffectsType,
-      [0, 1, 2, 3],
+      zeroOneTwoThreeRange,
    );
 }
 
@@ -240,17 +246,17 @@ function fixLightColorEvent(obj: IWrapLightColorEvent): void {
       LightColorEvent.defaultValue.frequency,
    );
    obj.color = obj.previous === 1
-      ? fixInt(obj.color, -1, [-1, 0, 1, 2])
-      : fixInt(obj.color, LightColorEvent.defaultValue.color, [0, 1, 2]);
+      ? fixInt(obj.color, -1, minusOneZeroOneTwoRange)
+      : fixInt(obj.color, LightColorEvent.defaultValue.color, zeroOneTwoRange);
    obj.easing = fixInt(
       obj.easing,
       LightColorEvent.defaultValue.easing,
-      [0, 1, 2],
+      zeroOneTwoRange,
    );
    obj.previous = fixInt(
       obj.previous,
       LightColorEvent.defaultValue.previous,
-      [0, 1],
+      zeroOneRange,
    );
    obj.brightness = fixFloat(
       obj.brightness,
@@ -263,7 +269,7 @@ function fixLightColorEvent(obj: IWrapLightColorEvent): void {
    obj.strobeFade = fixInt(
       obj.strobeFade,
       LightColorEvent.defaultValue.strobeFade,
-      [0, 1],
+      zeroOneRange,
    );
 }
 
@@ -276,7 +282,7 @@ function fixLightColorEventBox(obj: IWrapLightColorEventBox): void {
    obj.beatDistributionType = fixInt(
       obj.beatDistributionType,
       LightColorEventBox.defaultValue.beatDistributionType,
-      [1, 2],
+      oneTwoRange,
    );
    obj.brightnessDistribution = fixFloat(
       obj.brightnessDistribution,
@@ -285,12 +291,12 @@ function fixLightColorEventBox(obj: IWrapLightColorEventBox): void {
    obj.brightnessDistributionType = fixInt(
       obj.brightnessDistributionType,
       LightColorEventBox.defaultValue.brightnessDistributionType,
-      [1, 2],
+      oneTwoRange,
    );
    obj.affectFirst = fixInt<Required<ILightColorEventBox>['b']>(
       obj.affectFirst,
       LightColorEventBox.defaultValue.affectFirst,
-      [0, 1],
+      zeroOneRange,
    );
    obj.events.forEach(fixLightColorEvent);
 }
@@ -308,12 +314,12 @@ function fixLightRotationEvent(obj: IWrapLightRotationEvent): void {
    obj.direction = fixInt(
       obj.direction,
       LightRotationEvent.defaultValue.direction,
-      [0, 1, 2],
+      zeroOneTwoRange,
    );
    obj.previous = fixInt(
       obj.previous,
       LightRotationEvent.defaultValue.previous,
-      [0, 1],
+      zeroOneRange,
    );
    obj.rotation = fixFloat(
       obj.rotation,
@@ -330,7 +336,7 @@ function fixLightRotationEventBox(obj: IWrapLightRotationEventBox): void {
    obj.beatDistributionType = fixInt(
       obj.beatDistributionType,
       LightRotationEventBox.defaultValue.beatDistributionType,
-      [1, 2],
+      oneTwoRange,
    );
    obj.rotationDistribution = fixFloat(
       obj.rotationDistribution,
@@ -339,22 +345,22 @@ function fixLightRotationEventBox(obj: IWrapLightRotationEventBox): void {
    obj.rotationDistributionType = fixInt(
       obj.rotationDistributionType,
       LightRotationEventBox.defaultValue.rotationDistributionType,
-      [1, 2],
+      oneTwoRange,
    );
    obj.axis = fixInt(
       obj.axis,
       LightRotationEventBox.defaultValue.axis,
-      [0, 1, 2],
+      zeroOneTwoRange,
    );
    obj.flip = fixInt<Required<ILightRotationEventBox>['r']>(
       obj.flip,
       LightRotationEventBox.defaultValue.flip,
-      [0, 1],
+      zeroOneRange,
    );
    obj.affectFirst = fixInt<Required<ILightRotationEventBox>['b']>(
       obj.affectFirst,
       LightRotationEventBox.defaultValue.affectFirst,
-      [0, 1],
+      zeroOneRange,
    );
    obj.events.forEach(fixLightRotationEvent);
 }
@@ -373,7 +379,7 @@ function fixLightTranslationEvent(obj: IWrapLightTranslationEvent): void {
    obj.previous = fixInt(
       obj.previous,
       LightTranslationEvent.defaultValue.previous,
-      [0, 1],
+      zeroOneRange,
    );
    obj.translation = fixFloat(
       obj.translation,
@@ -390,7 +396,7 @@ function fixLightTranslationEventBox(obj: IWrapLightTranslationEventBox): void {
    obj.beatDistributionType = fixInt(
       obj.beatDistributionType,
       LightTranslationEventBox.defaultValue.beatDistributionType,
-      [1, 2],
+      oneTwoRange,
    );
    obj.gapDistribution = fixFloat(
       obj.gapDistribution,
@@ -399,22 +405,22 @@ function fixLightTranslationEventBox(obj: IWrapLightTranslationEventBox): void {
    obj.gapDistributionType = fixInt(
       obj.gapDistributionType,
       LightTranslationEventBox.defaultValue.gapDistributionType,
-      [1, 2],
+      oneTwoRange,
    );
    obj.axis = fixInt(
       obj.axis,
       LightTranslationEventBox.defaultValue.axis,
-      [0, 1, 2],
+      zeroOneTwoRange,
    );
    obj.flip = fixInt<Required<ILightTranslationEventBox>['r']>(
       obj.flip,
       LightTranslationEventBox.defaultValue.flip,
-      [0, 1],
+      zeroOneRange,
    );
    obj.affectFirst = fixInt<Required<ILightTranslationEventBox>['b']>(
       obj.affectFirst,
       LightTranslationEventBox.defaultValue.affectFirst,
-      [0, 1],
+      zeroOneRange,
    );
    obj.events.forEach(fixLightTranslationEvent);
 }
@@ -439,7 +445,7 @@ function fixFxEventBox(obj: IWrapFxEventBox): void {
    obj.beatDistributionType = fixInt(
       obj.beatDistributionType,
       FxEventBox.defaultValue.beatDistributionType,
-      [1, 2],
+      oneTwoRange,
    );
    obj.fxDistribution = fixFloat(
       obj.fxDistribution,
@@ -448,12 +454,12 @@ function fixFxEventBox(obj: IWrapFxEventBox): void {
    obj.fxDistributionType = fixInt(
       obj.fxDistributionType,
       FxEventBox.defaultValue.fxDistributionType,
-      [1, 2],
+      oneTwoRange,
    );
    obj.affectFirst = fixInt<Required<IFxEventBox>['b']>(
       obj.affectFirst,
       FxEventBox.defaultValue.affectFirst,
-      [0, 1],
+      zeroOneRange,
    );
    obj.events.forEach(fixFxEventFloat);
 }
@@ -470,7 +476,7 @@ function _fixFxEventInt(obj: FxEventInt): void {
    obj.previous = fixInt(
       obj.previous,
       FxEventInt.defaultValue.previous,
-      [0, 1],
+      zeroOneRange,
    );
    obj.value = fixFloat(obj.value, FxEventInt.defaultValue.value);
 }
@@ -481,7 +487,7 @@ function fixFxEventFloat(obj: IWrapFxEventFloat): void {
    obj.previous = fixInt(
       obj.previous,
       FxEventFloat.defaultValue.previous,
-      [0, 1],
+      zeroOneRange,
    );
    obj.value = fixFloat(obj.value, FxEventFloat.defaultValue.value);
 }
@@ -523,29 +529,45 @@ export function patchBeatmap<T extends IWrapBeatmap>(data: T): void {
       data.lightshow.useNormalEventsAsCompatibleEvents,
    );
 
-   const boost = data.lightshow.basicEvents.filter((ev) => isColorBoostEventType(ev.type));
-   const laneRotation = data.lightshow.basicEvents.filter((ev) => isLaneRotationEventType(ev.type));
-   data.lightshow.basicEvents = data.lightshow.basicEvents.filter(
-      (ev) => !(isColorBoostEventType(ev.type) || isLaneRotationEventType(ev.type)),
-   );
-   data.lightshow.colorBoostEvents.push(
-      ...boost.map((ev) => ({
-         time: ev.time,
-         toggle: ev.value ? true : false,
-         customData: {},
-      })),
-   );
-   data.difficulty.rotationEvents.push(
-      ...laneRotation.map((ev) => ({
-         time: ev.time,
-         executionTime: ev.type == 15 ? ExecutionTime.LATE : ExecutionTime.EARLY,
-         rotation: ev.customData._rotation ??
-            (ev.value >= 1000 && ev.value <= 1720
-               ? ev.value - 1360
-               : ev.value >= 0 && ev.value <= 7
-               ? EventLaneRotationValue[ev.value]
-               : 0),
-         customData: {},
-      })),
-   );
+   const basicEvents = data.lightshow.basicEvents;
+   const basicEventsWithoutSpecial = [] as IWrapBasicEvent[];
+   const colorBoostEvents = data.lightshow.colorBoostEvents;
+   const rotationEvents = data.difficulty.rotationEvents;
+   const keepConvertedEventsSeparate = colorBoostEvents as unknown === rotationEvents;
+   const boostEvents = keepConvertedEventsSeparate ? [] as IWrapColorBoostEvent[] : undefined;
+   const laneRotationEvents = keepConvertedEventsSeparate ? [] as IWrapRotationEvent[] : undefined;
+   for (let i = 0, length = basicEvents.length; i < length; i++) {
+      if (!(i in basicEvents)) continue;
+      const ev = basicEvents[i];
+      const isBoost = isColorBoostEventType(ev.type);
+      const isLaneRotation = isLaneRotationEventType(ev.type);
+      if (isBoost) {
+         const boostEvent = {
+            time: ev.time,
+            toggle: ev.value ? true : false,
+            customData: {},
+         };
+         if (boostEvents) boostEvents.push(boostEvent);
+         else colorBoostEvents.push(boostEvent);
+      }
+      if (isLaneRotation) {
+         const laneRotationEvent = {
+            time: ev.time,
+            executionTime: ev.type == 15 ? ExecutionTime.LATE : ExecutionTime.EARLY,
+            rotation: ev.customData._rotation ??
+               (ev.value >= 1000 && ev.value <= 1720
+                  ? ev.value - 1360
+                  : ev.value >= 0 && ev.value <= 7
+                  ? EventLaneRotationValue[ev.value]
+                  : 0),
+            customData: {},
+         };
+         if (laneRotationEvents) laneRotationEvents.push(laneRotationEvent);
+         else rotationEvents.push(laneRotationEvent);
+      }
+      if (!isBoost && !isLaneRotation) basicEventsWithoutSpecial.push(ev);
+   }
+   data.lightshow.basicEvents = basicEventsWithoutSpecial;
+   if (boostEvents) data.lightshow.colorBoostEvents.push(...boostEvents);
+   if (laneRotationEvents) data.difficulty.rotationEvents.push(...laneRotationEvents);
 }

@@ -1,6 +1,6 @@
 import type { IWrapBasicEventTypesForKeywords } from './types/basicEventTypesForKeywords.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createBasicEventTypesForKeywords(
    data: DeepPartial<IWrapBasicEventTypesForKeywords> = {},
@@ -8,6 +8,6 @@ export function createBasicEventTypesForKeywords(
    return {
       keyword: data.keyword ?? '',
       events: data.events ?? [],
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

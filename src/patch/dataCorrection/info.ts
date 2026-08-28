@@ -11,9 +11,8 @@ function fixEnvironment(str: unknown, all = false): EnvironmentName {
    if (typeof str === 'string') {
       if (str === 'Origins') return 'OriginsEnvironment';
       if (
-         Object.keys(EnvironmentRename)
-            .filter((env) => all || !is360Environment(env as EnvironmentName))
-            .includes(str)
+         Object.prototype.propertyIsEnumerable.call(EnvironmentRename, str) &&
+         (all || !is360Environment(str as EnvironmentName))
       ) {
          return str as EnvironmentName;
       }

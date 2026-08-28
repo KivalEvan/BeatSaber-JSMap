@@ -1,5 +1,5 @@
 import type { IWrapLightTranslationEvent } from './types/lightTranslationEvent.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createLightTranslationEvent(
    data: Partial<IWrapLightTranslationEvent> = {},
@@ -9,6 +9,6 @@ export function createLightTranslationEvent(
       easing: data.easing ?? 0,
       previous: data.previous ?? 0,
       translation: data.translation ?? 0,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

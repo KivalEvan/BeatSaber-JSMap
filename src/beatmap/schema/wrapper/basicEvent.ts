@@ -1,6 +1,6 @@
 import type { IWrapBasicEvent } from './types/basicEvent.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createBasicEvent(
    data: DeepPartial<IWrapBasicEvent> = {},
@@ -10,6 +10,6 @@ export function createBasicEvent(
       type: data.type ?? 0,
       value: data.value ?? 0,
       floatValue: data.floatValue ?? 0,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

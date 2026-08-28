@@ -60,15 +60,33 @@ function calcMaxRollingSps(swingArray: number[], x: number): number {
       return 0;
    }
    if (swingArray.length < x) {
-      return swingArray.reduce((a, b) => a + b) / swingArray.length;
+      return sumRange(swingArray, 0, swingArray.length) / swingArray.length;
    }
-   let currentSPS = swingArray.slice(0, x).reduce((a, b) => a + b);
+   let currentSPS = sumRange(swingArray, 0, x);
    let maxSPS = currentSPS;
    for (let i = 0; i < swingArray.length - x; i++) {
       currentSPS = currentSPS - swingArray[i] + swingArray[i + x];
       maxSPS = Math.max(maxSPS, currentSPS);
    }
    return maxSPS / x;
+}
+
+function sumRange(array: number[], start: number, end: number): number {
+   let sum = 0;
+   let hasValue = false;
+   for (let i = start; i < end; i++) {
+      if (!(i in array)) continue;
+      if (hasValue) {
+         sum += array[i];
+      } else {
+         sum = array[i];
+         hasValue = true;
+      }
+   }
+   if (!hasValue) {
+      throw new TypeError('Reduce of empty array with no initial value');
+   }
+   return sum;
 }
 
 /**
@@ -120,12 +138,10 @@ export function info<T extends ISwingAnalysisBeatmap>(
       if (maxInterval + sliceStart > swingTotal.length) {
          maxInterval = swingTotal.length - sliceStart;
       }
-      const sliceRed = swing.left.slice(sliceStart, sliceStart + maxInterval);
-      const sliceBlue = swing.right.slice(sliceStart, sliceStart + maxInterval);
-      const sliceTotal = swingTotal.slice(sliceStart, sliceStart + maxInterval);
-      swingIntervalRed.push(sliceRed.reduce((a, b) => a + b) / maxInterval);
-      swingIntervalBlue.push(sliceBlue.reduce((a, b) => a + b) / maxInterval);
-      swingIntervalTotal.push(sliceTotal.reduce((a, b) => a + b) / maxInterval);
+      const sliceEnd = sliceStart + maxInterval;
+      swingIntervalRed.push(sumRange(swing.left, sliceStart, sliceEnd) / maxInterval);
+      swingIntervalBlue.push(sumRange(swing.right, sliceStart, sliceEnd) / maxInterval);
+      swingIntervalTotal.push(sumRange(swingTotal, sliceStart, sliceEnd) / maxInterval);
    }
 
    spsInfo.red.total = swing.left.reduce((a, b) => a + b);
@@ -215,13 +231,15 @@ export function calcSpsTotalPercDrop<T extends ISwingAnalysisBaseNote>(
 ): number {
    let highest = 0;
    let lowest = Number.MAX_SAFE_INTEGER;
-   spsArray.forEach((spsMap) => {
+   for (let i = 0, l = spsArray.length; i < l; i++) {
+      if (!(i in spsArray)) continue;
+      const spsMap = spsArray[i];
       const overall = spsMap.total.perSecond;
       if (overall > 0) {
          highest = Math.max(highest, overall);
          lowest = Math.min(lowest, overall);
       }
-   });
+   }
    return highest || (highest && lowest) ? (1 - lowest / highest) * 100 : 0;
 }
 
@@ -231,10 +249,15 @@ export function calcSpsTotalPercDrop<T extends ISwingAnalysisBaseNote>(
 export function getSpsLowest<T extends ISwingAnalysisBaseNote>(
    spsArray: ISwingAnalysis<T>[],
 ): number {
-   return Math.min(
-      ...spsArray.map((e) => e.total.perSecond),
-      Number.MAX_SAFE_INTEGER,
-   );
+   let lowest = Number.MAX_SAFE_INTEGER;
+   const length = spsArray.length;
+   for (let i = 0; i < length; i++) {
+      lowest = Math.min(
+         lowest,
+         i in spsArray ? spsArray[i].total.perSecond : Number.NaN,
+      );
+   }
+   return lowest;
 }
 
 /**
@@ -243,5 +266,13 @@ export function getSpsLowest<T extends ISwingAnalysisBaseNote>(
 export function getSpsHighest<T extends ISwingAnalysisBaseNote>(
    spsArray: ISwingAnalysis<T>[],
 ): number {
-   return Math.max(...spsArray.map((e) => e.total.perSecond), 0);
+   let highest = 0;
+   const length = spsArray.length;
+   for (let i = 0; i < length; i++) {
+      highest = Math.max(
+         highest,
+         i in spsArray ? spsArray[i].total.perSecond : Number.NaN,
+      );
+   }
+   return highest;
 }

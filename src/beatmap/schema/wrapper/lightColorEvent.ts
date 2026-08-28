@@ -1,6 +1,6 @@
 import type { IWrapLightColorEvent } from './types/lightColorEvent.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createLightColorEvent(
    data: DeepPartial<IWrapLightColorEvent> = {},
@@ -14,6 +14,6 @@ export function createLightColorEvent(
       strobeBrightness: data.strobeBrightness ?? 0,
       strobeFade: data.strobeFade ?? 0,
       easing: data.easing ?? 0,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

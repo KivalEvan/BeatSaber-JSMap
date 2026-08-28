@@ -1,6 +1,6 @@
 import type { IWrapInfoBeatmap } from './types/info.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createInfoBeatmap(
    data: DeepPartial<IWrapInfoBeatmap> = {},
@@ -18,6 +18,6 @@ export function createInfoBeatmap(
       njsOffset: data.njsOffset ?? 0,
       colorSchemeId: data.colorSchemeId ?? -1,
       environmentId: data.environmentId ?? 0,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

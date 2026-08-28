@@ -1,6 +1,6 @@
 import type { IWrapFxEventBox } from './types/fxEventBox.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 import { createFxEventFloat } from './fxEventFloat.ts';
 import { createIndexFilter } from './indexFilter.ts';
 
@@ -16,6 +16,6 @@ export function createFxEventBox(
       affectFirst: data.affectFirst ?? 0,
       easing: data.easing ?? 0,
       events: data.events?.map(createFxEventFloat) ?? [],
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

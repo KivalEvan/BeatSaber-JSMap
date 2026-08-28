@@ -1,6 +1,6 @@
 import type { IWrapChain } from './types/chain.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createChain(
    data: DeepPartial<IWrapChain> = {},
@@ -18,6 +18,6 @@ export function createChain(
       tailLaneRotation: data.tailLaneRotation ?? 0,
       sliceCount: data.sliceCount ?? 0,
       squish: data.squish ?? 0,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

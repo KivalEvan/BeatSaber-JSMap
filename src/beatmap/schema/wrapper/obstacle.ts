@@ -1,6 +1,6 @@
 import type { IWrapObstacle } from './types/obstacle.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createObstacle(
    data: DeepPartial<IWrapObstacle> = {},
@@ -13,6 +13,6 @@ export function createObstacle(
       height: data.height ?? 0,
       duration: data.duration ?? 0,
       laneRotation: data.laneRotation ?? 0,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

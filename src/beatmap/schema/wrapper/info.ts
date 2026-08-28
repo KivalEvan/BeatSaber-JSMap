@@ -1,6 +1,6 @@
 import type { IWrapInfo, IWrapInfoColorScheme } from './types/info.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 import { createInfoBeatmap } from './infoBeatmap.ts';
 
 export function createInfo(data: DeepPartial<IWrapInfo> = {}): IWrapInfo {
@@ -98,6 +98,6 @@ export function createInfo(data: DeepPartial<IWrapInfo> = {}): IWrapInfo {
          return cs;
       }) ?? [],
       difficulties: data.difficulties?.map(createInfoBeatmap) ?? [],
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

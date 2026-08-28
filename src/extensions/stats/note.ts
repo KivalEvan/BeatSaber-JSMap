@@ -97,7 +97,13 @@ export function countBomb<T extends IWrapBombNote>(
  * ```
  */
 export function countX<T extends IWrapGridObject>(objs: T[], x: number): number {
-   return objs.filter((n) => n.posX === x).length;
+   let count = 0;
+   for (let i = 0, l = objs.length; i < l; i++) {
+      if (!(i in objs)) continue;
+      const obj = objs[i];
+      if (obj.posX === x) count++;
+   }
+   return count;
 }
 
 /**
@@ -108,7 +114,13 @@ export function countX<T extends IWrapGridObject>(objs: T[], x: number): number 
  * ```
  */
 export function countY<T extends IWrapGridObject>(objs: T[], y: number): number {
-   return objs.filter((n) => n.posY === y).length;
+   let count = 0;
+   for (let i = 0, l = objs.length; i < l; i++) {
+      if (!(i in objs)) continue;
+      const obj = objs[i];
+      if (obj.posY === y) count++;
+   }
+   return count;
 }
 
 /**
@@ -123,7 +135,13 @@ export function countXY<T extends IWrapGridObject>(
    x: number,
    y: number,
 ): number {
-   return objs.filter((n) => n.posX === x && n.posY === y).length;
+   let count = 0;
+   for (let i = 0, l = objs.length; i < l; i++) {
+      if (!(i in objs)) continue;
+      const obj = objs[i];
+      if (obj.posX === x && obj.posY === y) count++;
+   }
+   return count;
 }
 
 /**
@@ -133,7 +151,13 @@ export function countXY<T extends IWrapGridObject>(
  * ```
  */
 export function countDirection<T extends IWrapBaseNote>(notes: T[], cd: number): number {
-   return notes.filter((n) => n.direction === cd).length;
+   let count = 0;
+   for (let i = 0, l = notes.length; i < l; i++) {
+      if (!(i in notes)) continue;
+      const note = notes[i];
+      if (note.direction === cd) count++;
+   }
+   return count;
 }
 
 /**
@@ -148,5 +172,11 @@ export function countAngle<T extends IWrapBaseNote>(
    angle: number,
    fn?: GetAngleFn<T>,
 ): number {
-   return notes.filter((n) => (fn?.(n) ?? resolveNoteAngle(n.direction)) === angle).length;
+   let count = 0;
+   for (let i = 0, l = notes.length; i < l; i++) {
+      if (!(i in notes)) continue;
+      const note = notes[i];
+      if ((fn?.(note) ?? resolveNoteAngle(note.direction)) === angle) count++;
+   }
+   return count;
 }

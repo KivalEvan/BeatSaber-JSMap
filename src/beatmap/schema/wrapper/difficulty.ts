@@ -1,6 +1,6 @@
 import type { IWrapDifficulty } from './types/difficulty.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 import { createArc } from './arc.ts';
 import { createBombNote } from './bombNote.ts';
 import { createBPMEvent } from './bpmEvent.ts';
@@ -22,6 +22,6 @@ export function createDifficulty(
       arcs: data.arcs?.map(createArc) ?? [],
       chains: data.chains?.map(createChain) ?? [],
       njsEvents: data.njsEvents?.map(createNJSEvent) ?? [],
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

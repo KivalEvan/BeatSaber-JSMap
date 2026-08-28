@@ -1,7 +1,7 @@
 import type { IDifficulty } from './types/difficulty.ts';
 import type { IWrapBeatmap } from '../wrapper/types/beatmap.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createBeatmap } from '../wrapper/beatmap.ts';
+import { assembleOwnedBeatmap } from '../wrapper/_ownedBeatmap.ts';
 import { deserializeArc, serializeArc } from './arc.ts';
 import { deserializeBombNote, serializeBombNote } from './bombNote.ts';
 import { deserializeChain, serializeChain } from './chain.ts';
@@ -40,38 +40,34 @@ export function serializeDifficulty(data: IWrapBeatmap): IDifficulty {
       njsEventData: [],
       customData: deepCopy(data.difficulty.customData),
    };
-   for (
-      const jsonObj of data.difficulty.colorNotes.map((x) => {
-         return serializeColorNote(x);
-      })
-   ) {
+   const colorNotes = data.difficulty.colorNotes;
+   const colorNotesLength = colorNotes.length;
+   for (let i = 0; i < colorNotesLength; i++) {
+      const jsonObj = serializeColorNote(colorNotes[i]);
       json.colorNotes!.push(jsonObj.object);
       jsonObj.object.i = json.colorNotesData!.length;
       json.colorNotesData!.push(jsonObj.data);
    }
-   for (
-      const jsonObj of data.difficulty.bombNotes.map((x) => {
-         return serializeBombNote(x);
-      })
-   ) {
+   const bombNotes = data.difficulty.bombNotes;
+   const bombNotesLength = bombNotes.length;
+   for (let i = 0; i < bombNotesLength; i++) {
+      const jsonObj = serializeBombNote(bombNotes[i]);
       json.bombNotes!.push(jsonObj.object);
       jsonObj.object.i = json.bombNotesData!.length;
       json.bombNotesData!.push(jsonObj.data);
    }
-   for (
-      const jsonObj of data.difficulty.obstacles.map((x) => {
-         return serializeObstacle(x);
-      })
-   ) {
+   const obstacles = data.difficulty.obstacles;
+   const obstaclesLength = obstacles.length;
+   for (let i = 0; i < obstaclesLength; i++) {
+      const jsonObj = serializeObstacle(obstacles[i]);
       json.obstacles!.push(jsonObj.object);
       jsonObj.object.i = json.obstaclesData!.length;
       json.obstaclesData!.push(jsonObj.data);
    }
-   for (
-      const jsonObj of data.difficulty.arcs.map((x) => {
-         return serializeArc(x);
-      })
-   ) {
+   const arcs = data.difficulty.arcs;
+   const arcsLength = arcs.length;
+   for (let i = 0; i < arcsLength; i++) {
+      const jsonObj = serializeArc(arcs[i]);
       json.arcs!.push(jsonObj.object);
       jsonObj.object.ai = json.arcsData!.length;
       json.arcsData!.push(jsonObj.data);
@@ -80,22 +76,20 @@ export function serializeDifficulty(data: IWrapBeatmap): IDifficulty {
       jsonObj.object.ti = json.colorNotesData!.length;
       json.colorNotesData!.push(jsonObj.tailData);
    }
-   for (
-      const jsonObj of data.difficulty.chains.map((x) => {
-         return serializeChain(x);
-      })
-   ) {
+   const chains = data.difficulty.chains;
+   const chainsLength = chains.length;
+   for (let i = 0; i < chainsLength; i++) {
+      const jsonObj = serializeChain(chains[i]);
       json.chains!.push(jsonObj.object);
       jsonObj.object.i = json.colorNotesData!.length;
       json.colorNotesData!.push(jsonObj.data);
       jsonObj.object.ci = json.chainsData!.length;
       json.chainsData!.push(jsonObj.chainData);
    }
-   for (
-      const jsonObj of data.difficulty.njsEvents.map((x) => {
-         return serializeNJSEvent(x);
-      })
-   ) {
+   const njsEvents = data.difficulty.njsEvents;
+   const njsEventsLength = njsEvents.length;
+   for (let i = 0; i < njsEventsLength; i++) {
+      const jsonObj = serializeNJSEvent(njsEvents[i]);
       json.njsEvents!.push(jsonObj.object);
       jsonObj.object.i = json.njsEventData!.length;
       json.njsEventData!.push(jsonObj.data);
@@ -112,7 +106,7 @@ export function deserializeDifficulty(
    data: IDifficulty,
    options?: DeepPartial<DifficultyDeserializationPolyfills>,
 ): IWrapBeatmap {
-   return createBeatmap({
+   return assembleOwnedBeatmap({
       version: 4,
       filename: options?.filename,
       lightshowFilename: options?.lightshowFilename,

@@ -23,8 +23,9 @@ export function fixBoolean(value: unknown, defaultValue?: boolean): boolean {
          if (value) return true;
          return false;
       case 'string': {
-         if (value.toLowerCase() === 'true') return true;
-         if (value.toLowerCase() === 'false') return false;
+         const lowerCaseValue = value.toLowerCase();
+         if (lowerCaseValue === 'true') return true;
+         if (lowerCaseValue === 'false') return false;
          if (typeof defaultValue === 'boolean') return defaultValue;
          throw new TypeError(`Could not evaluate boolean for ${value}`);
       }
@@ -277,42 +278,55 @@ export function fixPointDefinition1Base(
    value: unknown,
    defaultValue: number,
 ): PointDefinition1Base[] {
-   return Array.isArray(value)
-      ? typeof value.at(0) === 'string'
-         ? (value.map((elm, i) => {
-            if (i === 0) return elm as BaseModifier;
-            if (Array.isArray(elm)) {
-               return elm.map((x) => {
-                  if (typeof x === 'string') return x;
-                  return fixFloat(x, defaultValue);
-               }) as PointDefinition1Base;
-            }
-            return elm as PointDefinition1Base;
-         }) as PointDefinition1Base[])
-         : (value
-            .filter((ary) => Array.isArray(ary))
-            .map((elm: unknown[]) => {
-               const temp = [
-                  fixFloat(elm.at(0), defaultValue),
-                  fixFloat(elm.at(1), 1, 0, 1),
-               ] as Exclude<PointDefinition1Base, string>;
-               if (elm.length > 2) {
-                  const attr = elm
-                     .slice(3)
-                     .filter((e) => typeof e === 'string');
-                  const ease = attr.find((e) => easingsList.includes(e as Easings));
-                  const spline = attr.find((e) => e === 'splineCatmullRom');
-                  let idx = 2;
-                  if (ease) {
-                     temp[idx++] = ease as Easings;
-                  }
-                  if (spline) {
-                     temp[idx++] = spline as 'splineCatmullRom';
-                  }
-               }
-               return temp as PointDefinition1Base;
-            }) as PointDefinition1Base[])
-      : [];
+   if (!Array.isArray(value)) return [];
+   if (typeof value.at(0) === 'string') {
+      const result = new Array<unknown>(value.length);
+      for (let i = 0, length = result.length; i < length; i++) {
+         if (!(i in value)) continue;
+         const elm = value[i];
+         if (i === 0) {
+            result[i] = elm as BaseModifier;
+         } else if (Array.isArray(elm)) {
+            result[i] = elm.map((x) => {
+               if (typeof x === 'string') return x;
+               return fixFloat(x, defaultValue);
+            }) as PointDefinition1Base;
+         } else {
+            result[i] = elm as PointDefinition1Base;
+         }
+      }
+      return result as PointDefinition1Base[];
+   }
+
+   const result = [] as PointDefinition1Base[];
+   for (let i = 0, length = value.length; i < length; i++) {
+      if (!(i in value)) continue;
+      const elm = value[i];
+      if (Array.isArray(elm)) result.push(elm as PointDefinition1Base);
+   }
+   for (let i = 0, length = result.length; i < length; i++) {
+      const elm = result[i] as unknown[];
+      const temp = [
+         fixFloat(elm.at(0), defaultValue),
+         fixFloat(elm.at(1), 1, 0, 1),
+      ] as Exclude<PointDefinition1Base, string>;
+      if (elm.length > 2) {
+         let ease: string | undefined;
+         let spline: string | undefined;
+         for (let j = 3, attrLength = elm.length; j < attrLength; j++) {
+            if (!(j in elm)) continue;
+            const attr = elm[j];
+            if (typeof attr !== 'string') continue;
+            if (ease === undefined && easingsList.includes(attr as Easings)) ease = attr;
+            if (spline === undefined && attr === 'splineCatmullRom') spline = attr;
+         }
+         let idx = 2;
+         if (ease) temp[idx++] = ease as Easings;
+         if (spline) temp[idx++] = spline as 'splineCatmullRom';
+      }
+      result[i] = temp as PointDefinition1Base;
+   }
+   return result;
 }
 
 /**
@@ -322,44 +336,57 @@ export function fixPointDefinition3Base(
    value: unknown,
    defaultValue: Vector3,
 ): PointDefinition3Base[] {
-   return Array.isArray(value)
-      ? typeof value.at(0) === 'string'
-         ? (value.map((elm, i) => {
-            if (i === 0) return elm as BaseModifier;
-            if (Array.isArray(elm)) {
-               return elm.map((x, j) => {
-                  if (typeof x === 'string') return x;
-                  return fixFloat(x, defaultValue[j]);
-               }) as PointDefinition3Base;
-            }
-            return elm as PointDefinition3Base;
-         }) as PointDefinition3Base[])
-         : (value
-            .filter((ary) => Array.isArray(ary))
-            .map((elm: unknown[]) => {
-               const temp = [
-                  fixFloat(elm.at(0), defaultValue[0]),
-                  fixFloat(elm.at(1), defaultValue[1]),
-                  fixFloat(elm.at(2), defaultValue[2]),
-                  fixFloat(elm.at(3), 1, 0, 1),
-               ] as Exclude<PointDefinition3Base, string>;
-               if (elm.length > 4) {
-                  const attr = elm
-                     .slice(4)
-                     .filter((e) => typeof e === 'string');
-                  const ease = attr.find((e) => easingsList.includes(e as Easings));
-                  const spline = attr.find((e) => e === 'splineCatmullRom');
-                  let idx = 4;
-                  if (ease) {
-                     temp[idx++] = ease as Easings;
-                  }
-                  if (spline) {
-                     temp[idx++] = spline as 'splineCatmullRom';
-                  }
-               }
-               return temp as PointDefinition3Base;
-            }) as PointDefinition3Base[])
-      : [];
+   if (!Array.isArray(value)) return [];
+   if (typeof value.at(0) === 'string') {
+      const result = new Array<unknown>(value.length);
+      for (let i = 0, length = result.length; i < length; i++) {
+         if (!(i in value)) continue;
+         const elm = value[i];
+         if (i === 0) {
+            result[i] = elm as BaseModifier;
+         } else if (Array.isArray(elm)) {
+            result[i] = elm.map((x, j) => {
+               if (typeof x === 'string') return x;
+               return fixFloat(x, defaultValue[j]);
+            }) as PointDefinition3Base;
+         } else {
+            result[i] = elm as PointDefinition3Base;
+         }
+      }
+      return result as PointDefinition3Base[];
+   }
+
+   const result = [] as PointDefinition3Base[];
+   for (let i = 0, length = value.length; i < length; i++) {
+      if (!(i in value)) continue;
+      const elm = value[i];
+      if (Array.isArray(elm)) result.push(elm as PointDefinition3Base);
+   }
+   for (let i = 0, length = result.length; i < length; i++) {
+      const elm = result[i] as unknown[];
+      const temp = [
+         fixFloat(elm.at(0), defaultValue[0]),
+         fixFloat(elm.at(1), defaultValue[1]),
+         fixFloat(elm.at(2), defaultValue[2]),
+         fixFloat(elm.at(3), 1, 0, 1),
+      ] as Exclude<PointDefinition3Base, string>;
+      if (elm.length > 4) {
+         let ease: string | undefined;
+         let spline: string | undefined;
+         for (let j = 4, attrLength = elm.length; j < attrLength; j++) {
+            if (!(j in elm)) continue;
+            const attr = elm[j];
+            if (typeof attr !== 'string') continue;
+            if (ease === undefined && easingsList.includes(attr as Easings)) ease = attr;
+            if (spline === undefined && attr === 'splineCatmullRom') spline = attr;
+         }
+         let idx = 4;
+         if (ease) temp[idx++] = ease as Easings;
+         if (spline) temp[idx++] = spline as 'splineCatmullRom';
+      }
+      result[i] = temp as PointDefinition3Base;
+   }
+   return result;
 }
 
 /**
@@ -369,43 +396,56 @@ export function fixPointDefinition4Base(
    value: unknown,
    defaultValue: Vector4,
 ): PointDefinition4Base[] {
-   return Array.isArray(value)
-      ? typeof value.at(0) === 'string'
-         ? (value.map((elm, i) => {
-            if (i === 0) return elm as BaseModifier;
-            if (Array.isArray(elm)) {
-               return elm.map((x, j) => {
-                  if (typeof x === 'string') return x;
-                  return fixFloat(x, defaultValue[j]);
-               }) as PointDefinition4Base;
-            }
-            return elm as PointDefinition4Base;
-         }) as PointDefinition4Base[])
-         : (value
-            .filter((ary) => Array.isArray(ary))
-            .map((elm: unknown[]) => {
-               const temp = [
-                  fixFloat(value.at(0), defaultValue[0]),
-                  fixFloat(value.at(1), defaultValue[1]),
-                  fixFloat(value.at(2), defaultValue[2]),
-                  fixFloat(value.at(3), defaultValue[3]),
-                  fixFloat(elm.at(4), 1, 0, 1),
-               ] as Exclude<PointDefinition4Base, string>;
-               if (elm.length > 5) {
-                  const attr = elm
-                     .slice(5)
-                     .filter((e) => typeof e === 'string');
-                  const ease = attr.find((e) => easingsList.includes(e as Easings));
-                  const lerp = attr.find((e) => e === 'lerpHSV');
-                  let idx = 5;
-                  if (ease) {
-                     temp[idx++] = ease as Easings;
-                  }
-                  if (lerp) {
-                     temp[idx++] = lerp as 'lerpHSV';
-                  }
-               }
-               return temp as PointDefinition4Base;
-            }) as PointDefinition4Base[])
-      : [];
+   if (!Array.isArray(value)) return [];
+   if (typeof value.at(0) === 'string') {
+      const result = new Array<unknown>(value.length);
+      for (let i = 0, length = result.length; i < length; i++) {
+         if (!(i in value)) continue;
+         const elm = value[i];
+         if (i === 0) {
+            result[i] = elm as BaseModifier;
+         } else if (Array.isArray(elm)) {
+            result[i] = elm.map((x, j) => {
+               if (typeof x === 'string') return x;
+               return fixFloat(x, defaultValue[j]);
+            }) as PointDefinition4Base;
+         } else {
+            result[i] = elm as PointDefinition4Base;
+         }
+      }
+      return result as PointDefinition4Base[];
+   }
+
+   const result = [] as PointDefinition4Base[];
+   for (let i = 0, length = value.length; i < length; i++) {
+      if (!(i in value)) continue;
+      const elm = value[i];
+      if (Array.isArray(elm)) result.push(elm as PointDefinition4Base);
+   }
+   for (let i = 0, length = result.length; i < length; i++) {
+      const elm = result[i] as unknown[];
+      const temp = [
+         fixFloat(value.at(0), defaultValue[0]),
+         fixFloat(value.at(1), defaultValue[1]),
+         fixFloat(value.at(2), defaultValue[2]),
+         fixFloat(value.at(3), defaultValue[3]),
+         fixFloat(elm.at(4), 1, 0, 1),
+      ] as Exclude<PointDefinition4Base, string>;
+      if (elm.length > 5) {
+         let ease: string | undefined;
+         let lerp: string | undefined;
+         for (let j = 5, attrLength = elm.length; j < attrLength; j++) {
+            if (!(j in elm)) continue;
+            const attr = elm[j];
+            if (typeof attr !== 'string') continue;
+            if (ease === undefined && easingsList.includes(attr as Easings)) ease = attr;
+            if (lerp === undefined && attr === 'lerpHSV') lerp = attr;
+         }
+         let idx = 5;
+         if (ease) temp[idx++] = ease as Easings;
+         if (lerp) temp[idx++] = lerp as 'lerpHSV';
+      }
+      result[i] = temp as PointDefinition4Base;
+   }
+   return result;
 }

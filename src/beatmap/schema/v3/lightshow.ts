@@ -1,7 +1,7 @@
 import type { ILightshow } from './types/lightshow.ts';
 import type { IWrapBeatmap } from '../wrapper/types/beatmap.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createBeatmap } from '../wrapper/beatmap.ts';
+import { assembleOwnedBeatmap } from '../wrapper/_ownedBeatmap.ts';
 import { FxType } from '../shared/types/constants.ts';
 import { deserializeBasicEvent, serializeBasicEvent } from './basicEvent.ts';
 import { deserializeColorBoostEvent, serializeColorBoostEvent } from './colorBoostEvent.ts';
@@ -81,7 +81,7 @@ export function deserializeLightshow(
    options?: DeepPartial<LightshowDeserializationPolyfills>,
 ): IWrapBeatmap {
    const fx = data._fxEventsCollection?._fl;
-   return createBeatmap({
+   return assembleOwnedBeatmap({
       version: 3,
       filename: options?.filename,
       lightshowFilename: options?.lightshowFilename,

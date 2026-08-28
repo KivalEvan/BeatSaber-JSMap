@@ -1,6 +1,6 @@
 import type { IWrapLightRotationEvent } from './types/lightRotationEvent.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createLightRotationEvent(
    data: DeepPartial<IWrapLightRotationEvent> = {},
@@ -12,6 +12,6 @@ export function createLightRotationEvent(
       direction: data.direction ?? 0,
       previous: data.previous ?? 0,
       rotation: data.rotation ?? 0,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

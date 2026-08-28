@@ -194,10 +194,10 @@ export function lerpVector<T extends VectorArgument>(
 }
 
 export function vectorDistance<T extends VectorArgument>(v1: T, v2: T): number {
-   const diff = vectorSub(v1, v2);
    let acc = 0;
-   for (let i = 0; i < diff.length; i++) {
-      const x = diff[i] ** 2;
+   for (let i = 0; i < v1.length; i++) {
+      const difference = typeof v2[i] === 'number' ? v1[i] - v2[i] : v1[i];
+      const x = difference ** 2;
       acc += x;
    }
    return Math.sqrt(acc);
@@ -208,7 +208,7 @@ export function vectorIsVertical<T extends VectorArgument>(
    v2: T,
    epsilon = 0.001,
 ): boolean {
-   const [dX] = vectorSub(v1, v2);
+   const dX = typeof v2[0] === 'number' ? v1[0] - v2[0] : v1[0];
    return Math.abs(dX) <= epsilon;
 }
 
@@ -217,7 +217,7 @@ export function vectorIsHorizontal<T extends VectorArgument>(
    v2: T,
    epsilon = 0.001,
 ): boolean {
-   const [, dY] = vectorSub(v1, v2);
+   const dY = typeof v2[1] === 'number' ? v1[1] - v2[1] : v1[1];
    return Math.abs(dY) <= epsilon;
 }
 
@@ -226,7 +226,8 @@ export function vectorIsDiagonal<T extends VectorArgument>(
    v2: T,
    epsilon = 0.001,
 ): boolean {
-   const [dX, dY] = vectorSub(v1, v2);
+   const dX = typeof v2[0] === 'number' ? v1[0] - v2[0] : v1[0];
+   const dY = typeof v2[1] === 'number' ? v1[1] - v2[1] : v1[1];
    return nearEqual(Math.abs(dX), Math.abs(dY), epsilon);
 }
 

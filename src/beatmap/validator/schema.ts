@@ -134,11 +134,14 @@ export function schemaCheck<
    const logger = getLogger();
 
    if (isStandardSchema(schema)) {
-      let buffer: StandardSchemaV1.Issue[] = [];
+      const buffer: StandardSchemaV1.Issue[] = [];
       const result = schema['~standard'].validate(data);
       if ('issues' in result && result.issues) {
          // hack: adding a manual buffer since too many issues being processed at once can cause validation to hang
-         buffer = result.issues.filter((_, i) => i < 100) ?? [];
+         const issueLimit = Math.min(result.issues.length, 100);
+         for (let i = 0; i < issueLimit; i++) {
+            if (i in result.issues) buffer.push(result.issues[i]);
+         }
          // Unknown issue shapes throw if any issue category is enabled.
          const anyThrow = (
             ['unused', 'missing', 'nullish', 'wrongType', 'notInt', 'notUnsigned'] as const

@@ -1,6 +1,6 @@
 import type { IWrapColorBoostEvent } from './types/colorBoostEvent.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createColorBoostEvent(
    data: DeepPartial<IWrapColorBoostEvent> = {},
@@ -8,6 +8,6 @@ export function createColorBoostEvent(
    return {
       time: data.time ?? 0,
       toggle: data.toggle ?? false,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

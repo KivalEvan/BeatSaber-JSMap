@@ -7,7 +7,7 @@ import type { IWrapColorBoostEvent } from '../wrapper/types/colorBoostEvent.ts';
 import type { IWrapColorNote } from '../wrapper/types/colorNote.ts';
 import type { IWrapInfo, IWrapInfoBeatmap } from '../wrapper/types/info.ts';
 import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
-import { createBeatmap } from '../wrapper/beatmap.ts';
+import { assembleOwnedBeatmap } from '../wrapper/_ownedBeatmap.ts';
 import { deserializeBasicEvent, serializeBasicEvent } from './basicEvent.ts';
 import { deserializeBombNote, serializeBombNote } from './bombNote.ts';
 import { deserializeBPMEvent, serializeBPMEvent } from './bpmEvent.ts';
@@ -121,7 +121,7 @@ export function deserializeDifficulty(
       }
    }
 
-   return createBeatmap({
+   return assembleOwnedBeatmap({
       version: 1,
       filename: options?.filename ?? 'EasyStandard.dat',
       lightshowFilename: options?.lightshowFilename ?? 'EasyLightshow.dat',

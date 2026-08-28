@@ -1,6 +1,6 @@
 import type { IWrapLightTranslationEventBox } from './types/lightTranslationEventBox.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 import { createIndexFilter } from './indexFilter.ts';
 import { createLightTranslationEvent } from './lightTranslationEvent.ts';
 
@@ -18,6 +18,6 @@ export function createLightTranslationEventBox(
       affectFirst: data.affectFirst ?? 0,
       easing: data.easing ?? 0,
       events: data.events?.map((o) => createLightTranslationEvent(o)) ?? [],
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

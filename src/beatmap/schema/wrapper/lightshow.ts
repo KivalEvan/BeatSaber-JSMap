@@ -1,6 +1,6 @@
 import type { IWrapLightshow } from './types/lightshow.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 import { createBasicEvent } from './basicEvent.ts';
 import { createBasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
 import { createColorBoostEvent } from './colorBoostEvent.ts';
@@ -32,6 +32,6 @@ export function createLightshow(
          ) ?? [],
       },
       useNormalEventsAsCompatibleEvents: !!data.useNormalEventsAsCompatibleEvents,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

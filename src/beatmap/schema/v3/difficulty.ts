@@ -1,7 +1,7 @@
 import type { IDifficulty } from './types/difficulty.ts';
 import type { IWrapBeatmap } from '../wrapper/types/beatmap.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createBeatmap } from '../wrapper/beatmap.ts';
+import { assembleOwnedBeatmap } from '../wrapper/_ownedBeatmap.ts';
 import { FxType } from '../shared/types/constants.ts';
 import { deserializeArc, serializeArc } from './arc.ts';
 import { deserializeBasicEvent, serializeBasicEvent } from './basicEvent.ts';
@@ -124,7 +124,7 @@ export function deserializeDifficulty(
    options?: DeepPartial<DifficultyDeserializationPolyfills>,
 ): IWrapBeatmap {
    const fx = data._fxEventsCollection?._fl;
-   return createBeatmap({
+   return assembleOwnedBeatmap({
       version: 3,
       filename: options?.filename,
       lightshowFilename: options?.lightshowFilename,

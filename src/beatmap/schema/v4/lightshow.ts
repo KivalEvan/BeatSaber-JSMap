@@ -3,7 +3,7 @@ import type { ILightshow } from './types/lightshow.ts';
 import type { IObject } from './types/object.ts';
 import type { IWrapBeatmap } from '../wrapper/types/beatmap.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createBeatmap } from '../wrapper/beatmap.ts';
+import { assembleOwnedBeatmap } from '../wrapper/_ownedBeatmap.ts';
 import {
    deserializeBasicEventTypesWithKeywords,
    serializeBasicEventTypesWithKeywords,
@@ -61,42 +61,44 @@ export function serializeLightshow(data: IWrapBeatmap): ILightshow {
       useNormalEventsAsCompatibleEvents: data.lightshow.useNormalEventsAsCompatibleEvents,
       customData: deepCopy(data.lightshow.customData),
    };
-   for (
-      const jsonObj of data.lightshow.waypoints.map((x) => {
-         return serializeWaypoint(x);
-      })
-   ) {
+   const waypoints = data.lightshow.waypoints;
+   const waypointsLength = waypoints.length;
+   for (let i = 0; i < waypointsLength; i++) {
+      const jsonObj = serializeWaypoint(waypoints[i]);
       json.waypoints.push(jsonObj.object);
       jsonObj.object.i = json.waypointsData.length;
       json.waypointsData.push(jsonObj.data);
    }
-   for (
-      const jsonObj of data.lightshow.basicEvents.map((x) => {
-         return serializeBasicEvent(x);
-      })
-   ) {
+   const basicEvents = data.lightshow.basicEvents;
+   const basicEventsLength = basicEvents.length;
+   for (let i = 0; i < basicEventsLength; i++) {
+      const jsonObj = serializeBasicEvent(basicEvents[i]);
       json.basicEvents.push(jsonObj.object);
       jsonObj.object.i = json.basicEventsData.length;
       json.basicEventsData.push(jsonObj.data);
    }
-   for (
-      const jsonObj of data.lightshow.colorBoostEvents.map((x) => {
-         return serializeColorBoostEvent(x);
-      })
-   ) {
+   const colorBoostEvents = data.lightshow.colorBoostEvents;
+   const colorBoostEventsLength = colorBoostEvents.length;
+   for (let i = 0; i < colorBoostEventsLength; i++) {
+      const jsonObj = serializeColorBoostEvent(colorBoostEvents[i]);
       json.colorBoostEvents.push(jsonObj.object);
       jsonObj.object.i = json.colorBoostEventsData.length;
       json.colorBoostEventsData.push(jsonObj.data);
    }
-   for (
-      const obj of data.lightshow.lightColorEventBoxGroups.map((x) => {
-         return serializeLightColorEventBoxGroup(x);
-      })
-   ) {
+   const lightColorEventBoxGroups = data.lightshow.lightColorEventBoxGroups;
+   const lightColorEventBoxGroupsLength = lightColorEventBoxGroups.length;
+   for (let i = 0; i < lightColorEventBoxGroupsLength; i++) {
+      const obj = serializeLightColorEventBoxGroup(lightColorEventBoxGroups[i]);
       json.eventBoxGroups.push(obj.object);
-      for (const box of obj.boxData) {
+      const boxData = obj.boxData;
+      const boxDataLength = boxData.length;
+      for (let j = 0; j < boxDataLength; j++) {
+         const box = boxData[j];
          const list: IObject[] = [];
-         for (const evt of box.eventData) {
+         const eventData = box.eventData;
+         const eventDataLength = eventData.length;
+         for (let k = 0; k < eventDataLength; k++) {
+            const evt = eventData[k];
             list.push({
                b: evt.time,
                i: json.lightColorEvents.length,
@@ -113,15 +115,20 @@ export function serializeLightshow(data: IWrapBeatmap): ILightshow {
          json.indexFilters.push(box.filterData);
       }
    }
-   for (
-      const obj of data.lightshow.lightRotationEventBoxGroups.map((x) => {
-         return serializeLightRotationEventBoxGroup(x);
-      })
-   ) {
+   const lightRotationEventBoxGroups = data.lightshow.lightRotationEventBoxGroups;
+   const lightRotationEventBoxGroupsLength = lightRotationEventBoxGroups.length;
+   for (let i = 0; i < lightRotationEventBoxGroupsLength; i++) {
+      const obj = serializeLightRotationEventBoxGroup(lightRotationEventBoxGroups[i]);
       json.eventBoxGroups.push(obj.object);
-      for (const box of obj.boxData) {
+      const boxData = obj.boxData;
+      const boxDataLength = boxData.length;
+      for (let j = 0; j < boxDataLength; j++) {
+         const box = boxData[j];
          const list: IObject[] = [];
-         for (const evt of box.eventData) {
+         const eventData = box.eventData;
+         const eventDataLength = eventData.length;
+         for (let k = 0; k < eventDataLength; k++) {
+            const evt = eventData[k];
             list.push({
                b: evt.time,
                i: json.lightRotationEvents.length,
@@ -138,15 +145,20 @@ export function serializeLightshow(data: IWrapBeatmap): ILightshow {
          json.indexFilters.push(box.filterData);
       }
    }
-   for (
-      const obj of data.lightshow.lightTranslationEventBoxGroups.map((x) => {
-         return serializeLightTranslationEventBoxGroup(x);
-      })
-   ) {
+   const lightTranslationEventBoxGroups = data.lightshow.lightTranslationEventBoxGroups;
+   const lightTranslationEventBoxGroupsLength = lightTranslationEventBoxGroups.length;
+   for (let i = 0; i < lightTranslationEventBoxGroupsLength; i++) {
+      const obj = serializeLightTranslationEventBoxGroup(lightTranslationEventBoxGroups[i]);
       json.eventBoxGroups.push(obj.object);
-      for (const box of obj.boxData) {
+      const boxData = obj.boxData;
+      const boxDataLength = boxData.length;
+      for (let j = 0; j < boxDataLength; j++) {
+         const box = boxData[j];
          const list: IObject[] = [];
-         for (const evt of box.eventData) {
+         const eventData = box.eventData;
+         const eventDataLength = eventData.length;
+         for (let k = 0; k < eventDataLength; k++) {
+            const evt = eventData[k];
             list.push({
                b: evt.time,
                i: json.lightTranslationEvents.length,
@@ -163,15 +175,20 @@ export function serializeLightshow(data: IWrapBeatmap): ILightshow {
          json.indexFilters.push(box.filterData);
       }
    }
-   for (
-      const obj of data.lightshow.fxEventBoxGroups.map((x) => {
-         return serializeFxEventBoxGroup(x);
-      })
-   ) {
+   const fxEventBoxGroups = data.lightshow.fxEventBoxGroups;
+   const fxEventBoxGroupsLength = fxEventBoxGroups.length;
+   for (let i = 0; i < fxEventBoxGroupsLength; i++) {
+      const obj = serializeFxEventBoxGroup(fxEventBoxGroups[i]);
       json.eventBoxGroups.push(obj.object);
-      for (const box of obj.boxData) {
+      const boxData = obj.boxData;
+      const boxDataLength = boxData.length;
+      for (let j = 0; j < boxDataLength; j++) {
+         const box = boxData[j];
          const list: IObject[] = [];
-         for (const evt of box.eventData) {
+         const eventData = box.eventData;
+         const eventDataLength = eventData.length;
+         for (let k = 0; k < eventDataLength; k++) {
+            const evt = eventData[k];
             list.push({ b: evt.time, i: json.floatFxEvents.length });
             json.floatFxEvents.push(evt.data);
          }
@@ -308,7 +325,7 @@ export function deserializeLightshow(
             break;
       }
    }
-   return createBeatmap({
+   return assembleOwnedBeatmap({
       version: 4,
       filename: options?.filename,
       lightshowFilename: options?.lightshowFilename,

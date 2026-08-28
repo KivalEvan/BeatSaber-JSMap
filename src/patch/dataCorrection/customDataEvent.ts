@@ -2,6 +2,35 @@ import type { IEvent } from '../../beatmap/schema/v2/types/event.ts';
 import type { IBasicEvent } from '../../beatmap/schema/v3/types/basicEvent.ts';
 import { fixBoolean, fixColor, fixFloat, fixInt, fixString } from './helpers.ts';
 
+function fixLightIDs(
+   values: unknown[],
+   numbersOnly: boolean,
+   defaultValue?: number,
+): number[] {
+   const fixedValues: unknown[] = [];
+   for (let i = 0, length = values.length; i < length; i++) {
+      if (!(i in values)) continue;
+      const value = values[i];
+      if (numbersOnly ? typeof value === 'number' : value != null) {
+         fixedValues.push(value);
+      }
+   }
+
+   let writeIndex = 0;
+   let previousValue: number | undefined;
+   for (let i = 0, length = fixedValues.length; i < length; i++) {
+      const fixedValue = defaultValue === undefined
+         ? fixInt(fixedValues[i])
+         : fixInt(fixedValues[i], defaultValue);
+      if (!i || fixedValue !== previousValue) {
+         fixedValues[writeIndex++] = fixedValue;
+      }
+      previousValue = fixedValue;
+   }
+   fixedValues.length = writeIndex;
+   return fixedValues.sort((a, b) => (a as number) - (b as number)) as number[];
+}
+
 /**
  * Fix custom data for beatmap basic event.
  */
@@ -15,13 +44,7 @@ export function fixCustomDataEvent(
    if (cd._color != null) cd._color = fixColor(cd._color, [0, 0, 0, 1]);
    if (cd._lightID != null) {
       cd._lightID = Array.isArray(cd._lightID)
-         ? cd._lightID
-            .filter((id) => typeof id === 'number')
-            .map((id) => fixInt(id))
-            .filter(function (x, i, ary) {
-               return !i || x !== ary[i - 1];
-            })
-            .sort((a, b) => a - b)
+         ? fixLightIDs(cd._lightID, true)
          : fixInt(cd._lightID, 1);
    }
    if (cd._propID != null) cd._propID = fixInt(cd._propID, 1);
@@ -50,13 +73,7 @@ export function fixCustomDataEvent(
    if (cd.color != null) cd.color = fixColor(cd.color, [0, 0, 0, 1]);
    if (cd.lightID != null) {
       cd.lightID = Array.isArray(cd.lightID)
-         ? cd.lightID
-            .filter((id) => id != null)
-            .map((id) => fixInt(id, 1))
-            .filter(function (x, i, ary) {
-               return !i || x !== ary[i - 1];
-            })
-            .sort((a, b) => a - b)
+         ? fixLightIDs(cd.lightID, false, 1)
          : fixInt(cd.lightID, 1);
    }
    if (cd.easing != null) cd.easing = fixString(cd.easing, 'easeLinear');

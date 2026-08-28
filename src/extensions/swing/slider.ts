@@ -4,13 +4,31 @@ import type { ISwingAnalysisBaseNote, ISwingContainer } from './types/swing.ts';
 export function getMinSliderSpeed<
    T extends ISwingAnalysisBaseNote,
 >(swings: ISwingContainer<T>[]): number {
-   return Math.max(...swings.map((s) => s.minSpeed), 0);
+   let maxSpeed = 0;
+   const length = swings.length;
+   for (let i = 0; i < length; i++) {
+      maxSpeed = Math.max(
+         maxSpeed,
+         i in swings ? swings[i].minSpeed : Number.NaN,
+      );
+   }
+   return maxSpeed;
 }
 
 /** Get maximum value of slider speed from swings. */
 export function getMaxSliderSpeed<
    T extends ISwingAnalysisBaseNote,
 >(swings: ISwingContainer<T>[]): number {
-   const arr = swings.map((s) => s.maxSpeed).filter((n) => n !== 0);
-   return arr.length ? Math.min(...arr) : 0;
+   let minSpeed = Number.POSITIVE_INFINITY;
+   let hasNonZeroSpeed = false;
+   const length = swings.length;
+   for (let i = 0; i < length; i++) {
+      if (!(i in swings)) continue;
+      const speed = swings[i].maxSpeed;
+      if (speed !== 0) {
+         minSpeed = Math.min(minSpeed, speed);
+         hasNonZeroSpeed = true;
+      }
+   }
+   return hasNonZeroSpeed ? minSpeed : 0;
 }

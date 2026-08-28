@@ -158,32 +158,38 @@ function calcMinSliderSpeed<
    let hasStraight = false;
    let hasDiagonal = false;
    let curvedSpeed = 0;
-   const speed = Math.max(
-      ...notes.map((_, i) => {
-         if (i === 0) {
-            return 0;
-         }
-         const distance = resolveGridDistance(notes[i], notes[i - 1]) || 1;
-         if (
-            (isHorizontal(notes[i], notes[i - 1]) ||
-               isVertical(notes[i], notes[i - 1])) &&
-            !hasStraight
-         ) {
-            hasStraight = true;
-            curvedSpeed = (timeProc.toRealTime(notes[i].time) -
-               timeProc.toRealTime(notes[i - 1].time)) /
-               distance;
-         }
-         hasDiagonal = isDiagonal(notes[i], notes[i - 1]) ||
-            isSlantedWindow(notes[i], notes[i - 1]) ||
-            hasDiagonal;
-         return (
-            (timeProc.toRealTime(notes[i].time) -
-               timeProc.toRealTime(notes[i - 1].time)) /
-            distance
-         );
-      }),
-   );
+   let speed = Number.NEGATIVE_INFINITY;
+   const length = notes.length;
+   for (let i = 0; i < length; i++) {
+      if (!(i in notes)) {
+         speed = Math.max(speed, Number.NaN);
+         continue;
+      }
+      void notes[i];
+      if (i === 0) {
+         speed = Math.max(speed, 0);
+         continue;
+      }
+      const distance = resolveGridDistance(notes[i], notes[i - 1]) || 1;
+      if (
+         (isHorizontal(notes[i], notes[i - 1]) ||
+            isVertical(notes[i], notes[i - 1])) &&
+         !hasStraight
+      ) {
+         hasStraight = true;
+         curvedSpeed = (timeProc.toRealTime(notes[i].time) -
+            timeProc.toRealTime(notes[i - 1].time)) /
+            distance;
+      }
+      hasDiagonal = isDiagonal(notes[i], notes[i - 1]) ||
+         isSlantedWindow(notes[i], notes[i - 1]) ||
+         hasDiagonal;
+      speed = Math.max(
+         speed,
+         (timeProc.toRealTime(notes[i].time) - timeProc.toRealTime(notes[i - 1].time)) /
+            distance,
+      );
+   }
    if (hasStraight && hasDiagonal) {
       return curvedSpeed;
    }
@@ -201,33 +207,38 @@ function calcMaxSliderSpeed<
    let hasStraight = false;
    let hasDiagonal = false;
    let curvedSpeed = Number.MAX_SAFE_INTEGER;
-   const speed = Math.min(
-      ...notes.map((_, i) => {
-         if (i === 0) {
-            return Number.MAX_SAFE_INTEGER;
-         }
-         const distance = resolveGridDistance(notes[i], notes[i - 1]) || 1;
-         if (
-            (isHorizontal(notes[i], notes[i - 1]) ||
-               isVertical(notes[i], notes[i - 1])) &&
-            !hasStraight
-         ) {
-            hasStraight = true;
-            curvedSpeed = (timeProc.toRealTime(notes[i].time) -
-               timeProc.toRealTime(notes[i - 1].time)) /
-               distance;
-         }
-         hasDiagonal = isDiagonal(notes[i], notes[i - 1]) ||
-            isSlantedWindow(notes[i], notes[i - 1]) ||
-            hasDiagonal;
-
-         return (
-            (timeProc.toRealTime(notes[i].time) -
-               timeProc.toRealTime(notes[i - 1].time)) /
-            distance
-         );
-      }),
-   );
+   let speed = Number.POSITIVE_INFINITY;
+   const length = notes.length;
+   for (let i = 0; i < length; i++) {
+      if (!(i in notes)) {
+         speed = Math.min(speed, Number.NaN);
+         continue;
+      }
+      void notes[i];
+      if (i === 0) {
+         speed = Math.min(speed, Number.MAX_SAFE_INTEGER);
+         continue;
+      }
+      const distance = resolveGridDistance(notes[i], notes[i - 1]) || 1;
+      if (
+         (isHorizontal(notes[i], notes[i - 1]) ||
+            isVertical(notes[i], notes[i - 1])) &&
+         !hasStraight
+      ) {
+         hasStraight = true;
+         curvedSpeed = (timeProc.toRealTime(notes[i].time) -
+            timeProc.toRealTime(notes[i - 1].time)) /
+            distance;
+      }
+      hasDiagonal = isDiagonal(notes[i], notes[i - 1]) ||
+         isSlantedWindow(notes[i], notes[i - 1]) ||
+         hasDiagonal;
+      speed = Math.min(
+         speed,
+         (timeProc.toRealTime(notes[i].time) - timeProc.toRealTime(notes[i - 1].time)) /
+            distance,
+      );
+   }
    if (hasStraight && hasDiagonal) {
       return curvedSpeed;
    }

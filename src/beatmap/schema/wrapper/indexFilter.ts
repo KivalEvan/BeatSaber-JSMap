@@ -1,6 +1,6 @@
 import type { IWrapIndexFilter } from './types/indexFilter.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createIndexFilter(
    data: DeepPartial<IWrapIndexFilter> = {},
@@ -15,6 +15,6 @@ export function createIndexFilter(
       seed: data.seed ?? 0,
       limit: data.limit ?? 0,
       limitAffectsType: data.limitAffectsType ?? 0,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

@@ -7,7 +7,7 @@ import type { IWrapColorBoostEvent } from '../wrapper/types/colorBoostEvent.ts';
 import type { IWrapColorNote } from '../wrapper/types/colorNote.ts';
 import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
-import { createBeatmap } from '../wrapper/beatmap.ts';
+import { assembleOwnedBeatmap } from '../wrapper/_ownedBeatmap.ts';
 import { sortV2NoteFn, sortV2ObjectFn } from '../../helpers/sort.ts';
 import { compareVersion } from '../../helpers/version.ts';
 import { serializeArc } from './arc.ts';
@@ -131,7 +131,7 @@ export function deserializeDifficulty(
          }
       }
    }
-   return createBeatmap({
+   return assembleOwnedBeatmap({
       version: 2,
       filename: options?.filename,
       lightshowFilename: options?.lightshowFilename,

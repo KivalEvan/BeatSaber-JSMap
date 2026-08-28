@@ -1,6 +1,6 @@
 import type { IWrapBombNote } from './types/bombNote.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createBombNote(
    data: DeepPartial<IWrapBombNote> = {},
@@ -12,6 +12,6 @@ export function createBombNote(
       color: -1,
       direction: data.direction ?? 0,
       laneRotation: data.laneRotation ?? 0,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

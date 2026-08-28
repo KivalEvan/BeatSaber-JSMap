@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.4.0 [Unreleased]
 
 ```diff
 + Added strict beatmap version parsing and supported-version guards
@@ -16,6 +16,7 @@
 - Removed the `Object.hasOwn` global polyfill dependency
 # Removed the public `formatNumber` utility (breaking)
 * Optimised vector, color, math, and time utility loops
+* Optimised validation, v4 serialization, patching, and extension analysis loops
 # Changed schema modules to standalone `serialize*` and `deserialize*` functions (breaking)
 # Changed schema version maps to direction-specific serializer and deserializer maps (breaking)
 # Changed CI checkout steps to use the event commit, including fork pull requests

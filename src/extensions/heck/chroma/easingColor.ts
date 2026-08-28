@@ -5,11 +5,13 @@ import type { IApplyEasingsOptions } from './types/colors.ts';
 export function applyEasingsTransition<
    T extends Pick<IWrapBasicEvent, 'type' | 'value' | 'customData'>,
 >(events: T[], options: IApplyEasingsOptions): void {
-   let filteredEvents = events.filter((ev) => isOnEventValue(ev.value));
-   if (typeof options.type === 'number') {
-      filteredEvents = filteredEvents.filter((ev) => ev.type === options.type);
+   const length = events.length;
+   const hasTypeFilter = typeof options.type === 'number';
+   for (let i = 0; i < length; i++) {
+      if (!(i in events)) continue;
+      const event = events[i];
+      if (!isOnEventValue(event.value)) continue;
+      if (hasTypeFilter && event.type !== options.type) continue;
+      event.customData.easing = options.easing;
    }
-   filteredEvents.forEach((ev) => {
-      ev.customData.easing = options.easing;
-   });
 }

@@ -1,6 +1,6 @@
 import type { IWrapWaypoint } from './types/waypoint.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createWaypoint(
    data: DeepPartial<IWrapWaypoint> = {},
@@ -11,6 +11,6 @@ export function createWaypoint(
       posY: data.posY ?? 0,
       direction: data.direction ?? 0,
       laneRotation: data.laneRotation ?? 0,
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }

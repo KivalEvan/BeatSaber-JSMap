@@ -1,6 +1,6 @@
 import type { IWrapAudioData } from './types/audioData.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createAudioData(
    data: DeepPartial<IWrapAudioData> = {},
@@ -22,6 +22,6 @@ export function createAudioData(
          endSampleIndex: e.endSampleIndex ?? 0,
          lufs: e.lufs ?? 0,
       })) ?? [],
-      customData: deepCopy({ ...data.customData }),
+      customData: copyCustomData(data.customData),
    };
 }
