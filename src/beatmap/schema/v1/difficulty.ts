@@ -16,16 +16,21 @@ import { deserializeColorNote, serializeColorNote } from './colorNote.ts';
 import { deserializeObstacle, serializeObstacle } from './obstacle.ts';
 import { deserializeRotationEvent, serializeRotationEvent } from './rotationEvent.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 type DifficultySerializationPolyfills =
    & Pick<IWrapInfo['audio'], 'bpm' | 'shuffle' | 'shufflePeriod'>
    & Pick<IWrapInfoBeatmap, 'njs' | 'njsOffset'>
    & { beatsPerBar: number };
 
-type DifficultyDeserializationPolyfills = Pick<
-   IWrapBeatmap,
-   'filename' | 'lightshowFilename'
->;
+type DifficultyDeserializationPolyfills =
+   & Pick<
+      IWrapBeatmap,
+      'filename' | 'lightshowFilename'
+   >
+   & {
+      customDataOwnership?: DeserializationOptions['customDataOwnership'];
+   };
 
 /** Serialize beatmap v1 `Difficulty` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -78,22 +83,25 @@ export function serializeDifficulty(
 
 /** Deserialize schema object into beatmap v1 `Difficulty` object.
  * @param data The serialized schema object.
- * @param options Deserialization polyfills.
+ * @param options Deserialization polyfills and custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeDifficulty(
    data: IDifficulty,
    options?: DeepPartial<DifficultyDeserializationPolyfills>,
 ): IWrapBeatmap {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    const colorNotes: IWrapColorNote[] = [];
    const bombNotes: IWrapBombNote[] = [];
    const _notes = data._notes || [];
    for (let i = 0; i < _notes.length; i++) {
       const obj = _notes[i];
       if (obj?._type === 3) {
-         bombNotes.push(deserializeBombNote(obj));
+         bombNotes.push(deserializeBombNote(obj, deserializationOptions));
       } else {
-         colorNotes.push(deserializeColorNote(obj));
+         colorNotes.push(deserializeColorNote(obj, deserializationOptions));
       }
    }
 
@@ -106,18 +114,18 @@ export function deserializeDifficulty(
       const obj = _events[i];
       switch (obj?._type) {
          case 5:
-            colorBoostEvents.push(deserializeColorBoostEvent(obj));
+            colorBoostEvents.push(deserializeColorBoostEvent(obj, deserializationOptions));
             break;
          case 14:
          case 15:
-            rotationEvents.push(deserializeRotationEvent(obj));
+            rotationEvents.push(deserializeRotationEvent(obj, deserializationOptions));
             break;
          case 100:
          case 10:
-            bpmEvents.push(deserializeBPMEvent(obj));
+            bpmEvents.push(deserializeBPMEvent(obj, deserializationOptions));
             break;
          default:
-            basicEvents.push(deserializeBasicEvent(obj));
+            basicEvents.push(deserializeBasicEvent(obj, deserializationOptions));
       }
    }
 
@@ -128,7 +136,7 @@ export function deserializeDifficulty(
       difficulty: {
          colorNotes,
          bombNotes,
-         obstacles: data._obstacles?.map((x) => deserializeObstacle(x)),
+         obstacles: data._obstacles?.map((x) => deserializeObstacle(x, deserializationOptions)),
          rotationEvents,
          bpmEvents,
          customData: {
@@ -142,5 +150,5 @@ export function deserializeDifficulty(
          colorBoostEvents,
          useNormalEventsAsCompatibleEvents: true,
       },
-   });
+   }, deserializationOptions);
 }

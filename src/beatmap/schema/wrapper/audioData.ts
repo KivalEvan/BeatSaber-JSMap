@@ -1,9 +1,11 @@
 import type { IWrapAudioData } from './types/audioData.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createAudioData(
    data: DeepPartial<IWrapAudioData> = {},
+   options?: DeserializationOptions,
 ): IWrapAudioData {
    return {
       version: data.version ?? -1,
@@ -22,6 +24,6 @@ export function createAudioData(
          endSampleIndex: e.endSampleIndex ?? 0,
          lufs: e.lufs ?? 0,
       })) ?? [],
-      customData: copyCustomData(data.customData),
+      customData: copyCustomData(data.customData, options),
    };
 }

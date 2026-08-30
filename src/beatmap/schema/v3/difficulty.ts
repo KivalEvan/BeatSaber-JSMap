@@ -2,7 +2,6 @@ import type { IDifficulty } from './types/difficulty.ts';
 import type { IWrapBeatmap } from '../wrapper/types/beatmap.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { assembleOwnedBeatmap } from '../wrapper/_ownedBeatmap.ts';
-import { FxType } from '../shared/types/constants.ts';
 import { deserializeArc, serializeArc } from './arc.ts';
 import { deserializeBasicEvent, serializeBasicEvent } from './basicEvent.ts';
 import {
@@ -14,29 +13,30 @@ import { deserializeBPMEvent, serializeBPMEvent } from './bpmEvent.ts';
 import { deserializeChain, serializeChain } from './chain.ts';
 import { deserializeColorBoostEvent, serializeColorBoostEvent } from './colorBoostEvent.ts';
 import { deserializeColorNote, serializeColorNote } from './colorNote.ts';
-import { deserializeFxEventBoxGroup, serializeFxEventBoxGroup } from './fxEventBoxGroup.ts';
 import {
-   deserializeLightColorEventBoxGroup,
-   serializeLightColorEventBoxGroup,
-} from './lightColorEventBoxGroup.ts';
-import {
-   deserializeLightRotationEventBoxGroup,
-   serializeLightRotationEventBoxGroup,
-} from './lightRotationEventBoxGroup.ts';
-import {
-   deserializeLightTranslationEventBoxGroup,
-   serializeLightTranslationEventBoxGroup,
-} from './lightTranslationEventBoxGroup.ts';
+   deserializeDirectFxEventBoxGroup,
+   deserializeDirectLightColorEventBoxGroup,
+   deserializeDirectLightRotationEventBoxGroup,
+   deserializeDirectLightTranslationEventBoxGroup,
+} from './_directEventBoxes.ts';
+import { serializeFxEventBoxGroup } from './fxEventBoxGroup.ts';
+import { serializeLightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
+import { serializeLightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
+import { serializeLightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 import { deserializeObstacle, serializeObstacle } from './obstacle.ts';
 import { deserializeRotationEvent, serializeRotationEvent } from './rotationEvent.ts';
 import { deserializeWaypoint, serializeWaypoint } from './waypoint.ts';
-import { resolveIndexed } from '../shared/lookup.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
-type DifficultyDeserializationPolyfills = Pick<
-   IWrapBeatmap,
-   'filename' | 'lightshowFilename'
->;
+type DifficultyDeserializationPolyfills =
+   & Pick<
+      IWrapBeatmap,
+      'filename' | 'lightshowFilename'
+   >
+   & {
+      customDataOwnership?: DeserializationOptions['customDataOwnership'];
+   };
 
 /** Serialize beatmap v3 `Difficulty` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -116,13 +116,16 @@ export function serializeDifficulty(data: IWrapBeatmap): IDifficulty {
 
 /** Deserialize schema object into beatmap v3 `Difficulty` object.
  * @param data The serialized schema object.
- * @param options Deserialization polyfills.
+ * @param options Deserialization polyfills and custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeDifficulty(
    data: IDifficulty,
    options?: DeepPartial<DifficultyDeserializationPolyfills>,
 ): IWrapBeatmap {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    const fx = data._fxEventsCollection?._fl;
    return assembleOwnedBeatmap({
       version: 3,
@@ -130,64 +133,57 @@ export function deserializeDifficulty(
       lightshowFilename: options?.lightshowFilename,
       difficulty: {
          colorNotes: data.colorNotes?.map((x) => {
-            return deserializeColorNote(x);
+            return deserializeColorNote(x, deserializationOptions);
          }),
          bombNotes: data.bombNotes?.map((x) => {
-            return deserializeBombNote(x);
+            return deserializeBombNote(x, deserializationOptions);
          }),
          obstacles: data.obstacles?.map((x) => {
-            return deserializeObstacle(x);
+            return deserializeObstacle(x, deserializationOptions);
          }),
          arcs: data.sliders?.map((x) => {
-            return deserializeArc(x);
+            return deserializeArc(x, deserializationOptions);
          }),
          chains: data.burstSliders?.map((x) => {
-            return deserializeChain(x);
+            return deserializeChain(x, deserializationOptions);
          }),
          rotationEvents: data.rotationEvents?.map((x) => {
-            return deserializeRotationEvent(x);
+            return deserializeRotationEvent(x, deserializationOptions);
          }),
          bpmEvents: data.bpmEvents?.map((x) => {
-            return deserializeBPMEvent(x);
+            return deserializeBPMEvent(x, deserializationOptions);
          }),
          customData: data.customData,
       },
       lightshow: {
          waypoints: data.waypoints?.map((x) => {
-            return deserializeWaypoint(x);
+            return deserializeWaypoint(x, deserializationOptions);
          }),
          basicEvents: data.basicBeatmapEvents?.map((x) => {
-            return deserializeBasicEvent(x);
+            return deserializeBasicEvent(x, deserializationOptions);
          }),
          colorBoostEvents: data.colorBoostBeatmapEvents?.map((x) => {
-            return deserializeColorBoostEvent(x);
+            return deserializeColorBoostEvent(x, deserializationOptions);
          }),
          lightColorEventBoxGroups: data.lightColorEventBoxGroups?.map((x) => {
-            return deserializeLightColorEventBoxGroup(x);
+            return deserializeDirectLightColorEventBoxGroup(x, deserializationOptions);
          }),
          lightRotationEventBoxGroups: data.lightRotationEventBoxGroups?.map((x) => {
-            return deserializeLightRotationEventBoxGroup(x);
+            return deserializeDirectLightRotationEventBoxGroup(x, deserializationOptions);
          }),
          lightTranslationEventBoxGroups: data.lightTranslationEventBoxGroups?.map(
             (x) => {
-               return deserializeLightTranslationEventBoxGroup(x);
+               return deserializeDirectLightTranslationEventBoxGroup(x, deserializationOptions);
             },
          ),
-         fxEventBoxGroups: data.vfxEventBoxGroups?.map((obj) =>
-            deserializeFxEventBoxGroup({
-               object: { ...obj, t: FxType.FLOAT },
-               boxData: obj.e?.map((box) => ({
-                  data: box,
-                  eventData: box.l?.map((idx) => {
-                     return resolveIndexed(fx, idx, '_fxEventsCollection._fl');
-                  }) ?? [],
-               })) ?? [],
-            })
-         ),
+         fxEventBoxGroups: data.vfxEventBoxGroups?.map((obj) => {
+            return deserializeDirectFxEventBoxGroup(obj, fx, deserializationOptions);
+         }),
          basicEventTypesWithKeywords: deserializeBasicEventTypesWithKeywords(
             data.basicEventTypesWithKeywords ?? {},
+            deserializationOptions,
          ),
          useNormalEventsAsCompatibleEvents: data.useNormalEventsAsCompatibleEvents,
       },
-   });
+   }, deserializationOptions);
 }

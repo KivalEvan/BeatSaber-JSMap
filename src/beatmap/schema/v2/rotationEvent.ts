@@ -1,5 +1,6 @@
 import type { IEvent } from '../../schema/v2/types/event.ts';
 import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createRotationEvent } from '../wrapper/rotationEvent.ts';
 import { EventLaneRotationValue, RotationValueEventValue } from '../../misc/remaps.ts';
@@ -28,9 +29,13 @@ export function serializeRotationEvent(data: IWrapRotationEvent): IEvent {
 
 /** Deserialize schema object into beatmap v2 `Rotation Event` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeRotationEvent(data: IEvent): IWrapRotationEvent {
+export function deserializeRotationEvent(
+   data: IEvent,
+   options?: DeserializationOptions,
+): IWrapRotationEvent {
    const value = data._value ?? 0;
    return createRotationEvent({
       time: data._time,
@@ -41,5 +46,5 @@ export function deserializeRotationEvent(data: IEvent): IWrapRotationEvent {
          ? (value - 1360) % 360
          : EventLaneRotationValue[value],
       customData: data._customData,
-   });
+   }, options);
 }

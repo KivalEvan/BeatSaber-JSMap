@@ -47,10 +47,10 @@ Before you start, you may want to understand how Beat Saber stores the
 You may get this package from [NPM](https://www.npmjs.com/package/bsmap) or
 [JSR](https://jsr.io/@kvl/bsmap) using respective package manager.
 
-For utility, schema, type-only, or core consumers, prefer a narrow subpath. Utility consumers can
-use `utils/math`, `utils/colors`, or `utils/misc` for one category, or `utils` for all utilities.
-These imports exclude the root filesystem and I/O graph. Use a versioned schema subpath when only
-one version is required.
+For utility, schema, type-only, or optional class-adapter consumers, prefer a narrow subpath.
+Utility consumers can use `utils/math`, `utils/colors`, or `utils/misc` for one category, or `utils`
+for all utilities. These imports exclude the root filesystem and I/O graph. Use a versioned schema
+subpath when only one version is required.
 
 #### JSR subpaths
 
@@ -61,7 +61,12 @@ import { colorFrom } from 'jsr:@kvl/bsmap/utils/colors';
 import { range } from 'jsr:@kvl/bsmap/utils/misc';
 import { ColorNoteSchema } from 'jsr:@kvl/bsmap/schema/v3';
 import type { Vector3 } from 'jsr:@kvl/bsmap/types';
-import { ColorNote } from 'jsr:@kvl/bsmap/beatmap/core';
+import { wrapper } from 'jsr:@kvl/bsmap/schema';
+
+const note: wrapper.IWrapColorNote = wrapper.createColorNote({ time: 2 });
+
+// Optional class adapter for class methods.
+import { ColorNote } from 'jsr:@kvl/bsmap/extensions/core';
 ```
 
 #### NPM subpaths
@@ -73,7 +78,12 @@ import { colorFrom } from 'bsmap/utils/colors';
 import { range } from 'bsmap/utils/misc';
 import { ColorNoteSchema } from 'bsmap/schema/v3';
 import type { Vector3 } from 'bsmap/types';
-import { ColorNote } from 'bsmap/beatmap/core';
+import { wrapper } from 'bsmap/schema';
+
+const note: wrapper.IWrapColorNote = wrapper.createColorNote({ time: 2 });
+
+// Optional class adapter for class methods.
+import { ColorNote } from 'bsmap/extensions/core';
 ```
 
 ESM bundlers tree-shake unused exports from narrow imports. CommonJS barrels load all exports

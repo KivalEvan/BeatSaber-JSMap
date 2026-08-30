@@ -11,9 +11,13 @@ function tag(name: string): string[] {
  * Remap and deduplicate data in array.
  *
  * @param data The data array to remap and deduplicate.
+ * @param keySelector The function that gets the deduplication key for each item.
  * @returns The remapped and deduplicated data and a map of the original index to the new index.
  */
-export function remapDedupe<T>(data: T[]): [T[], number[]] {
+export function remapDedupe<T>(
+   data: T[],
+   keySelector: (item: T) => string = stableJsonKey,
+): [T[], number[]] {
    if (data.length < 2) {
       return [data.slice(), data.map((_, i) => i)];
    }
@@ -24,7 +28,7 @@ export function remapDedupe<T>(data: T[]): [T[], number[]] {
 
    for (let oldIndex = 0; oldIndex < data.length; oldIndex++) {
       const item = data[oldIndex];
-      const key = stableJsonKey(item);
+      const key = keySelector(item);
 
       let newIndex = seen.get(key);
 

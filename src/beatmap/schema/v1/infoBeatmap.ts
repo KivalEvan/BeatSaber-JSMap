@@ -4,14 +4,19 @@ import { shallowCopy } from '../../../utils/misc/json.ts';
 import { createInfoBeatmap } from '../wrapper/infoBeatmap.ts';
 import { DifficultyRanking } from '../../misc/difficulty.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 type InfoBeatmapSerializationPolyfills = {
    audio: Pick<IWrapInfo['audio'], 'filename'>;
 };
-type InfoBeatmapDeserializationPolyfills = Pick<
-   IWrapInfoBeatmap,
-   'characteristic' | 'njs' | 'njsOffset' | 'lightshowFilename' | 'authors'
->;
+type InfoBeatmapDeserializationPolyfills =
+   & Pick<
+      IWrapInfoBeatmap,
+      'characteristic' | 'njs' | 'njsOffset' | 'lightshowFilename' | 'authors'
+   >
+   & {
+      customDataOwnership?: DeserializationOptions['customDataOwnership'];
+   };
 
 /** Serialize beatmap v1 `Info Beatmap` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -50,6 +55,9 @@ export function deserializeInfoBeatmap(
    data: IInfoDifficulty,
    options?: DeepPartial<InfoBeatmapDeserializationPolyfills>,
 ): IWrapInfoBeatmap {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    return createInfoBeatmap({
       characteristic: data.characteristic,
       difficulty: data.difficulty,
@@ -67,11 +75,11 @@ export function deserializeInfoBeatmap(
          _chromaToggle: data.chromaToggle,
          _customColors: data.customColors,
          _difficultyLabel: data.difficultyLabel,
-         _colorLeft: shallowCopy(data.colorLeft),
-         _colorRight: shallowCopy(data.colorRight),
-         _envColorLeft: shallowCopy(data.envColorLeft),
-         _envColorRight: shallowCopy(data.envColorRight),
-         _obstacleColor: shallowCopy(data.obstacleColor),
+         _colorLeft: data.colorLeft,
+         _colorRight: data.colorRight,
+         _envColorLeft: data.envColorLeft,
+         _envColorRight: data.envColorRight,
+         _obstacleColor: data.obstacleColor,
       },
-   });
+   }, deserializationOptions);
 }

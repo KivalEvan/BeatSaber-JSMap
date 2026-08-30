@@ -5,7 +5,7 @@ import type {
    InferBeatmapVersion,
    InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
-import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
+import type { BeatmapFileType, CustomDataOwnership } from '../schema/shared/types/schema.ts';
 import type { ISchemaCheckOptions } from '../mapping/types/schema.ts';
 
 export interface ILoadOptions<
@@ -20,6 +20,16 @@ export interface ILoadOptions<
     * @default true
     */
    forceConvert?: boolean;
+   /**
+    * Defines how deserialized custom data is owned.
+    *
+    * `copy` keeps caller-owned JSON independent. `transfer` gives the final preprocessor output
+    * to the loader and preserves its references. Repeated indexed records can then share mutable
+    * custom data. Direct loads default to `copy`. File reads default to `transfer`.
+    *
+    * @default 'copy' for direct load operations.
+    */
+   customDataOwnership?: CustomDataOwnership;
    /** Data check option when loading. */
    schemaCheck?: Partial<ISchemaCheckOptions>;
    /**

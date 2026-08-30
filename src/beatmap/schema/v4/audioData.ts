@@ -2,8 +2,12 @@ import type { IAudio } from './types/audioData.ts';
 import type { IWrapAudioData } from '../wrapper/types/audioData.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import { createAudioData } from '../wrapper/audioData.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 type AudioDataPolyfills = Pick<IWrapAudioData, 'filename'>;
+type AudioDataDeserializationOptions =
+   & DeepPartial<AudioDataPolyfills>
+   & Partial<DeserializationOptions>;
 
 /** Serialize beatmap v4 `Audio Data` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -31,13 +35,16 @@ export function serializeAudioData(data: IWrapAudioData): IAudio {
 
 /** Deserialize schema object into beatmap v4 `Audio Data` object.
  * @param data The serialized schema object.
- * @param options Deserialization polyfills.
+ * @param options Deserialization polyfills and custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeAudioData(
    data: IAudio,
-   options?: DeepPartial<AudioDataPolyfills>,
+   options?: AudioDataDeserializationOptions,
 ): IWrapAudioData {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    return createAudioData({
       version: 4,
       filename: options?.filename,
@@ -55,5 +62,5 @@ export function deserializeAudioData(
          startSampleIndex: l?.si,
          endSampleIndex: l?.ei,
       })),
-   });
+   }, deserializationOptions);
 }

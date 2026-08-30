@@ -1,21 +1,23 @@
 import type { IWrapLightColorEventBox } from './types/lightColorEventBox.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 import { createIndexFilter } from './indexFilter.ts';
 import { createLightColorEvent } from './lightColorEvent.ts';
 
 export function createLightColorEventBox(
    data: DeepPartial<IWrapLightColorEventBox> = {},
+   options?: DeserializationOptions,
 ): IWrapLightColorEventBox {
    return {
-      filter: createIndexFilter(data.filter),
+      filter: createIndexFilter(data.filter, options),
       beatDistribution: data.beatDistribution ?? 0,
       beatDistributionType: data.beatDistributionType ?? 1,
       brightnessDistribution: data.brightnessDistribution ?? 0,
       brightnessDistributionType: data.brightnessDistributionType ?? 1,
       affectFirst: data.affectFirst ?? 0,
       easing: data.easing ?? 0,
-      events: data.events?.map((o) => createLightColorEvent(o)) ?? [],
-      customData: copyCustomData(data.customData),
+      events: data.events?.map((item) => createLightColorEvent(item, options)) ?? [],
+      customData: copyCustomData(data.customData, options),
    };
 }

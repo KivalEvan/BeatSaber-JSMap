@@ -1,9 +1,66 @@
 import { round } from '../../../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../../../mapping/types/optimize.ts';
+import type { IFxEventBox } from '../types/fxEventBox.ts';
+import type { IFxEventFloat } from '../types/fxEventFloat.ts';
+import type { ILightColorEvent } from '../types/lightColorEvent.ts';
+import type { ILightColorEventBox } from '../types/lightColorEventBox.ts';
+import type { ILightRotationEvent } from '../types/lightRotationEvent.ts';
+import type { ILightRotationEventBox } from '../types/lightRotationEventBox.ts';
 import type { ILightshow } from '../types/lightshow.ts';
+import type { ILightTranslationEvent } from '../types/lightTranslationEvent.ts';
+import type { ILightTranslationEventBox } from '../types/lightTranslationEventBox.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { EventBoxType } from '../../shared/types/constants.ts';
-import { isEmpty } from '../../../../utils/misc/json.ts';
+import { isEmpty, stableJsonKey } from '../../../../utils/misc/json.ts';
+
+function stableV4DataKey<T extends object>(
+   value: T,
+   keys: readonly (keyof T & string)[],
+): string {
+   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+      return stableJsonKey(value);
+   }
+
+   const itemKeys = Object.keys(value);
+   for (let index = 0; index < itemKeys.length; index++) {
+      if (!keys.includes(itemKeys[index] as keyof T & string)) {
+         return stableJsonKey(value);
+      }
+   }
+
+   let result = '{';
+   let separator = '';
+   for (let index = 0; index < keys.length; index++) {
+      const key = keys[index];
+      if (!Object.prototype.propertyIsEnumerable.call(value, key)) continue;
+
+      const field = value[key];
+      result += separator + JSON.stringify(key) + ':';
+      result += field !== null && typeof field === 'object'
+         ? stableJsonKey(field)
+         : JSON.stringify(field);
+      separator = ',';
+   }
+
+   return result + '}';
+}
+
+const lightColorEventKey = (value: ILightColorEvent) =>
+   stableV4DataKey(value, ['b', 'c', 'customData', 'e', 'f', 'p', 'sb', 'sf']);
+const lightRotationEventKey = (value: ILightRotationEvent) =>
+   stableV4DataKey(value, ['customData', 'd', 'e', 'l', 'p', 'r']);
+const lightTranslationEventKey = (value: ILightTranslationEvent) =>
+   stableV4DataKey(value, ['customData', 'e', 'p', 't']);
+const lightColorEventBoxKey = (value: ILightColorEventBox) =>
+   stableV4DataKey(value, ['b', 'customData', 'd', 'e', 's', 't', 'w']);
+const lightRotationEventBoxKey = (value: ILightRotationEventBox) =>
+   stableV4DataKey(value, ['a', 'b', 'customData', 'd', 'e', 'f', 's', 't', 'w']);
+const lightTranslationEventBoxKey = (value: ILightTranslationEventBox) =>
+   stableV4DataKey(value, ['a', 'b', 'customData', 'd', 'e', 'f', 's', 't', 'w']);
+const fxEventBoxKey = (value: IFxEventBox) =>
+   stableV4DataKey(value, ['b', 'customData', 'd', 'e', 's', 't', 'w']);
+const floatFxEventKey = (value: IFxEventFloat) =>
+   stableV4DataKey(value, ['customData', 'e', 'p', 'v']);
 
 /**
  * Optimize v4 `Lightshow` schema data.
@@ -24,28 +81,38 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       );
       const [newLightColorEventBoxes, remapLightColorEventBoxesIdx] = remapDedupe(
          data.lightColorEventBoxes ?? [],
+         lightColorEventBoxKey,
       );
       const [newLightColorEvents, remapLightColorEventsIdx] = remapDedupe(
          data.lightColorEvents ?? [],
+         lightColorEventKey,
       );
       const [newLightRotationEventBoxes, remapLightRotationEventBoxesIdx] = remapDedupe(
          data.lightRotationEventBoxes ?? [],
+         lightRotationEventBoxKey,
       );
       const [newLightRotationEvents, remapLightRotationEventsIdx] = remapDedupe(
          data.lightRotationEvents ?? [],
+         lightRotationEventKey,
       );
       const [
          newLightTranslationEventBoxes,
          remapLightTranslationEventBoxesIdx,
-      ] = remapDedupe(data.lightTranslationEventBoxes ?? []);
+      ] = remapDedupe(
+         data.lightTranslationEventBoxes ?? [],
+         lightTranslationEventBoxKey,
+      );
       const [newLightTranslationEvents, remapLightTranslationEventsIdx] = remapDedupe(
          data.lightTranslationEvents ?? [],
+         lightTranslationEventKey,
       );
       const [newFxEventBoxes, remapFxEventBoxesIdx] = remapDedupe(
          data.fxEventBoxes ?? [],
+         fxEventBoxKey,
       );
       const [newFloatFxEvents, remapFloatFxEventsIdx] = remapDedupe(
          data.floatFxEvents ?? [],
+         floatFxEventKey,
       );
 
       if (data.basicEvents) {

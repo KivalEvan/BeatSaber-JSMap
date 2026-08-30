@@ -1,5 +1,6 @@
 import type { ILightColorEventBoxGroup } from './types/lightColorEventBoxGroup.ts';
 import type { IWrapLightColorEventBoxGroup } from '../wrapper/types/lightColorEventBoxGroup.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightColorEventBoxGroup } from '../wrapper/lightColorEventBoxGroup.ts';
 import {
@@ -26,17 +27,19 @@ export function serializeLightColorEventBoxGroup(
 
 /** Deserialize schema object into beatmap v3 `Light Color Event Box Group` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeLightColorEventBoxGroup(
    data: ILightColorEventBoxGroup,
+   options?: DeserializationOptions,
 ): IWrapLightColorEventBoxGroup {
    return createLightColorEventBoxGroup({
       time: data.b,
       id: data.g,
       boxes: data.e?.map((x) => {
-         return deserializeLightColorEventBox(x);
+         return deserializeLightColorEventBox(x, options);
       }),
       customData: data.customData,
-   });
+   }, options);
 }

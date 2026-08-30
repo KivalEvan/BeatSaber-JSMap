@@ -1,9 +1,11 @@
 import type { IWrapBombNote } from './types/bombNote.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createBombNote(
    data: DeepPartial<IWrapBombNote> = {},
+   options?: DeserializationOptions,
 ): IWrapBombNote {
    return {
       time: data.time ?? 0,
@@ -12,6 +14,6 @@ export function createBombNote(
       color: -1,
       direction: data.direction ?? 0,
       laneRotation: data.laneRotation ?? 0,
-      customData: copyCustomData(data.customData),
+      customData: copyCustomData(data.customData, options),
    };
 }

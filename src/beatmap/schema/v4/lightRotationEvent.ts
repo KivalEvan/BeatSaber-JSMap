@@ -2,6 +2,7 @@ import type { ILightRotationEventContainer } from './types/container.ts';
 import type { IWrapLightRotationEvent } from '../wrapper/types/lightRotationEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightRotationEvent } from '../wrapper/lightRotationEvent.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Light Rotation Event` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -25,10 +26,12 @@ export function serializeLightRotationEvent(
 
 /** Deserialize schema object into beatmap v4 `Light Rotation Event` object.
  * @param data The serialized schema object.
+ * @param options The custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeLightRotationEvent(
    data: ILightRotationEventContainer,
+   options?: DeserializationOptions,
 ): IWrapLightRotationEvent {
    return createLightRotationEvent({
       time: data.time,
@@ -38,5 +41,5 @@ export function deserializeLightRotationEvent(
       rotation: data.data?.r,
       direction: data.data?.d,
       customData: data.data?.customData,
-   });
+   }, options);
 }

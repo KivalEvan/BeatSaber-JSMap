@@ -7,6 +7,7 @@ import {
    deserializeLightRotationEvent,
    serializeLightRotationEvent,
 } from './lightRotationEvent.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Light Rotation Event Box` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -36,13 +37,15 @@ export function serializeLightRotationEventBox(
 
 /** Deserialize schema object into beatmap v4 `Light Rotation Event Box` object.
  * @param data The serialized schema object.
+ * @param options The custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeLightRotationEventBox(
    data: ILightRotationBoxContainer,
+   options?: DeserializationOptions,
 ): IWrapLightRotationEventBox {
    return createLightRotationEventBox({
-      filter: deserializeIndexFilter(data.filterData ?? {}),
+      filter: deserializeIndexFilter(data.filterData ?? {}, options),
       beatDistribution: data.data?.w,
       beatDistributionType: data.data?.d,
       rotationDistribution: data.data?.s,
@@ -52,8 +55,8 @@ export function deserializeLightRotationEventBox(
       axis: data.data?.a,
       flip: data.data?.f,
       events: data.eventData?.map((x) => {
-         return deserializeLightRotationEvent(x);
+         return deserializeLightRotationEvent(x, options);
       }),
       customData: data.data?.customData,
-   });
+   }, options);
 }

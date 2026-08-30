@@ -1,5 +1,6 @@
 import type { IWrapLightshow } from './types/lightshow.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 import { createBasicEvent } from './basicEvent.ts';
 import { createBasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
@@ -12,26 +13,35 @@ import { createWaypoint } from './waypoint.ts';
 
 export function createLightshow(
    data: DeepPartial<IWrapLightshow> = {},
+   options?: DeserializationOptions,
 ): IWrapLightshow {
    return {
-      waypoints: data.waypoints?.map(createWaypoint) ?? [],
-      basicEvents: data.basicEvents?.map(createBasicEvent) ?? [],
-      colorBoostEvents: data.colorBoostEvents?.map(createColorBoostEvent) ?? [],
-      lightColorEventBoxGroups: data.lightColorEventBoxGroups?.map(createLightColorEventBoxGroup) ??
-         [],
-      lightRotationEventBoxGroups: data.lightRotationEventBoxGroups?.map(
-         createLightRotationEventBoxGroup,
-      ) ?? [],
-      lightTranslationEventBoxGroups: data.lightTranslationEventBoxGroups?.map(
-         createLightTranslationEventBoxGroup,
-      ) ?? [],
-      fxEventBoxGroups: data.fxEventBoxGroups?.map(createFxEventBoxGroup) ?? [],
+      waypoints: data.waypoints?.map((item) => createWaypoint(item, options)) ?? [],
+      basicEvents: data.basicEvents?.map((item) => createBasicEvent(item, options)) ?? [],
+      colorBoostEvents:
+         data.colorBoostEvents?.map((item) => createColorBoostEvent(item, options)) ??
+            [],
+      lightColorEventBoxGroups:
+         data.lightColorEventBoxGroups?.map((item) =>
+            createLightColorEventBoxGroup(item, options)
+         ) ?? [],
+      lightRotationEventBoxGroups:
+         data.lightRotationEventBoxGroups?.map((item) =>
+            createLightRotationEventBoxGroup(item, options)
+         ) ?? [],
+      lightTranslationEventBoxGroups:
+         data.lightTranslationEventBoxGroups?.map((item) =>
+            createLightTranslationEventBoxGroup(item, options)
+         ) ?? [],
+      fxEventBoxGroups:
+         data.fxEventBoxGroups?.map((item) => createFxEventBoxGroup(item, options)) ??
+            [],
       basicEventTypesWithKeywords: {
          list: data.basicEventTypesWithKeywords?.list?.map(
-            createBasicEventTypesForKeywords,
+            (item) => createBasicEventTypesForKeywords(item, options),
          ) ?? [],
       },
       useNormalEventsAsCompatibleEvents: !!data.useNormalEventsAsCompatibleEvents,
-      customData: copyCustomData(data.customData),
+      customData: copyCustomData(data.customData, options),
    };
 }

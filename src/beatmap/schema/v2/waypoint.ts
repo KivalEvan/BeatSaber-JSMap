@@ -1,5 +1,6 @@
 import type { IWaypoint } from '../../schema/v2/types/waypoint.ts';
 import type { IWrapWaypoint } from '../wrapper/types/waypoint.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createWaypoint } from '../wrapper/waypoint.ts';
 
@@ -19,14 +20,18 @@ export function serializeWaypoint(data: IWrapWaypoint): IWaypoint {
 
 /** Deserialize schema object into beatmap v2 `Waypoint` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeWaypoint(data: IWaypoint): IWrapWaypoint {
+export function deserializeWaypoint(
+   data: IWaypoint,
+   options?: DeserializationOptions,
+): IWrapWaypoint {
    return createWaypoint({
       time: data._time,
       posX: data._lineIndex,
       posY: data._lineLayer,
       direction: data._offsetDirection,
       customData: data._customData,
-   });
+   }, options);
 }

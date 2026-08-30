@@ -1,5 +1,6 @@
 import type { IFxEventInt } from './types/fxEventInt.ts';
 import type { IWrapFxEventInt } from '../wrapper/types/fxEventInt.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createFxEventInt } from '../wrapper/fxEventInt.ts';
 
@@ -18,13 +19,17 @@ export function serializeFxEventInt(data: IWrapFxEventInt): IFxEventInt {
 
 /** Deserialize schema object into beatmap v3 `Fx Event Int` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeFxEventInt(data: IFxEventInt): IWrapFxEventInt {
+export function deserializeFxEventInt(
+   data: IFxEventInt,
+   options?: DeserializationOptions,
+): IWrapFxEventInt {
    return createFxEventInt({
       time: data.b,
       previous: data.p,
       value: data.v,
       customData: data.customData,
-   });
+   }, options);
 }

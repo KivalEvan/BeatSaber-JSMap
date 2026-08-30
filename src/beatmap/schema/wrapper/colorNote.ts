@@ -1,9 +1,11 @@
 import type { IWrapColorNote } from './types/colorNote.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createColorNote(
    data: DeepPartial<IWrapColorNote> = {},
+   options?: DeserializationOptions,
 ): IWrapColorNote {
    return {
       time: data.time ?? 0,
@@ -13,6 +15,6 @@ export function createColorNote(
       direction: data.direction ?? 0,
       angleOffset: data.angleOffset ?? 0,
       laneRotation: data.laneRotation ?? 0,
-      customData: copyCustomData(data.customData),
+      customData: copyCustomData(data.customData, options),
    };
 }

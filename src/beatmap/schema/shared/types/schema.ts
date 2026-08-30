@@ -1,5 +1,23 @@
 import type { Version } from './version.ts';
 
+/**
+ * Defines whether deserialized custom data is copied or transferred.
+ * Transfer mode preserves source references. Repeated indexed records can share mutable custom
+ * data in the deserialized result.
+ */
+export type CustomDataOwnership = 'copy' | 'transfer';
+
+/**
+ * Context passed to schema deserializers.
+ */
+export interface DeserializationOptions {
+   /**
+    * Defines whether custom-data values are copied before they are assigned to wrappers.
+    * `copy` creates independent nested values; `transfer` passes references unchanged.
+    */
+   customDataOwnership: CustomDataOwnership;
+}
+
 interface ISchemaDeclarationBase {
    readonly type: string | string[]; // string array because there'll soon be having to check both
    readonly version?: Version;

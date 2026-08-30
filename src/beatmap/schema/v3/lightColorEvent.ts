@@ -1,5 +1,6 @@
 import type { ILightColorEvent } from './types/lightColorEvent.ts';
 import type { IWrapLightColorEvent } from '../wrapper/types/lightColorEvent.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightColorEvent } from '../wrapper/lightColorEvent.ts';
 import { EaseType, TransitionType } from '../shared/types/constants.ts';
@@ -27,9 +28,13 @@ export function serializeLightColorEvent(data: IWrapLightColorEvent): ILightColo
 
 /** Deserialize schema object into beatmap v3 `Light Color Event` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeLightColorEvent(data: ILightColorEvent): IWrapLightColorEvent {
+export function deserializeLightColorEvent(
+   data: ILightColorEvent,
+   options?: DeserializationOptions,
+): IWrapLightColorEvent {
    return createLightColorEvent({
       time: data.b,
       color: data.c,
@@ -40,5 +45,5 @@ export function deserializeLightColorEvent(data: ILightColorEvent): IWrapLightCo
       strobeBrightness: data.sb,
       strobeFade: data.sf,
       customData: data.customData,
-   });
+   }, options);
 }

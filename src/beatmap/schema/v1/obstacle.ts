@@ -1,5 +1,6 @@
 import type { IObstacle } from './types/obstacle.ts';
 import type { IWrapObstacle } from '../wrapper/types/obstacle.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { createObstacle } from '../wrapper/obstacle.ts';
 import { isCrouchHeightObstacle, isFullHeightObstacle } from '../../helpers/core/obstacle.ts';
 
@@ -39,9 +40,13 @@ export function serializeObstacle(data: IWrapObstacle): IObstacle {
 
 /** Deserialize schema object into beatmap v1 `Obstacle` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeObstacle(data: IObstacle): IWrapObstacle {
+export function deserializeObstacle(
+   data: IObstacle,
+   options?: DeserializationOptions,
+): IWrapObstacle {
    const type = data._type ?? 0;
    return createObstacle({
       time: data._time,
@@ -50,5 +55,5 @@ export function deserializeObstacle(data: IObstacle): IWrapObstacle {
       duration: data._duration,
       width: data._width,
       height: type === 0 ? 5 : type === 1 ? 3 : fixHeightForExtendedType(type),
-   });
+   }, options);
 }

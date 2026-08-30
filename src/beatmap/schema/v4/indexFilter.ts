@@ -2,6 +2,7 @@ import type { IIndexFilter } from './types/indexFilter.ts';
 import type { IWrapIndexFilter } from '../wrapper/types/indexFilter.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createIndexFilter } from '../wrapper/indexFilter.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Index Filter` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -24,9 +25,13 @@ export function serializeIndexFilter(data: IWrapIndexFilter): IIndexFilter {
 
 /** Deserialize schema object into beatmap v4 `Index Filter` object.
  * @param data The serialized schema object.
+ * @param options The custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeIndexFilter(data: IIndexFilter): IWrapIndexFilter {
+export function deserializeIndexFilter(
+   data: IIndexFilter,
+   options?: DeserializationOptions,
+): IWrapIndexFilter {
    return createIndexFilter({
       type: data.f,
       p0: data.p,
@@ -38,5 +43,5 @@ export function deserializeIndexFilter(data: IIndexFilter): IWrapIndexFilter {
       limit: data.l,
       limitAffectsType: data.d,
       customData: data.customData,
-   });
+   }, options);
 }

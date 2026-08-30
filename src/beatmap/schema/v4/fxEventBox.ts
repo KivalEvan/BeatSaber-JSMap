@@ -4,6 +4,7 @@ import { deepCopy } from '../../../utils/misc/json.ts';
 import { createFxEventBox } from '../wrapper/fxEventBox.ts';
 import { deserializeFxEventFloat, serializeFxEventFloat } from './fxEventFloat.ts';
 import { deserializeIndexFilter, serializeIndexFilter } from './indexFilter.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Fx Event Box` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -29,11 +30,15 @@ export function serializeFxEventBox(data: IWrapFxEventBox): IFxEventFloatBoxCont
 
 /** Deserialize schema object into beatmap v4 `Fx Event Box` object.
  * @param data The serialized schema object.
+ * @param options The custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeFxEventBox(data: IFxEventFloatBoxContainer): IWrapFxEventBox {
+export function deserializeFxEventBox(
+   data: IFxEventFloatBoxContainer,
+   options?: DeserializationOptions,
+): IWrapFxEventBox {
    return createFxEventBox({
-      filter: deserializeIndexFilter(data.filterData ?? {}),
+      filter: deserializeIndexFilter(data.filterData ?? {}, options),
       beatDistribution: data.data?.w,
       beatDistributionType: data.data?.d,
       fxDistribution: data.data?.s,
@@ -41,8 +46,8 @@ export function deserializeFxEventBox(data: IFxEventFloatBoxContainer): IWrapFxE
       affectFirst: data.data?.b,
       easing: data.data?.e,
       events: data.eventData?.map((x) => {
-         return deserializeFxEventFloat(x);
+         return deserializeFxEventFloat(x, options);
       }),
       customData: data.data?.customData,
-   });
+   }, options);
 }

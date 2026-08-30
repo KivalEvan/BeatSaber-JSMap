@@ -16,15 +16,20 @@ import {
    serializeLightRotationEventBoxGroup,
 } from './lightRotationEventBoxGroup.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import {
    deserializeLightTranslationEventBoxGroup,
    serializeLightTranslationEventBoxGroup,
 } from './lightTranslationEventBoxGroup.ts';
 
-type LightshowDeserializationPolyfills = Pick<
-   IWrapBeatmap,
-   'filename' | 'lightshowFilename'
->;
+type LightshowDeserializationPolyfills =
+   & Pick<
+      IWrapBeatmap,
+      'filename' | 'lightshowFilename'
+   >
+   & {
+      customDataOwnership?: DeserializationOptions['customDataOwnership'];
+   };
 
 /** Serialize beatmap v3 `Lightshow` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -73,13 +78,16 @@ export function serializeLightshow(data: IWrapBeatmap): ILightshow {
 
 /** Deserialize schema object into beatmap v3 `Lightshow` object.
  * @param data The serialized schema object.
- * @param options Deserialization polyfills.
+ * @param options Deserialization polyfills and custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeLightshow(
    data: ILightshow,
    options?: DeepPartial<LightshowDeserializationPolyfills>,
 ): IWrapBeatmap {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    const fx = data._fxEventsCollection?._fl;
    return assembleOwnedBeatmap({
       version: 3,
@@ -88,20 +96,20 @@ export function deserializeLightshow(
       difficulty: {},
       lightshow: {
          basicEvents: data.basicBeatmapEvents?.map((x) => {
-            return deserializeBasicEvent(x);
+            return deserializeBasicEvent(x, deserializationOptions);
          }),
          colorBoostEvents: data.colorBoostBeatmapEvents?.map((x) => {
-            return deserializeColorBoostEvent(x);
+            return deserializeColorBoostEvent(x, deserializationOptions);
          }),
          lightColorEventBoxGroups: data.lightColorEventBoxGroups?.map((x) => {
-            return deserializeLightColorEventBoxGroup(x);
+            return deserializeLightColorEventBoxGroup(x, deserializationOptions);
          }),
          lightRotationEventBoxGroups: data.lightRotationEventBoxGroups?.map((x) => {
-            return deserializeLightRotationEventBoxGroup(x);
+            return deserializeLightRotationEventBoxGroup(x, deserializationOptions);
          }),
          lightTranslationEventBoxGroups: data.lightTranslationEventBoxGroups?.map(
             (x) => {
-               return deserializeLightTranslationEventBoxGroup(x);
+               return deserializeLightTranslationEventBoxGroup(x, deserializationOptions);
             },
          ),
          fxEventBoxGroups: data.vfxEventBoxGroups?.map((obj) =>
@@ -113,9 +121,9 @@ export function deserializeLightshow(
                      return resolveIndexed(fx, idx, '_fxEventsCollection._fl');
                   }) ?? [],
                })) ?? [],
-            })
+            }, deserializationOptions)
          ),
          customData: data.customData,
       },
-   });
+   }, deserializationOptions);
 }

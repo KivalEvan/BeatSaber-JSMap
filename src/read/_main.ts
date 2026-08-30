@@ -14,7 +14,9 @@ import type { IReadOptions } from './types.ts';
 
 const defaultOptions = {
    directory: '',
-   load: {},
+   load: {
+      customDataOwnership: 'transfer',
+   },
 } as const;
 
 export function tag(name: string): string[] {
@@ -50,6 +52,8 @@ export function handleRead<
    return (readJSONFile(p) as Promise<TSerial>).then((data) => {
       return loadBeatmap(type, data, ver, {
          ...opt.load,
+         customDataOwnership: opt.load?.customDataOwnership ??
+            defaultOptions.load.customDataOwnership,
          postprocess: [
             ...postprocesses,
             (x) => {
@@ -91,6 +95,8 @@ export function handleReadSync<
    ];
    const d = loadBeatmap(type, readJSONFileSync(p) as TSerial, ver, {
       ...opt.load,
+      customDataOwnership: opt.load?.customDataOwnership ??
+         defaultOptions.load.customDataOwnership,
       postprocess: [
          ...postprocesses,
          (x) => {

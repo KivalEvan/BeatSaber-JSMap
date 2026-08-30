@@ -2,12 +2,17 @@ import type { IBPMInfo } from '../../schema/v2/types/bpmInfo.ts';
 import type { IWrapAudioData } from '../wrapper/types/audioData.ts';
 import { createAudioData } from '../wrapper/audioData.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
-type AudioDataDeserializationPolyfills = Pick<
-   IWrapAudioData,
-   | 'filename'
-   | 'audioChecksum'
->;
+type AudioDataDeserializationPolyfills =
+   & Pick<
+      IWrapAudioData,
+      | 'filename'
+      | 'audioChecksum'
+   >
+   & {
+      customDataOwnership?: DeserializationOptions['customDataOwnership'];
+   };
 
 /** Serialize beatmap v2 `Audio Data` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -29,13 +34,16 @@ export function serializeAudioData(data: IWrapAudioData): IBPMInfo {
 
 /** Deserialize schema object into beatmap v2 `Audio Data` object.
  * @param data The serialized schema object.
- * @param options Deserialization polyfills.
+ * @param options Deserialization polyfills and custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeAudioData(
    data: IBPMInfo,
    options?: DeepPartial<AudioDataDeserializationPolyfills>,
 ): IWrapAudioData {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    return createAudioData({
       version: 2,
       filename: options?.filename,
@@ -48,5 +56,5 @@ export function deserializeAudioData(
          startSampleIndex: bd?._startSampleIndex,
          endSampleIndex: bd?._endSampleIndex,
       })),
-   });
+   }, deserializationOptions);
 }

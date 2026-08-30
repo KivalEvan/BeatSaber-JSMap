@@ -1,5 +1,6 @@
 import type { ILightTranslationEventBox } from './types/lightTranslationEventBox.ts';
 import type { IWrapLightTranslationEventBox } from '../wrapper/types/lightTranslationEventBox.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightTranslationEventBox } from '../wrapper/lightTranslationEventBox.ts';
 import { deserializeIndexFilter, serializeIndexFilter } from './indexFilter.ts';
@@ -34,13 +35,15 @@ export function serializeLightTranslationEventBox(
 
 /** Deserialize schema object into beatmap v3 `Light Translation Event Box` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeLightTranslationEventBox(
    data: ILightTranslationEventBox,
+   options?: DeserializationOptions,
 ): IWrapLightTranslationEventBox {
    return createLightTranslationEventBox({
-      filter: deserializeIndexFilter(data.f ?? {}),
+      filter: deserializeIndexFilter(data.f ?? {}, options),
       beatDistribution: data.w,
       beatDistributionType: data.d,
       gapDistribution: data.s,
@@ -50,8 +53,8 @@ export function deserializeLightTranslationEventBox(
       affectFirst: data.b,
       easing: data.i,
       events: data.l?.map((x) => {
-         return deserializeLightTranslationEvent(x);
+         return deserializeLightTranslationEvent(x, options);
       }),
       customData: data.customData,
-   });
+   }, options);
 }

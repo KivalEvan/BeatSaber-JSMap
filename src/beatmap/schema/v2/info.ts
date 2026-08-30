@@ -5,6 +5,7 @@ import { createInfo } from '../wrapper/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 import { deserializeInfoBeatmap, serializeInfoBeatmap } from './infoBeatmap.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'> & {
    audio: Pick<
@@ -13,6 +14,7 @@ type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'> & {
       | 'lufs'
       | 'duration'
    >;
+   customDataOwnership?: DeserializationOptions['customDataOwnership'];
 };
 
 /** Serialize beatmap v2 `Info` object into schema object.
@@ -92,13 +94,16 @@ export function serializeInfo(data: IWrapInfo): IInfo {
 
 /** Deserialize schema object into beatmap v2 `Info` object.
  * @param data The serialized schema object.
- * @param options Deserialization polyfills.
+ * @param options Deserialization polyfills and custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeInfo(
    data: IInfo,
    options?: DeepPartial<InfoDeserializationPolyfills>,
 ): IWrapInfo {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    return createInfo({
       version: 2,
       filename: options?.filename,
@@ -198,9 +203,10 @@ export function deserializeInfo(
                authors: {
                   mappers: data._levelAuthorName?.split(/,|\s+(?:and|&|vs.|VS)\s+/),
                },
+               customDataOwnership: deserializationOptions.customDataOwnership,
             });
          }) ?? [];
       }),
       customData: data._customData,
-   });
+   }, deserializationOptions);
 }

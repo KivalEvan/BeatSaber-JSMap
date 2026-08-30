@@ -105,83 +105,61 @@ globals.directory = './YOUR/MAP/FOLDER/PATH/';
 > character in programming world and would result in error. You may need to change the slash or
 > escape character.
 
-## Beatmap Object
+## Beatmap Objects
 
-All beatmap objects have class implementations as an alternative to using the regular JSON
-attributes. While not required to use the engine or its associated helpers, they allow various
-methods to be called directly from the class object as opposed to a standalone function. Custom data
-is always available and require no checking if exist.
+Use primitive `IWrap*` objects for beatmap data. The `create*` factories create these objects with
+default values. Read and load functions already return primitive objects. Do not wrap their results
+for normal editing, conversion, saving, patching, or extension use.
 
-### Creation
+### Create and Edit Objects
 
-Each beatmap object including difficulty can be constructed using regular constructor or using
-static method `create` which allows you to instantiate one or more objects. Partial or no data can
-be used to instantiate an object and will use default value to fill the empty spot. This method
-always return object(s) in an array with an exception being object that is not placed in array such
-as difficulty and index filter. Alternatively, if you prefer just a single object instantiation, you
-may use constructor method.
+Import the `wrapper` namespace to create primitive objects. Then assign properties and add objects
+to the relevant array.
 
 ```ts
-const bomb = BombNote.create(); // [bombData]
-const event = new BasicEvent(); // eventData
-const notes = ColorNote.create(
-   {},
-   {
-      time: 2,
-      posX: 1,
-      posY: 0,
-   },
-); // [noteData1, noteData2]
-data.colorNotes.push(...notes);
+import { wrapper } from 'jsr:@kvl/bsmap/schema';
+
+const note: wrapper.IWrapColorNote = wrapper.createColorNote({
+   time: 2,
+   posX: 1,
+   posY: 0,
+});
+note.direction = 8;
+data.difficulty.colorNotes.push(note);
+
+const event = wrapper.createBasicEvent({ time: 2, type: 1, value: 3 });
+data.lightshow.basicEvents.push(event);
 ```
 
-Difficulty class has a built-in method that allows instantiating of an object directly and insert
-into an array. This creates a new object instead of reusing existing object.
+Factories accept partial data and fill omitted fields with defaults. Create each object before you
+put it into an array. This prevents accidental reuse of the same object reference.
+
+### Copy Objects
+
+Use `deepCopy` when you need an independent copy, including its custom data.
 
 ```ts
-data.addBasicEvents({ time: 2, type: 1, value: 3 }, {});
-data.addBasicEvents(...events);
+const original = wrapper.createColorNote({ time: 1 });
+const cloned = deepCopy(original);
+cloned.time = original.time + 4;
+cloned.direction = 8;
+cloned.customData.color = [1, 1, 1];
 ```
 
-> [!WARNING]
->
-> All loader/saver functions and schema containers will return serializable attributes by default as
-> opposed to the full wrapper class implementation.
->
-> If you'd prefer to use the class implementations, you'll need to wrap the result with the
-> corresponding class constructor or the static `createOne` method.
->
-> ```ts
-> const data = loadDifficulty({ _version: '2.6.0' }); // returns `IWrapBeatmap`
-> data.addColorNotes({ time: 0 }); // will error, since methods doesn't exist on attribute form
->
-> const wrapped = Beatmap.createOne(data); // returns `Beatmap`
-> data.addColorNotes({ time: 0 }); // now works!
-> ```
+### Optional Class Adapters
 
-### Cloning
-
-In modcharting, cloning is often used to create certain effect. This method can be used to clone an
-existing object without referencing the original.
+Class adapters remain available when you need their methods. Import them from `extensions/core`, not
+from the root package or `beatmap/core`.
 
 ```ts
-const original = ColorNote.create()[0];
-const cloned = original.clone(); // new object with same property as original without reference
+import { ColorNote } from 'jsr:@kvl/bsmap/extensions/core';
+
+const note = ColorNote.createOne({ time: 2 });
+note.setAngleOffset(15);
+data.difficulty.colorNotes.push(note);
 ```
 
-### Method Chaining
-
-One liner or method chaining can be proven powerful in certain case scenarios.
-
-```ts
-const clones = notes.map((n) =>
-   n
-      .clone()
-      .setTime(n.time + 4)
-      .setDirection(8)
-      .addCustomData({ color: [1, 1, 1] })
-);
-```
+This is a breaking import-path change. `LightMapper` is not part of `extensions/core`.
 
 ## Constants
 
@@ -189,7 +167,7 @@ The library provide constant variables in form of `PascalCase` or `SCREAMING_SNA
 used to make your script slightly more readable but it is not necessarily needed.
 
 ```ts
-const note = new ColorNote({
+const note = wrapper.createColorNote({
    time: 24,
    color: NoteColor.RED,
    direction: NoteDirection.ANY,
@@ -197,11 +175,13 @@ const note = new ColorNote({
    posY: PositionY.BOTTOM,
 });
 
-data.addBasicEvents({
-   time: 10,
-   type: EventType.BACK_LASERS,
-   value: EventLightValue.WHITE_FADE,
-});
+data.lightshow.basicEvents.push(
+   wrapper.createBasicEvent({
+      time: 10,
+      type: EventType.BACK_LASERS,
+      value: EventLightValue.WHITE_FADE,
+   }),
+);
 ```
 
 ## Extensions
@@ -260,7 +240,9 @@ const events = [
    { color: 2 },
    { time: 0.25, brightness: 0, easing: 1 },
 ] as Partial<types.wrapper.ILightColorEvent>[];
-data.addLightColorEventBoxGroup({ boxes: [{ events: events }] });
+data.lightshow.lightColorEventBoxGroups.push(
+   wrapper.createLightColorEventBoxGroup({ boxes: [{ events }] }),
+);
 ```
 
 ### Logger
@@ -325,21 +307,18 @@ behaviour (such as performance), but overall it is very easy to make this mistak
 understood what you are doing, you can ignore this.
 
 ```ts
-const lightshow = new Beatmap(readDifficultyFileSync('Lightshow.dat', 3));
-const map = new Beatmap(readDifficultyFileSync('ExpertStandard.dat', 3));
+const lightshow = readDifficultyFileSync('Lightshow.dat', 3);
+const map = readDifficultyFileSync('ExpertStandard.dat', 3);
 
 // DON'T - 1
-map.basicEvents = lightshow.basicEvents;
-map.addBasicEvents({}); // this affects lightshow array
+map.lightshow.basicEvents = lightshow.lightshow.basicEvents;
+map.lightshow.basicEvents.push(wrapper.createBasicEvent({})); // this affects lightshow
 
 // DON'T - 2
-map.basicEvents = [...lightshow.basicEvents];
-map.basicEvents[0].value = 1; // this also affects lightshow
-map.addBasicEvents({}); // however, lightshow array is unaffected
+map.lightshow.basicEvents = [...lightshow.lightshow.basicEvents];
+map.lightshow.basicEvents[0].value = 1; // this also affects lightshow
+map.lightshow.basicEvents.push(wrapper.createBasicEvent({})); // lightshow array is unaffected
 
 // DO - 1
-map.basicEvents = lightshow.basicEvents.map((e) => e.clone()); // this correctly copies the class object
-
-// DO - 2
-map.addBasicEvents(...lightshow.basicEvents);
+map.lightshow.basicEvents = deepCopy(lightshow.lightshow.basicEvents);
 ```

@@ -4,11 +4,16 @@ import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfoBeatmap } from '../wrapper/infoBeatmap.ts';
 import { DifficultyRanking } from '../../misc/difficulty.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
-type IInfoBeatmapDeserializationPolyfills = Pick<
-   IWrapInfoBeatmap,
-   'characteristic' | 'lightshowFilename' | 'authors'
->;
+type IInfoBeatmapDeserializationPolyfills =
+   & Pick<
+      IWrapInfoBeatmap,
+      'characteristic' | 'lightshowFilename' | 'authors'
+   >
+   & {
+      customDataOwnership?: DeserializationOptions['customDataOwnership'];
+   };
 
 /** Serialize beatmap v2 `Info Beatmap` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -29,13 +34,16 @@ export function serializeInfoBeatmap(data: IWrapInfoBeatmap): IInfoDifficulty {
 
 /** Deserialize schema object into beatmap v2 `Info Beatmap` object.
  * @param data The serialized schema object.
- * @param options Deserialization polyfills.
+ * @param options Deserialization polyfills and custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeInfoBeatmap(
    data: IInfoDifficulty,
    options?: DeepPartial<IInfoBeatmapDeserializationPolyfills>,
 ): IWrapInfoBeatmap {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    return createInfoBeatmap({
       characteristic: options?.characteristic,
       difficulty: data._difficulty,
@@ -50,5 +58,5 @@ export function deserializeInfoBeatmap(
       colorSchemeId: data._beatmapColorSchemeIdx,
       environmentId: data._environmentNameIdx,
       customData: data._customData,
-   });
+   }, deserializationOptions);
 }

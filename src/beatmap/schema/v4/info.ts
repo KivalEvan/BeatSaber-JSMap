@@ -5,8 +5,12 @@ import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfo } from '../wrapper/info.ts';
 import { deserializeInfoBeatmap, serializeInfoBeatmap } from './infoBeatmap.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'>;
+type InfoDeserializationOptions =
+   & DeepPartial<InfoDeserializationPolyfills>
+   & Partial<DeserializationOptions>;
 
 /** Serialize beatmap v4 `Info` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -62,13 +66,16 @@ export function serializeInfo(data: IWrapInfo): IInfo {
 
 /** Deserialize schema object into beatmap v4 `Info` object.
  * @param data The serialized schema object.
- * @param options Deserialization polyfills.
+ * @param options Deserialization polyfills and custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeInfo(
    data: IInfo,
-   options?: DeepPartial<InfoDeserializationPolyfills>,
+   options?: InfoDeserializationOptions,
 ): IWrapInfo {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    return createInfo({
       version: 4,
       filename: options?.filename,
@@ -132,8 +139,8 @@ export function deserializeInfo(
          return scheme;
       }),
       difficulties: data.difficultyBeatmaps?.map((d) => {
-         return deserializeInfoBeatmap(d);
+         return deserializeInfoBeatmap(d, deserializationOptions);
       }),
       customData: data.customData,
-   });
+   }, deserializationOptions);
 }

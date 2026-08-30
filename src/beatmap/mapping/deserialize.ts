@@ -1,11 +1,10 @@
-// deno-lint-ignore-file no-explicit-any
 import { getLogger } from '../../logger.ts';
 import type {
    InferBeatmapSerial,
    InferBeatmapVersion,
    InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
-import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
+import type { BeatmapFileType, DeserializationOptions } from '../schema/shared/types/schema.ts';
 import { deserializeDifficulty as deserializeV1Difficulty } from '../schema/v1/difficulty.ts';
 import { deserializeInfo as deserializeV1Info } from '../schema/v1/info.ts';
 import { deserializeAudioData as deserializeV2AudioData } from '../schema/v2/audioData.ts';
@@ -22,16 +21,15 @@ function tag(...rest: string[]): string[] {
    return ['process', ...rest];
 }
 
-interface DeserializerEntry<
-   TDeserializer extends (data: any) => any = (data: any) => any,
-> {
-   deserialize: TDeserializer;
-}
+type DeserializerEntry<TSerial, TWrapper> = {
+   deserialize: (data: TSerial, options?: DeserializationOptions) => TWrapper;
+};
 
 /** Maps every supported version of a file type to its deserializer. */
 type DeserializerMap<T extends BeatmapFileType> = {
    [TVersion in InferBeatmapVersion<T>]-?: DeserializerEntry<
-      (data: InferBeatmapSerial<T, TVersion>) => InferBeatmapWrapper<T>
+      InferBeatmapSerial<T, TVersion>,
+      InferBeatmapWrapper<T>
    >;
 };
 
@@ -62,11 +60,17 @@ export const lightshowDeserializerMap = {
    4: { deserialize: deserializeV4Lightshow },
 } satisfies DeserializerMap<'lightshow'>;
 
-function resolveDeserializer(
-   map: Partial<Record<number, DeserializerEntry>>,
+function resolveDeserializer<
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+>(
+   map: DeserializerMap<TFileType>,
    type: BeatmapFileType,
-   version: number,
-): DeserializerEntry {
+   version: TVersion,
+): DeserializerEntry<
+   InferBeatmapSerial<TFileType, TVersion>,
+   InferBeatmapWrapper<TFileType>
+> {
    const entry = map[version];
    if (!entry) {
       throw new Error(
@@ -81,6 +85,7 @@ function resolveDeserializer(
  * @param type The beatmap file type.
  * @param version The implied map format of the beatmap file.
  * @param data The serial contents of the beatmap file.
+ * @param options The custom-data ownership context. The default copies custom data.
  * @returns The newly-transformed wrapper contents of the beatmap file.
  */
 export function deserializeBeatmap<
@@ -88,7 +93,12 @@ export function deserializeBeatmap<
    TVersion extends InferBeatmapVersion<TFileType>,
    TSerial extends InferBeatmapSerial<TFileType, TVersion>,
    TWrapper extends InferBeatmapWrapper<TFileType>,
->(type: TFileType, version: TVersion, data: TSerial): TWrapper {
+>(
+   type: TFileType,
+   version: TVersion,
+   data: TSerial,
+   options: DeserializationOptions = { customDataOwnership: 'copy' },
+): TWrapper {
    const logger = getLogger();
 
    logger?.tInfo(
@@ -98,32 +108,48 @@ export function deserializeBeatmap<
 
    switch (type) {
       case 'info': {
-         const deserializer = resolveDeserializer(infoDeserializerMap, type, version as number);
-         return deserializer.deserialize(data) as TWrapper;
+         const deserializer = resolveDeserializer<'info', InferBeatmapVersion<'info'>>(
+            infoDeserializerMap,
+            'info',
+            version as InferBeatmapVersion<'info'>,
+         );
+         return deserializer.deserialize(
+            data as InferBeatmapSerial<'info', InferBeatmapVersion<'info'>>,
+            options,
+         ) as TWrapper;
       }
       case 'audioData': {
-         const deserializer = resolveDeserializer(
+         const deserializer = resolveDeserializer<'audioData', InferBeatmapVersion<'audioData'>>(
             audioDataDeserializerMap,
-            type,
-            version as number,
+            'audioData',
+            version as InferBeatmapVersion<'audioData'>,
          );
-         return deserializer.deserialize(data) as TWrapper;
+         return deserializer.deserialize(
+            data as InferBeatmapSerial<'audioData', InferBeatmapVersion<'audioData'>>,
+            options,
+         ) as TWrapper;
       }
       case 'difficulty': {
-         const deserializer = resolveDeserializer(
+         const deserializer = resolveDeserializer<'difficulty', InferBeatmapVersion<'difficulty'>>(
             difficultyDeserializerMap,
-            type,
-            version as number,
+            'difficulty',
+            version as InferBeatmapVersion<'difficulty'>,
          );
-         return deserializer.deserialize(data) as TWrapper;
+         return deserializer.deserialize(
+            data as InferBeatmapSerial<'difficulty', InferBeatmapVersion<'difficulty'>>,
+            options,
+         ) as TWrapper;
       }
       case 'lightshow': {
-         const deserializer = resolveDeserializer(
+         const deserializer = resolveDeserializer<'lightshow', InferBeatmapVersion<'lightshow'>>(
             lightshowDeserializerMap,
-            type,
-            version as number,
+            'lightshow',
+            version as InferBeatmapVersion<'lightshow'>,
          );
-         return deserializer.deserialize(data) as TWrapper;
+         return deserializer.deserialize(
+            data as InferBeatmapSerial<'lightshow', InferBeatmapVersion<'lightshow'>>,
+            options,
+         ) as TWrapper;
       }
       default:
          throw new Error(`Unsupported beatmap file type: ${type}`);

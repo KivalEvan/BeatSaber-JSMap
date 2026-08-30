@@ -35,6 +35,7 @@ function assertJSONObject(type: BeatmapFileType, stage: string, data: unknown): 
 
 const defaultOptions = {
    forceConvert: true,
+   customDataOwnership: 'copy',
    schemaCheck: {},
    sort: true,
    preprocess: [],
@@ -71,6 +72,7 @@ export function loadBeatmap<
    const optD = (typeof version !== 'number' ? version : options) ?? options ?? {};
    const opt: Required<ILoadOptions<TFileType, TVersion, TWrapper, TSerial>> = {
       forceConvert: optD.forceConvert ?? defaultOptions.forceConvert,
+      customDataOwnership: optD.customDataOwnership ?? defaultOptions.customDataOwnership,
       schemaCheck: { ...defaultOptions.schemaCheck, ...optD.schemaCheck },
       sort: optD.sort ?? defaultOptions.sort,
       preprocess: optD.preprocess ?? defaultOptions.preprocess as any,
@@ -129,7 +131,9 @@ export function loadBeatmap<
 
    let attribute: InferBeatmapWrapper<TFileType>;
    if (opt.schemaCheck.enabled) validateJSON(type, serial, jsonVer, opt.schemaCheck);
-   attribute = deserializeBeatmap(type, jsonVer, serial);
+   attribute = deserializeBeatmap(type, jsonVer, serial, {
+      customDataOwnership: opt.customDataOwnership,
+   });
 
    if (ver !== null && jsonVer !== ver) {
       if (!opt.forceConvert) {

@@ -1,5 +1,6 @@
 import type { IArc } from './types/arc.ts';
 import type { IWrapArc } from '../wrapper/types/arc.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createArc } from '../wrapper/arc.ts';
 
@@ -27,9 +28,13 @@ export function serializeArc(data: IWrapArc): IArc {
 
 /** Deserialize schema object into beatmap v3 `Arc` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeArc(data: IArc): IWrapArc {
+export function deserializeArc(
+   data: IArc,
+   options?: DeserializationOptions,
+): IWrapArc {
    return createArc({
       time: data.b,
       color: data.c,
@@ -44,5 +49,5 @@ export function deserializeArc(data: IArc): IWrapArc {
       tailLengthMultiplier: data.tmu,
       midAnchor: data.m,
       customData: data.customData,
-   });
+   }, options);
 }

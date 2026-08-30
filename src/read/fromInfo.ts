@@ -33,12 +33,16 @@ export async function readFromInfo<
       const beatmap = await readDifficultyFile(d.filename, {
          ...options,
          load: {
+            ...options.load,
             postprocess: [
                ...postprocesses,
                (x) => {
                   if (x.version === 4) {
                      const light = readLightshowFileSync(d.lightshowFilename, {
                         directory: options.directory ?? options.directory,
+                        load: {
+                           customDataOwnership: options.load?.customDataOwnership ?? 'transfer',
+                        },
                      });
                      x.lightshow = light.lightshow;
                      x.lightshowFilename = light.lightshowFilename;
@@ -77,12 +81,16 @@ export function readFromInfoSync<
       const beatmap = readDifficultyFileSync(d.filename, {
          ...options,
          load: {
+            ...options.load,
             postprocess: [
                ...postprocesses,
                (x) => {
                   if (x.version === 4) {
                      const light = readLightshowFileSync(d.lightshowFilename, {
                         directory: options.directory,
+                        load: {
+                           customDataOwnership: options.load?.customDataOwnership ?? 'transfer',
+                        },
                      });
                      x.lightshow = light.lightshow;
                      x.lightshowFilename = light.lightshowFilename;

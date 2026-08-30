@@ -5,7 +5,6 @@
  */
 
 export * from './converter/mod.ts';
-export * from './core/mod.ts';
 export * from './helpers/mod.ts';
 export * from './loader/mod.ts';
 export * from './mapping/mod.ts';

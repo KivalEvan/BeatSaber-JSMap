@@ -2,6 +2,7 @@ import type { IInfoBeatmap } from './types/info.ts';
 import type { IWrapInfoBeatmap } from '../wrapper/types/info.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfoBeatmap } from '../wrapper/infoBeatmap.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Info Beatmap` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -27,9 +28,13 @@ export function serializeInfoBeatmap(data: IWrapInfoBeatmap): IInfoBeatmap {
 
 /** Deserialize schema object into beatmap v4 `Info Beatmap` object.
  * @param data The serialized schema object.
+ * @param options The custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeInfoBeatmap(data: IInfoBeatmap): IWrapInfoBeatmap {
+export function deserializeInfoBeatmap(
+   data: IInfoBeatmap,
+   options?: DeserializationOptions,
+): IWrapInfoBeatmap {
    return createInfoBeatmap({
       characteristic: data.characteristic,
       difficulty: data.difficulty,
@@ -44,5 +49,5 @@ export function deserializeInfoBeatmap(data: IInfoBeatmap): IWrapInfoBeatmap {
       colorSchemeId: data.beatmapColorSchemeIdx,
       environmentId: data.environmentNameIdx,
       customData: data.customData,
-   });
+   }, options);
 }

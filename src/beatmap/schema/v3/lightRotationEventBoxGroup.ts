@@ -1,5 +1,6 @@
 import type { ILightRotationEventBoxGroup } from './types/lightRotationEventBoxGroup.ts';
 import type { IWrapLightRotationEventBoxGroup } from '../wrapper/types/lightRotationEventBoxGroup.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightRotationEventBoxGroup } from '../wrapper/lightRotationEventBoxGroup.ts';
 import {
@@ -26,17 +27,19 @@ export function serializeLightRotationEventBoxGroup(
 
 /** Deserialize schema object into beatmap v3 `Light Rotation Event Box Group` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeLightRotationEventBoxGroup(
    data: ILightRotationEventBoxGroup,
+   options?: DeserializationOptions,
 ): IWrapLightRotationEventBoxGroup {
    return createLightRotationEventBoxGroup({
       time: data.b,
       id: data.g,
       boxes: data.e?.map((x) => {
-         return deserializeLightRotationEventBox(x);
+         return deserializeLightRotationEventBox(x, options);
       }),
       customData: data.customData,
-   });
+   }, options);
 }

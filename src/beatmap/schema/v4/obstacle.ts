@@ -2,6 +2,7 @@ import type { IObstacleContainer } from './types/container.ts';
 import type { IWrapObstacle } from '../wrapper/types/obstacle.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createObstacle } from '../wrapper/obstacle.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Obstacle` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -28,9 +29,13 @@ export function serializeObstacle(data: IWrapObstacle): IObstacleContainer {
 
 /** Deserialize schema object into beatmap v4 `Obstacle` object.
  * @param data The serialized schema object.
+ * @param options The custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeObstacle(data: IObstacleContainer): IWrapObstacle {
+export function deserializeObstacle(
+   data: IObstacleContainer,
+   options?: DeserializationOptions,
+): IWrapObstacle {
    return createObstacle({
       time: data.object?.b,
       laneRotation: data.object?.r,
@@ -40,5 +45,5 @@ export function deserializeObstacle(data: IObstacleContainer): IWrapObstacle {
       width: data.data?.w,
       height: data.data?.h,
       customData: data.data?.customData,
-   });
+   }, options);
 }

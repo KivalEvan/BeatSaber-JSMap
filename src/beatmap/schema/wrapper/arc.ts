@@ -1,9 +1,11 @@
 import type { IWrapArc } from './types/arc.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import { deepCopy } from '../../../utils/misc/json.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
+import { copyCustomData } from './copyCustomData.ts';
 
 export function createArc(
    data: DeepPartial<IWrapArc> = {},
+   options?: DeserializationOptions,
 ): IWrapArc {
    return {
       time: data.time ?? 0,
@@ -20,6 +22,6 @@ export function createArc(
       midAnchor: data.midAnchor ?? 0,
       laneRotation: data.laneRotation ?? 0,
       tailLaneRotation: data.tailLaneRotation ?? 0,
-      customData: deepCopy(data.customData ?? {}),
+      customData: copyCustomData(data.customData, options),
    };
 }

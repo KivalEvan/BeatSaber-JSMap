@@ -1,5 +1,6 @@
 import type { ILightColorEventBox } from './types/lightColorEventBox.ts';
 import type { IWrapLightColorEventBox } from '../wrapper/types/lightColorEventBox.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightColorEventBox } from '../wrapper/lightColorEventBox.ts';
 import { deserializeIndexFilter, serializeIndexFilter } from './indexFilter.ts';
@@ -27,11 +28,15 @@ export function serializeLightColorEventBox(data: IWrapLightColorEventBox): ILig
 
 /** Deserialize schema object into beatmap v3 `Light Color Event Box` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeLightColorEventBox(data: ILightColorEventBox): IWrapLightColorEventBox {
+export function deserializeLightColorEventBox(
+   data: ILightColorEventBox,
+   options?: DeserializationOptions,
+): IWrapLightColorEventBox {
    return createLightColorEventBox({
-      filter: deserializeIndexFilter(data.f ?? {}),
+      filter: deserializeIndexFilter(data.f ?? {}, options),
       beatDistribution: data.w,
       beatDistributionType: data.d,
       brightnessDistribution: data.r,
@@ -39,8 +44,8 @@ export function deserializeLightColorEventBox(data: ILightColorEventBox): IWrapL
       affectFirst: data.b,
       easing: data.i,
       events: data.e?.map((x) => {
-         return deserializeLightColorEvent(x);
+         return deserializeLightColorEvent(x, options);
       }),
       customData: data.customData,
-   });
+   }, options);
 }

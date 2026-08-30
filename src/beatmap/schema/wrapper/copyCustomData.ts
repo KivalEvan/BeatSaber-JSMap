@@ -1,13 +1,8 @@
 import { deepCopy } from '../../../utils/misc/json.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
-export function copyCustomData<T extends object>(
-   customData: T | null | undefined,
-): T {
+function copyCustomDataValue<T extends object>(customData: T): T {
    const copiedCustomData: Record<string, unknown> = {};
-
-   if (customData === null || customData === undefined) {
-      return copiedCustomData as T;
-   }
 
    // Stage string values before cloning to retain source getter access order.
    for (const key in customData) {
@@ -46,4 +41,17 @@ export function copyCustomData<T extends object>(
    }
 
    return copiedCustomData as T;
+}
+
+export function copyCustomData<T extends object>(
+   customData: T | null | undefined,
+   options?: DeserializationOptions,
+): T {
+   if (customData === null || customData === undefined) {
+      return {} as T;
+   }
+
+   return options?.customDataOwnership === 'transfer'
+      ? customData
+      : copyCustomDataValue(customData);
 }

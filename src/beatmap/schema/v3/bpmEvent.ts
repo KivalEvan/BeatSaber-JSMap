@@ -1,5 +1,6 @@
 import type { IBPMEvent } from './types/bpmEvent.ts';
 import type { IWrapBPMEvent } from '../wrapper/types/bpmEvent.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBPMEvent } from '../wrapper/bpmEvent.ts';
 
@@ -17,12 +18,16 @@ export function serializeBPMEvent(data: IWrapBPMEvent): IBPMEvent {
 
 /** Deserialize schema object into beatmap v3 `BPMEvent` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeBPMEvent(data: IBPMEvent): IWrapBPMEvent {
+export function deserializeBPMEvent(
+   data: IBPMEvent,
+   options?: DeserializationOptions,
+): IWrapBPMEvent {
    return createBPMEvent({
       time: data.b,
       bpm: data.m,
       customData: data.customData,
-   });
+   }, options);
 }

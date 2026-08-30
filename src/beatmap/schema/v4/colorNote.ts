@@ -2,6 +2,7 @@ import type { IColorNoteContainer } from './types/container.ts';
 import type { IWrapColorNote } from '../wrapper/types/colorNote.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createColorNote } from '../wrapper/colorNote.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Color Note` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -28,9 +29,13 @@ export function serializeColorNote(data: IWrapColorNote): IColorNoteContainer {
 
 /** Deserialize schema object into beatmap v4 `Color Note` object.
  * @param data The serialized schema object.
+ * @param options The custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeColorNote(data: IColorNoteContainer): IWrapColorNote {
+export function deserializeColorNote(
+   data: IColorNoteContainer,
+   options?: DeserializationOptions,
+): IWrapColorNote {
    return createColorNote({
       time: data.object?.b,
       laneRotation: data.object?.r,
@@ -40,5 +45,5 @@ export function deserializeColorNote(data: IColorNoteContainer): IWrapColorNote 
       direction: data.data?.d,
       angleOffset: data.data?.a,
       customData: data.data?.customData,
-   });
+   }, options);
 }

@@ -1,6 +1,6 @@
 {
    "name": "@kvl/bsmap",
-   "version": "2.3.6",
+   "version": "2.4.0",
    "license": "MIT",
    "exports": {
       ".": "./src/mod.ts",
@@ -14,7 +14,7 @@
       "./schema/v2": "./src/beatmap/schema/v2/mod.ts",
       "./schema/v3": "./src/beatmap/schema/v3/mod.ts",
       "./schema/v4": "./src/beatmap/schema/v4/mod.ts",
-      "./beatmap/core": "./src/beatmap/core/mod.ts",
+      "./extensions/core": "./src/extensions/core/mod.ts",
       "./extensions/heck": "./src/extensions/heck/mod.ts",
       "./extensions/parity": "./src/extensions/parity/mod.ts",
       "./extensions/placement": "./src/extensions/placement/mod.ts",
@@ -50,7 +50,7 @@
    "tasks": {
       "npm": "deno run -A ./dnt.ts",
       "npm:clean": "rm -r ./npm",
-      "check": "deno task check:main && deno task check:types && deno task check:utils && deno task check:schema && deno task check:schema-v1 && deno task check:schema-v2 && deno task check:schema-v3 && deno task check:schema-v4 && deno task check:beatmap-core && deno task check:extensions-heck && deno task check:extensions-parity && deno task check:extensions-placement && deno task check:extensions-renamer && deno task check:extensions-selector && deno task check:extensions-stats && deno task check:extensions-swing && deno task check:environment && deno task check:patch && deno task check:shims",
+      "check": "deno task check:main && deno task check:types && deno task check:utils && deno task check:schema && deno task check:schema-v1 && deno task check:schema-v2 && deno task check:schema-v3 && deno task check:schema-v4 && deno task check:extensions-core && deno task check:extensions-heck && deno task check:extensions-parity && deno task check:extensions-placement && deno task check:extensions-renamer && deno task check:extensions-selector && deno task check:extensions-stats && deno task check:extensions-swing && deno task check:environment && deno task check:patch && deno task check:shims",
       "check:main": "deno check src/mod.ts",
       "check:types": "deno check src/types/mod.ts",
       "check:utils": "deno task check:utils-math && deno task check:utils-colors && deno task check:utils-misc && deno check src/utils/mod.ts",
@@ -62,7 +62,7 @@
       "check:schema-v2": "deno check src/beatmap/schema/v2/mod.ts",
       "check:schema-v3": "deno check src/beatmap/schema/v3/mod.ts",
       "check:schema-v4": "deno check src/beatmap/schema/v4/mod.ts",
-      "check:beatmap-core": "deno check src/beatmap/core/mod.ts",
+      "check:extensions-core": "deno check src/extensions/core/mod.ts",
       "check:extensions-heck": "deno check src/extensions/heck/mod.ts",
       "check:extensions-parity": "deno check src/extensions/parity/mod.ts",
       "check:extensions-placement": "deno check src/extensions/placement/mod.ts",

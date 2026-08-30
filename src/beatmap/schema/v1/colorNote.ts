@@ -1,5 +1,6 @@
 import type { INote } from './types/note.ts';
 import type { IWrapColorNote } from '../wrapper/types/colorNote.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { createColorNote } from '../wrapper/colorNote.ts';
 import { NoteColor } from '../shared/types/constants.ts';
 
@@ -19,14 +20,18 @@ export function serializeColorNote(data: IWrapColorNote): INote {
 
 /** Deserialize schema object into beatmap v1 `Color Note` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
-export function deserializeColorNote(data: INote): IWrapColorNote {
+export function deserializeColorNote(
+   data: INote,
+   options?: DeserializationOptions,
+): IWrapColorNote {
    return createColorNote({
       time: data._time,
       posX: data._lineIndex,
       posY: data._lineLayer,
       color: [NoteColor.RED, NoteColor.BLUE][data._type ?? 0],
       direction: data._cutDirection,
-   });
+   }, options);
 }

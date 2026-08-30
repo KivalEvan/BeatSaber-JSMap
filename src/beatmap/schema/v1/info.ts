@@ -5,6 +5,7 @@ import { createInfo } from '../wrapper/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 import { deserializeInfoBeatmap, serializeInfoBeatmap } from './infoBeatmap.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'> & {
    audio: Pick<
@@ -17,6 +18,7 @@ type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'> & {
       | 'shuffle'
       | 'shufflePeriod'
    >;
+   customDataOwnership?: DeserializationOptions['customDataOwnership'];
 };
 
 /** Serialize beatmap v1 `Info` object into schema object.
@@ -49,13 +51,16 @@ export function serializeInfo(data: IWrapInfo): IInfo {
 
 /** Deserialize schema object into beatmap v1 `Info` object.
  * @param data The serialized schema object.
- * @param options Deserialization polyfills.
+ * @param options Deserialization polyfills and custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeInfo(
    data: IInfo,
    options?: DeepPartial<InfoDeserializationPolyfills>,
 ): IWrapInfo {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    const difficulty = data.difficultyLevels?.find((e) => {
       return e?.audioPath;
    });
@@ -80,12 +85,12 @@ export function deserializeInfo(
       coverImageFilename: data.coverImagePath,
       environmentBase: { normal: data.environmentName },
       difficulties: data.difficultyLevels?.map((x) => {
-         return deserializeInfoBeatmap(x);
+         return deserializeInfoBeatmap(x, deserializationOptions);
       }) ?? [],
       customData: {
          _contributors: data.contributors,
          _customEnvironment: data.customEnvironment,
          _customEnvironmentHash: data.customEnvironmentHash,
       },
-   });
+   }, deserializationOptions);
 }

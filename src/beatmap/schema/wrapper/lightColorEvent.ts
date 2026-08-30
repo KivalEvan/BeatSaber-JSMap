@@ -1,9 +1,11 @@
 import type { IWrapLightColorEvent } from './types/lightColorEvent.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createLightColorEvent(
    data: DeepPartial<IWrapLightColorEvent> = {},
+   options?: DeserializationOptions,
 ): IWrapLightColorEvent {
    return {
       time: data.time ?? 0,
@@ -14,6 +16,6 @@ export function createLightColorEvent(
       strobeBrightness: data.strobeBrightness ?? 0,
       strobeFade: data.strobeFade ?? 0,
       easing: data.easing ?? 0,
-      customData: copyCustomData(data.customData),
+      customData: copyCustomData(data.customData, options),
    };
 }

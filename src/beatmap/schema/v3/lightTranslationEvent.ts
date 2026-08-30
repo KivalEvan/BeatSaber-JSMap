@@ -1,5 +1,6 @@
 import type { ILightTranslationEvent } from './types/lightTranslationEvent.ts';
 import type { IWrapLightTranslationEvent } from '../wrapper/types/lightTranslationEvent.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightTranslationEvent } from '../wrapper/lightTranslationEvent.ts';
 
@@ -21,10 +22,12 @@ export function serializeLightTranslationEvent(
 
 /** Deserialize schema object into beatmap v3 `Light Translation Event` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeLightTranslationEvent(
    data: ILightTranslationEvent,
+   options?: DeserializationOptions,
 ): IWrapLightTranslationEvent {
    return createLightTranslationEvent({
       time: data.b,
@@ -32,5 +35,5 @@ export function deserializeLightTranslationEvent(
       previous: data.p,
       translation: data.t,
       customData: data.customData,
-   });
+   }, options);
 }

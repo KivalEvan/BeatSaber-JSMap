@@ -11,16 +11,23 @@
 + Added strict v3 FX event index validation
 + Corrected v2/v3 to v4 conversion for mixed EARLY and LATE rotation events at one beat
 + Added opt-in environment data subpath (`@kvl/bsmap/environment`)
-+ Added narrow `types`, `utils`, `schema`, versioned schema, and `beatmap/core` subpaths
++ Added narrow `types`, `utils`, `schema`, versioned schema, and `extensions/core` subpaths
 + Added narrow utility category subpaths for math, colors, and misc
 - Removed the `Object.hasOwn` global polyfill dependency
 # Removed the public `formatNumber` utility (breaking)
 * Optimised vector, color, math, and time utility loops
 * Optimised validation, v4 serialization, patching, and extension analysis loops
+* Optimised v3 event-box deserialization with direct primitive construction
+* Optimised v4 lightshow deduplication with fixed-shape keys
 # Changed schema modules to standalone `serialize*` and `deserialize*` functions (breaking)
 # Changed schema version maps to direction-specific serializer and deserializer maps (breaking)
 # Changed CI checkout steps to use the event commit, including fork pull requests
 # Moved environment tables and lookup helpers to the opt-in `@kvl/bsmap/environment` subpath (breaking)
+# Moved core classes to the optional `@kvl/bsmap/extensions/core` subpath (breaking)
+  - `bsmap/extensions/core` provides the equivalent NPM subpath
+  - Removed root class exports and the `beatmap/core` subpath. No compatibility alias is provided.
+  - Use primitive `IWrap*` objects and `create*` factories for normal beatmap work.
+  - Import from `extensions/core` only when class methods are required.
 # Expanded `IShimsFileSystem` and `IShimsPath` contracts (breaking)
   - Custom shims must add `rename`, `renameSync`, `unlink`, `unlinkSync`, `dirname`, and `join`
 # Changed v4 conversion to order finite rotation events by time, then execution time
@@ -48,6 +55,9 @@
 * Fixed inconsistent v2 note comparator corrupting note order between saves
 * Fixed logger returning undefined before setup
 * Fixed redundant wrapper copy on deserialisation
+* Optimised file reads by transferring custom-data ownership by default
+  - Use `load.customDataOwnership: 'copy'` when custom-data references must be independent
+  - Direct load and deserialisation functions continue to copy by default
 * Reduced NPM package size by enabling source skipping and disabling declaration maps
 * Set generated NPM `sideEffects` metadata to `false` when dnt emits no polyfills
 ```

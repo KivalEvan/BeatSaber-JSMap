@@ -1,5 +1,6 @@
 import type { IColorBoostEvent } from './types/colorBoostEvent.ts';
 import type { IWrapColorBoostEvent } from '../wrapper/types/colorBoostEvent.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createColorBoostEvent } from '../wrapper/colorBoostEvent.ts';
 
@@ -17,14 +18,16 @@ export function serializeColorBoostEvent(data: IWrapColorBoostEvent): IColorBoos
 
 /** Deserialize schema object into beatmap v3 `Color Boost Event` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeColorBoostEvent(
    data: IColorBoostEvent = {} as IColorBoostEvent,
+   options?: DeserializationOptions,
 ): IWrapColorBoostEvent {
    return createColorBoostEvent({
       time: data.b,
       toggle: !!data.o,
       customData: data.customData,
-   });
+   }, options);
 }

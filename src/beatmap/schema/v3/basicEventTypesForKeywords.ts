@@ -1,5 +1,6 @@
 import type { IBasicEventTypesForKeywords } from './types/basicEventTypesForKeywords.ts';
 import type { IWrapBasicEventTypesForKeywords } from '../wrapper/types/basicEventTypesForKeywords.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 import { createBasicEventTypesForKeywords } from '../wrapper/basicEventTypesForKeywords.ts';
 
 /** Serialize beatmap v3 `Basic Event Types For Keywords` object into schema object.
@@ -17,13 +18,15 @@ export function serializeBasicEventTypesForKeywords(
 
 /** Deserialize schema object into beatmap v3 `Basic Event Types For Keywords` object.
  * @param data The serialized schema object.
+ * @param options Deserialization options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeBasicEventTypesForKeywords(
    data: IBasicEventTypesForKeywords,
+   options?: DeserializationOptions,
 ): IWrapBasicEventTypesForKeywords {
    return createBasicEventTypesForKeywords({
       keyword: data.k,
       events: data.e?.map((e) => e),
-   });
+   }, options);
 }

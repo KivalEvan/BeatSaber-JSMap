@@ -11,11 +11,15 @@ import { lookupIndexed } from './lookup.ts';
 import { deserializeObstacle, serializeObstacle } from './obstacle.ts';
 import { deserializeRotationEvent } from './rotationEvent.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
+import type { DeserializationOptions } from '../shared/types/schema.ts';
 
 type DifficultyDeserializationPolyfills = Pick<
    IWrapBeatmap,
    'filename' | 'lightshowFilename'
 >;
+type DifficultyDeserializationOptions =
+   & DeepPartial<DifficultyDeserializationPolyfills>
+   & Partial<DeserializationOptions>;
 
 /** Serialize beatmap v4 `Difficulty` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -99,13 +103,16 @@ export function serializeDifficulty(data: IWrapBeatmap): IDifficulty {
 
 /** Deserialize schema object into beatmap v4 `Difficulty` object.
  * @param data The serialized schema object.
- * @param options Deserialization polyfills.
+ * @param options Deserialization polyfills and custom-data ownership options.
  * @returns The unwrapped beatmap object.
  */
 export function deserializeDifficulty(
    data: IDifficulty,
-   options?: DeepPartial<DifficultyDeserializationPolyfills>,
+   options?: DifficultyDeserializationOptions,
 ): IWrapBeatmap {
+   const deserializationOptions: DeserializationOptions = {
+      customDataOwnership: options?.customDataOwnership ?? 'copy',
+   };
    return assembleOwnedBeatmap({
       version: 4,
       filename: options?.filename,
@@ -115,19 +122,19 @@ export function deserializeDifficulty(
             return deserializeColorNote({
                object: obj,
                data: lookupIndexed(data.colorNotesData, obj?.i, 'colorNotesData'),
-            });
+            }, deserializationOptions);
          }),
          bombNotes: data.bombNotes?.map((obj) => {
             return deserializeBombNote({
                object: obj,
                data: lookupIndexed(data.bombNotesData, obj?.i, 'bombNotesData'),
-            });
+            }, deserializationOptions);
          }),
          obstacles: data.obstacles?.map((obj) => {
             return deserializeObstacle({
                object: obj,
                data: lookupIndexed(data.obstaclesData, obj?.i, 'obstaclesData'),
-            });
+            }, deserializationOptions);
          }),
          arcs: data.arcs?.map((obj) => {
             return deserializeArc({
@@ -135,29 +142,29 @@ export function deserializeDifficulty(
                data: lookupIndexed(data.arcsData, obj?.ai, 'arcsData'),
                headData: lookupIndexed(data.colorNotesData, obj?.hi, 'colorNotesData'),
                tailData: lookupIndexed(data.colorNotesData, obj?.ti, 'colorNotesData'),
-            });
+            }, deserializationOptions);
          }),
          chains: data.chains?.map((obj) => {
             return deserializeChain({
                object: obj,
                data: lookupIndexed(data.colorNotesData, obj?.i, 'colorNotesData'),
                chainData: lookupIndexed(data.chainsData, obj?.ci, 'chainsData'),
-            });
+            }, deserializationOptions);
          }),
          rotationEvents: data.spawnRotations?.map((obj) => {
             return deserializeRotationEvent({
                object: obj,
                data: lookupIndexed(data.spawnRotationsData, obj?.i, 'spawnRotationsData'),
-            });
+            }, deserializationOptions);
          }),
          njsEvents: data.njsEvents?.map((obj) => {
             return deserializeNJSEvent({
                object: obj,
                data: lookupIndexed(data.njsEventData, obj?.i, 'njsEventData'),
-            });
+            }, deserializationOptions);
          }),
          customData: data.customData,
       },
       lightshow: {},
-   });
+   }, deserializationOptions);
 }
