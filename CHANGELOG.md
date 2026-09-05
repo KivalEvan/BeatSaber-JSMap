@@ -1,42 +1,41 @@
 # Changelog
 
-## 3.0.0 [Unreleased]
+## 3.0.0 [2026-09-06]
 
 Read the [migration guidance](./GUIDE.md#migration) before you upgrade.
 
 ```diff
++ Added focused imports for types, utilities, and versioned schemas, so applications can import only
+  the features they use.
 # Core classes moved to `@kvl/bsmap/extensions/core` (`bsmap/extensions/core` on NPM) (breaking)
   Root class exports and the `beatmap/core` subpath are removed.
-# Environment tables and lookup helpers moved to `@kvl/bsmap/environment` (`bsmap/environment` on NPM) (breaking)
-# Schema containers and `ISchemaContainer` are removed (breaking)
-  Schema modules expose standalone `serialize*` and `deserialize*` functions, with separate maps for each direction.
-# The `formatNumber` utility is removed (breaking)
-  Use `Intl.NumberFormat` for number formatting.
-# `retrieveVersion` returns the raw value as `unknown`, or `undefined` when no version key exists (breaking)
-  An own `_version` key takes precedence over `version`, even when its value is nullish.
 # Custom filesystem and path shims require `rename`, `renameSync`, `unlink`, `unlinkSync`, `dirname`, and `join` (breaking)
   Their interfaces are available from the `shims` subpath.
+# Environment tables and lookup helpers moved to `@kvl/bsmap/environment` (`bsmap/environment` on NPM) (breaking)
 # File reads transfer custom-data ownership by default (breaking)
   Objects can share mutable custom data. Use `load.customDataOwnership: 'copy'` for independent copies.
   Direct loads and deserializers still copy by default.
 # Loading and saving reject malformed or unsupported versions, invalid JSON roots, and invalid indexed references (breaking)
   File writes also reject `NaN` and infinite numbers.
-+ Added focused imports for types, utilities, and versioned schemas, so applications can import only
-  the features they use.
-* Improved beatmap processing speed and reduced memory allocations
-* Reduced NPM package size and improved support for tree-shaking
+# `retrieveVersion` returns the raw value as `unknown`, or `undefined` when no version key exists (breaking)
+  An own `_version` key takes precedence over `version`, even when its value is nullish.
+# Schema containers and `ISchemaContainer` are removed (breaking)
+  Schema modules expose standalone `serialize*` and `deserialize*` functions, with separate maps for each direction.
+# The `formatNumber` utility is removed (breaking)
+  Use `Intl.NumberFormat` for number formatting.
+* Corrected v2/v3 to v4 conversion when EARLY and LATE rotation events occur at the same beat
 * File writes replace the destination atomically where the filesystem supports it, instead of
   exposing partially written JSON. File metadata can change, and crash durability is not guaranteed.
   Separate module instances or execution contexts can still conflict during concurrent writes.
-
-* Corrected v2/v3 to v4 conversion when EARLY and LATE rotation events occur at the same beat
-* Fixed inconsistent v2 note order between saves
-* Fixed ignored validation and compatibility options, including category-specific `throwOn` options
-  for nested schema errors.
-* Fixed options being ignored when callers supply `null` or `undefined` as the version argument
-* Fixed the logger returning `undefined` before setup
 * Fixed Deno file removal deleting empty directories. It now rejects directories and requires both
   read and write permissions.
+* Fixed ignored validation and compatibility options, including category-specific `throwOn` options
+  for nested schema errors.
+* Fixed inconsistent v2 note order between saves
+* Fixed options being ignored when callers supply `null` or `undefined` as the version argument
+* Fixed the logger returning `undefined` before setup
+* Improved beatmap processing speed and reduced memory allocations
+* Reduced NPM package size and improved support for tree-shaking
 ```
 
 ## 2.3.6 [2026-06-28]
@@ -50,7 +49,7 @@ Read the [migration guidance](./GUIDE.md#migration) before you upgrade.
 
 ```diff
 + Added color scheme variant from 1.44
-* Added missing entry for environment filter and light ID (#14)
+* Added missing entry for environment filter and light ID (#14 by @officialMECH)
 ```
 
 ## 2.3.4 [2026-05-01]
@@ -58,14 +57,14 @@ Read the [migration guidance](./GUIDE.md#migration) before you upgrade.
 ```diff
 + Added Prodigy environment
 + Added other color scheme variant
-* Fixed Heck related type definition (#13)
+* Fixed Heck related type definition (#13 by @Swifter1243)
 ```
 
 ## 2.3.3 [2026-03-28]
 
 ```diff
-* Improved track definition format (#11)
-* Backport-free obstacles to legacy format (#12)
+* Improved track definition format (#11 by @officialMECH)
+* Backport-free obstacles to legacy format (#12 by @officialMECH)
 ```
 
 ## 2.3.2 [2026-01-10]
@@ -101,12 +100,12 @@ require to do minimal change.
 + Added chain link wrapper
 + Added bezier helpers
 + Added couple of vector helpers
-* Significant internal change to improve tree-shaking (#9)
+* Significant internal change to improve tree-shaking (#9 by @officialMECH)
 * Increased default rounding from 4 to 8
 * Updated color scheme
-* File and type restructured (#9)
+* File and type restructured (#9 by @officialMECH)
 * Simplified change log
-* Several bug fixes and tweaks (#9, #10)
+* Several bug fixes and tweaks (#9, #10 by @officialMECH)
 - Removed unnecessary vector helpers
 ```
 
@@ -139,12 +138,12 @@ require to do minimal change.
 ## 2.2.5 [2025-07-07]
 
 ```diff
-+ Regex split mappers field in v2 serialisation (#6)
-+ Event renamer for older environment (#6)
++ Regex split mappers field in v2 serialisation (#6 by @officialMECH)
++ Event renamer for older environment (#6 by @officialMECH)
 * Point definition should accurately represent modern format
-* Pre-v3 obstacle preserve ME `_type` (#6)
-* Missing exports (+#6)
-* Correct event name mapping (#6)
+* Pre-v3 obstacle preserve ME `_type` (#6 by @officialMECH)
+* Missing exports (#6 by @officialMECH)
+* Correct event name mapping (#6 by @officialMECH)
 * Fix validation error for ME pre-v3 obstacle
 * Renamed `offsetRotation` to correct `offsetWorldRotation`
 ```
@@ -181,9 +180,9 @@ require to do minimal change.
 
 ```diff
 + Vivify support
-* Schema validation overhaul (#3)
-* Decouple wrapper functionality into their own (#5)
-* ⚠️ BREAKING: IO functionality now returns wrapper object instead of concrete class (#5)
+* Schema validation overhaul (#3 by @officialMECH)
+* Decouple wrapper functionality into their own (#5 by @officialMECH)
+* ⚠️ BREAKING: IO functionality now returns wrapper object instead of concrete class (#5 by @officialMECH)
 - Removed wrapper implementation interface boilerplate
   - Removed attribute suffix to replace the removal
 ```
