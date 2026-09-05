@@ -64,7 +64,8 @@ export function isV3Environment(
       environment === 'MetallicaEnvironment' ||
       environment === 'GridEnvironment' ||
       environment === 'ColdplayEnvironment' ||
-      environment === 'ProdigyEnvironment'
+      environment === 'ProdigyEnvironment' ||
+      environment === 'HipHopMixtape2Environment'
    );
 }
 /** Check if environment is 360 environment. */

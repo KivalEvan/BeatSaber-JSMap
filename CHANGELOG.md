@@ -7,6 +7,7 @@ Read the [migration guidance](./GUIDE.md#migration) before you upgrade.
 ```diff
 + Added focused imports for types, utilities, and versioned schemas, so applications can import only
   the features they use.
++ Added the Hip Hop Mixtape 2 environment, color scheme, and event track metadata from Beat Saber 1.45.0
 # Core classes moved to `@kvl/bsmap/extensions/core` (`bsmap/extensions/core` on NPM) (breaking)
   Root class exports and the `beatmap/core` subpath are removed.
 # Custom filesystem and path shims require `rename`, `renameSync`, `unlink`, `unlinkSync`, `dirname`, and `join` (breaking)

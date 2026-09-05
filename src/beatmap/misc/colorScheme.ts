@@ -54,6 +54,7 @@ export const EnvironmentSchemeName: {
    GridEnvironment: 'Cube',
    ColdplayEnvironment: 'Coldplay',
    ProdigyEnvironment: 'Prodigy',
+   HipHopMixtape2Environment: 'Hip Hop Mixtape 2',
    MultiplayerEnvironment: 'Origins',
 } as const;
 
@@ -472,6 +473,17 @@ export const ColorScheme: {
       _envColorRight: { r: 0.8156863, g: 0.7137255, b: 0.1254902 },
       _envColorLeftBoost: { r: 0.08235294, g: 0.6745098, b: 0 },
       _envColorRightBoost: { r: 0.2941177, g: 0.08235294, b: 0.7607844 },
+   },
+   'Hip Hop Mixtape 2': {
+      _colorLeft: { r: 0.9450981, g: 0.48627454, b: 0.27058825 },
+      _colorRight: { r: 0.20392159, g: 0.5882353, b: 0.59607846 },
+      _obstacleColor: { r: 0, g: 0.48235297, b: 1 },
+      _envColorLeft: { r: 0.9450981, g: 0.48627454, b: 0.27058825 },
+      _envColorRight: { r: 0.20392159, g: 0.5882353, b: 0.59607846 },
+      _envColorWhite: { r: 0.7254902, g: 0.7254902, b: 0.7254902 },
+      _envColorLeftBoost: { r: 0.6509434, g: 0.07062123, b: 0.4094672 },
+      _envColorRightBoost: { r: 0.120016046, g: 0.4862034, b: 0.8773585 },
+      _envColorWhiteBoost: { r: 0.7254902, g: 0.7254902, b: 0.7254902 },
    },
 } as const;
 

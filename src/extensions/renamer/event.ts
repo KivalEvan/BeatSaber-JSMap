@@ -327,6 +327,10 @@ export const environmentTypeMap: {
       4: 'Player Place',
       6: 'Ambient',
    },
+   HipHopMixtape2Environment: {
+      4: 'Player Place',
+      6: 'Ambient',
+   },
    GlassDesertEnvironment: {},
    MultiplayerEnvironment: {},
 };

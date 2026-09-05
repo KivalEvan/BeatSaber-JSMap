@@ -177,6 +177,7 @@ export const LightIDList: {
    GridEnvironment: {},
    ColdplayEnvironment: {},
    ProdigyEnvironment: {},
+   HipHopMixtape2Environment: {},
    GlassDesertEnvironment: {
       0: Array.from(Array(6), (_, i) => i + 1),
       1: Array.from(Array(8), (_, i) => i + 1),
