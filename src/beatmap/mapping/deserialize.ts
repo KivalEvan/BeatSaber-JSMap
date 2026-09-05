@@ -17,10 +17,6 @@ import { deserializeDifficulty as deserializeV4Difficulty } from '../schema/v4/d
 import { deserializeInfo as deserializeV4Info } from '../schema/v4/info.ts';
 import { deserializeLightshow as deserializeV4Lightshow } from '../schema/v4/lightshow.ts';
 
-function tag(...rest: string[]): string[] {
-   return ['process', ...rest];
-}
-
 type DeserializerEntry<TSerial, TWrapper> = {
    deserialize: (data: TSerial, options?: DeserializationOptions) => TWrapper;
 };
@@ -102,7 +98,7 @@ export function deserializeBeatmap<
    const logger = getLogger();
 
    logger?.tInfo(
-      tag('deserializeBeatmap'),
+      ['process', 'deserializeBeatmap'],
       `Deserializing serial contents for ${type} from version ${version}`,
    );
 

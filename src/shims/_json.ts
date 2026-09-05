@@ -51,10 +51,6 @@ function reserveTemporaryPath(destination: string): string {
    );
 }
 
-function releaseTemporaryPath(tmpPath: string): void {
-   activeTemporaryPaths.delete(tmpPath);
-}
-
 export function readJSONFile(path: string): Promise<Record<string, any>> {
    const logger = getLogger();
    logger?.tInfo(tag('readJSONFile'), `Async reading JSON file from ${path}`);
@@ -77,26 +73,21 @@ export function writeJSONFile(
    // Serialize before reservation so validation throws synchronously.
    const data = JSON.stringify(json, assertFiniteNumberInTraversal, format);
    const tmpPath = reserveTemporaryPath(path);
-   const discard = async (): Promise<void> => {
+   return (async (): Promise<void> => {
       try {
-         await fs.unlink(tmpPath);
-      } catch {
-         // temp file may not exist; cleanup must not mask the original error
+         await fs.writeTextFile(tmpPath, data);
+         await fs.rename(tmpPath, path);
+      } catch (e) {
+         try {
+            await fs.unlink(tmpPath);
+         } catch {
+            // temp file may not exist; cleanup must not mask the original error
+         }
+         throw e;
+      } finally {
+         activeTemporaryPaths.delete(tmpPath);
       }
-   };
-   const fail = async (e: unknown): Promise<never> => {
-      await discard();
-      throw e;
-   };
-   try {
-      return Promise.resolve(fs.writeTextFile(tmpPath, data))
-         .then(() => fs.rename(tmpPath, path))
-         .catch(fail)
-         .finally(() => releaseTemporaryPath(tmpPath));
-   } catch (e) {
-      // shim threw before returning a promise; still reject with cleanup
-      return fail(e).finally(() => releaseTemporaryPath(tmpPath));
-   }
+   })();
 }
 
 export function writeJSONFileSync(
@@ -119,6 +110,6 @@ export function writeJSONFileSync(
       }
       throw e;
    } finally {
-      releaseTemporaryPath(tmpPath);
+      activeTemporaryPaths.delete(tmpPath);
    }
 }

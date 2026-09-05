@@ -110,8 +110,8 @@ export function compareVersion(
    current: Version,
    compareTo: Version,
 ): -1 | 0 | 1 {
-   const verCurrent = getVersionArray(current);
-   const verCompareTo = getVersionArray(compareTo);
+   const verCurrent = current.split('.').map((el) => parseInt(el));
+   const verCompareTo = compareTo.split('.').map((el) => parseInt(el));
    for (const num in verCurrent) {
       if (verCurrent[num] < verCompareTo[num]) {
          return -1;
@@ -121,8 +121,4 @@ export function compareVersion(
       }
    }
    return 0;
-}
-
-function getVersionArray(version: Version): number[] {
-   return version.split('.').map((el) => parseInt(el));
 }

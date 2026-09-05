@@ -28,6 +28,7 @@ type ThrowCategory =
 
 /** Vendor fields used during issue classification. */
 interface VendorSchemaIssue extends StandardSchemaV1.Issue {
+   readonly expected?: unknown;
    readonly input?: unknown;
    readonly kind?: unknown;
    readonly received?: unknown;
@@ -38,13 +39,13 @@ interface VendorSchemaIssue extends StandardSchemaV1.Issue {
 /**
  * Map an observed Valibot issue shape to its `throwOn` category.
  *
- * @example A nested path with an `origin: 'key'` segment maps to `missing`.
  * @returns `undefined` for unknown shapes.
  */
 function classifyIssue(issue: StandardSchemaV1.Issue): ThrowCategory | undefined {
    const vendor = issue as VendorSchemaIssue;
    const message = issue.message ?? '';
 
+   if (vendor.type === 'strict_object' && vendor.expected === 'never') return 'unused';
    if (/^Invalid integer/.test(message)) return 'notInt';
    if (
       (vendor.type === 'min_value' && vendor.requirement === 0) ||
@@ -66,13 +67,12 @@ function classifyIssue(issue: StandardSchemaV1.Issue): ThrowCategory | undefined
       return 'missing';
    }
 
-   const received = typeof vendor.received === 'string' ? vendor.received : '';
    const inputIsNullish = 'input' in vendor &&
       (vendor.input === null || vendor.input === undefined);
    if (
       inputIsNullish ||
-      received === 'NaN' ||
-      message.includes('NaN')
+      (typeof vendor.input === 'number' && Number.isNaN(vendor.input)) ||
+      vendor.received === 'NaN'
    ) {
       return 'nullish';
    }

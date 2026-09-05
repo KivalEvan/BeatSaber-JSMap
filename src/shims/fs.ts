@@ -21,14 +21,6 @@ async function denoUnlinkNonDirectory(path: string): Promise<void> {
    return Deno.remove(path);
 }
 
-function denoUnlinkNonDirectorySync(path: string): void {
-   const entry = Deno.lstatSync(path);
-   if (entry.isDirectory) {
-      throw new Deno.errors.IsADirectory(path);
-   }
-   return Deno.removeSync(path);
-}
-
 /**
  * Wrapper for use in `read` and `write`.
  *
@@ -113,7 +105,11 @@ export const fs: IShimsFileSystem = {
    },
    unlinkSync: (path: string): void => {
       if (typeof Deno !== 'undefined') {
-         return denoUnlinkNonDirectorySync(path);
+         const entry = Deno.lstatSync(path);
+         if (entry.isDirectory) {
+            throw new Deno.errors.IsADirectory(path);
+         }
+         return Deno.removeSync(path);
       }
       if (fsMod) {
          return fsMod.unlinkSync(path);

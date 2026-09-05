@@ -18,10 +18,6 @@ import { serializeDifficulty as serializeV4Difficulty } from '../schema/v4/diffi
 import { serializeInfo as serializeV4Info } from '../schema/v4/info.ts';
 import { serializeLightshow as serializeV4Lightshow } from '../schema/v4/lightshow.ts';
 
-function tag(...rest: string[]): string[] {
-   return ['process', ...rest];
-}
-
 interface SerializerEntry<TSerializer extends (data: any) => any = (data: any) => any> {
    serialize: TSerializer;
 }
@@ -90,7 +86,7 @@ export function serializeBeatmap<
    const logger = getLogger();
 
    logger?.tInfo(
-      tag('serializeBeatmap'),
+      ['process', 'serializeBeatmap'],
       `Serializing wrapper contents for ${type} to version ${version}`,
    );
 

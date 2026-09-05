@@ -20,20 +20,17 @@ export function tag(name: string): string[] {
    return ['saver', name];
 }
 
-/** Throws unless the value is a non-null, non-array object usable as beatmap wrapper data. */
-function assertWrapperObject(type: BeatmapFileType, stage: string, data: unknown): void {
+function assertObject(
+   type: BeatmapFileType,
+   stage: string,
+   representation: 'wrapper' | 'JSON',
+   data: unknown,
+): void {
    if (!isRecord(data) || Array.isArray(data)) {
       throw new TypeError(
-         `${stage} for ${type} beatmap wrapper: expected object but received ${jsonTypeName(data)}`,
-      );
-   }
-}
-
-/** Throws unless the value is a non-null, non-array object usable as beatmap JSON. */
-function assertJSONObject(type: BeatmapFileType, stage: string, data: unknown): void {
-   if (!isRecord(data) || Array.isArray(data)) {
-      throw new TypeError(
-         `${stage} for ${type} beatmap JSON: expected object but received ${jsonTypeName(data)}`,
+         `${stage} for ${type} beatmap ${representation}: expected object but received ${
+            jsonTypeName(data)
+         }`,
       );
    }
 }
@@ -83,14 +80,14 @@ export function saveBeatmap<
    let attribute = pretransformer
       ? pretransformer(data, version)
       : data as InferBeatmapWrapper<TFileType>;
-   assertWrapperObject(type, 'Invalid output from pretransform function', attribute);
+   assertObject(type, 'Invalid output from pretransform function', 'wrapper', attribute);
    preprocesses.forEach((fn, i) => {
       logger?.tInfo(
          tag('saveBeatmap'),
          'Running preprocess function #' + (i + 1),
       );
       attribute = fn(attribute);
-      assertWrapperObject(type, `Invalid output from preprocess function #${i + 1}`, attribute);
+      assertObject(type, `Invalid output from preprocess function #${i + 1}`, 'wrapper', attribute);
    });
 
    let ver: TVersion;
@@ -183,10 +180,10 @@ export function saveBeatmap<
          'Running postprocess function #' + (i + 1),
       );
       serial = fn(serial);
-      assertJSONObject(type, `Invalid output from postprocess function #${i + 1}`, serial);
+      assertObject(type, `Invalid output from postprocess function #${i + 1}`, 'JSON', serial);
    });
 
    const json = posttransformer ? posttransformer(serial, ver) : serial as TSerial;
-   assertJSONObject(type, 'Invalid output from posttransform function', json);
+   assertObject(type, 'Invalid output from posttransform function', 'JSON', json);
    return json;
 }

@@ -1,14 +1,6 @@
 import { round } from '../../../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../../../mapping/types/optimize.ts';
-import type { IFxEventBox } from '../types/fxEventBox.ts';
-import type { IFxEventFloat } from '../types/fxEventFloat.ts';
-import type { ILightColorEvent } from '../types/lightColorEvent.ts';
-import type { ILightColorEventBox } from '../types/lightColorEventBox.ts';
-import type { ILightRotationEvent } from '../types/lightRotationEvent.ts';
-import type { ILightRotationEventBox } from '../types/lightRotationEventBox.ts';
 import type { ILightshow } from '../types/lightshow.ts';
-import type { ILightTranslationEvent } from '../types/lightTranslationEvent.ts';
-import type { ILightTranslationEventBox } from '../types/lightTranslationEventBox.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { EventBoxType } from '../../shared/types/constants.ts';
 import { isEmpty, stableJsonKey } from '../../../../utils/misc/json.ts';
@@ -45,23 +37,6 @@ function stableV4DataKey<T extends object>(
    return result + '}';
 }
 
-const lightColorEventKey = (value: ILightColorEvent) =>
-   stableV4DataKey(value, ['b', 'c', 'customData', 'e', 'f', 'p', 'sb', 'sf']);
-const lightRotationEventKey = (value: ILightRotationEvent) =>
-   stableV4DataKey(value, ['customData', 'd', 'e', 'l', 'p', 'r']);
-const lightTranslationEventKey = (value: ILightTranslationEvent) =>
-   stableV4DataKey(value, ['customData', 'e', 'p', 't']);
-const lightColorEventBoxKey = (value: ILightColorEventBox) =>
-   stableV4DataKey(value, ['b', 'customData', 'd', 'e', 's', 't', 'w']);
-const lightRotationEventBoxKey = (value: ILightRotationEventBox) =>
-   stableV4DataKey(value, ['a', 'b', 'customData', 'd', 'e', 'f', 's', 't', 'w']);
-const lightTranslationEventBoxKey = (value: ILightTranslationEventBox) =>
-   stableV4DataKey(value, ['a', 'b', 'customData', 'd', 'e', 'f', 's', 't', 'w']);
-const fxEventBoxKey = (value: IFxEventBox) =>
-   stableV4DataKey(value, ['b', 'customData', 'd', 'e', 's', 't', 'w']);
-const floatFxEventKey = (value: IFxEventFloat) =>
-   stableV4DataKey(value, ['customData', 'e', 'p', 'v']);
-
 /**
  * Optimize v4 `Lightshow` schema data.
  */
@@ -81,38 +56,38 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       );
       const [newLightColorEventBoxes, remapLightColorEventBoxesIdx] = remapDedupe(
          data.lightColorEventBoxes ?? [],
-         lightColorEventBoxKey,
+         (value) => stableV4DataKey(value, ['b', 'customData', 'd', 'e', 's', 't', 'w']),
       );
       const [newLightColorEvents, remapLightColorEventsIdx] = remapDedupe(
          data.lightColorEvents ?? [],
-         lightColorEventKey,
+         (value) => stableV4DataKey(value, ['b', 'c', 'customData', 'e', 'f', 'p', 'sb', 'sf']),
       );
       const [newLightRotationEventBoxes, remapLightRotationEventBoxesIdx] = remapDedupe(
          data.lightRotationEventBoxes ?? [],
-         lightRotationEventBoxKey,
+         (value) => stableV4DataKey(value, ['a', 'b', 'customData', 'd', 'e', 'f', 's', 't', 'w']),
       );
       const [newLightRotationEvents, remapLightRotationEventsIdx] = remapDedupe(
          data.lightRotationEvents ?? [],
-         lightRotationEventKey,
+         (value) => stableV4DataKey(value, ['customData', 'd', 'e', 'l', 'p', 'r']),
       );
       const [
          newLightTranslationEventBoxes,
          remapLightTranslationEventBoxesIdx,
       ] = remapDedupe(
          data.lightTranslationEventBoxes ?? [],
-         lightTranslationEventBoxKey,
+         (value) => stableV4DataKey(value, ['a', 'b', 'customData', 'd', 'e', 'f', 's', 't', 'w']),
       );
       const [newLightTranslationEvents, remapLightTranslationEventsIdx] = remapDedupe(
          data.lightTranslationEvents ?? [],
-         lightTranslationEventKey,
+         (value) => stableV4DataKey(value, ['customData', 'e', 'p', 't']),
       );
       const [newFxEventBoxes, remapFxEventBoxesIdx] = remapDedupe(
          data.fxEventBoxes ?? [],
-         fxEventBoxKey,
+         (value) => stableV4DataKey(value, ['b', 'customData', 'd', 'e', 's', 't', 'w']),
       );
       const [newFloatFxEvents, remapFloatFxEventsIdx] = remapDedupe(
          data.floatFxEvents ?? [],
-         floatFxEventKey,
+         (value) => stableV4DataKey(value, ['customData', 'e', 'p', 'v']),
       );
 
       if (data.basicEvents) {

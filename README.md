@@ -92,7 +92,8 @@ loading for synchronous schema or I/O APIs because lazy loading would make these
 
 To get scripting, simply create a `.ts` file anywhere, preferably inside map folder for simpler
 setup, import module via module specifier or package manager, and then run the script. That's it. Do
-check out the [the guide](./GUIDE.md) for usage detail.
+check out the [the guide](./GUIDE.md) for usage detail. Before you migrate to version 3.0.0, read
+the [migration guidance](./GUIDE.md#migration).
 
 ### Importing/Runtime
 

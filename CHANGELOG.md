@@ -1,65 +1,42 @@
 # Changelog
 
-## 2.4.0 [Unreleased]
+## 3.0.0 [Unreleased]
+
+Read the [migration guidance](./GUIDE.md#migration) before you upgrade.
 
 ```diff
-+ Added strict beatmap version parsing and supported-version guards
-+ Preserved options supplied with explicit `null` or `undefined` version arguments
-+ Added strict rejection of every explicit unsupported target version
-+ Added category-specific handling for nested Standard Schema issues
-+ Added typed serializer and deserializer dispatch maps
-+ Added strict v3 FX event index validation
-+ Corrected v2/v3 to v4 conversion for mixed EARLY and LATE rotation events at one beat
-+ Added opt-in environment data subpath (`@kvl/bsmap/environment`)
-+ Added narrow `types`, `utils`, `schema`, versioned schema, and `extensions/core` subpaths
-+ Added narrow utility category subpaths for math, colors, and misc
-- Removed the `Object.hasOwn` global polyfill dependency
-# Removed the public `formatNumber` utility (breaking)
-* Optimised vector, color, math, and time utility loops
-* Optimised validation, v4 serialization, patching, and extension analysis loops
-* Optimised v3 event-box deserialization with direct primitive construction
-* Optimised v4 lightshow deduplication with fixed-shape keys
-# Changed schema modules to standalone `serialize*` and `deserialize*` functions (breaking)
-# Changed schema version maps to direction-specific serializer and deserializer maps (breaking)
-# Changed CI checkout steps to use the event commit, including fork pull requests
-# Moved environment tables and lookup helpers to the opt-in `@kvl/bsmap/environment` subpath (breaking)
-# Moved core classes to the optional `@kvl/bsmap/extensions/core` subpath (breaking)
-  - `bsmap/extensions/core` provides the equivalent NPM subpath
-  - Removed root class exports and the `beatmap/core` subpath. No compatibility alias is provided.
-  - Use primitive `IWrap*` objects and `create*` factories for normal beatmap work.
-  - Import from `extensions/core` only when class methods are required.
-# Expanded `IShimsFileSystem` and `IShimsPath` contracts (breaking)
-  - Custom shims must add `rename`, `renameSync`, `unlink`, `unlinkSync`, `dirname`, and `join`
-# Changed v4 conversion to order finite rotation events by time, then execution time
-- Removed schema container exports and `ISchemaContainer` from the public API
-* Reject non-object JSON roots and malformed versions, including explicit `null` versions
-* Validate source versions before conversion and guard post-transform results
-* Create schemas per validation call to prevent stale schema state
-* Apply category-specific `throwOn` handling to nested Standard Schema issues
-* Reject explicit missing or out-of-range v3 and v4 indexed references
-* Reject non-finite numbers with single-pass validation during JSON serialization
-* Make file writes atomically visible through unique adjacent temporary files and rename
-  - Use bounded short temporary names without Web Crypto
-  - Rename replaces the destination path; callers must not rely on its inode or metadata being preserved
-  - This provides atomic visibility, not crash durability
-* Keep concurrent writes on separate temporary paths within one module instance and execution context
-  - Temporary-name uniqueness is limited to one module instance in one execution context
-  - All destinations in one directory share one temporary-name space
-  - Different module instances or execution contexts can collide and fail a write or publish wrong content
-* Fixed Deno unlink deleting empty directories; it now rejects directories like Node.js and Bun
-  - Requires read and write permissions
-  - Uses lstat, then remove; a path replacement between these calls remains a race
-* Export `IShimsFileSystem` and `IShimsPath` contracts from the `shims` subpath
-* Fixed validation flags being ignored by direct validateJSON calls
-* Fixed compatibility check ignoring enabled flag
-* Fixed inconsistent v2 note comparator corrupting note order between saves
-* Fixed logger returning undefined before setup
-* Fixed redundant wrapper copy on deserialisation
-* Optimised file reads by transferring custom-data ownership by default
-  - Use `load.customDataOwnership: 'copy'` when custom-data references must be independent
-  - Direct load and deserialisation functions continue to copy by default
-* Reduced NPM package size by enabling source skipping and disabling declaration maps
-* Set generated NPM `sideEffects` metadata to `false` when dnt emits no polyfills
+# Core classes moved to `@kvl/bsmap/extensions/core` (`bsmap/extensions/core` on NPM) (breaking)
+  Root class exports and the `beatmap/core` subpath are removed.
+# Environment tables and lookup helpers moved to `@kvl/bsmap/environment` (`bsmap/environment` on NPM) (breaking)
+# Schema containers and `ISchemaContainer` are removed (breaking)
+  Schema modules expose standalone `serialize*` and `deserialize*` functions, with separate maps for each direction.
+# The `formatNumber` utility is removed (breaking)
+  Use `Intl.NumberFormat` for number formatting.
+# `retrieveVersion` returns the raw value as `unknown`, or `undefined` when no version key exists (breaking)
+  An own `_version` key takes precedence over `version`, even when its value is nullish.
+# Custom filesystem and path shims require `rename`, `renameSync`, `unlink`, `unlinkSync`, `dirname`, and `join` (breaking)
+  Their interfaces are available from the `shims` subpath.
+# File reads transfer custom-data ownership by default (breaking)
+  Objects can share mutable custom data. Use `load.customDataOwnership: 'copy'` for independent copies.
+  Direct loads and deserializers still copy by default.
+# Loading and saving reject malformed or unsupported versions, invalid JSON roots, and invalid indexed references (breaking)
+  File writes also reject `NaN` and infinite numbers.
++ Added focused imports for types, utilities, and versioned schemas, so applications can import only
+  the features they use.
+* Improved beatmap processing speed and reduced memory allocations
+* Reduced NPM package size and improved support for tree-shaking
+* File writes replace the destination atomically where the filesystem supports it, instead of
+  exposing partially written JSON. File metadata can change, and crash durability is not guaranteed.
+  Separate module instances or execution contexts can still conflict during concurrent writes.
+
+* Corrected v2/v3 to v4 conversion when EARLY and LATE rotation events occur at the same beat
+* Fixed inconsistent v2 note order between saves
+* Fixed ignored validation and compatibility options, including category-specific `throwOn` options
+  for nested schema errors.
+* Fixed options being ignored when callers supply `null` or `undefined` as the version argument
+* Fixed the logger returning `undefined` before setup
+* Fixed Deno file removal deleting empty directories. It now rejects directories and requires both
+  read and write permissions.
 ```
 
 ## 2.3.6 [2026-06-28]

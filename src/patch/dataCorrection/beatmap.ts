@@ -14,7 +14,6 @@ import { createColorNote } from '../../beatmap/schema/wrapper/colorNote.ts';
 import { createFxEventBox } from '../../beatmap/schema/wrapper/fxEventBox.ts';
 import { createFxEventBoxGroup } from '../../beatmap/schema/wrapper/fxEventBoxGroup.ts';
 import { createFxEventFloat } from '../../beatmap/schema/wrapper/fxEventFloat.ts';
-import { createFxEventInt } from '../../beatmap/schema/wrapper/fxEventInt.ts';
 import { createIndexFilter } from '../../beatmap/schema/wrapper/indexFilter.ts';
 import { createLightColorEvent } from '../../beatmap/schema/wrapper/lightColorEvent.ts';
 import { createLightColorEventBox } from '../../beatmap/schema/wrapper/lightColorEventBox.ts';
@@ -47,7 +46,6 @@ import type { IWrapColorNote } from '../../beatmap/schema/wrapper/types/colorNot
 import type { IWrapFxEventBox } from '../../beatmap/schema/wrapper/types/fxEventBox.ts';
 import type { IWrapFxEventBoxGroup } from '../../beatmap/schema/wrapper/types/fxEventBoxGroup.ts';
 import type { IWrapFxEventFloat } from '../../beatmap/schema/wrapper/types/fxEventFloat.ts';
-import type { IWrapFxEventInt } from '../../beatmap/schema/wrapper/types/fxEventInt.ts';
 import type { IWrapIndexFilter } from '../../beatmap/schema/wrapper/types/indexFilter.ts';
 import type { IWrapLightColorEvent } from '../../beatmap/schema/wrapper/types/lightColorEvent.ts';
 import type { IWrapLightColorEventBox } from '../../beatmap/schema/wrapper/types/lightColorEventBox.ts';
@@ -82,7 +80,6 @@ const colorNoteDefault = Object.freeze(createColorNote());
 const fxEventBoxDefault = Object.freeze(createFxEventBox());
 const fxEventBoxGroupDefault = Object.freeze(createFxEventBoxGroup());
 const fxEventFloatDefault = Object.freeze(createFxEventFloat());
-const fxEventIntDefault = Object.freeze(createFxEventInt());
 const indexFilterDefault = Object.freeze(createIndexFilter());
 const lightColorEventDefault = Object.freeze(createLightColorEvent());
 const lightColorEventBoxDefault = Object.freeze(createLightColorEventBox());
@@ -494,17 +491,6 @@ function fixFxEventBoxGroup(obj: IWrapFxEventBoxGroup): void {
    obj.time = fixFloat(obj.time, fxEventBoxGroupDefault.time);
    obj.id = fixInt(obj.id, fxEventBoxGroupDefault.id);
    obj.boxes.forEach(fixFxEventBox);
-}
-
-// FIXME: prolly never gonna be used
-function _fixFxEventInt(obj: IWrapFxEventInt): void {
-   obj.time = fixFloat(obj.time, fxEventIntDefault.time);
-   obj.previous = fixInt(
-      obj.previous,
-      fxEventIntDefault.previous,
-      zeroOneRange,
-   );
-   obj.value = fixFloat(obj.value, fxEventIntDefault.value);
 }
 
 function fixFxEventFloat(obj: IWrapFxEventFloat): void {

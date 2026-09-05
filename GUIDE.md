@@ -36,6 +36,95 @@ const bsmap = require('bsmap');
 > Removing `jsr:` and using `deno add` or similar introduces import map file, which you may or may
 > not want to have if you are working on same directory as beatmap.
 
+## Migration
+
+Read this section before you migrate to version 3.0.0.
+
+### Schema serialization
+
+Schema modules no longer export schema-container objects. The public API no longer exports
+`ISchemaContainer` or the version-prefixed `V1...Container`, `V2...Container`, `V3...Container`, and
+`V4...Container` aliases.
+
+The v4 data-container types, such as `IV4ColorNoteContainer`, remain available.
+
+Replace container method calls with standalone functions. Import functions from a versioned schema
+subpath, or use the version-prefixed aliases from `@kvl/bsmap/schema`.
+
+Before:
+
+```ts
+import { V4ColorNoteContainer } from '@kvl/bsmap/schema';
+
+const serial = V4ColorNoteContainer.serialize(note);
+const wrapper = V4ColorNoteContainer.deserialize(serial);
+```
+
+After:
+
+```ts
+import { deserializeV4ColorNote, serializeV4ColorNote } from '@kvl/bsmap/schema';
+
+const serial = serializeV4ColorNote(note);
+const wrapper = deserializeV4ColorNote(serial);
+```
+
+The old `infoSchemaMap`, `audioDataSchemaMap`, `difficultySchemaMap`, and `lightshowSchemaMap` maps
+are replaced by direction-specific maps. Use these exported names:
+
+- Serializer maps: `infoSerializerMap`, `audioDataSerializerMap`, `difficultySerializerMap`, and
+  `lightshowSerializerMap`.
+- Deserializer maps: `infoDeserializerMap`, `audioDataDeserializerMap`, `difficultyDeserializerMap`,
+  and `lightshowDeserializerMap`.
+
+These maps are exported from the root package.
+
+### Number formatting
+
+`formatNumber` is removed. The old helper grouped the integer part of `number.toString()` and kept
+the fractional text unchanged.
+
+Use the built-in `Intl.NumberFormat` for grouped output:
+
+```ts
+const formatNumber = new Intl.NumberFormat('en-US', {
+   maximumFractionDigits: 20,
+}).format;
+
+formatNumber(12345678); // '12,345,678'
+```
+
+The default formatter rounds to three fractional digits. Set `maximumFractionDigits` when you need
+more fractional digits. Select another locale when you need different separators.
+
+### Version lookup
+
+`retrieveVersion` returns the raw version value as `unknown`. It returns the own `_version` value
+first, then the own `version` value, and returns `undefined` when neither key exists.
+
+This precedence differs from the old nullish fallback. The old function returned a string or `null`.
+The new function keeps `null`, non-string values, and an own `_version` value of `undefined`:
+
+```ts
+retrieveVersion({ _version: null, version: '2.0.0' }); // null
+retrieveVersion({ _version: 42, version: '2.0.0' }); // 42
+retrieveVersion({}); // undefined
+```
+
+Validate string values with `parseMajorVersion` before you use the major version:
+
+```ts
+const rawVersion = retrieveVersion(json);
+if (typeof rawVersion !== 'string') {
+   throw new TypeError('Expected a version string');
+}
+
+const majorVersion = parseMajorVersion(rawVersion);
+if (majorVersion === undefined) {
+   throw new Error('Malformed version');
+}
+```
+
 ## Namespaces
 
 Due to expansive library, namespace is used to separate functionality on their own area. Object
@@ -186,18 +275,12 @@ data.lightshow.basicEvents.push(
 
 ## Extensions
 
-This module is not available directly from main import as it is heavy, unstable, and make use of
-third-party library. This provides plentiful of helpers that may be useful for modcharting and many
-other purposes.
+Extensions provide helpers for modcharting and other tasks through individual package subpaths. The
+`heck` subpath includes Chroma, Noodle Extensions, and Vivify helpers.
 
 ```ts
-import { chroma, ne, selector } from '@kvl/bsmap/extensions';
-```
-
-If you wish to import all of them, do as following:
-
-```ts
-import * as ext from '@kvl/bsmap/extensions';
+import * as heck from '@kvl/bsmap/extensions/heck';
+import * as selector from '@kvl/bsmap/extensions/selector';
 ```
 
 ## Patch
@@ -220,7 +303,8 @@ purpose.
 ```ts
 // deps.ts
 export * from '@kvl/bsmap';
-export * as ext from '@kvl/bsmap/extensions';
+export * as heck from '@kvl/bsmap/extensions/heck';
+export * as selector from '@kvl/bsmap/extensions/selector';
 ```
 
 ```ts
