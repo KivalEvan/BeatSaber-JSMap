@@ -1,7 +1,7 @@
-// deno-lint-ignore-file no-explicit-any
 import { getLogger } from '../../logger.ts';
 import type {
    InferBeatmapSerial,
+   InferBeatmapSerializationOptions,
    InferBeatmapVersion,
    InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
@@ -18,43 +18,52 @@ import { serializeDifficulty as serializeV4Difficulty } from '../schema/v4/diffi
 import { serializeInfo as serializeV4Info } from '../schema/v4/info.ts';
 import { serializeLightshow as serializeV4Lightshow } from '../schema/v4/lightshow.ts';
 
-interface SerializerEntry<TSerializer extends (data: any) => any = (data: any) => any> {
-   serialize: TSerializer;
+type SerializerArguments<TOptions> = [TOptions] extends [never] ? [] : [options?: TOptions];
+
+interface SerializerEntry<
+   TFileType extends BeatmapFileType = BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType> = InferBeatmapVersion<TFileType>,
+> {
+   serialize: (
+      data: InferBeatmapWrapper<TFileType>,
+      ...options: SerializerArguments<InferBeatmapSerializationOptions<TFileType, TVersion>>
+   ) => InferBeatmapSerial<TFileType, TVersion>;
 }
 
 /** Maps every supported version of a file type to its serializer. */
 type SerializerMap<T extends BeatmapFileType> = {
    [TVersion in InferBeatmapVersion<T>]-?: SerializerEntry<
-      (data: InferBeatmapWrapper<T>) => InferBeatmapSerial<T, TVersion>
+      T,
+      TVersion
    >;
 };
 
 /** Serializer version map for beatmap info. */
-export const infoSerializerMap = {
+export const infoSerializerMap: SerializerMap<'info'> = {
    1: { serialize: serializeV1Info },
    2: { serialize: serializeV2Info },
    4: { serialize: serializeV4Info },
-} satisfies SerializerMap<'info'>;
+};
 
 /** Serializer version map for beatmap audio data. */
-export const audioDataSerializerMap = {
+export const audioDataSerializerMap: SerializerMap<'audioData'> = {
    2: { serialize: serializeV2AudioData },
    4: { serialize: serializeV4AudioData },
-} satisfies SerializerMap<'audioData'>;
+};
 
 /** Serializer version map for beatmap difficulty. */
-export const difficultySerializerMap = {
+export const difficultySerializerMap: SerializerMap<'difficulty'> = {
    1: { serialize: serializeV1Difficulty },
    2: { serialize: serializeV2Difficulty },
    3: { serialize: serializeV3Difficulty },
    4: { serialize: serializeV4Difficulty },
-} satisfies SerializerMap<'difficulty'>;
+};
 
 /** Serializer version map for beatmap lightshow. */
-export const lightshowSerializerMap = {
+export const lightshowSerializerMap: SerializerMap<'lightshow'> = {
    3: { serialize: serializeV3Lightshow },
    4: { serialize: serializeV4Lightshow },
-} satisfies SerializerMap<'lightshow'>;
+};
 
 function resolveSerializer(
    map: Partial<Record<number, SerializerEntry>>,
@@ -82,7 +91,11 @@ export function serializeBeatmap<
    TVersion extends InferBeatmapVersion<TFileType>,
    TWrapper extends InferBeatmapWrapper<TFileType>,
    TSerial extends InferBeatmapSerial<TFileType, TVersion>,
->(type: TFileType, version: TVersion, data: TWrapper): TSerial {
+>(
+   type: TFileType,
+   version: TVersion,
+   data: TWrapper,
+): TSerial {
    const logger = getLogger();
 
    logger?.tInfo(

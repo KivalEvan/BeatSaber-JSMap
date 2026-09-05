@@ -15,21 +15,12 @@ import {
    deserializeLightRotationEventBoxGroup,
    serializeLightRotationEventBoxGroup,
 } from './lightRotationEventBoxGroup.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import type { DeserializationOptions } from '../shared/types/schema.ts';
 import {
    deserializeLightTranslationEventBoxGroup,
    serializeLightTranslationEventBoxGroup,
 } from './lightTranslationEventBoxGroup.ts';
-
-type LightshowDeserializationPolyfills =
-   & Pick<
-      IWrapBeatmap,
-      'filename' | 'lightshowFilename'
-   >
-   & {
-      customDataOwnership?: DeserializationOptions['customDataOwnership'];
-   };
+import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v3 `Lightshow` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -83,7 +74,7 @@ export function serializeLightshow(data: IWrapBeatmap): ILightshow {
  */
 export function deserializeLightshow(
    data: ILightshow,
-   options?: DeepPartial<LightshowDeserializationPolyfills>,
+   options?: InferBeatmapDeserializationOptions<'lightshow', 3>,
 ): IWrapBeatmap {
    const deserializationOptions: DeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',

@@ -5,7 +5,6 @@ import type { IWrapBombNote } from '../wrapper/types/bombNote.ts';
 import type { IWrapBPMEvent } from '../wrapper/types/bpmEvent.ts';
 import type { IWrapColorBoostEvent } from '../wrapper/types/colorBoostEvent.ts';
 import type { IWrapColorNote } from '../wrapper/types/colorNote.ts';
-import type { IWrapInfo, IWrapInfoBeatmap } from '../wrapper/types/info.ts';
 import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
 import { assembleOwnedBeatmap } from '../wrapper/_ownedBeatmap.ts';
 import { deserializeBasicEvent, serializeBasicEvent } from './basicEvent.ts';
@@ -15,22 +14,11 @@ import { deserializeColorBoostEvent, serializeColorBoostEvent } from './colorBoo
 import { deserializeColorNote, serializeColorNote } from './colorNote.ts';
 import { deserializeObstacle, serializeObstacle } from './obstacle.ts';
 import { deserializeRotationEvent, serializeRotationEvent } from './rotationEvent.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import type { DeserializationOptions } from '../shared/types/schema.ts';
-
-type DifficultySerializationPolyfills =
-   & Pick<IWrapInfo['audio'], 'bpm' | 'shuffle' | 'shufflePeriod'>
-   & Pick<IWrapInfoBeatmap, 'njs' | 'njsOffset'>
-   & { beatsPerBar: number };
-
-type DifficultyDeserializationPolyfills =
-   & Pick<
-      IWrapBeatmap,
-      'filename' | 'lightshowFilename'
-   >
-   & {
-      customDataOwnership?: DeserializationOptions['customDataOwnership'];
-   };
+import type {
+   InferBeatmapDeserializationOptions,
+   InferBeatmapSerializationOptions,
+} from '../shared/types/infer.ts';
 
 /** Serialize beatmap v1 `Difficulty` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -39,7 +27,7 @@ type DifficultyDeserializationPolyfills =
  */
 export function serializeDifficulty(
    data: IWrapBeatmap,
-   options?: DeepPartial<DifficultySerializationPolyfills>,
+   options?: InferBeatmapSerializationOptions<'difficulty', 1>,
 ): IDifficulty {
    return {
       _version: '1.5.0',
@@ -88,7 +76,7 @@ export function serializeDifficulty(
  */
 export function deserializeDifficulty(
    data: IDifficulty,
-   options?: DeepPartial<DifficultyDeserializationPolyfills>,
+   options?: InferBeatmapDeserializationOptions<'difficulty', 1>,
 ): IWrapBeatmap {
    const deserializationOptions: DeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',

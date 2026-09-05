@@ -42,7 +42,7 @@ jobs:
            run: deno task npm
 
          - name: Publishing on JSR
-           run: npx jsr publish
+           run: deno publish
 
          - name: Publishing on NPM
            run: cd npm && npm publish --provenance --access public && cd ..

@@ -4,18 +4,8 @@ import { deepCopy, shallowCopy } from '../../../utils/misc/json.ts';
 import { createInfo } from '../wrapper/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 import { deserializeInfoBeatmap, serializeInfoBeatmap } from './infoBeatmap.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import type { DeserializationOptions } from '../shared/types/schema.ts';
-
-type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'> & {
-   audio: Pick<
-      IWrapInfo['audio'],
-      | 'audioDataFilename'
-      | 'lufs'
-      | 'duration'
-   >;
-   customDataOwnership?: DeserializationOptions['customDataOwnership'];
-};
+import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v2 `Info` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -99,7 +89,7 @@ export function serializeInfo(data: IWrapInfo): IInfo {
  */
 export function deserializeInfo(
    data: IInfo,
-   options?: DeepPartial<InfoDeserializationPolyfills>,
+   options?: InferBeatmapDeserializationOptions<'info', 2>,
 ): IWrapInfo {
    const deserializationOptions: DeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',

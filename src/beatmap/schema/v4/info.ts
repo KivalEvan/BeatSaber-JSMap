@@ -4,13 +4,8 @@ import { colorToHex, hexToRgba, toColorObject } from '../../../utils/colors/conv
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfo } from '../wrapper/info.ts';
 import { deserializeInfoBeatmap, serializeInfoBeatmap } from './infoBeatmap.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import type { DeserializationOptions } from '../shared/types/schema.ts';
-
-type InfoDeserializationPolyfills = Pick<IWrapInfo, 'filename'>;
-type InfoDeserializationOptions =
-   & DeepPartial<InfoDeserializationPolyfills>
-   & Partial<DeserializationOptions>;
+import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v4 `Info` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -71,7 +66,7 @@ export function serializeInfo(data: IWrapInfo): IInfo {
  */
 export function deserializeInfo(
    data: IInfo,
-   options?: InfoDeserializationOptions,
+   options?: InferBeatmapDeserializationOptions<'info', 4>,
 ): IWrapInfo {
    const deserializationOptions: DeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',

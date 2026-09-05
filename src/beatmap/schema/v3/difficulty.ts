@@ -26,17 +26,8 @@ import { serializeLightTranslationEventBoxGroup } from './lightTranslationEventB
 import { deserializeObstacle, serializeObstacle } from './obstacle.ts';
 import { deserializeRotationEvent, serializeRotationEvent } from './rotationEvent.ts';
 import { deserializeWaypoint, serializeWaypoint } from './waypoint.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import type { DeserializationOptions } from '../shared/types/schema.ts';
-
-type DifficultyDeserializationPolyfills =
-   & Pick<
-      IWrapBeatmap,
-      'filename' | 'lightshowFilename'
-   >
-   & {
-      customDataOwnership?: DeserializationOptions['customDataOwnership'];
-   };
+import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v3 `Difficulty` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -121,7 +112,7 @@ export function serializeDifficulty(data: IWrapBeatmap): IDifficulty {
  */
 export function deserializeDifficulty(
    data: IDifficulty,
-   options?: DeepPartial<DifficultyDeserializationPolyfills>,
+   options?: InferBeatmapDeserializationOptions<'difficulty', 3>,
 ): IWrapBeatmap {
    const deserializationOptions: DeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',

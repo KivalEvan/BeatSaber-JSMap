@@ -1,5 +1,6 @@
 import { getLogger } from '../../logger.ts';
 import type {
+   InferBeatmapDeserializationOptions,
    InferBeatmapSerial,
    InferBeatmapVersion,
    InferBeatmapWrapper,
@@ -17,44 +18,57 @@ import { deserializeDifficulty as deserializeV4Difficulty } from '../schema/v4/d
 import { deserializeInfo as deserializeV4Info } from '../schema/v4/info.ts';
 import { deserializeLightshow as deserializeV4Lightshow } from '../schema/v4/lightshow.ts';
 
-type DeserializerEntry<TSerial, TWrapper> = {
-   deserialize: (data: TSerial, options?: DeserializationOptions) => TWrapper;
+type DeserializerEntry<
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+> = {
+   deserialize: (
+      data: InferBeatmapSerial<TFileType, TVersion>,
+      options?: InferBeatmapDeserializationOptions<TFileType, TVersion>,
+   ) => InferBeatmapWrapper<TFileType>;
+};
+
+type CommonDeserializerEntry<
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+> = {
+   deserialize: (
+      data: InferBeatmapSerial<TFileType, TVersion>,
+      options?: DeserializationOptions,
+   ) => InferBeatmapWrapper<TFileType>;
 };
 
 /** Maps every supported version of a file type to its deserializer. */
 type DeserializerMap<T extends BeatmapFileType> = {
-   [TVersion in InferBeatmapVersion<T>]-?: DeserializerEntry<
-      InferBeatmapSerial<T, TVersion>,
-      InferBeatmapWrapper<T>
-   >;
+   [TVersion in InferBeatmapVersion<T>]-?: DeserializerEntry<T, TVersion>;
 };
 
 /** Deserializer version map for beatmap info. */
-export const infoDeserializerMap = {
+export const infoDeserializerMap: DeserializerMap<'info'> = {
    1: { deserialize: deserializeV1Info },
    2: { deserialize: deserializeV2Info },
    4: { deserialize: deserializeV4Info },
-} satisfies DeserializerMap<'info'>;
+};
 
 /** Deserializer version map for beatmap audio data. */
-export const audioDataDeserializerMap = {
+export const audioDataDeserializerMap: DeserializerMap<'audioData'> = {
    2: { deserialize: deserializeV2AudioData },
    4: { deserialize: deserializeV4AudioData },
-} satisfies DeserializerMap<'audioData'>;
+};
 
 /** Deserializer version map for beatmap difficulty. */
-export const difficultyDeserializerMap = {
+export const difficultyDeserializerMap: DeserializerMap<'difficulty'> = {
    1: { deserialize: deserializeV1Difficulty },
    2: { deserialize: deserializeV2Difficulty },
    3: { deserialize: deserializeV3Difficulty },
    4: { deserialize: deserializeV4Difficulty },
-} satisfies DeserializerMap<'difficulty'>;
+};
 
 /** Deserializer version map for beatmap lightshow. */
-export const lightshowDeserializerMap = {
+export const lightshowDeserializerMap: DeserializerMap<'lightshow'> = {
    3: { deserialize: deserializeV3Lightshow },
    4: { deserialize: deserializeV4Lightshow },
-} satisfies DeserializerMap<'lightshow'>;
+};
 
 function resolveDeserializer<
    TFileType extends BeatmapFileType,
@@ -63,17 +77,14 @@ function resolveDeserializer<
    map: DeserializerMap<TFileType>,
    type: BeatmapFileType,
    version: TVersion,
-): DeserializerEntry<
-   InferBeatmapSerial<TFileType, TVersion>,
-   InferBeatmapWrapper<TFileType>
-> {
+): CommonDeserializerEntry<TFileType, TVersion> {
    const entry = map[version];
    if (!entry) {
       throw new Error(
          `Unsupported ${type} beatmap version ${version}, found no matching deserializer.`,
       );
    }
-   return entry;
+   return entry as CommonDeserializerEntry<TFileType, TVersion>;
 }
 
 /**

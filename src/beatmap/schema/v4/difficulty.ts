@@ -10,16 +10,8 @@ import { deserializeNJSEvent, serializeNJSEvent } from './njsEvent.ts';
 import { lookupIndexed } from './lookup.ts';
 import { deserializeObstacle, serializeObstacle } from './obstacle.ts';
 import { deserializeRotationEvent } from './rotationEvent.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import type { DeserializationOptions } from '../shared/types/schema.ts';
-
-type DifficultyDeserializationPolyfills = Pick<
-   IWrapBeatmap,
-   'filename' | 'lightshowFilename'
->;
-type DifficultyDeserializationOptions =
-   & DeepPartial<DifficultyDeserializationPolyfills>
-   & Partial<DeserializationOptions>;
+import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v4 `Difficulty` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -108,7 +100,7 @@ export function serializeDifficulty(data: IWrapBeatmap): IDifficulty {
  */
 export function deserializeDifficulty(
    data: IDifficulty,
-   options?: DifficultyDeserializationOptions,
+   options?: InferBeatmapDeserializationOptions<'difficulty', 4>,
 ): IWrapBeatmap {
    const deserializationOptions: DeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',

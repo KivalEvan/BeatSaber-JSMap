@@ -1,18 +1,8 @@
 import type { IBPMInfo } from '../../schema/v2/types/bpmInfo.ts';
 import type { IWrapAudioData } from '../wrapper/types/audioData.ts';
 import { createAudioData } from '../wrapper/audioData.ts';
-import type { DeepPartial } from '../../../types/utils.ts';
 import type { DeserializationOptions } from '../shared/types/schema.ts';
-
-type AudioDataDeserializationPolyfills =
-   & Pick<
-      IWrapAudioData,
-      | 'filename'
-      | 'audioChecksum'
-   >
-   & {
-      customDataOwnership?: DeserializationOptions['customDataOwnership'];
-   };
+import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v2 `Audio Data` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -39,7 +29,7 @@ export function serializeAudioData(data: IWrapAudioData): IBPMInfo {
  */
 export function deserializeAudioData(
    data: IBPMInfo,
-   options?: DeepPartial<AudioDataDeserializationPolyfills>,
+   options?: InferBeatmapDeserializationOptions<'audioData', 2>,
 ): IWrapAudioData {
    const deserializationOptions: DeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',

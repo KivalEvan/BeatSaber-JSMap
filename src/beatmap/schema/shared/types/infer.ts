@@ -2,8 +2,9 @@
 import type { v1, v2, v3, v4 } from '../../mod.ts';
 import type { IWrapAudioData } from '../../wrapper/types/audioData.ts';
 import type { IWrapBeatmap } from '../../wrapper/types/beatmap.ts';
-import type { IWrapInfo } from '../../wrapper/types/info.ts';
-import type { BeatmapFileType } from './schema.ts';
+import type { IWrapInfo, IWrapInfoBeatmap } from '../../wrapper/types/info.ts';
+import type { DeepPartial } from '../../../../types/utils.ts';
+import type { BeatmapFileType, DeserializationOptions } from './schema.ts';
 
 export type InferBeatmapVersion<
    TFileType extends BeatmapFileType = BeatmapFileType,
@@ -33,3 +34,61 @@ export type InferBeatmapSerial<
    : TFileType extends 'difficulty' ? DifficultySerialMap[TVersion]
    : TFileType extends 'lightshow' ? LightshowSerialMap[TVersion]
    : Record<string, any>;
+
+type DifficultySerializationPolyfills =
+   & Pick<IWrapInfo['audio'], 'bpm' | 'shuffle' | 'shufflePeriod'>
+   & Pick<IWrapInfoBeatmap, 'njs' | 'njsOffset'>
+   & { beatsPerBar: number };
+
+type InfoV1DeserializationPolyfills = Pick<IWrapInfo, 'filename'> & {
+   audio: Pick<
+      IWrapInfo['audio'],
+      | 'filename'
+      | 'audioDataFilename'
+      | 'lufs'
+      | 'duration'
+      | 'audioOffset'
+      | 'shuffle'
+      | 'shufflePeriod'
+   >;
+};
+
+type InfoV2DeserializationPolyfills = Pick<IWrapInfo, 'filename'> & {
+   audio: Pick<IWrapInfo['audio'], 'audioDataFilename' | 'lufs' | 'duration'>;
+};
+
+type AudioDataV2DeserializationPolyfills = Pick<
+   IWrapAudioData,
+   'filename' | 'audioChecksum'
+>;
+
+type BeatmapDeserializationPolyfills = Pick<
+   IWrapBeatmap,
+   'filename' | 'lightshowFilename'
+>;
+
+/** Serialization options supported by a beatmap file type and version. */
+export type InferBeatmapSerializationOptions<
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+> = TFileType extends 'difficulty'
+   ? TVersion extends 1 ? DeepPartial<DifficultySerializationPolyfills>
+   : never
+   : never;
+
+/** Deserialization options supported by a beatmap file type and version. */
+export type InferBeatmapDeserializationOptions<
+   TFileType extends BeatmapFileType,
+   TVersion extends InferBeatmapVersion<TFileType>,
+> =
+   & Partial<DeserializationOptions>
+   & (TFileType extends 'info' ? TVersion extends 1 ? DeepPartial<InfoV1DeserializationPolyfills>
+      : TVersion extends 2 ? DeepPartial<InfoV2DeserializationPolyfills>
+      : TVersion extends 4 ? DeepPartial<Pick<IWrapInfo, 'filename'>>
+      : never
+      : TFileType extends 'audioData'
+         ? TVersion extends 2 ? DeepPartial<AudioDataV2DeserializationPolyfills>
+         : TVersion extends 4 ? DeepPartial<Pick<IWrapAudioData, 'filename'>>
+         : never
+      : TFileType extends 'difficulty' | 'lightshow' ? DeepPartial<BeatmapDeserializationPolyfills>
+      : never);

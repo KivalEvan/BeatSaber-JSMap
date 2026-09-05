@@ -35,6 +35,8 @@ Read the [migration guidance](./GUIDE.md#migration) before you upgrade.
 * Fixed options being ignored when callers supply `null` or `undefined` as the version argument
 * Fixed the logger returning `undefined` before setup
 * Improved beatmap processing speed and reduced memory allocations
+* Improved serializer and deserializer map types with generic contracts that preserve version-specific
+  inputs, outputs, and options. Runtime behavior is unchanged.
 * Reduced NPM package size and improved support for tree-shaking
 ```
 

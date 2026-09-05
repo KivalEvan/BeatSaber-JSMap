@@ -36,14 +36,7 @@ import { lookupIndexed } from './lookup.ts';
 import { deserializeWaypoint, serializeWaypoint } from './waypoint.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import type { DeserializationOptions } from '../shared/types/schema.ts';
-
-type LightshowDeserializationPolyfills = Pick<
-   IWrapBeatmap,
-   'filename' | 'lightshowFilename'
->;
-type LightshowDeserializationOptions =
-   & DeepPartial<LightshowDeserializationPolyfills>
-   & Partial<DeserializationOptions>;
+import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 function deserializeIndexFilterDirect(
    data: DeepPartial<IIndexFilter>,
@@ -608,7 +601,7 @@ export function serializeLightshow(data: IWrapBeatmap): ILightshow {
  */
 export function deserializeLightshow(
    data: ILightshow,
-   options?: LightshowDeserializationOptions,
+   options?: InferBeatmapDeserializationOptions<'lightshow', 4>,
 ): IWrapBeatmap {
    const deserializationOptions: DeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',
