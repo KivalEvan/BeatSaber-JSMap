@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.0.2 [2026-09-27]
+
+```diff
+* Fixed browser builds resolving Node.js filesystem and path imports from `bsmap`.
+  NPM browser mappings cover ESM and CommonJS output and prevent Vite externalization warnings.
+  Node.js filesystem support is unchanged.
+```
+
 ## 3.0.1 [2026-09-11]
 
 ```diff

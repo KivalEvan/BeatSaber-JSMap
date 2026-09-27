@@ -57,9 +57,30 @@ await build({
       Deno.copyFileSync('CHANGELOG.md', 'npm/CHANGELOG.md');
       Deno.copyFileSync('GUIDE.md', 'npm/GUIDE.md');
 
-      // Keep side effects for dnt polyfills; otherwise let bundlers tree-shake the package.
       const pkgJsonPath = './npm/package.json';
       const pkg = JSON.parse(Deno.readTextFileSync(pkgJsonPath));
+
+      // Replace only the native adapters in browser bundles, before resolving Node built-ins.
+      // Null preserves the public shims' missing-adapter errors and custom implementations.
+      pkg.browser = {};
+      for (const format of ['esm', 'script']) {
+         const formatPkgPath = `./npm/${format}/package.json`;
+         const formatPkg = JSON.parse(Deno.readTextFileSync(formatPkgPath));
+         formatPkg.browser = {};
+         const browserShim = `./${format}/shims/_browser.js`;
+         Deno.writeTextFileSync(
+            `./npm/${browserShim}`,
+            format === 'esm' ? 'export default null;\n' : 'module.exports = null;\n',
+         );
+         for (const adapter of ['_fs', '_fsp', '_path']) {
+            pkg.browser[`./${format}/shims/${adapter}.js`] = browserShim;
+            formatPkg.browser[`./shims/${adapter}.js`] = './shims/_browser.js';
+         }
+         // dnt's nested package scopes also need mappings for relative imports within each format.
+         Deno.writeTextFileSync(formatPkgPath, JSON.stringify(formatPkg, null, 2) + '\n');
+      }
+
+      // Keep side effects for dnt polyfills; otherwise let bundlers tree-shake the package.
       const hasPolyfills = ['./npm/esm/_dnt.polyfills.js', './npm/script/_dnt.polyfills.js']
          .some((path) => {
             try {

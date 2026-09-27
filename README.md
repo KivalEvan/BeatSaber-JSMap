@@ -238,12 +238,12 @@ between these calls remains a race.
 
 ### Browser
 
-As it is written in TypeScript, you may need transpiler such as `tsc` or `vite` that will compile
-down to single JavaScript file to be able to be used on browser, depending on build option down to
-ES5 support.
+Import utilities and in-memory beatmap helpers directly from `bsmap`. Use `loadDifficulty` and
+`saveDifficulty` to process JSON in memory.
 
-Typical browser do not have filesystem functionality and thus `read` and `write` module may not work
-as expected. You may use `load` and `save` which can read from web input.
+The NPM package excludes its Node.js filesystem and path imports from browser builds in bundlers
+such as Vite. No polyfills or custom shims are needed for normal browser use. File helpers are
+intended for runtimes with filesystem support.
 
 ## Development
 
