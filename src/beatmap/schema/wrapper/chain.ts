@@ -1,11 +1,11 @@
 import type { IWrapChain } from './types/chain.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createChain(
    data: DeepPartial<IWrapChain> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapChain {
    return {
       time: data.time ?? 0,

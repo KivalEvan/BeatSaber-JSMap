@@ -1,10 +1,10 @@
 import type { IWrapLightTranslationEvent } from './types/lightTranslationEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createLightTranslationEvent(
    data: Partial<IWrapLightTranslationEvent> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightTranslationEvent {
    return {
       time: data.time ?? 0,

@@ -1,6 +1,6 @@
 import type { IObstacle } from './types/obstacle.ts';
 import type { IWrapObstacle } from '../wrapper/types/obstacle.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createObstacle } from '../wrapper/obstacle.ts';
 
@@ -27,7 +27,7 @@ export function serializeObstacle(data: IWrapObstacle): IObstacle {
  */
 export function deserializeObstacle(
    data: IObstacle,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapObstacle {
    return createObstacle({
       time: data.b,

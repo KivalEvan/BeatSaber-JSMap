@@ -7,7 +7,7 @@ import {
    deserializeLightTranslationEvent,
    serializeLightTranslationEvent,
 } from './lightTranslationEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Light Translation Event Box` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -42,7 +42,7 @@ export function serializeLightTranslationEventBox(
  */
 export function deserializeLightTranslationEventBox(
    data: ILightTranslationBoxContainer,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightTranslationEventBox {
    return createLightTranslationEventBox({
       filter: deserializeIndexFilter(data.filterData ?? {}, options),

@@ -1,6 +1,6 @@
 import type { IBombNote } from './types/bombNote.ts';
 import type { IWrapBombNote } from '../wrapper/types/bombNote.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBombNote } from '../wrapper/bombNote.ts';
 
@@ -24,7 +24,7 @@ export function serializeBombNote(data: IWrapBombNote): IBombNote {
  */
 export function deserializeBombNote(
    data: IBombNote,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapBombNote {
    return createBombNote({
       time: data.b,

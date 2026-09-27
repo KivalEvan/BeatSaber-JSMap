@@ -4,7 +4,7 @@ import { deepCopy, shallowCopy } from '../../../utils/misc/json.ts';
 import { createInfo } from '../wrapper/info.ts';
 import { is360Environment } from '../../helpers/environment.ts';
 import { deserializeInfoBeatmap, serializeInfoBeatmap } from './infoBeatmap.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v2 `Info` object into schema object.
@@ -91,7 +91,7 @@ export function deserializeInfo(
    data: IInfo,
    options?: InferBeatmapDeserializationOptions<'info', 2>,
 ): IWrapInfo {
-   const deserializationOptions: DeserializationOptions = {
+   const deserializationOptions: IDeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',
    };
    return createInfo({

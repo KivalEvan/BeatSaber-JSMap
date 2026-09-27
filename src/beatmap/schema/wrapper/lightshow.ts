@@ -1,6 +1,6 @@
 import type { IWrapLightshow } from './types/lightshow.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 import { createBasicEvent } from './basicEvent.ts';
 import { createBasicEventTypesForKeywords } from './basicEventTypesForKeywords.ts';
@@ -13,7 +13,7 @@ import { createWaypoint } from './waypoint.ts';
 
 export function createLightshow(
    data: DeepPartial<IWrapLightshow> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightshow {
    return {
       waypoints: data.waypoints?.map((item) => createWaypoint(item, options)) ?? [],

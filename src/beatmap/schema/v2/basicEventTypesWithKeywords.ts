@@ -1,6 +1,6 @@
 import type { ISpecialEventsKeywordFilters } from '../../schema/v2/types/specialEventsKeywordFilters.ts';
 import type { IWrapBasicEventTypesWithKeywords } from '../wrapper/types/basicEventTypesWithKeywords.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import {
    deserializeBasicEventTypesForKeywords,
    serializeBasicEventTypesForKeywords,
@@ -27,7 +27,7 @@ export function serializeBasicEventTypesWithKeywords(
  */
 export function deserializeBasicEventTypesWithKeywords(
    data: ISpecialEventsKeywordFilters,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapBasicEventTypesWithKeywords {
    return {
       list: data._keywords?.map((x) => {

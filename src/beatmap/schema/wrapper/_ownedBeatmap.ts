@@ -1,7 +1,7 @@
 import type { IWrapBeatmap } from './types/beatmap.ts';
 import type { IWrapDifficulty } from './types/difficulty.ts';
 import type { IWrapLightshow } from './types/lightshow.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 type OwnedBeatmapData =
@@ -13,7 +13,7 @@ type OwnedBeatmapData =
 
 export function assembleOwnedBeatmap(
    data: OwnedBeatmapData,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapBeatmap {
    const version = data.version ?? -1;
    const filename = data.filename ?? 'Unnamed.beatmap.dat';

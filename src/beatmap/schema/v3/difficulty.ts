@@ -26,7 +26,7 @@ import { serializeLightTranslationEventBoxGroup } from './lightTranslationEventB
 import { deserializeObstacle, serializeObstacle } from './obstacle.ts';
 import { deserializeRotationEvent, serializeRotationEvent } from './rotationEvent.ts';
 import { deserializeWaypoint, serializeWaypoint } from './waypoint.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v3 `Difficulty` object into schema object.
@@ -114,7 +114,7 @@ export function deserializeDifficulty(
    data: IDifficulty,
    options?: InferBeatmapDeserializationOptions<'difficulty', 3>,
 ): IWrapBeatmap {
-   const deserializationOptions: DeserializationOptions = {
+   const deserializationOptions: IDeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',
    };
    const fx = data._fxEventsCollection?._fl;

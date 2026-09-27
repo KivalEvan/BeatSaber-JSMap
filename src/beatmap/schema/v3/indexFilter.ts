@@ -1,6 +1,6 @@
 import type { IIndexFilter } from './types/indexFilter.ts';
 import type { IWrapIndexFilter } from '../wrapper/types/indexFilter.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createIndexFilter } from '../wrapper/indexFilter.ts';
 
@@ -30,7 +30,7 @@ export function serializeIndexFilter(data: IWrapIndexFilter): IIndexFilter {
  */
 export function deserializeIndexFilter(
    data: IIndexFilter,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapIndexFilter {
    return createIndexFilter({
       type: data.f,

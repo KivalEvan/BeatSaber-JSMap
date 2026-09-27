@@ -35,12 +35,12 @@ import { serializeIndexFilter } from './indexFilter.ts';
 import { lookupIndexed } from './lookup.ts';
 import { deserializeWaypoint, serializeWaypoint } from './waypoint.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 function deserializeIndexFilterDirect(
    data: DeepPartial<IIndexFilter>,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapIndexFilter {
    return {
       type: data.f ?? 1,
@@ -59,7 +59,7 @@ function deserializeIndexFilterDirect(
 function deserializeLightColorEventsDirect(
    references: IObject[] | undefined,
    source: ILightColorEvent[] | undefined,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapLightColorEvent[] {
    return references?.map((reference) => {
       const event = lookupIndexed(source, reference.i, 'lightColorEvents');
@@ -80,7 +80,7 @@ function deserializeLightColorEventsDirect(
 function deserializeLightRotationEventsDirect(
    references: IObject[] | undefined,
    source: ILightRotationEvent[] | undefined,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapLightRotationEvent[] {
    return references?.map((reference) => {
       const event = lookupIndexed(source, reference.i, 'lightRotationEvents');
@@ -99,7 +99,7 @@ function deserializeLightRotationEventsDirect(
 function deserializeLightTranslationEventsDirect(
    references: IObject[] | undefined,
    source: ILightTranslationEvent[] | undefined,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapLightTranslationEvent[] {
    return references?.map((reference) => {
       const event = lookupIndexed(source, reference.i, 'lightTranslationEvents');
@@ -116,7 +116,7 @@ function deserializeLightTranslationEventsDirect(
 function deserializeFxEventsDirect(
    references: IObject[] | undefined,
    source: IFxEventFloat[] | undefined,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapFxEventFloat[] {
    return references?.map((reference) => {
       const event = lookupIndexed(source, reference.i, 'floatFxEvents');
@@ -133,7 +133,7 @@ function deserializeFxEventsDirect(
 function deserializeLightColorEventBoxDirect(
    reference: IEventBox,
    data: ILightshow,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapLightColorEventBox {
    const box = lookupIndexed(data.lightColorEventBoxes, reference.e, 'lightColorEventBoxes');
    const filter = lookupIndexed(data.indexFilters, reference.f, 'indexFilters');
@@ -153,7 +153,7 @@ function deserializeLightColorEventBoxDirect(
 function deserializeLightRotationEventBoxDirect(
    reference: IEventBox,
    data: ILightshow,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapLightRotationEventBox {
    const box = lookupIndexed(data.lightRotationEventBoxes, reference.e, 'lightRotationEventBoxes');
    const filter = lookupIndexed(data.indexFilters, reference.f, 'indexFilters');
@@ -175,7 +175,7 @@ function deserializeLightRotationEventBoxDirect(
 function deserializeLightTranslationEventBoxDirect(
    reference: IEventBox,
    data: ILightshow,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapLightTranslationEventBox {
    const box = lookupIndexed(
       data.lightTranslationEventBoxes,
@@ -205,7 +205,7 @@ function deserializeLightTranslationEventBoxDirect(
 function deserializeFxEventBoxDirect(
    reference: IEventBox,
    data: ILightshow,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapFxEventBox {
    const box = lookupIndexed(data.fxEventBoxes, reference.e, 'fxEventBoxes');
    const filter = lookupIndexed(data.indexFilters, reference.f, 'indexFilters');
@@ -225,7 +225,7 @@ function deserializeFxEventBoxDirect(
 function deserializeLightColorEventBoxGroupDirect(
    source: IEventBoxGroup,
    data: ILightshow,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapLightColorEventBoxGroup {
    return {
       time: source.b ?? 0,
@@ -242,7 +242,7 @@ function deserializeLightColorEventBoxGroupDirect(
 function deserializeLightRotationEventBoxGroupDirect(
    source: IEventBoxGroup,
    data: ILightshow,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapLightRotationEventBoxGroup {
    return {
       time: source.b ?? 0,
@@ -259,7 +259,7 @@ function deserializeLightRotationEventBoxGroupDirect(
 function deserializeLightTranslationEventBoxGroupDirect(
    source: IEventBoxGroup,
    data: ILightshow,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapLightTranslationEventBoxGroup {
    return {
       time: source.b ?? 0,
@@ -276,7 +276,7 @@ function deserializeLightTranslationEventBoxGroupDirect(
 function deserializeFxEventBoxGroupDirect(
    source: IEventBoxGroup,
    data: ILightshow,
-   options: DeserializationOptions,
+   options: IDeserializationOptions,
 ): IWrapFxEventBoxGroup {
    return {
       time: source.b ?? 0,
@@ -603,7 +603,7 @@ export function deserializeLightshow(
    data: ILightshow,
    options?: InferBeatmapDeserializationOptions<'lightshow', 4>,
 ): IWrapBeatmap {
-   const deserializationOptions: DeserializationOptions = {
+   const deserializationOptions: IDeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',
    };
    const lightshow: IWrapBeatmap['lightshow'] = {

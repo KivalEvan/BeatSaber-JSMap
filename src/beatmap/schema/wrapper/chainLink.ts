@@ -1,7 +1,7 @@
 import type { IWrapChain, IWrapChainLink } from './types/chain.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import type { Vector2 } from '../../../types/vector.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { vectorAdd, vectorMagnitude, vectorMul, vectorSub } from '../../../utils/math/vector.ts';
 import { copyCustomData } from './copyCustomData.ts';
 import { lerp, mod } from '../../../utils/math/helpers.ts';
@@ -12,7 +12,7 @@ import { bezierQuad } from '../../../utils/math/bezier.ts';
 
 export function createChainLink(
    data: DeepPartial<IWrapChainLink> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapChainLink {
    return {
       time: data.time ?? 0,
@@ -34,7 +34,7 @@ export function createChainLinks(
       getTailPosition?: (chain: IWrapChain) => Vector2;
       getAngle?: (chain: IWrapChain) => number;
    },
-   deserializationOptions?: DeserializationOptions,
+   deserializationOptions?: IDeserializationOptions,
 ): IWrapChainLink[] {
    const position = options.getPosition?.(chain) ?? resolveGridPosition(chain);
    const tailPosition = options.getPosition?.(chain) ?? resolveGridTailPosition(chain);

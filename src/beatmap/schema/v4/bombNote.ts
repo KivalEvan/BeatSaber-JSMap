@@ -2,7 +2,7 @@ import type { IBombNoteContainer } from './types/container.ts';
 import type { IWrapBombNote } from '../wrapper/types/bombNote.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBombNote } from '../wrapper/bombNote.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Bomb Note` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -31,7 +31,7 @@ export function serializeBombNote(data: IWrapBombNote): IBombNoteContainer {
  */
 export function deserializeBombNote(
    data: IBombNoteContainer,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapBombNote {
    return createBombNote({
       time: data.object?.b,

@@ -1,6 +1,6 @@
 import type { ILightRotationEventBoxGroup } from './types/lightRotationEventBoxGroup.ts';
 import type { IWrapLightRotationEventBoxGroup } from '../wrapper/types/lightRotationEventBoxGroup.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightRotationEventBoxGroup } from '../wrapper/lightRotationEventBoxGroup.ts';
 import {
@@ -32,7 +32,7 @@ export function serializeLightRotationEventBoxGroup(
  */
 export function deserializeLightRotationEventBoxGroup(
    data: ILightRotationEventBoxGroup,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightRotationEventBoxGroup {
    return createLightRotationEventBoxGroup({
       time: data.b,

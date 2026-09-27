@@ -12,7 +12,7 @@ function tag(vendor?: string): string[] {
    return tags;
 }
 
-interface ErrorOptions {
+interface IErrorOptions {
    vendor?: string;
    doThrow?: boolean;
 }
@@ -27,7 +27,7 @@ type ThrowCategory =
    | 'notUnsigned';
 
 /** Vendor fields used during issue classification. */
-interface VendorSchemaIssue extends StandardSchemaV1.Issue {
+interface IVendorSchemaIssue extends StandardSchemaV1.Issue {
    readonly expected?: unknown;
    readonly input?: unknown;
    readonly kind?: unknown;
@@ -42,7 +42,7 @@ interface VendorSchemaIssue extends StandardSchemaV1.Issue {
  * @returns `undefined` for unknown shapes.
  */
 function classifyIssue(issue: StandardSchemaV1.Issue): ThrowCategory | undefined {
-   const vendor = issue as VendorSchemaIssue;
+   const vendor = issue as IVendorSchemaIssue;
    const message = issue.message ?? '';
 
    if (vendor.type === 'strict_object' && vendor.expected === 'never') return 'unused';
@@ -81,7 +81,7 @@ function classifyIssue(issue: StandardSchemaV1.Issue): ThrowCategory | undefined
 }
 function handleError(
    issue: StandardSchemaV1.Issue,
-   options: Partial<ErrorOptions>,
+   options: Partial<IErrorOptions>,
    errors: StandardSchemaV1.Issue[],
 ): void {
    const logger = getLogger();

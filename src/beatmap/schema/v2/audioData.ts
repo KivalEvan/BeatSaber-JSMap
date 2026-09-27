@@ -1,7 +1,7 @@
 import type { IBPMInfo } from '../../schema/v2/types/bpmInfo.ts';
 import type { IWrapAudioData } from '../wrapper/types/audioData.ts';
 import { createAudioData } from '../wrapper/audioData.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v2 `Audio Data` object into schema object.
@@ -31,7 +31,7 @@ export function deserializeAudioData(
    data: IBPMInfo,
    options?: InferBeatmapDeserializationOptions<'audioData', 2>,
 ): IWrapAudioData {
-   const deserializationOptions: DeserializationOptions = {
+   const deserializationOptions: IDeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',
    };
    return createAudioData({

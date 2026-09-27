@@ -10,7 +10,7 @@ export type InferObjectEntries<T> = {
    [key in NonNullable<keyof T>]: v.GenericSchema<T[key], T[key]>;
 };
 
-interface FieldSchemaOptions {
+interface IFieldSchemaOptions {
    /** The semantic version used for comparison when performing versioning checks for entity schemas. */
    version: Version;
 }
@@ -24,7 +24,7 @@ export function field<
    >[],
 >(
    schema: TSchema | v.SchemaWithPipe<readonly [TSchema, ...TItems]>,
-   options?: FieldSchemaOptions,
+   options?: IFieldSchemaOptions,
 ) {
    const [base, ...rest] = 'pipe' in schema ? schema.pipe : [schema];
    // hack: because valibot does not support preprocessing, it will assume all keys should be present and validated regardless of its supported version(s).
@@ -37,12 +37,12 @@ export function field<
       [
          TSchema,
          ...TItems,
-         v.MetadataAction<v.InferInput<TSchema>, Readonly<FieldMetadata>>,
+         v.MetadataAction<v.InferInput<TSchema>, Readonly<IFieldMetadata>>,
       ]
    >;
 }
 
-interface FieldMetadata {
+interface IFieldMetadata {
    readonly version?: Version;
 }
 
@@ -58,7 +58,7 @@ function checkVersion<
    const TSchema extends v.GenericSchema,
    const TItems extends (
       | v.GenericPipeItem<v.InferInput<TSchema>, v.InferOutput<TSchema>>
-      | v.MetadataAction<v.InferInput<TSchema>, Readonly<FieldMetadata>>
+      | v.MetadataAction<v.InferInput<TSchema>, Readonly<IFieldMetadata>>
    )[],
 >(
    schema: TSchema | v.SchemaWithPipe<[TSchema, ...TItems]>,
@@ -66,7 +66,7 @@ function checkVersion<
       version,
       dataset,
       addIssue,
-   }: VersionCheckContext<TSchema> & FieldSchemaOptions,
+   }: VersionCheckContext<TSchema> & IFieldSchemaOptions,
 ) {
    const logger = getLogger();
 
@@ -84,7 +84,7 @@ function checkVersion<
    // extract the metadata from the pipeline to get the required context for versioning checks
    const ctx = pipeline.find((x) => x.kind === 'metadata') as v.MetadataAction<
       v.InferInput<TSchema>,
-      Readonly<FieldMetadata>
+      Readonly<IFieldMetadata>
    >;
 
    logger?.tDebug(

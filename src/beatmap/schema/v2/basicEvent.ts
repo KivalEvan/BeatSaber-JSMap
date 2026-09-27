@@ -1,6 +1,6 @@
 import type { IEvent } from '../../schema/v2/types/event.ts';
 import type { IWrapBasicEvent } from '../wrapper/types/basicEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBasicEvent } from '../wrapper/basicEvent.ts';
 
@@ -25,7 +25,7 @@ export function serializeBasicEvent(data: IWrapBasicEvent): IEvent {
  */
 export function deserializeBasicEvent(
    data: IEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapBasicEvent {
    return createBasicEvent({
       time: data._time,

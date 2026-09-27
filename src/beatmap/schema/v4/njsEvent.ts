@@ -2,7 +2,7 @@ import type { INjsEventContainer } from './types/container.ts';
 import type { IWrapNJSEvent } from '../wrapper/types/njsEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createNJSEvent } from '../wrapper/njsEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `NJSEvent` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -31,7 +31,7 @@ export function serializeNJSEvent(data: IWrapNJSEvent): INjsEventContainer {
  */
 export function deserializeNJSEvent(
    data: INjsEventContainer,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapNJSEvent {
    return createNJSEvent({
       time: data.object?.b,

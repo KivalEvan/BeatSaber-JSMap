@@ -1,11 +1,11 @@
 import type { IWrapRotationEvent } from './types/rotationEvent.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createRotationEvent(
    data: DeepPartial<IWrapRotationEvent> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapRotationEvent {
    return {
       time: data.time ?? 0,

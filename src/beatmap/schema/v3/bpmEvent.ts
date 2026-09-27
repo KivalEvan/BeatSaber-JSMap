@@ -1,6 +1,6 @@
 import type { IBPMEvent } from './types/bpmEvent.ts';
 import type { IWrapBPMEvent } from '../wrapper/types/bpmEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBPMEvent } from '../wrapper/bpmEvent.ts';
 
@@ -23,7 +23,7 @@ export function serializeBPMEvent(data: IWrapBPMEvent): IBPMEvent {
  */
 export function deserializeBPMEvent(
    data: IBPMEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapBPMEvent {
    return createBPMEvent({
       time: data.b,

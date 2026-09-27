@@ -1,13 +1,13 @@
 import type { IWrapLightRotationEventBox } from './types/lightRotationEventBox.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 import { createIndexFilter } from './indexFilter.ts';
 import { createLightRotationEvent } from './lightRotationEvent.ts';
 
 export function createLightRotationEventBox(
    data: DeepPartial<IWrapLightRotationEventBox> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightRotationEventBox {
    return {
       filter: createIndexFilter(data.filter, options),

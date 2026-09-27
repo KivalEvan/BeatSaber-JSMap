@@ -1,6 +1,6 @@
 import type { INote } from '../../schema/v2/types/note.ts';
 import type { IWrapColorNote } from '../wrapper/types/colorNote.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createColorNote } from '../wrapper/colorNote.ts';
 import { NoteColor } from '../shared/types/constants.ts';
@@ -27,7 +27,7 @@ export function serializeColorNote(data: IWrapColorNote): INote {
  */
 export function deserializeColorNote(
    data: INote,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapColorNote {
    return createColorNote({
       time: data._time,

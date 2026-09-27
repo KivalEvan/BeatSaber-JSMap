@@ -1,11 +1,11 @@
 import type { IWrapLightColorEvent } from './types/lightColorEvent.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createLightColorEvent(
    data: DeepPartial<IWrapLightColorEvent> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightColorEvent {
    return {
       time: data.time ?? 0,

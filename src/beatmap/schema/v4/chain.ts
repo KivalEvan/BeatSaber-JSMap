@@ -2,7 +2,7 @@ import type { IChainContainer } from './types/container.ts';
 import type { IWrapChain } from '../wrapper/types/chain.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createChain } from '../wrapper/chain.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Chain` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -44,7 +44,7 @@ export function serializeChain(data: IWrapChain): IChainContainer {
  */
 export function deserializeChain(
    data: IChainContainer,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapChain {
    return createChain({
       time: data.object?.hb,

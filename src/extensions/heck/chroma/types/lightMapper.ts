@@ -3,26 +3,26 @@ import type { Easings } from '../../../../types/easings.ts';
 
 export type DistributionType = 'Division' | 'Step and Offset';
 
-export interface IndexFilterBase {
+export interface IIndexFilterBase {
    type: DistributionType;
    reverse: boolean;
 }
 
-export interface IndexFilterDivision extends IndexFilterBase {
+export interface IIndexFilterDivision extends IIndexFilterBase {
    type: 'Division';
    divide: number;
    id: number;
 }
 
-export interface IndexFilterStep extends IndexFilterBase {
+export interface IIndexFilterStep extends IIndexFilterBase {
    type: 'Step and Offset';
    id: number;
    step: number;
 }
 
-export type IndexFilter = IndexFilterDivision | IndexFilterStep;
+export type IndexFilter = IIndexFilterDivision | IIndexFilterStep;
 
-export interface EventBase {
+export interface IEventBase {
    time: number;
    /**
     * Color `<int>` of event.
@@ -49,7 +49,7 @@ export interface EventBase {
    customData: IChromaEventLight;
 }
 
-export interface EventBox {
+export interface IEventBox {
    indexFilter: IndexFilter;
    beatDistribution: number;
    beatDistributionType: DistributionType;
@@ -61,12 +61,30 @@ export interface EventBox {
    hueDistributionType: DistributionType;
    hueDistributionEasing: Easings;
    affectFirst: boolean;
-   events: EventBase[];
+   events: IEventBase[];
 }
 
-export interface EventBoxType {
+export interface IEventBoxType {
    time: number;
    type: number;
    lightID: number[];
-   eventBox: EventBox[];
+   eventBox: IEventBox[];
 }
+
+/** @deprecated Use {@link IIndexFilterBase} instead. */
+export type IndexFilterBase = IIndexFilterBase;
+
+/** @deprecated Use {@link IIndexFilterDivision} instead. */
+export type IndexFilterDivision = IIndexFilterDivision;
+
+/** @deprecated Use {@link IIndexFilterStep} instead. */
+export type IndexFilterStep = IIndexFilterStep;
+
+/** @deprecated Use {@link IEventBase} instead. */
+export type EventBase = IEventBase;
+
+/** @deprecated Use {@link IEventBox} instead. */
+export type EventBox = IEventBox;
+
+/** @deprecated Use {@link IEventBoxType} instead. */
+export type EventBoxType = IEventBoxType;

@@ -2,7 +2,7 @@
 import type { ISaveOptions } from '../beatmap/saver/types.ts';
 import type { InferBeatmapVersion } from '../beatmap/schema/shared/types/infer.ts';
 import type { BeatmapFileType } from '../beatmap/schema/shared/types/schema.ts';
-import type { IBaseOptions } from '../types/_bsmap_io.ts';
+import type { IBaseOptions } from '../types/_bsmapIo.ts';
 
 export interface IWriteOptions<
    TFileType extends BeatmapFileType,

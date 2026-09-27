@@ -1,12 +1,12 @@
 import type { IWrapLightTranslationEventBoxGroup } from './types/lightTranslationEventBoxGroup.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 import { createLightTranslationEventBox } from './lightTranslationEventBox.ts';
 
 export function createLightTranslationEventBoxGroup(
    data: DeepPartial<IWrapLightTranslationEventBoxGroup> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightTranslationEventBoxGroup {
    return {
       time: data.time ?? 0,

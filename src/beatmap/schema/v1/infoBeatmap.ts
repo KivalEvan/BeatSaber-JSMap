@@ -4,7 +4,7 @@ import { shallowCopy } from '../../../utils/misc/json.ts';
 import { createInfoBeatmap } from '../wrapper/infoBeatmap.ts';
 import { DifficultyRanking } from '../../misc/difficulty.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 type InfoBeatmapSerializationPolyfills = {
    audio: Pick<IWrapInfo['audio'], 'filename'>;
@@ -15,7 +15,7 @@ type InfoBeatmapDeserializationPolyfills =
       'characteristic' | 'njs' | 'njsOffset' | 'lightshowFilename' | 'authors'
    >
    & {
-      customDataOwnership?: DeserializationOptions['customDataOwnership'];
+      customDataOwnership?: IDeserializationOptions['customDataOwnership'];
    };
 
 /** Serialize beatmap v1 `Info Beatmap` object into schema object.
@@ -55,7 +55,7 @@ export function deserializeInfoBeatmap(
    data: IInfoDifficulty,
    options?: DeepPartial<InfoBeatmapDeserializationPolyfills>,
 ): IWrapInfoBeatmap {
-   const deserializationOptions: DeserializationOptions = {
+   const deserializationOptions: IDeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',
    };
    return createInfoBeatmap({

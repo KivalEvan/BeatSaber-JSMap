@@ -23,7 +23,7 @@ import { deserializeColorNote, serializeColorNote } from './colorNote.ts';
 import { deserializeObstacle, serializeObstacle } from './obstacle.ts';
 import { deserializeRotationEvent, serializeRotationEvent } from './rotationEvent.ts';
 import { deserializeWaypoint, serializeWaypoint } from './waypoint.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v2 `Difficulty` object into schema object.
@@ -80,7 +80,7 @@ export function deserializeDifficulty(
    data: IDifficulty,
    options?: InferBeatmapDeserializationOptions<'difficulty', 2>,
 ): IWrapBeatmap {
-   const deserializationOptions: DeserializationOptions = {
+   const deserializationOptions: IDeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',
    };
    const colorNotes: IWrapColorNote[] = [];

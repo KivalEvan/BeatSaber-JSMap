@@ -20,7 +20,7 @@ import { serializeLightshow as serializeV4Lightshow } from '../schema/v4/lightsh
 
 type SerializerArguments<TOptions> = [TOptions] extends [never] ? [] : [options?: TOptions];
 
-interface SerializerEntry<
+interface ISerializerEntry<
    TFileType extends BeatmapFileType = BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType> = InferBeatmapVersion<TFileType>,
 > {
@@ -32,7 +32,7 @@ interface SerializerEntry<
 
 /** Maps every supported version of a file type to its serializer. */
 type SerializerMap<T extends BeatmapFileType> = {
-   [TVersion in InferBeatmapVersion<T>]-?: SerializerEntry<
+   [TVersion in InferBeatmapVersion<T>]-?: ISerializerEntry<
       T,
       TVersion
    >;
@@ -66,10 +66,10 @@ export const lightshowSerializerMap: SerializerMap<'lightshow'> = {
 };
 
 function resolveSerializer(
-   map: Partial<Record<number, SerializerEntry>>,
+   map: Partial<Record<number, ISerializerEntry>>,
    type: BeatmapFileType,
    version: number,
-): SerializerEntry {
+): ISerializerEntry {
    const entry = map[version];
    if (!entry) {
       throw new Error(

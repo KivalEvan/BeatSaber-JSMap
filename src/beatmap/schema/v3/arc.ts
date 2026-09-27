@@ -1,6 +1,6 @@
 import type { IArc } from './types/arc.ts';
 import type { IWrapArc } from '../wrapper/types/arc.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createArc } from '../wrapper/arc.ts';
 
@@ -33,7 +33,7 @@ export function serializeArc(data: IWrapArc): IArc {
  */
 export function deserializeArc(
    data: IArc,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapArc {
    return createArc({
       time: data.b,

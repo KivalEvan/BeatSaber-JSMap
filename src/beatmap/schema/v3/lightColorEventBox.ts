@@ -1,6 +1,6 @@
 import type { ILightColorEventBox } from './types/lightColorEventBox.ts';
 import type { IWrapLightColorEventBox } from '../wrapper/types/lightColorEventBox.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightColorEventBox } from '../wrapper/lightColorEventBox.ts';
 import { deserializeIndexFilter, serializeIndexFilter } from './indexFilter.ts';
@@ -33,7 +33,7 @@ export function serializeLightColorEventBox(data: IWrapLightColorEventBox): ILig
  */
 export function deserializeLightColorEventBox(
    data: ILightColorEventBox,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightColorEventBox {
    return createLightColorEventBox({
       filter: deserializeIndexFilter(data.f ?? {}, options),

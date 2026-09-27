@@ -10,13 +10,16 @@ export type CustomDataOwnership = 'copy' | 'transfer';
 /**
  * Context passed to schema deserializers.
  */
-export interface DeserializationOptions {
+export interface IDeserializationOptions {
    /**
     * Defines whether custom-data values are copied before they are assigned to wrappers.
     * `copy` creates independent nested values; `transfer` passes references unchanged.
     */
    customDataOwnership: CustomDataOwnership;
 }
+
+/** @deprecated Use {@link IDeserializationOptions} instead. */
+export type DeserializationOptions = IDeserializationOptions;
 
 interface ISchemaDeclarationBase {
    readonly type: string | string[]; // string array because there'll soon be having to check both

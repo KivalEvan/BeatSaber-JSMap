@@ -2,7 +2,7 @@ import type { IInfoBeatmap } from './types/info.ts';
 import type { IWrapInfoBeatmap } from '../wrapper/types/info.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfoBeatmap } from '../wrapper/infoBeatmap.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Info Beatmap` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -33,7 +33,7 @@ export function serializeInfoBeatmap(data: IWrapInfoBeatmap): IInfoBeatmap {
  */
 export function deserializeInfoBeatmap(
    data: IInfoBeatmap,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapInfoBeatmap {
    return createInfoBeatmap({
       characteristic: data.characteristic,

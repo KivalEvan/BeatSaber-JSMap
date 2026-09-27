@@ -1,13 +1,13 @@
 import type { IWrapLightColorEventBox } from './types/lightColorEventBox.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 import { createIndexFilter } from './indexFilter.ts';
 import { createLightColorEvent } from './lightColorEvent.ts';
 
 export function createLightColorEventBox(
    data: DeepPartial<IWrapLightColorEventBox> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightColorEventBox {
    return {
       filter: createIndexFilter(data.filter, options),

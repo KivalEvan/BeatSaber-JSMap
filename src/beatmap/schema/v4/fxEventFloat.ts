@@ -2,7 +2,7 @@ import type { IFxEventFloatContainer } from './types/container.ts';
 import type { IWrapFxEventFloat } from '../wrapper/types/fxEventFloat.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createFxEventFloat } from '../wrapper/fxEventFloat.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Fx Event Float` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -27,7 +27,7 @@ export function serializeFxEventFloat(data: IWrapFxEventFloat): IFxEventFloatCon
  */
 export function deserializeFxEventFloat(
    data: IFxEventFloatContainer,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapFxEventFloat {
    return createFxEventFloat({
       time: data.time,

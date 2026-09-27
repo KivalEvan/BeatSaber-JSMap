@@ -1,6 +1,6 @@
 import type { IEvent } from './types/event.ts';
 import type { IWrapBasicEvent } from '../wrapper/types/basicEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { createBasicEvent } from '../wrapper/basicEvent.ts';
 
 /** Serialize beatmap v1 `Basic Event` object into schema object.
@@ -22,7 +22,7 @@ export function serializeBasicEvent(data: IWrapBasicEvent): IEvent {
  */
 export function deserializeBasicEvent(
    data: IEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapBasicEvent {
    return createBasicEvent({
       time: data._time,

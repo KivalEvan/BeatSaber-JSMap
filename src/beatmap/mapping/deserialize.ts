@@ -5,7 +5,7 @@ import type {
    InferBeatmapVersion,
    InferBeatmapWrapper,
 } from '../schema/shared/types/infer.ts';
-import type { BeatmapFileType, DeserializationOptions } from '../schema/shared/types/schema.ts';
+import type { BeatmapFileType, IDeserializationOptions } from '../schema/shared/types/schema.ts';
 import { deserializeDifficulty as deserializeV1Difficulty } from '../schema/v1/difficulty.ts';
 import { deserializeInfo as deserializeV1Info } from '../schema/v1/info.ts';
 import { deserializeAudioData as deserializeV2AudioData } from '../schema/v2/audioData.ts';
@@ -34,7 +34,7 @@ type CommonDeserializerEntry<
 > = {
    deserialize: (
       data: InferBeatmapSerial<TFileType, TVersion>,
-      options?: DeserializationOptions,
+      options?: IDeserializationOptions,
    ) => InferBeatmapWrapper<TFileType>;
 };
 
@@ -104,7 +104,7 @@ export function deserializeBeatmap<
    type: TFileType,
    version: TVersion,
    data: TSerial,
-   options: DeserializationOptions = { customDataOwnership: 'copy' },
+   options: IDeserializationOptions = { customDataOwnership: 'copy' },
 ): TWrapper {
    const logger = getLogger();
 

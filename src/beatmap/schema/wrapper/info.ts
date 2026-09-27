@@ -1,12 +1,12 @@
 import type { IWrapInfo, IWrapInfoColorScheme } from './types/info.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 import { createInfoBeatmap } from './infoBeatmap.ts';
 
 export function createInfo(
    data: DeepPartial<IWrapInfo> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapInfo {
    return {
       version: data.version ?? -1,

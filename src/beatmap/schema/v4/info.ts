@@ -4,7 +4,7 @@ import { colorToHex, hexToRgba, toColorObject } from '../../../utils/colors/conv
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createInfo } from '../wrapper/info.ts';
 import { deserializeInfoBeatmap, serializeInfoBeatmap } from './infoBeatmap.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
 
 /** Serialize beatmap v4 `Info` object into schema object.
@@ -68,7 +68,7 @@ export function deserializeInfo(
    data: IInfo,
    options?: InferBeatmapDeserializationOptions<'info', 4>,
 ): IWrapInfo {
-   const deserializationOptions: DeserializationOptions = {
+   const deserializationOptions: IDeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',
    };
    return createInfo({

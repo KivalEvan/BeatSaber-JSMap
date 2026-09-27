@@ -1,11 +1,11 @@
 import type { IWrapBasicEventTypesForKeywords } from './types/basicEventTypesForKeywords.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createBasicEventTypesForKeywords(
    data: DeepPartial<IWrapBasicEventTypesForKeywords> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapBasicEventTypesForKeywords {
    return {
       keyword: data.keyword ?? '',

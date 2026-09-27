@@ -14,7 +14,7 @@ import type { IWrapLightTranslationEventBox } from '../wrapper/types/lightTransl
 import type { IWrapLightTranslationEventBoxGroup } from '../wrapper/types/lightTranslationEventBoxGroup.ts';
 import { resolveIndexed } from '../shared/lookup.ts';
 import { EaseType, TransitionType } from '../shared/types/constants.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import type { IFxEventBox } from './types/fxEventBox.ts';
 import type { IFxEventBoxGroup } from './types/fxEventBoxGroup.ts';
 import type { IFxEventFloat } from './types/fxEventFloat.ts';
@@ -31,21 +31,21 @@ import type { ILightTranslationEventBoxGroup } from './types/lightTranslationEve
 
 function copyCustomDataTwice<T extends object>(
    value: T | null | undefined,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): T {
    return copyCustomData(copyCustomData(value, options), options);
 }
 
 function copyCustomDataThrice<T extends object>(
    value: T | null | undefined,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): T {
    return copyCustomData(copyCustomDataTwice(value, options), options);
 }
 
 function deserializeDirectIndexFilter(
    data: IIndexFilter,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapIndexFilter {
    return {
       type: data.f ?? 1,
@@ -63,7 +63,7 @@ function deserializeDirectIndexFilter(
 
 function deserializeDirectLightColorEvent(
    data: ILightColorEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightColorEvent {
    const time = data.b;
    const color = data.c;
@@ -89,7 +89,7 @@ function deserializeDirectLightColorEvent(
 
 function deserializeDirectLightRotationEvent(
    data: ILightRotationEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightRotationEvent {
    return {
       time: data.b ?? 0,
@@ -104,7 +104,7 @@ function deserializeDirectLightRotationEvent(
 
 function deserializeDirectLightTranslationEvent(
    data: ILightTranslationEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightTranslationEvent {
    return {
       time: data.b ?? 0,
@@ -117,7 +117,7 @@ function deserializeDirectLightTranslationEvent(
 
 function deserializeDirectFxEventFloat(
    data: IFxEventFloat,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapFxEventFloat {
    return {
       time: data.b ?? 0,
@@ -130,7 +130,7 @@ function deserializeDirectFxEventFloat(
 
 function deserializeDirectLightColorEventBox(
    data: ILightColorEventBox,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightColorEventBox {
    return {
       filter: deserializeDirectIndexFilter(data.f ?? {}, options),
@@ -147,7 +147,7 @@ function deserializeDirectLightColorEventBox(
 
 function deserializeDirectLightRotationEventBox(
    data: ILightRotationEventBox,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightRotationEventBox {
    const filter = deserializeDirectIndexFilter(data.f ?? {}, options);
    const beatDistribution = data.w;
@@ -177,7 +177,7 @@ function deserializeDirectLightRotationEventBox(
 
 function deserializeDirectLightTranslationEventBox(
    data: ILightTranslationEventBox,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightTranslationEventBox {
    const filter = deserializeDirectIndexFilter(data.f ?? {}, options);
    const beatDistribution = data.w;
@@ -208,7 +208,7 @@ function deserializeDirectLightTranslationEventBox(
 function deserializeDirectFxEventBox(
    data: IFxEventBox,
    events: IFxEventFloat[],
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapFxEventBox {
    return {
       filter: deserializeDirectIndexFilter(data.f ?? {}, options),
@@ -225,7 +225,7 @@ function deserializeDirectFxEventBox(
 
 export function deserializeDirectLightColorEventBoxGroup(
    data: ILightColorEventBoxGroup,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightColorEventBoxGroup {
    return {
       time: data.b ?? 0,
@@ -237,7 +237,7 @@ export function deserializeDirectLightColorEventBoxGroup(
 
 export function deserializeDirectLightRotationEventBoxGroup(
    data: ILightRotationEventBoxGroup,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightRotationEventBoxGroup {
    return {
       time: data.b ?? 0,
@@ -249,7 +249,7 @@ export function deserializeDirectLightRotationEventBoxGroup(
 
 export function deserializeDirectLightTranslationEventBoxGroup(
    data: ILightTranslationEventBoxGroup,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightTranslationEventBoxGroup {
    return {
       time: data.b ?? 0,
@@ -262,7 +262,7 @@ export function deserializeDirectLightTranslationEventBoxGroup(
 export function deserializeDirectFxEventBoxGroup(
    data: IFxEventBoxGroup,
    fxEvents: IFxEventFloat[] | undefined,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapFxEventBoxGroup {
    return {
       time: data.b ?? 0,

@@ -1,11 +1,11 @@
 import type { IWrapArc } from './types/arc.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createArc(
    data: DeepPartial<IWrapArc> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapArc {
    return {
       time: data.time ?? 0,

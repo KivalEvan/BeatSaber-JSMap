@@ -2,7 +2,7 @@ import type { IEventBoxGroupContainer, IFxEventFloatBoxContainer } from './types
 import { FxType } from '../shared/types/constants.ts';
 import type { IFxEventBox } from './types/fxEventBox.ts';
 import type { IWrapFxEventBoxGroup } from '../wrapper/types/fxEventBoxGroup.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createFxEventBoxGroup } from '../wrapper/fxEventBoxGroup.ts';
 import { deserializeFxEventBox, serializeFxEventBox } from './fxEventBox.ts';
@@ -35,7 +35,7 @@ export function serializeFxEventBoxGroup(
  */
 export function deserializeFxEventBoxGroup(
    data: IEventBoxGroupContainer<IFxEventBox, IFxEventFloatBoxContainer>,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapFxEventBoxGroup {
    return createFxEventBoxGroup({
       time: data.object?.b,

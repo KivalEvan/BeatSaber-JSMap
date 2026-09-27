@@ -4,7 +4,7 @@ import type { IWrapAudioData } from '../../wrapper/types/audioData.ts';
 import type { IWrapBeatmap } from '../../wrapper/types/beatmap.ts';
 import type { IWrapInfo, IWrapInfoBeatmap } from '../../wrapper/types/info.ts';
 import type { DeepPartial } from '../../../../types/utils.ts';
-import type { BeatmapFileType, DeserializationOptions } from './schema.ts';
+import type { BeatmapFileType, IDeserializationOptions } from './schema.ts';
 
 export type InferBeatmapVersion<
    TFileType extends BeatmapFileType = BeatmapFileType,
@@ -85,7 +85,7 @@ export type InferBeatmapDeserializationOptions<
    TFileType extends BeatmapFileType,
    TVersion extends InferBeatmapVersion<TFileType>,
 > =
-   & Partial<DeserializationOptions>
+   & Partial<IDeserializationOptions>
    & (TFileType extends 'info' ? TVersion extends 1 ? DeepPartial<InfoV1DeserializationPolyfills>
       : TVersion extends 2 ? DeepPartial<InfoV2DeserializationPolyfills>
       : TVersion extends 4 ? DeepPartial<Pick<IWrapInfo, 'filename'>>

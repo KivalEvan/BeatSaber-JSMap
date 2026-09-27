@@ -1,6 +1,6 @@
 import type { ILightTranslationEvent } from './types/lightTranslationEvent.ts';
 import type { IWrapLightTranslationEvent } from '../wrapper/types/lightTranslationEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightTranslationEvent } from '../wrapper/lightTranslationEvent.ts';
 
@@ -27,7 +27,7 @@ export function serializeLightTranslationEvent(
  */
 export function deserializeLightTranslationEvent(
    data: ILightTranslationEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightTranslationEvent {
    return createLightTranslationEvent({
       time: data.b,

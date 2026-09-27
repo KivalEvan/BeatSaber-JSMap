@@ -1,11 +1,11 @@
 import type { IWrapObstacle } from './types/obstacle.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createObstacle(
    data: DeepPartial<IWrapObstacle> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapObstacle {
    return {
       time: data.time ?? 0,

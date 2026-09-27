@@ -15,10 +15,10 @@ import { EasingsFn } from '../../../utils/math/easings.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { LightIDList } from './lightID.ts';
 import type {
-   EventBase,
-   EventBox,
-   EventBoxType,
-   IndexFilterDivision,
+   IEventBase,
+   IEventBox,
+   IEventBoxType,
+   IIndexFilterDivision,
 } from './types/lightMapper.ts';
 
 /**
@@ -33,7 +33,7 @@ import type {
 export class LightMapper {
    lightIDMapping: Record<number, number[]>;
    readonly environment: EnvironmentName;
-   private queue: EventBoxType[] = [];
+   private queue: IEventBoxType[] = [];
    private events: IWrapBasicEvent[] = [];
    private boosts: IWrapColorBoostEvent[] = [];
 
@@ -45,7 +45,7 @@ export class LightMapper {
    light(
       time: number,
       type: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11,
-      eventBox: DeepPartial<EventBox>[],
+      eventBox: DeepPartial<IEventBox>[],
       lightID?: number[],
    ): this {
       this.queue.push({
@@ -64,7 +64,7 @@ export class LightMapper {
                      }
                      : {
                         type: 'Division',
-                        divide: (eb.indexFilter as IndexFilterDivision).divide ??
+                        divide: (eb.indexFilter as IIndexFilterDivision).divide ??
                            1,
                         id: eb.indexFilter.id ?? 0,
                         reverse: eb.indexFilter.reverse ?? false,
@@ -176,7 +176,7 @@ export class LightMapper {
                !eb.affectFirst
             ) {
                let previousEvent: IWrapBasicEvent;
-               let previousBase: EventBase;
+               let previousBase: IEventBase;
                eb.events.forEach((ev) => {
                   if (ev.transition === 2 && previousEvent) {
                      if (previousBase.frequency) {
@@ -215,7 +215,7 @@ export class LightMapper {
                return;
             }
             let previousEvent: IWrapBasicEvent;
-            let previousBase: EventBase;
+            let previousBase: IEventBase;
             let isFirst = !eb.affectFirst;
             const lastEventTime = eb.events.at(-1)?.time ?? 0;
             eb.events.forEach((ev) => {

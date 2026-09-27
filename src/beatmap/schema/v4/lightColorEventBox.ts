@@ -4,7 +4,7 @@ import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightColorEventBox } from '../wrapper/lightColorEventBox.ts';
 import { deserializeIndexFilter, serializeIndexFilter } from './indexFilter.ts';
 import { deserializeLightColorEvent, serializeLightColorEvent } from './lightColorEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Light Color Event Box` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -37,7 +37,7 @@ export function serializeLightColorEventBox(
  */
 export function deserializeLightColorEventBox(
    data: ILightColorBoxContainer,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightColorEventBox {
    return createLightColorEventBox({
       filter: deserializeIndexFilter(data.filterData ?? {}, options),

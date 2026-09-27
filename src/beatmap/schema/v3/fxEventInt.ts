@@ -1,6 +1,6 @@
 import type { IFxEventInt } from './types/fxEventInt.ts';
 import type { IWrapFxEventInt } from '../wrapper/types/fxEventInt.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createFxEventInt } from '../wrapper/fxEventInt.ts';
 
@@ -24,7 +24,7 @@ export function serializeFxEventInt(data: IWrapFxEventInt): IFxEventInt {
  */
 export function deserializeFxEventInt(
    data: IFxEventInt,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapFxEventInt {
    return createFxEventInt({
       time: data.b,

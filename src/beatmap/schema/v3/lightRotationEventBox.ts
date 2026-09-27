@@ -1,6 +1,6 @@
 import type { ILightRotationEventBox } from './types/lightRotationEventBox.ts';
 import type { IWrapLightRotationEventBox } from '../wrapper/types/lightRotationEventBox.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightRotationEventBox } from '../wrapper/lightRotationEventBox.ts';
 import { deserializeIndexFilter, serializeIndexFilter } from './indexFilter.ts';
@@ -40,7 +40,7 @@ export function serializeLightRotationEventBox(
  */
 export function deserializeLightRotationEventBox(
    data: ILightRotationEventBox,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightRotationEventBox {
    return createLightRotationEventBox({
       filter: deserializeIndexFilter(data.f ?? {}, options),

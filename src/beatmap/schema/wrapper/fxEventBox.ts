@@ -1,13 +1,13 @@
 import type { IWrapFxEventBox } from './types/fxEventBox.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 import { createFxEventFloat } from './fxEventFloat.ts';
 import { createIndexFilter } from './indexFilter.ts';
 
 export function createFxEventBox(
    data: DeepPartial<IWrapFxEventBox> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapFxEventBox {
    return {
       filter: createIndexFilter(data.filter, options),

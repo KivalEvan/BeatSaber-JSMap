@@ -1,6 +1,6 @@
 import type { IRotationEvent } from './types/rotationEvent.ts';
 import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createRotationEvent } from '../wrapper/rotationEvent.ts';
 
@@ -24,7 +24,7 @@ export function serializeRotationEvent(data: IWrapRotationEvent): IRotationEvent
  */
 export function deserializeRotationEvent(
    data: IRotationEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapRotationEvent {
    return createRotationEvent({
       time: data.b,

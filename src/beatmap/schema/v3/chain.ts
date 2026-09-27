@@ -1,6 +1,6 @@
 import type { IChain } from './types/chain.ts';
 import type { IWrapChain } from '../wrapper/types/chain.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createChain } from '../wrapper/chain.ts';
 
@@ -31,7 +31,7 @@ export function serializeChain(data: IWrapChain): IChain {
  */
 export function deserializeChain(
    data: IChain,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapChain {
    return createChain({
       time: data.b,

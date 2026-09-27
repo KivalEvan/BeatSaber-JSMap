@@ -1,6 +1,6 @@
 import type { ILightRotationEvent } from './types/lightRotationEvent.ts';
 import type { IWrapLightRotationEvent } from '../wrapper/types/lightRotationEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightRotationEvent } from '../wrapper/lightRotationEvent.ts';
 
@@ -27,7 +27,7 @@ export function serializeLightRotationEvent(data: IWrapLightRotationEvent): ILig
  */
 export function deserializeLightRotationEvent(
    data: ILightRotationEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightRotationEvent {
    return createLightRotationEvent({
       time: data.b,

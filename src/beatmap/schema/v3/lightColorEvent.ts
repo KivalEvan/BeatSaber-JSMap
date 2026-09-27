@@ -1,6 +1,6 @@
 import type { ILightColorEvent } from './types/lightColorEvent.ts';
 import type { IWrapLightColorEvent } from '../wrapper/types/lightColorEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createLightColorEvent } from '../wrapper/lightColorEvent.ts';
 import { EaseType, TransitionType } from '../shared/types/constants.ts';
@@ -33,7 +33,7 @@ export function serializeLightColorEvent(data: IWrapLightColorEvent): ILightColo
  */
 export function deserializeLightColorEvent(
    data: ILightColorEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightColorEvent {
    return createLightColorEvent({
       time: data.b,

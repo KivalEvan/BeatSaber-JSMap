@@ -1,5 +1,5 @@
 import { deepCopy } from '../../../utils/misc/json.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 function copyCustomDataValue<T extends object>(customData: T): T {
    const copiedCustomData: Record<string, unknown> = {};
@@ -45,7 +45,7 @@ function copyCustomDataValue<T extends object>(customData: T): T {
 
 export function copyCustomData<T extends object>(
    customData: T | null | undefined,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): T {
    if (customData === null || customData === undefined) {
       return {} as T;

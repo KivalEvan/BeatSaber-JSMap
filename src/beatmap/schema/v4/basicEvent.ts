@@ -2,7 +2,7 @@ import type { IBasicEventContainer } from './types/container.ts';
 import type { IWrapBasicEvent } from '../wrapper/types/basicEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createBasicEvent } from '../wrapper/basicEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Basic Event` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -31,7 +31,7 @@ export function serializeBasicEvent(data: IWrapBasicEvent): IBasicEventContainer
  */
 export function deserializeBasicEvent(
    data: IBasicEventContainer,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapBasicEvent {
    return createBasicEvent({
       time: data.object?.b,

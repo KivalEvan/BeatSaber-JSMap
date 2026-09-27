@@ -15,7 +15,7 @@ import {
    deserializeLightRotationEventBoxGroup,
    serializeLightRotationEventBoxGroup,
 } from './lightRotationEventBoxGroup.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import {
    deserializeLightTranslationEventBoxGroup,
    serializeLightTranslationEventBoxGroup,
@@ -76,7 +76,7 @@ export function deserializeLightshow(
    data: ILightshow,
    options?: InferBeatmapDeserializationOptions<'lightshow', 3>,
 ): IWrapBeatmap {
-   const deserializationOptions: DeserializationOptions = {
+   const deserializationOptions: IDeserializationOptions = {
       customDataOwnership: options?.customDataOwnership ?? 'copy',
    };
    const fx = data._fxEventsCollection?._fl;

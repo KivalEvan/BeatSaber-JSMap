@@ -1,6 +1,6 @@
 import type { IFxEventFloatBoxContainer } from './types/container.ts';
 import type { IWrapFxEventBox } from '../wrapper/types/fxEventBox.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createFxEventBox } from '../wrapper/fxEventBox.ts';
 import { deserializeFxEventFloat, serializeFxEventFloat } from './fxEventFloat.ts';
@@ -36,7 +36,7 @@ export function serializeFxEventBox(data: IWrapFxEventBox): IFxEventFloatBoxCont
  */
 export function deserializeFxEventBox(
    data: IFxEventFloatBoxContainer,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapFxEventBox {
    return createFxEventBox({
       filter: deserializeIndexFilter(data.data?.f ?? {}, options),

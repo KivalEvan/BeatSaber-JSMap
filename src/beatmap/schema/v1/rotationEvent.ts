@@ -1,6 +1,6 @@
 import type { IEvent } from './types/event.ts';
 import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { createRotationEvent } from '../wrapper/rotationEvent.ts';
 import { EventLaneRotationValue, RotationValueEventValue } from '../../misc/remaps.ts';
 
@@ -27,7 +27,7 @@ export function serializeRotationEvent(data: IWrapRotationEvent): IEvent {
  */
 export function deserializeRotationEvent(
    data: IEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapRotationEvent {
    const value = data._value ?? 0;
    return createRotationEvent({

@@ -1,6 +1,6 @@
 import type { IColorBoostEvent } from './types/colorBoostEvent.ts';
 import type { IWrapColorBoostEvent } from '../wrapper/types/colorBoostEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createColorBoostEvent } from '../wrapper/colorBoostEvent.ts';
 
@@ -23,7 +23,7 @@ export function serializeColorBoostEvent(data: IWrapColorBoostEvent): IColorBoos
  */
 export function deserializeColorBoostEvent(
    data: IColorBoostEvent = {} as IColorBoostEvent,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapColorBoostEvent {
    return createColorBoostEvent({
       time: data.b,

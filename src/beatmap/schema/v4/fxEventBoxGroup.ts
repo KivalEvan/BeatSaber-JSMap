@@ -4,7 +4,7 @@ import type { IWrapFxEventBoxGroup } from '../wrapper/types/fxEventBoxGroup.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createFxEventBoxGroup } from '../wrapper/fxEventBoxGroup.ts';
 import { deserializeFxEventBox, serializeFxEventBox } from './fxEventBox.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Fx Event Box Group` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -34,7 +34,7 @@ export function serializeFxEventBoxGroup(
  */
 export function deserializeFxEventBoxGroup(
    data: IEventBoxGroupContainer<IFxEventFloatBoxContainer>,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapFxEventBoxGroup {
    return createFxEventBoxGroup({
       time: data.object?.b,

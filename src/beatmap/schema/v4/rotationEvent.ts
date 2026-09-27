@@ -2,7 +2,7 @@ import type { ISpawnRotationContainer } from './types/container.ts';
 import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createRotationEvent } from '../wrapper/rotationEvent.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
 /** Serialize beatmap v4 `Rotation Event` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -26,7 +26,7 @@ export function serializeRotationEvent(data: IWrapRotationEvent): ISpawnRotation
  */
 export function deserializeRotationEvent(
    data: ISpawnRotationContainer,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapRotationEvent {
    return createRotationEvent({
       time: data.object?.b,

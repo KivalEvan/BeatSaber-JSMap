@@ -1,11 +1,11 @@
 import type { IWrapNJSEvent } from './types/njsEvent.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 
 export function createNJSEvent(
    data: DeepPartial<IWrapNJSEvent> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapNJSEvent {
    return {
       time: data.time ?? 0,

@@ -1,12 +1,12 @@
 import type { IWrapLightRotationEventBoxGroup } from './types/lightRotationEventBoxGroup.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { copyCustomData } from './copyCustomData.ts';
 import { createLightRotationEventBox } from './lightRotationEventBox.ts';
 
 export function createLightRotationEventBoxGroup(
    data: DeepPartial<IWrapLightRotationEventBoxGroup> = {},
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapLightRotationEventBoxGroup {
    return {
       time: data.time ?? 0,

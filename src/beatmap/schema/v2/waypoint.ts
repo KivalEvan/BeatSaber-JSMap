@@ -1,6 +1,6 @@
 import type { IWaypoint } from '../../schema/v2/types/waypoint.ts';
 import type { IWrapWaypoint } from '../wrapper/types/waypoint.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createWaypoint } from '../wrapper/waypoint.ts';
 
@@ -25,7 +25,7 @@ export function serializeWaypoint(data: IWrapWaypoint): IWaypoint {
  */
 export function deserializeWaypoint(
    data: IWaypoint,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapWaypoint {
    return createWaypoint({
       time: data._time,

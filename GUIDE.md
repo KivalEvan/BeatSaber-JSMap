@@ -260,8 +260,8 @@ const note = wrapper.createColorNote({
    time: 24,
    color: NoteColor.RED,
    direction: NoteDirection.ANY,
-   posX: PositionX.MIDDLE_LEFT,
-   posY: PositionY.BOTTOM,
+   posX: PosX.MIDDLE_LEFT,
+   posY: PosY.BOTTOM,
 });
 
 data.lightshow.basicEvents.push(

@@ -1,6 +1,6 @@
 import type { IFxEventFloat } from './types/fxEventFloat.ts';
 import type { IWrapFxEventFloat } from '../wrapper/types/fxEventFloat.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { deepCopy } from '../../../utils/misc/json.ts';
 import { createFxEventFloat } from '../wrapper/fxEventFloat.ts';
 
@@ -25,7 +25,7 @@ export function serializeFxEventFloat(data: IWrapFxEventFloat): IFxEventFloat {
  */
 export function deserializeFxEventFloat(
    data: IFxEventFloat,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapFxEventFloat {
    return createFxEventFloat({
       time: data.b,

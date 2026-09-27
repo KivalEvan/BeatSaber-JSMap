@@ -1,6 +1,6 @@
 import type { INote } from './types/note.ts';
 import type { IWrapBombNote } from '../wrapper/types/bombNote.ts';
-import type { DeserializationOptions } from '../shared/types/schema.ts';
+import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import { createBombNote } from '../wrapper/bombNote.ts';
 
 /** Serialize beatmap v1 `Bomb Note` object into schema object.
@@ -24,7 +24,7 @@ export function serializeBombNote(data: IWrapBombNote): INote {
  */
 export function deserializeBombNote(
    data: INote,
-   options?: DeserializationOptions,
+   options?: IDeserializationOptions,
 ): IWrapBombNote {
    return createBombNote({
       time: data._time,
