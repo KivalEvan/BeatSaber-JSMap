@@ -7,10 +7,12 @@ import type { IWrapBombNote } from '../../schema/wrapper/types/bombNote.ts';
 import type { IWrapColorNote } from '../../schema/wrapper/types/colorNote.ts';
 import type { IWrapObstacle } from '../../schema/wrapper/types/obstacle.ts';
 import { clamp } from '../../../utils/math/helpers.ts';
-import { isVector3, vectorMul } from '../../../utils/math/vector.ts';
-import { sortObjectFn } from '../../helpers/sort.ts';
+import { vectorMul } from '../../../utils/math/vector.ts';
+import { convertV4Rotation } from '../_rotation.ts';
 import eventToV3 from '../customData/eventToV3.ts';
 import objectToV3 from '../customData/objectToV3.ts';
+import { renameCustomDataKey } from '../customData/_helpers.ts';
+import { trackAnimationToV3 } from '../customData/trackAnimation.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV3Beatmap', name];
@@ -23,6 +25,8 @@ function tag(name: string): string[] {
  * ```
  *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
+ * @throws If track transforms cannot be represented safely, or global rotation
+ * constraints cannot preserve slider endpoints and shared custom-data aliases.
  */
 export function toV3Beatmap<T extends IWrapBeatmap>(
    data: T,
@@ -72,7 +76,7 @@ function fromV1<T extends IWrapBeatmap>(bm: T) {
    });
 
    bm.difficulty.customData.time = bm.difficulty.customData._time;
-   bm.difficulty.customData.BPMChanges = bm.difficulty.customData._BPMChanges?.map((bpmc) => {
+   bm.difficulty.customData.BPMChanges = bm.difficulty.customData._bpmChanges?.map((bpmc) => {
       return {
          b: bpmc._time,
          m: bpmc._bpm ?? bpmc._BPM,
@@ -86,10 +90,35 @@ function fromV1<T extends IWrapBeatmap>(bm: T) {
          n: b._name,
       };
    });
+   delete bm.difficulty.customData._time;
+   delete bm.difficulty.customData._bpmChanges;
+   delete bm.difficulty.customData._bookmarks;
 }
 
 function fromV2<T extends IWrapBeatmap>(bm: T) {
    const logger = getLogger();
+   const transformTracks = new Set<string>();
+   const environments = bm.difficulty.customData._environment ?? [];
+   for (let i = 0; i < environments.length; i++) {
+      const environment = environments[i];
+      if (environment._track) transformTracks.add(environment._track);
+   }
+   const customEvents = bm.difficulty.customData._customEvents ?? [];
+   for (let i = 0; i < customEvents.length; i++) {
+      const event = customEvents[i];
+      if (event._type === 'AssignTrackParent') transformTracks.add(event._data._parentTrack);
+      if (event._type === 'AssignPlayerToTrack') {
+         const tracks = event._data._track;
+         const trackList = Array.isArray(tracks) ? tracks : [tracks];
+         for (let trackIndex = 0; trackIndex < trackList.length; trackIndex++) {
+            const track = trackList[trackIndex];
+            transformTracks.add(track);
+         }
+      }
+   }
+   const pointDefinitions = Object.fromEntries(
+      (bm.difficulty.customData._pointDefinitions ?? []).map((p) => [p._name, p._points]),
+   );
    bm.difficulty.customData.fakeColorNotes = [];
    bm.difficulty.customData.fakeBombNotes = [];
    bm.difficulty.customData.fakeObstacles = [];
@@ -105,14 +134,13 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
       }
       let a = 0;
       if (typeof n.customData._cutDirection === 'number') {
-         a = n.customData._cutDirection > 0
-            ? n.customData._cutDirection % 360
-            : 360 + (n.customData._cutDirection % 360);
+         a = ((n.customData._cutDirection % 360) + 360) % 360;
+         delete customData._cutDirection;
       } else if (n.direction >= 1000) {
-         a = Math.abs(((n.direction % 1000) % 360) - 360);
+         a = (360 - ((n.direction % 1000) % 360)) % 360;
       }
       const d = n.direction >= 1000 || typeof n.customData._cutDirection === 'number'
-         ? n.direction === 8 ? 8 : 1
+         ? n.direction === 8 || n.direction >= 2000 && n.direction <= 2360 ? 8 : 1
          : clamp(n.direction, 0, 8);
       if (n.customData._fake) {
          bm.difficulty.customData.fakeColorNotes!.push({
@@ -176,6 +204,11 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
    });
    bm.difficulty.obstacles = newObst;
 
+   const arcs = bm.difficulty.arcs;
+   const waypoints = bm.lightshow.waypoints;
+   renameCustomDataKey(arcs, '_rotation', 'worldRotation');
+   renameCustomDataKey(waypoints, '_rotation', 'worldRotation');
+
    bm.lightshow.basicEvents.forEach((e, i) => {
       const customData = eventToV3(e.customData);
       if (e.customData._propID) {
@@ -223,39 +256,14 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
                bm.difficulty.customData.customEvents?.push({
                   b: ce._time,
                   t: 'AnimateTrack',
-                  d: {
-                     track: ce._data._track,
-                     duration: ce._data._duration,
-                     easing: ce._data._easing,
-                     position: ce._data._position,
-                     rotation: ce._data._rotation,
-                     localRotation: ce._data._localRotation,
-                     scale: ce._data._scale,
-                     dissolve: ce._data._dissolve,
-                     dissolveArrow: ce._data._dissolveArrow,
-                     color: ce._data._color,
-                     interactable: ce._data._interactable,
-                     time: ce._data._time,
-                  },
+                  d: trackAnimationToV3(ce._data, transformTracks, pointDefinitions),
                });
             }
             if (ce._type === 'AssignPathAnimation') {
                bm.difficulty.customData.customEvents?.push({
                   b: ce._time,
                   t: 'AssignPathAnimation',
-                  d: {
-                     track: ce._data._track,
-                     easing: ce._data._easing,
-                     position: ce._data._position,
-                     rotation: ce._data._rotation,
-                     localRotation: ce._data._localRotation,
-                     scale: ce._data._scale,
-                     dissolve: ce._data._dissolve,
-                     dissolveArrow: ce._data._dissolveArrow,
-                     color: ce._data._color,
-                     interactable: ce._data._interactable,
-                     definitePosition: ce._data._definitePosition,
-                  },
+                  d: trackAnimationToV3(ce._data, transformTracks, pointDefinitions, true),
                });
             }
             if (ce._type === 'AssignTrackParent') {
@@ -453,109 +461,9 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
       }
    }
 
-   if (bm.difficulty.customData.environment) {
-      const envTracks = new Set<string>();
-      for (const env of bm.difficulty.customData.environment) {
-         if (env.track) {
-            envTracks.add(env.track);
-         }
-      }
-      const customEvents = [];
-      if (bm.difficulty.customData.customEvents) {
-         for (const ce of bm.difficulty.customData.customEvents) {
-            if (ce.t === 'AnimateTrack') {
-               if (
-                  typeof ce.d.track === 'string' &&
-                  envTracks.has(ce.d.track)
-               ) {
-                  customEvents.push(ce);
-               } else if (Array.isArray(ce.d.track)) {
-                  for (const t of ce.d.track) {
-                     if (envTracks.has(t)) {
-                        customEvents.push(ce);
-                        break;
-                     }
-                  }
-               }
-            }
-         }
-      }
-      for (const ce of customEvents) {
-         if (typeof ce.d.track === 'string') {
-            if (typeof ce.d.position === 'string') {
-               logger?.tWarn(
-                  tag('fromV2'),
-                  'Cannot convert point definitions, unknown use.',
-               );
-            } else if (Array.isArray(ce.d.position)) {
-               isVector3(ce.d.position)
-                  ? vectorMul(ce.d.position, 0.6)
-                  : ce.d.position.forEach((point) => {
-                     if (typeof point === 'string') return;
-                     if (typeof point === 'number') point *= 0.6;
-                  });
-            }
-         } else {
-            logger?.tWarn(
-               tag('fromV2'),
-               'Environment animate track array conversion not yet implemented.',
-            );
-         }
-      }
-   }
    bm.lightshow.useNormalEventsAsCompatibleEvents = true;
 }
 
 function fromV4<T extends IWrapBeatmap>(bm: T) {
-   let impossibleRotationEvt = false;
-   const mapTime: Record<number, number> = {};
-
-   const objects = [
-      bm.difficulty.arcs,
-      bm.difficulty.bombNotes,
-      bm.difficulty.chains,
-      bm.difficulty.colorNotes,
-      bm.difficulty.obstacles,
-      bm.lightshow.waypoints,
-   ]
-      .flat()
-      .sort(sortObjectFn);
-
-   for (let i = 0; i < objects.length; i++) {
-      const obj = objects[i];
-      if (!(obj.time in mapTime)) {
-         mapTime[obj.time] = obj.laneRotation;
-      } else if (mapTime[obj.time] !== obj.laneRotation) {
-         impossibleRotationEvt = true;
-         break;
-      }
-   }
-
-   if (impossibleRotationEvt) {
-      for (let i = 0; i < objects.length; i++) {
-         const obj = objects[i];
-         if (obj.laneRotation) obj.customData.worldRotation = obj.laneRotation;
-      }
-   } else {
-      bm.difficulty.rotationEvents = [];
-      let currentRotation = 0;
-      for (const time in mapTime) {
-         const t = +time;
-         const r = mapTime[time];
-         const difference = r - currentRotation;
-         if (difference === 0) continue;
-         currentRotation = r;
-         bm.difficulty.rotationEvents.push({
-            time: t,
-            rotation: difference,
-            executionTime: 0,
-            customData: {},
-         });
-      }
-   }
-   for (let i = 0; i < objects.length; i++) {
-      const obj = objects[i];
-      obj.laneRotation = 0;
-      if ('tailLaneRotation' in obj) obj.tailLaneRotation = 0;
-   }
+   convertV4Rotation(bm, 'worldRotation');
 }

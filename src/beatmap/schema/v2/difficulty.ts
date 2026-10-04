@@ -10,7 +10,7 @@ import { deepCopy } from '../../../utils/misc/json.ts';
 import { assembleOwnedBeatmap } from '../wrapper/_ownedBeatmap.ts';
 import { sortV2NoteFn, sortV2ObjectFn } from '../../helpers/sort.ts';
 import { compareVersion } from '../../helpers/version.ts';
-import { serializeArc } from './arc.ts';
+import { deserializeArc, serializeArc } from './arc.ts';
 import { deserializeBasicEvent, serializeBasicEvent } from './basicEvent.ts';
 import {
    deserializeBasicEventTypesWithKeywords,
@@ -136,6 +136,7 @@ export function deserializeDifficulty(
       difficulty: {
          colorNotes,
          bombNotes,
+         arcs: data._sliders?.map((x) => deserializeArc(x, deserializationOptions)),
          obstacles: data._obstacles?.map((x) => {
             return deserializeObstacle(x, deserializationOptions);
          }),

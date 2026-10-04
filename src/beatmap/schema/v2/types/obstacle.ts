@@ -22,7 +22,6 @@ export interface IObstacle extends IBaseObject {
     * ```ts
     * 0 -> Full-height Wall
     * 1 -> Crouch Wall
-    * 2 -> Freeform Wall
     * ```
     *
     * **Type:** `i32`

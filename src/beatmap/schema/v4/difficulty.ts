@@ -12,10 +12,36 @@ import { deserializeObstacle, serializeObstacle } from './obstacle.ts';
 import { deserializeRotationEvent } from './rotationEvent.ts';
 import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
+import { legacyRotationLaneAt } from './_legacyRotation.ts';
+
+function assignLaneRotations(
+   objects: readonly { b?: number; r?: number }[],
+   laneAt: (beat: number) => number,
+): void {
+   for (let i = 0; i < objects.length; i++) {
+      const object = objects[i];
+      object.r = laneAt(object.b!);
+   }
+}
+
+function assignLaneSliderRotations(
+   sliders: readonly { hb?: number; tb?: number; hr?: number; tr?: number }[],
+   laneAt: (beat: number) => number,
+): void {
+   for (let i = 0; i < sliders.length; i++) {
+      const slider = sliders[i];
+      slider.hr = laneAt(slider.hb!);
+      slider.tr = laneAt(slider.tb!);
+   }
+}
 
 /** Serialize beatmap v4 `Difficulty` object into schema object.
  * @param data The unwrapped beatmap object.
- * @returns The serialized schema object.
+ * @returns New v4.1.0 schema data. Unsupported legacy event-only data is converted
+ * to native lanes for cleanup without mutating the wrapper or its custom data.
+ * @throws If legacy rotation events coexist with nonzero native lanes. These
+ * migrations need an explicit rotation representation rather than an assumed
+ * precedence.
  */
 export function serializeDifficulty(data: IWrapBeatmap): IDifficulty {
    const json: Required<
@@ -89,6 +115,14 @@ export function serializeDifficulty(data: IWrapBeatmap): IDifficulty {
       json.njsEvents!.push(jsonObj.object);
       jsonObj.object.i = json.njsEventData!.length;
       json.njsEventData!.push(jsonObj.data);
+   }
+   if (data.version === 4 && data.difficulty.rotationEvents.length) {
+      const laneAt = legacyRotationLaneAt(data);
+      assignLaneRotations(json.colorNotes, laneAt);
+      assignLaneRotations(json.bombNotes, laneAt);
+      assignLaneRotations(json.obstacles, laneAt);
+      assignLaneSliderRotations(json.arcs, laneAt);
+      assignLaneSliderRotations(json.chains, laneAt);
    }
    return json;
 }

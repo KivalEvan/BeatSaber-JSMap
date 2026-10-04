@@ -2,9 +2,11 @@ import type { ExecutionTime } from '../../shared/types/constants.ts';
 import type { IItem } from './item.ts';
 
 /**
- * Schema for v4 `Spawn Rotation`.
+ * Schema for unsupported legacy v4 `Spawn Rotation` data.
  *
- * @deprecated removed as of 1.39, convert to `r` in object lane
+ * Do not add this data to v4 beatmaps. Use per-object lane rotations instead.
+ *
+ * @deprecated Kept only for optional cleanup of legacy data.
  */
 export interface ISpawnRotation extends IItem {
    /**
@@ -16,7 +18,7 @@ export interface ISpawnRotation extends IItem {
     *
     * **Type:** {@linkcode ExecutionTime}
     */
-   e?: ExecutionTime;
+   t?: ExecutionTime;
    /**
     * Clockwise rotation value of rotation event.
     *

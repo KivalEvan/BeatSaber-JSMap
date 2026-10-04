@@ -42,7 +42,9 @@ export const ChainSchema: ReturnType<typeof difficulty.ChainSchema> = /* @__PURE
 /** Schema for v4 `Arc`. */
 export const ArcSchema: ReturnType<typeof difficulty.ArcSchema> = /* @__PURE__ */ difficulty
    .ArcSchema();
-/** Schema for v4 `Spawn Rotation`. */
+/** Schema for unsupported legacy v4 `Spawn Rotation` data.
+ * @deprecated Kept only for optional cleanup of legacy data.
+ */
 export const SpawnRotationSchema: ReturnType<typeof difficulty.SpawnRotationSchema> =
    /* @__PURE__ */ difficulty.SpawnRotationSchema();
 /** Schema for v4 `NJS Event`. */

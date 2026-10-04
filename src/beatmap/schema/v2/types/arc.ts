@@ -3,6 +3,9 @@ import type { ICustomDataBase } from '../../shared/types/custom/customData.ts';
 
 /**
  * Schema for v2 `Arc`.
+ *
+ * v2 arcs are classified as unsupported, although the game can run them.
+ * Intended format support is unclear. Loading, saving, and conversion preserve this schema data.
  */
 export interface IArc {
    /**

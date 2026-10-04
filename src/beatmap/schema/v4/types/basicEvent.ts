@@ -132,13 +132,13 @@ export interface IBasicEventLaserRotation extends IBasicEventBase {
 /**
  * Lane schema for v4 `Basic Event`.
  *
- * @deprecated use `rotationEvents` to apply lane rotation event.
+ * @deprecated Unsupported in v4. Use per-object lane rotations instead.
  */
 export interface IBasicEventLaneRotation extends IBasicEventBase {
    /**
     * **Type:** `i32`
     *
-    * @deprecated use `rotationEvents` to apply lane rotation event.
+    * @deprecated Unsupported in v4. Use per-object lane rotations instead.
     */
    t?: 14 | 15;
    /**
@@ -155,7 +155,7 @@ export interface IBasicEventLaneRotation extends IBasicEventBase {
     * ```
     * **Type:** `i32`
     *
-    * @deprecated use `rotationEvents` to apply lane rotation event.
+    * @deprecated Unsupported in v4. Use per-object lane rotations instead.
     */
    i?: number;
 }

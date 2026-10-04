@@ -1,8 +1,55 @@
 import { getLogger } from '../../../logger.ts';
 import type { IWrapBeatmap } from '../../schema/wrapper/types/beatmap.ts';
-import { sortObjectFn } from '../../helpers/sort.ts';
-import { ExecutionTime } from '../../schema/shared/types/constants.ts';
 import { toV3Beatmap } from '../toV3/beatmap.ts';
+import { createRotationLaneLookup, legacyRotationLaneAt } from '../../schema/v4/_legacyRotation.ts';
+
+type RotationObject =
+   | IWrapBeatmap['difficulty']['arcs' | 'bombNotes' | 'chains' | 'colorNotes' | 'obstacles'][
+      number
+   ]
+   | IWrapBeatmap['lightshow']['waypoints'][number];
+
+function assignTimelineRotations(
+   objects: readonly RotationObject[],
+   laneAt: (beat: number) => number,
+   skipHoles: boolean,
+): void {
+   for (let i = 0; i < objects.length; i++) {
+      if (skipHoles && !(i in objects)) continue;
+      const object = objects[i];
+      object.laneRotation = laneAt(object.time);
+      if ('tailLaneRotation' in object) {
+         // The v3 game loader samples BeatToRotation independently for each endpoint.
+         object.tailLaneRotation = laneAt(object.tailTime);
+      }
+   }
+}
+
+function consumeScalarRotationOverrides(objects: readonly RotationObject[]): boolean {
+   let consumed = false;
+   for (let i = 0; i < objects.length; i++) {
+      if (!(i in objects)) continue;
+      const object = objects[i];
+      if (typeof object.customData.worldRotation === 'number') {
+         consumed = true;
+         object.laneRotation = Math.round(object.customData.worldRotation);
+         if ('tailLaneRotation' in object) {
+            object.tailLaneRotation = object.laneRotation;
+         }
+      }
+   }
+   return consumed;
+}
+
+function removeScalarRotationOverrides(objects: readonly RotationObject[]): void {
+   for (let i = 0; i < objects.length; i++) {
+      if (!(i in objects)) continue;
+      const object = objects[i];
+      if (typeof object.customData.worldRotation === 'number') {
+         delete object.customData.worldRotation;
+      }
+   }
+}
 
 function tag(name: string): string[] {
    return ['convert', 'toV4Beatmap', name];
@@ -15,11 +62,36 @@ function tag(name: string): string[] {
  * ```
  *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
+ *
+ * Current v4 data is left intact. Legacy event-only v4 rotations are replaced
+ * with native object lanes in place.
+ * @throws If legacy v4 events coexist with nonzero native lanes. Resolve these
+ * representations explicitly before conversion.
  */
 export function toV4Beatmap<T extends IWrapBeatmap>(
    data: T,
    fromVersion = data.version,
 ): T {
+   if (fromVersion === 4) {
+      if (data.difficulty.rotationEvents.length) {
+         const laneAt = legacyRotationLaneAt(data);
+         const colorNotes = data.difficulty.colorNotes;
+         const bombNotes = data.difficulty.bombNotes;
+         const obstacles = data.difficulty.obstacles;
+         const arcs = data.difficulty.arcs;
+         const chains = data.difficulty.chains;
+         const waypoints = data.lightshow.waypoints;
+         assignTimelineRotations(colorNotes, laneAt, false);
+         assignTimelineRotations(bombNotes, laneAt, false);
+         assignTimelineRotations(obstacles, laneAt, false);
+         assignTimelineRotations(arcs, laneAt, false);
+         assignTimelineRotations(chains, laneAt, false);
+         assignTimelineRotations(waypoints, laneAt, false);
+         data.difficulty.rotationEvents = [];
+      }
+      data.version = 4;
+      return data;
+   }
    const logger = getLogger();
 
    logger?.tWarn(
@@ -29,65 +101,40 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
    toV3Beatmap(data, fromVersion);
    data.version = 4;
 
-   const objects = [
-      data.difficulty.arcs,
-      data.difficulty.bombNotes,
-      data.difficulty.chains,
-      data.difficulty.colorNotes,
-      data.difficulty.obstacles,
-      data.lightshow.waypoints,
-   ]
-      .flat()
-      .sort(sortObjectFn);
+   const arcs = data.difficulty.arcs;
+   const bombNotes = data.difficulty.bombNotes;
+   const chains = data.difficulty.chains;
+   const colorNotes = data.difficulty.colorNotes;
+   const obstacles = data.difficulty.obstacles;
+   const waypoints = data.lightshow.waypoints;
 
    if (data.difficulty.rotationEvents.length) {
-      const rotations = [...data.difficulty.rotationEvents].sort(
-         (a, b) => a.time - b.time || a.executionTime - b.executionTime,
-      );
-
-      let calculatedRotations = 0;
-      for (const r of rotations) {
-         calculatedRotations += r.rotation;
-      }
-
-      // tail rotation is not required to be calculated as it is not previously used
-      for (let i = objects.length - 1; i >= 0; i--) {
-         const obj = objects[i];
-         // Discard rotations after this object.
-         let evt = rotations.at(-1);
-         while (evt && evt.time > obj.time) {
-            rotations.pop();
-            calculatedRotations -= evt.rotation;
-            evt = rotations.at(-1);
-         }
-         // At the same beat, only EARLY rotations apply.
-         while (
-            evt && evt.time === obj.time &&
-            evt.executionTime !== ExecutionTime.EARLY
-         ) {
-            rotations.pop();
-            calculatedRotations -= evt.rotation;
-            evt = rotations.at(-1);
-         }
-         if (!evt) break;
-         obj.laneRotation = Math.round(calculatedRotations % 360);
-         if ('tailLaneRotation' in obj) {
-            obj.tailLaneRotation = obj.laneRotation;
-         }
-      }
+      const laneAt = createRotationLaneLookup(data.difficulty.rotationEvents);
+      assignTimelineRotations(arcs, laneAt, true);
+      assignTimelineRotations(bombNotes, laneAt, true);
+      assignTimelineRotations(chains, laneAt, true);
+      assignTimelineRotations(colorNotes, laneAt, true);
+      assignTimelineRotations(obstacles, laneAt, true);
+      assignTimelineRotations(waypoints, laneAt, true);
 
       data.difficulty.rotationEvents = [];
    }
 
-   for (let i = 0; i < objects.length; i++) {
-      const obj = objects[i];
-      if (typeof obj.customData.worldRotation === 'number') {
-         obj.laneRotation = Math.round(obj.customData.worldRotation);
-         if ('tailLaneRotation' in obj) {
-            obj.tailLaneRotation = obj.customData.worldRotation;
-         }
-         delete obj.customData.worldRotation;
-      }
+   let consumedScalarOverride = consumeScalarRotationOverrides(arcs);
+   consumedScalarOverride = consumeScalarRotationOverrides(bombNotes) || consumedScalarOverride;
+   consumedScalarOverride = consumeScalarRotationOverrides(chains) || consumedScalarOverride;
+   consumedScalarOverride = consumeScalarRotationOverrides(colorNotes) || consumedScalarOverride;
+   consumedScalarOverride = consumeScalarRotationOverrides(obstacles) || consumedScalarOverride;
+   consumedScalarOverride = consumeScalarRotationOverrides(waypoints) || consumedScalarOverride;
+   // Indexed metadata can be shared in transfer mode. Every object must consume
+   // the override before its removal, without replacing any custom-data alias.
+   if (consumedScalarOverride) {
+      removeScalarRotationOverrides(arcs);
+      removeScalarRotationOverrides(bombNotes);
+      removeScalarRotationOverrides(chains);
+      removeScalarRotationOverrides(colorNotes);
+      removeScalarRotationOverrides(obstacles);
+      removeScalarRotationOverrides(waypoints);
    }
 
    return data;

@@ -2,7 +2,7 @@ import type { ICustomDataBase } from '../../schema/shared/types/custom/customDat
 import type { ICustomDataNote } from '../../schema/v3/types/custom/note.ts';
 import type { ICustomDataObstacle } from '../../schema/v3/types/custom/obstacle.ts';
 import { isEmpty } from '../../../utils/misc/json.ts';
-import { renameKey } from './_helpers.ts';
+import { animationV2Names, renameKey, renameKeys } from './_helpers.ts';
 
 export default function <T extends ICustomDataBase>(
    customData?: ICustomDataNote & ICustomDataObstacle,
@@ -35,18 +35,7 @@ export default function <T extends ICustomDataBase>(
    delete cd.uninteractable;
 
    if (cd.animation) {
-      cd._animation ??= {
-         _color: cd.animation.color,
-         _definitePosition: cd.animation.definitePosition,
-         _dissolve: cd.animation.dissolve,
-         _dissolveArrow: cd.animation.dissolveArrow,
-         _interactable: cd.animation.interactable,
-         _localRotation: cd.animation.localRotation,
-         _position: cd.animation.offsetPosition,
-         _rotation: cd.animation.offsetWorldRotation,
-         _scale: cd.animation.scale,
-         _time: cd.animation.time,
-      };
+      cd._animation ??= renameKeys(cd.animation, animationV2Names);
    }
    delete cd.animation;
 

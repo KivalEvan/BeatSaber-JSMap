@@ -23,9 +23,9 @@ export interface IDifficulty extends IItem {
    chainsData?: IChain[];
    arcs?: IObjectArc[];
    arcsData?: IArc[];
-   /** @deprecated removed as of 1.39, convert to `r` in object lane */
+   /** @deprecated Unsupported in v4. Kept only for optional cleanup of legacy data. */
    spawnRotations?: IObject[];
-   /** @deprecated removed as of 1.39, convert to `r` in object lane */
+   /** @deprecated Unsupported in v4. Kept only for optional cleanup of legacy data. */
    spawnRotationsData?: ISpawnRotation[];
    njsEvents?: IObject[];
    njsEventData?: INJSEvent[];

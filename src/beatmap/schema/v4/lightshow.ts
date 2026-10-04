@@ -37,6 +37,7 @@ import { deserializeWaypoint, serializeWaypoint } from './waypoint.ts';
 import type { DeepPartial } from '../../../types/utils.ts';
 import type { IDeserializationOptions } from '../shared/types/schema.ts';
 import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
+import { legacyRotationLaneAt } from './_legacyRotation.ts';
 
 function deserializeIndexFilterDirect(
    data: DeepPartial<IIndexFilter>,
@@ -535,7 +536,9 @@ function appendFxEventBoxGroups(
 
 /** Serialize beatmap v4 `Lightshow` object into schema object.
  * @param data The unwrapped beatmap object.
- * @returns The serialized schema object.
+ * @returns New schema data. Unsupported legacy event-only data is converted
+ * to waypoint lanes for cleanup without mutating the wrapper or its custom data.
+ * @throws If legacy rotation events coexist with nonzero native lanes.
  */
 export function serializeLightshow(data: IWrapBeatmap): ILightshow {
    const json: Required<ILightshow> = {
@@ -591,6 +594,14 @@ export function serializeLightshow(data: IWrapBeatmap): ILightshow {
    appendLightTranslationEventBoxGroups(json, data.lightshow.lightTranslationEventBoxGroups);
    appendFxEventBoxGroups(json, data.lightshow.fxEventBoxGroups);
 
+   if (data.version === 4 && data.difficulty.rotationEvents.length) {
+      const laneAt = legacyRotationLaneAt(data);
+      const serializedWaypoints = json.waypoints;
+      for (let i = 0; i < serializedWaypoints.length; i++) {
+         const waypoint = serializedWaypoints[i];
+         waypoint.r = laneAt(waypoint.b!);
+      }
+   }
    return json;
 }
 

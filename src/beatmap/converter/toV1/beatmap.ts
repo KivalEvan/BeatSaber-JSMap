@@ -33,6 +33,7 @@ export function toV1Beatmap<T extends IWrapBeatmap>(
          break;
       case 4:
          data.version = 1;
+         fromV3(data);
          fromV4(data);
          break;
       default:
@@ -47,10 +48,10 @@ export function toV1Beatmap<T extends IWrapBeatmap>(
 
 function fromV3<T extends IWrapBeatmap>(bm: T) {
    bm.difficulty.customData._time = bm.difficulty.customData.time;
-   bm.difficulty.customData._BPMChanges = bm.difficulty.customData.BPMChanges?.map((bpmc) => {
+   bm.difficulty.customData._bpmChanges = bm.difficulty.customData.BPMChanges?.map((bpmc) => {
       return {
          _time: bpmc.b,
-         _BPM: bpmc.m,
+         _bpm: bpmc.m,
          _beatsPerBar: bpmc.p,
          _metronomeOffset: bpmc.o,
       };
@@ -65,8 +66,9 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
 }
 
 function fromV4<T extends IWrapBeatmap>(bm: T) {
+   if (bm.difficulty.rotationEvents.length) return;
+
    const logger = getLogger();
-   bm.difficulty.customData._time = bm.difficulty.customData.time ?? 0;
    let impossibleRotationEvt = false;
    const mapTime: Record<number, number> = {};
 
@@ -96,14 +98,14 @@ function fromV4<T extends IWrapBeatmap>(bm: T) {
    } else {
       bm.difficulty.rotationEvents = [];
       let currentRotation = 0;
-      for (const time in mapTime) {
-         const t = +time;
-         const r = mapTime[time];
-         const difference = r - currentRotation;
+      // Numeric object keys enumerate integer beats before fractional beats.
+      for (let i = 0; i < objects.length; i++) {
+         const { time, laneRotation } = objects[i];
+         const difference = laneRotation - currentRotation;
          if (difference === 0) continue;
-         currentRotation = r;
+         currentRotation = laneRotation;
          bm.difficulty.rotationEvents.push({
-            time: t,
+            time,
             rotation: difference,
             executionTime: 0,
             customData: {},

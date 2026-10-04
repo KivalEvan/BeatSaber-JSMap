@@ -41,7 +41,7 @@ export function compatDifficulty<T extends IWrapBeatmap>(
       !!bm.lightshow.lightTranslationEventBoxGroups.length ||
       !!bm.lightshow.fxEventBoxGroups.length;
 
-   if (hasIncompat && !hasME) {
+   if (hasIncompat) {
       if (options.throwOn.incompatibleObject) {
          throw new Error('Beatmap is not compatible with v2');
       } else {

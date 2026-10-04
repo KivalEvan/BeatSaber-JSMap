@@ -222,10 +222,11 @@ export const NoteType = {
 } as const;
 export type NoteType = Member<typeof NoteType>;
 
-/** Base game obstacle type value used in v1/v2 obstacle. */
+/** Legacy obstacle enum values. Only full-height and top walls have native v1/v2 representations. */
 export const ObstacleType = {
    FULL_HEIGHT: 0,
    TOP: 1,
+   /** Unused enum value. v1/v2 have no native free-wall fields. */
    FREE: 2,
 } as const;
 export type ObstacleType = Member<typeof ObstacleType>;

@@ -3,10 +3,15 @@ import type { IChromaMaterial } from '../../schema/v2/types/custom/chroma.ts';
 import type { ICustomDataNote } from '../../schema/v2/types/custom/note.ts';
 import type { ICustomDataObstacle } from '../../schema/v2/types/custom/obstacle.ts';
 import type { IWrapBeatmap } from '../../schema/wrapper/types/beatmap.ts';
-import { isVector3, vectorMul } from '../../../utils/math/vector.ts';
-import { sortObjectFn } from '../../helpers/sort.ts';
+import { hasNoodleExtensionsNoteV2 } from '../../helpers/modded/has.ts';
+import { NoteDirectionAngle } from '../../misc/remaps.ts';
+import type { NoteDirection } from '../../schema/shared/types/constants.ts';
+import { vectorMul } from '../../../utils/math/vector.ts';
+import { convertV4Rotation } from '../_rotation.ts';
 import eventToV2 from '../customData/eventToV2.ts';
 import objectToV2 from '../customData/objectToV2.ts';
+import { renameCustomDataKey } from '../customData/_helpers.ts';
+import { trackAnimationToV2 } from '../customData/trackAnimation.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV2Beatmap', name];
@@ -19,6 +24,8 @@ function tag(name: string): string[] {
  * ```
  *
  * **WARNING:** Chain and other new stuff will be gone!
+ * @throws If track transforms cannot be represented safely, or global rotation
+ * constraints cannot preserve slider endpoints and shared custom-data aliases.
  */
 export function toV2Beatmap<T extends IWrapBeatmap>(
    data: T,
@@ -57,30 +64,51 @@ export function toV2Beatmap<T extends IWrapBeatmap>(
 
 function fromV3<T extends IWrapBeatmap>(bm: T) {
    const logger = getLogger();
+   const pointDefinitions = bm.difficulty.customData.pointDefinitions ?? {};
 
    bm.difficulty.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
    });
    bm.difficulty.customData.fakeColorNotes?.forEach((n) => {
       const customData: ICustomDataNote = objectToV2(n.customData);
+      customData._fake = true;
       bm.difficulty.colorNotes.push({
          time: n.b ?? 0,
          posX: n.x ?? 0,
          posY: n.y ?? 0,
          color: n.c ?? 0,
          direction: n.d ?? 0,
-         angleOffset: 0,
+         angleOffset: n.a ?? 0,
          laneRotation: 0,
          customData,
       });
    });
    delete bm.difficulty.customData.fakeColorNotes;
+   const colorNotes = bm.difficulty.colorNotes;
+   for (let i = 0; i < colorNotes.length; i++) {
+      const note = colorNotes[i];
+      if (!note.angleOffset) continue;
+      const baseAngle = note.direction >= 1000
+         ? -(note.direction % 1000)
+         : NoteDirectionAngle[note.direction as NoteDirection];
+      const angle = ((baseAngle + note.angleOffset) % 360 + 360) % 360;
+      // v2 has no vanilla angle offset. Keep Noodle maps in Noodle syntax;
+      // otherwise use Mapping Extensions' clockwise angle-from-down encoding.
+      if (hasNoodleExtensionsNoteV2(note)) {
+         note.customData._cutDirection = angle;
+         note.direction = note.direction === 8 ? 8 : 1;
+      } else {
+         note.direction = (note.direction === 8 ? 2000 : 1000) + ((360 - angle) % 360);
+      }
+      note.angleOffset = 0;
+   }
 
    bm.difficulty.bombNotes.forEach((b) => {
       b.customData = objectToV2(b.customData);
    });
    bm.difficulty.customData.fakeBombNotes?.forEach((b) => {
       const customData: ICustomDataNote = objectToV2(b.customData);
+      customData._fake = true;
       bm.difficulty.bombNotes.push({
          time: b.b ?? 0,
          posX: b.x ?? 0,
@@ -91,12 +119,14 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
          customData,
       });
    });
+   delete bm.difficulty.customData.fakeBombNotes;
 
    bm.difficulty.obstacles.forEach((o) => {
       o.customData = objectToV2(o.customData);
    });
    bm.difficulty.customData.fakeObstacles?.forEach((o) => {
       const customData: ICustomDataObstacle = objectToV2(o.customData);
+      customData._fake = true;
       bm.difficulty.obstacles.push({
          time: o.b ?? 0,
          posX: o.x ?? 0,
@@ -108,11 +138,19 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
          customData,
       });
    });
+   delete bm.difficulty.customData.fakeObstacles;
+
+   const arcs = bm.difficulty.arcs;
+   const waypoints = bm.lightshow.waypoints;
+   renameCustomDataKey(arcs, 'worldRotation', '_rotation');
+   renameCustomDataKey(waypoints, 'worldRotation', '_rotation');
 
    bm.lightshow.basicEvents.forEach((e) => {
       e.customData = eventToV2(e.customData);
-      delete e.customData._speed;
-      delete e.customData._preciseSpeed;
+      if ((e.type === 12 || e.type === 13) && typeof e.customData._speed === 'number') {
+         e.customData._preciseSpeed = e.customData._speed;
+         delete e.customData._speed;
+      }
    });
 
    for (const k in bm.difficulty.customData) {
@@ -124,20 +162,7 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
                   bm.difficulty.customData._customEvents.push({
                      _time: ce.b + (ce.d.duration ?? 0) * i,
                      _type: 'AnimateTrack',
-                     _data: {
-                        _track: ce.d.track,
-                        _duration: ce.d.duration,
-                        _easing: ce.d.easing,
-                        _position: ce.d.position,
-                        _rotation: ce.d.rotation,
-                        _localRotation: ce.d.localRotation,
-                        _scale: ce.d.scale,
-                        _dissolve: ce.d.dissolve,
-                        _dissolveArrow: ce.d.dissolveArrow,
-                        _color: ce.d.color,
-                        _interactable: ce.d.interactable,
-                        _time: ce.d.time,
-                     },
+                     _data: trackAnimationToV2(ce.d, pointDefinitions),
                   });
                }
             }
@@ -145,19 +170,7 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
                bm.difficulty.customData._customEvents.push({
                   _time: ce.b,
                   _type: 'AssignPathAnimation',
-                  _data: {
-                     _track: ce.d.track,
-                     _easing: ce.d.easing,
-                     _position: ce.d.position,
-                     _rotation: ce.d.rotation,
-                     _localRotation: ce.d.localRotation,
-                     _scale: ce.d.scale,
-                     _dissolve: ce.d.dissolve,
-                     _dissolveArrow: ce.d.dissolveArrow,
-                     _color: ce.d.color,
-                     _interactable: ce.d.interactable,
-                     _definitePosition: ce.d.definitePosition,
-                  },
+                  _data: trackAnimationToV2(ce.d, pointDefinitions, true),
                });
             }
             if (ce.t === 'AssignTrackParent') {
@@ -334,111 +347,8 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
          continue;
       }
    }
-
-   if (bm.difficulty.customData._environment) {
-      const envTracks = new Set<string>();
-      for (const env of bm.difficulty.customData._environment) {
-         if (env._track) {
-            envTracks.add(env._track);
-         }
-      }
-      const customEvents = [];
-      if (bm.difficulty.customData._customEvents) {
-         for (const ce of bm.difficulty.customData._customEvents) {
-            if (ce._type === 'AnimateTrack') {
-               if (
-                  typeof ce._data._track === 'string' &&
-                  envTracks.has(ce._data._track)
-               ) {
-                  customEvents.push(ce);
-               } else if (Array.isArray(ce._data._track)) {
-                  for (const t of ce._data._track) {
-                     if (envTracks.has(t)) {
-                        customEvents.push(ce);
-                        break;
-                     }
-                  }
-               }
-            }
-         }
-      }
-      for (const ce of customEvents) {
-         if (typeof ce._data._track === 'string') {
-            if (typeof ce._data._position === 'string') {
-               logger?.tWarn(
-                  tag('fromV2'),
-                  'Cannot convert point definitions, unknown use.',
-               );
-            } else if (Array.isArray(ce._data._position)) {
-               isVector3(ce._data._position)
-                  ? vectorMul(ce._data._position, 0.6)
-                  // deno-lint-ignore no-explicit-any
-                  : ce._data._position.forEach((point: any) => {
-                     point[0] *= 0.6;
-                     point[1] *= 0.6;
-                     point[2] *= 0.6;
-                  });
-            }
-         } else {
-            logger?.tWarn(
-               tag('fromV2'),
-               'Environment animate track array conversion not yet implemented.',
-            );
-         }
-      }
-   }
 }
 
 function fromV4<T extends IWrapBeatmap>(bm: T) {
-   let impossibleRotationEvt = false;
-   const mapTime: Record<number, number> = {};
-
-   const objects = [
-      bm.difficulty.arcs,
-      bm.difficulty.bombNotes,
-      bm.difficulty.chains,
-      bm.difficulty.colorNotes,
-      bm.difficulty.obstacles,
-      bm.lightshow.waypoints,
-   ]
-      .flat()
-      .sort(sortObjectFn);
-
-   for (let i = 0; i < objects.length; i++) {
-      const obj = objects[i];
-      if (!(obj.time in mapTime)) {
-         mapTime[obj.time] = obj.laneRotation;
-      } else if (mapTime[obj.time] !== obj.laneRotation) {
-         impossibleRotationEvt = true;
-         break;
-      }
-   }
-
-   if (impossibleRotationEvt) {
-      for (let i = 0; i < objects.length; i++) {
-         const obj = objects[i];
-         if (obj.laneRotation) obj.customData._rotation = obj.laneRotation;
-      }
-   } else {
-      bm.difficulty.rotationEvents = [];
-      let currentRotation = 0;
-      for (const time in mapTime) {
-         const t = +time;
-         const r = mapTime[time];
-         const difference = r - currentRotation;
-         if (difference === 0) continue;
-         currentRotation = r;
-         bm.difficulty.rotationEvents.push({
-            time: t,
-            rotation: difference,
-            executionTime: 0,
-            customData: {},
-         });
-      }
-   }
-   for (let i = 0; i < objects.length; i++) {
-      const obj = objects[i];
-      obj.laneRotation = 0;
-      if ('tailLaneRotation' in obj) obj.tailLaneRotation = 0;
-   }
+   convertV4Rotation(bm, '_rotation');
 }

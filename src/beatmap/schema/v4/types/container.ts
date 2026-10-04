@@ -199,11 +199,11 @@ export interface IObstacleContainer {
 }
 
 /**
- * Schema container for v4 `Spawn Rotation`.
+ * Schema container for unsupported legacy v4 `Spawn Rotation` data.
  *
  * Contains `IObject` and `ISpawnRotation`.
  *
- * @deprecated removed as of 1.39, convert to `r` in object lane
+ * @deprecated Kept only for optional cleanup of legacy data. Use per-object lane rotations instead.
  */
 export interface ISpawnRotationContainer {
    object: IObject;

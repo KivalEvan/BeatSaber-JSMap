@@ -4,22 +4,25 @@ import { deepCopy } from '../../../utils/misc/json.ts';
 import { createRotationEvent } from '../wrapper/rotationEvent.ts';
 import type { IDeserializationOptions } from '../shared/types/schema.ts';
 
-/** Serialize beatmap v4 `Rotation Event` object into schema object.
+/** Serialize unsupported legacy v4 rotation-event data for compatibility tooling.
+ * Do not add the result to v4 beatmaps. Use per-object lane rotations instead.
+ * @deprecated Kept only for optional cleanup of legacy data.
  * @param data The unwrapped beatmap object.
- * @returns The serialized schema object.
+ * @returns The unsupported legacy schema representation.
  */
 export function serializeRotationEvent(data: IWrapRotationEvent): ISpawnRotationContainer {
    return {
       object: { b: data.time },
       data: {
-         e: data.executionTime,
+         t: data.executionTime,
          r: data.rotation,
          customData: deepCopy(data.customData),
       },
    };
 }
 
-/** Deserialize schema object into beatmap v4 `Rotation Event` object.
+/** Read unsupported legacy v4 rotation-event data for optional cleanup.
+ * @deprecated Kept only for optional cleanup of legacy data.
  * @param data The serialized schema object.
  * @param options The custom-data ownership options.
  * @returns The unwrapped beatmap object.
@@ -30,7 +33,7 @@ export function deserializeRotationEvent(
 ): IWrapRotationEvent {
    return createRotationEvent({
       time: data.object?.b,
-      executionTime: data.data?.e,
+      executionTime: data.data?.t,
       rotation: data.data?.r,
       customData: data.data?.customData,
    }, options);

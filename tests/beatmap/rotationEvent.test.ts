@@ -93,7 +93,7 @@ for (const tup of schemaList) {
                schema({
                   object: { b: 1 },
                   data: {
-                     e: 1,
+                     t: 1,
                      r: 15,
                      customData: { test: true },
                   },
@@ -190,7 +190,7 @@ for (const tup of schemaList) {
             assertEquals(json, {
                object: { b: 0 },
                data: {
-                  e: 0,
+                  t: 0,
                   r: 0,
                   customData: { test: true },
                },

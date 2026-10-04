@@ -127,13 +127,15 @@ export function ArcSchema(): v.ObjectSchema<
    });
 }
 
-/** Schema declaration for v4 `Spawn Rotation`. */
+/** Schema declaration for unsupported legacy v4 `Spawn Rotation` data.
+ * @deprecated Kept only for optional cleanup of legacy data.
+ */
 export function SpawnRotationSchema(): v.ObjectSchema<
    InferObjectEntries<ISpawnRotation>,
    undefined
 > {
    return v.object<InferObjectEntries<ISpawnRotation>>({
-      e: field(v.optional(ExecutionTimeSchema()), {
+      t: field(v.optional(ExecutionTimeSchema()), {
          version: '4.0.0',
       }),
       r: field(v.optional(v.number()), {
