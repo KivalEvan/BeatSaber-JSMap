@@ -1,0 +1,165 @@
+{
+  "_version": "2.1.0",
+  "_songName": "Bad Apple!!",
+  "_songSubName": "(feat.nomico) (Camellia's \"Bad Psy\" Remix)",
+  "_songAuthorName": "Masayoshi Minoshima",
+  "_levelAuthorName": "Kival Evan",
+  "_beatsPerMinute": 160.0,
+  "_songTimeOffset": 0.0,
+  "_shuffle": 0.0,
+  "_shufflePeriod": 0.5,
+  "_previewStartTime": 12.0,
+  "_previewDuration": 10.0,
+  "_songFilename": "nomico - Bad Apple!! feat.nomico (Camellia's _Bad Psy_ Remix).egg",
+  "_coverImageFilename": "Bad Apple!! feat.nomico (Camellia's _Bad Psy_ Remix).png",
+  "_environmentName": "DaftPunkEnvironment",
+  "_allDirectionsEnvironmentName": "GlassDesertEnvironment",
+  "_environmentNames": [
+    "DaftPunkEnvironment"
+  ],
+  "_colorSchemes": [
+    {
+      "useOverride": true,
+      "colorScheme": {
+        "colorSchemeId": "Bad Apple!!",
+        "saberAColor": {
+          "r": 0.9412,
+          "g": 0.0627,
+          "b": 0.1255,
+          "a": 1.0
+        },
+        "saberBColor": {
+          "r": 0.0627,
+          "g": 0.5647,
+          "b": 0.9412,
+          "a": 1.0
+        },
+        "environmentColor0": {
+          "r": 1.0,
+          "g": 0.0314,
+          "b": 0.0627,
+          "a": 1.0
+        },
+        "environmentColor1": {
+          "r": 0.1255,
+          "g": 0.502,
+          "b": 0.9412,
+          "a": 1.0
+        },
+        "obstaclesColor": {
+          "r": 0.251,
+          "g": 0.251,
+          "b": 0.251,
+          "a": 1.0
+        },
+        "environmentColor0Boost": {
+          "r": 0.502,
+          "g": 0.0,
+          "b": 1.0,
+          "a": 1.0
+        },
+        "environmentColor1Boost": {
+          "r": 0.0,
+          "g": 0.6275,
+          "b": 1.0,
+          "a": 1.0
+        }
+      }
+    }
+  ],
+  "_customData": {
+    "_contributors": [
+      {
+        "_role": "Mapper",
+        "_name": "Kival Evan",
+        "_iconPath": "iconKivalEvan.png"
+      }
+    ],
+    "_editors": {
+      "_lastEditedBy": "ChroMapper",
+      "ChroMapper": {
+        "version": "0.11.793"
+      }
+    }
+  },
+  "_difficultyBeatmapSets": [
+    {
+      "_beatmapCharacteristicName": "Standard",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "ExpertPlus",
+          "_difficultyRank": 9,
+          "_beatmapFilename": "ExpertPlusStandard.dat",
+          "_noteJumpMovementSpeed": 16.777,
+          "_noteJumpStartBeatOffset": -0.553,
+          "_beatmapColorSchemeIdx": 0,
+          "_environmentNameIdx": 0,
+          "_customData": {
+            "_colorLeft": {
+              "r": 0.9412,
+              "g": 0.0627,
+              "b": 0.1255,
+              "a": 1
+            },
+            "_colorRight": {
+              "r": 0.0627,
+              "g": 0.5647,
+              "b": 0.9412,
+              "a": 1
+            },
+            "_envColorLeft": {
+              "r": 1,
+              "g": 0.0314,
+              "b": 0.0627,
+              "a": 1
+            },
+            "_envColorRight": {
+              "r": 0.1255,
+              "g": 0.502,
+              "b": 0.9412,
+              "a": 1
+            },
+            "_envColorWhite": {
+              "r": 0.75,
+              "g": 0.9375,
+              "b": 1,
+              "a": 1
+            },
+            "_envColorLeftBoost": {
+              "r": 0.502,
+              "g": 0,
+              "b": 1,
+              "a": 1
+            },
+            "_envColorRightBoost": {
+              "r": 0,
+              "g": 0.6275,
+              "b": 1,
+              "a": 1
+            },
+            "_envColorWhiteBoost": {
+              "r": 1,
+              "g": 0.75,
+              "b": 0.25,
+              "a": 1
+            },
+            "_obstacleColor": {
+              "r": 0.251,
+              "g": 0.251,
+              "b": 0.251,
+              "a": 1
+            },
+            "_difficultyLabel": "Melancholy",
+            "_suggestions": [
+              "Chroma"
+            ],
+            "_information": [
+              "2nd track of album 10th Anniversary Bad Apple!! PHASE 3 - DISC 2",
+              "Here once more"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

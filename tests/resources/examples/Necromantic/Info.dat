@@ -1,0 +1,564 @@
+{
+  "_version": "2.1.0",
+  "_songName": "Necromantic",
+  "_songSubName": "",
+  "_songAuthorName": "Akatsuki Records",
+  "_levelAuthorName": "Kival Evan",
+  "_beatsPerMinute": 144.0,
+  "_songTimeOffset": 0.0,
+  "_shuffle": 0.0,
+  "_shufflePeriod": 0.5,
+  "_previewStartTime": 1.5,
+  "_previewDuration": 15.125,
+  "_songFilename": "necromantic.egg",
+  "_coverImageFilename": "cover.jpg",
+  "_environmentName": "TheRollingStonesEnvironment",
+  "_allDirectionsEnvironmentName": "GlassDesertEnvironment",
+  "_environmentNames": [
+    "TheRollingStonesEnvironment"
+  ],
+  "_colorSchemes": [
+    {
+      "useOverride": true,
+      "colorScheme": {
+        "colorSchemeId": "Necromantic",
+        "saberAColor": {
+          "r": 0.9098,
+          "g": 0.0,
+          "b": 0.2706,
+          "a": 1.0
+        },
+        "saberBColor": {
+          "r": 0.5725,
+          "g": 0.8,
+          "b": 0.149,
+          "a": 1.0
+        },
+        "environmentColor0": {
+          "r": 0.5882,
+          "g": 0.0523,
+          "b": 0.2039,
+          "a": 1.5
+        },
+        "environmentColor1": {
+          "r": 0.6641,
+          "g": 0.4837,
+          "b": 0.1307,
+          "a": 1.5
+        },
+        "obstaclesColor": {
+          "r": 0.625,
+          "g": 0.625,
+          "b": 0.625,
+          "a": 1.0
+        },
+        "environmentColor0Boost": {
+          "r": 0.6065,
+          "g": 0.0,
+          "b": 0.1804,
+          "a": 1.5
+        },
+        "environmentColor1Boost": {
+          "r": 0.3817,
+          "g": 0.5333,
+          "b": 0.0993,
+          "a": 1.5
+        }
+      }
+    }
+  ],
+  "_customData": {
+    "_contributors": [
+      {
+        "_role": "Mapper",
+        "_name": "Kival Evan",
+        "_iconPath": "iconKivalEvan.png"
+      }
+    ]
+  },
+  "_difficultyBeatmapSets": [
+    {
+      "_beatmapCharacteristicName": "Standard",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "Easy",
+          "_difficultyRank": 1,
+          "_beatmapFilename": "EasyStandard.dat",
+          "_noteJumpMovementSpeed": 9.696,
+          "_noteJumpStartBeatOffset": -0.334,
+          "_beatmapColorSchemeIdx": 0,
+          "_environmentNameIdx": 0,
+          "_customData": {
+            "_information": [
+              "Seiga Kaku",
+              "Desire Drive",
+              "3rd track of album Sunflower -Eternal Summer-"
+            ],
+            "_colorLeft": {
+              "r": 0.9098,
+              "g": 0,
+              "b": 0.2706,
+              "a": 1
+            },
+            "_colorRight": {
+              "r": 0.5725,
+              "g": 0.8,
+              "b": 0.149,
+              "a": 1
+            },
+            "_envColorLeft": {
+              "r": 0.5882,
+              "g": 0.0523,
+              "b": 0.2039,
+              "a": 1.5
+            },
+            "_envColorRight": {
+              "r": 0.6641,
+              "g": 0.4837,
+              "b": 0.1307,
+              "a": 1.5
+            },
+            "_envColorLeftBoost": {
+              "r": 0.6065,
+              "g": 0,
+              "b": 0.1804,
+              "a": 1.5
+            },
+            "_envColorRightBoost": {
+              "r": 0.3817,
+              "g": 0.5333,
+              "b": 0.0993,
+              "a": 1.5
+            },
+            "_obstacleColor": {
+              "r": 0.625,
+              "g": 0.625,
+              "b": 0.625,
+              "a": 1
+            }
+          }
+        },
+        {
+          "_difficulty": "Normal",
+          "_difficultyRank": 3,
+          "_beatmapFilename": "NormalStandard.dat",
+          "_noteJumpMovementSpeed": 10.666,
+          "_noteJumpStartBeatOffset": -0.954,
+          "_beatmapColorSchemeIdx": 0,
+          "_environmentNameIdx": 0,
+          "_customData": {
+            "_information": [
+              "Seiga Kaku",
+              "Desire Drive",
+              "3rd track of album Sunflower -Eternal Summer-"
+            ],
+            "_colorLeft": {
+              "r": 0.9098,
+              "g": 0,
+              "b": 0.2706,
+              "a": 1
+            },
+            "_colorRight": {
+              "r": 0.5725,
+              "g": 0.8,
+              "b": 0.149,
+              "a": 1
+            },
+            "_envColorLeft": {
+              "r": 0.5882,
+              "g": 0.0523,
+              "b": 0.2039,
+              "a": 1.5
+            },
+            "_envColorRight": {
+              "r": 0.6641,
+              "g": 0.4837,
+              "b": 0.1307,
+              "a": 1.5
+            },
+            "_envColorLeftBoost": {
+              "r": 0.6065,
+              "g": 0,
+              "b": 0.1804,
+              "a": 1.5
+            },
+            "_envColorRightBoost": {
+              "r": 0.3817,
+              "g": 0.5333,
+              "b": 0.0993,
+              "a": 1.5
+            },
+            "_obstacleColor": {
+              "r": 0.625,
+              "g": 0.625,
+              "b": 0.625,
+              "a": 1
+            }
+          }
+        },
+        {
+          "_difficulty": "Hard",
+          "_difficultyRank": 5,
+          "_beatmapFilename": "HardStandard.dat",
+          "_noteJumpMovementSpeed": 12.432,
+          "_noteJumpStartBeatOffset": 0.374,
+          "_beatmapColorSchemeIdx": 0,
+          "_environmentNameIdx": 0,
+          "_customData": {
+            "_information": [
+              "Seiga Kaku",
+              "Desire Drive",
+              "3rd track of album Sunflower -Eternal Summer-"
+            ],
+            "_colorLeft": {
+              "r": 0.9098,
+              "g": 0,
+              "b": 0.2706,
+              "a": 1
+            },
+            "_colorRight": {
+              "r": 0.5725,
+              "g": 0.8,
+              "b": 0.149,
+              "a": 1
+            },
+            "_envColorLeft": {
+              "r": 0.5882,
+              "g": 0.0523,
+              "b": 0.2039,
+              "a": 1.5
+            },
+            "_envColorRight": {
+              "r": 0.6641,
+              "g": 0.4837,
+              "b": 0.1307,
+              "a": 1.5
+            },
+            "_envColorLeftBoost": {
+              "r": 0.6065,
+              "g": 0,
+              "b": 0.1804,
+              "a": 1.5
+            },
+            "_envColorRightBoost": {
+              "r": 0.3817,
+              "g": 0.5333,
+              "b": 0.0993,
+              "a": 1.5
+            },
+            "_obstacleColor": {
+              "r": 0.625,
+              "g": 0.625,
+              "b": 0.625,
+              "a": 1
+            }
+          }
+        },
+        {
+          "_difficulty": "Expert",
+          "_difficultyRank": 7,
+          "_beatmapFilename": "ExpertStandard.dat",
+          "_noteJumpMovementSpeed": 14.141,
+          "_noteJumpStartBeatOffset": -0.101,
+          "_beatmapColorSchemeIdx": 0,
+          "_environmentNameIdx": 0,
+          "_customData": {
+            "_difficultyLabel": "Lunatic",
+            "_information": [
+              "Seiga Kaku",
+              "Desire Drive",
+              "Evil Sign \"Yang Xiaogui\"",
+              "3rd track of album Sunflower -Eternal Summer-"
+            ],
+            "_colorLeft": {
+              "r": 0.9098,
+              "g": 0,
+              "b": 0.2706,
+              "a": 1
+            },
+            "_colorRight": {
+              "r": 0.5725,
+              "g": 0.8,
+              "b": 0.149,
+              "a": 1
+            },
+            "_envColorLeft": {
+              "r": 0.5882,
+              "g": 0.0523,
+              "b": 0.2039,
+              "a": 1.5
+            },
+            "_envColorRight": {
+              "r": 0.6641,
+              "g": 0.4837,
+              "b": 0.1307,
+              "a": 1.5
+            },
+            "_envColorLeftBoost": {
+              "r": 0.6065,
+              "g": 0,
+              "b": 0.1804,
+              "a": 1.5
+            },
+            "_envColorRightBoost": {
+              "r": 0.3817,
+              "g": 0.5333,
+              "b": 0.0993,
+              "a": 1.5
+            },
+            "_obstacleColor": {
+              "r": 0.625,
+              "g": 0.625,
+              "b": 0.625,
+              "a": 1
+            }
+          }
+        },
+        {
+          "_difficulty": "ExpertPlus",
+          "_difficultyRank": 9,
+          "_beatmapFilename": "ExpertPlusStandard.dat",
+          "_noteJumpMovementSpeed": 15.666,
+          "_noteJumpStartBeatOffset": -0.427,
+          "_beatmapColorSchemeIdx": 0,
+          "_environmentNameIdx": 0,
+          "_customData": {
+            "_difficultyLabel": "I wanna see you die",
+            "_information": [
+              "Seiga Kaku",
+              "Desire Drive",
+              "Demonify \"Excessive Zouhuo Rumo\"",
+              "3rd track of album Sunflower -Eternal Summer-"
+            ],
+            "_colorLeft": {
+              "r": 0.9098,
+              "g": 0,
+              "b": 0.2706,
+              "a": 1
+            },
+            "_colorRight": {
+              "r": 0.5725,
+              "g": 0.8,
+              "b": 0.149,
+              "a": 1
+            },
+            "_envColorLeft": {
+              "r": 0.5882,
+              "g": 0.0523,
+              "b": 0.2039,
+              "a": 1.5
+            },
+            "_envColorRight": {
+              "r": 0.6641,
+              "g": 0.4837,
+              "b": 0.1307,
+              "a": 1.5
+            },
+            "_envColorLeftBoost": {
+              "r": 0.6065,
+              "g": 0,
+              "b": 0.1804,
+              "a": 1.5
+            },
+            "_envColorRightBoost": {
+              "r": 0.3817,
+              "g": 0.5333,
+              "b": 0.0993,
+              "a": 1.5
+            },
+            "_obstacleColor": {
+              "r": 0.625,
+              "g": 0.625,
+              "b": 0.625,
+              "a": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "_beatmapCharacteristicName": "OneSaber",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "Normal",
+          "_difficultyRank": 3,
+          "_beatmapFilename": "NormalOneSaber.dat",
+          "_noteJumpMovementSpeed": 10.132,
+          "_noteJumpStartBeatOffset": -0.748,
+          "_beatmapColorSchemeIdx": 0,
+          "_environmentNameIdx": 0,
+          "_customData": {
+            "_difficultyLabel": "You and I",
+            "_information": [
+              "Seiga Kaku",
+              "Desire Drive",
+              "3rd track of album Sunflower -Eternal Summer-"
+            ],
+            "_colorLeft": {
+              "r": 0.9098,
+              "g": 0,
+              "b": 0.2706,
+              "a": 1
+            },
+            "_colorRight": {
+              "r": 0.5725,
+              "g": 0.8,
+              "b": 0.149,
+              "a": 1
+            },
+            "_envColorLeft": {
+              "r": 0.5882,
+              "g": 0.0523,
+              "b": 0.2039,
+              "a": 1.5
+            },
+            "_envColorRight": {
+              "r": 0.6641,
+              "g": 0.4837,
+              "b": 0.1307,
+              "a": 1.5
+            },
+            "_envColorLeftBoost": {
+              "r": 0.6065,
+              "g": 0,
+              "b": 0.1804,
+              "a": 1.5
+            },
+            "_envColorRightBoost": {
+              "r": 0.3817,
+              "g": 0.5333,
+              "b": 0.0993,
+              "a": 1.5
+            },
+            "_obstacleColor": {
+              "r": 0.625,
+              "g": 0.625,
+              "b": 0.625,
+              "a": 1
+            }
+          }
+        },
+        {
+          "_difficulty": "Expert",
+          "_difficultyRank": 7,
+          "_beatmapFilename": "ExpertOneSaber.dat",
+          "_noteJumpMovementSpeed": 13.754,
+          "_noteJumpStartBeatOffset": 0.121,
+          "_beatmapColorSchemeIdx": 0,
+          "_environmentNameIdx": 0,
+          "_customData": {
+            "_difficultyLabel": "Love me",
+            "_information": [
+              "Seiga Kaku",
+              "Desire Drive",
+              "Necromancy \"Corpse Tongji\"",
+              "3rd track of album Sunflower -Eternal Summer-"
+            ],
+            "_colorLeft": {
+              "r": 0.9098,
+              "g": 0,
+              "b": 0.2706,
+              "a": 1
+            },
+            "_colorRight": {
+              "r": 0.5725,
+              "g": 0.8,
+              "b": 0.149,
+              "a": 1
+            },
+            "_envColorLeft": {
+              "r": 0.5882,
+              "g": 0.0523,
+              "b": 0.2039,
+              "a": 1.5
+            },
+            "_envColorRight": {
+              "r": 0.6641,
+              "g": 0.4837,
+              "b": 0.1307,
+              "a": 1.5
+            },
+            "_envColorLeftBoost": {
+              "r": 0.6065,
+              "g": 0,
+              "b": 0.1804,
+              "a": 1.5
+            },
+            "_envColorRightBoost": {
+              "r": 0.3817,
+              "g": 0.5333,
+              "b": 0.0993,
+              "a": 1.5
+            },
+            "_obstacleColor": {
+              "r": 0.625,
+              "g": 0.625,
+              "b": 0.625,
+              "a": 1
+            }
+          }
+        },
+        {
+          "_difficulty": "ExpertPlus",
+          "_difficultyRank": 9,
+          "_beatmapFilename": "ExpertPlusOneSaber.dat",
+          "_noteJumpMovementSpeed": 15.735,
+          "_noteJumpStartBeatOffset": -0.437,
+          "_beatmapColorSchemeIdx": 0,
+          "_environmentNameIdx": 0,
+          "_customData": {
+            "_difficultyLabel": "One more time",
+            "_information": [
+              "Seiga Kaku",
+              "Desire Drive",
+              "Spirit Link \"Tongling Yoshika\"",
+              "3rd track of album Sunflower -Eternal Summer-"
+            ],
+            "_colorLeft": {
+              "r": 0.9098,
+              "g": 0,
+              "b": 0.2706,
+              "a": 1
+            },
+            "_colorRight": {
+              "r": 0.5725,
+              "g": 0.8,
+              "b": 0.149,
+              "a": 1
+            },
+            "_envColorLeft": {
+              "r": 0.5882,
+              "g": 0.0523,
+              "b": 0.2039,
+              "a": 1.5
+            },
+            "_envColorRight": {
+              "r": 0.6641,
+              "g": 0.4837,
+              "b": 0.1307,
+              "a": 1.5
+            },
+            "_envColorLeftBoost": {
+              "r": 0.6065,
+              "g": 0,
+              "b": 0.1804,
+              "a": 1.5
+            },
+            "_envColorRightBoost": {
+              "r": 0.3817,
+              "g": 0.5333,
+              "b": 0.0993,
+              "a": 1.5
+            },
+            "_obstacleColor": {
+              "r": 0.625,
+              "g": 0.625,
+              "b": 0.625,
+              "a": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
