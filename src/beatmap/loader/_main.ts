@@ -99,12 +99,17 @@ export function loadBeatmap<
             `Malformed ${type} beatmap version undefined: expected a version string`,
          );
       }
-      jsonVer = +implicitVersion(type).at(0)! as TVersion;
-      logger?.tWarn(
-         tag('loadBeatmap'),
-         'Could not identify beatmap version from JSON, assume implicit version',
-         jsonVer,
-      );
+      if (type === 'info' && hasOwn(serial, 'songName') && hasOwn(serial, 'difficultyLevels')) {
+         // Legacy Info has no version field; its required keys identify the format.
+         jsonVer = 1 as TVersion;
+      } else {
+         jsonVer = +implicitVersion(type).at(0)! as TVersion;
+         logger?.tWarn(
+            tag('loadBeatmap'),
+            'Could not identify beatmap version from JSON, assume implicit version',
+            jsonVer,
+         );
+      }
    } else if (jsonVersion === null) {
       throw new TypeError(
          `Malformed ${type} beatmap version null: expected a version string`,

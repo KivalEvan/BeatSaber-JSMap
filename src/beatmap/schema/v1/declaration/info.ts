@@ -36,7 +36,7 @@ export function InfoDifficultySchema(): v.ObjectSchema<
       jsonPath: field(v.string(), {
          version: '1.0.0',
       }),
-      characteristic: field(CharacteristicNameSchema(), {
+      characteristic: field(v.optional(CharacteristicNameSchema()), {
          version: '1.0.0',
       }),
       offset: field(v.optional(v.number())),

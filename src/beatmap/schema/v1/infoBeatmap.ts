@@ -59,7 +59,7 @@ export function deserializeInfoBeatmap(
       customDataOwnership: options?.customDataOwnership ?? 'copy',
    };
    return createInfoBeatmap({
-      characteristic: data.characteristic,
+      characteristic: data.characteristic ?? options?.characteristic,
       difficulty: data.difficulty,
       authors: {
          mappers: options?.authors?.mappers,

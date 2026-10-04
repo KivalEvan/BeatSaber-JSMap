@@ -35,5 +35,5 @@ export interface IInfoDifficulty extends ICustomInfoDifficulty {
    difficultyRank: DifficultyRankOld | DifficultyRank;
    audioPath: string;
    jsonPath: LooseAutocomplete<GenericJSONFilename>;
-   characteristic: CharacteristicName;
+   characteristic?: CharacteristicName;
 }

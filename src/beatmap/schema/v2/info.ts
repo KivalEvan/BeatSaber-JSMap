@@ -191,7 +191,7 @@ export function deserializeInfo(
             return deserializeInfoBeatmap(diff, {
                characteristic: set._beatmapCharacteristicName,
                authors: {
-                  mappers: data._levelAuthorName?.split(/,|\s+(?:and|&|vs.|VS)\s+/),
+                  mappers: data._levelAuthorName?.split(/,\s*|\s+(?:and|&|vs.|VS)\s+/),
                },
                customDataOwnership: deserializationOptions.customDataOwnership,
             });

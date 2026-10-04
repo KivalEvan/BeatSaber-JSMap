@@ -14,9 +14,11 @@ export function compatInfo<T extends IWrapInfo>(info: T, options: ICompatibility
       info.audio.shuffle !== 0 ||
       info.audio.audioOffset !== 0 ||
       info.songPreviewFilename !== info.audio.filename ||
-      !!info.environmentNames.length ||
+      info.environmentNames.some((name) => name !== info.environmentBase.normal) ||
       !!info.colorSchemes.length ||
-      info.difficulties.some((x) => !!x.authors.mappers.length || !!x.authors.lighters.length);
+      info.difficulties.some((x) =>
+         x.authors.mappers.some((name) => !!name) || x.authors.lighters.some((name) => !!name)
+      );
 
    if (hasIncompat) {
       if (options.throwOn.incompatibleObject) {

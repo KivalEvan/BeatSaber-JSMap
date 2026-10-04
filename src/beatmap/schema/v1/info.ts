@@ -24,7 +24,7 @@ export function serializeInfo(data: IWrapInfo): IInfo {
          (data.environmentNames.find((e) => !is360Environment(e))) ||
          'DefaultEnvironment',
       difficultyLevels: data.difficulties.map((x) => {
-         return serializeInfoBeatmap(x);
+         return serializeInfoBeatmap(x, { audio: data.audio });
       }),
       oneSaber: data.difficulties.some(
          (m) => m.characteristic === 'OneSaber',
@@ -71,7 +71,10 @@ export function deserializeInfo(
       coverImageFilename: data.coverImagePath,
       environmentBase: { normal: data.environmentName },
       difficulties: data.difficultyLevels?.map((x) => {
-         return deserializeInfoBeatmap(x, deserializationOptions);
+         return deserializeInfoBeatmap(x, {
+            ...deserializationOptions,
+            characteristic: data.oneSaber ? 'OneSaber' : 'Standard',
+         });
       }) ?? [],
       customData: {
          _contributors: data.contributors,
