@@ -1,5 +1,24 @@
 # Changelog
 
+## 3.1.0 [2026-10-04]
+
+```diff
+* Improved beatmap loading, v3/v4 saving, and JSON cleanup performance
+# V3/v4 difficulty/lightshow optimization now uses `fastMode: true` by default (breaking)
+  Fast mode replaces data objects. Set `optimize.fastMode: false` to keep external references valid
+* Fixed legacy Info handling, mapper names, audio filenames, and v4 environment assignments
+* Fixed v2 arc loading and improved rotation, note angle, and Chroma/Noodle Extensions conversion
+# Resolve conflicting arc/chain endpoint rotations before downgrading (breaking)
+  Conversion reports errors instead of changing orientations
+  Legacy v4 rotation cleanup also rejects mixed legacy/native rotations
+# Resolve unsupported track animation combinations before conversion (breaking)
+  Conversion reports errors instead of dropping incompatible transforms
+* Fixed tree-shaking for ESM and CommonJS bundles
+```
+
+See [conversion limits](./BEATMAP.md#conversion-limits) for supported representations and manual
+conversion requirements.
+
 ## 3.0.3 [2026-09-27]
 
 ```diff
@@ -10,8 +29,8 @@
 
 ```diff
 * Fixed browser builds resolving Node.js filesystem and path imports from `bsmap`.
-  NPM browser mappings cover ESM and CommonJS output and prevent Vite externalization warnings.
-  Node.js filesystem support is unchanged.
+  NPM browser mappings cover ESM and CommonJS output and prevent Vite externalization warnings
+  Node.js filesystem support is unchanged
 ```
 
 ## 3.0.1 [2026-09-11]
@@ -28,36 +47,36 @@ Read the [migration guidance](./GUIDE.md#migration) before you upgrade.
 + Added focused imports for types, utilities, and versioned schemas, so applications can import only the features they use.
 + Added the Hip Hop Mixtape 2 environment, color scheme, and event track metadata from Beat Saber 1.45.0
 # Core classes moved to `@kvl/bsmap/extensions/core` (`bsmap/extensions/core` on NPM) (breaking)
-  Root class exports and the `beatmap/core` subpath are removed.
+  Root class exports and the `beatmap/core` subpath are removed
 # Custom filesystem and path shims require `rename`, `renameSync`, `unlink`, `unlinkSync`, `dirname`, and `join` (breaking)
-  Their interfaces are available from the `shims` subpath.
+  Their interfaces are available from the `shims` subpath
 # Environment tables and lookup helpers moved to `@kvl/bsmap/environment` (`bsmap/environment` on NPM) (breaking)
 # File reads transfer custom-data ownership by default (breaking)
-  Objects can share mutable custom data. Use `load.customDataOwnership: 'copy'` for independent copies.
-  Direct loads and deserializers still copy by default.
+  Objects can share mutable custom data. Use `load.customDataOwnership: 'copy'` for independent copies
+  Direct loads and deserializers still copy by default
 # Loading and saving reject malformed or unsupported versions, invalid JSON roots, and invalid indexed references (breaking)
-  File writes also reject `NaN` and infinite numbers.
+  File writes also reject `NaN` and infinite numbers
 # `retrieveVersion` returns the raw value as `unknown`, or `undefined` when no version key exists (breaking)
-  An own `_version` key takes precedence over `version`, even when its value is nullish.
+  An own `_version` key takes precedence over `version`, even when its value is nullish
 * Corrected v2/v3 to v4 conversion when EARLY and LATE rotation events occur at the same beat
 * File writes replace the destination atomically where the filesystem supports it, instead of
-  exposing partially written JSON. File metadata can change, and crash durability is not guaranteed.
-  Separate module instances or execution contexts can still conflict during concurrent writes.
+  exposing partially written JSON. File metadata can change, and crash durability is not guaranteed
+  Separate module instances or execution contexts can still conflict during concurrent writes
 * Fixed Deno file removal deleting empty directories. It now rejects directories and requires both
-  read and write permissions.
+  read and write permissions
 * Fixed ignored validation and compatibility options, including category-specific `throwOn` options
-  for nested schema errors.
+  for nested schema errors
 * Fixed inconsistent v2 note order between saves
 * Fixed options being ignored when callers supply `null` or `undefined` as the version argument
 * Fixed the logger returning `undefined` before setup
 * Improved beatmap processing speed and reduced memory allocations
 * Improved serializer and deserializer map types with generic contracts that preserve version-specific
-  inputs, outputs, and options. Runtime behavior is unchanged.
+  inputs, outputs, and options. Runtime behavior is unchanged
 * Reduced NPM package size and improved support for tree-shaking
 - Schema containers and `ISchemaContainer` are removed (breaking)
-  Schema modules expose standalone `serialize*` and `deserialize*` functions, with separate maps for each direction.
+  Schema modules expose standalone `serialize*` and `deserialize*` functions, with separate maps for each direction
 - The `formatNumber` utility is removed (breaking)
-  Use `Intl.NumberFormat` for number formatting.
+  Use `Intl.NumberFormat` for number formatting
 ```
 
 ## 2.3.6 [2026-06-28]
